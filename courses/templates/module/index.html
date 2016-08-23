@@ -1,0 +1,128 @@
+{% extends 'app/base.html' %}
+
+{% load static i18n permission_tags %}
+
+{% block breadcrumbs %}
+	<ol class="breadcrumb">
+	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+	  	<li><a href="{% url 'app:course:view' course.slug %}">{{ course }}</a></li>
+	  	<li class="active">{% trans 'Manage Modules' %}</li>
+	</ol>
+{% endblock %}
+
+{% block sidebar %}
+	<div class="list-group">
+		<a href="{% url 'app:course:manage' %}" class="list-group-item">
+	    	{% trans 'Courses' %}
+	  	</a>
+	  	<a href="{% url 'app:course:view' course.slug %}" class="list-group-item active">
+	    	{% trans 'Course Info' %}
+	  	</a>
+	  	<a href="{% url 'app:course:manage_mods' course.slug %}" class="list-group-item">
+	    	{% trans 'Manage Modules' %}
+	  	</a>
+	  	{% if user|has_role:'professor, system_admin' %}
+		  	<a href="{% url 'app:course:create' %}" class="list-group-item">
+		    	{% trans 'Create Course' %}
+		  	</a>
+		  	<a href="{% url 'app:course:update' course.slug %}" class="list-group-item">
+		    	{% trans 'Edit Course' %}
+		  	</a>
+		  	<a href="" class="list-group-item">
+		    	{% trans 'Participants' %}
+		  	</a>
+			<a href="" class="list-group-item">
+		    	{% trans 'Course avaliations' %}
+		  	</a>
+			<a href="" class="list-group-item">
+		    	{% trans 'Duplicate Course' %}
+		  	</a>
+		  	<a href="" class="list-group-item">
+		    	{% trans 'Delete Course' %}
+		  	</a>
+		{% endif %}
+	</div>
+
+{% endblock %}
+
+{% block content %}
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<p>{{ message }}</p>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+	<div class="row well well-inverse">
+  		<div class="col-md-2">
+  			<img src="{{ course.image.url }}" class="img-responsive" />
+			</div>
+  		<div class="col-md-10">
+			<div class="row">
+	  			<div class="col-md-12">
+	  				{% if user|has_role:'professor, system_admin' %}
+						<div class="pull-right">
+							<a href="{% url 'app:course:create_mods' course.slug %}" class="btn btn-sm btn-success">
+								{% trans 'Create Module' %}
+							</a>
+						</div>
+					{% endif %}
+					<h4>
+						<a href="{% url 'app:course:view' course.slug %}">
+							{{ course }}
+						</a>
+					</h4>
+					<span class="label label-info">{{ course.category }}</span>
+					<span class="label label-warning">{{ course.max_students }} {% trans 'students maximum' %}</span>
+	  			</div>
+	  			<div class="col-md-12">
+					<strong>{% trans 'Period:' %} </strong> <em>de</em> <u>{{ course.init_date }}</u> <em>até</em> <u>{{ course.end_date }}</u>
+	  			</div>
+			</div>
+  		</div>
+	</div>
+
+	{% if modules|length > 0 %}
+		<div class="panel panel-default">
+  			<div class="panel-heading">
+    			<h3 class="panel-title">{% trans 'Modules' %}</h3>
+  			</div>
+			<div class="panel-body">
+				<ul class="list-group">
+    				{% for module in modules %}
+						<li class="list-group-item">
+							<div class="media">
+								<div class="col-sm-10">
+									<div class="media-body">
+										<h4 class="media-heading">{{ module }}</h4>
+										<p>{{ module.description|linebreaks }}</p>
+									</div>
+								</div>
+								<div class="col-sm-2" style="padding-top: 10px">
+									{% if module.visible %}
+				        				<span class="label label-success">{% trans 'Visible' %}</span>
+				        			{% else %}
+				        				<span class="label label-danger">{% trans 'Invisible' %}</span>
+				        			{% endif %}
+				        			<a href="{% url 'app:course:update_mods' course.slug module.slug %}" class="btn btn-sm btn-primary" style="margin-top: 10px">
+										<span class="glyphicon glyphicon-edit"></span>
+									</a>
+									<a href="{% url 'app:course:delete_mods' course.slug module.slug %}" class="btn btn-sm btn-danger" style="margin-top: 10px">
+										<span class="glyphicon glyphicon-trash"></span>
+									</a>
+				        		</div>
+							</div>
+			    		</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	{% else %}
+		{% trans 'No modules found' %}
+	{% endif %}
+
+{% endblock %}

@@ -1,0 +1,86 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-12 19:40-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: app/templates/app/base.html:10
+msgid "The Project"
+msgstr ""
+
+#: app/templates/app/base.html:11
+msgid "CCTE Group"
+msgstr ""
+
+#: app/templates/app/base.html:14
+msgid "Hi"
+msgstr ""
+
+#: app/templates/app/base.html:16
+msgid "See Profile"
+msgstr ""
+
+#: app/templates/app/base.html:17
+msgid "Settings"
+msgstr ""
+
+#: app/templates/app/base.html:18
+msgid "Logout"
+msgstr ""
+
+#: app/templates/app/index.html:6
+msgid "You have:"
+msgstr ""
+
+#: app/templates/app/index.html:10
+msgid "Pending Tasks"
+msgstr ""
+
+#: app/templates/app/index.html:14
+msgid "Users Online"
+msgstr ""
+
+#: app/templates/app/index.html:20
+msgid "You can:"
+msgstr ""
+
+#: app/templates/app/index.html:24
+msgid "Create Course"
+msgstr ""
+
+#: app/templates/app/index.html:29
+msgid "Manage Users"
+msgstr ""
+
+#: app/templates/app/index.html:33
+msgid "Manage Courses"
+msgstr ""
+
+#: app/templates/app/index.html:37
+msgid "Gerenciar Categorias"
+msgstr ""
+
+#: app/templates/app/index.html:64
+msgid "Search course:"
+msgstr ""
+
+#: app/templates/app/index.html:70
+msgid "Search"
+msgstr ""
+
+#: app/templates/app/index.html:75
+msgid "Most popular keywords:"
+msgstr ""

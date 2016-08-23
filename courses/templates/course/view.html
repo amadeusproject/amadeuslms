@@ -1,0 +1,73 @@
+{% extends 'app/base.html' %}
+
+{% load static i18n permission_tags %}
+
+{% block breadcrumbs %}
+	<ol class="breadcrumb">
+	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+	  	<li class="active">{{ course }}</li>
+	</ol>
+{% endblock %}
+
+{% block sidebar %}
+	<div class="list-group">
+	  	<a href="{% url 'app:course:manage' %}" class="list-group-item">
+	    	{% trans 'Courses' %}
+	  	</a>
+	  	<a href="{% url 'app:course:view' course.slug %}" class="list-group-item active">
+	    	{% trans 'Course Info' %}
+	  	</a>
+	  	<a href="{% url 'app:course:manage_mods' course.slug %}" class="list-group-item">
+	    	{% trans 'Manage Modules' %}
+	  	</a>
+	  	{% if user|has_role:'professor, system_admin' %}
+		  	<a href="{% url 'app:course:create' %}" class="list-group-item">
+		    	{% trans 'Create Course' %}
+		  	</a>
+		  	<a href="{% url 'app:course:update' course.slug %}" class="list-group-item">
+		    	{% trans 'Edit Course' %}
+		  	</a>
+		  	<a href="{% url 'app:subscription:participants' course.slug %}" class="list-group-item">
+		    	{% trans 'Participants' %}
+		  	</a>
+			<a href="" class="list-group-item">
+		    	{% trans 'Course avaliations' %}
+		  	</a>
+			<a href="" class="list-group-item">
+		    	{% trans 'Duplicate Course' %}
+		  	</a>
+		  	<a href="{% url 'app:course:delete' course.slug %}" class="list-group-item">
+		    	{% trans 'Delete Course' %}
+		  	</a>
+		{% endif %}
+	</div>
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-sm-3">
+			<img src="{{ course.image.url }}" class="img-responsive" />
+		</div>
+		<div class="col-sm-9">
+			<h4>{{ course }}</h4>
+			<span class="label label-info">{{ course.category }}</span>
+			<span class="label label-warning">{{ course.max_students }} alunos no máximo</span>
+			<p>
+				<strong>{% trans 'Subscribes:' %} </strong> <em>de</em> <u>{{ course.init_register_date }}</u> <em>até</em> <u>{{ course.end_register_date }}</u>
+			</p>
+			<p>
+				<strong>{% trans 'Period:' %} </strong> <em>de</em> <u>{{ course.init_date }}</u> <em>até</em> <u>{{ course.end_date }}</u>
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<p>
+				<strong>{% trans 'Objectives:' %} </strong> {{ course.objectivies|linebreaks }}
+			</p>
+			<p>
+				<strong>{% trans 'Work Plan:' %} </strong> {{ course.content|linebreaks }}
+			</p>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends "admin_index.html" %}
+
+{% block content %}
+	{% load static %}
+		<div id="pTitle" class="pTitle">
+			<h2>Avaliações do Curso</h2>
+		</div>
+		<div id="pBreadCrumbs" class="pBreadCrumbs">
+			<ul id="breadcrumb">
+				<li><a href="{% url 'index' %}">Página Inicial</a></li>
+				<li><a href="{% url 'dados_curso' %}">Curso01</a></li>
+				<li>Avaliações do Curso</li>
+			</ul>
+		</div>
+		<div id="pLeftMenu" class="pLeftMenu">
+			
+			<!-- 
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+
+
+<div id="side_menu_1">
+	<ul id="menu_sessoes">
+		
+		<li><a href="{% url 'dados_curso' %}">Dados do Curso</a></li>
+		
+		
+			
+			<li><a href="{% url 'modulos_curso' %}">Visualizar Módulos</a></li>
+		
+		
+		
+		<li><a href="{% url 'participantes_curso' %}">Participantes</a></li>
+		
+		
+			<li><b>Avaliações do Curso</b></li>
+			
+		
+		
+		
+			<li><a href="#" onclick="replicateCourse(14);">Replicar Curso</a></li>		
+		
+		
+		
+			<li><a href="{% url 'criar_curso' %}">Criar Curso</a></li>		
+		
+		
+		
+			<li><a href="{% url 'editar_curso' %}">Editar Curso</a></li>	
+		
+		
+		
+			<li><a href="#" onclick="deleteCourse(14);">Remover Curso</a></li>
+		
+		
+				
+	</ul>
+</div>
+		</div>
+		<div id="pContent" class="pContent2">
+			<div style="overflow-x: scroll; min-height: 400px;">
+			
+			
+				
+				
+				
+				
+					
+				
+				<div style="width: 250px; float: left;">&nbsp;</div>
+				<div style="width: 250px; padding: 5px 5px 5px 5px; background-color: #fbfbfb; border-color: #f0f0f0; border-style: solid; border-width: 1px 1px 1px 1px; float: left;"><label class="labelAttribute">Atividade01</label></div>
+				<div style="width: 250px;">
+				<div style="padding-left: 10px; width: 140px; float: left;">Aluno</div>
+				
+					<div style="width: 100px; float: left; text-align: center; overflow: hidden;">Questionário 01</div>
+				
+				
+				<!-- <div style="width: 100px; float: left; text-align: center; overflow: hidden;">Média</div> -->
+				
+				</div>
+				
+				
+			
+				
+			
+			</div>
+		</div>
+{% endblock %}

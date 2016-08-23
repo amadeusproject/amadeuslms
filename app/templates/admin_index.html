@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% load static %}
+
+<html>
+<head>
+	<title>Projeto Amadeus</title>
+	
+	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
+	
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'css/amadeus.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'imgs/favicon.ico' %}" rel="shortcut icon" />
+	
+	<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+	
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+      	<div class="container">
+        	<div class="navbar-header">
+          		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            		<span class="sr-only">Toggle navigation</span>
+            		<span class="icon-bar"></span>
+        			<span class="icon-bar"></span>
+            		<span class="icon-bar"></span>
+          		</button>
+          		<a class="navbar-brand" href="#">
+          			<img alt="Brand" src="{% static 'imgs/amadeus.png' %}" /> Projeto Amadeus
+          		</a>
+        	</div>
+        	<div id="navbar" class="collapse navbar-collapse pull-right">
+          		<ul class="nav navbar-nav">
+            		<li class="active">
+            			<a href="#">Home</a>
+        			</li>
+            		<li><a href="#contact">O Projeto</a></li>
+            		<li><a href="#contact">Grupo CCTE</a></li>
+            		<li class="divider-vertical"></li>
+            		<li class="dropdown">
+          				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Olá, Administrador <span class="caret"></span></a>
+          				<ul class="dropdown-menu">
+            				<li><a href="#">Visualizar Perfil</a></li>
+            				<li><a href="#about">Configurações</a></li>
+            				<li><a href="#">Sair</a></li>
+          				</ul>
+        			</li>
+          		</ul>
+        	</div>
+      	</div>
+    </nav>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4">
+				<h4>Você tem: </h4>
+				<div class="list-group">
+				  	<a href="#" class="list-group-item">
+				  		<span class="badge">4</span>
+				    	Tarefas Pendentes
+				  	</a>
+				  	<a href="#" class="list-group-item">
+				  		<span class="badge">0</span>
+				    	Usuários Online
+				  	</a>
+				</div>
+
+				<hr />
+
+				<h4>Você pode:</h4>
+				<div class="list-group">
+  					<a href="" class="list-group-item">
+    					Criar Curso
+  					</a>
+  					<a href="" class="list-group-item">
+						Gerenciar Usuários
+  					</a>
+  					<a href="" class="list-group-item">
+						Gerenciar Cursos
+  					</a>
+  					<a href="" class="list-group-item">
+						Gerenciar Categorias
+  					</a>
+				</div>
+
+				<hr />
+
+				<h4>Seu(s) curso(s):</h4>
+				<div class="list-group">
+  					<a href="" class="list-group-item">
+    					Curso01
+  					</a>
+  					<a href="" class="list-group-item">
+						Python
+  					</a>
+  					<a href="" class="list-group-item">
+						Curso Amadeus - Toscano
+  					</a>
+				</div>
+			</div>
+			<div class="col-sm-8">
+				<div class="row">
+					<div class="col-sm-12">
+						<form class="form-horizontal" method="post">
+							<div class="col-sm-10">
+								<div class="form-group">
+									<label for="search_keyword" class="control-label col-sm-3">Buscar um curso: </label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control input-sm" id="search_keyword" />
+									</div>
+								</div>
+							</div>
+							<button type="submit" class="btn btn-sm btn-success">Buscar</button>
+						</form>
+
+						<hr />
+
+						<h5>Palavras-chave mais populares:</h5>
+						<div class="well">
+							<center>
+								<ul class="cloud">
+								    <li>
+								    	<a href="">
+								    		teste amadeus prospb
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		programação fácil
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		intermediário
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		amadeus
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		palavra02
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		programação para iniciantes
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		django
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		aluno teste
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		curso0101
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		kjsdnksa
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		palavra01
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		programming
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		python
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		curso
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		mvc
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		programação web
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		ionic
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		framework
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		web
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		android
+							    		</a>
+						    		</li>
+						    		<li>
+								    	<a href="">
+								    		programação
+							    		</a>
+						    		</li>
+								</ul>
+							</center>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="well well-sm footer">
+		&copy; Copyright Amadeus 2016. Todos os direitos reservados
+	</div>
+
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script> 
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load static %}
+<!-- 
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+
+
+
+<html>
+<head>
+	<!-- 
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+	<title>Projeto Amadeus</title>
+	
+	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
+	
+	<link href="{% static 'css/css.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'css/amadeus.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'css/content_management.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'css/jqueryui/smoothness/jquery-ui-1.7.1.custom.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'imgs/favicon.ico' %}" rel="shortcut icon" />
+	
+	<script type='text/javascript' src='dwr/interface/UtilDWR.js'></script>
+	<script type='text/javascript' src='dwr/engine.js'></script>
+	<script type='text/javascript' src='dwr/util.js'></script>
+	<script type="text/javascript" src="{% static 'js/jqueryui/jquery-1.3.2.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jqueryui/jquery-ui-1.7.1.custom.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/openid.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/amadeus.js' %}"></script>
+</head>
+<body>
+	<div id="pBody" class="pBody">
+		<div id="pHeader" class="pHeader">
+			<div id="login">
+				<dl id="formlogin">
+					<form name="logonForm" method="post" action="/amadeuslms/validateLogin.do">				
+			  		<dt><input type="text" name="login" maxlength="15" size="15" value="" class="inputlogin"> </dt>
+	      			<dt><input type="password" name="password" maxlength="15" size="15" value="" class="inputlogin">&nbsp;<br /><a href="{% url 'index' %}" name="logonForm" class="button">Entrar</a></dt>
+		       		</form>
+<script type="text/javascript" language="JavaScript">
+  <!--
+  var focusControl = document.forms["logonForm"].elements["login"];
+
+  if (focusControl.type != "hidden" && !focusControl.disabled) {
+     focusControl.focus();
+  }
+  // -->
+</script>
+
+				</dl>
+			</div>
+		</div>
+		<!-- 
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+
+
+	
+<div id="institutional_menu">
+	
+	<span><a href="/amadeuslms/fProject.do" target="_blank">O Projeto</a></span>
+	<span>&nbsp;|&nbsp;</span>
+	<span><a href="/amadeuslms/fCCTE.do" target="_blank">Grupo CCTE</a></span>
+</div>
+		<div id="pTitle" class="pTitle">
+			<h2>Nova conta</h2>
+		</div>
+		<div id="pBreadCrumbs" class="pBreadCrumbs">
+			<ul id="breadcrumb">
+				<li><a href="{% url 'home' %}">Página Inicial</a></li>
+				<li>Nova conta</li>
+			</ul>
+		</div>
+		<div id="pLeftMenu" class="pLeftMenu">
+			<div id="side_menu_1">
+				<ul id="menu_sessoes">
+					<li><a href="{% url 'lembrar_senha' %}" class="insert">Lembrar senha</a></li>
+			    </ul>
+			</div>
+		</div>						
+		<div id="pContent" class="pContent">
+			<dl class="insert2">
+				<form name="formUserRegister" method="post" action="/amadeuslms/insertUser.do">
+				
+				<dt>Nome completo</dt>
+					<dd class="field"><input type="text" name="name" value="" class="formfield" id="realname"></dd>
+					<dd class="description">Seu nome completo</dd>
+				<dt>E-mail</dt>
+					<dd class="field"><input type="text" name="email" value="" class="formfield" id="mail"></dd>
+					<dd class="description">Seu endereço de e-mail (exemplo@mail.com)</dd>
+				<dt>Login</dt>
+					<dd class="field"><input type="text" name="login" maxlength="15" size="15" value="" class="formfield" id="username"></dd>
+					<dd class="description">Seu login</dd>
+				<dt>Senha</dt>
+					<dd class="field"><input type="password" name="password" maxlength="15" size="15" value="" class="formfield" id="password"></dd>
+					<dd class="description">Sua senha (mínimo de 4 caracteres)</dd>
+				<dt>Confirmação de senha</dt>
+					<dd class="field"><input type="password" name="passwordConfirmation" maxlength="15" size="15" value="" class="formfield" id="passwordConfirmation"></dd>
+					<dd class="description">Confirme sua senha</dd>
+				    <dt class="field"><input type="submit" name="insertUser" value="Cadastrar" class="button"></dt>
+					<br/><br/><ul id="required"><li>Todos os campos são de preenchimento obrigatório</li></ul>
+				</form>
+<script type="text/javascript" language="JavaScript">
+  <!--
+  var focusControl = document.forms["formUserRegister"].elements["name"];
+
+  if (focusControl.type != "hidden" && !focusControl.disabled) {
+     focusControl.focus();
+  }
+  // -->
+</script>
+
+			</dl>
+		</div>
+		<div id="pRightMenu" class="pRightMenu">
+		
+		</div>
+		<!-- 
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+
+<div id="footnote">
+	<dl><dd>Copyright Amadeus. Todos os direitos reservados<dd></dl>
+</div>
+
+	</div>
+</body>	
+</html>

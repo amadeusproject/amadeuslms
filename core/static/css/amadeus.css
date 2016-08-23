@@ -1,0 +1,80 @@
+html, body{
+    height: 90%
+}
+
+.container {
+	min-height: 100%;
+	position: relative;
+}
+
+.navbar-brand img{
+	margin-top: -10px;
+	display: inline;
+}
+
+.navbar .divider-vertical {
+	height: 40px;
+	margin: 10px 9px;
+	border-left: 0.3px solid #f2f2f2;
+	border-right: 0.3px solid #ffffff;
+}
+
+.cloud {
+    display: inline;
+    list-style-type: none;
+    width: 400px;
+}
+.cloud li {
+    list-style: none;
+    display: inline;
+}
+
+.cloud li:nth-of-type(3n + 1) {
+    font-size: 1.25em;
+}
+.cloud li:nth-of-type(4n+3) {
+    font-size: 1.5em;
+}
+.cloud li:nth-of-type(5n - 3) {
+    font-size: 1em;
+}
+
+.categories {
+	list-style: none;
+}
+
+.categories li:before {
+	content: "\261E ";
+	font-size: 18px;
+}
+
+.categories li.active:before {
+	content: "\261B ";
+	font-size: 18px;
+}
+
+input[type="file"] {
+	border: none;
+}
+
+.help-block {
+	font-style: italic;
+	font-size: 14px;
+	color: #b0b0b0;
+}
+
+.footer {
+	margin-bottom: 0 !important;
+	text-align: center;
+	bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+@media only screen and (max-width: 800px){ 
+	.navbar .divider-vertical {
+		height:0;
+		border-left: 0;
+		border-right: 0;
+	} 
+}

@@ -1,0 +1,560 @@
+/*
+ * Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ *
+ * Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ * 
+ * O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+ * publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ * 
+ * Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ *  
+ * Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+ *
+ */
+
+#required {
+	background-color: #eee;
+	border: 1px solid #aed1ad;
+	margin-left: 0px;
+	padding-left: 20px;
+	margin: 0px 0px 5px 0px;
+}
+
+#required li {
+	list-style: none;
+	color: #f00;
+	font-weight: bold;
+	margin: 0px 0px 0px 0px;
+}
+
+#center {
+	position: absolute;
+	width: 680px;
+	height: 300px;
+	border: 1px solid #999;
+	left: 50%;
+	top: 50%;
+	margin: -150px 0px 0px -340px;
+	background-color: #eee;
+
+}
+
+h1 { 
+	font-size: 1.4em;
+	margin: 0px;
+	padding: 0px;
+}
+
+h2 {
+	font-size: 1.3em;
+	margin: 0px;
+	padding: 0px;
+}
+
+h3 {
+	font-size: 1em;
+	margin-bottom: 1px;
+	margin-top: 2px;
+}
+
+#all {
+	background-color: #fff;
+	border: 1px solid #999;
+	width: 680px;
+	position: absolute;
+	top: 10px;
+	left: 50%;
+	margin: 0px 0px 0px -340px;
+}
+
+#content {
+	min-height: 350px;
+	background-color: #fff;
+	padding: 15px;
+	border-left: 1px solid #eee;
+	border-right: 1px solid #eee;
+	float: left;
+	width: 350px
+}
+
+#side_menu {
+	width: 150px;	
+	float: left;
+}
+
+#right_menu {
+	float: right;
+	width: 146px;
+}
+
+#context_menu {
+	margin: 5px 0px 0px -35px;
+}
+
+#menu {
+	margin: 5px;
+}
+
+#header {
+	height: 66px;
+	background-color: #fff;
+	color: #00f;
+	padding: 2px;
+	border-bottom: 1px solid #000;
+	background-image: url(../imgs/header.jpg);
+}
+
+#page_title {
+	color: #000;
+	font-size: 0.8em;
+	padding-top: 2px;
+	padding-bottom: 5px;
+	padding-left: 30px;
+}
+
+#institutional_menu {
+	color: #000;
+	padding: 1px;
+	text-align: right;
+	background-color: #fff;
+	border-bottom: 1px solid #999;
+	padding-right: 5px;
+}
+
+#institutional_menu a:hover {
+	text-decoration: none;
+}
+
+#breadcrumbs {
+	color: #000;
+	font-size: 0.9em;
+	padding: 2px;
+	border-bottom: 1px solid #ccc;
+}
+
+#breadcrumb {
+	margin: 2px;
+}
+
+#breadcrumb li {
+	display: inline;
+	margin-right: 10px;
+}
+
+#footnote {
+	text-align: center;
+	clear: both;
+	font-size: 0.9em;
+	padding-top: 8px;
+	border-top: 1px solid #ccc;
+	height: 40px;
+}
+
+#side_menu ul {
+	list-style: none;
+}
+
+dt { 
+	padding: 3px;
+	color: #009900;
+	font-size: 1.1em;
+}
+
+label{
+	padding-left: 10px;
+	color: #009900;
+}
+
+.allModule {
+	margin: 10px;
+	width: 330px;
+}
+
+.insert2 {
+	margin: 10px;
+	width: 345px;
+}
+
+.formfield {
+	border: 1px solid #ccc;
+	background-color: #e5e5e5;
+	width: 300px;
+}
+
+.state {
+	border: 1px solid #ccc;
+	background-color: #e5e5e5;
+	width: 50px;
+}
+
+.city {
+	border: 1px solid #ccc;
+	background-color: #e5e5e5;
+	width: 238px;
+}
+
+.avatar { 
+	background-color: #e5e5e5;
+}
+
+.ddd {
+	border: 1px solid #ccc;
+	background-color: #e5e5e5;
+	text-align: right;
+	width: 50px;
+}
+
+.phone {
+	border: 1px solid #ccc;
+	background-color: #e5e5e5;
+	width: 238px;
+}
+
+.cpf {
+	border: 1px solid #ccc;
+	background-color: #e5e5e5;
+	width: 238px;
+}
+
+.cpfdigi {
+	border: 1px solid #ccc;
+	background-color: #e5e5e5;
+	width: 50px;
+}
+
+.date {
+	border: 1px solid #ccc;
+	background-color: #e5e5e5;
+	width: 50px;
+}
+
+.date2 {
+	border: 1px solid #ccc;
+	background-color: #e5e5e5;
+	width: 25px;
+}
+
+.grade {
+	border: 1px solid #ccc;
+	background-color: #e5e5e5;
+	width: 35px;
+}
+
+.button {
+	color:#317449;
+	font-weight: bold;
+	font-size: 9px;
+	background-color: #aed1ad;
+	-moz-border-radius-bottomleft:3px;
+	-moz-border-radius-bottomright:3px;
+	-moz-border-radius-topleft:3px;
+	-moz-border-radius-topright:3px;
+	text-decoration:none;
+	border:1px solid #c3db9b;
+	cursor:pointer;
+}
+
+.description2 {
+	text-align: right;
+	color: #f00;
+}
+
+.field {
+	text-align: right;
+	border-right: 0px;
+}
+
+.field2 {
+	text-align: right;
+	margin-right: 178px;
+}
+
+.description {
+	margin: 3px 3px 3px 53px;
+	color: #999;
+}
+
+.showDataForm {
+	font-size: 1em;
+	margin: 2px 3px 3px 53px;
+	color: #000;
+}
+
+.hide {
+	display: none;
+}
+
+.block {
+	display: block;
+	padding: 2px;
+}
+
+#login { 
+	float: none;
+	color: #000000;
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-right: 25px;
+	padding-left: 7px;
+}
+
+#login a:hover {
+	color: #ffffff;
+}
+
+#formlogin {
+	clear: both;
+	width: 200px;
+	border: 0px;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+}
+
+.username {
+	color: #00f;
+}
+
+.secondarylink {
+	color: #eee;
+	font-size: 0.9em;
+}
+
+.insert {
+	font-size: 0.9em;
+}
+
+#resultbusca {
+	margin-bottom: 25px;
+	color: #64a418;
+}
+
+#resultbusca li {
+	margin-top: 8px;
+	margin-bottom: 4px;
+}
+
+#resultbusca li a:link { 
+	
+}
+
+#resultbusca li a:visited { 
+	
+}
+
+#resultbusca li a:hover { 
+	color: #555;
+}
+
+.defaultModule {
+	width: 300px;
+	border: 1px solid #000;
+	margin-bottom: 10px;
+}
+
+.checkbox,.select {
+	margin: 2px;
+}
+
+.listAtividades {
+	float: left;
+	width: 145px;
+}
+
+.listMateriais {
+	float: left;
+	width: 145px;
+}
+
+.moduleControl {
+	text-align: right;
+	margin-top: 5px;
+	margin-right: 2px;
+}
+
+.esq {
+	text-align: left;
+	display: block;
+	float: left;
+}
+
+.dir {
+	text-align: right;
+	display: block;
+}
+
+.fix {
+	clear: both;
+}
+
+.pendingTitle {
+	font-size: 1.4em;
+	color: #ccc;
+}
+
+.requestColapsed {
+	width: 309px;
+	border: 1px solid #000;
+	margin-bottom: 6px;
+	padding: 2px;
+}
+
+.requestExpanded {
+	width: 309px;
+	border: 1px solid #000;
+	margin-bottom: 6px;
+	background-color: #f6f6f6;
+	padding: 2px;
+}
+
+.pinball-on {
+	background-color: #b5edbc;
+}
+
+.hand {
+	cursor: pointer;
+	}
+
+.headTab {
+	font-weight: bold;
+	padding: 2px;
+	border-bottom: 1px solid #999;
+}
+
+.headTab2 {
+	font-weight: bold;
+	padding: 2px;
+}
+
+.tableinterna {
+	margin: 0 0 0 0;
+	background-color: #fff;
+}
+
+.tableinterna2 {
+	border: 1px solid #000;
+	width: 284px;
+	margin: 0px;
+	background-color: #fff;
+}
+
+.cont-tableinterna {
+	padding: 0px;
+	margin: 0px;
+	background-color: #eee;
+}
+
+.tableinterna3 {
+	border: 0px solid #000;
+	margin: 0px;
+	background-color: #fff;
+	width: 100%;
+	display: inline;
+	}
+
+IFRAME{
+border: none;
+width: 100%;
+overflow: auto;
+}
+
+.bodyfileUpload {
+background-image: none;
+background-color: white;
+}
+
+.listActivitiesMaterials {
+	list-style-type: none;
+	padding-top:12px;
+	padding-left:20px;
+	margin: 0;
+	text-align: left;
+}
+	
+.listActivitiesMaterials li {
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	padding-left: 20px;
+	padding-bottom: 4px;	
+	}	
+	
+.pollResults{
+	padding-left: 20px;
+	padding-top: 0px;
+}
+
+.editIcon {
+	border-style: none;
+	vertical-align: middle;
+}
+
+.dfvf {
+	background-color: #fbfbfb; 
+	overflow:hidden;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.dsvf {
+	background-color: #ffffff;
+	overflow:hidden;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+	
+.plvf {
+	color:#009900; 
+	font-size:12px; 
+	width: 100%;
+	text-align: left; 
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-left: 5px;
+}
+
+.prvf { 
+	font-size:1em;  
+	width: 95%;
+	text-align: left;
+	overflow:hidden; 
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-left: 5px;
+}
+
+hr {
+	color: #96c162;
+}
+
+#menu_sessoes li {
+	border-bottom:1px dashed #CCCCCC;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0;
+	padding:1px 1px 1px 5px;
+	text-align:left;
+}
+
+#menu_sessoes a {
+	text-decoration: none;
+}
+
+#menu_sessoes {
+	color:#000000;
+	font-size:10px;
+	padding-left: 0px;
+	margin-top: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.preMod {
+	white-space: pre-wrap;       /* css-3 */
+ 	white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ 	white-space: -pre-wrap;      /* Opera 4-6 */
+ 	white-space: -o-pre-wrap;    /* Opera 7 */
+ 	word-wrap: break-word;       /* Internet Explorer 5.5+ */
+ 	
+ 	font-family:Verdana,Arial,Helvetica,sans-serif;
+	font-size:11px;
+}

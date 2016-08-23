@@ -1,0 +1,95 @@
+/*
+ * Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ *
+ * Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ * 
+ * O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+ * publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ * 
+ * Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ *  
+ * Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+ *
+ */
+
+#pageError {
+	float: left;
+	padding-left: 5%;
+	padding-right: 5%;
+	padding-top: 25px;
+	padding-bottom: 5px;
+	background-color: #ffffff;
+}
+
+#titlePageError {
+    font-weight: bold;
+    font-size: 18px;
+    text-align: left;
+    display: block;
+}
+
+#contentPageError {
+	margin-top: 18px;
+	margin-bottom: 18px;
+	padding-top: 2%;
+	padding-left: 5%;
+	padding-right: 5%;
+	padding-bottom: 10px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #86c228;	
+	width: 90%;
+	*width: 100%;
+	_width: 100%;
+	display: block;
+}
+
+#titlePageErrorReported {
+    font-weight: bold;
+    font-size: 18px;
+    text-align: left;
+    display: none;
+}
+
+#contentPageErrorReported {
+	margin-top: 18px;
+	margin-bottom: 18px;
+	padding-top: 2%;
+	padding-left: 5%;
+	padding-right: 5%;
+	padding-bottom: 10px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #86c228;	
+	width: 90%;
+	*width: 100%;
+	_width: 100%;
+	display: none;
+}
+
+#sendingError {
+	margin-top: 18px;
+	margin-bottom: 18px;
+	padding-top: 2%;
+	padding-left: 5%;
+	padding-right: 5%;
+	padding-bottom: 10px;
+	width: 90%;
+	*width: 100%;
+	_width: 100%;
+	vertical-align: middle;
+	display: none;
+}
+
+#linkUserComment {
+	margin-top: 18px;
+	padding-bottom: 20px;
+	display: block;
+}
+
+#userComment {
+	margin-top: 18px;
+	padding-bottom: 20px;
+	text-align: center;	
+	display: none;
+}

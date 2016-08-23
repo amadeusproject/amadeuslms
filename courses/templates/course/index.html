@@ -1,0 +1,116 @@
+{% extends 'app/base.html' %}
+
+{% load static i18n permission_tags custom_filters %}
+
+{% block breadcrumbs %}
+	<ol class="breadcrumb">
+	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+	  	<li class="active">{% trans 'Manage Courses' %}</li>
+	</ol>
+{% endblock %}
+
+{% block sidebar %}
+	<div class="list-group">
+	  	<a href="{% url 'app:course:manage' %}" class="list-group-item active">
+	    	{% trans 'Courses' %}
+	  	</a>
+	  	<a href="{% url 'app:course:create' %}" class="list-group-item">
+	    	{% trans 'Create Course' %}
+	  	</a>
+	</div>
+
+	<hr />
+
+	{% if categories|length > 0 %}
+
+		<h4>{% trans 'Categories:' %} </h4>
+
+		<ul class="categories">
+			{% for category in categories %}
+				<li>
+					<a href="{% url 'app:course:filter' category.slug %}">
+						{{ category }}
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<p>{{ message }}</p>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+	{% if courses|length > 0 %}
+		{% for course in courses %}
+			<div class="row well well-inverse">
+		  		<div class="col-md-2">
+		  			<img src="{{ course.image.url }}" class="img-responsive" />
+	  			</div>
+		  		<div class="col-md-10">
+					<div class="row">
+			  			<div class="col-md-12">
+							<div class="pull-right">
+								<a href="{% url 'app:course:view' course.slug %}" class="btn btn-sm btn-info">
+									<span class="glyphicon glyphicon-eye-open"></span>
+								</a>
+								{% if user|has_role:'professor, system_admin' %}
+									<a href="{% url 'app:course:update' course.slug %}" class="btn btn-sm btn-primary">
+										<span class="glyphicon glyphicon-edit"></span>
+									</a>
+									<a href="{% url 'app:course:delete' course.slug %}" class="btn btn-sm btn-danger">
+										<span class="glyphicon glyphicon-trash"></span>
+									</a>
+								{% endif %}
+							</div>
+							<h4>
+								<a href="{% url 'app:course:view' course.slug %}">
+									{{ course }}
+								</a>
+							</h4>
+							<span class="label label-info">{{ course.category }}</span>
+							<span class="label label-warning">{{ course.max_students }} {% trans 'students tops' %}</span>
+							<small>
+								<em>{{ course.objectivies|linebreaks }}</em>
+							</small>
+			  			</div>
+			  			<div class="col-md-12">
+			  				<strong>{% trans 'Subscribe Period:' %} </strong> <em>de</em> <u>{{ course.init_register_date }}</u> <em>até</em> <u>{{ course.end_register_date }}</u>
+			  				<br />
+							<strong>{% trans 'Period:' %} </strong> <em>de</em> <u>{{ course.init_date }}</u> <em>até</em> <u>{{ course.end_date }}</u>
+			  			</div>
+			  			{% if user|has_role:'student' and course|show_subscribe:request.user %}
+				  			<div class="col-md-12">
+				  				<form method="POST" action="{% url 'app:subscription:subscribe' %}">
+				  					{% csrf_token %}
+				  					<input type='hidden' name="user" id="id_user" value="{{ request.user.id }}" />
+				  					<input type='hidden' name="course" id="id_course" value="{{ course.id }}" />
+				  					<input type='submit' class="btn btn-sm btn-success pull-right" value="{% trans 'Subscribe' %}" />
+				  				</form>
+				  			</div>
+				  		{% endif %}
+					</div>
+		  		</div>
+			</div>
+    	{% endfor %}
+    	<nav aria-label="Page navigation">
+  			<ul class="pagination">
+    			{% for page_number in paginator.page_range %}
+    				<li{% if page_obj.number == page_number %} class="active"{% endif %}>
+        				<a href="?page={{ page_number }}">{{ page_number }}</a>
+    				</li>
+    			{% endfor %}
+  			</ul>
+		</nav>
+	{% else %}
+		{% trans 'No courses found' %}
+	{% endif %}
+{% endblock %}

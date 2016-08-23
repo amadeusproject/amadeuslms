@@ -1,0 +1,70 @@
+{% extends "admin_index.html" %}
+
+{% block content %}
+	{% load static %}
+		<div id="pTitle" class="pTitle">
+			<h2>Usuários Online</h2>
+		</div>
+		<div id="pBreadCrumbs" class="pBreadCrumbs">
+			<ul id="breadcrumb">
+				<li><a href="{% url 'index' %}">Página Inicial</a></li>
+				<li>Usuários Online</li>
+			</ul>
+		</div>
+		<div id="pLeftMenu" class="pLeftMenu">
+			<div id="side_menu_1">
+				<ul id="menu_sessoes">
+					<li><b>Usuários Online</b></li>
+					<li><a href="{% url 'profile' %}">Meu Perfil</a></li>
+					<li><a href="{% url 'editar_profile' %}">Editar Perfil</a></li>
+					<li><a href="{% url 'alterar_senha' %}">Trocar Senha</a></li>
+					
+					<li><a href="{% url 'colegas' %}">Colegas de Sala</a></li>
+					
+	        				<li><a href="{% url 'criar_curso' %}">Criar Curso</a></li>
+	         		
+	         		<li>
+	         			<a href="/amadeuslms/openIDActions.do?method=showViewManagerOpenIDs"><img src="{% static 'imgs/menu/openid.png' %}" style="vertical-align: middle;" border="0" title="OpenID" />&nbsp;Google Account</a>
+		        	</li>	
+				</ul>
+			</div>
+		</div>
+		<div id="pContent" class="pContent">
+			<div class="line">
+				
+<table class="displaytag" style="width: 100%;" id="onlineUser">
+<tbody>
+<tr class="odd">
+<td>
+					
+						<a href="{% url 'profile' %}"><div style="background-color:white; border:1px solid #D0D0D0; float:left; margin-right:0.7em; padding:2px;">
+						<img src="user.do?method=showPhoto&id=82" height="30px" width="30px" border="0" />
+						</div></a>
+					
+					
+					<label id="userStatus82" class="offlineUser" title="">&nbsp;</label>
+					jailson
+					<br /><br />
+					<font color="#888888">jailson.dias@citi.org.br</font>
+					<script type="text/javascript">userStatus(82);</script>
+				</td></tr>
+<tr class="even">
+<td>
+					
+						<a href="{% url 'profile' %}"><div style="background-color:white; border:1px solid #D0D0D0; float:left; margin-right:0.7em; padding:2px;">
+						<img src="user.do?method=showPhoto&id=5" height="30px" width="30px" border="0" />
+						</div></a>
+					
+					
+					<label id="userStatus5" class="offlineUser" title="">&nbsp;</label>
+					Administrador
+					<br /><br />
+					<font color="#888888">admin@amadeus.org.br</font>
+					<script type="text/javascript">userStatus(5);</script>
+				</td></tr></tbody></table><span class="pagebanner">2 itens encontrados, exibindo todos os itens.</span><span class="pagelinks"><strong>1</strong></span>
+			</div>
+		</div>
+		<div id="pRightMenu" class="pRightMenu">
+		
+		</div>
+{% endblock %}

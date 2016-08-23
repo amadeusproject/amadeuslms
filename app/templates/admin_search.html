@@ -1,0 +1,108 @@
+{% extends "admin_index.html" %}
+
+{% block content %}
+	{% load static %}
+		<div id="page_title">
+			<h2>Resultado da Busca</h2>
+		</div>
+		<div id="breadcrumbs">
+			<ul id="breadcrumb">
+				<li><a href="{% url 'index' %}">Página Inicial</a></li>
+				<li>Lista de cursos relacionado a python</li>
+			</ul>
+		</div>
+		
+		<div id="side_menu">
+			<div id="side_menu_1">
+				<ul id="menu_sessoes">
+				</ul>
+			</div>
+		</div>
+		  <div id="content">
+		  <dl>
+		  <dt>		  	Existem 4 resultados para a busca por "python":</dt>
+		  
+		  		<dt>Exibindo 1-4</dt>
+		  
+		  </dl>
+		  <ul id="resultbusca">
+		  	
+			<dl><dt>Cursos novos</dt></dl>
+				
+							<li><a href="{% url 'dados_curso' %}">Python</a></li>
+							<a href="{% url 'profile' %}" >
+							
+							Administrador</a>
+							
+								,0 alunos							
+							
+				
+			
+			
+			
+			<dl><dt>Cursos no período de matrícula</dt></dl>
+				
+							<li><a href="{% url 'dados_curso' %}">Python Avançado</a></li>
+							<a href="{% url 'profile' %}" >
+							
+							felipe henrique de almeida bormann</a>
+							
+								,3 alunos							
+							
+				
+							<li><a href="{% url 'dados_curso' %}">Python na Web Com Django</a></li>
+							<a href="{% url 'profile' %}" >
+							
+							Matheus de Souza Lins (Professor)</a>
+							
+								,1 aluno
+							
+				
+			
+				
+			
+			<dl><dt>Cursos em andamento</dt></dl>
+				
+								<li><a href="{% url 'dados_curso' %}">Django</a></li>
+							<a href="{% url 'profile' %}" >
+							
+							Professor Ailson</a>
+							
+								,1 aluno
+							
+				
+			
+				
+			
+				
+			</ul>
+			
+			<dl>
+				
+				
+				
+			</dl>
+						
+			<dl class="insert2">
+					
+					<form name="searchCourseForm" method="post" action="/amadeuslms/searchCourse.do">
+						<dt>Buscar um curso:</dt>
+						<dd class="field"><input type="text" name="courseName" value="python" class="formfield2"></dd>
+						<dd class="description"></dd>
+						<input type="text" style="display: none" /> <!--  necessário para bom funcionamento no IE -->
+						<dt class="field"><a href="{% url 'search' %}" name="searchCourse" class="button">Buscar</a></dt>
+					</form>
+<script type="text/javascript" language="JavaScript">
+  <!--
+  var focusControl = document.forms["searchCourseForm"].elements["courseName"];
+
+  if (focusControl.type != "hidden" && !focusControl.disabled) {
+     focusControl.focus();
+  }
+  // -->
+</script>
+
+			</dl>
+			
+			</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'app/base.html' %}
+
+{% load static i18n %}
+
+{% block breadcrumbs %}
+	<ol class="breadcrumb">
+	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+	  	<li class="active">{{ category }}</li>
+	</ol>
+{% endblock %}
+
+{% block sidebar %}
+	<div class="list-group">
+	  	<a href="{% url 'app:course:manage_cat' %}" class="list-group-item">
+	    	{% trans 'Categories' %}
+	  	</a>
+	  	<a href="{% url 'app:course:create_cat' %}" class="list-group-item">
+	    	{% trans 'Create Category' %}
+	  	</a>
+	  	<a href="" class="list-group-item">
+	    	{% trans 'Edit Category' %}
+	  	</a>
+	  	<a href="" class="list-group-item">
+	    	{% trans 'Remove Category' %}
+	  	</a>
+	</div>
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-sm-12">
+			<p><b>{% trans 'Name:' %} </b> {{ category }}</p>
+			<p><b>{% trans 'Slug:' %} </b> {{ category.slug }}</p>
+		</div>
+	</div>
+{% endblock %}

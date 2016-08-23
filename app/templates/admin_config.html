@@ -1,0 +1,189 @@
+{% extends "admin_index.html" %}
+
+{% block content %}
+	{% load static %}
+		<div id="pTitle" class="pTitle">
+			<h2>Configurações do Sistema</h2>
+		</div>
+		<div id="pBreadCrumbs" class="pBreadCrumbs">
+			<ul id="breadcrumb">
+				<li><a href="{% url 'index' %}">Página Inicial</a></li>
+				<li>Configurações do Sistema</li>
+			</ul>
+		</div>
+		<div id="pLeftMenu" class="pLeftMenu">			
+			<div id="side_menu_1">
+				<ul id="menu_sessoes">
+					<li>
+						<a href="{% url 'mobile' %}"><img border="0" src="{% static 'imgs/menu/mobile.png' %}" />&nbsp;Mobile</a>
+					</li>
+					<li>
+						<img src="{% static 'imgs/menu/web.png' %}"/>&nbsp;<b>Web</b>
+					</li>
+			    </ul>
+			</div>
+		</div>
+		<div id="pContent" class="pContent2">
+			<div id="infoMessage" class="msgBoxSuccess" style="display: none;"></div>
+			<div id="tabs">
+				<ul>
+					<li><a href="#system">Sistema</a></li>
+					<li><a href="#mailSender">Mail Sender</a></li>
+					<li><a href="#security">Segurança</a></li>
+				</ul>
+				<div id="system">
+					<!--
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+<div class="lineSettings"><strong>Geral</strong></div>
+<div class="hrDiv"></div>
+<div class="lineSettings">
+	<label class="labelAttribute">Versão:</label>
+	<label class="labelValue">00.95.00</label>
+</div>
+<div class="lineSettings">
+	<label class="labelAttribute">Língua:</label>
+	<label class="labelValue">Português-Brasil</label>
+</div>
+<div class="lineSettings">
+	<label class="labelAttribute">Encoding:</label>
+	<label class="labelValue">UTF-8</label>
+</div>
+<div class="line"></div>
+<div class="lineSettings"><strong>Temas</strong></div>
+<div class="hrDiv"></div>
+				</div>
+				<div id="mailSender">
+					<!--
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+</script>
+
+<form id="formWebSettingMailSender"> 
+<div class="lineSettings"><strong>Servidor de envio (SMTP)</strong></div>
+<div class="hrDiv"></div>
+<fieldset>
+   <legend><b>Configurações</b></legend>
+   <table>
+   		<tr>
+   			<td align="right"><label class="labelAttribute">Descrição:</label></td>
+   			<td><input type="text" name="description" value="Conta de e-mail padrão" style="width: 250px;" /></td>
+   		</tr>
+   		<tr>
+   			<td align="right"><label class="labelAttribute">Servidor:</label></td>
+   			<td><input type="text" name="server" style="width: 250px;" value="smtp.gmail.com" /></td>
+   		</tr>
+   		<tr>
+   			<td align="right"><label class="labelAttribute">Porta:</label></td>
+   			<td><input type="text" name="port" style="width: 30px;" value="465" />&nbsp;&nbsp;<label class="labelAttribute">Padão:</label>25</td>
+   		</tr>
+   </table>
+</fieldset>
+<div class="lineSettings">&nbsp;</div>
+<fieldset>
+   <legend><b>Segurança e autenticação</b></legend>
+   <table>
+   		<tr>
+   			<td style="text-align: right;"><label class="labelAttribute">Nome do usuário:</label></td>
+   			<td><input type="text" name="userName" value="projetoamadeus@gmail.com" style="width: 250px;"/></td>
+   		</tr>
+   		<tr>
+   			<td style="padding-left: 25px; text-align: right;"><label class="labelAttribute">Senha:</label></td>
+   			<td><input type="password" name="password" value="" /></td>
+   		</tr>
+   		<tr>
+   			<td colspan="2"><b>Usar conexão segura:</b></td>
+   		</tr>
+   		<tr>
+   			<td colspan="2" style="padding-left: 25px;">
+   			
+   				<input type="radio" class="radio" name="securityConnection" value="withoutSecurityConnection"  />Não&nbsp;&nbsp;
+   				<input type="radio" class="radio" name="securityConnection" value="startTLSEnable"  />TLS, se deisponível&nbsp;&nbsp;
+   				<input type="radio" class="radio" name="securityConnection" value="startTLSRequired"  />TLS&nbsp;&nbsp;
+   				<input type="radio" class="radio" name="securityConnection" value="SSLEnable" checked="checked" />SSL
+   			
+   			
+   			</td>
+   		</tr>
+   </table>
+</fieldset>
+<div class="lineBlank"></div>
+<div class="lineSettings">
+	<input type="button" value="Salvar Modificações" onclick="saveWebMailSenderSettings();" />
+</div>
+</form>
+				</div>
+				<div id="security">
+					<!--
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+
+
+
+
+
+<form id="formWebSecurity">
+	<div class="lineSettings">
+		<input type="checkbox" id="autoSigning" name="autoSigning" 
+		checked="checked"
+		/>
+		&nbsp;<font color="#a30800"><b>Permitir que os usuários se auto-cadastrem.</b></font>
+	</div>
+	<div class="lineSettings">
+		<input type="checkbox" id="" name="" />
+		&nbsp;<font color="#a30800"><b>Colocar o sistema em modo de manutenção.</b></font>
+	</div>
+	<div class="lineBlank"></div>
+	<div class="lineSettings">
+	<input type="button" value="Salvar Modificações" onclick="saveWebSecuritySettings();" />
+	</div>
+</form>
+				</div>
+			</div>
+		</div>
+{% endblock %}

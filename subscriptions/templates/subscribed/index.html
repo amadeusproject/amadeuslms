@@ -1,0 +1,69 @@
+{% extends 'app/base.html' %}
+
+{% load static i18n %}
+
+{% block breadcrumbs %}
+	<ol class="breadcrumb">
+	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+	  	<li class="active">{% trans 'Subscribed Courses' %}</li>
+	</ol>
+{% endblock %}
+
+{% block sidebar %}
+	<div class="list-group">
+	  	<a href="{% url 'app:course:manage' %}" class="list-group-item active">
+	    	{% trans 'All Courses' %}
+	  	</a>
+	</div>
+
+	<hr />
+{% endblock %}
+
+{% block content %}
+	{% if subscriptions|length > 0 %}
+		{% for courses in subscriptions %}
+			<div class="row well well-inverse">
+		  		<div class="col-md-2">
+		  			<img src="{{ courses.course.image.url }}" class="img-responsive" />
+	  			</div>
+		  		<div class="col-md-10">
+					<div class="row">
+			  			<div class="col-md-12">
+							<div class="pull-right">
+								<a href="{% url 'app:course:view' courses.course.slug %}" class="btn btn-sm btn-info">
+									<span class="glyphicon glyphicon-eye-open"></span>
+								</a>
+							</div>
+							<h4>
+								<a href="{% url 'app:course:view' courses.course.slug %}">
+									{{ courses.course }}
+								</a>
+							</h4>
+							<span class="label label-info">{{ courses.course.category }}</span>
+							<span class="label label-warning">{{ courses.course.max_students }} {% trans 'students maximum' %}</span>
+							<small>
+								<em>{{ courses.course.objectivies|linebreaks }}</em>
+							</small>
+			  			</div>
+			  			<div class="col-md-12">
+			  				<strong>{% trans 'Subscribe Period:' %} </strong> <em>de</em> <u>{{ courses.course.init_register_date }}</u> <em>até</em> <u>{{ courses.course.end_register_date }}</u>
+			  				<br />
+							<strong>{% trans 'Period:' %} </strong> <em>de</em> <u>{{ courses.course.init_date }}</u> <em>até</em> <u>{{ courses.course.end_date }}</u>
+			  			</div>
+					</div>
+		  		</div>
+			</div>
+    	{% endfor %}
+    	<nav aria-label="Page navigation">
+  			<ul class="pagination">
+    			{% for page_number in paginator.page_range %}
+    				<li{% if page_obj.number == page_number %} class="active"{% endif %}>
+        				<a href="?page={{ page_number }}">{{ page_number }}</a>
+    				</li>
+    			{% endfor %}
+  			</ul>
+		</nav>
+	{% else %}
+		{% trans 'No courses subscribed yet' %}
+	{% endif %}
+{% endblock %}

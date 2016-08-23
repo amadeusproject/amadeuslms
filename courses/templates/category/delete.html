@@ -1,0 +1,30 @@
+{% extends 'app/base.html' %}
+
+{% load static i18n %}
+
+{% block breadcrumbs %}
+	<ol class="breadcrumb">
+	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+	  	<li class="active">{% trans 'Manage Categories' %}</li>
+	</ol>
+{% endblock %}
+
+{% block sidebar %}
+	<div class="list-group">
+	  	<a href="{% url 'app:course:manage_cat' %}" class="list-group-item active">
+	    	{% trans 'Categories' %}
+	  	</a>
+	  	<a href="{% url 'app:course:create_cat' %}" class="list-group-item">
+	    	{% trans 'Create Category' %}
+	  	</a>
+	</div>
+{% endblock %}
+
+{% block content %}
+	<form action="" method="post">
+		{% csrf_token %}
+	    <p>{% trans 'Are you sure you want to delete the category' %} "{{ object }}"?</p>
+	    <input type="submit" class="btn btn-success btn-sm" value="{% trans 'Yes' %}" />
+	    <a href="{% url 'app:course:manage' %}" class="btn btn-danger btn-sm">{% trans 'No' %}</a>
+	</form>
+{% endblock %}

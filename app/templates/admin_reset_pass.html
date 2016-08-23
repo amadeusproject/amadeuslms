@@ -1,0 +1,79 @@
+{% extends "admin_index.html" %}
+
+{% block content %}
+	{% load static %}
+		<div id="pTitle" class="pTitle">
+			<h2>Trocar Senha</h2>
+		</div>
+		<div id="pBreadCrumbs" class="pBreadCrumbs">
+			<ul id="breadcrumb">
+				<li><a href="{% url 'index' %}">Página Inicial</a></li>
+				<li>Trocar Senha</li>
+			</ul>
+		</div>
+		<div id="pLeftMenu" class="pLeftMenu">
+			<div id="side_menu_1">
+				<ul id="menu_sessoes">
+					<li><a href="{% url 'profile' %}"><img src="{% static 'imgs/menu/user-info-16x16.png' %}" border="0" title="Meu Perfil" />&nbsp;Meu Perfil</a></li>
+					<li><a href="{% url 'editar_profile' %}"><img src="{% static 'imgs/menu/user-edit-16x16.png' %}" border="0" title="Editar Perfil" />&nbsp;Editar Perfil</a></li>
+					<li><img src="{% static 'imgs/menu/user-password-16x16.png' %}" border="0" title="Trocar Senha" />&nbsp;<b>Trocar Senha</b></li>
+					
+					<li><a href="{% url 'colegas' %}"><img src="{% static 'imgs/menu/user-group-16x16.png' %}" border="0" title="Colegas de Sala" />&nbsp;Colegas de Sala</a></li>
+	         		<li><a href="/amadeuslms/openIDActions.do?method=showViewManagerOpenIDs"><img src="{% static 'imgs/menu/openid.png' %}" border="0" title="Google Account"/>&nbsp;Google Account</a></li>
+			    </ul>
+			</div>
+		</div>
+		<div id="pContent" class="pContent">
+			
+			
+			
+			
+			<form name="editPasswordForm" method="post" action="/amadeuslms/editPassword.do">
+			<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+				<tr>
+					<td class="formAttribute">*Senha atual:</td>
+					<td>
+						<input type="password" name="currentPassword" value="" style="width: 100%;">
+					</td>
+				</tr>
+				<tr>
+					<td></td><td class="formDescription">Sua senha atual</td>
+				</tr>
+				
+				<tr>
+					<td class="formAttribute">*Nova senha:</td>
+					<td>
+						<input type="password" name="newPassword" value="" style="width: 100%;">
+					</td>
+				</tr>
+				<tr>
+					<td></td><td class="formDescription">Sua nova senha. (Mínimo de 4 caracteres)</td>
+				</tr>
+				
+				<tr>
+					<td class="formAttribute">*Confirmação:</td>
+					<td>
+						<input type="password" name="newPasswordConfirmation" value="" style="width: 100%;">
+					</td>
+				</tr>
+				<tr>
+					<td></td><td class="formDescription">Confirme sua nova senha</td>
+				</tr>
+				
+				<tr>
+					<td></td><td align="right"><input type="submit" name="editPassword" value="Editar" class="button"></td>
+				</tr>
+			</table>
+			</form>
+<script type="text/javascript" language="JavaScript">
+  <!--
+  var focusControl = document.forms["editPasswordForm"].elements["currentPassword"];
+
+  if (focusControl.type != "hidden" && !focusControl.disabled) {
+     focusControl.focus();
+  }
+  // -->
+</script>
+
+	  	</div>
+{% endblock %}

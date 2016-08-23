@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% load static %}
+
+<!-- 
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+<html>
+<head>
+	<!-- 
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+	<title>Projeto Amadeus</title>
+	
+	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
+	
+	<link href="{% static 'css/css.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'css/amadeus.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'css/content_management.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'css/jqueryui/smoothness/jquery-ui-1.7.1.custom.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'imgs/favicon.ico}" rel="shortcut icon" />
+	<link href="{% static 'css/table.css' %}" rel="stylesheet" type="text/css"/>
+	<link href="{% static 'css/module.css' %}" rel="stylesheet" type="text/css"/>
+	
+	<script type='text/javascript' src='dwr/interface/UtilDWR.js'></script>
+	<script type='text/javascript' src='dwr/engine.js'></script>
+	<script type='text/javascript' src='dwr/util.js'></script>
+	<script type="text/javascript" src="{% static 'js/jqueryui/jquery-1.3.2.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jqueryui/jquery-ui-1.7.1.custom.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/openid.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/amadeus.js' %}"></script>
+</head>
+<body onload="countOnlineUser();">
+<div id="pBody" class="pBody">
+	<div id="pHeader" class="pHeader">
+		<!-- 
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+
+<div id="login">
+	Olá&nbsp;Administrador.<br />
+	<a href="/amadeuslms/user.do?method=showViewMyProfile">Visualizar Perfil</a>
+	(<a href="/amadeuslms/signOut.do?parameter=Sair">Sair</a>)
+</div>
+	</div>
+	<!-- 
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+
+
+	
+<div id="institutional_menu">
+	
+	<span>
+		<a href="/amadeuslms/settingsActions.do?method=showViewSettings"><img src="themes/default/imgs/menu/settings.png" border="0" style="vertical-align: middle;">
+		&nbsp;Configurações</a>
+	</span>
+	<span>&nbsp;|&nbsp;</span>
+	
+	<span><a href="/amadeuslms/fProject.do" target="_blank">O Projeto</a></span>
+	<span>&nbsp;|&nbsp;</span>
+	<span><a href="/amadeuslms/fCCTE.do" target="_blank">Grupo CCTE</a></span>
+</div>
+	<div class="pw">
+		<div class="plw">
+			<div id="youHave" class="youHave">
+				<div id="youHaveTitle" class="youHaveTitle">Você tem:</div>
+				
+					<div id="youHavePendingTasks" class="youHavePendingTasks">
+						<a href="/amadeuslms/user.do?method=showViewPendingTasks">(4)Tarefas Pendentes.</a>
+					</div>
+				
+				
+       	  		<div id="youHaveOnlineUser" class="youHaveOnlineUser">
+       	  			<a href="/amadeuslms/user.do?method=showViewOnlineUsers">(<span id="countOnlineUser">0</span>)&nbsp;Usuários Online.</a>
+  	      		</div>
+  	      	</div>	
+       		
+       		<div id="youCan" class="youCan">
+				<div id="youCanTitle" class="youCanTitle">Você pode:</div>
+				<div id="youCanInsertCourse" class="youCanInsertCourse">
+					<a href="{% url 'criar_curso' %}">Criar Curso</a>
+				</div>
+				
+				<div id="youCanManagerUser" class="youCanManagerUser">
+					<a href="/amadeuslms/user.do?method=showViewAllUsersInManagerUsers">Gerenciar Usuários</a>
+				</div>
+				<div id="youCanManagerCourse" class="youCanManagerCourse">
+					<a href="/amadeuslms/user.do?method=showViewAllCoursesInManagerUsers">Gerenciar Cursos</a>
+				</div>
+				
+			</div>
+       		
+			<div id="yourCourses" class="yourCourses">
+				<div id="yourCoursesTitle" class="yourCoursesTitle">Seu(s) curso(s):</div>
+				
+		  			<div id="yourCourse" class="yourCourse">	
+		  				<a href="/amadeuslms/course.do?method=showViewCourse&courseId=14">Curso01</a>
+					</div>
+				
+		  			<div id="yourCourse" class="yourCourse">	
+		  				<a href="/amadeuslms/course.do?method=showViewCourse&courseId=42">Python</a>
+					</div>
+				
+		  			<div id="yourCourse" class="yourCourse">	
+		  				<a href="/amadeuslms/course.do?method=showViewCourse&courseId=92">Curso Amadeus - Toscano</a>
+					</div>
+				
+			</div>
+			<div class="line"></div>
+		</div>
+		<div class="prw">
+			<form name="searchCourseForm" method="post" action="/amadeuslms/searchCourse.do">
+				<div class="pTitleSearchCourse">
+					Buscar um curso:
+				</div>
+				<div class="pSearchCourse">
+					<input type="text" name="courseName" value="" class="formfield2">
+					<input type="submit" name="searchCourse" value="Buscar" class="button">
+				</div>
+			</form>
+			<script type="text/javascript" language="JavaScript">
+			  <!--
+			  var focusControl = document.forms["searchCourseForm"].elements["courseName"];
+
+			  if (focusControl.type != "hidden" && !focusControl.disabled) {
+			     focusControl.focus();
+			  }
+			  // -->
+			</script>
+	
+			<div class="pTitleKeyword">			
+				Palavras-chave mais populares:
+			</div>
+			<div class="pTagcloud">
+				<a class='keywork0' href="fSearchCourse.do?keyword_course=teste amadeus prospb">teste amadeus prospb</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=programação fácil">programação fácil</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=intermediário">intermediário</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=amadeus">amadeus</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=palavra02">palavra02</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=programação para iniciantes">programação para iniciantes</a>, <a class='keywork1' href="fSearchCourse.do?keyword_course=django">django</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=aluno teste">aluno teste</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=curso0101">curso0101</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=kjsdnksa">kjsdnksa</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=palavra01">palavra01</a>, <a class='keywork1' href="fSearchCourse.do?keyword_course=programming">programming</a>, <a class='keywork3' href="fSearchCourse.do?keyword_course=python">python</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=curso">curso</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=mvc">mvc</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=programação web">programação web</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=ionic">ionic</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=framework">framework</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=web">web</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=android">android</a>, <a class='keywork0' href="fSearchCourse.do?keyword_course=programação">programação</a>
+			</div>	
+		</div>
+	</div>
+	<!-- 
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+
+<div id="footnote">
+	<dl><dd>Copyright Amadeus. Todos os direitos reservados<dd></dl>
+</div>
+       
+</div>	
+</body>
+</html>

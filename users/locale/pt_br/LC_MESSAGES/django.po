@@ -1,0 +1,212 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-12 19:40-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: users/forms.py:10 users/forms.py:26
+msgid "Password"
+msgstr ""
+
+#: users/models.py:10
+msgid "Login"
+msgstr ""
+
+#: users/models.py:13
+msgid ""
+"Type a valid username. This fields should only contain letters, numbers and "
+"the characteres: @/./+/-/_ ."
+msgstr ""
+
+#: users/models.py:16
+msgid ""
+"A short name that will be used to identify you in the platform and to access "
+"it"
+msgstr ""
+
+#: users/models.py:17
+msgid "Mail"
+msgstr ""
+
+#: users/models.py:18
+msgid "Name"
+msgstr ""
+
+#: users/models.py:19
+msgid "City"
+msgstr ""
+
+#: users/models.py:20
+msgid "State"
+msgstr ""
+
+#: users/models.py:21
+msgid "Gender"
+msgstr ""
+
+#: users/models.py:21
+msgid "Male"
+msgstr ""
+
+#: users/models.py:21
+msgid "Female"
+msgstr ""
+
+#: users/models.py:22
+msgid "Image"
+msgstr ""
+
+#: users/models.py:23
+msgid "Birth Date"
+msgstr ""
+
+#: users/models.py:24
+msgid "Phone"
+msgstr ""
+
+#: users/models.py:25 users/templates/users/profile.html:42
+msgid "Cpf"
+msgstr ""
+
+#: users/models.py:26
+msgid "Type"
+msgstr ""
+
+#: users/models.py:26
+msgid "Professor"
+msgstr ""
+
+#: users/models.py:26
+msgid "Student"
+msgstr ""
+
+#: users/models.py:27
+msgid "Create Date"
+msgstr ""
+
+#: users/models.py:28
+msgid "Administrador"
+msgstr ""
+
+#: users/models.py:29
+msgid "Active"
+msgstr ""
+
+#: users/models.py:37
+msgid "User"
+msgstr ""
+
+#: users/models.py:38
+msgid "Users"
+msgstr ""
+
+#: users/templates/users/create.html:8
+#: users/templates/users/edit_profile.html:8 users/templates/users/index.html:7
+#: users/templates/users/profile.html:8 users/templates/users/update.html:8
+#: users/templates/users/view.html:7
+msgid "Home"
+msgstr ""
+
+#: users/templates/users/create.html:9
+msgid "New User"
+msgstr ""
+
+#: users/templates/users/create.html:16 users/templates/users/index.html:15
+#: users/templates/users/update.html:16 users/templates/users/view.html:15
+msgid "System Users"
+msgstr ""
+
+#: users/templates/users/create.html:19 users/templates/users/index.html:18
+#: users/templates/users/update.html:19 users/templates/users/view.html:18
+msgid "New Account"
+msgstr ""
+
+#: users/templates/users/create.html:22 users/templates/users/index.html:21
+#: users/templates/users/update.html:22 users/templates/users/view.html:21
+msgid "Send Mail"
+msgstr ""
+
+#: users/templates/users/create.html:32
+#: users/templates/users/edit_profile.html:29
+#: users/templates/users/update.html:32
+msgid "All fields are required"
+msgstr ""
+
+#: users/templates/users/create.html:57
+#: users/templates/users/edit_profile.html:64
+#: users/templates/users/update.html:57
+msgid "Save"
+msgstr ""
+
+#: users/templates/users/edit_profile.html:9
+#: users/templates/users/edit_profile.html:19
+#: users/templates/users/profile.html:19
+msgid "Edit Profile"
+msgstr ""
+
+#: users/templates/users/edit_profile.html:16
+#: users/templates/users/profile.html:9 users/templates/users/profile.html:16
+msgid "Profile"
+msgstr ""
+
+#: users/templates/users/index.html:8
+msgid "Manage Users"
+msgstr ""
+
+#: users/templates/users/index.html:56 users/templates/users/profile.html:32
+#: users/templates/users/view.html:33
+msgid "Administrator"
+msgstr ""
+
+#: users/templates/users/index.html:74
+msgid "No users found"
+msgstr ""
+
+#: users/templates/users/profile.html:36 users/templates/users/view.html:37
+msgid "Mail:"
+msgstr ""
+
+#: users/templates/users/profile.html:39 users/templates/users/view.html:40
+msgid "Phone:"
+msgstr ""
+
+#: users/templates/users/profile.html:45
+msgid "Birth date"
+msgstr ""
+
+#: users/templates/users/update.html:9
+msgid "Edit user"
+msgstr ""
+
+#: users/templates/users/view.html:43
+msgid "Cpf:"
+msgstr ""
+
+#: users/templates/users/view.html:46
+msgid "Birth date:"
+msgstr ""
+
+#: users/views.py:35
+msgid "User created successfully!"
+msgstr ""
+
+#: users/views.py:63
+msgid "User edited successfully!"
+msgstr ""
+
+#: users/views.py:107
+msgid "Profile edited successfully!"
+msgstr ""

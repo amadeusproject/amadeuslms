@@ -1,0 +1,97 @@
+{% extends "admin_index.html" %}
+
+{% block content %}
+	{% load static %}
+		<div id="pTitle" class="pTitle">
+			<h2>Gerenciar Usuários</h2>
+		</div>
+		<div id="pBreadCrumbs" class="pBreadCrumbs">
+			<ul id="breadcrumb">
+				<li><a href="{% url 'index' %}">Página Inicial</a></li>
+				<li><a href="{% url 'usuarios' %}">Gerenciar Usuários</a></li>
+				<li>Enviar Email</li>
+			</ul>
+		</div>
+		<div id="pLeftMenu" class="pLeftMenu">
+			<div id="side_menu_1">
+				<ul id="menu_sessoes">
+					<li><a href="{% url 'usuarios' %}"><img src="{% static 'imgs/menu/users-16x16.png' %}" border="0" title="Usuários do Sitema" />&nbsp;Usuários do Sistema</a></li>
+					<li><a href="{% url 'criar_usuario' %}"><img src="{% static 'imgs/menu/user-16x16.png' %}" border="0" title="Nova Conta" />&nbsp;Nova Conta</a></li>
+					<li><b><img src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" />&nbsp;Enviar Email</b></li>
+			    </ul>
+			</div>
+		</div>
+		<div id="pContent" class="pContent2">
+			<form id="formSendMail" name="formSendMail" action="user.do" method="post">
+			<input type="hidden" name="method" value="sendMailInManagerUsers"/>
+			<table width="100%" border="0" cellspacing="0">
+				<tr><td>&nbsp;</td>
+				<td><div id="infoMessage" class="msgBoxSuccess" style="display: none;"></div></td></tr>
+				<tr>
+					<td class="formAttribute">Para:</td>
+					<td style="padding-bottom: 10px;">
+						<input type="text" id="to" name="to" style="width: 435px;" value=""/>
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td style="padding-bottom: 10px;">
+						&nbsp;Usuários:&nbsp;
+						<select name="toUserType">
+							<option value="-1"></option>
+							<option value="0">Todos</option>
+							<option value="1">Alunos</option>
+							<option value="2">Administradores</option>
+							<option value="3">Professores</option>
+						</select>
+						&nbsp;Cursos:&nbsp;
+						<select name="toCourse" style="width:212px;">
+							<option value="-1"></option>
+							
+								<option value="14">Curso01</option>
+							
+								<option value="42">Python</option>
+							
+								<option value="46">Python Avançado</option>
+							
+								<option value="88">ionic</option>
+							
+								<option value="92">Curso Amadeus - Toscano</option>
+							
+								<option value="115">Android</option>
+							
+								<option value="119">dszfsad</option>
+							
+								<option value="226">Python na Web Com Django</option>
+							
+								<option value="245">curso0101</option>
+							
+								<option value="264">Django</option>
+							
+								<option value="291">Amadeus 101</option>
+							
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="formAttribute">Assunto:</td>
+					<td style="padding-bottom: 10px;"><input type="text" id="subject" name="subject" style="width: 435px;" value=""/></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td style="padding-top: 5px;">
+						<textarea id="message" name="message" style="width: 100%; height: 300px;"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td height="40px;">&nbsp;</td>
+					<td><input type="submit" value="Enviar" name="save"/></td>
+				</tr>
+			</table>
+			<br />
+			</form>
+		</div>
+		<div id="pRightMenu" class="pRightMenu">
+		
+		</div>
+{% endblock %}

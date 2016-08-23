@@ -1,0 +1,248 @@
+/*
+ * Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ *
+ * Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ * 
+ * O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+ * publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ * 
+ * Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ *  
+ * Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+ *
+ */
+
+#barra_progresso {
+	font-size: 1px;
+	left: 0px;
+	width: 1px;
+	position: relative;
+	top: 1px;
+	height: 5px;
+	background-color: #006600
+}
+
+#carregador_pai {
+	width: 100%;
+	position: absolute;
+	top: 310px;
+	left: 50%;
+	margin: 0px 0px 0px -355px;
+	text-align: center;
+}
+
+#carregador_fundo {
+	font-size: 1px;
+	left: 8px;
+	width: 113px;
+	position: relative;
+	top: 8px;
+	height: 7px;
+	background-color: #eeeeee;
+}
+
+#carregador {
+	border-right: #666 1px dotted;
+	padding-right: 0px;
+	border-top: #666 1px dotted;
+	display: block;
+	padding-left: 0px;
+	font-size: 11px;
+	z-index: 2;
+	padding-bottom: 16px;
+	margin: 0px auto;
+	border-left: #666 1px dotted;
+	width: 130px;
+	color: #000000;
+	padding-top: 10px;
+	border-bottom: #666 1px dotted;
+	font-family: Tahoma, Helvetica, sans;
+	background-color: #ffffff;
+	text-align: center;
+}
+
+.showDateOrderGame {
+	font-weight: bold;
+	margin-top: 10px;
+	margin-bottom: -5px;
+}
+
+.orderScoreGame {
+	
+}
+
+.orderScoreGame dd ul {
+	list-style: none;
+}
+
+td {
+	padding: 2px;
+	margin: 1px;
+	font-size: 11px;
+}
+
+.tableDescripCur {
+	border-collapse: collapse;
+	border: 1px solid #006633;;
+	background: url(../imgs/bg-mod.png);
+	background-repeat: repeat-x;
+	margin-bottom: 8px;
+	width: 330px;
+}
+
+.divMod {
+	border: 1px solid #006633;
+	margin-bottom: 4px;
+	margin-top: 4px;
+	width: 330px;
+}
+
+.tableModule {
+	margin-bottom: 4px;
+	margin-top: 4px;
+	width: 324px;		
+}
+
+.tableButton {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.tableMod {
+	background: url(../imgs/bg-mod.png);
+	background-repeat: repeat-x;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.tableMod select {
+	background-color: #eee;
+	border: 1px solid #999;
+	padding: 1px
+}
+
+.alert {
+	color: red;
+}
+
+.tableMod input {
+	background-color: #eee;
+	border: 1px solid #999;
+	padding: 1px
+}
+
+.headTab {
+	font-weight: bold;
+	padding: 2px;
+	border-bottom: 1px solid #999;
+}
+
+.headTab2 {
+	font-weight: bold;
+	padding: 2px;
+}
+
+.modDescrip {
+	padding: 8px 8px 2px 8px;
+	width: 305px;
+}
+
+.modDescrip2 {
+	padding: 8px 8px 4px 8px;
+	border-bottom: 1px solid #666;
+}
+
+.modDescriptTextarea {
+	width: 98%;
+	height: 90px;
+	background-color: #ECFFF0;
+	border: 1px solid #999;
+	font-family:Arial,Helvetica,sans-serif; 
+	font-size:1em;
+}
+
+.ativDescriptTextarea {
+	width: 270px;
+	height: 90px;
+	background-color: #eee;
+	border: 1px solid #999;
+}
+
+.tableinterna {
+	width: 325px;
+	margin: 0px;
+	background-color: #fff;
+	border: 0px;
+}
+
+.cont-tableinterna {
+	padding: 0px;
+	margin: 0px;
+	background-color: #eee;
+}
+
+.textWidth {
+	width: 285px;
+}
+
+.listGames {
+	
+}
+
+.listGames li {
+	margin: 0px 0px 0px -10px;
+}
+
+.listStuff {
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	text-align: left;
+}
+
+.listStuff li {
+	margin-left: 15px;
+}
+
+#list {
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	width: 340px;
+}
+
+#list th {
+	background: #fbfbfb;
+	font-size: 10px; 
+	color: #000000;
+	font-family:"Trebuchet MS",Arial,Tahoma,Helvetica,sans-serif;
+	font-size:12px;
+	font-weight:bold;
+	text-align: left;
+	padding: 0px 0px 0px 10px;
+	border-bottom: 2px solid #cccccc;
+}
+
+#list td {
+	font-size: 10px; 
+	color: #333333;
+	font-weight: bold;
+	padding: 2px 3px 2px 10px;
+	background: #ffffff;
+	border-right-color: #ffffff;
+	border-right-style: solid;
+	border-right-width: 1px;
+}
+
+#list a {
+	text-decoration: none;
+}
+
+#list th a {
+	color: #ffffff;
+}
+
+#list th a:hover {
+	color: #000000;
+}
+

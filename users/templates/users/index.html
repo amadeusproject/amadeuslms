@@ -1,0 +1,78 @@
+{% extends 'app/base.html' %}
+
+{% load static i18n %}
+
+{% block breadcrumbs %}
+	<ol class="breadcrumb">
+	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+	  	<li class="active">{% trans 'Manage Users' %}</li>
+	</ol>
+{% endblock %}
+
+{% block sidebar %}
+	<div class="list-group">
+	  	<a href="{% url 'app:users:manage' %}" class="list-group-item">
+	    	{% trans 'System Users' %}
+	  	</a>
+	  	<a href="{% url 'app:users:create' %}" class="list-group-item active">
+	    	{% trans 'New Account' %}
+	  	</a>
+	  	<a href="{% url 'app:send_mail' %}" class="list-group-item">
+	    	{% trans 'Send Mail' %}
+	  	</a>
+	</div>
+{% endblock %}
+
+{% block content %}
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<p>{{ message }}</p>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+	<ul class="list-group">
+		{% if users|length > 0 %}
+			{% for user in users %}
+				<li class="list-group-item">
+					<div class="media">
+						<div class="col-sm-3">
+							<img class="media-object img-responsive" src="{{ user.image.url }}" alt="Image">
+						</div>
+						<div class="col-sm-6">
+							<div class="media-body">
+								<h4 class="media-heading">{{ user }}</h4>
+								<p><small>{{ user.email }}</small></p>
+							</div>
+						</div>
+						<div class="col-sm-3" style="padding-top: 10px">
+							{% if user.type_profile %}
+	        					<span class="label label-info">{{ user.get_type_profile_display }}</span>
+	        				{% else %}
+	        					<span class="label label-info">{% trans 'Administrator' %}</span>
+	        				{% endif %}
+	        				<br />
+	        				<a href="{% url 'app:users:view' user.username %}" class="btn btn-sm btn-info" style="margin-top: 10px">
+								<span class="glyphicon glyphicon-eye-open"></span>
+							</a>
+		        			<a href="{% url 'app:users:update' user.username %}" class="btn btn-sm btn-primary" style="margin-top: 10px">
+								<span class="glyphicon glyphicon-edit"></span>
+							</a>
+							<a href="" class="btn btn-sm btn-danger" style="margin-top: 10px">
+								<span class="glyphicon glyphicon-trash"></span>
+							</a>
+		        		</div>
+					</div>
+	    		</li>
+			{% endfor %}
+		{% else %}
+			<li class="list-group-item">
+				<p>{% trans 'No users found' %}</p>
+			</li>
+		{% endif %}
+	</ul>
+{% endblock %}

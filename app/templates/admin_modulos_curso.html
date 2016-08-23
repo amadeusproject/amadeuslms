@@ -1,0 +1,397 @@
+{% extends "admin_index.html" %}
+
+{% block content %}
+	{% load static %}
+		<div id="pTitle" class="pTitle">
+			<h2>Gestão de Conteúdo</h2>
+		</div>
+		<div id="pBreadCrumbs" class="pBreadCrumbs">
+			<ul id="breadcrumb">
+				<li><a href="{% url 'index' %}">Página Inicial</a></li>
+				<li><a href="{% url 'dados_curso' %}">Curso01</a></li>
+				<li>Módulos</li>
+			</ul>
+		</div>
+		<div id="pLeftMenu" class="pLeftMenu">
+			
+			<!-- 
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+
+
+<div id="side_menu_1">
+	<ul id="menu_sessoes">
+		
+		<li><a href="{% url 'dados_curso' %}">Dados do Curso</a></li>
+		
+		
+			<li><b>Visualizar Módulos</b></li>
+			
+		
+		
+		
+		<li><a href="{% url 'participantes_curso' %}">Participantes</a></li>
+		
+		
+			
+			<li><a href="{% url 'avaliacao_curso' %}">Avaliações do Curso</a></li>
+		
+		
+		
+			<li><a href="#" onclick="replicateCourse(14);">Replicar Curso</a></li>		
+		
+		
+		
+			<li><a href="{% url 'criar_curso' %}">Criar Curso</a></li>		
+		
+		
+		
+			<li><a href="{% url 'editar_curso' %}">Editar Curso</a></li>	
+		
+		
+		
+			<li><a href="#" onclick="deleteCourse(14);">Remover Curso</a></li>
+		
+		
+				
+	</ul>
+</div>
+		</div>						
+		<div id="pContent" class="pContent">
+			
+			<table border="0" cellpadding="0" cellspacing="0" width="100%;" style="margin-bottom: 10px;">
+				<tr align="right">
+					<td>
+						<a href="{% url 'send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+					</td>
+				</tr>
+			</table>
+			
+			<div class="modAll">
+				<div class="modBody">	
+					<div class="modTitle">Curso01</div>
+					<div class="modTeachers">
+					Professores:<br />
+					<label id="userStatus5" class="offlineUser" title="">&nbsp;</label>&nbsp;Administrador.
+					<script type="text/javascript">userStatus(5);</script>
+					</div>
+					<div class="modAssistants">
+						
+					</div>
+					<div class="modData">
+						Data de Início: 13/06/2016
+					</div>
+					<div class="modData">
+						Data de Término: 12/08/2016
+					</div>
+				</div>
+				<div id="form">
+					<!--
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+
+
+
+
+
+	
+	
+		<div id="module1" class="modBody">
+		
+		<!-- 
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+
+
+
+
+<table class="modAllTitle">
+	<tr>
+		<td class="modTitleName">
+			<input type="hidden" name="id" value="18" id="idModule1">
+			Atividade01
+		</td>
+		<td class="modTitleVisible">
+			
+			
+				<span class="alert"> Invisível </span>
+			
+		</td>
+		<td class="modTitlePosition">
+			1
+		</td>
+	</tr>
+</table>
+<div class="modLine">
+	<b>Descrição do Módulo:</b>
+</div>
+<div class="modDescription">
+	<PRE class="preMod">Descrição do módulo 01</PRE>
+</div>
+<div class="modLine">
+	<table width="100%">
+	<tr>
+		<td class="headTab2" width="50%">Materiais</td>
+		<td class="headTab2">Atividades</td>
+	</tr>
+	<tr valign="top">
+		<td width="50%">
+		 	<ul class="listActivitiesMaterials"
+		 	
+		 		id="materialsList1"
+		 	 >
+				
+					
+					<li class='pdf'> 
+						<a href="/amadeuslms/showMaterial.do?method=showMaterial&idActivity=19&idModule=18">Tutorial Python</a>
+					</li>
+					
+				
+				
+			</ul>
+		</td>
+		<td width="50%">
+		<ul class="listActivitiesMaterials" 
+		
+		 	id="activitiesList1"
+		 >
+			
+				<li class="forum">
+					<a href="javascript:void(0)" onclick="showActivity(1,'forum',30)">Fórum</a>
+				</li>
+			
+			
+				<li class="pollItem">
+				
+				
+					
+							
+					
+				
+				
+					Quando teremos aulas?
+				
+				
+				<br />
+				<a href="javascript:void(0)" class="pollResults" onclick="viewResultsPoll(21,1)">
+					Ver resultados
+				</a>
+				</li>
+			
+			
+			
+			
+			
+			
+				<li class="evaluationItem">
+					<a href="javascript:void(0)" onclick="showActivity(1,'evaluation',25)">
+						Questionário 01
+					</a>
+				</li>
+			
+		</ul>
+		</td>
+	</tr>
+	</table>
+</div>
+<div class="modLine">
+	<!-- Este link deve ser obrigatoriamente igual da div abaixo para a ultilização do ajax na função showEditName do javascript managementModule.js -->
+	<div id="editLink1" style="display: none;">
+		
+		<div class="lineRight">
+			<a href="javascript:void(0)" onclick="editModule(18,1);">Editar</a>
+		</div>
+		
+	</div>
+	<div id="editOption1">
+	
+		<div class="lineRight">
+			<a href="javascript:void(0)" onclick="editModule(18,1);">Editar</a>
+		</div>
+	
+	</div>
+</div>
+		</div>
+	
+
+	
+	
+		<div id="module2" class="modBody">
+		
+		<!-- 
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+
+
+
+
+<table class="modAllTitle">
+	<tr>
+		<td class="modTitleName">
+			<input type="hidden" name="id" value="35" id="idModule2">
+			Nome do M�dulo - 2
+		</td>
+		<td class="modTitleVisible">
+			
+				Visível
+			
+			
+		</td>
+		<td class="modTitlePosition">
+			2
+		</td>
+	</tr>
+</table>
+<div class="modLine">
+	<b>Descrição do Módulo:</b>
+</div>
+<div class="modDescription">
+	<PRE class="preMod">Descri��o</PRE>
+</div>
+<div class="modLine">
+	<table width="100%">
+	<tr>
+		<td class="headTab2" width="50%">Materiais</td>
+		<td class="headTab2">Atividades</td>
+	</tr>
+	<tr valign="top">
+		<td width="50%">
+		 	<ul class="listActivitiesMaterials"
+		 	
+		 		id="materialsList2"
+		 	 >
+				
+				
+			</ul>
+		</td>
+		<td width="50%">
+		<ul class="listActivitiesMaterials" 
+		
+		 	id="activitiesList2"
+		 >
+			
+			
+			
+			
+			
+			
+			
+		</ul>
+		</td>
+	</tr>
+	</table>
+</div>
+<div class="modLine">
+	<!-- Este link deve ser obrigatoriamente igual da div abaixo para a ultilização do ajax na função showEditName do javascript managementModule.js -->
+	<div id="editLink2" style="display: none;">
+		
+		<div class="lineRight">
+			<a href="javascript:void(0)" onclick="editModule(35,2);">Editar</a>
+		</div>
+		
+	</div>
+	<div id="editOption2">
+	
+		<div class="lineRight">
+			<a href="javascript:void(0)" onclick="editModule(35,2);">Editar</a>
+		</div>
+	
+	</div>
+</div>
+		</div>
+	
+
+
+	
+	
+	<!-- 
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+<div id="module3" class="modBody">
+<script type="text/javascript">
+	function lfShowNewModule(idCourse, lastPositionModule) {
+		showNewModule(idCourse, lastPositionModule,'<img border=0 src=themes/default/imgs/ajax-loader-activity.gif />&nbsp;Criando Módulo...');
+	}
+</script>
+<table class="tableButton">
+	<tbody>
+		<tr>
+			<td id="loading3" align="right">
+				<a name="createNewModule" href="javascript:;" onclick="lfShowNewModule(14, 3);">
+					Criar novo módulo
+				</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+				</div>
+			</div>
+		</div>
+		<div id="pRightMenu" class="pRightMenu"></div>
+{% endblock %}

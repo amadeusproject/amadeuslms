@@ -1,0 +1,930 @@
+{% extends "admin_index.html" %}
+
+{% block content %}
+	{% load static %}
+		<div id="pTitle" class="pTitle">
+			<h2>Gerenciar Usuários</h2>
+		</div>
+		<div id="pBreadCrumbs" class="pBreadCrumbs">
+			<ul id="breadcrumb">
+				<li><a href="{% url 'app:index' %}">Página Inicial</a></li>
+				<li><a href="{% url 'app:usuarios' %}">Gerenciar Usuários</a></li>
+				<li>Usuários do Sistema</li>
+			</ul>
+		</div>
+		<div id="pLeftMenu" class="pLeftMenu">
+			<div id="side_menu_1">
+				<ul id="menu_sessoes">
+					<li><b><img src="{% static 'imgs/menu/users-16x16.png' %}" title="Usuários do Sitema" />&nbsp;Usuários do Sistema</b></li>
+					<li><a href="{% url 'app:criar_usuario' %}"><img src="{% static 'imgs/menu/user-16x16.png' %}" title="Nova Conta" border="0" />&nbsp;Nova Conta</a></li>
+					<li><a href="{% url 'app:send_mail' %}"><img src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" border="0" />&nbsp;Enviar Email</a></li>
+			    </ul>
+			</div>
+		</div>
+		<div id="pContent" class="pContent">
+			<div class="expansibleBoxTitle">
+				<div class="expansibleBoxTitleCollLeft">
+				<label class="labelAttribute">Pesquisa Avançada...</label>
+				</div>
+				<div id="advancedSearch" onclick="minusPlus('#advancedSearch','#divAdvancedSearch');" class="expansibleBoxTitleCollRight imgPlus"></div>
+			</div>
+			<div style="padding: 5px; border-color: #eeeeee; border-style: solid; border-width: 0px 1px 1px 1px; display: none;" id="divAdvancedSearch">
+				<form action="managerUser.do" method="get">
+				<input type="hidden" name="method" value="searchUsers"/>
+				<table border="0" width="100%">
+					<tr>
+						<td align="right">
+							<label class="labelAttribute">Nome:</label>
+						</td>
+						<td>
+							<input name="userName" type="text" style="width: 220px;"/>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="labelAttribute">Tipo de Usuário:</label>
+						</td>
+						<td>
+							<select name="userType">
+								<option value="-1">Todos</option>
+								<option value="1">Aluno</option>
+								<option value="2">Professor</option>
+								<option value="0">Admin</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" align="right">
+							<input type="submit" value="Pesquisar"/>
+						</td>
+					</tr>
+				</table>
+				</form>
+			</div>
+			<table class="displaytag" id="user">
+				<tbody>
+				<tr class="odd">
+				<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=5" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus5" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=5"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							Administrador
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">admin@amadeus.org.br</font>
+							<script type="text/javascript">userStatus(5);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="even">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=276" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus276" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=276"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							Ailson aluno
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">ailson@gmail.com</font>
+							<script type="text/javascript">userStatus(276);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="odd">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=37" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus37" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=37"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							aluno01
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">aluno01@gmail.com</font>
+							<script type="text/javascript">userStatus(37);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="even">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=183" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus183" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=183"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							Erik
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">erikzambom@gmail.com</font>
+							<script type="text/javascript">userStatus(183);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="odd">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=255" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus255" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=255"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							estudante0101
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">estudante0101@aaaaaaaaasssssssssss.com</font>
+							<script type="text/javascript">userStatus(255);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="even">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=55" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus55" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=55"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							felipe henrique de almeida bormann
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">fhab@cin.ufpe.br</font>
+							<script type="text/javascript">userStatus(55);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="odd">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=40" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus40" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=40"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							felipe henrique de almeida bormann
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">felipe.bormann@gmail.com</font>
+							<script type="text/javascript">userStatus(40);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="even">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=13" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus13" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=13"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							Francisco Neto
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">fsouzant@gmail.com</font>
+							<script type="text/javascript">userStatus(13);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="odd">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=82" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus82" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=82"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							jailson
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">jailson.dias@citi.org.br</font>
+							<script type="text/javascript">userStatus(82);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="even">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=86" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus86" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=86"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							jailson d
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">jailsonsossegopb@hotmail.com</font>
+							<script type="text/javascript">userStatus(86);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="odd">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=59" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus59" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=59"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							Jailson Dias
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">jailsonsossegopb@gmail.com</font>
+							<script type="text/javascript">userStatus(59);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="even">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=77" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus77" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=77"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							joao
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">dias.jailson4@gmail.com</font>
+							<script type="text/javascript">userStatus(77);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="odd">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=7" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus7" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=7"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							João Carlos Sedraz Silva
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">jsedraz@gmail.com</font>
+							<script type="text/javascript">userStatus(7);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="even">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=307" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus307" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=307"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							João Vasconcelos
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">jvsn_naoexiste@gmail.com</font>
+							<script type="text/javascript">userStatus(307);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="odd">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=288" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus288" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=288"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							João Vasconcelos
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">jvsn@cin.ufpe.br</font>
+							<script type="text/javascript">userStatus(288);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="even">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=107" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus107" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=107"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							Julio Jose de Oliveira Ribeiro Toscano de Brito
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">jjortb@cin.ufpe.br</font>
+							<script type="text/javascript">userStatus(107);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="odd">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=286" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus286" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=286"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							karla vidal
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">karlagvidal@gmail.com</font>
+							<script type="text/javascript">userStatus(286);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="even">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=67" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus67" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=67"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							kjhkjlkb
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">kjn@hgfjh.hjgj</font>
+							<script type="text/javascript">userStatus(67);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="odd">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=224" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus224" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=224"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							Matheus de Souza Lins (Aluno)
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">matheuslins9@gmail.com</font>
+							<script type="text/javascript">userStatus(224);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr>
+<tr class="even">
+<td>
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td rowspan="3" width="30px" valign="top">
+							<a href="{% url 'app:dados_usuario' %}"><div class="smallPicture">
+								<img class="smallPhoto" src="user.do?method=showPhoto&id=203" />
+							</div></a>
+						</td>		
+						<td width="100px">
+							<label id="userStatus203" class="offlineUser" title="">&nbsp;</label>
+						</td>
+						<td colspan="2" align="right">
+							
+							<a href="{% url 'app:editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+							&nbsp;
+							<a href="{% url 'app:send_mail' %}"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+							&nbsp;
+							
+							<a href="/amadeuslms/managerUser.do?method=removeUser&to=203"><img border="0" src="{% static 'imgs/menu/remove-16x16.png' %}" title="Remover Usuário" /></a>
+							
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							Matheus de Souza Lins (Professor)
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-left: 19px;">
+							<font class="smallPictureEmail">msl@cin.ufpe.br</font>
+							<script type="text/javascript">userStatus(203);</script>
+						</td>
+						<td width="45px" align="center">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</td></tr></tbody></table><span class="pagebanner">25 itens encontrados, exibindo 1 de 20.</span><span class="pagelinks">[Primeira/Anterior] <strong>1</strong>, <a href="user.do?method=showViewAllUsersInManagerUsers&amp;method=showViewAllUsersInManagerUsers&amp;d-49809-p=2" title="Go to page 2">2</a> [<a href="user.do?method=showViewAllUsersInManagerUsers&amp;method=showViewAllUsersInManagerUsers&amp;d-49809-p=2">Próxima</a>/<a href="user.do?method=showViewAllUsersInManagerUsers&amp;method=showViewAllUsersInManagerUsers&amp;d-49809-p=2">Última</a>]</span>
+		</div>
+		<div id="pRightMenu" class="pRightMenu">
+		
+		</div>
+{% endblock %}

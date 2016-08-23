@@ -1,0 +1,54 @@
+{% extends 'app/base.html' %}
+
+{% load static i18n %}
+{% load widget_tweaks %}
+
+{% block breadcrumbs %}
+	<ol class="breadcrumb">
+	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+	  	<li class="active">{% trans 'Create Course' %}</li>
+	</ol>
+{% endblock %}
+
+{% block sidebar %}
+	<div class="list-group">
+	  	<a href="{% url 'app:course:manage' %}" class="list-group-item">
+	    	{% trans 'Courses' %}
+	  	</a>
+	</div>
+{% endblock %}
+
+{% block content %}
+	<div class="alert alert-info alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<p>{% trans 'All fields are required' %}</p>
+	</div>
+
+	<form method="post" action="" enctype="multipart/form-data">
+		{% csrf_token %}
+		{% for field in form %}
+			<div class="form-group{% if form.has_error %} has-error {% endif %}">
+				<label for="{{ field.auto_id }}">{{ field.label }}</label>
+				{% render_field field class='form-control input-sm' %}
+				<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+				{% if field.errors.length > 0 %}
+					<div class="alert alert-danger alert-dismissible" role="alert">
+	  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	  						<span aria-hidden="true">&times;</span>
+  						</button>
+						<ul>
+							{% for error in field.errors %}
+								<li>{{ error }}</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+		{% endfor %}
+		<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" />
+	</form>
+	<br clear="all" />
+{% endblock %}

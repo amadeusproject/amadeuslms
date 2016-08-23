@@ -1,0 +1,776 @@
+/*
+ * Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ *
+ * Este arquivo � parte do programa Amadeus Sistema de Gest�o de Aprendizagem, ou simplesmente Amadeus LMS
+ * 
+ * O Amadeus LMS � um software livre; voc� pode redistribui-lo e/ou modifica-lo dentro dos termos da Licen�a P�blica Geral GNU como
+ * publicada pela Funda��o do Software Livre (FSF); na vers�o 2 da Licen�a.
+ * 
+ * Este programa � distribu�do na esperan�a que possa ser �til, mas SEM NENHUMA GARANTIA; sem uma garantia impl�cita de ADEQUA��O a qualquer MERCADO ou APLICA��O EM PARTICULAR. Veja a Licen�a P�blica Geral GNU para maiores detalhes.
+ *  
+ * Voc� deve ter recebido uma c�pia da Licen�a P�blica Geral GNU, sob o t�tulo "LICENCA.txt", junto com este programa, se n�o, escreva para a Funda��o do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+ *
+ */ 
+ 
+ body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.7em;
+	background-color: #ccc;
+	background-image: url(../imgs/bg.gif);
+ }
+
+ a:link {
+	color: #000;
+	text-decoration: none;
+ }
+
+ a:visited {
+	color: #000;
+	text-decoration: none;
+ }
+
+ a:hover {
+	color: #2ca457;
+	text-decoration: underline;
+ }
+ 
+ .pBody{ 
+ 	margin: 0 auto;
+	width: 680px;
+	top: 10px;
+	background-color: #fff;
+	border: 1px solid #999;
+ }
+ 
+ .pHeader{
+ 	height: 66px;
+	background-color: #fff;
+	color: #00f;
+	padding: 2px;
+	border-bottom: 1px solid #000;
+	background-image: url(../imgs/header.jpg);
+ }
+ 
+ .siteInstitutionalMenu{
+ 
+ }
+ 
+ .pTitle{
+ 	color: #000;
+	font-size: 0.8em;
+	padding-top: 2px;
+	padding-bottom: 5px;
+	padding-left: 30px;
+ }
+ 
+ .pBreadCrumbs{
+ 	color: #000;
+	font-size: 0.9em;
+	padding: 2px;
+	border-bottom: 1px solid #ccc;
+ }
+ 
+ .pLeftMenu{
+ 	width: 149px;	
+	float: left;
+ }
+ 
+ .pContent{
+ 	min-height: 350px;
+	background-color: #fff;
+	padding: 15px;
+	border-left: 1px solid #eee;
+	border-right: 1px solid #eee;
+	float: left;
+	width: 350px;
+ }
+ 
+ .pContent2{
+ 	min-height: 350px;
+	background-color: #fff;
+	padding: 15px;
+	border-left: 1px solid #eee;
+	border-right: 1px solid #eee;
+	float: left;
+	width: 499px;
+ }
+ 
+ .pRightMenu{
+ 	width: 149px;	
+	float: left;
+ }
+ 
+ .pFootNote{
+ 
+ }
+ 
+ .pw{
+ 	background-color:#e7e7e7; 
+ 	overflow:hidden; 
+ 	height:100%;
+ }
+ 
+ .plw {
+	width:248px;
+	float:left;
+	margin-top:7px;
+	min-height:135px;
+	background-color:#e7e7e7;
+ }
+
+ .prw {
+	width:430px;
+	float:right;
+	background-color:#e7e7e7;
+	border-left-color:white;
+	border-left-style:solid;
+	border-left-width:2px;
+	min-height:135px;
+ }
+ 
+ .youHave, .youCan, .yourCourses {
+ 	margin: 3px 0px 0px 0px;
+ }
+ 
+ .youCan { }
+ 
+ .yourCourses { }
+ 
+ .youHaveTitle, .youCanTitle, .yourCoursesTitle {
+ 	color:#009900;
+	padding-left:10px;
+ 	font-size: 1.1em; 	
+ }
+ 
+ .youCanTitle { }
+ 
+ .yourCoursesTitle { }
+ 
+ .yourCourse, .youCanInsertCourse, .youCanManagerUser, .youHaveOnlineUser, .youHavePendingTasks, .youCanManagerCourse {
+	overflow: hidden;
+	height: 15px;
+	margin-left: 30px;
+ }
+ 
+ .youHavePendingTasks { }
+ 
+ .youHaveOnlineUser { }
+ 
+ .youCanInsertCourse { }
+ 
+ .youCanManagerUser { }
+ 
+ .youCanManagerCourse { }
+ 
+ .pTagcloud {
+ 	font-family: "trebuchet ms";
+  	text-align:center;
+  	padding: 0px 12px 15px 12px;
+ }
+ 
+ .keywork4{
+	font-size: 1.8em;
+	color: #000;
+ }
+
+ .keywork3{
+	font-size: 1.6em;
+	color: #666666;
+ }
+
+ .keywork2{
+	font-size: 1.4em;
+	color: #848484;
+ }
+
+ .keywork1{
+    font-size: 1.2em;
+   	color: #8D8D8D;
+ }
+
+ .keywork0{
+    font-size: 1em;
+	color: #959595;
+ }
+
+ .pTitleSearchCourse {
+ 	margin: 15px 0px 0px 10px;
+ 	color:#009900;
+	font-size:1.1em;
+ 	padding-left:25px; 
+ 	height:25px; 
+ 	background: url('../imgs/search.png') no-repeat left;
+ }
+ 
+ .pSearchCourse {
+ 	margin: 0px 0px 0px 60px;
+ }
+ 
+ .pTitleKeyword {
+ 	margin: 10px 0px 8px 10px;
+ 	color:#009900;
+	font-size:1.1em;
+	padding:3px; 
+ }
+ 
+ .formfield2 {
+	border: 1px solid #ccc;
+	background-color: #c7c7c7;
+	width: 260px;
+	color: #990000;
+}
+ 
+/*	DIV LOGIN CORNER */
+
+.dLogin{ width:170px; height:109px; margin: 0 auto; margin-top: 10px; margin-bottom: 10px; }
+
+.ldtf{ float:left; width:8px; 	height:8px; background: url(../imgs/amadeus/corner16login.png) no-repeat scroll left top; }
+.ldtc{ float:left; width:154px;	height:8px; background-color:#faf9f5; }
+.ldtr{ float:left; width:8px; 	height:8px; background: url(../imgs/amadeus/corner16login.png) no-repeat scroll right top; }
+
+.ldcf{ float:left; width:8px; 	height:83px; 	background-color:#faf9f5; }
+.ldcc{ float:left; width:154px; height:83px; 	background-color:#faf9f5; }
+.ldcr{ float:left; width:8px; 	height:83px;	background-color:#faf9f5; }
+
+.ldbf{ float:left; width:8px; 	height:8px; background: url(../imgs/amadeus/corner16login.png) no-repeat scroll left bottom; }
+.ldbc{ float:left; width:154px; height:8px; background-color:#faf9f5; }
+.ldbr{ float:left; width:8px; 	height:8px; background: url(../imgs/amadeus/corner16login.png) no-repeat scroll right bottom; }
+
+/* END DIV LOGIN CORNER */
+
+/*	DIV ACCESS DENIED */
+
+.dAccessDenied{ width:500px; height:130px; margin: 0 auto; margin-top: 10px; margin-bottom: 10px; }
+
+.addtf{ float:left; width:8px; 	height:8px; background: url(../imgs/amadeus/corner16login.png) no-repeat scroll left top; }
+.addtc{ float:left; width:484px; height:8px; background-color:#faf9f5; }
+.addtr{ float:left; width:8px; 	height:8px; background: url(../imgs/amadeus/corner16login.png) no-repeat scroll right top; }
+
+.addcf{ float:left; width:8px; 	height:114px; 	background-color:#faf9f5; }
+.addcc{ float:left; width:484px; height:114px; 	background-color:#faf9f5; }
+.addcr{ float:left; width:8px; 	height:114px;	background-color:#faf9f5; }
+
+.addbf{ float:left; width:8px; 	height:8px; background: url(../imgs/amadeus/corner16login.png) no-repeat scroll left bottom; }
+.addbc{ float:left; width:484px; height:8px; background-color:#faf9f5; }
+.addbr{ float:left; width:8px; 	height:8px; background: url(../imgs/amadeus/corner16login.png) no-repeat scroll right bottom; }
+
+/* END DIV ACCESS DENIED */
+
+ #ajklsdjfiei7832s979873w789usdf98723uoudsfjk3489877838947234987239478hfshjjsfbhw78dsysd87y4798ufdhjg98y789 {
+	background-color: #fbfbfb;
+	border: 1px solid #aed1ad;
+	padding-left: 10px;
+	margin: 10px 10px 10px 10px;
+ }
+
+ #ajklsdjfiei7832s979873w789usdf98723uoudsfjk3489877838947234987239478hfshjjsfbhw78dsysd87y4798ufdhjg98y789 li {
+	list-style: none;
+	color: #f00;
+	font-weight: bold;
+	margin: 0px 0px 0px 0px;
+ }
+
+ .hrDiv{
+ 	margin-top: 5px;
+ 	margin-bottom: 5px;
+ 	height: 1px;
+ 	background-color: #eeeeee;
+ }
+ 
+ .none {
+ 	display: none;
+ }
+ 
+ .msgBoxSuccess {
+ 	border-color: #3aab00;
+	border-style: solid;
+	padding: 2px;
+	margin-left: 2px;
+	margin-top: 2px;
+	margin-bottom: 5px;
+	border-width: 1px;
+	text-align: left; 
+	color: #35784c; 
+	font-weight: bolder;
+	background-image: url("../imgs/icons/agt_15.png");
+	background-repeat: no-repeat;
+	background-position: 4px;
+	padding-left: 22px;
+ }
+ 
+ .msgBoxInformation {
+	border-color: #999999;
+	border-style: dotted;
+	padding: 5px 5px 5px 5px;
+	margin-left: 2px;
+	margin-top: 10px;
+	border-width: 1px;
+	text-align: left; 
+	color: #35784c; 
+	font-weight: bolder;
+ }
+ 
+ .msgBoxImportant {
+	border-color: #ff1800;
+	border-style: dotted;
+	padding: 5px 5px 5px 5px;
+	margin-left: 2px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-width: 1px;
+	text-align: left; 
+	color: #ff1800; 
+	font-weight: bolder;
+ }
+ 
+ select, input, textarea {
+ 	font-size: 11px;
+ 	color: #000000; 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	border-color: #999999;
+ 	border-style: solid;
+ 	border-width: 1px;
+ 	background-color: #fbfbfb;
+ 	text-align: justify;
+ }
+ 
+ textarea {
+ 	width: 100%;
+ 	height: 90px;
+ }
+ 
+ frmField {
+ 	width: 300px;
+ }
+ 
+ .radio {
+ 	border-width: 0px;
+ }
+ 
+ .checkbox {
+ 	border-width: 0px;
+ }
+ 
+ img{
+ 	vertical-align: middle;
+ 	border-width: 0px;
+ }
+ 
+ .imgMinus{
+ 	background: url("../imgs/amadeus/minus.png");
+ 	background-repeat: no-repeat;
+ 	cursor: pointer;
+ 	width: 12px;
+ 	height: 12px;
+ }
+ 
+ .imgPlus{
+ 	background: url("../imgs/amadeus/plus.png");
+ 	background-repeat: no-repeat;
+ 	cursor: pointer;
+ 	width: 12px;
+ 	height: 12px;
+ }
+ 
+ .labelAttribute{
+ 	font-weight: bolder;
+ 	padding: 0px 5px 0px 0px;
+ }
+ 
+ .labelValue{
+ 	color: black;
+  	padding: 0px 0px 0px 0px;
+  	text-align: justify;
+ }
+ 
+  .line, .lineCenter, .lineRight {
+ 	padding: 5px 5px 5px 5px;
+ }
+ 
+ .lineCenter {
+ 	text-align: center;
+ }
+ 
+ .lineRight {
+ 	text-align: right;
+ }
+ 
+ .accessDenied {
+ 	color: #a30800;
+ 	margin-top: 15%;
+ 	text-align: center;
+ }
+ 
+ /* LOGIN */
+ 
+ .dLogin {
+	margin-top: 5px;
+ 	height: 10px;
+ }
+ 
+ .dPassword {
+ 	height: 22px;
+ }
+ 
+ .inputlogin {
+	font-size: 0.9em;
+	color: #f00;
+	background-color: #eee;
+	border: 1px solid #999;
+	width: 150px;
+ }
+ 
+ .invalidLogin{
+ 	padding-left:10px;
+ 	padding-top:5px;
+ 	padding-right:10px;
+ 	margin-bottom:0px;
+ }
+ 
+ .openIDLogin {
+	 height:17px; 
+	 color:#585B55; 
+	 font-family:Arial,Tahoma,Trebuchet MS,sans-serif;
+	 font-size:10px; 
+	 margin-bottom: 3px;
+	 vertical-align: middle;
+ }
+ 
+ .opendIDGoogle {
+ 	background-image: url("../imgs/openid/google.png");
+ 	width: 60px;
+ 	height: 16px;
+ 	float: left;
+ 	cursor:pointer; 
+ 	vertical-align:middle;
+ 	border-width:0px;
+ }
+ 
+ .or{
+ 	text-align: center;
+ 	width: 31px;
+ 	float: left;
+ }
+ 
+ .buttonEnter {
+ 	color:#317449;
+	font-weight: bold;
+	font-size: 9px;
+	text-decoration:none;
+	border:1px solid #c3db9b;
+	cursor:pointer;
+	background-color:transparent;
+ 	border: 0px;
+	font-size:1.1em;
+	font-family:Georgia,"Times New Roman",Times,serif;
+ }
+ 
+ .enter {
+ 	background-image: url("../imgs/enter.png");
+ 	text-align: center;
+ 	width: 61px;
+ 	height: 16px;
+ 	float: left; 
+ 	border-width:0px;
+ }
+ 
+ .addNewGoogleOpenID{
+ 	padding:5px; 
+	color:#585B55; 
+	font-family:Arial,Tahoma,Trebuchet MS,sans-serif;
+	font-size:10px;
+ }
+ 
+ .remindPassword {
+ 	height: 10px;
+	padding-left:0px;
+ 	color:#585B55; 
+	font-family:Arial,Tahoma,Trebuchet MS,sans-serif;
+	font-size:11px; 
+ }
+ 
+ /* END LOGIN */
+ 
+ /* END EXPANSIBLE BOX */
+
+.expansibleBoxBody {
+	margin-bottom: 5px;
+}
+
+.expansibleBoxTitle {
+	border-color:#eeeeee;
+	border-style:solid;
+	border-width:1px;
+	background-color:#ffffff;
+	height:25px;
+}
+
+.expansibleBoxTitleInside {
+	height:25px;
+}
+
+.expansibleBoxTitleCollLeft {
+	font-size: 10px;
+ 	color: #4a4a4a; 
+ 	font-weight: bolder;
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	margin-top:5px;
+	margin-left:5px; 
+	float:left;
+	height:20px;
+}
+
+.expansibleBoxTitleCollRight {
+	font-size: 10px;
+ 	color: #4a4a4a; 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	margin-top:5px;
+	margin-right:5px;
+	float:right;
+	height:20px;
+}
+
+.expansibleBoxContent {
+	border-color:#eeeeee;
+	border-style:solid;
+	border-left-width:1px;
+	border-right-width:1px;
+	border-bottom-width:1px;
+	border-top-width:0px;
+	padding: 2px 2px 2px 2px;
+	display: none;
+}
+
+.expansibleBoxContentInside {
+	border-color:#eeeeee;
+	border-style:solid;
+	border-left-width:0px;
+	border-right-width:0px;
+	border-bottom-width:0px;
+	border-top-width:1px;
+	padding: 5px 5px 5px 8px;
+	display: none;
+}
+
+/* END EXPANSIBLE BOX */
+
+/* OPENID */
+
+.openidTitle{
+	font-size: 10px;
+ 	color: #4a4a4a;
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+}
+	
+.openIDBoxBody{
+	margin-bottom: 5px;
+}
+
+
+.openIDBoxTitle {
+	border-color:#eeeeee;
+	border-style:solid;
+	border-width:1px;
+	background-color:#ffffff;
+	padding: 5px;
+}
+
+.openIDCell{
+	font-size: 10px;
+ 	color: #4a4a4a; 
+ 	font-weight: bolder;
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	margin-top:5px;
+	margin-left:5px;
+}
+
+.openIDURL{
+	background:#FFFFFF url(../imgs/menu/openid.png) no-repeat scroll left center;
+	padding-left:18px;
+	height:14px;
+	width: 200px;
+	vertical-align: middle;
+}
+
+.dInputLoginOpenID {
+	height: 25px; display: none;
+}
+
+.inputLoginOpenID {
+	background: url(../imgs/menu/openid.png) no-repeat scroll left center;
+	width: 134px;
+	padding-left:18px;
+	font-size: 0.9em;
+	color: #f00;
+	background-color: #eee;
+	border: 1px solid #999;
+}
+
+/* END OPENID */
+
+/* SETTINGS */
+
+.lineSettings{
+	height: 19px;
+}
+
+.lineBlank{
+	height: 10px;
+}
+	
+.containerSettings{
+	height: 40px;
+}
+
+.lineSettingsColHalf{
+	width: 155px;
+	height: 40px;
+	float: left;
+}
+
+/* END SETTINGS */
+
+.onlineUser{
+	background: url(../imgs/amadeus/onlineuser.png) no-repeat;
+	padding-left: 15px;
+}
+
+.offlineUser{
+	background: url(../imgs/amadeus/offlineuser.png) no-repeat;
+	color: #8b8b8b;
+	padding-left: 15px;
+}
+
+.material{
+  	background-image: url("../imgs/icons/document_text.png");
+}
+
+.word{
+  	background-image: url("../imgs/icons/doc.gif");
+}
+
+.excel{
+  	background-image: url("../imgs/icons/xls.gif");
+}
+
+.powerPoint{
+  	background-image: url("../imgs/icons/ppt.gif");
+}
+
+.audioFile{
+  	background-image: url("../imgs/icons/music.png");
+}
+
+.videoFile{
+  	background-image: url("../imgs/icons/film.png");
+}
+
+.imageFile{
+  	background-image: url("../imgs/icons/image.png");
+}
+
+.agt15{
+  	background-image: url("../imgs/icons/agt_15.png");
+}
+
+.waiting{
+  	background-image: url("../imgs/ajax-loader-activity.gif");
+}
+
+.pdf{
+  	background-image: url("../imgs/icons/pdf.png");
+}
+
+.forum{
+	background-image: url("../imgs/icons/balloons.png");
+}
+
+.externalLink{
+	background-image: url("../imgs/icons/weblink_16x16.png");
+}
+	
+.delivery{
+	background-image: url("../imgs/icons/documents_exclamation.png");
+}
+	
+.pollItem {
+	background-image: url("../imgs/icons/tags__pencil.png");
+}	
+
+.gameItem {
+	background-image: url("../imgs/icons/puzzle.png");
+}
+
+.videoItem {
+	background-image: url("../imgs/icons/films_plus.png");
+}
+
+.learningObjectItem {
+	background-image: url("../imgs/icons/mobile_phone.png");
+}
+
+.evaluationItem {
+	background-image: url("../imgs/icons/document_text.png");
+}
+
+.containerTitle {
+	padding: 5px; 
+	background-color: #fbfbfb; 
+	border-color: #f0f0f0; 
+	border-style: solid; 
+	border-width: 1px 1px 0px 1px;
+}
+
+.smallPicture {
+	background-color:white; 
+	border:1px solid #D0D0D0; 
+	float:left; 
+	padding:2px;
+}
+
+.normalPicture {
+	height: 100px;
+	width: 100px;
+}
+
+.smallPhoto {
+	height:30px; 
+	width:30px;
+	border:0px;
+}
+
+.normalPhoto {
+	background-color:white; 
+	border:1px solid #D0D0D0; 
+	float:left; 
+	padding:2px;
+	width:100%;
+	max-width: 100px;
+	max-height: 100px;
+}
+
+.smallPictureEmail {
+	color: #888888;
+}
+
+.formAttribute {
+	font-weight: bolder;
+	text-align: right;
+	color: #009900;
+	padding-right: 10px;
+}
+
+.formDescription {
+	padding-bottom: 5px;
+	color: #999;
+}
+
+.emailResponseOK{
+	color: green;
+	font-weight: bolder;
+}
+
+.emailResponseNotOK{
+	color: red;
+	font-weight: bolder;
+}

@@ -1,0 +1,139 @@
+{% extends "admin_index.html" %}
+
+{% block content %}
+	{% load static %}
+		<div id="pTitle" class="pTitle">
+			
+			<h2>Meu Perfil</h2>
+			
+			
+		</div>
+		<div id="pBreadCrumbs" class="pBreadCrumbs">
+			<ul id="breadcrumb">
+				<li><a href="{% url 'index' %}">Página Inicial</a></li>
+				
+				<li>Meu Perfil</li>
+				
+				
+			</ul>
+		</div>
+		<div id="pLeftMenu" class="pLeftMenu">
+			<div id="side_menu_1">
+				<ul id="menu_sessoes">
+				
+					<li><img src="{% static 'imgs/menu/user-info-16x16.png' %}" title="Meu Perfil" />&nbsp;<b>Meu Perfil</b></li>
+					<li>
+						<a href="{% url 'editar_profile' %}">
+							<img src="{% static 'imgs/menu/user-edit-16x16.png' %}" border="0" title="Editar Perfil" />&nbsp;Editar Perfil
+						</a>
+					</li>
+					<li>
+						<a href="{% url 'alterar_senha' %}"><img src="{% static 'imgs/menu/user-password-16x16.png' %}" border="0" title="Trocar Senha" />&nbsp;Trocar Senha</a>
+					</li>
+					
+					<li>
+						<a href="{% url 'colegas' %}"><img src="{% static 'imgs/menu/user-group-16x16.png' %}" border="0" title="Colegas de Sala" />&nbsp;Colegas de Sala</a>
+					</li>
+	         		<li>
+	         			<a href="/amadeuslms/openIDActions.do?method=showViewManagerOpenIDs"><img src="{% static 'imgs/menu/openid.png' %}" border="0" title="Google Account"/>&nbsp;Google Account</a>
+		        	</li>
+	         	
+	         	
+			    </ul>
+			</div>
+		</div>
+		<div id="pContent" class="pContent">
+			<table border="0" cellpadding="0" cellspacing="0" width="100%;">
+				<tr>
+					<td style="width: 125px;">
+						<div class="normalPicture">
+							<img class="normalPhoto" src="user.do?method=showPhoto&id=5" />
+						</div>
+					</td>
+					<td valign="top">
+					<table border="0" cellpadding="0" cellspacing="0" width="100%;">
+						<tr>
+							<td style="width: 35px;" class="formAttribute">Status:</td>
+							<td><label id="userStatus5" class="offlineUser" title="">&nbsp;</label></td>
+						</tr>
+						<tr><td colspan="2">&nbsp;</td></tr>
+						<tr>
+							<td class="formAttribute">Nome:</td>
+							<td>Administrador</td>
+						</tr>
+						<tr><td colspan="2">&nbsp;</td></tr>
+						<tr>
+							<td class="formAttribute">E-mail:</td>
+							<td>admin@amadeus.org.br</td>
+						</tr>
+						
+						<tr><td colspan="2">&nbsp;</td></tr>
+						<tr>
+							<td class="formAttribute">CPF:</td>
+							<td></td>
+						</tr>
+						
+					</table>		
+					</td>
+				</tr>
+				
+						
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr>
+					<td class="formAttribute" align="right">Número de telefone:</td>
+					<td></td>
+				</tr>
+				
+				
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr>
+					<td class="formAttribute">Sexo:</td>
+					<td>
+					
+					
+					</td>
+				</tr>
+				
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr>
+					<td class="formAttribute">Data de Nascimento:</td>
+					<td></td>
+				</tr>
+				
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr>
+					<td class="formAttribute">Estado e Cidade:</td>
+					<td> - </td>
+				</tr>
+				
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr>
+					<td class="formAttribute">Titulação:</td>
+					<td>
+						
+					</td>
+				</tr>
+				
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr>
+					<td class="formAttribute">Ano:</td>
+					<td></td>
+				</tr>
+				
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr>
+					<td class="formAttribute">Instituição:</td>
+					<td></td>
+				</tr>
+				
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr>
+					<td class="formAttribute">Currículo:</td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+		<div id="pRightMenu" class="pRightMenu">
+		
+		</div>
+{% endblock %}

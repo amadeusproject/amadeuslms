@@ -1,0 +1,111 @@
+{% extends "admin_index.html" %}
+
+{% block content %}
+	{% load static %}
+		<div id="page_title">
+			<h2>Tarefas Pendentes</h2>
+		</div>
+		<div id="breadcrumbs">
+			<ul id="breadcrumb">
+				<li><a href="{% url 'index' %}">Página Inicial</a></li>
+				<li>Tarefas Pendentes</li>
+			</ul>
+		</div>
+		<div id="side_menu">
+			<div id="side_menu_1">
+				<ul id="menu_sessoes">
+					<li><a href="{% url 'profile' %}">Meu Perfil</a></li>
+					<li><a href="{% url 'editar_profile' %}">Editar Perfil</a></li>
+					<li><a href="{% url 'alterar_senha' %}">Trocar Senha</a></li>
+					<li><a href="{% url 'colegas' %}">Colegas de Sala</a></li>
+			    </ul>
+			</div>
+		</div>
+		<div id="content">
+			<dl class="pendingTitle">Aprovar Docência</dl>
+			
+				
+					<div id="request63" class="requestColapsed pinball-scoop">
+						<a onclick="showDetails(63);" class="pinball-sinkhole"></a>
+						Nome: Jailson Dias<br />
+						<div id="reqInfo63" style="display: none">
+							Titulação: degree1<br />
+							Ano: 2014<br />
+							Instituição: n nm m m<br />
+							Interesses: sadfsdasdc<br />
+							Currículo: vdvsdcvd<br />
+						</div>
+						<div id="reqJust63" style="display: none">
+							Justificativa:<br />
+							<textarea cols="32" id="reqJustification63"></textarea>
+						</div>
+						<div id="reqBtns63" style="display: none" class="moduleControl">
+							<input type="button" id="reqBtnLeft63" value="Aprovar" onclick="lfApproveRequest(63);"/>
+							<input type="button" id="reqBtnRight63" value="Reprovar" onclick="lfShowJustBox(63)"/>
+						</div>
+					</div>
+				
+					<div id="request69" class="requestColapsed pinball-scoop">
+						<a onclick="showDetails(69);" class="pinball-sinkhole"></a>
+						Nome: kjhkjlkb<br />
+						<div id="reqInfo69" style="display: none">
+							Titulação: degree1<br />
+							Ano: 2014<br />
+							Instituição: nkjkj<br />
+							Interesses: hlknklnçkhgbkj<br />
+							Currículo: kjlkjklkç<br />
+						</div>
+						<div id="reqJust69" style="display: none">
+							Justificativa:<br />
+							<textarea cols="32" id="reqJustification69"></textarea>
+						</div>
+						<div id="reqBtns69" style="display: none" class="moduleControl">
+							<input type="button" id="reqBtnLeft69" value="Aprovar" onclick="lfApproveRequest(69);"/>
+							<input type="button" id="reqBtnRight69" value="Reprovar" onclick="lfShowJustBox(69)"/>
+						</div>
+					</div>
+				
+					<div id="request79" class="requestColapsed pinball-scoop">
+						<a onclick="showDetails(79);" class="pinball-sinkhole"></a>
+						Nome: joao<br />
+						<div id="reqInfo79" style="display: none">
+							Titulação: phd<br />
+							Ano: 2010<br />
+							Instituição: UFPE<br />
+							Interesses: Lencionar<br />
+							Currículo: Doutor<br />
+						</div>
+						<div id="reqJust79" style="display: none">
+							Justificativa:<br />
+							<textarea cols="32" id="reqJustification79"></textarea>
+						</div>
+						<div id="reqBtns79" style="display: none" class="moduleControl">
+							<input type="button" id="reqBtnLeft79" value="Aprovar" onclick="lfApproveRequest(79);"/>
+							<input type="button" id="reqBtnRight79" value="Reprovar" onclick="lfShowJustBox(79)"/>
+						</div>
+					</div>
+				
+					<div id="request111" class="requestColapsed pinball-scoop">
+						<a onclick="showDetails(111);" class="pinball-sinkhole"></a>
+						Nome: <br />
+						<div id="reqInfo111" style="display: none">
+							Titulação: <br />
+							Ano: <br />
+							Instituição: <br />
+							Interesses: Praticar<br />
+							Currículo: <br />
+						</div>
+						<div id="reqJust111" style="display: none">
+							Justificativa:<br />
+							<textarea cols="32" id="reqJustification111"></textarea>
+						</div>
+						<div id="reqBtns111" style="display: none" class="moduleControl">
+							<input type="button" id="reqBtnLeft111" value="Aprovar" onclick="lfApproveRequest(111);"/>
+							<input type="button" id="reqBtnRight111" value="Reprovar" onclick="lfShowJustBox(111)"/>
+						</div>
+					</div>
+				
+			
+								
+		</div>
+{% endblock %}

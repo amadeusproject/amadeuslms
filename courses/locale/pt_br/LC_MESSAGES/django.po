@@ -1,0 +1,355 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-12 19:40-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: courses/models.py:6 courses/models.py:19 courses/models.py:42
+#: courses/templates/category/index.html:38
+msgid "Name"
+msgstr ""
+
+#: courses/models.py:7 courses/models.py:20 courses/models.py:43
+#: courses/templates/category/index.html:39
+msgid "Slug"
+msgstr ""
+
+#: courses/models.py:8 courses/models.py:24 courses/models.py:46
+msgid "Creation Date"
+msgstr ""
+
+#: courses/models.py:11 courses/models.py:30
+msgid "Category"
+msgstr ""
+
+#: courses/models.py:12 courses/templates/category/create.html:16
+#: courses/templates/category/delete.html:15
+#: courses/templates/category/index.html:15
+#: courses/templates/category/update.html:16
+#: courses/templates/category/view.html:15
+msgid "Categories"
+msgstr ""
+
+#: courses/models.py:21
+msgid "Objectivies"
+msgstr ""
+
+#: courses/models.py:22
+msgid "Content"
+msgstr ""
+
+#: courses/models.py:23
+msgid "Maximum Students"
+msgstr ""
+
+#: courses/models.py:25
+msgid "Register Date (Begin)"
+msgstr ""
+
+#: courses/models.py:26
+msgid "Register Date (End)"
+msgstr ""
+
+#: courses/models.py:27
+msgid "Begin of Course Date"
+msgstr ""
+
+#: courses/models.py:28
+msgid "End of Course Date"
+msgstr ""
+
+#: courses/models.py:29
+msgid "Image"
+msgstr ""
+
+#: courses/models.py:34 courses/models.py:47
+msgid "Course"
+msgstr ""
+
+#: courses/models.py:35 courses/templates/course/create.html:16
+#: courses/templates/course/delete.html:15
+#: courses/templates/course/filtered.html:6
+#: courses/templates/course/index.html:15
+#: courses/templates/course/update.html:16
+#: courses/templates/course/view.html:15
+#: courses/templates/module/create.html:17
+#: courses/templates/module/delete.html:16
+#: courses/templates/module/index.html:16
+#: courses/templates/module/update.html:17
+msgid "Courses"
+msgstr ""
+
+#: courses/models.py:44
+msgid "Description"
+msgstr ""
+
+#: courses/models.py:45 courses/templates/module/index.html:103
+msgid "Visible"
+msgstr ""
+
+#: courses/models.py:51
+msgid "Module"
+msgstr ""
+
+#: courses/models.py:52 courses/templates/module/index.html:88
+msgid "Modules"
+msgstr ""
+
+#: courses/templates/category/create.html:8
+#: courses/templates/category/delete.html:7
+#: courses/templates/category/index.html:7
+#: courses/templates/category/update.html:8
+#: courses/templates/category/view.html:7
+#: courses/templates/course/create.html:8
+#: courses/templates/course/delete.html:7 courses/templates/course/index.html:7
+#: courses/templates/course/update.html:8 courses/templates/course/view.html:7
+#: courses/templates/module/create.html:8
+#: courses/templates/module/delete.html:7 courses/templates/module/index.html:7
+#: courses/templates/module/update.html:8
+msgid "Home"
+msgstr ""
+
+#: courses/templates/category/create.html:9
+#: courses/templates/category/delete.html:18
+#: courses/templates/category/index.html:18
+#: courses/templates/category/view.html:18
+msgid "Create Category"
+msgstr ""
+
+#: courses/templates/category/create.html:26
+#: courses/templates/category/update.html:26
+#: courses/templates/course/create.html:26
+#: courses/templates/course/update.html:32
+#: courses/templates/module/create.html:52
+#: courses/templates/module/update.html:52
+msgid "All fields are required"
+msgstr ""
+
+#: courses/templates/category/create.html:51
+#: courses/templates/category/update.html:51
+#: courses/templates/course/create.html:51
+#: courses/templates/course/update.html:57
+#: courses/templates/module/create.html:77
+#: courses/templates/module/update.html:77
+msgid "Save"
+msgstr ""
+
+#: courses/templates/category/delete.html:8
+#: courses/templates/category/index.html:8
+msgid "Manage Categories"
+msgstr ""
+
+#: courses/templates/category/delete.html:26
+msgid "Are you sure you want to delete the category"
+msgstr ""
+
+#: courses/templates/category/delete.html:27
+#: courses/templates/course/delete.html:28
+#: courses/templates/module/delete.html:50
+msgid "Yes"
+msgstr ""
+
+#: courses/templates/category/delete.html:28
+#: courses/templates/course/delete.html:29
+#: courses/templates/module/delete.html:51
+msgid "No"
+msgstr ""
+
+#: courses/templates/category/index.html:40
+msgid "Actions"
+msgstr ""
+
+#: courses/templates/category/index.html:59
+msgid "No categories found"
+msgstr ""
+
+#: courses/templates/category/update.html:9
+#: courses/templates/category/view.html:21
+msgid "Edit Category"
+msgstr ""
+
+#: courses/templates/category/view.html:24
+msgid "Remove Category"
+msgstr ""
+
+#: courses/templates/category/view.html:32
+msgid "Name:"
+msgstr ""
+
+#: courses/templates/category/view.html:33
+msgid "Slug:"
+msgstr ""
+
+#: courses/templates/course/create.html:9
+#: courses/templates/course/delete.html:18
+#: courses/templates/course/filtered.html:9
+#: courses/templates/course/index.html:18 courses/templates/course/view.html:18
+#: courses/templates/module/create.html:20
+#: courses/templates/module/delete.html:19
+#: courses/templates/module/index.html:19
+#: courses/templates/module/update.html:20
+msgid "Create Course"
+msgstr ""
+
+#: courses/templates/course/delete.html:27
+msgid "Are you sure you want to delete the couse"
+msgstr ""
+
+#: courses/templates/course/filtered.html:17
+#: courses/templates/course/index.html:26
+msgid "Categories:"
+msgstr ""
+
+#: courses/templates/course/index.html:8
+msgid "Manage Courses"
+msgstr ""
+
+#: courses/templates/course/index.html:84 courses/templates/course/view.html:54
+msgid "Subscribes:"
+msgstr ""
+
+#: courses/templates/course/index.html:86 courses/templates/course/view.html:57
+#: courses/templates/module/index.html:79
+msgid "Period:"
+msgstr ""
+
+#: courses/templates/course/index.html:102
+msgid "No courses found"
+msgstr ""
+
+#: courses/templates/course/update.html:9 courses/templates/course/view.html:24
+#: courses/templates/module/create.html:26
+#: courses/templates/module/delete.html:25
+#: courses/templates/module/index.html:25
+#: courses/templates/module/update.html:26
+msgid "Edit Course"
+msgstr ""
+
+#: courses/templates/course/update.html:19
+#: courses/templates/course/view.html:27
+#: courses/templates/module/create.html:29
+#: courses/templates/module/delete.html:9
+#: courses/templates/module/delete.html:28
+#: courses/templates/module/index.html:9 courses/templates/module/index.html:28
+#: courses/templates/module/update.html:29
+msgid "Manage Modules"
+msgstr ""
+
+#: courses/templates/course/update.html:22
+#: courses/templates/course/view.html:30
+#: courses/templates/module/create.html:32
+#: courses/templates/module/delete.html:31
+#: courses/templates/module/index.html:31
+#: courses/templates/module/update.html:32
+msgid "Participants"
+msgstr ""
+
+#: courses/templates/course/view.html:21
+#: courses/templates/module/create.html:23
+#: courses/templates/module/delete.html:22
+#: courses/templates/module/index.html:22
+#: courses/templates/module/update.html:23
+msgid "Course Info"
+msgstr ""
+
+#: courses/templates/course/view.html:33
+#: courses/templates/module/create.html:35
+#: courses/templates/module/delete.html:34
+#: courses/templates/module/index.html:34
+#: courses/templates/module/update.html:35
+msgid "Course avaliations"
+msgstr ""
+
+#: courses/templates/course/view.html:36
+#: courses/templates/module/create.html:38
+#: courses/templates/module/delete.html:37
+#: courses/templates/module/index.html:37
+#: courses/templates/module/update.html:38
+msgid "Duplicate Course"
+msgstr ""
+
+#: courses/templates/course/view.html:39
+#: courses/templates/module/create.html:41
+#: courses/templates/module/delete.html:40
+#: courses/templates/module/index.html:40
+#: courses/templates/module/update.html:41
+msgid "Delete Course"
+msgstr ""
+
+#: courses/templates/course/view.html:64
+msgid "Objectives:"
+msgstr ""
+
+#: courses/templates/course/view.html:67
+msgid "Work Plan:"
+msgstr ""
+
+#: courses/templates/module/create.html:10
+#: courses/templates/module/index.html:67
+msgid "Create Module"
+msgstr ""
+
+#: courses/templates/module/delete.html:49
+msgid "Are you sure you want to delete the module"
+msgstr ""
+
+#: courses/templates/module/index.html:105
+msgid "Invisible"
+msgstr ""
+
+#: courses/templates/module/index.html:121
+msgid "No modules found"
+msgstr ""
+
+#: courses/templates/module/update.html:10
+msgid "Edit Module"
+msgstr ""
+
+#: courses/views.py:48
+msgid "Course created successfully!"
+msgstr ""
+
+#: courses/views.py:70
+msgid "Course edited successfully!"
+msgstr ""
+
+#: courses/views.py:92
+msgid "Course deleted successfully!"
+msgstr ""
+
+#: courses/views.py:142
+msgid "Category created successfully!"
+msgstr ""
+
+#: courses/views.py:164
+msgid "Category edited successfully!"
+msgstr ""
+
+#: courses/views.py:185
+msgid "Category deleted successfully!"
+msgstr ""
+
+#: courses/views.py:237
+msgid "Module created successfully!"
+msgstr ""
+
+#: courses/views.py:268
+msgid "Module edited successfully!"
+msgstr ""
+
+#: courses/views.py:291
+msgid "Module deleted successfully!"
+msgstr ""

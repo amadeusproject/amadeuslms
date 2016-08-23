@@ -1,0 +1,102 @@
+{% extends "admin_index.html" %}
+
+{% block content %}
+	{% load static %}
+		<div id="pTitle" class="pTitle">
+			<h2>Participantes</h2>
+		</div>
+		<div id="pBreadCrumbs" class="pBreadCrumbs">
+			<ul id="breadcrumb">
+				<li><a href="{% url 'index' %}">Página Inicial</a></li>
+				<li><a href="{% url 'dados_curso' %}">Curso01</a></li>
+				<li>Participantes</li>
+			</ul>
+		</div>
+		<div id="pLeftMenu" class="pLeftMenu">
+			
+			<!-- 
+Copyright 2008, 2009 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
+publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+
+
+
+
+<div id="side_menu_1">
+	<ul id="menu_sessoes">
+		
+		<li><a href="{% url 'dados_curso' %}">Dados do Curso</a></li>
+		
+		
+			
+			<li><a href="{% url 'modulos_curso' %}">Visualizar Módulos</a></li>
+		
+		
+		<li><b>Participantes</b></li>
+		
+		
+		
+			
+			<li><a href="{% url 'avaliacao_curso' %}">Avaliações do Curso</a></li>
+		
+		
+		
+			<li><a href="#" onclick="replicateCourse(14);">Replicar Curso</a></li>		
+		
+		
+		
+			<li><a href="{% url 'criar_curso' %}">Criar Curso</a></li>		
+		
+		
+		
+			<li><a href="{% url 'editar_curso' %}">Editar Curso</a></li>	
+		
+		
+		
+			<li><a href="#" onclick="deleteCourse(14);">Remover Curso</a></li>
+		
+		
+				
+	</ul>
+</div>
+		</div>						
+		<div id="pContent" class="pContent">
+		
+			<div class="containerTitle">
+				<label class="labelAttribute">Professores</label>
+			</div>
+			
+<table class="displaytag" id="teacher">
+<tbody>
+<tr class="odd">
+<td>
+				
+					<a href="{% url 'profile' %}"><div class="smallPicture">
+						<img class="smallPhoto" src="user.do?method=showPhoto&id=5" />
+					</div></a>
+				
+				
+				<label id="userStatus5" class="offlineUser" title="">&nbsp;</label>
+				Administrador
+				<br /><br />
+				<font class="smallPictureEmail">admin@amadeus.org.br</font>
+				<script type="text/javascript">userStatus(5);</script>
+			</td></tr></tbody></table>				
+			<br />
+			
+			
+			
+			
+		</div>
+		<div id="pRightMenu" class="pRightMenu"></div>
+{% endblock %}

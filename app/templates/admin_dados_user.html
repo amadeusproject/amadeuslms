@@ -1,0 +1,66 @@
+{% extends "admin_index.html" %}
+
+{% block content %}
+	{% load static %}
+		<div id="pTitle" class="pTitle">
+			<h2>Gerenciar Usuários</h2>
+		</div>
+		<div id="pBreadCrumbs" class="pBreadCrumbs">
+			<ul id="breadcrumb">
+				<li><a href="{% url 'index' %}">Página Inicial</a></li>
+				<li><a href="{% url 'usuarios' %}">Gerenciar Usuários</a></li>
+				<li>Perfil do Usuário</li>
+			</ul>
+		</div>
+		<div id="pLeftMenu" class="pLeftMenu">
+			<div id="side_menu_1">
+				<ul id="menu_sessoes">
+					<li><a href="{% url 'usuarios' %}"><img src="{% static 'imgs/menu/users-16x16.png' %}" border="0" title="Usuários do Sitema" />&nbsp;Usuários do Sistema</a></li>
+					<li><b><img src="{% static 'imgs/menu/user-info-16x16.png' %}" title="Perfil do Usuário" />&nbsp;Perfil do Usuário</b></li>
+					<li><a href="{% url 'criar_usuario' %}"><img src="{% static 'imgs/menu/user-16x16.png' %}" title="Nova Conta" />&nbsp;Nova Conta</a></li>
+					<li><a href="{% url 'send_mail' %}"><img src="{% static 'imgs/menu/email-16x16.png' %}" border="0" title="Enviar E-mail" />&nbsp;Enviar Email</a></li>
+			    </ul>
+			</div>
+		</div>
+		<div id="pContent" class="pContent">
+			<table border="0" cellpadding="0" cellspacing="0" width="100%;">
+				<tr align="right">
+					<td colspan="2">
+						<a href="{% url 'editar_usuario' %}"><img border="0" src="{% static 'imgs/menu/edit-16x16.png' %}" title="Editar Perfil do Usuário" /></a>
+						&nbsp;
+						<a href="/amadeuslms/user.do?method=showViewSendMailInManagerUsers&to=admin@amadeus.org.br"><img border="0" src="{% static 'imgs/menu/email-16x16.png' %}" title="Enviar E-mail" /></a>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 125px;">
+						<div class="normalPicture">
+							<img class="normalPhoto" src="user.do?method=showPhoto&id=5" />
+						</div>
+					</td>
+					<td valign="top">
+						<table border="0" cellpadding="0" cellspacing="0" width="100%;">
+							<tr>
+								<td style="width: 35px;" class="formAttribute">Status:</td>
+								<td><label id="userStatus5" class="offlineUser" title="">&nbsp;</label></td>
+							</tr>
+							<tr><td colspan="2">&nbsp;</td></tr>
+							<tr>
+								<td class="formAttribute">Nome:</td>
+								<td>Administrador</td>
+							</tr>
+							<tr><td colspan="2">&nbsp;</td></tr>
+							<tr>
+								<td class="formAttribute">Login:</td>
+								<td>admin</td>
+							</tr>
+							<tr><td colspan="2">&nbsp;</td></tr>
+							<tr>
+								<td class="formAttribute">E-mail:</td>
+								<td>admin@amadeus.org.br</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+{% endblock %}
