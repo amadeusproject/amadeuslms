@@ -43,5 +43,4 @@ coverage.xml
 *.log
 *.pot
 
-uploads
 angular_api
