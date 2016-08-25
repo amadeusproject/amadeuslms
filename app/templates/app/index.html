@@ -43,18 +43,7 @@
 
 	{% if user|has_role:'student' %}
 		<h4>{% trans 'Your course(s):' %}</h4>
-		{% if subscribed_courses|length > 0 %}
-			<div class="list-group">
-				{% for subscribed in subscribed_courses %}
-					<a href="{% url 'app:course:view' subscribed.course.slug %}" class="list-group-item">
-						{{ subscribed.course }}
-					</a>
-				{% endfor %}
-			</div>
-			<a href="{% url 'app:subscription:subscribed' %}" class="pull-right">{% trans 'See all' %}</a>
-		{% else %}
-			<p>{% trans 'No courses subscribed yet' %}</p>
-		{% endif %}
+		<p>{% trans 'No courses subscribed yet' %}</p>
 	{% endif %}
 {% endblock %}
 

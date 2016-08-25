@@ -4,7 +4,6 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^', include('subscriptions.urls', namespace = 'subscription')),
     url(r'^', include('courses.urls', namespace = 'course')),
     url(r'^cursos/participantes/$', views.participantes_curso, name='participantes_curso'),
     url(r'^cursos/avaliacoes/$', views.avaliacao_curso, name='avaliacao_curso'),
