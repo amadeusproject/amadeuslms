@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-12 19:40-0300\n"
+"POT-Creation-Date: 2016-08-25 13:03-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,25 +17,122 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: courses/models.py:6 courses/models.py:19 courses/models.py:42
+#: courses/forms.py:11 courses/forms.py:25 courses/forms.py:55
+#: courses/models.py:7 courses/models.py:20 courses/models.py:44
 #: courses/templates/category/index.html:38
 msgid "Name"
 msgstr ""
 
-#: courses/models.py:7 courses/models.py:20 courses/models.py:43
+#: courses/forms.py:14
+msgid "Category name"
+msgstr ""
+
+#: courses/forms.py:26
+msgid "Objectives"
+msgstr ""
+
+#: courses/forms.py:27 courses/models.py:23
+msgid "Content"
+msgstr ""
+
+#: courses/forms.py:28
+msgid "Number of studets maximum"
+msgstr ""
+
+#: courses/forms.py:29
+msgid "Course registration start date"
+msgstr ""
+
+#: courses/forms.py:30
+msgid "Course registration end date"
+msgstr ""
+
+#: courses/forms.py:31
+msgid "Course start date"
+msgstr ""
+
+#: courses/forms.py:32
+msgid "Course end date"
+msgstr ""
+
+#: courses/forms.py:33 courses/models.py:30
+msgid "Image"
+msgstr ""
+
+#: courses/forms.py:34 courses/models.py:12 courses/models.py:31
+msgid "Category"
+msgstr ""
+
+#: courses/forms.py:37
+msgid "Course name"
+msgstr ""
+
+#: courses/forms.py:38
+msgid "Course objective"
+msgstr ""
+
+#: courses/forms.py:39
+msgid "COurse modules"
+msgstr ""
+
+#: courses/forms.py:40
+msgid "Max number of students that a class can have"
+msgstr ""
+
+#: courses/forms.py:41
+msgid "Date that starts the registration period of the course (dd/mm/yyyy)"
+msgstr ""
+
+#: courses/forms.py:42
+msgid "Date that ends the registration period of the course (dd/mm/yyyy)"
+msgstr ""
+
+#: courses/forms.py:43
+msgid "Date that the course starts (dd/mm/yyyy)"
+msgstr ""
+
+#: courses/forms.py:44
+msgid "Date that the course ends (dd/mm/yyyy)"
+msgstr ""
+
+#: courses/forms.py:45
+msgid "Representative image of the course"
+msgstr ""
+
+#: courses/forms.py:46
+msgid "Category which the course belongs"
+msgstr ""
+
+#: courses/forms.py:56 courses/models.py:46
+msgid "Description"
+msgstr ""
+
+#: courses/forms.py:57
+msgid "Is it visible?"
+msgstr ""
+
+#: courses/forms.py:60
+msgid "Module's name"
+msgstr ""
+
+#: courses/forms.py:61
+msgid "Modules's description"
+msgstr ""
+
+#: courses/forms.py:62
+msgid "Is the module visible?"
+msgstr ""
+
+#: courses/models.py:8 courses/models.py:21 courses/models.py:45
 #: courses/templates/category/index.html:39
 msgid "Slug"
 msgstr ""
 
-#: courses/models.py:8 courses/models.py:24 courses/models.py:46
+#: courses/models.py:9 courses/models.py:25 courses/models.py:48
 msgid "Creation Date"
 msgstr ""
 
-#: courses/models.py:11 courses/models.py:30
-msgid "Category"
-msgstr ""
-
-#: courses/models.py:12 courses/templates/category/create.html:16
+#: courses/models.py:13 courses/templates/category/create.html:16
 #: courses/templates/category/delete.html:15
 #: courses/templates/category/index.html:15
 #: courses/templates/category/update.html:16
@@ -43,43 +140,39 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#: courses/models.py:21
+#: courses/models.py:22
 msgid "Objectivies"
 msgstr ""
 
-#: courses/models.py:22
-msgid "Content"
-msgstr ""
-
-#: courses/models.py:23
+#: courses/models.py:24
 msgid "Maximum Students"
 msgstr ""
 
-#: courses/models.py:25
+#: courses/models.py:26
 msgid "Register Date (Begin)"
 msgstr ""
 
-#: courses/models.py:26
+#: courses/models.py:27
 msgid "Register Date (End)"
 msgstr ""
 
-#: courses/models.py:27
+#: courses/models.py:28
 msgid "Begin of Course Date"
 msgstr ""
 
-#: courses/models.py:28
+#: courses/models.py:29
 msgid "End of Course Date"
 msgstr ""
 
-#: courses/models.py:29
-msgid "Image"
+#: courses/models.py:32
+msgid "User"
 msgstr ""
 
-#: courses/models.py:34 courses/models.py:47
+#: courses/models.py:36 courses/models.py:49
 msgid "Course"
 msgstr ""
 
-#: courses/models.py:35 courses/templates/course/create.html:16
+#: courses/models.py:37 courses/templates/course/create.html:16
 #: courses/templates/course/delete.html:15
 #: courses/templates/course/filtered.html:6
 #: courses/templates/course/index.html:15
@@ -92,19 +185,15 @@ msgstr ""
 msgid "Courses"
 msgstr ""
 
-#: courses/models.py:44
-msgid "Description"
-msgstr ""
-
-#: courses/models.py:45 courses/templates/module/index.html:103
+#: courses/models.py:47 courses/templates/module/index.html:107
 msgid "Visible"
 msgstr ""
 
-#: courses/models.py:51
+#: courses/models.py:53
 msgid "Module"
 msgstr ""
 
-#: courses/models.py:52 courses/templates/module/index.html:88
+#: courses/models.py:54 courses/templates/module/index.html:92
 msgid "Modules"
 msgstr ""
 
@@ -196,10 +285,10 @@ msgstr ""
 #: courses/templates/course/create.html:9
 #: courses/templates/course/delete.html:18
 #: courses/templates/course/filtered.html:9
-#: courses/templates/course/index.html:18 courses/templates/course/view.html:18
+#: courses/templates/course/index.html:18 courses/templates/course/view.html:25
 #: courses/templates/module/create.html:20
 #: courses/templates/module/delete.html:19
-#: courses/templates/module/index.html:19
+#: courses/templates/module/index.html:26
 #: courses/templates/module/update.html:20
 msgid "Create Course"
 msgstr ""
@@ -217,88 +306,100 @@ msgstr ""
 msgid "Manage Courses"
 msgstr ""
 
-#: courses/templates/course/index.html:84 courses/templates/course/view.html:54
-msgid "Subscribes:"
+#: courses/templates/course/index.html:80
+msgid "students tops"
 msgstr ""
 
-#: courses/templates/course/index.html:86 courses/templates/course/view.html:57
-#: courses/templates/module/index.html:79
+#: courses/templates/course/index.html:86
+msgid "Subscribe Period:"
+msgstr ""
+
+#: courses/templates/course/index.html:88 courses/templates/course/view.html:59
+#: courses/templates/module/index.html:83
 msgid "Period:"
 msgstr ""
 
-#: courses/templates/course/index.html:102
+#: courses/templates/course/index.html:96
+msgid "Subscribe"
+msgstr ""
+
+#: courses/templates/course/index.html:114
 msgid "No courses found"
 msgstr ""
 
-#: courses/templates/course/update.html:9 courses/templates/course/view.html:24
+#: courses/templates/course/update.html:9 courses/templates/course/view.html:28
 #: courses/templates/module/create.html:26
 #: courses/templates/module/delete.html:25
-#: courses/templates/module/index.html:25
+#: courses/templates/module/index.html:29
 #: courses/templates/module/update.html:26
 msgid "Edit Course"
 msgstr ""
 
 #: courses/templates/course/update.html:19
-#: courses/templates/course/view.html:27
+#: courses/templates/course/view.html:21
 #: courses/templates/module/create.html:29
 #: courses/templates/module/delete.html:9
 #: courses/templates/module/delete.html:28
-#: courses/templates/module/index.html:9 courses/templates/module/index.html:28
+#: courses/templates/module/index.html:9 courses/templates/module/index.html:22
 #: courses/templates/module/update.html:29
 msgid "Manage Modules"
 msgstr ""
 
 #: courses/templates/course/update.html:22
-#: courses/templates/course/view.html:30
+#: courses/templates/course/view.html:31
 #: courses/templates/module/create.html:32
 #: courses/templates/module/delete.html:31
-#: courses/templates/module/index.html:31
+#: courses/templates/module/index.html:32
 #: courses/templates/module/update.html:32
 msgid "Participants"
 msgstr ""
 
-#: courses/templates/course/view.html:21
+#: courses/templates/course/view.html:18
 #: courses/templates/module/create.html:23
 #: courses/templates/module/delete.html:22
-#: courses/templates/module/index.html:22
+#: courses/templates/module/index.html:19
 #: courses/templates/module/update.html:23
 msgid "Course Info"
 msgstr ""
 
-#: courses/templates/course/view.html:33
+#: courses/templates/course/view.html:34
 #: courses/templates/module/create.html:35
 #: courses/templates/module/delete.html:34
-#: courses/templates/module/index.html:34
+#: courses/templates/module/index.html:35
 #: courses/templates/module/update.html:35
 msgid "Course avaliations"
 msgstr ""
 
-#: courses/templates/course/view.html:36
+#: courses/templates/course/view.html:37
 #: courses/templates/module/create.html:38
 #: courses/templates/module/delete.html:37
-#: courses/templates/module/index.html:37
+#: courses/templates/module/index.html:38
 #: courses/templates/module/update.html:38
 msgid "Duplicate Course"
 msgstr ""
 
-#: courses/templates/course/view.html:39
+#: courses/templates/course/view.html:40
 #: courses/templates/module/create.html:41
 #: courses/templates/module/delete.html:40
-#: courses/templates/module/index.html:40
+#: courses/templates/module/index.html:41
 #: courses/templates/module/update.html:41
 msgid "Delete Course"
 msgstr ""
 
-#: courses/templates/course/view.html:64
+#: courses/templates/course/view.html:56
+msgid "Subscribes:"
+msgstr ""
+
+#: courses/templates/course/view.html:66
 msgid "Objectives:"
 msgstr ""
 
-#: courses/templates/course/view.html:67
+#: courses/templates/course/view.html:69
 msgid "Work Plan:"
 msgstr ""
 
 #: courses/templates/module/create.html:10
-#: courses/templates/module/index.html:67
+#: courses/templates/module/index.html:70
 msgid "Create Module"
 msgstr ""
 
@@ -306,11 +407,15 @@ msgstr ""
 msgid "Are you sure you want to delete the module"
 msgstr ""
 
-#: courses/templates/module/index.html:105
+#: courses/templates/module/index.html:80
+msgid "students maximum"
+msgstr ""
+
+#: courses/templates/module/index.html:109
 msgid "Invisible"
 msgstr ""
 
-#: courses/templates/module/index.html:121
+#: courses/templates/module/index.html:125
 msgid "No modules found"
 msgstr ""
 
@@ -318,38 +423,38 @@ msgstr ""
 msgid "Edit Module"
 msgstr ""
 
-#: courses/views.py:48
+#: courses/views.py:49
 msgid "Course created successfully!"
 msgstr ""
 
-#: courses/views.py:70
+#: courses/views.py:71
 msgid "Course edited successfully!"
 msgstr ""
 
-#: courses/views.py:92
+#: courses/views.py:93
 msgid "Course deleted successfully!"
 msgstr ""
 
-#: courses/views.py:142
+#: courses/views.py:143
 msgid "Category created successfully!"
 msgstr ""
 
-#: courses/views.py:164
+#: courses/views.py:165
 msgid "Category edited successfully!"
 msgstr ""
 
-#: courses/views.py:185
+#: courses/views.py:186
 msgid "Category deleted successfully!"
 msgstr ""
 
-#: courses/views.py:237
+#: courses/views.py:238
 msgid "Module created successfully!"
 msgstr ""
 
-#: courses/views.py:268
+#: courses/views.py:269
 msgid "Module edited successfully!"
 msgstr ""
 
-#: courses/views.py:291
+#: courses/views.py:292
 msgid "Module deleted successfully!"
 msgstr ""

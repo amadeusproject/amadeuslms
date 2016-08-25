@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 from .models import Category, Course, Module
 
 class CategoryForm(forms.ModelForm):
@@ -7,10 +8,10 @@ class CategoryForm(forms.ModelForm):
 		model = Category
 		fields = ('name',)
 		labels = {
-			'name': 'Nome'
+			'name': _('Name')
 		}
 		help_texts = {
-			'name': 'Nome da categoria'
+			'name': _('Category name')
 		}
 
 
@@ -21,28 +22,28 @@ class CourseForm(forms.ModelForm):
 		fields = ('name', 'objectivies', 'content', 'max_students', 'init_register_date', 'end_register_date',
 					'init_date', 'end_date', 'image', 'category',)
 		labels = {
-			'name': 'Nome',
-			'objectivies': 'Objetivos',
-			'content': 'Programa',
-			'max_students': 'Número máximo de alunos',
-			'init_register_date': 'Data de início da inscrição do curso',
-			'end_register_date': 'Data de término da inscrição do curso',
-			'init_date': 'Data de início do curso',
-			'end_date': 'Data de término do curso',
-			'image': 'Imagem',
-			'category': 'Categoria',
+			'name': _('Name'),
+			'objectivies': _('Objectives'),
+			'content': _('Content'),
+			'max_students': _('Number of studets maximum'),
+			'init_register_date': _('Course registration start date'),
+			'end_register_date': _('Course registration end date'),
+			'init_date': _('Course start date'),
+			'end_date': _('Course end date'),
+			'image': _('Image'),
+			'category': _('Category'),
 		}
 		help_texts = {
-			'name': 'Nome do curso',
-			'objectivies': 'Objetivo do curso',
-			'content': 'Módulos presentes no curso',
-			'max_students': 'Número máximo de alunos que uma turma do curso pode ter',
-			'init_register_date': 'Data em que começam as inscrições para o curso (dd/mm/yyyy)',
-			'end_register_date': 'Data em que terminam as inscrições para o curso (dd/mm/yyyy)',
-			'init_date': 'Data em que começa o curso (dd/mm/yyyy)',
-			'end_date': 'Data em que termina o curso (dd/mm/yyyy)',
-			'image': 'Imagem representativa do curso',
-			'category': 'Categoria em que o curso se enquadra',
+			'name': _('Course name'),
+			'objectivies': _('Course objective'),
+			'content': _('COurse modules'),
+			'max_students': _('Max number of students that a class can have'),
+			'init_register_date': _('Date that starts the registration period of the course (dd/mm/yyyy)'),
+			'end_register_date': _('Date that ends the registration period of the course (dd/mm/yyyy)'),
+			'init_date': _('Date that the course starts (dd/mm/yyyy)'),
+			'end_date': _('Date that the course ends (dd/mm/yyyy)'),
+			'image': _('Representative image of the course'),
+			'category': _('Category which the course belongs'),
 		}
 
 class ModuleForm(forms.ModelForm):
@@ -51,12 +52,12 @@ class ModuleForm(forms.ModelForm):
 		model = Module
 		fields = ('name', 'description', 'visible',)
 		labels = {
-			'name': 'Nome',
-			'description': 'Descrição',
-			'visible': 'Está visível?',
+			'name': _('Name'),
+			'description': _('Description'),
+			'visible': _('Is it visible?'),
 		}
 		help_texts = {
-			'name': 'Nome do módulo',
-			'description': 'Descrição do módulo',
-			'visible': 'O módulo está visível?',	
+			'name': _("Module's name"),
+			'description': _("Modules's description"),
+			'visible': _('Is the module visible?'),	
 		}

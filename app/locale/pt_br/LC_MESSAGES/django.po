@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-12 19:40-0300\n"
+"POT-Creation-Date: 2016-08-25 13:03-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,14 +73,22 @@ msgstr ""
 msgid "Gerenciar Categorias"
 msgstr ""
 
-#: app/templates/app/index.html:64
+#: app/templates/app/index.html:45
+msgid "Your course(s):"
+msgstr ""
+
+#: app/templates/app/index.html:46
+msgid "No courses subscribed yet"
+msgstr ""
+
+#: app/templates/app/index.html:56
 msgid "Search course:"
 msgstr ""
 
-#: app/templates/app/index.html:70
+#: app/templates/app/index.html:62
 msgid "Search"
 msgstr ""
 
-#: app/templates/app/index.html:75
+#: app/templates/app/index.html:67
 msgid "Most popular keywords:"
 msgstr ""
