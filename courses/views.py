@@ -8,7 +8,6 @@ from rolepermissions.mixins import HasRoleMixin
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from slugify import slugify
-from rest_framework import generics, permissions
 
 from .serializers import CourseSerializer
 from .forms import CourseForm, CategoryForm, ModuleForm
@@ -293,12 +292,3 @@ class DeleteModView(HasRoleMixin, LoginRequiredMixin, generic.DeleteView):
 		messages.success(self.request, _('Module deleted successfully!'))
     
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
-
-# API Views
-class CourseListApiView(generics.ListCreateAPIView):
-
-	serializer_class = CourseSerializer
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-	def get_queryset(self):
-		return Course.objects.all()
