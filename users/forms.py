@@ -23,16 +23,6 @@ class ProfileForm(forms.ModelForm):
 
 class UserForm(forms.ModelForm):
 
-	password = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
-
-	def save(self, commit=True):
-		super(UserForm, self).save(commit=False)
-
-		self.instance.set_password(self.cleaned_data['password'])
-		self.instance.save()
-
-		return self.instance
-
 	class Meta:
 		model = User
-		fields = ['username', 'name', 'email', 'password', 'birth_date', 'city', 'state', 'gender', 'type_profile', 'cpf', 'phone', 'image', 'is_staff', 'is_active']
+		fields = ['username', 'name', 'email', 'birth_date', 'city', 'state', 'gender', 'type_profile', 'cpf', 'phone', 'image', 'is_staff', 'is_active']

@@ -36,7 +36,7 @@ class CourseForm(forms.ModelForm):
 		help_texts = {
 			'name': _('Course name'),
 			'objectivies': _('Course objective'),
-			'content': _('COurse modules'),
+			'content': _('Course modules'),
 			'max_students': _('Max number of students that a class can have'),
 			'init_register_date': _('Date that starts the registration period of the course (dd/mm/yyyy)'),
 			'end_register_date': _('Date that ends the registration period of the course (dd/mm/yyyy)'),

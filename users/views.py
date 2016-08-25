@@ -1,111 +1,127 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from rolepermissions.shortcuts import assign_role
+from django.shortcuts import get_object_or_404
+from django.views import generic
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from rolepermissions.mixins import HasRoleMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
+from rolepermissions.shortcuts import assign_role
 from .models import User
 from .forms import UserForm, ProfileForm
 
-@login_required
-def index(request):
-	context = {
-		'users': User.objects.exclude(username = request.user.username)
-	}
-
-	return render(request, "users/index.html", context)
-
-@login_required
-def create(request):
-	context = {}
-
-	form = UserForm(request.POST or None, request.FILES or None)
+class Index(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 	
-	if form.is_valid():
-		user = form.save(commit = False)
+	allowed_roles = ['system_admin']
+	login_url = '/'
+	redirect_field_name = 'next'
+	template_name = 'users/index.html'
+	context_object_name = 'users'
+	paginate_by = 10
 
-		if user.type_profile == 2:
-			assign_role(user, 'student')
-		elif user.type_profile == 1:
-			assign_role(user, 'professor')
-		elif user.is_staff:
-			assign_role(user, 'system_admin')
+	def get_queryset(self):
+		users = User.objects.exclude(username = self.request.user.username)
+		return users
 
-		user.save()
+class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
 
-		messages.success(request, _('User created successfully!'))
+	allowed_roles = ['system_admin']
+	login_url = '/'
+	redirect_field_name = 'next'
+	template_name = 'users/create.html'
+	form_class = UserForm
+	context_object_name = 'acc'
+	success_url = reverse_lazy('app:user:manage')
 
-		return redirect('app:users:manage')
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+
+		if self.object.type_profile == 2:
+			assign_role(self.object, 'student')
+		elif self.object.type_profile == 1:
+			assign_role(self.object, 'professor')
+		elif self.object.is_staff:
+			assign_role(self.object, 'system_admin')
+
+		self.object.save()
+
+		messages.success(self.request, _('User created successfully!'))
+
+		return super(Create, self).form_valid(form)
+
+class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
+
+	allowed_roles = ['system_admin']
+	login_url = '/'
+	redirect_field_name = 'next'
+	template_name = 'users/update.html'
+	slug_field = 'username'
+	slug_url_kwarg = 'username'
+	context_object_name = 'acc'
+	model = User
+	form_class = UserForm
+	success_url = reverse_lazy('app:users:manage')
+
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+		
+		if self.object.type_profile == 2:
+			assign_role(self.object, 'student')
+		elif self.object.type_profile == 1:
+			assign_role(self.object, 'professor')
+		elif self.object.is_staff:
+			assign_role(self.object, 'system_admin')
+
+		self.object.save()
+		
+		messages.success(self.request, _('User edited successfully!'))
+
+		return super(Update, self).form_valid(form)
 	
-	context['form'] = form
+class View(LoginRequiredMixin, generic.DetailView):
 
-	return render(request, "users/create.html", context)
+	login_url = '/'
+	redirect_field_name = 'next'
+	model = User
+	context_object_name = 'acc'
+	template_name = 'users/view.html'
+	slug_field = 'username'
+	slug_url_kwarg = 'username'
 
-@login_required
-def update(request, login):
-	context = {}
+class Profile(LoginRequiredMixin, generic.DetailView):
 
-	user = get_object_or_404(User, username = login)
+	login_url = '/'
+	redirect_field_name = 'next'
+	context_object_name = 'user'
+	template_name = 'users/profile.html'
 
-	form = UserForm(request.POST or None, request.FILES or None, instance = user)
-	
-	if form.is_valid():
-		new_user = form.save(commit = False)
+	def get_object(self):
+		user = get_object_or_404(User, username = self.request.user.username)
+		return user	
 
-		if user.type_profile == 2:
-			assign_role(user, 'student')
-		elif user.type_profile == 1:
-			assign_role(user, 'professor')
-		elif user.is_staff:
-			assign_role(user, 'system_admin')
+class EditProfile(LoginRequiredMixin, generic.UpdateView):
 
-		new_user.save()
+	login_url = '/'
+	redirect_field_name = 'next'
+	template_name = 'users/edit_profile.html'
+	form_class = UserForm
+	success_url = reverse_lazy('app:users:edit_profile')
 
-		messages.success(request, _('User edited successfully!'))
+	def get_object(self):
+		user = get_object_or_404(User, username = self.request.user.username)
+		return user
 
-		return redirect('app:users:manage')
-	
-	context['form'] = form
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+		
+		if self.object.type_profile == 2:
+			assign_role(self.object, 'student')
+		elif self.object.type_profile == 1:
+			assign_role(self.object, 'professor')
+		elif self.object.is_staff:
+			assign_role(self.object, 'system_admin')
 
-	return render(request, "users/update.html", context)
+		self.object.save()
 
-@login_required
-def view(request, login):
-	context = {}
+		messages.success(self.request, _('Profile edited successfully!'))
 
-	user = get_object_or_404(User, username = login)
-
-	context['acc'] = user
-
-	return render(request, "users/view.html", context)
-
-@login_required
-def profile(request):
-	context = {
-		'user': request.user
-	}
-
-	return render(request, "users/profile.html", context)
-
-@login_required
-def edit_profile(request):
-	form = ProfileForm(request.POST or None, request.FILES or None, instance=request.user)
-    
-	context = {}
-    
-	if form.is_valid():
-		user = form.save(commit = False)
-
-		if user.type_profile == 2:
-			assign_role(user, 'student')
-		elif user.type_profile == 1:
-			assign_role(user, 'professor')
-		elif user.is_staff:
-			assign_role(user, 'system_admin')
-
-		user.save()
-
-		messages.success(request, _('Profile edited successfully!'))
-
-	context['form'] = form
-
-	return render(request, "users/edit_profile.html", context)
+		return super(EditProfile, self).form_valid(form)

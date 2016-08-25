@@ -11,10 +11,10 @@
 
 {% block sidebar %}
 	<div class="list-group">
-	  	<a href="{% url 'app:users:manage' %}" class="list-group-item">
+	  	<a href="{% url 'app:users:manage' %}" class="list-group-item active">
 	    	{% trans 'System Users' %}
 	  	</a>
-	  	<a href="{% url 'app:users:create' %}" class="list-group-item active">
+	  	<a href="{% url 'app:users:create' %}" class="list-group-item">
 	    	{% trans 'New Account' %}
 	  	</a>
 	  	<a href="{% url 'app:send_mail' %}" class="list-group-item">

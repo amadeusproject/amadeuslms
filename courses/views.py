@@ -9,7 +9,6 @@ from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from slugify import slugify
 
-from .serializers import CourseSerializer
 from .forms import CourseForm, CategoryForm, ModuleForm
 from .models import Course, Module, Category
 
