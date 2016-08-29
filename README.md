@@ -1,5 +1,4 @@
 # Amadeus 0.9
-------
 
   Repositório para o back-end do projetos Amadeus, na versão 0.9
 
@@ -11,8 +10,6 @@
 * Python 3.5
 * Pip
 * Virtualenv
-
-***
 
 ## 1 - COMEÇANDO O PROJETO
 
@@ -76,6 +73,7 @@ Para Classes que envolvem formulários:
 * `CourseFormView()`
 
 3. Forms . py
+
 * `ListCourseForm()`
 * `CreateCourseForm`
 * `UpdateCourseForm()`
