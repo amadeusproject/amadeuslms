@@ -6,9 +6,3 @@ def index(request):
 		'subscribed_courses': 'testando'
 	}
 	return render(request, "index.html", context)
-
-def nova_conta(request):
-	return render(request, "nova_conta.html")
-
-def lembrar_senha(request):
-	return render(request, "lembrar_senha.html")

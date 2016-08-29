@@ -24,8 +24,6 @@ from core import views
 urlpatterns = [
 	url(r'^$', auth_views.login, {'template_name': 'index.html'}, name='home'),
     url(r'^logout/$', auth_views.logout, {'next_page': 'home'}, name='logout'),
-	url(r'^nova_conta/$', views.nova_conta, name='nova_conta'),
-	url(r'^lembrar_senha/$', views.lembrar_senha, name='lembrar_senha'),
     url(r'^app/', include('app.urls', namespace = 'app')),
     url(r'^admin/', admin.site.urls),
 ]
