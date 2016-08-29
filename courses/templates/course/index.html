@@ -1,6 +1,6 @@
 {% extends 'app/base.html' %}
 
-{% load static i18n permission_tags custom_filters %}
+{% load static i18n permission_tags %}
 
 {% block breadcrumbs %}
 	<ol class="breadcrumb">
@@ -87,16 +87,6 @@
 			  				<br />
 							<strong>{% trans 'Period:' %} </strong> <em>de</em> <u>{{ course.init_date }}</u> <em>até</em> <u>{{ course.end_date }}</u>
 			  			</div>
-			  			{% if user|has_role:'student' and course|show_subscribe:request.user %}
-				  			<div class="col-md-12">
-				  				<form method="POST" action="{% url 'app:subscription:subscribe' %}">
-				  					{% csrf_token %}
-				  					<input type='hidden' name="user" id="id_user" value="{{ request.user.id }}" />
-				  					<input type='hidden' name="course" id="id_course" value="{{ course.id }}" />
-				  					<input type='submit' class="btn btn-sm btn-success pull-right" value="{% trans 'Subscribe' %}" />
-				  				</form>
-				  			</div>
-				  		{% endif %}
 					</div>
 		  		</div>
 			</div>
