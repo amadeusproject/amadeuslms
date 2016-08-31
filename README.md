@@ -1,15 +1,17 @@
-# Amadeus 0.9
+# Amadeus 1.0
 
   Repositório para o back-end do projetos Amadeus, na versão 0.9
 
 **Linguagem Utilizada no Projeto:**
 * Python 3.5 
 * Django 1.9
+* Material Design Bootstrap [2]
 
 **Antes de começar o projeto instale:**
 * Python 3.5
 * Pip
 * Virtualenv
+* Postgres
 
 ## 1 - COMEÇANDO O PROJETO
 
@@ -81,4 +83,4 @@ Para Classes que envolvem formulários:
 ## Link's úteis
 [Git - Introdução e comandos básicos(PT-BR)](https://github.com/fernandomayer/git-rautu/blob/master/0_configuracao-inicial.md)
 
-
+[2] https://github.com/FezVrasta/bootstrap-material-design
