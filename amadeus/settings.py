@@ -86,12 +86,12 @@ WSGI_APPLICATION = 'amadeus.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'amadeus',
-        'USER': 'amadeus_admin',
-        'PASSWORD': 'amadeus',
-        'HOST': 'localhost',
-        'PORT': '',
+        'USER': 'postgres',
+        'PASSWORD': 'felipe',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 

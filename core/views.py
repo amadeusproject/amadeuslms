@@ -7,8 +7,8 @@ def index(request):
 	}
 	return render(request, "index.html", context)
 
-def nova_conta(request):
-	return render(request, "nova_conta.html")
+def create_account(request):
+	return render(request, "create_account.html")
 
 def lembrar_senha(request):
 	return render(request, "lembrar_senha.html")
