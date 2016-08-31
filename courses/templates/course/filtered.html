@@ -1,6 +1,8 @@
 {% extends 'course/index.html' %}
 
-{% block sidebar i18n %}
+{% load i18n %}
+
+{% block sidebar %}
 	<div class="list-group">
 	  	<a href="{% url 'app:course:manage' %}" class="list-group-item">
 	    	{% trans 'Courses' %}

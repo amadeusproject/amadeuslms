@@ -28,7 +28,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
 
 		return context
 
-class CreateView(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = '/'
@@ -49,7 +49,7 @@ class CreateView(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
     
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
-class UpdateView(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = '/'
@@ -79,7 +79,7 @@ class View(LoginRequiredMixin, generic.DetailView):
 	context_object_name = 'course'
 	template_name = 'course/view.html'
 
-class DeleteView(HasRoleMixin, LoginRequiredMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = '/'
@@ -122,7 +122,7 @@ class IndexCatView(LoginRequiredMixin, generic.ListView):
 	context_object_name = 'categories'
 	paginate_by = 3
 
-class CreateCatView(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
+class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = '/'
@@ -143,7 +143,7 @@ class CreateCatView(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
     
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
-class UpdateCatView(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
+class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = '/'
@@ -172,7 +172,7 @@ class ViewCat(LoginRequiredMixin, generic.DetailView):
 	template_name = 'category/view.html'
 	context_object_name = 'category'
 
-class DeleteCatView(HasRoleMixin, LoginRequiredMixin, generic.DeleteView):
+class DeleteCatView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 	
 	allowed_roles = ['professor', 'system_admin']
 	login_url = '/'
@@ -205,7 +205,7 @@ class ModulesView(LoginRequiredMixin, generic.ListView):
 
 		return context
 
-class CreateModView(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
+class CreateModView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = '/'
@@ -238,7 +238,7 @@ class CreateModView(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
     
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
-class UpdateModView(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
+class UpdateModView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = '/'
@@ -269,7 +269,7 @@ class UpdateModView(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
     
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
-class DeleteModView(HasRoleMixin, LoginRequiredMixin, generic.DeleteView):
+class DeleteModView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = '/'
