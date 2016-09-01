@@ -1,0 +1,22 @@
+/* Classes */
+
+.header-bg{
+	background-color: green;
+}
+
+.header-div{
+	margin-top: 1%;
+}
+
+.logo{
+	height:100%;
+	margin-left: 30%;
+}
+
+/* ID */
+
+.notifications{
+	font-size: 20px;
+
+}
+
