@@ -1,14 +1,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-{% load static i18n %}
 
+{% load static i18n %}
 
 <html>
 <head>
 	<title>{{ title }}</title>
 	
 	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
+
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	
 	<link href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="{% static 'material/css/bootstrap-material-design.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.min.css' %}">
 	<!--CSS block for specific-app ones -->
 	{% block style %}
 	{% endblock %}
@@ -17,6 +22,8 @@
 	
 	<script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'material/js/material.min.js' %}"></script>
+    <script src="{% static 'material/js/ripples.min.js' %}"></script>
 	<!--Javascript block for specific-app ones -->
 	{% block javascript %}
 		
@@ -27,7 +34,7 @@
 
 	{% endblock %}
 		
-    <div class="container">
+    <div class="container-fluid">
     	{% block breadcrumbs %}
     	
     	{% endblock %}
@@ -49,7 +56,5 @@
 			</div>
 		</div>
 	</div>
-	
-</div>
 </body>
 </html>

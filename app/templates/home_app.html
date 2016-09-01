@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block nav %}
+	<div class="bs-component">
+      	<div class="navbar navbar-default">
+            <div class="container-fluid">
+          		<div class="navbar-header">
+                	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                  		<span class="icon-bar"></span>
+                  		<span class="icon-bar"></span>
+                  		<span class="icon-bar"></span>
+                	</button>
+                	<a class="navbar-brand" href="{% url 'app:index' %}"><h3>{% trans 'Amadeus' %}</h3></a>
+              	</div>
+            </div>
+      	</div>
+    </div>
+{% endblock %}
+
+{% block breadcrumbs %}
+	<div class="row">
+      	<div class="col-md-12">
+        	<h4>{{ user }}</h4>
+      	</div>
+    </div>
+    <div class="row">
+      	<div class="col-md-12">
+            <ul class="breadcrumb" style="margin-bottom: 5px;">
+          		<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+            </ul>
+      	</div>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+	<div class="btn-group-vertical">
+      	<a href="javascript:void(0)" class="btn btn-raised">{% trans 'Pending tasks' %}</a>
+      	<a href="javascript:void(0)" class="btn btn-raised" type="button" data-container="body" data-toggle="popover" data-placement="right" data-content="Gerson Rodriguez" >{% trans 'Users Online (1)' %}</a>
+      	<a href="javascript:void(0)" class="btn btn-raised" button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'Course' %} <span class="caret"></span></a>
+      	<ul class="dropdown-menu" aria-labelledby="dLabel">
+            <a href="{% url 'app:course:create' %}" class="btn btn">{% trans 'Create Course' %}</a>
+            <a href="{% url 'app:course:manage' %}" class="btn btn">{% trans 'Manage Course' %}</a>
+      	</ul>
+    </div>
+{% endblock %}
+
+{% block content %}
+	<h4>
+		<strong>
+			<center>{% trans 'Courses' %}</center>
+		</strong>
+	</h4>
+  	
+  	{% if courses|length > 0 %}
+  		{% for course in courses %}
+		  	<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-{{ course.slug }}-modal-sm">{{ course }}</button>
+		  	<div class="modal fade bs-{{ course.slug }}-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+		        <div class="modal-dialog modal-sm" role="document">
+		      		<div class="modal-content">
+		        		<p> {{ course }}</p>
+		          	</div>
+		        </div>
+		  	</div>
+		{% endfor %}
+	{% else %}
+		<p>{% trans "You didn't create any course yet." %}</p>
+	{% endif %}
+{% endblock %}
+
+{% block rightbar %}
+	<div class="bs-callout bs-callout-info" id="callout-helper-context-color-specificity"> 
+        <h4>
+        	<strong>
+        		<center>{% trans 'Goals' %}</center>
+    		</strong>
+		</h4> 
+        <table class="table">
+          	<tr> 
+              	<th scope="row"><input type="checkbox"/></th>
+              	<td>70% de Presenca nas aulas</td>
+          	</tr>
+          	<tr> 
+              	<th scope="row"><input type="checkbox"/></th>
+              	<td>30/11 - Entrega das notas finais</td>
+          	</tr>
+        </table>
+    </div>					
+{% endblock rightbar %}
