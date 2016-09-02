@@ -31,7 +31,20 @@
 </head>
 <body>
 	{% block nav %}
-
+		<div class="bs-component">
+	      	<div class="navbar navbar-default">
+	            <div class="container-fluid">
+	          		<div class="navbar-header">
+	                	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+	                  		<span class="icon-bar"></span>
+	                  		<span class="icon-bar"></span>
+	                  		<span class="icon-bar"></span>
+	                	</button>
+	                	<a class="navbar-brand" href="{% url 'app:index' %}"><h3>{% trans 'Amadeus' %}</h3></a>
+	              	</div>
+	            </div>
+	      	</div>
+	    </div>
 	{% endblock %}
 		
     <div class="container-fluid">
