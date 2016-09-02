@@ -4,10 +4,10 @@
 
 {% block sidebar %}
 	<div class="list-group">
-	  	<a href="{% url 'app:course:manage' %}" class="list-group-item">
+	  	<a href="{% url 'course:manage' %}" class="list-group-item">
 	    	{% trans 'Courses' %}
 	  	</a>
-	  	<a href="{% url 'app:course:create' %}" class="list-group-item">
+	  	<a href="{% url 'course:create' %}" class="list-group-item">
 	    	{% trans 'Create Course' %}
 	  	</a>
 	</div>
@@ -21,7 +21,7 @@
 		<ul class="categories">
 			{% for category in categories %}
 				<li {% if cat.id == category.id %} class="active" {% endif %}>
-					<a href="{% url 'app:course:filter' category.slug %}">
+					<a href="{% url 'course:filter' category.slug %}">
 						{{ category }}
 					</a>
 				</li>

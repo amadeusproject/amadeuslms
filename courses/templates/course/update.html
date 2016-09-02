@@ -12,10 +12,10 @@
 
 {% block sidebar %}
 	<div class="list-group">
-		<a href="{% url 'app:course:manage' %}" class="list-group-item">
+		<a href="{% url 'course:manage' %}" class="list-group-item">
 	    	{% trans 'Courses' %}
 	  	</a>
-	  	<a href="{% url 'app:course:manage_mods' course.slug %}" class="list-group-item">
+	  	<a href="{% url 'course:manage_mods' course.slug %}" class="list-group-item">
 	    	{% trans 'Manage Modules' %}
 	  	</a>
 	  	<a href="#" class="list-group-item">

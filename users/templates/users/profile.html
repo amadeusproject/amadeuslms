@@ -12,10 +12,10 @@
 
 {% block sidebar %}
 	<div class="list-group">
-		<a href="{% url 'app:users:profile' %}" class="list-group-item active">
+		<a href="{% url 'users:profile' %}" class="list-group-item active">
 	    	{% trans 'Profile' %}
 	  	</a>
-	  	<a href="{% url 'app:users:edit_profile' %}" class="list-group-item">
+	  	<a href="{% url 'users:edit_profile' %}" class="list-group-item">
 	    	{% trans 'Edit Profile' %}
 	  	</a>
 	</div>

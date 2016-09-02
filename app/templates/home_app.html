@@ -11,7 +11,7 @@
     <div class="row">
       	<div class="col-md-12">
             <ul class="breadcrumb" style="margin-bottom: 5px;">
-          		<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+          		<li><a href="{% url 'core:index' %}">{% trans 'Home' %}</a></li>
             </ul>
       	</div>
     </div>
@@ -23,8 +23,8 @@
       	<a href="javascript:void(0)" class="btn btn-raised" type="button" data-container="body" data-toggle="popover" data-placement="right" data-content="Gerson Rodriguez" >{% trans 'Users Online (1)' %}</a>
       	<a href="javascript:void(0)" class="btn btn-raised" button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'Course' %} <span class="caret"></span></a>
       	<ul class="dropdown-menu" aria-labelledby="dLabel">
-            <a href="{% url 'app:course:create' %}" class="btn btn">{% trans 'Create Course' %}</a>
-            <a href="{% url 'app:course:manage' %}" class="btn btn">{% trans 'Manage Course' %}</a>
+            <a href="{% url 'course:create' %}" class="btn btn">{% trans 'Create Course' %}</a>
+            <a href="{% url 'course:manage' %}" class="btn btn">{% trans 'Manage Course' %}</a>
       	</ul>
     </div>
 {% endblock %}
@@ -35,7 +35,7 @@
 			<center>{% trans 'Courses' %}</center>
 		</strong>
 	</h4>
-  	
+
   	{% if courses|length > 0 %}
   		{% for course in courses %}
 		  	<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-{{ course.slug }}-modal-sm">{{ course }}</button>
@@ -53,21 +53,21 @@
 {% endblock %}
 
 {% block rightbar %}
-	<div class="bs-callout bs-callout-info" id="callout-helper-context-color-specificity"> 
+	<div class="bs-callout bs-callout-info" id="callout-helper-context-color-specificity">
         <h4>
         	<strong>
         		<center>{% trans 'Goals' %}</center>
     		</strong>
-		</h4> 
+		</h4>
         <table class="table">
-          	<tr> 
+          	<tr>
               	<th scope="row"><input type="checkbox"/></th>
               	<td>70% de Presenca nas aulas</td>
           	</tr>
-          	<tr> 
+          	<tr>
               	<th scope="row"><input type="checkbox"/></th>
               	<td>30/11 - Entrega das notas finais</td>
           	</tr>
         </table>
-    </div>					
+    </div>
 {% endblock rightbar %}

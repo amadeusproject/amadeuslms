@@ -5,27 +5,27 @@
 {% block breadcrumbs %}
 	<ol class="breadcrumb">
 	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li><a href="{% url 'app:course:view' course.slug %}">{{ course }}</a></li>
+	  	<li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
 	  	<li class="active">{% trans 'Manage Modules' %}</li>
 	</ol>
 {% endblock %}
 
 {% block sidebar %}
 	<div class="list-group">
-		<a href="{% url 'app:course:manage' %}" class="list-group-item">
+		<a href="{% url 'course:manage' %}" class="list-group-item">
 	    	{% trans 'Courses' %}
 	  	</a>
-	  	<a href="{% url 'app:course:view' course.slug %}" class="list-group-item active">
+	  	<a href="{% url 'course:view' course.slug %}" class="list-group-item active">
 	    	{% trans 'Course Info' %}
 	  	</a>
-	  	<a href="{% url 'app:course:manage_mods' course.slug %}" class="list-group-item">
+	  	<a href="{% url 'course:manage_mods' course.slug %}" class="list-group-item">
 	    	{% trans 'Manage Modules' %}
 	  	</a>
 	  	{% if user|has_role:'professor, system_admin' %}
-		  	<a href="{% url 'app:course:create' %}" class="list-group-item">
+		  	<a href="{% url 'course:create' %}" class="list-group-item">
 		    	{% trans 'Create Course' %}
 		  	</a>
-		  	<a href="{% url 'app:course:update' course.slug %}" class="list-group-item">
+		  	<a href="{% url 'course:update' course.slug %}" class="list-group-item">
 		    	{% trans 'Edit Course' %}
 		  	</a>
 		  	<a href="" class="list-group-item">
@@ -66,13 +66,13 @@
 	  			<div class="col-md-12">
 	  				{% if user|has_role:'professor, system_admin' %}
 						<div class="pull-right">
-							<a href="{% url 'app:course:create_mods' course.slug %}" class="btn btn-sm btn-success">
+							<a href="{% url 'course:create_mods' course.slug %}" class="btn btn-sm btn-success">
 								{% trans 'Create Module' %}
 							</a>
 						</div>
 					{% endif %}
 					<h4>
-						<a href="{% url 'app:course:view' course.slug %}">
+						<a href="{% url 'course:view' course.slug %}">
 							{{ course }}
 						</a>
 					</h4>
@@ -108,10 +108,10 @@
 				        			{% else %}
 				        				<span class="label label-danger">{% trans 'Invisible' %}</span>
 				        			{% endif %}
-				        			<a href="{% url 'app:course:update_mods' course.slug module.slug %}" class="btn btn-sm btn-primary" style="margin-top: 10px">
+				        			<a href="{% url 'course:update_mods' course.slug module.slug %}" class="btn btn-sm btn-primary" style="margin-top: 10px">
 										<span class="glyphicon glyphicon-edit"></span>
 									</a>
-									<a href="{% url 'app:course:delete_mods' course.slug module.slug %}" class="btn btn-sm btn-danger" style="margin-top: 10px">
+									<a href="{% url 'course:delete_mods' course.slug module.slug %}" class="btn btn-sm btn-danger" style="margin-top: 10px">
 										<span class="glyphicon glyphicon-trash"></span>
 									</a>
 				        		</div>

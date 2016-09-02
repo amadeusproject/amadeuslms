@@ -11,10 +11,10 @@
 
 {% block sidebar %}
 	<div class="list-group">
-	  	<a href="{% url 'app:users:manage' %}" class="list-group-item active">
+	  	<a href="{% url 'users:manage' %}" class="list-group-item active">
 	    	{% trans 'System Users' %}
 	  	</a>
-	  	<a href="{% url 'app:users:create' %}" class="list-group-item">
+	  	<a href="{% url 'users:create' %}" class="list-group-item">
 	    	{% trans 'New Account' %}
 	  	</a>
 	  	<a href="#" class="list-group-item">
@@ -56,10 +56,10 @@
 	        					<span class="label label-info">{% trans 'Administrator' %}</span>
 	        				{% endif %}
 	        				<br />
-	        				<a href="{% url 'app:users:view' user.username %}" class="btn btn-sm btn-info" style="margin-top: 10px">
+	        				<a href="{% url 'users:view' user.username %}" class="btn btn-sm btn-info" style="margin-top: 10px">
 								<span class="glyphicon glyphicon-eye-open"></span>
 							</a>
-		        			<a href="{% url 'app:users:update' user.username %}" class="btn btn-sm btn-primary" style="margin-top: 10px">
+		        			<a href="{% url 'users:update' user.username %}" class="btn btn-sm btn-primary" style="margin-top: 10px">
 								<span class="glyphicon glyphicon-edit"></span>
 							</a>
 							<a href="" class="btn btn-sm btn-danger" style="margin-top: 10px">

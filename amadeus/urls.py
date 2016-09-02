@@ -17,16 +17,14 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
-from django.contrib.auth import views as auth_views
 from django.contrib import admin
 
-from core import views
-
 urlpatterns = [
-	url(r'^$', auth_views.login, {'template_name': 'index.html'}, name='home'),
-    url(r'^logout/$', auth_views.logout, {'next_page': 'home'}, name='logout'),
     url(r'^app/', include('app.urls', namespace = 'app')),
+    url(r'^course/', include('courses.urls', namespace = 'course')),
+    url(r'^users/', include('users.urls', namespace = 'users')),
     url(r'^admin/', admin.site.urls),
+    url(r'^', include('core.urls', namespace = 'core')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
