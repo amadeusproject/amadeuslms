@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-01 22:44-0300\n"
+"POT-Creation-Date: 2016-09-02 17:13-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -114,16 +114,17 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
+#: users/templates/list_users.html:8 users/templates/list_users.html:15
+#: users/templates/users/index.html:8
+msgid "Manage Users"
+msgstr "Gerenciar Usuários"
+
 #: users/templates/list_users.html:14 users/templates/users/create.html:8
 #: users/templates/users/edit_profile.html:8 users/templates/users/index.html:7
 #: users/templates/users/profile.html:8 users/templates/users/update.html:8
 #: users/templates/users/view.html:7
 msgid "Home"
 msgstr "Início"
-
-#: users/templates/list_users.html:15 users/templates/users/index.html:8
-msgid "Manage Users"
-msgstr "Gerenciar Usuários"
 
 #: users/templates/list_users.html:23
 msgid "Add user"
