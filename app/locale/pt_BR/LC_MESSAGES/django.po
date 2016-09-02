@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-01 16:02-0300\n"
+"POT-Creation-Date: 2016-09-01 22:44-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,7 +58,7 @@ msgstr ""
 msgid "You can:"
 msgstr ""
 
-#: app/templates/app/index.html:24 app/templates/home_app.html:43
+#: app/templates/app/index.html:24 app/templates/home_app.html:26
 msgid "Create Course"
 msgstr "Criar Curso"
 
@@ -94,38 +94,37 @@ msgstr ""
 msgid "Most popular keywords:"
 msgstr ""
 
-#: app/templates/home_app.html:15
-msgid "Amadeus"
-msgstr "Amadeus"
-
-#: app/templates/home_app.html:31
+#: app/templates/home_app.html:14
 msgid "Home"
 msgstr "Início"
 
-#: app/templates/home_app.html:39
+#: app/templates/home_app.html:22
 msgid "Pending tasks"
 msgstr "Tarefas Pendentes"
 
-#: app/templates/home_app.html:40
+#: app/templates/home_app.html:23
 msgid "Users Online (1)"
 msgstr "Pessoas Online (1)"
 
-#: app/templates/home_app.html:41
+#: app/templates/home_app.html:24
 msgid "Course"
 msgstr "Curso"
 
-#: app/templates/home_app.html:44
+#: app/templates/home_app.html:27
 msgid "Manage Course"
 msgstr "Gerenciar Curso"
 
-#: app/templates/home_app.html:52
+#: app/templates/home_app.html:35
 msgid "Courses"
 msgstr "Cursos"
 
-#: app/templates/home_app.html:68
+#: app/templates/home_app.html:51
 msgid "You didn't create any course yet."
 msgstr "Você não criou nenhum curso ainda."
 
-#: app/templates/home_app.html:76
+#: app/templates/home_app.html:59
 msgid "Goals"
 msgstr "Metas"
+
+#~ msgid "Amadeus"
+#~ msgstr "Amadeus"

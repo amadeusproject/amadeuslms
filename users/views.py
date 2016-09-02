@@ -9,12 +9,12 @@ from rolepermissions.shortcuts import assign_role
 from .models import User
 from .forms import UserForm, ProfileForm
 
-class Index(HasRoleMixin, LoginRequiredMixin, generic.ListView):
+class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 	
 	allowed_roles = ['system_admin']
 	login_url = '/'
 	redirect_field_name = 'next'
-	template_name = 'users/index.html'
+	template_name = 'list_users.html'
 	context_object_name = 'users'
 	paginate_by = 10
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-01 16:02-0300\n"
+"POT-Creation-Date: 2016-09-01 22:44-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -114,12 +114,24 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: users/templates/users/create.html:8
+#: users/templates/list_users.html:14 users/templates/users/create.html:8
 #: users/templates/users/edit_profile.html:8 users/templates/users/index.html:7
 #: users/templates/users/profile.html:8 users/templates/users/update.html:8
 #: users/templates/users/view.html:7
 msgid "Home"
-msgstr ""
+msgstr "Início"
+
+#: users/templates/list_users.html:15 users/templates/users/index.html:8
+msgid "Manage Users"
+msgstr "Gerenciar Usuários"
+
+#: users/templates/list_users.html:23
+msgid "Add user"
+msgstr "Adicionar usuário"
+
+#: users/templates/list_users.html:24
+msgid "Send email"
+msgstr "Enviar e-mail"
 
 #: users/templates/users/create.html:9
 msgid "New User"
@@ -161,10 +173,6 @@ msgstr ""
 #: users/templates/users/edit_profile.html:16
 #: users/templates/users/profile.html:9 users/templates/users/profile.html:16
 msgid "Profile"
-msgstr ""
-
-#: users/templates/users/index.html:8
-msgid "Manage Users"
 msgstr ""
 
 #: users/templates/users/index.html:56 users/templates/users/profile.html:32

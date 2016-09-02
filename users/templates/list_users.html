@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+ 	<div class="row">
+      	<div class="col-md-12">
+        	<h4>{% trans 'Manage Users' %}</h4>
+      	</div>
+    </div>
+    <div class="row">
+      	<div class="col-md-12">
+        	<ul class="breadcrumb" style="margin-bottom: 5px;">
+          		<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+              	<li class="active">{% trans 'Manage Users' %}</li>
+            </ul>
+      	</div>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+	<div class="btn-group-vertical">
+  		<a href="{% url 'app:users:create' %}" class="btn btn-raised">{% trans 'Add user' %}</a>
+  		<a href="javascript:void(0)" class="btn btn-raised">{% trans 'Send email' %}</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+	<input type="text" class="form-control" name="search" placeholder="search..">
+{% endblock %}
