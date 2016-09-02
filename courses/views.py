@@ -35,7 +35,7 @@ class CreateView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 	redirect_field_name = 'next'
 	template_name = 'course/create.html'
 	form_class = CourseForm
-	success_url = reverse_lazy('app:course:manage')
+	success_url = reverse_lazy('course:manage')
 
 	def form_valid(self, form):
 		self.object = form.save(commit = False)
@@ -46,7 +46,7 @@ class CreateView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 
 	def render_to_response(self, context, **response_kwargs):
 		messages.success(self.request, _('Course created successfully!'))
-    
+
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
 class UpdateView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
@@ -57,7 +57,7 @@ class UpdateView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 	template_name = 'course/update.html'
 	model = Course
 	form_class = CourseForm
-	success_url = reverse_lazy('app:course:manage')
+	success_url = reverse_lazy('course:manage')
 
 	def form_valid(self, form):
 		self.object = form.save(commit = False)
@@ -68,7 +68,7 @@ class UpdateView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 	def render_to_response(self, context, **response_kwargs):
 		messages.success(self.request, _('Course edited successfully!'))
-    
+
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
 class View(LoginRequiredMixin, generic.DetailView):
@@ -86,11 +86,11 @@ class DeleteView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 	redirect_field_name = 'next'
 	model = Course
 	template_name = 'course/delete.html'
-	success_url = reverse_lazy('app:course:manage')
+	success_url = reverse_lazy('course:manage')
 
 	def render_to_response(self, context, **response_kwargs):
 		messages.success(self.request, _('Course deleted successfully!'))
-    
+
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
 class FilteredView(LoginRequiredMixin, generic.ListView):
@@ -129,7 +129,7 @@ class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 	redirect_field_name = 'next'
 	template_name = 'category/create.html'
 	form_class = CategoryForm
-	success_url = reverse_lazy('app:course:manage_cat')
+	success_url = reverse_lazy('course:manage_cat')
 
 	def form_valid(self, form):
 		self.object = form.save(commit = False)
@@ -140,7 +140,7 @@ class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 
 	def render_to_response(self, context, **response_kwargs):
 		messages.success(self.request, _('Category created successfully!'))
-    
+
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
 class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
@@ -151,7 +151,7 @@ class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 	template_name = 'category/update.html'
 	model = Category
 	form_class = CategoryForm
-	success_url = reverse_lazy('app:course:manage_cat')
+	success_url = reverse_lazy('course:manage_cat')
 
 	def form_valid(self, form):
 		self.object = form.save(commit = False)
@@ -162,7 +162,7 @@ class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 	def render_to_response(self, context, **response_kwargs):
 		messages.success(self.request, _('Category edited successfully!'))
-    
+
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
 class ViewCat(LoginRequiredMixin, generic.DetailView):
@@ -173,17 +173,17 @@ class ViewCat(LoginRequiredMixin, generic.DetailView):
 	context_object_name = 'category'
 
 class DeleteCatView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
-	
+
 	allowed_roles = ['professor', 'system_admin']
 	login_url = '/'
 	redirect_field_name = 'next'
 	model = Category
 	template_name = 'category/delete.html'
-	success_url = reverse_lazy('app:course:manage_cat')
+	success_url = reverse_lazy('course:manage_cat')
 
 	def render_to_response(self, context, **response_kwargs):
 		messages.success(self.request, _('Category deleted successfully!'))
-    
+
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
 class ModulesView(LoginRequiredMixin, generic.ListView):
@@ -214,7 +214,7 @@ class CreateModView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 	form_class = ModuleForm
 
 	def get_success_url(self):
-		return reverse_lazy('app:course:manage_mods', kwargs={'slug' : self.object.course.slug})
+		return reverse_lazy('course:manage_mods', kwargs={'slug' : self.object.course.slug})
 
 	def get_context_data(self, **kwargs):
 		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
@@ -235,7 +235,7 @@ class CreateModView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 
 	def render_to_response(self, context, **response_kwargs):
 		messages.success(self.request, _('Module created successfully!'))
-    
+
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
 class UpdateModView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
@@ -248,7 +248,7 @@ class UpdateModView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 	form_class = ModuleForm
 
 	def get_success_url(self):
-		return reverse_lazy('app:course:manage_mods', kwargs={'slug' : self.object.course.slug})
+		return reverse_lazy('course:manage_mods', kwargs={'slug' : self.object.course.slug})
 
 	def get_context_data(self, **kwargs):
 		course = get_object_or_404(Course, slug = self.kwargs.get('slug_course'))
@@ -266,7 +266,7 @@ class UpdateModView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 	def render_to_response(self, context, **response_kwargs):
 		messages.success(self.request, _('Module edited successfully!'))
-    
+
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
 class DeleteModView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
@@ -278,7 +278,7 @@ class DeleteModView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 	template_name = 'module/delete.html'
 
 	def get_success_url(self):
-		return reverse_lazy('app:course:manage_mods', kwargs={'slug' : self.object.course.slug})
+		return reverse_lazy('course:manage_mods', kwargs={'slug' : self.object.course.slug})
 
 	def get_context_data(self, **kwargs):
 		course = get_object_or_404(Course, slug = self.kwargs.get('slug_course'))
@@ -289,5 +289,5 @@ class DeleteModView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 	def render_to_response(self, context, **response_kwargs):
 		messages.success(self.request, _('Module deleted successfully!'))
-    
+
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)

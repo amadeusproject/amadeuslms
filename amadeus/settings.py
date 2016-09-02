@@ -142,7 +142,7 @@ MEDIA_URL = '/uploads/'
 
 # Users
 LOGIN_REDIRECT_URL = 'app:index'
-LOGIN_URL = 'home'
+LOGIN_URL = 'core:home'
 AUTH_USER_MODEL = 'users.User'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
