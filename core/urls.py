@@ -5,6 +5,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-	url(r'^login/$', auth_views.login, {'template_name': 'index.html'}, name='home'),
+	url(r'^login/$', views.login, name='home'),
+	url(r'^remember_password/$', views.remember_password, name='remember_password'),
     url(r'^logout/$', auth_views.logout, {'next_page': 'core:home'}, name='logout'),
 ]

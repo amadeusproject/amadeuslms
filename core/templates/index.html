@@ -28,7 +28,7 @@
 
 {% block content %}
 		<div class="row logo-row">
-        <div class="col-lg-offset-4 col-lg-2">
+        <div class="col-lg-offset-4 col-lg-8">
             <img src="..." class="img-responsive center-block " alt="logo amadeus">
         </div>
     </div>
@@ -39,37 +39,37 @@
                 <div class="card-content">
 
                     <div class="card-body">
-											<form id="form-login"class="form-group" method="post" action="">
+											<form id="form-login" class="form-group" method="post" action="">
 												{% csrf_token %}
-                            <label class="col-md-4 control-label"> E-mail</label>
+													<div class="form-group is-empty">
+														<label for="inputEmail" class="col-md-4 control-label"> Username</label>
                             <div class="col-md-8">
-                                <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                <input form="form-login" type="text" name="username" class="form-control" id="inputEmail" placeholder="Username">
                             </div>
-
+													</div>
                             <div class="form-group is-empty">
-                                <label for="inputPassword" class="col-md-4 control-label">Password</label>
+                                <label for="inputPassword" class="col-md-4 control-label"> Password</label>
 
                                 <div class="col-md-8">
-                                    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                                    <input form="form-login" type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
                                 </div>
                             </div>
                             <div class="col-md-offset-2 col-md-10">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Remember Email
+                                        <input form="form-login" type="checkbox" name="checkbox"><span class="checkbox-material"><span class="check"></span></span> Remember Email
                                     </label>
                                 </div>
                             </div>
-
 												</form>
                     </div>
 
-                    <footer class="card-footer">
+                    <footer class="card-footer" style="display: -webkit-box;">
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-flat" formaction="#">Guest</button>
+                            <button type="button" class="btn btn-flat" formaction="#" style="position: initial;">Guest</button>
                         </div>
                         <div class="col-md-6">
-                            <button type="submite" class="btn btn-flat btn-success" form="form-login" >Login</button>
+                            <button type="submite" class="btn btn-flat btn-success" form="form-login" style="position: initial;">Login</button>
                         </div>
                     </footer>
 

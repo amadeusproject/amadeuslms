@@ -20,20 +20,20 @@
 	<h4>{% trans 'You can:' %} </h4>
 	<div class="list-group">
 		{% if user|has_role:'professor' %}
-			<a href="{% url 'app:course:create' %}" class="list-group-item">
+			<a href="{% url 'course:create' %}" class="list-group-item">
 				{% trans 'Create Course' %}
 			</a>
 		{% endif %}
 		{% if user|has_role:'professor' %}
-			<a href="{% url 'app:users:manage' %}" class="list-group-item">
+			<a href="{% url 'users:manage' %}" class="list-group-item">
 				{% trans 'Manage Users' %}
 			</a>
 		{% endif %}
-		<a href="{% url 'app:course:manage' %}" class="list-group-item">
+		<a href="{% url 'course:manage' %}" class="list-group-item">
 			{% trans 'Manage Courses' %}
 		</a>
 		{% if user|has_role:'professor' %}
-			<a href="{% url 'app:course:manage_cat' %}" class="list-group-item">
+			<a href="{% url 'course:manage_cat' %}" class="list-group-item">
 				{% trans 'Gerenciar Categorias' %}
 			</a>
 		{% endif %}
