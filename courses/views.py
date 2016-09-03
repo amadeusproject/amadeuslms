@@ -15,7 +15,7 @@ from .models import Course, Module, Category
 
 class IndexView(LoginRequiredMixin, generic.ListView):
 
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	queryset = Course.objects.all()
 	template_name = 'course/index.html'
@@ -31,7 +31,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
 class CreateView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 
 	allowed_roles = ['professor', 'system_admin']
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'course/create.html'
 	form_class = CourseForm
@@ -52,7 +52,7 @@ class CreateView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 class UpdateView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 	allowed_roles = ['professor', 'system_admin']
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'course/update.html'
 	model = Course
@@ -73,7 +73,7 @@ class UpdateView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 class View(LoginRequiredMixin, generic.DetailView):
 
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	model = Course
 	context_object_name = 'course'
@@ -82,7 +82,7 @@ class View(LoginRequiredMixin, generic.DetailView):
 class DeleteView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 	allowed_roles = ['professor', 'system_admin']
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	model = Course
 	template_name = 'course/delete.html'
@@ -95,7 +95,7 @@ class DeleteView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 class FilteredView(LoginRequiredMixin, generic.ListView):
 
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'course/filtered.html'
 	context_object_name = 'courses'
@@ -115,7 +115,7 @@ class FilteredView(LoginRequiredMixin, generic.ListView):
 
 class IndexCatView(LoginRequiredMixin, generic.ListView):
 
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	queryset = Category.objects.all()
 	template_name = 'category/index.html'
@@ -125,7 +125,7 @@ class IndexCatView(LoginRequiredMixin, generic.ListView):
 class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 
 	allowed_roles = ['professor', 'system_admin']
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'category/create.html'
 	form_class = CategoryForm
@@ -146,7 +146,7 @@ class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 	allowed_roles = ['professor', 'system_admin']
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'category/update.html'
 	model = Category
@@ -166,7 +166,7 @@ class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
 class ViewCat(LoginRequiredMixin, generic.DetailView):
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	model = Category
 	template_name = 'category/view.html'
@@ -175,7 +175,7 @@ class ViewCat(LoginRequiredMixin, generic.DetailView):
 class DeleteCatView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 	allowed_roles = ['professor', 'system_admin']
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	model = Category
 	template_name = 'category/delete.html'
@@ -188,7 +188,7 @@ class DeleteCatView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 class ModulesView(LoginRequiredMixin, generic.ListView):
 
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'module/index.html'
 	context_object_name = 'modules'
@@ -208,7 +208,7 @@ class ModulesView(LoginRequiredMixin, generic.ListView):
 class CreateModView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 
 	allowed_roles = ['professor', 'system_admin']
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'module/create.html'
 	form_class = ModuleForm
@@ -241,7 +241,7 @@ class CreateModView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 class UpdateModView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 	allowed_roles = ['professor', 'system_admin']
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'module/update.html'
 	model = Module
@@ -272,7 +272,7 @@ class UpdateModView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 class DeleteModView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 	allowed_roles = ['professor', 'system_admin']
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	model = Module
 	template_name = 'module/delete.html'

@@ -22,15 +22,17 @@ from django.shortcuts import redirect
 from django.urls import reverse
 
 def login(request):
+	context = {}
 	if request.POST:
 		username = request.POST['username']
 		password = request.POST['password']
 		usuario = authenticate(username=username, password=password)
-		print (dir(usuario))
 		if usuario is not None:
 			login_user(request, usuario)
 			return redirect(reverse("app:index"))
-	return render(request,"index.html")
+		else:
+			context["message"] = "Email ou senha incorretos!"
+	return render(request,"index.html",context)
 
 
 # class LoginClass(LoginView):
