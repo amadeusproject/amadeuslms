@@ -12,7 +12,7 @@ from .forms import UserForm, ProfileForm
 class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 
 	allowed_roles = ['system_admin']
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'list_users.html'
 	context_object_name = 'users'
@@ -25,7 +25,7 @@ class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
 
 	allowed_roles = ['system_admin']
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'users/create.html'
 	form_class = UserForm
@@ -51,7 +51,7 @@ class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
 class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
 
 	allowed_roles = ['system_admin']
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'users/update.html'
 	slug_field = 'username'
@@ -79,7 +79,7 @@ class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
 
 class View(LoginRequiredMixin, generic.DetailView):
 
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	model = User
 	context_object_name = 'acc'
@@ -89,7 +89,7 @@ class View(LoginRequiredMixin, generic.DetailView):
 
 class Profile(LoginRequiredMixin, generic.DetailView):
 
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	context_object_name = 'user'
 	template_name = 'users/profile.html'
@@ -100,7 +100,7 @@ class Profile(LoginRequiredMixin, generic.DetailView):
 
 class EditProfile(LoginRequiredMixin, generic.UpdateView):
 
-	login_url = '/'
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'users/edit_profile.html'
 	form_class = UserForm

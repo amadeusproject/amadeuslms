@@ -1,12 +1,22 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from courses.models import Course
 
-@login_required
-def index(request):
-	context = {}
+class AppIndex(LoginRequiredMixin, TemplateView):
+	template_name = "home_professor.html"
 
-	context['courses'] = Course.objects.filter(user = request.user)
+	def render_to_response(self, context, **response_kwargs):
+		context = {}
 
-	return render(request, "home_app.html", context)
+		if self.request.user.type_profile == 2:
+			template = "home_student.html"
+			context['courses'] = Course.objects.filter(user = self.request.user)
+		else:
+			template = self.get_template_names()
+			context['courses'] = Course.objects.filter(user = self.request.user)
+
+		context['title'] = 'Amadeus'
+
+		return self.response_class(request = self.request, template = template, context = context, using = self.template_engine, **response_kwargs)

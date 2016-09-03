@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-01 22:44-0300\n"
+"POT-Creation-Date: 2016-09-02 17:13-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,22 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: core/templates/base.html:43
-msgid "Amadeus"
-msgstr ""
-
-#: core/templates/index.html:29
-msgid "Entrar"
-msgstr ""
-
-#: core/templates/index.html:41
-msgid "Search course:"
-msgstr ""
-
-#: core/templates/index.html:47
-msgid "Search"
-msgstr ""
-
-#: core/templates/index.html:52
-msgid "Most popular keywords:"
-msgstr ""
+#: core/templates/base.html:56
+msgid "Log out"
+msgstr "Sair"

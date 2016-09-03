@@ -11,9 +11,15 @@
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-	<link href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}" />
 	<link rel="stylesheet" type="text/css" href="{% static 'material/css/bootstrap-material-design.min.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/header.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
+    <script>
+    	$.material.init();
+    </script>
 	<!--CSS block for specific-app ones -->
 	{% block style %}
 	{% endblock %}
@@ -31,28 +37,36 @@
 </head>
 <body>
 	{% block nav %}
-		<div class="bs-component">
-	      	<div class="navbar navbar-default">
-	            <div class="container-fluid">
-	          		<div class="navbar-header">
-	                	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-	                  		<span class="icon-bar"></span>
-	                  		<span class="icon-bar"></span>
-	                  		<span class="icon-bar"></span>
-	                	</button>
-	                	<a class="navbar-brand" href="{% url 'app:index' %}"><h3>{% trans 'Amadeus' %}</h3></a>
-	              	</div>
-	            </div>
-	      	</div>
-	    </div>
+		<div class="row">
+        	<div class="navbar navbar-default">
+            	<div class="container-fluid">
+              		<div class="navbar-header">
+                		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                  			<span class="icon-bar"></span>
+                  			<span class="icon-bar"></span>
+                  			<span class="icon-bar"></span>
+                		</button>
+                		<a class="navbar-brand" href="javascript:void(0)"><img class="logo" src="{% static 'img/topo-amadeus.png'  %}" alt="Logo"/></a>
+              		</div>
+              		<div class="navbar-collapse collapse navbar-responsive-collapse">
+                		<ul class="nav navbar-nav navbar-right notifications">
+                  			<li> <a href="#"><i class="fa fa-bell-o" aria-hidden="true"></i></a> </li>
+                  			<li> <a href="#"><i class="fa fa-comments" aria-hidden="true"></i></a> </li>
+                  			<li> <a href="{% url 'users:profile' %}">{{ user }}</a></li>
+                  			<li> <a href="{% url 'core:logout' %}">{% trans 'Log out' %}</a></li>
+                		</ul>
+              		</div>
+            	</div>
+        	</div>
+    	</div>
 	{% endblock %}
 
-    <div class="container-fluid">
+    <div class="container">
     	{% block breadcrumbs %}
 
     	{% endblock %}
     	<div class="row">
-    		<div class="col-md-2 col-sm-2">
+    		<div class="col-md-3 col-sm-3">
 				{% block sidebar %}
 
 				{% endblock %}
@@ -62,7 +76,7 @@
 
 				{% endblock %}
 			</div>
-			<div class="col-md-4 col-sm-4">
+			<div class="col-md-3 col-sm-3">
 				{% block rightbar %}
 
 				{% endblock rightbar %}
