@@ -3,37 +3,17 @@
 {% load static i18n %}
 {% load widget_tweaks %}
 
-{% block style %}
-	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'material/css/bootstrap-material-design.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.min.css' %}">
-
+{% block nav %}
 {% endblock %}
-
-
-{% block javascript %}
-<!-- Jquery -->
-    <script src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
-    <script src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'material/js/material.min.js' %}"></script>
-    <script src="{% static 'material/js/ripples.min.js' %}"></script>
-    <script>
-        $.material.init();
-    </script>
-{% endblock %}
-
 
 {% block content %}
-		<div class="row logo-row">
+	<div class="row logo-row">
         <div class="col-lg-offset-2 col-lg-9">
             <img src="..." class="img-responsive center-block " alt="logo amadeus">
         </div>
     </div>
 
-		<div class="row ">
+	<div class="row ">
         <div class="col-lg-9 col-lg-offset-2">
             <div class="card">
 							{% if message %}
@@ -43,19 +23,17 @@
 
 							{% endif %}
                 <div class="card-content">
-
                     <div class="card-body">
-											<form id="form-login" class="form-group" method="post" action="">
-												{% csrf_token %}
-													<div class="form-group is-empty">
-														<label for="inputEmail" class="col-md-4 control-label"> Username</label>
-                            <div class="col-md-8">
-                                <input form="form-login" type="text" name="username" class="form-control" id="inputEmail" placeholder="Username">
-                            </div>
-													</div>
+						<form id="form-login" class="form-group" method="post" action="">
+							{% csrf_token %}
+							<div class="form-group is-empty">
+								<label for="inputEmail" class="col-md-4 control-label"> {% trans 'Username' %}</label>
+                                <div class="col-md-8">
+                                    <input form="form-login" type="text" name="username" class="form-control" id="inputEmail" placeholder="Username">
+                                </div>
+							</div>
                             <div class="form-group is-empty">
-                                <label for="inputPassword" class="col-md-4 control-label"> Password</label>
-
+                                <label for="inputPassword" class="col-md-4 control-label"> {% trans 'Password' %}</label>
                                 <div class="col-md-8">
                                     <input form="form-login" type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
                                 </div>
@@ -63,31 +41,28 @@
                             <div class="col-md-offset-2 col-md-10">
                                 <div class="checkbox">
                                     <label>
-                                        <input form="form-login" type="checkbox" name="checkbox"><span class="checkbox-material"><span class="check"></span></span> Remember Email
+                                        <input form="form-login" type="checkbox" name="checkbox"><span class="checkbox-material"><span class="check"></span></span> {% trans 'Remember Email' %}
                                     </label>
                                 </div>
                             </div>
-												</form>
+						</form>
                     </div>
 
                     <footer class="card-footer" style="display: -webkit-box;">
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-flat" formaction="#" style="position: initial;">Guest</button>
+                            <button type="button" class="btn btn-flat" formaction="#" style="position: initial;">{% trans 'Guest' %}</button>
                         </div>
                         <div class="col-md-6">
-                            <button type="submite" class="btn btn-flat btn-success" form="form-login" style="position: initial;">Login</button>
+                            <button type="submite" class="btn btn-flat btn-success" form="form-login" style="position: initial;">{% trans 'Login' %}</button>
                         </div>
                     </footer>
-
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-offset-2 col-lg-9">
-            <button class="btn btn-raised btn-primary btn-lg btn-block" formaction="{% url 'users:create' %}">Sign Up </button>
-
+            <button class="btn btn-raised btn-primary btn-lg btn-block" formaction="{% url 'users:create' %}">{% trans 'Sign Up' %} </button>
         </div>
-
     </div>
 {% endblock%}
