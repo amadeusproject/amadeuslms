@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-02 17:13-0300\n"
+"POT-Creation-Date: 2016-09-03 00:18-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,9 +18,89 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: app/templates/app/base.html:10
+msgid "The Project"
+msgstr ""
+
+#: app/templates/app/base.html:11
+msgid "CCTE Group"
+msgstr ""
+
+#: app/templates/app/base.html:14
+msgid "Hi"
+msgstr ""
+
+#: app/templates/app/base.html:16
+#, fuzzy
+#| msgid "Profile"
+msgid "See Profile"
+msgstr "Perfil"
+
+#: app/templates/app/base.html:17
+msgid "Settings"
+msgstr "Configurações"
+
+#: app/templates/app/base.html:18
+msgid "Logout"
+msgstr "Sair"
+
+#: app/templates/app/index.html:6
+msgid "You have:"
+msgstr ""
+
+#: app/templates/app/index.html:10
+#, fuzzy
+#| msgid "Pending tasks"
+msgid "Pending Tasks"
+msgstr "Tarefas Pendentes"
+
+#: app/templates/app/index.html:14
+msgid "Users Online"
+msgstr "Usuários Online"
+
+#: app/templates/app/index.html:20
+msgid "You can:"
+msgstr ""
+
 #: app/templates/app/index.html:24 app/templates/home_professor.html:23
 msgid "Create Course"
 msgstr "Criar Curso"
+
+#: app/templates/app/index.html:29
+#, fuzzy
+#| msgid "Manage Course"
+msgid "Manage Users"
+msgstr "Gerenciar Curso"
+
+#: app/templates/app/index.html:33
+#, fuzzy
+#| msgid "Manage Course"
+msgid "Manage Courses"
+msgstr "Gerenciar Curso"
+
+#: app/templates/app/index.html:37
+msgid "Gerenciar Categorias"
+msgstr ""
+
+#: app/templates/app/index.html:45
+msgid "Your course(s):"
+msgstr ""
+
+#: app/templates/app/index.html:46
+msgid "No courses subscribed yet"
+msgstr ""
+
+#: app/templates/app/index.html:56
+msgid "Search course:"
+msgstr ""
+
+#: app/templates/app/index.html:62
+msgid "Search"
+msgstr ""
+
+#: app/templates/app/index.html:67
+msgid "Most popular keywords:"
+msgstr ""
 
 #: app/templates/home_professor.html:9 app/templates/home_student.html:9
 msgid "Home"

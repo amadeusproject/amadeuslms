@@ -4,18 +4,9 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login as login_user
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
 
 from .decorators import log_decorator
-# from django.contrib.auth.views import LoginView
-
-def index(request):
-	context = {
-		'subscribed_courses': 'testando'
-	}
-	return render(request, "index.html", context)
-
-def create_account(request):
-	return render(request, "create_account.html")
 
 def remember_password(request):
 	return render(request, "remember_password.html")
@@ -26,12 +17,12 @@ def login(request):
 	if request.POST:
 		username = request.POST['username']
 		password = request.POST['password']
-		usuario = authenticate(username=username, password=password)
-		if usuario is not None:
-			login_user(request, usuario)
+		user = authenticate(username=username, password=password)
+		if user is not None:
+			login_user(request, user)
 			return redirect(reverse("app:index"))
 		else:
-			context["message"] = "Email ou senha incorretos!"
+			context["message"] = _("E-mail or password are incorrect!")
 	return render(request,"index.html",context)
 
 

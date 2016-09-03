@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-02 17:13-0300\n"
+"POT-Creation-Date: 2016-09-03 00:18-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,3 +21,43 @@ msgstr ""
 #: core/templates/base.html:56
 msgid "Log out"
 msgstr "Sair"
+
+#: core/templates/index.html:30
+msgid "Username"
+msgstr "Usuário"
+
+#: core/templates/index.html:36
+msgid "Password"
+msgstr "Senha"
+
+#: core/templates/index.html:44
+msgid "Remember Email"
+msgstr ""
+
+#: core/templates/index.html:53
+msgid "Guest"
+msgstr ""
+
+#: core/templates/index.html:56
+msgid "Login"
+msgstr "Entrar"
+
+#: core/templates/index.html:65
+msgid "Sign Up"
+msgstr "Cadastrar"
+
+#: core/templates/remember_password.html:18
+msgid "E-mail"
+msgstr "E-mail"
+
+#: core/templates/remember_password.html:22
+msgid "Registration"
+msgstr ""
+
+#: core/templates/remember_password.html:26
+msgid "Send"
+msgstr "Enviar"
+
+#: core/views.py:25
+msgid "E-mail or password are incorrect!"
+msgstr "O E-mail e/ou a senha estão incorretos"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-02 17:13-0300\n"
+"POT-Creation-Date: 2016-09-03 00:18-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,11 +20,11 @@ msgstr ""
 
 #: users/forms.py:10
 msgid "Password"
-msgstr ""
+msgstr "Senha"
 
 #: users/models.py:10
 msgid "Login"
-msgstr ""
+msgstr "Entrar"
 
 #: users/models.py:13
 msgid ""
@@ -44,31 +44,31 @@ msgstr ""
 
 #: users/models.py:18
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: users/models.py:19
 msgid "City"
-msgstr ""
+msgstr "Cidade"
 
 #: users/models.py:20
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #: users/models.py:21
 msgid "Gender"
-msgstr ""
+msgstr "Genero"
 
 #: users/models.py:21
 msgid "Male"
-msgstr ""
+msgstr "Masculino"
 
 #: users/models.py:21
 msgid "Female"
-msgstr ""
+msgstr "Feminino"
 
 #: users/models.py:22
 msgid "Image"
-msgstr ""
+msgstr "Imagem"
 
 #: users/models.py:23
 msgid "Birth Date"
@@ -76,7 +76,7 @@ msgstr ""
 
 #: users/models.py:24
 msgid "Phone"
-msgstr ""
+msgstr "Telefone"
 
 #: users/models.py:25 users/templates/users/profile.html:42
 msgid "Cpf"
@@ -92,7 +92,7 @@ msgstr ""
 
 #: users/models.py:26
 msgid "Student"
-msgstr ""
+msgstr "Aluno"
 
 #: users/models.py:27
 msgid "Create Date"
@@ -108,11 +108,11 @@ msgstr ""
 
 #: users/models.py:37
 msgid "User"
-msgstr ""
+msgstr "Usuário"
 
 #: users/models.py:38
 msgid "Users"
-msgstr ""
+msgstr "Usuários"
 
 #: users/templates/list_users.html:8 users/templates/list_users.html:15
 #: users/templates/users/index.html:8

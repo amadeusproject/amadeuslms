@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-02 17:13-0300\n"
+"POT-Creation-Date: 2016-09-03 00:18-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: courses/models.py:7 courses/models.py:20 courses/models.py:44
 #: courses/templates/category/index.html:38
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: courses/forms.py:14
 msgid "Category name"
@@ -38,7 +38,7 @@ msgstr ""
 
 #: courses/forms.py:28
 msgid "Number of studets maximum"
-msgstr ""
+msgstr "Número máximo de estudantes"
 
 #: courses/forms.py:29
 msgid "Course registration start date"
@@ -50,19 +50,19 @@ msgstr ""
 
 #: courses/forms.py:31
 msgid "Course start date"
-msgstr ""
+msgstr "Data de inicio do Curso"
 
 #: courses/forms.py:32
 msgid "Course end date"
-msgstr ""
+msgstr "Data de termino do curso"
 
 #: courses/forms.py:33 courses/models.py:30
 msgid "Image"
-msgstr ""
+msgstr "Imagem"
 
 #: courses/forms.py:34 courses/models.py:12 courses/models.py:31
 msgid "Category"
-msgstr ""
+msgstr "Categoria"
 
 #: courses/forms.py:37
 msgid "Course name"
@@ -139,7 +139,7 @@ msgstr ""
 #: courses/templates/category/update.html:16
 #: courses/templates/category/view.html:15
 msgid "Categories"
-msgstr ""
+msgstr "Categorias"
 
 #: courses/models.py:22
 msgid "Objectivies"
@@ -171,7 +171,7 @@ msgstr ""
 
 #: courses/models.py:36 courses/models.py:49
 msgid "Course"
-msgstr ""
+msgstr "Curso"
 
 #: courses/models.py:37 courses/templates/course/create.html:16
 #: courses/templates/course/delete.html:15
@@ -184,19 +184,19 @@ msgstr ""
 #: courses/templates/module/index.html:16
 #: courses/templates/module/update.html:17
 msgid "Courses"
-msgstr ""
+msgstr "Cursos"
 
 #: courses/models.py:47 courses/templates/module/index.html:107
 msgid "Visible"
-msgstr ""
+msgstr "Visível"
 
 #: courses/models.py:53
 msgid "Module"
-msgstr ""
+msgstr "Modulo"
 
 #: courses/models.py:54 courses/templates/module/index.html:92
 msgid "Modules"
-msgstr ""
+msgstr "Modulos"
 
 #: courses/templates/category/create.html:8
 #: courses/templates/category/delete.html:7
@@ -210,14 +210,14 @@ msgstr ""
 #: courses/templates/module/delete.html:7 courses/templates/module/index.html:7
 #: courses/templates/module/update.html:8
 msgid "Home"
-msgstr ""
+msgstr "Inicio"
 
 #: courses/templates/category/create.html:9
 #: courses/templates/category/delete.html:18
 #: courses/templates/category/index.html:18
 #: courses/templates/category/view.html:18
 msgid "Create Category"
-msgstr ""
+msgstr "Criar Categoria"
 
 #: courses/templates/category/create.html:26
 #: courses/templates/category/update.html:26
@@ -226,7 +226,7 @@ msgstr ""
 #: courses/templates/module/create.html:52
 #: courses/templates/module/update.html:52
 msgid "All fields are required"
-msgstr ""
+msgstr "Todos os campos são obrigatótios"
 
 #: courses/templates/category/create.html:51
 #: courses/templates/category/update.html:51
@@ -235,7 +235,7 @@ msgstr ""
 #: courses/templates/module/create.html:77
 #: courses/templates/module/update.html:77
 msgid "Save"
-msgstr ""
+msgstr "Salvar"
 
 #: courses/templates/category/delete.html:8
 #: courses/templates/category/index.html:8
@@ -250,13 +250,13 @@ msgstr ""
 #: courses/templates/course/delete.html:28
 #: courses/templates/module/delete.html:50
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #: courses/templates/category/delete.html:28
 #: courses/templates/course/delete.html:29
 #: courses/templates/module/delete.html:51
 msgid "No"
-msgstr ""
+msgstr "Não"
 
 #: courses/templates/category/index.html:40
 msgid "Actions"
