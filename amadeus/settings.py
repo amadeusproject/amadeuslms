@@ -149,5 +149,5 @@ AUTHENTICATION_BACKENDS = [
 ]
 ROLEPERMISSIONS_MODULE = 'amadeus.roles'
 
-
+LOGS_URL = 'logs/'
 #https://github.com/squ1b3r/Djaneiro

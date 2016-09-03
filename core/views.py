@@ -1,6 +1,11 @@
-
 from django.shortcuts import render
 from django.http import HttpResponse
+
+from django.contrib.auth import authenticate, login as login_user
+from django.shortcuts import redirect
+from django.core.urlresolvers import reverse
+
+from .decorators import log_decorator
 # from django.contrib.auth.views import LoginView
 
 def index(request):
@@ -15,12 +20,7 @@ def create_account(request):
 def remember_password(request):
 	return render(request, "remember_password.html")
 
-
-
-from django.contrib.auth import authenticate, login as login_user
-from django.shortcuts import redirect
-from django.urls import reverse
-
+@log_decorator('Entrou no sistema')
 def login(request):
 	if request.POST:
 		username = request.POST['username']
