@@ -42,3 +42,10 @@
 05/09/2016 04:39:39 - test - Entrou no sistema
 05/09/2016 04:39:39 - test - Acessou home
 05/09/2016 04:40:28 - matheuslins - Acessou home
+05/09/2016 15:28:49 - zambom - Acessou home
+05/09/2016 15:29:02 - zambom - Entrou no sistema
+05/09/2016 15:29:02 - zambom - Acessou home
+05/09/2016 15:31:13 - zambom - Entrou no sistema
+05/09/2016 15:31:13 - zambom - Acessou home
+05/09/2016 20:20:12 - admin - Entrou no sistema
+05/09/2016 20:20:13 - admin - Acessou home
