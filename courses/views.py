@@ -36,10 +36,10 @@ class CreateView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 	template_name = 'course/create.html'
 	form_class = CourseForm
 	success_url = reverse_lazy('course:manage')
-
 	def form_valid(self, form):
 		self.object = form.save(commit = False)
 		self.object.slug = slugify(self.object.name)
+		print('Fooooiiii!!')
 		self.object.save()
 
 		return super(CreateView, self).form_valid(form)

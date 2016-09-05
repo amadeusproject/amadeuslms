@@ -45,6 +45,9 @@ class CourseForm(forms.ModelForm):
 			'image': _('Representative image of the course'),
 			'category': _('Category which the course belongs'),
 		}
+		widgets = {
+			'categoy': forms.Select(),
+		}
 
 class ModuleForm(forms.ModelForm):
 

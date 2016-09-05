@@ -13,17 +13,32 @@ class CourseViewTestCase(TestCase):
 	def setUp(self):
 		self.client = Client()
 
-		self.user = User.objects.create_user(username = 'test', email = 'testing@amadeus.com', is_staff = True, is_active = True, password = 'testing')
+		self.user = User.objects.create_user(
+			username = 'test', 
+			email = 'testing@amadeus.com', 
+			is_staff = True, 
+			is_active = True, 
+			password = 'testing'
+		)
 		assign_role(self.user, 'system_admin')
 
-		category = Category(name = 'Categoria Teste', slug = 'categoria_teste')
-		category.save()
+		self.category = Category(
+			name = 'Categoria Teste', 
+			slug = 'categoria_teste'
+		)
+		self.category.save()
 
-		course = Course(name = 'Curso Teste', slug = 'curso_teste', max_students = 50, init_register_date = '2016-08-26', end_register_date = '2016-10-01', init_date = '2016-10-05', end_date = '2017-10-05', category = category)
-		course.save()
-
-		self.category = category
-		self.course = course
+		self.course = Course(
+			name = 'Curso Teste', 
+			slug = 'curso_teste', 
+			max_students = 50, 
+			init_register_date = '2016-08-26', 
+			end_register_date = '2016-10-01', 
+			init_date = '2016-10-05', 
+			end_date = '2017-10-05', 
+			category = self.category
+		)
+		self.course.save()
 
 	def test_index(self):
 		self.client.login(username='test', password='testing')
@@ -46,10 +61,19 @@ class CourseViewTestCase(TestCase):
 		self.client.login(username='test', password='testing')
 
 		url = reverse('course:create')
+		data = {
+			"name": 'Curso Teste', 
+			"slug":'curso_teste', 
+			"max_students": 50, 
+			"init_register_date": '2016-08-26', 
+			"end_register_date": '2016-10-01', 
+			"init_date":'2016-10-05', 
+			"end_date":'2017-10-05', 
+			"category": self.category
+		}
 
-		response = self.client.get(url)
-
-		self.assertEquals(response.status_code, 200)
+		response = self.client.post(url, data, format='json')
+		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'course/create.html')
 
 	def test_create_not_logged(self):
