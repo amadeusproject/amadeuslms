@@ -96,6 +96,7 @@ DATABASES = {
     }
 }
 
+
 #superuser: admin pass: amadeus2358
 
 # Password validation
