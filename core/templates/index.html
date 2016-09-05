@@ -3,165 +3,66 @@
 {% load static i18n %}
 {% load widget_tweaks %}
 
-{% block sidebar %}
-	<form class="form-horizontal" action="" method="post">
-		{% csrf_token %}
-
-		{% for error in form.non_field_errors %}
-			<div class="alert alert-danger">
-				{{ error }}
-			</div>
-		{% endfor %}
-
-		{% for field in form %}
-			<div class="form-group {% if form.has_error %} error {% endif %}">
-				<label for="{{ field.auto_id }}" class="col-sm-2 control-label">{{ field.label }}</label>
-				<div class="col-sm-10">
-					{% render_field field class='form-control input-sm' %}
-					{% for error in field.errors %}
-						<span class="help-block">{{ error }}</span>
-					{% endfor %}
-				</div>
-			</div>
-		{% endfor %}
-		<div class="form-group">
-			<div class="col-sm-12">
-				<input type="submit" class="btn btn-sm btn-success pull-right" value="{% trans 'Entrar' %}" />
-			</div>
-		</div>
-	</form>
+{% block nav %}
 {% endblock %}
 
 {% block content %}
-	<div class="row">
-		<div class="col-sm-12">
-			<form class="form-horizontal" method="post">
-				<div class="col-sm-10">
-					<div class="form-group">
-						<label for="search_keyword" class="control-label col-sm-3">{% trans 'Search course:' %} </label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control input-sm" id="search_keyword" />
-						</div>
-					</div>
-				</div>
-				<button type="submit" class="btn btn-sm btn-success">{% trans 'Search' %}</button>
-			</form>
+	<div class="row logo-row">
+        <div class="col-lg-offset-2 col-lg-9">
+            <img src="..." class="img-responsive center-block " alt="logo amadeus">
+        </div>
+    </div>
 
-			<hr />
+	<div class="row ">
+        <div class="col-lg-9 col-lg-offset-2">
+            <div class="card">
+							{% if message %}
+							<div class="alert alert-danger">
+								{{message}}
+							</div>
 
-			<h5>{% trans 'Most popular keywords:' %}</h5>
-			<div class="well">
-				<center>
-					<ul class="cloud">
-					    <li>
-					    	<a href="">
-					    		teste amadeus prospb
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		programação fácil
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		intermediário
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		amadeus
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		palavra02
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		programação para iniciantes
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		django
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		aluno teste
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		curso0101
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		kjsdnksa
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		palavra01
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		programming
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		python
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		curso
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		mvc
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		programação web
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		ionic
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		framework
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		web
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		android
-				    		</a>
-			    		</li>
-			    		<li>
-					    	<a href="">
-					    		programação
-				    		</a>
-			    		</li>
-					</ul>
-				</center>
-			</div>
-		</div>
-	</div>
+							{% endif %}
+                <div class="card-content">
+                    <div class="card-body">
+						<form id="form-login" class="form-group" method="post" action="">
+							{% csrf_token %}
+							<div class="form-group is-empty">
+								<label for="inputEmail" class="col-md-4 control-label"> {% trans 'Username' %}</label>
+                                <div class="col-md-8">
+                                    <input form="form-login" type="text" name="username" class="form-control" id="inputEmail" placeholder="Username">
+                                </div>
+							</div>
+                            <div class="form-group is-empty">
+                                <label for="inputPassword" class="col-md-4 control-label"> {% trans 'Password' %}</label>
+                                <div class="col-md-8">
+                                    <input form="form-login" type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
+                                </div>
+                            </div>
+                            <div class="col-md-offset-2 col-md-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input form="form-login" type="checkbox" name="checkbox"><span class="checkbox-material"><span class="check"></span></span> {% trans 'Remember Email' %}
+                                    </label>
+                                </div>
+                            </div>
+						</form>
+                    </div>
 
-{% endblock %}
+                    <footer class="card-footer" style="display: -webkit-box;">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-flat" formaction="#" style="position: initial;">{% trans 'Guest' %}</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="submite" class="btn btn-flat btn-success" form="form-login" style="position: initial;">{% trans 'Login' %}</button>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-2 col-lg-9">
+            <a class="btn btn-raised btn-primary btn-lg btn-block" href="{% url 'core:register' %}">{% trans 'Sign Up' %} </a>
+        </div>
+    </div>
+{% endblock%}

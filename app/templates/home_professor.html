@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+	<div class="row">
+      	<div class="col-md-12">
+            <ul class="breadcrumb">
+          		<li><a href="{% url 'core:home' %}">{% trans 'Home' %}</a></li>
+            </ul>
+      	</div>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="panel panel-primary navigation">
+        <div class="panel-heading">
+            <h5>{% trans 'Menu' %}</h5>
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="javascript:void(0)">{% trans 'Pending tasks' %}</a></li>
+                <li><a href="{% url 'course:create' %}">{% trans 'Create Course' %}</a></li>
+                <li><a href="{% url 'course:manage' %}">{% trans 'Manage Course' %}</a></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h3>{% trans 'Courses' %}</h3>
+  	{% if courses|length > 0 %}
+  		{% for course in courses %}
+		  	<div class="panel panel-default courseHome">
+                <div class="panel-body">
+                    <p>{{ course }}</p>
+                </div>
+                <div class="panel-footer">
+                    <ul>
+                        <li>{% trans 'Students:' %} 5</li>
+                        <li>{% trans 'Beginning:' %} {{ course.init_date }}</li>
+                        <li>{% trans 'End:' %} {{ course.end_date }}</li>
+                    </ul>
+                </div>
+            </div>
+		{% endfor %}
+	{% else %}
+		<p>{% trans "You didn't create any course yet." %}</p>
+	{% endif %}
+{% endblock %}
+
+{% block rightbar %}
+	<div class="well well-lg goal">
+        {% trans 'Goals' %}
+    </div>
+{% endblock rightbar %}

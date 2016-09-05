@@ -1,0 +1,6 @@
+02/09/2016 23:34:45 - zambom - Entrou no sistema
+02/09/2016 23:34:45 - zambom - Acessou home
+02/09/2016 23:55:55 - jailson - Entrou no sistema
+02/09/2016 23:55:55 - jailson - Acessou home
+02/09/2016 23:56:05 - jailson - Acessou home
+02/09/2016 23:56:25 - jailson - Acessou home

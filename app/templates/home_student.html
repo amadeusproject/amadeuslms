@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+	<div class="row">
+      	<div class="col-md-12">
+            <ul class="breadcrumb">
+          		<li><a href="{% url 'core:home' %}">{% trans 'Home' %} {{ logged }}</a></li>
+            </ul>
+      	</div>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="panel panel-primary navigation">
+        <div class="panel-heading">
+            <h5>{% trans 'Menu' %}</h5>
+        </div>
+        <div class="panel-body">
+        	<ul class="nav nav-pills nav-stacked">
+              	<li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
+              	<li><a href="javascript:void(0)">{% trans 'My Courses' %}</a></li>
+              	<li><a href="javascript:void(0)">{% trans 'Google accounts' %}</a></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+	<h3>{% trans 'Notifications' %}</h3>
+    <div class="panel panel-default">
+      	<div class="panel-body">
+        	His course has notified a new activity!
+      	</div>
+      	<div class="panel-footer">
+        	Go
+      	</div>
+    </div>
+    <div class="panel panel-default">
+      	<div class="panel-body">
+        	His teacher has notified a new material!
+      	</div>
+      	<div class="panel-footer">
+        	Go
+      	</div>
+    </div>
+    <div class="panel panel-default">
+      	<div class="panel-body">
+            You have a new guardian!
+      	</div>
+      	<div class="panel-footer">
+        	Go
+      	</div>
+    </div>
+{% endblock %}
+
+{% block rightbar %}
+	<div class="well well-lg goal">
+        {% trans 'Goals' %}
+    </div>
+    <div class="well well-lg favorites">
+      	{% trans 'Favorites' %}
+    </div>
+{% endblock rightbar %}

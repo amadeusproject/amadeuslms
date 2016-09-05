@@ -12,52 +12,76 @@ class CourseViewTestCase(TestCase):
 
 	def setUp(self):
 		self.client = Client()
-    	
-		self.user = User.objects.create_user(username = 'test', email = 'testing@amadeus.com', is_staff = True, is_active = True, password = 'testing')
+
+		self.user = User.objects.create_user(
+			username = 'test', 
+			email = 'testing@amadeus.com', 
+			is_staff = True, 
+			is_active = True, 
+			password = 'testing'
+		)
 		assign_role(self.user, 'system_admin')
 
-		category = Category(name = 'Categoria Teste', slug = 'categoria_teste')
-		category.save()
+		self.category = Category(
+			name = 'Categoria Teste', 
+			slug = 'categoria_teste'
+		)
+		self.category.save()
 
-		course = Course(name = 'Curso Teste', slug = 'curso_teste', max_students = 50, init_register_date = '2016-08-26', end_register_date = '2016-10-01', init_date = '2016-10-05', end_date = '2017-10-05', category = category)
-		course.save()
-
-		self.category = category
-		self.course = course
+		self.course = Course(
+			name = 'Curso Teste', 
+			slug = 'curso_teste', 
+			max_students = 50, 
+			init_register_date = '2016-08-26', 
+			end_register_date = '2016-10-01', 
+			init_date = '2016-10-05', 
+			end_date = '2017-10-05', 
+			category = self.category
+		)
+		self.course.save()
 
 	def test_index(self):
 		self.client.login(username='test', password='testing')
-		
-		url = reverse('app:course:manage')
-		
+
+		url = reverse('course:manage')
+
 		response = self.client.get(url)
 
 		self.assertEquals(response.status_code, 200)
 		self.assertTemplateUsed(response, 'course/index.html')
 
 	def test_index_not_logged(self):
-		url = reverse('app:course:manage')
-		
+		url = reverse('course:manage')
+
 		response = self.client.get(url, follow = True)
 
-		self.assertRedirects(response, '%s?next=%s' % (reverse('home'), url), 302, 200)
+		self.assertRedirects(response, '%s?next=%s' % (reverse('core:home'), url), 302, 200)
 
 	def test_create(self):
 		self.client.login(username='test', password='testing')
 
-		url = reverse('app:course:create')
+		url = reverse('course:create')
+		data = {
+			"name": 'Curso Teste', 
+			"slug":'curso_teste', 
+			"max_students": 50, 
+			"init_register_date": '2016-08-26', 
+			"end_register_date": '2016-10-01', 
+			"init_date":'2016-10-05', 
+			"end_date":'2017-10-05', 
+			"category": self.category
+		}
 
-		response = self.client.get(url)
-
-		self.assertEquals(response.status_code, 200)
+		response = self.client.post(url, data, format='json')
+		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'course/create.html')
 
 	def test_create_not_logged(self):
-		url = reverse('app:course:create')
-		
+		url = reverse('course:create')
+
 		response = self.client.get(url, follow = True)
 
-		self.assertRedirects(response, '%s?next=%s' % (reverse('home'), url), 302, 200)
+		self.assertRedirects(response, '%s?next=%s' % (reverse('core:home'), url), 302, 200)
 
 	def test_create_no_permission(self):
 		self.user = User.objects.create_user(username = 'student', email = 'student@amadeus.com', type_profile = 2, is_staff = False, is_active = True, password = 'testing')
@@ -66,8 +90,8 @@ class CourseViewTestCase(TestCase):
 
 		self.client.login(username='student', password='testing')
 
-		url = reverse('app:course:create')
-		
+		url = reverse('course:create')
+
 		response = self.client.get(url)
 
 		self.assertEquals(response.status_code, 403)
@@ -76,7 +100,7 @@ class CourseViewTestCase(TestCase):
 	def test_update(self):
 		self.client.login(username = 'test', password = 'testing')
 
-		url = reverse('app:course:update', kwargs = {'slug': self.course.slug})
+		url = reverse('course:update', kwargs = {'slug': self.course.slug})
 
 		response = self.client.get(url)
 
@@ -84,11 +108,11 @@ class CourseViewTestCase(TestCase):
 		self.assertTemplateUsed(response, 'course/update.html')
 
 	def test_update_not_logged(self):
-		url = reverse('app:course:update', kwargs = {'slug': self.course.slug})
-		
+		url = reverse('course:update', kwargs = {'slug': self.course.slug})
+
 		response = self.client.get(url, follow = True)
 
-		self.assertRedirects(response, '%s?next=%s' % (reverse('home'), url), 302, 200)
+		self.assertRedirects(response, '%s?next=%s' % (reverse('core:home'), url), 302, 200)
 
 	def test_update_no_permission(self):
 		self.user = User.objects.create_user(username = 'student', email = 'student@amadeus.com', type_profile = 2, is_staff = False, is_active = True, password = 'testing')
@@ -97,8 +121,8 @@ class CourseViewTestCase(TestCase):
 
 		self.client.login(username='student', password='testing')
 
-		url = reverse('app:course:update', kwargs = {'slug': self.course.slug})
-		
+		url = reverse('course:update', kwargs = {'slug': self.course.slug})
+
 		response = self.client.get(url)
 
 		self.assertEquals(response.status_code, 403)
@@ -106,7 +130,7 @@ class CourseViewTestCase(TestCase):
 	def test_view(self):
 		self.client.login(username = 'test', password = 'testing')
 
-		url = reverse('app:course:view', kwargs = {'slug': self.course.slug})
+		url = reverse('course:view', kwargs = {'slug': self.course.slug})
 
 		response = self.client.get(url)
 
@@ -114,8 +138,8 @@ class CourseViewTestCase(TestCase):
 		self.assertTemplateUsed(response, 'course/view.html')
 
 	def test_update_not_logged(self):
-		url = reverse('app:course:view', kwargs = {'slug': self.course.slug})
-		
+		url = reverse('course:view', kwargs = {'slug': self.course.slug})
+
 		response = self.client.get(url, follow = True)
 
-		self.assertRedirects(response, '%s?next=%s' % (reverse('home'), url), 302, 200)
+		self.assertRedirects(response, '%s?next=%s' % (reverse('core:home'), url), 302, 200)

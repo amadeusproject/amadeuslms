@@ -1,0 +1,41 @@
+.navigation{
+    margin: 10% 10% 5% 5%;
+}
+.breadcrumb{
+    margin-bottom: 5px;
+}
+.courseHome{
+    text-align: center;
+}
+.courseHome ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    margin-left: 2%;
+}
+.courseHome ul li{
+    display:inline;
+    text-align: center;
+    padding: 16px;
+}
+.goal{
+    margin: 0%;
+    margin-top: 10%;
+    padding-bottom: 200px;
+}
+.favorites{
+    margin: 0%;
+    margin-top: 20%;
+    padding-bottom: 200px;
+}
+.panel-info{
+    padding-bottom: 50px;
+}
+h3{
+    text-align: center;
+}
+h5{
+    text-align: center;
+}
+

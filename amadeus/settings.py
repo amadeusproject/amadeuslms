@@ -1,4 +1,3 @@
-
 """
 Django settings for amadeus project.
 
@@ -96,6 +95,12 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 #superuser: admin pass: amadeus2358
 
@@ -143,12 +148,12 @@ MEDIA_URL = '/uploads/'
 
 # Users
 LOGIN_REDIRECT_URL = 'app:index'
-LOGIN_URL = 'home'
+LOGIN_URL = 'core:home'
 AUTH_USER_MODEL = 'users.User'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 ROLEPERMISSIONS_MODULE = 'amadeus.roles'
 
-
+LOGS_URL = 'logs/'
 #https://github.com/squ1b3r/Djaneiro
