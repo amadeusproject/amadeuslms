@@ -239,7 +239,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 00:18-0300\n"
+"POT-Creation-Date: 2016-09-05 20:28-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -261,7 +261,7 @@ msgstr "Entrar"
 msgid ""
 "Type a valid username. This fields should only contain letters, numbers and "
 "the characteres: @/./+/-/_ ."
-msgstr ""
+msgstr "Digite um nome de usuário válido. Esse campo deve conter apenas letras, números e os caracteres: @/./+/-/_ ."
 
 #: users/models.py:16
 msgid ""
@@ -271,9 +271,9 @@ msgstr ""
 
 #: users/models.py:17
 msgid "Mail"
-msgstr ""
+msgstr "Email"
 
-#: users/models.py:18
+#: users/models.py:18 users/templates/list_users.html:41
 msgid "Name"
 msgstr "Nome"
 
@@ -303,7 +303,7 @@ msgstr "Imagem"
 
 #: users/models.py:23
 msgid "Birth Date"
-msgstr ""
+msgstr "Data de nascimento"
 
 #: users/models.py:24
 msgid "Phone"
@@ -311,15 +311,15 @@ msgstr "Telefone"
 
 #: users/models.py:25 users/templates/users/profile.html:42
 msgid "Cpf"
-msgstr ""
+msgstr "Cpf"
 
 #: users/models.py:26
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: users/models.py:26
 msgid "Professor"
-msgstr ""
+msgstr "Professor"
 
 #: users/models.py:26
 msgid "Student"
@@ -327,11 +327,11 @@ msgstr "Aluno"
 
 #: users/models.py:27
 msgid "Create Date"
-msgstr ""
+msgstr "Data de criação"
 
 #: users/models.py:28
 msgid "Administrador"
-msgstr ""
+msgstr "Administrador"
 
 #: users/models.py:29
 msgid "Active"
@@ -345,17 +345,16 @@ msgstr "Usuário"
 msgid "Users"
 msgstr "Usuários"
 
-#: users/templates/list_users.html:8 users/templates/list_users.html:15
-#: users/templates/users/index.html:8
-msgid "Manage Users"
-msgstr "Gerenciar Usuários"
-
-#: users/templates/list_users.html:14 users/templates/users/create.html:8
+#: users/templates/list_users.html:9 users/templates/users/create.html:8
 #: users/templates/users/edit_profile.html:8 users/templates/users/index.html:7
 #: users/templates/users/profile.html:8 users/templates/users/update.html:8
 #: users/templates/users/view.html:7
 msgid "Home"
 msgstr "Início"
+
+#: users/templates/list_users.html:10 users/templates/users/index.html:8
+msgid "Manage Users"
+msgstr "Gerenciar Usuários"
 
 #: users/templates/list_users.html:23
 msgid "Add user"
@@ -365,14 +364,36 @@ msgstr "Adicionar usuário"
 msgid "Send email"
 msgstr "Enviar e-mail"
 
+#: users/templates/list_users.html:42
+#: users/templates/users/edit_profile.html:16
+#: users/templates/users/profile.html:9 users/templates/users/profile.html:16
+msgid "Profile"
+msgstr "Perfil"
+
+#: users/templates/list_users.html:43
+msgid "Email"
+msgstr "Email"
+
+#: users/templates/list_users.html:44
+msgid "Contact"
+msgstr "Contato"
+
+#: users/templates/list_users.html:46
+msgid "Edit"
+msgstr "Editar"
+
+#: users/templates/list_users.html:47
+msgid "Delete"
+msgstr "Apagar"
+
 #: users/templates/users/create.html:9
 msgid "New User"
-msgstr ""
+msgstr "Novo usuário"
 
 #: users/templates/users/create.html:16 users/templates/users/index.html:15
 #: users/templates/users/update.html:16 users/templates/users/view.html:15
 msgid "System Users"
-msgstr ""
+msgstr "Usuários do sistema"
 
 #: users/templates/users/create.html:19 users/templates/users/index.html:18
 #: users/templates/users/update.html:19 users/templates/users/view.html:18
@@ -400,11 +421,6 @@ msgstr ""
 #: users/templates/users/edit_profile.html:19
 #: users/templates/users/profile.html:19
 msgid "Edit Profile"
-msgstr ""
-
-#: users/templates/users/edit_profile.html:16
-#: users/templates/users/profile.html:9 users/templates/users/profile.html:16
-msgid "Profile"
 msgstr ""
 
 #: users/templates/users/index.html:56 users/templates/users/profile.html:32

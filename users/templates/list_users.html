@@ -1,13 +1,8 @@
 {% extends 'base.html' %}
 
-{% load i18n %}
+{% load i18n pagination %}
 
 {% block breadcrumbs %}
- 	<div class="row">
-      	<div class="col-md-12">
-        	<h4>{% trans 'Manage Users' %}</h4>
-      	</div>
-    </div>
     <div class="row">
       	<div class="col-md-12">
         	<ul class="breadcrumb" style="margin-bottom: 5px;">
@@ -19,12 +14,44 @@
 {% endblock %}
 
 {% block sidebar %}
-	<div class="btn-group-vertical">
-  		<a href="{% url 'users:create' %}" class="btn btn-raised">{% trans 'Add user' %}</a>
-  		<a href="javascript:void(0)" class="btn btn-raised">{% trans 'Send email' %}</a>
+    <div class="panel panel-primary navigation">
+        <div class="panel-heading">
+            <h5>Menu</h5>
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="{% url 'users:create' %}">{% trans 'Add user' %}</a></li>
+                <li><a href="javascript:void(0)">{% trans 'Send email' %}</a></li>
+            </ul>
+        </div>
     </div>
 {% endblock %}
 
 {% block content %}
 	<input type="text" class="form-control" name="search" placeholder="search..">
+
+    {% if users|length > 0 %}
+        {% for acc in users %}
+            <div class="row panel panel-default">
+                <div class="panel-body">
+                    <div class="col-md-4">
+                        <img src="{{ acc.image.url }}" alt="photoUser" class="img-circle img-responsive">
+                    </div>
+                    <div class="col-md-8">
+                        <p>{% trans 'Name' %}: {{ acc.name }}</p>
+                        <p>{% trans 'Profile' %}: {{ acc.get_type_profile_display }}</p>
+                        <p>{% trans 'Email' %}: {{ acc.email }}</p>
+                        <p>{% trans 'Contact' %}: {{ acc.phone }}</p>
+                        <div align="right">
+                            <a href="javascript:void(0)" class="btn btn-raised btn-inverse">{% trans 'Edit' %}</a>
+                            <a href="javascript:void(0)" class="btn btn-raised btn-danger">{% trans 'Delete' %}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {% pagination request paginator page_obj %}
+    {% else %}
+        
+    {% endif %}
 {% endblock %}
