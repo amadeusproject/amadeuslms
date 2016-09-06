@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load i18n %}
+{% load i18n pagination %}
 
 {% block breadcrumbs %}
     <div class="row">
@@ -50,5 +50,8 @@
                 </div>
             </div>
         {% endfor %}
+        {% pagination request paginator page_obj %}
+    {% else %}
+        
     {% endif %}
 {% endblock %}
