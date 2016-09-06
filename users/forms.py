@@ -32,3 +32,10 @@ class EditUserForm(forms.ModelForm):
 	class Meta:
 		model = User
 		fields = ['username', 'name', 'email', 'birth_date', 'city', 'state', 'gender', 'cpf', 'phone', 'image']
+
+# Ailson
+class UpdateUserForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['username', 'name', 'email', 'city', 'state', 'birth_date', 'gender', 'cpf', 'phone', 'image']

@@ -9,4 +9,6 @@ urlpatterns = [
 	url(r'^usuario/dados/(?P<username>[\w_-]+)/$', views.View.as_view(), name='view'),
 	url(r'^perfil/$', views.Profile.as_view(), name='profile'),
 	url(r'^perfil/editar/(?P<username>[\w_-]+)/$', views.EditProfile.as_view(), name='edit_profile'),
+	#
+	url(r'^profile/update/$', views.UpdateUser.as_view(), name='update_user'), 
 ]

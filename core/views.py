@@ -2,10 +2,11 @@ from rolepermissions.shortcuts import assign_role
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib.auth import authenticate, login as login_user
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .decorators import log_decorator
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django.http import HttpResponse
 from  .forms import RegisterUserForm
 from users.models import User
@@ -30,6 +31,7 @@ class RegisterUser(CreateView):
 		messages.success(self.request, _('User successfully registered!'))
 		
 		return super(RegisterUser, self).form_valid(form)
+
 
 def create_account(request):
 	return render(request, "create_account.html")

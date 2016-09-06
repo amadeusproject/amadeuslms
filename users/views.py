@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from rolepermissions.shortcuts import assign_role
 from .models import User
-from .forms import UserForm, ProfileForm
+from .forms import UserForm, ProfileForm, UpdateUserForm
 
 class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 
@@ -125,3 +125,21 @@ class EditProfile(LoginRequiredMixin, generic.UpdateView):
 		messages.success(self.request, _('Profile edited successfully!'))
 
 		return super(EditProfile, self).form_valid(form)
+
+class UpdateUser(LoginRequiredMixin, generic.edit.UpdateView):
+	allowed_roles = ['student']
+	login_url = reverse_lazy("core:home")
+	# template_name = 'users/edit_profile.html'
+	form_class = UpdateUserForm
+	success_url = reverse_lazy('app:index')
+
+	def get_object(self):
+		user = get_object_or_404(User, username = self.request.user.username)
+		return user
+
+	def form_valid(self, form):
+		form.save()
+		messages.success(self.request, _('Profile edited successfully!'))
+
+		return super(UpdateUser, self).form_valid(form)
+
