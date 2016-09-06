@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 
+db.sqlite3
+amadeus/local_settings.py
+
 # C extensions
 *.so
 Makefile

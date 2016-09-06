@@ -95,6 +95,7 @@ DATABASES = {
     }
 }
 
+
 #superuser: admin pass: amadeus2358
 
 # Password validation
@@ -150,3 +151,9 @@ ROLEPERMISSIONS_MODULE = 'amadeus.roles'
 
 LOGS_URL = 'logs/'
 #https://github.com/squ1b3r/Djaneiro
+
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass

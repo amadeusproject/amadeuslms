@@ -36,3 +36,26 @@ class LoginTestCase(TestCase):
     #     response = self.client.post(self.url, data)
     #     self.assertTrue('message' in response.context)
     #     self.assertEquals(response.context['message'], "Email ou senha incorretos!")
+
+class RegisterUserTestCase(TestCase):
+    
+    def setUp(self):
+        self.client = Client()
+        self.url = reverse('core:register')
+
+    def test_register_ok(self):
+
+        response = self.client.post(self.url,
+            data={
+                'username': 'testeamadeus',
+                'email': 'teste@amadeus.com',
+                'password': 'aminhasenha1',
+                'password2': 'aminhasenha1',
+                'name': 'Teste Amadeus',
+                'city': 'Praia',
+                'state': 'PE',
+                'gender': 'F',
+            })
+        self.assertRedirects(response, 'http://localhost%s' % reverse('core:home'))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(User.objects.count(), 1)
