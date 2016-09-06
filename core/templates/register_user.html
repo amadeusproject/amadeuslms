@@ -1,20 +1,11 @@
-{% extends 'app/base.html' %}
+{% extends 'base.html' %}
 
 {% load static i18n %}
 {% load widget_tweaks %}
 
-{% block breadcrumbs %}
-	<ol class="breadcrumb">
-	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li class="active">{% trans 'Register' %}</li>
-	</ol>
+{% block nav %}
 {% endblock %}
 
-{% block sidebar %}
-	<div class="list-group">
-	  	
-	</div>
-{% endblock %}
 
 {% block content %}
 	{% if message %}
@@ -22,30 +13,52 @@
 			{{message}}
 		</div>
 	{% endif %}
+	<div class="row logo-row">
+        <div class="col-lg-offset-4 col-md-4">
+            <img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block " alt="logo amadeus" id="logo">
+        </div>
+    </div>
 
-	<form method="post" action="" enctype="multipart/form-data">
-		{% csrf_token %}
-		{% for field in form %}
-			<div class="form-group{% if form.has_error %} has-error {% endif %}">
-				<label for="{{ field.auto_id }}" class="clearfix">{{ field.label }}</label>
-				{% render_field field class='form-control input-sm' %}
-				<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-				{% if field.errors %}
-					<div class="alert alert-danger alert-dismissible" role="alert">
-	  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-	  						<span aria-hidden="true">&times;</span>
-  						</button>
-						<ul>
-							{% for error in field.errors %}
-								<li>{{ error }}</li>
+	<div class="row">
+		<div class="">
+			<div class="card">
+				<div class="card-content">
+					<div class="card-body">
+						<form class="form-horizontal" name="registerForm" method="post" action="" enctype="multipart/form-data">
+						{% csrf_token %}
+							<legend>{% trans 'User Register' %}</legend>
+							{% for field in form %}
+							<div class="form-group is-empy{% if form.has_error %} has-error {% endif %}">
+								<label for="{{ field.auto_id }}" class="col-md-4 control-label">{{ field.label }}</label>
+								<div class="col-md-8">
+									{% render_field field class='form-control input-sm' %}
+									<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+								</div>
+								
+								{% if field.errors %}
+								<div class="alert alert-danger alert-dismissible col-md-offset-4 col-md-8" role="alert">
+				  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				  						<span aria-hidden="true">&times;</span>
+			  						</button>
+									<ul>
+										{% for error in field.errors %}
+											<li>{{ error }}</li>
+										{% endfor %}
+									</ul>
+								</div>
+								{% endif %}
+							</div>
 							{% endfor %}
-						</ul>
+							<div class="col-md-offset-4">
+								<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" />	
+							</div>
+							
+						</form>
 					</div>
 				</div>
-				{% endif %}
 			</div>
-		{% endfor %}
-		<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" />
-	</form>
+		</div>
+	</div>
+	
 	<br clear="all" />
 {% endblock %}
