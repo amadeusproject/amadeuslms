@@ -35,9 +35,10 @@ class Resource(models.Model):
 
     name = models.CharField(_('Name'), max_length =100)
     created_date = models.DateField(_('Created Date'), auto_now_add=True)
+    
     class Meta:
-	verbose_name = "Resource"
-	verbose_name_plural = "Resources"    
+        verbose_name = "Resource"
+        verbose_name_plural = "Resources"    
 
     def __str__(self):
         pass	
