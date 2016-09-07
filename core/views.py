@@ -1,13 +1,18 @@
-from rolepermissions.shortcuts import assign_role
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib.auth import authenticate, login as login_user
-from .decorators import log_decorator
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView
 from django.http import HttpResponse
-from  .forms import RegisterUserForm
+from django.core.mail import send_mail,BadHeaderError
+from django.conf import settings
+
+from rolepermissions.shortcuts import assign_role
+
+from .forms import RegisterUserForm
+from .decorators import log_decorator
+
 from users.models import User
 
 def index(request):
@@ -28,7 +33,7 @@ class RegisterUser(CreateView):
 		assign_role(form.instance, 'student')
 
 		messages.success(self.request, _('User successfully registered!'))
-		
+
 		return super(RegisterUser, self).form_valid(form)
 
 def create_account(request):
@@ -36,7 +41,25 @@ def create_account(request):
 
 
 def remember_password(request):
-	return render(request, "remember_password.html")
+	context = {}
+	if request.POST:
+		email = request.POST['email']
+		registration = request.POST['registration']
+		if email and registration:
+			subject = _('Recover your password')
+			message = _('Hello %s, \nRecover your password to use your account.\nNumber of registration: %s\nLink for recuver password.\n\nRespectfully,\nTeam Amadeus.' % (request.user,registration))
+			try:
+				send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email],fail_silently=False)
+				context['success'] = 'Email successfully sent'
+			except BadHeaderError:
+				context['email'] = email
+				context['registration'] = registration
+				context['danger'] = 'E-mail does not send'
+		else:
+			context['email'] = email
+			context['registration'] = registration
+			context['danger'] = 'E-mail does not send'
+	return render(request, "remember_password.html",context)
 
 @log_decorator('Entrou no sistema')
 def login(request):

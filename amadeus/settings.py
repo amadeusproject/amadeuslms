@@ -144,6 +144,7 @@ MEDIA_URL = '/uploads/'
 LOGIN_REDIRECT_URL = 'app:index'
 LOGIN_URL = 'core:home'
 AUTH_USER_MODEL = 'users.User'
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
@@ -151,6 +152,11 @@ ROLEPERMISSIONS_MODULE = 'amadeus.roles'
 
 LOGS_URL = 'logs/'
 #https://github.com/squ1b3r/Djaneiro
+
+
+# E-mail
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'admin@admin.com'
 
 
 try:
