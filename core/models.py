@@ -13,15 +13,15 @@ class Action(models.Model):
     created_date = models.DateField(_('Created Date'), auto_now_add=True)
     
 
-    def __init__(self, name):
-    	self.name = name
+    #def __init__(self, name):
+    #	self.name = name
 
     class Meta:
         verbose_name = "Action"
         verbose_name_plural = "Actions"
 
     def __str__(self):
-        pass
+        return self.name
     
 
 class Resource(models.Model):
@@ -38,7 +38,7 @@ class Resource(models.Model):
         verbose_name_plural = "Resources"    
 
     def __str__(self):
-        pass	
+        return self.name
 
 
 class Action_Resource(models.Model):
@@ -49,9 +49,6 @@ class Action_Resource(models.Model):
     class Meta:
         verbose_name = "Action_Resource"
         verbose_name_plural = "Action_Resources"
-
-    def __str__(self):
-        pass
     
 
 class Notification(models.Model):
@@ -66,7 +63,7 @@ class Notification(models.Model):
         verbose_name_plural = _("Notifications")
 
     def __str__(self):
-        pass
+        return self.message
 
 class Log(models.Model):
     datetime = models.DateTimeField(_("Date and Time of action"), auto_now_add = True)
