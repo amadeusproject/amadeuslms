@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 20:28-0300\n"
+"POT-Creation-Date: 2016-09-07 00:13-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,38 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: core/models.py:15 core/models.py:36
+msgid "Name"
+msgstr ""
+
+#: core/models.py:16 core/models.py:37
+msgid "Created Date"
+msgstr ""
+
+#: core/models.py:49
+msgid "Action_Applied"
+msgstr ""
+
+#: core/models.py:50
+msgid "Resource"
+msgstr ""
+
+#: core/models.py:61
+msgid "message"
+msgstr ""
+
+#: core/models.py:62
+msgid "Actor"
+msgstr ""
+
+#: core/models.py:63
+msgid "Read"
+msgstr ""
+
+#: core/models.py:64
+msgid "Action_Resource"
+msgstr ""
 
 #: core/templates/base.html:56
 msgid "Log out"
@@ -46,6 +78,14 @@ msgstr "Entrar"
 msgid "Sign Up"
 msgstr "Cadastrar"
 
+#: core/templates/register_user.html:29
+msgid "User Register"
+msgstr ""
+
+#: core/templates/register_user.html:53
+msgid "Save"
+msgstr ""
+
 #: core/templates/remember_password.html:18
 msgid "E-mail"
 msgstr "E-mail"
@@ -58,6 +98,10 @@ msgstr ""
 msgid "Send"
 msgstr "Enviar"
 
-#: core/views.py:25
+#: core/views.py:31
+msgid "User successfully registered!"
+msgstr ""
+
+#: core/views.py:54
 msgid "E-mail or password are incorrect!"
 msgstr "O E-mail e/ou a senha estão incorretos"

@@ -28,7 +28,16 @@
 {% endblock %}
 
 {% block content %}
-	<input type="text" class="form-control" name="search" placeholder="search..">
+    <form action="" method="GET" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-9 col-sm-9 col-xs-9">
+                <input type="text" class="form-control" name="search" placeholder="{% trans 'Search...' %}" />
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-3">
+                <input type="submit" class="btn btn-primary" value="{% trans 'Search' %}" />
+            </div>
+        </div>
+    </form>
 
     {% if users|length > 0 %}
         {% for acc in users %}
@@ -43,8 +52,8 @@
                         <p>{% trans 'Email' %}: {{ acc.email }}</p>
                         <p>{% trans 'Contact' %}: {{ acc.phone }}</p>
                         <div align="right">
-                            <a href="javascript:void(0)" class="btn btn-raised btn-inverse">{% trans 'Edit' %}</a>
-                            <a href="javascript:void(0)" class="btn btn-raised btn-danger">{% trans 'Delete' %}</a>
+                            <a href="javascript:void(0)" class="btn btn-raised btn-success">{% trans 'Edit' %}</a>
+                            <a href="javascript:void(0)" class="btn btn-raised btn-primary">{% trans 'Delete' %}</a>
                         </div>
                     </div>
                 </div>
@@ -52,6 +61,10 @@
         {% endfor %}
         {% pagination request paginator page_obj %}
     {% else %}
-        
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <p>{% trans 'No users found' %}</p>
+            </div>
+        </div>
     {% endif %}
 {% endblock %}
