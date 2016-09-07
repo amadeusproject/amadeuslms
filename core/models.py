@@ -12,10 +12,6 @@ class Action(models.Model):
     name = models.CharField(_('Name'), max_length = 100)
     created_date = models.DateField(_('Created Date'), auto_now_add=True)
     
-
-    #def __init__(self, name):
-    #	self.name = name
-
     class Meta:
         verbose_name = "Action"
         verbose_name_plural = "Actions"
@@ -49,6 +45,9 @@ class Action_Resource(models.Model):
     class Meta:
         verbose_name = "Action_Resource"
         verbose_name_plural = "Action_Resources"
+
+    def __str__(self):
+        return ''.join([self.action.name, " / ", self.resource.name])
     
 
 class Notification(models.Model):
