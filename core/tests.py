@@ -60,6 +60,49 @@ class RegisterUserTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(User.objects.count(), 1)
 
+    def test_register_error(self):
+        response = self.client.get(self.url)
+        self.assertEquals(response.status_code, 200)
+
+        data = {
+                'username': 'testeamadeus',
+                'email': 'teste@amadeus.com',
+                'password': 'aminhasenha1',
+                'password2': 'aminhasenha',
+                'name': 'Teste Amadeus',
+                'city': 'Praia',
+                'state': 'PE',
+                'gender': 'F',
+            }
+        response = self.client.post(self.url, data)
+        self.assertFormError(response, 'form', 'password2', 'A confirmacão da senha está incorreta')
+
+        data = {
+                'username': 'testeamadeus',
+                'email': 'teste.amadeus.com',
+                'password': 'aminhasenha1',
+                'password2': 'aminhasenha',
+                'name': 'Teste Amadeus',
+                'city': 'Praia',
+                'state': 'PE',
+                'gender': 'F',
+            }
+        response = self.client.post(self.url, data)
+        self.assertFormError(response, 'form', 'email', 'Insira um endereço de email válido.')
+
+        data = {
+                'username': '',
+                'email': 'teste@amadeus.com',
+                'password': 'aminhasenha1',
+                'password2': 'aminhasenha',
+                'name': 'Teste Amadeus',
+                'city': 'Praia',
+                'state': 'PE',
+                'gender': 'F',
+            }
+        response = self.client.post(self.url, data)
+        self.assertFormError(response, 'form', 'username', 'Este campo é obrigatório.')
+
 class RememberPasswordTestCase(TestCase):
 
     def setUp(self):
