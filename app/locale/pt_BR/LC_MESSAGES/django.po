@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 00:18-0300\n"
+"POT-Creation-Date: 2016-09-07 00:13-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,7 +62,8 @@ msgstr "Usuários Online"
 msgid "You can:"
 msgstr ""
 
-#: app/templates/app/index.html:24 app/templates/home_professor.html:23
+#: app/templates/app/index.html:24 app/templates/home_app.html:26
+#: app/templates/home_professor.html:23
 msgid "Create Course"
 msgstr "Criar Curso"
 
@@ -102,25 +103,47 @@ msgstr ""
 msgid "Most popular keywords:"
 msgstr ""
 
-#: app/templates/home_professor.html:9 app/templates/home_student.html:9
+#: app/templates/home_app.html:14 app/templates/home_professor.html:9
+#: app/templates/home_student.html:9
 msgid "Home"
 msgstr "Início"
+
+#: app/templates/home_app.html:22 app/templates/home_professor.html:22
+msgid "Pending tasks"
+msgstr "Tarefas Pendentes"
+
+#: app/templates/home_app.html:23
+#, fuzzy
+#| msgid "Users Online"
+msgid "Users Online (1)"
+msgstr "Usuários Online"
+
+#: app/templates/home_app.html:24
+#, fuzzy
+#| msgid "Courses"
+msgid "Course"
+msgstr "Cursos"
+
+#: app/templates/home_app.html:27 app/templates/home_professor.html:24
+msgid "Manage Course"
+msgstr "Gerenciar Curso"
+
+#: app/templates/home_app.html:35 app/templates/home_professor.html:31
+msgid "Courses"
+msgstr "Cursos"
+
+#: app/templates/home_app.html:51 app/templates/home_professor.html:48
+msgid "You didn't create any course yet."
+msgstr "Você não criou nenhum curso ainda."
+
+#: app/templates/home_app.html:59 app/templates/home_professor.html:54
+#: app/templates/home_student.html:60
+msgid "Goals"
+msgstr "Metas"
 
 #: app/templates/home_professor.html:18 app/templates/home_student.html:18
 msgid "Menu"
 msgstr "Menu"
-
-#: app/templates/home_professor.html:22
-msgid "Pending tasks"
-msgstr "Tarefas Pendentes"
-
-#: app/templates/home_professor.html:24
-msgid "Manage Course"
-msgstr "Gerenciar Curso"
-
-#: app/templates/home_professor.html:31
-msgid "Courses"
-msgstr "Cursos"
 
 #: app/templates/home_professor.html:40
 msgid "Students:"
@@ -133,14 +156,6 @@ msgstr "Começo"
 #: app/templates/home_professor.html:42
 msgid "End:"
 msgstr "Fim"
-
-#: app/templates/home_professor.html:48
-msgid "You didn't create any course yet."
-msgstr "Você não criou nenhum curso ainda."
-
-#: app/templates/home_professor.html:54 app/templates/home_student.html:60
-msgid "Goals"
-msgstr "Metas"
 
 #: app/templates/home_student.html:22
 msgid "Profile"

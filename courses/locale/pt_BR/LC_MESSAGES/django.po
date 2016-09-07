@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 00:18-0300\n"
+"POT-Creation-Date: 2016-09-07 00:13-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: courses/forms.py:11 courses/forms.py:25 courses/forms.py:55
+#: courses/forms.py:11 courses/forms.py:25 courses/forms.py:58
 #: courses/models.py:7 courses/models.py:20 courses/models.py:44
 #: courses/templates/category/index.html:38
 msgid "Name"
@@ -104,23 +104,23 @@ msgstr ""
 msgid "Category which the course belongs"
 msgstr ""
 
-#: courses/forms.py:56 courses/models.py:46
+#: courses/forms.py:59 courses/models.py:46
 msgid "Description"
 msgstr ""
 
-#: courses/forms.py:57
+#: courses/forms.py:60
 msgid "Is it visible?"
 msgstr ""
 
-#: courses/forms.py:60
+#: courses/forms.py:63
 msgid "Module's name"
 msgstr ""
 
-#: courses/forms.py:61
+#: courses/forms.py:64
 msgid "Modules's description"
 msgstr ""
 
-#: courses/forms.py:62
+#: courses/forms.py:65
 msgid "Is the module visible?"
 msgstr ""
 
@@ -176,7 +176,7 @@ msgstr "Curso"
 #: courses/models.py:37 courses/templates/course/create.html:16
 #: courses/templates/course/delete.html:15
 #: courses/templates/course/filtered.html:8
-#: courses/templates/course/index.html:15
+#: courses/templates/course/home.html:16 courses/templates/course/index.html:15
 #: courses/templates/course/update.html:16
 #: courses/templates/course/view.html:15
 #: courses/templates/module/create.html:17
@@ -204,9 +204,9 @@ msgstr "Modulos"
 #: courses/templates/category/update.html:8
 #: courses/templates/category/view.html:7
 #: courses/templates/course/create.html:8
-#: courses/templates/course/delete.html:7 courses/templates/course/index.html:7
-#: courses/templates/course/update.html:8 courses/templates/course/view.html:7
-#: courses/templates/module/create.html:8
+#: courses/templates/course/delete.html:7 courses/templates/course/home.html:8
+#: courses/templates/course/index.html:7 courses/templates/course/update.html:8
+#: courses/templates/course/view.html:7 courses/templates/module/create.html:8
 #: courses/templates/module/delete.html:7 courses/templates/module/index.html:7
 #: courses/templates/module/update.html:8
 msgid "Home"
@@ -302,6 +302,12 @@ msgstr ""
 #: courses/templates/course/index.html:26
 msgid "Categories:"
 msgstr ""
+
+#: courses/templates/course/home.html:9
+#, fuzzy
+#| msgid "Course"
+msgid "Home Course"
+msgstr "Curso"
 
 #: courses/templates/course/index.html:8
 msgid "Manage Courses"

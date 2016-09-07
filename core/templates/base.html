@@ -17,9 +17,6 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/base/header.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
-    <script>
-    	$.material.init();
-    </script>
 	<!--CSS block for specific-app ones -->
 	{% block style %}
 	{% endblock %}
@@ -30,6 +27,9 @@
 	<script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
 	<script src="{% static 'material/js/material.min.js' %}"></script>
     <script src="{% static 'material/js/ripples.min.js' %}"></script>
+	<script>
+    	$.material.init();
+    </script>
 	<!--Javascript block for specific-app ones -->
 	{% block javascript %}
 

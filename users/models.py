@@ -23,7 +23,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 	birth_date = models.DateField(_('Birth Date'), null = True, blank = True)
 	phone = models.CharField(_('Phone'), max_length = 30, blank = True)
 	cpf = models.CharField(_('Cpf'), max_length = 15, blank = True)
-	type_profile = models.IntegerField(_('Type'), null = True, blank = True, choices = ((1, _('Professor')), (2, _('Student'))))
+	type_profile = models.IntegerField(_('Type'), null = True, blank = True, choices = ((1, _('Professor')), (2, _('Student'))), default=2)
 	date_created = models.DateTimeField(_('Create Date'), auto_now_add = True)
 	is_staff = models.BooleanField(_('Administrador'), default = False)
 	is_active = models.BooleanField(_('Active'), default = True)

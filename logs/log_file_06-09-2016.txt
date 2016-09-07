@@ -1,0 +1,95 @@
+06/09/2016 00:07:02 - teste - Entrou no sistema
+06/09/2016 00:07:02 - teste - Acessou home
+06/09/2016 00:08:58 - teste - Acessou home
+06/09/2016 01:01:27 - test - Entrou no sistema
+06/09/2016 01:01:27 - test - Acessou home
+06/09/2016 01:05:49 - test - Entrou no sistema
+06/09/2016 01:05:49 - test - Acessou home
+06/09/2016 01:07:43 - test - Entrou no sistema
+06/09/2016 01:07:43 - test - Acessou home
+06/09/2016 01:08:45 - test - Entrou no sistema
+06/09/2016 01:08:45 - test - Acessou home
+06/09/2016 01:11:30 - test - Entrou no sistema
+06/09/2016 01:11:30 - test - Acessou home
+06/09/2016 01:12:02 - test - Entrou no sistema
+06/09/2016 01:12:02 - test - Acessou home
+06/09/2016 01:13:00 - test - Entrou no sistema
+06/09/2016 01:13:00 - test - Acessou home
+06/09/2016 01:16:27 - test - Entrou no sistema
+06/09/2016 01:16:27 - test - Acessou home
+06/09/2016 01:17:35 - test - Entrou no sistema
+06/09/2016 01:17:35 - test - Acessou home
+06/09/2016 01:18:15 - test - Entrou no sistema
+06/09/2016 01:18:15 - test - Acessou home
+06/09/2016 01:22:19 - test - Entrou no sistema
+06/09/2016 01:22:19 - test - Acessou home
+06/09/2016 01:25:09 - test - Entrou no sistema
+06/09/2016 01:25:09 - test - Acessou home
+06/09/2016 01:25:35 - test - Entrou no sistema
+06/09/2016 01:25:35 - test - Acessou home
+06/09/2016 01:26:40 - test - Entrou no sistema
+06/09/2016 01:26:40 - test - Acessou home
+06/09/2016 01:27:40 - test - Entrou no sistema
+06/09/2016 01:27:40 - test - Acessou home
+06/09/2016 01:28:50 - test - Entrou no sistema
+06/09/2016 01:28:50 - test - Acessou home
+06/09/2016 01:30:51 - test - Entrou no sistema
+06/09/2016 01:30:51 - test - Acessou home
+06/09/2016 01:41:51 - test - Entrou no sistema
+06/09/2016 01:41:51 - test - Acessou home
+06/09/2016 01:43:59 - test - Entrou no sistema
+06/09/2016 01:43:59 - test - Acessou home
+06/09/2016 01:45:22 - test - Entrou no sistema
+06/09/2016 01:45:22 - test - Acessou home
+06/09/2016 01:45:51 - test - Entrou no sistema
+06/09/2016 01:45:51 - test - Acessou home
+06/09/2016 01:46:02 - test - Entrou no sistema
+06/09/2016 01:46:02 - test - Acessou home
+06/09/2016 01:46:18 - test - Entrou no sistema
+06/09/2016 01:46:18 - test - Acessou home
+06/09/2016 01:46:28 - test - Entrou no sistema
+06/09/2016 01:46:28 - test - Acessou home
+06/09/2016 02:39:03 - test - Entrou no sistema
+06/09/2016 02:39:03 - test - Acessou home
+06/09/2016 02:39:41 - test - Entrou no sistema
+06/09/2016 02:39:41 - test - Acessou home
+06/09/2016 02:40:57 - test - Entrou no sistema
+06/09/2016 02:40:57 - test - Acessou home
+06/09/2016 02:41:50 - test - Entrou no sistema
+06/09/2016 02:41:50 - test - Acessou home
+06/09/2016 02:46:53 - test - Entrou no sistema
+06/09/2016 02:46:53 - test - Acessou home
+06/09/2016 02:47:14 - test - Entrou no sistema
+06/09/2016 02:47:14 - test - Acessou home
+06/09/2016 02:50:33 - test - Entrou no sistema
+06/09/2016 02:50:33 - test - Acessou home
+06/09/2016 02:52:54 - test - Entrou no sistema
+06/09/2016 02:52:54 - test - Acessou home
+06/09/2016 02:57:03 - test - Entrou no sistema
+06/09/2016 02:57:03 - test - Acessou home
+06/09/2016 03:02:15 - test - Entrou no sistema
+06/09/2016 03:02:15 - test - Acessou home
+06/09/2016 16:20:42 - test - Entrou no sistema
+06/09/2016 16:20:42 - test - Acessou home
+06/09/2016 16:29:26 - test - Entrou no sistema
+06/09/2016 16:29:26 - test - Acessou home
+06/09/2016 16:31:14 - test - Entrou no sistema
+06/09/2016 16:31:14 - test - Acessou home
+06/09/2016 16:33:06 - test - Entrou no sistema
+06/09/2016 16:33:06 - test - Acessou home
+06/09/2016 16:33:26 - test - Entrou no sistema
+06/09/2016 16:33:26 - test - Acessou home
+06/09/2016 16:33:36 - test - Entrou no sistema
+06/09/2016 16:33:36 - test - Acessou home
+06/09/2016 16:34:10 - test - Entrou no sistema
+06/09/2016 16:34:10 - test - Acessou home
+06/09/2016 16:34:29 - test - Entrou no sistema
+06/09/2016 16:34:29 - test - Acessou home
+06/09/2016 21:30:40 - test - Entrou no sistema
+06/09/2016 21:30:40 - test - Acessou home
+06/09/2016 21:32:32 - test - Entrou no sistema
+06/09/2016 21:32:32 - test - Acessou home
+06/09/2016 21:34:11 - test - Entrou no sistema
+06/09/2016 21:34:11 - test - Acessou home
+06/09/2016 21:38:44 - test - Entrou no sistema
+06/09/2016 21:38:44 - test - Acessou home

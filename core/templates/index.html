@@ -17,7 +17,7 @@
         <div class="col-lg-9 col-lg-offset-2">
             <div class="card">
 							{% if message %}
-							<div class="alert alert-danger">
+							<div class="alert alert-danger fade in">
 								{{message}}
 							</div>
 
@@ -62,7 +62,7 @@
     </div>
     <div class="row">
         <div class="col-lg-offset-2 col-lg-9">
-            <button class="btn btn-raised btn-primary btn-lg btn-block" formaction="{% url 'users:create' %}">{% trans 'Sign Up' %} </button>
+            <a class="btn btn-raised btn-primary btn-lg btn-block" href="{% url 'core:register' %}">{% trans 'Sign Up' %} </a>
         </div>
     </div>
 {% endblock%}

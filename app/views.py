@@ -1,15 +1,16 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils.decorators import decorator_from_middleware_with_args
-from django.utils.decorators import decorator_from_middleware
-from django.utils.decorators import method_decorator
+from django.core.urlresolvers import reverse_lazy
 from core.mixins import LogMixin
 
 from courses.models import Course
 
 class AppIndex(LoginRequiredMixin, LogMixin, TemplateView):
-	log_action = "Acessou home"
+	log_action = "Acessar"
+	log_resource = "Home"
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
 	template_name = "home_professor.html"
 
 	def render_to_response(self, context, **response_kwargs):
