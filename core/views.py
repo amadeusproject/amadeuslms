@@ -64,7 +64,7 @@ def remember_password(request):
 			context['danger'] = 'E-mail does not send'
 	return render(request, "remember_password.html",context)
 
-@log_decorator('Entrou no sistema')
+@log_decorator('Acessar', 'Sistema')
 def login(request):
 	context = {}
 	if request.POST:

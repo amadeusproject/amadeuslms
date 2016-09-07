@@ -1,9 +1,8 @@
-import os
-import datetime
 from django.conf import settings
 from functools import wraps
+from .models import Action, Resource, Action_Resource, Log
 
-def log_decorator(log_action = ''):
+def log_decorator(log_action = '', log_resource = ''):
 
 	def _log_decorator(view_function):
 
@@ -12,17 +11,16 @@ def log_decorator(log_action = ''):
 			response = view_function(request, *args, **kwargs)
 
 			if request.user.is_authenticated and request.POST:
-				date = datetime.datetime.now()
+				action = Action.objects.filter(name = log_action)
+				resource = Resource.objects.filter(name = log_resource)
 
-				message = date.strftime("%d/%m/%Y %H:%M:%S") + ' - ' + request.user.username + ' - ' + log_action + '\n'
+				action_resource = Action_Resource.objects.filter(action = action, resource = resource)[0]
 
-				file_name = 'log_file_' + date.strftime("%d-%m-%Y") + '.txt'
+				log = Log()
+				log.user = request.user
+				log.action_resource = action_resource
 
-				log_path = os.path.join(settings.LOGS_URL, file_name)
-
-				log_file = open(log_path,'a+')
-				log_file.write(message)
-				log_file.close()
+				log.save()
 
 			return response
 

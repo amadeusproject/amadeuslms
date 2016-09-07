@@ -7,7 +7,8 @@ from core.mixins import LogMixin
 from courses.models import Course
 
 class AppIndex(LoginRequiredMixin, LogMixin, TemplateView):
-	log_action = "Acessou home"
+	log_action = "Acessar"
+	log_resource = "Home"
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = "home_professor.html"
