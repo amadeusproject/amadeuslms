@@ -6,7 +6,7 @@ class RegisterUserForm(forms.ModelForm):
 
     password = forms.CharField(label='Senha', widget=forms.PasswordInput)
     password2 = forms.CharField(label = 'Confirmacao de Senha', widget = forms.PasswordInput)
-    birth_date = forms.DateField(widget=forms.SelectDateWidget())
+    # birth_date = forms.DateField(widget=forms.SelectDateWidget())
     MIN_LENGTH = 8
 
     def clean_password(self):
@@ -42,4 +42,4 @@ class RegisterUserForm(forms.ModelForm):
     class Meta:
         model = User
         # exclude = ['is_staff', 'is_active']
-        fields = ['username', 'name', 'email', 'city', 'state', 'gender', 'cpf', 'phone', 'image']
+        fields = ['username', 'name', 'email', 'city', 'state', 'gender', 'cpf', 'birth_date', 'phone', 'image']
