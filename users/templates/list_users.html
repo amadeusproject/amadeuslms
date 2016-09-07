@@ -61,6 +61,10 @@
         {% endfor %}
         {% pagination request paginator page_obj %}
     {% else %}
-        
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <p>{% trans 'No users found' %}</p>
+            </div>
+        </div>
     {% endif %}
 {% endblock %}

@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 from django.views import generic
 from django.contrib import messages
 from rolepermissions.mixins import HasRoleMixin
@@ -19,7 +20,13 @@ class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 	paginate_by = 10
 
 	def get_queryset(self):
-		users = User.objects.exclude(username = self.request.user.username)
+		search = self.request.GET.get('search', None)
+
+		if search is None:
+			users = User.objects.exclude(username = self.request.user.username)
+		else:
+			users = User.objects.filter(Q(username = search) | Q(name__icontains = search))
+
 		return users
 
 class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
