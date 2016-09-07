@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from rolepermissions.shortcuts import assign_role
 
 from courses.models import Course, Category
+from courses.forms import CourseForm
 from users.models import User
 
 class CourseViewTestCase(TestCase):
@@ -98,14 +99,16 @@ class CourseViewTestCase(TestCase):
 
 
 	def test_update(self):
+
 		self.client.login(username = 'test', password = 'testing')
 
-		url = reverse('course:update', kwargs = {'slug': self.course.slug})
+		url = reverse('course:update', kwargs = {'slug': self.course.slug})        
+		data = Course.objects.get(name="Curso Teste")
+		data.name = "Curse Test"
 
-		response = self.client.get(url)
-
-		self.assertEquals(response.status_code, 200)
-		self.assertTemplateUsed(response, 'course/update.html')
+		response = self.client.put(url, data, format='json')        
+		self.assertEqual(response.status_code, 200)        
+		# self.assertEqual(response.data, data.name)
 
 	def test_update_not_logged(self):
 		url = reverse('course:update', kwargs = {'slug': self.course.slug})
