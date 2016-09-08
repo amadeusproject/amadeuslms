@@ -7,7 +7,7 @@
         <h3>{{topic}}</h3>
       </div>
       <div class="col-md-3 col-sm-3">
-        <a href="#" class="btn">{% trans "edit" %}</a>
+        <a href="{% url 'course:update_topic' topic.slug%}" class="btn">{% trans "edit" %}</a>
       </div>
     </div>
   </div>

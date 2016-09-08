@@ -49,10 +49,11 @@ class Subject(models.Model):
 	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 	update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
 	course = models.ForeignKey(Course, verbose_name = _('Course'), related_name="subjects")
+	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='subjects')
 
 
 	class Meta:
-
+		ordering = ('create_date',)
 		verbose_name = _('Subject')
 		verbose_name_plural = _('Subjects')
 
@@ -67,10 +68,10 @@ class Topic(models.Model):
 	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 	update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
 	subject = models.ForeignKey(Subject, verbose_name = _('Subject'), related_name="topics")
-
+	owner = models.ForeignKey(User, verbose_name = _('Owner'), related_name="topics",default=1)
 
 	class Meta:
-
+		ordering = ('create_date',)
 		verbose_name = _('Topic')
 		verbose_name_plural = _('Topics')
 

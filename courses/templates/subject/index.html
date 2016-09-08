@@ -40,7 +40,7 @@
     </div>
   </div>
 {% for topic in topics %}
-	{% if user|has_role:'professor' or user|has_role:'system_admin'%}
+	{% if user|has_role:'system_admin' or topic.owner == user%}
 		{% include "subject/form_view_teacher.html" %}
 	{% else %}
 		{% include "subject/form_view_student.html" %}
