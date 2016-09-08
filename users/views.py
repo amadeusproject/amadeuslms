@@ -149,4 +149,3 @@ class UpdateUser(LoginRequiredMixin, generic.edit.UpdateView):
 		messages.success(self.request, _('Profile edited successfully!'))
 
 		return super(UpdateUser, self).form_valid(form)
-
