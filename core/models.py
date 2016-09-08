@@ -26,11 +26,12 @@ class Resource(models.Model):
 		Example: Pool was answered (Resource: Pool), PDF was visualized(Resource: PDF).
 
         Attributes:
-            @name: name of the resource affected
+            @name: name of the resource affected, it will be unique because a resource can be affecte 
+            by a huge amount of actions
             @created_date: The date the resource was created
     """
 
-    name = models.CharField(_('Name'), max_length =100)
+    name = models.CharField(_('Name'), max_length =100, unique=True)
     created_date = models.DateField(_('Created Date'), auto_now_add=True)
     
     class Meta:
