@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from .models import Category, Course, Module
+from .models import Category, Course, Subject
 
 class CategoryForm(forms.ModelForm):
 
@@ -49,10 +49,10 @@ class CourseForm(forms.ModelForm):
 			'categoy': forms.Select(),
 		}
 
-class ModuleForm(forms.ModelForm):
+class SubjectForm(forms.ModelForm):
 
 	class Meta:
-		model = Module
+		model = Subject
 		fields = ('name', 'description', 'visible',)
 		labels = {
 			'name': _('Name'),
@@ -60,7 +60,7 @@ class ModuleForm(forms.ModelForm):
 			'visible': _('Is it visible?'),
 		}
 		help_texts = {
-			'name': _("Module's name"),
-			'description': _("Modules's description"),
-			'visible': _('Is the module visible?'),	
+			'name': _("Subjects's name"),
+			'description': _("Subjects's description"),
+			'visible': _('Is the subject visible?'),	
 		}
