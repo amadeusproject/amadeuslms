@@ -50,6 +50,7 @@ class Subject(models.Model):
 	update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
 	course = models.ForeignKey(Course, verbose_name = _('Course'), related_name="subjects")
 
+ 
 	class Meta:
 
 		verbose_name = _('Subject')

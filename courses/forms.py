@@ -62,5 +62,5 @@ class SubjectForm(forms.ModelForm):
 		help_texts = {
 			'name': _("Subjects's name"),
 			'description': _("Subjects's description"),
-			'visible': _('Is the subject visible?'),	
+			'visible': _('Is the subject visible?'),
 		}
