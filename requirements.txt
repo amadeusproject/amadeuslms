@@ -1,4 +1,5 @@
 Django==1.10
+django-autoslug==1.9.3
 django-discover-runner==1.0
 django-role-permissions==1.2.1
 django-widget-tweaks==1.4.1
