@@ -15,6 +15,7 @@ urlpatterns = [
 	url(r'^categories/(?P<slug>[\w_-]+)/$', views.ViewCat.as_view(), name='view_cat'),
 	url(r'^categories/delete/(?P<slug>[\w_-]+)/$', views.DeleteCatView.as_view(), name='delete_cat'),
 	url(r'^course/(?P<slug>[\w_-]+)/subjects/$', views.SubjectsView.as_view(), name='view_subject'),
+	url(r'^course/(?P<slug>[\w_-]+)/topics/create/$', views.CreateTopicView.as_view(), name='create_topic'),
 	# url(r'^course/(?P<slug>[\w_-]+)/modules/create/$', views.CreateModView.as_view(), name='create_mods'),
 	# url(r'^course/(?P<slug_course>[\w_-]+)/modules/edit/(?P<slug>[\w_-]+)/$', views.UpdateModView.as_view(), name='update_mods'),
 	# url(r'^course/(?P<slug_course>[\w_-]+)/modules/delete/(?P<slug>[\w_-]+)/$', views.DeleteModView.as_view(), name='delete_mods'),

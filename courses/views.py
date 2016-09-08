@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from slugify import slugify
 
-from .forms import CourseForm, CategoryForm, SubjectForm
+from .forms import CourseForm, CategoryForm, SubjectForm,TopicForm
 from .models import Course, Subject, Category
 
 
@@ -193,7 +193,6 @@ class SubjectsView(LoginRequiredMixin, generic.ListView):
 	template_name = 'subject/index.html'
 	context_object_name = 'subjects'
 	model = Subject
-	# paginate_by = 5
 
 	def get_queryset(self):
 		subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
@@ -201,50 +200,50 @@ class SubjectsView(LoginRequiredMixin, generic.ListView):
 		return course.subjects.filter(visible=True)
 
 	def get_context_data(self, **kwargs):
-		# print ("Deu Certo")
 		subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
-		# print (course)
-		# print (course.slug)
-		# print (course.subjects.filter(visible=True))
 		context = super(SubjectsView, self).get_context_data(**kwargs)
 		context['course'] = subject.course
 		context['subject'] = subject
 		context['topics'] = subject.topics.all()
-		# print (context)
 		return context
 
-# class CreateSubjectView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
-#
-# 	allowed_roles = ['professor', 'system_admin']
-# 	login_url = reverse_lazy("core:home")
-# 	redirect_field_name = 'next'
-# 	template_name = 'module/create.html'
-# 	form_class = SubjectForm
-#
-# 	def get_success_url(self):
-# 		return reverse_lazy('course:manage_mods', kwargs={'slug' : self.object.course.slug})
-#
-# 	def get_context_data(self, **kwargs):
-# 		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
-# 		context = super(CreateModView, self).get_context_data(**kwargs)
-# 		context['course'] = course
-#
-# 		return context
-#
-# 	def form_valid(self, form):
-# 		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
-#
-# 		self.object = form.save(commit = False)
-# 		self.object.slug = slugify(self.object.name)
-# 		self.object.course = course
-# 		self.object.save()
-#
-# 		return super(CreateModView, self).form_valid(form)
-#
-# 	def render_to_response(self, context, **response_kwargs):
-# 		messages.success(self.request, _('Module created successfully!'))
-#
-# 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
+class CreateTopicView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
+
+	allowed_roles = ['professor', 'system_admin','student']
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+	template_name = 'topic/create.html'
+	form_class = TopicForm
+
+	def get_success_url(self):
+		return reverse_lazy('course:view_subject', kwargs={'slug' : self.object.subject.slug})
+
+	def get_context_data(self, **kwargs):
+		context = super(CreateTopicView, self).get_context_data(**kwargs)
+		subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+		context['course'] = subject.course
+		context['subject'] = subject
+		context['subjects'] = subject.course.subjects.filter(visible=True)
+
+		return context
+
+	def form_valid(self, form):
+		print ("aqui")
+		subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+
+		print ("aqui")
+		self.object = form.save(commit = False)
+		self.object.subject = subject
+		print ("aqui")
+		print (self.object)
+		self.object.save()
+
+		return super(CreateTopicView, self).form_valid(form)
+
+	def render_to_response(self, context, **response_kwargs):
+		messages.success(self.request, _('Module created successfully!'))
+
+		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 #
 # class UpdateModView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 #

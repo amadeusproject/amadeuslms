@@ -35,7 +35,7 @@
     </div>
     <div class="panel-body">
       <p>
-        {{subject.description}}
+        {{subject.description|linebreaks}}
       </p>
     </div>
   </div>
@@ -47,13 +47,14 @@
 	{% endif %}
 {% endfor %}
 
+	<a name="create_topic" class="btn btn-primary btn-md btn-block" href="{% url 'course:create_topic' subject.slug %}">{% trans "Create Topic" %}</a>
 {% endblock %}
 
 {% block rightbar %}
 
   <div class="panel panel-warning">
     <div class="panel-heading">
-      <h3 class="panel-title">Pending Stuffs</h3>
+      <h3 class="panel-title">{% trans "Pending Stuffs" %}</h3>
     </div>
     <div class="panel-body">
 
