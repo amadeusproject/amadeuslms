@@ -50,10 +50,29 @@ class Subject(models.Model):
 	update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
 	course = models.ForeignKey(Course, verbose_name = _('Course'), related_name="subjects")
 
+
 	class Meta:
 
 		verbose_name = _('Subject')
 		verbose_name_plural = _('Subjects')
+
+	def __str__(self):
+		return self.name
+
+class Topic(models.Model):
+
+	name = models.CharField(_('Name'), max_length = 100)
+	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
+	description = models.TextField(_('Description'), blank = True)
+	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
+	update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
+	subject = models.ForeignKey(Subject, verbose_name = _('Subject'), related_name="topics")
+
+
+	class Meta:
+
+		verbose_name = _('Topic')
+		verbose_name_plural = _('Topics')
 
 	def __str__(self):
 		return self.name
