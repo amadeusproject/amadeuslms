@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load static i18n permission_tags %}
+
+{% block breadcrumbs %}
+
+	<ol class="breadcrumb">
+	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+	  	<li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
+	  	<li class="active">{% trans 'Manage Subjects' %}</li>
+	</ol>
+{% endblock %}
+
+{% block sidebar %}
+
+    <div class="panel panel-primary">
+
+      <div class="panel-heading">
+        <h3 class="panel-title">{{course}}</h3>
+      </div>
+
+      <div class="panel-body">
+        {% for subject in subjects %}
+          <a href="{% url 'course:view_subject' subject.slug%}" class="btn btn-default">{{subject}}</a>
+        {% endfor %}
+      </div>
+
+    </div>
+{% endblock %}
+
+{% block content %}
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">{% trans "Presentation Subject" %}</h3>
+    </div>
+    <div class="panel-body">
+      <p>
+        {{subject.description}}
+      </p>
+    </div>
+  </div>
+{% for topic in topics %}
+	{% if user|has_role:'professor' or user|has_role:'system_admin'%}
+		{% include "subject/form_view_teacher.html" %}
+	{% else %}
+		{% include "subject/form_view_student.html" %}
+	{% endif %}
+{% endfor %}
+
+{% endblock %}
+
+{% block rightbar %}
+
+  <div class="panel panel-warning">
+    <div class="panel-heading">
+      <h3 class="panel-title">Pending Stuffs</h3>
+    </div>
+    <div class="panel-body">
+
+    </div>
+  </div>
+{% endblock rightbar %}

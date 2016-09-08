@@ -1,5 +1,6 @@
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
+from autoslug.fields import AutoSlugField
 from users.models import User
 
 class Category(models.Model):
@@ -39,19 +40,39 @@ class Course(models.Model):
 	def __str__(self):
 		return self.name
 
-class Module(models.Model):
+class Subject(models.Model):
 
 	name = models.CharField(_('Name'), max_length = 100)
-	slug = models.SlugField(_('Slug'), max_length = 100)
+	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
 	description = models.TextField(_('Description'), blank = True)
 	visible = models.BooleanField(_('Visible'), default = True, blank = True)
-	create_date = models.DateField(_('Creation Date'), auto_now_add = True)
-	course = models.ForeignKey(Course, verbose_name = _('Course'))
+	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
+	update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
+	course = models.ForeignKey(Course, verbose_name = _('Course'), related_name="subjects")
+
 
 	class Meta:
 
-		verbose_name = _('Module')
-		verbose_name_plural = _('Modules')
+		verbose_name = _('Subject')
+		verbose_name_plural = _('Subjects')
+
+	def __str__(self):
+		return self.name
+
+class Topic(models.Model):
+
+	name = models.CharField(_('Name'), max_length = 100)
+	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
+	description = models.TextField(_('Description'), blank = True)
+	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
+	update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
+	subject = models.ForeignKey(Subject, verbose_name = _('Subject'), related_name="topics")
+
+
+	class Meta:
+
+		verbose_name = _('Topic')
+		verbose_name_plural = _('Topics')
 
 	def __str__(self):
 		return self.name
