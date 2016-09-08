@@ -24,6 +24,10 @@ class Resource(models.Model):
     """
 		It represents the resource where the action was applied on.
 		Example: Pool was answered (Resource: Pool), PDF was visualized(Resource: PDF).
+
+        Attributes:
+            @name: name of the resource affected
+            @created_date: The date the resource was created
     """
 
     name = models.CharField(_('Name'), max_length =100)
@@ -51,6 +55,16 @@ class Action_Resource(models.Model):
     
 
 class Notification(models.Model):
+    """
+    Attributes:
+        @message: The message that will be shown on the notification prompt
+        @user: The User that the notification will be sent to.
+        @read: Whether or not the user has read the notification.
+        @datetime: The time the notification was created
+        @action_resource: The Object that holds the information about which action was perfomed on the Resource
+        @actor: The user who applied the action
+    """
+
     message = models.TextField(_('Message'))
     user = models.ForeignKey(User, related_name = _('%(class)s_Actor'), verbose_name= _('User'))
     read = models.BooleanField(_('Read'), default = False)
