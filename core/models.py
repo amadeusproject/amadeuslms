@@ -52,11 +52,12 @@ class Action_Resource(models.Model):
 
 class Notification(models.Model):
     message = models.TextField(_('Message'))
-    user = models.ForeignKey(User, verbose_name = _('Actor'))
+    user = models.ForeignKey(User, related_name = _('%(class)s_Actor'), verbose_name= _('User'))
     read = models.BooleanField(_('Read'), default = False)
     datetime = models.DateTimeField(_("Date and Time of action"), auto_now_add = True)
     action_resource = models.ForeignKey(Action_Resource, verbose_name = _('Action_Resource'))
-
+    actor = models.ForeignKey(User, related_name = _('%(class)s_Performer'), verbose_name= _('Perfomer'), null = True)
+    
     class Meta:
         verbose_name = _("Notification")
         verbose_name_plural = _("Notifications")
