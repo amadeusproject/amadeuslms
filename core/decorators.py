@@ -14,7 +14,25 @@ def log_decorator(log_action = '', log_resource = ''):
 				action = Action.objects.filter(name = log_action)
 				resource = Resource.objects.filter(name = log_resource)
 
-				action_resource = Action_Resource.objects.filter(action = action, resource = resource)[0]
+				if not action:
+					action = Action(name = log_action)
+					action.save()
+				else:
+					action = action[0]
+
+				if not resource:
+					resource = Resource(name = log_resource)
+					resource.save()
+				else:
+					resource = resource[0]
+
+				action_resource = Action_Resource.objects.filter(action = action, resource = resource)
+
+				if not action_resource:
+					action_resource = Action_Resource(action = action, resource = resource)
+					action_resource.save()
+				else:
+					action_resource = action_resource[0]
 
 				log = Log()
 				log.user = request.user
