@@ -13,6 +13,7 @@
         <label for="{{ field.auto_id }}" class="control-label label-static"> {{ field.label }}</label>
 
         {% render_field field class='form-control' placeholder=field.label%}
+        <span class="help-block">{{ field.help_text }}</span>
       </div>
       {% endfor %}
       <div class="col-lg-offset-4 col-lg-4">

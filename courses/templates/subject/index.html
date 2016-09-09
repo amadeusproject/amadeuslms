@@ -24,14 +24,31 @@
           <a href="{% url 'course:view_subject' subject.slug%}" class="btn btn-default">{{subject}}</a>
         {% endfor %}
       </div>
-
     </div>
+
+		{% if user|has_role:'system_admin' or user|has_role:'professor' %}
+			<a href="{% url 'course:create_subject' course.slug %}" class="btn btn-primary btn-md btn-block">{% trans "Create Subject" %}</a>
+		{% endif %}
 {% endblock %}
 
 {% block content %}
   <div class="panel panel-info">
     <div class="panel-heading">
-      <h3 class="panel-title">{% trans "Presentation Subject" %}</h3>
+			<div class="row">
+	      <div class="col-md-7 col-sm-7">
+	        <h3>{% trans "Presentation Subject" %}</h3>
+	      </div>
+	      <div class="col-md-2 col-sm-2">
+					{% if user|has_role:'system_admin' or user in subject.professors %}
+	        	<a href="{% url 'course:update_subject' subject.slug%}" class="btn">{% trans "edit" %}</a>
+					{% endif %}
+	      </div>
+				<div class="col-md-3 col-sm-3">
+					{% if user|has_role:'system_admin' or user in subject.professors %}
+	        	<a href="{% url 'course:delete_subject' subject.slug%}" class="btn">{% trans "delete" %}</a>
+					{% endif %}
+	      </div>
+	    </div>
     </div>
     <div class="panel-body">
       <p>
