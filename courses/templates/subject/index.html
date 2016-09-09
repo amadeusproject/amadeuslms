@@ -21,7 +21,11 @@
 
       <div class="panel-body">
         {% for subject in subjects %}
-          <a href="{% url 'course:view_subject' subject.slug%}" class="btn btn-default">{{subject}}</a>
+				<div class="row">
+					<div class="col-md-12 col-sm-12">
+						<a href="{% url 'course:view_subject' subject.slug%}" class="btn btn-default text-left">{{subject}}</a>
+					</div>
+				</div>
         {% endfor %}
       </div>
     </div>
@@ -36,7 +40,7 @@
     <div class="panel-heading">
 			<div class="row">
 	      <div class="col-md-7 col-sm-7">
-	        <h3>{% trans "Presentation Subject" %}</h3>
+	        <h3>{{subject}}</h3>
 	      </div>
 	      <div class="col-md-2 col-sm-2">
 					{% if user|has_role:'system_admin' or user in subject.professors %}
