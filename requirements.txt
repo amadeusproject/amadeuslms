@@ -1,29 +1,15 @@
-<<<<<<< HEAD
 click==6.6
 Django==1.10
-=======
-Django==1.10
-django-autoslug==1.9.3
->>>>>>> 99b895742ac44a99fcb69057937d94f23b71a7f7
 django-discover-runner==1.0
 django-role-permissions==1.2.1
 django-widget-tweaks==1.4.1
 djangorestframework==3.4.6
-<<<<<<< HEAD
-Flask==0.11.1
-Flask-Breadcrumbs==0.4.0
-Flask-Menu==0.5.0
 itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23
-=======
->>>>>>> 99b895742ac44a99fcb69057937d94f23b71a7f7
 Pillow==3.3.1
 psycopg2==2.6.2
 six==1.10.0
 slugify==0.0.1
-<<<<<<< HEAD
 Werkzeug==0.11.11
 wheel==0.24.0
-=======
->>>>>>> 99b895742ac44a99fcb69057937d94f23b71a7f7

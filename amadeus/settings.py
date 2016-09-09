@@ -41,8 +41,6 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'rolepermissions',
     'rest_framework',
-    'flask',
-    'flask_breadcrumbs',
 
     'core',
     'app',
