@@ -15,6 +15,12 @@
             <img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block " alt="logo amadeus" id="logo">
     </div>
 
+    <div class="row">
+        {% for breadcrumb in breadcrumbs %}
+          <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
+        {% endfor %}
+  </div>
+
 	<div class="row ">
         <div class="col-md-8 col-md-offset-2 col-sm-6 col-sm-offset-3">
             <div class="card">

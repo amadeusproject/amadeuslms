@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'rolepermissions',
     'rest_framework',
+    'flask',
+    'flask_breadcrumbs',
 
     'core',
     'app',
@@ -58,6 +60,9 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+
+    #libs-middleware
+
 ]
 
 ROOT_URLCONF = 'amadeus.urls'

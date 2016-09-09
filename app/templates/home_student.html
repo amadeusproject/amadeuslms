@@ -4,12 +4,10 @@
 
 {% block breadcrumbs %}
 	<div class="row">
-      	<div class="col-md-12">
-            <ul class="breadcrumb">
-          		<li><a href="{% url 'core:home' %}">{% trans 'Home' %} {{ logged }}</a></li>
-            </ul>
-      	</div>
-    </div>
+      	{% for breadcrumb in breadcrumbs %}
+          <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
+        {% endfor %}
+  </div>
 {% endblock %}
 
 {% block sidebar %}
