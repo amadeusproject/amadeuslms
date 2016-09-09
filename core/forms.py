@@ -12,7 +12,7 @@ class RegisterUserForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data['email']
         if User.objects.filter(email = email).exists():
-            raise forms.ValidationError(_('There is already a registered User with this e- mail'))
+            raise forms.ValidationError(_('There is already a registered User with this e-mail'))
         return email
 
     def clean_password(self):
