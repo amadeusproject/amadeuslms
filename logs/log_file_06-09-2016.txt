@@ -93,3 +93,8 @@
 06/09/2016 21:34:11 - test - Acessou home
 06/09/2016 21:38:44 - test - Entrou no sistema
 06/09/2016 21:38:44 - test - Acessou home
+06/09/2016 21:58:49 - jailson - Entrou no sistema
+06/09/2016 21:58:49 - jailson - Acessou home
+06/09/2016 21:59:05 - jailson - Acessou home
+06/09/2016 21:59:35 - jailson - Acessou home
+06/09/2016 21:59:42 - jailson - Acessou home

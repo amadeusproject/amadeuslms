@@ -1,0 +1,18 @@
+{% extends 'subject/index.html' %}
+
+{% load static i18n permission_tags widget_tweaks %}
+
+{% block content %}
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <form action="" method="post">
+      {% csrf_token %}
+        <h2>{% trans 'Are you sure you want to delete the category' %} "{{subject}}"?</h2>
+        <input type="submit" class="btn btn-raised btn-success btn-lg" value="{% trans 'Yes' %}" />
+        <a href="{% url 'course:view_subject' subject.slug%}" class="btn btn-raised btn-danger btn-lg">{% trans 'No' %}</a>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
