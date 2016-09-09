@@ -150,3 +150,14 @@ class UpdateUser(LoginRequiredMixin, generic.edit.UpdateView):
 		messages.success(self.request, _('Profile edited successfully!'))
 
 		return super(UpdateUser, self).form_valid(form)
+
+class DeleteUser(LoginRequiredMixin, generic.edit.DeleteView):
+	allowed_roles = ['student']
+	login_url = reverse_lazy("core:home")
+	model = User
+	success_url = reverse_lazy('core:index')
+	success_message = "Deleted Successfully"
+
+	def get_queryset(self):
+		user = get_object_or_404(User, username = self.request.user.username)
+		return user

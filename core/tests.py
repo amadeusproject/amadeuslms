@@ -209,9 +209,13 @@ class DeleteUserTestCase(TestCase):
             password = 'testing'
         )
 
-        assign_role(self.user, 'studend')
+        assign_role(self.user, 'student')
+        self.url = reverse('core:home')
 
-        def tearDown(test):
-            pass
+    def tearDown(test):
+        User.objects.get(email='testing@amadeus.com').delete()
+
+    def test_delete_ok(self):
+        pass
 
 
