@@ -13,10 +13,19 @@
 	margin-left: 30%;
 }
 
-/* ID */
+.link{
+	transition-duration: 0.5s; /*Slow down the transformation*/
+}
+
+.link:hover{
+	transform:scale(1.1);
+}
 
 .notifications{
 	font-size: 20px;
 
 }
+
+/* ID */
+
 
