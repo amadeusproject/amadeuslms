@@ -31,18 +31,20 @@
     <h3>{% trans 'Courses' %}</h3>
   	{% if courses|length > 0 %}
   		{% for course in courses %}
-		  	<div class="panel panel-default courseHome">
-                <div class="panel-body">
-                    <p>{{ course }}</p>
+		  	<a href="{% url 'course:view' course.slug %}">
+                <div class="panel panel-default courseHome">
+                    <div class="panel-body">
+                        <p>{{ course }}</p>
+                    </div>
+                    <div class="panel-footer">
+                        <ul>
+                            <li>{% trans 'Students:' %} 5</li>
+                            <li>{% trans 'Beginning:' %} {{ course.init_date }}</li>
+                            <li>{% trans 'End:' %} {{ course.end_date }}</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="panel-footer">
-                    <ul>
-                        <li>{% trans 'Students:' %} 5</li>
-                        <li>{% trans 'Beginning:' %} {{ course.init_date }}</li>
-                        <li>{% trans 'End:' %} {{ course.end_date }}</li>
-                    </ul>
-                </div>
-            </div>
+            </a>
 		{% endfor %}
 	{% else %}
 		<p>{% trans "You didn't create any course yet." %}</p>

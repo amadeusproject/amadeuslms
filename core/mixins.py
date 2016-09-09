@@ -74,5 +74,5 @@ class NotificationMixin(object):
 
 	def dispatch(self, request, *args, **kwargs):
 		"""
- 		Not quite sure how to do about it"""
- 		return super(NotificationMixin, self).dispatch(request, *args, **kwargs)
+		Not quite sure how to do about it"""
+		return super(NotificationMixin, self).dispatch(request, *args, **kwargs)
