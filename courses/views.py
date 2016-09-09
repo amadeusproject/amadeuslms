@@ -292,8 +292,8 @@ class CreateSubjectView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateVie
 
 		self.object = form.save(commit = False)
 		self.object.course = course
-		self.object.professor = self.request.user
 		self.object.save()
+		self.object.professors.add(self.request.user)
 
 		return super(CreateSubjectView, self).form_valid(form)
 
@@ -307,7 +307,8 @@ class UpdateSubjectView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 	form_class = SubjectForm
 
 	def get_object(self, queryset=None):
-	    return get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+		context = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+		return context
 
 	def get_success_url(self):
 		return reverse_lazy('course:view_subject', kwargs={'slug' : self.object.slug})
