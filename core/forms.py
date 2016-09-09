@@ -12,7 +12,7 @@ class RegisterUserForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data['email']
         if User.objects.filter(email = email).exists():
-            raise forms.ValidationError('Já existe um usuário cadastrado com este E-mail')
+            raise forms.ValidationError('Ja existe um usuario cadastrado com este E-mail')
         return email
 
     def clean_password(self):
@@ -35,7 +35,7 @@ class RegisterUserForm(forms.ModelForm):
         password2 = self.cleaned_data.get("password2")
 
         if password and password2 and password != password2:
-            raise forms.ValidationError('A confirmacão da senha está incorreta')
+            raise forms.ValidationError('A confirmacao da senha esta incorreta')
         return password2
 
     def save(self, commit=True):

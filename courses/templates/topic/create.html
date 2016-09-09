@@ -1,0 +1,26 @@
+{% extends 'subject/index.html' %}
+
+{% load static i18n permission_tags widget_tweaks %}
+
+{% block content %}
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <form class="form-group " method="post" action="">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group {% if field.errors %} has-error{% endif %}">
+          <label for="{{ field.auto_id }}" class="control-label label-static"> {{ field.label }}</label>
+
+          {% render_field field class='form-control' placeholder=field.label%}
+          <span class="help-block">{{ field.help_text }}</span>
+        </div>
+        {% endfor %}
+        <div class="col-lg-offset-4 col-lg-4">
+          <button type="submite" class="btn btn-raised btn-primary btn-lg btn-block">{% trans 'Create' %}</button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock content %}

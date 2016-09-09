@@ -6,15 +6,17 @@
 {% block nav %}
 {% endblock %}
 
+{% block sidebar %}
+    {% endblock sidebar %}
+
 {% block content %}
 	<div class="row logo-row">
         <div class="col-lg-offset-2 col-lg-9">
             <img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block " alt="logo amadeus" id="logo">
-        </div>
     </div>
 
 	<div class="row ">
-        <div class="col-lg-9 col-lg-offset-2">
+        <div class="col-md-8 col-md-offset-2 col-sm-6 col-sm-offset-3">
             <div class="card">
 							{% if message %}
 							<div class="alert alert-danger fade in">
@@ -23,7 +25,7 @@
 
 							{% endif %}
                 <div class="card-content">
-                    <div class="card-body">
+                    
 						<form id="form-login" class="form-group" method="post" action="">
 							{% csrf_token %}
 							<div class="form-group is-empty">
@@ -38,7 +40,7 @@
                                     <input form="form-login" type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
                                 </div>
                             </div>
-                            <div class="col-md-offset-2 col-md-10">
+                            <div class=" col-md-10">
                                 <div class="checkbox">
                                     <label>
                                         <input form="form-login" type="checkbox" name="checkbox"><span class="checkbox-material"><span class="check"></span></span> {% trans 'Remember Email' %}
@@ -46,23 +48,27 @@
                                 </div>
                             </div>
 						</form>
-                    </div>
+                    
 
-                    <footer class="card-footer" style="display: -webkit-box;">
-                        <div class="col-md-6">
+                    
+                        <div class="col-md-6 col-xs-6">
                             <button type="button" class="btn btn-flat" formaction="#" style="position: initial;">{% trans 'Guest' %}</button>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-xs-6">
                             <button type="submite" class="btn btn-flat btn-success" form="form-login" style="position: initial;">{% trans 'Login' %}</button>
                         </div>
-                    </footer>
+                    
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-offset-2 col-lg-9">
+        <div class="col-lg-offset-2 col-lg-8 col-md-8 col-md-offset-2 col-sm-6 col-sm-offset-3">
             <a class="btn btn-raised btn-primary btn-lg btn-block" href="{% url 'core:register' %}">{% trans 'Sign Up' %} </a>
         </div>
     </div>
 {% endblock%}
+
+{% block rightbar %}
+    
+{% endblock rightbar %}
