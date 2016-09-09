@@ -13,15 +13,17 @@ from django.conf import settings
 from rolepermissions.shortcuts import assign_role
 
 from .forms import RegisterUserForm
-from .decorators import log_decorator
+from .decorators import log_decorator, notification_decorator
 
 from users.models import User
+
 
 def index(request):
 	context = {
 		'subscribed_courses': 'testando'
 	}
 	return render(request, "index.html", context)
+
 
 class RegisterUser(CreateView):
 	model = User
@@ -64,6 +66,7 @@ def remember_password(request):
 			context['danger'] = 'E-mail does not send'
 	return render(request, "remember_password.html",context)
 
+@notification_decorator(message='just connected')
 @log_decorator('Acessar', 'Sistema')
 def login(request):
 	context = {}
