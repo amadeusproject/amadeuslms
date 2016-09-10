@@ -3,13 +3,9 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
-	<div class="row">
-      	<div class="col-md-12">
-            <ul class="breadcrumb">
-          		<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-            </ul>
-      	</div>
-    </div>
+  <ol class="breadcrumb">
+      <li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+  </ol>
 {% endblock %}
 
 {% block sidebar %}

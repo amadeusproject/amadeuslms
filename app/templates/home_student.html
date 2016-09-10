@@ -3,11 +3,9 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
-	<div class="row">
-      	{% for breadcrumb in breadcrumbs %}
-          <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
-        {% endfor %}
-  </div>
+  <ol class="breadcrumb">
+      <li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+  </ol>
 {% endblock %}
 
 {% block sidebar %}
@@ -26,6 +24,7 @@
 {% endblock %}
 
 {% block content %}
+
 	<h3>{% trans 'Notifications' %}</h3>
     {% if messages %}
       {% for message in messages %}
