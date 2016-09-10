@@ -1,16 +1,39 @@
-{% extends 'app/base.html' %}
+{% extends 'home_professor.html' %}
 
 {% load static i18n permission_tags %}
 
 {% block breadcrumbs %}
-	<ol class="breadcrumb">
-	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li class="active">{{ course }}</li>
-	</ol>
+	<div class="row">
+      	<div class="col-md-12">
+            <ul class="breadcrumb">
+          		<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+      			<li class="active">{{ course }}</li>
+            </ul>
+      	</div>
+    </div>
 {% endblock %}
 
+
 {% block sidebar %}
-	<div class="list-group">
+
+{{block.super}}
+<div class="row">
+	<div class="col-md-12">
+        <div class="panel panel-primary navigation">
+          <div class="panel-heading">
+            <h5>{% trans 'Subjects' %}</h5>
+          </div>
+          <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked">
+	            {% for subject in subjects %}
+	            	<li><a href="">{{subject.name}}</a></li>
+	            {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+</div>
+<!--<div class="list-group">
 	  	<a href="{% url 'course:manage' %}" class="list-group-item">
 	    	{% trans 'Courses' %}
 	  	</a>
@@ -40,11 +63,12 @@
 		    	{% trans 'Delete Course' %}
 		  	</a>
 		{% endif %}
-	</div>
+	</div> -->
 {% endblock %}
 
 {% block content %}
-	<div class="row">
+
+<div class="row">
 		<div class="col-sm-3">
 			<img src="{{ course.image.url }}" class="img-responsive" />
 		</div>
@@ -70,4 +94,23 @@
 			</p>
 		</div>
 	</div>
+	<div class="row">
+      <div class="col-md-12">
+        	<h3>Subjects</h3>
+        	{% for subject in subjects %}
+  		        <div class="panel panel-info">
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">Subject 1</h3>
+		              </div>
+		              <div class="panel-body">
+		                Dummy Info
+		             </div>
+              	</div>
+        	{% endfor %}
+        </div>
+      </div>
+
 {% endblock %}
+
+{% block rightbar %}
+{% endblock rightbar %}
