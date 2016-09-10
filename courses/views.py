@@ -81,6 +81,14 @@ class View(LoginRequiredMixin, generic.DetailView):
 	context_object_name = 'course'
 	template_name = 'course/view.html'
 
+	def get_context_data(self, **kwargs):
+		context = super(View, self).get_context_data(**kwargs)
+		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
+		subjects = Subject.objects.filter(Q(visible=True) | Q(professors__in=[self.request.user]) | Q(course = course))
+		context['subjects'] = subjects
+
+		return context
+
 class DeleteView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 	allowed_roles = ['professor', 'system_admin']
