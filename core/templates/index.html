@@ -11,10 +11,15 @@
 
 {% block content %}
 	<div class="row logo-row">
-        <div class="col-md-offset-4 col-md-4 col-xs-4 col-xs-offset-4 logoLogin">
-            <img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block " alt="logo amadeus">
-        </div>
+        <div class="col-lg-offset-2 col-lg-9">
+            <img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block " alt="logo amadeus" id="logo">
     </div>
+
+    <div class="row">
+        {% for breadcrumb in breadcrumbs %}
+          <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
+        {% endfor %}
+  </div>
 
 	<div class="row ">
         <div class="col-md-8 col-md-offset-2 col-sm-6 col-sm-offset-3">

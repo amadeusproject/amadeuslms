@@ -1,5 +1,5 @@
 from django import forms
-
+from django.utils.translation import ugettext_lazy as _
 from users.models import User
 
 class RegisterUserForm(forms.ModelForm):
@@ -12,7 +12,7 @@ class RegisterUserForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data['email']
         if User.objects.filter(email = email).exists():
-            raise forms.ValidationError('Ja existe um usuario cadastrado com este E-mail')
+            raise forms.ValidationError(_('There is already a registered User with this e-mail'))
         return email
 
     def clean_password(self):
@@ -20,13 +20,13 @@ class RegisterUserForm(forms.ModelForm):
 
         # At least MIN_LENGTH long
         if len(password) < self.MIN_LENGTH:
-            raise forms.ValidationError("A senha deve conter  no minimo %d caracteres." % self.MIN_LENGTH)
+            raise forms.ValidationError(_("The password must contain at least % d characters." % self.MIN_LENGTH))
 
         # At least one letter and one non-letter
         first_isalpha = password[0].isalpha()
         if all(c.isalpha() == first_isalpha for c in password):
-            raise forms.ValidationError("A senha deve conter pelo menos uma letra e pelo menos um digito ou "\
-                                        "um caractere de pontuacao.")
+            raise forms.ValidationError(_('The password must contain at least one letter and at least one digit or '\
+                                        "a punctuation character."))
 
         return password
 
@@ -35,7 +35,7 @@ class RegisterUserForm(forms.ModelForm):
         password2 = self.cleaned_data.get("password2")
 
         if password and password2 and password != password2:
-            raise forms.ValidationError('A confirmacao da senha esta incorreta')
+            raise forms.ValidationError(_('The confirmation password is incorrect.'))
         return password2
 
     def save(self, commit=True):

@@ -75,7 +75,7 @@ class RegisterUserTestCase(TestCase):
                 'gender': 'F',
             }
         response = self.client.post(self.url, data)
-        self.assertFormError(response, 'form', 'password2', 'A confirmacão da senha está incorreta')
+        self.assertFormError(response, 'form', 'password2', 'The confirmation password is incorrect.')
 
         data = {
                 'username': 'testeamadeus',
@@ -87,6 +87,7 @@ class RegisterUserTestCase(TestCase):
                 'state': 'PE',
                 'gender': 'F',
             }
+        
         response = self.client.post(self.url, data)
         self.assertFormError(response, 'form', 'email', 'Insira um endereço de email válido.')
 
@@ -141,9 +142,25 @@ class UpdateUserTestCase(TestCase):
     def setUp(self):
         self.client = Client()
 
-        self.url = reverse('users:update_user')
+        self.user = User.objects.create_user(
+            username = 'test',
+            email = 'testing@amadeus.com',
+            is_staff = False,
+            is_active = True,
+            password = 'testing1'
+        )
 
-    def test_get_post(self):
+        assign_role(self.user, 'student')
+
+        self.url = reverse('users:update_profile')
+
+    def test_update_ok(self):
+        #LOGGING USER TO TEST
+        data = {'username': 'test', 'password': 'testing1'}
+        response = self.client.post(reverse('core:home'), data)
+        self.assertRedirects(response, reverse('app:index'))
+        
+
         data={
                 'username': 'testeamadeus',
                 'email': 'teste@amadeus.com',
@@ -153,7 +170,52 @@ class UpdateUserTestCase(TestCase):
                 'gender': 'F',
             }
         # self.assertRedirects(response1, reverse('app:index'))
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
         response = self.client.post(self.url, data)
         self.assertEqual(response.status_code, 302)
+
+    def test_update_error(self):
+        
+        #LOGING USER TO TEST
+        data = {'username': 'test', 'password': 'testing1'}
+        response = self.client.post(reverse('core:home'), data)
+        self.assertRedirects(response, reverse('app:index'))
+
         response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 302)
+        self.assertEquals(response.status_code, 200)
+
+        data = {
+                'username': '',
+                'email': 'teste@amadeus.com',
+                'name': 'Teste Amadeus',
+                'city': 'Praia',
+                'state': 'PE',
+                'gender': 'F',
+            }
+        response = self.client.post(self.url, data)
+        self.assertFormError(response, 'form', 'username', 'Este campo é obrigatório.')
+        
+
+class DeleteUserTestCase(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+        self.user = User.objects.create_user(
+            username = 'test',
+            email = 'testing@amadeus.com',
+            is_staff = True,
+            is_active = True,
+            password = 'testing'
+        )
+
+        assign_role(self.user, 'student')
+        self.url = reverse('core:home')
+
+    def tearDown(test):
+        User.objects.get(email='testing@amadeus.com').delete()
+
+    def test_delete_ok(self):
+        pass
+
+

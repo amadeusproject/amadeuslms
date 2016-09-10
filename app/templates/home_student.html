@@ -4,12 +4,10 @@
 
 {% block breadcrumbs %}
 	<div class="row">
-      	<div class="col-md-12">
-            <ul class="breadcrumb">
-          		<li><a href="{% url 'core:home' %}">{% trans 'Home' %} {{ logged }}</a></li>
-            </ul>
-      	</div>
-    </div>
+      	{% for breadcrumb in breadcrumbs %}
+          <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
+        {% endfor %}
+  </div>
 {% endblock %}
 
 {% block sidebar %}
@@ -29,6 +27,16 @@
 
 {% block content %}
 	<h3>{% trans 'Notifications' %}</h3>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <p>{{ message }}</p>
+        </div>
+      {% endfor %}
+    {% endif %}
     <div class="panel panel-default">
       	<div class="panel-body">
         	His course has notified a new activity!

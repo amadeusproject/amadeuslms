@@ -14,7 +14,7 @@
 		</div>
 	{% endif %}
 	<div class="row logo-row">
-        <div class="col-lg-offset-4 col-md-4">
+        <div class="col-lg-offset-2 col-lg-9">
             <img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block " alt="logo amadeus" id="logo">
         </div>
     </div>
@@ -28,11 +28,26 @@
 						{% csrf_token %}
 							<legend>{% trans 'User Register' %}</legend>
 							{% for field in form %}
-							<div class="form-group is-empy{% if form.has_error %} has-error {% endif %}">
+							<div class="form-group is-empy{% if form.has_error %} has-error {% endif %} is-fileinput">
 								<label for="{{ field.auto_id }}" class="col-md-4 control-label">{{ field.label }}</label>
 								<div class="col-md-8">
-									{% render_field field class='form-control input-sm' %}
-									<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+									{% if field.auto_id == 'id_birth_date' %}
+										{% render_field field class='form-control input-sm' type='date' %}
+										<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+									{% elif field.auto_id == 'id_image' %}
+										{% render_field field class='form-control input-sm' %}
+										<div class="input-group">
+						                    <input type="text" readonly="" class="form-control" placeholder="Choose your photo...">
+						                    <span class="input-group-btn input-group-sm">
+						                        <button type="button" class="btn btn-fab btn-fab-mini">
+						                          	<i class="material-icons">attach_file</i>
+						                        </button>
+						                    </span>
+						                </div>
+									{% else %}
+										{% render_field field class='form-control input-sm' %}
+										<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+									{% endif %}
 								</div>
 								
 								{% if field.errors %}
@@ -49,8 +64,11 @@
 								{% endif %}
 							</div>
 							{% endfor %}
-							<div class="col-md-offset-4">
+							<div class="col-md-offset-4 col-md-2 col-sm-2 col-xs-2">
 								<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" />	
+							</div>
+							<div class="col-md-offset-3 col-md-2 col-sm-2 col-xs-2">
+								<a href="{% url 'core:home' %}" class="btn btn-sm btn-success" >{% trans 'Login' %}</a>	
 							</div>
 							
 						</form>
