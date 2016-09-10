@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'rolepermissions',
     'rest_framework',
+    'django_bootstrap_breadcrumbs',
 
     'core',
     'app',
