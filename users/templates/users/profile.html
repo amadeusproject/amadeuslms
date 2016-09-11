@@ -1,13 +1,14 @@
-{% extends 'app/base.html' %}
+{% extends 'home_student.html' %}
 
 {% load static i18n %}
 {% load widget_tweaks %}
+{% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
-	<ol class="breadcrumb">
-	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li class="active">{% trans 'Profile' %}</li>
-	</ol>
+
+  {{ block.super }}
+  {% breadcrumb 'Profile' 'users:profile' %}
+
 {% endblock %}
 
 {% block sidebar %}
@@ -24,8 +25,9 @@
 {% block content %}
 	<div class="row">
 		<div class="row">
-		<div class="col-lg-offset-4 col-lg-2">
-			<img src="" class="img-responsive center-block " alt="logo amadeus">
+			<div class="col-lg-offset-4 col-lg-2">
+				<img src="" class="img-responsive center-block " alt="logo amadeus">
+			</div>
 		</div>
 	</div>
 	<div class="row">
@@ -112,10 +114,10 @@
 				</div>
 				<footer class="card-footer">
 					<div class="col-md-6">
-						<button class="btn btn-flat">Edit Profile</button>
+						<a href="{% url 'users:update_profile' %}" class="btn btn-flat">{% trans 'Edit Profile' %}</a>
 					</div>
 					<div class="col-md-6">
-						<button class="btn btn-flat btn-danger pull-right">Delete Account</button>
+						<button class="btn btn-flat btn-danger pull-right">{% trans 'Delete Account' %}</button>
 					</div>
 				</footer>
 
@@ -123,7 +125,5 @@
 
 
 		</div>
-	</div>
-</div>
 	</div>
 {% endblock %}
