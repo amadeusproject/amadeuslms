@@ -84,3 +84,5 @@ Para Classes que envolvem formulários:
 [Git - Introdução e comandos básicos(PT-BR)](https://github.com/fernandomayer/git-rautu/blob/master/0_configuracao-inicial.md)
 
 [2] https://github.com/FezVrasta/bootstrap-material-design
+
+[Django Breadcrumbs](http://django-bootstrap-breadcrumbs.readthedocs.io/en/latest/)
