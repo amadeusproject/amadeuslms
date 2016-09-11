@@ -3,13 +3,14 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
-    <div class="row">
-      	<div class="col-md-12">
-            <ul class="breadcrumb" style="margin-bottom: 5px;">
-          		<li><a href="{% url 'core:index' %}">{% trans 'Home' %}</a></li>
-            </ul>
-      	</div>
-    </div>
+
+  {% clear_breadcrumbs %}
+  {% breadcrumb 'Home' '/' %}
+
+{% endblock %}
+
+{% block render_breadcrumbs %}
+  {% render_breadcrumbs %}
 {% endblock %}
 
 {% block sidebar %}

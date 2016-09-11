@@ -1,12 +1,19 @@
 {% extends 'base.html' %}
 
 {% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
-  <ol class="breadcrumb">
-      <li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-  </ol>
+
+  {% clear_breadcrumbs %}
+  {% breadcrumb 'Home' 'app:index' %}
+
 {% endblock %}
+
+{% block render_breadcrumbs %}
+  {% render_breadcrumbs %}
+{% endblock %}
+
 
 {% block sidebar %}
     <div class="panel panel-primary navigation">
@@ -24,7 +31,6 @@
 {% endblock %}
 
 {% block content %}
-
 	<h3>{% trans 'Notifications' %}</h3>
     {% if messages %}
       {% for message in messages %}
@@ -64,9 +70,9 @@
 
 {% block rightbar %}
 	<div class="well well-lg goal">
-        {% trans 'Goals' %}
-    </div>
-    <div class="well well-lg favorites">
-      	{% trans 'Favorites' %}
-    </div>
+      {% trans 'Goals' %}
+  </div>
+  <div class="well well-lg favorites">
+      {% trans 'Favorites' %}
+  </div>
 {% endblock rightbar %}
