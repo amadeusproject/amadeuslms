@@ -44,3 +44,8 @@ h5{
     margin-top: 2em;
     margin-bottom: 2em;
 }
+
+/*========= Subscrib default divide breadcrumb*/
+.divider{
+    display: none;
+}
