@@ -1,13 +1,14 @@
-{% extends 'app/base.html' %}
+{% extends 'users/profile.html' %}
 
 {% load static i18n %}
 {% load widget_tweaks %}
+{% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
-	<ol class="breadcrumb">
-	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li class="active">{% trans 'Edit Profile' %}</li>
-	</ol>
+
+  {{ block.super }}
+  {% breadcrumb 'Edit' 'users:update_profile' %}
+
 {% endblock %}
 
 {% block sidebar %}
@@ -36,9 +37,21 @@
 	<form method="post" action="" enctype="multipart/form-data">
 		{% csrf_token %}
 		{% for field in form %}
-			<div class="form-group{% if form.has_error %} has-error {% endif %}">
+			<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
 				<label for="{{ field.auto_id }}">{{ field.label }}</label>
-				{% render_field field class='form-control input-sm' %}
+				{% if field.auto_id == 'id_image' %}
+					{% render_field field class='form-control input-sm' %}
+					<div class="input-group">
+	                    <input type="text" readonly="" class="form-control" placeholder="Choose your photo...">
+	                    <span class="input-group-btn input-group-sm">
+	                        <button type="button" class="btn btn-fab btn-fab-mini">
+	                          	<i class="material-icons">attach_file</i>
+	                        </button>
+	                    </span>
+	                </div>
+	            {% else %}
+					{% render_field field class='form-control input-sm' %}
+				{% endif %}
 				<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
 				{% if field.errors.length > 0 %}
 					<div class="alert alert-danger alert-dismissible" role="alert">
