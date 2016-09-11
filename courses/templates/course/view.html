@@ -1,16 +1,13 @@
-{% extends 'home_professor.html' %}
+{% extends 'course/index.html' %}
 
 {% load static i18n permission_tags %}
+{% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
-	<div class="row">
-      	<div class="col-md-12">
-            <ul class="breadcrumb">
-          		<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-      			<li class="active">{{ course }}</li>
-            </ul>
-      	</div>
-    </div>
+
+  {{ block.super }}
+  {% breadcrumb 'Course detail' 'course:view' %}
+
 {% endblock %}
 
 
