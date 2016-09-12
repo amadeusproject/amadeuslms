@@ -44,32 +44,33 @@ class NotificationMixin(object):
 	not_action = ''
 	not_resource = ''
 
-	def createNotification(message='', actor=None, users = User.objects.all(), not_action = '', not_resource=''): #the default will be a broadcast
+	def createNotification(self, message='', actor=None, users = User.objects.all(), not_action = '', not_resource='', resource_link=''): #the default will be a broadcast
 		action = Action.objects.filter(name = self.not_action)
-		resource = Resource.objects.filter(name = self.not_resource)
-
-		if not action:
+		resource = Resource.objects.filter(name = not_resource)
+		
+		if action.exists():
+			action = action[0]
+		else:
 			action = Action(name = self.not_action)
 			action.save()
-		else:
-			action = action[0]
 
-		if not resource:
-			resource = Resource(name = self.not_resource)
-			resource.save()
-		else:
+		if resource.exists():
 			resource = resource[0]
+		else:
+			resource = Resource(name = self.not_resource, link= resource_link)
+			resource.save()
 
 		action_resource = Action_Resource.objects.filter(action = action, resource = resource)
 
-		if not action_resource:
+		if action_resource.exists():
+			action_resource = action_resource[0]
+		else:
 			action_resource = Action_Resource(action = action, resource = resource)
 			action_resource.save()
-		else:
-			action_resource = action_resource[0]
 
 		for user in users:
 			notification = Notification(user=user, actor= actor, message=message, action_resource= action_resource)
+			notification.save()
 
 
 	def dispatch(self, request, *args, **kwargs):

@@ -29,11 +29,14 @@ class Resource(models.Model):
             @name: name of the resource affected, it will be unique because a resource can be affecte 
             by a huge amount of actions
             @created_date: The date the resource was created
+            @link: Which URL made that resource able to find
     """
 
     name = models.CharField(_('Name'), max_length =100, unique=True)
     created_date = models.DateField(_('Created Date'), auto_now_add=True)
-    
+    link = models.CharField(_('URL'), max_length =100, default="")
+
+
     class Meta:
         verbose_name = "Resource"
         verbose_name_plural = "Resources"    

@@ -9,6 +9,7 @@ from django.views.generic import CreateView, UpdateView
 from django.http import HttpResponse
 from django.core.mail import send_mail,BadHeaderError
 from django.conf import settings
+from core.mixins import NotificationMixin
 
 from rolepermissions.shortcuts import assign_role
 
@@ -25,7 +26,7 @@ def index(request):
 	return render(request, "index.html", context)
 
 
-class RegisterUser(CreateView):
+class RegisterUser(CreateView, NotificationMixin):
 	model = User
 	form_class = RegisterUserForm
 	template_name = 'register_user.html'

@@ -13,9 +13,10 @@ from django.db.models import Q
 
 from .forms import CourseForm, CategoryForm, SubjectForm,TopicForm
 from .models import Course, Subject, Category,Topic
+from core.mixins import NotificationMixin
 
 
-class IndexView(LoginRequiredMixin, generic.ListView):
+class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
@@ -30,7 +31,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
 
 		return context
 
-class CreateView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,generic.edit.CreateView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -73,7 +74,7 @@ class UpdateView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
-class View(LoginRequiredMixin, generic.DetailView):
+class View(LoginRequiredMixin, NotificationMixin, generic.DetailView):
 
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
@@ -89,7 +90,7 @@ class View(LoginRequiredMixin, generic.DetailView):
 
 		return context
 
-class DeleteView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.DeleteView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -220,7 +221,7 @@ class SubjectsView(LoginRequiredMixin, generic.ListView):
 		context['topics'] = subject.topics.all()
 		return context
 
-class CreateTopicView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
+class CreateTopicView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.edit.CreateView):
 
 	allowed_roles = ['professor', 'system_admin','student']
 	login_url = reverse_lazy("core:home")

@@ -59,7 +59,7 @@
 			                     	{% for notification in notifications  %}
 			                     		{% if notification.actor %} <!-- if the notification has a user-->
 			                     			<li>
-					                          <a><div class="list-group-item">
+					                          <a href="{{ notification.action_resource.resource.link }}"><div class="list-group-item">
 					                          <div class="row-picture">
 					                            <img class="circle" src="http://lorempixel.com/56/56/people/1" alt="icon">
 					                            <div class="least-content pull-right">{{ notification.datetime }}</div>
@@ -72,7 +72,7 @@
 					                        </li>
 			                     		{% else %}
 			                     			 <li>
-					                            <a>
+					                            <a href="{{ notification.action_resource.resource.link }}">
 					                                <div class="list-group-item">
 					                                  <div class="row-action-primary">
 					                                    <i class="material-icons">folder</i>

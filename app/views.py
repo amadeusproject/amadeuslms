@@ -28,40 +28,11 @@ class AppIndex(LoginRequiredMixin, LogMixin, TemplateView, NotificationMixin):
 			context['courses'] = Course.objects.filter(user = self.request.user)
 
 		context['title'] = 'Amadeus'
-		self.createNotification("teste")
-		notifications = Notification.objects.filter(user= self.request.user, read=False)
+		#super(AppIndex, self).createNotification("teste", not_resource="home", resource_link="users")
 		
+		notifications = Notification.objects.filter(user= self.request.user, read=False)
 		context['notifications'] = notifications
-		print(notifications)
-
+		
 		return self.response_class(request = self.request, template = template, context = context, using = self.template_engine, **response_kwargs)
 
-	def createNotification(self, mensagem='', actor=None, users = User.objects.all(), not_action = '', not_resource=''): #the default will be a broadcast
-		action = Action.objects.filter(name = not_action)
-		resource = Resource.objects.filter(name = self.not_resource)
-		print(action)
-		if not action:
-			action = Action(name = self.not_action)
-			action.save()
-		else:
-			action = action[0]
-
-		if not resource:
-			resource = Resource(name = self.not_resource)
-			resource.save()
-		else:
-			resource = resource[0]
-
-		action_resource = Action_Resource.objects.filter(action = action, resource = resource)
-
-		if not action_resource:
-			action_resource = Action_Resource(action = action, resource = resource)
-			action_resource.save()
-		else:
-			action_resource = action_resource[0]
-
-		for user in users:
-			print(user)
-			notification = Notification(user=user, actor= actor, message=mensagem, action_resource= action_resource)
-			notification.save()
 
