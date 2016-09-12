@@ -14,18 +14,17 @@
 }
 
 .link{
-	transition-duration: 0.5s; /*Slow down the transformation*/
+	transition-duration: 0.5s;
 }
 
 .link:hover{
 	transform:scale(1.1);
 }
 
+/* ID */
+
 .notifications{
 	font-size: 20px;
 
 }
-
-/* ID */
-
 
