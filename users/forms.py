@@ -7,7 +7,7 @@ from .models import User
 
 class ProfileForm(forms.ModelForm):
 
-	password = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
+	#password = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
 
 	def save(self, commit=True):
 		super(ProfileForm, self).save(commit=False)
@@ -20,6 +20,9 @@ class ProfileForm(forms.ModelForm):
 	class Meta:
 		model = User
 		fields = ['username', 'name', 'email', 'password', 'birth_date', 'city', 'state', 'gender', 'cpf', 'phone', 'image']
+		widgets = {
+			'password':forms.PasswordInput
+		}	
 
 class UserForm(forms.ModelForm):
 
