@@ -20,9 +20,9 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^app/', include('app.urls', namespace = 'app')),
-    url(r'^course/', include('courses.urls', namespace = 'course')),
-    url(r'^users/', include('users.urls', namespace = 'users')),
+    url(r'^dashboard/', include('app.urls', namespace = 'app')),
+    url(r'^dashboard/course/', include('courses.urls', namespace = 'course')),
+    url(r'^dashboard/users/', include('users.urls', namespace = 'users')),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('core.urls', namespace = 'core')),
 ]
