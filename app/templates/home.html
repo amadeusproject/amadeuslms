@@ -1,1 +1,88 @@
-{% load static i18n %}
+{% extends 'base.html' %}
+
+{% load static i18n django_bootstrap_breadcrumbs permission_tags %}
+
+{% block breadcrumbs %}
+
+  {% clear_breadcrumbs %}
+  {% breadcrumb 'Home' 'app:index' %}
+
+{% endblock %}
+
+{% block render_breadcrumbs %}
+  {% render_breadcrumbs %}
+{% endblock %}
+
+{% block sidebar %}
+	<div class="panel panel-primary">
+        <div class="panel-heading">
+          	<img src="{{ user.image.url }}" id="img" class="img-rounded">
+          	<p></p>
+          	<div class="row">
+            	<div class="col-xs-3 col-md-3">
+            		<i class="fa fa-facebook-official fa-2x" aria-hidden="true"></i>
+        		</div>
+                <div class="col-xs-3 col-md-3">
+                	<i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
+            	</div>
+                <div class="col-xs-3 col-md-3">
+                	<i class="fa fa-linkedin-square fa-2x" aria-hidden="true"></i>
+            	</div>
+                <div class="col-xs-3 col-md-3">
+                	<i class="fa fa-google-plus-official fa-2x" aria-hidden="true"></i>
+            	</div>
+          	</div>
+    	</div>
+    	<div class="panel-body">
+          	<ul class="nav nav-pills nav-stacked">
+            	<li> <a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+                <li> <a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
+                <li> <a href="#">{% trans 'Pending Tasks' %}</a></li>
+                {% if user|has_role:'student' %}
+                	<li> <a href="#">{% trans 'My courses' %}</a></li>
+            	{% endif %}
+            	{% if user|has_role:'system_admin' %}
+            		<li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
+            	{% endif %}
+            	{% if user|has_role:'system_admin, professor' %}
+            		<li> <a href="../../course/home_course.html">{% trans 'Manage Courses' %}</a></li>
+            	{% endif %}
+          	</ul>
+    	</div>
+  	</div>
+{% endblock %}
+
+{% block content %}
+    <h3>{% trans 'Courses' %}</h3>
+  	{% if courses|length > 0 %}
+  		{% for course in courses %}
+		  	<a href="{% url 'course:view' course.slug %}">
+                <div class="panel panel-default courseHome">
+                    <div class="panel-body">
+                        <p>{{ course }}</p>
+                    </div>
+                    <div class="panel-footer">
+                        <ul>
+                            <li>{% trans 'Students:' %} 5</li>
+                            <li>{% trans 'Beginning:' %} {{ course.init_date }}</li>
+                            <li>{% trans 'End:' %} {{ course.end_date }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </a>
+		{% endfor %}
+	{% else %}
+		<p>{% trans "You didn't create any course yet." %}</p>
+	{% endif %}
+{% endblock %}
+
+{% block rightbar %}
+	<div class="panel panel-warning">
+      	<div class="panel-heading">
+        	<h3 class="panel-title">Pending Stuffs</h3>
+      	</div>
+    	<div class="panel-body">
+    		<p>{% trans 'No pending tasks at the moment.' %}</p>
+      	</div>
+    </div>
+{% endblock rightbar %}

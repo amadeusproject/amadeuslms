@@ -12,7 +12,7 @@ class AppIndex(LoginRequiredMixin, LogMixin, TemplateView, NotificationMixin):
 	log_resource = "Home"
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
-	template_name = "home_professor.html"
+	template_name = "home.html"
 
 	not_action = "Acessar"
 	not_resource = "home"
