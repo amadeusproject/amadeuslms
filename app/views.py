@@ -32,11 +32,17 @@ class AppIndex(LoginRequiredMixin, LogMixin, ListView, NotificationMixin):
 	def render_to_response(self, context, **response_kwargs):
 		if self.request.user.is_staff:
 			context['page_template'] = "home_admin_content.html"
+		else:
+			context['page_template'] = "home_teacher_student_content.html"
 	
 		context['title'] = 'Amadeus'
 
 		if self.request.is_ajax():
-			self.template_name = "home_admin_content.html"
+			if self.request.user.is_staff:
+				self.template_name = "home_admin_content.html"
+			else:
+				self.template_name = "home_teacher_student_content.html"
+			
 
 		super(AppIndex, self).createNotification("teste", not_resource="home", resource_link="/register")
 		
