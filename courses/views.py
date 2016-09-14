@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from slugify import slugify
 from rolepermissions.verifications import has_role
 from django.db.models import Q
+from rolepermissions.verifications import has_object_permission
 
 from .forms import CourseForm, CategoryForm, SubjectForm,TopicForm
 from .models import Course, Subject, Category,Topic
@@ -223,7 +224,7 @@ class SubjectsView(LoginRequiredMixin, generic.ListView):
 
 class CreateTopicView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.edit.CreateView):
 
-	allowed_roles = ['professor', 'system_admin','student']
+	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'topic/create.html'
@@ -254,11 +255,17 @@ class CreateTopicView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, gener
 
 class UpdateTopicView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
-	allowed_roles = ['professor', 'system_admin','student']
+	allowed_roles = ['professor','system_admin']
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'topic/update.html'
 	form_class = TopicForm
+
+	def dispatch(self, *args, **kwargs):
+		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+		if(not has_object_permission('edit_topic', self.request.user, topic)):
+			return self.handle_no_permission()
+		return super(UpdateTopicView, self).dispatch(*args, **kwargs)
 
 	def get_object(self, queryset=None):
 	    return get_object_or_404(Topic, slug = self.kwargs.get('slug'))
@@ -315,6 +322,12 @@ class UpdateSubjectView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 	template_name = 'subject/update.html'
 	form_class = SubjectForm
 
+	def dispatch(self, *args, **kwargs):
+		subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+		if(not has_object_permission('edit_subject', self.request.user, subject)):
+			return self.handle_no_permission()
+		return super(UpdateSubjectView, self).dispatch(*args, **kwargs)
+
 	def get_object(self, queryset=None):
 		context = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
 		return context
@@ -338,6 +351,13 @@ class DeleteSubjectView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 	redirect_field_name = 'next'
 	model = Subject
 	template_name = 'subject/delete.html'
+
+	def dispatch(self, *args, **kwargs):
+		subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+		if(not has_object_permission('delete_subject', self.request.user, subject)):
+			return self.handle_no_permission()
+		return super(DeleteSubjectView, self).dispatch(*args, **kwargs)
+
 
 	def get_context_data(self, **kwargs):
 		context = super(DeleteSubjectView, self).get_context_data(**kwargs)
