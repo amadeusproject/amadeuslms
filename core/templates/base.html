@@ -32,9 +32,7 @@
     </script>
     <script src="{% static 'js/base/header.js'%}"></script>
 	<!--Javascript block for specific-app ones -->
-	{% block javascript %}
-
-	{% endblock %}
+	
 </head>
 <body>
 	<div class="container-fluid">
@@ -144,5 +142,9 @@
 			</div>
 		</div>
 	</div>
+
+	{% block javascript %}
+
+	{% endblock %}
 </body>
 </html>

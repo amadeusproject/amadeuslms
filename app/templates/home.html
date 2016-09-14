@@ -2,11 +2,59 @@
 
 {% load static i18n django_bootstrap_breadcrumbs permission_tags %}
 
-{% block breadcrumbs %}
+{% block javascript %}
+	<script type="text/javascript">
+		var pageNum = {{ page_obj.number }}; // The latest page loaded
+		var hasNextPage = {{ paginator.num_pages }}; // Indicates whether to expect another page after this one
+		var baseUrl = '{% url "app:index" %}';
 
+		// loadOnScroll handler
+		var loadOnScroll = function() {
+		   // If the current scroll position is past out cutoff point...
+		    if ($(window).scrollTop() > $(document).height() - ($(window).height()*3)) {
+		        // temporarily unhook the scroll event watcher so we don't call a bunch of times in a row
+		        $(window).unbind();
+		        // execute the load function below that will visit the JSON feed and stuff data into the HTML
+		        loadItems();
+		    }
+		};
+
+		var loadItems = function() {
+		    // If the next page doesn't exist, just quit now 
+		    if (pageNum == hasNextPage) {
+		        return false
+		    }
+		    // Update the page number
+		    pageNum = pageNum + 1;
+
+		    $("#loading").show();
+		    // Configure the url we're about to hit
+		    setTimeout(function (){
+			    $.ajax({
+			        url: baseUrl, 
+			        data: {'page': pageNum},
+			        success: function(data) {
+			            $("#loading").hide();
+			            
+			            $("#timeline").append(data);
+			        },
+			        complete: function(data, textStatus){
+			            // Turn the scroll monitor back on
+			            $(window).bind('scroll', loadOnScroll);
+			        }
+			    });
+		    }, 1000)
+		};
+
+		$(document).ready(function(){     
+		   $(window).bind('scroll', loadOnScroll);
+		});
+	</script>
+{% endblock %}
+
+{% block breadcrumbs %}
   {% clear_breadcrumbs %}
   {% breadcrumb 'Home' 'app:index' %}
-
 {% endblock %}
 
 {% block render_breadcrumbs %}
@@ -45,7 +93,7 @@
             		<li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
             	{% endif %}
             	{% if user|has_role:'system_admin, professor' %}
-            		<li> <a href="../../course/home_course.html">{% trans 'Manage Courses' %}</a></li>
+            		<li> <a href="{% url 'course:manage' %}">{% trans 'Manage Courses' %}</a></li>
             	{% endif %}
           	</ul>
     	</div>
@@ -53,27 +101,18 @@
 {% endblock %}
 
 {% block content %}
-    <h3>{% trans 'Courses' %}</h3>
-  	{% if courses|length > 0 %}
-  		{% for course in courses %}
-		  	<a href="{% url 'course:view' course.slug %}">
-                <div class="panel panel-default courseHome">
-                    <div class="panel-body">
-                        <p>{{ course }}</p>
-                    </div>
-                    <div class="panel-footer">
-                        <ul>
-                            <li>{% trans 'Students:' %} 5</li>
-                            <li>{% trans 'Beginning:' %} {{ course.init_date }}</li>
-                            <li>{% trans 'End:' %} {{ course.end_date }}</li>
-                        </ul>
-                    </div>
-                </div>
-            </a>
-		{% endfor %}
-	{% else %}
-		<p>{% trans "You didn't create any course yet." %}</p>
+	{% if user|has_role:'system_admin' %}
+		<h3>{% trans 'Courses' %}</h3>
 	{% endif %}
+
+	<div id="timeline">
+		{% include page_template %}
+	</div>
+	<div id="loading" class="alert alert-primary" role="alert">
+		<center>
+			<span class="fa fa-spin fa-circle-o-notch"></span>
+		</center>
+	</div>
 {% endblock %}
 
 {% block rightbar %}

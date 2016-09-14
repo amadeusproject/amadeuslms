@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% for course in courses %}
+    <div class="panel panel-default courseHome">
+      	<div class="panel-body">
+        	<p>{{ course }}</p>
+      	</div>
+      	<div class="panel-footer">
+        	<ul>
+            	<li>{% trans 'Students' %}: {{ course.max_students }}</li>
+            	<li>{% trans 'Beginning' %}: {{ course.init_date }}</li>
+                <li>{% trans 'End' %}: {{ course.end_date }}</li>
+        	</ul>
+      	</div>
+      	<button type="button" class="btn btn-outline-info">{% trans 'Edit' %}</button>
+    </div>
+{% endfor %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
 from core.mixins import LogMixin, NotificationMixin
@@ -7,32 +7,42 @@ from core.models import Notification, Action, Resource, Action_Resource
 from users.models import User
 from courses.models import Course
 
-class AppIndex(LoginRequiredMixin, LogMixin, TemplateView, NotificationMixin):
+class AppIndex(LoginRequiredMixin, LogMixin, ListView, NotificationMixin):
 	log_action = "Acessar"
 	log_resource = "Home"
-	login_url = reverse_lazy("core:home")
+	
+	login_url = reverse_lazy("core:home")	
 	redirect_field_name = 'next'
+
 	template_name = "home.html"
+	context_object_name = 'courses'
+	paginate_by = 3
 
 	not_action = "Acessar"
 	not_resource = "home"
 
-	def render_to_response(self, context, **response_kwargs):
-		context = {}
-
-		if self.request.user.type_profile == 2:
-			template = "home_student.html"
-			context['courses'] = Course.objects.filter(user = self.request.user)
+	def get_queryset(self):
+		if self.request.user.is_staff:
+			objects = Course.objects.all()
 		else:
-			template = self.get_template_names()
-			context['courses'] = Course.objects.filter(user = self.request.user)
+			objects = Notification.objects.filter(user = self.request.user)
 
+		return objects
+
+	def render_to_response(self, context, **response_kwargs):
+		if self.request.user.is_staff:
+			context['page_template'] = "home_admin_content.html"
+	
 		context['title'] = 'Amadeus'
+
+		if self.request.is_ajax():
+			self.template_name = "home_admin_content.html"
+
 		#super(AppIndex, self).createNotification("teste", not_resource="home", resource_link="users")
 		
 		notifications = Notification.objects.filter(user= self.request.user, read=False)
 		context['notifications'] = notifications
 		
-		return self.response_class(request = self.request, template = template, context = context, using = self.template_engine, **response_kwargs)
+		return self.response_class(request = self.request, template = self.template_name, context = context, using = self.template_engine, **response_kwargs)
 
 
