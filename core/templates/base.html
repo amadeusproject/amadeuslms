@@ -53,13 +53,13 @@
 			              		<div class="navbar-collapse collapse navbar-responsive-collapse">
 			                		<ul class="nav navbar-nav navbar-right notifications">
 			                  			 <li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">         
-						                    <a href="../user/profile_user.html" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell-o" aria-hidden="true"></i></a>
+						                    <a  class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell-o" aria-hidden="true"></i></a>
 						                     <ul class="dropdown-menu">
 						                     <li class="dropdown-header">Notifications</li>
 						                     	{% for notification in notifications  %}
 						                     		{% if notification.actor %} <!-- if the notification has a user-->
 						                     			<li>
-								                          <a href="{{ notification.action_resource.resource.link }}"><div class="list-group-item">
+								                          <a href="{% url 'core:notification_read' notification.id %}"><div class="list-group-item">
 								                          <div class="row-picture">
 								                            <img class="circle" src="http://lorempixel.com/56/56/people/1" alt="icon">
 								                            <div class="least-content pull-right">{{ notification.datetime }}</div>
@@ -72,7 +72,7 @@
 								                        </li>
 						                     		{% else %}
 						                     			 <li>
-								                            <a href="{{ notification.action_resource.resource.link }}">
+								                            <a href="{% url 'core:notification_read' notification.id %}">
 								                                <div class="list-group-item">
 								                                  <div class="row-action-primary">
 								                                    <i class="material-icons">folder</i>

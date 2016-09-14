@@ -38,7 +38,7 @@ class AppIndex(LoginRequiredMixin, LogMixin, ListView, NotificationMixin):
 		if self.request.is_ajax():
 			self.template_name = "home_admin_content.html"
 
-		#super(AppIndex, self).createNotification("teste", not_resource="home", resource_link="users")
+		super(AppIndex, self).createNotification("teste", not_resource="home", resource_link="/register")
 		
 		notifications = Notification.objects.filter(user= self.request.user, read=False)
 		context['notifications'] = notifications

@@ -10,7 +10,7 @@ from django.http import HttpResponse
 from django.core.mail import send_mail,BadHeaderError
 from django.conf import settings
 from core.mixins import NotificationMixin
-
+from .models import Notification
 from rolepermissions.shortcuts import assign_role
 
 from .forms import RegisterUserForm
@@ -86,6 +86,14 @@ def login(request):
 		
 	return render(request,"index.html",context)
 
+
+
+def processNotification(self, notificationId):
+	notification = Notification.objects.get(id= notificationId)
+	notification.read = True
+	notification.save()
+
+	return redirect(notification.action_resource.resource.link)
 
 # class LoginClass(LoginView):
 # 	template_name='index.html'
