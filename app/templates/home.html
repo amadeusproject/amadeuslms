@@ -5,23 +5,23 @@
 {% block javascript %}
 	<script type="text/javascript">
 		var pageNum = {{ page_obj.number }}; // The latest page loaded
-		var hasNextPage = {{ paginator.num_pages }}; // Indicates whether to expect another page after this one
+		var numberPages = {{ paginator.num_pages }}; // Indicates the number of pages
 		var baseUrl = '{% url "app:index" %}';
 
 		// loadOnScroll handler
 		var loadOnScroll = function() {
 		   // If the current scroll position is past out cutoff point...
-		    if ($(window).scrollTop() > $(document).height() - ($(window).height()*3)) {
+		    if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
 		        // temporarily unhook the scroll event watcher so we don't call a bunch of times in a row
 		        $(window).unbind();
-		        // execute the load function below that will visit the JSON feed and stuff data into the HTML
+		        // execute the load function below that will visit the view and return the content
 		        loadItems();
 		    }
 		};
 
 		var loadItems = function() {
-		    // If the next page doesn't exist, just quit now 
-		    if (pageNum == hasNextPage) {
+		    // Check if page is equal to the number of pages
+		    if (pageNum == numberPages) {
 		        return false
 		    }
 		    // Update the page number
