@@ -15,9 +15,24 @@
 {% endblock %}
 
 {% block sidebar %}
-<div class="panel panel-primary navigation">
+<div class="panel panel-primary">
   <div class="panel-heading">
-    <h5>{% trans "Menu" %}</h5>
+    <img src="{{ user.image.url }}" id="img" class="img-circle img-responsive">
+  </br>
+    <div class="row">
+      <div class="col-xs-3 col-md-3">
+        <i class="fa fa-facebook-official fa-2x" aria-hidden="true"></i>
+    </div>
+        <div class="col-xs-3 col-md-3">
+          <i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
+      </div>
+        <div class="col-xs-3 col-md-3">
+          <i class="fa fa-linkedin-square fa-2x" aria-hidden="true"></i>
+      </div>
+        <div class="col-xs-3 col-md-3">
+          <i class="fa fa-google-plus-official fa-2x" aria-hidden="true"></i>
+      </div>
+    </div>
   </div>
   <div class="panel-body">
     <ul class="nav nav-pills nav-stacked">
@@ -28,7 +43,7 @@
   </div>
 </div>
 {% if courses.count > 0 %}
-<div class="panel panel-primary navigation">
+<div class="panel panel-primary">
   <div class="panel-heading">
     <h5>{% trans "Courses" %}</h5>
   </div>
@@ -90,5 +105,12 @@
 
 
 {% block rightbar %}
-
+<div class="panel panel-warning">
+      <div class="panel-heading">
+        <h3 class="panel-title">{% trans "Pending Stuffs" %}</h3>
+      </div>
+    <div class="panel-body">
+      <p>{% trans 'No pending tasks at the moment.' %}</p>
+      </div>
+  </div>
 {% endblock rightbar %}
