@@ -75,7 +75,7 @@ class UpdateView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
-class View(LoginRequiredMixin, NotificationMixin, generic.DetailView):
+class CourseView(LoginRequiredMixin, NotificationMixin, generic.DetailView):
 
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
@@ -84,10 +84,24 @@ class View(LoginRequiredMixin, NotificationMixin, generic.DetailView):
 	template_name = 'course/view.html'
 
 	def get_context_data(self, **kwargs):
-		context = super(View, self).get_context_data(**kwargs)
+		context = super(CourseView, self).get_context_data(**kwargs)
 		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
-		subjects = Subject.objects.filter(Q(visible=True) | Q(professors__in=[self.request.user]) | Q(course = course))
+		if has_role(self.request.user,'system_admin'):
+			subjects = Subject.objects.all()
+		elif has_role(self.request.user,'professor'):
+			subjects = course.subjects.filter(professors__in=[self.request.user])
+		elif has_role(self.request.user, 'student'):
+			subjects = course.subjects.filter(visible=True)
 		context['subjects'] = subjects
+
+		if has_role(self.request.user,'system_admin'):
+			courses = Course.objects.all()
+		elif has_role(self.request.user,'professor'):
+			courses = self.request.user.courses.all()
+		elif has_role(self.request.user, 'student'):
+			courses = self.request.user.courses_student.all()
+		context['courses'] = courses
+		context['title'] = course.name
 
 		return context
 

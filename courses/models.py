@@ -31,6 +31,7 @@ class Course(models.Model):
 	image = models.ImageField(verbose_name = _('Image'), blank = True, upload_to = 'courses/')
 	category = models.ForeignKey(Category, verbose_name = _('Category'))
 	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='courses')
+	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='courses_student')
 
 	class Meta:
 		ordering = ('create_date','name')
