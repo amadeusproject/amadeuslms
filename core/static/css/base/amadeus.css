@@ -115,7 +115,7 @@ ul {
   margin-bottom: 2em; }
   .timeline li {
     padding: 1em 0; }
-  .timeline li:nth-child(even) {
+  .timeline li.not_read {
     background-color: #d3d7d8; }
 
 .avatar {

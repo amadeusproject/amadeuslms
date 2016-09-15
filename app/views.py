@@ -15,8 +15,8 @@ class AppIndex(LoginRequiredMixin, LogMixin, ListView, NotificationMixin):
 	redirect_field_name = 'next'
 
 	template_name = "home.html"
-	context_object_name = 'courses'
-	paginate_by = 3
+	context_object_name = 'objects'
+	paginate_by = 10
 
 	not_action = "Acessar"
 	not_resource = "home"
@@ -25,18 +25,24 @@ class AppIndex(LoginRequiredMixin, LogMixin, ListView, NotificationMixin):
 		if self.request.user.is_staff:
 			objects = Course.objects.all()
 		else:
-			objects = Notification.objects.filter(user = self.request.user)
+			objects = Notification.objects.filter(user = self.request.user).order_by('-datetime')
 
 		return objects
 
 	def render_to_response(self, context, **response_kwargs):
 		if self.request.user.is_staff:
 			context['page_template'] = "home_admin_content.html"
+		else:
+			context['page_template'] = "home_teacher_student_content.html"
 	
 		context['title'] = 'Amadeus'
 
 		if self.request.is_ajax():
-			self.template_name = "home_admin_content.html"
+			if self.request.user.is_staff:
+				self.template_name = "home_admin_content.html"
+			else:
+				self.template_name = "home_teacher_student_content.html"
+			
 
 		super(AppIndex, self).createNotification("teste", not_resource="home", resource_link="/register")
 		return self.response_class(request = self.request, template = self.template_name, context = context, using = self.template_engine, **response_kwargs)
