@@ -39,10 +39,6 @@ class AppIndex(LoginRequiredMixin, LogMixin, ListView, NotificationMixin):
 			self.template_name = "home_admin_content.html"
 
 		super(AppIndex, self).createNotification("teste", not_resource="home", resource_link="/register")
-		
-		notifications = Notification.objects.filter(user= self.request.user, read=False)
-		context['notifications'] = notifications
-		
 		return self.response_class(request = self.request, template = self.template_name, context = context, using = self.template_engine, **response_kwargs)
 
 
