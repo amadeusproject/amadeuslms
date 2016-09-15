@@ -16,7 +16,7 @@ class AppIndex(LoginRequiredMixin, LogMixin, ListView, NotificationMixin):
 
 	template_name = "home.html"
 	context_object_name = 'courses'
-	paginate_by = 3
+	paginate_by = 10
 
 	not_action = "Acessar"
 	not_resource = "home"
