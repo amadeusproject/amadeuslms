@@ -1,0 +1,19 @@
+{% load i18n %}
+
+{% for notification in objects %}
+    <li {% if not notification.read %}class="not_read"{% endif %}>
+        <div class="avatar">
+            <img src="{{ notification.user.image.url }}">
+        </div>
+        <div class="bubble-container">
+            <div class="bubble">
+                <div class="retweet" style="color: white">
+                    {{ notification.datetime }}
+                </div>
+                <h3>{{ notification.user }}</h3> - <h3>{{ notification.action_resource }}</h3><br/>
+                <a href="{% url 'core:notification_read' notification.id %}">{{ notification }}</a>
+            </div>
+            <div class="arrow"></div>
+        </div>
+    </li>
+{% endfor %}
