@@ -77,6 +77,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'core.context_processors.notifications',
             ],
         },
     },
@@ -92,8 +94,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'amadeus',
-        'USER': 'amadeus_admin',
-        'PASSWORD': 'amadeus',
+        'USER': 'postgres',
+        'PASSWORD': 'felipe',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
