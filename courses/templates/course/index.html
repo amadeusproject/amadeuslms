@@ -54,7 +54,9 @@
 		{% for course in courses %}
 			<div class="row well well-inverse">
 		  		<div class="col-md-2">
-		  			<img src="{{ course.image.url }}" class="img-responsive" />
+		  		 	{% if  course.image %}
+		  		 		<img src="{{ course.image.url }}" class="img-responsive" />
+		  		 	{% endif %}
 	  			</div>
 		  		<div class="col-md-10">
 					<div class="row">
