@@ -64,7 +64,7 @@
 {% block sidebar %}
 	<div class="panel panel-primary">
         <div class="panel-heading">
-          	<img src="{{ user.image.url }}" id="img" class="img-rounded">
+          	<img src="{{ user.image_url }}" id="img" class="img-rounded">
           	<p></p>
           	<div class="row">
             	<div class="col-xs-3 col-md-3">
@@ -92,7 +92,7 @@
             	{% if user|has_role:'system_admin' %}
             		<li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
             	{% endif %}
-            	{% if user|has_role:'system_admin, professor' %}
+            	{% if user|has_role:'system_admin' or user|has_role:'professor' %}
             		<li> 
             			<a href="#courses_list" data-toggle="collapse">{% trans 'Manage Courses' %}</a>
 
