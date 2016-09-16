@@ -32,7 +32,7 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 
 		return context
 
-class CreateView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,generic.edit.CreateView):
+class CreateCourseView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,generic.edit.CreateView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -41,17 +41,9 @@ class CreateView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,generic.edi
 	form_class = CourseForm
 	success_url = reverse_lazy('course:manage')
 	def form_valid(self, form):
-		self.object = form.save(commit = False)
-		self.object.slug = slugify(self.object.name)
-		print('Fooooiiii!!')
-		self.object.save()
-
-		return super(CreateView, self).form_valid(form)
-
-	def render_to_response(self, context, **response_kwargs):
-		messages.success(self.request, _('Course created successfully!'))
-
-		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
+		self.object = form.save()
+		self.object.professors.add(self.request.user)
+		return super(CreateCourseView, self).form_valid(form)
 
 class UpdateView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
@@ -87,7 +79,7 @@ class CourseView(LoginRequiredMixin, NotificationMixin, generic.DetailView):
 		context = super(CourseView, self).get_context_data(**kwargs)
 		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
 		if has_role(self.request.user,'system_admin'):
-			subjects = Subject.objects.all()
+			subjects = course.subjects.all()
 		elif has_role(self.request.user,'professor'):
 			subjects = course.subjects.filter(professors__in=[self.request.user])
 		elif has_role(self.request.user, 'student'):
