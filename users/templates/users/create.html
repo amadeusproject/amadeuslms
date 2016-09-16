@@ -1,13 +1,15 @@
-{% extends 'app/base.html' %}
+{% extends 'list_users.html' %}
 
 {% load static i18n %}
 {% load widget_tweaks %}
 
+{% load django_bootstrap_breadcrumbs %}
+
 {% block breadcrumbs %}
-	<ol class="breadcrumb">
-	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li class="active">{% trans 'New User' %}</li>
-	</ol>
+
+  {{ block.super }}
+    {% breadcrumb 'Create' 'users:create' %}
+
 {% endblock %}
 
 {% block sidebar %}
@@ -25,12 +27,16 @@
 {% endblock %}
 
 {% block content %}
-	<div class="alert alert-info alert-dismissible" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		<p>{% trans 'All fields are required' %}</p>
-	</div>
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<p>{{ message }}</p>
+			</div>
+		{% endfor %}
+	{% endif %}
 
 	<form method="post" action="" enctype="multipart/form-data">
 		{% csrf_token %}
