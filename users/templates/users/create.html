@@ -12,19 +12,6 @@
 
 {% endblock %}
 
-{% block sidebar %}
-	<div class="list-group">
-	  	<a href="{% url 'users:manage' %}" class="list-group-item">
-	    	{% trans 'System Users' %}
-	  	</a>
-	  	<a href="{% url 'users:create' %}" class="list-group-item active">
-	    	{% trans 'New Account' %}
-	  	</a>
-	  	<a href="#" class="list-group-item">
-	    	{% trans 'Send Mail' %}
-	  	</a>
-	</div>
-{% endblock %}
 
 {% block content %}
 	{% if messages %}
