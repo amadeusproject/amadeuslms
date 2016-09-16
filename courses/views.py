@@ -12,10 +12,11 @@ from rolepermissions.verifications import has_role
 from django.db.models import Q
 from rolepermissions.verifications import has_object_permission
 
-from .forms import CourseForm, CategoryForm, SubjectForm,TopicForm
+from .forms import CourseForm, UpdateCourseForm, CategoryForm, SubjectForm,TopicForm
 from .models import Course, Subject, Category,Topic
 from core.mixins import NotificationMixin
 
+from datetime import date
 
 class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 
@@ -40,32 +41,86 @@ class CreateCourseView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,gener
 	template_name = 'course/create.html'
 	form_class = CourseForm
 	success_url = reverse_lazy('course:manage')
+
 	def form_valid(self, form):
 		self.object = form.save()
 		self.object.professors.add(self.request.user)
 		return super(CreateCourseView, self).form_valid(form)
 
-class UpdateView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
+	def get_context_data(self, **kwargs):
+		context = super(CreateCourseView, self).get_context_data(**kwargs)
+
+		if has_role(self.request.user,'system_admin'):
+			courses = Course.objects.all()
+		elif has_role(self.request.user,'professor'):
+			courses = self.request.user.courses.all()
+		context['courses'] = courses
+		context['title'] = _("Create Course")
+		context['now'] = date.today()
+		return context
+
+class UpdateCourseView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'course/update.html'
 	model = Course
-	form_class = CourseForm
+	form_class = UpdateCourseForm
+
+	def dispatch(self, *args, **kwargs):
+		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
+		if(not has_object_permission('update_course', self.request.user, course)):
+			return self.handle_no_permission()
+		return super(UpdateCourseView, self).dispatch(*args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super(UpdateCourseView, self).get_context_data(**kwargs)
+		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
+
+		if has_role(self.request.user,'system_admin'):
+			courses = Course.objects.all()
+		elif has_role(self.request.user,'professor'):
+			courses = self.request.user.courses.all()
+		context['courses'] = courses
+		context['title'] = course.name
+		context['now'] = date.today()
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('course:view', kwargs={'slug' : self.object.slug})
+
+
+
+class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
+
+	allowed_roles = ['professor', 'system_admin']
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+	model = Course
+	template_name = 'course/delete.html'
 	success_url = reverse_lazy('course:manage')
 
-	def form_valid(self, form):
-		self.object = form.save(commit = False)
-		self.object.slug = slugify(self.object.name)
-		self.object.save()
+	def dispatch(self, *args, **kwargs):
+		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
+		if(not has_object_permission('delete_course', self.request.user, course)):
+			return self.handle_no_permission()
+		return super(DeleteCourseView, self).dispatch(*args, **kwargs)
 
-		return super(UpdateView, self).form_valid(form)
+	def get_context_data(self, **kwargs):
+		context = super(DeleteCourseView, self).get_context_data(**kwargs)
+		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
 
-	def render_to_response(self, context, **response_kwargs):
-		messages.success(self.request, _('Course edited successfully!'))
+		if has_role(self.request.user,'system_admin'):
+			courses = Course.objects.all()
+		elif has_role(self.request.user,'professor'):
+			courses = self.request.user.courses.all()
+		context['courses'] = courses
+		print (courses,"jdhksjbjs")
+		context['title'] = course.name
 
-		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
+		return context
+
 
 class CourseView(LoginRequiredMixin, NotificationMixin, generic.DetailView):
 
@@ -375,4 +430,4 @@ class DeleteSubjectView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 		return context
 
 	def get_success_url(self):
-		return reverse_lazy('course:view_subject', kwargs={'slug' : self.object.course.subjects.all()[0].slug})
+		return reverse_lazy('course:view', kwargs={'slug' : self.object.course.slug})

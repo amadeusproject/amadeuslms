@@ -1,60 +1,64 @@
-{% extends 'app/base.html' %}
+{% extends 'course/view.html' %}
 
 {% load static i18n %}
 {% load widget_tweaks %}
 
 {% block breadcrumbs %}
 	<ol class="breadcrumb">
-	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li class="active">{% trans 'Edit Course' %}</li>
+  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+  	<li class="active">{% trans 'Edit Course' %}</li>
 	</ol>
 {% endblock %}
-
-{% block sidebar %}
-	<div class="list-group">
-		<a href="{% url 'course:manage' %}" class="list-group-item">
-	    	{% trans 'Courses' %}
-	  	</a>
-	  	<a href="{% url 'course:manage_mods' course.slug %}" class="list-group-item">
-	    	{% trans 'Manage Modules' %}
-	  	</a>
-	  	<a href="#" class="list-group-item">
-	    	{% trans 'Participants' %}
-	  	</a>
-	</div>
-{% endblock %}
-
 {% block content %}
-	<div class="alert alert-info alert-dismissible" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		<p>{% trans 'All fields are required' %}</p>
-	</div>
 
-	<form method="post" action="" enctype="multipart/form-data">
-		{% csrf_token %}
-		{% for field in form %}
-			<div class="form-group{% if form.has_error %} has-error {% endif %}">
-				<label for="{{ field.auto_id }}">{{ field.label }}</label>
-				{% render_field field class='form-control input-sm' %}
-				<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-				{% if field.errors.length > 0 %}
-					<div class="alert alert-danger alert-dismissible" role="alert">
-	  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-	  						<span aria-hidden="true">&times;</span>
-  						</button>
-						<ul>
-							{% for error in field.errors %}
-								<li>{{ error }}</li>
-							{% endfor %}
-						</ul>
+</br>
+<div class="card card-content">
+  <div class="card-body">
+		<form method="post" action="" enctype="multipart/form-data">
+			{% csrf_token %}
+			{% for field in form %}
+				<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
+					<label for="{{ field.auto_id }}">{{ field.label }}</label>
+					{% if field.auto_id == 'id_init_register_date' or field.auto_id == 'id_end_register_date' or field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date'%}
+						<input type="date" class="form-control"name="{{field.name}}" value="{% if field.value.year %}{{field.value|date:'Y-m-d'}}{% else %}{{field.value}}{% endif %}" min="{{now|date:'Y-m-d'}}">
+					{% elif field.auto_id == 'id_image' %}
+						{% render_field field class='form-control' %}
+						<div class="input-group">
+							<input type="text" readonly="" class="form-control" placeholder="Choose your photo..."/>
+							<span class="input-group-btn input-group-sm">
+									<button type="button" class="btn btn-fab btn-fab-mini">
+											<i class="material-icons">attach_file</i>
+									</button>
+							</span>
+						</div>
+					{% else %}
+						{% render_field field class='form-control' %}
+					{% endif %}
+					<span class="help-block">{{ field.help_text }}</span>
+					{% if field.errors %}
+					<div class="row">
+					</br>
+							<div class="alert alert-danger alert-dismissible" role="alert">
+			  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  						<span aria-hidden="true">&times;</span>
+		  						</button>
+								<ul>
+									{% for error in field.errors %}
+										<li>{{ error }}</li>
+									{% endfor %}
+								</ul>
+							</div>
 					</div>
+					{% endif %}
 				</div>
-				{% endif %}
+			{% endfor %}
+			<div class="row text-center">
+					<input type="submit" value="{% trans 'Update' %}" class="btn btn-primary" />
 			</div>
-		{% endfor %}
-		<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" />
-	</form>
-	<br clear="all" />
+    </form>
+	</div>
+</div>
+</br>
+</br>
+</br>
 {% endblock %}

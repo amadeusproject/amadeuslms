@@ -21,7 +21,7 @@
 							<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
 								<label for="{{ field.auto_id }}">{{ field.label }}</label>
 								{% if field.auto_id == 'id_init_register_date' or field.auto_id == 'id_end_register_date' or field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date'%}
-									{% render_field field class='form-control' type='date' %}
+									<input type="date" class="form-control"name="{{field.name}}" value="{% if field.value.year %}{{field.value|date:'Y-m-d'}}{% else %}{{field.value}}{% endif %}" min="{{now|date:'Y-m-d'}}">
 								{% elif field.auto_id == 'id_image' %}
 									{% render_field field class='form-control' %}
 									<div class="input-group">
