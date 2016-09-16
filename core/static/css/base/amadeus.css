@@ -256,4 +256,9 @@ a.alert_message:hover{color : grey}
   display: none;
 }
 
-
+.accordion {
+    background: #c0c0c0;
+}
+.accordion_list {
+    background: #e0e0e0;
+}
