@@ -48,7 +48,7 @@
                         <p>{% trans 'Email' %}: {{ acc.email }}</p>
                         <p>{% trans 'Contact' %}: {{ acc.phone }}</p>
                         <div align="right">
-                            <a href="javascript:void(0)" class="btn btn-raised btn-success">{% trans 'Edit' %}</a>
+                            <a href="{% url 'users:update' acc.username %}" class="btn btn-raised btn-success">{% trans 'Edit' %}</a>
                             <a href="javascript:void(0)" class="btn btn-raised btn-primary">{% trans 'Delete' %}</a>
                         </div>
                     </div>
