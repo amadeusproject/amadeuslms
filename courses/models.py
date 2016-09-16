@@ -47,6 +47,8 @@ class Subject(models.Model):
 	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
 	description = models.TextField(_('Description'), blank = True)
 	visible = models.BooleanField(_('Visible'), default = False)
+	init_date = models.DateField(_('Begin of Subject Date'))
+	end_date = models.DateField(_('End of Subject Date'))
 	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 	update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
 	course = models.ForeignKey(Course, verbose_name = _('Course'), related_name="subjects")
