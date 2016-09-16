@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
 	url(r'^$', views.IndexView.as_view(), name='manage'),
-	url(r'^create/$', views.CreateView.as_view(), name='create'),
+	url(r'^create/$', views.CreateCourseView.as_view(), name='create'),
 	url(r'^edit/(?P<slug>[\w_-]+)/$', views.UpdateView.as_view(), name='update'),
 	url(r'^(?P<slug>[\w_-]+)/$', views.CourseView.as_view(), name='view'),
 	url(r'^delete/(?P<slug>[\w_-]+)/$', views.DeleteView.as_view(), name='delete'),
