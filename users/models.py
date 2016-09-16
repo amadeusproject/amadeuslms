@@ -4,6 +4,7 @@ from django.db import models
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 class User(AbstractBaseUser, PermissionsMixin):
 
@@ -19,7 +20,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 	city = models.CharField(_('City'), max_length = 90, blank = True)
 	state = models.CharField(_('State'), max_length = 30, blank = True)
 	gender = models.CharField(_('Gender'), max_length = 1, choices = (('M', _('Male')), ('F', _('Female'))))
-	image = models.ImageField(verbose_name = _('Image'), blank = True, upload_to = 'users/', default = 'no_image.jpg')
+	image = models.ImageField(verbose_name = _('Image'), blank = True, upload_to = 'users/')
 	birth_date = models.DateField(_('Birth Date'), null = True, blank = True)
 	phone = models.CharField(_('Phone'), max_length = 30, blank = True)
 	cpf = models.CharField(_('Cpf'), max_length = 15, blank = True)
@@ -40,8 +41,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 	def __str__(self):
 		return self.name or self.username
 
-	def det_full_name(self):
+	def get_full_name(self):
 		return str(self)
 
 	def get_short_name(self):
 		return str(self).split(" ")[0]
+
+	@property
+	def image_url(self):
+		if self.image and hasattr(self.image, 'url'):
+			return self.image.url
+		else:
+			return static('img/no_image.jpg')

@@ -79,6 +79,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
 
                 'core.context_processors.notifications',
+                'courses.context_processors.courses',
             ],
         },
     },
@@ -94,8 +95,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'amadeus',
-        'USER': 'postgres',
-        'PASSWORD': 'felipe',
+        'USER': 'amadeus_admin',
+        'PASSWORD': 'amadeus',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
