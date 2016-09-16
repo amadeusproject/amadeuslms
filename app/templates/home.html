@@ -87,7 +87,7 @@
                 <li> <a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                 <li> <a href="#">{% trans 'Pending Tasks' %}</a></li>
                 {% if user|has_role:'student' and not user.is_staff %}
-                	<li> <a href="#">{% trans 'My courses' %}</a></li>
+                	<li> <a href="{% url 'course:manage' %}">{% trans 'My courses' %}</a></li>
             	{% endif %}
             	{% if user|has_role:'system_admin' %}
             		<li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>

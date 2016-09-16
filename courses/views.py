@@ -283,6 +283,29 @@ class SubjectsView(LoginRequiredMixin, generic.ListView):
 		context['topics'] = subject.topics.all()
 		return context
 
+class TopicsView(LoginRequiredMixin, generic.ListView):
+
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+	template_name = 'topic/index.html'
+	context_object_name = 'topics'
+	model = Topic
+
+	def get_queryset(self):
+		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+		subject = topic.subject
+		context = subject.topics.filter(visible=True)
+		#if (self.request.user in subject.professors.all() or has_role(self.request.user,'system_admin')):
+			#context = subject.topics.all() <- Change it By Activities
+		return context
+
+	def get_context_data(self, **kwargs):
+		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+		context = super(TopicsView, self).get_context_data(**kwargs)
+		context['topic'] = topic
+		context['subject'] = topic.subject
+		return context
+
 class CreateTopicView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.edit.CreateView):
 
 	allowed_roles = ['professor', 'system_admin']
