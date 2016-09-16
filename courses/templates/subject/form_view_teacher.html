@@ -1,6 +1,7 @@
 {% load i18n %}
 
 <div class="panel panel-default">
+  <a href="{% url 'course:view_topic' topic.slug %}">
   <div class="panel-heading">
     <div class="row">
       <div class="col-md-9 col-sm-9">
@@ -11,6 +12,7 @@
       </div>
     </div>
   </div>
+  </a>
   <div class="panel-body">
     <p>{{topic.description|linebreaks}}</p>
   </div>
