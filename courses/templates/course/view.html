@@ -64,22 +64,24 @@
   <div class="panel panel-info">
     <div class="panel-heading">
       <div class="row">
-<div class="col-md-10">
+        <a href="{% url 'course:view_subject' subject.slug %}">
+        <div class="col-md-10">
 
-    <h3 class="panel-title"><a href="{% url 'course:view_subject' subject.slug %}"></a>{{subject}}</h3>
+          <h3 class="panel-title">{{subject}}</h3>
 
-  </div>
-  <div class="col-md-2 text-right">
-    {% if user|has_role:'professor, system_admin' %}
-      <a href="{% url 'course:update_subject' subject.slug %}" style="padding: 3px; margin: 3px;" class="btn btn-sm btn-default">
-        <span class="glyphicon glyphicon-edit"></span>
-      </a>
-      <a href="{% url 'course:delete_subject' subject.slug %}" style="padding: 3px; margin: 3px;" class="btn btn-sm btn-danger">
-        <span class="glyphicon glyphicon-trash"></span>
-      </a>
-    {% endif %}
-  </div>
-</div>
+        </div>
+        </a>
+        <div class="col-md-2 text-right">
+          {% if user|has_role:'professor, system_admin' %}
+            <a href="{% url 'course:update_subject' subject.slug %}" style="padding: 3px; margin: 3px;" class="btn btn-sm btn-default">
+              <span class="glyphicon glyphicon-edit"></span>
+            </a>
+            <a href="{% url 'course:delete_subject' subject.slug %}" style="padding: 3px; margin: 3px;" class="btn btn-sm btn-danger">
+              <span class="glyphicon glyphicon-trash"></span>
+            </a>
+          {% endif %}
+        </div>
+    </div>
     </div>
     <div class="panel-body">
       <p><b>{% trans "Professor" %}: </b>{% for professor in subject.professors.all %}{% if not forloop.first %},{% endif %}
@@ -92,10 +94,10 @@
         </p>
         <div class="row">
           <div class="col-xs-6 col-md-6">
-            {# <p><b>{% trans "Begining" %}: </b>{{subject.init_date}}</p>#}
+            <p><b>{% trans "Begining" %}: </b>{{subject.init_date}}</p>
           </div>
           <div class="col-xs-6 col-md-6">
-            {# <p><b>End: </b>23/08/2019</p>#}
+            <p><b>{% trans "End" %}: </b>{{subject.end_date}}</p>
           </div>
         </div>
     </div>

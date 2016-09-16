@@ -32,7 +32,7 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 
 		return context
 
-class CreateView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,generic.edit.CreateView):
+class CreateCourseView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,generic.edit.CreateView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -41,17 +41,9 @@ class CreateView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,generic.edi
 	form_class = CourseForm
 	success_url = reverse_lazy('course:manage')
 	def form_valid(self, form):
-		self.object = form.save(commit = False)
-		self.object.slug = slugify(self.object.name)
-		print('Fooooiiii!!')
-		self.object.save()
-
-		return super(CreateView, self).form_valid(form)
-
-	def render_to_response(self, context, **response_kwargs):
-		messages.success(self.request, _('Course created successfully!'))
-
-		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
+		self.object = form.save()
+		self.object.professors.add(self.request.user)
+		return super(CreateCourseView, self).form_valid(form)
 
 class UpdateView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
@@ -87,7 +79,7 @@ class CourseView(LoginRequiredMixin, NotificationMixin, generic.DetailView):
 		context = super(CourseView, self).get_context_data(**kwargs)
 		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
 		if has_role(self.request.user,'system_admin'):
-			subjects = Subject.objects.all()
+			subjects = course.subjects.all()
 		elif has_role(self.request.user,'professor'):
 			subjects = course.subjects.filter(professors__in=[self.request.user])
 		elif has_role(self.request.user, 'student'):
@@ -234,6 +226,29 @@ class SubjectsView(LoginRequiredMixin, generic.ListView):
 		context['course'] = subject.course
 		context['subject'] = subject
 		context['topics'] = subject.topics.all()
+		return context
+
+class TopicsView(LoginRequiredMixin, generic.ListView):
+
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+	template_name = 'topic/index.html'
+	context_object_name = 'topics'
+	model = Topic
+
+	def get_queryset(self):
+		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+		subject = topic.subject
+		context = subject.topics.filter(visible=True)
+		#if (self.request.user in subject.professors.all() or has_role(self.request.user,'system_admin')):
+			#context = subject.topics.all() <- Change it By Activities
+		return context
+
+	def get_context_data(self, **kwargs):
+		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+		context = super(TopicsView, self).get_context_data(**kwargs)
+		context['topic'] = topic
+		context['subject'] = topic.subject
 		return context
 
 class CreateTopicView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.edit.CreateView):
@@ -384,3 +399,5 @@ class DeleteSubjectView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 	def get_success_url(self):
 		return reverse_lazy('course:view_subject', kwargs={'slug' : self.object.course.subjects.all()[0].slug})
+
+

@@ -6,11 +6,11 @@
 
 	<ol class="breadcrumb">
 	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
+	  	<li><a href="{% url 'course:view_subject' subject.slug %}">{{ subject }}</a></li>
 	  	{% if user|has_role:'professor' or user|has_role:'system_admin' %}
-	  		<li class="active">{% trans 'Manage Subjects' %}</li>
+	  		<li class="active">{% trans 'Manage Topic' %}</li>
 	  	{% else %}
-	  		<li class="active">{{ subject.name }}</li>
+	  		<li class="active">{{ topic.name }}</li>
 	  	{% endif %}
 	  	
 	</ol>
@@ -25,19 +25,17 @@
       </div>
 
       <div class="panel-body">
-        {% for subject in subjects %}
+        <!--{% for subject in subjects %}
 				<div class="row">
 					<div class="col-md-12 col-sm-12">
-						<a href="{% url 'course:view_subject' subject.slug%}" class="btn btn-default text-left">{{subject}}</a>
+						{{subject}}
 					</div>
 				</div>
-        {% endfor %}
+        {% endfor %}-->
       </div>
     </div>
 
-		{% if user|has_role:'system_admin' or user|has_role:'professor' %}
-			<a href="{% url 'course:create_subject' course.slug %}" class="btn btn-primary btn-md btn-block">{% trans "Create Subject" %}</a>
-		{% endif %}
+		
 {% endblock %}
 
 {% block content %}
@@ -65,7 +63,7 @@
       </p>
     </div>
   </div>
-{% for topic in topics %}
+<!--{% for topic in topics %}
 	{% if user|has_role:'system_admin' or topic.owner == user%}
 		{% include "subject/form_view_teacher.html" %}
 	{% else %}
@@ -76,7 +74,7 @@
 		<a name="create_topic" class="btn btn-primary btn-md btn-block" href="{% url 'course:create_topic' subject.slug %}">{% trans "Create Topic" %}</a>
 	{% endif %}	
 
-{% endblock %}
+{% endblock %}-->
 
 {% block rightbar %}
 
