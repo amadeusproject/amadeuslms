@@ -40,17 +40,20 @@ class CreateView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,generic.edi
 	template_name = 'course/create.html'
 	form_class = CourseForm
 	success_url = reverse_lazy('course:manage')
+
 	def form_valid(self, form):
 		self.object = form.save(commit = False)
 		self.object.slug = slugify(self.object.name)
-		print('Fooooiiii!!')
 		self.object.save()
+		messages.success(self.request, _('Course created successfully!'))
 
 		return super(CreateView, self).form_valid(form)
 
-	def render_to_response(self, context, **response_kwargs):
-		messages.success(self.request, _('Course created successfully!'))
+	def form_invalid(self, form):
+	    print(form)
+	    return self.render_to_response(self.get_context_data(form=form))
 
+	def render_to_responssse(self, context, **response_kwargs):
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
 class UpdateView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):

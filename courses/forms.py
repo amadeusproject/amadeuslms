@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from .models import Category, Course, Subject, Topic
 
+
 class CategoryForm(forms.ModelForm):
 
 	class Meta:
@@ -16,6 +17,12 @@ class CategoryForm(forms.ModelForm):
 
 
 class CourseForm(forms.ModelForm):
+
+	# init_register_date = forms.DateField(widget=forms.DateField)
+	# end_register_date = forms.DateField(widget=forms.DateField)
+	# init_date = forms.DateField(widget=forms.DateField)
+	# end_date = forms.DateField(widget=forms.DateField)
+
 
 	class Meta:
 		model = Course
@@ -44,9 +51,6 @@ class CourseForm(forms.ModelForm):
 			'end_date': _('Date that the course ends (dd/mm/yyyy)'),
 			'image': _('Representative image of the course'),
 			'category': _('Category which the course belongs'),
-		}
-		widgets = {
-			'categoy': forms.Select(),
 		}
 
 class SubjectForm(forms.ModelForm):

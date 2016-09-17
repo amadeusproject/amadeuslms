@@ -19,12 +19,6 @@
 {% endblock %}
 
 {% block content %}
-	<div class="alert alert-info alert-dismissible" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		<p>{% trans 'All fields are required' %}</p>
-	</div>
 
 	<form method="post" action="" enctype="multipart/form-data">
 		{% csrf_token %}
@@ -48,6 +42,7 @@
 				{% endif %}
 			</div>
 		{% endfor %}
+
 		<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" />
 	</form>
 	<br clear="all" />
