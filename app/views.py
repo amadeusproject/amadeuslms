@@ -43,8 +43,7 @@ class AppIndex(LoginRequiredMixin, LogMixin, ListView, NotificationMixin):
 			else:
 				self.template_name = "home_teacher_student_content.html"
 			
-
-		super(AppIndex, self).createNotification("teste", not_resource="home", resource_link="/register")
+		
 		return self.response_class(request = self.request, template = self.template_name, context = context, using = self.template_engine, **response_kwargs)
 
 

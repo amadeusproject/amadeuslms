@@ -1,4 +1,4 @@
-{% extends 'app/base.html' %}
+{% extends 'course/view.html' %}
 
 {% load static i18n %}
 
@@ -9,23 +9,15 @@
 	</ol>
 {% endblock %}
 
-{% block sidebar %}
-	<div class="list-group">
-	  	<a href="{% url 'course:manage' %}" class="list-group-item">
-	    	{% trans 'Courses' %}
-	  	</a>
-	  	<a href="{% url 'course:create' %}" class="list-group-item">
-	    	{% trans 'Create Course' %}
-	  	</a>
-	</div>
-
-{% endblock %}
-
 {% block content %}
-	<form action="" method="post">
-		{% csrf_token %}
-	    <p>{% trans 'Are you sure you want to delete the couse' %} "{{ object }}"?</p>
-	    <input type="submit" class="btn btn-success btn-sm" value="{% trans 'Yes' %}" />
-	    <a href="{% url 'course:manage' %}" class="btn btn-danger btn-sm">{% trans 'No' %}</a>
-	</form>
+<div class="panel panel-default">
+	<div class="panel-body">
+		<form action="" method="post">
+			{% csrf_token %}
+				<h2>{% trans 'Are you sure you want to delete the course' %} "{{course}}"?</h2>
+				<input type="submit" class="btn btn-raised btn-success btn-lg" value="{% trans 'Yes' %}" />
+				<a href="{% url 'course:view' course.slug%}" class="btn btn-raised btn-danger btn-lg">{% trans 'No' %}</a>
+		</form>
+	</div>
+</div>
 {% endblock %}

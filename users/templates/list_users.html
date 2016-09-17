@@ -1,16 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'home.html' %}
 
-{% load i18n pagination %}
+{% load i18n pagination django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
-    <div class="row">
-      	<div class="col-md-12">
-        	<ul class="breadcrumb" style="margin-bottom: 5px;">
-          		<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-              	<li class="active">{% trans 'Manage Users' %}</li>
-            </ul>
-      	</div>
-    </div>
+
+  {{ block.super }}
+    {% breadcrumb 'Manage Users' 'users:manage' %}
+
 {% endblock %}
 
 {% block sidebar %}
@@ -52,7 +48,7 @@
                         <p>{% trans 'Email' %}: {{ acc.email }}</p>
                         <p>{% trans 'Contact' %}: {{ acc.phone }}</p>
                         <div align="right">
-                            <a href="javascript:void(0)" class="btn btn-raised btn-success">{% trans 'Edit' %}</a>
+                            <a href="{% url 'users:update' acc.username %}" class="btn btn-raised btn-success">{% trans 'Edit' %}</a>
                             <a href="javascript:void(0)" class="btn btn-raised btn-primary">{% trans 'Delete' %}</a>
                         </div>
                     </div>
@@ -68,3 +64,6 @@
         </div>
     {% endif %}
 {% endblock %}
+
+{% block rightbar %}
+{% endblock rightbar %}

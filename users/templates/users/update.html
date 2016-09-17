@@ -1,60 +1,85 @@
-{% extends 'app/base.html' %}
+{% extends 'list_users.html' %}
 
 {% load static i18n %}
 {% load widget_tweaks %}
 
+{% load django_bootstrap_breadcrumbs %}
+
 {% block breadcrumbs %}
-	<ol class="breadcrumb">
-	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li class="active">{% trans 'Edit user' %}</li>
-	</ol>
+
+  {{ block.super }}
+    {% breadcrumb 'Update User' 'users:update' %}
+
 {% endblock %}
 
-{% block sidebar %}
-	<div class="list-group">
-		<a href="{% url 'users:manage' %}" class="list-group-item">
-	    	{% trans 'System Users' %}
-	  	</a>
-	  	<a href="{% url 'users:create' %}" class="list-group-item">
-	    	{% trans 'New Account' %}
-	  	</a>
-	  	<a href="#" class="list-group-item">
-	    	{% trans 'Send Mail' %}
-	  	</a>
-	</div>
-{% endblock %}
 
 {% block content %}
-	<div class="alert alert-info alert-dismissible" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		<p>{% trans 'All fields are required' %}</p>
-	</div>
-
-	<form method="post" action="" enctype="multipart/form-data">
-		{% csrf_token %}
-		{% for field in form %}
-			<div class="form-group{% if form.has_error %} has-error {% endif %}">
-				<label for="{{ field.auto_id }}">{{ field.label }}</label>
-				{% render_field field class='form-control input-sm' %}
-				<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-				{% if field.errors.length > 0 %}
-					<div class="alert alert-danger alert-dismissible" role="alert">
-	  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-	  						<span aria-hidden="true">&times;</span>
-  						</button>
-						<ul>
-							{% for error in field.errors %}
-								<li>{{ error }}</li>
-							{% endfor %}
-						</ul>
-					</div>
-				</div>
-				{% endif %}
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<p>{{ message }}</p>
 			</div>
 		{% endfor %}
-		<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" />
-	</form>
+	{% endif %}
+
+	<div class="card">
+		<div class="card-content">
+			<div class="card-body">
+				<form method="post" action="" enctype="multipart/form-data">
+					{% csrf_token %}
+					{% for field in form %}
+						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+							<label for="{{ field.auto_id }}">{{ field.label }}</label>
+							{% if field.auto_id == 'id_birth_date' %}
+								{% render_field field class='form-control input-sm' type='date' %}
+								<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+							{% elif field.auto_id == 'id_image' %}
+								{% render_field field class='form-control input-sm' %}
+								<div class="input-group">
+				                    <input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your photo...' %}">
+				                    <span class="input-group-btn input-group-sm">
+				                        <button type="button" class="btn btn-fab btn-fab-mini">
+				                          	<i class="material-icons">attach_file</i>
+				                        </button>
+				                    </span>
+				                </div>
+				            {% elif field.auto_id == 'id_is_staff' or field.auto_id == 'id_is_active' %}
+				            	<div class="checkbox">
+				            		<label>
+				            			{% render_field field type='checkbox' %}  	
+				            		</label>
+						        </div>
+							{% else %}
+								{% render_field field class='form-control input-sm' %}
+								<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+							{% endif %}
+							{% if field.errors.length > 0 %}
+								<div class="alert alert-danger alert-dismissible" role="alert">
+				  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				  						<span aria-hidden="true">&times;</span>
+			  						</button>
+									<ul>
+										{% for error in field.errors %}
+											<li>{{ error }}</li>
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+							{% endif %}
+						</div>
+					{% endfor %}
+					<div class="col-md-offset-2 col-md-2 col-sm-2 col-xs-2">
+						<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" />	
+					</div>
+					<div class="col-md-offset-3 col-md-2 col-sm-2 col-xs-2">
+						<a href="{% url 'users:manage' %}" class="btn btn-sm btn-success" >{% trans 'Cancel' %}</a>	
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	<br clear="all" />
 {% endblock %}

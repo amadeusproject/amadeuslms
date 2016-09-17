@@ -15,9 +15,24 @@
 {% endblock %}
 
 {% block sidebar %}
-<div class="panel panel-primary navigation">
+<div class="panel panel-primary">
   <div class="panel-heading">
-    <h5>{% trans "Menu" %}</h5>
+    <img src="{{ user.image.url }}" id="img" class="img-circle img-responsive">
+  </br>
+    <div class="row">
+      <div class="col-xs-3 col-md-3">
+        <i class="fa fa-facebook-official fa-2x" aria-hidden="true"></i>
+    </div>
+        <div class="col-xs-3 col-md-3">
+          <i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
+      </div>
+        <div class="col-xs-3 col-md-3">
+          <i class="fa fa-linkedin-square fa-2x" aria-hidden="true"></i>
+      </div>
+        <div class="col-xs-3 col-md-3">
+          <i class="fa fa-google-plus-official fa-2x" aria-hidden="true"></i>
+      </div>
+    </div>
   </div>
   <div class="panel-body">
     <ul class="nav nav-pills nav-stacked">
@@ -28,7 +43,7 @@
   </div>
 </div>
 {% if courses.count > 0 %}
-<div class="panel panel-primary navigation">
+<div class="panel panel-primary">
   <div class="panel-heading">
     <h5>{% trans "Courses" %}</h5>
   </div>
@@ -49,22 +64,24 @@
   <div class="panel panel-info">
     <div class="panel-heading">
       <div class="row">
-<div class="col-md-10">
+        <a href="{% url 'course:view_subject' subject.slug %}">
+        <div class="col-md-10">
 
-    <h3 class="panel-title"><a href="{% url 'course:view_subject' subject.slug %}"></a>{{subject}}</h3>
+          <h3 class="panel-title">{{subject}}</h3>
 
-  </div>
-  <div class="col-md-2 text-right">
-    {% if user|has_role:'professor, system_admin' %}
-      <a href="{% url 'course:update_subject' subject.slug %}" style="padding: 3px; margin: 3px;" class="btn btn-sm btn-default">
-        <span class="glyphicon glyphicon-edit"></span>
-      </a>
-      <a href="{% url 'course:delete_subject' subject.slug %}" style="padding: 3px; margin: 3px;" class="btn btn-sm btn-danger">
-        <span class="glyphicon glyphicon-trash"></span>
-      </a>
-    {% endif %}
-  </div>
-</div>
+        </div>
+        </a>
+        <div class="col-md-2 text-right">
+          {% if user|has_role:'professor, system_admin' %}
+            <a href="{% url 'course:update_subject' subject.slug %}" style="padding: 3px; margin: 3px;" class="btn btn-sm btn-default">
+              <span class="glyphicon glyphicon-edit"></span>
+            </a>
+            <a href="{% url 'course:delete_subject' subject.slug %}" style="padding: 3px; margin: 3px;" class="btn btn-sm btn-danger">
+              <span class="glyphicon glyphicon-trash"></span>
+            </a>
+          {% endif %}
+        </div>
+    </div>
     </div>
     <div class="panel-body">
       <p><b>{% trans "Professor" %}: </b>{% for professor in subject.professors.all %}{% if not forloop.first %},{% endif %}
@@ -77,10 +94,10 @@
         </p>
         <div class="row">
           <div class="col-xs-6 col-md-6">
-            {# <p><b>{% trans "Begining" %}: </b>{{subject.init_date}}</p>#}
+            <p><b>{% trans "Begining" %}: </b>{{subject.init_date}}</p>
           </div>
           <div class="col-xs-6 col-md-6">
-            {# <p><b>End: </b>23/08/2019</p>#}
+            <p><b>{% trans "End" %}: </b>{{subject.end_date}}</p>
           </div>
         </div>
     </div>
@@ -90,5 +107,12 @@
 
 
 {% block rightbar %}
-
+<div class="panel panel-warning">
+      <div class="panel-heading">
+        <h3 class="panel-title">{% trans "Pending Stuffs" %}</h3>
+      </div>
+    <div class="panel-body">
+      <p>{% trans 'No pending tasks at the moment.' %}</p>
+      </div>
+  </div>
 {% endblock rightbar %}

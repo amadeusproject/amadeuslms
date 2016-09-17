@@ -250,3 +250,15 @@ li.alert_li:hover{background-color:#eee}
 .turn_off_alert{float:right;margin-bottom :1px}
 a.alert_message{color : grey}
 a.alert_message:hover{color : grey}
+
+/*=================== Ailson - Please Don't touch*/
+.breadcrumb .divider{
+  display: none;
+}
+
+.accordion {
+    background: #c0c0c0;
+}
+.accordion_list {
+    background: #e0e0e0;
+}

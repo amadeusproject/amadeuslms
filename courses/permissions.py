@@ -30,3 +30,23 @@ def delete_subject(role, user, subject):
         return True
 
     return False
+
+@register_object_checker()
+def update_course(role, user, course):
+    if (role == SystemAdmin):
+        return True
+
+    if (user in course.professors.all()):
+        return True
+
+    return False
+
+@register_object_checker()
+def delete_course(role, user, course):
+    if (role == SystemAdmin):
+        return True
+
+    if (user in course.professors.all()):
+        return True
+
+    return False
