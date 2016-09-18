@@ -12,14 +12,18 @@
 {% endblock %}
 
 {% block sidebar %}
-	<div class="list-group">
-		<a href="{% url 'users:profile' %}" class="list-group-item active">
-	    	{% trans 'Profile' %}
-	  	</a>
-	  	<a href="{% url 'users:update_profile' %}" class="list-group-item">
-	    	{% trans 'Edit Profile' %}
-	  	</a>
-	</div>
+	<div class="panel panel-primary navigation">
+        <div class="panel-heading">
+            <h5>Profile</h5>
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked">
+            	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+                <li><a href="{% url 'users:profile' %}">{% trans 'View Profile' %}</a></li>
+                <li><a href="{% url 'users:edit_profile' user.id %}">{% trans 'Edit Profile' %}</a></li>
+            </ul>
+        </div>
+    </div>
 {% endblock %}
 
 {% block content %}
