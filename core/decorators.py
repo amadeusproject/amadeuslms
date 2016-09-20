@@ -55,33 +55,33 @@ def notification_decorator(read = False, message = '', actor = None, users = [],
 			#Do something before the call
 
 			response = view_function(request, *args, **kwargs)
-			action = Action.objects.filter(name = not_action)
+			action = Action.objects.filter(name = self.not_action)
 			resource = Resource.objects.filter(name = not_resource)
-
-			if not action:
-				action = Action(name = not_action)
-				action.save()
-			else:
+			print(resource_link)
+			if action.exists():
 				action = action[0]
-
-			if not resource:
-				resource = Resource(name = not_resource)
-				resource.save()
 			else:
+				action = Action(name = self.not_action)
+				action.save()
+
+			if resource.exists():
 				resource = resource[0]
+			else:
+				resource = Resource(name = self.not_resource, link= resource_link)
+				print(resource)
+				resource.save()
 
 			action_resource = Action_Resource.objects.filter(action = action, resource = resource)
 
-			if not action_resource:
+			if action_resource.exists():
+				action_resource = action_resource[0]
+			else:
 				action_resource = Action_Resource(action = action, resource = resource)
 				action_resource.save()
-			else:
-				action_resource = action_resource[0]
-			
-			if request.user.is_authenticated: #the user was authenticated by the view
-				notification = Notification(actor = request.user, message= message, 
-					action_resource = action_resource, user = request.user)
 
+			for user in users:
+				notification = Notification(user=user, actor= actor, message=message, action_resource= action_resource)
+				notification.save()
 					
 			
 			#Do something after the call
