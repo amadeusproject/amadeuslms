@@ -71,7 +71,7 @@ def remember_password(request):
 @log_decorator('Acessar', 'Sistema')
 def login(request):
 	context = {}
-	
+
 	if request.POST:
 		username = request.POST['username']
 		password = request.POST['password']
@@ -81,9 +81,10 @@ def login(request):
 			return redirect(reverse("app:index"))
 		else:
 			context["message"] = _("E-mail or password are incorrect!")
+			context["username"] = username
 	elif request.user.is_authenticated:
 		return redirect(reverse('app:index'))
-		
+
 	return render(request,"index.html",context)
 
 
