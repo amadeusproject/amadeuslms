@@ -41,24 +41,23 @@ class LogMixin(object):
 class NotificationMixin(object):
 	message = ""
 	read = False
-	not_action = ''
-	not_resource = ''
+	action_name = ''
+	resource_name = ''
 
-	def createNotification(self, message='', actor=None, users = User.objects.all(), not_action = '', not_resource='', resource_link=''): #the default will be a broadcast
-		action = Action.objects.filter(name = self.not_action)
-		resource = Resource.objects.filter(name = not_resource)
-		print(resource_link)
+	def createNotification(self, message='', actor=None, users = User.objects.all(), action_name = '', resource_name='', resource_link=''): #the default will be a broadcast
+		action = Action.objects.filter(name = action_name)
+		resource = Resource.objects.filter(name = resource_name)
+		print(message)
 		if action.exists():
 			action = action[0]
 		else:
-			action = Action(name = self.not_action)
+			action = Action(name = self.action_name)
 			action.save()
 
 		if resource.exists():
 			resource = resource[0]
 		else:
-			resource = Resource(name = self.not_resource, url= resource_link)
-			print(resource)
+			resource = Resource(name = self.resource_name, url= resource_link)
 			resource.save()
 
 		action_resource = Action_Resource.objects.filter(action = action, resource = resource)
@@ -77,4 +76,5 @@ class NotificationMixin(object):
 	def dispatch(self, request, *args, **kwargs):
 		"""
 		Not quite sure how to do about it"""
+		print("testing IF IT REACHES HERE")
 		return super(NotificationMixin, self).dispatch(request, *args, **kwargs)

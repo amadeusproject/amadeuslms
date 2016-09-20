@@ -53,7 +53,7 @@ def notification_decorator(read = False, message = '', actor = None, users = [],
 
 		def _decorator(request, *args, **kwargs):
 			#Do something before the call
-
+			
 			response = view_function(request, *args, **kwargs)
 			action = Action.objects.filter(name = not_action)
 			resource = Resource.objects.filter(name = not_resource)

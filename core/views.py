@@ -92,8 +92,8 @@ def processNotification(self, notificationId):
 	notification = Notification.objects.get(id= notificationId)
 	notification.read = True
 	notification.save()
-
-	return redirect(notification.action_resource.resource.link)
+	print(notification.action_resource)
+	return redirect(notification.action_resource.resource.url)
 
 # class LoginClass(LoginView):
 # 	template_name='index.html'
