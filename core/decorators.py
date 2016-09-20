@@ -47,7 +47,7 @@ def log_decorator(log_action = '', log_resource = ''):
 	return _log_decorator
 
 
-def notification_decorator(read = False, message = '', actor = None, users = [], not_action='', not_resource=''):
+def notification_decorator(read = False, message = '', actor = None, users = [], not_action='', not_resource='', resource_link=''):
 	
 	def _notification_decorator(view_function):
 
@@ -55,19 +55,19 @@ def notification_decorator(read = False, message = '', actor = None, users = [],
 			#Do something before the call
 
 			response = view_function(request, *args, **kwargs)
-			action = Action.objects.filter(name = self.not_action)
+			action = Action.objects.filter(name = not_action)
 			resource = Resource.objects.filter(name = not_resource)
 			print(resource_link)
 			if action.exists():
 				action = action[0]
 			else:
-				action = Action(name = self.not_action)
+				action = Action(name = not_action)
 				action.save()
 
 			if resource.exists():
 				resource = resource[0]
 			else:
-				resource = Resource(name = self.not_resource, link= resource_link)
+				resource = Resource(name = not_resource, url= resource_link)
 				print(resource)
 				resource.save()
 
