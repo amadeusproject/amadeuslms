@@ -90,13 +90,20 @@ Activity is something that has a deadline and has to be delivered by the student
 class Activity(Resource):
 	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 	topic = models.ForeignKey(Topic, verbose_name = _('Topic'), related_name="topic")
-	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 	limit_date = models.DateTimeField(_('Deliver Date'))
 	student = models.ForeignKey(User, verbose_name = _('student'), related_name="student")
-	grade = models.IntegerField(_('grade'))
+
+
+"""
+It represents any Material inside a topic, be it a file, a link, etc.
+"""
+class Material(Resource):
+    create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
+	topic = models.ForeignKey(Topic, verbose_name = _('Topic'), related_name="topic")
+	student = models.ForeignKey(User, verbose_name = _('student'), related_name="student")
 
 """
 It is one kind of possible resources available inside a Topic.
 """
-class Link(Resource):
+class Link(Material):
 	url_field = models.CharField(_('url'), max_length= 300)
