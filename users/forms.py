@@ -9,8 +9,6 @@ from .models import User
 
 class ProfileForm(forms.ModelForm):
 
-	#password = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
-
 	def save(self, commit=True):
 		super(ProfileForm, self).save(commit=False)
 
