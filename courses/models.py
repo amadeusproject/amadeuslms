@@ -71,8 +71,8 @@ class Topic(models.Model):
 	description = models.TextField(_('Description'), blank = True)
 	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 	update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
-	subject = models.ForeignKey(Subject, verbose_name = _('Subject'), related_name="topics")
-	owner = models.ForeignKey(User, verbose_name = _('Owner'), related_name="topics")
+	subject = models.ForeignKey(Subject, verbose_name = _('Subject'))
+	owner = models.ForeignKey(User, verbose_name = _('Owner'))
 	visible = models.BooleanField(_('Visible'), default=False)
 
 	class Meta:
@@ -89,14 +89,17 @@ Activity is something that has a deadline and has to be delivered by the student
 """
 class Activity(Resource):
 	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
-	topic = models.ForeignKey(Topic, verbose_name = _('Topic'), related_name="topic")
-	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
+	topic = models.ForeignKey(Topic, verbose_name = _('Topic'))
 	limit_date = models.DateTimeField(_('Deliver Date'))
-	student = models.ForeignKey(User, verbose_name = _('student'), related_name="student")
-	grade = models.IntegerField(_('grade'))
+	student = models.ForeignKey(User, verbose_name = _('student'))
+
 
 """
-It is one kind of possible resources available inside a Topic.
+It represents any Material inside a topic, be it a file, a link, etc.
 """
-class Link(Resource):
-	url_field = models.CharField(_('url'), max_length= 300)
+class Material(Resource):
+    create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
+    topic = models.ForeignKey(Topic, verbose_name = _('Topic'))
+    student = models.ForeignKey(User, verbose_name = _('student'))
+
+   

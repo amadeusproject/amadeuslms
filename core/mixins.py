@@ -57,7 +57,7 @@ class NotificationMixin(object):
 		if resource.exists():
 			resource = resource[0]
 		else:
-			resource = Resource(name = self.not_resource, link= resource_link)
+			resource = Resource(name = self.not_resource, url= resource_link)
 			print(resource)
 			resource.save()
 

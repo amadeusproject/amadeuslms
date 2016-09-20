@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from users.models import User
+from autoslug.fields import AutoSlugField
 # Create your models here.
 
 class Action(models.Model):
@@ -32,7 +33,8 @@ class Resource(models.Model):
             @link: Which URL made that resource able to find
     """
 
-    name = models.CharField(_('Name'), max_length =100, unique=True)
+    name = models.CharField(_('Name'), max_length =100)
+    slug = AutoSlugField(_("Slug"), populate_from='name', unique=True, null=True)
     created_date = models.DateField(_('Created Date'), auto_now_add=True)
     url = models.CharField(_('URL'), max_length =100, default="")
 
