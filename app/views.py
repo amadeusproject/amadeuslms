@@ -18,10 +18,7 @@ class AppIndex(LoginRequiredMixin, LogMixin, ListView, NotificationMixin):
 	context_object_name = 'objects'
 	paginate_by = 10
 
-	action_name = "Acessar"
-	resource_name = "home"
-	users = User.objects.all()
-	message="testing login and notification broadcast"
+	
 
 	def get_queryset(self):
 		if self.request.user.is_staff:
@@ -45,7 +42,7 @@ class AppIndex(LoginRequiredMixin, LogMixin, ListView, NotificationMixin):
 			else:
 				self.template_name = "home_teacher_student_content.html"
 			
-		super(AppIndex, self).createNotification("testando notificacao de login", resource_name="home", resource_link="/login")
+		#super(AppIndex, self).createNotification("testando notificacao de login", resource_name="home", resource_link="/")
 		return self.response_class(request = self.request, template = self.template_name, context = context, using = self.template_engine, **response_kwargs)
 
 

@@ -44,9 +44,9 @@ class NotificationMixin(object):
 	action_name = ''
 	resource_name = ''
 
-	def createNotification(self, message='', actor=None, users = User.objects.all(), action_name = '', resource_name='', resource_link=''): #the default will be a broadcast
+	def createNotification(self, message='', actor=None, users = User.objects.all(), resource_slug='' ,action_name = '', resource_name='', resource_link=''): #the default will be a broadcast
 		action = Action.objects.filter(name = action_name)
-		resource = Resource.objects.filter(name = resource_name)
+		resource = Resource.objects.filter(slug = resource_slug)
 		print(message)
 		if action.exists():
 			action = action[0]

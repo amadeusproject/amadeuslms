@@ -93,7 +93,6 @@ def processNotification(self, notificationId):
 	notification = Notification.objects.get(id= notificationId)
 	notification.read = True
 	notification.save()
-	print(notification.action_resource)
 	return redirect(notification.action_resource.resource.url)
 
 # class LoginClass(LoginView):

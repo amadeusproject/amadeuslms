@@ -1,3 +1,12 @@
+/* HEADER */
+#notificationscroll{
+  max-height: 500%;
+  overflow: auto;
+}
+
+/* HEADER */
+
+
 .logoLogin{
     padding-bottom: 1%;
     width: 15%;
