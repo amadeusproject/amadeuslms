@@ -15,6 +15,7 @@ from rolepermissions.verifications import has_object_permission
 from .forms import CourseForm, UpdateCourseForm, CategoryForm, SubjectForm,TopicForm
 from .models import Course, Subject, Category,Topic
 from core.mixins import NotificationMixin
+from users.models import User
 
 from datetime import date
 
@@ -30,7 +31,7 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 	def get_context_data(self, **kwargs):
 		context = super(IndexView, self).get_context_data(**kwargs)
 		context['categories'] = Category.objects.all()
-
+		super.createNotification(users= User.obejcts.all(), message="testando a notificacao em login")
 		return context
 
 class CreateCourseView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,generic.edit.CreateView):

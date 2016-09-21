@@ -107,7 +107,7 @@ class Profile(LoginRequiredMixin, generic.DetailView):
 
 class EditProfile(LoginRequiredMixin, generic.UpdateView):
 
-	login_url = reverse_lazy("core:home")
+	login_url = reverse_lazy('core:home')
 	redirect_field_name = 'next'
 	template_name = 'users/edit_profile.html'
 	form_class = UserForm
@@ -135,11 +135,12 @@ class EditProfile(LoginRequiredMixin, generic.UpdateView):
 
 
 class UpdateUser(LoginRequiredMixin, generic.edit.UpdateView):
+
 	allowed_roles = ['student']
 	login_url = reverse_lazy("core:home")
 	template_name = 'users/edit_profile.html'
 	form_class = UpdateUserForm
-	success_url = reverse_lazy('app:index')
+	success_url = reverse_lazy('users:update_profile')
 
 	def get_object(self):
 		user = get_object_or_404(User, username = self.request.user.username)
