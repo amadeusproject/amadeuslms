@@ -7,7 +7,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from rolepermissions.mixins import HasRoleMixin
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-from slugify import slugify
 from rolepermissions.verifications import has_role
 from django.db.models import Q
 from rolepermissions.verifications import has_object_permission
@@ -44,21 +43,12 @@ class CreateCourseView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,gener
 	success_url = reverse_lazy('course:manage')
 
 	def form_valid(self, form):
-		self.object = form.save(commit = False)
-		self.object.slug = slugify(self.object.name)
-		self.object.save()
-		messages.success(self.request, _('Course created successfully!'))
-
-	def form_invalid(self, form):
-	    print(form)
-	    return self.render_to_response(self.get_context_data(form=form))
-
-	def render_to_responssse(self, context, **response_kwargs):
-		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
+		self.object = form.save()
+		self.object.professors.add(self.request.user)
+		return super(CreateCourseView, self).form_valid(form)
 
 	def get_context_data(self, **kwargs):
 		context = super(CreateCourseView, self).get_context_data(**kwargs)
-
 		if has_role(self.request.user,'system_admin'):
 			courses = Course.objects.all()
 		elif has_role(self.request.user,'professor'):
@@ -215,13 +205,6 @@ class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 	form_class = CategoryForm
 	success_url = reverse_lazy('course:manage_cat')
 
-	def form_valid(self, form):
-		self.object = form.save(commit = False)
-		self.object.slug = slugify(self.object.name)
-		self.object.save()
-
-		return super(CreateCatView, self).form_valid(form)
-
 	def render_to_response(self, context, **response_kwargs):
 		messages.success(self.request, _('Category created successfully!'))
 
@@ -236,13 +219,6 @@ class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 	model = Category
 	form_class = CategoryForm
 	success_url = reverse_lazy('course:manage_cat')
-
-	def form_valid(self, form):
-		self.object = form.save(commit = False)
-		self.object.slug = slugify(self.object.name)
-		self.object.save()
-
-		return super(UpdateCatView, self).form_valid(form)
 
 	def render_to_response(self, context, **response_kwargs):
 		messages.success(self.request, _('Category edited successfully!'))
