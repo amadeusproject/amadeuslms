@@ -25,7 +25,7 @@ class Forum(Activity):
 """
 It represents a post made in a forum (topic)
 """
-class Post(modes.Model):
+class Post(models.Model):
 	user = models.ForeignKey(User, verbose_name = _('Autor'))
 	message = models.TextField(_('Post message'), blank = False)
 	post_date = models.DateTimeField(_('Post Date'), auto_now_add = True)
@@ -36,3 +36,19 @@ class Post(modes.Model):
 
 	def __str__(self):
 		return ''.join([self.user.name, " / ", self.post_date])
+
+"""
+It represents an answer to a forum's post
+"""
+class PostAnswer(models.Model):
+	user = models.ForeignKey(User, verbose_name = _('Autor'))
+	post = models.ForeignKey(Post, verbose_name = _('Post'))
+	message = models.TextField(_('Answer message'), blank = False)
+	answer_date = models.DateTimeField(_('Answer Date'), auto_now_add = True)
+
+	class Meta:
+		verbose_name = _('Post Answer')
+		verbose_name_plural = _('Post Answers')
+
+	def __str__(self):
+		return ''.join([self.user.name, " / ", self.answer_date])	
