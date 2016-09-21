@@ -31,7 +31,7 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 	def get_context_data(self, **kwargs):
 		context = super(IndexView, self).get_context_data(**kwargs)
 		context['categories'] = Category.objects.all()
-		super.createNotification(users= User.obejcts.all(), message="testando a notificacao em login")
+		# super.createNotification(users= User.obejcts.all(), message="testando a notificacao em login")
 		return context
 
 class CreateCourseView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,generic.edit.CreateView):
@@ -140,6 +140,8 @@ class CourseView(LoginRequiredMixin, NotificationMixin, generic.DetailView):
 	template_name = 'course/view.html'
 
 	def get_context_data(self, **kwargs):
+		subjects = None
+		courses = None
 		context = super(CourseView, self).get_context_data(**kwargs)
 		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
 		if has_role(self.request.user,'system_admin'):
