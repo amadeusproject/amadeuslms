@@ -38,10 +38,7 @@
 	<div class="container-fluid">
 		{% block nav %}
 			<div class="row">
-				<div class="container-fluid">
-					<div class="row">
 			        	<div class="navbar navbar-default">
-			            	<div class="container-fluid">
 			              		<div class="navbar-header">
 			                		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
 			                  			<span class="icon-bar"></span>
@@ -97,16 +94,11 @@
 			                  			<li class="link"> <a href="{% url 'core:logout' %}">{% trans 'Log out' %}</a></li>
 			                		</ul>
 			              		</div>
-			            	</div>
 			        	</div>
-			    	</div>
-			    </div>
 			</div>
 		{% endblock %}
 
 		<div class="row">
-		    <div class="container-fluid">
-		    	<div class="row">
 		    		<div class="col-xs-* col-sm-* col-md-2">
 						{% block sidebar %}
 
@@ -121,25 +113,25 @@
 				    	{% block render_breadcrumbs %}
 
 				    	{% endblock %}
+				    </div>
+				    
+				    
+			    	
+			    		
+	    			<div class="col-xs-* col-sm-* col-md-8">
+						{% block content %}
 
-				    	<div class="row">
-				    		<div class="container-fluid">
-				    			<div class="col-xs-* col-sm-* col-md-8">
-									{% block content %}
+						{% endblock %}
+	    			</div>
 
-									{% endblock %}
-				    			</div>
+	    			<div class="col-xs-* col-sm-* col-md-2">
+						{% block rightbar %}
 
-				    			<div class="col-xs-* col-sm-* col-md-4">
-									{% block rightbar %}
-
-									{% endblock rightbar %}
-				    			</div>
-				    		</div>
-				    	</div>
-		    		</div>
-				</div>
-			</div>
+						{% endblock rightbar %}
+	    			</div>
+	    	
+			    	
+		    		
 		</div>
 	</div>
 
