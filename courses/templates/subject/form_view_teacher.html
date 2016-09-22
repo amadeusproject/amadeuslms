@@ -1,71 +1,7 @@
 {% load static i18n %}
 
 {% block javascript %}
-    <script type="text/javascript">
-        var baseUrl = '{% url "forum:index" %}';
-        var formUrl = '{% url "forum:create" %}';
-
-        function showForum(topic) {
-            $.ajax({
-                url: baseUrl, 
-                data: {'topic': topic},
-                success: function(data) {
-                    $(".forum_topics").html(data);
-                }
-            });
-
-            $('#forumModal').modal();
-        }
-
-        function getForm() {
-            $.ajax({
-                url: formUrl, 
-                success: function(data) {
-                    $(".forum_form").html(data);
-                }
-            });
-
-            $(".forum_form").show();
-        }
-
-        var postsUrl = '{% url "forum:posts" %}';
-        var formPostsUrl = '';
-
-        function showPosts(forum) {
-            if ($("#collapse" + forum).hasClass('in')) {
-                $("#collapse" + forum).collapse('hide');
-            } else {
-                $.ajax({
-                    url: postsUrl, 
-                    data: {'forum': forum},
-                    success: function(data) {
-                        $("#collapse" + forum).find(".well").html(data);
-                    }
-                });
-
-                $("#collapse" + forum).collapse('show');
-            }
-        }
-
-        var postsAnswerUrl = '{% url "forum:post_answers" %}';
-        var formPostsAnswersUrl = '';
-
-        function showPostsAnswers(post) {
-            if ($("#collapse" + post).hasClass('in')) {
-                $("#collapse" + post).collapse('hide');
-            } else {
-                $.ajax({
-                    url: postsAnswerUrl, 
-                    data: {'post': post},
-                    success: function(data) {
-                        $("#collapse" + post).find(".well").html(data);
-                    }
-                });
-
-                $("#collapse" + post).collapse('show');
-            }
-        }
-    </script>
+    <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
 {% endblock %}
 
 <div class="panel panel-default">
@@ -73,7 +9,7 @@
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-9 col-sm-9">
-                    <h3>{{topic}}</h3>
+                    <h3>{{ topic }}</h3>
                 </div>
                 <div class="col-md-3 col-sm-3">
                     <a href="{% url 'course:update_topic' topic.slug%}" class="btn">{% trans "edit" %}</a>
@@ -82,8 +18,8 @@
         </div>
     </a>
     <div class="panel-body">
-        <p>{{topic.description|linebreaks}}</p>
-        <a href="javascript:showForum('{{topic.slug}}')">Forum</a>
+        <p>{{ topic.description|linebreaks }}</p>
+        <a href="javascript:showForum('{% url 'forum:index' %}', '{{topic.slug}}')">Forum</a>
     </div>
 </div>
 
@@ -93,7 +29,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">
-                    <button type="button" class="btn btn-primary btn-sm" onclick="getForm();"><i class="fa fa-plus"></i> {% trans 'Create Forum' %}</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="getForm('{% url 'forum:create' %}');"><i class="fa fa-plus"></i> {% trans 'Create Forum' %}</button>
                 </h4>
             </div>
             <div class="modal-body">

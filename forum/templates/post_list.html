@@ -4,7 +4,7 @@
     <ul class="timeline post">
         {% for post in posts %}
             <li>
-                <a class="post_collapse" role="button" href="javascript: showPostsAnswers('{{ post.id }}')" aria-expanded="false">
+                <a class="post_collapse" role="button" href="javascript: showPostsAnswers('{% url 'forum:post_answers' %}', '{{ post.id }}')" aria-expanded="false">
                     <div class="timeline-panel">
                         <div class="row">
                             <div class="col-xs-2 col-sm-2 col-md-2">

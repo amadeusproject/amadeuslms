@@ -2,7 +2,7 @@
 
 {% if foruns|length > 0 %}
     {% for forum in foruns %}
-        <a class="forum_collapse" role="button" href="javascript: showPosts('{{ forum.slug }}')" aria-expanded="false">
+        <a class="forum_collapse" role="button" href="javascript: showPosts('{% url 'forum:posts' %}', '{{ forum.slug }}')" aria-expanded="false">
             <div class="page-header">
                 <h1 id="timeline">{{ forum }}</h1>
                 <b>{% trans 'Description' %}: </b>{{ forum.description }}<p>
