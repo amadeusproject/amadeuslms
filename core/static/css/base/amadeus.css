@@ -70,6 +70,10 @@ ul {
 
 /*CSS TIMELINE*/
 
+.panel-title{ /*Because we use an outer a tag*/
+  color: rgba(255,255,255,.84);
+}
+
 .bubble {
   width: 100%;
   padding: .5em 1em;
@@ -218,13 +222,8 @@ ul {
   transition-timing-function: ease-in; }
 
 
-h3 {
-  font-size: 1.2em;
-  font-weight: bold;
-  font-family: 'Lato';
-  display: inline-block;
-  margin-bottom: .2em;
-  color: #95a5a6; }
+
+.icon-more-horiz {margin-top: 0px; margin-bottom: 0px; padding-left: 0px;}
 
 .retweet {
   position: absolute;

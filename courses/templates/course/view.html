@@ -59,26 +59,71 @@
 {% endblock %}
 
 {% block content %}
-<h3>{% trans "Subjects" %}</h3>
+
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <div class="row">
+        <div class="col-xs-10 col-md-11">
+          <h3 class="panel-title">{{course.name}}</h3>
+        </div>
+        <div class="col-xs-2 col-md-1">
+        {% if user|has_role:'professor, system_admin' %}
+
+          <div class="btn-group icon-more-horiz">
+            <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons">more_horiz</i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li><a href="javascript:void(0)"><i class="material-icons">create</i> Edit</a></li>
+              <li><a href="javascript:void(0)"><i class="material-icons">delete_sweep</i> Remove</a></li>
+            </ul>
+
+          </div>
+         {% endif %}
+        </div>
+      </div>
+  </div>
+  <div class="panel-body">
+    <p><b>Course Name: </b>{{course.name}}</p>
+    <p><b>Duration (in semesters): </b></p>
+    {% for professor in course.professors.all  %}
+      <p><b>Professor: </b>{{professor.name}}</p>
+    {% endfor %}
+   
+    <p>
+      <b>Description:</b>
+      <i>
+        {{course.description}}
+      </i>
+    </p>
+
+  </div>
+</div>
+
+
 {% for subject in subjects %}
   <div class="panel panel-info">
     <div class="panel-heading">
       <div class="row">
         <a href="{% url 'course:view_subject' subject.slug %}">
-        <div class="col-md-10">
+        <div class="col-md-11">
 
           <h3 class="panel-title">{{subject}}</h3>
 
         </div>
         </a>
-        <div class="col-md-2 text-right">
+        <div class="col-md-1 text-right">
           {% if user|has_role:'professor, system_admin' %}
-            <a href="{% url 'course:update_subject' subject.slug %}" style="padding: 3px; margin: 3px;" class="btn btn-sm btn-default">
-              <span class="glyphicon glyphicon-edit"></span>
-            </a>
-            <a href="{% url 'course:delete_subject' subject.slug %}" style="padding: 3px; margin: 3px;" class="btn btn-sm btn-danger">
-              <span class="glyphicon glyphicon-trash"></span>
-            </a>
+              <div class="btn-group icon-more-horiz">
+            <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons">more_horiz</i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li><a href="{% url 'course:update_subject' subject.slug %}"><i class="material-icons">create</i> {% trans "Edit" %}</a></li>
+              <li><a href="{% url 'course:delete_subject' subject.slug %}"><i class="material-icons">delete_sweep</i> {% trans "Remove" %}</a></li>
+            </ul>
+
+          </div>
           {% endif %}
         </div>
     </div>
