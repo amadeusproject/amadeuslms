@@ -287,6 +287,9 @@ a.alert_message:hover{color : grey}
     -webkit-padding-start: 0px !important;
     width: 100%;
 }
+.timeline.post a {
+    color: #000;
+}
 .timeline.post li {
     padding: 10px;
     border-bottom: 1px solid #fff;

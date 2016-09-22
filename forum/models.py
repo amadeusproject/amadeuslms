@@ -50,4 +50,4 @@ class PostAnswer(models.Model):
 		verbose_name_plural = _('Post Answers')
 
 	def __str__(self):
-		return ''.join([self.user.name, " / ", self.answer_date])	
+		return ''.join([self.user.name, " / ", str(self.answer_date)])	

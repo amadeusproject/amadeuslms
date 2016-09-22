@@ -4,26 +4,32 @@
     <ul class="timeline post">
         {% for post in posts %}
             <li>
-                <div class="timeline-panel">
-                    <div class="row">
-                        <div class="col-xs-2 col-sm-2 col-md-2">
-                            <img class="img-responsive img-rounded" src="{{ post.user.image_url }}" />
-                        </div>
-                        <div class="col-xs-10 col-sm-10 col-md-10">
-                            <div class="timeline-heading">
-                                <h3> {{ post.user }}</h3>
+                <a class="post_collapse" role="button" href="javascript: showPostsAnswers('{{ post.id }}')" aria-expanded="false">
+                    <div class="timeline-panel">
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2">
+                                <img class="img-responsive img-rounded" src="{{ post.user.image_url }}" />
                             </div>
-                            <div class="timeline-body">
-                                <p><em>{{ post.message|linebreaks }}</em></p>
+                            <div class="col-xs-10 col-sm-10 col-md-10">
+                                <div class="timeline-heading">
+                                    <h3> {{ post.user }}</h3>
+                                </div>
+                                <div class="timeline-body">
+                                    <p><em>{{ post.message|linebreaks }}</em></p>
+                                </div>
+                                <hr>
+                                <small class="text-muted">
+                                    <span class="pull-right">
+                                        <i class="glyphicon glyphicon-time"></i> {{ post.post_date|timesince }} 
+                                        {% trans ' ago' %}
+                                    </span>
+                                </small>
                             </div>
-                            <hr>
-                            <small class="text-muted">
-                                <span class="pull-right">
-                                    <i class="glyphicon glyphicon-time"></i> {{ post.post_date|timesince }} 
-                                    {% trans ' ago' %}
-                                </span>
-                            </small>
                         </div>
+                    </div>
+                </a>
+                <div class="collapse" id="collapse{{ post.id }}" style="margin-top:10px;">
+                    <div class="well">
                     </div>
                 </div>
             </li>
