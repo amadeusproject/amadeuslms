@@ -45,12 +45,12 @@
 			                  			<span class="icon-bar"></span>
 			                  			<span class="icon-bar"></span>
 			                		</button>
-			                		<a class="navbar-brand" href="{% url 'app:index' %}"><img class="logo" src="{% static 'img/topo-amadeus.png'  %}" alt="Logo"/></a>
+			                		<a class="navbar-brand" href="{% url 'app:index' %}"><img class="logo" src="{% static 'img/topo-amadeus-white.png'  %}" alt="Logo"/></a>
 			              		</div>
 			              		<div class="navbar-collapse collapse navbar-responsive-collapse">
 			                		<ul class="nav navbar-nav navbar-right notifications">
-			                  			 <li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">         
-						                   <a  class="dropdown-toggle" data-toggle="dropdown"> <span class="badge notification-count">{{notifications.count}}</span><i class="fa fa-bell-o" aria-hidden="true"></i></a>
+			                  			 <li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">      
+						                   <a  class="dropdown-toggle" data-toggle="dropdown"> <span class="badge notification-count">{{notifications.count}}</span><i class="fa fa-bell" aria-hidden="true"></i></a>
 						                     <ul id="notification-dropdown" class="dropdown-menu">
 						                     <li class="dropdown-header">Notifications</li>
 						                     	{% for notification in notifications  %}
@@ -89,9 +89,9 @@
 						                      </ul>
 						                 </li>
 
-			                  			<li class="link" data-toggle="tooltip" data-placement="bottom" title data-original-title="messages"> <a href="#"><i class="fa fa-comments" aria-hidden="true"></i></a> </li>
-			                  			<li class="link"> <a href="{% url 'users:profile' %}">{{ user }}</a></li>
-			                  			<li class="link"> <a href="{% url 'core:logout' %}">{% trans 'Log out' %}</a></li>
+			                  			<li  data-toggle="tooltip" data-placement="bottom" title data-original-title="{% trans 'messages' %}"> <a href="#"><i class="fa fa-comments" aria-hidden="true"></i></a> </li>
+			                  			<li > <a  class="link" href="{% url 'users:profile' %}">{{ user }}</a></li>
+			                  			<li data-toggle="tooltip" data-placement="bottom" title data-original-title="log out"> <a href="{% url 'core:logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
 			                		</ul>
 			              		</div>
 			        	</div>
