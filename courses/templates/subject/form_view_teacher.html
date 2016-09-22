@@ -2,19 +2,30 @@
 
 {% block javascript %}
     <script type="text/javascript">
-    var baseUrl = '{% url "forum:index" %}';
+        var baseUrl = '{% url "forum:index" %}';
+        var formUrl = '{% url "forum:create" %}';
 
         function showForum(topic) {
             $.ajax({
                 url: baseUrl, 
                 data: {'topic': topic},
                 success: function(data) {
-                    console.log(data);
-                    $(".modal-body").html(data);
+                    $(".forum_topics").html(data);
                 }
             });
 
             $('#forumModal').modal();
+        }
+
+        function getForm() {
+            $.ajax({
+                url: formUrl, 
+                success: function(data) {
+                    $(".forum_form").html(data);
+                }
+            });
+
+            $(".forum_form").show();
         }
     </script>
 {% endblock %}
@@ -43,10 +54,15 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel"></h4>
+                <h4 class="modal-title" id="myModalLabel">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="getForm();"><i class="fa fa-plus"></i> {% trans 'Create Forum' %}</button>
+                </h4>
             </div>
             <div class="modal-body">
-                
+                <div class="forum_form" style="display:none">
+                </div>
+                <div class="forum_topics">
+                </div>
             </div>
         </div>
     </div>

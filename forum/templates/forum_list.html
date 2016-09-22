@@ -1,9 +1,19 @@
-<div class="page-header">
-    <h1 id="timeline">Forum</h1>
-    <b>Descricao: </b>Learning Python<p>
-    <b>Abertura: </b>Sexta-feira, 10 Junho 2016
-</div>
-<ul class="timeline">
+{% load i18n %}
+
+{% if foruns|length > 0 %}
+    {% for forum in foruns %}
+        <div class="page-header">
+            <h1 id="timeline">{{ forum }}</h1>
+            <b>Descricao: </b>{{ forum.description }}<p>
+            <b>Abertura: </b>{{ forum.create_date }}
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="page-header">
+        <p>{% trans 'No forum created yet.' %}</p>
+    </div>
+{% endif %}
+<!-- <ul class="timeline">
     <li>
         <div class="timeline-badge">
             <img id="logo" src="https://uxdesign-html-japm94.c9users.io/atividades-amadeus/uxdesign-html/img/topo-amadeus.png">
@@ -38,4 +48,4 @@
             <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
         </div>
     </li>
-</ul>
+</ul> -->
