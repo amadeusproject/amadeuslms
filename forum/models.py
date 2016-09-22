@@ -13,11 +13,11 @@ It works like a 'topic' of forum, which users can post to it and answer posts of
 class Forum(Activity):
 	title = models.CharField(_('Title'), max_length = 100)
 	description = models.TextField(_('Description'), blank = True)
-	create_date = models.DateTimeField(_('Create Date'), auto_now_add = True)
 
 	class Meta:
 		verbose_name = _('Forum')
 		verbose_name_plural = _('Foruns')
+		app_label = 'forum'
 
 	def __str__(self):
 		return self.title
@@ -33,6 +33,7 @@ class Post(models.Model):
 	class Meta:
 		verbose_name = _('Post')
 		verbose_name_plural = _('Posts')
+		app_label = 'forum'
 
 	def __str__(self):
 		return ''.join([self.user.name, " / ", self.post_date])
@@ -49,6 +50,7 @@ class PostAnswer(models.Model):
 	class Meta:
 		verbose_name = _('Post Answer')
 		verbose_name_plural = _('Post Answers')
+		app_label = 'forum'
 
 	def __str__(self):
 		return ''.join([self.user.name, " / ", self.answer_date])	

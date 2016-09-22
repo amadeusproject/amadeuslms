@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'app',
     'courses',
     'users',
+    'forum',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -78,8 +79,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 
-                # 'core.context_processors.notifications',
-                # 'courses.context_processors.courses',
+                'core.context_processors.notifications',
+                'courses.context_processors.courses',
             ],
         },
     },

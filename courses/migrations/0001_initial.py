@@ -34,8 +34,8 @@ class Migration(migrations.Migration):
                 ('create_date', models.DateField(auto_now_add=True, verbose_name='Creation Date')),
             ],
             options={
-                'verbose_name': 'Category',
                 'verbose_name_plural': 'Categories',
+                'verbose_name': 'Category',
             },
         ),
         migrations.CreateModel(
@@ -55,9 +55,15 @@ class Migration(migrations.Migration):
                 ('image', models.ImageField(blank=True, upload_to='courses/', verbose_name='Image')),
             ],
             options={
+<<<<<<< HEAD
                 'ordering': ('create_date', 'name'),
                 'verbose_name': 'Course',
                 'verbose_name_plural': 'Courses',
+=======
+                'verbose_name_plural': 'Courses',
+                'verbose_name': 'Course',
+                'ordering': ('create_date', 'name'),
+>>>>>>> 21b49d36360d4f362742aa6527193cb3e0270c36
             },
         ),
         migrations.CreateModel(
@@ -82,9 +88,15 @@ class Migration(migrations.Migration):
                 ('update_date', models.DateTimeField(auto_now=True, verbose_name='Date of last update')),
             ],
             options={
+<<<<<<< HEAD
                 'ordering': ('create_date', 'name'),
                 'verbose_name': 'Subject',
                 'verbose_name_plural': 'Subjects',
+=======
+                'verbose_name_plural': 'Subjects',
+                'verbose_name': 'Subject',
+                'ordering': ('create_date', 'name'),
+>>>>>>> 21b49d36360d4f362742aa6527193cb3e0270c36
             },
         ),
         migrations.CreateModel(
@@ -99,9 +111,15 @@ class Migration(migrations.Migration):
                 ('visible', models.BooleanField(default=False, verbose_name='Visible')),
             ],
             options={
+<<<<<<< HEAD
                 'ordering': ('create_date', 'name'),
                 'verbose_name': 'Topic',
                 'verbose_name_plural': 'Topics',
+=======
+                'verbose_name_plural': 'Topics',
+                'verbose_name': 'Topic',
+                'ordering': ('create_date', 'name'),
+>>>>>>> 21b49d36360d4f362742aa6527193cb3e0270c36
             },
         ),
     ]
