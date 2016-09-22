@@ -13,7 +13,6 @@ It works like a 'topic' of forum, which users can post to it and answer posts of
 class Forum(Activity):
 	title = models.CharField(_('Title'), max_length = 100)
 	description = models.TextField(_('Description'), blank = True)
-	create_date = models.DateTimeField(_('Create Date'), auto_now_add = True)
 
 	class Meta:
 		verbose_name = _('Forum')
