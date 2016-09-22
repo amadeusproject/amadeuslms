@@ -5,6 +5,6 @@ from .forms import UserForm
 class UserAdmin(admin.ModelAdmin):
 	list_display = ['username', 'name', 'email', 'is_staff', 'is_active']
 	search_fields = ['username', 'name', 'email']
-	form = UserForm
+	# form = UserForm
 
 admin.site.register(User, UserAdmin)
