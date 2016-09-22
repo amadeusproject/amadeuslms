@@ -17,6 +17,7 @@ class Forum(Activity):
 	class Meta:
 		verbose_name = _('Forum')
 		verbose_name_plural = _('Foruns')
+		app_label = 'forum'
 
 	def __str__(self):
 		return self.title
@@ -32,6 +33,7 @@ class Post(models.Model):
 	class Meta:
 		verbose_name = _('Post')
 		verbose_name_plural = _('Posts')
+		app_label = 'forum'
 
 	def __str__(self):
 		return ''.join([self.user.name, " / ", self.post_date])
@@ -48,6 +50,7 @@ class PostAnswer(models.Model):
 	class Meta:
 		verbose_name = _('Post Answer')
 		verbose_name_plural = _('Post Answers')
+		app_label = 'forum'
 
 	def __str__(self):
 		return ''.join([self.user.name, " / ", self.answer_date])	
