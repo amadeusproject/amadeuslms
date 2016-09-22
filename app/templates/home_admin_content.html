@@ -12,6 +12,6 @@
                 <li>{% trans 'End' %}: {{ course.end_date }}</li>
         	</ul>
       	</div>
-      	<button type="button" class="btn btn-outline-info">{% trans 'Edit' %}</button>
+      	<a href="{% url 'course:update' course.slug %}" class="btn btn-outline-info">{% trans 'Edit' %}</a>
     </div>
 {% endfor %}
