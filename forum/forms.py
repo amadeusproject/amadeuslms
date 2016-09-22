@@ -6,13 +6,13 @@ class ForumForm(forms.ModelForm):
 
 	class Meta:
 		model = Forum
-		fields = ('title', 'description')
+		fields = ('name', 'description')
 		labels = {
-			'title': _('Title'),
+			'name': _('Title'),
 			'description': _('Description')
 		}
 		help_texts = {
-			'title': _('Forum title'),
+			'name': _('Forum title'),
 			'description': _('What is this forum about?')
 		}
 		widgets = {

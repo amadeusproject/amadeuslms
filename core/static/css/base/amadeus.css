@@ -271,3 +271,29 @@ a.alert_message:hover{color : grey}
 .accordion_list {
     background: #e0e0e0;
 }
+
+.forum_collapse {
+    color: #000;
+}
+.forum_collapse:hover, .forum_collapse:focus {
+    text-decoration: none;
+    color: #000;
+}
+
+.timeline.post {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding-bottom: 0px;
+    -webkit-padding-start: 0px !important;
+    width: 100%;
+}
+.timeline.post li {
+    padding: 10px;
+    border-bottom: 1px solid #fff;
+}
+.timeline.post li:last-child {
+    border: none;
+}
+.timeline.post h3 {
+    margin-top: 5px;
+}

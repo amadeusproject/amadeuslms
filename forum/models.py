@@ -34,7 +34,7 @@ class Post(models.Model):
 		verbose_name_plural = _('Posts')
 
 	def __str__(self):
-		return ''.join([self.user.name, " / ", self.post_date])
+		return ''.join([self.user.name, " / ", str(self.post_date)])
 
 """
 It represents an answer to a forum's post

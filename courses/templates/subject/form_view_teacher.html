@@ -27,6 +27,25 @@
 
             $(".forum_form").show();
         }
+
+        var postsUrl = '{% url "forum:posts" %}';
+        var formPostsUrl = '';
+
+        function showPosts(forum) {
+            if ($("#collapse" + forum).hasClass('in')) {
+                $("#collapse" + forum).collapse('hide');
+            } else {
+                $.ajax({
+                    url: postsUrl, 
+                    data: {'forum': forum},
+                    success: function(data) {
+                        $("#collapse" + forum).find(".well").html(data);
+                    }
+                });
+
+                $("#collapse" + forum).collapse('show');
+            }
+        }
     </script>
 {% endblock %}
 
