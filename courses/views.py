@@ -267,7 +267,7 @@ class SubjectsView(LoginRequiredMixin, generic.ListView):
 		context = super(SubjectsView, self).get_context_data(**kwargs)
 		context['course'] = subject.course
 		context['subject'] = subject
-		context['topics'] = subject.topics.all()
+		context['topics'] = Topic.objects.filter(subject = subject)
 		return context
 
 class TopicsView(LoginRequiredMixin, generic.ListView):
