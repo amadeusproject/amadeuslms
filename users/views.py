@@ -37,10 +37,10 @@ class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
 	template_name = 'users/create.html'
 	form_class = UserForm
 	context_object_name = 'acc'
-	success_url = reverse_lazy('user:manage')
+	success_url = reverse_lazy('users:manage')
 
 	def form_valid(self, form):
-		self.object = form.save(commit = False)
+		self.object = form.save()
 
 		if self.object.type_profile == 2:
 			assign_role(self.object, 'student')

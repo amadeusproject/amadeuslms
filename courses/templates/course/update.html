@@ -1,13 +1,11 @@
 {% extends 'course/view.html' %}
 
 {% load static i18n %}
-{% load widget_tweaks %}
+{% load widget_tweaks django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
-	<ol class="breadcrumb">
-  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-  	<li class="active">{% trans 'Edit Course' %}</li>
-	</ol>
+	{{ block.super }}
+	 {% breadcrumb 'Update' 'course:update' %}
 {% endblock %}
 {% block content %}
 

@@ -281,7 +281,7 @@ class TopicsView(LoginRequiredMixin, generic.ListView):
 	def get_queryset(self):
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 		subject = topic.subject
-		context = subject.topics.filter(visible=True)
+		context = Topic.objects.filter(subject = subject, visible=True)
 		#if (self.request.user in subject.professors.all() or has_role(self.request.user,'system_admin')):
 			#context = subject.topics.all() <- Change it By Activities
 		return context

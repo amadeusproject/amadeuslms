@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'app',
     'courses',
     'users',
+    'forum',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -78,8 +79,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 
-                # 'core.context_processors.notifications',
-                # 'courses.context_processors.courses',
+                'core.context_processors.notifications',
+                'courses.context_processors.courses',
             ],
         },
     },
@@ -143,6 +144,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
 # Files
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'uploads')
 MEDIA_URL = '/uploads/'
@@ -164,6 +169,16 @@ LOGS_URL = 'logs/'
 # E-mail
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'admin@admin.com'
+
+# Messages
+from django.contrib.messages import constants as messages_constants
+MESSAGE_TAGS = {
+    messages_constants.DEBUG: 'debug',
+    messages_constants.INFO: 'info',
+    messages_constants.SUCCESS: 'success',
+    messages_constants.WARNING: 'warning',
+    messages_constants.ERROR: 'danger',
+}
 
 
 try:

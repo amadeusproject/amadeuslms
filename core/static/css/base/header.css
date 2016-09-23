@@ -10,15 +10,25 @@
 
 .logo{
 	height:100%;
-	margin-left: 30%;
 }
 
 .link{
-	transition-duration: 0.5s;
+	text-decoration: none;
+	position: relative;
 }
 
-.link:hover{
-	transform:scale(1.1);
+.link:after{
+	content: '';
+	position: absolute;
+  	bottom: 0;
+  	left: 0;
+  	width: 0%;
+  	border-bottom: 2px solid;
+  	transition: 0.4s;
+}
+
+.link:hover:after{
+	width: 100%;
 }
 
 .notification-count{

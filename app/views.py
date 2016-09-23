@@ -42,7 +42,7 @@ class AppIndex(LoginRequiredMixin, LogMixin, ListView, NotificationMixin):
 			else:
 				self.template_name = "home_teacher_student_content.html"
 			
-		#super(AppIndex, self).createNotification("testando notificacao de login", resource_name="home", resource_link="/")
+		super(AppIndex, self).createNotification("testando notificacao de login", resource_name="home", resource_link="/")
 		return self.response_class(request = self.request, template = self.template_name, context = context, using = self.template_engine, **response_kwargs)
 
 

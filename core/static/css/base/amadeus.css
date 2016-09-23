@@ -70,6 +70,10 @@ ul {
 
 /*CSS TIMELINE*/
 
+.panel-title{ /*Because we use an outer a tag*/
+  color: rgba(255,255,255,.84);
+}
+
 .bubble {
   width: 100%;
   padding: .5em 1em;
@@ -218,13 +222,8 @@ ul {
   transition-timing-function: ease-in; }
 
 
-h3 {
-  font-size: 1.2em;
-  font-weight: bold;
-  font-family: 'Lato';
-  display: inline-block;
-  margin-bottom: .2em;
-  color: #95a5a6; }
+
+.icon-more-horiz {margin-top: 0px; margin-bottom: 0px; padding-left: 0px;}
 
 .retweet {
   position: absolute;
@@ -271,4 +270,36 @@ a.alert_message:hover{color : grey}
 }
 .accordion_list {
     background: #e0e0e0;
+}
+
+body .container .jumbotron-inverse, body .container .well-inverse, body .container-fluid .jumbotron-inverse, body .container-fluid .well-inverse {
+    background-color: white;
+}
+.forum_collapse {
+    color: #000;
+}
+.forum_collapse:hover, .forum_collapse:focus {
+    text-decoration: none;
+    color: #000;
+}
+
+.timeline.post {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding-bottom: 0px;
+    -webkit-padding-start: 0px !important;
+    width: 100%;
+}
+.timeline.post a {
+    color: #000;
+}
+.timeline.post li {
+    padding: 10px;
+    border-bottom: 1px solid #fff;
+}
+.timeline.post li:last-child {
+    border: none;
+}
+.timeline.post h3 {
+    margin-top: 5px;
 }

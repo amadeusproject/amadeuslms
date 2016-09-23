@@ -1,6 +1,6 @@
 {% extends 'home.html' %}
 
-{% load i18n pagination django_bootstrap_breadcrumbs %}
+{% load i18n pagination django_bootstrap_breadcrumbs static  %}
 
 {% block breadcrumbs %}
 
@@ -24,6 +24,16 @@
 {% endblock %}
 
 {% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tag }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
     <form action="" method="GET" class="form-horizontal">
         <div class="form-group">
             <div class="col-md-9 col-sm-9 col-xs-9">
@@ -40,7 +50,11 @@
             <div class="row panel panel-default">
                 <div class="panel-body">
                     <div class="col-md-4">
-                        <img src="{{ acc.image.url }}" alt="photoUser" class="img-circle img-responsive">
+                        {% if acc.image %}
+                            <img src="{{ acc.image.url }}" alt="photoUser" class="img-circle img-responsive">
+                        {% else %}
+                            <img src="{% static 'images/avatar.png' %}" alt="Avatar" class="img-circle img-responsive">
+                        {% endif %}
                     </div>
                     <div class="col-md-8">
                         <p>{% trans 'Name' %}: {{ acc.name }}</p>

@@ -1,0 +1,40 @@
+{% load i18n permission_tags %}
+
+{% if posts|length > 0 %}
+    <ul class="timeline post">
+        {% for post in posts %}
+            <li>
+                <a class="post_collapse" role="button" href="javascript: showPostsAnswers('{% url 'forum:post_answers' %}', '{{ post.id }}')" aria-expanded="false">
+                    <div class="timeline-panel">
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2">
+                                <img class="img-responsive img-rounded" src="{{ post.user.image_url }}" />
+                            </div>
+                            <div class="col-xs-10 col-sm-10 col-md-10">
+                                <div class="timeline-heading">
+                                    <h3> {{ post.user }}</h3>
+                                </div>
+                                <div class="timeline-body">
+                                    <p><em>{{ post.message|linebreaks }}</em></p>
+                                </div>
+                                <hr>
+                                <small class="text-muted">
+                                    <span class="pull-right">
+                                        <i class="glyphicon glyphicon-time"></i> {{ post.post_date|timesince }} 
+                                        {% trans ' ago' %}
+                                    </span>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <div class="collapse" id="collapse{{ post.id }}" style="margin-top:10px;">
+                    <div class="well">
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>{% trans 'No posts were made yet.' %}</p>
+{% endif %}

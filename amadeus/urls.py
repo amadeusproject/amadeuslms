@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^home/', include('app.urls', namespace = 'app')),
     url(r'^course/', include('courses.urls', namespace = 'course')),
     url(r'^users/', include('users.urls', namespace = 'users')),
+    url(r'^forum/', include('forum.urls', namespace = 'forum')),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('core.urls', namespace = 'core')),
 ]

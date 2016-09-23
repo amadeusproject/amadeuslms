@@ -31,7 +31,7 @@
 						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
 							<label for="{{ field.auto_id }}">{{ field.label }}</label>
 							{% if field.auto_id == 'id_birth_date' %}
-								{% render_field field class='form-control input-sm' type='date' %}
+								<input type="date" class="form-control"name="{{field.name}}" value="{% if field.value.year %}{{field.value|date:'Y-m-d'}}{% else %}{{field.value}}{% endif %}" min="{{now|date:'Y-m-d'}}" id="{{ field.auto_id }}">
 								<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
 							{% elif field.auto_id == 'id_image' %}
 								{% render_field field class='form-control input-sm' %}
@@ -50,7 +50,7 @@
 				            		</label>
 						        </div>
 							{% else %}
-								{% render_field field class='form-control input-sm' %}
+								{% render_field field class='form-control' %}
 								<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
 							{% endif %}
 							{% if field.errors.length > 0 %}
