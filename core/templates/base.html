@@ -32,7 +32,7 @@
     </script>
     <script src="{% static 'js/base/header.js'%}"></script>
 	<!--Javascript block for specific-app ones -->
-	
+
 </head>
 <body>
 	<div class="container-fluid">
@@ -49,7 +49,7 @@
 			              		</div>
 			              		<div class="navbar-collapse collapse navbar-responsive-collapse">
 			                		<ul class="nav navbar-nav navbar-right notifications">
-			                  			 <li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">      
+			                  			 <li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">
 						                   <a  class="dropdown-toggle" data-toggle="dropdown"> <span class="badge notification-count">{{notifications.count}}</span><i class="fa fa-bell" aria-hidden="true"></i></a>
 						                     <ul id="notification-dropdown" class="dropdown-menu">
 						                     <li class="dropdown-header">Notifications</li>
@@ -75,7 +75,7 @@
 								                                    <i class="material-icons">folder</i>
 								                                  </div>
 								                                  <div class="row-content">
-								                                    
+
 								                                    <div class="least-content pull-right">{{ notification.datetime }}</div>
 
 								                                    <p class="list-group-item-text">{{ notification.message }}</p>
@@ -99,39 +99,36 @@
 		{% endblock %}
 
 		<div class="row">
-		    		<div class="col-xs-* col-sm-* col-md-2">
+		    		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
 						{% block sidebar %}
 
 						{% endblock %}
 		    		</div>
 
-		    		<div class="col-xs-* col-sm-* col-md-10">
+		    		<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
 				    	{% block breadcrumbs %}
 
 				    	{% endblock %}
-				    	
+
 				    	{% block render_breadcrumbs %}
 
 				    	{% endblock %}
+							<div class="row">
+								<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+								{% block content %}
+
+								{% endblock %}
+			    			</div>
+
+			    			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+								{% block rightbar %}
+
+								{% endblock rightbar %}
+			    			</div>
+							</div>
 				    </div>
-				    
-				    
-			    	
-			    		
-	    			<div class="col-xs-* col-sm-* col-md-8">
-						{% block content %}
 
-						{% endblock %}
-	    			</div>
 
-	    			<div class="col-xs-* col-sm-* col-md-2">
-						{% block rightbar %}
-
-						{% endblock rightbar %}
-	    			</div>
-	    	
-			    	
-		    		
 		</div>
 	</div>
 
