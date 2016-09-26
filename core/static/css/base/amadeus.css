@@ -272,6 +272,9 @@ a.alert_message:hover{color : grey}
     background: #e0e0e0;
 }
 
+body .container .jumbotron-inverse, body .container .well-inverse, body .container-fluid .jumbotron-inverse, body .container-fluid .well-inverse {
+    background-color: white;
+}
 .forum_collapse {
     color: #000;
 }
