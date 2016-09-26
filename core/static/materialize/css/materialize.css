@@ -1,0 +1,90 @@
+
+.btn-floating.disabled,
+ {
+  background-color: #DFDFDF !important;
+  box-shadow: none;
+  color: #9F9F9F !important;
+  cursor: default;
+}
+
+.btn-floating.disabled *,
+.btn-floating:disabled *,
+.btn-floating[disabled] * {
+  pointer-events: none;
+}
+
+.btn-floating.disabled:hover,
+.btn-floating:disabled:hover,
+.btn-floating[disabled]:hover {
+  background-color: #DFDFDF !important;
+  color: #9F9F9F !important;
+}
+
+.btn-floating i{
+  font-size: 1.3rem;
+  line-height: inherit;
+}
+
+/*.btn, .btn-large {
+  text-decoration: none;
+  color: #fff;
+  background-color: #26a69a;
+  text-align: center;
+  letter-spacing: .5px;
+  transition: .2s ease-out;
+  cursor: pointer;
+}*/
+
+.btn-floating {
+  display: inline-block;
+  color: #fff;
+  position: relative;
+  float: right;
+  width: 37px;
+  height: 37px;
+  line-height: 37px;
+  padding: 0;
+  background-color: #26a69a;
+  border-radius: 50%;
+  transition: .3s;
+  cursor: pointer;
+  vertical-align: middle;
+
+  margin-right: 0px;
+  overflow:auto;
+  bottom: 0;
+}
+
+.btn-floating i {
+  width: inherit;
+  display: inline-block;
+  text-align: center;
+  color: #fff;
+  font-size: 1.6rem;
+  line-height: 37px;
+}
+
+.btn-floating:hover {
+  background-color: #26a69a;
+}
+
+.btn-floating:before {
+  border-radius: 0;
+}
+
+.btn-floating.btn-large {
+  width: 55.5px;
+  height: 55.5px;
+}
+
+.btn-floating.btn-large i {
+  line-height: 55.5px;
+}
+
+button.btn-floating {
+  border: none;
+}
+.fixed-action-btn ul a.btn-floating {
+  opacity: 0;
+}
+
