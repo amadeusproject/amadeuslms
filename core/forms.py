@@ -15,6 +15,13 @@ class RegisterUserForm(forms.ModelForm):
             raise forms.ValidationError(_('There is already a registered User with this e-mail'))
         return email
 
+    def clean_cpf(self):
+        cpf = self.cleaned_data['cpf']
+        if User.objects.filter(cpf = cpf).exists():
+            raise forms.ValidationError(_('There is already a registeres User with this CPF'))
+        print(cpf)
+        return cpf
+
     def clean_password(self):
         password = self.cleaned_data.get('password')
 
