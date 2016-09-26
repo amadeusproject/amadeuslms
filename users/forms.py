@@ -26,25 +26,25 @@ class ProfileForm(forms.ModelForm):
 		}
 
 class UserForm(UserCreationForm):
-	# def save(self, commit=True):
-	# 	super(UserForm, self).save()
-	#
-	# 	#if not self.instance.image:
-	# 	#	self.instance.image = os.path.join(os.path.dirname(settings.BASE_DIR), 'uploads', 'no_image.jpg')
-	#
-	# 	# self.instance.set_password(self.cleaned_data['password'])
-	# 	# self.instance.save()
-	#
-	# 	if self.instance.is_staff:
-	# 		assign_role(self.instance, 'system_admin')
-	# 	elif self.instance.type_profile == 2:
-	# 		assign_role(self.instance, 'student')
-	# 	elif self.instance.type_profile == 1:
-	# 		assign_role(self.instance, 'professor')
-	#
-	# 	self.instance.save()
-	#
-	# 	return self.instance
+	def save(self, commit=True):
+		super(UserForm, self).save()
+	
+		if not self.instance.image:
+			self.instance.image = os.path.join(os.path.dirname(settings.BASE_DIR), 'uploads', 'no_image.jpg')
+	
+		self.instance.set_password(self.cleaned_data['password1'])
+		self.instance.save()
+	
+		if self.instance.is_staff:
+			assign_role(self.instance, 'system_admin')
+		elif self.instance.type_profile == 2:
+			assign_role(self.instance, 'student')
+		elif self.instance.type_profile == 1:
+			assign_role(self.instance, 'professor')
+	
+		self.instance.save()
+	
+		return self.instance
 
 	class Meta:
 		model = User

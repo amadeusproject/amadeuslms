@@ -36,7 +36,6 @@
           {% endif %}
           <div class="card">
                 <div class="card-block">
-                  {# <div class="row"> #}
                     <form id="form-login" class="form-group" method="post" action="">
         							{% csrf_token %}
         							<div class="form-group is-empty">
@@ -59,10 +58,8 @@
                         </div>
                       </div>
         						</form>
-                  {# </div> #}
-                  {# <div class="row"> #}
                     <div class="col-md-10 col-sm-10 col-xs-10 col-lg-10">
-                        <a href="{% url 'core:remember_password' %}">Forgot your password?</a>
+                        <a href="{% url 'core:remember_password' %}">{% trans "Forgot your password?" %}</a>
                     </div>
                   {# </div> #}
                   {# <div class="row"> #}
