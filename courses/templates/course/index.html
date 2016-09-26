@@ -79,7 +79,7 @@
 						</a>
 					{% endif %}
 
-				    <a href="course_detail_student.html" class="btn btn-raised btn-default center-block">View Course</a>
+				    <a href="{% url 'course:view' course.slug %}" class="btn btn-raised btn-default center-block">View Course</a>
 
 				  </div>
 				</div>            
