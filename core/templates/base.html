@@ -18,8 +18,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/base/header.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
 	<!--CSS block for specific-app ones -->
-	{% block style %}
-	{% endblock %}
+
 
 	<link href="{% static 'img/favicon.ico' %}" rel="shortcut icon" />
 
@@ -32,7 +31,8 @@
     </script>
     <script src="{% static 'js/base/header.js'%}"></script>
 	<!--Javascript block for specific-app ones -->
-
+	{% block style %}
+	{% endblock %}
 </head>
 <body>
 	<div class="container-fluid">
