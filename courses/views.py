@@ -30,6 +30,8 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 	def get_context_data(self, **kwargs):
 		context = super(IndexView, self).get_context_data(**kwargs)
 		context['categories'] = Category.objects.all()
+
+		# context['professors'] = Course.objects.all().select_related('professors__name')
 		# super.createNotification(users= User.obejcts.all(), message="testando a notificacao em login")
 		return context
 
