@@ -14,7 +14,6 @@
 
 
 {% block content %}
-	<script src="{% static 'js/base/amadeus.js' %}"></script>
 	{% if messages %}
 		{% for message in messages %}
 			<div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
@@ -49,8 +48,8 @@
 				                </div>
 				      		{% elif field.auto_id == 'id_is_staff' or field.auto_id == 'id_is_active' %}
                 				<div class="checkbox">
-                  					<label>
-                      					<input type="checkbox" name="checkbox"><span class="checkbox-material"><span class="check"></span></span> {{field.label}}
+                  					<label for="{{ field.auto_id }}">
+                      					{% render_field field %}<span class="checkbox-material"><span class="check"></span></span> {{field.label}}
                   					</label>
                 				</div>
                 			{% elif field.auto_id == 'id_cpf' %}
@@ -91,5 +90,5 @@
 {% endblock %}
 
 {% block javascript %}
-	
+	<script src="{% static 'js/base/amadeus.js' %}"></script>
 {% endblock %}
