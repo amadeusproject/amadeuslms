@@ -88,7 +88,6 @@ It is one kind of possible resources available inside a Topic.
 Activity is something that has a deadline and has to be delivered by the student
 """
 class Activity(Resource):
-	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 	topic = models.ForeignKey(Topic, verbose_name = _('Topic'))
 	limit_date = models.DateTimeField(_('Deliver Date'))
 	student = models.ForeignKey(User, verbose_name = _('student'))
@@ -98,8 +97,21 @@ class Activity(Resource):
 It represents any Material inside a topic, be it a file, a link, etc.
 """
 class Material(Resource):
-    create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
     topic = models.ForeignKey(Topic, verbose_name = _('Topic'))
     student = models.ForeignKey(User, verbose_name = _('student'))
 
    
+
+
+"""
+It is a category for each subject.
+"""
+class SubjectCategory(models.Model):
+	name = models.CharField(_('Name'), max_length= 100)
+	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)	
+	description = models.TextField(_('Description'), blank = True)
+	subjects = models.ManyToManyField(Subject)
+
+	class Meta:
+		verbose_name = _('subject category')
+		verbose_name_plural = _('subject categories')

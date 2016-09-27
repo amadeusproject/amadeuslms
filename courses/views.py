@@ -12,7 +12,7 @@ from django.db.models import Q
 from rolepermissions.verifications import has_object_permission
 
 from .forms import CourseForm, UpdateCourseForm, CategoryForm, SubjectForm,TopicForm
-from .models import Course, Subject, Category,Topic
+from .models import Course, Subject, Category,Topic, SubjectCategory
 from core.mixins import NotificationMixin
 from users.models import User
 
@@ -441,3 +441,16 @@ class DeleteSubjectView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 	def get_success_url(self):
 		return reverse_lazy('course:view', kwargs={'slug' : self.object.course.slug})
+
+class IndexSubjectCategoryView(LoginRequiredMixin, generic.ListView):
+	allowed_roles = ['professor', 'system_admin']
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+	model = SubjectCategory
+	template_name = 'subject_category/index.html'
+	paginate_by = 10
+
+	def get_context_data(self, **kwargs):
+		context = super(IndexSubjectCategoryView, self).get_context_data(**kwargs)
+		context['subject_categories'] = SubjectCategory.objects.all()
+		return context
