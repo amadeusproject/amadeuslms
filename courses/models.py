@@ -31,7 +31,7 @@ class Course(models.Model):
 	end_date = models.DateField(_('End of Course Date'))
 	image = models.ImageField(verbose_name = _('Image'), blank = True, upload_to = 'courses/')
 	category = models.ForeignKey(Category, verbose_name = _('Category'))
-	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='courses')
+	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='courses_professors')
 	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='courses_student')
 
 	class Meta:
@@ -100,7 +100,7 @@ class Material(Resource):
     topic = models.ForeignKey(Topic, verbose_name = _('Topic'))
     student = models.ForeignKey(User, verbose_name = _('student'))
 
-   
+
 
 
 """
@@ -115,3 +115,28 @@ class SubjectCategory(models.Model):
 	class Meta:
 		verbose_name = _('subject category')
 		verbose_name_plural = _('subject categories')
+
+class Poll(Activity):
+	question = models.CharField(_('Question'), max_length = 300)
+
+	class Meta:
+		ordering = ('create_date','name')
+		verbose_name = _('Poll')
+		verbose_name_plural = _('Polls')
+
+	def __str__(self):
+		return str(self.question) + str("/") + str(self.topic)
+
+class Answer(models.Model):
+	answer = models.CharField(_("Answer"), max_length = 200)
+	order = models.PositiveSmallIntegerField(_("Order"))
+	poll = models.ForeignKey(Poll, verbose_name = _('Answers'), related_name='answers')
+
+	class Meta:
+		ordering = ('order',)
+		verbose_name = _('Answer')
+		verbose_name_plural = _('Answers')
+
+	def __str__(self):
+		return str(self.question) + str("/") + str(self.topic)
+

@@ -17,27 +17,19 @@
 {% endblock %}
 
 {% block sidebar %}
-
-    <div class="panel panel-primary">
-
-      <div class="panel-heading">
-        <h3 class="panel-title">{{course}}</h3>
-      </div>
-
-      <div class="panel-body">
-        {% for subject in subjects %}
-				<div class="row">
-					<div class="col-md-12 col-sm-12">
-						<a href="{% url 'course:view_subject' subject.slug%}" class="btn btn-default text-left">{{subject}}</a>
-					</div>
-				</div>
-        {% endfor %}
-      </div>
+	<div class="panel panel-primary navigation">
+        <div class="panel-heading">
+            <h5>{% trans 'Menu' %}</h5>
+        </div>
+        <div class="panel-body">
+        	<ul class="nav nav-pills nav-stacked">
+              	<li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
+              	<li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
+            </ul>
+        </div>
     </div>
+    
 
-		{% if user|has_role:'system_admin' or user|has_role:'professor' %}
-			<a href="{% url 'course:create_subject' course.slug %}" class="btn btn-primary btn-md btn-block">{% trans "Create Subject" %}</a>
-		{% endif %}
 {% endblock %}
 
 {% block content %}

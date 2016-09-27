@@ -9,7 +9,7 @@ urlpatterns = [
 	url(r'^(?P<slug>[\w_-]+)/$', views.CourseView.as_view(), name='view'),
 	url(r'^delete/(?P<slug>[\w_-]+)/$', views.DeleteCourseView.as_view(), name='delete'),
 	url(r'^category/(?P<slug>[\w_-]+)/$', views.FilteredView.as_view(), name='filter'),
-	url(r'^categories/view/view/$', views.IndexCatView.as_view(), name='manage_cat'),
+	url(r'^categories/view/$', views.IndexCatView.as_view(), name='manage_cat'),
 	url(r'^categories/create/$', views.CreateCatView.as_view(), name="create_cat"),
 	url(r'^categories/edit/(?P<slug>[\w_-]+)/$', views.UpdateCatView.as_view(), name='update_cat'),
 	url(r'^categories/(?P<slug>[\w_-]+)/$', views.ViewCat.as_view(), name='view_cat'),
@@ -22,4 +22,6 @@ urlpatterns = [
 	url(r'^topics/update/(?P<slug>[\w_-]+)/$', views.UpdateTopicView.as_view(), name='update_topic'),
 	url(r'^topics/(?P<slug>[\w_-]+)/$', views.TopicsView.as_view(), name='view_topic'),
 	url(r'^subjects/categories$',views.IndexSubjectCategoryView.as_view(), name='subject_category_index'),
+	url(r'^to/poll/to/$', views.Poll.as_view(), name='poll'),
+
 ]

@@ -11,31 +11,17 @@
 {% endblock %}
 
 {% block sidebar %}
-	<div class="list-group">
-	  	<a href="{% url 'course:manage' %}" class="list-group-item active">
-	    	{% trans 'Courses' %}
-	  	</a>
-	  	<a href="{% url 'course:create' %}" class="list-group-item">
-	    	{% trans 'Create Course' %}
-	  	</a>
-	</div>
-
-	<hr />
-
-	{% if categories|length > 0 %}
-
-		<h4>{% trans 'Categories:' %} </h4>
-
-		<ul class="categories">
-			{% for category in categories %}
-				<li>
-					<a href="{% url 'course:filter' category.slug %}">
-						{{ category }}
-					</a>
-				</li>
-			{% endfor %}
-		</ul>
-	{% endif %}
+	<div class="panel panel-primary navigation">
+        <div class="panel-heading">
+            <h5>{% trans 'Menu' %}</h5>
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
+                <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
+            </ul>
+        </div>
+    </div>
 {% endblock %}
 
 {% block content %}
@@ -49,7 +35,16 @@
 			</div>
 		{% endfor %}
 	{% endif %}
-
+	<div class="col-md-12">
+		<div class="input-group">
+  <div class="form-group is-empty"><input type="search" class="form-control" placeholder="Search Courses"></div>
+    <span class="input-group-btn input-group-sm">
+      <button type="button" class="btn btn-fab btn-fab-mini">
+        <i class="material-icons">search</i>
+      </button>
+    </span>
+</div>
+	</div>
 	{% if courses|length > 0 %}
 		{% for course in courses %}
 			<div class="col-md-12">
@@ -67,7 +62,7 @@
 				  <div class="panel-body">
 				    <p><b>Course Name: </b>{{ course.name }}</p>
 				    <p><b>Duration (in semesters): </b>09</p>
-				    <p><b>Coordinator: </b>Alan Turing</p>
+				    <p><b>Coordinator: </b>{{course.professors}}</p>
 				    <p>
 				      <b>Description:</b>
 				      <i>
@@ -84,39 +79,11 @@
 						</a>
 					{% endif %}
 
-				    <a href="course_detail_student.html" class="btn btn-raised btn-default center-block">View Course</a>
+				    <a href="{% url 'course:view' course.slug %}" class="btn btn-raised btn-default center-block">View Course</a>
 
 				  </div>
 				</div>            
     		</div>
-			<div class="row">
-		  		<div class="col-md-10">
-					<div class="row">
-			  				<!--<div class="col-md-12">
-							<div class="pull-right">
-								<a href="{% url 'course:view' course.slug %}" class="btn btn-sm btn-info">
-									<span class="glyphicon glyphicon-eye-open"></span>
-								</a>
-								
-							</div>
-							<h4>
-								<a href="{% url 'course:view' course.slug %}">
-									{{ course }}
-								</a>
-							</h4>
-							
-							<small>
-								<em>{{ course.objectivies|linebreaks }}</em>
-							</small>
-			  			</div>
-			  		<div class="col-md-12">
-			  				<strong>{% trans 'Subscribe Period:' %} </strong> <em>de</em> <u>{{ course.init_register_date }}</u> <em>até</em> <u>{{ course.end_register_date }}</u>
-			  				<br />
-							<strong>{% trans 'Period:' %} </strong> <em>de</em> <u>{{ course.init_date }}</u> <em>até</em> <u>{{ course.end_date }}</u>
-			  			</div> -->
-					</div>
-		  		</div>
-			</div>
 
     	{% endfor %}
 

@@ -30,6 +30,8 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 	def get_context_data(self, **kwargs):
 		context = super(IndexView, self).get_context_data(**kwargs)
 		context['categories'] = Category.objects.all()
+
+		# context['professors'] = Course.objects.all().select_related('professors__name')
 		# super.createNotification(users= User.obejcts.all(), message="testando a notificacao em login")
 		return context
 
@@ -309,9 +311,7 @@ class CreateTopicView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, gener
 		subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
 		context['course'] = subject.course
 		context['subject'] = subject
-		context['subjects'] = subject.course.subjects.filter(Q(visible=True) | Q(professors__in=[self.request.user]))
-		if (has_role(self.request.user,'system_admin')):
-			context['subjects'] = subject.course.subjects.all()
+		context['subjects'] = subject.course.subjects.all()
 		return context
 
 	def form_valid(self, form):
@@ -442,6 +442,7 @@ class DeleteSubjectView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 	def get_success_url(self):
 		return reverse_lazy('course:view', kwargs={'slug' : self.object.course.slug})
 
+
 class IndexSubjectCategoryView(LoginRequiredMixin, generic.ListView):
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -454,3 +455,27 @@ class IndexSubjectCategoryView(LoginRequiredMixin, generic.ListView):
 		context = super(IndexSubjectCategoryView, self).get_context_data(**kwargs)
 		context['subject_categories'] = SubjectCategory.objects.all()
 		return context
+
+
+class Poll(generic.TemplateView):
+
+	# login_url = reverse_lazy("core:home")
+	# redirect_field_name = 'next'
+	# model = Course
+	# context_object_name = 'course'
+	template_name = 'poll/poll.html'
+	# queryset = Course.objects.all()
+
+	# def get_queryset(self):
+	# 	return Course.objects.all()[0]
+
+	def get_context_data(self, **kwargs):
+		context = super(Poll, self).get_context_data(**kwargs)
+		course = Course.objects.all()[0]
+		context['course'] = course
+		context['subject'] = course.subjects.all()[0]
+		context['subjects'] = course.subjects.all()
+		# if (has_role(self.request.user,'system_admin')):
+		# 	context['subjects'] = self.object.course.subjects.all()
+		return context
+
