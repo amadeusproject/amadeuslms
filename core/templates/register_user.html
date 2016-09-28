@@ -44,6 +44,8 @@
 						                        </button>
 						                    </span>
 						                </div>
+						            {% elif field.auto_id == 'id_cpf' %}
+		                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
 									{% else %}
 										{% render_field field class='form-control' %}
 										<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
@@ -79,4 +81,5 @@
 	</div>
 	
 	<br clear="all" />
+	<script src="{% static 'js/base/amadeus.js' %}"></script>
 {% endblock %}
