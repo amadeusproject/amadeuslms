@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Forum, Post, PostAnswer
 from courses.models import Topic
 
-from .forms import ForumForm
+from .forms import ForumForm, PostAnswerForm
 
 class ForumIndex(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("core:home")	
@@ -56,3 +56,9 @@ class PostAnswerIndex(LoginRequiredMixin, generic.ListView):
 		context = PostAnswer.objects.filter(post = post)
 
 		return context
+
+class CreatePostAnswerView(LoginRequiredMixin, generic.edit.CreateView):
+
+	template_name = 'post_answers/post_answer_form.html'
+	form_class = PostAnswerForm
+	success_url = reverse_lazy('forum:index')

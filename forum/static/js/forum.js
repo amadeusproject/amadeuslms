@@ -15,15 +15,15 @@ function showForum(url, forum_id) {
     $('#forumModal').modal();
 }
 
-function getForm(url) {
+function answer(id, url) {
     $.ajax({
         url: url, 
         success: function(data) {
-            $(".forum_form").html(data);
+            $("#post_"+id).find(".answer_post").html(data);
         }
     });
 
-    $(".forum_form").show();
+    $("#post_"+id).find(".answer_post").show();
 }
 
 function showPosts(url, forum) {

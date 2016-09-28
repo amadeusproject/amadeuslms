@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from .models import Forum
+from .models import Forum, PostAnswer
 
 class ForumForm(forms.ModelForm):
 
@@ -17,4 +17,16 @@ class ForumForm(forms.ModelForm):
 		}
 		widgets = {
 			'description': forms.Textarea(attrs={'cols': 80, 'rows': 5}),
+		}
+
+class PostAnswerForm(forms.ModelForm):
+
+	class Meta:
+		model = PostAnswer
+		fields = ('message', )
+		labels = {
+			'message': _('Message')
+		}
+		widgets = {
+			'message': forms.Textarea(attrs={'cols': 80, 'rows': 3}),
 		}
