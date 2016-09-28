@@ -1,7 +1,12 @@
-function showForum(url, topic) {
+/*
+*
+* Function to load forum to modal
+*
+*/
+function showForum(url, forum_id) {
     $.ajax({
         url: url, 
-        data: {'topic': topic},
+        data: {'forum_id': forum_id},
         success: function(data) {
             $(".forum_topics").html(data);
         }

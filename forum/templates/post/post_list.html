@@ -1,9 +1,35 @@
-{% load i18n permission_tags %}
+{% load i18n permission_tags list_post_answer %}
 
 {% if posts|length > 0 %}
-    <ul class="timeline post">
-        {% for post in posts %}
-            <li>
+    {% for post in posts %}
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+                <h3 class="user-name">
+                    {{ post.user }}
+                    {% if request.user|has_role:'system_admin' or request.user|has_role:'professor' and request.user == post.user %}
+                        <div class="pull-right">
+                            <div class="btn-group icon-more-horiz">
+                                <a class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">more_horiz</i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <li><a href="javascript:void(0)"><i class="material-icons">create</i> {% trans 'Edit' %}</a></li>
+                                    <li><a href="javascript:void(0)"><i class="material-icons">delete_sweep</i> {% trans 'Remove' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    {% endif %}
+                </h3>
+                <div class="card-data">
+                    <p class="comment-date"><i class="fa fa-clock-o"></i> {{ post.post_date }}</p>
+                </div>
+                <p class="comment-text">{{ post.message|linebreaks }}</p>
+            </div>
+        </div>
+        {% list_post_answer request post %}
+    {% endfor %}
+{% endif %}
+            <!--<li>
                 <a class="post_collapse" role="button" href="javascript: showPostsAnswers('{% url 'forum:post_answers' %}', '{{ post.id }}')" aria-expanded="false">
                     <div class="timeline-panel">
                         <div class="row">
@@ -32,9 +58,4 @@
                     <div class="well">
                     </div>
                 </div>
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>{% trans 'No posts were made yet.' %}</p>
-{% endif %}
+            </li>-->

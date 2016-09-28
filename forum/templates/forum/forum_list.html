@@ -1,6 +1,16 @@
-{% load i18n permission_tags %}
+{% load i18n permission_tags list_post %}
 
-{% if foruns|length > 0 %}
+<div class="comments-list">
+    <div class="section-heading">
+        <h1>{{ forum }}</h1>
+        <h4><b>{% trans 'Description' %}:</b> {{ forum.description }}</h4>
+        <h4><b>{% trans 'Opened in' %}:</b> {{ forum.create_date }}</h4>
+    </div>
+</div>
+
+{% list_posts request forum %}
+
+<!--{% if foruns|length > 0 %}
     {% for forum in foruns %}
         <a class="forum_collapse" role="button" href="javascript: showPosts('{% url 'forum:posts' %}', '{{ forum.slug }}')" aria-expanded="true">
             <div class="page-header">
@@ -20,4 +30,4 @@
     <div class="page-header">
         <p>{% trans 'No forum created yet.' %}</p>
     </div>
-{% endif %}
+{% endif %}-->

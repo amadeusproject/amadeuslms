@@ -14,12 +14,12 @@ class ForumIndex(LoginRequiredMixin, generic.ListView):
 	redirect_field_name = 'next'
 
 	template_name = "forum/forum_list.html"
-	context_object_name = 'foruns'
+	context_object_name = 'forum'
 
 	def get_queryset(self):
-		topic = get_object_or_404(Topic, slug = self.request.GET.get('topic', ''))
+		forum_id = self.request.GET.get('forum_id', 0)
 
-		context = Forum.objects.filter(topic = topic)
+		context = Forum.objects.get(id = forum_id)
 
 		return context
 

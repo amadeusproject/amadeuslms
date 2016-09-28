@@ -1,4 +1,4 @@
-{% load static i18n %}
+{% load static i18n list_topic_foruns %}
 
 {% block javascript %}
     <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
@@ -19,7 +19,7 @@
     </a>
     <div class="panel-body">
         <p>{{ topic.description|linebreaks }}</p>
-        <a href="javascript:showForum('{% url 'forum:index' %}', '{{topic.slug}}')">Forum</a>
+        {% list_topic_foruns request topic %}        
     </div>
 </div>
 
@@ -31,14 +31,17 @@
             </div>
             <div class="modal-body">
                 <section>
-                    <div class="comments-list">
-                        <div class="section-heading">
-                            <h1>Python</h1>
-                            <h4><b>Description:</b>High-level Language</h4>
-                            <h4><b>Opened in:</b> September 1st</h4>
+                    <div class="forum_topics"></div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <textarea type="text" id="addon3a" class="form-control" placeholder="{% trans 'Post a comment...' %}"></textarea>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-fab btn-fab-mini">
+                                    <i class="material-icons">send</i>
+                                </button>
+                            </span>
                         </div>
                     </div>
-                    <div class="forum_topics"></div>
                 </section>
             </div>
             <div class="modal-footer">

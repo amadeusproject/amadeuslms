@@ -100,9 +100,6 @@ class Material(Resource):
     topic = models.ForeignKey(Topic, verbose_name = _('Topic'))
     student = models.ForeignKey(User, verbose_name = _('student'))
 
-
-
-
 """
 It is a category for each subject.
 """
