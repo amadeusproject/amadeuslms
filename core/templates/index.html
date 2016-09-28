@@ -21,30 +21,25 @@
         </div>
       </div>
     </div>
-    <div class="row">
-        {% for breadcrumb in breadcrumbs %}
-          <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
-        {% endfor %}
-    </div>
 
   	<div class="row ">
       <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2 col-lg-8 col-lg-offset-2 col-xl-8 col-xl-offset-2">
-          {% if message %}
-            <div class="alert alert-danger alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              <ul>
-                  <li>{{ message }}</li>
-              </ul>
-            </div>
-          {% endif %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
           <div class="card">
                 <div class="card-block">
                     <form id="form-login" class="form-group" method="post" action="">
-        							{% csrf_token %}
-        							<div class="form-group is-empty">
-        								<label for="inputEmail" class="col-md-4 col-xs-4 col-sm-4 col-lg-4 control-label"> {% trans 'Username' %}</label>
+						{% csrf_token %}
+						<div class="form-group is-empty">
+							<label for="inputEmail" class="col-md-4 col-xs-4 col-sm-4 col-lg-4 control-label"> {% trans 'Username' %}</label>
                         <div class="col-md-8 col-xs-8 col-lg-8 col-sm-8">
                             <input form="form-login" type="text" name="username" class="form-control" id="inputEmail" placeholder="Username" value="{% if username %}{{username}}{% endif %}">
                         </div>
