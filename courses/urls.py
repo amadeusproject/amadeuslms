@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 
 from . import views
 
@@ -22,6 +22,8 @@ urlpatterns = [
 	url(r'^topics/update/(?P<slug>[\w_-]+)/$', views.UpdateTopicView.as_view(), name='update_topic'),
 	url(r'^topics/(?P<slug>[\w_-]+)/$', views.TopicsView.as_view(), name='view_topic'),
 	url(r'^subjects/categories$',views.IndexSubjectCategoryView.as_view(), name='subject_category_index'),
-	url(r'^to/poll/to/$', views.Poll.as_view(), name='poll'),
+
+
+	url(r'^poll/', include('poll.urls', namespace = 'poll'))
 
 ]

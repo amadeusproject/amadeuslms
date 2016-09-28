@@ -455,27 +455,3 @@ class IndexSubjectCategoryView(LoginRequiredMixin, generic.ListView):
 		context = super(IndexSubjectCategoryView, self).get_context_data(**kwargs)
 		context['subject_categories'] = SubjectCategory.objects.all()
 		return context
-
-
-class Poll(generic.TemplateView):
-
-	# login_url = reverse_lazy("core:home")
-	# redirect_field_name = 'next'
-	# model = Course
-	# context_object_name = 'course'
-	template_name = 'poll/poll.html'
-	# queryset = Course.objects.all()
-
-	# def get_queryset(self):
-	# 	return Course.objects.all()[0]
-
-	def get_context_data(self, **kwargs):
-		context = super(Poll, self).get_context_data(**kwargs)
-		course = Course.objects.all()[0]
-		context['course'] = course
-		context['subject'] = course.subjects.all()[0]
-		context['subjects'] = course.subjects.all()
-		# if (has_role(self.request.user,'system_admin')):
-		# 	context['subjects'] = self.object.course.subjects.all()
-		return context
-
