@@ -12,6 +12,7 @@ It works like a 'topic' of forum, which users can post to it and answer posts of
 """
 class Forum(Activity):
 	description = models.TextField(_('Description'), blank = True)
+	modification_date = models.DateTimeField(_('Modification Date'), auto_now = True)
 	create_date = models.DateTimeField(_('Create Date'), auto_now_add = True)
 
 	class Meta:
@@ -28,6 +29,7 @@ It represents a post made in a forum (topic)
 class Post(models.Model):
 	user = models.ForeignKey(User, verbose_name = _('Autor'))
 	message = models.TextField(_('Post message'), blank = False)
+	modification_date = models.DateTimeField(_('Modification Date'), auto_now = True)
 	post_date = models.DateTimeField(_('Post Date'), auto_now_add = True)
 	forum = models.ForeignKey(Forum, verbose_name = _('Forum'))
 
@@ -46,6 +48,7 @@ class PostAnswer(models.Model):
 	user = models.ForeignKey(User, verbose_name = _('Autor'))
 	post = models.ForeignKey(Post, verbose_name = _('Post'))
 	message = models.TextField(_('Answer message'), blank = False)
+	modification_date = models.DateTimeField(_('Modification Date'), auto_now = True)
 	answer_date = models.DateTimeField(_('Answer Date'), auto_now_add = True)
 
 	class Meta:
