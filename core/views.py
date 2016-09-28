@@ -80,7 +80,7 @@ def login(request):
 			login_user(request, user)
 			return redirect(reverse("app:index"))
 		else:
-			context["message"] = _("E-mail or password are incorrect!")
+			messages.add_message(request, messages.ERROR, _('E-mail or password are incorrect.'))
 			context["username"] = username
 	elif request.user.is_authenticated:
 		return redirect(reverse('app:index'))

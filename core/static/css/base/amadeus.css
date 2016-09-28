@@ -271,6 +271,14 @@ a.alert_message:hover{color : grey}
   display: none;
 }
 
+/*Logo register user*/
+#logo{
+  max-width: 30%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+/*====================== ========*/
+
 .accordion {
     background: #c0c0c0;
 }
