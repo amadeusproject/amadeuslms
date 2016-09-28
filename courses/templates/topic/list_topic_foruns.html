@@ -1,0 +1,3 @@
+{% for forum in foruns %}
+	<a href="javascript:showForum('{% url 'forum:index' %}', '{{forum.id}}')">{{ forum }}</a><br />
+{% endfor %}

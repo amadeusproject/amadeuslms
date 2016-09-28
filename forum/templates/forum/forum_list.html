@@ -1,22 +1,19 @@
-{% load i18n permission_tags %}
+{% load i18n permission_tags list_post %}
 
-{% if foruns|length > 0 %}
+<div class="comments-list">
+    <div class="section-heading">
+        <h1>{{ forum }}</h1>
+        <h4><b>{% trans 'Description' %}:</b> {{ forum.description }}</h4>
+        <h4><b>{% trans 'Opened in' %}:</b> {{ forum.create_date }}</h4>
+    </div>
+</div>
+
+{% list_posts request forum %}
+
+<!--{% if foruns|length > 0 %}
     {% for forum in foruns %}
         <a class="forum_collapse" role="button" href="javascript: showPosts('{% url 'forum:posts' %}', '{{ forum.slug }}')" aria-expanded="true">
             <div class="page-header">
-                <!-- {% if user|has_role:'system_admin' or user|has_role:'professor' and user == forum.topic.owner %}
-                    <div class="pull-right">
-                        <div class="btn-group icon-more-horiz">
-                            <button class="btn btn-default btn-xs dropdown-toggle" type="button" onclick="$('#dropdown{{ forum.slug }}').dropdown('toggle');" data-toggle="dropdown">
-                                <i class="material-icons">more_horiz</i>
-                            </button>
-                            <ul class="dropdown-menu" id="dropdown{{ forum.slug }}">
-                                <li><a href="javascript:void(0)"><i class="material-icons">create</i> Edit</a></li>
-                                <li><a href="javascript:void(0)"><i class="material-icons">delete_sweep</i> Remove</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                {% endif %} -->
                 <h1 id="timeline">
                     {{ forum }}
                 </h1>
@@ -33,4 +30,4 @@
     <div class="page-header">
         <p>{% trans 'No forum created yet.' %}</p>
     </div>
-{% endif %}
+{% endif %}-->

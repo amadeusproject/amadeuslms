@@ -1,47 +1,30 @@
 {% load i18n permission_tags %}
 
 {% if answers|length > 0 %}
-    <ul class="timeline post">
-        {% for answer in answers %}
-            <li>
-                <div class="timeline-panel">
-                    <div class="row">
-                        <div class="col-xs-2 col-sm-2 col-md-2">
-                            <img class="img-responsive img-rounded" src="{{ answer.user.image_url }}" />
-                        </div>
-                        <div class="col-xs-10 col-sm-10 col-md-10">
-                            {% if user|has_role:'system_admin' or user|has_role:'professor' and user == forum.topic.owner %}
-                                <div class="pull-right">
-                                    <div class="btn-group icon-more-horiz">
-                                        <a class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="material-icons">more_horiz</i>
-                                        </a>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="javascript:void(0)"><i class="material-icons">create</i> Edit</a></li>
-                                            <li><a href="javascript:void(0)"><i class="material-icons">delete_sweep</i> Remove</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            {% endif %}
-                            <div class="timeline-heading">
-                                <h3> {{ answer.user }}</h3>
+    {% for answer in answers %}
+        <div class="row" style="background-color: #e0e0e0">
+            <div class="col-sm-12 col-xs-12">
+                <h3 class="user-name">
+                    {{ answer.user }}
+                    {% if request.user|has_role:'system_admin' or request.user|has_role:'professor' and request.user == answer.user %}
+                        <div class="pull-right">
+                            <div class="btn-group icon-more-horiz">
+                                <a class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">more_horiz</i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <li><a href="javascript:void(0)"><i class="material-icons">create</i> {% trans 'Edit' %}</a></li>
+                                    <li><a href="javascript:void(0)"><i class="material-icons">delete_sweep</i> {% trans 'Remove' %}</a></li>
+                                </ul>
                             </div>
-                            <div class="timeline-body">
-                                <p><em>{{ answer.message|linebreaks }}</em></p>
-                            </div>
-                            <hr>
-                            <small class="text-muted">
-                                <span class="pull-right">
-                                    <i class="glyphicon glyphicon-time"></i> {{ answer.answer_date|timesince }} 
-                                    {% trans ' ago' %}
-                                </span>
-                            </small>
                         </div>
-                    </div>
+                    {% endif %}
+                </h3>
+                <div class="card-data">
+                    <p class="comment-date"><i class="fa fa-clock-o"></i> {{ answer.answer_date|timesince }} {% trans 'ago' %}</p>
                 </div>
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>{% trans 'Nobody answered this post yet.' %}</p>
+                <p class="comment-text">{{ answer.message|linebreaks }}</p>
+            </div>
+        </div>
+    {% endfor %}
 {% endif %}

@@ -74,8 +74,8 @@
               <i class="material-icons">more_horiz</i>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li><a href="javascript:void(0)"><i class="material-icons">create</i> Edit</a></li>
-              <li><a href="javascript:void(0)"><i class="material-icons">delete_sweep</i> Remove</a></li>
+              <li><a href="{% url 'course:update' course.slug %}"><i class="material-icons">create</i> Edit</a></li>
+              <li><a href="{% url 'course:delete' course.slug %}"><i class="material-icons">delete_sweep</i> Remove</a></li>
             </ul>
 
           </div>
@@ -148,6 +148,9 @@
     </div>
   </div>
 {% endfor %}
+<a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'course:create' %}">
+      <i class="fa fa-plus" aria-hidden="true"></i>
+    </a>
 {% endblock %}
 
 

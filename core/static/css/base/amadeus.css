@@ -1,3 +1,9 @@
+.navbar .logo {position: absolute; top: 6px; text-align: center; height: 48px; width: 48px;}
+
+/* Modal */
+.modal-header {min-height: 60px; border-bottom: 1px solid #E6E7E8 !important; padding-bottom: 15px !important;}
+.modal-footer {text-align: right; padding-top: 5px !important; border-top: 1px solid #E6E7E8 !important;}
+
 /* HEADER */
 #notification-dropdown{
   max-height: 500%;
@@ -302,4 +308,8 @@ body .container .jumbotron-inverse, body .container .well-inverse, body .contain
 }
 .timeline.post h3 {
     margin-top: 5px;
+}
+
+.notification-count {
+    background-color: #FF0000;
 }
