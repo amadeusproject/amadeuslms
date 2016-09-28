@@ -5,6 +5,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from rolepermissions.shortcuts import assign_role
 from django.contrib.auth.forms import UserCreationForm
+from core.forms import RegisterUserForm
 from .models import User
 
 
@@ -25,7 +26,7 @@ class ProfileForm(forms.ModelForm):
 			'password':forms.PasswordInput
 		}
 
-class UserForm(UserCreationForm):
+class UserForm(RegisterUserForm):
 	def save(self, commit=True):
 		super(UserForm, self).save()
 	

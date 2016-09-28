@@ -4,8 +4,8 @@ from users.models import User
 
 class RegisterUserForm(forms.ModelForm):
 
-    password = forms.CharField(label='Senha', widget=forms.PasswordInput)
-    password2 = forms.CharField(label = 'Confirmacao de Senha', widget = forms.PasswordInput)
+    password = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
+    password2 = forms.CharField(label = _('Password confirmation'), widget = forms.PasswordInput)
     # birth_date = forms.DateField(widget=forms.SelectDateWidget())
     MIN_LENGTH = 8
 
