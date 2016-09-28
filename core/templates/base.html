@@ -7,31 +7,36 @@
 	<title>{{ title }}</title>
 
 	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
-	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}" />
-	<link rel="stylesheet" type="text/css" href="{% static 'material/css/bootstrap-material-design.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/base/header.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
-	<!--CSS block for specific-app ones -->
 	<link href="{% static 'img/favicon.ico' %}" rel="shortcut icon" />
+	
+	<!-- Roboto font -->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+	<!-- jQuery & jQuery UI -->
+	<script type="text/javascript" src="{% static 'js/vendor/jquery-3.1.0.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/vendor/jquery-ui.js' %}"></script>
 
-	<!-- Compiled and minified CSS -->
-  <link rel="stylesheet" type="text/css" href="{% static 'materialize/css/materialize.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'materialize/css/materialize.min.css' %}">
+  	<!-- Bootstrap and themes (material) -->
+  	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/material.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/ripples.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/datepicker.css' %}">
+	<script type="text/javascript" src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/vendor/bootstrap-acessibility.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/vendor/material.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/vendor/ripples.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/vendor/bootstrap-datepicker.js' %}"></script>
 
-	<script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
-	<script src="{% static 'material/js/material.min.js' %}"></script>
-  <script src="{% static 'material/js/ripples.min.js' %}"></script>
-	<script>
-  	$.material.init();
-  </script>
-  <script src="{% static 'js/base/header.js'%}"></script>
+  	<!-- Font awesome -->
+	<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
+
+	<!-- Custom styles -->
+  	<link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
+
+	<!-- Init material Bootstrap -->
+	<script type="text/javascript">$.material.init()</script>
+
 	<!--Javascript block for specific-app ones -->
 	{% block style %}
 	{% endblock %}
@@ -140,20 +145,5 @@
 
 		</div>
 	</div>
-
-	{% block javascript %}
-		<script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
-		<script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
-		<script src="{% static 'material/js/material.min.js' %}"></script>
-	    <script src="{% static 'material/js/ripples.min.js' %}"></script>
-		<script>
-	    	$.material.init();
-	    </script>
-	    <script src="{% static 'js/base/header.js'%}"></script>
-		<!--Javascript block for specific-app ones -->
- 		<link rel="stylesheet" type="text/css" href="{% static 'materialize/js/materialize.css' %}">
-	  	<link rel="stylesheet" type="text/css" href="{% static 'materialize/js/materialize.min.css' %}">
-
-	{% endblock %}
 </body>
 </html>

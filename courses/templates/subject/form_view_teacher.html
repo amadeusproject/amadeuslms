@@ -27,16 +27,23 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">
-                    <button type="button" class="btn btn-primary btn-sm" onclick="getForm('{% url 'forum:create' %}');"><i class="fa fa-plus"></i> {% trans 'Create Forum' %}</button>
-                </h4>
+                <h4 class="modal-title" id="myModalLabel">Forum</h4>
             </div>
             <div class="modal-body">
-                <div class="forum_form" style="display:none">
-                </div>
-                <div class="forum_topics">
-                </div>
+                <section>
+                    <div class="comments-list">
+                        <div class="section-heading">
+                            <h1>Python</h1>
+                            <h4><b>Description:</b>High-level Language</h4>
+                            <h4><b>Opened in:</b> September 1st</h4>
+                        </div>
+                    </div>
+                    <div class="forum_topics"></div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans 'Close' %}</button>
+                <button type="button" class="btn btn-primary btn-raised">{% trans 'Save changes' %}</button>
             </div>
         </div>
     </div>

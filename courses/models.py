@@ -120,7 +120,7 @@ class Poll(Activity):
 	question = models.CharField(_('Question'), max_length = 300)
 
 	class Meta:
-		ordering = ('create_date','name')
+		#ordering = ('create_date','name')
 		verbose_name = _('Poll')
 		verbose_name_plural = _('Polls')
 
