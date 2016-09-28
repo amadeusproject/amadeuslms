@@ -44,6 +44,8 @@
 						                        </button>
 						                    </span>
 						                </div>
+						            {% elif field.auto_id == 'id_cpf' %}
+		                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
 									{% else %}
 										{% render_field field class='form-control' %}
 										<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
@@ -68,7 +70,7 @@
 								<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" />	
 							</div>
 							<div class="col-md-offset-3 col-md-2 col-sm-2 col-xs-2">
-								<a href="{% url 'core:home' %}" class="btn btn-sm btn-success" >{% trans 'Register' %}</a>	
+								<a href="{% url 'core:home' %}" class="btn btn-sm btn-success" >{% trans 'Cancel' %}</a>	
 							</div>
 							
 						</form>
@@ -79,4 +81,5 @@
 	</div>
 	
 	<br clear="all" />
+	<script src="{% static 'js/base/amadeus.js' %}"></script>
 {% endblock %}
