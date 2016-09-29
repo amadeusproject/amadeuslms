@@ -18,17 +18,17 @@
           <div class="row form-group">
             <div class="col-md-1">
               </br>
-              <label><span class="glyphicon glyphicon-menu-hamburger"></span></label>
+              <label><a href=""><span class="glyphicon glyphicon-move"></span></a></label>
             </div>
             <div class="col-md-10">
               <div class="form-control-md has-success is-empty">
                 <input type="text" class="form-control" placeholder="Email address default size">
-                <span class="help-block">Please enter a valid email address</span>
+                <span class="help-block">{% trans "Possible Answer" %}</span>
               </div>
             </div>
             <div class="col-md-1">
               </br>
-              <label><span class="glyphicon glyphicon-remove" onclick="this.parentNode.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode.parentNode);"></span></label>
+              <label><a href=""><span class="glyphicon glyphicon-remove" onclick="this.parentNode.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode.parentNode);"></span></a></label>
             </div>
           </div>
         </form>
@@ -38,7 +38,6 @@
         </div>
         <div class="panel-footer text-center">
             <button type="button" id="add" class="btn btn-primary btn-block btn-sm">add</button>
-            <a href="#" class="small">View Result</a>
           </div>
     </div>
 <script type="text/javascript">
@@ -47,7 +46,7 @@ $( "#form" ).sortable({
     distance: 5,
 });
 $("#add").click(function() {
-  $("#form").append('<div class="row form-group"><div class="col-md-1"></br><label><span class="glyphicon glyphicon-menu-hamburger"></span></label></div><div class="col-md-10"><div class="form-group-md has-success is-empty"><input type="text" class="form-control" placeholder="Email address default size"><span class="help-block">Please enter a valid email address</span></div></div><div class="col-md-1"></br><label><span class="glyphicon glyphicon-remove" onclick="this.parentNode.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode.parentNode);"></span></label></div></br></div>');
+  $("#form").append('<div class="row form-group"><div class="col-md-1"></br><label><a href=""><span class="glyphicon glyphicon-move"></span></a></label></div><div class="col-md-10"><div class="form-group-md has-success is-empty"><input type="text" class="form-control" placeholder="Email address default size"><span class="help-block">Please enter a valid email address</span></div></div><div class="col-md-1"></br><label><a href=""><span class="glyphicon glyphicon-remove" onclick="this.parentNode.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode.parentNode);"></span></a></label></div></br></div>');
 });
 </script>
 {% endblock content %}
