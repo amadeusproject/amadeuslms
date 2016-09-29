@@ -8,7 +8,9 @@ urlpatterns = [
 	url(r'^create$', views.CreateForumView.as_view(), name='create'),
 	url(r'^posts$', views.PostIndex.as_view(), name='posts'),
 	url(r'^create_post$', views.CreatePostView.as_view(), name='create_post'),
-	url(r'^render+post/([\w_-]+)/$', views.render_post, name='render_post'),
+	url(r'^render_post/([\w_-]+)/$', views.render_post, name='render_post'),
+	url(r'^delete_post/(?P<pk>[\w_-]+)/$', views.PostDeleteView.as_view(), name='delete_post'),
+	url(r'^post_deleted/$', views.post_deleted, name='deleted_post'),
 	url(r'^post_answers$', views.PostAnswerIndex.as_view(), name='post_answers'),
 	url(r'^reply_post$', views.CreatePostAnswerView.as_view(), name='reply_post'),
 ]

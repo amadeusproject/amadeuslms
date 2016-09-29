@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
@@ -75,6 +76,17 @@ def render_post(request, post):
 	context['post'] = last_post
 
 	return render(request, "post/post_render.html", context)
+
+class PostDeleteView(LoginRequiredMixin, generic.DeleteView):
+	login_url = reverse_lazy("core:home")	
+	redirect_field_name = 'next'
+
+	model = Post
+	pk_url_kwarg = 'pk'	
+	success_url = reverse_lazy('forum:deleted_post')
+
+def post_deleted(request):
+	return HttpResponse(_("Post deleted successfully."))
 
 class PostAnswerIndex(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("core:home")	
