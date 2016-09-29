@@ -33,10 +33,18 @@
 					{% for field in form %}
 						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
 							{% if field.auto_id == 'id_birth_date' %}
-		                		<label for="{{ field.auto_id }}">{{ field.label }}</label>
+								{% if field.field.required %}
+									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}">{{ field.label }}</label>
+								{% endif %}
 								<input type="date" class="form-control"name="{{field.name}}" value="{% if field.value.year %}{{field.value|date:'Y-m-d'}}{% else %}{{field.value}}{% endif %}">
 							{% elif field.auto_id == 'id_image' %}
-		                		<label for="{{ field.auto_id }}">{{ field.label }}</label>
+		                		{% if field.field.required %}
+									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}">{{ field.label }}</label>
+								{% endif %}
 								{% render_field field class='form-control' %}
 								<div class="input-group">
 				                  	<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your photo...' %}">
@@ -53,10 +61,18 @@
                   					</label>
                 				</div>
                 			{% elif field.auto_id == 'id_cpf' %}
-                				<label for="{{ field.auto_id }}">{{ field.label }}</label>
+                				{% if field.field.required %}
+									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}">{{ field.label }}</label>
+								{% endif %}
                 				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
 							{% else %}
-                				<label for="{{ field.auto_id }}">{{ field.label }}</label>
+                				{% if field.field.required %}
+									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}">{{ field.label }}</label>
+								{% endif %}
 								{% render_field field class='form-control' %}
 							{% endif %}
               				<span id="helpBlock" class="help-block">{{ field.help_text }}</span>

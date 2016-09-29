@@ -34,7 +34,11 @@
 							<legend>{% trans 'User Register' %}</legend>
 							{% for field in form %}
 							<div class="form-group is-empy{% if form.has_error %} has-error {% endif %} is-fileinput">
-								<label for="{{ field.auto_id }}" class="col-md-4 control-label">{{ field.label }}</label>
+								{% if field.field.required %}
+									<label for="{{ field.auto_id }}" class="col-md-4 control-label">{{ field.label }}<span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}" class="col-md-4 control-label">{{ field.label }}</label>
+								{% endif %}
 								<div class="col-md-8">
 									{% if field.auto_id == 'id_birth_date' %}
 										{% render_field field class='form-control input-sm' type='date' %}
