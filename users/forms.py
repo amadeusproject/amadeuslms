@@ -42,6 +42,6 @@ class EditUserForm(forms.ModelForm):
 class UpdateUserForm(forms.ModelForm):
 	company_logo = forms.ImageField(label=_('Company Logo'),required=False, error_messages = {'invalid':_("Image files only")})
 
-    class Meta:
-        model = User
-        fields = ['username', 'name', 'email', 'city', 'state', 'birth_date', 'gender', 'cpf', 'phone', 'image']
+	class Meta:
+		model = User
+		fields = ['username', 'name', 'email', 'city', 'state', 'birth_date', 'gender', 'cpf', 'phone', 'image']
