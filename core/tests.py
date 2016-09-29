@@ -89,7 +89,7 @@ class RegisterUserTestCase(TestCase):
             }
         
         response = self.client.post(self.url, data)
-        self.assertFormError(response, 'form', 'email', 'Insira um endereço de email válido.')
+        self.assertFormError(response, 'form', 'email', 'Enter a valid email address.')
 
         data = {
                 'username': '',
@@ -102,7 +102,7 @@ class RegisterUserTestCase(TestCase):
                 'gender': 'F',
             }
         response = self.client.post(self.url, data)
-        self.assertFormError(response, 'form', 'username', 'Este campo é obrigatório.')
+        self.assertFormError(response, 'form', 'username', 'This field is required.')
 
 class RememberPasswordTestCase(TestCase):
 
@@ -194,7 +194,7 @@ class UpdateUserTestCase(TestCase):
                 'gender': 'F',
             }
         response = self.client.post(self.url, data)
-        self.assertFormError(response, 'form', 'username', 'Este campo é obrigatório.')
+        self.assertFormError(response, 'form', 'username', 'This field is required.')
         
 
 class DeleteUserTestCase(TestCase):
