@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .decorators import log_decorator
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
 from django.views.generic import CreateView, UpdateView
 from django.http import HttpResponse, JsonResponse
 from django.core.mail import send_mail,BadHeaderError
@@ -97,13 +98,23 @@ def processNotification(self, notificationId):
 
 
 
-def getNotifications(self, amount, step=0):
-	if self.request.is_ajax and self.request.user.is_authenticated:
-		notifications = Notification.objects.filter(user= self.request.user, read=False).orderby('-datetime')[step:amount]
-	else: #go to login page
-		return response('teste')
 
-	return JsonResponse(notifications)
+def getNotifications(request):
+	context = {}
+	if request.user.is_authenticated:
+		
+		steps = int(request.GET['steps'])
+		amount = int(request.GET['amount'])
+		notifications = Notification.objects.filter(user= request.user, read=False).order_by('-datetime')[steps:steps+amount]
+		context['notifications'] = notifications
+	else: #go to login page
+		return HttpResponse('teste')
+
+	
+	html = render_to_string("notifications.html", context)
+	print(html)
+	return HttpResponse(html)
+	 
 
 
 

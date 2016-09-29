@@ -6,8 +6,8 @@ $(document).ready(function(){
 /*
 
 */
-function loadNotifications(step){
-	$.ajax('/loadNotifications',{
+function getNotifications(step){
+	$.ajax('/getNotifications',{
 		steps: step,
 		amount: 5,
 		sucess: function(response){
