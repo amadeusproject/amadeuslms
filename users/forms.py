@@ -27,25 +27,6 @@ class ProfileForm(forms.ModelForm):
 		}
 
 class UserForm(RegisterUserForm):
-	def save(self, commit=True):
-		super(UserForm, self).save()
-	
-		if not self.instance.image:
-			self.instance.image = os.path.join(os.path.dirname(settings.BASE_DIR), 'uploads', 'no_image.jpg')
-	
-		self.instance.set_password(self.cleaned_data['password1'])
-		self.instance.save()
-	
-		if self.instance.is_staff:
-			assign_role(self.instance, 'system_admin')
-		elif self.instance.type_profile == 2:
-			assign_role(self.instance, 'student')
-		elif self.instance.type_profile == 1:
-			assign_role(self.instance, 'professor')
-	
-		self.instance.save()
-	
-		return self.instance
 
 	class Meta:
 		model = User
@@ -59,6 +40,7 @@ class EditUserForm(forms.ModelForm):
 
 # Ailson
 class UpdateUserForm(forms.ModelForm):
+	company_logo = forms.ImageField(label=_('Company Logo'),required=False, error_messages = {'invalid':_("Image files only")})
 
     class Meta:
         model = User
