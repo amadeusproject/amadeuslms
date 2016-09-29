@@ -6,7 +6,7 @@ from .decorators import log_decorator
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView, UpdateView
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core.mail import send_mail,BadHeaderError
 from django.conf import settings
 from core.mixins import NotificationMixin
@@ -94,6 +94,18 @@ def processNotification(self, notificationId):
 	notification.read = True
 	notification.save()
 	return redirect(notification.action_resource.resource.url)
+
+
+
+def getNotifications(self, amount, step=0):
+	if self.request.is_ajax and self.request.user.is_authenticated:
+		notifications = Notification.objects.filter(user= self.request.user, read=False).orderby('-datetime')[step:amount]
+	else: #go to login page
+		return response('teste')
+
+	return JsonResponse(notifications)
+
+
 
 # class LoginClass(LoginView):
 # 	template_name='index.html'
