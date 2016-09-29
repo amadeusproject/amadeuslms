@@ -105,35 +105,11 @@ It is a category for each subject.
 """
 class SubjectCategory(models.Model):
 	name = models.CharField(_('Name'), max_length= 100)
-	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)	
+	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
 	description = models.TextField(_('Description'), blank = True)
 	subjects = models.ManyToManyField(Subject)
 
 	class Meta:
 		verbose_name = _('subject category')
 		verbose_name_plural = _('subject categories')
-
-class Poll(Activity):
-	question = models.CharField(_('Question'), max_length = 300)
-
-	class Meta:
-		#ordering = ('create_date','name')
-		verbose_name = _('Poll')
-		verbose_name_plural = _('Polls')
-
-	def __str__(self):
-		return str(self.question) + str("/") + str(self.topic)
-
-class Answer(models.Model):
-	answer = models.CharField(_("Answer"), max_length = 200)
-	order = models.PositiveSmallIntegerField(_("Order"))
-	poll = models.ForeignKey(Poll, verbose_name = _('Answers'), related_name='answers')
-
-	class Meta:
-		ordering = ('order',)
-		verbose_name = _('Answer')
-		verbose_name_plural = _('Answers')
-
-	def __str__(self):
-		return str(self.question) + str("/") + str(self.topic)
-
+		

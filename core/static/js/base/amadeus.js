@@ -127,3 +127,13 @@ function validarCpfSemAlert(campo,nome,idElementoMensagemErro){
 	}
 	return retorno;
 }
+
+/*
+This functions get the next 5 notifications from the user given a "step"(an amount) of previous notifications
+*/
+function getNotifications(step){
+	$.get('/getNotifications',
+		{'steps':step, 'amount': 5}, function(data){
+			console.log(data);
+		});
+}

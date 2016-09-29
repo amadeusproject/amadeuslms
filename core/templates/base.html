@@ -8,7 +8,7 @@
 
 	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
 	<link href="{% static 'img/favicon.ico' %}" rel="shortcut icon" />
-	
+
 	<!-- Roboto font -->
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -18,11 +18,11 @@
 	<script type="text/javascript" src="{% static 'js/vendor/jquery-ui.js' %}"></script>
 
   	<!-- Bootstrap and themes (material) -->
-  	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/material.min.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/ripples.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/datepicker.css' %}">
-	<script type="text/javascript" src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/datepicker.css' %}">
+	<script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/vendor/bootstrap-acessibility.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/vendor/material.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/vendor/ripples.min.js' %}"></script>
@@ -38,6 +38,7 @@
 	<script type="text/javascript">$.material.init()</script>
 
 	<!--Javascript block for specific-app ones -->
+	<script src="{% static 'js/base/amadeus.js' %}"></script>
 	{% block style %}
 	{% endblock %}
 </head>
@@ -60,40 +61,10 @@
 						                   <a  class="dropdown-toggle" data-toggle="dropdown"> <span class="badge notification-count">{{notifications.count}}</span><i class="fa fa-bell" aria-hidden="true"></i></a>
 						                     <ul id="notification-dropdown" class="dropdown-menu">
 						                     <li class="dropdown-header">Notifications</li>
-						                     	{% for notification in notifications  %}
-						                     		{% if notification.actor %} <!-- if the notification has a user-->
-						                     			<li>
-								                          <a href="{% url 'core:notification_read' notification.id %}"><div class="list-group-item">
-								                          <div class="row-picture">
-								                            <img class="circle" src="http://lorempixel.com/56/56/people/1" alt="icon">
-								                            <div class="least-content pull-right">{{ notification.datetime }}</div>
-								                          </div>
-								                          <div class="row-content">
-								                            <p class="list-group-item-text">{{ notification.message }}</p>
-								                          </div>
-								                          </div>
-								                          </a>
-								                        </li>
-						                     		{% else %}
-						                     			 <li>
-								                            <a href="{% url 'core:notification_read' notification.id %}">
-								                                <div class="list-group-item">
-								                                  <div class="row-action-primary">
-								                                    <i class="material-icons">folder</i>
-								                                  </div>
-								                                  <div class="row-content">
-
-								                                    <div class="least-content pull-right">{{ notification.datetime }}</div>
-
-								                                    <p class="list-group-item-text">{{ notification.message }}</p>
-								                                </div>
-								                             </a>
-						                        		</li>
-						                     		{% endif %}
-						                     	{% endfor %}
+						                     		{% include "notifications.html" %}
 
 						                     		<li>
-						                     		 <a>
+						                     		 <a onclick="getNotifications(5)">
 						                     			<div class="list-group-item">
 								                                  <div class="row-content">
 								                                    <p class="list-group-item-text">See More</p>
@@ -141,8 +112,6 @@
 			    			</div>
 							</div>
 				    </div>
-
-
 		</div>
 	</div>
 </body>
