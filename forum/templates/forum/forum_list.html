@@ -1,4 +1,5 @@
 {% load i18n permission_tags list_post %}
+{% load widget_tweaks %}
 
 <div class="comments-list">
     <div class="section-heading">
@@ -8,7 +9,45 @@
     </div>
 </div>
 
-{% list_posts request forum %}
+<div id="posts_list">
+    {% list_posts request forum %}
+</div>
+
+<form id="form_post" method="post" action="{% url 'forum:create_post' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+        {% if field.field.widget.input_type == 'hidden' %}
+            {% render_field field class='form-control' value=forum.id %}
+        {% else %}
+            <div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
+                <div class="input-group">
+                    {% render_field field class='form-control' placeholder="Post a message" %}
+                    <span class="help-block">{{ field.help_text }}</span>
+                    {% if field.errors %}
+                        <div class="row">
+                            <br />
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <ul>
+                                    {% for error in field.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-fab btn-fab-mini">
+                            <i class="material-icons">send</i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</form>
 
 <!--{% if foruns|length > 0 %}
     {% for forum in foruns %}

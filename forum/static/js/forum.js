@@ -9,6 +9,24 @@ function showForum(url, forum_id) {
         data: {'forum_id': forum_id},
         success: function(data) {
             $(".forum_topics").html(data);
+
+            var frm = $('#form_post');
+            frm.submit(function () {
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+                    success: function (data) {
+                        $("#posts_list").append(data);
+                        frm[0].reset();
+                    },
+                    error: function(data) {
+                        console.log(frm.serialize());
+                        console.log('Error');
+                    }
+                });
+                return false;
+            });
         }
     });
 

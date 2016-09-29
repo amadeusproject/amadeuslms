@@ -1,0 +1,30 @@
+{% load i18n permission_tags %}
+
+<div  class="row">
+    <div id="post_{{ post.id }}" class="col-sm-12 col-xs-12">
+        <h3 class="user-name">
+            {{ post.user }}
+            <div class="pull-right">
+                <a href="javascript:answer('{{ post.id }}', '{% url 'forum:reply_post' %}');">
+                    <i class="material-icons">reply</i>
+                </a>
+                {% if request.user|has_role:'system_admin' or request.user|has_role:'professor' and request.user == post.user %}
+                    <div class="btn-group icon-more-horiz">
+                        <a class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_horiz</i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="javascript:void(0)"><i class="material-icons">create</i> {% trans 'Edit' %}</a></li>
+                            <li><a href="javascript:void(0)"><i class="material-icons">delete_sweep</i> {% trans 'Remove' %}</a></li>
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </h3>
+        <div class="card-data">
+            <p class="comment-date"><i class="fa fa-clock-o"></i> {{ post.post_date }}</p>
+        </div>
+        <p class="comment-text">{{ post.message|linebreaks }}</p>
+        <div class="answer_post"></div>
+    </div>
+</div>
