@@ -40,6 +40,7 @@ class EditUserForm(forms.ModelForm):
 
 # Ailson
 class UpdateUserForm(forms.ModelForm):
+	company_logo = forms.ImageField(label=_('Company Logo'),required=False, error_messages = {'invalid':_("Image files only")})
 
     class Meta:
         model = User
