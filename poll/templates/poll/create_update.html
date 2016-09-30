@@ -93,7 +93,7 @@
                 </div>
               <button type="button" id="add" class="btn btn-primary btn-block btn-sm">add</button>
         <div class="row form-group">
-          <input form="form" class="form-control" type="date" name="{{form.limit_date.name}}" {% if form.limit_date.value != None %}value="{{form.limit_date.value}}"{% endif %}>
+          <input form="form" class="form-control" type="date" name="{{form.limit_date.name}}" {% if form.limit_date.value != None %}value="{% if form.limit_date.value.year %}{{form.limit_date.value|date:'Y-m-d'}}{% else %}{{form.limit_date.value}}{% endif %}"{% endif %}>
           {% if form.limit_date.errors %}
           <div class="not_submited">
           </br>
