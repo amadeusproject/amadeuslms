@@ -134,6 +134,10 @@ This functions get the next 5 notifications from the user given a "step"(an amou
 function getNotifications(step){
 	$.get('/getNotifications',
 		{'steps':step, 'amount': 5}, function(data){
-			console.log(data);
+			$("#notification-dropdown").append(data);
+			$('#notification-see-more').remove();
+			var seemore = '<li><a onclick="getNotifications('+(step+5)+')"> <div id="notification-see-more" class="list-group-item"> <div class="row-content"><p class="list-group-item-text">See More</p> </div>  </a></li>';
+			$("#notification-dropdown").append(seemore);
+			$("#notification-count").text(step+5);
 		});
 }
