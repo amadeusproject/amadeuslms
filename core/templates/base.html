@@ -58,14 +58,14 @@
 			              		<div class="navbar-collapse collapse navbar-responsive-collapse">
 			                		<ul class="nav navbar-nav navbar-right notifications">
 			                  			 <li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">
-						                   <a  class="dropdown-toggle" data-toggle="dropdown"> <span class="badge notification-count">{{notifications.count}}</span><i class="fa fa-bell" aria-hidden="true"></i></a>
+						                   <a  class="dropdown-toggle" data-toggle="dropdown"> <span id="notification-count" class="badge notification-count">{{notifications.count}}</span><i class="fa fa-bell" aria-hidden="true"></i></a>
 						                     <ul id="notification-dropdown" class="dropdown-menu">
 						                     <li class="dropdown-header">Notifications</li>
 						                     		{% include "notifications.html" %}
 
 						                     		<li>
 						                     		 <a onclick="getNotifications(5)">
-						                     			<div class="list-group-item">
+						                     			<div id="notification-see-more" class="list-group-item">
 								                                  <div class="row-content">
 								                                    <p class="list-group-item-text">See More</p>
 								                                </div>
