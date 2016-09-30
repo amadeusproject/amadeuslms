@@ -41,6 +41,15 @@ class Post(models.Model):
 	def __str__(self):
 		return ''.join([self.user.name, " / ", str(self.post_date)])
 
+	def is_modified(self):
+		create = self.post_date.strftime("%Y-%m-%d %H:%M:%S")
+		edit = self.modification_date.strftime("%Y-%m-%d %H:%M:%S")
+		
+		if create != edit:
+			return True
+
+		return False
+
 """
 It represents an answer to a forum's post
 """

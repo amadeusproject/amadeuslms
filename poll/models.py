@@ -6,7 +6,6 @@ from core.models import Resource
 from courses.models import Activity
 
 class Poll(Activity):
-    question = models.CharField(_('Question'), max_length = 300)
 
     class Meta:
 		#ordering = ('create_date','name')
@@ -14,7 +13,7 @@ class Poll(Activity):
         verbose_name_plural = _('Polls')
 
     def __str__(self):
-        return str(self.question) + str("/") + str(self.topic)
+        return str(self.name) + str("/") + str(self.topic)
 
 class Answer(models.Model):
     answer = models.CharField(_("Answer"), max_length = 200)
@@ -27,4 +26,4 @@ class Answer(models.Model):
         verbose_name_plural = _('Answers')
 
     def __str__(self):
-        return str(self.question) + str("/") + str(self.topic)
+        return str(self.answer) + str("/") + str(self.poll)
