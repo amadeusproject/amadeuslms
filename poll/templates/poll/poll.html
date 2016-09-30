@@ -1,52 +1,173 @@
 {% extends "topic/index.html" %}
 
-{% load i18n %}
+{% load i18n widget_tweaks dict_access static%}
 
 {% block style %}
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 {% endblock %}
 
 {% block content %}
-<div class="col-md-8 col-md-offset-2">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <span class="glyphicon glyphicon-hand-right"></span> Question?</h3>
+<!-- Modal (remember to change the ids!!!) -->
+<div class="modal fade" id="poll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+
+        <!-- Put your title here!!!  -->
+        <h4 class="modal-title" id="myModalLabel">{% trans "Create a Poll" %}</h4>
+
       </div>
-      <div class="container-fluid">
-        <form id="form" class="" action="" method="post">
-          <div class="row form-group">
-            <div class="col-md-1">
-              </br>
-              <label><a href=""><span class="glyphicon glyphicon-move"></span></a></label>
-            </div>
-            <div class="col-md-10">
-              <div class="form-control-md has-success is-empty">
-                <input type="text" class="form-control" placeholder="Email address default size">
-                <span class="help-block">{% trans "Possible Answer" %}</span>
+      <!-- Modal Body -->
+      <div class="modal-body">
+
+        <!-- Put ONLY your content here!!!  -->
+          <div class="conteiner">
+                <div class="row form-group">
+                  <div class="col-md-1">
+                    </br>
+                    <label><span class="glyphicon glyphicon-hand-right"></span></label>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="has-success">
+                      <input form="form" type="text" name="{{form.name.name}}" {% if form.name.value != None %}value="{{form.name.value}}" {% endif %} class="form-control" placeholder='{% trans "Question?" %}'>
+                      <span class="help-block">{% trans "A Question to be answered" %}</span>
+                    </div>
+                  </div>
+                  {% if form.name.errors %}
+                  <div class="col-md-10 not_submited">
+                  </br>
+                      <div class="alert alert-danger alert-dismissible" role="alert">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        <ul>
+                          {% for error in form.name.errors %}
+                            <li>{{ error }}</li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                  </div>
+                  {% endif %}
+                </div>
+                  <form id="form" class="" action="" method="post">
+                    {% csrf_token %}
+                    {% for key in keys %}
+                    <div class="row form-group">
+                      <div class="col-md-1">
+                        </br>
+                        <label><span class="glyphicon glyphicon-move"></span></label>
+                      </div>
+                      <div class="col-md-10">
+                        <div class="has-success is-empty">
+                          <input type="text" name="{{key}}" class="form-control" placeholder='{% trans "Answer" %}' value="{{ answers|value:key }}">
+                          <span class="help-block">{% trans "Possible answer for the question" %}</span>
+                        </div>
+                      </div>
+                      <div class="col-md-1">
+                        </br>
+                        <label><span class="glyphicon glyphicon-remove" onclick="this.parentNode.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode.parentNode);"></span></label>
+                      </div>
+                    </div>
+                    {% empty %}
+                    <div class="row form-group">
+                      <div class="col-md-1">
+                        </br>
+                        <label><span class="glyphicon glyphicon-move"></span></label>
+                      </div>
+                      <div class="col-md-10">
+                        <div class="has-success is-empty">
+                          <input type="text" name="1" class="form-control" placeholder='{% trans "Answer" %}'>
+                          <span class="help-block">{% trans "Possible answer for the question" %}</span>
+                        </div>
+                      </div>
+                      <div class="col-md-1">
+                        </br>
+                        <label><span class="glyphicon glyphicon-remove" onclick="this.parentNode.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode.parentNode);"></span></label>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </form>
+                  </br>
+                </div>
+              <button type="button" id="add" class="btn btn-primary btn-block btn-sm">add</button>
+        <div class="row form-group">
+          <input form="form" class="form-control" type="date" name="{{form.limit_date.name}}" {% if form.limit_date.value != None %}value="{{form.limit_date.value}}"{% endif %}>
+          {% if form.limit_date.errors %}
+          <div class="not_submited">
+          </br>
+              <div class="alert alert-danger alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                <ul>
+                  {% for error in form.limit_date.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
               </div>
-            </div>
-            <div class="col-md-1">
-              </br>
-              <label><a href=""><span class="glyphicon glyphicon-remove" onclick="this.parentNode.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode.parentNode);"></span></a></label>
-            </div>
           </div>
-        </form>
-        </br>
+          {% endif %}
+        </div>
+
       </div>
 
-        </div>
-        <div class="panel-footer text-center">
-            <button type="button" id="add" class="btn btn-primary btn-block btn-sm">add</button>
-          </div>
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+
+        <!-- Don't remove that!!!  -->
+        <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+
+        <!-- Put curtom buttons here!!!  -->
+        <button type="submite" id="button" form="form" class="btn btn-primary btn-raised">{% trans "Create" %}</button>
+      </div>
+
     </div>
+  </div>
+</div>
 <script type="text/javascript">
-$( "#form" ).sortable({
+// Este js tem que ficar aqui se não a tag "trans" não vai funcionar
+$(window).ready(function() { // utilizado para abrir o modal quando tiver tido algum erro no preenchimento do formulario
+  if($('.not_submited').length){
+      $('#poll').modal('show');
+      }
+});
+$( "#form" ).sortable({ // utilizado para fazer a re-organização das respostas
     delay: 100,
     distance: 5,
+    update: function( event, ui ) {
+      var cont = 1;
+      $("#form div div div input").each(function(){
+              $(this).attr('name',cont++);
+      });
+    },
 });
-$("#add").click(function() {
-  $("#form").append('<div class="row form-group"><div class="col-md-1"></br><label><a href=""><span class="glyphicon glyphicon-move"></span></a></label></div><div class="col-md-10"><div class="form-group-md has-success is-empty"><input type="text" class="form-control" placeholder="Email address default size"><span class="help-block">Please enter a valid email address</span></div></div><div class="col-md-1"></br><label><a href=""><span class="glyphicon glyphicon-remove" onclick="this.parentNode.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode.parentNode);"></span></a></label></div></br></div>');
+name = 2;
+$("#add").click(function() { // utilizado para adicionar um novo campo de resposta
+  //Obs: não funcionar se estiver importado no head, só funciona se estiver no final do arquivo
+  $("#form").append('\
+  <div class="row form-group">\
+    <div class="col-md-1">\
+      </br>\
+      <label><span class="glyphicon glyphicon-move"></span></label>\
+    </div>\
+    <div class="col-md-10">\
+      <div class="has-success is-empty">\
+        <input type="text" name="1" class="form-control" placeholder="{% trans "Answer" %}">\
+        <span class="help-block">{% trans "Possible answer for the question" %}</span>\
+      </div>\
+    </div>\
+    <div class="col-md-1">\
+      </br>\
+      <label><span class="glyphicon glyphicon-remove" onclick="this.parentNode.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode.parentNode);"></span></label>\
+    </div>\
+  </div>');
+  var cont = 1;
+  $("#form div div div input").each(function(){
+          $(this).attr('name',cont++);
+  });
 });
 </script>
+<a href="" data-toggle="modal" data-target="#poll">modal</a>
 {% endblock content %}
