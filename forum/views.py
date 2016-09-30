@@ -36,20 +36,6 @@ class CreateForumView(LoginRequiredMixin, generic.edit.CreateView):
 	form_class = ForumForm
 	success_url = reverse_lazy('forum:index')
 
-class PostIndex(LoginRequiredMixin, generic.ListView):
-	login_url = reverse_lazy("core:home")	
-	redirect_field_name = 'next'
-
-	template_name = "post/post_list.html"
-	context_object_name = 'posts'
-
-	def get_queryset(self):
-		forum = get_object_or_404(Forum, slug = self.request.GET.get('forum', ''))
-
-		context = Post.objects.filter(forum = forum)
-
-		return context
-
 class CreatePostView(LoginRequiredMixin, generic.edit.CreateView):
 	login_url = reverse_lazy("core:home")	
 	redirect_field_name = 'next'
@@ -76,6 +62,19 @@ def render_post(request, post):
 	context['post'] = last_post
 
 	return render(request, "post/post_render.html", context)
+
+class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
+	login_url = reverse_lazy("core:home")	
+	redirect_field_name = 'next'
+
+	form_class = PostForm
+	model = Post
+	template_name = "post/post_update_form.html"
+
+	def get_success_url(self):
+		self.success_url = reverse('forum:render_post', args = (self.object.id, ))
+		
+		return self.success_url
 
 class PostDeleteView(LoginRequiredMixin, generic.DeleteView):
 	login_url = reverse_lazy("core:home")	
