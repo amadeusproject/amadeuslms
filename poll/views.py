@@ -8,31 +8,122 @@ from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from rolepermissions.verifications import has_role
 from rolepermissions.verifications import has_object_permission
+# from django.views.generic.edit import FormMixin
 
-# from .forms import CourseForm, UpdateCourseForm, CategoryForm, SubjectForm,TopicForm
-# from .models import Course, Subject, Category,Topic, SubjectCategory
+from .forms import PollForm
+from .models import Poll, Answer
 from core.mixins import NotificationMixin
 from users.models import User
-from courses.models import Course
+from courses.models import Course, Topic
 
-class Poll(generic.TemplateView):
+class CreatePoll(LoginRequiredMixin,generic.CreateView):
 
 	# login_url = reverse_lazy("core:home")
 	# redirect_field_name = 'next'
-	# model = Course
-	# context_object_name = 'course'
-	template_name = 'poll/poll.html'
+	model = Poll
+	form_class = PollForm
+	context_object_name = 'poll'
+	template_name = 'poll/create_update.html'
 	# queryset = Course.objects.all()
-
+	success_url = reverse_lazy('core:home')
 	# def get_queryset(self):
 	# 	return Course.objects.all()[0]
 
+	def form_invalid(self, form,**kwargs):
+		context = super(CreatePoll, self).form_invalid(form)
+		answers = {}
+		for key in self.request.POST:
+			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date'):
+				answers[key] = self.request.POST[key]
+
+		keys = sorted(answers)
+		context.context_data['answers'] = answers
+		context.context_data['keys'] = keys
+		return context
+
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+		topic = Topic.objects.all()[0]
+		self.object.student = self.request.user
+		self.object.question = "question"
+		self.object.topic = topic
+		self.object.save()
+
+		for key in self.request.POST:
+			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date'):
+				answer = Answer(answer=self.request.POST[key],order=key,poll=self.object)
+				answer.save()
+
+		return super(CreatePoll, self).form_valid(form)
+
 	def get_context_data(self, **kwargs):
-		context = super(Poll, self).get_context_data(**kwargs)
+		context = super(CreatePoll, self).get_context_data(**kwargs)
 		course = Course.objects.all()[0]
+		# print (self.object)
 		context['course'] = course
 		context['subject'] = course.subjects.all()[0]
 		context['subjects'] = course.subjects.all()
-		# if (has_role(self.request.user,'system_admin')):
-		# 	context['subjects'] = self.object.course.subjects.all()
+		return context
+
+class UpdatePoll(LoginRequiredMixin,generic.UpdateView):
+
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+	model = Poll
+	form_class = PollForm
+	context_object_name = 'poll'
+	template_name = 'poll/create_update.html'
+	success_url = reverse_lazy('core:home')
+
+	def dispatch(self, *args, **kwargs):
+		poll = get_object_or_404(Poll, slug = self.kwargs.get('slug'))
+		if(not has_object_permission('edit_poll', self.request.user, poll)):
+			return self.handle_no_permission()
+		return super(UpdatePoll, self).dispatch(*args, **kwargs)
+
+	def get_object(self, queryset=None):
+	    return get_object_or_404(Poll, slug = self.kwargs.get('slug'))
+
+	def form_invalid(self, form,**kwargs):
+		context = super(UpdatePoll, self).form_invalid(form)
+		answers = {}
+		for key in self.request.POST:
+			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date'):
+				answers[key] = self.request.POST[key]
+
+		keys = sorted(answers)
+		context.context_data['answers'] = answers
+		context.context_data['keys'] = keys
+		return context
+
+	def form_valid(self, form):
+		poll = self.object
+		poll = form.save(commit = False)
+		poll.answers.all().delete()
+		poll.save()
+
+
+		for key in self.request.POST:
+			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date'):
+				answer = Answer(answer=self.request.POST[key],order=key,poll=poll)
+				answer.save()
+
+		return super(UpdatePoll, self).form_valid(form)
+
+	def get_context_data(self, **kwargs):
+		context = super(UpdatePoll, self).get_context_data(**kwargs)
+		poll = self.object
+		context['course'] = poll.topic.subject.course
+		context['subject'] = poll.topic.subject
+		context['subjects'] = poll.topic.subject.course.subjects.all()
+
+		answers = {}
+		for answer in poll.answers.all():
+			# print (key.answer)
+			answers[answer.order] = answer.answer
+
+		keys = sorted(answers)
+		context['answers'] = answers
+		context['keys'] = keys
+
 		return context

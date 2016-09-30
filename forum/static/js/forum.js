@@ -50,6 +50,54 @@ function showForum(url, forum_id) {
     $('#forumModal').modal();
 }
 
+/*
+*
+* Function to load form to edit post
+*
+*/
+function edit_post(url, post_id) {
+    $.ajax({
+        url: url,
+        success: function(data) {
+            $("#post_"+post_id).find(".post_content").hide();
+            $("#post_"+post_id).find(".post_content").after(data);
+
+            var frm = $("#post_"+post_id).find(".edit_post_form");
+            frm.submit(function () {
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+                    success: function (data) {
+                        $("#post_"+post_id).parent().after(data);
+                        frm.parent().parent().remove();
+                    },
+                    error: function(data) {
+                        console.log(frm.serialize());
+                        console.log('Error');
+                    }
+                });
+                return false;
+            });
+        }
+    });
+}
+
+/*
+*
+* Function to cancel post edition
+*
+*/
+function cancelEditPost(post_id) {
+    $("#post_"+post_id).find(".post_content").show();
+    $("#post_"+post_id).find(".edit_post_form").remove();    
+}
+
+/*
+*
+* Function to delete a post
+*
+*/
 function delete_post(url, post) {
     var csrftoken = getCookie('csrftoken');
     
@@ -74,36 +122,4 @@ function answer(id, url) {
     });
 
     $("#post_"+id).find(".answer_post").show();
-}
-
-function showPosts(url, forum) {
-    if ($("#collapse" + forum).hasClass('in')) {
-        $("#collapse" + forum).collapse('hide');
-    } else {
-        $.ajax({
-            url: url, 
-            data: {'forum': forum},
-            success: function(data) {
-                $("#collapse" + forum).find(".well").html(data);
-            }
-        });
-
-        $("#collapse" + forum).collapse('show');
-    }
-}
-
-function showPostsAnswers(url, post) {
-    if ($("#collapse" + post).hasClass('in')) {
-        $("#collapse" + post).collapse('hide');
-    } else {
-        $.ajax({
-            url: url, 
-            data: {'post': post},
-            success: function(data) {
-                $("#collapse" + post).find(".well").html(data);
-            }
-        });
-
-        $("#collapse" + post).collapse('show');
-    }
 }

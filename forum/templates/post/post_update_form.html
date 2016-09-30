@@ -1,0 +1,37 @@
+{% load i18n permission_tags list_post %}
+{% load widget_tweaks %}
+
+<form class="edit_post_form" method="post" action="{% url 'forum:update_post' post.id %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+        {% if field.field.widget.input_type == 'hidden' %}
+            {% render_field field class='form-control' %}
+        {% else %}
+            <div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
+                <div class="input-group">
+                    {% render_field field class='form-control' placeholder="Post a message" %}
+                    <span class="help-block">{{ field.help_text }}</span>
+                    {% if field.errors %}
+                        <div class="row">
+                            <br />
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <ul>
+                                    {% for error in field.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endif %}                    
+                </div>
+            </div>
+            <div class="pull-right">
+                 <button type="button" onclick="cancelEditPost('{{ post.id }}')" class="btn btn-danger btn-raised">{% trans 'Cancel' %}</button>
+                <button type="submit" class="btn btn-primary btn-raised">{% trans 'Save changes' %}</button>
+            </div>
+        {% endif %}
+    {% endfor %}
+</form>

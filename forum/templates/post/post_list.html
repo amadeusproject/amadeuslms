@@ -17,17 +17,24 @@
                                     <i class="material-icons">more_horiz</i>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <li><a href="javascript:void(0)"><i class="material-icons">create</i> {% trans 'Edit' %}</a></li>
+                                    <li><a href="javascript:edit_post('{% url 'forum:update_post' post.id %}', '{{ post.id }}')"><i class="material-icons">create</i> {% trans 'Edit' %}</a></li>
                                     <li><a href="javascript:javascript:delete_post('{% url 'forum:delete_post' post.id %}', '{{ post.id }}')"><i class="material-icons">delete_sweep</i> {% trans 'Remove' %}</a></li>
                                 </ul>
                             </div>
                         {% endif %}
                     </div>
                 </h3>
-                <div class="card-data">
-                    <p class="comment-date"><i class="fa fa-clock-o"></i> {{ post.post_date }}</p>
+                <div class="post_content">
+                    <div class="card-data">
+                        <p class="comment-date">
+                            <i class="fa fa-clock-o"></i> {{ post.post_date }}
+                            {% if post.is_modified %}
+                                <em> - {% trans 'Edited' %}</em>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <p class="comment-text">{{ post.message|linebreaks }}</p>
                 </div>
-                <p class="comment-text">{{ post.message|linebreaks }}</p>
                 <div class="answer_post"></div>
             </div>
         </div>
