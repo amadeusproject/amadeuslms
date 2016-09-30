@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404,redirect
 from django.db.models import Q
 from django.views import generic
 from django.contrib import messages
@@ -94,6 +94,14 @@ class View(LoginRequiredMixin, generic.DetailView):
 	template_name = 'users/view.html'
 	slug_field = 'username'
 	slug_url_kwarg = 'username'
+
+def delete(request,username):
+	user = get_object_or_404(User,username = username)
+	user.delete()
+	messages.success(request,_("User deleted Successfully!"))
+	return redirect('users:manage')
+
+
 
 class UpdateUser(LoginRequiredMixin, generic.edit.UpdateView):
 
