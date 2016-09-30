@@ -14,6 +14,6 @@ def list_posts(request, forum):
         'request': request,
     }
 
-    context['posts'] = Post.objects.filter(forum = forum)
+    context['posts'] = Post.objects.filter(forum = forum).order_by('post_date')
 
     return context

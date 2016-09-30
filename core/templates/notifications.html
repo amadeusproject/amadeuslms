@@ -1,0 +1,31 @@
+{% for notification in notifications  %}
+	{% if notification.actor %} <!-- if the notification has a user-->
+		<li>
+	  <a href="{% url 'core:notification_read' notification.id %}"><div class="list-group-item">
+	  <div class="row-picture">
+	    <img class="circle" src="http://lorempixel.com/56/56/people/1" alt="icon">
+	    <div class="least-content pull-right">{{ notification.datetime }}</div>
+	  </div>
+	  <div class="row-content">
+	    <p class="list-group-item-text">{{ notification.message }}</p>
+	  </div>
+	  </div>
+	  </a>
+	</li>
+	{% else %}
+		 <li>
+	    <a href="{% url 'core:notification_read' notification.id %}">
+	        <div class="list-group-item">
+	          <div class="row-action-primary">
+	            <i class="material-icons">folder</i>
+	          </div>
+	          <div class="row-content">
+
+	            <div class="least-content pull-right">{{ notification.datetime }}</div>
+
+	            <p class="list-group-item-text">{{ notification.message }}</p>
+	        </div>
+	     </a>
+	</li>
+	{% endif %}
+{% endfor %}
