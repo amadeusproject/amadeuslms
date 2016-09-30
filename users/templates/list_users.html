@@ -66,7 +66,7 @@
                             <a href="javascript:void(0)" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#DeleteModal">{% trans 'Delete' %}</a>
                         </div>
                     </div>
-                   
+                                    
 
                     <!-- Modal -->
                     <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel">
@@ -77,11 +77,11 @@
                             <h4 class="modal-title" id="DeleteModalLabel">Confirm delete</h4>
                           </div>
                           <div class="modal-body">
-                            Are you sure you want to delete?
+                            Are you sure you want to delete the user <b>{{acc.name}}</b>?                          
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary">Delete</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>                         
+                            <button type="button" class="btn btn-primary"> <a href="{% url 'users:delete' acc.username %}">Delete</a></button>
                           </div>
                         </div>
                       </div>
