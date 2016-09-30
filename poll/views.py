@@ -18,22 +18,19 @@ from courses.models import Course, Topic
 
 class CreatePoll(LoginRequiredMixin,generic.CreateView):
 
-	# login_url = reverse_lazy("core:home")
-	# redirect_field_name = 'next'
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
 	model = Poll
 	form_class = PollForm
 	context_object_name = 'poll'
 	template_name = 'poll/create_update.html'
-	# queryset = Course.objects.all()
 	success_url = reverse_lazy('core:home')
-	# def get_queryset(self):
-	# 	return Course.objects.all()[0]
 
 	def form_invalid(self, form,**kwargs):
 		context = super(CreatePoll, self).form_invalid(form)
 		answers = {}
 		for key in self.request.POST:
-			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date'):
+			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date' and key != 'all_students' and key != 'students'):
 				answers[key] = self.request.POST[key]
 
 		keys = sorted(answers)
@@ -43,14 +40,12 @@ class CreatePoll(LoginRequiredMixin,generic.CreateView):
 
 	def form_valid(self, form):
 		self.object = form.save(commit = False)
-		topic = Topic.objects.all()[0]
-		self.object.student = self.request.user
-		self.object.question = "question"
+		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 		self.object.topic = topic
 		self.object.save()
 
 		for key in self.request.POST:
-			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date'):
+			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date' and key != 'all_students' and key != 'students'):
 				answer = Answer(answer=self.request.POST[key],order=key,poll=self.object)
 				answer.save()
 
@@ -58,11 +53,10 @@ class CreatePoll(LoginRequiredMixin,generic.CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(CreatePoll, self).get_context_data(**kwargs)
-		course = Course.objects.all()[0]
-		# print (self.object)
-		context['course'] = course
-		context['subject'] = course.subjects.all()[0]
-		context['subjects'] = course.subjects.all()
+		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+		context['course'] = topic.subject.course
+		context['subject'] = topic.subject
+		context['subjects'] = topic.subject.course.subjects.all()
 		return context
 
 class UpdatePoll(LoginRequiredMixin,generic.UpdateView):
@@ -88,7 +82,7 @@ class UpdatePoll(LoginRequiredMixin,generic.UpdateView):
 		context = super(UpdatePoll, self).form_invalid(form)
 		answers = {}
 		for key in self.request.POST:
-			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date'):
+			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date' and key != 'all_students' and key != 'students'):
 				answers[key] = self.request.POST[key]
 
 		keys = sorted(answers)
@@ -104,7 +98,7 @@ class UpdatePoll(LoginRequiredMixin,generic.UpdateView):
 
 
 		for key in self.request.POST:
-			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date'):
+			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date' and key != 'all_students' and key != 'students'):
 				answer = Answer(answer=self.request.POST[key],order=key,poll=poll)
 				answer.save()
 

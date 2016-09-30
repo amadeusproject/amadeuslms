@@ -5,18 +5,31 @@ from .models import Poll
 
 class PollForm(forms.ModelForm):
 
-    # password = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
-    # password2 = forms.CharField(label = _('Password confirmation'), widget = forms.PasswordInput)
-    # birth_date = forms.DateField(widget=forms.SelectDateWidget())
-    # MIN_LENGTH = 8
+    def __init__(self, *args, **kwargs):
+        super(PollForm, self).__init__(*args, **kwargs)
+        self.fields["all_students"].required = False
+        self.fields["all_students"].initial = False
+        self.fields["students"].required = False
+
+    def clean_all_students(self):
+        if('all_students' not in self.data):
+            if('students' in self.data):
+                return False
+            raise forms.ValidationError(_('It is required one these fields.'))
+        else:
+            all_students = self.data['all_students']
+            if(not all_students):
+                raise forms.ValidationError(_('It is required one these fields.'))
+        return True
+
 
     class Meta:
         model = Poll
-        # exclude = ['is_staff', 'is_active']
-        fields = ['name','limit_date']
+        fields = ['name','limit_date','students','all_students']
 
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Question?'}),
-            'description': forms.DateTimeInput(
+            'limit_date': forms.DateTimeInput(
                 attrs={'placeholder': 'Maximum date permited to resolve the poll'}),
+            'student': forms.Select(),
         }

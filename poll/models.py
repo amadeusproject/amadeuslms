@@ -6,7 +6,6 @@ from core.models import Resource
 from courses.models import Activity
 
 class Poll(Activity):
-    question = models.CharField(_('Question'), max_length = 300)
 
     class Meta:
 		#ordering = ('create_date','name')

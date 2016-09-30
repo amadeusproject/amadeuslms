@@ -93,7 +93,9 @@
                 </div>
               <button type="button" id="add" class="btn btn-primary btn-block btn-sm">add</button>
         <div class="row form-group">
-          <input form="form" class="form-control" type="date" name="{{form.limit_date.name}}" {% if form.limit_date.value != None %}value="{% if form.limit_date.value.year %}{{form.limit_date.value|date:'Y-m-d'}}{% else %}{{form.limit_date.value}}{% endif %}"{% endif %}>
+          <label for="{{ form.limit_date.auto_id }}">{{ form.limit_date.label }}</label>
+          {% render_field  form.limit_date class="form-control" form="form"%}
+          {# <input form="form" class="form-control" type="date" name="{{form.limit_date.name}}" {% if form.limit_date.value != None %}value="{% if form.limit_date.value.year %}{{form.limit_date.value|date:'Y-m-d'}}{% else %}{{form.limit_date.value}}{% endif %}"{% endif %}>#}
           {% if form.limit_date.errors %}
           <div class="not_submited">
           </br>
@@ -109,6 +111,37 @@
               </div>
           </div>
           {% endif %}
+        </div>
+
+        <div class="row form-group">
+            <label for="{{ form.students.auto_id }}">{{ form.students.label }}</label>
+            {% render_field  form.students class="form-control" form="form"%}
+        </div>
+        <div class="row form-group">
+          <div class="checkbox">
+            <label>
+              {% render_field form.all_students class="form-control" form="form" %}<span class="checkbox-material"><span class="check"></span></span> {{form.all_students.label }}
+                {# <input form="form" type="checkbox" name="{{form.all_students.name}}"><span class="checkbox-material"><span class="check"></span></span> {{ form.all_students.label }}#}
+            </label>
+          </div>
+          {% if form.all_students.errors %}
+          <div class="not_submited">
+          </br>
+              <div class="alert alert-danger alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                <ul>
+                  {% for error in form.all_students.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+          </div>
+          {% endif %}
+
+          {# <label for="{{ form.all_students.auto_id }}">{{ form.all_students.label }}</label>#}
+          {# {% render_field  form.all_students class="form-control" form="form"%}#}
         </div>
 
       </div>
