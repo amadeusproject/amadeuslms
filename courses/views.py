@@ -24,15 +24,13 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 	redirect_field_name = 'next'
 	queryset = Course.objects.all()
 	template_name = 'course/index.html'
-	context_object_name = 'courses'
+	context_object_name = 'subjects_student'
 	paginate_by = 3
 
 	def get_context_data(self, **kwargs):
 		context = super(IndexView, self).get_context_data(**kwargs)
 		context['categories'] = Category.objects.all()
-
-		# context['professors'] = Course.objects.all().select_related('professors__name')
-		# super.createNotification(users= User.obejcts.all(), message="testando a notificacao em login")
+		context['subjects_teacher'] = Course.objects.filter(professors__name = self.request.user.name)
 		return context
 
 class CreateCourseView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,generic.edit.CreateView):

@@ -55,55 +55,63 @@
 
 {% if user|has_role:'professor, system_admin' %}
 
-<div class="col-md-12">
-          <!-- Put your content here! -->
-          <div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion" role="tablist" aria-multiselectable="false">
-            <div class="group">
-				<div class="panel panel-info">
-				    <div class="panel-heading headingOne ui-sortable-handle" role="tab">
-				      <div class="row">
-				        <div class="col-xs-9 col-md-10 titleTopic">
-				          <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
-				          <h4>Course 1</h4>
-				          </a>
-				        </div>
-				        <div class="col-xs-4 col-md-2" id="divMoreActions">
-				            <div class="btn-group">
-				              <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
-				                <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
-				              </button>
+	<div class="col-md-12">
+		{% if subjects_student|length > 0 %}
+			{% for subject in subjects_teacher %}
+			  <!-- Put your content here! -->
+	          <div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion" role="tablist" aria-multiselectable="false">
+	            <div class="group">
+					<div class="panel panel-info">
+					    <div class="panel-heading headingOne ui-sortable-handle" role="tab">
+					      <div class="row">
+					        <div class="col-xs-9 col-md-10 titleTopic">
+					          <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+					          <h4>{{subject.name}}</h4>
+					          </a>
+					        </div>
+					        <div class="col-xs-4 col-md-2" id="divMoreActions">
+					            <div class="btn-group">
+					              <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
+					                <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
+					              </button>
 
-				            </div>
-				            <div class="btn-group">
-				              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-				              </button>
-				              <ul class="dropdown-menu" aria-labelledby="moreActions">
-				                <li><a href="http://127.0.0.1:8080/html/screens/users/teacher/course_detail_teacher.html"><i class="fa fa-angle-double-right fa-fw" aria-hidden="true"></i>&nbsp; Access</a></li>
-				                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
-				                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeCourse"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
-				              </ul>
-				            </div>
-				        </div>
-				      </div>
-				    </div>
-				    <div class="panel-collapse collapseOne collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" aria-hidden="false" tabindex="0">
-				      <div class="panel-body">
-				        <p><b>Course Name: </b>Computer Science</p>
-				        <p><b>Duration (in semesters): </b>09</p>
-				        <p><b>Coordinator: </b>Alan Turing</p>
-				        <p>
-				          <b>Description:</b>
-				          <i>
-				            "Lorem ipsum dolor sit amet, consecctetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-				          </i>
-				        </p>
+					            </div>
+					            <div class="btn-group">
+					              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+					              </button>
+					              <ul class="dropdown-menu" aria-labelledby="moreActions">
+					                <li><a href="http://127.0.0.1:8080/html/screens/users/teacher/course_detail_teacher.html"><i class="fa fa-angle-double-right fa-fw" aria-hidden="true"></i>&nbsp; Access</a></li>
+					                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
+					                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeCourse"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
+					              </ul>
+					            </div>
+					        </div>
+					      </div>
+					    </div>
+					    <div class="panel-collapse collapseOne collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" aria-hidden="false" tabindex="0">
+					      <div class="panel-body">
+					        <p><b>Course Name: </b>{{subject.name}}</p>
+					        <p><b>Duration (in semesters): </b>09</p>
+					        <p><b>Coordinator: </b>{{subject.professors}}</p>
+					        <p>
+					          <b>Description:</b>
+					          <i>
+					            {{subject.description}}
+					          </i>
+					        </p>
 
-				      </div>
-				    </div>
+					      </div>
+					    </div>
+					</div>
 				</div>
-
-				<div class="modal" id="removeCourse">
+			</div>
+			{% endfor %}
+		{% else %}
+			{% trans 'No courses found' %}
+		{% endif %}
+		<div class="group">
+			<div class="modal" id="removeCourse">
 				  <div class="modal-dialog">
 				    <div class="modal-content">
 				      <div class="modal-header">
@@ -111,7 +119,7 @@
 				        <h4 class="modal-title"></h4>
 				      </div>
 				      <div class="modal-body">
-				        <p>Delete your Course?</p>
+				        <p>Delete your course?</p>
 				      </div>
 				      <div class="modal-footer">
 
@@ -121,35 +129,11 @@
 				    </div>
 				  </div>
 				</div>
-
-
-				</div>
-            <div class="group">
-            <div class="panel panel-info">
 			</div>
-
-<div class="modal" id="removeCourse2">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-        <h4 class="modal-title"></h4>
-      </div>
-      <div class="modal-body">
-        <p>Delete your course?</p>
-      </div>
-      <div class="modal-footer">
-
-        <a href="http://127.0.0.1:8080/html/screens/users/profile_user.html" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
-
-      </div>
-    </div>
-  </div>
-</div></div>
-          </div>
-        </div>
+		</div>
 
 {% else %}
+
 	<div class="col-md-12">
 		<div class="input-group">
 		  <div class="form-group is-empty"><input type="search" class="form-control" placeholder="Search Courses"></div>
@@ -161,8 +145,8 @@
 		</div>
 	</div>
 
-	{% if courses|length > 0 %}
-		{% for course in courses %}
+	{% if subjects_student|length > 0 %}
+		{% for subject in subjects_student %}
 			<div class="col-md-12">
 			    <div class="panel panel-info">
 			    <!--{% if course.image %}
@@ -172,13 +156,13 @@
 	            {% endif %} -->
 				  <div class="panel-heading">
 				    	<h3 class="panel-title">Course</h3>
-				    	<span class="label label-info">{{ course.category }}</span>
-							<span class="label label-warning">{{ course.max_students }} {% trans 'students tops' %}</span>  
+				    	<span class="label label-info">{{ subject.category }}</span>
+							<span class="label label-warning">{{ subject.max_students }} {% trans 'students tops' %}</span>  
 				  </div>     
 				  <div class="panel-body">
-				    <p><b>Course Name: </b>{{ course.name }}</p>
+				    <p><b>Course Name: </b>{{ subject.name }}</p>
 				    <p><b>Duration (in semesters): </b>09</p>
-				    <p><b>Coordinator: </b>{{course.professors}}</p>
+				    <p><b>Coordinator: </b>{{subject.professors}}</p>
 				    <p>
 				      <b>Description:</b>
 				      <i>
@@ -187,16 +171,15 @@
 				    </p>
 
 				    {% if user|has_role:'professor, system_admin' %}
-						<a href="{% url 'course:update' course.slug %}" class="btn btn-sm btn-primary">
+						<a href="{% url 'course:update' subject.slug %}" class="btn btn-sm btn-primary">
 							<span class="glyphicon glyphicon-edit"></span>
 						</a>
-						<a href="{% url 'course:delete' course.slug %}" class="btn btn-sm btn-danger">
+						<a href="{% url 'course:delete' subject.slug %}" class="btn btn-sm btn-danger">
 							<span class="glyphicon glyphicon-trash"></span>
 						</a>
 					{% endif %}
 
-				    <a href="{% url 'course:view' course.slug %}" class="btn btn-raised btn-default center-block">View Course</a>
-
+				    <a href="{% url 'course:view' subject.slug %}" class="btn btn-raised btn-default center-block">View Course</a>
 				  </div>
 				</div>            
     		</div>
