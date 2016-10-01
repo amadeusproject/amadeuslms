@@ -22,6 +22,23 @@
             </ul>
         </div>
     </div>
+
+{% if user|has_role:'professor, system_admin' %}
+
+    <div class="panel panel-primary navigation">
+	    <div class="panel-heading">
+	        <h3 class="panel-title">Actions</h3>
+	    </div>
+	    <div class="panel-body">
+	        <ul class="nav nav-pills nav-stacked">
+	            <li><a href="javascript:void(0)">Replicate Course</a></li>
+	            <li><a href="javascript:void(0)">Create Course</a></li>
+	        </ul>
+	    </div>
+	</div>
+
+{% endif %}
+
 {% endblock %}
 
 {% block content %}
@@ -35,18 +52,101 @@
 			</div>
 		{% endfor %}
 	{% endif %}
+
+{% if user|has_role:'professor, system_admin' %}
+
+	<div class="col-md-12">
+		{% if courses_teacher|length > 0 %}
+			{% for course in courses_teacher %}
+			  <!-- Put your content here! -->
+	          <div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion" role="tablist" aria-multiselectable="false">
+	            <div class="group">
+					<div class="panel panel-info">
+					    <div class="panel-heading headingOne ui-sortable-handle" role="tab">
+					      <div class="row">
+					        <div class="col-xs-9 col-md-10 titleTopic">
+					          <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+					          <h4>{{course.name}}</h4>
+					          </a>
+					        </div>
+					        <div class="col-xs-4 col-md-2" id="divMoreActions">
+					            <div class="btn-group">
+					              <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
+					                <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
+					              </button>
+
+					            </div>
+					            <div class="btn-group">
+					              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+					              </button>
+					              <ul class="dropdown-menu" aria-labelledby="moreActions">
+					                <li><a href="{% url 'course:view' course.slug %}"><i class="fa fa-angle-double-right fa-fw" aria-hidden="true"></i>&nbsp; Access</a></li>
+					                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
+					                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeCourse"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
+					              </ul>
+					            </div>
+					        </div>
+					      </div>
+					    </div>
+					    <div class="panel-collapse collapseOne collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" aria-hidden="false" tabindex="0">
+					      <div class="panel-body">
+					        <p><b>Course Name: </b>{{course.name}}</p>
+					        <p><b>Duration (in semesters): </b>09</p>
+					        <p><b>Coordinator: </b>{{course.professors}}</p>
+					        <p>
+					          <b>Description:</b>
+					          <i>
+					            {{course.description}}
+					          </i>
+					        </p>
+
+					      </div>
+					    </div>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		{% else %}
+			{% trans 'No courses found' %}
+		{% endif %}
+		<div class="group">
+			<div class="modal" id="removeCourse">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+				        <h4 class="modal-title"></h4>
+				      </div>
+				      <div class="modal-body">
+				        <p>Delete your course?</p>
+				      </div>
+				      <div class="modal-footer">
+
+				        <a href="http://127.0.0.1:8080/html/screens/users/profile_user.html" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
+
+				      </div>
+				    </div>
+				  </div>
+				</div>
+			</div>
+		</div>
+
+{% else %}
+
 	<div class="col-md-12">
 		<div class="input-group">
-  <div class="form-group is-empty"><input type="search" class="form-control" placeholder="Search Courses"></div>
-    <span class="input-group-btn input-group-sm">
-      <button type="button" class="btn btn-fab btn-fab-mini">
-        <i class="material-icons">search</i>
-      </button>
-    </span>
-</div>
+		  <div class="form-group is-empty"><input type="search" class="form-control" placeholder="Search Courses"></div>
+		    <span class="input-group-btn input-group-sm">
+		      <button type="button" class="btn btn-fab btn-fab-mini">
+		        <i class="material-icons">search</i>
+		      </button>
+		    </span>
+		</div>
 	</div>
-	{% if courses|length > 0 %}
-		{% for course in courses %}
+
+	{% if subjects_student|length > 0 %}
+		{% for course in courses_student %}
 			<div class="col-md-12">
 			    <div class="panel panel-info">
 			    <!--{% if course.image %}
@@ -80,7 +180,6 @@
 					{% endif %}
 
 				    <a href="{% url 'course:view' course.slug %}" class="btn btn-raised btn-default center-block">View Course</a>
-
 				  </div>
 				</div>            
     		</div>
@@ -100,4 +199,5 @@
 	{% else %}
 		{% trans 'No courses found' %}
 	{% endif %}
+{% endif %}
 {% endblock %}

@@ -181,6 +181,14 @@ MESSAGE_TAGS = {
     messages_constants.ERROR: 'danger',
 }
 
+#Send email for forgot Password
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'amadeusteste@gmail.com'
+EMAIL_HOST_PASSWORD = 'amadeusteste'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 
 try:
     from .local_settings import *

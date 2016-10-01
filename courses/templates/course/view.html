@@ -15,120 +15,206 @@
 {% endblock %}
 
 {% block sidebar %}
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    <img src="{{ user.image_url }}" id="img" class="img-circle img-responsive">
-  </br>
-    <div class="row">
-      <div class="col-xs-3 col-md-3">
-        <i class="fa fa-facebook-official fa-2x" aria-hidden="true"></i>
+  <div class="panel panel-primary navigation">
+        <div class="panel-heading">
+            <h5>{% trans 'Menu' %}</h5>
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
+                <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
+            </ul>
+        </div>
     </div>
-        <div class="col-xs-3 col-md-3">
-          <i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
-      </div>
-        <div class="col-xs-3 col-md-3">
-          <i class="fa fa-linkedin-square fa-2x" aria-hidden="true"></i>
-      </div>
-        <div class="col-xs-3 col-md-3">
-          <i class="fa fa-google-plus-official fa-2x" aria-hidden="true"></i>
-      </div>
+
+{% if user|has_role:'professor, system_admin' %}
+
+    <div class="panel panel-primary navigation">
+    <div class="panel-heading">
+        <h3 class="panel-title">Actions</h3>
     </div>
-  </div>
-  <div class="panel-body">
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="{% url 'app:index' %}">{% trans "Home" %}</a></li>
-      <li><a href="{% url 'users:profile' %}">{% trans "Profile" %}</a></li>
-      {# <li><a href="">{% trans "Courses" %}</a></li>#}
-    </ul>
-  </div>
-</div>
-{% if courses.count > 0 %}
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    <h5>{% trans "Courses" %}</h5>
-  </div>
-  <div class="panel-body">
-    <ul class="nav nav-pills nav-stacked">
-      {% for course in courses %}
-          <li><a href="{% url 'course:view' course.slug %}">{{course}}</a></li>
-      {% endfor %}
-    </ul>
-  </div>
+    <div class="panel-body">
+        <ul class="nav nav-pills nav-stacked">
+            <li><a href="teacher/course_participants_teacher.html" target="_self">Participants</a></li>
+            <li><a href="javascript:void(0)">Replicate Subject</a></li>
+            <li><a href="javascript:void(0)">Create Subject</a></li>
+            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal">Create Topic</a></li>
+        </ul>
+    </div>
 </div>
 {% endif %}
+
 {% endblock %}
 
 {% block content %}
 
-<div class="panel panel-info">
-  <div class="panel-heading">
-    <div class="row">
-        <div class="col-xs-10 col-md-11">
-          <h3 class="panel-title">{{course.name}}</h3>
-        </div>
-        <div class="col-xs-2 col-md-1">
-        {% if user|has_role:'professor, system_admin' %}
-
-          <div class="btn-group icon-more-horiz">
-            <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="material-icons">more_horiz</i>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li><a href="{% url 'course:update' course.slug %}"><i class="material-icons">create</i> Edit</a></li>
-              <li><a href="{% url 'course:delete' course.slug %}"><i class="material-icons">delete_sweep</i> Remove</a></li>
-            </ul>
-
+  <div class="col-md-12">
+    <div class="panel panel-info">
+      <div class="panel-heading headingOne">
+        <div class="row">
+          <div class="col-xs-8 col-md-10 titleTopic">
+            <h4>{{course}}</h4>
           </div>
-         {% endif %}
+          <div class="col-xs-4 col-md-2" id="divMoreActions">
+            <div class="btn-group">
+              <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
+                <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
+              </button>
+
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+              <div class="ripple-container"></div></button>
+              <ul class="dropdown-menu" aria-labelledby="moreActions">
+                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createSubject"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp; Create Subject</a></li>
+                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
+                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Edit</a></li>
+                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
+              </ul>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <p><b>Course Name: </b>{{course.name}}</p>
+      <p><b>Duration (in semesters): </b>09</p>
+      <p><b>Coordinator: </b>{{course.professors}}</p>
+      <p>
+        <b>Description:</b>
+        <i>
+          {{course.description}}
+        </i>
+      </p>
+
+    </div>
+  </div>
+
+<!-- MODAL CREATE SUBJECT -->
+<div class="modal" tabindex="-1" role="dialog  " id="createSubject">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Create a New Subject</h4>
+      </div>
+      <div class="modal-body">
+        <div>
+          <form class="form-horizontal">
+            <div class="form-group is-empty">
+              <label class="control-label col-md-2 col-md-offset-1 col-xs-2 col-xs-offset-1">Name</label>
+              <div class="col-md-8 col-xs-8">
+                <input type="text" class="form-control" name="nameSubject">
+              </div>
+            </div>
+            <div class="form-group is-empty">
+              <label class="control-label col-md-2 col-md-offset-1 col-xs-2 col-xs-offset-1">Description</label>
+              <div class="col-md-8 col-xs-8">
+                <textarea class="form-control" rows="3" id="textAreaSubject"></textarea>
+                <span class="help-block">Sign the description of the course.</span>
+              </div>
+            </div>
+            <div class="form-group is-empty">
+              <label class="control-label col-md-2 col-md-offset-1 col-xs-2 col-xs-offset-1">Goals</label>
+              <div class="col-md-8 col-xs-8">
+                <textarea class="form-control" rows="3" id="textAreaSubject"></textarea>
+                <span class="help-block">Sign the objectives of the course until the end of the course.</span>
+              </div>
+            </div>
+            <div class="form-group is-empty">
+              <label class="control-label col-md-2 col-md-offset-1 col-xs-2 col-xs-offset-1">Students Limit</label>
+              <div class="col-md-8 col-xs-8">
+                <input type="number" class="form-control" name="StudentLimit">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 col-xs-12">
+                <div class="row">
+                  <div class="form-group is-empty">
+                    <label class="control-label col-md-4 col-xs-4 col-xs-offset-1">Begining</label>
+                    <div class="col-md-8 col-xs-6">
+                      <input type="date" class="form-control" name="BeginDate">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-xs-12">
+                <div class="row">
+                  <div class="form-group is-empty">
+                    <label class="control-label col-md-4 col-xs-4 col-xs-offset-1">End</label>
+                    <div class="col-md-8 col-xs-6">
+                      <input type="date" class="form-control" name="EndDate">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+          <a href="#" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
         </div>
       </div>
-  </div>
-  <div class="panel-body">
-    <p><b>Course Name: </b>{{course.name}}</p>
-    <p><b>Duration (in semesters): </b></p>
-    {% for professor in course.professors.all  %}
-      <p><b>Professor: </b>{{professor.name}}</p>
-    {% endfor %}
-   
-    <p>
-      <b>Description:</b>
-      <i>
-        {{course.content}}
-      </i>
-    </p>
-
+    </div>
   </div>
 </div>
 
+<div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion" role="tablist" aria-multiselectable="false">
+  <div><div class="panel panel-info">
+</div>
+
+
+<!-- MODAL REMOVE -->
+<div class="modal" id="removeSubject">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to remove this subject?</p>
+      </div>
+      <div class="modal-footer">
+
+        <a href="http://127.0.0.1:8080/html/screens/users/teacher/home_course_teacher.html" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div>
 
 {% for subject in subjects %}
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <div class="row">
-        <a href="{% url 'course:view_subject' subject.slug %}">
-        <div class="col-md-11">
-
-          <h3 class="panel-title">{{subject}}</h3>
-
+<div class="panel panel-info">
+  <div class="panel-heading headingTwo ui-sortable-handle" role="tab">
+    <div class="row">
+        <div class="col-xs-9 col-md-10 titleTopic">
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <h4>{{subject.name}}</h4>
+          </a>
         </div>
-        </a>
-        <div class="col-md-1 text-right">
-          {% if user|has_role:'professor, system_admin' %}
-              <div class="btn-group icon-more-horiz">
-            <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="material-icons">more_horiz</i>
+        <div class="col-xs-3 col-md-2" id="divMoreActions">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
+              <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li><a href="{% url 'course:update_subject' subject.slug %}"><i class="material-icons">create</i> {% trans "Edit" %}</a></li>
-              <li><a href="{% url 'course:delete_subject' subject.slug %}"><i class="material-icons">delete_sweep</i> {% trans "Remove" %}</a></li>
-            </ul>
-
           </div>
-          {% endif %}
+          <div class="btn-group">
+            <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="moreActions">
+              <li><a href="{% url 'course:view_subject' subject.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Access</a></li>
+              <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
+              <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeSubject2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
+            </ul>
+          </div>
         </div>
     </div>
-    </div>
-    <div class="panel-body">
+  </div>
+  <div class="panel-body">
       <p><b>{% trans "Professor" %}: </b>{% for professor in subject.professors.all %}{% if not forloop.first %},{% endif %}
         {{professor}}{% if forloop.last %}.{% endif %}{% endfor %}</p>
         <p>
@@ -146,11 +232,33 @@
           </div>
         </div>
     </div>
-  </div>
+</div>
 {% endfor %}
-<a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'course:create' %}">
-      <i class="fa fa-plus" aria-hidden="true"></i>
-    </a>
+
+
+<!-- MODAL REMOVE -->
+  <div class="modal" id="removeSubject2">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to remove this subject?</p>
+        </div>
+        <div class="modal-footer">
+
+          <a href="http://127.0.0.1:8080/html/screens/users/teacher/home_course_teacher.html" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
 {% endblock %}
 
 
