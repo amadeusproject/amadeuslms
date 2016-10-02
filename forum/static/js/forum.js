@@ -14,6 +14,46 @@ function getCookie(name) {
     return cookieValue;
 }
 
+function createForum(url, topic) {
+    $.ajax({
+        url: url, 
+        data: {'topic': topic},
+        success: function(data) {
+            $(".forum_form").html(data);
+            $("#id_topic").val(topic);
+
+            $('.date-picker').datepicker({
+                orientation: 'auto'
+            });
+
+
+            var frm = $('#forum_create');
+            frm.submit(function () {
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+                    success: function (data) {
+                        data = data.split('-');
+
+                        $('.foruns_list').append("<a href='javascript:"+showForum(data[0], data[1])+"'>"+data[2]+"</a><br />");
+
+                        $("#createForum").modal('hide');
+
+                        showForum(data[0], data[1]);
+                    },
+                    error: function(data) {
+                        console.log('Error');
+                    }
+                });
+                return false;
+            });
+        }
+    });
+
+    $("#createForum").modal();
+}
+
 
 /*
 *
