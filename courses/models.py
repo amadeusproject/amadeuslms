@@ -3,6 +3,7 @@ from django.db import models
 from autoslug.fields import AutoSlugField
 from users.models import User
 from core.models import Resource
+from s3direct.fields import S3DirectField
 
 class Category(models.Model):
 
@@ -93,6 +94,17 @@ class Activity(Resource):
 	students = models.ManyToManyField(User, verbose_name = _('Students'), related_name='activities')
 	all_students = models.BooleanField(_('All Students'), default=False)
 
+class ActivityFile(models.Model):
+	pdf = S3DirectField(dest='activitys')
+	diet = models.ForeignKey('Activity', related_name='files')
+	name = models.CharField(max_length=100)
+
+	def __str__(self):             
+		return self.name
+
+	class Meta:
+		verbose_name = u"Activity File"
+		verbose_name_plural = u"Activitys Files"
 
 """
 It represents any Material inside a topic, be it a file, a link, etc.
