@@ -73,9 +73,10 @@
   </div>
   <div class="panel panel-default">
     <div class="panel-body">
+    {% for activit in activitys %}
       <form class="form-horizontal">
         <fieldset>
-          <legend>Atividade 1</legend>
+          <legend>{{activit.name}}</legend>
 
           <div class="container-fluid">
             <div class="row">
@@ -86,13 +87,13 @@
             
             </div>
             </div>
-
+          {% for student in students_activit %}
             <div class="panel-group" id="accordion">
               <div class="panel panel-info">
                 <div class="panel-heading">
                   <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                      Aluno Maria<i class="fa fa-plus-square" aria-hidden="true"></i></a>
+                      {{student.name}}<i class="fa fa-plus-square" aria-hidden="true"></i></a>
                     </h4>
                   </div>
                   <div id="collapse1" class="panel-collapse collapse">
@@ -115,9 +116,13 @@
               </div>
             </div>
           </div>
+          {% endfor %}
         </div>
     </fieldset>
   </form>
+{% empty %}
+  {% trans 'No activity found' %}
+{% endfor %}
 
 <ul class="pagination pagination-sm">
   <li class="disabled"><a href="javascript:void(0)">«</a></li>
