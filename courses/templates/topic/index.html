@@ -74,7 +74,7 @@
   <div class="panel panel-default">
     <div class="panel-body">
     {% for activit in activitys %}
-      <form class="form-horizontal">
+      <form class="form-horizontal" enctype='multipart/form-data'>{% csrf_token %}
         <fieldset>
           <legend>{{activit.name}}</legend>
 
@@ -107,9 +107,15 @@
                           <input type="number" step="0.01">
                         </div>
                       {% else %}
-                        <div class="col-md-4">
-                          <input type="file" name="arquivos" class="btn btn-success" multiple/>
+                      <div class="col-md-4">
+                        <input type="hidden" name="id" value="">
+                        <input type="hidden" name="student" value="">
+                        <div class="form-group {% if form.pdf.errors %} has-error {% endif %}">
+                            <label for="id_pdf">PDF</label>
+                            {{form.pdf}}
                         </div>
+                        <button type="submit" class="btn btn-success" id="send_button">Enviar</button>
+                      </div>
                      {% endif %}
                   </div>
                 </div>
