@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'users',
     'forum',
     'poll',
+    's3direct',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -188,6 +189,23 @@ EMAIL_PORT = 25
 EMAIL_HOST_USER = 'amadeusteste@gmail.com'
 EMAIL_HOST_PASSWORD = 'amadeusteste'
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+#s3direct
+
+# AWS keys
+AWS_SECRET_ACCESS_KEY = ''
+AWS_ACCESS_KEY_ID = ''
+AWS_STORAGE_BUCKET_NAME = ''
+
+S3DIRECT_REGION = 'sa-east-1'
+
+from uuid import uuid4
+
+S3DIRECT_DESTINATIONS = {
+    # Specify a non-default bucket for PDFs
+    'material': (lambda original_filename: 'uploads/material/'+str(uuid4())+'.pdf', lambda u: True, ['application/pdf']),
+
+}
 
 
 try:
