@@ -12,7 +12,7 @@ from django.db.models import Q
 from rolepermissions.verifications import has_object_permission
 
 from .forms import CourseForm, UpdateCourseForm, CategoryForm, SubjectForm,TopicForm
-from .models import Course, Subject, Category,Topic, SubjectCategory
+from .models import Course, Subject, Category,Topic, SubjectCategory,Activity
 from core.mixins import NotificationMixin
 from users.models import User
 
@@ -282,16 +282,20 @@ class TopicsView(LoginRequiredMixin, generic.ListView):
 	def get_queryset(self):
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 		subject = topic.subject
-		context = Topic.objects.filter(subject = subject, visible=True)
+		topics_q = Topic.objects.filter(subject = subject, visible=True)
 		#if (self.request.user in subject.professors.all() or has_role(self.request.user,'system_admin')):
 			#context = subject.topics.all() <- Change it By Activities
-		return context
+		return topics_q
 
 	def get_context_data(self, **kwargs):
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 		context = super(TopicsView, self).get_context_data(**kwargs)
+		activitys = Activity.objects.filter(topic__name = topic.name)
+		students_activit = User.objects.filter(activities = Activity.objects.all())
 		context['topic'] = topic
 		context['subject'] = topic.subject
+		context['activitys'] = activitys
+		context['students_activit'] = students_activit
 		return context
 
 class CreateTopicView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.edit.CreateView):
