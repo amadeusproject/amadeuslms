@@ -6,17 +6,22 @@ class ForumForm(forms.ModelForm):
 
 	class Meta:
 		model = Forum
-		fields = ('name', 'description')
+		fields = ('name', 'limit_date', 'description', 'topic', )
 		labels = {
 			'name': _('Title'),
-			'description': _('Description')
+			'description': _('Description'),
+			'limit_date': _('Limit Date'),
 		}
 		help_texts = {
 			'name': _('Forum title'),
-			'description': _('What is this forum about?')
+			'description': _('What is this forum about?'),
+			'limit_date': _('Limit date for students post on this forum'),
 		}
 		widgets = {
-			'description': forms.Textarea(attrs={'cols': 80, 'rows': 5}),
+			'name': forms.TextInput(attrs={'class': 'form-control'}),
+			'description': forms.Textarea(attrs={'cols': 80, 'rows': 5, 'class': 'form-control'}),
+			'topic': forms.HiddenInput(),
+			'limit_date': forms.DateInput(attrs={'class': 'date-picker form-control'}),
 		}
 
 class PostForm(forms.ModelForm):

@@ -320,3 +320,5 @@ body .container .jumbotron-inverse, body .container .well-inverse, body .contain
 .notification-count {
     background-color: #FF0000;
 }
+
+.datepicker{z-index:9999 !important}

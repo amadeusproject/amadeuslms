@@ -31,10 +31,21 @@ class ForumIndex(LoginRequiredMixin, generic.ListView):
 		return context
 
 class CreateForumView(LoginRequiredMixin, generic.edit.CreateView):
+	login_url = reverse_lazy("core:home")	
+	redirect_field_name = 'next'
 
 	template_name = 'forum/forum_form.html'
 	form_class = ForumForm
-	success_url = reverse_lazy('forum:index')
+	
+	def get_success_url(self):
+		self.success_url = reverse('forum:render_forum', args = (self.object.id, ))
+		
+		return self.success_url
+
+def render_forum(request, forum):
+	last_forum = get_object_or_404(Forum, id = forum)
+
+	return HttpResponse(str(reverse_lazy('forum:index')) + '-' + str(forum) + '-' + str(last_forum.name))
 
 class CreatePostView(LoginRequiredMixin, generic.edit.CreateView):
 	login_url = reverse_lazy("core:home")	
