@@ -23,6 +23,7 @@ class Forum(Activity):
 	def __str__(self):
 		return self.name
 
+	
 """
 It represents a post made in a forum (topic)
 """
