@@ -39,7 +39,7 @@ function createForum(url, topic) {
                         console.log(data);
                         data = data.split('-');
 
-                        $('.foruns_list').append("<a id='forum_"+data[1]+"' href='javascript:"+showForum(data[0], data[1])+"'>"+data[2]+"</a><br />");
+                        $('.foruns_list').append("<a id='forum_"+data[1]+"' href='javascript:showForum("+data[0]+","+data[1]+")'>"+data[2]+"<br /></a>");
 
                         $("#createForum").modal('hide');
 
@@ -56,7 +56,6 @@ function createForum(url, topic) {
 
     $("#createForum").modal();
 }
-
 
 /*
 *
@@ -93,6 +92,23 @@ function showForum(url, forum_id) {
     $('#forumModal').modal();
 }
 
+function delete_forum(url, forum, message) {
+    alertify.confirm(message, function(){
+        var csrftoken = getCookie('csrftoken');
+        
+        $.ajax({
+            method: 'post',
+            beforeSend: function (request) {
+                request.setRequestHeader('X-CSRFToken', csrftoken);
+            },
+            url: url, 
+            success: function(data) {
+                $("#forum_"+forum).remove();
+                $('#forumModal').modal('hide');
+            }
+        });
+    });
+}
 
 /*
 *

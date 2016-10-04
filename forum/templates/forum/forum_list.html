@@ -14,7 +14,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                             <li><a href="javascript:edit_forum('{% url 'forum:index' %}', '{{ forum.id }}')"><i class="material-icons">create</i> {% trans 'Edit' %}</a></li>
-                            
+                            <li><a href="javascript:delete_forum('{% url 'forum:delete' forum.id %}', '{{ forum.id }}', '{% trans "Are you sure you want to delete this forum?" %}')"><i class="material-icons">delete_sweep</i> {% trans 'Delete' %}</a></li>
                         </ul>
                     </div>
                 {% endif %}
