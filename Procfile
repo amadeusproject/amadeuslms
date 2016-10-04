@@ -1,0 +1,1 @@
+web: gunicorn amadeus.wsgi:application --log-file -
