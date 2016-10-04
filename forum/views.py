@@ -37,7 +37,11 @@ class CreateForumView(LoginRequiredMixin, generic.edit.CreateView):
 	template_name = 'forum/forum_form.html'
 	form_class = ForumForm
 	
+	def form_invalid(self, form):
+		return self.render_to_response(self.get_context_data(form = form), status = 400)
+
 	def get_success_url(self):
+		print("Pass")
 		self.success_url = reverse('forum:render_forum', args = (self.object.id, ))
 		
 		return self.success_url
@@ -46,6 +50,17 @@ def render_forum(request, forum):
 	last_forum = get_object_or_404(Forum, id = forum)
 
 	return HttpResponse(str(reverse_lazy('forum:index')) + '-' + str(forum) + '-' + str(last_forum.name))
+
+class ForumDeleteView(LoginRequiredMixin, generic.DeleteView):
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+
+	model = Forum
+	pk_url_kwarg = 'pk'	
+	success_url = reverse_lazy('forum:deleted_forum')
+
+def forum_deleted(request):
+	return HttpResponse(_("Forum deleted successfully."))
 
 class CreatePostView(LoginRequiredMixin, generic.edit.CreateView):
 	login_url = reverse_lazy("core:home")	
