@@ -16,3 +16,4 @@ pycpfcnpj==1.0.2
 six==1.10.0
 slugify==0.0.1
 Werkzeug==0.11.11
+psycopg2==2.6.2
