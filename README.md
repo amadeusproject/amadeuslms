@@ -90,20 +90,20 @@ Para Classes que envolvem formulários:
 
 ## Sprint WorkFlow
 [PT-BR]
-Dia : Atividade
-01 Segunda: Retrospective/Planning
-05 Sexta: Review
-08 Segunda: Weekly Meeting
-10 Quarta: Sprint Deadline
-11 Quinta: Review
-12 Sexta: Deploy
+**Dia : Atividade**
+* 01 Segunda: Retrospective/Planning
+* 05 Sexta: Review
+* 08 Segunda: Weekly Meeting
+* 10 Quarta: Sprint Deadline
+* 11 Quinta: Review
+* 12 Sexta: Deploy
 
 [EN-US]
 
-Day  : Activity
-01 Monday: Retrospective/Planning
-05 Friday: Review
-08 Monday: Weekly Meeting
-10 Wednesday: Sprint Deadline
-11 Thursday: Review
-12 Friday: Deploy
+**Day  : Activity**
+* 01 Monday: Retrospective/Planning
+* 05 Friday: Review
+* 08 Monday: Weekly Meeting
+* 10 Wednesday: Sprint Deadline
+* 11 Thursday: Review
+* 12 Friday: Deploy
