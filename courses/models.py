@@ -3,6 +3,7 @@ from django.db import models
 from autoslug.fields import AutoSlugField
 from users.models import User
 from core.models import Resource
+from s3direct.fields import S3DirectField
 
 class Category(models.Model):
 
@@ -88,52 +89,40 @@ It is one kind of possible resources available inside a Topic.
 Activity is something that has a deadline and has to be delivered by the student
 """
 class Activity(Resource):
-	topic = models.ForeignKey(Topic, verbose_name = _('Topic'))
+	topic = models.ForeignKey(Topic, verbose_name = _('Topic'), related_name='activities')
 	limit_date = models.DateTimeField(_('Deliver Date'))
-	student = models.ForeignKey(User, verbose_name = _('student'))
+	students = models.ManyToManyField(User, verbose_name = _('Students'), related_name='activities')
+	all_students = models.BooleanField(_('All Students'), default=False)
 
+class ActivityFile(models.Model):
+	pdf = S3DirectField(dest='activitys')
+	diet = models.ForeignKey('Activity', related_name='files')
+	name = models.CharField(max_length=100)
+
+	def __str__(self):             
+		return self.name
+
+	class Meta:
+		verbose_name = u"Activity File"
+		verbose_name_plural = u"Activitys Files"
 
 """
 It represents any Material inside a topic, be it a file, a link, etc.
 """
 class Material(Resource):
-    topic = models.ForeignKey(Topic, verbose_name = _('Topic'))
-    student = models.ForeignKey(User, verbose_name = _('student'))
+	topic = models.ForeignKey(Topic, verbose_name = _('Topic'), related_name='materials')
+	students = models.ManyToManyField(User, verbose_name = _('Students'), related_name='materials')
+	all_students = models.BooleanField(_('All Students'), default=False)
 
 """
 It is a category for each subject.
 """
 class SubjectCategory(models.Model):
 	name = models.CharField(_('Name'), max_length= 100)
-	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)	
+	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
 	description = models.TextField(_('Description'), blank = True)
 	subjects = models.ManyToManyField(Subject)
 
 	class Meta:
 		verbose_name = _('subject category')
 		verbose_name_plural = _('subject categories')
-
-class Poll(Activity):
-	question = models.CharField(_('Question'), max_length = 300)
-
-	class Meta:
-		#ordering = ('create_date','name')
-		verbose_name = _('Poll')
-		verbose_name_plural = _('Polls')
-
-	def __str__(self):
-		return str(self.question) + str("/") + str(self.topic)
-
-class Answer(models.Model):
-	answer = models.CharField(_("Answer"), max_length = 200)
-	order = models.PositiveSmallIntegerField(_("Order"))
-	poll = models.ForeignKey(Poll, verbose_name = _('Answers'), related_name='answers')
-
-	class Meta:
-		ordering = ('order',)
-		verbose_name = _('Answer')
-		verbose_name_plural = _('Answers')
-
-	def __str__(self):
-		return str(self.question) + str("/") + str(self.topic)
-

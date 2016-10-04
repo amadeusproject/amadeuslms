@@ -1,3 +1,62 @@
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+/*
+*
+* Function to load create forum's form and set the submit function
+*
+*/
+function createForum(url, topic) {
+    $.ajax({
+        url: url, 
+        data: {'topic': topic},
+        success: function(data) {
+            $(".forum_form").html(data);
+            $("#id_topic").val(topic);
+
+            $('.date-picker').datepicker();
+
+            var frm = $('#forum_create');
+            frm.submit(function () {
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+                    success: function (data) {
+                        console.log(data);
+                        data = data.split('-');
+
+                        $('.foruns_list').append("<a id='forum_"+data[1]+"' href='javascript:showForum("+data[0]+","+data[1]+")'>"+data[2]+"<br /></a>");
+
+                        $("#createForum").modal('hide');
+
+                        showForum(data[0], data[1]);
+                    },
+                    error: function(data) {
+                        $(".forum_form").html(data.responseText);
+                    }
+                });
+                return false;
+            });
+        }
+    });
+
+    $("#createForum").modal();
+}
+
 /*
 *
 * Function to load forum to modal
@@ -9,51 +68,118 @@ function showForum(url, forum_id) {
         data: {'forum_id': forum_id},
         success: function(data) {
             $(".forum_topics").html(data);
+
+            var frm = $('#form_post');
+            frm.submit(function () {
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+                    success: function (data) {
+                        $("#posts_list").append(data);
+                        frm[0].reset();
+                    },
+                    error: function(data) {
+                        console.log(frm.serialize());
+                        console.log('Error');
+                    }
+                });
+                return false;
+            });
         }
     });
 
     $('#forumModal').modal();
 }
 
-function getForm(url) {
+function delete_forum(url, forum, message) {
+    alertify.confirm(message, function(){
+        var csrftoken = getCookie('csrftoken');
+        
+        $.ajax({
+            method: 'post',
+            beforeSend: function (request) {
+                request.setRequestHeader('X-CSRFToken', csrftoken);
+            },
+            url: url, 
+            success: function(data) {
+                $("#forum_"+forum).remove();
+                $('#forumModal').modal('hide');
+            }
+        });
+    });
+}
+
+/*
+*
+* Function to load form to edit post
+*
+*/
+function edit_post(url, post_id) {
+    $.ajax({
+        url: url,
+        success: function(data) {
+            $("#post_"+post_id).find(".post_content").hide();
+            $("#post_"+post_id).find(".post_content").after(data);
+
+            var frm = $("#post_"+post_id).find(".edit_post_form");
+            frm.submit(function () {
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+                    success: function (data) {
+                        $("#post_"+post_id).parent().after(data);
+                        frm.parent().parent().remove();
+                    },
+                    error: function(data) {
+                        console.log(frm.serialize());
+                        console.log('Error');
+                    }
+                });
+                return false;
+            });
+        }
+    });
+}
+
+/*
+*
+* Function to cancel post edition
+*
+*/
+function cancelEditPost(post_id) {
+    $("#post_"+post_id).find(".post_content").show();
+    $("#post_"+post_id).find(".edit_post_form").remove();    
+}
+
+/*
+*
+* Function to delete a post
+*
+*/
+function delete_post(url, post) {
+    var csrftoken = getCookie('csrftoken');
+    
+    $.ajax({
+        method: 'post',
+        beforeSend: function (request) {
+            request.setRequestHeader('X-CSRFToken', csrftoken);
+        },
+        url: url, 
+        success: function(data) {
+            $("#post_"+post).remove();
+        }
+    });
+}
+
+function answer(id, url) {
     $.ajax({
         url: url, 
         success: function(data) {
-            $(".forum_form").html(data);
+            $("#post_"+id).find(".answer_post").html(data);
         }
     });
 
-    $(".forum_form").show();
-}
-
-function showPosts(url, forum) {
-    if ($("#collapse" + forum).hasClass('in')) {
-        $("#collapse" + forum).collapse('hide');
-    } else {
-        $.ajax({
-            url: url, 
-            data: {'forum': forum},
-            success: function(data) {
-                $("#collapse" + forum).find(".well").html(data);
-            }
-        });
-
-        $("#collapse" + forum).collapse('show');
-    }
-}
-
-function showPostsAnswers(url, post) {
-    if ($("#collapse" + post).hasClass('in')) {
-        $("#collapse" + post).collapse('hide');
-    } else {
-        $.ajax({
-            url: url, 
-            data: {'post': post},
-            success: function(data) {
-                $("#collapse" + post).find(".well").html(data);
-            }
-        });
-
-        $("#collapse" + post).collapse('show');
-    }
+    $("#post_"+id).find(".answer_post").show();
 }

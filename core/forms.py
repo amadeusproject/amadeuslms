@@ -15,31 +15,7 @@ class RegisterUserForm(forms.ModelForm):
 
     def validate_cpf(self, cpf):
         cpf = ''.join(re.findall('\d', str(cpf)))
-        # print(cpf)
-
-        # if (not cpf) or (len(cpf) < 11):
-        #     return False
-
-        # #Get only the first 9 digits and generate other 2
-        # _int = map(int, cpf)
-        # integer = list(map(int, cpf))
-        # new = integer[:9]
-
-        # while len(new) < 11:
-        #     r = sum([(len(new) + 1 - i)* v for i, v in enumerate(new)]) % 11
-
-        #     if r > 1:
-        #         f = 11 - r
-        #     else:
-        #         f = 0
-        #     new.append(f)
-
-        # #if generated number is the same(original) the cpf is valid
-        # new2 = list(new)
-        # if new2 == _int:
-        #     return cpf
-        # else:
-        #     return False
+        
         if cpfcnpj.validate(cpf):
             return True
         return False

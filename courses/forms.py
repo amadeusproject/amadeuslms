@@ -1,7 +1,7 @@
-
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from .models import Category, Course, Subject, Topic
+from .models import Category, Course, Subject, Topic, ActivityFile, Activity
+from s3direct.widgets import S3DirectWidget
 
 
 class CategoryForm(forms.ModelForm):
@@ -153,3 +153,38 @@ class TopicForm(forms.ModelForm):
 			'name': _("Topic's name"),
 			'description': _("Topic's description"),
 		}
+
+class ActivityFileForm(forms.ModelForm):
+  name = forms.CharField(
+            required=False,
+            max_length=100,
+            widget=forms.TextInput(attrs={
+                'placeholder': 'Nome',
+                'class': 'form-control'
+              },
+            )
+          )
+  pdf = forms.URLField(required=True, widget=S3DirectWidget(
+       dest='activitys',
+       html=(
+           '<div class="s3direct" data-policy-url="{policy_url}">'
+           '  <a class="file-link" target="_blank" href="{file_url}">{file_name}</a>'
+           '  <a class="file-remove" href="#remove">Remover</a>'
+           '  <input class="file-url" type="hidden" value="{file_url}" id="{element_id}" name="{name}" />'
+           '  <input class="file-dest" type="hidden" value="{dest}">'
+           '  <input class="file-input" type="file" />'
+           '  <div class="progress">'
+           '    <div class="progress-bar progress-bar-success progress-bar-striped active bar">'
+           '    </div>'
+           '  </div>'
+           '</div>'
+       )))
+
+  class Meta:
+    model = ActivityFile
+    fields = ['pdf','name']
+
+class ActivityForm(forms.ModelForm):  
+  class Meta:
+    model = Activity
+    fields = ['topic', 'limit_date', 'students','all_students']

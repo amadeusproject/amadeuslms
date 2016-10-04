@@ -266,7 +266,6 @@ li.alert_li:hover{background-color:#eee}
 a.alert_message{color : grey}
 a.alert_message:hover{color : grey}
 
-/*=================== Ailson - Please Don't touch*/
 .breadcrumb .divider{
   display: none;
 }
@@ -321,3 +320,5 @@ body .container .jumbotron-inverse, body .container .well-inverse, body .contain
 .notification-count {
     background-color: #FF0000;
 }
+
+.datepicker{z-index:9999 !important}

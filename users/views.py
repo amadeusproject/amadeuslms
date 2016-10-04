@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404,redirect
 from django.db.models import Q
 from django.views import generic
 from django.contrib import messages
@@ -10,6 +10,7 @@ from rolepermissions.shortcuts import assign_role
 from .models import User
 from .forms import UserForm, ProfileForm, UpdateUserForm
 
+# ================ ADMIN =======================
 class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 
 	allowed_roles = ['system_admin']
@@ -65,7 +66,7 @@ class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
 	slug_url_kwarg = 'username'
 	context_object_name = 'acc'
 	model = User
-	form_class = UserForm
+	form_class = UpdateUserForm
 	success_url = reverse_lazy('users:manage')
 
 	def form_valid(self, form):
@@ -93,6 +94,44 @@ class View(LoginRequiredMixin, generic.DetailView):
 	template_name = 'users/view.html'
 	slug_field = 'username'
 	slug_url_kwarg = 'username'
+
+def delete(request,username):
+	user = get_object_or_404(User,username = username)
+	user.delete()
+	messages.success(request,_("User deleted Successfully!"))
+	return redirect('users:manage')
+
+
+
+class UpdateUser(LoginRequiredMixin, generic.edit.UpdateView):
+
+	allowed_roles = ['student']
+	login_url = reverse_lazy("core:home")
+	template_name = 'users/edit_profile.html'
+	form_class = UpdateUserForm
+	success_url = reverse_lazy('users:update_profile')
+
+	def get_object(self):
+		user = get_object_or_404(User, username = self.request.user.username)
+		return user
+
+	def form_valid(self, form):
+		form.save()
+		messages.success(self.request, _('Profile edited successfully!'))
+
+		return super(UpdateUser, self).form_valid(form)
+
+class DeleteUser(LoginRequiredMixin, generic.edit.DeleteView):
+	allowed_roles = ['student']
+	login_url = reverse_lazy("core:home")
+	model = User
+	success_url = reverse_lazy('core:index')
+	success_message = "Deleted Successfully"
+
+	def get_queryset(self):
+		user = get_object_or_404(User, username = self.request.user.username)
+		return user
+
 
 class Profile(LoginRequiredMixin, generic.DetailView):
 
@@ -132,33 +171,3 @@ class EditProfile(LoginRequiredMixin, generic.UpdateView):
 		messages.success(self.request, _('Profile edited successfully!'))
 
 		return super(EditProfile, self).form_valid(form)
-
-
-class UpdateUser(LoginRequiredMixin, generic.edit.UpdateView):
-
-	allowed_roles = ['student']
-	login_url = reverse_lazy("core:home")
-	template_name = 'users/edit_profile.html'
-	form_class = UpdateUserForm
-	success_url = reverse_lazy('users:update_profile')
-
-	def get_object(self):
-		user = get_object_or_404(User, username = self.request.user.username)
-		return user
-
-	def form_valid(self, form):
-		form.save()
-		messages.success(self.request, _('Profile edited successfully!'))
-
-		return super(UpdateUser, self).form_valid(form)
-
-class DeleteUser(LoginRequiredMixin, generic.edit.DeleteView):
-	allowed_roles = ['student']
-	login_url = reverse_lazy("core:home")
-	model = User
-	success_url = reverse_lazy('core:index')
-	success_message = "Deleted Successfully"
-
-	def get_queryset(self):
-		user = get_object_or_404(User, username = self.request.user.username)
-		return user

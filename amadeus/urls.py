@@ -26,6 +26,9 @@ urlpatterns = [
     url(r'^forum/', include('forum.urls', namespace = 'forum')),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('core.urls', namespace = 'core')),
+
+    #S3Direct
+    url(r'^s3direct/', include('s3direct.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
