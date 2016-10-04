@@ -66,10 +66,20 @@ class ForumTestCase (TestCase):
         )
         self.topic.save()
 
+        self.forum = Forum.objects.create(
+            topic=self.topic,
+            name = 'forum test',
+            description = 'description of the forum test',
+            create_date = '2016-10-02',
+            modification_date = '2016-10-03',
+            limit_date = '2017-10-05',
+        )
+        self.forum.save()
+
     def test_create_forum (self):
     	forum = Forum.objects.create(
     		topic=self.topic,
-    		name = 'forum test',
+    		name = 'forum test2',
     		description = 'description of the forum test',
         	create_date = '2016-10-02',
         	modification_date = '2016-10-03',
@@ -77,4 +87,20 @@ class ForumTestCase (TestCase):
     	)
     	forum.save()
 
-    	self.assertEquals(forum, Forum.objects.all()[0])
+    	self.assertEquals(forum, Forum.objects.filter(name='forum test2')[0])
+
+    def test_update_forum(self):        
+        self.forum.name = 'forum test updated'
+        self.forum.save()
+
+        self.assertEquals(self.forum, Forum.objects.get(name='forum test updated'))
+
+    def test_delete_forum (self):
+        forum = Forum.objects.get(name='forum test')
+        self.forum.delete()
+        
+        try:
+            forum = Forum.objects.get(name='forum test')
+        except:
+            pass
+            
