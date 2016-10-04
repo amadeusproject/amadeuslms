@@ -14,6 +14,11 @@ function getCookie(name) {
     return cookieValue;
 }
 
+/*
+*
+* Function to load create forum's form and set the submit function
+*
+*/
 function createForum(url, topic) {
     $.ajax({
         url: url, 
@@ -22,10 +27,7 @@ function createForum(url, topic) {
             $(".forum_form").html(data);
             $("#id_topic").val(topic);
 
-            $('.date-picker').datepicker({
-                orientation: 'auto'
-            });
-
+            $('.date-picker').datepicker();
 
             var frm = $('#forum_create');
             frm.submit(function () {
@@ -34,16 +36,17 @@ function createForum(url, topic) {
                     url: frm.attr('action'),
                     data: frm.serialize(),
                     success: function (data) {
+                        console.log(data);
                         data = data.split('-');
 
-                        $('.foruns_list').append("<a href='javascript:"+showForum(data[0], data[1])+"'>"+data[2]+"</a><br />");
+                        $('.foruns_list').append("<a id='forum_"+data[1]+"' href='javascript:showForum("+data[0]+","+data[1]+")'>"+data[2]+"<br /></a>");
 
                         $("#createForum").modal('hide');
 
                         showForum(data[0], data[1]);
                     },
                     error: function(data) {
-                        console.log('Error');
+                        $(".forum_form").html(data.responseText);
                     }
                 });
                 return false;
@@ -53,7 +56,6 @@ function createForum(url, topic) {
 
     $("#createForum").modal();
 }
-
 
 /*
 *
@@ -88,6 +90,24 @@ function showForum(url, forum_id) {
     });
 
     $('#forumModal').modal();
+}
+
+function delete_forum(url, forum, message) {
+    alertify.confirm(message, function(){
+        var csrftoken = getCookie('csrftoken');
+        
+        $.ajax({
+            method: 'post',
+            beforeSend: function (request) {
+                request.setRequestHeader('X-CSRFToken', csrftoken);
+            },
+            url: url, 
+            success: function(data) {
+                $("#forum_"+forum).remove();
+                $('#forumModal').modal('hide');
+            }
+        });
+    });
 }
 
 /*

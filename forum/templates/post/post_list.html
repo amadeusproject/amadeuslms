@@ -10,7 +10,7 @@
                         <a href="javascript:answer('{{ post.id }}', '{% url 'forum:reply_post' %}');">
                             <i class="material-icons">reply</i>
                         </a>
-                        {% if request.user|has_role:'system_admin' or request.user|has_role:'professor' and request.user == post.user %}
+                        {% if request.user|has_role:'system_admin' or request.user == post.user %}
                             {% csrf_token %}
                             <div class="btn-group icon-more-horiz">
                                 <a class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

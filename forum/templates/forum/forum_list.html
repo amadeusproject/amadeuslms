@@ -3,7 +3,23 @@
 
 <div class="comments-list">
     <div class="section-heading">
-        <h1>{{ forum }}</h1>
+        <h1>
+            {{ forum }}
+            <div class="pull-right">
+                {% if request.user|has_role:'system_admin' or request.user|has_role:'professor' and request.user == post.user %}
+                    {% csrf_token %}
+                    <div class="btn-group icon-more-horiz">
+                        <a class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_horiz</i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="javascript:edit_forum('{% url 'forum:index' %}', '{{ forum.id }}')"><i class="material-icons">create</i> {% trans 'Edit' %}</a></li>
+                            <li><a href="javascript:delete_forum('{% url 'forum:delete' forum.id %}', '{{ forum.id }}', '{% trans "Are you sure you want to delete this forum?" %}')"><i class="material-icons">delete_sweep</i> {% trans 'Delete' %}</a></li>
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </h1>
         <h4><b>{% trans 'Description' %}:</b> {{ forum.description }}</h4>
         <h4><b>{% trans 'Opened in' %}:</b> {{ forum.create_date }}</h4>
     </div>
