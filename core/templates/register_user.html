@@ -56,6 +56,9 @@
 						                </div>
 						            {% elif field.auto_id == 'id_cpf' %}
 		                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
+
+		                			{% elif field.auto_id == 'id_phone' %}
+		                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
 									{% else %}
 										{% render_field field class='form-control' %}
 										<span id="helpBlock" class="help-block">{{ field.help_text }}</span>

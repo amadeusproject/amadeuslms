@@ -68,6 +68,14 @@
 									<label for="{{ field.auto_id }}">{{ field.label }}</label>
 								{% endif %}
                 				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
+
+                			{% elif field.auto_id == 'id_phone' %}
+                				{% if field.field.required %}
+									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}">{{ field.label }}</label>
+								{% endif %}
+                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
 							{% else %}
                 				{% if field.field.required %}
 									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
