@@ -41,7 +41,7 @@
             </div>
             <div class="panel-body">
                 <ul class="nav nav-pills nav-stacked">
-                    <li><a href="javascript:edit_forum('{% url 'course:forum:index' %}', '{{ forum.id }}')">{% trans 'Edit' %}</a></li>
+                    <li><a href="javascript:editForum('{% url 'course:forum:update' forum.id %}', '{{ forum.id }}')">{% trans 'Edit' %}</a></li>
                     <li><a href="javascript:delete_forum('{% url 'course:forum:delete' forum.id %}', '{{ forum.id }}', '{% trans "Are you sure you want to delete this forum?" %}', '{% url 'course:view_subject' forum.topic.subject.slug %}')">{% trans 'Delete' %}</a></li>
                 </ul>
             </div>
@@ -53,7 +53,7 @@
     <div class="row panel panel-default">
         <div class="panel-body">
             <div class="comments-list">
-                <div class="section-heading">
+                <div class="section-heading forum_view">
                     <h1>{{ forum }}</h1>
                     <h4><b>{% trans 'Description' %}:</b> {{ forum.description }}</h4>
                     <h4><b>{% trans 'Opened in' %}:</b> {{ forum.create_date }}</h4>
@@ -100,6 +100,25 @@
             </div>
             <div id="posts_list">
                 {% list_posts request forum %}
+            </div>
+        </div>
+    </div>
+    <!-- Modal to show Forum edit form -->
+    <div class="modal fade" id="editForum" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">{% trans 'Forum' %}</h4>
+                </div>
+                <div class="modal-body">
+                    <section>
+                        <div class="forum_form"></div>
+                    </section>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans 'Close' %}</button>
+                    <button type="button" onclick="$('#forum_create').submit();" class="btn btn-primary btn-raised">{% trans 'Update' %}</button>
+                </div>
             </div>
         </div>
     </div>

@@ -89,6 +89,44 @@ function createForum(url, topic) {
 
 /*
 *
+* Function to load edit forum's form and set the submit function
+*
+*/
+function editForum(url, forum) {
+    $.ajax({
+        url: url, 
+        data: {'pk': forum},
+        success: function(data) {
+            $(".forum_form").html(data);
+            //$("#id_topic").val(topic);
+
+            $('.date-picker').datepicker();
+
+            var frm = $('#forum_create');
+            frm.submit(function () {
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+                    success: function (data) {
+                        $('.forum_view').html(data);
+
+                        $("#editForum").modal('hide');
+                    },
+                    error: function(data) {
+                        $(".forum_form").html(data.responseText);
+                    }
+                });
+                return false;
+            });
+        }
+    });
+
+    $("#editForum").modal();
+}
+
+/*
+*
 * Function to delete a forum
 *
 */
