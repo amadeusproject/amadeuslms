@@ -41,7 +41,8 @@
 								{% endif %}
 								<div class="col-md-8">
 									{% if field.auto_id == 'id_birth_date' %}
-										{% render_field field class='form-control input-sm' type='date' %}
+										{% render_field field class='form-control input-sm date-picker' %}
+										
 										<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
 									{% elif field.auto_id == 'id_image' %}
 										{% render_field field class='form-control input-sm' %}
