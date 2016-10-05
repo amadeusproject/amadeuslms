@@ -98,7 +98,8 @@ WSGI_APPLICATION = 'amadeus.wsgi.application'
 # Database
 # https://docs.djangopr/*oject.com/en/1.9/ref/settings/#databases
 
-DATABASES = ['default'].update(db_from_ev)
+DATABASES = { 'default': db_from_ev,
+            }
 
 
 
