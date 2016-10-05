@@ -92,7 +92,7 @@ function createForum(url, topic) {
 * Function to delete a forum
 *
 */
-function delete_forum(url, forum, message) {
+function delete_forum(url, forum, message, return_url) {
     alertify.confirm(message, function(){
         var csrftoken = getCookie('csrftoken');
         
@@ -103,8 +103,9 @@ function delete_forum(url, forum, message) {
             },
             url: url, 
             success: function(data) {
-                $("#forum_"+forum).remove();
-                $('#forumModal').modal('hide');
+                alertify.alert('Amadeus', data, function(){
+                    window.location.href = return_url;
+                });
             }
         });
     });
