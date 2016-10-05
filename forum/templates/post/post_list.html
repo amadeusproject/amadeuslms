@@ -7,7 +7,7 @@
                 <h3 class="user-name">
                     {{ post.user }}
                     <div class="pull-right">
-                        <a href="javascript:answer('{{ post.id }}', '{% url 'forum:reply_post' %}');">
+                        <a href="javascript:answer('{{ post.id }}', '{% url 'course:forum:reply_post' %}');">
                             <i class="material-icons">reply</i>
                         </a>
                         {% if request.user|has_role:'system_admin' or request.user == post.user %}
@@ -17,8 +17,8 @@
                                     <i class="material-icons">more_horiz</i>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <li><a href="javascript:edit_post('{% url 'forum:update_post' post.id %}', '{{ post.id }}')"><i class="material-icons">create</i> {% trans 'Edit' %}</a></li>
-                                    <li><a href="javascript:javascript:delete_post('{% url 'forum:delete_post' post.id %}', '{{ post.id }}')"><i class="material-icons">delete_sweep</i> {% trans 'Remove' %}</a></li>
+                                    <li><a href="javascript:edit_post('{% url 'course:forum:update_post' post.id %}', '{{ post.id }}')"><i class="material-icons">create</i> {% trans 'Edit' %}</a></li>
+                                    <li><a href="javascript:javascript:delete_post('{% url 'course:forum:delete_post' post.id %}', '{{ post.id }}')"><i class="material-icons">delete_sweep</i> {% trans 'Remove' %}</a></li>
                                 </ul>
                             </div>
                         {% endif %}
@@ -41,33 +41,3 @@
         {% list_post_answer request post %}
     {% endfor %}
 {% endif %}
-            <!--<li>
-                <a class="post_collapse" role="button" href="javascript: showPostsAnswers('{% url 'forum:post_answers' %}', '{{ post.id }}')" aria-expanded="false">
-                    <div class="timeline-panel">
-                        <div class="row">
-                            <div class="col-xs-2 col-sm-2 col-md-2">
-                                <img class="img-responsive img-rounded" src="{{ post.user.image_url }}" />
-                            </div>
-                            <div class="col-xs-10 col-sm-10 col-md-10">
-                                <div class="timeline-heading">
-                                    <h3> {{ post.user }}</h3>
-                                </div>
-                                <div class="timeline-body">
-                                    <p><em>{{ post.message|linebreaks }}</em></p>
-                                </div>
-                                <hr>
-                                <small class="text-muted">
-                                    <span class="pull-right">
-                                        <i class="glyphicon glyphicon-time"></i> {{ post.post_date|timesince }} 
-                                        {% trans ' ago' %}
-                                    </span>
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <div class="collapse" id="collapse{{ post.id }}" style="margin-top:10px;">
-                    <div class="well">
-                    </div>
-                </div>
-            </li>-->

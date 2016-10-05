@@ -24,6 +24,7 @@ urlpatterns = [
 	url(r'^subjects/categories$',views.IndexSubjectCategoryView.as_view(), name='subject_category_index'),
 
 
+	url(r'^forum/', include('forum.urls', namespace = 'forum')),
 	url(r'^poll/', include('poll.urls', namespace = 'poll'))
 
 ]

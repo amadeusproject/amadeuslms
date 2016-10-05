@@ -1,10 +1,11 @@
-from django.conf.urls import url, include
+from django.conf.urls import url
 
 from . import views
 
 
 urlpatterns = [
 	url(r'^$', views.ForumIndex.as_view(), name='index'),
+	url(r'^(?P<slug>[\w_-]+)/$', views.ForumDetailView.as_view(), name='view'),
 	url(r'^create/$', views.CreateForumView.as_view(), name='create'),
 	url(r'^delete/(?P<pk>[\w_-]+)/$', views.ForumDeleteView.as_view(), name='delete'),
 	url(r'^render_forum/([\w_-]+)/$', views.render_forum, name='render_forum'),

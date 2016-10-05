@@ -29,7 +29,7 @@
     {% list_posts request forum %}
 </div>
 
-<form id="form_post" method="post" action="{% url 'forum:create_post' %}" enctype="multipart/form-data">
+<form id="form_post" method="post" action="{% url 'course:forum:create_post' %}" enctype="multipart/form-data">
     {% csrf_token %}
     {% for field in form %}
         {% if field.field.widget.input_type == 'hidden' %}
@@ -64,25 +64,3 @@
         {% endif %}
     {% endfor %}
 </form>
-
-<!--{% if foruns|length > 0 %}
-    {% for forum in foruns %}
-        <a class="forum_collapse" role="button" href="javascript: showPosts('{% url 'forum:posts' %}', '{{ forum.slug }}')" aria-expanded="true">
-            <div class="page-header">
-                <h1 id="timeline">
-                    {{ forum }}
-                </h1>
-                <b>{% trans 'Description' %}: </b>{{ forum.description }}<p>
-                <b>{% trans 'Created in' %}: </b>{{ forum.create_date }}
-            </div>
-        </a>
-        <div class="collapse" id="collapse{{ forum.slug }}">
-            <div class="well">
-            </div>
-        </div>
-    {% endfor %}
-{% else %}
-    <div class="page-header">
-        <p>{% trans 'No forum created yet.' %}</p>
-    </div>
-{% endif %}-->

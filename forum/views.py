@@ -42,14 +42,14 @@ class CreateForumView(LoginRequiredMixin, generic.edit.CreateView):
 
 	def get_success_url(self):
 		print("Pass")
-		self.success_url = reverse('forum:render_forum', args = (self.object.id, ))
+		self.success_url = reverse('course:forum:render_forum', args = (self.object.id, ))
 		
 		return self.success_url
 
 def render_forum(request, forum):
 	last_forum = get_object_or_404(Forum, id = forum)
 
-	return HttpResponse(str(reverse_lazy('forum:index')) + '-' + str(forum) + '-' + str(last_forum.name))
+	return HttpResponse(str(reverse_lazy('course:forum:index')) + '-' + str(forum) + '-' + str(last_forum.name))
 
 class ForumDeleteView(LoginRequiredMixin, generic.DeleteView):
 	login_url = reverse_lazy("core:home")
@@ -57,10 +57,27 @@ class ForumDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 	model = Forum
 	pk_url_kwarg = 'pk'	
-	success_url = reverse_lazy('forum:deleted_forum')
+	success_url = reverse_lazy('course:forum:deleted_forum')
 
 def forum_deleted(request):
 	return HttpResponse(_("Forum deleted successfully."))
+
+class ForumDetailView(LoginRequiredMixin, generic.DetailView):
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+
+	model = Forum
+	template_name = 'forum/forum_view.html'
+	context_object_name = 'forum'
+
+	def get_context_data(self, **kwargs):
+		context = super(ForumDetailView, self).get_context_data(**kwargs)
+		forum = get_object_or_404(Forum, slug = self.kwargs.get('slug'))
+
+		context['forum'] = forum
+		context['title'] = forum.name
+
+		return context
 
 class CreatePostView(LoginRequiredMixin, generic.edit.CreateView):
 	login_url = reverse_lazy("core:home")	
@@ -77,7 +94,7 @@ class CreatePostView(LoginRequiredMixin, generic.edit.CreateView):
 		return super(CreatePostView, self).form_valid(form)
 
 	def get_success_url(self):
-		self.success_url = reverse('forum:render_post', args = (self.object.id, ))
+		self.success_url = reverse('course:forum:render_post', args = (self.object.id, ))
 		
 		return self.success_url
 
@@ -98,7 +115,7 @@ class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
 	template_name = "post/post_update_form.html"
 
 	def get_success_url(self):
-		self.success_url = reverse('forum:render_post', args = (self.object.id, ))
+		self.success_url = reverse('course:forum:render_post', args = (self.object.id, ))
 		
 		return self.success_url
 
@@ -108,7 +125,7 @@ class PostDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 	model = Post
 	pk_url_kwarg = 'pk'	
-	success_url = reverse_lazy('forum:deleted_post')
+	success_url = reverse_lazy('course:forum:deleted_post')
 
 def post_deleted(request):
 	return HttpResponse(_("Post deleted successfully."))
@@ -131,4 +148,4 @@ class CreatePostAnswerView(LoginRequiredMixin, generic.edit.CreateView):
 
 	template_name = 'post_answers/post_answer_form.html'
 	form_class = PostAnswerForm
-	success_url = reverse_lazy('forum:index')
+	success_url = reverse_lazy('course:forum:index')

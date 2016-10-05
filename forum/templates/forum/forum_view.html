@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% load static i18n permission_tags list_post %}
+{% load widget_tweaks %}
+
+{% block javascript %}
+    <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+
+    <ol class="breadcrumb">
+        <li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+        <li><a href="{% url 'course:view' forum.topic.subject.course.slug %}">{{ forum.topic.subject.course }}</a></li>
+        {% if user|has_role:'professor' or user|has_role:'system_admin' %}
+            <li class="active">{% trans 'Forum' %}</li>
+        {% else %}
+            <li class="active">{{ forum.name }}</li>
+        {% endif %}
+        
+    </ol>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="panel panel-primary navigation">
+        <div class="panel-heading">
+            <h5>{% trans 'Menu' %}</h5>
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
+                <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    {% if request.user|has_role:'system_admin' or request.user|has_role:'professor' and request.user == post.user %}
+        <div class="panel panel-primary navigation">
+            <div class="panel-heading">
+                <h3 class="panel-title">{% trans 'Actions' %}</h3>
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="javascript:edit_forum('{% url 'course:forum:index' %}', '{{ forum.id }}')">{% trans 'Edit' %}</a></li>
+                    <li><a href="javascript:delete_forum('{% url 'course:forum:delete' forum.id %}', '{{ forum.id }}', '{% trans "Are you sure you want to delete this forum?" %}')">{% trans 'Delete' %}</a></li>
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="row panel panel-default">
+        <div class="panel-body">
+            <div class="comments-list">
+                <div class="section-heading">
+                    <h1>{{ forum }}</h1>
+                    <h4><b>{% trans 'Description' %}:</b> {{ forum.description }}</h4>
+                    <h4><b>{% trans 'Opened in' %}:</b> {{ forum.create_date }}</h4>
+                </div>
+            </div>
+
+            <div id="posts_list">
+                {% list_posts request forum %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block rightbar %}
+  <div class="panel panel-warning">
+    <div class="panel-heading">
+      <h3 class="panel-title">{% trans "Pending Stuffs" %}</h3>
+    </div>
+    <div class="panel-body">
+
+    </div>
+  </div>
+{% endblock rightbar %}
