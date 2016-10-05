@@ -69,7 +69,7 @@ function createForum(url, topic) {
                         console.log(data);
                         data = data.split('-');
 
-                        $('.foruns_list').append("<a id='forum_"+data[1]+"' href='javascript:showForum("+data[0]+","+data[1]+")'>"+data[2]+"<br /></a>");
+                        $('.foruns_list').append("<a id='forum_"+data[1]+"' href='"+data[0]+"'>"+data[2]+"<br /></a>");
 
                         $("#createForum").modal('hide');
 

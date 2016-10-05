@@ -1,7 +1,7 @@
 {% load static i18n %}
 {% load widget_tweaks %}
 
-<form id="forum_create" method="post" action="{% url 'forum:create' %}" enctype="multipart/form-data">
+<form id="forum_create" method="post" action="{% url 'course:forum:create' %}" enctype="multipart/form-data">
 	{% csrf_token %}
 	{% for field in form %}
 		<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
