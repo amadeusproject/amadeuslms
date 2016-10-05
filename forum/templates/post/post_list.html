@@ -36,8 +36,10 @@
                     <p class="comment-text">{{ post.message|linebreaks }}</p>
                 </div>
                 <div class="answer_post"></div>
+                <div class="answer_list">
+                    {% list_post_answer request post %}
+                </div>
             </div>
         </div>
-        {% list_post_answer request post %}
     {% endfor %}
 {% endif %}

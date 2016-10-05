@@ -41,10 +41,11 @@ class PostAnswerForm(forms.ModelForm):
 
 	class Meta:
 		model = PostAnswer
-		fields = ('message', )
+		fields = ('message', 'post', )
 		labels = {
 			'message': _('Message')
 		}
 		widgets = {
 			'message': forms.Textarea(attrs={'cols': 80, 'rows': 3}),
+			'post': forms.HiddenInput(),
 		}
