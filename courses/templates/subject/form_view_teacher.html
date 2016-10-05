@@ -19,7 +19,7 @@
     </a>
     <div class="panel-body">
         <p>{{ topic.description|linebreaks }}</p>
-        <button class="btn btn-primary btn-raised" onclick="createForum('{% url 'forum:create' %}', '{{ topic.id }}')">{% trans '+ Create Forum' %}</button>
+        <button class="btn btn-primary btn-raised" onclick="createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans '+ Create Forum' %}</button>
         <div class="foruns_list">
             {% list_topic_foruns request topic %}
         </div>

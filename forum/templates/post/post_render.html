@@ -5,7 +5,7 @@
         <h3 class="user-name">
             {{ post.user }}
             <div class="pull-right">
-                <a href="javascript:answer('{{ post.id }}', '{% url 'forum:reply_post' %}');">
+                <a href="javascript:answer('{{ post.id }}', '{% url 'course:forum:reply_post' %}');">
                     <i class="material-icons">reply</i>
                 </a>
                 {% if request.user|has_role:'system_admin' or request.user|has_role:'professor' and request.user == post.user %}
@@ -15,8 +15,8 @@
                             <i class="material-icons">more_horiz</i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="javascript:edit_post('{% url 'forum:update_post' post.id %}', '{{ post.id }}')"></li>
-                            <li><a href="javascript:delete_post('{% url 'forum:delete_post' post.id %}', '{{ post.id }}')"><i class="material-icons">delete_sweep</i> {% trans 'Remove' %}</a></li>
+                            <li><a href="javascript:edit_post('{% url 'course:forum:update_post' post.id %}', '{{ post.id }}')"></li>
+                            <li><a href="javascript:delete_post('{% url 'course:forum:delete_post' post.id %}', '{{ post.id }}')"><i class="material-icons">delete_sweep</i> {% trans 'Remove' %}</a></li>
                         </ul>
                     </div>
                 {% endif %}

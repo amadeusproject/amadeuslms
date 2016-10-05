@@ -1,4 +1,4 @@
-from django.conf.urls import url, include
+from django.conf.urls import url
 
 from . import views
 
@@ -16,4 +16,5 @@ urlpatterns = [
 	url(r'^post_deleted/$', views.post_deleted, name='deleted_post'),
 	url(r'^post_answers/$', views.PostAnswerIndex.as_view(), name='post_answers'),
 	url(r'^reply_post/$', views.CreatePostAnswerView.as_view(), name='reply_post'),
+	url(r'^(?P<slug>[\w_-]+)/$', views.ForumDetailView.as_view(), name='view'),
 ]
