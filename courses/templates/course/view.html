@@ -99,7 +99,7 @@
       </div>
       <div class="modal-body">
         <div>
-          <form class="form-horizontal">
+          <!--<form class="form-horizontal">
             <div class="form-group is-empty">
               <label class="control-label col-md-2 col-md-offset-1 col-xs-2 col-xs-offset-1">Name</label>
               <div class="col-md-8 col-xs-8">
@@ -148,7 +148,7 @@
                 </div>
               </div>
             </div>
-          </form>
+          </form>-->
         </div>
         <div class="modal-footer">
           <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
@@ -233,6 +233,10 @@
         <a href="{% url 'course:view_subject' subject.slug %}" class="btn btn-raised btn-default center-block">{% trans 'View Subject' %}<div class="ripple-container"></div></a>
     </div>
 </div>
+<div class="form-group">
+  <a href="{% url 'course:create_subject' subject.slug %}" data-toggle="modal" data-target="" class="btn btn-primary btn-lg btn-block btn-raised">{% trans 'Create Subject' %}<div class="ripple-container"></div></a>
+</div>
+
 {% endfor %}
 
 
