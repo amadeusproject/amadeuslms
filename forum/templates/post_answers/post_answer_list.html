@@ -2,11 +2,11 @@
 
 {% if answers|length > 0 %}
     {% for answer in answers %}
-        <div class="row" style="background-color: #e0e0e0">
+        <div id="answer_{{ answer_id }}" class="row" style="background-color: #e0e0e0">
             <div class="col-sm-12 col-xs-12">
                 <h3 class="user-name">
                     {{ answer.user }}
-                    {% if request.user|has_role:'system_admin' or request.user|has_role:'professor' and request.user == answer.user %}
+                    {% if request.user|has_role:'system_admin' or request.user == answer.user %}
                         <div class="pull-right">
                             <div class="btn-group icon-more-horiz">
                                 <a class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

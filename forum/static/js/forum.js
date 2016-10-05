@@ -217,6 +217,26 @@ function answer(id, url) {
         url: url, 
         success: function(data) {
             $("#post_"+id).find(".answer_post").html(data);
+            $("#post_"+id).find("#id_post").val(id);
+
+            var frm = $("#post_"+id).find(".answer_post_form");
+            frm.submit(function () {
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+                    success: function (data) {
+                        $("#post_"+id).find(".answer_list").append(data);
+
+                        $("#post_"+id).find(".answer_post").hide();
+                    },
+                    error: function(data) {
+                        console.log(frm.serialize());
+                        console.log('Error');
+                    }
+                });
+                return false;
+            });
         }
     });
 
