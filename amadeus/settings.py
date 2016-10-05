@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'users',
     'forum',
     'poll',
+    'avaliacao',
     's3direct',
 ]
 
