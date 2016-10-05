@@ -62,14 +62,14 @@
 	          <div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion" role="tablist" aria-multiselectable="false">
 	            <div class="group">
 					<div class="panel panel-info">
-					    <div class="panel-heading headingOne ui-sortable-handle" role="tab">
+					    <div class="panel-heading" role="tab">
 					      <div class="row">
-					        <div class="col-xs-9 col-md-10 titleTopic">
+					        <div class="col-xs-9 col-md-9 titleTopic">
 					          <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
-					          <h4>{{course.name}}</h4>
+					          <h4 style="color:white">{{course.name}}</h4>
 					          </a>
 					        </div>
-					        <div class="col-xs-4 col-md-2" id="divMoreActions">
+					        <div class="col-xs-4 col-md-3" id="divMoreActions">
 					            <div class="btn-group">
 					              <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
 					                <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
@@ -81,7 +81,6 @@
 					                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
 					              </button>
 					              <ul class="dropdown-menu" aria-labelledby="moreActions">
-					                <li><a href="{% url 'course:view' course.slug %}"><i class="fa fa-angle-double-right fa-fw" aria-hidden="true"></i>&nbsp; Access</a></li>
 					                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
 					                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeCourse"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
 					              </ul>
@@ -100,7 +99,7 @@
 					            {{course.description}}
 					          </i>
 					        </p>
-
+							<a href="{% url 'course:view' course.slug %}" class="btn btn-raised btn-default center-block">{% trans 'View Course' %}<div class="ripple-container"></div></a>
 					      </div>
 					    </div>
 					</div>

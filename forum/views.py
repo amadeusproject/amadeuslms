@@ -74,6 +74,7 @@ class ForumDetailView(LoginRequiredMixin, generic.DetailView):
 		context = super(ForumDetailView, self).get_context_data(**kwargs)
 		forum = get_object_or_404(Forum, slug = self.kwargs.get('slug'))
 
+		context['form'] = PostForm()
 		context['forum'] = forum
 		context['title'] = forum.name
 
@@ -145,6 +146,8 @@ class PostAnswerIndex(LoginRequiredMixin, generic.ListView):
 		return context
 
 class CreatePostAnswerView(LoginRequiredMixin, generic.edit.CreateView):
+	login_url = reverse_lazy("core:home")	
+	redirect_field_name = 'next'
 
 	template_name = 'post_answers/post_answer_form.html'
 	form_class = PostAnswerForm
