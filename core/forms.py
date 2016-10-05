@@ -1,4 +1,5 @@
 from django import forms
+from datetime import date
 from django.utils.translation import ugettext_lazy as _
 from users.models import User
 from pycpfcnpj import cpfcnpj
@@ -25,6 +26,13 @@ class RegisterUserForm(forms.ModelForm):
         if User.objects.filter(email = email).exists():
             raise forms.ValidationError(_('There is already a registered User with this e-mail'))
         return email
+
+    def clean_birth_date(self):
+        birth_date = self.cleaned_data['birth_date']
+        if birth_date >= date.today():
+            raise forms.ValidationError(_('Please enter a valid date'))
+        return birth_date
+
 
     def clean_cpf(self):
         cpf = self.cleaned_data['cpf']
