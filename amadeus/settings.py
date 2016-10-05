@@ -42,14 +42,14 @@ INSTALLED_APPS = [
     'rolepermissions',
     'rest_framework',
     'django_bootstrap_breadcrumbs',
+    's3direct',
 
+    'users',
     'core',
     'app',
     'courses',
-    'users',
     'forum',
     'poll',
-    's3direct',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -206,7 +206,6 @@ S3DIRECT_DESTINATIONS = {
     'material': (lambda original_filename: 'uploads/material/'+str(uuid4())+'.pdf', lambda u: True, ['application/pdf']),
 
 }
-
 
 try:
     from .local_settings import *
