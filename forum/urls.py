@@ -19,5 +19,7 @@ urlpatterns = [
 	url(r'^post_answers/$', views.PostAnswerIndex.as_view(), name='post_answers'),
 	url(r'^reply_post/$', views.CreatePostAnswerView.as_view(), name='reply_post'),
 	url(r'^render_post_answer/([\w_-]+)/$', views.render_post_answer, name='render_post_answer'),
+	url(r'^delete_post_answer/(?P<pk>[\w_-]+)/$', views.PostAnswerDeleteView.as_view(), name='delete_answer'),
+	url(r'^post_answer_deleted/$', views.answer_deleted, name='deleted_answer'),
 	url(r'^(?P<slug>[\w_-]+)/$', views.ForumDetailView.as_view(), name='view'),
 ]

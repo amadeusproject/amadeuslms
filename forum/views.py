@@ -209,3 +209,14 @@ def render_post_answer(request, answer):
 	context['answer'] = last_answer
 
 	return render(request, "post_answers/post_answer_render.html", context)
+
+class PostAnswerDeleteView(LoginRequiredMixin, generic.DeleteView):
+	login_url = reverse_lazy("core:home")	
+	redirect_field_name = 'next'
+
+	model = PostAnswer
+	pk_url_kwarg = 'pk'	
+	success_url = reverse_lazy('course:forum:deleted_answer')
+
+def answer_deleted(request):
+	return HttpResponse(_("Post answer deleted successfully."))

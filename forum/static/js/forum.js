@@ -212,6 +212,11 @@ function delete_post(url, post) {
     });
 }
 
+/*
+*
+* Function to load answer post form and set the submit function
+*
+*/
 function answer(id, url) {
     $.ajax({
         url: url, 
@@ -241,4 +246,28 @@ function answer(id, url) {
     });
 
     $("#post_"+id).find(".answer_post").show();
+}
+
+/*
+*
+* Function to delete an answer
+*
+*/
+function delete_answer(url, answer, message) {
+    alertify.confirm(message, function(){
+        var csrftoken = getCookie('csrftoken');
+        
+        $.ajax({
+            method: 'post',
+            beforeSend: function (request) {
+                request.setRequestHeader('X-CSRFToken', csrftoken);
+            },
+            url: url, 
+            success: function(data) {
+                alertify.alert('Amadeus', data, function(){
+                    $("#answer_"+answer).remove();
+                });
+            }
+        });
+    });
 }
