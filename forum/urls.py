@@ -5,7 +5,6 @@ from . import views
 
 urlpatterns = [
 	url(r'^$', views.ForumIndex.as_view(), name='index'),
-	url(r'^(?P<slug>[\w_-]+)/$', views.ForumDetailView.as_view(), name='view'),
 	url(r'^create/$', views.CreateForumView.as_view(), name='create'),
 	url(r'^delete/(?P<pk>[\w_-]+)/$', views.ForumDeleteView.as_view(), name='delete'),
 	url(r'^render_forum/([\w_-]+)/$', views.render_forum, name='render_forum'),
@@ -17,4 +16,5 @@ urlpatterns = [
 	url(r'^post_deleted/$', views.post_deleted, name='deleted_post'),
 	url(r'^post_answers/$', views.PostAnswerIndex.as_view(), name='post_answers'),
 	url(r'^reply_post/$', views.CreatePostAnswerView.as_view(), name='reply_post'),
+	url(r'^(?P<slug>[\w_-]+)/$', views.ForumDetailView.as_view(), name='view'),
 ]

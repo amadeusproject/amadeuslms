@@ -1,3 +1,8 @@
+/*
+*
+* Function to get a cookie stored on browser
+*
+*/
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -13,6 +18,31 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+/*
+*
+* Defining action of the form to make a post in forum
+*
+*/
+$(document).ready(function (){
+    var frm = $('#form_post');
+    frm.submit(function () {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                $("#posts_list").append(data);
+                frm[0].reset();
+            },
+            error: function(data) {
+                console.log(frm.serialize());
+                console.log('Error');
+            }
+        });
+        return false;
+    });
+});
 
 /*
 *
@@ -59,39 +89,9 @@ function createForum(url, topic) {
 
 /*
 *
-* Function to load forum to modal
+* Function to delete a forum
 *
 */
-function showForum(url, forum_id) {
-    $.ajax({
-        url: url, 
-        data: {'forum_id': forum_id},
-        success: function(data) {
-            $(".forum_topics").html(data);
-
-            var frm = $('#form_post');
-            frm.submit(function () {
-                $.ajax({
-                    type: frm.attr('method'),
-                    url: frm.attr('action'),
-                    data: frm.serialize(),
-                    success: function (data) {
-                        $("#posts_list").append(data);
-                        frm[0].reset();
-                    },
-                    error: function(data) {
-                        console.log(frm.serialize());
-                        console.log('Error');
-                    }
-                });
-                return false;
-            });
-        }
-    });
-
-    $('#forumModal').modal();
-}
-
 function delete_forum(url, forum, message) {
     alertify.confirm(message, function(){
         var csrftoken = getCookie('csrftoken');
