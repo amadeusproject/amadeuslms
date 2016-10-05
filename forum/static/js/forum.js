@@ -89,6 +89,44 @@ function createForum(url, topic) {
 
 /*
 *
+* Function to load edit forum's form and set the submit function
+*
+*/
+function editForum(url, forum) {
+    $.ajax({
+        url: url, 
+        data: {'pk': forum},
+        success: function(data) {
+            $(".forum_form").html(data);
+            //$("#id_topic").val(topic);
+
+            $('.date-picker').datepicker();
+
+            var frm = $('#forum_create');
+            frm.submit(function () {
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+                    success: function (data) {
+                        $('.forum_view').html(data);
+
+                        $("#editForum").modal('hide');
+                    },
+                    error: function(data) {
+                        $(".forum_form").html(data.responseText);
+                    }
+                });
+                return false;
+            });
+        }
+    });
+
+    $("#editForum").modal();
+}
+
+/*
+*
 * Function to delete a forum
 *
 */
@@ -174,13 +212,62 @@ function delete_post(url, post) {
     });
 }
 
+/*
+*
+* Function to load answer post form and set the submit function
+*
+*/
 function answer(id, url) {
     $.ajax({
         url: url, 
         success: function(data) {
             $("#post_"+id).find(".answer_post").html(data);
+            $("#post_"+id).find("#id_post").val(id);
+
+            var frm = $("#post_"+id).find(".answer_post_form");
+            frm.submit(function () {
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+                    success: function (data) {
+                        $("#post_"+id).find(".answer_list").append(data);
+
+                        $("#post_"+id).find(".answer_post").hide();
+                    },
+                    error: function(data) {
+                        console.log(frm.serialize());
+                        console.log('Error');
+                    }
+                });
+                return false;
+            });
         }
     });
 
     $("#post_"+id).find(".answer_post").show();
+}
+
+/*
+*
+* Function to delete an answer
+*
+*/
+function delete_answer(url, answer, message) {
+    alertify.confirm(message, function(){
+        var csrftoken = getCookie('csrftoken');
+        
+        $.ajax({
+            method: 'post',
+            beforeSend: function (request) {
+                request.setRequestHeader('X-CSRFToken', csrftoken);
+            },
+            url: url, 
+            success: function(data) {
+                alertify.alert('Amadeus', data, function(){
+                    $("#answer_"+answer).remove();
+                });
+            }
+        });
+    });
 }
