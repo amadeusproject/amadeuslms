@@ -206,7 +206,6 @@
               <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
             </button>
             <ul class="dropdown-menu" aria-labelledby="moreActions">
-              <li><a href="{% url 'course:view_subject' subject.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Access</a></li>
               <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
               <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeSubject2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
             </ul>
@@ -231,6 +230,7 @@
             <p><b>{% trans "End" %}: </b>{{subject.end_date}}</p>
           </div>
         </div>
+        <a href="{% url 'course:view_subject' subject.slug %}" class="btn btn-raised btn-default center-block">{% trans 'View Subject' %}<div class="ripple-container"></div></a>
     </div>
 </div>
 {% endfor %}
