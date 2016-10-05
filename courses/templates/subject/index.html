@@ -67,7 +67,9 @@
 	{% endfor %}
 
 	{% if user|has_role:'system_admin' or topic.owner == user%}
-		<a name="create_topic" class="btn btn-primary btn-md btn-block" href="{% url 'course:create_topic' subject.slug %}">{% trans "Create Topic" %}</a>
+		<div class="form-group">
+            <a href="{% url 'course:create_topic' subject.slug %}" data-toggle="modal" data-target="" class="btn btn-primary btn-lg btn-block btn-raised" name="create_topic">{% trans "Create Topic" %}<div class="ripple-container"></div></a>
+          </div>
 	{% endif %}	
 
 {% endblock %}

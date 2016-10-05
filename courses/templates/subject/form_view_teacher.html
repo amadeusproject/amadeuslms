@@ -19,28 +19,9 @@
     </a>
     <div class="panel-body">
         <p>{{ topic.description|linebreaks }}</p>
-        <button class="btn btn-primary btn-raised" onclick="createForum('{% url 'forum:create' %}', '{{ topic.id }}')">{% trans '+ Create Forum' %}</button>
+        <button class="btn btn-primary btn-raised" onclick="createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans '+ Create Forum' %}</button>
         <div class="foruns_list">
             {% list_topic_foruns request topic %}
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="forumModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">{% trans 'Forum' %}</h4>
-            </div>
-            <div class="modal-body">
-                <section>
-                    <div class="forum_topics"></div>
-                </section>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans 'Close' %}</button>
-                <button type="button" class="btn btn-primary btn-raised">{% trans 'Save changes' %}</button>
-            </div>
         </div>
     </div>
 </div>

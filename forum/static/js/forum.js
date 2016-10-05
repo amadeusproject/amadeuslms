@@ -1,3 +1,8 @@
+/*
+*
+* Function to get a cookie stored on browser
+*
+*/
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -13,6 +18,31 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+/*
+*
+* Defining action of the form to make a post in forum
+*
+*/
+$(document).ready(function (){
+    var frm = $('#form_post');
+    frm.submit(function () {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                $("#posts_list").append(data);
+                frm[0].reset();
+            },
+            error: function(data) {
+                console.log(frm.serialize());
+                console.log('Error');
+            }
+        });
+        return false;
+    });
+});
 
 /*
 *
@@ -39,7 +69,7 @@ function createForum(url, topic) {
                         console.log(data);
                         data = data.split('-');
 
-                        $('.foruns_list').append("<a id='forum_"+data[1]+"' href='javascript:showForum("+data[0]+","+data[1]+")'>"+data[2]+"<br /></a>");
+                        $('.foruns_list').append("<a id='forum_"+data[1]+"' href='"+data[0]+"'>"+data[2]+"<br /></a>");
 
                         $("#createForum").modal('hide');
 
@@ -59,29 +89,32 @@ function createForum(url, topic) {
 
 /*
 *
-* Function to load forum to modal
+* Function to load edit forum's form and set the submit function
 *
 */
-function showForum(url, forum_id) {
+function editForum(url, forum) {
     $.ajax({
         url: url, 
-        data: {'forum_id': forum_id},
+        data: {'pk': forum},
         success: function(data) {
-            $(".forum_topics").html(data);
+            $(".forum_form").html(data);
+            //$("#id_topic").val(topic);
 
-            var frm = $('#form_post');
+            $('.date-picker').datepicker();
+
+            var frm = $('#forum_create');
             frm.submit(function () {
                 $.ajax({
                     type: frm.attr('method'),
                     url: frm.attr('action'),
                     data: frm.serialize(),
                     success: function (data) {
-                        $("#posts_list").append(data);
-                        frm[0].reset();
+                        $('.forum_view').html(data);
+
+                        $("#editForum").modal('hide');
                     },
                     error: function(data) {
-                        console.log(frm.serialize());
-                        console.log('Error');
+                        $(".forum_form").html(data.responseText);
                     }
                 });
                 return false;
@@ -89,10 +122,15 @@ function showForum(url, forum_id) {
         }
     });
 
-    $('#forumModal').modal();
+    $("#editForum").modal();
 }
 
-function delete_forum(url, forum, message) {
+/*
+*
+* Function to delete a forum
+*
+*/
+function delete_forum(url, forum, message, return_url) {
     alertify.confirm(message, function(){
         var csrftoken = getCookie('csrftoken');
         
@@ -103,8 +141,9 @@ function delete_forum(url, forum, message) {
             },
             url: url, 
             success: function(data) {
-                $("#forum_"+forum).remove();
-                $('#forumModal').modal('hide');
+                alertify.alert('Amadeus', data, function(){
+                    window.location.href = return_url;
+                });
             }
         });
     });

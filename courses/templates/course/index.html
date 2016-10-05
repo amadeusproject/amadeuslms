@@ -53,23 +53,33 @@
 		{% endfor %}
 	{% endif %}
 
+<div class="col-md-12">
+		<div class="input-group">
+		  <div class="form-group is-empty"><input type="search" class="form-control" placeholder="Search Courses"></div>
+		    <span class="input-group-btn input-group-sm">
+		      <button type="button" class="btn btn-fab btn-fab-mini">
+		        <i class="material-icons">search</i>
+		      </button>
+		    </span>
+		</div>
+	</div>
 {% if user|has_role:'professor, system_admin' %}
 
 	<div class="col-md-12">
-		{% if courses_teacher|length > 0 %}
+		{% if courses|length > 0 %}
 			{% for course in courses_teacher %}
 			  <!-- Put your content here! -->
 	          <div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion" role="tablist" aria-multiselectable="false">
 	            <div class="group">
 					<div class="panel panel-info">
-					    <div class="panel-heading headingOne ui-sortable-handle" role="tab">
+					    <div class="panel-heading" role="tab">
 					      <div class="row">
-					        <div class="col-xs-9 col-md-10 titleTopic">
+					        <div class="col-xs-9 col-md-9 titleTopic">
 					          <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
-					          <h4>{{course.name}}</h4>
+					          <h4 style="color:white">{{course.name}}</h4>
 					          </a>
 					        </div>
-					        <div class="col-xs-4 col-md-2" id="divMoreActions">
+					        <div class="col-xs-4 col-md-3" id="divMoreActions">
 					            <div class="btn-group">
 					              <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
 					                <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
@@ -81,7 +91,6 @@
 					                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
 					              </button>
 					              <ul class="dropdown-menu" aria-labelledby="moreActions">
-					                <li><a href="{% url 'course:view' course.slug %}"><i class="fa fa-angle-double-right fa-fw" aria-hidden="true"></i>&nbsp; Access</a></li>
 					                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
 					                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeCourse"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
 					              </ul>
@@ -100,7 +109,7 @@
 					            {{course.description}}
 					          </i>
 					        </p>
-
+							<a href="{% url 'course:view' course.slug %}" class="btn btn-raised btn-default center-block">{% trans 'View Course' %}<div class="ripple-container"></div></a>
 					      </div>
 					    </div>
 					</div>
@@ -131,21 +140,11 @@
 				</div>
 			</div>
 		</div>
+{% endif %}
 
-{% else %}
+{% if user|has_role:'students' %}
 
-	<div class="col-md-12">
-		<div class="input-group">
-		  <div class="form-group is-empty"><input type="search" class="form-control" placeholder="Search Courses"></div>
-		    <span class="input-group-btn input-group-sm">
-		      <button type="button" class="btn btn-fab btn-fab-mini">
-		        <i class="material-icons">search</i>
-		      </button>
-		    </span>
-		</div>
-	</div>
-
-	{% if subjects_student|length > 0 %}
+	{% if courses|length > 0 %}
 		{% for course in courses_student %}
 			<div class="col-md-12">
 			    <div class="panel panel-info">
@@ -155,9 +154,15 @@
 	            	<img src="" class="img-responsive" />
 	            {% endif %} -->
 				  <div class="panel-heading">
-				    	<h3 class="panel-title">Course</h3>
-				    	<span class="label label-info">{{ course.category }}</span>
-							<span class="label label-warning">{{ course.max_students }} {% trans 'students tops' %}</span>  
+					  <div class="row">
+					  	<div class="col-md-9">
+				  			<h3 class="panel-title">{{course.name}}</h3>
+				  		</div>
+				  		<div class="col-md-3">
+				  			<span class="label label-info">{{ course.category }}</span>
+							<span class="label label-warning">{{ course.max_students }} {% trans 'students tops' %}</span>
+				  		</div>
+					  </div>
 				  </div>     
 				  <div class="panel-body">
 				    <p><b>Course Name: </b>{{ course.name }}</p>
@@ -166,18 +171,22 @@
 				    <p>
 				      <b>Description:</b>
 				      <i>
-				        "Lorem ipsum dolor sit amet, consecctetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+				      {% if couse.description %}
+				        {{course.description|linebreaks}}
+				      {% else %}
+				      	{% trans 'No description' %}
+				      {% endif %}
 				      </i>
 				    </p>
 
-				    {% if user|has_role:'professor, system_admin' %}
+				    <!--{% if user|has_role:'professor, system_admin' %}
 						<a href="{% url 'course:update' course.slug %}" class="btn btn-sm btn-primary">
 							<span class="glyphicon glyphicon-edit"></span>
 						</a>
 						<a href="{% url 'course:delete' course.slug %}" class="btn btn-sm btn-danger">
 							<span class="glyphicon glyphicon-trash"></span>
 						</a>
-					{% endif %}
+					{% endif %}-->
 
 				    <a href="{% url 'course:view' course.slug %}" class="btn btn-raised btn-default center-block">View Course</a>
 				  </div>
@@ -185,7 +194,6 @@
     		</div>
 
     	{% endfor %}
-
 
     	<nav aria-label="Page navigation">
   			<ul class="pagination">
@@ -200,4 +208,5 @@
 		{% trans 'No courses found' %}
 	{% endif %}
 {% endif %}
+
 {% endblock %}
