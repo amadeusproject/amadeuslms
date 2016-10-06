@@ -292,7 +292,7 @@ class TopicsView(LoginRequiredMixin, generic.ListView):
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 		context = super(TopicsView, self).get_context_data(**kwargs)
 		activitys = Activity.objects.filter(topic__name = topic.name)
-		students_activit = User.objects.filter(activities = Activity.objects.all())
+		students_activit = User.objects.filter(activities__in = Activity.objects.all())
 		# page_user = User.objects.get(id= self.kwargs['user_id'])
 		context['topic'] = topic
 		context['subject'] = topic.subject

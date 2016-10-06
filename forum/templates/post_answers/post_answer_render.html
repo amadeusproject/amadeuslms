@@ -1,26 +1,34 @@
 {% load i18n permission_tags %}
 
-<div id="answer_{{ answer.id }}" class="row" style="background-color: #e0e0e0">
-    <div class="col-sm-12 col-xs-12">
-        <h3 class="user-name">
-            {{ answer.user }}
-            {% if request.user|has_role:'system_admin' or request.user == answer.user %}
-                <div class="pull-right">
-                    <div class="btn-group icon-more-horiz">
-                        <a class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">more_horiz</i>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="javascript:void(0)"><i class="material-icons">create</i> {% trans 'Edit' %}</a></li>
-                            <li><a href="javascript:delete_answer('{% url 'course:forum:delete_answer' answer.id %}', '{{ answer.id }}', '{% trans "Are you sure you want to delete this answer?" %}')"><i class="material-icons">delete_sweep</i> {% trans 'Remove' %}</a></li>
-                        </ul>
+<div>
+    <div id="answer_{{ answer.id }}" class="row" style="background-color: #e0e0e0">
+        <div class="col-sm-12 col-xs-12">
+            <h3 class="user-name">
+                {{ answer.user }}
+                {% if request.user|has_role:'system_admin' or request.user == answer.user %}
+                    <div class="pull-right">
+                        <div class="btn-group icon-more-horiz">
+                            <a class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_horiz</i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="javascript:edit_post_answer('{% url 'course:forum:update_post_answer' answer.id %}', '{{ answer.id }}')"><i class="material-icons">create</i> {% trans 'Edit' %}</a></li>
+                                <li><a href="javascript:delete_answer('{% url 'course:forum:delete_answer' answer.id %}', '{{ answer.id }}', '{% trans "Are you sure you want to delete this answer?" %}')"><i class="material-icons">delete_sweep</i> {% trans 'Remove' %}</a></li>
+                            </ul>
+                        </div>
                     </div>
+                {% endif %}
+            </h3>
+            <div class="post_answer_content">
+                <div class="card-data">
+                    <p class="comment-date"><i class="fa fa-clock-o"></i> {{ answer.answer_date|timesince }} {% trans 'ago' %}
+                        {% if answer.answer_date != answer.modifiction_date %}
+                            <em> - {% trans 'Edited' %}</em>
+                        {% endif %}
+                    </p>
                 </div>
-            {% endif %}
-        </h3>
-        <div class="card-data">
-            <p class="comment-date"><i class="fa fa-clock-o"></i> {{ answer.answer_date|timesince }} {% trans 'ago' %}</p>
+                <p class="comment-text">{{ answer.message|linebreaks }}</p>
+            </div>
         </div>
-        <p class="comment-text">{{ answer.message|linebreaks }}</p>
     </div>
 </div>
