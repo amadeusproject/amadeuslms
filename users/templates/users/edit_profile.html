@@ -31,7 +31,7 @@
 						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
 							<label for="{{ field.auto_id }}">{{ field.label }}</label>
 							{% if field.auto_id == 'id_birth_date' %}
-								<input type="date" class="form-control"name="{{field.name}}" value="{% if field.value.year %}{{field.value|date:'Y-m-d'}}{% else %}{{field.value}}{% endif %}" min="{{now|date:'Y-m-d'}}" id="{{ field.auto_id }}">
+								<input type="text" class="form-control date-picker"name="{{field.name}}" value="{% if field.value.year %}{{field.value|date:'Y-m-d'}}{% else %}{{field.value}}{% endif %}" min="{{now|date:'Y-m-d'}}" id="{{ field.auto_id }}">
 								<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
 							{% elif field.auto_id == 'id_image' %}
 								{% render_field field class='form-control input-sm' %}
@@ -49,11 +49,16 @@
 				            			{% render_field field type='checkbox' %}  	
 				            		</label>
 						        </div>
+						    {% elif field.auto_id == 'id_cpf' %}
+                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
+
+                			{% elif field.auto_id == 'id_phone' %}
+                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
 							{% else %}
 								{% render_field field class='form-control' %}
 								<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
 							{% endif %}
-							{% if field.errors.length > 0 %}
+							{% if field.errors %}
 								<div class="alert alert-danger alert-dismissible" role="alert">
 				  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				  						<span aria-hidden="true">&times;</span>
@@ -64,7 +69,6 @@
 										{% endfor %}
 									</ul>
 								</div>
-							</div>
 							{% endif %}
 						</div>
 					{% endfor %}
