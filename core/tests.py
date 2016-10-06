@@ -165,21 +165,21 @@ class UpdateUserTestCase(TestCase):
         data = {'username': 'test', 'password': 'testing1'}
         response = self.client.post(reverse('core:home'), data)
         self.assertRedirects(response, reverse('app:index'))
-        
 
         data={
-                'username': 'testeamadeus',
-                'email': 'teste@amadeus.com',
+                'username': 'test',
+                'birth_date': '12/12/2000',
+                'email': 'testing@amadeus.com',
+                'cpf': '705.089.884-89',
                 'name': 'Teste Amadeus',
                 'city': 'Praia',
                 'state': 'PE',
                 'gender': 'F',
             }
-        # self.assertRedirects(response1, reverse('app:index'))
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         response = self.client.post(self.url, data)
-        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('users:profile'))
 
     def test_update_error(self):
         
@@ -195,12 +195,13 @@ class UpdateUserTestCase(TestCase):
                 'username': '',
                 'email': 'teste@amadeus.com',
                 'name': 'Teste Amadeus',
+                'birth_date': '12/12/2000',
                 'city': 'Praia',
                 'state': 'PE',
                 'gender': 'F',
             }
         response = self.client.post(self.url, data)
-        self.assertFormError(response, 'form', 'username', 'This field is required.')
+        self.assertFormError(response, 'form', 'username', _('This field is required.'))
         
 
 class DeleteUserTestCase(TestCase):
