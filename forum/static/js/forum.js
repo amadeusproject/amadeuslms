@@ -255,6 +255,49 @@ function answer(id, url) {
 
 /*
 *
+* Function to load form to edit post answer
+*
+*/
+function edit_post_answer(url, answer_id) {
+    $.ajax({
+        url: url,
+        success: function(data) {
+            $("#answer_"+answer_id).find(".post_answer_content").hide();
+            $("#answer_"+answer_id).find(".post_answer_content").after(data);
+
+            var frm = $("#answer_"+answer_id).find(".answer_post_form");
+            frm.submit(function () {
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+                    success: function (data) {
+                        $("#answer_"+answer_id).parent().after(data);
+                        frm.parent().parent().remove();
+                    },
+                    error: function(data) {
+                        console.log(frm.serialize());
+                        console.log('Error');
+                    }
+                });
+                return false;
+            });
+        }
+    });
+}
+
+/*
+*
+* Function to cancel post answer edition
+*
+*/
+function cancelEditPostAnswer(answer_id) {
+    $("#answer_"+answer_id).find(".post_answer_content").show();
+    $("#answer_"+answer_id).find(".answer_post_form").remove();    
+}
+
+/*
+*
 * Function to delete an answer
 *
 */

@@ -1,7 +1,7 @@
 {% load static i18n %}
 {% load widget_tweaks %}
 
-<form class="answer_post_form" method="post" action="{% if answer %}{% else %}{% url 'course:forum:reply_post' %}{% endif %}" enctype="multipart/form-data">
+<form class="answer_post_form" method="post" action="{% if answer %}{% url 'course:forum:update_post_answer' answer.id %}{% else %}{% url 'course:forum:reply_post' %}{% endif %}" enctype="multipart/form-data">
 	{% csrf_token %}
 	{% for field in form %}
 		{% if field.field.widget.input_type == 'hidden' %}
@@ -27,11 +27,18 @@
 							</div>
 						</div>
 					{% endif %}
-					<span class="input-group-btn">
-				        <button type="submit" class="btn btn-fab btn-fab-mini">
-				            <i class="material-icons">send</i>
-				        </button>
-				    </span>
+					{% if answer %}
+						<div class="pull-right">
+			                 <button type="button" onclick="cancelEditPostAnswer('{{ answer.id }}')" class="btn btn-danger btn-raised">{% trans 'Cancel' %}</button>
+			                <button type="submit" class="btn btn-primary btn-raised">{% trans 'Save changes' %}</button>
+			            </div>
+					{% else %}
+						<span class="input-group-btn">
+					        <button type="submit" class="btn btn-fab btn-fab-mini">
+					            <i class="material-icons">send</i>
+					        </button>
+					    </span>
+					{% endif %}
 				</div>
 			</div>
 		{% endif %}
