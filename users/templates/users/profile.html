@@ -20,7 +20,7 @@
             <ul class="nav nav-pills nav-stacked">
             	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
                 <li><a href="{% url 'users:profile' %}">{% trans 'View Profile' %}</a></li>
-                <li><a href="{% url 'users:edit_profile' user.id %}">{% trans 'Edit Profile' %}</a></li>
+                <li><a href="{% url 'users:update_profile' %}">{% trans 'Edit Profile' %}</a></li>
             </ul>
         </div>
     </div>
