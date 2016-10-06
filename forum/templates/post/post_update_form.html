@@ -1,7 +1,7 @@
 {% load i18n permission_tags list_post %}
 {% load widget_tweaks %}
 
-<form class="edit_post_form" method="post" action="{% url 'forum:update_post' post.id %}" enctype="multipart/form-data">
+<form class="edit_post_form" method="post" action="{% url 'course:forum:update_post' post.id %}" enctype="multipart/form-data">
     {% csrf_token %}
     {% for field in form %}
         {% if field.field.widget.input_type == 'hidden' %}

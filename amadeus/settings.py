@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'courses',
     'forum',
     'poll',
-    'avaliacao',
+    'links',
+    'exam',
 
 ]
 

@@ -210,6 +210,20 @@ def render_post_answer(request, answer):
 
 	return render(request, "post_answers/post_answer_render.html", context)
 
+class PostAnswerUpdateView(LoginRequiredMixin, generic.UpdateView):
+	login_url = reverse_lazy("core:home")	
+	redirect_field_name = 'next'
+
+	form_class = PostAnswerForm
+	model = PostAnswer
+	template_name = "post_answers/post_answer_form.html"
+	context_object_name = 'answer'
+
+	def get_success_url(self):
+		self.success_url = reverse('course:forum:render_post_answer', args = (self.object.id, ))
+		
+		return self.success_url
+
 class PostAnswerDeleteView(LoginRequiredMixin, generic.DeleteView):
 	login_url = reverse_lazy("core:home")	
 	redirect_field_name = 'next'
