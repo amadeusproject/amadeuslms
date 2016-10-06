@@ -57,7 +57,9 @@ function createForum(url, topic) {
             $(".forum_form").html(data);
             $("#id_topic").val(topic);
 
-            $('.date-picker').datepicker();
+            $('.date-picker').datepicker({
+                format: 'dd/mm/yyyy',
+            });
 
             var frm = $('#forum_create');
             frm.submit(function () {
@@ -92,15 +94,16 @@ function createForum(url, topic) {
 * Function to load edit forum's form and set the submit function
 *
 */
-function editForum(url, forum) {
+function editForum(url, forum, success_message) {
     $.ajax({
         url: url, 
         data: {'pk': forum},
         success: function(data) {
             $(".forum_form").html(data);
-            //$("#id_topic").val(topic);
 
-            $('.date-picker').datepicker();
+            $('.date-picker').datepicker({
+                format: 'dd/mm/yyyy',
+            });
 
             var frm = $('#forum_create');
             frm.submit(function () {
@@ -110,6 +113,8 @@ function editForum(url, forum) {
                     data: frm.serialize(),
                     success: function (data) {
                         $('.forum_view').html(data);
+
+                        alertify.success(success_message);
 
                         $("#editForum").modal('hide');
                     },
