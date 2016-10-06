@@ -57,7 +57,9 @@ function createForum(url, topic) {
             $(".forum_form").html(data);
             $("#id_topic").val(topic);
 
-            $('.date-picker').datepicker();
+            $('.date-picker').datepicker({
+                format: 'dd/mm/yyyy',
+            });
 
             var frm = $('#forum_create');
             frm.submit(function () {
@@ -98,9 +100,10 @@ function editForum(url, forum) {
         data: {'pk': forum},
         success: function(data) {
             $(".forum_form").html(data);
-            //$("#id_topic").val(topic);
 
-            $('.date-picker').datepicker();
+            $('.date-picker').datepicker({
+                format: 'dd/mm/yyyy',
+            });
 
             var frm = $('#forum_create');
             frm.submit(function () {
