@@ -94,7 +94,7 @@ function createForum(url, topic) {
 * Function to load edit forum's form and set the submit function
 *
 */
-function editForum(url, forum) {
+function editForum(url, forum, success_message) {
     $.ajax({
         url: url, 
         data: {'pk': forum},
@@ -113,6 +113,8 @@ function editForum(url, forum) {
                     data: frm.serialize(),
                     success: function (data) {
                         $('.forum_view').html(data);
+
+                        alertify.success(success_message);
 
                         $("#editForum").modal('hide');
                     },
