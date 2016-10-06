@@ -3,6 +3,8 @@ from django.db import models
 from autoslug.fields import AutoSlugField
 from users.models import User
 from core.models import Resource
+from courses.models import Activity
+
 
 
 class Exam(models.Model):

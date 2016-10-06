@@ -16,7 +16,7 @@ from core.mixins import NotificationMixin
 from users.models import User
 from courses.models import Course, Topic
 
-class CreatePoll(LoginRequiredMixin,generic.CreateView):
+class CreateExam(LoginRequiredMixin,generic.CreateView):
 
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
@@ -39,7 +39,7 @@ class CreatePoll(LoginRequiredMixin,generic.CreateView):
 
 		return super(CreateExam, self).form_valid(form)
 
-    def form_invalid(self, form,**kwargs):
+	def form_invalid(self, form,**kwargs):
 		context = super(CreateExam, self).form_invalid(form)
 		answers = {}
 		for key in self.request.POST:
@@ -61,14 +61,15 @@ class UpdateExam(LoginRequiredMixin,generic.UpdateView):
 	template_name = 'poll/form_exam.html'
 	success_url = reverse_lazy('core:home')
 
-    def dispatch(self, *args, **kwargs):
+	def dispatch(self, *args, **kwargs):
 		poll = get_object_or_404(Poll, slug = self.kwargs.get('slug'))
+
 		if(not has_object_permission('edit_exam', self.request.user, exam)):
 			return self.handle_no_permission()
 		return super(UpdateExam, self).dispatch(*args, **kwargs)
 
 	def get_object(self, queryset=None):
-	    return get_object_or_404(Poll, slug = self.kwargs.get('slug'))
+		return get_object_or_404(Poll, slug = self.kwargs.get('slug'))
 
 	def form_valid(self, form):
 		poll = self.object
