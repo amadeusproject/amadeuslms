@@ -143,31 +143,3 @@ class Profile(LoginRequiredMixin, generic.DetailView):
 	def get_object(self):
 		user = get_object_or_404(User, username = self.request.user.username)
 		return user
-
-class EditProfile(LoginRequiredMixin, generic.UpdateView):
-
-	login_url = reverse_lazy('core:home')
-	redirect_field_name = 'next'
-	template_name = 'users/edit_profile.html'
-	form_class = UserForm
-	success_url = reverse_lazy('app:users:edit_profile')
-
-	def get_object(self):
-		user = get_object_or_404(User, username = self.request.user.username)
-		return user
-
-	def form_valid(self, form):
-		self.object = form.save(commit = False)
-
-		if self.object.type_profile == 2:
-			assign_role(self.object, 'student')
-		elif self.object.type_profile == 1:
-			assign_role(self.object, 'professor')
-		elif self.object.is_staff:
-			assign_role(self.object, 'system_admin')
-
-		self.object.save()
-
-		messages.success(self.request, _('Profile edited successfully!'))
-
-		return super(EditProfile, self).form_valid(form)

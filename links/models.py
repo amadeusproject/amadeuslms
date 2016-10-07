@@ -1,3 +1,4 @@
+
 from django.db import models
 from courses.models import Material
 from autoslug.fields import AutoSlugField

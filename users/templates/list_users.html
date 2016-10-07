@@ -51,9 +51,13 @@
                 <div class="panel-body">
                     <div class="col-md-4">
                         {% if acc.image %}
-                            <img src="{{ acc.image.url }}" alt="photoUser" class="img-circle img-responsive">
+                            <img src="{{ acc.image.url }}" alt="photoUser" class="img-circle img-responsive img-list-user">
                         {% else %}
-                            <img src="{% static 'images/avatar.png' %}" alt="Avatar" class="img-circle img-responsive">
+                            {% if acc.gender == 'M' %}
+                                <img src="{% static 'img/male_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user">
+                            {% else %}
+                                <img src="{% static 'img/female_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user">    
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="col-md-8">

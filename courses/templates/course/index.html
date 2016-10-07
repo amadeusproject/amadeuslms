@@ -54,17 +54,16 @@
 	{% endif %}
 
 <div class="col-md-12">
-		<div class="input-group">
-		  <div class="form-group is-empty"><input type="search" class="form-control" placeholder="Search Courses"></div>
-		    <span class="input-group-btn input-group-sm">
-		      <button type="button" class="btn btn-fab btn-fab-mini">
-		        <i class="material-icons">search</i>
-		      </button>
-		    </span>
-		</div>
+	<div class="input-group">
+	  <div class="form-group is-empty"><input type="search" class="form-control" placeholder="Search Courses"></div>
+	    <span class="input-group-btn input-group-sm">
+	      <button type="button" class="btn btn-fab btn-fab-mini">
+	        <i class="material-icons">search</i>
+	      </button>
+	    </span>
 	</div>
+</div>
 {% if user|has_role:'professor, system_admin' %}
-
 	<div class="col-md-12">
 		{% if courses|length > 0 %}
 			{% for course in courses_teacher %}
@@ -140,10 +139,7 @@
 				</div>
 			</div>
 		</div>
-{% endif %}
-
-{% if user|has_role:'students' %}
-
+{% else %}
 	{% if courses|length > 0 %}
 		{% for course in courses_student %}
 			<div class="col-md-12">
