@@ -1,6 +1,7 @@
 
 from django.db import models
 from courses.models import Material
+from autoslug.fields import AutoSlugField
 # Create your models here.
 class Link(models.Model):
 	name = models.CharField(max_length=100)

@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from rolepermissions.verifications import has_role
 from rolepermissions.verifications import has_object_permission
+from django.db.models import Q
 # from django.views.generic.edit import FormMixin
 
 from .forms import PollForm
@@ -23,7 +24,7 @@ class CreatePoll(LoginRequiredMixin,generic.CreateView):
 	model = Poll
 	form_class = PollForm
 	context_object_name = 'poll'
-	template_name = 'poll/create_update.html'
+	template_name = 'poll/create.html'
 	success_url = reverse_lazy('core:home')
 
 	def form_invalid(self, form,**kwargs):
@@ -66,7 +67,7 @@ class UpdatePoll(LoginRequiredMixin,generic.UpdateView):
 	model = Poll
 	form_class = PollForm
 	context_object_name = 'poll'
-	template_name = 'poll/create_update.html'
+	template_name = 'poll/update.html'
 	success_url = reverse_lazy('core:home')
 
 	def dispatch(self, *args, **kwargs):
@@ -121,3 +122,98 @@ class UpdatePoll(LoginRequiredMixin,generic.UpdateView):
 		context['keys'] = keys
 
 		return context
+
+class DeletePoll(LoginRequiredMixin, generic.DeleteView):
+
+	allowed_roles = ['professor', 'system_admin']
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+	model = Poll
+	template_name = 'poll/remove.html'
+
+	# def dispatch(self, *args, **kwargs):
+	# 	poll = get_object_or_404(Poll, slug = self.kwargs.get('slug'))
+	# 	if(not has_object_permission('delete_subject', self.request.user, subject)):
+	# 		return self.handle_no_permission()
+	# 	return super(DeleteSubjectView, self).dispatch(*args, **kwargs)
+
+
+	def get_context_data(self, **kwargs):
+		context = super(DeletePoll, self).get_context_data(**kwargs)
+		context['course'] = self.object.topic.subject.course
+		context['subject'] = self.object.topic.subject
+		context['poll'] = self.object
+		context['subjects'] = self.object.topic.subject.course.subjects.filter(Q(visible=True) | Q(professors__in=[self.request.user]))
+		if (has_role(self.request.user,'system_admin')):
+			context['subjects'] = self.object.topic.subject.course.subjects.all()
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('course:view_topic', kwargs={'slug' : self.object.topic.slug})
+
+
+from django_modalview.generic.edit import ModalCreateView
+from django_modalview.generic.component import ModalResponse
+
+class CreatePollModal(LoginRequiredMixin,ModalCreateView):
+
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+	model = Poll
+	form_class = PollForm
+	context_object_name = 'poll'
+	template_name = 'poll/create.html'
+	success_url = reverse_lazy('core:home')
+
+	def form_invalid(self, form,**kwargs):
+		context = super(CreatePollModal, self).form_invalid(form)
+		answers = {}
+		for key in self.request.POST:
+			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date' and key != 'all_students' and key != 'students'):
+				answers[key] = self.request.POST[key]
+
+		keys = sorted(answers)
+		context.context_data['answers'] = answers
+		context.context_data['keys'] = keys
+		return context
+
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+		self.object.topic = topic
+		self.object.save()
+
+		for key in self.request.POST:
+			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date' and key != 'all_students' and key != 'students'):
+				answer = Answer(answer=self.request.POST[key],order=key,poll=self.object)
+				answer.save()
+
+		return super(CreatePollModal, self).form_valid(form)
+
+	def get_context_data(self, **kwargs):
+		context = super(CreatePollModal, self).get_context_data(**kwargs)
+		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+		context['course'] = topic.subject.course
+		context['subject'] = topic.subject
+		context['subjects'] = topic.subject.course.subjects.all()
+		return context
+
+
+from django_modalview.generic.base import ModalTemplateView
+
+class MyModal(ModalTemplateView):
+    '''
+         This modal inherit of ModalTemplateView, so it just display a text without logic.
+    '''
+    def __init__(self, *args, **kwargs):
+        '''
+            You have to call the init method of the parent, before to overide the values:
+                - title: The title display in the modal-header
+                - icon: The css class that define the modal's icon
+                - description: The content of the modal.
+                - close_button: A button object that has several attributes.(explain below)
+        '''
+        super(MyModal, self).__init__(*args, **kwargs)
+        self.title = "My modal"
+        self.description = "This is my description"
+        self.icon = "icon-mymodal"
