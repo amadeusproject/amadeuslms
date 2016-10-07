@@ -26,7 +26,7 @@ class MaterialAdmin(admin.ModelAdmin):
 	list_display = ['name', 'slug']
 	search_fields = ['name', 'slug']
 
-admin.site.register(Category, CategoryAdmin)
+admin.site.register(CourseCategory, CategoryAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Subject, SubjectAdmin)
 admin.site.register(Topic, TopicAdmin)
