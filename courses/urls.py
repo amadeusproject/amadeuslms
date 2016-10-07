@@ -26,4 +26,5 @@ urlpatterns = [
 
 	url(r'^forum/', include('forum.urls', namespace = 'forum')),
 	url(r'^poll/', include('poll.urls', namespace = 'poll')),
+
 ]
