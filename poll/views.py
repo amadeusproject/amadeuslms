@@ -17,8 +17,9 @@ from core.mixins import NotificationMixin
 from users.models import User
 from courses.models import Course, Topic
 
-class CreatePoll(LoginRequiredMixin,generic.CreateView):
+class CreatePoll(LoginRequiredMixin,HasRoleMixin,generic.CreateView):
 
+	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	model = Poll
@@ -60,8 +61,9 @@ class CreatePoll(LoginRequiredMixin,generic.CreateView):
 		context['subjects'] = topic.subject.course.subjects.all()
 		return context
 
-class UpdatePoll(LoginRequiredMixin,generic.UpdateView):
+class UpdatePoll(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 
+	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	model = Poll
