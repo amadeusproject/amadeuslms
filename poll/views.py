@@ -125,7 +125,7 @@ class UpdatePoll(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 
 		return context
 
-class DeletePoll(LoginRequiredMixin, generic.DeleteView):
+class DeletePoll(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -133,11 +133,11 @@ class DeletePoll(LoginRequiredMixin, generic.DeleteView):
 	model = Poll
 	template_name = 'poll/remove.html'
 
-	# def dispatch(self, *args, **kwargs):
-	# 	poll = get_object_or_404(Poll, slug = self.kwargs.get('slug'))
-	# 	if(not has_object_permission('delete_subject', self.request.user, subject)):
-	# 		return self.handle_no_permission()
-	# 	return super(DeleteSubjectView, self).dispatch(*args, **kwargs)
+	def dispatch(self, *args, **kwargs):
+		poll = get_object_or_404(Poll, slug = self.kwargs.get('slug'))
+		if(not has_object_permission('delete_poll', self.request.user, poll)):
+			return self.handle_no_permission()
+		return super(DeletePoll, self).dispatch(*args, **kwargs)
 
 
 	def get_context_data(self, **kwargs):

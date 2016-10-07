@@ -113,6 +113,19 @@ class PollTestCase(TestCase):
             "limit_date":'2016-11-06',
             "all_students":True,
         }
+        self.client.login(username='student', password='testing')
         self.assertNotEqual(poll_student, self.topic.activities.all()[self.topic.activities.all().count() - 1].name) # old name
         response = self.client.post(url, data)
-        self.assertEqual(poll_student, self.topic.activities.all()[self.topic.activities.all().count() - 1].name) # new name
+        self.assertNotEqual(poll_student, self.topic.activities.all()[self.topic.activities.all().count() - 1].name) # new name
+
+    def test_poll_delete(self):
+        url = reverse('course:poll:delete_poll',kwargs={'slug':self.poll.slug})
+        self.client.login(username='student', password='testing')
+        poll = self.topic.activities.all().count()
+        response = self.client.post(url)
+        self.assertEqual(poll,self.topic.activities.all().count())
+
+        self.client.login(username='professor', password='testing')
+        poll = self.topic.activities.all().count()
+        response = self.client.post(url)
+        self.assertEqual(poll - 1,self.topic.activities.all().count())
