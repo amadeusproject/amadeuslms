@@ -54,7 +54,8 @@ class Subject(models.Model):
 	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 	update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
 	course = models.ForeignKey(Course, verbose_name = _('Course'), related_name="subjects")
-	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='subjects')
+	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='professors_subjects')
+	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='subject_student')
 
 
 	class Meta:

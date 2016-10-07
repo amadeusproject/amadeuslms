@@ -50,19 +50,23 @@
 <div class="panel panel-info">
     <div class="panel-heading">
 			<div class="row">
-	      <div class="col-md-7 col-sm-7">
+	      <div class="col-md-10 col-sm-7">
 	        <h3>{{subject}}</h3>
 	      </div>
-	      <div class="col-md-2 col-sm-2">
-					{% if user|has_role:'system_admin' or user in subject.professors %}
-	        	<a href="{% url 'course:update_subject' subject.slug%}" class="btn">{% trans "edit" %}</a>
-					{% endif %}
-	      </div>
-				<div class="col-md-3 col-sm-3">
-					{% if user|has_role:'system_admin' or user in subject.professors %}
-	        	<a href="{% url 'course:delete_subject' subject.slug%}" class="btn">{% trans "delete" %}</a>
-					{% endif %}
-	      </div>
+	      <div class="col-xs-4 col-md-2 divMoreActions">
+          {% if user|has_role:'system_admin' or user in subject.professors %}
+            <div class="btn-group">
+              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+              </button>
+              <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
+                <li><a href="{% url 'course:update_subject' subject.slug %}" data-toggle="modal" data-target="#editSubject"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
+                <li><a href="{% url 'course:delete_subject' subject.slug %}" data-toggle="modal" data-target="#removeSubject"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
+              </ul>
+            </div>
+          {% endif %}
+        </div>
 	    </div>
     </div>
     <div class="panel-body">
@@ -108,11 +112,10 @@
                         </div>
                       {% else %}
                       <div class="col-md-4">
-                        <input type="hidden" name="id" value="">
-                        <input type="hidden" name="student" value="">
+                        <!--<input type="hidden" name="id" value="">
+                        <input type="hidden" name="student" value="">-->
                         <div class="form-group {% if form.pdf.errors %} has-error {% endif %}">
-                            <label for="id_pdf">PDF</label>
-                            {{form.pdf}}
+                            {{ form.as_p }}
                         </div>
                         <button type="submit" class="btn btn-success" id="send_button">Enviar</button>
                       </div>
