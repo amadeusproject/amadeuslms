@@ -1,0 +1,13 @@
+{% extends "poll/create.html" %}
+
+{% load i18n dict_access static%}
+
+{% block title_poll %}
+<!-- Put your title here!!!  -->
+<h4 class="modal-title" id="myModalLabel">{% trans "Update a Poll" %}</h4>
+{% endblock title_poll %}
+
+{% block button_save %}
+<!-- Put curtom buttons here!!!  -->
+<button type="submite" id="button" form="form" class="btn btn-primary btn-raised">{% trans "Update" %}</button>
+{% endblock button_save %}

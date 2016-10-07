@@ -15,13 +15,15 @@
       <!-- Modal Header -->
       <div class="modal-header">
 
+        {% block title_poll %}
         <!-- Put your title here!!!  -->
         <h4 class="modal-title" id="myModalLabel">{% trans "Create a Poll" %}</h4>
-
+        {% endblock title_poll %}
       </div>
       <!-- Modal Body -->
       <div class="modal-body">
 
+          {% block content_poll %}
         <!-- Put ONLY your content here!!!  -->
           <div class="conteiner">
                 <div class="row form-group">
@@ -121,7 +123,6 @@
           <div class="checkbox">
             <label>
               {% render_field form.all_students class="form-control" form="form" %}<span class="checkbox-material"><span class="check"></span></span> {{form.all_students.label }}
-                {# <input form="form" type="checkbox" name="{{form.all_students.name}}"><span class="checkbox-material"><span class="check"></span></span> {{ form.all_students.label }}#}
             </label>
           </div>
           {% if form.all_students.errors %}
@@ -139,11 +140,9 @@
               </div>
           </div>
           {% endif %}
-
-          {# <label for="{{ form.all_students.auto_id }}">{{ form.all_students.label }}</label>#}
-          {# {% render_field  form.all_students class="form-control" form="form"%}#}
         </div>
 
+        {% endblock content_poll %}
       </div>
 
       <!-- Modal Footer -->
@@ -151,9 +150,10 @@
 
         <!-- Don't remove that!!!  -->
         <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
-
+        {% block button_save %}
         <!-- Put curtom buttons here!!!  -->
         <button type="submite" id="button" form="form" class="btn btn-primary btn-raised">{% trans "Create" %}</button>
+        {% endblock button_save %}
       </div>
 
     </div>
