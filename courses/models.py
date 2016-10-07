@@ -5,7 +5,7 @@ from users.models import User
 from core.models import Resource
 from s3direct.fields import S3DirectField
 
-class Category(models.Model):
+class CourseCategory(models.Model):
 
 	name = models.CharField(_('Name'), max_length = 100, unique = True)
 	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
