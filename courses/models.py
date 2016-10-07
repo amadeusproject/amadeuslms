@@ -91,7 +91,7 @@ Activity is something that has a deadline and has to be delivered by the student
 """
 class Activity(Resource):
 	topic = models.ForeignKey(Topic, verbose_name = _('Topic'), related_name='activities')
-	limit_date = models.DateTimeField(_('Deliver Date'))
+	limit_date = models.DateField(_('Deliver Date'))
 	students = models.ManyToManyField(User, verbose_name = _('Students'), related_name='activities')
 	all_students = models.BooleanField(_('All Students'), default=False)
 
@@ -100,7 +100,7 @@ class ActivityFile(models.Model):
 	diet = models.ForeignKey('Activity', related_name='files')
 	name = models.CharField(max_length=100)
 
-	def __str__(self):             
+	def __str__(self):
 		return self.name
 
 	class Meta:
