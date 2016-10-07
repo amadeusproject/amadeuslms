@@ -1,19 +1,19 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from .models import Category, Course, Subject, Topic, ActivityFile, Activity
+from .models import CourseCategory, Course, Subject, Topic, ActivityFile, Activity
 from s3direct.widgets import S3DirectWidget
 
 
-class CategoryForm(forms.ModelForm):
+class CategoryCourseForm(forms.ModelForm):
 
 	class Meta:
-		model = Category
+		model = CourseCategory
 		fields = ('name',)
 		labels = {
 			'name': _('Name')
 		}
 		help_texts = {
-			'name': _('Category name')
+			'name': _('CourseCategory name')
 		}
 
 
@@ -62,7 +62,7 @@ class CourseForm(forms.ModelForm):
 			'init_date': _('Course start date'),
 			'end_date': _('Course end date'),
 			'image': _('Image'),
-			'category': _('Category'),
+			'category': _('CourseCategory'),
 		}
 		help_texts = {
 			'name': _('Course name'),
@@ -74,7 +74,7 @@ class CourseForm(forms.ModelForm):
 			'init_date': _('Date that the course starts (dd/mm/yyyy)'),
 			'end_date': _('Date that the course ends (dd/mm/yyyy)'),
 			'image': _('Representative image of the course'),
-			'category': _('Category which the course belongs'),
+			'category': _('CourseCategory which the course belongs'),
 		}
 
 		widgets = {
@@ -102,7 +102,7 @@ class UpdateCourseForm(CourseForm):
 			'init_date': _('Course start date'),
 			'end_date': _('Course end date'),
 			'image': _('Image'),
-			'category': _('Category'),
+			'category': _('CourseCategory'),
 			'students': _('Student'),
 		}
 		help_texts = {
@@ -115,7 +115,7 @@ class UpdateCourseForm(CourseForm):
 			'init_date': _('Date that the course starts (dd/mm/yyyy)'),
 			'end_date': _('Date that the course ends (dd/mm/yyyy)'),
 			'image': _('Representative image of the course'),
-			'category': _('Category which the course belongs'),
+			'category': _('CourseCategory which the course belongs'),
 			'students': _("Course's Students"),
 		}
 		widgets = {

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Course, Subject,Topic, Activity, Material
+from .models import CourseCategory, Course, Subject,Topic, Activity, Material
 
 class CategoryAdmin(admin.ModelAdmin):
 	list_display = ['name', 'slug']

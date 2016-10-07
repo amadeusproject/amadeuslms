@@ -11,8 +11,8 @@ from rolepermissions.verifications import has_role
 from django.db.models import Q
 from rolepermissions.verifications import has_object_permission
 
-from .forms import CourseForm, UpdateCourseForm, CategoryForm, SubjectForm,TopicForm,ActivityForm
-from .models import Course, Subject, Category,Topic, SubjectCategory,Activity
+from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm,TopicForm,ActivityForm
+from .models import Course, Subject, CourseCategory,Topic, SubjectCategory,Activity
 from core.mixins import NotificationMixin
 from users.models import User
 
@@ -29,7 +29,7 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(IndexView, self).get_context_data(**kwargs)
-		context['categories'] = Category.objects.all()
+		context['categories'] = CourseCategory.objects.all()
 		context['courses_teacher'] = Course.objects.filter(professors__name = self.request.user.name)
 		context['courses_student'] = Course.objects.filter(students__name = self.request.user.name)
 
@@ -178,13 +178,13 @@ class FilteredView(LoginRequiredMixin, generic.ListView):
 	paginate_by = 3
 
 	def get_queryset(self):
-		category = get_object_or_404(Category, slug = self.kwargs.get('slug'))
+		category = get_object_or_404(CourseCategory, slug = self.kwargs.get('slug'))
 		return Course.objects.filter(category = category)
 
 	def get_context_data(self, **kwargs):
-		category = get_object_or_404(Category, slug = self.kwargs.get('slug'))
+		category = get_object_or_404(CourseCategory, slug = self.kwargs.get('slug'))
 		context = super(FilteredView, self).get_context_data(**kwargs)
-		context['categories'] = Category.objects.all()
+		context['categories'] = CourseCategory.objects.all()
 		context['cat'] = category
 
 		return context
@@ -193,7 +193,7 @@ class IndexCatView(LoginRequiredMixin, generic.ListView):
 
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
-	queryset = Category.objects.all()
+	queryset = CourseCategory.objects.all()
 	template_name = 'category/index.html'
 	context_object_name = 'categories'
 	paginate_by = 3
@@ -204,7 +204,7 @@ class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'category/create.html'
-	form_class = CategoryForm
+	form_class = CategoryCourseForm
 	success_url = reverse_lazy('course:manage_cat')
 
 	def render_to_response(self, context, **response_kwargs):
@@ -218,8 +218,8 @@ class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'category/update.html'
-	model = Category
-	form_class = CategoryForm
+	model = CourseCategory
+	form_class = CategoryCourseForm
 	success_url = reverse_lazy('course:manage_cat')
 
 	def render_to_response(self, context, **response_kwargs):
@@ -230,7 +230,7 @@ class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 class ViewCat(LoginRequiredMixin, generic.DetailView):
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
-	model = Category
+	model = CourseCategory
 	template_name = 'category/view.html'
 	context_object_name = 'category'
 
@@ -239,7 +239,7 @@ class DeleteCatView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
-	model = Category
+	model = CourseCategory
 	template_name = 'category/delete.html'
 	success_url = reverse_lazy('course:manage_cat')
 
