@@ -11,7 +11,8 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('courses', '0001_initial'),
+
+        ('courses', '0002_subject_students'),
     ]
 
     operations = [
@@ -24,8 +25,8 @@ class Migration(migrations.Migration):
                 ('end_date', models.DateField(verbose_name='End of Avaliacao Date')),
             ],
             options={
-                'verbose_name_plural': 'Avaliacoes',
                 'verbose_name': 'Avaliacao',
+                'verbose_name_plural': 'Avaliacoes',
             },
             bases=('courses.activity',),
         ),
