@@ -321,4 +321,9 @@ body .container .jumbotron-inverse, body .container .well-inverse, body .contain
     background-color: #FF0000;
 }
 
+.img-list-user{
+  width: 150px;
+  height: 150px;
+}
+
 .datepicker{z-index:9999 !important}
