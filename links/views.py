@@ -10,23 +10,29 @@ from .forms import *
 
 # Create your views here.
 class CreateLink(generic.CreateView):
-    template_name = 'links/'
+    template_name = 'links/link_modal.html'
     form_class = CreateLinkForm
     success_url = reverse_lazy()
+    context_object_name = 'links'
+
     def form_valid(self, form):
-		form.save()
-		messages.success(self.request, _('Link created successfully!'))
-		return super(CreateLink, self).form_valid(form)
+        form.save()
+        messages.success(self.request, _('Link created successfully!'))
+        return super(CreateLink, self).form_valid(form)
+    def get_context_data(self, **kwargs):
+    	context = {}
+    	context['links'] = Link.objects.all()
+    	return context
 
 
 class DeleteLink(generic.DeleteView):
-
+    pass
 class UpdateLink(generic.UpdateView):
     template_name = 'links/'
     form_class = UpdateLinkForm
     success_url = reverse_lazy()
     def form_valid(self, form):
-		form.save()
-		messages.success(self.request, _('Link updated successfully!'))
+        form.save()
+        messages.success(self.request, _('Link updated successfully!'))
 
-		return super(UpdateLink, self).form_valid(form)
+        return super(UpdateLink, self).form_valid(form)

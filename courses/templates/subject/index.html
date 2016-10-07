@@ -61,11 +61,21 @@
 	    	</div>
     	</div>
     	<div class="panel-body">
-      		<p>
-        		{{subject.description|linebreaks}}
-      		</p>
-    	</div>
-  	</div>
+	      <p><b>Professor:</b> {{subject.professors}}</p>
+	      <p>
+	        <b>Description:</b>
+	          {{subject.description|linebreaks}}
+	      </p>
+	      <div class="row">
+	        <div class="col-xs-6 col-md-6">
+	          <p><b>Begining:</b> {{subject.init_date}}</p>
+	        </div>
+	        <div class="col-xs-6 col-md-6">
+	          <p><b>End:</b> {{subject.end_date}}</p>
+	        </div>
+	      </div>
+	    </div>
+	</div>
 	
 	{% for topic in topics %}
 		{% if user|has_role:'system_admin' or topic.owner == user%}
