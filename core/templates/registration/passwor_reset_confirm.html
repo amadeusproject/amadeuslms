@@ -1,48 +1,40 @@
 {% extends "index.html" %}
 {% load i18n static %}
 
-{% block content%}
+	{% block content%}
 
 	<div class="row">
-		<div class="col-md-4 col-md-offset-4 col-xs-4 col-xs-offset-4 col-sm-4 col-sm-offset-4 col-lg-4 col-lg-offset-4 col-xl-4 col-xl-offset-4">
-      <div class="row">
-        <div class="col-md-offset-2 col-md-8 col-sm-offset-2 col-sm-8 col-xs-offset-2 col-xs-8 col-lg-offset-2 col-lg-8 col-xs-offset-2 col-xs-8">
-          </br>
-          </br>
-          <img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block " alt="logo amadeus">
-          </br>
-        </div>
-      </div>
-    </div>
-		<div class="row ">
-			<div class="col-lg-9 col-lg-offset-2 col-xs-9 col-xs-offset-2 col-sm-9 col-sm-offset-2 col-md-9 col-md-offset-2 col-xl-9 col-xl-offset-2">
-
-
-      {% if validlink %}
-        <h3>Nova Senha</h3>
-        <form method="post">
-          {% csrf_token %}
-          {{ form.new_password1.erros }}
-					<label for="id_password1"> Nova Senha: </label>
-					{form.new_password1}
-
-					{{ form.new_password2.erros }}
-					<label for="id_password2"> Confirmar Senha: </label>
-					{form.new_password2}
-
-
-          <button type="submit">Confirmar</button>
-        </form>
-
-      {% else %}
-        <p>
-          O link de redefinição de senha está inválido, possivelmente porque ele já foi utilizado.
-          Por favor, solicite uma nova redefinição de senha.
-        </p>
-      {% endif %}
-
-    </div>
+	<div class="col-md-4 col-md-offset-4 col-xs-4 col-xs-offset-4 col-sm-4 col-sm-offset-4 col-lg-4 col-lg-offset-4 col-xl-4 col-xl-offset-4">
+  <div class="row">
+  <div class="col-md-offset-2 col-md-8 col-sm-offset-2 col-sm-8 col-xs-offset-2 col-xs-8 col-lg-offset-2 col-lg-8 col-xs-offset-2 col-xs-8">
+  </br>
+  </br>
+  <img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block " alt="logo amadeus">
+  </br>
   </div>
-</div>
+  </div>
+  </div>
+	<div class="row ">
+	<div class="col-lg-9 col-lg-offset-2 col-xs-9 col-xs-offset-2 col-sm-9 col-sm-offset-2 col-md-9 col-md-offset-2 col-xl-9 col-xl-offset-2">
 
-{% endblock content %}
+
+
+	{% if validlink %}
+
+	<p>{% trans "Please enter your new password twice so we can verify you typed it in correctly." %}</p>
+
+	<form method="post">{% csrf_token %}
+	{{ form.new_password1.errors }}
+	<p class="aligned wide"><label for="id_new_password1">{% trans 'New password:' %}</label>{{ form.new_password1 }}</p>
+	{{ form.new_password2.errors }}
+	<p class="aligned wide"><label for="id_new_password2">{% trans 'Confirm password:' %}</label>{{ form.new_password2 }}</p>
+	<p><input type="submit" value="{% trans 'Change my password' %}" /></p>
+	</form>
+
+	{% else %}
+
+	<p>{% trans "The password reset link was invalid, possibly because it has already been used.  Please request a new password reset." %}</p>
+
+	{% endif %}
+
+	{% endblock %}

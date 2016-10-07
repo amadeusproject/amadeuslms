@@ -1,0 +1,21 @@
+{% extends "poll/create.html" %}
+
+{% load i18n %}
+
+{% block title_poll %}
+<!-- Put your title here!!!  -->
+<h4 class="modal-title" id="myModalLabel">{% trans "Delete Poll" %}</h4>
+{% endblock title_poll %}
+
+{% block content_poll %}
+<!-- Put ONLY your content here!!!  -->
+<form action="" method="post">
+  {% csrf_token %}
+    <h2>{% trans 'Are you sure you want to delete the subject' %} "{{poll}}"?</h2>
+    <input type="submit" class="btn btn-raised btn-success btn-lg" value="{% trans 'Yes' %}" />
+    <a href="" class="btn btn-raised btn-danger btn-lg">{% trans 'No' %}</a>
+</form>
+{% endblock content_poll %}
+
+{% block button_save %}
+{% endblock button_save %}

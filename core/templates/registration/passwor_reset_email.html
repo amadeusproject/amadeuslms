@@ -2,7 +2,7 @@ To initiate the password reset process for your {{ user.get_username }} TestSite
 click the link below:
 
 {% block reset_link %}
-{{ protocol }}://{{ domain }}{% url 'core:passwor_reset_confirm' uidb36=uid token=token %}
+{{ protocol }}://{{ domain }}{% url 'core:password_reset_confirm' uidb64=uid token=token %}
 
 {% endblock %}
 
