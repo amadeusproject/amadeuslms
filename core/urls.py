@@ -21,7 +21,7 @@ urlpatterns = [
 	url(r'^reset/done/$', password_reset_done, {'template_name':'registration/passwor_reset_done.html'}),
 	url(r'^reset/(?P<uidb64>[0-9A-Za-z]+)/(?P<token>.+)/$', password_reset_confirm,
 									{'template_name':'registration/passwor_reset_confirm.html',
-									'post_reset_redirect' : 'done/'},
+									'post_reset_redirect' : '/done/'},
 									name='password_reset_confirm'),
 	url(r'^done/$', password_reset_complete,{'template_name':'registration/passwor_reset_complete.html'}),
 ]
