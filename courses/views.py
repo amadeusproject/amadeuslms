@@ -216,11 +216,6 @@ class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 	form_class = CategoryCourseForm
 	success_url = reverse_lazy('course:manage_cat')
 
-	def render_to_response(self, context, **response_kwargs):
-		messages.success(self.request, _('Category created successfully!'))
-
-		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
-
 class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 	allowed_roles = ['professor', 'system_admin']
