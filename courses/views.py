@@ -32,6 +32,14 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 		context['categories'] = CourseCategory.objects.all()
 		context['courses_teacher'] = Course.objects.filter(professors__name = self.request.user.name)
 		context['courses_student'] = Course.objects.filter(students__name = self.request.user.name)
+		context['categorys_courses'] = CourseCategory.objects.filter(course_category__students__name = self.request.user.name).distinct()
+		courses_category = Course.objects.filter(category__name = self.request.GET.get('category'))
+		context['courses_category'] = courses_category
+		none = None
+		q = self.request.GET.get('category', None)
+		if q is  None:
+			none = True
+		context['none'] = none
 
 		return context
 
