@@ -63,7 +63,7 @@
               <ul class="dropdown-menu" aria-labelledby="moreActions">
                 <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createSubject"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp; Create Subject</a></li>
                 <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
-                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Edit</a></li>
+                <li><a href="{% url 'course:update' course.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Edit</a></li>
                 <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
               </ul>
             </div>
@@ -248,6 +248,8 @@
       </div>
     </div>
   </div>
+
+
 </div>
 </div>
 </div>
