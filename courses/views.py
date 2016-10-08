@@ -205,7 +205,6 @@ class IndexCatView(LoginRequiredMixin, generic.ListView):
 	queryset = CourseCategory.objects.all()
 	template_name = 'category/index.html'
 	context_object_name = 'categories'
-	paginate_by = 3
 
 class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 
@@ -225,11 +224,6 @@ class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 	model = CourseCategory
 	form_class = CategoryCourseForm
 	success_url = reverse_lazy('course:manage_cat')
-
-	def render_to_response(self, context, **response_kwargs):
-		messages.success(self.request, _('Category edited successfully!'))
-
-		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
 class ViewCat(LoginRequiredMixin, generic.DetailView):
 	login_url = reverse_lazy("core:home")
