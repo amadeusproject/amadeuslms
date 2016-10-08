@@ -155,7 +155,7 @@
 		</div>
 {% else %}
 	{% if courses|length > 0 %}
-		{% if request.GET.category == 'all' or none %}
+		{% if request.GET.category == 'all' or none or request.GET.category == '' %}
 			{% for course in courses_student %}
 				<div class="col-md-12">
 				    <div class="panel panel-info">
