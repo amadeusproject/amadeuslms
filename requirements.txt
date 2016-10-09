@@ -10,6 +10,7 @@ django-role-permissions==1.2.1
 django-s3direct==0.4.2
 django-widget-tweaks==1.4.1
 djangorestframework==3.4.6
+gunicorn==19.6.0
 Jinja2==2.8
 MarkupSafe==0.23
 Pillow==3.3.1
