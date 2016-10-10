@@ -5,7 +5,7 @@ from users.models import User
 from core.models import Resource
 from s3direct.fields import S3DirectField
 
-class Category(models.Model):
+class CourseCategory(models.Model):
 
 	name = models.CharField(_('Name'), max_length = 100, unique = True)
 	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
@@ -31,7 +31,7 @@ class Course(models.Model):
 	init_date = models.DateField(_('Begin of Course Date'))
 	end_date = models.DateField(_('End of Course Date'))
 	image = models.ImageField(verbose_name = _('Image'), blank = True, upload_to = 'courses/')
-	category = models.ForeignKey(Category, verbose_name = _('Category'))
+	category = models.ForeignKey(CourseCategory, verbose_name = _('Category'), related_name='course_category')
 	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='courses_professors')
 	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='courses_student')
 
@@ -91,7 +91,7 @@ Activity is something that has a deadline and has to be delivered by the student
 """
 class Activity(Resource):
 	topic = models.ForeignKey(Topic, verbose_name = _('Topic'), related_name='activities')
-	limit_date = models.DateTimeField(_('Deliver Date'))
+	limit_date = models.DateField(_('Deliver Date'))
 	students = models.ManyToManyField(User, verbose_name = _('Students'), related_name='activities')
 	all_students = models.BooleanField(_('All Students'), default=False)
 
@@ -100,7 +100,7 @@ class ActivityFile(models.Model):
 	diet = models.ForeignKey('Activity', related_name='files')
 	name = models.CharField(max_length=100)
 
-	def __str__(self):             
+	def __str__(self):
 		return self.name
 
 	class Meta:
