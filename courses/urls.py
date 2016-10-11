@@ -1,7 +1,6 @@
 from django.conf.urls import url, include
 
 from . import views
-
 urlpatterns = [
 	url(r'^$', views.IndexView.as_view(), name='manage'),
 	url(r'^create/$', views.CreateCourseView.as_view(), name='create'),
@@ -22,8 +21,7 @@ urlpatterns = [
 	url(r'^topics/update/(?P<slug>[\w_-]+)/$', views.UpdateTopicView.as_view(), name='update_topic'),
 	url(r'^topics/(?P<slug>[\w_-]+)/$', views.TopicsView.as_view(), name='view_topic'),
 	url(r'^subjects/categories$',views.IndexSubjectCategoryView.as_view(), name='subject_category_index'),
-
-
+	url(r'^topics/update/(?P<slug>[\w_-]+)/createlink/', include('links.urls',namespace='links')),
 	url(r'^forum/', include('forum.urls', namespace = 'forum')),
 	url(r'^poll/', include('poll.urls', namespace = 'poll')),
 
