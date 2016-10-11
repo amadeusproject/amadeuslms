@@ -24,9 +24,10 @@ class LinkTestCase(TestCase):
         self.link = Link.objects.create(
         name = 'testinglink',
         description = 'testdescription',
-        link = 'teste.com'
+        link = 'teste'
         )
         self.assertEqual(Link.objects.all().count(),links+1) #After creating one link, if OK, the link was created successfully.
+        self.assertTemplateUsed(template_name = 'links/link_modal.html')
     # def test_update_link():
     #     pass
     # def test_delete_link():
