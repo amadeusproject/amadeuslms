@@ -259,7 +259,7 @@ function answer(id, url) {
 * Function to load form to edit post answer
 *
 */
-function edit_post_answer(url, answer_id) {
+function edit_post_answer(url, answer_id, success_message) {
     $.ajax({
         url: url,
         success: function(data) {
@@ -273,6 +273,8 @@ function edit_post_answer(url, answer_id) {
                     url: frm.attr('action'),
                     data: frm.serialize(),
                     success: function (data) {
+                        alertify.success(success_message);
+
                         $("#answer_"+answer_id).parent().after(data);
                         frm.parent().parent().remove();
                     },
