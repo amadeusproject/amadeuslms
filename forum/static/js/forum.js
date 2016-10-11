@@ -68,7 +68,6 @@ function createForum(url, topic) {
                     url: frm.attr('action'),
                     data: frm.serialize(),
                     success: function (data) {
-                        console.log(data);
                         data = data.split('-');
 
                         $('.foruns_list').append("<a id='forum_"+data[1]+"' href='"+data[0]+"'>"+data[2]+"<br /></a>");
@@ -159,7 +158,7 @@ function delete_forum(url, forum, message, return_url) {
 * Function to load form to edit post
 *
 */
-function edit_post(url, post_id) {
+function edit_post(url, post_id, success_message) {
     $.ajax({
         url: url,
         success: function(data) {
@@ -173,6 +172,8 @@ function edit_post(url, post_id) {
                     url: frm.attr('action'),
                     data: frm.serialize(),
                     success: function (data) {
+                        alertify.success(success_message);
+
                         $("#post_"+post_id).parent().after(data);
                         frm.parent().parent().remove();
                     },
