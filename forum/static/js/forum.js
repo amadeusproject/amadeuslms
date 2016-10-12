@@ -46,7 +46,7 @@ $(document).ready(function (){
 
 /*
 *
-* Function to load create forum's form and set the submit function
+* Function to load create forum's form
 *
 */
 function createForum(url, topic) {
@@ -57,35 +57,45 @@ function createForum(url, topic) {
             $(".forum_form").html(data);
             $("#id_topic").val(topic);
 
-            $('.date-picker').datepicker({
-                format: 'dd/mm/yyyy',
-            });
-
-            var frm = $('#forum_create');
-            frm.submit(function () {
-                $.ajax({
-                    type: frm.attr('method'),
-                    url: frm.attr('action'),
-                    data: frm.serialize(),
-                    success: function (data) {
-                        data = data.split('-');
-
-                        $('.foruns_list').append("<a id='forum_"+data[1]+"' href='"+data[0]+"'>"+data[2]+"<br /></a>");
-
-                        $("#createForum").modal('hide');
-
-                        showForum(data[0], data[1]);
-                    },
-                    error: function(data) {
-                        $(".forum_form").html(data.responseText);
-                    }
-                });
-                return false;
-            });
+            setForumCreateFormSubmit();
         }
     });
 
     $("#createForum").modal();
+}
+
+/*
+*
+* Function to set the forum's create form submit function
+*
+*/
+function setForumCreateFormSubmit() {
+    $('.date-picker').datepicker({
+        format: 'dd/mm/yyyy',
+    });
+
+    var frm = $('#forum_create');
+    frm.submit(function () {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                data = data.split('-');
+
+                $('.foruns_list').append("<a id='forum_"+data[1]+"' href='"+data[0]+"'>"+data[2]+"<br /></a>");
+
+                $("#createForum").modal('hide');
+
+                showForum(data[0], data[1]);
+            },
+            error: function(data) {
+                $(".forum_form").html(data.responseText);
+                setForumCreateFormSubmit();
+            }
+        });
+        return false;
+    });
 }
 
 /*
@@ -100,33 +110,44 @@ function editForum(url, forum, success_message) {
         success: function(data) {
             $(".forum_form").html(data);
 
-            $('.date-picker').datepicker({
-                format: 'dd/mm/yyyy',
-            });
-
-            var frm = $('#forum_create');
-            frm.submit(function () {
-                $.ajax({
-                    type: frm.attr('method'),
-                    url: frm.attr('action'),
-                    data: frm.serialize(),
-                    success: function (data) {
-                        $('.forum_view').html(data);
-
-                        alertify.success(success_message);
-
-                        $("#editForum").modal('hide');
-                    },
-                    error: function(data) {
-                        $(".forum_form").html(data.responseText);
-                    }
-                });
-                return false;
-            });
+            setForumUpdateFormSubmit(success_message);
         }
     });
 
     $("#editForum").modal();
+}
+
+/*
+*
+* Function to set the forum's update form submit function
+*
+*/
+function setForumUpdateFormSubmit(success_message) {
+    $('.date-picker').datepicker({
+        format: 'dd/mm/yyyy',
+    });
+
+    var frm = $('#forum_create');
+    frm.submit(function () {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                $('.forum_view').html(data);
+
+                alertify.success(success_message);
+
+                $("#editForum").modal('hide');
+            },
+            error: function(data) {
+                $(".forum_form").html(data.responseText);
+
+                setForumUpdateFormSubmit(success_message);
+            }
+        });
+        return false;
+    });
 }
 
 /*
