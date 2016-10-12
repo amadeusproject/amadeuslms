@@ -42,29 +42,29 @@
 {% endblock %}
 
 {% block content %}
-
-	<form method="post" action="">
-		{% csrf_token %}
-		{% for field in form %}
-			<div class="form-group {% if form.has_error %}has-error{% endif %}">
-				<label for="{{ field.auto_id }}">{{ field.label }}</label>
-				{% render_field field class='form-control input-sm' %}
+	<div class="card card-content">
+        <div class="card-body">
+				<form method="post" action="">{% csrf_token %}
+					{% for field in form %}
+						<div class="form-group {% if form.has_error %}has-error{% endif %}">
+							<label for="{{ field.auto_id }}">{{ field.label }}</label>
+							{% render_field field class='form-control input-sm' %}
+						</div>
+						{% if field.errors.length > 0 %}
+							<div class="alert alert-danger alert-dismissible" role="alert">
+								<ul>
+									{% for error in field.errors %}
+										<li>{{ error }}</li>
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
+						{% endif %}
+					{% endfor %}
+					<div class="row text-center">
+						<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" />
+					</div>
+				</form>
 			</div>
-			<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-			{% if field.errors.length > 0 %}
-				<div class="alert alert-danger alert-dismissible" role="alert">
-  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-  						<span aria-hidden="true">&times;</span>
-						</button>
-					<ul>
-						{% for error in field.errors %}
-							<li>{{ error }}</li>
-						{% endfor %}
-					</ul>
-				</div>
-			</div>
-			{% endif %}
-		{% endfor %}
-		<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" />
-	</form>
+		</div>
 {% endblock %}
