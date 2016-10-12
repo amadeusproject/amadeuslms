@@ -29,7 +29,7 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(IndexView, self).get_context_data(**kwargs)
-		context['categories'] = CourseCategory.objects.all()
+		context['categories'] = CourseCategory.objects.filter(course_category = True)
 		context['courses_teacher'] = Course.objects.filter(professors__name = self.request.user.name)
 		context['courses_student'] = Course.objects.filter(students__name = self.request.user.name)
 		context['categorys_courses'] = CourseCategory.objects.filter(course_category__students__name = self.request.user.name).distinct()
