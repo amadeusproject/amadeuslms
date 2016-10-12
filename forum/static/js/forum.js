@@ -220,6 +220,39 @@ function delete_post(url, post) {
 
 /*
 *
+* Function to load more posts
+*
+*/
+function load_more_posts(pageNum, numberPages, url) {
+    // Remove button from the template
+    $("#load_more_posts").remove();
+    
+    // Check if page is equal to the number of pages
+    if (pageNum == numberPages) {
+        return false
+    }
+
+    pageNum += 1;
+
+    // Show loader
+    $("#loading_posts").show();
+
+    // Configure the url we're about to hit
+    setTimeout(function (){
+        $.ajax({
+            url: url, 
+            data: {'page': pageNum},
+            success: function(data) {
+                $("#loading_posts").hide();
+                
+                $("#posts_list").append(data);
+            }
+        });
+    }, 1000)
+};
+
+/*
+*
 * Function to load answer post form and set the submit function
 *
 */
@@ -322,3 +355,4 @@ function delete_answer(url, answer, message) {
         });
     });
 }
+

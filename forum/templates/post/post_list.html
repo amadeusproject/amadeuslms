@@ -43,3 +43,9 @@
         </div>
     {% endfor %}
 {% endif %}
+
+{% if not page_obj.number == paginator.num_pages %}
+    <a id="load_more_posts" href="javascript:load_more_posts({{ page_obj.number }}, {{ paginator.num_pages }}, '{% url 'course:forum:load_posts' forum_id=forum.id %}');" class="btn btn-raised btn-primary btn-block">
+        {% trans 'Load more posts' %}
+    </a>
+{% endif %}

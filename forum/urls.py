@@ -11,6 +11,7 @@ urlpatterns = [
 	url(r'^render_forum/([\w_-]+)/$', views.render_forum, name='render_forum'),
 	url(r'^render_edit_forum/([\w_-]+)/$', views.render_edit_forum, name='render_edit_forum'),
 	url(r'^forum_deleted/$', views.forum_deleted, name='deleted_forum'),
+	url(r'^load_posts/(?P<forum_id>[\w_-]+)/$', views.load_posts, name='load_posts'),
 	url(r'^create_post/$', views.CreatePostView.as_view(), name='create_post'),
 	url(r'^update_post/(?P<pk>[\w_-]+)/$', views.PostUpdateView.as_view(), name='update_post'),
 	url(r'^delete_post/(?P<pk>[\w_-]+)/$', views.PostDeleteView.as_view(), name='delete_post'),

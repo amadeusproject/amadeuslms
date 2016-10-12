@@ -4,6 +4,8 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator, EmptyPage
+from django.http import Http404
 
 from .models import Forum, Post, PostAnswer
 from courses.models import Topic
@@ -110,6 +112,36 @@ class ForumDetailView(LoginRequiredMixin, generic.DetailView):
 """
 	Post Section
 """
+def load_posts(request, forum_id):
+    context = {
+        'request': request,
+    }
+
+    forum = get_object_or_404(Forum, id = forum_id)
+
+    posts = Post.objects.filter(forum = forum).order_by('post_date')
+
+    paginator = Paginator(posts, 1)
+    
+    try:
+        page_number = int(request.GET.get('page', 1))
+    except ValueError:
+        raise Http404
+
+    try:
+        page_obj = paginator.page(page_number)
+    except EmptyPage:
+        raise Http404
+
+    print(page_number)
+
+    context['paginator'] = paginator
+    context['page_obj'] = page_obj
+
+    context['posts'] = page_obj.object_list
+    context['forum'] = forum
+
+    return render(request, 'post/post_list.html', context)
 
 class CreatePostView(LoginRequiredMixin, generic.edit.CreateView):
 	login_url = reverse_lazy("core:home")	
