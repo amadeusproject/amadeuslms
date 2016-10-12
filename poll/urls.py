@@ -8,4 +8,5 @@ urlpatterns = [
 	url(r'^update/(?P<slug>[\w\-_]+)/$', views.UpdatePoll.as_view(), name='update_poll'), # poll slug
 	url(r'^delete/(?P<slug>[\w\-_]+)/$', views.DeletePoll.as_view(), name='delete_poll'), # poll
 	url(r'^answer/$', views.AnswerPoll.as_view(), name='answer_poll'), # poll
+	url(r'^answer-poll/(?P<slug>[\w\-_]+)/$', views.AnswerStudentPoll.as_view(), name='answer_student_poll'), # poll slug
 ]

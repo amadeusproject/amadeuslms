@@ -33,7 +33,12 @@ class ViewPoll(LoginRequiredMixin,generic.DetailView):
 		context['course'] = poll.topic.subject.course
 		context['subject'] = poll.topic.subject
 		context['subjects'] = poll.topic.subject.course.subjects.all()
-		context['status'] = AnswersStudent.objects.get(poll=poll, student=self.request.user).status
+		answered = AnswersStudent.objects.filter(poll = poll, student=self.request.user)
+		print (answered)
+		if answered.count()<1:
+			context['status'] = False
+		else:
+			context['status'] = answered[0].status
 		return context
 
 
@@ -183,3 +188,46 @@ class DeletePoll(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 class AnswerPoll(generic.TemplateView):
 	template_name = 'poll/answer.html'
+
+class AnswerStudentPoll(LoginRequiredMixin,generic.CreateView):
+
+	model = AnswersStudent
+	fields = ['status']
+	context_object_name = 'answer'
+	template_name = 'poll/answer_student.html'
+
+	def form_valid(self, form):
+		poll = get_object_or_404(Poll, slug = self.kwargs.get('slug'))
+		answers = AnswersStudent(
+            status = True,
+            poll = poll,
+            student = self.request.user,
+        )
+		answers.save()
+
+		for key in self.request.POST:
+			if(key != 'csrfmiddlewaretoken'):
+				answers.answer.add(poll.answers.all().filter(order=key)[0])
+
+		return self.render_to_response(self.get_context_data(form = form), status = 200)
+
+	def get_context_data(self, **kwargs):
+		context = super(AnswerStudentPoll, self).get_context_data(**kwargs)
+		print (self.kwargs.get('slug'))
+		poll = get_object_or_404(Poll, slug = self.kwargs.get('slug'))
+		context['poll'] = poll
+		context['topic'] = poll.topic
+		context['course'] = poll.topic.subject.course
+		context['subject'] = poll.topic.subject
+		context['subjects'] = poll.topic.subject.course.subjects.all()
+
+		print (self.request.method)
+		answers = {}
+		for answer in poll.answers.all():
+			answers[answer.order] = answer.answer
+
+		keys = sorted(answers)
+		context['answers'] = answers
+		context['keys'] = keys
+
+		return context

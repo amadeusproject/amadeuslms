@@ -148,23 +148,4 @@
 
 </div>
 </div>
-
-<button id="poll_teste">poll</button>
-<script type="text/javascript">
-	$("#poll_teste").click(function(){
-		if($('#poll').length){
-	      $('#poll').modal('show');
-	  } else {
-			var url = "{% url 'course:poll:create_poll' topic.slug%}";
-			// alert(url);
-			$.get(url, function(data){
-				$("#poll_t").append(data);
-				$('#poll').modal('show');
-			});
-		}
-	});
-</script>
-
-<div class="row" id="poll_t">
-</div>
 {% endblock %}
