@@ -17,6 +17,7 @@ urlpatterns = [
 	url(r'^delete_post/(?P<pk>[\w_-]+)/$', views.PostDeleteView.as_view(), name='delete_post'),
 	url(r'^render_post/([\w_-]+)/$', views.render_post, name='render_post'),
 	url(r'^post_deleted/$', views.post_deleted, name='deleted_post'),
+	url(r'^load_answers/(?P<post_id>[\w_-]+)/$', views.load_answers, name='load_answers'),
 	url(r'^post_answers/$', views.PostAnswerIndex.as_view(), name='post_answers'),
 	url(r'^reply_post/$', views.CreatePostAnswerView.as_view(), name='reply_post'),
 	url(r'^update_post_answer/(?P<pk>[\w_-]+)/$', views.PostAnswerUpdateView.as_view(), name='update_post_answer'),

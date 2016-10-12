@@ -22,7 +22,7 @@
             <div class="post_answer_content">
                 <div class="card-data">
                     <p class="comment-date"><i class="fa fa-clock-o"></i> {{ answer.answer_date|timesince }} {% trans 'ago' %}
-                        {% if answer.answer_date != answer.modifiction_date %}
+                        {% if answer.is_modified %}
                             <em> - {% trans 'Edited' %}</em>
                         {% endif %}
                     </p>

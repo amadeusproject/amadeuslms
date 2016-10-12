@@ -39,6 +39,11 @@
                 <div class="answer_list">
                     {% list_post_answer request post %}
                 </div>
+                <div class="alert alert-primary loading_answers" role="alert" style="display: none">
+                    <center>
+                        <span class="fa fa-spin fa-circle-o-notch"></span>
+                    </center>
+                </div>
             </div>
         </div>
     {% endfor %}

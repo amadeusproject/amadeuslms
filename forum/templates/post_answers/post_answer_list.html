@@ -24,7 +24,7 @@
                     <div class="post_answer_content">
                         <div class="card-data">
                             <p class="comment-date"><i class="fa fa-clock-o"></i> {{ answer.answer_date|timesince }} {% trans 'ago' %}
-                                {% if answer.answer_date != answer.modifiction_date %}
+                                {% if answer.is_modified %}
                                     <em> - {% trans 'Edited' %}</em>
                                 {% endif %}
                             </p>
@@ -35,4 +35,10 @@
             </div>
         </div>
     {% endfor %}
+{% endif %}
+
+{% if not page_obj.number == paginator.num_pages %}
+    <a href="javascript:load_more_answers({{ post.id }}, {{ page_obj.number }}, {{ paginator.num_pages }}, '{% url 'course:forum:load_answers' post_id=post.id %}');" class="btn btn-raised btn-primary btn-block load_more_answers">
+        {% trans 'Load more answers' %}
+    </a>
 {% endif %}

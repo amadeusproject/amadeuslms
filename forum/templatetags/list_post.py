@@ -1,6 +1,7 @@
 from django import template
 
 from django.core.paginator import Paginator, EmptyPage
+from django.http import Http404
 
 from forum.models import Post
 
@@ -18,7 +19,7 @@ def list_posts(request, forum):
 
     posts = Post.objects.filter(forum = forum).order_by('post_date')
 
-    paginator = Paginator(posts, 1)
+    paginator = Paginator(posts, 2)
 
     try:
         page_number = int(request.GET.get('page', 1))

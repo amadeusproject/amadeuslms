@@ -121,7 +121,7 @@ def load_posts(request, forum_id):
 
     posts = Post.objects.filter(forum = forum).order_by('post_date')
 
-    paginator = Paginator(posts, 1)
+    paginator = Paginator(posts, 2)
     
     try:
         page_number = int(request.GET.get('page', 1))
@@ -132,8 +132,6 @@ def load_posts(request, forum_id):
         page_obj = paginator.page(page_number)
     except EmptyPage:
         raise Http404
-
-    print(page_number)
 
     context['paginator'] = paginator
     context['page_obj'] = page_obj
@@ -199,6 +197,34 @@ def post_deleted(request):
 """
 	Post Answer Section
 """
+def load_answers(request, post_id):
+    context = {
+        'request': request,
+    }
+
+    post = get_object_or_404(Post, id = post_id)
+
+    answers = PostAnswer.objects.filter(post = post)
+
+    paginator = Paginator(answers, 2)
+    
+    try:
+        page_number = int(request.GET.get('page_answer', 1))
+    except ValueError:
+        raise Http404
+
+    try:
+        page_obj = paginator.page(page_number)
+    except EmptyPage:
+        raise Http404
+
+    context['paginator'] = paginator
+    context['page_obj'] = page_obj
+
+    context['answers'] = page_obj.object_list
+    context['post'] = post
+
+    return render(request, 'post_answers/post_answer_list.html', context)
 
 class PostAnswerIndex(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("core:home")	

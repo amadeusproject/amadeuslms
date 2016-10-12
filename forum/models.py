@@ -67,4 +67,13 @@ class PostAnswer(models.Model):
 		app_label ='forum'
 
 	def __str__(self):
-		return ''.join([self.user.name, " / ", str(self.answer_date)])	
+		return ''.join([self.user.name, " / ", str(self.answer_date)])
+
+	def is_modified(self):
+		create = self.answer_date.strftime("%Y-%m-%d %H:%M:%S")
+		edit = self.modification_date.strftime("%Y-%m-%d %H:%M:%S")
+		
+		if create != edit:
+			return True
+
+		return False	

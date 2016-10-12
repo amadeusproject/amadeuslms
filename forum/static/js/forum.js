@@ -246,6 +246,10 @@ function load_more_posts(pageNum, numberPages, url) {
                 $("#loading_posts").hide();
                 
                 $("#posts_list").append(data);
+            },
+            error: function(data) {
+                console.log(data);
+                console.log('Error');
             }
         });
     }, 1000)
@@ -356,3 +360,35 @@ function delete_answer(url, answer, message) {
     });
 }
 
+/*
+*
+* Function to load more answers of a post
+*
+*/
+function load_more_answers(post_id, pageNum, numberPages, url) {
+    // Remove button from the template
+    $("#post_"+post_id).find(".load_more_answers").remove();
+    
+    // Check if page is equal to the number of pages
+    if (pageNum == numberPages) {
+        return false
+    }
+
+    pageNum += 1;
+
+    // Show loader
+    $("#post_"+post_id).find(".loading_answers").show();
+
+    // Configure the url we're about to hit
+    setTimeout(function (){
+        $.ajax({
+            url: url, 
+            data: {'page_answer': pageNum},
+            success: function(data) {
+                $("#post_"+post_id).find(".loading_answers").hide();
+                
+                $("#post_"+post_id).find(".answer_list").append(data);
+            }
+        });
+    }, 1000)
+};
