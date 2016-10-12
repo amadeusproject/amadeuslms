@@ -1,0 +1,12 @@
+{% load static i18n %}
+
+<script src="{% static 'js/modals_requisitions.js'%}"></script>
+<script src="{% static 'js/modal_poll.js'%}"></script>
+
+{% for poll in polls %}
+  <li id="poll_{{poll.slug}}"><i class="material-icons">poll</i> <a href="javascript:get('{% url 'course:poll:update_poll' poll.slug %}','#poll','#modal_poll');">{{ poll.name }}</a><a href="javascript:get('{% url 'course:poll:delete_poll' poll.slug %}','#poll','#modal_poll');"><span class="glyphicon glyphicon-remove"></span></a></li>
+{% endfor %}
+<button class="btn btn-primary btn-raised" onclick="javascript:get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#modal_poll');">{% trans '+ Create Poll' %}</button>
+<div class="row" id="modal_poll">
+
+</div>

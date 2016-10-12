@@ -80,7 +80,6 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin,generic.CreateView):
 	form_class = PollForm
 	context_object_name = 'poll'
 	template_name = 'poll/create.html'
-	success_url = reverse_lazy('core:home')
 
 	def form_invalid(self, form,**kwargs):
 		context = super(CreatePoll, self).form_invalid(form)
@@ -92,6 +91,10 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin,generic.CreateView):
 		keys = sorted(answers)
 		context.context_data['answers'] = answers
 		context.context_data['keys'] = keys
+		context.context_data['form'] = form
+		context.status_code = 400
+		print (context)
+		# return self.render_to_response(context, status = 400)
 		return context
 
 	def form_valid(self, form):
@@ -105,11 +108,12 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin,generic.CreateView):
 				answer = Answer(answer=self.request.POST[key],order=key,poll=self.object)
 				answer.save()
 
-		return super(CreatePoll, self).form_valid(form)
+		return self.render_to_response(self.get_context_data(form = form), status = 200)
 
 	def get_context_data(self, **kwargs):
 		context = super(CreatePoll, self).get_context_data(**kwargs)
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+		context["topic"] = topic
 		context['course'] = topic.subject.course
 		context['subject'] = topic.subject
 		context['subjects'] = topic.subject.course.subjects.all()
@@ -145,6 +149,8 @@ class UpdatePoll(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 		keys = sorted(answers)
 		context.context_data['answers'] = answers
 		context.context_data['keys'] = keys
+		context.context_data['form'] = form
+		context.status_code = 400
 		return context
 
 	def form_valid(self, form):
@@ -164,6 +170,7 @@ class UpdatePoll(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(UpdatePoll, self).get_context_data(**kwargs)
 		poll = self.object
+		context['topic'] = poll.topic
 		context['course'] = poll.topic.subject.course
 		context['subject'] = poll.topic.subject
 		context['subjects'] = poll.topic.subject.course.subjects.all()
@@ -199,6 +206,7 @@ class DeletePoll(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 		context['course'] = self.object.topic.subject.course
 		context['subject'] = self.object.topic.subject
 		context['poll'] = self.object
+		context["topic"] = self.object.topic
 		context['subjects'] = self.object.topic.subject.course.subjects.filter(Q(visible=True) | Q(professors__in=[self.request.user]))
 		if (has_role(self.request.user,'system_admin')):
 			context['subjects'] = self.object.topic.subject.course.subjects.all()
@@ -206,3 +214,7 @@ class DeletePoll(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 	def get_success_url(self):
 		return reverse_lazy('course:view_topic', kwargs={'slug' : self.object.topic.slug})
+
+
+class AnswerPoll(generic.TemplateView):
+	template_name = 'poll/answer.html'

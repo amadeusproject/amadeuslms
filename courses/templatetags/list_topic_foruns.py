@@ -1,7 +1,7 @@
 from django import template
 
 from forum.models import Forum
-
+from poll.models import Poll
 register = template.Library()
 
 """
@@ -15,5 +15,16 @@ def list_topic_foruns(request, topic):
     }
 
     context['foruns'] = Forum.objects.filter(topic = topic)
+
+    return context
+
+@register.inclusion_tag('subject/poll_item_actions.html')
+def list_topic_poll(request, topic):
+    context = {
+        'request': request,
+    }
+
+    context['polls'] = Poll.objects.filter(topic = topic)
+    context['topic'] = topic
 
     return context

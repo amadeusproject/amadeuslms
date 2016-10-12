@@ -12,7 +12,7 @@
 	  	{% else %}
 	  		<li class="active">{{ topic.name }}</li>
 	  	{% endif %}
-	  	
+
 	</ol>
 {% endblock %}
 
@@ -103,7 +103,7 @@
                     <div class="panel-body">
                      <div class="row">
                       <div class="col-md-4">
-                       <i class="fa fa-file-archive-o fa-lg" aria-hidden="true">Atividade.doc</i> 
+                       <i class="fa fa-file-archive-o fa-lg" aria-hidden="true">Atividade.doc</i>
                      </div>
                      {% if user|has_role:'professor, system_admin' %}
                         <div class="col-md-4">
@@ -147,5 +147,24 @@
 
 
 </div>
+</div>
+
+<button id="poll_teste">poll</button>
+<script type="text/javascript">
+	$("#poll_teste").click(function(){
+		if($('#poll').length){
+	      $('#poll').modal('show');
+	  } else {
+			var url = "{% url 'course:poll:create_poll' topic.slug%}";
+			// alert(url);
+			$.get(url, function(data){
+				$("#poll_t").append(data);
+				$('#poll').modal('show');
+			});
+		}
+	});
+</script>
+
+<div class="row" id="poll_t">
 </div>
 {% endblock %}
