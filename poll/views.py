@@ -12,7 +12,7 @@ from django.db.models import Q
 # from django.views.generic.edit import FormMixin
 
 from .forms import PollForm
-from .models import Poll, Answer
+from .models import Poll, Answer, AnswersStudent
 from core.mixins import NotificationMixin
 from users.models import User
 from courses.models import Course, Topic
@@ -26,48 +26,14 @@ class ViewPoll(LoginRequiredMixin,generic.DetailView):
 	def get_object(self, queryset=None):
 	    return get_object_or_404(Poll, slug = self.kwargs.get('slug'))
 
-	def form_invalid(self, form,**kwargs):
-		context = super(ViewPoll, self).form_invalid(form)
-		answers = {}
-		for key in self.request.POST:
-			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date' and key != 'all_students' and key != 'students'):
-				answers[key] = self.request.POST[key]
-
-		keys = sorted(answers)
-		context.context_data['answers'] = answers
-		context.context_data['keys'] = keys
-		return context
-
-	def form_valid(self, form):
-		poll = self.object
-		poll = form.save(commit = False)
-		poll.answers.all().delete()
-		poll.save()
-
-
-		for key in self.request.POST:
-			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date' and key != 'all_students' and key != 'students'):
-				answer = Answer(answer=self.request.POST[key],order=key,poll=poll)
-				answer.save()
-
-		return super(ViewPoll, self).form_valid(form)
-
 	def get_context_data(self, **kwargs):
 		context = super(ViewPoll, self).get_context_data(**kwargs)
 		poll = self.object
+		context["topic"] = poll.topic
 		context['course'] = poll.topic.subject.course
 		context['subject'] = poll.topic.subject
 		context['subjects'] = poll.topic.subject.course.subjects.all()
-
-		answers = {}
-		for answer in poll.answers.all():
-			answers[answer.order] = answer.answer
-
-		keys = sorted(answers)
-		context['answers'] = answers
-		context['keys'] = keys
-
-		print (context)
+		context['status'] = AnswersStudent.objects.get(poll=poll, student=self.request.user).status
 		return context
 
 
@@ -93,7 +59,6 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin,generic.CreateView):
 		context.context_data['keys'] = keys
 		context.context_data['form'] = form
 		context.status_code = 400
-		print (context)
 		# return self.render_to_response(context, status = 400)
 		return context
 

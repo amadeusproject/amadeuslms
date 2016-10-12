@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 
 from rolepermissions.shortcuts import assign_role
 
-from courses.models import Category, Course, Subject, Topic
+from courses.models import CourseCategory, Course, Subject, Topic
 from poll.models import Poll
 from users.models import User
 
@@ -33,7 +33,7 @@ class PollTestCase(TestCase):
         )
         assign_role(self.user_student, 'student')
 
-        self.category = Category(
+        self.category = CourseCategory(
             name = 'Categoria Teste',
         )
         self.category.save()
