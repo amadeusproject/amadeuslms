@@ -1,4 +1,4 @@
-{% load i18n permission_tags %}
+{% load i18n permission_tags list_post_answer %}
 
 <div  class="row">
     <div id="post_{{ post.id }}" class="col-sm-12 col-xs-12">
@@ -15,7 +15,7 @@
                             <i class="material-icons">more_horiz</i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="javascript:edit_post('{% url 'course:forum:update_post' post.id %}', '{{ post.id }}')"></li>
+                            <li><a href="javascript:edit_post('{% url 'course:forum:update_post' post.id %}', '{{ post.id }}', '{% trans 'Post edited successfully!' %}')"></li>
                             <li><a href="javascript:delete_post('{% url 'course:forum:delete_post' post.id %}', '{{ post.id }}')"><i class="material-icons">delete_sweep</i> {% trans 'Remove' %}</a></li>
                         </ul>
                     </div>
@@ -34,5 +34,8 @@
             <p class="comment-text">{{ post.message|linebreaks }}</p>
         </div>
         <div class="answer_post"></div>
+        <div class="answer_list">
+            {% list_post_answer request post %}
+        </div>
     </div>
 </div>

@@ -68,7 +68,6 @@ function createForum(url, topic) {
                     url: frm.attr('action'),
                     data: frm.serialize(),
                     success: function (data) {
-                        console.log(data);
                         data = data.split('-');
 
                         $('.foruns_list').append("<a id='forum_"+data[1]+"' href='"+data[0]+"'>"+data[2]+"<br /></a>");
@@ -159,7 +158,7 @@ function delete_forum(url, forum, message, return_url) {
 * Function to load form to edit post
 *
 */
-function edit_post(url, post_id) {
+function edit_post(url, post_id, success_message) {
     $.ajax({
         url: url,
         success: function(data) {
@@ -173,6 +172,8 @@ function edit_post(url, post_id) {
                     url: frm.attr('action'),
                     data: frm.serialize(),
                     success: function (data) {
+                        alertify.success(success_message);
+
                         $("#post_"+post_id).parent().after(data);
                         frm.parent().parent().remove();
                     },
@@ -219,6 +220,43 @@ function delete_post(url, post) {
 
 /*
 *
+* Function to load more posts
+*
+*/
+function load_more_posts(pageNum, numberPages, url) {
+    // Remove button from the template
+    $("#load_more_posts").remove();
+    
+    // Check if page is equal to the number of pages
+    if (pageNum == numberPages) {
+        return false
+    }
+
+    pageNum += 1;
+
+    // Show loader
+    $("#loading_posts").show();
+
+    // Configure the url we're about to hit
+    setTimeout(function (){
+        $.ajax({
+            url: url, 
+            data: {'page': pageNum},
+            success: function(data) {
+                $("#loading_posts").hide();
+                
+                $("#posts_list").append(data);
+            },
+            error: function(data) {
+                console.log(data);
+                console.log('Error');
+            }
+        });
+    }, 1000)
+};
+
+/*
+*
 * Function to load answer post form and set the submit function
 *
 */
@@ -258,7 +296,7 @@ function answer(id, url) {
 * Function to load form to edit post answer
 *
 */
-function edit_post_answer(url, answer_id) {
+function edit_post_answer(url, answer_id, success_message) {
     $.ajax({
         url: url,
         success: function(data) {
@@ -272,6 +310,8 @@ function edit_post_answer(url, answer_id) {
                     url: frm.attr('action'),
                     data: frm.serialize(),
                     success: function (data) {
+                        alertify.success(success_message);
+
                         $("#answer_"+answer_id).parent().after(data);
                         frm.parent().parent().remove();
                     },
@@ -319,3 +359,36 @@ function delete_answer(url, answer, message) {
         });
     });
 }
+
+/*
+*
+* Function to load more answers of a post
+*
+*/
+function load_more_answers(post_id, pageNum, numberPages, url) {
+    // Remove button from the template
+    $("#post_"+post_id).find(".load_more_answers").remove();
+    
+    // Check if page is equal to the number of pages
+    if (pageNum == numberPages) {
+        return false
+    }
+
+    pageNum += 1;
+
+    // Show loader
+    $("#post_"+post_id).find(".loading_answers").show();
+
+    // Configure the url we're about to hit
+    setTimeout(function (){
+        $.ajax({
+            url: url, 
+            data: {'page_answer': pageNum},
+            success: function(data) {
+                $("#post_"+post_id).find(".loading_answers").hide();
+                
+                $("#post_"+post_id).find(".answer_list").append(data);
+            }
+        });
+    }, 1000)
+};

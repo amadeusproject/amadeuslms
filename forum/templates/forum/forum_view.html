@@ -101,6 +101,11 @@
             <div id="posts_list">
                 {% list_posts request forum %}
             </div>
+            <div id="loading_posts" class="alert alert-primary" role="alert" style="display: none">
+                <center>
+                    <span class="fa fa-spin fa-circle-o-notch"></span>
+                </center>
+            </div>
         </div>
     </div>
     <!-- Modal to show Forum edit form -->

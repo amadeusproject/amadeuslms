@@ -1,0 +1,9 @@
+.table-edited{
+	margin-top: 5px;
+}
+.table-edited tr td:first-child{
+	color: green;
+}
+.table-edited tr td{
+	border-top: none !important;
+}
