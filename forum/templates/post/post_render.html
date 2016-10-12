@@ -14,7 +14,7 @@
                         <a class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="material-icons">more_horiz</i>
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
                             <li><a href="javascript:edit_post('{% url 'course:forum:update_post' post.id %}', '{{ post.id }}', '{% trans 'Post edited successfully!' %}')"></li>
                             <li><a href="javascript:delete_post('{% url 'course:forum:delete_post' post.id %}', '{{ post.id }}')"><i class="material-icons">delete_sweep</i> {% trans 'Remove' %}</a></li>
                         </ul>
