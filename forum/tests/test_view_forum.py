@@ -5,7 +5,7 @@ from rolepermissions.shortcuts import assign_role
 
 from users.models import User
 from courses.models import CourseCategory, Course, Subject, Topic
-from forum.models import Forum
+from forum.models import Forum, Post, PostAnswer
 
 class ForumViewTestCase (TestCase):
 
@@ -69,11 +69,32 @@ class ForumViewTestCase (TestCase):
         )
 		self.forum.save()
 
+		self.post = Post.objects.create(
+            user = self.user,
+            message = 'posting a test',
+            modification_date = '2016-11-09',
+            post_date = '2016-10-03',
+            forum = self.forum,
+        )
+		self.post.save()
+
+		self.answer = PostAnswer.objects.create(
+            user = self.user,
+            post = self.post,
+            message = 'testing a post answer',
+            modification_date = '2016-10-05',
+            answer_date = '2016-10-04',
+        )
+		self.answer.save()
+
 		
 		self.client.login(username='test', password='testing')
 		self.index_url = reverse('course:forum:view', kwargs={'slug':self.forum.slug})
 		self.create_url = reverse('course:forum:create')
 		self.update_url = reverse('course:forum:update', kwargs={'pk':self.forum.pk})
+
+		self.createPost_url = reverse('course:forum:create_post')
+		self.updatePost_url = reverse('course:forum:update_post', kwargs={'pk':self.post.pk})
 
 ######################### ForumDetailView #########################
 
@@ -144,3 +165,41 @@ class ForumViewTestCase (TestCase):
 		self.assertEquals (response.status_code, 302)
 
 		forum = Forum.objects.get(name='Forum Updated')
+
+######################### CreatePostView #########################
+
+	def test_CreatePost_form_error (self):
+		data = {'message': '', 'forum': ''}
+		
+		#response = self.client.post(self.createPost_url, data)
+		#self.assertEquals (response.status_code, 400)
+
+	def test_CreatePost_form_ok (self):
+		data = {
+		'forum': str(self.forum.id),
+		'message':'posting a test2'		
+		}
+
+		response = self.client.post(self.createPost_url, data)
+		self.assertEquals (response.status_code, 302)
+
+		post = Post.objects.get(message='posting a test2')
+
+######################### UpdatePostView #########################
+
+	def test_UpdatePost_form_error (self):
+		data = {'message': ''}
+
+		response = self.client.post(self.updatePost_url, data)
+		self.assertFormError (response, 'form', 'message', 'Este campo é obrigatório.')
+
+	def test_UpdatePost_form_ok (self):
+		data = {'message':'updating a post'}
+
+		response = self.client.post(self.updatePost_url, data)
+		#self.assertEquals (response.status_code, 302)
+
+		#self.assertEquals(self.post.message, 'updating a post')
+
+
+
