@@ -36,16 +36,11 @@
   	<div class="panel panel-info">
     	<div class="panel-heading">
 			<div class="row">
-	      		<div class="col-md-9 col-sm-7">
+	      		<div class="col-md-9 col-sm-9">
 	        		<h3>{{subject}}</h3>
 	      		</div>
-		          <div class="col-xs-4 col-md-3 divMoreActions">
-		            <div class="btn-group">
-		              <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
-		                <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
-		              </button>
-		            </div>
-		            {% if user|has_role:'system_admin' or user in subject.professors %}
+	      		{% if user|has_role:'system_admin' or user in subject.professors %}
+		         	 <div class="col-xs-4 col-md-3 divMoreActions">
 			            <div class="btn-group">
 			              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
@@ -56,8 +51,8 @@
 			                <li><a href="{% url 'course:delete_subject' subject.slug %}" data-toggle="modal" data-target="#removeSubject"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
 			              </ul>
 			            </div>
-		            {% endif %}
-				</div>
+    				</div>
+				{% endif %}
 	    	</div>
     	</div>
     	<div class="panel-body">

@@ -44,7 +44,10 @@ class CreateForumView(LoginRequiredMixin, generic.edit.CreateView):
 	form_class = ForumForm
 	
 	def form_invalid(self, form):
-		return self.render_to_response(self.get_context_data(form = form), status = 400)
+		context = super(CreateForumView, self).form_invalid(form)
+		context.status_code = 400
+
+		return context
 
 	def get_success_url(self):
 		self.success_url = reverse('course:forum:render_forum', args = (self.object.id, ))

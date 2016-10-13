@@ -27,3 +27,17 @@ class Answer(models.Model):
 
     def __str__(self):
         return str(self.answer) + str("/") + str(self.poll)
+
+class AnswersStudent(models.Model):
+    status = models.BooleanField(_("Answered"), default=False)
+    poll = models.ForeignKey(Poll, verbose_name = _('Poll'), related_name='answers_stundet')
+    answer = models.ManyToManyField(Answer,verbose_name = _('Answers Students'), related_name='answers_stundet')
+    student = models.ForeignKey(User, verbose_name = _('Student'), related_name='answers_stundent')
+    answered_in = models.DateTimeField(_("Answered Date"),auto_now=True)
+
+    class Meta:
+        verbose_name = _('Answer Stundent')
+        verbose_name_plural = _('Answers Student')
+
+    def __str__(self):
+        return str(self.student) + str("/") + str(self.poll)

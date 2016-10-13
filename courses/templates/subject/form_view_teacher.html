@@ -1,4 +1,4 @@
-{% load static i18n list_topic_foruns %}
+{% load static i18n list_topic_foruns%}
 
 {% block javascript %}
     <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
@@ -15,9 +15,11 @@
       </div>
       <div class="col-xs-3 col-md-2 divMoreActions">
         <div class="btn-group">
-          <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
+          <a href="{% url 'course:view_topic' topic.slug %}">
+            <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
             <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
-          </button>
+            </button>
+          </a>
         </div>
         <div class="btn-group">
           <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -54,6 +56,7 @@
             <ul>
                 <li><i class="material-icons">description</i> <a href="#" data-toggle="modal" data-target="#ActivityModal">Activitie 1</a></li>
                 <li><i class="material-icons">list</i> <a href="#" data-toggle="modal" data-target="#forumModal">Forum</a></li>
+                {% list_topic_poll request topic %}
             </ul>
 
 
@@ -426,7 +429,7 @@
       </div>
       <div class="modal-body">
         <form class="form-horizontal">
-          
+
       <fieldset>
         <legend>Atividade Proposta</legend>
         <div class="form-group is-empty">

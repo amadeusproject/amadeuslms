@@ -4,10 +4,10 @@ from django.core.urlresolvers import reverse
 from rolepermissions.shortcuts import assign_role
 
 from users.models import User
-from courses.models import Category, Course, Subject, Topic
+from courses.models import CourseCategory, Course, Subject, Topic
 from forum.models import Forum
 
-class ForumDetailViewTestCase (TestCase):
+class ForumViewTestCase (TestCase):
 
 	def setUp(self):
 		self.client = Client()
@@ -21,7 +21,7 @@ class ForumDetailViewTestCase (TestCase):
 		)
 		assign_role(self.user, 'system_admin')
 
-		self.category = Category.objects.create(
+		self.category = CourseCategory.objects.create(
 			name = 'Category test',
 			slug = 'category_test'
 		)
@@ -69,22 +69,78 @@ class ForumDetailViewTestCase (TestCase):
         )
 		self.forum.save()
 
-		self.url = reverse('course:forum:view', kwargs={'slug':self.forum.slug})
-
-	def test_view_ok (self):
+		
 		self.client.login(username='test', password='testing')
+		self.index_url = reverse('course:forum:view', kwargs={'slug':self.forum.slug})
+		self.create_url = reverse('course:forum:create')
+		self.update_url = reverse('course:forum:update', kwargs={'pk':self.forum.pk})
 
-		response = self.client.get(self.url)
+######################### ForumDetailView #########################
+
+	def test_ForumDetail_view_ok (self):
+		response = self.client.get(self.index_url)
 		self.assertEquals(response.status_code, 200)
 		self.assertTemplateUsed(response, 'forum/forum_view.html')
 
-	def test_context(self):
-		self.client.login(username='test', password='testing')
-
-		response = self.client.get(self.url)
-		
-		self.assertTrue('form' in response.context)
+	def test_ForumDetail_context(self):
+		response = self.client.get(self.index_url)
 		self.assertTrue('forum' in response.context)
-		self.assertTrue('title' in response.context)
 
+######################### CreateForumView #########################
 
+	def test_CreateForum_view_ok (self):
+		response = self.client.get(self.create_url)
+		self.assertEquals(response.status_code, 200)
+		self.assertTemplateUsed(response, 'forum/forum_form.html')
+		
+	def test_CreateForum_context(self):		
+		response = self.client.get(self.create_url)
+		self.assertTrue('form' in response.context)
+
+	def test_CreateForum_form_error (self):
+		data = {'name':'', 'limit_date': '', 'description':'', 'topic':''}
+		response = self.client.post(self.create_url, data)
+		self.assertEquals (response.status_code, 400)
+
+	def test_CreateForum_form_ok (self):
+		data = {
+		'name':'Forum Test2', 
+		'limit_date': '2017-10-05', 
+		'description':'Test', 
+		'topic':str(self.topic.id)
+		}
+
+		response = self.client.post(self.create_url, data)
+		self.assertEquals (response.status_code, 302)
+
+		forum = Forum.objects.get(name='Forum Test2')
+
+######################### UpdateForumView #########################
+
+	def test_UpdateForum_view_ok (self):
+		response = self.client.get(self.update_url)
+		self.assertEquals(response.status_code, 200)
+		self.assertTemplateUsed(response, 'forum/forum_form.html')
+
+	def test_UpdateForum_context(self):		
+		response = self.client.get(self.update_url)
+		self.assertTrue('form' in response.context)
+
+	def test_UpdateForum_form_error (self):
+		data = {'name':'', 'limit_date': '', 'description':''}
+
+		response = self.client.post(self.update_url, data)
+		self.assertEquals (response.status_code, 400)
+
+	def test_UpdateForum_form_ok (self):
+		data = {
+		'name':'Forum Updated', 
+		'limit_date': '2017-10-05', 
+		'description':'Test', 
+		'topic':str(self.topic.id)
+		}
+
+		response = self.client.post(self.update_url, data)
+		self.assertEquals (response.status_code, 302)
+
+		forum = Forum.objects.get(name='Forum Updated')
