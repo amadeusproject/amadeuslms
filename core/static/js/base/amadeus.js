@@ -61,16 +61,21 @@ function formatarTelefone(campo, evento){
 	}
 	tamanho = campo.value.length;
 	
-	if((codTecla > 47 && codTecla < 58) && tamanho < 14){
+	if(((codTecla > 47 && codTecla < 58) || (codTecla == 8)) && tamanho < 15){
 	
 		if(tamanho == 0){
 			campo.value = "(" + campo.value;
 		}else if( tamanho == 3 ){
-			campo.value = campo.value + ")";
+			campo.value = campo.value + ") ";
 		}else if(tamanho == 9){
 			campo.value = campo.value + "-";
+		}else if(tamanho == 14){
+			// alert('oi');
+			campo.value = campo.value.slice(0, 4) + campo.value.slice(5, 14);
+			campo.value = campo.value.slice(0, 8) + campo.value.slice(9, 10) + campo.value.slice(8, 9) + campo.value.slice(10, 14)
 		}
 		return true;
+
 	} else if(codTecla == 0 || codTecla == 8){
 		return true;
 	} else {
