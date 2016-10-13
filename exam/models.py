@@ -5,23 +5,19 @@ from users.models import User
 from core.models import Resource
 from courses.models import Activity
 
-
-
-class Exam(models.Model):
-	name = models.CharField(_('Name'), max_length = 100)
-	beginDate = models.DateTimeField(_('Start Date'), auto_now_add = True)
-	endDate = models.DateTimeField(_('Date of last update'), auto_now=True)
+class Exam(Activity):
+	begin_date = models.DateField(_('Begin of Course Date'))
 
 	class Meta:
-		#ordering = ('create_date','name')
 		verbose_name = _('Exam')
 		verbose_name_plural = _('Exams')
 
 		def __str__(self):
 			return str(self.name) + str("/") + str(self.topic)
 
+
 class Answer(models.Model):
-    answer = models.CharField(_("Answer"), max_length = 200)
+    answer = models.CharField(_("Answer"), max_length = 300)
     order = models.PositiveSmallIntegerField(_("Order"))
     exam = models.ForeignKey(Exam, verbose_name = _('Answers'), related_name='answers')
 
