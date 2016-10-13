@@ -9,8 +9,8 @@ class MymeType(models.Model):
     icon = models.CharField(_('Icon'), max_length=50, unique=True)
 
     class Meta:
-        verbose_name= 'Amadeus Myme Type'
-        verbose_name_plural = 'Amadeus Myme Types'
+        verbose_name= _('Amadeus Myme Type')
+        verbose_name_plural = _('Amadeus Myme Types')
 
     def get_icon(self, type):
         pass
