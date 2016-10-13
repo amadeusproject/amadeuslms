@@ -16,8 +16,8 @@
                                 <a class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="material-icons">more_horiz</i>
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <li><a href="javascript:edit_post('{% url 'course:forum:update_post' post.id %}', '{{ post.id }}')"><i class="material-icons">create</i> {% trans 'Edit' %}</a></li>
+                                <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                                    <li><a href="javascript:edit_post('{% url 'course:forum:update_post' post.id %}', '{{ post.id }}', '{% trans 'Post edited successfully!' %}')"><i class="material-icons">create</i> {% trans 'Edit' %}</a></li>
                                     <li><a href="javascript:javascript:delete_post('{% url 'course:forum:delete_post' post.id %}', '{{ post.id }}')"><i class="material-icons">delete_sweep</i> {% trans 'Remove' %}</a></li>
                                 </ul>
                             </div>
@@ -39,7 +39,18 @@
                 <div class="answer_list">
                     {% list_post_answer request post %}
                 </div>
+                <div class="alert alert-primary loading_answers" role="alert" style="display: none">
+                    <center>
+                        <span class="fa fa-spin fa-circle-o-notch"></span>
+                    </center>
+                </div>
             </div>
         </div>
     {% endfor %}
+{% endif %}
+
+{% if not page_obj.number == paginator.num_pages %}
+    <a id="load_more_posts" href="javascript:load_more_posts({{ page_obj.number }}, {{ paginator.num_pages }}, '{% url 'course:forum:load_posts' forum_id=forum.id %}');" class="btn btn-raised btn-primary btn-block">
+        {% trans 'Load more posts' %}
+    </a>
 {% endif %}

@@ -1,5 +1,8 @@
 from django import template
 
+from django.core.paginator import Paginator, EmptyPage
+from django.http import Http404
+
 from forum.models import PostAnswer
 
 register = template.Library()
@@ -14,6 +17,24 @@ def list_post_answer(request, post):
         'request': request,
     }
 
-    context['answers'] = PostAnswer.objects.filter(post = post)
+    answers = PostAnswer.objects.filter(post = post)
+
+    paginator = Paginator(answers, 2)
+
+    try:
+        page_number = int(request.GET.get('page_answer', 1))
+    except ValueError:
+        raise Http404
+
+    try:
+        page_obj = paginator.page(page_number)
+    except EmptyPage:
+        raise Http404
+
+    context['paginator'] = paginator
+    context['page_obj'] = page_obj
+
+    context['answers'] = page_obj.object_list
+    context['post'] = post
 
     return context

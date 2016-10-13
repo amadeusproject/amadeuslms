@@ -50,7 +50,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row panel panel-default">
+    <div class="panel panel-default">
         <div class="panel-body">
             <div class="comments-list">
                 <div class="section-heading forum_view">
@@ -101,6 +101,11 @@
             <div id="posts_list">
                 {% list_posts request forum %}
             </div>
+            <div id="loading_posts" class="alert alert-primary" role="alert" style="display: none">
+                <center>
+                    <span class="fa fa-spin fa-circle-o-notch"></span>
+                </center>
+            </div>
         </div>
     </div>
     <!-- Modal to show Forum edit form -->
@@ -124,13 +129,3 @@
     </div>
 {% endblock %}
 
-{% block rightbar %}
-  <div class="panel panel-warning">
-    <div class="panel-heading">
-      <h3 class="panel-title">{% trans "Pending Stuffs" %}</h3>
-    </div>
-    <div class="panel-body">
-
-    </div>
-  </div>
-{% endblock rightbar %}

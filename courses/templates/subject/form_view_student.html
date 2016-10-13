@@ -17,7 +17,8 @@
 </div>
 <div class="panel-body">
     <p>{{topic.description|linebreaks}}</p>
-    {% list_topic_foruns request topic %}  
+    {% list_topic_foruns request topic %}
+    {% list_topic_poll request topic %}
 </div>
 
 <div class="modal fade" id="forumModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

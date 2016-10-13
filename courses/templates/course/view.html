@@ -55,19 +55,21 @@
           <div class="col-xs-8 col-md-10 titleTopic">
             <h4>{{course}}</h4>
           </div>
-          <div class="col-xs-4 col-md-2" id="divMoreActions">
-            <div class="btn-group">
-              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-              <div class="ripple-container"></div></button>
-              <ul class="dropdown-menu" aria-labelledby="moreActions">
-                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createSubject"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp; Create Subject</a></li>
-                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
-                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Edit</a></li>
-                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
-              </ul>
+          {% if user|has_role:'professor, system_admin' %}
+            <div class="col-xs-4 col-md-2" id="divMoreActions">
+              <div class="btn-group">
+                <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+                <div class="ripple-container"></div></button>
+                <ul class="dropdown-menu" aria-labelledby="moreActions">
+                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createSubject"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp; Create Subject</a></li>
+                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
+                  <li><a href="{% url 'course:update' course.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Edit</a></li>
+                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
+                </ul>
+              </div>
             </div>
-          </div>
+          {% endif %}
       </div>
     </div>
     <div class="panel-body">
@@ -248,20 +250,11 @@
       </div>
     </div>
   </div>
+
+
 </div>
 </div>
 </div>
 
 {% endblock %}
 
-
-{% block rightbar %}
-<div class="panel panel-warning">
-      <div class="panel-heading">
-        <h3 class="panel-title">{% trans "Pending Stuffs" %}</h3>
-      </div>
-    <div class="panel-body">
-      <p>{% trans 'No pending tasks at the moment.' %}</p>
-      </div>
-  </div>
-{% endblock rightbar %}

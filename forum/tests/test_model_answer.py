@@ -2,7 +2,7 @@ from django.test import TestCase
 from rolepermissions.shortcuts import assign_role
 
 from users.models import User
-from courses.models import Category, Course, Subject, Topic
+from courses.models import CourseCategory, Course, Subject, Topic
 from forum.models import Forum, Post, PostAnswer
 
 class PostAnswerTestCase (TestCase):
@@ -28,9 +28,9 @@ class PostAnswerTestCase (TestCase):
         )
         assign_role(self.user_student, 'student')
 
-        self.category = Category.objects.create(
+        self.category = CourseCategory.objects.create(
             name = 'Categoria Teste',
-            slug = 'categoria_teste'
+            create_date='2016-10-07',
         )
         self.category.save()
 

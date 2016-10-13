@@ -4,6 +4,20 @@ from users.models import User
 from autoslug.fields import AutoSlugField
 # Create your models here.
 
+class MymeType(models.Model):
+    typ = models.CharField(_('Type'), max_length=100, unique=True)
+    icon = models.CharField(_('Icon'), max_length=50, unique=True)
+
+    class Meta:
+        verbose_name= _('Amadeus Myme Type')
+        verbose_name_plural = _('Amadeus Myme Types')
+
+    def get_icon(self, type):
+        pass
+
+    def __str__(self):
+        return self.typ
+
 class Action(models.Model):
     """
 	It represents an Action on the program by a User such as "create post",

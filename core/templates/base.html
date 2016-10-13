@@ -8,7 +8,6 @@
 
 	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
 	<link href="{% static 'img/favicon.ico' %}" rel="shortcut icon" />
-
 	<!-- Roboto font -->
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -104,17 +103,13 @@
 
 				    	{% endblock %}
 							<div class="row">
-								<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								{% block content %}
 
 								{% endblock %}
-			    			</div>
+			    				</div>
 
-			    			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-								{% block rightbar %}
-
-								{% endblock rightbar %}
-			    			</div>
+			    			
 							</div>
 				    </div>
 		</div>

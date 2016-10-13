@@ -11,3 +11,17 @@
 <!-- Put curtom buttons here!!!  -->
 <button type="submite" id="button" form="form" class="btn btn-primary btn-raised">{% trans "Update" %}</button>
 {% endblock button_save %}
+
+{% block script_poll %}
+<script type="text/javascript">
+// Este js tem que ficar aqui se não o button add não vai funcionar
+  $("#add").click(function (){
+    Answer.init('{% url "course:poll:answer_poll" %}');
+  });
+
+  $("#form").submit(function(event) {
+    Submite.post("{% url 'course:poll:update_poll' poll.slug %}",$(this).serialize());
+    event.preventDefault();
+  });
+</script>
+{% endblock script_poll %}

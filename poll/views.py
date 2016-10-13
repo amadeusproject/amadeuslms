@@ -12,7 +12,7 @@ from django.db.models import Q
 # from django.views.generic.edit import FormMixin
 
 from .forms import PollForm
-from .models import Poll, Answer
+from .models import Poll, Answer, AnswersStudent
 from core.mixins import NotificationMixin
 from users.models import User
 from courses.models import Course, Topic
@@ -26,48 +26,19 @@ class ViewPoll(LoginRequiredMixin,generic.DetailView):
 	def get_object(self, queryset=None):
 	    return get_object_or_404(Poll, slug = self.kwargs.get('slug'))
 
-	def form_invalid(self, form,**kwargs):
-		context = super(ViewPoll, self).form_invalid(form)
-		answers = {}
-		for key in self.request.POST:
-			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date' and key != 'all_students' and key != 'students'):
-				answers[key] = self.request.POST[key]
-
-		keys = sorted(answers)
-		context.context_data['answers'] = answers
-		context.context_data['keys'] = keys
-		return context
-
-	def form_valid(self, form):
-		poll = self.object
-		poll = form.save(commit = False)
-		poll.answers.all().delete()
-		poll.save()
-
-
-		for key in self.request.POST:
-			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date' and key != 'all_students' and key != 'students'):
-				answer = Answer(answer=self.request.POST[key],order=key,poll=poll)
-				answer.save()
-
-		return super(ViewPoll, self).form_valid(form)
-
 	def get_context_data(self, **kwargs):
 		context = super(ViewPoll, self).get_context_data(**kwargs)
 		poll = self.object
+		context["topic"] = poll.topic
 		context['course'] = poll.topic.subject.course
 		context['subject'] = poll.topic.subject
 		context['subjects'] = poll.topic.subject.course.subjects.all()
-
-		answers = {}
-		for answer in poll.answers.all():
-			answers[answer.order] = answer.answer
-
-		keys = sorted(answers)
-		context['answers'] = answers
-		context['keys'] = keys
-
-		print (context)
+		answered = AnswersStudent.objects.filter(poll = poll, student=self.request.user)
+		print (answered)
+		if answered.count()<1:
+			context['status'] = False
+		else:
+			context['status'] = answered[0].status
 		return context
 
 
@@ -80,7 +51,6 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin,generic.CreateView):
 	form_class = PollForm
 	context_object_name = 'poll'
 	template_name = 'poll/create.html'
-	success_url = reverse_lazy('core:home')
 
 	def form_invalid(self, form,**kwargs):
 		context = super(CreatePoll, self).form_invalid(form)
@@ -92,6 +62,9 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin,generic.CreateView):
 		keys = sorted(answers)
 		context.context_data['answers'] = answers
 		context.context_data['keys'] = keys
+		context.context_data['form'] = form
+		context.status_code = 400
+		# return self.render_to_response(context, status = 400)
 		return context
 
 	def form_valid(self, form):
@@ -105,11 +78,12 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin,generic.CreateView):
 				answer = Answer(answer=self.request.POST[key],order=key,poll=self.object)
 				answer.save()
 
-		return super(CreatePoll, self).form_valid(form)
+		return self.render_to_response(self.get_context_data(form = form), status = 200)
 
 	def get_context_data(self, **kwargs):
 		context = super(CreatePoll, self).get_context_data(**kwargs)
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+		context["topic"] = topic
 		context['course'] = topic.subject.course
 		context['subject'] = topic.subject
 		context['subjects'] = topic.subject.course.subjects.all()
@@ -145,6 +119,8 @@ class UpdatePoll(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 		keys = sorted(answers)
 		context.context_data['answers'] = answers
 		context.context_data['keys'] = keys
+		context.context_data['form'] = form
+		context.status_code = 400
 		return context
 
 	def form_valid(self, form):
@@ -164,6 +140,7 @@ class UpdatePoll(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(UpdatePoll, self).get_context_data(**kwargs)
 		poll = self.object
+		context['topic'] = poll.topic
 		context['course'] = poll.topic.subject.course
 		context['subject'] = poll.topic.subject
 		context['subjects'] = poll.topic.subject.course.subjects.all()
@@ -199,6 +176,7 @@ class DeletePoll(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 		context['course'] = self.object.topic.subject.course
 		context['subject'] = self.object.topic.subject
 		context['poll'] = self.object
+		context["topic"] = self.object.topic
 		context['subjects'] = self.object.topic.subject.course.subjects.filter(Q(visible=True) | Q(professors__in=[self.request.user]))
 		if (has_role(self.request.user,'system_admin')):
 			context['subjects'] = self.object.topic.subject.course.subjects.all()
@@ -206,3 +184,50 @@ class DeletePoll(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 	def get_success_url(self):
 		return reverse_lazy('course:view_topic', kwargs={'slug' : self.object.topic.slug})
+
+
+class AnswerPoll(generic.TemplateView):
+	template_name = 'poll/answer.html'
+
+class AnswerStudentPoll(LoginRequiredMixin,generic.CreateView):
+
+	model = AnswersStudent
+	fields = ['status']
+	context_object_name = 'answer'
+	template_name = 'poll/answer_student.html'
+
+	def form_valid(self, form):
+		poll = get_object_or_404(Poll, slug = self.kwargs.get('slug'))
+		answers = AnswersStudent(
+            status = True,
+            poll = poll,
+            student = self.request.user,
+        )
+		answers.save()
+
+		for key in self.request.POST:
+			if(key != 'csrfmiddlewaretoken'):
+				answers.answer.add(poll.answers.all().filter(order=key)[0])
+
+		return self.render_to_response(self.get_context_data(form = form), status = 200)
+
+	def get_context_data(self, **kwargs):
+		context = super(AnswerStudentPoll, self).get_context_data(**kwargs)
+		print (self.kwargs.get('slug'))
+		poll = get_object_or_404(Poll, slug = self.kwargs.get('slug'))
+		context['poll'] = poll
+		context['topic'] = poll.topic
+		context['course'] = poll.topic.subject.course
+		context['subject'] = poll.topic.subject
+		context['subjects'] = poll.topic.subject.course.subjects.all()
+
+		print (self.request.method)
+		answers = {}
+		for answer in poll.answers.all():
+			answers[answer.order] = answer.answer
+
+		keys = sorted(answers)
+		context['answers'] = answers
+		context['keys'] = keys
+
+		return context

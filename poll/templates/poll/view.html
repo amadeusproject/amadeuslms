@@ -7,19 +7,29 @@
 
 {% block title_poll %}
 <!-- Put your title here!!!  -->
-<h4 class="modal-title" id="myModalLabel">{{poll}}</h4>
+<h4 class="modal-title" id="myModalLabel">{{poll.name}}</h4>
 {% endblock title_poll %}
 
 {% block content_poll %}
 <!-- Put ONLY your content here!!!  -->
 <div class="row">
   <div class="col-md-10 col-md-offset-1">
-    <h3>{% trans "Limit date:" %} {{poll.limit_date|date:'d/m/y'}}</h3>
+    <p>{% trans "Limit date:" %} {{poll.limit_date|date:'d/m/y'}}</p>
+  </div>
+  <div class="col-md-10 col-md-offset-1">
+    <p>{% trans "Status:" %}
+      {% if status %}
+      {% trans "Poll answered" %}
+      {% else %}
+      {% trans "Poll don't yet answered" %}
+      {% endif %}
   </div>
 </div>
 {% endblock content_poll %}
 
 {% block button_save %}
 <!-- Put curtom buttons here!!!  -->
-<button type="submite" id="button" form="form" class="btn btn-primary btn-raised">{% trans "Answer" %}</button>
+{% if not status %}
+<button type="button" onclick="javascript:get('{% url 'course:poll:answer_student_poll' poll.slug%}','#poll','#modal_poll');$('div.modal-backdrop.fade.in').remove();" class="btn btn-primary btn-raised">{% trans "Answer" %}</button>
+{% endif %}
 {% endblock button_save %}

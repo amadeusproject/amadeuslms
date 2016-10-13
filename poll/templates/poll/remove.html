@@ -1,6 +1,6 @@
 {% extends "poll/create.html" %}
 
-{% load i18n %}
+{% load i18n static%}
 
 {% block title_poll %}
 <!-- Put your title here!!!  -->
@@ -8,14 +8,19 @@
 {% endblock title_poll %}
 
 {% block content_poll %}
+<script src="{% static 'js/modal_poll.js' %}"></script>
 <!-- Put ONLY your content here!!!  -->
-<form action="" method="post">
+<form id="delete_form" action="" method="post">
   {% csrf_token %}
-    <h2>{% trans 'Are you sure you want to delete the subject' %} "{{poll}}"?</h2>
-    <input type="submit" class="btn btn-raised btn-success btn-lg" value="{% trans 'Yes' %}" />
-    <a href="" class="btn btn-raised btn-danger btn-lg">{% trans 'No' %}</a>
+    <p>{% trans 'Are you sure you want to delete the subject' %} "{{poll.name}}"?</p>
 </form>
 {% endblock content_poll %}
-
 {% block button_save %}
+<button type="submite" id="button" form="delete_form" class="btn btn-primary btn-raised">{% trans "Delete" %}</button>
+<script>
+  $("#delete_form").submit(function(event) {
+    Submite.remove("{% url 'course:poll:delete_poll' poll.slug %}",$(this).serialize(),"#poll_{{poll.slug}}");
+    event.preventDefault();
+  });
+</script>
 {% endblock button_save %}

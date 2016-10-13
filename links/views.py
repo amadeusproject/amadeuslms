@@ -3,7 +3,7 @@ from django.views import generic
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
-
+from django.shortcuts import get_object_or_404,redirect
 
 from .models import Link
 from .forms import *
@@ -12,7 +12,7 @@ from .forms import *
 class CreateLink(generic.CreateView):
     template_name = 'links/link_modal.html'
     form_class = CreateLinkForm
-    success_url = reverse_lazy()
+    success_url = reverse_lazy('course:manage')
     context_object_name = 'links'
 
     def form_valid(self, form):
@@ -25,8 +25,11 @@ class CreateLink(generic.CreateView):
     	return context
 
 
-class DeleteLink(generic.DeleteView):
-    pass
+def deleteLink(request,linkname):
+    link = get_object_or_404(Link,name = linkname)
+    link.delete()
+    messages.success(request,_("Link deleted Successfully!"))
+    return redirect('course:manage')
 class UpdateLink(generic.UpdateView):
     template_name = 'links/'
     form_class = UpdateLinkForm

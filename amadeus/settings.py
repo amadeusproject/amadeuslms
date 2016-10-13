@@ -19,7 +19,7 @@ db_from_ev = dj_database_url.config(conn_max_age=500)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -28,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '$=8)c!5)iha85a&8q4+kv1pyg0yl7_xe_x^z=2cn_1d7r0hny4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -57,11 +57,13 @@ INSTALLED_APPS = [
     'poll',
     'links',
     'exam',
+    'files',
 
 ]
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -102,9 +104,9 @@ WSGI_APPLICATION = 'amadeus.wsgi.application'
 # Database
 # https://docs.djangopr/*oject.com/en/1.9/ref/settings/#databases
 
-DATABASES = {
-    'default': db_from_ev
-}
+DATABASES = { 'default': db_from_ev,
+            }
+
 
 
 #superuser: admin pass: amadeus2358
@@ -147,13 +149,25 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+#Static files heroku
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "amadeus/static")
 ]
+
+#SECURITY
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO','https')
+
+#Allow all host headers
+ALLOWED_HOSTS = ['*']
 
 # Files
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'uploads')
 MEDIA_URL = '/uploads/'
+
 
 # Users
 LOGIN_REDIRECT_URL = 'app:index'

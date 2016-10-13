@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, EmptyPage
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rolepermissions.mixins import HasRoleMixin
 from django.core.urlresolvers import reverse_lazy
@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from rolepermissions.verifications import has_role
 from django.db.models import Q
 from rolepermissions.verifications import has_object_permission
+from django.http import HttpResponseRedirect
 
 from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm,TopicForm,ActivityForm
 from .models import Course, Subject, CourseCategory,Topic, SubjectCategory,Activity
@@ -25,15 +26,54 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 	queryset = Course.objects.all()
 	template_name = 'course/index.html'
 	context_object_name = 'courses'
-	paginate_by = 3
+	paginate_by = 2
 
 	def get_context_data(self, **kwargs):
 		context = super(IndexView, self).get_context_data(**kwargs)
-		context['categories'] = CourseCategory.objects.all()
-		context['courses_teacher'] = Course.objects.filter(professors__name = self.request.user.name)
-		context['courses_student'] = Course.objects.filter(students__name = self.request.user.name)
+		list_courses = None
+		categorys_courses = None
+		if has_role(self.request.user,'professor') or has_role(self.request.user,'system_admin'):
+			list_courses = Course.objects.filter(professors__name = self.request.user.name).order_by('name')
+			categorys_courses = CourseCategory.objects.filter(course_category__professors__name = self.request.user.name).distinct()
+		else:
+			list_courses = Course.objects.filter(students__name = self.request.user.name)
+			categorys_courses = CourseCategory.objects.filter(course_category__students__name = self.request.user.name).distinct()
+		
+		courses_category = Course.objects.filter(category__name = self.request.GET.get('category'))
+		
+		none = None
+		q = self.request.GET.get('category', None)
+		if q is  None:
+			none = True
+		context['none'] = none
+
+		paginator = Paginator(list_courses, self.paginate_by)
+		page = self.request.GET.get('page')
+
+		try:
+		    list_courses = paginator.page(page)
+		except PageNotAnInteger:
+		    list_courses = paginator.page(1)
+		except EmptyPage:
+		    list_courses = paginator.page(paginator.num_pages)
+		
+		context['courses_category'] = courses_category
+		context['list_courses'] = list_courses
+		context['categorys_courses'] = categorys_courses
 
 		return context
+
+	def get_queryset(self):
+		try:
+		    name = self.kwargs['q']
+		except:
+		    name = ''
+		if (name != ''):
+		    object_list = Course.objects.filter(name__icontains = name)
+		else:
+		    object_list = Course.objects.all()
+		print(object_list)
+		return object_list
 
 class CreateCourseView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,generic.edit.CreateView):
 
@@ -196,7 +236,6 @@ class IndexCatView(LoginRequiredMixin, generic.ListView):
 	queryset = CourseCategory.objects.all()
 	template_name = 'category/index.html'
 	context_object_name = 'categories'
-	paginate_by = 3
 
 class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 
@@ -207,10 +246,9 @@ class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 	form_class = CategoryCourseForm
 	success_url = reverse_lazy('course:manage_cat')
 
-	def render_to_response(self, context, **response_kwargs):
+	def get_success_url(self):
 		messages.success(self.request, _('Category created successfully!'))
-
-		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
+		return reverse_lazy('course:manage_cat')
 
 class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
@@ -220,12 +258,10 @@ class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 	template_name = 'category/update.html'
 	model = CourseCategory
 	form_class = CategoryCourseForm
-	success_url = reverse_lazy('course:manage_cat')
 
-	def render_to_response(self, context, **response_kwargs):
-		messages.success(self.request, _('Category edited successfully!'))
-
-		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
+	def get_success_url(self):
+		messages.success(self.request, _('Category updated successfully!'))
+		return reverse_lazy('course:update_cat', kwargs={'slug' : self.object.slug})
 
 class ViewCat(LoginRequiredMixin, generic.DetailView):
 	login_url = reverse_lazy("core:home")
@@ -241,12 +277,10 @@ class DeleteCatView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 	redirect_field_name = 'next'
 	model = CourseCategory
 	template_name = 'category/delete.html'
-	success_url = reverse_lazy('course:manage_cat')
 
-	def render_to_response(self, context, **response_kwargs):
+	def get_success_url(self):
 		messages.success(self.request, _('Category deleted successfully!'))
-
-		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
+		return reverse_lazy('course:manage_cat')
 
 class SubjectsView(LoginRequiredMixin, generic.ListView):
 
