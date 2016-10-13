@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, EmptyPage
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rolepermissions.mixins import HasRoleMixin
 from django.core.urlresolvers import reverse_lazy
@@ -26,22 +26,40 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 	queryset = Course.objects.all()
 	template_name = 'course/index.html'
 	context_object_name = 'courses'
-	paginate_by = 3
+	paginate_by = 2
 
 	def get_context_data(self, **kwargs):
 		context = super(IndexView, self).get_context_data(**kwargs)
-		context['categories'] = CourseCategory.objects.filter(course_category = True)
-		context['courses_teacher'] = Course.objects.filter(professors__name = self.request.user.name)
-		context['courses_student'] = Course.objects.filter(students__name = self.request.user.name)
-		context['categorys_courses'] = CourseCategory.objects.filter(course_category__students__name = self.request.user.name).distinct()
-		context['categorys_courses_professor'] = CourseCategory.objects.filter(course_category__professors__name = self.request.user.name).distinct()
+		list_courses = None
+		categorys_courses = None
+		if has_role(self.request.user,'professor') or has_role(self.request.user,'system_admin'):
+			list_courses = Course.objects.filter(professors__name = self.request.user.name)
+			categorys_courses = CourseCategory.objects.filter(course_category__professors__name = self.request.user.name).distinct()
+		else:
+			list_courses = Course.objects.filter(students__name = self.request.user.name)
+			categorys_courses = CourseCategory.objects.filter(course_category__students__name = self.request.user.name).distinct()
+		
 		courses_category = Course.objects.filter(category__name = self.request.GET.get('category'))
-		context['courses_category'] = courses_category
+		
 		none = None
 		q = self.request.GET.get('category', None)
 		if q is  None:
 			none = True
 		context['none'] = none
+
+		paginator = Paginator(list_courses, self.paginate_by)
+		page = self.request.GET.get('page')
+
+		try:
+		    list_courses = paginator.page(page)
+		except PageNotAnInteger:
+		    list_courses = paginator.page(1)
+		except EmptyPage:
+		    list_courses = paginator.page(paginator.num_pages)
+		
+		context['courses_category'] = courses_category
+		context['list_courses'] = list_courses
+		context['categorys_courses'] = categorys_courses
 
 		return context
 
