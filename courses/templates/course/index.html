@@ -102,17 +102,19 @@
 						          <h4 style="color:white">{{course.name}}</h4>
 						          </a>
 						        </div>
-						        <div class="col-xs-4 col-md-3" id="divMoreActions">
-						            <div class="btn-group">
-						              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-						              </button>
-						              <ul class="dropdown-menu" aria-labelledby="moreActions">
-						                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
-						                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeCourse"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
-						              </ul>
-						            </div>
-						        </div>
+						        {% if user|has_role:'professor, system_admin' %}
+							        <div class="col-xs-4 col-md-3" id="divMoreActions">
+							            <div class="btn-group">
+							              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+							              </button>
+							              <ul class="dropdown-menu" aria-labelledby="moreActions">
+							                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
+							                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeCourse"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
+							              </ul>
+							            </div>
+							        </div>
+						        {% endif %}
 						      </div>
 						    </div>
 						    <div class="panel-collapse collapseOne collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" aria-hidden="false" tabindex="0">
@@ -147,23 +149,19 @@
 						          <h4 style="color:white">{{course.name}}</h4>
 						          </a>
 						        </div>
-						        <div class="col-xs-4 col-md-3" id="divMoreActions">
-						            <div class="btn-group">
-						              <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
-						                <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
-						              </button>
-
-						            </div>
-						            <div class="btn-group">
-						              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-						              </button>
-						              <ul class="dropdown-menu" aria-labelledby="moreActions">
-						                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
-						                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeCourse"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
-						              </ul>
-						            </div>
-						        </div>
+						        {% if user|has_role:'professor, system_admin' %}
+							        <div class="col-xs-4 col-md-3" id="divMoreActions">
+							            <div class="btn-group">
+							              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+							              </button>
+							              <ul class="dropdown-menu" aria-labelledby="moreActions">
+							                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
+							                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeCourse"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
+							              </ul>
+							            </div>
+							        </div>
+						        {% endif %}
 						      </div>
 						    </div>
 						    <div class="panel-collapse collapseOne collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" aria-hidden="false" tabindex="0">
