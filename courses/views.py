@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from rolepermissions.verifications import has_role
 from django.db.models import Q
 from rolepermissions.verifications import has_object_permission
+from django.http import HttpResponseRedirect
 
 from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm,TopicForm,ActivityForm
 from .models import Course, Subject, CourseCategory,Topic, SubjectCategory,Activity
@@ -215,6 +216,11 @@ class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 	form_class = CategoryCourseForm
 	success_url = reverse_lazy('course:manage_cat')
 
+	def render_to_response(self, context, **response_kwargs):
+		messages.success(self.request, _('Category deleted successfully!'))
+
+		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
+
 class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 	allowed_roles = ['professor', 'system_admin']
@@ -223,7 +229,11 @@ class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 	template_name = 'category/update.html'
 	model = CourseCategory
 	form_class = CategoryCourseForm
-	success_url = reverse_lazy('course:manage_cat')
+	success_url = reverse_lazy('course:update_cat')
+
+	def get_success_url(self):
+		messages.success(self.request, _('Category updated successfully!'))
+		return reverse_lazy('course:update_cat', kwargs={'slug' : self.object.slug})
 
 class ViewCat(LoginRequiredMixin, generic.DetailView):
 	login_url = reverse_lazy("core:home")
