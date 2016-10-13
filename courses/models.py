@@ -2,7 +2,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from autoslug.fields import AutoSlugField
 from users.models import User
-from core.models import Resource
+from core.models import Resource, MymeType
 from s3direct.fields import S3DirectField
 
 class CourseCategory(models.Model):
@@ -114,6 +114,19 @@ class Material(Resource):
 	topic = models.ForeignKey(Topic, verbose_name = _('Topic'), related_name='materials')
 	students = models.ManyToManyField(User, verbose_name = _('Students'), related_name='materials')
 	all_students = models.BooleanField(_('All Students'), default=False)
+
+"""
+Topic File
+"""
+class File(Material):
+	description = models.TextField(_('Description'), blank=True)
+	content = models.FileField(upload_to='uploads/courses/subject/topic/%Y/%m/%d/')
+	typ = models.ForeignKey(MymeType, verbose_name= _('Type'), related_name='file')
+
+	class Meta:
+		verbose_name = _('Topic file')
+		verbose_name_plural = _('Topic files')
+
 
 """
 It is a category for each subject.
