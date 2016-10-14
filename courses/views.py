@@ -16,6 +16,7 @@ from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm
 from .models import Course, Subject, CourseCategory,Topic, SubjectCategory,Activity
 from core.mixins import NotificationMixin
 from users.models import User
+from files.forms import FileForm
 
 from datetime import date
 
@@ -303,6 +304,7 @@ class SubjectsView(LoginRequiredMixin, generic.ListView):
 		context = super(SubjectsView, self).get_context_data(**kwargs)
 		context['course'] = subject.course
 		context['subject'] = subject
+		context['form_file'] = FileForm
 		context['topics'] = Topic.objects.filter(subject = subject)
 		return context
 

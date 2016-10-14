@@ -1,0 +1,83 @@
+{% load widget_tweaks i18n %}
+<!-- MODAL CREATE FILE -->
+<div class="modal fade" id="createFileModal" tabindex="-1" role="dialog" aria-labelledby="createFileLabel" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="createFileLabel">{% trans 'Add File' %}</h4>
+            </div>
+            <div class="modal-body">
+            <!-- Card -->
+                <form class="form-horizontal">
+                {% csrf_token %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <p>{{ message }}</p>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <fieldset>
+                        {% for field in form_file %}
+                            <div class="form-group is-empy{% if form.has_error %} has-error {% endif %} is-fileinput">
+                                <div class="col-md-12">
+                                    {% if field.field.required %}
+                                        <label for="{{ field.auto_id }}" class="control-label">{{ field.label }}<span>*</span></label>
+                                    {% else %}
+                                        <label for="{{ field.auto_id }}" class=" control-label">{{ field.label }}</label>
+                                    {% endif %}
+                                    {% if field.auto_id == 'id_file_url' %}
+                                        {% render_field field class='form-control input-sm' %}
+                                        <div class="input-group">
+                                            <input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
+                                            <span class="input-group-btn input-group-sm">
+                                                <button type="button" class="btn btn-fab btn-fab-mini">
+                                                    <i class="material-icons">attach_file</i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    {% else %}
+                                        {% render_field field class='form-control input-sm' %}
+                                        <span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+                                    {% endif %}
+                                </div>
+                                    
+                                {% if field.errors %}
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul>
+                                            {% for error in field.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <div class="form-group">
+                            <div class="col-md-12 text-center">
+                                <p><b>The file size shouldn't exceed 10MB</b></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <a href="javascript:void(0)" class="btn btn-raised btn-default">Cancel<div class="ripple-container"></div></a>
+                                <a href="javascript:void(0)" class="btn btn-raised btn-primary">Submit</a>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            <!-- .end Card -->
+          </div>
+        </div>
+    </div>
+</div>
+<!-- EndModal -->

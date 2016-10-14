@@ -116,19 +116,6 @@ class Material(Resource):
 	all_students = models.BooleanField(_('All Students'), default=False)
 
 """
-Topic File
-"""
-class File(Material):
-	description = models.TextField(_('Description'), blank=True)
-	content = models.FileField(upload_to='uploads/courses/subject/topic/%Y/%m/%d/')
-	typ = models.ForeignKey(MymeType, verbose_name= _('Type'), related_name='file')
-
-	class Meta:
-		verbose_name = _('Topic file')
-		verbose_name_plural = _('Topic files')
-
-
-"""
 It is a category for each subject.
 """
 class SubjectCategory(models.Model):
