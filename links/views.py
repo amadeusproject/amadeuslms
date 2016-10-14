@@ -10,7 +10,7 @@ from .forms import *
 
 # Create your views here.
 class CreateLink(generic.CreateView):
-    template_name = 'links/link_modal.html'
+    template_name = 'links/create_link.html'
     form_class = CreateLinkForm
     success_url = reverse_lazy('course:manage')
     context_object_name = 'links'
@@ -22,16 +22,18 @@ class CreateLink(generic.CreateView):
     def get_context_data(self, **kwargs):
     	context = {}
     	context['links'] = Link.objects.all()
+
     	return context
 
 
 def deleteLink(request,linkname):
     link = get_object_or_404(Link,name = linkname)
     link.delete()
+    template_name = 'links/delete_link.html'
     messages.success(request,_("Link deleted Successfully!"))
     return redirect('course:manage')
 class UpdateLink(generic.UpdateView):
-    template_name = 'links/'
+    template_name = 'links/update_link.html'
     form_class = UpdateLinkForm
     success_url = reverse_lazy()
     def form_valid(self, form):
