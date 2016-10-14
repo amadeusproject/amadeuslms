@@ -29,12 +29,20 @@ class LinkTestCase(TestCase):
         "description" : 'testdescription',
         "link" : 'teste.com'
         }
-        response = self.client.post(url, data)
-        #self.assertEqual(response.status_code, 200)
-        self.assertFormError(response,'form',"link",_("Please enter a valid URL"))
-        self.assertEqual(Link.objects.all().count(),links+1) #After creating one link, if OK, the link was created successfully.
+        response = self.client.post(url, data,format = 'json')
+        link1 = Link.objects.get(name = data['name']) #Link criado com os dados inseridos corretamente
+        self.assertEqual(Link.objects.filter(name= link1.name).exists(),True) #Verificada existência do link
+        self.assertEqual(Link.objects.all().count(),links+1) #After creating link1, if OK, the link was created successfully.
         self.assertEqual(response.status_code, 302) #If OK, User is getting redirected correctly.
-        self.assertTemplateUsed(template_name = 'links/link_modal.html')
+        self.assertTemplateUsed(template_name = 'links/create_link.html')
+        data = {
+        'name' : 'testlink2',
+        "description" : 'testdescription2',
+        "link" : 'teste'
+        }
+        response = self.client.post(url, data,format = 'json')
+        self.assertEqual(Link.objects.filter(name= data['name']).exists(),False) #Verificada não existência do link com campo errado
+
     # def test_update_link():
     #     pass
     def test_delete_link(self):
