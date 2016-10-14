@@ -16,6 +16,7 @@
         </div>
         <div class="panel-body">
             <ul class="nav nav-pills nav-stacked">
+                <li><a href="{% url 'core:home' %}">{% trans "Home" %}</a></li>
                 <li><a href="{% url 'users:create' %}">{% trans 'Add user' %}</a></li>
                 <li><a href="javascript:void(0)">{% trans 'Send email' %}</a></li>
             </ul>
