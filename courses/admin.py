@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Course, Subject,Topic
+from .models import CourseCategory, Course, Subject,Topic, Activity, Material
 
 class CategoryAdmin(admin.ModelAdmin):
 	list_display = ['name', 'slug']
@@ -18,7 +18,17 @@ class TopicAdmin(admin.ModelAdmin):
 	list_display = ['name', 'slug']
 	search_fields = ['name', 'slug']
 
-admin.site.register(Category, CategoryAdmin)
+class ActivityAdmin(admin.ModelAdmin):
+	list_display = ['name', 'slug']
+	search_fields = ['name', 'slug']
+
+class MaterialAdmin(admin.ModelAdmin):
+	list_display = ['name', 'slug']
+	search_fields = ['name', 'slug']
+
+admin.site.register(CourseCategory, CategoryAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Subject, SubjectAdmin)
 admin.site.register(Topic, TopicAdmin)
+admin.site.register(Activity,ActivityAdmin)
+admin.site.register(Material,MaterialAdmin)

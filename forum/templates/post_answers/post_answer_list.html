@@ -2,29 +2,43 @@
 
 {% if answers|length > 0 %}
     {% for answer in answers %}
-        <div class="row" style="background-color: #e0e0e0">
-            <div class="col-sm-12 col-xs-12">
-                <h3 class="user-name">
-                    {{ answer.user }}
-                    {% if request.user|has_role:'system_admin' or request.user|has_role:'professor' and request.user == answer.user %}
-                        <div class="pull-right">
-                            <div class="btn-group icon-more-horiz">
-                                <a class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="material-icons">more_horiz</i>
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <li><a href="javascript:void(0)"><i class="material-icons">create</i> {% trans 'Edit' %}</a></li>
-                                    <li><a href="javascript:void(0)"><i class="material-icons">delete_sweep</i> {% trans 'Remove' %}</a></li>
-                                </ul>
+        <div>
+            <div id="answer_{{ answer.id }}" class="row" style="background-color: #e0e0e0">
+                <div class="col-sm-12 col-xs-12">
+                    <h3 class="user-name">
+                        {{ answer.user }}
+                        {% if request.user|has_role:'system_admin' or request.user == answer.user %}
+                            <div class="pull-right">
+                                <div class="btn-group icon-more-horiz">
+                                    <a class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">more_horiz</i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                                        <li><a href="javascript:edit_post_answer('{% url 'course:forum:update_post_answer' answer.id %}', '{{ answer.id }}', '{% trans 'Answer edited sucessfully!' %}')"><i class="material-icons">create</i> {% trans 'Edit' %}</a></li>
+                                        <li><a href="javascript:delete_answer('{% url 'course:forum:delete_answer' answer.id %}', '{{ answer.id }}', '{% trans "Are you sure you want to delete this answer?" %}')"><i class="material-icons">delete_sweep</i> {% trans 'Remove' %}</a></li>
+                                    </ul>
+                                </div>
                             </div>
+                        {% endif %}
+                    </h3>
+                    <div class="post_answer_content">
+                        <div class="card-data">
+                            <p class="comment-date"><i class="fa fa-clock-o"></i> {{ answer.answer_date|timesince }} {% trans 'ago' %}
+                                {% if answer.is_modified %}
+                                    <em> - {% trans 'Edited' %}</em>
+                                {% endif %}
+                            </p>
                         </div>
-                    {% endif %}
-                </h3>
-                <div class="card-data">
-                    <p class="comment-date"><i class="fa fa-clock-o"></i> {{ answer.answer_date|timesince }} {% trans 'ago' %}</p>
+                        <p class="comment-text">{{ answer.message|linebreaks }}</p>
+                    </div>
                 </div>
-                <p class="comment-text">{{ answer.message|linebreaks }}</p>
             </div>
         </div>
     {% endfor %}
+{% endif %}
+
+{% if not page_obj.number == paginator.num_pages %}
+    <a href="javascript:load_more_answers({{ post.id }}, {{ page_obj.number }}, {{ paginator.num_pages }}, '{% url 'course:forum:load_answers' post_id=post.id %}');" class="btn btn-raised btn-primary btn-block load_more_answers">
+        {% trans 'Load more answers' %}
+    </a>
 {% endif %}

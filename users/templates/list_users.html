@@ -16,6 +16,7 @@
         </div>
         <div class="panel-body">
             <ul class="nav nav-pills nav-stacked">
+                <li><a href="{% url 'core:home' %}">{% trans "Home" %}</a></li>
                 <li><a href="{% url 'users:create' %}">{% trans 'Add user' %}</a></li>
                 <li><a href="javascript:void(0)">{% trans 'Send email' %}</a></li>
             </ul>
@@ -51,9 +52,13 @@
                 <div class="panel-body">
                     <div class="col-md-4">
                         {% if acc.image %}
-                            <img src="{{ acc.image.url }}" alt="photoUser" class="img-circle img-responsive">
+                            <img src="{{ acc.image.url }}" alt="photoUser" class="img-circle img-responsive img-list-user">
                         {% else %}
-                            <img src="{% static 'images/avatar.png' %}" alt="Avatar" class="img-circle img-responsive">
+                            {% if acc.gender == 'M' %}
+                                <img src="{% static 'img/male_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user">
+                            {% else %}
+                                <img src="{% static 'img/female_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user">    
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="col-md-8">
@@ -63,8 +68,28 @@
                         <p>{% trans 'Contact' %}: {{ acc.phone }}</p>
                         <div align="right">
                             <a href="{% url 'users:update' acc.username %}" class="btn btn-raised btn-success">{% trans 'Edit' %}</a>
-                            <a href="javascript:void(0)" class="btn btn-raised btn-primary">{% trans 'Delete' %}</a>
+                            <a href="javascript:void(0)" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#DeleteModal{{ forloop.counter }}">{% trans 'Delete' %}</a>
                         </div>
+                    </div>
+                                    
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="DeleteModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="DeleteModalLabel">Confirm delete</h4>
+                          </div>
+                          <div class="modal-body">
+                            Are you sure you want to delete the user <b>{{acc.name}}</b>?                          
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>                         
+                            <button type="button" class="btn btn-primary"> <a href="{% url 'users:delete' acc.username %}">Delete</a></button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -79,5 +104,3 @@
     {% endif %}
 {% endblock %}
 
-{% block rightbar %}
-{% endblock rightbar %}

@@ -1,4 +1,5 @@
 from django import forms
+from datetime import date
 from django.utils.translation import ugettext_lazy as _
 from users.models import User
 from pycpfcnpj import cpfcnpj
@@ -15,31 +16,7 @@ class RegisterUserForm(forms.ModelForm):
 
     def validate_cpf(self, cpf):
         cpf = ''.join(re.findall('\d', str(cpf)))
-        # print(cpf)
-
-        # if (not cpf) or (len(cpf) < 11):
-        #     return False
-
-        # #Get only the first 9 digits and generate other 2
-        # _int = map(int, cpf)
-        # integer = list(map(int, cpf))
-        # new = integer[:9]
-
-        # while len(new) < 11:
-        #     r = sum([(len(new) + 1 - i)* v for i, v in enumerate(new)]) % 11
-
-        #     if r > 1:
-        #         f = 11 - r
-        #     else:
-        #         f = 0
-        #     new.append(f)
-
-        # #if generated number is the same(original) the cpf is valid
-        # new2 = list(new)
-        # if new2 == _int:
-        #     return cpf
-        # else:
-        #     return False
+        
         if cpfcnpj.validate(cpf):
             return True
         return False
@@ -49,6 +26,13 @@ class RegisterUserForm(forms.ModelForm):
         if User.objects.filter(email = email).exists():
             raise forms.ValidationError(_('There is already a registered User with this e-mail'))
         return email
+
+    def clean_birth_date(self):
+        birth_date = self.cleaned_data['birth_date']
+        if birth_date >= date.today():
+            raise forms.ValidationError(_('Please enter a valid date'))
+        return birth_date
+
 
     def clean_cpf(self):
         cpf = self.cleaned_data['cpf']

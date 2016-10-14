@@ -36,27 +36,41 @@
   	<div class="panel panel-info">
     	<div class="panel-heading">
 			<div class="row">
-	      		<div class="col-md-7 col-sm-7">
+	      		<div class="col-md-9 col-sm-9">
 	        		<h3>{{subject}}</h3>
 	      		</div>
-	      		<div class="col-md-2 col-sm-2">
-					{% if user|has_role:'system_admin' or user in subject.professors %}
-	        			<a href="{% url 'course:update_subject' subject.slug%}" class="btn">{% trans "edit" %}</a>
-					{% endif %}
-	      		</div>
-				<div class="col-md-3 col-sm-3">
-					{% if user|has_role:'system_admin' or user in subject.professors %}
-	        			<a href="{% url 'course:delete_subject' subject.slug%}" class="btn">{% trans "delete" %}</a>
-					{% endif %}
-	      		</div>
+	      		{% if user|has_role:'system_admin' or user in subject.professors %}
+		         	 <div class="col-xs-4 col-md-3 divMoreActions">
+			            <div class="btn-group">
+			              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+			              </button>
+			              <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+			                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
+			                <li><a href="{% url 'course:update_subject' subject.slug %}" data-toggle="modal" data-target="#editSubject"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
+			                <li><a href="{% url 'course:delete_subject' subject.slug %}" data-toggle="modal" data-target="#removeSubject"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
+			              </ul>
+			            </div>
+    				</div>
+				{% endif %}
 	    	</div>
     	</div>
     	<div class="panel-body">
-      		<p>
-        		{{subject.description|linebreaks}}
-      		</p>
-    	</div>
-  	</div>
+	      <p><b>Professor:</b> {{subject.professors}}</p>
+	      <p>
+	        <b>Description:</b>
+	          {{subject.description|linebreaks}}
+	      </p>
+	      <div class="row">
+	        <div class="col-xs-6 col-md-6">
+	          <p><b>Begining:</b> {{subject.init_date}}</p>
+	        </div>
+	        <div class="col-xs-6 col-md-6">
+	          <p><b>End:</b> {{subject.end_date}}</p>
+	        </div>
+	      </div>
+	    </div>
+	</div>
 	
 	{% for topic in topics %}
 		{% if user|has_role:'system_admin' or topic.owner == user%}
@@ -67,19 +81,9 @@
 	{% endfor %}
 
 	{% if user|has_role:'system_admin' or topic.owner == user%}
-		<a name="create_topic" class="btn btn-primary btn-md btn-block" href="{% url 'course:create_topic' subject.slug %}">{% trans "Create Topic" %}</a>
+		<div class="form-group">
+            <a href="{% url 'course:create_topic' subject.slug %}" data-toggle="modal" data-target="" class="btn btn-primary btn-lg btn-block btn-raised" name="create_topic">{% trans "Create Topic" %}<div class="ripple-container"></div></a>
+          </div>
 	{% endif %}	
 
 {% endblock %}
-
-{% block rightbar %}
-
-  <div class="panel panel-warning">
-    <div class="panel-heading">
-      <h3 class="panel-title">{% trans "Pending Stuffs" %}</h3>
-    </div>
-    <div class="panel-body">
-
-    </div>
-  </div>
-{% endblock rightbar %}

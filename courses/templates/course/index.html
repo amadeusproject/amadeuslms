@@ -17,11 +17,41 @@
         </div>
         <div class="panel-body">
             <ul class="nav nav-pills nav-stacked">
+            	<li><a href="{% url 'core:home' %}">{% trans 'Home' %}</a></li>
                 <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                 <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
             </ul>
         </div>
     </div>
+
+{% if user|has_role:'professor, system_admin' %}
+
+    <div class="panel panel-primary navigation">
+	    <div class="panel-heading">
+	        <h3 class="panel-title">Actions</h3>
+	    </div>
+	    <div class="panel-body">
+	        <ul class="nav nav-pills nav-stacked">
+	            <li><a href="javascript:void(0)">Replicate Course</a></li>
+	            <li><a href="{% url 'course:create' %}">Create Course</a></li>
+	        </ul>
+	    </div>
+	</div>
+
+	<div class="panel panel-primary navigation">
+	    <div class="panel-heading">
+	        <h3 class="panel-title">Category</h3>
+	    </div>
+	    <div class="panel-body">
+	        <ul class="nav nav-pills nav-stacked">
+	            <li><a href="{% url 'course:create_cat' %}">Create Category</a></li>
+	            <li><a href="{% url 'course:manage_cat' %}">List Category</a></li>
+	        </ul>
+	    </div>
+	</div>
+
+{% endif %}
+
 {% endblock %}
 
 {% block content %}
@@ -35,69 +65,169 @@
 			</div>
 		{% endfor %}
 	{% endif %}
-	<div class="col-md-12">
+
+<div class="col-md-12">
+	<form id="searchform" action="{% url 'course:manage' %}" method="get" accept-charset="utf-8">
 		<div class="input-group">
-  <div class="form-group is-empty"><input type="search" class="form-control" placeholder="Search Courses"></div>
-    <span class="input-group-btn input-group-sm">
-      <button type="button" class="btn btn-fab btn-fab-mini">
-        <i class="material-icons">search</i>
-      </button>
-    </span>
+		  <div class="form-group is-empty">
+		  <input type="search" class="form-control" placeholder="Search Courses" name="q" id="searchbox"></div>
+		    <span class="input-group-btn input-group-sm">
+		      <button type="button" class="btn btn-fab btn-fab-mini">
+		        <i class="material-icons">search</i>
+		      </button>
+		    </span>
+		</div>	
+	</form>
 </div>
+	<div class="col-md-12">
+		<div class="btn-group btn-group-justified btn-group-raised">
+			<a href="?category=all" class="btn btn-raised btn-info">Todos</a>
+			{% for category_course in categorys_courses %}
+				<a href="?category={{category_course.name}}" class="btn btn-raised btn-primary">{{category_course.name}}</a>
+			{% endfor %}
+		</div>
 	</div>
-	{% if courses|length > 0 %}
-		{% for course in courses %}
-			<div class="col-md-12">
-			    <div class="panel panel-info">
-			    <!--{% if course.image %}
-	  				<img src="{{ course.image_url }}" class="img-responsive" />
-	            {% else %}
-	            	<img src="" class="img-responsive" />
-	            {% endif %} -->
-				  <div class="panel-heading">
-				    	<h3 class="panel-title">Course</h3>
-				    	<span class="label label-info">{{ course.category }}</span>
-							<span class="label label-warning">{{ course.max_students }} {% trans 'students tops' %}</span>  
-				  </div>     
-				  <div class="panel-body">
-				    <p><b>Course Name: </b>{{ course.name }}</p>
-				    <p><b>Duration (in semesters): </b>09</p>
-				    <p><b>Coordinator: </b>{{course.professors}}</p>
-				    <p>
-				      <b>Description:</b>
-				      <i>
-				        "Lorem ipsum dolor sit amet, consecctetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-				      </i>
-				    </p>
 
-				    {% if user|has_role:'professor, system_admin' %}
-						<a href="{% url 'course:update' course.slug %}" class="btn btn-sm btn-primary">
-							<span class="glyphicon glyphicon-edit"></span>
-						</a>
-						<a href="{% url 'course:delete' course.slug %}" class="btn btn-sm btn-danger">
-							<span class="glyphicon glyphicon-trash"></span>
-						</a>
-					{% endif %}
+</fieldset>
+	<div class="col-md-12">
+		{% if courses|length > 0 %}
+			{% if request.GET.category == 'all' or none or request.GET.category == '' %}
+				{% for course in list_courses %}
+		          <div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion" role="tablist" aria-multiselectable="false">
+		            <div class="group">
+						<div class="panel panel-info">
+						    <div class="panel-heading" role="tab">
+						      <div class="row">
+						        <div class="col-xs-9 col-md-9 titleTopic">
+						          <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+						          <h4 style="color:white">{{course.name}}</h4>
+						          </a>
+						        </div>
+						        {% if user|has_role:'professor, system_admin' %}
+							        <div class="col-xs-4 col-md-3" id="divMoreActions">
+							            <div class="btn-group">
+							              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+							              </button>
+							              <ul class="dropdown-menu" aria-labelledby="moreActions">
+							                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
+							                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeCourse"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
+							              </ul>
+							            </div>
+							        </div>
+						        {% endif %}
+						      </div>
+						    </div>
+						    <div class="panel-collapse collapseOne collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" aria-hidden="false" tabindex="0">
+						      <div class="panel-body">
+						        <p><b>Course Name: </b>{{course.name}}</p>
+						        <p><b>Duration (in semesters): </b>09</p>
+						        <p><b>Coordinator: </b>{{course.professors}}</p>
+						        <p>
+						          <b>Description:</b>
+						          <i>
+						            {{course.description}}
+						          </i>
+						        </p>
+								<a href="{% url 'course:view' course.slug %}" class="btn btn-raised btn-default center-block">{% trans 'View Course' %}<div class="ripple-container"></div></a>
+						      </div>
+						    </div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			{% else %}
+				{% for course in courses_category %}
+    				{% if course.category.name == request.GET.category %}
+    					<!-- Put your content here! -->
+		          <div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion" role="tablist" aria-multiselectable="false">
+		            <div class="group">
+						<div class="panel panel-info">
+						    <div class="panel-heading" role="tab">
+						      <div class="row">
+						        <div class="col-xs-9 col-md-9 titleTopic">
+						          <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+						          <h4 style="color:white">{{course.name}}</h4>
+						          </a>
+						        </div>
+						        {% if user|has_role:'professor, system_admin' %}
+							        <div class="col-xs-4 col-md-3" id="divMoreActions">
+							            <div class="btn-group">
+							              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+							              </button>
+							              <ul class="dropdown-menu" aria-labelledby="moreActions">
+							                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
+							                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeCourse"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
+							              </ul>
+							            </div>
+							        </div>
+						        {% endif %}
+						      </div>
+						    </div>
+						    <div class="panel-collapse collapseOne collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" aria-hidden="false" tabindex="0">
+						      <div class="panel-body">
+						        <p><b>Course Name: </b>{{course.name}}</p>
+						        <p><b>Duration (in semesters): </b>09</p>
+						        <p><b>Coordinator: </b>{{course.professors}}</p>
+						        <p>
+						          <b>Description:</b>
+						          <i>
+						            {{course.description}}
+						          </i>
+						        </p>
+								<a href="{% url 'course:view' course.slug %}" class="btn btn-raised btn-default center-block">{% trans 'View Course' %}<div class="ripple-container"></div></a>
+						      </div>
+						    </div>
+						</div>
+					</div>
+				</div>
+    				{% endif %}
+				{% endfor %}
+			{% endif %}
+		{% else %}
+			{% trans 'No courses found' %}
+		{% endif %}
+		<div class="group">
+			<div class="modal" id="removeCourse">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+				        <h4 class="modal-title"></h4>
+				      </div>
+				      <div class="modal-body">
+				        <p>Delete your course?</p>
+				      </div>
+				      <div class="modal-footer">
 
-				    <a href="{% url 'course:view' course.slug %}" class="btn btn-raised btn-default center-block">View Course</a>
+				        <a href="http://127.0.0.1:8080/html/screens/users/profile_user.html" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
 
+				      </div>
+				    </div>
 				  </div>
-				</div>            
-    		</div>
-
-    	{% endfor %}
-
-
-    	<nav aria-label="Page navigation">
-  			<ul class="pagination">
-    			{% for page_number in paginator.page_range %}
-    				<li{% if page_obj.number == page_number %} class="active"{% endif %}>
-        				<a href="?page={{ page_number }}">{{ page_number }}</a>
-    				</li>
-    			{% endfor %}
-  			</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12">
+		<nav aria-label="Page navigation">
+			<ul class="pagination">
+				{% if page_obj.has_previous %}
+				    <li>
+				        <a href="?page={{ page_obj.previous_page_number }}"><span><<</span></a>
+				    </li>
+				{% endif %}
+			    {% for page_number in paginator.page_range %}
+					<li{% if page_obj.number == page_number %} class="active"{% endif %}>
+	    				<a href="?page={{ page_number }}">{{ page_number }}</a>
+					</li>
+				{% endfor %}
+				{% if page_obj.has_next %}
+				    <li>
+				        <a href="?page={{ page_obj.next_page_number }}"><span>>></span></a>
+				    </li>
+				{% endif %}
+			</ul>
 		</nav>
-	{% else %}
-		{% trans 'No courses found' %}
-	{% endif %}
+	</div>
 {% endblock %}

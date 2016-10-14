@@ -16,7 +16,7 @@ function campoNumerico(campo, evento){
     	evento.returnValue = false;
   	    return false;
     }
-}
+};
 
 function formatarCpf(campo, evento){
 	var codTecla;
@@ -47,83 +47,54 @@ function formatarCpf(campo, evento){
 		return false;
 	}
 	return false;
+};
+
+function formatarTelefone(campo, evento){
+	var codTecla;
+	var tamanho;
+	if( document.all ) { // Internet Explorer
+		codTecla = evento.keyCode;
+	} else if( document.layers ) { // Nestcape
+		codTecla = evento.which;
+	} else if( evento ) { // Firefox
+   		codTecla = evento.which;
+	}
+	tamanho = campo.value.length;
+	
+	if(((codTecla > 47 && codTecla < 58) || (codTecla == 8)) && tamanho < 15){
+	
+		if(tamanho == 0){
+			campo.value = "(" + campo.value;
+		}else if( tamanho == 3 ){
+			campo.value = campo.value + ") ";
+		}else if(tamanho == 9){
+			campo.value = campo.value + "-";
+		}else if(tamanho == 14){
+			// alert('oi');
+			campo.value = campo.value.slice(0, 4) + campo.value.slice(5, 14);
+			campo.value = campo.value.slice(0, 8) + campo.value.slice(9, 10) + campo.value.slice(8, 9) + campo.value.slice(10, 14)
+		}
+		return true;
+
+	} else if(codTecla == 0 || codTecla == 8){
+		return true;
+	} else {
+		evento.returnValue = false;
+		return false;
+	}
+	return false;
 }
 
-function validarCpfSemAlert(campo,nome,idElementoMensagemErro){
-	//alert("teste");
-	cpf = campo.value;
-
-	cpf = cpf.replace(".","");
-	cpf = cpf.replace("-","");
-	cpf = cpf.replace(".","");
-	retorno = true;
-	
-	if(trim(cpf).length > 0){
-		//alert("teste2");
-		cpfstr= '';
-		temp = cpf + '';
-
-		cpfstr = temp.substring(0,3);
-		cpfstr = cpfstr + temp.substring(3,6);
-		cpfstr = cpfstr + temp.substring(6,9);
-		cpfstr = cpfstr + temp.substring(9,11);
-
-		
-
-		retorno = false;
-		if(cpf != null){
-			//alert("teste3");
-			soma = 0;
-			digito1 = 0;
-			digito2 = 0;
-			for(i = 0; i < 9; i = i + 1) {
-				soma = soma + ((parseInt(cpf.substring(i,i+1)))*(11-(i+1)));
-			}
-			soma = soma % 11;
-			if (soma == 0 || soma == 1) {
-				digito1 = 0;
-			} else {
-				digito1 = 11 - soma;
-			}
-			soma = 0;
-
-			for(i = 0; i < 9; i = i + 1) {
-				soma = soma + ((parseInt(cpf.substring(i,i+1)))*(12-(i+1)));
-			}
-			soma = soma + (digito1*2);
-			soma = soma % 11;
-			if (soma == 0 || soma == 1) {
-				digito2 = 0;
-			}
-			else{
-				digito2 = 11 - soma;
-			}
-			digito = digito1 +''+ digito2;
-			
-			
-			//alert(cpfstr.substring(9,11));
-			if(digito == (cpfstr.substring(9,11))){
-				retorno = true;
-			} else{
-				//alert("teste4");
-				retorno = false;
-
-			}
-		} else {
-			retorno = false;
-		}
-	}else{
-		retorno = false;
-	}
-	//alert(retorno);
-	if(retorno == false){
-		//alert('E-mail informado invalido! Por favor, especifique um E-mail válido para o campo \"' + nome + '\".');
-		document.getElementById(idElementoMensagemErro).style.display = '';
-		campo.focus();
-		return false;
-	}else{
-		document.getElementById(idElementoMensagemErro).style.display = 'none';
-		return true;
-	}
-	return retorno;
+/*
+This functions get the next 5 notifications from the user given a "step"(an amount) of previous notifications
+*/
+function getNotifications(step){
+	$.get('/getNotifications',
+		{'steps':step, 'amount': 5}, function(data){
+			$("#notification-dropdown").append(data);
+			$('#notification-see-more').remove();
+			var seemore = '<li><a onclick="getNotifications('+(step+5)+')"> <div id="notification-see-more" class="list-group-item"> <div class="row-content"><p class="list-group-item-text">See More</p> </div>  </a></li>';
+			$("#notification-dropdown").append(seemore);
+			$("#notification-count").text(step+5);
+		});
 }

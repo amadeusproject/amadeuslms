@@ -8,11 +8,16 @@
 
 
 {% block content %}
-	{% if message %}
-		<div class="alert alert-danger">
-			{{message}}
-		</div>
-	{% endif %}
+	{% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
 	<div class="row logo-row">
         <div class="col-lg-offset-2 col-lg-9">
             <img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block " alt="logo amadeus" id="logo">
@@ -29,10 +34,15 @@
 							<legend>{% trans 'User Register' %}</legend>
 							{% for field in form %}
 							<div class="form-group is-empy{% if form.has_error %} has-error {% endif %} is-fileinput">
-								<label for="{{ field.auto_id }}" class="col-md-4 control-label">{{ field.label }}</label>
+								{% if field.field.required %}
+									<label for="{{ field.auto_id }}" class="col-md-4 control-label">{{ field.label }}<span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}" class="col-md-4 control-label">{{ field.label }}</label>
+								{% endif %}
 								<div class="col-md-8">
 									{% if field.auto_id == 'id_birth_date' %}
-										{% render_field field class='form-control input-sm' type='date' %}
+										{% render_field field class='form-control input-sm date-picker' %}
+										
 										<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
 									{% elif field.auto_id == 'id_image' %}
 										{% render_field field class='form-control input-sm' %}
@@ -46,6 +56,9 @@
 						                </div>
 						            {% elif field.auto_id == 'id_cpf' %}
 		                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
+
+		                			{% elif field.auto_id == 'id_phone' %}
+		                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
 									{% else %}
 										{% render_field field class='form-control' %}
 										<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
@@ -81,5 +94,4 @@
 	</div>
 	
 	<br clear="all" />
-	<script src="{% static 'js/base/amadeus.js' %}"></script>
 {% endblock %}

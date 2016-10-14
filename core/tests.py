@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
 from rolepermissions.shortcuts import assign_role
 from users.models import User
 from django.core import mail
@@ -44,9 +45,11 @@ class RegisterUserTestCase(TestCase):
         self.url = reverse('core:register')
         self.data = {
                 'username': 'testeamadeus',
+                'birth_date': '12/12/2000',
                 'email': 'teste@amadeus.com',
                 'password': 'aminhasenha1',
                 'password2': 'aminhasenha1',
+                'cpf': '705.089.884-89',
                 'name': 'Teste Amadeus',
                 'city': 'Praia',
                 'state': 'PE',
@@ -55,9 +58,9 @@ class RegisterUserTestCase(TestCase):
 
     def test_register_ok(self):
 
-        response = self.client.post(self.url, self.data)
-        self.assertRedirects(response, 'http://localhost%s' % reverse('core:home'))
-        self.assertEqual(response.status_code, 302)
+        response = self.client.post(self.url, self.data, follow=True)
+        self.assertRedirects(response, reverse('core:home'))
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(User.objects.count(), 1)
 
     def test_register_error(self):
@@ -66,6 +69,7 @@ class RegisterUserTestCase(TestCase):
 
         data = {
                 'username': 'testeamadeus',
+                'birth_date': '12/12/2000',
                 'email': 'teste@amadeus.com',
                 'password': 'aminhasenha1',
                 'password2': 'aminhasenha',
@@ -80,6 +84,7 @@ class RegisterUserTestCase(TestCase):
         data = {
                 'username': 'testeamadeus',
                 'email': 'teste.amadeus.com',
+                'birth_date': '12/12/2000',
                 'password': 'aminhasenha1',
                 'password2': 'aminhasenha',
                 'name': 'Teste Amadeus',
@@ -89,11 +94,12 @@ class RegisterUserTestCase(TestCase):
             }
         
         response = self.client.post(self.url, data)
-        self.assertFormError(response, 'form', 'email', 'Insira um endereço de email válido.')
+        self.assertFormError(response, 'form', 'email', _('Enter a valid email address.'))
 
         data = {
                 'username': '',
                 'email': 'teste@amadeus.com',
+                'birth_date': '12/12/2000',
                 'password': 'aminhasenha1',
                 'password2': 'aminhasenha',
                 'name': 'Teste Amadeus',
@@ -102,7 +108,7 @@ class RegisterUserTestCase(TestCase):
                 'gender': 'F',
             }
         response = self.client.post(self.url, data)
-        self.assertFormError(response, 'form', 'username', 'Este campo é obrigatório.')
+        self.assertFormError(response, 'form', 'username', _('This field is required.'))
 
 class RememberPasswordTestCase(TestCase):
 
@@ -159,21 +165,21 @@ class UpdateUserTestCase(TestCase):
         data = {'username': 'test', 'password': 'testing1'}
         response = self.client.post(reverse('core:home'), data)
         self.assertRedirects(response, reverse('app:index'))
-        
 
         data={
-                'username': 'testeamadeus',
-                'email': 'teste@amadeus.com',
+                'username': 'test',
+                'birth_date': '12/12/2000',
+                'email': 'testing@amadeus.com',
+                'cpf': '705.089.884-89',
                 'name': 'Teste Amadeus',
                 'city': 'Praia',
                 'state': 'PE',
                 'gender': 'F',
             }
-        # self.assertRedirects(response1, reverse('app:index'))
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         response = self.client.post(self.url, data)
-        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('users:profile'))
 
     def test_update_error(self):
         
@@ -189,12 +195,13 @@ class UpdateUserTestCase(TestCase):
                 'username': '',
                 'email': 'teste@amadeus.com',
                 'name': 'Teste Amadeus',
+                'birth_date': '12/12/2000',
                 'city': 'Praia',
                 'state': 'PE',
                 'gender': 'F',
             }
         response = self.client.post(self.url, data)
-        self.assertFormError(response, 'form', 'username', 'Este campo é obrigatório.')
+        self.assertFormError(response, 'form', 'username', _('This field is required.'))
         
 
 class DeleteUserTestCase(TestCase):

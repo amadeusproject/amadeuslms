@@ -1,6 +1,7 @@
 {% extends 'app/base.html' %}
 
 {% load static i18n %}
+{% load static i18n permission_tags %}
 {% load widget_tweaks %}
 
 {% block breadcrumbs %}
@@ -11,43 +12,84 @@
 {% endblock %}
 
 {% block sidebar %}
-	<div class="list-group">
-	  	<a href="{% url 'course:manage_cat' %}" class="list-group-item">
-	    	{% trans 'Categories' %}
-	  	</a>
+	<div class="panel panel-primary navigation">
+        <div class="panel-heading">
+            <h5>{% trans 'Menu' %}</h5>
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
+                <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
+            </ul>
+        </div>
+    </div>
+
+{% if user|has_role:'professor, system_admin' %}
+
+    <div class="panel panel-primary navigation">
+	    <div class="panel-heading">
+	        <h3 class="panel-title">Actions</h3>
+	    </div>
+	    <div class="panel-body">
+	        <ul class="nav nav-pills nav-stacked">
+	            <li><a href="javascript:void(0)">Replicate Course</a></li>
+	            <li><a href="{% url 'course:create' %}">Create Course</a></li>
+	            <li><a href="{% url 'course:create_cat' %}">Create Category</a></li>
+	        </ul>
+	    </div>
 	</div>
+	<div class="panel panel-primary navigation">
+	    <div class="panel-heading">
+	        <h3 class="panel-title">Category</h3>
+	    </div>
+	    <div class="panel-body">
+	        <ul class="nav nav-pills nav-stacked">
+	            <li><a href="{% url 'course:create_cat' %}">Create Category</a></li>
+	            <li><a href="{% url 'course:manage_cat' %}">List Category</a></li>
+	        </ul>
+	    </div>
+	</div>
+{% endif %}
 {% endblock %}
 
 {% block content %}
-	<div class="alert alert-info alert-dismissible" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		<p>{% trans 'All fields are required' %}</p>
-	</div>
-
-	<form method="post" action="">
-		{% csrf_token %}
-		{% for field in form %}
-			<div class="form-group {% if form.has_error %}has-error{% endif %}">
-				<label for="{{ field.auto_id }}">{{ field.label }}</label>
-				{% render_field field class='form-control input-sm' %}
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<p>{{ message }}</p>
 			</div>
-			<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-			{% if field.errors.length > 0 %}
-				<div class="alert alert-danger alert-dismissible" role="alert">
-  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-  						<span aria-hidden="true">&times;</span>
-						</button>
-					<ul>
-						{% for error in field.errors %}
-							<li>{{ error }}</li>
-						{% endfor %}
-					</ul>
-				</div>
-			</div>
-			{% endif %}
 		{% endfor %}
-		<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" />
-	</form>
+	{% endif %}
+	<div class="card card-content">
+	    <div class="card-body">
+			<form method="post" action="">
+				{% csrf_token %}
+				{% for field in form %}
+					<div class="form-group {% if form.has_error %}has-error{% endif %}">
+						<label for="{{ field.auto_id }}">{{ field.label }}</label>
+						{% render_field field class='form-control input-sm' %}
+					</div>
+					{% if field.errors.length > 0 %}
+						<div class="alert alert-danger alert-dismissible" role="alert">
+		  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		  						<span aria-hidden="true">&times;</span>
+								</button>
+							<ul>
+								{% for error in field.errors %}
+									<li>{{ error }}</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+					{% endif %}
+				{% endfor %}
+				<div class="row text-center">
+					<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" />	
+				</div>
+			</form>
+		</div>
+	</div>
 {% endblock %}

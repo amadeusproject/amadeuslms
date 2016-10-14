@@ -33,10 +33,19 @@
 					{% for field in form %}
 						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
 							{% if field.auto_id == 'id_birth_date' %}
-		                		<label for="{{ field.auto_id }}">{{ field.label }}</label>
-								<input type="date" class="form-control"name="{{field.name}}" value="{% if field.value.year %}{{field.value|date:'Y-m-d'}}{% else %}{{field.value}}{% endif %}">
+								{% if field.field.required %}
+									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}">{{ field.label }}</label>
+								{% endif %}
+								<input type="text" class="form-control input-sm date-picker" name="{{field.name}}" min="{{now|date:'d-m-Y'}}">
+
 							{% elif field.auto_id == 'id_image' %}
-		                		<label for="{{ field.auto_id }}">{{ field.label }}</label>
+		                		{% if field.field.required %}
+									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}">{{ field.label }}</label>
+								{% endif %}
 								{% render_field field class='form-control' %}
 								<div class="input-group">
 				                  	<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your photo...' %}">
@@ -53,15 +62,31 @@
                   					</label>
                 				</div>
                 			{% elif field.auto_id == 'id_cpf' %}
-                				<label for="{{ field.auto_id }}">{{ field.label }}</label>
+                				{% if field.field.required %}
+									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}">{{ field.label }}</label>
+								{% endif %}
                 				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
+
+                			{% elif field.auto_id == 'id_phone' %}
+                				{% if field.field.required %}
+									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}">{{ field.label }}</label>
+								{% endif %}
+                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
 							{% else %}
-                				<label for="{{ field.auto_id }}">{{ field.label }}</label>
+                				{% if field.field.required %}
+									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}">{{ field.label }}</label>
+								{% endif %}
 								{% render_field field class='form-control' %}
 							{% endif %}
               				<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-							{% if field.errors.length > 0 %}
-								<div class="alert alert-danger alert-dismissible" role="alert">
+							{% if field.errors %}
+								<div class="alert alert-danger alert-dismissible col-md-offset-4 col-md-8" role="alert">
 				  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				  						<span aria-hidden="true">&times;</span>
 			  						</button>

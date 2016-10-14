@@ -1,4 +1,8 @@
-{% load i18n %}
+{% load static i18n list_topic_foruns %}
+
+{% block javascript %}
+    <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
+{% endblock %}
 
 <div class="panel panel-default">
     <a href="{% url 'course:view_topic' topic.slug %}">
@@ -13,4 +17,25 @@
 </div>
 <div class="panel-body">
     <p>{{topic.description|linebreaks}}</p>
+    {% list_topic_foruns request topic %}
+    {% list_topic_poll request topic %}
+</div>
+
+<div class="modal fade" id="forumModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">{% trans 'Forum' %}</h4>
+            </div>
+            <div class="modal-body">
+                <section>
+                    <div class="forum_topics"></div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans 'Close' %}</button>
+                <button type="button" class="btn btn-primary btn-raised">{% trans 'Save changes' %}</button>
+            </div>
+        </div>
+    </div>
 </div>

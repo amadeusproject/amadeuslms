@@ -41,12 +41,8 @@
 								{% csrf_token %}
 								<div class="form-group is-empty">
 		        			<label for="inputEmail" class="ccontrol-label"> {% trans 'E-mail' %}</label>
-										<input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" {% if email %}value="{{email}}"{% endif %}>
+										<input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" {% if email %}value="{{form.email}}"{% endif %}>
 		        		</div>
-								<div class="form-group is-empty">
-			        		<label for="inputRegistration" class="control-label"> {% trans 'Registration' %} </label>
-										<input name="registration" type="text" class="col-md-4 col-xs-4 col-sm-4 col-lg-4 col-xl-4 form-control" id="inputRegistration" placeholder="Registration" {% if registration %}value="{{registration}}"{% endif %}>
-								</div>
 								<div class="col-lg-offset-4 col-lg-4 col-xs-offset-4 col-xs-4 col-sm-offset-4 col-sm-4 col-md-offset-4 col-md-4 col-xl-offset-4 col-xl-4">
 									<button type="submite" class="btn btn-raised btn-primary btn-block">{% trans 'Send' %}</button>
 

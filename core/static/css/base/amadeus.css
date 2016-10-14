@@ -266,7 +266,6 @@ li.alert_li:hover{background-color:#eee}
 a.alert_message{color : grey}
 a.alert_message:hover{color : grey}
 
-/*=================== Ailson - Please Don't touch*/
 .breadcrumb .divider{
   display: none;
 }
@@ -297,27 +296,41 @@ body .container .jumbotron-inverse, body .container .well-inverse, body .contain
     color: #000;
 }
 
-.timeline.post {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    padding-bottom: 0px;
-    -webkit-padding-start: 0px !important;
+/*TIMELINE CLASSES BEGIN */
+.resource_inline{
+    display: inline-block;
+}
+
+.imgTimeLine{
     width: 100%;
+    height: auto;
+    padding-top: 10px;
 }
-.timeline.post a {
-    color: #000;
+.timeLine div .col-md-11{
+    padding-left: 0px;
 }
-.timeline.post li {
-    padding: 10px;
-    border-bottom: 1px solid #fff;
+.timeLine div .col-md-11 i{
+    padding-right: 5px;
 }
-.timeline.post li:last-child {
-    border: none;
-}
-.timeline.post h3 {
-    margin-top: 5px;
-}
+
+/*TIMELINE CLASSES END*/
 
 .notification-count {
     background-color: #FF0000;
+}
+
+.img-list-user{
+  width: 150px;
+  height: 150px;
+}
+
+.datepicker{z-index:9999 !important}
+
+ul, li {
+  list-style-type: none !important;
+  text-decoration: none !important;
+}
+
+.icon_edit_remove{
+  float: right;
 }

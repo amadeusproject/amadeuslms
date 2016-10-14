@@ -1,0 +1,34 @@
+{% extends "poll/create.html" %}
+
+{% load i18n static dict_access %}
+
+{% block title_poll %}
+<!-- Put your title here!!!  -->
+<h4 class="modal-title" id="myModalLabel">{{poll.name}}</h4>
+{% endblock title_poll %}
+
+{% block content_poll %}
+<form id="answer_form" class="" action="" method="post">
+  {% csrf_token %}
+  {% for key in keys %}
+  <div class="row form-group {% if form.has_error %} has-error {% endif %}">
+    <div class="col-md-10 col-sm-10 col-xs-10 col-lg-10">
+      <div class="checkbox">
+        <label>
+            <input type="checkbox" name="{{key}}"><span class="checkbox-material"><span class="check"></span></span> {{ answers|value:key }}
+        </label>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</form>
+{% endblock content_poll %}
+{% block button_save %}
+<button type="submite" id="button" form="answer_form" class="btn btn-primary btn-raised">{% trans "Answer" %}</button>
+<script>
+  $("#answer_form").submit(function(event) {
+    Submite.post("{% url 'course:poll:answer_student_poll' poll.slug %}",$(this).serialize());
+    event.preventDefault();
+  });
+</script>
+{% endblock button_save %}

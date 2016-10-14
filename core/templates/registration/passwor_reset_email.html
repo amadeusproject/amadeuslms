@@ -1,0 +1,14 @@
+To initiate the password reset process for your {{ user.get_username }} TestSite Account,
+click the link below:
+
+{% block reset_link %}
+{{ protocol }}://{{ domain }}{% url 'core:password_reset_confirm' uidb64=uid token=token %}
+
+{% endblock %}
+
+If clicking the link above doesn't work, please copy and paste the URL in a new browser
+window instead.
+
+
+Sincerely,
+Amadeus.
