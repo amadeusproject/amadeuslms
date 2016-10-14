@@ -1,720 +1,690 @@
-{% load static i18n list_topic_foruns permission_tags %}
+    {% load static i18n list_topic_foruns permission_tags %}
 
-{% block javascript %}
-    <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
-{% endblock %}
+    {% block javascript %}
+        <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
+    {% endblock %}
 
-<div class="panel-group accordion ui-accordion ui-widget ui-helper-reset ui-sortable" role="tablist" aria-multiselectable="false">
-        <div class="group"><div class="panel panel-default">
-  <div class="panel-heading headingOne ui-sortable-handle" role="tab">
-    <div class="row">
-      <div class="col-xs-9 col-md-10 titleTopic">
-        <a role="button" data-toggle="collapse" data-parent=".accordion" href=".collapseOne" aria-expanded="false" aria-controls="collapseOne" class="" aria-selected="false" tabindex="-1">
-        {{topic}}
-        </a>
-      </div>
-      <div class="col-xs-3 col-md-2 divMoreActions">
-        <div class="btn-group">
-          <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
-            <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
-          </button>
-        </div>
-        <div class="btn-group">
-          <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-          </button>
-          {% if user|has_role:'system_admin' or topic.owner == user%}
-              <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
-                <li><a href="{% url 'course:update_subject' subject.slug %}" data-toggle="modal" data-target="#editSubject"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
-                <li><a href="{% url 'course:delete_subject' subject.slug %}" data-toggle="modal" data-target="#removeSubject"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
-              </ul>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="panel-collapse collapseOne collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" aria-hidden="true" tabindex="-1" aria-selected="false">
-    <div class="panel-body">
-      <div class="presentation">
-        <p>
-          <i>
-            {{topic.description|linebreaks}}
-          </i>
-        </p>
+    <div class="panel-group accordion ui-accordion ui-widget ui-helper-reset ui-sortable" role="tablist" aria-multiselectable="false">
+            <div class="group"><div class="panel panel-default">
+      <div class="panel-heading headingOne ui-sortable-handle" role="tab">
         <div class="row">
-          <div class="col-xs-6 col-md-6">
-            <div class="resource_inline">
-              <h4>Material</h4>
-            </div>
-            <div class="resource_inline">
-              <div class="dropdown">
-                <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                <ul class="dropdown-menu" aria-labelledby="dLabel">
-                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createLinksModal">Create a Link<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 54.5312px; top: 22px; background-color: rgb(0, 150, 136); transform: scale(20);"></div></div></a></li>
-                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createFileModal">Create a file<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 33.5312px; top: 11px; background-color: rgb(0, 150, 136); transform: scale(20);"></div></div></a></li>
-                </ul>
-              </div>
-            </div>
-            <ul>
-                <li><i class="fa fa-book" aria-hidden="true"></i> <a href="#">Book 1</a></li>
-                <li><i class="fa fa-link" aria-hidden="true"></i>  <a href="#" data-toggle="modal" data-target="#linksModal">Link 1</a></li>
-                <li><i class="fa fa-file-code-o" aria-hidden="true"></i> <a href="#" data-toggle="modal" data-target="#embedModal">EMBED Material</a></li>
-            </ul>
+          <div class="col-xs-9 col-md-10 titleTopic">
+            <a role="button" data-toggle="collapse" data-parent=".accordion" href=".collapseOne" aria-expanded="false" aria-controls="collapseOne" class="" aria-selected="false" tabindex="-1">
+            {{topic}}
+            </a>
           </div>
-          <div class="col-xs-4 col-md-4">
-            <div class="resource_inline">
-              <h4>Activities</h4>
+          <div class="col-xs-3 col-md-2 divMoreActions">
+            <div class="btn-group">
+              <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
+                <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
+              </button>
             </div>
-            <div class="resource_inline">
-              <div class="dropdown">
-                <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                <ul class="dropdown-menu" aria-labelledby="dLabel">
-                  <li>Qualquer coisa</li>
-                </ul>
-              </div>
+            <div class="btn-group">
+              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+              </button>
+              {% if user|has_role:'system_admin' or topic.owner == user %}
+                  <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
+                    <li><a href="javascript:void(0)" class="edit_card"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
+                    <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeTopic"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
+                  </ul>
+              {% endif %}
             </div>
-            <ul>
-                <li><i class="fa fa-file-text" aria-hidden="true"></i> <a href="#" data-toggle="modal" data-target="#ActivityModal">Activitie 1</a></li>
-            </ul>
           </div>
-          <div class="col-xs-4 col-md-4">
-            <div class="panel-body">
-                <button class="btn btn-primary btn-raised" onclick="createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans '+ Create Forum' %}</button>
-                <div class="foruns_list">
-                    {% list_topic_foruns request topic %}
+        </div>
+      </div>
+      <div class="panel-collapse collapseOne collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" aria-hidden="true" tabindex="-1" aria-selected="false">
+        <div class="panel-body">
+          <div class="presentation">
+            <p>
+              <i>
+                {{topic.description|linebreaks}}
+              </i>
+            </p>
+            <div class="row">
+              <div class="col-xs-6 col-md-6">
+                <div class="resource_inline">
+                  <h4>Material</h4>
                 </div>
+                <div class="resource_inline">
+                  <div class="dropdown">
+                    <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                      <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createLinksModal">Create a Link<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 54.5312px; top: 22px; background-color: rgb(0, 150, 136); transform: scale(20);"></div></div></a></li>
+                      <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createFileModal">Create a file<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 33.5312px; top: 11px; background-color: rgb(0, 150, 136); transform: scale(20);"></div></div></a></li>
+                    </ul>
+                  </div>
+                </div>
+                <ul>
+                    <li><i class="fa fa-book" aria-hidden="true"></i> <a href="#">Book 1</a></li>
+                    <li><i class="fa fa-link" aria-hidden="true"></i>  <a href="#" data-toggle="modal" data-target="#linksModal">Link 1</a></li>
+                    <li><i class="fa fa-file-code-o" aria-hidden="true"></i> <a href="#" data-toggle="modal" data-target="#embedModal">EMBED Material</a></li>
+                </ul>
+              </div>
+              <div class="col-xs-4 col-md-4">
+                <div class="resource_inline">
+                  <h4>Activities</h4>
+                </div>
+                <div class="resource_inline">
+                  <div class="dropdown">
+                    <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                      <li>Qualquer coisa</li>
+                    </ul>
+                  </div>
+                </div>
+                <ul>
+                    <li><i class="fa fa-file-text" aria-hidden="true"></i> <a href="#" data-toggle="modal" data-target="#ActivityModal">Activitie 1</a></li>
+                </ul>
+              </div>
+              <div class="col-xs-4 col-md-4">
+                <div class="panel-body">
+                    <button class="btn btn-primary btn-raised" onclick="createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans '+ Create Forum' %}</button>
+                    <div class="foruns_list">
+                        {% list_topic_foruns request topic %}
+                    </div>
+                </div>
+             </div>
+              {% list_topic_poll request topic %}
             </div>
-         </div>
-          {% list_topic_poll request topic %}
+          </div>
+          <div class="editation" style="display: none">
+            <div class="form-group">
+              <label class="control-label" for="focusedInput2">Name Topic</label>
+              <input type="text" class="form-control" value="Topic 1">
+            </div>
+            <div class="form-group is-empty">
+              <label class="control-label" for="focusedInput2">Description</label>
+              <textarea class="form-control" rows="3" id="textArea"></textarea>
+            </div>
+            <div class="row">
+              <div class=" col-xs-6 col-md-4">
+                <div class="resource_inline">
+                  <h4>Material</h4>
+                </div>
+                <div class="resource_inline">
+                  <div class="dropdown">
+                    <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                      <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createLinksModal">Create a Link</a></li>
+                      <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createFileModal">Create a file</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <ul>
+                    <li class="icon_edit_remove"> <a href="#" data-toggle="modal" data-target="#editFileModal"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>  <a href="#" data-toggle="modal" data-target="#removeFileModal"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></li>
+                    <li><a href="#">Book 1</a> </li>
+                    <li class="icon_edit_remove"> <a href="#" data-toggle="modal" data-target="#linksModalEdit"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>  <a href="#" data-toggle="modal" data-target="#removeLink"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#linksModal">Link 1</a></li>
+                    <li class="icon_edit_remove"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <i class="fa fa-trash fa-lg" aria-hidden="true"></i></li>
+                    <li><a href="#" data-toggle="modal" data-target="#embedModal">EMBED Material</a></li>
+                </ul>
+              </div>
+              <div class="col-xs-4 col-md-offset-1 col-md-4">
+                <div class="resource_inline">
+                  <h4>Activities</h4>
+                </div>
+                <div class="resource_inline">
+                  <div class="dropdown">
+                    <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                      <li>Qualquer coisa</li>
+                    </ul>
+                  </div>
+                </div>
+                <ul>
+                  <li class="icon_edit_remove"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <i class="fa fa-trash fa-lg" aria-hidden="true"></i></li>
+                  <li><a href="#" data-toggle="modal" data-target="#ActivityModal">Activitie 1</a></li>
+                  <li class="icon_edit_remove"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <i class="fa fa-trash fa-lg" aria-hidden="true"></i></li>
+
+                </ul>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-10">
+                <button type="button" class="btn btn-raised btn-default edit_card_end">Cancel</button>
+                <button type="submit" class="btn btn-raised btn-primary edit_card_end">Submit</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="editation">
-        <div class="form-group">
-          <label class="control-label" for="focusedInput2">Name Topic</label>
-          <input type="text" class="form-control" value="Topic 1">
-        </div>
-        <div class="form-group is-empty">
-          <label class="control-label" for="focusedInput2">Description</label>
-          <textarea class="form-control" rows="3" id="textArea"></textarea>
-        </div>
-        <div class="row">
-          <div class=" col-xs-6 col-md-4">
-            <div class="resource_inline">
-              <h4>Material</h4>
-            </div>
-            <div class="resource_inline">
-              <div class="dropdown">
-                <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                <ul class="dropdown-menu" aria-labelledby="dLabel">
-                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createLinksModal">Create a Link</a></li>
-                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createFileModal">Create a file</a></li>
-                </ul>
-              </div>
-            </div>
-            <ul>
-                <li class="icon_edit_remove"> <a href="#" data-toggle="modal" data-target="#editFileModal"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>  <a href="#" data-toggle="modal" data-target="#removeFileModal"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></li>
-                <li><a href="#">Book 1</a> </li>
-                <li class="icon_edit_remove"> <a href="#" data-toggle="modal" data-target="#linksModalEdit"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>  <a href="#" data-toggle="modal" data-target="#removeLink"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></li>
-                <li><a href="#" data-toggle="modal" data-target="#linksModal">Link 1</a></li>
-                <li class="icon_edit_remove"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <i class="fa fa-trash fa-lg" aria-hidden="true"></i></li>
-                <li><a href="#" data-toggle="modal" data-target="#embedModal">EMBED Material</a></li>
-            </ul>
-          </div>
-          <div class="col-xs-4 col-md-offset-1 col-md-4">
-            <div class="resource_inline">
-              <h4>Activities</h4>
-            </div>
-            <div class="resource_inline">
-              <div class="dropdown">
-                <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                <ul class="dropdown-menu" aria-labelledby="dLabel">
-                  <li>Qualquer coisa</li>
-                </ul>
-              </div>
-            </div>
-            <ul>
-              <li class="icon_edit_remove"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <i class="fa fa-trash fa-lg" aria-hidden="true"></i></li>
-              <li><a href="#" data-toggle="modal" data-target="#ActivityModal">Activitie 1</a></li>
-              <li class="icon_edit_remove"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <i class="fa fa-trash fa-lg" aria-hidden="true"></i></li>
 
-            </ul>
+    </div>
+    <!-- MODAL REMOVE TOPIC -->
+    <div class="modal" id="removeTopic">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+            <h4 class="modal-title"></h4>
           </div>
-        </div>
-        <div class="form-group">
-          <div class="col-md-10">
-            <button type="button" class="btn btn-raised btn-default edit_card_end">Cancel</button>
-            <button type="submit" class="btn btn-raised btn-primary edit_card_end">Submit</button>
+          <div class="modal-body">
+            <p>Delete your Topic?</p>
+          </div>
+          <div class="modal-footer">
+
+            <a href="http://localhost:8080/html/screens/users/profile_user.html" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
+
           </div>
         </div>
       </div>
     </div>
-  </div>
-    <div class="panel-collapse collapseOne collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" aria-hidden="false" tabindex="0">
-    <div class="panel-body">
-      <div class="presentation" style="display: block;">
-        <div class="row">
-          <div class="col-xs-6 col-md-4">
-            <h4>Material</h4>
-            <ul>
-                <li><i class="material-icons">archive</i> <a href="#">Book 1</a></li>
-                <li><i class="material-icons">link</i> <a href="#" data-toggle="modal" data-target="#linksModal">Link 1</a></li>
-                <li><i class="fa fa-file" aria-hidden="true"></i> <a href="#" data-toggle="modal" data-target="#embedModal">EMBED Material</a></li>
-            </ul>
-          </div>
-          <div class="col-xs-4 col-md-4">
-            <h4>Activities</h4>
-            <ul>
-                <li><i class="material-icons">description</i> <a href="#" data-toggle="modal" data-target="#ActivityModal">Activitie 1</a></li>
-                <li><i class="material-icons">list</i> <a href="#" data-toggle="modal" data-target="#forumModal">Forum</a></li>
-                
-            </ul>
+    <!-- END -->
 
-
-
-          </div>
-          
-        </div>
-      </div>
-      <div class="editation" style="display: none;">
-        <div class="form-group">
-          <label class="control-label" for="focusedInput2">Name Topic</label>
-          <input type="text" class="form-control" value="Topic 1">
-        </div>
-        <div class="form-group is-empty">
-          <label class="control-label" for="focusedInput2">Description</label>
-          <textarea class="form-control" rows="3" id="textArea"></textarea>
-        </div>
-        <div class="row">
-          <div class=" col-xs-6 col-md-4">
-            <div class="resource_inline">
-              <h4>Material</h4>
-            </div>
-            <div class="resource_inline">
-              <div class="dropdown">
-                <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                <ul class="dropdown-menu" aria-labelledby="dLabel">
-                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createLinksModal">Create a Link</a></li>
-                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createFileModal">Create a file</a></li>
-                </ul>
-              </div>
-            </div>
-            <ul>
-                <li class="icon_edit_remove"> <a href="#" data-toggle="modal" data-target="#editFileModal"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>  <a href="#" data-toggle="modal" data-target="#removeFileModal"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></li>
-                <li><a href="#">Book 1</a> </li>
-                <li class="icon_edit_remove"> <a href="#" data-toggle="modal" data-target="#linksModalEdit"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>  <a href="#" data-toggle="modal" data-target="#removeLink"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></li>
-                <li><a href="#" data-toggle="modal" data-target="#linksModal">Link 1</a></li>
-                <li class="icon_edit_remove"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <i class="fa fa-trash fa-lg" aria-hidden="true"></i></li>
-                <li><a href="#" data-toggle="modal" data-target="#embedModal">EMBED Material</a></li>
-            </ul>
-          </div>
-          <div class="col-xs-4 col-md-offset-1 col-md-4">
-            <div class="resource_inline">
-              <h4>Activities</h4>
-            </div>
-            <div class="resource_inline">
-              <div class="dropdown">
-                <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                <ul class="dropdown-menu" aria-labelledby="dLabel">
-                  <li>Qualquer coisa</li>
-                </ul>
-              </div>
-            </div>
-            <ul>
-              <li class="icon_edit_remove"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <i class="fa fa-trash fa-lg" aria-hidden="true"></i></li>
-              <li><a href="#" data-toggle="modal" data-target="#ActivityModal">Activitie 1</a></li>
-              <li class="icon_edit_remove"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <i class="fa fa-trash fa-lg" aria-hidden="true"></i></li>
-              <li><a href="#" data-toggle="modal" data-target="#forumModal">Forum</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="col-md-10">
-            <button type="button" class="btn btn-raised btn-default edit_card_end">Cancel<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 69px; top: 14px; background-color: rgba(0, 0, 0, 0.870588); transform: scale(14.1289);"></div></div></button>
-            <button type="submit" class="btn btn-raised btn-primary edit_card_end">Submit</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- MODAL REMOVE TOPIC -->
-<div class="modal" id="removeTopic">
-  <div class="modal-dialog">
+    <!-- MODAL EDIT FILE -->
+    <div class="modal fade" id="editFileModal" tabindex="-1" role="dialog" aria-labelledby="editFileLabel">
+    <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title" id="editFileLabel">Add File</h4>
       </div>
       <div class="modal-body">
-        <p>Delete your Topic?</p>
-      </div>
-      <div class="modal-footer">
+        <!-- Card -->
 
-        <a href="http://localhost:8080/html/screens/users/profile_user.html" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
+                <form class="form-horizontal">
+                  <fieldset>
 
-      </div>
-    </div>
-  </div>
-</div>
-<!-- END -->
+                      <div class="form-group">
+                        <label for="inputName" class="col-md-2 control-label">Name</label>
 
-<!-- MODAL EDIT FILE -->
-<div class="modal fade" id="editFileModal" tabindex="-1" role="dialog" aria-labelledby="editFileLabel">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-    <h4 class="modal-title" id="editFileLabel">Add File</h4>
-  </div>
-  <div class="modal-body">
-    <!-- Card -->
+                        <div class="col-md-10">
+                          <input type="text" class="form-control" id="inputText" placeholder="Name" value="Book 1">
+                        </div>
+                      </div>
 
-            <form class="form-horizontal">
-              <fieldset>
+                      <div class="form-group is-empty is-fileinput">
+                        <label for="inputFile" class="col-md-2 control-label">File</label>
 
-                  <div class="form-group">
-                    <label for="inputName" class="col-md-2 control-label">Name</label>
-
-                    <div class="col-md-10">
-                      <input type="text" class="form-control" id="inputText" placeholder="Name" value="Book 1">
-                    </div>
-                  </div>
-
-                  <div class="form-group is-empty is-fileinput">
-                    <label for="inputFile" class="col-md-2 control-label">File</label>
-
-                    <div class="col-md-10">
-                      <input type="text" readonly="" class="form-control" placeholder="Browse...">
-                      <input type="file" id="inputFile" multiple="">
-                    </div>
-                  </div>
+                        <div class="col-md-10">
+                          <input type="text" readonly="" class="form-control" placeholder="Browse...">
+                          <input type="file" id="inputFile" multiple="">
+                        </div>
+                      </div>
 
 
-                  <div class="form-group">
-                    <div class="col-md-12 text-center">
-                      <p><b>The file size shouldn't exceed 10MB</b></p>
-                    </div>
-                  </div>
+                      <div class="form-group">
+                        <div class="col-md-12 text-center">
+                          <p><b>The file size shouldn't exceed 10MB</b></p>
+                        </div>
+                      </div>
 
-                  <div class="form-group">
-                    <div class="col-md-12">
-                      <a href="javascript:void(0)" class="btn btn-raised btn-default">Cancel</a>
-                      <a href="javascript:void(0)" class="btn btn-raised btn-primary">Submit</a>
-                    </div>
-                  </div>
-                </fieldset>
-              </form>
+                      <div class="form-group">
+                        <div class="col-md-12">
+                          <a href="javascript:void(0)" class="btn btn-raised btn-default">Cancel</a>
+                          <a href="javascript:void(0)" class="btn btn-raised btn-primary">Submit</a>
+                        </div>
+                      </div>
+                    </fieldset>
+                  </form>
 
 
-        <!-- .end Card -->
+            <!-- .end Card -->
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
 {% if user|has_role:'system_admin' or topic.owner == user%}
     {% include "files/create_file.html" %}
 {% endif %}
 
-<!-- MODAL REMOVE FILE -->
-<div class="modal" id="removeFileModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-        <h4 class="modal-title"></h4>
-      </div>
-      <div class="modal-body">
-        <p>Do you really want to delete this file?</p>
-      </div>
-      <div class="modal-footer">
+    <!-- EndModal -->
 
-        <a href="#" target="_self"><button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Confirm</button></a>
-
-      </div>
-    </div>
-  </div>
-</div>
-<!-- END -->
-
-<!--MODAL VIEW LINK-->
-<div class="modal fade" id="linksModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-        <h4 class="modal-title" id="myModalLabel">Links</h4>
-      </div>
-      <div class="modal-body">
-        <!-- Card -->
-        <article class="card animated fadeInLeft">
-           <img class="card-img-top img-responsive" src="https://www.python.org/static/opengraph-icon-200x200.png" align="left">
-           <div class="card-block">
-              <b class="card-title">Python</b><p></p>
-              <b class="text-muted">Guido van Rossum</b>
-              <p class="card-text"> </p><p>Python is a widely used high-level, general-purpose, interpreted, dynamic programming language. Its design philosophy emphasizes code readability, and its syntax allows programmers to express concepts in fewer lines of code than possible in languages such as C++ or Java.</p>
-              <a href="https://www.python.org/" class="btn btn-primary">Read more</a>
-           </div>
-        </article>
-        <!-- .end Card -->
-      </div>
-    </div>
-  </div>
-</div>
-<!-- EndModal -->
-
-<!--MODAL CREATE LINK-->
-<div class="modal fade" id="createLinksModal" tabindex="-1" role="dialog" aria-labelledby="createLink" style="display: none;">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-        <h4 class="modal-title" id="createLink">Create a New Link</h4>
-      </div>
-      <div class="modal-body">
-        <!-- Card -->
-        <div class="form-group is-empty">
-          <label class="control-label" for="inputDefault">Name</label>
-          <input type="text" class="form-control" id="inputDefault">
-        </div>
-        <div class="form-group is-empty">
-          <label class="control-label" for="inputDefault">Url</label>
-          <input type="text" class="form-control" id="inputDefault">
-        </div>
-        <div class="form-group is-empty">
-          <label class="control-label" for="inputDefault">Descrição</label>
-          <textarea class="form-control" rows="3"></textarea>
-        </div>
-        <div class="form-group">
-          <a href="javascript:void(0)" class="btn btn-raised btn-default">Cancel</a>
-          <a href="javascript:void(0)" class="btn btn-raised btn-primary">Submit</a>
-      </div>
-        <!-- .end Card -->
-      </div>
-    </div>
-  </div>
-</div>
-<!-- EndModal -->
-
-<!-- MODAL REMOVE LINK -->
-<div class="modal" id="removeLink">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-        <h4 class="modal-title"></h4>
-      </div>
-      <div class="modal-body">
-        <p>Do you really want to delete this link?</p>
-      </div>
-      <div class="modal-footer">
-
-        <a href="#" target="_self"><button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Confirm</button></a>
-
-      </div>
-    </div>
-  </div>
-</div>
-<!-- END -->
-
-<!-- MODAL EMBEED-->
-<div class="modal fade" id="embedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-        <h4 class="modal-title" id="myModalLabel">Material EMBED</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group is-empty">
-          <label for="inputEmail" class="col-md-2 control-label">Name:</label>
-          <div class="col-md-10">
-            <input type="text" class="form-control" id="inputEmail" placeholder="Name">
-          </div>
-        </div>
-        <form class="form-horizontal">
-          <div class="form-group is-empty">
-            <label for="textArea" class="col-md-2 control-label">Code:</label>
-
-            <div class="col-md-10">
-                <textarea class="form-control" rows="2" id="textArea"></textarea>
-                <span class="help-block">Material description</span>
-            </div>
-          </div>
-          <div class="form-group is-empty">
-          <label for="number" class="col-md-2 control-label">Height</label>
-            <div class="col-md-4">
-              <input type="number" class="form-control" id="inputNumber" placeholder="Heiht">
-            </div>
-          </div>
-          <div class="form-group is-empty">
-          <label for="number" class="col-md-2 control-label">Weight</label>
-            <div class="col-md-4">
-              <input type="number" class="form-control" id="inputNumber" placeholder="Weight">
-            </div>
-          </div>
-        </form>
-
-      </div>
-      <div class="modal-footer">
-        <!-- Don't remove that!!!
-        <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">Close</button>-->
-
-        <!-- Put curtom buttons here!!!  -->
-        <button type="button" class="btn btn-primary btn-raised">Confirm</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- EndModal -->
-
-<!-- MODAL ACTIVITIES-->
-<div class="modal fade" id="ActivityModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-          <h4 class="modal-title" id="myModalLabel"></h4>
-      </div>
-      <div class="modal-body">
-        <form class="form-horizontal">
-          
-      <fieldset>
-        <legend>Atividade Proposta</legend>
-        <div class="form-group is-empty">
-          <label for="NameIn" class="col-md-2 control-label">Name:</label>
-          <div class="col-md-10">
-            <input type="text" id="NameIn" class="form-control">
-          </div>
-        </div>
-        <div class="form-group is-empty">
-          <label for="DescIn" class="col-md-2 control-label">Describe:</label>
-          <div class="col-md-10">
-            <textarea class="form-control" id="DescIn" rows="2"></textarea>
-          </div>
-        </div>
-        <div class="form-group is-empty">
-          <label for="DateIn" class="col-md-2 control-label">Opening: </label>
-          <div class="col-md-10">
-            <input type="text" id="DateIn" class="form-control date-picker" requerid="">
-          </div>
-        </div>
-        <div class="form-group is-empty">
-          <label for="DateIn" class="col-md-2 control-label">Ending: </label>
-          <div class="col-md-10">
-            <input type="text" id="DateIn" class="form-control date-picker" requerid="">
-          </div>
-        </div>
-        <div class="form-group" style="margin-top: 0;">
-          <div class="col-md-offset-2 col-md-10">
-            <div class="checkbox">
-              <label>
-                <input type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Send Later
-              </label>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="col-md-10 col-md-offset-2">
-            <button type="button" class="btn btn-default">Cancel</button>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-        </div>
-
-
-      </fieldset>
-    </form>
-      </div>
-    </div>
-  </div>
-</div>
-<!--EndModal-->
-
-<!-- MODAL FORUM -->
-<div class="modal fade" id="forumModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">Forum</h4>
-      </div>
-      <div class="modal-body">
-        <!--Forum-->
-        <!--Main wrapper-->
-        <div class="comments-list">
-          <div class="section-heading">
-              <h1>Python</h1>
-              <h4><b>Description:</b>High-level Language</h4>
-              <h4><b>Opened in:</b> September 1st</h4>
-          </div>
-          <!--First row-->
-          <div class="row">
-
-              <!--Content column-->
-              <div class="col-sm-10 col-xs-12">
-                  <h3 class="user-name">Gerson Jefferson</h3>
-
-                  <div class="card-data">
-                     <p class="comment-date"><i class="fa fa-clock-o"></i> 05/10/2015</p>
-                  </div>
-
-                  <p class="comment-text">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                      cupidatat non proident.</p>
-              </div>
-              <!--/.Content column-->
-          </div>
-          <a class="btn btn-sm" style="float: right;" data-toggle="collapse" href="#collapse1" aria-expanded="false" aria-controls="collapseExample">Reply</a>
-          <div class="collapse" id="collapse1">
-            <div class="md-form">
-                <div class="form-group is-empty"><input type="text" id="form1" class="form-control" placeholder="comment on the cometary"></div><span class="input-group-btn">
-                    <button type="button" class="btn btn-sm">
-                      <i class="fa fa-paper-plane"> Send</i>
-                    </button>
-                  </span>
-            </div>
-          </div>
-        </div>
-
-            <!--/.First row-->
-
-            <!--Second row-->
-            <div class="row">
-
-                <!--Content column-->
-                <div class="col-sm-10 col-xs-12">
-                    <h3 class="user-name">Cherielly</h3>
-
-                    <div class="card-data">
-                      <p class="comment-date"><i class="fa fa-clock-o"></i> 08/10/2015</p>
-                    </div>
-
-                    <p class="comment-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
-                        voluptatem quia voluptas sit aspernatur.</p>
-                </div>
-                <!--/.Content column-->
-            </div>
-                  <a class="btn btn-sm" style="float: right;" data-toggle="collapse" href="#collapse2" aria-expanded="false" aria-controls="collapseExample">Reply</a>
-                  <div class="collapse" id="collapse2">
-                    <div class="md-form">
-                        <div class="form-group is-empty"><input type="text" id="form1" class="form-control" placeholder="comment on the cometary"></div><span class="input-group-btn">
-                            <button type="button" class="btn btn-sm">
-                              <i class="fa fa-paper-plane"> Send</i>
-                            </button>
-                          </span>
-                    </div>
-                  </div>
-
-
-            <!--/.Second row-->
-
-            <!--Third row-->
-            <div class="row">
-
-
-               <!--Content column-->
-                <div class="col-sm-10 col-xs-12">
-                    <h3 class="user-name">Gemozecleia</h3>
-
-                    <div class="card-data">
-                      <p class="comment-date"><i class="fa fa-clock-o"></i> 17/10/2015
-                    </p></div>
-
-                    <p class="comment-text">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa
-                        qui officia.
-                    </p>
-                </div>
-                <!--/.Content column-->
-
-            </div>
-            <a class="btn btn-sm" style="float: right;" data-toggle="collapse" href="#collapse3" aria-expanded="false" aria-controls="collapseExample">Reply</a>
-                  <div class="collapse" id="collapse3">
-                    <div class="md-form">
-                        <div class="form-group is-empty"><input type="text" id="form1" class="form-control" placeholder="comment on the cometary"></div><span class="input-group-btn">
-                            <button type="button" class="btn btn-sm">
-                              <i class="fa fa-paper-plane"> Send</i>
-                            </button>
-                          </span>
-                    </div>
-                  </div>
-
-            <!--/.Third row-->
-            <div class="row">
-              <div class="form-group is-empty">
-              <div class="col-sm-10 col-xs-12">
-                <input type="text" id="addon3a" class="form-control" placeholder="Add Comment">
-
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-fab btn-fab-mini">
-                      <i class="material-icons">send</i>
-                    </button>
-                  </span>
-              </div>
-            </div>
-          </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!--EndForumModal-->
-
-<!-- MODAL LINK EDIT-->
-<div class="modal fade" id="linksModalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-        <h4 class="modal-title" id="myModalLabel">Links</h4>
-      </div>
-      <div class="modal-body">
-        <!-- Card -->
-        <div class="form-group">
-          <label class="control-label" for="inputDefault">Name</label>
-          <input value="Python" type="text" class="form-control" id="inputDefault">
-        </div>
-        <div class="form-group">
-          <label class="control-label" for="inputDefault">Url</label>
-          <input value="https://www.python.org/" type="text" class="form-control" id="inputDefault">
-        </div>
-        <div class="form-group is-empty">
-          <label class="control-label" for="inputDefault">Descrição</label>
-          <textarea class="form-control" rows="3"></textarea>
-        </div>
-        <div class="form-group">
-          <a href="javascript:void(0)" class="btn btn-raised btn-default">Cancel</a>
-          <a href="javascript:void(0)" class="btn btn-raised btn-primary">Submit</a>
-      </div>
-        <!-- .end Card -->
-      </div>
-    </div>
-  </div>
-</div>
-<!-- EndModal -->
-</div>
-</div>
-
-
-<div class="modal fade" id="createForum" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <!-- MODAL CREATE FILE -->
+    <div class="modal fade" id="createFileModal" tabindex="-1" role="dialog" aria-labelledby="createFileLabel" style="display: none;">
     <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title" id="createFileLabel">Add File</h4>
+      </div>
+      <div class="modal-body">
+        <!-- Card -->
+
+                <form class="form-horizontal">
+                  <fieldset>
+
+                      <div class="form-group is-empty">
+                        <label for="inputName" class="col-md-2 control-label">Name</label>
+
+                        <div class="col-md-10">
+                          <input type="text" class="form-control" id="inputText" placeholder="Name">
+                        </div>
+                      </div>
+
+                      <div class="form-group is-empty is-fileinput">
+                        <label for="inputFile" class="col-md-2 control-label">File</label>
+
+                        <div class="col-md-10">
+                          <input type="text" readonly="" class="form-control" placeholder="Browse...">
+                          <input type="file" id="inputFile" multiple="">
+                        </div>
+                      </div>
+
+
+                      <div class="form-group">
+                        <div class="col-md-12 text-center">
+                          <p><b>The file size shouldn't exceed 10MB</b></p>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="col-md-12">
+                          <a href="javascript:void(0)" class="btn btn-raised btn-default">Cancel<div class="ripple-container"></div></a>
+                          <a href="javascript:void(0)" class="btn btn-raised btn-primary">Submit</a>
+                        </div>
+                      </div>
+                    </fieldset>
+                  </form>
+
+>>>>>>> ba384ee6d51624227304d098d60d29248bbd3bbc
+
+            <!-- .end Card -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- EndModal -->
+
+    <!-- MODAL REMOVE FILE -->
+    <div class="modal" id="removeFileModal">
+      <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">{% trans 'Forum' %}</h4>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+            <h4 class="modal-title"></h4>
+          </div>
+          <div class="modal-body">
+            <p>Do you really want to delete this file?</p>
+          </div>
+          <div class="modal-footer">
+
+            <a href="#" target="_self"><button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Confirm</button></a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END -->
+
+    <!--MODAL VIEW LINK-->
+    <div class="modal fade" id="linksModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title" id="myModalLabel">Links</h4>
+          </div>
+          <div class="modal-body">
+            <!-- Card -->
+            <article class="card animated fadeInLeft">
+               <img class="card-img-top img-responsive" src="https://www.python.org/static/opengraph-icon-200x200.png" align="left">
+               <div class="card-block">
+                  <b class="card-title">Python</b><p></p>
+                  <b class="text-muted">Guido van Rossum</b>
+                  <p class="card-text"> </p><p>Python is a widely used high-level, general-purpose, interpreted, dynamic programming language. Its design philosophy emphasizes code readability, and its syntax allows programmers to express concepts in fewer lines of code than possible in languages such as C++ or Java.</p>
+                  <a href="https://www.python.org/" class="btn btn-primary">Read more</a>
+               </div>
+            </article>
+            <!-- .end Card -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- EndModal -->
+
+    <!--MODAL CREATE LINK-->
+    <div class="modal fade" id="createLinksModal" tabindex="-1" role="dialog" aria-labelledby="createLink" style="display: none;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title" id="createLink">Create a New Link</h4>
+          </div>
+          <div class="modal-body">
+            <!-- Card -->
+            <div class="form-group is-empty">
+              <label class="control-label" for="inputDefault">Name</label>
+              <input type="text" class="form-control" id="inputDefault">
             </div>
-            <div class="modal-body">
-                <section>
-                    <div class="forum_form"></div>
-                </section>
+            <div class="form-group is-empty">
+              <label class="control-label" for="inputDefault">Url</label>
+              <input type="text" class="form-control" id="inputDefault">
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans 'Close' %}</button>
-                <button type="button" onclick="$('#forum_create').submit();" class="btn btn-primary btn-raised">{% trans 'Create' %}</button>
+            <div class="form-group is-empty">
+              <label class="control-label" for="inputDefault">Descrição</label>
+              <textarea class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <a href="javascript:void(0)" class="btn btn-raised btn-default">Cancel</a>
+              <a href="javascript:void(0)" class="btn btn-raised btn-primary">Submit</a>
+          </div>
+            <!-- .end Card -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- EndModal -->
+
+    <!-- MODAL REMOVE LINK -->
+    <div class="modal" id="removeLink">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+            <h4 class="modal-title"></h4>
+          </div>
+          <div class="modal-body">
+            <p>Do you really want to delete this link?</p>
+          </div>
+          <div class="modal-footer">
+
+            <a href="#" target="_self"><button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Confirm</button></a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END -->
+
+    <!-- MODAL EMBEED-->
+    <div class="modal fade" id="embedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title" id="myModalLabel">Material EMBED</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group is-empty">
+              <label for="inputEmail" class="col-md-2 control-label">Name:</label>
+              <div class="col-md-10">
+                <input type="text" class="form-control" id="inputEmail" placeholder="Name">
+              </div>
+            </div>
+            <form class="form-horizontal">
+              <div class="form-group is-empty">
+                <label for="textArea" class="col-md-2 control-label">Code:</label>
+
+                <div class="col-md-10">
+                    <textarea class="form-control" rows="2" id="textArea"></textarea>
+                    <span class="help-block">Material description</span>
+                </div>
+              </div>
+              <div class="form-group is-empty">
+              <label for="number" class="col-md-2 control-label">Height</label>
+                <div class="col-md-4">
+                  <input type="number" class="form-control" id="inputNumber" placeholder="Heiht">
+                </div>
+              </div>
+              <div class="form-group is-empty">
+              <label for="number" class="col-md-2 control-label">Weight</label>
+                <div class="col-md-4">
+                  <input type="number" class="form-control" id="inputNumber" placeholder="Weight">
+                </div>
+              </div>
+            </form>
+
+          </div>
+          <div class="modal-footer">
+            <!-- Don't remove that!!!
+            <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">Close</button>-->
+
+            <!-- Put curtom buttons here!!!  -->
+            <button type="button" class="btn btn-primary btn-raised">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- EndModal -->
+
+    <!-- MODAL ACTIVITIES-->
+    <div class="modal fade" id="ActivityModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+              <h4 class="modal-title" id="myModalLabel"></h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal">
+              
+          <fieldset>
+            <legend>Atividade Proposta</legend>
+            <div class="form-group is-empty">
+              <label for="NameIn" class="col-md-2 control-label">Name:</label>
+              <div class="col-md-10">
+                <input type="text" id="NameIn" class="form-control">
+              </div>
+            </div>
+            <div class="form-group is-empty">
+              <label for="DescIn" class="col-md-2 control-label">Describe:</label>
+              <div class="col-md-10">
+                <textarea class="form-control" id="DescIn" rows="2"></textarea>
+              </div>
+            </div>
+            <div class="form-group is-empty">
+              <label for="DateIn" class="col-md-2 control-label">Opening: </label>
+              <div class="col-md-10">
+                <input type="text" id="DateIn" class="form-control date-picker" requerid="">
+              </div>
+            </div>
+            <div class="form-group is-empty">
+              <label for="DateIn" class="col-md-2 control-label">Ending: </label>
+              <div class="col-md-10">
+                <input type="text" id="DateIn" class="form-control date-picker" requerid="">
+              </div>
+            </div>
+            <div class="form-group" style="margin-top: 0;">
+              <div class="col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Send Later
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-10 col-md-offset-2">
+                <button type="button" class="btn btn-default">Cancel</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+
+
+          </fieldset>
+        </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--EndModal-->
+
+    <!-- MODAL FORUM -->
+    <div class="modal fade" id="forumModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Forum</h4>
+          </div>
+          <div class="modal-body">
+            <!--Forum-->
+            <!--Main wrapper-->
+            <div class="comments-list">
+              <div class="section-heading">
+                  <h1>Python</h1>
+                  <h4><b>Description:</b>High-level Language</h4>
+                  <h4><b>Opened in:</b> September 1st</h4>
+              </div>
+              <!--First row-->
+              <div class="row">
+
+                  <!--Content column-->
+                  <div class="col-sm-10 col-xs-12">
+                      <h3 class="user-name">Gerson Jefferson</h3>
+
+                      <div class="card-data">
+                         <p class="comment-date"><i class="fa fa-clock-o"></i> 05/10/2015</p>
+                      </div>
+
+                      <p class="comment-text">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                          cupidatat non proident.</p>
+                  </div>
+                  <!--/.Content column-->
+              </div>
+              <a class="btn btn-sm" style="float: right;" data-toggle="collapse" href="#collapse1" aria-expanded="false" aria-controls="collapseExample">Reply</a>
+              <div class="collapse" id="collapse1">
+                <div class="md-form">
+                    <div class="form-group is-empty"><input type="text" id="form1" class="form-control" placeholder="comment on the cometary"></div><span class="input-group-btn">
+                        <button type="button" class="btn btn-sm">
+                          <i class="fa fa-paper-plane"> Send</i>
+                        </button>
+                      </span>
+                </div>
+              </div>
+            </div>
+
+                <!--/.First row-->
+
+                <!--Second row-->
+                <div class="row">
+
+                    <!--Content column-->
+                    <div class="col-sm-10 col-xs-12">
+                        <h3 class="user-name">Cherielly</h3>
+
+                        <div class="card-data">
+                          <p class="comment-date"><i class="fa fa-clock-o"></i> 08/10/2015</p>
+                        </div>
+
+                        <p class="comment-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
+                            voluptatem quia voluptas sit aspernatur.</p>
+                    </div>
+                    <!--/.Content column-->
+                </div>
+                      <a class="btn btn-sm" style="float: right;" data-toggle="collapse" href="#collapse2" aria-expanded="false" aria-controls="collapseExample">Reply</a>
+                      <div class="collapse" id="collapse2">
+                        <div class="md-form">
+                            <div class="form-group is-empty"><input type="text" id="form1" class="form-control" placeholder="comment on the cometary"></div><span class="input-group-btn">
+                                <button type="button" class="btn btn-sm">
+                                  <i class="fa fa-paper-plane"> Send</i>
+                                </button>
+                              </span>
+                        </div>
+                      </div>
+
+
+                <!--/.Second row-->
+
+                <!--Third row-->
+                <div class="row">
+
+
+                   <!--Content column-->
+                    <div class="col-sm-10 col-xs-12">
+                        <h3 class="user-name">Gemozecleia</h3>
+
+                        <div class="card-data">
+                          <p class="comment-date"><i class="fa fa-clock-o"></i> 17/10/2015
+                        </p></div>
+
+                        <p class="comment-text">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa
+                            qui officia.
+                        </p>
+                    </div>
+                    <!--/.Content column-->
+
+                </div>
+                <a class="btn btn-sm" style="float: right;" data-toggle="collapse" href="#collapse3" aria-expanded="false" aria-controls="collapseExample">Reply</a>
+                      <div class="collapse" id="collapse3">
+                        <div class="md-form">
+                            <div class="form-group is-empty"><input type="text" id="form1" class="form-control" placeholder="comment on the cometary"></div><span class="input-group-btn">
+                                <button type="button" class="btn btn-sm">
+                                  <i class="fa fa-paper-plane"> Send</i>
+                                </button>
+                              </span>
+                        </div>
+                      </div>
+
+                <!--/.Third row-->
+                <div class="row">
+                  <div class="form-group is-empty">
+                  <div class="col-sm-10 col-xs-12">
+                    <input type="text" id="addon3a" class="form-control" placeholder="Add Comment">
+
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-fab btn-fab-mini">
+                          <i class="material-icons">send</i>
+                        </button>
+                      </span>
+                  </div>
+                </div>
+              </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--EndForumModal-->
+
+    <!-- MODAL LINK EDIT-->
+    <div class="modal fade" id="linksModalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title" id="myModalLabel">Links</h4>
+          </div>
+          <div class="modal-body">
+            <!-- Card -->
+            <div class="form-group">
+              <label class="control-label" for="inputDefault">Name</label>
+              <input value="Python" type="text" class="form-control" id="inputDefault">
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="inputDefault">Url</label>
+              <input value="https://www.python.org/" type="text" class="form-control" id="inputDefault">
+            </div>
+            <div class="form-group is-empty">
+              <label class="control-label" for="inputDefault">Descrição</label>
+              <textarea class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <a href="javascript:void(0)" class="btn btn-raised btn-default">Cancel</a>
+              <a href="javascript:void(0)" class="btn btn-raised btn-primary">Submit</a>
+          </div>
+            <!-- .end Card -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- EndModal -->
+    </div>
+    </div>
+
+
+    <div class="modal fade" id="createForum" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">{% trans 'Forum' %}</h4>
+                </div>
+                <div class="modal-body">
+                    <section>
+                        <div class="forum_form"></div>
+                    </section>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans 'Close' %}</button>
+                    <button type="button" onclick="$('#forum_create').submit();" class="btn btn-primary btn-raised">{% trans 'Create' %}</button>
+                </div>
             </div>
         </div>
     </div>
-</div>

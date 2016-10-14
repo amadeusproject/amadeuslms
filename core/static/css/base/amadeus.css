@@ -327,3 +327,12 @@ body .container .jumbotron-inverse, body .container .well-inverse, body .contain
 }
 
 .datepicker{z-index:9999 !important}
+
+ul, li {
+  list-style-type: none !important;
+  text-decoration: none !important;
+}
+
+.icon_edit_remove{
+  float: right;
+}

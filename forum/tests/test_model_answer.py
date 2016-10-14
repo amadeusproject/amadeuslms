@@ -100,7 +100,7 @@ class PostAnswerTestCase (TestCase):
             modification_date = '2016-10-05',
             answer_date = '2016-10-04',
         )
-
+        self.answer.save()
 
     def test_create_answer_post (self):
         answer = PostAnswer.objects.create(
