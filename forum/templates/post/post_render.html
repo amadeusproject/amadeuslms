@@ -25,7 +25,7 @@
         <div class="post_content">
             <div class="card-data">
                 <p class="comment-date">
-                    <i class="fa fa-clock-o"></i> {{ post.post_date }}
+                    <i class="fa fa-clock-o"></i> {{ post.post_date|timesince }} {% trans 'ago' %}
                     {% if post.post_date != post.modifiction_date %}
                         <em> - {% trans 'Edited' %}</em>
                     {% endif %}
