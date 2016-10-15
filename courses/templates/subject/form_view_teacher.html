@@ -225,7 +225,6 @@
 {% if user|has_role:'system_admin' or topic.owner == user%}
     {% include "files/create_file.html" %}
 {% endif %}
-
     <!-- MODAL REMOVE FILE -->
     <div class="modal" id="removeFileModal">
       <div class="modal-dialog">
@@ -273,59 +272,13 @@
     </div>
     <!-- EndModal -->
 
-    <!--MODAL CREATE LINK-->
-    <div class="modal fade" id="createLinksModal" tabindex="-1" role="dialog" aria-labelledby="createLink" style="display: none;">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-            <h4 class="modal-title" id="createLink">Create a New Link</h4>
-          </div>
-          <div class="modal-body">
-            <!-- Card -->
-            <div class="form-group is-empty">
-              <label class="control-label" for="inputDefault">Name</label>
-              <input type="text" class="form-control" id="inputDefault">
-            </div>
-            <div class="form-group is-empty">
-              <label class="control-label" for="inputDefault">Url</label>
-              <input type="text" class="form-control" id="inputDefault">
-            </div>
-            <div class="form-group is-empty">
-              <label class="control-label" for="inputDefault">Descrição</label>
-              <textarea class="form-control" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-              <a href="javascript:void(0)" class="btn btn-raised btn-default">Cancel</a>
-              <a href="javascript:void(0)" class="btn btn-raised btn-primary">Submit</a>
-          </div>
-            <!-- .end Card -->
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- EndModal -->
+    {% if user|has_role:'system_admin' or topic.owner == user%}
+        {% include "links/create_link.html" %}
+    {% endif %}
 
-    <!-- MODAL REMOVE LINK -->
-    <div class="modal" id="removeLink">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-            <h4 class="modal-title"></h4>
-          </div>
-          <div class="modal-body">
-            <p>Do you really want to delete this link?</p>
-          </div>
-          <div class="modal-footer">
-
-            <a href="#" target="_self"><button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Confirm</button></a>
-
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- END -->
+    {% if user|has_role:'system_admin' or topic.owner == user%}
+        {% include "links/delete_link.html" %}
+    {% endif %}
 
     <!-- MODAL EMBEED-->
     <div class="modal fade" id="embedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -388,7 +341,7 @@
           </div>
           <div class="modal-body">
             <form class="form-horizontal">
-              
+
           <fieldset>
             <legend>Atividade Proposta</legend>
             <div class="form-group is-empty">
@@ -572,36 +525,10 @@
     <!--EndForumModal-->
 
     <!-- MODAL LINK EDIT-->
-    <div class="modal fade" id="linksModalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-            <h4 class="modal-title" id="myModalLabel">Links</h4>
-          </div>
-          <div class="modal-body">
-            <!-- Card -->
-            <div class="form-group">
-              <label class="control-label" for="inputDefault">Name</label>
-              <input value="Python" type="text" class="form-control" id="inputDefault">
-            </div>
-            <div class="form-group">
-              <label class="control-label" for="inputDefault">Url</label>
-              <input value="https://www.python.org/" type="text" class="form-control" id="inputDefault">
-            </div>
-            <div class="form-group is-empty">
-              <label class="control-label" for="inputDefault">Descrição</label>
-              <textarea class="form-control" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-              <a href="javascript:void(0)" class="btn btn-raised btn-default">Cancel</a>
-              <a href="javascript:void(0)" class="btn btn-raised btn-primary">Submit</a>
-          </div>
-            <!-- .end Card -->
-          </div>
-        </div>
-      </div>
-    </div>
+    {% if user|has_role:'system_admin' or topic.owner == user%}
+        {% include "links/update_link.html" %}
+    {% endif %}
+
     <!-- EndModal -->
     </div>
     </div>
