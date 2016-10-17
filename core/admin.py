@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Action, Resource, Action_Resource, Log
+from .models import Action, Resource, Action_Resource, Log, MymeType
 
 class ActionAdmin(admin.ModelAdmin):
 	list_display = ['name', 'created_date']
@@ -18,7 +18,12 @@ class LogAdmin(admin.ModelAdmin):
 	list_display = ['datetime', 'user', 'action_resource']
 	search_fields = ['user']
 
+class MymeTypeAdmin(admin.ModelAdmin):
+	list_display = ['typ', 'icon']
+	search_fields = ['typ', 'icon']
+
 admin.site.register(Action, ActionAdmin)
 admin.site.register(Resource, ResourceAdmin)
 admin.site.register(Action_Resource, ActionResourceAdmin)
 admin.site.register(Log, LogAdmin)
+admin.site.register(MymeType, MymeTypeAdmin)

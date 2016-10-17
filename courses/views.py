@@ -13,10 +13,11 @@ from rolepermissions.verifications import has_object_permission
 from django.http import HttpResponseRedirect
 
 from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm,TopicForm,ActivityForm
-from .models import Course, Subject, CourseCategory,Topic, SubjectCategory,Activity
+from .models import Course, Subject, CourseCategory,Topic, SubjectCategory,Activity, CategorySubject
 from core.mixins import NotificationMixin
 from users.models import User
 from files.forms import FileForm
+from files.models import TopicFile
 
 from datetime import date
 
@@ -191,6 +192,23 @@ class CourseView(LoginRequiredMixin, NotificationMixin, generic.DetailView):
 			courses = self.request.user.courses.all()
 		elif has_role(self.request.user, 'student'):
 			courses = self.request.user.courses_student.all()
+
+		categorys_subjects = None
+		if has_role(self.request.user,'professor') or has_role(self.request.user,'system_admin'):
+			categorys_subjects = CategorySubject.objects.filter(subject_category__professors__name = self.request.user.name).distinct()
+		else:
+			categorys_subjects = CategorySubject.objects.filter(subject_category__students__name = self.request.user.name).distinct()
+		
+		subjects_category = Subject.objects.filter(category__name = self.request.GET.get('category'))
+		
+		none = None
+		q = self.request.GET.get('category', None)
+		if q is  None:
+			none = True
+		context['none'] = none
+		
+		context['subjects_category'] = subjects_category
+		context['categorys_subjects'] = categorys_subjects
 		context['courses'] = courses
 		context['title'] = course.name
 
@@ -300,13 +318,35 @@ class SubjectsView(LoginRequiredMixin, generic.ListView):
 		return context
 
 	def get_context_data(self, **kwargs):
-		subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+
 		context = super(SubjectsView, self).get_context_data(**kwargs)
+		subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
 		context['course'] = subject.course
 		context['subject'] = subject
-		context['form_file'] = FileForm
 		context['topics'] = Topic.objects.filter(subject = subject)
+		if has_role(self.request.user,'professor') or has_role(self.request.user,'system_admin'):
+			context['files'] = TopicFile.objects.filter(professor__name = self.request.user.name)
+		else:
+			context['files'] = TopicFile.objects.filter(students__name = self.request.user.name)
 		return context
+		
+class UploadMaterialView(LoginRequiredMixin, generic.edit.CreateView):
+	login_url = reverse_lazy("core:home")	
+	redirect_field_name = 'next'
+
+	template_name = 'files/create_file.html'
+	form_class = FileForm
+	
+	def form_invalid(self, form):
+		context = super(UploadMaterialView, self).form_invalid(form)
+		context.status_code = 400
+
+		return context
+
+	def get_success_url(self):
+		self.success_url = reverse('course:view_subject', args = (self.object.slug, ))
+		
+		return self.success_url
 
 class TopicsView(LoginRequiredMixin, generic.ListView):
 

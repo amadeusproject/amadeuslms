@@ -1,7 +1,8 @@
-    {% load static i18n list_topic_foruns permission_tags %}
+    {% load static i18n list_topic_foruns permission_tags widget_tweaks %}
 
     {% block javascript %}
         <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
     {% endblock %}
 
     <div class="panel-group accordion ui-accordion ui-widget ui-helper-reset ui-sortable" role="tablist" aria-multiselectable="false">
@@ -52,14 +53,17 @@
                     <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
                     <ul class="dropdown-menu" aria-labelledby="dLabel">
                       <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createLinksModal">Create a Link<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 54.5312px; top: 22px; background-color: rgb(0, 150, 136); transform: scale(20);"></div></div></a></li>
-                      <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createFileModal">Create a file<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 33.5312px; top: 11px; background-color: rgb(0, 150, 136); transform: scale(20);"></div></div></a></li>
+                      <li><a href="javascript:createMaterial('{% url 'course:upload_material' %}', '{{ topic.id }}')">{% trans 'Create File' %}<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 33.5312px; top: 11px; background-color: rgb(0, 150, 136); transform: scale(20);"></div></div></a></li>
                     </ul>
                   </div>
                 </div>
                 <ul>
-                    <li><i class="fa fa-book" aria-hidden="true"></i> <a href="#">Book 1</a></li>
-                    <li><i class="fa fa-link" aria-hidden="true"></i>  <a href="#" data-toggle="modal" data-target="#linksModal">Link 1</a></li>
-                    <li><i class="fa fa-file-code-o" aria-hidden="true"></i> <a href="#" data-toggle="modal" data-target="#embedModal">EMBED Material</a></li>
+                    {% for file in files %}
+                      <li><i class="fa fa-book" aria-hidden="true"></i> <a href="{{file.file_url}}">{{file}}</a></li>
+                    {% endfor %}
+                    
+                   <!-- <li><i class="fa fa-link" aria-hidden="true"></i>  <a href="#" data-toggle="modal" data-target="#linksModal">Link 1</a></li>
+                    <li><i class="fa fa-file-code-o" aria-hidden="true"></i> <a href="#" data-toggle="modal" data-target="#embedModal">EMBED Material</a></li>-->
                 </ul>
               </div>
               <div class="col-xs-4 col-md-4">
@@ -70,7 +74,7 @@
                   <div class="dropdown">
                     <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
                     <ul class="dropdown-menu" aria-labelledby="dLabel">
-                      <li><a href="javascript:createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans 'Create Forum' %}<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 33.5312px; top: 11px; background-color: rgb(0, 150, 136); transform: scale(20);"></div></div></a></li>
+                      <li><a href="javascript:createFforum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans 'Create Forum' %}<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 33.5312px; top: 11px; background-color: rgb(0, 150, 136); transform: scale(20);"></div></div></a></li>
                     </ul>
                   </div>
                 </div>
@@ -168,58 +172,23 @@
     </div>
     <!-- END -->
 
-    <!-- MODAL EDIT FILE -->
     <div class="modal fade" id="editFileModal" tabindex="-1" role="dialog" aria-labelledby="editFileLabel">
-    <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-        <h4 class="modal-title" id="editFileLabel">Add File</h4>
-      </div>
-      <div class="modal-body">
-        <!-- Card -->
-
-                <form class="form-horizontal">
-                  <fieldset>
-
-                      <div class="form-group">
-                        <label for="inputName" class="col-md-2 control-label">Name</label>
-
-                        <div class="col-md-10">
-                          <input type="text" class="form-control" id="inputText" placeholder="Name" value="Book 1">
-                        </div>
-                      </div>
-
-                      <div class="form-group is-empty is-fileinput">
-                        <label for="inputFile" class="col-md-2 control-label">File</label>
-
-                        <div class="col-md-10">
-                          <input type="text" readonly="" class="form-control" placeholder="Browse...">
-                          <input type="file" id="inputFile" multiple="">
-                        </div>
-                      </div>
-
-
-                      <div class="form-group">
-                        <div class="col-md-12 text-center">
-                          <p><b>The file size shouldn't exceed 10MB</b></p>
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <div class="col-md-12">
-                          <a href="javascript:void(0)" class="btn btn-raised btn-default">Cancel</a>
-                          <a href="javascript:void(0)" class="btn btn-raised btn-primary">Submit</a>
-                        </div>
-                      </div>
-                    </fieldset>
-                  </form>
-
-
-            <!-- .end Card -->
-          </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="editFileLabel">{% trans 'Add File' %}</h4>
+                </div>
+                <div class="modal-body">
+                    <section>
+                        <div class="material_form"></div>
+                    </section>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="$('#material_create').submit();" class="btn btn-primary btn-raised">{% trans 'Submit' %}</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
 {% if user|has_role:'system_admin' or topic.owner == user%}

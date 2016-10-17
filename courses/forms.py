@@ -192,7 +192,7 @@ class ActivityForm(forms.ModelForm):
 class FileMaterialForm(forms.ModelForm):  
   class Meta:
     model = FileMaterial
-    fields = ['material', 'file', 'name']
+    fields = ['name', 'file']
 
 class LinkMaterialForm(forms.ModelForm):  
   class Meta:

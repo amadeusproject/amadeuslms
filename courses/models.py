@@ -18,6 +18,18 @@ class CourseCategory(models.Model):
 	def __str__(self):
 		return self.name
 
+class CategorySubject(models.Model):
+	name = models.CharField(_('Name'), max_length=100, unique=True)
+	slug = AutoSlugField(_("Slug"), populate_from='name', unique=True)
+	create_date = models.DateField(_('Creation Date'), auto_now_add=True)
+
+	class Meta:
+		verbose_name = _('Category')
+		verbose_name_plural = _('Categories')
+
+	def __str__(self):
+		return self.name
+
 class Course(models.Model):
 
 	name = models.CharField(_('Name'), max_length = 100)
@@ -54,6 +66,7 @@ class Subject(models.Model):
 	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 	update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
 	course = models.ForeignKey(Course, verbose_name = _('Course'), related_name="subjects")
+	category = models.ForeignKey(CategorySubject, verbose_name = _('Category'), related_name='subject_category',null=True)
 	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='professors_subjects')
 	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='subject_student')
 
