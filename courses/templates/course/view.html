@@ -48,14 +48,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="col-md-12">
-    <div class="btn-group btn-group-justified btn-group-raised">
-      <a href="?category=all" class="btn btn-raised btn-info">Todos</a>
-      {% for category_subject in categorys_subjects %}
-        <a href="?category={{category_subject.name}}" class="btn btn-raised btn-primary">{{category_subject.name}}</a>
-      {% endfor %}
-    </div>
-</div>
+
   <div class="col-md-12">
     <div class="panel panel-info">
       <div class="panel-heading headingOne">
@@ -93,7 +86,12 @@
 
     </div>
   </div>
-
+  <div class="btn-group btn-group-justified btn-group-raised">
+    <a href="?category=all" class="btn btn-raised btn-info">Todos</a>
+    {% for category_subject in categorys_subjects %}
+      <a href="?category={{category_subject.name}}" class="btn btn-raised btn-primary">{{category_subject.name}}</a>
+    {% endfor %}
+  </div>
 <!-- MODAL CREATE SUBJECT -->
 <div class="modal" tabindex="-1" role="dialog  " id="createSubject">
   <div class="modal-dialog">
