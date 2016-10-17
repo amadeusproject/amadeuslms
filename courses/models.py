@@ -114,6 +114,17 @@ class Material(Resource):
 	topic = models.ForeignKey(Topic, verbose_name = _('Topic'), related_name='materials')
 	students = models.ManyToManyField(User, verbose_name = _('Students'), related_name='materials')
 	all_students = models.BooleanField(_('All Students'), default=False)
+	
+class FileMaterial(models.Model):
+	material = models.ForeignKey(Material, verbose_name = _('Material'), related_name='material_file')
+	file = models.FileField(upload_to='uploads/%Y/%m/%d')
+	name = models.CharField(max_length=100)
+
+class LinkMaterial(models.Model):
+	material = models.ForeignKey(Material, verbose_name = _('Material'), related_name='material_link')
+	name = models.CharField(max_length=100)
+	description = models.TextField()
+	url = models.URLField('Link', max_length=300)		
 
 """
 It is a category for each subject.
