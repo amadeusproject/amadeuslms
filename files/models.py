@@ -23,7 +23,7 @@ class TopicFile(Material):
 	class Meta:
 		verbose_name = _("File")
 		verbose_name_plural = _("Files")
-		ordering = ('-id')
+		ordering = ('-id',)
 
 	def __str__(self):
 		return self.name
