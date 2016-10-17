@@ -36,11 +36,11 @@
   	<div class="panel panel-info">
     	<div class="panel-heading">
 			<div class="row">
-	      		<div class="col-md-9 col-sm-9">
+	      		<div class="col-md-10 col-sm-9">
 	        		<h3>{{subject}}</h3>
 	      		</div>
 	      		{% if user|has_role:'system_admin' or user in subject.professors %}
-		         	 <div class="col-xs-4 col-md-3 divMoreActions">
+		         	 <div class="col-xs-4 col-md-2 divMoreActions">
 			            <div class="btn-group">
 			              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>

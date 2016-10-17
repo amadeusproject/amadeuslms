@@ -210,6 +210,7 @@ class CourseView(LoginRequiredMixin, NotificationMixin, generic.DetailView):
 		context['subjects_category'] = subjects_category
 		context['categorys_subjects'] = categorys_subjects
 		context['courses'] = courses
+		context['course'] = course
 		context['title'] = course.name
 
 		return context
