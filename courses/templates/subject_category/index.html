@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% load static i18n permission_tags %}
+{% load static i18n permission_tags professor_access%}
 
 {% block breadcrumbs %}
 
 	<ol class="breadcrumb">
 	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  
-	  	
+
+
 	</ol>
 {% endblock %}
 
@@ -43,12 +43,14 @@
 	        		<h3>{{subject}}</h3>
 	      		</div>
 	      		<div class="col-md-2 col-sm-2">
-					{% if user|has_role:'system_admin' or user in subject.professors %}
+							{% professor_subject subject user as professor_sub%}
+					{% if professor_sub %}
 	        			<a href="" class="btn">{% trans "edit" %}</a>
 					{% endif %}
 	      		</div>
 				<div class="col-md-3 col-sm-3">
-					{% if user|has_role:'system_admin' or user in subject.professors %}
+					{% professor_subject subject user as delete_sub%}
+					{% if delete_sub %}
 	        			<a href="" class="btn">{% trans "delete" %}</a>
 					{% endif %}
 	      		</div>
@@ -60,6 +62,6 @@
       		</p>
     	</div>
   	</div>
-	
+
 
 {% endblock %}

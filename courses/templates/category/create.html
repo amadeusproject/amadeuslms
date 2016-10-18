@@ -1,4 +1,4 @@
-{% extends 'app/base.html' %}
+{% extends 'base.html' %}
 
 {% load static i18n permission_tags %}
 {% load widget_tweaks %}
@@ -23,7 +23,7 @@
         </div>
     </div>
 
-{% if user|has_role:'professor, system_admin' %}
+{% if user|has_role:'professor' or user|has_role:'system_admin' %}
 
     <div class="panel panel-primary navigation">
 	    <div class="panel-heading">

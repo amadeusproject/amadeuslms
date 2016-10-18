@@ -2,7 +2,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from autoslug.fields import AutoSlugField
 from users.models import User
-from core.models import Resource, MymeType
+from core.models import Resource, MimeType
 from s3direct.fields import S3DirectField
 
 class CourseCategory(models.Model):

@@ -6,7 +6,7 @@ from core.models import Resource
 from courses.models import Activity
 
 class Exam(Activity):
-	begin_date = models.DateField(_('Begin of Course Date'))
+	begin_date = models.DateField(_('Begin of Course Date'), blank=True)
 
 	class Meta:
 		verbose_name = _('Exam')

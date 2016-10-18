@@ -224,6 +224,9 @@ S3DIRECT_DESTINATIONS = {
 
 }
 
+# FILE UPLOAD
+MAX_UPLOAD_SIZE = 10485760
+
 try:
     from .local_settings import *
 except ImportError:

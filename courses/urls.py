@@ -28,6 +28,7 @@ urlpatterns = [
 	url(r'^forum/', include('forum.urls', namespace = 'forum')),
 	url(r'^poll/', include('poll.urls', namespace = 'poll')),
 	url(r'^exam/', include('exam.urls', namespace = 'exam')),
+	url(r'^files/', include('files.urls', namespace = 'file')),
 	url(r'^upload-material/$', views.UploadMaterialView.as_view(), name='upload_material'),
 
 

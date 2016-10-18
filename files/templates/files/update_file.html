@@ -1,17 +1,19 @@
 {% load static widget_tweaks i18n %}
 
 <!-- MODAL CREATE FILE -->
-<div class="erro">
-    <div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="createFileLabel">
+<link rel="stylesheet" type="text/css" href="{% static 'css/file.css' %}">
+
+<div class="erro-update">
+    <div class="modal fade" id="fileUpdateModal" tabindex="-1" role="dialog" aria-labelledby="updateFileLabel" style="z-index: 10">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="createFileLabel">{% trans 'Add File' %}</h4>
+                    <h4 class="modal-title" id="updateFileLabel">{% trans 'Edit File' %}</h4>
                 </div>
                 <div class="modal-body">
                 <!-- Card -->
-                    <form class="form-horizontal" method="post" id="form-file" enctype="multipart/form-data">
+                    <form class="form-horizontal" method="post" id="form-update-file" enctype="multipart/form-data">
                     {% csrf_token %}
                         {% if messages %}
                             {% for message in messages %}
@@ -33,7 +35,7 @@
                                             <label for="{{ field.auto_id }}" class=" control-label">{{ field.label }}</label>
                                         {% endif %}
                                         {% if field.auto_id == 'id_file_url' %}
-                                            {% render_field field class='form-control input-sm' %}
+                                            <input class="form-control input-sm" id="id_file_url" name="file_url" type="file">
                                             <div class="input-group">
                                                 <input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
                                                 <span class="input-group-btn input-group-sm">
@@ -41,6 +43,9 @@
                                                         <i class="material-icons">attach_file</i>
                                                     </button>
                                                 </span>
+                                            </div>
+                                            <div class="crearfix">
+                                                <a href="{{ file.file_url.url }}" target="_blank">{% trans "See current file" %}</a>
                                             </div>
                                         {% else %}
                                             {% render_field field class='form-control input-sm' %}
@@ -88,27 +93,28 @@
     
     {# // <script src="{% static 'js/file.js' %}"></script> #}
     <script type="text/javascript">
-      $("#form-file").submit(function(event) {
-            var data = new FormData($('#form-file').get(0));
+      $("#form-update-file").submit(function(event) {
+            var data = new FormData($('#form-update-file').get(0));
             $.ajax({
-                url: "{% url 'course:file:create_file' topic.slug %}",
-                type: $("#form-file").attr('method'),
+                url: "{% url 'course:file:update_file' file.slug %}",
+                type: $("#form-update-file").attr('method'),
                 data: data,
                 cache: false,
                 processData: false,
                 contentType: false,
                 success: function(data) {
-                    $('#fileModal').modal('hide');
+                    $('#fileUpdateModal').modal('hide');
                     alert(data);
                     // $('#list-topic-files').append(data);
                 },
                 error: function(data){
-                    $('.erro').html(data.responseText);
+                    $('.erro-update').html(data.responseText);
                     $('.modal-backdrop').remove();
-                    $('#fileModal').modal();
+                    $('#fileUpdateModal').modal();
                 }
             });
             event.preventDefault();
           });
   </script>
 {% endblock script_file %}
+<!-- EndModal -->

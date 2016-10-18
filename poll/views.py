@@ -34,7 +34,6 @@ class ViewPoll(LoginRequiredMixin,generic.DetailView):
 		context['subject'] = poll.topic.subject
 		context['subjects'] = poll.topic.subject.course.subjects.all()
 		answered = AnswersStudent.objects.filter(poll = poll, student=self.request.user)
-		print (answered)
 		if answered.count()<1:
 			context['status'] = False
 		else:
@@ -144,10 +143,8 @@ class UpdatePoll(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 		context['course'] = poll.topic.subject.course
 		context['subject'] = poll.topic.subject
 		context['subjects'] = poll.topic.subject.course.subjects.all()
-
 		answers = {}
 		for answer in poll.answers.all():
-			# print (key.answer)
 			answers[answer.order] = answer.answer
 
 		keys = sorted(answers)
@@ -213,7 +210,6 @@ class AnswerStudentPoll(LoginRequiredMixin,generic.CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AnswerStudentPoll, self).get_context_data(**kwargs)
-		print (self.kwargs.get('slug'))
 		poll = get_object_or_404(Poll, slug = self.kwargs.get('slug'))
 		context['poll'] = poll
 		context['topic'] = poll.topic
@@ -221,7 +217,6 @@ class AnswerStudentPoll(LoginRequiredMixin,generic.CreateView):
 		context['subject'] = poll.topic.subject
 		context['subjects'] = poll.topic.subject.course.subjects.all()
 
-		print (self.request.method)
 		answers = {}
 		for answer in poll.answers.all():
 			answers[answer.order] = answer.answer
