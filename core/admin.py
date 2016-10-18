@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Action, Resource, Action_Resource, Log
+from .models import Action, Resource, Action_Resource, Log, MimeType
 
 class ActionAdmin(admin.ModelAdmin):
 	list_display = ['name', 'created_date']
@@ -22,3 +22,4 @@ admin.site.register(Action, ActionAdmin)
 admin.site.register(Resource, ResourceAdmin)
 admin.site.register(Action_Resource, ActionResourceAdmin)
 admin.site.register(Log, LogAdmin)
+admin.site.register(MimeType)
