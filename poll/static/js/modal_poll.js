@@ -25,8 +25,7 @@ var Submite = {
         $("#modal_poll").empty();
         $("#modal_poll").append(data.responseText);
       });
-  }
-  ,
+  },
   remove: function(url,dados, id_li_link){
     $('#poll').modal('hide');
       $.post(url,dados, function(data){

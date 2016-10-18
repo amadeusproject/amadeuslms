@@ -47,7 +47,6 @@ class NotificationMixin(object):
 	def createNotification(self, message='', actor=None, users = User.objects.all(), resource_slug='' ,action_name = '', resource_name='', resource_link=''): #the default will be a broadcast
 		action = Action.objects.filter(name = action_name)
 		resource = Resource.objects.filter(slug = resource_slug)
-		print(message)
 		if action.exists():
 			action = action[0]
 		else:
@@ -76,5 +75,4 @@ class NotificationMixin(object):
 	def dispatch(self, request, *args, **kwargs):
 		"""
 		Not quite sure how to do about it"""
-		print("testing IF IT REACHES HERE")
 		return super(NotificationMixin, self).dispatch(request, *args, **kwargs)

@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'forum',
     'poll',
     'links',
-    'exam',
     'files',
 
 ]
@@ -223,6 +222,9 @@ S3DIRECT_DESTINATIONS = {
     'material': (lambda original_filename: 'uploads/material/'+str(uuid4())+'.pdf', lambda u: True, ['application/pdf']),
 
 }
+
+# FILE UPLOAD
+MAX_UPLOAD_SIZE = 10485760
 
 try:
     from .local_settings import *

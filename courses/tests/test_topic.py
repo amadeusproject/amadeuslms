@@ -85,7 +85,6 @@ class TopicTestCase(TestCase):
 
     def test_topic_update(self):
         self.client.login(username='professor', password='testing')
-        print (self.subject.topics.all())
         url = reverse('course:update_topic',kwargs={'slug':self.subject.topics.all()[0].slug})
         data = {
             "name": 'new name',

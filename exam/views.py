@@ -33,6 +33,7 @@ class ViewExam(LoginRequiredMixin,generic.DetailView):
 		context['course'] = exam.topic.subject.course
 		context['subject'] = exam.topic.subject
 		context['subjects'] = exam.topic.subject.course.subjects.all()
+
 		answered = AnswersStudent.objects.filter(exam = exam, student=self.request.user)
 		print (answered)
 		if answered.count()<1:
@@ -145,7 +146,6 @@ class UpdateExam(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 
 		answers = {}
 		for answer in exam.answers.all():
-			# print (key.answer)
 			answers[answer.order] = answer.answer
 
 		keys = sorted(answers)

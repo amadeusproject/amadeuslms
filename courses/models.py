@@ -2,7 +2,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from autoslug.fields import AutoSlugField
 from users.models import User
-from core.models import Resource, MymeType
+from core.models import Resource, MimeType
 from s3direct.fields import S3DirectField
 
 class CourseCategory(models.Model):
@@ -10,6 +10,18 @@ class CourseCategory(models.Model):
 	name = models.CharField(_('Name'), max_length = 100, unique = True)
 	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
 	create_date = models.DateField(_('Creation Date'), auto_now_add = True)
+
+	class Meta:
+		verbose_name = _('Category')
+		verbose_name_plural = _('Categories')
+
+	def __str__(self):
+		return self.name
+
+class CategorySubject(models.Model):
+	name = models.CharField(_('Name'), max_length=100, unique=True)
+	slug = AutoSlugField(_("Slug"), populate_from='name', unique=True)
+	create_date = models.DateField(_('Creation Date'), auto_now_add=True)
 
 	class Meta:
 		verbose_name = _('Category')
@@ -54,6 +66,7 @@ class Subject(models.Model):
 	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 	update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
 	course = models.ForeignKey(Course, verbose_name = _('Course'), related_name="subjects")
+	category = models.ForeignKey(CategorySubject, verbose_name = _('Category'), related_name='subject_category',null=True)
 	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='professors_subjects')
 	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='subject_student')
 
@@ -114,6 +127,17 @@ class Material(Resource):
 	topic = models.ForeignKey(Topic, verbose_name = _('Topic'), related_name='materials')
 	students = models.ManyToManyField(User, verbose_name = _('Students'), related_name='materials')
 	all_students = models.BooleanField(_('All Students'), default=False)
+	
+class FileMaterial(models.Model):
+	material = models.ForeignKey(Material, verbose_name = _('Material'), related_name='material_file')
+	file = models.FileField(upload_to='uploads/%Y/%m/%d')
+	name = models.CharField(max_length=100)
+
+class LinkMaterial(models.Model):
+	material = models.ForeignKey(Material, verbose_name = _('Material'), related_name='material_link')
+	name = models.CharField(max_length=100)
+	description = models.TextField()
+	url = models.URLField('Link', max_length=300)		
 
 """
 It is a category for each subject.

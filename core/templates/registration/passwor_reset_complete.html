@@ -22,9 +22,7 @@
               <form class="form-group " method="post" action="">
                 {% csrf_token %}
                 <div class="form-group is-empty">
-                  <p>
-                    Sua senha foi definida. Você pode ir em frente e entrar agora.
-                  </p>
+                  <p>{% trans "Your password has been set. You can go ahead and go now." %}</p>
                 </div>
               </form>
             </div>
