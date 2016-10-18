@@ -13,7 +13,7 @@ class CreateLink(generic.CreateView):
     template_name = 'links/create_link.html'
     form_class = CreateLinkForm
     success_url = reverse_lazy('course:manage')
-    context_object_name = 'links'
+    context_object_name = 'form'
 
     def form_valid(self, form):
         form.save()
@@ -25,7 +25,6 @@ class CreateLink(generic.CreateView):
         context['links'] = Link.objects.all()
         context['form'] = CreateLinkForm
         return context
-
 
 def deleteLink(request,linkname):
     link = get_object_or_404(Link,name = linkname)
