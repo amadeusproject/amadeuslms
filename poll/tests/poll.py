@@ -80,20 +80,22 @@ class PollTestCase(TestCase):
         self.poll.save()
 
     def test_poll_create(self):
-        self.client.login(username='professor', password='testing')
-        poll = self.topic.activities.all().count()
         url = reverse('course:poll:create_poll',kwargs={'slug':self.topic.slug})
         data = {
             "name": 'create poll test',
             "limit_date":'2016-10-06',
             "all_students":True,
         }
-        response = self.client.post(url, data)
-        self.assertEqual(poll + 1, self.topic.activities.all().count()) # create a new poll
+        
         self.client.login(username='student', password='testing')
         poll = self.topic.activities.all().count()
         response = self.client.post(url, data)
         self.assertEqual(poll, self.topic.activities.all().count()) # don't create a new poll
+
+        self.client.login(username='professor', password='testing')
+        poll = self.topic.activities.all().count()
+        response = self.client.post(url, data)
+        self.assertEqual(poll + 1, self.topic.activities.all().count()) # create a new poll
 
     def test_poll_update(self):
         self.client.login(username='professor', password='testing')

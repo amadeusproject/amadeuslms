@@ -22,12 +22,14 @@ urlpatterns = [
 	url(r'^topics/update/(?P<slug>[\w_-]+)/$', views.UpdateTopicView.as_view(), name='update_topic'),
 	url(r'^topics/createlink/$', linkviews.CreateLink.as_view(),name = 'create_link'),
 	url(r'^topics/deletelink/(?P<linkname>[\w_-]+)/$', linkviews.deleteLink,name = 'delete_link'),
+	url(r'^topics/updatelink/(?P<linkname>[\w_-]+)/$', linkviews.UpdateLink.as_view(),name = 'update_link'),
 	url(r'^topics/(?P<slug>[\w_-]+)/$', views.TopicsView.as_view(), name='view_topic'),
 	url(r'^subjects/categories$',views.IndexSubjectCategoryView.as_view(), name='subject_category_index'),
 	url(r'^forum/', include('forum.urls', namespace = 'forum')),
 	url(r'^poll/', include('poll.urls', namespace = 'poll')),
 	url(r'^exam/', include('exam.urls', namespace = 'exam')),
 	url(r'^files/', include('files.urls', namespace = 'file')),
+	url(r'^upload-material/$', views.UploadMaterialView.as_view(), name='upload_material'),
 
 
 

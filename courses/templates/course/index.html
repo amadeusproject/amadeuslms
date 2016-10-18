@@ -17,13 +17,14 @@
         </div>
         <div class="panel-body">
             <ul class="nav nav-pills nav-stacked">
+            	<li><a href="{% url 'core:home' %}">{% trans 'Home' %}</a></li>
                 <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                 <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
             </ul>
         </div>
     </div>
 
-{% if user|has_role:'professor, system_admin' %}
+{% if user|has_role:'professor' or user|has_role:'system_admin' %}
 
     <div class="panel panel-primary navigation">
 	    <div class="panel-heading">
@@ -75,7 +76,7 @@
 		        <i class="material-icons">search</i>
 		      </button>
 		    </span>
-		</div>	
+		</div>
 	</form>
 </div>
 	<div class="col-md-12">
@@ -102,7 +103,7 @@
 						          <h4 style="color:white">{{course.name}}</h4>
 						          </a>
 						        </div>
-						        {% if user|has_role:'professor, system_admin' %}
+						        {% if user|has_role:'professor' or user|has_role:'system_admin' %}
 							        <div class="col-xs-4 col-md-3" id="divMoreActions">
 							            <div class="btn-group">
 							              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -149,7 +150,7 @@
 						          <h4 style="color:white">{{course.name}}</h4>
 						          </a>
 						        </div>
-						        {% if user|has_role:'professor, system_admin' %}
+						        {% if user|has_role:'professor' or user|has_role:'system_admin' %}
 							        <div class="col-xs-4 col-md-3" id="divMoreActions">
 							            <div class="btn-group">
 							              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

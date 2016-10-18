@@ -1,20 +1,25 @@
 {% load static i18n %}
 
 {% for notification in objects %}
-    <li {% if not notification.read %}class="not_read"{% endif %}>
-        <div class="avatar">
-            <img src="{{ notification.user.image_url }}">
+    
+
+    <div class="well timeLine">
+    <div class="row">
+        <div class="col-md-12">
+        <p><a href="#"></a></p><h6><a href="#"><i>Default Path to Notification</i></a></h6><p></p>
         </div>
-        <div class="bubble-container">
-            <div class="bubble">
-                <div class="retweet" style="color: white">
-                    {{ notification.datetime }}
-                </div>
-                <h3>{{ notification.user }}</h3> - <h3>{{ notification.action_resource }}</h3><br/>
-                <a href="{% url 'core:notification_read' notification.id %}">{{ notification }}</a>
-            </div>
-            <div class="arrow"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-2 col-md-1">
+            <img class="imgTimeLine" src="{{ notification.user.image_url }}">
         </div>
-    </li>
+        <div class="col-xs-10 col-md-11">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            <a href=""><h4 class="resource_inline"><b>{{ notification.user }}</b></h4></a>
+            <p class="resource_inline">{{notification.message}} em : <a href="{% url 'core:notification_read' notification.id  %}">Recurso</a></p>
+            <p class="timePost"><i> {{ notification.datetime|timesince }} {% trans "ago" %}  </i></p>
+        </div>
+    </div>
+</div>
 {% endfor %}
 

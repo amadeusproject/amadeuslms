@@ -3,11 +3,12 @@ from .models import Link
 import validators
 
 class CreateLinkForm(forms.ModelForm):
-    def validate_link(self,link):
+
+    def clean_link(self):
+        link = self.cleaned_data['link']
         if not validators.url(link):
             raise forms.ValidationError(_('Please enter a valid URL'))
-        else:
-            return link
+        return link
 
     class Meta:
         model = Link

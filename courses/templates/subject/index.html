@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load static i18n permission_tags %}
+{% load static i18n permission_tags professor_access%}
 
 {% block breadcrumbs %}
 
@@ -12,7 +12,7 @@
 	  	{% else %}
 	  		<li class="active">{{ subject.name }}</li>
 	  	{% endif %}
-	  	
+
 	</ol>
 {% endblock %}
 
@@ -28,7 +28,7 @@
             </ul>
         </div>
     </div>
-    
+
 
 {% endblock %}
 
@@ -39,7 +39,8 @@
 	      		<div class="col-md-9 col-sm-9">
 	        		<h3>{{subject}}</h3>
 	      		</div>
-	      		{% if user|has_role:'system_admin' or user in subject.professors %}
+						{% professor_subject subject user as subject_professor%}
+	      		{% if subject_professor %}
 		         	 <div class="col-xs-4 col-md-3 divMoreActions">
 			            <div class="btn-group">
 			              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -71,19 +72,20 @@
 	      </div>
 	    </div>
 	</div>
-	
+
 	{% for topic in topics %}
-		{% if user|has_role:'system_admin' or topic.owner == user%}
+		{% professor_subject topic.subject user as topic_professor%}
+		{% if topic_professor %}
 			{% include "subject/form_view_teacher.html" %}
 		{% else %}
 			{% include "subject/form_view_student.html" %}
 		{% endif %}
 	{% endfor %}
-
-	{% if user|has_role:'system_admin' or topic.owner == user%}
+	{% professor_subject subject user as professor_sub %}
+	{% if professor_sub %}
 		<div class="form-group">
             <a href="{% url 'course:create_topic' subject.slug %}" data-toggle="modal" data-target="" class="btn btn-primary btn-lg btn-block btn-raised" name="create_topic">{% trans "Create Topic" %}<div class="ripple-container"></div></a>
           </div>
-	{% endif %}	
+	{% endif %}
 
 {% endblock %}
