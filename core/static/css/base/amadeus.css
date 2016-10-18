@@ -1,3 +1,7 @@
+.clearfix{
+  clear: both;
+}
+
 .navbar .logo {position: absolute; top: 6px; text-align: center; height: 48px; width: 48px;}
 
 /* Modal */
