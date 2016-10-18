@@ -1,4 +1,4 @@
-var modal = {
+var Modal = {
   get: function (url, id_modal, id_div_modal){
     $.get(url, function(data){
       if($(id_modal).length){
@@ -11,3 +11,4 @@ var modal = {
     });
   }
 };
+alert("req");

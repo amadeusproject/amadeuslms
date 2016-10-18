@@ -145,6 +145,8 @@ class UpdatePoll(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 		context['subject'] = poll.topic.subject
 		context['subjects'] = poll.topic.subject.course.subjects.all()
 
+		print (self.request.user)
+
 		answers = {}
 		for answer in poll.answers.all():
 			# print (key.answer)

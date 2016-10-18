@@ -28,7 +28,7 @@
         </div>
     </div>
 
-{% if user|has_role:'professor, system_admin' %}
+{% if user|has_role:'professor' or user|has_role:'system_admin' %}
 
     <div class="panel panel-primary navigation">
     <div class="panel-heading">
@@ -284,7 +284,7 @@
   {% endif %}
 
 {% if  user|has_role:'professor' or user|has_role:'system_admin' %}
-  
+
     <div class="form-group">
     <a href="#" data-toggle="modal" data-target="" class="btn btn-primary btn-lg btn-block btn-raised">{% trans 'Create Subject' %}<div class="ripple-container"></div></a>
   </div>
@@ -316,4 +316,3 @@
 </div>
 
 {% endblock %}
-
