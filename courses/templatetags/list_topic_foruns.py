@@ -51,3 +51,21 @@ def list_topic_file_edit(request, topic):
     context['topic'] = topic
 
     return context
+
+@register.inclusion_tag('topic/link_topic_list_edit.html')
+def list_topic_link_edit(request,topic):
+    context = {
+        'request':request
+    }
+    context['links'] = Link.objects.filter(topic = topic)
+    context['slug'] = topic.slug
+    return context
+
+@register.inclusion_tag('topic/link_topic_list.html')
+def list_topic_link(request,topic):
+    context = {
+        'request':request
+    }
+    context['links'] = Link.objects.filter(topic = topic)
+    context['slug'] = topic.slug
+    return context
