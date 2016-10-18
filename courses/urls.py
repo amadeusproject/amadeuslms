@@ -30,6 +30,7 @@ urlpatterns = [
 	url(r'^exam/', include('exam.urls', namespace = 'exam')),
 	url(r'^files/', include('files.urls', namespace = 'file')),
 	url(r'^upload-material/$', views.UploadMaterialView.as_view(), name='upload_material'),
+	url(r'^links/',include('links.urls',namespace = 'links')),
 
 
 
