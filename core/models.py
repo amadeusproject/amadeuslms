@@ -4,13 +4,13 @@ from users.models import User
 from autoslug.fields import AutoSlugField
 # Create your models here.
 
-class MymeType(models.Model):
+class MimeType(models.Model):
     typ = models.CharField(_('Type'), max_length=100, unique=True)
     icon = models.CharField(_('Icon'), max_length=50, unique=True)
 
     class Meta:
-        verbose_name= _('Amadeus Myme Type')
-        verbose_name_plural = _('Amadeus Myme Types')
+        verbose_name= _('Amadeus Mime Type')
+        verbose_name_plural = _('Amadeus Mime Types')
 
     def get_icon(self, type):
         pass
