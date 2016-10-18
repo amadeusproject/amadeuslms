@@ -115,10 +115,6 @@ class ForumViewTestCase (TestCase):
 		self.client_student = Client()
 		self.client_student.login (username='student', password='testing')
 
-		
-
-
-		self.update_url = reverse('course:forum:update', kwargs={'pk':self.forum.pk})
 
 		self.createPost_url = reverse('course:forum:create_post')
 		self.updatePost_url = reverse('course:forum:update_post', kwargs={'pk':self.post.pk})
@@ -218,21 +214,45 @@ class ForumViewTestCase (TestCase):
 ######################### UpdateForumView #########################
 
 	def test_UpdateForum_view_ok (self):
-		response = self.client.get(self.update_url)
-		self.assertEquals(response.status_code, 200)
-		self.assertTemplateUsed(response, 'forum/forum_form.html')
+		url = reverse('course:forum:update', kwargs={'pk':self.forum.pk})
 
-	def test_UpdateForum_context(self):		
-		response = self.client.get(self.update_url)
+		response = self.client.get(url)
+		self.assertEquals(response.status_code, 200)
+
+		response = self.client_professor.get(url)
+		self.assertEquals(response.status_code, 200)
+
+		response = self.client_student.get(url)
+		self.assertEquals(response.status_code, 200)
+		
+
+	def test_UpdateForum_context(self):
+		url = reverse('course:forum:update', kwargs={'pk':self.forum.pk})
+
+		response = self.client.get(url)
+		self.assertTrue('form' in response.context)
+
+		response = self.client_professor.get(url)
+		self.assertTrue('form' in response.context)
+
+		response = self.client_student.get(url)
 		self.assertTrue('form' in response.context)
 
 	def test_UpdateForum_form_error (self):
+		url = reverse('course:forum:update', kwargs={'pk':self.forum.pk})
 		data = {'name':'', 'limit_date': '', 'description':''}
 
-		response = self.client.post(self.update_url, data)
+		response = self.client.post(url, data)
+		self.assertEquals (response.status_code, 400)
+
+		response = self.client_professor.post(url, data)
+		self.assertEquals (response.status_code, 400)
+
+		response = self.client_student.post(url, data)
 		self.assertEquals (response.status_code, 400)
 
 	def test_UpdateForum_form_ok (self):
+		url = reverse('course:forum:update', kwargs={'pk':self.forum.pk})
 		data = {
 		'name':'Forum Updated', 
 		'limit_date': '2017-10-05', 
@@ -240,10 +260,25 @@ class ForumViewTestCase (TestCase):
 		'topic':str(self.topic.id)
 		}
 
-		response = self.client.post(self.update_url, data)
+		self.assertEquals(Forum.objects.all()[0].name, 'forum test')
+		response = self.client.post(url, data)
 		self.assertEquals (response.status_code, 302)
-
+		self.assertEquals(Forum.objects.all()[0].name, 'Forum Updated')
 		forum = Forum.objects.get(name='Forum Updated')
+
+		data['name'] = 'Forum Updated as professor'
+		self.assertEquals(Forum.objects.all()[0].name, 'Forum Updated')
+		response = self.client_professor.post(url, data)
+		self.assertEquals (response.status_code, 302)
+		self.assertEquals(Forum.objects.all()[0].name, 'Forum Updated as professor')
+		forum = Forum.objects.get(name='Forum Updated as professor')
+
+		data['name'] = 'Forum Updated as student'
+		self.assertEquals(Forum.objects.all()[0].name, 'Forum Updated as professor')
+		response = self.client_student.post(url, data)
+		self.assertEquals (response.status_code, 302)
+		self.assertEquals(Forum.objects.all()[0].name, 'Forum Updated as student')
+		forum = Forum.objects.get(name='Forum Updated as student')
 
 ######################### CreatePostView #########################
 
