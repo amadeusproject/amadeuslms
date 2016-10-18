@@ -102,7 +102,7 @@ def processNotification(self, notificationId):
 def getNotifications(request):
 	context = {}
 	if request.user.is_authenticated:
-		
+
 		steps = int(request.GET['steps'])
 		amount = int(request.GET['amount'])
 		notifications = Notification.objects.filter(user= request.user, read=False).order_by('-datetime')[steps:steps+amount]
@@ -110,18 +110,6 @@ def getNotifications(request):
 	else: #go to login page
 		return HttpResponse('teste')
 
-	
+
 	html = render_to_string("notifications.html", context)
-	print(html)
 	return HttpResponse(html)
-	 
-
-
-
-# class LoginClass(LoginView):
-# 	template_name='index.html'
-#
-# 	def get_context_data(self, **kwargs):
-# 		context = super(LoginClass,self).get_context_data(**kwargs)
-# 		print ("deu certo")
-# 		return context

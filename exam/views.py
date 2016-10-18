@@ -67,7 +67,6 @@ class ViewExam(LoginRequiredMixin,generic.DetailView):
 		context['answers'] = answers
 		context['keys'] = keys
 
-		print (context)
 		return context
 
 
@@ -170,7 +169,6 @@ class UpdateExam(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 
 		answers = {}
 		for answer in exam.answers.all():
-			# print (key.answer)
 			answers[answer.order] = answer.answer
 
 		keys = sorted(answers)

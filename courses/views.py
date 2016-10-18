@@ -40,9 +40,9 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 		else:
 			list_courses = Course.objects.filter(students__name = self.request.user.name)
 			categorys_courses = CourseCategory.objects.filter(course_category__students__name = self.request.user.name).distinct()
-		
+
 		courses_category = Course.objects.filter(category__name = self.request.GET.get('category'))
-		
+
 		none = None
 		q = self.request.GET.get('category', None)
 		if q is  None:
@@ -58,7 +58,7 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 		    list_courses = paginator.page(1)
 		except EmptyPage:
 		    list_courses = paginator.page(paginator.num_pages)
-		
+
 		context['courses_category'] = courses_category
 		context['list_courses'] = list_courses
 		context['categorys_courses'] = categorys_courses
@@ -74,7 +74,6 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 		    object_list = Course.objects.filter(name__icontains = name)
 		else:
 		    object_list = Course.objects.all()
-		print(object_list)
 		return object_list
 
 class CreateCourseView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,generic.edit.CreateView):
@@ -159,7 +158,6 @@ class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 		elif has_role(self.request.user,'professor'):
 			courses = self.request.user.courses.all()
 		context['courses'] = courses
-		print (courses,"jdhksjbjs")
 		context['title'] = course.name
 
 		return context
@@ -198,15 +196,15 @@ class CourseView(LoginRequiredMixin, NotificationMixin, generic.DetailView):
 			categorys_subjects = CategorySubject.objects.filter(subject_category__professors__name = self.request.user.name).distinct()
 		else:
 			categorys_subjects = CategorySubject.objects.filter(subject_category__students__name = self.request.user.name).distinct()
-		
+
 		subjects_category = Subject.objects.filter(category__name = self.request.GET.get('category'))
-		
+
 		none = None
 		q = self.request.GET.get('category', None)
 		if q is  None:
 			none = True
 		context['none'] = none
-		
+
 		context['subjects_category'] = subjects_category
 		context['categorys_subjects'] = categorys_subjects
 		context['courses'] = courses
@@ -329,14 +327,14 @@ class SubjectsView(LoginRequiredMixin, generic.ListView):
 		else:
 			context['files'] = TopicFile.objects.filter(students__name = self.request.user.name)
 		return context
-		
+
 class UploadMaterialView(LoginRequiredMixin, generic.edit.CreateView):
-	login_url = reverse_lazy("core:home")	
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 
 	template_name = 'files/create_file.html'
 	form_class = FileForm
-	
+
 	def form_invalid(self, form):
 		context = super(UploadMaterialView, self).form_invalid(form)
 		context.status_code = 400
@@ -345,7 +343,7 @@ class UploadMaterialView(LoginRequiredMixin, generic.edit.CreateView):
 
 	def get_success_url(self):
 		self.success_url = reverse('course:view_subject', args = (self.object.slug, ))
-		
+
 		return self.success_url
 
 class TopicsView(LoginRequiredMixin, generic.ListView):
