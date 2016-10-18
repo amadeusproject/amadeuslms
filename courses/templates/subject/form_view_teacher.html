@@ -4,6 +4,7 @@
         <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
         <script src="{% static 'js/file.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
+        <script type = "text/javascript" src="{% static 'link.js' %}"></script>
     {% endblock %}
 
     <div class="panel-group accordion ui-accordion ui-widget ui-helper-reset ui-sortable" role="tablist" aria-multiselectable="false">
@@ -54,7 +55,7 @@
                   <div class="dropdown">
                     <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
                     <ul class="dropdown-menu" aria-labelledby="dLabel">
-                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createLinksModal">Create a Link<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 54.5312px; top: 22px; background-color: rgb(0, 150, 136); transform: scale(20);"></div></div></a></li>
+                        <li><a href=" javascript:get_modal_link('{% url 'course:links:create_link' %}', '#createLinksModal','#divModalLink')  ">Create a Link<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 54.5312px; top: 22px; background-color: rgb(0, 150, 136); transform: scale(20);"></div></div></a></li>
                         <li>
                             <a href="javascript:get_modal_file('{% url 'course:file:create_file' topic.slug %}', '#fileModal', '#divModalFile')">
                                 {% trans "Create a file" %}
@@ -69,7 +70,7 @@
                 </div>
                 <ul>
                     {% list_topic_file request topic %}
-                    <li><i class="fa fa-link" aria-hidden="true"></i>  <a href="#" data-toggle="modal" data-target="#linksModal">Link 1</a></li>
+                    {% list_topic_link request topic%}
                     <li><i class="fa fa-file-code-o" aria-hidden="true"></i> <a href="#" data-toggle="modal" data-target="#embedModal">EMBED Material</a></li>
                 </ul>
               </div>
@@ -113,12 +114,13 @@
                   <div class="dropdown">
                     <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
                     <ul class="dropdown-menu" aria-labelledby="dLabel">
-                      <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createLinksModal">Create a Link</a></li>
+                      <li><a href=" javascript:get_modal_link('{% url 'course:links:create_link' %}', '#createLinksModal','#divModalLink')  ">Create a Link</a></li>
                       <li><a href="javascript:void(0)" data-toggle="modal" data-target="#fileModal">Create a file</a></li>
                     </ul>
                   </div>
                 </div>
                 <ul>
+                    {% list_topic_link_edit request topic%}
                     {% list_topic_file_edit request topic %}
                 </ul>
               </div>
@@ -174,31 +176,6 @@
       </div>
     </div>
     <!-- END -->
-    <!--MODAL VIEW LINK-->
-    <div class="modal fade" id="linksModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-            <h4 class="modal-title" id="myModalLabel">Links</h4>
-          </div>
-          <div class="modal-body">
-            <!-- Card -->
-            <article class="card animated fadeInLeft">
-               <img class="card-img-top img-responsive" src="https://www.python.org/static/opengraph-icon-200x200.png" align="left">
-               <div class="card-block">
-                  <b class="card-title">Python</b><p></p>
-                  <b class="text-muted">Guido van Rossum</b>
-                  <p class="card-text"> </p><p>Python is a widely used high-level, general-purpose, interpreted, dynamic programming language. Its design philosophy emphasizes code readability, and its syntax allows programmers to express concepts in fewer lines of code than possible in languages such as C++ or Java.</p>
-                  <a href="https://www.python.org/" class="btn btn-primary">Read more</a>
-               </div>
-            </article>
-            <!-- .end Card -->
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- EndModal -->
     {% professor_subject topic.subject user as professor_links %}
     {% if professor_links%}
         {% include "links/create_link.html" %}
