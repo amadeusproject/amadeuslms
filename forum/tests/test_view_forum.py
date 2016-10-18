@@ -10,7 +10,6 @@ from forum.models import Forum, Post, PostAnswer
 class ForumViewTestCase (TestCase):
 
 	def setUp(self):
-		self.client = Client()
 
 		self.user = User.objects.create_user(
 			username = 'test',
@@ -20,6 +19,26 @@ class ForumViewTestCase (TestCase):
 			password = 'testing'
 		)
 		assign_role(self.user, 'system_admin')
+
+		self.user_professor = User.objects.create_user(
+            username = 'professor',
+            email = 'professor@amadeus.com',
+            is_staff = False,
+            is_active = True,
+            password = 'testing',
+            type_profile = 1
+        )
+		assign_role(self.user_professor, 'professor')
+
+		self.user_student = User.objects.create_user(
+            username = 'student',
+            email = 'student@amadeus.com',
+            is_staff = False,
+            is_active = True,
+            password = 'testing',
+            type_profile = 2
+        )
+		assign_role(self.user_student, 'student')
 
 		self.category = CourseCategory.objects.create(
 			name = 'Category test',
@@ -87,10 +106,18 @@ class ForumViewTestCase (TestCase):
         )
 		self.answer.save()
 
-		
+		self.client = Client()
 		self.client.login(username='test', password='testing')
-		self.index_url = reverse('course:forum:view', kwargs={'slug':self.forum.slug})
-		self.create_url = reverse('course:forum:create')
+		
+		self.client_professor = Client()
+		self.client_professor.login (username='professor', password='testing')
+
+		self.client_student = Client()
+		self.client_student.login (username='student', password='testing')
+
+		
+
+
 		self.update_url = reverse('course:forum:update', kwargs={'pk':self.forum.pk})
 
 		self.createPost_url = reverse('course:forum:create_post')
@@ -99,42 +126,94 @@ class ForumViewTestCase (TestCase):
 ######################### ForumDetailView #########################
 
 	def test_ForumDetail_view_ok (self):
-		response = self.client.get(self.index_url)
+		url = reverse('course:forum:view', kwargs={'slug':self.forum.slug})
+        
+		response = self.client.get(url)
 		self.assertEquals(response.status_code, 200)
-		self.assertTemplateUsed(response, 'forum/forum_view.html')
+		
+		response = self.client_professor.get(url)
+		self.assertEquals(response.status_code, 200)
+
+		response = self.client_student.get(url)
+		self.assertEquals(response.status_code, 200)
 
 	def test_ForumDetail_context(self):
-		response = self.client.get(self.index_url)
+		url = reverse('course:forum:view', kwargs={'slug':self.forum.slug})
+
+		response = self.client.get(url)
 		self.assertTrue('forum' in response.context)
+
+		response = self.client_professor.get(url)
+		self.assertTrue('forum' in response.context)
+
+		response = self.client_student.get(url)
+		self.assertTrue('forum' in response.context)
+
 
 ######################### CreateForumView #########################
 
 	def test_CreateForum_view_ok (self):
-		response = self.client.get(self.create_url)
+		url = reverse('course:forum:create')
+
+		response = self.client.get(url)
 		self.assertEquals(response.status_code, 200)
-		self.assertTemplateUsed(response, 'forum/forum_form.html')
 		
-	def test_CreateForum_context(self):		
-		response = self.client.get(self.create_url)
+		response = self.client_professor.get(url)
+		self.assertEquals(response.status_code, 200)
+
+		response = self.client_student.get(url)
+		self.assertEquals(response.status_code, 200)
+		
+	def test_CreateForum_context(self):
+		url = reverse('course:forum:create')		
+		
+		response = self.client.get(url)
+		self.assertTrue('form' in response.context)
+
+		response = self.client_professor.get(url)
+		self.assertTrue('form' in response.context)
+
+		response = self.client_student.get(url)
 		self.assertTrue('form' in response.context)
 
 	def test_CreateForum_form_error (self):
+		url = reverse('course:forum:create')
 		data = {'name':'', 'limit_date': '', 'description':'', 'topic':''}
-		response = self.client.post(self.create_url, data)
+		list_forum = Forum.objects.all().count()
+
+		response = self.client.post(url, data)
 		self.assertEquals (response.status_code, 400)
+		self.assertEquals(list_forum, Forum.objects.all().count())
+
+		response = self.client_professor.post(url, data)
+		self.assertEquals (response.status_code, 400)
+		self.assertEquals(list_forum, Forum.objects.all().count())
+
+		response = self.client_student.post(url, data)
+		self.assertEquals (response.status_code, 400)
+		self.assertEquals(list_forum, Forum.objects.all().count())
 
 	def test_CreateForum_form_ok (self):
+		url = reverse('course:forum:create')
 		data = {
 		'name':'Forum Test2', 
 		'limit_date': '2017-10-05', 
 		'description':'Test', 
 		'topic':str(self.topic.id)
 		}
+		list_forum = Forum.objects.all().count()
 
-		response = self.client.post(self.create_url, data)
+		response = self.client.post(url, data)
 		self.assertEquals (response.status_code, 302)
+		self.assertEquals(list_forum+1, Forum.objects.all().count())
 
-		forum = Forum.objects.get(name='Forum Test2')
+		response = self.client_professor.post(url, data)
+		self.assertEquals (response.status_code, 302)
+		self.assertEquals(list_forum+2, Forum.objects.all().count())
+
+		response = self.client_student.post(url, data)
+		self.assertEquals (response.status_code, 302)
+		self.assertEquals(list_forum+3, Forum.objects.all().count())
 
 ######################### UpdateForumView #########################
 
