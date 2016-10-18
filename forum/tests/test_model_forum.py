@@ -78,8 +78,8 @@ class ForumTestCase (TestCase):
 
     def test_create_forum (self):
         list_forum = Forum.objects.all().count()
-
-    	forum = Forum.objects.create(
+        
+        forum = Forum.objects.create(
     		topic=self.topic,
     		name = 'forum test2',
     		description = 'description of the forum test',
@@ -87,9 +87,9 @@ class ForumTestCase (TestCase):
         	modification_date = '2016-10-03',
             limit_date = '2017-10-05',
     	)
-    	forum.save()
+        forum.save()
 
-    	self.assertEquals(list_forum+1, Forum.objects.all().count())
+        self.assertEquals(list_forum+1, Forum.objects.all().count())
 
     def test_update_forum(self):
         list_forum = Forum.objects.all().count()        
