@@ -94,6 +94,8 @@ class PostTestCase (TestCase):
         self.post_student.save()
 
     def test_create_post_professor (self):
+        list_post = Post.objects.all().count()
+
         post_professor = Post.objects.create(
             user = self.user_professor,
             message = 'posting',
@@ -103,9 +105,11 @@ class PostTestCase (TestCase):
         )
         post_professor.save()
 
-        self.assertEquals (post_professor, Post.objects.get(user=self.user_professor, message='posting'))
+        self.assertEquals(list_post+1, Post.objects.all().count())
 
     def test_create_post_student (self):
+        list_post = Post.objects.all().count()
+
         post_student = Post.objects.create(
             user = self.user_student,
             message = 'posting',
@@ -115,34 +119,35 @@ class PostTestCase (TestCase):
         )
         post_student.save()
 
-        self.assertEquals (post_student, Post.objects.get(user=self.user_student, message='posting'))        
+        self.assertEquals(list_post+1, Post.objects.all().count())        
 
     def test_update_post_professor (self):
+        list_post = Post.objects.all().count()
         self.post_professor.message = 'updating a post as professor'
         self.post_professor.save()
 
-        self.assertEquals(self.post_professor, Post.objects.all()[1]) 
+        self.assertEquals(self.post_professor, Post.objects.get(message='updating a post as professor'))
+        self.assertEquals(list_post, Post.objects.all().count()) 
 
     def test_update_post_student (self):
+        list_post = Post.objects.all().count()
         self.post_student.message = 'updating a post as student'
         self.post_student.save()
 
-        self.assertEquals(self.post_student, Post.objects.all()[1])
+        self.assertEquals(self.post_student, Post.objects.get(message='updating a post as student'))
+        self.assertEquals(list_post, Post.objects.all().count())
 
     def test_delete_post_professor (self):
+        list_post = Post.objects.all().count()
+
         post = Post.objects.get(user=self.user_professor, message='posting a test on forum as professor')
         self.post_professor.delete()
 
-        try:
-            post = Post.objects.get(user=self.user_professor, message='posting a test on forum as professor')
-        except:
-            pass
+        self.assertEquals(list_post-1, Post.objects.all().count())
 
     def test_delete_post_student (self):
+        list_post = Post.objects.all().count()
         post = Post.objects.get(user=self.user_student, message='posting a test on forum as student')
         self.post_student.delete()
 
-        try:
-            post = Post.objects.get(user=self.user_student, message='posting a test on forum as student')
-        except:
-            pass
+        self.assertEquals(list_post-1, Post.objects.all().count())

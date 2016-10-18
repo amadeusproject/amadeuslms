@@ -1,5 +1,6 @@
 from django import template
 
+from links.models import Link
 from forum.models import Forum
 from poll.models import Poll
 from files.models import TopicFile
@@ -50,4 +51,22 @@ def list_topic_file_edit(request, topic):
     context['files'] = TopicFile.objects.filter(topic = topic)
     context['topic'] = topic
 
+    return context
+
+@register.inclusion_tag('topic/link_topic_list_edit.html')
+def list_topic_link_edit(request,topic):
+    context = {
+        'request':request
+    }
+    context['links'] = Link.objects.filter(topic = topic)
+    context['slug'] = topic.slug
+    return context
+
+@register.inclusion_tag('topic/link_topic_list.html')
+def list_topic_link(request,topic):
+    context = {
+        'request':request
+    }
+    context['links'] = Link.objects.filter(topic = topic)
+    context['slug'] = topic.slug
     return context
