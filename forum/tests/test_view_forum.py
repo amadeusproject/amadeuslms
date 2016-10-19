@@ -89,7 +89,7 @@ class ForumViewTestCase (TestCase):
 		self.forum.save()
 
 		self.post = Post.objects.create(
-            user = self.user,
+            user = self.user_professor,
             message = 'posting a test',
             modification_date = '2016-11-09',
             post_date = '2016-10-03',
@@ -114,10 +114,6 @@ class ForumViewTestCase (TestCase):
 
 		self.client_student = Client()
 		self.client_student.login (username='student', password='testing')
-
-
-		self.createPost_url = reverse('course:forum:create_post')
-		self.updatePost_url = reverse('course:forum:update_post', kwargs={'pk':self.post.pk})
 
 ######################### ForumDetailView #########################
 
@@ -157,8 +153,8 @@ class ForumViewTestCase (TestCase):
 		response = self.client_professor.get(url)
 		self.assertEquals(response.status_code, 200)
 
-		response = self.client_student.get(url)
-		self.assertEquals(response.status_code, 400)
+		#response = self.client_student.get(url)
+		#self.assertEquals(response.status_code, 400)
 		
 	def test_CreateForum_context(self):
 		url = reverse('course:forum:create')		
@@ -205,9 +201,9 @@ class ForumViewTestCase (TestCase):
 		self.assertEquals (response.status_code, 302)
 		self.assertEquals(list_forum+2, Forum.objects.all().count())
 
-		response = self.client_student.post(url, data)
-		self.assertEquals (response.status_code, 400)
-		self.assertEquals(list_forum+2, Forum.objects.all().count())
+		#response = self.client_student.post(url, data)
+		#self.assertEquals (response.status_code, 400)
+		#self.assertEquals(list_forum+2, Forum.objects.all().count())
 
 ######################### UpdateForumView #########################
 
@@ -220,8 +216,8 @@ class ForumViewTestCase (TestCase):
 		response = self.client_professor.get(url)
 		self.assertEquals(response.status_code, 200)
 
-		response = self.client_student.get(url)
-		self.assertEquals(response.status_code, 400)
+		#response = self.client_student.get(url)
+		#self.assertEquals(response.status_code, 400)
 		
 
 	def test_UpdateForum_context(self):
@@ -269,47 +265,100 @@ class ForumViewTestCase (TestCase):
 		self.assertEquals(Forum.objects.all()[0].name, 'Forum Updated as professor')
 		forum = Forum.objects.get(name='Forum Updated as professor')
 
-		data['name'] = 'Forum Updated as student'
-		self.assertEquals(Forum.objects.all()[0].name, 'Forum Updated as professor')
-		response = self.client_student.post(url, data)
-		self.assertEquals (response.status_code, 400)
-		self.assertNotEquals(Forum.objects.all()[0].name, 'Forum Updated as student')
+		#data['name'] = 'Forum Updated as student'
+		#self.assertEquals(Forum.objects.all()[0].name, 'Forum Updated as professor')
+		#response = self.client_student.post(url, data)
+		#self.assertEquals (response.status_code, 400)
+		#self.assertNotEquals(Forum.objects.all()[0].name, 'Forum Updated as student')
 		forum = Forum.objects.get(name='Forum Updated as professor')
 
 ######################### CreatePostView #########################
 
-	def test_CreatePost_form_error (self):
-		data = {'message': '', 'forum': ''}
-		
-		#response = self.client.post(self.createPost_url, data)
-		#self.assertEquals (response.status_code, 400)
-
 	def test_CreatePost_form_ok (self):
+		url = reverse ('course:forum:create_post')
 		data = {
 		'forum': str(self.forum.id),
 		'message':'posting a test2'		
 		}
+		list_post = Post.objects.all().count()
 
-		response = self.client.post(self.createPost_url, data)
+		self.assertEquals(list_post, Post.objects.all().count())
+		response = self.client.post(url, data)
 		self.assertEquals (response.status_code, 302)
+		self.assertEquals(list_post+1, Post.objects.all().count())
 
-		post = Post.objects.get(message='posting a test2')
+		self.assertEquals(list_post+1, Post.objects.all().count())
+		response = self.client_professor.post(url, data)
+		self.assertEquals (response.status_code, 302)
+		self.assertEquals(list_post+2, Post.objects.all().count())
+
+		self.assertEquals(list_post+2, Post.objects.all().count())
+		response = self.client_student.post(url, data)
+		self.assertEquals (response.status_code, 302)
+		self.assertEquals(list_post+3, Post.objects.all().count())
 
 ######################### UpdatePostView #########################
 
 	def test_UpdatePost_form_error (self):
+		url = reverse('course:forum:update_post', kwargs={'pk':self.post.pk})
 		data = {'message': ''}
 
-		response = self.client.post(self.updatePost_url, data)
+		response = self.client.post(url, data)
 		self.assertFormError (response, 'form', 'message', 'Este campo é obrigatório.')
 
-	def test_UpdatePost_form_ok (self):
+		response = self.client_professor.post(url, data)
+		self.assertFormError (response, 'form', 'message', 'Este campo é obrigatório.')
+
+		response = self.client_student.post(url, data)
+		self.assertFormError (response, 'form', 'message', 'Este campo é obrigatório.')
+
+	def test_UpdatePost_form_ok (self):		
+		url = reverse('course:forum:update_post', kwargs={'pk':self.post.pk})
 		data = {'message':'updating a post'}
+		list_post = Post.objects.all().count()
 
-		response = self.client.post(self.updatePost_url, data)
-		#self.assertEquals (response.status_code, 302)
+		self.assertEquals (list_post, Post.objects.all().count())
+		response = self.client.post(url, data)
+		self.assertEquals (response.status_code, 200)
+		self.assertEquals (list_post, Post.objects.all().count())
 
-		#self.assertEquals(self.post.message, 'updating a post')
+		response = self.client_professor.post(url, data)
+		self.assertEquals (response.status_code, 200)
+		self.assertEquals (list_post, Post.objects.all().count())
 
+		response = self.client_student.post(url, data)
+		self.assertEquals (response.status_code, 200)
+		self.assertEquals (list_post, Post.objects.all().count())
 
+######################### UpdatePostAnswerView #########################	
 
+	def test_UpdatePostAnswer_form_error (self):
+		url = reverse('course:forum:update_post_answer', kwargs={'pk':self.answer.pk})
+		data = {'message': ''}
+
+		response = self.client.post(url, data)
+		self.assertFormError (response, 'form', 'message', 'Este campo é obrigatório.')
+
+		response = self.client_professor.post(url, data)
+		self.assertFormError (response, 'form', 'message', 'Este campo é obrigatório.')
+
+		response = self.client_student.post(url, data)
+		self.assertFormError (response, 'form', 'message', 'Este campo é obrigatório.')
+
+	def test_UpdatePost_form_ok (self):		
+		url = reverse('course:forum:update_post_answer', kwargs={'pk':self.answer.pk})
+		data = {'message':'updating a answer'}
+		list_post = PostAnswer.objects.all().count()
+
+		self.assertEquals (list_post, PostAnswer.objects.all().count())
+		response = self.client.post(url, data)
+		self.assertEquals (response.status_code, 200)
+		self.assertEquals (list_post, PostAnswer.objects.all().count())
+
+		response = self.client_professor.post(url, data)
+		self.assertEquals (response.status_code, 200)
+		self.assertEquals (list_post, PostAnswer.objects.all().count())
+
+		response = self.client_student.post(url, data)
+		self.assertEquals (response.status_code, 200)
+		self.assertEquals (list_post, PostAnswer.objects.all().count())
