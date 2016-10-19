@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from rolepermissions.verifications import has_role
 from django.db.models import Q
 from rolepermissions.verifications import has_object_permission
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 
 from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm,TopicForm,ActivityForm
 from .models import Course, Subject, CourseCategory,Topic, SubjectCategory,Activity, CategorySubject
@@ -226,6 +226,15 @@ class DeleteView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.De
 		messages.success(self.request, _('Course deleted successfully!'))
 
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
+
+@login_required
+def subscribe_course(request, slug):
+	course = get_object_or_404(Course, slug = slug)
+
+	if course.students.add(request.user):
+		return JsonResponse({"status": "ok", "message": _("Successfully subscribed to the course!")})
+	else:
+		return JsonResponse({"status": "erro", "message": _("An error has occured. Could not subscribe to this course, try again later")})
 
 class FilteredView(LoginRequiredMixin, generic.ListView):
 

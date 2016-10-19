@@ -8,6 +8,7 @@ urlpatterns = [
 	url(r'^edit/(?P<slug>[\w_-]+)/$', views.UpdateCourseView.as_view(), name='update'),
 	url(r'^(?P<slug>[\w_-]+)/$', views.CourseView.as_view(), name='view'),
 	url(r'^delete/(?P<slug>[\w_-]+)/$', views.DeleteCourseView.as_view(), name='delete'),
+	url(r'^register/(?P<slug>[\w_-]+)/$', views.subscribe_course, name='subscribe'),
 	url(r'^category/(?P<slug>[\w_-]+)/$', views.FilteredView.as_view(), name='filter'),
 	url(r'^categories/view/$', views.IndexCatView.as_view(), name='manage_cat'),
 	url(r'^categories/create/$', views.CreateCatView.as_view(), name="create_cat"),
@@ -31,7 +32,4 @@ urlpatterns = [
 	url(r'^files/', include('files.urls', namespace = 'file')),
 	url(r'^upload-material/$', views.UploadMaterialView.as_view(), name='upload_material'),
 	url(r'^links/',include('links.urls',namespace = 'links')),
-
-
-
 ]
