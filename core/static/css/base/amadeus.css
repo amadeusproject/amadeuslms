@@ -338,3 +338,10 @@ ul, li {
 .icon_edit_remove{
   float: right;
 }
+
+
+/* core/index.html classes*/
+
+.logo-login{
+  margin-top: 15px;
+  margin-bottom: 15px;
