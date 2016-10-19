@@ -536,7 +536,7 @@ class DeleteSubjectView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 		return reverse_lazy('course:view', kwargs={'slug' : self.object.course.slug})
 
 @login_required
-def subscribe_course(request, slug):
+def subscribe_subject(request, slug):
 	subject = get_object_or_404(Subject, slug = slug)
 
 	if request.user.courses_student.filter(slug = slug).exists():
