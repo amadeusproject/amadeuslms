@@ -535,6 +535,17 @@ class DeleteSubjectView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 	def get_success_url(self):
 		return reverse_lazy('course:view', kwargs={'slug' : self.object.course.slug})
 
+@login_required
+def subscribe_course(request, slug):
+	subject = get_object_or_404(Subject, slug = slug)
+
+	if request.user.courses_student.filter(slug = slug).exists():
+		if subject.students.add(request.user):
+			return JsonResponse({"status": "ok", "message": _("Successfully subscribed to the subject!")})
+		else:
+			return JsonResponse({"status": "erro", "message": _("An error has occured. Could not subscribe to this subject, try again later")})
+	else:
+		return JsonResponse({"status": "erro", "message": _("You're not subscribed in the course yet.")})
 
 class IndexSubjectCategoryView(LoginRequiredMixin, generic.ListView):
 	allowed_roles = ['professor', 'system_admin']
