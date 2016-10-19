@@ -31,9 +31,9 @@ class Answer(models.Model):
 
 class AnswersStudent(models.Model):
     status = models.BooleanField(_("Answered"), default=False)
-    exam = models.ForeignKey(Exam, verbose_name = _('Exam'), related_name='answers_stundet')
-    answer = models.ManyToManyField(Answer,verbose_name = _('Answers Students'), related_name='answers_stundet')
-    student = models.ForeignKey(User, verbose_name = _('Student'), related_name='answers_stundent')
+    exam = models.ForeignKey(Exam, verbose_name = _('Exam'), related_name='student_exam')
+    answer = models.ManyToManyField(Answer,verbose_name = _('Answers Students'), related_name='student_answer')
+    student = models.ForeignKey(User, verbose_name = _('Student'), related_name='student')
     answered_in = models.DateTimeField(_("Answered Date"),auto_now=True)
 
     class Meta:
