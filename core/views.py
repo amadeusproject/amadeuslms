@@ -18,7 +18,7 @@ from .forms import RegisterUserForm
 from .decorators import log_decorator, notification_decorator
 
 from users.models import User
-
+from courses.models import Course, CourseCategory
 
 def index(request):
 	context = {
@@ -113,3 +113,9 @@ def getNotifications(request):
 
 	html = render_to_string("notifications.html", context)
 	return HttpResponse(html)
+
+def guest (request):
+	context = {
+		'courses': Course.objects.filter(public=True)
+	}
+	return render(request, 'guest.html', context)

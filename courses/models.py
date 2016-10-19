@@ -46,6 +46,7 @@ class Course(models.Model):
 	category = models.ForeignKey(CourseCategory, verbose_name = _('Category'), related_name='course_category')
 	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='courses_professors')
 	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='courses_student')
+	public = models.BooleanField(_('Public'))
 
 	class Meta:
 		ordering = ('create_date','name')
