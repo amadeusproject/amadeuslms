@@ -22,14 +22,8 @@
               <form class="form-group " method="post" action="">
                 {% csrf_token %}
                 <div class="form-group is-empty">
-                  <p>
-                    Temos enviado instruções para configurar sua senha, se uma conta existe com o e-mail inserido.
-                    Você deve recebê-los em breve.
-                  </p>
-                  <p>
-                    Se você não receber um e-mail, por favor, certifique-se de que introduziu o endereço que você registrou,
-                    e verifique a pasta de spam.
-                  </p>
+                  <p>{% trans "We have sent instructions to set up your password, if an account exists with the email entered. You should receive them soon." %}</p>
+                  <p>{% trans "If you do not receive an email, please make sure you entered the address you registered, and check the spam folder." %}</p>
                 </div>
               </form>
             </div>
