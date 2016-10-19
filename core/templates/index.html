@@ -10,20 +10,19 @@
     {% endblock sidebar %}
 
 {% block content %}
-	<div class="row">
-    <div class="col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4 col-xs-4 col-xs-offset-4 col-lg-4 col-lg-offset-4 col-xl-4 col-xl-offset-4">
-      <div class="row">
-        <div class="col-sm-8 col-sm-offset-2 col-md-offset-2 col-md-8 col-xs-8 col-xs-offset-2 col-lg-offset-2 col-lg-8 col-xl-offset-2 col-xl-8">
-          </br>
-          </br>
-          <img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block " alt="logo amadeus">
-          </br>
-        </div>
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-3 col-md-4 col-md-offset-3 
+                  col-xs-4 col-xs-offset-3 col-lg-4 col-lg-offset-3  col-xl-4 col-xl-offset-3 ">
+          <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2  col-lg-8 col-lg-offset-2  col-xl-8 col-xl-offset-2">
+          
+            <img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block logo-login " alt="logo amadeus">
+            
+          </div>
       </div>
     </div>
 
-  	<div class="row ">
-      <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2 col-lg-8 col-lg-offset-2 col-xl-8 col-xl-offset-2">
+  	<div class="row">
+      <div class="col-md-6 col-sm-6 col-sm-offset-2 col-xs-6 col-xs-offset-2 col-lg-6 col-lg-offset-2 col-xl-6 col-xl-offset-2">
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
@@ -61,21 +60,18 @@
                     <div class="col-md-10 col-sm-10 col-xs-10 col-lg-10">
                         <a href="{% url 'core:password_reset' %}">{% trans "Forgot your password?" %}</a>
                     </div>
-                  {# </div> #}
-                  {# <div class="row"> #}
                     <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 text-center">
                         <a class="btn btn-flat" href="{% url 'core:guest' %}" formaction="#" style="position: initial;">{% trans 'Guest' %}</a>
                     </div>
                     <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 text-center">
                         <button type="submite" class="btn btn-flat btn-success" form="form-login" style="position: initial;">{% trans 'Login' %}</button>
                     </div>
-                  {# </div> #}
                 </div>
               </div>
           <a class="btn btn-raised btn-primary btn-block" href="{% url 'core:register' %}">{% trans 'Sign Up' %} </a>
       </div>
     </div>
-  </div>
+
 {% endblock%}
 
 

@@ -8,6 +8,7 @@ urlpatterns = [
 	url(r'^edit/(?P<slug>[\w_-]+)/$', views.UpdateCourseView.as_view(), name='update'),
 	url(r'^(?P<slug>[\w_-]+)/$', views.CourseView.as_view(), name='view'),
 	url(r'^delete/(?P<slug>[\w_-]+)/$', views.DeleteCourseView.as_view(), name='delete'),
+	url(r'^subscribe/(?P<slug>[\w_-]+)/$', views.subscribe_course, name='subscribe'),
 	url(r'^category/(?P<slug>[\w_-]+)/$', views.FilteredView.as_view(), name='filter'),
 	url(r'^categories/view/$', views.IndexCatView.as_view(), name='manage_cat'),
 	url(r'^categories/create/$', views.CreateCatView.as_view(), name="create_cat"),
@@ -18,6 +19,7 @@ urlpatterns = [
 	url(r'^subjects/create/(?P<slug>[\w_-]+)/$', views.CreateSubjectView.as_view(), name='create_subject'),
 	url(r'^subjects/update/(?P<slug>[\w_-]+)/$', views.UpdateSubjectView.as_view(), name='update_subject'),
 	url(r'^subjects/delete/(?P<slug>[\w_-]+)/$', views.DeleteSubjectView.as_view(), name='delete_subject'),
+	url(r'^subjects/subscribe/(?P<slug>[\w_-]+)/$', views.subscribe_subject, name='subscribe_subject'),
 	url(r'^topics/create/(?P<slug>[\w_-]+)/$', views.CreateTopicView.as_view(), name='create_topic'),
 	url(r'^topics/update/(?P<slug>[\w_-]+)/$', views.UpdateTopicView.as_view(), name='update_topic'),
 	url(r'^topics/createlink/$', linkviews.CreateLink.as_view(),name = 'create_link'),
@@ -31,7 +33,4 @@ urlpatterns = [
 	url(r'^files/', include('files.urls', namespace = 'file')),
 	url(r'^upload-material/$', views.UploadMaterialView.as_view(), name='upload_material'),
 	url(r'^links/',include('links.urls',namespace = 'links')),
-
-
-
 ]
