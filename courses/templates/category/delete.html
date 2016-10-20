@@ -1,64 +1,36 @@
-{% extends 'base.html' %}
-
-{% load static i18n %}
 {% load static i18n permission_tags %}
 
-{% block breadcrumbs %}
-	<ol class="breadcrumb">
-	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li class="active">{% trans 'Manage Categories' %}</li>
-	</ol>
-{% endblock %}
+<!-- Modal (remember to change the ids!!!) -->
+<div class="modal fade" id="category" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
 
-{% block sidebar %}
-	<div class="panel panel-primary navigation">
-        <div class="panel-heading">
-            <h5>{% trans 'Menu' %}</h5>
-        </div>
-        <div class="panel-body">
-            <ul class="nav nav-pills nav-stacked">
-                <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
-                <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
-            </ul>
-        </div>
+        <h4 class="modal-title" id="myModalLabel">{% trans "Delete Category" %}</h4>
+      </div>
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <!-- Put ONLY your content here!!!  -->
+		<form id="delete_form" action="" method="post">
+		  {% csrf_token %}
+		    <p>{% trans 'Are you sure you want to delete the subject' %} "{{category.name}}"?</p>
+		</form>
+      </div>
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <!-- Don't remove that!!!  -->
+        <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+        <button type="submit" id="button" form="delete_form" class="btn btn-primary btn-raised">{% trans "Delete" %}</button>
+		<script>
+		  $("#delete_form").submit(function(event) {
+		    Submite.remove("{% url 'course:delete_cat' category.slug %}",$(this).serialize(),"#category_{{category.slug}}");
+		    event.preventDefault();
+		  });
+		</script>
+      </div>
     </div>
-
-{% if user|has_role:'professor' or user|has_role:'system_admin' %}
-
-    <div class="panel panel-primary navigation">
-	    <div class="panel-heading">
-	        <h3 class="panel-title">Actions</h3>
-	    </div>
-	    <div class="panel-body">
-	        <ul class="nav nav-pills nav-stacked">
-	            <li><a href="javascript:void(0)">Replicate Course</a></li>
-	            <li><a href="{% url 'course:create' %}">Create Course</a></li>
-	            <li><a href="{% url 'course:create_cat' %}">Create Category</a></li>
-	        </ul>
-	    </div>
-	</div>
-	<div class="panel panel-primary navigation">
-	    <div class="panel-heading">
-	        <h3 class="panel-title">Category</h3>
-	    </div>
-	    <div class="panel-body">
-	        <ul class="nav nav-pills nav-stacked">
-	            <li><a href="{% url 'course:create_cat' %}">Create Category</a></li>
-	            <li><a href="{% url 'course:manage_cat' %}">List Category</a></li>
-	        </ul>
-	    </div>
-	</div>
-{% endif %}
-{% endblock %}
-
-{% block content %}
-	<div class="card card-content">
-	    <div class="card-body">
-			<form action="" method="post">{% csrf_token %}
-		    	<h1>{% trans 'Are you sure you want to delete the category' %} "{{ object }}"?</h1>
-			    <input type="submit" class="btn btn-success btn-sm" value="{% trans 'Yes' %}" />
-			    <a href="{% url 'course:manage_cat' %}" class="btn btn-danger btn-sm">{% trans 'No' %}</a>
-			</form>
-		</div>
-	</div>
-{% endblock %}
+  </div>
+</div>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{% static 'js/modal_category.js' %}"></script>

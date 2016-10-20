@@ -47,77 +47,60 @@
 	{% endblock %}
 </head>
 <body>
+	{% block nav %}
+   	<div class="navbar navbar-default">
+         		<div class="navbar-header">
+           		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+             			<span class="icon-bar"></span>
+             			<span class="icon-bar"></span>
+             			<span class="icon-bar"></span>
+           		</button>
+           		<a class="navbar-brand" href="{% url 'app:index' %}"><img class="logo" src="{% static 'img/topo-amadeus-white.png'  %}" alt="Logo"/></a>
+         		</div>
+         		<div class="navbar-collapse collapse navbar-responsive-collapse">
+           		<ul class="nav navbar-nav navbar-right notifications">
+             			 <li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">
+                 <a  class="dropdown-toggle" data-toggle="dropdown"> <span id="notification-count" class="badge notification-count">{{notifications.count}}</span><i class="fa fa-bell" aria-hidden="true"></i></a>
+                   <ul id="notification-dropdown" class="dropdown-menu">
+                   <li class="dropdown-header">Notifications</li>
+                   		{% include "notifications.html" %}
+
+                   		<li>
+                   		 <a onclick="getNotifications(5)">
+                   			<div id="notification-see-more" class="list-group-item">
+                                  <div class="row-content">
+                                    <p class="list-group-item-text">See More</p>
+                                </div>
+                       </a>
+                   		</li>
+                    </ul>
+               </li>
+
+             			<li  data-toggle="tooltip" data-placement="bottom" title data-original-title="{% trans 'messages' %}"> <a href="#"><i class="fa fa-comments" aria-hidden="true"></i></a> </li>
+             			<li > <a  class="link" href="{% url 'users:profile' %}">{{ user }}</a></li>
+             			<li data-toggle="tooltip" data-placement="bottom" title data-original-title="log out"> <a href="{% url 'core:logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+           		</ul>
+         		</div>
+   	</div>
+	{% endblock %}
 	<div class="container-fluid">
-		{% block nav %}
-			<div class="row">
-			        	<div class="navbar navbar-default">
-			              		<div class="navbar-header">
-			                		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-			                  			<span class="icon-bar"></span>
-			                  			<span class="icon-bar"></span>
-			                  			<span class="icon-bar"></span>
-			                		</button>
-			                		<a class="navbar-brand" href="{% url 'app:index' %}"><img class="logo" src="{% static 'img/topo-amadeus-white.png'  %}" alt="Logo"/></a>
-			              		</div>
-			              		<div class="navbar-collapse collapse navbar-responsive-collapse">
-			                		<ul class="nav navbar-nav navbar-right notifications">
-			                  			 <li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">
-						                   <a  class="dropdown-toggle" data-toggle="dropdown"> <span id="notification-count" class="badge notification-count">{{notifications.count}}</span><i class="fa fa-bell" aria-hidden="true"></i></a>
-						                     <ul id="notification-dropdown" class="dropdown-menu">
-						                     <li class="dropdown-header">Notifications</li>
-						                     		{% include "notifications.html" %}
-
-						                     		<li>
-						                     		 <a onclick="getNotifications(5)">
-						                     			<div id="notification-see-more" class="list-group-item">
-								                                  <div class="row-content">
-								                                    <p class="list-group-item-text">See More</p>
-								                                </div>
-								                       </a>
-						                     		</li>
-						                      </ul>
-						                 </li>
-
-			                  			<li  data-toggle="tooltip" data-placement="bottom" title data-original-title="{% trans 'messages' %}"> <a href="#"><i class="fa fa-comments" aria-hidden="true"></i></a> </li>
-			                  			<li > <a  class="link" href="{% url 'users:profile' %}">{{ user }}</a></li>
-			                  			<li data-toggle="tooltip" data-placement="bottom" title data-original-title="log out"> <a href="{% url 'core:logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
-			                		</ul>
-			              		</div>
-			        	</div>
-			</div>
-		{% endblock %}
-
 		<div class="row">
-		    		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
-						{% block sidebar %}
-
-						{% endblock %}
-		    		</div>
-
-		    		<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
-				    	{% block breadcrumbs %}
-
-				    	{% endblock %}
-
-				    	{% block render_breadcrumbs %}
-
-				    	{% endblock %}
-							<div class="row">
-								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-								{% block content %}
-
-								{% endblock %}
-			    				</div>
-
-			    			
-							</div>
-				    </div>
+    		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+    			{% block sidebar %}{% endblock %}
+    		</div>
+		   <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+				{% block breadcrumbs %}{% endblock %}
+				{% block render_breadcrumbs %}{% endblock %}
+			</div>
+			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+				{% block content %}{% endblock %}
+			</div>
 		</div>
 	</div>
 	<script src="{% static 'js/main.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/topic_editation_presentation.js' %}"></script>
 	{% block script_file %}
-		
+
 	{% endblock script_file %}
 </body>
 

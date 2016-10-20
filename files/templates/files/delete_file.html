@@ -59,6 +59,7 @@
                 contentType: false,
                 success: function(data) {
                     $('#fileDeleteModal').modal('hide');
+                    $('#file_{{ file.slug }}').remove();
                     $('#file_edit_{{ file.slug }}').remove();
                     $('#file_edit_icon_{{ file.slug }}').remove();
                 },

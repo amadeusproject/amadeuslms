@@ -35,10 +35,10 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 		list_courses = None
 		categorys_courses = None
 		if has_role(self.request.user,'professor') or has_role(self.request.user,'system_admin'):
-			list_courses = Course.objects.filter(professors__name = self.request.user.name).order_by('name')
+			list_courses = Course.objects.filter(Q(professors = True)|Q(professors__name = self.request.user.name)).order_by('name')
 			categorys_courses = CourseCategory.objects.filter(course_category__professors__name = self.request.user.name).distinct()
 		else:
-			list_courses = Course.objects.filter(students__name = self.request.user.name)
+			list_courses = Course.objects.filter(Q(students = True)|Q(students__name = self.request.user.name)).order_by('name')
 			categorys_courses = CourseCategory.objects.filter(course_category__students__name = self.request.user.name).distinct()
 
 		courses_category = Course.objects.filter(category__name = self.request.GET.get('category'))
@@ -304,6 +304,19 @@ class DeleteCatView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 	redirect_field_name = 'next'
 	model = CourseCategory
 	template_name = 'category/delete.html'
+
+	def dispatch(self, *args, **kwargs):
+		category = get_object_or_404(CourseCategory, slug = self.kwargs.get('slug'))
+		if(not has_object_permission('delete_category', self.request.user, category)):
+			return self.handle_no_permission()
+		return super(DeleteCatView, self).dispatch(*args, **kwargs)
+
+
+	def get_context_data(self, **kwargs):
+		context = super(DeleteCatView, self).get_context_data(**kwargs)
+		context['course'] = self.object.course_category
+		context['category'] = self.object
+		return context
 
 	def get_success_url(self):
 		messages.success(self.request, _('Category deleted successfully!'))

@@ -24,7 +24,7 @@ class ViewExam(LoginRequiredMixin,generic.DetailView):
 	template_name = 'exam/view.html'
 
 	def get_object(self, queryset=None):
-	    return get_object_or_404(Exam, slug = self.kwargs.get('slug'))
+	    return get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 
 	def get_context_data(self, **kwargs):
 		context = super(ViewExam, self).get_context_data(**kwargs)
@@ -227,3 +227,29 @@ class AnswerStudentExam(LoginRequiredMixin,generic.CreateView):
 		context['keys'] = keys
 
 		return context
+
+class MultipleChoiceQuestion(generic.TemplateView):
+	template_name = 'exam/multiple_choice_question.html'
+
+
+class MultipleChoiceAnswer(generic.TemplateView):
+	template_name = 'exam/multiple_choice_answer.html'
+
+
+class DiscursiveQuestion(generic.TemplateView):
+	template_name = 'exam/discursive_question.html'
+
+
+class TrueOrFalseQuestion(generic.TemplateView):
+	template_name = 'exam/true_or_false_question.html'
+
+
+class TrueOrFalseAnswer(generic.TemplateView):
+	template_name = 'exam/true_or_false_answer.html'
+
+
+class GapFillingQuestion(generic.TemplateView):
+	template_name = 'exam/gap_filling_question.html'
+
+class GapFillingAnswer(generic.TemplateView):
+	template_name = 'exam/gap_filling_answer.html'

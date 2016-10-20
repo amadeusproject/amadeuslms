@@ -11,47 +11,35 @@
 {% endblock %}
 
 {% block sidebar %}
-	<div class="panel panel-primary navigation">
+    <div class="panel panel-primary navigation">
         <div class="panel-heading">
-            <h5>{% trans 'Menu' %}</h5>
+            <h4>Menu</h4>
         </div>
         <div class="panel-body">
             <ul class="nav nav-pills nav-stacked">
-            	<li><a href="{% url 'core:home' %}">{% trans 'Home' %}</a></li>
+                <li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
                 <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
-                <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
+                {% if user|has_role:'student' or not user.is_staff %}
+                    <li><a href="{% url 'course:manage' %}">{% trans 'My courses' %}</a></li>
+                {% endif %}
+                {% if user|has_role:'system_admin' %}
+                    <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
+                {% endif %}
+                {% if user|has_role:'system_admin' or user|has_role:'professor' %}
+                    <li>
+                        <a href="#courses_list" class="accordion" data-toggle="collapse">{% trans 'Manage Courses' %}</a>
+                        <div id="courses_list" class="collapse">
+                            <ul class="nav nav-pill nav-stacked accordion_list">
+                            {% for course in courses_list %}
+                                <li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
-
-{% if user|has_role:'professor' or user|has_role:'system_admin' %}
-
-    <div class="panel panel-primary navigation">
-	    <div class="panel-heading">
-	        <h3 class="panel-title">Actions</h3>
-	    </div>
-	    <div class="panel-body">
-	        <ul class="nav nav-pills nav-stacked">
-	            <li><a href="javascript:void(0)">Replicate Course</a></li>
-	            <li><a href="{% url 'course:create' %}">Create Course</a></li>
-	        </ul>
-	    </div>
-	</div>
-
-	<div class="panel panel-primary navigation">
-	    <div class="panel-heading">
-	        <h3 class="panel-title">Category</h3>
-	    </div>
-	    <div class="panel-body">
-	        <ul class="nav nav-pills nav-stacked">
-	            <li><a href="{% url 'course:create_cat' %}">Create Category</a></li>
-	            <li><a href="{% url 'course:manage_cat' %}">List Category</a></li>
-	        </ul>
-	    </div>
-	</div>
-
-{% endif %}
-
 {% endblock %}
 
 {% block content %}
@@ -98,13 +86,13 @@
 						<div class="panel panel-info">
 						    <div class="panel-heading" role="tab">
 						      <div class="row">
-						        <div class="col-xs-9 col-md-9 titleTopic">
+						        <div class="col-xs-9 col-md-10 titleTopic">
 						          <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
 						          <h4 style="color:white">{{course.name}}</h4>
 						          </a>
 						        </div>
 						        {% if user|has_role:'professor' or user|has_role:'system_admin' %}
-							        <div class="col-xs-4 col-md-3" id="divMoreActions">
+							        <div class="col-xs-4 col-md-2" id="divMoreActions">
 							            <div class="btn-group">
 							              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
