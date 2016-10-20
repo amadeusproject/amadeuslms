@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rolepermissions.mixins import HasRoleMixin
+from rolepermissions.verifications import has_role
 from .forms import FileForm, UpdateFileForm
 from .models import TopicFile
 from .utils import mime_type_to_material_icons
@@ -115,7 +116,7 @@ class DeleteFile(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 	def dispatch(self, *args, **kwargs):
 		file = get_object_or_404(TopicFile, slug = self.kwargs.get('slug'))
-		if(not (file.topic.owner == self.request.user)):
+		if(not (file.topic.owner == self.request.user) and not(has_role(self.request.user, 'system_admin')) ):
 			return self.handle_no_permission()
 		return super(DeleteFile, self).dispatch(*args, **kwargs)
 
