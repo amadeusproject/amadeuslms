@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from rolepermissions.verifications import has_role
 from django.db.models import Q
 from rolepermissions.verifications import has_object_permission
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 
 from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm,TopicForm,ActivityForm
 from .models import Course, Subject, CourseCategory,Topic, SubjectCategory,Activity, CategorySubject
@@ -35,10 +35,10 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 		list_courses = None
 		categorys_courses = None
 		if has_role(self.request.user,'professor') or has_role(self.request.user,'system_admin'):
-			list_courses = Course.objects.filter(professors__name = self.request.user.name).order_by('name')
+			list_courses = Course.objects.filter(Q(professors = True)|Q(professors__name = self.request.user.name)).order_by('name')
 			categorys_courses = CourseCategory.objects.filter(course_category__professors__name = self.request.user.name).distinct()
 		else:
-			list_courses = Course.objects.filter(students__name = self.request.user.name)
+			list_courses = Course.objects.filter(Q(students = True)|Q(students__name = self.request.user.name)).order_by('name')
 			categorys_courses = CourseCategory.objects.filter(course_category__students__name = self.request.user.name).distinct()
 
 		courses_category = Course.objects.filter(category__name = self.request.GET.get('category'))
@@ -227,6 +227,15 @@ class DeleteView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.De
 
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
+@login_required
+def subscribe_course(request, slug):
+	course = get_object_or_404(Course, slug = slug)
+
+	if course.students.add(request.user):
+		return JsonResponse({"status": "ok", "message": _("Successfully subscribed to the course!")})
+	else:
+		return JsonResponse({"status": "erro", "message": _("An error has occured. Could not subscribe to this course, try again later")})
+
 class FilteredView(LoginRequiredMixin, generic.ListView):
 
 	login_url = reverse_lazy("core:home")
@@ -295,6 +304,19 @@ class DeleteCatView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 	redirect_field_name = 'next'
 	model = CourseCategory
 	template_name = 'category/delete.html'
+
+	def dispatch(self, *args, **kwargs):
+		category = get_object_or_404(CourseCategory, slug = self.kwargs.get('slug'))
+		if(not has_object_permission('delete_category', self.request.user, category)):
+			return self.handle_no_permission()
+		return super(DeleteCatView, self).dispatch(*args, **kwargs)
+
+
+	def get_context_data(self, **kwargs):
+		context = super(DeleteCatView, self).get_context_data(**kwargs)
+		context['course'] = self.object.course_category
+		context['category'] = self.object
+		return context
 
 	def get_success_url(self):
 		messages.success(self.request, _('Category deleted successfully!'))
@@ -526,6 +548,17 @@ class DeleteSubjectView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 	def get_success_url(self):
 		return reverse_lazy('course:view', kwargs={'slug' : self.object.course.slug})
 
+@login_required
+def subscribe_subject(request, slug):
+	subject = get_object_or_404(Subject, slug = slug)
+
+	if request.user.courses_student.filter(slug = slug).exists():
+		if subject.students.add(request.user):
+			return JsonResponse({"status": "ok", "message": _("Successfully subscribed to the subject!")})
+		else:
+			return JsonResponse({"status": "erro", "message": _("An error has occured. Could not subscribe to this subject, try again later")})
+	else:
+		return JsonResponse({"status": "erro", "message": _("You're not subscribed in the course yet.")})
 
 class IndexSubjectCategoryView(LoginRequiredMixin, generic.ListView):
 	allowed_roles = ['professor', 'system_admin']

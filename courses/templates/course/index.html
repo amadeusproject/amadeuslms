@@ -11,18 +11,18 @@
 {% endblock %}
 
 {% block sidebar %}
-	<div class="panel panel-primary navigation">
-        <div class="panel-heading">
-            <h5>{% trans 'Menu' %}</h5>
-        </div>
-        <div class="panel-body">
-            <ul class="nav nav-pills nav-stacked">
-            	<li><a href="{% url 'core:home' %}">{% trans 'Home' %}</a></li>
-                <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
-                <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
-            </ul>
-        </div>
+<div class="panel panel-primary navigation">
+    <div class="panel-heading">
+        <h4>{% trans 'Menu' %}</h4>
     </div>
+    <div class="panel-body">
+        <ul class="nav nav-pills nav-stacked">
+        	<li><a href="{% url 'core:home' %}">{% trans 'Home' %}</a></li>
+            <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
+            <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
+        </ul>
+    </div>
+</div>
 
 {% if user|has_role:'professor' or user|has_role:'system_admin' %}
 
@@ -98,13 +98,13 @@
 						<div class="panel panel-info">
 						    <div class="panel-heading" role="tab">
 						      <div class="row">
-						        <div class="col-xs-9 col-md-9 titleTopic">
+						        <div class="col-xs-9 col-md-10 titleTopic">
 						          <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
 						          <h4 style="color:white">{{course.name}}</h4>
 						          </a>
 						        </div>
 						        {% if user|has_role:'professor' or user|has_role:'system_admin' %}
-							        <div class="col-xs-4 col-md-3" id="divMoreActions">
+							        <div class="col-xs-4 col-md-2" id="divMoreActions">
 							            <div class="btn-group">
 							              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>

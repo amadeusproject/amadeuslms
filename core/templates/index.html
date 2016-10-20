@@ -61,7 +61,7 @@
                         <a href="{% url 'core:password_reset' %}">{% trans "Forgot your password?" %}</a>
                     </div>
                     <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 text-center">
-                        <button type="button" class="btn btn-flat" formaction="#" style="position: initial;">{% trans 'Guest' %}</button>
+                        <a class="btn btn-flat" href="{% url 'core:guest' %}" formaction="#" style="position: initial;">{% trans 'Guest' %}</a>
                     </div>
                     <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 text-center">
                         <button type="submite" class="btn btn-flat btn-success" form="form-login" style="position: initial;">{% trans 'Login' %}</button>
