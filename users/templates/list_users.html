@@ -37,11 +37,13 @@
     {% endif %}
     <form action="" method="GET" class="form-horizontal">
         <div class="form-group">
-            <div class="col-md-9 col-sm-9 col-xs-9">
+            <div class="col-md-11 col-sm-11 col-xs-11">
                 <input type="text" class="form-control" name="search" placeholder="{% trans 'Search...' %}" />
             </div>
-            <div class="col-md-3 col-sm-3 col-xs-3">
-                <input type="submit" class="btn btn-primary" value="{% trans 'Search' %}" />
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <button type="submit" class="btn btn-fab btn-fab-mini">
+                    <i class="material-icons">search</i>
+                </button>
             </div>
         </div>
     </form>
@@ -68,7 +70,7 @@
                         <p>{% trans 'Contact' %}: {{ acc.phone }}</p>
                         <div align="right">
                             <a href="{% url 'users:update' acc.username %}" class="btn btn-raised btn-success">{% trans 'Edit' %}</a>
-                            <a href="javascript:void(0)" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#DeleteModal{{ forloop.counter }}">{% trans 'Delete' %}</a>
+                            <a href="javascript:void(0)" class="btn btn-danger btn-raised btn-lg" data-toggle="modal" data-target="#DeleteModal{{ forloop.counter }}">{% trans 'Delete' %}</a>
                         </div>
                     </div>
                                     
