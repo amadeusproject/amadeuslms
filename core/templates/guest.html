@@ -45,6 +45,7 @@
 	{% block style %}
 	{% endblock %}
 	{% block javascript %}
+		<script type="text/javascript" src="{% static 'js/course.js' %}"></script>
 	{% endblock %}
 </head>
 <body>
@@ -134,9 +135,12 @@
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 				{% block content %}
 					{% for course in courses %}
-						<div class="panel panel-info">
+						<div class="panel panel-info panel_{{ course.id }}">
 					  		<div class="panel-heading">
 					    		<a href="{{ course.get_absolute_url }}" class="panel-title">{{course.name}}</a>
+					    		{% if user|show_course_subscribe:course %}
+				                    <a onclick="subscribe($(this), '{% url 'course:subscribe' course.slug %}', {{ course.id}}, '{% trans 'Are you sure you want to subscribe to this course?' %}')" class="btn btn-sm btn-primary btn-raised pull-right" style="margin-top:-4px">{% trans 'Subscribe' %}</a>
+				                {% endif %}
 					  		</div>
 					       
 						  	<div class="panel-body">
