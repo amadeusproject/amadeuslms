@@ -345,3 +345,18 @@ ul, li {
 .logo-login{
   margin-top: 15px;
   margin-bottom: 15px;
+  width:50%;
+}
+.forgotPassword{
+  padding-bottom: 10px;
+}
+.form-group{
+  margin-top: 10px;
+}
+
+/* core/register_user.html classes*/
+
+.block-register-inline{
+  float: left;
+  display: inline-block;
+}
