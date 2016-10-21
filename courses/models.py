@@ -1,5 +1,6 @@
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
+import datetime
 from autoslug.fields import AutoSlugField
 from users.models import User
 from core.models import Resource, MimeType
@@ -78,6 +79,11 @@ class Subject(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	def show_subscribe(self):
+		today = datetime.date.today()
+
+		return today < self.init_date
 
 class Topic(models.Model):
 

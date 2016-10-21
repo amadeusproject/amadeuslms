@@ -7,6 +7,10 @@
   <link rel="stylesheet" href="{% static 'css/course/course.css' %}">
 {% endblock style %}
 
+{% block javascript %}
+  <script type="text/javascript" src="{% static 'js/course.js' %}"></script>
+{% endblock %}
+
 {% block breadcrumbs %}
 
   {{ block.super }}
@@ -212,6 +216,12 @@
                     </div>
                   </div>
                 {% endif %}
+
+                {% if user|has_role:'student' and not user in subject.students.all and subject.show_subscribe %}
+                  <div class="col-xs-3 col-md-2">
+                    <a onclick="subscribe($(this), '{% url 'course:subscribe_subject' subject.slug %}' , '{% trans 'Are you sure you want to subscribe to this subject?' %}')" class="btn btn-sm btn-primary btn-raised">{% trans 'Subscribe' %}</a>
+                  </div>
+                {% endif %}
             </div>
           </div>
           <div class="panel-body">
@@ -257,6 +267,11 @@
                         <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeSubject2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
                       </ul>
                     </div>
+                  </div>
+                {% endif %}
+                {% if user|has_role:'student' and not user in subject.students and subject.show_subscribe %}
+                  <div class="col-xs-3 col-md-2">
+                    <a onclick="subscribe($(this), '{% url 'course:subscribe_subject' subject.slug %}' , '{% trans 'Are you sure you want to subscribe to this subject?' %}')" class="btn btn-sm btn-primary btn-raised">{% trans 'Subscribe' %}</a>
                   </div>
                 {% endif %}
             </div>

@@ -231,7 +231,9 @@ class DeleteView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.De
 def subscribe_course(request, slug):
 	course = get_object_or_404(Course, slug = slug)
 
-	if course.students.add(request.user):
+	course.students.add(request.user)
+
+	if request.user in course.students.all():
 		return JsonResponse({"status": "ok", "message": _("Successfully subscribed to the course!")})
 	else:
 		return JsonResponse({"status": "erro", "message": _("An error has occured. Could not subscribe to this course, try again later")})
@@ -552,8 +554,10 @@ class DeleteSubjectView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 def subscribe_subject(request, slug):
 	subject = get_object_or_404(Subject, slug = slug)
 
-	if request.user.courses_student.filter(slug = slug).exists():
-		if subject.students.add(request.user):
+	if request.user in subject.course.students.all():
+		subject.students.add(request.user)
+
+		if request.user in subject.students.all():
 			return JsonResponse({"status": "ok", "message": _("Successfully subscribed to the subject!")})
 		else:
 			return JsonResponse({"status": "erro", "message": _("An error has occured. Could not subscribe to this subject, try again later")})
