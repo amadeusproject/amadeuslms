@@ -28,6 +28,7 @@
                 <li><a href="{% url 'core:home' %}">{% trans "Home" %}</a></li>
                 <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                 <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
+                <li><a href="{% url 'core:guest' %}">{% trans 'All Courses' %}</a></li>
             </ul>
         </div>
     </div>
@@ -91,7 +92,7 @@
     </div>
   </div>
   <div class="btn-group btn-group-justified btn-group-raised">
-    <a href="?category=all" class="btn btn-raised btn-info">Todos</a>
+    <a href="{% url 'course:manage' %}" class="btn btn-raised btn-info">Todos</a>
     {% for category_subject in categorys_subjects %}
       <a href="?category={{category_subject.name}}" class="btn btn-raised btn-primary">{{category_subject.name}}</a>
     {% endfor %}
