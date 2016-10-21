@@ -21,7 +21,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 	state = models.CharField(_('State'), max_length = 30, blank = True)
 	gender = models.CharField(_('Gender'), max_length = 1, choices = (('M', _('Male')), ('F', _('Female'))))
 	image = models.ImageField(verbose_name = _('Image'), blank = True, upload_to = 'users/')
-	birth_date = models.DateField(_('Birth Date'))
+	birth_date = models.DateField(_('Birth Date'), null=True)
 	phone = models.CharField(_('Phone'), max_length = 30, blank = True)
 	cpf = models.CharField(_('Cpf'), max_length = 15, blank = True)
 	type_profile = models.IntegerField(_('Type'), null = True, blank = True, choices = ((1, _('Professor')), (2, _('Student'))), default=2)
