@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load i18n custom_filters %}
+
 {% block breadcrumbs %}
 	<div class="col-md-12">
 		<form id="searchform" action="{% url 'course:manage' %}" method="get" accept-charset="utf-8">
@@ -32,7 +34,14 @@
 	{% for course in courses %}
 		<div class="panel panel-info">
 	  		<div class="panel-heading">
-	    		<h3 class="panel-title">{{course.name}}</h3>
+	    		<h3 class="panel-title">
+	    			{{course.name}}
+		    		{% if user|show_course_subscribe:course %}
+		    			<div class="pull-right" style="margin-top:-15px">
+		                    <a onclick="subscribe($(this), '{% url 'course:subscribe' course.slug %}' , '{% trans 'Are you sure you want to subscribe to this subject?' %}')" class="btn btn-sm btn-primary btn-raised">{% trans 'Subscribe' %}</a>
+	                  	</div>
+		    		{% endif %}
+    			</h3>
 	  		</div>
 	       
 		  	<div class="panel-body">

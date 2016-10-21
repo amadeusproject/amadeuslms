@@ -1,6 +1,6 @@
 {% extends 'home.html' %}
 
-{% load static i18n permission_tags %}
+{% load static i18n permission_tags custom_filters %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% block style %}
@@ -217,7 +217,7 @@
                   </div>
                 {% endif %}
 
-                {% if user|has_role:'student' and not user in subject.students.all and subject.show_subscribe %}
+                {% if user|show_subject_subscribe:subject %}
                   <div class="col-xs-3 col-md-2">
                     <a onclick="subscribe($(this), '{% url 'course:subscribe_subject' subject.slug %}' , '{% trans 'Are you sure you want to subscribe to this subject?' %}')" class="btn btn-sm btn-primary btn-raised">{% trans 'Subscribe' %}</a>
                   </div>
@@ -269,7 +269,7 @@
                     </div>
                   </div>
                 {% endif %}
-                {% if user|has_role:'student' and not user in subject.students and subject.show_subscribe %}
+                {% if user|show_subject_subscribe:subject %}
                   <div class="col-xs-3 col-md-2">
                     <a onclick="subscribe($(this), '{% url 'course:subscribe_subject' subject.slug %}' , '{% trans 'Are you sure you want to subscribe to this subject?' %}')" class="btn btn-sm btn-primary btn-raised">{% trans 'Subscribe' %}</a>
                   </div>
