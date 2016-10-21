@@ -1,1 +1,3 @@
-$('.date-picker').datepicker({ format: 'dd/mm/yy' });
+$('.date-picker').datepicker({ 
+	format: 'mm/dd/yyyy', 
+});
