@@ -345,3 +345,11 @@ ul, li {
 .logo-login{
   margin-top: 15px;
   margin-bottom: 15px;
+  width:50%;
+}
+.forgotPassword{
+  padding-bottom: 10px;
+}
+.form-group{
+  margin-top: 5px;
+}
