@@ -360,3 +360,8 @@ ul, li {
   float: left;
   display: inline-block;
 }
+
+/* core/reset_password.html classes*/
+.send-reset-email{
+  float: right;
+}
