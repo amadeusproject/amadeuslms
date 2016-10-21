@@ -10,7 +10,7 @@ function subscribe(elem, url, confirm_message) {
 			url: url,
 			success: function (data) {
 				if (data.status == "ok") {
-					elem.disabled(true);
+					elem.remove();
 					alertify.success(data.message);
 				} else {
 					alertify.error(data.message);
