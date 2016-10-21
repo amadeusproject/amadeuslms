@@ -45,7 +45,7 @@ class Course(models.Model):
 	image = models.ImageField(verbose_name = _('Image'), blank = True, upload_to = 'courses/')
 	category = models.ForeignKey(CourseCategory, verbose_name = _('Category'), related_name='course_category')
 	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='courses_professors')
-	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='courses_student')
+	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='courses_student', blank = True)
 	public = models.BooleanField(_('Public'))
 
 	class Meta:
@@ -69,8 +69,7 @@ class Subject(models.Model):
 	course = models.ForeignKey(Course, verbose_name = _('Course'), related_name="subjects")
 	category = models.ForeignKey(CategorySubject, verbose_name = _('Category'), related_name='subject_category',null=True)
 	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='professors_subjects')
-	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='subject_student')
-
+	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='subject_student', blank = True)
 
 	class Meta:
 		ordering = ('create_date','name')

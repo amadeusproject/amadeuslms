@@ -187,7 +187,7 @@ class CourseView(LoginRequiredMixin, NotificationMixin, generic.DetailView):
 		if has_role(self.request.user,'system_admin'):
 			courses = Course.objects.all()
 		elif has_role(self.request.user,'professor'):
-			courses = self.request.user.courses.all()
+			courses = self.request.user.courses_professors.all()
 		elif has_role(self.request.user, 'student'):
 			courses = self.request.user.courses_student.all()
 
