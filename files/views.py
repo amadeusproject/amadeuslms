@@ -55,7 +55,7 @@ class CreateFile(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 
 		self.object.save()
 
-		return self.render_to_response(self.get_context_data(form = form), status = 200)
+		return self.get_success_url()
 
 	def get_context_data(self, **kwargs):
 		context = super(CreateFile, self).get_context_data(**kwargs)
@@ -70,7 +70,7 @@ class CreateFile(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 		return context
 
 	def get_success_url(self):
-		self.success_url = reverse('course:file:render_file', args = (self.object.id, ))
+		self.success_url = redirect('course:file:render_file', id = self.object.id)
 		
 		return self.success_url
 

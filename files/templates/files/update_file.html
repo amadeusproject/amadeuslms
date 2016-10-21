@@ -104,8 +104,8 @@
                 contentType: false,
                 success: function(data) {
                     $('#fileUpdateModal').modal('hide');
-                    alert(data);
-                    // $('#list-topic-files').append(data);
+                    $('#file_edit_{{ file.slug }}').replaceWith(data);
+                    $('#file_{{ file.slug }}').replaceWith(data);
                 },
                 error: function(data){
                     $('.erro-update').html(data.responseText);
