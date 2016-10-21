@@ -3,7 +3,7 @@
 * Function to subscribe (works for courses and subjects)
 *
 */
-function subscribe(elem, url, confirm_message) {
+function subscribe(elem, url, id, confirm_message) {
 	alertify.confirm(confirm_message, function(){
 		$.ajax({
 			dataType: "json",
@@ -12,6 +12,7 @@ function subscribe(elem, url, confirm_message) {
 				if (data.status == "ok") {
 					elem.remove();
 					alertify.success(data.message);
+					$(".panel_"+id).find(".view_btn").show()
 				} else {
 					alertify.error(data.message);
 				}
