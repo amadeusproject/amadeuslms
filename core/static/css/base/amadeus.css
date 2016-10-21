@@ -353,3 +353,10 @@ ul, li {
 .form-group{
   margin-top: 10px;
 }
+
+/* core/register_user.html classes*/
+
+.block-register-inline{
+  float: left;
+  display: inline-block;
+}
