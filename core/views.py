@@ -116,6 +116,7 @@ def getNotifications(request):
 
 def guest (request):
 	context = {
-		'courses': Course.objects.filter(public=True)
+		'courses': Course.objects.filter(public=True),
+		'categories': CourseCategory.objects.all(),
 	}
 	return render(request, 'guest.html', context)
