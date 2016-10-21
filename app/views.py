@@ -18,8 +18,6 @@ class AppIndex(LoginRequiredMixin, LogMixin, ListView, NotificationMixin):
 	context_object_name = 'objects'
 	paginate_by = 10
 
-	
-
 	def get_queryset(self):
 		if self.request.user.is_staff:
 			objects = Course.objects.all()
