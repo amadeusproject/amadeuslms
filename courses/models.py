@@ -57,6 +57,11 @@ class Course(models.Model):
 	def __str__(self):
 		return self.name
 
+	def show_subscribe(self):
+		today = datetime.date.today()
+
+		return today >= self.init_register_date and today <= self.end_register_date
+
 class Subject(models.Model):
 
 	name = models.CharField(_('Name'), max_length = 100)
