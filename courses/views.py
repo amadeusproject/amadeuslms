@@ -429,7 +429,11 @@ class CreateTopicView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, gener
 		self.object.subject = subject
 		self.object.owner = self.request.user
 		self.object.save()
-
+		action = super(CreateTopicView, self).createorRetrieveAction("create Topic")
+		super(CreateTopicView, self).createNotification("Topic "+ self.object.name + " was created", 
+			resource_name=self.object.name, resource_link= 'topics/'+self.object.slug,
+			 actor=self.request.user, users = self.object.subject.course.students.all() )
+		
 		return super(CreateTopicView, self).form_valid(form)
 
 class UpdateTopicView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):

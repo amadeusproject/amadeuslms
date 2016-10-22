@@ -60,7 +60,7 @@ def notification_decorator(read = False, message = '', actor = None, users = [],
 			if action.exists():
 				action = action[0]
 			else:
-				action = Action(name = not_action)
+				action = Action(name = not_action)		
 				action.save()
 
 			if resource.exists():

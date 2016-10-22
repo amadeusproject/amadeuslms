@@ -68,7 +68,7 @@ def remember_password(request):
 			context['danger'] = 'E-mail does not send'
 	return render(request, "remember_password.html",context)
 
-@notification_decorator(message='just connected')
+@notification_decorator(message='just connected', not_action="logged in", not_resource="")
 @log_decorator('Acessar', 'Sistema')
 def login(request):
 	context = {}
