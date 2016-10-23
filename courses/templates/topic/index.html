@@ -30,20 +30,24 @@
             </ul>
         </div>
     </div>
-    <div class="panel panel-primary navigation">
-    <div class="panel-heading">
-        <h3 class="panel-title">Actions</h3>
+
+    {% if user|has_role:'professor' %}
+      <div class="panel panel-primary navigation">
+      <div class="panel-heading">
+          <h3 class="panel-title">Actions</h3>
+      </div>
+      <div class="panel-body">
+          <ul class="nav nav-pills nav-stacked">
+              <li><a href="javascript:void(0)">Participants</a></li>
+              <li><a href="javascript:void(0)">Replicate subject</a></li>
+              <li><a href="javascript:void(0)">Create subject</a></li>
+              <li><a href="javascript:void(0)">Edit subject</a></li>
+              <li><a href="javascript:void(0)">Remove subject</a></li>
+          </ul>
+      </div>
     </div>
-    <div class="panel-body">
-        <ul class="nav nav-pills nav-stacked">
-            <li><a href="javascript:void(0)">Participants</a></li>
-            <li><a href="javascript:void(0)">Replicate subject</a></li>
-            <li><a href="javascript:void(0)">Create subject</a></li>
-            <li><a href="javascript:void(0)">Edit subject</a></li>
-            <li><a href="javascript:void(0)">Remove subject</a></li>
-        </ul>
-    </div>
-</div>
+    {% endif %}
+   
 {% endblock %}
 
 {% block content %}
@@ -132,11 +136,8 @@
         </div>
     </fieldset>
   </form>
-{% empty %}
-  {% trans 'No activity found' %}
-{% endfor %}
 
-<ul class="pagination pagination-sm">
+  <ul class="pagination pagination-sm">
   <li class="disabled"><a href="javascript:void(0)">«</a></li>
   <li class="active"><a href="javascript:void(0)">1</a></li>
   <li><a href="javascript:void(0)">2</a></li>
@@ -145,6 +146,11 @@
   <li><a href="javascript:void(0)">5</a></li>
   <li><a href="javascript:void(0)">»</a></li>
 </ul>
+{% empty %}
+  {% trans 'No activity found' %}
+{% endfor %}
+
+
 
 </div>
 
