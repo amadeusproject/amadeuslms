@@ -1,31 +1,9 @@
 {% load static i18n list_topic_foruns permission_tags %}
+<div id="list-topic{{ topic.id }}-links-edit">
 {% for link in links%}
-        <li class="icon_edit_remove"> <a href="#" data-toggle="modal" data-target="#linksModalEdit"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>  <a href="#" data-toggle="modal" data-target="#removeLink"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></li>
-        <li><i class="fa fa-link" aria-hidden="true"></i>  <a href="#" data-toggle="modal" data-target="#linksModal{{slug}}{{ forloop.counter }}">{{link}}</a></li>
 
-        <!--MODAL VIEW LINK-->
-        <div class="modal fade" id="linksModal{{slug}}{{ forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title" id="myModalLabel">Link</h4>
-              </div>
-              <div class="modal-body">
-                <!-- Card -->
-                <article class="card animated fadeInLeft">
-                   <div class="card-block">
-                      <b class="card-title">{{link.name}}</b><p></p>
-                      <p class="card-text"> </p><p>{{link.link_description}}</p>
-                      <a href="{{ link.link_url }}" class="btn btn-primary">Read more</a>
-                   </div>
-                </article>
-                <!-- .end Card -->
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- EndModal -->
+        <li class="icon_edit_remove"> <a href="#" data-toggle="modal" data-target="#linksModalEdit"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>  <a href="#" data-toggle="modal" data-target="#removeLink"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></li>
+        <li><i class="fa fa-link" aria-hidden="true"></i>  <a href="javascript:get_modal_link('{% url 'course:links:view_link' link.slug %}', '#viewLinkModal','#divModalLink')">{{link}}</a></li>
+
 {% endfor %}
-  <div class = "row" id="divModalLink">
-  </div>
+</div>

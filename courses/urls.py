@@ -1,7 +1,6 @@
 from django.conf.urls import url, include
 
 from . import views
-from links import views as linkviews
 urlpatterns = [
 	url(r'^$', views.IndexView.as_view(), name='manage'),
 	url(r'^create/$', views.CreateCourseView.as_view(), name='create'),
@@ -22,9 +21,6 @@ urlpatterns = [
 	url(r'^subjects/subscribe/(?P<slug>[\w_-]+)/$', views.subscribe_subject, name='subscribe_subject'),
 	url(r'^topics/create/(?P<slug>[\w_-]+)/$', views.CreateTopicView.as_view(), name='create_topic'),
 	url(r'^topics/update/(?P<slug>[\w_-]+)/$', views.UpdateTopicView.as_view(), name='update_topic'),
-	url(r'^topics/createlink/$', linkviews.CreateLink.as_view(),name = 'create_link'),
-	url(r'^topics/deletelink/(?P<linkname>[\w_-]+)/$', linkviews.deleteLink,name = 'delete_link'),
-	url(r'^topics/updatelink/(?P<linkname>[\w_-]+)/$', linkviews.UpdateLink.as_view(),name = 'update_link'),
 	url(r'^topics/(?P<slug>[\w_-]+)/$', views.TopicsView.as_view(), name='view_topic'),
 	url(r'^subjects/categories$',views.IndexSubjectCategoryView.as_view(), name='subject_category_index'),
 	url(r'^forum/', include('forum.urls', namespace = 'forum')),

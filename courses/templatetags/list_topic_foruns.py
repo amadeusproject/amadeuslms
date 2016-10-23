@@ -59,7 +59,7 @@ def list_topic_link_edit(request,topic):
         'request':request
     }
     context['links'] = Link.objects.filter(topic = topic)
-    context['slug'] = topic.slug
+    context['topic'] = topic
     return context
 
 @register.inclusion_tag('topic/link_topic_list.html')
@@ -68,5 +68,5 @@ def list_topic_link(request,topic):
         'request':request
     }
     context['links'] = Link.objects.filter(topic = topic)
-    context['slug'] = topic.slug
+    context['topic'] = topic
     return context
