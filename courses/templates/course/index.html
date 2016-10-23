@@ -21,6 +21,7 @@
                 <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                 {% if user|has_role:'student' or not user.is_staff %}
                     <li><a href="{% url 'course:manage' %}">{% trans 'My courses' %}</a></li>
+                    <li><a href="{% url 'core:guest' %}">{% trans 'All Courses' %}</a></li>
                 {% endif %}
                 {% if user|has_role:'system_admin' %}
                     <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
@@ -67,14 +68,7 @@
 		</div>
 	</form>
 </div>
-	<div class="col-md-12">
-		<div class="btn-group btn-group-justified btn-group-raised">
-			<a href="?category=all" class="btn btn-raised btn-info">Todos</a>
-			{% for category_course in categorys_courses %}
-				<a href="?category={{category_course.name}}" class="btn btn-raised btn-primary">{{category_course.name}}</a>
-			{% endfor %}
-		</div>
-	</div>
+	
 
 </fieldset>
 	<div class="col-md-12">

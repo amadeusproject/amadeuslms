@@ -6,6 +6,9 @@ from users.models import User
 from core.models import Resource, MimeType
 from s3direct.fields import S3DirectField
 
+from django.core.urlresolvers import reverse
+from core.models import Resource
+
 class CourseCategory(models.Model):
 
 	name = models.CharField(_('Name'), max_length = 100, unique = True)
@@ -56,6 +59,9 @@ class Course(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	def get_absolute_url (self):
+		return reverse('course:view', kwargs={'slug': self.slug})
 
 	def show_subscribe(self):
 		today = datetime.date.today()

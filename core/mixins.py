@@ -41,16 +41,16 @@ class LogMixin(object):
 class NotificationMixin(object):
 	message = ""
 	read = False
-	action_name = ''
+	action_slug = ''
 	resource_name = ''
 
-	def createNotification(self, message='', actor=None, users = User.objects.all(), resource_slug='' ,action_name = '', resource_name='', resource_link=''): #the default will be a broadcast
-		action = Action.objects.filter(name = action_name)
+	def createNotification(self, message='', actor=None, users = User.objects.all(), resource_slug='' ,action_slug = '', resource_name='', resource_link=''): #the default will be a broadcast
+		action = Action.objects.filter(slug = action_slug)
 		resource = Resource.objects.filter(slug = resource_slug)
 		if action.exists():
 			action = action[0]
 		else:
-			action = Action(name = self.action_name)
+			action = Action(name = self.action_slug)
 			action.save()
 
 		if resource.exists():
@@ -76,3 +76,9 @@ class NotificationMixin(object):
 		"""
 		Not quite sure how to do about it"""
 		return super(NotificationMixin, self).dispatch(request, *args, **kwargs)
+
+	def createorRetrieveAction(self, action_name):
+		action = Action.objects.filter(name=action_name)
+		if action is None:
+			action = Action(name=action_name)
+		return action

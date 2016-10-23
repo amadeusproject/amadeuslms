@@ -28,6 +28,7 @@
                 <li><a href="{% url 'core:home' %}">{% trans "Home" %}</a></li>
                 <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                 <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
+                <li><a href="{% url 'core:guest' %}">{% trans 'All Courses' %}</a></li>
             </ul>
         </div>
     </div>
@@ -91,7 +92,7 @@
     </div>
   </div>
   <div class="btn-group btn-group-justified btn-group-raised">
-    <a href="?category=all" class="btn btn-raised btn-info">Todos</a>
+    <a href="{% url 'course:manage' %}" class="btn btn-raised btn-info">Todos</a>
     {% for category_subject in categorys_subjects %}
       <a href="?category={{category_subject.name}}" class="btn btn-raised btn-primary">{{category_subject.name}}</a>
     {% endfor %}
@@ -195,7 +196,7 @@
 <div>
     {% if request.GET.category == 'all' or none or request.GET.category == '' %}
       {% for subject in subjects %}
-        <div class="panel panel-info">
+        <div class="panel panel-info panel_{{ subject.id }}">
           <div class="panel-heading headingTwo ui-sortable-handle" role="tab">
             <div class="row">
                 <div class="col-xs-9 col-md-10 titleTopic">
@@ -219,7 +220,7 @@
 
                 {% if user|show_subject_subscribe:subject %}
                   <div class="col-xs-3 col-md-2">
-                    <a onclick="subscribe($(this), '{% url 'course:subscribe_subject' subject.slug %}' , '{% trans 'Are you sure you want to subscribe to this subject?' %}')" class="btn btn-sm btn-primary btn-raised">{% trans 'Subscribe' %}</a>
+                    <a onclick="subscribe($(this), '{% url 'course:subscribe_subject' subject.slug %}', {{ subject.id }}, '{% trans 'Are you sure you want to subscribe to this subject?' %}')" class="btn btn-sm btn-primary btn-raised">{% trans 'Subscribe' %}</a>
                   </div>
                 {% endif %}
             </div>
@@ -241,14 +242,14 @@
                     <p><b>{% trans "End" %}: </b>{{subject.end_date}}</p>
                   </div>
                 </div>
-                <a href="{% url 'course:view_subject' subject.slug %}" class="btn btn-raised btn-default center-block">{% trans 'View Subject' %}<div class="ripple-container"></div></a>
+                <a href="{% url 'course:view_subject' subject.slug %}" class="btn btn-raised btn-default center-block view_btn" {% if user|show_subject_subscribe:subject %}style="display:none"{% endif %}>{% trans 'View Subject' %}<div class="ripple-container"></div></a>
             </div>
         </div>
       {% endfor %}
   {% else %}
         {% for subject in subjects_category %}
             {% if subject.category.name == request.GET.category %}
-              <div class="panel panel-info">
+              <div class="panel panel-info panel_{{ subject.id }}">
           <div class="panel-heading headingTwo ui-sortable-handle" role="tab">
             <div class="row">
                 <div class="col-xs-9 col-md-10 titleTopic">
@@ -271,7 +272,7 @@
                 {% endif %}
                 {% if user|show_subject_subscribe:subject %}
                   <div class="col-xs-3 col-md-2">
-                    <a onclick="subscribe($(this), '{% url 'course:subscribe_subject' subject.slug %}' , '{% trans 'Are you sure you want to subscribe to this subject?' %}')" class="btn btn-sm btn-primary btn-raised">{% trans 'Subscribe' %}</a>
+                    <a onclick="subscribe($(this), '{% url 'course:subscribe_subject' subject.slug %}', {{ subject.id }}, '{% trans 'Are you sure you want to subscribe to this subject?' %}')" class="btn btn-sm btn-primary btn-raised">{% trans 'Subscribe' %}</a>
                   </div>
                 {% endif %}
             </div>
@@ -293,14 +294,14 @@
                     <p><b>{% trans "End" %}: </b>{{subject.end_date}}</p>
                   </div>
                 </div>
-                <a href="{% url 'course:view_subject' subject.slug %}" class="btn btn-raised btn-default center-block">{% trans 'View Subject' %}<div class="ripple-container"></div></a>
+                <a href="{% url 'course:view_subject' subject.slug %}" class="btn btn-raised btn-default center-block view_btn" {% if user|show_subject_subscribe:subject %}style="display:none"{% endif %}>{% trans 'View Subject' %}<div class="ripple-container"></div></a>
             </div>
         </div>
             {% endif %}
         {% endfor %}
   {% endif %}
 
-{% if  user|has_role:'professor' and user in course.professors or user|has_role:'system_admin' %}
+{% if  user|has_role:'professor' and user in course.professors.all or user|has_role:'system_admin' %}
 
     <div class="form-group">
     <a href="{% url 'course:create_subject' course.slug %}" data-toggle="modal" data-target="" class="btn btn-primary btn-lg btn-block btn-raised">{% trans 'Create Subject' %}<div class="ripple-container"></div></a>

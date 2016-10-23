@@ -9,6 +9,8 @@ from django.http import Http404
 
 from .models import Forum, Post, PostAnswer
 from courses.models import Topic
+from core.mixins import NotificationMixin
+from core.models import Action, Resource
 
 from .forms import ForumForm, PostForm, PostAnswerForm
 
@@ -36,7 +38,7 @@ class ForumIndex(LoginRequiredMixin, generic.ListView):
 
 		return context
 
-class CreateForumView(LoginRequiredMixin, generic.edit.CreateView):
+class CreateForumView(LoginRequiredMixin, generic.edit.CreateView, NotificationMixin):
 	login_url = reverse_lazy("core:home")	
 	redirect_field_name = 'next'
 
@@ -52,6 +54,11 @@ class CreateForumView(LoginRequiredMixin, generic.edit.CreateView):
 	def get_success_url(self):
 		self.success_url = reverse('course:forum:render_forum', args = (self.object.id, ))
 		
+
+		action = super(CreateForumView, self).createorRetrieveAction("create Topic")
+		super(CreateForumView, self).createNotification("Forum "+ self.object.name + " was created", 
+			resource_name=self.object.name, resource_link= 'topics/'+self.object.slug,
+			 actor=self.request.user, users = self.object.topic.subject.course.students.all() )
 		return self.success_url
 
 def render_forum(request, forum):

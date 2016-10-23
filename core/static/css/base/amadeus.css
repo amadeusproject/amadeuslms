@@ -12,7 +12,7 @@
 #notification-dropdown{
   max-height: 500%;
   overflow: auto;
-  width: 200px;
+  width: 300px;
 }
 
 /* HEADER */
@@ -351,5 +351,17 @@ ul, li {
   padding-bottom: 10px;
 }
 .form-group{
-  margin-top: 5px;
+  margin-top: 10px;
+}
+
+/* core/register_user.html classes*/
+
+.block-register-inline{
+  float: left;
+  display: inline-block;
+}
+
+/* core/reset_password.html classes*/
+.send-reset-email{
+  float: right;
 }
