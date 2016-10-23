@@ -30,11 +30,11 @@ msgstr ""
 
 #: courses/forms.py:26
 msgid "Objectives"
-msgstr ""
+msgstr "Objetivos"
 
 #: courses/forms.py:27 courses/models.py:23
 msgid "Content"
-msgstr ""
+msgstr "Conteúdo"
 
 #: courses/forms.py:28
 msgid "Number of studets maximum"
@@ -42,11 +42,11 @@ msgstr "Número máximo de estudantes"
 
 #: courses/forms.py:29
 msgid "Course registration start date"
-msgstr ""
+msgstr "Início das inscrições"
 
 #: courses/forms.py:30
 msgid "Course registration end date"
-msgstr ""
+msgstr "Fim da Inscrições"
 
 #: courses/forms.py:31
 msgid "Course start date"
@@ -66,59 +66,59 @@ msgstr "Categoria"
 
 #: courses/forms.py:37
 msgid "Course name"
-msgstr ""
+msgstr "Nome do Curso"
 
 #: courses/forms.py:38
 msgid "Course objective"
-msgstr ""
+msgstr "Objetivo do Curso"
 
 #: courses/forms.py:39
 msgid "Course modules"
-msgstr ""
+msgstr "Ḿódulos do curso"
 
 #: courses/forms.py:40
 msgid "Max number of students that a class can have"
-msgstr ""
+msgstr "Número máximo de estudantes que uma classe pode ter"
 
 #: courses/forms.py:41
 msgid "Date that starts the registration period of the course (dd/mm/yyyy)"
-msgstr ""
+msgstr "Data do começo do período de inscrição do curso (dia/mês/ano)"
 
 #: courses/forms.py:42
 msgid "Date that ends the registration period of the course (dd/mm/yyyy)"
-msgstr ""
+msgstr "Data do termino do período de inscrição do curso (dia/mês/ano)"
 
 #: courses/forms.py:43
 msgid "Date that the course starts (dd/mm/yyyy)"
-msgstr ""
+msgstr "Data que o curso começa (dia/mês/ano)"
 
 #: courses/forms.py:44
 msgid "Date that the course ends (dd/mm/yyyy)"
-msgstr ""
+msgstr "Data que o curso termina (dia/mês/ano)"
 
 #: courses/forms.py:45
 msgid "Representative image of the course"
-msgstr ""
+msgstr "Imagem representativa do curso"
 
 #: courses/forms.py:46
 msgid "Category which the course belongs"
-msgstr ""
+msgstr "Categoria ao qual o curso pertence"
 
 #: courses/forms.py:59 courses/models.py:46
 msgid "Description"
-msgstr ""
+msgstr "Descrição"
 
 #: courses/forms.py:60
 msgid "Is it visible?"
-msgstr ""
+msgstr "Visível?"
 
 #: courses/forms.py:63
 msgid "Module's name"
-msgstr ""
+msgstr "nome do módulo"
 
 #: courses/forms.py:64
 msgid "Modules's description"
-msgstr ""
+msgstr "descrição do módulo"
 
 #: courses/forms.py:65
 msgid "Is the module visible?"
@@ -147,7 +147,7 @@ msgstr ""
 
 #: courses/models.py:24
 msgid "Maximum Students"
-msgstr ""
+msgstr "Quantidade máximo de estudantes"
 
 #: courses/models.py:26
 msgid "Register Date (Begin)"
