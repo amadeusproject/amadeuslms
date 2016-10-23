@@ -151,7 +151,7 @@ def load_posts(request, forum_id):
 
     return render(request, 'post/post_list.html', context)
 
-class CreatePostView(LoginRequiredMixin, generic.edit.CreateView):
+class CreatePostView(LoginRequiredMixin, generic.edit.CreateView, NotificationMixin):
 	login_url = reverse_lazy("core:home")	
 	redirect_field_name = 'next'
 
@@ -162,6 +162,8 @@ class CreatePostView(LoginRequiredMixin, generic.edit.CreateView):
 		self.object.user = self.request.user
 
 		self.object.save()
+		#super(CreatePostView, self).createNotification(self.object.user.username + " posted on " + self.object.forum,name,
+		 #resource_slug = self.object.forum.slug, actor=self.request.user, users= self.object.forum.topic.)
 
 		return super(CreatePostView, self).form_valid(form)
 
