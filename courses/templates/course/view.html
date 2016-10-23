@@ -37,14 +37,14 @@
 
     <div class="panel panel-primary navigation">
     <div class="panel-heading">
-        <h3 class="panel-title">Actions</h3>
+        <h3 class="panel-title">{% trans "Actions" %}</h3>
     </div>
     <div class="panel-body">
         <ul class="nav nav-pills nav-stacked">
-            <li><a href="teacher/course_participants_teacher.html" target="_self">Participants</a></li>
-            <li><a href="javascript:void(0)">Replicate Subject</a></li>
-            <li><a href="javascript:void(0)">Create Subject</a></li>
-            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal">Create Topic</a></li>
+            <li><a href="teacher/course_participants_teacher.html" target="_self"> {% trans "Participants" %}</a></li>
+            <li><a href="javascript:void(0)">{% trans "Replicate Subject" %}</a></li>
+            <li><a href="javascript:void(0)">{% trans "Create Subject" %}t</a></li>
+            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal">{% trans "Create Topic" %}</a></li>
         </ul>
     </div>
 </div>
@@ -68,10 +68,10 @@
                   <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
                 <div class="ripple-container"></div></button>
                 <ul class="dropdown-menu" aria-labelledby="moreActions">
-                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createSubject"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp; Create Subject</a></li>
-                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
-                  <li><a href="{% url 'course:update' course.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Edit</a></li>
-                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
+                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createSubject"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp; {% trans "Create Subject" %}</a></li>
+                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
+                  <li><a href="{% url 'course:update' course.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
+                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
                 </ul>
               </div>
             </div>
@@ -80,7 +80,6 @@
     </div>
     <div class="panel-body">
       <p><b>Course Name: </b>{{course.name}}</p>
-      <p><b>Duration (in semesters): </b>09</p>
       <p><b>Coordinator: </b>{{course.professors}}</p>
       <p>
         <b>Description:</b>
@@ -91,75 +90,20 @@
 
     </div>
   </div>
-  <div class="btn-group btn-group-justified btn-group-raised">
-    <a href="{% url 'course:manage' %}" class="btn btn-raised btn-info">Todos</a>
-    {% for category_subject in categorys_subjects %}
-      <a href="?category={{category_subject.name}}" class="btn btn-raised btn-primary">{{category_subject.name}}</a>
-    {% endfor %}
-  </div>
+ 
 <!-- MODAL CREATE SUBJECT -->
 <div class="modal" tabindex="-1" role="dialog  " id="createSubject">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Create a New Subject</h4>
+        <h4 class="modal-title">{% trans "Create a New Subject" %}</h4>
       </div>
       <div class="modal-body">
         <div>
-          <!--<form class="form-horizontal">
-            <div class="form-group is-empty">
-              <label class="control-label col-md-2 col-md-offset-1 col-xs-2 col-xs-offset-1">Name</label>
-              <div class="col-md-8 col-xs-8">
-                <input type="text" class="form-control" name="nameSubject">
-              </div>
-            </div>
-            <div class="form-group is-empty">
-              <label class="control-label col-md-2 col-md-offset-1 col-xs-2 col-xs-offset-1">Description</label>
-              <div class="col-md-8 col-xs-8">
-                <textarea class="form-control" rows="3" id="textAreaSubject"></textarea>
-                <span class="help-block">Sign the description of the course.</span>
-              </div>
-            </div>
-            <div class="form-group is-empty">
-              <label class="control-label col-md-2 col-md-offset-1 col-xs-2 col-xs-offset-1">Goals</label>
-              <div class="col-md-8 col-xs-8">
-                <textarea class="form-control" rows="3" id="textAreaSubject"></textarea>
-                <span class="help-block">Sign the objectives of the course until the end of the course.</span>
-              </div>
-            </div>
-            <div class="form-group is-empty">
-              <label class="control-label col-md-2 col-md-offset-1 col-xs-2 col-xs-offset-1">Students Limit</label>
-              <div class="col-md-8 col-xs-8">
-                <input type="number" class="form-control" name="StudentLimit">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6 col-xs-12">
-                <div class="row">
-                  <div class="form-group is-empty">
-                    <label class="control-label col-md-4 col-xs-4 col-xs-offset-1">Begining</label>
-                    <div class="col-md-8 col-xs-6">
-                      <input type="date" class="form-control" name="BeginDate">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-xs-12">
-                <div class="row">
-                  <div class="form-group is-empty">
-                    <label class="control-label col-md-4 col-xs-4 col-xs-offset-1">End</label>
-                    <div class="col-md-8 col-xs-6">
-                      <input type="date" class="form-control" name="EndDate">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>-->
         </div>
         <div class="modal-footer">
-          <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
-          <a href="#" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
+          <button type="button" data-dismiss="modal" class="btn btn-default">{% trans "Cancel" %}</button>
+          <a href="#" target="_self"><button type="button" class="btn btn-primary"> {% trans "Confirm" %}</button></a>
         </div>
       </div>
     </div>
@@ -182,11 +126,11 @@
         <h4 class="modal-title"></h4>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to remove this subject?</p>
+        <p>{% trans "Are you sure you want to remove this subject?" %}</p>
       </div>
       <div class="modal-footer">
 
-        <a href="http://127.0.0.1:8080/html/screens/users/teacher/home_course_teacher.html" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
+        <a href="http://127.0.0.1:8080/html/screens/users/teacher/home_course_teacher.html" target="_self"><button type="button" class="btn btn-primary">{% trans "Confirm" %}</button></a>
 
       </div>
     </div>
@@ -317,11 +261,11 @@
           <h4 class="modal-title"></h4>
         </div>
         <div class="modal-body">
-          <p>Are you sure you want to remove this subject?</p>
+          <p> {% trans "Are you sure you want to remove this subject?" %}</p>
         </div>
         <div class="modal-footer">
 
-          <a href="http://127.0.0.1:8080/html/screens/users/teacher/home_course_teacher.html" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
+          <a href="http://127.0.0.1:8080/html/screens/users/teacher/home_course_teacher.html" target="_self"><button type="button" class="btn btn-primary">{% trans "Confirm" %}</button></a>
 
         </div>
       </div>

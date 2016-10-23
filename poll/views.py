@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from rolepermissions.verifications import has_role
 from rolepermissions.verifications import has_object_permission
 from django.db.models import Q
-# from django.views.generic.edit import FormMixin
+from django.urls import reverse
 
 from .forms import PollForm
 from .models import Poll, Answer, AnswersStudent
@@ -41,7 +41,7 @@ class ViewPoll(LoginRequiredMixin,generic.DetailView):
 		return context
 
 
-class CreatePoll(LoginRequiredMixin,HasRoleMixin,generic.CreateView):
+class CreatePoll(LoginRequiredMixin,HasRoleMixin, NotificationMixin,generic.CreateView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -63,15 +63,19 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin,generic.CreateView):
 		context.context_data['keys'] = keys
 		context.context_data['form'] = form
 		context.status_code = 400
-		# return self.render_to_response(context, status = 400)
+		s
 		return context
 
 	def form_valid(self, form):
 		self.object = form.save(commit = False)
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 		self.object.topic = topic
+		self.object.name = str(self.object)
 		self.object.save()
 
+		super(CreatePoll, self).createNotification(message="create a Poll "+ self.object.name, actor=self.request.user,
+			resource_name=self.object.name, resource_link= reverse('course:poll:view_poll', args=[self.object.slug]), 
+			users=self.object.topic.subject.students.all())
 		for key in self.request.POST:
 			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date' and key != 'all_students' and key != 'students'):
 				answer = Answer(answer=self.request.POST[key],order=key,poll=self.object)
