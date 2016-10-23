@@ -42,7 +42,6 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 			categorys_courses = CourseCategory.objects.filter(course_category__students__name = self.request.user.name).distinct()
 
 		courses_category = Course.objects.filter(category__name = self.request.GET.get('category'))
-
 		none = None
 		q = self.request.GET.get('category', None)
 		if q is  None:

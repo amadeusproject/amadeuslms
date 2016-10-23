@@ -10,7 +10,6 @@
             <img class="imgTimeLine" src="{{ notification.user.image_url }}">
         </div>
         <div class="col-xs-10 col-md-11">
-            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
             <h4 class="resource_inline"><b>{{ notification.actor.username }}</b></h4>
             <p class="resource_inline">{{notification.message}} em : <a href="{% url 'core:notification_read' notification.id  %}">{{ notification.action_resource.resource.name }}</a></p>
             <p class="timePost"><i> {{ notification.datetime|timesince }} {% trans "ago" %}  </i></p>

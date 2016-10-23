@@ -73,7 +73,7 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin, NotificationMixin,generic.Crea
 		self.object.name = str(self.object)
 		self.object.save()
 
-		super(CreatePoll, self).createNotification(message="create a Poll "+ self.object.name, actor=self.request.user,
+		super(CreatePoll, self).createNotification(message="created a Poll "+ self.object.name, actor=self.request.user,
 			resource_name=self.object.name, resource_link= reverse('course:poll:view_poll', args=[self.object.slug]), 
 			users=self.object.topic.subject.students.all())
 		for key in self.request.POST:
