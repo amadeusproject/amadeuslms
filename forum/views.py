@@ -58,7 +58,7 @@ class CreateForumView(LoginRequiredMixin, generic.edit.CreateView, NotificationM
 		action = super(CreateForumView, self).createorRetrieveAction("create Topic")
 		super(CreateForumView, self).createNotification("Forum "+ self.object.name + " was created", 
 			resource_name=self.object.name, resource_link= 'topics/'+self.object.slug,
-			 actor=self.request.user, users = self.object.topic.subject.course.students.all() )
+			 actor=self.request.user, users = self.object.topic.subject.students.all() )
 		return self.success_url
 
 def render_forum(request, forum):
@@ -162,8 +162,8 @@ class CreatePostView(LoginRequiredMixin, generic.edit.CreateView, NotificationMi
 		self.object.user = self.request.user
 
 		self.object.save()
-		#super(CreatePostView, self).createNotification(self.object.user.username + " posted on " + self.object.forum,name,
-		 #resource_slug = self.object.forum.slug, actor=self.request.user, users= self.object.forum.topic.)
+		super(CreatePostView, self).createNotification(self.object.user.username + " posted on " + self.object.forum,name,
+		 resource_slug = self.object.forum.slug, actor=self.request.user, users= self.object.forum.topic.subject.students.all())
 
 		return super(CreatePostView, self).form_valid(form)
 
