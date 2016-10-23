@@ -13,6 +13,7 @@ from core.mixins import NotificationMixin
 from core.models import Action, Resource
 
 from .forms import ForumForm, PostForm, PostAnswerForm
+from django.urls import reverse
 
 """
 	Forum Section
@@ -57,7 +58,7 @@ class CreateForumView(LoginRequiredMixin, generic.edit.CreateView, NotificationM
 
 		action = super(CreateForumView, self).createorRetrieveAction("create Topic")
 		super(CreateForumView, self).createNotification("Forum "+ self.object.name + " was created", 
-			resource_name=self.object.name, resource_link= 'topics/'+self.object.slug,
+			resource_name=self.object.name, resource_link= reverse('course:forum:view', args=[self.object.slug]),
 			 actor=self.request.user, users = self.object.topic.subject.students.all() )
 		return self.success_url
 

@@ -51,13 +51,13 @@ class NotificationMixin(object):
 		if action.exists():
 			action = action[0]
 		else:
-			action = Action(name = self.action_slug)
+			action = Action(name = action_slug)
 			action.save()
 
 		if resource.exists():
 			resource = resource[0]
 		else:
-			resource = Resource(name = self.resource_name, url= resource_link)
+			resource = Resource(name = resource_name, url= resource_link)
 			resource.save()
 
 		action_resource = Action_Resource.objects.filter(action = action, resource = resource)

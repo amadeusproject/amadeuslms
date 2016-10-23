@@ -19,6 +19,8 @@ from users.models import User
 from files.forms import FileForm
 from files.models import TopicFile
 
+from django.urls import reverse
+
 from datetime import date
 
 class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
@@ -430,7 +432,7 @@ class CreateTopicView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, gener
 		self.object.save()
 		action = super(CreateTopicView, self).createorRetrieveAction("create Topic")
 		super(CreateTopicView, self).createNotification("Topic "+ self.object.name + " was created", 
-			resource_name=self.object.name, resource_link= 'topics/'+self.object.slug,
+			resource_name=self.object.name, resource_link= reverse('course:view_topic',args=[self.object.slug]),
 			 actor=self.request.user, users = self.object.subject.course.students.all() )
 		
 		return super(CreateTopicView, self).form_valid(form)

@@ -10,9 +10,11 @@ from rolepermissions.mixins import HasRoleMixin
 from courses.models import Topic
 from .models import Link
 from .forms import *
+from core.mixins import NotificationMixin
+from django.urls import reverse
 
 # Create your views here.
-class CreateLink(LoginRequiredMixin, HasRoleMixin, generic.CreateView):
+class CreateLink(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.CreateView):
     allowed_roles = ['professor', 'system_admin']
     template_name = 'links/create_link.html'
     form_class = CreateLinkForm
@@ -24,9 +26,12 @@ class CreateLink(LoginRequiredMixin, HasRoleMixin, generic.CreateView):
         topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
         self.object.topic = topic
         messages.success(self.request, _('Link created successfully!'))
-        #messages.error(self.request, _("An error occurred when trying to create the link"))
+       
         self.object.save()
-        #return self.success_url
+        super(CreateLink, self).createNotification(message="created a Link at "+ self.object.topic.name, actor=self.request.user,
+            resource_name=self.object.name, resource_link= reverse('course:view_topic', args=[self.object.topic.slug]), 
+            users=self.object.topic.subject.students.all())
+
         return self.get_success_url()
     def get_context_data(self,**kwargs):
         context = {}
@@ -43,7 +48,7 @@ def deleteLink(request,linkname):
     link.delete()
     template_name = 'links/delete_link.html'
     messages.success(request,_("Link deleted Successfully!"))
-    #messages.error(request, _("An error occurred when trying to delete the link"))
+   
     return redirect('course:manage')
 
 def render_link(request, id):
