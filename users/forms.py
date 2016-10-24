@@ -45,7 +45,7 @@ class UpdateUserForm(forms.ModelForm):
 
 	def validate_cpf(self, cpf):
 		cpf = ''.join(re.findall('\d', str(cpf)))
-        
+
 		if cpfcnpj.validate(cpf):
 			return True
 		return False
@@ -71,4 +71,4 @@ class UpdateProfileForm(UpdateUserForm):
 
 	class Meta:
 		model = User
-		fields = ['username', 'name', 'email', 'birth_date', 'city', 'state', 'gender', 'cpf', 'phone', 'image']
+		fields = ['username', 'name', 'email', 'birth_date', 'city', 'state', 'gender', 'cpf', 'phone', 'image', 'curriculum']
