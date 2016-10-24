@@ -1,9 +1,13 @@
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
+import datetime
 from autoslug.fields import AutoSlugField
 from users.models import User
 from core.models import Resource, MimeType
 from s3direct.fields import S3DirectField
+
+from django.core.urlresolvers import reverse
+from core.models import Resource
 
 class CourseCategory(models.Model):
 
@@ -45,7 +49,8 @@ class Course(models.Model):
 	image = models.ImageField(verbose_name = _('Image'), blank = True, upload_to = 'courses/')
 	category = models.ForeignKey(CourseCategory, verbose_name = _('Category'), related_name='course_category')
 	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='courses_professors')
-	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='courses_student')
+	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='courses_student', blank = True)
+	public = models.BooleanField(_('Public'))
 
 	class Meta:
 		ordering = ('create_date','name')
@@ -54,6 +59,14 @@ class Course(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	def get_absolute_url (self):
+		return reverse('course:view', kwargs={'slug': self.slug})
+
+	def show_subscribe(self):
+		today = datetime.date.today()
+
+		return today >= self.init_register_date and today <= self.end_register_date
 
 class Subject(models.Model):
 
@@ -68,8 +81,7 @@ class Subject(models.Model):
 	course = models.ForeignKey(Course, verbose_name = _('Course'), related_name="subjects")
 	category = models.ForeignKey(CategorySubject, verbose_name = _('Category'), related_name='subject_category',null=True)
 	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='professors_subjects')
-	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='subject_student')
-
+	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='subject_student', blank = True)
 
 	class Meta:
 		ordering = ('create_date','name')
@@ -78,6 +90,11 @@ class Subject(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	def show_subscribe(self):
+		today = datetime.date.today()
+
+		return today < self.init_date
 
 class Topic(models.Model):
 

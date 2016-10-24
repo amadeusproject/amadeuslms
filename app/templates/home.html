@@ -3,53 +3,55 @@
 {% load static i18n django_bootstrap_breadcrumbs permission_tags %}
 
 {% block javascript %}
-	<script type="text/javascript">
-		var pageNum = {{ page_obj.number }}; // The latest page loaded
-		var numberPages = {{ paginator.num_pages }}; // Indicates the number of pages
-		var baseUrl = '{% url "app:index" %}';
+	{% if page_obj %}
+		<script type="text/javascript">
+			var pageNum = {{ page_obj.number }}; // The latest page loaded
+			var numberPages = {{ paginator.num_pages }}; // Indicates the number of pages
+			var baseUrl = '{% url "app:index" %}';
 
-		// loadOnScroll handler
-		var loadOnScroll = function() {
-		   // If the current scroll position is past out cutoff point...
-		    if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
-		        // temporarily unhook the scroll event watcher so we don't call a bunch of times in a row
-		        $(window).unbind();
-		        // execute the load function below that will visit the view and return the content
-		        loadItems();
-		    }
-		};
+			// loadOnScroll handler
+			var loadOnScroll = function() {
+			   // If the current scroll position is past out cutoff point...
+			    if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
+			        // temporarily unhook the scroll event watcher so we don't call a bunch of times in a row
+			        $(window).unbind();
+			        // execute the load function below that will visit the view and return the content
+			        loadItems();
+			    }
+			};
 
-		var loadItems = function() {
-		    // Check if page is equal to the number of pages
-		    if (pageNum == numberPages) {
-		        return false
-		    }
-		    // Update the page number
-		    pageNum = pageNum + 1;
+			var loadItems = function() {
+			    // Check if page is equal to the number of pages
+			    if (pageNum == numberPages) {
+			        return false
+			    }
+			    // Update the page number
+			    pageNum = pageNum + 1;
 
-		    $("#loading").show();
-		    // Configure the url we're about to hit
-		    setTimeout(function (){
-			    $.ajax({
-			        url: baseUrl, 
-			        data: {'page': pageNum},
-			        success: function(data) {
-			            $("#loading").hide();
-			            
-			            $("#timeline").append(data);
-			        },
-			        complete: function(data, textStatus){
-			            // Turn the scroll monitor back on
-			            $(window).bind('scroll', loadOnScroll);
-			        }
-			    });
-		    }, 1000)
-		};
+			    $("#loading").show();
+			    // Configure the url we're about to hit
+			    setTimeout(function (){
+				    $.ajax({
+				        url: baseUrl,
+				        data: {'page': pageNum},
+				        success: function(data) {
+				            $("#loading").hide();
 
-		$(document).ready(function(){     
-		   $(window).bind('scroll', loadOnScroll);
-		});
-	</script>
+				            $("#timeline").append(data);
+				        },
+				        complete: function(data, textStatus){
+				            // Turn the scroll monitor back on
+				            $(window).bind('scroll', loadOnScroll);
+				        }
+				    });
+			    }, 1000)
+			};
+
+			$(document).ready(function(){
+			   $(window).bind('scroll', loadOnScroll);
+			});
+		</script>
+	{% endif %}
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -62,70 +64,49 @@
 {% endblock %}
 
 {% block sidebar %}
-	<div class="panel panel-primary">
+    <div class="panel panel-primary navigation">
         <div class="panel-heading">
-          	<img src="{{ user.image_url }}" id="img" class="img-rounded">
-          	<p></p>
-          	<div class="row">
-            	<div class="col-xs-3 col-md-3">
-            		<i class="fa fa-facebook-official fa-2x" aria-hidden="true"></i>
-        		</div>
-                <div class="col-xs-3 col-md-3">
-                	<i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
-            	</div>
-                <div class="col-xs-3 col-md-3">
-                	<i class="fa fa-linkedin-square fa-2x" aria-hidden="true"></i>
-            	</div>
-                <div class="col-xs-3 col-md-3">
-                	<i class="fa fa-google-plus-official fa-2x" aria-hidden="true"></i>
-            	</div>
-          	</div>
-    	</div>
-    	<div class="panel-body">
-          	<ul class="nav nav-pills nav-stacked">
-            	<li> <a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-                <li> <a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
-                <li> <a href="#">{% trans 'Pending Tasks' %}</a></li>
-                {% if user|has_role:'student' and not user.is_staff %}
-                	<li> <a href="{% url 'course:manage' %}">{% trans 'My courses' %}</a></li>
-            	{% endif %}
-            	{% if user|has_role:'system_admin' %}
-            		<li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
-            	{% endif %}
-            	{% if user|has_role:'system_admin' or user|has_role:'professor' %}
-            		<li> 
-            			<a href="#courses_list" class="accordion" data-toggle="collapse">{% trans 'Manage Courses' %}</a>
-
-						<div id="courses_list" class="collapse">
-							<ul class="nav nav-pill nav-stacked accordion_list">
-								{% for course in courses_list %}
-									<li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
-								{% endfor %}
-							</ul>
-						</div>
-					</li>
-            	{% endif %}
-          	</ul>
-    	</div>
-  	</div>
+            <h4>Menu</h4>
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+                <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
+                {% if user|has_role:'student' or not user.is_staff %}
+                    <li><a href="{% url 'course:manage' %}">{% trans 'My courses' %}</a></li>
+                {% endif %}
+                <li><a href="{% url 'core:guest' %}">{% trans 'All Courses' %}</a></li>
+                {% if user|has_role:'system_admin' %}
+                    <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
+                {% endif %}
+                {% if user|has_role:'system_admin' or user|has_role:'professor' %}
+                    <li>
+                        <a href="#courses_list" class="accordion" data-toggle="collapse">{% trans 'Manage Courses' %}</a>
+                        <div id="courses_list" class="collapse">
+                            <ul class="nav nav-pill nav-stacked accordion_list">
+                            {% for course in courses_list %}
+                                <li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}
 
 {% block content %}
 	{% if user|has_role:'system_admin' %}
-		<h3>{% trans 'Courses' %}</h3>
-
-		<div id="timeline">
-			{% include page_template %}
-		</div>
-		
+                <h3>{% trans 'Courses' %}</h3>
+                <div id="timeline">
+                	{% include page_template %}
+                </div>
 	{% else %}
-		
-			<div id="timeline">
-				{% include page_template %}
-			</div>
-		
+               <div id="timeline">
+                   {% include page_template %}
+               </div>
 	{% endif %}
-	
 	<div id="loading" class="alert alert-primary" role="alert" style="display: none">
 		<center>
 			<span class="fa fa-spin fa-circle-o-notch"></span>

@@ -9,8 +9,11 @@ from django.http import Http404
 
 from .models import Forum, Post, PostAnswer
 from courses.models import Topic
+from core.mixins import NotificationMixin
+from core.models import Action, Resource
 
 from .forms import ForumForm, PostForm, PostAnswerForm
+from django.urls import reverse
 
 """
 	Forum Section
@@ -36,7 +39,7 @@ class ForumIndex(LoginRequiredMixin, generic.ListView):
 
 		return context
 
-class CreateForumView(LoginRequiredMixin, generic.edit.CreateView):
+class CreateForumView(LoginRequiredMixin, generic.edit.CreateView, NotificationMixin):
 	login_url = reverse_lazy("core:home")	
 	redirect_field_name = 'next'
 
@@ -52,6 +55,11 @@ class CreateForumView(LoginRequiredMixin, generic.edit.CreateView):
 	def get_success_url(self):
 		self.success_url = reverse('course:forum:render_forum', args = (self.object.id, ))
 		
+
+		action = super(CreateForumView, self).createorRetrieveAction("create Topic")
+		super(CreateForumView, self).createNotification("Forum "+ self.object.name + " was created", 
+			resource_name=self.object.name, resource_link= reverse('course:forum:view', args=[self.object.slug]),
+			 actor=self.request.user, users = self.object.topic.subject.students.all() )
 		return self.success_url
 
 def render_forum(request, forum):
@@ -144,7 +152,7 @@ def load_posts(request, forum_id):
 
     return render(request, 'post/post_list.html', context)
 
-class CreatePostView(LoginRequiredMixin, generic.edit.CreateView):
+class CreatePostView(LoginRequiredMixin, generic.edit.CreateView, NotificationMixin):
 	login_url = reverse_lazy("core:home")	
 	redirect_field_name = 'next'
 
@@ -155,6 +163,8 @@ class CreatePostView(LoginRequiredMixin, generic.edit.CreateView):
 		self.object.user = self.request.user
 
 		self.object.save()
+		super(CreatePostView, self).createNotification(self.object.user.username + " posted on " + self.object.forum,name,
+		 resource_slug = self.object.forum.slug, actor=self.request.user, users= self.object.forum.topic.subject.students.all())
 
 		return super(CreatePostView, self).form_valid(form)
 

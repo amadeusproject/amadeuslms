@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, {'next_page': 'core:home'}, name='logout'),
     url(r'^notification/([0-9]+)/$', views.processNotification, name='notification_read'),
     url(r'^getNotifications/$', views.getNotifications, name='getNotifications'),
+    url(r'^guest/$', views.guest, name='guest'),
 
 #Reset Password
 

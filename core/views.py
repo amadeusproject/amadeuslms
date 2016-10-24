@@ -18,7 +18,7 @@ from .forms import RegisterUserForm
 from .decorators import log_decorator, notification_decorator
 
 from users.models import User
-
+from courses.models import Course, CourseCategory
 
 def index(request):
 	context = {
@@ -68,7 +68,6 @@ def remember_password(request):
 			context['danger'] = 'E-mail does not send'
 	return render(request, "remember_password.html",context)
 
-@notification_decorator(message='just connected')
 @log_decorator('Acessar', 'Sistema')
 def login(request):
 	context = {}
@@ -113,3 +112,10 @@ def getNotifications(request):
 
 	html = render_to_string("notifications.html", context)
 	return HttpResponse(html)
+
+def guest (request):
+	context = {
+		'courses': Course.objects.filter(public=True),
+		'categories': CourseCategory.objects.all(),
+	}
+	return render(request, 'guest.html', context)

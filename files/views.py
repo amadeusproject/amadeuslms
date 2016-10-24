@@ -5,14 +5,16 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rolepermissions.mixins import HasRoleMixin
+from rolepermissions.verifications import has_role
 from .forms import FileForm, UpdateFileForm
 from .models import TopicFile
 from .utils import mime_type_to_material_icons
 from courses.models import Topic
 from core.models import MimeType
+from core.mixins import NotificationMixin
 
 # Create your views here.
-class CreateFile(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
+class CreateFile(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.edit.CreateView):
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
@@ -31,6 +33,10 @@ class CreateFile(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 		self.object = form.save(commit = False)
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 		self.object.topic = topic
+		
+		self.object.name = str(self.object)
+		
+
 		# Set MimeType
 		file = self.request.FILES['file_url']
 		try:
@@ -53,8 +59,12 @@ class CreateFile(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 			# self.object.file_type = MimeType.objects.get(id = 1)
 
 		self.object.save()
+		#CREATE NOTIFICATION
+		super(CreateFile, self).createNotification(message="uploaded a File "+ self.object.name, actor=self.request.user,
+			resource_name=self.object.name, resource_link= reverse('course:file:create_file', args=[self.object.slug]), 
+			users=self.object.topic.subject.students.all())
 
-		return self.render_to_response(self.get_context_data(form = form), status = 200)
+		return self.get_success_url()
 
 	def get_context_data(self, **kwargs):
 		context = super(CreateFile, self).get_context_data(**kwargs)
@@ -69,7 +79,7 @@ class CreateFile(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 		return context
 
 	def get_success_url(self):
-		self.success_url = reverse('course:file:render_file', args = (self.object.id, ))
+		self.success_url = redirect('course:file:render_file', id = self.object.id)
 		
 		return self.success_url
 
@@ -115,7 +125,7 @@ class DeleteFile(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 	def dispatch(self, *args, **kwargs):
 		file = get_object_or_404(TopicFile, slug = self.kwargs.get('slug'))
-		if(not (file.topic.owner == self.request.user)):
+		if(not (file.topic.owner == self.request.user) and not(has_role(self.request.user, 'system_admin')) ):
 			return self.handle_no_permission()
 		return super(DeleteFile, self).dispatch(*args, **kwargs)
 

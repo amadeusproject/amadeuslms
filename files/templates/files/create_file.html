@@ -99,8 +99,8 @@
                 contentType: false,
                 success: function(data) {
                     $('#fileModal').modal('hide');
-                    alert(data);
-                    // $('#list-topic-files').append(data);
+                    $('#list-topic{{ topic.id }}-files').append(data);
+                    $('#list-topic{{ topic.id }}-files-edit').append(data);
                 },
                 error: function(data){
                     $('.erro').html(data.responseText);
@@ -110,5 +110,5 @@
             });
             event.preventDefault();
           });
-  </script>
+    </script>
 {% endblock script_file %}

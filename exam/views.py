@@ -24,7 +24,7 @@ class ViewExam(LoginRequiredMixin,generic.DetailView):
 	template_name = 'exam/view.html'
 
 	def get_object(self, queryset=None):
-	    return get_object_or_404(Exam, slug = self.kwargs.get('slug'))
+	    return get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 
 	def get_context_data(self, **kwargs):
 		context = super(ViewExam, self).get_context_data(**kwargs)
@@ -44,7 +44,7 @@ class ViewExam(LoginRequiredMixin,generic.DetailView):
 
 
 
-class CreateExam(LoginRequiredMixin,HasRoleMixin,generic.CreateView):
+class CreateExam(LoginRequiredMixin,HasRoleMixin, NotificationMixin,generic.CreateView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -72,8 +72,12 @@ class CreateExam(LoginRequiredMixin,HasRoleMixin,generic.CreateView):
 		self.object = form.save(commit = False)
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 		self.object.topic = topic
+		self.object.name = str(self.object)
 		self.object.save()
 
+		super(CreateExam, self).createNotification(message="created an Exam "+ self.object.name, actor=self.request.user,
+			resource_name=self.object.name, resource_link= reverse('course:exam:view_exam', args=[self.object.slug]), 
+			users=self.object.topic.subject.students.all())
 		for key in self.request.POST:
 			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'begin_date' and key != 'limit_date' and key != 'all_students' and key != 'students'):
 				answer = Answer(answer=self.request.POST[key],order=key,exam=self.object)
@@ -227,3 +231,29 @@ class AnswerStudentExam(LoginRequiredMixin,generic.CreateView):
 		context['keys'] = keys
 
 		return context
+
+class MultipleChoiceQuestion(generic.TemplateView):
+	template_name = 'exam/multiple_choice_question.html'
+
+
+class MultipleChoiceAnswer(generic.TemplateView):
+	template_name = 'exam/multiple_choice_answer.html'
+
+
+class DiscursiveQuestion(generic.TemplateView):
+	template_name = 'exam/discursive_question.html'
+
+
+class TrueOrFalseQuestion(generic.TemplateView):
+	template_name = 'exam/true_or_false_question.html'
+
+
+class TrueOrFalseAnswer(generic.TemplateView):
+	template_name = 'exam/true_or_false_answer.html'
+
+
+class GapFillingQuestion(generic.TemplateView):
+	template_name = 'exam/gap_filling_question.html'
+
+class GapFillingAnswer(generic.TemplateView):
+	template_name = 'exam/gap_filling_answer.html'

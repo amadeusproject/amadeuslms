@@ -39,7 +39,7 @@ class UserForm(RegisterUserForm):
 
 	class Meta:
 		model = User
-		fields = ['username', 'name', 'email', 'birth_date', 'city', 'state', 'gender', 'type_profile', 'cpf', 'phone', 'image', 'is_staff', 'is_active']
+		fields = ['username', 'name', 'email', 'birth_date', 'city', 'state', 'gender', 'type_profile', 'cpf', 'phone', 'image', 'titration', 'year_titration', 'institution', 'curriculum', 'is_staff', 'is_active']
 
 class UpdateUserForm(forms.ModelForm):
 
@@ -59,6 +59,7 @@ class UpdateUserForm(forms.ModelForm):
 	def clean_birth_date(self):
 		birth_date = self.cleaned_data['birth_date']
 		if birth_date >= date.today():
+			print('===============' + date.today() + '================')
 			raise forms.ValidationError(_('Please enter a valid date'))
 		return birth_date
 
