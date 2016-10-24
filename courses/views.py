@@ -197,7 +197,7 @@ class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 		return context
 
 
-class CourseView(LoginRequiredMixin, NotificationMixin, generic.DetailView):
+class CourseView( NotificationMixin, generic.DetailView):
 
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
@@ -214,7 +214,7 @@ class CourseView(LoginRequiredMixin, NotificationMixin, generic.DetailView):
 			subjects = course.subjects.all()
 		elif has_role(self.request.user,'professor'):
 			subjects = course.subjects.filter(professors__in=[self.request.user])
-		elif has_role(self.request.user, 'student'):
+		elif has_role(self.request.user, 'student') or self.request.user is None:
 			subjects = course.subjects.filter(visible=True)
 		context['subjects'] = subjects
 
@@ -224,12 +224,16 @@ class CourseView(LoginRequiredMixin, NotificationMixin, generic.DetailView):
 			courses = self.request.user.courses_professors.all()
 		elif has_role(self.request.user, 'student'):
 			courses = self.request.user.courses_student.all()
+		else:
+			courses = Course.objects.filter(public = True)
 
 		categorys_subjects = None
 		if has_role(self.request.user,'professor') or has_role(self.request.user,'system_admin'):
 			categorys_subjects = CategorySubject.objects.filter(subject_category__professors__name = self.request.user.name).distinct()
-		else:
+		elif has_role(self.request.user, 'student'):
 			categorys_subjects = CategorySubject.objects.filter(subject_category__students__name = self.request.user.name).distinct()
+		else:
+			categorys_subjects = CategorySubject.objects.all().distinct()
 
 		subjects_category = Subject.objects.filter(category__name = self.request.GET.get('category'))
 
@@ -410,8 +414,7 @@ class TopicsView(LoginRequiredMixin, generic.ListView):
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 		subject = topic.subject
 		topics_q = Topic.objects.filter(subject = subject, visible=True)
-		#if (self.request.user in subject.professors.all() or has_role(self.request.user,'system_admin')):
-			#context = subject.topics.all() <- Change it By Activities
+		
 		return topics_q
 
 	def get_context_data(self, **kwargs):
@@ -419,14 +422,13 @@ class TopicsView(LoginRequiredMixin, generic.ListView):
 		context = super(TopicsView, self).get_context_data(**kwargs)
 		activitys = Activity.objects.filter(topic__name = topic.name)
 		students_activit = User.objects.filter(activities__in = Activity.objects.all())
-		# page_user = User.objects.get(id= self.kwargs['user_id'])
+		
 		context['topic'] = topic
 		context['subject'] = topic.subject
 		context['activitys'] = activitys
 		context['students_activit'] = students_activit
 		context['form'] = ActivityForm
-		# context['user_activity_id'] = Activity.objects.filter(students__id =  self.kwargs['students_id'])
-		# context['page_user'] = page_user
+		
 		return context
 
 
@@ -493,7 +495,7 @@ class UpdateTopicView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 			context['subjects'] = topic.subject.course.subjects.all()
 		return context
 
-class CreateSubjectView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
+class CreateSubjectView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.edit.CreateView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -520,6 +522,10 @@ class CreateSubjectView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateVie
 		self.object.course = course
 		self.object.save()
 		self.object.professors.add(self.request.user)
+		if self.object.visible:
+			super(CreateSubjectView, self).createNotification( " created subject " + self.object.name, resource_name=self.object.name,
+			 resource_slug = self.object.slug, actor=self.request.user, users= self.object.course.students.all(),
+			 resource_link = reverse('course:view_subject', args=[self.object.slug]))
 
 		return super(CreateSubjectView, self).form_valid(form)
 

@@ -57,17 +57,17 @@
 	    	</div>
     	</div>
     	<div class="panel-body">
-	      <p><b>Professor:</b> {{subject.professors}}</p>
+	      <p><b>{% trans "Professor" %}:</b> {{subject.professors}}</p>
 	      <p>
-	        <b>Description:</b>
+	        <b>{% trans "Description" %}:</b>
 	          {{subject.description|linebreaks}}
 	      </p>
 	      <div class="row">
 	        <div class="col-xs-6 col-md-6">
-	          <p><b>Begining:</b> {{subject.init_date}}</p>
+	          <p><b>{% trans "Beginning" %}:</b> {{subject.init_date}}</p>
 	        </div>
 	        <div class="col-xs-6 col-md-6">
-	          <p><b>End:</b> {{subject.end_date}}</p>
+	          <p><b>{% trans "End" %}:</b> {{subject.end_date}}</p>
 	        </div>
 	      </div>
 	    </div>

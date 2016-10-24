@@ -9,8 +9,6 @@ urlpatterns = [
 	url(r'^delete/(?P<slug>[\w\-_]+)/$', views.DeleteExam.as_view(), name='delete_exam'), # exam
 	url(r'^answer/$', views.AnswerExam.as_view(), name='answer_exam'), # exam
 	url(r'^answer-exam/(?P<slug>[\w\-_]+)/$', views.AnswerStudentExam.as_view(), name='answer_student_exam'), # exam slug
-
-
 	url(r'^discursive-question/$',views.DiscursiveQuestion.as_view(), name="discursive_question"),
 	url(r'^gap-filling-question/$',views.GapFillingQuestion.as_view(), name="gap_filling_question"),
 	url(r'^gap-filling-answer/$',views.GapFillingAnswer.as_view(), name="gap_filling_answer"),
