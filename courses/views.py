@@ -493,8 +493,7 @@ class CreateSubjectView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, gen
 		self.object.save()
 		self.object.professors.add(self.request.user)
 		if self.object.visible:
-			print(reverse('course:view_subject', args=[self.object.slug]))
-			super(CreateSubjectView, self).createNotification( " created subject " + self.object.name,
+			super(CreateSubjectView, self).createNotification( " created subject " + self.object.name, resource_name=self.object.name,
 			 resource_slug = self.object.slug, actor=self.request.user, users= self.object.course.students.all(),
 			 resource_link = reverse('course:view_subject', args=[self.object.slug]))
 

@@ -62,7 +62,6 @@ class NotificationMixin(object):
 			resource = Resource(name = resource_name, url= resource_link)
 			resource.save()
 
-		
 		action_resource = Action_Resource.objects.filter(action = action, resource = resource)
 
 		if action_resource.exists():
