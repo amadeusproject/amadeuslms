@@ -105,6 +105,38 @@ class CreateCourseView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,gener
 		context['now'] = date.today()
 		return context
 
+class ReplicateCourseView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,generic.edit.CreateView):
+
+	allowed_roles = ['professor', 'system_admin']
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+	template_name = 'course/replicate.html'
+	form_class = CourseForm
+	success_url = reverse_lazy('course:manage')
+
+	def form_valid(self, form):
+		self.object = form.save()
+		self.object.professors.add(self.request.user)
+		return super(ReplicateCourseView, self).form_valid(form)
+
+	def get_context_data(self, **kwargs):
+		context = super(ReplicateCourseView, self).get_context_data(**kwargs)
+		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
+		if has_role(self.request.user,'system_admin'):
+			courses = Course.objects.all()
+		elif has_role(self.request.user,'professor'):
+			courses = self.request.user.courses.all()
+		categorys_courses = CourseCategory.objects.all()
+		context['courses'] = courses
+		context['course'] = course
+		context['categorys_courses'] = categorys_courses
+		context['title'] = _("Replicate Course")
+		context['now'] = date.today()
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('course:view', kwargs={'slug' : self.object.slug})
+
 class UpdateCourseView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 	allowed_roles = ['professor', 'system_admin']
@@ -135,8 +167,6 @@ class UpdateCourseView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 	def get_success_url(self):
 		return reverse_lazy('course:view', kwargs={'slug' : self.object.slug})
-
-
 
 class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 

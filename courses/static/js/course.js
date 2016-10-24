@@ -64,3 +64,17 @@ function delete_course(url, course, message, return_url) {
         });
     });
 }
+/*
+*
+* Function to load create course's form
+*
+*/
+function replicate_course(url, course) {
+    $.ajax({
+        url: url, 
+        data: {'form': course},
+        success: function(data) {
+            $(".course_replicate_form").html(data);
+        }
+    });
+}
