@@ -34,9 +34,12 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 		context = super(IndexView, self).get_context_data(**kwargs)
 		list_courses = None
 		categorys_courses = None
-		if has_role(self.request.user,'professor') or has_role(self.request.user,'system_admin'):
+		if has_role(self.request.user,'professor'):
 			list_courses = Course.objects.filter(Q(professors = True)|Q(professors__name = self.request.user.name)).order_by('name')
 			categorys_courses = CourseCategory.objects.filter(course_category__professors__name = self.request.user.name).distinct()
+		elif has_role(self.request.user,'system_admin'):
+			list_courses = queryset.order_by('name')
+			categorys_courses = CourseCategory.objects.all()
 		else:
 			list_courses = Course.objects.filter(Q(students = True)|Q(students__name = self.request.user.name)).order_by('name')
 			categorys_courses = CourseCategory.objects.filter(course_category__students__name = self.request.user.name).distinct()

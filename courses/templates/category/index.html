@@ -80,11 +80,10 @@
 							<td>{{ category }}</td>
 							<td>{{ category.slug }}</td>
 							<td class="text-center">
-								<a href="{% url 'course:view_cat' category.slug %}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a>
-								<a href="{% url 'course:update_cat' category.slug %}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
-								<a href="javascript:modal.get('{% url 'course:delete_cat' category.slug %}','#category','#modal_category');" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
-
-							</td>
+  								<a href="{% url 'course:view_cat' category.slug %}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a>
+  								<a href="{% url 'course:update_cat' category.slug %}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
+ 								<a href="javascript:modal.get('{% url 'course:delete_cat' category.slug %}','#category','#modal_category');" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
+  							</td>
 						</tr>
 					{% endfor %}
 				{% else %}
