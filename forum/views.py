@@ -140,7 +140,7 @@ def load_posts(request, forum_id):
         showing = showing.split(',')
         posts = Post.objects.filter(forum = forum).exclude(id__in = showing).order_by('post_date')
 
-    paginator = Paginator(posts, 2)
+    paginator = Paginator(posts, 5)
     
     try:
         page_number = int(request.GET.get('page', 1))
@@ -239,7 +239,7 @@ def load_answers(request, post_id):
         showing = showing.split(',')
         answers = PostAnswer.objects.filter(post = post).exclude(id__in = showing)
 
-    paginator = Paginator(answers, 2)
+    paginator = Paginator(answers, 5)
     
     try:
         page_number = int(request.GET.get('page_answer', 1))
