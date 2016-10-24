@@ -1,3 +1,5 @@
+var locale = navigator.language || navigator.userLanguage;
+
 $('.date-picker').datepicker({ 
-	format: 'mm/dd/yyyy', 
+	language: locale,
 });

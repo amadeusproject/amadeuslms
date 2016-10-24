@@ -1,5 +1,6 @@
 var new_posts = []; //Store the new posts ids
 var new_answers = {};
+var locale = navigator.language || navigator.userLanguage;
 /*
 *
 * Defining action of the form to make a post in forum
@@ -60,7 +61,7 @@ function createForum(url, topic) {
 */
 function setForumCreateFormSubmit() {
     $('.date-picker').datepicker({
-        format: 'dd/mm/yyyy',
+        language: locale,
     });
 
     var frm = $('#forum_create');
@@ -111,7 +112,7 @@ function editForum(url, forum, success_message) {
 */
 function setForumUpdateFormSubmit(success_message) {
     $('.date-picker').datepicker({
-        format: 'dd/mm/yyyy',
+        language: locale,
     });
 
     var frm = $('#forum_create');
