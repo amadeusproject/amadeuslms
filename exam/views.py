@@ -113,7 +113,7 @@ class UpdateExam(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 		context = super(UpdateExam, self).form_invalid(form)
 		answers = {}
 		for key in self.request.POST:
-			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'begin_date' and key != 'limit_date' and key != 'all_students' and key != 'students'):
+			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'begin_date' and key != 'limit_date' and key!= 'exibe'  and key != 'all_students' and key != 'students'):
 				answers[key] = self.request.POST[key]
 
 		keys = sorted(answers)
@@ -131,7 +131,7 @@ class UpdateExam(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 
 
 		for key in self.request.POST:
-			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'begin_date' and key != 'limit_date' and key != 'all_students' and key != 'students'):
+			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'begin_date' and key != 'limit_date' and key!= 'exibe'  and key != 'all_students' and key != 'students'):
 				answer = Answer(answer=self.request.POST[key],order=key,exam=exam)
 				answer.save()
 

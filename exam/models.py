@@ -7,6 +7,7 @@ from courses.models import Activity
 
 class Exam(Activity):
 	begin_date = models.DateField(_('Begin of Course Date'), blank=True)
+	exibe = models.BooleanField(_('Exibe?'), default=False)
 
 	class Meta:
 		verbose_name = _('Exam')
@@ -33,7 +34,7 @@ class AnswersStudent(models.Model):
     status = models.BooleanField(_("Answered"), default=False)
     exam = models.ForeignKey(Exam, verbose_name = _('Exam'), related_name='answers_stundet')
     answer = models.ManyToManyField(Answer,verbose_name = _('Answers Students'), related_name='answers_stundet')
-    student = models.ForeignKey(User, verbose_name = _('Student'), related_name='answers_stundent')
+    student = models.ForeignKey(User, verbose_name = _('Student'), related_name='answers_stundent_exam')
     answered_in = models.DateTimeField(_("Answered Date"),auto_now=True)
 
     class Meta:

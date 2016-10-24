@@ -1,0 +1,270 @@
+ma  {% extends "base.html" %}
+{% block content %}
+<div class="modal fade" id="poll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+
+        {% block title_poll %}
+        <!-- Put your title here!!!  -->
+        <h4 class="modal-title" id="myModalLabel">{% trans "Create a Exam" %}</h4>
+        {% endblock title_poll %}
+      </div>
+      <!-- Modal Body -->
+      <div class="modal-body">
+
+    {# <form id="ac" class="form-horizontal"> #}
+      {# <fieldset> #}
+
+      <div class="form-group">
+        <label for="examName" class="col-md-2 control-label">Exam Name</label>
+
+        <div class="col-md-10">
+          <input type="text" class="form-control" id="examName" placeholder="Exam Name">
+        </div>
+
+
+      </div>
+      <div class="form-group">
+        <label for="Date" class="col-md-2 control-label">Exam Period</label>
+        <div class="col-md-5">
+          <input type="date" class="form-control" id="beginDate" placeholder="Begin Date">
+        </div>
+        <div class="col-md-5">
+          <input type="text" class="form-control" id="datepicker" placeholder="End Date">
+
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="deadline" class="col-md-2 control-label">Allow submissions after deadline?</label>
+        <div class="col-md-10">
+          <label>
+            <input type="checkbox">
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="questionType" class="col-md-2 control-label">Question Type</label>
+        <div class="col-md-10">
+          <select id="questionType" class="form-control" onchange="showDiv (this)">
+            <option selected disabled>Question Type</option>
+            <option value="0">Multiple Choice</option>
+            <option value="1">True or False</option>
+            <option value="2">Gap Filling</option>
+            <option value="3">Discursive Question</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" id="multipleChoice" style="display: none;">
+       <form class="form-horizontal">
+  <fieldset>
+    <div class="form-group" id="multipleChoice">
+
+      <label for="questionName" class="col-md-2 control-label">Question</label>
+
+
+      <div class="col-md-10">
+        <textarea class="form-control" rows="1" id="questionName" placeholder="Wording"></textarea>
+      </div>
+
+
+    </div>
+    <div class="form-group">
+      <label for="alternative" class="col-md-2 control-label">Alternatives</label>
+      <div class="col-md-10" id="radios">
+        <div class="radio radio-primary">
+          <label>
+            <input checked type="radio" name="alternatives" id="alternative1" value="1">
+            <textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>
+          </label>
+        </div>
+        <div class="radio radio-primary">
+          <label>
+            <input type="radio" name="alternatives" id="alternative2" value="2">
+            <textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>
+          </label>
+        </div>
+      </div>
+    </div>
+    <!-- new alternative button -->
+    <div class="form-group">
+      <div class="col-md-12 col-md-offset-2">
+      <button type="button" class="btn btn-primary" id="newAlternative">New Alternative</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-12 col-md-offset-2">
+      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="cancel" class="btn btn-default">Cancel</button>
+      </div>
+    </div>
+
+  </fieldset>
+</form>
+
+<script>
+  var alternativeValue = 3;
+
+  $('#newAlternative').click(function () {
+    var element = '<div class="radio radio-primary">' +
+          '<label>' +
+            '<input type="radio" name="alternatives" id="alternative4"' + 'value="' +alternativeValue + '">' +
+            '<textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>' +
+          '</label>' +
+        '</div>';
+    $('#radios').append(element);
+
+    alternativeValue++;
+  });
+</script>
+      </div>
+      <div class="form-group" id="trueOrFalse" style="display: none;">
+       <form class="form-horizontal" id="true-or-false">
+  <fieldset>
+    <div class="form-group" id="trueOrFalse">
+
+      <label for="questionName" class="col-md-2 control-label">Question</label>
+
+
+      <div class="col-md-10">
+        <textarea class="form-control" rows="1" id="questionName" placeholder="Wording"></textarea>
+      </div>
+
+
+    </div>
+    <div class="form-group">
+      <label for="alternative" class="col-md-2 control-label">Alternatives: T/F</label>
+      <div class="col-md-10" id="radiosTF">
+        <!-- alternative -->
+        <div class="radio radio-primary">
+            <label>
+            <textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>
+          </label>
+          <label>
+            <input type="radio" name="alternative1" value="T">
+          </label>
+          <label>
+            <input type="radio" name="alternative1" value="F">
+          </label>
+        </div>
+        <!-- alternative -->
+        <div class="radio radio-primary">
+            <label>
+            <textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>
+          </label>
+          <label>
+            <input type="radio" name="alternative2" value="T">
+          </label>
+          <label>
+            <input type="radio" name="alternative2" value="F">
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-12 col-md-offset-2">
+      <button type="button" class="btn btn-primary" id="tfAlternative">New Alternative</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-12 col-md-offset-2">
+      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="cancel" class="btn btn-default">Cancel</button>
+      </div>
+    </div>
+
+  </fieldset>
+</form>
+
+<script>
+  var tfAlternativeValue = 3;
+
+  $('#tfAlternative').click(function () {
+    var element = '<div class="radio radio-primary">' +
+            '<label>' +
+            '<textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>' +
+          '</label>' +
+          '<label>' +
+            '<input type="radio" name="alternative' + tfAlternativeValue +'" value="T">' +
+          '</label>' +
+          '<label>' +
+            '<input type="radio" name="alternative2" value="F">' +
+          '</label>' +
+        '</div>';
+    $('#radiosTF').append(element);
+
+    tfAlternativeValue++;
+  });
+</script>
+      </div>
+      <div class="form-group" id="gapFilling" style="display: none;">
+        <p>Gap Filling Question</p>
+      </div>
+      <div class="form-group" id="discursiveQuestion" style="display: none;">
+        <form class="form-horizontal" id="discursive-question">
+  <fieldset>
+    <div class="form-group" id="discursiveQuestion">
+
+      <label for="question" class="col-md-2 control-label">Question</label>
+
+
+      <div class="col-md-10">
+        <textarea class="form-control" rows="1" id="question" placeholder="Wording"></textarea>
+      </div>
+
+
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-10 col-md-offset-2">
+      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="cancel" class="btn btn-default">Cancel</button>
+      </div>
+    </div>
+
+  </fieldset>
+</form>
+      </div>
+      <div class="form-group">
+        <div class="col-md-12 col-md-offset-2">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="cancel" class="btn btn-default">Cancel</button>
+      </div>
+    </div>
+    </form>
+    </fieldset>
+  </div>
+</div>
+
+<script>
+  function showDiv (elem) {
+    if (elem.value == 0) {
+      document.getElementById('multipleChoice').style.display = "block";
+      document.getElementById('trueOrFalse').style.display = "none";
+      document.getElementById('gapFilling').style.display = "none";
+      document.getElementById('discursiveQuestion').style.display = "none";
+    } else if (elem.value == 1) {
+      document.getElementById('trueOrFalse').style.display = "block";
+      document.getElementById('multipleChoice').style.display = "none";
+      document.getElementById('gapFilling').style.display = "none";
+      document.getElementById('discursiveQuestion').style.display = "none";
+    } else if (elem.value == 2) {
+      document.getElementById('gapFilling').style.display = "block";
+      document.getElementById('multipleChoice').style.display = "none";
+      document.getElementById('trueOrFalse').style.display = "none";
+      document.getElementById('discursiveQuestion').style.display = "none";
+    } else if (elem.value == 3) {
+      document.getElementById('discursiveQuestion').style.display = "block";
+      document.getElementById('multipleChoice').style.display = "none";
+      document.getElementById('trueOrFalse').style.display = "none";
+      document.getElementById('gapFilling').style.display = "none";
+    }
+  }
+
+  $(function() {
+    $( "#datepicker" ).datepicker();
+  });
+</script>
+{% endblock content %}
