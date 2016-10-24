@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     'exam',
     'poll',
     'links',
-    'exam',
     'files',
 
 ]
