@@ -1,5 +1,5 @@
 var new_posts = []; //Store the new posts ids
-
+var new_answers = {};
 /*
 *
 * Defining action of the form to make a post in forum
@@ -294,10 +294,21 @@ function answer(id, url) {
                     type: frm.attr('method'),
                     url: frm.attr('action'),
                     data: frm.serialize(),
+                    dataType: 'json',
                     success: function (data) {
-                        $("#post_"+id).find(".answer_list").append(data);
-
                         $("#post_"+id).find(".answer_post").hide();
+
+                        if ($("#post_"+id).find(".load_more_answers").length == 0) {
+                            $("#post_"+id).find(".answer_list").append(data.html);
+                        } else {
+                            $("#post_"+id).find(".load_more_answers").before(data.html);
+                        }
+
+                        if (typeof(new_answers[id]) == 'undefined') {
+                            new_answers[id] = [];
+                        }
+
+                        new_answers[id].push(data.new_id);
                     },
                     error: function(data) {
                         console.log(frm.serialize());
@@ -397,6 +408,14 @@ function load_more_answers(post_id, pageNum, numberPages, url) {
 
     pageNum += 1;
 
+    var showing;
+
+    if (typeof(new_answers[post_id]) == 'undefined') {
+        showing = "";
+    } else {
+        showing = new_answers[post_id].join(',');
+    }
+
     // Show loader
     $("#post_"+post_id).find(".loading_answers").show();
 
@@ -404,11 +423,22 @@ function load_more_answers(post_id, pageNum, numberPages, url) {
     setTimeout(function (){
         $.ajax({
             url: url, 
-            data: {'page_answer': pageNum},
+            data: {'page_answer': pageNum, 'showing_ans': showing},
+            dataType: 'json',
             success: function(data) {
                 $("#post_"+post_id).find(".loading_answers").hide();
                 
-                $("#post_"+post_id).find(".answer_list").append(data);
+                var child = $("#post_"+post_id).find(".answer_list").find(".new_answer:first");
+
+                if (child.length == 0) {
+                    $("#post_"+post_id).find(".answer_list").append(data.html);
+                } else {
+                    child.before(data.html);
+                }
+
+                if (data.page != data.num_pages) {
+                    $("#post_"+post_id).find(".answer_list").append('<a href="javascript:load_more_answers(' + post_id + ',' + data.page + ',' + data.num_pages + ',\'' + url + '\');" class="btn btn-raised btn-primary btn-block load_more_answers">' + data.btn_text + '</a>');
+                }
             }
         });
     }, 1000)

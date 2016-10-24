@@ -140,7 +140,7 @@ def load_posts(request, forum_id):
         showing = showing.split(',')
         posts = Post.objects.filter(forum = forum).exclude(id__in = showing).order_by('post_date')
 
-    paginator = Paginator(posts, 2)
+    paginator = Paginator(posts, 5)
     
     try:
         page_number = int(request.GET.get('page', 1))
@@ -231,9 +231,15 @@ def load_answers(request, post_id):
 
     post = get_object_or_404(Post, id = post_id)
 
-    answers = PostAnswer.objects.filter(post = post)
+    showing = request.GET.get('showing_ans', '')
 
-    paginator = Paginator(answers, 2)
+    if showing == '':
+        answers = PostAnswer.objects.filter(post = post)
+    else:
+        showing = showing.split(',')
+        answers = PostAnswer.objects.filter(post = post).exclude(id__in = showing)
+
+    paginator = Paginator(answers, 5)
     
     try:
         page_number = int(request.GET.get('page_answer', 1))
@@ -251,7 +257,9 @@ def load_answers(request, post_id):
     context['answers'] = page_obj.object_list
     context['post'] = post
 
-    return render(request, 'post_answers/post_answer_list.html', context)
+    html = render_to_string('post_answers/post_answer_load_more_render.html', context, request)
+
+    return JsonResponse({'num_pages': paginator.num_pages, 'page': page_obj.number, 'btn_text': _('Load more answers'), 'html': html})
 
 class PostAnswerIndex(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("core:home")	
@@ -294,7 +302,9 @@ def render_post_answer(request, answer):
 	context = {}
 	context['answer'] = last_answer
 
-	return render(request, "post_answers/post_answer_render.html", context)
+	html = render_to_string("post_answers/post_answer_render.html", context, request)
+
+	return JsonResponse({'new_id': last_answer.id, 'html': html})
 
 class PostAnswerUpdateView(LoginRequiredMixin, generic.UpdateView):
 	login_url = reverse_lazy("core:home")	
