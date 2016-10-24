@@ -65,8 +65,10 @@ class Course(models.Model):
 
 	def show_subscribe(self):
 		today = datetime.date.today()
-
 		return today >= self.init_register_date and today <= self.end_register_date
+
+	def duration(self):
+		return self.end_date - self.init_date
 
 class Subject(models.Model):
 
