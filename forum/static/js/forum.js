@@ -1,23 +1,4 @@
-/*
-*
-* Function to get a cookie stored on browser
-*
-*/
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
+var new_posts = []; //Store the new posts ids
 
 /*
 *
@@ -31,8 +12,16 @@ $(document).ready(function (){
             type: frm.attr('method'),
             url: frm.attr('action'),
             data: frm.serialize(),
+            dataType: 'json',
             success: function (data) {
-                $("#posts_list").append(data);
+                if ($("#load_more_posts").length == 0) {
+                    $("#posts_list").append(data.html);
+                } else {
+                    $("#load_more_posts").before(data.html);
+                }
+
+                new_posts.push(data.new_id);
+
                 frm[0].reset();
             },
             error: function(data) {
@@ -86,8 +75,6 @@ function setForumCreateFormSubmit() {
                 $('.foruns_list').append("<li><i class='fa fa-commenting' aria-hidden='true'></i> <a id='forum_"+data[1]+"' href='"+data[0]+"'> "+data[2]+"</a></li>");
 
                 $("#createForum").modal('hide');
-
-                showForum(data[0], data[1]);
             },
             error: function(data) {
                 $(".forum_form").html(data.responseText);
@@ -157,7 +144,7 @@ function setForumUpdateFormSubmit(success_message) {
 */
 function delete_forum(url, forum, message, return_url) {
     alertify.confirm(message, function(){
-        var csrftoken = getCookie('csrftoken');
+        var csrftoken = Cookies.get('csrftoken');
         
         $.ajax({
             method: 'post',
@@ -225,7 +212,7 @@ function cancelEditPost(post_id) {
 *
 */
 function delete_post(url, post) {
-    var csrftoken = getCookie('csrftoken');
+    var csrftoken = Cookies.get('csrftoken');
     
     $.ajax({
         method: 'post',
@@ -255,6 +242,8 @@ function load_more_posts(pageNum, numberPages, url) {
 
     pageNum += 1;
 
+    var showing = new_posts.join(',');
+
     // Show loader
     $("#loading_posts").show();
 
@@ -262,11 +251,22 @@ function load_more_posts(pageNum, numberPages, url) {
     setTimeout(function (){
         $.ajax({
             url: url, 
-            data: {'page': pageNum},
+            data: {'page': pageNum, 'showing': showing},
+            dataType: 'json',
             success: function(data) {
                 $("#loading_posts").hide();
-                
-                $("#posts_list").append(data);
+
+                var child = $("#posts_list").find(".new_post:first");
+
+                if (child.length == 0) {
+                    $("#posts_list").append(data.html);
+                } else {
+                    child.before(data.html);
+                }
+
+                if (data.page != data.num_pages) {
+                    $("#posts_list").append('<a id="load_more_posts" href="javascript:load_more_posts(' + data.page + ',' + data.num_pages + ',\'' + url + '\');" class="btn btn-raised btn-primary btn-block">' + data.btn_text + '</a>');
+                }
             },
             error: function(data) {
                 console.log(data);
@@ -364,7 +364,7 @@ function cancelEditPostAnswer(answer_id) {
 */
 function delete_answer(url, answer, message) {
     alertify.confirm(message, function(){
-        var csrftoken = getCookie('csrftoken');
+        var csrftoken = Cookies.get('csrftoken');
         
         $.ajax({
             method: 'post',

@@ -5,15 +5,17 @@ from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, EmptyPage
-from django.http import Http404
+from django.http import Http404, JsonResponse
+from django.urls import reverse
+from django.template.loader import render_to_string
 
 from .models import Forum, Post, PostAnswer
 from courses.models import Topic
-from core.mixins import NotificationMixin
 from core.models import Action, Resource
 
 from .forms import ForumForm, PostForm, PostAnswerForm
-from django.urls import reverse
+
+from core.mixins import NotificationMixin
 
 """
 	Forum Section
@@ -130,7 +132,13 @@ def load_posts(request, forum_id):
 
     forum = get_object_or_404(Forum, id = forum_id)
 
-    posts = Post.objects.filter(forum = forum).order_by('post_date')
+    showing = request.GET.get('showing', '')
+
+    if showing == '':
+        posts = Post.objects.filter(forum = forum).order_by('post_date')
+    else:
+        showing = showing.split(',')
+        posts = Post.objects.filter(forum = forum).exclude(id__in = showing).order_by('post_date')
 
     paginator = Paginator(posts, 2)
     
@@ -150,7 +158,9 @@ def load_posts(request, forum_id):
     context['posts'] = page_obj.object_list
     context['forum'] = forum
 
-    return render(request, 'post/post_list.html', context)
+    html = render_to_string('post/post_load_more_render.html', context, request)
+
+    return JsonResponse({'num_pages': paginator.num_pages, 'page': page_obj.number, 'btn_text': _('Load more posts'), 'html': html})
 
 class CreatePostView(LoginRequiredMixin, generic.edit.CreateView, NotificationMixin):
 	login_url = reverse_lazy("core:home")	
@@ -181,7 +191,9 @@ def render_post(request, post):
 	context = {}
 	context['post'] = last_post
 
-	return render(request, "post/post_render.html", context)
+	html = render_to_string("post/post_render.html", context, request)
+
+	return JsonResponse({'new_id': last_post.id, 'html': html})
 
 class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
 	login_url = reverse_lazy("core:home")	
