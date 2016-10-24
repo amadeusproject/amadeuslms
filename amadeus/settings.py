@@ -139,7 +139,7 @@ TIME_ZONE = 'America/Recife'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 
