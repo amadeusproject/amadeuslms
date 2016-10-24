@@ -8,7 +8,7 @@ def show_subject_subscribe(user, subject):
 	if not user is None:
 		if user.is_authenticated:
 			if has_role(user, 'student') and not user.is_staff:
-				if not user in subject.students.all() and subject.show_subscribe:
+				if not user in subject.students.all() and user in subject.course.students.all() and subject.show_subscribe:
 					return  True
 
 	return False
