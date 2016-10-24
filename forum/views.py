@@ -163,8 +163,10 @@ class CreatePostView(LoginRequiredMixin, generic.edit.CreateView, NotificationMi
 		self.object.user = self.request.user
 
 		self.object.save()
-		super(CreatePostView, self).createNotification(self.object.user.username + " posted on " + self.object.forum,name,
-		 resource_slug = self.object.forum.slug, actor=self.request.user, users= self.object.forum.topic.subject.students.all())
+		
+		super(CreatePostView, self).createNotification(" posted on " + self.object.forum.name,
+		 resource_slug = self.object.forum.slug, actor=self.request.user, users= self.object.forum.topic.subject.students.all(),
+		 resource_link = reverse('course:forum:view', args=[self.object.forum.slug]))
 
 		return super(CreatePostView, self).form_valid(form)
 
@@ -265,6 +267,7 @@ class CreatePostAnswerView(LoginRequiredMixin, generic.edit.CreateView):
 		self.object.user = self.request.user
 
 		self.object.save()
+
 
 		return super(CreatePostAnswerView, self).form_valid(form)
 

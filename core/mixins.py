@@ -56,10 +56,13 @@ class NotificationMixin(object):
 
 		if resource.exists():
 			resource = resource[0]
+			resource.url = resource_link
+			resource.save()
 		else:
 			resource = Resource(name = resource_name, url= resource_link)
 			resource.save()
 
+		
 		action_resource = Action_Resource.objects.filter(action = action, resource = resource)
 
 		if action_resource.exists():
