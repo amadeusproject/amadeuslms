@@ -102,6 +102,8 @@ def delete(request,username):
 	return redirect('users:manage')
 
 
+class Change_password(generic.TemplateView):
+	template_name = 'users/change_password.html'
 
 class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
 
