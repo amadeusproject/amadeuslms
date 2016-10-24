@@ -19,6 +19,8 @@ from users.models import User
 from files.forms import FileForm
 from files.models import TopicFile
 
+from django.urls import reverse
+
 from datetime import date
 
 class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
@@ -45,7 +47,6 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 			categorys_courses = CourseCategory.objects.filter(course_category__students__name = self.request.user.name).distinct()
 
 		courses_category = Course.objects.filter(category__name = self.request.GET.get('category'))
-
 		none = None
 		q = self.request.GET.get('category', None)
 		if q is  None:
@@ -295,13 +296,6 @@ class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 		messages.success(self.request, _('Category updated successfully!'))
 		return reverse_lazy('course:update_cat', kwargs={'slug' : self.object.slug})
 
-class ViewCat(LoginRequiredMixin, generic.DetailView):
-	login_url = reverse_lazy("core:home")
-	redirect_field_name = 'next'
-	model = CourseCategory
-	template_name = 'category/view.html'
-	context_object_name = 'category'
-
 class DeleteCatView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
 	allowed_roles = ['professor', 'system_admin']
@@ -432,7 +426,11 @@ class CreateTopicView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, gener
 		self.object.subject = subject
 		self.object.owner = self.request.user
 		self.object.save()
-
+		action = super(CreateTopicView, self).createorRetrieveAction("create Topic")
+		super(CreateTopicView, self).createNotification("Topic "+ self.object.name + " was created", 
+			resource_name=self.object.name, resource_link= reverse('course:view_topic',args=[self.object.slug]),
+			 actor=self.request.user, users = self.object.subject.course.students.all() )
+		
 		return super(CreateTopicView, self).form_valid(form)
 
 class UpdateTopicView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):

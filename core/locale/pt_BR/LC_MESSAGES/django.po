@@ -20,7 +20,7 @@ msgstr ""
 
 #: core/models.py:15 core/models.py:36
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: core/models.py:16 core/models.py:37
 msgid "Created Date"
@@ -36,7 +36,7 @@ msgstr ""
 
 #: core/models.py:61
 msgid "message"
-msgstr ""
+msgstr "mensagem"
 
 #: core/models.py:62
 msgid "Actor"
@@ -64,11 +64,11 @@ msgstr "Senha"
 
 #: core/templates/index.html:44
 msgid "Remember Email"
-msgstr ""
+msgstr "Lembrar Senha"
 
 #: core/templates/index.html:53
 msgid "Guest"
-msgstr ""
+msgstr "Convidado"
 
 #: core/templates/index.html:56
 msgid "Login"
@@ -80,11 +80,11 @@ msgstr "Cadastrar"
 
 #: core/templates/register_user.html:29
 msgid "User Register"
-msgstr ""
+msgstr "Registrar Usuário"
 
 #: core/templates/register_user.html:53
 msgid "Save"
-msgstr ""
+msgstr "Salvar"
 
 #: core/templates/remember_password.html:18
 msgid "E-mail"
@@ -92,7 +92,7 @@ msgstr "E-mail"
 
 #: core/templates/remember_password.html:22
 msgid "Registration"
-msgstr ""
+msgstr "Registrar"
 
 #: core/templates/remember_password.html:26
 msgid "Send"
@@ -100,7 +100,7 @@ msgstr "Enviar"
 
 #: core/views.py:31
 msgid "User successfully registered!"
-msgstr ""
+msgstr "Usuario cadastrado com sucesso"
 
 #: core/views.py:54
 msgid "E-mail or password are incorrect!"

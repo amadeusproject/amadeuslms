@@ -4,7 +4,7 @@
         <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
         <script src="{% static 'js/file.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
-        <script type = "text/javascript" src="{% static 'link.js' %}"></script>
+        <script type = "text/javascript" src="{% static 'links.js' %}"></script>
     {% endblock %}
 
     <div class="panel-group accordion ui-accordion ui-widget ui-helper-reset ui-sortable" role="tablist" aria-multiselectable="false">
@@ -55,7 +55,7 @@
                   <div class="dropdown">
                     <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
                     <ul class="dropdown-menu" aria-labelledby="dLabel">
-                        <li><a href=" javascript:get_modal_link('{% url 'course:links:create_link' %}', '#createLinksModal','#divModalLink')  ">Create a Link<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 54.5312px; top: 22px; background-color: rgb(0, 150, 136); transform: scale(20);"></div></div></a></li>
+                        <li><a href=" javascript:get_modal_link('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')  ">Create a Link<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 54.5312px; top: 22px; background-color: rgb(0, 150, 136); transform: scale(20);"></div></div></a></li>
                         <li>
                             <a href="javascript:get_modal_file('{% url 'course:file:create_file' topic.slug %}', '#fileModal', '#divModalFile')">
                                 {% trans "Create a file" %}
@@ -116,7 +116,7 @@
                   <div class="dropdown">
                     <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
                     <ul class="dropdown-menu" aria-labelledby="dLabel">
-                      <li><a href="javascript:get_modal_link('{% url 'course:links:create_link' %}', '#createLinksModal','#divModalLink')">Create a Link</a></li>
+                      <li><a href="javascript:get_modal_link('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')">Create a Link</a></li>
                       <li>
                         <a href="#">
                             {% trans "Create a file" %}
@@ -178,7 +178,7 @@
           </div>
           <div class="modal-footer">
 
-            <a href="http://localhost:8080/html/screens/users/profile_user.html" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
+            <a href="" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
 
           </div>
         </div>

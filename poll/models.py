@@ -8,7 +8,6 @@ from courses.models import Activity
 class Poll(Activity):
 
     class Meta:
-		#ordering = ('create_date','name')
         verbose_name = _('Poll')
         verbose_name_plural = _('Polls')
 

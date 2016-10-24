@@ -7,6 +7,7 @@ from core.models import Resource, MimeType
 from s3direct.fields import S3DirectField
 
 from django.core.urlresolvers import reverse
+from core.models import Resource
 
 class CourseCategory(models.Model):
 
