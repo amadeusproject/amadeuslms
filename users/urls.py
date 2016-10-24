@@ -12,5 +12,6 @@ urlpatterns = [
 	#
 	url(r'^profile/update/$', views.UpdateProfile.as_view(), name='update_profile'),
             url(r'^profile/change_password/$', views.Change_password.as_view(), name='change_password'),
+            url(r'^profile/remove_account/$', views.Remove_account.as_view(), name='remove_account'),
 	url(r'^profile/delete/$', views.DeleteUser.as_view(), name='delete_profile'),
 ]

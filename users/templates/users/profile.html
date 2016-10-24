@@ -22,7 +22,7 @@
             	<li><a href="{% url 'users:profile' %}">{% trans 'View Profile' %}</a></li>
                <li><a href="{% url 'users:update_profile' %}">{% trans 'Edit Profile' %}</a></li>
                <li><a href="{% url 'users:change_password' %}">{% trans 'Change Password' %}</a></li>
-               <li><a href="#">{% trans 'Remove account' %}</a></li>
+               <li><a href="{% url 'users:remove_account' %}">{% trans 'Remove account' %}</a></li>
             </ul>
         </div>
     </div>
