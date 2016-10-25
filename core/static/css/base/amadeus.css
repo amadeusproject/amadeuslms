@@ -395,3 +395,17 @@ ul, li {
     -webkit-animation-iteration-count: 3;
     -webkit-animation-timing-function: ease-in-out;
 }
+/* Icon Topic */
+.divMoreActions {text-align: right; height: 39px; float: right;}
+.divMoreActions div button {padding-left: 10px; padding-right: 10px; padding-bottom: 10px; margin-bottom: 4px; height: 31px;}
+.headingOne {padding-top: 0px; padding-bottom: 50px;}
+.headingTwo {padding-top: 0px; padding-bottom: 50px;}
+.panel-heading{cursor:move;}
+.titleTopic {padding-top: 18px; padding-left: 0px;}
+.titleTopic-detail {padding-top: 8px;}
+.titleTopic a h4 {margin-top: 0px; color: white; cursor:pointer;}
+.dropdown-menu .pull-right {
+    right: 0;
+  }
+.moreAccordion{ padding-left: 0px; padding-right: 0px;}
+.moreAccordion div button{ padding-left: 0px; padding-right: 0px;}
