@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load i18n %}
+{% load static i18n permission_tags %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
@@ -15,18 +16,22 @@
 {% endblock %}
 
 {% block sidebar %}
-    <div class="panel panel-primary navigation">
-        <div class="panel-heading">
-            <h5>{% trans 'Menu' %}</h5>
+    {% if user|has_role:'professor' %}
+        <div class="panel panel-primary navigation">
+            <div class="panel-heading">
+                <h5>{% trans 'Menu' %}</h5>
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="{% url 'course:create' %}">{% trans 'Create Course' %}</a></li>
+                    <li><a href="{% url 'course:manage' %}">{% trans 'Manage Course' %}</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="panel-body">
-            <ul class="nav nav-pills nav-stacked">
-                <li><a href="javascript:void(0)">{% trans 'Pending tasks' %}</a></li>
-                <li><a href="{% url 'course:create' %}">{% trans 'Create Course' %}</a></li>
-                <li><a href="{% url 'course:manage' %}">{% trans 'Manage Course' %}</a></li>
-            </ul>
-        </div>
-    </div>
+    {% else %}
+        {{block.super}}
+    {% endif %}
+   
 {% endblock %}
 
 {% block content %}
