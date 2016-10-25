@@ -70,10 +70,9 @@ function setForumCreateFormSubmit() {
             type: frm.attr('method'),
             url: frm.attr('action'),
             data: frm.serialize(),
+            dataType: "json",
             success: function (data) {
-                data = data.split('-');
-
-                $('.foruns_list').append("<li><i class='fa fa-commenting' aria-hidden='true'></i> <a id='forum_"+data[1]+"' href='"+data[0]+"'> "+data[2]+"</a></li>");
+                $('.foruns_list').append("<li><i class='fa fa-commenting' aria-hidden='true'></i> <a id='forum_"+data.forum_id+"' href='"+data.url+"'> "+data.name+"</a></li>");
 
                 $("#createForum").modal('hide');
             },
