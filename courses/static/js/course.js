@@ -78,12 +78,3 @@ function replicate_course(url, course) {
         }
     });
 }
-$(".caret-square").on('click', function(){
-    if( $(this).attr('title') == 'less'){
-      $(this).attr('title','more');
-      jQuery(this).html("<i class='fa fa-caret-square-o-up fa-2x' aria-hidden='true'></i>");
-    }else{
-      $(this).attr('title','less');
-      jQuery(this).html("<i class='fa fa-caret-square-o-down fa-2x' aria-hidden='true'></i>");
-    }
-  });

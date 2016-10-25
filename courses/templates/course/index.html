@@ -70,7 +70,7 @@
 		{% endfor %}
 	{% endif %}
 
-<div class="col-md-12">
+<div class="col-md-12 cards-content">
 	<form id="searchform" action="{% url 'course:manage' %}" method="get" accept-charset="utf-8">
 		<div class="input-group">
 		  <div class="form-group is-empty">
@@ -86,7 +86,7 @@
 
 
 </fieldset>
-	<div class="col-md-12">
+	<div class="col-md-12 cards-content">
 		{% if courses|length > 0 %}
 			{% if request.GET.category == 'all' or none or request.GET.category == '' %}
 				{% for course in list_courses %}
@@ -103,27 +103,6 @@
 		{% else %}
 			{% trans 'No courses found' %}
 		{% endif %}
-	</div>
-	<div class="col-md-12">
-		<nav aria-label="Page navigation">
-			<ul class="pagination">
-				{% if page_obj.has_previous %}
-				    <li>
-				        <a href="?page={{ page_obj.previous_page_number }}"><span><<</span></a>
-				    </li>
-				{% endif %}
-			    {% for page_number in paginator.page_range %}
-					<li{% if page_obj.number == page_number %} class="active"{% endif %}>
-	    				<a href="?page={{ page_number }}">{{ page_number }}</a>
-					</li>
-				{% endfor %}
-				{% if page_obj.has_next %}
-				    <li>
-				        <a href="?page={{ page_obj.next_page_number }}"><span>>></span></a>
-				    </li>
-				{% endif %}
-			</ul>
-		</nav>
 	</div>
 
 	<script type="text/javascript" src="{% static 'js/course.js' %}"></script>

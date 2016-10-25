@@ -30,7 +30,7 @@
     margin: 10% 10% 5% 5%;
 }
 .breadcrumb{
-    margin-bottom: 5px;
+    margin-bottom: 25px;
 }
 .courseHome{
     text-align: center;
@@ -398,14 +398,18 @@ ul, li {
 /* Icon Topic */
 .divMoreActions {text-align: right; height: 39px; float: right;}
 .divMoreActions div button {padding-left: 10px; padding-right: 10px; padding-bottom: 10px; margin-bottom: 4px; height: 31px;}
-.headingOne {padding-top: 0px; padding-bottom: 50px;}
-.headingTwo {padding-top: 0px; padding-bottom: 50px;}
-.course{padding-top: 0px; padding-bottom: 0px; cursor:move; }
 .titleTopic {padding-top: 18px; padding-left: 0px;}
-.titleTopic-detail {padding-top: 8px;}
+.titleTopic-detail {padding-top: 8px;  color: white;}
 .titleTopic a h4 {margin-top: 0px; color: white; cursor:pointer;}
 .dropdown-menu .pull-right {
     right: 0;
   }
 .moreAccordion{ padding-left: 0px; padding-right: 0px;}
 .moreAccordion div button{ padding-left: 0px; padding-right: 0px;}
+.cards-content{ padding-left: 0px; padding-right: 0px; }
+.cards-detail{margin-left: 4%;}
+.cards-detail .panel .panel-heading{background-color:#81D4FA;}
+.cards-detail .panel .panel-heading h4{color:black;}
+.subject{ padding-top: 0px; padding-bottom: 0px; }
+.course{padding-top: 0px; padding-bottom: 0px;}
+.course-detail{padding-top: 10px; padding-bottom: 10px;}
