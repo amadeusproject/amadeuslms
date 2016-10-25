@@ -34,7 +34,7 @@
 						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
 							<label for="{{ field.auto_id }}">{{ field.label }}</label>
 							{% if field.auto_id == 'id_birth_date' %}
-								<input type="text" class="form-control date-picker"name="{{field.name}}" value="{% if field.value.year %}{{field.value|date:'Y-m-d'}}{% else %}{{field.value}}{% endif %}" min="{{now|date:'Y-m-d'}}" id="{{ field.auto_id }}">
+								<input type="text" class="form-control date-picker"name="{{field.name}}" value="{% if field.value.year %}{{field.value|date:'m/d/Y'}}{% else %}{{field.value}}{% endif %}" min="{{now|date:'m/d/Y'}}" id="{{ field.auto_id }}">
 								<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
 							{% elif field.auto_id == 'id_image' %}
 								{% render_field field class='form-control input-sm' %}
