@@ -7,9 +7,7 @@
 		    <div class="panel-heading course" role="tab" >
 		      <div class="row">
                                 <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{course.slug}}" href=".collapseOne-{{course.slug}}" aria-expanded="false" aria-controls="collapseOne-{{course.slug}}">
-                                    <div class="btn-group">
-                                        <button class="btn btn-default btn-sm"><i class="fa fa-chevron-circle-down fa-2x" aria-hidden="true"></i></button>
-                                    </div>
+                                    <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
                                 </div>
 		        <div class="col-xs-9 col-md-4 titleTopic">
                                     <a role="button" href="{% url 'course:view' course.slug %}">

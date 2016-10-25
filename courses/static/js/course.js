@@ -49,13 +49,13 @@ function subscribe(elem, url, id, confirm_message) {
 function delete_course(url, course, message, return_url) {
     alertify.confirm(message, function(){
         var csrftoken = getCookie('csrftoken');
-        
+
         $.ajax({
             method: 'post',
             beforeSend: function (request) {
                 request.setRequestHeader('X-CSRFToken', csrftoken);
             },
-            url: url, 
+            url: url,
             success: function(data) {
                 alertify.alert('Remove Course', 'Course removed successfully!', function(){
                     window.location.href = return_url;
@@ -71,10 +71,19 @@ function delete_course(url, course, message, return_url) {
 */
 function replicate_course(url, course) {
     $.ajax({
-        url: url, 
+        url: url,
         data: {'form': course},
         success: function(data) {
             $(".course_replicate_form").html(data);
         }
     });
 }
+$(".caret-square").on('click', function(){
+    if( $(this).attr('title') == 'less'){
+      $(this).attr('title','more');
+      jQuery(this).html("<i class='fa fa-caret-square-o-up fa-2x' aria-hidden='true'></i>");
+    }else{
+      $(this).attr('title','less');
+      jQuery(this).html("<i class='fa fa-caret-square-o-down fa-2x' aria-hidden='true'></i>");
+    }
+  });
