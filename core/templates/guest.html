@@ -80,7 +80,7 @@
 
              			<li  data-toggle="tooltip" data-placement="bottom" title data-original-title="{% trans 'messages' %}"> <a href="#"><i class="fa fa-comments" aria-hidden="true"></i></a> </li>
              			<li > <a  class="link" href="{% url 'app:index' %}">{{ user }}</a></li>
-             			
+
            		</ul>
          		</div>
    	</div>
@@ -90,7 +90,7 @@
 
     		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
     			{% block sidebar %}
-    				<div class="panel panel-primary navigation">
+    				<div class="panel panel-primary">
 				        <div class="panel-heading">
 				            <h4>Menu</h4>
 				        </div>
@@ -119,7 +119,7 @@
 						</form>
 					</div>
 
-				<div class="col-md-12">
+				<div class="col-md-10">
 					<div class="btn-group btn-group-justified btn-group-raised">
 						<a href="?category=all" class="btn btn-raised btn-info">Todos</a>
 						{% for category in categories %}
@@ -132,7 +132,7 @@
 				{% block render_breadcrumbs %}{% endblock %}
 			<div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-12">
 				{% block content %}
 					{% for course in courses %}
 						<div class="panel panel-info panel_{{ course.id }}">
@@ -142,7 +142,7 @@
 				                    <a onclick="subscribe($(this), '{% url 'course:subscribe' course.slug %}', {{ course.id}}, '{% trans 'Are you sure you want to subscribe to this course?' %}')" class="btn btn-sm btn-primary btn-raised pull-right" style="margin-top:-4px">{% trans 'Subscribe' %}</a>
 				                {% endif %}
 					  		</div>
-					       
+
 						  	<div class="panel-body">
 						    	<p><b>Course Name: </b>{{course.name}}</p>
 						    	<p><b>Begining: </b>{{course.init_date}}</p>

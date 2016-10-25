@@ -19,7 +19,7 @@
 
 {% block sidebar %}
 
-    <div class="panel panel-primary navigation">
+    <div class="panel panel-primary">
         <div class="panel-heading">
             <h5>{% trans 'Menu' %}</h5>
         </div>
@@ -32,7 +32,7 @@
     </div>
 
     {% if user|has_role:'professor' %}
-      <div class="panel panel-primary navigation">
+      <div class="panel panel-primary ">
       <div class="panel-heading">
           <h3 class="panel-title">Actions</h3>
       </div>
