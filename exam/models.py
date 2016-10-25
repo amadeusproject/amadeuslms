@@ -7,6 +7,7 @@ from courses.models import Activity
 
 class Exam(Activity):
 	begin_date = models.DateField(_('Begin of Course Date'), blank=True)
+	exibe = models.BooleanField(_('Exibe?'), default=False)
 
 	class Meta:
 		verbose_name = _('Exam')

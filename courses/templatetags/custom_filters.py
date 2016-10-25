@@ -7,8 +7,8 @@ register = template.Library()
 def show_subject_subscribe(user, subject):
 	if not user is None:
 		if user.is_authenticated:
-			if has_role(user, 'student'):
-				if not user in subject.students.all() and subject.show_subscribe:
+			if has_role(user, 'student') and not user.is_staff:
+				if not user in subject.students.all() and user in subject.course.students.all() and subject.show_subscribe:
 					return  True
 
 	return False
@@ -17,7 +17,7 @@ def show_subject_subscribe(user, subject):
 def show_course_subscribe(user, course):
 	if not user is None:
 		if user.is_authenticated:
-			if has_role(user, 'student'):
+			if has_role(user, 'student') and not user.is_staff:
 				if not user in course.students.all() and course.show_subscribe:
 					return  True
 

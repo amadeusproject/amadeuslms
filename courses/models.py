@@ -6,6 +6,9 @@ from users.models import User
 from core.models import Resource, MimeType
 from s3direct.fields import S3DirectField
 
+from django.core.urlresolvers import reverse
+from core.models import Resource
+
 class CourseCategory(models.Model):
 
 	name = models.CharField(_('Name'), max_length = 100, unique = True)
@@ -47,7 +50,7 @@ class Course(models.Model):
 	category = models.ForeignKey(CourseCategory, verbose_name = _('Category'), related_name='course_category')
 	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='courses_professors')
 	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='courses_student', blank = True)
-	public = models.BooleanField(_('Public'))
+	public = models.BooleanField(_('Public'), default=False)
 
 	class Meta:
 		ordering = ('create_date','name')
@@ -57,10 +60,15 @@ class Course(models.Model):
 	def __str__(self):
 		return self.name
 
+	def get_absolute_url (self):
+		return reverse('course:view', kwargs={'slug': self.slug})
+
 	def show_subscribe(self):
 		today = datetime.date.today()
-
 		return today >= self.init_register_date and today <= self.end_register_date
+
+	def duration(self):
+		return self.end_date - self.init_date
 
 class Subject(models.Model):
 

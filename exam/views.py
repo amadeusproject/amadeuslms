@@ -44,7 +44,7 @@ class ViewExam(LoginRequiredMixin,generic.DetailView):
 
 
 
-class CreateExam(LoginRequiredMixin,HasRoleMixin,generic.CreateView):
+class CreateExam(LoginRequiredMixin,HasRoleMixin, NotificationMixin,generic.CreateView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -72,8 +72,12 @@ class CreateExam(LoginRequiredMixin,HasRoleMixin,generic.CreateView):
 		self.object = form.save(commit = False)
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 		self.object.topic = topic
+		self.object.name = str(self.object)
 		self.object.save()
 
+		super(CreateExam, self).createNotification(message="created an Exam "+ self.object.name, actor=self.request.user,
+			resource_name=self.object.name, resource_link= reverse('course:exam:view_exam', args=[self.object.slug]), 
+			users=self.object.topic.subject.students.all())
 		for key in self.request.POST:
 			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'begin_date' and key != 'limit_date' and key != 'all_students' and key != 'students'):
 				answer = Answer(answer=self.request.POST[key],order=key,exam=self.object)
@@ -113,7 +117,7 @@ class UpdateExam(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 		context = super(UpdateExam, self).form_invalid(form)
 		answers = {}
 		for key in self.request.POST:
-			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'begin_date' and key != 'limit_date' and key != 'all_students' and key != 'students'):
+			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'begin_date' and key != 'limit_date' and key!= 'exibe'  and key != 'all_students' and key != 'students'):
 				answers[key] = self.request.POST[key]
 
 		keys = sorted(answers)
@@ -131,7 +135,7 @@ class UpdateExam(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 
 
 		for key in self.request.POST:
-			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'begin_date' and key != 'limit_date' and key != 'all_students' and key != 'students'):
+			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'begin_date' and key != 'limit_date' and key!= 'exibe'  and key != 'all_students' and key != 'students'):
 				answer = Answer(answer=self.request.POST[key],order=key,exam=exam)
 				answer.save()
 

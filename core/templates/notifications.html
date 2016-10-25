@@ -5,8 +5,13 @@
 		<li>
 	  <a href="{% url 'core:notification_read' notification.id %}"><div class="list-group-item">
 	  <div class="row-picture">
-	    <img class="circle" src="http://lorempixel.com/56/56/people/1" alt="icon">
-	    <div class="least-content pull-right">{{ notification.datetime }}</div>
+	  {% if notification.actor.image %}
+	  	<img class="circle user-notification-img" src="{{ notification.actor.image.url }}" alt="icon">
+	  {% else %}
+	  	<img class="circle user-notification-img" src="{{ notification.actor.image_url }}" alt="icon">
+	  {% endif %}
+	    
+	    <div class="least-content "> {{ notification.datetime|timesince }} </div>
 	  </div>
 	  <div class="row-content">
 	    <p class="list-group-item-text">{{ notification.message }}</p>
@@ -19,11 +24,11 @@
 	    <a href="{% url 'core:notification_read' notification.id %}">
 	        <div class="list-group-item">
 	          <div class="row-action-primary">
-	            <i class="material-icons">folder</i>
+	            <i class="material-icons"></i>
 	          </div>
 	          <div class="row-content">
 
-	            <div class="least-content pull-right">{{ notification.datetime }}</div>
+	            <div class="least-content pull-right">{{ notification.datetime|timesince }}</div>
 
 	            <p class="list-group-item-text">{{ notification.message }}</p>
 	        </div>

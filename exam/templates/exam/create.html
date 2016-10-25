@@ -74,9 +74,7 @@ $("#add_question").click(function(){
     $("#0").attr("id","true_" + id++);
   });
 });
-
 var alternativeValue = 3;
-
 $('#newAlternative').click(function () {
   var element = '<div class="radio radio-primary">' +
   '<label>' +
@@ -85,12 +83,9 @@ $('#newAlternative').click(function () {
   '</label>' +
   '</div>';
   $('#radios').append(element);
-
   alternativeValue++;
 });
-
 var tfAlternativeValue = 3;
-
 $('#tfAlternative').click(function () {
   var element = '<div class="radio radio-primary">' +
   '<label>' +
@@ -104,10 +99,8 @@ $('#tfAlternative').click(function () {
   '</label>' +
   '</div>';
   $('#radiosTF').append(element);
-
   tfAlternativeValue++;
 });
-
 $(function() {
   $( "#begin_date,#end_date" ).datepicker();
 });

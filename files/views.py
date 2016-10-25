@@ -11,9 +11,11 @@ from .models import TopicFile
 from .utils import mime_type_to_material_icons
 from courses.models import Topic
 from core.models import MimeType
+from core.mixins import NotificationMixin
+from django.urls import reverse
 
 # Create your views here.
-class CreateFile(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
+class CreateFile(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.edit.CreateView):
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
@@ -32,6 +34,10 @@ class CreateFile(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 		self.object = form.save(commit = False)
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 		self.object.topic = topic
+		
+		self.object.name = str(self.object)
+		
+
 		# Set MimeType
 		file = self.request.FILES['file_url']
 		try:
@@ -54,6 +60,10 @@ class CreateFile(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 			# self.object.file_type = MimeType.objects.get(id = 1)
 
 		self.object.save()
+		#CREATE NOTIFICATION
+		super(CreateFile, self).createNotification(message="uploaded a File "+ self.object.name, actor=self.request.user,
+			resource_name=self.object.name, resource_link= reverse('course:view_topic', args=[self.object.topic.slug]), 
+			users=self.object.topic.subject.students.all())
 
 		return self.get_success_url()
 

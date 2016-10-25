@@ -5,7 +5,7 @@ var Submite = {
       $.post(url,dados, function(data){
         $(id_li_link).remove();
         $("#modal_category").empty();
-        $("div.modal-backdrop.fade.in").remove();
+        $("#accordion").remove();
         alertify.success("Category removed successfully!");
       }).fail(function(){
         $("#modal_category").empty();

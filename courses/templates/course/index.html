@@ -21,6 +21,7 @@
                 <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                 {% if user|has_role:'student' or not user.is_staff %}
                     <li><a href="{% url 'course:manage' %}">{% trans 'My courses' %}</a></li>
+                    <li><a href="{% url 'core:guest' %}">{% trans 'All Courses' %}</a></li>
                 {% endif %}
                 {% if user|has_role:'system_admin' %}
                     <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
@@ -40,6 +41,21 @@
             </ul>
         </div>
     </div>
+
+    	{% if user|has_role:'professor' or user|has_role:'system_admin' %}
+
+		<div class="panel panel-primary navigation">
+		    <div class="panel-heading">
+		        <h3 class="panel-title">Category</h3>
+		    </div>
+		    <div class="panel-body">
+		        <ul class="nav nav-pills nav-stacked">
+		            <li><a href="{% url 'course:create_cat' %}">Create Category</a></li>
+		            <li><a href="{% url 'course:manage_cat' %}">List Category</a></li>
+		        </ul>
+		    </div>
+		</div>
+	{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -74,121 +90,19 @@
 		{% if courses|length > 0 %}
 			{% if request.GET.category == 'all' or none or request.GET.category == '' %}
 				{% for course in list_courses %}
-		          <div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion" role="tablist" aria-multiselectable="false">
-		            <div class="group">
-						<div class="panel panel-info">
-						    <div class="panel-heading" role="tab">
-						      <div class="row">
-						        <div class="col-xs-9 col-md-10 titleTopic">
-						          <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
-						          <h4 style="color:white">{{course.name}}</h4>
-						          </a>
-						        </div>
-						        {% if user|has_role:'professor' or user|has_role:'system_admin' %}
-							        <div class="col-xs-4 col-md-2" id="divMoreActions">
-							            <div class="btn-group">
-							              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-							              </button>
-							              <ul class="dropdown-menu" aria-labelledby="moreActions">
-							                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
-							                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeCourse"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
-							              </ul>
-							            </div>
-							        </div>
-						        {% endif %}
-						      </div>
-						    </div>
-						    <div class="panel-collapse collapseOne collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" aria-hidden="false" tabindex="0">
-						      <div class="panel-body">
-						        <p><b>Course Name: </b>{{course.name}}</p>
-						        <p><b>Duration (in semesters): </b>09</p>
-						        <p><b>Coordinator: </b>{{course.professors}}</p>
-						        <p>
-						          <b>Description:</b>
-						          <i>
-						            {{course.description}}
-						          </i>
-						        </p>
-								<a href="{% url 'course:view' course.slug %}" class="btn btn-raised btn-default center-block">{% trans 'View Course' %}<div class="ripple-container"></div></a>
-						      </div>
-						    </div>
-						</div>
-					</div>
-				</div>
+		          	{% include "course/course_card.html" %}
 				{% endfor %}
 			{% else %}
 				{% for course in courses_category %}
     				{% if course.category.name == request.GET.category %}
     					<!-- Put your content here! -->
-		          <div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion" role="tablist" aria-multiselectable="false">
-		            <div class="group">
-						<div class="panel panel-info">
-						    <div class="panel-heading" role="tab">
-						      <div class="row">
-						        <div class="col-xs-9 col-md-9 titleTopic">
-						          <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
-						          <h4 style="color:white">{{course.name}}</h4>
-						          </a>
-						        </div>
-						        {% if user|has_role:'professor' or user|has_role:'system_admin' %}
-							        <div class="col-xs-4 col-md-3" id="divMoreActions">
-							            <div class="btn-group">
-							              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-							              </button>
-							              <ul class="dropdown-menu" aria-labelledby="moreActions">
-							                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
-							                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeCourse"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
-							              </ul>
-							            </div>
-							        </div>
-						        {% endif %}
-						      </div>
-						    </div>
-						    <div class="panel-collapse collapseOne collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" aria-hidden="false" tabindex="0">
-						      <div class="panel-body">
-						        <p><b>Course Name: </b>{{course.name}}</p>
-						        <p><b>Duration (in semesters): </b>09</p>
-						        <p><b>Coordinator: </b>{{course.professors}}</p>
-						        <p>
-						          <b>Description:</b>
-						          <i>
-						            {{course.description}}
-						          </i>
-						        </p>
-								<a href="{% url 'course:view' course.slug %}" class="btn btn-raised btn-default center-block">{% trans 'View Course' %}<div class="ripple-container"></div></a>
-						      </div>
-						    </div>
-						</div>
-					</div>
-				</div>
+    					{% include "course/course_card.html" %}
     				{% endif %}
 				{% endfor %}
 			{% endif %}
 		{% else %}
 			{% trans 'No courses found' %}
 		{% endif %}
-		<div class="group">
-			<div class="modal" id="removeCourse">
-				  <div class="modal-dialog">
-				    <div class="modal-content">
-				      <div class="modal-header">
-				        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-				        <h4 class="modal-title"></h4>
-				      </div>
-				      <div class="modal-body">
-				        <p>Delete your course?</p>
-				      </div>
-				      <div class="modal-footer">
-
-				        <a href="http://127.0.0.1:8080/html/screens/users/profile_user.html" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
-
-				      </div>
-				    </div>
-				  </div>
-			</div>
-		</div>
 	</div>
 	<div class="col-md-12">
 		<nav aria-label="Page navigation">
@@ -211,4 +125,6 @@
 			</ul>
 		</nav>
 	</div>
+
+	<script type="text/javascript" src="{% static 'js/course.js' %}"></script>
 {% endblock %}

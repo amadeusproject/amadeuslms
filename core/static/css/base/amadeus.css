@@ -12,7 +12,11 @@
 #notification-dropdown{
   max-height: 500%;
   overflow: auto;
-  width: 200px;
+  width: 300px;
+}
+
+.user-notification-img{
+  width:40%;
 }
 
 /* HEADER */
@@ -359,4 +363,35 @@ ul, li {
 .block-register-inline{
   float: left;
   display: inline-block;
+}
+
+/* core/reset_password.html classes*/
+.send-reset-email{
+  float: right;
+}
+
+/* forum post loaded */
+@-webkit-keyframes loaded {
+    0% {
+        background-color: Yellow;
+        opacity: 0.2;
+    }
+    22% {
+        background-color: Yellow;
+        opacity: 0.3;
+    }
+    77% {
+        background-color: Yellow;
+        opacity: 0.6;
+    }
+    100% {
+        background-color: White;
+    }
+}
+
+.loaded {
+    -webkit-animation-name: loaded;
+    -webkit-animation-duration: 900ms;
+    -webkit-animation-iteration-count: 3;
+    -webkit-animation-timing-function: ease-in-out;
 }
