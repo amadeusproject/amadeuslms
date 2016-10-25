@@ -67,7 +67,7 @@ class CreateForumView(LoginRequiredMixin, generic.edit.CreateView, NotificationM
 def render_forum(request, forum):
 	last_forum = get_object_or_404(Forum, id = forum)
 
-	return HttpResponse(str(reverse_lazy('course:forum:view', args = (), kwargs = {'slug': last_forum.slug})) + '-' + str(forum) + '-' + str(last_forum.name))
+	return JsonResponse({'url': str(reverse_lazy('course:forum:view', args = (), kwargs = {'slug': last_forum.slug})), 'forum_id': str(forum), 'name': str(last_forum.name)})
 
 class UpdateForumView(LoginRequiredMixin, generic.UpdateView):
 	login_url = reverse_lazy("core:home")	

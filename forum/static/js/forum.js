@@ -1,5 +1,6 @@
 var new_posts = []; //Store the new posts ids
 var new_answers = {};
+var locale = navigator.language || navigator.userLanguage;
 /*
 *
 * Defining action of the form to make a post in forum
@@ -60,7 +61,7 @@ function createForum(url, topic) {
 */
 function setForumCreateFormSubmit() {
     $('.date-picker').datepicker({
-        format: 'dd/mm/yyyy',
+        language: locale,
     });
 
     var frm = $('#forum_create');
@@ -69,10 +70,9 @@ function setForumCreateFormSubmit() {
             type: frm.attr('method'),
             url: frm.attr('action'),
             data: frm.serialize(),
+            dataType: "json",
             success: function (data) {
-                data = data.split('-');
-
-                $('.foruns_list').append("<li><i class='fa fa-commenting' aria-hidden='true'></i> <a id='forum_"+data[1]+"' href='"+data[0]+"'> "+data[2]+"</a></li>");
+                $('.foruns_list').append("<li><i class='fa fa-commenting' aria-hidden='true'></i> <a id='forum_"+data.forum_id+"' href='"+data.url+"'> "+data.name+"</a></li>");
 
                 $("#createForum").modal('hide');
             },
@@ -111,7 +111,7 @@ function editForum(url, forum, success_message) {
 */
 function setForumUpdateFormSubmit(success_message) {
     $('.date-picker').datepicker({
-        format: 'dd/mm/yyyy',
+        language: locale,
     });
 
     var frm = $('#forum_create');
