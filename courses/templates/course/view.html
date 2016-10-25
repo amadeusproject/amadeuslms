@@ -157,7 +157,7 @@
                     <p><b>{% trans "End" %}: </b>{{subject.end_date}}</p>
                   </div>
                 </div>
-                <a href="{% url 'course:view_subject' subject.slug %}" class="btn btn-raised btn-default center-block view_btn" {% if user|show_subject_subscribe:subject %}style="display:none"{% endif %}>{% trans 'View Subject' %}<div class="ripple-container"></div></a>
+                <a href="{% url 'course:view_subject' subject.slug %}" class="btn btn-raised btn-default center-block view_btn" {% if user|hide_subscribe_view_btn:subject %}style="display:none"{% endif %}>{% trans 'View Subject' %}<div class="ripple-container"></div></a>
             </div>
         </div>
       {% endfor %}
@@ -209,7 +209,7 @@
                     <p><b>{% trans "End" %}: </b>{{subject.end_date}}</p>
                   </div>
                 </div>
-                <a href="{% url 'course:view_subject' subject.slug %}" class="btn btn-raised btn-default center-block view_btn" {% if user|show_subject_subscribe:subject %}style="display:none"{% endif %}>{% trans 'View Subject' %}<div class="ripple-container"></div></a>
+                <a href="{% url 'course:view_subject' subject.slug %}" class="btn btn-raised btn-default center-block view_btn" {% if user|hide_subscribe_view_btn:subject %}style="display:none"{% endif %}>{% trans 'View Subject' %}<div class="ripple-container"></div></a>
             </div>
         </div>
             {% endif %}

@@ -210,6 +210,7 @@ class CourseView( NotificationMixin, generic.DetailView):
 		courses = None
 		context = super(CourseView, self).get_context_data(**kwargs)
 		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
+
 		if has_role(self.request.user,'system_admin'):
 			subjects = course.subjects.all()
 		elif has_role(self.request.user,'professor'):
@@ -381,6 +382,14 @@ class SubjectsView(LoginRequiredMixin, generic.ListView):
 	context_object_name = 'subjects'
 	model = Subject
 
+	def dispatch(self, *args, **kwargs):
+		subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+
+		if(not has_object_permission('view_subject', self.request.user, subject)):
+			return self.handle_no_permission()
+
+		return super(SubjectsView, self).dispatch(*args, **kwargs)
+
 	def get_queryset(self):
 		subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
 		course = subject.course
@@ -427,6 +436,14 @@ class TopicsView(LoginRequiredMixin, generic.ListView):
 	template_name = 'topic/index.html'
 	context_object_name = 'topics'
 	model = Topic
+
+	def dispatch(self, *args, **kwargs):
+		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+
+		if(not has_object_permission('view_topic', self.request.user, topic)):
+			return self.handle_no_permission()
+
+		return super(TopicsView, self).dispatch(*args, **kwargs)
 
 	def get_queryset(self):
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
