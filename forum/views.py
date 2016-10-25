@@ -9,6 +9,9 @@ from django.http import Http404, JsonResponse
 from django.urls import reverse
 from django.template.loader import render_to_string
 
+from rolepermissions.mixins import HasRoleMixin
+from rolepermissions.verifications import has_object_permission
+
 from .models import Forum, Post, PostAnswer
 from courses.models import Topic
 from core.models import Action, Resource
@@ -41,7 +44,9 @@ class ForumIndex(LoginRequiredMixin, generic.ListView):
 
 		return context
 
-class CreateForumView(LoginRequiredMixin, generic.edit.CreateView, NotificationMixin):
+class CreateForumView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView, NotificationMixin):
+	allowed_roles = ['professor', 'system_admin']
+
 	login_url = reverse_lazy("core:home")	
 	redirect_field_name = 'next'
 
@@ -69,7 +74,9 @@ def render_forum(request, forum):
 
 	return JsonResponse({'url': str(reverse_lazy('course:forum:view', args = (), kwargs = {'slug': last_forum.slug})), 'forum_id': str(forum), 'name': str(last_forum.name)})
 
-class UpdateForumView(LoginRequiredMixin, generic.UpdateView):
+class UpdateForumView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
+	allowed_roles = ['professor', 'system_admin']
+
 	login_url = reverse_lazy("core:home")	
 	redirect_field_name = 'next'
 
@@ -77,6 +84,14 @@ class UpdateForumView(LoginRequiredMixin, generic.UpdateView):
 	form_class = ForumForm
 	model = Forum
 	
+	def dispatch(self, *args, **kwargs):
+		forum = get_object_or_404(Forum, id = self.kwargs.get('pk'))
+
+		if(not has_object_permission('edit_forum', self.request.user, forum)):
+			return self.handle_no_permission()
+
+		return super(UpdateForumView, self).dispatch(*args, **kwargs)
+
 	def form_invalid(self, form):
 		return self.render_to_response(self.get_context_data(form = form), status = 400)
 
@@ -93,13 +108,23 @@ def render_edit_forum(request, forum):
 
 	return render(request, 'forum/render_forum.html', context)
 
-class ForumDeleteView(LoginRequiredMixin, generic.DeleteView):
+class ForumDeleteView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
+	allowed_roles = ['professor', 'system_admin']
+
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 
 	model = Forum
 	pk_url_kwarg = 'pk'	
 	success_url = reverse_lazy('course:forum:deleted_forum')
+
+	def dispatch(self, *args, **kwargs):
+		forum = get_object_or_404(Forum, id = self.kwargs.get('pk'))
+
+		if(not has_object_permission('delete_forum', self.request.user, forum)):
+			return self.handle_no_permission()
+
+		return super(ForumDeleteView, self).dispatch(*args, **kwargs)
 
 def forum_deleted(request):
 	return HttpResponse(_("Forum deleted successfully."))
@@ -111,6 +136,14 @@ class ForumDetailView(LoginRequiredMixin, generic.DetailView):
 	model = Forum
 	template_name = 'forum/forum_view.html'
 	context_object_name = 'forum'
+
+	def dispatch(self, *args, **kwargs):
+		forum = get_object_or_404(Forum, slug = self.kwargs.get('slug'))
+
+		if(not has_object_permission('view_forum', self.request.user, forum)):
+			return self.handle_no_permission()
+
+		return super(ForumDetailView, self).dispatch(*args, **kwargs)
 
 	def get_context_data(self, **kwargs):
 		context = super(ForumDetailView, self).get_context_data(**kwargs)
