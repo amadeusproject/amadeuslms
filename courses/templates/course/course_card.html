@@ -28,10 +28,10 @@
 		    </div>
 		    <div class="panel-collapse collapseOne-{{course.slug}} collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" aria-hidden="false" tabindex="0">
 		      <div class="panel-body">
-		        <p><b>Course Name: </b>{{course.name}}</p>
-		        <p><b>Coordinator: </b>{{course.professors.all.0}}</p>
+		        <p><b>{% trans 'Course Name' %}: </b>{{course.name}}</p>
+		        <p><b>{% trans 'Coordinator' %}: </b>{{course.professors.all.0}}</p>
 		        <p>
-		          <b>Description:</b>
+		          <b>{% trans 'Description' %}:</b>
 		          <i>
 		            {{course.content}}
 		          </i>
