@@ -19,7 +19,7 @@ def list_posts(request, forum):
 
     posts = Post.objects.filter(forum = forum).order_by('post_date')
 
-    paginator = Paginator(posts, 2)
+    paginator = Paginator(posts, 5)
 
     try:
         page_number = int(request.GET.get('page', 1))

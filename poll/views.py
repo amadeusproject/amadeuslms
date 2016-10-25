@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from rolepermissions.verifications import has_role
 from rolepermissions.verifications import has_object_permission
 from django.db.models import Q
-# from django.views.generic.edit import FormMixin
+from django.urls import reverse
 
 from .forms import PollForm
 from .models import Poll, Answer, AnswersStudent
@@ -34,7 +34,6 @@ class ViewPoll(LoginRequiredMixin,generic.DetailView):
 		context['subject'] = poll.topic.subject
 		context['subjects'] = poll.topic.subject.course.subjects.all()
 		answered = AnswersStudent.objects.filter(poll = poll, student=self.request.user)
-		print (answered)
 		if answered.count()<1:
 			context['status'] = False
 		else:
@@ -42,7 +41,7 @@ class ViewPoll(LoginRequiredMixin,generic.DetailView):
 		return context
 
 
-class CreatePoll(LoginRequiredMixin,HasRoleMixin,generic.CreateView):
+class CreatePoll(LoginRequiredMixin,HasRoleMixin, NotificationMixin,generic.CreateView):
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -64,15 +63,19 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin,generic.CreateView):
 		context.context_data['keys'] = keys
 		context.context_data['form'] = form
 		context.status_code = 400
-		# return self.render_to_response(context, status = 400)
+		s
 		return context
 
 	def form_valid(self, form):
 		self.object = form.save(commit = False)
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 		self.object.topic = topic
+		self.object.name = str(self.object)
 		self.object.save()
 
+		super(CreatePoll, self).createNotification(message="created a Poll at "+ self.object.topic.name, actor=self.request.user,
+			resource_name=self.object.name, resource_link= reverse('course:view_topic', args=[self.object.topic.slug]), 
+			users=self.object.topic.subject.students.all())
 		for key in self.request.POST:
 			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date' and key != 'all_students' and key != 'students'):
 				answer = Answer(answer=self.request.POST[key],order=key,poll=self.object)
@@ -144,10 +147,8 @@ class UpdatePoll(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 		context['course'] = poll.topic.subject.course
 		context['subject'] = poll.topic.subject
 		context['subjects'] = poll.topic.subject.course.subjects.all()
-
 		answers = {}
 		for answer in poll.answers.all():
-			# print (key.answer)
 			answers[answer.order] = answer.answer
 
 		keys = sorted(answers)
@@ -213,7 +214,6 @@ class AnswerStudentPoll(LoginRequiredMixin,generic.CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AnswerStudentPoll, self).get_context_data(**kwargs)
-		print (self.kwargs.get('slug'))
 		poll = get_object_or_404(Poll, slug = self.kwargs.get('slug'))
 		context['poll'] = poll
 		context['topic'] = poll.topic
@@ -221,7 +221,6 @@ class AnswerStudentPoll(LoginRequiredMixin,generic.CreateView):
 		context['subject'] = poll.topic.subject
 		context['subjects'] = poll.topic.subject.course.subjects.all()
 
-		print (self.request.method)
 		answers = {}
 		for answer in poll.answers.all():
 			answers[answer.order] = answer.answer

@@ -1,3 +1,7 @@
+.clearfix{
+  clear: both;
+}
+
 .navbar .logo {position: absolute; top: 6px; text-align: center; height: 48px; width: 48px;}
 
 /* Modal */
@@ -8,7 +12,11 @@
 #notification-dropdown{
   max-height: 500%;
   overflow: auto;
-  width: 200px;
+  width: 300px;
+}
+
+.user-notification-img{
+  width:40%;
 }
 
 /* HEADER */
@@ -272,7 +280,7 @@ a.alert_message:hover{color : grey}
 
 /*Logo register user*/
 #logo{
-  max-width: 30%;
+  max-width: 40%;
   margin-top: 1em;
   margin-bottom: 1em;
 }
@@ -333,4 +341,57 @@ ul, li {
 
 .icon_edit_remove{
   float: right;
+}
+
+
+/* core/index.html classes*/
+
+.logo-login{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  width:50%;
+}
+.forgotPassword{
+  padding-bottom: 10px;
+}
+.form-group{
+  margin-top: 10px;
+}
+
+/* core/register_user.html classes*/
+
+.block-register-inline{
+  float: left;
+  display: inline-block;
+}
+
+/* core/reset_password.html classes*/
+.send-reset-email{
+  float: right;
+}
+
+/* forum post loaded */
+@-webkit-keyframes loaded {
+    0% {
+        background-color: Yellow;
+        opacity: 0.2;
+    }
+    22% {
+        background-color: Yellow;
+        opacity: 0.3;
+    }
+    77% {
+        background-color: Yellow;
+        opacity: 0.6;
+    }
+    100% {
+        background-color: White;
+    }
+}
+
+.loaded {
+    -webkit-animation-name: loaded;
+    -webkit-animation-duration: 900ms;
+    -webkit-animation-iteration-count: 3;
+    -webkit-animation-timing-function: ease-in-out;
 }

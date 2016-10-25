@@ -10,3 +10,13 @@ def edit_exam(role, user, exam):
         return True
 
     return False
+
+@register_object_checker()
+def delete_exam(role, user, exam):
+    if (role == SystemAdmin):
+        return True
+
+    if (user in exam.topic.subject.professors.all()):
+        return True
+
+    return False

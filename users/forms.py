@@ -39,13 +39,13 @@ class UserForm(RegisterUserForm):
 
 	class Meta:
 		model = User
-		fields = ['username', 'name', 'email', 'birth_date', 'city', 'state', 'gender', 'type_profile', 'cpf', 'phone', 'image', 'is_staff', 'is_active']
+		fields = ['username', 'name', 'email', 'birth_date', 'city', 'state', 'gender', 'type_profile', 'cpf', 'phone', 'image', 'titration', 'year_titration', 'institution', 'curriculum', 'is_staff', 'is_active']
 
 class UpdateUserForm(forms.ModelForm):
 
 	def validate_cpf(self, cpf):
 		cpf = ''.join(re.findall('\d', str(cpf)))
-        
+
 		if cpfcnpj.validate(cpf):
 			return True
 		return False
@@ -59,6 +59,7 @@ class UpdateUserForm(forms.ModelForm):
 	def clean_birth_date(self):
 		birth_date = self.cleaned_data['birth_date']
 		if birth_date >= date.today():
+			print('===============' + date.today() + '================')
 			raise forms.ValidationError(_('Please enter a valid date'))
 		return birth_date
 
@@ -70,4 +71,4 @@ class UpdateProfileForm(UpdateUserForm):
 
 	class Meta:
 		model = User
-		fields = ['username', 'name', 'email', 'birth_date', 'city', 'state', 'gender', 'cpf', 'phone', 'image']
+		fields = ['username', 'name', 'email', 'birth_date', 'city', 'state', 'gender', 'cpf', 'phone', 'image', 'curriculum']

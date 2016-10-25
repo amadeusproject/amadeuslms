@@ -1,0 +1,77 @@
+{% load static widget_tweaks i18n %}
+
+<!-- MODAL CREATE FILE -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/file.css' %}">
+
+<div class="erro-update">
+    <div class="modal fade" id="fileDeleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteFileLabel" style="z-index: 10">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="deleteFileLabel">{% trans 'Delete File' %}</h4>
+                </div>
+                <div class="modal-body">
+                <!-- Card -->
+                    <form class="form-horizontal" method="post" id="form-delete-file" enctype="multipart/form-data">
+                    {% csrf_token %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <p>{{ message }}</p>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        <fieldset>
+                            <div class="col-md-12">
+                                {% trans "Are you sure to delete " %}<a href="{{ file.file_url.url }}" target="_blank" > {{ file.name }} </a> of {{ file.topic.name }}?
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                     <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+                                    <button class="btn btn-raised btn-primary" type="submit">Delete</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                <!-- .end Card -->
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block script_file %}
+    
+    {# // <script src="{% static 'js/file.js' %}"></script> #}
+    <script type="text/javascript">
+      $("#form-delete-file").submit(function(event) {
+            var data = new FormData($('#form-delete-file').get(0));
+            $.ajax({
+                url: "{% url 'course:file:delete_file' file.slug %}",
+                type: $("#form-delete-file").attr('method'),
+                data: data,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    $('#fileDeleteModal').modal('hide');
+                    $('#file_{{ file.slug }}').remove();
+                    $('#file_edit_icon_{{ file.slug }}').remove();
+                    $('#file_edit_{{ file.slug }}').remove();
+                },
+                error: function(data){
+                    // $('.erro-update').html(data.responseText);
+                    $('.modal-backdrop').remove();
+                    $('#fileDeteleModal').modal();
+                    alert('Erro');
+                }
+            });
+            event.preventDefault();
+          });
+  </script>
+{% endblock script_file %}
+<!-- EndModal -->

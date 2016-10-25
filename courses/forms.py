@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from .models import CourseCategory, Course, Subject, Topic, ActivityFile, Activity
+from .models import CourseCategory, Course, Subject, Topic, ActivityFile, Activity, FileMaterial, LinkMaterial
 from s3direct.widgets import S3DirectWidget
 
 
@@ -128,15 +128,19 @@ class SubjectForm(forms.ModelForm):
 
 	class Meta:
 		model = Subject
-		fields = ('name', 'description', 'visible',)
+		fields = ('name', 'description','init_date', 'end_date', 'visible',)
 		labels = {
 			'name': _('Name'),
 			'description': _('Description'),
+			'init_date': _('Start date'),
+			'end_date': _('End date'),
 			'visible': _('Is it visible?'),
 		}
 		help_texts = {
 			'name': _("Subjects's name"),
 			'description': _("Subjects's description"),
+			'init_date': _('Start date of the subject'),
+			'end_date': _('End date of the subject'),
 			'visible': _('Is the subject visible?'),
 		}
 
@@ -184,7 +188,17 @@ class ActivityFileForm(forms.ModelForm):
     model = ActivityFile
     fields = ['pdf','name']
 
-class ActivityForm(forms.ModelForm):  
+class ActivityForm(forms.ModelForm):
   class Meta:
     model = Activity
     fields = ['topic', 'limit_date', 'students','all_students']
+
+class FileMaterialForm(forms.ModelForm):
+  class Meta:
+    model = FileMaterial
+    fields = ['name', 'file']
+
+class LinkMaterialForm(forms.ModelForm):
+  class Meta:
+    model = LinkMaterial
+    fields = ['material', 'name', 'description','url']

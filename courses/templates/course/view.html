@@ -1,11 +1,15 @@
 {% extends 'home.html' %}
 
-{% load static i18n permission_tags %}
+{% load static i18n permission_tags custom_filters %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% block style %}
   <link rel="stylesheet" href="{% static 'css/course/course.css' %}">
 {% endblock style %}
+
+{% block javascript %}
+  <script type="text/javascript" src="{% static 'js/course.js' %}"></script>
+{% endblock %}
 
 {% block breadcrumbs %}
 
@@ -24,26 +28,11 @@
                 <li><a href="{% url 'core:home' %}">{% trans "Home" %}</a></li>
                 <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                 <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
+                <li><a href="{% url 'core:guest' %}">{% trans 'All Courses' %}</a></li>
             </ul>
         </div>
     </div>
 
-{% if user|has_role:'professor, system_admin' %}
-
-    <div class="panel panel-primary navigation">
-    <div class="panel-heading">
-        <h3 class="panel-title">Actions</h3>
-    </div>
-    <div class="panel-body">
-        <ul class="nav nav-pills nav-stacked">
-            <li><a href="teacher/course_participants_teacher.html" target="_self">Participants</a></li>
-            <li><a href="javascript:void(0)">Replicate Subject</a></li>
-            <li><a href="javascript:void(0)">Create Subject</a></li>
-            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal">Create Topic</a></li>
-        </ul>
-    </div>
-</div>
-{% endif %}
 
 {% endblock %}
 
@@ -56,17 +45,17 @@
           <div class="col-xs-8 col-md-10 titleTopic">
             <h4>{{course}}</h4>
           </div>
-          {% if user|has_role:'professor' or user|has_role:'system_admin' %}
+          {% if user|has_role:'professor' and user in course.professors or user|has_role:'system_admin' %}
             <div class="col-xs-4 col-md-2" id="divMoreActions">
               <div class="btn-group">
                 <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
                 <div class="ripple-container"></div></button>
                 <ul class="dropdown-menu" aria-labelledby="moreActions">
-                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createSubject"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp; Create Subject</a></li>
-                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
-                  <li><a href="{% url 'course:update' course.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Edit</a></li>
-                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
+                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createSubject"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp; {% trans "Create Subject" %}</a></li>
+                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
+                  <li><a href="{% url 'course:update' course.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
+                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
                 </ul>
               </div>
             </div>
@@ -75,7 +64,6 @@
     </div>
     <div class="panel-body">
       <p><b>Course Name: </b>{{course.name}}</p>
-      <p><b>Duration (in semesters): </b>09</p>
       <p><b>Coordinator: </b>{{course.professors}}</p>
       <p>
         <b>Description:</b>
@@ -86,70 +74,20 @@
 
     </div>
   </div>
-
+ 
 <!-- MODAL CREATE SUBJECT -->
 <div class="modal" tabindex="-1" role="dialog  " id="createSubject">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Create a New Subject</h4>
+        <h4 class="modal-title">{% trans "Create a New Subject" %}</h4>
       </div>
       <div class="modal-body">
         <div>
-          <!--<form class="form-horizontal">
-            <div class="form-group is-empty">
-              <label class="control-label col-md-2 col-md-offset-1 col-xs-2 col-xs-offset-1">Name</label>
-              <div class="col-md-8 col-xs-8">
-                <input type="text" class="form-control" name="nameSubject">
-              </div>
-            </div>
-            <div class="form-group is-empty">
-              <label class="control-label col-md-2 col-md-offset-1 col-xs-2 col-xs-offset-1">Description</label>
-              <div class="col-md-8 col-xs-8">
-                <textarea class="form-control" rows="3" id="textAreaSubject"></textarea>
-                <span class="help-block">Sign the description of the course.</span>
-              </div>
-            </div>
-            <div class="form-group is-empty">
-              <label class="control-label col-md-2 col-md-offset-1 col-xs-2 col-xs-offset-1">Goals</label>
-              <div class="col-md-8 col-xs-8">
-                <textarea class="form-control" rows="3" id="textAreaSubject"></textarea>
-                <span class="help-block">Sign the objectives of the course until the end of the course.</span>
-              </div>
-            </div>
-            <div class="form-group is-empty">
-              <label class="control-label col-md-2 col-md-offset-1 col-xs-2 col-xs-offset-1">Students Limit</label>
-              <div class="col-md-8 col-xs-8">
-                <input type="number" class="form-control" name="StudentLimit">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6 col-xs-12">
-                <div class="row">
-                  <div class="form-group is-empty">
-                    <label class="control-label col-md-4 col-xs-4 col-xs-offset-1">Begining</label>
-                    <div class="col-md-8 col-xs-6">
-                      <input type="date" class="form-control" name="BeginDate">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-xs-12">
-                <div class="row">
-                  <div class="form-group is-empty">
-                    <label class="control-label col-md-4 col-xs-4 col-xs-offset-1">End</label>
-                    <div class="col-md-8 col-xs-6">
-                      <input type="date" class="form-control" name="EndDate">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>-->
         </div>
         <div class="modal-footer">
-          <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
-          <a href="#" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
+          <button type="button" data-dismiss="modal" class="btn btn-default">{% trans "Cancel" %}</button>
+          <a href="#" target="_self"><button type="button" class="btn btn-primary"> {% trans "Confirm" %}</button></a>
         </div>
       </div>
     </div>
@@ -157,7 +95,9 @@
 </div>
 
 <div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion" role="tablist" aria-multiselectable="false">
-  <div><div class="panel panel-info">
+  <div>
+
+  <div class="panel panel-info">
 </div>
 
 
@@ -170,11 +110,11 @@
         <h4 class="modal-title"></h4>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to remove this subject?</p>
+        <p>{% trans "Are you sure you want to remove this subject?" %}</p>
       </div>
       <div class="modal-footer">
 
-        <a href="http://127.0.0.1:8080/html/screens/users/teacher/home_course_teacher.html" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
+        <a href="http://127.0.0.1:8080/html/screens/users/teacher/home_course_teacher.html" target="_self"><button type="button" class="btn btn-primary">{% trans "Confirm" %}</button></a>
 
       </div>
     </div>
@@ -182,59 +122,119 @@
 </div>
 </div>
 <div>
+    {% if request.GET.category == 'all' or none or request.GET.category == '' %}
+      {% for subject in subjects %}
+        <div class="panel panel-info panel_{{ subject.id }}">
+          <div class="panel-heading headingTwo ui-sortable-handle" role="tab">
+            <div class="row">
+                <div class="col-xs-9 col-md-10 titleTopic">
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                  <h4 style="color:white">{{subject.name}}</h4>
+                  </a>
+                </div>
+                {% if user|has_role:'professor' and user in subject.professors or user|has_role:'system_admin' %}
+                  <div class="col-xs-3 col-md-2" id="divMoreActions">
+                    <div class="btn-group">
+                      <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="moreActions">
+                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
+                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeSubject2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                {% endif %}
 
-{% for subject in subjects %}
-<div class="panel panel-info">
-  <div class="panel-heading headingTwo ui-sortable-handle" role="tab">
-    <div class="row">
-        <div class="col-xs-9 col-md-10 titleTopic">
-          <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <h4 style="color:white">{{subject.name}}</h4>
-          </a>
-        </div>
-        <div class="col-xs-3 col-md-2" id="divMoreActions">
-          <div class="btn-group">
-            <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="moreActions">
-              <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
-              <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeSubject2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
-            </ul>
+                {% if user|show_subject_subscribe:subject %}
+                  <div class="col-xs-3 col-md-2">
+                    <a onclick="subscribe($(this), '{% url 'course:subscribe_subject' subject.slug %}', {{ subject.id }}, '{% trans 'Are you sure you want to subscribe to this subject?' %}')" class="btn btn-sm btn-primary btn-raised">{% trans 'Subscribe' %}</a>
+                  </div>
+                {% endif %}
+            </div>
           </div>
+          <div class="panel-body">
+              <p><b>{% trans "Professor" %}: </b>{% for professor in subject.professors.all %}{% if not forloop.first %},{% endif %}
+                {{professor}}{% if forloop.last %}.{% endif %}{% endfor %}</p>
+                <p>
+                  <b>{% trans "Description" %}: </b>
+                  <i>
+                    {{subject.description}}
+                  </i>
+                </p>
+                <div class="row">
+                  <div class="col-xs-6 col-md-6">
+                    <p><b>{% trans "Begining" %}: </b>{{subject.init_date}}</p>
+                  </div>
+                  <div class="col-xs-6 col-md-6">
+                    <p><b>{% trans "End" %}: </b>{{subject.end_date}}</p>
+                  </div>
+                </div>
+                <a href="{% url 'course:view_subject' subject.slug %}" class="btn btn-raised btn-default center-block view_btn" {% if user|show_subject_subscribe:subject %}style="display:none"{% endif %}>{% trans 'View Subject' %}<div class="ripple-container"></div></a>
+            </div>
         </div>
-    </div>
-  </div>
-  <div class="panel-body">
-      <p><b>{% trans "Professor" %}: </b>{% for professor in subject.professors.all %}{% if not forloop.first %},{% endif %}
-        {{professor}}{% if forloop.last %}.{% endif %}{% endfor %}</p>
-        <p>
-          <b>{% trans "Description" %}: </b>
-          <i>
-            {{subject.description}}
-          </i>
-        </p>
-        <div class="row">
-          <div class="col-xs-6 col-md-6">
-            <p><b>{% trans "Begining" %}: </b>{{subject.init_date}}</p>
+      {% endfor %}
+  {% else %}
+        {% for subject in subjects_category %}
+            {% if subject.category.name == request.GET.category %}
+              <div class="panel panel-info panel_{{ subject.id }}">
+          <div class="panel-heading headingTwo ui-sortable-handle" role="tab">
+            <div class="row">
+                <div class="col-xs-9 col-md-10 titleTopic">
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                  <h4 style="color:white">{{subject.name}}</h4>
+                  </a>
+                </div>
+                {% if user|has_role:'professor' and user in subject.professors or user|has_role:'system_admin' %}
+                  <div class="col-xs-3 col-md-2" id="divMoreActions">
+                    <div class="btn-group">
+                      <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="moreActions">
+                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
+                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeSubject2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                {% endif %}
+                {% if user|show_subject_subscribe:subject %}
+                  <div class="col-xs-3 col-md-2">
+                    <a onclick="subscribe($(this), '{% url 'course:subscribe_subject' subject.slug %}', {{ subject.id }}, '{% trans 'Are you sure you want to subscribe to this subject?' %}')" class="btn btn-sm btn-primary btn-raised">{% trans 'Subscribe' %}</a>
+                  </div>
+                {% endif %}
+            </div>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p><b>{% trans "End" %}: </b>{{subject.end_date}}</p>
-          </div>
+          <div class="panel-body">
+              <p><b>{% trans "Professor" %}: </b>{% for professor in subject.professors.all %}{% if not forloop.first %},{% endif %}
+                {{professor}}{% if forloop.last %}.{% endif %}{% endfor %}</p>
+                <p>
+                  <b>{% trans "Description" %}: </b>
+                  <i>
+                    {{subject.description}}
+                  </i>
+                </p>
+                <div class="row">
+                  <div class="col-xs-6 col-md-6">
+                    <p><b>{% trans "Begining" %}: </b>{{subject.init_date}}</p>
+                  </div>
+                  <div class="col-xs-6 col-md-6">
+                    <p><b>{% trans "End" %}: </b>{{subject.end_date}}</p>
+                  </div>
+                </div>
+                <a href="{% url 'course:view_subject' subject.slug %}" class="btn btn-raised btn-default center-block view_btn" {% if user|show_subject_subscribe:subject %}style="display:none"{% endif %}>{% trans 'View Subject' %}<div class="ripple-container"></div></a>
+            </div>
         </div>
-        <a href="{% url 'course:view_subject' subject.slug %}" class="btn btn-raised btn-default center-block">{% trans 'View Subject' %}<div class="ripple-container"></div></a>
-    </div>
-</div>
-{% if  user|has_role:'professor' or user|has_role:'system_admin' %}
-  
+            {% endif %}
+        {% endfor %}
+  {% endif %}
+
+{% if  user|has_role:'professor' and user in course.professors.all or user|has_role:'system_admin' %}
+
     <div class="form-group">
-    <a href="{% url 'course:create_subject' subject.slug %}" data-toggle="modal" data-target="" class="btn btn-primary btn-lg btn-block btn-raised">{% trans 'Create Subject' %}<div class="ripple-container"></div></a>
+    <a href="{% url 'course:create_subject' course.slug %}" data-toggle="modal" data-target="" class="btn btn-primary btn-lg btn-block btn-raised">{% trans 'Create Subject' %}<div class="ripple-container"></div></a>
   </div>
 {% endif %}
-
-
-{% endfor %}
-
 
 <!-- MODAL REMOVE -->
   <div class="modal" id="removeSubject2">
@@ -245,11 +245,11 @@
           <h4 class="modal-title"></h4>
         </div>
         <div class="modal-body">
-          <p>Are you sure you want to remove this subject?</p>
+          <p> {% trans "Are you sure you want to remove this subject?" %}</p>
         </div>
         <div class="modal-footer">
 
-          <a href="http://127.0.0.1:8080/html/screens/users/teacher/home_course_teacher.html" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
+          <a href="http://127.0.0.1:8080/html/screens/users/teacher/home_course_teacher.html" target="_self"><button type="button" class="btn btn-primary">{% trans "Confirm" %}</button></a>
 
         </div>
       </div>
@@ -262,4 +262,3 @@
 </div>
 
 {% endblock %}
-

@@ -19,7 +19,7 @@ def list_post_answer(request, post):
 
     answers = PostAnswer.objects.filter(post = post)
 
-    paginator = Paginator(answers, 2)
+    paginator = Paginator(answers, 5)
 
     try:
         page_number = int(request.GET.get('page_answer', 1))

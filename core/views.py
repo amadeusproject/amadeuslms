@@ -18,7 +18,7 @@ from .forms import RegisterUserForm
 from .decorators import log_decorator, notification_decorator
 
 from users.models import User
-
+from courses.models import Course, CourseCategory
 
 def index(request):
 	context = {
@@ -68,7 +68,6 @@ def remember_password(request):
 			context['danger'] = 'E-mail does not send'
 	return render(request, "remember_password.html",context)
 
-@notification_decorator(message='just connected')
 @log_decorator('Acessar', 'Sistema')
 def login(request):
 	context = {}
@@ -102,7 +101,7 @@ def processNotification(self, notificationId):
 def getNotifications(request):
 	context = {}
 	if request.user.is_authenticated:
-		
+
 		steps = int(request.GET['steps'])
 		amount = int(request.GET['amount'])
 		notifications = Notification.objects.filter(user= request.user, read=False).order_by('-datetime')[steps:steps+amount]
@@ -110,18 +109,13 @@ def getNotifications(request):
 	else: #go to login page
 		return HttpResponse('teste')
 
-	
+
 	html = render_to_string("notifications.html", context)
-	print(html)
 	return HttpResponse(html)
-	 
 
-
-
-# class LoginClass(LoginView):
-# 	template_name='index.html'
-#
-# 	def get_context_data(self, **kwargs):
-# 		context = super(LoginClass,self).get_context_data(**kwargs)
-# 		print ("deu certo")
-# 		return context
+def guest (request):
+	context = {
+		'courses': Course.objects.filter(public=True),
+		'categories': CourseCategory.objects.all(),
+	}
+	return render(request, 'guest.html', context)

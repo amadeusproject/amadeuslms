@@ -1,4 +1,4 @@
-{% extends 'app/base.html' %}
+{% extends 'base.html' %}
 
 {% load static i18n %}
 {% load static i18n permission_tags %}
@@ -23,8 +23,8 @@
             </ul>
         </div>
     </div>
-    
-	{% if user|has_role:'professor, system_admin' %}
+
+	{% if user|has_role:'professor' or user|has_role:'system_admin' %}
 
     <div class="panel panel-primary navigation">
 	    <div class="panel-heading">
@@ -64,36 +64,57 @@
 			</div>
 		{% endfor %}
 	{% endif %}
-	<div class="table-responsive">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>{% trans 'Name' %}</th>
-					<th>{% trans 'Slug' %}</th>
-					<th class="text-center">{% trans 'Actions' %}</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% if categories|length > 0 %}
-					{% for category in categories %}
-						<tr>
-							<td>{{ category }}</td>
-							<td>{{ category.slug }}</td>
-							<td class="text-center">
-								<a href="{% url 'course:view_cat' category.slug %}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a>
-								<a href="{% url 'course:update_cat' category.slug %}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
-								<a href="{% url 'course:delete_cat' category.slug %}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
-							</td>
-						</tr>
-					{% endfor %}
-				{% else %}
-					<tr>
-						<td colspan="3">
-							{% trans 'No categories found' %}
-						</td>
-					</tr>
+	{% if categories|length > 0 %}
+		{% for category in categories %}
+			<div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion" role="tablist" aria-multiselectable="false">
+			    <div class="group">
+					<div class="panel panel-info">
+					    <div class="panel-heading" role="tab">
+					      <div class="row">
+					        <div class="col-xs-9 col-md-10 titleTopic">
+					          <h4 style="color:white">{{category}}</h4>
+					        </div>
+					        
+						        <div class="col-xs-4 col-md-2" id="divMoreActions">
+						            <div class="btn-group">
+						              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+						              </button>
+						              <ul class="dropdown-menu" aria-labelledby="moreActions">
+						                <li><a href="{% url 'course:update_cat' category.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Update' %}</a></li>
+						                <li><a href="javascript:modal.get('{% url 'course:delete_cat' category.slug %}','#category','#modal_category');"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remover' %}</a></li>
+						              </ul>
+						            </div>
+						        </div>
+					        
+					      </div>
+					    </div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	{% endif %}
+	<div class="col-md-12">
+		<nav aria-label="Page navigation">
+			<ul class="pagination">
+				{% if page_obj.has_previous %}
+				    <li>
+				        <a href="?page={{ page_obj.previous_page_number }}"><span><<</span></a>
+				    </li>
 				{% endif %}
-			</tbody>
-		</table>
+			    {% for page_number in paginator.page_range %}
+					<li{% if page_obj.number == page_number %} class="active"{% endif %}>
+	    				<a href="?page={{ page_number }}">{{ page_number }}</a>
+					</li>
+				{% endfor %}
+				{% if page_obj.has_next %}
+				    <li>
+				        <a href="?page={{ page_obj.next_page_number }}"><span>>></span></a>
+				    </li>
+				{% endif %}
+			</ul>
+		</nav>
 	</div>
+	<div class="row" id="modal_category">
+<script src="{% static 'js/modal_category.js' %}"></script>
 {% endblock %}

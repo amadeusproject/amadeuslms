@@ -4,13 +4,13 @@ from users.models import User
 from autoslug.fields import AutoSlugField
 # Create your models here.
 
-class MymeType(models.Model):
+class MimeType(models.Model):
     typ = models.CharField(_('Type'), max_length=100, unique=True)
     icon = models.CharField(_('Icon'), max_length=50, unique=True)
 
     class Meta:
-        verbose_name= _('Amadeus Myme Type')
-        verbose_name_plural = _('Amadeus Myme Types')
+        verbose_name= _('Amadeus Mime Type')
+        verbose_name_plural = _('Amadeus Mime Types')
 
     def get_icon(self, type):
         pass
@@ -25,6 +25,7 @@ class Action(models.Model):
     """
 
     name = models.CharField(_('Name'), max_length = 100)
+    slug = AutoSlugField(_("Slug"), populate_from=('name'), unique=True)
     created_date = models.DateField(_('Created Date'), auto_now_add=True)
 
     class Meta:
@@ -84,7 +85,7 @@ class Notification(models.Model):
         @action_resource: The Object that holds the information about which action was perfomed on the Resource
         @actor: The user who applied the action
     """
-
+    
     message = models.TextField(_('Message'))
     user = models.ForeignKey(User, related_name = _('%(class)s_Actor'), verbose_name= _('User'))
     read = models.BooleanField(_('Read'), default = False)

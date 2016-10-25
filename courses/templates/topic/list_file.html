@@ -1,0 +1,12 @@
+{% load static i18n permission_tags%}
+
+	<div id="list-topic{{ topic.id }}-files">
+		{% for file in files %}
+	  		<li id="file_{{ file.slug }}"><i class="material-icons">{{ file.file_type.icon }}</i> <a href="{{ file.file_url.url }}" target="_blank">{{ file.name }}</a></li>
+		{% endfor %}	
+	</div>
+	
+
+<div class="row" id="divModalFile">
+
+</div>

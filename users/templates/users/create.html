@@ -55,6 +55,22 @@
 				                   		</button>
 				                  	</span>
 				                </div>
+
+				            {% elif field.auto_id == 'id_curriculum' %}
+		                		{% if field.field.required %}
+									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}">{{ field.label }}</label>
+								{% endif %}
+								{% render_field field class='form-control' %}
+								<div class="input-group">
+				                  	<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
+				                  	<span class="input-group-btn input-group-sm">
+				                    	<button type="button" class="btn btn-fab btn-fab-mini">
+				                    		<i class="material-icons">attach_file</i>
+				                   		</button>
+				                  	</span>
+				                </div>
 				      		{% elif field.auto_id == 'id_is_staff' or field.auto_id == 'id_is_active' %}
                 				<div class="checkbox">
                   					<label for="{{ field.auto_id }}">
@@ -68,6 +84,14 @@
 									<label for="{{ field.auto_id }}">{{ field.label }}</label>
 								{% endif %}
                 				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
+
+							{% elif field.auto_id == 'id_year_titration' %}
+                				{% if field.field.required %}
+									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}">{{ field.label }}</label>
+								{% endif %}
+                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event);' %}
 
                 			{% elif field.auto_id == 'id_phone' %}
                 				{% if field.field.required %}
@@ -86,7 +110,7 @@
 							{% endif %}
               				<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
 							{% if field.errors %}
-								<div class="alert alert-danger alert-dismissible col-md-offset-4 col-md-8" role="alert">
+								<div class="alert alert-danger alert-dismissible" role="alert">
 				  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				  						<span aria-hidden="true">&times;</span>
 			  						</button>
@@ -100,10 +124,10 @@
 						</div>
 					{% endfor %}
 					<div class="col-md-offset-2 col-md-2 col-sm-2 col-xs-2">
-						<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" onclick="validarCpfSemAlert(id_cpf, CPF, idElementoMensagemErro)'" />
+						<input type="submit" value="{% trans 'Save' %}" class="btn btn-raised btn-success" onclick="validarCpfSemAlert(id_cpf, CPF, idElementoMensagemErro)'" />
 					</div>
-					<div class="col-md-offset-3 col-md-2 col-sm-2 col-xs-2">
-						<a href="{% url 'users:manage' %}" class="btn btn-sm btn-default" >{% trans 'Cancel' %}</a>
+					<div class="col-md-offset-4 col-md-2 col-sm-2 col-xs-2">
+						<a href="{% url 'users:manage' %}" class="btn btn-raised btn-danger" >{% trans 'Cancel' %}</a>
 					</div>
 				</form>
 			</div>
@@ -112,8 +136,4 @@
 </br>
 </br>
 </br>
-{% endblock %}
-
-{% block javascript %}
-	<script src="{% static 'js/base/amadeus.js' %}"></script>
 {% endblock %}

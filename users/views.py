@@ -26,7 +26,7 @@ class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 		if search is None:
 			users = User.objects.exclude(username = self.request.user.username)
 		else:
-			users = User.objects.filter(Q(username = search) | Q(name__icontains = search))
+			users = User.objects.filter(Q(username = search) | Q(name = search) | Q(name__icontains = search) | Q(username__icontains = search)).exclude( username = self.request.user.username)
 
 		return users
 
@@ -101,6 +101,12 @@ def delete(request,username):
 	messages.success(request,_("User deleted Successfully!"))
 	return redirect('users:manage')
 
+
+class Change_password(generic.TemplateView):
+	template_name = 'users/change_password.html'
+
+class Remove_account(generic.TemplateView):
+	template_name = 'users/remove_account.html'
 
 
 class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):

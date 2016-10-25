@@ -93,16 +93,26 @@ class PostAnswerTestCase (TestCase):
         )
         self.post_student.save()
 
-        self.answer = PostAnswer.objects.create(
+        self.answerStudent = PostAnswer.objects.create(
             user = self.user_student,
             post = self.post_professor,
             message = 'testing a post answer',
             modification_date = '2016-10-05',
             answer_date = '2016-10-04',
         )
-        self.answer.save()
+        self.answerStudent.save()
+
+        self.answerProfessor = PostAnswer.objects.create(
+            user = self.user_professor,
+            post = self.post_student,
+            message = 'testing a post answer',
+            modification_date = '2016-10-05',
+            answer_date = '2016-10-04',
+        )
+        self.answerProfessor.save()
 
     def test_create_answer_post (self):
+        list_answers = PostAnswer.objects.filter(user=self.user_professor).count()
         answer = PostAnswer.objects.create(
             user = self.user_professor,
             post = self.post_student,
@@ -112,19 +122,46 @@ class PostAnswerTestCase (TestCase):
         )
         answer.save()
 
-        self.assertEquals (answer, PostAnswer.objects.get(user=self.user_professor, post=self.post_student))
+        self.assertEquals (list_answers+1, PostAnswer.objects.filter(user=self.user_professor, post=self.post_student).count())
+
+        list_answers = PostAnswer.objects.filter(user=self.user_student).count()
+        answer = PostAnswer.objects.create(
+            user = self.user_student,
+            post = self.post_professor,
+            message = 'testing a post answer2',
+            modification_date = '2016-10-05',
+            answer_date = '2016-10-04',
+        )
+        answer.save()
+
+        self.assertEquals (list_answers+1, PostAnswer.objects.filter(user=self.user_student, post=self.post_professor).count())       
 
     def test_update_answer_post (self):
-        self.answer.message = 'updating a answer post'
-        self.answer.save()
+        self.answerStudent.message = 'updating a student answer post'
+        self.answerStudent.save()
+        answer = PostAnswer.objects.get(message='updating a student answer post')
 
-        self.assertEquals(self.answer, PostAnswer.objects.all()[0]) 
+        self.assertEquals(self.answerStudent, answer) 
+
+
+        self.answerProfessor.message = 'updating a professor answer post'
+        self.answerProfessor.save()
+        answer = PostAnswer.objects.get(message='updating a professor answer post')
+
+        self.assertEquals(self.answerProfessor, answer)
 
     def test_delete_answer_post (self):
-        answer = PostAnswer.objects.get(user=self.user_student, post=self.post_professor)
-        self.answer.delete()
+        list_studentAnswers = PostAnswer.objects.filter(user=self.user_student).count()
+        self.assertEquals(list_studentAnswers, 1)
 
-        try:
-            answer = PostAnswer.objects.get(user=self.user_student, post=self.post_professor)
-        except:
-            pass
+        self.answerStudent.delete()
+        list_studentAnswers = PostAnswer.objects.filter(user=self.user_student).count()
+        self.assertEquals(list_studentAnswers, 0)
+        
+        list_professorAnswers = PostAnswer.objects.filter(user=self.user_professor).count()
+        self.assertEquals(list_professorAnswers, 1)
+
+        self.answerProfessor.delete()
+        list_professorAnswers = PostAnswer.objects.filter(user=self.user_professor).count()
+        self.assertEquals(list_professorAnswers, 0)
+         

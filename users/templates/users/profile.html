@@ -14,13 +14,15 @@
 {% block sidebar %}
 	<div class="panel panel-primary navigation">
         <div class="panel-heading">
-            <h5>Profile</h5>
+            <h4>Menu</h4>
         </div>
         <div class="panel-body">
             <ul class="nav nav-pills nav-stacked">
-            	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-                <li><a href="{% url 'users:profile' %}">{% trans 'View Profile' %}</a></li>
-                <li><a href="{% url 'users:update_profile' %}">{% trans 'Edit Profile' %}</a></li>
+            	<li><a href="{% url 'app:index' %}">{% trans 'Home page' %}</a></li>
+            	<li><a href="{% url 'users:profile' %}">{% trans 'View Profile' %}</a></li>
+               <li><a href="{% url 'users:update_profile' %}">{% trans 'Edit Profile' %}</a></li>
+               <li><a href="{% url 'users:change_password' %}">{% trans 'Change Password' %}</a></li>
+               <li><a href="{% url 'users:remove_account' %}">{% trans 'Remove account' %}</a></li>
             </ul>
         </div>
     </div>
@@ -37,106 +39,85 @@
 			</div>
 		{% endfor %}
 	{% endif %}
-	
-	<div class="row">
-		<div class="col-lg-offset-4 col-lg-2">
-			<img src="" class="img-responsive center-block " alt="logo amadeus">
-		</div>
-	</div>
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="card">
-				<div class="card-content">
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-4">
-								<img src="{{ user.image_url }}" class="img-responsive center-block img-circle" alt="foto perfil" style="max-height:174px">
-							</div>
-							<div class="col-md-8">
-								<table class="table table-hover table-edited">
-									<tbody>
-										<tr>
-											<td>Status:</td>
-											<td>Offline</td>
-										</tr>
-										<tr>
-											<td>Nome:</td>
-											<td>{{user}}</td>
-										</tr>
-										<tr>
-											<td>Login:</td>
-											<td>{{user.username}}</td>
-										</tr>
-										<tr>
-											<td>Email:</td>
-											<td>{{user.email}}</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-10 col-md-offset-1">
-								<table class="table table-hover table-edited">
-									<tbody>
-										<tr>
-											<td>Tipo de usuário:</td>
-											<td>{{use.type_profile}}</td>
-										</tr>
-										<tr>
-											<td>CPF:</td>
-											<td>{{user.cpf}}</td>
-										</tr>
-										<tr>
-											<td>Número de telefone:</td>
-											<td>{{user.phone}}</td>
-										</tr>
-										<tr>
-											<td>Sexo:</td>
-											<td>{{user.gender}}</td>
-										</tr>
-										<tr>
-											<td>Data de Nascimento:</td>
-											<td>{{user.birth_date}}</td>
-										</tr>
-										<tr>
-											<td>Estado e Cidade:</td>
-											<td>{{user.state}} - {{user.city}}</td>
-										</tr>
-										<tr>
-											<td>Titulação:</td>
-											<td>Mestrado</td>
-										</tr>
-										<tr>
-											<td>Ano:</td>
-											<td>2012</td>
-										</tr>
-										<tr>
-											<td>Instituição:</td>
-											<td>UFPE</td>
-										</tr>
-										<tr>
-											<td>Currículo:</td>
-											<td>-</td>
-										</tr>	
-									</tbody>
-								</table>
-							</div>
-						</div>
+			<div class="well well-lg">
+				<div class="row">
+					<div class="col-md-4">
+						<img src="{{ user.image_url }}" class="img-responsive center-block img-circle" alt="foto perfil" style="max-height:174px">
+					</div>
+					<div class="col-md-8">
+						<table class="table table-hover table-edited">
+							<tbody>
+								<tr>
+									<td>Status:</td>
+									<td>Offline</td>
+								</tr>
+								<tr>
+									<td>Nome:</td>
+									<td>{{user}}</td>
+								</tr>
+								<tr>
+									<td>Login:</td>
+									<td>{{user.username}}</td>
+								</tr>
+								<tr>
+									<td>Email:</td>
+									<td>{{user.email}}</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
-				<footer class="card-footer">
-					<div class="col-md-6">
-						<a href="{% url 'users:update_profile' %}" class="btn btn-flat">{% trans 'Edit Profile' %}</a>
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1">
+						<table class="table table-hover table-edited">
+							<tbody>
+								<tr>
+									<td>Tipo de usuário:</td>
+									<td>{{use.type_profile}}</td>
+								</tr>
+								<tr>
+									<td>CPF:</td>
+									<td>{{user.cpf}}</td>
+								</tr>
+								<tr>
+									<td>Número de telefone:</td>
+									<td>{{user.phone}}</td>
+								</tr>
+								<tr>
+									<td>Sexo:</td>
+									<td>{{user.gender}}</td>
+								</tr>
+								<tr>
+									<td>Data de Nascimento:</td>
+									<td>{{user.birth_date}}</td>
+								</tr>
+								<tr>
+									<td>Estado e Cidade:</td>
+									<td>{{user.state}} - {{user.city}}</td>
+								</tr>
+								<tr>
+									<td>Titulação:</td>
+									<td>Mestrado</td>
+								</tr>
+								<tr>
+									<td>Ano:</td>
+									<td>2012</td>
+								</tr>
+								<tr>
+									<td>Instituição:</td>
+									<td>UFPE</td>
+								</tr>
+								<tr>
+									<td>Currículo:</td>
+									<td>-</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
-					<div class="col-md-6">
-						<button class="btn btn-flat btn-danger pull-right">{% trans 'Delete Account' %}</button>
-					</div>
-				</footer>
-
+				</div>
 			</div>
-
-
 		</div>
 	</div>
 {% endblock %}

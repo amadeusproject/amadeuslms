@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
-{% load static i18n permission_tags %}
+{% load static i18n permission_tags professor_access %}
 
 {% block breadcrumbs %}
 
 	<ol class="breadcrumb">
 	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
 	  	<li><a href="{% url 'course:view_subject' subject.slug %}">{{ subject }}</a></li>
-	  	{% if user|has_role:'professor' or user|has_role:'system_admin' %}
+			{% professor_subject subject user as maneger_topic%}
+			{% if maneger_topic %}
 	  		<li class="active">{% trans 'Manage Topic' %}</li>
 	  	{% else %}
 	  		<li class="active">{{ topic.name }}</li>
@@ -29,20 +30,24 @@
             </ul>
         </div>
     </div>
-    <div class="panel panel-primary navigation">
-    <div class="panel-heading">
-        <h3 class="panel-title">Actions</h3>
+
+    {% if user|has_role:'professor' %}
+      <div class="panel panel-primary navigation">
+      <div class="panel-heading">
+          <h3 class="panel-title">Actions</h3>
+      </div>
+      <div class="panel-body">
+          <ul class="nav nav-pills nav-stacked">
+              <li><a href="javascript:void(0)">Participants</a></li>
+              <li><a href="javascript:void(0)">Replicate subject</a></li>
+              <li><a href="javascript:void(0)">Create subject</a></li>
+              <li><a href="javascript:void(0)">Edit subject</a></li>
+              <li><a href="javascript:void(0)">Remove subject</a></li>
+          </ul>
+      </div>
     </div>
-    <div class="panel-body">
-        <ul class="nav nav-pills nav-stacked">
-            <li><a href="javascript:void(0)">Participants</a></li>
-            <li><a href="javascript:void(0)">Replicate subject</a></li>
-            <li><a href="javascript:void(0)">Create subject</a></li>
-            <li><a href="javascript:void(0)">Edit subject</a></li>
-            <li><a href="javascript:void(0)">Remove subject</a></li>
-        </ul>
-    </div>
-</div>
+    {% endif %}
+   
 {% endblock %}
 
 {% block content %}
@@ -54,7 +59,8 @@
 	        <h3>{{subject}}</h3>
 	      </div>
 	      <div class="col-xs-4 col-md-2 divMoreActions">
-          {% if user|has_role:'system_admin' or user in subject.professors %}
+					{% professor_subject subject user as permissions%}
+          {% if permissions %}
             <div class="btn-group">
               <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
@@ -105,7 +111,8 @@
                       <div class="col-md-4">
                        <i class="fa fa-file-archive-o fa-lg" aria-hidden="true">Atividade.doc</i>
                      </div>
-                     {% if user|has_role:'professor, system_admin' %}
+										 {% professor_subject subject user as permi_test%}
+                     {% if permi_test %}
                         <div class="col-md-4">
                           <label> Nota:</label>
                           <input type="number" step="0.01">
@@ -129,11 +136,8 @@
         </div>
     </fieldset>
   </form>
-{% empty %}
-  {% trans 'No activity found' %}
-{% endfor %}
 
-<ul class="pagination pagination-sm">
+  <ul class="pagination pagination-sm">
   <li class="disabled"><a href="javascript:void(0)">«</a></li>
   <li class="active"><a href="javascript:void(0)">1</a></li>
   <li><a href="javascript:void(0)">2</a></li>
@@ -142,6 +146,11 @@
   <li><a href="javascript:void(0)">5</a></li>
   <li><a href="javascript:void(0)">»</a></li>
 </ul>
+{% empty %}
+  {% trans 'No activity found' %}
+{% endfor %}
+
+
 
 </div>
 

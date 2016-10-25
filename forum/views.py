@@ -5,12 +5,17 @@ from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, EmptyPage
-from django.http import Http404
+from django.http import Http404, JsonResponse
+from django.urls import reverse
+from django.template.loader import render_to_string
 
 from .models import Forum, Post, PostAnswer
 from courses.models import Topic
+from core.models import Action, Resource
 
 from .forms import ForumForm, PostForm, PostAnswerForm
+
+from core.mixins import NotificationMixin
 
 """
 	Forum Section
@@ -36,7 +41,7 @@ class ForumIndex(LoginRequiredMixin, generic.ListView):
 
 		return context
 
-class CreateForumView(LoginRequiredMixin, generic.edit.CreateView):
+class CreateForumView(LoginRequiredMixin, generic.edit.CreateView, NotificationMixin):
 	login_url = reverse_lazy("core:home")	
 	redirect_field_name = 'next'
 
@@ -52,6 +57,11 @@ class CreateForumView(LoginRequiredMixin, generic.edit.CreateView):
 	def get_success_url(self):
 		self.success_url = reverse('course:forum:render_forum', args = (self.object.id, ))
 		
+
+		action = super(CreateForumView, self).createorRetrieveAction("create Topic")
+		super(CreateForumView, self).createNotification("Forum "+ self.object.name + " was created", 
+			resource_name=self.object.name, resource_link= reverse('course:forum:view', args=[self.object.slug]),
+			 actor=self.request.user, users = self.object.topic.subject.students.all() )
 		return self.success_url
 
 def render_forum(request, forum):
@@ -122,9 +132,15 @@ def load_posts(request, forum_id):
 
     forum = get_object_or_404(Forum, id = forum_id)
 
-    posts = Post.objects.filter(forum = forum).order_by('post_date')
+    showing = request.GET.get('showing', '')
 
-    paginator = Paginator(posts, 2)
+    if showing == '':
+        posts = Post.objects.filter(forum = forum).order_by('post_date')
+    else:
+        showing = showing.split(',')
+        posts = Post.objects.filter(forum = forum).exclude(id__in = showing).order_by('post_date')
+
+    paginator = Paginator(posts, 5)
     
     try:
         page_number = int(request.GET.get('page', 1))
@@ -142,9 +158,11 @@ def load_posts(request, forum_id):
     context['posts'] = page_obj.object_list
     context['forum'] = forum
 
-    return render(request, 'post/post_list.html', context)
+    html = render_to_string('post/post_load_more_render.html', context, request)
 
-class CreatePostView(LoginRequiredMixin, generic.edit.CreateView):
+    return JsonResponse({'num_pages': paginator.num_pages, 'page': page_obj.number, 'btn_text': _('Load more posts'), 'html': html})
+
+class CreatePostView(LoginRequiredMixin, generic.edit.CreateView, NotificationMixin):
 	login_url = reverse_lazy("core:home")	
 	redirect_field_name = 'next'
 
@@ -155,6 +173,10 @@ class CreatePostView(LoginRequiredMixin, generic.edit.CreateView):
 		self.object.user = self.request.user
 
 		self.object.save()
+		
+		super(CreatePostView, self).createNotification(" posted on " + self.object.forum.name,
+		 resource_slug = self.object.forum.slug, actor=self.request.user, users= self.object.forum.topic.subject.students.all(),
+		 resource_link = reverse('course:forum:view', args=[self.object.forum.slug]))
 
 		return super(CreatePostView, self).form_valid(form)
 
@@ -169,7 +191,9 @@ def render_post(request, post):
 	context = {}
 	context['post'] = last_post
 
-	return render(request, "post/post_render.html", context)
+	html = render_to_string("post/post_render.html", context, request)
+
+	return JsonResponse({'new_id': last_post.id, 'html': html})
 
 class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
 	login_url = reverse_lazy("core:home")	
@@ -207,9 +231,15 @@ def load_answers(request, post_id):
 
     post = get_object_or_404(Post, id = post_id)
 
-    answers = PostAnswer.objects.filter(post = post)
+    showing = request.GET.get('showing_ans', '')
 
-    paginator = Paginator(answers, 2)
+    if showing == '':
+        answers = PostAnswer.objects.filter(post = post)
+    else:
+        showing = showing.split(',')
+        answers = PostAnswer.objects.filter(post = post).exclude(id__in = showing)
+
+    paginator = Paginator(answers, 5)
     
     try:
         page_number = int(request.GET.get('page_answer', 1))
@@ -227,7 +257,9 @@ def load_answers(request, post_id):
     context['answers'] = page_obj.object_list
     context['post'] = post
 
-    return render(request, 'post_answers/post_answer_list.html', context)
+    html = render_to_string('post_answers/post_answer_load_more_render.html', context, request)
+
+    return JsonResponse({'num_pages': paginator.num_pages, 'page': page_obj.number, 'btn_text': _('Load more answers'), 'html': html})
 
 class PostAnswerIndex(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("core:home")	
@@ -256,6 +288,7 @@ class CreatePostAnswerView(LoginRequiredMixin, generic.edit.CreateView):
 
 		self.object.save()
 
+
 		return super(CreatePostAnswerView, self).form_valid(form)
 
 	def get_success_url(self):
@@ -269,7 +302,9 @@ def render_post_answer(request, answer):
 	context = {}
 	context['answer'] = last_answer
 
-	return render(request, "post_answers/post_answer_render.html", context)
+	html = render_to_string("post_answers/post_answer_render.html", context, request)
+
+	return JsonResponse({'new_id': last_answer.id, 'html': html})
 
 class PostAnswerUpdateView(LoginRequiredMixin, generic.UpdateView):
 	login_url = reverse_lazy("core:home")	

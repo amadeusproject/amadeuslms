@@ -4,19 +4,14 @@
     
 
     <div class="well timeLine">
-    <div class="row">
-        <div class="col-md-12">
-        <p><a href="#"></a></p><h6><a href="#"><i>Default Path to Notification</i></a></h6><p></p>
-        </div>
-    </div>
+  
     <div class="row">
         <div class="col-xs-2 col-md-1">
-            <img class="imgTimeLine" src="{{ notification.user.image_url }}">
+            <img class="imgTimeLine" src="{{ notification.actor.image_url }}">
         </div>
         <div class="col-xs-10 col-md-11">
-            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-            <a href=""><h4 class="resource_inline"><b>{{ notification.user }}</b></h4></a>
-            <p class="resource_inline">{{notification.message}} em : <a href="{% url 'core:notification_read' notification.id  %}">Recurso</a></p>
+            <h4 class="resource_inline"><b>{{ notification.actor.username }}</b></h4>
+            <p class="resource_inline">{{notification.message}} em : <a href="{% url 'core:notification_read' notification.id  %}">{{ notification.action_resource.resource.name }}</a></p>
             <p class="timePost"><i> {{ notification.datetime|timesince }} {% trans "ago" %}  </i></p>
         </div>
     </div>
