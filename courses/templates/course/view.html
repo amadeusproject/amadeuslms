@@ -124,7 +124,7 @@
 <div class="cards-detail">
     {% if request.GET.category == 'all' or none or request.GET.category == '' %}
       {% for subject in subjects %}
-        <div class="panel panel-info panel_{{ subject.id }}">
+        <div class="panel panel-default panel_{{ subject.id }}">
           <div class="panel-heading heading_{{subject.id}} subject ui-sortable-handle">
             <div class="row">
                 <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{subject.slug}}" href=".collapseSubject-{{subject.slug}}" aria-expanded="false" aria-controls="collapseSubject-{{subject.slug}}">
