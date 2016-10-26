@@ -8,7 +8,7 @@ BB BBBBBBBBBBBB B B
                     
                     XXXX XXXXXXXXXXXXXXXXXXX
                         XX XXXXXXXXXXXXXXXXXXXXXXXXXXX XBBB BBBBBBBBBBBBBBBBBBBBBBBBBXXXXX
-                            XX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                            XX XXXXXXXXXXXXXXXXXXXXXXX gettext(u'reply') XXXX
                         XXXX
                         BB BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB BB BBBBBBBBBBBB BB BBBBBBBBB
                             BBBBBBBBBB

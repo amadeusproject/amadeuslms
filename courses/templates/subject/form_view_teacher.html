@@ -91,7 +91,7 @@
               </div>
               <div class="col-xs-4 col-md-4">
                 <div class="resource_inline">
-                  <h4>Activities</h4>
+                  <h4>{% trans 'Activities' %}</h4>
                 </div>
                 <div class="resource_inline">
                   <div class="dropdown">
@@ -106,31 +106,32 @@
                 <ul>
 
                     <div class="foruns_list">
+                        {% list_topic_poll request topic %}
                         {% list_topic_foruns request topic %}
                     </div>
                 </ul>
               </div>
-              {% list_topic_poll request topic %}
+             
             </div>
             <div class="editation" style="display: none">
               <div class="form-group">
-                <label class="control-label" for="focusedInput2">Name Topic</label>
+                <label class="control-label" for="focusedInput2">{% trans 'Name Topic' %}</label>
                 <input type="text" class="form-control" value="Topic 1">
               </div>
               <div class="form-group is-empty">
-                <label class="control-label" for="focusedInput2">Description</label>
+                <label class="control-label" for="focusedInput2">{% trans 'Description' %}</label>
                 <textarea class="form-control" rows="3" id="textArea"></textarea>
               </div>
               <div class="row">
                 <div class=" col-xs-6 col-md-4">
                   <div class="resource_inline">
-                    <h4>Material</h4>
+                    <h4>{% trans 'Material' %}</h4>
                   </div>
                   <div class="resource_inline">
                     <div class="dropdown">
                       <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
                       <ul class="dropdown-menu" aria-labelledby="dLabel">
-                        <li><a href="javascript:get_modal_link('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')">Create a Link</a></li>
+                        <li><a href="javascript:get_modal_link('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')">{% trans 'Create a Link' %}</a></li>
                         <li>
                           <a href="#">
                               {% trans "Create a file" %}
@@ -150,13 +151,13 @@
                 </div>
                 <div class="col-xs-4 col-md-offset-1 col-md-4">
                   <div class="resource_inline">
-                    <h4>Activities</h4>
+                    <h4>{% trans 'Activities' %}</h4>
                   </div>
                   <div class="resource_inline">
                     <div class="dropdown">
                       <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
                       <ul class="dropdown-menu" aria-labelledby="dLabel">
-                        <li>Qualquer coisa</li>
+                        <li>{% trans 'Anything' %}</li>
                       </ul>
                     </div>
                   </div>
@@ -170,8 +171,8 @@
               </div>
               <div class="form-group">
                 <div class="col-md-10">
-                  <button type="button" class="btn btn-raised btn-default edit_card_end">Cancel</button>
-                  <button type="submit" class="btn btn-raised btn-primary edit_card_end">Submit</button>
+                  <button type="button" class="btn btn-raised btn-default edit_card_end">{% trans 'Cancel' %}</button>
+                  <button type="submit" class="btn btn-raised btn-primary edit_card_end">{% trans 'Submit' %}</button>
                 </div>
               </div>
             </div>
@@ -236,13 +237,13 @@
                 </div>
               </div>
               <div class="form-group is-empty">
-              <label for="number" class="col-md-2 control-label">{% trans 'Height' %}</label>
+              <label for="number" class="col-md-2 control-label">Height</label>
                 <div class="col-md-4">
                   <input type="number" class="form-control" id="inputNumber" placeholder="Heiht">
                 </div>
               </div>
               <div class="form-group is-empty">
-              <label for="number" class="col-md-2 control-label">{% trans 'Weight' %}</label>
+              <label for="number" class="col-md-2 control-label">Weight</label>
                 <div class="col-md-4">
                   <input type="number" class="form-control" id="inputNumber" placeholder="Weight">
                 </div>
@@ -274,7 +275,7 @@
             <form class="form-horizontal">
 
           <fieldset>
-            <legend>{% trans 'Atividade Proposta' %}</legend>
+            <legend>{% trans 'Proposal Activity' %}</legend>
             <div class="form-group is-empty">
               <label for="NameIn" class="col-md-2 control-label">{% trans 'Name' %}:</label>
               <div class="col-md-10">

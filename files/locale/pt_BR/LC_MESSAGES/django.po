@@ -1,0 +1,88 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-10-26 14:47-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: files/forms.py:12 files/forms.py:29
+msgid "File too large (Max 10MB)"
+msgstr ""
+
+#: files/models.py:20
+msgid "Professors"
+msgstr ""
+
+#: files/models.py:21
+msgid "Description"
+msgstr ""
+
+#: files/models.py:22 files/models.py:27
+msgid "File"
+msgstr ""
+
+#: files/models.py:23
+msgid "Type file"
+msgstr ""
+
+#: files/models.py:28
+msgid "Files"
+msgstr ""
+
+#: files/templates/files/create_file.html:10
+msgid "Add File"
+msgstr ""
+
+#: files/templates/files/create_file.html:38
+#: files/templates/files/update_file.html:40
+msgid "Choose your file..."
+msgstr ""
+
+#: files/templates/files/create_file.html:68
+#: files/templates/files/update_file.html:73
+msgid "The file size shouldnt exceed 10MB"
+msgstr ""
+
+#: files/templates/files/create_file.html:74
+#: files/templates/files/delete_file.html:34
+#: files/templates/files/update_file.html:79
+msgid "Close"
+msgstr ""
+
+#: files/templates/files/create_file.html:75
+#: files/templates/files/update_file.html:80
+msgid "Submit"
+msgstr ""
+
+#: files/templates/files/delete_file.html:12
+msgid "Delete File"
+msgstr ""
+
+#: files/templates/files/delete_file.html:30
+msgid "Are you sure to delete "
+msgstr ""
+
+#: files/templates/files/delete_file.html:35
+msgid "Delete"
+msgstr ""
+
+#: files/templates/files/update_file.html:12
+msgid "Edit File"
+msgstr ""
+
+#: files/templates/files/update_file.html:48
+msgid "See current file"
+msgstr ""

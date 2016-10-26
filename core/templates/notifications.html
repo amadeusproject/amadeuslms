@@ -14,7 +14,7 @@
 	    <div class="least-content "> {{ notification.datetime|timesince }} </div>
 	  </div>
 	  <div class="row-content">
-	    <p class="list-group-item-text">{{ notification.message }}</p>
+	    <p class="list-group-item-text">{{notification.actor.username}} {{ notification.message }}</p>
 	  </div>
 	  </div>
 	  </a>
@@ -30,7 +30,7 @@
 
 	            <div class="least-content pull-right">{{ notification.datetime|timesince }}</div>
 
-	            <p class="list-group-item-text">{{ notification.message }}</p>
+	            <p class="list-group-item-text">{{notification.actor.username}} {{ notification.message }}</p>
 	        </div>
 	     </a>
 	</li>

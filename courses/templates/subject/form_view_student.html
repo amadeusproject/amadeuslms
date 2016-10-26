@@ -1,5 +1,6 @@
     {% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access%}
 
+
     {% block javascript %}
         <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
         <script src="{% static 'js/file.js' %}"></script>
@@ -15,7 +16,7 @@
           <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
         </div>
         <div class="col-xs-9 col-md-9 titleTopic">
-          <a role="button">
+          <a href="{% url 'course:view_topic' topic.slug %}" role="button">
             <h4>{{topic}}</h4>
           </a>
         </div>
@@ -29,30 +30,7 @@
               {{topic.description|linebreaks}}
             </i>
           </p>
-          <div class="row">
-            <div class="col-xs-6 col-md-6">
-              <div class="resource_inline">
-                <h4>Material</h4>
-              </div>
-              <ul id="list-materials">
-                  {% list_topic_file request topic %}
-                  {% list_topic_link request topic%}
-
-              </ul>
-            </div>
-            <div class="col-xs-4 col-md-4">
-              <div class="resource_inline">
-                <h4>Activities</h4>
-              </div>
-              <ul>
-
-                  <div class="foruns_list">
-                      {% list_topic_foruns request topic %}
-                  </div>
-              </ul>
-            </div>
-            {% list_topic_poll request topic %}
-          </div>
+          
         </div>
       </div>
     </div>
