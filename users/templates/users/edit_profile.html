@@ -1,15 +1,17 @@
-{% extends 'users/profile.html' %}
+{% extends 'list_users.html' %}
 
-{% load static i18n %}
+{% load static i18n permission_tags %}
 {% load widget_tweaks %}
+
 {% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
 
   {{ block.super }}
-  {% breadcrumb 'Edit' 'users:update_profile' %}
+    {% breadcrumb 'Update User' 'users:update' %}
 
 {% endblock %}
+
 
 {% block content %}
 	{% if messages %}
@@ -22,6 +24,7 @@
 			</div>
 		{% endfor %}
 	{% endif %}
+
 	<div class="card">
 		<div class="card-content">
 			<div class="card-body">
@@ -29,37 +32,51 @@
 					{% csrf_token %}
 					{% for field in form %}
 						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
-							<label for="{{ field.auto_id }}">{{ field.label }}</label>
+							{% if not field.auto_id == 'id_is_staff' and not field.auto_id == 'id_is_active' and not field.auto_id == 'id_type_profile' %}
+								<label for="{{ field.auto_id }}">{{ field.label }}</label>
+							{% endif %}
 							{% if field.auto_id == 'id_birth_date' %}
-								<input type="text" class="form-control date-picker"name="{{field.name}}" value="{% if field.value.year %}{{field.value|date:'Y-m-d'}}{% else %}{{field.value}}{% endif %}" min="{{now|date:'Y-m-d'}}" id="{{ field.auto_id }}">
+								<input type="text" class="form-control date-picker"name="{{field.name}}" value="{% if field.value.year %}{{field.value|date:'m/d/Y'}}{% else %}{{field.value}}{% endif %}" min="{{now|date:'m/d/Y'}}" id="{{ field.auto_id }}">
 								<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-							{% elif field.auto_id == 'id_image' %}
+							{% elif field.auto_id == 'id_image'  or field.auto_id == 'id_curriculum'%}
 								{% render_field field class='form-control input-sm' %}
 								<div class="input-group">
-				                    <input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your photo...' %}">
+				                    <input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
 				                    <span class="input-group-btn input-group-sm">
 				                        <button type="button" class="btn btn-fab btn-fab-mini">
 				                          	<i class="material-icons">attach_file</i>
 				                        </button>
 				                    </span>
 				                </div>
-				            {% elif field.auto_id == 'id_is_staff' or field.auto_id == 'id_is_active' %}
-				            	<div class="checkbox">
-				            		<label>
-				            			{% render_field field type='checkbox' %}
-				            		</label>
-						        </div>
 						    {% elif field.auto_id == 'id_cpf' %}
                 				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
 
                 			{% elif field.auto_id == 'id_phone' %}
                 				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
+
+                			{% elif field.auto_id == 'id_is_staff' or field.auto_id == 'id_is_active' %}
+                				{% if user|has_role:'system_admin' %}
+                					<label for="{{ field.auto_id }}">{{ field.label }}</label>
+									<div class="checkbox">
+	                  					<label for="{{ field.auto_id }}">
+	                      					{% render_field field %}<span class="checkbox-material"><span class="check"></span></span> {{field.label}}
+	                  					</label>
+	                				</div>
+								{% endif %}
+							{% elif field.auto_id == 'id_type_profile' %}
+								{% if user|has_role:'system_admin' %}
+	            					<label for="{{ field.auto_id }}">{{ field.label }}</label>
+									{% render_field field class='form-control' %}
+									<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+								{% endif %}
 							{% else %}
-								{% render_field field class='form-control' %}
-								<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+								{% if not field.auto_id == 'id_is_staff' and not field.auto_id == 'id_is_active' and not field.auto_id == 'id_type_profile' %}
+									{% render_field field class='form-control' %}
+									<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+								{% endif %}
 							{% endif %}
 							{% if field.errors %}
-								<div class="alert alert-danger alert-dismissible" role="alert">
+								<div class="alert alert-danger alert-dismissible col-md-offset-4 col-md-8" role="alert">
 				  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				  						<span aria-hidden="true">&times;</span>
 			  						</button>
@@ -72,16 +89,15 @@
 							{% endif %}
 						</div>
 					{% endfor %}
-					<div class="col-md-3 col-sm-2 col-xs-2">
-						<input type="submit" value="{% trans 'Save' %}" class="btn btn-raised btn-block btn-success" />
+					<div class="col-md-offset-2 col-md-2 col-sm-2 col-xs-2">
+						<input type="submit" value="{% trans 'Save' %}" class="btn btn-raised btn-success" />
 					</div>
-					<div class="col-md-3 col-sm-2 col-xs-2">
-						<a href="{% url 'users:profile' %}" class="btn btn-raised btn-block btn-danger" >{% trans 'Cancel' %}</a>
+					<div class="col-md-offset-3 col-md-2 col-sm-2 col-xs-2">
+						<a href="{% url 'users:profile' %}" class="btn btn-raised btn-danger" >{% trans 'Cancel' %}</a>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
-
 	<br clear="all" />
 {% endblock %}
