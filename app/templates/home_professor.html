@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% load i18n %}
-{% load static i18n permission_tags %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
@@ -16,30 +15,26 @@
 {% endblock %}
 
 {% block sidebar %}
-    {% if user|has_role:'professor' %}
-        <div class="panel panel-primary navigation">
-            <div class="panel-heading">
-                <h5>{% trans 'Menu' %}</h5>
-            </div>
-            <div class="panel-body">
-                <ul class="nav nav-pills nav-stacked">
-                    <li><a href="{% url 'course:create' %}">{% trans 'Create Course' %}</a></li>
-                    <li><a href="{% url 'course:manage' %}">{% trans 'Manage Course' %}</a></li>
-                </ul>
-            </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h5>{% trans 'Menu' %}</h5>
         </div>
-    {% else %}
-        {{block.super}}
-    {% endif %}
-   
+        <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="javascript:void(0)">{% trans 'Pending tasks' %}</a></li>
+                <li><a href="{% url 'course:create' %}">{% trans 'Create Course' %}</a></li>
+                <li><a href="{% url 'course:manage' %}">{% trans 'Manage Course' %}</a></li>
+            </ul>
+        </div>
+    </div>
 {% endblock %}
 
 {% block content %}
 
     <h3>{% trans 'Courses' %}</h3>
-  	{% if courses|length > 0 %}
-  		{% for course in courses %}
-		  	<a href="{% url 'course:view' course.slug %}">
+    {% if courses|length > 0 %}
+        {% for course in courses %}
+            <a href="{% url 'course:view' course.slug %}">
                 <div class="panel panel-default courseHome">
                     <div class="panel-body">
                         <p>{{ course }}</p>
@@ -53,9 +48,9 @@
                     </div>
                 </div>
             </a>
-		{% endfor %}
-	{% else %}
-		<p>{% trans "You didn't create any course yet." %}</p>
-	{% endif %}
+        {% endfor %}
+    {% else %}
+        <p>{% trans "You didn't create any course yet." %}</p>
+    {% endif %}
 {% endblock %}
 
