@@ -1,4 +1,3 @@
-'''
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import urllib.request
@@ -40,7 +39,7 @@ def get_images(url):
                 each = each[0:pos+4]
             if not booleano:
                 continue
-            
+
             if each[0] + each[1] == '//' or each[0] == '/':
                 each = 'http:'+each
             if each[0:4] != 'http' and each[0:5] != 'https':
@@ -52,5 +51,3 @@ def get_images(url):
                 urllib.request.urlretrieve(each,"%s"%(caminho)+str(contador)+filename)
             except Exception:
                 continue
-
-'''
