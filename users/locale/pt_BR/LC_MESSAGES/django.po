@@ -24,7 +24,7 @@ msgstr "Senha"
 
 #: users/models.py:10
 msgid "Login"
-msgstr "Entrar"
+msgstr "Login"
 
 #: users/models.py:13
 msgid ""
@@ -38,7 +38,7 @@ msgstr ""
 msgid ""
 "A short name that will be used to identify you in the platform and to access "
 "it"
-msgstr ""
+msgstr "Um nome curto que será usado para se identificar no acesso à plataforma"
 
 #: users/models.py:17
 msgid "Mail"
@@ -181,76 +181,76 @@ msgstr "Usuários do sistema"
 #: users/templates/users/create.html:19 users/templates/users/index.html:18
 #: users/templates/users/update.html:19 users/templates/users/view.html:18
 msgid "New Account"
-msgstr ""
+msgstr "Nova conta"
 
 #: users/templates/users/create.html:22 users/templates/users/index.html:21
 #: users/templates/users/update.html:22 users/templates/users/view.html:27
 msgid "Send Mail"
-msgstr ""
+msgstr "Enviar email"
 
 #: users/templates/users/create.html:32
 #: users/templates/users/edit_profile.html:29
 #: users/templates/users/update.html:32
 msgid "All fields are required"
-msgstr ""
+msgstr "Todos os campos são obrigatórios"
 
 #: users/templates/users/create.html:57
 #: users/templates/users/edit_profile.html:64
 #: users/templates/users/update.html:57
 msgid "Save"
-msgstr ""
+msgstr "Salvar"
 
 #: users/templates/users/edit_profile.html:9
 #: users/templates/users/edit_profile.html:19
 #: users/templates/users/profile.html:19
 msgid "Edit Profile"
-msgstr ""
+msgstr "Editar perfil"
 
 #: users/templates/users/index.html:56 users/templates/users/profile.html:32
 #: users/templates/users/view.html:39
 msgid "Administrator"
-msgstr ""
+msgstr "Administrador"
 
 #: users/templates/users/profile.html:36 users/templates/users/view.html:43
 msgid "Mail:"
-msgstr ""
+msgstr "E-mail"
 
 #: users/templates/users/profile.html:39 users/templates/users/view.html:46
 msgid "Phone:"
-msgstr ""
+msgstr "Telefone"
 
 #: users/templates/users/profile.html:45
 msgid "Birth date"
-msgstr ""
+msgstr "Data de nascimento"
 
 #: users/templates/users/update.html:9
 msgid "Edit user"
-msgstr ""
+msgstr "Editar usuário"
 
 #: users/templates/users/view.html:21
 msgid "View User Account"
-msgstr ""
+msgstr "Visualizar perfil"
 
 #: users/templates/users/view.html:24
 msgid "Edit User Account"
-msgstr ""
+msgstr "Editar perfil"
 
 #: users/templates/users/view.html:49
 msgid "Cpf:"
-msgstr ""
+msgstr "Cpf"
 
 #: users/templates/users/view.html:52
 msgid "Birth date:"
-msgstr ""
+msgstr "Data de nascimento:"
 
 #: users/views.py:54
 msgid "User created successfully!"
-msgstr ""
+msgstr "Usuário criado com sucesso!"
 
 #: users/views.py:83
 msgid "User edited successfully!"
-msgstr ""
+msgstr "Usuário editado com sucesso!"
 
 #: users/views.py:132 users/views.py:149
 msgid "Profile edited successfully!"
-msgstr ""
+msgstr "Perfil editado com sucesso!"

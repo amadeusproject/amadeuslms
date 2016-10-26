@@ -24,7 +24,7 @@ msgstr "Nome"
 
 #: core/models.py:16 core/models.py:37
 msgid "Created Date"
-msgstr ""
+msgstr "Data de criação"
 
 #: core/models.py:49
 msgid "Action_Applied"

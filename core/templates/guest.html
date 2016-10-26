@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
-{% load static i18n %}
+
 {% load i18n custom_filters %}
+{% load static i18n %}
 
 <html>
 <head>
@@ -64,14 +65,14 @@
                          <li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">
                  <a  class="dropdown-toggle" data-toggle="dropdown"> <span id="notification-count" class="badge notification-count">{{notifications.count}}</span><i class="fa fa-bell" aria-hidden="true"></i></a>
                    <ul id="notification-dropdown" class="dropdown-menu">
-                   <li class="dropdown-header">Notifications</li>
+                   <li class="dropdown-header">{% trans 'Notifications' %}</li>
                         {% include "notifications.html" %}
 
                         <li>
                          <a onclick="getNotifications(5)">
                             <div id="notification-see-more" class="list-group-item">
                                   <div class="row-content">
-                                    <p class="list-group-item-text">See More</p>
+                                    <p class="list-group-item-text">{% trans 'See More' %}</p>
                                 </div>
                        </a>
                         </li>
@@ -90,7 +91,7 @@
     			{% block sidebar %}
     				<div class="panel panel-primary">
 				        <div class="panel-heading">
-				            <h4>Menu</h4>
+				            <h4>{% trans 'Menu' %}</h4>
 				        </div>
 				        <div class="panel-body">
 				            <ul class="nav nav-pills nav-stacked">
@@ -110,7 +111,7 @@
 							  <input type="search" class="form-control" placeholder="Search Courses" name="q" id="searchbox"></div>
 							    <span class="input-group-btn input-group-sm">
 							      <button type="button" class="btn btn-fab btn-fab-mini">
-							        <i class="material-icons">search</i>
+							        <i class="material-icons">{% trans 'search' %}</i>
 							      </button>
 							    </span>
 							</div>
@@ -119,7 +120,7 @@
 
 				<div class="col-md-10">
 					<div class="btn-group btn-group-justified btn-group-raised">
-						<a href="?category=all" class="btn btn-raised btn-info">Todos</a>
+						<a href="?category=all" class="btn btn-raised btn-info">{% trans 'Todos' %}</a>
 						{% for category in categories %}
 							<a href="?category={{category.name}}" class="btn btn-raised btn-primary">{{category.name}}</a>
 						{% endfor %}
@@ -142,12 +143,12 @@
 					  		</div>
 
 						  	<div class="panel-body">
-						    	<p><b>Course Name: </b>{{course.name}}</p>
-						    	<p><b>Begining: </b>{{course.init_date}}</p>
-						    	<p><b>End: </b>{{course.end_date}}</p>
-						    	<p><b>Professor: </b>{{course.professors.name}}</p>
+						    	<p><b>{% trans 'Course Name' %}: </b>{{course.name}}</p>
+						    	<p><b>{% trans 'Begining' %}: </b>{{course.init_date}}</p>
+						    	<p><b>{% trans 'End' %}: </b>{{course.end_date}}</p>
+						    	<p><b>{% trans 'Professor' %}: </b>{{course.professors.name}}</p>
 						    	<p>
-							    <b>Description:</b>
+							    <b>{% trans 'Description' %}:</b>
 							    <i>
 							        {{course.content}}
 							    </i>

@@ -13,7 +13,7 @@
 {% block sidebar %}
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h4>Menu</h4>
+            <h4>{% trans 'Menu' %}</h4>
         </div>
         <div class="panel-body">
             <ul class="nav nav-pills nav-stacked">
@@ -45,12 +45,12 @@
         {% if user|has_role:'professor' or user|has_role:'system_admin' %}
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">Category</h3>
+                <h3 class="panel-title">{% trans 'Category' %}</h3>
             </div>
             <div class="panel-body">
                 <ul class="nav nav-pills nav-stacked">
-                    <li><a href="{% url 'course:create_cat' %}">Create Category</a></li>
-                    <li><a href="{% url 'course:manage_cat' %}">List Category</a></li>
+                    <li><a href="{% url 'course:create_cat' %}">{% trans 'Create Category' %}</a></li>
+                    <li><a href="{% url 'course:manage_cat' %}">{% trans 'List Category' %}</a></li>
                 </ul>
             </div>
         </div>
@@ -77,7 +77,7 @@
           <input type="search" class="form-control" placeholder="Search Courses" name="q" id="searchbox"></div>
             <span class="input-group-btn input-group-sm">
               <button type="button" class="btn btn-fab btn-fab-mini">
-                <i class="material-icons">search</i>
+                <i class="material-icons">{% trans 'Search' %}</i>
               </button>
             </span>
         </div>

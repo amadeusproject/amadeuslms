@@ -26,7 +26,7 @@ msgstr "Nome"
 
 #: courses/forms.py:14
 msgid "Category name"
-msgstr ""
+msgstr "Nome da categoria"
 
 #: courses/forms.py:26
 msgid "Objectives"
@@ -122,7 +122,7 @@ msgstr "descrição do módulo"
 
 #: courses/forms.py:65
 msgid "Is the module visible?"
-msgstr ""
+msgstr "O módulo é visível?"
 
 #: courses/models.py:8 courses/models.py:21 courses/models.py:45
 #: courses/templates/category/index.html:39
@@ -131,7 +131,7 @@ msgstr ""
 
 #: courses/models.py:9 courses/models.py:25 courses/models.py:48
 msgid "Creation Date"
-msgstr ""
+msgstr "Data de criação"
 
 #: courses/models.py:13 courses/templates/category/create.html:16
 #: courses/templates/category/delete.html:15
@@ -143,7 +143,7 @@ msgstr "Categorias"
 
 #: courses/models.py:22
 msgid "Objectivies"
-msgstr ""
+msgstr "Objetivos"
 
 #: courses/models.py:24
 msgid "Maximum Students"
@@ -151,23 +151,23 @@ msgstr "Quantidade máximo de estudantes"
 
 #: courses/models.py:26
 msgid "Register Date (Begin)"
-msgstr ""
+msgstr "Data de inscrição (Início)"
 
 #: courses/models.py:27
 msgid "Register Date (End)"
-msgstr ""
+msgstr "Data de inscrição (término)"
 
 #: courses/models.py:28
 msgid "Begin of Course Date"
-msgstr ""
+msgstr "Início do curso"
 
 #: courses/models.py:29
 msgid "End of Course Date"
-msgstr ""
+msgstr "Término do curso"
 
 #: courses/models.py:32
 msgid "User"
-msgstr ""
+msgstr "Usuário"
 
 #: courses/models.py:36 courses/models.py:49
 msgid "Course"
@@ -240,11 +240,11 @@ msgstr "Salvar"
 #: courses/templates/category/delete.html:8
 #: courses/templates/category/index.html:8
 msgid "Manage Categories"
-msgstr ""
+msgstr "Gerenciar categorias"
 
 #: courses/templates/category/delete.html:26
 msgid "Are you sure you want to delete the category"
-msgstr ""
+msgstr "Você tem certeza que deseja deletar a categoria"
 
 #: courses/templates/category/delete.html:27
 #: courses/templates/course/delete.html:28
@@ -260,24 +260,24 @@ msgstr "Não"
 
 #: courses/templates/category/index.html:40
 msgid "Actions"
-msgstr ""
+msgstr "Ações"
 
 #: courses/templates/category/index.html:59
 msgid "No categories found"
-msgstr ""
+msgstr "Nenhuma categoria encontrada"
 
 #: courses/templates/category/update.html:9
 #: courses/templates/category/view.html:21
 msgid "Edit Category"
-msgstr ""
+msgstr "Editar categoria"
 
 #: courses/templates/category/view.html:24
 msgid "Remove Category"
-msgstr ""
+msgstr "Remover categoria"
 
 #: courses/templates/category/view.html:32
 msgid "Name:"
-msgstr ""
+msgstr "Nome:"
 
 #: courses/templates/category/view.html:33
 msgid "Slug:"
@@ -292,16 +292,16 @@ msgstr ""
 #: courses/templates/module/index.html:26
 #: courses/templates/module/update.html:20
 msgid "Create Course"
-msgstr ""
+msgstr "Criar curso"
 
 #: courses/templates/course/delete.html:27
 msgid "Are you sure you want to delete the couse"
-msgstr ""
+msgstr "Você tem certeza que deseja deletar o curso"
 
 #: courses/templates/course/filtered.html:19
 #: courses/templates/course/index.html:26
 msgid "Categories:"
-msgstr ""
+msgstr "Categorias:"
 
 #: courses/templates/course/home.html:9
 #, fuzzy
@@ -311,24 +311,24 @@ msgstr "Curso"
 
 #: courses/templates/course/index.html:8
 msgid "Manage Courses"
-msgstr ""
+msgstr "Gerenciar cursos"
 
 #: courses/templates/course/index.html:80
 msgid "students tops"
-msgstr ""
+msgstr "Melhores estudantes"
 
 #: courses/templates/course/index.html:86
 msgid "Subscribe Period:"
-msgstr ""
+msgstr "Inscrever período:"
 
 #: courses/templates/course/index.html:88 courses/templates/course/view.html:59
 #: courses/templates/module/index.html:83
 msgid "Period:"
-msgstr ""
+msgstr "Período:"
 
 #: courses/templates/course/index.html:104
 msgid "No courses found"
-msgstr ""
+msgstr "Nenhum curso encontrado"
 
 #: courses/templates/course/update.html:9 courses/templates/course/view.html:28
 #: courses/templates/module/create.html:26
@@ -336,7 +336,7 @@ msgstr ""
 #: courses/templates/module/index.html:29
 #: courses/templates/module/update.html:26
 msgid "Edit Course"
-msgstr ""
+msgstr "Editar curso"
 
 #: courses/templates/course/update.html:19
 #: courses/templates/course/view.html:21
@@ -346,7 +346,7 @@ msgstr ""
 #: courses/templates/module/index.html:9 courses/templates/module/index.html:22
 #: courses/templates/module/update.html:29
 msgid "Manage Modules"
-msgstr ""
+msgstr "Gerenciar módulos"
 
 #: courses/templates/course/update.html:22
 #: courses/templates/course/view.html:31
@@ -355,7 +355,7 @@ msgstr ""
 #: courses/templates/module/index.html:32
 #: courses/templates/module/update.html:32
 msgid "Participants"
-msgstr ""
+msgstr "Participantes"
 
 #: courses/templates/course/view.html:18
 #: courses/templates/module/create.html:23
@@ -363,7 +363,7 @@ msgstr ""
 #: courses/templates/module/index.html:19
 #: courses/templates/module/update.html:23
 msgid "Course Info"
-msgstr ""
+msgstr "Informações do curso"
 
 #: courses/templates/course/view.html:34
 #: courses/templates/module/create.html:35
@@ -371,7 +371,7 @@ msgstr ""
 #: courses/templates/module/index.html:35
 #: courses/templates/module/update.html:35
 msgid "Course avaliations"
-msgstr ""
+msgstr "Avaliações do curso"
 
 #: courses/templates/course/view.html:37
 #: courses/templates/module/create.html:38
@@ -379,7 +379,7 @@ msgstr ""
 #: courses/templates/module/index.html:38
 #: courses/templates/module/update.html:38
 msgid "Duplicate Course"
-msgstr ""
+msgstr "Duplicar curso"
 
 #: courses/templates/course/view.html:40
 #: courses/templates/module/create.html:41
@@ -387,77 +387,77 @@ msgstr ""
 #: courses/templates/module/index.html:41
 #: courses/templates/module/update.html:41
 msgid "Delete Course"
-msgstr ""
+msgstr "Deletar curso"
 
 #: courses/templates/course/view.html:56
 msgid "Subscribes:"
-msgstr ""
+msgstr "Inscrições:"
 
 #: courses/templates/course/view.html:66
 msgid "Objectives:"
-msgstr ""
+msgstr "Objetivos:"
 
 #: courses/templates/course/view.html:69
 msgid "Work Plan:"
-msgstr ""
+msgstr "Plano de trabalho:"
 
 #: courses/templates/module/create.html:10
 #: courses/templates/module/index.html:70
 msgid "Create Module"
-msgstr ""
+msgstr "Criar módulos"
 
 #: courses/templates/module/delete.html:49
 msgid "Are you sure you want to delete the module"
-msgstr ""
+msgstr "Você tem certeza que deseja deletar o módulo"
 
 #: courses/templates/module/index.html:80
 msgid "students maximum"
-msgstr ""
+msgstr "Capacidade de estudantes"
 
 #: courses/templates/module/index.html:109
 msgid "Invisible"
-msgstr ""
+msgstr "Invisível"
 
 #: courses/templates/module/index.html:125
 msgid "No modules found"
-msgstr ""
+msgstr "Nenhum módulo encontrado"
 
 #: courses/templates/module/update.html:10
 msgid "Edit Module"
-msgstr ""
+msgstr "Editar módulo"
 
 #: courses/views.py:48
 msgid "Course created successfully!"
-msgstr ""
+msgstr "Curso criado com sucesso!"
 
 #: courses/views.py:70
 msgid "Course edited successfully!"
-msgstr ""
+msgstr "Curso editado com sucesso!"
 
 #: courses/views.py:92
 msgid "Course deleted successfully!"
-msgstr ""
+msgstr "Curso deletado com sucesso!"
 
 #: courses/views.py:142
 msgid "Category created successfully!"
-msgstr ""
+msgstr "Categoria criada com sucesso!"
 
 #: courses/views.py:164
 msgid "Category edited successfully!"
-msgstr ""
+msgstr "Categoria editada com sucesso!"
 
 #: courses/views.py:185
 msgid "Category deleted successfully!"
-msgstr ""
+msgstr "Categoria deletada com sucesso!"
 
 #: courses/views.py:237
 msgid "Module created successfully!"
-msgstr ""
+msgstr "Módulo criado com sucesso!"
 
 #: courses/views.py:268
 msgid "Module edited successfully!"
-msgstr ""
+msgstr "Módulo editado com sucesso!"
 
 #: courses/views.py:291
 msgid "Module deleted successfully!"
-msgstr ""
+msgstr "Módulo deletado com sucesso!"

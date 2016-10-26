@@ -32,7 +32,7 @@ XXXX XXXXXXXXXXXXXXXXXXXX
                             XXXX XXXXXXXXXXXXXXXXXXX
                                 XXXX XXXXXXXXXXXXXXXXXX
                                      XXXXXXX XXXXXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXX gettext(u'Close') XXXXXXXXX
-                                    XXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                                    XXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXXXX XXXXXXXXXXXXXX gettext(u'Delete') XXXXXXXXX
                                 XXXXXX
                             XXXXXX
                         XXXXXXXXXXX

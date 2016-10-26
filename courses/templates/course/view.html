@@ -63,10 +63,10 @@
       </div>
     </div>
     <div class="panel-body">
-      <p><b>Course Name: </b>{{course.name}}</p>
-      <p><b>Coordinator: </b>{{course.professors}}</p>
+      <p><b>{% trans 'Course Name' %}: </b>{{course.name}}</p>
+      <p><b>{% trans 'Coordinator' %}: </b>{{course.professors}}</p>
       <p>
-        <b>Description:</b>
+        <b>{% trans 'Description' %}:</b>
         <i>
           {{course.description}}
         </i>
@@ -142,8 +142,8 @@
                         <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
                       </button>
                       <ul class="dropdown-menu" aria-labelledby="moreActions">
-                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
-                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeSubject2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
+                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans 'Replicate' %}</a></li>
+                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeSubject2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans 'Remove' %}</a></li>
                       </ul>
                     </div>
                   </div>
@@ -199,8 +199,8 @@
                         <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
                       </button>
                       <ul class="dropdown-menu" aria-labelledby="moreActions">
-                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Replicate</a></li>
-                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeSubject2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; Remove</a></li>
+                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans 'Replicate' %}</a></li>
+                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeSubject2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans 'Remove' %}</a></li>
                       </ul>
                     </div>
                   </div>

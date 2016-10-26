@@ -20,15 +20,15 @@ msgstr ""
 
 #: app/templates/app/base.html:10
 msgid "The Project"
-msgstr ""
+msgstr "O projeto"
 
 #: app/templates/app/base.html:11
 msgid "CCTE Group"
-msgstr ""
+msgstr "Grupo CCTE"
 
 #: app/templates/app/base.html:14
 msgid "Hi"
-msgstr ""
+msgstr "Olá"
 
 #: app/templates/app/base.html:16
 #, fuzzy
@@ -46,7 +46,7 @@ msgstr "Sair"
 
 #: app/templates/app/index.html:6
 msgid "You have:"
-msgstr ""
+msgstr "Você tem:"
 
 #: app/templates/app/index.html:10
 #, fuzzy
@@ -60,7 +60,7 @@ msgstr "Usuários Online"
 
 #: app/templates/app/index.html:20
 msgid "You can:"
-msgstr ""
+msgstr "Você pode:"
 
 #: app/templates/app/index.html:24 app/templates/home_app.html:26
 #: app/templates/home_professor.html:23
@@ -80,28 +80,28 @@ msgid "Manage Courses"
 msgstr "Gerenciar Curso"
 
 #: app/templates/app/index.html:37
-msgid "Gerenciar Categorias"
-msgstr ""
+msgid "Manage Categories"
+msgstr "Gerenciar Categorias"
 
 #: app/templates/app/index.html:45
 msgid "Your course(s):"
-msgstr ""
+msgstr "Seus cursos:"
 
 #: app/templates/app/index.html:46
 msgid "No courses subscribed yet"
-msgstr ""
+msgstr "Nenhum curso inscrito ainda"
 
 #: app/templates/app/index.html:56
 msgid "Search course:"
-msgstr ""
+msgstr "Pesquisar curso"
 
 #: app/templates/app/index.html:62
 msgid "Search"
-msgstr ""
+msgstr "Pesquisar"
 
 #: app/templates/app/index.html:67
 msgid "Most popular keywords:"
-msgstr ""
+msgstr "Palavras mais populares:"
 
 #: app/templates/home_app.html:14 app/templates/home_professor.html:9
 #: app/templates/home_student.html:9
@@ -155,7 +155,7 @@ msgstr "Começo"
 
 #: app/templates/home_professor.html:42
 msgid "End:"
-msgstr "Fim"
+msgstr "Fim:"
 
 #: app/templates/home_student.html:22
 msgid "Profile"
