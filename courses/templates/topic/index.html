@@ -2,6 +2,15 @@
 
 {% load static i18n permission_tags professor_access %}
 
+
+{% block javascript %}
+        <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
+        <script src="{% static 'js/file.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
+        <script type = "text/javascript" src="{% static 'links.js' %}"></script>
+{% endblock %}
+
+
 {% block breadcrumbs %}
 
 	<ol class="breadcrumb">
@@ -40,7 +49,7 @@
     <div class="panel-heading">
 			<div class="row">
 	      <div class="col-md-10 col-sm-7">
-	        <h3>{{subject}}</h3>
+	        <h3> {{topic.name}} </h3>
 	      </div>
 	      <div class="col-xs-4 col-md-2 divMoreActions">
 					{% professor_subject subject user as permissions%}
@@ -50,9 +59,15 @@
                 <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
               </button>
               <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
-                <li><a href="{% url 'course:update_subject' subject.slug %}" data-toggle="modal" data-target="#editSubject"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
-                <li><a href="{% url 'course:delete_subject' subject.slug %}" data-toggle="modal" data-target="#removeSubject"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
+                <li>
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a>
+                </li>
+                <li>
+                    <a href="{% url 'course:update_subject' subject.slug %}" data-toggle="modal" data-target="#editSubject"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a>
+                </li>
+                <li>
+                    <a href="{% url 'course:delete_subject' subject.slug %}" data-toggle="modal" data-target="#removeSubject"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a>
+                </li>
               </ul>
             </div>
           {% endif %}
@@ -61,13 +76,17 @@
     </div>
     <div class="panel-body">
       <p>
-        {{subject.description|linebreaks}}
+        {{topic.description|linebreaks}}
       </p>
     </div>
   </div>
   <div class="panel panel-default">
     <div class="panel-body">
-    {% for activit in activitys %}
+        {% include "topic/topic_card_student.html" %}
+        {% comment %}
+          
+        
+    <!--{% for activit in activitys %}
       <form class="form-horizontal" enctype='multipart/form-data'>{% csrf_token %}
         <fieldset>
           <legend>{{activit.name}}</legend>
@@ -96,8 +115,8 @@
                         </div>
                       {% else %}
                       <div class="col-md-4">
-                        <!--<input type="hidden" name="id" value="">
-                        <input type="hidden" name="student" value="">-->
+                        <input type="hidden" name="id" value="">
+                        <input type="hidden" name="student" value="">
                         <div class="form-group {% if form.pdf.errors %} has-error {% endif %}">
                             {{ form.as_p }}
                         </div>
@@ -112,18 +131,15 @@
           {% endfor %}
         </div>
     </fieldset>
-  </form>
-
+  </form>-->
+{% endcomment %}
  
-{% empty %}
-  {% trans 'No activity found' %}
-{% endfor %}
 
 
 
-</div>
+      </div>
 
 
-</div>
+    </div>
 </div>
 {% endblock %}

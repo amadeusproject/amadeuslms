@@ -1,0 +1,34 @@
+{% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access%}
+
+{% block javascript %}
+        <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
+        <script src="{% static 'js/file.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
+        <script type = "text/javascript" src="{% static 'links.js' %}"></script>
+{% endblock %}
+
+<div class="row">
+  <div class="col-xs-6 col-md-6">
+    <div class="resource_inline">
+      <h4>{% trans "Materials" %}</h4>
+    </div>
+    
+    <ul id="list-materials">
+        {% list_topic_file request topic %}
+        {% list_topic_link request topic%}
+      
+    </ul>
+  </div>
+  <div class="col-xs-4 col-md-4">
+    <div class="resource_inline">
+      <h4>{% trans "Activities" %}</h4>
+    </div>
+    <ul>
+        <div class="foruns_list">
+            {% list_topic_poll request topic %}
+            {% list_topic_foruns request topic %}
+        </div>
+    </ul>
+  </div>
+ 
+</div>
