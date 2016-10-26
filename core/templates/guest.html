@@ -78,6 +78,7 @@
                     </ul>
                </li>
 
+<<<<<<< HEAD
                         <li  data-toggle="tooltip" data-placement="bottom" title data-original-title="{% trans 'messages' %}"> <a href="#"><i class="fa fa-comments" aria-hidden="true"></i></a> </li>
                         <li > <a  class="link" href="{% url 'app:index' %}">{{ user }}</a></li>
 
@@ -167,6 +168,97 @@
     {% block script_file %}
 
     {% endblock script_file %}
+=======
+             			<li  data-toggle="tooltip" data-placement="bottom" title data-original-title="{% trans 'messages' %}"> <a href="#"><i class="fa fa-comments" aria-hidden="true"></i></a> </li>
+             			<li > <a  class="link" href="{% url 'app:index' %}">{{ user }}</a></li>
+
+           		</ul>
+         		</div>
+   	</div>
+	{% endblock %}
+	<div class="container-fluid">
+		<div class="row">
+
+    		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+    			{% block sidebar %}
+    				<div class="panel panel-primary">
+				        <div class="panel-heading">
+				            <h4>Menu</h4>
+				        </div>
+				        <div class="panel-body">
+				            <ul class="nav nav-pills nav-stacked">
+				                <li><a href="{% url 'core:register' %}">{% trans 'Register' %}</a></li>
+				            </ul>
+				        </div>
+				    </div>
+    			{% endblock %}
+
+    		</div>
+		   <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+				{% block breadcrumbs %}
+					<div class="col-md-12">
+						<form id="searchform" action="{% url 'course:manage' %}" method="get" accept-charset="utf-8">
+							<div class="input-group">
+							  <div class="form-group is-empty">
+							  <input type="search" class="form-control" placeholder="Search Courses" name="q" id="searchbox"></div>
+							    <span class="input-group-btn input-group-sm">
+							      <button type="button" class="btn btn-fab btn-fab-mini">
+							        <i class="material-icons">search</i>
+							      </button>
+							    </span>
+							</div>
+						</form>
+					</div>
+
+				<div class="col-md-10">
+					<div class="btn-group btn-group-justified btn-group-raised">
+						<a href="?category=all" class="btn btn-raised btn-info">Todos</a>
+						{% for category in categories %}
+							<a href="?category={{category.name}}" class="btn btn-raised btn-primary">{{category.name}}</a>
+						{% endfor %}
+					</div>
+				</div>
+
+				{% endblock %}
+				{% block render_breadcrumbs %}{% endblock %}
+			<div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-12">
+				{% block content %}
+					{% for course in courses %}
+						<div class="panel panel-info panel_{{ course.id }}">
+					  		<div class="panel-heading">
+					    		<a href="{{ course.get_absolute_url }}" class="panel-title">{{course.name}}</a>
+					    		{% if user|show_course_subscribe:course %}
+				                    <a onclick="subscribe($(this), '{% url 'course:subscribe' course.slug %}', {{ course.id}}, '{% trans 'Are you sure you want to subscribe to this course?' %}')" class="btn btn-sm btn-primary btn-raised pull-right" style="margin-top:-4px">{% trans 'Subscribe' %}</a>
+				                {% endif %}
+					  		</div>
+
+						  	<div class="panel-body">
+						    	<p><b>Course Name: </b>{{course.name}}</p>
+						    	<p><b>Begining: </b>{{course.init_date}}</p>
+						    	<p><b>End: </b>{{course.end_date}}</p>
+						    	<p><b>Professor: </b>{{course.professors.name}}</p>
+						    	<p>
+							    <b>Description:</b>
+							    <i>
+							        {{course.content}}
+							    </i>
+							    </p>
+							</div>
+						</div>
+					{% endfor %}
+
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+	<script src="{% static 'js/main.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/topic_editation_presentation.js' %}"></script>
+	{% block script_file %}
+
+	{% endblock script_file %}
+>>>>>>> front_cards
 </body>
 
 </html>
