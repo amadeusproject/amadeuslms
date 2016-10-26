@@ -1,0 +1,167 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-10-26 14:47-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: exam/forms.py:18 exam/forms.py:22
+msgid "It is required one these fields."
+msgstr ""
+
+#: exam/forms.py:33
+msgid "Start date to resolve the exam"
+msgstr ""
+
+#: exam/forms.py:35
+msgid "Maximum date permited to resolve the exam"
+msgstr ""
+
+#: exam/models.py:9
+msgid "Begin of Course Date"
+msgstr ""
+
+#: exam/models.py:10
+msgid "Exibe?"
+msgstr ""
+
+#: exam/models.py:13 exam/models.py:35
+msgid "Exam"
+msgstr ""
+
+#: exam/models.py:14
+msgid "Exams"
+msgstr ""
+
+#: exam/models.py:21 exam/models.py:27
+msgid "Answer"
+msgstr ""
+
+#: exam/models.py:22
+msgid "Order"
+msgstr ""
+
+#: exam/models.py:23 exam/models.py:28
+msgid "Answers"
+msgstr ""
+
+#: exam/models.py:34
+msgid "Answered"
+msgstr ""
+
+#: exam/models.py:36
+msgid "Answers Students"
+msgstr ""
+
+#: exam/models.py:37
+msgid "Student"
+msgstr ""
+
+#: exam/models.py:38
+msgid "Answered Date"
+msgstr ""
+
+#: exam/models.py:41
+msgid "Answer Stundent"
+msgstr ""
+
+#: exam/models.py:42
+msgid "Answers Student"
+msgstr ""
+
+#: exam/templates/exam/create.html:9
+msgid "New Exam"
+msgstr ""
+
+#: exam/templates/exam/create.html:14 exam/templates/exam/create.html:16
+msgid "Exam Name"
+msgstr ""
+
+#: exam/templates/exam/create.html:20
+msgid "Exam's begin date"
+msgstr ""
+
+#: exam/templates/exam/create.html:22
+msgid "Begin Date"
+msgstr ""
+
+#: exam/templates/exam/create.html:26
+msgid "Exam's end date"
+msgstr ""
+
+#: exam/templates/exam/create.html:28
+msgid "End Date"
+msgstr ""
+
+#: exam/templates/exam/create.html:35
+msgid "Allow submissions after deadline?"
+msgstr ""
+
+#: exam/templates/exam/create.html:44 exam/templates/exam/create.html:47
+msgid "Question Type"
+msgstr ""
+
+#: exam/templates/exam/create.html:48
+msgid "Multiple Choice"
+msgstr ""
+
+#: exam/templates/exam/create.html:49
+msgid "True or False"
+msgstr ""
+
+#: exam/templates/exam/create.html:50
+msgid "Gap Filling"
+msgstr ""
+
+#: exam/templates/exam/create.html:51
+msgid "Discursive Question"
+msgstr ""
+
+#: exam/templates/exam/create.html:57
+msgid "add question"
+msgstr ""
+
+#: exam/templates/exam/create.html:62
+msgid "Create"
+msgstr ""
+
+#: exam/templates/exam/discursive_question.html:2
+#: exam/templates/exam/discursive_question.html:4
+#: exam/templates/exam/multiple_choice_question.html:5
+#: exam/templates/exam/true_or_false_question.html:20
+#: exam/templates/exam/true_or_false_question.html:25
+msgid "Question"
+msgstr ""
+
+#: exam/templates/exam/gap_filling_question.html:2
+msgid "Gap Filling Question"
+msgstr ""
+
+#: exam/templates/exam/multiple_choice_question.html:15
+msgid "Alternatives"
+msgstr ""
+
+#: exam/templates/exam/true_or_false_answer.html:9
+msgid "Write your alternative"
+msgstr ""
+
+#: exam/templates/exam/true_or_false_question.html:37
+msgid "Alternatives: T/F"
+msgstr ""
+
+#: exam/templates/exam/true_or_false_question.html:45
+msgid "New Alternative"
+msgstr ""

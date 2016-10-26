@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-07 00:13-0300\n"
+"POT-Creation-Date: 2016-10-26 14:47-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: users/forms.py:10
-msgid "Password"
-msgstr "Senha"
+#: users/forms.py:60
+msgid "Please enter a valid CPF"
+msgstr "Por favor, insira um CPF válido"
 
-#: users/models.py:10
+#: users/forms.py:67
+msgid "Please enter a valid date"
+msgstr "Por favor, insira uma data válida"
+
+#: users/models.py:11 users/templates/users/profile.html:61
 msgid "Login"
 msgstr "Login"
 
-#: users/models.py:13
+#: users/models.py:14
 msgid ""
 "Type a valid username. This fields should only contain letters, numbers and "
 "the characteres: @/./+/-/_ ."
@@ -34,198 +38,318 @@ msgstr ""
 "Digite um nome de usuário válido. Esse campo deve conter apenas letras, "
 "números e os caracteres: @/./+/-/_ ."
 
-#: users/models.py:16
+#: users/models.py:17
 msgid ""
 "A short name that will be used to identify you in the platform and to access "
 "it"
-msgstr "Um nome curto que será usado para se identificar no acesso à plataforma"
+msgstr ""
+"Um nome curto que será usado para se identificar no acesso à plataforma"
 
-#: users/models.py:17
+#: users/models.py:18
 msgid "Mail"
 msgstr "Email"
 
-#: users/models.py:18 users/templates/list_users.html:50
+#: users/models.py:19 users/templates/list_users.html:67
 msgid "Name"
 msgstr "Nome"
 
-#: users/models.py:19
+#: users/models.py:20
 msgid "City"
 msgstr "Cidade"
 
-#: users/models.py:20
+#: users/models.py:21
 msgid "State"
 msgstr "Estado"
 
-#: users/models.py:21
+#: users/models.py:22 users/templates/users/profile.html:105
 msgid "Gender"
-msgstr "Genero"
+msgstr "Gênero"
 
-#: users/models.py:21
+#: users/models.py:22
 msgid "Male"
 msgstr "Masculino"
 
-#: users/models.py:21
+#: users/models.py:22
 msgid "Female"
 msgstr "Feminino"
 
-#: users/models.py:22
+#: users/models.py:23
 msgid "Image"
 msgstr "Imagem"
 
-#: users/models.py:23
+#: users/models.py:24 users/templates/users/profile.html:109
 msgid "Birth Date"
 msgstr "Data de nascimento"
 
-#: users/models.py:24
+#: users/models.py:25
 msgid "Phone"
 msgstr "Telefone"
 
-#: users/models.py:25 users/templates/users/profile.html:42
-msgid "Cpf"
-msgstr "Cpf"
-
 #: users/models.py:26
+msgid "Cpf"
+msgstr "CPF"
+
+#: users/models.py:27
 msgid "Type"
 msgstr "Tipo"
 
-#: users/models.py:26
+#: users/models.py:27
 msgid "Professor"
 msgstr "Professor"
 
-#: users/models.py:26
+#: users/models.py:27 users/templates/users/profile.html:81
 msgid "Student"
 msgstr "Aluno"
 
-#: users/models.py:27
+#: users/models.py:28
+msgid "Titration"
+msgstr "Título"
+
+#: users/models.py:29
+msgid "Year of titration"
+msgstr "Ano do título"
+
+#: users/models.py:30
+msgid "Institution where he had titration"
+msgstr "Instituição o qual obteve o título"
+
+#: users/models.py:31 users/templates/users/profile.html:135
+msgid "Curriculum"
+msgstr "Currículo"
+
+#: users/models.py:32
 msgid "Create Date"
 msgstr "Data de criação"
 
-#: users/models.py:28
+#: users/models.py:33
 msgid "Administrador"
 msgstr "Administrador"
 
-#: users/models.py:29
+#: users/models.py:34
 msgid "Active"
 msgstr "Ativo"
 
-#: users/models.py:37
+#: users/models.py:42
 msgid "User"
 msgstr "Usuário"
 
-#: users/models.py:38
+#: users/models.py:43
 msgid "Users"
 msgstr "Usuários"
 
-#: users/templates/list_users.html:9 users/templates/users/create.html:8
-#: users/templates/users/edit_profile.html:8 users/templates/users/index.html:7
-#: users/templates/users/profile.html:8 users/templates/users/update.html:8
+#: users/templates/list_users.html:15 users/templates/users/profile.html:17
+msgid "Menu"
+msgstr "Menu"
+
+#: users/templates/list_users.html:19 users/templates/users/index.html:7
 #: users/templates/users/view.html:7
 msgid "Home"
 msgstr "Início"
 
-#: users/templates/list_users.html:10 users/templates/users/index.html:8
-msgid "Manage Users"
-msgstr "Gerenciar Usuários"
-
-#: users/templates/list_users.html:23
+#: users/templates/list_users.html:20
 msgid "Add user"
 msgstr "Adicionar usuário"
 
-#: users/templates/list_users.html:24
+#: users/templates/list_users.html:21
 msgid "Send email"
 msgstr "Enviar e-mail"
 
-#: users/templates/list_users.html:34
+#: users/templates/list_users.html:41
 msgid "Search..."
 msgstr "Pesquisar..."
 
-#: users/templates/list_users.html:37
+#: users/templates/list_users.html:45
 msgid "Search"
 msgstr "Pesquisar"
 
-#: users/templates/list_users.html:51
-#: users/templates/users/edit_profile.html:16
-#: users/templates/users/profile.html:9 users/templates/users/profile.html:16
+#: users/templates/list_users.html:68
 msgid "Profile"
 msgstr "Perfil"
 
-#: users/templates/list_users.html:52
+#: users/templates/list_users.html:69 users/templates/users/profile.html:65
 msgid "Email"
 msgstr "Email"
 
-#: users/templates/list_users.html:53
+#: users/templates/list_users.html:70
 msgid "Contact"
 msgstr "Contato"
 
-#: users/templates/list_users.html:55
+#: users/templates/list_users.html:72
 msgid "Edit"
 msgstr "Editar"
 
-#: users/templates/list_users.html:56
+#: users/templates/list_users.html:73 users/templates/list_users.html:91
 msgid "Delete"
 msgstr "Apagar"
 
-#: users/templates/list_users.html:66 users/templates/users/index.html:74
+#: users/templates/list_users.html:84
+msgid "Confirm delete"
+msgstr "Confirmar"
+
+#: users/templates/list_users.html:87
+msgid "Are you sure you want to delete the user"
+msgstr "Você tem certeza que deseja deletar o usuário"
+
+#: users/templates/list_users.html:90
+#: users/templates/users/change_password.html:47
+#: users/templates/users/create.html:130
+#: users/templates/users/edit_profile.html:79
+#: users/templates/users/remove_account.html:35
+#: users/templates/users/update.html:83
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: users/templates/list_users.html:103 users/templates/users/index.html:74
 msgid "No users found"
 msgstr "Nenhum usuário encontrado"
 
-#: users/templates/users/create.html:9
-msgid "New User"
-msgstr "Novo usuário"
+#: users/templates/users/change_password.html:31
+#, fuzzy
+#| msgid "Password"
+msgid "Current Password"
+msgstr "Senha"
 
-#: users/templates/users/create.html:16 users/templates/users/index.html:15
-#: users/templates/users/update.html:16 users/templates/users/view.html:15
-msgid "System Users"
-msgstr "Usuários do sistema"
+#: users/templates/users/change_password.html:35
+#, fuzzy
+#| msgid "Password"
+msgid "New Password"
+msgstr "Senha"
 
-#: users/templates/users/create.html:19 users/templates/users/index.html:18
-#: users/templates/users/update.html:19 users/templates/users/view.html:18
-msgid "New Account"
-msgstr "Nova conta"
+#: users/templates/users/change_password.html:39
+msgid "Confirmation"
+msgstr "Confirmação"
 
-#: users/templates/users/create.html:22 users/templates/users/index.html:21
-#: users/templates/users/update.html:22 users/templates/users/view.html:27
-msgid "Send Mail"
-msgstr "Enviar email"
-
-#: users/templates/users/create.html:32
-#: users/templates/users/edit_profile.html:29
-#: users/templates/users/update.html:32
-msgid "All fields are required"
-msgstr "Todos os campos são obrigatórios"
-
-#: users/templates/users/create.html:57
-#: users/templates/users/edit_profile.html:64
-#: users/templates/users/update.html:57
+#: users/templates/users/change_password.html:44
+#: users/templates/users/create.html:127
+#: users/templates/users/edit_profile.html:76
+#: users/templates/users/update.html:80
 msgid "Save"
 msgstr "Salvar"
 
-#: users/templates/users/edit_profile.html:9
-#: users/templates/users/edit_profile.html:19
-#: users/templates/users/profile.html:19
-msgid "Edit Profile"
-msgstr "Editar perfil"
+#: users/templates/users/create.html:51
+#: users/templates/users/edit_profile.html:39
+#: users/templates/users/update.html:42
+msgid "Choose your photo..."
+msgstr "Envie sua foto..."
 
-#: users/templates/users/index.html:56 users/templates/users/profile.html:32
-#: users/templates/users/view.html:39
+#: users/templates/users/create.html:67
+msgid "Choose your file..."
+msgstr "Envie um arquivo..."
+
+#: users/templates/users/index.html:8
+msgid "Manage Users"
+msgstr "Gerenciar Usuários"
+
+#: users/templates/users/index.html:15 users/templates/users/view.html:15
+msgid "System Users"
+msgstr "Usuários do sistema"
+
+#: users/templates/users/index.html:18 users/templates/users/view.html:18
+msgid "New Account"
+msgstr "Nova conta"
+
+#: users/templates/users/index.html:21 users/templates/users/view.html:27
+msgid "Send Mail"
+msgstr "Enviar email"
+
+#: users/templates/users/index.html:56 users/templates/users/view.html:39
 msgid "Administrator"
 msgstr "Administrador"
 
-#: users/templates/users/profile.html:36 users/templates/users/view.html:43
-msgid "Mail:"
-msgstr "E-mail"
+#: users/templates/users/profile.html:21
+#, fuzzy
+#| msgid "Home"
+msgid "Home page"
+msgstr "Início"
 
-#: users/templates/users/profile.html:39 users/templates/users/view.html:46
-msgid "Phone:"
+#: users/templates/users/profile.html:22
+#, fuzzy
+#| msgid "Edit Profile"
+msgid "View Profile"
+msgstr "Editar perfil"
+
+#: users/templates/users/profile.html:23
+msgid "Edit Profile"
+msgstr "Editar perfil"
+
+#: users/templates/users/profile.html:24
+#, fuzzy
+#| msgid "Password"
+msgid "Change Password"
+msgstr "Senha"
+
+#: users/templates/users/profile.html:25
+#, fuzzy
+#| msgid "New Account"
+msgid "Remove account"
+msgstr "Nova conta"
+
+#: users/templates/users/profile.html:53
+#, fuzzy
+#| msgid "State"
+msgid "Status"
+msgstr "Estado"
+
+#: users/templates/users/profile.html:77
+msgid "User role"
+msgstr "Tipo de usuário"
+
+#: users/templates/users/profile.html:79
+msgid "Teacher"
+msgstr "Professor"
+
+#: users/templates/users/profile.html:86
+msgid "CPF"
+msgstr "CPF"
+
+#: users/templates/users/profile.html:91
+msgid "doesn't posssess CPF"
+msgstr "Não possui CPF"
+
+#: users/templates/users/profile.html:96
+msgid "Phone Number"
 msgstr "Telefone"
 
-#: users/templates/users/profile.html:45
-msgid "Birth date"
-msgstr "Data de nascimento"
+#: users/templates/users/profile.html:100
+msgid "doesn't posssess Phone"
+msgstr "Não possui telefone"
 
-#: users/templates/users/update.html:9
-msgid "Edit user"
-msgstr "Editar usuário"
+#: users/templates/users/profile.html:113
+msgid "State and City"
+msgstr "Estado e cidade"
+
+#: users/templates/users/profile.html:117
+msgid "Title"
+msgstr "Título"
+
+#: users/templates/users/profile.html:121
+msgid "Year"
+msgstr "Ano"
+
+#: users/templates/users/profile.html:125
+msgid "Institution"
+msgstr "Instituição"
+
+#: users/templates/users/profile.html:129
+msgid "Didn't inform institution"
+msgstr "Não informou a instituição"
+
+#: users/templates/users/profile.html:139
+msgid "Didn't upload any curriculum"
+msgstr "Não enviou nenhum currículo"
+
+#: users/templates/users/remove_account.html:28
+msgid "Are you sure you want delete this account?"
+msgstr "Voce tem certeza que deseja remover esta conta?"
+
+#: users/templates/users/remove_account.html:29
+msgid ""
+"All data will be lost and havent how recover it."
+msgstr "Todos os seus dados serão removidos e não haverá como recupera-los posteriormente."
+
+#: users/templates/users/remove_account.html:32
+msgid "Remove"
+msgstr "Remover"
 
 #: users/templates/users/view.html:21
 msgid "View User Account"
@@ -235,22 +359,48 @@ msgstr "Visualizar perfil"
 msgid "Edit User Account"
 msgstr "Editar perfil"
 
+#: users/templates/users/view.html:43
+msgid "Mail:"
+msgstr "E-mail"
+
+#: users/templates/users/view.html:46
+msgid "Phone:"
+msgstr "Telefone"
+
 #: users/templates/users/view.html:49
 msgid "Cpf:"
-msgstr "Cpf"
+msgstr "CPF"
 
 #: users/templates/users/view.html:52
 msgid "Birth date:"
 msgstr "Data de nascimento:"
 
-#: users/views.py:54
+#: users/views.py:55
 msgid "User created successfully!"
 msgstr "Usuário criado com sucesso!"
 
-#: users/views.py:83
+#: users/views.py:84
 msgid "User edited successfully!"
 msgstr "Usuário editado com sucesso!"
 
-#: users/views.py:132 users/views.py:149
+#: users/views.py:101
+#, fuzzy
+#| msgid "User edited successfully!"
+msgid "User deleted Successfully!"
+msgstr "Usuário editado com sucesso!"
+
+#: users/views.py:126
 msgid "Profile edited successfully!"
 msgstr "Perfil editado com sucesso!"
+
+#~ msgid "New User"
+#~ msgstr "Novo usuário"
+
+#~ msgid "All fields are required"
+#~ msgstr "Todos os campos são obrigatórios"
+
+#~ msgid "Birth date"
+#~ msgstr "Data de nascimento"
+
+#~ msgid "Edit user"
+#~ msgstr "Editar usuário"

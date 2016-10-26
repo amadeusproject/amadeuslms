@@ -112,7 +112,7 @@
 							  <input type="search" class="form-control" placeholder="Search Courses" name="q" id="searchbox"></div>
 							    <span class="input-group-btn input-group-sm">
 							      <button type="button" class="btn btn-fab btn-fab-mini">
-							        <i class="material-icons">{% trans 'search' %}</i>
+							        <i class="material-icons">search</i>
 							      </button>
 							    </span>
 							</div>
@@ -121,7 +121,7 @@
 
 				<div class="col-md-10">
 					<div class="btn-group btn-group-justified btn-group-raised">
-						<a href="?category=all" class="btn btn-raised btn-info">{% trans 'Todos' %}</a>
+						<a href="?category=all" class="btn btn-raised btn-info">{% trans 'All' %}</a>
 						{% for category in categories %}
 							<a href="?category={{category.name}}" class="btn btn-raised btn-primary">{{category.name}}</a>
 						{% endfor %}
