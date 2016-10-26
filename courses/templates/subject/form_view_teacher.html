@@ -40,7 +40,6 @@
           </div>
         </div>
       </div>
-<<<<<<< HEAD
       <div class="panel-collapse collapseOne collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" aria-hidden="true" tabindex="-1" aria-selected="false">
         <div class="panel-body">
           <div class="presentation">
@@ -74,43 +73,12 @@
                 <ul id="list-materials">
                     {% list_topic_file request topic %}
                     {% list_topic_link request topic%}
-                  
+
                 </ul>
               </div>
               <div class="col-xs-4 col-md-4">
                 <div class="resource_inline">
                   <h4>{% trans 'Activities' %}</h4>
-=======
-    </div>
-    <div class="panel-collapse collapseTopic-{{topic.slug}} collapse in" role="tabpanel" aria-labelledby="heading_{{topic.id}}" aria-expanded="true" aria-hidden="false">
-      <div class="panel-body">
-        <div class="presentation">
-          <p>
-            <i>
-              {{topic.description|linebreaks}}
-            </i>
-          </p>
-          <div class="row">
-            <div class="col-xs-6 col-md-6">
-              <div class="resource_inline">
-                <h4>Material</h4>
-              </div>
-              <div class="resource_inline">
-                <div class="dropdown">
-                  <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                  <ul class="dropdown-menu" aria-labelledby="dLabel">
-                      <li><a href=" javascript:get_modal_link('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')  ">Create a Link<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 54.5312px; top: 22px; background-color: rgb(0, 150, 136); transform: scale(20);"></div></div></a></li>
-                      <li>
-                          <a href="javascript:get_modal_file('{% url 'course:file:create_file' topic.slug %}', '#fileModal', '#divModalFile')">
-                              {% trans "Create a file" %}
-                              <div class="ripple-container">
-                                  <div class="ripple ripple-on ripple-out" style="left: 33.5312px; top: 11px; background-color: rgb(0, 150, 136); transform: scale(20);">
-                                  </div>
-                              </div>
-                          </a>
-                      </li>
-                  </ul>
->>>>>>> front_cards
                 </div>
               </div>
               <ul id="list-materials">
@@ -142,55 +110,6 @@
             </div>
             {% list_topic_poll request topic %}
           </div>
-<<<<<<< HEAD
-          <div class="editation" style="display: none">
-            <div class="form-group">
-              <label class="control-label" for="focusedInput2">{% trans 'Name Topic' %}</label>
-              <input type="text" class="form-control" value="Topic 1">
-            </div>
-            <div class="form-group is-empty">
-              <label class="control-label" for="focusedInput2">{% trans 'Description' %}</label>
-              <textarea class="form-control" rows="3" id="textArea"></textarea>
-            </div>
-            <div class="row">
-              <div class=" col-xs-6 col-md-4">
-                <div class="resource_inline">
-                  <h4>{% trans 'Material' %}</h4>
-                </div>
-                <div class="resource_inline">
-                  <div class="dropdown">
-                    <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                    <ul class="dropdown-menu" aria-labelledby="dLabel">
-                      <li><a href="javascript:get_modal_link('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')">{% trans 'Create a Link' %}</a></li>
-                      <li>
-                        <a href="#">
-                            {% trans "Create a file" %}
-                            <div class="ripple-container">
-                                <div class="ripple ripple-on ripple-out" style="left: 33.5312px; top: 11px; background-color: rgb(0, 150, 136); transform: scale(20);">
-                                </div>
-                            </div>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <ul id="list-materials-edit">
-                    {% list_topic_link_edit request topic%}
-                    {% list_topic_file_edit request topic %}
-                </ul>
-              </div>
-              <div class="col-xs-4 col-md-offset-1 col-md-4">
-                <div class="resource_inline">
-                  <h4>{% trans 'Activities' %}</h4>
-                </div>
-                <div class="resource_inline">
-                  <div class="dropdown">
-                    <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                    <ul class="dropdown-menu" aria-labelledby="dLabel">
-                      <li>{% trans 'Anything' %}</li>
-                    </ul>
-                  </div>
-=======
         </div>
         <div class="editation" style="display: none">
           <div class="form-group">
@@ -221,7 +140,6 @@
                       </a>
                     </li>
                   </ul>
->>>>>>> front_cards
                 </div>
               </div>
               <ul id="list-materials-edit">
@@ -229,16 +147,9 @@
                   {% list_topic_file_edit request topic %}
               </ul>
             </div>
-<<<<<<< HEAD
-            <div class="form-group">
-              <div class="col-md-10">
-                <button type="button" class="btn btn-raised btn-default edit_card_end">{% trans 'Cancel' %}</button>
-                <button type="submit" class="btn btn-raised btn-primary edit_card_end">{% trans 'Submit' %}</button>
-=======
             <div class="col-xs-4 col-md-offset-1 col-md-4">
               <div class="resource_inline">
                 <h4>Activities</h4>
->>>>>>> front_cards
               </div>
               <div class="resource_inline">
                 <div class="dropdown">

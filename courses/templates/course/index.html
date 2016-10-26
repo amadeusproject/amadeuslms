@@ -43,8 +43,6 @@
     </div>
 
         {% if user|has_role:'professor' or user|has_role:'system_admin' %}
-
-<<<<<<< HEAD
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">Category</h3>
@@ -57,20 +55,7 @@
             </div>
         </div>
     {% endif %}
-=======
-		<div class="panel panel-primary">
-		    <div class="panel-heading">
-		        <h3 class="panel-title">Category</h3>
-		    </div>
-		    <div class="panel-body">
-		        <ul class="nav nav-pills nav-stacked">
-		            <li><a href="{% url 'course:create_cat' %}">Create Category</a></li>
-		            <li><a href="{% url 'course:manage_cat' %}">List Category</a></li>
-		        </ul>
-		    </div>
-		</div>
-	{% endif %}
->>>>>>> front_cards
+
 {% endblock %}
 
 {% block content %}
@@ -86,7 +71,6 @@
     {% endif %}
 
 <div class="col-md-12 cards-content">
-<<<<<<< HEAD
     <form id="searchform" action="{% url 'course:manage' %}" method="get" accept-charset="utf-8">
         <div class="input-group">
           <div class="form-group is-empty">
@@ -98,24 +82,10 @@
             </span>
         </div>
     </form>
-=======
-	<form id="searchform" action="{% url 'course:manage' %}" method="get" accept-charset="utf-8">
-		<div class="input-group">
-		  <div class="form-group is-empty">
-		  <input type="search" class="form-control" placeholder="Search Courses" name="q" id="searchbox"></div>
-		    <span class="input-group-btn input-group-sm">
-		      <button type="button" class="btn btn-fab btn-fab-mini">
-		        <i class="material-icons">search</i>
-		      </button>
-		    </span>
-		</div>
-	</form>
->>>>>>> front_cards
 </div>
 
 
 </fieldset>
-<<<<<<< HEAD
     <div class="col-md-12 cards-content">
         {% if courses|length > 0 %}
             {% if request.GET.category == 'all' or none or request.GET.category == '' %}
@@ -134,26 +104,5 @@
             {% trans 'No courses found' %}
         {% endif %}
     </div>
-=======
-	<div class="col-md-12 cards-content">
-		{% if courses|length > 0 %}
-			{% if request.GET.category == 'all' or none or request.GET.category == '' %}
-				{% for course in list_courses %}
-		          	{% include "course/course_card.html" %}
-				{% endfor %}
-			{% else %}
-				{% for course in courses_category %}
-    				{% if course.category.name == request.GET.category %}
-    					<!-- Put your content here! -->
-    					{% include "course/course_card.html" %}
-    				{% endif %}
-				{% endfor %}
-			{% endif %}
-		{% else %}
-			{% trans 'No courses found' %}
-		{% endif %}
-	</div>
->>>>>>> front_cards
-
     <script type="text/javascript" src="{% static 'js/course.js' %}"></script>
 {% endblock %}
