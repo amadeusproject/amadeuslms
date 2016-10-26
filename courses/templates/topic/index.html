@@ -31,22 +31,6 @@
         </div>
     </div>
 
-    {% if user|has_role:'professor' %}
-      <div class="panel panel-primary navigation">
-      <div class="panel-heading">
-          <h3 class="panel-title">Actions</h3>
-      </div>
-      <div class="panel-body">
-          <ul class="nav nav-pills nav-stacked">
-              <li><a href="javascript:void(0)">Participants</a></li>
-              <li><a href="javascript:void(0)">Replicate subject</a></li>
-              <li><a href="javascript:void(0)">Create subject</a></li>
-              <li><a href="javascript:void(0)">Edit subject</a></li>
-              <li><a href="javascript:void(0)">Remove subject</a></li>
-          </ul>
-      </div>
-    </div>
-    {% endif %}
    
 {% endblock %}
 
@@ -88,14 +72,7 @@
         <fieldset>
           <legend>{{activit.name}}</legend>
 
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-8">
-              <div class="form-group is-empty">
-                <input type="text" class="form-control col-md-4" placeholder="Search Student">
-              </div>
-            </div>
-            </div>
+         
           {% for student in students_activit %}
             <div class="panel-group" id="accordion">
               <div class="panel panel-info">
@@ -137,15 +114,7 @@
     </fieldset>
   </form>
 
-  <ul class="pagination pagination-sm">
-  <li class="disabled"><a href="javascript:void(0)">«</a></li>
-  <li class="active"><a href="javascript:void(0)">1</a></li>
-  <li><a href="javascript:void(0)">2</a></li>
-  <li><a href="javascript:void(0)">3</a></li>
-  <li><a href="javascript:void(0)">4</a></li>
-  <li><a href="javascript:void(0)">5</a></li>
-  <li><a href="javascript:void(0)">»</a></li>
-</ul>
+ 
 {% empty %}
   {% trans 'No activity found' %}
 {% endfor %}
