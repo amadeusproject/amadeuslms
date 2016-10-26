@@ -4,6 +4,19 @@ from rolepermissions.verifications import has_role
 register = template.Library()
 
 @register.filter
+def hide_subscribe_view_btn(user, subject):
+	if not user is None:
+		if user.is_authenticated:
+			if has_role(user, 'student') and not user.is_staff:
+				if user in subject.course.students.all():
+					if not user in subject.students.all():
+						return True
+				else:
+					return True
+
+	return False
+
+@register.filter
 def show_subject_subscribe(user, subject):
 	if not user is None:
 		if user.is_authenticated:

@@ -12,7 +12,7 @@
 {% block sidebar %}
     <div class="panel panel-primary navigation">
         <div class="panel-heading">
-            <h5>Menu</h5>
+            <h5>{% trans 'Menu' %}</h5>
         </div>
         <div class="panel-body">
             <ul class="nav nav-pills nav-stacked">
@@ -42,7 +42,7 @@
             </div>
             <div class="col-md-1 col-sm-1 col-xs-1">
                 <button type="submit" class="btn btn-fab btn-fab-mini">
-                    <i class="material-icons">search</i>
+                    <i class="material-icons">Search</i>
                 </button>
             </div>
         </div>
@@ -81,14 +81,14 @@
                         <div class="modal-content">
                           <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="DeleteModalLabel">Confirm delete</h4>
+                            <h4 class="modal-title" id="DeleteModalLabel">{% trans 'Confirm delete' %}</h4>
                           </div>
                           <div class="modal-body">
-                            Are you sure you want to delete the user <b>{{acc.name}}</b>?                          
+                            {% trans 'Are you sure you want to delete the user' %} <b>{{acc.name}}</b>?                          
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>                         
-                            <button type="button" class="btn btn-primary"> <a href="{% url 'users:delete' acc.username %}">Delete</a></button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Cancel' %}</button>                         
+                            <button type="button" class="btn btn-primary"> <a href="{% url 'users:delete' acc.username %}">{% trans 'Delete' %}</a></button>
                           </div>
                         </div>
                       </div>

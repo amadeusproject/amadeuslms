@@ -15,77 +15,95 @@
 
 	</ol>
 {% endblock %}
-
 {% block sidebar %}
-	<div class="panel panel-primary navigation">
-        <div class="panel-heading">
-            <h5>{% trans 'Menu' %}</h5>
-        </div>
-        <div class="panel-body">
-        	<ul class="nav nav-pills nav-stacked">
-              	<li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
-              	<li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
-            </ul>
-        </div>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h4>Menu</h4>
     </div>
+    <div class="panel-body">
+        <ul class="nav nav-pills nav-stacked">
+            <li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+            <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
+            {% if user|has_role:'student' or not user.is_staff %}
+                <li><a href="{% url 'course:manage' %}">{% trans 'My courses' %}</a></li>
+                <li><a href="{% url 'core:guest' %}">{% trans 'All Courses' %}</a></li>
+            {% endif %}
+            {% if user|has_role:'system_admin' %}
+                <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
+            {% endif %}
+            {% if user|has_role:'system_admin' or user|has_role:'professor' %}
+                <li>
+                    <a href="#courses_list" class="accordion" data-toggle="collapse">{% trans 'Manage Courses' %}</a>
+                    <div id="courses_list" class="collapse">
+                        <ul class="nav nav-pill nav-stacked accordion_list">
+                        {% for course in courses_list %}
+                            <li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
 
 
 {% endblock %}
 
 {% block content %}
   	<div class="panel panel-info">
-    	<div class="panel-heading">
-			<div class="row">
-	      		<div class="col-md-10 col-sm-10">
-	        		<h3>{{subject}}</h3>
-	      		</div>
-				{% professor_subject subject user as subject_professor%}
-	      		{% if subject_professor %}
-		         	 <div class="col-xs-4 col-md-2 divMoreActions">
-			            <div class="btn-group">
-			              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-			              </button>
-			              <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-			                <li><a href="javascript:void(0)"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
-			                <li><a href="{% url 'course:update_subject' subject.slug %}" <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
-			                <li><a href="{% url 'course:delete_subject' subject.slug %}" ><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
-			              </ul>
-			            </div>
-    				</div>
-				{% endif %}
-	    	</div>
-    	</div>
-    	<div class="panel-body">
-	      <p><b>{% trans "Professor" %}:</b> {{subject.professors}}</p>
-	      <p>
-	        <b>{% trans "Description" %}:</b>
-	          {{subject.description|linebreaks}}
-	      </p>
-	      <div class="row">
-	        <div class="col-xs-6 col-md-6">
-	          <p><b>{% trans "Beginning" %}:</b> {{subject.init_date}}</p>
-	        </div>
-	        <div class="col-xs-6 col-md-6">
-	          <p><b>{% trans "End" %}:</b> {{subject.end_date}}</p>
-	        </div>
-	      </div>
-	    </div>
-	</div>
-
-	{% for topic in topics %}
-		{% professor_subject topic.subject user as topic_professor%}
-		{% if topic_professor %}
-			{% include "subject/form_view_teacher.html" %}
-		{% else %}
-			{% include "subject/form_view_student.html" %}
-		{% endif %}
-	{% endfor %}
-	{% professor_subject subject user as professor_sub %}
-	{% if professor_sub %}
-		<div class="form-group">
-            <a href="{% url 'course:create_topic' subject.slug %}" data-toggle="modal" data-target="" class="btn btn-primary btn-lg btn-block btn-raised" name="create_topic">{% trans "Create Topic" %}<div class="ripple-container"></div></a>
+     <div class="panel-heading course-detail">
+      <div class="row">
+       <div class="col-md-10 col-sm-10">
+        <h4>{{subject}}</h4>
+       </div>
+       <div class="col-xs-4 col-md-2 divMoreActions">
+        {% professor_subject subject user as subject_professor%}
+        {% if subject_professor %}
+         <div class="btn-group">
+          <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+          </button>
+          <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+           <li><a href="javascript:void(0)"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
+           <li><a href="{% url 'course:update_subject' subject.slug %}" <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
+           <li><a href="{% url 'course:delete_subject' subject.slug %}" ><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
+          </ul>
+         </div>
+         {% endif %}
+       </div>
+       </div>
+      </div>
+      <div class="panel-body">
+          <p><b>{% trans "Professor" %}:</b> {{subject.professors}}</p>
+          <p>
+            <b>{% trans "Description" %}:</b>
+              {{subject.description|linebreaks}}
+          </p>
+          <div class="row">
+            <div class="col-xs-6 col-md-6">
+              <p><b>{% trans "Beginning" %}:</b> {{subject.init_date}}</p>
+            </div>
+            <div class="col-xs-6 col-md-6">
+              <p><b>{% trans "End" %}:</b> {{subject.end_date}}</p>
+            </div>
           </div>
-	{% endif %}
-
+     </div>
+    </div>
+     {% for topic in topics %}
+      {% professor_subject topic.subject user as topic_professor%}
+      {% if topic_professor %}
+       {% include "subject/form_view_teacher.html" %}
+      {% else %}
+       {% include "subject/form_view_student.html" %}
+      {% endif %}
+     {% endfor %}
+     {% professor_subject subject user as professor_sub %}
+     {% if professor_sub %}
+     <div class="col-md-10">
+      <div class="form-group">
+       <a href="{% url 'course:create_topic' subject.slug %}" data-toggle="modal" data-target="" class="btn btn-primary btn-lg btn-block btn-raised" name="create_topic">{% trans "Create Topic" %}<div class="ripple-container"></div></a>
+      </div>
+     </div>
+     {% endif %}
 {% endblock %}

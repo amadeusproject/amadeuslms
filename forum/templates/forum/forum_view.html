@@ -34,7 +34,7 @@
         </div>
     </div>
     
-    {% if request.user|has_role:'system_admin' or request.user|has_role:'professor' and request.user == post.user %}
+    {% if request.user|has_role:'system_admin' or request.user|has_role:'professor' and request.user in forum.topic.subject.professors.all %}
         <div class="panel panel-primary navigation">
             <div class="panel-heading">
                 <h3 class="panel-title">{% trans 'Actions' %}</h3>
@@ -88,7 +88,7 @@
                                     {% endif %}
                                     <span class="input-group-btn">
                                         <button type="submit" class="btn btn-fab btn-fab-mini">
-                                            <i class="material-icons">send</i>
+                                            <i class="material-icons">{% trans 'send' %}</i>
                                         </button>
                                     </span>
                                 </div>

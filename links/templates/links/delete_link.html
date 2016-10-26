@@ -1,3 +1,4 @@
+{% load widget_tweaks i18n %}
 <!-- MODAL REMOVE LINK -->
 <div class="modal" id="removeLink">
   <div class="modal-dialog">
@@ -7,12 +8,12 @@
         <h4 class="modal-title"></h4>
       </div>
       <div class="modal-body">
-        <p>Do you really want to delete this link?</p>
+        <p>{% trans 'Do you really want to delete this link?' %}</p>
       </div>
       <div class="modal-footer">
         <!--  -->
-        <button type="button" class="btn btn-primary btn-default" data-dismiss="modal">Cancel</button>
-        <a href="http://www.google.com" target="_self"><button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Confirm</button></a>
+        <button type="button" class="btn btn-primary btn-default" data-dismiss="modal">{% trans 'Cancel' %}</button>
+        <a href="http://www.google.com" target="_self"><button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">{% trans 'Confirm' %}</button></a>
 
       </div>
     </div>

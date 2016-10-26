@@ -5,82 +5,80 @@
 
 <html>
 <head>
-	<title>{{ title }}</title>
+    <title>{{ title }}</title>
 
-	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
-	<link href="{% static 'img/favicon.ico' %}" rel="shortcut icon" />
-	<!-- Roboto font -->
-	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store" />
+    <link href="{% static 'img/favicon.ico' %}" rel="shortcut icon" />
+    <!-- Roboto font -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-	<!-- jQuery & jQuery UI -->
-	<script type="text/javascript" src="{% static 'js/vendor/jquery-3.1.0.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/vendor/jquery-ui.js' %}"></script>
+    <!-- jQuery & jQuery UI -->
+    <script type="text/javascript" src="{% static 'js/vendor/jquery-3.1.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/vendor/jquery-ui.js' %}"></script>
 
-  	<!-- Bootstrap and themes (material) -->
-	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/material.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/ripples.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/datepicker.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/alertifyjs/alertify.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/alertifyjs/themes/bootstrap.css' %}">
-	<script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/vendor/bootstrap-acessibility.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/vendor/material.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/vendor/ripples.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/vendor/bootstrap-datepicker.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/vendor/alertify.min.js' %}"></script>
+    <!-- Bootstrap and themes (material) -->
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vendor/material.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vendor/ripples.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vendor/datepicker.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vendor/alertifyjs/alertify.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vendor/alertifyjs/themes/bootstrap.css' %}">
+    <script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/vendor/bootstrap-acessibility.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/vendor/material.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/vendor/ripples.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/vendor/bootstrap-datepicker.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/vendor/alertify.min.js' %}"></script>
 
-  	<!-- Font awesome -->
-	<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
+    <!-- Font awesome -->
+    <link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
 
-	<!-- Custom styles -->
-  	<link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
+    <!-- Custom styles -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
 
-	<!-- Init material Bootstrap -->
-	<script type="text/javascript">$.material.init()</script>
+    <!-- Init material Bootstrap -->
+    <script type="text/javascript">$.material.init()</script>
 
-	<!--Javascript block for specific-app ones -->
-	<script src="{% static 'js/base/amadeus.js' %}"></script>
-	{% block style %}
-	{% endblock %}
-	{% block javascript %}
-		<script type="text/javascript" src="{% static 'js/course.js' %}"></script>
-	{% endblock %}
+    <!--Javascript block for specific-app ones -->
+    <script src="{% static 'js/base/amadeus.js' %}"></script>
+    {% block style %}
+    {% endblock %}
+    {% block javascript %}
+        <script type="text/javascript" src="{% static 'js/course.js' %}"></script>
+    {% endblock %}
 </head>
 <body>
-	{% block nav %}
-   	<div class="navbar navbar-default">
-         		<div class="navbar-header">
-           		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-             			<span class="icon-bar"></span>
-             			<span class="icon-bar"></span>
-             			<span class="icon-bar"></span>
-           		</button>
-           		<a class="navbar-brand" href="{% url 'app:index' %}"><img class="logo" src="{% static 'img/topo-amadeus-white.png'  %}" alt="Logo"/></a>
-         		</div>
-         		<div class="navbar-collapse collapse navbar-responsive-collapse">
-           		<ul class="nav navbar-nav navbar-right notifications">
-             			 <li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">
+    {% block nav %}
+    <div class="navbar navbar-default">
+                <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'app:index' %}"><img class="logo" src="{% static 'img/topo-amadeus-white.png'  %}" alt="Logo"/></a>
+                </div>
+                <div class="navbar-collapse collapse navbar-responsive-collapse">
+                <ul class="nav navbar-nav navbar-right notifications">
+                         <li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">
                  <a  class="dropdown-toggle" data-toggle="dropdown"> <span id="notification-count" class="badge notification-count">{{notifications.count}}</span><i class="fa fa-bell" aria-hidden="true"></i></a>
                    <ul id="notification-dropdown" class="dropdown-menu">
                    <li class="dropdown-header">Notifications</li>
-                   		{% include "notifications.html" %}
+                        {% include "notifications.html" %}
 
-                   		<li>
-                   		 <a onclick="getNotifications(5)">
-                   			<div id="notification-see-more" class="list-group-item">
+                        <li>
+                         <a onclick="getNotifications(5)">
+                            <div id="notification-see-more" class="list-group-item">
                                   <div class="row-content">
                                     <p class="list-group-item-text">See More</p>
                                 </div>
                        </a>
-                   		</li>
+                        </li>
                     </ul>
                </li>
-
              			<li  data-toggle="tooltip" data-placement="bottom" title data-original-title="{% trans 'messages' %}"> <a href="#"><i class="fa fa-comments" aria-hidden="true"></i></a> </li>
              			<li > <a  class="link" href="{% url 'app:index' %}">{{ user }}</a></li>
-             			
            		</ul>
          		</div>
    	</div>
@@ -90,7 +88,7 @@
 
     		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
     			{% block sidebar %}
-    				<div class="panel panel-primary navigation">
+    				<div class="panel panel-primary">
 				        <div class="panel-heading">
 				            <h4>Menu</h4>
 				        </div>
@@ -119,7 +117,7 @@
 						</form>
 					</div>
 
-				<div class="col-md-12">
+				<div class="col-md-10">
 					<div class="btn-group btn-group-justified btn-group-raised">
 						<a href="?category=all" class="btn btn-raised btn-info">Todos</a>
 						{% for category in categories %}
@@ -132,7 +130,7 @@
 				{% block render_breadcrumbs %}{% endblock %}
 			<div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-12">
 				{% block content %}
 					{% for course in courses %}
 						<div class="panel panel-info panel_{{ course.id }}">
@@ -142,7 +140,7 @@
 				                    <a onclick="subscribe($(this), '{% url 'course:subscribe' course.slug %}', {{ course.id}}, '{% trans 'Are you sure you want to subscribe to this course?' %}')" class="btn btn-sm btn-primary btn-raised pull-right" style="margin-top:-4px">{% trans 'Subscribe' %}</a>
 				                {% endif %}
 					  		</div>
-					       
+
 						  	<div class="panel-body">
 						    	<p><b>Course Name: </b>{{course.name}}</p>
 						    	<p><b>Begining: </b>{{course.init_date}}</p>

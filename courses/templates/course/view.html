@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block sidebar %}
-  <div class="panel panel-primary navigation">
+  <div class="panel panel-primary">
         <div class="panel-heading">
             <h5>{% trans 'Menu' %}</h5>
         </div>
@@ -38,15 +38,15 @@
 
 {% block content %}
 
-  <div class="col-md-12">
+  <div class="col-md-12 cards-content">
     <div class="panel panel-info">
-      <div class="panel-heading headingOne">
+      <div class="panel-heading course-detail">
         <div class="row">
-          <div class="col-xs-8 col-md-10 titleTopic">
-            <h4>{{course}}</h4>
+          <div class="col-xs-8 col-md-4 .titleTopic-detail">
+            <h4>{{course.name}}</h4>
           </div>
           {% if user|has_role:'professor' and user in course.professors or user|has_role:'system_admin' %}
-            <div class="col-xs-4 col-md-2" id="divMoreActions">
+            <div class="col-xs-4 col-md-8" id="divMoreActions">
               <div class="btn-group">
                 <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
@@ -74,7 +74,7 @@
 
     </div>
   </div>
- 
+
 <!-- MODAL CREATE SUBJECT -->
 <div class="modal" tabindex="-1" role="dialog  " id="createSubject">
   <div class="modal-dialog">
@@ -121,19 +121,22 @@
   </div>
 </div>
 </div>
-<div>
+<div class="cards-detail">
     {% if request.GET.category == 'all' or none or request.GET.category == '' %}
       {% for subject in subjects %}
-        <div class="panel panel-info panel_{{ subject.id }}">
-          <div class="panel-heading headingTwo ui-sortable-handle" role="tab">
+        <div class="panel panel-default panel_{{ subject.id }}">
+          <div class="panel-heading heading_{{subject.id}} subject ui-sortable-handle">
             <div class="row">
-                <div class="col-xs-9 col-md-10 titleTopic">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                  <h4 style="color:white">{{subject.name}}</h4>
+                <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{subject.slug}}" href=".collapseSubject-{{subject.slug}}" aria-expanded="false" aria-controls="collapseSubject-{{subject.slug}}">
+                  <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
+                </div>
+                <div class="col-xs-9 col-md-4 titleTopic">
+                  <a role="button" href="{% url 'course:view_subject' subject.slug %}">
+                    <h4>{{subject.name}}</h4>
                   </a>
                 </div>
                 {% if user|has_role:'professor' and user in subject.professors or user|has_role:'system_admin' %}
-                  <div class="col-xs-3 col-md-2" id="divMoreActions">
+                  <div class="col-xs-3 col-md-6" id="divMoreActions">
                     <div class="btn-group">
                       <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
@@ -153,40 +156,44 @@
                 {% endif %}
             </div>
           </div>
-          <div class="panel-body">
-              <p><b>{% trans "Professor" %}: </b>{% for professor in subject.professors.all %}{% if not forloop.first %},{% endif %}
-                {{professor}}{% if forloop.last %}.{% endif %}{% endfor %}</p>
-                <p>
-                  <b>{% trans "Description" %}: </b>
-                  <i>
-                    {{subject.description}}
-                  </i>
-                </p>
-                <div class="row">
-                  <div class="col-xs-6 col-md-6">
-                    <p><b>{% trans "Begining" %}: </b>{{subject.init_date}}</p>
-                  </div>
-                  <div class="col-xs-6 col-md-6">
-                    <p><b>{% trans "End" %}: </b>{{subject.end_date}}</p>
-                  </div>
+          <div class="panel-collapse collapseSubject-{{subject.slug}} collapse in" aria-labelledby="heading_{{subject.id}}" aria-expanded="true" aria-hidden="false">
+           <div class="panel-body">
+            <p><b>{% trans "Professor" %}: </b>{% for professor in subject.professors.all %}{% if not forloop.first %},{% endif %}
+              {{professor}}{% if forloop.last %}.{% endif %}{% endfor %}</p>
+              <p>
+                <b>{% trans "Description" %}: </b>
+                <i>
+                  {{subject.description}}
+                </i>
+              </p>
+              <div class="row">
+                <div class="col-xs-6 col-md-6">
+                  <p><b>{% trans "Begining" %}: </b>{{subject.init_date}}</p>
                 </div>
-                <a href="{% url 'course:view_subject' subject.slug %}" class="btn btn-raised btn-default center-block view_btn" {% if user|show_subject_subscribe:subject %}style="display:none"{% endif %}>{% trans 'View Subject' %}<div class="ripple-container"></div></a>
-            </div>
+                <div class="col-xs-6 col-md-6">
+                  <p><b>{% trans "End" %}: </b>{{subject.end_date}}</p>
+                </div>
+              </div>
+          </div>
+         </div>
         </div>
       {% endfor %}
   {% else %}
         {% for subject in subjects_category %}
             {% if subject.category.name == request.GET.category %}
               <div class="panel panel-info panel_{{ subject.id }}">
-          <div class="panel-heading headingTwo ui-sortable-handle" role="tab">
-            <div class="row">
-                <div class="col-xs-9 col-md-10 titleTopic">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href=".collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                  <h4 style="color:white">{{subject.name}}</h4>
-                  </a>
-                </div>
+               <div class="panel-heading heading_{{subject.id}} subject ui-sortable-handle" role="tab">
+                <div class="row">
+                 <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{subject.slug}}" href=".collapseSubject-{{subject.slug}}" aria-expanded="false" aria-controls="collapseSubject-{{subject.slug}}">
+                  <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
+                 </div>
+                 <div class="col-xs-9 col-md-4 titleTopic">
+                   <a role="button" href="{% url 'course:view_subject' subject.slug %}">
+                    <h4>{{subject.name}}</h4>
+                   </a>
+                 </div>
                 {% if user|has_role:'professor' and user in subject.professors or user|has_role:'system_admin' %}
-                  <div class="col-xs-3 col-md-2" id="divMoreActions">
+                  <div class="col-xs-3 col-md-6" id="divMoreActions">
                     <div class="btn-group">
                       <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
@@ -205,7 +212,8 @@
                 {% endif %}
             </div>
           </div>
-          <div class="panel-body">
+          <div class="panel-collapse collapseSubject-{{subject.slug}} collapse in" aria-labelledby="heading_{{subject.id}}" aria-expanded="true" aria-hidden="false">
+           <div class="panel-body">
               <p><b>{% trans "Professor" %}: </b>{% for professor in subject.professors.all %}{% if not forloop.first %},{% endif %}
                 {{professor}}{% if forloop.last %}.{% endif %}{% endfor %}</p>
                 <p>
@@ -222,8 +230,8 @@
                     <p><b>{% trans "End" %}: </b>{{subject.end_date}}</p>
                   </div>
                 </div>
-                <a href="{% url 'course:view_subject' subject.slug %}" class="btn btn-raised btn-default center-block view_btn" {% if user|show_subject_subscribe:subject %}style="display:none"{% endif %}>{% trans 'View Subject' %}<div class="ripple-container"></div></a>
             </div>
+           </div>
         </div>
             {% endif %}
         {% endfor %}
