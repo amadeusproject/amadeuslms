@@ -101,17 +101,24 @@ def processNotification(self, notificationId):
 def getNotifications(request):
 	context = {}
 	if request.user.is_authenticated:
-
+		amountGotten = 0 #amountOfNotifications actually received
 		steps = int(request.GET['steps'])
 		amount = int(request.GET['amount'])
 		notifications = Notification.objects.filter(user= request.user, read=False).order_by('-datetime')[steps:steps+amount]
+		if len(notifications) == 0:
+			return HttpResponse("nothing")
+		else:
+			amountGotten = len(notifications)
 		context['notifications'] = notifications
 	else: #go to login page
 		return HttpResponse('teste')
 
 
 	html = render_to_string("notifications.html", context)
-	return HttpResponse(html)
+	data = {}
+	data['html'] = html
+	data['amountGotten'] = amountGotten
+	return JsonResponse(data)
 
 def guest (request):
 	context = {
