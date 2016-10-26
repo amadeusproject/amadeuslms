@@ -18,7 +18,7 @@ from core.mixins import NotificationMixin
 from users.models import User
 from files.forms import FileForm
 from files.models import TopicFile
-
+from courses.models import Material
 from django.urls import reverse
 
 from datetime import date
@@ -457,11 +457,13 @@ class TopicsView(LoginRequiredMixin, generic.ListView):
 		context = super(TopicsView, self).get_context_data(**kwargs)
 		activitys = Activity.objects.filter(topic__name = topic.name)
 		students_activit = User.objects.filter(activities__in = Activity.objects.all())
-		
+		materials = Material.objects.filter(topic = topic)
+		print(materials)
 		context['topic'] = topic
 		context['subject'] = topic.subject
 		context['activitys'] = activitys
 		context['students_activit'] = students_activit
+		context['materials'] = materials
 		context['form'] = ActivityForm
 		
 		return context

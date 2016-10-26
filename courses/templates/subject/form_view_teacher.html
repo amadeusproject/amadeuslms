@@ -106,11 +106,12 @@
                 <ul>
 
                     <div class="foruns_list">
+                        {% list_topic_poll request topic %}
                         {% list_topic_foruns request topic %}
                     </div>
                 </ul>
               </div>
-              {% list_topic_poll request topic %}
+             
             </div>
             <div class="editation" style="display: none">
               <div class="form-group">
