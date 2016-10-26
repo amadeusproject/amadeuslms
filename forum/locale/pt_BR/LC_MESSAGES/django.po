@@ -1,0 +1,250 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-10-26 14:47-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: forum/forms.py:11
+msgid "Title"
+msgstr ""
+
+#: forum/forms.py:12 forum/models.py:14
+#: forum/templates/forum/forum_list.html:23
+#: forum/templates/forum/forum_view.html:58
+#: forum/templates/forum/render_forum.html:4
+msgid "Description"
+msgstr ""
+
+#: forum/forms.py:13
+msgid "Limit Date"
+msgstr ""
+
+#: forum/forms.py:16
+msgid "Forum title"
+msgstr ""
+
+#: forum/forms.py:17
+msgid "What is this forum about?"
+msgstr ""
+
+#: forum/forms.py:18
+msgid "Limit date for students post on this forum"
+msgstr ""
+
+#: forum/forms.py:33 forum/forms.py:46
+msgid "Message"
+msgstr ""
+
+#: forum/models.py:15 forum/models.py:33 forum/models.py:61
+msgid "Modification Date"
+msgstr ""
+
+#: forum/models.py:16
+msgid "Create Date"
+msgstr ""
+
+#: forum/models.py:19 forum/models.py:35
+#: forum/templates/forum/forum_view.html:16
+#: forum/templates/forum/forum_view.html:116
+msgid "Forum"
+msgstr ""
+
+#: forum/models.py:20
+msgid "Foruns"
+msgstr ""
+
+#: forum/models.py:31 forum/models.py:58
+msgid "Autor"
+msgstr ""
+
+#: forum/models.py:32
+msgid "Post message"
+msgstr ""
+
+#: forum/models.py:34
+msgid "Post Date"
+msgstr ""
+
+#: forum/models.py:38 forum/models.py:59
+msgid "Post"
+msgstr ""
+
+#: forum/models.py:39
+msgid "Posts"
+msgstr ""
+
+#: forum/models.py:60
+msgid "Answer message"
+msgstr ""
+
+#: forum/models.py:62
+msgid "Answer Date"
+msgstr ""
+
+#: forum/models.py:65
+msgid "Post Answer"
+msgstr ""
+
+#: forum/models.py:66
+msgid "Post Answers"
+msgstr ""
+
+#: forum/templates/forum/forum_list.html:16
+#: forum/templates/forum/forum_view.html:44
+#: forum/templates/post/post_list.html:20
+#: forum/templates/post/post_load_more_render.html:20
+#: forum/templates/post/post_render.html:18
+#: forum/templates/post_answers/post_answer_list.html:17
+#: forum/templates/post_answers/post_answer_load_more_render.html:17
+#: forum/templates/post_answers/post_answer_render.html:15
+msgid "Edit"
+msgstr ""
+
+#: forum/templates/forum/forum_list.html:17
+#: forum/templates/forum/forum_view.html:45
+msgid "Are you sure you want to delete this forum?"
+msgstr ""
+
+#: forum/templates/forum/forum_list.html:17
+#: forum/templates/forum/forum_view.html:45
+msgid "Delete"
+msgstr ""
+
+#: forum/templates/forum/forum_list.html:24
+#: forum/templates/forum/forum_view.html:59
+#: forum/templates/forum/render_forum.html:5
+msgid "Opened in"
+msgstr ""
+
+#: forum/templates/forum/forum_list.html:59
+#: forum/templates/forum/forum_view.html:91
+#: forum/templates/post_answers/post_answer_form.html:38
+msgid "send"
+msgstr ""
+
+#: forum/templates/forum/forum_view.html:13
+msgid "Home"
+msgstr ""
+
+#: forum/templates/forum/forum_view.html:27
+msgid "Menu"
+msgstr ""
+
+#: forum/templates/forum/forum_view.html:31
+msgid "Profile"
+msgstr ""
+
+#: forum/templates/forum/forum_view.html:32
+msgid "My Courses"
+msgstr ""
+
+#: forum/templates/forum/forum_view.html:40
+msgid "Actions"
+msgstr ""
+
+#: forum/templates/forum/forum_view.html:44
+msgid "Forum edited successfully!"
+msgstr ""
+
+#: forum/templates/forum/forum_view.html:124
+msgid "Close"
+msgstr ""
+
+#: forum/templates/forum/forum_view.html:125
+msgid "Update"
+msgstr ""
+
+#: forum/templates/post/post_list.html:11
+#: forum/templates/post/post_load_more_render.html:11
+#: forum/templates/post/post_render.html:9
+msgid "reply"
+msgstr ""
+
+#: forum/templates/post/post_list.html:20
+#: forum/templates/post/post_load_more_render.html:20
+#: forum/templates/post/post_render.html:18
+msgid "Post edited successfully!"
+msgstr ""
+
+#: forum/templates/post/post_list.html:21
+#: forum/templates/post/post_load_more_render.html:21
+#: forum/templates/post/post_render.html:19
+#: forum/templates/post_answers/post_answer_list.html:18
+#: forum/templates/post_answers/post_answer_load_more_render.html:18
+#: forum/templates/post_answers/post_answer_render.html:16
+msgid "Remove"
+msgstr ""
+
+#: forum/templates/post/post_list.html:30
+#: forum/templates/post/post_load_more_render.html:30
+#: forum/templates/post/post_render.html:28
+#: forum/templates/post_answers/post_answer_list.html:26
+#: forum/templates/post_answers/post_answer_load_more_render.html:26
+#: forum/templates/post_answers/post_answer_render.html:24
+msgid "ago"
+msgstr ""
+
+#: forum/templates/post/post_list.html:32
+#: forum/templates/post/post_load_more_render.html:32
+#: forum/templates/post/post_render.html:30
+#: forum/templates/post_answers/post_answer_list.html:28
+#: forum/templates/post_answers/post_answer_load_more_render.html:28
+#: forum/templates/post_answers/post_answer_render.html:26
+msgid "Edited"
+msgstr ""
+
+#: forum/templates/post/post_list.html:54 forum/views.py:196
+msgid "Load more posts"
+msgstr ""
+
+#: forum/templates/post/post_update_form.html:32
+#: forum/templates/post_answers/post_answer_form.html:32
+msgid "Cancel"
+msgstr ""
+
+#: forum/templates/post/post_update_form.html:33
+#: forum/templates/post_answers/post_answer_form.html:33
+msgid "Save changes"
+msgstr ""
+
+#: forum/templates/post_answers/post_answer_list.html:17
+#: forum/templates/post_answers/post_answer_load_more_render.html:17
+#: forum/templates/post_answers/post_answer_render.html:15
+msgid "Answer edited sucessfully!"
+msgstr ""
+
+#: forum/templates/post_answers/post_answer_list.html:18
+#: forum/templates/post_answers/post_answer_load_more_render.html:18
+#: forum/templates/post_answers/post_answer_render.html:16
+msgid "Are you sure you want to delete this answer?"
+msgstr ""
+
+#: forum/templates/post_answers/post_answer_list.html:42 forum/views.py:295
+msgid "Load more answers"
+msgstr ""
+
+#: forum/views.py:130
+msgid "Forum deleted successfully."
+msgstr ""
+
+#: forum/views.py:253
+msgid "Post deleted successfully."
+msgstr ""
+
+#: forum/views.py:365
+msgid "Post answer deleted successfully."
+msgstr ""

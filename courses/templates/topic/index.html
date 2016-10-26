@@ -114,7 +114,7 @@
 										 {% professor_subject subject user as permi_test%}
                      {% if permi_test %}
                         <div class="col-md-4">
-                          <label> {% trans 'Nota' %}:</label>
+                          <label> {% trans 'Grade' %}:</label>
                           <input type="number" step="0.01">
                         </div>
                       {% else %}
@@ -124,7 +124,7 @@
                         <div class="form-group {% if form.pdf.errors %} has-error {% endif %}">
                             {{ form.as_p }}
                         </div>
-                        <button type="submit" class="btn btn-success" id="send_button">{% trans 'Enviar' %}</button>
+                        <button type="submit" class="btn btn-success" id="send_button">{% trans 'Send' %}</button>
                       </div>
                      {% endif %}
                   </div>
