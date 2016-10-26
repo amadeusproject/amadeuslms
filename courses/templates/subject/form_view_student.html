@@ -5,21 +5,21 @@
 {% endblock %}
 
 <div class="panel panel-default">
-    <a href="{% url 'course:view_topic' topic.slug %}">
-        <div class="panel-heading">
-            <div class="row">
-                <div class="col-md-9 col-sm-9">
-                    <h3>{{topic}}</h3>
+        <a href="{% url 'course:view_topic' topic.slug %}">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-9 col-sm-9">
+                        <h3>{{topic}}</h3>
+                    </div>
                 </div>
             </div>
+        </a>
+        <div class="panel-body">
+            <p>{{topic.description|linebreaks}}</p>
         </div>
-    </a>
+    
 </div>
-<div class="panel-body">
-    <p>{{topic.description|linebreaks}}</p>
-    {% list_topic_foruns request topic %}
-    {% list_topic_poll request topic %}
-</div>
+
 
 <div class="modal fade" id="forumModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
