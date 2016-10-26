@@ -30,7 +30,7 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 	queryset = Course.objects.all()
 	template_name = 'course/index.html'
 	context_object_name = 'courses'
-	paginate_by = 2
+	paginate_by = 5
 
 	def get_context_data(self, **kwargs):
 		context = super(IndexView, self).get_context_data(**kwargs)
@@ -197,7 +197,7 @@ class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 		return context
 
 
-class CourseView( NotificationMixin, generic.DetailView):
+class CourseView(NotificationMixin, generic.DetailView):
 
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
