@@ -211,12 +211,19 @@ class CourseView( NotificationMixin, generic.DetailView):
 		context = super(CourseView, self).get_context_data(**kwargs)
 		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
 
+		category_sub = self.kwargs.get('category', None)
+
 		if has_role(self.request.user,'system_admin'):
 			subjects = course.subjects.all()
 		elif has_role(self.request.user,'professor'):
 			subjects = course.subjects.filter(professors__in=[self.request.user])
 		elif has_role(self.request.user, 'student') or self.request.user is None:
 			subjects = course.subjects.filter(visible=True)
+
+		if not category_sub is None:
+			cat = get_object_or_404(CategorySubject, slug = category_sub)
+			subjects = subjects.filter(category = cat)
+				
 		context['subjects'] = subjects
 
 		if has_role(self.request.user,'system_admin'):
@@ -238,13 +245,7 @@ class CourseView( NotificationMixin, generic.DetailView):
 
 		subjects_category = Subject.objects.filter(category__name = self.request.GET.get('category'))
 
-		none = None
-		q = self.request.GET.get('category', None)
-		if q is  None:
-			none = True
-		context['none'] = none
-
-		context['subjects_category'] = subjects_category
+		context['category'] = category_sub
 		context['categorys_subjects'] = categorys_subjects
 		context['courses'] = courses
 		context['course'] = course
