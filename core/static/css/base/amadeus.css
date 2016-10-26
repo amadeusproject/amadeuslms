@@ -412,3 +412,8 @@ ul, li {
 .cards-detail .panel .panel-heading h4{color:black;}
 .course, .subject, .topic{ padding-top: 0px; padding-bottom: 0px; }
 .course-detail{padding-top: 10px; padding-bottom: 10px;}
+
+/* Menu link remove radius */
+.nav-pills > li > a {
+  border-radius: 0px;
+}
