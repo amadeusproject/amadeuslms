@@ -16,23 +16,23 @@
 
 
 {% block sidebar %}
-    <div class="panel panel-primary navigation">
+    <div class="panel panel-primary">
         <div class="panel-heading">
             <h4>{% trans 'Menu' %}</h4>
         </div>
         <div class="panel-body">
-        	<ul class="nav nav-pills nav-stacked">
-              	<li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
-              	<li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
+          <ul class="nav nav-pills nav-stacked">
+                <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
+                <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
                 <li><a href="{% url 'core:guest' %}">{% trans 'All Courses' %}</a></li>
-              	<li><a href="javascript:void(0)">{% trans 'Google accounts' %}</a></li>
+                <li><a href="javascript:void(0)">{% trans 'Google accounts' %}</a></li>
             </ul>
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
-	<h3>{% trans 'Notifications' %}</h3>
+  <h3>{% trans 'Notifications' %}</h3>
     {% if messages %}
       {% for message in messages %}
         <div class="alert alert-success alert-dismissible" role="alert">
@@ -44,27 +44,27 @@
       {% endfor %}
     {% endif %}
     <div class="panel panel-default">
-      	<div class="panel-body">
-        	{% trans 'His course has notified a new activity!' %}
-      	</div>
-      	<div class="panel-footer">
-        	Go
-      	</div>
+        <div class="panel-body">
+          His course has notified a new activity!
+        </div>
+        <div class="panel-footer">
+          Go
+        </div>
     </div>
     <div class="panel panel-default">
-      	<div class="panel-body">
-        	{% trans 'His teacher has notified a new material!' %}
-      	</div>
-      	<div class="panel-footer">
-        	Go
-      	</div>
+        <div class="panel-body">
+          His teacher has notified a new material!
+        </div>
+        <div class="panel-footer">
+          Go
+        </div>
     </div>
     <div class="panel panel-default">
-      	<div class="panel-body">
-            {% trans 'You have a new guardian!' %}
-      	</div>
-      	<div class="panel-footer">
-        	{% trans 'Go' %}
-      	</div>
+        <div class="panel-body">
+            You have a new guardian!
+        </div>
+        <div class="panel-footer">
+          Go
+        </div>
     </div>
 {% endblock %}
