@@ -7,6 +7,9 @@
 		<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
 			{% if field.field.widget.input_type == 'hidden' %}
 	            {% render_field field class='form-control' %}
+           	{% elif field.auto_id == 'id_limit_date' %}
+           		<input type="text" class="form-control date-picker"name="{{field.name}}" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" id="{{ field.auto_id }}">
+				<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
 	        {% else %}
 				<label for="{{ field.auto_id }}">{{ field.label }}</label>
 				{% render_field field %}

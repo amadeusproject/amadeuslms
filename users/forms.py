@@ -72,7 +72,7 @@ class UpdateUserForm(forms.ModelForm):
 		fields = ['username', 'name', 'email', 'birth_date', 'city', 
 		'state', 'gender', 'type_profile', 'cpf', 'phone', 'image', 'titration', 
 		'year_titration', 'institution', 'curriculum', 'is_staff', 'is_active']
-
+		
 class UpdateProfileForm(UpdateUserForm):
 
 	class Meta:
