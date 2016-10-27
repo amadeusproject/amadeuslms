@@ -1,3 +1,9 @@
+var locale = navigator.language || navigator.userLanguage;
+
+$('.date-picker').datepicker({
+    language: locale,
+});
+
 /*
 *
 * Function to get a cookie stored on browser
