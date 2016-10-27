@@ -400,7 +400,7 @@ ul, li {
 .divMoreActions div button {padding-left: 10px; padding-right: 10px; padding-bottom: 10px; margin-bottom: 4px; height: 31px;}
 .titleTopic {padding-top: 18px; padding-left: 0px;}
 .titleTopic-detail {padding-top: 8px;  color: white;}
-.titleTopic a h4 {margin-top: 0px; color: white; cursor:pointer;}
+.titleTopic a h4 {margin-top: 0px; color: black; cursor:pointer;}
 .dropdown-menu .pull-right {
     right: 0;
   }

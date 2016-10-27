@@ -12,16 +12,17 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-
-  {{ block.super }}
-  {% breadcrumb 'Course detail' 'course:view' %}
-
+  <ol class="breadcrumb">
+    <li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+    <li><a href="{% url 'course:manage' %}">{% trans 'Courses' %}</a></li>
+    <li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
+  </ol>
 {% endblock %}
 
 {% block sidebar %}
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h5>{% trans 'Menu' %}</h5>
+            <h4>{% trans 'Menu' %}</h4>
         </div>
         <div class="panel-body">
             <ul class="nav nav-pills nav-stacked">
@@ -193,7 +194,7 @@
          </div>
         </div>
     {% endfor %}
-  
+
 
 {% if  user|has_role:'professor' and user in course.professors.all or user|has_role:'system_admin' %}
 

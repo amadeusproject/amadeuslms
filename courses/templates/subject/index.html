@@ -3,17 +3,12 @@
 {% load static i18n permission_tags professor_access %}
 
 {% block breadcrumbs %}
-
-	<ol class="breadcrumb">
-	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
-	  	{% if user|has_role:'professor' or user|has_role:'system_admin' %}
-	  		<li class="active">{% trans 'Manage Subjects' %}</li>
-	  	{% else %}
-	  		<li class="active">{{ subject.name }}</li>
-	  	{% endif %}
-
-	</ol>
+<ol class="breadcrumb">
+  <li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+  <li><a href="{% url 'course:manage' %}">{% trans 'Courses' %}</a></li>
+  <li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
+  <li class="active">{{ subject }}</li>
+</ol>
 {% endblock %}
 {% block sidebar %}
 <div class="panel panel-primary">
@@ -100,10 +95,8 @@
      {% endfor %}
      {% professor_subject subject user as professor_sub %}
      {% if professor_sub %}
-     <div class="col-md-10">
       <div class="form-group">
        <a href="{% url 'course:create_topic' subject.slug %}" data-toggle="modal" data-target="" class="btn btn-primary btn-lg btn-block btn-raised" name="create_topic">{% trans "Create Topic" %}<div class="ripple-container"></div></a>
       </div>
-     </div>
      {% endif %}
 {% endblock %}
