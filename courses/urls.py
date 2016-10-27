@@ -6,10 +6,6 @@ urlpatterns = [
 	url(r'^create/$', views.CreateCourseView.as_view(), name='create'),
 	url(r'^replicate_course/(?P<slug>[\w_-]+)/$', views.ReplicateCourseView.as_view(), name='replicate_course'),
 	url(r'^edit/(?P<slug>[\w_-]+)/$', views.UpdateCourseView.as_view(), name='update'),
-	url(r'^(?P<slug>[\w_-]+)/', include([
-		url(r'^$', views.CourseView.as_view(), name='view'),
-		url(r'^(?P<category>[\w_-]+)/$', views.CourseView.as_view(), name='view_filter')
-	])),
 	url(r'^delete/(?P<slug>[\w_-]+)/$', views.DeleteCourseView.as_view(), name='delete'),
 	url(r'^subscribe/(?P<slug>[\w_-]+)/$', views.subscribe_course, name='subscribe'),
 	url(r'^category/(?P<slug>[\w_-]+)/$', views.FilteredView.as_view(), name='filter'),
@@ -32,4 +28,8 @@ urlpatterns = [
 	url(r'^files/', include('files.urls', namespace = 'file')),
 	url(r'^upload-material/$', views.UploadMaterialView.as_view(), name='upload_material'),
 	url(r'^links/',include('links.urls',namespace = 'links')),
+	url(r'^(?P<slug>[\w_-]+)/', include([
+		url(r'^$', views.CourseView.as_view(), name='view'),
+		url(r'^(?P<category>[\w_-]+)/$', views.CourseView.as_view(), name='view_filter')
+	])),
 ]
