@@ -42,7 +42,7 @@
             </div>
             <div class="col-md-1 col-sm-1 col-xs-1">
                 <button type="submit" class="btn btn-fab btn-fab-mini">
-                    <i class="material-icons">{% trans 'Search' %}</i>
+                    <i class="material-icons">search</i>
                 </button>
             </div>
         </div>
@@ -54,7 +54,7 @@
                 <div class="panel-body">
                     <div class="col-md-4">
                         {% if acc.image %}
-                            <img src="{{ acc.image.url }}" alt="photoUser" class="img-circle img-responsive img-list-user">
+                            <div style="background-image: url('{{ acc.image.url }}'); background-size: 100%" alt="photoUser" class="img-circle img-responsive img-list-user"></div>
                         {% else %}
                             {% if acc.gender == 'M' %}
                                 <img src="{% static 'img/male_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user">

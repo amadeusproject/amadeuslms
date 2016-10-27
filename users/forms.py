@@ -69,10 +69,14 @@ class UpdateUserForm(forms.ModelForm):
 
 	class Meta:
 		model = User
-		fields = ['username', 'name', 'email', 'city', 'state', 'birth_date', 'gender', 'type_profile', 'cpf', 'phone', 'image', 'is_staff', 'is_active']
+		fields = ['username', 'name', 'email', 'birth_date', 'city', 
+		'state', 'gender', 'type_profile', 'cpf', 'phone', 'image', 'titration', 
+		'year_titration', 'institution', 'curriculum', 'is_staff', 'is_active']
 
 class UpdateProfileForm(UpdateUserForm):
 
 	class Meta:
 		model = User
-		fields = ['username', 'name', 'email', 'birth_date', 'city', 'state', 'gender', 'cpf', 'phone', 'image', 'curriculum']
+		fields = ['username', 'name', 'email', 'birth_date', 'city', 
+		'state', 'gender', 'type_profile', 'cpf', 'phone', 'image', 'titration', 
+		'year_titration', 'institution', 'curriculum', 'is_staff', 'is_active']
