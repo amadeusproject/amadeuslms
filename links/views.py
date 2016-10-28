@@ -6,12 +6,16 @@ from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import get_object_or_404,redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rolepermissions.mixins import HasRoleMixin
+from core.mixins import NotificationMixin
+from django.urls import reverse
+from django.core.files.base import ContentFile
 
+
+from .image_crawler import *
 from courses.models import Topic
 from .models import Link
 from .forms import *
-from core.mixins import NotificationMixin
-from django.urls import reverse
+
 
 # Create your views here.
 class CreateLink(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.CreateView):
@@ -20,19 +24,36 @@ class CreateLink(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.Cr
     form_class = CreateLinkForm
     success_url = reverse_lazy('course:manage')
     context_object_name = 'form'
+    def form_invalid(self,form):
+        context = super(CreateLink, self).form_invalid(form)
+        context.status_code = 400
+
+        return context
 
     def form_valid(self, form):
         self.object = form.save(commit = False)
         topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
         self.object.topic = topic
-        messages.success(self.request, _('Link created successfully!'))
-       
         self.object.save()
-        super(CreateLink, self).createNotification(message="created a Link at "+ self.object.topic.name, actor=self.request.user,
-            resource_name=self.object.name, resource_link= reverse('course:view_topic', args=[self.object.topic.slug]), 
-            users=self.object.topic.subject.students.all())
+        self.link = Link.objects.get(slug = self.object.slug)
+        self.formato,self.baixado = get_images(self.link.link_url,self.link.slug)
+        self.caminho = 'links/static/images/%s'%(self.link.slug)+'%s'%(self.formato)
 
+        super(CreateLink, self).createNotification(message="created a Link at "+ self.object.topic.name, actor=self.request.user,
+            resource_name=self.object.name, resource_link= reverse('course:view_topic', args=[self.object.topic.slug]),
+            users=self.object.topic.subject.students.all())
+        self.setImage()
         return self.get_success_url()
+    def setImage(self):
+        if self.baixado:
+            with open(self.caminho,'rb') as f:
+                data = f.read()
+            nome = '%s'%(self.link.slug)+"%s"%(self.formato)
+            self.link.image.save(nome,ContentFile(data))
+        else:
+            with open('links/static/images/default.jpg','rb') as f:
+                data = f.read()
+            self.link.image.save('default.jpg',ContentFile(data))
     def get_context_data(self,**kwargs):
         context = {}
         context['links'] = Link.objects.all()
@@ -48,7 +69,7 @@ def deleteLink(request,linkname):
     link.delete()
     template_name = 'links/delete_link.html'
     messages.success(request,_("Link deleted Successfully!"))
-   
+
     return redirect('course:manage')
 
 def render_link(request, id):
