@@ -120,22 +120,16 @@ class ForumViewTestCase (TestCase):
 		self.assertEquals(response.status_code, 200)
 		
 		response = self.client_professor.get(url)
-		self.assertEquals(response.status_code, 200)
+		self.assertEquals(response.status_code, 302)
 
 		response = self.client_student.get(url)
-		self.assertEquals(response.status_code, 200)
+		self.assertEquals(response.status_code, 302)
 
 	def test_ForumDetail_context(self):
 		url = reverse('course:forum:view', kwargs={'slug':self.forum.slug})
 
 		response = self.client.get(url)
-		self.assertTrue('forum' in response.context)
-
-		response = self.client_professor.get(url)
-		self.assertTrue('forum' in response.context)
-
-		response = self.client_student.get(url)
-		self.assertTrue('forum' in response.context)
+		self.assertTrue('form' in response.context)
 
 
 ######################### CreateForumView #########################
