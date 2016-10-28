@@ -20,69 +20,69 @@ msgstr ""
 
 #: files/forms.py:12 files/forms.py:29
 msgid "File too large (Max 10MB)"
-msgstr ""
+msgstr "Arquivo muito grande (máximo de 10MB)"
 
 #: files/models.py:20
 msgid "Professors"
-msgstr ""
+msgstr "Professores"
 
 #: files/models.py:21
 msgid "Description"
-msgstr ""
+msgstr "Descrição"
 
 #: files/models.py:22 files/models.py:27
 msgid "File"
-msgstr ""
+msgstr "Arquivo"
 
 #: files/models.py:23
 msgid "Type file"
-msgstr ""
+msgstr "Tipo de arquivo"
 
 #: files/models.py:28
 msgid "Files"
-msgstr ""
+msgstr "Arquivos"
 
 #: files/templates/files/create_file.html:10
 msgid "Add File"
-msgstr ""
+msgstr "Adicionar arquivo"
 
 #: files/templates/files/create_file.html:38
 #: files/templates/files/update_file.html:40
 msgid "Choose your file..."
-msgstr ""
+msgstr "Escolha seu arquivo..."
 
 #: files/templates/files/create_file.html:68
 #: files/templates/files/update_file.html:73
 msgid "The file size shouldnt exceed 10MB"
-msgstr ""
+msgstr "O tamanho máximo não pode exceder 10MB"
 
 #: files/templates/files/create_file.html:74
 #: files/templates/files/delete_file.html:34
 #: files/templates/files/update_file.html:79
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #: files/templates/files/create_file.html:75
 #: files/templates/files/update_file.html:80
 msgid "Submit"
-msgstr ""
+msgstr "Enviar"
 
 #: files/templates/files/delete_file.html:12
 msgid "Delete File"
-msgstr ""
+msgstr "Deletar arquivo"
 
 #: files/templates/files/delete_file.html:30
 msgid "Are you sure to delete "
-msgstr ""
+msgstr "Tem certeza que deseja deletar "
 
 #: files/templates/files/delete_file.html:35
 msgid "Delete"
-msgstr ""
+msgstr "Deletar"
 
 #: files/templates/files/update_file.html:12
 msgid "Edit File"
-msgstr ""
+msgstr "Editar arquivo"
 
 #: files/templates/files/update_file.html:48
 msgid "See current file"
-msgstr ""
+msgstr "Visualizar arquivo atual"

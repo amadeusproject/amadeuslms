@@ -52,8 +52,8 @@ msgid "URL"
 msgstr "URL"
 
 #: .\templates\links\update_link.html:21
-msgid "Descrição"
-msgstr ""
+msgid "Description"
+msgstr "Descrição"
 
 #: .\templates\links\update_link.html:26
 msgid "Submit"
