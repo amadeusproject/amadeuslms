@@ -132,7 +132,7 @@ class ReplicateCourseView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,ge
 		if has_role(self.request.user,'system_admin'):
 			courses = Course.objects.all()
 		elif has_role(self.request.user,'professor'):
-			courses = self.request.user.courses.all()
+			courses = self.request.user.courses_professors.all()
 		categorys_courses = CourseCategory.objects.all()
 		context['courses'] = courses
 		context['course'] = course
