@@ -1,3 +1,5 @@
-{% for forum in foruns %}
-	<li><i class="fa fa-commenting" aria-hidden="true"></i> <a id="forum_{{ forum.id }}" href="{% url 'course:forum:view' forum.slug %}"> {{ forum }}</a></li>
-{% endfor %}
+<div class="foruns_list">
+	{% for forum in foruns %}
+		<li><i class="fa fa-commenting" aria-hidden="true"></i> <a id="forum_{{ forum.id }}" href="{% url 'course:forum:view' forum.slug %}"> {{ forum }}</a></li>
+	{% endfor %}
+</div>

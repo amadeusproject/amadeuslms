@@ -182,7 +182,7 @@ function edit_post(url, post_id, success_message) {
                     success: function (data) {
                         alertify.success(success_message);
 
-                        $("#post_"+post_id).parent().after(data);
+                        $("#post_"+post_id).parent().after(data.html);
                         frm.parent().parent().remove();
                     },
                     error: function(data) {
@@ -344,7 +344,7 @@ function edit_post_answer(url, answer_id, success_message) {
                     success: function (data) {
                         alertify.success(success_message);
 
-                        $("#answer_"+answer_id).parent().after(data);
+                        $("#answer_"+answer_id).parent().after(data.html);
                         frm.parent().parent().remove();
                     },
                     error: function(data) {

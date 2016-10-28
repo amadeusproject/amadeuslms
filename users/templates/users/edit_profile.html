@@ -36,7 +36,7 @@
 								<label for="{{ field.auto_id }}">{{ field.label }}</label>
 							{% endif %}
 							{% if field.auto_id == 'id_birth_date' %}
-								<input type="text" class="form-control date-picker"name="{{field.name}}" value="{% if field.value.year %}{{field.value|date:'m/d/Y'}}{% else %}{{field.value}}{% endif %}" min="{{now|date:'m/d/Y'}}" id="{{ field.auto_id }}">
+								<input type="text" class="form-control date-picker"name="{{field.name}}" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}" id="{{ field.auto_id }}">
 								<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
 							{% elif field.auto_id == 'id_image'  or field.auto_id == 'id_curriculum'%}
 								{% render_field field class='form-control input-sm' %}
