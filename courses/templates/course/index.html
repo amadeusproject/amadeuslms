@@ -74,10 +74,10 @@
     <form id="searchform" action="{% url 'course:manage' %}" method="get" accept-charset="utf-8">
         <div class="input-group">
           <div class="form-group is-empty">
-          <input type="search" class="form-control" placeholder="Search Courses" name="q" id="searchbox"></div>
+          <input type="text" class="form-control" placeholder="Search Courses" name="q"></div>
             <span class="input-group-btn input-group-sm">
-              <button type="button" class="btn btn-fab btn-fab-mini">
-                <i class="material-icons">search</i>
+              <button type="submit" class="btn btn-fab btn-fab-mini">
+                <i class="material-icons">{% trans 'Search' %}</i>
               </button>
             </span>
         </div>
@@ -88,16 +88,14 @@
 </fieldset>
     <div class="col-md-12 cards-content">
         {% if courses|length > 0 %}
-            {% if request.GET.category == 'all' or none or request.GET.category == '' %}
+            {% if request.GET.category == '' or aparece or request.GET.q == '' %}
                 {% for course in list_courses %}
                     {% include "course/course_card.html" %}
                 {% endfor %}
-            {% else %}
-                {% for course in courses_category %}
-                    {% if course.category.name == request.GET.category %}
-                        <!-- Put your content here! -->
-                        {% include "course/course_card.html" %}
-                    {% endif %}
+            {% endif %}
+            {% if request.GET.category or request.GET.q %}
+                {% for course in courses %}
+                    {% include "course/course_card.html" %}
                 {% endfor %}
             {% endif %}
         {% else %}

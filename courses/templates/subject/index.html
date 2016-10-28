@@ -70,7 +70,8 @@
        </div>
       </div>
       <div class="panel-body">
-          <p><b>{% trans "Professor" %}:</b> {{subject.professors}}</p>
+          <p><b>{% trans "Professor" %}:</b> {% for professor in subject.professors.all %}{% if not forloop.first %},{% endif %}
+              {{professor}}{% if forloop.last %}.{% endif %}{% endfor %}</p>
           <p>
             <b>{% trans "Description" %}:</b>
               {{subject.description|linebreaks}}

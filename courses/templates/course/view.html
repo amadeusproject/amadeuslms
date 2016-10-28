@@ -76,7 +76,6 @@
       </div>
     </div>
     <div class="panel-body">
-      <p><b>{% trans 'Course Name' %}: </b>{{ course.name }}</p>
       <p><b>{% trans 'Coordinator' %}: </b>{% for professor in course.professors.all %}{% if not forloop.first %},{% endif %}
               {{professor}}{% if forloop.last %}.{% endif %}{% endfor %}</p>
       <p>
