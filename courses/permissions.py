@@ -1,5 +1,5 @@
 from rolepermissions.permissions import register_object_checker
-from amadeus.roles import SystemAdmin
+from amadeus.roles import SystemAdmin, Professor
 
 @register_object_checker()
 def view_topic(role, user, topic):
@@ -53,6 +53,13 @@ def delete_subject(role, user, subject):
         return True
 
     if (user in subject.professors.all()):
+        return True
+
+    return False
+
+@register_object_checker()
+def delete_category(role, user, category):
+    if (role == SystemAdmin or role == Professor):
         return True
 
     return False
