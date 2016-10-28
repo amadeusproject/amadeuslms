@@ -34,7 +34,7 @@
 	{% with "js/vendor/locales/bootstrap-datepicker."|add:LANGUAGE_CODE|add:".js" as locale_datepicker %}
 		<script type="text/javascript" src="{% static locale_datepicker %}"></script>
 	{% endwith %}
-	
+
 	<script type="text/javascript" src="{% static 'js/vendor/alertify.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/vendor/jscookie.js' %}"></script>
 
@@ -139,7 +139,7 @@
 						        </ul>
 						    </div>
 						</div>
-							
+
 						{% endif %}
 	    		{% endblock %}
     		</div>
@@ -157,6 +157,10 @@
 	{% block script_file %}
 
 	{% endblock script_file %}
+
+	{% block script_link %}
+
+	{% endblock script_link %}
 </body>
 
 </html>
