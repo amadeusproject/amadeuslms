@@ -36,7 +36,6 @@ class PostTestCase (TestCase):
 
         self.course = Course.objects.create(
             name = 'Curso Teste',
-            slug = 'curso_teste',
             max_students = 50,
             init_register_date = '2016-08-26',
             end_register_date = '2016-10-01',
