@@ -154,7 +154,9 @@ class LinkTestCase(TestCase):
          url = reverse('course:links:update_link',kwargs={'slug': self.link.slug})
          print("slug",self.link.slug)
          data = {
+            "name" : 'testinglink',
             "link_description":'new description',
+            "link_url" : 'teste.com',
          }
          self.assertEqual(Link.objects.all()[0].link_description, "testdescription") # old description
          response = self.client.post(url, data)
