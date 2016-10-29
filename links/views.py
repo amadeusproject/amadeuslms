@@ -94,7 +94,6 @@ class UpdateLink(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
     def form_valid(self, form):
         formulario = form
         if formulario.has_changed():
-            print(formulario.changed_data)
             if  'link_url' in formulario.changed_data:
                 self.object = form.save()
                 self.link = Link.objects.get(slug = self.object.slug)
@@ -106,18 +105,16 @@ class UpdateLink(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
         else:
             form.save()
         return super(UpdateLink, self).form_valid(form)
-        #self.setImage()
-        #return self.get_success_url()
     def setImage(self):
         if self.baixado:
             with open(self.caminho,'rb') as f:
                 data = f.read()
             nome = '%s'%(self.link.slug)+"%s"%(self.formato)
-            self.link.image.save(nome,ContentFile(data))
+            self.object.image.save(nome,ContentFile(data))
         else:
             with open('links/static/images/default.jpg','rb') as f:
                 data = f.read()
-            self.link.image.save('default.jpg',ContentFile(data))
+            self.object.image.save('default.jpg',ContentFile(data))
     def get_object(self, queryset=None):
         self.object = get_object_or_404(Link, slug = self.kwargs.get('slug'))
         return self.object
