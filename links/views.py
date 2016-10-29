@@ -62,7 +62,7 @@ class CreateLink(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.Cr
         context["topic"] = topic
         return context
     def get_success_url(self):
-        self.success_url = redirect('course:links:render_link', id = self.object.id)
+        self.success_url = redirect('course:links:render_link', slug = self.object.slug)
         return self.success_url
 def deleteLink(request,linkname):
     link = get_object_or_404(Link,name = linkname)
@@ -72,10 +72,10 @@ def deleteLink(request,linkname):
 
     return redirect('course:manage')
 
-def render_link(request, id):
+def render_link(request, slug):
 	template_name = 'links/render_link.html'
 	context = {
-		'link': get_object_or_404(Link, id = id)
+		'link': get_object_or_404(Link, slug = slug)
 	}
 	return render(request, template_name, context)
 
@@ -85,18 +85,44 @@ class UpdateLink(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
     template_name = 'links/update_link.html'
     form_class = UpdateLinkForm
     success_url = reverse_lazy('course:links:render_link')
+
+    def form_invalid(self,form):
+        context = super(UpdateLink, self).form_invalid(form)
+        context.status_code = 400
+
+        return context
     def form_valid(self, form):
-        form.save()
-        messages.success(self.request, _('Link updated successfully!'))
-
+        formulario = form
+        if formulario.has_changed():
+            print(formulario.changed_data)
+            if  'link_url' in formulario.changed_data:
+                self.object = form.save()
+                self.link = Link.objects.get(slug = self.object.slug)
+                self.formato,self.baixado = get_images(self.link.link_url,self.link.slug)
+                self.caminho = 'links/static/images/%s'%(self.link.slug)+'%s'%(self.formato)
+                self.setImage()
+            else:
+                form.save()
+        else:
+            form.save()
         return super(UpdateLink, self).form_valid(form)
-
+        #self.setImage()
+        #return self.get_success_url()
+    def setImage(self):
+        if self.baixado:
+            with open(self.caminho,'rb') as f:
+                data = f.read()
+            nome = '%s'%(self.link.slug)+"%s"%(self.formato)
+            self.link.image.save(nome,ContentFile(data))
+        else:
+            with open('links/static/images/default.jpg','rb') as f:
+                data = f.read()
+            self.link.image.save('default.jpg',ContentFile(data))
     def get_object(self, queryset=None):
         self.object = get_object_or_404(Link, slug = self.kwargs.get('slug'))
-        print(self.object.link_description)
         return self.object
     def get_success_url(self):
-        self.success_url = redirect('course:links:render_link', id = self.object.id)
+        self.success_url = reverse_lazy('course:links:render_link', args = (self.object.slug, ))
         return self.success_url
 class ViewLink(LoginRequiredMixin,HasRoleMixin,generic.DetailView):
     allowed_roles = ['professor', 'system_admin']
@@ -109,7 +135,7 @@ class ViewLink(LoginRequiredMixin,HasRoleMixin,generic.DetailView):
         context['link'] = link
         return context
     def get_success_url(self):
-        self.success_url = redirect('course:links:render_link', id = self.object.id)
+        self.success_url = redirect('course:links:render_link', slug = self.object.slug)
         return self.success_url
     def get_queryset(self):
         self.queryset = Link.objects.filter(slug = self.kwargs.get('slug'))
