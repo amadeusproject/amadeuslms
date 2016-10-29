@@ -39,7 +39,7 @@
       </div><!--column-->
     </div><!--row-->
   </div>
-  <div class="panel-collapse collapseTopic-{{topic.slug}} collapse in" role="tabpanel" aria-labelledby="heading_{{topic.id}}" aria-expanded="true" aria-hidden="false">
+  <div class="panel-collapse collapseTopic-{{topic.slug}} topic_{{ topic.id }} collapse in" role="tabpanel" aria-labelledby="heading_{{topic.id}}" aria-expanded="true" aria-hidden="false">
     <div class="panel-body">
       <div class="presentation" id="presentation_{{topic.slug}}">
         <p>
@@ -86,7 +86,7 @@
           </div>
         </div>
       </div><!--EndPresentation-->
-      <div class="editation" id="editation_{{topic.slug}}">
+      <div class="editation topic_{{ topic.id }}" id="editation_{{topic.slug}}">
         <div class="form-group">
           <label class="control-label" for="focusedInput2">{% trans 'Name Topic' %}</label>
           <input type="text" class="form-control" value="{{topic}}">

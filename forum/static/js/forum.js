@@ -44,7 +44,7 @@ function createForum(url, topic) {
         url: url, 
         data: {'topic': topic},
         success: function(data) {
-            $(".forum_form").html(data);
+            $(".topic_" + topic).find(".forum_form").html(data);
             $("#id_topic").val(topic);
 
             setForumCreateFormSubmit();
