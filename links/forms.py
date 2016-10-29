@@ -24,8 +24,8 @@ class UpdateLinkForm(forms.ModelForm):
     def clean_link_url(self):
         link_url = self.cleaned_data['link_url']
         try:
-            response = requests.head(link_url)
-            if response.status_code >= 400:
+            resposta = requests.head(link_url)
+            if resposta.status_code >= 400:
                 raise forms.ValidationError(_('Invalid url!'))
         except requests.ConnectionError:
             raise forms.ValidationError(_('Invalid url!'))
