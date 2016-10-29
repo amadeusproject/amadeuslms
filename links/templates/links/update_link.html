@@ -5,29 +5,71 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-        <h4 class="modal-title" id="myModalLabel">{% trans 'Links' %}</h4>
+        <h4 class="modal-title" id="myModalLabel">{% trans 'Edit Link' %}</h4>
       </div>
       <div class="modal-body">
         <!-- Card -->
+        <form class="form-horizontal" method="post" id="form-update-link" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group is-empty">
+                <div class="col-md-12">
+                    {% if field.field.required %}
+                        <label for="{{ field.auto_id }}" class="control-label">{{ field.label }}<span>*</span></label>
+                    {% else %}
+                        <label for="{{ field.auto_id }}" class=" control-label">{{ field.label }}</label>
+                    {% endif %}
+                    {% render_field field class='form-control input-sm' %}
+                  </div>
+            </div>
+            {% if field.errors %}
+                <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <ul>
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endfor %}
         <div class="form-group">
-          <label class="control-label" for="inputDefault">{% trans 'Name' %}</label>
-          <input value="Python" type="text" class="form-control" id="inputDefault">
+          <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans "Cancel" %}</button>
+          <button class="btn btn-raised btn-primary" type="submit">{% trans 'Submit' %}</button>
         </div>
-        <div class="form-group">
-          <label class="control-label" for="inputDefault">{% trans 'URL' %}</label>
-          <input value="https://www.python.org/" type="text" class="form-control" id="inputDefault">
-        </div>
-        <div class="form-group is-empty">
-          <label class="control-label" for="inputDefault">{% trans 'Description' %}</label>
-          <textarea class="form-control" rows="3"></textarea>
-        </div>
-        <div class="form-group">
-          <a href="javascript:void(0)" class="btn btn-raised btn-default" data-dismiss="modal">{% trans 'Cancel' %}</a>
-          <a href="javascript:void(0)" class="btn btn-raised btn-primary">{% trans 'Submit' %}</a>
-      </div>
         <!-- .end Card -->
       </div>
     </div>
   </div>
 </div>
 <!-- EndModal -->
+{% block script_link %}
+
+    {# // <script src="{% static 'js/links.js' %}"></script> #}
+    <script type="text/javascript">
+      $("#form-update-link").submit(function(event) {
+            var data = new FormData($('#form-update-link').get(0));
+            $.ajax({
+                url: "{% url 'course:links:update_link' link.slug %}",
+                type: $("#form-update-link").attr('method'),
+                data: data,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    $('#linksModalEdit').modal('hide');
+                    $('#link_edit_{{ link.slug }}').replaceWith(data);
+                    $('#link_{{ link.slug }}').replaceWith(data);
+                },
+                error: function(data){
+                    $('.erro-update').html(data.responseText);
+                    $('.modal-backdrop').remove();
+                    $('#linksModalEdit').modal();
+                }
+            });
+            event.preventDefault();
+          });
+  </script>
+{% endblock script_link %}
