@@ -62,11 +62,13 @@
                     $('#linksModalEdit').modal('hide');
                     $('#link_edit_{{ link.slug }}').replaceWith(data);
                     $('#link_{{ link.slug }}').replaceWith(data);
+                    alertify.alert("Sucessfully Updated!")
                 },
                 error: function(data){
                     $('.erro-update').html(data.responseText);
                     $('.modal-backdrop').remove();
                     $('#linksModalEdit').modal();
+                    alertify.alert('Invalid link, insert a valid one!');
                 }
             });
             event.preventDefault();
