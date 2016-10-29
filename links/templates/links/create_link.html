@@ -13,6 +13,7 @@
         <form method="post" action="" id="form-link" enctype="multipart/form-data">
           {% csrf_token %}
         {% for field in form %}
+            <div class ="form-group">
             {% if field.field.required %}
               <label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
             {% endif %}
@@ -29,9 +30,10 @@
                     </ul>
                 </div>
             {% endif %}
+          </div>
         {% endfor %}
         <div class="form-group">
-          <a href="javascript:void(0)" class="btn btn-raised btn-default" data-dismiss="modal">{% trans 'Cancel' %}</a>
+          <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans "Cancel" %}</button>
           <button class="btn btn-raised btn-primary" type="submit">{% trans 'Submit' %}</button>
         </div>
         <!-- .end Card -->
