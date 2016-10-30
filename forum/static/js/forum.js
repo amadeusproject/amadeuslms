@@ -47,7 +47,7 @@ function createForum(url, topic) {
             $(".forum_form").html(data);
             $("#id_topic").val(topic);
 
-            setForumCreateFormSubmit();
+            setForumCreateFormSubmit(topic);
         }
     });
 
@@ -59,7 +59,7 @@ function createForum(url, topic) {
 * Function to set the forum's create form submit function
 *
 */
-function setForumCreateFormSubmit() {
+function setForumCreateFormSubmit(topic) {
     $('.date-picker').datepicker({
         language: locale,
     });
@@ -72,13 +72,13 @@ function setForumCreateFormSubmit() {
             data: frm.serialize(),
             dataType: "json",
             success: function (data) {
-                $('.foruns_list').append("<li><i class='fa fa-commenting' aria-hidden='true'></i> <a id='forum_"+data.forum_id+"' href='"+data.url+"'> "+data.name+"</a></li>");
+                $(".topic_" + topic).find('.foruns_list').append("<li><i class='fa fa-commenting' aria-hidden='true'></i> <a id='forum_"+data.forum_id+"' href='"+data.url+"'> "+data.name+"</a></li>");
 
                 $("#createForum").modal('hide');
             },
             error: function(data) {
                 $(".forum_form").html(data.responseText);
-                setForumCreateFormSubmit();
+                setForumCreateFormSubmit(topic);
             }
         });
         return false;
