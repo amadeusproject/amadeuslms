@@ -2,6 +2,10 @@
   clear: both;
 }
 
+.mg-b-5m{
+  margin-bottom: 5em;
+}
+
 .navbar .logo {position: absolute; top: 6px; text-align: center; height: 48px; width: 48px;}
 
 /* Modal */

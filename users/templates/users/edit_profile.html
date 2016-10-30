@@ -1,4 +1,4 @@
-{% extends 'list_users.html' %}
+{% extends 'users/profile.html' %}
 
 {% load static i18n permission_tags %}
 {% load widget_tweaks %}
@@ -6,9 +6,13 @@
 {% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
-
-  {{ block.super }}
-    {% breadcrumb 'Update User' 'users:update' %}
+	{% if user|has_role:'system_admin' %}
+		{{ block.super }}
+    	{% breadcrumb 'Update User' 'users:update' %}	
+	{% else %}
+		{{ block.super }}
+		{% breadcrumb 'Update Profile' 'users:update' %}
+	{% endif %}  	
 
 {% endblock %}
 
@@ -25,7 +29,7 @@
 		{% endfor %}
 	{% endif %}
 
-	<div class="card">
+	<div class="card mg-b-5m">
 		<div class="card-content">
 			<div class="card-body">
 				<form method="post" action="" enctype="multipart/form-data">
@@ -53,6 +57,9 @@
 
                 			{% elif field.auto_id == 'id_phone' %}
                 				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
+							
+							{% elif field.auto_id == 'id_year_titration' %}
+								{% render_field field class='form-control' onkeypress='campoNumerico(this,event);' %}
 
                 			{% elif field.auto_id == 'id_is_staff' or field.auto_id == 'id_is_active' %}
                 				{% if user|has_role:'system_admin' %}

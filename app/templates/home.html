@@ -5,8 +5,14 @@
 {% block javascript %}
     {% if page_obj %}
         <script type="text/javascript">
-            var pageNum = {{ page_obj.number }}; // The latest page loaded
-            var numberPages = {{ paginator.num_pages }}; // Indicates the number of pages
+            {% if page_obj and paginator %}
+                var pageNum = {{ page_obj.number }}; // The latest page loaded
+                var numberPages = {{ paginator.num_pages }}; // Indicates the number of pages    
+            {% else %}
+                var pageNum = 0 ; // The latest page loaded
+                var numberPages = 0 ; // Indicates the number of pages
+            {% endif %}
+            
             var baseUrl = '{% url "app:index" %}';
 
             // loadOnScroll handler
