@@ -64,13 +64,30 @@ class CreateLink(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.Cr
     def get_success_url(self):
         self.success_url = redirect('course:links:render_link', slug = self.object.slug)
         return self.success_url
-def deleteLink(request,linkname):
-    link = get_object_or_404(Link,name = linkname)
-    link.delete()
-    template_name = 'links/delete_link.html'
-    messages.success(request,_("Link deleted Successfully!"))
 
-    return redirect('course:manage')
+class DeleteLink(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
+	allowed_roles = ['professor', 'system_admin']
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+	model = Link
+	template_name = 'links/delete_link.html'
+
+	def dispatch(self, *args, **kwargs):
+		link = get_object_or_404(Link, slug = self.kwargs.get('slug'))
+		if(not (link.topic.owner == self.request.user) and not(has_role(self.request.user, 'system_admin')) ):
+			return self.handle_no_permission()
+		return super(DeleteLink, self).dispatch(*args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super(DeleteLink, self).get_context_data(**kwargs)
+		context['course'] = self.object.topic.subject.course
+		context['subject'] = self.object.topic.subject
+		context['link'] = self.object
+		context["topic"] = self.object.topic
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('course:view_topic', kwargs={'slug' : self.object.topic.slug})
 
 def render_link(request, slug):
 	template_name = 'links/render_link.html'
