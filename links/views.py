@@ -9,7 +9,7 @@ from rolepermissions.mixins import HasRoleMixin
 from core.mixins import NotificationMixin
 from django.urls import reverse
 from django.core.files.base import ContentFile
-
+from rolepermissions.verifications import has_role
 
 from .image_crawler import *
 from courses.models import Topic
