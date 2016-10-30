@@ -1,22 +1,68 @@
-{% load widget_tweaks i18n %}
-<!-- MODAL REMOVE LINK -->
-<div class="modal" id="removeLink">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-        <h4 class="modal-title"></h4>
-      </div>
-      <div class="modal-body">
-        <p>{% trans 'Do you really want to delete this link?' %}</p>
-      </div>
-      <div class="modal-footer">
-        <!--  -->
-        <button type="button" class="btn btn-primary btn-default" data-dismiss="modal">{% trans 'Cancel' %}</button>
-        <a href="http://www.google.com" target="_self"><button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">{% trans 'Confirm' %}</button></a>
+{% load static widget_tweaks i18n %}
 
-      </div>
+<!-- MODAL DELETE LINK -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/link.css' %}">
+
+<div class="erro-update">
+    <div class="modal fade" id="linkDeleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLinkLabel" style="z-index: 10">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="deleteLinkLabel">{% trans 'Delete Link' %}</h4>
+                </div>
+                <div class="modal-body">
+                <!-- Card -->
+                    <form class="form-horizontal" method="post" id="form-delete-link" enctype="multipart/form-data">
+                    {% csrf_token %}
+                        <fieldset>
+                            <div class="col-md-12">
+                                {% trans "Are you sure to delete the link " %} <strong>"{{ link.name }}"</strong> </a> of {{ link.topic.name }}?
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                     <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+                                    <button class="btn btn-raised btn-primary" type="submit">{% trans 'Delete' %}</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                <!-- .end Card -->
+              </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
-<!-- END -->
+
+{% block script_link %}
+
+    {# // <script src="{% static 'js/link.js' %}"></script> #}
+    <script type="text/javascript">
+      $("#form-delete-link").submit(function(event) {
+            var data = new FormData($('#form-delete-link').get(0));
+            $.ajax({
+                url: "{% url 'course:links:delete_link' link.slug %}",
+                type: $("#form-delete-link").attr('method'),
+                data: data,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    $('#linkDeleteModal').modal('hide');
+                    $('#link_{{ link.slug }}').remove();
+                    $('#link_edit_icon_{{ link.slug }}').remove();
+                    $('#link_edit_{{ link.slug }}').remove();
+                    alertify.alert('Link successfully deleted!')
+                },
+                error: function(data){
+                    // $('.erro-update').html(data.responseText);
+                    $('.modal-backdrop').remove();
+                    $('#linkDeteleModal').modal();
+                    alertify.alert('Error when trying to delete.');
+                }
+            });
+            event.preventDefault();
+          });
+  </script>
+{% endblock script_link %}
+<!-- EndModal -->
