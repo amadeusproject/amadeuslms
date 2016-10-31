@@ -59,7 +59,12 @@
 							<tbody>
 								<tr>
 									<td>{% trans "Status" %}:</td>
-									<td></td>
+									{% if user %}
+										<td> {% trans "Online" %}</td>
+									{% else %}
+										<td> {% trans "OffLine" %}</td>
+									{% endif %}
+									
 								</tr>
 								<tr>
 									<td>{% trans "Name" %}:</td>
