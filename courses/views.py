@@ -31,7 +31,7 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 	queryset = Course.objects.all()
 	template_name = 'course/index.html'
 	context_object_name = 'courses'
-	paginate_by = 2
+	paginate_by = 10
 	aparece = True
 
 
