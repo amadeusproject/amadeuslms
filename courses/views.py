@@ -712,3 +712,12 @@ class IndexSubjectCategoryView(LoginRequiredMixin, generic.ListView):
 		context = super(IndexSubjectCategoryView, self).get_context_data(**kwargs)
 		context['subject_categories'] = SubjectCategory.objects.all()
 		return context
+
+class FileMaterialView(LoginRequiredMixin, generic.DetailView):
+
+	allowed_roles = ['professor', 'system_admin', 'student']
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+	model = Material
+	context_object_name = 'file'
+	template_name = 'topic/file_material_view.html'

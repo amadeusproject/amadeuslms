@@ -28,6 +28,7 @@ urlpatterns = [
 	url(r'^exam/', include('exam.urls', namespace = 'exam')),
 	url(r'^files/', include('files.urls', namespace = 'file')),
 	url(r'^upload-material/$', views.UploadMaterialView.as_view(), name='upload_material'),
+	url(r'^subjects/file-material-view/(?P<slug>[\w_-]+)/$', views.FileMaterialView.as_view(), name='file_material_view'),
 	url(r'^links/',include('links.urls',namespace = 'links')),
 	url(r'^(?P<slug>[\w_-]+)/', include([
 		url(r'^$', views.CourseView.as_view(), name='view'),
