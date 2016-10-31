@@ -20,15 +20,21 @@
 
   	<!-- Bootstrap and themes (material) -->
 	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/material.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/ripples.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'material/css/bootstrap-material-design.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'material/css/bootstrap-material-design.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.min.css' %}">
+
+
 	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/bootstrap-datepicker.standalone.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/alertifyjs/alertify.min.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/alertifyjs/themes/bootstrap.css' %}">
 	<script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/vendor/bootstrap-acessibility.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/vendor/material.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/vendor/ripples.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'material/js/material.js' %}"></script>
+	<script type="text/javascript" src="{% static 'material/js/material.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'material/js/ripples.js' %}"></script>
+	<script type="text/javascript" src="{% static 'material/js/ripples.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/vendor/bootstrap-datepicker.js' %}"></script>
 
 	{% with "js/vendor/locales/bootstrap-datepicker."|add:LANGUAGE_CODE|add:".js" as locale_datepicker %}

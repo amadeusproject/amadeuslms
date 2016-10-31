@@ -84,6 +84,7 @@
                 <li><a href="{% url 'core:guest' %}">{% trans 'All Courses' %}</a></li>
                 {% if user|has_role:'system_admin' %}
                     <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
+                    <li> <a href="{% url 'app:settings' %}">{% trans 'Settings' %}</a></li>
                 {% endif %}
                 {% if user|has_role:'system_admin' or user|has_role:'professor' %}
                     <li>
