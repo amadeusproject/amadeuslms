@@ -13,7 +13,6 @@ import operator
 from functools import reduce
 from rolepermissions.verifications import has_object_permission
 from django.http import HttpResponseRedirect, JsonResponse
-
 from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm,TopicForm,ActivityForm
 from .models import Course, Subject, CourseCategory,Topic, SubjectCategory,Activity, CategorySubject
 from core.mixins import NotificationMixin
@@ -32,7 +31,7 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 	queryset = Course.objects.all()
 	template_name = 'course/index.html'
 	context_object_name = 'courses'
-	paginate_by = 5
+	paginate_by = 2
 	aparece = True
 
 
@@ -67,9 +66,64 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 		elif has_role(self.request.user,'system_admin'):
 			list_courses = queryset.order_by('name')
 			categorys_courses = CourseCategory.objects.all()
-		else:
+		elif has_role(self.request.user, 'student'):
 			list_courses = Course.objects.filter(Q(students = True)|Q(students__name = self.request.user.name)).order_by('name')
 			categorys_courses = CourseCategory.objects.filter(course_category__students__name = self.request.user.name).distinct()
+
+		paginator = Paginator(list_courses, self.paginate_by)
+		page = self.request.GET.get('page')
+
+		try:
+		    list_courses = paginator.page(page)
+		except PageNotAnInteger:
+		    list_courses = paginator.page(1)
+		except EmptyPage:
+		    list_courses = paginator.page(paginator.num_pages)
+
+		context['list_courses'] = list_courses
+		context['categorys_courses'] = categorys_courses
+		context['aparece'] = self.aparece
+
+		return context
+
+class AllCoursesView(LoginRequiredMixin, NotificationMixin, generic.ListView):
+
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+	queryset = Course.objects.all()
+	template_name = 'course/index.html'
+	context_object_name = 'courses'
+	paginate_by = 5
+	aparece = True
+
+
+	def get_queryset(self):
+		result = super(AllCoursesView, self).get_queryset()
+
+		course_search = self.request.GET.get('q', None)
+		category_search = self.request.GET.get('category', None)
+		if course_search:
+			self.aparece = False
+			query_list = course_search.split()
+			result = result.filter(
+			reduce(operator.and_,
+				(Q(name__icontains=q) for q in query_list))
+			)
+		if category_search:
+			self.aparece = False
+			query_list = category_search.split()
+			result = result.filter(
+			reduce(operator.and_,
+				(Q(category__name=category) for category in query_list))
+			)
+		return result
+
+	def get_context_data(self, **kwargs):
+		context = super(AllCoursesView, self).get_context_data(**kwargs)
+		list_courses = None
+		categorys_courses = None
+		list_courses = Course.objects.all().order_by('name')
+		categorys_courses = CourseCategory.objects.all().distinct().order_by('name')
 
 		paginator = Paginator(list_courses, self.paginate_by)
 		page = self.request.GET.get('page')

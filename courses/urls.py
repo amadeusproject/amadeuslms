@@ -3,6 +3,7 @@ from django.conf.urls import url, include
 from . import views
 urlpatterns = [
 	url(r'^$', views.IndexView.as_view(), name='manage'),
+	url(r'^all-courses/$', views.AllCoursesView.as_view(), name='all_courses'),
 	url(r'^create/$', views.CreateCourseView.as_view(), name='create'),
 	url(r'^replicate_course/(?P<slug>[\w_-]+)/$', views.ReplicateCourseView.as_view(), name='replicate_course'),
 	url(r'^edit/(?P<slug>[\w_-]+)/$', views.UpdateCourseView.as_view(), name='update'),
