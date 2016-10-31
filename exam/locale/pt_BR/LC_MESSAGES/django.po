@@ -24,119 +24,119 @@ msgstr ""
 
 #: exam/forms.py:33
 msgid "Start date to resolve the exam"
-msgstr ""
+msgstr "Data de início para resolver o exame"
 
 #: exam/forms.py:35
 msgid "Maximum date permited to resolve the exam"
-msgstr ""
+msgstr "Data máxima permitida para resolver o exame"
 
 #: exam/models.py:9
 msgid "Begin of Course Date"
-msgstr ""
+msgstr "Data de início do curso"
 
 #: exam/models.py:10
 msgid "Exibe?"
-msgstr ""
+msgstr "Exibir?"
 
 #: exam/models.py:13 exam/models.py:35
 msgid "Exam"
-msgstr ""
+msgstr "Exame"
 
 #: exam/models.py:14
 msgid "Exams"
-msgstr ""
+msgstr "Exames"
 
 #: exam/models.py:21 exam/models.py:27
 msgid "Answer"
-msgstr ""
+msgstr "Resposta"
 
 #: exam/models.py:22
 msgid "Order"
-msgstr ""
+msgstr "Ordem"
 
 #: exam/models.py:23 exam/models.py:28
 msgid "Answers"
-msgstr ""
+msgstr "Respostas"
 
 #: exam/models.py:34
 msgid "Answered"
-msgstr ""
+msgstr "Respondida"
 
 #: exam/models.py:36
 msgid "Answers Students"
-msgstr ""
+msgstr "Resposta dos estudantes"
 
 #: exam/models.py:37
 msgid "Student"
-msgstr ""
+msgstr "Estudante"
 
 #: exam/models.py:38
 msgid "Answered Date"
-msgstr ""
+msgstr "Data da resposta"
 
 #: exam/models.py:41
 msgid "Answer Stundent"
-msgstr ""
+msgstr "Resposta do estudante"
 
 #: exam/models.py:42
 msgid "Answers Student"
-msgstr ""
+msgstr "Respostas dos estudantes"
 
 #: exam/templates/exam/create.html:9
 msgid "New Exam"
-msgstr ""
+msgstr "Novo exame"
 
 #: exam/templates/exam/create.html:14 exam/templates/exam/create.html:16
 msgid "Exam Name"
-msgstr ""
+msgstr "Nome do exame"
 
 #: exam/templates/exam/create.html:20
 msgid "Exam's begin date"
-msgstr ""
+msgstr "Data de início do exame"
 
 #: exam/templates/exam/create.html:22
 msgid "Begin Date"
-msgstr ""
+msgstr "Data de início"
 
 #: exam/templates/exam/create.html:26
 msgid "Exam's end date"
-msgstr ""
+msgstr "Data final do exame"
 
 #: exam/templates/exam/create.html:28
 msgid "End Date"
-msgstr ""
+msgstr "Data final"
 
 #: exam/templates/exam/create.html:35
 msgid "Allow submissions after deadline?"
-msgstr ""
+msgstr "Permitir submissões após o prazo?"
 
 #: exam/templates/exam/create.html:44 exam/templates/exam/create.html:47
 msgid "Question Type"
-msgstr ""
+msgstr "Tipo de questão"
 
 #: exam/templates/exam/create.html:48
 msgid "Multiple Choice"
-msgstr ""
+msgstr "Múltipla escolha"
 
 #: exam/templates/exam/create.html:49
 msgid "True or False"
-msgstr ""
+msgstr "Verdadeiro ou falso"
 
 #: exam/templates/exam/create.html:50
 msgid "Gap Filling"
-msgstr ""
+msgstr "Preenchimento de lacunas"
 
 #: exam/templates/exam/create.html:51
 msgid "Discursive Question"
-msgstr ""
+msgstr "Questão discursiva"
 
 #: exam/templates/exam/create.html:57
 msgid "add question"
-msgstr ""
+msgstr "Adicionar questão"
 
 #: exam/templates/exam/create.html:62
 msgid "Create"
-msgstr ""
+msgstr "Criar"
 
 #: exam/templates/exam/discursive_question.html:2
 #: exam/templates/exam/discursive_question.html:4
@@ -144,24 +144,24 @@ msgstr ""
 #: exam/templates/exam/true_or_false_question.html:20
 #: exam/templates/exam/true_or_false_question.html:25
 msgid "Question"
-msgstr ""
+msgstr "Questão"
 
 #: exam/templates/exam/gap_filling_question.html:2
 msgid "Gap Filling Question"
-msgstr ""
+msgstr "Questão de preenchimento de lacunas"
 
 #: exam/templates/exam/multiple_choice_question.html:15
 msgid "Alternatives"
-msgstr ""
+msgstr "Alternativas"
 
 #: exam/templates/exam/true_or_false_answer.html:9
 msgid "Write your alternative"
-msgstr ""
+msgstr "Escreva sua alternativa"
 
 #: exam/templates/exam/true_or_false_question.html:37
 msgid "Alternatives: T/F"
-msgstr ""
+msgstr "Alternativas: V/F"
 
 #: exam/templates/exam/true_or_false_question.html:45
 msgid "New Alternative"
-msgstr ""
+msgstr "Nova alternativa"

@@ -44,7 +44,15 @@
 			<div class="well well-lg">
 				<div class="row">
 					<div class="col-md-4">
-						<img src="{{ user.image_url }}" class="img-responsive center-block img-circle" alt="foto perfil" style="max-height:174px">
+						{% if user.image %}
+                            <div style="background-image: url('{{ user.image.url }}'); background-size: 100% 100%; background-repeat: no-repeat; margin-left: 8em;" alt="photoUser" class="img-circle img-responsive img-list-user"></div>
+                        {% else %}
+                            {% if usser.gender == 'M' %}
+                                <img src="{% static 'img/male_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user" style="margin-left: 8em;">
+                            {% else %}
+                                <img src="{% static 'img/female_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user" style="margin-left: 8em;">    
+                            {% endif %}
+                        {% endif %}
 					</div>
 					<div class="col-md-8">
 						<table class="table table-hover table-edited">
@@ -123,22 +131,21 @@
 								</tr>
 								<tr>
 									<td>{% trans "Institution" %}:</td>
-								{% if user.institution %}
-									<td>{{user.institution}}</td>
-								{% else %}
-									<td>{% trans "Didn't inform institution" %}</td>
-								{% endif %}
-									
-									
+									{% if user.institution %}
+										<td>{{user.institution}}</td>
+									{% else %}
+										<td>{% trans "Didn't inform institution" %}</td>
+									{% endif %}
 								</tr>
 								<tr>
 									<td>{% trans "Curriculum" %}:</td>
 									{% if user.curriculum %}
-										<td>{{user.curriculum}}</td>
+										<td>
+											<a href="{{user.curriculum.url }}" target="_blank">link</a>
+										</td>
 									{% else %}
 										<td>{% trans "Didn't upload any curriculum" %}</td>
 									{% endif %}
-									
 								</tr>
 							</tbody>
 						</table>

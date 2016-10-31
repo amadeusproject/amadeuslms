@@ -2,6 +2,10 @@
   clear: both;
 }
 
+.mg-b-5m{
+  margin-bottom: 5em;
+}
+
 .navbar .logo {position: absolute; top: 6px; text-align: center; height: 48px; width: 48px;}
 
 /* Modal */
@@ -404,6 +408,7 @@ ul, li {
 .dropdown-menu .pull-right {
     right: 0;
   }
+  .editation{display: none}
 .moreAccordion{ padding-left: 0px; padding-right: 0px;}
 .moreAccordion div button{ padding-left: 0px; padding-right: 0px;}
 .cards-content{ padding-left: 0px; padding-right: 0px; }

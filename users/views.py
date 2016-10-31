@@ -7,8 +7,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from rolepermissions.shortcuts import assign_role
+from rolepermissions.verifications import has_role
 from .models import User
-from .forms import UserForm, UpdateProfileForm, UpdateUserForm
+from .forms import UserForm, UpdateProfileForm, UpdateUserForm, UpdateProfileFormAdmin
 
 # ================ ADMIN =======================
 class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
@@ -110,8 +111,6 @@ class Remove_account(generic.TemplateView):
 
 
 class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
-
-	allowed_roles = ['student']
 	login_url = reverse_lazy("core:home")
 	template_name = 'users/edit_profile.html'
 	form_class = UpdateProfileForm
@@ -120,6 +119,14 @@ class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
 	def get_object(self):
 		user = get_object_or_404(User, username = self.request.user.username)
 		return user
+
+	def get_context_data(self, **kwargs):
+		context = super(UpdateProfile, self).get_context_data(**kwargs)
+		if has_role(self.request.user, 'system_admin'):
+			context['form'] = UpdateProfileFormAdmin(instance = self.object)
+		else:
+			context['form'] = UpdateProfileForm(instance = self.object)
+		return context
 
 	def form_valid(self, form):
 		form.save()

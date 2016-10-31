@@ -1,8 +1,9 @@
-$(".edit_card").on('click', function() {
-    $(".presentation").css('display','none');
-    $(".editation").css('display','block');
-})
-$(".edit_card_end").on('click', function() {
-    $(".editation").css('display','none');
-    $(".presentation").css('display','block');
-})
+function show_editation(id_topic){
+    $("#presentation_"+ id_topic).css('display','none');
+    $("#editation_"+ id_topic).css('display','block');
+}
+
+function show_presentation(id_topic){
+    $("#editation_"+ id_topic).css('display','none');
+    $("#presentation_"+ id_topic).css('display','block');
+}

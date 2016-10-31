@@ -1,6 +1,6 @@
 {% extends 'home.html' %}
 
-{% load i18n pagination django_bootstrap_breadcrumbs static  %}
+{% load i18n pagination django_bootstrap_breadcrumbs permission_tags static  %}
 
 {% block breadcrumbs %}
 
@@ -9,20 +9,23 @@
 
 {% endblock %}
 
-{% block sidebar %}
-    <div class="panel panel-primary navigation">
-        <div class="panel-heading">
-            <h5>{% trans 'Menu' %}</h5>
+{% if user|has_role:'system_admin' %}
+    {% block sidebar %}
+        <div class="panel panel-primary navigation">
+            <div class="panel-heading">
+                <h5>{% trans 'Menu' %}</h5>
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="{% url 'core:home' %}">{% trans "Home" %}</a></li>
+                    <li><a href="{% url 'users:create' %}">{% trans 'Add user' %}</a></li>
+                    <li><a href="javascript:void(0)">{% trans 'Send email' %}</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="panel-body">
-            <ul class="nav nav-pills nav-stacked">
-                <li><a href="{% url 'core:home' %}">{% trans "Home" %}</a></li>
-                <li><a href="{% url 'users:create' %}">{% trans 'Add user' %}</a></li>
-                <li><a href="javascript:void(0)">{% trans 'Send email' %}</a></li>
-            </ul>
-        </div>
-    </div>
-{% endblock %}
+    {% endblock %}
+{% endif %}
+
 
 {% block content %}
     {% if messages %}
@@ -54,7 +57,7 @@
                 <div class="panel-body">
                     <div class="col-md-4">
                         {% if acc.image %}
-                            <div style="background-image: url('{{ acc.image.url }}'); background-size: 100%" alt="photoUser" class="img-circle img-responsive img-list-user"></div>
+                            <div style="background-image: url('{{ acc.image.url }}'); background-size: 100% 100%; background-repeat: no-repeat;" alt="photoUser" class="img-circle img-responsive img-list-user"></div>
                         {% else %}
                             {% if acc.gender == 'M' %}
                                 <img src="{% static 'img/male_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user">
