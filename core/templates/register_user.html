@@ -38,13 +38,14 @@
 						{% csrf_token %}
 							<legend>{% trans 'User Register' %}</legend>
 							{% for field in form %}
+							<div class="row">
 							<div class="form-group is-empy{% if form.has_error %} has-error {% endif %} is-fileinput">
 								{% if field.field.required %}
-									<label for="{{ field.auto_id }}" class="col-md-4 control-label">{{ field.label }}<span>*</span></label>
+									<label for="{{ field.auto_id }}" class="col-md-2 control-label">{{ field.label }}<span>*</span></label>
 								{% else %}
-									<label for="{{ field.auto_id }}" class="col-md-4 control-label">{{ field.label }}</label>
+									<label for="{{ field.auto_id }}" class="col-md-2 control-label">{{ field.label }}</label>
 								{% endif %}
-								<div class="col-md-8">
+								<div class="col-md-10">
 									{% if field.auto_id == 'id_birth_date' %}
 										{% render_field field class='form-control input-sm date-picker' %}
 										
@@ -83,11 +84,12 @@
 								</div>
 								{% endif %}
 							</div>
+							</div>
 							{% endfor %}
-							<div class="col-md-offset-4 col-md-2 col-sm-2 col-xs-2">
+							<div class="col-md-offset-2 col-md-6 col-sm-offset-2 col-sm-6 col-xs-6 col-xs-offset-2 col-xs-6">
 								<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" />	
 							</div>
-							<div class="col-md-offset-3 col-md-2 col-sm-2 col-xs-2">
+							<div class=" col-md-4 col-sm-4 col-xs-4">
 								<a href="{% url 'core:home' %}" class="btn btn-sm btn-success" >{% trans 'Cancel' %}</a>	
 							</div>
 							
