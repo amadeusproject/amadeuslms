@@ -41,106 +41,73 @@
   </div>
   <div class="panel-collapse collapseTopic-{{topic.slug}} topic_{{ topic.id }} collapse in" role="tabpanel" aria-labelledby="heading_{{topic.id}}" aria-expanded="true" aria-hidden="false">
     <div class="panel-body">
-      <div class="presentation" id="presentation_{{topic.slug}}">
+      <div class="presentation_{{topic.slug}}">
         <p>
           <i>
             {{topic.description|linebreaks}}
           </i>
         </p>
-        <div class="row">
-          <div class="col-xs-6 col-md-6">
-            <div class="resource_inline">
-              <h4>{% trans 'Material' %}</h4>
+      </div>
+      <div class="form-group editation editation_{{topic.slug}}">
+        <label class="control-label" for="focusedInput2">{% trans 'Name Topic' %}</label>
+        <input type="text" class="form-control" value="{{topic}}">
+      </div>
+      <div class="form-group editation editation_{{topic.slug}}">
+        <label class="control-label" for="focusedInput2">{% trans 'Description' %}</label>
+        <textarea class="form-control" rows="3" id="textArea">{{topic.description}}</textarea>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 col-md-6">
+          <div class="resource_inline">
+            <h4>{% trans 'Material' %}</h4>
+          </div>
+          <div class="resource_inline">
+            <div class="dropdown">
+              <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
+              <ul class="dropdown-menu" aria-labelledby="dLabel">
+                <li><a href="javascript:get_modal_link('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')  ">{% trans 'Create a Link' %}</a></li>
+                <li><a href="javascript:get_modal_file('{% url 'course:file:create_file' topic.slug %}', '#fileModal', '#divModalFile')">{% trans "Create a file" %}</a></li>
+              </ul>
             </div>
-            <div class="resource_inline">
-              <div class="dropdown">
-                <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                <ul class="dropdown-menu" aria-labelledby="dLabel">
-                  <li><a href="javascript:get_modal_link('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')  ">{% trans 'Create a Link' %}</a></li>
-                  <li><a href="javascript:get_modal_file('{% url 'course:file:create_file' topic.slug %}', '#fileModal', '#divModalFile')">{% trans "Create a file" %}</a></li>
-                </ul>
-              </div>
-            </div>
+          </div>
+          <div class="presentation_{{topic.slug}}">
             <ul>
               {% list_topic_file request topic %}
               {% list_topic_link request topic%}
             </ul>
           </div>
-          <div class="col-xs-4 col-md-4">
-            <div class="resource_inline">
-              <h4>{% trans 'Activities' %}</h4>
-            </div>
-            <div class="resource_inline">
-              <div class="dropdown">
-                <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                <ul class="dropdown-menu" aria-labelledby="dLabel">
-                  <li><a href="javascript:createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans 'Create Forum' %}</a></li>
-                  <li><a href="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#modal_poll');">{% trans 'Create Poll' %}</a></li>
-                </ul>
-              </div>
-            </div>
-            <ul>
-              {% list_topic_poll request topic %}
-              {% list_topic_foruns request topic %}
-            </ul>
-          </div>
-        </div>
-      </div><!--EndPresentation-->
-      <div class="editation topic_{{ topic.id }}" id="editation_{{topic.slug}}">
-        <div class="form-group">
-          <label class="control-label" for="focusedInput2">{% trans 'Name Topic' %}</label>
-          <input type="text" class="form-control" value="{{topic}}">
-        </div>
-        <div class="form-group">
-          <label class="control-label" for="focusedInput2">{% trans 'Description' %}</label>
-          <textarea class="form-control" rows="3" id="textArea">{{topic.description}}</textarea>
-        </div>
-        <div class="row">
-          <div class=" col-xs-6 col-md-4">
-            <div class="resource_inline">
-              <h4>{% trans 'Material' %}</h4>
-            </div>
-            <div class="resource_inline">
-              <div class="dropdown">
-                <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                <ul class="dropdown-menu" aria-labelledby="dLabel">
-                  <li><a href="javascript:get_modal_link('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')  ">{% trans 'Create a Link' %}</a></li>
-                  <li><a href="javascript:get_modal_file('{% url 'course:file:create_file' topic.slug %}', '#fileModal', '#divModalFile')">{% trans "Create a file" %}</a></li>
-                </ul>
-              </div>
-            </div>
+          <div class="editation editation_{{topic.slug}}">
             <ul>
               {% list_topic_file_edit request topic %}
               {% list_topic_link_edit request topic%}
             </ul>
           </div>
-          <div class="col-xs-4 col-md-offset-1 col-md-4">
-            <div class="resource_inline">
-              <h4>{% trans 'Activities' %}</h4>
-            </div>
-            <div class="resource_inline">
-              <div class="dropdown">
-                <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                <ul class="dropdown-menu" aria-labelledby="dLabel">
-                  <li><a href="javascript:createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans 'Create Forum' %}</a></li>
-                  <li><a href="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#modal_poll');">{% trans 'Create Poll' %}</a></li>
-                </ul>
-              </div>
-            </div>
-            <ul>
-              {% list_topic_poll request topic %}
-              {% list_topic_foruns request topic %}
-            </ul>
-          </div>
         </div>
-        <div class="form-group">
-          <div class="col-md-10">
-            <a href="javascript:show_presentation('{{topic.slug}}')" class="btn btn-raised btn-default">{% trans 'Cancel' %}</a>
-            <a href="javascript:show_presentation('{{topic.slug}}')" class="btn btn-raised btn-primary">{% trans 'Submit' %}</a>
+        <div class="col-xs-4 col-md-4">
+          <div class="resource_inline">
+            <h4>{% trans 'Activities' %}</h4>
           </div>
+          <div class="resource_inline">
+            <div class="dropdown">
+              <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
+              <ul class="dropdown-menu" aria-labelledby="dLabel">
+                <li><a href="javascript:createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans 'Create Forum' %}</a></li>
+                <li><a href="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#modal_poll');">{% trans 'Create Poll' %}</a></li>
+              </ul>
+            </div>
+          </div>
+          <ul>
+            {% list_topic_poll request topic %}
+            {% list_topic_foruns request topic %}
+          </ul>
         </div>
-      </div><!--EndEditation-->
-
+      </div>
+      <div class="form-group editation editation_{{topic.slug}}">
+        <div class="col-md-10">
+          <a href="javascript:show_presentation('{{topic.slug}}')" class="btn btn-raised btn-default">{% trans 'Cancel' %}</a>
+          <a href="javascript:show_presentation('{{topic.slug}}')" class="btn btn-raised btn-primary">{% trans 'Submit' %}</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
