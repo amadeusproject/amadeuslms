@@ -39,7 +39,7 @@
 							<legend>{% trans 'User Register' %}</legend>
 							{% for field in form %}
 							<div class="row">
-							<div class="form-group is-empy{% if form.has_error %} has-error {% endif %} is-fileinput">
+							<div class="form-group is-empty {% if form.has_error %} has-error {% endif %} is-fileinput">
 								{% if field.field.required %}
 									<label for="{{ field.auto_id }}" class="col-md-2 control-label">{{ field.label }}<span>*</span></label>
 								{% else %}
@@ -72,7 +72,7 @@
 								</div>
 								
 								{% if field.errors %}
-								<div class="alert alert-danger alert-dismissible col-md-offset-4 col-md-8" role="alert">
+								<div class="alert alert-danger alert-dismissible col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-offset-1 col-xs-10" role="alert">
 				  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				  						<span aria-hidden="true">&times;</span>
 			  						</button>
@@ -90,7 +90,7 @@
 								<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" />	
 							</div>
 							<div class=" col-md-4 col-sm-4 col-xs-4">
-								<a href="{% url 'core:home' %}" class="btn btn-sm btn-success" >{% trans 'Cancel' %}</a>	
+								<a href="{% url 'core:home' %}" class=" btn btn-sm btn-success" >{% trans 'Cancel' %}</a>	
 							</div>
 							
 						</form>
