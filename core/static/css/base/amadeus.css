@@ -2,6 +2,10 @@
   clear: both;
 }
 
+.mg-b-5m{
+  margin-bottom: 5em;
+}
+
 .navbar .logo {position: absolute; top: 6px; text-align: center; height: 48px; width: 48px;}
 
 /* Modal */
@@ -30,7 +34,7 @@
     margin: 10% 10% 5% 5%;
 }
 .breadcrumb{
-    margin-bottom: 5px;
+    margin-bottom: 25px;
 }
 .courseHome{
     text-align: center;
@@ -394,4 +398,27 @@ ul, li {
     -webkit-animation-duration: 900ms;
     -webkit-animation-iteration-count: 3;
     -webkit-animation-timing-function: ease-in-out;
+}
+/* Icon Topic */
+.divMoreActions {text-align: right; height: 39px; float: right;}
+.divMoreActions div button {padding-left: 10px; padding-right: 10px; padding-bottom: 10px; margin-bottom: 4px; height: 31px;}
+.titleTopic {padding-top: 18px; padding-left: 0px;}
+.titleTopic-detail {padding-top: 8px;  color: white;}
+.titleTopic a h4 {margin-top: 0px; color: black; cursor:pointer;}
+.dropdown-menu .pull-right {
+    right: 0;
+  }
+  .editation{display: none}
+.moreAccordion{ padding-left: 0px; padding-right: 0px;}
+.moreAccordion div button{ padding-left: 0px; padding-right: 0px;}
+.cards-content{ padding-left: 0px; padding-right: 0px; }
+.cards-detail{margin-left: 4%;}
+.cards-detail .panel .panel-heading{/*background-color:;*/}
+.cards-detail .panel .panel-heading h4{color:black;}
+.course, .subject, .topic{ padding-top: 0px; padding-bottom: 0px; }
+.course-detail{padding-top: 10px; padding-bottom: 10px;}
+
+/* Menu link remove radius */
+.nav-pills > li > a {
+  border-radius: 0px;
 }

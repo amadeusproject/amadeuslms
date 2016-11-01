@@ -6,33 +6,35 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-        <h4 class="modal-title" id="createLink">Create a New Link</h4>
+        <h4 class="modal-title" id="createLink">{% trans 'Create a New Link' %}</h4>
       </div>
       <div class="modal-body">
         <!-- Card -->
         <form method="post" action="" id="form-link" enctype="multipart/form-data">
           {% csrf_token %}
-          {% if messages %}
-              {% for message in messages %}
-                  <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                      <p>{{ message }}</p>
-                  </div>
-              {% endfor %}
-          {% endif %}
         {% for field in form %}
+            <div class ="form-group">
             {% if field.field.required %}
               <label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
-            {% else %}
-              <label for="{{ field.auto_id }}">{{ field.label }}</label>
             {% endif %}
-            {% render_field field class='form-control' %}
+            {% render_field field class='form-control input-sm' %}
+            {% if field.errors %}
+                <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <ul>
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+          </div>
         {% endfor %}
         <div class="form-group">
-          <a href="javascript:void(0)" class="btn btn-raised btn-default" data-dismiss="modal">Cancel</a>
-          <button class="btn btn-raised btn-primary" type="submit">Submit</button>
+          <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans "Cancel" %}</button>
+          <button class="btn btn-raised btn-primary" type="submit">{% trans 'Submit' %}</button>
         </div>
         <!-- .end Card -->
       </div>
@@ -40,29 +42,32 @@
   </div>
 </div>
 <!-- EndModal -->
-
-{# // <script src="{% static '/links.js' %}"></script> #}
-<script type="text/javascript">
-  $("#form-link").submit(function(event) {
-        var data = new FormData($('#form-link').get(0));
-        $.ajax({
-            url: "{% url 'course:links:create_link' topic.slug %}",
-            type: $("#form-link").attr('method'),
-            data: data,
-            cache: false,
-            processData: false,
-            contentType: false,
-            success: function(data) {
-                $('#createLinksModal').modal('hide');
-                $('#list-topic{{ topic.id }}-links').append(data);
-                $('#list-topic{{ topic.id }}-links-edit').append(data);
-            },
-            error: function(data){
-                $('.erro').html(data.responseText);
-                $('.modal-backdrop').remove();
-                $('#createLinksModal').modal();
-            }
-        });
-        event.preventDefault();
-      });
-</script>
+{% block script_link %}
+    {# // <script src="{% static 'js/links.js' %}"></script> #}
+    <script type="text/javascript">
+      $("#form-link").submit(function(event) {
+            var data = new FormData($('#form-link').get(0));
+            $.ajax({
+                url: "{% url 'course:links:create_link' topic.slug %}",
+                type: $("#form-link").attr('method'),
+                data: data,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    $('#createLinksModal').modal('hide');
+                    $('#list-topic{{ topic.id }}-links').append(data);
+                    $('#list-topic{{ topic.id }}-links-edit').append(data);
+                    alertify.alert('Link successfully created!')
+                },
+                error: function(data){
+                    $('.erro').html(data.responseText);
+                    $('.modal-backdrop').remove();
+                    $('#createLinksModal').modal();
+                    alertify.alert('Invalid link, insert a valid one!');
+                }
+            });
+            event.preventDefault();
+          });
+    </script>
+{% endblock script_link %}

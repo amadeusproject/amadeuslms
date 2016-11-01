@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 {% load static i18n %}
+{% load static i18n permission_tags %}
 {% get_current_language as LANGUAGE_CODE %}
 
 <html>
@@ -19,21 +20,27 @@
 
   	<!-- Bootstrap and themes (material) -->
 	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/material.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/ripples.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'material/css/bootstrap-material-design.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'material/css/bootstrap-material-design.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.min.css' %}">
+
+
 	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/bootstrap-datepicker.standalone.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/alertifyjs/alertify.min.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/alertifyjs/themes/bootstrap.css' %}">
 	<script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/vendor/bootstrap-acessibility.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/vendor/material.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/vendor/ripples.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'material/js/material.js' %}"></script>
+	<script type="text/javascript" src="{% static 'material/js/material.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'material/js/ripples.js' %}"></script>
+	<script type="text/javascript" src="{% static 'material/js/ripples.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/vendor/bootstrap-datepicker.js' %}"></script>
 
 	{% with "js/vendor/locales/bootstrap-datepicker."|add:LANGUAGE_CODE|add:".js" as locale_datepicker %}
 		<script type="text/javascript" src="{% static locale_datepicker %}"></script>
 	{% endwith %}
-	
+
 	<script type="text/javascript" src="{% static 'js/vendor/alertify.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/vendor/jscookie.js' %}"></script>
 
@@ -69,14 +76,14 @@
              			 <li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">
                  <a  class="dropdown-toggle" data-toggle="dropdown"> <span id="notification-count" class="badge notification-count">{{notifications.count}}</span><i class="fa fa-bell" aria-hidden="true"></i></a>
                    <ul id="notification-dropdown" class="dropdown-menu">
-                   <li class="dropdown-header">Notifications</li>
+                   <li class="dropdown-header"> {% trans 'Notifications' %}</li>
                    		{% include "notifications.html" %}
 
                    		<li>
                    		 <a onclick="getNotifications(5)">
                    			<div id="notification-see-more" class="list-group-item">
                                   <div class="row-content">
-                                    <p class="list-group-item-text">See More</p>
+                                    <p class="list-group-item-text">{% trans 'See More' %}</p>
                                 </div>
                        </a>
                    		</li>
@@ -93,7 +100,55 @@
 	<div class="container-fluid">
 		<div class="row">
     		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
-    			{% block sidebar %}{% endblock %}
+    			{% block sidebar %}
+    				    <div class="panel panel-primary navigation">
+					        <div class="panel-heading">
+					            <h4>{% trans "Menu" %}</h4>
+					        </div>
+					        <div class="panel-body">
+					            <ul class="nav nav-pills nav-stacked">
+					                <li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+					                <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
+					                {% if user|has_role:'student' or not user.is_staff %}
+					                    <li><a href="{% url 'course:manage' %}">{% trans 'My courses' %}</a></li>
+					                    <li><a href="{% url 'core:all_courses' %}">{% trans 'All Courses' %}</a></li>
+					                {% endif %}
+					                    <li><a href="{% url 'core:guest' %}">{% trans 'Courses' %}</a></li>
+					                {% if user|has_role:'system_admin' %}
+					                    <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
+					                {% endif %}
+					                {% if user|has_role:'system_admin' or user|has_role:'professor' %}
+					                    <li>
+					                        <a href="#courses_list" class="accordion" data-toggle="collapse">{% trans 'Manage Courses' %}</a>
+					                        <div id="courses_list" class="collapse">
+					                            <ul class="nav nav-pill nav-stacked accordion_list">
+					                            {% for course in courses_list %}
+					                                <li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
+					                            {% endfor %}
+					                            </ul>
+					                        </div>
+					                    </li>
+					                {% endif %}
+					            </ul>
+					        </div>
+					    </div>
+
+					    {% if user|has_role:'professor' or user|has_role:'system_admin' %}
+
+						<div class="panel panel-primary navigation">
+						    <div class="panel-heading">
+						        <h3 class="panel-title">{% trans 'Category' %}</h3>
+						    </div>
+						    <div class="panel-body">
+						        <ul class="nav nav-pills nav-stacked">
+						            <li><a href="{% url 'course:create_cat' %}">{% trans 'Create Category'%}</a></li>
+						            <li><a href="{% url 'course:manage_cat' %}">{% trans 'List Category' %}</a></li>
+						        </ul>
+						    </div>
+						</div>
+
+						{% endif %}
+	    		{% endblock %}
     		</div>
 		   <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
 				{% block breadcrumbs %}{% endblock %}
@@ -109,6 +164,10 @@
 	{% block script_file %}
 
 	{% endblock script_file %}
+
+	{% block script_link %}
+
+	{% endblock script_link %}
 </body>
 
 </html>

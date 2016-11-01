@@ -14,7 +14,7 @@
 {% block sidebar %}
 	<div class="panel panel-primary navigation">
         <div class="panel-heading">
-            <h4>Menu</h4>
+            <h4>{% trans "Menu" %}</h4>
         </div>
         <div class="panel-body">
             <ul class="nav nav-pills nav-stacked">
@@ -44,25 +44,38 @@
 			<div class="well well-lg">
 				<div class="row">
 					<div class="col-md-4">
-						<img src="{{ user.image_url }}" class="img-responsive center-block img-circle" alt="foto perfil" style="max-height:174px">
+						{% if user.image %}
+                            <div style="background-image: url('{{ user.image.url }}'); background-size: 100% 100%; background-repeat: no-repeat; margin-left: 8em;" alt="photoUser" class="img-circle img-responsive img-list-user"></div>
+                        {% else %}
+                            {% if usser.gender == 'M' %}
+                                <img src="{% static 'img/male_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user" style="margin-left: 8em;">
+                            {% else %}
+                                <img src="{% static 'img/female_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user" style="margin-left: 8em;">    
+                            {% endif %}
+                        {% endif %}
 					</div>
 					<div class="col-md-8">
 						<table class="table table-hover table-edited">
 							<tbody>
 								<tr>
-									<td>Status:</td>
-									<td>Offline</td>
+									<td>{% trans "Status" %}:</td>
+									{% if user %}
+										<td> {% trans "Online" %}</td>
+									{% else %}
+										<td> {% trans "OffLine" %}</td>
+									{% endif %}
+									
 								</tr>
 								<tr>
-									<td>Nome:</td>
+									<td>{% trans "Name" %}:</td>
 									<td>{{user}}</td>
 								</tr>
 								<tr>
-									<td>Login:</td>
+									<td>{% trans "Login" %}</td>
 									<td>{{user.username}}</td>
 								</tr>
 								<tr>
-									<td>Email:</td>
+									<td>{% trans "Email" %}:</td>
 									<td>{{user.email}}</td>
 								</tr>
 							</tbody>
@@ -74,44 +87,70 @@
 						<table class="table table-hover table-edited">
 							<tbody>
 								<tr>
-									<td>Tipo de usuário:</td>
-									<td>{{use.type_profile}}</td>
+									<td>{% trans "User role" %}:</td>
+									{% if user.type_profile == 1 %}
+										<td>{% trans "Teacher" %}</td>
+									{% else %}
+										<td>{% trans "Student" %}</td>
+									{% endif %}
+									
 								</tr>
 								<tr>
-									<td>CPF:</td>
-									<td>{{user.cpf}}</td>
+									<td>{% trans "CPF" %}:</td>
+									{% if user.cpf %}
+										<td>{{user.cpf}}</td>
+
+									{% else %}
+										<td>{% trans "doesn't possess CPF" %}</td>
+									{% endif %}
+									
 								</tr>
 								<tr>
-									<td>Número de telefone:</td>
-									<td>{{user.phone}}</td>
+									<td>{% trans "Phone Number" %}:</td>
+									{% if user.phone %}
+										<td>{{user.phone}}</td>
+									{% else %}
+										<td>{% trans "doesn't possess Phone" %}</td>
+									{% endif %}
+									
 								</tr>
 								<tr>
-									<td>Sexo:</td>
+									<td>{% trans "Gender" %}:</td>
 									<td>{{user.gender}}</td>
 								</tr>
 								<tr>
-									<td>Data de Nascimento:</td>
+									<td>{% trans "Birth Date" %}:</td>
 									<td>{{user.birth_date}}</td>
 								</tr>
 								<tr>
-									<td>Estado e Cidade:</td>
+									<td>{% trans "State and City" %}:</td>
 									<td>{{user.state}} - {{user.city}}</td>
 								</tr>
 								<tr>
-									<td>Titulação:</td>
-									<td>Mestrado</td>
+									<td>{% trans "Title" %}:</td>
+									<td>{{user.titration}}</td>
 								</tr>
 								<tr>
-									<td>Ano:</td>
-									<td>2012</td>
+									<td>{% trans "Year" %}:</td>
+									<td>{{user.year_titration}}</td>
 								</tr>
 								<tr>
-									<td>Instituição:</td>
-									<td>UFPE</td>
+									<td>{% trans "Institution" %}:</td>
+									{% if user.institution %}
+										<td>{{user.institution}}</td>
+									{% else %}
+										<td>{% trans "Didn't inform institution" %}</td>
+									{% endif %}
 								</tr>
 								<tr>
-									<td>Currículo:</td>
-									<td>-</td>
+									<td>{% trans "Curriculum" %}:</td>
+									{% if user.curriculum %}
+										<td>
+											<a href="{{user.curriculum.url }}" target="_blank">link</a>
+										</td>
+									{% else %}
+										<td>{% trans "Didn't upload any curriculum" %}</td>
+									{% endif %}
 								</tr>
 							</tbody>
 						</table>

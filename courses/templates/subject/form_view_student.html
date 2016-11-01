@@ -1,41 +1,72 @@
-{% load static i18n list_topic_foruns %}
+    {% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access%}
 
-{% block javascript %}
-    <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
-{% endblock %}
 
-<div class="panel panel-default">
-        <a href="{% url 'course:view_topic' topic.slug %}">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-md-9 col-sm-9">
-                        <h3>{{topic}}</h3>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <div class="panel-body">
-            <p>{{topic.description|linebreaks}}</p>
+    {% block javascript %}
+        <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
+        <script src="{% static 'js/file.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
+        <script type = "text/javascript" src="{% static 'links.js' %}"></script>
+    {% endblock %}
+<div class="cards-detail">
+  <div class="panel-group accordion ui-accordion ui-widget ui-helper-reset ui-sortable" role="tablist" aria-multiselectable="false">
+    <div class="group"><div class="panel panel-default">
+      <div class="panel-heading topic ui-sortable-handle" role="tab">
+      <div class="row">
+        <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{topic.slug}}" href=".collapseTopic-{{topic.slug}}" aria-expanded="false" aria-controls="collapseTopic-{{topic.slug}}">
+          <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
         </div>
-    
-</div>
-
-
-<div class="modal fade" id="forumModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">{% trans 'Forum' %}</h4>
-            </div>
-            <div class="modal-body">
-                <section>
-                    <div class="forum_topics"></div>
-                </section>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans 'Close' %}</button>
-                <button type="button" class="btn btn-primary btn-raised">{% trans 'Save changes' %}</button>
-            </div>
+        <div class="col-xs-9 col-md-9 titleTopic">
+          <a href="{% url 'course:view_topic' topic.slug %}" role="button">
+            <h4>{{topic}}</h4>
+          </a>
         </div>
+      </div>
     </div>
-</div>
+    <div class="panel-collapse collapseTopic-{{topic.slug}} collapse in" role="tabpanel" aria-labelledby="heading_{{topic.id}}" aria-expanded="true" aria-hidden="false">
+      <div class="panel-body">
+        <div class="presentation">
+          <p>
+            <i>
+              {{topic.description|linebreaks}}
+            </i>
+          </p>
+
+        </div>
+        <div class="row">
+          <div class="col-xs-6 col-md-6">
+            <div class="resource_inline">
+              <h4>{% trans 'Material' %}</h4>
+            </div>
+            <ul>
+              {% list_topic_file request topic %}
+              {% list_topic_link request topic%}
+            </ul>
+          </div>
+          <div class="col-xs-4 col-md-4">
+            <div class="resource_inline">
+              <h4>{% trans 'Activities' %}</h4>
+            </div>
+            <ul>
+              {% list_topic_poll request topic %}
+              {% list_topic_foruns request topic %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+    {% professor_subject topic.subject user as professor_links %}
+    {% if professor_links %}
+        {% include "links/create_link.html" %}
+        {% include "links/delete_link.html" %}
+    {% endif %}
+
+
+    <!-- MODAL LINK EDIT-->
+    {% professor_subject topic.subject user as links_update %}
+    {% if links_update%}
+        {% include "links/update_link.html" %}
+    {% endif %}
+    </div>
+    </div>

@@ -6,9 +6,9 @@
 {% for poll in polls %}
   {% professor_subject poll.topic.subject request.user as permission%}
   {% if permission %}
-    <li id="poll_{{poll.slug}}"><i class="material-icons">poll</i> <a href="javascript:modal.get('{% url 'course:poll:update_poll' poll.slug %}','#poll','#modal_poll');">{{ poll.name }}</a><a href="javascript:modal.get('{% url 'course:poll:delete_poll' poll.slug %}','#poll','#modal_poll');"><span class="glyphicon glyphicon-remove"></span></a></li>
+    <li id="poll_{{poll.slug}}"><i class="material-icons">{% trans 'poll' %}</i> <a href="javascript:modal.get('{% url 'course:poll:update_poll' poll.slug %}','#poll','#modal_poll');">{{ poll.name }}</a><a href="javascript:modal.get('{% url 'course:poll:delete_poll' poll.slug %}','#poll','#modal_poll');"><span class="glyphicon glyphicon-remove"></span></a></li>
   {% else %}
-    <li id="poll_{{poll.slug}}"><i class="material-icons">poll</i> <a href="javascript:modal.get('{% url 'course:poll:view_poll' poll.slug %}','#poll','#modal_poll');">{{ poll.name }}</a></li>
+    <li id="poll_{{poll.slug}}"><i class="material-icons">{% trans 'poll' %}</i> <a href="javascript:modal.get('{% url 'course:poll:view_poll' poll.slug %}','#poll','#modal_poll');">{{ poll.name }}</a></li>
   {% endif %}
   {% endfor %}
 {# <button class="btn btn-primary btn-raised" onclick="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#modal_poll');">{% trans '+ Create Poll' %}</button> #}

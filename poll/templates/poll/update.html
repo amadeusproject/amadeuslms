@@ -14,6 +14,11 @@
 
 {% block script_poll %}
 <script type="text/javascript">
+	var locale = navigator.language || navigator.userLanguage;
+
+  $('.date-picker').datepicker({
+      language: locale,
+  });
 // Este js tem que ficar aqui se não o button add não vai funcionar
   $("#add").click(function (){
     Answer.init('{% url "course:poll:answer_poll" %}');

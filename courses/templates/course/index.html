@@ -11,9 +11,9 @@
 {% endblock %}
 
 {% block sidebar %}
-    <div class="panel panel-primary navigation">
+    <div class="panel panel-primary">
         <div class="panel-heading">
-            <h4>Menu</h4>
+            <h4>{% trans 'Menu' %}</h4>
         </div>
         <div class="panel-body">
             <ul class="nav nav-pills nav-stacked">
@@ -21,8 +21,9 @@
                 <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                 {% if user|has_role:'student' or not user.is_staff %}
                     <li><a href="{% url 'course:manage' %}">{% trans 'My courses' %}</a></li>
-                    <li><a href="{% url 'core:guest' %}">{% trans 'All Courses' %}</a></li>
+                    <li><a href="{% url 'course:all_courses' %}">{% trans 'All Courses' %}</a></li>
                 {% endif %}
+                <li><a href="{% url 'core:guest' %}">{% trans 'Courses' %}</a></li>
                 {% if user|has_role:'system_admin' %}
                     <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
                 {% endif %}
@@ -42,89 +43,108 @@
         </div>
     </div>
 
-    	{% if user|has_role:'professor' or user|has_role:'system_admin' %}
+        {% if user|has_role:'professor' or user|has_role:'system_admin' %}
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{% trans 'Category' %}</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="{% url 'course:create_cat' %}">{% trans 'Create Category' %}</a></li>
+                        <li><a href="{% url 'course:manage_cat' %}">{% trans 'List Category' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+         <div class="panel-group" id="accordion">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                            </span>{% trans 'Categorys' %}</a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <table class="table">
+                            {% for category in categorys_courses %}
+                                <tr>
+                                    <td>
+                                        <a href="?category={{category.name}}">{{category.name}}</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-		<div class="panel panel-primary navigation">
-		    <div class="panel-heading">
-		        <h3 class="panel-title">Category</h3>
-		    </div>
-		    <div class="panel-body">
-		        <ul class="nav nav-pills nav-stacked">
-		            <li><a href="{% url 'course:create_cat' %}">Create Category</a></li>
-		            <li><a href="{% url 'course:manage_cat' %}">List Category</a></li>
-		        </ul>
-		    </div>
-		</div>
-	{% endif %}
 {% endblock %}
 
 {% block content %}
-	{% if messages %}
-		{% for message in messages %}
-			<div class="alert alert-success alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<p>{{ message }}</p>
-			</div>
-		{% endfor %}
-	{% endif %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
 
-<div class="col-md-12">
-	<form id="searchform" action="{% url 'course:manage' %}" method="get" accept-charset="utf-8">
-		<div class="input-group">
-		  <div class="form-group is-empty">
-		  <input type="search" class="form-control" placeholder="Search Courses" name="q" id="searchbox"></div>
-		    <span class="input-group-btn input-group-sm">
-		      <button type="button" class="btn btn-fab btn-fab-mini">
-		        <i class="material-icons">search</i>
-		      </button>
-		    </span>
-		</div>
-	</form>
+<div class="col-md-12 cards-content">
+    <form id="searchform" action="{% url 'course:manage' %}" method="get" accept-charset="utf-8">
+        <div class="input-group">
+          <div class="form-group is-empty">
+          <input type="text" class="form-control" placeholder="Search Courses" name="q"></div>
+            <span class="input-group-btn input-group-sm">
+              <button type="submit" class="btn btn-fab btn-fab-mini">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+            </span>
+        </div>
+    </form>
 </div>
-	
 
 </fieldset>
-	<div class="col-md-12">
-		{% if courses|length > 0 %}
-			{% if request.GET.category == 'all' or none or request.GET.category == '' %}
-				{% for course in list_courses %}
-		          	{% include "course/course_card.html" %}
-				{% endfor %}
-			{% else %}
-				{% for course in courses_category %}
-    				{% if course.category.name == request.GET.category %}
-    					<!-- Put your content here! -->
-    					{% include "course/course_card.html" %}
-    				{% endif %}
-				{% endfor %}
-			{% endif %}
-		{% else %}
-			{% trans 'No courses found' %}
-		{% endif %}
-	</div>
-	<div class="col-md-12">
-		<nav aria-label="Page navigation">
-			<ul class="pagination">
-				{% if page_obj.has_previous %}
-				    <li>
-				        <a href="?page={{ page_obj.previous_page_number }}"><span><<</span></a>
-				    </li>
-				{% endif %}
-			    {% for page_number in paginator.page_range %}
-					<li{% if page_obj.number == page_number %} class="active"{% endif %}>
-	    				<a href="?page={{ page_number }}">{{ page_number }}</a>
-					</li>
-				{% endfor %}
-				{% if page_obj.has_next %}
-				    <li>
-				        <a href="?page={{ page_obj.next_page_number }}"><span>>></span></a>
-				    </li>
-				{% endif %}
-			</ul>
-		</nav>
-	</div>
-
-	<script type="text/javascript" src="{% static 'js/course.js' %}"></script>
+    <div class="col-md-12 cards-content">
+        {% if courses|length > 0 %}
+            {% if request.GET.category == '' or aparece or request.GET.q == '' %}
+                {% for course in list_courses %}
+                    {% include "course/course_card.html" %}
+                {% endfor %}
+            {% endif %}
+            {% if request.GET.category or request.GET.q %}
+                {% for course in courses %}
+                    {% include "course/course_card.html" %}
+                {% endfor %}
+            {% endif %}
+        {% else %}
+            {% trans 'No courses found' %}
+        {% endif %}
+    </div>
+        <div class="col-md-12">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li>
+                        <a href="?page={{ page_obj.previous_page_number }}"><span><<</span></a>
+                    </li>
+                {% endif %}
+                {% for page_number in paginator.page_range %}
+                    <li{% if page_obj.number == page_number %} class="active"{% endif %}>
+                        <a href="?page={{ page_number }}">{{ page_number }}</a>
+                    </li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li>
+                        <a href="?page={{ page_obj.next_page_number }}"><span>>></span></a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    <script type="text/javascript" src="{% static 'js/course.js' %}"></script>
 {% endblock %}

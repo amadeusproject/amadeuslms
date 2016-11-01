@@ -1,0 +1,135 @@
+{% extends "home.html" %}
+
+{% load static i18n django_bootstrap_breadcrumbs permission_tags %}
+
+{% block breadcrumbs %}
+	{{ block.super }}
+  	{% breadcrumb 'Settings' 'app:settings' %}
+{% endblock %}
+
+{% block content %}
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs md-pills pills-ins" role="tablist">
+	    <li class="nav-item">
+	        <a class="nav-link active" data-toggle="tab" href="#panel1" role="tab"><i class="fa fa-cog"></i> System</a>
+	    </li>
+	    <li class="nav-item">
+	        <a class="nav-link" data-toggle="tab" href="#panel2" role="tab"><i class="fa fa-envelope"></i> Mail Sender</a>
+	    </li>
+	    <li class="nav-item">
+	        <a class="nav-link" data-toggle="tab" href="#panel3" role="tab"><i class="fa fa-lock"></i> Security</a>
+	    </li>
+	</ul>
+
+	<!-- Tab panels -->
+	<div class="tab-content">
+	    <!--Panel 1-->
+	    <div class="tab-pane fade in active" id="panel1" role="tabpanel">
+	        <div class="panel panel-default">
+	          	<div class="panel-body">
+	            	<h3><b>General</b></h3>
+	            	<div class="panel panel-default">
+	              		<div class="panel-body">
+	                		Content
+	                		<hr>
+	              		</div>
+	            	</div>
+	          	</div>
+	        </div>
+	    </div>
+	    <!--/.Panel 1-->
+
+	    <!--Panel 2-->
+	    <div class="tab-pane fade" id="panel2" role="tabpanel">
+	      	<div class="panel panel-default">
+	          	<div class="panel-body">
+	            	<h3><b>Outgoing Server (SMTP)</b></h3>
+	            	<div class="panel panel-default">
+	              		<div class="panel-body">
+	                		<h4><b>Settings</b></b></h4>
+                			<hr>
+		                	<div class="form-group label-floating">
+		                  		<label class="control-label" for="focusedInput1">Description</label>
+		                  		<input class="form-control" id="focusedInput1" type="text">
+		                	</div>
+		                	<div class="form-group label-floating">
+		                  		<label class="control-label" for="focusedInput1">Server</label>
+		                  		<input class="form-control" id="focusedInput1" type="text">
+		                	</div>
+		                	<div class="form-group label-floating">
+		                  		<label for="number" class="col-md_10 control-label">Port</label>
+		                  		<div class="col-md-2">
+		                    		<input type="number" class="form-control" id="inputNumber">
+		                  		</div>
+		                  		<div>
+		                    		<label for="number">Deafault:</label> 25
+		                  		</div>
+		                	</div>
+	              		</div>
+	            	</div>
+	        	</div>
+	        	<div class="panel-body">
+		            <div class="panel panel-default">
+		              	<div class="panel-body">
+		                	<h4><b>Security and Authentication</b></h4>
+		                	<hr>
+		                	<div class="form-group label-floating">
+		                  		<label class="control-label" for="focusedInput1">User Name</label>
+		                  		<input class="form-control" id="focusedInput1" type="text">
+		                	</div>
+		                	<div class="form-group label-floating">
+		                  		<label class="control-label" for="focusedInput1">Password</label>
+		                  		<input class="form-control" id="focusedInput1" type="password">
+		                	</div>
+		                	<div class="form-group">
+		                  		<p><b>Use safe contection</b></p>
+		                  		<div class="col-md-10">
+		                    		<div class="radio radio-primary">
+		                      			<label>
+		                        			<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+		                        			No
+		                      			</label>
+		                      			<label>
+		                        			<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+		                        			TSL, If available
+				    	                </label>
+		    		                    <label>
+		                        			<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+		                        			TSL
+		                      			</label>
+		                      			<label>
+		                        			<input type="radio" name="optionsRadios" id="optionsRadios4" value="option4" checked="">
+		                        			SSL
+		                      			</label>
+		                    		</div>
+		                  		</div>
+		                	</div>
+		            	</div>
+		          	</div>
+		          	<button type="button" class="btn btn-success btn-raised">Save changes</button>
+	        	</div>
+	    	</div>
+		</div>
+	  
+	    <!--/.Panel 2-->
+
+	    <!--Panel 3-->
+		<div class="tab-pane fade" id="panel3" role="tabpanel">
+	        <div class="panel panel-default">
+	            <div class="panel-body">
+		            <div class="togglebutton">
+		            	<label>
+		                	<input type="checkbox" checked> <b>Allow users self-enroll.</b>
+		              	</label>
+		            </div>
+		            <div class="togglebutton">
+		                <label>
+		                	<input type="checkbox"> <b>Put the system in maintenance mode.</b>
+		              	</label>
+		            </div>
+		            <button type="button" class="btn btn-primary">Save changes</button>
+		        </div>
+		    </div>
+		</div>
+	</div>
+{% endblock content %}

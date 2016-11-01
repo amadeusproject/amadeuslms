@@ -15,86 +15,86 @@
         <div class="card-body">
 					<form method="post" action="" enctype="multipart/form-data">{% csrf_token %}						
 							<div class="form-group  is-fileinput">
-								<label for="id_name">Name</label>
+								<label for="id_name">{% trans 'Name' %}</label>
 								
 								
 									<input class="form-control" id="id_name" maxlength="100" name="name" type="text" required="" value="{{course.name}}">
 								
-								<span class="help-block">Course name</span>
+								<span class="help-block">{% trans 'Course name' %}</span>
 								
 							</div>
 						
 							<div class="form-group  is-fileinput">
-								<label for="id_objectivies">Objectives</label>
+								<label for="id_objectivies">{% trans 'Objectives' %}</label>
 								
 									<textarea class="form-control" cols="80" id="id_objectivies" name="objectivies" rows="5">{{course.objectivies}}</textarea>
 								
-								<span class="help-block">Course objective</span>
+								<span class="help-block">{% trans 'Course objective' %}</span>
 								
 							</div>
 						
 							<div class="form-group  is-fileinput">
-								<label for="id_content">Content</label>
+								<label for="id_content">{% trans 'Content' %}</label>
 								
 								
 									<textarea class="form-control" cols="80" id="id_content" name="content" rows="5">{{course.content}}</textarea>
 								
-								<span class="help-block">Course modules</span>
+								<span class="help-block">{% trans 'Course modules' %}</span>
 								
 							</div>
 						
 							<div class="form-group  is-fileinput">
-								<label for="id_max_students">Number of studets maximum</label>
+								<label for="id_max_students">{% trans 'Number of studets maximum' %}</label>
 								
 								
 									<input class="form-control" id="id_max_students" min="0" name="max_students" type="number" value="{{course.max_students}}">
 								
-								<span class="help-block">Max number of students that a class can have</span>
+								<span class="help-block">{% trans 'Max number of students that a class can have' %}</span>
 								
 							</div>
 						
 							<div class="form-group  is-fileinput">
-								<label for="id_init_register_date">Course registration start date</label>
+								<label for="id_init_register_date">{% trans 'Course registration start date' %}</label>
 								
 								
 									<input type="date" class="form-control" name="init_register_date" value="None" min="2016-10-24">
 								
-								<span class="help-block">Date that starts the registration period of the course (dd/mm/yyyy)</span>
+								<span class="help-block">{% trans 'Date that starts the registration period of the course (dd/mm/yyyy)' %}</span>
 								
 							</div>
 						
 							<div class="form-group  is-fileinput">
-								<label for="id_end_register_date">Course registration end date</label>
+								<label for="id_end_register_date">{% trans 'Course registration end date' %}</label>
 								
 								
 									<input type="date" class="form-control" name="end_register_date" value="None" min="2016-10-24">
 								
-								<span class="help-block">Date that ends the registration period of the course (dd/mm/yyyy)</span>
+								<span class="help-block">{% trans 'Date that ends the registration period of the course (dd/mm/yyyy)' %}</span>
 								
 							</div>
 						
 							<div class="form-group  is-fileinput">
-								<label for="id_init_date">Course start date</label>
+								<label for="id_init_date">{% trans 'Course start date' %}</label>
 								
 								
 									<input type="date" class="form-control" name="init_date" value="None" min="2016-10-24">
 								
-								<span class="help-block">Date that the course starts (dd/mm/yyyy)</span>
+								<span class="help-block">{% trans 'Date that the course starts (dd/mm/yyyy)' %}</span>
 								
 							</div>
 						
 							<div class="form-group  is-fileinput">
-								<label for="id_end_date">Course end date</label>
+								<label for="id_end_date">{% trans 'Course end date' %}</label>
 								
 								
 									<input type="date" class="form-control" name="end_date" value="None" min="2016-10-24">
 								
-								<span class="help-block">Date that the course ends (dd/mm/yyyy)</span>
+								<span class="help-block">{% trans 'Date that the course ends (dd/mm/yyyy)' %}</span>
 								
 							</div>
 						
 							<div class="form-group  is-fileinput">
-								<label for="id_image">Imagem</label>
+								<label for="id_image">{% trans 'Imagem' %}</label>
 								
 								
 									<input class="form-control" id="id_image" name="image" type="file">
@@ -102,17 +102,17 @@
 										<input type="text" readonly="" class="form-control" placeholder="Choose your photo...">
 										<span class="input-group-btn input-group-sm">
 												<button type="button" class="btn btn-fab btn-fab-mini">
-														<i class="material-icons">attach_file</i>
+														<i class="material-icons">{% trans 'attach_file' %}</i>
 												</button>
 										</span>
 									</div>
 								
-								<span class="help-block">Representative image of the course</span>
+								<span class="help-block">{% trans 'Representative image of the course' %}</span>
 								
 							</div>
 						
 							<div class="form-group  is-fileinput">
-								<label for="id_category">CourseCategory</label>
+								<label for="id_category">{% trans 'CourseCategory' %}</label>
 								
 								
 									<select class="form-control" id="id_category" name="category" required="">
@@ -121,7 +121,7 @@
 										{% endfor %}
 									</select>
 								
-								<span class="help-block">CourseCategory which the course belongs</span>
+								<span class="help-block">{% trans 'CourseCategory which the course belongs' %}</span>
 								
 							</div>
 						

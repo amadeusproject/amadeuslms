@@ -1,6 +1,6 @@
 {% extends 'home.html' %}
 
-{% load i18n pagination django_bootstrap_breadcrumbs static  %}
+{% load i18n pagination django_bootstrap_breadcrumbs permission_tags static  %}
 
 {% block breadcrumbs %}
 
@@ -9,20 +9,23 @@
 
 {% endblock %}
 
-{% block sidebar %}
-    <div class="panel panel-primary navigation">
-        <div class="panel-heading">
-            <h5>Menu</h5>
+{% if user|has_role:'system_admin' %}
+    {% block sidebar %}
+        <div class="panel panel-primary navigation">
+            <div class="panel-heading">
+                <h5>{% trans 'Menu' %}</h5>
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="{% url 'core:home' %}">{% trans "Home" %}</a></li>
+                    <li><a href="{% url 'users:create' %}">{% trans 'Add user' %}</a></li>
+                    <li><a href="javascript:void(0)">{% trans 'Send email' %}</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="panel-body">
-            <ul class="nav nav-pills nav-stacked">
-                <li><a href="{% url 'core:home' %}">{% trans "Home" %}</a></li>
-                <li><a href="{% url 'users:create' %}">{% trans 'Add user' %}</a></li>
-                <li><a href="javascript:void(0)">{% trans 'Send email' %}</a></li>
-            </ul>
-        </div>
-    </div>
-{% endblock %}
+    {% endblock %}
+{% endif %}
+
 
 {% block content %}
     {% if messages %}
@@ -54,7 +57,7 @@
                 <div class="panel-body">
                     <div class="col-md-4">
                         {% if acc.image %}
-                            <img src="{{ acc.image.url }}" alt="photoUser" class="img-circle img-responsive img-list-user">
+                            <div style="background-image: url('{{ acc.image.url }}'); background-size: 100% 100%; background-repeat: no-repeat;" alt="photoUser" class="img-circle img-responsive img-list-user"></div>
                         {% else %}
                             {% if acc.gender == 'M' %}
                                 <img src="{% static 'img/male_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user">
@@ -81,14 +84,14 @@
                         <div class="modal-content">
                           <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="DeleteModalLabel">Confirm delete</h4>
+                            <h4 class="modal-title" id="DeleteModalLabel">{% trans 'Confirm delete' %}</h4>
                           </div>
                           <div class="modal-body">
-                            Are you sure you want to delete the user <b>{{acc.name}}</b>?                          
+                            {% trans 'Are you sure you want to delete the user' %} <b>{{acc.name}}</b>?                          
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>                         
-                            <button type="button" class="btn btn-primary"> <a href="{% url 'users:delete' acc.username %}">Delete</a></button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Cancel' %}</button>                         
+                            <button type="button" class="btn btn-primary"> <a href="{% url 'users:delete' acc.username %}">{% trans 'Delete' %}</a></button>
                           </div>
                         </div>
                       </div>

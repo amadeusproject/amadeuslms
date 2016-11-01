@@ -54,7 +54,7 @@ def remember_password(request):
 		registration = request.POST['registration']
 		if email and registration:
 			subject = _('Recover your password')
-			message = _('Hello %s, \nRecover your password to use your account.\nNumber of registration: %s\nLink for recuver password.\n\nRespectfully,\nTeam Amadeus.' % (request.user,registration))
+			message = _('Hello {0}, \nRecover your password to use your account.\nNumber of registration: {1}\nLink for recuver password.\n\nRespectfully,\nTeam Amadeus.'.format(request.user,registration))
 			try:
 				send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email],fail_silently=False)
 				context['success'] = 'Email successfully sent'

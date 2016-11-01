@@ -1,46 +1,49 @@
 {% load static i18n permission_tags %}
 {% load django_bootstrap_breadcrumbs %}
-
-<div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion-{{course.slug}}" role="tablist" aria-multiselectable="false">
-    <div class="group">
-		<div class="panel panel-info">
-		    <div class="panel-heading" role="tab">
-		      <div class="row">
-		        <div class="col-xs-9 col-md-10 titleTopic">
-		          <a role="button" data-toggle="collapse" data-parent="#accordion-{{course.slug}}" href=".collapseOne-{{course.slug}}" aria-expanded="false" aria-controls="collapseOne-{{course.slug}}" class="collapsed">
-		          <h4 style="color:white">{{course.name}}</h4>
-		          </a>
-		        </div>
-		        {% if user|has_role:'professor' or user|has_role:'system_admin' %}
-			        <div class="col-xs-4 col-md-2" id="divMoreActions">
-			            <div class="btn-group">
-			              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-			              </button>
-			              <ul class="dropdown-menu" aria-labelledby="moreActions">
-			                <li><a href="{% url 'course:replicate_course' course.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
-			                <li><a href="javascript:delete_course('{% url 'course:delete' course.slug %}', '{{ course.slug }}', '{% trans "Are you sure you want to delete this course?" %}', '{% url 'course:manage' %}')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remove' %}</a></li>
-			              </ul>
-			            </div>
-			        </div>
-		        {% endif %}
-		      </div>
-		    </div>
-		    <div class="panel-collapse collapseOne-{{course.slug}} collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" aria-hidden="false" tabindex="0">
-		      <div class="panel-body">
-		        <p><b>Course Name: </b>{{course.name}}</p>
-		        <p><b>Coordinator: </b>{{course.professors.all.0}}</p>
-		        <p>
-		          <b>Description:</b>
-		          <i>
-		            {{course.content}}
-		          </i>
-		        </p>
-				<a href="{% url 'course:view' course.slug %}" class="btn btn-raised btn-default center-block">{% trans 'View Course' %}<div class="ripple-container"></div></a>
-		      </div>
-		    </div>
-		</div>
-	</div>
+<div class="group">
+    <div class="panel panel-info">
+        <div class="panel-heading course">
+          <div class="row">
+            <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{course.slug}}" href=".collapseOne-{{course.slug}}" aria-expanded="false" aria-controls="collapseOne-{{course.slug}}">
+                <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
+            </div>
+            <div class="col-xs-9 col-md-4 titleTopic">
+              <a role="button" href="{% url 'course:view' course.slug %}">
+                  <h4>{{course.name}}</h4>
+              </a>
+            </div>
+            {% if user|has_role:'professor' or user|has_role:'system_admin' %}
+            <div class="col-xs-4 col-md-6 divMoreActions" >
+                <div class="btn-group">
+                  <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+                   </button>
+                  <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                    <li><a href="{% url 'course:replicate_course' course.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
+                    <li><a href="javascript:delete_course('{% url 'course:delete' course.slug %}', '{{ course.slug }}', '{% trans "Are you sure you want to delete this course?" %}', '{% url 'course:manage' %}')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
+                  </ul>
+                </div>
+            </div>
+            {% elif user|has_role:'student' %}
+              {% if not request.user in course.students.all %}
+                <a onclick="subscribe($(this), '{% url 'course:subscribe' course.slug %}', {{ course.id}}, '{% trans 'Are you sure you want to subscribe to this course?' %}')"><button class="btn btn-sm btn-primary btn-raised pull-right">{% trans 'Subscribe' %}</button></a>                
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+        <div class="panel-collapse collapseOne-{{course.slug}} collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" aria-hidden="false" tabindex="0">
+          <div class="panel-body">
+            <p><b>{% trans 'Course Name' %}: </b>{{course.name}}</p>
+            <p><b>{% trans 'Coordinator' %}: </b>{{course.professors.all.0}}</p>
+            <p>
+              <b>{% trans 'Description' %}:</b>
+              <i>
+                {{course.content}}
+              </i>
+            </p>
+          </div>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="replicateCourse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-07 00:13-0300\n"
+"POT-Creation-Date: 2016-10-26 14:47-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,161 +18,198 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: app/templates/app/base.html:10
-msgid "The Project"
-msgstr ""
-
-#: app/templates/app/base.html:11
-msgid "CCTE Group"
-msgstr ""
-
-#: app/templates/app/base.html:14
-msgid "Hi"
-msgstr ""
-
-#: app/templates/app/base.html:16
-#, fuzzy
-#| msgid "Profile"
-msgid "See Profile"
-msgstr "Perfil"
-
-#: app/templates/app/base.html:17
-msgid "Settings"
-msgstr "Configurações"
-
-#: app/templates/app/base.html:18
-msgid "Logout"
-msgstr "Sair"
-
-#: app/templates/app/index.html:6
-msgid "You have:"
-msgstr ""
-
-#: app/templates/app/index.html:10
-#, fuzzy
-#| msgid "Pending tasks"
-msgid "Pending Tasks"
-msgstr "Tarefas Pendentes"
-
-#: app/templates/app/index.html:14
-msgid "Users Online"
-msgstr "Usuários Online"
-
-#: app/templates/app/index.html:20
-msgid "You can:"
-msgstr ""
-
-#: app/templates/app/index.html:24 app/templates/home_app.html:26
-#: app/templates/home_professor.html:23
-msgid "Create Course"
-msgstr "Criar Curso"
-
-#: app/templates/app/index.html:29
-#, fuzzy
-#| msgid "Manage Course"
-msgid "Manage Users"
-msgstr "Gerenciar Curso"
-
-#: app/templates/app/index.html:33
-#, fuzzy
-#| msgid "Manage Course"
-msgid "Manage Courses"
-msgstr "Gerenciar Curso"
-
-#: app/templates/app/index.html:37
-msgid "Gerenciar Categorias"
-msgstr ""
-
-#: app/templates/app/index.html:45
-msgid "Your course(s):"
-msgstr ""
-
-#: app/templates/app/index.html:46
-msgid "No courses subscribed yet"
-msgstr ""
-
-#: app/templates/app/index.html:56
-msgid "Search course:"
-msgstr ""
-
-#: app/templates/app/index.html:62
-msgid "Search"
-msgstr ""
-
-#: app/templates/app/index.html:67
-msgid "Most popular keywords:"
-msgstr ""
-
-#: app/templates/home_app.html:14 app/templates/home_professor.html:9
-#: app/templates/home_student.html:9
-msgid "Home"
-msgstr "Início"
-
-#: app/templates/home_app.html:22 app/templates/home_professor.html:22
-msgid "Pending tasks"
-msgstr "Tarefas Pendentes"
-
-#: app/templates/home_app.html:23
-#, fuzzy
-#| msgid "Users Online"
-msgid "Users Online (1)"
-msgstr "Usuários Online"
-
-#: app/templates/home_app.html:24
-#, fuzzy
-#| msgid "Courses"
-msgid "Course"
-msgstr "Cursos"
-
-#: app/templates/home_app.html:27 app/templates/home_professor.html:24
-msgid "Manage Course"
-msgstr "Gerenciar Curso"
-
-#: app/templates/home_app.html:35 app/templates/home_professor.html:31
-msgid "Courses"
-msgstr "Cursos"
-
-#: app/templates/home_app.html:51 app/templates/home_professor.html:48
-msgid "You didn't create any course yet."
-msgstr "Você não criou nenhum curso ainda."
-
-#: app/templates/home_app.html:59 app/templates/home_professor.html:54
-#: app/templates/home_student.html:60
-msgid "Goals"
-msgstr "Metas"
-
-#: app/templates/home_professor.html:18 app/templates/home_student.html:18
+#: app/templates/home.html:69 app/templates/home_professor.html:20
+#: app/templates/home_student.html:21
 msgid "Menu"
 msgstr "Menu"
 
-#: app/templates/home_professor.html:40
-msgid "Students:"
-msgstr "Alunos"
+#: app/templates/home.html:73
+msgid "Home"
+msgstr "Início"
 
-#: app/templates/home_professor.html:41
-msgid "Beginning:"
-msgstr "Começo"
-
-#: app/templates/home_professor.html:42
-msgid "End:"
-msgstr "Fim"
-
-#: app/templates/home_student.html:22
+#: app/templates/home.html:74 app/templates/home_student.html:25
 msgid "Profile"
 msgstr "Perfil"
 
-#: app/templates/home_student.html:23
+#: app/templates/home.html:76
+#, fuzzy
+#| msgid "My Courses"
+msgid "My courses"
+msgstr "Meus Cursos"
+
+#: app/templates/home.html:78 app/templates/home_student.html:27
+#, fuzzy
+#| msgid "Courses"
+msgid "All Courses"
+msgstr "Cursos"
+
+#: app/templates/home.html:80
+#, fuzzy
+#| msgid "Manage Course"
+msgid "Manage Users"
+msgstr "Gerenciar Usuários"
+
+#: app/templates/home.html:84
+#, fuzzy
+#| msgid "Manage Course"
+msgid "Manage Courses"
+msgstr "Gerenciar Cursos"
+
+#: app/templates/home.html:101 app/templates/home_professor.html:34
+msgid "Courses"
+msgstr "Cursos"
+
+#: app/templates/home_admin_content.html:10
+#, fuzzy
+#| msgid "Students:"
+msgid "Students"
+msgstr "Alunos"
+
+#: app/templates/home_admin_content.html:11
+#, fuzzy
+#| msgid "Beginning:"
+msgid "Beginning"
+msgstr "Começo"
+
+#: app/templates/home_admin_content.html:12
+#, fuzzy
+#| msgid "End:"
+msgid "End"
+msgstr "Fim:"
+
+#: app/templates/home_admin_content.html:15
+msgid "Edit"
+msgstr "Editar"
+
+#: app/templates/home_professor.html:24
+msgid "Pending tasks"
+msgstr "Tarefas Pendentes"
+
+#: app/templates/home_professor.html:25
+msgid "Create Course"
+msgstr "Criar Curso"
+
+#: app/templates/home_professor.html:26
+msgid "Manage Course"
+msgstr "Gerenciar Curso"
+
+#: app/templates/home_professor.html:44
+msgid "Students:"
+msgstr "Alunos"
+
+#: app/templates/home_professor.html:45
+msgid "Beginning:"
+msgstr "Começo"
+
+#: app/templates/home_professor.html:46
+msgid "End:"
+msgstr "Fim:"
+
+#: app/templates/home_professor.html:53
+msgid "You didn't create any course yet."
+msgstr "Você não criou nenhum curso ainda."
+
+#: app/templates/home_student.html:26
 msgid "My Courses"
 msgstr "Meus Cursos"
 
-#: app/templates/home_student.html:24
+#: app/templates/home_student.html:28
 msgid "Google accounts"
 msgstr "Contas do Google"
 
-#: app/templates/home_student.html:31
+#: app/templates/home_student.html:35
 msgid "Notifications"
 msgstr "Notificações"
 
-#: app/templates/home_student.html:63
-msgid "Favorites"
-msgstr "Favoritos"
+#: app/templates/home_student.html:48
+msgid "His course has notified a new activity!"
+msgstr "Seu curso tem uma nova atividade!"
+
+#: app/templates/home_student.html:51 app/templates/home_student.html:59
+#: app/templates/home_student.html:67
+msgid "Go"
+msgstr "Ir"
+
+#: app/templates/home_student.html:56
+msgid "His teacher has notified a new material!"
+msgstr "Seu professor adicionou um novo material!"
+
+#: app/templates/home_student.html:64
+msgid "You have a new guardian!"
+msgstr "Você tem um novo tutor!"
+
+#: app/templates/home_teacher_student_content.html:14
+msgid "at"
+msgstr "em"
+
+#: app/templates/home_teacher_student_content.html:15
+msgid "ago"
+msgstr "atrás"
+
+#~ msgid "The Project"
+#~ msgstr "O projeto"
+
+#~ msgid "CCTE Group"
+#~ msgstr "Grupo CCTE"
+
+#~ msgid "Hi"
+#~ msgstr "Olá"
+
+#, fuzzy
+#~| msgid "Profile"
+#~ msgid "See Profile"
+#~ msgstr "Perfil"
+
+#~ msgid "Settings"
+#~ msgstr "Configurações"
+
+#~ msgid "Logout"
+#~ msgstr "Sair"
+
+#~ msgid "You have:"
+#~ msgstr "Você tem:"
+
+#, fuzzy
+#~| msgid "Pending tasks"
+#~ msgid "Pending Tasks"
+#~ msgstr "Tarefas Pendentes"
+
+#~ msgid "Users Online"
+#~ msgstr "Usuários Online"
+
+#~ msgid "You can:"
+#~ msgstr "Você pode:"
+
+#~ msgid "Manage Categories"
+#~ msgstr "Gerenciar Categorias"
+
+#~ msgid "Your course(s):"
+#~ msgstr "Seus cursos:"
+
+#~ msgid "No courses subscribed yet"
+#~ msgstr "Nenhum curso inscrito ainda"
+
+#~ msgid "Search course:"
+#~ msgstr "Pesquisar curso"
+
+#~ msgid "Search"
+#~ msgstr "Pesquisar"
+
+#~ msgid "Most popular keywords:"
+#~ msgstr "Palavras mais populares:"
+
+#, fuzzy
+#~| msgid "Users Online"
+#~ msgid "Users Online (1)"
+#~ msgstr "Usuários Online"
+
+#, fuzzy
+#~| msgid "Courses"
+#~ msgid "Course"
+#~ msgstr "Cursos"
+
+#~ msgid "Goals"
+#~ msgstr "Metas"
+
+#~ msgid "Favorites"
+#~ msgstr "Favoritos"

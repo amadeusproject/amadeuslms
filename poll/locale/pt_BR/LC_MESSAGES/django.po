@@ -1,0 +1,131 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-10-26 14:47-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: poll/forms.py:18 poll/forms.py:22
+msgid "It is required one these fields."
+msgstr ""
+
+#: poll/models.py:11 poll/models.py:32
+msgid "Poll"
+msgstr "Enquete"
+
+#: poll/models.py:12
+msgid "Polls"
+msgstr "Enquetes"
+
+#: poll/models.py:18 poll/models.py:24 poll/templates/poll/answer.html:11
+#: poll/templates/poll/answer_student.html:27
+#: poll/templates/poll/create.html:68 poll/templates/poll/create.html:85
+#: poll/templates/poll/view.html:33
+msgid "Answer"
+msgstr "Reposta"
+
+#: poll/models.py:19
+msgid "Order"
+msgstr "Ordem"
+
+#: poll/models.py:20 poll/models.py:25
+msgid "Answers"
+msgstr "Repostas"
+
+#: poll/models.py:31
+msgid "Answered"
+msgstr "Respondido"
+
+#: poll/models.py:33
+msgid "Answers Students"
+msgstr "Respostas dos estudantes"
+
+#: poll/models.py:34
+msgid "Student"
+msgstr "Estudante"
+
+#: poll/models.py:35
+msgid "Answered Date"
+msgstr "Data de resposta"
+
+#: poll/models.py:38
+msgid "Answer Stundent"
+msgstr "Resposta do estudante"
+
+#: poll/models.py:39
+msgid "Answers Student"
+msgstr "Respostas dos estudantes"
+
+#: poll/templates/poll/answer.html:12 poll/templates/poll/create.html:69
+#: poll/templates/poll/create.html:86
+msgid "Possible answer for the question"
+msgstr "Possível resposta para a questão"
+
+#: poll/templates/poll/create.html:22
+msgid "Create a Poll"
+msgstr "Criar enquete"
+
+#: poll/templates/poll/create.html:38
+msgid "Question?"
+msgstr "Pergunta?"
+
+#: poll/templates/poll/create.html:39
+msgid "A Question to be answered"
+msgstr "A questão a ser respondida"
+
+#: poll/templates/poll/create.html:154
+msgid "Close"
+msgstr "Fechar"
+
+#: poll/templates/poll/create.html:157
+msgid "Create"
+msgstr "Criar"
+
+#: poll/templates/poll/remove.html:7
+msgid "Delete Poll"
+msgstr "Deletar enquete"
+
+#: poll/templates/poll/remove.html:15
+msgid "Are you sure you want to delete the subject"
+msgstr "Tem certeza que deseja deletar este assunto"
+
+#: poll/templates/poll/remove.html:19
+msgid "Delete"
+msgstr "Deletar"
+
+#: poll/templates/poll/update.html:7
+msgid "Update a Poll"
+msgstr "Atualizar enquete"
+
+#: poll/templates/poll/update.html:12
+msgid "Update"
+msgstr "Atualizar"
+
+#: poll/templates/poll/view.html:17
+msgid "Limit date:"
+msgstr "Data limite:"
+
+#: poll/templates/poll/view.html:20
+msgid "Status:"
+msgstr "Status:"
+
+#: poll/templates/poll/view.html:22
+msgid "Poll answered"
+msgstr "Enquete respondida"
+
+#: poll/templates/poll/view.html:24
+msgid "Poll don't yet answered"
+msgstr "A enquete não foi respondida ainda"

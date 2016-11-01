@@ -1,338 +1,308 @@
-    {% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access%}
+{% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access%}
 
-    {% block javascript %}
-        <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
-        <script src="{% static 'js/file.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
-        <script type = "text/javascript" src="{% static 'links.js' %}"></script>
-    {% endblock %}
-
-    <div class="panel-group accordion ui-accordion ui-widget ui-helper-reset ui-sortable" role="tablist" aria-multiselectable="false">
-            <div class="group"><div class="panel panel-default">
-      <div class="panel-heading headingOne ui-sortable-handle" role="tab">
+{% block javascript %}
+   <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
+   <script src="{% static 'js/file.js' %}"></script>
+   <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
+   <script type = "text/javascript" src="{% static 'js/links.js' %}"></script>
+{% endblock %}
+<div class="panel panel-default cards-detail">
+  <div class="panel-heading topic">
+    <div class="row">
+      <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{topic.slug}}" href=".collapseTopic-{{topic.slug}}" aria-expanded="false" aria-controls="collapseTopic-{{topic.slug}}">
+        <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
+      </div>
+      <div class="col-xs-9 col-md-9 titleTopic">
+        <a role="button">
+          <h4>{{topic}}</h4>
+        </a>
+      </div><!--column -->
+      <div class="col-xs-3 col-md-2 divMoreActions">
+        <div class="btn-group">
+          <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
+            <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+          </button>
+          {% professor_subject topic.subject user as dropdown_topic %}
+          {% if dropdown_topic %}
+          <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
+            <li><a href="javascript:show_editation('{{topic.slug}}')"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
+            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeTopic"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
+          </ul>
+          {% endif %}
+        </div>
+      </div><!--column-->
+    </div><!--row-->
+  </div>
+  <div class="panel-collapse collapseTopic-{{topic.slug}} topic_{{ topic.id }} collapse in" role="tabpanel" aria-labelledby="heading_{{topic.id}}" aria-expanded="true" aria-hidden="false">
+    <div class="panel-body">
+      <div class="presentation" id="presentation_{{topic.slug}}">
+        <p>
+          <i>
+            {{topic.description|linebreaks}}
+          </i>
+        </p>
         <div class="row">
-          <div class="col-xs-9 col-md-10 titleTopic">
-            <a role="button" data-toggle="collapse" data-parent=".accordion" href=".collapseOne" aria-expanded="false" aria-controls="collapseOne" class="" aria-selected="false" tabindex="-1">
-            {{topic}}
-            </a>
+          <div class="col-xs-6 col-md-6">
+            <div class="resource_inline">
+              <h4>{% trans 'Material' %}</h4>
+            </div>
+            <div class="resource_inline">
+              <div class="dropdown">
+                <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
+                <ul class="dropdown-menu" aria-labelledby="dLabel">
+                  <li><a href="javascript:get_modal_link('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')  ">{% trans 'Create a Link' %}</a></li>
+                  <li><a href="javascript:get_modal_file('{% url 'course:file:create_file' topic.slug %}', '#fileModal', '#divModalFile')">{% trans "Create a file" %}</a></li>
+                </ul>
+              </div>
+            </div>
+            <ul>
+              {% list_topic_file request topic %}
+              {% list_topic_link request topic%}
+            </ul>
           </div>
-          <div class="col-xs-3 col-md-2 divMoreActions">
-            <div class="btn-group">
-              <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
-                <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
-              </button>
+          <div class="col-xs-4 col-md-4">
+            <div class="resource_inline">
+              <h4>{% trans 'Activities' %}</h4>
             </div>
-            <div class="btn-group">
-              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-              </button>
-              {% professor_subject topic.subject user as dropdown_topic %}
-              {% if dropdown_topic %}
-                  <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
-                    <li><a href="javascript:void(0)" class="edit_card"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
-                    <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeTopic"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
-                  </ul>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="panel-collapse collapseOne collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" aria-hidden="true" tabindex="-1" aria-selected="false">
-        <div class="panel-body">
-          <div class="presentation">
-            <p>
-              <i>
-                {{topic.description|linebreaks}}
-              </i>
-            </p>
-            <div class="row">
-              <div class="col-xs-6 col-md-6">
-                <div class="resource_inline">
-                  <h4>Material</h4>
-                </div>
-                <div class="resource_inline">
-                  <div class="dropdown">
-                    <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                    <ul class="dropdown-menu" aria-labelledby="dLabel">
-                        <li><a href=" javascript:get_modal_link('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')  ">Create a Link<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 54.5312px; top: 22px; background-color: rgb(0, 150, 136); transform: scale(20);"></div></div></a></li>
-                        <li>
-                            <a href="javascript:get_modal_file('{% url 'course:file:create_file' topic.slug %}', '#fileModal', '#divModalFile')">
-                                {% trans "Create a file" %}
-                                <div class="ripple-container">
-                                    <div class="ripple ripple-on ripple-out" style="left: 33.5312px; top: 11px; background-color: rgb(0, 150, 136); transform: scale(20);">
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                  </div>
-                </div>
-                <ul id="list-materials">
-                    {% list_topic_file request topic %}
-                    {% list_topic_link request topic%}
-                  
-                </ul>
-              </div>
-              <div class="col-xs-4 col-md-4">
-                <div class="resource_inline">
-                  <h4>Activities</h4>
-                </div>
-                <div class="resource_inline">
-                  <div class="dropdown">
-                    <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                    <ul class="dropdown-menu" aria-labelledby="dLabel">
-                      <li><a href="javascript:createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans 'Create Forum' %}<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 33.5312px; top: 11px; background-color: rgb(0, 150, 136); transform: scale(20);"></div></div></a></li>
-                      <li><a href="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#modal_poll');">{% trans 'Create Poll' %}</a></li>
-
-                    </ul>
-                  </div>
-                </div>
-                <ul>
-                   
-                    <div class="foruns_list">
-                        {% list_topic_poll request topic %}
-                        {% list_topic_foruns request topic %}
-                    </div>
-                </ul>
-              </div>
-             
-            </div>
-          </div>
-          <div class="editation" style="display: none">
-            <div class="form-group">
-              <label class="control-label" for="focusedInput2">Name Topic</label>
-              <input type="text" class="form-control" value="Topic 1">
-            </div>
-            <div class="form-group is-empty">
-              <label class="control-label" for="focusedInput2">Description</label>
-              <textarea class="form-control" rows="3" id="textArea"></textarea>
-            </div>
-            <div class="row">
-              <div class=" col-xs-6 col-md-4">
-                <div class="resource_inline">
-                  <h4>Material</h4>
-                </div>
-                <div class="resource_inline">
-                  <div class="dropdown">
-                    <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                    <ul class="dropdown-menu" aria-labelledby="dLabel">
-                      <li><a href="javascript:get_modal_link('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')">Create a Link</a></li>
-                      <li>
-                        <a href="#">
-                            {% trans "Create a file" %}
-                            <div class="ripple-container">
-                                <div class="ripple ripple-on ripple-out" style="left: 33.5312px; top: 11px; background-color: rgb(0, 150, 136); transform: scale(20);">
-                                </div>
-                            </div>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <ul id="list-materials-edit">
-                    {% list_topic_link_edit request topic%}
-                    {% list_topic_file_edit request topic %}
-                </ul>
-              </div>
-              <div class="col-xs-4 col-md-offset-1 col-md-4">
-                <div class="resource_inline">
-                  <h4>Activities</h4>
-                </div>
-                <div class="resource_inline">
-                  <div class="dropdown">
-                    <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-                    <ul class="dropdown-menu" aria-labelledby="dLabel">
-                      <li>Qualquer coisa</li>
-                    </ul>
-                  </div>
-                </div>
-                <ul>
-                  <li class="icon_edit_remove"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <i class="fa fa-trash fa-lg" aria-hidden="true"></i></li>
-                 
-                  <li class="icon_edit_remove"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <i class="fa fa-trash fa-lg" aria-hidden="true"></i></li>
-
+            <div class="resource_inline">
+              <div class="dropdown">
+                <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
+                <ul class="dropdown-menu" aria-labelledby="dLabel">
+                  <li><a href="javascript:createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans 'Create Forum' %}</a></li>
+                  <li><a href="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#modal_poll');">{% trans 'Create Poll' %}</a></li>
                 </ul>
               </div>
             </div>
-            <div class="form-group">
-              <div class="col-md-10">
-                <button type="button" class="btn btn-raised btn-default edit_card_end">Cancel</button>
-                <button type="submit" class="btn btn-raised btn-primary edit_card_end">Submit</button>
-              </div>
-            </div>
+            <ul>
+              {% list_topic_poll request topic %}
+              {% list_topic_foruns request topic %}
+            </ul>
           </div>
         </div>
-      </div>
+      </div><!--EndPresentation-->
+      <div class="editation topic_{{ topic.id }}" id="editation_{{topic.slug}}">
+        <div class="form-group">
+          <label class="control-label" for="focusedInput2">{% trans 'Name Topic' %}</label>
+          <input type="text" class="form-control" value="{{topic}}">
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="focusedInput2">{% trans 'Description' %}</label>
+          <textarea class="form-control" rows="3" id="textArea">{{topic.description}}</textarea>
+        </div>
+        <div class="row">
+          <div class=" col-xs-6 col-md-4">
+            <div class="resource_inline">
+              <h4>{% trans 'Material' %}</h4>
+            </div>
+            <div class="resource_inline">
+              <div class="dropdown">
+                <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
+                <ul class="dropdown-menu" aria-labelledby="dLabel">
+                  <li><a href="javascript:get_modal_link('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')  ">{% trans 'Create a Link' %}</a></li>
+                  <li><a href="javascript:get_modal_file('{% url 'course:file:create_file' topic.slug %}', '#fileModal', '#divModalFile')">{% trans "Create a file" %}</a></li>
+                </ul>
+              </div>
+            </div>
+            <ul>
+              {% list_topic_file_edit request topic %}
+              {% list_topic_link_edit request topic%}
+            </ul>
+          </div>
+          <div class="col-xs-4 col-md-offset-1 col-md-4">
+            <div class="resource_inline">
+              <h4>{% trans 'Activities' %}</h4>
+            </div>
+            <div class="resource_inline">
+              <div class="dropdown">
+                <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
+                <ul class="dropdown-menu" aria-labelledby="dLabel">
+                  <li><a href="javascript:createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans 'Create Forum' %}</a></li>
+                  <li><a href="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#modal_poll');">{% trans 'Create Poll' %}</a></li>
+                </ul>
+              </div>
+            </div>
+            <ul>
+              {% list_topic_poll request topic %}
+              {% list_topic_foruns request topic %}
+            </ul>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-10">
+            <a href="javascript:show_presentation('{{topic.slug}}')" class="btn btn-raised btn-default">{% trans 'Cancel' %}</a>
+            <a href="javascript:show_presentation('{{topic.slug}}')" class="btn btn-raised btn-primary">{% trans 'Submit' %}</a>
+          </div>
+        </div>
+      </div><!--EndEditation-->
 
     </div>
-    <!-- MODAL REMOVE TOPIC -->
-    <div class="modal" id="removeTopic">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-            <h4 class="modal-title"></h4>
-          </div>
-          <div class="modal-body">
-            <p>Delete your Topic?</p>
-          </div>
-          <div class="modal-footer">
+  </div>
+</div>
 
-            <a href="" target="_self"><button type="button" class="btn btn-primary">Confirm</button></a>
+<!-- MODALs -->
 
-          </div>
-        </div>
+
+<!-- MODAL REMOVE TOPIC -->
+<div class="modal" id="removeTopic">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p>{% trans 'Delete your Topic?' %}</p>
+      </div>
+      <div class="modal-footer">
+
+        <a href="" target="_self"><button type="button" class="btn btn-primary">{% trans 'Confirm' %}</button></a>
+
       </div>
     </div>
-    <!-- END -->
-    {% professor_subject topic.subject user as professor_links %}
-    {% if professor_links%}
-        {% include "links/create_link.html" %}
-        {% include "links/delete_link.html" %}
-    {% endif %}
+  </div>
+</div>
+<!-- END -->
 
-    <!-- MODAL EMBEED-->
-    <div class="modal fade" id="embedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-            <h4 class="modal-title" id="myModalLabel">Material EMBED</h4>
-          </div>
-          <div class="modal-body">
-            <div class="form-group is-empty">
-              <label for="inputEmail" class="col-md-2 control-label">Name:</label>
-              <div class="col-md-10">
-                <input type="text" class="form-control" id="inputEmail" placeholder="Name">
-              </div>
-            </div>
-            <form class="form-horizontal">
-              <div class="form-group is-empty">
-                <label for="textArea" class="col-md-2 control-label">Code:</label>
-
-                <div class="col-md-10">
-                    <textarea class="form-control" rows="2" id="textArea"></textarea>
-                    <span class="help-block">Material description</span>
-                </div>
-              </div>
-              <div class="form-group is-empty">
-              <label for="number" class="col-md-2 control-label">Height</label>
-                <div class="col-md-4">
-                  <input type="number" class="form-control" id="inputNumber" placeholder="Heiht">
-                </div>
-              </div>
-              <div class="form-group is-empty">
-              <label for="number" class="col-md-2 control-label">Weight</label>
-                <div class="col-md-4">
-                  <input type="number" class="form-control" id="inputNumber" placeholder="Weight">
-                </div>
-              </div>
-            </form>
-
-          </div>
-          <div class="modal-footer">
-            <!-- Don't remove that!!!
-            <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">Close</button>-->
-
-            <!-- Put curtom buttons here!!!  -->
-            <button type="button" class="btn btn-primary btn-raised">Confirm</button>
+<!-- MODAL EMBEED-->
+<div class="modal fade" id="embedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title" id="myModalLabel">{% trans 'Material EMBED' %}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group is-empty">
+          <label for="inputEmail" class="col-md-2 control-label">{% trans 'Name' %}:</label>
+          <div class="col-md-10">
+            <input type="text" class="form-control" id="inputEmail" placeholder="Name">
           </div>
         </div>
-      </div>
-    </div>
-    <!-- EndModal -->
+        <form class="form-horizontal">
+          <div class="form-group is-empty">
+            <label for="textArea" class="col-md-2 control-label">{% trans 'Code' %}:</label>
 
-    <!-- MODAL ACTIVITIES-->
-   <div class="modal fade" id="ActivityModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-              <h4 class="modal-title" id="myModalLabel"></h4>
+            <div class="col-md-10">
+                <textarea class="form-control" rows="2" id="textArea"></textarea>
+                <span class="help-block">{% trans 'Material description' %}</span>
+            </div>
           </div>
-          <div class="modal-body">
-            <form class="form-horizontal">
-
-          <fieldset>
-            <legend>Atividade Proposta</legend>
-            <div class="form-group is-empty">
-              <label for="NameIn" class="col-md-2 control-label">Name:</label>
-              <div class="col-md-10">
-                <input type="text" id="NameIn" class="form-control">
-              </div>
+          <div class="form-group is-empty">
+          <label for="number" class="col-md-2 control-label">{% trans 'Height' %}</label>
+            <div class="col-md-4">
+              <input type="number" class="form-control" id="inputNumber" placeholder="Heiht">
             </div>
-            <div class="form-group is-empty">
-              <label for="DescIn" class="col-md-2 control-label">Describe:</label>
-              <div class="col-md-10">
-                <textarea class="form-control" id="DescIn" rows="2"></textarea>
-              </div>
+          </div>
+          <div class="form-group is-empty">
+          <label for="number" class="col-md-2 control-label">{% trans 'Weight' %}</label>
+            <div class="col-md-4">
+              <input type="number" class="form-control" id="inputNumber" placeholder="Weight">
             </div>
-            <div class="form-group is-empty">
-              <label for="DateIn" class="col-md-2 control-label">Opening: </label>
-              <div class="col-md-10">
-                <input type="text" id="DateIn" class="form-control date-picker" requerid="">
-              </div>
-            </div>
-            <div class="form-group is-empty">
-              <label for="DateIn" class="col-md-2 control-label">Ending: </label>
-              <div class="col-md-10">
-                <input type="text" id="DateIn" class="form-control date-picker" requerid="">
-              </div>
-            </div>
-            <div class="form-group" style="margin-top: 0;">
-              <div class="col-md-offset-2 col-md-10">
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Send Later
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="col-md-10 col-md-offset-2">
-                <button type="button" class="btn btn-default">Cancel</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-            </div>
-
-
-          </fieldset>
+          </div>
         </form>
-          </div>
-        </div>
+
+      </div>
+      <div class="modal-footer">
+        <!-- Don't remove that!!!
+        <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">Close</button>-->
+
+        <!-- Put curtom buttons here!!!  -->
+        <button type="button" class="btn btn-primary btn-raised">{% trans 'Confirm' %}</button>
       </div>
     </div>
-    <!--EndModal-->
+  </div>
+</div>
+<!-- EndModal -->
+
+<!-- MODAL ACTIVITIES-->
+<div class="modal fade" id="ActivityModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title" id="myModalLabel"></h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+
+      <fieldset>
+        <legend>{% trans 'Proposal Activity' %}</legend>
+        <div class="form-group is-empty">
+          <label for="NameIn" class="col-md-2 control-label">{% trans 'Name' %}:</label>
+          <div class="col-md-10">
+            <input type="text" id="NameIn" class="form-control">
+          </div>
+        </div>
+        <div class="form-group is-empty">
+          <label for="DescIn" class="col-md-2 control-label">{% trans 'Describe' %}:</label>
+          <div class="col-md-10">
+            <textarea class="form-control" id="DescIn" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="form-group is-empty">
+          <label for="DateIn" class="col-md-2 control-label">{% trans 'Opening' %}: </label>
+          <div class="col-md-10">
+            <input type="text" id="DateIn" class="form-control date-picker" requerid="">
+          </div>
+        </div>
+        <div class="form-group is-empty">
+          <label for="DateIn" class="col-md-2 control-label">{% trans 'Ending' %}: </label>
+          <div class="col-md-10">
+            <input type="text" id="DateIn" class="form-control date-picker" requerid="">
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 0;">
+          <div class="col-md-offset-2 col-md-10">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox"><span class="checkbox-material"><span class="check"></span></span> {% trans 'Send Later' %}
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-10 col-md-offset-2">
+            <button type="button" class="btn btn-default">{% trans 'Cancel' %}</button>
+            <button type="submit" class="btn btn-primary">{% trans 'Submit' %}</button>
+          </div>
+        </div>
 
 
-
-    <!-- MODAL LINK EDIT-->
-    {% professor_subject topic.subject user as links_update %}
-    {% if links_update%}
-        {% include "links/update_link.html" %}
-    {% endif %}
-
-    <!-- EndModal -->
+      </fieldset>
+    </form>
+      </div>
     </div>
-    </div>
+  </div>
+</div>
+<!--EndModal-->
+
+<!-- MODAL LINK EDIT-->
 
 
-    <div class="modal fade" id="createForum" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">{% trans 'Forum' %}</h4>
-                </div>
-                <div class="modal-body">
-                    <section>
-                        <div class="forum_form"></div>
-                    </section>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans 'Close' %}</button>
-                    <button type="button" onclick="$('#forum_create').submit();" class="btn btn-primary btn-raised">{% trans 'Create' %}</button>
-                </div>
+<!-- EndModal -->
+
+
+<div class="modal fade" id="createForum" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">{% trans 'Forum' %}</h4>
+            </div>
+            <div class="modal-body">
+                <section>
+                    <div class="forum_form"></div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans 'Close' %}</button>
+                <button type="button" onclick="$('#forum_create').submit();" class="btn btn-primary btn-raised">{% trans 'Create' %}</button>
             </div>
         </div>
     </div>
+</div>

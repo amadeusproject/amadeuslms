@@ -1,3 +1,9 @@
+var locale = navigator.language || navigator.userLanguage;
+
+$('.date-picker').datepicker({
+    language: locale,
+});
+
 /*
 *
 * Function to get a cookie stored on browser
@@ -49,13 +55,13 @@ function subscribe(elem, url, id, confirm_message) {
 function delete_course(url, course, message, return_url) {
     alertify.confirm(message, function(){
         var csrftoken = getCookie('csrftoken');
-        
+
         $.ajax({
             method: 'post',
             beforeSend: function (request) {
                 request.setRequestHeader('X-CSRFToken', csrftoken);
             },
-            url: url, 
+            url: url,
             success: function(data) {
                 alertify.alert('Remove Course', 'Course removed successfully!', function(){
                     window.location.href = return_url;
@@ -64,14 +70,14 @@ function delete_course(url, course, message, return_url) {
         });
     });
 }
-/*
+/* 
 *
 * Function to load create course's form
 *
 */
 function replicate_course(url, course) {
     $.ajax({
-        url: url, 
+        url: url,
         data: {'form': course},
         success: function(data) {
             $(".course_replicate_form").html(data);
