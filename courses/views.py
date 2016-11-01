@@ -160,7 +160,7 @@ class CreateCourseView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,gener
 		if has_role(self.request.user,'system_admin'):
 			courses = Course.objects.all()
 		elif has_role(self.request.user,'professor'):
-			courses = self.request.user.courses.all()
+			courses = self.request.user.courses_student.all()
 		context['courses'] = courses
 		context['title'] = _("Create Course")
 		context['now'] = date.today()
