@@ -18,7 +18,10 @@
   overflow: auto;
   width: 300px;
 }
-
+#NavBarSearch{
+    position: absolute;
+    left: 30%;
+  }
 .user-notification-img{
   width:40%;
 }
