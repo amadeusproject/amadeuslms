@@ -110,7 +110,28 @@
 
 </fieldset>
     <div class="col-md-12 cards-content">
-        {% if courses|length > 0 %}
+        {% for category in categorys_courses  %}
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a  class="category-course-link" data-toggle="collapse" href="#{{category.slug}}">{{category.name}}</a>
+                        </h4>
+                        
+                    </div>
+                    <div id="{{category.slug}}" class="panel-collapse collapse">
+                        {% for course in category.course_category.all %}
+                            {% if user in course.students.all %}
+                                 {% include "course/course_card.html" %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            
+        {% endfor %}
+        <!--{% if courses|length > 0 %}
             {% if request.GET.category == '' or aparece or request.GET.q == '' %}
                 {% for course in list_courses %}
                     {% include "course/course_card.html" %}
@@ -123,7 +144,7 @@
             {% endif %}
         {% else %}
             {% trans 'No courses found' %}
-        {% endif %}
+        {% endif %}-->
     </div>
         <div class="col-md-12">
         <nav aria-label="Page navigation">

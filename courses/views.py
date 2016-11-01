@@ -123,8 +123,8 @@ class AllCoursesView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 		list_courses = None
 		categorys_courses = None
 		list_courses = Course.objects.all().order_by('name')
-		categorys_courses = CourseCategory.objects.all().distinct().order_by('name')
-
+		#categorys_courses = CourseCategory.objects.all().distinct().order_by('name')
+		categorys_courses = CourseCategory.objects.all()
 		paginator = Paginator(list_courses, self.paginate_by)
 		page = self.request.GET.get('page')
 

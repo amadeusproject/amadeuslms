@@ -418,6 +418,11 @@ ul, li {
 .course, .subject, .topic{ padding-top: 0px; padding-bottom: 0px; }
 .course-detail{padding-top: 10px; padding-bottom: 10px;}
 
+.category-course-link{
+  font-size: 24px;
+  color: black !important;
+}
+
 /* Menu link remove radius */
 .nav-pills > li > a {
   border-radius: 0px;
