@@ -75,4 +75,5 @@ class RegisterUserForm(forms.ModelForm):
     class Meta:
         model = User
         # exclude = ['is_staff', 'is_active']
-        fields = ['username', 'name', 'email', 'city', 'state', 'gender', 'cpf', 'birth_date', 'phone', 'image']
+        fields = ['username', 'name', 'email', 'city', 'state', 'gender', 'cpf', 'birth_date', 'phone', 'image', 'titration', 
+        'year_titration', 'institution', 'curriculum',]

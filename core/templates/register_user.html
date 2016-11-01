@@ -38,57 +38,70 @@
 						{% csrf_token %}
 							<legend>{% trans 'User Register' %}</legend>
 							{% for field in form %}
-							<div class="form-group is-empy{% if form.has_error %} has-error {% endif %} is-fileinput">
-								{% if field.field.required %}
-									<label for="{{ field.auto_id }}" class="col-md-4 control-label">{{ field.label }}<span>*</span></label>
-								{% else %}
-									<label for="{{ field.auto_id }}" class="col-md-4 control-label">{{ field.label }}</label>
-								{% endif %}
-								<div class="col-md-8">
-									{% if field.auto_id == 'id_birth_date' %}
-										{% render_field field class='form-control input-sm date-picker' %}
-										
-										<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-									{% elif field.auto_id == 'id_image' %}
-										{% render_field field class='form-control input-sm' %}
-										<div class="input-group">
-						                    <input type="text" readonly="" class="form-control" placeholder="Choose your photo...">
-						                    <span class="input-group-btn input-group-sm">
-						                        <button type="button" class="btn btn-fab btn-fab-mini">
-						                          	<i class="material-icons">attach_file</i>
-						                        </button>
-						                    </span>
-						                </div>
-						            {% elif field.auto_id == 'id_cpf' %}
-		                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
-
-		                			{% elif field.auto_id == 'id_phone' %}
-		                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
+								<div class="form-group is-empty {% if form.has_error %} has-error {% endif %} is-fileinput">
+									{% if field.field.required %}
+										<label for="{{ field.auto_id }}" class="col-md-2 control-label">{{ field.label }}<span>*</span></label>
 									{% else %}
-										{% render_field field class='form-control' %}
-										<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+										<label for="{{ field.auto_id }}" class="col-md-2 control-label">{{ field.label }}</label>
+									{% endif %}
+									<div class="col-md-10">
+										{% if field.auto_id == 'id_birth_date' %}
+											{% render_field field class='form-control input-sm date-picker' %}
+											
+											<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+										{% elif field.auto_id == 'id_image' %}
+											{% render_field field class='form-control input-sm' %}
+											<div class="input-group">
+							                    <input type="text" readonly="" class="form-control" placeholder="Choose your photo...">
+							                    <span class="input-group-btn input-group-sm">
+							                        <button type="button" class="btn btn-fab btn-fab-mini">
+							                          	<i class="material-icons">attach_file</i>
+							                        </button>
+							                    </span>
+							                </div>
+							            {% elif field.auto_id == 'id_curriculum' %}
+											{% render_field field class='form-control input-sm' %}
+											<div class="input-group">
+							                    <input type="text" readonly="" class="form-control" placeholder="{% trans 'Chose your file ...' %}">
+							                    <span class="input-group-btn input-group-sm">
+							                        <button type="button" class="btn btn-fab btn-fab-mini">
+							                          	<i class="material-icons">attach_file</i>
+							                        </button>
+							                    </span>
+							                </div>
+							            {% elif field.auto_id == 'id_cpf' %}
+			                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
+
+										{% elif field.auto_id == 'id_year_titration' %}
+			                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event);' %}
+
+			                			{% elif field.auto_id == 'id_phone' %}
+			                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
+										{% else %}
+											{% render_field field class='form-control' %}
+											<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+										{% endif %}
+									</div>
+									
+									{% if field.errors %}
+									<div class="alert alert-danger alert-dismissible col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-offset-1 col-xs-10" role="alert">
+					  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					  						<span aria-hidden="true">&times;</span>
+				  						</button>
+										<ul>
+											{% for error in field.errors %}
+												<li>{{ error }}</li>
+											{% endfor %}
+										</ul>
+									</div>
 									{% endif %}
 								</div>
-								
-								{% if field.errors %}
-								<div class="alert alert-danger alert-dismissible col-md-offset-4 col-md-8" role="alert">
-				  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				  						<span aria-hidden="true">&times;</span>
-			  						</button>
-									<ul>
-										{% for error in field.errors %}
-											<li>{{ error }}</li>
-										{% endfor %}
-									</ul>
-								</div>
-								{% endif %}
-							</div>
 							{% endfor %}
-							<div class="col-md-offset-4 col-md-2 col-sm-2 col-xs-2">
-								<input type="submit" value="{% trans 'Save' %}" class="btn btn-sm btn-success" />	
+							<div class="col-md-offset-2 col-md-6 col-sm-offset-2 col-sm-6 col-xs-6 col-xs-offset-2 col-xs-6">
+								<input type="submit" value="{% trans 'Save' %}" class="btn btn-raised btn-primary" />	
 							</div>
-							<div class="col-md-offset-3 col-md-2 col-sm-2 col-xs-2">
-								<a href="{% url 'core:home' %}" class="btn btn-sm btn-success" >{% trans 'Cancel' %}</a>	
+							<div class=" col-md-4 col-sm-4 col-xs-4">
+								<a href="{% url 'core:home' %}" class="  btn btn-danger btn-raised" >{% trans 'Cancel' %}</a>	
 							</div>
 							
 						</form>
