@@ -3,6 +3,7 @@
 
 {% load i18n custom_filters %}
 {% load static i18n %}
+{% load pagination %}
 
 <html>
 <head>
@@ -159,6 +160,7 @@
 						</div>
 					{% endfor %}
 
+                    {% pagination request paginator page_obj %}
 				{% endblock %}
 			</div>
 		</div>

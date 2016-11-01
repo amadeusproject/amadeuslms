@@ -21,8 +21,9 @@
                 <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                 {% if user|has_role:'student' or not user.is_staff %}
                     <li><a href="{% url 'course:manage' %}">{% trans 'My courses' %}</a></li>
-                    <li><a href="{% url 'core:guest' %}">{% trans 'All Courses' %}</a></li>
+                    <li><a href="{% url 'course:all_courses' %}">{% trans 'All Courses' %}</a></li>
                 {% endif %}
+                <li><a href="{% url 'core:guest' %}">{% trans 'Courses' %}</a></li>
                 {% if user|has_role:'system_admin' %}
                     <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
                 {% endif %}
@@ -43,18 +44,41 @@
     </div>
 
         {% if user|has_role:'professor' or user|has_role:'system_admin' %}
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">{% trans 'Category' %}</h3>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{% trans 'Category' %}</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="{% url 'course:create_cat' %}">{% trans 'Create Category' %}</a></li>
+                        <li><a href="{% url 'course:manage_cat' %}">{% trans 'List Category' %}</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="panel-body">
-                <ul class="nav nav-pills nav-stacked">
-                    <li><a href="{% url 'course:create_cat' %}">{% trans 'Create Category' %}</a></li>
-                    <li><a href="{% url 'course:manage_cat' %}">{% trans 'List Category' %}</a></li>
-                </ul>
+        {% endif %}
+         <div class="panel-group" id="accordion">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                            </span>{% trans 'Categorys' %}</a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <table class="table">
+                            {% for category in categorys_courses %}
+                                <tr>
+                                    <td>
+                                        <a href="?category={{category.name}}">{{category.name}}</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    {% endif %}
 
 {% endblock %}
 
@@ -83,7 +107,6 @@
         </div>
     </form>
 </div>
-
 
 </fieldset>
     <div class="col-md-12 cards-content">

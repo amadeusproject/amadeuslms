@@ -70,7 +70,7 @@ function delete_course(url, course, message, return_url) {
         });
     });
 }
-/*
+/* 
 *
 * Function to load create course's form
 *

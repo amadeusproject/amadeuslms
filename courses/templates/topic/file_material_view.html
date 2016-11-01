@@ -1,0 +1,110 @@
+{% extends 'subject/index.html' %}
+
+{% load static i18n permission_tags widget_tweaks %}
+
+{% block breadcrumbs %}
+
+  <ol class="breadcrumb">
+      <li><a href="">{% trans 'Home' %}</a></li>
+      <li><a href="">{{ subject }}</a></li>
+        <li class="active">{% trans 'Manage Topic' %}</li>
+        <li class="active">{{ topic.name }}</li>
+  </ol>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="col-md-12">
+          <div><div class="well">
+    <div class="row">
+      <div class="col-md-offset-2 col-md-9">
+        <h2 class="resource_inline"><b>Book 1</b></h2>
+      </div>
+      <div class="col-md-offset-2 col-md-8">
+          <a href="{{ file.file_url }}">{{ file.url }}</a>
+      </div>
+    </div>
+</div></div>
+          <div><div class="well">
+    <div class="row">
+        <div class="list-group">
+          <div class="list-group-item">
+              <div class="form-group is-empty">
+                  <div class="row">
+                      <div class="col-md-1">
+                          <span class="input-group-btn">
+                              <button type="button" class="btn btn-fab btn-fab-mini">
+                                  <i class="material-icons">send</i>
+                              </button>
+                          </span>
+                      </div>
+                      <div class="col-md-10">
+                          <input type="text" id="addon3a" class="form-control" placeholder="Add Comment">
+                      </div>
+                  </div>
+                </div>
+          </div>
+        </div>
+    </div>
+</div>
+<div class="well timeLine">
+    <div class="row">
+        <div class="col-xs-2 col-md-1">
+            <img class="imgTimeLine" src="http://localhost:8080/assets/img/images/team-avatar-2.jpg">
+        </div>
+        <div class="col-xs-10 col-md-11">
+            <i class="fa fa-flag-o" aria-hidden="true"></i>
+            <a href="#"><h4 class="resource_inline"><b>Beltrano Camargo</b></h4></a>
+            <p class="timePost"><i>Há 11 horas</i></p>
+            <!--ListComents -->
+            <div class="list-group">
+              <div class="list-group-item">
+                <div class="row-picture">
+                  <img class="circle" src="http://localhost:8080/assets/img/images/team-avatar-1.jpg" alt="icon">
+                </div>
+                <div class="row-content">
+                  <h4 class="list-group-item-heading">Sicrano da Silva</h4>
+                  <div class="least-content">11 horas</div>
+
+                  <p class="list-group-item-text">Quais capítulos devo estudar?</p>
+                </div>
+              </div>
+              <div class="list-group-separator"></div>
+              <div class="list-group-item">
+                <div class="row-picture">
+                  <img class="circle" src="http://localhost:8080/assets/img/images/team-avatar-2.jpg" alt="icon">
+                </div>
+                <div class="row-content">
+                  <h4 class="list-group-item-heading">Beltrano Camargo</h4>
+                  <div class="least-content">11 horas</div>
+
+                  <p class="list-group-item-text">capítulos 5 e 6</p>
+                </div>
+              </div>
+              <div class="list-group-separator"></div>
+              <div class="list-group">
+                <div class="list-group-item">
+                    <div class="form-group is-empty">
+                        <div class="row">
+                            <div class="col-md-1 col-md-offset-1">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-fab btn-fab-mini">
+                                        <i class="material-icons">send</i>
+                                    </button>
+                                </span>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" id="addon3a" class="form-control" placeholder="Add Comment">
+                            </div>
+                        </div>
+                      </div>
+                </div>
+              </div>
+            </div>
+            <!-- endListComents -->
+        </div>
+    </div>
+</div></div>
+        </div>
+{% endblock %}
