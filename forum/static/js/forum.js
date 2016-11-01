@@ -47,7 +47,7 @@ function createForum(url, topic) {
             $(".forum_form").html(data);
             $("#id_topic").val(topic);
 
-            setForumCreateFormSubmit();
+            setForumCreateFormSubmit(topic);
         }
     });
 
@@ -59,7 +59,7 @@ function createForum(url, topic) {
 * Function to set the forum's create form submit function
 *
 */
-function setForumCreateFormSubmit() {
+function setForumCreateFormSubmit(topic) {
     $('.date-picker').datepicker({
         language: locale,
     });
@@ -70,16 +70,15 @@ function setForumCreateFormSubmit() {
             type: frm.attr('method'),
             url: frm.attr('action'),
             data: frm.serialize(),
+            dataType: "json",
             success: function (data) {
-                data = data.split('-');
-
-                $('.foruns_list').append("<li><i class='fa fa-commenting' aria-hidden='true'></i> <a id='forum_"+data[1]+"' href='"+data[0]+"'> "+data[2]+"</a></li>");
+                $(".topic_" + topic).find('.foruns_list').append("<li><i class='fa fa-commenting' aria-hidden='true'></i> <a id='forum_"+data.forum_id+"' href='"+data.url+"'> "+data.name+"</a></li>");
 
                 $("#createForum").modal('hide');
             },
             error: function(data) {
                 $(".forum_form").html(data.responseText);
-                setForumCreateFormSubmit();
+                setForumCreateFormSubmit(topic);
             }
         });
         return false;
@@ -183,7 +182,7 @@ function edit_post(url, post_id, success_message) {
                     success: function (data) {
                         alertify.success(success_message);
 
-                        $("#post_"+post_id).parent().after(data);
+                        $("#post_"+post_id).parent().after(data.html);
                         frm.parent().parent().remove();
                     },
                     error: function(data) {
@@ -345,7 +344,7 @@ function edit_post_answer(url, answer_id, success_message) {
                     success: function (data) {
                         alertify.success(success_message);
 
-                        $("#answer_"+answer_id).parent().after(data);
+                        $("#answer_"+answer_id).parent().after(data.html);
                         frm.parent().parent().remove();
                     },
                     error: function(data) {

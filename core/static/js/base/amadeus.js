@@ -14,6 +14,7 @@ function campoNumerico(campo, evento){
         return true;
     } else {
     	evento.returnValue = false;
+  	    evento.preventDefault();
   	    return false;
     }
 };
@@ -28,7 +29,7 @@ function formatarCpf(campo, evento){
 	}
 	else if( evento ) { // Firefox
         codTecla = evento.which;
-        }
+    }
 	tamanho = campo.value.length;
 	if( (codTecla > 47 && codTecla < 58)  || codTecla== 8 || codTecla == 0){
 		if(tamanho < 14 ){
@@ -41,8 +42,8 @@ function formatarCpf(campo, evento){
 			}
 		}else{
 			evento.returnValue = false;
+			return false;
 		}
-		return true;
 	} else {
 		return false;
 	}
@@ -61,40 +62,43 @@ function formatarTelefone(campo, evento){
 	}
 	tamanho = campo.value.length;
 	
-	if(((codTecla > 47 && codTecla < 58) || (codTecla == 8)) && tamanho < 15){
+	if(((codTecla > 47 && codTecla < 58) && tamanho < 15)){
 	
 		if(tamanho == 0){
 			campo.value = "(" + campo.value;
 		}else if( tamanho == 3 ){
 			campo.value = campo.value + ") ";
-		}else if(tamanho == 9){
+		}else if(tamanho == 10){
 			campo.value = campo.value + "-";
-		}else if(tamanho == 14){
-			// alert('oi');
-			campo.value = campo.value.slice(0, 4) + campo.value.slice(5, 14);
-			campo.value = campo.value.slice(0, 8) + campo.value.slice(9, 10) + campo.value.slice(8, 9) + campo.value.slice(10, 14)
 		}
 		return true;
+
 
 	} else if(codTecla == 0 || codTecla == 8){
 		return true;
 	} else {
 		evento.returnValue = false;
+		evento.preventDefault()
 		return false;
 	}
+	evento.preventDefault()
 	return false;
-}
-
+};
 /*
 This functions get the next 5 notifications from the user given a "step"(an amount) of previous notifications
 */
 function getNotifications(step){
 	$.get('/getNotifications',
 		{'steps':step, 'amount': 5}, function(data){
-			$("#notification-dropdown").append(data);
-			$('#notification-see-more').remove();
-			var seemore = '<li><a onclick="getNotifications('+(step+5)+')"> <div id="notification-see-more" class="list-group-item"> <div class="row-content"><p class="list-group-item-text">See More</p> </div>  </a></li>';
-			$("#notification-dropdown").append(seemore);
-			$("#notification-count").text(step+5);
+			if(data == "nothing"){
+				console.log("No notifications");
+			}else{
+				$("#notification-dropdown").append(data['html']);
+				$('#notification-see-more').remove();
+				var seemore = '<li><a onclick="getNotifications('+(step+data['amountGotten'])+')"> <div id="notification-see-more" class="list-group-item"> <div class="row-content"><p class="list-group-item-text">See More</p> </div>  </a></li>';
+				$("#notification-dropdown").append(seemore);
+				$("#notification-count").text(step+data['amountGotten']);
+			}
+			
 		});
 }

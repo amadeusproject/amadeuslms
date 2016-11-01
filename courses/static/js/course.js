@@ -1,3 +1,9 @@
+var locale = navigator.language || navigator.userLanguage;
+
+$('.date-picker').datepicker({
+    language: locale,
+});
+
 /*
 *
 * Function to get a cookie stored on browser
@@ -64,7 +70,7 @@ function delete_course(url, course, message, return_url) {
         });
     });
 }
-/*
+/* 
 *
 * Function to load create course's form
 *

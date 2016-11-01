@@ -6,6 +6,7 @@ var Submite = {
         $(id_li_link).remove();
         $("#modal_category").empty();
         $("#accordion").remove();
+        $(".modal-backdrop.in").remove();
         alertify.success("Category removed successfully!");
       }).fail(function(){
         $("#modal_category").empty();

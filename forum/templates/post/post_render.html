@@ -6,7 +6,7 @@
             {{ post.user }}
             <div class="pull-right">
                 <a href="javascript:answer('{{ post.id }}', '{% url 'course:forum:reply_post' %}');">
-                    <i class="material-icons">reply</i>
+                    <i class="material-icons">{% trans 'reply' %}</i>
                 </a>
                 {% if request.user|has_role:'system_admin' or request.user|has_role:'professor' and request.user == post.user %}
                     {% csrf_token %}

@@ -2,6 +2,15 @@
 
 {% load static i18n permission_tags professor_access %}
 
+
+{% block javascript %}
+        <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
+        <script src="{% static 'js/file.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
+        <script type = "text/javascript" src="{% static 'links.js' %}"></script>
+{% endblock %}
+
+
 {% block breadcrumbs %}
 
 	<ol class="breadcrumb">
@@ -31,22 +40,7 @@
         </div>
     </div>
 
-    {% if user|has_role:'professor' %}
-      <div class="panel panel-primary ">
-      <div class="panel-heading">
-          <h3 class="panel-title">Actions</h3>
-      </div>
-      <div class="panel-body">
-          <ul class="nav nav-pills nav-stacked">
-              <li><a href="javascript:void(0)">Participants</a></li>
-              <li><a href="javascript:void(0)">Replicate subject</a></li>
-              <li><a href="javascript:void(0)">Create subject</a></li>
-              <li><a href="javascript:void(0)">Edit subject</a></li>
-              <li><a href="javascript:void(0)">Remove subject</a></li>
-          </ul>
-      </div>
-    </div>
-    {% endif %}
+   
 
 {% endblock %}
 
@@ -56,7 +50,7 @@
     <div class="panel-heading">
 			<div class="row">
 	      <div class="col-md-10 col-sm-7">
-	        <h3>{{subject}}</h3>
+	        <h3> {{topic.name}} </h3>
 	      </div>
 	      <div class="col-xs-4 col-md-2 divMoreActions">
 					{% professor_subject subject user as permissions%}
@@ -66,9 +60,15 @@
                 <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
               </button>
               <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
-                <li><a href="{% url 'course:update_subject' subject.slug %}" data-toggle="modal" data-target="#editSubject"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
-                <li><a href="{% url 'course:delete_subject' subject.slug %}" data-toggle="modal" data-target="#removeSubject"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
+                <li>
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a>
+                </li>
+                <li>
+                    <a href="{% url 'course:update_subject' subject.slug %}" data-toggle="modal" data-target="#editSubject"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a>
+                </li>
+                <li>
+                    <a href="{% url 'course:delete_subject' subject.slug %}" data-toggle="modal" data-target="#removeSubject"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a>
+                </li>
               </ul>
             </div>
           {% endif %}
@@ -77,25 +77,22 @@
     </div>
     <div class="panel-body">
       <p>
-        {{subject.description|linebreaks}}
+        {{topic.description|linebreaks}}
       </p>
     </div>
   </div>
   <div class="panel panel-default">
     <div class="panel-body">
-    {% for activit in activitys %}
+        {% include "topic/topic_card_student.html" %}
+        {% comment %}
+          
+        
+    <!--{% for activit in activitys %}
       <form class="form-horizontal" enctype='multipart/form-data'>{% csrf_token %}
         <fieldset>
           <legend>{{activit.name}}</legend>
 
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-8">
-              <div class="form-group is-empty">
-                <input type="text" class="form-control col-md-4" placeholder="Search Student">
-              </div>
-            </div>
-            </div>
+         
           {% for student in students_activit %}
             <div class="panel-group" id="accordion">
               <div class="panel panel-info">
@@ -109,22 +106,22 @@
                     <div class="panel-body">
                      <div class="row">
                       <div class="col-md-4">
-                       <i class="fa fa-file-archive-o fa-lg" aria-hidden="true">Atividade.doc</i>
+                       <i class="fa fa-file-archive-o fa-lg" aria-hidden="true">{% trans 'Atividade.doc' %}</i>
                      </div>
 										 {% professor_subject subject user as permi_test%}
                      {% if permi_test %}
                         <div class="col-md-4">
-                          <label> Nota:</label>
+                          <label> {% trans 'Grade' %}:</label>
                           <input type="number" step="0.01">
                         </div>
                       {% else %}
                       <div class="col-md-4">
-                        <!--<input type="hidden" name="id" value="">
-                        <input type="hidden" name="student" value="">-->
+                        <input type="hidden" name="id" value="">
+                        <input type="hidden" name="student" value="">
                         <div class="form-group {% if form.pdf.errors %} has-error {% endif %}">
                             {{ form.as_p }}
                         </div>
-                        <button type="submit" class="btn btn-success" id="send_button">Enviar</button>
+                        <button type="submit" class="btn btn-success" id="send_button">{% trans 'Send' %}</button>
                       </div>
                      {% endif %}
                   </div>
@@ -135,26 +132,15 @@
           {% endfor %}
         </div>
     </fieldset>
-  </form>
-
-  <ul class="pagination pagination-sm">
-  <li class="disabled"><a href="javascript:void(0)">«</a></li>
-  <li class="active"><a href="javascript:void(0)">1</a></li>
-  <li><a href="javascript:void(0)">2</a></li>
-  <li><a href="javascript:void(0)">3</a></li>
-  <li><a href="javascript:void(0)">4</a></li>
-  <li><a href="javascript:void(0)">5</a></li>
-  <li><a href="javascript:void(0)">»</a></li>
-</ul>
-{% empty %}
-  {% trans 'No activity found' %}
-{% endfor %}
+  </form>-->
+{% endcomment %}
+ 
 
 
 
-</div>
+      </div>
 
 
-</div>
+    </div>
 </div>
 {% endblock %}

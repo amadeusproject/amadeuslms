@@ -9,16 +9,17 @@ from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from rolepermissions.verifications import has_role
 from django.db.models import Q
+import operator
+from functools import reduce
 from rolepermissions.verifications import has_object_permission
 from django.http import HttpResponseRedirect, JsonResponse
-
 from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm,TopicForm,ActivityForm
 from .models import Course, Subject, CourseCategory,Topic, SubjectCategory,Activity, CategorySubject
 from core.mixins import NotificationMixin
 from users.models import User
 from files.forms import FileForm
 from files.models import TopicFile
-
+from courses.models import Material
 from django.urls import reverse
 
 from datetime import date
@@ -30,7 +31,30 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 	queryset = Course.objects.all()
 	template_name = 'course/index.html'
 	context_object_name = 'courses'
-	paginate_by = 2
+	paginate_by = 10
+	aparece = True
+
+
+	def get_queryset(self):
+		result = super(IndexView, self).get_queryset()
+
+		course_search = self.request.GET.get('q', None)
+		category_search = self.request.GET.get('category', None)
+		if course_search:
+			self.aparece = False
+			query_list = course_search.split()
+			result = result.filter(
+			reduce(operator.and_,
+				(Q(name__icontains=q) for q in query_list))
+			)
+		if category_search:
+			self.aparece = False
+			query_list = category_search.split()
+			result = result.filter(
+			reduce(operator.and_,
+				(Q(category__name=category) for category in query_list))
+			)
+		return result
 
 	def get_context_data(self, **kwargs):
 		context = super(IndexView, self).get_context_data(**kwargs)
@@ -42,16 +66,9 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 		elif has_role(self.request.user,'system_admin'):
 			list_courses = queryset.order_by('name')
 			categorys_courses = CourseCategory.objects.all()
-		else:
+		elif has_role(self.request.user, 'student'):
 			list_courses = Course.objects.filter(Q(students = True)|Q(students__name = self.request.user.name)).order_by('name')
 			categorys_courses = CourseCategory.objects.filter(course_category__students__name = self.request.user.name).distinct()
-
-		courses_category = Course.objects.filter(category__name = self.request.GET.get('category'))
-		none = None
-		q = self.request.GET.get('category', None)
-		if q is  None:
-			none = True
-		context['none'] = none
 
 		paginator = Paginator(list_courses, self.paginate_by)
 		page = self.request.GET.get('page')
@@ -63,23 +80,67 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 		except EmptyPage:
 		    list_courses = paginator.page(paginator.num_pages)
 
-		context['courses_category'] = courses_category
 		context['list_courses'] = list_courses
 		context['categorys_courses'] = categorys_courses
+		context['aparece'] = self.aparece
 
 		return context
 
-	def get_queryset(self):
-		try:
-		    name = self.kwargs['q']
-		except:
-		    name = ''
-		if (name != ''):
-		    object_list = Course.objects.filter(name__icontains = name)
-		else:
-		    object_list = Course.objects.all()
-		return object_list
+class AllCoursesView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+	queryset = Course.objects.all()
+	template_name = 'course/index.html'
+	context_object_name = 'courses'
+	paginate_by = 5
+	aparece = True
+
+
+	def get_queryset(self):
+		result = super(AllCoursesView, self).get_queryset()
+
+		course_search = self.request.GET.get('q', None)
+		category_search = self.request.GET.get('category', None)
+		if course_search:
+			self.aparece = False
+			query_list = course_search.split()
+			result = result.filter(
+			reduce(operator.and_,
+				(Q(name__icontains=q) for q in query_list))
+			)
+		if category_search:
+			self.aparece = False
+			query_list = category_search.split()
+			result = result.filter(
+			reduce(operator.and_,
+				(Q(category__name=category) for category in query_list))
+			)
+		return result
+
+	def get_context_data(self, **kwargs):
+		context = super(AllCoursesView, self).get_context_data(**kwargs)
+		list_courses = None
+		categorys_courses = None
+		list_courses = Course.objects.all().order_by('name')
+		categorys_courses = CourseCategory.objects.all().distinct().order_by('name')
+
+		paginator = Paginator(list_courses, self.paginate_by)
+		page = self.request.GET.get('page')
+
+		try:
+		    list_courses = paginator.page(page)
+		except PageNotAnInteger:
+		    list_courses = paginator.page(1)
+		except EmptyPage:
+		    list_courses = paginator.page(paginator.num_pages)
+
+		context['list_courses'] = list_courses
+		context['categorys_courses'] = categorys_courses
+		context['aparece'] = self.aparece
+
+		return context
+		
 class CreateCourseView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,generic.edit.CreateView):
 
 	allowed_roles = ['professor', 'system_admin']
@@ -125,7 +186,7 @@ class ReplicateCourseView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,ge
 		if has_role(self.request.user,'system_admin'):
 			courses = Course.objects.all()
 		elif has_role(self.request.user,'professor'):
-			courses = self.request.user.courses.all()
+			courses = self.request.user.courses_professors.all()
 		categorys_courses = CourseCategory.objects.all()
 		context['courses'] = courses
 		context['course'] = course
@@ -197,7 +258,7 @@ class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 		return context
 
 
-class CourseView( NotificationMixin, generic.DetailView):
+class CourseView(NotificationMixin, generic.DetailView):
 
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
@@ -210,12 +271,20 @@ class CourseView( NotificationMixin, generic.DetailView):
 		courses = None
 		context = super(CourseView, self).get_context_data(**kwargs)
 		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
+
+		category_sub = self.kwargs.get('category', None)
+
 		if has_role(self.request.user,'system_admin'):
 			subjects = course.subjects.all()
 		elif has_role(self.request.user,'professor'):
 			subjects = course.subjects.filter(professors__in=[self.request.user])
 		elif has_role(self.request.user, 'student') or self.request.user is None:
 			subjects = course.subjects.filter(visible=True)
+
+		if not category_sub is None:
+			cat = get_object_or_404(CategorySubject, slug = category_sub)
+			subjects = subjects.filter(category = cat)
+				
 		context['subjects'] = subjects
 
 		if has_role(self.request.user,'system_admin'):
@@ -237,13 +306,7 @@ class CourseView( NotificationMixin, generic.DetailView):
 
 		subjects_category = Subject.objects.filter(category__name = self.request.GET.get('category'))
 
-		none = None
-		q = self.request.GET.get('category', None)
-		if q is  None:
-			none = True
-		context['none'] = none
-
-		context['subjects_category'] = subjects_category
+		context['category'] = category_sub
 		context['categorys_subjects'] = categorys_subjects
 		context['courses'] = courses
 		context['course'] = course
@@ -381,6 +444,14 @@ class SubjectsView(LoginRequiredMixin, generic.ListView):
 	context_object_name = 'subjects'
 	model = Subject
 
+	def dispatch(self, *args, **kwargs):
+		subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+
+		if(not has_object_permission('view_subject', self.request.user, subject)):
+			return self.handle_no_permission()
+
+		return super(SubjectsView, self).dispatch(*args, **kwargs)
+
 	def get_queryset(self):
 		subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
 		course = subject.course
@@ -428,6 +499,14 @@ class TopicsView(LoginRequiredMixin, generic.ListView):
 	context_object_name = 'topics'
 	model = Topic
 
+	def dispatch(self, *args, **kwargs):
+		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+
+		if(not has_object_permission('view_topic', self.request.user, topic)):
+			return self.handle_no_permission()
+
+		return super(TopicsView, self).dispatch(*args, **kwargs)
+
 	def get_queryset(self):
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 		subject = topic.subject
@@ -440,11 +519,13 @@ class TopicsView(LoginRequiredMixin, generic.ListView):
 		context = super(TopicsView, self).get_context_data(**kwargs)
 		activitys = Activity.objects.filter(topic__name = topic.name)
 		students_activit = User.objects.filter(activities__in = Activity.objects.all())
-		
+		materials = Material.objects.filter(topic = topic)
+		print(materials)
 		context['topic'] = topic
 		context['subject'] = topic.subject
 		context['activitys'] = activitys
 		context['students_activit'] = students_activit
+		context['materials'] = materials
 		context['form'] = ActivityForm
 		
 		return context
@@ -631,3 +712,12 @@ class IndexSubjectCategoryView(LoginRequiredMixin, generic.ListView):
 		context = super(IndexSubjectCategoryView, self).get_context_data(**kwargs)
 		context['subject_categories'] = SubjectCategory.objects.all()
 		return context
+
+class FileMaterialView(LoginRequiredMixin, generic.DetailView):
+
+	allowed_roles = ['professor', 'system_admin', 'student']
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+	model = Material
+	context_object_name = 'file'
+	template_name = 'topic/file_material_view.html'

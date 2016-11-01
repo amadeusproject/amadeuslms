@@ -5,16 +5,16 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-        <h4 class="modal-title" id="myModalLabel">Link</h4>
+        <h4 class="modal-title" id="myModalLabel">{% trans 'Link' %}</h4>
       </div>
       <div class="modal-body">
         <!-- Card -->
         <article class="card animated fadeInLeft">
-          <img class="card-img-top img-responsive" src="https://www.python.org/static/opengraph-icon-200x200.png" align="left">
+          <img class="card-img-top img-responsive" src="{{ link.image.url}}" width="200" height="200"  align="left">
            <div class="card-block">
               <b class="card-title">{{link.name}}</b><p></p>
               <p class="card-text"> </p><p>{{link.link_description}}</p>
-              <a href="{{ link.link_url }}" class="btn btn-primary">Read more</a>
+              <a href="{{ link.link_url }}" class="btn btn-primary">{% trans 'Read more' %}</a>
            </div>
         </article>
         <!-- .end Card -->

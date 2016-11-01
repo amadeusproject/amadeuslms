@@ -32,9 +32,9 @@
 {% block content %}
 
     <h3>{% trans 'Courses' %}</h3>
-  	{% if courses|length > 0 %}
-  		{% for course in courses %}
-		  	<a href="{% url 'course:view' course.slug %}">
+    {% if courses|length > 0 %}
+        {% for course in courses %}
+            <a href="{% url 'course:view' course.slug %}">
                 <div class="panel panel-default courseHome">
                     <div class="panel-body">
                         <p>{{ course }}</p>
@@ -48,9 +48,9 @@
                     </div>
                 </div>
             </a>
-		{% endfor %}
-	{% else %}
-		<p>{% trans "You didn't create any course yet." %}</p>
-	{% endif %}
+        {% endfor %}
+    {% else %}
+        <p>{% trans "You didn't create any course yet." %}</p>
+    {% endif %}
 {% endblock %}
 

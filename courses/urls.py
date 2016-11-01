@@ -3,10 +3,10 @@ from django.conf.urls import url, include
 from . import views
 urlpatterns = [
 	url(r'^$', views.IndexView.as_view(), name='manage'),
+	url(r'^all-courses/$', views.AllCoursesView.as_view(), name='all_courses'),
 	url(r'^create/$', views.CreateCourseView.as_view(), name='create'),
 	url(r'^replicate_course/(?P<slug>[\w_-]+)/$', views.ReplicateCourseView.as_view(), name='replicate_course'),
 	url(r'^edit/(?P<slug>[\w_-]+)/$', views.UpdateCourseView.as_view(), name='update'),
-	url(r'^(?P<slug>[\w_-]+)/$', views.CourseView.as_view(), name='view'),
 	url(r'^delete/(?P<slug>[\w_-]+)/$', views.DeleteCourseView.as_view(), name='delete'),
 	url(r'^subscribe/(?P<slug>[\w_-]+)/$', views.subscribe_course, name='subscribe'),
 	url(r'^category/(?P<slug>[\w_-]+)/$', views.FilteredView.as_view(), name='filter'),
@@ -28,5 +28,10 @@ urlpatterns = [
 	url(r'^exam/', include('exam.urls', namespace = 'exam')),
 	url(r'^files/', include('files.urls', namespace = 'file')),
 	url(r'^upload-material/$', views.UploadMaterialView.as_view(), name='upload_material'),
+	url(r'^subjects/file-material-view/(?P<slug>[\w_-]+)/$', views.FileMaterialView.as_view(), name='file_material_view'),
 	url(r'^links/',include('links.urls',namespace = 'links')),
+	url(r'^(?P<slug>[\w_-]+)/', include([
+		url(r'^$', views.CourseView.as_view(), name='view'),
+		url(r'^(?P<category>[\w_-]+)/$', views.CourseView.as_view(), name='view_filter')
+	])),
 ]

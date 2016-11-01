@@ -70,14 +70,14 @@ XXXX XXXXXXXXXXXXXXXXXXXX
 
                             XXXX XXXXXXXXXXXXXXXXXXX
                                 XXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXX
-                                    XXXXXXXXX XXXX XXXX XXXXXXXXX XXXXXX XXXXXXXXXXXX
+                                    XXXXXX gettext(u'The file size shouldnt exceed 10MB') XXXXXXXX
                                 XXXXXX
                             XXXXXX
 
                             XXXX XXXXXXXXXXXXXXXXXXX
                                 XXXX XXXXXXXXXXXXXXXXXX
                                      XXXXXXX XXXXXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXX gettext(u'Close') XXXXXXXXX
-                                    XXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                                    XXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXXXX XXXXXXXXXXXXXX gettext(u'Submit') XXXXXXXXX
                                 XXXXXX
                             XXXXXX
                         XXXXXXXXXXX
