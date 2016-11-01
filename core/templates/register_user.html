@@ -59,8 +59,21 @@
 							                        </button>
 							                    </span>
 							                </div>
+							            {% elif field.auto_id == 'id_curriculum' %}
+											{% render_field field class='form-control input-sm' %}
+											<div class="input-group">
+							                    <input type="text" readonly="" class="form-control" placeholder="{% trans 'Chose your file ...' %}">
+							                    <span class="input-group-btn input-group-sm">
+							                        <button type="button" class="btn btn-fab btn-fab-mini">
+							                          	<i class="material-icons">attach_file</i>
+							                        </button>
+							                    </span>
+							                </div>
 							            {% elif field.auto_id == 'id_cpf' %}
 			                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
+
+										{% elif field.auto_id == 'id_year_titration' %}
+			                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event);' %}
 
 			                			{% elif field.auto_id == 'id_phone' %}
 			                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
