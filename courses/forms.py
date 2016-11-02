@@ -19,24 +19,24 @@ class CategoryCourseForm(forms.ModelForm):
 
 class CourseForm(forms.ModelForm):
 	def clean_end_register_date(self):
-		init_register_date = self.data['init_register_date']
-		end_register_date = self.data['end_register_date']
+		init_register_date = self.cleaned_data['init_register_date']
+		end_register_date = self.cleaned_data['end_register_date']
 
 		if init_register_date and end_register_date and end_register_date < init_register_date:
 			raise forms.ValidationError(_('The end date may not be before the start date.'))
 		return end_register_date
 
 	def clean_init_date(self):
-		end_register_date = self.data['end_register_date']
-		init_date = self.data['init_date']
+		end_register_date = self.cleaned_data['end_register_date']
+		init_date = self.cleaned_data['init_date']
 
 		if end_register_date and init_date and init_date <= end_register_date:
 			raise forms.ValidationError(_('The course start date must be after the end of registration.'))
 		return init_date
 
 	def clean_end_date(self):
-		init_date = self.data['init_date']
-		end_date = self.data['end_date']
+		init_date = self.cleaned_data['init_date']
+		end_date = self.cleaned_data['end_date']
 
 		if init_date and end_date and end_date < init_date:
 			raise forms.ValidationError(_('The end date may not be before the start date.'))
