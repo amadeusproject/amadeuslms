@@ -68,7 +68,6 @@ def remember_password(request):
 			context['danger'] = 'E-mail does not send'
 	return render(request, "remember_password.html",context)
 
-@log_decorator('Acessar', 'Sistema')
 def login(request):
 	context = {}
 
@@ -87,16 +86,11 @@ def login(request):
 
 	return render(request,"index.html",context)
 
-
-
 def processNotification(self, notificationId):
 	notification = Notification.objects.get(id= notificationId)
 	notification.read = True
 	notification.save()
 	return redirect(notification.action_resource.resource.url)
-
-
-
 
 def getNotifications(request):
 	context = {}
