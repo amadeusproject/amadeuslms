@@ -111,17 +111,20 @@
 </fieldset>
     <div class="col-md-12 cards-content">
         {% for category in categorys_courses  %}
-            <div class="panel-group">
+            <div class="panel-group course-card-group">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a  class="category-course-link" data-toggle="collapse" href="#{{category.slug}}">{{category.name}}</a>
-                        </h4>
-                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4 class="panel-title">
+                                    <a  class="category-course-link" data-toggle="collapse" href="#{{category.slug}}">{{category.name}}</a>
+                                </h4>
+                            </div>
+                        </div>
                     </div>
                     <div id="{{category.slug}}" class="panel-collapse collapse">
                         {% for course in category.course_category.all %}
-                            {% if user in course.students.all %}
+                            {% if user in course.students.all or user in course.professors.all or user|has_role:'system_admin' %}
                                  {% include "course/course_card.html" %}
                             {% endif %}
                         {% endfor %}
@@ -131,20 +134,6 @@
             
             
         {% endfor %}
-        <!--{% if courses|length > 0 %}
-            {% if request.GET.category == '' or aparece or request.GET.q == '' %}
-                {% for course in list_courses %}
-                    {% include "course/course_card.html" %}
-                {% endfor %}
-            {% endif %}
-            {% if request.GET.category or request.GET.q %}
-                {% for course in courses %}
-                    {% include "course/course_card.html" %}
-                {% endfor %}
-            {% endif %}
-        {% else %}
-            {% trans 'No courses found' %}
-        {% endif %}-->
     </div>
         <div class="col-md-12">
         <nav aria-label="Page navigation">
