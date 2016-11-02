@@ -47,7 +47,7 @@
                                             <span id="helpBlock" class="help-block">{{ field.help_text }}</span>
                                         {% endif %}
                                     </div>
-                                        
+
                                     {% if field.errors %}
                                         <div class="alert alert-danger alert-dismissible clearfix" role="alert">
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -71,7 +71,7 @@
 
                             <div class="form-group">
                                 <div class="col-md-12">
-                                     <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+                                     <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
                                     <button class="btn btn-raised btn-primary" type="submit">{% trans 'Submit' %}</button>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
 </div>
 
 {% block script_file %}
-    
+
     {# // <script src="{% static 'js/file.js' %}"></script> #}
     <script type="text/javascript">
       $("#form-file").submit(function(event) {

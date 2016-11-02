@@ -3,6 +3,7 @@
 
 {% load i18n custom_filters %}
 {% load static i18n %}
+{% load pagination %}
 
 <html>
 <head>
@@ -106,6 +107,7 @@
     		</div>
 		   <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
 				{% block breadcrumbs %}
+
 					<div class="col-md-12">
 						<form id="searchform" action="{% url 'course:manage' %}" method="get" accept-charset="utf-8">
 							<div class="input-group">
@@ -120,45 +122,34 @@
 						</form>
 					</div>
 
-				<div class="col-md-10">
-					<div class="btn-group btn-group-justified btn-group-raised">
-						<a href="?category=all" class="btn btn-raised btn-info">{% trans 'All' %}</a>
-						{% for category in categories %}
-							<a href="?category={{category.name}}" class="btn btn-raised btn-primary">{{category.name}}</a>
-						{% endfor %}
-					</div>
-				</div>
-
 				{% endblock %}
 				{% block render_breadcrumbs %}{% endblock %}
 			<div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-12">
 				{% block content %}
-					{% for course in courses %}
-						<div class="panel panel-info panel_{{ course.id }}">
-					  		<div class="panel-heading">
-					    		<a href="{{ course.get_absolute_url }}" class="panel-title">{{course.name}}</a>
-					    		{% if user|show_course_subscribe:course %}
-				                    <a onclick="subscribe($(this), '{% url 'course:subscribe' course.slug %}', {{ course.id}}, '{% trans 'Are you sure you want to subscribe to this course?' %}')" class="btn btn-sm btn-primary btn-raised pull-right" style="margin-top:-4px">{% trans 'Subscribe' %}</a>
-				                {% endif %}
-					  		</div>
 
-						  	<div class="panel-body">
-						    	<p><b>{% trans 'Course Name' %}: </b>{{course.name}}</p>
-						    	<p><b>{% trans 'Begining' %}: </b>{{course.init_date}}</p>
-						    	<p><b>{% trans 'End' %}: </b>{{course.end_date}}</p>
-						    	<p><b>{% trans 'Professor' %}: </b>{{course.professors.name}}</p>
-						    	<p>
-							    <b>{% trans 'Description' %}:</b>
-							    <i>
-							        {{course.content}}
-							    </i>
-							    </p>
-							</div>
-						</div>
-					{% endfor %}
-
+                    <div class="col-md-12 cards-content">
+                        {% for category in categorys_courses  %}
+                            <div class="panel-group">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a  class="category-course-link" data-toggle="collapse" href="#{{category.slug}}">{{category.name}}</a>
+                                        </h4>
+                                        
+                                    </div>
+                                    <div id="{{category.slug}}" class="panel-collapse collapse">
+                                        {% for course in category.course_category.all %}
+                                            {%if course.public == True %}
+                                                {% include "course/course_card.html" %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
 				{% endblock %}
 			</div>
 		</div>

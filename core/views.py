@@ -6,7 +6,7 @@ from .decorators import log_decorator
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView
 from django.http import HttpResponse, JsonResponse
 from django.core.mail import send_mail,BadHeaderError
 from django.conf import settings
@@ -120,9 +120,18 @@ def getNotifications(request):
 	data['amountGotten'] = amountGotten
 	return JsonResponse(data)
 
-def guest (request):
-	context = {
-		'courses': Course.objects.filter(public=True),
-		'categories': CourseCategory.objects.all(),
-	}
-	return render(request, 'guest.html', context)
+
+class GuestView (ListView):
+
+	template_name = 'guest.html'
+	context_object_name = 'courses'
+	paginate_by = 10
+
+	def get_queryset(self):
+		return Course.objects.filter(public=True)
+
+
+	def get_context_data (self, **kwargs):
+		context = super(GuestView, self).get_context_data(**kwargs)
+		context['categorys_courses'] = CourseCategory.objects.all()
+		return context
