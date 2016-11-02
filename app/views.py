@@ -55,8 +55,11 @@ class AmadeusSettings(LoginRequiredMixin,  HasRoleMixin, View):
 	form_class = EmailBackendForm
 	success_url = reverse_lazy('app:settings')
 
+	def get_object(self):
+		pass
+
 	def get(self, request):
-		return render(request, self.template_name, )
+		return render(request, self.template_name)
 
 
 
