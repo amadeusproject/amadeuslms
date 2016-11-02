@@ -123,8 +123,8 @@ class AllCoursesView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 		list_courses = None
 		categorys_courses = None
 		list_courses = Course.objects.all().order_by('name')
-		categorys_courses = CourseCategory.objects.all().distinct().order_by('name')
-
+		#categorys_courses = CourseCategory.objects.all().distinct().order_by('name')
+		categorys_courses = CourseCategory.objects.all()
 		paginator = Paginator(list_courses, self.paginate_by)
 		page = self.request.GET.get('page')
 
@@ -160,7 +160,7 @@ class CreateCourseView(LoginRequiredMixin, HasRoleMixin, NotificationMixin,gener
 		if has_role(self.request.user,'system_admin'):
 			courses = Course.objects.all()
 		elif has_role(self.request.user,'professor'):
-			courses = self.request.user.courses.all()
+			courses = self.request.user.courses_student.all()
 		context['courses'] = courses
 		context['title'] = _("Create Course")
 		context['now'] = date.today()

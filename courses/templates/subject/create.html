@@ -11,8 +11,11 @@
         {% for field in form %}
         <div class="form-group {% if field.errors %} has-error{% endif %}">
           <label for="{{ field.auto_id }}" class="control-label label-static"> {{ field.label }}</label>
-
-          {% render_field field class='form-control' placeholder=field.label%}
+          {% if field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date'%}
+              <input type="text" class="form-control date-picker" name="{{field.name}}" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
+          {% else %}
+              {% render_field field class='form-control' placeholder=field.label%}
+          {% endif %}
           <span class="help-block">{{ field.help_text }}</span>
         </div>
         {% endfor %}
@@ -22,4 +25,12 @@
       </form>
     </div>
   </div>
+
+  <script type="text/javascript">
+    var locale = navigator.language || navigator.userLanguage;
+
+    $('.date-picker').datepicker({
+        language: locale,
+    });
+  </script>
 {% endblock content %}

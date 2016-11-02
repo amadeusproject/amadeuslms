@@ -17,7 +17,7 @@
         {% else %}
             <li class="active">{{ forum.name }}</li>
         {% endif %}
-        
+
     </ol>
 {% endblock %}
 
@@ -33,7 +33,7 @@
             </ul>
         </div>
     </div>
-    
+
     {% if request.user|has_role:'system_admin' or request.user|has_role:'professor' and request.user in forum.topic.subject.professors.all %}
         <div class="panel panel-primary navigation">
             <div class="panel-heading">
@@ -121,7 +121,7 @@
                     </section>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans 'Close' %}</button>
+                    <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans 'Close' %}</button>
                     <button type="button" onclick="$('#forum_create').submit();" class="btn btn-primary btn-raised">{% trans 'Update' %}</button>
                 </div>
             </div>
