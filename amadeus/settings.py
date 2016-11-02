@@ -163,7 +163,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO','https')
 ALLOWED_HOSTS = ['*']
 
 # Files
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'uploads')
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'uploads')
 MEDIA_URL = '/uploads/'
 
 
