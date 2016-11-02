@@ -15,7 +15,7 @@ from rolepermissions.verifications import has_object_permission
 from django.http import HttpResponseRedirect, JsonResponse
 from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm,TopicForm,ActivityForm
 from .models import Course, Subject, CourseCategory,Topic, SubjectCategory,Activity, CategorySubject
-from core.mixins import NotificationMixin
+from core.mixins import LogMixin, NotificationMixin
 from users.models import User
 from files.forms import FileForm
 from files.models import TopicFile
@@ -258,7 +258,11 @@ class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 		return context
 
 
-class CourseView(NotificationMixin, generic.DetailView):
+class CourseView(LogMixin, NotificationMixin, generic.DetailView):
+	log_component = "courses"
+	log_action = "viewed"
+	log_resource = "course"
+	log_context = {}
 
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
@@ -271,6 +275,14 @@ class CourseView(NotificationMixin, generic.DetailView):
 		courses = None
 		context = super(CourseView, self).get_context_data(**kwargs)
 		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
+
+		self.log_context['course_id'] = course.id
+		self.log_context['course_name'] = course.name
+		self.log_context['course_slug'] = course.slug
+		self.log_context['course_category_id'] = course.category.id
+		self.log_context['course_category_name'] = course.category.name
+
+		super(CourseView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		category_sub = self.kwargs.get('category', None)
 
