@@ -429,3 +429,11 @@ ul, li {
 .nav-pills > li > a {
   border-radius: 0px;
 }
+
+.float-button{
+  float: right;
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  font-size: 20px;
+}

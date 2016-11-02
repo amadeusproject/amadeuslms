@@ -29,7 +29,8 @@
                 <li><a href="{% url 'core:home' %}">{% trans "Home" %}</a></li>
                 <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                 <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
-                <li><a href="{% url 'core:guest' %}">{% trans 'All Courses' %}</a></li>
+                <li><a href="{% url 'course:all_courses' %}">{% trans 'All Courses' %}</a></li>
+                <li><a href="{% url 'core:guest' %}">{% trans 'Courses' %}</a></li>
             </ul>
         </div>
     </div>
