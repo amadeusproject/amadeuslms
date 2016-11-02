@@ -1,1 +1,1 @@
-web: gunicorn amadeus.wsgi --log-file -
+web: gunicorn amadeus.wsgi --log-file=-
