@@ -75,7 +75,7 @@
               {{professor}}{% if forloop.last %}.{% endif %}{% endfor %}</p>
           <p>
             <b>{% trans "Description" %}:</b>
-              {{subject.description|linebreaks}}
+              {{subject.description|safe}}
           </p>
           <div class="row">
             <div class="col-xs-6 col-md-6">

@@ -97,7 +97,7 @@
       <p>
         <b>{% trans 'Description' %}:</b>
         <i>
-          {{ course.objectivies }}
+          {{ course.objectivies |safe }}
         </i>
       </p>
 
@@ -194,7 +194,7 @@
               <p>
                 <b>{% trans "Description" %}: </b>
                 <i>
-                  {{subject.description}}
+                  {{subject.description | safe}}
                 </i>
               </p>
               <div class="row">
