@@ -68,7 +68,6 @@ def remember_password(request):
 			context['danger'] = 'E-mail does not send'
 	return render(request, "remember_password.html",context)
 
-@log_decorator('Acessar', 'Sistema')
 def login(request):
 	context = {}
 
@@ -87,16 +86,11 @@ def login(request):
 
 	return render(request,"index.html",context)
 
-
-
 def processNotification(self, notificationId):
 	notification = Notification.objects.get(id= notificationId)
 	notification.read = True
 	notification.save()
 	return redirect(notification.action_resource.resource.url)
-
-
-
 
 def getNotifications(request):
 	context = {}
@@ -133,5 +127,5 @@ class GuestView (ListView):
 
 	def get_context_data (self, **kwargs):
 		context = super(GuestView, self).get_context_data(**kwargs)
-		context['categories'] = CourseCategory.objects.all()
+		context['categorys_courses'] = CourseCategory.objects.all()
 		return context

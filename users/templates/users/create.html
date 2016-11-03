@@ -38,7 +38,7 @@
 								{% else %}
 									<label for="{{ field.auto_id }}">{{ field.label }}</label>
 								{% endif %}
-								<input type="text" class="form-control input-sm date-picker" name="{{field.name}}" min="{{now|date:'d-m-Y'}}">
+								<input type="text" class="form-control input-sm date-picker" name="{{field.name}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
 
 							{% elif field.auto_id == 'id_image' %}
 		                		{% if field.field.required %}

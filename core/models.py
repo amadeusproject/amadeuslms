@@ -112,4 +112,4 @@ class Log(models.Model):
         verbose_name_plural = _('Logs')
 
     def __str__(self):
-        return self.message
+        return self.context
