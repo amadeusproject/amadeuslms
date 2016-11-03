@@ -279,7 +279,7 @@ class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Delet
 	log_resource = "course"
 	log_context = {}
 
-	allowed_roles = ['professor', 'student']
+	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	model = Course
