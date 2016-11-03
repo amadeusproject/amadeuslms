@@ -3,6 +3,7 @@
 <script src="{% static 'js/modals_requisitions.js'%}"></script>
 <script src="{% static 'js/modal_poll.js'%}"></script>
 
+
 {% for poll in polls %}
   {% professor_subject poll.topic.subject request.user as permission%}
   {% if permission %}
@@ -13,5 +14,8 @@
   {% endfor %}
 {# <button class="btn btn-primary btn-raised" onclick="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#modal_poll');">{% trans '+ Create Poll' %}</button> #}
 <div class="row" id="modal_poll">
+
+
+
 
 </div>

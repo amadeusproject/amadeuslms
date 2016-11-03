@@ -76,7 +76,7 @@ class CreateExam(LoginRequiredMixin,HasRoleMixin, NotificationMixin,generic.Crea
 		self.object.save()
 
 		super(CreateExam, self).createNotification(message="created an Exam "+ self.object.name, actor=self.request.user,
-			resource_name=self.object.name, resource_link= reverse('course:exam:view_exam', args=[self.object.slug]), 
+			resource_name=self.object.name, resource_link= reverse('course:exam:view_exam', args=[self.object.slug]),
 			users=self.object.topic.subject.students.all())
 		for key in self.request.POST:
 			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'begin_date' and key != 'limit_date' and key != 'all_students' and key != 'students'):

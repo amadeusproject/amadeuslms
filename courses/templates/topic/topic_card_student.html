@@ -6,11 +6,11 @@
     <div class="resource_inline">
       <h4>{% trans "Materials" %}</h4>
     </div>
-    
+
     <ul id="list-materials">
         {% list_topic_file request topic %}
         {% list_topic_link request topic%}
-      
+
     </ul>
   </div>
   <div class="col-xs-4 col-md-4">
@@ -19,10 +19,11 @@
     </div>
     <ul>
         <div class="foruns_list">
+            {% list_topic_exam request topic %}
             {% list_topic_poll request topic %}
             {% list_topic_foruns request topic %}
         </div>
     </ul>
   </div>
- 
+
 </div>

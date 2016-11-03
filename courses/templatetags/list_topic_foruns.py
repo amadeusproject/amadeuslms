@@ -3,6 +3,7 @@ from django import template
 from links.models import Link
 from forum.models import Forum
 from poll.models import Poll
+from exam.models import Exam
 from files.models import TopicFile
 register = template.Library()
 
@@ -27,6 +28,17 @@ def list_topic_poll(request, topic):
     }
 
     context['polls'] = Poll.objects.filter(topic = topic)
+    context['topic'] = topic
+
+    return context
+
+@register.inclusion_tag('subject/exam_item_actions.html')
+def list_topic_exam(request, topic):
+    context = {
+        'request': request,
+    }
+
+    context['exams'] = Exam.objects.filter(topic = topic)
     context['topic'] = topic
 
     return context

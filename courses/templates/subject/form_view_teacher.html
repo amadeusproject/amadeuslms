@@ -93,10 +93,12 @@
               <ul class="dropdown-menu" aria-labelledby="dLabel">
                 <li><a href="javascript:createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans 'Create Forum' %}</a></li>
                 <li><a href="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#modal_poll');">{% trans 'Create Poll' %}</a></li>
+                <li><a href="javascript:modal.get('{% url 'course:exam:create_exam' topic.slug%}','#exam','#modal_exam');">{% trans 'Create Exam' %}</a></li>
               </ul>
             </div>
           </div>
           <ul>
+            {% list_topic_exam request topic %}
             {% list_topic_poll request topic %}
             {% list_topic_foruns request topic %}
           </ul>
