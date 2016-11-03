@@ -1,8 +1,9 @@
 from django.conf import settings
+import json
 from functools import wraps
 from .models import Action, Resource, Action_Resource, Log, Notification
 
-def log_decorator(log_action = '', log_resource = ''):
+def log_decorator(log_component = '', log_action = '', log_resource = ''):
 
 	def _log_decorator(view_function):
 
@@ -10,7 +11,7 @@ def log_decorator(log_action = '', log_resource = ''):
 
 			response = view_function(request, *args, **kwargs)
 
-			if request.user.is_authenticated and request.POST:
+			if request.user.is_authenticated:
 				action = Action.objects.filter(name = log_action)
 				resource = Resource.objects.filter(name = log_resource)
 
@@ -36,6 +37,8 @@ def log_decorator(log_action = '', log_resource = ''):
 
 				log = Log()
 				log.user = request.user
+				log.component = log_component
+				log.context = json.dumps(request.log_context)
 				log.action_resource = action_resource
 
 				log.save()
