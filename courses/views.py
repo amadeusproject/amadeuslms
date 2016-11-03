@@ -615,13 +615,15 @@ class TopicsView(LoginRequiredMixin, generic.ListView):
 		activitys = Activity.objects.filter(topic__name = topic.name)
 		students_activit = User.objects.filter(activities__in = Activity.objects.all())
 		materials = Material.objects.filter(topic = topic)
-		print(materials)
+		
 		context['topic'] = topic
 		context['subject'] = topic.subject
 		context['activitys'] = activitys
 		context['students_activit'] = students_activit
 		context['materials'] = materials
 		context['form'] = ActivityForm
+
+
 		
 		return context
 
