@@ -4,17 +4,14 @@ from django.views import View
 from rolepermissions.mixins import HasRoleMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
-from core.mixins import LogMixin, NotificationMixin
+from core.mixins import NotificationMixin
 from core.models import Notification, Action, Resource, Action_Resource
 from users.models import User
 from .models import EmailBackend
 from .forms import EmailBackendForm
 from courses.models import Course
 
-class AppIndex(LoginRequiredMixin, LogMixin, ListView, NotificationMixin):
-	log_action = "Acessar"
-	log_resource = "Home"
-	
+class AppIndex(LoginRequiredMixin, ListView, NotificationMixin):
 	login_url = reverse_lazy("core:home")	
 	redirect_field_name = 'next'
 
@@ -46,7 +43,7 @@ class AppIndex(LoginRequiredMixin, LogMixin, ListView, NotificationMixin):
 			
 		return self.response_class(request = self.request, template = self.template_name, context = context, using = self.template_engine, **response_kwargs)
 
-class AmadeusSettings(LoginRequiredMixin,  HasRoleMixin, View):
+class AmadeusSettings(LoginRequiredMixin, HasRoleMixin, View):
 	allowed_roles = ['system_admin']
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'

@@ -19,11 +19,6 @@
       </div><!--column -->
       <div class="col-xs-3 col-md-2 divMoreActions">
         <div class="btn-group">
-          <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
-            <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
-          </button>
-        </div>
-        <div class="btn-group">
           <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
           </button>
@@ -44,7 +39,7 @@
       <div class="presentation_{{topic.slug}}">
         <p>
           <i>
-            {{topic.description|linebreaks}}
+            {{topic.description|safe}}
           </i>
         </p>
       </div>

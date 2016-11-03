@@ -1,23 +1,36 @@
-{% extends 'course/view.html' %}
+{% load static i18n permission_tags %}
 
-{% load static i18n %}
+<!-- Modal (remember to change the ids!!!) -->
+<div class="modal fade" id="course" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
 
-{% block breadcrumbs %}
-	<ol class="breadcrumb">
-	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
-	</ol>
-{% endblock %}
-
-{% block content %}
-<div class="panel panel-default">
-	<div class="panel-body">
-		<form action="" method="post">
-			{% csrf_token %}
-				<h2>{% trans 'Are you sure you want to delete the course' %} "{{course}}"?</h2>
-				<input type="submit" class="btn btn-raised btn-success btn-lg" value="{% trans 'Yes' %}" />
-				<a href="{% url 'course:view' course.slug%}" class="btn btn-raised btn-danger btn-lg">{% trans 'No' %}</a>
+        <h4 class="modal-title" id="myModalLabel">{% trans "Delete Course" %}</h4>
+      </div>
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <!-- Put ONLY your content here!!!  -->
+		<form id="delete_form" action="" method="post">
+		  {% csrf_token %}
+		    <p>{% trans 'Are you sure you want to delete the course' %} "{{course.name}}"?</p>
 		</form>
-	</div>
+      </div>
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <!-- Don't remove that!!!  -->
+        <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+        <button type="submit" id="button" form="delete_form" class="btn btn-primary btn-raised">{% trans "Delete" %}</button>
+		<script>
+		  $("#delete_form").submit(function(event) {
+		    RemoverCurso.remove("{% url 'course:delete' course.slug %}",$(this).serialize(),"#course_{{course.slug}}");
+		    event.preventDefault();
+		  });
+		</script>
+      </div>
+    </div>
+  </div>
 </div>
-{% endblock %}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{% static 'js/course.js' %}"></script>

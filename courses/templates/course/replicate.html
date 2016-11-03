@@ -57,7 +57,7 @@
 								<label for="id_init_register_date">{% trans 'Course registration start date' %}</label>
 								
 								
-									<input type="date" class="form-control" name="init_register_date" value="None" min="2016-10-24">
+									<input type="text" class="form-control date-picker" name="init_register_date" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
 								
 								<span class="help-block">{% trans 'Date that starts the registration period of the course (dd/mm/yyyy)' %}</span>
 								
@@ -67,7 +67,7 @@
 								<label for="id_end_register_date">{% trans 'Course registration end date' %}</label>
 								
 								
-									<input type="date" class="form-control" name="end_register_date" value="None" min="2016-10-24">
+									<input type="text" class="form-control date-picker" name="end_register_date" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
 								
 								<span class="help-block">{% trans 'Date that ends the registration period of the course (dd/mm/yyyy)' %}</span>
 								
@@ -77,7 +77,7 @@
 								<label for="id_init_date">{% trans 'Course start date' %}</label>
 								
 								
-									<input type="date" class="form-control" name="init_date" value="None" min="2016-10-24">
+									<input type="text" class="form-control date-picker" name="init_date" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
 								
 								<span class="help-block">{% trans 'Date that the course starts (dd/mm/yyyy)' %}</span>
 								
@@ -87,7 +87,7 @@
 								<label for="id_end_date">{% trans 'Course end date' %}</label>
 								
 								
-									<input type="date" class="form-control" name="end_date" value="None" min="2016-10-24">
+									<input type="text" class="form-control date-picker" name="end_date" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
 								
 								<span class="help-block">{% trans 'Date that the course ends (dd/mm/yyyy)' %}</span>
 								

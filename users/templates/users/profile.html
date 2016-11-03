@@ -45,9 +45,11 @@
 				<div class="row">
 					<div class="col-md-4">
 						{% if user.image %}
-                            <div style="background-image: url('{{ user.image.url }}'); background-size: 100% 100%; background-repeat: no-repeat; margin-left: 8em;" alt="photoUser" class="img-circle img-responsive img-list-user"></div>
+                            <div style="width: 200px; overflow:hidden; margin-left: 8em;">
+                            	<img src="{{ user.image.url }}" class="img-circle img-responsive img-list-user" >
+                            </div>
                         {% else %}
-                            {% if usser.gender == 'M' %}
+                            {% if user.gender == 'M' %}
                                 <img src="{% static 'img/male_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user" style="margin-left: 8em;">
                             {% else %}
                                 <img src="{% static 'img/female_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user" style="margin-left: 8em;">    

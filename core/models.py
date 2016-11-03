@@ -101,10 +101,15 @@ class Notification(models.Model):
         return self.message
 
 class Log(models.Model):
-    datetime = models.DateTimeField(_("Date and Time of action"), auto_now_add = True)
-    user = models.ForeignKey(User, verbose_name = _('Actor'))
+    component = models.TextField(_('Component (Module / App)'))
+    context = models.TextField(_('Context'), blank = True)
     action_resource = models.ForeignKey(Action_Resource, verbose_name = _('Action_Resource'))
+    user = models.ForeignKey(User, verbose_name = _('Actor'))
+    datetime = models.DateTimeField(_("Date and Time of action"), auto_now_add = True)
 
     class Meta:
         verbose_name = _('Log')
         verbose_name_plural = _('Logs')
+
+    def __str__(self):
+        return self.context

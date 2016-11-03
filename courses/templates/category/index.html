@@ -32,9 +32,7 @@
 	    </div>
 	    <div class="panel-body">
 	        <ul class="nav nav-pills nav-stacked">
-	            <li><a href="javascript:void(0)">{% trans 'Replicate Course' %}</a></li>
-	            <li><a href="{% url 'course:creates' %}">{% trans 'Create Course' %}</a></li>
-	            <li><a href="{% url 'course:create_cat' %}">{% trans 'Create Category' %}</a></li>
+	            <li><a href="{% url 'course:create' %}">{% trans 'Create Course' %}</a></li>
 	        </ul>
 	    </div>
 	</div>
@@ -71,16 +69,15 @@
 					<div class="panel panel-info">
 					    <div class="panel-heading" role="tab">
 					      <div class="row">
-					        <div class="col-xs-9 col-md-10 titleTopic">
+					        <div class="col-xs-9 col-md-11 titleTopic">
 					          <h4 style="color:white; margin-left: 20px;">{{category}}</h4>
 					        </div>
-					        
-						        <div class="col-xs-4 col-md-2" id="divMoreActions">
+						        <div class="col-xs-4 col-md-1" id="divMoreActions">
 						            <div class="btn-group">
 						              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
 						              </button>
-						              <ul class="dropdown-menu" aria-labelledby="moreActions">
+						              <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
 						                <li><a href="{% url 'course:update_cat' category.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Update' %}</a></li>
 						                <li><a href="javascript:modal.get('{% url 'course:delete_cat' category.slug %}','#category','#modal_category');"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remover' %}</a></li>
 						              </ul>

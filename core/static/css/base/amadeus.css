@@ -420,7 +420,28 @@ ul, li {
 .course, .subject, .topic{ padding-top: 0px; padding-bottom: 0px; }
 .course-detail{padding-top: 10px; padding-bottom: 10px;}
 
+.course-card{
+  margin-bottom: 0.4% !important;
+}
+
+.course-card-group{
+  margin-bottom: 1%;
+}
+
+.category-course-link{
+  font-size: 24px;
+  color: black !important;
+}
+
 /* Menu link remove radius */
 .nav-pills > li > a {
   border-radius: 0px;
+}
+
+.float-button{
+  float: right;
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  font-size: 20px;
 }
