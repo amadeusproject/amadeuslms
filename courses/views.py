@@ -231,7 +231,7 @@ class UpdateCourseView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
-	allowed_roles = ['professor', 'system_admin']
+	allowed_roles = ['professor', 'student']
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	model = Course
