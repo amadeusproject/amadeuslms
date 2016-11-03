@@ -15,6 +15,7 @@ from rolepermissions.verifications import has_object_permission
 from django.http import HttpResponseRedirect, JsonResponse
 from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm,TopicForm,ActivityForm
 from .models import Course, Subject, CourseCategory,Topic, SubjectCategory,Activity, CategorySubject
+from core.decorators import log_decorator
 from core.mixins import LogMixin, NotificationMixin
 from users.models import User
 from files.forms import FileForm
@@ -397,12 +398,23 @@ class DeleteView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.De
 		return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
 
 @login_required
+@log_decorator("course", "subscribe", "course")
 def subscribe_course(request, slug):
 	course = get_object_or_404(Course, slug = slug)
 
 	course.students.add(request.user)
 
 	if request.user in course.students.all():
+
+		log_context = {}	
+		log_context['course_id'] = course.id
+		log_context['course_name'] = course.name
+		log_context['course_slug'] = course.slug
+		log_context['course_category_id'] = course.category.id
+		log_context['course_category_name'] = course.category.name
+
+		request.log_context = log_context
+
 		return JsonResponse({"status": "ok", "message": _("Successfully subscribed to the course!")})
 	else:
 		return JsonResponse({"status": "erro", "message": _("An error has occured. Could not subscribe to this course, try again later")})
@@ -504,7 +516,11 @@ class DeleteCatView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 		messages.success(self.request, _('Category deleted successfully!'))
 		return reverse_lazy('course:manage_cat')
 
-class SubjectsView(LoginRequiredMixin, generic.ListView):
+class SubjectsView(LoginRequiredMixin, LogMixin, generic.ListView):
+	log_component = "course"
+	log_resource = "subject"
+	log_action = "viewed"
+	log_context = {}
 
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
@@ -517,6 +533,17 @@ class SubjectsView(LoginRequiredMixin, generic.ListView):
 
 		if(not has_object_permission('view_subject', self.request.user, subject)):
 			return self.handle_no_permission()
+
+		self.log_context['subject_id'] = subject.id
+		self.log_context['subject_name'] = subject.name
+		self.log_context['subject_slug'] = subject.slug
+		self.log_context['course_id'] = subject.course.id
+		self.log_context['course_name'] = subject.course.name
+		self.log_context['course_slug'] = subject.course.slug
+		self.log_context['course_category_id'] = subject.course.category.id
+		self.log_context['course_category_name'] = subject.course.category.name
+
+		super(SubjectsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(SubjectsView, self).dispatch(*args, **kwargs)
 
