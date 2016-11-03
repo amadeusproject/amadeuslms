@@ -689,7 +689,11 @@ class UpdateTopicView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 			context['subjects'] = topic.subject.course.subjects.all()
 		return context
 
-class CreateSubjectView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.edit.CreateView):
+class CreateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, generic.edit.CreateView):
+	log_component = "course"
+	log_resource = "subject"
+	log_action = "create"
+	log_context = {}
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -720,6 +724,17 @@ class CreateSubjectView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, gen
 			super(CreateSubjectView, self).createNotification( " created subject " + self.object.name, resource_name=self.object.name,
 			 resource_slug = self.object.slug, actor=self.request.user, users= self.object.course.students.all(),
 			 resource_link = reverse('course:view_subject', args=[self.object.slug]))
+
+		self.log_context['subject_id'] = self.object.id
+		self.log_context['subject_name'] = self.object.name
+		self.log_context['subject_slug'] = self.object.slug
+		self.log_context['course_id'] = course.id
+		self.log_context['course_name'] = course.name
+		self.log_context['course_slug'] = course.slug
+		self.log_context['course_category_id'] = course.category.id
+		self.log_context['course_category_name'] = course.category.name
+
+		super(CreateSubjectView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(CreateSubjectView, self).form_valid(form)
 
