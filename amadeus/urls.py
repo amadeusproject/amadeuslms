@@ -28,6 +28,7 @@ urlpatterns = [
 
     #S3Direct
     url(r'^s3direct/', include('s3direct.urls')),
+    url(r'^summernote/', include('django_summernote.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
