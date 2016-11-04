@@ -51,7 +51,7 @@ class CourseForm(forms.ModelForm):
 	class Meta:
 		model = Course
 		fields = ('name', 'objectivies', 'content', 'max_students', 'init_register_date', 'end_register_date',
-					'init_date', 'end_date', 'image', 'category',)
+					'init_date', 'end_date', 'category',)
 		labels = {
 			'name': _('Name'),
 			'objectivies': _('Objectives'),
@@ -61,7 +61,6 @@ class CourseForm(forms.ModelForm):
 			'end_register_date': _('Course registration end date'),
 			'init_date': _('Course start date'),
 			'end_date': _('Course end date'),
-			'image': _('Image'),
 			'category': _('CourseCategory'),
 		}
 		help_texts = {
@@ -73,7 +72,6 @@ class CourseForm(forms.ModelForm):
 			'end_register_date': _('Date that ends the registration period of the course (dd/mm/yyyy)'),
 			'init_date': _('Date that the course starts (dd/mm/yyyy)'),
 			'end_date': _('Date that the course ends (dd/mm/yyyy)'),
-			'image': _('Representative image of the course'),
 			'category': _('CourseCategory which the course belongs'),
 		}
 
@@ -91,7 +89,7 @@ class UpdateCourseForm(CourseForm):
 	class Meta:
 		model = Course
 		fields = ('name', 'objectivies', 'content', 'max_students', 'init_register_date', 'end_register_date',
-					'init_date', 'end_date', 'image', 'category','students',)
+					'init_date', 'end_date', 'category','students',)
 		labels = {
 			'name': _('Name'),
 			'objectivies': _('Objectives'),
@@ -101,7 +99,6 @@ class UpdateCourseForm(CourseForm):
 			'end_register_date': _('Course registration end date'),
 			'init_date': _('Course start date'),
 			'end_date': _('Course end date'),
-			'image': _('Image'),
 			'category': _('CourseCategory'),
 			'students': _('Student'),
 		}
@@ -114,7 +111,6 @@ class UpdateCourseForm(CourseForm):
 			'end_register_date': _('Date that ends the registration period of the course (dd/mm/yyyy)'),
 			'init_date': _('Date that the course starts (dd/mm/yyyy)'),
 			'end_date': _('Date that the course ends (dd/mm/yyyy)'),
-			'image': _('Representative image of the course'),
 			'category': _('CourseCategory which the course belongs'),
 			'students': _("Course's Students"),
 		}

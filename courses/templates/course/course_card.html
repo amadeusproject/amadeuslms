@@ -26,7 +26,7 @@
             </div>
             {% elif user|has_role:'student' %}
               {% if not request.user in course.students.all %}
-                <a onclick="subscribe($(this), '{% url 'course:subscribe' course.slug %}', {{ course.id}}, '{% trans 'Are you sure you want to subscribe to this course?' %}')"><button class="btn btn-sm btn-primary btn-raised pull-right">{% trans 'Subscribe' %}</button></a>                
+                <a onclick="subscribe($(this), '{% url 'course:subscribe' course.slug %}', {{ course.id}}, '{% trans 'Are you sure you want to subscribe to this course?' %}')"><button class="btn btn-sm btn-primary btn-raised pull-right">{% trans 'Subscribe' %}</button></a>
               {% endif %}
             {% endif %}
           </div>
@@ -34,7 +34,7 @@
         <div class="panel-collapse collapseOne-{{course.slug}} collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" aria-hidden="false" tabindex="0">
           <div class="panel-body">
             <p><b>{% trans 'Course Name' %}: </b>{{course.name}}</p>
-            <p><b>{% trans 'Coordinator' %}: </b>{{course.professors.all.0}}</p>
+            <p><b>{% trans 'Professor' %}: </b>{{course.professors.all.0}}</p>
             <p>
               <b>{% trans 'Description' %}:</b>
               <i>
