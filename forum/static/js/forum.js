@@ -223,6 +223,8 @@ function delete_post(url, post) {
         },
         url: url, 
         success: function(data) {
+            alertify.success(data);
+
             $("#post_"+post).remove();
         }
     });
