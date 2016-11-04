@@ -470,7 +470,12 @@ class PostAnswerIndex(LoginRequiredMixin, generic.ListView):
 
 		return context
 
-class CreatePostAnswerView(LoginRequiredMixin, generic.edit.CreateView):
+class CreatePostAnswerView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = "forum"
+	log_action = "create"
+	log_resource = "post_answer"
+	log_context = {}
+
 	login_url = reverse_lazy("core:home")	
 	redirect_field_name = 'next'
 
@@ -483,6 +488,25 @@ class CreatePostAnswerView(LoginRequiredMixin, generic.edit.CreateView):
 
 		self.object.save()
 
+		self.log_context['post_answer_id'] = self.object.id
+		self.log_context['post_id'] = self.object.post.id
+		self.log_context['post_user_id'] = self.object.post.user.id
+		self.log_context['post_user_name'] = self.object.post.user.name
+		self.log_context['forum_id'] = self.object.post.forum.id
+		self.log_context['forum_name'] = self.object.post.forum.name
+		self.log_context['topic_id'] = self.object.post.forum.topic.id
+		self.log_context['topic_name'] = self.object.post.forum.topic.name
+		self.log_context['topic_slug'] = self.object.post.forum.topic.slug
+		self.log_context['subject_id'] = self.object.post.forum.topic.subject.id
+		self.log_context['subject_name'] = self.object.post.forum.topic.subject.name
+		self.log_context['subject_slug'] = self.object.post.forum.topic.subject.slug
+		self.log_context['course_id'] = self.object.post.forum.topic.subject.course.id
+		self.log_context['course_name'] = self.object.post.forum.topic.subject.course.name
+		self.log_context['course_slug'] = self.object.post.forum.topic.subject.course.slug
+		self.log_context['course_category_id'] = self.object.post.forum.topic.subject.course.category.id
+		self.log_context['course_category_name'] = self.object.post.forum.topic.subject.course.category.name
+
+		super(CreatePostAnswerView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(CreatePostAnswerView, self).form_valid(form)
 
@@ -501,7 +525,12 @@ def render_post_answer(request, answer):
 
 	return JsonResponse({'new_id': last_answer.id, 'html': html})
 
-class PostAnswerUpdateView(LoginRequiredMixin, generic.UpdateView):
+class PostAnswerUpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+	log_component = "forum"
+	log_action = "update"
+	log_resource = "post_answer"
+	log_context = {}
+
 	login_url = reverse_lazy("core:home")	
 	redirect_field_name = 'next'
 
@@ -512,16 +541,65 @@ class PostAnswerUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 	def get_success_url(self):
 		self.success_url = reverse('course:forum:render_post_answer', args = (self.object.id, ))
+
+		self.log_context['post_answer_id'] = self.object.id
+		self.log_context['post_id'] = self.object.post.id
+		self.log_context['post_user_id'] = self.object.post.user.id
+		self.log_context['post_user_name'] = self.object.post.user.name
+		self.log_context['forum_id'] = self.object.post.forum.id
+		self.log_context['forum_name'] = self.object.post.forum.name
+		self.log_context['topic_id'] = self.object.post.forum.topic.id
+		self.log_context['topic_name'] = self.object.post.forum.topic.name
+		self.log_context['topic_slug'] = self.object.post.forum.topic.slug
+		self.log_context['subject_id'] = self.object.post.forum.topic.subject.id
+		self.log_context['subject_name'] = self.object.post.forum.topic.subject.name
+		self.log_context['subject_slug'] = self.object.post.forum.topic.subject.slug
+		self.log_context['course_id'] = self.object.post.forum.topic.subject.course.id
+		self.log_context['course_name'] = self.object.post.forum.topic.subject.course.name
+		self.log_context['course_slug'] = self.object.post.forum.topic.subject.course.slug
+		self.log_context['course_category_id'] = self.object.post.forum.topic.subject.course.category.id
+		self.log_context['course_category_name'] = self.object.post.forum.topic.subject.course.category.name
+
+		super(PostAnswerUpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 		
 		return self.success_url
 
-class PostAnswerDeleteView(LoginRequiredMixin, generic.DeleteView):
+class PostAnswerDeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+	log_component = "forum"
+	log_action = "delete"
+	log_resource = "post_answer"
+	log_context = {}
+
 	login_url = reverse_lazy("core:home")	
 	redirect_field_name = 'next'
 
 	model = PostAnswer
-	pk_url_kwarg = 'pk'	
-	success_url = reverse_lazy('course:forum:deleted_answer')
+	pk_url_kwarg = 'pk'
+
+	def get_success_url(self):
+		self.success_url = reverse_lazy('course:forum:deleted_answer')
+
+		self.log_context['post_answer_id'] = self.object.id
+		self.log_context['post_id'] = self.object.post.id
+		self.log_context['post_user_id'] = self.object.post.user.id
+		self.log_context['post_user_name'] = self.object.post.user.name
+		self.log_context['forum_id'] = self.object.post.forum.id
+		self.log_context['forum_name'] = self.object.post.forum.name
+		self.log_context['topic_id'] = self.object.post.forum.topic.id
+		self.log_context['topic_name'] = self.object.post.forum.topic.name
+		self.log_context['topic_slug'] = self.object.post.forum.topic.slug
+		self.log_context['subject_id'] = self.object.post.forum.topic.subject.id
+		self.log_context['subject_name'] = self.object.post.forum.topic.subject.name
+		self.log_context['subject_slug'] = self.object.post.forum.topic.subject.slug
+		self.log_context['course_id'] = self.object.post.forum.topic.subject.course.id
+		self.log_context['course_name'] = self.object.post.forum.topic.subject.course.name
+		self.log_context['course_slug'] = self.object.post.forum.topic.subject.course.slug
+		self.log_context['course_category_id'] = self.object.post.forum.topic.subject.course.category.id
+		self.log_context['course_category_name'] = self.object.post.forum.topic.subject.course.category.name
+
+		super(PostAnswerDeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		
+		return self.success_url
 
 def answer_deleted(request):
 	return HttpResponse(_("Post answer deleted successfully."))
