@@ -2,6 +2,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render
 from django.views.generic import ListView
 from django.views import View, generic
+from django.contrib import messages
 from rolepermissions.mixins import HasRoleMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
@@ -53,24 +54,33 @@ class AmadeusSettings(LoginRequiredMixin, HasRoleMixin, generic.CreateView):
 	success_url = reverse_lazy('app:settings')
 
 	def form_invalid(self, form):
-		print('iNVALID')
 		return self.render_to_response(self.get_context_data(form=form))
 
 	def form_valid(self, form):
-		self.object = form.save()
-		print('Save')
-		messages.success(self.request, _('Changes saved'))
+		try:
+			self.object = EmailBackend.objects.latest('id')
+			self.object.description = form.cleaned_data['description']
+			self.object.host = form.cleaned_data['host']
+			self.object.port = form.cleaned_data['port']
+			self.object.username = form.cleaned_data['username']
+			self.object.password = form.cleaned_data['password']
+			self.object.safe_conection = form.cleaned_data['safe_conection']
+			self.object.default_from_email = form.cleaned_data['default_from_email']
+			self.object.save()
+		except:
+			self.object = form.save()
+		messages.success(self.request, _('Changes saved.'))
 
 		return super(AmadeusSettings, self).form_valid(form)
 
 	def get_context_data(self, **kwargs):
-	    context = super(AmadeusSettings, self).get_context_data(**kwargs)
-	    try:
-	    	setting = EmailBackend.objects.latest('id')
-	    	context['form'] = EmailBackendForm(instance = setting)
-	    except:
-	    	context['form'] = EmailBackendForm() 
-	    return context
+		context = super(AmadeusSettings, self).get_context_data(**kwargs)
+		try:
+			setting = EmailBackend.objects.latest('id')
+			context['form'] = EmailBackendForm(instance = setting)
+		except:
+			pass
+		return context
 
 
 
