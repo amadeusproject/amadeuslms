@@ -588,7 +588,11 @@ class UploadMaterialView(LoginRequiredMixin, generic.edit.CreateView):
 
 		return self.success_url
 
-class TopicsView(LoginRequiredMixin, generic.ListView):
+class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
+	log_component = "course"
+	log_resource = "topic"
+	log_action = "viewed"
+	log_context = {}
 
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
@@ -601,6 +605,20 @@ class TopicsView(LoginRequiredMixin, generic.ListView):
 
 		if(not has_object_permission('view_topic', self.request.user, topic)):
 			return self.handle_no_permission()
+
+		self.log_context['topic_id'] = topic.id
+		self.log_context['topic_name'] = topic.name
+		self.log_context['topic_slug'] = topic.slug
+		self.log_context['subject_id'] = topic.subject.id
+		self.log_context['subject_name'] = topic.subject.name
+		self.log_context['subject_slug'] = topic.subject.slug
+		self.log_context['course_id'] = topic.subject.course.id
+		self.log_context['course_name'] = topic.subject.course.name
+		self.log_context['course_slug'] = topic.subject.course.slug
+		self.log_context['course_category_id'] = topic.subject.course.category.id
+		self.log_context['course_category_name'] = topic.subject.course.category.name
+
+		super(TopicsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(TopicsView, self).dispatch(*args, **kwargs)
 
@@ -624,13 +642,15 @@ class TopicsView(LoginRequiredMixin, generic.ListView):
 		context['students_activit'] = students_activit
 		context['materials'] = materials
 		context['form'] = ActivityForm
-
-		
 		
 		return context
 
 
-class CreateTopicView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.edit.CreateView):
+class CreateTopicView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, generic.edit.CreateView):
+	log_component = "course"
+	log_resource = "topic"
+	log_action = "create"
+	log_context = {}
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -660,10 +680,28 @@ class CreateTopicView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, gener
 		super(CreateTopicView, self).createNotification("Topic "+ self.object.name + " was created", 
 			resource_name=self.object.name, resource_link= reverse('course:view_topic',args=[self.object.slug]),
 			 actor=self.request.user, users = self.object.subject.course.students.all() )
+
+		self.log_context['topic_id'] = self.object.id
+		self.log_context['topic_name'] = self.object.name
+		self.log_context['topic_slug'] = self.object.slug
+		self.log_context['subject_id'] = self.object.subject.id
+		self.log_context['subject_name'] = self.object.subject.name
+		self.log_context['subject_slug'] = self.object.subject.slug
+		self.log_context['course_id'] = self.object.subject.course.id
+		self.log_context['course_name'] = self.object.subject.course.name
+		self.log_context['course_slug'] = self.object.subject.course.slug
+		self.log_context['course_category_id'] = self.object.subject.course.category.id
+		self.log_context['course_category_name'] = self.object.subject.course.category.name
+
+		super(CreateTopicView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 		
 		return super(CreateTopicView, self).form_valid(form)
 
-class UpdateTopicView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
+class UpdateTopicView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.UpdateView):
+	log_component = "course"
+	log_resource = "topic"
+	log_action = "create"
+	log_context = {}
 
 	allowed_roles = ['professor','system_admin']
 	login_url = reverse_lazy("core:home")
@@ -692,6 +730,25 @@ class UpdateTopicView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 		if (has_role(self.request.user,'system_admin')):
 			context['subjects'] = topic.subject.course.subjects.all()
 		return context
+
+	def form_valid(self, form):
+		self.object = form.save()
+
+		self.log_context['topic_id'] = self.object.id
+		self.log_context['topic_name'] = self.object.name
+		self.log_context['topic_slug'] = self.object.slug
+		self.log_context['subject_id'] = self.object.subject.id
+		self.log_context['subject_name'] = self.object.subject.name
+		self.log_context['subject_slug'] = self.object.subject.slug
+		self.log_context['course_id'] = self.object.subject.course.id
+		self.log_context['course_name'] = self.object.subject.course.name
+		self.log_context['course_slug'] = self.object.subject.course.slug
+		self.log_context['course_category_id'] = self.object.subject.course.category.id
+		self.log_context['course_category_name'] = self.object.subject.course.category.name
+
+		super(UpdateTopicView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		return super(UpdateTopicView, self).form_valid(form)
 
 class CreateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, generic.edit.CreateView):
 	log_component = "course"
@@ -854,7 +911,6 @@ def subscribe_subject(request, slug):
 			log_context['course_category_name'] = subject.course.category.name
 
 			request.log_context = log_context
-
 
 			return JsonResponse({"status": "ok", "message": _("Successfully subscribed to the subject!")})
 		else:
