@@ -284,20 +284,11 @@ class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Delet
 	redirect_field_name = 'next'
 	model = Course
 	template_name = 'course/delete.html'
-	success_url = reverse_lazy('course:manage')
 
 	def dispatch(self, *args, **kwargs):
 		course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
 		if(not has_object_permission('delete_course', self.request.user, course)):
 			return self.handle_no_permission()
-
-		self.log_context['course_id'] = course.id
-		self.log_context['course_name'] = course.name
-		self.log_context['course_slug'] = course.slug
-		self.log_context['course_category_id'] = course.category.id
-		self.log_context['course_category_name'] = course.category.name
-
-		super(DeleteCourseView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(DeleteCourseView, self).dispatch(*args, **kwargs)
 
@@ -308,11 +299,22 @@ class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Delet
 		if has_role(self.request.user,'system_admin'):
 			courses = Course.objects.all()
 		elif has_role(self.request.user,'professor'):
-			courses = self.request.user.courses.all()
+			courses = self.request.user.courses_professors.all()
 		context['courses'] = courses
 		context['title'] = course.name
 
 		return context
+
+	def get_success_url(self):
+		self.log_context['course_id'] = self.object.id
+		self.log_context['course_name'] = self.object.name
+		self.log_context['course_slug'] = self.object.slug
+		self.log_context['course_category_id'] = self.object.category.id
+		self.log_context['course_category_name'] = self.object.category.name
+
+		super(DeleteCourseView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		
+		return reverse_lazy('course:manage')
 
 
 class CourseView(LogMixin, NotificationMixin, generic.DetailView):
@@ -586,7 +588,11 @@ class UploadMaterialView(LoginRequiredMixin, generic.edit.CreateView):
 
 		return self.success_url
 
-class TopicsView(LoginRequiredMixin, generic.ListView):
+class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
+	log_component = "course"
+	log_resource = "topic"
+	log_action = "viewed"
+	log_context = {}
 
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
@@ -599,6 +605,20 @@ class TopicsView(LoginRequiredMixin, generic.ListView):
 
 		if(not has_object_permission('view_topic', self.request.user, topic)):
 			return self.handle_no_permission()
+
+		self.log_context['topic_id'] = topic.id
+		self.log_context['topic_name'] = topic.name
+		self.log_context['topic_slug'] = topic.slug
+		self.log_context['subject_id'] = topic.subject.id
+		self.log_context['subject_name'] = topic.subject.name
+		self.log_context['subject_slug'] = topic.subject.slug
+		self.log_context['course_id'] = topic.subject.course.id
+		self.log_context['course_name'] = topic.subject.course.name
+		self.log_context['course_slug'] = topic.subject.course.slug
+		self.log_context['course_category_id'] = topic.subject.course.category.id
+		self.log_context['course_category_name'] = topic.subject.course.category.name
+
+		super(TopicsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(TopicsView, self).dispatch(*args, **kwargs)
 
@@ -622,13 +642,15 @@ class TopicsView(LoginRequiredMixin, generic.ListView):
 		context['students_activit'] = students_activit
 		context['materials'] = materials
 		context['form'] = ActivityForm
-
-		
 		
 		return context
 
 
-class CreateTopicView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.edit.CreateView):
+class CreateTopicView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, generic.edit.CreateView):
+	log_component = "course"
+	log_resource = "topic"
+	log_action = "create"
+	log_context = {}
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -658,10 +680,28 @@ class CreateTopicView(LoginRequiredMixin, HasRoleMixin, NotificationMixin, gener
 		super(CreateTopicView, self).createNotification("Topic "+ self.object.name + " was created", 
 			resource_name=self.object.name, resource_link= reverse('course:view_topic',args=[self.object.slug]),
 			 actor=self.request.user, users = self.object.subject.course.students.all() )
+
+		self.log_context['topic_id'] = self.object.id
+		self.log_context['topic_name'] = self.object.name
+		self.log_context['topic_slug'] = self.object.slug
+		self.log_context['subject_id'] = self.object.subject.id
+		self.log_context['subject_name'] = self.object.subject.name
+		self.log_context['subject_slug'] = self.object.subject.slug
+		self.log_context['course_id'] = self.object.subject.course.id
+		self.log_context['course_name'] = self.object.subject.course.name
+		self.log_context['course_slug'] = self.object.subject.course.slug
+		self.log_context['course_category_id'] = self.object.subject.course.category.id
+		self.log_context['course_category_name'] = self.object.subject.course.category.name
+
+		super(CreateTopicView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 		
 		return super(CreateTopicView, self).form_valid(form)
 
-class UpdateTopicView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
+class UpdateTopicView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.UpdateView):
+	log_component = "course"
+	log_resource = "topic"
+	log_action = "create"
+	log_context = {}
 
 	allowed_roles = ['professor','system_admin']
 	login_url = reverse_lazy("core:home")
@@ -690,6 +730,25 @@ class UpdateTopicView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 		if (has_role(self.request.user,'system_admin')):
 			context['subjects'] = topic.subject.course.subjects.all()
 		return context
+
+	def form_valid(self, form):
+		self.object = form.save()
+
+		self.log_context['topic_id'] = self.object.id
+		self.log_context['topic_name'] = self.object.name
+		self.log_context['topic_slug'] = self.object.slug
+		self.log_context['subject_id'] = self.object.subject.id
+		self.log_context['subject_name'] = self.object.subject.name
+		self.log_context['subject_slug'] = self.object.subject.slug
+		self.log_context['course_id'] = self.object.subject.course.id
+		self.log_context['course_name'] = self.object.subject.course.name
+		self.log_context['course_slug'] = self.object.subject.course.slug
+		self.log_context['course_category_id'] = self.object.subject.course.category.id
+		self.log_context['course_category_name'] = self.object.subject.course.category.name
+
+		super(UpdateTopicView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		return super(UpdateTopicView, self).form_valid(form)
 
 class CreateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, generic.edit.CreateView):
 	log_component = "course"
@@ -741,7 +800,11 @@ class CreateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, Notification
 		return super(CreateSubjectView, self).form_valid(form)
 
 
-class UpdateSubjectView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
+class UpdateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.UpdateView):
+	log_component = "course"
+	log_resource = "subject"
+	log_action = "update"
+	log_context = {}
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -754,6 +817,22 @@ class UpdateSubjectView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 		if(not has_object_permission('edit_subject', self.request.user, subject)):
 			return self.handle_no_permission()
 		return super(UpdateSubjectView, self).dispatch(*args, **kwargs)
+
+	def form_valid(self, form):
+		self.object = form.save()
+
+		self.log_context['subject_id'] = self.object.id
+		self.log_context['subject_name'] = self.object.name
+		self.log_context['subject_slug'] = self.object.slug
+		self.log_context['course_id'] = self.object.course.id
+		self.log_context['course_name'] = self.object.course.name
+		self.log_context['course_slug'] = self.object.course.slug
+		self.log_context['course_category_id'] = self.object.course.category.id
+		self.log_context['course_category_name'] = self.object.course.category.name
+
+		super(UpdateSubjectView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		return super(UpdateSubjectView, self).form_valid(form)
 
 	def get_object(self, queryset=None):
 		context = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
@@ -771,7 +850,11 @@ class UpdateSubjectView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 			context['subjects'] = self.object.course.subjects.all()
 		return context
 
-class DeleteSubjectView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
+class DeleteSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.DeleteView):
+	log_component = "course"
+	log_resource = "subject"
+	log_action = "delete"
+	log_context = {}
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -785,7 +868,6 @@ class DeleteSubjectView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 			return self.handle_no_permission()
 		return super(DeleteSubjectView, self).dispatch(*args, **kwargs)
 
-
 	def get_context_data(self, **kwargs):
 		context = super(DeleteSubjectView, self).get_context_data(**kwargs)
 		context['course'] = self.object.course
@@ -796,9 +878,21 @@ class DeleteSubjectView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 		return context
 
 	def get_success_url(self):
+		self.log_context['subject_id'] = self.object.id
+		self.log_context['subject_name'] = self.object.name
+		self.log_context['subject_slug'] = self.object.slug
+		self.log_context['course_id'] = self.object.course.id
+		self.log_context['course_name'] = self.object.course.name
+		self.log_context['course_slug'] = self.object.course.slug
+		self.log_context['course_category_id'] = self.object.course.category.id
+		self.log_context['course_category_name'] = self.object.course.category.name
+
+		super(DeleteSubjectView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return reverse_lazy('course:view', kwargs={'slug' : self.object.course.slug})
 
 @login_required
+@log_decorator("course", "subscribe", "subject")
 def subscribe_subject(request, slug):
 	subject = get_object_or_404(Subject, slug = slug)
 
@@ -806,6 +900,18 @@ def subscribe_subject(request, slug):
 		subject.students.add(request.user)
 
 		if request.user in subject.students.all():
+			log_context = {}	
+			log_context['subject_id'] = subject.id
+			log_context['subject_name'] = subject.name
+			log_context['subject_slug'] = subject.slug
+			log_context['course_id'] = subject.course.id
+			log_context['course_name'] = subject.course.name
+			log_context['course_slug'] = subject.course.slug
+			log_context['course_category_id'] = subject.course.category.id
+			log_context['course_category_name'] = subject.course.category.name
+
+			request.log_context = log_context
+
 			return JsonResponse({"status": "ok", "message": _("Successfully subscribed to the subject!")})
 		else:
 			return JsonResponse({"status": "erro", "message": _("An error has occured. Could not subscribe to this subject, try again later")})

@@ -9,6 +9,8 @@
 
 {% block javascript %}
   <script type="text/javascript" src="{% static 'js/course.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/modal_subject.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/topic_editation_presentation.js' %}"></script>
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -128,27 +130,6 @@
 
   <div class="panel panel-info">
 </div>
-
-
-<!-- MODAL REMOVE -->
-<div class="modal" id="removeSubject">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-        <h4 class="modal-title"></h4>
-      </div>
-      <div class="modal-body">
-        <p>{% trans "Are you sure you want to remove this subject?" %}</p>
-      </div>
-      <div class="modal-footer">
-
-        <a href="http://127.0.0.1:8080/html/screens/users/teacher/home_course_teacher.html" target="_self"><button type="button" class="btn btn-primary">{% trans "Confirm" %}</button></a>
-
-      </div>
-    </div>
-  </div>
-</div>
 </div>
 <div class="cards-detail">
     {% for subject in subjects %}
@@ -171,7 +152,7 @@
                       </button>
                       <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
                         <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans 'Replicate' %}</a></li>
-                        <li><a href="javascript:subject.get('{% url 'course:delete_subject' subject.slug %}','#subject','#modal_subject');" data-toggle="modal" data-target="#removeSubject"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans 'Remove' %}</a></li>
+                        <li><a href="javascript:delete_subject.get('{% url 'course:delete_subject' subject.slug %}','#subject','#modal_subject')" data-toggle="modal" data-target="#removeSubject"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans 'Remove' %}</a></li>
                       </ul>
                     </div>
                   </div>
@@ -221,5 +202,6 @@
 </div>
 </div>
 </div>
+<div class="row" id="modal_subject">
 
 {% endblock %}

@@ -13,18 +13,42 @@ from django.urls import reverse
 
 from .forms import PollForm
 from .models import Poll, Answer, AnswersStudent
-from core.mixins import NotificationMixin
+from core.mixins import LogMixin, NotificationMixin
 from users.models import User
 from courses.models import Course, Topic
 
-class ViewPoll(LoginRequiredMixin,generic.DetailView):
+import datetime
+
+class ViewPoll(LoginRequiredMixin, LogMixin, generic.DetailView):
+	log_component = "poll"
+	log_resource = "poll"
+	log_action = "viewed"
+	log_context = {}
 
 	model = Poll
 	context_object_name = 'poll'
 	template_name = 'poll/view.html'
 
 	def get_object(self, queryset=None):
-	    return get_object_or_404(Poll, slug = self.kwargs.get('slug'))
+		poll = get_object_or_404(Poll, slug = self.kwargs.get('slug'))
+
+		self.log_context['poll_id'] = poll.id
+		self.log_context['poll_slug'] = poll.slug
+		self.log_context['topic_id'] = poll.topic.id
+		self.log_context['topic_name'] = poll.topic.name
+		self.log_context['topic_slug'] = poll.topic.slug
+		self.log_context['subject_id'] = poll.topic.subject.id
+		self.log_context['subject_name'] = poll.topic.subject.name
+		self.log_context['subject_slug'] = poll.topic.subject.slug
+		self.log_context['course_id'] = poll.topic.subject.course.id
+		self.log_context['course_name'] = poll.topic.subject.course.name
+		self.log_context['course_slug'] = poll.topic.subject.course.slug
+		self.log_context['course_category_id'] = poll.topic.subject.course.category.id
+		self.log_context['course_category_name'] = poll.topic.subject.course.category.name
+
+		super(ViewPoll, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		return poll
 
 	def get_context_data(self, **kwargs):
 		context = super(ViewPoll, self).get_context_data(**kwargs)
@@ -41,7 +65,11 @@ class ViewPoll(LoginRequiredMixin,generic.DetailView):
 		return context
 
 
-class CreatePoll(LoginRequiredMixin,HasRoleMixin, NotificationMixin,generic.CreateView):
+class CreatePoll(LoginRequiredMixin,HasRoleMixin, LogMixin, NotificationMixin,generic.CreateView):
+	log_component = "poll"
+	log_resource = "poll"
+	log_action = "create"
+	log_context = {}
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -81,6 +109,22 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin, NotificationMixin,generic.Crea
 				answer = Answer(answer=self.request.POST[key],order=key,poll=self.object)
 				answer.save()
 
+		self.log_context['poll_id'] = self.object.id
+		self.log_context['poll_slug'] = self.object.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['course_id'] = self.object.topic.subject.course.id
+		self.log_context['course_name'] = self.object.topic.subject.course.name
+		self.log_context['course_slug'] = self.object.topic.subject.course.slug
+		self.log_context['course_category_id'] = self.object.topic.subject.course.category.id
+		self.log_context['course_category_name'] = self.object.topic.subject.course.category.name
+
+		super(CreatePoll, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return self.render_to_response(self.get_context_data(form = form), status = 200)
 
 	def get_context_data(self, **kwargs):
@@ -92,7 +136,11 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin, NotificationMixin,generic.Crea
 		context['subjects'] = topic.subject.course.subjects.all()
 		return context
 
-class UpdatePoll(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
+class UpdatePoll(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.UpdateView):
+	log_component = "poll"
+	log_resource = "poll"
+	log_action = "update"
+	log_context = {}
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -138,6 +186,22 @@ class UpdatePoll(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 				answer = Answer(answer=self.request.POST[key],order=key,poll=poll)
 				answer.save()
 
+		self.log_context['poll_id'] = poll.id
+		self.log_context['poll_slug'] = poll.slug
+		self.log_context['topic_id'] = poll.topic.id
+		self.log_context['topic_name'] = poll.topic.name
+		self.log_context['topic_slug'] = poll.topic.slug
+		self.log_context['subject_id'] = poll.topic.subject.id
+		self.log_context['subject_name'] = poll.topic.subject.name
+		self.log_context['subject_slug'] = poll.topic.subject.slug
+		self.log_context['course_id'] = poll.topic.subject.course.id
+		self.log_context['course_name'] = poll.topic.subject.course.name
+		self.log_context['course_slug'] = poll.topic.subject.course.slug
+		self.log_context['course_category_id'] = poll.topic.subject.course.category.id
+		self.log_context['course_category_name'] = poll.topic.subject.course.category.name
+
+		super(UpdatePoll, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return super(UpdatePoll, self).form_valid(form)
 
 	def get_context_data(self, **kwargs):
@@ -157,7 +221,11 @@ class UpdatePoll(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 
 		return context
 
-class DeletePoll(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
+class DeletePoll(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.DeleteView):
+	log_component = "poll"
+	log_resource = "poll"
+	log_action = "delete"
+	log_context = {}
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -184,13 +252,33 @@ class DeletePoll(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 		return context
 
 	def get_success_url(self):
+		self.log_context['poll_id'] = self.object.id
+		self.log_context['poll_slug'] = self.object.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['course_id'] = self.object.topic.subject.course.id
+		self.log_context['course_name'] = self.object.topic.subject.course.name
+		self.log_context['course_slug'] = self.object.topic.subject.course.slug
+		self.log_context['course_category_id'] = self.object.topic.subject.course.category.id
+		self.log_context['course_category_name'] = self.object.topic.subject.course.category.name
+
+		super(DeletePoll, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return reverse_lazy('course:view_topic', kwargs={'slug' : self.object.topic.slug})
 
 
 class AnswerPoll(generic.TemplateView):
 	template_name = 'poll/answer.html'
 
-class AnswerStudentPoll(LoginRequiredMixin,generic.CreateView):
+class AnswerStudentPoll(LoginRequiredMixin, LogMixin, generic.CreateView):
+	log_component = "poll"
+	log_resource = "poll"
+	log_action = "answer"
+	log_context = {}
 
 	model = AnswersStudent
 	fields = ['status']
@@ -209,6 +297,22 @@ class AnswerStudentPoll(LoginRequiredMixin,generic.CreateView):
 		for key in self.request.POST:
 			if(key != 'csrfmiddlewaretoken'):
 				answers.answer.add(poll.answers.all().filter(order=key)[0])
+
+		self.log_context['poll_id'] = poll.id
+		self.log_context['poll_slug'] = poll.slug
+		self.log_context['topic_id'] = poll.topic.id
+		self.log_context['topic_name'] = poll.topic.name
+		self.log_context['topic_slug'] = poll.topic.slug
+		self.log_context['subject_id'] = poll.topic.subject.id
+		self.log_context['subject_name'] = poll.topic.subject.name
+		self.log_context['subject_slug'] = poll.topic.subject.slug
+		self.log_context['course_id'] = poll.topic.subject.course.id
+		self.log_context['course_name'] = poll.topic.subject.course.name
+		self.log_context['course_slug'] = poll.topic.subject.course.slug
+		self.log_context['course_category_id'] = poll.topic.subject.course.category.id
+		self.log_context['course_category_name'] = poll.topic.subject.course.category.name
+
+		super(AnswerStudentPoll, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return self.render_to_response(self.get_context_data(form = form), status = 200)
 
