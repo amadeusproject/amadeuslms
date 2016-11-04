@@ -11,11 +11,13 @@ from .models import TopicFile
 from .utils import mime_type_to_material_icons
 from courses.models import Topic
 from core.models import MimeType
-from core.mixins import NotificationMixin
+from core.decorators import log_decorator
+from core.mixins import NotificationMixin, LogMixin
 from django.urls import reverse
 
+
 # Create your views here.
-class CreateFile(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.edit.CreateView):
+class CreateFile(LoginRequiredMixin, LogMixin, HasRoleMixin, NotificationMixin, generic.edit.CreateView):
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
@@ -23,6 +25,11 @@ class CreateFile(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.ed
 	template_name = 'files/create_file.html'
 	form_class = FileForm
 	success_url = reverse_lazy('course:file:render_file')
+
+	log_component = "subject"
+	log_resource = "file"
+	log_action = "create"
+	log_context = {}
 
 	def form_invalid(self, form, **kwargs):
 		context = super(CreateFile, self).form_invalid(form)
@@ -60,6 +67,18 @@ class CreateFile(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.ed
 			# self.object.file_type = MimeType.objects.get(id = 1)
 
 		self.object.save()
+		#CREATE LOG 
+		self.log_context['topic_id'] = topic.id
+		self.log_context['topic_name'] = topic.name
+		self.log_context['topic_slug'] = topic.slug
+		self.log_context['subject_id'] = topic.subject.id
+		self.log_context['subject_name'] = topic.subject.name
+		self.log_context['subject_slug'] = topic.subject.slug
+
+		super(CreateFile, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+
+
 		#CREATE NOTIFICATION
 		super(CreateFile, self).createNotification(message="uploaded a File "+ self.object.name, actor=self.request.user,
 			resource_name=self.object.name, resource_link= reverse('course:view_topic', args=[self.object.topic.slug]), 
@@ -84,6 +103,7 @@ class CreateFile(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.ed
 		
 		return self.success_url
 
+#@log_decorator("topic","acessar","file")
 def render_file(request, id):
 	template_name = 'files/render_file.html'
 	context = {
