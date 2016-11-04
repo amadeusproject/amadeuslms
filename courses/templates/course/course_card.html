@@ -38,7 +38,7 @@
             <p>
               <b>{% trans 'Description' %}:</b>
               <i>
-                {{course.content}}
+                {{course.content | safe }}
               </i>
             </p>
           </div>

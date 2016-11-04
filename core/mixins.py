@@ -34,9 +34,6 @@ class LogMixin(object):
 		else:
 			action_resource = action_resource[0]
 
-		print(context)
-		print(json.dumps(context))
-
 		log = Log()
 		log.user = actor
 		log.context = json.dumps(context)

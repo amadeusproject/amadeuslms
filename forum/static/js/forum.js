@@ -74,6 +74,8 @@ function setForumCreateFormSubmit(topic) {
             success: function (data) {
                 $(".topic_" + topic).find('.foruns_list').append("<li><i class='fa fa-commenting' aria-hidden='true'></i> <a id='forum_"+data.forum_id+"' href='"+data.url+"'> "+data.name+"</a></li>");
 
+                alertify.success(data.message);
+
                 $("#createForum").modal('hide');
             },
             error: function(data) {
@@ -221,6 +223,8 @@ function delete_post(url, post) {
         },
         url: url, 
         success: function(data) {
+            alertify.success(data);
+
             $("#post_"+post).remove();
         }
     });

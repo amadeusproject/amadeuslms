@@ -2,7 +2,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from .models import CourseCategory, Course, Subject, Topic, ActivityFile, Activity, FileMaterial, LinkMaterial
 from s3direct.widgets import S3DirectWidget
-
+from django_summernote.widgets import SummernoteWidget
 
 class CategoryCourseForm(forms.ModelForm):
 
@@ -79,8 +79,8 @@ class CourseForm(forms.ModelForm):
 
 		widgets = {
 			'categoy': forms.Select(),
-			'objectivies': forms.Textarea(attrs={'cols': 80, 'rows': 5}),
-			'content': forms.Textarea(attrs={'cols': 80, 'rows': 5}),
+			'objectivies': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
+			'content': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
 		}
 
 class UpdateCourseForm(CourseForm):
@@ -120,8 +120,8 @@ class UpdateCourseForm(CourseForm):
 		}
 		widgets = {
 			'categoy': forms.Select(),
-			'objectivies': forms.Textarea(attrs={'cols': 80, 'rows': 5}),
-			'content': forms.Textarea(attrs={'cols': 80, 'rows': 5}),
+			'objectivies': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
+			'content': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
 		}
 
 class SubjectForm(forms.ModelForm):
@@ -143,6 +143,9 @@ class SubjectForm(forms.ModelForm):
 			'end_date': _('End date of the subject'),
 			'visible': _('Is the subject visible?'),
 		}
+		widgets = {
+			'description':SummernoteWidget(),
+		}
 
 class TopicForm(forms.ModelForm):
 
@@ -156,6 +159,9 @@ class TopicForm(forms.ModelForm):
 		help_texts = {
 			'name': _("Topic's name"),
 			'description': _("Topic's description"),
+		}
+		widgets = {
+			'description':SummernoteWidget(),
 		}
 
 class ActivityFileForm(forms.ModelForm):
