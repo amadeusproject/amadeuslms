@@ -19,13 +19,13 @@
 	<!-- Nav tabs -->
 	<ul class="nav nav-tabs md-pills pills-ins" role="tablist">
 	    <li class="nav-item">
-	        <a class="nav-link active" data-toggle="tab" href="#panel1" role="tab"><i class="fa fa-cog"></i> System</a>
+	        <a class="nav-link active" data-toggle="tab" href="#panel1" role="tab"><i class="fa fa-cog"></i> {% trans "System" %}</a>
 	    </li>
 	    <li class="nav-item">
-	        <a class="nav-link" data-toggle="tab" href="#panel2" role="tab"><i class="fa fa-envelope"></i> Mail Sender</a>
+	        <a class="nav-link" data-toggle="tab" href="#panel2" role="tab"><i class="fa fa-envelope"></i> {% trans "Mail Sender" %}</a>
 	    </li>
 	    <li class="nav-item">
-	        <a class="nav-link" data-toggle="tab" href="#panel3" role="tab"><i class="fa fa-lock"></i> Security</a>
+	        <a class="nav-link" data-toggle="tab" href="#panel3" role="tab"><i class="fa fa-lock"></i> {% trans "Security" %}</a>
 	    </li>
 	</ul>
 
@@ -35,7 +35,7 @@
 	    <div class="tab-pane fade in active" id="panel1" role="tabpanel">
 	        <div class="panel panel-default">
 	          	<div class="panel-body">
-	            	<h3><b>General</b></h3>
+	            	<h3><b>{% trans "General" %}</b></h3>
 	            	<div class="panel panel-default">
 	              		<div class="panel-body">
 	                		Content
@@ -121,7 +121,7 @@
 			                	<hr>
 			                	<div class="form-group label-floating">
 			                  		<label class="control-label" for="{{ form.username.auto_id }}">{{ form.username.label }}</label>
-			                  		<input class="form-control" id="focusedInput1" type="text">
+			                  		{% render_field form.username class='form-control' %}
 			                	</div>
 			                	{% if form.username.errors %}
                                     <div class="alert alert-danger alert-dismissible clearfix" role="alert">
@@ -151,19 +151,53 @@
                                         </ul>
                                     </div>
                                 {% endif %}
+                                <div class="form-group label-floating">
+			                  		<label class="control-label" for="{{ form.default_from_email.auto_id }}">{{ form.default_from_email.label }}</label>
+			                  		{% render_field form.default_from_email class='form-control' %}
+			                	</div>
+			                	{% if form.default_from_email.errors %}
+                                    <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul>
+                                            {% for error in form.default_from_email.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
 			                	<div class="form-group">
 			                  		<p><b>{{ form.safe.connection.label }}</b></p>
 			                  		<div class="col-md-10">
 			                    		<div class="radio radio-primary">
 			                      			{% for value, text in form.safe_conection.field.choices %}
 			                      				<label>
-				                        			<input type="radio" name="safe_conection" id="{{ value }}" value="{{ value }}">
+			                      					{% if form.safe_conection.value == value %}
+			                      						<input type="radio" name="safe_conection" id="{{ value }}" value="{{ value }}" checked="">
+				                        			{{ text }}	
+			                      					{% else %}
+			                      						<input type="radio" name="safe_conection" id="{{ value }}" value="{{ value }}">
 				                        			{{ text }}
+				                        			{% endif %}
+				                        			
 				                      			</label>	
 			                      			{% endfor %}
 			                    		</div>
 			                  		</div>
 			                	</div>
+			                	{% if form.safe_connection.errors %}
+                                    <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul>
+                                            {% for error in form.safe_connection.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
 			            	</div>
 			          	</div>
 			          	<button type="submit" class="btn btn-success btn-raised">{% trans "Save changes" %}</button>
@@ -180,10 +214,10 @@
 	            <div class="panel-body">
 		            <div class="togglebutton">
 		            	<label>
-		                	<input type="checkbox" checked> <b>Allow users self-enroll.</b>
+		                	<input type="checkbox" checked> <b>{% trans "Allow users self-enroll." %}</b>
 		              	</label>
 		            </div>
-		            <button type="button" class="btn btn-primary">Save changes</button>
+		            <button type="button" class="btn btn-success btn-raised">{% trans "Save changes" %}</button>
 		        </div>
 		    </div>
 		</div>
