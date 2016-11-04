@@ -4,11 +4,6 @@ from django.utils.translation import ugettext_lazy as _
 
 class EmailBackendForm(forms.ModelForm):
 
-	def save(self, commit=True):
-		super(EmailBackendForm, self).save()
-		print('Saved')
-		return self.instance
-
 	class Meta:
 		model = EmailBackend
 		fields = ('description', 'host', 'port', 'username', 'password', 'safe_conection', 'default_from_email')

@@ -24,4 +24,4 @@ class EmailBackend(models.Model):
         verbose_name_plural = _('Amadeus SMTP settings')
 
     def __str__(self):
-        return _('Custom email Backend')
+        return self.username
