@@ -4,6 +4,7 @@
    <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
    <script src="{% static 'js/file.js' %}"></script>
    <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
+   <script type = "text/javascript" src="{% static 'js/topic_editation_presentation.js' %}"></script>
    <script type = "text/javascript" src="{% static 'js/links.js' %}"></script>
 {% endblock %}
 <div class="panel panel-default cards-detail">
@@ -60,8 +61,8 @@
             <div class="dropdown">
               <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
               <ul class="dropdown-menu" aria-labelledby="dLabel">
-                <li><a href="javascript:get_modal_link('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')  ">{% trans 'Create a Link' %}</a></li>
-                <li><a href="javascript:get_modal_file('{% url 'course:file:create_file' topic.slug %}', '#fileModal', '#divModalFile')">{% trans "Create a file" %}</a></li>
+                <li><a href="javascript:modal.get('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')  ">{% trans 'Create a Link' %}</a></li>
+                <li><a href="javascript:modal.get('{% url 'course:file:create_file' topic.slug %}', '#fileModal', '#divModalFile')">{% trans "Create a file" %}</a></li>
               </ul>
             </div>
           </div>
@@ -244,10 +245,6 @@
 </div>
 <!--EndModal-->
 
-<!-- MODAL LINK EDIT-->
-
-
-<!-- EndModal -->
 
 
 <div class="modal fade" id="createForum" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
