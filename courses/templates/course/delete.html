@@ -24,7 +24,7 @@
         <button type="submit" id="button" form="delete_form" class="btn btn-primary btn-raised">{% trans "Delete" %}</button>
 		<script>
 		  $("#delete_form").submit(function(event) {
-		    RemoverCurso.remove("{% url 'course:delete' course.slug %}",$(this).serialize(),"#course_{{course.slug}}");
+		    RemoveCourse.remove("{% url 'course:delete' course.slug %}",$(this).serialize(),"#course_{{course.slug}}");
 		    event.preventDefault();
 		  });
 		</script>
