@@ -285,12 +285,6 @@ class AnswerStudentPoll(LoginRequiredMixin, LogMixin, generic.CreateView):
 	context_object_name = 'answer'
 	template_name = 'poll/answer_student.html'
 
-	def dispatch(self, *args, **kwargs):
-		if self.request.method == 'GET':
-			self.request.session['time_call'] = datetime.datetime.now()
-
-		return super(AnswerStudentPoll, self).dispatch(*args, **kwargs)
-
 	def form_valid(self, form):
 		poll = get_object_or_404(Poll, slug = self.kwargs.get('slug'))
 		answers = AnswersStudent(
@@ -304,10 +298,6 @@ class AnswerStudentPoll(LoginRequiredMixin, LogMixin, generic.CreateView):
 			if(key != 'csrfmiddlewaretoken'):
 				answers.answer.add(poll.answers.all().filter(order=key)[0])
 
-		time_call = self.request.session.get('time_call')
-		time_spent = datetime.datetime.now() - time_call
-
-		self.log_context['time_spent'] = time_spent.total_seconds()
 		self.log_context['poll_id'] = poll.id
 		self.log_context['poll_slug'] = poll.slug
 		self.log_context['topic_id'] = poll.topic.id
