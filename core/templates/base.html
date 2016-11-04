@@ -8,15 +8,15 @@
 <head>
 	<title>{{ title }}</title>
 
+            <!-- jQuery & jQuery UI -->
+            <script type="text/javascript" src="{% static 'js/vendor/jquery-3.1.0.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'js/vendor/jquery-ui.js' %}"></script>
+
 	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
 	<link href="{% static 'img/topo-amadeus.png' %}" rel="shortcut icon" />
 	<!-- Roboto font -->
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-	<!-- jQuery & jQuery UI -->
-	<script type="text/javascript" src="{% static 'js/vendor/jquery-3.1.0.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/vendor/jquery-ui.js' %}"></script>
 
   	<!-- Bootstrap and themes (material) -->
 	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
@@ -24,7 +24,6 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'material/css/bootstrap-material-design.min.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.min.css' %}">
-
 
 	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/bootstrap-datepicker.standalone.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/alertifyjs/alertify.min.css' %}">
@@ -36,11 +35,9 @@
 	<script type="text/javascript" src="{% static 'material/js/ripples.js' %}"></script>
 	<script type="text/javascript" src="{% static 'material/js/ripples.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/vendor/bootstrap-datepicker.js' %}"></script>
-
 	{% with "js/vendor/locales/bootstrap-datepicker."|add:LANGUAGE_CODE|add:".js" as locale_datepicker %}
-		<script type="text/javascript" src="{% static locale_datepicker %}"></script>
+	<script type="text/javascript" src="{% static locale_datepicker %}"></script>
 	{% endwith %}
-
 	<script type="text/javascript" src="{% static 'js/vendor/alertify.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/vendor/jscookie.js' %}"></script>
 
@@ -50,11 +47,9 @@
 	<!-- Custom styles -->
   	<link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
 
-	<!-- Init material Bootstrap -->
-	<script type="text/javascript">$.material.init()</script>
-
 	<!--Javascript block for specific-app ones -->
 	<script src="{% static 'js/base/amadeus.js' %}"></script>
+      <script src="{% static 'js/main.js' %}"></script>
 	{% block style %}
 	{% endblock %}
 	{% block javascript %}
@@ -172,8 +167,7 @@
 			</div>
 		</div>
 	</div>
-	<script src="{% static 'js/main.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/topic_editation_presentation.js' %}"></script>
+
 	{% block script_file %}
 
 	{% endblock script_file %}
@@ -181,6 +175,8 @@
 	{% block script_link %}
 
 	{% endblock script_link %}
+      <!-- Init material Bootstrap -->
+      <script type="text/javascript">$.material.init()</script>
 </body>
 
 </html>
