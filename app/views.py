@@ -1,6 +1,7 @@
+from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render
 from django.views.generic import ListView
-from django.views import View
+from django.views import View, generic
 from rolepermissions.mixins import HasRoleMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
@@ -43,20 +44,33 @@ class AppIndex(LoginRequiredMixin, ListView, NotificationMixin):
 			
 		return self.response_class(request = self.request, template = self.template_name, context = context, using = self.template_engine, **response_kwargs)
 
-class AmadeusSettings(LoginRequiredMixin, HasRoleMixin, View):
+class AmadeusSettings(LoginRequiredMixin, HasRoleMixin, generic.CreateView):
 	allowed_roles = ['system_admin']
 	login_url = reverse_lazy("core:home")
-	redirect_field_name = 'next'
 	model = EmailBackend
 	template_name = 'admin_settings.html'
 	form_class = EmailBackendForm
 	success_url = reverse_lazy('app:settings')
 
-	def get_object(self):
-		pass
+	def form_invalid(self, form):
+		print('iNVALID')
+		return self.render_to_response(self.get_context_data(form=form))
 
-	def get(self, request):
-		return render(request, self.template_name)
+	def form_valid(self, form):
+		self.object = form.save()
+		print('Save')
+		messages.success(self.request, _('Changes saved'))
+
+		return super(AmadeusSettings, self).form_valid(form)
+
+	def get_context_data(self, **kwargs):
+	    context = super(AmadeusSettings, self).get_context_data(**kwargs)
+	    try:
+	    	setting = EmailBackend.objects.latest('id')
+	    	context['form'] = EmailBackendForm(instance = setting)
+	    except:
+	    	context['form'] = EmailBackendForm() 
+	    return context
 
 
 
