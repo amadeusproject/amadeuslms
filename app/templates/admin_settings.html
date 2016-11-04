@@ -8,6 +8,14 @@
 {% endblock %}
 
 {% block content %}
+	{% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <p>{{ message }}</p>
+        </div>
+    {% endfor %}
 	<!-- Nav tabs -->
 	<ul class="nav nav-tabs md-pills pills-ins" role="tablist">
 	    <li class="nav-item">
@@ -43,6 +51,7 @@
 	    <div class="tab-pane fade" id="panel2" role="tabpanel">
 	      	<div class="panel panel-default">
     			<form class="form-horizontal" method="post">
+    			{% csrf_token %}
 		          	<div class="panel-body">
 		            	<h3><b>{% trans "Outgoing Server (SMTP)" %}</b></h3>
 		            	<div class="panel panel-default">
@@ -53,19 +62,55 @@
 			                  		<label class="control-label" for="{{ form.description.auto_id }}">{{ form.description.label }}</label>
 			                  		{% render_field form.description class='form-control' %}
 			                	</div>
+			                	{% if form.description.errors %}
+                                    <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul>
+                                            {% for error in form.description.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
 			                	<div class="form-group label-floating">
 			                  		<label class="control-label" for="{{ form.host.auto_id }}">{{ form.host.label }}</label>
 			                  		{% render_field form.host class='form-control' %}
 			                	</div>
+			                	{% if form.host.errors %}
+                                    <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul>
+                                            {% for error in form.host.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
 			                	<div class="form-group label-floating">
-			                  		<label for="{{ form.port.auto_id }}" class="col-md_10 control-label">{{ form.port.label }}</label>
+			                  		<label for="{{ form.port.auto_id }}" class="control-label">{{ form.port.label }}</label>
 			                  		<div class="col-md-2">
-			                    		{% render_field form.port class='form-control' %}
+			                    		{% render_field form.port class='form-control' onkeypress='campoNumerico(this,event);' %}
 			                  		</div>
 			                  		<div>
 			                    		<label for="number">{% trans "Default:" %}</label> 25
 			                  		</div>
 			                	</div>
+			                	{% if form.port.errors %}
+                                    <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul>
+                                            {% for error in form.port.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
 		              		</div>
 		            	</div>
 		        	</div>
@@ -78,18 +123,42 @@
 			                  		<label class="control-label" for="{{ form.username.auto_id }}">{{ form.username.label }}</label>
 			                  		<input class="form-control" id="focusedInput1" type="text">
 			                	</div>
+			                	{% if form.username.errors %}
+                                    <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul>
+                                            {% for error in form.username.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
 			                	<div class="form-group label-floating">
 			                  		<label class="control-label" for="{{ form.password.auto_id }}">{{ form.password.label }}</label>
-			                  		{% render_field form.password class='form-control' %}
+			                  		{% render_field form.password type='password' class='form-control' %}
 			                	</div>
+			                	{% if form.password.errors %}
+                                    <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul>
+                                            {% for error in form.password.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
 			                	<div class="form-group">
 			                  		<p><b>{{ form.safe.connection.label }}</b></p>
 			                  		<div class="col-md-10">
 			                    		<div class="radio radio-primary">
-			                      			{% for field in form.safe_conection.field.choices %}
+			                      			{% for value, text in form.safe_conection.field.choices %}
 			                      				<label>
-				                        			<input type="radio" name="safe_conection" id="{{ fiel.auto_id }}" value="{{ field.value }}">
-				                        			{{ field.label }}
+				                        			<input type="radio" name="safe_conection" id="{{ value }}" value="{{ value }}">
+				                        			{{ text }}
 				                      			</label>	
 			                      			{% endfor %}
 			                    		</div>
@@ -97,7 +166,7 @@
 			                	</div>
 			            	</div>
 			          	</div>
-			          	<button type="button" class="btn btn-success btn-raised">{% trans "Save changes" %}</button>
+			          	<button type="submit" class="btn btn-success btn-raised">{% trans "Save changes" %}</button>
 		        	</div>
 		        </form>
 	    	</div>
