@@ -17,13 +17,14 @@ from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm
 from .models import Course, Subject, CourseCategory,Topic, SubjectCategory,Activity, CategorySubject
 from core.decorators import log_decorator
 from core.mixins import LogMixin, NotificationMixin
+from core.models import Log
 from users.models import User
 from files.forms import FileForm
 from files.models import TopicFile
 from courses.models import Material
 from django.urls import reverse
 
-from datetime import date
+from datetime import date, datetime
 
 class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 
@@ -343,6 +344,9 @@ class CourseView(LogMixin, NotificationMixin, generic.DetailView):
 
 		super(CourseView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
+		self.request.session['time_spent'] = str(datetime.now())
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
 		category_sub = self.kwargs.get('category', None)
 
 		if has_role(self.request.user,'system_admin'):
@@ -547,6 +551,9 @@ class SubjectsView(LoginRequiredMixin, LogMixin, generic.ListView):
 
 		super(SubjectsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
+		self.request.session['time_spent'] = str(datetime.now())
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
 		return super(SubjectsView, self).dispatch(*args, **kwargs)
 
 	def get_queryset(self):
@@ -620,6 +627,9 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
 
 		super(TopicsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
+		self.request.session['time_spent'] = str(datetime.now())
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
 		return super(TopicsView, self).dispatch(*args, **kwargs)
 
 	def get_queryset(self):
@@ -635,7 +645,7 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
 		activitys = Activity.objects.filter(topic__name = topic.name)
 		students_activit = User.objects.filter(activities__in = Activity.objects.all())
 		materials = Material.objects.filter(topic = topic)
-		print(materials)
+
 		context['topic'] = topic
 		context['subject'] = topic.subject
 		context['activitys'] = activitys
