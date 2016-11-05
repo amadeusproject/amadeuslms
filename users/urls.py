@@ -9,11 +9,11 @@ urlpatterns = [
 	url(r'^view/(?P<username>[\w_-]+)/$', views.View.as_view(), name='view'),
 	url(r'^delete/(?P<username>[\w_-]+)/$', views.delete, name='delete'),
 	url(r'^profile/$', views.Profile.as_view(), name='profile'),
+	url(r'^search/$', views.SearchView.as_view(), name='search'),
 	#
 	url(r'^profile/update/$', views.UpdateProfile.as_view(), name='update_profile'),
             url(r'^profile/change_password/$', views.Change_password.as_view(), name='change_password'),
             url(r'^profile/remove_account/$', views.Remove_account.as_view(), name='remove_account'),
 	url(r'^profile/delete/$', views.DeleteUser.as_view(), name='delete_profile'),
-	url(r'^search/$', views.SearchView.as_view(), name='search'),
 	
 ]
