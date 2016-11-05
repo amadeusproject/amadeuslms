@@ -1,0 +1,26 @@
+<html>
+<h1> Links </h1>
+{% for link in link_list %}
+  {{link.name}} </br>
+{% endfor %}
+
+<h1> Polls </h1>
+{% for poll in poll_list %}
+  {{poll.name}} </br>
+{% endfor %}
+
+<h1> Exams </h1>
+{% for exam in exam_list %}
+  {{exam.name}} </br>
+{% endfor %}
+
+<h1> Forums </h1>
+{% for forum in forum_list %}
+  {{forum.name}} </br>
+{% endfor %}
+
+<h1> Files </h1>
+{% for file in file_list %}
+  {{file.name}} </br>
+{% endfor %}
+</html>
