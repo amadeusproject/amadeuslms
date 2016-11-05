@@ -68,7 +68,7 @@
          		</div>
          		<div class="navbar-collapse collapse navbar-responsive-collapse">
 							<div class="col-md-5 cards-content" id= 'NavBarSearch'>
-								<form id="SearchForm" action="#" method="get" accept-charset="utf-8">
+								<form id="SearchForm" action="{% url 'users:search' %}" method="get" accept-charset="utf-8">
 										<div class="input-group">
 											<div class="form-group is-empty" >
 											<input type="text" class="form-control" placeholder="{% trans 'Search Files (.pdf, others) and/or activities' %}" name="search"></div>
