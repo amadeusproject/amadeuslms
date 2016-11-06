@@ -941,7 +941,11 @@ class IndexSubjectCategoryView(LoginRequiredMixin, generic.ListView):
 		context['subject_categories'] = SubjectCategory.objects.all()
 		return context
 
-class FileMaterialView(LoginRequiredMixin, generic.DetailView):
+class FileMaterialView(LoginRequiredMixin, LogMixin, generic.DetailView):
+	log_component = 'file'
+	log_resource = 'file'
+	log_action = 'viewed'
+	log_context = {}
 
 	allowed_roles = ['professor', 'system_admin', 'student']
 	login_url = reverse_lazy("core:home")
@@ -949,3 +953,27 @@ class FileMaterialView(LoginRequiredMixin, generic.DetailView):
 	model = Material
 	context_object_name = 'file'
 	template_name = 'topic/file_material_view.html'
+
+	def dispatch(self, *args, **kwargs):
+		file = get_object_or_404(TopicFile, slug = self.kwargs.get('slug'))
+
+		self.log_context['file_id'] = file.id
+		self.log_context['file_name'] = file.name
+		self.log_context['topic_id'] = file.topic.id
+		self.log_context['topic_name'] = file.topic.name
+		self.log_context['topic_slug'] = file.topic.slug
+		self.log_context['subject_id'] = file.topic.subject.id
+		self.log_context['subject_name'] = file.topic.subject.name
+		self.log_context['subject_slug'] = file.topic.subject.slug
+		self.log_context['course_id'] = file.topic.subject.course.id
+		self.log_context['course_name'] = file.topic.subject.course.name
+		self.log_context['course_slug'] = file.topic.subject.course.slug
+		self.log_context['course_category_id'] = file.topic.subject.course.category.id
+		self.log_context['course_category_name'] = file.topic.subject.course.category.name
+
+		super(FileMaterialView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		self.request.session['time_spent'] = str(datetime.now())
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
+		return super(FileMaterialView, self).dispatch(*args, **kwargs)
