@@ -138,7 +138,7 @@ def render_file(request, id):
 
 class UpdateFile(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.UpdateView):
 	log_component = 'file'
-	log_resource = 'resource'
+	log_resource = 'file'
 	log_action = 'update'
 	log_context = {}
 
@@ -157,6 +157,7 @@ class UpdateFile(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.UpdateView)
 
 		return context
 
+	
 	def form_valid(self, form):
 		self.object = form.save()
 
