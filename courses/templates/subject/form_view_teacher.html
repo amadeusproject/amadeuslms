@@ -61,8 +61,8 @@
             <div class="dropdown">
               <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
               <ul class="dropdown-menu" aria-labelledby="dLabel">
-                <li><a href="javascript:modal.get('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')  ">{% trans 'Create a Link' %}</a></li>
-                <li><a href="javascript:modal.get('{% url 'course:file:create_file' topic.slug %}', '#fileModal', '#divModalFile')">{% trans "Create a file" %}</a></li>
+                <li><a href="javascript:get_modal_link('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')  ">{% trans 'Create a Link' %}</a></li>
+                <li><a href="javascript:get_modal_file('{% url 'course:file:create_file' topic.slug %}', '#fileModal', '#divModalFile')">{% trans "Create a file" %}</a></li>
               </ul>
             </div>
           </div>
