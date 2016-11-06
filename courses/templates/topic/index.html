@@ -40,7 +40,7 @@
         </div>
     </div>
 
-   
+
 
 {% endblock %}
 
@@ -61,7 +61,7 @@
               </button>
               <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
                 <li>
-                    <a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a>
+                    <a href="javascript:void(0)"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a>
                 </li>
                 <li>
                     <a href="{% url 'course:update_subject' subject.slug %}" data-toggle="modal" data-target="#editSubject"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a>
@@ -85,14 +85,14 @@
     <div class="panel-body">
         {% include "topic/topic_card_student.html" %}
         {% comment %}
-          
-        
+
+
     <!--{% for activit in activitys %}
       <form class="form-horizontal" enctype='multipart/form-data'>{% csrf_token %}
         <fieldset>
           <legend>{{activit.name}}</legend>
 
-         
+
           {% for student in students_activit %}
             <div class="panel-group" id="accordion">
               <div class="panel panel-info">
@@ -134,7 +134,7 @@
     </fieldset>
   </form>-->
 {% endcomment %}
- 
+
 
 
 
