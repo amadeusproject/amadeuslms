@@ -15,6 +15,7 @@ from .forms import PollForm
 from .models import Poll, Answer, AnswersStudent
 from core.mixins import LogMixin, NotificationMixin
 from users.models import User
+from core.models import Log
 from courses.models import Course, Topic
 
 import datetime
@@ -48,6 +49,9 @@ class ViewPoll(LoginRequiredMixin, LogMixin, generic.DetailView):
 
 		super(ViewPoll, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
+		self.request.session['time_spent'] = str(datetime.datetime.now())
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
 		return poll
 
 	def get_context_data(self, **kwargs):
@@ -62,6 +66,7 @@ class ViewPoll(LoginRequiredMixin, LogMixin, generic.DetailView):
 			context['status'] = False
 		else:
 			context['status'] = answered[0].status
+
 		return context
 
 
@@ -285,6 +290,12 @@ class AnswerStudentPoll(LoginRequiredMixin, LogMixin, generic.CreateView):
 	context_object_name = 'answer'
 	template_name = 'poll/answer_student.html'
 
+	def dispatch(self, *args, **kwargs):
+		if self.request.method == 'GET':
+			self.request.session['time_spent'] = str(datetime.datetime.now())
+
+		return super(AnswerStudentPoll, self).dispatch(*args, **kwargs)
+
 	def form_valid(self, form):
 		poll = get_object_or_404(Poll, slug = self.kwargs.get('slug'))
 		answers = AnswersStudent(
@@ -311,6 +322,21 @@ class AnswerStudentPoll(LoginRequiredMixin, LogMixin, generic.CreateView):
 		self.log_context['course_slug'] = poll.topic.subject.course.slug
 		self.log_context['course_category_id'] = poll.topic.subject.course.category.id
 		self.log_context['course_category_name'] = poll.topic.subject.course.category.name
+
+		date_time_click = datetime.datetime.strptime(self.request.session.get('time_spent'), "%Y-%m-%d %H:%M:%S.%f")
+		_now = datetime.datetime.now()
+		
+		time_spent = _now - date_time_click
+		
+		secs = time_spent.total_seconds()
+		hours = int(secs / 3600)
+		minutes = int(secs / 60) % 60
+		secs = secs % 60
+
+		self.log_context['time_spent'] = {}
+		self.log_context['time_spent']['hours'] = hours
+		self.log_context['time_spent']['minutes'] = minutes
+		self.log_context['time_spent']['seconds'] = secs
 
 		super(AnswerStudentPoll, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 

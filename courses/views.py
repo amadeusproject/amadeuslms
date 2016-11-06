@@ -17,13 +17,14 @@ from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm
 from .models import Course, Subject, CourseCategory,Topic, SubjectCategory,Activity, CategorySubject
 from core.decorators import log_decorator
 from core.mixins import LogMixin, NotificationMixin
+from core.models import Log
 from users.models import User
 from files.forms import FileForm
 from files.models import TopicFile
 from courses.models import Material
 from django.urls import reverse
 
-from datetime import date
+from datetime import date, datetime
 
 class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 
@@ -343,6 +344,9 @@ class CourseView(LogMixin, NotificationMixin, generic.DetailView):
 
 		super(CourseView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
+		self.request.session['time_spent'] = str(datetime.now())
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
 		category_sub = self.kwargs.get('category', None)
 
 		if has_role(self.request.user,'system_admin'):
@@ -547,6 +551,9 @@ class SubjectsView(LoginRequiredMixin, LogMixin, generic.ListView):
 
 		super(SubjectsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
+		self.request.session['time_spent'] = str(datetime.now())
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
 		return super(SubjectsView, self).dispatch(*args, **kwargs)
 
 	def get_queryset(self):
@@ -620,6 +627,9 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
 
 		super(TopicsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
+		self.request.session['time_spent'] = str(datetime.now())
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
 		return super(TopicsView, self).dispatch(*args, **kwargs)
 
 	def get_queryset(self):
@@ -635,7 +645,7 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
 		activitys = Activity.objects.filter(topic__name = topic.name)
 		students_activit = User.objects.filter(activities__in = Activity.objects.all())
 		materials = Material.objects.filter(topic = topic)
-		print(materials)
+
 		context['topic'] = topic
 		context['subject'] = topic.subject
 		context['activitys'] = activitys
@@ -931,7 +941,11 @@ class IndexSubjectCategoryView(LoginRequiredMixin, generic.ListView):
 		context['subject_categories'] = SubjectCategory.objects.all()
 		return context
 
-class FileMaterialView(LoginRequiredMixin, generic.DetailView):
+class FileMaterialView(LoginRequiredMixin, LogMixin, generic.DetailView):
+	log_component = 'file'
+	log_resource = 'file'
+	log_action = 'viewed'
+	log_context = {}
 
 	allowed_roles = ['professor', 'system_admin', 'student']
 	login_url = reverse_lazy("core:home")
@@ -939,3 +953,27 @@ class FileMaterialView(LoginRequiredMixin, generic.DetailView):
 	model = Material
 	context_object_name = 'file'
 	template_name = 'topic/file_material_view.html'
+
+	def dispatch(self, *args, **kwargs):
+		file = get_object_or_404(TopicFile, slug = self.kwargs.get('slug'))
+
+		self.log_context['file_id'] = file.id
+		self.log_context['file_name'] = file.name
+		self.log_context['topic_id'] = file.topic.id
+		self.log_context['topic_name'] = file.topic.name
+		self.log_context['topic_slug'] = file.topic.slug
+		self.log_context['subject_id'] = file.topic.subject.id
+		self.log_context['subject_name'] = file.topic.subject.name
+		self.log_context['subject_slug'] = file.topic.subject.slug
+		self.log_context['course_id'] = file.topic.subject.course.id
+		self.log_context['course_name'] = file.topic.subject.course.name
+		self.log_context['course_slug'] = file.topic.subject.course.slug
+		self.log_context['course_category_id'] = file.topic.subject.course.category.id
+		self.log_context['course_category_name'] = file.topic.subject.course.category.name
+
+		super(FileMaterialView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		self.request.session['time_spent'] = str(datetime.now())
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
+		return super(FileMaterialView, self).dispatch(*args, **kwargs)

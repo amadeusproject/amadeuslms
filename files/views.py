@@ -10,14 +10,23 @@ from .forms import FileForm, UpdateFileForm
 from .models import TopicFile
 from .utils import mime_type_to_material_icons
 from courses.models import Topic
-from core.models import MimeType
+
 from core.decorators import log_decorator
-from core.mixins import NotificationMixin, LogMixin
+from core.models import Log, MimeType
+from core.mixins import LogMixin, NotificationMixin
+
 from django.urls import reverse
+from datetime import datetime
 
 
 # Create your views here.
-class CreateFile(LoginRequiredMixin, LogMixin, HasRoleMixin, NotificationMixin, generic.edit.CreateView):
+
+class CreateFile(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, generic.edit.CreateView):
+	log_component = 'file'
+	log_resource = 'file'
+	log_action = 'create'
+	log_component = {}
+
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
@@ -84,6 +93,22 @@ class CreateFile(LoginRequiredMixin, LogMixin, HasRoleMixin, NotificationMixin, 
 			resource_name=self.object.name, resource_link= reverse('course:view_topic', args=[self.object.topic.slug]), 
 			users=self.object.topic.subject.students.all())
 
+		self.log_context['file_id'] = self.object.id
+		self.log_context['file_name'] = self.object.name
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['course_id'] = self.object.topic.subject.course.id
+		self.log_context['course_name'] = self.object.topic.subject.course.name
+		self.log_context['course_slug'] = self.object.topic.subject.course.slug
+		self.log_context['course_category_id'] = self.object.topic.subject.course.category.id
+		self.log_context['course_category_name'] = self.object.topic.subject.course.category.name
+
+		super(CreateFile, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return self.get_success_url()
 
 	def get_context_data(self, **kwargs):
@@ -103,16 +128,42 @@ class CreateFile(LoginRequiredMixin, LogMixin, HasRoleMixin, NotificationMixin, 
 		
 		return self.success_url
 
+
 #@log_decorator("topic","acessar","file")
 def render_file(request, id):
 	template_name = 'files/render_file.html'
+	file = get_object_or_404(TopicFile, id = id)
+
 	context = {
-		'file': get_object_or_404(TopicFile, id = id)
+		'file': file
 	}
+
+	log_context = {}
+	log_context['file_id'] = file.id
+	log_context['file_name'] = file.name
+	log_context['topic_id'] = file.topic.id
+	log_context['topic_name'] = file.topic.name
+	log_context['topic_slug'] = file.topic.slug
+	log_context['subject_id'] = file.topic.subject.id
+	log_context['subject_name'] = file.topic.subject.name
+	log_context['subject_slug'] = file.topic.subject.slug
+	log_context['course_id'] = file.topic.subject.course.id
+	log_context['course_name'] = file.topic.subject.course.name
+	log_context['course_slug'] = file.topic.subject.course.slug
+	log_context['course_category_id'] = file.topic.subject.course.category.id
+	log_context['course_category_name'] = file.topic.subject.course.category.name
+
+	request.log_context = log_context
+
 	return render(request, template_name, context)
 
 
-class UpdateFile(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
+class UpdateFile(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.UpdateView):
+	log_component = 'file'
+	log_resource = 'file'
+	log_action = 'update'
+	log_context = {}
+
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
@@ -128,6 +179,28 @@ class UpdateFile(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
 		return context
 
+	
+	def form_valid(self, form):
+		self.object = form.save()
+
+		self.log_context['file_id'] = self.object.id
+		self.log_context['file_name'] = self.object.name
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['course_id'] = self.object.topic.subject.course.id
+		self.log_context['course_name'] = self.object.topic.subject.course.name
+		self.log_context['course_slug'] = self.object.topic.subject.course.slug
+		self.log_context['course_category_id'] = self.object.topic.subject.course.category.id
+		self.log_context['course_category_name'] = self.object.topic.subject.course.category.name
+
+		super(UpdateFile, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		return super(UpdateFile, self).form_valid(form)
+
 	def get_object(self, queryset=None):
 	    return get_object_or_404(TopicFile, slug = self.kwargs.get('slug'))
 
@@ -137,7 +210,12 @@ class UpdateFile(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 		return self.success_url
 
 
-class DeleteFile(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
+class DeleteFile(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.DeleteView):
+	log_component = 'file'
+	log_resource = 'file'
+	log_action = 'delete'
+	log_context = {}
+
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
@@ -159,4 +237,20 @@ class DeleteFile(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 		return context
 
 	def get_success_url(self):
+		self.log_context['file_id'] = self.object.id
+		self.log_context['file_name'] = self.object.name
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['course_id'] = self.object.topic.subject.course.id
+		self.log_context['course_name'] = self.object.topic.subject.course.name
+		self.log_context['course_slug'] = self.object.topic.subject.course.slug
+		self.log_context['course_category_id'] = self.object.topic.subject.course.category.id
+		self.log_context['course_category_name'] = self.object.topic.subject.course.category.name
+
+		super(DeleteFile, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return reverse_lazy('course:view_topic', kwargs={'slug' : self.object.topic.slug})

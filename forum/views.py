@@ -14,11 +14,13 @@ from rolepermissions.verifications import has_object_permission
 
 from .models import Forum, Post, PostAnswer
 from courses.models import Topic
-from core.models import Action, Resource
+from core.models import Action, Resource, Log
 
 from .forms import ForumForm, PostForm, PostAnswerForm
 
 from core.mixins import LogMixin, NotificationMixin
+
+import datetime
 
 """
 	Forum Section
@@ -229,6 +231,9 @@ class ForumDetailView(LoginRequiredMixin, LogMixin, generic.DetailView):
 		self.log_context['course_category_name'] = forum.topic.subject.course.category.name
 
 		super(ForumDetailView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		self.request.session['time_spent'] = str(datetime.datetime.now())
+		self.request.session['log_id'] = Log.objects.latest('id').id
 
 		return super(ForumDetailView, self).dispatch(*args, **kwargs)
 
