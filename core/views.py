@@ -11,8 +11,13 @@ from django.http import HttpResponse, JsonResponse
 from django.core.mail import send_mail,BadHeaderError
 from django.conf import settings
 from core.mixins import NotificationMixin
-from .models import Notification
+from .models import Notification, Log
 from rolepermissions.shortcuts import assign_role
+from django.contrib.auth.decorators import login_required
+#API REST IMPORTS
+from .serializers import LogSerializer
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
 
 from .forms import RegisterUserForm
 from .decorators import log_decorator, notification_decorator
@@ -129,3 +134,20 @@ class GuestView (ListView):
 		context = super(GuestView, self).get_context_data(**kwargs)
 		context['categorys_courses'] = CourseCategory.objects.all()
 		return context
+
+class JSONResponse(HttpResponse):
+    """
+    An HttpResponse that renders its content into JSON.
+    """
+    def __init__(self, data, **kwargs):
+        content = JSONRenderer().render(data)
+        kwargs['content_type'] = 'application/json'
+        super(JSONResponse, self).__init__(content, **kwargs)
+
+#REST API VIEWS
+@login_required
+def get_log(request):
+	if request.method == 'GET':
+		logs = Log.objects.all()
+		serializer = LogSerializer(logs, many=True)
+		return JSONResponse(serializer.data)
