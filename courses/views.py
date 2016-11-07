@@ -63,8 +63,8 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 		list_courses = None
 		categorys_courses = None
 		if has_role(self.request.user,'professor'):
-			list_courses = Course.objects.filter(Q(professors = True)|Q(professors__name = self.request.user.name)).order_by('name')
-			categorys_courses = CourseCategory.objects.filter(course_category__professors__name = self.request.user.name).distinct()
+			list_courses = Course.objects.filter(Q(coordenator = True)|Q(coordenator__name = self.request.user.name)).order_by('name')
+			categorys_courses = CourseCategory.objects.filter(course_category__coordenator__name = self.request.user.name).distinct()
 		elif has_role(self.request.user,'system_admin'):
 			list_courses = queryset.order_by('name')
 			categorys_courses = CourseCategory.objects.all()
@@ -142,7 +142,7 @@ class AllCoursesView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 		context['aparece'] = self.aparece
 
 		return context
-		
+
 class CreateCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, generic.edit.CreateView):
 	log_component = "course"
 	log_resource = "course"
@@ -314,7 +314,7 @@ class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Delet
 		self.log_context['course_category_name'] = self.object.category.name
 
 		super(DeleteCourseView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
-		
+
 		return reverse_lazy('course:manage')
 
 
@@ -359,13 +359,13 @@ class CourseView(LogMixin, NotificationMixin, generic.DetailView):
 		if not category_sub is None:
 			cat = get_object_or_404(CategorySubject, slug = category_sub)
 			subjects = subjects.filter(category = cat)
-				
+
 		context['subjects'] = subjects
 
 		if has_role(self.request.user,'system_admin'):
 			courses = Course.objects.all()
 		elif has_role(self.request.user,'professor'):
-			courses = self.request.user.courses_professors.all()
+			courses = self.request.user.course_professor
 		elif has_role(self.request.user, 'student'):
 			courses = self.request.user.courses_student.all()
 		else:
@@ -412,7 +412,7 @@ def subscribe_course(request, slug):
 
 	if request.user in course.students.all():
 
-		log_context = {}	
+		log_context = {}
 		log_context['course_id'] = course.id
 		log_context['course_name'] = course.name
 		log_context['course_slug'] = course.slug
@@ -636,7 +636,7 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 		subject = topic.subject
 		topics_q = Topic.objects.filter(subject = subject, visible=True)
-		
+
 		return topics_q
 
 	def get_context_data(self, **kwargs):
@@ -652,7 +652,7 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
 		context['students_activit'] = students_activit
 		context['materials'] = materials
 		context['form'] = ActivityForm
-		
+
 		return context
 
 
@@ -687,7 +687,7 @@ class CreateTopicView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMi
 		self.object.owner = self.request.user
 		self.object.save()
 		action = super(CreateTopicView, self).createorRetrieveAction("create Topic")
-		super(CreateTopicView, self).createNotification("Topic "+ self.object.name + " was created", 
+		super(CreateTopicView, self).createNotification("Topic "+ self.object.name + " was created",
 			resource_name=self.object.name, resource_link= reverse('course:view_topic',args=[self.object.slug]),
 			 actor=self.request.user, users = self.object.subject.course.students.all() )
 
@@ -704,7 +704,7 @@ class CreateTopicView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMi
 		self.log_context['course_category_name'] = self.object.subject.course.category.name
 
 		super(CreateTopicView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
-		
+
 		return super(CreateTopicView, self).form_valid(form)
 
 class UpdateTopicView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.UpdateView):
@@ -910,7 +910,7 @@ def subscribe_subject(request, slug):
 		subject.students.add(request.user)
 
 		if request.user in subject.students.all():
-			log_context = {}	
+			log_context = {}
 			log_context['subject_id'] = subject.id
 			log_context['subject_name'] = subject.name
 			log_context['subject_slug'] = subject.slug

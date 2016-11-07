@@ -47,7 +47,7 @@ class Course(models.Model):
 	init_date = models.DateField(_('Begin of Course Date'))
 	end_date = models.DateField(_('End of Course Date'))
 	category = models.ForeignKey(CourseCategory, verbose_name = _('Category'), related_name='course_category')
-	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='courses_professors')
+	coordenator = models.ForeignKey(User,verbose_name=_('Coordenator'), related_name='course_coordenator', blank = True)
 	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='courses_student', blank = True)
 	public = models.BooleanField(_('Public'), default=False)
 
