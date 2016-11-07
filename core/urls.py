@@ -13,6 +13,9 @@ urlpatterns = [
     url(r'^getNotifications/$', views.getNotifications, name='getNotifications'),
     url(r'^guest/$', views.GuestView.as_view(), name='guest'),
 
+    #API REST
+    url(r'^logs/$', views.get_log),
+
 #Reset Password
 
 	url(r'^reset/$', password_reset, {'template_name':'registration/passwor_reset_form.html',
@@ -25,4 +28,5 @@ urlpatterns = [
 									'post_reset_redirect' : '/done/'},
 									name='password_reset_confirm'),
 	url(r'^done/$', password_reset_complete,{'template_name':'registration/passwor_reset_complete.html'}),
+
 ]

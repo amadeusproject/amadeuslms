@@ -90,8 +90,8 @@
                             {% trans 'Are you sure you want to delete the user' %} <b>{{acc.name}}</b>?                          
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Cancel' %}</button>                         
-                            <button type="button" class="btn btn-primary"> <a href="{% url 'users:delete' acc.username %}">{% trans 'Delete' %}</a></button>
+                            <a href="#" class="btn btn-raised btn-danger" data-dismiss="modal">{% trans 'Cancel' %}</a>                         
+                            <a href="{% url 'users:delete' acc.username %}" class="btn btn-raised btn-success" style="margin-top: 0">{% trans 'Delete' %}</a>
                           </div>
                         </div>
                       </div>
