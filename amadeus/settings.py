@@ -205,7 +205,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'amadeusteste@gmail.com'
 EMAIL_HOST_PASSWORD = 'amadeusteste'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# SMTP CONFIG
+# EMAIL_BACKEND = 'core.smtp.AmadeusEmailBackend'
 
 #s3direct
 
