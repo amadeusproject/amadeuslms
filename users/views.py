@@ -176,6 +176,7 @@ class SearchView(LoginRequiredMixin, generic.ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(SearchView, self).get_context_data(**kwargs)
+		#result_list = []
 		search = self.request.GET.get('search', None)
 		link_list = []
 		file_list = []
@@ -189,11 +190,11 @@ class SearchView(LoginRequiredMixin, generic.ListView):
 			polls = Poll.objects.all()
 			exams = Exam.objects.all()
 			forums = Forum.objects.all()
-			link_list = sorted([link for link in links for topic in topics if link.topic == topic])
-			exam_list = sorted([exam for exam in exams for topic in topics if exam.topic == topic])
-			file_list = sorted([arquivo for arquivo in files for topic in topics if arquivo.topic == topic])
-			poll_list = sorted([poll for poll in polls for topic in topics if poll.topic == topic])
-			forum_list = sorted([forum for forum in forums for topic in topics if forum.topic == topic])
+			link_list = sorted([link for link in links for topic in topics if link.topic == topic],key = lambda x:x.name)
+			exam_list = sorted([exam for exam in exams for topic in topics if exam.topic == topic],key = lambda x:x.name)
+			file_list = sorted([arquivo for arquivo in files for topic in topics if arquivo.topic == topic],key = lambda x:x.name)
+			poll_list = sorted([poll for poll in polls for topic in topics if poll.topic == topic],key = lambda x:x.name)
+			forum_list = sorted([forum for forum in forums for topic in topics if forum.topic == topic],key = lambda x:x.name)
 		elif has_role(self.request.user,'system_admin'):
 			link_list = Link.objects.filter( Q(name__icontains=search)).order_by('name')
 			file_list = TopicFile.objects.filter(Q(name__icontains=search)).order_by('name')
@@ -208,15 +209,23 @@ class SearchView(LoginRequiredMixin, generic.ListView):
 			forum_list = Forum.objects.filter(Q(name__icontains=search)and Q(students__name = self.request.user.name)).order_by('name')
 
 		'''
-		paginator = Paginator(list_links, self.paginate_by)
+		result_list = list(chain(link_list,file_list,poll_list,exam_list,forum_list))
+		for x in result_list:
+			if isinstance(x,Link):
+				print(x)
+		paginator = Paginator(result_list, self.paginate_by)
+		print(paginator.num_pages)
+		print(paginator.count)
 		page = self.request.GET.get('page')
-
 		try:
-		    list_links = paginator.page(page)
+			result_list = paginator.page(page)
+			print (result_list)
 		except PageNotAnInteger:
-		    list_links = paginator.page(1)
+		    result_list = paginator.page(1)
 		except EmptyPage:
-		    list_links = paginator.page(paginator.num_pages)
+			#print ((paginator.num_pages))
+			result_list = paginator.page(paginator.num_pages)
+
 		'''
 
 		context['link_list'] = link_list
@@ -224,5 +233,6 @@ class SearchView(LoginRequiredMixin, generic.ListView):
 		context['poll_list'] = poll_list
 		context['exam_list'] = exam_list
 		context['forum_list'] = forum_list
+		#context['result_list'] = result_list
 
 		return context
