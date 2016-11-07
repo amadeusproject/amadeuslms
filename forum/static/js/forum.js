@@ -62,6 +62,7 @@ function createForum(url, topic) {
 function setForumCreateFormSubmit(topic) {
     $('.date-picker').datepicker({
         language: locale,
+        startDate: "dateToday"
     });
 
     var frm = $('#forum_create');
@@ -114,6 +115,7 @@ function editForum(url, forum, success_message) {
 function setForumUpdateFormSubmit(success_message) {
     $('.date-picker').datepicker({
         language: locale,
+        startDate: "dateToday"
     });
 
     var frm = $('#forum_create');
