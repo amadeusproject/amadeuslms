@@ -151,7 +151,7 @@
                         <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
                       </button>
                       <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans 'Replicate' %}</a></li>
+                        <li><a href="{% url 'course:replicate_subject' subject.slug %}" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans 'Replicate' %}</a></li>
                         <li><a href="javascript:delete_subject.get('{% url 'course:delete_subject' subject.slug %}','#subject','#modal_subject')" data-toggle="modal" data-target="#removeSubject"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans 'Remove' %}</a></li>
                       </ul>
                     </div>

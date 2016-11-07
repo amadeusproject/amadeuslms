@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.views import generic
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -12,7 +12,7 @@ from django.db.models import Q
 import operator
 from functools import reduce
 from rolepermissions.verifications import has_object_permission
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import JsonResponse
 from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm,TopicForm,ActivityForm
 from .models import Course, Subject, CourseCategory,Topic, SubjectCategory,Activity, CategorySubject
 from core.decorators import log_decorator
@@ -265,7 +265,7 @@ class UpdateCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Updat
 		if has_role(self.request.user,'system_admin'):
 			courses = Course.objects.all()
 		elif has_role(self.request.user,'professor'):
-			courses = self.request.user.courses.all()
+			courses = self.request.user.courses_professors.all()
 		context['courses'] = courses
 		context['title'] = course.name
 		context['now'] = date.today()
@@ -576,6 +576,35 @@ class SubjectsView(LoginRequiredMixin, LogMixin, generic.ListView):
 		else:
 			context['files'] = TopicFile.objects.filter(students__name = self.request.user.name)
 		return context
+
+class ReplicateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin,generic.edit.CreateView):
+
+	allowed_roles = ['professor', 'system_admin']
+	login_url = reverse_lazy("core:home")
+	redirect_field_name = 'next'
+	template_name = 'subject/replicate.html'
+	form_class = SubjectForm
+	success_url = reverse_lazy('course:view')
+
+	def get_context_data(self, **kwargs):
+		context = super(ReplicateSubjectView, self).get_context_data(**kwargs)
+		subject = get_object_or_404(Subject, slug=self.kwargs.get('slug'))
+
+		if has_role(self.request.user,'system_admin'):
+			subjects = Subject.objects.all()
+			context['subjects'] = subjects
+		elif has_role(self.request.user,'professor'):
+			subject = self.request.user.professors_subjects.all()
+		categorys_subjects = CategorySubject.objects.all()
+
+		context['subject'] = subject
+		context['categorys_subjects'] = categorys_subjects
+		context['title'] = _("Replicate Subject")
+		context['now'] = date.today()
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('course:view', kwargs={'slug' : self.object.slug})
 
 class UploadMaterialView(LoginRequiredMixin, generic.edit.CreateView):
 	login_url = reverse_lazy("core:home")
