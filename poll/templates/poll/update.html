@@ -25,7 +25,7 @@
   });
 
   $("#form").submit(function(event) {
-    Submite.post("{% url 'course:poll:update_poll' poll.slug %}",$(this).serialize());
+    Submite.update("{% url 'course:poll:update_poll' poll.slug %}",$(this).serialize(), "{{poll.slug}}");
     event.preventDefault();
   });
 </script>
