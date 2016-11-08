@@ -102,7 +102,14 @@
           {{ course.objectivies |safe }}
         </i>
       </p>
-
+      <div class="row">
+              <div class="col-xs-6 col-md-6 data_register_course">
+                <p><b>{% trans 'Begin of Course Date' %}: </b>{{course.init_date}}</p>
+              </div>
+              <div class="col-xs-6 col-md-6 data_register_course">
+                <p><b>{% trans 'End of Course Date' %}: </b>{{course.end_date}}</p>
+              </div>
+            </div>
     </div>
   </div>
 

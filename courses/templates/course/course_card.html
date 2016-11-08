@@ -42,6 +42,14 @@
                 {{course.content | safe }}
               </i>
             </p>
+            <div class="row">
+              <div class="col-xs-6 col-md-6 data_register_course">
+                <p><b>{% trans 'Init register' %}: </b>{{course.init_register_date}}</p>
+              </div>
+              <div class="col-xs-6 col-md-6 data_register_course">
+                <p><b>{% trans 'End register' %}: </b>{{course.end_register_date}}</p>
+              </div>
+            </div>
           </div>
         </div>
     </div>
