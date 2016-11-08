@@ -34,6 +34,7 @@
         <div class="panel-collapse collapseOne-{{course.slug}} collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" aria-hidden="false" tabindex="0">
           <div class="panel-body">
             <p><b>{% trans 'Course Name' %}: </b>{{course.name}}</p>
+            <p><b>{% trans 'Coordenator' %}: </b>{{course.coordenator}}</p>
             <p><b>{% trans 'Professor' %}: </b>{{course.professors.all.0}}</p>
             <p>
               <b>{% trans 'Description' %}:</b>

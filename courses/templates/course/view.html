@@ -94,8 +94,8 @@
       </div>
     </div>
     <div class="panel-body">
-      <p><b>{% trans 'Coordinator' %}: </b>{% for professor in course.professors.all %}{% if not forloop.first %},{% endif %}
-              {{professor}}{% if forloop.last %}.{% endif %}{% endfor %}</p>
+      <p><b>{% trans 'Coordinator' %}: </b>{{course.coordenator}}</p>
+      <p><b>{% trans 'Teacher' %}: </b>{{course.professors.all.0}}</p>
       <p>
         <b>{% trans 'Description' %}:</b>
         <i>
