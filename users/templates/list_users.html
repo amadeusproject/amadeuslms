@@ -62,7 +62,7 @@
                             {% if acc.gender == 'M' %}
                                 <img src="{% static 'img/male_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user">
                             {% else %}
-                                <img src="{% static 'img/female_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user">    
+                                <img src="{% static 'img/female_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user">
                             {% endif %}
                         {% endif %}
                     </div>
@@ -76,7 +76,7 @@
                             <a href="javascript:void(0)" class="btn btn-danger btn-raised btn-lg" data-toggle="modal" data-target="#DeleteModal{{ forloop.counter }}">{% trans 'Delete' %}</a>
                         </div>
                     </div>
-                                    
+
 
                     <!-- Modal -->
                     <div class="modal fade" id="DeleteModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel">
@@ -87,10 +87,10 @@
                             <h4 class="modal-title" id="DeleteModalLabel">{% trans 'Confirm delete' %}</h4>
                           </div>
                           <div class="modal-body">
-                            {% trans 'Are you sure you want to delete the user' %} <b>{{acc.name}}</b>?                          
+                            {% trans 'Are you sure you want to delete the user' %} <b>{{acc.name}}</b>?
                           </div>
                           <div class="modal-footer">
-                            <a href="#" class="btn btn-raised btn-danger" data-dismiss="modal">{% trans 'Cancel' %}</a>                         
+                            <a href="#" class="btn btn-raised btn-danger" data-dismiss="modal">{% trans 'Cancel' %}</a>
                             <a href="{% url 'users:delete' acc.username %}" class="btn btn-raised btn-success" style="margin-top: 0">{% trans 'Delete' %}</a>
                           </div>
                         </div>

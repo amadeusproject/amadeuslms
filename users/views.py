@@ -106,12 +106,17 @@ class View(LoginRequiredMixin, generic.DetailView):
 	slug_field = 'username'
 	slug_url_kwarg = 'username'
 
-def delete(request,username):
+def delete_user(request,username):
 	user = get_object_or_404(User,username = username)
 	user.delete()
 	messages.success(request,_("User deleted Successfully!"))
 	return redirect('users:manage')
 
+def remove_account(request,username):
+	user = get_object_or_404(User,username = username)
+	user.delete()
+	messages.success(request,_("User deleted Successfully!"))
+	return redirect('core:logout')
 
 class Change_password(generic.TemplateView):
 	template_name = 'users/change_password.html'
