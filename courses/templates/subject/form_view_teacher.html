@@ -1,12 +1,5 @@
 {% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access%}
 
-{% block javascript %}
-   <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
-   <script src="{% static 'js/file.js' %}"></script>
-   <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
-   <script type = "text/javascript" src="{% static 'js/topic_editation_presentation.js' %}"></script>
-   <script type = "text/javascript" src="{% static 'js/links.js' %}"></script>
-{% endblock %}
 <div class="panel panel-default cards-detail">
   <div class="panel-heading topic">
     <div class="row">
@@ -23,6 +16,8 @@
           <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
           </button>
+
+          {# dropdown de topic com as opções de replicar, editar e deletar #}
           {% professor_subject topic.subject user as dropdown_topic %}
           {% if dropdown_topic %}
           <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
@@ -32,11 +27,13 @@
           </ul>
           {% endif %}
         </div>
-      </div><!--column-->
-    </div><!--row-->
+      </div>
+    </div>
   </div>
   <div class="panel-collapse collapseTopic-{{topic.slug}} topic_{{ topic.id }} collapse in" role="tabpanel" aria-labelledby="heading_{{topic.id}}" aria-expanded="true" aria-hidden="false">
     <div class="panel-body">
+
+      {# dados do tópico no modo de visualização #}
       <div class="presentation_{{topic.slug}}">
         <p>
           <i>
@@ -44,6 +41,8 @@
           </i>
         </p>
       </div>
+
+      {# dados dos topicos no modo de edição #}
       <div class="form-group editation editation_{{topic.slug}}">
         <label class="control-label" for="focusedInput2">{% trans 'Name Topic' %}</label>
         <input type="text" class="form-control" value="{{topic}}">
@@ -52,56 +51,82 @@
         <label class="control-label" for="focusedInput2">{% trans 'Description' %}</label>
         <textarea class="form-control" rows="3" id="textArea">{{topic.description}}</textarea>
       </div>
+
+      {# materiais do topico#}
       <div class="row">
         <div class="col-xs-6 col-md-6">
           <div class="resource_inline">
             <h4>{% trans 'Material' %}</h4>
           </div>
           <div class="resource_inline">
+
+            {# dropdown de create material #}
             <div class="dropdown">
               <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
               <ul class="dropdown-menu" aria-labelledby="dLabel">
-                <li><a href="javascript:get_modal_link('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#divModalLink')  ">{% trans 'Create a Link' %}</a></li>
-                <li><a href="javascript:get_modal_file('{% url 'course:file:create_file' topic.slug %}', '#fileModal', '#divModalFile')">{% trans "Create a file" %}</a></li>
+                <li><a href="javascript:modal.get('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#requisicoes_ajax')  ">{% trans 'Create a Link' %}</a></li>
+                <li><a href="javascript:modal.get('{% url 'course:file:create_file' topic.slug %}', '#fileModal', '#requisicoes_ajax')">{% trans "Create a file" %}</a></li>
               </ul>
             </div>
           </div>
           <div class="presentation_{{topic.slug}}">
+
+            {# materiais do tópico no modo de visualização #}
             <ul>
               {% list_topic_file request topic %}
               {% list_topic_link request topic%}
             </ul>
           </div>
           <div class="editation editation_{{topic.slug}}">
+
+            {# materiais do tópico no modo de edição #}
             <ul>
               {% list_topic_file_edit request topic %}
               {% list_topic_link_edit request topic%}
             </ul>
           </div>
         </div>
+
+        {# avaliações do topico #}
         <div class="col-xs-4 col-md-4">
           <div class="resource_inline">
             <h4>{% trans 'Activities' %}</h4>
           </div>
           <div class="resource_inline">
+
+            {# dropdown de avaliações #}
             <div class="dropdown">
               <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
               <ul class="dropdown-menu" aria-labelledby="dLabel">
                 <li><a href="javascript:createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans 'Create Forum' %}</a></li>
-                <li><a href="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#modal_poll');">{% trans 'Create Poll' %}</a></li>
+                <li><a href="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#requisicoes_ajax');">{% trans 'Create Poll' %}</a></li>
               </ul>
             </div>
           </div>
-          <ul>
-            {% list_topic_poll request topic %}
-            {% list_topic_foruns request topic %}
-          </ul>
+          <div class="presentation_{{topic.slug}}">
+
+            {# avaliações do tópico no modo de visualização #}
+            <ul>
+              {% list_topic_poll request topic %}
+              {% list_topic_foruns request topic %}
+            </ul>
+          </div>
+          <div class="editation editation_{{topic.slug}}">
+
+            {# avaliações do tópico no modo de edição #}
+            <ul>
+              {% list_topic_poll_teacher request topic %}
+              {% list_topic_foruns request topic %}
+            </ul>
+          </div>
         </div>
       </div>
+
+      {# opções de cancelar e editar no modo de edição #}
       <div class="form-group editation editation_{{topic.slug}}">
         <div class="col-md-10">
-          <a href="javascript:show_presentation('{{topic.slug}}')" class="btn btn-raised btn-default">{% trans 'Cancel' %}</a>
-          <a href="javascript:show_presentation('{{topic.slug}}')" class="btn btn-raised btn-primary">{% trans 'Submit' %}</a>
+          <a href="javascript:show_presentation('{{topic.slug}}')" class="btn btn-raise btn-default">{% trans 'Back' %}</a>
+          {# <a href="javascript:show_presentation('{{topic.slug}}')" class="btn btn-raised btn-primary">{% trans 'Submit' %}</a>#}
         </div>
       </div>
     </div>
@@ -112,7 +137,7 @@
 
 
 <!-- MODAL REMOVE TOPIC -->
-<div class="modal" id="removeTopic">
+<div class="modal" id="{{topic.slug}}">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -152,18 +177,18 @@
             <label for="textArea" class="col-md-2 control-label">{% trans 'Code' %}:</label>
 
             <div class="col-md-10">
-                <textarea class="form-control" rows="2" id="textArea"></textarea>
-                <span class="help-block">{% trans 'Material description' %}</span>
+              <textarea class="form-control" rows="2" id="textArea"></textarea>
+              <span class="help-block">{% trans 'Material description' %}</span>
             </div>
           </div>
           <div class="form-group is-empty">
-          <label for="number" class="col-md-2 control-label">{% trans 'Height' %}</label>
+            <label for="number" class="col-md-2 control-label">{% trans 'Height' %}</label>
             <div class="col-md-4">
               <input type="number" class="form-control" id="inputNumber" placeholder="Heiht">
             </div>
           </div>
           <div class="form-group is-empty">
-          <label for="number" class="col-md-2 control-label">{% trans 'Weight' %}</label>
+            <label for="number" class="col-md-2 control-label">{% trans 'Weight' %}</label>
             <div class="col-md-4">
               <input type="number" class="form-control" id="inputNumber" placeholder="Weight">
             </div>
@@ -173,7 +198,7 @@
       </div>
       <div class="modal-footer">
         <!-- Don't remove that!!!
-        <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">Close</button>-->
+        {# <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">Close</button>-->#}
 
         <!-- Put curtom buttons here!!!  -->
         <button type="button" class="btn btn-primary btn-raised">{% trans 'Confirm' %}</button>
@@ -182,86 +207,3 @@
   </div>
 </div>
 <!-- EndModal -->
-
-<!-- MODAL ACTIVITIES-->
-<div class="modal fade" id="ActivityModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-          <h4 class="modal-title" id="myModalLabel"></h4>
-      </div>
-      <div class="modal-body">
-        <form class="form-horizontal">
-
-      <fieldset>
-        <legend>{% trans 'Proposal Activity' %}</legend>
-        <div class="form-group is-empty">
-          <label for="NameIn" class="col-md-2 control-label">{% trans 'Name' %}:</label>
-          <div class="col-md-10">
-            <input type="text" id="NameIn" class="form-control">
-          </div>
-        </div>
-        <div class="form-group is-empty">
-          <label for="DescIn" class="col-md-2 control-label">{% trans 'Describe' %}:</label>
-          <div class="col-md-10">
-            <textarea class="form-control" id="DescIn" rows="2"></textarea>
-          </div>
-        </div>
-        <div class="form-group is-empty">
-          <label for="DateIn" class="col-md-2 control-label">{% trans 'Opening' %}: </label>
-          <div class="col-md-10">
-            <input type="text" id="DateIn" class="form-control date-picker" requerid="">
-          </div>
-        </div>
-        <div class="form-group is-empty">
-          <label for="DateIn" class="col-md-2 control-label">{% trans 'Ending' %}: </label>
-          <div class="col-md-10">
-            <input type="text" id="DateIn" class="form-control date-picker" requerid="">
-          </div>
-        </div>
-        <div class="form-group" style="margin-top: 0;">
-          <div class="col-md-offset-2 col-md-10">
-            <div class="checkbox">
-              <label>
-                <input type="checkbox"><span class="checkbox-material"><span class="check"></span></span> {% trans 'Send Later' %}
-              </label>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="col-md-10 col-md-offset-2">
-            <button type="button" class="btn btn-default">{% trans 'Cancel' %}</button>
-            <button type="submit" class="btn btn-primary">{% trans 'Submit' %}</button>
-          </div>
-        </div>
-
-
-      </fieldset>
-    </form>
-      </div>
-    </div>
-  </div>
-</div>
-<!--EndModal-->
-
-
-
-<div class="modal fade" id="createForum" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">{% trans 'Forum' %}</h4>
-            </div>
-            <div class="modal-body">
-                <section>
-                    <div class="forum_form"></div>
-                </section>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans 'Close' %}</button>
-                <button type="button" onclick="$('#forum_create').submit();" class="btn btn-primary btn-raised">{% trans 'Create' %}</button>
-            </div>
-        </div>
-    </div>
-</div>
