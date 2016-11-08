@@ -2,8 +2,11 @@ from django.conf.urls import url, include
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import password_reset, password_reset_done,password_reset_confirm, password_reset_complete
 from . import views
+from rest_framework import routers
 
 
+router = routers.DefaultRouter()
+router.register(r'logs', views.LogViewSet)
 urlpatterns = [
 	url(r'^$', views.login, name='home'),
 	url(r'^register/$', views.RegisterUser.as_view(), name='register'),
@@ -14,7 +17,8 @@ urlpatterns = [
     url(r'^guest/$', views.GuestView.as_view(), name='guest'),
 
     #API REST
-    url(r'^logs/$', views.get_log),
+    url(r'^', include(router.urls)),
+    #url(r'^logs/$', views.get_log),
 
 #Reset Password
 
@@ -30,3 +34,5 @@ urlpatterns = [
 	url(r'^done/$', password_reset_complete,{'template_name':'registration/passwor_reset_complete.html'}),
 
 ]
+
+

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     'widget_tweaks',
     'rolepermissions',
+    'oauth2_provider',
     'rest_framework',
     'django_bootstrap_breadcrumbs',
     's3direct',
@@ -207,6 +208,21 @@ EMAIL_HOST_USER = 'amadeusteste@gmail.com'
 EMAIL_HOST_PASSWORD = 'amadeusteste'
 # SMTP CONFIG
 # EMAIL_BACKEND = 'core.smtp.AmadeusEmailBackend'
+
+#API CONFIG STARTS
+#TELL the rest framework to use a different backend
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',),
+    'DEFAULT_PERMISSION_CLASSES':(
+        'rest_framework.permissions.IsAuthenticated',)
+}
+
+OAUTH2_PROVIDER = {
+    'SCOPES':{'read':'Read scope', 'write': 'Write scope'}
+}
+#API CONFIG ENDS
+
 
 #s3direct
 
