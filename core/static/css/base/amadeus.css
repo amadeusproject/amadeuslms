@@ -427,7 +427,7 @@ ul, li {
 .course-card-group{
   margin-bottom: 1%;
 }
-
+.data_register_course p{ color: grey; }
 .category-course-link{
   font-size: 24px;
   color: black !important;

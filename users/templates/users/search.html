@@ -1,26 +1,153 @@
-<html>
-<h1> Links </h1>
-{% for link in link_list %}
-  {{link.name}} </br>
-{% endfor %}
+{% extends 'home.html' %}
 
-<h1> Polls </h1>
-{% for poll in poll_list %}
-  {{poll.name}} </br>
-{% endfor %}
+{% load i18n pagination django_bootstrap_breadcrumbs permission_tags static  %}
+{% block javascript %}
+   <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
+   <script src="{% static 'js/file.js' %}"></script>
+   <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
+   <script type = "text/javascript" src="{% static 'js/topic_editation_presentation.js' %}"></script>
+   <script type = "text/javascript" src="{% static 'js/links.js' %}"></script>
+   <script src="{% static 'js/modals_requisitions.js'%}"></script>
+   <script src="{% static 'js/modal_poll.js'%}"></script>
+{% endblock %}
 
-<h1> Exams </h1>
-{% for exam in exam_list %}
-  {{exam.name}} </br>
-{% endfor %}
+{% block breadcrumbs %}
+  {{ block.super }}
+  {% breadcrumb 'Search' 'users:search' %}
 
-<h1> Forums </h1>
-{% for forum in forum_list %}
-  {{forum.name}} </br>
-{% endfor %}
+{% endblock %}
 
-<h1> Files </h1>
-{% for file in file_list %}
-  {{file.name}} </br>
-{% endfor %}
-</html>
+
+{% block content %}
+<div class="jumbotron">
+<h3>Search Result:</h3> {{qtd}} items found
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#Link" id="bot"> <i class="fa fa-caret-square-o-down" aria-hidden="true" id="down"></i>Links</a>
+      </h4>
+    </div>
+    <div id="Link" class="panel-collapse collapse">
+      <div class="panel-body">
+
+        {% if link_list %}
+          {% for link in link_list %}
+              <li id = "link_{{ link.slug }}"><i class="fa fa-link" aria-hidden="true"></i>  <a href="javascript:modal.get('{% url 'course:links:view_link' link.slug %}', '#viewLinkModal','#divModalLink')">{{link.name}}</a></li>
+          {% endfor %}
+          <div class = 'row' id ="divModalLink">
+
+          </div>
+        {% else %}
+          {% trans 'No results found'%}
+        {% endif%}
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#File" id="bot1"> <i class="fa fa-caret-square-o-down" aria-hidden="true" id="down1"></i>File</a>
+      </h4>
+    </div>
+    <div id="File" class="panel-collapse collapse">
+      <div class="panel-body">
+      {% if file_list %}
+          {% for file in file_list %}
+              <li id="file_{{ file.slug }}"><i class="material-icons">{{ file.file_type.icon }}</i> <a href="{% url 'course:file_material_view' file.slug %}" target="_blank">{{ file.name }}</a></li>
+          {% endfor%}
+      {% else %}
+          {% trans 'No results found' %}
+      {% endif %}
+
+      <div class="row" id="divModalFile">
+
+      </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#Forum" id="bot2"> <i class="fa fa-caret-square-o-down" aria-hidden="true" id="down2"></i>Forum</a>
+      </h4>
+    </div>
+    <div id="Forum" class="panel-collapse collapse">
+      <div class="panel-body">
+        {% if forum_list %}
+              {% for forum in forum_list %}
+              <li><i class="fa fa-commenting" aria-hidden="true"></i> <a id="forum_{{ forum.id }}" href="{% url 'course:forum:view' forum.slug %}"> {{ forum }}</a></li>
+              {% endfor %}
+          {% else %}
+
+            {% trans 'No results found' %}
+
+          {% endif %}
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+       <a data-toggle="collapse" href="#Exam" id="bot3"> <i class="fa fa-caret-square-o-down" aria-hidden="true" id="down3"></i>Exam</a>
+      </h4>
+    </div>
+    <div id="Exam" class="panel-collapse collapse">
+      <div class="panel-body">
+        {% if exam_list %}
+
+        {% else %}
+            {% trans 'No results found' %}
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#Poll" id="bot4"> <i class="fa fa-caret-square-o-down" aria-hidden="true" id="down4"></i>Poll</a>
+      </h4>
+    </div>
+    <div id="Poll" class="panel-collapse collapse">
+      <div class="panel-body">
+            {% if poll_list %}
+              {% for poll in poll_list %}
+                  <li id="poll_{{poll.slug}}"><i class="material-icons">{% trans 'poll' %}</i> <a href="javascript:modal.get('{% url 'course:poll:view_poll' poll.slug %}','#poll','#modal_poll');">{{ poll.name }}</a></li>
+              {% endfor %}
+            {% else %}
+                {% trans 'No results found' %}
+            {% endif %}
+            <div class="row" id="modal_poll">
+
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script type="text/javascript" src="{% static 'js/topic_editation_presentation.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/amadeus.js' %}"> </script>
+<script>
+        // set up all (import templates, set up navbar and set environment variables)
+        Amadeus.load(function() {
+          // set data to breadcrumb
+          Amadeus.setBreadcrumb(null,'Home');
+        });
+</script>
+
+{% endblock %}

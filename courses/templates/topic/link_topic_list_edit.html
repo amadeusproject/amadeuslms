@@ -1,13 +1,7 @@
 {% load static i18n list_topic_foruns permission_tags %}
 <div id="list-topic{{ topic.id }}-links-edit">
-{% for link in links%}
-
-        <li class="icon_edit_remove" id = "link_edit_icon_{{ link.slug }}"> <a href="javascript:modal.get('{% url 'course:links:update_link' link.slug %}', '#linksModalEdit', '#requisicoes_ajax')"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>  <a href="javascript:modal.get('{% url 'course:links:delete_link' link.slug %}', '#linkDeleteModal', '#requisicoes_ajax')"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></li>
-        <li id = "link_{{ link.slug }}"><i class="fa fa-link" aria-hidden="true"></i>  <a href="javascript:modal.get('{% url 'course:links:view_link' link.slug %}', '#viewLinkModal','#requisicoes_ajax')">{{link.name}}</a></li>
-
-{% endfor %}
+  {% for link in links%}
+    <li class="icon_edit_remove" id = "link_edit_icon_{{ link.slug }}"> <a href="javascript:modal.get('{% url 'course:links:update_link' link.slug %}', '#linksModalEdit', '#requisicoes_ajax')"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>  <a href="javascript:modal.get('{% url 'course:links:delete_link' link.slug %}', '#linkDeleteModal', '#requisicoes_ajax')"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></li>
+    <li id = "link_{{ link.slug }}"><i class="fa fa-link" aria-hidden="true"></i>  <a href="javascript:modal.get('{% url 'course:links:view_link' link.slug %}', '#viewLinkModal','#requisicoes_ajax')">{{link.name}}</a></li>
+  {% endfor %}
 </div>
-
-{# <div class="row" id="divModalLinkUpdate">#}
-
-{# </div>#}
