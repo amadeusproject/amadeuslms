@@ -2,7 +2,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from .models import CourseCategory, Course, Subject, Topic, ActivityFile, Activity, FileMaterial, LinkMaterial
 from s3direct.widgets import S3DirectWidget
-
+from django_summernote.widgets import SummernoteWidget
 
 class CategoryCourseForm(forms.ModelForm):
 
@@ -19,24 +19,24 @@ class CategoryCourseForm(forms.ModelForm):
 
 class CourseForm(forms.ModelForm):
 	def clean_end_register_date(self):
-		init_register_date = self.data['init_register_date']
-		end_register_date = self.data['end_register_date']
+		init_register_date = self.cleaned_data['init_register_date']
+		end_register_date = self.cleaned_data['end_register_date']
 
 		if init_register_date and end_register_date and end_register_date < init_register_date:
 			raise forms.ValidationError(_('The end date may not be before the start date.'))
 		return end_register_date
 
 	def clean_init_date(self):
-		end_register_date = self.data['end_register_date']
-		init_date = self.data['init_date']
+		end_register_date = self.cleaned_data['end_register_date']
+		init_date = self.cleaned_data['init_date']
 
 		if end_register_date and init_date and init_date <= end_register_date:
 			raise forms.ValidationError(_('The course start date must be after the end of registration.'))
 		return init_date
 
 	def clean_end_date(self):
-		init_date = self.data['init_date']
-		end_date = self.data['end_date']
+		init_date = self.cleaned_data['init_date']
+		end_date = self.cleaned_data['end_date']
 
 		if init_date and end_date and end_date < init_date:
 			raise forms.ValidationError(_('The end date may not be before the start date.'))
@@ -51,7 +51,7 @@ class CourseForm(forms.ModelForm):
 	class Meta:
 		model = Course
 		fields = ('name', 'objectivies', 'content', 'max_students', 'init_register_date', 'end_register_date',
-					'init_date', 'end_date', 'image', 'category',)
+					'init_date', 'end_date', 'category',)
 		labels = {
 			'name': _('Name'),
 			'objectivies': _('Objectives'),
@@ -61,7 +61,6 @@ class CourseForm(forms.ModelForm):
 			'end_register_date': _('Course registration end date'),
 			'init_date': _('Course start date'),
 			'end_date': _('Course end date'),
-			'image': _('Image'),
 			'category': _('CourseCategory'),
 		}
 		help_texts = {
@@ -73,14 +72,13 @@ class CourseForm(forms.ModelForm):
 			'end_register_date': _('Date that ends the registration period of the course (dd/mm/yyyy)'),
 			'init_date': _('Date that the course starts (dd/mm/yyyy)'),
 			'end_date': _('Date that the course ends (dd/mm/yyyy)'),
-			'image': _('Representative image of the course'),
 			'category': _('CourseCategory which the course belongs'),
 		}
 
 		widgets = {
 			'categoy': forms.Select(),
-			'objectivies': forms.Textarea(attrs={'cols': 80, 'rows': 5}),
-			'content': forms.Textarea(attrs={'cols': 80, 'rows': 5}),
+			'objectivies': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
+			'content': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
 		}
 
 class UpdateCourseForm(CourseForm):
@@ -91,7 +89,7 @@ class UpdateCourseForm(CourseForm):
 	class Meta:
 		model = Course
 		fields = ('name', 'objectivies', 'content', 'max_students', 'init_register_date', 'end_register_date',
-					'init_date', 'end_date', 'image', 'category','students',)
+					'init_date', 'end_date', 'category','students',)
 		labels = {
 			'name': _('Name'),
 			'objectivies': _('Objectives'),
@@ -101,7 +99,6 @@ class UpdateCourseForm(CourseForm):
 			'end_register_date': _('Course registration end date'),
 			'init_date': _('Course start date'),
 			'end_date': _('Course end date'),
-			'image': _('Image'),
 			'category': _('CourseCategory'),
 			'students': _('Student'),
 		}
@@ -114,14 +111,13 @@ class UpdateCourseForm(CourseForm):
 			'end_register_date': _('Date that ends the registration period of the course (dd/mm/yyyy)'),
 			'init_date': _('Date that the course starts (dd/mm/yyyy)'),
 			'end_date': _('Date that the course ends (dd/mm/yyyy)'),
-			'image': _('Representative image of the course'),
 			'category': _('CourseCategory which the course belongs'),
 			'students': _("Course's Students"),
 		}
 		widgets = {
 			'categoy': forms.Select(),
-			'objectivies': forms.Textarea(attrs={'cols': 80, 'rows': 5}),
-			'content': forms.Textarea(attrs={'cols': 80, 'rows': 5}),
+			'objectivies': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
+			'content': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
 		}
 
 class SubjectForm(forms.ModelForm):
@@ -143,6 +139,9 @@ class SubjectForm(forms.ModelForm):
 			'end_date': _('End date of the subject'),
 			'visible': _('Is the subject visible?'),
 		}
+		widgets = {
+			'description':SummernoteWidget(),
+		}
 
 class TopicForm(forms.ModelForm):
 
@@ -156,6 +155,9 @@ class TopicForm(forms.ModelForm):
 		help_texts = {
 			'name': _("Topic's name"),
 			'description': _("Topic's description"),
+		}
+		widgets = {
+			'description':SummernoteWidget(),
 		}
 
 class ActivityFileForm(forms.ModelForm):

@@ -49,27 +49,41 @@ function subscribe(elem, url, id, confirm_message) {
 
 /*
 *
-* Function to delete a course
+* Function to delete a course 
 *
 */
-function delete_course(url, course, message, return_url) {
-    alertify.confirm(message, function(){
-        var csrftoken = getCookie('csrftoken');
 
-        $.ajax({
-            method: 'post',
-            beforeSend: function (request) {
-                request.setRequestHeader('X-CSRFToken', csrftoken);
-            },
-            url: url,
-            success: function(data) {
-                alertify.alert('Remove Course', 'Course removed successfully!', function(){
-                    window.location.href = return_url;
-                });
-            }
-        });
-    });
+var RemoveCourse = {
+  remove: function(url,dados,id_li_link){
+    $('#course').modal('hide');
+      $.post(url,dados, function(data){
+        $(id_li_link).remove();
+        $("#modal_course").empty();
+        $("#accordion").remove();
+        $(".modal-backdrop.in").remove();
+        alertify.success("Course removed successfully!");
+        setTimeout(function () { location.reload(1); }, 2000);
+      }).fail(function(){
+        $("#modal_course").empty();
+        $("#modal_course").append(data);
+        $('#course').modal('show');
+      });
+  }
 }
+
+var delete_course = {
+  get: function (url, id_modal, id_div_modal){
+    $.get(url, function(data){
+      if($(id_modal).length){
+        $(id_div_modal).empty();
+        $(id_div_modal).append(data);
+      } else {
+        $(id_div_modal).append(data);
+      }
+      $(id_modal).modal('show');
+    });
+  }
+};
 /* 
 *
 * Function to load create course's form

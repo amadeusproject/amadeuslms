@@ -4,6 +4,7 @@
    <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
    <script src="{% static 'js/file.js' %}"></script>
    <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
+   <script type = "text/javascript" src="{% static 'js/topic_editation_presentation.js' %}"></script>
    <script type = "text/javascript" src="{% static 'js/links.js' %}"></script>
 {% endblock %}
 <div class="panel panel-default cards-detail">
@@ -19,18 +20,13 @@
       </div><!--column -->
       <div class="col-xs-3 col-md-2 divMoreActions">
         <div class="btn-group">
-          <button type="button" class="btn btn-default btn-sm eye" data-toggle="tooltip" data-placement="bottom" title="Visible">
-            <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
-          </button>
-        </div>
-        <div class="btn-group">
           <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
           </button>
           {% professor_subject topic.subject user as dropdown_topic %}
           {% if dropdown_topic %}
           <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
+            <li><a href="" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
             <li><a href="javascript:show_editation('{{topic.slug}}')"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
             <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeTopic"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
           </ul>
@@ -44,7 +40,7 @@
       <div class="presentation_{{topic.slug}}">
         <p>
           <i>
-            {{topic.description|linebreaks}}
+            {{topic.description|safe}}
           </i>
         </p>
       </div>
@@ -251,10 +247,6 @@
 </div>
 <!--EndModal-->
 
-<!-- MODAL LINK EDIT-->
-
-
-<!-- EndModal -->
 
 
 <div class="modal fade" id="createForum" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

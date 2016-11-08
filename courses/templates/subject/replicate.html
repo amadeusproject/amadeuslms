@@ -1,0 +1,44 @@
+{% extends 'subject/index.html' %}
+
+{% load static i18n permission_tags widget_tweaks %}
+
+{% block breadcrumbs %}
+	<ol class="breadcrumb">
+	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
+	  	<li class="active">{% trans 'Replicate Subject' %}</li>
+	</ol>
+{% endblock %}
+
+{% block content %}
+<div class="panel panel-default">
+    <div class="panel-body">
+      <form class="form-group " method="post" action="">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group {% if field.errors %} has-error{% endif %}">
+          <label for="{{ field.auto_id }}" class="control-label label-static"> {{ field.label }}</label>
+
+          {% if field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date'%}
+              <input type="text" class="form-control date-picker" name="{{field.name}}" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
+          {% else %}
+              {% render_field field class='form-control' placeholder=field.label%}
+          {% endif %}
+          <span class="help-block">{{ field.help_text }}</span>
+        </div>
+        {% endfor %}
+        <div class="col-lg-offset-4 col-lg-4">
+          <button type="submite" class="btn btn-raised btn-primary btn-lg btn-block">{% trans 'Update' %}</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var locale = navigator.language || navigator.userLanguage;
+
+    $('.date-picker').datepicker({
+        language: locale,
+    });
+  </script>
+{% endblock %}

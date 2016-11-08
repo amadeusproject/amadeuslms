@@ -1,6 +1,6 @@
 {% extends "home.html" %}
 
-{% load static i18n django_bootstrap_breadcrumbs permission_tags %}
+{% load static i18n django_bootstrap_breadcrumbs permission_tags widget_tweaks %}
 
 {% block breadcrumbs %}
 	{{ block.super }}
@@ -8,16 +8,24 @@
 {% endblock %}
 
 {% block content %}
+	{% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <p>{{ message }}</p>
+        </div>
+    {% endfor %}
 	<!-- Nav tabs -->
 	<ul class="nav nav-tabs md-pills pills-ins" role="tablist">
 	    <li class="nav-item">
-	        <a class="nav-link active" data-toggle="tab" href="#panel1" role="tab"><i class="fa fa-cog"></i> System</a>
+	        <a class="nav-link active" data-toggle="tab" href="#panel1" role="tab"><i class="fa fa-cog"></i> {% trans "System" %}</a>
 	    </li>
 	    <li class="nav-item">
-	        <a class="nav-link" data-toggle="tab" href="#panel2" role="tab"><i class="fa fa-envelope"></i> Mail Sender</a>
+	        <a class="nav-link" data-toggle="tab" href="#panel2" role="tab"><i class="fa fa-envelope"></i> {% trans "Mail Sender" %}</a>
 	    </li>
 	    <li class="nav-item">
-	        <a class="nav-link" data-toggle="tab" href="#panel3" role="tab"><i class="fa fa-lock"></i> Security</a>
+	        <a class="nav-link" data-toggle="tab" href="#panel3" role="tab"><i class="fa fa-lock"></i> {% trans "Security" %}</a>
 	    </li>
 	</ul>
 
@@ -27,7 +35,7 @@
 	    <div class="tab-pane fade in active" id="panel1" role="tabpanel">
 	        <div class="panel panel-default">
 	          	<div class="panel-body">
-	            	<h3><b>General</b></h3>
+	            	<h3><b>{% trans "General" %}</b></h3>
 	            	<div class="panel panel-default">
 	              		<div class="panel-body">
 	                		Content
@@ -42,75 +50,162 @@
 	    <!--Panel 2-->
 	    <div class="tab-pane fade" id="panel2" role="tabpanel">
 	      	<div class="panel panel-default">
-	          	<div class="panel-body">
-	            	<h3><b>Outgoing Server (SMTP)</b></h3>
-	            	<div class="panel panel-default">
-	              		<div class="panel-body">
-	                		<h4><b>Settings</b></b></h4>
-                			<hr>
-		                	<div class="form-group label-floating">
-		                  		<label class="control-label" for="focusedInput1">Description</label>
-		                  		<input class="form-control" id="focusedInput1" type="text">
-		                	</div>
-		                	<div class="form-group label-floating">
-		                  		<label class="control-label" for="focusedInput1">Server</label>
-		                  		<input class="form-control" id="focusedInput1" type="text">
-		                	</div>
-		                	<div class="form-group label-floating">
-		                  		<label for="number" class="col-md_10 control-label">Port</label>
-		                  		<div class="col-md-2">
-		                    		<input type="number" class="form-control" id="inputNumber">
-		                  		</div>
-		                  		<div>
-		                    		<label for="number">Deafault:</label> 25
-		                  		</div>
-		                	</div>
-	              		</div>
-	            	</div>
-	        	</div>
-	        	<div class="panel-body">
-		            <div class="panel panel-default">
-		              	<div class="panel-body">
-		                	<h4><b>Security and Authentication</b></h4>
-		                	<hr>
-		                	<div class="form-group label-floating">
-		                  		<label class="control-label" for="focusedInput1">User Name</label>
-		                  		<input class="form-control" id="focusedInput1" type="text">
-		                	</div>
-		                	<div class="form-group label-floating">
-		                  		<label class="control-label" for="focusedInput1">Password</label>
-		                  		<input class="form-control" id="focusedInput1" type="password">
-		                	</div>
-		                	<div class="form-group">
-		                  		<p><b>Use safe contection</b></p>
-		                  		<div class="col-md-10">
-		                    		<div class="radio radio-primary">
-		                      			<label>
-		                        			<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
-		                        			No
-		                      			</label>
-		                      			<label>
-		                        			<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-		                        			TSL, If available
-				    	                </label>
-		    		                    <label>
-		                        			<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-		                        			TSL
-		                      			</label>
-		                      			<label>
-		                        			<input type="radio" name="optionsRadios" id="optionsRadios4" value="option4" checked="">
-		                        			SSL
-		                      			</label>
-		                    		</div>
-		                  		</div>
-		                	</div>
+    			<form class="form-horizontal" method="post">
+    			{% csrf_token %}
+		          	<div class="panel-body">
+		            	<h3><b>{% trans "Outgoing Server (SMTP)" %}</b></h3>
+		            	<div class="panel panel-default">
+		              		<div class="panel-body">
+		                		<h4><b>{% trans "Settings" %}</b></b></h4>
+	                			<hr>
+			                	<div class="form-group label-floating">
+			                  		<label class="control-label" for="{{ form.description.auto_id }}">{{ form.description.label }}</label>
+			                  		{% render_field form.description class='form-control' %}
+			                	</div>
+			                	{% if form.description.errors %}
+                                    <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul>
+                                            {% for error in form.description.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+			                	<div class="form-group label-floating">
+			                  		<label class="control-label" for="{{ form.host.auto_id }}">{{ form.host.label }}</label>
+			                  		{% render_field form.host class='form-control' %}
+			                	</div>
+			                	{% if form.host.errors %}
+                                    <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul>
+                                            {% for error in form.host.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+			                	<div class="form-group label-floating">
+			                  		<label for="{{ form.port.auto_id }}" class="control-label">{{ form.port.label }}</label>
+			                  		<div class="col-md-2">
+			                    		{% render_field form.port class='form-control' onkeypress='campoNumerico(this,event);' %}
+			                  		</div>
+			                  		<div>
+			                    		<label for="number">{% trans "Default:" %}</label> 25
+			                  		</div>
+			                	</div>
+			                	{% if form.port.errors %}
+                                    <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul>
+                                            {% for error in form.port.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+		              		</div>
 		            	</div>
-		          	</div>
-		          	<button type="button" class="btn btn-success btn-raised">Save changes</button>
-	        	</div>
+		        	</div>
+		        	<div class="panel-body">
+			            <div class="panel panel-default">
+			              	<div class="panel-body">
+			                	<h4><b>{% trans "Security and authentication" %}</b></h4>
+			                	<hr>
+			                	<div class="form-group label-floating">
+			                  		<label class="control-label" for="{{ form.username.auto_id }}">{{ form.username.label }}</label>
+			                  		{% render_field form.username class='form-control' %}
+			                	</div>
+			                	{% if form.username.errors %}
+                                    <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul>
+                                            {% for error in form.username.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+			                	<div class="form-group label-floating">
+			                  		<label class="control-label" for="{{ form.password.auto_id }}">{{ form.password.label }}</label>
+			                  		{% render_field form.password type='password' class='form-control' %}
+			                	</div>
+			                	{% if form.password.errors %}
+                                    <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul>
+                                            {% for error in form.password.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                                <div class="form-group label-floating">
+			                  		<label class="control-label" for="{{ form.default_from_email.auto_id }}">{{ form.default_from_email.label }}</label>
+			                  		{% render_field form.default_from_email class='form-control' %}
+			                	</div>
+			                	{% if form.default_from_email.errors %}
+                                    <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul>
+                                            {% for error in form.default_from_email.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+			                	<div class="form-group">
+			                  		<p><b>{{ form.safe.connection.label }}</b></p>
+			                  		<div class="col-md-10">
+			                    		<div class="radio radio-primary">
+			                      			{% for value, text in form.safe_conection.field.choices %}
+			                      				<label>
+			                      					{% if form.safe_conection.value == value %}
+			                      						<input type="radio" name="safe_conection" id="{{ value }}" value="{{ value }}" checked="">
+				                        			{{ text }}	
+			                      					{% else %}
+			                      						<input type="radio" name="safe_conection" id="{{ value }}" value="{{ value }}">
+				                        			{{ text }}
+				                        			{% endif %}
+				                        			
+				                      			</label>	
+			                      			{% endfor %}
+			                    		</div>
+			                  		</div>
+			                	</div>
+			                	{% if form.safe_connection.errors %}
+                                    <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul>
+                                            {% for error in form.safe_connection.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+			            	</div>
+			          	</div>
+			          	<button type="submit" class="btn btn-success btn-raised">{% trans "Save changes" %}</button>
+		        	</div>
+		        </form>
 	    	</div>
 		</div>
-	  
+
 	    <!--/.Panel 2-->
 
 	    <!--Panel 3-->
@@ -119,15 +214,10 @@
 	            <div class="panel-body">
 		            <div class="togglebutton">
 		            	<label>
-		                	<input type="checkbox" checked> <b>Allow users self-enroll.</b>
+		                	<input type="checkbox" checked> <b>{% trans "Allow users self-enroll." %}</b>
 		              	</label>
 		            </div>
-		            <div class="togglebutton">
-		                <label>
-		                	<input type="checkbox"> <b>Put the system in maintenance mode.</b>
-		              	</label>
-		            </div>
-		            <button type="button" class="btn btn-primary">Save changes</button>
+		            <button type="button" class="btn btn-success btn-raised">{% trans "Save changes" %}</button>
 		        </div>
 		    </div>
 		</div>

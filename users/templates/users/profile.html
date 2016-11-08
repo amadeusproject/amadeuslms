@@ -43,12 +43,11 @@
 		<div class="col-lg-12">
 			<div class="well well-lg">
 				<div class="row">
-					<div class="col-md-4">
+					
 						{% if user.image %}
-                            <div style="width: 200px; overflow:hidden; margin-left: 8em;">
-                            	<img src="{{ user.image.url }}" class="img-circle img-responsive img-list-user" >
-                            </div>
+                            <div class="col-md-4" style="width: 200px;overflow:hidden;margin-left: 8em;height: 150px;background-image: url('{{user.image.url}}');background-position: center;background-size: cover;">
                         {% else %}
+                        <div class="col-md-4">
                             {% if user.gender == 'M' %}
                                 <img src="{% static 'img/male_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user" style="margin-left: 8em;">
                             {% else %}

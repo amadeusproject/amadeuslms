@@ -62,6 +62,7 @@ function createForum(url, topic) {
 function setForumCreateFormSubmit(topic) {
     $('.date-picker').datepicker({
         language: locale,
+        startDate: "dateToday"
     });
 
     var frm = $('#forum_create');
@@ -73,6 +74,8 @@ function setForumCreateFormSubmit(topic) {
             dataType: "json",
             success: function (data) {
                 $(".topic_" + topic).find('.foruns_list').append("<li><i class='fa fa-commenting' aria-hidden='true'></i> <a id='forum_"+data.forum_id+"' href='"+data.url+"'> "+data.name+"</a></li>");
+
+                alertify.success(data.message);
 
                 $("#createForum").modal('hide');
             },
@@ -112,6 +115,7 @@ function editForum(url, forum, success_message) {
 function setForumUpdateFormSubmit(success_message) {
     $('.date-picker').datepicker({
         language: locale,
+        startDate: "dateToday"
     });
 
     var frm = $('#forum_create');
@@ -221,6 +225,8 @@ function delete_post(url, post) {
         },
         url: url, 
         success: function(data) {
+            alertify.success(data);
+
             $("#post_"+post).remove();
         }
     });

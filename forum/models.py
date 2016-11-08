@@ -6,6 +6,8 @@ from autoslug.fields import AutoSlugField
 from courses.models import Activity
 from users.models import User
 
+from datetime import date
+
 """
 It's one kind of activity available for a Topic.
 It works like a 'topic' of forum, which users can post to it and answer posts of it.
@@ -22,6 +24,11 @@ class Forum(Activity):
 
 	def __str__(self):
 		return self.name
+
+	def is_closed(self):
+		today = date.today()
+
+		return self.limit_date < today
 
 	
 """

@@ -8,11 +8,11 @@
 {% block breadcrumbs %}
 	{% if user|has_role:'system_admin' %}
 		{{ block.super }}
-    	{% breadcrumb 'Update User' 'users:update' %}	
+    	{% breadcrumb 'Update User' 'users:update' %}
 	{% else %}
 		{{ block.super }}
 		{% breadcrumb 'Update Profile' 'users:update' %}
-	{% endif %}  	
+	{% endif %}
 
 {% endblock %}
 
@@ -28,7 +28,6 @@
 			</div>
 		{% endfor %}
 	{% endif %}
-
 	<div class="card mg-b-5m">
 		<div class="card-content">
 			<div class="card-body">
@@ -57,7 +56,7 @@
 
                 			{% elif field.auto_id == 'id_phone' %}
                 				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
-							
+
 							{% elif field.auto_id == 'id_year_titration' %}
 								{% render_field field class='form-control' onkeypress='campoNumerico(this,event);' %}
 

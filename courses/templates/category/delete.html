@@ -1,7 +1,7 @@
 {% load static i18n permission_tags %}
 
 <!-- Modal (remember to change the ids!!!) -->
-<div class="modal fade" id="category" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="course" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <!-- Modal Header -->
@@ -12,22 +12,22 @@
       <!-- Modal Body -->
       <div class="modal-body">
         <!-- Put ONLY your content here!!!  -->
-		<form id="delete_form" action="" method="post">
-		  {% csrf_token %}
-		    <p>{% trans 'Are you sure you want to delete the subject' %} "{{category.name}}"?</p>
-		</form>
+    <form id="delete_form" action="" method="post">
+      {% csrf_token %}
+        <p>{% trans 'Are you sure you want to delete the category' %} "{{category.name}}"?</p>
+    </form>
       </div>
       <!-- Modal Footer -->
       <div class="modal-footer">
         <!-- Don't remove that!!!  -->
         <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
         <button type="submit" id="button" form="delete_form" class="btn btn-primary btn-raised">{% trans "Delete" %}</button>
-		<script>
-		  $("#delete_form").submit(function(event) {
-		    Submite.remove("{% url 'course:delete_cat' category.slug %}",$(this).serialize(),"#category_{{category.slug}}");
-		    event.preventDefault();
-		  });
-		</script>
+    <script>
+      $("#delete_form").submit(function(event) {
+        Subimite.remove("{% url 'course:delete_cat' category.slug %}",$(this).serialize(),"#category_{{category.slug}}");
+        event.preventDefault();
+      });
+    </script>
       </div>
     </div>
   </div>

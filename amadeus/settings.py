@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_bootstrap_breadcrumbs',
     's3direct',
+    'django_summernote',
 
     'users',
     'core',
@@ -71,6 +72,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
 
+    'core.middleware.TimeSpentMiddleware',
     #libs-middleware
 
 ]
@@ -203,7 +205,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'amadeusteste@gmail.com'
 EMAIL_HOST_PASSWORD = 'amadeusteste'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# SMTP CONFIG
+# EMAIL_BACKEND = 'core.smtp.AmadeusEmailBackend'
 
 #s3direct
 
@@ -224,6 +227,58 @@ S3DIRECT_DESTINATIONS = {
 
 # FILE UPLOAD
 MAX_UPLOAD_SIZE = 10485760
+
+SUMMERNOTE_CONFIG = {
+    # Using SummernoteWidget - iframe mode
+    'iframe': True,  # or set False to use SummernoteInplaceWidget - no iframe mode
+
+    # Using Summernote Air-mode
+    'airMode': False,
+
+    # Use native HTML tags (`<b>`, `<i>`, ...) instead of style attributes
+    # (Firefox, Chrome only)
+    'styleWithTags': True,
+
+    # Set text direction : 'left to right' is default.
+    'direction': 'ltr',
+
+    # Change editor size
+    'width': '100%',
+    'height': '480',
+
+    # Use proper language setting automatically (default)
+    'lang': None,
+
+    # Or, set editor language/locale forcely
+    'lang_matches': {
+        'pt': 'pt-BR',
+        },
+
+    # Customize toolbar buttons
+        'toolbar': [
+        ['style', ['style']],
+        ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript',
+                  'strikethrough', 'clear']],
+        ['fontname', ['fontname']],
+        ['fontsize', ['fontsize']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['height', ['height']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video', 'hr']],
+        ['view', ['fullscreen', 'codeview']],
+        ['help', ['help']],
+    ],
+
+    # Need authentication while uploading attachments.
+    'attachment_require_authentication': True,
+
+    # Set `upload_to` function for attachments.
+    #'attachment_upload_to': my_custom_upload_to_func(),
+
+    
+
+}
 
 try:
     from .local_settings import *

@@ -28,6 +28,7 @@ urlpatterns = [
 
     #S3Direct
     url(r'^s3direct/', include('s3direct.urls')),
+    url(r'^summernote/', include('django_summernote.urls')),
 ]
 
 if settings.DEBUG:

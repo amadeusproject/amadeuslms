@@ -437,3 +437,20 @@ ul, li {
 .nav-pills > li > a {
   border-radius: 0px;
 }
+
+.float-button{
+  float: right;
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  font-size: 20px;
+}
+
+/* === Amadeus settings*/
+#panel2 .form-group{
+  margin: 0;
+}
+
+#panel2 .col-md-2, #panel2 .col-md-10{
+  padding-left: 0;
+}

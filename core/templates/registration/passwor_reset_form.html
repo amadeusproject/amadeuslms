@@ -36,17 +36,25 @@
 					<div class="col-md-12 col-xs-12 col-lg-10 col-lg-offset-1 col-sm-12">
 						{% csrf_token %}
 						<div class="form-group is-empty">
-		       			<label for="inputEmail" class="ccontrol-label"> {% trans 'E-mail' %}</label>
+		       					<label for="inputEmail" class="ccontrol-label"> {% trans 'E-mail' %}</label>
 							<input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" {% if email %}value="{{form.email}}"{% endif %}>
-	       			</div>
-	       			<div class="form-group send-reset-email">
-							<button type="submite" class="btn btn-raised btn-primary ">{% trans 'Send' %}</button>
-						</div>
-						<div class="form-group">
-							<a href="{% url 'core:home' %}" class="btn btn-default btn-raised" >{% trans 'Back' %}</a>
-						</div>
+	       					</div>
+	       					<div class="row">
+	       						<div class="col-md-6">
+	       							<div class="form-group send-reset-email">
+			       						<a href="#" type="submite" class="btn btn-raised btn-primary">{% trans 'Send' %}</a>
+								</div>
+	       						</div>
+	       						<div class="col-md-6">
+								<div class="form-group">
+									<a href="{% url 'core:home' %}" class="btn btn-default btn-raised" >{% trans 'Back' %}</a>
+								</div>
+	       						</div>
+
+	       					</div>
+
 					</div>
-       		</form>
+       				</form>
 			</div>
 		</div>
 	</div>

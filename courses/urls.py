@@ -6,6 +6,7 @@ urlpatterns = [
 	url(r'^all-courses/$', views.AllCoursesView.as_view(), name='all_courses'),
 	url(r'^create/$', views.CreateCourseView.as_view(), name='create'),
 	url(r'^replicate_course/(?P<slug>[\w_-]+)/$', views.ReplicateCourseView.as_view(), name='replicate_course'),
+	url(r'^replicate_subject/(?P<slug>[\w_-]+)/$', views.ReplicateSubjectView.as_view(), name='replicate_subject'),
 	url(r'^edit/(?P<slug>[\w_-]+)/$', views.UpdateCourseView.as_view(), name='update'),
 	url(r'^delete/(?P<slug>[\w_-]+)/$', views.DeleteCourseView.as_view(), name='delete'),
 	url(r'^subscribe/(?P<slug>[\w_-]+)/$', views.subscribe_course, name='subscribe'),

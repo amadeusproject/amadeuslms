@@ -9,6 +9,8 @@
 
 {% block javascript %}
   <script type="text/javascript" src="{% static 'js/course.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/modal_subject.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/topic_editation_presentation.js' %}"></script>
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -29,7 +31,24 @@
                 <li><a href="{% url 'core:home' %}">{% trans "Home" %}</a></li>
                 <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                 <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
-                <li><a href="{% url 'core:guest' %}">{% trans 'All Courses' %}</a></li>
+                <li><a href="{% url 'course:all_courses' %}">{% trans 'All Courses' %}</a></li>
+                <li><a href="{% url 'core:guest' %}">{% trans 'Courses' %}</a></li>
+                {# <li><a href="{% url 'course:participants' %}">{% trans 'Participants' %}</a></li> #}
+                {% if user|has_role:'system_admin' %}
+                    <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
+                {% endif %}
+                {% if user|has_role:'system_admin' or user|has_role:'professor' %}
+                    <li>
+                        <a href="#courses_list" class="accordion" data-toggle="collapse">{% trans 'Manage Courses' %}</a>
+                        <div id="courses_list" class="collapse">
+                            <ul class="nav nav-pill nav-stacked accordion_list">
+                            {% for course in courses_list %}
+                                <li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -55,20 +74,19 @@
     <div class="panel panel-info">
       <div class="panel-heading course-detail">
         <div class="row">
-          <div class="col-xs-8 col-md-4 .titleTopic-detail">
+          <div class="col-xs-8 col-md-11 .titleTopic-detail">
             <h4>{{course.name}}</h4>
           </div>
-          {% if user|has_role:'professor' and user in course.professors or user|has_role:'system_admin' %}
-            <div class="col-xs-4 col-md-8" id="divMoreActions">
+          {% if user|has_role:'professor' or user|has_role:'system_admin' %}
+            <div class="col-xs-4 col-md-1" id="divMoreActions">
               <div class="btn-group">
                 <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
                 <div class="ripple-container"></div></button>
-                <ul class="dropdown-menu" aria-labelledby="moreActions">
-                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createSubject"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp; {% trans "Create Subject" %}</a></li>
-                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
+                <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                  <li><a href="{% url 'course:replicate_course' course.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
                   <li><a href="{% url 'course:update' course.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
-                  <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
+                  <li><a href="javascript:javascript:delete_course('{% url 'course:delete' course.slug %}', '{{ course.slug }}', '{% trans "Are you sure you want to delete this course?" %}', '{% url 'course:manage' %}')" data-toggle="modal" data-target="#myModal2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
                 </ul>
               </div>
             </div>
@@ -81,7 +99,7 @@
       <p>
         <b>{% trans 'Description' %}:</b>
         <i>
-          {{ course.objectivies }}
+          {{ course.objectivies |safe }}
         </i>
       </p>
 
@@ -112,27 +130,6 @@
 
   <div class="panel panel-info">
 </div>
-
-
-<!-- MODAL REMOVE -->
-<div class="modal" id="removeSubject">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-        <h4 class="modal-title"></h4>
-      </div>
-      <div class="modal-body">
-        <p>{% trans "Are you sure you want to remove this subject?" %}</p>
-      </div>
-      <div class="modal-footer">
-
-        <a href="http://127.0.0.1:8080/html/screens/users/teacher/home_course_teacher.html" target="_self"><button type="button" class="btn btn-primary">{% trans "Confirm" %}</button></a>
-
-      </div>
-    </div>
-  </div>
-</div>
 </div>
 <div class="cards-detail">
     {% for subject in subjects %}
@@ -142,20 +139,20 @@
                 <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{subject.slug}}" href=".collapseSubject-{{subject.slug}}" aria-expanded="false" aria-controls="collapseSubject-{{subject.slug}}">
                   <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
                 </div>
-                <div class="col-xs-9 col-md-4 titleTopic">
+                <div class="col-xs-9 col-md-10 titleTopic">
                   <a role="button" href="{% url 'course:view_subject' subject.slug %}">
                     <h4>{{subject.name}}</h4>
                   </a>
                 </div>
-                {% if user|has_role:'professor' and user in subject.professors or user|has_role:'system_admin' %}
-                  <div class="col-xs-3 col-md-6" id="divMoreActions">
+                {% if user|has_role:'professor' or user|has_role:'system_admin' %}
+                  <div class="col-xs-3 col-md-1" id="divMoreActions">
                     <div class="btn-group">
                       <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
                       </button>
-                      <ul class="dropdown-menu" aria-labelledby="moreActions">
-                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans 'Replicate' %}</a></li>
-                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeSubject2"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans 'Remove' %}</a></li>
+                      <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                        <li><a href="{% url 'course:replicate_subject' subject.slug %}" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans 'Replicate' %}</a></li>
+                        <li><a href="javascript:delete_subject.get('{% url 'course:delete_subject' subject.slug %}','#subject','#modal_subject')" data-toggle="modal" data-target="#removeSubject"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans 'Remove' %}</a></li>
                       </ul>
                     </div>
                   </div>
@@ -178,7 +175,7 @@
               <p>
                 <b>{% trans "Description" %}: </b>
                 <i>
-                  {{subject.description}}
+                  {{subject.description | safe}}
                 </i>
               </p>
               <div class="row">
@@ -202,29 +199,9 @@
   </div>
 {% endif %}
 
-<!-- MODAL REMOVE -->
-  <div class="modal" id="removeSubject2">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-          <h4 class="modal-title"></h4>
-        </div>
-        <div class="modal-body">
-          <p> {% trans "Are you sure you want to remove this subject?" %}</p>
-        </div>
-        <div class="modal-footer">
-
-          <a href="http://127.0.0.1:8080/html/screens/users/teacher/home_course_teacher.html" target="_self"><button type="button" class="btn btn-primary">{% trans "Confirm" %}</button></a>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-
 </div>
 </div>
 </div>
+<div class="row" id="modal_subject">
 
 {% endblock %}

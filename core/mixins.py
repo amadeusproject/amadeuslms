@@ -1,23 +1,27 @@
 from django.conf import settings
+import json
+
 from .models import Action, Resource, Action_Resource, Log, Notification
 from users.models import User
 
 class LogMixin(object):
+	log_component = ""
+	log_context = {}
 	log_action = ""
 	log_resource = ""
 
-	def dispatch(self, request, *args, **kwargs):
-		action = Action.objects.filter(name = self.log_action)
-		resource = Resource.objects.filter(name = self.log_resource)
+	def createLog(self, actor = None, component = '', log_action = '', log_resource = '', context = {}):
+		action = Action.objects.filter(name = log_action)
+		resource = Resource.objects.filter(name = log_resource)
 
 		if not action:
-			action = Action(name = self.log_action)
+			action = Action(name = log_action)
 			action.save()
 		else:
 			action = action[0]
 
 		if not resource:
-			resource = Resource(name = self.log_resource)
+			resource = Resource(name = log_resource)
 			resource.save()
 		else:
 			resource = resource[0]
@@ -31,11 +35,14 @@ class LogMixin(object):
 			action_resource = action_resource[0]
 
 		log = Log()
-		log.user = request.user
+		log.user = actor
+		log.context = json.dumps(context)
+		log.component = component
 		log.action_resource = action_resource
 
 		log.save()
 
+	def dispatch(self, request, *args, **kwargs):
 		return super(LogMixin, self).dispatch(request, *args, **kwargs)
 
 class NotificationMixin(object):
