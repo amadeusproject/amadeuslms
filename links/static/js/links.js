@@ -4,5 +4,4 @@ function get_modal_link(url, id,div_content){
         $(div_content).append(data);
         $(id).modal('show');
     });
-
 }

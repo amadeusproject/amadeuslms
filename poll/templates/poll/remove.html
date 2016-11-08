@@ -10,15 +10,15 @@
 {% block content_poll %}
 <script src="{% static 'js/modal_poll.js' %}"></script>
 <!-- Put ONLY your content here!!!  -->
-<form id="delete_form" action="" method="post">
+<form id="delete_poll" action="" method="post">
   {% csrf_token %}
     <p>{% trans 'Are you sure you want to delete the subject' %} "{{poll.name}}"?</p>
 </form>
 {% endblock content_poll %}
 {% block button_save %}
-<button type="submite" id="button" form="delete_form" class="btn btn-primary btn-raised">{% trans "Delete" %}</button>
+<button type="submite" id="button" form="delete_poll" class="btn btn-primary btn-raised">{% trans "Delete" %}</button>
 <script>
-  $("#delete_form").submit(function(event) {
+  $("#delete_poll").submit(function(event) {
     Submite.remove("{% url 'course:poll:delete_poll' poll.slug %}",$(this).serialize(),"#poll_{{poll.slug}}");
     event.preventDefault();
   });

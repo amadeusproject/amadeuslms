@@ -31,6 +31,17 @@ def list_topic_poll(request, topic):
 
     return context
 
+@register.inclusion_tag('subject/poll_item_actions_teacher.html')
+def list_topic_poll_teacher(request, topic):
+    context = {
+        'request': request,
+    }
+
+    context['polls'] = Poll.objects.filter(topic = topic)
+    context['topic'] = topic
+
+    return context
+
 @register.inclusion_tag('topic/list_file.html')
 def list_topic_file(request, topic):
     context = {
