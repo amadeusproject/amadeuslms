@@ -1,4 +1,4 @@
-// 
+//
 // //controles do modal
 // $(window).ready(function() { // utilizado para abrir o modal quando tiver tido algum erro no preenchimento do formulario
 //   if($('.not_submited').length){
@@ -38,7 +38,8 @@ var Submite = {
           }
         });
         $("#requisicoes_ajax").empty();
-        alertify.alert('Link successfully created!');
+        alertify.alert('Poll successfully created!');
+        $("div.modal-backdrop.fade.in").remove();
       }).fail(function(data){
         $("div.modal-backdrop.fade.in").remove();
         $("#requisicoes_ajax").empty();
@@ -49,12 +50,9 @@ var Submite = {
   update: function(url,dados, slug_poll, slug_topic){
     $('#poll').modal('hide');
       $.post(url,dados, function(data){
-        $('#list-topic-'+ slug_topic +'-poll #'+slug_poll).remove();
-        $('#list-topic-'+ slug_topic +'-poll #'+slug_poll).remove();
-        $('#list-topic-'+ slug_topic +'-poll').append(data);
-        $('#list-topic-'+ slug_topic +'-poll-edit').append(data);
-        $("#requisicoes_ajax").empty();
-        alertify.alert('Link successfully updated!')
+        $('#list-topic-'+ slug_topic +'-poll #'+slug_poll).replaceWith(data);
+        $('#list-topic-'+ slug_topic +'-poll #'+slug_poll).replaceWith(data);
+        alertify.alert('Poll successfully updated!')
       }).fail(function(data){
         $("div.modal-backdrop.fade.in").remove();
         $("#requisicoes_ajax").empty();

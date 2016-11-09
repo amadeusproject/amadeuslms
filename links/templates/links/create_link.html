@@ -45,6 +45,7 @@
     {# // <script src="{% static 'js/links.js' %}"></script> #}
     <script type="text/javascript">
       $("#form-link").submit(function(event) {
+            $("#createLinksModal").modal("hide");
             var data = new FormData($('#form-link').get(0));
             $.ajax({
                 url: "{% url 'course:links:create_link' topic.slug %}",
@@ -54,15 +55,16 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
-                    $('#createLinksModal').modal('hide');
+                    $('#requisicoes_ajax').empty();
                     $('#list-topic{{ topic.id }}-links').append(data);
                     $('#list-topic{{ topic.id }}-links-edit').append(data);
                     alertify.alert('Link successfully created!')
                 },
                 error: function(data){
-                    $('.erro').html(data.responseText);
-                    $('.modal-backdrop').remove();
-                    $('#createLinksModal').modal();
+                    $("div.modal-backdrop.fade.in").remove();
+                    $('#requisicoes_ajax').empty();
+                    $('#requisicoes_ajax').append(data.responseText);
+                    $('#createLinksModal').modal('show');
                     alertify.alert('Invalid link, insert a valid one!');
                 }
             });

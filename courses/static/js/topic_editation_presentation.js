@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
     $(".editation").hide();
 });
@@ -10,5 +11,3 @@ function show_presentation(id_topic){
     $(".editation_"+ id_topic).hide();
     $(".presentation_"+ id_topic).show();
 };
-
-
