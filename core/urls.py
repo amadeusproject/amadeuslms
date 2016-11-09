@@ -2,14 +2,18 @@ from django.conf.urls import url, include
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import password_reset, password_reset_done,password_reset_confirm, password_reset_complete
 from . import views
+
+#API IMPORTS
 from rest_framework import routers
 
 from users.views import UserViewSet
+from courses.views import CourseViewSet
 
 #API CODE
 router = routers.DefaultRouter()
 router.register(r'logs', views.LogViewSet)
 router.register(r'usersapi', UserViewSet)
+router.register(r'coursesapi', CourseViewSet)
 
 urlpatterns = [
 	url(r'^$', views.login, name='home'),

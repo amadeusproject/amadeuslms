@@ -26,6 +26,10 @@ from django.urls import reverse
 
 from datetime import date, datetime
 
+#API IMPORTS
+from rest_framework import viewsets, permissions
+from .serializers import *
+
 class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 
 	login_url = reverse_lazy("core:home")
@@ -1009,3 +1013,7 @@ class FileMaterialView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
 
 #API VIEWS
+class CourseViewSet(viewsets.ModelViewSet):
+	queryset = Course.objects.all()
+	serializer_class = CourseSerializer
+	permissions_clas = (permissions.IsAuthenticatedOrReadOnly)
