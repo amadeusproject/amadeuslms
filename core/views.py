@@ -20,7 +20,6 @@ from rest_framework import status, serializers, permissions, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-
 from .forms import RegisterUserForm
 from .decorators import log_decorator, notification_decorator
 
