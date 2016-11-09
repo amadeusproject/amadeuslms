@@ -20,6 +20,10 @@ from files.models import *
 from exam.models import *
 from courses.models import *
 
+#API IMPORTS
+from rest_framework import viewsets
+from .serializers import UserSerializer
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 # ================ ADMIN =======================
 class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
@@ -231,3 +235,12 @@ class SearchView(LoginRequiredMixin, generic.ListView):
 		context['qtd'] = qtd
 
 		return context
+
+
+# API VIEWS
+
+class UserViewSet(viewsets.ModelViewSet):
+	queryset = User.objects.all()
+	serializer_class = UserSerializer
+	permissions_classes = (IsAuthenticatedOrReadOnly,)
+

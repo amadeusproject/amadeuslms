@@ -1006,3 +1006,6 @@ class FileMaterialView(LoginRequiredMixin, LogMixin, generic.DetailView):
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
 		return super(FileMaterialView, self).dispatch(*args, **kwargs)
+
+
+#API VIEWS

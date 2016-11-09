@@ -4,9 +4,13 @@ from django.contrib.auth.views import password_reset, password_reset_done,passwo
 from . import views
 from rest_framework import routers
 
+from users.views import UserViewSet
 
+#API CODE
 router = routers.DefaultRouter()
 router.register(r'logs', views.LogViewSet)
+router.register(r'usersapi', UserViewSet)
+
 urlpatterns = [
 	url(r'^$', views.login, name='home'),
 	url(r'^register/$', views.RegisterUser.as_view(), name='register'),
