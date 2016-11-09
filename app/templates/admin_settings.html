@@ -19,10 +19,19 @@
 	<!-- Nav tabs -->
 	<ul class="nav nav-tabs md-pills pills-ins" role="tablist">
 	    <li class="nav-item">
-	        <a class="nav-link active" data-toggle="tab" href="#panel1" role="tab"><i class="fa fa-cog"></i> {% trans "System" %}</a>
-	    </li>
+    	{% if form.errors %}
+    		<a class="nav-link" data-toggle="tab" href="#panel1" role="tab"><i class="fa fa-cog"></i> {% trans "System" %}</a>
+		</li>
 	    <li class="nav-item">
-	        <a class="nav-link" data-toggle="tab" href="#panel2" role="tab"><i class="fa fa-envelope"></i> {% trans "Mail Sender" %}</a>
+	        <a class="nav-link active" data-toggle="tab" href="#panel2" role="tab"><i class="fa fa-envelope"></i> {% trans "Mail Sender" %}</a>	
+    	</li>
+    	{% else %}
+	        <a class="nav-link active" data-toggle="tab" href="#panel1" role="tab"><i class="fa fa-cog"></i> {% trans "System" %}</a>
+		</li>
+	    <li class="nav-item">
+	        <a class="nav-link" data-toggle="tab" href="#panel2" role="tab"><i class="fa fa-envelope"></i> {% trans "Mail Sender" %}</a>	
+    	</li>	
+        {% endif %}
 	    </li>
 	    <li class="nav-item">
 	        <a class="nav-link" data-toggle="tab" href="#panel3" role="tab"><i class="fa fa-lock"></i> {% trans "Security" %}</a>
