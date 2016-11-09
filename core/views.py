@@ -140,15 +140,6 @@ class GuestView (ListView):
 
 
 #REST API VIEWS
-@login_required
-@api_view(['GET'])
-def get_log(request):
-	if request.method == 'GET':
-		logs = Log.objects.all()
-		serializer = LogSerializer(logs, many=True)
-		return Response(serializer.data)
-
-
 class LogViewSet(viewsets.ModelViewSet):
 	permission_classes = [permissions.IsAuthenticated]
 	queryset = Log.objects.all()
