@@ -81,7 +81,6 @@ class AmadeusSettings(LoginRequiredMixin, HasRoleMixin, generic.CreateView):
 				context['form'] = EmailBackendForm(instance = setting)
 			except:
 				pass
-		print(context['form'])
 		return context
 
 
