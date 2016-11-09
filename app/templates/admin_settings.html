@@ -59,7 +59,11 @@
 		                		<h4><b>{% trans "Settings" %}</b></b></h4>
 	                			<hr>
 			                	<div class="form-group label-floating">
-			                  		<label class="control-label" for="{{ form.description.auto_id }}">{{ form.description.label }}</label>
+			                		{% if form.description.field.required %}
+			                			<label class="control-label" for="{{ form.description.auto_id }}">{{ form.description.label }}<span>*</span></label>	
+			                		{% else %}
+			                  			<label class="control-label" for="{{ form.description.auto_id }}">{{ form.description.label }}</label>
+			                  		{% endif %}
 			                  		{% render_field form.description class='form-control' %}
 			                	</div>
 			                	{% if form.description.errors %}
@@ -75,7 +79,11 @@
                                     </div>
                                 {% endif %}
 			                	<div class="form-group label-floating">
-			                  		<label class="control-label" for="{{ form.host.auto_id }}">{{ form.host.label }}</label>
+			                  		{% if form.host.field.required %}
+			                			<label class="control-label" for="{{ form.host.auto_id }}">{{ form.host.label }}<span>*</span></label>	
+			                		{% else %}
+			                  			<label class="control-label" for="{{ form.host.auto_id }}">{{ form.host.label }}</label>
+			                  		{% endif %}
 			                  		{% render_field form.host class='form-control' %}
 			                	</div>
 			                	{% if form.host.errors %}
@@ -91,7 +99,11 @@
                                     </div>
                                 {% endif %}
 			                	<div class="form-group label-floating">
-			                  		<label for="{{ form.port.auto_id }}" class="control-label">{{ form.port.label }}</label>
+			                  		{% if form.port.field.required %}
+			                			<label class="control-label" for="{{ form.port.auto_id }}">{{ form.port.label }}<span>*</span></label>	
+			                		{% else %}
+			                  			<label class="control-label" for="{{ form.port.auto_id }}">{{ form.port.label }}</label>
+			                  		{% endif %}
 			                  		<div class="col-md-2">
 			                    		{% render_field form.port class='form-control' onkeypress='campoNumerico(this,event);' %}
 			                  		</div>
@@ -120,7 +132,11 @@
 			                	<h4><b>{% trans "Security and authentication" %}</b></h4>
 			                	<hr>
 			                	<div class="form-group label-floating">
-			                  		<label class="control-label" for="{{ form.username.auto_id }}">{{ form.username.label }}</label>
+			                  		{% if form.username.field.required %}
+			                			<label class="control-label" for="{{ form.username.auto_id }}">{{ form.username.label }}<span>*</span></label>	
+			                		{% else %}
+			                  			<label class="control-label" for="{{ form.username.auto_id }}">{{ form.username.label }}</label>
+			                  		{% endif %}
 			                  		{% render_field form.username class='form-control' %}
 			                	</div>
 			                	{% if form.username.errors %}
@@ -136,7 +152,11 @@
                                     </div>
                                 {% endif %}
 			                	<div class="form-group label-floating">
-			                  		<label class="control-label" for="{{ form.password.auto_id }}">{{ form.password.label }}</label>
+			                  		{% if form.password.field.required %}
+			                			<label class="control-label" for="{{ form.password.auto_id }}">{{ form.password.label }}<span>*</span></label>	
+			                		{% else %}
+			                  			<label class="control-label" for="{{ form.password.auto_id }}">{{ form.password.label }}</label>
+			                  		{% endif %}
 			                  		{% render_field form.password type='password' class='form-control' %}
 			                	</div>
 			                	{% if form.password.errors %}
@@ -152,7 +172,11 @@
                                     </div>
                                 {% endif %}
                                 <div class="form-group label-floating">
-			                  		<label class="control-label" for="{{ form.default_from_email.auto_id }}">{{ form.default_from_email.label }}</label>
+			                  		{% if form.default_from_email.field.required %}
+			                			<label class="control-label" for="{{ form.default_from_email.auto_id }}">{{ form.default_from_email.label }}<span>*</span></label>	
+			                		{% else %}
+			                  			<label class="control-label" for="{{ form.default_from_email.auto_id }}">{{ form.default_from_email.label }}</label>
+			                  		{% endif %}
 			                  		{% render_field form.default_from_email class='form-control' %}
 			                	</div>
 			                	{% if form.default_from_email.errors %}
@@ -168,7 +192,11 @@
                                     </div>
                                 {% endif %}
 			                	<div class="form-group">
-			                  		<p><b>{{ form.safe.connection.label }}</b></p>
+			                		{% if form.safe_conection.fiel.required %}
+			                			<p><b>{{ form.safe_conection.label }}<span>*</span></b></p>	
+			                		{% else %}
+			                  			<p><b>{{ form.safe_conection.label }}</b></p>
+			                  		{% endif %}
 			                  		<div class="col-md-10">
 			                    		<div class="radio radio-primary">
 			                      			{% for value, text in form.safe_conection.field.choices %}
