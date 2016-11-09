@@ -215,7 +215,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':(
         'oauth2_provider.ext.rest_framework.OAuth2Authentication',),
     'DEFAULT_PERMISSION_CLASSES':(
-        'rest_framework.permissions.IsAuthenticated',)
+        'rest_framework.permissions.IsAuthenticated',),
+     'PAGE_SIZE': 10, #pagination purposes
 }
 
 OAUTH2_PROVIDER = {
