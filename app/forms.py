@@ -1,8 +1,14 @@
 from django import forms
+from django.core.validators import validate_email
 from .models import EmailBackend
 from django.utils.translation import ugettext_lazy as _
 
 class EmailBackendForm(forms.ModelForm):
+
+	def clean_default_from_email(self):
+		default_email = self.cleaned_data['default_from_email']
+		validate_email(default_email)
+		return default_email
 
 	class Meta:
 		model = EmailBackend
