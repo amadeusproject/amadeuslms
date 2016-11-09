@@ -38,7 +38,8 @@ def log_decorator(log_component = '', log_action = '', log_resource = ''):
 				log = Log()
 				log.user = request.user
 				log.component = log_component
-				log.context = json.dumps(request.log_context)
+				#log.context = json.dumps(request.log_context)
+				log.context = request.log_context
 				log.action_resource = action_resource
 
 				log.save()

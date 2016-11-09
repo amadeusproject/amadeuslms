@@ -26,13 +26,16 @@ class TimeSpentMiddleware(object):
 				secs = secs % 60
 
 				log_context = json.loads(log.context)
+				print(log.context)
 
-				log_context['time_spent'] = {}
-				log_context['time_spent']['hours'] = hours
-				log_context['time_spent']['minutes'] = minutes
-				log_context['time_spent']['seconds'] = secs
+				time = {}
+				time['hours'] = hours
+				time['minutes'] = minutes
+				time['seconds'] = secs
 
-				log.context = json.dumps(log_context)
+				log_context['time_spent'] = time
+				
+				log.context = log_context
 
 				log.save()
 
