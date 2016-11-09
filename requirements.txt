@@ -6,9 +6,11 @@ dj-database-url==0.4.1
 Django==1.10
 django-autoslug==1.9.3
 django-bootstrap-breadcrumbs==0.8
+django-braces==1.10.0
 django-discover-runner==1.0
 django-floppyforms==1.7.0
 django-modalview==0.1.5
+django-oauth-toolkit==0.10.0
 django-role-permissions==1.2.1
 django-s3direct==0.4.2
 django-summernote==0.8.6
@@ -19,10 +21,12 @@ gunicorn==19.6.0
 Jinja2==2.8
 lxml==3.6.4
 MarkupSafe==0.23
+oauthlib==1.0.3
 Pillow==3.3.1
 psycopg2==2.6.2
 pycpfcnpj==1.0.2
 requests==2.11.1
+six==1.10.0
 slugify==0.0.1
 validators==0.11.0
 Werkzeug==0.11.11
