@@ -49,4 +49,5 @@ coverage.xml
 
 angular_api
 logs/
-amadeus/upload/
+amadeus/uploads/
+links/static/images/

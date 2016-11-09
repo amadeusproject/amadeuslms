@@ -50,6 +50,7 @@
     {# // <script src="{% static 'js/links.js' %}"></script> #}
     <script type="text/javascript">
       $("#form-update-link").submit(function(event) {
+          $('#linksModalEdit').modal('hide');
             var data = new FormData($('#form-update-link').get(0));
             $.ajax({
                 url: "{% url 'course:links:update_link' link.slug %}",
@@ -59,14 +60,15 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
-                    $('#linksModalEdit').modal('hide');
+                    $('#requisicoes_ajax').empty();
                     $('#link_edit_{{ link.slug }}').replaceWith(data);
                     $('#link_{{ link.slug }}').replaceWith(data);
                     alertify.alert("Sucessfully Updated!")
                 },
                 error: function(data){
-                    $('.erro-update').html(data.responseText);
-                    $('.modal-backdrop').remove();
+                    $("div.modal-backdrop.fade.in").remove();
+                    $('#requisicoes_ajax').empty();
+                    $('#requisicoes_ajax').append(data.responseText);
                     $('#linksModalEdit').modal();
                     alertify.alert('Invalid link, insert a valid one!');
                 }
