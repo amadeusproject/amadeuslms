@@ -7,13 +7,15 @@ from . import views
 from rest_framework import routers
 
 from users.views import UserViewSet
-from courses.views import CourseViewSet
+from courses.views import CourseViewSet, TopicViewSet, SubjectViewSet
 
 #API CODE
 router = routers.DefaultRouter()
 router.register(r'logs', views.LogViewSet)
 router.register(r'usersapi', UserViewSet)
 router.register(r'coursesapi', CourseViewSet)
+router.register(r'topicsapi', TopicViewSet)
+router.register(r'subjectapi', SubjectViewSet)
 
 urlpatterns = [
 	url(r'^$', views.login, name='home'),

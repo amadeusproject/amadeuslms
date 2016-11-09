@@ -1016,4 +1016,16 @@ class FileMaterialView(LoginRequiredMixin, LogMixin, generic.DetailView):
 class CourseViewSet(viewsets.ModelViewSet):
 	queryset = Course.objects.all()
 	serializer_class = CourseSerializer
-	permissions_clas = (permissions.IsAuthenticatedOrReadOnly)
+	permissions_class = (permissions.IsAuthenticatedOrReadOnly)
+
+class SubjectViewSet(viewsets.ModelViewSet):
+	queryset = Subject.objects.all()
+	serializer_class = SubjectSerializer
+	permissions_class = (permissions.IsAuthenticatedOrReadOnly)
+
+
+class TopicViewSet(viewsets.ModelViewSet):
+	queryset = Topic.objects.all()
+	serializer_class = TopicSerializer
+	permissions_class = (permissions.IsAuthenticatedOrReadOnly)
+
