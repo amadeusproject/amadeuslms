@@ -19,7 +19,7 @@
 	<!-- Nav tabs -->
 	<ul class="nav nav-tabs md-pills pills-ins" role="tablist">
 	    <li class="nav-item">
-    	{% if form.errors %}
+    	{% if form.safe_conection.errors or form.host.errors or form.default_from_email.errors %}
     		<a class="nav-link" data-toggle="tab" href="#panel1" role="tab"><i class="fa fa-cog"></i> {% trans "System" %}</a>
 		</li>
 	    <li class="nav-item">
@@ -41,7 +41,11 @@
 	<!-- Tab panels -->
 	<div class="tab-content">
 	    <!--Panel 1-->
+	{% if form.errors %}
+	    <div class="tab-pane fade" id="panel1" role="tabpanel">	
+    {% else %}
 	    <div class="tab-pane fade in active" id="panel1" role="tabpanel">
+	{% endif %}
 	        <div class="panel panel-default">
 	          	<div class="panel-body">
 	            	<h3><b>{% trans "General" %}</b></h3>
@@ -57,7 +61,11 @@
 	    <!--/.Panel 1-->
 
 	    <!--Panel 2-->
+	{% if form.errors %}
+	    <div class="tab-pane fade in active" id="panel2" role="tabpanel">	
+    {% else %}
 	    <div class="tab-pane fade" id="panel2" role="tabpanel">
+	{% endif %}
 	      	<div class="panel panel-default">
     			<form class="form-horizontal" method="post">
     			{% csrf_token %}
@@ -223,13 +231,13 @@
 			                    		</div>
 			                  		</div>
 			                	</div>
-			                	{% if form.safe_connection.errors %}
+			                	{% if form.safe_conection.errors %}
                                     <div class="alert alert-danger alert-dismissible clearfix" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                         <ul>
-                                            {% for error in form.safe_connection.errors %}
+                                            {% for error in form.safe_conection.errors %}
                                                 <li>{{ error }}</li>
                                             {% endfor %}
                                         </ul>
@@ -237,7 +245,7 @@
                                 {% endif %}
 			            	</div>
 			          	</div>
-			          	<button type="submit" class="btn btn-success btn-raised">{% trans "Save changes" %}</button>
+			          	<button type="submit" class="btn btn-success btn-raised" name="submit-settings">{% trans "Save changes" %}</button>
 		        	</div>
 		        </form>
 	    	</div>
