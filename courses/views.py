@@ -345,10 +345,10 @@ class CourseView(LogMixin, NotificationMixin, generic.DetailView):
 		self.log_context['course_slug'] = course.slug
 		self.log_context['course_category_id'] = course.category.id
 		self.log_context['course_category_name'] = course.category.name
+		self.log_context['timestamp_start'] = str(datetime.now())
 
 		super(CourseView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		self.request.session['time_spent'] = str(datetime.now())
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
 		category_sub = self.kwargs.get('category', None)
@@ -552,10 +552,10 @@ class SubjectsView(LoginRequiredMixin, LogMixin, generic.ListView):
 		self.log_context['course_slug'] = subject.course.slug
 		self.log_context['course_category_id'] = subject.course.category.id
 		self.log_context['course_category_name'] = subject.course.category.name
+		self.log_context['timestamp_start'] = str(datetime.now())
 
 		super(SubjectsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		self.request.session['time_spent'] = str(datetime.now())
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
 		return super(SubjectsView, self).dispatch(*args, **kwargs)
@@ -657,10 +657,10 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
 		self.log_context['course_slug'] = topic.subject.course.slug
 		self.log_context['course_category_id'] = topic.subject.course.category.id
 		self.log_context['course_category_name'] = topic.subject.course.category.name
+		self.log_context['timestamp_start'] = str(datetime.now())
 
 		super(TopicsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		self.request.session['time_spent'] = str(datetime.now())
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
 		return super(TopicsView, self).dispatch(*args, **kwargs)
@@ -1003,10 +1003,10 @@ class FileMaterialView(LoginRequiredMixin, LogMixin, generic.DetailView):
 		self.log_context['course_slug'] = file.topic.subject.course.slug
 		self.log_context['course_category_id'] = file.topic.subject.course.category.id
 		self.log_context['course_category_name'] = file.topic.subject.course.category.name
+		self.log_context['timestamp_start'] = str(datetime.now())
 
 		super(FileMaterialView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		self.request.session['time_spent'] = str(datetime.now())
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
 		return super(FileMaterialView, self).dispatch(*args, **kwargs)

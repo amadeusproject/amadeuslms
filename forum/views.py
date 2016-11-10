@@ -229,10 +229,10 @@ class ForumDetailView(LoginRequiredMixin, LogMixin, generic.DetailView):
 		self.log_context['course_slug'] = forum.topic.subject.course.slug
 		self.log_context['course_category_id'] = forum.topic.subject.course.category.id
 		self.log_context['course_category_name'] = forum.topic.subject.course.category.name
+		self.log_context['timestamp_start'] = str(datetime.now())
 
 		super(ForumDetailView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		self.request.session['time_spent'] = str(datetime.datetime.now())
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
 		return super(ForumDetailView, self).dispatch(*args, **kwargs)

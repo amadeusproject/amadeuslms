@@ -244,6 +244,7 @@ class ViewLink(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.DetailView):
         self.log_context['course_slug'] = link.topic.subject.course.slug
         self.log_context['course_category_id'] = link.topic.subject.course.category.id
         self.log_context['course_category_name'] = link.topic.subject.course.category.name
+        self.log_context['timestamp_start'] = str(datetime.now())
 
         super(ViewLink, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
         

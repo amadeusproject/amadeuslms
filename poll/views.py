@@ -48,10 +48,10 @@ class ViewPoll(LoginRequiredMixin, LogMixin, generic.DetailView):
 		self.log_context['course_slug'] = poll.topic.subject.course.slug
 		self.log_context['course_category_id'] = poll.topic.subject.course.category.id
 		self.log_context['course_category_name'] = poll.topic.subject.course.category.name
+		self.log_context['timestamp_start'] = str(datetime.now())
 
 		super(ViewPoll, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		self.request.session['time_spent'] = str(datetime.datetime.now())
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
 		return poll
@@ -315,6 +315,7 @@ class AnswerStudentPoll(LoginRequiredMixin, LogMixin, generic.CreateView):
 	def dispatch(self, *args, **kwargs):
 		if self.request.method == 'GET':
 			self.request.session['time_spent'] = str(datetime.datetime.now())
+			self.log_context['timestamp_start'] = str(datetime.now())
 
 		return super(AnswerStudentPoll, self).dispatch(*args, **kwargs)
 
@@ -344,6 +345,7 @@ class AnswerStudentPoll(LoginRequiredMixin, LogMixin, generic.CreateView):
 		self.log_context['course_slug'] = poll.topic.subject.course.slug
 		self.log_context['course_category_id'] = poll.topic.subject.course.category.id
 		self.log_context['course_category_name'] = poll.topic.subject.course.category.name
+		self.log_context['timestamp_end'] = str(datetime.now())
 
 		date_time_click = datetime.datetime.strptime(self.request.session.get('time_spent'), "%Y-%m-%d %H:%M:%S.%f")
 		_now = datetime.datetime.now()
