@@ -15,18 +15,6 @@
 {% endblock %}
 
 {% block sidebar %}
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h5>{% trans 'Menu' %}</h5>
-        </div>
-        <div class="panel-body">
-            <ul class="nav nav-pills nav-stacked">
-                <li><a href="javascript:void(0)">{% trans 'Pending tasks' %}</a></li>
-                <li><a href="{% url 'course:create' %}">{% trans 'Create Course' %}</a></li>
-                <li><a href="{% url 'course:manage' %}">{% trans 'Manage Course' %}</a></li>
-            </ul>
-        </div>
-    </div>
 {% endblock %}
 
 {% block content %}
