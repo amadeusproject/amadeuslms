@@ -101,6 +101,7 @@
               <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
               <ul class="dropdown-menu" aria-labelledby="dLabel">
                 <li><a href="javascript:createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans 'Create Forum' %}</a></li>
+
                 <li><a href="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#requisicoes_ajax');">{% trans 'Create Poll' %}</a></li>
               </ul>
             </div>
@@ -121,6 +122,7 @@
               {% list_topic_foruns request topic %}
             </ul>
           </div>
+
         </div>
       </div>
 
