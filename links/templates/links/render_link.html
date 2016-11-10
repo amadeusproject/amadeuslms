@@ -1,1 +1,1 @@
-<li id="link_{{ link.slug }}"><i class="fa fa-link" aria-hidden="true"></i>  <a href="javascript:get_modal_link('{% url 'course:links:view_link' link.slug %}', '#viewLinkModal','#divModalLink')">{{link.name}}</a></li>
+<li id="link_{{ link.slug }}"><i class="fa fa-link" aria-hidden="true"></i>  <a href="javascript:modal.get('{% url 'course:links:view_link' link.slug %}', '#viewLinkModal','#requisicoes_ajax')">{{link.name}}</a></li>
