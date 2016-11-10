@@ -17,17 +17,16 @@ class TimeSpentMiddleware(object):
 
 				date_time_click = datetime.strptime(request.session.get('time_spent'), "%Y-%m-%d %H:%M:%S.%f")
 				_now = datetime.now()
-				
+
 				time_spent = _now - date_time_click
-				
+
 				secs = time_spent.total_seconds()
 				hours = int(secs / 3600)
 				minutes = int(secs / 60) % 60
 				secs = secs % 60
 
-				print(type(log.context) == 'str')
 
-				if type(log.context) == 'dist':
+				if type(log.context) == dict:
 					log_context = log.context
 				else:
 					log_context = json.loads(log.context)
@@ -38,11 +37,9 @@ class TimeSpentMiddleware(object):
 				time['seconds'] = secs
 
 				log_context['time_spent'] = time
-			
+
 				log.context = log_context
 
 				log.save()
 
 				request.session['log_id'] = None
-
-
