@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'home.html' %}
 
 {% load static i18n %}
 {% load static i18n permission_tags %}
@@ -12,17 +12,7 @@
 {% endblock %}
 
 {% block sidebar %}
-	<div class="panel panel-primary navigation">
-        <div class="panel-heading">
-            <h5>{% trans 'Menu' %}</h5>
-        </div>
-        <div class="panel-body">
-            <ul class="nav nav-pills nav-stacked">
-                <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
-                <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
-            </ul>
-        </div>
-    </div>
+{{block.super}}
 
 	{% if user|has_role:'professor' or user|has_role:'system_admin' %}
 
@@ -83,7 +73,7 @@
 						              </ul>
 						            </div>
 						        </div>
-					        
+
 					      </div>
 					    </div>
 					</div>
