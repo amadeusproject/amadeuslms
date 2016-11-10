@@ -10,6 +10,7 @@ from rolepermissions.verifications import has_role
 from rolepermissions.verifications import has_object_permission
 from django.db.models import Q
 from datetime import datetime
+import time
 # from django.views.generic.edit import FormMixin
 
 from .forms import ExamForm
@@ -59,7 +60,7 @@ class ViewExam(LoginRequiredMixin, LogMixin, generic.DetailView):
 		self.log_context['course_slug'] = exam.topic.subject.course.slug
 		self.log_context['course_category_id'] = exam.topic.subject.course.category.id
 		self.log_context['course_category_name'] = exam.topic.subject.course.category.name
-		self.request.session['time_spent'] = str(datetime.now())
+		self.request.session['time_spent'] = str(int(time.time()))
 
 		super(ViewExam, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
@@ -318,7 +319,7 @@ class AnswerStudentExam(LoginRequiredMixin, LogMixin, generic.CreateView):
 		minutes = int(secs / 60) % 60
 		secs = secs % 60
 
-		self.log_context['timestamp_end'] = str(datetime.now())
+		self.log_context['timestamp_end'] = str(int(time.time()))
 		self.log_context['time_spent'] = {}
 		self.log_context['time_spent']['hours'] = hours
 		self.log_context['time_spent']['minutes'] = minutes
@@ -347,7 +348,7 @@ class AnswerStudentExam(LoginRequiredMixin, LogMixin, generic.CreateView):
 		context['answers'] = answers
 		context['keys'] = keys
 
-		self.log_context['timestamp_start'] = str(datetime.now())
+		self.log_context['timestamp_start'] = str(int(time.time()))
 		self.request.session['time_spent'] = str(datetime.now())
 
 		return context

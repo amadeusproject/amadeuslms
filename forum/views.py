@@ -8,6 +8,7 @@ from django.core.paginator import Paginator, EmptyPage
 from django.http import Http404, JsonResponse
 from django.urls import reverse
 from django.template.loader import render_to_string
+import time
 
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.verifications import has_object_permission
@@ -229,7 +230,7 @@ class ForumDetailView(LoginRequiredMixin, LogMixin, generic.DetailView):
 		self.log_context['course_slug'] = forum.topic.subject.course.slug
 		self.log_context['course_category_id'] = forum.topic.subject.course.category.id
 		self.log_context['course_category_name'] = forum.topic.subject.course.category.name
-		self.log_context['timestamp_start'] = str(datetime.now())
+		self.log_context['timestamp_start'] = str(int(time.time()))
 
 		super(ForumDetailView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
