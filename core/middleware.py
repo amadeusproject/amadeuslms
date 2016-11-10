@@ -25,8 +25,12 @@ class TimeSpentMiddleware(object):
 				minutes = int(secs / 60) % 60
 				secs = secs % 60
 
-				log_context = json.loads(log.context)
-				print(log.context)
+				print(type(log.context) == 'str')
+
+				if type(log.context) == 'dist':
+					log_context = log.context
+				else:
+					log_context = json.loads(log.context)
 
 				time = {}
 				time['hours'] = hours
@@ -34,7 +38,7 @@ class TimeSpentMiddleware(object):
 				time['seconds'] = secs
 
 				log_context['time_spent'] = time
-				
+			
 				log.context = log_context
 
 				log.save()
