@@ -22,6 +22,9 @@
     position: absolute;
     left: 30%;
   }
+#btn-search{
+      margin-bottom: 0px;
+  }
 .user-notification-img{
   width:40%;
 }
