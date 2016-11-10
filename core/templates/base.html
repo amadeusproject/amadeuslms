@@ -127,7 +127,6 @@
 					                    <li><a href="{% url 'course:manage' %}">{% trans 'My courses' %}</a></li>
 					                    <li><a href="{% url 'core:all_courses' %}">{% trans 'All Courses' %}</a></li>
 					                {% endif %}
-					                    <li><a href="{% url 'core:guest' %}">{% trans 'Courses' %}</a></li>
 					                {% if user|has_role:'system_admin' %}
 					                    <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
 					                {% endif %}
