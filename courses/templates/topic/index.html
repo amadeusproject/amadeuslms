@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'home.html' %}
 
 {% load static i18n permission_tags professor_access %}
 
@@ -27,21 +27,7 @@
 {% endblock %}
 
 {% block sidebar %}
-
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h5>{% trans 'Menu' %}</h5>
-        </div>
-        <div class="panel-body">
-        	<ul class="nav nav-pills nav-stacked">
-              	<li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
-              	<li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
-            </ul>
-        </div>
-    </div>
-
-
-
+{{block.super}}
 {% endblock %}
 
 {% block content %}
