@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'home.html' %}
 
 {% load static i18n permission_tags professor_access %}
 
@@ -22,35 +22,7 @@
   </ol>
 {% endblock %}
 {% block sidebar %}
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      <h4>{% trans 'Menu' %}</h4>
-    </div>
-    <div class="panel-body">
-      <ul class="nav nav-pills nav-stacked">
-        {% if user|has_role:'student' or not user.is_staff %}
-        <li><a href="{% url 'course:manage' %}">{% trans 'My courses' %}</a></li>
-        <li><a href="{% url 'core:guest' %}">{% trans 'All Courses' %}</a></li>
-        {% endif %}
-        <li><a href="{% url 'core:guest' %}">{% trans 'Courses' %}</a></li>
-        {% if user|has_role:'system_admin' %}
-        <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
-        {% endif %}
-        {% if user|has_role:'system_admin' or user|has_role:'professor' %}
-        <li>
-          <a href="#courses_list" class="accordion" data-toggle="collapse">{% trans 'Manage Courses' %}</a>
-          <div id="courses_list" class="collapse">
-            <ul class="nav nav-pill nav-stacked accordion_list">
-              {% for course in courses_list %}
-              <li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
-              {% endfor %}
-            </ul>
-          </div>
-        </li>
-        {% endif %}
-      </ul>
-    </div>
-  </div>
+{{block.super}}
 
 
 {% endblock %}
