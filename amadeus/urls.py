@@ -25,7 +25,8 @@ urlpatterns = [
     url(r'^users/', include('users.urls', namespace = 'users')),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('core.urls', namespace = 'core')),
-
+    #API
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     #S3Direct
     url(r'^s3direct/', include('s3direct.urls')),
     url(r'^summernote/', include('django_summernote.urls')),

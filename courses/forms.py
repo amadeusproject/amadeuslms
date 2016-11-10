@@ -51,34 +51,37 @@ class CourseForm(forms.ModelForm):
 	class Meta:
 		model = Course
 		fields = ('name', 'objectivies', 'content', 'max_students', 'init_register_date', 'end_register_date',
-					'init_date', 'end_date', 'category',)
+					'init_date', 'end_date', 'category', 'coordenator')
 		labels = {
-			'name': _('Name'),
-			'objectivies': _('Objectives'),
-			'content': _('Content'),
-			'max_students': _('Number of studets maximum'),
-			'init_register_date': _('Course registration start date'),
-			'end_register_date': _('Course registration end date'),
-			'init_date': _('Course start date'),
-			'end_date': _('Course end date'),
-			'category': _('CourseCategory'),
+                            'name': _('Name'),
+                            'objectivies': _('Objectives'),
+                            'content': _('Content'),
+                            'max_students': _('Number of studets maximum'),
+                            'init_register_date': _('Course registration start date'),
+                            'end_register_date': _('Course registration end date'),
+                            'init_date': _('Course start date'),
+                            'end_date': _('Course end date'),
+                            'category': _('CourseCategory'),
+                            'coordenator': _('Coordenator'),
 		}
 		help_texts = {
-			'name': _('Course name'),
-			'objectivies': _('Course objective'),
-			'content': _('Course modules'),
-			'max_students': _('Max number of students that a class can have'),
-			'init_register_date': _('Date that starts the registration period of the course (dd/mm/yyyy)'),
-			'end_register_date': _('Date that ends the registration period of the course (dd/mm/yyyy)'),
-			'init_date': _('Date that the course starts (dd/mm/yyyy)'),
-			'end_date': _('Date that the course ends (dd/mm/yyyy)'),
-			'category': _('CourseCategory which the course belongs'),
+                            'name': _('Course name'),
+                            'objectivies': _('Course objective'),
+                            'content': _('Course modules'),
+                            'max_students': _('Max number of students that a class can have'),
+                            'init_register_date': _('Date that starts the registration period of the course (dd/mm/yyyy)'),
+                            'end_register_date': _('Date that ends the registration period of the course (dd/mm/yyyy)'),
+                            'init_date': _('Date that the course starts (dd/mm/yyyy)'),
+                            'end_date': _('Date that the course ends (dd/mm/yyyy)'),
+                            'category': _('CourseCategory which the course belongs'),
+                            'coordenator': _('Course Coordenator'),
 		}
 
 		widgets = {
-			'categoy': forms.Select(),
-			'objectivies': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
-			'content': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
+                            'categoy': forms.Select(),
+                            'coordenator': forms.Select(),
+                            'objectivies': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
+                            'content': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
 		}
 
 class UpdateCourseForm(CourseForm):
@@ -89,35 +92,38 @@ class UpdateCourseForm(CourseForm):
 	class Meta:
 		model = Course
 		fields = ('name', 'objectivies', 'content', 'max_students', 'init_register_date', 'end_register_date',
-					'init_date', 'end_date', 'category','students',)
+					'init_date', 'end_date', 'category','students', 'coordenator')
 		labels = {
-			'name': _('Name'),
-			'objectivies': _('Objectives'),
-			'content': _('Content'),
-			'max_students': _('Number of studets maximum'),
-			'init_register_date': _('Course registration start date'),
-			'end_register_date': _('Course registration end date'),
-			'init_date': _('Course start date'),
-			'end_date': _('Course end date'),
-			'category': _('CourseCategory'),
-			'students': _('Student'),
+                            'name': _('Name'),
+                            'objectivies': _('Objectives'),
+                            'content': _('Content'),
+                            'max_students': _('Number of studets maximum'),
+                            'init_register_date': _('Course registration start date'),
+                            'end_register_date': _('Course registration end date'),
+                            'init_date': _('Course start date'),
+                            'end_date': _('Course end date'),
+                            'category': _('CourseCategory'),
+                            'coordenator': _('Coordenator'),
+                            'students': _('Student'),
 		}
 		help_texts = {
-			'name': _('Course name'),
-			'objectivies': _('Course objective'),
-			'content': _('Course modules'),
-			'max_students': _('Max number of students that a class can have'),
-			'init_register_date': _('Date that starts the registration period of the course (dd/mm/yyyy)'),
-			'end_register_date': _('Date that ends the registration period of the course (dd/mm/yyyy)'),
-			'init_date': _('Date that the course starts (dd/mm/yyyy)'),
-			'end_date': _('Date that the course ends (dd/mm/yyyy)'),
-			'category': _('CourseCategory which the course belongs'),
-			'students': _("Course's Students"),
+                            'name': _('Course name'),
+                            'objectivies': _('Course objective'),
+                            'content': _('Course modules'),
+                            'max_students': _('Max number of students that a class can have'),
+                            'init_register_date': _('Date that starts the registration period of the course (dd/mm/yyyy)'),
+                            'end_register_date': _('Date that ends the registration period of the course (dd/mm/yyyy)'),
+                            'init_date': _('Date that the course starts (dd/mm/yyyy)'),
+                            'end_date': _('Date that the course ends (dd/mm/yyyy)'),
+                            'category': _('CourseCategory which the course belongs'),
+                            'coordenator': _('Course Coordenator'),
+                            'students': _("Course's Students"),
 		}
 		widgets = {
-			'categoy': forms.Select(),
-			'objectivies': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
-			'content': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
+                            'categoy': forms.Select(),
+                            'coordenator': forms.Select(),
+                            'objectivies': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
+                            'content': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
 		}
 
 class SubjectForm(forms.ModelForm):

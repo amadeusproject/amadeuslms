@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from users.models import User
 from autoslug.fields import AutoSlugField
+from django.contrib.postgres.fields import JSONField
 # Create your models here.
 
 class MimeType(models.Model):
@@ -102,7 +103,7 @@ class Notification(models.Model):
 
 class Log(models.Model):
     component = models.TextField(_('Component (Module / App)'))
-    context = models.TextField(_('Context'), blank = True)
+    context = JSONField(_('Context'), blank = True)
     action_resource = models.ForeignKey(Action_Resource, verbose_name = _('Action_Resource'))
     user = models.ForeignKey(User, verbose_name = _('Actor'))
     datetime = models.DateTimeField(_("Date and Time of action"), auto_now_add = True)

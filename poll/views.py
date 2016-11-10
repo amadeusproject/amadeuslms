@@ -10,6 +10,7 @@ from rolepermissions.verifications import has_role
 from rolepermissions.verifications import has_object_permission
 from django.db.models import Q
 from django.urls import reverse
+import time
 
 from .forms import PollForm
 from .models import Poll, Answer, AnswersStudent
@@ -19,6 +20,8 @@ from core.models import Log
 from courses.models import Course, Topic
 
 import datetime
+
+from django.http import JsonResponse
 
 class ViewPoll(LoginRequiredMixin, LogMixin, generic.DetailView):
 	log_component = "poll"
@@ -46,10 +49,10 @@ class ViewPoll(LoginRequiredMixin, LogMixin, generic.DetailView):
 		self.log_context['course_slug'] = poll.topic.subject.course.slug
 		self.log_context['course_category_id'] = poll.topic.subject.course.category.id
 		self.log_context['course_category_name'] = poll.topic.subject.course.category.name
+		self.log_context['timestamp_start'] = str(int(time.time()))
 
 		super(ViewPoll, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		self.request.session['time_spent'] = str(datetime.datetime.now())
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
 		return poll
@@ -96,7 +99,6 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin, LogMixin, NotificationMixin,ge
 		context.context_data['keys'] = keys
 		context.context_data['form'] = form
 		context.status_code = 400
-		s
 		return context
 
 	def form_valid(self, form):
@@ -107,7 +109,7 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin, LogMixin, NotificationMixin,ge
 		self.object.save()
 
 		super(CreatePoll, self).createNotification(message="created a Poll at "+ self.object.topic.name, actor=self.request.user,
-			resource_name=self.object.name, resource_link= reverse('course:view_topic', args=[self.object.topic.slug]), 
+			resource_name=self.object.name, resource_link= reverse('course:view_topic', args=[self.object.topic.slug]),
 			users=self.object.topic.subject.students.all())
 		for key in self.request.POST:
 			if(key != 'csrfmiddlewaretoken' and key != 'name' and key != 'limit_date' and key != 'all_students' and key != 'students'):
@@ -130,7 +132,14 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin, LogMixin, NotificationMixin,ge
 
 		super(CreatePoll, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		return self.render_to_response(self.get_context_data(form = form), status = 200)
+		return JsonResponse({"view":reverse_lazy('course:poll:render_poll_view', kwargs={'slug' : self.object.slug}),
+							"edit":reverse_lazy('course:poll:render_poll_edit', kwargs={'slug' : self.object.slug}),
+							})
+
+
+    # def get_success_url(self):
+    #     self.success_url = redirect('course:poll:render_poll', slug = self.object.slug)
+    #     return self.success_url
 
 	def get_context_data(self, **kwargs):
 		context = super(CreatePoll, self).get_context_data(**kwargs)
@@ -140,6 +149,20 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin, LogMixin, NotificationMixin,ge
 		context['subject'] = topic.subject
 		context['subjects'] = topic.subject.course.subjects.all()
 		return context
+
+def render_poll_view(request, slug):
+	template_name = 'poll/poll_view.html'
+	context = {
+		'poll': get_object_or_404(Poll, slug = slug)
+	}
+	return render(request, template_name, context)
+
+def render_poll_edit(request, slug):
+	template_name = 'poll/poll_edit.html'
+	context = {
+		'poll': get_object_or_404(Poll, slug = slug)
+	}
+	return render(request, template_name, context)
 
 class UpdatePoll(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.UpdateView):
 	log_component = "poll"
@@ -293,6 +316,7 @@ class AnswerStudentPoll(LoginRequiredMixin, LogMixin, generic.CreateView):
 	def dispatch(self, *args, **kwargs):
 		if self.request.method == 'GET':
 			self.request.session['time_spent'] = str(datetime.datetime.now())
+			self.log_context['timestamp_start'] = str(int(time.time()))
 
 		return super(AnswerStudentPoll, self).dispatch(*args, **kwargs)
 
@@ -322,12 +346,13 @@ class AnswerStudentPoll(LoginRequiredMixin, LogMixin, generic.CreateView):
 		self.log_context['course_slug'] = poll.topic.subject.course.slug
 		self.log_context['course_category_id'] = poll.topic.subject.course.category.id
 		self.log_context['course_category_name'] = poll.topic.subject.course.category.name
+		self.log_context['timestamp_end'] = str(int(time.time()))
 
 		date_time_click = datetime.datetime.strptime(self.request.session.get('time_spent'), "%Y-%m-%d %H:%M:%S.%f")
 		_now = datetime.datetime.now()
-		
+
 		time_spent = _now - date_time_click
-		
+
 		secs = time_spent.total_seconds()
 		hours = int(secs / 3600)
 		minutes = int(secs / 60) % 60

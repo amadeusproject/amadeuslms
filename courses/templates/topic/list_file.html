@@ -3,10 +3,10 @@
 	<div id="list-topic{{ topic.id }}-files">
 		{% for file in files %}
 	  		<li id="file_{{ file.slug }}"><i class="material-icons">{{ file.file_type.icon }}</i> <a href="{% url 'course:file_material_view' file.slug %}" target="_blank">{{ file.name }}</a></li>
-		{% endfor %}	
+		{% endfor %}
 	</div>
-	
 
-<div class="row" id="divModalFile">
 
-</div>
+{# <div class="row" id="divModalFile">#}
+
+{# </div>#}

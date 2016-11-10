@@ -75,11 +75,12 @@ class AmadeusSettings(LoginRequiredMixin, HasRoleMixin, generic.CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AmadeusSettings, self).get_context_data(**kwargs)
-		try:
-			setting = EmailBackend.objects.latest('id')
-			context['form'] = EmailBackendForm(instance = setting)
-		except:
-			pass
+		if not self.request.method == 'POST':
+			try:
+				setting = EmailBackend.objects.latest('id')
+				context['form'] = EmailBackendForm(instance = setting)
+			except:
+				pass
 		return context
 
 

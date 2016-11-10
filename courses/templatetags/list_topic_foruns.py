@@ -32,13 +32,14 @@ def list_topic_poll(request, topic):
 
     return context
 
-@register.inclusion_tag('subject/exam_item_actions.html')
-def list_topic_exam(request, topic):
+
+@register.inclusion_tag('subject/poll_item_actions_teacher.html')
+def list_topic_poll_teacher(request, topic):
     context = {
         'request': request,
     }
 
-    context['exams'] = Exam.objects.filter(topic = topic)
+    context['polls'] = Poll.objects.filter(topic = topic)
     context['topic'] = topic
 
     return context

@@ -1,4 +1,4 @@
-{# {% extends "topic/index.html" %} #}
+{% extends "home.html" %}
 
 {% load i18n widget_tweaks dict_access static%}
 
@@ -87,17 +87,15 @@
     </div>
   </div>
 </div>
-{% block script_exam %}
+
 <script type="text/javascript">
 
 var id = 1;
 $("#add_question").click(function(){
   $.get("{% url 'course:exam:true_or_false_question' %}", function(data){
-    // var teste = String(data);
-    // teste.replace("#radiosTF", "W3Schools");
-    // alert(teste);
+    
     $("#questions").append(data);
-    // $("#radiosTF").attr("id", "true_id_" + id);
+    
     $("#0").attr("id","true_" + id++);
   });
 });
@@ -133,8 +131,7 @@ $(function() {
 });
 
 </script>
-{% endblock script_exam %}
-{# <a href="" data-toggle="modal" data-target="#exam">modal</a> #}
 
 
-{# {% endblock content %} #}
+
+{% endblock content %}

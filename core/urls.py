@@ -3,6 +3,19 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import password_reset, password_reset_done,password_reset_confirm, password_reset_complete
 from . import views
 
+#API IMPORTS
+from rest_framework import routers
+
+from users.views import UserViewSet
+from courses.views import CourseViewSet, TopicViewSet, SubjectViewSet
+
+#API CODE
+router = routers.DefaultRouter()
+router.register(r'logs', views.LogViewSet)
+router.register(r'usersapi', UserViewSet)
+router.register(r'coursesapi', CourseViewSet)
+router.register(r'topicsapi', TopicViewSet)
+router.register(r'subjectapi', SubjectViewSet)
 
 urlpatterns = [
 	url(r'^$', views.login, name='home'),
@@ -14,7 +27,8 @@ urlpatterns = [
     url(r'^guest/$', views.GuestView.as_view(), name='guest'),
 
     #API REST
-    url(r'^logs/$', views.get_log),
+    url(r'^', include(router.urls)),
+    #url(r'^logs/$', views.get_log),
 
 #Reset Password
 
@@ -30,3 +44,5 @@ urlpatterns = [
 	url(r'^done/$', password_reset_complete,{'template_name':'registration/passwor_reset_complete.html'}),
 
 ]
+
+

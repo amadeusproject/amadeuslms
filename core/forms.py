@@ -16,7 +16,7 @@ class RegisterUserForm(forms.ModelForm):
 
     def validate_cpf(self, cpf):
         cpf = ''.join(re.findall('\d', str(cpf)))
-        
+
         if cpfcnpj.validate(cpf):
             return True
         return False
@@ -38,8 +38,8 @@ class RegisterUserForm(forms.ModelForm):
         cpf = self.cleaned_data['cpf']
         if User.objects.filter(cpf = cpf).exists():
             raise forms.ValidationError(_('There is already a registeres User with this CPF'))
-        if not self.validate_cpf(cpf):
-            raise forms.ValidationError(_('Please enter a valid CPF'))
+       # if not self.validate_cpf(cpf):
+       #   raise forms.ValidationError(_('Please enter a valid CPF'))
         return cpf
 
     def clean_password(self):
@@ -68,12 +68,12 @@ class RegisterUserForm(forms.ModelForm):
     def save(self, commit=True):
         super(RegisterUserForm, self).save(commit=False)
         self.instance.set_password(self.cleaned_data['password'])
-        
+
         self.instance.save()
         return self.instance
 
     class Meta:
         model = User
         # exclude = ['is_staff', 'is_active']
-        fields = ['username', 'name', 'email', 'city', 'state', 'gender', 'cpf', 'birth_date', 'phone', 'image', 'titration', 
+        fields = ['username', 'name', 'email', 'city', 'state', 'gender', 'cpf', 'birth_date', 'phone', 'image', 'titration',
         'year_titration', 'institution', 'curriculum',]

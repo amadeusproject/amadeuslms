@@ -2,11 +2,11 @@
 
 <div id="list-topic{{ topic.id }}-files-edit">
 	{% for file in files %}
-  		<li class="icon_edit_remove" id="file_edit_icon_{{ file.slug }}"> <a href="javascript:modal.get('{% url 'course:file:update_file' file.slug %}', '#fileUpdateModal', '#divModalFileUpdate')" ><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>  <a href="javascript:modal.get('{% url 'course:file:delete_file' file.slug %}', '#fileDeleteModal', '#divModalFileUpdate')"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></li>
+  		<li class="icon_edit_remove" id="file_edit_icon_{{ file.slug }}"> <a href="javascript:modal.get('{% url 'course:file:update_file' file.slug %}', '#fileUpdateModal', '#requisicoes_ajax')" ><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>  <a href="javascript:modal.get('{% url 'course:file:delete_file' file.slug %}', '#fileDeleteModal', '#requisicoes_ajax')"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></li>
   		<li id="file_edit_{{ file.slug }}"><i class="material-icons">{{ file.file_type.icon }}</i> <a href="{{ file.file_url.url }}" target="_blank">{{ file.name }}</a></li>
 	{% endfor %}
 </div>
 
-<div class="row" id="divModalFileUpdate">
+{# <div class="row" id="divModalFileUpdate">#}
 
-</div>
+{# </div>#}

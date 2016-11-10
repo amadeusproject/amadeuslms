@@ -9,15 +9,22 @@ from django.utils.translation import ugettext_lazy as _
 from rolepermissions.verifications import has_role
 from rolepermissions.verifications import has_object_permission
 from django.db.models import Q
+from datetime import datetime
+import time
 # from django.views.generic.edit import FormMixin
 
 from .forms import ExamForm
 from .models import Exam, Answer, AnswersStudent
-from core.mixins import NotificationMixin
+from core.mixins import LogMixin, NotificationMixin
+from core.models import Log
 from users.models import User
 from courses.models import Course, Topic
 
-class ViewExam(LoginRequiredMixin,generic.DetailView):
+class ViewExam(LoginRequiredMixin, LogMixin, generic.DetailView):
+	log_component = 'exam'
+	log_resource = 'exam'
+	log_action = 'viewed'
+	log_context = {}
 
 	model = Exam
 	context_object_name = 'exam'
@@ -40,11 +47,34 @@ class ViewExam(LoginRequiredMixin,generic.DetailView):
 			context['status'] = False
 		else:
 			context['status'] = answered[0].status
+
+		self.log_context['exam_id'] = exam.id
+		self.log_context['topic_id'] = exam.topic.id
+		self.log_context['topic_name'] = exam.topic.name
+		self.log_context['topic_slug'] = exam.topic.slug
+		self.log_context['subject_id'] = exam.topic.subject.id
+		self.log_context['subject_name'] = exam.topic.subject.name
+		self.log_context['subject_slug'] = exam.topic.subject.slug
+		self.log_context['course_id'] = exam.topic.subject.course.id
+		self.log_context['course_name'] = exam.topic.subject.course.name
+		self.log_context['course_slug'] = exam.topic.subject.course.slug
+		self.log_context['course_category_id'] = exam.topic.subject.course.category.id
+		self.log_context['course_category_name'] = exam.topic.subject.course.category.name
+		self.request.session['time_spent'] = str(int(time.time()))
+
+		super(ViewExam, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
 		return context
 
 
 
-class CreateExam(LoginRequiredMixin,HasRoleMixin, NotificationMixin,generic.CreateView):
+class CreateExam(LoginRequiredMixin,HasRoleMixin, LogMixin, NotificationMixin, generic.CreateView):
+	log_component = 'exam'
+	log_resource = 'exam'
+	log_action = 'create'
+	log_context = {}
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -83,6 +113,21 @@ class CreateExam(LoginRequiredMixin,HasRoleMixin, NotificationMixin,generic.Crea
 				answer = Answer(answer=self.request.POST[key],order=key,exam=self.object)
 				answer.save()
 
+		self.log_context['exam_id'] = self.object.id
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['course_id'] = self.object.topic.subject.course.id
+		self.log_context['course_name'] = self.object.topic.subject.course.name
+		self.log_context['course_slug'] = self.object.topic.subject.course.slug
+		self.log_context['course_category_id'] = self.object.topic.subject.course.category.id
+		self.log_context['course_category_name'] = self.object.topic.subject.course.category.name
+
+		super(CreateExam, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return self.render_to_response(self.get_context_data(form = form), status = 200)
 
 	def get_context_data(self, **kwargs):
@@ -93,7 +138,11 @@ class CreateExam(LoginRequiredMixin,HasRoleMixin, NotificationMixin,generic.Crea
 		context['subjects'] = topic.subject.course.subjects.all()
 		return context
 
-class UpdateExam(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
+class UpdateExam(LoginRequiredMixin,HasRoleMixin, LogMixin, generic.UpdateView):
+	log_component = 'exam'
+	log_resource = 'exam'
+	log_action = 'update'
+	log_context = {}
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -139,6 +188,21 @@ class UpdateExam(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 				answer = Answer(answer=self.request.POST[key],order=key,exam=exam)
 				answer.save()
 
+		self.log_context['exam_id'] = self.object.id
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['course_id'] = self.object.topic.subject.course.id
+		self.log_context['course_name'] = self.object.topic.subject.course.name
+		self.log_context['course_slug'] = self.object.topic.subject.course.slug
+		self.log_context['course_category_id'] = self.object.topic.subject.course.category.id
+		self.log_context['course_category_name'] = self.object.topic.subject.course.category.name
+
+		super(UpdateExam, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return super(UpdateExam, self).form_valid(form)
 
 	def get_context_data(self, **kwargs):
@@ -158,7 +222,11 @@ class UpdateExam(LoginRequiredMixin,HasRoleMixin,generic.UpdateView):
 
 		return context
 
-class DeleteExam(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
+class DeleteExam(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.DeleteView):
+	log_component = 'exam'
+	log_resource = 'exam'
+	log_action = 'delete'
+	log_context = {}
 
 	allowed_roles = ['professor', 'system_admin']
 	login_url = reverse_lazy("core:home")
@@ -184,12 +252,31 @@ class DeleteExam(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 		return context
 
 	def get_success_url(self):
+		self.log_context['exam_id'] = self.object.id
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['course_id'] = self.object.topic.subject.course.id
+		self.log_context['course_name'] = self.object.topic.subject.course.name
+		self.log_context['course_slug'] = self.object.topic.subject.course.slug
+		self.log_context['course_category_id'] = self.object.topic.subject.course.category.id
+		self.log_context['course_category_name'] = self.object.topic.subject.course.category.name
+
+		super(DeleteExam, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return reverse_lazy('course:view_topic', kwargs={'slug' : self.object.topic.slug})
 
 class AnswerExam(generic.TemplateView):
 	template_name = 'exam/answer.html'
 
-class AnswerStudentExam(LoginRequiredMixin,generic.CreateView):
+class AnswerStudentExam(LoginRequiredMixin, LogMixin, generic.CreateView):
+	log_component = 'exam'
+	log_resource = 'exam'
+	log_action = 'answer'
+	log_context = {}
 
 	model = AnswersStudent
 	fields = ['status']
@@ -208,6 +295,37 @@ class AnswerStudentExam(LoginRequiredMixin,generic.CreateView):
 		for key in self.request.POST:
 			if(key != 'csrfmiddlewaretoken'):
 				answers.answer.add(exam.answers.all().filter(order=key)[0])
+
+		self.log_context['exam_id'] = exam.id
+		self.log_context['topic_id'] = exam.topic.id
+		self.log_context['topic_name'] = exam.topic.name
+		self.log_context['topic_slug'] = exam.topic.slug
+		self.log_context['subject_id'] = exam.topic.subject.id
+		self.log_context['subject_name'] = exam.topic.subject.name
+		self.log_context['subject_slug'] = exam.topic.subject.slug
+		self.log_context['course_id'] = exam.topic.subject.course.id
+		self.log_context['course_name'] = exam.topic.subject.course.name
+		self.log_context['course_slug'] = exam.topic.subject.course.slug
+		self.log_context['course_category_id'] = exam.topic.subject.course.category.id
+		self.log_context['course_category_name'] = exam.topic.subject.course.category.name
+
+		date_time_click = datetime.strptime(self.request.session.get('time_spent'), "%Y-%m-%d %H:%M:%S.%f")
+		_now = datetime.now()
+
+		time_spent = _now - date_time_click
+
+		secs = time_spent.total_seconds()
+		hours = int(secs / 3600)
+		minutes = int(secs / 60) % 60
+		secs = secs % 60
+
+		self.log_context['timestamp_end'] = str(int(time.time()))
+		self.log_context['time_spent'] = {}
+		self.log_context['time_spent']['hours'] = hours
+		self.log_context['time_spent']['minutes'] = minutes
+		self.log_context['time_spent']['seconds'] = secs
+
+		super(AnswerStudentExam, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return self.render_to_response(self.get_context_data(form = form), status = 200)
 
@@ -229,6 +347,9 @@ class AnswerStudentExam(LoginRequiredMixin,generic.CreateView):
 		keys = sorted(answers)
 		context['answers'] = answers
 		context['keys'] = keys
+
+		self.log_context['timestamp_start'] = str(int(time.time()))
+		self.request.session['time_spent'] = str(datetime.now())
 
 		return context
 

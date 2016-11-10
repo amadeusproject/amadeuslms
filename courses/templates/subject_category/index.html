@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'home.html' %}
 
 {% load static i18n permission_tags professor_access%}
 
@@ -12,27 +12,7 @@
 {% endblock %}
 
 {% block sidebar %}
-
-    <div class="panel panel-primary">
-
-      <div class="panel-heading">
-        <h3 class="panel-title">{{course}}</h3>
-      </div>
-
-      <div class="panel-body">
-        {% for category in subject_categories %}
-				<div class="row">
-					<div class="col-md-12 col-sm-12">
-						<a href="" class="btn btn-default text-left">{{subject}}</a>
-					</div>
-				</div>
-        {% endfor %}
-      </div>
-    </div>
-
-		{% if user|has_role:'system_admin' or user|has_role:'professor' %}
-			<a href="" class="btn btn-primary btn-md btn-block">{% trans "Create Subject Category" %}</a>
-		{% endif %}
+{{block.super}}
 {% endblock %}
 
 {% block content %}

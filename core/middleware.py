@@ -1,4 +1,6 @@
 from datetime import datetime
+import time
+from django.core.urlresolvers import resolve
 from django.shortcuts import get_object_or_404
 import json
 
@@ -9,33 +11,24 @@ class TimeSpentMiddleware(object):
 		self.get_response = get_response
 
 	def process_request(self, request):
-		if not request.is_ajax():
-			log_id = request.session.get('log_id', None)
+		app_names = resolve(request.path).app_names
 
-			if not log_id is None:
-				log = get_object_or_404(Log, id = log_id)
+		if not 'admin' in app_names:
+			if not request.is_ajax():
+				log_id = request.session.get('log_id', None)
 
-				date_time_click = datetime.strptime(request.session.get('time_spent'), "%Y-%m-%d %H:%M:%S.%f")
-				_now = datetime.now()
-				
-				time_spent = _now - date_time_click
-				
-				secs = time_spent.total_seconds()
-				hours = int(secs / 3600)
-				minutes = int(secs / 60) % 60
-				secs = secs % 60
+				if not log_id is None:
+					log = get_object_or_404(Log, id = log_id)
 
-				log_context = json.loads(log.context)
+					if type(log.context) == dict:
+						log_context = log.context
+					else:
+						log_context = json.loads(log.context)
 
-				log_context['time_spent'] = {}
-				log_context['time_spent']['hours'] = hours
-				log_context['time_spent']['minutes'] = minutes
-				log_context['time_spent']['seconds'] = secs
+					log_context['timestamp_end'] = str(int(time.time()))
 
-				log.context = json.dumps(log_context)
+					log.context = log_context
 
-				log.save()
+					log.save()
 
-				request.session['log_id'] = None
-
-
+					request.session['log_id'] = None

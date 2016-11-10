@@ -12,7 +12,7 @@ class Poll(Activity):
         verbose_name_plural = _('Polls')
 
     def __str__(self):
-        return str(self.name) + str("/") + str(self.topic)
+        return str(self.name)
 
 class Answer(models.Model):
     answer = models.CharField(_("Answer"), max_length = 200)

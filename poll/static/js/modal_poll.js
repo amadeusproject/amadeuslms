@@ -1,9 +1,11 @@
-//controles do modal
-$(window).ready(function() { // utilizado para abrir o modal quando tiver tido algum erro no preenchimento do formulario
-  if($('.not_submited').length){
-      $('#poll').modal('show');
-  }
-});
+//
+// //controles do modal
+// $(window).ready(function() { // utilizado para abrir o modal quando tiver tido algum erro no preenchimento do formulario
+//   if($('.not_submited').length){
+//       $('#poll').modal('show');
+//   }
+// });
+
 var Answer = {
     init: function(url) { // utilizado para adicionar um novo campo de resposta
       $.get(url, function(data){
@@ -17,24 +19,57 @@ var Answer = {
 };
 
 var Submite = {
-  post: function(url,dados){
+  create: function(url,dados, slug){
     $('#poll').modal('hide');
+    var poll = null;
       $.post(url,dados, function(data){
+        $.ajax({
+          method: "get",
+          url: data["view"],
+          success: function(view){
+            $('#list-topic-'+ slug +'-poll').append(view);
+          }
+        });
+        $.ajax({
+          method: "get",
+          url: data["edit"],
+          success: function(edit){
+            $('#list-topic-'+ slug +'-poll-edit').append(edit);
+          }
+        });
+        $("#requisicoes_ajax").empty();
+        alertify.alert('Poll successfully created!');
+        $("div.modal-backdrop.fade.in").remove();
       }).fail(function(data){
         $("div.modal-backdrop.fade.in").remove();
-        $("#modal_poll").empty();
-        $("#modal_poll").append(data.responseText);
+        $("#requisicoes_ajax").empty();
+        $("#requisicoes_ajax").append(data.responseText);
+        $('#poll').modal('show');
+      });
+  },
+  update: function(url,dados, slug_poll, slug_topic){
+    $('#poll').modal('hide');
+      $.post(url,dados, function(data){
+        $('#list-topic-'+ slug_topic +'-poll #'+slug_poll).replaceWith(data);
+        $('#list-topic-'+ slug_topic +'-poll #'+slug_poll).replaceWith(data);
+        alertify.alert('Poll successfully updated!')
+      }).fail(function(data){
+        $("div.modal-backdrop.fade.in").remove();
+        $("#requisicoes_ajax").empty();
+        $("#requisicoes_ajax").append(data.responseText);
+        $('#poll').modal('show');
       });
   },
   remove: function(url,dados, id_li_link){
     $('#poll').modal('hide');
       $.post(url,dados, function(data){
         $(id_li_link).remove();
-        $("#modal_poll").empty();
+        $(id_li_link+"_div").remove();
+        $("#requisicoes_ajax").empty();
         $("div.modal-backdrop.fade.in").remove();
       }).fail(function(){
-        $("#modal_poll").empty();
-        $("#modal_poll").append(data);
+        $("#requisicoes_ajax").empty();
+        $("#requisicoes_ajax").append(data);
         $('#poll').modal('show');
       });
   }

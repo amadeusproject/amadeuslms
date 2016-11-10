@@ -66,6 +66,7 @@
   {% breadcrumb 'Home' 'app:index' %}
 {% endblock %}
 
+
 {% block render_breadcrumbs %}
   {% render_breadcrumbs %}
 {% endblock %}
@@ -77,13 +78,10 @@
         </div>
         <div class="panel-body">
             <ul class="nav nav-pills nav-stacked">
-                <li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-                <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                 {% if user|has_role:'student' or not user.is_staff %}
                     <li><a href="{% url 'course:manage' %}">{% trans 'My courses' %}</a></li>
                     <li><a href="{% url 'course:all_courses' %}">{% trans 'All Courses' %}</a></li>
                 {% endif %}
-                    <li><a href="{% url 'core:guest' %}">{% trans 'Courses' %}</a></li>
                 {% if user|has_role:'system_admin' %}
                     <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
                     <li> <a href="{% url 'app:settings' %}">{% trans 'Settings' %}</a></li>

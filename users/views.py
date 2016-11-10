@@ -20,6 +20,10 @@ from files.models import *
 from exam.models import *
 from courses.models import *
 
+#API IMPORTS
+from rest_framework import viewsets
+from .serializers import UserSerializer
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 # ================ ADMIN =======================
 class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
@@ -106,12 +110,17 @@ class View(LoginRequiredMixin, generic.DetailView):
 	slug_field = 'username'
 	slug_url_kwarg = 'username'
 
-def delete(request,username):
+def delete_user(request,username):
 	user = get_object_or_404(User,username = username)
 	user.delete()
 	messages.success(request,_("User deleted Successfully!"))
 	return redirect('users:manage')
 
+def remove_account(request,username):
+	user = get_object_or_404(User,username = username)
+	user.delete()
+	messages.success(request,_("User deleted Successfully!"))
+	return redirect('core:logout')
 
 class Change_password(generic.TemplateView):
 	template_name = 'users/change_password.html'
@@ -226,3 +235,12 @@ class SearchView(LoginRequiredMixin, generic.ListView):
 		context['qtd'] = qtd
 
 		return context
+
+
+# API VIEWS
+
+class UserViewSet(viewsets.ModelViewSet):
+	queryset = User.objects.all()
+	serializer_class = UserSerializer
+	permissions_classes = (IsAuthenticatedOrReadOnly,)
+

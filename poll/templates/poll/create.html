@@ -2,13 +2,6 @@
 
 {% load i18n widget_tweaks dict_access static%}
 
-{# {% block style %} #}
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script src="{% static 'js/modal_poll.js' %}"></script>
-
-{# {% endblock %} #}
-
-{# {% block content %} #}
 <!-- Modal (remember to change the ids!!!) -->
 <div class="modal fade" id="poll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -178,7 +171,7 @@
   });
 
   $("#form").submit(function(event) {
-    Submite.post("{% url 'course:poll:create_poll' topic.slug %}",$(this).serialize());
+    Submite.create("{% url 'course:poll:create_poll' topic.slug %}",$(this).serialize(), "{{topic.slug}}");
     event.preventDefault();
   });
 </script>

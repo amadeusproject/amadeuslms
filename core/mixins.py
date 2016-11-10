@@ -36,7 +36,8 @@ class LogMixin(object):
 
 		log = Log()
 		log.user = actor
-		log.context = json.dumps(context)
+		#log.context = json.dumps(context)
+		log.context = context
 		log.component = component
 		log.action_resource = action_resource
 
