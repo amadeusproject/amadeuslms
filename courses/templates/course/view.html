@@ -21,23 +21,6 @@
   </ol>
 {% endblock %}
 
-{% block sidebar %}
-{{ block.super}}
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h5>{% trans 'Categories' %}</h5>
-        </div>
-        <div class="panel-body">
-            <ul class="nav nav-pills nav-stacked">
-                <li {% if category is None %}class="active"{% endif %}><a href="{% url 'course:view' course.slug %}">{% trans 'All' %}</a></li>
-                {% for cat in categorys_subjects %}
-                    <li {% if category == cat.slug %}class="active"{% endif %}><a href="{% url 'course:view_filter' course.slug cat.slug %}">{{ cat }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-{% endblock %}
-
 {% block content %}
 
   <div class="col-md-12 cards-content">
@@ -94,8 +77,8 @@
         <div>
         </div>
         <div class="modal-footer">
-          <button type="button" data-dismiss="modal" class="btn btn-default">{% trans "Cancel" %}</button>
-          <a href="#" target="_self"><button type="button" class="btn btn-primary"> {% trans "Confirm" %}</button></a>
+          <button type="button" data-dismiss="modal" class="btn btn-default btn-raised">{% trans "Cancel" %}</button>
+          <a href="#" target="_self"><button type="button" class="btn btn-primary btn-raised"> {% trans "Confirm" %}</button></a>
         </div>
       </div>
     </div>
@@ -132,7 +115,7 @@
                         <li><a href="{% url 'course:update_subject' subject.slug %}"> <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
                         <li><a href="{% url 'course:delete_subject' subject.slug %}" ><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
                       </ul>
-                            
+
                     </div>
                   </div>
                 {% endif %}

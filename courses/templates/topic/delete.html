@@ -20,7 +20,7 @@
       <!-- Modal Footer -->
       <div class="modal-footer">
         <!-- Don't remove that!!!  -->
-        <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+        <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
         <button type="submit" id="button" form="delete_topic_{{topic.slug}}" class="btn btn-primary btn-raised">{% trans "Delete" %}</button>
 		<script>
 		  $("#delete_topic_{{topic.slug}}").submit(function(event) {
