@@ -61,7 +61,7 @@
                         <p>{% trans 'Contact' %}: {{ acc.phone }}</p>
                         <div align="right">
                             <a href="{% url 'users:update' acc.username %}" class="btn btn-raised btn-success">{% trans 'Edit' %}</a>
-                            <a href="javascript:void(0)" class="btn btn-danger btn-raised btn-lg" data-toggle="modal" data-target="#DeleteModal{{ forloop.counter }}">{% trans 'Delete' %}</a>
+                            <a href="javascript:void(0)" class="btn btn-default btn-raised btn-lg" data-toggle="modal" data-target="#DeleteModal{{ forloop.counter }}">{% trans 'Delete' %}</a>
                         </div>
                     </div>
 
@@ -78,7 +78,7 @@
                             {% trans 'Are you sure you want to delete the user' %} <b>{{acc.name}}</b>?
                           </div>
                           <div class="modal-footer">
-                            <a href="#" class="btn btn-raised btn-danger" data-dismiss="modal">{% trans 'Cancel' %}</a>
+                            <a href="#" class="btn btn-raised btn-default" data-dismiss="modal">{% trans 'Cancel' %}</a>
                             <a href="{% url 'users:delete' acc.username %}" class="btn btn-raised btn-success" style="margin-top: 0">{% trans 'Delete' %}</a>
                           </div>
                         </div>
