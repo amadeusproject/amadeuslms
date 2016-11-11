@@ -13,9 +13,10 @@
 {% block content %}
 <div class="card card-content">
 	<div class="card-body">
-		<form method="post" action="" enctype="multipart/form-data">{% csrf_token %}
+		<form method="post" action="" enctype="multipart/form-data">
+			{% csrf_token %}
 			<div class="form-group  is-fileinput">
-				<label for="id_name">{% trans 'Name' %}</label>
+			<label for="id_name">{% trans 'Name' %}</label>
 
 
 				<input class="form-control" id="id_name" maxlength="100" name="name" type="text" required="" value="{{course.name}}">
@@ -27,7 +28,7 @@
 			<div class="form-group  is-fileinput">
 				<label for="id_objectivies">{% trans 'Objectives' %}</label>
 
-				<textarea class="form-control" cols="80" id="id_objectivies" name="objectivies" rows="5">{{course.objectivies}}</textarea>
+				<textarea class="form-control" cols="80" id="id_objectivies" name="objectivies" rows="5">{{ course.objectivies }}</textarea>
 
 				<span class="help-block">{% trans 'Course objective' %}</span>
 
@@ -123,7 +124,7 @@
 
 				<span class="help-block">{% trans 'CourseCategory which the course belongs' %}</span>
 
-			</div>
+			</div>	
 
 			<div class="row text-center">
 				<input type="submit" value="Create" class="btn btn-primary btn-raised">
@@ -131,5 +132,11 @@
 		</form>
 	</div>
 </div>
+  <script>
+    $(document).ready(function() {
+        $('#id_objectivies').summernote();
+        $('#id_content').summernote();
+    });
+  </script>
 </br></br></br>
 {% endblock %}
