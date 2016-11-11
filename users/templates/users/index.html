@@ -1,4 +1,4 @@
-{% extends 'app/base.html' %}
+{% extends 'home.html' %}
 
 {% load static i18n %}
 
@@ -9,18 +9,8 @@
 	</ol>
 {% endblock %}
 
-{% block sidebar %}
-	<div class="list-group">
-	  	<a href="{% url 'users:manage' %}" class="list-group-item active">
-	    	{% trans 'System Users' %}
-	  	</a>
-	  	<a href="{% url 'users:create' %}" class="list-group-item">
-	    	{% trans 'New Account' %}
-	  	</a>
-	  	<a href="#" class="list-group-item">
-	    	{% trans 'Send Mail' %}
-	  	</a>
-	</div>
+{% block menu %}
+	<li> <a href="{% url 'users:create' %}">{% trans 'Add User' %}</a></li>
 {% endblock %}
 
 {% block content %}

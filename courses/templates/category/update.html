@@ -1,4 +1,4 @@
-{% extends 'Home.html' %}
+{% extends 'home.html' %}
 
 {% load static i18n %}
 {% load static i18n permission_tags %}
@@ -9,35 +9,6 @@
 	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
 	  	<li class="active">{% trans 'Edit Category' %}</li>
 	</ol>
-{% endblock %}
-
-{% block sidebar %}
-{{block.super}}
-
-{% if user|has_role:'professor' or user|has_role:'system_admin' %}
-
-    <div class="panel panel-primary navigation">
-	    <div class="panel-heading">
-	        <h3 class="panel-title">{% trans 'Actions' %}</h3>
-	    </div>
-	    <div class="panel-body">
-	        <ul class="nav nav-pills nav-stacked">
-	            <li><a href="{% url 'course:create' %}">{% trans 'Create Course' %}</a></li>
-	        </ul>
-	    </div>
-	</div>
-	<div class="panel panel-primary navigation">
-	    <div class="panel-heading">
-	        <h3 class="panel-title">{% trans 'Category' %}</h3>
-	    </div>
-	    <div class="panel-body">
-	        <ul class="nav nav-pills nav-stacked">
-	            <li><a href="{% url 'course:create_cat' %}">{% trans 'Create Category' %}</a></li>
-	            <li><a href="{% url 'course:manage_cat' %}">{% trans 'List Category' %}</a></li>
-	        </ul>
-	    </div>
-	</div>
-{% endif %}
 {% endblock %}
 
 {% block content %}

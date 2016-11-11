@@ -9,23 +9,11 @@
 
 {% endblock %}
 
-{% if user|has_role:'system_admin' %}
-    {% block sidebar %}
-        <div class="panel panel-primary navigation">
-            <div class="panel-heading">
-                <h5>{% trans 'Menu' %}</h5>
-            </div>
-            <div class="panel-body">
-                <ul class="nav nav-pills nav-stacked">
-                    <li><a href="{% url 'core:home' %}">{% trans "Home" %}</a></li>
-                    <li><a href="{% url 'users:create' %}">{% trans 'Add user' %}</a></li>
-                    <li><a href="javascript:void(0)">{% trans 'Send email' %}</a></li>
-                </ul>
-            </div>
-        </div>
-    {% endblock %}
-{% endif %}
-
+{% block menu %}
+  {% if user|has_role:'system_admin' %}
+	 <li> <a href="{% url 'users:create' %}">{% trans 'Add User' %}</a></li>
+  {% endif %}
+{% endblock %}
 
 {% block content %}
     {% if messages %}
@@ -108,4 +96,3 @@
         </div>
     {% endif %}
 {% endblock %}
-
