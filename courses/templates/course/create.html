@@ -12,41 +12,48 @@
 
 {% block content %}
 <div class="card card-content">
-        <div class="card-body">
-					<form method="post" action="" enctype="multipart/form-data">
-						{% csrf_token %}
-						{% for field in form %}
-							<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
-								<label for="{{ field.auto_id }}">{{ field.label }}</label>
-								{% if field.auto_id == 'id_init_register_date' or field.auto_id == 'id_end_register_date' or field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date'%}
-									<input type="text" class="form-control date-picker" name="{{field.name}}" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
+    <div class="card-body">
+		<form method="post" action="" enctype="multipart/form-data">
+			{% csrf_token %}
+			{% for field in form %}
+				<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
+					<label for="{{ field.auto_id }}">{{ field.label }}</label>
+					{% if field.auto_id == 'id_init_register_date' or field.auto_id == 'id_end_register_date' or field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date'%}
+						<input type="text" class="form-control date-picker" name="{{field.name}}" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
 
-								{% else %}
-									{% render_field field class='form-control' %}
-								{% endif %}
-								<span class="help-block">{{ field.help_text }}</span>
-								{% if field.errors %}
-								<div class="row">
-								</br>
-										<div class="alert alert-danger alert-dismissible" role="alert">
-						  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						  						<span aria-hidden="true">&times;</span>
-					  						</button>
-											<ul>
-												{% for error in field.errors %}
-													<li>{{ error }}</li>
-												{% endfor %}
-											</ul>
-										</div>
-								</div>
-								{% endif %}
+					{% else %}
+						{% render_field field class='form-control' %}
+					{% endif %}
+					<span class="help-block">{{ field.help_text }}</span>
+					{% if field.errors %}
+					<div class="row">
+					</br>
+							<div class="alert alert-danger alert-dismissible" role="alert">
+			  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  						<span aria-hidden="true">&times;</span>
+		  						</button>
+								<ul>
+									{% for error in field.errors %}
+										<li>{{ error }}</li>
+									{% endfor %}
+								</ul>
 							</div>
-						{% endfor %}
-						<div class="row text-center">
-								<input type="submit" value="{% trans 'Create' %}" class="btn btn-primary" />
-						</div>
-          </form>
-    </div>
+					</div>
+					{% endif %}
+				</div>
+			{% endfor %}
+			<div class="row text-center">
+					<input type="submit" value="{% trans 'Create' %}" class="btn btn-primary btn-raised" />
+			</div>
+      	</form>
+	</div>
 </div>
 </br>
+<script type="text/javascript">
+    var locale = navigator.language || navigator.userLanguage;
+
+    $('.date-picker').datepicker({
+        language: locale,
+    });
+</script>
 {% endblock %}

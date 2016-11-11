@@ -25,10 +25,38 @@ from courses.models import Material
 from django.urls import reverse
 
 from datetime import date, datetime
+import time
 
 #API IMPORTS
 from rest_framework import viewsets, permissions
 from .serializers import *
+
+class Category:
+	name = None
+	slug = None
+	course_category = []
+
+def course_category(list_courses):
+
+	list_courses = list_courses.distinct().order_by('category','name')
+	categorys_courses = []
+	cat_slug = None
+	cat = None
+	for course in list_courses:
+		if (course.category.slug != cat_slug):
+			if (cat != None):
+				categorys_courses.append(cat)
+			cat_slug = course.category.slug
+			cat = Category()
+			cat.name = course.category.name
+			cat.slug = cat_slug
+			cat.course_category = []
+		cat.course_category.append(course)
+
+	if (cat):
+		categorys_courses.append(cat)
+
+	return categorys_courses
 
 class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 
@@ -37,8 +65,6 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 	queryset = Course.objects.all()
 	template_name = 'course/index.html'
 	context_object_name = 'courses'
-	paginate_by = 10
-	aparece = True
 
 
 	def get_queryset(self):
@@ -47,14 +73,12 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 		course_search = self.request.GET.get('q', None)
 		category_search = self.request.GET.get('category', None)
 		if course_search:
-			self.aparece = False
 			query_list = course_search.split()
 			result = result.filter(
 			reduce(operator.and_,
 				(Q(name__icontains=q) for q in query_list))
 			)
 		if category_search:
-			self.aparece = False
 			query_list = category_search.split()
 			result = result.filter(
 			reduce(operator.and_,
@@ -65,58 +89,40 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 	def get_context_data(self, **kwargs):
 		context = super(IndexView, self).get_context_data(**kwargs)
 		list_courses = None
-		categorys_courses = None
-		if has_role(self.request.user,'professor'):
-			list_courses = Course.objects.filter(Q(professors = True)|Q(professors__name = self.request.user.name)).order_by('name')
-			categorys_courses = CourseCategory.objects.filter(course_category__professors__name = self.request.user.name).distinct()
-		elif has_role(self.request.user,'system_admin'):
-			list_courses = queryset.order_by('name')
-			categorys_courses = CourseCategory.objects.all()
+		if has_role(self.request.user,'system_admin'):
+			list_courses = self.get_queryset().order_by('name')
+			# categorys_courses = CourseCategory.objects.all()
+		elif has_role(self.request.user,'professor'):
+			list_courses = self.get_queryset().filter(professors__in = [self.request.user])
+			# categorys_courses = CourseCategory.objects.filter(course_category__professors__name = self.request.user.name).distinct()
 		elif has_role(self.request.user, 'student'):
-			list_courses = Course.objects.filter(Q(students = True)|Q(students__name = self.request.user.name)).order_by('name')
-			categorys_courses = CourseCategory.objects.filter(course_category__students__name = self.request.user.name).distinct()
+			list_courses = self.get_queryset().filter(students__in = [self.request.user])
 
-		paginator = Paginator(list_courses, self.paginate_by)
-		page = self.request.GET.get('page')
-
-		try:
-		    list_courses = paginator.page(page)
-		except PageNotAnInteger:
-		    list_courses = paginator.page(1)
-		except EmptyPage:
-		    list_courses = paginator.page(paginator.num_pages)
-
-		context['list_courses'] = list_courses
-		context['categorys_courses'] = categorys_courses
-		context['aparece'] = self.aparece
-
+		context['categorys_courses'] = course_category(list_courses)
 		return context
 
 class AllCoursesView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 
 	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
-	queryset = Course.objects.all()
 	template_name = 'course/index.html'
 	context_object_name = 'courses'
-	paginate_by = 5
-	aparece = True
 
 
 	def get_queryset(self):
-		result = super(AllCoursesView, self).get_queryset()
+		result = Course.objects.all()
 
 		course_search = self.request.GET.get('q', None)
 		category_search = self.request.GET.get('category', None)
 		if course_search:
-			self.aparece = False
+			# self.aparece = False
 			query_list = course_search.split()
 			result = result.filter(
 			reduce(operator.and_,
 				(Q(name__icontains=q) for q in query_list))
 			)
 		if category_search:
-			self.aparece = False
+			# self.aparece = False
 			query_list = category_search.split()
 			result = result.filter(
 			reduce(operator.and_,
@@ -126,25 +132,10 @@ class AllCoursesView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AllCoursesView, self).get_context_data(**kwargs)
-		list_courses = None
-		categorys_courses = None
-		list_courses = Course.objects.all().order_by('name')
-		#categorys_courses = CourseCategory.objects.all().distinct().order_by('name')
-		categorys_courses = CourseCategory.objects.all()
-		paginator = Paginator(list_courses, self.paginate_by)
-		page = self.request.GET.get('page')
 
-		try:
-		    list_courses = paginator.page(page)
-		except PageNotAnInteger:
-		    list_courses = paginator.page(1)
-		except EmptyPage:
-		    list_courses = paginator.page(paginator.num_pages)
+		list_courses = self.get_queryset()
 
-		context['list_courses'] = list_courses
-		context['categorys_courses'] = categorys_courses
-		context['aparece'] = self.aparece
-
+		context['categorys_courses'] = course_category(list_courses)
 		return context
 
 class CreateCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, generic.edit.CreateView):
@@ -345,10 +336,10 @@ class CourseView(LogMixin, NotificationMixin, generic.DetailView):
 		self.log_context['course_slug'] = course.slug
 		self.log_context['course_category_id'] = course.category.id
 		self.log_context['course_category_name'] = course.category.name
+		self.log_context['timestamp_start'] = str(int(time.time()))
 
 		super(CourseView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		self.request.session['time_spent'] = str(datetime.now())
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
 		category_sub = self.kwargs.get('category', None)
@@ -552,10 +543,10 @@ class SubjectsView(LoginRequiredMixin, LogMixin, generic.ListView):
 		self.log_context['course_slug'] = subject.course.slug
 		self.log_context['course_category_id'] = subject.course.category.id
 		self.log_context['course_category_name'] = subject.course.category.name
+		self.log_context['timestamp_start'] = str(int(time.time()))
 
 		super(SubjectsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		self.request.session['time_spent'] = str(datetime.now())
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
 		return super(SubjectsView, self).dispatch(*args, **kwargs)
@@ -657,10 +648,10 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
 		self.log_context['course_slug'] = topic.subject.course.slug
 		self.log_context['course_category_id'] = topic.subject.course.category.id
 		self.log_context['course_category_name'] = topic.subject.course.category.name
+		self.log_context['timestamp_start'] = str(int(time.time()))
 
 		super(TopicsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		self.request.session['time_spent'] = str(datetime.now())
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
 		return super(TopicsView, self).dispatch(*args, **kwargs)
@@ -1003,10 +994,10 @@ class FileMaterialView(LoginRequiredMixin, LogMixin, generic.DetailView):
 		self.log_context['course_slug'] = file.topic.subject.course.slug
 		self.log_context['course_category_id'] = file.topic.subject.course.category.id
 		self.log_context['course_category_name'] = file.topic.subject.course.category.name
+		self.log_context['timestamp_start'] = str(int(time.time()))
 
 		super(FileMaterialView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		self.request.session['time_spent'] = str(datetime.now())
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
 		return super(FileMaterialView, self).dispatch(*args, **kwargs)
@@ -1028,4 +1019,3 @@ class TopicViewSet(viewsets.ModelViewSet):
 	queryset = Topic.objects.all()
 	serializer_class = TopicSerializer
 	permissions_class = (permissions.IsAuthenticatedOrReadOnly)
-

@@ -66,6 +66,7 @@
   {% breadcrumb 'Home' 'app:index' %}
 {% endblock %}
 
+
 {% block render_breadcrumbs %}
   {% render_breadcrumbs %}
 {% endblock %}
@@ -77,28 +78,26 @@
         </div>
         <div class="panel-body">
             <ul class="nav nav-pills nav-stacked">
-                <li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-                <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
-                {% if user|has_role:'student' or not user.is_staff %}
-                    <li><a href="{% url 'course:manage' %}">{% trans 'My courses' %}</a></li>
-                    <li><a href="{% url 'course:all_courses' %}">{% trans 'All Courses' %}</a></li>
-                {% endif %}
-                    <li><a href="{% url 'core:guest' %}">{% trans 'Courses' %}</a></li>
+              <li>
+                  <a href="#menu_courses" class="accordion" data-toggle="collapse">{% trans 'Courses' %}<span class="pull-right glyphicon glyphicon-chevron-down"></span></a>
+                  <div id="menu_courses" class="collapse">
+                      <ul class="nav nav-pill nav-stacked accordion_list">
+                        <li><a href="{% url 'course:manage' %}">{% trans 'My courses' %}</a></li>
+                        <li><a href="{% url 'course:all_courses' %}">{% trans 'All Courses' %}</a></li>
+                        {% if user|has_role:'system_admin' or user|has_role:'professor'%}
+                          <li><a href="{% url 'course:manage_cat' %}">{% trans 'List Category' %}</a></li>
+                          <li><a href="{% url 'course:create' %}">{% trans 'Create Course' %}</a></li>
+                          <li><a href="{% url 'course:create_cat' %}">{% trans 'Create Category' %}</a></li>
+                        {% endif %}
+                      </ul>
+                  </div>
+              </li>
+              {% block menu %}
+
+              {% endblock %}
                 {% if user|has_role:'system_admin' %}
                     <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
                     <li> <a href="{% url 'app:settings' %}">{% trans 'Settings' %}</a></li>
-                {% endif %}
-                {% if user|has_role:'system_admin' or user|has_role:'professor' %}
-                    <li>
-                        <a href="#courses_list" class="accordion" data-toggle="collapse">{% trans 'Manage Courses' %}</a>
-                        <div id="courses_list" class="collapse">
-                            <ul class="nav nav-pill nav-stacked accordion_list">
-                            {% for course in courses_list %}
-                                <li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
-                            {% endfor %}
-                            </ul>
-                        </div>
-                    </li>
                 {% endif %}
             </ul>
         </div>

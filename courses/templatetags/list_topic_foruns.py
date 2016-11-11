@@ -3,6 +3,7 @@ from django import template
 from links.models import Link
 from forum.models import Forum
 from poll.models import Poll
+from exam.models import Exam
 from files.models import TopicFile
 register = template.Library()
 
@@ -30,6 +31,7 @@ def list_topic_poll(request, topic):
     context['topic'] = topic
 
     return context
+
 
 @register.inclusion_tag('subject/poll_item_actions_teacher.html')
 def list_topic_poll_teacher(request, topic):

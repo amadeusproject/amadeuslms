@@ -41,7 +41,7 @@
 				</div>
 			{% endfor %}
 			<div class="row text-center">
-					<input type="submit" value="{% trans 'Update' %}" class="btn btn-primary" />
+					<input type="submit" value="{% trans 'Update' %}" class="btn btn-primary btn-raised" />
 			</div>
     </form>
 	</div>
@@ -49,4 +49,11 @@
 </br>
 </br>
 </br>
+<script type="text/javascript">
+    var locale = navigator.language || navigator.userLanguage;
+
+    $('.date-picker').datepicker({
+        language: locale,
+    });
+</script>
 {% endblock %}
