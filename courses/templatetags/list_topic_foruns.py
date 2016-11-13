@@ -11,6 +11,7 @@ register = template.Library()
  Template tag to load all the foruns of a post
 """
 
+
 @register.inclusion_tag('topic/list_topic_foruns.html')
 def list_topic_foruns(request, topic):
     context = {
@@ -20,6 +21,7 @@ def list_topic_foruns(request, topic):
     context['foruns'] = Forum.objects.filter(topic = topic)
 
     return context
+
 
 @register.inclusion_tag('subject/poll_item_actions.html')
 def list_topic_poll(request, topic):
@@ -44,6 +46,7 @@ def list_topic_poll_teacher(request, topic):
 
     return context
 
+
 @register.inclusion_tag('topic/list_file.html')
 def list_topic_file(request, topic):
     context = {
@@ -54,6 +57,7 @@ def list_topic_file(request, topic):
     context['topic'] = topic
 
     return context
+
 
 @register.inclusion_tag('topic/list_file_edit.html')
 def list_topic_file_edit(request, topic):
@@ -66,6 +70,7 @@ def list_topic_file_edit(request, topic):
 
     return context
 
+
 @register.inclusion_tag('topic/link_topic_list_edit.html')
 def list_topic_link_edit(request,topic):
     context = {
@@ -74,6 +79,7 @@ def list_topic_link_edit(request,topic):
     context['links'] = Link.objects.filter(topic = topic)
     context['topic'] = topic
     return context
+
 
 @register.inclusion_tag('topic/link_topic_list.html')
 def list_topic_link(request,topic):
