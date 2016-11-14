@@ -1,0 +1,6 @@
+{% load static i18n list_topic_foruns permission_tags %}
+<div id="list-topic{{ topic.id }}-exercises">
+{% for exercise in exercises %}
+        <li id="exercise_{{ exercise.slug }}"><i class="fa fa-link" aria-hidden="true"></i>  <a href="{{exercise.file.url}}">{{exercise.name}}</a></li>
+{% endfor %}
+</div>

@@ -1,5 +1,5 @@
 from django import template
-from courses.models import Exercise
+from exercise.models import Exercise
 
 register = template.Library()
 

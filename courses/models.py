@@ -157,14 +157,6 @@ class LinkMaterial(models.Model):
 	name = models.CharField(max_length=100)
 	description = models.TextField()
 	url = models.URLField('Link', max_length=300)
-"""
-It represents the Exercises inside topic.
-"""
-
-class Exercise(models.Model):
-	exercise = models.ForeignKey(Material, verbose_name = _('Material'), related_name='material_exercise')
-	file = models.FileField(upload_to='uploads/%Y/%m/%d')
-	name = models.CharField(max_length=100)
 
 """
 It is a category for each subject.

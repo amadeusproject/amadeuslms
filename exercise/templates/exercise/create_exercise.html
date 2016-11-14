@@ -1,0 +1,82 @@
+{% load widget_tweaks i18n static %}
+<!--MODAL CREATE EXERCISE-->
+<div class="modal fade" id="createExercisesModal" tabindex="-1" role="dialog" aria-labelledby="createExercise">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title" id="createExercise">{% trans 'Create a New Exercise' %}</h4>
+      </div>
+      <div class="modal-body">
+        <!-- Card -->
+        <form method="post" action="" id="form-exercise" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+          {% endif %}
+          {% for field in form %}
+              <div class ="form-group">
+              {% if field.field.required %}
+                <label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
+              {% endif %}
+              {% render_field field class='form-control input-sm' %}
+              {% if field.errors %}
+                  <div class="alert alert-danger alert-dismissible clearfix" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                      <ul>
+                          {% for error in field.errors %}
+                              <li>{{ error }}</li>
+                          {% endfor %}
+                      </ul>
+                  </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        <div class="form-group">
+          <button type="button" class="btn btn-raised btn-default " data-dismiss="modal">{% trans "Cancel" %}</button>
+          <button class="btn btn-raised btn-primary" type="submit">{% trans 'Submit' %}</button>
+        </div>
+        <!-- .end Card -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- EndModal -->
+<script src="{% static 'js/exercises.js' %}"></script>
+<script type="text/javascript">
+  $("#form-exercise").submit(function(event) {
+        $("#createExercisesModal").modal("hide");
+        var data = new FormData($('#form-exercise').get(0));
+        $.ajax({
+            url: "{% url 'course:exercise:create_exercise' topic.slug %}",
+            type: $("#form-exercise").attr('method'),
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                $('#requisicoes_ajax').empty();
+                $('#list-topic{{ topic.id }}-exercises').append(data);
+                $('#list-topic{{ topic.id }}-exercises-edit').append(data);
+                alertify.success('Exercise successfully created!')
+            },
+            error: function(data){
+                $('#requisicoes_ajax').empty();
+                $('#requisicoes_ajax').append(data.responseText);
+                $('#createExercisesModal').modal('show');
+                alertify.alert('Invalid exercise, insert a valid one!');
+                $('div.modal-backdrop.fade.in').remove();
+            }
+        });
+        event.preventDefault();
+      });
+</script>

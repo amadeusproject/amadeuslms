@@ -1,30 +1,30 @@
-from django.shortcuts import get_object_or_404
-from django.views import generic
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.auth.mixins import LoginRequiredMixin
-from rolepermissions.mixins import HasRoleMixin
-from django.core.urlresolvers import reverse_lazy
-from django.utils.translation import ugettext_lazy as _
-from rolepermissions.verifications import has_role
-from django.db.models import Q
-import operator
-from functools import reduce
-from rolepermissions.verifications import has_object_permission
-from django.http import JsonResponse
 from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm,TopicForm,ActivityForm
-from .models import Course, Subject, CourseCategory,Topic, Exercise, SubjectCategory,Activity, CategorySubject
+from .models import Course, Subject, CourseCategory, Topic, SubjectCategory, Activity, CategorySubject
 from core.decorators import log_decorator
 from core.mixins import LogMixin, NotificationMixin
 from core.models import Log
-from users.models import User
+from courses.models import Material
+from datetime import date, datetime
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.urlresolvers import reverse_lazy
+from django.db.models import Q
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
+from django.utils.translation import ugettext_lazy as _
+from django.views import generic
+from exercise.models import Exercise
 from files.forms import FileForm
 from files.models import TopicFile
-from courses.models import Material
-from django.urls import reverse
-
-from datetime import date, datetime
+from functools import reduce
+from rolepermissions.mixins import HasRoleMixin
+from rolepermissions.verifications import has_object_permission
+from rolepermissions.verifications import has_role
+from users.models import User
+import operator
 import time
 
 #API IMPORTS
@@ -566,7 +566,7 @@ class SubjectsView(LoginRequiredMixin, LogMixin, generic.ListView):
         context['course'] = subject.course
         context['subject'] = subject
         context['topics'] = Topic.objects.filter(subject = subject)
-        context['exercise'] = Exercise.objects.filter(exercise__topic__subject=subject)
+        context['exercise'] = Exercise.objects.filter(topic__subject=subject)
         if has_role(self.request.user,'professor') or has_role(self.request.user,'system_admin'):
             context['files'] = TopicFile.objects.filter(professor__name = self.request.user.name)
         else:
