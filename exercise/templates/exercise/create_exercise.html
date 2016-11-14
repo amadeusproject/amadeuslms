@@ -75,6 +75,7 @@
                 $('#createExercisesModal').modal('show');
                 alertify.alert('Invalid exercise, insert a valid one!');
                 $('div.modal-backdrop.fade.in').remove();
+                setTimeout(function () { location.reload(1); }, 1000);
             }
         });
         event.preventDefault();
