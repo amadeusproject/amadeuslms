@@ -1,4 +1,4 @@
-{% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access%}
+{% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access list_topic_exercises %}
 {% professor_subject topic.subject user as professor_links %}
 
   {% block javascript %}
@@ -45,7 +45,7 @@
             {# materiais do tópico no modo de visualização #}
             <ul>
               {% list_topic_file request topic %}
-              {% list_topic_link request topic%}
+              {% list_topic_link request topic %}
             </ul>
           </div>
         </div>
@@ -67,18 +67,16 @@
           <div class="resource_inline">
             <h4>{% trans 'Exercises' %}</h4>
           </div>
-          <div class="presentation_{{topic.slug}}">
+          <div class="presentation_{{exercise.slug}}">
             {# exercício do tópico no modo de visualização #}
             <ul>
-              {% list_topic_poll request topic %}
-              {% list_topic_foruns request topic %}
+              {% list_topic_exercise request %}
             </ul>
           </div>
-          <div class="editation editation_{{topic.slug}}">
+          <div class="editation editation_{{exercise.slug}}">
             {# exercício do tópico no modo de edição #}
             <ul>
-              {% list_topic_file_edit request topic %}
-              {% list_topic_link_edit request topic%}
+              {% list_topic_exercise_edit request exercise %}
             </ul>
           </div>
         </div>

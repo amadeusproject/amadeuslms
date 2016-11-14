@@ -3,7 +3,6 @@ from django import template
 from links.models import Link
 from forum.models import Forum
 from poll.models import Poll
-from exam.models import Exam
 from files.models import TopicFile
 register = template.Library()
 
