@@ -445,17 +445,19 @@ class IndexCatView(LoginRequiredMixin, generic.ListView):
 
     login_url = reverse_lazy("core:home")
     redirect_field_name = 'next'
-    queryset = CourseCategory.objects.all()
+    queryset = sorted(CourseCategory.objects.all(),key = lambda x:x.name)
     template_name = 'category/index.html'
     context_object_name = 'categories'
     paginate_by = 5
-
+    
+    '''
     def get_context_data(self, **kwargs):
         context = super(IndexCatView, self).get_context_data(**kwargs)
         list_cat = CourseCategory.objects.filter(course_category = True).order_by('name')
         paginator = Paginator(list_cat, self.paginate_by)
         page = self.request.GET.get('page')
 
+        print(list_cat)
         try:
             list_cat = paginator.page(page)
         except PageNotAnInteger:
@@ -466,7 +468,7 @@ class IndexCatView(LoginRequiredMixin, generic.ListView):
         context['list_cat'] = list_cat
 
         return context
-
+    '''
 class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 
     allowed_roles = ['professor', 'system_admin']
