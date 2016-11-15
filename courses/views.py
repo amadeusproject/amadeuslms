@@ -477,7 +477,8 @@ class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
     success_url = reverse_lazy('course:manage_cat')
 
     def get_success_url(self):
-        messages.success(self.request, _('Category created successfully!'))
+        objeto = self.object.name
+        messages.success(self.request, _('Category "%s" created successfully!')%(objeto))
         return reverse_lazy('course:manage_cat')
 
 class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
@@ -491,7 +492,8 @@ class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
     success_url = reverse_lazy('course:manage_cat')
 
     def get_success_url(self):
-        messages.success(self.request, _('Category updated successfully!'))
+        objeto = self.object.name
+        messages.success(self.request, _('Category "%s" updated successfully!')%(objeto))
         #return reverse_lazy('course:update_cat', kwargs={'slug' : self.object.slug})
         return reverse_lazy('course:manage_cat')
 class DeleteCatView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
