@@ -37,7 +37,7 @@ class RegisterUserForm(forms.ModelForm):
     def clean_cpf(self):
         cpf = self.cleaned_data['cpf']
         if User.objects.filter(cpf = cpf).exists():
-            raise forms.ValidationError(_('There is already a registeres User with this CPF'))
+            raise forms.ValidationError(_('There is already a registered User with this CPF'))
        # if not self.validate_cpf(cpf):
        #   raise forms.ValidationError(_('Please enter a valid CPF'))
         return cpf
