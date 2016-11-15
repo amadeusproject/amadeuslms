@@ -86,13 +86,13 @@ class Notification(models.Model):
         @action_resource: The Object that holds the information about which action was perfomed on the Resource
         @actor: The user who applied the action
     """
-    
+
     message = models.TextField(_('Message'))
     user = models.ForeignKey(User, related_name = _('%(class)s_Actor'), verbose_name= _('User'))
     read = models.BooleanField(_('Read'), default = False)
     datetime = models.DateTimeField(_("Date and Time of action"), auto_now_add = True)
     action_resource = models.ForeignKey(Action_Resource, verbose_name = _('Action_Resource'))
-    actor = models.ForeignKey(User, related_name = _('%(class)s_Performer'), verbose_name= _('Perfomer'), null = True)
+    actor = models.ForeignKey(User, related_name = _('%(class)s_Performer'), verbose_name= _('Performer'), null = True)
 
     class Meta:
         verbose_name = _("Notification")
