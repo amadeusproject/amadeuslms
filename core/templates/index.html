@@ -7,68 +7,75 @@
 {% endblock %}
 
 {% block sidebar %}
-    {% endblock sidebar %}
+{% endblock sidebar %}
 
 {% block content %}
-    <div class="row">
-      <div class="col-sm-6 col-sm-offset-4 col-md-6 col-md-offset-4 col-xs-6 col-xs-offset-4 col-lg-6 col-lg-offset-4  col-xl-6 col-xl-offset-4 ">
-          <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2  col-lg-8 col-lg-offset-2  col-xl-8 col-xl-offset-2">
-            <img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block logo-login " alt="logo amadeus">
-          </div>
-      </div>
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-4 col-md-6 col-md-offset-4 col-xs-6 col-xs-offset-4 col-lg-6 col-lg-offset-4  col-xl-6 col-xl-offset-4 ">
+    <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2  col-lg-8 col-lg-offset-2  col-xl-8 col-xl-offset-2">
+      <img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block logo-login " alt="logo amadeus">
     </div>
+  </div>
+</div>
 
-  	<div class="row">
-      <div class="col-md-8 col-md-offset-3 col-sm-10 col-sm-offset-2  col-xs-12 col-xs-offset-1 col-lg-8 col-lg-offset-3 col-xl-8 col-xl-offset-3">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <p>{{ message }}</p>
-                </div>
-            {% endfor %}
-        {% endif %}
-          <div class="card">
-                <div class="card-block">
-                    <form id="form-login" class="form-group" method="post" action="">
-						{% csrf_token %}
-                                    <div class="col-md-12 col-xs-12 col-lg-10 col-lg-offset-1 col-sm-12">
-                                      <div class="form-group">
-                                        <label for="inputEmail" class="control-label"> {% trans 'Username' %}</label>
-                                        <input form="form-login" for="inputSmall" type="text" name="username" class="form-control" placeholder="Username" id="inputEmail" value="{% if username %}{{username}}{% endif %}">
-                                      </div>
-                                    </div>
-                                    <div class="col-md-12 col-xs-12 col-lg-10 col-lg-offset-1 col-sm-12">
-                                      <div class="form-group">
-                                        <label for="inputPassword" class="control-label"> {% trans 'password' %}</label>
-                                        <input form="form-login" for="inputSmall" type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
-                                      </div>
-                                    </div>
-                                    <div class="col-md-10 col-sm-10 col-xs-10 col-lg-10 col-lg-offset-1">
-                                      <div class="checkbox">
-                                        <label>
-                                            <input form="form-login" type="checkbox" name="checkbox"><span class="checkbox-material"></span> {% trans 'Remember Email' %}
-                                        </label>
-                                      </div>
-                                    </div>
-        				</form>
-                              <div class="col-md-6 col-xs-6 col-sm-6 col-lg-5 col-lg-offset-1 text-center">
-                                  <button type="submite" class="btn btn-success btn-raised btn-block" form="form-login" style="position: initial;">{% trans 'Login' %}</button>
-                              </div>
-                              <div class="col-md-6 col-xs-6 col-sm-6 col-lg-5 text-center">
-                                  <a class="btn btn-default btn-raised btn-block" href="{% url 'core:guest' %}" formaction="#" style="position: initial;">{% trans 'Guest' %}</a>
-                              </div>
-                              <div class="col-md-10 col-sm-10 col-xs-10 col-lg-6 col-lg-offset-7 forgotPassword">
-                                  <a href="{% url 'core:password_reset' %}">{% trans 'Forgot your password?' %}</a>
-                              </div>
-                </div>
-              </div>
-          <a class="btn btn-raised btn-primary btn-block" href="{% url 'core:register' %}">{% trans 'Sign Up' %} </a>
+<div class="row">
+  <div class="col-md-8 col-md-offset-3 col-sm-10 col-sm-offset-2  col-xs-12 col-xs-offset-1 col-lg-8 col-lg-offset-3 col-xl-8 col-xl-offset-3">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <p>{{ message }}</p>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="card">
+      <div class="card-block">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <h2 style="color:#43a251"><strong>{% trans "User Login" %}</strong></h2>
+          </div>
+        </div>
+        <form id="form-login" method="post" action="">
+          {% csrf_token %}
+          <div class="col-md-10 col-md-offset-1">
+            <div class="form-group">
+              <label for="inputEmail" class="control-label"> {% trans 'Username' %}</label>
+              <input form="form-login" for="inputSmall" type="text" name="username" class="form-control" placeholder="Username" id="inputEmail" value="{% if username %}{{username}}{% endif %}">
+            </div>
+          </div>
+          <div class="col-md-10 col-md-offset-1">
+            <div class="form-group">
+              <label for="inputPassword" class="control-label"> {% trans 'password' %}</label>
+              <input form="form-login" for="inputSmall" type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
+            </div>
+          </div>
+          <div class="col-md-10 col-md-offset-1">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="checkbox"><span class="checkbox-material"></span> {% trans 'Remember Email' %}
+              </label>
+            </div>
+          </div>
+        </form>
+        <div class="row">
+          <div class="col-md-5 col-xs-6 col-sm-6 col-lg-5 col-lg-offset-1 col-md-offset-1 text-center">
+            <button type="submite" class="btn btn-success btn-raised btn-block" form="form-login" style="position: initial;">{% trans 'Login' %}</button>
+          </div>
+          <div class="col-md-5 col-xs-6 col-sm-6 col-lg-5 text-center">
+            <a class="btn btn-default btn-raised btn-block" href="{% url 'core:guest' %}" formaction="#" style="position: initial;">{% trans 'Guest' %}</a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-offset-1 col-md-10 text-right forgotPassword">
+            <a href="{% url 'core:password_reset' %}">{% trans 'Forgot your password?' %}</a>
+          </div>
+        </div>
       </div>
     </div>
+    <a class="btn btn-raised btn-primary btn-block" href="{% url 'core:register' %}">{% trans 'Sign Up' %} </a>
+  </div>
+</div>
 
 {% endblock%}
-
-
