@@ -1,7 +1,7 @@
 {% extends 'course/view.html' %}
 
 {% load static i18n %}
-{% load widget_tweaks %}
+{% load widget_tweaks course_value_field %}
 
 {% block breadcrumbs %}
 <ol class="breadcrumb">
@@ -12,131 +12,79 @@
 
 {% block content %}
 <div class="card card-content">
-	<div class="card-body">
+    <div class="card-body">
 		<form method="post" action="" enctype="multipart/form-data">
 			{% csrf_token %}
-			<div class="form-group  is-fileinput">
-			<label for="id_name">{% trans 'Name' %}</label>
-
-
-				<input class="form-control" id="id_name" maxlength="100" name="name" type="text" required="" value="{{course.name}}">
-
-				<span class="help-block">{% trans 'Course name' %}</span>
-
-			</div>
-
-			<div class="form-group  is-fileinput">
-				<label for="id_objectivies">{% trans 'Objectives' %}</label>
-
-				<textarea class="form-control" cols="80" id="id_objectivies" name="objectivies" rows="5">{{ course.objectivies }}</textarea>
-
-				<span class="help-block">{% trans 'Course objective' %}</span>
-
-			</div>
-
-			<div class="form-group  is-fileinput">
-				<label for="id_content">{% trans 'Content' %}</label>
-
-
-				<textarea class="form-control" cols="80" id="id_content" name="content" rows="5">{{course.content}}</textarea>
-
-				<span class="help-block">{% trans 'Course modules' %}</span>
-
-			</div>
-
-			<div class="form-group  is-fileinput">
-				<label for="id_max_students">{% trans 'Number of studets maximum' %}</label>
-
-
-				<input class="form-control" id="id_max_students" min="0" name="max_students" type="number" value="{{course.max_students}}">
-
-				<span class="help-block">{% trans 'Max number of students that a class can have' %}</span>
-
-			</div>
-
-			<div class="form-group  is-fileinput">
-				<label for="id_init_register_date">{% trans 'Course registration start date' %}</label>
-
-
-				<input type="text" class="form-control date-picker" name="init_register_date" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
-
-				<span class="help-block">{% trans 'Date that starts the registration period of the course (dd/mm/yyyy)' %}</span>
-
-			</div>
-
-			<div class="form-group  is-fileinput">
-				<label for="id_end_register_date">{% trans 'Course registration end date' %}</label>
-
-
-				<input type="text" class="form-control date-picker" name="end_register_date" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
-
-				<span class="help-block">{% trans 'Date that ends the registration period of the course (dd/mm/yyyy)' %}</span>
-
-			</div>
-
-			<div class="form-group  is-fileinput">
-				<label for="id_init_date">{% trans 'Course start date' %}</label>
-
-
-				<input type="text" class="form-control date-picker" name="init_date" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
-
-				<span class="help-block">{% trans 'Date that the course starts (dd/mm/yyyy)' %}</span>
-
-			</div>
-
-			<div class="form-group  is-fileinput">
-				<label for="id_end_date">{% trans 'Course end date' %}</label>
-
-
-				<input type="text" class="form-control date-picker" name="end_date" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
-
-				<span class="help-block">{% trans 'Date that the course ends (dd/mm/yyyy)' %}</span>
-
-			</div>
-
-			<div class="form-group  is-fileinput">
-				<label for="id_image">{% trans 'Imagem' %}</label>
-
-
-				<input class="form-control" id="id_image" name="image" type="file">
-				<div class="input-group">
-					<input type="text" readonly="" class="form-control" placeholder="Choose your photo...">
-					<span class="input-group-btn input-group-sm">
-						<button type="button" class="btn btn-fab btn-fab-mini">
-							<i class="material-icons">{% trans 'attach_file' %}</i>
-						</button>
-					</span>
+			{% for field in form %}
+				<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
+					{% if field.auto_id != 'id_public' %}
+						<label for="{{ field.auto_id }}">{{ field.label }}</label>
+					{% endif %}
+					{% if field.auto_id == 'id_init_register_date' or field.auto_id == 'id_end_register_date' or field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date'%}
+							<input type="text" class="form-control date-picker" name="{{field.name}}" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
+					{% elif field.auto_id == 'id_public' %}
+						{% value_field course field.name as value_field %}
+						<div class="checkbox">
+							<label>
+									<input type="checkbox" name="{{field.name}}" {% if value_field %}checked="checked"{% endif %}><span class="checkbox-material"></span> {{field.name}}
+							</label>
+						</div>
+					{% else %}
+						{% if field.errors %}
+							{% render_field field class='form-control' %}
+						{% else %}
+							{% value_field course field.name as value_field %}
+							{% if field.auto_id == 'id_category' or field.auto_id == 'id_coordenator' %}
+								{% get_value_choice value_field field.field.choices as field_choice%}
+								<select class="form-control" id="{{field.auto_id}}" name="{{field.name}}" required="">
+									{% for v, name in  field.field.choices%}
+										<option value="{{v}}" {% if field_choice == v %}selected{% endif %}>{{name}}</option>
+									{% endfor %}
+								</select>
+							{% elif field.auto_id == 'id_objectivies' or field.auto_id == 'id_content'%}
+								<textarea class="form-control" cols="80" id="{{field.auto_id}}" name="{{field.name}}" rows="5">{{value_field}}</textarea>
+							{% else %}
+								{% render_field field class='form-control' value=value_field%}
+							{% endif %}
+						{% endif %}
+					{% endif %}
+					<span class="help-block">{{ field.help_text }}</span>
+					{% if field.errors %}
+					<div class="row">
+					</br>
+							<div class="alert alert-danger alert-dismissible" role="alert">
+			  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  						<span aria-hidden="true">&times;</span>
+		  						</button>
+								<ul>
+									{% for error in field.errors %}
+										<li>{{ error }}</li>
+									{% endfor %}
+								</ul>
+							</div>
+					</div>
+					{% endif %}
 				</div>
-
-				<span class="help-block">{% trans 'Representative image of the course' %}</span>
-
-			</div>
-
-			<div class="form-group  is-fileinput">
-				<label for="id_category">{% trans 'CourseCategory' %}</label>
-
-
-				<select class="form-control" id="id_category" name="category" required="">
-					{% for category in categorys_courses %}
-					<option value="{{category.id}}">{{category}}</option>
-					{% endfor %}
-				</select>
-
-				<span class="help-block">{% trans 'CourseCategory which the course belongs' %}</span>
-
-			</div>	
-
+			{% endfor %}
 			<div class="row text-center">
-				<input type="submit" value="Create" class="btn btn-primary btn-raised">
+					<input type="submit" value="{% trans 'Create' %}" class="btn btn-primary btn-raised" />
 			</div>
-		</form>
+      	</form>
 	</div>
 </div>
-  <script>
-    $(document).ready(function() {
-        $('#id_objectivies').summernote();
-        $('#id_content').summernote();
+</br>
+</br>
+</br>
+<script type="text/javascript">
+    var locale = navigator.language || navigator.userLanguage;
+
+    $('.date-picker').datepicker({
+        language: locale,
     });
-  </script>
-</br></br></br>
+
+		$(document).ready(function() {
+        $('#id_objectivies').summernote({'height':300});
+        $('#id_content').summernote({'height':300});
+    });
+</script>
 {% endblock %}
