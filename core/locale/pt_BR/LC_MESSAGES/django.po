@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-26 14:47-0300\n"
+"POT-Creation-Date: 2016-11-15 16:55-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,374 +17,326 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-#: core/forms.py:12
+
+#: .\forms.py:12
 msgid "Password"
 msgstr "Senha"
 
-#: core/forms.py:13
+#: .\forms.py:13
 msgid "Password confirmation"
 msgstr "Confirmação de senha"
 
-#: core/forms.py:27
+#: .\forms.py:27
 msgid "There is already a registered User with this e-mail"
 msgstr "Já existe um usuário cadastrado com esse e-mail"
 
-#: core/forms.py:33
+#: .\forms.py:33
 msgid "Please enter a valid date"
 msgstr "Por favor, insira uma data válida"
 
-#: core/forms.py:40
-msgid "There is already a registeres User with this CPF"
+#: .\forms.py:40
+#, fuzzy
+#| msgid "There is already a registeres User with this CPF"
+msgid "There is already a registered User with this CPF"
 msgstr "Já existem usuários cadastrados com este CPF"
 
-#: core/forms.py:42
-msgid "Please enter a valid CPF"
-msgstr "Por favor, insira um CPF válido"
-
-#: core/forms.py:50
+#: .\forms.py:50
 #, python-format
 msgid "The password must contain at least % d characters."
 msgstr "A senha deve conter pelo menos % d caracteres"
 
-#: core/forms.py:55
+#: .\forms.py:55
 msgid ""
 "The password must contain at least one letter and at least one digit or a "
 "punctuation character."
-msgstr "A senha deve conter pelo menos uma letra, um dígito ou caracter de pontuação."
+msgstr ""
+"A senha deve conter pelo menos uma letra, um dígito ou caracter de pontuação."
 
-#: core/forms.py:65
+#: .\forms.py:65
 msgid "The confirmation password is incorrect."
 msgstr "A confirmação de senha está incorreta."
 
-#: core/models.py:8
+#: .\models.py:9
 msgid "Type"
 msgstr "Tipo"
 
-#: core/models.py:9
+#: .\models.py:10
 msgid "Icon"
-msgstr ""
+msgstr "Icone"
 
-#: core/models.py:12
+#: .\models.py:13
 msgid "Amadeus Mime Type"
 msgstr ""
 
-#: core/models.py:13
+#: .\models.py:14
 msgid "Amadeus Mime Types"
 msgstr ""
 
-#: core/models.py:27 core/models.py:51
+#: .\models.py:28 .\models.py:52
 msgid "Name"
 msgstr "Nome"
 
-#: core/models.py:28 core/models.py:52
+#: .\models.py:29 .\models.py:53
 msgid "Slug"
 msgstr ""
 
-#: core/models.py:29 core/models.py:53
+#: .\models.py:30 .\models.py:54
 msgid "Created Date"
 msgstr "Data de criação"
 
-#: core/models.py:54
+#: .\models.py:55
 msgid "URL"
 msgstr "URL"
 
-#: core/models.py:67
+#: .\models.py:68
 msgid "Action_Applied"
-msgstr ""
+msgstr "Ação aplicada"
 
-#: core/models.py:68
+#: .\models.py:69
 msgid "Resource"
-msgstr ""
+msgstr "Recurso"
 
-#: core/models.py:89
+#: .\models.py:90
 msgid "Message"
 msgstr "Mensagem"
 
-#: core/models.py:90
+#: .\models.py:91
 #, python-format
 msgid "%(class)s_Actor"
 msgstr ""
 
-#: core/models.py:90
+#: .\models.py:91
 msgid "User"
 msgstr "Usuário"
 
-#: core/models.py:91
+#: .\models.py:92
 msgid "Read"
-msgstr ""
+msgstr "Ler"
 
-#: core/models.py:92 core/models.py:104
+#: .\models.py:93 .\models.py:109
 msgid "Date and Time of action"
 msgstr "Data e hora da ação"
 
-#: core/models.py:93 core/models.py:106
+#: .\models.py:94 .\models.py:107
 msgid "Action_Resource"
-msgstr ""
+msgstr "Recurso de ação"
 
-#: core/models.py:94
+#: .\models.py:95
 #, python-format
 msgid "%(class)s_Performer"
 msgstr ""
 
-#: core/models.py:94
-msgid "Perfomer"
-msgstr "Ator"
+#: .\models.py:95
+#, fuzzy
+#| msgid "Perfomer"
+msgid "Performer"
+msgstr "Autor"
 
-#: core/models.py:97
+#: .\models.py:98
 msgid "Notification"
 msgstr "Notificação"
 
-#: core/models.py:98 core/templates/base.html:73 core/templates/guest.html:68
+#: .\models.py:99 .\templates\base.html:92 .\templates\guest.html:70
 msgid "Notifications"
 msgstr "Notificações"
 
-#: core/models.py:105
+#: .\models.py:105
+msgid "Component (Module / App)"
+msgstr "Componente (Modulo/App)"
+
+#: .\models.py:106
+msgid "Context"
+msgstr "Contexto"
+
+#: .\models.py:108
 msgid "Actor"
 msgstr "Ator"
 
-#: core/models.py:109
+#: .\models.py:112
 msgid "Log"
 msgstr "Log"
 
-#: core/models.py:110
+#: .\models.py:113
 msgid "Logs"
 msgstr "Logs"
 
-#: core/templates/base.html:80 core/templates/guest.html:75
+#: .\templates\base.html:78
+msgid "Search Files (.pdf, others) and/or activities"
+msgstr "Pesquisar arquivos (.pdf, outros) e/ou atividades"
+
+#: .\templates\base.html:98 .\templates\guest.html:77
 msgid "See More"
 msgstr "Ver Mais"
 
-#: core/templates/base.html:87 core/templates/guest.html:81
+#: .\templates\base.html:105 .\templates\guest.html:83
 msgid "messages"
 msgstr "Mensagens"
 
-#: core/templates/base.html:100 core/templates/guest.html:94
+#: .\templates\base.html:109
+msgid "Perfil"
+msgstr "Perfil"
+
+#: .\templates\base.html:110
+#, fuzzy
+#| msgid "Profile"
+msgid "Edit Profile"
+msgstr "Editar Perfil"
+
+#: .\templates\base.html:111
+#, fuzzy
+#| msgid "Change my password"
+msgid "Change password"
+msgstr "Mudar senha"
+
+#: .\templates\base.html:112
+#, fuzzy
+#| msgid "New account"
+msgid "Remove account"
+msgstr "Remover conta"
+
+#: .\templates\guest.html:97
 msgid "Menu"
 msgstr "Menu"
 
-#: core/templates/base.html:104 core/templates/lembrar_senha.html:110
-msgid "Home"
-msgstr "Início"
-
-#: core/templates/base.html:105
-msgid "Profile"
-msgstr "Perfil"
-
-#: core/templates/base.html:107
-msgid "My courses"
-msgstr "Meus cursos"
-
-#: core/templates/base.html:108
-msgid "All Courses"
-msgstr "Cursos"
-
-#: core/templates/base.html:111
-msgid "Manage Users"
-msgstr "Gerenciar usuários"
-
-#: core/templates/base.html:115
-msgid "Manage Courses"
-msgstr "Gerenciar cursos"
-
-#: core/templates/base.html:133
-msgid "Category"
-msgstr "Categoria"
-
-#: core/templates/base.html:137
-msgid "Create Category"
-msgstr "Criar categorias"
-
-#: core/templates/base.html:138
-msgid "List Category"
-msgstr "Listar categoria"
-
-#: core/templates/guest.html:98
+#: .\templates\guest.html:101
 msgid "Register"
 msgstr "Cadastrar"
 
-#: core/templates/guest.html:123
-msgid "All"
-msgstr "Todos"
+#: .\templates\index.html:37
+#, fuzzy
+#| msgid "User Register"
+msgid "User Login"
+msgstr "Cadastro de usuário"
 
-#: core/templates/guest.html:141
-msgid "Are you sure you want to subscribe to this course?"
-msgstr "Tem certeza que deseja se inscrever neste curso?"
-
-#: core/templates/guest.html:141
-msgid "Subscribe"
-msgstr "Inscrever"
-
-#: core/templates/guest.html:146
-msgid "Course Name"
-msgstr "Nome do curso"
-
-#: core/templates/guest.html:147
-msgid "Begining"
-msgstr "Início"
-
-#: core/templates/guest.html:148
-msgid "End"
-msgstr "Fim"
-
-#: core/templates/guest.html:149
-msgid "Professor"
-msgstr "Professor"
-
-#: core/templates/guest.html:151
-msgid "Description"
-msgstr "Descrição"
-
-#: core/templates/index.html:39
+#: .\templates\index.html:44
 msgid "Username"
 msgstr "Login"
 
-#: core/templates/index.html:45
+#: .\templates\index.html:50
 msgid "password"
 msgstr "Senha"
 
-#: core/templates/index.html:52
+#: .\templates\index.html:57
 msgid "Remember Email"
 msgstr "Lembrar E-mail"
 
-#: core/templates/index.html:58
+#: .\templates\index.html:64
 msgid "Login"
 msgstr ""
 
-#: core/templates/index.html:61
+#: .\templates\index.html:67
 msgid "Guest"
 msgstr "Convidado"
 
-#: core/templates/index.html:64
+#: .\templates\index.html:72
 msgid "Forgot your password?"
-msgstr "Esqueceu a senha?"
+msgstr "Esqueceu sua senha?"
 
-#: core/templates/index.html:68
+#: .\templates\index.html:77
 msgid "Sign Up"
 msgstr "Cadastrar"
 
-#: core/templates/lembrar_senha.html:40
-msgid "Amadeus Project"
-msgstr "Projeto Amadeus"
-
-#: core/templates/lembrar_senha.html:65
-msgid "Enter"
-msgstr "Entrar"
-
-#: core/templates/lembrar_senha.html:101
-msgid "The Project"
-msgstr "O Projeto"
-
-#: core/templates/lembrar_senha.html:103
-msgid "CCTE Group"
-msgstr "Grupo CCTE"
-
-#: core/templates/lembrar_senha.html:106 core/templates/lembrar_senha.html:111
-msgid "Remember password"
-msgstr "Lembrar senha"
-
-#: core/templates/lembrar_senha.html:117
-msgid "New account"
-msgstr "Nova conta"
-
-#: core/templates/lembrar_senha.html:126
-msgid "Email"
-msgstr "E-mail"
-
-#: core/templates/lembrar_senha.html:128
-msgid "Your Email address (exemple@mail.com)"
-msgstr "Seu endereço de e-mail (exemplo@mail.com)"
-
-#: core/templates/lembrar_senha.html:163
-msgid "Copyright Amadeus. All rights reserved"
-msgstr "Copyright Amadeus. Todos os direitos reservados"
-
-#: core/templates/register_user.html:36
+#: .\templates\register_user.html:39
 msgid "User Register"
 msgstr "Cadastro de usuário"
 
-#: core/templates/register_user.html:88
+#: .\templates\register_user.html:65
+#, fuzzy
+#| msgid "Chose your file ..."
+msgid "Choose the file ..."
+msgstr "Escolha o arquivo..."
+
+#: .\templates\register_user.html:101
 msgid "Save"
 msgstr "Salvar"
 
-#: core/templates/register_user.html:91
+#: .\templates\register_user.html:104
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: core/templates/registration/passwor_reset_complete.html:25
+#: .\templates\registration\passwor_reset_complete.html:25
 msgid "Your password has been set. You can go ahead and go now."
 msgstr "Sua senha foi redefinida. Você pode prosseguir."
 
-#: core/templates/registration/passwor_reset_confirm.html:24
+#: .\templates\registration\passwor_reset_confirm.html:24
 msgid ""
 "Please enter your new password twice so we can verify you typed it in "
 "correctly."
-msgstr "Por favor, insira uma nova senha duas vezes para verificarmos que digitou corretamente."
+msgstr ""
+"Por favor, insira uma nova senha duas vezes para verificarmos que digitou "
+"corretamente."
 
-#: core/templates/registration/passwor_reset_confirm.html:28
+#: .\templates\registration\passwor_reset_confirm.html:28
 msgid "New password:"
 msgstr "Nova senha:"
 
-#: core/templates/registration/passwor_reset_confirm.html:30
+#: .\templates\registration\passwor_reset_confirm.html:30
 msgid "Confirm password:"
 msgstr "Confirmação de senha:"
 
-#: core/templates/registration/passwor_reset_confirm.html:31
+#: .\templates\registration\passwor_reset_confirm.html:31
 msgid "Change my password"
 msgstr "Mudar senha"
 
-#: core/templates/registration/passwor_reset_confirm.html:36
+#: .\templates\registration\passwor_reset_confirm.html:36
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.  Please request a new password reset."
-msgstr "O link de redefinição de senha está inválido, possivelmente porque ele já foi utilizado. Por favor, solicite uma nova redefinição de senha."
+msgstr ""
+"O link de redefinição de senha está inválido, possivelmente porque ele já "
+"foi utilizado. Por favor, solicite uma nova redefinição de senha."
 
-#: core/templates/registration/passwor_reset_done.html:39
+#: .\templates\registration\passwor_reset_done.html:39
 msgid ""
 "We have sent instructions to set up your password, if an account exists with "
 "the email entered. You should receive them soon."
-msgstr "Foi enviado as instruções para redefinição de senha, se a conta existe com o e-mail informado. Você deve receber a mensagem em breve."
+msgstr ""
+"Foram enviadas instruções para redefinição de senha, se existe uma conta com "
+"o e-mail informado. Você deve receber a mensagem em breve."
 
-#: core/templates/registration/passwor_reset_done.html:40
+#: .\templates\registration\passwor_reset_done.html:40
 msgid ""
 "If you do not receive an email, please make sure you entered the address you "
 "registered, and check the spam folder."
-msgstr "Se você não recebeu a mensagem, certifique que informou o e-mail corretamente e cheque sua caixa de spam"
+msgstr ""
+"Se você não recebeu a mensagem, certifique que informou o e-mail "
+"corretamente e cheque sua caixa de spam"
 
-#: core/templates/registration/passwor_reset_done.html:43
-#: core/templates/registration/passwor_reset_form.html:46
+#: .\templates\registration\passwor_reset_done.html:43
+#: .\templates\registration\passwor_reset_form.html:50
 msgid "Back"
 msgstr "Voltar"
 
-#: core/templates/registration/passwor_reset_form.html:39
+#: .\templates\registration\passwor_reset_form.html:39
 msgid "E-mail"
 msgstr "E-mail"
 
-#: core/templates/registration/passwor_reset_form.html:43
+#: .\templates\registration\passwor_reset_form.html:45
 msgid "Send"
 msgstr "Enviar"
 
-#: core/templates/registration/password_reset_subject.txt:2
+#: .\templates\registration\password_reset_subject.txt:2
 #, python-format
 msgid "Password reset on %(site_name)s"
 msgstr "Senha redefinida em %(site_name)s"
 
-#: core/tests.py:97
+#: .\tests.py:97
 msgid "Enter a valid email address."
 msgstr "Insira um e-mail válido."
 
-#: core/tests.py:111 core/tests.py:204
+#: .\tests.py:111 .\tests.py:204
 msgid "This field is required."
 msgstr "Este campo é obrigatório."
 
-#: core/views.py:41
+#: .\views.py:47
 msgid "User successfully registered!"
 msgstr "Usuário cadastrado com sucesso!"
 
-#: core/views.py:56
+#: .\views.py:62
 msgid "Recover your password"
-msgstr "Redefina sua senha"
+msgstr "Recupere sua senha"
 
-#: core/views.py:57
+#: .\views.py:63
 #, python-brace-format
 msgid ""
 "Hello {0}, \n"
@@ -394,7 +346,8 @@ msgid ""
 "\n"
 "Respectfully,\n"
 "Team Amadeus."
-msgstr "Olá, {0} \n"
+msgstr ""
+"Olá, {0} \n"
 "Redefina a senha para utilizar sua conta.\n"
 "Número de registro: {1}\n"
 "Link para redefinição de senha.\n"
@@ -402,6 +355,81 @@ msgstr "Olá, {0} \n"
 "Atenciosamente,\n"
 "Equipe Amadeus."
 
-#: core/views.py:83
+#: .\views.py:88
 msgid "E-mail or password are incorrect."
 msgstr "E-mail ou senha incorretos."
+
+#~ msgid "Please enter a valid CPF"
+#~ msgstr "Por favor, insira um CPF válido"
+
+#~ msgid "Home"
+#~ msgstr "Início"
+
+#~ msgid "My courses"
+#~ msgstr "Meus cursos"
+
+#~ msgid "All Courses"
+#~ msgstr "Todos Cursos"
+
+#~ msgid "Manage Users"
+#~ msgstr "Gerenciar usuários"
+
+#~ msgid "Manage Courses"
+#~ msgstr "Gerenciar cursos"
+
+#~ msgid "Category"
+#~ msgstr "Categoria"
+
+#~ msgid "Create Category"
+#~ msgstr "Criar categoria"
+
+#~ msgid "List Category"
+#~ msgstr "Listar categorias"
+
+#~ msgid "All"
+#~ msgstr "Todos"
+
+#~ msgid "Are you sure you want to subscribe to this course?"
+#~ msgstr "Tem certeza que deseja se inscrever neste curso?"
+
+#~ msgid "Subscribe"
+#~ msgstr "Inscrever-se"
+
+#~ msgid "Course Name"
+#~ msgstr "Nome do curso"
+
+#~ msgid "Begining"
+#~ msgstr "Início"
+
+#~ msgid "End"
+#~ msgstr "Fim"
+
+#~ msgid "Professor"
+#~ msgstr "Professor"
+
+#~ msgid "Description"
+#~ msgstr "Descrição"
+
+#~ msgid "Amadeus Project"
+#~ msgstr "Projeto Amadeus"
+
+#~ msgid "Enter"
+#~ msgstr "Entrar"
+
+#~ msgid "The Project"
+#~ msgstr "O Projeto"
+
+#~ msgid "CCTE Group"
+#~ msgstr "Grupo CCTE"
+
+#~ msgid "Remember password"
+#~ msgstr "Lembrar senha"
+
+#~ msgid "Email"
+#~ msgstr "E-mail"
+
+#~ msgid "Your Email address (exemple@mail.com)"
+#~ msgstr "Seu endereço de e-mail (exemplo@mail.com)"
+
+#~ msgid "Copyright Amadeus. All rights reserved"
+#~ msgstr "Copyright Amadeus. Todos os direitos reservados"
