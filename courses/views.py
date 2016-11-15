@@ -488,11 +488,12 @@ class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
     template_name = 'category/update.html'
     model = CourseCategory
     form_class = CategoryCourseForm
+    success_url = reverse_lazy('course:manage_cat')
 
     def get_success_url(self):
         messages.success(self.request, _('Category updated successfully!'))
-        return reverse_lazy('course:update_cat', kwargs={'slug' : self.object.slug})
-
+        #return reverse_lazy('course:update_cat', kwargs={'slug' : self.object.slug})
+        return reverse_lazy('course:manage_cat')
 class DeleteCatView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
     allowed_roles = ['professor', 'system_admin']
