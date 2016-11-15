@@ -13,7 +13,7 @@ class CourseCategory(models.Model):
 
 	name = models.CharField(_('Name'), max_length = 100, unique = True)
 	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
-	create_date = models.DateField(_('Creation Date'), auto_now_add = True)
+	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 
 	class Meta:
 		verbose_name = _('Category')
@@ -25,7 +25,7 @@ class CourseCategory(models.Model):
 class CategorySubject(models.Model):
 	name = models.CharField(_('Name'), max_length=100, unique=True)
 	slug = AutoSlugField(_("Slug"), populate_from='name', unique=True)
-	create_date = models.DateField(_('Creation Date'), auto_now_add=True)
+	create_date = models.DateTimeField(_('Creation Date'), auto_now_add=True)
 
 	class Meta:
 		verbose_name = _('Category')
@@ -41,7 +41,7 @@ class Course(models.Model):
 	objectivies = models.TextField(_('Objectivies'), blank = True)
 	content = models.TextField(_('Content'), blank = True)
 	max_students = models.PositiveIntegerField(_('Maximum Students'), blank = True)
-	create_date = models.DateField(_('Creation Date'), auto_now_add = True)
+	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 	init_register_date = models.DateField(_('Register Date (Begin)'))
 	end_register_date = models.DateField(_('Register Date (End)'))
 	init_date = models.DateField(_('Begin of Course Date'))
@@ -106,7 +106,6 @@ class Topic(models.Model):
 	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 	update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
 	subject = models.ForeignKey(Subject, verbose_name = _('Subject'))
-	owner = models.ForeignKey(User, verbose_name = _('Owner'))
 	visible = models.BooleanField(_('Visible'), default=False)
 
 	class Meta:

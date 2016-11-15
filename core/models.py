@@ -27,7 +27,7 @@ class Action(models.Model):
 
     name = models.CharField(_('Name'), max_length = 100)
     slug = AutoSlugField(_("Slug"), populate_from=('name'), unique=True)
-    created_date = models.DateField(_('Created Date'), auto_now_add=True)
+    created_date = models.DateTimeField(_('Created Date'), auto_now_add=True)
 
     class Meta:
         verbose_name = "Action"
@@ -51,7 +51,7 @@ class Resource(models.Model):
 
     name = models.CharField(_('Name'), max_length =100)
     slug = AutoSlugField(_("Slug"), populate_from='name', unique=True)
-    created_date = models.DateField(_('Created Date'), auto_now_add=True)
+    created_date = models.DateTimeField(_('Created Date'), auto_now_add=True)
     url = models.CharField(_('URL'), max_length =100, default="")
 
 

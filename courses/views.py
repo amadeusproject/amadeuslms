@@ -429,7 +429,7 @@ class FilteredView(LoginRequiredMixin, generic.ListView):
     redirect_field_name = 'next'
     template_name = 'course/filtered.html'
     context_object_name = 'courses'
-    paginate_by = 3
+    paginate_by = 10
 
     def get_queryset(self):
         category = get_object_or_404(CourseCategory, slug = self.kwargs.get('slug'))
@@ -447,11 +447,11 @@ class IndexCatView(LoginRequiredMixin, generic.ListView):
 
     login_url = reverse_lazy("core:home")
     redirect_field_name = 'next'
-    queryset = sorted(CourseCategory.objects.all(),key = lambda x:x.name)
+    queryset = CourseCategory.objects.all().order_by("name")
     template_name = 'category/index.html'
     context_object_name = 'categories'
-    paginate_by = 5
-    
+    paginate_by = 10
+
 class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 
     allowed_roles = ['professor', 'system_admin']
@@ -589,7 +589,7 @@ class ReplicateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, Notificat
 
     def form_valid(self, form):
         self.object = form.save()
-        
+
         return super(ReplicateSubjectView, self).form_valid(form)
 
     def get_success_url(self):
