@@ -14,20 +14,46 @@
     <div class="panel-body">
       <form class="form-group " method="post" action="">
         {% csrf_token %}
-        {% for field in form %}
-        <div class="form-group {% if field.errors %} has-error{% endif %}">
-          <label for="{{ field.auto_id }}" class="control-label label-static"> {{ field.label }}</label>
+        
+        <div class="form-group {% if subject.name.errors %} has-error{% endif %}">
+          <label for="{{ id_name }}" class="control-label label-static"> {% trans 'Name' %}</label>
+          <input class="form-control" id="id_name" maxlength="100" name="name" type="text" required="True" value="{{subject.name}}">
+          <span class="help-block">{% trans 'Subject name' %}</span>
 
-          {% if field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date'%}
-              <input type="text" class="form-control date-picker" name="{{field.name}}" value="{{field.value|date:'SHORT_DA E_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
-          {% else %}
-              {% render_field field class='form-control' placeholder=field.label%}
-          {% endif %}
-          <span class="help-block">{{ field.help_text }}</span>
         </div>
-        {% endfor %}
+
+        <div class="form-group {% if subject.name.errors %} has-error{% endif %}">
+          <label for="{{ id_description }}" class="control-label label-static"> {% trans 'Description' %} </label>
+          <textarea class="form-control" id="id_description" name="description" type="text" required="">{{subject.description}}</textarea>
+          <span class="help-block">{% trans 'Subject Description' %}</span>
+
+        </div>
+
+        <div class="form-group {% if subject.name.errors %} has-error{% endif %}">
+          <label for="{{ id_init_date }}" class="control-label label-static"> {% trans 'Init date' %}</label>
+          <input type="text" class="form-control date-picker" name="{{field.name}}" value="{{field.value|date:'SHORT_DA E_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
+          <span class="help-block">{% trans 'Subject init date' %}</span>
+
+        </div>
+
+        <div class="form-group {% if subject.name.errors %} has-error{% endif %}">
+          <label for="{{ id_end_date }}" class="control-label label-static"> {% trans 'End date' %}</label>
+          <input type="text" class="form-control date-picker" name="{{field.name}}" value="{{field.value|date:'SHORT_DA E_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
+          <span class="help-block">{% trans 'Subject end date' %}</span>
+
+        </div>
+        <div class="form-group {% if subject.name.errors %} has-error{% endif %}">
+          <label for="{{ id_visible }}" class="control-label label-static"> {% trans 'Visible?' %} </label>
+          <input type="checkbox" class="form-control" id="id_visible" name="visible" required="true"/>
+          <span class="help-block">{% trans 'Is it visible?' %}</span>
+
+        </div>
+
+
+        </div>
+        
         <div class="col-lg-offset-4 col-lg-4">
-          <button type="submite" class="btn btn-raised btn-primary btn-lg btn-block">{% trans 'Update' %}</button>
+          <button type="submit" class="btn btn-raised btn-primary btn-lg btn-block">{% trans 'Replicate' %}</button>
         </div>
       </form>
 
@@ -39,6 +65,9 @@
 
     $('.date-picker').datepicker({
         language: locale,
+    });
+    $(document).ready(function() {
+        $('#id_description').summernote({height: 300});
     });
   </script>
 {% endblock %}
