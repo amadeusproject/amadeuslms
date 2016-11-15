@@ -216,6 +216,7 @@ class ReplicateCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, Notificati
         context['categorys_courses'] = categorys_courses
         context['title'] = _("Replicate Course")
         context['now'] = date.today()
+        print (course.public)
         return context
 
     def get_success_url(self):
@@ -243,6 +244,7 @@ class UpdateCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Updat
     def form_valid(self, form):
         self.object = form.save()
 
+        print (form)
         self.log_context['course_id'] = self.object.id
         self.log_context['course_name'] = self.object.name
         self.log_context['course_slug'] = self.object.slug
@@ -256,7 +258,7 @@ class UpdateCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Updat
     def get_context_data(self, **kwargs):
         context = super(UpdateCourseView, self).get_context_data(**kwargs)
         course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
-
+        print (course.public)
         if has_role(self.request.user,'system_admin'):
             courses = Course.objects.all()
         elif has_role(self.request.user,'professor'):
