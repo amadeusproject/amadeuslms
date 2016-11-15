@@ -4,48 +4,33 @@
 
 <div class="row">
   <div class="col-sm-6 col-sm-offset-4 col-md-6 col-md-offset-4 col-xs-6 col-xs-offset-4 col-lg-6 col-lg-offset-4  col-xl-6 col-xl-offset-4 ">
-      <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2  col-lg-8 col-lg-offset-2  col-xl-8 col-xl-offset-2">
-        <img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block logo-login " alt="logo amadeus">
-      </div>
+    <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2  col-lg-8 col-lg-offset-2  col-xl-8 col-xl-offset-2">
+      <img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block logo-login " alt="logo amadeus">
+    </div>
   </div>
 </div>
 <div class="row">
   <div class="col-md-8 col-md-offset-3 col-sm-10 col-sm-offset-2  col-xs-12 col-xs-offset-1 col-lg-8 col-lg-offset-3 col-xl-8 col-xl-offset-3">
-    {% if success %}
-      <div class="alert alert-success alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <ul>
-            <li>{{ success }}</li>
-        </ul>
-      </div>
-    {% elif danger %}
-      <div class="alert alert-danger alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <ul>
-            <li>{{ danger }}</li>
-        </ul>
-      </div>
-    {% endif %}
     <div class="card">
       <div class="card-block">
-        <form class="form-group " method="post" action="">
-          <div class="col-md-12 col-xs-12 col-lg-10 col-lg-offset-1 col-sm-12">
-            {% csrf_token %}
-            <div class="form-group is-empty">
-              <p>{% trans "We have sent instructions to set up your password, if an account exists with the email entered. You should receive them soon." %}</p>
-              <p>{% trans "If you do not receive an email, please make sure you entered the address you registered, and check the spam folder." %}</p>
-            </div>
-            <div class="form-group">
-              <a href="{% url 'core:home' %}" class="btn btn-default btn-raised" >{% trans 'Back' %}</a>
-            </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <h2 style="color:#43a251"><strong>{% trans "Reset Your Password" %}</strong></h2>
           </div>
-        </form>
+        </div>
+        <div class="col-md-12 col-xs-12 col-lg-10 col-lg-offset-1 col-sm-12">
+          <div class="form-group is-empty">
+            <p>{% trans "We have sent instructions to set up your password, if an account exists with the email entered. You should receive them soon." %}</p>
+            <p>{% trans "If you do not receive an email, please make sure you entered the address you registered, and check the spam folder." %}</p>
+          </div>
+          <div class="form-group">
+            <a href="{% url 'core:home' %}" class="btn btn-default btn-raised" >{% trans 'Back' %}</a>
+          </div>
+        </div>
+        </br>
       </div>
     </div>
   </div>
 </div>
+</br>
 {% endblock content %}
