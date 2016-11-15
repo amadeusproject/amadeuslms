@@ -42,16 +42,11 @@ class CourseForm(forms.ModelForm):
 			raise forms.ValidationError(_('The end date may not be before the start date.'))
 		return end_date
 
-	# init_register_date = forms.DateField(widget=forms.DateField)
-	# end_register_date = forms.DateField(widget=forms.DateField)
-	# init_date = forms.DateField(widget=forms.DateField)
-	# end_date = forms.DateField(widget=forms.DateField)
-
 
 	class Meta:
 		model = Course
 		fields = ('name', 'objectivies', 'content', 'max_students', 'init_register_date', 'end_register_date',
-					'init_date', 'end_date', 'category', 'coordenator')
+					'init_date', 'end_date', 'category', 'coordenator','public')
 		labels = {
                             'name': _('Name'),
                             'objectivies': _('Objectives'),
@@ -61,8 +56,9 @@ class CourseForm(forms.ModelForm):
                             'end_register_date': _('Course registration end date'),
                             'init_date': _('Course start date'),
                             'end_date': _('Course end date'),
-                            'category': _('CourseCategory'),
+                            'category': _('Category'),
                             'coordenator': _('Coordenator'),
+							'public':_('Public'),
 		}
 		help_texts = {
                             'name': _('Course name'),
@@ -75,16 +71,42 @@ class CourseForm(forms.ModelForm):
                             'end_date': _('Date that the course ends (dd/mm/yyyy)'),
                             'category': _('CourseCategory which the course belongs'),
                             'coordenator': _('Course Coordenator'),
+							'public':_('To define if the course can be accessed by people not registered'),
 		}
 
 		widgets = {
-                            'categoy': forms.Select(),
+                            'ategoy': forms.Select(),
                             'coordenator': forms.Select(),
-                            'objectivies': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
-                            'content': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
+                            'content': SummernoteWidget(),
+							'objectivies': SummernoteWidget(),
 		}
 
 class UpdateCourseForm(CourseForm):
+
+	def clean_end_register_date(self):
+		init_register_date = self.cleaned_data['init_register_date']
+		end_register_date = self.cleaned_data['end_register_date']
+
+		if init_register_date and end_register_date and end_register_date < init_register_date:
+			raise forms.ValidationError(_('The end date may not be before the start date.'))
+		return end_register_date
+
+	def clean_init_date(self):
+		end_register_date = self.cleaned_data['end_register_date']
+		init_date = self.cleaned_data['init_date']
+
+		if end_register_date and init_date and init_date <= end_register_date:
+			raise forms.ValidationError(_('The course start date must be after the end of registration.'))
+		return init_date
+
+	def clean_end_date(self):
+		init_date = self.cleaned_data['init_date']
+		end_date = self.cleaned_data['end_date']
+
+		if init_date and end_date and end_date < init_date:
+			raise forms.ValidationError(_('The end date may not be before the start date.'))
+		return end_date
+
 	def __init__(self, *args, **kwargs):
 		super(UpdateCourseForm, self).__init__(*args, **kwargs)
 		self.fields["students"].required = False
@@ -92,7 +114,7 @@ class UpdateCourseForm(CourseForm):
 	class Meta:
 		model = Course
 		fields = ('name', 'objectivies', 'content', 'max_students', 'init_register_date', 'end_register_date',
-					'init_date', 'end_date', 'category','students', 'coordenator')
+					'init_date', 'end_date', 'category','students', 'coordenator','public')
 		labels = {
                             'name': _('Name'),
                             'objectivies': _('Objectives'),
@@ -102,9 +124,10 @@ class UpdateCourseForm(CourseForm):
                             'end_register_date': _('Course registration end date'),
                             'init_date': _('Course start date'),
                             'end_date': _('Course end date'),
-                            'category': _('CourseCategory'),
+                            'category': _('Category'),
                             'coordenator': _('Coordenator'),
                             'students': _('Student'),
+							'public':_('Public'),
 		}
 		help_texts = {
                             'name': _('Course name'),
@@ -118,12 +141,13 @@ class UpdateCourseForm(CourseForm):
                             'category': _('CourseCategory which the course belongs'),
                             'coordenator': _('Course Coordenator'),
                             'students': _("Course's Students"),
+							'public':_('To define if the course can be accessed by people not registered'),
 		}
 		widgets = {
                             'categoy': forms.Select(),
                             'coordenator': forms.Select(),
-                            'objectivies': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
-                            'content': SummernoteWidget(attrs={'cols': 80, 'rows': 5}),
+                            'content': SummernoteWidget(),
+							'objectivies': SummernoteWidget(),
 		}
 
 class SubjectForm(forms.ModelForm):
