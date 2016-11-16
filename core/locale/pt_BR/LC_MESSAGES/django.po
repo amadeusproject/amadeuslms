@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-15 16:55-0300\n"
+"POT-Creation-Date: 2016-11-16 11:17-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\forms.py:12
+#: .\forms.py:12 .\templates\index.html:50 .\templates\index.html:51
 msgid "Password"
 msgstr "Senha"
 
 #: .\forms.py:13
-msgid "Password confirmation"
-msgstr "Confirmação de senha"
+#, fuzzy
+#| msgid "Confirm password:"
+msgid "Confirm Password"
+msgstr "Confirmação de senha:"
 
 #: .\forms.py:27
 msgid "There is already a registered User with this e-mail"
@@ -34,25 +36,25 @@ msgstr "Já existe um usuário cadastrado com esse e-mail"
 msgid "Please enter a valid date"
 msgstr "Por favor, insira uma data válida"
 
-#: .\forms.py:40
+#: .\forms.py:42
 #, fuzzy
 #| msgid "There is already a registeres User with this CPF"
 msgid "There is already a registered User with this CPF"
 msgstr "Já existem usuários cadastrados com este CPF"
 
-#: .\forms.py:50
+#: .\forms.py:52
 #, python-format
 msgid "The password must contain at least % d characters."
 msgstr "A senha deve conter pelo menos % d caracteres"
 
-#: .\forms.py:55
+#: .\forms.py:57
 msgid ""
 "The password must contain at least one letter and at least one digit or a "
 "punctuation character."
 msgstr ""
 "A senha deve conter pelo menos uma letra, um dígito ou caracter de pontuação."
 
-#: .\forms.py:65
+#: .\forms.py:67
 msgid "The confirmation password is incorrect."
 msgstr "A confirmação de senha está incorreta."
 
@@ -198,31 +200,26 @@ msgstr "Remover conta"
 msgid "Menu"
 msgstr "Menu"
 
-#: .\templates\guest.html:101
+#: .\templates\guest.html:101 .\templates\register_user.html:110
 msgid "Register"
 msgstr "Cadastrar"
 
 #: .\templates\index.html:37
-#, fuzzy
-#| msgid "User Register"
-msgid "User Login"
-msgstr "Cadastro de usuário"
+msgid "Sign in with your account to continue"
+msgstr "Faça login com sua conta para continuar"
 
-#: .\templates\index.html:44
+#: .\templates\index.html:44 .\templates\index.html:45
 msgid "Username"
-msgstr "Login"
-
-#: .\templates\index.html:50
-msgid "password"
-msgstr "Senha"
+msgstr "Usuário"
 
 #: .\templates\index.html:57
 msgid "Remember Email"
 msgstr "Lembrar E-mail"
 
-#: .\templates\index.html:64
+#: .\templates\index.html:64 .\templates\register_user.html:113
+#: .\templates\registration\passwor_reset_complete.html:24
 msgid "Login"
-msgstr ""
+msgstr "Entrar"
 
 #: .\templates\index.html:67
 msgid "Guest"
@@ -240,25 +237,25 @@ msgstr "Cadastrar"
 msgid "User Register"
 msgstr "Cadastro de usuário"
 
-#: .\templates\register_user.html:65
+#: .\templates\register_user.html:71
 #, fuzzy
 #| msgid "Chose your file ..."
 msgid "Choose the file ..."
 msgstr "Escolha o arquivo..."
 
-#: .\templates\register_user.html:101
-msgid "Save"
-msgstr "Salvar"
+#: .\templates\registration\passwor_reset_complete.html:19
+msgid "Your password was reseted successful"
+msgstr ""
 
-#: .\templates\register_user.html:104
-msgid "Cancel"
-msgstr "Cancelar"
+#: .\templates\registration\passwor_reset_confirm.html:19
+#: .\templates\registration\passwor_reset_done.html:18
+#: .\templates\registration\passwor_reset_form.html:18
+#, fuzzy
+#| msgid "Recover your password"
+msgid "Reset Your Password"
+msgstr "Recupere sua senha"
 
-#: .\templates\registration\passwor_reset_complete.html:25
-msgid "Your password has been set. You can go ahead and go now."
-msgstr "Sua senha foi redefinida. Você pode prosseguir."
-
-#: .\templates\registration\passwor_reset_confirm.html:24
+#: .\templates\registration\passwor_reset_confirm.html:26
 msgid ""
 "Please enter your new password twice so we can verify you typed it in "
 "correctly."
@@ -266,19 +263,13 @@ msgstr ""
 "Por favor, insira uma nova senha duas vezes para verificarmos que digitou "
 "corretamente."
 
-#: .\templates\registration\passwor_reset_confirm.html:28
-msgid "New password:"
-msgstr "Nova senha:"
-
-#: .\templates\registration\passwor_reset_confirm.html:30
-msgid "Confirm password:"
-msgstr "Confirmação de senha:"
-
-#: .\templates\registration\passwor_reset_confirm.html:31
-msgid "Change my password"
+#: .\templates\registration\passwor_reset_confirm.html:57
+#, fuzzy
+#| msgid "Change my password"
+msgid "Change Password"
 msgstr "Mudar senha"
 
-#: .\templates\registration\passwor_reset_confirm.html:36
+#: .\templates\registration\passwor_reset_confirm.html:63
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.  Please request a new password reset."
@@ -286,7 +277,7 @@ msgstr ""
 "O link de redefinição de senha está inválido, possivelmente porque ele já "
 "foi utilizado. Por favor, solicite uma nova redefinição de senha."
 
-#: .\templates\registration\passwor_reset_done.html:39
+#: .\templates\registration\passwor_reset_done.html:23
 msgid ""
 "We have sent instructions to set up your password, if an account exists with "
 "the email entered. You should receive them soon."
@@ -294,7 +285,7 @@ msgstr ""
 "Foram enviadas instruções para redefinição de senha, se existe uma conta com "
 "o e-mail informado. Você deve receber a mensagem em breve."
 
-#: .\templates\registration\passwor_reset_done.html:40
+#: .\templates\registration\passwor_reset_done.html:24
 msgid ""
 "If you do not receive an email, please make sure you entered the address you "
 "registered, and check the spam folder."
@@ -302,16 +293,16 @@ msgstr ""
 "Se você não recebeu a mensagem, certifique que informou o e-mail "
 "corretamente e cheque sua caixa de spam"
 
-#: .\templates\registration\passwor_reset_done.html:43
-#: .\templates\registration\passwor_reset_form.html:50
+#: .\templates\registration\passwor_reset_done.html:27
+#: .\templates\registration\passwor_reset_form.html:51
 msgid "Back"
 msgstr "Voltar"
 
-#: .\templates\registration\passwor_reset_form.html:39
+#: .\templates\registration\passwor_reset_form.html:40
 msgid "E-mail"
 msgstr "E-mail"
 
-#: .\templates\registration\passwor_reset_form.html:45
+#: .\templates\registration\passwor_reset_form.html:46
 msgid "Send"
 msgstr "Enviar"
 
@@ -332,32 +323,52 @@ msgstr "Este campo é obrigatório."
 msgid "User successfully registered!"
 msgstr "Usuário cadastrado com sucesso!"
 
-#: .\views.py:62
-msgid "Recover your password"
-msgstr "Recupere sua senha"
-
-#: .\views.py:63
-#, python-brace-format
-msgid ""
-"Hello {0}, \n"
-"Recover your password to use your account.\n"
-"Number of registration: {1}\n"
-"Link for recuver password.\n"
-"\n"
-"Respectfully,\n"
-"Team Amadeus."
-msgstr ""
-"Olá, {0} \n"
-"Redefina a senha para utilizar sua conta.\n"
-"Número de registro: {1}\n"
-"Link para redefinição de senha.\n"
-"\n"
-"Atenciosamente,\n"
-"Equipe Amadeus."
-
-#: .\views.py:88
+#: .\views.py:66
 msgid "E-mail or password are incorrect."
 msgstr "E-mail ou senha incorretos."
+
+#, fuzzy
+#~| msgid "User Register"
+#~ msgid "User Login"
+#~ msgstr "Login"
+
+#~ msgid "Password confirmation"
+#~ msgstr "Confirmação de senha"
+
+#~ msgid "password"
+#~ msgstr "Senha"
+
+#~ msgid "Save"
+#~ msgstr "Salvar"
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
+
+#~ msgid "Your password has been set. You can go ahead and go now."
+#~ msgstr "Sua senha foi redefinida. Você pode prosseguir."
+
+#~ msgid "New password:"
+#~ msgstr "Nova senha:"
+
+#~ msgid "Change my password"
+#~ msgstr "Mudar senha"
+
+#~ msgid ""
+#~ "Hello {0}, \n"
+#~ "Recover your password to use your account.\n"
+#~ "Number of registration: {1}\n"
+#~ "Link for recuver password.\n"
+#~ "\n"
+#~ "Respectfully,\n"
+#~ "Team Amadeus."
+#~ msgstr ""
+#~ "Olá, {0} \n"
+#~ "Redefina a senha para utilizar sua conta.\n"
+#~ "Número de registro: {1}\n"
+#~ "Link para redefinição de senha.\n"
+#~ "\n"
+#~ "Atenciosamente,\n"
+#~ "Equipe Amadeus."
 
 #~ msgid "Please enter a valid CPF"
 #~ msgstr "Por favor, insira um CPF válido"
