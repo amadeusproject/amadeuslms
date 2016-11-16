@@ -58,14 +58,14 @@
                     $('#requisicoes_ajax').empty();
                     $('#list-topic{{ topic.id }}-links').append(data);
                     $('#list-topic{{ topic.id }}-links-edit').append(data);
-                    alertify.alert('Link successfully created!')
+                    alertify.success(" {% trans 'Link successfully created!' %} ");
                 },
                 error: function(data){
                     $("div.modal-backdrop.fade.in").remove();
                     $('#requisicoes_ajax').empty();
                     $('#requisicoes_ajax').append(data.responseText);
                     $('#createLinksModal').modal('show');
-                    alertify.alert('Invalid link, insert a valid one!');
+                    alertify.error("{% trans 'Invalid link, insert a valid one!' %}");
                 }
             });
             event.preventDefault();

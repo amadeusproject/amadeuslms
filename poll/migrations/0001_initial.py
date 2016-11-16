@@ -25,9 +25,9 @@ class Migration(migrations.Migration):
                 ('order', models.PositiveSmallIntegerField(verbose_name='Order')),
             ],
             options={
-                'verbose_name': 'Answer',
                 'verbose_name_plural': 'Answers',
                 'ordering': ('order',),
+                'verbose_name': 'Answer',
             },
         ),
         migrations.CreateModel(
@@ -39,8 +39,8 @@ class Migration(migrations.Migration):
                 ('answer', models.ManyToManyField(related_name='answers_stundet', to='poll.Answer', verbose_name='Answers Students')),
             ],
             options={
-                'verbose_name': 'Answer Stundent',
                 'verbose_name_plural': 'Answers Student',
+                'verbose_name': 'Answer Stundent',
             },
         ),
         migrations.CreateModel(
@@ -49,8 +49,8 @@ class Migration(migrations.Migration):
                 ('activity_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='courses.Activity')),
             ],
             options={
-                'verbose_name': 'Poll',
                 'verbose_name_plural': 'Polls',
+                'verbose_name': 'Poll',
             },
             bases=('courses.activity',),
         ),

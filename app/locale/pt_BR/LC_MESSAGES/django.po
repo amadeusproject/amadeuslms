@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-26 14:47-0300\n"
+"POT-Creation-Date: 2016-11-16 11:52-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,133 +18,238 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: app/templates/home.html:69 app/templates/home_professor.html:20
-#: app/templates/home_student.html:21
+#: .\forms.py:16
+msgid "A host name. Example: smtp.gmail.com"
+msgstr "O nome do host. Exemplo: smtp.gmail.com"
+
+#: .\forms.py:17
+msgid "A port number"
+msgstr "O Número da porta"
+
+#: .\forms.py:18
+msgid "Your host username"
+msgstr ""
+
+#: .\forms.py:19
+msgid "Your host password"
+msgstr "A senha do seu host"
+
+#: .\models.py:8
+msgid "No"
+msgstr "Não"
+
+#: .\models.py:9
+msgid "TLS, if available"
+msgstr "TLS, se disponível"
+
+#: .\models.py:14
+msgid "Description"
+msgstr "Descrição"
+
+#: .\models.py:15
+msgid "E-mail Host"
+msgstr "E-mail do Host"
+
+#: .\models.py:16
+msgid "Email Port"
+msgstr "Porta do E-mail"
+
+#: .\models.py:17
+msgid "Email host username"
+msgstr "Nome de usuário do E-mail do Host"
+
+#: .\models.py:18
+msgid "Email host password"
+msgstr "Senha de E-mail do Host"
+
+#: .\models.py:19
+msgid "Use safe conection"
+msgstr "Use uma conexão segura"
+
+#: .\models.py:20
+msgid "Default from email"
+msgstr "Padrão do E-mail"
+
+#: .\models.py:23
+msgid "Amadeus SMTP setting"
+msgstr "Configuração SMTP do Amadeus"
+
+#: .\models.py:24
+msgid "Amadeus SMTP settings"
+msgstr "Configurações SMTP do Amadeus"
+
+#: .\templates\admin_settings.html:23 .\templates\admin_settings.html:29
+msgid "System"
+msgstr "Sistema"
+
+#: .\templates\admin_settings.html:26 .\templates\admin_settings.html:31
+msgid "Mail Sender"
+msgstr "Remetente do E-mail"
+
+#: .\templates\admin_settings.html:35
+msgid "Security"
+msgstr "Segurança"
+
+#: .\templates\admin_settings.html:49
+msgid "General"
+msgstr "Geral"
+
+#: .\templates\admin_settings.html:71
+msgid "Outgoing Server (SMTP)"
+msgstr "Servidor de saída (SMTP)"
+
+#: .\templates\admin_settings.html:74 .\templates\home.html:100
+msgid "Settings"
+msgstr "Configurações"
+
+#: .\templates\admin_settings.html:126
+msgid "Default:"
+msgstr "Padrão:"
+
+#: .\templates\admin_settings.html:147
+msgid "Security and authentication"
+msgstr "Segurança e autenticação"
+
+#: .\templates\admin_settings.html:246 .\templates\admin_settings.html:263
+msgid "Save changes"
+msgstr "Salvar mudanças"
+
+#: .\templates\admin_settings.html:260
+msgid "Allow users self-enroll."
+msgstr "Permitir que os usuários possam se inscrever"
+
+#: .\templates\home.html:77
 msgid "Menu"
 msgstr "Menu"
 
-#: app/templates/home.html:73
-msgid "Home"
-msgstr "Início"
-
-#: app/templates/home.html:74 app/templates/home_student.html:25
-msgid "Profile"
-msgstr "Perfil"
-
-#: app/templates/home.html:76
-#, fuzzy
-#| msgid "My Courses"
-msgid "My courses"
-msgstr "Meus Cursos"
-
-#: app/templates/home.html:78 app/templates/home_student.html:27
-#, fuzzy
-#| msgid "Courses"
-msgid "All Courses"
+#: .\templates\home.html:82 .\templates\home.html:109
+#: .\templates\home_professor.html:22
+msgid "Courses"
 msgstr "Cursos"
 
-#: app/templates/home.html:80
+#: .\templates\home.html:85
+msgid "My Courses"
+msgstr "Meus Cursos"
+
+#: .\templates\home.html:86
+msgid "All Courses"
+msgstr "Todos Cursos"
+
+#: .\templates\home.html:88
+msgid "List Category"
+msgstr "Listar Categorias"
+
+#: .\templates\home.html:89
+msgid "Create Course"
+msgstr "Criar Curso"
+
+#: .\templates\home.html:90
+#, fuzzy
+#| msgid "Create Course"
+msgid "Create Category"
+msgstr "Criar Curso"
+
+#: .\templates\home.html:99
 #, fuzzy
 #| msgid "Manage Course"
 msgid "Manage Users"
 msgstr "Gerenciar Usuários"
 
-#: app/templates/home.html:84
-#, fuzzy
-#| msgid "Manage Course"
-msgid "Manage Courses"
-msgstr "Gerenciar Cursos"
-
-#: app/templates/home.html:101 app/templates/home_professor.html:34
-msgid "Courses"
-msgstr "Cursos"
-
-#: app/templates/home_admin_content.html:10
+#: .\templates\home_admin_content.html:10
 #, fuzzy
 #| msgid "Students:"
 msgid "Students"
 msgstr "Alunos"
 
-#: app/templates/home_admin_content.html:11
+#: .\templates\home_admin_content.html:11
 #, fuzzy
 #| msgid "Beginning:"
 msgid "Beginning"
-msgstr "Começo"
+msgstr "Início"
 
-#: app/templates/home_admin_content.html:12
+#: .\templates\home_admin_content.html:12
 #, fuzzy
 #| msgid "End:"
 msgid "End"
 msgstr "Fim:"
 
-#: app/templates/home_admin_content.html:15
+#: .\templates\home_admin_content.html:15
 msgid "Edit"
 msgstr "Editar"
 
-#: app/templates/home_professor.html:24
-msgid "Pending tasks"
-msgstr "Tarefas Pendentes"
-
-#: app/templates/home_professor.html:25
-msgid "Create Course"
-msgstr "Criar Curso"
-
-#: app/templates/home_professor.html:26
-msgid "Manage Course"
-msgstr "Gerenciar Curso"
-
-#: app/templates/home_professor.html:44
+#: .\templates\home_professor.html:32
 msgid "Students:"
 msgstr "Alunos"
 
-#: app/templates/home_professor.html:45
+#: .\templates\home_professor.html:33
 msgid "Beginning:"
-msgstr "Começo"
+msgstr "Início"
 
-#: app/templates/home_professor.html:46
+#: .\templates\home_professor.html:34
 msgid "End:"
 msgstr "Fim:"
 
-#: app/templates/home_professor.html:53
+#: .\templates\home_professor.html:41
 msgid "You didn't create any course yet."
 msgstr "Você não criou nenhum curso ainda."
 
-#: app/templates/home_student.html:26
-msgid "My Courses"
-msgstr "Meus Cursos"
-
-#: app/templates/home_student.html:28
-msgid "Google accounts"
-msgstr "Contas do Google"
-
-#: app/templates/home_student.html:35
+#: .\templates\home_student.html:22
 msgid "Notifications"
 msgstr "Notificações"
 
-#: app/templates/home_student.html:48
+#: .\templates\home_student.html:35
 msgid "His course has notified a new activity!"
 msgstr "Seu curso tem uma nova atividade!"
 
-#: app/templates/home_student.html:51 app/templates/home_student.html:59
-#: app/templates/home_student.html:67
+#: .\templates\home_student.html:38 .\templates\home_student.html:46
+#: .\templates\home_student.html:54
 msgid "Go"
 msgstr "Ir"
 
-#: app/templates/home_student.html:56
+#: .\templates\home_student.html:43
 msgid "His teacher has notified a new material!"
 msgstr "Seu professor adicionou um novo material!"
 
-#: app/templates/home_student.html:64
+#: .\templates\home_student.html:51
 msgid "You have a new guardian!"
 msgstr "Você tem um novo tutor!"
 
-#: app/templates/home_teacher_student_content.html:14
+#: .\templates\home_teacher_student_content.html:14
 msgid "at"
 msgstr "em"
 
-#: app/templates/home_teacher_student_content.html:15
+#: .\templates\home_teacher_student_content.html:15
 msgid "ago"
 msgstr "atrás"
+
+#: .\views.py:72
+msgid "Changes saved."
+msgstr "Mudanças salvas"
+
+#, fuzzy
+#~| msgid "My Courses"
+#~ msgid "My courses"
+#~ msgstr "Meus Cursos"
+
+#~ msgid "Home"
+#~ msgstr "Início"
+
+#~ msgid "Profile"
+#~ msgstr "Perfil"
+
+#, fuzzy
+#~| msgid "Manage Course"
+#~ msgid "Manage Courses"
+#~ msgstr "Gerenciar Cursos"
+
+#~ msgid "Pending tasks"
+#~ msgstr "Tarefas Pendentes"
+
+#~ msgid "Manage Course"
+#~ msgstr "Gerenciar Curso"
+
+#~ msgid "Google accounts"
+#~ msgstr "Contas do Google"
 
 #~ msgid "The Project"
 #~ msgstr "O projeto"
@@ -159,9 +264,6 @@ msgstr "atrás"
 #~| msgid "Profile"
 #~ msgid "See Profile"
 #~ msgstr "Perfil"
-
-#~ msgid "Settings"
-#~ msgstr "Configurações"
 
 #~ msgid "Logout"
 #~ msgstr "Sair"
