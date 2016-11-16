@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 # Create your models here.
 
 class EmailBackend(models.Model):
-    
+
     SAFE_CONECTIONS = (
         (0, _('No')),
         (1, _('TLS, if available')),
@@ -17,7 +17,7 @@ class EmailBackend(models.Model):
     username = models.CharField(_('Email host username'), max_length=30)
     password = models.CharField(_('Email host password'), max_length=30, blank=True)
     safe_conection = models.IntegerField(_('Use safe conection'), choices=SAFE_CONECTIONS, default=0)
-    default_from_email = models.EmailField(_('Default from email'), blank=True)
+    default_from_email = models.EmailField(_('Default from email'))
 
     class Meta:
         verbose_name = _('Amadeus SMTP setting')
