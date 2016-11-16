@@ -91,13 +91,9 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
         list_courses = None
         if has_role(self.request.user,'system_admin'):
             list_courses = self.get_queryset().order_by('name')
-            # categorys_courses = CourseCategory.objects.all()
-        elif has_role(self.request.user,'professor'):
-            list_courses = self.get_queryset().filter(professors__in = [self.request.user])
-            # categorys_courses = CourseCategory.objects.filter(course_category__professors__name = self.request.user.name).distinct()
-        elif has_role(self.request.user, 'student'):
-            list_courses = self.get_queryset().filter(students__in = [self.request.user])
-
+        else:
+            list_courses = self.get_queryset().all()
+    
         context['categorys_courses'] = course_category(list_courses)
         return context
 
@@ -361,10 +357,6 @@ class CourseView(LogMixin, NotificationMixin, generic.DetailView):
 
         if has_role(self.request.user,'system_admin'):
             courses = Course.objects.all()
-        elif has_role(self.request.user,'professor'):
-            courses = self.request.user.courses_professors.all()
-        elif has_role(self.request.user, 'student'):
-            courses = self.request.user.courses_student.all()
         else:
             courses = Course.objects.filter(public = True)
 
@@ -674,7 +666,7 @@ class CreateTopicView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMi
         action = super(CreateTopicView, self).createorRetrieveAction("create Topic")
         super(CreateTopicView, self).createNotification("Topic "+ self.object.name + " was created",
             resource_name=self.object.name, resource_link= reverse('course:view_topic',args=[self.object.slug]),
-             actor=self.request.user, users = self.object.subject.course.students.all() )
+             actor=self.request.user, users = self.object.subject.students.all() )
 
         self.log_context['topic_id'] = self.object.id
         self.log_context['topic_name'] = self.object.name
@@ -778,7 +770,7 @@ class CreateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, Notification
         self.object.professors.add(self.request.user)
         if self.object.visible:
             super(CreateSubjectView, self).createNotification( " created subject " + self.object.name, resource_name=self.object.name,
-             resource_slug = self.object.slug, actor=self.request.user, users= self.object.course.students.all(),
+             resource_slug = self.object.slug, actor=self.request.user,
              resource_link = reverse('course:view_subject', args=[self.object.slug]))
 
         self.log_context['subject_id'] = self.object.id
@@ -891,7 +883,7 @@ class DeleteSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Dele
 def subscribe_subject(request, slug):
     subject = get_object_or_404(Subject, slug = slug)
 
-    if request.user in subject.course.students.all():
+    if request.user not in subject.students.all():
         subject.students.add(request.user)
 
         if request.user in subject.students.all():
@@ -1018,7 +1010,7 @@ class ReplicateTopicView (LoginRequiredMixin, HasRoleMixin, LogMixin, Notificati
         action = super(ReplicateTopicView, self).createorRetrieveAction("create Topic")
         super(ReplicateTopicView, self).createNotification("Topic "+ self.object.name + " was created",
             resource_name=self.object.name, resource_link= reverse('course:view_topic',args=[self.object.slug]),
-             actor=self.request.user, users = self.object.subject.course.students.all() )
+             actor=self.request.user, users = self.object.subject.students.all() )
 
         self.log_context['topic_id'] = self.object.id
         self.log_context['topic_name'] = self.object.name
@@ -1072,7 +1064,7 @@ class ReplicateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, Notificat
         self.object.professors.add(self.request.user)
         if self.object.visible:
             super(ReplicateSubjectView, self).createNotification( " created subject " + self.object.name, resource_name=self.object.name,
-             resource_slug = self.object.slug, actor=self.request.user, users= self.object.course.students.all(),
+             resource_slug = self.object.slug, actor=self.request.user, users= self.object.students.all(),
              resource_link = reverse('course:view_subject', args=[self.object.slug]))
 
         self.log_context['subject_id'] = self.object.id
