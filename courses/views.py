@@ -314,7 +314,7 @@ class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Delet
 
         return reverse_lazy('course:manage')
 
-
+@login_required
 class CourseView(LogMixin, NotificationMixin, generic.DetailView):
     log_component = "courses"
     log_action = "viewed"
