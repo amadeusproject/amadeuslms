@@ -1022,8 +1022,8 @@ class ReplicateTopicView (LoginRequiredMixin, HasRoleMixin, LogMixin, Notificati
 
     allowed_roles = ['professor', 'system_admin']
     login_url = reverse_lazy("core:home")
-    model = Topic
-    template_name = 'topic/replicate_topic.html'
+    redirect_field_name = 'next'
+    template_name = 'topic/replicate.html'
     form_class = TopicForm
 
     def get_success_url(self):
@@ -1032,21 +1032,23 @@ class ReplicateTopicView (LoginRequiredMixin, HasRoleMixin, LogMixin, Notificati
     def get_context_data(self, **kwargs):
         context = super(ReplicateTopicView, self).get_context_data(**kwargs)
         topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
-        subject = topic.subject
+        subject = Subject.objects.get(pk = topic.subject_id)
         context['course'] = subject.course
         context['subject'] = subject
         context['subjects'] = subject.course.subjects.all()
         context['topic'] = topic
         return context
 
-
     def form_valid(self, form):
-        self.object.subject = self.object.subject.id
+        topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+        subject = Subject.objects.get(pk = topic.subject_id)
+
         self.object = form.save(commit = False)
+        self.object.topic = topic
+        self.object.subject = subject
         self.object.owner = self.request.user
         self.object.save()
-
-        action = super(ReplicateTopicView, self).createorRetrieveAction("replicate Topic")
+        action = super(ReplicateTopicView, self).createorRetrieveAction("create Topic")
         super(ReplicateTopicView, self).createNotification("Topic "+ self.object.name + " was created",
             resource_name=self.object.name, resource_link= reverse('course:view_topic',args=[self.object.slug]),
              actor=self.request.user, users = self.object.subject.course.students.all() )

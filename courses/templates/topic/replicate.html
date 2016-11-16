@@ -11,7 +11,7 @@
         
         <div class="form-group {% if topic.name.errors %} has-error{% endif %}">
           <label for="id_name" class="control-label label-static"> {% trans 'Name'%}</label>
-          <input class="form-control" id="id_name" maxlength="100" name="name" placeholder="Name" type="text" value={{topic.name}} required />
+          <textarea class="form-control" id="id_name" maxlength="100" rows="1" name="name" placeholder="Name" type="text" required >{{topic.name}}</textarea>
 
           <span class="help-block">{% trans 'Topic name'%}</span>
         </div>
