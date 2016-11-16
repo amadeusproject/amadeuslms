@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-16 11:17-0300\n"
+"POT-Creation-Date: 2016-11-16 11:23-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,10 +216,9 @@ msgstr "Usuário"
 msgid "Remember Email"
 msgstr "Lembrar E-mail"
 
-#: .\templates\index.html:64 .\templates\register_user.html:113
-#: .\templates\registration\passwor_reset_complete.html:24
-msgid "Login"
-msgstr "Entrar"
+#: .\templates\index.html:64
+msgid "Log in"
+msgstr "Acessar"
 
 #: .\templates\index.html:67
 msgid "Guest"
@@ -242,6 +241,11 @@ msgstr "Cadastro de usuário"
 #| msgid "Chose your file ..."
 msgid "Choose the file ..."
 msgstr "Escolha o arquivo..."
+
+#: .\templates\register_user.html:113
+#: .\templates\registration\passwor_reset_complete.html:24
+msgid "Login"
+msgstr "Entrar"
 
 #: .\templates\registration\passwor_reset_complete.html:19
 msgid "Your password was reseted successful"
