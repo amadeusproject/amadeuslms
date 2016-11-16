@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-27 23:54-0300\n"
+"POT-Creation-Date: 2016-11-16 13:43-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,46 +18,79 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\forms.py:16 .\forms.py:22
+#: .\forms.py:14 .\forms.py:16 .\forms.py:29 .\forms.py:31
 msgid "Invalid url!"
 msgstr "Url inválida!"
 
-#: .\templates\links\create_link.html:9
-msgid "Create a New Link"
-msgstr "Criar um novo link"
-
-#: .\templates\links\create_link.html:46 .\templates\links\delete_link.html:15
-#: .\templates\links\update_link.html:25
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: .\templates\links\delete_link.html:11
-msgid "Do you really want to delete this link?"
-msgstr "Você realmente deseja apagar este link?"
-
-#: .\templates\links\delete_link.html:16
-msgid "Confirm"
-msgstr "Confirmar"
-
-#: .\templates\links\update_link.html:8
-msgid "Links"
-msgstr "Links"
-
-#: .\templates\links\update_link.html:13
-msgid "Name"
-msgstr "Nome"
-
-#: .\templates\links\update_link.html:17
-msgid "URL"
+#: .\models.py:8
+msgid "Link_URL"
 msgstr "URL"
 
-#: .\templates\links\update_link.html:21
+#: .\models.py:9
 msgid "Description"
 msgstr "Descrição"
 
-#: .\templates\links\update_link.html:26
+#: .\templates\links\create_link.html:8
+msgid "Create a New Link"
+msgstr "Criar um novo link"
+
+#: .\templates\links\create_link.html:35 .\templates\links\update_link.html:39
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: .\templates\links\create_link.html:36 .\templates\links\update_link.html:40
 msgid "Submit"
 msgstr "Enviar"
+
+#: .\templates\links\create_link.html:61
+#, fuzzy
+#| msgid "Link created successfully!"
+msgid "Link successfully created!"
+msgstr "Link criado com sucesso!"
+
+#: .\templates\links\create_link.html:68 .\templates\links\update_link.html:73
+msgid "Invalid link, insert a valid one!"
+msgstr "Link inválido, insira um válido! "
+
+#: .\templates\links\delete_link.html:12
+msgid "Delete Link"
+msgstr "Apagar Link"
+
+#: .\templates\links\delete_link.html:20
+#, fuzzy
+#| msgid "Do you really want to delete this link?"
+msgid "Are you sure to delete the link "
+msgstr "Você realmente deseja apagar o link "
+
+#: .\templates\links\delete_link.html:24
+msgid "Close"
+msgstr "Fechar"
+
+#: .\templates\links\delete_link.html:25
+msgid "Delete"
+msgstr "Apagar"
+
+#: .\templates\links\delete_link.html:56
+#, fuzzy
+#| msgid "Link created successfully!"
+msgid "Link successfully deleted!"
+msgstr "Link criado com sucesso!"
+
+#: .\templates\links\delete_link.html:63
+msgid "Error when trying to delete."
+msgstr "Erro ao tentar apagar."
+
+#: .\templates\links\update_link.html:8
+#, fuzzy
+#| msgid "Link"
+msgid "Edit Link"
+msgstr "Link"
+
+#: .\templates\links\update_link.html:66
+#, fuzzy
+#| msgid "Link deleted Successfully!"
+msgid "Link Sucessfully Updated!"
+msgstr "Link apagado com sucesso!"
 
 #: .\templates\links\view_link.html:8
 msgid "Link"
@@ -67,14 +100,17 @@ msgstr "Link"
 msgid "Read more"
 msgstr "Ler mais"
 
-#: .\views.py:28
-msgid "Link created successfully!"
-msgstr "Link criado com sucesso!"
+#~ msgid "Confirm"
+#~ msgstr "Confirmar"
 
-#: .\views.py:50
-msgid "Link deleted Successfully!"
-msgstr "Link apagado com sucesso!"
+#~ msgid "Links"
+#~ msgstr "Links"
 
-#: .\views.py:69
-msgid "Link updated successfully!"
-msgstr "Link atualizado com sucesso!"
+#~ msgid "Name"
+#~ msgstr "Nome"
+
+#~ msgid "URL"
+#~ msgstr "URL"
+
+#~ msgid "Link updated successfully!"
+#~ msgstr "Link atualizado com sucesso!"
