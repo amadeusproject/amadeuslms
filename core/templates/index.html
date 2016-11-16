@@ -34,7 +34,7 @@
       <div class="card-block">
         <div class="row">
           <div class="col-md-12 text-center">
-            <h2 style="color:#43a251"><strong>{% trans "User Login" %}</strong></h2>
+            <h2 style="color:#43a251"><strong> {% trans 'Sign in with your account to continue' %} </strong></h2>
           </div>
         </div>
         <form id="form-login" method="post" action="">
@@ -42,13 +42,13 @@
           <div class="col-md-10 col-md-offset-1">
             <div class="form-group">
               <label for="inputEmail" class="control-label"> {% trans 'Username' %}</label>
-              <input form="form-login" for="inputSmall" type="text" name="username" class="form-control" placeholder="Username" id="inputEmail" value="{% if username %}{{username}}{% endif %}">
+              <input form="form-login" for="inputSmall" type="text" name="username" class="form-control" placeholder="{% trans 'Username' %}" id="inputEmail" value="{% if username %}{{username}}{% endif %}">
             </div>
           </div>
           <div class="col-md-10 col-md-offset-1">
             <div class="form-group">
-              <label for="inputPassword" class="control-label"> {% trans 'password' %}</label>
-              <input form="form-login" for="inputSmall" type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
+              <label for="inputPassword" class="control-label"> {% trans 'Password' %}</label>
+              <input form="form-login" for="inputSmall" type="password" name="password" class="form-control" id="inputPassword" placeholder="{% trans 'Password' %}">
             </div>
           </div>
           <div class="col-md-10 col-md-offset-1">
