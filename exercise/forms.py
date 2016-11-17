@@ -9,11 +9,13 @@ class ExerciseForm(forms.ModelForm):
 
     class Meta:
         model = Exercise
-        fields = ['name']
+        fields = ['name_exercise', 'description', 'init_date',
+                    'end_date', 'name_exercise']
 
 
 class UpdateExerciseForm(forms.ModelForm):
 
     class Meta:
         model = Exercise
-        fields = ['name']
+        fields = ['name_exercise', 'description', 'init_date',
+                    'end_date', 'grade', 'name_exercise']

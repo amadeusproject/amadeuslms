@@ -51,7 +51,6 @@
   </div>
 </div>
 <!-- EndModal -->
-<script src="{% static 'js/exercises.js' %}"></script>
 <script type="text/javascript">
   $("#form-exercise").submit(function(event) {
         $("#createExercisesModal").modal("hide");
@@ -64,7 +63,7 @@
             processData: false,
             contentType: false,
             success: function(data) {
-                $('#requisicoes_ajax').empty();
+                $('#createExercisesModal').modal('hide');
                 $('#list-topic{{ topic.id }}-exercises').append(data);
                 $('#list-topic{{ topic.id }}-exercises-edit').append(data);
                 alertify.success('Exercise successfully created!')
