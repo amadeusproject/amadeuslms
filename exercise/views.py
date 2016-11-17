@@ -18,27 +18,6 @@ from rolepermissions.verifications import has_role
 from users.models import User
 
 
-class HomeExercise(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, generic.ListView):
-
-    allowed_roles = ['student', 'professor']
-    login_url = reverse_lazy("core:home")
-    redirect_field_name = 'next'
-    queryset = User.objects.all()
-    template_name = 'exercise/home.html'
-    context_object_name = 'users'
-    paginate_by = 10
-
-    def get_context_data(self, **kwargs):
-        context = super(HomeExercise, self).get_context_data(**kwargs)
-        topic = get_object_or_404(Topic, slug=self.kwargs.get('slug'))
-        # users = self.queryset.filter(subject_student = )
-        context['topic'] = topic
-        # context['users'] = users
-        context['subject'] = topic.subject
-
-        return context
-
-
 class CreateExercise(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, generic.CreateView):
     log_component = 'exercise'
     log_resource = 'exercise'

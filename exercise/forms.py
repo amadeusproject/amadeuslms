@@ -9,11 +9,11 @@ class ExerciseForm(forms.ModelForm):
 
     class Meta:
         model = Exercise
-        fields = ['name', 'file']
+        fields = ['name']
 
 
 class UpdateExerciseForm(forms.ModelForm):
 
     class Meta:
         model = Exercise
-        fields = ['name', 'file']
+        fields = ['name']

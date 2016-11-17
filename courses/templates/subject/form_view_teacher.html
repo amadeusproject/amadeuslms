@@ -7,7 +7,7 @@
         <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
       </div>
       <div class="col-xs-9 col-md-9 titleTopic">
-        <a role="button">
+        <a href="{% url 'course:view_topic' topic.slug %}" role="button">
           <h4>{{topic}}</h4>
         </a>
       </div><!--column -->
@@ -123,12 +123,6 @@
             </ul>
           </div>
         </div>
-        <div class="col-xs-4 col-md-4">
-          <div class="resource_inline">
-            <a href="{% url 'exercise:home' topic.slug %}"><h4>{% trans 'Exercises' %}</h4></a>
-          </div>
-        </div>
-        {% include "exercise/create_exercise.html" %}
       </div>
 
       {# opções de cancelar e editar no modo de edição #}
