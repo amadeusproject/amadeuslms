@@ -10,7 +10,7 @@ class ExerciseForm(forms.ModelForm):
     class Meta:
         model = Exercise
         fields = ['name_exercise', 'description', 'init_date',
-                    'end_date', 'name_exercise']
+                    'end_date', 'file']
 
 
 class UpdateExerciseForm(forms.ModelForm):
@@ -18,4 +18,4 @@ class UpdateExerciseForm(forms.ModelForm):
     class Meta:
         model = Exercise
         fields = ['name_exercise', 'description', 'init_date',
-                    'end_date', 'grade', 'name_exercise']
+                    'end_date', 'grade', 'file']

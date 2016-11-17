@@ -48,19 +48,19 @@ class CreateExercise(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMix
         topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
         self.object.topic = topic
         self.object.name = str(self.object)
+        self.object.exercise = self.object
         self.object.professors = topic.subject.professors
         self.object.students = topic.subject.students
 
         # Set MimeType
         exercise = self.request.FILES['exercise_url']
-        self.object.file_exercise.file = exercise
         try:
             if exercise:
                 exercise_type = exercise.content_type
 
                 # Check if exist a mimetype in database
                 try:
-                    self.object.file_exercise.file_type = MimeType.objects.get(typ = exercise_type)
+                    self.object.file_type = MimeType.objects.get(typ = exercise_type)
                 # Create if not
                 except:
                     mtype = MimeType.objects.create(
@@ -68,7 +68,7 @@ class CreateExercise(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMix
                         icon = mime_type_to_material_icons[exercise_type]
                     )
                     mtype.save()
-                    self.object.file_exercise.file_type = mtype
+                    self.object.file_type = mtype
         except:
             print('Exercise not uploaded')
 

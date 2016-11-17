@@ -16,7 +16,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views import generic
-from exercise.models import Exercise, File
+from exercise.models import Exercise
 from files.forms import FileForm
 from files.models import TopicFile
 from functools import reduce
