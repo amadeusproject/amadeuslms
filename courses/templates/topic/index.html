@@ -120,7 +120,7 @@
     </div>
 </div>
   <div class="col-md-6">
-      <h3>{% trans 'Students - Especific Exercises' %}</h3>  
+      <h3>{% trans 'Students - Specific Exercises' %}</h3>  
       <br/>  
   </div>
     {# mostra a lista de usuários caso seja um professor ou admin #}
@@ -128,8 +128,9 @@
     {% for user in users %}
       {% include "exercise/card_list_user.html" %}
     {% endfor %}
+  {% endif %}
   {# caso seja um estudante, mostra a lista de exercícios proposta a ele #}
-  {% elif user|has_role:'student'%}
+  {% if user|has_role:'student'%}
     {% for exercise in exercises %}
       {% include "exercise/card_topic_exercises.html" %}
     {% endfor %}

@@ -123,6 +123,19 @@
             </ul>
           </div>
         </div>
+          <div class="resource_inline">
+            <h4>{% trans 'Exercises' %}</h4>
+          </div>
+          <div class="resource_inline">
+            {# dropdown de create exercício #}
+            <div class="dropdown">
+              <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
+              <ul class="dropdown-menu" aria-labelledby="dLabel">
+                <li><a href="javascript:modal.get('{% url 'course:exercise:create_exercise' topic.slug %}', '#createExercisesModal','#requisicoes_ajax')">{% trans 'Create a general exercise' %}</a></li>
+              </ul>
+            </div>
+          </div>
+          {% include "exercise/create_exercise.html" %}
       </div>
 
       {# opções de cancelar e editar no modo de edição #}

@@ -3,6 +3,7 @@ from decimal import Decimal
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from users.models import User
+from core.models import MimeType
 
 """
     Function to return the path where the file should be saved
@@ -35,6 +36,7 @@ class File(models.Model):
     name = models.CharField(max_length=100)
     file = models.FileField(upload_to='uploads/%Y/%m/%d')
     exercise = models.ForeignKey(Exercise, related_name='file')
-    
+    file_type = models.ForeignKey(MimeType, verbose_name=_('Type file'), related_name='file_files')
+
     def __str__(self):
         return self.name

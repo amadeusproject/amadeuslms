@@ -16,7 +16,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views import generic
-from exercise.models import Exercise
+from exercise.models import Exercise, File
 from files.forms import FileForm
 from files.models import TopicFile
 from functools import reduce
@@ -622,12 +622,13 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
         activitys = Activity.objects.filter(topic__name = topic.name)
         students_activit = User.objects.filter(activities__in = Activity.objects.all())
         materials = Material.objects.filter(topic = topic)
-        if has_role(self.request.user, 'professor'):
-            users = User.objects.filter(subject_student__in = Subject.objects.all())
-            context['users'] = users
-        elif has_role(self.request.user, 'student'):
-            exercises = Exercise.objects.all().filter(students=self.request.user)
-            context['exercises'] = exercises
+        
+        users = User.objects.filter(subject_student__in = Subject.objects.all())
+        context['users'] = users
+        exercises = Exercise.objects.filter(Q(students=self.request.user)|Q(professors=self.request.user))
+        context['exercises'] = exercises
+        files = File.objects.all()
+        context['files'] = files
 
         context['topic'] = topic
         context['subject'] = topic.subject
