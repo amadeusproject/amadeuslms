@@ -11,7 +11,7 @@
     <div class="group"><div class="panel panel-default">
       <div class="panel-heading topic ui-sortable-handle" role="tab">
         <div class="row">
-          <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{topic.slug}}" href=".collapseTopic-{{topic.slug}}" aria-expanded="false" aria-controls="collapseTopic-{{topic.slug}}">
+          <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{user.id}}" href=".collapseTopic-{{user.id}}" aria-expanded="false" aria-controls="collapseTopic-{{user.id}}">
             <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
           </div>
           <div class="col-xs-9 col-md-9 titleTopic">
@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <div class="panel-collapse collapseTopic-{{topic.slug}} collapse in" role="tabpanel" aria-labelledby="heading_{{topic.slug}}" aria-expanded="true" aria-hidden="false">
+      <div class="panel-collapse collapseTopic-{{user.id}} collapse in" role="tabpanel" aria-labelledby="heading_{{user.id}}" aria-expanded="true" aria-hidden="false">
         <div class="panel-body">
           <div class="presentation">
             <p>
