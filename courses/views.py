@@ -56,7 +56,7 @@ def course_category(list_courses):
     if (cat):
         categorys_courses.append(cat)
 
-    return categorys_courses
+    return sorted(list(categorys_courses),key = lambda x:x.name)
 
 class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
 
@@ -93,10 +93,10 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
             list_courses = self.get_queryset().order_by('name')
             # categorys_courses = CourseCategory.objects.all()
         elif has_role(self.request.user,'professor'):
-            list_courses = self.get_queryset().filter(professors__in = [self.request.user])
+            list_courses = self.get_queryset().filter(professors__in = [self.request.user]).order_by('name')
             # categorys_courses = CourseCategory.objects.filter(course_category__professors__name = self.request.user.name).distinct()
         elif has_role(self.request.user, 'student'):
-            list_courses = self.get_queryset().filter(students__in = [self.request.user])
+            list_courses = self.get_queryset().filter(students__in = [self.request.user]).order_by('name')
 
         context['categorys_courses'] = course_category(list_courses)
         return context
@@ -136,6 +136,7 @@ class AllCoursesView(LoginRequiredMixin, NotificationMixin, generic.ListView):
         list_courses = self.get_queryset()
 
         context['categorys_courses'] = course_category(list_courses)
+
         return context
 
 class CreateCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, generic.edit.CreateView):
