@@ -11,12 +11,28 @@ def value_field(course, field):
     value = ""
     if field == 'name':
         value = course.name
+    elif field == 'objectivies':
+        value = course.objectivies
     elif field == 'content':
         value = course.content
+    elif field == 'max_students':
+        value = course.max_students
+    elif field == 'init_register_date':
+        value = course.init_register_date
+    elif field == 'end_register_date':
+        value = course.end_register_date
+    elif field == 'init_date':
+        value = course.init_date
+    elif field == 'end_date':
+        value = course.end_date
     elif field == 'coordenator':
         value = course.coordenator
     elif field == 'category':
         value = course.category
+    elif field == 'professors':
+        value = course.professors.all()
+    elif field == 'students':
+        value = course.students.all()
     elif field == 'public':
         value = course.public
 

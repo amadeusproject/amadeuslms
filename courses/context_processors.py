@@ -8,9 +8,6 @@ def courses(request):
 			if request.user.is_staff:
 				context['courses_list'] = Course.objects.all()
 			else:
-				#context['courses_list'] = 
-				context['courses_list'] = Course.objects.all()
-
-				#context['courses_list'] = Course.objects.filter(professors__in = [request.user])
+				context['courses_list'] = Course.objects.filter(professors__in = [request.user])
 			return context
 	return context

@@ -8,8 +8,9 @@ def hide_subscribe_view_btn(user, subject):
 	if not user is None:
 		if user.is_authenticated:
 			if has_role(user, 'student') and not user.is_staff:
-				if user in subject.students.all():
-					return True
+				if user in subject.course.students.all():
+					if not user in subject.students.all():
+						return True
 				else:
 					return True
 
@@ -20,7 +21,7 @@ def show_subject_subscribe(user, subject):
 	if not user is None:
 		if user.is_authenticated:
 			if has_role(user, 'student') and not user.is_staff:
-				if not user in subject.students.all() and subject.show_subscribe:
+				if not user in subject.students.all() and user in subject.course.students.all() and subject.show_subscribe:
 					return  True
 
 	return False
