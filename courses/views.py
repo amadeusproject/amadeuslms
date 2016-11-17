@@ -623,7 +623,7 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
         students_activit = User.objects.filter(activities__in = Activity.objects.all())
         materials = Material.objects.filter(topic = topic)
         if has_role(self.request.user, 'professor'):
-            users = User.objects.all()
+            users = User.objects.filter(subject_student__in = Subject.objects.all())
             context['users'] = users
         elif has_role(self.request.user, 'student'):
             exercises = Exercise.objects.all().filter(students=self.request.user)
