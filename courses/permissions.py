@@ -6,10 +6,10 @@ def view_topic(role, user, topic):
     if (role == SystemAdmin):
         return True
 
-    if user in topic.subject.professors.all():
+    if (user in topic.subject.course.professors.all() and user in topic.subject.professors.all()):
         return True
 
-    if  user in topic.subject.students.all():
+    if (user in topic.subject.course.students.all() and user in topic.subject.students.all()):
         return True
 
     return False
@@ -29,10 +29,10 @@ def view_subject(role, user, subject):
     if (role == SystemAdmin):
         return True
 
-    if user in subject.professors.all():
+    if (user in subject.course.professors.all() and user in subject.professors.all()):
         return True
 
-    if user in subject.students.all():
+    if (user in subject.course.students.all() and user in subject.students.all()):
         return True
 
     return False
