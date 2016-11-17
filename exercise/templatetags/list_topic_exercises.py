@@ -5,21 +5,21 @@ register = template.Library()
 
 
 @register.inclusion_tag('exercise/exercise_list.html')
-def list_topic_exercise(request):
+def list_topic_exercise(request, topic):
     context = {
         'request': request,
     }
-    context['exercises'] = Exercise.objects.all()
+    context['exercises'] = Exercise.objects.filter(topic=topic)
 
     return context
 
 
 @register.inclusion_tag('exercise/exercise_edit.html')
-def list_topic_exercise_edit(request, exercise):
+def list_topic_exercise_edit(request, topic):
     context = {
         'request': request,
     }
-    context['exercises'] = Exercise.objects.all()
-    context['exercise'] = exercise
+    context['exercises'] = Exercise.objects.filter(topic = topic)
+    context['topic'] = topic
 
     return context

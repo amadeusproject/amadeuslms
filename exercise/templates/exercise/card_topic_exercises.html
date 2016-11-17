@@ -1,0 +1,62 @@
+{% load static widget_tweaks i18n %}
+
+<div class="col-lg-4 col-xs-4 col-sm-4">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <form class="form-horizontal">
+        <fieldset>
+          <center><legend>{{exercise.name}}</legend></center>
+          <div class="container-fluid">
+            <div class="form-group">
+              <label class="col-md-2 col-xs-2 col-sm-2 control-label">Describe: </label><br>
+              {% if exercise.description%}
+                {{exercise.description}}
+              {% else %}
+                {% trans "Don't have description" %}
+              {% endif %}
+            </div>
+            <div class="form-group">
+              <label class="col-md-2 col-xs-2 col-sm-2 control-label">Opening: </label><br>{{exercise.init_date}}
+
+            </div>
+            <div class="form-group">
+              <label class="col-md-2 col-xs-2 col-sm-2 control-label">Ending: </label><br>{{exercise.end_date}}
+
+            </div>
+           <div class="form-group">
+              <label for="nota" class="col-md-2 control-label">NOTA: 
+                {% if exercise.grade %}
+                  <div class="col-md-4">
+                    <p id="nota" class="form-control">
+                      {{exercise.grade}}
+                    </p>
+                  </div>
+                {% else %}
+                    {% trans 'Not yet' %}
+                {% endif %}
+              </label>
+            </div>
+            {% if exercise.file %}
+              <div class="form-group">
+                <label for="DelExc" class="col-md-4 control-label"> <i class="fa fa-file-archive-o fa-3x" aria-hidden="true">
+                {% for file in exercise.file %}
+                    <a href="{{exercise.file.url}}">{% trans 'File' %}</a>
+                {% endfor %}
+                </i> 
+              </div>
+            {% else %}
+              <p>{% trans 'Exercise not yet' %}</p>
+            {% endif %}
+            {% if not exercise.grade %}
+              <div class="form-group">
+                <label class="col-md-6 control-label"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>{% trans 'Teacher waiting corretion' %}
+              </div>
+            {% endif %}
+          </div>
+
+        </fieldset>
+      </form>
+
+    </div>
+  </div>
+</div>

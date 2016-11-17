@@ -1,0 +1,33 @@
+{% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access list_topic_exercises %}
+
+  <div class="col-md-12 col-sm-12 col-lg-12">
+    <div class="panel-group accordion ui-accordion ui-widget ui-helper-reset ui-sortable" role="tablist" aria-multiselectable="false">
+      <div class="group"><div class="panel panel-default">
+        <div class="panel-heading topic ui-sortable-handle" role="tab">
+          <div class="row">
+            <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{user.id}}" href=".collapseTopic-{{user.id}}" aria-expanded="false" aria-controls="collapseTopic-{{user.id}}">
+              <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
+            </div>
+            <div class="col-xs-9 col-md-9 titleTopic">
+              <a href="" role="button">
+                <h4>{{user|capfirst}}</h4>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-collapse collapseTopic-{{user.id}} collapse in" role="tabpanel" aria-labelledby="heading_{{user.id}}" aria-expanded="true" aria-hidden="false">
+          <div class="panel-body">
+            <div class="presentation">
+              <p>
+                <i>
+
+                </i>
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -562,39 +562,6 @@ class SubjectsView(LoginRequiredMixin, LogMixin, generic.ListView):
             context['files'] = TopicFile.objects.filter(students__name = self.request.user.name)
         return context
 
-class ReplicateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin,generic.edit.CreateView):
-
-    allowed_roles = ['professor', 'system_admin']
-    login_url = reverse_lazy("core:home")
-    redirect_field_name = 'next'
-    template_name = 'subject/replicate.html'
-    form_class = SubjectForm
-    success_url = reverse_lazy('course:view')
-
-    def get_context_data(self, **kwargs):
-        context = super(ReplicateSubjectView, self).get_context_data(**kwargs)
-        subject = get_object_or_404(Subject, slug=self.kwargs.get('slug'))
-
-        if has_role(self.request.user,'system_admin'):
-            subjects = Subject.objects.all()
-            context['subjects'] = subjects
-        elif has_role(self.request.user,'professor'):
-            subject = self.request.user.professors_subjects.all()
-        categorys_subjects = CategorySubject.objects.all()
-
-        context['subject'] = subject
-        context['categorys_subjects'] = categorys_subjects
-        context['title'] = _("Replicate Subject")
-        context['now'] = date.today()
-        return context
-
-    def form_valid(self, form):
-        self.object = form.save()
-
-        return super(ReplicateSubjectView, self).form_valid(form)
-
-    def get_success_url(self):
-        return reverse_lazy('course:view', kwargs={'slug' : self.object.slug})
 
 class UploadMaterialView(LoginRequiredMixin, generic.edit.CreateView):
     login_url = reverse_lazy("core:home")
@@ -664,6 +631,12 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
         activitys = Activity.objects.filter(topic__name = topic.name)
         students_activit = User.objects.filter(activities__in = Activity.objects.all())
         materials = Material.objects.filter(topic = topic)
+        if has_role(self.request.user, 'professor'):
+            users = User.objects.filter(subject_student__in = Subject.objects.all())
+            context['users'] = users
+        elif has_role(self.request.user, 'student'):
+            exercises = Exercise.objects.all().filter(students=self.request.user)
+            context['exercises'] = exercises
 
         context['topic'] = topic
         context['subject'] = topic.subject
@@ -1018,13 +991,13 @@ class TopicViewSet(viewsets.ModelViewSet):
 class ReplicateTopicView (LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin,generic.edit.CreateView):
     log_component = "course"
     log_resource = "topic"
-    log_action = "create"
+    log_action = "replicate"
     log_context = {}
 
     allowed_roles = ['professor', 'system_admin']
     login_url = reverse_lazy("core:home")
-    model = Topic
-    template_name = 'topic/replicate_topic.html'
+    redirect_field_name = 'next'
+    template_name = 'topic/replicate.html'
     form_class = TopicForm
 
     def get_success_url(self):
@@ -1033,21 +1006,23 @@ class ReplicateTopicView (LoginRequiredMixin, HasRoleMixin, LogMixin, Notificati
     def get_context_data(self, **kwargs):
         context = super(ReplicateTopicView, self).get_context_data(**kwargs)
         topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
-        subject = topic.subject
+        subject = Subject.objects.get(pk = topic.subject_id)
         context['course'] = subject.course
         context['subject'] = subject
         context['subjects'] = subject.course.subjects.all()
         context['topic'] = topic
         return context
 
-
     def form_valid(self, form):
-        self.object.subject = self.object.subject.id
+        topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+        subject = Subject.objects.get(pk = topic.subject_id)
+
         self.object = form.save(commit = False)
+        self.object.topic = topic
+        self.object.subject = subject
         self.object.owner = self.request.user
         self.object.save()
-
-        action = super(ReplicateTopicView, self).createorRetrieveAction("replicate Topic")
+        action = super(ReplicateTopicView, self).createorRetrieveAction("create Topic")
         super(ReplicateTopicView, self).createNotification("Topic "+ self.object.name + " was created",
             resource_name=self.object.name, resource_link= reverse('course:view_topic',args=[self.object.slug]),
              actor=self.request.user, users = self.object.subject.course.students.all() )
@@ -1067,3 +1042,55 @@ class ReplicateTopicView (LoginRequiredMixin, HasRoleMixin, LogMixin, Notificati
         super(ReplicateTopicView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return super(ReplicateTopicView, self).form_valid(form)
+
+class ReplicateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, generic.edit.CreateView):
+    log_component = "course"
+    log_resource = "subject"
+    log_action = "replicate"
+    log_context = {}
+
+    allowed_roles = ['professor', 'system_admin']
+    login_url = reverse_lazy("core:home")
+    redirect_field_name = 'next'
+    template_name = 'subject/replicate.html'
+    form_class = SubjectForm
+
+    def get_success_url(self):
+        return reverse_lazy('course:view_subject', kwargs={'slug' : self.object.slug})
+
+    def get_context_data(self, **kwargs):
+        context = super(ReplicateSubjectView, self).get_context_data(**kwargs)
+        subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+        course = Course.objects.get(pk=subject.course_id)
+        context['course'] = course
+        context['subjects'] = course.subjects.filter(Q(visible=True) | Q(professors__in=[self.request.user]))
+        context['subject'] = subject
+        if (has_role(self.request.user,'system_admin')):
+            context['subjects'] = course.subjects.all()
+        return context
+
+    def form_valid(self, form):
+        subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+        course = Course.objects.get(pk=subject.course_id)
+
+        self.object = form.save(commit = False)
+        self.object.course = course
+        self.object.save()
+        self.object.professors.add(self.request.user)
+        if self.object.visible:
+            super(ReplicateSubjectView, self).createNotification( " created subject " + self.object.name, resource_name=self.object.name,
+             resource_slug = self.object.slug, actor=self.request.user, users= self.object.course.students.all(),
+             resource_link = reverse('course:view_subject', args=[self.object.slug]))
+
+        self.log_context['subject_id'] = self.object.id
+        self.log_context['subject_name'] = self.object.name
+        self.log_context['subject_slug'] = self.object.slug
+        self.log_context['course_id'] = course.id
+        self.log_context['course_name'] = course.name
+        self.log_context['course_slug'] = course.slug
+        self.log_context['course_category_id'] = course.category.id
+        self.log_context['course_category_name'] = course.category.name
+
+        super(ReplicateSubjectView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+        return super(ReplicateSubjectView, self).form_valid(form)
