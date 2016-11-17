@@ -30,7 +30,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 	institution = models.CharField(_('Institution'), max_length = 50, blank=True, null=True)
 	curriculum = models.FileField(verbose_name = _('Curriculum'), upload_to='users/curriculum/', null=True, blank=True)
 	date_created = models.DateTimeField(_('Create Date'), auto_now_add = True)
-	is_staff = models.BooleanField(_('Administrador'), default = False)
+	is_staff = models.BooleanField(_('Administrator'), default = False)
 	is_active = models.BooleanField(_('Active'), default = True)
 
 	USERNAME_FIELD = 'username'
