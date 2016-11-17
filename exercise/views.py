@@ -1,6 +1,5 @@
 from .forms import ExerciseForm, UpdateExerciseForm
 from .models import Exercise
-from files.utils import mime_type_to_material_icons
 from core.decorators import log_decorator
 from core.mixins import LogMixin, NotificationMixin
 from core.models import Log, MimeType
@@ -13,8 +12,31 @@ from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import generic
+from files.utils import mime_type_to_material_icons
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.verifications import has_role
+from users.models import User
+
+
+class HomeExercise(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, generic.ListView):
+
+    allowed_roles = ['student', 'professor']
+    login_url = reverse_lazy("core:home")
+    redirect_field_name = 'next'
+    queryset = User.objects.all()
+    template_name = 'exercise/home.html'
+    context_object_name = 'users'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super(HomeExercise, self).get_context_data(**kwargs)
+        topic = get_object_or_404(Topic, slug=self.kwargs.get('slug'))
+        # users = self.queryset.filter(subject_student = )
+        context['topic'] = topic
+        # context['users'] = users
+        context['subject'] = topic.subject
+
+        return context
 
 
 class CreateExercise(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, generic.CreateView):
@@ -23,7 +45,7 @@ class CreateExercise(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMix
     log_action = 'create'
     log_component = {}
 
-    allowed_roles = ['student']
+    allowed_roles = ['student', 'professor']
     login_url = reverse_lazy("core:home")
     redirect_field_name = 'next'
     model = Exercise

@@ -125,21 +125,10 @@
         </div>
         <div class="col-xs-4 col-md-4">
           <div class="resource_inline">
-            <h4>{% trans 'Exercises' %}</h4>
-          </div>
-          <div class="presentation_{{exercise.slug}}">
-            {# exercício do tópico no modo de visualização #}
-            <ul>
-              {% list_topic_exercise request %}
-            </ul>
-          </div>
-          <div class="editation editation_{{exercise.slug}}">
-            {# exercício do tópico no modo de edição #}
-            <ul>
-              {% list_topic_exercise_edit request exercise %}
-            </ul>
+            <a href="{% url 'exercise:home' topic.slug %}"><h4>{% trans 'Exercises' %}</h4></a>
           </div>
         </div>
+        {% include "exercise/create_exercise.html" %}
       </div>
 
       {# opções de cancelar e editar no modo de edição #}

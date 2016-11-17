@@ -63,33 +63,6 @@
             </ul>
           </div>
         </div>
-        <div class="col-xs-4 col-md-4">
-          <div class="resource_inline">
-            <h4>{% trans 'Exercises' %}</h4>
-          </div>
-          <div class="resource_inline">
-            {# dropdown de create exercício #}
-            <div class="dropdown">
-              <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-              <ul class="dropdown-menu" aria-labelledby="dLabel">
-                <li><a href="javascript:modal.get('{% url 'course:exercise:create_exercise' topic.slug %}', '#createExercisesModal','#requisicoes_ajax')">{% trans 'Create a Exercise' %}</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="presentation_{{exercise.slug}}">
-            {# exercício do tópico no modo de visualização #}
-            <ul>
-              {% list_topic_exercise request %}
-            </ul>
-          </div>
-          <div class="editation editation_{{exercise.slug}}">
-            {# exercício do tópico no modo de edição #}
-            <ul>
-              {% list_topic_exercise_edit request exercise %}
-            </ul>
-          </div>
-        </div>
-        {% include "exercise/create_exercise.html" %}
       </div>
     {% endif %}
 

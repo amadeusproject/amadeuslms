@@ -1,0 +1,76 @@
+{% extends 'home.html' %}
+
+{% load static i18n permission_tags professor_access %}
+
+{% block javascript %}
+<script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
+<script src="{% static 'js/file.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/material.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/modals_requisitions.js' %}"></script>
+<script type = "text/javascript" src="{% static 'js/topic_editation_presentation.js' %}"></script>
+<script type = "text/javascript" src="{% static 'js/links.js' %}"></script>
+<script src="{% static 'js/modal_poll.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+<ol class="breadcrumb">
+  <li><a href="">{% trans 'Home' %}</a></li>
+  <li><a href="">{% trans 'Courses' %}</a></li>
+  <li><a href="">{{ course }}</a></li> 
+  <li class="active">{{ subject }}</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<div class="panel panel-info">
+  <div class="panel-heading course-detail">
+    <div class="row">
+      <div class="col-md-10 col-sm-10">
+        <h4>{{subject}}</h4>
+      </div>
+
+      {# dropdown de subject com as opções de replicar, editar e deletar #}
+      <div class="col-xs-4 col-md-2 divMoreActions">
+
+        <div class="btn-group">
+          <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+          </button>
+          <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+            <li><a href=""><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
+            <li><a href=""> <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
+            <li><a href="" ><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  {# informações do subject(professor, descrição etc) #}
+  <div class="panel-body">
+    <p><b>{% trans "Professor" %}:</b> {% for professor in subject.professors.all %}{% if not forloop.first %},{% endif %}
+      {{professor}}{% if forloop.last %}.{% endif %}{% endfor %}</p>
+      <p>
+        <b>{% trans "Description" %}:</b>
+        {{subject.description|safe}}
+      </p>
+      <div class="row">
+        <div class="col-xs-6 col-md-6">
+          <p><b>{% trans "Beginning" %}:</b> {{subject.init_date}}</p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p><b>{% trans "End" %}:</b> {{subject.end_date}}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  {# lista de usuários #}
+  {% for user in users %}
+    {% include "exercise/card_list_user.html" %}
+  {% endfor %}
+
+  {% endblock %}
