@@ -2,35 +2,51 @@
 
 {% load static i18n permission_tags widget_tweaks %}
 
-{% block breadcrumbs %}
-	<ol class="breadcrumb">
-	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li class="active">{% trans 'Replicate Subject' %}</li>
-	</ol>
-{% endblock %}
-
 {% block content %}
-<div class="panel panel-default">
+
+  <div class="panel panel-default">
     <div class="panel-body">
       <form class="form-group " method="post" action="">
         {% csrf_token %}
-        {% for field in form %}
-        <div class="form-group {% if field.errors %} has-error{% endif %}">
-          <label for="{{ field.auto_id }}" class="control-label label-static"> {{ field.label }}</label>
+        
+        <div class="form-group {% if subject.name.errors %} has-error{% endif %}">
+          <label for="id_name" class="control-label label-static"> {% trans 'Name'%}</label>
+          <textarea class="form-control" id="id_name" maxlength="100" rows="1" name="name" placeholder="Name" type="text" required >{{subject.name}}</textarea>
 
-          {% if field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date'%}
-              <input type="text" class="form-control date-picker" name="{{field.name}}" value="{{field.value|date:'SHORT_DA E_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
-          {% else %}
-              {% render_field field class='form-control' placeholder=field.label%}
-          {% endif %}
-          <span class="help-block">{{ field.help_text }}</span>
+          <span class="help-block">{% trans 'Subject name'%}</span>
         </div>
-        {% endfor %}
+
+        <div class="form-group">
+          <label for="id_description" class="control-label label-static"> {% trans 'Description'%}</label>
+          <textarea class="form-control" id="id_description" name="description" placeholder="Description" type="text" >{{subject.description}}</textarea>
+
+          <span class="help-block">{% trans 'Subject description'%}</span>
+        </div>
+
+        <div class="form-group">
+          <label for="id_init_date" class="control-label label-static"> {% trans 'Init date'%}</label>
+          <input type="text" class="form-control date-picker" name="init_date" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
+
+          <span class="help-block">{% trans 'Init date'%}</span>
+        </div>
+
+        <div class="form-group">
+          <label for="id_end_date" class="control-label label-static"> {% trans 'End date'%}</label>
+          <input type="text" class="form-control date-picker" name="end_date" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
+
+          <span class="help-block">{% trans 'End date'%}</span>
+        </div>
+
+        <div class="form-group">
+          <label for="id_visible" class="control-label label-static"> {% trans 'Visible'%}</label>
+          <input class="form-control" id="id_visible" name="visible" type="checkbox"/>
+
+          <span class="help-block">{% trans 'Is it visible?'%}</span>
+        </div>
         <div class="col-lg-offset-4 col-lg-4">
-          <button type="submite" class="btn btn-raised btn-primary btn-lg btn-block">{% trans 'Update' %}</button>
+          <button type="submite" class="btn btn-raised btn-primary btn-lg btn-block">{% trans 'Replicate' %}</button>
         </div>
       </form>
-
     </div>
   </div>
 
@@ -40,5 +56,8 @@
     $('.date-picker').datepicker({
         language: locale,
     });
+    $(document).ready(function() {
+        $('#id_description').summernote({height: 300});
+    });
   </script>
-{% endblock %}
+{% endblock content %}

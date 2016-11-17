@@ -10,7 +10,7 @@ import re
 class RegisterUserForm(forms.ModelForm):
 
     password = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
-    password2 = forms.CharField(label = _('Password confirmation'), widget = forms.PasswordInput)
+    password2 = forms.CharField(label = _('Confirm Password'), widget = forms.PasswordInput)
     # birth_date = forms.DateField(widget=forms.SelectDateWidget())
     MIN_LENGTH = 8
 
@@ -36,8 +36,10 @@ class RegisterUserForm(forms.ModelForm):
 
     def clean_cpf(self):
         cpf = self.cleaned_data['cpf']
+        if (cpf == ""):
+            return cpf
         if User.objects.filter(cpf = cpf).exists():
-            raise forms.ValidationError(_('There is already a registeres User with this CPF'))
+            raise forms.ValidationError(_('There is already a registered User with this CPF'))
        # if not self.validate_cpf(cpf):
        #   raise forms.ValidationError(_('Please enter a valid CPF'))
         return cpf

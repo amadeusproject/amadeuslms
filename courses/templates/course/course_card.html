@@ -35,21 +35,14 @@
           <div class="panel-body">
             <p><b>{% trans 'Course Name' %}: </b>{{course.name}}</p>
             <p><b>{% trans 'Coordenator' %}: </b>{{course.coordenator}}</p>
-            <p><b>{% trans 'Professor' %}: </b>{{course.professors.all.0}}</p>
+           
             <p>
               <b>{% trans 'Description' %}:</b>
               <i>
-                {{course.content | safe }}
+                {{course.description | safe }}
               </i>
             </p>
-            <div class="row">
-              <div class="col-xs-6 col-md-6 data_register_course">
-                <p><b>{% trans 'Init register' %}: </b>{{course.init_register_date}}</p>
-              </div>
-              <div class="col-xs-6 col-md-6 data_register_course">
-                <p><b>{% trans 'End register' %}: </b>{{course.end_register_date}}</p>
-              </div>
-            </div>
+            
           </div>
         </div>
     </div>
@@ -59,7 +52,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">{% trans 'Repicate Course' %}</h4>
+                <h4 class="modal-title">{% trans 'Replicate Course' %}</h4>
             </div>
             <div class="modal-body">
                 <section>

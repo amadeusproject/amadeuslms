@@ -82,8 +82,8 @@
                   <a href="#menu_courses" class="accordion" data-toggle="collapse">{% trans 'Courses' %}<span class="pull-right glyphicon glyphicon-chevron-down"></span></a>
                   <div id="menu_courses" class="collapse">
                       <ul class="nav nav-pill nav-stacked accordion_list">
-                        <li><a href="{% url 'course:manage' %}">{% trans 'My courses' %}</a></li>
-                        <li><a href="{% url 'course:all_courses' %}">{% trans 'All Courses' %}</a></li>
+                        <li><a href="{% url 'course:manage' %}"> {% trans 'My Courses' %} </a></li>
+                        <li><a href="{% url 'course:all_courses' %}"> {% trans 'All Courses' %} </a></li>
                         {% if user|has_role:'system_admin' or user|has_role:'professor'%}
                           <li><a href="{% url 'course:manage_cat' %}">{% trans 'List Category' %}</a></li>
                           <li><a href="{% url 'course:create' %}">{% trans 'Create Course' %}</a></li>

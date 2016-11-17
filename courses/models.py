@@ -13,7 +13,7 @@ class CourseCategory(models.Model):
 
 	name = models.CharField(_('Name'), max_length = 100, unique = True)
 	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
-	create_date = models.DateField(_('Creation Date'), auto_now_add = True)
+	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 
 	class Meta:
 		verbose_name = _('Category')
@@ -25,7 +25,7 @@ class CourseCategory(models.Model):
 class CategorySubject(models.Model):
 	name = models.CharField(_('Name'), max_length=100, unique=True)
 	slug = AutoSlugField(_("Slug"), populate_from='name', unique=True)
-	create_date = models.DateField(_('Creation Date'), auto_now_add=True)
+	create_date = models.DateTimeField(_('Creation Date'), auto_now_add=True)
 
 	class Meta:
 		verbose_name = _('Category')
@@ -38,22 +38,13 @@ class Course(models.Model):
 
 	name = models.CharField(_('Name'), max_length = 100)
 	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
-	objectivies = models.TextField(_('Objectivies'), blank = True)
-	content = models.TextField(_('Content'), blank = True)
-	max_students = models.PositiveIntegerField(_('Maximum Students'), blank = True)
-	create_date = models.DateField(_('Creation Date'), auto_now_add = True)
-	init_register_date = models.DateField(_('Register Date (Begin)'))
-	end_register_date = models.DateField(_('Register Date (End)'))
-	init_date = models.DateField(_('Begin of Course Date'))
-	end_date = models.DateField(_('End of Course Date'))
+	description = models.TextField(_('Content'), blank = True)
 	category = models.ForeignKey(CourseCategory, verbose_name = _('Category'), related_name='course_category')
 	coordenator = models.ForeignKey(User, verbose_name = _('Coordenator'), related_name ='course_coordenator', null = True)
-	professors = models.ManyToManyField(User,verbose_name=_('Professors'), related_name='courses_professors')
-	students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='courses_student', blank = True)
 	public = models.BooleanField(_('Public'), default=False)
 
 	class Meta:
-		ordering = ('create_date','name')
+		ordering = ('name',)
 		verbose_name = _('Course')
 		verbose_name_plural = _('Courses')
 
@@ -106,7 +97,6 @@ class Topic(models.Model):
 	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 	update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
 	subject = models.ForeignKey(Subject, verbose_name = _('Subject'))
-	owner = models.ForeignKey(User, verbose_name = _('Owner'))
 	visible = models.BooleanField(_('Visible'), default=False)
 
 	class Meta:

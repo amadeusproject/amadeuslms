@@ -52,9 +52,9 @@
                     </div>
                     <div id="{{category.slug}}" class="panel-collapse collapse">
                         {% for course in category.course_category %}
-                            {# {% if user in course.students.all or user in course.professors.all or user|has_role:'system_admin' %}#}
-                                 {% include "course/course_card.html" %}
-                            {# {% endif %}#}
+                            
+                            {% include "course/course_card.html" %}
+                        
                         {% endfor %}
                     </div>
                 </div>
