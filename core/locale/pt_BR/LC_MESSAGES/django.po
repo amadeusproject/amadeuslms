@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-16 11:23-0300\n"
+"POT-Creation-Date: 2016-11-17 09:21-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,10 +23,8 @@ msgid "Password"
 msgstr "Senha"
 
 #: .\forms.py:13
-#, fuzzy
-#| msgid "Confirm password:"
 msgid "Confirm Password"
-msgstr "Confirmação de senha:"
+msgstr "Confirme a senha:"
 
 #: .\forms.py:27
 msgid "There is already a registered User with this e-mail"
@@ -237,8 +235,6 @@ msgid "User Register"
 msgstr "Cadastro de usuário"
 
 #: .\templates\register_user.html:71
-#, fuzzy
-#| msgid "Chose your file ..."
 msgid "Choose the file ..."
 msgstr "Escolha o arquivo..."
 
