@@ -66,72 +66,8 @@
 
             <!-- true or false question -->
 
-            <div id="true-or-false" style="display:none;">
-            <hr>
-
-              <div class="row form-group">
-
-                <label for="question-name" class="col-md-2 control-label">Question</label>
-
-
-                <div class="col-md-10">
-                  <textarea class="form-control" rows="1" id="question-name" placeholder="Wording"></textarea>
-                </div>
-
-
-              </div>
-              <div class="row form-group">
-                <label for="alternative" class="col-md-2 control-label">Alternatives: T/F</label>
-                <div class="col-md-10" id="radiosTF">
-                  <!-- alternative -->
-                  <div class="radio radio-primary form-group">
-                      <label>
-                      <textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>
-                    </label>
-                    <label>
-                      <input type="radio" name="true-or-false-1" value="T">
-                    </label>
-                    <label>
-                      <input type="radio" name="true-or-false-1" value="F">
-                    </label>
-                  </div>
-                  <!-- alternative -->
-                  <div class="radio radio-primary form-group">
-                      <label>
-                      <textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>
-                    </label>
-                    <label>
-                      <input type="radio" name="true-or-false-2" value="T">
-                    </label>
-                    <label>
-                      <input type="radio" name="true-or-false-2" value="F">
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-md-12 col-md-offset-2">
-                <button type="button" class="btn btn-primary" id="tf-new-alternative">New Alternative</button>
-                </div>
-              </div>
-              <hr>
-                </div>
 
             <!-- discursive question -->
-
-              <div id="discursive-question" style="display:none;">
-                <hr>
-                  <div class="row form-group">
-
-                    <label for="question-name" class="col-md-2 control-label">Question</label>
-
-
-                    <div class="col-md-10">
-                      <textarea class="form-control" rows="1" id="question" placeholder="Wording"></textarea>
-                    </div>
-                  </div>
-                  <hr>
-                </div>
 
             <!-- end of discurisve question -->
                       <!-- Modal Footer -->
@@ -153,6 +89,8 @@
 </div>
 
 <script type="text/javascript">
+
+//Insert Create select with question type
   var idQuestionType = 1;
   $("#addQuestion").on("click", function(event){
     var element =
@@ -177,10 +115,12 @@
       }
     idQuestionType++;
   })
+
+  //Insert question choice
   function showDiv (elem, questionType_id) {
     if (elem.value == 0) {
-      var questionChoise =
-      '<div id="multiple-choice">' +
+      var questionChoice =
+      '<div id="questionChoice_'+questionType_id+'">' +
               '<div class="row form-group">'+
                 '<label for="question-name" class="col-md-2 control-label">Question</label>'+
                 '<div class="col-md-10">'+
@@ -208,20 +148,62 @@
                 '<button type="button" class="btn btn-raised btn-primary" id="mc-new-alternative">New Alternative</button>'+
               '</div>'+
             '</div>';
-      $(questionChoise).insertBefore('#hr_'+questionType_id);
     } else if (elem.value == 1) {
-
-      document.getElementById('true-or-false').style.display = "block";
-      document.getElementById('multiple-choice').style.display = "none";
-
-      document.getElementById('discursive-question').style.display = "none";
-    } else if (elem.value == 2) {
-
-      document.getElementById('multiple-choice').style.display = "none";
-      document.getElementById('true-or-false').style.display = "none";
-      document.getElementById('discursive-question').style.display = "block";
+      var questionChoice =
+        '<div id="questionChoice_'+questionType_id+'">'+
+              '<div class="row form-group">'+
+                '<label for="question-name" class="col-md-2 control-label">Question True or False</label>'+
+                '<div class="col-md-10">'+
+                  '<textarea class="form-control" rows="1" id="question-name" placeholder="Wording"></textarea>'+
+                '</div>'+
+              '</div>'+
+              '<div class="row form-group">'+
+                '<label for="alternative" class="col-md-2 control-label">Alternatives: T/F</label>'+
+                '<div class="col-md-10" id="radiosTF">'+
+                  '<div class="radio radio-primary form-group">'+
+                      '<label>'+
+                      '<textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>'+
+                    '</label>'+
+                    '<label>'+
+                      '<input type="radio" name="true-or-false-1" value="T">'+
+                    '</label>'+
+                    '<label>'+
+                      '<input type="radio" name="true-or-false-1" value="F">'+
+                    '</label>'+
+                  '</div>'+
+                  '<div class="radio radio-primary form-group">'+
+                      '<label>'+
+                      '<textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>'+
+                    '</label>'+
+                    '<label>'+
+                      '<input type="radio" name="true-or-false-2" value="T">'+
+                    '</label>'+
+                    '<label>'+
+                      '<input type="radio" name="true-or-false-2" value="F">'+
+                    '</label>'+
+                  '</div>'+
+                '</div>'+
+              '</div>'+
+            '</div>';
+    } else if (elem.value == 3) {
+      var questionChoice =
+      '<div id="questionChoice_'+questionType_id+'">'+
+        '<div class="row form-group">'+
+          '<label for="question-name" class="col-md-2 control-label">Name Question discursive</label>'+
+          '<div class="col-md-10">'+
+            '<textarea class="form-control" rows="2" id="question" placeholder="Wording"></textarea>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
     }
+    if(document.getElementById('questionChoice_'+ questionType_id)){
+      $('#questionChoice_'+ questionType_id).detach();
+    }
+    $(questionChoice).insertBefore('#hr_'+questionType_id);
   }
+
+
+//asdasjdahsd
   var id = 1;
   $("#add_question").click(function(){
     $.get("{% url 'course:exam:true_or_false_question' %}", function(data){
