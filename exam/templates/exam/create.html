@@ -1,4 +1,4 @@
-{% extends "home.html" %}
+
 
 {% load i18n widget_tweaks dict_access static%}
 
@@ -8,7 +8,7 @@
 
 {# {% endblock %} #}
 
-{# {% block content %} #}
+{% block content %}
 <!-- Modal (remember to change the ids!!!) -->
 <div class="modal fade" id="exam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -19,7 +19,7 @@
 
         {% block title_exam %}
         <!-- Put your title here!!!  -->
-        <h4 class="modal-title" id="myModalLabel">{% trans "Create a Exam" %}</h4>
+          <h4 class="modal-title" id="myModalLabel">{% trans "Create a Exam" %}</h4>
         {% endblock title_exam %}
       </div>
       <!-- Modal Body -->
@@ -55,26 +55,129 @@
                 </div>
               </div>
             </div>
-            <div class="row form-group" id="questions">
-
-            </div>
-            <div class="row form-group">
-              <label for="questionType" class="col-md-2 control-label">{% trans "Question Type" %}</label>
+            <div class="row form-group" id="buttonAddQuestion">
               <div class="col-md-10">
-                <select id="questionType" class="form-control" name="option_question" onchange="showDiv (this)">
-                  <option selected disabled>{% trans "Question Type" %}</option>
-                  <option value="0">{% trans "Multiple Choice" %}</option>
-                  <option value="1">{% trans "True or False" %}</option>
-                  <option value="2">{% trans "Gap Filling" %}</option>
-                  <option value="3">{% trans "Discursive Question" %}</option>
-                </select>
+                <button id="addQuestion" type="button" class="btn btn-raised btn-default">Add new question buton</button>
               </div>
             </div>
-            <!-- Modal Footer -->
+
+            <!-- multiple choice question -->
+            <div id="multiple-choice" style="display:none;">
+
+            <hr>
+              <div class="row form-group">
+
+                <label for="question-name" class="col-md-2 control-label">Question</label>
+
+
+                <div class="col-md-10">
+                  <textarea class="form-control" rows="1" id="question-name" placeholder="Wording"></textarea>
+                </div>
+
+
+              </div>
+              <div class="row form-group">
+                <label for="alternatives" class="col-md-2 control-label">Alternatives</label>
+                <div class="col-md-10" id="radios">
+                  <div class="radio radio-primary form-group">
+                    <label>
+                      <input checked type="radio" name="multiple-choice" id="alternative1" value="1">
+                      <textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>
+                    </label>
+                  </div>
+                  <div class="radio radio-primary form-group">
+                    <label>
+                      <input type="radio" name="multiple-choice" id="alternative2" value="2">
+                      <textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <!-- new alternative button -->
+              <div class="form-group">
+                <div class="col-md-12 col-md-offset-2">
+                <button type="button" class="btn btn-primary" id="mc-new-alternative">New Alternative</button>
+                </div>
+              </div>
+              <!-- save and cancel buttons -->
+              <hr>
+            </div>
+
+            <!-- true or false question -->
+
+            <div id="true-or-false" style="display:none;">
+            <hr>
+
+              <div class="row form-group">
+
+                <label for="question-name" class="col-md-2 control-label">Question</label>
+
+
+                <div class="col-md-10">
+                  <textarea class="form-control" rows="1" id="question-name" placeholder="Wording"></textarea>
+                </div>
+
+
+              </div>
+              <div class="row form-group">
+                <label for="alternative" class="col-md-2 control-label">Alternatives: T/F</label>
+                <div class="col-md-10" id="radiosTF">
+                  <!-- alternative -->
+                  <div class="radio radio-primary form-group">
+                      <label>
+                      <textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>
+                    </label>
+                    <label>
+                      <input type="radio" name="true-or-false-1" value="T">
+                    </label>
+                    <label>
+                      <input type="radio" name="true-or-false-1" value="F">
+                    </label>
+                  </div>
+                  <!-- alternative -->
+                  <div class="radio radio-primary form-group">
+                      <label>
+                      <textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>
+                    </label>
+                    <label>
+                      <input type="radio" name="true-or-false-2" value="T">
+                    </label>
+                    <label>
+                      <input type="radio" name="true-or-false-2" value="F">
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-12 col-md-offset-2">
+                <button type="button" class="btn btn-primary" id="tf-new-alternative">New Alternative</button>
+                </div>
+              </div>
+              <hr>
+                </div>
+
+            <!-- discursive question -->
+
+              <div id="discursive-question" style="display:none;">
+                <hr>
+                  <div class="row form-group">
+
+                    <label for="question-name" class="col-md-2 control-label">Question</label>
+
+
+                    <div class="col-md-10">
+                      <textarea class="form-control" rows="1" id="question" placeholder="Wording"></textarea>
+                    </div>
+                  </div>
+                  <hr>
+                </div>
+
+            <!-- end of discurisve question -->
+                      <!-- Modal Footer -->
             <div class="modal-footer">
 
               <!-- Don't remove that!!!  -->
-              <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+              <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
               {% block button_save %}
               <!-- Put curtom buttons here!!!  -->
               <button type="submite" id="button" form="form" class="btn btn-primary btn-raised">{% trans "Create" %}</button>
@@ -89,46 +192,88 @@
 </div>
 
 <script type="text/javascript">
+  var idQuestionType = 1;
+  $("#addQuestion").on("click", function(event){
+    var element =
+    '<div class="row form-group" id="questionType_' + idQuestionType +'">' +
+    '<label for="questionType" class="col-md-2 control-label">' +
+    '{% trans "Question Type" %}</label>' + '<div class="col-md-10">' +
+          '<select id="questionType'+ idQuestionType +'" class="form-control" name="option_question" onchange="showDiv (this)">' +
+            '<option selected disabled>{% trans "Question Type" %}</option>' +
+            '<option value="0">{% trans "Multiple Choice" %}</option>' +
+            '<option value="1">{% trans "True or False" %}</option>' +
+            '<option value="2">{% trans "Gap Filling" %}</option>' +
+            '<option value="3">{% trans "Discursive Question" %}</option>' +
+          '</select>' +
+        '</div>' +
+      '</div>' + '<hr id="'+idQuestionType+'">'
+      ;
+      if (idQuestionType == 1){
+        $(element).insertAfter('#buttonAddQuestion');
+      }else{
 
-var id = 1;
-$("#add_question").click(function(){
-  $.get("{% url 'course:exam:true_or_false_question' %}", function(data){
-    
-    $("#questions").append(data);
-    
-    $("#0").attr("id","true_" + id++);
+        var idHr = '#'+(idQuestionType-1);
+        $(element).insertAfter(idHr);
+      }
+    idQuestionType++;
+  })
+  function showDiv (elem) {
+    if (elem.value == 0) {
+      document.getElementById('multiple-choice').style.display = "block";
+      document.getElementById('true-or-false').style.display = "none";
+
+      document.getElementById('discursive-question').style.display = "none";
+    } else if (elem.value == 1) {
+      document.getElementById('true-or-false').style.display = "block";
+      document.getElementById('multiple-choice').style.display = "none";
+
+      document.getElementById('discursive-question').style.display = "none";
+    } else if (elem.value == 2) {
+
+      document.getElementById('multiple-choice').style.display = "none";
+      document.getElementById('true-or-false').style.display = "none";
+      document.getElementById('discursive-question').style.display = "block";
+    }
+  }
+  var id = 1;
+  $("#add_question").click(function(){
+    $.get("{% url 'course:exam:true_or_false_question' %}", function(data){
+
+      $("#questions").append(data);
+
+      $("#0").attr("id","true_" + id++);
+    });
   });
-});
-var alternativeValue = 3;
-$('#newAlternative').click(function () {
-  var element = '<div class="radio radio-primary">' +
-  '<label>' +
-  '<input type="radio" name="alternatives" id="alternative4"' + 'value="' +alternativeValue + '">' +
-  '<textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>' +
-  '</label>' +
-  '</div>';
-  $('#radios').append(element);
-  alternativeValue++;
-});
-var tfAlternativeValue = 3;
-$('#tfAlternative').click(function () {
-  var element = '<div class="radio radio-primary">' +
-  '<label>' +
-  '<textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>' +
-  '</label>' +
-  '<label>' +
-  '<input type="radio" name="alternative' + tfAlternativeValue +'" value="T">' +
-  '</label>' +
-  '<label>' +
-  '<input type="radio" name="alternative2" value="F">' +
-  '</label>' +
-  '</div>';
-  $('#radiosTF').append(element);
-  tfAlternativeValue++;
-});
-$(function() {
-  $( "#begin_date,#end_date" ).datepicker();
-});
+  var alternativeValue = 3;
+  $('#newAlternative').click(function () {
+    var element = '<div class="radio radio-primary">' +
+    '<label>' +
+    '<input type="radio" name="alternatives" id="alternative4"' + 'value="' +alternativeValue + '">' +
+    '<textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>' +
+    '</label>' +
+    '</div>';
+    $('#radios').append(element);
+    alternativeValue++;
+  });
+  var tfAlternativeValue = 3;
+  $('#tfAlternative').click(function () {
+    var element = '<div class="radio radio-primary">' +
+    '<label>' +
+    '<textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>' +
+    '</label>' +
+    '<label>' +
+    '<input type="radio" name="alternative' + tfAlternativeValue +'" value="T">' +
+    '</label>' +
+    '<label>' +
+    '<input type="radio" name="alternative2" value="F">' +
+    '</label>' +
+    '</div>';
+    $('#radiosTF').append(element);
+    tfAlternativeValue++;
+  });
+  $(function() {
+    $( "#begin_date,#end_date" ).datepicker();
+  });
 
 </script>
 
