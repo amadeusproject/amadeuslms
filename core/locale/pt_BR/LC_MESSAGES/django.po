@@ -38,7 +38,7 @@ msgstr "Por favor, insira uma data válida"
 #, fuzzy
 #| msgid "There is already a registeres User with this CPF"
 msgid "There is already a registered User with this CPF"
-msgstr "Já existem usuários cadastrados com este CPF"
+msgstr "Já existe usuário cadastrado com este CPF"
 
 #: .\forms.py:52
 #, python-format
@@ -245,7 +245,7 @@ msgstr "Entrar"
 
 #: .\templates\registration\passwor_reset_complete.html:19
 msgid "Your password was reseted successful"
-msgstr ""
+msgstr "Sua senha foi resetada com sucesso"
 
 #: .\templates\registration\passwor_reset_confirm.html:19
 #: .\templates\registration\passwor_reset_done.html:18
