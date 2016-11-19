@@ -100,7 +100,7 @@ class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
 
 		self.object.save()
 
-		messages.success(self.request, _('User edited successfully!'))
+		messages.success(self.request, _('User ')+self.object.name+(' updated successfully!'))
 
 		return super(Update, self).form_valid(form)
 
