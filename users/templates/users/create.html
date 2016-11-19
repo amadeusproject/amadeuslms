@@ -71,10 +71,10 @@
 				                   		</button>
 				                  	</span>
 				                </div>
-				      		{% elif field.auto_id == 'id_is_staff' or field.auto_id == 'id_is_active' %}
+				      		{% elif field.auto_id == 'id_is_staff' or  field.auto_id == 'id_is_active' %}
                 				<div class="checkbox">
                   					<label for="{{ field.auto_id }}">
-                      					{% render_field field %}<span class="checkbox-material"><span class="check"></span></span> {{field.label}}
+                      					{% render_field field %} {{field.label}}
                   					</label>
                 				</div>
                 			{% elif field.auto_id == 'id_cpf' %}
