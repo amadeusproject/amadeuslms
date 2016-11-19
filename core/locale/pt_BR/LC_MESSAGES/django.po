@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-17 09:21-0300\n"
+"POT-Creation-Date: 2016-11-19 10:24-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -136,7 +136,7 @@ msgstr "Autor"
 msgid "Notification"
 msgstr "Notificação"
 
-#: .\models.py:99 .\templates\base.html:92 .\templates\guest.html:70
+#: .\models.py:99 .\templates\base.html:92
 msgid "Notifications"
 msgstr "Notificações"
 
@@ -164,11 +164,11 @@ msgstr "Logs"
 msgid "Search Files (.pdf, others) and/or activities"
 msgstr "Pesquisar arquivos (.pdf, outros) e/ou atividades"
 
-#: .\templates\base.html:98 .\templates\guest.html:77
+#: .\templates\base.html:98
 msgid "See More"
 msgstr "Ver Mais"
 
-#: .\templates\base.html:105 .\templates\guest.html:83
+#: .\templates\base.html:105
 msgid "messages"
 msgstr "Mensagens"
 
@@ -194,13 +194,21 @@ msgstr "Mudar senha"
 msgid "Remove account"
 msgstr "Remover conta"
 
-#: .\templates\guest.html:97
+#: .\templates\guest.html:67 .\templates\index.html:67 .\views.py:115
+msgid "Guest"
+msgstr "Convidado"
+
+#: .\templates\guest.html:80
 msgid "Menu"
 msgstr "Menu"
 
-#: .\templates\guest.html:101 .\templates\register_user.html:110
+#: .\templates\guest.html:84 .\templates\register_user.html:110
 msgid "Register"
 msgstr "Cadastrar"
+
+#: .\templates\guest.html:98
+msgid "Search Courses"
+msgstr "Pesquisar Cursos"
 
 #: .\templates\index.html:37
 msgid "Sign in with your account to continue"
@@ -218,10 +226,6 @@ msgstr "Lembrar E-mail"
 msgid "Log in"
 msgstr "Acessar"
 
-#: .\templates\index.html:67
-msgid "Guest"
-msgstr "Convidado"
-
 #: .\templates\index.html:72
 msgid "Forgot your password?"
 msgstr "Esqueceu sua senha?"
@@ -233,6 +237,10 @@ msgstr "Cadastrar"
 #: .\templates\register_user.html:39
 msgid "User Register"
 msgstr "Cadastro de usuário"
+
+#: .\templates\register_user.html:61
+msgid "Choose your photo..."
+msgstr ""
 
 #: .\templates\register_user.html:71
 msgid "Choose the file ..."
@@ -384,9 +392,6 @@ msgstr "E-mail ou senha incorretos."
 
 #~ msgid "Manage Users"
 #~ msgstr "Gerenciar usuários"
-
-#~ msgid "Manage Courses"
-#~ msgstr "Gerenciar cursos"
 
 #~ msgid "Category"
 #~ msgstr "Categoria"
