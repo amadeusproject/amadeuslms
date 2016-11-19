@@ -67,7 +67,7 @@ class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
 
 		self.object.save()
 
-		messages.success(self.request, _('User created successfully!'))
+		messages.success(self.request, _('User ')+self.object.name+(' created successfully!'))
 
 		return super(Create, self).form_valid(form)
 	def get_context_data (self, **kwargs):
