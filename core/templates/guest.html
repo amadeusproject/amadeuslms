@@ -90,21 +90,6 @@
     		</div>
 		   <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
 				{% block breadcrumbs %}
-
-					<div class="col-md-12">
-						<form id="searchform" action="{% url 'course:manage' %}" method="get" accept-charset="utf-8">
-							<div class="input-group">
-							  <div class="form-group is-empty">
-							  <input type="search" class="form-control" placeholder="{% trans 'Search Courses' %}" name="q" id="searchbox"></div>
-							    <span class="input-group-btn input-group-sm">
-							      <button type="button" class="btn btn-fab btn-fab-mini">
-							        <i class="material-icons">search</i>
-							      </button>
-							    </span>
-							</div>
-						</form>
-					</div>
-
 				{% endblock %}
 				{% block render_breadcrumbs %}{% endblock %}
 			<div>
@@ -133,6 +118,27 @@
                             </div>
                         {% endfor %}
                     </div>
+                    <div class="col-md-12">
+                  		<nav aria-label="Page navigation">
+                  			<ul class="pagination">
+                  				{% if page_obj.has_previous %}
+                  				    <li>
+                  				        <a href="?page={{ page_obj.previous_page_number }}"><span><<</span></a>
+                  				    </li>
+                  				{% endif %}
+                  			    {% for page_number in paginator.page_range %}
+                  					<li{% if page_obj.number == page_number %} class="active"{% endif %}>
+                  	    				<a href="?page={{ page_number }}">{{ page_number }}</a>
+                  					</li>
+                  				{% endfor %}
+                  				{% if page_obj.has_next %}
+                  				    <li>
+                  				        <a href="?page={{ page_obj.next_page_number }}"><span>>></span></a>
+                  				    </li>
+                  				{% endif %}
+                  			</ul>
+                  		</nav>
+                  	</div>
 				{% endblock %}
 			</div>
 		</div>
