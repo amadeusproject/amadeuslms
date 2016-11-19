@@ -70,6 +70,10 @@ class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
 		messages.success(self.request, _('User created successfully!'))
 
 		return super(Create, self).form_valid(form)
+	def get_context_data (self, **kwargs):
+		context = super(Create, self).get_context_data(**kwargs)
+		context['title'] = _("Add User")
+		return context
 
 class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
 
@@ -243,4 +247,3 @@ class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer
 	permissions_classes = (IsAuthenticatedOrReadOnly,)
-
