@@ -39,7 +39,7 @@ class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 		search = self.request.GET.get('search', None)
 
 		if search is None:
-			users = User.objects.exclude(username = self.request.user.username)
+			users = User.objects.all().order_by('name').exclude( username = self.request.user.username)
 		else:
 			users = User.objects.filter(Q(username = search) | Q(name = search) | Q(name__icontains = search) | Q(username__icontains = search)).exclude( username = self.request.user.username)
 
