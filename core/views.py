@@ -112,6 +112,7 @@ class GuestView (ListView):
 	def get_context_data (self, **kwargs):
 		context = super(GuestView, self).get_context_data(**kwargs)
 		context['categorys_courses'] = CourseCategory.objects.all()
+		context['title'] = _("Guest")
 		return context
 
 
