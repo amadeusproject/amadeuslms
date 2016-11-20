@@ -39,9 +39,7 @@
             {% if exercise.file %}
               <div class="form-group">
                 <label for="DelExc" class="col-md-4 control-label"> <i class="fa fa-file-archive-o fa-3x" aria-hidden="true">
-                {% for file in exercise.file %}
-                    <a href="{{exercise.file.url}}">{% trans 'File' %}</a>
-                {% endfor %}
+                <a href="{{exercise.file.url}}" target="_blank">{% trans 'File' %}</a>
                 </i> 
               </div>
             {% else %}

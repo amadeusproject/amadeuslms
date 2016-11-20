@@ -636,8 +636,6 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
         context['users'] = users
         exercises = Exercise.objects.filter(Q(students=self.request.user)|Q(professors=self.request.user))
         context['exercises'] = exercises
-        files = File.objects.all()
-        context['files'] = files
 
         context['topic'] = topic
         context['subject'] = topic.subject

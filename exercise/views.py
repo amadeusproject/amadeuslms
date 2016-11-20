@@ -47,13 +47,9 @@ class CreateExercise(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMix
         self.object = form.save(commit = False)
         topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
         self.object.topic = topic
-        self.object.name = str(self.object)
-        self.object.exercise = self.object
-        self.object.professors = topic.subject.professors
-        self.object.students = topic.subject.students
 
         # Set MimeType
-        exercise = self.request.FILES['exercise_url']
+        exercise = self.request.FILES['file']
         try:
             if exercise:
                 exercise_type = exercise.content_type
@@ -73,6 +69,9 @@ class CreateExercise(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMix
             print('Exercise not uploaded')
 
         self.object.save()
+        self.object.professors = topic.subject.professors.all()
+        self.object.students = topic.subject.students.all()
+        self.object.save()
         #CREATE LOG 
         self.log_context['topic_id'] = topic.id
         self.log_context['topic_name'] = topic.name
@@ -86,12 +85,12 @@ class CreateExercise(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMix
 
 
         #CREATE NOTIFICATION
-        super(CreateExercise, self).createNotification(message="uploaded a Exercise "+ self.object.name, actor=self.request.user,
-            resource_name=self.object.name, resource_link= reverse('course:view_topic', args=[self.object.topic.slug]), 
+        super(CreateExercise, self).createNotification(message="uploaded a Exercise "+ self.object.name_exercise, actor=self.request.user,
+            resource_name=self.object.name_exercise, resource_link= reverse('course:view_topic', args=[self.object.topic.slug]), 
             users=self.object.topic.subject.students.all())
 
         self.log_context['exercise_id'] = self.object.id
-        self.log_context['exercise_name'] = self.object.name
+        self.log_context['exercise_name'] = self.object.name_exercise
         self.log_context['topic_id'] = self.object.topic.id
         self.log_context['topic_name'] = self.object.topic.name
         self.log_context['topic_slug'] = self.object.topic.slug
@@ -138,7 +137,7 @@ def render_exercise(request, id):
 
     log_context = {}
     log_context['exercise_id'] = exercise.id
-    log_context['exercise_name'] = exercise.name
+    log_context['exercise_name'] = exercise.name_exercise
     log_context['topic_id'] = exercise.topic.id
     log_context['topic_name'] = exercise.topic.name
     log_context['topic_slug'] = exercise.topic.slug

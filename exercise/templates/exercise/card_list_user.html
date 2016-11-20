@@ -36,10 +36,9 @@
               <div class="resource_inline">
                 <h4>{% trans 'Delivery' %}</h4>
               </div>
-                {% for file in files %}
-                  <li>{{file.exercise}}: <a href="{{file.file.url}}" target="_blank">{{file.name_file}}</a></li>
-                {% endfor %}
-                
+              {% for exercise in exercises %}
+                <li><a href="{{exercise.file.url}}" target="_blank">{{exercise.name_exercise}}</a></li>     
+              {% endfor %}               
             </div>
             <div class="col-md-4"> 
               <div class="resource_inline">
