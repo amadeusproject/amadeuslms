@@ -96,8 +96,26 @@
 
               {% endblock %}
                 {% if user|has_role:'system_admin' %}
-                    <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
-                    <li> <a href="{% url 'app:settings' %}">{% trans 'Settings' %}</a></li>
+                    
+                    <li>
+                      <a href="#menu_users" class="accordion" data-toggle="collapse">{% trans 'Users' %}<span class="pull-right glyphicon glyphicon-chevron-down"></span></a>
+                      <div id="menu_users" class="collapse">
+                        <ul class="nav nav-pill nav-stacked accordion_list">
+                          <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
+                          <li> <a href="{% url 'users:create' %}">{% trans 'Create User' %}</a></li>
+                        </ul>
+                      </div> 
+                    </li>
+                    <li> 
+                      <a href="#menu_settings" class="accordion" data-toggle="collapse">{% trans 'Settings' %}<span class="pull-right glyphicon glyphicon-chevron-down"></span></a>
+                      <div id="menu_settings" class="collapse">
+                        <ul class="nav nav-pill nav-stacked accordion_list">
+                            <li> <a href="{% url 'app:settings' %}">{% trans "System" %}</a></li>
+                            <li> <a href="{% url 'app:settings' %}">{% trans "Mail Sender" %}</a></li>
+                            <li> <a href="{% url 'app:settings' %}">{% trans "Security" %}</a></li>
+                        </ul>
+                      </div>
+                    </li>
                 {% endif %}
             </ul>
         </div>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-16 11:23-0300\n"
+"POT-Creation-Date: 2016-11-19 10:24-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,10 +23,8 @@ msgid "Password"
 msgstr "Senha"
 
 #: .\forms.py:13
-#, fuzzy
-#| msgid "Confirm password:"
 msgid "Confirm Password"
-msgstr "Confirmação de senha:"
+msgstr "Confirme a senha:"
 
 #: .\forms.py:27
 msgid "There is already a registered User with this e-mail"
@@ -40,7 +38,7 @@ msgstr "Por favor, insira uma data válida"
 #, fuzzy
 #| msgid "There is already a registeres User with this CPF"
 msgid "There is already a registered User with this CPF"
-msgstr "Já existem usuários cadastrados com este CPF"
+msgstr "Já existe usuário cadastrado com este CPF"
 
 #: .\forms.py:52
 #, python-format
@@ -138,7 +136,7 @@ msgstr "Autor"
 msgid "Notification"
 msgstr "Notificação"
 
-#: .\models.py:99 .\templates\base.html:92 .\templates\guest.html:70
+#: .\models.py:99 .\templates\base.html:92
 msgid "Notifications"
 msgstr "Notificações"
 
@@ -166,11 +164,11 @@ msgstr "Logs"
 msgid "Search Files (.pdf, others) and/or activities"
 msgstr "Pesquisar arquivos (.pdf, outros) e/ou atividades"
 
-#: .\templates\base.html:98 .\templates\guest.html:77
+#: .\templates\base.html:98
 msgid "See More"
 msgstr "Ver Mais"
 
-#: .\templates\base.html:105 .\templates\guest.html:83
+#: .\templates\base.html:105
 msgid "messages"
 msgstr "Mensagens"
 
@@ -196,13 +194,21 @@ msgstr "Mudar senha"
 msgid "Remove account"
 msgstr "Remover conta"
 
-#: .\templates\guest.html:97
+#: .\templates\guest.html:67 .\templates\index.html:67 .\views.py:115
+msgid "Guest"
+msgstr "Convidado"
+
+#: .\templates\guest.html:80
 msgid "Menu"
 msgstr "Menu"
 
-#: .\templates\guest.html:101 .\templates\register_user.html:110
+#: .\templates\guest.html:84 .\templates\register_user.html:110
 msgid "Register"
 msgstr "Cadastrar"
+
+#: .\templates\guest.html:98
+msgid "Search Courses"
+msgstr "Pesquisar Cursos"
 
 #: .\templates\index.html:37
 msgid "Sign in with your account to continue"
@@ -220,10 +226,6 @@ msgstr "Lembrar E-mail"
 msgid "Log in"
 msgstr "Acessar"
 
-#: .\templates\index.html:67
-msgid "Guest"
-msgstr "Convidado"
-
 #: .\templates\index.html:72
 msgid "Forgot your password?"
 msgstr "Esqueceu sua senha?"
@@ -236,9 +238,11 @@ msgstr "Cadastrar"
 msgid "User Register"
 msgstr "Cadastro de usuário"
 
+#: .\templates\register_user.html:61
+msgid "Choose your photo..."
+msgstr ""
+
 #: .\templates\register_user.html:71
-#, fuzzy
-#| msgid "Chose your file ..."
 msgid "Choose the file ..."
 msgstr "Escolha o arquivo..."
 
@@ -249,7 +253,7 @@ msgstr "Entrar"
 
 #: .\templates\registration\passwor_reset_complete.html:19
 msgid "Your password was reseted successful"
-msgstr ""
+msgstr "Sua senha foi resetada com sucesso"
 
 #: .\templates\registration\passwor_reset_confirm.html:19
 #: .\templates\registration\passwor_reset_done.html:18
@@ -388,9 +392,6 @@ msgstr "E-mail ou senha incorretos."
 
 #~ msgid "Manage Users"
 #~ msgstr "Gerenciar usuários"
-
-#~ msgid "Manage Courses"
-#~ msgstr "Gerenciar cursos"
 
 #~ msgid "Category"
 #~ msgstr "Categoria"
