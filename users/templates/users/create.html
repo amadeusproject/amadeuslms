@@ -38,8 +38,8 @@
 								{% else %}
 									<label for="{{ field.auto_id }}">{{ field.label }}</label>
 								{% endif %}
-								<input type="text" class="form-control input-sm date-picker" name="{{field.name}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
 
+                {% render_field field class='form-control date-picker' %}
 							{% elif field.auto_id == 'id_image' %}
 		                		{% if field.field.required %}
 									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
@@ -71,10 +71,10 @@
 				                   		</button>
 				                  	</span>
 				                </div>
-				      		{% elif field.auto_id == 'id_is_staff' or field.auto_id == 'id_is_active' %}
+				      		{% elif field.auto_id == 'id_is_staff' or  field.auto_id == 'id_is_active' %}
                 				<div class="checkbox">
                   					<label for="{{ field.auto_id }}">
-                      					{% render_field field %}<span class="checkbox-material"><span class="check"></span></span> {{field.label}}
+                      					{% render_field field %} {{field.label}}
                   					</label>
                 				</div>
                 			{% elif field.auto_id == 'id_cpf' %}
@@ -123,10 +123,10 @@
 							{% endif %}
 						</div>
 					{% endfor %}
-					<div class="col-md-offset-2 col-md-2 col-sm-2 col-xs-2">
+					<div class="col-md-5 col-xs-6 col-sm-6 col-lg-5 text-center">
 						<input type="submit" value="{% trans 'Save' %}" class="btn btn-raised btn-success" onclick="validarCpfSemAlert(id_cpf, CPF, idElementoMensagemErro)'" />
 					</div>
-					<div class="col-md-offset-4 col-md-2 col-sm-2 col-xs-2">
+					<div class="col-md-5 col-xs-6 col-sm-6 col-lg-5 text-center">
 						<a href="{% url 'users:manage' %}" class="btn btn-raised btn-danger" >{% trans 'Cancel' %}</a>
 					</div>
 				</form>
@@ -136,4 +136,11 @@
 </br>
 </br>
 </br>
+<script type="text/javascript">
+var locale = navigator.language || navigator.userLanguage;
+
+$('.date-picker').datepicker({
+	language: locale,
+});
+</script>
 {% endblock %}

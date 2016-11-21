@@ -39,7 +39,7 @@ class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 		search = self.request.GET.get('search', None)
 
 		if search is None:
-			users = User.objects.exclude(username = self.request.user.username)
+			users = User.objects.all().order_by('name').exclude( username = self.request.user.username)
 		else:
 			users = User.objects.filter(Q(username = search) | Q(name = search) | Q(name__icontains = search) | Q(username__icontains = search)).exclude( username = self.request.user.username)
 
@@ -67,9 +67,13 @@ class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
 
 		self.object.save()
 
-		messages.success(self.request, _('User created successfully!'))
+		messages.success(self.request, _('User ')+self.object.name+(' created successfully!'))
 
 		return super(Create, self).form_valid(form)
+	def get_context_data (self, **kwargs):
+		context = super(Create, self).get_context_data(**kwargs)
+		context['title'] = _("Add User")
+		return context
 
 class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
 
@@ -96,7 +100,7 @@ class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
 
 		self.object.save()
 
-		messages.success(self.request, _('User edited successfully!'))
+		messages.success(self.request, _('User ')+self.object.name+(' updated successfully!'))
 
 		return super(Update, self).form_valid(form)
 
@@ -243,4 +247,3 @@ class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer
 	permissions_classes = (IsAuthenticatedOrReadOnly,)
-

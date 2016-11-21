@@ -13,17 +13,16 @@
 
     </ul>
   </div>
-  <div class="col-xs-4 col-md-4">
+  <div class="col-xs-6 col-md-6">
     <div class="resource_inline">
       <h4>{% trans "Activities" %}</h4>
     </div>
     <ul>
         <div class="foruns_list">
-            {% list_topic_exam request topic %}
+            {# {% list_topic_exam request topic %} #}
             {% list_topic_poll request topic %}
             {% list_topic_foruns request topic %}
         </div>
     </ul>
   </div>
-
 </div>

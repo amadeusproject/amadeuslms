@@ -65,7 +65,7 @@
   </div>
   <div class="panel panel-default">
     <div class="panel-body">
-        {% include "topic/topic_card_student.html" %}
+        {% include "topic/topic_card.html" %}
         {% comment %}
 
 
@@ -116,13 +116,23 @@
     </fieldset>
   </form>-->
 {% endcomment %}
-
-
-
-
       </div>
-
-
     </div>
 </div>
+  <div class="col-md-6">
+      <h3>{% trans 'Students - Specific Exercises' %}</h3>  
+      <br/>  
+  </div>
+    {# mostra a lista de usuários caso seja um professor ou admin #}
+  {% if user|has_role:'professor' or user|has_role:'system_admin' %}
+    {% for user in users %}
+      {% include "exercise/card_list_user.html" %}
+    {% endfor %}
+  {% endif %}
+  {# caso seja um estudante, mostra a lista de exercícios proposta a ele #}
+  {% if user|has_role:'student'%}
+    {% for exercise in exercises %}
+      {% include "exercise/card_topic_exercises.html" %}
+    {% endfor %}
+  {% endif %}
 {% endblock %}

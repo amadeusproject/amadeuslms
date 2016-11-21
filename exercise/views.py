@@ -1,6 +1,5 @@
 from .forms import ExerciseForm, UpdateExerciseForm
 from .models import Exercise
-from files.utils import mime_type_to_material_icons
 from core.decorators import log_decorator
 from core.mixins import LogMixin, NotificationMixin
 from core.models import Log, MimeType
@@ -13,8 +12,10 @@ from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import generic
+from files.utils import mime_type_to_material_icons
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.verifications import has_role
+from users.models import User
 
 
 class CreateExercise(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, generic.CreateView):
@@ -23,7 +24,7 @@ class CreateExercise(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMix
     log_action = 'create'
     log_component = {}
 
-    allowed_roles = ['student']
+    allowed_roles = ['professor', 'student']
     login_url = reverse_lazy("core:home")
     redirect_field_name = 'next'
     model = Exercise
@@ -35,7 +36,6 @@ class CreateExercise(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMix
     log_resource = "exercise"
     log_action = "create"
     log_context = {}
-    context_object_name = 'form'
 
     def form_invalid(self, form, **kwargs):
         context = super(CreateExercise, self).form_invalid(form)
@@ -47,19 +47,16 @@ class CreateExercise(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMix
         self.object = form.save(commit = False)
         topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
         self.object.topic = topic
-        
-        self.object.name = str(self.object)
-        
 
         # Set MimeType
-        exercise = self.request.FILES['exercise_url']
+        exercise = self.request.FILES['file']
         try:
             if exercise:
                 exercise_type = exercise.content_type
 
                 # Check if exist a mimetype in database
                 try:
-                    self.object.exercise_type = MimeType.objects.get(typ = exercise_type)
+                    self.object.file_type = MimeType.objects.get(typ = exercise_type)
                 # Create if not
                 except:
                     mtype = MimeType.objects.create(
@@ -67,10 +64,13 @@ class CreateExercise(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMix
                         icon = mime_type_to_material_icons[exercise_type]
                     )
                     mtype.save()
-                    self.object.exercise_type = mtype
+                    self.object.file_type = mtype
         except:
             print('Exercise not uploaded')
 
+        self.object.save()
+        self.object.professors = topic.subject.professors.all()
+        self.object.students = topic.subject.students.all()
         self.object.save()
         #CREATE LOG 
         self.log_context['topic_id'] = topic.id
@@ -85,12 +85,12 @@ class CreateExercise(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMix
 
 
         #CREATE NOTIFICATION
-        super(CreateExercise, self).createNotification(message="uploaded a Exercise "+ self.object.name, actor=self.request.user,
-            resource_name=self.object.name, resource_link= reverse('course:view_topic', args=[self.object.topic.slug]), 
+        super(CreateExercise, self).createNotification(message="uploaded a Exercise "+ self.object.name_exercise, actor=self.request.user,
+            resource_name=self.object.name_exercise, resource_link= reverse('course:view_topic', args=[self.object.topic.slug]), 
             users=self.object.topic.subject.students.all())
 
         self.log_context['exercise_id'] = self.object.id
-        self.log_context['exercise_name'] = self.object.name
+        self.log_context['exercise_name'] = self.object.name_exercise
         self.log_context['topic_id'] = self.object.topic.id
         self.log_context['topic_name'] = self.object.topic.name
         self.log_context['topic_slug'] = self.object.topic.slug
@@ -137,7 +137,7 @@ def render_exercise(request, id):
 
     log_context = {}
     log_context['exercise_id'] = exercise.id
-    log_context['exercise_name'] = exercise.name
+    log_context['exercise_name'] = exercise.name_exercise
     log_context['topic_id'] = exercise.topic.id
     log_context['topic_name'] = exercise.topic.name
     log_context['topic_slug'] = exercise.topic.slug

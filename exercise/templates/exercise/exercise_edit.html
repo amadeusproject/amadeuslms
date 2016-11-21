@@ -1,5 +1,5 @@
 {% load static i18n list_topic_foruns permission_tags %}
-<div id="exercise-topic{{ exercise.id }}-exercises-edit">
+<div id="exercise-topic{{ topic.id }}-exercises-edit">
   {% for exercise in exercises %}
     <li class="icon_edit_remove" id = "exercise_edit_icon_{{ exercise.slug }}"> <a href="javascript:modal.get('', '#exercisesModalEdit', '#requisicoes_ajax')"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>  <a href="javascript:modal.get('', '#exerciseDeleteModal', '#requisicoes_ajax')"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></li>
     <li id = "exercise_edit_{{ exercise.slug }}"><i class="fa fa-link" aria-hidden="true"></i>  <a href="javascript:modal.get('', '#viewExerciseModal','#requisicoes_ajax')">{{exercise.name}}</a></li>

@@ -64,24 +64,7 @@
                 </div>
                 <div class="navbar-collapse collapse navbar-responsive-collapse">
                 <ul class="nav navbar-nav navbar-right notifications">
-                         <li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">
-                 <a  class="dropdown-toggle" data-toggle="dropdown"> <span id="notification-count" class="badge notification-count">{{notifications.count}}</span><i class="fa fa-bell" aria-hidden="true"></i></a>
-                   <ul id="notification-dropdown" class="dropdown-menu">
-                   <li class="dropdown-header">{% trans 'Notifications' %}</li>
-                        {% include "notifications.html" %}
-
-                        <li>
-                         <a onclick="getNotifications(5)">
-                            <div id="notification-see-more" class="list-group-item">
-                                  <div class="row-content">
-                                    <p class="list-group-item-text">{% trans 'See More' %}</p>
-                                </div>
-                       </a>
-                        </li>
-                    </ul>
-               </li>
-             			<li  data-toggle="tooltip" data-placement="bottom" title data-original-title="{% trans 'messages' %}"> <a href="#"><i class="fa fa-comments" aria-hidden="true"></i></a> </li>
-             			<li > <a  class="link" href="{% url 'app:index' %}">{{ user }}</a></li>
+             			<li > <a  class="link" href="{% url 'app:index' %}">{% trans 'Guest' %}</a></li>
                         <li data-toggle="tooltip" data-placement="bottom" title data-original-title="log out"> <a href="{% url 'app:index' %}"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
            		</ul>
          		</div>
@@ -107,21 +90,6 @@
     		</div>
 		   <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
 				{% block breadcrumbs %}
-
-					<div class="col-md-12">
-						<form id="searchform" action="{% url 'course:manage' %}" method="get" accept-charset="utf-8">
-							<div class="input-group">
-							  <div class="form-group is-empty">
-							  <input type="search" class="form-control" placeholder="Search Courses" name="q" id="searchbox"></div>
-							    <span class="input-group-btn input-group-sm">
-							      <button type="button" class="btn btn-fab btn-fab-mini">
-							        <i class="material-icons">search</i>
-							      </button>
-							    </span>
-							</div>
-						</form>
-					</div>
-
 				{% endblock %}
 				{% block render_breadcrumbs %}{% endblock %}
 			<div>
@@ -137,7 +105,7 @@
                                         <h4 class="panel-title">
                                             <a  class="category-course-link" data-toggle="collapse" href="#{{category.slug}}">{{category.name}}</a>
                                         </h4>
-                                        
+
                                     </div>
                                     <div id="{{category.slug}}" class="panel-collapse collapse">
                                         {% for course in category.course_category.all %}
@@ -150,6 +118,27 @@
                             </div>
                         {% endfor %}
                     </div>
+                    <div class="col-md-12">
+                  		<nav aria-label="Page navigation">
+                  			<ul class="pagination">
+                  				{% if page_obj.has_previous %}
+                  				    <li>
+                  				        <a href="?page={{ page_obj.previous_page_number }}"><span><<</span></a>
+                  				    </li>
+                  				{% endif %}
+                  			    {% for page_number in paginator.page_range %}
+                  					<li{% if page_obj.number == page_number %} class="active"{% endif %}>
+                  	    				<a href="?page={{ page_number }}">{{ page_number }}</a>
+                  					</li>
+                  				{% endfor %}
+                  				{% if page_obj.has_next %}
+                  				    <li>
+                  				        <a href="?page={{ page_obj.next_page_number }}"><span>>></span></a>
+                  				    </li>
+                  				{% endif %}
+                  			</ul>
+                  		</nav>
+                  	</div>
 				{% endblock %}
 			</div>
 		</div>

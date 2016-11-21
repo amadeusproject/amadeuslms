@@ -10,9 +10,6 @@
 {% endblock %}
 
 {% block menu %}
-  {% if user|has_role:'system_admin' %}
-	 <li> <a href="{% url 'users:create' %}">{% trans 'Add User' %}</a></li>
-  {% endif %}
 {% endblock %}
 
 {% block content %}
