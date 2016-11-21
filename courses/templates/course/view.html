@@ -1,4 +1,4 @@
-{% extends 'home.html' %}
+{% extends 'course/index.html' %}
 
 {% load static i18n permission_tags custom_filters %}
 {% load django_bootstrap_breadcrumbs %}
@@ -14,11 +14,10 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-  <ol class="breadcrumb">
-    <li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-    <li><a href="{% url 'course:manage' %}">{% trans 'Courses' %}</a></li>
-    <li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
-  </ol>
+
+  {{ block.super }}
+  {% breadcrumb 'Course Detail' 'course:view' course.slug %}
+
 {% endblock %}
 
 {% block content %}
