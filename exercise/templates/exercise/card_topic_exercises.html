@@ -8,7 +8,7 @@
           <center><legend>{{exercise.name_exercise}}</legend></center>
           <div class="container-fluid">
             <div class="form-group">
-              <label class="col-md-2 col-xs-2 col-sm-2 control-label">Describe: </label><br>
+              <label class="col-md-2 col-xs-2 col-sm-2 control-label">{% trans 'Description' %}: </label><br>
               {% if exercise.description%}
                 {{exercise.description}}
               {% else %}
@@ -16,15 +16,14 @@
               {% endif %}
             </div>
             <div class="form-group">
-              <label class="col-md-2 col-xs-2 col-sm-2 control-label">Opening: </label><br>{{exercise.init_date}}
 
             </div>
             <div class="form-group">
-              <label class="col-md-2 col-xs-2 col-sm-2 control-label">Ending: </label><br>{{exercise.end_date}}
+              <label class="col-md-2 col-xs-2 col-sm-2 control-label">{% trans 'Delivery Date' %}: </label><br>{{exercise.end_date}}
 
             </div>
            <div class="form-group">
-              <label for="nota" class="col-md-2 control-label">NOTA: 
+              <label for="nota" class="col-md-2 control-label">{% trans 'Grade' %}: 
                 {% if exercise.grade %}
                   <div class="col-md-4">
                     <p id="nota" class="form-control">
