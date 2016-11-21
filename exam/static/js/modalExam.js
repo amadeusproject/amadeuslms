@@ -54,7 +54,7 @@
             '</div>'+
           '</div>'+
           '<div class="form-group">'+
-            '<button type="button" class="btn btn-raised btn-primary" id="newAlternative_'+questionType_id+'" onclick="functionNewAlternative('+questionType_id+')">New Alternative</button>'+
+            '<button type="button" class="btn btn-raised btn-primary" id="newAlternative_'+questionType_id+'" onclick="functionNewAlternative(radios_'+questionType_id+')">New Alternative</button>'+
           '</div>'+
         '</div>';
     } else if (elem.value == 1) {
@@ -68,7 +68,7 @@
               '</div>'+
               '<div class="row form-group">'+
                 '<label for="alternative" class="col-md-2 control-label">Alternatives: T/F</label>'+
-                '<div class="col-md-10" id="radiosTF">'+
+                '<div class="col-md-10" id="radiosTF_'+questionType_id+'">'+
                   '<div class="radio form-group" value="1">'+
                     '<div class="radio">'+
                         '<label>'+
@@ -96,7 +96,7 @@
                   '</div>'+
                 '</div>'+
               '<div class="form-group">'+
-                '<button type="button" class="btn btn-raised btn-primary" id="newAlternative_'+questionType_id+'" onclick="functionNewAlternativeTF('+questionType_id+')">New Alternative</button>'+
+                '<button type="button" class="btn btn-raised btn-primary" id="newAlternative_'+questionType_id+'" onclick="functionNewAlternativeTF(radiosTF_'+questionType_id+')">New Alternative</button>'+
               '</div>'+
             '</div>';
     } else if (elem.value == 3) {
@@ -118,23 +118,22 @@
   }
 //Bug quando criamos sem ser na ordem
 function functionNewAlternative(Question_Id){
-  $('radios_'+Question_Id).last()
   var alternative = parseInt($("div input").last().val()) + 1;
-   var element = '<div class="radio radio-primary">' +
+   var element = '<div class="radio radio-primary form-group">' +
     '<label>' +
       '<input type="radio" name="alternatives" id="alternative_'+alternative+'_'+Question_Id+'"' + 'value="'+alternative+'">' +
-        '<textarea class="form-control" rows="1" placeholder="alternative '+alternative+' da questao '+Question_Id+'"></textarea>' +
+        '<textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>' +
       '</label>'+
     '</div>';
-    $('#radios_'+Question_Id).append(element);
+    $(Question_Id).append(element);
+    $.material.init() //O material deve ser iniciado aqui para funcionar os botoes de radio.
 }
-//terminar TF
 function functionNewAlternativeTF(Question_Id){
   var alternative = parseInt($("div").last().val()) + 1;
    var element =
     '<div class="radio form-group">'+
       '<label>'+
-        '<textarea class="form-control" rows="1" placeholder="alternative '+alternative+'"></textarea>'+
+        '<textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>'+
       '</label>'+
       '<label>'+
         '<input type="radio" name="true-or-false-2" value="T">'+
@@ -143,6 +142,6 @@ function functionNewAlternativeTF(Question_Id){
         '<input type="radio" name="true-or-false-2" value="F">'+
       '</label>'+
     '</div>';
-    $('#radiosTF').append(element);
+    $(Question_Id).append(element);
     $.material.init() //O material deve ser iniciado aqui para funcionar os botoes de radio.
 }
