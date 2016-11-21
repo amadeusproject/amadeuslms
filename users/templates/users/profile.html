@@ -1,8 +1,8 @@
-{% extends 'home_student.html' %}
+{% extends 'home.html' %}
 
 {% load static i18n %}
 {% load widget_tweaks %}
-{% load django_bootstrap_breadcrumbs %}
+{% load django_bootstrap_breadcrumbs permission_tags%}
 
 {% block breadcrumbs %}
 
@@ -11,21 +11,10 @@
 
 {% endblock %}
 
-{% block sidebar %}
-	<div class="panel panel-primary navigation">
-        <div class="panel-heading">
-            <h4>{% trans "Menu" %}</h4>
-        </div>
-        <div class="panel-body">
-            <ul class="nav nav-pills nav-stacked">
-            	<li><a href="{% url 'app:index' %}">{% trans 'Home page' %}</a></li>
-            	<li><a href="{% url 'users:profile' %}">{% trans 'View Profile' %}</a></li>
-               <li><a href="{% url 'users:update_profile' %}">{% trans 'Edit Profile' %}</a></li>
-               <li><a href="{% url 'users:change_password' %}">{% trans 'Change Password' %}</a></li>
-               <li><a href="{% url 'users:remove_account' %}">{% trans 'Remove account' %}</a></li>
-            </ul>
-        </div>
-    </div>
+{% block menu %}
+  {% if user|has_role:'system_admin' %}
+	 <li> <a href="{% url 'users:create' %}">{% trans 'Add User' %}</a></li>
+  {% endif %}
 {% endblock %}
 
 {% block content %}

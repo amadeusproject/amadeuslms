@@ -1,4 +1,4 @@
-{% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access%}
+{% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access list_topic_exercises %}
 
 <div class="panel panel-default cards-detail">
   <div class="panel-heading topic">
@@ -7,7 +7,7 @@
         <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
       </div>
       <div class="col-xs-9 col-md-9 titleTopic">
-        <a role="button">
+        <a href="{% url 'course:view_topic' topic.slug %}" role="button">
           <h4>{{topic}}</h4>
         </a>
       </div><!--column -->
@@ -21,7 +21,7 @@
           {% professor_subject topic.subject user as dropdown_topic %}
           {% if dropdown_topic %}
           <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-            <li><a href="" data-toggle="modal" data-target="#myModal4"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
+            <li><a href="{% url 'course:replicate_topic' topic.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
             <li><a href="javascript:show_editation('{{topic.slug}}')"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
             <li><a href="javascript:void(0)" data-toggle="modal" data-target="#removeTopic"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
           </ul>
@@ -90,7 +90,7 @@
         </div>
 
         {# avaliações do topico #}
-        <div class="col-xs-4 col-md-4">
+        <div class="col-xs-6 col-md-6">
           <div class="resource_inline">
             <h4>{% trans 'Activities' %}</h4>
           </div>
@@ -101,8 +101,8 @@
               <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
               <ul class="dropdown-menu" aria-labelledby="dLabel">
                 <li><a href="javascript:createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans 'Create Forum' %}</a></li>
-
                 <li><a href="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#requisicoes_ajax');">{% trans 'Create Poll' %}</a></li>
+                <li><a href="javascript:modal.get('{% url 'course:exercise:create_exercise' topic.slug %}', '#createExercisesModal','#requisicoes_ajax')">{% trans 'Delivery Material' %}</a></li>
               </ul>
             </div>
           </div>
@@ -112,6 +112,7 @@
             <ul>
               {% list_topic_poll request topic %}
               {% list_topic_foruns request topic %}
+              {% list_topic_exercise request topic %}
             </ul>
           </div>
           <div class="editation editation_{{topic.slug}}">
@@ -122,7 +123,13 @@
               {% list_topic_foruns request topic %}
             </ul>
           </div>
+          <div class="editation editation_{{topic.slug}}">
 
+            {# exercícios do tópico no modo de edição #}
+            <ul>
+              {% list_topic_exercise_edit request topic %}
+            </ul>
+          </div>
         </div>
       </div>
 

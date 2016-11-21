@@ -1,12 +1,12 @@
-    {% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access%}
+{% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access list_topic_exercises %}
+{% professor_subject topic.subject user as professor_links %}
 
-
-    {% block javascript %}
-        <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
-        <script src="{% static 'js/file.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
-        <script type = "text/javascript" src="{% static 'links.js' %}"></script>
-    {% endblock %}
+  {% block javascript %}
+      <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
+      <script src="{% static 'js/file.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
+      <script type = "text/javascript" src="{% static 'links.js' %}"></script>
+  {% endblock %}
 <div class="cards-detail">
   <div class="panel-group accordion ui-accordion ui-widget ui-helper-reset ui-sortable" role="tablist" aria-multiselectable="false">
     <div class="group"><div class="panel panel-default">
@@ -34,12 +34,43 @@
         </div>
       </div>
     </div>
-    </div>
+
+    {% if not professor_links %}
+      <div class="row">
+        <div class="col-xs-4 col-md-4">
+          <div class="resource_inline">
+            <h4>{% trans 'Material' %}</h4>
+          </div>
+          <div class="presentation_{{topic.slug}}">
+            {# materiais do tópico no modo de visualização #}
+            <ul>
+              {% list_topic_file request topic %}
+              {% list_topic_link request topic %}
+            </ul>
+          </div>
+        </div>
+        {# avaliações d topico #}
+        <div class="col-xs-4 col-md-4">
+          <div class="resource_inline">
+            <h4>{% trans 'Activities' %}</h4>
+          </div>
+          <div class="presentation_{{topic.slug}}">
+
+            {# avaliações do tópico no modo de visualização #}
+            <ul>
+              {% list_topic_poll request topic %}
+              {% list_topic_foruns request topic %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    {% endif %}
 
     </div>
 
-    {% professor_subject topic.subject user as professor_links %}
-    {% if professor_links%}
+    </div>
+
+    {% if professor_links %}
         {% include "links/create_link.html" %}
         {% include "links/delete_link.html" %}
     {% endif %}

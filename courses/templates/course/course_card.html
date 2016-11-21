@@ -1,5 +1,4 @@
 {% load static i18n permission_tags %}
-{% load django_bootstrap_breadcrumbs %}
 <div class="group  course-card ">
     <div class="panel panel-info">
         <div class="panel-heading course">
@@ -7,13 +6,13 @@
             <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{course.slug}}" href=".collapseOne-{{course.slug}}" aria-expanded="false" aria-controls="collapseOne-{{course.slug}}">
                 <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
             </div>
-            <div class="col-xs-9 col-md-4 titleTopic">
+            <div class="col-xs-5 col-md-5 titleTopic">
               <a role="button" href="{% url 'course:view' course.slug %}">
                   <h4>{{course.name}}</h4>
               </a>
             </div>
             {% if user|has_role:'professor' or user|has_role:'system_admin' %}
-            <div class="col-xs-4 col-md-6 divMoreActions" >
+            <div class="col-xs-6 col-md-6 divMoreActions" >
                 <div class="btn-group">
                   <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
@@ -55,11 +54,11 @@
     </div>
 </div>
 
-<div class="modal fade" id="replicateCourse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">{% trans 'Repicate Course' %}</h4>
+                <h4 class="modal-title">{% trans 'Repicate Course' %}</h4>
             </div>
             <div class="modal-body">
                 <section>

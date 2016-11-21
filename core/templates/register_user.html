@@ -7,108 +7,122 @@
 {% endblock %}
 
 {% block sidebar %}
-	
+
 {% endblock sidebar %}
 
 
 {% block content %}
-	{% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <p>{{ message }}</p>
-            </div>
-        {% endfor %}
-    {% endif %}
-	<div class="row">
-        <div class="col-lg-offset-4 col-lg-8 col-md-offset-4 col-md-8 col-xs-offset-4 col-xs-8 col-sm-offset-4 col-sm-8">
-        	<div class="col-lg-8 col-md-8 col-xs-8 col-sm-8">
-            <img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block " alt="logo amadeus" id="logo">
-        	</div>
-        </div>
-    </div>
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<p>{{ message }}</p>
+</div>
+{% endfor %}
+{% endif %}
+<div class="row">
+	<div class="col-sm-7 col-sm-offset-4 col-md-6 col-md-offset-4 col-xs-8 col-xs-offset-3 col-lg-6 col-lg-offset-4  col-xl-6 col-xl-offset-4 ">
+		<div class="col-sm-9 col-sm-offset-2 col-md-8 col-md-offset-2 col-xs-9 col-xs-offset-2  col-lg-8 col-lg-offset-2  col-xl-8 col-xl-offset-2">
+			<img src="{% static 'img/amadeus.png' %}" class="img-responsive center-block logo-login " alt="logo amadeus">
+		</div>
+	</div>
+</div>
 
-	<div class="row">
-		<div class="col-lg-8 col-lg-offset-3 col-md-8 col-md-offset-3 col-sm-8 col-sm-offset-3 col-xs-8 col-xs-offset-3">
-			<div class="card">
-					<div class="card-body">
-						<form class="form-horizontal" name="registerForm" method="post" action="" enctype="multipart/form-data">
-						{% csrf_token %}
-							<legend>{% trans 'User Register' %}</legend>
-							{% for field in form %}
-								<div class="form-group is-empty {% if form.has_error %} has-error {% endif %} is-fileinput">
-									{% if field.field.required %}
-										<label for="{{ field.auto_id }}" class="col-md-2 control-label">{{ field.label }}<span>*</span></label>
-									{% else %}
-										<label for="{{ field.auto_id }}" class="col-md-2 control-label">{{ field.label }}</label>
-									{% endif %}
-									<div class="col-md-10">
-										{% if field.auto_id == 'id_birth_date' %}
-											{% render_field field class='form-control input-sm date-picker' %}
-											
-											<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-										{% elif field.auto_id == 'id_image' %}
-											{% render_field field class='form-control input-sm' %}
-											<div class="input-group">
-							                    <input type="text" readonly="" class="form-control" placeholder="Choose your photo...">
-							                    <span class="input-group-btn input-group-sm">
-							                        <button type="button" class="btn btn-fab btn-fab-mini">
-							                          	<i class="material-icons">attach_file</i>
-							                        </button>
-							                    </span>
-							                </div>
-							            {% elif field.auto_id == 'id_curriculum' %}
-											{% render_field field class='form-control input-sm' %}
-											<div class="input-group">
-							                    <input type="text" readonly="" class="form-control" placeholder="{% trans 'Chose your file ...' %}">
-							                    <span class="input-group-btn input-group-sm">
-							                        <button type="button" class="btn btn-fab btn-fab-mini">
-							                          	<i class="material-icons">attach_file</i>
-							                        </button>
-							                    </span>
-							                </div>
-							            {% elif field.auto_id == 'id_cpf' %}
-			                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
+<div class="row">
+	<div class="col-lg-8 col-lg-offset-3 col-md-8 col-md-offset-3 col-sm-9 col-sm-offset-3 col-xs-10 col-xs-offset-2">
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<h2 style="color:#43a251"><strong>{% trans "User Register" %}</strong></h2>
+					</div>
+				</div>
 
-										{% elif field.auto_id == 'id_year_titration' %}
-			                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event);' %}
+				<form class="{% if form.has_error %} has-error {% endif %} is-fileinput" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					{% for field in form %}
+					<div class="col-md-10 col-md-offset-1 col-sm-12 col-xs-12 col-lg-10 col-lg-offset-1">
+						<div class="row form-group">
+							<div class="col-md-2 col-sm-3 col-xs-5 col-lg-2 text-right">
+								{% if field.field.required %}
+								<label for="{{ field.auto_id }}" class="control-label">{{ field.label }}<span>*</span></label>
+								{% else %}
+								<label for="{{ field.auto_id }}" class="control-label">{{ field.label }}</label>
+								{% endif %}
+							</div>
+							<div class="col-md-10 col-sm-9 col-xs-7 col-lg-10">
+								{% if field.auto_id == 'id_birth_date' %}
+								{% render_field field class='form-control date-picker' %}
+								{% elif field.auto_id == 'id_image' %}
+								{% render_field field class='form-control' %}
+								<div class="input-group">
+									<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your photo...' %}">
+									<span class="input-group-btn input-group-sm">
+										<button type="button" class="btn btn-fab btn-fab-mini">
+											<i class="material-icons">image</i>
+										</button>
+									</span>
+								</div>
+								{% elif field.auto_id == 'id_curriculum' %}
+								{% render_field field class='form-control' %}
+								<div class="input-group">
+									<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose the file ...' %}">
+									<span class="input-group-btn input-group-sm">
+										<button type="button" class="btn btn-fab btn-fab-mini">
+											<i class="material-icons">attach_file</i>
+										</button>
+									</span>
+								</div>
+								{% elif field.auto_id == 'id_cpf' %}
+								{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
 
-			                			{% elif field.auto_id == 'id_phone' %}
-			                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
-										{% else %}
-											{% render_field field class='form-control' %}
-											<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-										{% endif %}
-									</div>
-									
-									{% if field.errors %}
-									<div class="alert alert-danger alert-dismissible col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-offset-1 col-xs-10" role="alert">
-					  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					  						<span aria-hidden="true">&times;</span>
-				  						</button>
+								{% elif field.auto_id == 'id_year_titration' %}
+								{% render_field field class='form-control' onkeypress='campoNumerico(this,event);' %}
+
+								{% elif field.auto_id == 'id_phone' %}
+								{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
+								{% else %}
+								{% render_field field class='form-control' %}
+								{% endif %}
+								<span class="help-block">{{ field.help_text }}</span>
+								{% if field.errors %}
+								<div class="row">
+									<div class="alert alert-danger alert-dismissible" role="alert">
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
 										<ul>
 											{% for error in field.errors %}
-												<li>{{ error }}</li>
+											<li>{{ error }}</li>
 											{% endfor %}
 										</ul>
 									</div>
-									{% endif %}
 								</div>
-							{% endfor %}
-							<div class="col-md-offset-2 col-md-6 col-sm-offset-2 col-sm-6 col-xs-6 col-xs-offset-2 col-xs-6">
-								<input type="submit" value="{% trans 'Save' %}" class="btn btn-raised btn-primary" />	
+								{% endif %}
 							</div>
-							<div class=" col-md-4 col-sm-4 col-xs-4">
-								<a href="{% url 'core:home' %}" class="  btn btn-danger btn-raised" >{% trans 'Cancel' %}</a>	
-							</div>
-							
-						</form>
+						</div>
 					</div>
+					{% endfor %}
+					<div class="row">
+						<div class="col-md-5 col-xs-6 col-sm-6 col-lg-5 col-lg-offset-1 col-md-offset-1 text-center">
+							<input type="submit" value="{% trans 'Register' %}" class="btn btn-raised btn-primary" />
+						</div>
+						<div class="col-md-5 col-xs-6 col-sm-6 col-lg-5 text-center">
+							<a href="{% url 'core:home' %}" class="btn btn-Success btn-raised" >{% trans 'Login' %}</a>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
-	
-	<br clear="all" />
+</div>
+<script type="text/javascript">
+var locale = navigator.language || navigator.userLanguage;
+
+$('.date-picker').datepicker({
+	language: locale,
+});
+</script>
 {% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'subject/index.html' %}
+
+{% load static i18n permission_tags widget_tweaks %}
+
+{% block content %}
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <form class="form-group " method="post" action="">
+        {% csrf_token %}
+        
+        <div class="form-group {% if topic.name.errors %} has-error{% endif %}">
+          <label for="id_name" class="control-label label-static"> {% trans 'Name'%}</label>
+          <textarea class="form-control" id="id_name" maxlength="100" rows="1" name="name" placeholder="Name" type="text" required >{{topic.name}}</textarea>
+
+          <span class="help-block">{% trans 'Topic name'%}</span>
+        </div>
+        <div class="form-group {% if topic.description.errors %} has-error{% endif %}">
+          <label for="id_description" class="control-label label-static"> {% trans 'Description'%}</label>
+          <textarea class="form-control" id="id_description" name="description" placeholder="Description" type="text"> {{topic.description}}</textarea>
+
+          <span class="help-block">{% trans 'Topic description'%}</span>
+        </div>
+
+        <div class="col-lg-offset-4 col-lg-4">
+          <button type="submit" class="btn btn-raised btn-primary btn-lg btn-block">{% trans 'Create' %}</button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <script type="text/javascript">
+      $(document).ready(function() {
+        $('#id_description').summernote({height: 300});
+    });
+  </script>
+{% endblock content %}

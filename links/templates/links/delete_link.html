@@ -53,14 +53,14 @@
                     $('#link_{{ link.slug }}').remove();
                     $('#link_edit_icon_{{ link.slug }}').remove();
                     $('#link_edit_{{ link.slug }}').remove();
-                    alertify.alert('Link successfully deleted!')
+                    alertify.success(" {% trans 'Link successfully deleted!' %} ");
                 },
                 error: function(data){
                     $("div.modal-backdrop.fade.in").remove();
                     $('#requisicoes_ajax').empty();
                     $('#requisicoes_ajax').append(data.responseText);
                     $('#linkDeleteModal').modal('show');
-                    alertify.alert('Error when trying to delete.');
+                    alertify.error(" {% trans 'Error when trying to delete.' %} ");
                 }
             });
             event.preventDefault();

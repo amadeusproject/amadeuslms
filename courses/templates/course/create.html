@@ -1,13 +1,12 @@
-{% extends 'home.html' %}
+{% extends 'course/index.html' %}
 
-{% load static i18n %}
-{% load widget_tweaks %}
+{% load widget_tweaks static i18n permission_tags django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
-	<ol class="breadcrumb">
-	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li class="active">{% trans 'Create Course' %}</li>
-	</ol>
+
+  {{ block.super }}
+  {% breadcrumb 'Create Course' 'course:create' %}
+
 {% endblock %}
 
 {% block content %}
@@ -17,10 +16,17 @@
 			{% csrf_token %}
 			{% for field in form %}
 				<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
-					<label for="{{ field.auto_id }}">{{ field.label }}</label>
+					{% if field.auto_id != 'id_public' %}
+						<label for="{{ field.auto_id }}">{{ field.label }}</label>
+					{% endif %}
 					{% if field.auto_id == 'id_init_register_date' or field.auto_id == 'id_end_register_date' or field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date'%}
 						<input type="text" class="form-control date-picker" name="{{field.name}}" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
-
+					{% elif field.auto_id == 'id_public' %}
+						<div class="checkbox">
+							<label>
+									<input type="checkbox" name="{{field.name}}" {% if field.value %}checked="checked"{% endif %}><span class="checkbox-material"></span> {{field.name}}
+							</label>
+						</div>
 					{% else %}
 						{% render_field field class='form-control' %}
 					{% endif %}
@@ -43,11 +49,13 @@
 				</div>
 			{% endfor %}
 			<div class="row text-center">
-					<input type="submit" value="{% trans 'Create' %}" class="btn btn-primary" />
+					<input type="submit" value="{% trans 'Create' %}" class="btn btn-primary btn-raised" />
 			</div>
       	</form>
 	</div>
 </div>
+</br>
+</br>
 </br>
 <script type="text/javascript">
     var locale = navigator.language || navigator.userLanguage;

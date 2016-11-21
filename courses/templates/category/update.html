@@ -1,43 +1,14 @@
-{% extends 'Home.html' %}
+{% extends 'category/index.html' %}
 
 {% load static i18n %}
-{% load static i18n permission_tags %}
+{% load static i18n permission_tags django_bootstrap_breadcrumbs %}
 {% load widget_tweaks %}
 
 {% block breadcrumbs %}
-	<ol class="breadcrumb">
-	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li class="active">{% trans 'Edit Category' %}</li>
-	</ol>
-{% endblock %}
 
-{% block sidebar %}
-{{block.super}}
+  {{ block.super }}
+  {% breadcrumb 'Update Categories' 'course:update_cat' %}
 
-{% if user|has_role:'professor' or user|has_role:'system_admin' %}
-
-    <div class="panel panel-primary navigation">
-	    <div class="panel-heading">
-	        <h3 class="panel-title">{% trans 'Actions' %}</h3>
-	    </div>
-	    <div class="panel-body">
-	        <ul class="nav nav-pills nav-stacked">
-	            <li><a href="{% url 'course:create' %}">{% trans 'Create Course' %}</a></li>
-	        </ul>
-	    </div>
-	</div>
-	<div class="panel panel-primary navigation">
-	    <div class="panel-heading">
-	        <h3 class="panel-title">{% trans 'Category' %}</h3>
-	    </div>
-	    <div class="panel-body">
-	        <ul class="nav nav-pills nav-stacked">
-	            <li><a href="{% url 'course:create_cat' %}">{% trans 'Create Category' %}</a></li>
-	            <li><a href="{% url 'course:manage_cat' %}">{% trans 'List Category' %}</a></li>
-	        </ul>
-	    </div>
-	</div>
-{% endif %}
 {% endblock %}
 
 {% block content %}

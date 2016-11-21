@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'home.html' %}
 
 {% load static i18n permission_tags list_post %}
 {% load widget_tweaks %}
@@ -21,32 +21,19 @@
     </ol>
 {% endblock %}
 
-{% block sidebar %}
-    <div class="panel panel-primary navigation">
-        <div class="panel-heading">
-            <h5>{% trans 'Menu' %}</h5>
-        </div>
-        <div class="panel-body">
-            <ul class="nav nav-pills nav-stacked">
-                <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
-                <li><a href="{% url 'course:manage' %}">{% trans 'My Courses' %}</a></li>
+
+{% block menu %}
+  {% if user|has_role:'system_admin' or user|has_role:'professor'%}
+    <li>
+        <a href="#menu_forum" class="accordion" data-toggle="collapse">{% trans 'Forum' %}<span class="pull-right glyphicon glyphicon-chevron-down"></span></a>
+        <div id="menu_forum" class="collapse">
+            <ul class="nav nav-pill nav-stacked accordion_list">
+              <li><a href="javascript:editForum('{% url 'course:forum:update' forum.id %}', '{{ forum.id }}', '{% trans 'Forum edited successfully!' %}')">{% trans 'Edit' %}</a></li>
+              <li><a href="javascript:delete_forum('{% url 'course:forum:delete' forum.id %}', '{{ forum.id }}', '{% trans "Are you sure you want to delete this forum?" %}', '{% url 'course:view_subject' forum.topic.subject.slug %}')">{% trans 'Delete' %}</a></li>
             </ul>
         </div>
-    </div>
-
-    {% if request.user|has_role:'system_admin' or request.user|has_role:'professor' and request.user in forum.topic.subject.professors.all %}
-        <div class="panel panel-primary navigation">
-            <div class="panel-heading">
-                <h3 class="panel-title">{% trans 'Actions' %}</h3>
-            </div>
-            <div class="panel-body">
-                <ul class="nav nav-pills nav-stacked">
-                    <li><a href="javascript:editForum('{% url 'course:forum:update' forum.id %}', '{{ forum.id }}', '{% trans 'Forum edited successfully!' %}')">{% trans 'Edit' %}</a></li>
-                    <li><a href="javascript:delete_forum('{% url 'course:forum:delete' forum.id %}', '{{ forum.id }}', '{% trans "Are you sure you want to delete this forum?" %}', '{% url 'course:view_subject' forum.topic.subject.slug %}')">{% trans 'Delete' %}</a></li>
-                </ul>
-            </div>
-        </div>
-    {% endif %}
+    </li>
+  {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -130,4 +117,3 @@
         </div>
     </div>
 {% endblock %}
-

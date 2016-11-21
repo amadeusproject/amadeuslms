@@ -14,6 +14,8 @@ from core.mixins import NotificationMixin
 from .models import Notification, Log
 from rolepermissions.shortcuts import assign_role
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 #API REST IMPORTS
 from .serializers import LogSerializer
 from rest_framework import status, serializers, permissions, viewsets
@@ -51,28 +53,6 @@ class RegisterUser(CreateView, NotificationMixin):
 
 def create_account(request):
 	return render(request, "create_account.html")
-
-
-def remember_password(request):
-	context = {}
-	if request.POST:
-		email = request.POST['email']
-		registration = request.POST['registration']
-		if email and registration:
-			subject = _('Recover your password')
-			message = _('Hello {0}, \nRecover your password to use your account.\nNumber of registration: {1}\nLink for recuver password.\n\nRespectfully,\nTeam Amadeus.'.format(request.user,registration))
-			try:
-				send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email],fail_silently=False)
-				context['success'] = 'Email successfully sent'
-			except BadHeaderError:
-				context['email'] = email
-				context['registration'] = registration
-				context['danger'] = 'E-mail does not send'
-		else:
-			context['email'] = email
-			context['registration'] = registration
-			context['danger'] = 'E-mail does not send'
-	return render(request, "remember_password.html",context)
 
 def login(request):
 	context = {}
@@ -125,15 +105,24 @@ class GuestView (ListView):
 
 	template_name = 'guest.html'
 	context_object_name = 'courses'
+	queryset = CourseCategory.objects.all()
 	paginate_by = 10
-
-	def get_queryset(self):
-		return Course.objects.filter(public=True)
-
 
 	def get_context_data (self, **kwargs):
 		context = super(GuestView, self).get_context_data(**kwargs)
-		context['categorys_courses'] = CourseCategory.objects.all()
+		context['title'] = _("Guest")
+		queryset_list = CourseCategory.objects.all()
+
+		paginator = Paginator(queryset_list, 10)
+		page = self.request.GET.get('page')
+		try:
+			queryset_list = paginator.page(page)
+		except PageNotAnInteger:
+			queryset_list = paginator.page(1)
+		except EmptyPage:
+			queryset_list = paginator.page(paginator.num_pages)
+
+		context['categorys_courses'] = queryset_list
 		return context
 
 

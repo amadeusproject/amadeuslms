@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'poll',
     'links',
     'files',
+    'exercise',
 
 ]
 
@@ -261,7 +262,7 @@ SUMMERNOTE_CONFIG = {
 
     # Change editor size
     'width': '100%',
-    'height': '480',
+    'height': '300',
 
     # Use proper language setting automatically (default)
     'lang': None,

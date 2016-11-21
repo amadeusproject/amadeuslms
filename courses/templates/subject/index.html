@@ -1,6 +1,6 @@
-{% extends 'home.html' %}
+{% extends 'course/view.html' %}
 
-{% load static i18n permission_tags professor_access %}
+{% load static i18n permission_tags professor_access django_bootstrap_breadcrumbs %}
 
 {% block javascript %}
   <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
@@ -9,22 +9,12 @@
   <script type="text/javascript" src="{% static 'js/modals_requisitions.js' %}"></script>
   <script type = "text/javascript" src="{% static 'js/topic_editation_presentation.js' %}"></script>
   <script type = "text/javascript" src="{% static 'js/links.js' %}"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="{% static 'js/modal_poll.js' %}"></script>
 {% endblock %}
 
 {% block breadcrumbs %}
-  <ol class="breadcrumb">
-    <li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-    <li><a href="{% url 'course:manage' %}">{% trans 'Courses' %}</a></li>
-    <li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
-    <li class="active">{{ subject }}</li>
-  </ol>
-{% endblock %}
-{% block sidebar %}
-{{block.super}}
-
-
+    {{ block.super }}
+    {% breadcrumb subject 'course:view_subject' subject.slug %}
 {% endblock %}
 
 {% block content %}

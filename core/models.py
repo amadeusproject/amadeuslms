@@ -27,7 +27,7 @@ class Action(models.Model):
 
     name = models.CharField(_('Name'), max_length = 100)
     slug = AutoSlugField(_("Slug"), populate_from=('name'), unique=True)
-    created_date = models.DateField(_('Created Date'), auto_now_add=True)
+    created_date = models.DateTimeField(_('Created Date'), auto_now_add=True)
 
     class Meta:
         verbose_name = "Action"
@@ -51,7 +51,7 @@ class Resource(models.Model):
 
     name = models.CharField(_('Name'), max_length =100)
     slug = AutoSlugField(_("Slug"), populate_from='name', unique=True)
-    created_date = models.DateField(_('Created Date'), auto_now_add=True)
+    created_date = models.DateTimeField(_('Created Date'), auto_now_add=True)
     url = models.CharField(_('URL'), max_length =100, default="")
 
 
@@ -86,13 +86,13 @@ class Notification(models.Model):
         @action_resource: The Object that holds the information about which action was perfomed on the Resource
         @actor: The user who applied the action
     """
-    
+
     message = models.TextField(_('Message'))
     user = models.ForeignKey(User, related_name = _('%(class)s_Actor'), verbose_name= _('User'))
     read = models.BooleanField(_('Read'), default = False)
     datetime = models.DateTimeField(_("Date and Time of action"), auto_now_add = True)
     action_resource = models.ForeignKey(Action_Resource, verbose_name = _('Action_Resource'))
-    actor = models.ForeignKey(User, related_name = _('%(class)s_Performer'), verbose_name= _('Perfomer'), null = True)
+    actor = models.ForeignKey(User, related_name = _('%(class)s_Performer'), verbose_name= _('Performer'), null = True)
 
     class Meta:
         verbose_name = _("Notification")
