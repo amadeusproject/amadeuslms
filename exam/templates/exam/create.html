@@ -148,7 +148,7 @@
               '</div>'+
               '<div class="row form-group">'+
                 '<label for="alternative" class="col-md-2 control-label">Alternatives: T/F</label>'+
-                '<div class="col-md-10" id="radiosTF">'+
+                '<div class="col-md-10" id="radiosTF_'+questionType_id+'">'+
                   '<div class="radio form-group" value="1">'+
                     '<div class="radio">'+
                         '<label>'+
@@ -176,7 +176,7 @@
                   '</div>'+
                 '</div>'+
               '<div class="form-group">'+
-                '<button type="button" class="btn btn-raised btn-primary" id="newAlternative_'+questionType_id+'" onclick="functionNewAlternativeTF('+questionType_id+')">New Alternative</button>'+
+                '<button type="button" class="btn btn-raised btn-primary" id="newAlternative_'+questionType_id+'" onclick="functionNewAlternativeTF(radiosTF_'+questionType_id+')">New Alternative</button>'+
               '</div>'+
             '</div>';
     } else if (elem.value == 3) {
@@ -223,7 +223,7 @@ function functionNewAlternativeTF(Question_Id){
         '<input type="radio" name="true-or-false-2" value="F">'+
       '</label>'+
     '</div>';
-    $('#radiosTF').append(element);
+    $(Question_Id).append(element);
     $.material.init() //O material deve ser iniciado aqui para funcionar os botoes de radio.
 }
 </script>
