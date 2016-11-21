@@ -1,6 +1,11 @@
 {% extends 'subject/index.html' %}
 
-{% load static i18n permission_tags widget_tweaks %}
+{% load static i18n permission_tags widget_tweaks django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb 'Replicate subject' 'course:replicate_subject' %}  
+{% endblock breadcrumbs %}
 
 {% block content %}
 

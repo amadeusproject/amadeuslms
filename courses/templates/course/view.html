@@ -16,7 +16,7 @@
 {% block breadcrumbs %}
 
   {{ block.super }}
-  {% breadcrumb 'Course Detail' 'course:view' course.slug %}
+  {% breadcrumb course 'course:view' course.slug %}
 
 {% endblock %}
 
