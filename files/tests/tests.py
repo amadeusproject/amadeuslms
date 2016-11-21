@@ -9,6 +9,9 @@ from files.models import TopicFile
 from files.forms import FileForm, UpdateFileForm
 from courses.models import CourseCategory, Course, Subject, Topic
 
+import os
+FILE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 class FileTestCase(TestCase):
     
     def setUp(self):
@@ -77,7 +80,6 @@ class FileTestCase(TestCase):
             name = 'Topic Test',
             description = "description of the topic test file",
             subject = self.subject,
-            owner = self.teacher,
         )
         self.topic.save()
 
@@ -85,7 +87,7 @@ class FileTestCase(TestCase):
             Manual upload file
             Change directory for a file in your computer and be happy...
         """
-        upload_file = open('/home/ailson/Pictures/teste.png', 'rb')
+        upload_file = open( '/'.join([FILE_DIR, 'files/teste.png']), 'rb')
         self.file = SimpleUploadedFile(upload_file.name, upload_file.read())
 
     def test_create_file_ok(self):
@@ -134,7 +136,7 @@ class FileTestCase(TestCase):
 
         url = reverse('course:file:update_file',kwargs={'slug': self.file_update.slug})
         
-        upload_file_update = open('/home/ailson/Pictures/update.png', 'rb')
+        upload_file_update = open( '/'.join([FILE_DIR, 'files/update.png']), 'rb')
         new_file = SimpleUploadedFile(upload_file_update.name, upload_file_update.read())
         data = {
             'name' : 'updated',
