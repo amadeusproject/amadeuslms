@@ -41,10 +41,10 @@
                   </span>
                 </div>
                 {% else %}
-                {% render_field field class='form-control input-sm' %}
-                <span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+                  {% render_field field class='form-control input-sm' %}
+                  <span id="helpBlock" class="help-block">{{ field.help_text }}</span>
                 {% endif %}
-              </div>
+                </div>
 
               {% if field.errors %}
               <div class="alert alert-danger alert-dismissible clearfix" role="alert">
@@ -97,6 +97,7 @@
         $('#list-topic{{ topic.id }}-exercises').append(data);
         $('#list-topic{{ topic.id }}-exercises-edit').append(data);
         alertify.success('Exercise successfully created!')
+        setTimeout(function () { location.reload(1); }, 1000);
       },
       error: function(data){
         $('#requisicoes_ajax').empty();

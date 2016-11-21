@@ -30,6 +30,7 @@ class Exercise(models.Model):
     students = models.ManyToManyField(User, verbose_name=_('Students'), related_name='subject_exercise', blank = True)
     file = models.FileField(upload_to='uploads/%Y/%m/%d')
     file_type = models.ForeignKey(MimeType, verbose_name=_('Type file'), related_name='exercise_type',null=True)
+    allowed = models.BooleanField(_('Allowed delivery after end date?'), default=False)
 
     def __str__(self):
         return self.name_exercise

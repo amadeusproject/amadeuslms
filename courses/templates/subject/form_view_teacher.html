@@ -1,4 +1,4 @@
-{% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access list_topic_exercises%}
+{% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access list_topic_exercises %}
 
 <div class="panel panel-default cards-detail">
   <div class="panel-heading topic">
@@ -112,6 +112,7 @@
             <ul>
               {% list_topic_poll request topic %}
               {% list_topic_foruns request topic %}
+              {% list_topic_exercise request topic %}
             </ul>
           </div>
           <div class="editation editation_{{topic.slug}}">
@@ -120,6 +121,13 @@
             <ul>
               {% list_topic_poll_teacher request topic %}
               {% list_topic_foruns request topic %}
+            </ul>
+          </div>
+          <div class="editation editation_{{topic.slug}}">
+
+            {# exercícios do tópico no modo de edição #}
+            <ul>
+              {% list_topic_exercise_edit request topic %}
             </ul>
           </div>
         </div>
