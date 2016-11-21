@@ -23,8 +23,7 @@ class Exercise(models.Model):
 
     name_exercise = models.CharField(_('Name'), max_length=100)
     description = models.TextField(_('Description'), blank=True)
-    init_date = models.DateField(_('Begin of Subject Date'))
-    end_date = models.DateField(_('End of Subject Date'))
+    end_date = models.DateField(_('Delivery Date'))
     grade = models.DecimalField(max_digits=20, decimal_places=2, default=Decimal('0.00'), null=True)
     topic = models.ForeignKey(Topic, verbose_name=_('Topic'), related_name='exercise_topic')
     professors = models.ManyToManyField(User, verbose_name=_('Professors'), related_name='professors_exercise', blank=True)

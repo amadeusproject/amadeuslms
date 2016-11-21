@@ -56,7 +56,7 @@
 
       {# materiais do topico#}
       <div class="row">
-        <div class="col-xs-4 col-md-4">
+        <div class="col-xs-6 col-md-6">
           <div class="resource_inline">
             <h4>{% trans 'Material' %}</h4>
           </div>
@@ -90,7 +90,7 @@
         </div>
 
         {# avaliações do topico #}
-        <div class="col-xs-4 col-md-4">
+        <div class="col-xs-6 col-md-6">
           <div class="resource_inline">
             <h4>{% trans 'Activities' %}</h4>
           </div>
@@ -101,8 +101,8 @@
               <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
               <ul class="dropdown-menu" aria-labelledby="dLabel">
                 <li><a href="javascript:createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans 'Create Forum' %}</a></li>
-
                 <li><a href="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#requisicoes_ajax');">{% trans 'Create Poll' %}</a></li>
+                <li><a href="javascript:modal.get('{% url 'course:exercise:create_exercise' topic.slug %}', '#createExercisesModal','#requisicoes_ajax')">{% trans 'Delivery Material' %}</a></li>
               </ul>
             </div>
           </div>
@@ -123,18 +123,6 @@
             </ul>
           </div>
         </div>
-          <div class="resource_inline">
-            <h4>{% trans 'Exercises' %}</h4>
-          </div>
-          <div class="resource_inline">
-            {# dropdown de create exercício #}
-            <div class="dropdown">
-              <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
-              <ul class="dropdown-menu" aria-labelledby="dLabel">
-                <li><a href="javascript:modal.get('{% url 'course:exercise:create_exercise' topic.slug %}', '#createExercisesModal','#requisicoes_ajax')">{% trans 'Create a general exercise' %}</a></li>
-              </ul>
-            </div>
-          </div>
       </div>
 
       {# opções de cancelar e editar no modo de edição #}
