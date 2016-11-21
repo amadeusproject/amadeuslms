@@ -181,7 +181,7 @@ class UpdateFile(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.UpdateView)
 
 	def dispatch(self, *args, **kwargs):
 		file = get_object_or_404(TopicFile, slug = self.kwargs.get('slug'))
-		if(not has_object_permission('edit_file', self.request.user, file) or not(self.request.user in file.topic.subject.professors.all())):
+		if(not has_object_permission('edit_file', self.request.user, file) and not(self.request.user in file.topic.subject.professors.all())):
 			return self.handle_no_permission()
 		return super(UpdateFile, self).dispatch(*args, **kwargs)
 
