@@ -103,6 +103,7 @@
                 <li><a href="javascript:createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans 'Create Forum' %}</a></li>
                 <li><a href="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#requisicoes_ajax');">{% trans 'Create Poll' %}</a></li>
                 <li><a href="javascript:modal.get('{% url 'course:exercise:create_exercise' topic.slug %}', '#createExercisesModal','#requisicoes_ajax')">{% trans 'Delivery Material' %}</a></li>
+                <li><a href="javascript:modal.get('{% url 'course:exam:create_exam' topic.slug%}','#exam','#requisicoes_ajax');">{% trans 'Create exam' %}</a></li>
               </ul>
             </div>
           </div>
