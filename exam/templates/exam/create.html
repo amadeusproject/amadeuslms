@@ -4,7 +4,7 @@
 
 {# {% block style %} #}
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script src="{% static 'js/modal_exam.js' %}"></script>
+  <script src="{% static 'js/modalExam.js' %}"></script>
 
 {# {% endblock %} #}
 
@@ -93,9 +93,9 @@
 var id = 1;
 $("#add_question").click(function(){
   $.get("{% url 'course:exam:true_or_false_question' %}", function(data){
-    
+
     $("#questions").append(data);
-    
+
     $("#0").attr("id","true_" + id++);
   });
 });
