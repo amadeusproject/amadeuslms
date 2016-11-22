@@ -51,7 +51,10 @@ class AmadeusSettings(LoginRequiredMixin, HasRoleMixin, generic.CreateView):
 	model = EmailBackend
 	template_name = 'admin_settings.html'
 	form_class = EmailBackendForm
-	success_url = reverse_lazy('app:settings')
+	#success_url = reverse_lazy('app:settings')
+
+	def get_success_url(self):
+		return reverse_lazy('app:settings', kwargs = {'page': self.kwargs['page']})
 
 	def form_invalid(self, form):
 		return self.render_to_response(self.get_context_data(form=form))
@@ -75,6 +78,7 @@ class AmadeusSettings(LoginRequiredMixin, HasRoleMixin, generic.CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AmadeusSettings, self).get_context_data(**kwargs)
+		context['page'] = self.kwargs.get('page')
 		if not self.request.method == 'POST':
 			try:
 				setting = EmailBackend.objects.latest('id')

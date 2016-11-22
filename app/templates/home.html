@@ -110,9 +110,9 @@
                       <a href="#menu_settings" class="accordion" data-toggle="collapse">{% trans 'Settings' %}<span class="pull-right glyphicon glyphicon-chevron-down"></span></a>
                       <div id="menu_settings" class="collapse">
                         <ul class="nav nav-pill nav-stacked accordion_list">
-                            <li> <a href="{% url 'app:settings' %}">{% trans "System" %}</a></li>
-                            <li> <a href="{% url 'app:settings' %}">{% trans "Mail Sender" %}</a></li>
-                            <li> <a href="{% url 'app:settings' %}">{% trans "Security" %}</a></li>
+                            <li> <a href="{% url 'app:settings' page='system' %}">{% trans "System" %}</a></li>
+                            <li> <a href="{% url 'app:settings' page='mail_sender' %}">{% trans "Mail Sender" %}</a></li>
+                            <li> <a href="{% url 'app:settings' page='security' %}">{% trans "Security" %}</a></li>
                         </ul>
                       </div>
                     </li>
