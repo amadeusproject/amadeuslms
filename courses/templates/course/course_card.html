@@ -19,6 +19,7 @@
                    </button>
                   <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
                     <li><a href="{% url 'course:replicate_course' course.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
+                    <li><a href="{% url 'course:update' course.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
                     <li><a href="javascript:delete_course.get('{% url 'course:delete' course.slug %}','#course','#modal_course')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
                   </ul>
                 </div>
