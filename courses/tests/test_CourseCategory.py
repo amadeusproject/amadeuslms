@@ -40,7 +40,7 @@ class ForumViewTestCase (TestCase):
 		assign_role(self.user_student, 'student')
 
 		self.category = CourseCategory.objects.create(
-			name = 'Test Category'
+			name = 'Category Test'
 		)
 		self.category.save()
 
@@ -106,3 +106,56 @@ class ForumViewTestCase (TestCase):
 		response = self.client_professor.post(url, data)
 		self.assertEquals (response.status_code, 302)
 		self.assertEquals(list_categories+2, CourseCategory.objects.all().count())
+
+
+######################### UpdateCatView #########################
+
+	def test_UpdateCatView_ok (self):
+		url = reverse ('course:update_cat', kwargs={'slug':self.category.slug})
+
+		response = self.client.get(url)
+		self.assertEquals(response.status_code, 200)
+
+		response = self.client_professor.get(url)
+		self.assertEquals(response.status_code, 200)
+
+		response = self.client_student.get(url)
+		self.assertEquals(response.status_code, 403)
+
+	def test_UpdateCatView_context (self):
+		url = reverse ('course:update_cat', kwargs={'slug':self.category.slug})
+
+		response = self.client.get(url)
+		self.assertTrue('form' in response.context)
+
+		response = self.client_professor.get(url)
+		self.assertTrue('form' in response.context)
+
+	def test_UpdateCatView_form_error (self):
+		url = reverse ('course:update_cat', kwargs={'slug':self.category.slug})
+		data = {'name':''}
+
+		response = self.client.post(url, data)
+		self.assertEquals(response.status_code, 200)
+
+		response = self.client_professor.post(url, data)
+		self.assertEquals(response.status_code, 200)
+
+	def test_UpdateCatView_form_ok (self):
+		url = reverse('course:update_cat', kwargs={'slug':self.category.slug})
+		data = {
+		'name':'Category Updated',
+		}
+
+		self.assertEquals(CourseCategory.objects.all()[0].name, 'Category Test')
+		response = self.client.post(url, data)
+		self.assertEquals (response.status_code, 302)
+		self.assertEquals(CourseCategory.objects.all()[0].name, 'Category Updated')
+		category = CourseCategory.objects.get(name='Category Updated')
+
+		data={'name':'Category Updated As Professor'}
+		self.assertEquals(CourseCategory.objects.all()[0].name, 'Category Updated')
+		response = self.client_professor.post(url, data)
+		self.assertEquals (response.status_code, 302)
+		self.assertEquals(CourseCategory.objects.all()[0].name, 'Category Updated As Professor')
+		category = CourseCategory.objects.get(name='Category Updated As Professor')
