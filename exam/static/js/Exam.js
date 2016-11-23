@@ -1,4 +1,3 @@
-
 //Insert Create select with question type
   var idQuestionType = 1;
   $("#addQuestion").on("click", function(event){
@@ -53,7 +52,7 @@
               '</div>'+
             '</div>'+
           '</div>'+
-          '<div class="form-group">'+
+          '<div class="row form-group">'+
             '<button type="button" class="btn btn-raised btn-primary" id="newAlternative_'+questionType_id+'" onclick="functionNewAlternative(radios_'+questionType_id+')">New Alternative</button>'+
           '</div>'+
         '</div>';
@@ -95,7 +94,7 @@
                     '</div>'+
                   '</div>'+
                 '</div>'+
-              '<div class="form-group">'+
+              '<div class="row form-group">'+
                 '<button type="button" class="btn btn-raised btn-primary" id="newAlternative_'+questionType_id+'" onclick="functionNewAlternativeTF(radiosTF_'+questionType_id+')">New Alternative</button>'+
               '</div>'+
             '</div>';
