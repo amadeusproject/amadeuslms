@@ -1,137 +1,62 @@
-{% extends "home.html" %}
+{% extends 'subject/index.html' %}
 
-{% load i18n widget_tweaks dict_access static%}
+{% load i18n widget_tweaks static django_bootstrap_breadcrumbs %}
 
-{# {% block style %} #}
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script src="{% static 'js/modal_exam.js' %}"></script>
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb 'Create exam' 'course:create_exam' %}
+{% endblock breadcrumbs %}
 
-{# {% endblock %} #}
-
-{# {% block content %} #}
-<!-- Modal (remember to change the ids!!!) -->
-<div class="modal fade" id="exam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
-
-        {% block title_exam %}
-        <!-- Put your title here!!!  -->
-        <h4 class="modal-title" id="myModalLabel">{% trans "Create a Exam" %}</h4>
-        {% endblock title_exam %}
+{% block content %}
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h4 class="panel-title" id="exam-title">{% trans "Create a Exam" %}</h4>
+  </div>
+  <div class="panel-body">
+    <div class="row form-group">
+      <label for="exam_name" class="col-md-2 control-label">{% trans "Exam Name" %}</label>
+      <div class="col-md-10">
+        <input type="text" name="exam_name" class="form-control" id="exam_name" placeholder="{% trans 'Exam Name' %}">
       </div>
-      <!-- Modal Body -->
-      <div class="modal-body">
-
-          {% block content_exam %}
-
-          <div class="panel-body">
-            <div class="row form-group">
-              <label for="exam_name" class="col-md-2 control-label">{% trans "Exam Name" %}</label>
-              <div class="col-md-10">
-                <input type="text" name="exam_name" class="form-control" id="exam_name" placeholder="{% trans 'Exam Name' %}">
-              </div>
-            </div>
-            <div class="row form-group">
-              <label for="begin_date" class="col-md-2 control-label">{% trans "Exam's begin date" %}</label>
-              <div class="col-md-10">
-                <input type="date" name="begin_date" class="form-control" id="begin_date" placeholder='{% trans "Begin Date" %}'>
-              </div>
-            </div>
-            <div class="row form-group">
-              <label for="end_date" class="col-md-2 control-label">{% trans "Exam's end date" %}</label>
-              <div class="col-md-10">
-                <input type="date" name="end_date" class="form-control" id="end_date" placeholder='{% trans "End Date" %}'>
-              </div>
-            </div>
-            <div class="row form-group">
-              <div class="col-md-10">
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" name="checkbox"><span class="checkbox-material"><span class="check"></span></span> {% trans "Allow submissions after deadline?" %}
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="row form-group" id="questions">
-
-            </div>
-            <div class="row form-group">
-              <label for="questionType" class="col-md-2 control-label">{% trans "Question Type" %}</label>
-              <div class="col-md-10">
-                <select id="questionType" class="form-control" name="option_question" onchange="showDiv (this)">
-                  <option selected disabled>{% trans "Question Type" %}</option>
-                  <option value="0">{% trans "Multiple Choice" %}</option>
-                  <option value="1">{% trans "True or False" %}</option>
-                  <option value="2">{% trans "Gap Filling" %}</option>
-                  <option value="3">{% trans "Discursive Question" %}</option>
-                </select>
-              </div>
-            </div>
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-
-              <!-- Don't remove that!!!  -->
-              <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
-              {% block button_save %}
-              <!-- Put curtom buttons here!!!  -->
-              <button type="submite" id="button" form="form" class="btn btn-primary btn-raised">{% trans "Create" %}</button>
-              {% endblock button_save %}
-            </div>
-
-
-          {% endblock content_exam %}
+    </div>
+    <div class="row form-group">
+      <label for="begin_date" class="col-md-2 control-label">{% trans "Exam's begin date" %}</label>
+      <div class="col-md-4">
+        <input type="date" name="begin_date" class="form-control" id="begin_date" placeholder='{% trans "Begin Date" %}'>
+      </div>
+      <label for="end_date" class="col-md-2 control-label">{% trans "Exam's end date" %}</label>
+      <div class="col-md-4">
+        <input type="date" name="end_date" class="form-control" id="end_date" placeholder='{% trans "End Date" %}'>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-10">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="checkbox"><span class="checkbox-material"></span> {% trans "Allow submissions after deadline?" %}
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group" id="buttonAddQuestion">
+      <div class="col-md-10">
+        <button id="addQuestion" type="button" class="btn btn-raised btn-default">Add new question buton</button>
       </div>
     </div>
   </div>
+  <div class="panel-footer">
+    <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+    {% block button_save %}
+    <!-- Put curtom buttons here!!!  -->
+    <button type="submite" id="button" form="form" class="btn btn-primary btn-raised">{% trans "Create" %}</button>
+    {% endblock button_save %}
+  </div>
 </div>
 
-<script type="text/javascript">
-
-var id = 1;
-$("#add_question").click(function(){
-  $.get("{% url 'course:exam:true_or_false_question' %}", function(data){
-    
-    $("#questions").append(data);
-    
-    $("#0").attr("id","true_" + id++);
-  });
-});
-var alternativeValue = 3;
-$('#newAlternative').click(function () {
-  var element = '<div class="radio radio-primary">' +
-  '<label>' +
-  '<input type="radio" name="alternatives" id="alternative4"' + 'value="' +alternativeValue + '">' +
-  '<textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>' +
-  '</label>' +
-  '</div>';
-  $('#radios').append(element);
-  alternativeValue++;
-});
-var tfAlternativeValue = 3;
-$('#tfAlternative').click(function () {
-  var element = '<div class="radio radio-primary">' +
-  '<label>' +
-  '<textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>' +
-  '</label>' +
-  '<label>' +
-  '<input type="radio" name="alternative' + tfAlternativeValue +'" value="T">' +
-  '</label>' +
-  '<label>' +
-  '<input type="radio" name="alternative2" value="F">' +
-  '</label>' +
-  '</div>';
-  $('#radiosTF').append(element);
-  tfAlternativeValue++;
-});
-$(function() {
-  $( "#begin_date,#end_date" ).datepicker();
-});
-
-</script>
-
-
-
+{% block javascript %}
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="{% static 'js/Exam.js' %}"></script>
+  <!-- Init material Bootstrap -->
+  <script type="text/javascript">$.material.init()</script><!-- O botao radio volta a funcionar quando coloco essa função-->
+{% endblock %}
 {% endblock content %}
