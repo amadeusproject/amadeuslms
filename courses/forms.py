@@ -40,9 +40,9 @@ class CourseForm(forms.ModelForm):
 
 class UpdateCourseForm(CourseForm):
 
-	def __init__(self, *args, **kwargs):
-		super(UpdateCourseForm, self).__init__(*args, **kwargs)
-		self.fields["students"].required = False
+	#def __init__(self, *args, **kwargs):
+	#	super(UpdateCourseForm, self).__init__(*args, **kwargs)
+	#	self.fields["students"].required = False
 
 	class Meta:
 		model = Course
