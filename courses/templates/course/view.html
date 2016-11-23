@@ -47,21 +47,6 @@
     </div>
     <div class="panel-body">
       <p><b>{% trans 'Coordinator' %}: </b>{{course.coordenator}}</p>
-      <p><b>{% trans 'Teacher' %}: </b>{{course.professors.all.0}}</p>
-      <p>
-        <b>{% trans 'Description' %}:</b>
-        <i>
-          {{ course.objectivies |safe }}
-        </i>
-      </p>
-      <div class="row">
-              <div class="col-xs-6 col-md-6 data_register_course">
-                <p><b>{% trans 'Begin of Course Date' %}: </b>{{course.init_date}}</p>
-              </div>
-              <div class="col-xs-6 col-md-6 data_register_course">
-                <p><b>{% trans 'End of Course Date' %}: </b>{{course.end_date}}</p>
-              </div>
-            </div>
     </div>
   </div>
 
@@ -84,20 +69,12 @@
   </div>
 </div>
 
-<div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion" role="tablist" aria-multiselectable="false">
-  <div>
-
-  <div class="panel panel-info">
-</div>
-</div>
+<div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion" role="tablist" aria-multiselectable="false"></div>
 <div class="cards-detail">
     {% for subject in subjects %}
         <div class="panel panel-default panel_{{ subject.id }}">
           <div class="panel-heading heading_{{subject.id}} subject ui-sortable-handle">
             <div class="row">
-                <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{subject.slug}}" href=".collapseSubject-{{subject.slug}}" aria-expanded="false" aria-controls="collapseSubject-{{subject.slug}}">
-                  <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
-                </div>
                 <div class="col-xs-9 col-md-10 titleTopic">
                   <a role="button" href="{% url 'course:view_subject' subject.slug %}">
                     <h4>{{subject.name}}</h4>
@@ -126,29 +103,6 @@
                 {% endif %}
             </div>
           </div>
-          <div class="panel-collapse collapseSubject-{{subject.slug}} collapse in" aria-labelledby="heading_{{subject.id}}" aria-expanded="true" aria-hidden="false">
-           <div class="panel-body">
-            <p><b>{% trans "Professor" %}: </b>{% for professor in subject.professors.all %}{% if not forloop.first %},{% endif %}
-              {{professor}}{% if forloop.last %}.{% endif %}{% endfor %}</p>
-              <p>
-                <b>{% trans 'Category' %}: </b><i>{{ subject.category }}</i>
-              </p>
-              <p>
-                <b>{% trans "Description" %}: </b>
-                <i>
-                  {{subject.description | safe}}
-                </i>
-              </p>
-              <div class="row">
-                <div class="col-xs-6 col-md-6">
-                  <p><b>{% trans "Begining" %}: </b>{{subject.init_date}}</p>
-                </div>
-                <div class="col-xs-6 col-md-6">
-                  <p><b>{% trans "End" %}: </b>{{subject.end_date}}</p>
-                </div>
-              </div>
-          </div>
-         </div>
         </div>
     {% endfor %}
 
@@ -159,10 +113,7 @@
     <a href="{% url 'course:create_subject' course.slug %}" data-toggle="modal" data-target="" class="btn btn-primary btn-lg btn-block btn-raised">{% trans 'Create Subject' %}<div class="ripple-container"></div></a>
   </div>
 {% endif %}
-
 </div>
 </div>
-</div>
-<div class="row" id="modal_subject">
 
 {% endblock %}
