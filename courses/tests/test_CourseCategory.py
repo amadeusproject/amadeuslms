@@ -159,3 +159,37 @@ class ForumViewTestCase (TestCase):
 		self.assertEquals (response.status_code, 302)
 		self.assertEquals(CourseCategory.objects.all()[0].name, 'Category Updated As Professor')
 		category = CourseCategory.objects.get(name='Category Updated As Professor')
+
+######################### DeleteCatView #########################
+
+
+	def test_DeleteCatView_ok (self):
+		url = reverse('course:delete_cat', kwargs={'slug':self.category.slug})
+
+		response = self.client.get(url)
+		self.assertEquals(response.status_code, 200)
+		
+		response = self.client_professor.get(url)
+		self.assertEquals(response.status_code, 200)
+
+		response = self.client_student.get(url)
+		self.assertEquals(response.status_code, 302)
+
+	def test_DeleteCatView (self):
+		url = reverse('course:delete_cat', kwargs={'slug':self.category.slug})
+
+		category = CourseCategory.objects.get (name='Category Test')
+		self.assertEquals(CourseCategory.objects.filter(name='Category Test').count(), 1)
+		response = self.client.post(url)
+		self.assertEquals(CourseCategory.objects.filter(name='Category Test').count(), 0)
+
+
+		category_professor = CourseCategory.objects.create(
+			name = 'Category Professor'
+		)
+		category_professor.save()
+		url = reverse('course:delete_cat', kwargs={'slug':category_professor.slug})
+		category = CourseCategory.objects.get (name='Category Professor')
+		self.assertEquals(CourseCategory.objects.filter(name='Category Professor').count(), 1)
+		response = self.client_professor.post(url)
+		self.assertEquals(CourseCategory.objects.filter(name='Category Professor').count(), 0)
