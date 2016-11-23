@@ -639,6 +639,7 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
 
         context['topic'] = topic
         context['subject'] = topic.subject
+        context['course'] = topic.subject.course
         context['activitys'] = activitys
         context['students_activit'] = students_activit
         context['materials'] = materials
