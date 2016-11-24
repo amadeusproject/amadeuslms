@@ -463,12 +463,10 @@ msgid ""
 msgstr "Ocorreu um erro. Não pôde inscrever no curso, tente novamente"
 
 #: .\views.py:467
-, python-format
 msgid "Category \"%s\" created successfully!"
 msgstr "Categoria \"%s\" criada com sucesso!"
 
 #: .\views.py:482
-, python-format
 msgid "Category \"%s\" updated successfully!"
 msgstr "Categoria \"%s\" editada com sucesso!"
 
