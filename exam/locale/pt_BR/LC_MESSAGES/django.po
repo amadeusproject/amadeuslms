@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-26 14:47-0300\n"
+"POT-Creation-Date: 2016-11-23 23:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,150 +18,173 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: exam/forms.py:18 exam/forms.py:22
+#: .\forms.py:18 .\forms.py:22
 msgid "It is required one these fields."
-msgstr ""
+msgstr "É requerido um destes campos."
 
-#: exam/forms.py:33
+#: .\forms.py:33
 msgid "Start date to resolve the exam"
 msgstr "Data de início para resolver o exame"
 
-#: exam/forms.py:35
+#: .\forms.py:35
 msgid "Maximum date permited to resolve the exam"
 msgstr "Data máxima permitida para resolver o exame"
 
-#: exam/models.py:9
+#: .\models.py:9
 msgid "Begin of Course Date"
 msgstr "Data de início do curso"
 
-#: exam/models.py:10
+#: .\models.py:10
 msgid "Exibe?"
 msgstr "Exibir?"
 
-#: exam/models.py:13 exam/models.py:35
+#: .\models.py:13 .\models.py:35
 msgid "Exam"
 msgstr "Exame"
 
-#: exam/models.py:14
+#: .\models.py:14
 msgid "Exams"
 msgstr "Exames"
 
-#: exam/models.py:21 exam/models.py:27
+#: .\models.py:21 .\models.py:27 .\templates\exam\view.html:26
 msgid "Answer"
 msgstr "Resposta"
 
-#: exam/models.py:22
+#: .\models.py:22
 msgid "Order"
 msgstr "Ordem"
 
-#: exam/models.py:23 exam/models.py:28
+#: .\models.py:23 .\models.py:28
 msgid "Answers"
 msgstr "Respostas"
 
-#: exam/models.py:34
+#: .\models.py:34
 msgid "Answered"
 msgstr "Respondida"
 
-#: exam/models.py:36
+#: .\models.py:36
 msgid "Answers Students"
 msgstr "Resposta dos estudantes"
 
-#: exam/models.py:37
+#: .\models.py:37
 msgid "Student"
 msgstr "Estudante"
 
-#: exam/models.py:38
+#: .\models.py:38
 msgid "Answered Date"
 msgstr "Data da resposta"
 
-#: exam/models.py:41
+#: .\models.py:41
 msgid "Answer Stundent"
 msgstr "Resposta do estudante"
 
-#: exam/models.py:42
+#: .\models.py:42
 msgid "Answers Student"
 msgstr "Respostas dos estudantes"
 
-#: exam/templates/exam/create.html:9
-msgid "New Exam"
-msgstr "Novo exame"
+#: .\templates\exam\create.html:13
+msgid "Create a Exam"
+msgstr "Criar um Exame"
 
-#: exam/templates/exam/create.html:14 exam/templates/exam/create.html:16
+#: .\templates\exam\create.html:17 .\templates\exam\create.html:19
 msgid "Exam Name"
 msgstr "Nome do exame"
 
-#: exam/templates/exam/create.html:20
+#: .\templates\exam\create.html:23
 msgid "Exam's begin date"
 msgstr "Data de início do exame"
 
-#: exam/templates/exam/create.html:22
+#: .\templates\exam\create.html:25
 msgid "Begin Date"
 msgstr "Data de início"
 
-#: exam/templates/exam/create.html:26
+#: .\templates\exam\create.html:27
 msgid "Exam's end date"
 msgstr "Data final do exame"
 
-#: exam/templates/exam/create.html:28
+#: .\templates\exam\create.html:29
 msgid "End Date"
 msgstr "Data final"
 
-#: exam/templates/exam/create.html:35
+#: .\templates\exam\create.html:36
 msgid "Allow submissions after deadline?"
 msgstr "Permitir submissões após o prazo?"
 
-#: exam/templates/exam/create.html:44 exam/templates/exam/create.html:47
-msgid "Question Type"
-msgstr "Tipo de questão"
+#: .\templates\exam\create.html:48
+msgid "Close"
+msgstr "Fechar"
 
-#: exam/templates/exam/create.html:48
-msgid "Multiple Choice"
-msgstr "Múltipla escolha"
-
-#: exam/templates/exam/create.html:49
-msgid "True or False"
-msgstr "Verdadeiro ou falso"
-
-#: exam/templates/exam/create.html:50
-msgid "Gap Filling"
-msgstr "Preenchimento de lacunas"
-
-#: exam/templates/exam/create.html:51
-msgid "Discursive Question"
-msgstr "Questão discursiva"
-
-#: exam/templates/exam/create.html:57
-msgid "add question"
-msgstr "Adicionar questão"
-
-#: exam/templates/exam/create.html:62
+#: .\templates\exam\create.html:51
 msgid "Create"
 msgstr "Criar"
 
-#: exam/templates/exam/discursive_question.html:2
-#: exam/templates/exam/discursive_question.html:4
-#: exam/templates/exam/multiple_choice_question.html:5
-#: exam/templates/exam/true_or_false_question.html:20
-#: exam/templates/exam/true_or_false_question.html:25
+#: .\templates\exam\questions\discursive_question.html:2
+#: .\templates\exam\questions\discursive_question.html:4
+#: .\templates\exam\questions\multiple_choice_question.html:5
+#: .\templates\exam\questions\true_or_false_question.html:20
+#: .\templates\exam\questions\true_or_false_question.html:25
 msgid "Question"
 msgstr "Questão"
 
-#: exam/templates/exam/gap_filling_question.html:2
+#: .\templates\exam\questions\gap_filling_question.html:2
 msgid "Gap Filling Question"
 msgstr "Questão de preenchimento de lacunas"
 
-#: exam/templates/exam/multiple_choice_question.html:15
+#: .\templates\exam\questions\multiple_choice_question.html:15
 msgid "Alternatives"
 msgstr "Alternativas"
 
-#: exam/templates/exam/true_or_false_answer.html:9
+#: .\templates\exam\questions\multiple_choice_question.html:34
+#: .\templates\exam\questions\true_or_false_question.html:45
+msgid "New Alternative"
+msgstr "Nova alternativa"
+
+#: .\templates\exam\questions\true_or_false_answer.html:9
 msgid "Write your alternative"
 msgstr "Escreva sua alternativa"
 
-#: exam/templates/exam/true_or_false_question.html:37
+#: .\templates\exam\questions\true_or_false_question.html:37
 msgid "Alternatives: T/F"
 msgstr "Alternativas: V/F"
 
-#: exam/templates/exam/true_or_false_question.html:45
-msgid "New Alternative"
-msgstr "Nova alternativa"
+#: .\templates\exam\remove.html:7
+msgid "Delete Exam"
+msgstr "Apagar exame"
+
+#: .\templates\exam\remove.html:15
+msgid "Are you sure you want to delete the subject"
+msgstr "Você tem certeza que deseja apagar o assunto?"
+
+#: .\templates\exam\remove.html:20
+msgid "Delete"
+msgstr "Apagar"
+
+#: .\templates\exam\update.html:7
+msgid "Update a Exam"
+msgstr "Atualizar um Exame"
+
+#: .\templates\exam\update.html:12
+msgid "Update"
+msgstr "Atualizar"
+
+#: .\templates\exam\view.html:17
+msgid "Limit date:"
+msgstr "Data limite:"
+
+#~ msgid "Question Type"
+#~ msgstr "Tipo de questão"
+
+#~ msgid "Multiple Choice"
+#~ msgstr "Múltipla escolha"
+
+#~ msgid "True or False"
+#~ msgstr "Verdadeiro ou falso"
+
+#~ msgid "Gap Filling"
+#~ msgstr "Preenchimento de lacunas"
+
+#~ msgid "Discursive Question"
+#~ msgstr "Questão discursiva"
+
+#~ msgid "add question"
+#~ msgstr "Adicionar questão"
