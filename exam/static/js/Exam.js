@@ -1,28 +1,3 @@
-//Insert Create select with question type
-  var idQuestionType = 1;
-  $("#addQuestion").on("click", function(event){
-    var element =
-    '<div class="row form-group" id="questionType_' + idQuestionType +'">' +
-    '<label for="questionType" class="col-md-2 control-label">' +
-    '{% trans "Question Type" %}</label>' + '<div class="col-md-10">' +
-          '<select id="questionType'+ idQuestionType +'" class="form-control" name="option_question" onchange="showDiv (this, '+ idQuestionType +')">' +
-            '<option selected disabled>{% trans "Question Type" %}</option>' +
-            '<option value="0">{% trans "Multiple Choice" %}</option>' +
-            '<option value="1">{% trans "True or False" %}</option>' +
-            '<option value="2">{% trans "Gap Filling" %}</option>' +
-            '<option value="3">{% trans "Discursive Question" %}</option>' +
-          '</select>' +
-        '</div>' +
-      '</div>' + '<hr id="hr_'+idQuestionType+'">'
-      ;
-      if (idQuestionType == 1){
-        $(element).insertAfter('#buttonAddQuestion');
-      }else{
-        var idhr = '#hr_'+(idQuestionType-1);
-        $(element).insertAfter(idhr);
-      }
-    idQuestionType++;
-  })
 
   //Insert question choice
   function showDiv (elem, questionType_id) {

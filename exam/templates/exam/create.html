@@ -55,6 +55,33 @@
 
 {% block javascript %}
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script type="text/javascript">
+    //Insert Create select with question type
+    var idQuestionType = 1;
+    $("#addQuestion").on("click", function(event){
+      var element =
+      '<div class="row form-group" id="questionType_' + idQuestionType +'">' +
+      '<label for="questionType" class="col-md-2 control-label">' +
+      '{% trans "Question Type" %}</label>' + '<div class="col-md-10">' +
+            '<select id="questionType'+ idQuestionType +'" class="form-control" name="option_question" onchange="showDiv (this, '+ idQuestionType +')">' +
+              '<option selected disabled>{% trans "Question Type" %}</option>' +
+              '<option value="0">{% trans "Multiple Choice" %}</option>' +
+              '<option value="1">{% trans "True or False" %}</option>' +
+              '<option value="2">{% trans "Gap Filling" %}</option>' +
+              '<option value="3">{% trans "Discursive Question" %}</option>' +
+            '</select>' +
+          '</div>' +
+        '</div>' + '<hr id="hr_'+idQuestionType+'">'
+        ;
+        if (idQuestionType == 1){
+          $(element).insertAfter('#buttonAddQuestion');
+        }else{
+          var idhr = '#hr_'+(idQuestionType-1);
+          $(element).insertAfter(idhr);
+        }
+      idQuestionType++;
+    })
+  </script>
   <script src="{% static 'js/Exam.js' %}"></script>
   <!-- Init material Bootstrap -->
   <script type="text/javascript">$.material.init()</script><!-- O botao radio volta a funcionar quando coloco essa função-->
