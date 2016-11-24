@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-17 09:46-0300\n"
+"POT-Creation-Date: 2016-11-23 23:09-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,7 +49,7 @@ msgstr ""
 msgid "Mail"
 msgstr "Email"
 
-#: .\models.py:19 .\templates\list_users.html:58
+#: .\models.py:19 .\templates\list_users.html:55
 #: .\templates\users\profile.html:60
 msgid "Name"
 msgstr "Nome"
@@ -139,50 +139,45 @@ msgstr "Usuário"
 msgid "Users"
 msgstr "Usuários"
 
-#: .\templates\list_users.html:14 .\templates\users\index.html:13
-#: .\templates\users\profile.html:16
-msgid "Add User"
-msgstr "Adicionar usuário"
-
-#: .\templates\list_users.html:32
+#: .\templates\list_users.html:29
 msgid "Search..."
 msgstr "Pesquisar..."
 
-#: .\templates\list_users.html:59
+#: .\templates\list_users.html:56
 msgid "Profile"
 msgstr "Perfil"
 
-#: .\templates\list_users.html:60 .\templates\users\profile.html:68
+#: .\templates\list_users.html:57 .\templates\users\profile.html:68
 msgid "Email"
 msgstr "Email"
 
-#: .\templates\list_users.html:61
+#: .\templates\list_users.html:58
 msgid "Contact"
 msgstr "Contato"
 
-#: .\templates\list_users.html:63
+#: .\templates\list_users.html:60
 msgid "Edit"
 msgstr "Editar"
 
-#: .\templates\list_users.html:64 .\templates\list_users.html:82
+#: .\templates\list_users.html:61 .\templates\list_users.html:79
 msgid "Delete"
 msgstr "Apagar"
 
-#: .\templates\list_users.html:75
+#: .\templates\list_users.html:72
 msgid "Confirm delete"
 msgstr "Confirmar"
 
-#: .\templates\list_users.html:78
+#: .\templates\list_users.html:75
 msgid "Are you sure you want to delete the user"
 msgstr "Você tem certeza que deseja deletar o usuário"
 
-#: .\templates\list_users.html:81 .\templates\users\change_password.html:47
+#: .\templates\list_users.html:78 .\templates\users\change_password.html:47
 #: .\templates\users\create.html:130 .\templates\users\edit_profile.html:102
 #: .\templates\users\remove_account.html:35 .\templates\users\update.html:83
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: .\templates\list_users.html:94 .\templates\users\index.html:64
+#: .\templates\list_users.html:91 .\templates\users\index.html:64
 msgid "No users found"
 msgstr "Nenhum usuário encontrado"
 
@@ -221,6 +216,10 @@ msgstr "Início"
 #: .\templates\users\index.html:8
 msgid "Manage Users"
 msgstr "Gerenciar Usuários"
+
+#: .\templates\users\profile.html:16 .\views.py:75
+msgid "Add User"
+msgstr "Adicionar usuário"
 
 #: .\templates\users\profile.html:51
 #, fuzzy
@@ -314,23 +313,27 @@ msgstr "CPF"
 msgid "Birth date:"
 msgstr "Data de nascimento:"
 
-#: .\views.py:70
-msgid "User created successfully!"
-msgstr "Usuário criado com sucesso!"
+#: .\views.py:70 .\views.py:103
+#, fuzzy
+#| msgid "User"
+msgid "User "
+msgstr "Usuário"
 
-#: .\views.py:99
-msgid "User edited successfully!"
-msgstr "Usuário editado com sucesso!"
-
-#: .\views.py:116 .\views.py:122
+#: .\views.py:120 .\views.py:126
 #, fuzzy
 #| msgid "User edited successfully!"
 msgid "User deleted Successfully!"
 msgstr "Usuário editado com sucesso!"
 
-#: .\views.py:152
+#: .\views.py:156
 msgid "Profile edited successfully!"
 msgstr "Perfil editado com sucesso!"
+
+#~ msgid "User created successfully!"
+#~ msgstr "Usuário criado com sucesso!"
+
+#~ msgid "User edited successfully!"
+#~ msgstr "Usuário editado com sucesso!"
 
 #~ msgid "Administrador"
 #~ msgstr "Administrador"
