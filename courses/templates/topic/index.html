@@ -13,7 +13,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb topic.name 'course:view_topic' %}
+    {% breadcrumb topic.name 'course:view_topic' topic.slug %}
 {% endblock %}
 
 {% block content %}
