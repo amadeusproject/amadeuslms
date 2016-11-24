@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-19 10:24-0300\n"
+"POT-Creation-Date: 2016-11-23 23:16-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,6 +39,10 @@ msgstr "Por favor, insira uma data válida"
 #| msgid "There is already a registeres User with this CPF"
 msgid "There is already a registered User with this CPF"
 msgstr "Já existe usuário cadastrado com este CPF"
+
+#: .\forms.py:44
+msgid "Please enter a valid CPF"
+msgstr "Por favor, insira um CPF válido"
 
 #: .\forms.py:52
 #, python-format
@@ -150,7 +154,7 @@ msgstr "Contexto"
 
 #: .\models.py:108
 msgid "Actor"
-msgstr "Ator"
+msgstr "Autor"
 
 #: .\models.py:112
 msgid "Log"
@@ -194,7 +198,7 @@ msgstr "Mudar senha"
 msgid "Remove account"
 msgstr "Remover conta"
 
-#: .\templates\guest.html:67 .\templates\index.html:67 .\views.py:115
+#: .\templates\guest.html:67 .\templates\index.html:67 .\views.py:113
 msgid "Guest"
 msgstr "Convidado"
 
@@ -205,10 +209,6 @@ msgstr "Menu"
 #: .\templates\guest.html:84 .\templates\register_user.html:110
 msgid "Register"
 msgstr "Cadastrar"
-
-#: .\templates\guest.html:98
-msgid "Search Courses"
-msgstr "Pesquisar Cursos"
 
 #: .\templates\index.html:37
 msgid "Sign in with your account to continue"
@@ -240,7 +240,7 @@ msgstr "Cadastro de usuário"
 
 #: .\templates\register_user.html:61
 msgid "Choose your photo..."
-msgstr ""
+msgstr "Escolha sua foto..."
 
 #: .\templates\register_user.html:71
 msgid "Choose the file ..."
@@ -258,8 +258,6 @@ msgstr "Sua senha foi resetada com sucesso"
 #: .\templates\registration\passwor_reset_confirm.html:19
 #: .\templates\registration\passwor_reset_done.html:18
 #: .\templates\registration\passwor_reset_form.html:18
-#, fuzzy
-#| msgid "Recover your password"
 msgid "Reset Your Password"
 msgstr "Recupere sua senha"
 
@@ -272,8 +270,6 @@ msgstr ""
 "corretamente."
 
 #: .\templates\registration\passwor_reset_confirm.html:57
-#, fuzzy
-#| msgid "Change my password"
 msgid "Change Password"
 msgstr "Mudar senha"
 
@@ -327,13 +323,16 @@ msgstr "Insira um e-mail válido."
 msgid "This field is required."
 msgstr "Este campo é obrigatório."
 
-#: .\views.py:47
+#: .\views.py:49
 msgid "User successfully registered!"
 msgstr "Usuário cadastrado com sucesso!"
 
-#: .\views.py:66
+#: .\views.py:68
 msgid "E-mail or password are incorrect."
 msgstr "E-mail ou senha incorretos."
+
+#~ msgid "Search Courses"
+#~ msgstr "Pesquisar Cursos"
 
 #, fuzzy
 #~| msgid "User Register"
@@ -377,9 +376,6 @@ msgstr "E-mail ou senha incorretos."
 #~ "\n"
 #~ "Atenciosamente,\n"
 #~ "Equipe Amadeus."
-
-#~ msgid "Please enter a valid CPF"
-#~ msgstr "Por favor, insira um CPF válido"
 
 #~ msgid "Home"
 #~ msgstr "Início"
