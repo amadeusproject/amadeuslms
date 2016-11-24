@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-26 14:47-0300\n"
+"POT-Creation-Date: 2016-11-23 23:19-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,894 +18,713 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: courses/forms.py:13 courses/forms.py:56 courses/forms.py:96
-#: courses/forms.py:133 courses/forms.py:153 courses/models.py:14
-#: courses/models.py:26 courses/models.py:39 courses/models.py:75
-#: courses/models.py:103 courses/models.py:165
-#: courses/templates/course/replicate.html:18
-#: courses/templates/subject/form_view_teacher.html:224
-#: courses/templates/subject/form_view_teacher.html:279
+#: .\forms.py:13 .\forms.py:25 .\forms.py:47 .\forms.py:68 .\forms.py:91
+#: .\models.py:14 .\models.py:26 .\models.py:39 .\models.py:68 .\models.py:96
+#: .\models.py:157 .\templates\subject\form_view_teacher.html:182
+#: .\templates\subject\replicate.html:18 .\templates\topic\replicate.html:18
 msgid "Name"
 msgstr "Nome"
 
-#: courses/forms.py:16
-#, fuzzy
-#| msgid "Category name"
+#: .\forms.py:16
 msgid "CourseCategory name"
-msgstr "Nome da categoria"
+msgstr "Nome da categoria do curso"
 
-#: courses/forms.py:26 courses/forms.py:42
-msgid "The end date may not be before the start date."
-msgstr "A data final não pode anteceder a data inicial."
-
-#: courses/forms.py:34
-msgid "The course start date must be after the end of registration."
-msgstr "A data de início do curso deve ocorrer após as inscrições."
-
-#: courses/forms.py:57 courses/forms.py:97
-#: courses/templates/course/replicate.html:28
-msgid "Objectives"
-msgstr "Objetivos"
-
-#: courses/forms.py:58 courses/forms.py:98 courses/models.py:42
-#: courses/templates/course/replicate.html:37
-msgid "Content"
-msgstr "Conteúdo"
-
-#: courses/forms.py:59 courses/forms.py:99
-#: courses/templates/course/replicate.html:47
-msgid "Number of studets maximum"
-msgstr "Número máximo de estudantes"
-
-#: courses/forms.py:60 courses/forms.py:100
-#: courses/templates/course/replicate.html:57
-msgid "Course registration start date"
-msgstr "Início das inscrições"
-
-#: courses/forms.py:61 courses/forms.py:101
-#: courses/templates/course/replicate.html:67
-msgid "Course registration end date"
-msgstr "Fim da Inscrições"
-
-#: courses/forms.py:62 courses/forms.py:102
-#: courses/templates/course/replicate.html:77
-msgid "Course start date"
-msgstr "Data de inicio do Curso"
-
-#: courses/forms.py:63 courses/forms.py:103
-#: courses/templates/course/replicate.html:87
-msgid "Course end date"
-msgstr "Data de termino do curso"
-
-#: courses/forms.py:64 courses/forms.py:104 courses/models.py:49
-msgid "Image"
-msgstr "Imagem"
-
-#: courses/forms.py:65 courses/forms.py:105
-#: courses/templates/course/replicate.html:115
-#, fuzzy
-#| msgid "Create Category"
-msgid "CourseCategory"
-msgstr "Criar Categoria"
-
-#: courses/forms.py:68 courses/forms.py:109
-#: courses/templates/course/replicate.html:23
-msgid "Course name"
-msgstr "Nome do Curso"
-
-#: courses/forms.py:69 courses/forms.py:110
-#: courses/templates/course/replicate.html:32
-msgid "Course objective"
-msgstr "Objetivo do Curso"
-
-#: courses/forms.py:70 courses/forms.py:111
-#: courses/templates/course/replicate.html:42
-msgid "Course modules"
-msgstr "Ḿódulos do curso"
-
-#: courses/forms.py:71 courses/forms.py:112
-#: courses/templates/course/replicate.html:52
-msgid "Max number of students that a class can have"
-msgstr "Número máximo de estudantes que uma classe pode ter"
-
-#: courses/forms.py:72 courses/forms.py:113
-#: courses/templates/course/replicate.html:62
-msgid "Date that starts the registration period of the course (dd/mm/yyyy)"
-msgstr "Data do começo do período de inscrição do curso (dia/mês/ano)"
-
-#: courses/forms.py:73 courses/forms.py:114
-#: courses/templates/course/replicate.html:72
-msgid "Date that ends the registration period of the course (dd/mm/yyyy)"
-msgstr "Data do termino do período de inscrição do curso (dia/mês/ano)"
-
-#: courses/forms.py:74 courses/forms.py:115
-#: courses/templates/course/replicate.html:82
-msgid "Date that the course starts (dd/mm/yyyy)"
-msgstr "Data que o curso começa (dia/mês/ano)"
-
-#: courses/forms.py:75 courses/forms.py:116
-#: courses/templates/course/replicate.html:92
-msgid "Date that the course ends (dd/mm/yyyy)"
-msgstr "Data que o curso termina (dia/mês/ano)"
-
-#: courses/forms.py:76 courses/forms.py:117
-#: courses/templates/course/replicate.html:110
-msgid "Representative image of the course"
-msgstr "Imagem representativa do curso"
-
-#: courses/forms.py:77 courses/forms.py:118
-#: courses/templates/course/replicate.html:124
-#, fuzzy
-#| msgid "Category which the course belongs"
-msgid "CourseCategory which the course belongs"
-msgstr "Categoria ao qual o curso pertence"
-
-#: courses/forms.py:106
-#, fuzzy
-#| msgid "Maximum Students"
-msgid "Student"
-msgstr "Quantidade máxima de estudantes"
-
-#: courses/forms.py:119
-#, fuzzy
-#| msgid "Course modules"
-msgid "Course's Students"
-msgstr "Ḿódulos do curso"
-
-#: courses/forms.py:134 courses/forms.py:154 courses/models.py:77
-#: courses/models.py:105 courses/models.py:167
-#: courses/templates/course/course_card.html:35
-#: courses/templates/course/view.html:69
-#: courses/templates/course/view.html:164
-#: courses/templates/course/view.html:220
-#: courses/templates/subject/form_view_teacher.html:121
-#: courses/templates/subject/index.html:80
-msgid "Description"
-msgstr "Descrição"
-
-#: courses/forms.py:135
-#, fuzzy
-#| msgid "Course start date"
-msgid "Start date"
-msgstr "Data de inicio do Curso"
-
-#: courses/forms.py:136
-#, fuzzy
-#| msgid "Course end date"
-msgid "End date"
-msgstr "Data de termino do curso"
-
-#: courses/forms.py:137
-msgid "Is it visible?"
-msgstr "Visível?"
-
-#: courses/forms.py:140
-#, fuzzy
-#| msgid "Module's name"
-msgid "Subjects's name"
-msgstr "Nome do módulo"
-
-#: courses/forms.py:141
-#, fuzzy
-#| msgid "Modules's description"
-msgid "Subjects's description"
-msgstr "Descrição do módulo"
-
-#: courses/forms.py:142
-msgid "Start date of the subject"
-msgstr "Data de início do assunto"
-
-#: courses/forms.py:143
-msgid "End date of the subject"
-msgstr "Data final do assunto"
-
-#: courses/forms.py:144
-#, fuzzy
-#| msgid "Is the module visible?"
-msgid "Is the subject visible?"
-msgstr "O módulo é visível?"
-
-#: courses/forms.py:157
-#, fuzzy
-#| msgid "Module's name"
-msgid "Topic's name"
-msgstr "nome do módulo"
-
-#: courses/forms.py:158
-#, fuzzy
-#| msgid "Modules's description"
-msgid "Topic's description"
-msgstr "Descrição do módulo"
-
-#: courses/models.py:15 courses/models.py:27 courses/models.py:40
-#: courses/models.py:76 courses/models.py:104 courses/models.py:166
-msgid "Slug"
-msgstr ""
-
-#: courses/models.py:16 courses/models.py:28 courses/models.py:44
-#: courses/models.py:81 courses/models.py:106
-msgid "Creation Date"
-msgstr "Data de criação"
-
-#: courses/models.py:19 courses/models.py:31 courses/models.py:50
-#: courses/models.py:84 courses/templates/category/create.html:43
-#: courses/templates/category/index.html:44
-#: courses/templates/category/update.html:43
-#: courses/templates/course/index.html:48
+#: .\forms.py:26 .\forms.py:48 .\models.py:19 .\models.py:31 .\models.py:42
+#: .\models.py:77
 msgid "Category"
 msgstr "Categoria"
 
-#: courses/models.py:20 courses/models.py:32
-msgid "Categories"
-msgstr "Categorias"
+#: .\forms.py:27 .\forms.py:49 .\models.py:43
+msgid "Coordenator"
+msgstr "Coordenador"
 
-#: courses/models.py:41
-msgid "Objectivies"
-msgstr "Objetivos"
-
-#: courses/models.py:43
-msgid "Maximum Students"
-msgstr "Quantidade máximo de estudantes"
-
-#: courses/models.py:45
-msgid "Register Date (Begin)"
-msgstr "Data de inscrição (Início)"
-
-#: courses/models.py:46
-msgid "Register Date (End)"
-msgstr "Data de inscrição (término)"
-
-#: courses/models.py:47
-msgid "Begin of Course Date"
-msgstr "Início do curso"
-
-#: courses/models.py:48
-msgid "End of Course Date"
-msgstr "Término do curso"
-
-#: courses/models.py:51 courses/models.py:85
-msgid "Professors"
-msgstr "Professores"
-
-#: courses/models.py:52 courses/models.py:86 courses/models.py:127
-#: courses/models.py:147
-#, fuzzy
-#| msgid "Maximum Students"
-msgid "Students"
-msgstr "Quantidade máximo de estudantes"
-
-#: courses/models.py:53
+#: .\forms.py:28 .\forms.py:50 .\models.py:46
 msgid "Public"
 msgstr "Público"
 
-#: courses/models.py:57 courses/models.py:83
+#: .\forms.py:31 .\forms.py:53
+msgid "Course name"
+msgstr "Nome do Curso"
+
+#: .\forms.py:32 .\forms.py:54
+msgid "Course Coordenator"
+msgstr "Coordenador"
+
+#: .\forms.py:33 .\forms.py:55
+msgid "To define if the course can be accessed by people not registered"
+msgstr "Para definir se o curso pode ser acessado por pessoas não registradas"
+
+#: .\forms.py:69 .\forms.py:92 .\models.py:70 .\models.py:98 .\models.py:159
+#: .\templates\subject\form_view_teacher.html:53
+#: .\templates\subject\index.html:53 .\templates\subject\replicate.html:25
+#: .\templates\topic\replicate.html:24
+msgid "Description"
+msgstr "Descrição"
+
+#: .\forms.py:70
+msgid "Start date"
+msgstr "Data de inicio"
+
+#: .\forms.py:71 .\templates\subject\replicate.html:39
+#: .\templates\subject\replicate.html:42
+msgid "End date"
+msgstr "Data de termino do curso"
+
+#: .\forms.py:72 .\templates\subject\replicate.html:49
+msgid "Is it visible?"
+msgstr "Visível?"
+
+#: .\forms.py:75
+msgid "Subjects's name"
+msgstr "Nome do assunto"
+
+#: .\forms.py:76
+msgid "Subjects's description"
+msgstr "Descrição do assunto"
+
+#: .\forms.py:77
+msgid "Start date of the subject"
+msgstr "Data de início do assunto"
+
+#: .\forms.py:78
+msgid "End date of the subject"
+msgstr "Data final do assunto"
+
+#: .\forms.py:79
+msgid "Is the subject visible?"
+msgstr "O módulo é visível?"
+
+#: .\forms.py:95
+msgid "Topic's name"
+msgstr "nome do módulo"
+
+#: .\forms.py:96
+msgid "Topic's description"
+msgstr "Descrição do tópico"
+
+#: .\models.py:15 .\models.py:27 .\models.py:40 .\models.py:69 .\models.py:97
+#: .\models.py:158
+msgid "Slug"
+msgstr ""
+
+#: .\models.py:16 .\models.py:28 .\models.py:41 .\models.py:74 .\models.py:99
+msgid "Creation Date"
+msgstr "Data de criação"
+
+#: .\models.py:20 .\models.py:32
+msgid "Categories"
+msgstr "Categorias"
+
+#: .\models.py:44 .\models.py:78
+msgid "Professors"
+msgstr "Professores"
+
+#: .\models.py:45 .\models.py:79 .\models.py:119 .\models.py:139
+msgid "Students"
+msgstr "Estudantes"
+
+#: .\models.py:50 .\models.py:76
 msgid "Course"
 msgstr "Curso"
 
-#: courses/models.py:58 courses/templates/course/filtered.html:8
-#: courses/templates/course/home.html:16
+#: .\models.py:51 .\templates\course\filtered.html:8
 msgid "Courses"
 msgstr "Cursos"
 
-#: courses/models.py:78 courses/models.py:110
+#: .\models.py:71 .\models.py:102 .\templates\subject\replicate.html:46
 msgid "Visible"
 msgstr "Visível"
 
-#: courses/models.py:79
-#, fuzzy
-#| msgid "Begin of Course Date"
+#: .\models.py:72
 msgid "Begin of Subject Date"
-msgstr "Início do curso"
+msgstr "Data de Início do Assunto"
 
-#: courses/models.py:80
-#, fuzzy
-#| msgid "End of Course Date"
+#: .\models.py:73
 msgid "End of Subject Date"
 msgstr "Término do curso"
 
-#: courses/models.py:82 courses/models.py:107
+#: .\models.py:75 .\models.py:100
 msgid "Date of last update"
 msgstr "Data da última atualização"
 
-#: courses/models.py:90 courses/models.py:108
+#: .\models.py:83 .\models.py:101
 msgid "Subject"
 msgstr "Assunto"
 
-#: courses/models.py:91
-#, fuzzy
-#| msgid "Objectives"
+#: .\models.py:84
 msgid "Subjects"
-msgstr "Objetivos"
+msgstr "Assuntos"
 
-#: courses/models.py:109
-msgid "Owner"
-msgstr "Proprietário"
-
-#: courses/models.py:114 courses/models.py:125 courses/models.py:146
+#: .\models.py:106 .\models.py:117 .\models.py:138
 msgid "Topic"
 msgstr "Tópico"
 
-#: courses/models.py:115
+#: .\models.py:107
 msgid "Topics"
 msgstr "Tópicos"
 
-#: courses/models.py:126
+#: .\models.py:118
 msgid "Deliver Date"
 msgstr "Data de entrega"
 
-#: courses/models.py:128 courses/models.py:148
-#, fuzzy
-#| msgid "Maximum Students"
+#: .\models.py:120 .\models.py:140
 msgid "All Students"
-msgstr "Quantidade máximo de estudantes"
+msgstr "Todos estudantes"
 
-#: courses/models.py:151 courses/models.py:156
-#: courses/templates/subject/form_view_student.html:35
-#: courses/templates/subject/form_view_teacher.html:56
-#: courses/templates/subject/form_view_teacher.html:127
+#: .\models.py:143 .\models.py:148
+#: .\templates\subject\form_view_student.html:42
+#: .\templates\subject\form_view_teacher.html:61
 msgid "Material"
 msgstr "Material"
 
-#: courses/models.py:171
-#, fuzzy
-#| msgid "Create Category"
+#: .\models.py:163
 msgid "subject category"
-msgstr "Criar Categoria"
+msgstr "categoria do assunto"
 
-#: courses/models.py:172
-#, fuzzy
-#| msgid "Categories"
+#: .\models.py:164
 msgid "subject categories"
-msgstr "Categorias"
+msgstr "categorias dos assuntos"
 
-#: courses/templates/category/create.html:8
-#: courses/templates/category/index.html:9
-#: courses/templates/category/update.html:9
-#: courses/templates/course/create.html:8
-#: courses/templates/course/delete.html:7 courses/templates/course/home.html:8
-#: courses/templates/course/index.html:20
-#: courses/templates/course/replicate.html:8
-#: courses/templates/course/view.html:28
-#: courses/templates/subject/index.html:8
-#: courses/templates/subject/index.html:25
-#: courses/templates/subject_category/index.html:8
-#: courses/templates/topic/index.html:8
+#: .\templates\category\create.html:8 .\templates\subject_category\index.html:8
+#: .\templates\topic\file_material_view.html:8
 msgid "Home"
 msgstr "Inicio"
 
-#: courses/templates/category/create.html:9
-#: courses/templates/category/create.html:36
-#: courses/templates/category/create.html:47
-#: courses/templates/category/index.html:37
-#: courses/templates/category/index.html:48
-#: courses/templates/category/update.html:37
-#: courses/templates/category/update.html:47
-#: courses/templates/course/index.html:52
+#: .\templates\category\create.html:9
 msgid "Create Category"
 msgstr "Criar Categoria"
 
-#: courses/templates/category/create.html:16
-#: courses/templates/category/index.html:17
-#: courses/templates/category/update.html:17
-#: courses/templates/course/index.html:16
-#: courses/templates/course/view.html:24
-#: courses/templates/subject/index.html:21
-#: courses/templates/topic/index.html:24
-msgid "Menu"
-msgstr "Menu"
-
-#: courses/templates/category/create.html:20
-#: courses/templates/category/index.html:21
-#: courses/templates/category/update.html:21
-#: courses/templates/course/index.html:21
-#: courses/templates/course/view.html:29
-#: courses/templates/subject/index.html:26
-#: courses/templates/topic/index.html:28
-msgid "Profile"
-msgstr "Perfil"
-
-#: courses/templates/category/create.html:21
-#: courses/templates/category/index.html:22
-#: courses/templates/category/update.html:22
-#: courses/templates/course/view.html:30 courses/templates/topic/index.html:29
-#, fuzzy
-#| msgid "Courses"
-msgid "My Courses"
-msgstr "Meus Cursos"
-
-#: courses/templates/category/create.html:30
-#: courses/templates/category/index.html:31
-#: courses/templates/category/update.html:31
-#: courses/templates/topic/index.html:37
-msgid "Actions"
-msgstr "Ações"
-
-#: courses/templates/category/create.html:34
-#: courses/templates/category/index.html:35
-#: courses/templates/category/update.html:35
-#: courses/templates/course/replicate.html:9 courses/views.py:133
-#, fuzzy
-#| msgid "Duplicate Course"
-msgid "Replicate Course"
-msgstr "Duplicar curso"
-
-#: courses/templates/category/create.html:35
-#: courses/templates/category/index.html:36
-#: courses/templates/category/update.html:36
-#: courses/templates/course/create.html:9
-#: courses/templates/course/filtered.html:11 courses/views.py:104
-msgid "Create Course"
-msgstr "Criar curso"
-
-#: courses/templates/category/create.html:48
-#: courses/templates/category/index.html:49
-#: courses/templates/category/update.html:48
-#: courses/templates/course/index.html:53
-#, fuzzy
-#| msgid "Edit Category"
-msgid "List Category"
-msgstr "Editar categoria"
-
-#: courses/templates/category/create.html:77
-#: courses/templates/category/update.html:90
+#: .\templates\category\create.html:34 .\templates\category\update.html:49
 msgid "Save"
 msgstr "Salvar"
 
-#: courses/templates/category/delete.html:10
-#, fuzzy
-#| msgid "Create Category"
+#: .\templates\category\delete.html:10
 msgid "Delete Category"
-msgstr "Criar Categoria"
+msgstr "Apagar Categoria"
 
-#: courses/templates/category/delete.html:17
-#: courses/templates/subject/delete.html:11
-#, fuzzy
-#| msgid "Are you sure you want to delete the couse"
-msgid "Are you sure you want to delete the subject"
-msgstr "Você tem certeza que deseja deletar o curso"
+#: .\templates\category\delete.html:17
+msgid "Are you sure you want to delete the category"
+msgstr "Você tem certeza que deseja deletar a categoria"
 
-#: courses/templates/category/delete.html:23
-#: courses/templates/course/course_card.html:57
-#: courses/templates/subject/form_view_teacher.html:352
+#: .\templates\category\delete.html:23 .\templates\course\course_card.html:46
+#: .\templates\course\delete.html:23 .\templates\subject\delete.html:23
+#: .\templates\subject\index.html:103 .\templates\topic\delete.html:23
 msgid "Close"
 msgstr "Fechar"
 
-#: courses/templates/category/delete.html:24
-#, fuzzy
-#| msgid "Delete Course"
+#: .\templates\category\delete.html:24 .\templates\course\delete.html:24
+#: .\templates\subject\delete.html:24 .\templates\topic\delete.html:24
 msgid "Delete"
-msgstr "Deletar curso"
+msgstr "Apagar"
 
-#: courses/templates/category/index.html:10
-msgid "Manage Categories"
-msgstr "Gerenciar categorias"
-
-#: courses/templates/category/index.html:84
-#: courses/templates/course/update.html:54
-#: courses/templates/subject/update.html:20
-#: courses/templates/topic/update.html:20
+#: .\templates\category\index.html:41 .\templates\course\update.html:52
+#: .\templates\subject\update.html:29 .\templates\topic\update.html:20
 msgid "Update"
 msgstr "Atualizar"
 
-#: courses/templates/category/index.html:85
-#, fuzzy
-#| msgid "Remove Category"
+#: .\templates\category\index.html:42
 msgid "Remover"
-msgstr "Remover categoria"
+msgstr "Remover"
 
-#: courses/templates/category/update.html:10
-msgid "Edit Category"
-msgstr "Editar categoria"
-
-#: courses/templates/course/course_card.html:22
-#: courses/templates/course/view.html:56
-#: courses/templates/course/view.html:145
-#: courses/templates/course/view.html:202
-#: courses/templates/subject/form_view_teacher.html:36
-#: courses/templates/subject/index.html:68
-#: courses/templates/topic/index.html:69
+#: .\templates\course\course_card.html:18 .\templates\course\view.html:39
+#: .\templates\course\view.html:90
+#: .\templates\subject\form_view_teacher.html:24
+#: .\templates\subject\index.html:37 .\templates\subject\replicate.html:52
+#: .\templates\topic\index.html:36
 msgid "Replicate"
 msgstr "Repetir"
 
-#: courses/templates/course/course_card.html:23
-#, fuzzy
-#| msgid "Are you sure you want to delete the couse"
-msgid "Are you sure you want to delete this course?"
-msgstr "Você tem certeza que deseja deletar o curso"
-
-#: courses/templates/course/course_card.html:23
-#: courses/templates/course/view.html:58
-#: courses/templates/course/view.html:146
-#: courses/templates/course/view.html:203
-#: courses/templates/subject/form_view_teacher.html:38
-#: courses/templates/subject/index.html:70
-#: courses/templates/topic/index.html:71
-msgid "Remove"
-msgstr "Remover"
-
-#: courses/templates/course/course_card.html:32
-#: courses/templates/course/view.html:66
-#, fuzzy
-#| msgid "Course name"
-msgid "Course Name"
-msgstr "Nome do Curso"
-
-#: courses/templates/course/course_card.html:33
-#: courses/templates/course/view.html:67
-msgid "Coordinator"
-msgstr "Coordenador"
-
-#: courses/templates/course/course_card.html:49
-#, fuzzy
-#| msgid "Duplicate Course"
-msgid "Repicate Course"
-msgstr "Duplicar Curso"
-
-#: courses/templates/course/course_card.html:58
-#: courses/templates/course/create.html:55
-#: courses/templates/subject/create.html:20
-#: courses/templates/subject/form_view_teacher.html:353
-#: courses/templates/topic/create.html:20
-#, fuzzy
-#| msgid "Create Course"
-msgid "Create"
-msgstr "Criar curso"
-
-#: courses/templates/course/create.html:29
-#: courses/templates/course/replicate.html:105
-#: courses/templates/course/update.html:28
-msgid "attach_file"
-msgstr ""
-
-#: courses/templates/course/delete.html:17
-#, fuzzy
-#| msgid "Are you sure you want to delete the couse"
-msgid "Are you sure you want to delete the course"
-msgstr "Você tem certeza que deseja deletar o curso"
-
-#: courses/templates/course/delete.html:18
-#: courses/templates/subject/delete.html:12
-msgid "Yes"
-msgstr "Sim"
-
-#: courses/templates/course/delete.html:19
-#: courses/templates/subject/delete.html:13
-msgid "No"
-msgstr "Não"
-
-#: courses/templates/course/filtered.html:19
-msgid "Categories:"
-msgstr "Categorias:"
-
-#: courses/templates/course/home.html:9
-#, fuzzy
-#| msgid "Course"
-msgid "Home Course"
-msgstr "Curso"
-
-#: courses/templates/course/index.html:23
-#: courses/templates/subject/index.html:28
-#, fuzzy
-#| msgid "Courses"
-msgid "My courses"
-msgstr "Cursos"
-
-#: courses/templates/course/index.html:24
-#: courses/templates/course/view.html:31
-#: courses/templates/subject/index.html:29
-#, fuzzy
-#| msgid "Courses"
-msgid "All Courses"
-msgstr "Cursos"
-
-#: courses/templates/course/index.html:27
-#: courses/templates/subject/index.html:32
-#, fuzzy
-#| msgid "Manage Courses"
-msgid "Manage Users"
-msgstr "Gerenciar cursos"
-
-#: courses/templates/course/index.html:31
-#: courses/templates/subject/index.html:36
-msgid "Manage Courses"
-msgstr "Gerenciar cursos"
-
-#: courses/templates/course/index.html:104
-msgid "No courses found"
-msgstr "Nenhum curso encontrado"
-
-#: courses/templates/course/replicate.html:97
-#, fuzzy
-#| msgid "Image"
-msgid "Imagem"
-msgstr "Imagem"
-
-#: courses/templates/course/view.html:55
-#: courses/templates/course/view.html:243
-#, fuzzy
-#| msgid "Create Course"
-msgid "Create Subject"
-msgstr "Criar curso"
-
-#: courses/templates/course/view.html:57
-#: courses/templates/subject/form_view_teacher.html:37
-#: courses/templates/subject/index.html:69
-#: courses/templates/topic/index.html:70
+#: .\templates\course\course_card.html:19 .\templates\course\view.html:40
+#: .\templates\course\view.html:91
+#: .\templates\subject\form_view_teacher.html:25
+#: .\templates\subject\index.html:38 .\templates\topic\index.html:39
 msgid "Edit"
 msgstr "Editar"
 
-#: courses/templates/course/view.html:83
+#: .\templates\course\course_card.html:20 .\templates\course\view.html:41
+#: .\templates\course\view.html:92
+#: .\templates\subject\form_view_teacher.html:26
+#: .\templates\subject\index.html:39 .\templates\topic\index.html:42
+msgid "Remove"
+msgstr "Remover"
+
+#: .\templates\course\course_card.html:26
+msgid "Are you sure you want to subscribe to this course?"
+msgstr "Você tem certeza que deseja se inscrever neste curso"
+
+#: .\templates\course\course_card.html:26 .\templates\course\view.html:101
+msgid "Subscribe"
+msgstr "Se inscrever"
+
+#: .\templates\course\course_card.html:38
+msgid "Repicate Course"
+msgstr "Duplicar Curso"
+
+#: .\templates\course\course_card.html:47 .\templates\course\create.html:52
+#: .\templates\course\replicate.html:70 .\templates\subject\create.html:28
+#: .\templates\subject\index.html:104 .\templates\topic\create.html:25
+#: .\templates\topic\replicate.html:31
+msgid "Create"
+msgstr "Criar"
+
+#: .\templates\course\delete.html:10 .\templates\subject\delete.html:10
+#: .\templates\topic\delete.html:10
+msgid "Delete Course"
+msgstr "Apagar curso"
+
+#: .\templates\course\delete.html:17
+msgid "Are you sure you want to delete the course"
+msgstr "Você tem certeza que deseja deletar o curso"
+
+#: .\templates\course\filtered.html:11 .\views.py:176
+msgid "Create Course"
+msgstr "Criar curso"
+
+#: .\templates\course\filtered.html:19
+msgid "Categories:"
+msgstr "Categorias:"
+
+#: .\templates\course\view.html:41
+msgid "Are you sure you want to delete this course?"
+msgstr "Você tem certeza que deseja deletar este curso?"
+
+#: .\templates\course\view.html:49
+msgid "Coordinator"
+msgstr "Coordenador"
+
+#: .\templates\course\view.html:58
 msgid "Create a New Subject"
 msgstr "Criar novo assunto"
 
-#: courses/templates/course/view.html:89
-#: courses/templates/subject/form_view_teacher.html:173
-#: courses/templates/subject/form_view_teacher.html:313
+#: .\templates\course\view.html:64
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: courses/templates/course/view.html:90
-#: courses/templates/course/view.html:117
-#: courses/templates/course/view.html:260
-#: courses/templates/subject/form_view_teacher.html:206
-#: courses/templates/subject/form_view_teacher.html:258
+#: .\templates\course\view.html:65
+#: .\templates\subject\form_view_teacher.html:164
+#: .\templates\subject\form_view_teacher.html:216
 msgid "Confirm"
 msgstr "Confirmar"
 
-#: courses/templates/course/view.html:113
-#: courses/templates/course/view.html:256
-#, fuzzy
-#| msgid "Are you sure you want to delete the couse"
-msgid "Are you sure you want to remove this subject?"
-msgstr "Você tem certeza que deseja deletar o curso"
-
-#: courses/templates/course/view.html:154
-#: courses/templates/course/view.html:210
-#, fuzzy
-#| msgid "Are you sure you want to delete the couse"
+#: .\templates\course\view.html:101
 msgid "Are you sure you want to subscribe to this subject?"
-msgstr "Você tem certeza que deseja deletar o curso"
+msgstr "Você tem certeza que deseja se inscrever neste assunto?"
 
-#: courses/templates/course/view.html:154
-#: courses/templates/course/view.html:210
-#, fuzzy
-#| msgid "Subscribes:"
-msgid "Subscribe"
-msgstr "Inscrições:"
+#: .\templates\course\view.html:113
+msgid "Create Subject"
+msgstr "Criar Assunto"
 
-#: courses/templates/course/view.html:161
-#: courses/templates/course/view.html:217
-#: courses/templates/subject/index.html:78
-msgid "Professor"
-msgstr "Professor"
+#: .\templates\subject\delete.html:17 .\templates\topic\delete.html:17
+msgid "Are you sure you want to delete the subject"
+msgstr "Você tem certeza que deseja deletar o assunto"
 
-#: courses/templates/course/view.html:171
-#: courses/templates/course/view.html:227
-msgid "Begining"
-msgstr "Início"
+#: .\templates\subject\exam_item_actions.html:9
+#: .\templates\subject\exam_item_actions.html:11
+msgid "exam"
+msgstr "Avaliação"
 
-#: courses/templates/course/view.html:174
-#: courses/templates/course/view.html:230
-#: courses/templates/subject/index.html:88
-msgid "End"
-msgstr "Final"
-
-#: courses/templates/subject/form_view_student.html:45
-#: courses/templates/subject/form_view_teacher.html:83
-#: courses/templates/subject/form_view_teacher.html:94
-#: courses/templates/subject/form_view_teacher.html:153
-#, fuzzy
-#| msgid "Objectivies"
+#: .\templates\subject\form_view_student.html:55
+#: .\templates\subject\form_view_teacher.html:95
+#: .\templates\topic\topic_card.html:18
 msgid "Activities"
-msgstr "Objetivos"
+msgstr "Atividades"
 
-#: courses/templates/subject/form_view_teacher.html:62
-#: courses/templates/subject/form_view_teacher.html:133
-msgid "Create a Link"
-msgstr "Criar link"
-
-#: courses/templates/subject/form_view_teacher.html:65
-#: courses/templates/subject/form_view_teacher.html:136
-#, fuzzy
-#| msgid "Create Module"
-msgid "Create a file"
-msgstr "Criar módulos"
-
-#: courses/templates/subject/form_view_teacher.html:100
-#, fuzzy
-#| msgid "Create Course"
-msgid "Create Forum"
-msgstr "Criar curso"
-
-#: courses/templates/subject/form_view_teacher.html:101
-#, fuzzy
-#| msgid "Create Module"
-msgid "Create Poll"
-msgstr "Criar módulos"
-
-#: courses/templates/subject/form_view_teacher.html:117
+#: .\templates\subject\form_view_teacher.html:49
 msgid "Name Topic"
 msgstr "Nome do tópico"
 
-#: courses/templates/subject/form_view_teacher.html:159
-msgid "Anything"
-msgstr "Qualquer coisa"
+#: .\templates\subject\form_view_teacher.html:69
+msgid "Create a Link"
+msgstr "Criar link"
 
-#: courses/templates/subject/form_view_teacher.html:174
-#: courses/templates/subject/form_view_teacher.html:314
-msgid "Submit"
-msgstr "Enviar"
+#: .\templates\subject\form_view_teacher.html:70
+msgid "Create a file"
+msgstr "Criar um arquivo"
 
-#: courses/templates/subject/form_view_teacher.html:202
-#, fuzzy
-#| msgid "Delete Course"
+#: .\templates\subject\form_view_teacher.html:103
+msgid "Create Forum"
+msgstr "Criar Forum"
+
+#: .\templates\subject\form_view_teacher.html:104
+msgid "Create Poll"
+msgstr "Criar enquete"
+
+#: .\templates\subject\form_view_teacher.html:105
+msgid "Delivery Material"
+msgstr "Entregar Material"
+
+#: .\templates\subject\form_view_teacher.html:106
+msgid "Create exam"
+msgstr "Criar avaliação"
+
+#: .\templates\subject\form_view_teacher.html:140
+msgid "Back"
+msgstr "Voltar"
+
+#: .\templates\subject\form_view_teacher.html:160
 msgid "Delete your Topic?"
-msgstr "Deletar curso"
+msgstr "Deletar seu Tópico?"
 
-#: courses/templates/subject/form_view_teacher.html:220
+#: .\templates\subject\form_view_teacher.html:178
 msgid "Material EMBED"
-msgstr ""
+msgstr "Incorporar Material"
 
-#: courses/templates/subject/form_view_teacher.html:231
+#: .\templates\subject\form_view_teacher.html:189
 msgid "Code"
-msgstr ""
+msgstr "Código"
 
-#: courses/templates/subject/form_view_teacher.html:235
-#, fuzzy
-#| msgid "Modules's description"
+#: .\templates\subject\form_view_teacher.html:193
 msgid "Material description"
-msgstr "Descrição do módulo"
+msgstr "Descrição do material"
 
-#: courses/templates/subject/form_view_teacher.html:277
-msgid "Proposal Activity"
-msgstr "Atividade proposta"
+#: .\templates\subject\form_view_teacher.html:197
+msgid "Height"
+msgstr "Tamanho"
 
-#: courses/templates/subject/form_view_teacher.html:285
-#, fuzzy
-#| msgid "Description"
-msgid "Describe"
-msgstr "Descrição"
+#: .\templates\subject\form_view_teacher.html:203
+msgid "Weight"
+msgstr "Peso"
 
-#: courses/templates/subject/form_view_teacher.html:291
-msgid "Opening"
-msgstr "Abertura"
+#: .\templates\subject\index.html:50
+msgid "Professor"
+msgstr "Professor"
 
-#: courses/templates/subject/form_view_teacher.html:297
-msgid "Ending"
-msgstr "Final"
-
-#: courses/templates/subject/form_view_teacher.html:306
-msgid "Send Later"
-msgstr "Enviar depois"
-
-#: courses/templates/subject/form_view_teacher.html:344
-msgid "Forum"
-msgstr "Fórum"
-
-#: courses/templates/subject/index.html:11
-#, fuzzy
-#| msgid "Manage Courses"
-msgid "Manage Subjects"
-msgstr "Gerenciar cursos"
-
-#: courses/templates/subject/index.html:85
+#: .\templates\subject\index.html:58
 msgid "Beginning"
 msgstr "Início"
 
-#: courses/templates/subject/index.html:105
-#, fuzzy
-#| msgid "Create Course"
+#: .\templates\subject\index.html:61
+msgid "End"
+msgstr "Final"
+
+#: .\templates\subject\index.html:82
 msgid "Create Topic"
-msgstr "Criar curso"
+msgstr "Criar Tópico"
 
-#: courses/templates/subject/poll_item_actions.html:9
-#: courses/templates/subject/poll_item_actions.html:11
-msgid "poll"
-msgstr "Enquete"
+#: .\templates\subject\index.html:95
+msgid "Forum"
+msgstr "Fórum"
 
-#: courses/templates/subject_category/index.html:34
-#, fuzzy
-#| msgid "Create Category"
-msgid "Create Subject Category"
-msgstr "Criar Categoria"
+#: .\templates\subject\replicate.html:21
+msgid "Subject name"
+msgstr "Nome do assunto"
 
-#: courses/templates/subject_category/index.html:48
+#: .\templates\subject\replicate.html:28
+msgid "Subject description"
+msgstr "Descrição do assunto"
+
+#: .\templates\subject\replicate.html:32 .\templates\subject\replicate.html:35
+msgid "Init date"
+msgstr "Data de início"
+
+#: .\templates\subject_category\index.html:24
 msgid "edit"
 msgstr "Editar"
 
-#: courses/templates/subject_category/index.html:54
+#: .\templates\subject_category\index.html:30
 msgid "delete"
 msgstr "Deletar"
 
-#: courses/templates/topic/index.html:12
-#, fuzzy
-#| msgid "Manage Categories"
+#: .\templates\topic\file_material_view.html:10
 msgid "Manage Topic"
-msgstr "Gerenciar categorias"
+msgstr "Gerenciar Tópico"
 
-#: courses/templates/topic/index.html:41
-msgid "Participants"
-msgstr "Participantes"
+#: .\templates\topic\index.html:113
+msgid "Students - Specific Exercises"
+msgstr "Estudantes - Exercícios específicos"
 
-#: courses/templates/topic/index.html:42
-#, fuzzy
-#| msgid "Duplicate Course"
-msgid "Replicate subject"
-msgstr "Duplicar curso"
+#: .\templates\topic\replicate.html:21
+msgid "Topic name"
+msgstr "Nome do tópico"
 
-#: courses/templates/topic/index.html:43
-#, fuzzy
-#| msgid "Create Course"
-msgid "Create subject"
-msgstr "Criar curso"
+#: .\templates\topic\replicate.html:27
+msgid "Topic description"
+msgstr "Descrição do Tópico"
 
-#: courses/templates/topic/index.html:44
-#, fuzzy
-#| msgid "Edit Course"
-msgid "Edit subject"
-msgstr "Editar curso"
+#: .\templates\topic\topic_card.html:7
+msgid "Materials"
+msgstr "Materiais"
 
-#: courses/templates/topic/index.html:45
-msgid "Remove subject"
-msgstr "Remover assunto"
+#: .\views.py:218
+msgid "Replicate Course"
+msgstr "Replicar curso"
 
-#: courses/templates/topic/index.html:112
-msgid "Atividade.doc"
-msgstr ""
-
-#: courses/templates/topic/index.html:117
-msgid "Grade"
-msgstr "Nota"
-
-#: courses/templates/topic/index.html:127
-msgid "Send"
-msgstr "Enviar"
-
-#: courses/templates/topic/index.html:150
-#, fuzzy
-#| msgid "No categories found"
-msgid "No activity found"
-msgstr "Nenhuma categoria encontrada"
-
-#: courses/views.py:265
+#: .\views.py:400
 msgid "Course deleted successfully!"
 msgstr "Curso deletado com sucesso!"
 
-#: courses/views.py:276
+#: .\views.py:423
 msgid "Successfully subscribed to the course!"
 msgstr "Inscrição no curso realizada com sucesso!"
 
-#: courses/views.py:278
+#: .\views.py:425
 msgid ""
 "An error has occured. Could not subscribe to this course, try again later"
 msgstr "Ocorreu um erro. Não pôde inscrever no curso, tente novamente"
 
-#: courses/views.py:336
-msgid "Category created successfully!"
-msgstr "Categoria criada com sucesso!"
+#: .\views.py:467
+, python-format
+msgid "Category \"%s\" created successfully!"
+msgstr "Categoria \"%s\" criada com sucesso!"
 
-#: courses/views.py:349
-#, fuzzy
-#| msgid "Category edited successfully!"
-msgid "Category updated successfully!"
-msgstr "Categoria editada com sucesso!"
+#: .\views.py:482
+, python-format
+msgid "Category \"%s\" updated successfully!"
+msgstr "Categoria \"%s\" editada com sucesso!"
 
-#: courses/views.py:374
+#: .\views.py:507
 msgid "Category deleted successfully!"
 msgstr "Categoria deletada com sucesso!"
 
-#: courses/views.py:633
+#: .\views.py:917
 msgid "Successfully subscribed to the subject!"
 msgstr "Inscrição no assunto realizada com sucesso!"
 
-#: courses/views.py:635
+#: .\views.py:919
 msgid ""
 "An error has occured. Could not subscribe to this subject, try again later"
 msgstr "Ocorreu um erro. Não pôde inscrever no assunto, tente novamente"
 
-#: courses/views.py:637
+#: .\views.py:921
 msgid "You're not subscribed in the course yet."
 msgstr "Você não está inscrito no curso ainda."
+
+#~ msgid "The end date may not be before the start date."
+#~ msgstr "A data final não pode anteceder a data inicial."
+
+#~ msgid "The course start date must be after the end of registration."
+#~ msgstr "A data de início do curso deve ocorrer após as inscrições."
+
+#~ msgid "Objectives"
+#~ msgstr "Objetivos"
+
+#~ msgid "Content"
+#~ msgstr "Conteúdo"
+
+#~ msgid "Number of studets maximum"
+#~ msgstr "Número máximo de estudantes"
+
+#~ msgid "Course registration start date"
+#~ msgstr "Data de Início das inscrições no Curso"
+
+#~ msgid "Course registration end date"
+#~ msgstr "Fim da Inscrições no Curso"
+
+#~ msgid "Course start date"
+#~ msgstr "Data de inicio do Curso"
+
+#~ msgid "Course end date"
+#~ msgstr "Data de termino do curso"
+
+#~ msgid "Image"
+#~ msgstr "Imagem"
+
+
+#~ msgid "CourseCategory"
+#~ msgstr "Categoria do Curso"
+
+#~ msgid "Course objective"
+#~ msgstr "Objetivo do Curso"
+
+#~ msgid "Course modules"
+#~ msgstr "Módulos do curso"
+
+#~ msgid "Max number of students that a class can have"
+#~ msgstr "Número máximo de estudantes que uma classe pode ter"
+
+#~ msgid "Date that starts the registration period of the course (dd/mm/yyyy)"
+#~ msgstr "Data do começo do período de inscrição do curso (dia/mês/ano)"
+
+#~ msgid "Date that ends the registration period of the course (dd/mm/yyyy)"
+#~ msgstr "Data do termino do período de inscrição do curso (dia/mês/ano)"
+
+#~ msgid "Date that the course starts (dd/mm/yyyy)"
+#~ msgstr "Data que o curso começa (dia/mês/ano)"
+
+#~ msgid "Date that the course ends (dd/mm/yyyy)"
+#~ msgstr "Data que o curso termina (dia/mês/ano)"
+
+#~ msgid "Representative image of the course"
+#~ msgstr "Imagem representativa do curso"
+
+
+#~| msgid "Category which the course belongs"
+#~ msgid "CourseCategory which the course belongs"
+#~ msgstr "Categoria de Curso ao qual o curso pertence"
+
+
+#~| msgid "Maximum Students"
+#~ msgid "Student"
+#~ msgstr "Quantidade máxima de estudantes"
+
+
+#~| msgid "Course modules"
+#~ msgid "Course's Students"
+#~ msgstr "Estudantes do curso"
+
+#~ msgid "Objectivies"
+#~ msgstr "Objetivos"
+
+#~ msgid "Maximum Students"
+#~ msgstr "Quantidade máxima de estudantes"
+
+#~ msgid "Register Date (Begin)"
+#~ msgstr "Data de inscrição (Início)"
+
+#~ msgid "Register Date (End)"
+#~ msgstr "Data de inscrição (término)"
+
+#~ msgid "Begin of Course Date"
+#~ msgstr "Início do curso"
+
+#~ msgid "End of Course Date"
+#~ msgstr "Término do curso"
+
+#~ msgid "Owner"
+#~ msgstr "Proprietário"
+
+#~ msgid "Menu"
+#~ msgstr "Menu"
+
+#~ msgid "Profile"
+#~ msgstr "Perfil"
+
+
+#~| msgid "Courses"
+#~ msgid "My Courses"
+#~ msgstr "Meus Cursos"
+
+#~ msgid "Actions"
+#~ msgstr "Ações"
+
+
+#~| msgid "Edit Category"
+#~ msgid "List Category"
+#~ msgstr "Listar Categorias"
+
+#~ msgid "Manage Categories"
+#~ msgstr "Gerenciar categorias"
+
+#~ msgid "Edit Category"
+#~ msgstr "Editar categoria"
+
+
+#~| msgid "Course name"
+#~ msgid "Course Name"
+#~ msgstr "Nome do Curso"
+
+#~ msgid "Yes"
+#~ msgstr "Sim"
+
+#~ msgid "No"
+#~ msgstr "Não"
+
+
+#~| msgid "Course"
+#~ msgid "Home Course"
+#~ msgstr "Pagina Inicial do Curso"
+
+
+#~| msgid "Courses"
+#~ msgid "My courses"
+#~ msgstr "Meus Cursos"
+
+
+#~| msgid "Courses"
+#~ msgid "All Courses"
+#~ msgstr "Todos Cursos"
+
+
+#~| msgid "Manage Courses"
+#~ msgid "Manage Users"
+#~ msgstr "Gerenciar Usuários"
+
+#~ msgid "Manage Courses"
+#~ msgstr "Gerenciar cursos"
+
+#~ msgid "No courses found"
+#~ msgstr "Nenhum curso encontrado"
+
+
+#~| msgid "Image"
+#~ msgid "Imagem"
+#~ msgstr "Imagem"
+
+
+#~| msgid "Are you sure you want to delete the couse"
+#~ msgid "Are you sure you want to remove this subject?"
+#~ msgstr "Você tem certeza que deseja deletar este assunto?"
+
+#~ msgid "Begining"
+#~ msgstr "Início"
+
+#~ msgid "Anything"
+#~ msgstr "Qualquer coisa"
+
+#~ msgid "Submit"
+#~ msgstr "Enviar"
+
+#~ msgid "Proposal Activity"
+#~ msgstr "Atividade proposta"
+
+
+#~| msgid "Description"
+#~ msgid "Describe"
+#~ msgstr "Descreva"
+
+#~ msgid "Opening"
+#~ msgstr "Abertura"
+
+#~ msgid "Ending"
+#~ msgstr "Final"
+
+#~ msgid "Send Later"
+#~ msgstr "Enviar depois"
+
+
+#~| msgid "Manage Courses"
+#~ msgid "Manage Subjects"
+#~ msgstr "Gerenciar cursos"
+
+#~ msgid "poll"
+#~ msgstr "Enquete"
+
+
+#~| msgid "Create Category"
+#~ msgid "Create Subject Category"
+#~ msgstr "Criar Categoria de Assunto"
+
+#~ msgid "Participants"
+#~ msgstr "Participantes"
+
+
+#~| msgid "Duplicate Course"
+#~ msgid "Replicate subject"
+#~ msgstr "Replicar assunto"
+
+
+#~| msgid "Create Course"
+#~ msgid "Create subject"
+#~ msgstr "Criar assunto"
+
+
+#~| msgid "Edit Course"
+#~ msgid "Edit subject"
+#~ msgstr "Editar assunto"
+
+#~ msgid "Remove subject"
+#~ msgstr "Remover assunto"
+
+#~ msgid "Grade"
+#~ msgstr "Nota"
+
+#~ msgid "Send"
+#~ msgstr "Enviar"
+
+
+#~| msgid "No categories found"
+#~ msgid "No activity found"
+#~ msgstr "Nenhuma atividade encontrada"
 
 #~ msgid "User"
 #~ msgstr "Usuário"
@@ -918,9 +737,6 @@ msgstr "Você não está inscrito no curso ainda."
 
 #~ msgid "All fields are required"
 #~ msgstr "Todos os campos são obrigatótios"
-
-#~ msgid "Are you sure you want to delete the category"
-#~ msgstr "Você tem certeza que deseja deletar a categoria"
 
 #~ msgid "Name:"
 #~ msgstr "Nome:"
