@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-16 11:52-0300\n"
+"POT-Creation-Date: 2016-11-23 23:14-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,43 +78,45 @@ msgstr "Configuração SMTP do Amadeus"
 msgid "Amadeus SMTP settings"
 msgstr "Configurações SMTP do Amadeus"
 
-#: .\templates\admin_settings.html:23 .\templates\admin_settings.html:29
+#: .\templates\admin_settings.html:24 .\templates\admin_settings.html:31
+#: .\templates\home.html:113
 msgid "System"
 msgstr "Sistema"
 
-#: .\templates\admin_settings.html:26 .\templates\admin_settings.html:31
+#: .\templates\admin_settings.html:27 .\templates\admin_settings.html:33
+#: .\templates\home.html:114
 msgid "Mail Sender"
 msgstr "Remetente do E-mail"
 
-#: .\templates\admin_settings.html:35
+#: .\templates\admin_settings.html:37 .\templates\home.html:115
 msgid "Security"
 msgstr "Segurança"
 
-#: .\templates\admin_settings.html:49
+#: .\templates\admin_settings.html:51
 msgid "General"
 msgstr "Geral"
 
-#: .\templates\admin_settings.html:71
+#: .\templates\admin_settings.html:73
 msgid "Outgoing Server (SMTP)"
 msgstr "Servidor de saída (SMTP)"
 
-#: .\templates\admin_settings.html:74 .\templates\home.html:100
+#: .\templates\admin_settings.html:76 .\templates\home.html:110
 msgid "Settings"
 msgstr "Configurações"
 
-#: .\templates\admin_settings.html:126
+#: .\templates\admin_settings.html:128
 msgid "Default:"
 msgstr "Padrão:"
 
-#: .\templates\admin_settings.html:147
+#: .\templates\admin_settings.html:149
 msgid "Security and authentication"
 msgstr "Segurança e autenticação"
 
-#: .\templates\admin_settings.html:246 .\templates\admin_settings.html:263
+#: .\templates\admin_settings.html:248 .\templates\admin_settings.html:265
 msgid "Save changes"
 msgstr "Salvar mudanças"
 
-#: .\templates\admin_settings.html:260
+#: .\templates\admin_settings.html:262
 msgid "Allow users self-enroll."
 msgstr "Permitir que os usuários possam se inscrever"
 
@@ -122,7 +124,7 @@ msgstr "Permitir que os usuários possam se inscrever"
 msgid "Menu"
 msgstr "Menu"
 
-#: .\templates\home.html:82 .\templates\home.html:109
+#: .\templates\home.html:82 .\templates\home.html:127
 #: .\templates\home_professor.html:22
 msgid "Courses"
 msgstr "Cursos"
@@ -149,31 +151,19 @@ msgstr "Criar Curso"
 msgid "Create Category"
 msgstr "Criar Curso"
 
-#: .\templates\home.html:99
-#, fuzzy
-#| msgid "Manage Course"
+#: .\templates\home.html:101
+msgid "Users"
+msgstr "Usuarios"
+
+#: .\templates\home.html:104
 msgid "Manage Users"
 msgstr "Gerenciar Usuários"
 
-#: .\templates\home_admin_content.html:10
-#, fuzzy
-#| msgid "Students:"
-msgid "Students"
-msgstr "Alunos"
+#: .\templates\home.html:105
+msgid "Create User"
+msgstr "Criar Usuário"
 
-#: .\templates\home_admin_content.html:11
-#, fuzzy
-#| msgid "Beginning:"
-msgid "Beginning"
-msgstr "Início"
-
-#: .\templates\home_admin_content.html:12
-#, fuzzy
-#| msgid "End:"
-msgid "End"
-msgstr "Fim:"
-
-#: .\templates\home_admin_content.html:15
+#: .\templates\home_admin_content.html:6
 msgid "Edit"
 msgstr "Editar"
 
@@ -222,9 +212,24 @@ msgstr "em"
 msgid "ago"
 msgstr "atrás"
 
-#: .\views.py:72
+#: .\views.py:75
 msgid "Changes saved."
 msgstr "Mudanças salvas"
+
+#, fuzzy
+#~| msgid "Students:"
+#~ msgid "Students"
+#~ msgstr "Alunos"
+
+#, fuzzy
+#~| msgid "Beginning:"
+#~ msgid "Beginning"
+#~ msgstr "Início"
+
+#, fuzzy
+#~| msgid "End:"
+#~ msgid "End"
+#~ msgstr "Fim"
 
 #, fuzzy
 #~| msgid "My Courses"
