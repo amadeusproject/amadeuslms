@@ -1,6 +1,6 @@
 from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm,TopicForm,ActivityForm
 from .models import Course, Subject, CourseCategory, Topic, SubjectCategory, Activity, CategorySubject
-from core.decorators import log_decorator
+from core.decorators import log_decorator, log_decorator_ajax
 from core.mixins import LogMixin, NotificationMixin
 from core.models import Log
 from courses.models import Material
@@ -482,6 +482,7 @@ class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
         messages.success(self.request, _('Category "%s" updated successfully!')%(objeto))
         #return reverse_lazy('course:update_cat', kwargs={'slug' : self.object.slug})
         return reverse_lazy('course:manage_cat')
+
 class DeleteCatView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
     allowed_roles = ['professor', 'system_admin']
@@ -970,6 +971,35 @@ class FileMaterialView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
         return super(FileMaterialView, self).dispatch(*args, **kwargs)
 
+@login_required
+@log_decorator_ajax("courses", "viewed", "topic")
+def topic_log(request, topic):
+    action = request.GET.get('action')
+
+    if action == 'open':
+        topic = get_object_or_404(Topic, id = topic)
+        log_context = {}
+        log_context['topic_id'] = topic.id
+        log_context['topic_name'] = topic.name
+        log_context['topic_slug'] = topic.slug
+        log_context['subject_id'] = topic.subject.id
+        log_context['subject_name'] = topic.subject.name
+        log_context['subject_slug'] = topic.subject.slug
+        log_context['course_id'] = topic.subject.course.id
+        log_context['course_name'] = topic.subject.course.name
+        log_context['course_slug'] = topic.subject.course.slug
+        log_context['course_category_id'] = topic.subject.course.category.id
+        log_context['course_category_name'] = topic.subject.course.category.name
+        log_context['timestamp_start'] = str(int(time.time()))
+        log_context['timestamp_end'] = "-1"
+        request.log_context = log_context
+        log_id = Log.objects.latest('id').id
+
+        response = JsonResponse({"message": "ok", "log_id": log_id})
+    else:
+        response = JsonResponse({"message": "ok"})
+
+    return response
 
 #API VIEWS
 class CourseViewSet(viewsets.ModelViewSet):
