@@ -45,3 +45,12 @@ class AnswersStudent(models.Model):
 
     def __str__(self):
         return str(self.student) + str("/") + str(self.exam)
+
+class Question(models.Model):
+    exam = models.ForeignKey(Exam, verbose_name=_('Exam'), related_name='question_exam')
+    statement = models.TextField(_("Statement"), blank=False)
+
+class Alternative(models.Model):
+    question = models.ForeignKey(Question, verbose_name=_("Question"), related_name="alternative_question")
+    statement = models.TextField(_("Statement"), blank=False)
+    answer = models.BooleanField(_("answer"), default=False)
