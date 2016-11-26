@@ -646,7 +646,7 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
         activitys = Activity.objects.filter(topic__name = topic.name)
         students_activit = User.objects.filter(activities__in = Activity.objects.all())
         materials = Material.objects.filter(topic = topic)
-        
+
         users = User.objects.filter(subject_student__in = Subject.objects.all())
         context['users'] = users
         exercises = Exercise.objects.filter(Q(students=self.request.user)|Q(professors=self.request.user))
@@ -1043,7 +1043,7 @@ class ReplicateTopicView (LoginRequiredMixin, HasRoleMixin, LogMixin, Notificati
     allowed_roles = ['professor', 'system_admin']
     login_url = reverse_lazy("core:home")
     redirect_field_name = 'next'
-    template_name = 'topic/replicate.htmTl'
+    template_name = 'topic/replicate.html'
     form_class = TopicForm
 
     def get_success_url(self):
