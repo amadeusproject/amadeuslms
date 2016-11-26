@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-23 23:19-0300\n"
+"POT-Creation-Date: 2016-11-26 12:45-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: .\forms.py:13 .\forms.py:25 .\forms.py:47 .\forms.py:68 .\forms.py:91
 #: .\models.py:14 .\models.py:26 .\models.py:39 .\models.py:68 .\models.py:96
-#: .\models.py:157 .\templates\subject\form_view_teacher.html:182
+#: .\models.py:157 .\templates\subject\form_view_teacher.html:185
 #: .\templates\subject\replicate.html:18 .\templates\topic\replicate.html:18
 msgid "Name"
 msgstr "Nome"
@@ -55,7 +55,7 @@ msgid "To define if the course can be accessed by people not registered"
 msgstr "Para definir se o curso pode ser acessado por pessoas não registradas"
 
 #: .\forms.py:69 .\forms.py:92 .\models.py:70 .\models.py:98 .\models.py:159
-#: .\templates\subject\form_view_teacher.html:53
+#: .\templates\subject\form_view_teacher.html:56
 #: .\templates\subject\index.html:53 .\templates\subject\replicate.html:25
 #: .\templates\topic\replicate.html:24
 msgid "Description"
@@ -173,7 +173,7 @@ msgstr "Todos estudantes"
 
 #: .\models.py:143 .\models.py:148
 #: .\templates\subject\form_view_student.html:42
-#: .\templates\subject\form_view_teacher.html:61
+#: .\templates\subject\form_view_teacher.html:64
 msgid "Material"
 msgstr "Material"
 
@@ -228,7 +228,7 @@ msgstr "Remover"
 
 #: .\templates\course\course_card.html:18 .\templates\course\view.html:39
 #: .\templates\course\view.html:90
-#: .\templates\subject\form_view_teacher.html:24
+#: .\templates\subject\form_view_teacher.html:26
 #: .\templates\subject\index.html:37 .\templates\subject\replicate.html:52
 #: .\templates\topic\index.html:36
 msgid "Replicate"
@@ -236,14 +236,14 @@ msgstr "Repetir"
 
 #: .\templates\course\course_card.html:19 .\templates\course\view.html:40
 #: .\templates\course\view.html:91
-#: .\templates\subject\form_view_teacher.html:25
+#: .\templates\subject\form_view_teacher.html:27
 #: .\templates\subject\index.html:38 .\templates\topic\index.html:39
 msgid "Edit"
 msgstr "Editar"
 
 #: .\templates\course\course_card.html:20 .\templates\course\view.html:41
 #: .\templates\course\view.html:92
-#: .\templates\subject\form_view_teacher.html:26
+#: .\templates\subject\form_view_teacher.html:28
 #: .\templates\subject\index.html:39 .\templates\topic\index.html:42
 msgid "Remove"
 msgstr "Remover"
@@ -276,13 +276,17 @@ msgstr "Apagar curso"
 msgid "Are you sure you want to delete the course"
 msgstr "Você tem certeza que deseja deletar o curso"
 
-#: .\templates\course\filtered.html:11 .\views.py:176
+#: .\templates\course\filtered.html:11
 msgid "Create Course"
 msgstr "Criar curso"
 
 #: .\templates\course\filtered.html:19
 msgid "Categories:"
 msgstr "Categorias:"
+
+#: .\templates\course\index.html:29
+msgid "Search for Courses"
+msgstr "Pesquisar por cursos"
 
 #: .\templates\course\view.html:41
 msgid "Are you sure you want to delete this course?"
@@ -301,8 +305,8 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: .\templates\course\view.html:65
-#: .\templates\subject\form_view_teacher.html:164
-#: .\templates\subject\form_view_teacher.html:216
+#: .\templates\subject\form_view_teacher.html:167
+#: .\templates\subject\form_view_teacher.html:219
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -324,64 +328,64 @@ msgid "exam"
 msgstr "Avaliação"
 
 #: .\templates\subject\form_view_student.html:55
-#: .\templates\subject\form_view_teacher.html:95
+#: .\templates\subject\form_view_teacher.html:98
 #: .\templates\topic\topic_card.html:18
 msgid "Activities"
 msgstr "Atividades"
 
-#: .\templates\subject\form_view_teacher.html:49
+#: .\templates\subject\form_view_teacher.html:52
 msgid "Name Topic"
 msgstr "Nome do tópico"
 
-#: .\templates\subject\form_view_teacher.html:69
+#: .\templates\subject\form_view_teacher.html:72
 msgid "Create a Link"
 msgstr "Criar link"
 
-#: .\templates\subject\form_view_teacher.html:70
+#: .\templates\subject\form_view_teacher.html:73
 msgid "Create a file"
 msgstr "Criar um arquivo"
 
-#: .\templates\subject\form_view_teacher.html:103
+#: .\templates\subject\form_view_teacher.html:106
 msgid "Create Forum"
 msgstr "Criar Forum"
 
-#: .\templates\subject\form_view_teacher.html:104
+#: .\templates\subject\form_view_teacher.html:107
 msgid "Create Poll"
 msgstr "Criar enquete"
 
-#: .\templates\subject\form_view_teacher.html:105
+#: .\templates\subject\form_view_teacher.html:108
 msgid "Delivery Material"
 msgstr "Entregar Material"
 
-#: .\templates\subject\form_view_teacher.html:106
+#: .\templates\subject\form_view_teacher.html:109
 msgid "Create exam"
 msgstr "Criar avaliação"
 
-#: .\templates\subject\form_view_teacher.html:140
+#: .\templates\subject\form_view_teacher.html:143
 msgid "Back"
 msgstr "Voltar"
 
-#: .\templates\subject\form_view_teacher.html:160
+#: .\templates\subject\form_view_teacher.html:163
 msgid "Delete your Topic?"
 msgstr "Deletar seu Tópico?"
 
-#: .\templates\subject\form_view_teacher.html:178
+#: .\templates\subject\form_view_teacher.html:181
 msgid "Material EMBED"
 msgstr "Incorporar Material"
 
-#: .\templates\subject\form_view_teacher.html:189
+#: .\templates\subject\form_view_teacher.html:192
 msgid "Code"
 msgstr "Código"
 
-#: .\templates\subject\form_view_teacher.html:193
+#: .\templates\subject\form_view_teacher.html:196
 msgid "Material description"
 msgstr "Descrição do material"
 
-#: .\templates\subject\form_view_teacher.html:197
+#: .\templates\subject\form_view_teacher.html:200
 msgid "Height"
 msgstr "Tamanho"
 
-#: .\templates\subject\form_view_teacher.html:203
+#: .\templates\subject\form_view_teacher.html:206
 msgid "Weight"
 msgstr "Peso"
 
@@ -445,45 +449,75 @@ msgstr "Descrição do Tópico"
 msgid "Materials"
 msgstr "Materiais"
 
-#: .\views.py:218
-msgid "Replicate Course"
-msgstr "Replicar curso"
+#: .\views.py:102
+msgid "Courses | Amadeus"
+msgstr "Cursos | Amadeus"
 
-#: .\views.py:400
+#: .\views.py:140
+msgid "All Courses | Amadeus"
+msgstr "Todos Cursos | Amadeus"
+
+#: .\views.py:178
+msgid "Create Course | Amadeus"
+msgstr "Criar curso | Amadeus"
+
+#: .\views.py:220
+msgid "Replicate Course | Amadeus"
+msgstr "Replicar curso | Amadeus"
+
+#: .\views.py:402
 msgid "Course deleted successfully!"
 msgstr "Curso deletado com sucesso!"
 
-#: .\views.py:423
+#: .\views.py:425
 msgid "Successfully subscribed to the course!"
 msgstr "Inscrição no curso realizada com sucesso!"
 
-#: .\views.py:425
+#: .\views.py:427
 msgid ""
 "An error has occured. Could not subscribe to this course, try again later"
 msgstr "Ocorreu um erro. Não pôde inscrever no curso, tente novamente"
 
-#: .\views.py:467
+#: .\views.py:460
+msgid "Categories | Amadeus"
+msgstr "Categorias | Amadeus"
+
+#: .\views.py:474
+#, python-format
 msgid "Category \"%s\" created successfully!"
 msgstr "Categoria \"%s\" criada com sucesso!"
 
-#: .\views.py:482
+#: .\views.py:479
+msgid "Create Category | Amadeus"
+msgstr "Criar Categoria | Amadeus"
+
+#: .\views.py:495
+#, python-format
 msgid "Category \"%s\" updated successfully!"
 msgstr "Categoria \"%s\" editada com sucesso!"
 
-#: .\views.py:507
+#: .\views.py:521
 msgid "Category deleted successfully!"
 msgstr "Categoria deletada com sucesso!"
 
-#: .\views.py:917
+#: .\views.py:688
+msgid "Create Topic | Amadeus"
+msgstr "Criar Tópico | Amadeus"
+
+#: .\views.py:794
+msgid "Create Subject | Amadeus"
+msgstr "Criar Assunto | Amadeus"
+
+#: .\views.py:936
 msgid "Successfully subscribed to the subject!"
 msgstr "Inscrição no assunto realizada com sucesso!"
 
-#: .\views.py:919
+#: .\views.py:938
 msgid ""
 "An error has occured. Could not subscribe to this subject, try again later"
 msgstr "Ocorreu um erro. Não pôde inscrever no assunto, tente novamente"
 
-#: .\views.py:921
+#: .\views.py:940
 msgid "You're not subscribed in the course yet."
 msgstr "Você não está inscrito no curso ainda."
 
@@ -517,15 +551,11 @@ msgstr "Você não está inscrito no curso ainda."
 #~ msgid "Image"
 #~ msgstr "Imagem"
 
-
 #~ msgid "CourseCategory"
 #~ msgstr "Categoria do Curso"
 
 #~ msgid "Course objective"
 #~ msgstr "Objetivo do Curso"
-
-#~ msgid "Course modules"
-#~ msgstr "Módulos do curso"
 
 #~ msgid "Max number of students that a class can have"
 #~ msgstr "Número máximo de estudantes que uma classe pode ter"
@@ -545,16 +575,13 @@ msgstr "Você não está inscrito no curso ainda."
 #~ msgid "Representative image of the course"
 #~ msgstr "Imagem representativa do curso"
 
-
 #~| msgid "Category which the course belongs"
 #~ msgid "CourseCategory which the course belongs"
 #~ msgstr "Categoria de Curso ao qual o curso pertence"
 
-
 #~| msgid "Maximum Students"
 #~ msgid "Student"
 #~ msgstr "Quantidade máxima de estudantes"
-
 
 #~| msgid "Course modules"
 #~ msgid "Course's Students"
@@ -587,14 +614,12 @@ msgstr "Você não está inscrito no curso ainda."
 #~ msgid "Profile"
 #~ msgstr "Perfil"
 
-
 #~| msgid "Courses"
 #~ msgid "My Courses"
 #~ msgstr "Meus Cursos"
 
 #~ msgid "Actions"
 #~ msgstr "Ações"
-
 
 #~| msgid "Edit Category"
 #~ msgid "List Category"
@@ -606,7 +631,6 @@ msgstr "Você não está inscrito no curso ainda."
 #~ msgid "Edit Category"
 #~ msgstr "Editar categoria"
 
-
 #~| msgid "Course name"
 #~ msgid "Course Name"
 #~ msgstr "Nome do Curso"
@@ -617,21 +641,13 @@ msgstr "Você não está inscrito no curso ainda."
 #~ msgid "No"
 #~ msgstr "Não"
 
-
 #~| msgid "Course"
 #~ msgid "Home Course"
 #~ msgstr "Pagina Inicial do Curso"
 
-
 #~| msgid "Courses"
 #~ msgid "My courses"
 #~ msgstr "Meus Cursos"
-
-
-#~| msgid "Courses"
-#~ msgid "All Courses"
-#~ msgstr "Todos Cursos"
-
 
 #~| msgid "Manage Courses"
 #~ msgid "Manage Users"
@@ -643,11 +659,9 @@ msgstr "Você não está inscrito no curso ainda."
 #~ msgid "No courses found"
 #~ msgstr "Nenhum curso encontrado"
 
-
 #~| msgid "Image"
 #~ msgid "Imagem"
 #~ msgstr "Imagem"
-
 
 #~| msgid "Are you sure you want to delete the couse"
 #~ msgid "Are you sure you want to remove this subject?"
@@ -665,7 +679,6 @@ msgstr "Você não está inscrito no curso ainda."
 #~ msgid "Proposal Activity"
 #~ msgstr "Atividade proposta"
 
-
 #~| msgid "Description"
 #~ msgid "Describe"
 #~ msgstr "Descreva"
@@ -679,14 +692,12 @@ msgstr "Você não está inscrito no curso ainda."
 #~ msgid "Send Later"
 #~ msgstr "Enviar depois"
 
-
 #~| msgid "Manage Courses"
 #~ msgid "Manage Subjects"
 #~ msgstr "Gerenciar cursos"
 
 #~ msgid "poll"
 #~ msgstr "Enquete"
-
 
 #~| msgid "Create Category"
 #~ msgid "Create Subject Category"
@@ -695,16 +706,13 @@ msgstr "Você não está inscrito no curso ainda."
 #~ msgid "Participants"
 #~ msgstr "Participantes"
 
-
 #~| msgid "Duplicate Course"
 #~ msgid "Replicate subject"
 #~ msgstr "Replicar assunto"
 
-
 #~| msgid "Create Course"
 #~ msgid "Create subject"
 #~ msgstr "Criar assunto"
-
 
 #~| msgid "Edit Course"
 #~ msgid "Edit subject"
@@ -718,7 +726,6 @@ msgstr "Você não está inscrito no curso ainda."
 
 #~ msgid "Send"
 #~ msgstr "Enviar"
-
 
 #~| msgid "No categories found"
 #~ msgid "No activity found"
