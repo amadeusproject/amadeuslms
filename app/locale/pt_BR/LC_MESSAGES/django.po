@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-23 23:14-0300\n"
+"POT-Creation-Date: 2016-11-26 12:36-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -212,9 +212,17 @@ msgstr "em"
 msgid "ago"
 msgstr "atrás"
 
+#: .\views.py:38
+msgid "Home | Amadeus"
+msgstr "Página inicial | Amadeus"
+
 #: .\views.py:75
 msgid "Changes saved."
 msgstr "Mudanças salvas"
+
+#: .\views.py:82
+msgid "Settings | Amadeus"
+msgstr "Configurações | Amadeus"
 
 #, fuzzy
 #~| msgid "Students:"
