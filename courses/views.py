@@ -1,6 +1,6 @@
 from .forms import CourseForm, UpdateCourseForm, CategoryCourseForm, SubjectForm,TopicForm,ActivityForm
 from .models import Course, Subject, CourseCategory, Topic, SubjectCategory, Activity, CategorySubject
-from core.decorators import log_decorator
+from core.decorators import log_decorator, log_decorator_ajax
 from core.mixins import LogMixin, NotificationMixin
 from core.models import Log
 from courses.models import Material
@@ -99,6 +99,7 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
             list_courses = self.get_queryset().filter(students__in = [self.request.user]).order_by('name')
 
         context['categorys_courses'] = course_category(list_courses)
+        context['title'] = 'Courses'
         return context
 
 class AllCoursesView(LoginRequiredMixin, NotificationMixin, generic.ListView):
@@ -136,6 +137,7 @@ class AllCoursesView(LoginRequiredMixin, NotificationMixin, generic.ListView):
         list_courses = self.get_queryset()
 
         context['categorys_courses'] = course_category(list_courses)
+        context['title'] = 'All Courses'
 
         return context
 
@@ -453,6 +455,11 @@ class IndexCatView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'categories'
     paginate_by = 10
 
+    def get_context_data (self, **kwargs):
+        context = super(IndexCatView, self).get_context_data(**kwargs)
+        context['title'] = 'Categories'
+        return context
+
 class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 
     allowed_roles = ['professor', 'system_admin']
@@ -466,6 +473,12 @@ class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
         objeto = self.object.name
         messages.success(self.request, _('Category "%s" created successfully!')%(objeto))
         return reverse_lazy('course:manage_cat')
+
+    def get_context_data (self, **kwargs):
+        context = super(CreateCatView, self).get_context_data(**kwargs)
+        context['title'] = 'Create Category'
+
+        return context
 
 class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
 
@@ -482,6 +495,7 @@ class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
         messages.success(self.request, _('Category "%s" updated successfully!')%(objeto))
         #return reverse_lazy('course:update_cat', kwargs={'slug' : self.object.slug})
         return reverse_lazy('course:manage_cat')
+
 class DeleteCatView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
 
     allowed_roles = ['professor', 'system_admin']
@@ -556,6 +570,7 @@ class SubjectsView(LoginRequiredMixin, LogMixin, generic.ListView):
         context['subject'] = subject
         context['topics'] = Topic.objects.filter(subject = subject)
         context['exercise'] = Exercise.objects.filter(topic__subject=subject)
+        context['title'] = subject.name
         if has_role(self.request.user,'professor') or has_role(self.request.user,'system_admin'):
             context['files'] = TopicFile.objects.filter(professor__name = self.request.user.name)
         else:
@@ -644,6 +659,7 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
         context['students_activit'] = students_activit
         context['materials'] = materials
         context['form'] = ActivityForm
+        context['title'] = topic.name
 
         return context
 
@@ -848,6 +864,7 @@ class UpdateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Upda
         context['course'] = self.object.course
         context['subject'] = self.object
         context['subjects'] = self.object.course.subjects.filter(Q(visible=True) | Q(professors__in=[self.request.user]))
+        context['title'] = self.object.name
         if (has_role(self.request.user,'system_admin')):
             context['subjects'] = self.object.course.subjects.all()
         return context
@@ -970,6 +987,35 @@ class FileMaterialView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
         return super(FileMaterialView, self).dispatch(*args, **kwargs)
 
+@login_required
+@log_decorator_ajax("courses", "viewed", "topic")
+def topic_log(request, topic):
+    action = request.GET.get('action')
+
+    if action == 'open':
+        topic = get_object_or_404(Topic, id = topic)
+        log_context = {}
+        log_context['topic_id'] = topic.id
+        log_context['topic_name'] = topic.name
+        log_context['topic_slug'] = topic.slug
+        log_context['subject_id'] = topic.subject.id
+        log_context['subject_name'] = topic.subject.name
+        log_context['subject_slug'] = topic.subject.slug
+        log_context['course_id'] = topic.subject.course.id
+        log_context['course_name'] = topic.subject.course.name
+        log_context['course_slug'] = topic.subject.course.slug
+        log_context['course_category_id'] = topic.subject.course.category.id
+        log_context['course_category_name'] = topic.subject.course.category.name
+        log_context['timestamp_start'] = str(int(time.time()))
+        log_context['timestamp_end'] = "-1"
+        request.log_context = log_context
+        log_id = Log.objects.latest('id').id
+
+        response = JsonResponse({"message": "ok", "log_id": log_id})
+    else:
+        response = JsonResponse({"message": "ok"})
+
+    return response
 
 #API VIEWS
 class CourseViewSet(viewsets.ModelViewSet):
@@ -997,7 +1043,7 @@ class ReplicateTopicView (LoginRequiredMixin, HasRoleMixin, LogMixin, Notificati
     allowed_roles = ['professor', 'system_admin']
     login_url = reverse_lazy("core:home")
     redirect_field_name = 'next'
-    template_name = 'topic/replicate.html'
+    template_name = 'topic/replicate.htmTl'
     form_class = TopicForm
 
     def get_success_url(self):
@@ -1011,6 +1057,7 @@ class ReplicateTopicView (LoginRequiredMixin, HasRoleMixin, LogMixin, Notificati
         context['subject'] = subject
         context['subjects'] = subject.course.subjects.all()
         context['topic'] = topic
+        context['title'] = subject.name
         return context
 
     def form_valid(self, form):
@@ -1065,6 +1112,7 @@ class ReplicateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, Notificat
         context['course'] = course
         context['subjects'] = course.subjects.filter(Q(visible=True) | Q(professors__in=[self.request.user]))
         context['subject'] = subject
+        context['title'] = course.name
         if (has_role(self.request.user,'system_admin')):
             context['subjects'] = course.subjects.all()
         return context

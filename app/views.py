@@ -79,6 +79,7 @@ class AmadeusSettings(LoginRequiredMixin, HasRoleMixin, generic.CreateView):
 	def get_context_data(self, **kwargs):
 		context = super(AmadeusSettings, self).get_context_data(**kwargs)
 		context['page'] = self.kwargs.get('page')
+		context['title'] = 'Settings'
 		if not self.request.method == 'POST':
 			try:
 				setting = EmailBackend.objects.latest('id')

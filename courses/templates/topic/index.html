@@ -13,7 +13,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb topic.name 'course:view_topic' %}
+    {% breadcrumb topic.name 'course:view_topic' topic.slug %}
 {% endblock %}
 
 {% block content %}
@@ -33,7 +33,7 @@
               </button>
               <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
                 <li>
-                    <a href="javascript:void(0)"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a>
+                    <a href="{% url 'course:replicate_topic' topic.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a>
                 </li>
                 <li>
                     <a href="{% url 'course:update_subject' subject.slug %}" data-toggle="modal" data-target="#editSubject"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a>

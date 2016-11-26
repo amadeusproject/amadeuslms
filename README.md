@@ -80,13 +80,30 @@ Para Classes que envolvem formulários:
 * `CreateCourseForm`
 * `UpdateCourseForm()`
 
+[PT-BR]
+##API Descrição
+Estamos usando em sua maioria viewsets ( http://www.django-rest-framework.org/api-guide/viewsets/) para construir os endpoints da nossa API. Ela tem como função compartilhar os dados da instância do Amadeus com aplicações credenciadas.
 
-##API Description
-We are using mostly viewsets ( http://www.django-rest-framework.org/api-guide/viewsets/) to build our API endpoints now, so all default methods and API points were kept.
+##API Setup
+**Criar aplicação**
+* Vá para "/o/applications/" e clique "new application". Um formulário irá aparecer para preencher.
+* No formulário, preencha somente o "Name" com o nome da aplicação, os campos "client id" e "client secret" são gerados automaticamente e não devem ser modificados. 
+"Client type" deve ser confidential, e "Authorization Grant Type" como " Resource owner password-based".
+
+**Obtendo um access Token**
+
+* Crie um request, usando um usuário valido, usando o seguinte abaixo (lembre-se que isso é  um POST, estou usando um comando curl para fins de teste): 
+curl -X POST -d "grant_type=password&username=<user_name>&password=<password>" -u"<client_id>:<client_secret>" http://amadeus/o/token/
+
+* finalmente, com o seu access token, você pode testar um dos endpoints usando o template abaixo: 
+curl -H "Authorization: Bearer <your_access_token>" -X POST -d"username=foo&password=bar" http://localhost:8000/users/ (inserting a new user)
+ 
 
 * model list(GET) = list all objects from that mode in pagination mode, each page has 10
 * model detail(GET) = give the details of the objects and most important fields of the ones objects its has relationships.
 * model create
+
+**API Endpoints **
 
 **Courses (URL: coursesapi)**
 * course list ("/coursesapi/")
@@ -104,14 +121,7 @@ We are using mostly viewsets ( http://www.django-rest-framework.org/api-guide/vi
 * logs list ("/logs/")
 * log detail ("/logs/id") (id is a parameter)
 
-#Obtaining an Access Token
-* First build an application o "amadeus/o/applications" following this tutorial: http://django-oauth-toolkit.readthedocs.io/en/latest/tutorial/tutorial_01.html#create-an-oauth2-client-application
 
-* Then request, using a valid user, an access token using the following template (you'll have to know how to translate a GET Method into a POST one)
-curl -X POST -d "grant_type=password&username=<user_name>&password=<password>" -u"<client_id>:<client_secret>" http://amadeus/o/token/
-
-* finally, with your access token you can use test using 
-curl -H "Authorization: Bearer <your_access_token>" -X POST -d"username=foo&password=bar" http://localhost:8000/users/ (inserting a new user)
 
 
 ## Link's úteis

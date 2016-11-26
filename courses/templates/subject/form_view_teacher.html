@@ -1,10 +1,12 @@
 {% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access list_topic_exercises %}
 
+<script type="text/javascript" src="{% static 'js/topic.js' %}"></script>
+
 <div class="panel panel-default cards-detail">
   <div class="panel-heading topic">
     <div class="row">
       <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{topic.slug}}" href=".collapseTopic-{{topic.slug}}" aria-expanded="false" aria-controls="collapseTopic-{{topic.slug}}">
-        <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
+        <button class="btn btn-default btn-sm caret-square" onclick="openTopic('{% url 'course:topic_log' topic.id %}', '{{topic.id}}', $(this));"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
       </div>
       <div class="col-xs-9 col-md-9 titleTopic">
         <a href="{% url 'course:view_topic' topic.slug %}" role="button">
@@ -32,7 +34,8 @@
       </div>
     </div>
   </div>
-  <div class="panel-collapse collapseTopic-{{topic.slug}} topic_{{ topic.id }} collapse in" role="tabpanel" aria-labelledby="heading_{{topic.id}}" aria-expanded="true" aria-hidden="false">
+  <div class="panel-collapse collapseTopic-{{topic.slug}} topic_{{ topic.id }} collapse" role="tabpanel" aria-labelledby="heading_{{topic.id}}" aria-expanded="false" aria-hidden="true">
+    <input type="hidden" class="log_id" />
     <div class="panel-body">
 
       {# dados do tópico no modo de visualização #}
