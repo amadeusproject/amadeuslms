@@ -123,3 +123,8 @@ function functionNewAlternativeTF(Question_Id){
     $('.primary-label-TF').css('padding-left', '0px');
     $.material.init() //O material deve ser iniciado aqui para funcionar os botoes de radio.
 }
+var locale = navigator.language || navigator.userLanguage;
+
+    $('.date-picker').datepicker({
+        language: locale,
+    });
