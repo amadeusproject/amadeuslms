@@ -45,6 +45,11 @@ class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 
 		return users
 
+	def get_context_data (self, **kwargs):
+		context = super(UsersListView, self).get_context_data(**kwargs)
+		context['title'] = 'Manage Users'
+		return context
+
 class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
 
 	allowed_roles = ['system_admin']
