@@ -99,7 +99,7 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
             list_courses = self.get_queryset().filter(students__in = [self.request.user]).order_by('name')
 
         context['categorys_courses'] = course_category(list_courses)
-        context['title'] = 'Courses'
+        context['title'] = _('Courses | Amadeus')
         return context
 
 class AllCoursesView(LoginRequiredMixin, NotificationMixin, generic.ListView):
@@ -137,7 +137,7 @@ class AllCoursesView(LoginRequiredMixin, NotificationMixin, generic.ListView):
         list_courses = self.get_queryset()
 
         context['categorys_courses'] = course_category(list_courses)
-        context['title'] = 'All Courses'
+        context['title'] = _('All Courses | Amadeus')
 
         return context
 
@@ -175,7 +175,7 @@ class CreateCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationM
         elif has_role(self.request.user,'professor'):
             courses = self.request.user.courses_student.all()
         context['courses'] = courses
-        context['title'] = _("Create Course")
+        context['title'] = _("Create Course | Amadeus")
         context['now'] = date.today()
         return context
 
@@ -217,7 +217,7 @@ class ReplicateCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, Notificati
         context['courses'] = courses
         context['course'] = course
         context['categorys_courses'] = categorys_courses
-        context['title'] = _("Replicate Course")
+        context['title'] = _("Replicate Course | Amadeus")
         context['now'] = date.today()
         print (course.public)
         return context
@@ -457,7 +457,7 @@ class IndexCatView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data (self, **kwargs):
         context = super(IndexCatView, self).get_context_data(**kwargs)
-        context['title'] = 'Categories'
+        context['title'] = _('Categories | Amadeus')
         return context
 
 class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
@@ -476,7 +476,7 @@ class CreateCatView(LoginRequiredMixin, HasRoleMixin, generic.edit.CreateView):
 
     def get_context_data (self, **kwargs):
         context = super(CreateCatView, self).get_context_data(**kwargs)
-        context['title'] = 'Create Category'
+        context['title'] = _('Create Category | Amadeus')
 
         return context
 
@@ -685,6 +685,7 @@ class CreateTopicView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMi
         context['course'] = subject.course
         context['subject'] = subject
         context['subjects'] = subject.course.subjects.all()
+        context['title'] = _('Create Topic | Amadeus')
         return context
 
     def form_valid(self, form):
@@ -790,6 +791,7 @@ class CreateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, Notification
         context['subjects'] = course.subjects.filter(Q(visible=True) | Q(professors__in=[self.request.user]))
         if (has_role(self.request.user,'system_admin')):
             context['subjects'] = course.subjects.all()
+        context['title'] = _('Create Subject | Amadeus')
         return context
 
     def form_valid(self, form):
