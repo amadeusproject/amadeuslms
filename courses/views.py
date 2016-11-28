@@ -163,7 +163,7 @@ class CreateCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationM
         self.log_context['course_slug'] = self.object.slug
         self.log_context['course_category_id'] = self.object.category.id
         self.log_context['course_category_name'] = self.object.category.name
-
+        messages.success(self.request,_("Course '%s' was successfully created!"%(self.object.name) ))
         super(CreateCourseView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return super(CreateCourseView, self).form_valid(form)
