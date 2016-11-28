@@ -152,6 +152,10 @@ class Change_password(generic.TemplateView):
 class Remove_account(generic.TemplateView):
 	template_name = 'users/remove_account.html'
 
+	def get_context_data (self, **kwargs):
+		context = super(Remove_account, self).get_context_data(**kwargs)
+		context['title'] = "Remove Account | Amadeus"
+		return context
 
 class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
 	login_url = reverse_lazy("core:home")
