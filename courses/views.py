@@ -247,7 +247,6 @@ class UpdateCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Updat
     def form_valid(self, form):
         self.object = form.save()
 
-        print (form)
         self.log_context['course_id'] = self.object.id
         self.log_context['course_name'] = self.object.name
         self.log_context['course_slug'] = self.object.slug
