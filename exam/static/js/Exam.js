@@ -95,7 +95,7 @@
   }
 //Bug quando criamos sem ser na ordem
 function functionNewAlternative(Question_Id){
-  var alternative = parseInt($("div input").last().val()) + 1;
+  var alternative = parseInt($(Question_Id).find("input:last").val()) + 1;
    var element = '<div class="radio radio-primary form-group">' +
     '<label>' +
       '<input type="radio" name="alternatives" id="alternative_'+alternative+'_'+Question_Id+'"' + 'value="'+alternative+'">' +
@@ -106,9 +106,9 @@ function functionNewAlternative(Question_Id){
     $.material.init() //O material deve ser iniciado aqui para funcionar os botoes de radio.
 }
 function functionNewAlternativeTF(Question_Id){
-  var alternative = parseInt($("div").last().val()) + 1;
+  var alternative = parseInt($('#radiosTF_1').find('div:last').attr('value')) + 1;
    var element =
-    '<div class="radio form-group">'+
+    '<div class="radio  radio-primary form-group"  value="'+alternative+'">'+
       '<label class="primary-label-TF" >'+
         '<textarea class="form-control" rows="1" placeholder="Write your alternative"></textarea>'+
       '</label>'+
@@ -123,3 +123,8 @@ function functionNewAlternativeTF(Question_Id){
     $('.primary-label-TF').css('padding-left', '0px');
     $.material.init() //O material deve ser iniciado aqui para funcionar os botoes de radio.
 }
+var locale = navigator.language || navigator.userLanguage;
+
+    $('.date-picker').datepicker({
+        language: locale,
+    });

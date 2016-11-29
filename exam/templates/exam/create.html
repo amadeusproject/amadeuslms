@@ -13,22 +13,40 @@
     <h4 class="panel-title" id="exam-title">{% trans "Create a Exam" %}</h4>
   </div>
   <div class="panel-body">
-    <div class="row form-group">
-      <label for="exam_name" class="col-md-2 control-label">{% trans "Exam Name" %}</label>
-      <div class="col-md-10">
-        <input type="text" name="exam_name" class="form-control" id="exam_name" placeholder="{% trans 'Exam Name' %}">
+    {% csrf_token %}
+    {% for field in form %}
+      {% if field.auto_id != 'id_begin_exam' and field.auto_id != 'id_end_exam'  and field.auto_id != 'id_begin_date' and field.auto_id != 'id_limit_date' %}
+        <div class="row form-group">
+          {% if field.field.required %}
+            <label for="{{ field.auto_id }}" class="col-md-2 control-label">{{ field.label }}</label>
+            {% else %}
+            <label for="{{ field.auto_id }}" class="col-md-2 control-label">{{ field.label }}</label>
+          {% endif %}
+          <div class="col-md-10">
+          {% if field.auto_id == 'id_all_students' %}
+            {% render_field field class='form-control input-sm' %}
+          {% else %}
+            {% render_field field class='form-control input-sm' %}
+          {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+      <div class="row form-group">
+        {% for field in form %}
+          {% if field.auto_id == 'id_begin_date' or field.auto_id == 'id_limit_date' %}
+            {% if field.field.required %}
+              <label for="{{ field.auto_id }}" class="col-md-2 control-label">{{ field.label }}</label>
+            {% else %}
+              <label for="{{ field.auto_id }}" class="col-md-2 control-label">{{ field.label }}</label>
+            {% endif %}
+            <div class="col-md-4">
+              {% render_field field class='form-control date-picker' %}
+            </div>
+          {% endif %}
+        {% endfor %}
       </div>
-    </div>
-    <div class="row form-group">
-      <label for="begin_date" class="col-md-2 control-label">{% trans "Exam's begin date" %}</label>
-      <div class="col-md-4">
-        <input type="date" name="begin_date" class="form-control" id="begin_date" placeholder='{% trans "Begin Date" %}'>
-      </div>
-      <label for="end_date" class="col-md-2 control-label">{% trans "Exam's end date" %}</label>
-      <div class="col-md-4">
-        <input type="date" name="end_date" class="form-control" id="end_date" placeholder='{% trans "End Date" %}'>
-      </div>
-    </div>
+
     <div class="row form-group">
       <div class="col-md-10">
         <div class="checkbox">
@@ -38,6 +56,7 @@
         </div>
       </div>
     </div>
+
     <div class="row form-group" id="buttonAddQuestion">
       <div class="col-md-10">
         <button id="addQuestion" type="button" class="btn btn-raised btn-default">Add new question buton</button>
@@ -54,7 +73,6 @@
 </div>
 
 {% block javascript %}
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script type="text/javascript">
     //Insert Create select with question type
     var idQuestionType = 1;
