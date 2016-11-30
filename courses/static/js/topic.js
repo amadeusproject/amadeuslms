@@ -2,14 +2,14 @@ function openTopic(url, topic, btn) {
     var icon = btn.find('i');
     var action = '', log_id;
 
-    if (icon.hasClass('fa-caret-square-o-down')) {
-        icon.removeClass('fa-caret-square-o-down');
-        icon.addClass('fa-caret-square-o-up');
+    if (icon.hasClass('fa-angle-down')) {
+        icon.removeClass('fa-angle-down');
+        icon.addClass('fa-angle-up');
         action = 'open';
         log_id = -1;
     } else {
-        icon.addClass('fa-caret-square-o-down');
-        icon.removeClass('fa-caret-square-o-up');
+        icon.addClass('fa-angle-down');
+        icon.removeClass('fa-angle-up');
         action = 'close';
         log_id = $(".topic_" + topic).find(".log_id").val();
     }
