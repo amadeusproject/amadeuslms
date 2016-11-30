@@ -19,7 +19,7 @@ def list_topic_exercise_edit(request, topic):
     context = {
         'request': request,
     }
-    context['exercises'] = Exercise.objects.filter(topic = topic)
+    context['exercises'] = Exercise.objects.filter(topic=topic)
     context['topic'] = topic
 
     return context
