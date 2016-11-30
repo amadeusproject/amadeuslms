@@ -1,14 +1,14 @@
-{% extends 'home.html' %}
+{% extends 'category/index.html' %}
 
 {% load static i18n %}
-{% load static i18n permission_tags %}
+{% load static i18n permission_tags django_bootstrap_breadcrumbs %}
 {% load widget_tweaks %}
 
 {% block breadcrumbs %}
-	<ol class="breadcrumb">
-	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li class="active">{% trans 'Edit Category' %}</li>
-	</ol>
+
+  {{ block.super }}
+  {% breadcrumb 'Update Categories' 'course:update_cat' %}
+
 {% endblock %}
 
 {% block content %}

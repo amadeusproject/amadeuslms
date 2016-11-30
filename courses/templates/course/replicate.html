@@ -1,13 +1,13 @@
 {% extends 'course/view.html' %}
 
 {% load static i18n %}
-{% load widget_tweaks course_value_field %}
+{% load widget_tweaks course_value_field django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
-<ol class="breadcrumb">
-	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	<li class="active">{% trans 'Replicate Course' %}</li>
-</ol>
+
+  {{ block.super }}
+  {% breadcrumb 'Replicate Course' 'course:replicate_course' %}
+
 {% endblock %}
 
 {% block content %}

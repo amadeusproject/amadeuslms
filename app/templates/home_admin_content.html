@@ -2,16 +2,7 @@
 
 {% for course in objects %}
     <div class="panel panel-default courseHome">
-      	<div class="panel-body">
-        	<p>{{ course }}</p>
-      	</div>
-      	<div class="panel-footer">
-        	<ul>
-            	<li>{% trans 'Students' %}: {{ course.max_students }}</li>
-            	<li>{% trans 'Beginning' %}: {{ course.init_date }}</li>
-                <li>{% trans 'End' %}: {{ course.end_date }}</li>
-        	</ul>
-      	</div>
+        <br><h4>{{ course }}</h4>
       	<a href="{% url 'course:update' course.slug %}" class="btn btn-outline-info">{% trans 'Edit' %}</a>
     </div>
 {% endfor %}

@@ -1,6 +1,6 @@
-{% extends 'home.html' %}
+{% extends 'course/view.html' %}
 
-{% load static i18n permission_tags professor_access %}
+{% load static i18n permission_tags professor_access django_bootstrap_breadcrumbs %}
 
 {% block javascript %}
   <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
@@ -13,24 +13,19 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-  <ol class="breadcrumb">
-    <li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-    <li><a href="{% url 'course:manage' %}">{% trans 'Courses' %}</a></li>
-    <li><a href="{% url 'course:view' course.slug %}">{{ course }}</a></li>
-    <li class="active">{{ subject }}</li>
-  </ol>
+    {{ block.super }}
+    {% breadcrumb subject 'course:view_subject' subject.slug %}
 {% endblock %}
 
 {% block content %}
   <div class="panel panel-info">
-    <div class="panel-heading course-detail">
+    <div class="panel-heading course">
       <div class="row">
-        <div class="col-md-10 col-sm-10">
+        <div class="col-xs-6 col-md-6 titleTopic">
           <h4>{{subject}}</h4>
         </div>
-
         {# dropdown de subject com as opções de replicar, editar e deletar #}
-        <div class="col-xs-4 col-md-2 divMoreActions">
+        <div class="col-xs-6 col-md-6 divMoreActions">
           {% professor_subject subject user as subject_professor%}
           {% if subject_professor %}
           <div class="btn-group">
@@ -45,10 +40,8 @@
           </div>
           {% endif %}
         </div>
-
       </div>
     </div>
-
     {# informações do subject(professor, descrição etc) #}
     <div class="panel-body">
       <p><b>{% trans "Professor" %}:</b> {% for professor in subject.professors.all %}{% if not forloop.first %},{% endif %}
@@ -66,7 +59,6 @@
         </div>
       </div>
     </div>
-
   </div>
 
   {# lista de tópicos #}

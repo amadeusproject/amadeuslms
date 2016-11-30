@@ -4,6 +4,7 @@ __pycache__/
 
 db.sqlite3
 amadeus/local_settings.py
+staticfiles/
 
 # C extensions
 *.so

@@ -1,6 +1,6 @@
-{% extends 'home.html' %}
+{% extends 'subject/index.html' %}
 
-{% load static i18n permission_tags professor_access %}
+{% load static i18n permission_tags professor_access django_bootstrap_breadcrumbs %}
 
 
 {% block javascript %}
@@ -12,30 +12,20 @@
 
 
 {% block breadcrumbs %}
-
-	<ol class="breadcrumb">
-	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li><a href="{% url 'course:view_subject' subject.slug %}">{{ subject }}</a></li>
-			{% professor_subject subject user as maneger_topic%}
-			{% if maneger_topic %}
-	  		<li class="active">{% trans 'Manage Topic' %}</li>
-	  	{% else %}
-	  		<li class="active">{{ topic.name }}</li>
-	  	{% endif %}
-
-	</ol>
+    {{ block.super }}
+    {% breadcrumb topic.name 'course:view_topic' topic.slug %}
 {% endblock %}
 
 {% block content %}
 <div class="col-md-12 col-xs-12 col-sm-12">
 <div class="panel panel-info">
-    <div class="panel-heading">
-			<div class="row">
-	      <div class="col-md-10 col-sm-7">
-	        <h3> {{topic.name}} </h3>
-	      </div>
-	      <div class="col-xs-4 col-md-2 divMoreActions">
-					{% professor_subject subject user as permissions%}
+    <div class="panel-heading course">
+	<div class="row">
+          <div class="col-md-10 col-sm-7 titleTopic">
+          <h4> {{topic.name}}</h4>
+          </div>
+      <div class="col-xs-4 col-md-2 divMoreActions">
+	{% professor_subject subject user as permissions%}
           {% if permissions %}
             <div class="btn-group">
               <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -43,7 +33,7 @@
               </button>
               <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
                 <li>
-                    <a href="javascript:void(0)"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a>
+                    <a href="{% url 'course:replicate_topic' topic.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a>
                 </li>
                 <li>
                     <a href="{% url 'course:update_subject' subject.slug %}" data-toggle="modal" data-target="#editSubject"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a>
@@ -120,8 +110,8 @@
     </div>
 </div>
   <div class="col-md-6">
-      <h3>{% trans 'Students - Specific Exercises' %}</h3>  
-      <br/>  
+      <h3>{% trans 'Students - Specific Exercises' %}</h3>
+      <br/>
   </div>
     {# mostra a lista de usuários caso seja um professor ou admin #}
   {% if user|has_role:'professor' or user|has_role:'system_admin' %}

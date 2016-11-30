@@ -1,6 +1,11 @@
 {% extends 'subject/index.html' %}
 
-{% load static i18n permission_tags widget_tweaks %}
+{% load static i18n permission_tags widget_tweaks django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb 'Update subject' 'course:update_subject' %}  
+{% endblock breadcrumbs %}
 
 {% block content %}
 

@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+from urllib.parse import urlparse
 import urllib.request
 
 def make_soup(url):
@@ -20,6 +21,8 @@ def get_images(url,slug):
         return ("Use default image",downloaded)
     images = [img for img in soup.findAll('img')]
     image_links = [each.get('src') for each in images]
+    parsed_uri = urlparse(url)
+    domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
     link_slug = slug
     filename = ''
     for each in image_links:
@@ -46,15 +49,25 @@ def get_images(url,slug):
                 filename = '.jpeg'
             if not booleano:
                 continue
-
-            if each[0] + each[1] == '//' or each[0] == '/':
-                each = 'http:'+each
-            if each[0:4] != 'http' and each[0:5] != 'https':
-                each = url[0:url.index('/',8)] + each
             caminho = "links/static/images/"
             try:
                 urllib.request.urlretrieve(each,"%s"%(caminho)+str(link_slug)+filename)
                 downloaded = True
             except Exception:
-                continue
+                try:
+                    aux = domain + each
+                    urllib.request.urlretrieve(aux,"%s"%(caminho)+str(link_slug)+filename)
+                    downloaded = True
+                except Exception as e:
+                    try:
+                        aux2 = url[0:url.index('/',8)] + each
+                        urllib.request.urlretrieve(aux2,"%s"%(caminho)+str(link_slug)+filename)
+                        downloaded = True
+                    except Exception as e:
+                        try:
+                            aux3 = 'http:' + each
+                            urllib.request.urlretrieve(aux3,"%s"%(caminho)+str(link_slug)+filename)
+                            downloaded = True
+                        except Exception as e:
+                            continue
     return filename,downloaded

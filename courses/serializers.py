@@ -6,8 +6,7 @@ class CourseSerializer(serializers.ModelSerializer):
 	#The set comes from the ManyToMany Relationship in django
 	class Meta:
 		model = Course
-		fields = ('name', 'slug', 'objectivies', 'content', 'max_students', 'create_date', 
-			'init_register_date', 'end_register_date', 'init_date', 'end_date', 'public', 'category' ,'students', 'professors')
+		fields = ('name', 'category', 'coordenator','public')
 
 class SubjectSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -18,5 +17,3 @@ class TopicSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Topic
 		fields = ('name', 'slug','description','create_date','update_date','visible','owner','subject')
-
-

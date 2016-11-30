@@ -14,7 +14,7 @@ class ActionResourceAdmin(admin.ModelAdmin):
 	search_fields = ['action', 'resource']
 
 class LogAdmin(admin.ModelAdmin):
-	list_display = ['datetime', 'user', 'action_resource']
+	list_display = ['datetime', 'user', 'action_resource', 'context']
 	search_fields = ['user']
 
 class MimeTypeAdmin(admin.ModelAdmin):

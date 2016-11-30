@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Exam, Answer, AnswersStudent
+from .models import Exam, Answer, AnswersStudent, Question, Alternative
 
 class ExamAdmin(admin.ModelAdmin):
 	list_display = ['name', 'slug','begin_date','limit_date']
@@ -17,3 +17,5 @@ class AnswersStudentAdmin(admin.ModelAdmin):
 admin.site.register(Exam, ExamAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(AnswersStudent, AnswersStudentAdmin)
+admin.site.register(Question)
+admin.site.register(Alternative)

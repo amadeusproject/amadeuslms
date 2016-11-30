@@ -1,13 +1,9 @@
 {% load static i18n permission_tags %}
-{% load django_bootstrap_breadcrumbs %}
 <div class="group  course-card ">
     <div class="panel panel-info">
         <div class="panel-heading course">
           <div class="row">
-            <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{course.slug}}" href=".collapseOne-{{course.slug}}" aria-expanded="false" aria-controls="collapseOne-{{course.slug}}">
-                <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
-            </div>
-            <div class="col-xs-5 col-md-5 titleTopic">
+            <div class="col-xs-6 col-md-6 titleTopic">
               <a role="button" href="{% url 'course:view' course.slug %}">
                   <h4>{{course.name}}</h4>
               </a>
@@ -20,6 +16,7 @@
                    </button>
                   <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
                     <li><a href="{% url 'course:replicate_course' course.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
+                    <li><a href="{% url 'course:update' course.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
                     <li><a href="javascript:delete_course.get('{% url 'course:delete' course.slug %}','#course','#modal_course')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
                   </ul>
                 </div>
@@ -29,27 +26,6 @@
                 <a onclick="subscribe($(this), '{% url 'course:subscribe' course.slug %}', {{ course.id}}, '{% trans 'Are you sure you want to subscribe to this course?' %}')"><button class="btn btn-sm btn-primary btn-raised pull-right">{% trans 'Subscribe' %}</button></a>
               {% endif %}
             {% endif %}
-          </div>
-        </div>
-        <div class="panel-collapse collapseOne-{{course.slug}} collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" aria-hidden="false" tabindex="0">
-          <div class="panel-body">
-            <p><b>{% trans 'Course Name' %}: </b>{{course.name}}</p>
-            <p><b>{% trans 'Coordenator' %}: </b>{{course.coordenator}}</p>
-            <p><b>{% trans 'Professor' %}: </b>{{course.professors.all.0}}</p>
-            <p>
-              <b>{% trans 'Description' %}:</b>
-              <i>
-                {{course.content | safe }}
-              </i>
-            </p>
-            <div class="row">
-              <div class="col-xs-6 col-md-6 data_register_course">
-                <p><b>{% trans 'Init register' %}: </b>{{course.init_register_date}}</p>
-              </div>
-              <div class="col-xs-6 col-md-6 data_register_course">
-                <p><b>{% trans 'End register' %}: </b>{{course.end_register_date}}</p>
-              </div>
-            </div>
           </div>
         </div>
     </div>

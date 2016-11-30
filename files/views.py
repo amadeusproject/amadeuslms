@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rolepermissions.mixins import HasRoleMixin
-from rolepermissions.verifications import has_role
+from rolepermissions.verifications import has_role, has_object_permission
 from .forms import FileForm, UpdateFileForm
 from .models import TopicFile
 from .utils import mime_type_to_material_icons
@@ -179,7 +179,12 @@ class UpdateFile(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.UpdateView)
 
 		return context
 
-	
+	def dispatch(self, *args, **kwargs):
+		file = get_object_or_404(TopicFile, slug = self.kwargs.get('slug'))
+		if(not has_object_permission('edit_file', self.request.user, file) and not(self.request.user in file.topic.subject.professors.all())):
+			return self.handle_no_permission()
+		return super(UpdateFile, self).dispatch(*args, **kwargs)
+
 	def form_valid(self, form):
 		self.object = form.save()
 
@@ -224,7 +229,7 @@ class DeleteFile(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.DeleteView)
 
 	def dispatch(self, *args, **kwargs):
 		file = get_object_or_404(TopicFile, slug = self.kwargs.get('slug'))
-		if(not (file.topic.owner == self.request.user) and not(has_role(self.request.user, 'system_admin')) ):
+		if(not(self.request.user in file.topic.subject.professors.all()) and not(has_role(self.request.user, 'system_admin'))):
 			return self.handle_no_permission()
 		return super(DeleteFile, self).dispatch(*args, **kwargs)
 
