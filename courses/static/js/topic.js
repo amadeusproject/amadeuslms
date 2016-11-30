@@ -20,7 +20,7 @@ function openTopic(url, topic, btn) {
         dataType: 'json',
         success: function (data) {
            if (action == 'open') {
-                $(".topic_" + topic).find(".log_id").val(data.log_id);           
+                $(".topic_" + topic).find(".log_id").val(data.log_id);
            }
         },
         error: function(data) {
