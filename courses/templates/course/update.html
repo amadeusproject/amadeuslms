@@ -5,7 +5,7 @@
 
 {% block breadcrumbs %}
 	{{ block.super }}
-	 {% breadcrumb 'Update' 'course:update' %}
+	 {% breadcrumb 'Update' 'course:update'  course.slug %}
 {% endblock %}
 {% block content %}
 

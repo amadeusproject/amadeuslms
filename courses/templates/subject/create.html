@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb 'Create subject' 'course:create_subject' %}
+    {% breadcrumb 'Create subject' 'course:create_subject' course.slug %}
 {% endblock breadcrumbs %}
 
 {% block content %}
