@@ -129,7 +129,9 @@ Os **breadcrumbs** reduzem o número de ações que um usuários precisa tomar p
 No amadeus estamos utilizando a lib [django-bootstrap-breadcrumbs](http://django-bootstrap-breadcrumbs.readthedocs.io/en/latest/) para oferecer essa facilidade aos nosso usuários.
 
 **Como usar:**
-O pacote já se encontra instalado no projeto. Ele está na lista das dependências que se encontram no arquivo `requirements.txt` que foi instalado anteriormente. Então para usar a lib num template, você só precisa fazer o load da tag: ```{% load django_bootstrap_breadcrumbs %}```
+
+
+O pacote já se encontra instalado no projeto. Ele está na lista das dependências que se encontram no arquivo `requirements.txt`, que já foi instalado anteriormente. Então para usar a lib num template, você só precisa fazer o load da tag: ```{% load django_bootstrap_breadcrumbs %}```
 
 O pacote assume que você tem uma boa organização de urls no seu projeto para que ele possa funcionar como esperado. Ele funciona a base herança de templates, como assim?
 
@@ -137,18 +139,23 @@ No arquivo ```core > templates > base.html``` existe um bloco denominado ***brea
 TODOS os arquivos que herdam do template ```base.html``` ou de outro template que herdou dele, deve implementar o bloco ***breadcrumbs***.
 
 ***Exemplo***
-Como a nossa dashboard comoça na app ```app```, é nesse app que foi feito a primeira herança do bloco ***breadcrumbs*** e a partir dalí todos os apps estendem dos templates dessa app.
+
+
+Como a nossa dashboard começa na app ```app```, é nesse app que foi feito a primeira herança do bloco ***breadcrumbs*** e a partir dalí todos os apps estendem dos templates dessa app.
 Vamos ilustrar um exemplo de breadcrumbs que vai até a página de criar uma discilina dentro de um curso:
 
 ```1 - home.html```
+
+
 O arquivo ```1``` se encontra na app ```app``` e ele faz herança do template ```base.html```
+
 
 ```python
 1  {% block breadcrumbs %}
 2
-3     {% clear_breadcrumbs %}
-4     {% breadcrumb 'Home' 'app:index' %}
-5
+3      {% clear_breadcrumbs %}
+4      {% breadcrumb 'Home' 'app:index' %}
+5  
 6  {% endblock %}
 7
 8  {% block render_breadcrumbs %}
@@ -160,11 +167,16 @@ A linha 3 é responsável por 'limpar' todo o breadcrumbs feito anteriormente, o
 
 A linha 4, é onde a mágica acontece. É o breadcrumb da página em si.
 O primeiro parâmetro da template tag: o 'Home', é o texto que vai ficar linkado(quando você estiver em uma outra página). Ele pode ser um texto, que tem que vir entres aspas, por exemplo 'Home', ou pode ser uma variavel do template que nesse caso não precisa de aspas. O segundo parâmetro é a url da página em que o template em questão vai ser exibida, ou seja, ele chama a sua própria ulr, como era de se esperar.
+
 ***OBS:*** Se a url tivesse um parâmetro, ele devia ser passado como um terceiro argumento da template tag.
 ***OBS2:*** A linha 9 só precisa ser chamado uma única vez e deve ser na template home, egg: os templates que não são o root do breadcrumbs não precisam subsvrever o bloco 'render_breadcrumbs'
 
 ```2 - courses > templates > course > index.html```
+
+
 O arquivo ```2``` é o index da app ```courses``` e ele herda o template ```1```.
+
+
 ```python 
 1 {% block breadcrumbs %}
 2
@@ -177,19 +189,28 @@ O arquivo ```2``` é o index da app ```courses``` e ele herda o template ```1```
 A linha 3 traz todo o breadcrumbs que já  foi feito anteriormente para a página corrente, e a linha 4 acrescenta um novo elemento na lista dos breadcrumbs. Observe que você não precisa se preocupar em dizer qual página está sendo exibida e nem costomizar nenhum HTML. A template tag já faz tudo isso por você. Você só precisa dar um nome para o link, chamar a ulr da página e passar algum parâmetro para a ulr(caso for preciso).
 
 ```3 - courses > templates > course > view.html```
+
+
 O arquivo 3 é o template de um curso específico, e ele herda do template ```2```.
+
+
 ```python
-{% block breadcrumbs %}
-
-    {{ block.super }}
-    {% breadcrumb course 'course:view' course.slug %}
-
-{% endblock %}
+1 {% block breadcrumbs %}
+2
+3     {{ block.super }}
+4     {% breadcrumb course 'course:view' course.slug %}
+5
+6 {% endblock %}
 ```
+
 Repare que o primeiro parâmetro agora é uma variavel do template que representa o nome do curso, e o terceiro parâmetro é um argumento para a url(eles não precisam de aspas).
 
 ```4 - courses > templates > subject > create.html```
-O arquivo ```4``` é o template de criar uma disciplica e ele herda do template ```3```
+
+
+O arquivo ```4``` é o template de criar uma disciplica e ele herda do template ```3```.
+
+
 
 ```python
 1 {% block breadcrumbs %}
@@ -197,7 +218,10 @@ O arquivo ```4``` é o template de criar uma disciplica e ele herda do template 
 3     {% breadcrumb 'Create subject' 'course:create_subject' course.slug %}
 4 {% endblock breadcrumbs %}
 ```
+
 Feito isso o breadcrumbs da página 'Criar disciplina' fica da seguinte forma:
+
+
  [Home]() / [Cursos]() / [Nome do Curso]() / Criar disciplina 
 
 
