@@ -19,13 +19,13 @@
 {% block content %}
 <div class="col-md-12 col-xs-12 col-sm-12">
 <div class="panel panel-info">
-    <div class="panel-heading">
-			<div class="row">
-	      <div class="col-md-10 col-sm-7">
-	        <h3> {{topic.name}} </h3>
-	      </div>
-	      <div class="col-xs-4 col-md-2 divMoreActions">
-					{% professor_subject subject user as permissions%}
+    <div class="panel-heading course">
+	<div class="row">
+          <div class="col-md-10 col-sm-7 titleTopic">
+          <h4> {{topic.name}}</h4>
+          </div>
+      <div class="col-xs-4 col-md-2 divMoreActions">
+	{% professor_subject subject user as permissions%}
           {% if permissions %}
             <div class="btn-group">
               <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -110,8 +110,8 @@
     </div>
 </div>
   <div class="col-md-6">
-      <h3>{% trans 'Students - Specific Exercises' %}</h3>  
-      <br/>  
+      <h3>{% trans 'Students - Specific Exercises' %}</h3>
+      <br/>
   </div>
     {# mostra a lista de usuários caso seja um professor ou admin #}
   {% if user|has_role:'professor' or user|has_role:'system_admin' %}

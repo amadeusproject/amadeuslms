@@ -6,9 +6,9 @@
   <div class="panel-heading topic">
     <div class="row">
       <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{topic.slug}}" href=".collapseTopic-{{topic.slug}}" aria-expanded="false" aria-controls="collapseTopic-{{topic.slug}}">
-        <button class="btn btn-default btn-sm caret-square" onclick="openTopic('{% url 'course:topic_log' topic.id %}', '{{topic.id}}', $(this));"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
+        <button class="btn btn-default btn-sm caret-square" onclick="openTopic('{% url 'course:topic_log' topic.id %}', '{{topic.id}}', $(this));"><i class="fa fa-angle-down fa-2x" aria-hidden="true"></i></button>
       </div>
-      <div class="col-xs-9 col-md-9 titleTopic">
+      <div class="col-xs-9 col-md-9 titleTopic Topic-detail">
         <a href="{% url 'course:view_topic' topic.slug %}" role="button">
           <h4>{{topic}}</h4>
         </a>
@@ -125,13 +125,6 @@
             <ul>
               {% list_topic_poll_teacher request topic %}
               {% list_topic_foruns request topic %}
-            </ul>
-          </div>
-          <div class="editation editation_{{topic.slug}}">
-
-            {# exercícios do tópico no modo de edição #}
-            <ul>
-              {% list_topic_exercise_edit request topic %}
             </ul>
           </div>
         </div>

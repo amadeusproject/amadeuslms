@@ -77,9 +77,6 @@
 .end{
     text-align: right;
 }
-h5{
-    text-align: center;
-}
 #img {
 
     display: block;
@@ -406,16 +403,19 @@ ul, li {
     -webkit-animation-timing-function: ease-in-out;
 }
 /* Icon Topic */
-.divMoreActions {text-align: right; height: 39px; float: right;}
-.divMoreActions div button {padding-left: 10px; padding-right: 10px; padding-bottom: 10px; margin-bottom: 4px; height: 31px;}
-.titleTopic {padding-top: 18px; padding-left: 0px;}
-.titleTopic-detail {padding-top: 8px;  color: white;}
-.titleTopic a h4 {margin-top: 0px; color: black; cursor:pointer;}
+.divMoreActions {text-align: right; height: 59px; float: right;}
+.moreAccordion {height: 59px;}
+/*.divMoreActions div button {padding-left: 10px; padding-right: 10px; padding-bottom: 10px; margin-bottom: 4px; height: 31px;}*/
+.divMoreActions , .moreAccordion{padding-top: 5px; padding-bottom: 1%;}
+.moreAccordion button{margin-bottom: 0px; margin-top: 8px;}
+.titleTopic {padding-top: 10px; padding-bottom: 10px;}
+.titleTopic a h4, .titleTopic h4{color: white;}
+.titleTopic a:hover{text-decoration: none;}
+.Topic-detail a h4{color: black;}
+/* .titleTopic a h4 {margin-top: 0px; color: black; cursor:pointer;}*/
 .dropdown-menu .pull-right {
     right: 0;
   }
-.moreAccordion{ padding-left: 0px; padding-right: 0px;}
-.moreAccordion div button{ padding-left: 0px; padding-right: 0px;}
 .cards-content{ padding-left: 0px; padding-right: 0px; }
 .cards-detail{margin-left: 4%;}
 .cards-detail .panel .panel-heading{/*background-color:;*/}
