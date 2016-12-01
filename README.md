@@ -124,6 +124,8 @@ curl -H "Authorization: Bearer <your_access_token>" -X POST -d"username=foo&pass
 
 ## Breadcrumbs
 [PT-BR]
+
+
 Os **breadcrumbs** reduzem o número de ações que um usuários precisa tomar para chegar a uma página de nível superior e melhorar o nível de encontrabilidade de seções e páginas.
 
 No amadeus estamos utilizando a lib [django-bootstrap-breadcrumbs](http://django-bootstrap-breadcrumbs.readthedocs.io/en/latest/) para oferecer essa facilidade aos nosso usuários.
@@ -227,6 +229,8 @@ Feito isso o breadcrumbs da página 'Criar disciplina' fica da seguinte forma:
  
 
 [EN-SU]
+
+
 **Breadcrumbs** reduce the number of actions a user needs to take to reach a top-level page and improve the level of reachability of sections and pages.
 
 In amadeus we are using lib [django-bootstrap-breadcrumbs](http://django-bootstrap-breadcrumbs.readthedocs.io/en/latest/) to offer this facility to our users.
