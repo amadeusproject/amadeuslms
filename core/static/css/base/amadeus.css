@@ -294,10 +294,11 @@ a.alert_message:hover{color : grey}
 /*====================== ========*/
 
 .accordion {
-    background: #c0c0c0;
+    background: white;
 }
 .accordion_list {
-    background: #e0e0e0;
+    padding-left: 4px;
+    background: #F5F5F5;
 }
 
 body .container .jumbotron-inverse, body .container .well-inverse, body .container-fluid .jumbotron-inverse, body .container-fluid .well-inverse {
