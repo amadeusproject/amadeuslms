@@ -388,19 +388,55 @@ class CourseView(LogMixin, NotificationMixin, generic.DetailView):
 
         return context
 
-class DeleteTopic(LoginRequiredMixin, HasRoleMixin, NotificationMixin, generic.DeleteView):
+class DeleteTopic(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.DeleteView):
+    log_component = "course"
+    log_resource = "topic"
+    log_action = "delete"
+    log_context = {}
 
     allowed_roles = ['professor', 'system_admin']
     login_url = reverse_lazy("core:home")
     redirect_field_name = 'next'
     model = Topic
-    template_name = 'course/delete.html'
-    success_url = reverse_lazy('course:manage')
+    template_name = 'topic/delete.html'
 
-    def render_to_response(self, context, **response_kwargs):
-        messages.success(self.request, _('Course deleted successfully!'))
+    def dispatch(self, *args, **kwargs):
+        topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+        if(not has_object_permission('delete_topic', self.request.user, topic)):
+            return self.handle_no_permission()
+        return super(DeleteTopic, self).dispatch(*args, **kwargs)
 
-        return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine)
+    def get_context_data(self, **kwargs):
+        context = super(DeleteTopic, self).get_context_data(**kwargs)
+        context['course'] = self.object.subject.course
+        context['subject'] = self.object.subject
+        context['topic'] = self.object
+        if (has_role(self.request.user,'system_admin')):
+            context['subjects'] = self.object.subject.course.subjects.all()
+        else:
+            context['subjects'] = self.object.subject.course.subjects.filter(Q(visible=True) | Q(professors__in=[self.request.user]))
+        
+        return context
+
+    def get_success_url(self):
+        self.log_context['topic_id'] = self.object.id
+        self.log_context['topic_name'] = self.object.name
+        self.log_context['topic_slug'] = self.object.slug
+        
+        self.log_context['subject_id'] = self.object.subject.id
+        self.log_context['subject_name'] = self.object.subject.name
+        self.log_context['subject_slug'] = self.object.subject.slug
+        
+        self.log_context['course_id'] = self.object.subject.course.id
+        self.log_context['course_name'] = self.object.subject.course.name
+        self.log_context['course_slug'] = self.object.subject.course.slug
+        self.log_context['course_category_id'] = self.object.subject.course.category.id
+        self.log_context['course_category_name'] = self.object.subject.course.category.name
+
+        super(DeleteTopic, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+        return reverse_lazy('course:view_subject', kwargs={'slug' : self.object.subject.slug})
+
 
 
 @login_required
