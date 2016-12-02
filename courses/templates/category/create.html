@@ -11,13 +11,20 @@
 {% endblock %}
 
 {% block content %}
+{% if messages %}
+	{% for message in messages %}
+	<script type="text/javascript">
+		alertify.success('{{message}}');
+	</script>
+	{% endfor %}
+{% endif %}
 	<div class="card card-content">
         <div class="card-body">
 				<form method="post" action="">{% csrf_token %}
 					{% for field in form %}
 						<div class="form-group {% if form.has_error %}has-error{% endif %}">
 							<label for="{{ field.auto_id }}">{{ field.label }}</label>
-							{% render_field field class='form-control input-sm' %}
+							{% render_field field class='form-control' %}
 						</div>
 						{% if field.errors%}
 							<div class="alert alert-danger alert-dismissible" role="alert">

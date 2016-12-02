@@ -452,7 +452,6 @@ class IndexCatView(LoginRequiredMixin, generic.ListView):
     queryset = CourseCategory.objects.all().order_by("name")
     template_name = 'category/index.html'
     context_object_name = 'categories'
-    paginate_by = 10
 
     def get_context_data (self, **kwargs):
         context = super(IndexCatView, self).get_context_data(**kwargs)
