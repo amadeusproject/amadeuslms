@@ -38,9 +38,7 @@
                 <li>
                     <a href="{% url 'course:update_subject' subject.slug %}" data-toggle="modal" data-target="#editSubject"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a>
                 </li>
-                <li>
-                    <a href="{% url 'course:delete_topic' topic.slug %}" data-toggle="modal" data-target="#removeTopic"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a>
-                </li>
+                <li><a href="{% url 'course:delete_topic' topic.slug %}"><i class="fa fa-trash fa-fw"  aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
               </ul>
             </div>
           {% endif %}
