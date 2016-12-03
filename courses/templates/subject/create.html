@@ -19,7 +19,7 @@
             <label for="{{ field.auto_id }}"> {{ field.label }}</label>
           {% endif %}
           {% if field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date'%}
-              <input type="text" class="form-control date-picker" name="{{field.name}}" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
+              {% render_field field class='form-control date-picker'%}
           {% elif field.auto_id == 'id_visible' %}
 						<div class="checkbox">
 							<label>
@@ -30,6 +30,21 @@
               {% render_field field class='form-control'%}
           {% endif %}
           <span class="help-block">{{ field.help_text }}</span>
+          {% if field.errors %}
+					<div class="row">
+					</br>
+							<div class="alert alert-danger alert-dismissible" role="alert">
+			  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  						<span aria-hidden="true">&times;</span>
+		  						</button>
+								<ul>
+									{% for error in field.errors %}
+										<li>{{ error }}</li>
+									{% endfor %}
+								</ul>
+							</div>
+					</div>
+					{% endif %}
         </div>
         {% endfor %}
         <div class="col-lg-offset-4 col-lg-4">
@@ -44,6 +59,7 @@
 
     $('.date-picker').datepicker({
         language: locale,
+        startDate: "dateToday",
     });
   </script>
 {% endblock content %}

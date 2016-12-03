@@ -933,6 +933,10 @@ class DeleteSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Dele
         context['subjects'] = self.object.course.subjects.filter(Q(visible=True) | Q(professors__in=[self.request.user]))
         if (has_role(self.request.user,'system_admin')):
             context['subjects'] = self.object.course.subjects.all()
+        if (self.request.GET.get('view') == 'index'):
+            context['index'] = True
+        else:
+            context['index'] = False
         return context
 
     def get_success_url(self):

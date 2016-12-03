@@ -64,7 +64,7 @@ alertify.success('{{message}}');
   </div>
   <div class="cards-detail">
     {% for subject in subjects %}
-      <div class="panel panel-default panel_{{ subject.id }}">
+      <div class="panel panel-default panel_{{ subject.id }}" id="subject_{{subject.slug}}">
         <div class="panel-heading heading_{{subject.id}} subject ui-sortable-handle">
           <div class="row">
             <div class="col-xs-9 col-md-6 titleTopic">
@@ -81,7 +81,7 @@ alertify.success('{{message}}');
                   <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
                     <li><a href="{% url 'course:replicate_subject' subject.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
                     <li><a href="{% url 'course:update_subject' subject.slug %}"> <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
-                    <li><a href="{% url 'course:delete_subject' subject.slug %}" ><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
+                    <li><a href="javascript:delete_subject.get('{% url 'course:delete_subject' subject.slug %}?view=index','#subject','#modal_course')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
                   </ul>
                 </div>
               </div>

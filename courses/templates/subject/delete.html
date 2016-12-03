@@ -22,15 +22,16 @@
         <!-- Don't remove that!!!  -->
         <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">{% trans "Close" %}</button>
         <button type="submit" id="button" form="delete_form" class="btn btn-primary btn-raised">{% trans "Delete" %}</button>
-		<script>
-		  $("#delete_form").submit(function(event) {
-		    RemoveCourse.remove("{% url 'course:delete_subject' subject.slug %}",$(this).serialize(),"#subject_{{subject.slug}}");
-		    event.preventDefault();
-		  });
-		</script>
+
+        {% if index %}
+        <script>
+          $("#delete_form").submit(function(event) {
+            RemoveSubject.remove("{% url 'course:delete_subject' subject.slug %}",$(this).serialize(),"#subject_{{subject.slug}}");
+            event.preventDefault();
+          });
+        </script>
+        {% endif %}
       </div>
     </div>
   </div>
 </div>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="{% static 'js/modal_subject.js' %}"></script>

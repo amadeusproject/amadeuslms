@@ -55,9 +55,11 @@ function subscribe(elem, url, id, confirm_message) {
 
 var RemoveCourse = {
   remove: function(url,dados,id_li_link){
-    $('#course').modal('hide');
+    $('#course').modal().hide();
       $.post(url,dados, function(data){
         $(id_li_link).remove();
+        // alert("certo");
+        $('body').removeClass('modal-open');
         $("#modal_course").empty();
         $(".modal-backdrop.in").remove();
         alertify.success("Course removed successfully!");
