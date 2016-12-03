@@ -47,7 +47,16 @@ def get_value_choice(value, choices):
     return ""
 
 @register.simple_tag
-def get_tag(field):
-    field.value = "cacsdv"
-    print (dir(field.field))
-    print (dir(field.field.widget),field.name,"\n\n\n")
+def value_subject_field(subject, field):
+    value = ""
+    if field == 'name':
+        value = subject.name
+    elif field == 'description':
+        value = subject.description
+    elif field == 'init_date':
+        value = subject.init_date
+    elif field == 'end_date':
+        value = subject.end_date
+    elif field == 'visible':
+        value = subject.visible
+    return value

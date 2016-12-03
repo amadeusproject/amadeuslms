@@ -220,7 +220,6 @@ class ReplicateCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, Notificati
         context['categorys_courses'] = categorys_courses
         context['title'] = _("Replicate Course | Amadeus")
         context['now'] = date.today()
-        print (course.public)
         return context
 
     def get_success_url(self):
@@ -1153,6 +1152,7 @@ class ReplicateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, Notificat
         context['subjects'] = course.subjects.filter(Q(visible=True) | Q(professors__in=[self.request.user]))
         context['subject'] = subject
         context['title'] = course.name
+        context['now'] = date.today()
         if (has_role(self.request.user,'system_admin')):
             context['subjects'] = course.subjects.all()
         return context
@@ -1171,8 +1171,8 @@ class ReplicateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, Notificat
              resource_link = reverse('course:view_subject', args=[self.object.slug]))
 
         self.log_context['subject_id'] = self.object.id
-        self.log_context['subject_name'] = self.object.name
         self.log_context['subject_slug'] = self.object.slug
+        self.log_context['subject_name'] = self.object.name
         self.log_context['course_id'] = course.id
         self.log_context['course_name'] = course.name
         self.log_context['course_slug'] = course.slug
