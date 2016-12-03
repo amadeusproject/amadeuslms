@@ -4,7 +4,7 @@
 {% load django_bootstrap_breadcrumbs %}
 
 {% block style %}
-  <link rel="stylesheet" href="{% static 'css/course/course.css' %}">
+<link rel="stylesheet" href="{% static 'css/course/course.css' %}">
 {% endblock style %}
 
 {% block javascript %}
@@ -15,38 +15,45 @@
 
 {% block breadcrumbs %}
 
-    {{ block.super }}
-    {% breadcrumb course 'course:view' course.slug %}
+{{ block.super }}
+{% breadcrumb course 'course:view' course.slug %}
 
 {% endblock %}
 
 {% block content %}
+{% if messages %}
+{% for message in messages %}
+<script type="text/javascript">
+alertify.success('{{message}}');
+</script>
+{% endfor %}
+{% endif %}
 
-  <div class="col-md-12 cards-content">
-    <div class="group course-card ">
-      <div class="panel panel-info">
-        <div class="panel-heading course">
-          <div class="row">
-            <div class="col-xs-6 col-md-6 titleTopic">
-                <h4>{{course.name}}</h4>
+<div class="col-md-12 cards-content">
+  <div class="group course-card ">
+    <div class="panel panel-info">
+      <div class="panel-heading course">
+        <div class="row">
+          <div class="col-xs-6 col-md-6 titleTopic">
+            <h4>{{course.name}}</h4>
+          </div>
+          {% if user|has_role:'professor' or user|has_role:'system_admin' %}
+          <div class="col-xs-6 col-md-6 divMoreActions" >
+            <div class="btn-group">
+              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+              </button>
+              <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                <li><a href="{% url 'course:replicate_course' course.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
+                <li><a href="{% url 'course:update' course.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+                <li><a href="javascript:delete_course.get('{% url 'course:delete' course.slug %}','#course','#modal_course')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
+              </ul>
             </div>
-            {% if user|has_role:'professor' or user|has_role:'system_admin' %}
-            <div class="col-xs-6 col-md-6 divMoreActions" >
-              <div class="btn-group">
-                <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-                 </button>
-                <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-                  <li><a href="{% url 'course:replicate_course' course.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
-                  <li><a href="{% url 'course:update' course.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
-                  <li><a href="javascript:delete_course.get('{% url 'course:delete' course.slug %}','#course','#modal_course')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
-                </ul>
-              </div>
-            </div>
-            {% elif user|has_role:'student' %}
-            {% if not request.user in course.students.all %}
-              <a onclick="subscribe($(this), '{% url 'course:subscribe' course.slug %}', {{ course.id}}, '{% trans 'Are you sure you want to subscribe to this course?' %}')"><button class="btn btn-sm btn-primary btn-raised pull-right">{% trans 'Subscribe' %}</button></a>
-            {% endif %}
+          </div>
+          {% elif user|has_role:'student' %}
+          {% if not request.user in course.students.all %}
+          <a onclick="subscribe($(this), '{% url 'course:subscribe' course.slug %}', {{ course.id}}, '{% trans 'Are you sure you want to subscribe to this course?' %}')"><button class="btn btn-sm btn-primary btn-raised pull-right">{% trans 'Subscribe' %}</button></a>
+          {% endif %}
           {% endif %}
         </div>
       </div>
@@ -55,71 +62,49 @@
       </div>
     </div>
   </div>
-
-<!-- MODAL CREATE SUBJECT -->
-<div class="modal" tabindex="-1" role="dialog  " id="createSubject">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">{% trans "Create a New Subject" %}</h4>
-      </div>
-      <div class="modal-body">
-        <div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" data-dismiss="modal" class="btn btn-default btn-raised">{% trans "Cancel" %}</button>
-          <a href="#" target="_self"><button type="button" class="btn btn-primary btn-raised"> {% trans "Confirm" %}</button></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion" role="tablist" aria-multiselectable="false"></div>
   <div class="cards-detail">
     {% for subject in subjects %}
-        <div class="panel panel-default panel_{{ subject.id }}">
-          <div class="panel-heading heading_{{subject.id}} subject ui-sortable-handle">
-            <div class="row">
-                <div class="col-xs-9 col-md-6 titleTopic">
-                  <a role="button" href="{% url 'course:view_subject' subject.slug %}">
-                    <h4>{{subject.name}}</h4>
-                  </a>
-                </div>
-                {% if user|has_role:'professor' or user|has_role:'system_admin' %}
-                  <div class="col-xs-3 col-md-6 divMoreActions">
-                    <div class="btn-group">
-                      <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-                      </button>
-                      <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-                        <li><a href="{% url 'course:replicate_subject' subject.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
-                        <li><a href="{% url 'course:update_subject' subject.slug %}"> <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
-                        <li><a href="{% url 'course:delete_subject' subject.slug %}" ><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
-                      </ul>
-
-                    </div>
-                  </div>
-                {% endif %}
-
-                {% if user|show_subject_subscribe:subject %}
-                  <div class="col-xs-3 col-md-2">
-                    <a onclick="subscribe($(this), '{% url 'course:subscribe_subject' subject.slug %}', {{ subject.id }}, '{% trans 'Are you sure you want to subscribe to this subject?' %}')" class="btn btn-sm btn-primary btn-raised">{% trans 'Subscribe' %}</a>
-                  </div>
-                {% endif %}
+      <div class="panel panel-default panel_{{ subject.id }}">
+        <div class="panel-heading heading_{{subject.id}} subject ui-sortable-handle">
+          <div class="row">
+            <div class="col-xs-9 col-md-6 titleTopic">
+              <a role="button" href="{% url 'course:view_subject' subject.slug %}">
+                <h4>{{subject.name}}</h4>
+              </a>
             </div>
+            {% if user|has_role:'professor' or user|has_role:'system_admin' %}
+              <div class="col-xs-3 col-md-6 divMoreActions">
+                <div class="btn-group">
+                  <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+                  </button>
+                  <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                    <li><a href="{% url 'course:replicate_subject' subject.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
+                    <li><a href="{% url 'course:update_subject' subject.slug %}"> <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
+                    <li><a href="{% url 'course:delete_subject' subject.slug %}" ><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
+                  </ul>
+                </div>
+              </div>
+            {% endif %}
+
+            {% if user|show_subject_subscribe:subject %}
+              <div class="col-xs-3 col-md-2">
+                <a onclick="subscribe($(this), '{% url 'course:subscribe_subject' subject.slug %}', {{ subject.id }}, '{% trans 'Are you sure you want to subscribe to this subject?' %}')" class="btn btn-sm btn-primary btn-raised">{% trans 'Subscribe' %}</a>
+              </div>
+            {% endif %}
           </div>
         </div>
+      </div>
     {% endfor %}
-
-
-{% if  user|has_role:'professor' and user in course.professors.all or user|has_role:'system_admin' %}
-
-    <div class="form-group">
-    <a href="{% url 'course:create_subject' course.slug %}" data-toggle="modal" data-target="" class="btn btn-primary btn-lg btn-block btn-raised">{% trans 'Create Subject' %}<div class="ripple-container"></div></a>
+    {% if  user|has_role:'professor' and user in course.professors.all or user|has_role:'system_admin' %}
+      <div class="form-group">
+        <a href="{% url 'course:create_subject' course.slug %}" class="btn btn-primary btn-lg btn-block btn-raised">{% trans 'Create Subject' %}<div class="ripple-container"></div></a>
+      </div>
+    {% endif %}
   </div>
-{% endif %}
 </div>
+<div id="modal_course">
+
 </div>
 
 {% endblock %}

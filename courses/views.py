@@ -195,6 +195,7 @@ class ReplicateCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, Notificati
     def form_valid(self, form):
         self.object = form.save()
         self.object.professors.add(self.request.user)
+        messages.success(self.request,_("Course '%s' was successfully created!"%(self.object.name) ))
         return super(ReplicateCourseView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -254,7 +255,7 @@ class UpdateCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Updat
         self.log_context['course_category_name'] = self.object.category.name
 
         super(UpdateCourseView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
-
+        messages.success(self.request,_("Course '%s' was successfully updated!"%(self.object.name) ))
         return super(UpdateCourseView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -302,7 +303,10 @@ class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Delet
             courses = self.request.user.courses_professors.all()
         context['courses'] = courses
         context['title'] = course.name
-
+        if (self.request.GET.get('view') == 'index'):
+            context['index'] = True
+        else:
+            context['index'] = False
         return context
 
     def get_success_url(self):
@@ -313,7 +317,7 @@ class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Delet
         self.log_context['course_category_name'] = self.object.category.name
 
         super(DeleteCourseView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
-
+        messages.success(self.request,_("Successfully deleted!"))
         return reverse_lazy('course:manage')
 
 
@@ -415,18 +419,18 @@ class DeleteTopic(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.DeleteView
             context['subjects'] = self.object.subject.course.subjects.all()
         else:
             context['subjects'] = self.object.subject.course.subjects.filter(Q(visible=True) | Q(professors__in=[self.request.user]))
-        
+
         return context
 
     def get_success_url(self):
         self.log_context['topic_id'] = self.object.id
         self.log_context['topic_name'] = self.object.name
         self.log_context['topic_slug'] = self.object.slug
-        
+
         self.log_context['subject_id'] = self.object.subject.id
         self.log_context['subject_name'] = self.object.subject.name
         self.log_context['subject_slug'] = self.object.subject.slug
-        
+
         self.log_context['course_id'] = self.object.subject.course.id
         self.log_context['course_name'] = self.object.subject.course.name
         self.log_context['course_slug'] = self.object.subject.course.slug

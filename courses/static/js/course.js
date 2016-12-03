@@ -59,10 +59,9 @@ var RemoveCourse = {
       $.post(url,dados, function(data){
         $(id_li_link).remove();
         $("#modal_course").empty();
-        $("#accordion").remove();
         $(".modal-backdrop.in").remove();
         alertify.success("Course removed successfully!");
-        setTimeout(function () { location.reload(1); }, 1);
+        // setTimeout(function () { location.reload(1); }, 1);
       }).fail(function(){
         $("#modal_course").empty();
         $("#modal_course").append(data);
