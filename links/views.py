@@ -115,7 +115,7 @@ class DeleteLink(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.DeleteView)
 
     def dispatch(self, *args, **kwargs):
         link = get_object_or_404(Link, slug = self.kwargs.get('slug'))
-        if(not (link.topic.owner == self.request.user) and not(has_role(self.request.user, 'system_admin')) ):
+        if(not (has_role(self.request.user, 'professor')) or not(has_role(self.request.user, 'system_admin')) ):
             return self.handle_no_permission()
         return super(DeleteLink, self).dispatch(*args, **kwargs)
 
