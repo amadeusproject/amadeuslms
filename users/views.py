@@ -261,13 +261,14 @@ class SearchView(LoginRequiredMixin, generic.ListView):
 				forum_list = Forum.objects.filter(Q(name__icontains=search)and Q(students__name = self.request.user.name)).order_by('name')
 				qtd = len(link_list) + len(file_list) + len(poll_list) + len(exam_list) + len(forum_list)
 
-
+		translated = _('You searched for... ')
 		context['link_list'] = link_list
 		context['file_list'] = file_list
 		context['poll_list'] = poll_list
 		context['exam_list'] = exam_list
 		context['forum_list'] = forum_list
 		context['qtd'] = qtd
+		context['search'] = translated + search
 
 		return context
 
