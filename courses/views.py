@@ -26,6 +26,7 @@ from rolepermissions.verifications import has_role
 from users.models import User
 import operator
 import time
+from django.http import JsonResponse
 
 #API IMPORTS
 from rest_framework import viewsets, permissions
@@ -530,7 +531,6 @@ class UpdateCatView(LoginRequiredMixin, HasRoleMixin, generic.UpdateView):
     def get_success_url(self):
         objeto = self.object.name
         messages.success(self.request, _('Category "%s" updated successfully!')%(objeto))
-        #return reverse_lazy('course:update_cat', kwargs={'slug' : self.object.slug})
         return reverse_lazy('course:manage_cat')
 
 class DeleteCatView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
@@ -633,7 +633,7 @@ class UploadMaterialView(LoginRequiredMixin, generic.edit.CreateView):
 
         return self.success_url
 
-class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
+class TopicsView(LoginRequiredMixin, LogMixin, generic.TemplateView):
     log_component = "course"
     log_resource = "topic"
     log_action = "viewed"
@@ -641,8 +641,7 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
 
     login_url = reverse_lazy("core:home")
     redirect_field_name = 'next'
-    template_name = 'topic/index.html'
-    context_object_name = 'topics'
+    template_name = 'topic/view.html'
     model = Topic
 
     def dispatch(self, *args, **kwargs):
@@ -671,33 +670,12 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.ListView):
         return super(TopicsView, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
-        topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
-        subject = topic.subject
-        topics_q = Topic.objects.filter(subject = subject, visible=True)
-
-        return topics_q
+        return get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 
     def get_context_data(self, **kwargs):
         topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
         context = super(TopicsView, self).get_context_data(**kwargs)
-        activitys = Activity.objects.filter(topic__name = topic.name)
-        students_activit = User.objects.filter(activities__in = Activity.objects.all())
-        materials = Material.objects.filter(topic = topic)
-
-        users = User.objects.filter(subject_student__in = Subject.objects.all())
-        context['users'] = users
-        exercises = Exercise.objects.filter(Q(students=self.request.user)|Q(professors=self.request.user))
-        context['exercises'] = exercises
-
         context['topic'] = topic
-        context['subject'] = topic.subject
-        context['course'] = topic.subject.course
-        context['activitys'] = activitys
-        context['students_activit'] = students_activit
-        context['materials'] = materials
-        context['form'] = ActivityForm
-        context['title'] = topic.name
-
         return context
 
 
@@ -769,22 +747,16 @@ class UpdateTopicView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Update
         topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
         if(not has_object_permission('edit_topic', self.request.user, topic)):
             return self.handle_no_permission()
-        return super(UpdateTopicView, self).dispatch(*args, **kwargs)
+        context = super(UpdateTopicView, self).dispatch(*args, **kwargs)
+        return context
 
     def get_object(self, queryset=None):
         return get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 
-    def get_success_url(self):
-        return reverse_lazy('course:view_subject', kwargs={'slug' : self.object.subject.slug})
-
     def get_context_data(self, **kwargs):
         context = super(UpdateTopicView, self).get_context_data(**kwargs)
         topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
-        context['course'] = topic.subject.course
-        context['subject'] = topic.subject
-        context['subjects'] = topic.subject.course.subjects.filter(Q(visible=True) | Q(professors__in=[self.request.user]))
-        if (has_role(self.request.user,'system_admin')):
-            context['subjects'] = topic.subject.course.subjects.all()
+        context['topic'] = topic
         return context
 
     def form_valid(self, form):
@@ -804,7 +776,7 @@ class UpdateTopicView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Update
 
         super(UpdateTopicView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-        return super(UpdateTopicView, self).form_valid(form)
+        return JsonResponse({'url': reverse_lazy('course:view_topic', kwargs={'slug' : self.object.slug})})
 
 class CreateSubjectView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, generic.edit.CreateView):
     log_component = "course"

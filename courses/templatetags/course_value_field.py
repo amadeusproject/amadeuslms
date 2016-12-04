@@ -60,3 +60,14 @@ def value_subject_field(subject, field):
     elif field == 'visible':
         value = subject.visible
     return value
+
+@register.simple_tag
+def value_topic_field(topic, field):
+    value = ""
+    if field == 'name':
+        value = topic.name
+    elif field == 'description':
+        value = topic.description
+    elif field == 'visible':
+        value = topic.visible
+    return value

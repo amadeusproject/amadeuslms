@@ -7,10 +7,10 @@
   <script src="{% static 'js/file.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/modals_requisitions.js' %}"></script>
-  <script type = "text/javascript" src="{% static 'js/topic_editation_presentation.js' %}"></script>
   <script type = "text/javascript" src="{% static 'js/links.js' %}"></script>
   <script src="{% static 'js/modal_poll.js' %}"></script>
   <script src="{% static 'js/modal_subject.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/topic.js' %}"></script>
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -64,12 +64,13 @@
 
   {# lista de tópicos #}
   {% for topic in topics %}
-    {% professor_subject topic.subject user as topic_professor%}
-    {% if topic_professor %}
-      {% include "subject/form_view_teacher.html" %}
-    {% else %}
-      {% include "subject/form_view_student.html" %}
-    {% endif %}
+  {% include "topic/index.html" %}
+    {# {% professor_subject topic.subject user as topic_professor%}#}
+    {# {% if topic_professor %}#}
+      {# {% include "subject/form_view_teacher.html" %}#}
+    {# {% else %}#}
+      {# {% include "subject/form_view_student.html" %}#}
+    {# {% endif %}#}
   {% endfor %}
 
   {# botão create topic #}

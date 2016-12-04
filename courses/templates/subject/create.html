@@ -11,7 +11,7 @@
 
   <div class="panel panel-default">
     <div class="panel-body">
-      <form class="form-group " method="post" action="">
+      <form class="" method="post" action="">
         {% csrf_token %}
         {% for field in form %}
         <div class="form-group {% if field.errors %} has-error{% endif %}">

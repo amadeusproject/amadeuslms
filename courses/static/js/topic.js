@@ -1,30 +1,26 @@
-function openTopic(url, topic, btn) {
-    var icon = btn.find('i');
-    var action = '', log_id;
-
-    if (icon.hasClass('fa-angle-down')) {
-        icon.removeClass('fa-angle-down');
-        icon.addClass('fa-angle-up');
-        action = 'open';
-        log_id = -1;
-    } else {
-        icon.addClass('fa-angle-down');
-        icon.removeClass('fa-angle-up');
-        action = 'close';
-        log_id = $(".topic_" + topic).find(".log_id").val();
+var topic = {
+  get: function (url, id_div, faz){
+    if(!$(id_div + ' div').length || faz == 'true'){
+      $.get(url, function(data){
+        $(id_div).empty();
+        $(id_div).append(data);
+      });
     }
-
-    $.ajax({
-        url: url,
-        data: {"action": action, "log_id": log_id},
-        dataType: 'json',
-        success: function (data) {
-           if (action == 'open') {
-                $(".topic_" + topic).find(".log_id").val(data.log_id);
-           }
-        },
-        error: function(data) {
-            console.log('Error');
-        }
-    });
-}
+  },
+  post: function(url,dados,id_div){
+      $.post(url,dados, function(data){
+        $(id_div).empty();
+        $.ajax({
+          method: "get",
+          url: data['url'],
+          success: function(view){
+            $(id_div).append(view);
+          }
+        });
+        alertify.success("Topic updated successfully!");
+      }).fail(function(data){
+        $(id_div).empty();
+        $(id_div).append(data);
+      });
+  }
+};
