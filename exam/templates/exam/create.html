@@ -2,6 +2,10 @@
 
 {% load i18n widget_tweaks static django_bootstrap_breadcrumbs %}
 
+{% block style %}
+ <link rel="stylesheet" type="text/css" href="{% static 'css/exam.css' %}">
+{% endblock %}
+
 {% block breadcrumbs %}
     {{ block.super }}
     {% breadcrumb 'Create exam' 'course:create_exam' %}
@@ -56,7 +60,6 @@
         </div>
       </div>
     </div>
-
     <div class="row form-group" id="buttonAddQuestion">
       <div class="col-md-10">
         <button id="addQuestion" type="button" class="btn btn-raised btn-default">Add new question buton</button>
@@ -77,6 +80,7 @@
     //Insert Create select with question type
     var idQuestionType = 1;
     $("#addQuestion").on("click", function(event){
+      var title = '<h3 class="title-questions-exam">Choice your questions:</h3><br/>';
       var element =
       '<div class="row form-group" id="questionType_' + idQuestionType +'">' +
       '<label for="questionType" class="col-md-2 control-label">' +
@@ -90,10 +94,11 @@
             '</select>' +
           '</div>' +
         '</div>' + '<hr id="hr_'+idQuestionType+'">'
-        ;
+        ; 
         if (idQuestionType == 1){
-          $(element).insertAfter('#buttonAddQuestion');
-        }else{
+          $(title).insertBefore('#buttonAddQuestion');
+          $(element).insertBefore('#buttonAddQuestion');
+        }else{  
           var idhr = '#hr_'+(idQuestionType-1);
           $(element).insertAfter(idhr);
         }

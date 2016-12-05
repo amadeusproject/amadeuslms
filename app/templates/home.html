@@ -13,9 +13,9 @@
             var numberPages = 0 ; // Indicates the number of pages
           {% endif %}
           var baseUrl = '{% url "app:index" %}';
-        </script>
-        <script type="text/javascript" src="{% static 'js/home.js' %}"></script>
+        </script> 
     {% endif %}
+    <script type="text/javascript" src="{% static 'js/home.js' %}"></script>
 {% endblock %}
 
 {% block breadcrumbs %}
