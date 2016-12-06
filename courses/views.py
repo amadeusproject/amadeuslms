@@ -321,7 +321,7 @@ class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Delet
         return reverse_lazy('course:manage')
 
 
-class CourseView(LogMixin, NotificationMixin, generic.DetailView):
+class CourseView(LoginRequiredMixin, LogMixin, NotificationMixin, generic.DetailView):
     log_component = "courses"
     log_action = "viewed"
     log_resource = "course"
@@ -332,6 +332,7 @@ class CourseView(LogMixin, NotificationMixin, generic.DetailView):
     model = Course
     context_object_name = 'course'
     template_name = 'course/view.html'
+    
 
     def get_context_data(self, **kwargs):
         subjects = None
