@@ -35,6 +35,10 @@ var loadItems = function() {
         });
     }, 1000)
 };
+$(document).ready(function(){
+   $(window).bind('scroll', loadOnScroll);
+   $.material.init();
+});
 $(".accordion").bind('click', function(){
     var icon = $(this).find('span');
     if(icon.hasClass("glyphicon-chevron-down")){
@@ -43,10 +47,5 @@ $(".accordion").bind('click', function(){
     }else{
         $(this).find('span').removeClass('glyphicon-chevron-up');
         $(this).find('span').addClass('glyphicon-chevron-down');
-    };
-    
-});
-$(document).ready(function(){
-   $(window).bind('scroll', loadOnScroll);
-   $.material.init();
+    }
 });

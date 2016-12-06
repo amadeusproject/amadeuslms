@@ -3,6 +3,7 @@
 {% load static i18n django_bootstrap_breadcrumbs permission_tags %}
 
 {% block javascript %}
+    {{ block.super }}
     {% if page_obj %}
         <script type="text/javascript">
           {% if page_obj and paginator %}
@@ -15,7 +16,7 @@
           var baseUrl = '{% url "app:index" %}';
         </script> 
     {% endif %}
-    <script type="text/javascript" src="{% static 'js/home.js' %}"></script>
+    
 {% endblock %}
 
 {% block breadcrumbs %}

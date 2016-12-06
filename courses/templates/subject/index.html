@@ -3,13 +3,13 @@
 {% load static i18n permission_tags professor_access django_bootstrap_breadcrumbs %}
 
 {% block javascript %}
+  {{block.super}}
   <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
   <script src="{% static 'js/file.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/modals_requisitions.js' %}"></script>
   <script type = "text/javascript" src="{% static 'js/links.js' %}"></script>
   <script src="{% static 'js/modal_poll.js' %}"></script>
-  <script src="{% static 'js/modal_subject.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/topic.js' %}"></script>
 {% endblock %}
 

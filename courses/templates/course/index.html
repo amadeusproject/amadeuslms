@@ -3,6 +3,10 @@
 {% load static i18n permission_tags %}
 {% load django_bootstrap_breadcrumbs %}
 
+{% block javascript%}
+  {{ block.super }}
+{% endblock%}
+
 {% block breadcrumbs %}
 
 {{ block.super }}

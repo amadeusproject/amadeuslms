@@ -4,13 +4,14 @@
 {% load django_bootstrap_breadcrumbs %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/course/course.css' %}">
+ <!-- <link rel="stylesheet" href="{% static 'css/course/course.css' %}"> --> <!-- Este arquivo já nao se encontra no Sistema -->
 {% endblock style %}
 
 {% block javascript %}
+  {{block.super}}
   <script type="text/javascript" src="{% static 'js/course.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/modal_subject.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/topic_editation_presentation.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/topic_editation_presentation_search.js' %}"></script>
 {% endblock %}
 
 {% block breadcrumbs %}
