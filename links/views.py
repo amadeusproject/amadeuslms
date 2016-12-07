@@ -226,7 +226,7 @@ class ViewLink(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.DetailView):
     log_action = 'viewed'
     log_context = {}
 
-    allowed_roles = ['professor', 'system_admin']
+    allowed_roles = ['professor', 'system_admin','student']
     template_name = 'links/view_link.html'
     success_url = reverse_lazy('course:links:render_link')
     context_object_name = 'link'
