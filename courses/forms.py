@@ -20,7 +20,7 @@ class CategoryCourseForm(forms.ModelForm):
 		}
 
 class CourseForm(forms.ModelForm):
-	
+
 	class Meta:
 		model = Course
 		fields = ('name', 'category', 'coordenator','public')
@@ -73,9 +73,9 @@ class SubjectForm(forms.ModelForm):
 		return end_date
 
 	class Meta:
-		
+
 		model = Subject
-		fields = ('name', 'description','init_date', 'end_date', 'visible',)
+		fields = ('name', 'description','init_date', 'end_date', 'visible','students',)
 		localized_fields = ('init_date', 'end_date',)
 		labels = {
 			'name': _('Name'),
@@ -83,6 +83,7 @@ class SubjectForm(forms.ModelForm):
 			'init_date': _('Start date'),
 			'end_date': _('End date'),
 			'visible': _('Is it visible?'),
+			'students': _('Students')
 		}
 		help_texts = {
 			'name': _("Subjects's name"),
@@ -90,6 +91,7 @@ class SubjectForm(forms.ModelForm):
 			'init_date': _('Start date of the subject'),
 			'end_date': _('End date of the subject'),
 			'visible': _('Is the subject visible?'),
+			'students': _('The students that can participate in this subject. Hold down the "Control", or "Command" on the Mac, to select more than one option.')
 		}
 		widgets = {
 			'description':SummernoteWidget(),
@@ -156,5 +158,3 @@ class LinkMaterialForm(forms.ModelForm):
 	class Meta:
 		model = LinkMaterial
 		fields = ['material', 'name', 'description','url']
-
-
