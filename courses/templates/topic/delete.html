@@ -1,36 +1,28 @@
 {% load static i18n permission_tags %}
 
 <!-- Modal (remember to change the ids!!!) -->
-<div class="modal fade" id="subject" tabindex="-1" role="dialog" aria-labelledby="{{topic.slug}}_delete">
+<div class="modal fade" id="topic_delete_{{topic.slug}}" tabindex="-1" role="dialog" aria-labelledby="{{topic.slug}}_delete">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <!-- Modal Header -->
       <div class="modal-header">
 
-        <h4 class="modal-title" id="{{topic.slug}}_delete">{% trans "Delete Course" %}</h4>
+        <h4 class="modal-title">{% trans "Delete Topic" %}</h4>
       </div>
       <!-- Modal Body -->
       <div class="modal-body">
         <!-- Put ONLY your content here!!!  -->
-		<form id="delete_topic_{{topic.slug}}" action="" method="post">
+		<form id="topic_form" action="" method="post">
 		  {% csrf_token %}
-		    <p>{% trans 'Are you sure you want to delete the subject' %} "{{subject.name}}"?</p>
+		    <p>{% trans 'Are you sure you want to delete the topic' %} "{{topic.name}}"?</p>
 		</form>
       </div>
       <!-- Modal Footer -->
       <div class="modal-footer">
         <!-- Don't remove that!!!  -->
         <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
-        <button type="submit" id="button" form="delete_topic_{{topic.slug}}" class="btn btn-primary btn-raised">{% trans "Delete" %}</button>
-		<script>
-		  $("#delete_topic_{{topic.slug}}").submit(function(event) {
-		    RemoveCourse.remove("{% url 'course:delete_subject' subject.slug %}",$(this).serialize(),"#subject_{{subject.slug}}");
-		    event.preventDefault();
-		  });
-		</script>
+        <button type="submit" id="button" form="topic_form" class="btn btn-primary btn-raised">{% trans "Delete" %}</button>
       </div>
     </div>
   </div>
 </div>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="{% static 'js/modal_subject.js' %}"></script>

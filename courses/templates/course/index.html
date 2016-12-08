@@ -3,87 +3,64 @@
 {% load static i18n permission_tags %}
 {% load django_bootstrap_breadcrumbs %}
 
+{% block javascript%}
+  {{ block.super }}
+{% endblock%}
+
 {% block breadcrumbs %}
 
-  {{ block.super }}
-  {% breadcrumb 'Courses' 'course:manage' %}
+{{ block.super }}
+{% breadcrumb 'Courses' 'course:manage' %}
 
 {% endblock %}
 
 {% block content %}
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-success alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <p>{{ message }}</p>
-            </div>
-        {% endfor %}
-    {% endif %}
+{% if messages %}
+{% for message in messages %}
+  <script type="text/javascript">
+    alertify.success('{{message}}');
+  </script>
+{% endfor %}
+{% endif %}
 
 <div class="col-md-12 cards-content">
-    <form id="searchform" method="get" accept-charset="utf-8">
-        <div class="input-group">
-          <div class="form-group is-empty">
-          <input type="text" class="form-control" placeholder="Search Courses" name="q"></div>
-            <span class="input-group-btn input-group-sm">
-              <button type="submit" class="btn btn-fab btn-fab-mini">
-                <i class="fa fa-search" aria-hidden="true"></i>
-              </button>
-            </span>
-        </div>
-    </form>
+  <form id="searchform" method="get" accept-charset="utf-8">
+    <div class="input-group">
+      <div class="form-group is-empty">
+        <input type="text" class="form-control" placeholder="{% trans 'Search for Courses' %}" name="q">
+      </div>
+      <span class="input-group-btn input-group-sm">
+        <button type="submit" class="btn btn-fab btn-fab-mini">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+      </span>
+    </div>
+  </form>
 </div>
-
-</fieldset>
-    <div class="col-md-12 cards-content">
-        {% for category in categorys_courses  %}
-            <div class="panel-group course-card-group">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h4 class="panel-title">
-                                    <a  class="category-course-link" data-toggle="collapse" href="#{{category.slug}}">{{category.name}}</a>
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="{{category.slug}}" class="panel-collapse collapse">
-                        {% for course in category.course_category %}
-                            {# {% if user in course.students.all or user in course.professors.all or user|has_role:'system_admin' %}#}
-                                 {% include "course/course_card.html" %}
-                            {# {% endif %}#}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-
+<div class="col-md-12 cards-content">
+  {% for category in categorys_courses  %}
+  <div class="panel-group course-card-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h4 class="panel-title">
+              <a  class="category-course-link" data-toggle="collapse" href="#{{category.slug}}">{{category.name}}</a>
+            </h4>
+          </div>
+        </div>
+      </div>
+      <div id="{{category.slug}}" class="panel-collapse collapse">
+        {% for course in category.course_category %}
+          {% include "course/course_card.html" %}
         {% endfor %}
+      </div>
     </div>
-        <div class="col-md-12">
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                {% if page_obj.has_previous %}
-                    <li>
-                        <a href="?page={{ page_obj.previous_page_number }}"><span><<</span></a>
-                    </li>
-                {% endif %}
-                {% for page_number in paginator.page_range %}
-                    <li{% if page_obj.number == page_number %} class="active"{% endif %}>
-                        <a href="?page={{ page_number }}">{{ page_number }}</a>
-                    </li>
-                {% endfor %}
-                {% if page_obj.has_next %}
-                    <li>
-                        <a href="?page={{ page_obj.next_page_number }}"><span>>></span></a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-        <div class="row" id="modal_course">
-    </div>
-    <script type="text/javascript" src="{% static 'js/course.js' %}"></script>
+  </div>
+  {% endfor %}
+</div>
+<div id="modal_course">
+
+</div>
+<script type="text/javascript" src="{% static 'js/course.js' %}"></script>
 {% endblock %}

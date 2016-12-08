@@ -106,14 +106,14 @@ class GuestView (ListView):
 	template_name = 'guest.html'
 	context_object_name = 'courses'
 	queryset = CourseCategory.objects.all()
-	paginate_by = 10
+	paginate_by = 3
 
 	def get_context_data (self, **kwargs):
 		context = super(GuestView, self).get_context_data(**kwargs)
 		context['title'] = _("Guest")
 		queryset_list = CourseCategory.objects.all()
 
-		paginator = Paginator(queryset_list, 10)
+		paginator = Paginator(queryset_list, 3)
 		page = self.request.GET.get('page')
 		try:
 			queryset_list = paginator.page(page)

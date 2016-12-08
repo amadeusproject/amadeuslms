@@ -1,138 +1,41 @@
-{% extends 'home.html' %}
+{% load i18n professor_access %}
 
-{% load static i18n permission_tags professor_access %}
+<div class="panel panel-default cards-detail">
+  <div class="panel-heading topic">
+    <div class="row">
+      <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{topic.slug}}" href=".collapseTopic-{{topic.slug}}" aria-expanded="false" aria-controls="collapseTopic-{{topic.slug}}">
+        <button class="btn btn-default btn-sm caret-square" onclick="topic.get('{% url 'course:view_topic' topic.slug %}', '#content_topic_{{topic.slug}}', 'false');"><i class="fa fa-angle-down fa-2x" aria-hidden="true"></i></button>
+      </div>
+      <div class="col-xs-9 col-md-9 titleTopic Topic-detail">
+        <a role="button">
+          <h4>{{topic}}</h4>
+        </a>
+      </div><!--column -->
+      <div class="col-xs-3 col-md-2 divMoreActions">
+        <div class="btn-group">
+          <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+          </button>
 
-
-{% block javascript %}
-        <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
-        <script src="{% static 'js/file.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
-        <script type = "text/javascript" src="{% static 'links.js' %}"></script>
-{% endblock %}
-
-
-{% block breadcrumbs %}
-
-	<ol class="breadcrumb">
-	  	<li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-	  	<li><a href="{% url 'course:view_subject' subject.slug %}">{{ subject }}</a></li>
-			{% professor_subject subject user as maneger_topic%}
-			{% if maneger_topic %}
-	  		<li class="active">{% trans 'Manage Topic' %}</li>
-	  	{% else %}
-	  		<li class="active">{{ topic.name }}</li>
-	  	{% endif %}
-
-	</ol>
-{% endblock %}
-
-{% block content %}
-<div class="col-md-12 col-xs-12 col-sm-12">
-<div class="panel panel-info">
-    <div class="panel-heading">
-			<div class="row">
-	      <div class="col-md-10 col-sm-7">
-	        <h3> {{topic.name}} </h3>
-	      </div>
-	      <div class="col-xs-4 col-md-2 divMoreActions">
-					{% professor_subject subject user as permissions%}
-          {% if permissions %}
-            <div class="btn-group">
-              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-              </button>
-              <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-                <li>
-                    <a href="javascript:void(0)"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a>
-                </li>
-                <li>
-                    <a href="{% url 'course:update_subject' subject.slug %}" data-toggle="modal" data-target="#editSubject"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a>
-                </li>
-                <li>
-                    <a href="{% url 'course:delete_subject' subject.slug %}" data-toggle="modal" data-target="#removeSubject"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a>
-                </li>
-              </ul>
-            </div>
+          {# dropdown de topic com as opções de replicar, editar e deletar #}
+          {% professor_subject topic.subject user as dropdown_topic %}
+          {% if dropdown_topic %} 
+          <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+            <li><a href="{% url 'course:replicate_topic' topic.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
+            <li><a href="javascript:topic.get('{% url 'course:update_topic' topic.slug %}','#content_topic_{{topic.slug}}','true');"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
+            <li><a href="javascript:delete_topic.get('{% url 'course:delete_topic' topic.slug %}?view=index','#topic_delete_{{topic.slug}}','#modal_topic');"><i class="fa fa-trash fa-fw"  aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
+          </ul>
           {% endif %}
         </div>
-	    </div>
-    </div>
-    <div class="panel-body">
-      <p>
-        {{topic.description|safe}}
-      </p>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-body">
-        {% include "topic/topic_card.html" %}
-        {% comment %}
-
-
-    <!--{% for activit in activitys %}
-      <form class="form-horizontal" enctype='multipart/form-data'>{% csrf_token %}
-        <fieldset>
-          <legend>{{activit.name}}</legend>
-
-
-          {% for student in students_activit %}
-            <div class="panel-group" id="accordion">
-              <div class="panel panel-info">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                      {{student.name}} <i class="fa fa-plus-square" aria-hidden="true"></i></a>
-                    </h4>
-                  </div>
-                  <div id="collapse1" class="panel-collapse collapse">
-                    <div class="panel-body">
-                     <div class="row">
-                      <div class="col-md-4">
-                       <i class="fa fa-file-archive-o fa-lg" aria-hidden="true">{% trans 'Atividade.doc' %}</i>
-                     </div>
-										 {% professor_subject subject user as permi_test%}
-                     {% if permi_test %}
-                        <div class="col-md-4">
-                          <label> {% trans 'Grade' %}:</label>
-                          <input type="number" step="0.01">
-                        </div>
-                      {% else %}
-                      <div class="col-md-4">
-                        <input type="hidden" name="id" value="">
-                        <input type="hidden" name="student" value="">
-                        <div class="form-group {% if form.pdf.errors %} has-error {% endif %}">
-                            {{ form.as_p }}
-                        </div>
-                        <button type="submit" class="btn btn-success" id="send_button">{% trans 'Send' %}</button>
-                      </div>
-                     {% endif %}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-    </fieldset>
-  </form>-->
-{% endcomment %}
       </div>
     </div>
-</div>
-  <div class="col-md-6">
-      <h3>{% trans 'Students - Specific Exercises' %}</h3>  
-      <br/>  
   </div>
-    {# mostra a lista de usuários caso seja um professor ou admin #}
-  {% if user|has_role:'professor' or user|has_role:'system_admin' %}
-    {% for user in users %}
-      {% include "exercise/card_list_user.html" %}
-    {% endfor %}
-  {% endif %}
-  {# caso seja um estudante, mostra a lista de exercícios proposta a ele #}
-  {% if user|has_role:'student'%}
-    {% for exercise in exercises %}
-      {% include "exercise/card_topic_exercises.html" %}
-    {% endfor %}
-  {% endif %}
-{% endblock %}
+  <div class="panel-collapse collapseTopic-{{topic.slug}} topic_{{ topic.id }} collapse" role="tabpanel" aria-labelledby="heading_{{topic.id}}" aria-expanded="false" aria-hidden="true">
+    <div class="panel-body" id="content_topic_{{topic.slug}}">
+      
+    </div>
+  </div>
+</div>
+<div id="modal_topic">
+
+</div>

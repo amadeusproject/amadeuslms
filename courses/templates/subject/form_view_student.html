@@ -6,6 +6,7 @@
       <script src="{% static 'js/file.js' %}"></script>
       <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
       <script type = "text/javascript" src="{% static 'links.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/topic.js' %}"></script>
   {% endblock %}
 <div class="cards-detail">
   <div class="panel-group accordion ui-accordion ui-widget ui-helper-reset ui-sortable" role="tablist" aria-multiselectable="false">
@@ -13,7 +14,7 @@
       <div class="panel-heading topic ui-sortable-handle" role="tab">
       <div class="row">
         <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{topic.slug}}" href=".collapseTopic-{{topic.slug}}" aria-expanded="false" aria-controls="collapseTopic-{{topic.slug}}">
-          <button class="btn btn-default btn-sm caret-square"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
+          <button class="btn btn-default btn-sm caret-square" onclick="openTopic('{% url 'course:topic_log' topic.id %}', '{{topic.id}}', $(this));"><i class="fa fa-caret-square-o-down fa-2x" aria-hidden="true"></i></button>
         </div>
         <div class="col-xs-9 col-md-9 titleTopic">
           <a href="{% url 'course:view_topic' topic.slug %}" role="button">
@@ -22,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div class="panel-collapse collapseTopic-{{topic.slug}} collapse in" role="tabpanel" aria-labelledby="heading_{{topic.id}}" aria-expanded="true" aria-hidden="false">
+    <div class="panel-collapse collapseTopic-{{topic.slug}} collapse" role="tabpanel" aria-labelledby="heading_{{topic.id}}" aria-expanded="false" aria-hidden="true">
       <div class="panel-body">
         <div class="presentation">
           <p>
@@ -32,8 +33,7 @@
           </p>
 
         </div>
-      </div>
-    </div>
+
 
     {% if not professor_links %}
       <div class="row">
@@ -82,4 +82,6 @@
         {% include "links/update_link.html" %}
     {% endif %}
     </div>
+    </div>
+     </div>
     </div>

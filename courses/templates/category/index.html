@@ -1,77 +1,57 @@
 {% extends 'home.html' %}
 
-{% load static i18n %}
 {% load static i18n permission_tags django_bootstrap_breadcrumbs %}
 {% load widget_tweaks %}
 
 {% block breadcrumbs %}
 
-  {{ block.super }}
-  {% breadcrumb 'Manage Categories' 'course:manage_cat' %}
+{{ block.super }}
+{% breadcrumb 'Manage Categories' 'course:manage_cat' %}
 
 {% endblock %}
 
-{% block content %}
-	{% if messages %}
-		{% for message in messages %}
-			<div class="alert alert-success alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<p>{{ message }}</p>
-			</div>
-		{% endfor %}
-	{% endif %}
-	{% if categories|length > 0 %}
-		{% for category in categories %}
-			<div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="accordion" role="tablist" aria-multiselectable="false">
-			    <div class="group">
-					<div class="panel panel-info">
-					    <div class="panel-heading" role="tab">
-					      <div class="row">
-					        <div class="col-xs-9 col-md-11 titleTopic">
-					          <h4 style="color:white; margin-left: 20px;">{{category}}</h4>
-					        </div>
-						        <div class="col-xs-4 col-md-1" id="divMoreActions">
-						            <div class="btn-group">
-						              <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-						              </button>
-						              <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-						                <li><a href="{% url 'course:update_cat' category.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Update' %}</a></li>
-						                <li><a href="javascript:modal.get('{% url 'course:delete_cat' category.slug %}','#category','#modal_category');"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remover' %}</a></li>
-						              </ul>
-						            </div>
-						        </div>
+{# {% block javascript %}#}
+  {# <script src="{% static 'js/modals_requisitions.js' %}"></script>#}
+{# {% endblock %}#}
 
-					      </div>
-					    </div>
-					</div>
-				</div>
-			</div>
-		{% endfor %}
-	{% endif %}
-	<div class="col-md-12">
-		<nav aria-label="Page navigation">
-			<ul class="pagination">
-				{% if page_obj.has_previous %}
-				    <li>
-				        <a href="?page={{ page_obj.previous_page_number }}"><span><<</span></a>
-				    </li>
-				{% endif %}
-			    {% for page_number in paginator.page_range %}
-					<li{% if page_obj.number == page_number %} class="active"{% endif %}>
-	    				<a href="?page={{ page_number }}">{{ page_number }}</a>
-					</li>
-				{% endfor %}
-				{% if page_obj.has_next %}
-				    <li>
-				        <a href="?page={{ page_obj.next_page_number }}"><span>>></span></a>
-				    </li>
-				{% endif %}
-			</ul>
-		</nav>
-	</div>
-	<div class="row" id="modal_category">
-<script src="{% static 'js/modal_category.js' %}"></script>
+{% block content %}
+<script src="{% static 'js/modals_requisitions.js' %}"></script>
+  {% if messages %}
+    {% for message in messages %}
+      <script type="text/javascript">
+        alertify.success('{{message}}');
+      </script>
+    {% endfor %}
+    {% endif %}
+    {% if categories|length > 0 %}
+    {% for category in categories %}
+    <div class="panel-group ui-accordion ui-widget ui-helper-reset ui-sortable" id="category_{{category.slug}}" role="tablist" aria-multiselectable="false">
+      <div class="group">
+        <div class="panel panel-info">
+          <div class="panel-heading" role="tab">
+            <div class="row">
+              <div class="col-xs-9 col-md-11 titleTopic">
+                <h4 style="color:white; margin-left: 20px;">{{category}}</h4>
+              </div>
+              <div class="col-xs-4 col-md-1" id="divMoreActions">
+                <div class="btn-group">
+                  <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+                  </button>
+                  <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                    <li><a href="{% url 'course:update_cat' category.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Update' %}</a></li>
+                    <li><a href="javascript:modal.get('{% url 'course:delete_cat' category.slug %}','#category','#modal_remove_cat');"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remover' %}</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  {% endif %}
+  <div id="modal_remove_cat">
+
+  </div>
 {% endblock %}

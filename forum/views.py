@@ -245,6 +245,9 @@ class ForumDetailView(LoginRequiredMixin, LogMixin, generic.DetailView):
 		context['form'] = PostForm()
 		context['forum'] = forum
 		context['title'] = forum.name
+		context['course'] = forum.topic.subject.course
+		context['subject'] = forum.topic.subject
+		context['topic'] = forum.topic
 
 		return context
 

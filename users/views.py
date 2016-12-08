@@ -45,6 +45,11 @@ class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 
 		return users
 
+	def get_context_data (self, **kwargs):
+		context = super(UsersListView, self).get_context_data(**kwargs)
+		context['title'] = 'Manage Users | Amadeus'
+		return context
+
 class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
 
 	allowed_roles = ['system_admin']
@@ -67,12 +72,12 @@ class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
 
 		self.object.save()
 
-		messages.success(self.request, _('User ')+self.object.name+(' created successfully!'))
+		messages.success(self.request, ('User ')+self.object.name+(' created successfully!'))
 
 		return super(Create, self).form_valid(form)
 	def get_context_data (self, **kwargs):
 		context = super(Create, self).get_context_data(**kwargs)
-		context['title'] = _("Add User")
+		context['title'] = "Add User | Amadeus"
 		return context
 
 class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
@@ -100,9 +105,14 @@ class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
 
 		self.object.save()
 
-		messages.success(self.request, _('User ')+self.object.name+(' updated successfully!'))
+		messages.success(self.request, _('User ')+self.object.name+_(' updated successfully!'))
 
 		return super(Update, self).form_valid(form)
+
+	def get_context_data (self, **kwargs):
+		context = super(Update, self).get_context_data(**kwargs)
+		context['title'] = "Update User | Amadeus"
+		return context
 
 class View(LoginRequiredMixin, generic.DetailView):
 
@@ -113,6 +123,11 @@ class View(LoginRequiredMixin, generic.DetailView):
 	template_name = 'users/view.html'
 	slug_field = 'username'
 	slug_url_kwarg = 'username'
+
+	def get_context_data (self, **kwargs):
+		context = super(View, self).get_context_data(**kwargs)
+		context['title'] = "User | Amadeus"
+		return context
 
 def delete_user(request,username):
 	user = get_object_or_404(User,username = username)
@@ -129,9 +144,18 @@ def remove_account(request,username):
 class Change_password(generic.TemplateView):
 	template_name = 'users/change_password.html'
 
+	def get_context_data (self, **kwargs):
+		context = super(Change_password, self).get_context_data(**kwargs)
+		context['title'] = "Change Password | Amadeus"
+		return context
+
 class Remove_account(generic.TemplateView):
 	template_name = 'users/remove_account.html'
 
+	def get_context_data (self, **kwargs):
+		context = super(Remove_account, self).get_context_data(**kwargs)
+		context['title'] = "Remove Account | Amadeus"
+		return context
 
 class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
 	login_url = reverse_lazy("core:home")
@@ -145,6 +169,7 @@ class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(UpdateProfile, self).get_context_data(**kwargs)
+		context['title'] = 'Update Profile | Amadeus'
 		if has_role(self.request.user, 'system_admin'):
 			context['form'] = UpdateProfileFormAdmin(instance = self.object)
 		else:
@@ -179,6 +204,12 @@ class Profile(LoginRequiredMixin, generic.DetailView):
 	def get_object(self):
 		user = get_object_or_404(User, username = self.request.user.username)
 		return user
+
+	def get_context_data (self, **kwargs):
+		context = super(Profile, self).get_context_data(**kwargs)
+		context['title'] = "Profile | Amadeus"
+		return context
+
 class SearchView(LoginRequiredMixin, generic.ListView):
 
 	login_url = reverse_lazy("core:home")
@@ -230,13 +261,14 @@ class SearchView(LoginRequiredMixin, generic.ListView):
 				forum_list = Forum.objects.filter(Q(name__icontains=search)and Q(students__name = self.request.user.name)).order_by('name')
 				qtd = len(link_list) + len(file_list) + len(poll_list) + len(exam_list) + len(forum_list)
 
-
+		translated = _('You searched for... ')
 		context['link_list'] = link_list
 		context['file_list'] = file_list
 		context['poll_list'] = poll_list
 		context['exam_list'] = exam_list
 		context['forum_list'] = forum_list
 		context['qtd'] = qtd
+		context['search'] = translated + search
 
 		return context
 

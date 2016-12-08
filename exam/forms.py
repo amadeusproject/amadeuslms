@@ -25,7 +25,7 @@ class ExamForm(forms.ModelForm):
 
     class Meta:
         model = Exam
-        fields = ['name','begin_date','limit_date','students','all_students']
+        fields = ['name','begin_date','limit_date','students','all_students', 'begin_exam', 'end_exam']
 
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Exam?'}),

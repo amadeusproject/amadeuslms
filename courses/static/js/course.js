@@ -49,20 +49,21 @@ function subscribe(elem, url, id, confirm_message) {
 
 /*
 *
-* Function to delete a course 
+* Function to delete a course
 *
 */
 
 var RemoveCourse = {
   remove: function(url,dados,id_li_link){
-    $('#course').modal('hide');
+    $('#course').modal().hide();
       $.post(url,dados, function(data){
         $(id_li_link).remove();
+        // alert("certo");
+        $('body').removeClass('modal-open');
         $("#modal_course").empty();
-        $("#accordion").remove();
         $(".modal-backdrop.in").remove();
         alertify.success("Course removed successfully!");
-        setTimeout(function () { location.reload(1); }, 2000);
+        // setTimeout(function () { location.reload(1); }, 1);
       }).fail(function(){
         $("#modal_course").empty();
         $("#modal_course").append(data);
@@ -84,7 +85,7 @@ var delete_course = {
     });
   }
 };
-/* 
+/*
 *
 * Function to load create course's form
 *

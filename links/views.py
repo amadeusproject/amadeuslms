@@ -47,8 +47,12 @@ class CreateLink(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, 
         self.object.topic = topic
         self.object.save()
         self.link = Link.objects.get(slug = self.object.slug)
-        self.formato,self.baixado = get_images(self.link.link_url,self.link.slug)
-        self.caminho = 'links/static/images/%s'%(self.link.slug)+'%s'%(self.formato)
+        try:
+            self.formato,self.baixado = get_images(self.link.link_url,self.link.slug)
+            self.caminho = 'links/static/images/%s'%(self.link.slug)+'%s'%(self.formato)
+        except Exception:
+            self.baixado = False
+
 
         super(CreateLink, self).createNotification(message="created a Link at "+ self.object.topic.name, actor=self.request.user,
             resource_name=self.object.name, resource_link= reverse('course:view_topic', args=[self.object.topic.slug]),
@@ -111,7 +115,7 @@ class DeleteLink(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.DeleteView)
 
     def dispatch(self, *args, **kwargs):
         link = get_object_or_404(Link, slug = self.kwargs.get('slug'))
-        if(not (link.topic.owner == self.request.user) and not(has_role(self.request.user, 'system_admin')) ):
+        if(not (has_role(self.request.user, 'professor')) or not(has_role(self.request.user, 'system_admin')) ):
             return self.handle_no_permission()
         return super(DeleteLink, self).dispatch(*args, **kwargs)
 
@@ -122,7 +126,7 @@ class DeleteLink(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.DeleteView)
         context['link'] = self.object
         context["topic"] = self.object.topic
         return context
-    
+
     def get_success_url(self):
         self.log_context['link_id'] = self.object.id
         self.log_context['link_name'] = self.object.name
@@ -222,7 +226,7 @@ class ViewLink(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.DetailView):
     log_action = 'viewed'
     log_context = {}
 
-    allowed_roles = ['professor', 'system_admin']
+    allowed_roles = ['professor', 'system_admin','student']
     template_name = 'links/view_link.html'
     success_url = reverse_lazy('course:links:render_link')
     context_object_name = 'link'
@@ -231,7 +235,7 @@ class ViewLink(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.DetailView):
         context = {}
         link = Link.objects.get(slug = self.kwargs.get('slug'))
         context['link'] = link
-        
+
         self.log_context['link_id'] = link.id
         self.log_context['link_name'] = link.name
         self.log_context['topic_id'] = link.topic.id
@@ -248,7 +252,7 @@ class ViewLink(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.DetailView):
         self.log_context['timestamp_start'] = str(int(time.time()))
 
         super(ViewLink, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
-        
+
         return context
 
     def get_success_url(self):

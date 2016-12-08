@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-17 09:46-0300\n"
+"POT-Creation-Date: 2016-12-07 14:36-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "Por favor, insira um CPF válido"
 msgid "Please enter a valid date"
 msgstr "Por favor, insira uma data válida"
 
-#: .\models.py:11 .\templates\users\profile.html:64
+#: .\models.py:11 .\templates\users\profile.html:58
 msgid "Login"
 msgstr "Login"
 
@@ -49,8 +49,8 @@ msgstr ""
 msgid "Mail"
 msgstr "Email"
 
-#: .\models.py:19 .\templates\list_users.html:58
-#: .\templates\users\profile.html:60
+#: .\models.py:19 .\templates\list_users.html:55
+#: .\templates\users\profile.html:54
 msgid "Name"
 msgstr "Nome"
 
@@ -62,7 +62,7 @@ msgstr "Cidade"
 msgid "State"
 msgstr "Estado"
 
-#: .\models.py:22 .\templates\users\profile.html:108
+#: .\models.py:22 .\templates\users\profile.html:102
 msgid "Gender"
 msgstr "Gênero"
 
@@ -78,7 +78,7 @@ msgstr "Feminino"
 msgid "Photo"
 msgstr "Foto"
 
-#: .\models.py:24 .\templates\users\profile.html:112
+#: .\models.py:24 .\templates\users\profile.html:106
 msgid "Birth Date"
 msgstr "Data de nascimento"
 
@@ -86,7 +86,7 @@ msgstr "Data de nascimento"
 msgid "Phone"
 msgstr "Telefone"
 
-#: .\models.py:26 .\templates\users\profile.html:89
+#: .\models.py:26 .\templates\users\profile.html:83
 msgid "CPF"
 msgstr "CPF"
 
@@ -98,7 +98,7 @@ msgstr "Tipo"
 msgid "Professor"
 msgstr "Professor"
 
-#: .\models.py:27 .\templates\users\profile.html:84
+#: .\models.py:27 .\templates\users\profile.html:78
 msgid "Student"
 msgstr "Aluno"
 
@@ -110,11 +110,11 @@ msgstr "Título"
 msgid "Year of titration"
 msgstr "Ano do título"
 
-#: .\models.py:30 .\templates\users\profile.html:128
+#: .\models.py:30 .\templates\users\profile.html:122
 msgid "Institution"
 msgstr "Instituição"
 
-#: .\models.py:31 .\templates\users\profile.html:136
+#: .\models.py:31 .\templates\users\profile.html:130
 msgid "Curriculum"
 msgstr "Currículo"
 
@@ -139,50 +139,45 @@ msgstr "Usuário"
 msgid "Users"
 msgstr "Usuários"
 
-#: .\templates\list_users.html:14 .\templates\users\index.html:13
-#: .\templates\users\profile.html:16
-msgid "Add User"
-msgstr "Adicionar usuário"
-
-#: .\templates\list_users.html:32
+#: .\templates\list_users.html:29
 msgid "Search..."
 msgstr "Pesquisar..."
 
-#: .\templates\list_users.html:59
+#: .\templates\list_users.html:56
 msgid "Profile"
 msgstr "Perfil"
 
-#: .\templates\list_users.html:60 .\templates\users\profile.html:68
+#: .\templates\list_users.html:57 .\templates\users\profile.html:62
 msgid "Email"
 msgstr "Email"
 
-#: .\templates\list_users.html:61
+#: .\templates\list_users.html:58
 msgid "Contact"
 msgstr "Contato"
 
-#: .\templates\list_users.html:63
+#: .\templates\list_users.html:60
 msgid "Edit"
 msgstr "Editar"
 
-#: .\templates\list_users.html:64 .\templates\list_users.html:82
+#: .\templates\list_users.html:61 .\templates\list_users.html:79
 msgid "Delete"
 msgstr "Apagar"
 
-#: .\templates\list_users.html:75
+#: .\templates\list_users.html:72
 msgid "Confirm delete"
 msgstr "Confirmar"
 
-#: .\templates\list_users.html:78
+#: .\templates\list_users.html:75
 msgid "Are you sure you want to delete the user"
 msgstr "Você tem certeza que deseja deletar o usuário"
 
-#: .\templates\list_users.html:81 .\templates\users\change_password.html:47
+#: .\templates\list_users.html:78 .\templates\users\change_password.html:47
 #: .\templates\users\create.html:130 .\templates\users\edit_profile.html:102
 #: .\templates\users\remove_account.html:35 .\templates\users\update.html:83
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: .\templates\list_users.html:94 .\templates\users\index.html:64
+#: .\templates\list_users.html:91 .\templates\users\index.html:64
 msgid "No users found"
 msgstr "Nenhum usuário encontrado"
 
@@ -190,11 +185,15 @@ msgstr "Nenhum usuário encontrado"
 msgid "Current Password"
 msgstr "Senha atual"
 
-#: .\templates\users\change_password.html:35
-#, fuzzy
-#| msgid "Password"
-msgid "New Password"
+#: .\templates\users\change_password.html:32
+#: .\templates\users\change_password.html:36
+#: .\templates\users\change_password.html:40
+msgid "Password"
 msgstr "Senha"
+
+#: .\templates\users\change_password.html:35
+msgid "New Password"
+msgstr "Nova Senha"
 
 #: .\templates\users\change_password.html:39
 msgid "Confirmation"
@@ -222,61 +221,59 @@ msgstr "Início"
 msgid "Manage Users"
 msgstr "Gerenciar Usuários"
 
-#: .\templates\users\profile.html:51
-#, fuzzy
-#| msgid "State"
+#: .\templates\users\profile.html:45
 msgid "Status"
 msgstr "Estado"
 
-#: .\templates\users\profile.html:53
+#: .\templates\users\profile.html:47
 msgid "Online"
 msgstr "Conectado"
 
-#: .\templates\users\profile.html:55
+#: .\templates\users\profile.html:49
 msgid "OffLine"
 msgstr "Desconectado"
 
-#: .\templates\users\profile.html:80
+#: .\templates\users\profile.html:74
 msgid "User role"
 msgstr "Tipo de usuário"
 
-#: .\templates\users\profile.html:82
+#: .\templates\users\profile.html:76
 msgid "Teacher"
 msgstr "Professor"
 
-#: .\templates\users\profile.html:94
+#: .\templates\users\profile.html:88
 #, fuzzy
 #| msgid "doesn't posssess CPF"
 msgid "doesn't possess CPF"
 msgstr "Não possui CPF"
 
-#: .\templates\users\profile.html:99
+#: .\templates\users\profile.html:93
 msgid "Phone Number"
 msgstr "Telefone"
 
-#: .\templates\users\profile.html:103
+#: .\templates\users\profile.html:97
 #, fuzzy
 #| msgid "doesn't posssess Phone"
 msgid "doesn't possess Phone"
 msgstr "Não possui telefone"
 
-#: .\templates\users\profile.html:116
+#: .\templates\users\profile.html:110
 msgid "State and City"
 msgstr "Estado e cidade"
 
-#: .\templates\users\profile.html:120
+#: .\templates\users\profile.html:114
 msgid "Title"
 msgstr "Título"
 
-#: .\templates\users\profile.html:124
+#: .\templates\users\profile.html:118
 msgid "Year"
 msgstr "Ano"
 
-#: .\templates\users\profile.html:132
+#: .\templates\users\profile.html:126
 msgid "Didn't inform institution"
 msgstr "Não informou a instituição"
 
-#: .\templates\users\profile.html:142
+#: .\templates\users\profile.html:136
 msgid "Didn't upload any curriculum"
 msgstr "Não enviou nenhum currículo"
 
@@ -294,7 +291,7 @@ msgstr ""
 msgid "Remove"
 msgstr "Remover"
 
-#: .\templates\users\search.html:131
+#: .\templates\users\search.html:130
 msgid "poll"
 msgstr ""
 
@@ -314,23 +311,35 @@ msgstr "CPF"
 msgid "Birth date:"
 msgstr "Data de nascimento:"
 
-#: .\views.py:70
-msgid "User created successfully!"
-msgstr "Usuário criado com sucesso!"
+#: .\views.py:108
+#, fuzzy
+#| msgid "User"
+msgid "User "
+msgstr "Usuário "
 
-#: .\views.py:99
-msgid "User edited successfully!"
-msgstr "Usuário editado com sucesso!"
+#: .\views.py:108
+msgid " updated successfully!"
+msgstr " editado com sucesso!"
 
-#: .\views.py:116 .\views.py:122
+#: .\views.py:135 .\views.py:141
 #, fuzzy
 #| msgid "User edited successfully!"
 msgid "User deleted Successfully!"
-msgstr "Usuário editado com sucesso!"
+msgstr "Usuário apagado com sucesso!"
 
-#: .\views.py:152
+#: .\views.py:181
 msgid "Profile edited successfully!"
 msgstr "Perfil editado com sucesso!"
+
+#: .\views.py:264
+msgid "You searched for... "
+msgstr "Você pesquisou por..."
+
+#~ msgid "Add User"
+#~ msgstr "Adicionar usuário"
+
+#~ msgid " created successfully!"
+#~ msgstr " criado com sucesso!"
 
 #~ msgid "Administrador"
 #~ msgstr "Administrador"

@@ -6,15 +6,17 @@ from core.models import Resource
 from courses.models import Activity
 
 class Exam(Activity):
-	begin_date = models.DateField(_('Begin of Course Date'), blank=True)
-	exibe = models.BooleanField(_('Exibe?'), default=False)
+    begin_date = models.DateField(_('Begin of Course Date'), blank=True)
+    begin_exam = models.DateField(_('Begin of Exam'), blank = True)
+    end_exam = models.DateField(_('End of Exam'), blank = True)
+    exibe = models.BooleanField(_('Exibe?'), default=False)
 
-	class Meta:
-		verbose_name = _('Exam')
-		verbose_name_plural = _('Exams')
+    class Meta:
+        verbose_name = _('Exam')
+        verbose_name_plural = _('Exams')
 
-		def __str__(self):
-			return str(self.name) + str("/") + str(self.topic)
+        def __str__(self):
+            return str(self.name) + str("/") + str(self.topic)
 
 
 class Answer(models.Model):
@@ -43,3 +45,12 @@ class AnswersStudent(models.Model):
 
     def __str__(self):
         return str(self.student) + str("/") + str(self.exam)
+
+class Question(models.Model):
+    exam = models.ForeignKey(Exam, verbose_name=_('Exam'), related_name='question_exam')
+    statement = models.TextField(_("Statement"), blank=False)
+
+class Alternative(models.Model):
+    question = models.ForeignKey(Question, verbose_name=_("Question"), related_name="alternative_question")
+    statement = models.TextField(_("Statement"), blank=False)
+    answer = models.BooleanField(_("answer"), default=False)

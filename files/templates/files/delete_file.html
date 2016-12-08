@@ -15,16 +15,6 @@
                 <!-- Card -->
                     <form class="form-horizontal" method="post" id="form-delete-file" enctype="multipart/form-data">
                     {% csrf_token %}
-                        {% if messages %}
-                            {% for message in messages %}
-                                <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <p>{{ message }}</p>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
                         <fieldset>
                             <div class="col-md-12">
                                 {% trans "Are you sure to delete " %}<a href="{{ file.file_url.url }}" target="_blank" > {{ file.name }} </a> of {{ file.topic.name }}?
@@ -62,6 +52,7 @@
                     $('#file_{{ file.slug }}').remove();
                     $('#file_edit_icon_{{ file.slug }}').remove();
                     $('#file_edit_{{ file.slug }}').remove();
+                    alertify.success(" {% trans 'File successfully deleted!' %} ");
                 },
                 error: function(data){
                     // $('.erro-update').html(data.responseText);

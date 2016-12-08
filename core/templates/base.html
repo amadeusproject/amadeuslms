@@ -43,20 +43,19 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
 
 	<!-- Custom styles -->
-  	<link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
 
 	<!--Javascript block for specific-app ones -->
 	<script src="{% static 'js/base/amadeus.js' %}"></script>
-      <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
 	{% block style %}
 	{% endblock %}
 	{% block javascript %}
 	{% endblock %}
 
 	<!-- Summernote -->
-	<script src="http://podivej.se/js/summernote.min.js" type="text/javascript"></script>
-	<link href="http://podivej.se/css/summernote.css" type="text/css" rel="stylesheet" />
-	<link href="http://podivej.se/css/summernote-bs3.css" type="text/css" rel="stylesheet">
+	<script src="{% static 'summernote/summernote.js' %}" type="text/javascript"></script>
+	<link href="{% static 'summernote/summernote.css' %}" type="text/css" rel="stylesheet" />
 
 </head>
 <body>
@@ -120,6 +119,8 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+        {% block test %}
+        {% endblock %}
         {% block sidebar %}
         {% endblock %}
       </div>
@@ -141,6 +142,7 @@
 
   {% endblock script_link %}
   <!-- Init material Bootstrap -->
+  <script type="text/javascript" src="{% static 'js/home.js' %}"></script>
   <script type="text/javascript">$.material.init()</script>
 </body>
 

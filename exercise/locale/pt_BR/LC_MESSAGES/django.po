@@ -1,0 +1,125 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-24 00:05-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\models.py:24
+msgid "Name"
+msgstr "Nome"
+
+#: .\models.py:25 .\templates\exercise\card_topic_exercises.html:11
+msgid "Description"
+msgstr "Descrição"
+
+#: .\models.py:26 .\templates\exercise\card_topic_exercises.html:22
+msgid "Delivery Date"
+msgstr "Data de entrega"
+
+#: .\models.py:28
+msgid "Topic"
+msgstr "Tópico"
+
+#: .\models.py:29
+msgid "Professors"
+msgstr "Professores"
+
+#: .\models.py:30
+msgid "Students"
+msgstr "Estudantes"
+
+#: .\models.py:32
+msgid "Type file"
+msgstr "Tipo de arquivo"
+
+#: .\models.py:33
+msgid "Allowed delivery after end date?"
+msgstr "Permitido entregar após a data de término?"
+
+#: .\templates\exercise\card_list_user.html:23
+#: .\templates\exercise\card_topic_exercises.html:26
+msgid "Grade"
+msgstr "Nota"
+
+#: .\templates\exercise\card_list_user.html:30
+msgid "Give a grade"
+msgstr "Dar a nota"
+
+#: .\templates\exercise\card_list_user.html:37
+msgid "Delivery"
+msgstr "Entregar"
+
+#: .\templates\exercise\card_list_user.html:45
+msgid "Create"
+msgstr "Criar"
+
+#: .\templates\exercise\card_list_user.html:52
+msgid "Create a specific exercise"
+msgstr "Criar um exercício específico"
+
+#: .\templates\exercise\card_topic_exercises.html:15
+msgid "Don't have description"
+msgstr "Não possui descrição"
+
+#: .\templates\exercise\card_topic_exercises.html:34
+msgid "Not yet"
+msgstr "Ainda não"
+
+#: .\templates\exercise\card_topic_exercises.html:41
+msgid "File"
+msgstr "Arquivo"
+
+#: .\templates\exercise\card_topic_exercises.html:45
+msgid "Exercise not yet"
+msgstr "Sem exercícios por enquanto"
+
+#: .\templates\exercise\card_topic_exercises.html:49
+msgid "Teacher waiting corretion"
+msgstr "Aguardando correção do professor"
+
+#: .\templates\exercise\create_exercise.html:8
+msgid "Create a New Material"
+msgstr "Criar um novo Material"
+
+#: .\templates\exercise\create_exercise.html:36
+msgid "Choose your file..."
+msgstr "Escolha seu arquivo..."
+
+#: .\templates\exercise\create_exercise.html:66
+msgid "The file size shouldnt exceed 10MB"
+msgstr "O tamanho do arquivo não pode exceder 10MB"
+
+#: .\templates\exercise\create_exercise.html:72
+#: .\templates\exercise\delete_exercise.html:24
+msgid "Close"
+msgstr "Fechar"
+
+#: .\templates\exercise\create_exercise.html:73
+msgid "Submit"
+msgstr "Enviar"
+
+#: .\templates\exercise\delete_exercise.html:12
+msgid "Delete Exercise"
+msgstr "Apagar exercício"
+
+#: .\templates\exercise\delete_exercise.html:20
+msgid "Are you sure to delete the exercise "
+msgstr "Você tem certeza que quer deletar o exercício "
+
+#: .\templates\exercise\delete_exercise.html:25
+msgid "Delete"
+msgstr "Apagar"

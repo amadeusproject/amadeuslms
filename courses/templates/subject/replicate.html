@@ -1,10 +1,10 @@
 {% extends 'subject/index.html' %}
 
-{% load static i18n permission_tags widget_tweaks django_bootstrap_breadcrumbs %}
+{% load static i18n permission_tags widget_tweaks django_bootstrap_breadcrumbs course_value_field %}
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb 'Replicate subject' 'course:replicate_subject' %}  
+    {% breadcrumb 'Replicate subject' 'course:replicate_subject' %}
 {% endblock breadcrumbs %}
 
 {% block content %}
@@ -13,43 +13,54 @@
     <div class="panel-body">
       <form class="form-group " method="post" action="">
         {% csrf_token %}
-        
-        <div class="form-group {% if subject.name.errors %} has-error{% endif %}">
-          <label for="id_name" class="control-label label-static"> {% trans 'Name'%}</label>
-          <textarea class="form-control" id="id_name" maxlength="100" rows="1" name="name" placeholder="Name" type="text" required >{{subject.name}}</textarea>
-
-          <span class="help-block">{% trans 'Subject name'%}</span>
+        {% for field in form %}
+        <div class="form-group {% if field.errors %} has-error{% endif %}">
+          {% if field.auto_id != 'id_visible' %}
+            <label for="{{ field.auto_id }}"> {{ field.label }}</label>
+          {% endif %}
+          {% if field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date'%}
+          {# {{now|date:'SHORT_DATE_FORMAT'}}#}
+              {% render_field field class='form-control date-picker'%}
+              {# <input type="text" class="form-control date-picker" id="{{field.auto_id}}"name="{{field.name}}" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">#}
+          {% elif field.auto_id == 'id_visible' %}
+          {% value_subject_field subject field.name as value_field %}
+            <div class="checkbox">
+              <label>
+                  <input type="checkbox" name="{{field.name}}" {% if value_field %}checked="checked"{% endif %}><span class="checkbox-material"></span> {{field.name}}
+              </label>
+            </div>
+          {% else %}
+            {% if field.errors %}
+              {% render_field field class='form-control' %}
+            {% else %}
+							{% value_subject_field subject field.name as value_field %}
+              {% if field.auto_id == 'id_description'%}
+                <textarea class="form-control" cols="80" id="{{field.auto_id}}" name="{{field.name}}" rows="5">{{value_field}}</textarea>
+              {% else %}
+                {% render_field field class='form-control' value=value_field%}
+              {% endif %}
+            {% endif %}
+          {% endif %}
+          <span class="help-block">{{ field.help_text }}</span>
+          {% if field.errors %}
+					<div class="row">
+					</br>
+							<div class="alert alert-danger alert-dismissible" role="alert">
+			  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  						<span aria-hidden="true">&times;</span>
+		  						</button>
+								<ul>
+									{% for error in field.errors %}
+										<li>{{ error }}</li>
+									{% endfor %}
+								</ul>
+							</div>
+					</div>
+					{% endif %}
         </div>
-
-        <div class="form-group">
-          <label for="id_description" class="control-label label-static"> {% trans 'Description'%}</label>
-          <textarea class="form-control" id="id_description" name="description" placeholder="Description" type="text" >{{subject.description}}</textarea>
-
-          <span class="help-block">{% trans 'Subject description'%}</span>
-        </div>
-
-        <div class="form-group">
-          <label for="id_init_date" class="control-label label-static"> {% trans 'Init date'%}</label>
-          <input type="text" class="form-control date-picker" name="init_date" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
-
-          <span class="help-block">{% trans 'Init date'%}</span>
-        </div>
-
-        <div class="form-group">
-          <label for="id_end_date" class="control-label label-static"> {% trans 'End date'%}</label>
-          <input type="text" class="form-control date-picker" name="end_date" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
-
-          <span class="help-block">{% trans 'End date'%}</span>
-        </div>
-
-        <div class="form-group">
-          <label for="id_visible" class="control-label label-static"> {% trans 'Visible'%}</label>
-          <input class="form-control" id="id_visible" name="visible" type="checkbox"/>
-
-          <span class="help-block">{% trans 'Is it visible?'%}</span>
-        </div>
+        {% endfor %}
         <div class="col-lg-offset-4 col-lg-4">
-          <button type="submite" class="btn btn-raised btn-primary btn-lg btn-block">{% trans 'Replicate' %}</button>
+          <button type="submite" class="btn btn-raised btn-primary btn-lg btn-block">{% trans 'Create' %}</button>
         </div>
       </form>
     </div>
@@ -60,9 +71,10 @@
 
     $('.date-picker').datepicker({
         language: locale,
+        startDate: "dateToday",
     });
     $(document).ready(function() {
-        $('#id_description').summernote({height: 300});
+        $('#id_description').summernote();
     });
   </script>
 {% endblock content %}
