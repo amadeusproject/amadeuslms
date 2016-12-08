@@ -4,7 +4,6 @@
 
 {% block javascript %}
     {{ block.super }}
-    {% if page_obj %}
         <script type="text/javascript">
           {% if page_obj and paginator %}
             var pageNum = {{ page_obj.number }}; // The latest page loaded
@@ -15,7 +14,6 @@
           {% endif %}
           var baseUrl = '{% url "app:index" %}';
         </script> 
-    {% endif %}
     
 {% endblock %}
 
