@@ -62,6 +62,8 @@ class UpdateCourseForm(CourseForm):
 		}
 
 class SubjectForm(forms.ModelForm):
+	init_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS)
+	end_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS)
 	def clean_end_date(self):
 		end_date = self.cleaned_data['end_date']
 		if('init_date' in self.cleaned_data):
@@ -71,8 +73,10 @@ class SubjectForm(forms.ModelForm):
 		return end_date
 
 	class Meta:
+		
 		model = Subject
 		fields = ('name', 'description','init_date', 'end_date', 'visible',)
+		localized_fields = ('init_date', 'end_date',)
 		labels = {
 			'name': _('Name'),
 			'description': _('Description'),
@@ -153,4 +157,4 @@ class LinkMaterialForm(forms.ModelForm):
 		model = LinkMaterial
 		fields = ['material', 'name', 'description','url']
 
->>>>>>> dev
+
