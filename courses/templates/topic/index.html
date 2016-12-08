@@ -3,8 +3,8 @@
 <div class="panel panel-default cards-detail">
   <div class="panel-heading topic">
     <div class="row">
-      <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#accordion-{{topic.slug}}" href=".collapseTopic-{{topic.slug}}" aria-expanded="false" aria-controls="collapseTopic-{{topic.slug}}">
-        <button class="btn btn-default btn-sm caret-square" onclick="topic.get('{% url 'course:view_topic' topic.slug %}', '#content_topic_{{topic.slug}}', 'false');"><i class="fa fa-angle-down fa-2x" aria-hidden="true"></i></button>
+      <div class="col-md-1 moreAccordion" data-toggle="collapse" data-parent="#topics" href=".collapseTopic-{{topic.slug}}" aria-expanded="false" aria-controls="collapseTopic-{{topic.slug}}">
+        <button class="btn btn-default btn-sm caret-square" onclick="topic.get($(this), '{% url 'course:view_topic' topic.slug %}', '#content_topic_{{topic.slug}}', 'false');"><i class="fa fa-angle-down fa-2x" aria-hidden="true"></i></button>
       </div>
       <div class="col-xs-9 col-md-9 titleTopic Topic-detail">
         <a role="button">

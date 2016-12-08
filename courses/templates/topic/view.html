@@ -1,4 +1,9 @@
 {% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access list_topic_exercises %}
+<!-- Block with Log info -->
+<input type="hidden" class="log_id" value="{{ topic_log_id }}" />
+<input type="hidden" class="log_url" value="{% url 'course:topic_log' topic.id %}" />
+<input type="hidden" class="loaded" value="true" />
+<!-- Endblock -->
 <p>
   <i>
     {{topic.description|safe}}

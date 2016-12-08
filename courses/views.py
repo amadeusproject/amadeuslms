@@ -650,6 +650,19 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.TemplateView):
         if(not has_object_permission('view_topic', self.request.user, topic)):
             return self.handle_no_permission()
 
+        return super(TopicsView, self).dispatch(*args, **kwargs)
+
+    def get_queryset(self):
+        return get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+
+    def get_context_data(self, **kwargs):
+        topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+        context = super(TopicsView, self).get_context_data(**kwargs)
+        context['topic'] = topic
+
+        if(not has_object_permission('view_topic', self.request.user, topic)):
+            return self.handle_no_permission()
+
         self.log_context['topic_id'] = topic.id
         self.log_context['topic_name'] = topic.name
         self.log_context['topic_slug'] = topic.slug
@@ -665,17 +678,8 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.TemplateView):
 
         super(TopicsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-        self.request.session['log_id'] = Log.objects.latest('id').id
+        context['topic_log_id'] = Log.objects.latest('id').id
 
-        return super(TopicsView, self).dispatch(*args, **kwargs)
-
-    def get_queryset(self):
-        return get_object_or_404(Topic, slug = self.kwargs.get('slug'))
-
-    def get_context_data(self, **kwargs):
-        topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
-        context = super(TopicsView, self).get_context_data(**kwargs)
-        context['topic'] = topic
         return context
 
 
