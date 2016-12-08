@@ -14,6 +14,8 @@ import os
 
 import dj_database_url
 
+from django.conf.global_settings import DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS
+
 db_from_ev = dj_database_url.config(conn_max_age=500)
 
 
@@ -225,6 +227,10 @@ OAUTH2_PROVIDER = {
 }
 #API CONFIG ENDS
 
+
+#For date purposes
+DATETIME_INPUT_FORMATS.append('%d/%m/%y')
+DATE_INPUT_FORMATS.append('%d/%m/%y')
 
 #s3direct
 
