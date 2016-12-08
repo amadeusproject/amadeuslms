@@ -155,7 +155,6 @@ class CreateCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationM
     def form_valid(self, form):
         self.object = form.save()
         self.object.professors.add(self.request.user)
-
         self.log_context['course_id'] = self.object.id
         self.log_context['course_name'] = self.object.name
         self.log_context['course_slug'] = self.object.slug

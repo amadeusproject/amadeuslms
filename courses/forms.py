@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from .models import CourseCategory, Course, Subject, Topic, ActivityFile, Activity, FileMaterial, LinkMaterial
 from s3direct.widgets import S3DirectWidget
 from django_summernote.widgets import SummernoteWidget
+from amadeus import settings
 
 class CategoryCourseForm(forms.ModelForm):
 
@@ -18,7 +19,13 @@ class CategoryCourseForm(forms.ModelForm):
 
 
 class CourseForm(forms.ModelForm):
+
+	init_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS)
+	end_register_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS)
+	init_register_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS)
+	end_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS)
 	def clean_end_register_date(self):
+		
 		init_register_date = self.cleaned_data['init_register_date']
 		end_register_date = self.cleaned_data['end_register_date']
 
@@ -27,6 +34,8 @@ class CourseForm(forms.ModelForm):
 		return end_register_date
 
 	def clean_init_date(self):
+
+		
 		end_register_date = self.cleaned_data['end_register_date']
 		init_date = self.cleaned_data['init_date']
 
@@ -35,6 +44,7 @@ class CourseForm(forms.ModelForm):
 		return init_date
 
 	def clean_end_date(self):
+		print(self.cleaned_data)
 		init_date = self.cleaned_data['init_date']
 		end_date = self.cleaned_data['end_date']
 
@@ -43,15 +53,17 @@ class CourseForm(forms.ModelForm):
 		return end_date
 
 
+
 	class Meta:
 		model = Course
 		fields = ('name', 'objectivies', 'content', 'max_students', 'init_register_date', 'end_register_date',
 					'init_date', 'end_date', 'category', 'coordenator','public')
+		localized_fields = ('init_register_date', 'end_register_date', 'init_date', 'end_date',)
 		labels = {
                             'name': _('Name'),
                             'objectivies': _('Objectives'),
                             'content': _('Content'),
-                            'max_students': _('Number of studets maximum'),
+                            'max_students': _('Number of students maximum'),
                             'init_register_date': _('Course registration start date'),
                             'end_register_date': _('Course registration end date'),
                             'init_date': _('Course start date'),
@@ -119,7 +131,7 @@ class UpdateCourseForm(CourseForm):
                             'name': _('Name'),
                             'objectivies': _('Objectives'),
                             'content': _('Content'),
-                            'max_students': _('Number of studets maximum'),
+                            'max_students': _('Number of students maximum'),
                             'init_register_date': _('Course registration start date'),
                             'end_register_date': _('Course registration end date'),
                             'init_date': _('Course start date'),

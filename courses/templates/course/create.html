@@ -20,7 +20,7 @@
 						<label for="{{ field.auto_id }}">{{ field.label }}</label>
 					{% endif %}
 					{% if field.auto_id == 'id_init_register_date' or field.auto_id == 'id_end_register_date' or field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date'%}
-						<input type="text" class="form-control date-picker" name="{{field.name}}" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
+						<input type="text" class="form-control date-picker" name="{{field.name}}" value="{{field.value|date}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
 					{% elif field.auto_id == 'id_public' %}
 						<div class="checkbox">
 							<label>
