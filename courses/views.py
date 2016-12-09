@@ -331,7 +331,7 @@ class CourseView(LoginRequiredMixin, LogMixin, NotificationMixin, generic.Detail
     model = Course
     context_object_name = 'course'
     template_name = 'course/view.html'
-    
+
 
     def get_context_data(self, **kwargs):
         subjects = None

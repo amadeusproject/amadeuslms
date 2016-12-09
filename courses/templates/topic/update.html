@@ -1,6 +1,6 @@
 {% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access list_topic_exercises course_value_field %}
 
-<form class="" id="form_topic_update" method="post" action="">
+<form class="" id="form_topic_update_{{topic.slug}}" method="post" action="">
   {% csrf_token %}
   {% for field in form %}
   <div class="form-group {% if field.errors %} has-error{% endif %}">
@@ -100,15 +100,15 @@
 <div class="form-group">
   <div class="col-md-10">
     <a href="javascript:topic.get('{% url 'course:view_topic' topic.slug %}','#content_topic_{{topic.slug}}','true');" class="btn btn-raised btn-default">{% trans 'Back' %}</a>
-    <button type="submite" form="form_topic_update" class="btn btn-raised btn-primary">{% trans 'Submit' %}</a>
+    <button type="submite" form="form_topic_update_{{topic.slug}}" class="btn btn-raised btn-primary">{% trans 'Submit' %}</a>
   </div>
 </div>
 
 <script type="text/javascript">
   $(document).ready(function() {
-      $('#id_description').summernote();
+      $('#id_description').summernote({height:250});
   });
-  $("#form_topic_update").submit(function(event) {
+  $("#form_topic_update_{{topic.slug}}").submit(function(event) {
     topic.post("{% url 'course:update_topic' topic.slug %}",$(this).serialize(), '#content_topic_{{topic.slug}}');
     event.preventDefault();
   });

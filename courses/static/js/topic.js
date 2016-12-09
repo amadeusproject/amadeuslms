@@ -1,8 +1,8 @@
 var topic = {
-  get: function (button, url, id_div, faz){
-    if(!$(id_div + ' div').length || faz == 'true'){
+  get: function (url, id_div, faz,button){
+    if((!$(id_div + ' div').length) || (faz == 'true')){
         var opened = $("#topics").find(".fa-angle-up");
-        
+
         if (opened.length > 0) {
             opened.removeClass("fa-angle-up");
             opened.addClass("fa-angle-down");
@@ -16,20 +16,21 @@ var topic = {
             op_topic.find(".loaded").val("false");
         }
 
-        //Changing button icon
-        button.find("i").removeClass('fa-angle-down');
-        button.find("i").addClass('fa-angle-up');
-        
         $.get(url, function(data){
             $(id_div).empty();
             $(id_div).append(data);
         });
+        if (faz == 'false'){
+            //Changing button icon
+            button.find("i").removeClass('fa-angle-down');
+            button.find("i").addClass('fa-angle-up');
+        }
     } else {
         var loaded = $(id_div).find(".loaded").val();
 
         if (loaded == "true") {
             var opened = $("#topics").find(".fa-angle-up");
-        
+
             opened.removeClass("fa-angle-up");
             opened.addClass("fa-angle-down");
             var op_topic = opened.parent().parent().parent().parent().parent();
@@ -42,7 +43,7 @@ var topic = {
             $(id_div).find(".loaded").val("false");
         } else {
             var opened = $("#topics").find(".fa-angle-up");
-        
+
             opened.removeClass("fa-angle-up");
             opened.addClass("fa-angle-down");
             var op_topic = opened.parent().parent().parent().parent().parent();
@@ -57,7 +58,7 @@ var topic = {
             var opened = $(id_div).parent().parent().find(".fa-angle-down");
             opened.removeClass("fa-angle-down");
             opened.addClass("fa-angle-up");
-            
+
             var log_url = $(id_div).find(".log_url").val();
 
             topicLog(log_url, 0, 'open', id_div);
@@ -92,6 +93,23 @@ var delete_topic = {
     });
   }
 };
+
+var RemoveTopic = {
+  remove: function(url,dados,id_li_link){
+    $("#topic").modal('toggle');
+      $.post(url,dados, function(data){
+        $(id_li_link).remove();
+        $('body').removeClass('modal-open');
+        $("#modal_subject").empty();
+        $(".modal-backdrop.in").remove();
+        alertify.success("Topic removed successfully!");
+      }).fail(function(){
+        $("#modal_subject").empty();
+        $("#modal_subject").append(data);
+        $('#topic').modal('show');
+      });
+  }
+}
 
 function topicLog(url, topic_log_id, action, topic_div) {
     $.ajax({
