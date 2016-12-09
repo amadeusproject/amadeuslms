@@ -14,6 +14,8 @@
     <div class="resource_inline">
       <h4>{% trans 'Material' %}</h4>
     </div>
+    {% professor_subject topic.subject user as dropdown_topic %}
+    {% if dropdown_topic %} 
     <div class="resource_inline">
 
       {# dropdown de create material #}
@@ -25,6 +27,7 @@
         </ul>
       </div>
     </div>
+    {% endif %}
       {# materiais do tópico no modo de visualização #}
       <ul>
         {% list_topic_file request topic %}
@@ -37,7 +40,9 @@
     <div class="resource_inline">
       <h4>{% trans 'Activities' %}</h4>
     </div>
-    <div class="resource_inline">
+    {% professor_subject topic.subject user as dropdown_topic %}
+    {% if dropdown_topic %} 
+      <div class="resource_inline">
 
       {# dropdown de avaliações #}
       <div class="dropdown">
@@ -50,6 +55,7 @@
         </ul>
       </div>
     </div>
+    {% endif %}
       {# avaliações do tópico no modo de visualização #}
       <ul>
         {% list_topic_poll request topic %}
