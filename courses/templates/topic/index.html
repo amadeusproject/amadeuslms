@@ -11,23 +11,25 @@
           <h4>{{topic}}</h4>
         </a>
       </div><!--column -->
+      {# dropdown de topic com as opções de replicar, editar e deletar #}
+          {% professor_subject topic.subject user as dropdown_topic %}
+          {% if dropdown_topic %} 
       <div class="col-xs-3 col-md-2 divMoreActions">
         <div class="btn-group">
           <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
           </button>
 
-          {# dropdown de topic com as opções de replicar, editar e deletar #}
-          {% professor_subject topic.subject user as dropdown_topic %}
-          {% if dropdown_topic %} 
+          
           <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
             <li><a href="{% url 'course:replicate_topic' topic.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
             <li><a href="javascript:topic.get('{% url 'course:update_topic' topic.slug %}','#content_topic_{{topic.slug}}','true');"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
             <li><a href="javascript:delete_topic.get('{% url 'course:delete_topic' topic.slug %}?view=index','#topic_delete_{{topic.slug}}','#modal_topic');"><i class="fa fa-trash fa-fw"  aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
           </ul>
-          {% endif %}
+          
         </div>
       </div>
+      {% endif %}
     </div>
   </div>
   <div class="panel-collapse collapseTopic-{{topic.slug}} topic_{{ topic.id }} collapse" role="tabpanel" aria-labelledby="heading_{{topic.id}}" aria-expanded="false" aria-hidden="true">
