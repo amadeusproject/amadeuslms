@@ -15,7 +15,7 @@
       <h4>{% trans 'Material' %}</h4>
     </div>
     {% professor_subject topic.subject user as dropdown_topic %}
-    {% if dropdown_topic %} 
+    {% if dropdown_topic %}
     <div class="resource_inline">
 
       {# dropdown de create material #}
@@ -35,13 +35,14 @@
       </ul>
   </div>
 
+  {% if user.is_authenticated %}
   {# avaliações do topico #}
   <div class="col-xs-6 col-md-6">
     <div class="resource_inline">
       <h4>{% trans 'Activities' %}</h4>
     </div>
     {% professor_subject topic.subject user as dropdown_topic %}
-    {% if dropdown_topic %} 
+    {% if dropdown_topic %}
       <div class="resource_inline">
 
       {# dropdown de avaliações #}
@@ -63,4 +64,5 @@
         {% list_topic_exercise request topic %}
       </ul>
   </div>
+  {% endif %}
 </div>

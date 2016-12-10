@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 
 
-{% load i18n custom_filters %}
-{% load static i18n %}
-{% load pagination %}
+{% load static i18n custom_filters %}
 
 <html>
 <head>
@@ -98,56 +96,33 @@
 				{% block content %}
 
                     <div class="col-md-12 cards-content">
-                        {% for category in categorys_courses  %}
-                            <div class="panel-group">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a  class="category-course-link" data-toggle="collapse" href="#{{category.slug}}">{{category.name}}</a>
-                                        </h4>
-
-                                    </div>
-                                    <div id="{{category.slug}}" class="panel-collapse collapse">
-                                        {% for course in category.course_category.all %}
-                                            {%if course.public == True %}
-                                                {% include "course/course_card.html" %}
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                </div>
+                      {% for category in categorys_courses  %}
+                      <div class="panel-group course-card-group">
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <h4 class="panel-title">
+                                  <a  class="category-course-link" data-toggle="collapse" href="#{{category.slug}}">{{category.name}}</a>
+                                </h4>
+                              </div>
                             </div>
-                        {% endfor %}
+                          </div>
+                          <div id="{{category.slug}}" class="panel-collapse collapse">
+                            {% for course in category.course_category %}
+                              {% include "course/course_card.html" %}
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
                     </div>
-                    <div class="col-md-12">
-                  		<nav aria-label="Page navigation">
-                  			<ul class="pagination">
-                  				{% if page_obj.has_previous %}
-                  				    <li>
-                  				        <a href="?page={{ page_obj.previous_page_number }}"><span><<</span></a>
-                  				    </li>
-                  				{% endif %}
-                  			    {% for page_number in paginator.page_range %}
-                  					<li{% if page_obj.number == page_number %} class="active"{% endif %}>
-                  	    				<a href="?page={{ page_number }}">{{ page_number }}</a>
-                  					</li>
-                  				{% endfor %}
-                  				{% if page_obj.has_next %}
-                  				    <li>
-                  				        <a href="?page={{ page_obj.next_page_number }}"><span>>></span></a>
-                  				    </li>
-                  				{% endif %}
-                  			</ul>
-                  		</nav>
-                  	</div>
 				{% endblock %}
 			</div>
 		</div>
 	</div>
 	<script src="{% static 'js/main.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/topic_editation_presentation.js' %}"></script>
-	{% block script_file %}
-
-	{% endblock script_file %}
 </body>
 
 </html>

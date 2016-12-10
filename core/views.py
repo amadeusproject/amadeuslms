@@ -28,6 +28,8 @@ from .decorators import log_decorator, notification_decorator
 from users.models import User
 from courses.models import Course, CourseCategory
 
+from courses.views import course_category
+
 def index(request):
 	context = {
 		'subscribed_courses': 'testando'
@@ -106,23 +108,22 @@ class GuestView (ListView):
 	template_name = 'guest.html'
 	context_object_name = 'courses'
 	queryset = CourseCategory.objects.all()
-	paginate_by = 3
 
 	def get_context_data (self, **kwargs):
 		context = super(GuestView, self).get_context_data(**kwargs)
 		context['title'] = _("Guest")
-		queryset_list = CourseCategory.objects.all()
+		queryset_list = Course.objects.filter(public=True)
 
-		paginator = Paginator(queryset_list, 3)
-		page = self.request.GET.get('page')
-		try:
-			queryset_list = paginator.page(page)
-		except PageNotAnInteger:
-			queryset_list = paginator.page(1)
-		except EmptyPage:
-			queryset_list = paginator.page(paginator.num_pages)
+		# paginator = Paginator(queryset_list, 3)
+		# page = self.request.GET.get('page')
+		# try:
+		# 	queryset_list = paginator.page(page)
+		# except PageNotAnInteger:
+		# 	queryset_list = paginator.page(1)
+		# except EmptyPage:
+		# 	queryset_list = paginator.page(paginator.num_pages)
 
-		context['categorys_courses'] = queryset_list
+		context['categorys_courses'] = course_category(queryset_list)
 		return context
 
 

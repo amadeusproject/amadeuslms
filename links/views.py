@@ -220,38 +220,36 @@ class UpdateLink(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.UpdateView)
         self.success_url = reverse_lazy('course:links:render_link', args = (self.object.slug, ))
         return self.success_url
 
-class ViewLink(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.DetailView):
+class ViewLink(LogMixin, generic.DetailView):
     log_component = 'link'
     log_resource = 'link'
     log_action = 'viewed'
     log_context = {}
-
-    allowed_roles = ['professor', 'system_admin','student']
+    
     template_name = 'links/view_link.html'
-    success_url = reverse_lazy('course:links:render_link')
-    context_object_name = 'link'
 
     def get_context_data(self,**kwargs):
         context = {}
         link = Link.objects.get(slug = self.kwargs.get('slug'))
         context['link'] = link
 
-        self.log_context['link_id'] = link.id
-        self.log_context['link_name'] = link.name
-        self.log_context['topic_id'] = link.topic.id
-        self.log_context['topic_name'] = link.topic.name
-        self.log_context['topic_slug'] = link.topic.slug
-        self.log_context['subject_id'] = link.topic.subject.id
-        self.log_context['subject_name'] = link.topic.subject.name
-        self.log_context['subject_slug'] = link.topic.subject.slug
-        self.log_context['course_id'] = link.topic.subject.course.id
-        self.log_context['course_name'] = link.topic.subject.course.name
-        self.log_context['course_slug'] = link.topic.subject.course.slug
-        self.log_context['course_category_id'] = link.topic.subject.course.category.id
-        self.log_context['course_category_name'] = link.topic.subject.course.category.name
-        self.log_context['timestamp_start'] = str(int(time.time()))
+        if (self.request.user.is_authenticated):
+            self.log_context['link_id'] = link.id
+            self.log_context['link_name'] = link.name
+            self.log_context['topic_id'] = link.topic.id
+            self.log_context['topic_name'] = link.topic.name
+            self.log_context['topic_slug'] = link.topic.slug
+            self.log_context['subject_id'] = link.topic.subject.id
+            self.log_context['subject_name'] = link.topic.subject.name
+            self.log_context['subject_slug'] = link.topic.subject.slug
+            self.log_context['course_id'] = link.topic.subject.course.id
+            self.log_context['course_name'] = link.topic.subject.course.name
+            self.log_context['course_slug'] = link.topic.subject.course.slug
+            self.log_context['course_category_id'] = link.topic.subject.course.category.id
+            self.log_context['course_category_name'] = link.topic.subject.course.category.name
+            self.log_context['timestamp_start'] = str(int(time.time()))
 
-        super(ViewLink, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+            super(ViewLink, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return context
 

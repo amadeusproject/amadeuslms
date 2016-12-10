@@ -66,12 +66,6 @@
     <div class="panel-group" id="topics" role="tablist" aria-multiselectable="true">
         {% for topic in topics %}
             {% include "topic/index.html" %}
-    {# {% professor_subject topic.subject user as topic_professor%}#}
-    {# {% if topic_professor %}#}
-      {# {% include "subject/form_view_teacher.html" %}#}
-    {# {% else %}#}
-      {# {% include "subject/form_view_student.html" %}#}
-    {# {% endif %}#}
         {% endfor %}
     </div>
 

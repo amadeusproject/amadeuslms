@@ -7,7 +7,7 @@ from courses.models import Material
 from datetime import date, datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin,AccessMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
@@ -320,11 +320,12 @@ class DeleteCourseView(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.Delet
         return reverse_lazy('course:manage')
 
 
-class CourseView(LoginRequiredMixin, LogMixin, NotificationMixin, generic.DetailView):
+class CourseView(AccessMixin, LogMixin, NotificationMixin, generic.DetailView):
     log_component = "courses"
     log_action = "viewed"
     log_resource = "course"
     log_context = {}
+
 
     login_url = reverse_lazy("core:home")
     redirect_field_name = 'next'
@@ -332,6 +333,11 @@ class CourseView(LoginRequiredMixin, LogMixin, NotificationMixin, generic.Detail
     context_object_name = 'course'
     template_name = 'course/view.html'
 
+    def dispatch(self, *args, **kwargs):
+        course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
+        if(not self.request.user.is_authenticated and not course.public):
+            return self.handle_no_permission()
+        return super(CourseView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         subjects = None
@@ -339,16 +345,17 @@ class CourseView(LoginRequiredMixin, LogMixin, NotificationMixin, generic.Detail
         context = super(CourseView, self).get_context_data(**kwargs)
         course = get_object_or_404(Course, slug = self.kwargs.get('slug'))
 
-        self.log_context['course_id'] = course.id
-        self.log_context['course_name'] = course.name
-        self.log_context['course_slug'] = course.slug
-        self.log_context['course_category_id'] = course.category.id
-        self.log_context['course_category_name'] = course.category.name
-        self.log_context['timestamp_start'] = str(int(time.time()))
+        if (self.request.user.is_authenticated):
+            self.log_context['course_id'] = course.id
+            self.log_context['course_name'] = course.name
+            self.log_context['course_slug'] = course.slug
+            self.log_context['course_category_id'] = course.category.id
+            self.log_context['course_category_name'] = course.category.name
+            self.log_context['timestamp_start'] = str(int(time.time()))
 
-        super(CourseView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+            super(CourseView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-        self.request.session['log_id'] = Log.objects.latest('id').id
+            self.request.session['log_id'] = Log.objects.latest('id').id
 
         category_sub = self.kwargs.get('category', None)
 
@@ -356,7 +363,7 @@ class CourseView(LoginRequiredMixin, LogMixin, NotificationMixin, generic.Detail
             subjects = course.subjects.all()
         elif has_role(self.request.user,'professor'):
             subjects = course.subjects.filter(professors__in=[self.request.user])
-        elif has_role(self.request.user, 'student') or self.request.user is None:
+        elif has_role(self.request.user, 'student') or course.public:
             subjects = course.subjects.filter(visible=True)
 
         if not category_sub is None:
@@ -389,6 +396,10 @@ class CourseView(LoginRequiredMixin, LogMixin, NotificationMixin, generic.Detail
         context['courses'] = courses
         context['course'] = course
         context['title'] = course.name
+        if (self.request.user.is_authenticated):
+            context['extend'] = 'course/index.html'
+        else:
+            context['extend'] = 'guest.html'
 
         return context
 
@@ -558,7 +569,7 @@ class DeleteCatView(LoginRequiredMixin, HasRoleMixin, generic.DeleteView):
         messages.success(self.request, _('Category deleted successfully!'))
         return reverse_lazy('course:manage_cat')
 
-class SubjectsView(LoginRequiredMixin, LogMixin, generic.ListView):
+class SubjectsView(AccessMixin, LogMixin, generic.ListView):
     log_component = "course"
     log_resource = "subject"
     log_action = "viewed"
@@ -573,22 +584,23 @@ class SubjectsView(LoginRequiredMixin, LogMixin, generic.ListView):
     def dispatch(self, *args, **kwargs):
         subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
 
-        if(not has_object_permission('view_subject', self.request.user, subject)):
+        if(not has_object_permission('view_subject', self.request.user, subject) and not subject.course.public):
             return self.handle_no_permission()
 
-        self.log_context['subject_id'] = subject.id
-        self.log_context['subject_name'] = subject.name
-        self.log_context['subject_slug'] = subject.slug
-        self.log_context['course_id'] = subject.course.id
-        self.log_context['course_name'] = subject.course.name
-        self.log_context['course_slug'] = subject.course.slug
-        self.log_context['course_category_id'] = subject.course.category.id
-        self.log_context['course_category_name'] = subject.course.category.name
-        self.log_context['timestamp_start'] = str(int(time.time()))
+        if (self.request.user.is_authenticated):
+            self.log_context['subject_id'] = subject.id
+            self.log_context['subject_name'] = subject.name
+            self.log_context['subject_slug'] = subject.slug
+            self.log_context['course_id'] = subject.course.id
+            self.log_context['course_name'] = subject.course.name
+            self.log_context['course_slug'] = subject.course.slug
+            self.log_context['course_category_id'] = subject.course.category.id
+            self.log_context['course_category_name'] = subject.course.category.name
+            self.log_context['timestamp_start'] = str(int(time.time()))
 
-        super(SubjectsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+            super(SubjectsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-        self.request.session['log_id'] = Log.objects.latest('id').id
+            self.request.session['log_id'] = Log.objects.latest('id').id
 
         return super(SubjectsView, self).dispatch(*args, **kwargs)
 
@@ -610,8 +622,14 @@ class SubjectsView(LoginRequiredMixin, LogMixin, generic.ListView):
         context['title'] = subject.name
         if has_role(self.request.user,'professor') or has_role(self.request.user,'system_admin'):
             context['files'] = TopicFile.objects.filter(professor__name = self.request.user.name)
-        else:
+        elif has_role(self.request.user,'student'):
             context['files'] = TopicFile.objects.filter(students__name = self.request.user.name)
+
+        if (self.request.user.is_authenticated):
+            context['extend'] = 'course/index.html'
+        else:
+            context['extend'] = 'guest.html'
+
         return context
 
 
@@ -633,7 +651,7 @@ class UploadMaterialView(LoginRequiredMixin, generic.edit.CreateView):
 
         return self.success_url
 
-class TopicsView(LoginRequiredMixin, LogMixin, generic.TemplateView):
+class TopicsView(AccessMixin,LogMixin, generic.TemplateView):
     log_component = "course"
     log_resource = "topic"
     log_action = "viewed"
@@ -647,7 +665,7 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.TemplateView):
     def dispatch(self, *args, **kwargs):
         topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 
-        if(not has_object_permission('view_topic', self.request.user, topic)):
+        if(not has_object_permission('view_topic', self.request.user, topic) and not topic.subject.course.public):
             return self.handle_no_permission()
 
         return super(TopicsView, self).dispatch(*args, **kwargs)
@@ -660,25 +678,23 @@ class TopicsView(LoginRequiredMixin, LogMixin, generic.TemplateView):
         context = super(TopicsView, self).get_context_data(**kwargs)
         context['topic'] = topic
 
-        if(not has_object_permission('view_topic', self.request.user, topic)):
-            return self.handle_no_permission()
+        if (self.request.user.is_authenticated):
+            self.log_context['topic_id'] = topic.id
+            self.log_context['topic_name'] = topic.name
+            self.log_context['topic_slug'] = topic.slug
+            self.log_context['subject_id'] = topic.subject.id
+            self.log_context['subject_name'] = topic.subject.name
+            self.log_context['subject_slug'] = topic.subject.slug
+            self.log_context['course_id'] = topic.subject.course.id
+            self.log_context['course_name'] = topic.subject.course.name
+            self.log_context['course_slug'] = topic.subject.course.slug
+            self.log_context['course_category_id'] = topic.subject.course.category.id
+            self.log_context['course_category_name'] = topic.subject.course.category.name
+            self.log_context['timestamp_start'] = str(int(time.time()))
 
-        self.log_context['topic_id'] = topic.id
-        self.log_context['topic_name'] = topic.name
-        self.log_context['topic_slug'] = topic.slug
-        self.log_context['subject_id'] = topic.subject.id
-        self.log_context['subject_name'] = topic.subject.name
-        self.log_context['subject_slug'] = topic.subject.slug
-        self.log_context['course_id'] = topic.subject.course.id
-        self.log_context['course_name'] = topic.subject.course.name
-        self.log_context['course_slug'] = topic.subject.course.slug
-        self.log_context['course_category_id'] = topic.subject.course.category.id
-        self.log_context['course_category_name'] = topic.subject.course.category.name
-        self.log_context['timestamp_start'] = str(int(time.time()))
+            super(TopicsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-        super(TopicsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
-
-        context['topic_log_id'] = Log.objects.latest('id').id
+            context['topic_log_id'] = Log.objects.latest('id').id
 
         return context
 

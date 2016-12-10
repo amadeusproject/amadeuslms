@@ -1,4 +1,4 @@
-{% extends 'course/index.html' %}
+{% extends extend|default:"course/index.html"%}
 
 {% load static i18n permission_tags custom_filters %}
 {% load django_bootstrap_breadcrumbs %}
