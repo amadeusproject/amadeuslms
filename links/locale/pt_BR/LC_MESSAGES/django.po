@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-16 13:43-0300\n"
+"POT-Creation-Date: 2016-12-10 00:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,13 +42,11 @@ msgstr "Cancelar"
 msgid "Submit"
 msgstr "Enviar"
 
-#: .\templates\links\create_link.html:61
-#, fuzzy
-#| msgid "Link created successfully!"
+#: .\templates\links\create_link.html:62
 msgid "Link successfully created!"
 msgstr "Link criado com sucesso!"
 
-#: .\templates\links\create_link.html:68 .\templates\links\update_link.html:73
+#: .\templates\links\create_link.html:69 .\templates\links\update_link.html:74
 msgid "Invalid link, insert a valid one!"
 msgstr "Link inválido, insira um válido! "
 
@@ -57,8 +55,6 @@ msgid "Delete Link"
 msgstr "Apagar Link"
 
 #: .\templates\links\delete_link.html:20
-#, fuzzy
-#| msgid "Do you really want to delete this link?"
 msgid "Are you sure to delete the link "
 msgstr "Você realmente deseja apagar o link "
 
@@ -70,13 +66,11 @@ msgstr "Fechar"
 msgid "Delete"
 msgstr "Apagar"
 
-#: .\templates\links\delete_link.html:56
-#, fuzzy
-#| msgid "Link created successfully!"
+#: .\templates\links\delete_link.html:58
 msgid "Link successfully deleted!"
-msgstr "Link criado com sucesso!"
+msgstr "Link apagado com sucesso!"
 
-#: .\templates\links\delete_link.html:63
+#: .\templates\links\delete_link.html:64
 msgid "Error when trying to delete."
 msgstr "Erro ao tentar apagar."
 
@@ -86,11 +80,9 @@ msgstr "Erro ao tentar apagar."
 msgid "Edit Link"
 msgstr "Link"
 
-#: .\templates\links\update_link.html:66
-#, fuzzy
-#| msgid "Link deleted Successfully!"
+#: .\templates\links\update_link.html:67
 msgid "Link Sucessfully Updated!"
-msgstr "Link apagado com sucesso!"
+msgstr "Link atualizado com sucesso!"
 
 #: .\templates\links\view_link.html:8
 msgid "Link"
