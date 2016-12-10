@@ -46,6 +46,7 @@
     <script type="text/javascript">
       $("#form-link").submit(function(event) {
             $("#createLinksModal").modal("hide");
+            $('body').removeClass('modal-open');
             var data = new FormData($('#form-link').get(0));
             $.ajax({
                 url: "{% url 'course:links:create_link' topic.slug %}",
