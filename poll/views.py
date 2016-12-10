@@ -143,6 +143,8 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin, LogMixin, NotificationMixin,ge
 	def get_context_data(self, **kwargs):
 		context = super(CreatePoll, self).get_context_data(**kwargs)
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+
+		context.get('form').fields.get('students').queryset = topic.subject.students.all()
 		context["topic"] = topic
 		context['course'] = topic.subject.course
 		context['subject'] = topic.subject
