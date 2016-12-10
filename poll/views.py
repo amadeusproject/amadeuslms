@@ -116,6 +116,10 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin, LogMixin, NotificationMixin,ge
 				answer = Answer(answer=self.request.POST[key],order=key,poll=self.object)
 				answer.save()
 
+		if (self.request.POST.get('all_students')):
+			for student in topic.subject.students.all():
+				self.object.students.add(student)
+
 		self.log_context['poll_id'] = self.object.id
 		self.log_context['poll_slug'] = self.object.slug
 		self.log_context['topic_id'] = self.object.topic.id
@@ -135,11 +139,6 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin, LogMixin, NotificationMixin,ge
 		return JsonResponse({"view":reverse_lazy('course:poll:render_poll_view', kwargs={'slug' : self.object.slug}),
 							"edit":reverse_lazy('course:poll:render_poll_edit', kwargs={'slug' : self.object.slug}),
 							})
-
-
-    # def get_success_url(self):
-    #     self.success_url = redirect('course:poll:render_poll', slug = self.object.slug)
-    #     return self.success_url
 
 	def get_context_data(self, **kwargs):
 		context = super(CreatePoll, self).get_context_data(**kwargs)

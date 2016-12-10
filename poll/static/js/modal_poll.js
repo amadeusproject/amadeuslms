@@ -1,10 +1,3 @@
-//
-// //controles do modal
-// $(window).ready(function() { // utilizado para abrir o modal quando tiver tido algum erro no preenchimento do formulario
-//   if($('.not_submited').length){
-//       $('#poll').modal('show');
-//   }
-// });
 
 var Answer = {
     init: function(url) { // utilizado para adicionar um novo campo de resposta
@@ -38,7 +31,8 @@ var Submite = {
           }
         });
         $("#requisicoes_ajax").empty();
-        alertify.alert('Poll successfully created!');
+        $('body').removeClass('modal-open');
+        alertify.success('Poll successfully created!');
         $("div.modal-backdrop.fade.in").remove();
       }).fail(function(data){
         $("div.modal-backdrop.fade.in").remove();
@@ -52,7 +46,8 @@ var Submite = {
       $.post(url,dados, function(data){
         $('#list-topic-'+ slug_topic +'-poll #'+slug_poll).replaceWith(data);
         $('#list-topic-'+ slug_topic +'-poll #'+slug_poll).replaceWith(data);
-        alertify.alert('Poll successfully updated!')
+        $('body').removeClass('modal-open');
+        alertify.success('Poll successfully updated!')
       }).fail(function(data){
         $("div.modal-backdrop.fade.in").remove();
         $("#requisicoes_ajax").empty();
@@ -65,11 +60,24 @@ var Submite = {
       $.post(url,dados, function(data){
         $(id_li_link).remove();
         $(id_li_link+"_div").remove();
+        $('body').removeClass('modal-open');
         $("#requisicoes_ajax").empty();
         $("div.modal-backdrop.fade.in").remove();
+        alertify.success('Poll successfully removed')
       }).fail(function(){
         $("#requisicoes_ajax").empty();
         $("#requisicoes_ajax").append(data);
+        $('#poll').modal('show');
+      });
+  },
+  answer: function(url,dados){
+    $('#poll').modal('hide');
+      $.post(url,dados, function(data){
+        alertify.success('Poll successfully answered!')
+      }).fail(function(data){
+        $("div.modal-backdrop.fade.in").remove();
+        $("#requisicoes_ajax").empty();
+        $("#requisicoes_ajax").append(data.responseText);
         $('#poll').modal('show');
       });
   }

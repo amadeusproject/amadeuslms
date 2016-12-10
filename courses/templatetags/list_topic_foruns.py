@@ -4,6 +4,7 @@ from links.models import Link
 from forum.models import Forum
 from poll.models import Poll
 from files.models import TopicFile
+from django.db.models import Q
 register = template.Library()
 
 """
@@ -27,8 +28,13 @@ def list_topic_poll(request, topic):
     context = {
         'request': request,
     }
-
-    context['polls'] = Poll.objects.filter(topic = topic)
+    all_polls = Poll.objects.filter(topic = topic)
+    my_polls = []
+    for poll in all_polls.all():
+        if ((request.user in poll.students.all())
+            or request.user in poll.topic.subject.professors.all()):
+            my_polls.append(poll)
+    context['polls'] = my_polls
     context['topic'] = topic
 
     return context

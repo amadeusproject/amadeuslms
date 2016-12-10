@@ -27,7 +27,7 @@
 <button type="submite" id="button" form="answer_form" class="btn btn-primary btn-raised">{% trans "Answer" %}</button>
 <script>
   $("#answer_form").submit(function(event) {
-    Submite.post("{% url 'course:poll:answer_student_poll' poll.slug %}",$(this).serialize());
+    Submite.answer("{% url 'course:poll:answer_student_poll' poll.slug %}",$(this).serialize());
     event.preventDefault();
   });
 </script>

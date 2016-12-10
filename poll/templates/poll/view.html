@@ -30,6 +30,6 @@
 {% block button_save %}
 <!-- Put curtom buttons here!!!  -->
 {% if not status %}
-<button type="button" onclick="javascript:modal.get('{% url 'course:poll:answer_student_poll' poll.slug%}','#poll','#modal_poll');$('div.modal-backdrop.fade.in').remove();" class="btn btn-primary btn-raised">{% trans "Answer" %}</button>
+<button type="button" onclick="javascript:modal.get('{% url 'course:poll:answer_student_poll' poll.slug%}','#poll','#requisicoes_ajax');$('div.modal-backdrop.fade.in').remove();" class="btn btn-primary btn-raised">{% trans "Answer" %}</button>
 {% endif %}
 {% endblock button_save %}
