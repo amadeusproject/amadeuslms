@@ -7,14 +7,11 @@ from django.contrib.postgres.fields import JSONField
 
 class MimeType(models.Model):
     typ = models.CharField(_('Type'), max_length=100, unique=True)
-    icon = models.CharField(_('Icon'), max_length=50, unique=True)
+    icon = models.CharField(_('Icon'), max_length=50)
 
     class Meta:
         verbose_name= _('Amadeus Mime Type')
         verbose_name_plural = _('Amadeus Mime Types')
-
-    def get_icon(self, type):
-        pass
 
     def __str__(self):
         return self.typ
