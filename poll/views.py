@@ -236,6 +236,7 @@ class UpdatePoll(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.UpdateView)
 	def get_context_data(self, **kwargs):
 		context = super(UpdatePoll, self).get_context_data(**kwargs)
 		poll = self.object
+		context.get('form').fields.get('students').queryset = poll.topic.subject.students.all()
 		context['topic'] = poll.topic
 		context['course'] = poll.topic.subject.course
 		context['subject'] = poll.topic.subject

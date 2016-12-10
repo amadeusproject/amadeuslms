@@ -91,8 +91,7 @@
               <button type="button" id="add" class="btn btn-primary btn-block btn-sm">add</button>
         <div class="row form-group {% if form.has_error %} has-error {% endif %}">
           <label for="{{ form.limit_date.auto_id }}">{{ form.limit_date.label }}</label>
-          {# {% render_field  form.limit_date class="form-control" form="form"%} #}
-          <input form="form" class="form-control date-picker" type="text" name="{{form.limit_date.name}}" {% if form.limit_date.value != None %}value="{{form.limit_date.value|date:'SHORT_DATE_FORMAT'}}"{% endif %}>
+          <input form="form" class="form-control date-picker" type="text" name="{{form.limit_date.name}}" {% if form.limit_date.value|date:'SHORT_DATE_FORMAT' %}value="{{form.limit_date.value|date:'SHORT_DATE_FORMAT'}}"{% else %} {% if form.limit_date.value != None %}value="{{form.limit_date.value}}"{% endif %}{% endif %}>
           {% if form.limit_date.errors %}
           <div class="not_submited">
           </br>
