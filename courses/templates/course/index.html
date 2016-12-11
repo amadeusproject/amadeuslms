@@ -11,8 +11,9 @@
 
 {{ block.super }}
 {% breadcrumb 'Courses' 'course:manage' %}
-{% breadcrumb search 'course:manage' %}
-
+  {% if search %}
+    {% breadcrumb search 'course:manage' %}
+  {% endif %}
 {% endblock %}
 
 {% block content %}
