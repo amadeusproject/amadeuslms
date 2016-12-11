@@ -1,4 +1,4 @@
-{% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access list_topic_exercises %}
+{% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access  %}
 <!-- Block with Log info -->
 <input type="hidden" class="log_id" value="{{ topic_log_id }}" />
 <input type="hidden" class="log_url" value="{% url 'course:topic_log' topic.id %}" />
@@ -51,7 +51,7 @@
         <ul class="dropdown-menu" aria-labelledby="dLabel">
           <li><a href="javascript:createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans 'Create Forum' %}</a></li>
           <li><a href="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#requisicoes_ajax');">{% trans 'Create Poll' %}</a></li>
-          <li><a href="javascript:modal.get('{% url 'course:exercise:create_exercise' topic.slug %}', '#createExercisesModal','#requisicoes_ajax')">{% trans 'Delivery Material' %}</a></li>
+          
           <li><a href="{% url 'course:exam:create_exam' topic.slug %}">{% trans 'Create exam' %}</a></li>
         </ul>
       </div>
@@ -61,7 +61,7 @@
       <ul>
         {% list_topic_poll request topic %}
         {% list_topic_foruns request topic %}
-        {% list_topic_exercise request topic %}
+        
       </ul>
   </div>
   {% endif %}
