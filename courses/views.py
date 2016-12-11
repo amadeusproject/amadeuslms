@@ -71,10 +71,10 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
     def get_queryset(self):
         result = super(IndexView, self).get_queryset()
 
-        course_search = self.request.GET.get('q', None)
+        self.course_search = self.request.GET.get('q', None)
         category_search = self.request.GET.get('category', None)
-        if course_search:
-            query_list = course_search.split()
+        if self.course_search:
+            query_list = self.course_search.split()
             result = result.filter(
             reduce(operator.and_,
                 (Q(name__icontains=q) for q in query_list))
@@ -99,8 +99,13 @@ class IndexView(LoginRequiredMixin, NotificationMixin, generic.ListView):
         elif has_role(self.request.user, 'student'):
             list_courses = self.get_queryset().filter(students__in = [self.request.user]).order_by('name')
 
+        translated = _('You searched for... ')
         context['categorys_courses'] = course_category(list_courses)
         context['title'] = _('Courses | Amadeus')
+        if self.course_search:
+            context['search'] = translated + self.course_search
+        else:
+            context['search'] = ""
         return context
 
 class AllCoursesView(LoginRequiredMixin, NotificationMixin, generic.ListView):
