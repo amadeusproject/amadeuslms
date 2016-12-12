@@ -14,7 +14,7 @@ from .forms import EmailBackendForm
 from courses.models import Course
 
 class AppIndex(LoginRequiredMixin, ListView, NotificationMixin):
-	login_url = reverse_lazy("core:home")	
+	login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 
 	template_name = "home.html"
@@ -34,15 +34,15 @@ class AppIndex(LoginRequiredMixin, ListView, NotificationMixin):
 			context['page_template'] = "home_admin_content.html"
 		else:
 			context['page_template'] = "home_teacher_student_content.html"
-	
-		context['title'] = 'Amadeus'
+
+		context['title'] = _('Home')
 
 		if self.request.is_ajax():
 			if self.request.user.is_staff:
 				self.template_name = "home_admin_content.html"
 			else:
 				self.template_name = "home_teacher_student_content.html"
-			
+
 		return self.response_class(request = self.request, template = self.template_name, context = context, using = self.template_engine, **response_kwargs)
 
 class AmadeusSettings(LoginRequiredMixin, HasRoleMixin, generic.CreateView):
@@ -51,7 +51,10 @@ class AmadeusSettings(LoginRequiredMixin, HasRoleMixin, generic.CreateView):
 	model = EmailBackend
 	template_name = 'admin_settings.html'
 	form_class = EmailBackendForm
-	success_url = reverse_lazy('app:settings')
+	#success_url = reverse_lazy('app:settings')
+
+	def get_success_url(self):
+		return reverse_lazy('app:settings', kwargs = {'page': self.kwargs['page']})
 
 	def form_invalid(self, form):
 		return self.render_to_response(self.get_context_data(form=form))
@@ -75,6 +78,8 @@ class AmadeusSettings(LoginRequiredMixin, HasRoleMixin, generic.CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AmadeusSettings, self).get_context_data(**kwargs)
+		context['page'] = self.kwargs.get('page')
+		context['title'] = _('Settings')
 		if not self.request.method == 'POST':
 			try:
 				setting = EmailBackend.objects.latest('id')
@@ -82,6 +87,3 @@ class AmadeusSettings(LoginRequiredMixin, HasRoleMixin, generic.CreateView):
 			except:
 				pass
 		return context
-
-
-

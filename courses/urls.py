@@ -33,7 +33,7 @@ urlpatterns = [
     url(r'^upload-material/$', views.UploadMaterialView.as_view(), name='upload_material'),
     url(r'^subjects/file-material-view/(?P<slug>[\w_-]+)/$', views.FileMaterialView.as_view(), name='file_material_view'),
     url(r'^links/',include('links.urls',namespace = 'links')),
-    url(r'^exercise/', include('exercise.urls', namespace='exercise')),
+    url(r'^topic/(?P<topic>[\w_-]+)/$', views.topic_log, name='topic_log'),
     url(r'^(?P<slug>[\w_-]+)/', include([
         url(r'^$', views.CourseView.as_view(), name='view'),
         url(r'^(?P<category>[\w_-]+)/$', views.CourseView.as_view(), name='view_filter')

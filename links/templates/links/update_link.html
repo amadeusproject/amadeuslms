@@ -51,6 +51,7 @@
     <script type="text/javascript">
       $("#form-update-link").submit(function(event) {
           $('#linksModalEdit').modal('hide');
+          $('body').removeClass('modal-open');
             var data = new FormData($('#form-update-link').get(0));
             $.ajax({
                 url: "{% url 'course:links:update_link' link.slug %}",

@@ -3,62 +3,18 @@
 {% load static i18n django_bootstrap_breadcrumbs permission_tags %}
 
 {% block javascript %}
-    {% if page_obj %}
+    {{ block.super }}
         <script type="text/javascript">
-            {% if page_obj and paginator %}
-                var pageNum = {{ page_obj.number }}; // The latest page loaded
-                var numberPages = {{ paginator.num_pages }}; // Indicates the number of pages
-            {% else %}
-                var pageNum = 0 ; // The latest page loaded
-                var numberPages = 0 ; // Indicates the number of pages
-            {% endif %}
-
-            var baseUrl = '{% url "app:index" %}';
-
-            // loadOnScroll handler
-            var loadOnScroll = function() {
-               // If the current scroll position is past out cutoff point...
-                if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
-                    // temporarily unhook the scroll event watcher so we don't call a bunch of times in a row
-                    $(window).unbind();
-                    // execute the load function below that will visit the view and return the content
-                    loadItems();
-                }
-            };
-
-            var loadItems = function() {
-                // Check if page is equal to the number of pages
-                if (pageNum == numberPages) {
-                    return false
-                }
-                // Update the page number
-                pageNum = pageNum + 1;
-
-                $("#loading").show();
-                // Configure the url we're about to hit
-                setTimeout(function (){
-                    $.ajax({
-                        url: baseUrl,
-                        data: {'page': pageNum},
-                        success: function(data) {
-                            $("#loading").hide();
-
-                            $("#timeline").append(data);
-                        },
-                        complete: function(data, textStatus){
-                            // Turn the scroll monitor back on
-                            $(window).bind('scroll', loadOnScroll);
-                        }
-                    });
-                }, 1000)
-            };
-
-            $(document).ready(function(){
-               $(window).bind('scroll', loadOnScroll);
-               $.material.init();
-            });
-        </script>
-    {% endif %}
+          {% if page_obj and paginator %}
+            var pageNum = {{ page_obj.number }}; // The latest page loaded
+            var numberPages = {{ paginator.num_pages }}; // Indicates the number of pages
+          {% else %}
+            var pageNum = 0 ; // The latest page loaded
+            var numberPages = 0 ; // Indicates the number of pages
+          {% endif %}
+          var baseUrl = '{% url "app:index" %}';
+        </script> 
+    
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -76,16 +32,16 @@
         <div class="panel-heading">
             <h4>{% trans 'Menu' %}</h4>
         </div>
-        <div class="panel-body">
+        <div class="panel-body menu-lateral">
             <ul class="nav nav-pills nav-stacked">
               <li>
                   <a href="#menu_courses" class="accordion" data-toggle="collapse">{% trans 'Courses' %}<span class="pull-right glyphicon glyphicon-chevron-down"></span></a>
                   <div id="menu_courses" class="collapse">
                       <ul class="nav nav-pill nav-stacked accordion_list">
-                        <li><a href="{% url 'course:manage' %}"> {% trans 'My Courses' %} </a></li>
-                        <li><a href="{% url 'course:all_courses' %}"> {% trans 'All Courses' %} </a></li>
+                        <li><a href="{% url 'course:manage' %}"><i class="fa fa-book" aria-hidden="true"></i> {% trans 'My Courses' %} </a></li>
+                        <li><a href="{% url 'course:all_courses' %}"><i class="fa fa-globe" aria-hidden="true"></i> {% trans 'All Courses' %} </a></li>
                         {% if user|has_role:'system_admin' or user|has_role:'professor'%}
-                          <li><a href="{% url 'course:manage_cat' %}">{% trans 'List Category' %}</a></li>
+                          <li><a href="{% url 'course:manage_cat' %}"><i class="fa fa-list" aria-hidden="true"></i> {% trans 'List Category' %}</a></li>
                           <li><a href="{% url 'course:create' %}">{% trans 'Create Course' %}</a></li>
                           <li><a href="{% url 'course:create_cat' %}">{% trans 'Create Category' %}</a></li>
                         {% endif %}
@@ -96,23 +52,23 @@
 
               {% endblock %}
                 {% if user|has_role:'system_admin' %}
-                    
+
                     <li>
                       <a href="#menu_users" class="accordion" data-toggle="collapse">{% trans 'Users' %}<span class="pull-right glyphicon glyphicon-chevron-down"></span></a>
                       <div id="menu_users" class="collapse">
                         <ul class="nav nav-pill nav-stacked accordion_list">
-                          <li> <a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
-                          <li> <a href="{% url 'users:create' %}">{% trans 'Create User' %}</a></li>
+                          <li> <a href="{% url 'users:manage' %}"><i class="fa fa-users" aria-hidden="true"></i>  {% trans 'Manage Users' %}</a></li>
+                          <li> <a href="{% url 'users:create' %}"><i class="fa fa-user-plus" aria-hidden="true"></i>  {% trans 'Create User' %}</a></li>
                         </ul>
-                      </div> 
+                      </div>
                     </li>
-                    <li> 
+                    <li>
                       <a href="#menu_settings" class="accordion" data-toggle="collapse">{% trans 'Settings' %}<span class="pull-right glyphicon glyphicon-chevron-down"></span></a>
                       <div id="menu_settings" class="collapse">
                         <ul class="nav nav-pill nav-stacked accordion_list">
-                            <li> <a href="{% url 'app:settings' %}">{% trans "System" %}</a></li>
-                            <li> <a href="{% url 'app:settings' %}">{% trans "Mail Sender" %}</a></li>
-                            <li> <a href="{% url 'app:settings' %}">{% trans "Security" %}</a></li>
+                            <li> <a href="{% url 'app:settings' page='system' %}"><i class="fa fa-cog" aria-hidden="true"></i> {% trans "System" %}</a></li>
+                            <li> <a href="{% url 'app:settings' page='mail_sender' %}"><i class="fa fa-envelope" aria-hidden="true"></i> {% trans "Mail Sender" %}</a></li>
+                            <li> <a href="{% url 'app:settings' page='security' %}"><i class="fa fa-shield" aria-hidden="true"></i> {% trans "Security" %}</a></li>
                         </ul>
                       </div>
                     </li>

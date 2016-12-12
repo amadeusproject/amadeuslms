@@ -116,6 +116,10 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin, LogMixin, NotificationMixin,ge
 				answer = Answer(answer=self.request.POST[key],order=key,poll=self.object)
 				answer.save()
 
+		if (self.request.POST.get('all_students')):
+			for student in topic.subject.students.all():
+				self.object.students.add(student)
+
 		self.log_context['poll_id'] = self.object.id
 		self.log_context['poll_slug'] = self.object.slug
 		self.log_context['topic_id'] = self.object.topic.id
@@ -136,14 +140,11 @@ class CreatePoll(LoginRequiredMixin,HasRoleMixin, LogMixin, NotificationMixin,ge
 							"edit":reverse_lazy('course:poll:render_poll_edit', kwargs={'slug' : self.object.slug}),
 							})
 
-
-    # def get_success_url(self):
-    #     self.success_url = redirect('course:poll:render_poll', slug = self.object.slug)
-    #     return self.success_url
-
 	def get_context_data(self, **kwargs):
 		context = super(CreatePoll, self).get_context_data(**kwargs)
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
+
+		context.get('form').fields.get('students').queryset = topic.subject.students.all()
 		context["topic"] = topic
 		context['course'] = topic.subject.course
 		context['subject'] = topic.subject
@@ -235,6 +236,7 @@ class UpdatePoll(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.UpdateView)
 	def get_context_data(self, **kwargs):
 		context = super(UpdatePoll, self).get_context_data(**kwargs)
 		poll = self.object
+		context.get('form').fields.get('students').queryset = poll.topic.subject.students.all()
 		context['topic'] = poll.topic
 		context['course'] = poll.topic.subject.course
 		context['subject'] = poll.topic.subject

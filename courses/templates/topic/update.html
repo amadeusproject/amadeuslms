@@ -1,27 +1,114 @@
-{% extends 'subject/index.html' %}
+{% load static i18n list_topic_foruns permission_tags widget_tweaks professor_access course_value_field %}
 
-{% load static i18n permission_tags widget_tweaks %}
-
-{% block content %}
-
-<div class="panel panel-default">
-  <div class="panel-body">
-    <form class="form-group " method="post" action="">
-      {% csrf_token %}
-      {% for field in form %}
-      <div class="form-group {% if field.errors %} has-error{% endif %}">
-        <label for="{{ field.auto_id }}" class="control-label label-static"> {{ field.label }}</label>
-
-        {% render_field field class='form-control' placeholder=field.label%}
-        <span class="help-block">{{ field.help_text }}</span>
+<form class="" id="form_topic_update_{{topic.slug}}" method="post" action="">
+  {% csrf_token %}
+  {% for field in form %}
+  <div class="form-group {% if field.errors %} has-error{% endif %}">
+    {% if field.auto_id != 'id_visible' %}
+      <label for="{{ field.auto_id }}"> {{ field.label }}</label>
+    {% endif %}
+    {% if field.auto_id == 'id_visible' %}
+    {% value_topic_field topic field.name as value_field %}
+      <div class="">
+        <label>
+            <input type="checkbox" class="" name="{{field.name}}" {% if value_field %}checked="checked"{% endif %}><span class="checkbox-material"></span> {{field.name}}
+        </label>
       </div>
-      {% endfor %}
-      <div class="col-lg-offset-4 col-lg-4">
-        <button type="submite" class="btn btn-raised btn-primary btn-lg btn-block">{% trans 'Update' %}</button>
+    {% else %}
+      {% if field.errors %}
+        {% render_field field class='form-control' %}
+      {% else %}
+        {% if field.auto_id == 'id_description'%}
+          <textarea class="form-control" cols="80" id="{{field.auto_id}}" name="{{field.name}}" rows="5">{{field.value}}</textarea>
+        {% else %}
+          {% render_field field class='form-control'%}
+        {% endif %}
+      {% endif %}
+    {% endif %}
+    <span class="help-block">{{ field.help_text }}</span>
+    {% if field.errors %}
+    <div class="row">
+    </br>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          <ul>
+            {% for error in field.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+    </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</form>
 
+<div class="row">
+  <div class="col-xs-6 col-md-6">
+    <div class="resource_inline">
+      <h4>{% trans 'Material' %}</h4>
+    </div>
+    <div class="resource_inline">
+
+      {# dropdown de create material #}
+      <div class="dropdown">
+        <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
+        <ul class="dropdown-menu" aria-labelledby="dLabel">
+          <li><a href="javascript:modal.get('{% url 'course:links:create_link' topic.slug %}', '#createLinksModal','#requisicoes_ajax')  ">{% trans 'Create a Link' %}</a></li>
+          <li><a href="javascript:modal.get('{% url 'course:file:create_file' topic.slug %}', '#fileModal', '#requisicoes_ajax')">{% trans "Create a file" %}</a></li>
+        </ul>
       </div>
-    </form>
+    </div>
+    <div class="editation editation_{{topic.slug}}">
+
+      {# materiais do tópico no modo de edição #}
+      <ul>
+        {% list_topic_file_edit request topic %}
+        {% list_topic_link_edit request topic%}
+      </ul>
+    </div>
+  </div>
+
+  {# avaliações do topico #}
+  <div class="col-xs-6 col-md-6">
+    <div class="resource_inline">
+      <h4>{% trans 'Activities' %}</h4>
+    </div>
+    <div class="resource_inline">
+
+      {# dropdown de avaliações #}
+      <div class="dropdown">
+        <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
+        <ul class="dropdown-menu" aria-labelledby="dLabel">
+          <li><a href="javascript:createForum('{% url 'course:forum:create' %}', '{{ topic.id }}')">{% trans 'Create Forum' %}</a></li>
+          <li><a href="javascript:modal.get('{% url 'course:poll:create_poll' topic.slug%}','#poll','#requisicoes_ajax');">{% trans 'Create Poll' %}</a></li>
+          <li><a href="{% url 'course:exam:create_exam' topic.slug %}">{% trans 'Create exam' %}</a></li>
+        </ul>
+      </div>
+    </div>
+      {# avaliações do tópico no modo de edição #}
+      <ul>
+        {% list_topic_poll_teacher request topic %}
+        {% list_topic_foruns request topic %}
+      </ul>
   </div>
 </div>
 
-{% endblock content %}
+<div class="form-group">
+  <div class="col-md-10">
+    <a href="javascript:topic.get('{% url 'course:view_topic' topic.slug %}','#content_topic_{{topic.slug}}','true');" class="btn btn-raised btn-default">{% trans 'Back' %}</a>
+    <button type="submite" form="form_topic_update_{{topic.slug}}" class="btn btn-raised btn-primary">{% trans 'Submit' %}</a>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+      $('#id_description').summernote({height:250});
+  });
+  $("#form_topic_update_{{topic.slug}}").submit(function(event) {
+    topic.post("{% url 'course:update_topic' topic.slug %}",$(this).serialize(), '#content_topic_{{topic.slug}}');
+    event.preventDefault();
+  });
+</script>

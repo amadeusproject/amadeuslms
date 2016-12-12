@@ -65,7 +65,7 @@
                 					<label for="{{ field.auto_id }}">{{ field.label }}</label>
 									<div class="checkbox">
 	                  					<label for="{{ field.auto_id }}">
-	                      					{% render_field field %}<span class="checkbox-material"><span class="check"></span></span> {{field.label}}
+	                      					{% render_field field %} {{field.label}}
 	                  					</label>
 	                				</div>
 								{% endif %}
@@ -106,4 +106,11 @@
 		</div>
 	</div>
 	<br clear="all" />
+	<script type="text/javascript">
+	var locale = navigator.language || navigator.userLanguage;
+
+	$('.date-picker').datepicker({
+		language: locale,
+	});
+	</script>
 {% endblock %}

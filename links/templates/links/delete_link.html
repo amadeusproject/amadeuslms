@@ -41,6 +41,8 @@
       $("#form-delete-link").submit(function(event) {
             var data = new FormData($('#form-delete-link').get(0));
             $('#linkDeleteModal').modal('hide');
+            $('body').removeClass('modal-open');
+            $("div.modal-backdrop.fade.in").remove();
             $.ajax({
                 url: "{% url 'course:links:delete_link' link.slug %}",
                 type: $("#form-delete-link").attr('method'),
@@ -56,7 +58,6 @@
                     alertify.success(" {% trans 'Link successfully deleted!' %} ");
                 },
                 error: function(data){
-                    $("div.modal-backdrop.fade.in").remove();
                     $('#requisicoes_ajax').empty();
                     $('#requisicoes_ajax').append(data.responseText);
                     $('#linkDeleteModal').modal('show');

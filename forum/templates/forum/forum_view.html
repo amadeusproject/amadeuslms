@@ -1,6 +1,6 @@
-{% extends 'home.html' %}
+{% extends 'subject/index.html' %}
 
-{% load static i18n permission_tags list_post %}
+{% load static i18n permission_tags list_post django_bootstrap_breadcrumbs %}
 {% load widget_tweaks %}
 
 {% block javascript %}
@@ -8,17 +8,8 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-
-    <ol class="breadcrumb">
-        <li><a href="{% url 'app:index' %}">{% trans 'Home' %}</a></li>
-        <li><a href="{% url 'course:view' forum.topic.subject.course.slug %}">{{ forum.topic.subject.course }}</a></li>
-        {% if user|has_role:'professor' or user|has_role:'system_admin' %}
-            <li class="active">{% trans 'Forum' %}</li>
-        {% else %}
-            <li class="active">{{ forum.name }}</li>
-        {% endif %}
-
-    </ol>
+    {{ block.super }}
+    {% breadcrumb forum 'course:forum:view' forum.slug %}
 {% endblock %}
 
 

@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 
 from rolepermissions.shortcuts import assign_role
 
-from courses.models import Course, Category
+from courses.models import Course, CourseCategory
 from courses.forms import CourseForm
 from users.models import User
 
@@ -23,7 +23,7 @@ class CourseViewTestCase(TestCase):
 		)
 		assign_role(self.user, 'system_admin')
 
-		self.category = Category(
+		self.category = CourseCategory(
 			name = 'Categoria Teste',
 			slug = 'categoria_teste'
 		)

@@ -4,10 +4,8 @@
 {% load widget_tweaks course_value_field django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
-
   {{ block.super }}
   {% breadcrumb 'Replicate Course' 'course:replicate_course' %}
-
 {% endblock %}
 
 {% block content %}

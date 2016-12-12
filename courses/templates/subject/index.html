@@ -3,13 +3,14 @@
 {% load static i18n permission_tags professor_access django_bootstrap_breadcrumbs %}
 
 {% block javascript %}
+  {{block.super}}
   <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
   <script src="{% static 'js/file.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/modals_requisitions.js' %}"></script>
-  <script type = "text/javascript" src="{% static 'js/topic_editation_presentation.js' %}"></script>
   <script type = "text/javascript" src="{% static 'js/links.js' %}"></script>
   <script src="{% static 'js/modal_poll.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/topic.js' %}"></script>
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -19,14 +20,13 @@
 
 {% block content %}
   <div class="panel panel-info">
-    <div class="panel-heading course-detail">
+    <div class="panel-heading course">
       <div class="row">
-        <div class="col-md-10 col-sm-10">
+        <div class="col-xs-6 col-md-6 titleTopic">
           <h4>{{subject}}</h4>
         </div>
-
         {# dropdown de subject com as opções de replicar, editar e deletar #}
-        <div class="col-xs-4 col-md-2 divMoreActions">
+        <div class="col-xs-6 col-md-6 divMoreActions">
           {% professor_subject subject user as subject_professor%}
           {% if subject_professor %}
           <div class="btn-group">
@@ -36,15 +36,13 @@
             <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
               <li><a href="{% url 'course:replicate_subject' subject.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Replicate" %}</a></li>
               <li><a href="{% url 'course:update_subject' subject.slug %}"> <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Edit" %}</a></li>
-              <li><a href="{% url 'course:delete_subject' subject.slug %}" ><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Remove" %}</a></li>
+              <li><a href="javascript:delete_subject.get('{% url 'course:delete_subject' subject.slug %}?view=index','#subject','#modal_subject')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
             </ul>
           </div>
           {% endif %}
         </div>
-
       </div>
     </div>
-
     {# informações do subject(professor, descrição etc) #}
     <div class="panel-body">
       <p><b>{% trans "Professor" %}:</b> {% for professor in subject.professors.all %}{% if not forloop.first %},{% endif %}
@@ -62,18 +60,14 @@
         </div>
       </div>
     </div>
-
   </div>
 
   {# lista de tópicos #}
-  {% for topic in topics %}
-    {% professor_subject topic.subject user as topic_professor%}
-    {% if topic_professor %}
-      {% include "subject/form_view_teacher.html" %}
-    {% else %}
-      {% include "subject/form_view_student.html" %}
-    {% endif %}
-  {% endfor %}
+    <div class="panel-group" id="topics" role="tablist" aria-multiselectable="true">
+        {% for topic in topics %}
+            {% include "topic/index.html" %}
+        {% endfor %}
+    </div>
 
   {# botão create topic #}
   {% professor_subject subject user as professor_sub %}
@@ -105,5 +99,8 @@
         </div>
       </div>
     </div>
+  </div>
+  <div id="modal_subject">
+
   </div>
 {% endblock %}

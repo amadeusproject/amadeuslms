@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     'poll',
     'links',
     'files',
-    'exercise',
 
 ]
 
@@ -231,6 +230,8 @@ OAUTH2_PROVIDER = {
 #For date purposes
 DATETIME_INPUT_FORMATS.append('%d/%m/%y')
 DATE_INPUT_FORMATS.append('%d/%m/%y')
+DATETIME_INPUT_FORMATS.append('%m/%d/%y')
+DATE_INPUT_FORMATS.append('%m/%d/%y')
 
 #s3direct
 

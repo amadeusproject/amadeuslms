@@ -23,7 +23,6 @@ urlpatterns = [
     url(r'^home/', include('app.urls', namespace = 'app')),
     url(r'^courses/', include('courses.urls', namespace = 'course')),
     url(r'^users/', include('users.urls', namespace = 'users')),
-    url(r'^exercise/', include('exercise.urls', namespace = 'exercise')),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('core.urls', namespace = 'core')),
     #API

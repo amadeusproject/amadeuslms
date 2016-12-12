@@ -50,33 +50,36 @@ class CreateFile(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, 
 		self.object = form.save(commit = False)
 		topic = get_object_or_404(Topic, slug = self.kwargs.get('slug'))
 		self.object.topic = topic
-		
+
 		self.object.name = str(self.object)
-		
+
 
 		# Set MimeType
 		file = self.request.FILES['file_url']
 		try:
 			if file:
 				file_type = file.content_type
-
-				# Check if exist a mimetype in database
-				try:
-					self.object.file_type = MimeType.objects.get(typ = file_type)
-				# Create if not
-				except:
-					mtype = MimeType.objects.create(
+				# criar o mime type caso não tenha no banco ainda
+				if (MimeType.objects.filter(typ = file_type).count()==0):
+					mime = file_type
+					if (not mime_type_to_material_icons.get(mime)):
+						mime = mime.split("/")[0]
+					if (not mime_type_to_material_icons.get(mime)):
+						mime = "other"
+					print (mime_type_to_material_icons.get(mime))
+					teste = mime_type_to_material_icons.get(mime)
+					mtype = MimeType(
 						typ = file_type,
-						icon = mime_type_to_material_icons[file_type]
+						icon = teste
 					)
 					mtype.save()
-					self.object.file_type = mtype
+				self.object.file_type = MimeType.objects.get(typ = file_type)
+
 		except:
 			print('File not uploaded')
-			# self.object.file_type = MimeType.objects.get(id = 1)
 
 		self.object.save()
-		#CREATE LOG 
+		#CREATE LOG
 		self.log_context['topic_id'] = topic.id
 		self.log_context['topic_name'] = topic.name
 		self.log_context['topic_slug'] = topic.slug
@@ -90,7 +93,7 @@ class CreateFile(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, 
 
 		#CREATE NOTIFICATION
 		super(CreateFile, self).createNotification(message="uploaded a File "+ self.object.name, actor=self.request.user,
-			resource_name=self.object.name, resource_link= reverse('course:view_topic', args=[self.object.topic.slug]), 
+			resource_name=self.object.name, resource_link= reverse('course:view_topic', args=[self.object.topic.slug]),
 			users=self.object.topic.subject.students.all())
 
 		self.log_context['file_id'] = self.object.id
@@ -125,7 +128,7 @@ class CreateFile(LoginRequiredMixin, HasRoleMixin, LogMixin, NotificationMixin, 
 
 	def get_success_url(self):
 		self.success_url = redirect('course:file:render_file', id = self.object.id)
-		
+
 		return self.success_url
 
 
@@ -211,7 +214,7 @@ class UpdateFile(LoginRequiredMixin, HasRoleMixin, LogMixin, generic.UpdateView)
 
 	def get_success_url(self):
 		self.success_url = reverse_lazy('course:file:render_file', args = (self.object.id, ))
-		
+
 		return self.success_url
 
 

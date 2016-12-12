@@ -1,6 +1,6 @@
 {% load static i18n list_topic_foruns permission_tags %}
 <!--MODAL VIEW LINK-->
-<div class="modal fade" data-backdrop="false" id="viewLinkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="viewLinkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -14,7 +14,7 @@
            <div class="card-block">
               <b class="card-title">{{link.name}}</b><p></p>
               <p class="card-text"> </p><p>{{link.link_description}}</p>
-              <a href="{{ link.link_url }}" class="btn btn-raised btn-primary">{% trans 'Read more' %}</a>
+              <a href="{{ link.link_url }}" class="btn btn-raised btn-primary" target="_blank">{% trans 'Read more' %}</a>
            </div>
         </article>
         <!-- .end Card -->
@@ -24,5 +24,5 @@
 </div>
 <!-- EndModal -->
 <script type="text/javascript">
-$('.modal-backdrop').remove();
+// $('.modal-backdrop').remove();
 </script>

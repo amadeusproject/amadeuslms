@@ -99,6 +99,7 @@
                 contentType: false,
                 success: function(data) {
                     $('#fileModal').modal('hide');
+                    alertify.success('File successfully created!');
                     $('#list-topic{{ topic.id }}-files').append(data);
                     $('#list-topic{{ topic.id }}-files-edit').append(data);
                 },

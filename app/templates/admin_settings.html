@@ -17,32 +17,34 @@
 </div>
 {% endfor %}
 <!-- Nav tabs -->
+
 <ul class="nav nav-tabs md-pills pills-ins" role="tablist">
-	<li class="nav-item">
-		{% if form.safe_conection.errors or form.host.errors or form.default_from_email.errors %}
-		<a class="nav-link" data-toggle="tab" href="#panel1" role="tab"><i class="fa fa-cog"></i> {% trans "System" %}</a>
-	</li>
-	<li class="nav-item">
-		<a class="nav-link active" data-toggle="tab" href="#panel2" role="tab"><i class="fa fa-envelope"></i> {% trans "Mail Sender" %}</a>
-	</li>
+	{% if form.safe_conection.errors or form.host.errors or form.default_from_email.errors %}
+		<li class="nav-item">
+			<a class="nav-link {% if page == 'system' %}active{% endif %}" data-toggle="tab" href="#system" role="tab"><i class="fa fa-cog"></i> {% trans "System" %}</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link  {% if page == 'mail_sender' %}active{% endif %}" data-toggle="tab" href="#mail_sender" role="tab"><i class="fa fa-envelope"></i> {% trans "Mail Sender" %}</a>
+		</li>
 	{% else %}
-	<a class="nav-link active" data-toggle="tab" href="#panel1" role="tab"><i class="fa fa-cog"></i> {% trans "System" %}</a>
-<li class="nav-item">
-	<a class="nav-link" data-toggle="tab" href="#panel2" role="tab"><i class="fa fa-envelope"></i> {% trans "Mail Sender" %}</a>
-</li>
-{% endif %}
-<li class="nav-item">
-	<a class="nav-link" data-toggle="tab" href="#panel3" role="tab"><i class="fa fa-lock"></i> {% trans "Security" %}</a>
-</li>
+		<li class="nav-item">
+			<a class="nav-link {% if page == 'system' %}active{% endif %}" data-toggle="tab" href="#system" role="tab"><i class="fa fa-cog"></i> {% trans "System" %}</a>
+		<li class="nav-item">
+			<a class="nav-link {% if page == 'mail_sender' %}active{% endif %}" data-toggle="tab" href="#mail_sender" role="tab"><i class="fa fa-envelope"></i> {% trans "Mail Sender" %}</a>
+		</li>
+	{% endif %}
+	<li class="nav-item">
+		<a class="nav-link {% if page == 'security' %}active{% endif %}" data-toggle="tab" href="#security" role="tab"><i class="fa fa-lock"></i> {% trans "Security" %}</a>
+	</li>
 </ul>
 
 <!-- Tab panels -->
 <div class="tab-content">
 	<!--Panel 1-->
 	{% if form.errors %}
-	<div class="tab-pane fade" id="panel1" role="tabpanel">
+	<div class="tab-pane fade" id="system" role="tabpanel">
 		{% else %}
-		<div class="tab-pane fade in active" id="panel1" role="tabpanel">
+		<div class="tab-pane fade {% if page == 'system' %}in active{% endif %}" id="system" role="tabpanel">
 			{% endif %}
 			<div class="panel panel-default">
 				<div class="panel-body">
@@ -60,10 +62,10 @@
 
 		<!--Panel 2-->
 		{% if form.errors %}
-		<div class="tab-pane fade in active" id="panel2" role="tabpanel">
+		<div class="tab-pane fade in active" id="mail_sender" role="tabpanel">
 			{% else %}
-			<div class="tab-pane fade" id="panel2" role="tabpanel">
-				{% endif %}
+			<div class="tab-pane fade {% if page == 'mail_sender' %}in active{% endif %}" id="mail_sender" role="tabpanel">
+				{% endif %} 
 				<div class="panel panel-default">
 					<form class="form-horizontal" method="post">
 						{% csrf_token %}
@@ -252,7 +254,7 @@
 			<!--/.Panel 2-->
 
 			<!--Panel 3-->
-			<div class="tab-pane fade" id="panel3" role="tabpanel">
+			<div class="tab-pane fade {% if page == 'security' %}in active{% endif %}" id="security" role="tabpanel">
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div class="togglebutton">
