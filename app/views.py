@@ -35,7 +35,7 @@ class AppIndex(LoginRequiredMixin, ListView, NotificationMixin):
 		else:
 			context['page_template'] = "home_teacher_student_content.html"
 
-		context['title'] = _('Home | Amadeus')
+		context['title'] = _('Home')
 
 		if self.request.is_ajax():
 			if self.request.user.is_staff:
@@ -79,7 +79,7 @@ class AmadeusSettings(LoginRequiredMixin, HasRoleMixin, generic.CreateView):
 	def get_context_data(self, **kwargs):
 		context = super(AmadeusSettings, self).get_context_data(**kwargs)
 		context['page'] = self.kwargs.get('page')
-		context['title'] = _('Settings | Amadeus')
+		context['title'] = _('Settings')
 		if not self.request.method == 'POST':
 			try:
 				setting = EmailBackend.objects.latest('id')

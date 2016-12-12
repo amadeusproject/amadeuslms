@@ -58,6 +58,7 @@ def create_account(request):
 
 def login(request):
 	context = {}
+	context['title'] = 'Log In'
 
 	if request.POST:
 		username = request.POST['username']

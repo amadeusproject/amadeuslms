@@ -47,7 +47,7 @@ class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 
 	def get_context_data (self, **kwargs):
 		context = super(UsersListView, self).get_context_data(**kwargs)
-		context['title'] = 'Manage Users | Amadeus'
+		context['title'] = 'Manage Users'
 		return context
 
 class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
@@ -77,7 +77,7 @@ class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
 		return super(Create, self).form_valid(form)
 	def get_context_data (self, **kwargs):
 		context = super(Create, self).get_context_data(**kwargs)
-		context['title'] = "Add User | Amadeus"
+		context['title'] = "Add User"
 		return context
 
 class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
@@ -111,7 +111,7 @@ class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
 
 	def get_context_data (self, **kwargs):
 		context = super(Update, self).get_context_data(**kwargs)
-		context['title'] = "Update User | Amadeus"
+		context['title'] = "Update User"
 		return context
 
 class View(LoginRequiredMixin, generic.DetailView):
@@ -126,7 +126,7 @@ class View(LoginRequiredMixin, generic.DetailView):
 
 	def get_context_data (self, **kwargs):
 		context = super(View, self).get_context_data(**kwargs)
-		context['title'] = "User | Amadeus"
+		context['title'] = "User"
 		return context
 
 def delete_user(request,username):
@@ -146,7 +146,7 @@ class Change_password(generic.TemplateView):
 
 	def get_context_data (self, **kwargs):
 		context = super(Change_password, self).get_context_data(**kwargs)
-		context['title'] = "Change Password | Amadeus"
+		context['title'] = "Change Password"
 		return context
 
 class Remove_account(generic.TemplateView):
@@ -154,7 +154,7 @@ class Remove_account(generic.TemplateView):
 
 	def get_context_data (self, **kwargs):
 		context = super(Remove_account, self).get_context_data(**kwargs)
-		context['title'] = "Remove Account | Amadeus"
+		context['title'] = "Remove Account"
 		return context
 
 class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
@@ -169,7 +169,7 @@ class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(UpdateProfile, self).get_context_data(**kwargs)
-		context['title'] = 'Update Profile | Amadeus'
+		context['title'] = 'Update Profile'
 		if has_role(self.request.user, 'system_admin'):
 			context['form'] = UpdateProfileFormAdmin(instance = self.object)
 		else:
@@ -207,7 +207,7 @@ class Profile(LoginRequiredMixin, generic.DetailView):
 
 	def get_context_data (self, **kwargs):
 		context = super(Profile, self).get_context_data(**kwargs)
-		context['title'] = "Profile | Amadeus"
+		context['title'] = "Profile"
 		return context
 
 class SearchView(LoginRequiredMixin, generic.ListView):
