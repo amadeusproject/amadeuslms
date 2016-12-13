@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'forum',
     'exam',
     'poll',
+    'exam',
     'links',
     'files',
 
