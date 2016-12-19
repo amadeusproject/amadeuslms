@@ -19,6 +19,7 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 
+
 urlpatterns = [
     url(r'^users/', include('users.urls', namespace = 'users')),
     url(r'^admin/', admin.site.urls),

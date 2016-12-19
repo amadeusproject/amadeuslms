@@ -221,6 +221,25 @@ class SearchView(LoginRequiredMixin, generic.ListView):
 		return context
 
 
+def login(self, request):
+	context = {}
+	context['title'] = 'Log In'
+
+	if request.POST:
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(username=username, password=password)
+		if user is not None:
+			login_user(request, user)
+			return redirect(reverse("users:login"))
+		else:
+			messages.add_message(request, messages.ERROR, _('E-mail or password are incorrect.'))
+			context["username"] = username
+	elif request.user.is_authenticated:
+		return redirect(reverse('users:login'))
+
+	return render(request,"index.html",context)
+
 # API VIEWS
 
 class UserViewSet(viewsets.ModelViewSet):

@@ -4,7 +4,8 @@ from . import views
 
 
 urlpatterns = [
-	url(r'^$', views.UsersListView.as_view(), name='manage'),
+	url(r'^login/$', views.login, name='login'),
+	#url(r'^$', views.UsersListView.as_view(), name='manage'),
 	url(r'^create/$', views.Create.as_view(), name='create'),
 	url(r'^edit/(?P<username>[\w_-]+)/$', views.Update.as_view(), name='update'),
 	url(r'^view/(?P<username>[\w_-]+)/$', views.View.as_view(), name='view'),
