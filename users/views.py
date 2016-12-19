@@ -12,7 +12,7 @@ from itertools import chain
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import User
-from .forms import UserForm, UpdateProfileForm, UpdateUserForm, UpdateProfileFormAdmin
+from .forms import UserForm, UpdateProfileForm
 
 
 #API IMPORTS
@@ -85,7 +85,7 @@ class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
 	slug_url_kwarg = 'username'
 	context_object_name = 'acc'
 	model = User
-	form_class = UpdateUserForm
+	form_class = UserForm
 	success_url = reverse_lazy('users:manage')
 
 	def form_valid(self, form):
@@ -165,10 +165,9 @@ class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(UpdateProfile, self).get_context_data(**kwargs)
 		context['title'] = 'Update Profile'
-		if has_role(self.request.user, 'system_admin'):
-			context['form'] = UpdateProfileFormAdmin(instance = self.object)
-		else:
-			context['form'] = UpdateProfileForm(instance = self.object)
+		
+		context['form'] = UpdateProfileForm(instance = self.object)
+
 		return context
 
 	def form_valid(self, form):

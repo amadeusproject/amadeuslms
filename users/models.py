@@ -26,7 +26,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 	birth_date = models.DateField(_('Birth Date'), null=True, blank=True)
 	phone = models.CharField(_('Phone'), max_length = 30, blank = True)
 	cpf = models.CharField(_('CPF'), max_length = 15, blank=True, null=True)
-	type_profile = models.IntegerField(_('Type'), null = True, blank = True, choices = ((1, _('Professor')), (2, _('Student'))))
+	type_profile = models.IntegerField(_('Type'), null = True, blank = True, choices = ((1, _('Professor')), (2, _('Student')), (3, _('Coordinator'))))
 	titration = models.CharField(_('Titration'), max_length = 50, blank = True, null = True)
 	year_titration = models.CharField(_('Year of titration'), max_length = 4, blank = True, null = True)
 	institution = models.CharField(_('Institution'), max_length = 50, blank=True, null=True)
@@ -36,7 +36,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 	is_active = models.BooleanField(_('Active'), default = True)
 
 	USERNAME_FIELD = 'username'
-	REQUIRED_FIELDS = ['email', 'cpf']
+	REQUIRED_FIELDS = ['email']
 
 	objects = UserManager()
 
@@ -47,11 +47,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 	def __str__(self):
 		return self.name or self.username
 
-	def get_full_name(self):
-		return str(self)
+	def save(self, *args, **kwargs):
+		if not self.is_staff and self.type_profile is None:
+			self.type_profile = 2
 
-	def get_short_name(self):
-		return str(self).split(" ")[0]
+		super(User, self).save(*args, **kwargs)
 
 	@property
 	def image_url(self):
