@@ -6,6 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
+from localization.models import City, State
+
 class User(AbstractBaseUser, PermissionsMixin):
 
 	username = models.CharField(_('Login'), max_length = 35, unique = True, validators = [
@@ -17,14 +19,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 		], help_text = _('A short name that will be used to identify you in the platform and to access it'))
 	email = models.EmailField(_('Mail'), unique = True)
 	name = models.CharField(_('Name'), max_length = 100)
-	city = models.CharField(_('City'), max_length = 90, blank = True)
-	state = models.CharField(_('State'), max_length = 30, blank = True)
-	gender = models.CharField(_('Gender'), max_length = 1, choices = (('M', _('Male')), ('F', _('Female'))))
+	city = models.ForeignKey(City, verbose_name = _('City'), blank = True, null = True)
+	state = models.ForeignKey(State, verbose_name = _('State'), blank = True, null = True)
+	gender = models.CharField(_('Gender'), max_length = 1, choices = (('M', _('Male')), ('F', _('Female'))), blank=True, null=True)
 	image = models.ImageField(verbose_name = _('Photo'), null=True, blank = True, upload_to = 'users/')
-	birth_date = models.DateField(_('Birth Date'), null=True)
+	birth_date = models.DateField(_('Birth Date'), null=True, blank=True)
 	phone = models.CharField(_('Phone'), max_length = 30, blank = True)
 	cpf = models.CharField(_('CPF'), max_length = 15, blank=True, null=True)
-	type_profile = models.IntegerField(_('Type'), null = True, blank = True, choices = ((1, _('Professor')), (2, _('Student'))), default=2)
+	type_profile = models.IntegerField(_('Type'), null = True, blank = True, choices = ((1, _('Professor')), (2, _('Student'))))
 	titration = models.CharField(_('Titration'), max_length = 50, blank = True, null = True)
 	year_titration = models.CharField(_('Year of titration'), max_length = 4, blank = True, null = True)
 	institution = models.CharField(_('Institution'), max_length = 50, blank=True, null=True)
