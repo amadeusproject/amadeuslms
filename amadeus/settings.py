@@ -52,15 +52,7 @@ INSTALLED_APPS = [
     'django_summernote',
 
     'users',
-    'core',
-    'app',
-    'courses',
-    'forum',
-    'poll',
-    'exam',
-    'links',
-    'files',
-
+    
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -75,7 +67,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
 
-    'core.middleware.TimeSpentMiddleware',
+    #'core.middleware.TimeSpentMiddleware',
     #libs-middleware
 
 ]
