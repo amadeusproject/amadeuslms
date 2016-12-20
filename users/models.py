@@ -53,6 +53,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 		super(User, self).save(*args, **kwargs)
 
+	def get_short_name(self):
+		return self.name
+
 	@property
 	def image_url(self):
 		if self.image and hasattr(self.image, 'url'):
