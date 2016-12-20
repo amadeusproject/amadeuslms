@@ -40,9 +40,6 @@ class RegisterUserForm(ValidationRegister):
         self.instance.set_password(self.cleaned_data['password'])
 
         self.instance.save()
-
-		if self.instance.type_profile == 2:
-			assign_role(self.instance, 'student')
         
         return self.instance
 
