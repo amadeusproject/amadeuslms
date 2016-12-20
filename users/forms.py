@@ -28,7 +28,7 @@ class Validation(forms.ModelForm):
         
 		return password2	
 
-class RegisterUserForm(ValidationRegister):
+class RegisterUserForm(Validation):
     password = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
     password2 = forms.CharField(label = _('Confirm Password'), widget = forms.PasswordInput)
 
@@ -45,4 +45,4 @@ class RegisterUserForm(ValidationRegister):
 
     class Meta:
         model = User
-        fields = ['username', 'name', 'last_name', 'social_name',]
+        fields = ['email', 'username', 'last_name', 'social_name',]

@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import get_object_or_404,redirect, render
 from django.db.models import Q
 from django.views import generic
@@ -13,7 +14,7 @@ from itertools import chain
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import User
-
+from .forms import RegisterUserForm
 
 #API IMPORTS
 from rest_framework import viewsets
@@ -220,10 +221,31 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 
 # 		return context
 
+class RegisterUser(generic.edit.CreateView):
+	model = User
+	form_class = RegisterUserForm
+	template_name = 'users/register.html'
+
+	success_url = reverse_lazy('users:login')
+
+	def get_context_data(self, **kwargs):
+		context = super(RegisterUser, self).get_context_data(**kwargs)
+		context['title'] = _('Sign Up')
+
+		return context
+
+	def form_valid(self, form):
+		form.save()
+		
+		assign_role(form.instance, 'student')
+
+		messages.success(self.request, _('User successfully registered!'))
+
+		return super(RegisterUser, self).form_valid(form)
 
 def login(request):
 	context = {}
-	context['title'] = 'Log In'
+	context['title'] = _('Log In')
 
 	if request.POST:
 		username = request.POST['email']
@@ -236,7 +258,7 @@ def login(request):
 			messages.add_message(request, messages.ERROR, _('E-mail or password are incorrect.'))
 			context["username"] = username
 	elif request.user.is_authenticated:
-		return redirect(reverse('users:login'))
+		raise Http404('<h1>Page not found</h1>') 
 
 	return render(request,"users/login.html",context)
 
