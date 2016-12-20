@@ -53,7 +53,6 @@ INSTALLED_APPS = [
 
     'amadeus',
     'users',
-    'localization',
     'notifications',
     'log',
     
