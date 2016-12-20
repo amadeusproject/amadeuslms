@@ -51,8 +51,10 @@ INSTALLED_APPS = [
     's3direct',
     'django_summernote',
 
+    'amadeus',
     'users',
     'localization',
+    'notifications',
     'log',
     
 ]
