@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404,redirect
+from django.shortcuts import get_object_or_404,redirect, render
 from django.db.models import Q
 from django.views import generic
 from django.contrib import messages
@@ -24,7 +24,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 
 	allowed_roles = ['system_admin']
-	login_url = reverse_lazy("core:home")
+	#login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'list_users.html'
 	context_object_name = 'users'
@@ -48,7 +48,7 @@ class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
 
 	allowed_roles = ['system_admin']
-	login_url = reverse_lazy("core:home")
+	#login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'users/create.html'
 	form_class = UserForm
@@ -78,7 +78,7 @@ class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
 class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
 
 	allowed_roles = ['system_admin']
-	login_url = reverse_lazy("core:home")
+	#login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	template_name = 'users/update.html'
 	slug_field = 'username'
@@ -111,7 +111,7 @@ class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
 
 class View(LoginRequiredMixin, generic.DetailView):
 
-	login_url = reverse_lazy("core:home")
+	#login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	model = User
 	context_object_name = 'acc'
@@ -134,7 +134,7 @@ def remove_account(request,username):
 	user = get_object_or_404(User,username = username)
 	user.delete()
 	messages.success(request,_("User deleted Successfully!"))
-	return redirect('core:logout')
+	#return redirect('core:logout')
 
 class Change_password(generic.TemplateView):
 	template_name = 'users/change_password.html'
@@ -153,7 +153,7 @@ class Remove_account(generic.TemplateView):
 		return context
 
 class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
-	login_url = reverse_lazy("core:home")
+	#login_url = reverse_lazy("core:home")
 	template_name = 'users/edit_profile.html'
 	form_class = UpdateProfileForm
 	success_url = reverse_lazy('users:profile')
@@ -178,9 +178,10 @@ class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
 
 class DeleteUser(LoginRequiredMixin, generic.edit.DeleteView):
 	allowed_roles = ['student']
-	login_url = reverse_lazy("core:home")
+	#login_url = reverse_lazy("core:home")
 	model = User
-	success_url = reverse_lazy('core:index')
+	
+	#success_url = reverse_lazy('core:index')
 	success_message = "Deleted Successfully"
 
 	def get_queryset(self):
@@ -190,7 +191,7 @@ class DeleteUser(LoginRequiredMixin, generic.edit.DeleteView):
 
 class Profile(LoginRequiredMixin, generic.DetailView):
 
-	login_url = reverse_lazy("core:home")
+	#login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	context_object_name = 'user'
 	template_name = 'users/profile.html'
@@ -206,7 +207,7 @@ class Profile(LoginRequiredMixin, generic.DetailView):
 
 class SearchView(LoginRequiredMixin, generic.ListView):
 
-	login_url = reverse_lazy("core:home")
+	#login_url = reverse_lazy("core:home")
 	redirect_field_name = 'next'
 	queryset = None
 	template_name = 'users/search.html'
@@ -220,7 +221,7 @@ class SearchView(LoginRequiredMixin, generic.ListView):
 		return context
 
 
-def login(self, request):
+def login(request):
 	context = {}
 	context['title'] = 'Log In'
 
@@ -237,7 +238,7 @@ def login(self, request):
 	elif request.user.is_authenticated:
 		return redirect(reverse('users:login'))
 
-	return render(request,"index.html",context)
+	return render(request,"users/login.html",context)
 
 # API VIEWS
 

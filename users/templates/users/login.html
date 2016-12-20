@@ -64,17 +64,17 @@
             <button type="submite" class="btn btn-success btn-raised btn-block" form="form-login" style="position: initial;"> {% trans 'Log in' %} </button>
           </div>
           <div class="col-md-5 col-xs-6 col-sm-6 col-lg-5 text-center">
-            <a class="btn btn-default btn-raised btn-block" href="{% url 'core:guest' %}" formaction="#" style="position: initial;">{% trans 'Guest' %}</a>
+            <a class="btn btn-default btn-raised btn-block" href="#" formaction="#" style="position: initial;">{% trans 'Guest' %}</a>
           </div>
         </div>
         <div class="row">
           <div class="col-md-offset-1 col-md-10 text-right forgotPassword">
-            <a href="{% url 'core:password_reset' %}">{% trans 'Forgot your password?' %}</a>
+            <a href="#">{% trans 'Forgot your password?' %}</a>
           </div>
         </div>
       </div>
     </div>
-    <a class="btn btn-raised btn-primary btn-block" href="{% url 'core:register' %}">{% trans 'Sign Up' %} </a>
+    <a class="btn btn-raised btn-primary btn-block" href="#">{% trans 'Sign Up' %} </a>
   </div>
 </div>
 
