@@ -9,8 +9,8 @@
 	<title>{{ title }} | Amadeus</title>
 
       <!-- jQuery & jQuery UI -->
-      <script type="text/javascript" src="{% static 'js/vendor/jquery-3.1.0.min.js' %}"></script>
-      <script type="text/javascript" src="{% static 'js/vendor/jquery-ui.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
 
 	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
 	<link href="{% static 'img/topo-amadeus.png' %}" rel="shortcut icon" />
@@ -25,21 +25,21 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.min.css' %}">
 
-	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/bootstrap-datepicker.standalone.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/alertifyjs/alertify.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/alertifyjs/themes/bootstrap.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/base/material_guideline.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datepicker.standalone.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/alertifyjs/alertify.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/alertifyjs/themes/bootstrap.css' %}">
+  
 
 	<script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/vendor/bootstrap-acessibility.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/bootstrap-acessibility.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'material/js/material.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'material/js/ripples.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/vendor/bootstrap-datepicker.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script>
 	{% with "js/vendor/locales/bootstrap-datepicker."|add:LANGUAGE_CODE|add:".js" as locale_datepicker %}
 	<script type="text/javascript" src="{% static locale_datepicker %}"></script>
 	{% endwith %}
-	<script type="text/javascript" src="{% static 'js/vendor/alertify.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/vendor/jscookie.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/alertify.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jscookie.js' %}"></script>
 
   	<!-- Font awesome -->
 	<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
@@ -69,7 +69,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="{% url 'app:index' %}"><img class="logo" src="{% static 'img/topo-amadeus-white.png'  %}" alt="Logo"/></a>
+      <a class="navbar-brand" href="#"><img class="logo" src="{% static 'img/topo-amadeus-white.png'  %}" alt="Logo"/></a>
     </div>
     <div class="navbar-collapse collapse navbar-responsive-collapse">
       <div class="col-md-5 cards-content" id= 'NavBarSearch'>
@@ -89,9 +89,9 @@
       <ul class="nav navbar-nav navbar-right notifications">
         <li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">
           <a  class="dropdown-toggle" data-toggle="dropdown"> <span id="notification-count" class="badge notification-count">{{notifications.count}}</span><i class="fa fa-bell" aria-hidden="true"></i></a>
-          <ul id="notification-dropdown" class="dropdown-menu">
+          <!--<ul id="notification-dropdown" class="dropdown-menu">
             <li class="dropdown-header"> {% trans 'Notifications' %}</li>
-            {% include "notifications.html" %}
+            
             <li>
               <a onclick="getNotifications(5)">
                 <div id="notification-see-more" class="list-group-item">
@@ -101,7 +101,7 @@
                 </div>
               </a>
             </li>
-          </ul>
+          </ul> -->
         </li>
         <li  data-toggle="tooltip" data-placement="bottom" title data-original-title="{% trans 'messages' %}"> <a href="#"><i class="fa fa-comments" aria-hidden="true"></i></a> </li>
         <li>
@@ -113,7 +113,7 @@
             <li><a href="{% url 'users:remove_account' %}">{% trans 'Remove account' %}</a></li>
           </ul>
         </li>
-        <li data-toggle="tooltip" data-placement="bottom" title data-original-title="log out"> <a href="{% url 'core:logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+        <li data-toggle="tooltip" data-placement="bottom" title data-original-title="log out"> <a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
       </ul>
     </div>
   </div>
