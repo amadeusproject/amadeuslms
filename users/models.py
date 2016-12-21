@@ -38,6 +38,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 	def __str__(self):
 		return self.social_name or self.username
 
+	def get_short_name(self):
+		return self.username
+
 	@property
 	def image_url(self):
 		if self.image and hasattr(self.image, 'url'):
