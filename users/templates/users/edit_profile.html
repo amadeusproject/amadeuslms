@@ -6,14 +6,8 @@
 {% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
-	{% if user|has_role:'system_admin' %}
-		{{ block.super }}
-    	{% breadcrumb 'Update User' 'users:update' %}
-	{% else %}
-		{{ block.super }}
-		{% breadcrumb 'Update Profile' 'users:update' %}
-	{% endif %}
-
+	{{ block.super }}
+	{% breadcrumb 'Update Profile' 'users:edit_profile' %}
 {% endblock %}
 
 
@@ -35,13 +29,8 @@
 					{% csrf_token %}
 					{% for field in form %}
 						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
-							{% if not field.auto_id == 'id_is_staff' and not field.auto_id == 'id_is_active' and not field.auto_id == 'id_type_profile' %}
-								<label for="{{ field.auto_id }}">{{ field.label }}</label>
-							{% endif %}
-							{% if field.auto_id == 'id_birth_date' %}
-								<input type="text" class="form-control date-picker"name="{{field.name}}" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}" id="{{ field.auto_id }}">
-								<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-							{% elif field.auto_id == 'id_image'  or field.auto_id == 'id_curriculum'%}
+							<label for="{{ field.auto_id }}">{{ field.label }}</label>
+							{% if field.auto_id == 'id_image' %}
 								{% render_field field class='form-control input-sm' %}
 								<div class="input-group">
 				                    <input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
@@ -51,35 +40,11 @@
 				                        </button>
 				                    </span>
 				                </div>
-						    {% elif field.auto_id == 'id_cpf' %}
-                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
-
-                			{% elif field.auto_id == 'id_phone' %}
-                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
-
-							{% elif field.auto_id == 'id_year_titration' %}
-								{% render_field field class='form-control' onkeypress='campoNumerico(this,event);' %}
-
-                			{% elif field.auto_id == 'id_is_staff' or field.auto_id == 'id_is_active' %}
-                				{% if user|has_role:'system_admin' %}
-                					<label for="{{ field.auto_id }}">{{ field.label }}</label>
-									<div class="checkbox">
-	                  					<label for="{{ field.auto_id }}">
-	                      					{% render_field field %} {{field.label}}
-	                  					</label>
-	                				</div>
-								{% endif %}
-							{% elif field.auto_id == 'id_type_profile' %}
-								{% if user|has_role:'system_admin' %}
-	            					<label for="{{ field.auto_id }}">{{ field.label }}</label>
-									{% render_field field class='form-control' %}
-									<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-								{% endif %}
+				            {% elif field.auto_id == 'id_description' %}
+				            	{% render_field field class='form-control text_wysiwyg' %}
 							{% else %}
-								{% if not field.auto_id == 'id_is_staff' and not field.auto_id == 'id_is_active' and not field.auto_id == 'id_type_profile' %}
-									{% render_field field class='form-control' %}
-									<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-								{% endif %}
+								{% render_field field class='form-control' %}
+								<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
 							{% endif %}
 							{% if field.errors %}
 								<div class="alert alert-danger alert-dismissible" role="alert">
@@ -107,10 +72,8 @@
 	</div>
 	<br clear="all" />
 	<script type="text/javascript">
-	var locale = navigator.language || navigator.userLanguage;
-
-	$('.date-picker').datepicker({
-		language: locale,
-	});
+		$('.text_wysiwyg').summernote({
+			height: 200
+		});
 	</script>
 {% endblock %}

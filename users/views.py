@@ -14,7 +14,7 @@ from itertools import chain
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import User
-from .forms import RegisterUserForm
+from .forms import RegisterUserForm, ProfileForm
 
 #API IMPORTS
 from rest_framework import viewsets
@@ -153,29 +153,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 # 		context['title'] = "Remove Account"
 # 		return context
 
-# class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
-# 	#login_url = reverse_lazy("core:home")
-# 	template_name = 'users/edit_profile.html'
-# 	form_class = UpdateProfileForm
-# 	success_url = reverse_lazy('users:profile')
 
-# 	def get_object(self):
-# 		user = get_object_or_404(User, username = self.request.user.username)
-# 		return user
-
-# 	def get_context_data(self, **kwargs):
-# 		context = super(UpdateProfile, self).get_context_data(**kwargs)
-# 		context['title'] = 'Update Profile'
-		
-# 		context['form'] = UpdateProfileForm(instance = self.object)
-
-# 		return context
-
-# 	def form_valid(self, form):
-# 		form.save()
-# 		messages.success(self.request, _('Profile edited successfully!'))
-
-# 		return super(UpdateProfile, self).form_valid(form)
 
 # class DeleteUser(LoginRequiredMixin, generic.edit.DeleteView):
 # 	allowed_roles = ['student']
@@ -188,23 +166,6 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 # 	def get_queryset(self):
 # 		user = get_object_or_404(User, username = self.request.user.username)
 # 		return user
-
-
-# class Profile(LoginRequiredMixin, generic.DetailView):
-
-# 	#login_url = reverse_lazy("core:home")
-# 	redirect_field_name = 'next'
-# 	context_object_name = 'user'
-# 	template_name = 'users/profile.html'
-
-# 	def get_object(self):
-# 		user = get_object_or_404(User, username = self.request.user.username)
-# 		return user
-
-# 	def get_context_data (self, **kwargs):
-# 		context = super(Profile, self).get_context_data(**kwargs)
-# 		context['title'] = "Profile"
-# 		return context
 
 # class SearchView(LoginRequiredMixin, generic.ListView):
 
@@ -220,6 +181,49 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 		
 
 # 		return context
+
+class Profile(LoginRequiredMixin, generic.DetailView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	context_object_name = 'acc'
+	template_name = 'users/profile.html'
+
+	def get_object(self):
+		user = get_object_or_404(User, username = self.request.user.username)
+
+		return user
+
+	def get_context_data (self, **kwargs):
+		context = super(Profile, self).get_context_data(**kwargs)
+		context['title'] = _("Profile")
+
+		return context
+
+class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'users/edit_profile.html'
+	form_class = ProfileForm
+	success_url = reverse_lazy('users:profile')
+
+	def get_object(self):
+		user = get_object_or_404(User, email = self.request.user.email)
+
+		return user
+
+	def get_context_data(self, **kwargs):
+		context = super(UpdateProfile, self).get_context_data(**kwargs)
+		context['title'] = _('Update Profile')
+		
+		return context
+
+	def form_valid(self, form):
+		form.save()
+		messages.success(self.request, _('Profile edited successfully!'))
+
+		return super(UpdateProfile, self).form_valid(form)
 
 class RegisterUser(generic.edit.CreateView):
 	model = User
@@ -258,12 +262,12 @@ def login(request):
 			messages.add_message(request, messages.ERROR, _('E-mail or password are incorrect.'))
 			context["username"] = username
 	elif request.user.is_authenticated:
-		return redirect('courses:index')
+		return redirect('home')
 
 	return render(request,"users/login.html",context)
 
-# API VIEWS
 
+# API VIEWS
 class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer

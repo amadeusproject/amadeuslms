@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
 {% load static i18n %}
-{% load static i18n permission_tags %}
+{% load static i18n permission_tags django_bootstrap_breadcrumbs %}
 {% get_current_language as LANGUAGE_CODE %}
 
 <html>
 <head>
 	<title>{{ title }} | Amadeus</title>
 
-      <!-- jQuery & jQuery UI -->
-      <script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
-      <script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
+    <!-- jQuery & jQuery UI -->
+    <script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
 
 	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
 	<link href="{% static 'img/topo-amadeus.png' %}" rel="shortcut icon" />
@@ -35,7 +35,7 @@
 	<script type="text/javascript" src="{% static 'material/js/material.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'material/js/ripples.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script>
-	{% with "js/vendor/locales/bootstrap-datepicker."|add:LANGUAGE_CODE|add:".js" as locale_datepicker %}
+	{% with "js/locales/bootstrap-datepicker."|add:LANGUAGE_CODE|add:".js" as locale_datepicker %}
 	<script type="text/javascript" src="{% static locale_datepicker %}"></script>
 	{% endwith %}
 	<script type="text/javascript" src="{% static 'js/alertify.min.js' %}"></script>
@@ -45,12 +45,13 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
 
 	<!-- Custom styles -->
-  <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
 
 	<!--Javascript block for specific-app ones -->
 	<script src="{% static 'js/base/amadeus.js' %}"></script>
-  <script src="{% static 'js/main.js' %}"></script>
-	{% block style %}
+    <script src="{% static 'js/main.js' %}"></script>
+	
+    {% block style %}
 	{% endblock %}
 	{% block javascript %}
 	{% endblock %}
@@ -61,91 +62,114 @@
 
 </head>
 <body>
-  {% block nav %}
-  <div class="navbar navbar-default">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#"><img class="logo" src="{% static 'img/topo-amadeus-white.png'  %}" alt="Logo"/></a>
-    </div>
-    <div class="navbar-collapse collapse navbar-responsive-collapse">
-      <div class="col-md-5 cards-content" id= 'NavBarSearch'>
-        <form id="SearchForm" action="#" method="get" accept-charset="utf-8">
-          <div class="input-group">
-            <div class="form-group is-empty" >
-              <input type="text" class="form-control" placeholder="{% trans 'Search Files (.pdf, others) and/or activities' %}" name="search">
+    {% block nav %}
+        <div class="navbar navbar-default">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img class="logo" src="{% static 'img/topo-amadeus-white.png'  %}" alt="Logo"/></a>
             </div>
-            <span class="input-group-btn input-group-sm">
-              <button type="submit" class="btn btn-primary" id="btn-search">
-                <i class="fa fa-search fa-2x" aria-hidden="true" style="color:#93C741"></i>
-              </button>
-            </span>
-          </div>
-        </form>
-      </div>
-      <ul class="nav navbar-nav navbar-right notifications">
-        <li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">
-          <a  class="dropdown-toggle" data-toggle="dropdown"> <span id="notification-count" class="badge notification-count">{{notifications.count}}</span><i class="fa fa-bell" aria-hidden="true"></i></a>
-          <!--<ul id="notification-dropdown" class="dropdown-menu">
-            <li class="dropdown-header"> {% trans 'Notifications' %}</li>
-            
-            <li>
-              <a onclick="getNotifications(5)">
-                <div id="notification-see-more" class="list-group-item">
-                  <div class="row-content">
-                    <p class="list-group-item-text">{% trans 'See More' %}</p>
-                  </div>
+            <div class="navbar-collapse collapse navbar-responsive-collapse">
+                <div class="col-md-5 cards-content" id= 'NavBarSearch'>
+                    <form id="SearchForm" action="#" method="get" accept-charset="utf-8">
+                        <div class="input-group">
+                            <div class="form-group is-empty" >
+                                <input type="text" class="form-control" placeholder="{% trans 'Search Files (.pdf, others) and/or activities' %}" name="search">
+                            </div>
+                            <span class="input-group-btn input-group-sm">
+                                <button type="submit" class="btn btn-primary" id="btn-search">
+                                    <i class="fa fa-search fa-2x" aria-hidden="true" style="color:white"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
                 </div>
-              </a>
-            </li>
-          </ul> -->
-        </li>
-        <li  data-toggle="tooltip" data-placement="bottom" title data-original-title="{% trans 'messages' %}"> <a href="#"><i class="fa fa-comments" aria-hidden="true"></i></a> </li>
-        <li>
-          <a href="" data-toggle="dropdown">{{ user }}</a>
-          <ul class="dropdown-menu pull-right">
-            <li><a href="#">{% trans 'Perfil' %}</a></li>
-            <li><a href="#">{% trans 'Edit Profile' %}</a></li>
-            <li><a href="#">{% trans 'Change password' %}</a></li>
-            <li><a href="#">{% trans 'Remove account' %}</a></li>
-          </ul>
-        </li>
-        <li data-toggle="tooltip" data-placement="bottom" title data-original-title="log out"> <a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
-      </ul>
+                <ul class="nav navbar-nav navbar-right notifications">
+                    <!--<li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">
+                      <a  class="dropdown-toggle" data-toggle="dropdown"> <span id="notification-count" class="badge notification-count">{{notifications.count}}</span><i class="fa fa-bell" aria-hidden="true"></i></a>-
+                      <ul id="notification-dropdown" class="dropdown-menu">
+                        <li class="dropdown-header"> {% trans 'Notifications' %}</li>
+                        
+                        <li>
+                          <a onclick="getNotifications(5)">
+                            <div id="notification-see-more" class="list-group-item">
+                              <div class="row-content">
+                                <p class="list-group-item-text">{% trans 'See More' %}</p>
+                              </div>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </li> -->
+                    <li title data-original-title="{% trans 'settings' %}">
+                        <a href=""  data-toggle="dropdown"><i class="fa fa-cog" aria-hidden="true"></i></a> 
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#">{% trans 'Perfil' %}</a></li>
+                            <li><a href="#">{% trans 'Edit Profile' %}</a></li>
+                            <li><a href="#">{% trans 'Change password' %}</a></li>
+                            <li><a href="#">{% trans 'Remove account' %}</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{% url 'users:profile' %}" style="padding-top: 15px;padding-bottom:15px;">
+                            <img src="{{ user.image_url }}" style="width:30px;height:30px" />
+                        </a>
+                    </li>
+                    <li data-toggle="tooltip" data-placement="bottom" title data-original-title="log out">
+                        <a href="{% url 'users:logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    {% endblock %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                {% block sidebar %}
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>{% trans 'Menu' %}</h4>
+                        </div>
+                        <div class="panel-body menu-lateral">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li>
+                                    <a href="#menu_courses" class="accordion" data-toggle="collapse">{% trans 'Courses' %}<span class="pull-right glyphicon glyphicon-chevron-down"></span></a>
+                                    <div id="menu_courses" class="collapse">
+                                        <ul class="nav nav-pill nav-stacked accordion_list">
+                                            <li><a href="#"><i class="fa fa-book" aria-hidden="true"></i> {% trans 'My Courses' %} </a></li>
+                                            <li><a href="#"><i class="fa fa-globe" aria-hidden="true"></i> {% trans 'All Courses' %} </a></li>
+                                            {% if user|has_role:'system_admin' or user|has_role:'professor'%}
+                                                <li><a href="#"><i class="fa fa-list" aria-hidden="true"></i> {% trans 'List Category' %}</a></li>
+                                                <li><a href="#">{% trans 'Create Course' %}</a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
+            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+                {% block breadcrumbs %}
+                    {% breadcrumb 'Home' 'home' %}
+                {% endblock %}
+                {% block render_breadcrumbs %}
+                    {% render_breadcrumbs %}
+                {% endblock %}
+            </div>
+            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
     </div>
-  </div>
-  {% endblock %}
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
-        {% block test %}
-        {% endblock %}
-        {% block sidebar %}
-        {% endblock %}
-      </div>
-      <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
-        {% block breadcrumbs %}{% endblock %}
-        {% block render_breadcrumbs %}{% endblock %}
-      </div>
-      <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
-        {% block content %}{% endblock %}
-      </div>
-    </div>
-  </div>
 
-  {% block script_file %}
-
-  {% endblock script_file %}
-
-  {% block script_link %}
-
-  {% endblock script_link %}
-  <!-- Init material Bootstrap -->
-  <script type="text/javascript" src="{% static 'js/home.js' %}"></script>
-  <script type="text/javascript">$.material.init()</script>
+    <!-- Init material Bootstrap -->
+    <script type="text/javascript">$.material.init()</script>
 </body>
 
 </html>

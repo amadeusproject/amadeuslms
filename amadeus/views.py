@@ -3,6 +3,6 @@ from django.shortcuts import redirect
 
 def index(request):
 	if request.user.is_authenticated:
-		raise Http404('<h1>Page not found</h1>') 
+		return redirect('courses:index')
 	else:
 		return redirect('users:login')

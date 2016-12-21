@@ -1,14 +1,16 @@
-{% extends 'home.html' %}
+{% extends 'base.html' %}
 
 {% load static i18n %}
 {% load widget_tweaks %}
 {% load django_bootstrap_breadcrumbs permission_tags%}
 
 {% block breadcrumbs %}
+  	{{ block.super }}
+  	{% breadcrumb 'Profile' 'users:profile' %}
+{% endblock %}
 
-  {{ block.super }}
-  {% breadcrumb 'Profile' 'users:profile' %}
-
+{% block render_breadcrumbs %}
+  	{% render_breadcrumbs %}
 {% endblock %}
 
 {% block content %}
@@ -24,120 +26,33 @@
 	{% endif %}
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="well well-lg">
-				<div class="row">
-
-						{% if user.image %}
-                            <div class="col-md-4" style="width: 200px;overflow:hidden;margin-left: 8em;height: 150px;background-image: url('{{user.image.url}}');background-position: center;background-size: cover;">
-                        {% else %}
-                        <div class="col-md-4">
-                            {% if user.gender == 'M' %}
-                                <img src="{% static 'img/male_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user" style="margin-left: 8em;">
-                            {% else %}
-                                <img src="{% static 'img/female_avatar.png' %}" alt="Avatar" class="img-circle img-responsive img-list-user" style="margin-left: 8em;">
-                            {% endif %}
-                        {% endif %}
+			<div class="well well-lg container-fluid">
+				<div class="row-fluid">
+					<div class="col-md-3">
+						<span class="thumbnail">
+							<img src="{{ user.image_url }}" />
+						</span>
 					</div>
-					<div class="col-md-8">
-						<table class="table table-hover table-edited">
-							<tbody>
-								<tr>
-									<td>{% trans "Status" %}:</td>
-									{% if user %}
-										<td> {% trans "Online" %}</td>
-									{% else %}
-										<td> {% trans "OffLine" %}</td>
-									{% endif %}
-
-								</tr>
-								<tr>
-									<td>{% trans "Name" %}:</td>
-									<td>{{user}}</td>
-								</tr>
-								<tr>
-									<td>{% trans "Login" %}</td>
-									<td>{{user.username}}</td>
-								</tr>
-								<tr>
-									<td>{% trans "Email" %}:</td>
-									<td>{{user.email}}</td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="col-md-9">
+						<span><b>{% trans 'Name' %}: </b> {{ user.username }}</span><br />
+						<span><b>{% trans 'Last Name' %}: </b> {{ user.last_name }}</span><br />
+						<span><b>{% trans 'Social Name' %}: </b> {% if user.social_name is None %}{% trans 'Not informed' %}{% else %}{{ user.social_name }}{% endif %}</span><br />
+						<span><b>{% trans 'User since' %}: </b> {{ user.date_created|date }}</span><br />
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-10 col-md-offset-1">
-						<table class="table table-hover table-edited">
-							<tbody>
-								<tr>
-									<td>{% trans "User role" %}:</td>
-									{% if user.type_profile == 1 %}
-										<td>{% trans "Teacher" %}</td>
-									{% else %}
-										<td>{% trans "Student" %}</td>
-									{% endif %}
-
-								</tr>
-								<tr>
-									<td>{% trans "CPF" %}:</td>
-									{% if user.cpf %}
-										<td>{{user.cpf}}</td>
-
-									{% else %}
-										<td>{% trans "doesn't possess CPF" %}</td>
-									{% endif %}
-
-								</tr>
-								<tr>
-									<td>{% trans "Phone Number" %}:</td>
-									{% if user.phone %}
-										<td>{{user.phone}}</td>
-									{% else %}
-										<td>{% trans "doesn't possess Phone" %}</td>
-									{% endif %}
-
-								</tr>
-								<tr>
-									<td>{% trans "Gender" %}:</td>
-									<td>{{user.gender}}</td>
-								</tr>
-								<tr>
-									<td>{% trans "Birth Date" %}:</td>
-									<td>{{user.birth_date}}</td>
-								</tr>
-								<tr>
-									<td>{% trans "State and City" %}:</td>
-									<td>{{user.state}} - {{user.city}}</td>
-								</tr>
-								<tr>
-									<td>{% trans "Title" %}:</td>
-									<td>{{user.titration}}</td>
-								</tr>
-								<tr>
-									<td>{% trans "Year" %}:</td>
-									<td>{{user.year_titration}}</td>
-								</tr>
-								<tr>
-									<td>{% trans "Institution" %}:</td>
-									{% if user.institution %}
-										<td>{{user.institution}}</td>
-									{% else %}
-										<td>{% trans "Didn't inform institution" %}</td>
-									{% endif %}
-								</tr>
-								<tr>
-									<td>{% trans "Curriculum" %}:</td>
-									{% if user.curriculum %}
-										<td>
-											<a href="{{user.curriculum.url }}" target="_blank">link</a>
-										</td>
-									{% else %}
-										<td>{% trans "Didn't upload any curriculum" %}</td>
-									{% endif %}
-								</tr>
-							</tbody>
-						</table>
+				<div class="row-fluid">
+					<div class="col-md-12">
+						{{ user.description|linebreaks }}
+					</div>
+				</div>
+				<div class="row-fluid">
+					<div class="col-md-12">
+						<a href="{% url 'users:edit_profile' %}" class="pull-left btn btn-raised btn-primary btn-sm">
+							<i class="fa fa-edit"></i> {% trans 'Edit Profile' %}
+						</a>
+						<a class="pull-right btn btn-raised btn-danger btn-sm">
+							<i class="fa fa-trash"></i> {% trans 'Delete Account' %}
+						</a>
 					</div>
 				</div>
 			</div>
