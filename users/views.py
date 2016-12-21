@@ -258,7 +258,7 @@ def login(request):
 			messages.add_message(request, messages.ERROR, _('E-mail or password are incorrect.'))
 			context["username"] = username
 	elif request.user.is_authenticated:
-		raise Http404('<h1>Page not found</h1>') 
+		return redirect('courses:index')
 
 	return render(request,"users/login.html",context)
 

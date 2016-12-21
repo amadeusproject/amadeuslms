@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% load static i18n django_bootstrap_breadcrumbs permission_tags %}
+
+
+
+{% block breadcrumbs %}
+  {% clear_breadcrumbs %}
+  {% breadcrumb 'Home' 'app:index' %}
+{% endblock %}
+
+
+{% block render_breadcrumbs %}
+  {% render_breadcrumbs %}
+{% endblock %}
+
+{% block sidebar %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>{% trans 'Menu' %}</h4>
+        </div>
+        <div class="panel-body menu-lateral">
+            <ul class="nav nav-pills nav-stacked">
+              <li>
+                  <a href="#menu_courses" class="accordion" data-toggle="collapse">{% trans 'Courses' %}<span class="pull-right glyphicon glyphicon-chevron-down"></span></a>
+                  <div id="menu_courses" class="collapse">
+                      <ul class="nav nav-pill nav-stacked accordion_list">
+                        <li><a href="#"><i class="fa fa-book" aria-hidden="true"></i> {% trans 'My Courses' %} </a></li>
+                        <li><a href="#"><i class="fa fa-globe" aria-hidden="true"></i> {% trans 'All Courses' %} </a></li>
+                        {% if user|has_role:'system_admin' or user|has_role:'professor'%}
+                          <li><a href="#"><i class="fa fa-list" aria-hidden="true"></i> {% trans 'List Category' %}</a></li>
+                          <li><a href="#">{% trans 'Create Course' %}</a></li>
+                          <li><a href="#">{% trans 'Create Category' %}</a></li>
+                        {% endif %}
+                      </ul>
+                  </div>
+              </li>
+              {% block menu %}
+
+              {% endblock %}
+                {% if user|has_role:'system_admin' %}
+
+                    <li>
+                      <a href="#menu_users" class="accordion" data-toggle="collapse">{% trans 'Users' %}<span class="pull-right glyphicon glyphicon-chevron-down"></span></a>
+                      <div id="menu_users" class="collapse">
+                        <ul class="nav nav-pill nav-stacked accordion_list">
+                          <li> <a href="#"><i class="fa fa-users" aria-hidden="true"></i>  {% trans 'Manage Users' %}</a></li>
+                          <li> <a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>  {% trans 'Create User' %}</a></li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li>
+                      <a href="#menu_settings" class="accordion" data-toggle="collapse">{% trans 'Settings' %}<span class="pull-right glyphicon glyphicon-chevron-down"></span></a>
+                      <div id="menu_settings" class="collapse">
+                        <ul class="nav nav-pill nav-stacked accordion_list">
+                        
+                            <li> <a href="#"><i class="fa fa-cog" aria-hidden="true"></i> {% trans "System" %}</a></li>
+                          
+                            <li> <a href="#"><i class="fa fa-envelope" aria-hidden="true"></i> {% trans "Mail Sender" %}</a></li>
+                            <li> <a href="#"><i class="fa fa-shield" aria-hidden="true"></i> {% trans "Security" %}</a></li>
+                        </ul>
+                      </div>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% if user|has_role:'system_admin' %}
+                <h3>{% trans 'Courses' %}</h3>
+                <div id="timeline">
+                    {% include page_template %}
+                </div>
+    {% else %}
+               <div id="timeline">
+                   {% include page_template %}
+               </div>
+    {% endif %}
+    <div id="loading" class="alert alert-primary" role="alert" style="display: none">
+        <center>
+            <span class="fa fa-spin fa-circle-o-notch"></span>
+        </center>
+    </div>
+{% endblock %}

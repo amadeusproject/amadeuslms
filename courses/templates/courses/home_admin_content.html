@@ -1,0 +1,8 @@
+{% load i18n %}
+
+{% for course in objects %}
+    <div class="panel panel-default courseHome">
+        <br><h4>{{ course }}</h4>
+      	<a href="#" class="btn btn-outline-info">{% trans 'Edit' %}</a>
+    </div>
+{% endfor %}
