@@ -1,5 +1,6 @@
 beautifulsoup4==4.5.1
 click==6.6
+coverage==4.2
 decorator==4.0.10
 deps==0.1.0
 dj-database-url==0.4.1
