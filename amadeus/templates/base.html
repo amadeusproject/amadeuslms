@@ -129,28 +129,29 @@
         <div class="row">
             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
                 {% block sidebar %}
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h4>{% trans 'Menu' %}</h4>
-                        </div>
-                        <div class="panel-body menu-lateral">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li>
-                                    <a href="#menu_courses" class="accordion" data-toggle="collapse">{% trans 'Courses' %}<span class="pull-right glyphicon glyphicon-chevron-down"></span></a>
-                                    <div id="menu_courses" class="collapse">
-                                        <ul class="nav nav-pill nav-stacked accordion_list">
-                                            <li><a href="#"><i class="fa fa-book" aria-hidden="true"></i> {% trans 'My Courses' %} </a></li>
-                                            <li><a href="#"><i class="fa fa-globe" aria-hidden="true"></i> {% trans 'All Courses' %} </a></li>
-                                            {% if user|has_role:'system_admin' or user|has_role:'professor'%}
-                                                <li><a href="#"><i class="fa fa-list" aria-hidden="true"></i> {% trans 'List Category' %}</a></li>
-                                                <li><a href="#">{% trans 'Create Course' %}</a></li>
-                                            {% endif %}
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                   <ul id="sidebar-menu">
+                       <li class="item">
+                            <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                       </li>
+                       <li class="item">
+                            <i class="fa fa-list" aria-hidden="true"></i>
+                       </li>
+                       <li class="item">
+                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                       </li>
+
+                         <li class="item">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                       </li>
+
+                       <li class="item">
+                            <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                       </li>
+
+                     
+
+                        
+                   </ul>
                 {% endblock %}
             </div>
             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">

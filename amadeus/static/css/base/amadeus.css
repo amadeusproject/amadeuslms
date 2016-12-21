@@ -1,3 +1,29 @@
+
+/* sidebar menu */
+
+#sidebar-menu{
+  margin-left: 10%;
+}
+#sidebar-menu > .item{
+    font-size: 45px;
+    background-color: #26A69A;
+    color: white;
+    width: 50%;
+    margin-bottom: 3%;
+}
+
+#sidebar-menu > .item:hover{
+    
+    background-color: #00695C;
+   
+}
+
+
+#sidebar-menu > .item i {
+  margin-left: 10%;
+}
+/* side bar menu ends*/
+
 .clearfix{
   clear: both;
 }
