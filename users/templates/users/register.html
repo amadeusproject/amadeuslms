@@ -6,6 +6,9 @@
 {% block nav %}
 {% endblock %}
 
+{% block breadcrumbs %}
+{% endblock %}
+
 {% block sidebar %}
 {% endblock sidebar %}
 
@@ -35,6 +38,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-12 text-center">
+							<a href="{% url 'users:login' %}" class="pull-left"> &lt; {% trans 'Login' %}</a>
 							<h2 style="color:#43a251"><strong>{% trans "User Register" %}</strong></h2>
 						</div>
 					</div>
@@ -73,11 +77,8 @@
 							</div>
 						{% endfor %}
 						<div class="row">
-							<div class="col-md-5 col-xs-6 col-sm-6 col-lg-5 col-lg-offset-1 col-md-offset-1 text-center">
+							<div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 col-lg-offset-3 col-md-offset-3 text-center">
 								<input type="submit" value="{% trans 'Register' %}" class="btn btn-raised btn-primary" />
-							</div>
-							<div class="col-md-5 col-xs-6 col-sm-6 col-lg-5 text-center">
-								<a href="{% url 'users:login' %}" class="btn btn-Success btn-raised" >{% trans 'Login' %}</a>
 							</div>
 						</div>
 					</form>
