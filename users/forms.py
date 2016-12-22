@@ -89,15 +89,29 @@ class ProfileForm(Validation):
 		}
 
 class UserForm(Validation):
-	password = forms.CharField(label=_('Password'), widget = forms.PasswordInput, required = False)
-	password2 = forms.CharField(label = _('Confirm Password'), widget = forms.PasswordInput, required = False)
-
 	is_edit = False
+
+	def __init__(self, *args, **kwargs):
+		is_update = kwargs.pop('is_edit', False)
+
+		super(UserForm, self).__init__(*args, **kwargs)
+
+		self.is_edit = is_update
+
+		if self.is_edit:
+			del self.fields['password']
+			del self.fields['password2']
+		    
+	if not is_edit:
+		password = forms.CharField(label=_('Password'), widget = forms.PasswordInput, required = False)
+		password2 = forms.CharField(label = _('Confirm Password'), widget = forms.PasswordInput, required = False)
+
 
 	def save(self, commit=True):
 		super(UserForm, self).save(commit=False)
         
-		self.instance.set_password(self.cleaned_data['password'])
+		if not self.is_edit:
+			self.instance.set_password(self.cleaned_data['password'])
 
 		self.instance.save()
         
