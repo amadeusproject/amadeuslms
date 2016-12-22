@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load i18n django_bootstrap_breadcrumbs permission_tags static  %}
+{% load i18n pagination django_bootstrap_breadcrumbs permission_tags static  %}
 
 {% block breadcrumbs %}
     {{ block.super }}
@@ -21,18 +21,26 @@
             </div>
         {% endfor %}
     {% endif %}
-    <form action="" method="GET" class="form-horizontal">
-        <div class="form-group">
-            <div class="col-md-11 col-sm-11 col-xs-11">
-                <input type="text" class="form-control" name="search" placeholder="{% trans 'Search...' %}" />
-            </div>
-            <div class="col-md-1 col-sm-1 col-xs-1">
-                <button type="submit" class="btn btn-fab btn-fab-mini">
-                    <i class="material-icons">search</i>
-                </button>
-            </div>
+
+    <div class="row">
+        <div class="col-md-9">
+            <form action="" method="GET" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-11 col-sm-11 col-xs-11">
+                        <input type="text" class="form-control" name="search" placeholder="{% trans 'Search...' %}" />
+                    </div>
+                    <div class="col-md-1 col-sm-1 col-xs-1">
+                        <button type="submit" class="btn btn-fab btn-fab-mini">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
+        <div class="col-md-3">
+            <a href="#" class="pull-right btn btn-primary btn-raised btn-md"><i class="fa fa-plus"></i> {% trans 'Create User' %}</a>
+        </div>
+    </div>
 
     {% if users %}
         {% for acc in users %}
@@ -57,6 +65,7 @@
                 </div>
             </div>
         {% endfor %}
+        {% pagination request paginator page_obj %}
     {% else %}
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
