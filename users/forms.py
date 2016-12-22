@@ -87,3 +87,25 @@ class ProfileForm(Validation):
 		widgets = {
 			'description': forms.Textarea,
 		}
+
+class UserForm(Validation):
+	password = forms.CharField(label=_('Password'), widget = forms.PasswordInput, required = False)
+	password2 = forms.CharField(label = _('Confirm Password'), widget = forms.PasswordInput, required = False)
+
+	is_edit = False
+
+	def save(self, commit=True):
+		super(UserForm, self).save(commit=False)
+        
+		self.instance.set_password(self.cleaned_data['password'])
+
+		self.instance.save()
+        
+		return self.instance
+
+	class Meta:
+		model = User
+		fields = ['email', 'username', 'last_name', 'social_name', 'description', 'show_email', 'image', 'is_staff', 'is_active']
+		widgets = {
+			'description': forms.Textarea,
+		}	

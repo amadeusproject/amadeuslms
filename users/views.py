@@ -14,7 +14,7 @@ from itertools import chain
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import User
-from .forms import RegisterUserForm, ProfileForm
+from .forms import RegisterUserForm, ProfileForm, UserForm
 
 #API IMPORTS
 from rest_framework import viewsets
@@ -24,35 +24,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 # ================ ADMIN =======================
 
 
-# class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
 
-# 	allowed_roles = ['system_admin']
-# 	#login_url = reverse_lazy("core:home")
-# 	redirect_field_name = 'next'
-# 	template_name = 'users/create.html'
-# 	form_class = UserForm
-# 	context_object_name = 'acc'
-# 	success_url = reverse_lazy('users:manage')
-
-# 	def form_valid(self, form):
-# 		self.object = form.save()
-
-# 		if self.object.type_profile == 2:
-# 			assign_role(self.object, 'student')
-# 		elif self.object.type_profile == 1:
-# 			assign_role(self.object, 'professor')
-# 		elif self.object.is_staff:
-# 			assign_role(self.object, 'system_admin')
-
-# 		self.object.save()
-
-# 		messages.success(self.request, ('User ')+self.object.name+(' created successfully!'))
-
-# 		return super(Create, self).form_valid(form)
-# 	def get_context_data (self, **kwargs):
-# 		context = super(Create, self).get_context_data(**kwargs)
-# 		context['title'] = "Add User"
-# 		return context
 
 # class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
 
@@ -178,6 +150,31 @@ class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 	def get_context_data (self, **kwargs):
 		context = super(UsersListView, self).get_context_data(**kwargs)
 		context['title'] = _('Manage Users')
+
+		return context
+
+class CreateView(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	allowed_roles = ['system_admin']
+	template_name = 'users/create.html'
+	form_class = UserForm
+	context_object_name = 'acc'
+	success_url = reverse_lazy('users:manage')
+
+	def form_valid(self, form):
+		self.object = form.save()
+
+		msg = _("User %s created successfully" % self.object.get_short_name())
+
+		messages.success(self.request, msg)
+
+		return super(CreateView, self).form_valid(form)
+
+	def get_context_data (self, **kwargs):
+		context = super(CreateView, self).get_context_data(**kwargs)
+		context['title'] = _("Add User")
 
 		return context
 

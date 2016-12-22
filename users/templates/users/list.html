@@ -38,7 +38,7 @@
             </form>
         </div>
         <div class="col-md-3">
-            <a href="#" class="pull-right btn btn-primary btn-raised btn-md"><i class="fa fa-plus"></i> {% trans 'Create User' %}</a>
+            <a href="{% url 'users:create' %}" class="pull-right btn btn-primary btn-raised btn-md"><i class="fa fa-plus"></i> {% trans 'Create User' %}</a>
         </div>
     </div>
 
@@ -54,7 +54,11 @@
                     <div class="col-md-6">
                         <p><b>{% trans 'Name' %}:</b> {{ acc }}</p>
                         <p><b>{% trans 'Email' %}:</b> {{ acc.email }}</p>
-                        <p><b>{% trans 'Description' %}:</b> {{ acc.description|truncatechars:100|default:_("Not Informed") }}</p>
+                        <p><b>{% trans 'Description' %}:</b> 
+                            {% autoescape off %}
+                                {{ acc.description|default:_("Not Informed")|striptags|truncatechars:300 }}
+                            {% endautoescape %}
+                        </p>
                     </div>
                     <div class="col-md-3">
                         <div align="right">
