@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView
 from .models import Category
 from django.core.urlresolvers import reverse_lazy
 from rolepermissions.verifications import has_role
@@ -8,12 +8,15 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from rolepermissions.mixins import HasRoleMixin
+from .forms import CategoryForm
+
 class IndexView(LoginRequiredMixin, ListView):
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
     queryset = Category.objects.all()
-    template_name = 'courses/home.html'
+    template_name = 'categories/home.html'
     context_object_name = 'categories'
 
 
@@ -25,9 +28,9 @@ class IndexView(LoginRequiredMixin, ListView):
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.user.is_staff:
-            context['page_template'] = "courses/home_admin_content.html"
+            context['page_template'] = "categories/home_admin_content.html"
         else:
-            context['page_template'] = "courses/home_teacher_student_content.html"
+            context['page_template'] = "categories/home_teacher_student_content.html"
 
         context['title'] = _('Home')
 
@@ -41,20 +44,26 @@ class IndexView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        list_courses = None
+        list_categories = None
         if has_role(self.request.user,'system_admin'):
-            list_courses = self.get_queryset().order_by('name')
-            # categorys_courses = CourseCategory.objects.all()
+            list_categories = self.get_queryset().order_by('name')
+            # categorys_categories = CourseCategory.objects.all()
         elif has_role(self.request.user,'professor'):
         	pass
-            #list_courses = self.get_queryset().filter(professors__in = [self.request.user]).order_by('name')
-            # categorys_courses = CourseCategory.objects.filter(course_category__professors__name = self.request.user.name).distinct()
+            #list_categories = self.get_queryset().filter(professors__in = [self.request.user]).order_by('name')
+            # categorys_categories = CourseCategory.objects.filter(course_category__professors__name = self.request.user.name).distinct()
         elif has_role(self.request.user, 'student'):
         	pass
-            #list_courses = self.get_queryset().filter(students__in = [self.request.user]).order_by('name')
+            #list_categories = self.get_queryset().filter(students__in = [self.request.user]).order_by('name')
 
         
         context['title'] = _('Categories')
        
         return context
 
+class createCategory(HasRoleMixin, CreateView):
+
+    allowed_rules = ['system_admin']
+    login_url = reverse_lazy('users:login')
+    form_class = CategoryForm
+    template_name = 'categories/create.html'

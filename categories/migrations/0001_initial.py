@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                 ('visible', models.BooleanField(verbose_name='visible')),
                 ('create_date', models.DateTimeField(auto_now_add=True, verbose_name='Creation Date')),
                 ('modified_date', models.DateTimeField(auto_now_add=True, verbose_name='Modified Date')),
-                ('category_father', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='category_parent', to='courses.Category')),
+                ('category_father', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='category_parent', to='categories.Category')),
                 ('coordinators', models.ManyToManyField(related_name='coordinators', to=settings.AUTH_USER_MODEL)),
             ],
             options={

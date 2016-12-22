@@ -10,7 +10,7 @@ class Index_Test(TestCase):
 		self.user = User.objects.create(username="felipe", email="felipe.bormann@gmail.com", password="teste")
 
 	def test_index_get_auth(self):
-		request = self.factory.get('courses/')
+		request = self.factory.get('categories/')
 
 		request.user = self.user
 
@@ -20,7 +20,7 @@ class Index_Test(TestCase):
 
 	def test_index_get_unauth(self):
 
-		request = self.factory.get('courses/')
+		request = self.factory.get('categories/')
 
 		request.user = AnonymousUser()
 

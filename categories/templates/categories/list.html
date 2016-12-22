@@ -10,7 +10,7 @@
 {% block breadcrumbs %}
 
 {{ block.super }}
-{% breadcrumb 'Courses' 'course:manage' %}
+{% breadcrumb 'categories' 'course:manage' %}
  
 {% endblock %}
 
@@ -27,7 +27,7 @@
   <form id="searchform" method="get" accept-charset="utf-8">
     <div class="input-group">
       <div class="form-group is-empty">
-        <input type="text" class="form-control" placeholder="{% trans 'Search for Courses' %}" name="q">
+        <input type="text" class="form-control" placeholder="{% trans 'Search for categories' %}" name="q">
       </div>
       <span class="input-group-btn input-group-sm">
         <button type="submit" class="btn btn-fab btn-fab-mini">
@@ -37,8 +37,9 @@
     </div>
   </form>
 </div>
+<!-- Code for listing categories -->
 <div class="col-md-12 cards-content">
-  {% for category in categorys_courses  %}
+  {% for category in categorys_categories  %}
   <div class="panel-group course-card-group">
     <div class="panel panel-default">
       <div class="panel-heading">
