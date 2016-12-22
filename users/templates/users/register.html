@@ -38,7 +38,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-12 text-center">
-							<a href="{% url 'users:login' %}" class="pull-left"> &lt; {% trans 'Login' %}</a>
+							
 							<h2 style="color:#43a251"><strong>{% trans "User Register" %}</strong></h2>
 						</div>
 					</div>
@@ -50,35 +50,52 @@
 								<div class="row form-group">
 									<div class="col-md-3 col-sm-3 col-xs-5 col-lg-3 text-right">
 										{% if field.field.required %}
-										<label for="{{ field.auto_id }}" class="control-label">{{ field.label }}<span>*</span></label>
+											<label for="{{ field.auto_id }}" class="control-label">{{ field.label }}<span>*</span></label>
 										{% else %}
-										<label for="{{ field.auto_id }}" class="control-label">{{ field.label }}</label>
+											<label for="{{ field.auto_id }}" class="control-label">{{ field.label }}</label>
 										{% endif %}
 									</div>
 									<div class="col-md-9 col-sm-9 col-xs-7 col-lg-9">
-										{% render_field field class='form-control' %}
+										{% if field.auto_id == 'id_image' %}
+											{% render_field field class='form-control' %}
+											<div class="input-group">
+							                    <input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
+							                    <span class="input-group-btn">
+							                        <button type="button" class="btn btn-fab btn-fab-mini">
+							                          	<i class="material-icons">attach_file</i>
+							                        </button>
+							                    </span>
+							                </div>
+							            {% else %}
+											{% render_field field class='form-control' %}
+										{% endif %}
 										<span class="help-block">{{ field.help_text }}</span>
 										{% if field.errors %}
-										<div class="row">
-											<div class="alert alert-danger alert-dismissible" role="alert">
-												<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-												<ul>
-													{% for error in field.errors %}
-													<li>{{ error }}</li>
-													{% endfor %}
-												</ul>
+											<div class="row">
+												<div class="alert alert-danger alert-dismissible" role="alert">
+													<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+													<ul>
+														{% for error in field.errors %}
+														<li>{{ error }}</li>
+														{% endfor %}
+													</ul>
+												</div>
 											</div>
-										</div>
 										{% endif %}
 									</div>
 								</div>
 							</div>
 						{% endfor %}
 						<div class="row">
-							<div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 col-lg-offset-3 col-md-offset-3 text-center">
-								<input type="submit" value="{% trans 'Register' %}" class="btn btn-raised btn-primary" />
+							<div class="col-md-10 col-md-offset-1 col-sm-12 col-xs-12 col-lg-10 col-lg-offset-1">
+								<div class="pull-left">
+									<input type="submit" value="{% trans 'Register' %}" class="btn btn-raised btn-primary" />
+								</div>
+								<div class="pull-right">
+									<a href="{% url 'users:login' %}" class="btn btn-raised btn-default"> {% trans 'Back' %}</a>
+								</div>
 							</div>
 						</div>
 					</form>
