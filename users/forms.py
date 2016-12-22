@@ -52,7 +52,7 @@ class RegisterUserForm(Validation):
 
     class Meta:
         model = User
-        fields = ['email', 'username', 'last_name', 'social_name', 'image',]
+        fields = ['email', 'username', 'last_name', 'social_name', 'image', 'show_email', ]
 
 class ProfileForm(Validation):
 	password = forms.CharField(label=_('Password'), widget = forms.PasswordInput, required = False)
