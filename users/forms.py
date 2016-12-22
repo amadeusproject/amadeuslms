@@ -5,6 +5,18 @@ from rolepermissions.shortcuts import assign_role
 from .models import User
 
 class Validation(forms.ModelForm):
+	MIN_PASS_LENGTH = 8
+	MAX_UPLOAD_SIZE = 2*1024*1024
+
+	def clean_image(self):
+		image = self.cleaned_data.get('image', False)
+
+		if image:
+			if image._size > self.MAX_UPLOAD_SIZE:
+				raise forms.ValidationError(_("The image is too large. It should have less than 2MB."))
+
+		return image
+
 	def clean_password(self):
 		password = self.cleaned_data.get('password')
 
@@ -12,8 +24,8 @@ class Validation(forms.ModelForm):
 			return password
 
         # At least MIN_LENGTH long
-		if len(password) < self.MIN_LENGTH:
-			raise forms.ValidationError(_("The password must contain at least % d characters." % self.MIN_LENGTH))
+		if len(password) < self.MIN_PASS_LENGTH:
+			raise forms.ValidationError(_("The password must contain at least % d characters." % self.MIN_PASS_LENGTH))
 
         # At least one letter and one non-letter
 		first_isalpha = password[0].isalpha()
@@ -38,7 +50,6 @@ class RegisterUserForm(Validation):
     password = forms.CharField(label=_('Password'), widget = forms.PasswordInput)
     password2 = forms.CharField(label = _('Confirm Password'), widget = forms.PasswordInput)
 
-    MIN_LENGTH = 8
     is_edit = False
 
     def save(self, commit=True):
@@ -58,7 +69,6 @@ class ProfileForm(Validation):
 	password = forms.CharField(label=_('Password'), widget = forms.PasswordInput, required = False)
 	password2 = forms.CharField(label = _('Confirm Password'), widget = forms.PasswordInput, required = False)
 
-	MIN_LENGTH = 8
 	is_edit = True
 
 	def save(self, commit=True):
