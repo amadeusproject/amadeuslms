@@ -22,29 +22,7 @@ from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 # ================ ADMIN =======================
-# class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 
-# 	allowed_roles = ['system_admin']
-# 	#login_url = reverse_lazy("core:home")
-# 	redirect_field_name = 'next'
-# 	template_name = 'list_users.html'
-# 	context_object_name = 'users'
-# 	paginate_by = 10
-
-# 	def get_queryset(self):
-# 		search = self.request.GET.get('search', None)
-
-# 		if search is None:
-# 			users = User.objects.all().order_by('name').exclude( username = self.request.user.username)
-# 		else:
-# 			users = User.objects.filter(Q(username = search) | Q(name = search) | Q(name__icontains = search) | Q(username__icontains = search)).exclude( username = self.request.user.username)
-
-# 		return users
-
-# 	def get_context_data (self, **kwargs):
-# 		context = super(UsersListView, self).get_context_data(**kwargs)
-# 		context['title'] = 'Manage Users'
-# 		return context
 
 # class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
 
@@ -181,6 +159,27 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 		
 
 # 		return context
+
+class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	allowed_roles = ['system_admin']
+
+	template_name = 'users/list.html'
+	context_object_name = 'users'
+	paginate_by = 10
+
+	def get_queryset(self):
+		users = User.objects.all().order_by('social_name','username').exclude(email = self.request.user.email)
+		
+		return users
+
+	def get_context_data (self, **kwargs):
+		context = super(UsersListView, self).get_context_data(**kwargs)
+		context['title'] = _('Manage Users')
+
+		return context
 
 class Profile(LoginRequiredMixin, generic.DetailView):
 	login_url = reverse_lazy("users:login")

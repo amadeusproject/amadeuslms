@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% load i18n django_bootstrap_breadcrumbs permission_tags static  %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb 'Manage Users' 'users:manage' %}
+{% endblock %}
+
+{% block menu %}
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <form action="" method="GET" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-11 col-sm-11 col-xs-11">
+                <input type="text" class="form-control" name="search" placeholder="{% trans 'Search...' %}" />
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <button type="submit" class="btn btn-fab btn-fab-mini">
+                    <i class="material-icons">search</i>
+                </button>
+            </div>
+        </div>
+    </form>
+
+    {% if users %}
+        {% for acc in users %}
+            <div class="row-fluid panel panel-default">
+                <div class="panel-body">
+                    <div class="col-md-3">
+                        <span class="thumbnail">
+                            <img src="{{ acc.image_url }}" class="img-responsive" />
+                        </span>
+                    </div>
+                    <div class="col-md-6">
+                        <p><b>{% trans 'Name' %}:</b> {{ acc }}</p>
+                        <p><b>{% trans 'Email' %}:</b> {{ acc.email }}</p>
+                        <p><b>{% trans 'Description' %}:</b> {{ acc.description|truncatechars:100|default:_("Not Informed") }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <div align="right">
+                            <a href="#" class="btn btn-primary btn-raised btn-sm"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
+                            <a href="javascript:void(0)" class="btn btn-default btn-raised btn-sm" data-toggle="modal" data-target="#DeleteModal{{ forloop.counter }}"><i class="fa fa-trash"></i> {% trans 'Delete' %}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <p>{% trans 'No users found' %}</p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

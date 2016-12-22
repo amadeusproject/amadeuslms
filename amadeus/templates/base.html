@@ -107,10 +107,8 @@
                     <li title data-original-title="{% trans 'settings' %}">
                         <a href=""  data-toggle="dropdown"><i class="fa fa-cog" aria-hidden="true"></i></a> 
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="#">{% trans 'Perfil' %}</a></li>
-                            <li><a href="#">{% trans 'Edit Profile' %}</a></li>
-                            <li><a href="#">{% trans 'Change password' %}</a></li>
-                            <li><a href="#">{% trans 'Remove account' %}</a></li>
+                            <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
+                            <li><a href="#">{% trans 'Manage Courses' %}</a></li>
                         </ul>
                     </li>
                     <li>
