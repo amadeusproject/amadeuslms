@@ -118,7 +118,7 @@
                         <ul class="dropdown-menu pull-right">
                             <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                             <li><a href="{% url 'users:edit_profile' %}">{% trans 'Edit Profile' %}</a></li>
-                            <li><a href="#">{% trans 'Change Password' %}</a></li>
+                            <li><a href="{% url 'users:change_pass' %}">{% trans 'Change Password' %}</a></li>
                             <li><a href="#">{% trans 'Delete Account' %}</a></li>
                         </ul>
                     </li>

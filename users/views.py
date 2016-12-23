@@ -14,7 +14,7 @@ from itertools import chain
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import User
-from .forms import RegisterUserForm, ProfileForm, UserForm
+from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm
 
 #API IMPORTS
 from rest_framework import viewsets
@@ -179,6 +179,44 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 
 		return context
 
+class ChangePassView(LoginRequiredMixin, generic.UpdateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'users/change_password.html'
+	slug_field = 'email'
+	slug_url_kwarg = 'email'
+	context_object_name = 'acc'
+	model = User
+	form_class = ChangePassForm
+	success_url = reverse_lazy('users:profile')
+
+	def get_form_kwargs(self):
+		kwargs = super(ChangePassView, self).get_form_kwargs()
+		
+		kwargs.update({'user': self.request.user})
+		kwargs.update({'request': self.request})
+		
+		return kwargs
+
+	def get_object(self):
+		user = get_object_or_404(User, email = self.request.user.email)
+
+		return user
+
+	def form_valid(self, form):
+		form.save()
+
+		messages.success(self.request, _('Password changed successfully!'))
+
+		return super(ChangePassView, self).form_valid(form)
+
+	def get_context_data (self, **kwargs):
+		context = super(ChangePassView, self).get_context_data(**kwargs)
+		context['title'] = _("Change Password")
+
+		return context	
+
 class Profile(LoginRequiredMixin, generic.DetailView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
@@ -187,7 +225,7 @@ class Profile(LoginRequiredMixin, generic.DetailView):
 	template_name = 'users/profile.html'
 
 	def get_object(self):
-		user = get_object_or_404(User, username = self.request.user.username)
+		user = get_object_or_404(User, email = self.request.user.email)
 
 		return user
 
@@ -254,12 +292,12 @@ def login(request):
 		user = authenticate(username=username, password=password)
 		if user is not None:
 			login_user(request, user)
-			return redirect(reverse("users:login"))
+			return redirect(reverse("home"))
 		else:
 			messages.add_message(request, messages.ERROR, _('E-mail or password are incorrect.'))
 			context["username"] = username
 	elif request.user.is_authenticated:
-		return redirect('home')
+		return redirect(reverse('home'))
 
 	return render(request,"users/login.html",context)
 
