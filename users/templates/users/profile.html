@@ -32,27 +32,32 @@
 						<span class="thumbnail">
 							<img src="{{ user.image_url }}" />
 						</span>
+						<h4><b>{{ user }}</b></h4>
+						<p>{{ user.email }}</p>
 					</div>
 					<div class="col-md-9">
-						<span><b>{% trans 'Name' %}: </b> {{ user.username }}</span><br />
-						<span><b>{% trans 'Last Name' %}: </b> {{ user.last_name }}</span><br />
-						<span><b>{% trans 'Social Name' %}: </b> {% if user.social_name is None %}{% trans 'Not informed' %}{% else %}{{ user.social_name }}{% endif %}</span><br />
-						<span><b>{% trans 'User since' %}: </b> {{ user.date_created|date }}</span><br />
+						<div class="form-group">
+							<label class="control-form">{% trans 'System Admin' %}:</label>
+							<input type="text" readonly="readonly" class="form-control" value="{{ user.is_admin }}" />
+						</div>
+						<div class="form-group">
+							<label class="control-form">{% trans 'Coordinator in' %}:</label>
+							<input type="text" readonly="readonly" class="form-control" value="{{ user.is_coordinator }}" />
+						</div>
+						<div class="form-group">
+							<label class="control-form">{% trans 'Professor in' %}:</label>
+							<input type="text" readonly="readonly" class="form-control" value="{{ user.is_professor }}" />
+						</div>
+						<div class="form-group">
+							<label class="control-form">{% trans 'Student in' %}:</label>
+							<input type="text" readonly="readonly" class="form-control" value="{{ user.is_student }}" />
+						</div>
 					</div>
 				</div>
 				<div class="row-fluid">
+					<label class="control-form">{% trans 'Description' %}:</label>
 					<div class="col-md-12">
-						{{ user.description|linebreaks }}
-					</div>
-				</div>
-				<div class="row-fluid">
-					<div class="col-md-12">
-						<a href="{% url 'users:edit_profile' %}" class="pull-left btn btn-raised btn-primary btn-sm">
-							<i class="fa fa-edit"></i> {% trans 'Edit Profile' %}
-						</a>
-						<a class="pull-right btn btn-raised btn-danger btn-sm">
-							<i class="fa fa-trash"></i> {% trans 'Delete Account' %}
-						</a>
+						{{ user.description|default:_("Not Informed")|linebreaks }}
 					</div>
 				</div>
 			</div>

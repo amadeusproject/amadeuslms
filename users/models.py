@@ -43,7 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 		verbose_name_plural = _('Users')
 
 	def __str__(self):
-		return self.social_name or self.username
+		return self.social_name or (self.username + " " + self.last_name)
 
 	def get_short_name(self):
 		return str(self)
@@ -54,3 +54,18 @@ class User(AbstractBaseUser, PermissionsMixin):
 			return self.image.url
 		else:
 			return static('img/no_image.jpg')
+
+	def is_admin(self):
+		if self.is_staff:
+			return _('Yes')
+
+		return _('Is not an admin')
+
+	def is_coordinator(self):
+		return _('Is not a coordinator')
+
+	def is_professor(self):
+		return _('Is not a professor')
+
+	def is_student(self):
+		return _('Is not a student')

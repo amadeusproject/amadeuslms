@@ -66,17 +66,11 @@ class RegisterUserForm(Validation):
         fields = ['email', 'username', 'last_name', 'social_name', 'image', 'show_email', ]
 
 class ProfileForm(Validation):
-	password = forms.CharField(label=_('Password'), widget = forms.PasswordInput, required = False)
-	password2 = forms.CharField(label = _('Confirm Password'), widget = forms.PasswordInput, required = False)
-
 	is_edit = True
 
 	def save(self, commit=True):
 		super(ProfileForm, self).save(commit=False)
         
-		if len(self.cleaned_data['password']) > 0:
-			self.instance.set_password(self.cleaned_data['password'])
-
 		self.instance.save()
         
 		return self.instance
