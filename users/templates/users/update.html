@@ -14,21 +14,10 @@
 
 
 {% block content %}
-	{% if messages %}
-		{% for message in messages %}
-			<div class="alert alert-success alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<p>{{ message }}</p>
-			</div>
-		{% endfor %}
-	{% endif %}
-
 	<div class="card mg-b-5m">
 		<div class="card-content">
 			<div class="card-body">
-				{% include 'users/_form.html' %}
+				{% include 'users/_form.html' with back_url="users:manage" %}
 			</div>
 		</div>
 	</div>

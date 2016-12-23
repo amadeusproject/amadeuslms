@@ -12,4 +12,5 @@ urlpatterns = [
 	url(r'^create/$', views.CreateView.as_view(), name = 'create'),
 	url(r'^profile/$', views.Profile.as_view(), name = 'profile'),
 	url(r'^edit_profile/$', views.UpdateProfile.as_view(), name = 'edit_profile'),
+	url(r'^change_pass/$', views.ChangePassView.as_view(), name='change_pass'),
 ]
