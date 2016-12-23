@@ -1,146 +1,18 @@
-{% extends 'list_users.html' %}
-
-{% load static i18n %}
-{% load widget_tweaks %}
+{% extends 'users/list.html' %}
 
 {% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
-
-  {{ block.super }}
+  	{{ block.super }}
     {% breadcrumb 'Add User' 'users:create' %}
-
 {% endblock %}
 
-
 {% block content %}
-	{% if messages %}
-		{% for message in messages %}
-			<div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<p>{{ message }}</p>
-			</div>
-		{% endfor %}
-	{% endif %}
-
 	<div class="card">
 		<div class="card-content">
 			<div class="card-body">
-				<form method="post" action="" enctype="multipart/form-data">
-					{% csrf_token %}
-					{% for field in form %}
-						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
-							{% if field.auto_id == 'id_birth_date' %}
-								{% if field.field.required %}
-									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
-								{% else %}
-									<label for="{{ field.auto_id }}">{{ field.label }}</label>
-								{% endif %}
-
-                {% render_field field class='form-control date-picker' %}
-							{% elif field.auto_id == 'id_image' %}
-		                		{% if field.field.required %}
-									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
-								{% else %}
-									<label for="{{ field.auto_id }}">{{ field.label }}</label>
-								{% endif %}
-								{% render_field field class='form-control' %}
-								<div class="input-group">
-				                  	<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your photo...' %}">
-				                  	<span class="input-group-btn input-group-sm">
-				                    	<button type="button" class="btn btn-fab btn-fab-mini">
-				                    		<i class="material-icons">attach_file</i>
-				                   		</button>
-				                  	</span>
-				                </div>
-
-				            {% elif field.auto_id == 'id_curriculum' %}
-		                		{% if field.field.required %}
-									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
-								{% else %}
-									<label for="{{ field.auto_id }}">{{ field.label }}</label>
-								{% endif %}
-								{% render_field field class='form-control' %}
-								<div class="input-group">
-				                  	<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
-				                  	<span class="input-group-btn input-group-sm">
-				                    	<button type="button" class="btn btn-fab btn-fab-mini">
-				                    		<i class="material-icons">attach_file</i>
-				                   		</button>
-				                  	</span>
-				                </div>
-				      		{% elif field.auto_id == 'id_is_staff' or  field.auto_id == 'id_is_active' %}
-                				<div class="checkbox">
-                  					<label for="{{ field.auto_id }}">
-                      					{% render_field field %} {{field.label}}
-                  					</label>
-                				</div>
-                			{% elif field.auto_id == 'id_cpf' %}
-                				{% if field.field.required %}
-									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
-								{% else %}
-									<label for="{{ field.auto_id }}">{{ field.label }}</label>
-								{% endif %}
-                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
-
-							{% elif field.auto_id == 'id_year_titration' %}
-                				{% if field.field.required %}
-									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
-								{% else %}
-									<label for="{{ field.auto_id }}">{{ field.label }}</label>
-								{% endif %}
-                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event);' %}
-
-                			{% elif field.auto_id == 'id_phone' %}
-                				{% if field.field.required %}
-									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
-								{% else %}
-									<label for="{{ field.auto_id }}">{{ field.label }}</label>
-								{% endif %}
-                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
-							{% else %}
-                				{% if field.field.required %}
-									<label for="{{ field.auto_id }}">{{ field.label }}<span>*</span></label>
-								{% else %}
-									<label for="{{ field.auto_id }}">{{ field.label }}</label>
-								{% endif %}
-								{% render_field field class='form-control' %}
-							{% endif %}
-              				<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-							{% if field.errors %}
-								<div class="alert alert-danger alert-dismissible" role="alert">
-				  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				  						<span aria-hidden="true">&times;</span>
-			  						</button>
-									<ul>
-										{% for error in field.errors %}
-											<li>{{ error }}</li>
-										{% endfor %}
-									</ul>
-								</div>
-							{% endif %}
-						</div>
-					{% endfor %}
-					<div class="col-md-5 col-xs-6 col-sm-6 col-lg-5 text-center">
-						<input type="submit" value="{% trans 'Save' %}" class="btn btn-raised btn-success" onclick="validarCpfSemAlert(id_cpf, CPF, idElementoMensagemErro)'" />
-					</div>
-					<div class="col-md-5 col-xs-6 col-sm-6 col-lg-5 text-center">
-						<a href="{% url 'users:manage' %}" class="btn btn-raised btn-danger" >{% trans 'Cancel' %}</a>
-					</div>
-				</form>
+				{% include 'users/_form.html' %}
 			</div>
 		</div>
-  </div>
-</br>
-</br>
-</br>
-<script type="text/javascript">
-var locale = navigator.language || navigator.userLanguage;
-
-$('.date-picker').datepicker({
-	language: locale,
-});
-</script>
+  	</div>
 {% endblock %}

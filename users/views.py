@@ -14,7 +14,7 @@ from itertools import chain
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import User
-from .forms import RegisterUserForm, ProfileForm
+from .forms import RegisterUserForm, ProfileForm, UserForm
 
 #API IMPORTS
 from rest_framework import viewsets
@@ -22,93 +22,11 @@ from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 # ================ ADMIN =======================
-# class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
 
-# 	allowed_roles = ['system_admin']
-# 	#login_url = reverse_lazy("core:home")
-# 	redirect_field_name = 'next'
-# 	template_name = 'list_users.html'
-# 	context_object_name = 'users'
-# 	paginate_by = 10
 
-# 	def get_queryset(self):
-# 		search = self.request.GET.get('search', None)
 
-# 		if search is None:
-# 			users = User.objects.all().order_by('name').exclude( username = self.request.user.username)
-# 		else:
-# 			users = User.objects.filter(Q(username = search) | Q(name = search) | Q(name__icontains = search) | Q(username__icontains = search)).exclude( username = self.request.user.username)
 
-# 		return users
 
-# 	def get_context_data (self, **kwargs):
-# 		context = super(UsersListView, self).get_context_data(**kwargs)
-# 		context['title'] = 'Manage Users'
-# 		return context
-
-# class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
-
-# 	allowed_roles = ['system_admin']
-# 	#login_url = reverse_lazy("core:home")
-# 	redirect_field_name = 'next'
-# 	template_name = 'users/create.html'
-# 	form_class = UserForm
-# 	context_object_name = 'acc'
-# 	success_url = reverse_lazy('users:manage')
-
-# 	def form_valid(self, form):
-# 		self.object = form.save()
-
-# 		if self.object.type_profile == 2:
-# 			assign_role(self.object, 'student')
-# 		elif self.object.type_profile == 1:
-# 			assign_role(self.object, 'professor')
-# 		elif self.object.is_staff:
-# 			assign_role(self.object, 'system_admin')
-
-# 		self.object.save()
-
-# 		messages.success(self.request, ('User ')+self.object.name+(' created successfully!'))
-
-# 		return super(Create, self).form_valid(form)
-# 	def get_context_data (self, **kwargs):
-# 		context = super(Create, self).get_context_data(**kwargs)
-# 		context['title'] = "Add User"
-# 		return context
-
-# class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
-
-# 	allowed_roles = ['system_admin']
-# 	#login_url = reverse_lazy("core:home")
-# 	redirect_field_name = 'next'
-# 	template_name = 'users/update.html'
-# 	slug_field = 'username'
-# 	slug_url_kwarg = 'username'
-# 	context_object_name = 'acc'
-# 	model = User
-# 	form_class = UserForm
-# 	success_url = reverse_lazy('users:manage')
-
-# 	def form_valid(self, form):
-# 		self.object = form.save(commit = False)
-
-# 		if self.object.type_profile == 2:
-# 			assign_role(self.object, 'student')
-# 		elif self.object.type_profile == 1:
-# 			assign_role(self.object, 'professor')
-# 		elif self.object.is_staff:
-# 			assign_role(self.object, 'system_admin')
-
-# 		self.object.save()
-
-# 		messages.success(self.request, _('User ')+self.object.name+_(' updated successfully!'))
-
-# 		return super(Update, self).form_valid(form)
-
-# 	def get_context_data (self, **kwargs):
-# 		context = super(Update, self).get_context_data(**kwargs)
-# 		context['title'] = "Update User"
-# 		return context
 
 # class View(LoginRequiredMixin, generic.DetailView):
 
@@ -181,6 +99,85 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 		
 
 # 		return context
+
+class UsersListView(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'users/list.html'
+	context_object_name = 'users'
+	paginate_by = 10
+
+	def get_queryset(self):
+		users = User.objects.all().order_by('social_name','username').exclude(email = self.request.user.email)
+		
+		return users
+
+	def get_context_data (self, **kwargs):
+		context = super(UsersListView, self).get_context_data(**kwargs)
+		context['title'] = _('Manage Users')
+
+		return context
+
+class CreateView(LoginRequiredMixin, generic.edit.CreateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'users/create.html'
+	form_class = UserForm
+	context_object_name = 'acc'
+	success_url = reverse_lazy('users:manage')
+
+	def form_valid(self, form):
+		self.object = form.save()
+
+		msg = _("User %s created successfully" % self.object.get_short_name())
+
+		messages.success(self.request, msg)
+
+		return super(CreateView, self).form_valid(form)
+
+	def get_context_data (self, **kwargs):
+		context = super(CreateView, self).get_context_data(**kwargs)
+		context['title'] = _("Add User")
+
+		return context
+
+class UpdateView(LoginRequiredMixin, generic.UpdateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'users/update.html'
+	slug_field = 'email'
+	slug_url_kwarg = 'email'
+	context_object_name = 'acc'
+	model = User
+	form_class = UserForm
+	success_url = reverse_lazy('users:manage')
+
+	def get_form_kwargs(self):
+		kwargs = super(UpdateView, self).get_form_kwargs()
+		
+		kwargs.update({'is_edit': True})
+		
+		return kwargs
+
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+
+		self.object.save()
+
+		msg = _("User %s updated successfully" % self.object.get_short_name())
+
+		messages.success(self.request, msg)
+
+		return super(UpdateView, self).form_valid(form)
+
+	def get_context_data (self, **kwargs):
+		context = super(UpdateView, self).get_context_data(**kwargs)
+		context['title'] = _("Update User")
+
+		return context
 
 class Profile(LoginRequiredMixin, generic.DetailView):
 	login_url = reverse_lazy("users:login")

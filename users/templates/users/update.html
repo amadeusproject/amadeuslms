@@ -1,4 +1,4 @@
-{% extends 'list_users.html' %}
+{% extends 'users/list.html' %}
 
 {% load static i18n %}
 {% load widget_tweaks %}
@@ -28,63 +28,8 @@
 	<div class="card mg-b-5m">
 		<div class="card-content">
 			<div class="card-body">
-				<form method="post" action="" enctype="multipart/form-data">
-					{% csrf_token %}
-					{% for field in form %}
-						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
-							<label for="{{ field.auto_id }}">{{ field.label }}</label>
-							{% if field.auto_id == 'id_birth_date' %}
-								<input type="text" class="form-control date-picker"name="{{field.name}}" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}" id="{{ field.auto_id }}">
-								<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-							{% elif field.auto_id == 'id_image'  or field.auto_id == 'id_curriculum'%}
-								{% render_field field class='form-control input-sm' %}
-								<div class="input-group">
-				                    <input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
-				                    <span class="input-group-btn input-group-sm">
-				                        <button type="button" class="btn btn-fab btn-fab-mini">
-				                          	<i class="material-icons">attach_file</i>
-				                        </button>
-				                    </span>
-				                </div>
-						    {% elif field.auto_id == 'id_cpf' %}
-                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
-
-                			{% elif field.auto_id == 'id_phone' %}
-                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
-
-                			{% elif field.auto_id == 'id_is_staff' or field.auto_id == 'id_is_active' %}
-                				<div class="checkbox">
-                  					<label for="{{ field.auto_id }}">
-                      					{% render_field field %}<span class="checkbox-material"><span class="check"></span></span> {{field.label}}
-                  					</label>
-                				</div>
-							{% else %}
-								{% render_field field class='form-control' %}
-								<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-							{% endif %}
-							{% if field.errors %}
-								<div class="alert alert-danger alert-dismissible" role="alert">
-				  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				  						<span aria-hidden="true">&times;</span>
-			  						</button>
-									<ul>
-										{% for error in field.errors %}
-											<li>{{ error }}</li>
-										{% endfor %}
-									</ul>
-								</div>
-							{% endif %}
-						</div>
-					{% endfor %}
-					<div class="col-md-offset-2 col-md-2 col-sm-2 col-xs-2">
-						<input type="submit" value="{% trans 'Save' %}" class="btn btn-raised btn-success" />
-					</div>
-					<div class="col-md-offset-3 col-md-2 col-sm-2 col-xs-2">
-						<a href="{% url 'users:manage' %}" class="btn btn-raised btn-default" >{% trans 'Cancel' %}</a>
-					</div>
-				</form>
+				{% include 'users/_form.html' %}
 			</div>
 		</div>
 	</div>
-	<br clear="all" />
 {% endblock %}

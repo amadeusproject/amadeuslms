@@ -29,7 +29,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 	image = models.ImageField(verbose_name = _('Photo'), null=True, blank = True, upload_to = 'users/', validators = [validate_img_extension])
 	date_created = models.DateTimeField(_('Create Date'), auto_now_add = True)
 	last_update = models.DateTimeField(_('Last Update'), auto_now = True)
-	show_email = models.IntegerField(_('Show email?'), null = True, blank = True, choices = ((1, _('Allow everyone to see my address')), (2, _('Only classmates can see my address')), (3, _('Nobody can see my address'))))
+	show_email = models.IntegerField(_('Show email?'), null = True, blank = True, choices = ((1, _('Allow everyone to see my address')), (2, _('Only classmates can see my address')), (3, _('Nobody can see my address'))), default = 1)
 	is_staff = models.BooleanField(_('Administrator'), default = False)
 	is_active = models.BooleanField(_('Active'), default = True)
 
@@ -46,7 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 		return self.social_name or self.username
 
 	def get_short_name(self):
-		return self.username
+		return str(self)
 
 	@property
 	def image_url(self):
