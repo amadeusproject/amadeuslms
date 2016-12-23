@@ -87,9 +87,11 @@ class ProfileForm(Validation):
 
 	class Meta:
 		model = User
-		fields = ['social_name', 'description', 'show_email', 'image']
+		fields = ['email', 'username', 'last_name', 'social_name', 'description', 'show_email', 'image']
 		widgets = {
 			'description': forms.Textarea,
+			'username': forms.TextInput(attrs = {'readonly': 'readonly'}),
+			'last_name': forms.TextInput(attrs = {'readonly': 'readonly'})
 		}
 
 class UserForm(Validation):
