@@ -1,4 +1,4 @@
-{% extends 'home.html' %}
+{% extends 'categories/home.html' %}
 
 {% load static i18n permission_tags %}
 {% load django_bootstrap_breadcrumbs %}
@@ -10,7 +10,7 @@
 {% block breadcrumbs %}
 
 {{ block.super }}
-{% breadcrumb 'categories' 'course:manage' %}
+{% breadcrumb 'categories' 'categories:index' %}
  
 {% endblock %}
 
@@ -23,39 +23,38 @@
 {% endfor %}
 {% endif %}
 
-<div class="col-md-12 cards-content">
-  <form id="searchform" method="get" accept-charset="utf-8">
-    <div class="input-group">
-      <div class="form-group is-empty">
-        <input type="text" class="form-control" placeholder="{% trans 'Search for categories' %}" name="q">
-      </div>
-      <span class="input-group-btn input-group-sm">
-        <button type="submit" class="btn btn-fab btn-fab-mini">
-          <i class="fa fa-search" aria-hidden="true"></i>
-        </button>
-      </span>
-    </div>
-  </form>
-</div>
+
 <!-- Code for listing categories -->
 <div class="col-md-12 cards-content">
-  {% for category in categorys_categories  %}
+  {% for category in categories  %}
   <div class="panel-group course-card-group">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-heading">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-12 category-header">
             <h4 class="panel-title">
               <a  class="category-course-link" data-toggle="collapse" href="#{{category.slug}}">{{category.name}}</a>
             </h4>
+
+          
+            <a href=""><i class="fa fa-list" aria-hidden="true"></i></a>
+            <a href=""><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+
+            <a href=""><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
+
+            <a href=""><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
           </div>
         </div>
       </div>
+      {% comment %}
+        
+     
       <div id="{{category.slug}}" class="panel-collapse collapse">
-        {% for course in category.course_category %}
-          {% include "course/course_card.html" %}
+        {% for subject in subjects %}
+          {% include "categories/category_card.html" %}
         {% endfor %}
       </div>
+       {% endcomment %}
     </div>
   </div>
   {% endfor %}

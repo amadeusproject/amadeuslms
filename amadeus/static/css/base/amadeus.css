@@ -22,7 +22,25 @@
 #sidebar-menu > .item i {
   margin-left: 15%;
 }
+
+
 /* side bar menu ends*/
+
+/* category app starts */
+
+.category-header > h4{
+  float:left;
+}
+
+.category-header i{
+  color: white;
+  float:right;
+  font-size: 25px;
+  margin-left: 2%;
+}
+
+
+/* category app ends */
 
 .clearfix{
   clear: both;
