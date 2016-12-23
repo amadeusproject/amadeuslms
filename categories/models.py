@@ -6,7 +6,7 @@ from users.models import User
 class Category(models.Model):
 	"""Represents a Course """
 	
-	category_father = models.ForeignKey('Category', related_name =_("category_parent"), on_delete = models.CASCADE)
+	category_father = models.ForeignKey('Category', related_name =_("category_parent"), on_delete = models.CASCADE, null = True, blank = True)
 	name = models.CharField(_("Name"), max_length = 100, blank=False, null=False)
 	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
 	description = models.CharField(_("description"), max_length = 300)

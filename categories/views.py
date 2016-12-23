@@ -67,9 +67,9 @@ class CreateCategory(HasRoleMixin, CreateView):
     login_url = reverse_lazy('users:login')
     form_class = CategoryForm
     template_name = 'categories/create.html'
-    success_url = reverse_lazy('courses:index')
+    success_url = reverse_lazy('categories:index')
 
     def form_valid(self, form):
         self.object = form.save()
         #TODO: Implement log calls
-        return super(createCategory, self).form_valid(form)
+        return super(CreateCategory, self).form_valid(form)

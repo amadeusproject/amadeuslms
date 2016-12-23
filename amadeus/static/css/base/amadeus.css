@@ -2,13 +2,13 @@
 /* sidebar menu */
 
 #sidebar-menu{
-  margin-left: 10%;
+  margin-left: 30%;
 }
 #sidebar-menu > .item{
     font-size: 45px;
     background-color: #26A69A;
     color: white;
-    width: 50%;
+    width: 80%;
     margin-bottom: 3%;
 }
 
@@ -20,7 +20,7 @@
 
 
 #sidebar-menu > .item i {
-  margin-left: 10%;
+  margin-left: 15%;
 }
 /* side bar menu ends*/
 
