@@ -45,6 +45,7 @@ class IndexView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         list_categories = None
+        categories = self.get_queryset().order_by('name')
         if has_role(self.request.user,'system_admin'):
             categories = self.get_queryset().order_by('name')
             
@@ -53,7 +54,7 @@ class IndexView(LoginRequiredMixin, ListView):
             #list_categories = self.get_queryset().filter(professors__in = [self.request.user]).order_by('name')
             # categorys_categories = CourseCategory.objects.filter(course_category__professors__name = self.request.user.name).distinct()
         elif has_role(self.request.user, 'student'):
-            categories = self.get_queryset().order_by('name')
+            pass
 
         
         context['title'] = _('Categories')
