@@ -54,10 +54,12 @@
 						</div>
 					</div>
 				</div>
+				<br clear="all" />
+				<hr />
 				<div class="row-fluid">
 					<label class="control-form">{% trans 'Description' %}:</label>
 					<div class="col-md-12">
-						{{ user.description|default:_("Not Informed")|linebreaks }}
+						{{ user.description|default:_("Not Informed") }}
 					</div>
 				</div>
 			</div>

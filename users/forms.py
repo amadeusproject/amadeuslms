@@ -12,8 +12,9 @@ class Validation(forms.ModelForm):
 		image = self.cleaned_data.get('image', False)
 
 		if image:
-			if image._size > self.MAX_UPLOAD_SIZE:
-				raise forms.ValidationError(_("The image is too large. It should have less than 2MB."))
+			if hasattr(image, '_size'):
+				if image._size > self.MAX_UPLOAD_SIZE:
+					raise forms.ValidationError(_("The image is too large. It should have less than 2MB."))
 
 		return image
 
