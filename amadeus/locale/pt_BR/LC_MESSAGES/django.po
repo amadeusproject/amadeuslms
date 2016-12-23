@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-20 17:51-0300\n"
+"POT-Creation-Date: 2016-12-23 17:30-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,34 +17,47 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-#: amadeus/templates/base.html:79
+
+#: amadeus/templates/base.html:80
 msgid "Search Files (.pdf, others) and/or activities"
 msgstr ""
 
-#: amadeus/templates/base.html:93
+#: amadeus/templates/base.html:94
 msgid "Notifications"
 msgstr ""
 
-#: amadeus/templates/base.html:99
+#: amadeus/templates/base.html:100
 msgid "See More"
 msgstr ""
 
-#: amadeus/templates/base.html:106
-msgid "messages"
+#: amadeus/templates/base.html:107
+msgid "settings"
 msgstr ""
 
 #: amadeus/templates/base.html:110
-msgid "Perfil"
+msgid "Manage Users"
 msgstr ""
 
 #: amadeus/templates/base.html:111
+msgid "Manage Courses"
+msgstr ""
+
+#: amadeus/templates/base.html:114
+msgid "account"
+msgstr ""
+
+#: amadeus/templates/base.html:119
+msgid "Profile"
+msgstr ""
+
+#: amadeus/templates/base.html:120
 msgid "Edit Profile"
 msgstr ""
 
-#: amadeus/templates/base.html:112
-msgid "Change password"
+#: amadeus/templates/base.html:121
+msgid "Change Password"
 msgstr ""
 
-#: amadeus/templates/base.html:113
-msgid "Remove account"
+#: amadeus/templates/base.html:122
+msgid "Delete Account"
 msgstr ""

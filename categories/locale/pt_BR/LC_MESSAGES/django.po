@@ -1,0 +1,100 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-12-23 17:30-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: categories/models.py:9
+msgid "category_parent"
+msgstr ""
+
+#: categories/models.py:10
+msgid "Name"
+msgstr ""
+
+#: categories/models.py:11
+msgid "Slug"
+msgstr ""
+
+#: categories/models.py:12
+msgid "description"
+msgstr ""
+
+#: categories/models.py:13
+msgid "visible"
+msgstr ""
+
+#: categories/models.py:14
+msgid "coordinators"
+msgstr ""
+
+#: categories/models.py:15
+msgid "Creation Date"
+msgstr ""
+
+#: categories/models.py:16
+msgid "Modified Date"
+msgstr ""
+
+#: categories/models.py:20
+msgid "Category"
+msgstr ""
+
+#: categories/models.py:21 categories/views.py:60
+msgid "Categories"
+msgstr ""
+
+#: categories/templates/categories/category_card.html:18
+msgid "Replicate"
+msgstr ""
+
+#: categories/templates/categories/category_card.html:19
+#: categories/templates/categories/home_admin_content.html:6
+msgid "Edit"
+msgstr ""
+
+#: categories/templates/categories/category_card.html:20
+msgid "Remove"
+msgstr ""
+
+#: categories/templates/categories/category_card.html:26
+msgid "Are you sure you want to subscribe to this course?"
+msgstr ""
+
+#: categories/templates/categories/category_card.html:26
+msgid "Subscribe"
+msgstr ""
+
+#: categories/templates/categories/create.html:50
+msgid "Create"
+msgstr ""
+
+#: categories/templates/categories/home.html:19
+msgid "categories"
+msgstr ""
+
+#: categories/templates/categories/notifications_timeline.html:14
+msgid "at"
+msgstr ""
+
+#: categories/templates/categories/notifications_timeline.html:15
+msgid "ago"
+msgstr ""
+
+#: categories/views.py:35
+msgid "Home"
+msgstr ""
