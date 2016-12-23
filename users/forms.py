@@ -12,8 +12,9 @@ class Validation(forms.ModelForm):
 		image = self.cleaned_data.get('image', False)
 
 		if image:
-			if image._size > self.MAX_UPLOAD_SIZE:
-				raise forms.ValidationError(_("The image is too large. It should have less than 2MB."))
+			if hasattr(image, '_size'):
+				if image._size > self.MAX_UPLOAD_SIZE:
+					raise forms.ValidationError(_("The image is too large. It should have less than 2MB."))
 
 		return image
 
@@ -66,17 +67,11 @@ class RegisterUserForm(Validation):
         fields = ['email', 'username', 'last_name', 'social_name', 'image', 'show_email', ]
 
 class ProfileForm(Validation):
-	password = forms.CharField(label=_('Password'), widget = forms.PasswordInput, required = False)
-	password2 = forms.CharField(label = _('Confirm Password'), widget = forms.PasswordInput, required = False)
-
 	is_edit = True
 
 	def save(self, commit=True):
 		super(ProfileForm, self).save(commit=False)
         
-		if len(self.cleaned_data['password']) > 0:
-			self.instance.set_password(self.cleaned_data['password'])
-
 		self.instance.save()
         
 		return self.instance
