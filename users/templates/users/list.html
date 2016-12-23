@@ -63,7 +63,7 @@
                     <div class="col-md-3">
                         <div align="right">
                             <a href="{% url 'users:update' acc.email %}" class="btn btn-primary btn-raised btn-sm"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
-                            <a href="javascript:void(0)" class="btn btn-default btn-raised btn-sm" data-toggle="modal" data-target="#DeleteModal{{ forloop.counter }}"><i class="fa fa-trash"></i> {% trans 'Delete' %}</a>
+                            <a href="{% url 'users:delete' acc.email %}" class="btn btn-default btn-raised btn-sm"><i class="fa fa-trash"></i> {% trans 'Delete' %}</a>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,35 @@
+{% extends 'users/profile.html' %}
+
+{% load static i18n %}
+{% load widget_tweaks %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb 'Remove Account' 'users:remove_acc' %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-lg">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <h2>{% trans 'Are you sure you want delete your account?' %}</h2>
+                    <p>{% trans 'All data will be lost and havent how recover it.' %}</p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pull-left">
+                                <input type="submit" class="btn btn-raised btn-block btn-primary" value="{% trans 'Remove' %}" />
+                            </div>
+                            <div class="pull-right">
+                                <a href="{% url 'users:profile' %}" class="btn btn-raised btn-block btn-default" >{% trans 'Cancel' %}</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br clear="all" />
+{% endblock %}

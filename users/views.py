@@ -179,6 +179,66 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 
 		return context
 
+class DeleteView(LoginRequiredMixin, generic.DeleteView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'users/delete.html'
+	model = User
+	slug_url_kwarg = 'email'
+	context_object_name = 'acc'
+
+	def get_object(self):
+		email = self.kwargs.get('email', None)
+
+		if email is None:
+			user = get_object_or_404(User, email = self.request.user.email)
+		else:
+			user = get_object_or_404(User, email = email)
+
+		return user
+
+	def delete(self, request, *args, **kwargs):
+		email = self.kwargs.get('email', None)
+		user = self.get_object()
+
+		if email is None:
+			success_url = reverse_lazy('users:login')
+			error_url = reverse_lazy('users:profile')
+		else:
+			success_url = reverse_lazy('users:manage')
+			error_url = reverse_lazy('users:manage')
+
+		success_msg = _('User removed successfully!')
+		error_msg = _('Could not remove the account. The user is attach to one or more functions (administrator, coordinator, professor ou student) in the system.')
+
+		if user.has_dependencies():
+			messages.error(self.request, error_msg)
+
+			return redirect(error_url)
+		else:
+			user.delete()
+			
+			messages.success(self.request, success_msg)
+
+			return redirect(success_url)
+
+	def get_context_data(self, **kwargs):
+		context = super(DeleteView, self).get_context_data(**kwargs)
+		context['title'] = _('Delete Account')
+
+		return context
+
+	def render_to_response(self, context, **response_kwargs):
+		email = self.kwargs.get('email', None)
+
+		if email is None:
+			template = 'users/delete_account.html'
+		else:
+			template = 'users/delete.html'
+
+		return self.response_class(request = self.request, template = template, context = context, using = self.template_engine, **response_kwargs)
+
 class ChangePassView(LoginRequiredMixin, generic.UpdateView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
