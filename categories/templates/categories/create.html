@@ -1,10 +1,10 @@
-{% extends 'course/index.html' %}
+{% extends 'categories/home.html' %}
 
 {% load widget_tweaks static i18n permission_tags django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
   {{ block.super }}
-  {% breadcrumb 'Create Course' 'course:create' %}
+  {% breadcrumb 'Create Category' 'categories:create' %}
 {% endblock %}
 
 {% block content %}

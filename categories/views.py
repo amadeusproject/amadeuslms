@@ -61,9 +61,15 @@ class IndexView(LoginRequiredMixin, ListView):
        
         return context
 
-class createCategory(HasRoleMixin, CreateView):
+class CreateCategory(HasRoleMixin, CreateView):
 
     allowed_rules = ['system_admin']
     login_url = reverse_lazy('users:login')
     form_class = CategoryForm
     template_name = 'categories/create.html'
+    success_url = reverse_lazy('courses:index')
+
+    def form_valid(self, form):
+        self.object = form.save()
+        #TODO: Implement log calls
+        return super(createCategory, self).form_valid(form)

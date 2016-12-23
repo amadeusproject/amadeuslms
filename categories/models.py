@@ -7,7 +7,7 @@ class Category(models.Model):
 	"""Represents a Course """
 	
 	category_father = models.ForeignKey('Category', related_name =_("category_parent"), on_delete = models.CASCADE)
-	name = models.CharField(_("Name"), max_length = 100)
+	name = models.CharField(_("Name"), max_length = 100, blank=False, null=False)
 	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
 	description = models.CharField(_("description"), max_length = 300)
 	visible = models.BooleanField(_("visible"))
@@ -15,6 +15,7 @@ class Category(models.Model):
 	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 	modified_date = models.DateTimeField(_('Modified Date'), auto_now_add = True)
 
+	REQUIRED_FIELDS = ['name',]
 	class Meta:
 		verbose_name = _('Category')
 		verbose_name_plural = _('Categories')
