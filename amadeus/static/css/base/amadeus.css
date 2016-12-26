@@ -39,6 +39,16 @@
   margin-left: 2%;
 }
 
+#create-category{
+  margin-left: 40%;
+  margin-bottom: 1%;
+  border: none;
+  background-color: #66BB6A;
+  color: #FFFFFF;
+  width: 200px;
+  height: 40px;
+  font-size: 15px;
+}
 
 /* category app ends */
 

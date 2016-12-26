@@ -23,6 +23,7 @@
 {% endfor %}
 {% endif %}
 
+<a href="{% url 'categories:create' %}"><button id="create-category"> {% trans "Create Category" %}</button></a>
 
 <!-- Code for listing categories -->
 <div class="col-md-12 cards-content">
@@ -36,13 +37,26 @@
               <a  class="category-course-link" data-toggle="collapse" href="#{{category.slug}}">{{category.name}}</a>
             </h4>
 
-          
-            <a href=""><i class="fa fa-list" aria-hidden="true"></i></a>
-            <a href=""><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+            {% if user|has_role:'sys_admin' %}
+               <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                    <li><a href="#"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
+                    <li><a href="#"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+                    <li><a href="#"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
+                  </ul>
+              
+            {% endif %}
 
-            <a href=""><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
+            {% if user|has_role:'student' %}
+               <a href=""><i class="fa fa-list" aria-hidden="true"></i></a>
+              <a href=""><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
 
-            <a href=""><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
+              <a href=""><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
+
+              <a href=""><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
+            {% endif %}
+             
+            
+         
           </div>
         </div>
       </div>
