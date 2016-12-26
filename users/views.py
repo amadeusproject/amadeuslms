@@ -1,6 +1,4 @@
-from django.http import Http404
 from django.shortcuts import get_object_or_404,redirect, render
-from django.db.models import Q
 from django.views import generic
 from django.contrib import messages
 from rolepermissions.mixins import HasRoleMixin
@@ -10,11 +8,17 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from rolepermissions.shortcuts import assign_role
 from rolepermissions.verifications import has_role
-from itertools import chain
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import User
-from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm
+from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm, PassResetRequest
+
+#RECOVER PASS IMPORTS
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
+from django.conf import settings
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template import loader
 
 #API IMPORTS
 from rest_framework import viewsets
@@ -341,6 +345,57 @@ class RegisterUser(generic.edit.CreateView):
 		messages.success(self.request, _('User successfully registered!'))
 
 		return super(RegisterUser, self).form_valid(form)
+
+class ForgotPassword(generic.FormView):
+	template_name = "users/forgot_password.html"
+	success_url = reverse_lazy('users:login')
+	form_class = PassResetRequest
+
+	def get_context_data(self, **kwargs):
+		context = super(ForgotPassword, self).get_context_data(**kwargs)
+		context['title'] = _('Forgot Password')
+
+		return context
+
+	def post(self, request, *args, **kwargs):
+		form = self.get_form()
+
+		if form.is_valid():
+			email = form.cleaned_data['email']
+
+			users = User.objects.filter(email = email)
+
+			if users.exists():
+				for user in users:
+					c = {
+						'email': user.email,
+						'domain': 'amadeus.com.br', #or your domain
+						'site_name': 'Amadeus',
+						'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+						'user': user,
+						'token': default_token_generator.make_token(user),
+						'protocol': 'http',
+					}
+
+					subject_template_name='registration/password_reset_subject.txt'
+					email_template_name = 'recover_pass_email_template.html'
+					
+					subject = loader.render_to_string(subject_template_name, c)
+	                # Email subject *must not* contain newlines
+					subject = ''.join(subject.splitlines())
+					email = loader.render_to_string(email_template_name, c)
+					
+					send_mail(subject, email, settings.DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
+
+				result = self.form_valid(form)
+				messages.success(request, _("An email has been sent to the informed address. Please check its inbox to continue reseting password."))
+				
+				return result
+		
+		result = self.form_invalid(form)
+		messages.error(request, _('No user is associated with this email address'))
+		
+		return result
 
 def login(request):
 	context = {}

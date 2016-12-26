@@ -180,7 +180,7 @@ LOGS_URL = 'logs/'
 
 # E-mail
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'admin@admin.com'
+DEFAULT_FROM_EMAIL = 'admin@amadeus.com.br'
 
 # Messages
 from django.contrib.messages import constants as messages_constants

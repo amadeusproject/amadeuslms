@@ -3,11 +3,24 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from rolepermissions.shortcuts import assign_role
 from django.contrib.auth import update_session_auth_hash
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 from .models import User
 
 class Validation(forms.ModelForm):
 	MIN_PASS_LENGTH = 8
 	MAX_UPLOAD_SIZE = 2*1024*1024
+
+	def clean_email(self):
+		email = self.cleaned_data.get('email', '')
+
+		try:
+			validate_email( email )
+			return email
+		except ValidationError:
+			self._errors['email'] = [_('You must insert an email address')]
+			
+			return ValueError
 
 	def clean_image(self):
 		image = self.cleaned_data.get('image', False)
@@ -171,3 +184,17 @@ class ChangePassForm(Validation):
 		widgets = {
 			'password': forms.PasswordInput
 		}
+
+class PassResetRequest(forms.Form):
+	email = forms.CharField(label = _('Email'), max_length = 254)
+
+	def clean_email(self):
+		email = self.cleaned_data.get('email', '')
+
+		try:
+			validate_email( email )
+			return email
+		except ValidationError:
+			self._errors['email'] = [_('You must insert an email address')]
+			
+			return ValueError		
