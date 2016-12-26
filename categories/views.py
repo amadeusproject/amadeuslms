@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DeleteView
 from .models import Category
 from django.core.urlresolvers import reverse_lazy
 from rolepermissions.verifications import has_role
@@ -74,3 +74,18 @@ class CreateCategory(HasRoleMixin, CreateView):
         self.object = form.save()
         #TODO: Implement log calls
         return super(CreateCategory, self).form_valid(form)
+
+
+class DeleteCategory(HasRoleMixin, DeleteView):
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+    model = Category
+    template_name = 'categories/delete.html'
+
+    
+    def get_success_url(self):
+
+        return reverse_lazy('categories:index')
+
+
