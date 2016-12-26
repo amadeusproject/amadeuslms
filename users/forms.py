@@ -197,4 +197,14 @@ class PassResetRequest(forms.Form):
 		except ValidationError:
 			self._errors['email'] = [_('You must insert an email address')]
 			
-			return ValueError		
+			return ValueError
+
+class SetPasswordForm(Validation):
+	is_edit = False
+
+	new_password = forms.CharField(label=_('New Password'), widget = forms.PasswordInput(render_value=True), required = True)
+	password2 = forms.CharField(label = _('Confirm Password'), widget = forms.PasswordInput(render_value=True), required = True)
+
+	class Meta:
+		model = User
+		fields = []

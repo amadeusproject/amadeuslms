@@ -10,7 +10,7 @@ from rolepermissions.shortcuts import assign_role
 from rolepermissions.verifications import has_role
 
 from .models import User
-from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm, PassResetRequest
+from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm, PassResetRequest, SetPasswordForm
 
 #RECOVER PASS IMPORTS
 from django.contrib.auth.tokens import default_token_generator
@@ -26,11 +26,6 @@ from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 # ================ ADMIN =======================
-
-
-
-
-
 
 # class View(LoginRequiredMixin, generic.DetailView):
 
@@ -367,13 +362,16 @@ class ForgotPassword(generic.FormView):
 
 			if users.exists():
 				for user in users:
+					uid = urlsafe_base64_encode(force_bytes(user.pk))
+					token = default_token_generator.make_token(user)
+
 					c = {
+						'request': request,
+						'title': _('Recover Password'),
 						'email': user.email,
-						'domain': 'amadeus.com.br', #or your domain
+						'domain': request.build_absolute_uri(reverse("users:reset_password_confirm", kwargs = {'uidb64': uid, 'token':token})), #or your domain
 						'site_name': 'Amadeus',
-						'uid': urlsafe_base64_encode(force_bytes(user.pk)),
 						'user': user,
-						'token': default_token_generator.make_token(user),
 						'protocol': 'http',
 					}
 
@@ -388,7 +386,7 @@ class ForgotPassword(generic.FormView):
 					send_mail(subject, email, settings.DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
 
 				result = self.form_valid(form)
-				messages.success(request, _("An email has been sent to the informed address. Please check its inbox to continue reseting password."))
+				messages.success(request, _("Soon you'll receive an email with instructions to set your new password. If you don't receive it in 24 hours, please check your spam box."))
 				
 				return result
 		
@@ -396,6 +394,46 @@ class ForgotPassword(generic.FormView):
 		messages.error(request, _('No user is associated with this email address'))
 		
 		return result
+
+class PasswordResetConfirmView(generic.FormView):
+	template_name = "users/new_password.html"
+	success_url = reverse_lazy('users:login')
+	form_class = SetPasswordForm
+
+	def get_context_data(self, **kwargs):
+		context = super(PasswordResetConfirmView, self).get_context_data(**kwargs)
+		context['title'] = _('Reset Password')
+
+		return context
+
+	def post(self, request, uidb64=None, token=None, *arg, **kwargs):
+		form = self.get_form()
+
+		assert uidb64 is not None and token is not None
+        
+		try:
+			uid = urlsafe_base64_decode(uidb64)
+			user = User._default_manager.get(pk=uid)
+		except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+			user = None
+
+		if user is not None and default_token_generator.check_token(user, token):
+			if form.is_valid():
+				new_password = form.cleaned_data['new_password']
+                
+				user.set_password(new_password)
+				user.save()
+                
+				messages.success(request, 'Password reset successfully.')
+                
+				return self.form_valid(form)
+			else:
+				messages.error(request, 'We were not able to reset your password.')
+				return self.form_invalid(form)
+		else:
+			messages.error(request,'The reset password link is no longer valid.')
+			return self.form_invalid(form)
+
 
 def login(request):
 	context = {}
