@@ -83,6 +83,12 @@ class DeleteCategory(HasRoleMixin, DeleteView):
     model = Category
     template_name = 'categories/delete.html'
 
+    def dispatch(self, *args, **kwargs):
+        category = get_object_or_404(Category, slug = self.kwargs.get('slug'))
+        if len(category.subject_set) > 0:
+            return self.handle_no_permission()
+
+        return super(DeleteCategory, self).dispatch(*args, **kwargs)
     
     def get_success_url(self):
 

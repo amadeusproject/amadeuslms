@@ -14,7 +14,7 @@
         <!-- Put ONLY your content here!!!  -->
         <form id="delete_form" action="{% url 'categories:delete' category.slug %}" method="post">
           {% csrf_token %}
-          <p>{% trans 'Are you sure you want to delete the category' %} "{{category.name}}"?</p>
+          <p>{% trans 'Are you sure you want to delete the category' %} "{{category.name}}"? {% trans "All its data will be lost and can't be recovered" %}</p>
         </form>
       </div>
       <!-- Modal Footer -->

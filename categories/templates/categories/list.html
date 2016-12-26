@@ -23,7 +23,9 @@
 {% endfor %}
 {% endif %}
 
-<a href="{% url 'categories:create' %}"><button id="create-category"> {% trans "Create Category" %}</button></a>
+{% if user.is_staff %}
+  <a href="{% url 'categories:create' %}"><button id="create-category"> {% trans "Create Category" %}</button></a>
+{% endif %}
 
 <!-- Code for listing categories -->
 <div class="col-md-12 cards-content">

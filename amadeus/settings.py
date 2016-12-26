@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'users',
     'notifications',
     'log',
-    'categories'
+    'categories',
+    'subjects'
 ]
 
 MIDDLEWARE_CLASSES = [
