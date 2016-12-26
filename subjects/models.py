@@ -8,6 +8,9 @@ from users.models import User
 
 from categories.models import Category
 
+class Marker(models.Model):
+    name = models.CharField( _("Name"), unique = True,max_length= 200)
+
 class Subject(models.Model):
 
     name = models.CharField( _("Name"), unique = True,max_length= 200)
@@ -19,6 +22,8 @@ class Subject(models.Model):
 
     init_date = models.DateField(_('Begin of Subject Date'))
     end_date = models.DateField(_('End of Subject Date'))
+
+    markers = models.ManyToManyField(Marker, verbose_name='markers')
 
     create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
     update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
@@ -36,5 +41,6 @@ class Subject(models.Model):
     def __str__(self):
         pass
     
+
 
 
