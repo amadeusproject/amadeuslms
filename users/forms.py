@@ -34,33 +34,33 @@ class Validation(forms.ModelForm):
 
 		return image
 
-	def clean_new_password(self):
-		password = self.cleaned_data.get('new_password')
-		print(self.cleaned_data)
-		if self.is_edit and len(password) == 0:
-			return password
+	# def clean_new_password(self):
+	# 	password = self.cleaned_data.get('new_password')
 
-        # At least MIN_LENGTH long
-		if len(password) < self.MIN_PASS_LENGTH:
-			self._errors['new_password'] = [_("The new password must contain at least % d characters." % self.MIN_PASS_LENGTH)]
+	# 	if self.is_edit and len(password) == 0:
+	# 		return password
+
+ #        # At least MIN_LENGTH long
+	# 	if len(password) < self.MIN_PASS_LENGTH:
+	# 		self._errors['new_password'] = [_("The new password must contain at least % d characters." % self.MIN_PASS_LENGTH)]
 			
-			return ValueError
+	# 		return ValueError
 
-        # At least one letter and one non-letter
-		first_isalpha = password[0].isalpha()
-		if all(c.isalpha() == first_isalpha for c in password):
-			self._errors['new_password'] = [_('The password must contain at least one letter and at least one digit or a punctuation character.')]
+ #        # At least one letter and one non-letter
+	# 	first_isalpha = password[0].isalpha()
+	# 	if all(c.isalpha() == first_isalpha for c in password):
+	# 		self._errors['new_password'] = [_('The password must contain at least one letter and at least one digit or a punctuation character.')]
 
-			return ValueError
+	# 		return ValueError
 
-		return password
+	# 	return password
 
 	def clean_password2(self):
 		password = self.cleaned_data.get("new_password")
 		password2 = self.cleaned_data.get("password2")
 
-		if self.is_edit and len(password) == 0:
-			return password2
+		#if self.is_edit and len(password) == 0:
+		#	return password2
 
 		if password and password2 and password != password2:
 			self._errors['password2'] = [_('The confirmation password is incorrect.')]
