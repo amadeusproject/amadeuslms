@@ -76,7 +76,27 @@ class CreateCategory(HasRoleMixin, CreateView):
 
     def get_initial(self):
         initial = super(CreateCategory, self).get_initial()
+        if self.kwargs.get('slug'):
+            category = get_object_or_404(Category, slug = self.kwargs['slug'])
+            initial = initial.copy()
+
+            initial['description'] = category.description
+            initial['name'] = category.name
+            initial['visible'] = category.visible
+            #initial['coordinators'] = category.coordinators
         return initial
+
+
+    def get_form(self, form_class=None):
+        """
+        Returns an instance of the form to be used in this view.
+        """ 
+        #print(self.kwargs)
+        if form_class is None:
+            form_class = self.get_form_class()
+            
+
+        return form_class(**self.get_form_kwargs())
 
     def form_valid(self, form):
         self.object = form.save()
