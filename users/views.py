@@ -424,14 +424,14 @@ class PasswordResetConfirmView(generic.FormView):
 				user.set_password(new_password)
 				user.save()
                 
-				messages.success(request, 'Password reset successfully.')
+				messages.success(request, _('Password reset successfully.'))
                 
 				return self.form_valid(form)
 			else:
-				messages.error(request, 'We were not able to reset your password.')
+				messages.error(request, _('We were not able to reset your password.'))
 				return self.form_invalid(form)
 		else:
-			messages.error(request,'The reset password link is no longer valid.')
+			messages.error(request, _('The reset password link is no longer valid.'))
 			return self.form_invalid(form)
 
 
@@ -447,7 +447,7 @@ def login(request):
 			login_user(request, user)
 			return redirect(reverse("home"))
 		else:
-			messages.add_message(request, messages.ERROR, _('E-mail or password are incorrect.'))
+			messages.error(request, _('E-mail or password are incorrect.'))
 			context["username"] = username
 	elif request.user.is_authenticated:
 		return redirect(reverse('home'))
