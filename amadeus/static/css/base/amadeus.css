@@ -20,10 +20,6 @@
 }
 
 
-#sidebar-menu > .item i {
-  
-}
-
 
 /* side bar menu ends*/
 
@@ -82,6 +78,16 @@
   }
 .user-notification-img{
   width:40%;
+}
+
+#horizontal-line{
+  height:2px;
+  background-color: black;
+}
+
+.navbar .dropdown-menu li>a, .navbar.navbar-default .dropdown-menu li>a {
+    font-size: 16px !important;
+    padding: 7px 16px !important;
 }
 
 /* HEADER */
