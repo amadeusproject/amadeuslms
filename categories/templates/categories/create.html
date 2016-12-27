@@ -25,6 +25,9 @@
 									<input type="checkbox" name="{{field.name}}" {% if field.value %}checked="checked"{% endif %}><span class="checkbox-material"></span> {{field.name}}
 							</label>
 						</div>
+
+					{% elif field.auto_id == 'id_description' %}
+						{% render_field field class='form-control text_wysiwyg' %}
 					{% else %}
 						{% render_field field class='form-control' %}
 					{% endif %}

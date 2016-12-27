@@ -27,6 +27,8 @@
 
 .category-header > h4{
   float:left;
+
+  margin-top: 0.5%;
 }
 
 .category-header i{
@@ -465,10 +467,21 @@ ul, li {
     -webkit-animation-timing-function: ease-in-out;
 }
 /* Icon Topic */
-.divMoreActions {text-align: right; height: 59px; float: right;}
-.moreAccordion {height: 59px;}
+.divMoreActions {
+  text-align: right; height: 37px; float: right;
+}
+
+.divMoreActions > .btn-group {
+  margin: 0px !important;
+}
+
+.moreAccordion {
+  height: 37px;
+}
 /*.divMoreActions div button {padding-left: 10px; padding-right: 10px; padding-bottom: 10px; margin-bottom: 4px; height: 31px;}*/
-.divMoreActions , .moreAccordion{padding-top: 5px; padding-bottom: 1%;}
+.divMoreActions , .moreAccordion{
+  padding-top: 3px;
+}
 .moreAccordion button{margin-bottom: 0px; margin-top: 8px;}
 .titleTopic {padding-top: 10px; padding-bottom: 10px;}
 .titleTopic a h4, .titleTopic h4{color: white;}
