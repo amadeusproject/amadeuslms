@@ -59,7 +59,9 @@
 				<div class="row-fluid">
 					<label class="control-form">{% trans 'Description' %}:</label>
 					<div class="col-md-12">
-						{{ user.description|default:_("Not Informed") }}
+						{% autoescape off %}
+							{{ user.description|default:_("Not Informed") }}
+						{% endautoescape %}
 					</div>
 				</div>
 			</div>

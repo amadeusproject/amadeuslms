@@ -195,7 +195,7 @@ class PassResetRequest(forms.Form):
 			validate_email( email )
 			return email
 		except ValidationError:
-			self._errors['email'] = [_('You must insert an email address')]
+			self._errors['email'] = [_('You must insert a valid email address')]
 			
 			return ValueError
 
