@@ -73,6 +73,11 @@ class CreateCategory(HasRoleMixin, CreateView):
     template_name = 'categories/create.html'
     success_url = reverse_lazy('categories:index')
 
+
+    def get_initial(self):
+        initial = super(CreateCategory, self).get_initial()
+        return initial
+
     def form_valid(self, form):
         self.object = form.save()
         #TODO: Implement log calls
