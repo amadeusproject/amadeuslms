@@ -1,15 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, CreateView, DeleteView
 from .models import Category
 from django.core.urlresolvers import reverse_lazy
 from rolepermissions.verifications import has_role
 
+from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from rolepermissions.mixins import HasRoleMixin
 from .forms import CategoryForm
+
+from subjects.models import Subject
 
 class IndexView(LoginRequiredMixin, ListView):
 
@@ -83,15 +86,17 @@ class DeleteCategory(HasRoleMixin, DeleteView):
     model = Category
     template_name = 'categories/delete.html'
 
-    def dispatch(self, *args, **kwargs):
+
+    def delete(self, request, *args, **kwargs):
         category = get_object_or_404(Category, slug = self.kwargs.get('slug'))
-        if len(category.subject_set) > 0:
-            return self.handle_no_permission()
+        subjects = Subject.objects.filter(category = category)
+        print("aqui 3")
+        if len(subjects) > 0:
+            return HttpResponse(_('There are subjects attched to this category'))
+       
+        return super(DeleteCategory, self).delete(self, request, *args, **kwargs)
 
-        return super(DeleteCategory, self).dispatch(*args, **kwargs)
-    
     def get_success_url(self):
-
+        
         return reverse_lazy('categories:index')
-
 

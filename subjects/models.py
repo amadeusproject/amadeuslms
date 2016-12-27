@@ -10,6 +10,8 @@ from categories.models import Category
 
 class Marker(models.Model):
     name = models.CharField( _("Name"), unique = True,max_length= 200)
+    def __str__(self):
+        return self.name
 
 class Subject(models.Model):
 
@@ -39,7 +41,7 @@ class Subject(models.Model):
         verbose_name_plural = "Subjects"
 
     def __str__(self):
-        pass
+        return self.name
     
 
 
