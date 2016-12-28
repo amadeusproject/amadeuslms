@@ -80,15 +80,29 @@
           </div>
         </div>
       </div>
+    
+        
+      {% if user.is_staff %}
+        <div id="{{category.slug}}" class="panel-collapse collapse category-panel-content">
+             <h4>  {% trans "Coordinator(s): " %}
+            {% for coordinator in category.coordinators.all %}
+              {{coordinator.username}}
+            {% endfor %}
+            </h4>
+              <p> {{category.description}}</p>
+        </div>
+      {% endif %}
       {% comment %}
         
-     
+      
       <div id="{{category.slug}}" class="panel-collapse collapse">
+
         {% for subject in subjects %}
           {% include "categories/category_card.html" %}
         {% endfor %}
       </div>
-       {% endcomment %}
+      {% endcomment %}
+       
     </div>
   </div>
   {% endfor %}
