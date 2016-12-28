@@ -53,6 +53,10 @@
   padding:10px;
 }
 
+.core-subjects-options > li{
+  float:left;
+}
+
 /* category app ends */
 
 .clearfix{
