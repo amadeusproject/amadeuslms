@@ -334,8 +334,6 @@ class RegisterUser(generic.edit.CreateView):
 
 	def form_valid(self, form):
 		form.save()
-		
-		assign_role(form.instance, 'student')
 
 		messages.success(self.request, _('User successfully registered!'))
 
