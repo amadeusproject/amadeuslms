@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, CreateView, DeleteView
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 from .models import Category
 from django.core.urlresolvers import reverse_lazy
 from rolepermissions.verifications import has_role
@@ -126,4 +126,19 @@ class DeleteCategory(DeleteView):
     def get_success_url(self):
         
         return reverse_lazy('categories:index')
+
+
+class UpdateCategory(UpdateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'categories/update.html'
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+
+
+    def get_success_url(self):
+        messages.success(self.request, _('Category "%s" updated successfully!')%(objeto))
+        return reverse_lazy('categories:index')
+
 
