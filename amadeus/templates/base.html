@@ -108,7 +108,7 @@
                         <a href="" data-toggle="dropdown"><i class="fa fa-cog" aria-hidden="true"></i></a> 
                         <ul class="dropdown-menu pull-right">
                             <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
-                            <li><a href="{% url 'categories:index' %}">{% trans 'Manage Courses' %}</a></li>
+                            <li><a href="{% url 'categories:index' %}">{% trans 'Manage Categories' %}</a></li>
                             <li><a href="{% url 'categories:index' %}">{% trans 'System' %}</a></li>
                             <div id="horizontal-line"></div>
                             <li><a href="{% url 'categories:index' %}">{% trans 'Mail Sender' %}</a></li>
@@ -139,21 +139,21 @@
             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
                 {% block sidebar %}
                    <ul id="sidebar-menu">
-                       <li class="item">
+                       <li class="item"  data-toggle="tooltip" data-placement="right" title="{% trans "My Subjects" %}">
                             <i class="fa fa-graduation-cap" aria-hidden="true"></i>
                        </li>
-                       <li class="item">
-                            <i class="fa fa-list" aria-hidden="true"></i>
+                       <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Timeline" %}">
+                            <i class="fa fa-list" aria-hidden="true" ></i>
                        </li>
-                       <li class="item">
+                       <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Messages" %}">
                             <i class="fa fa-envelope-o" aria-hidden="true"></i>
                        </li>
 
-                         <li class="item">
+                         <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Pendencias" %}">
                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                        </li>
 
-                       <li class="item">
+                       <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Analytics" %}">
                             <i class="fa fa-bar-chart" aria-hidden="true"></i>
                        </li>
 
@@ -184,6 +184,11 @@
         $('.text_wysiwyg').summernote({
             height: 200
         });
+
+        /* Initialize tooltips*/
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
 </body>
 

@@ -36,7 +36,7 @@ class IndexView(LoginRequiredMixin, ListView):
         else:
             context['page_template'] = "categories/home_teacher_student.html"
 
-        context['title'] = _('Home')
+        context['title'] = _('Categories')
 
         if self.request.is_ajax():
             if self.request.user.is_staff:
@@ -52,11 +52,6 @@ class IndexView(LoginRequiredMixin, ListView):
         categories = self.get_queryset().order_by('name')
         
         
-            
-        
-
-        
-        context['title'] = _('Categories')
         context['categories'] = categories
 
         return context
