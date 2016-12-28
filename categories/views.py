@@ -51,10 +51,7 @@ class IndexView(LoginRequiredMixin, ListView):
         list_categories = None
         categories = self.get_queryset().order_by('name')
         
-        for category in categories:
-            print(category.coordinators)
-            #if self.request.user in category.coordinators:
-            #    print("here")
+        
             
         
 
