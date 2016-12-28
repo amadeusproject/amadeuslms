@@ -25,6 +25,12 @@
 
 {% if user.is_staff %}
   <a href="{% url 'categories:create' %}"><button id="create-category"> {% trans "Create Category" %}</button></a>
+
+{% else %}
+  <ul>
+    <li>{% trans "My subjects" %}</li>
+    <li>{% trans "all subjects" %}</li>
+  </ul>
 {% endif %}
 
 <!-- Code for listing categories -->
@@ -39,8 +45,11 @@
               <a  class="category-course-link" data-toggle="collapse" href="#{{category.slug}}">{{category.name}}</a>
             </h4>
 
-            {% if user.is_staff %}
-               <div class="col-xs-6 col-md-6 divMoreActions" >
+         
+           
+
+            {% if user.is_staff or user in category.coordinators.all %}
+               <div class="col-xs-1 col-md-1 divMoreActions" >
                 <div class="btn-group">
                   <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
@@ -52,16 +61,20 @@
                   </ul>
                 </div>
             </div>
-              
-            {% else %}
-               <a href=""><i class="fa fa-list" aria-hidden="true"></i></a>
+            {% endif %}
+
+             {% if not user.is_staff  %}
+            <div class="col-md-5 pull-right">
+            
+              <a href=""><i class="fa fa-list" aria-hidden="true"></i></a>
               <a href=""><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
 
               <a href=""><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
-
               <a href=""><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
+
+            
+            </div>
             {% endif %}
-             
             
          
           </div>

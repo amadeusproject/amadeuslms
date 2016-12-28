@@ -4,6 +4,7 @@ from .models import Category
 from django.core.urlresolvers import reverse_lazy
 from rolepermissions.verifications import has_role
 
+from django.contrib import messages
 from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
 
@@ -49,15 +50,13 @@ class IndexView(LoginRequiredMixin, ListView):
         context = super(IndexView, self).get_context_data(**kwargs)
         list_categories = None
         categories = self.get_queryset().order_by('name')
-        if has_role(self.request.user,'system_admin'):
-            categories = self.get_queryset().order_by('name')
+        
+        for category in categories:
+            print(category.coordinators)
+            #if self.request.user in category.coordinators:
+            #    print("here")
             
-        elif has_role(self.request.user,'professor'):
-        	pass
-            #list_categories = self.get_queryset().filter(professors__in = [self.request.user]).order_by('name')
-            # categorys_categories = CourseCategory.objects.filter(course_category__professors__name = self.request.user.name).distinct()
-        elif has_role(self.request.user, 'student'):
-            pass
+        
 
         
         context['title'] = _('Categories')
@@ -100,11 +99,20 @@ class CreateCategory(HasRoleMixin, CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
+        
+
+
         #TODO: Implement log calls
         return super(CreateCategory, self).form_valid(form)
 
+    def get_success_url(self):
+        print(self.object.coordinators)
+        objeto = self.object.name
+        messages.success(self.request, _('Category "%s" register successfully!')%(objeto))
+        return reverse_lazy('categories:index')
 
-class DeleteCategory(HasRoleMixin, DeleteView):
+
+class DeleteCategory(DeleteView):
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
@@ -115,9 +123,11 @@ class DeleteCategory(HasRoleMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         category = get_object_or_404(Category, slug = self.kwargs.get('slug'))
         subjects = Subject.objects.filter(category = category)
-        print("aqui 3")
+        
         if len(subjects) > 0:
-            return HttpResponse(_('There are subjects attched to this category'))
+            #objeto = category
+            #messages.success(self.request, _('cannot delete Category "%s" ')%(objeto))
+            return reverse_lazy('categories:index')
        
         return super(DeleteCategory, self).delete(self, request, *args, **kwargs)
 
