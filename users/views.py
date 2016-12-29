@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login as login_user
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
+from django.db.models import Q
 
 from .models import User
 from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm, PassResetRequest, SetPasswordForm
@@ -39,6 +40,36 @@ class UsersListView(LoginRequiredMixin, generic.ListView):
 	def get_context_data (self, **kwargs):
 		context = super(UsersListView, self).get_context_data(**kwargs)
 		context['title'] = _('Manage Users')
+
+		return context
+
+class SearchView(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'users/search.html'
+	context_object_name = 'users'
+	paginate_by = 10
+
+	def dispatch(self, request, *args, **kwargs):
+		search = self.request.GET.get('search', '')
+
+		if search == '':
+			return redirect(reverse_lazy('users:manage'))
+    
+		return super(SearchView, self).dispatch(request, *args, **kwargs)
+
+	def get_queryset(self):
+		search = self.request.GET.get('search', '')
+
+		users = User.objects.filter(Q(username__icontains = search) | Q(last_name__icontains = search) | Q(social_name__icontains = search) | Q(email__icontains = search)).order_by('social_name','username').exclude(email = self.request.user.email)
+		
+		return users
+
+	def get_context_data (self, **kwargs):
+		context = super(SearchView, self).get_context_data(**kwargs)
+		context['title'] = _('Search Users')
+		context['search'] = self.request.GET.get('search')
 
 		return context
 

@@ -1,27 +1,18 @@
-{% extends 'base.html' %}
+{% extends 'users/list.html' %}
 
 {% load i18n pagination django_bootstrap_breadcrumbs permission_tags static  %}
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb 'Manage Users' 'users:manage' %}
+    {% with 'Search for "'|add:search|add:'"' as search_bread %}
+    	{% breadcrumb search_bread 'users:search' %}
+    {% endwith %}
 {% endblock %}
 
 {% block menu %}
 {% endblock %}
 
 {% block content %}
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <p>{{ message }}</p>
-            </div>
-        {% endfor %}
-    {% endif %}
-
     <div class="row">
         <div class="col-md-9">
             <form action="{% url 'users:search' %}" method="GET" class="form-horizontal">
