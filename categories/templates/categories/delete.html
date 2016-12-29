@@ -4,12 +4,7 @@
 <div class="modal fade" id="category" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <!-- Modal Header -->
-      <div class="modal-header">
-
-        <h4 class="modal-title" id="myModalLabel">{% trans "Delete Category" %}</h4>
-      </div>
-      <!-- Modal Body -->
+           <!-- Modal Body -->
       <div class="modal-body">
         <!-- Put ONLY your content here!!!  -->
         <form id="delete_form" action="{% url 'categories:delete' category.slug %}" method="post">
@@ -18,10 +13,10 @@
         </form>
       </div>
       <!-- Modal Footer -->
-      <div class="modal-footer">
+      <div id="delete-category-footer"class="modal-footer">
         <!-- Don't remove that!!!  -->
         <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
-        <button type="submit" id="button" form="delete_form" class="btn btn-primary btn-raised">{% trans "Delete" %}</button>
+        <button type="submit" id="button" form="delete_form" class="btn btn-primary btn-raised erase-button">{% trans "Delete" %}</button>
         {% if index %}
         <script>
           $("#delete_form").submit(function(event) {

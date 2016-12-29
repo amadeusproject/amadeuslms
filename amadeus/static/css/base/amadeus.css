@@ -93,6 +93,14 @@
   border-bottom-color: green;
 }
 
+#delete-category-footer{
+  border-top:none !important;
+}
+
+.erase-button{
+  float:left;
+}
+
 /* category app ends */
 
 .clearfix{
