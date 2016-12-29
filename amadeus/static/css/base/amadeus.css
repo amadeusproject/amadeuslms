@@ -27,14 +27,19 @@
 
 .category-header > h4{
   float:left;
-
   margin-top: 0.5%;
 }
 
+
+.category-card-items i{
+  font-size: 25px !important;
+  margin-right: 5%;
+  margin-top: 1%;
+}
 .category-header i{
     color: white;
-    margin-right: 10px;
-    font-size:16px;
+   
+    font-size: 20px;
     float: right;
 
 
@@ -99,6 +104,13 @@
 
 .erase-button{
   float:left;
+}
+
+.create-subject-btn{
+    width: 100%;
+    background-color: #26A69A;
+    color: white;
+    border: 0px;
 }
 
 /* category app ends */
@@ -643,6 +655,7 @@ ul, li {
 /* Icon Topic */
 .divMoreActions {
   text-align: right; height: 30px; float: right;
+  width: 3%;
 }
 
 .divMoreActions > .btn-group {
@@ -663,7 +676,11 @@ ul, li {
 .dropdown-menu .pull-right {
     right: 0;
   }
-.cards-content{ padding-left: 0px; padding-right: 0px; }
+.cards-content{ 
+  padding-left: 0px; padding-right: 0px; 
+  font-family: Roboto;
+  font-size: 18px;
+}
 .cards-detail{margin-left: 4%;}
 .cards-detail .panel .panel-heading{/*background-color:;*/}
 .cards-detail .panel .panel-heading h4{color:black;}

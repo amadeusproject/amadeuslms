@@ -49,7 +49,7 @@
                                     </a>
                                 </h4>
                                 {% if user.is_staff or user in category.coordinators.all %}
-                                    <div class="col-xs-1 col-md-1 divMoreActions">
+                                    <div class=" divMoreActions">
                                         <div class="btn-group">
                                             <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
@@ -63,9 +63,12 @@
                                             </ul>
                                         </div>
                                     </div>
+                                {% else %}
+                                    <div class=" divMoreActions">
+                                    </div>
                                 {% endif %}
                                 {% if not user.is_staff  %}
-                                    <div class="col-md-5 pull-right">
+                                    <div class="col-md-5 pull-right category-card-items">
                                         <a href="" ><i class="fa fa-list" aria-hidden="true"></i></a>
                                         <a href=""><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
                                         <a href=""><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
@@ -82,7 +85,12 @@
                             {% endfor %}
                         </h4>
                         {{category.description|safe}}
+                         {% if user in category.coordinators.all %}
+                        <button class="create-subject-btn"> {% trans "create new subject" %} </button>
+                    {% endif %}
                     </div>
+
+                   
                     {% comment %}
                         <div id="{{category.slug}}" class="panel-collapse collapse">
                             {% for subject in subjects %}
