@@ -124,7 +124,7 @@ class DeleteCategory(DeleteView):
         return super(DeleteCategory, self).delete(self, request, *args, **kwargs)
 
     def get_success_url(self):
-        
+        messages.success(self.request, _('Category removed successfully!'))
         return reverse_lazy('categories:index')
 
 
