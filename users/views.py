@@ -1,13 +1,10 @@
 from django.shortcuts import get_object_or_404,redirect, render
 from django.views import generic
 from django.contrib import messages
-from rolepermissions.mixins import HasRoleMixin
 from django.contrib.auth import authenticate, login as login_user
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-from rolepermissions.shortcuts import assign_role
-from rolepermissions.verifications import has_role
 
 from .models import User
 from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm, PassResetRequest, SetPasswordForm
@@ -26,79 +23,6 @@ from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 # ================ ADMIN =======================
-
-# class View(LoginRequiredMixin, generic.DetailView):
-
-# 	#login_url = reverse_lazy("core:home")
-# 	redirect_field_name = 'next'
-# 	model = User
-# 	context_object_name = 'acc'
-# 	template_name = 'users/view.html'
-# 	slug_field = 'username'
-# 	slug_url_kwarg = 'username'
-
-# 	def get_context_data (self, **kwargs):
-# 		context = super(View, self).get_context_data(**kwargs)
-# 		context['title'] = "User"
-# 		return context
-
-# def delete_user(request,username):
-# 	user = get_object_or_404(User,username = username)
-# 	user.delete()
-# 	messages.success(request,_("User deleted Successfully!"))
-# 	return redirect('users:manage')
-
-# def remove_account(request,username):
-# 	user = get_object_or_404(User,username = username)
-# 	user.delete()
-# 	messages.success(request,_("User deleted Successfully!"))
-# 	#return redirect('core:logout')
-
-# class Change_password(generic.TemplateView):
-# 	template_name = 'users/change_password.html'
-
-# 	def get_context_data (self, **kwargs):
-# 		context = super(Change_password, self).get_context_data(**kwargs)
-# 		context['title'] = "Change Password"
-# 		return context
-
-# class Remove_account(generic.TemplateView):
-# 	template_name = 'users/remove_account.html'
-
-# 	def get_context_data (self, **kwargs):
-# 		context = super(Remove_account, self).get_context_data(**kwargs)
-# 		context['title'] = "Remove Account"
-# 		return context
-
-
-
-# class DeleteUser(LoginRequiredMixin, generic.edit.DeleteView):
-# 	allowed_roles = ['student']
-# 	#login_url = reverse_lazy("core:home")
-# 	model = User
-	
-# 	#success_url = reverse_lazy('core:index')
-# 	success_message = "Deleted Successfully"
-
-# 	def get_queryset(self):
-# 		user = get_object_or_404(User, username = self.request.user.username)
-# 		return user
-
-# class SearchView(LoginRequiredMixin, generic.ListView):
-
-# 	#login_url = reverse_lazy("core:home")
-# 	redirect_field_name = 'next'
-# 	queryset = None
-# 	template_name = 'users/search.html'
-# 	paginate_by = 10
-
-# 	def get_context_data(self, **kwargs):
-# 		context = super(SearchView, self).get_context_data(**kwargs)
-# 		search = self.request.GET.get('search', None)
-		
-
-# 		return context
-
 class UsersListView(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
