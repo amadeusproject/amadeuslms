@@ -138,6 +138,7 @@ class UpdateCategory(UpdateView):
 
 
     def get_success_url(self):
+        objeto = self.object.name
         messages.success(self.request, _('Category "%s" updated successfully!')%(objeto))
         return reverse_lazy('categories:index')
 
