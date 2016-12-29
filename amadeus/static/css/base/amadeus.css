@@ -67,7 +67,35 @@
   margin-bottom: 5em;
 }
 
-.navbar .logo {position: absolute; top: 6px; text-align: center; height: 48px; width: 48px;}
+/* NavBar Top */
+.navbar {
+    height: 50px;
+}
+
+.navbar .logo {position: absolute; top: 8px; text-align: center; height: 32px; width: 32px;}
+
+.navbar-nav li > a {
+    font-size: 28px;
+    padding-top: 12px !important;
+    padding-left: 20px;
+}
+
+.top-search {
+    color: #F5F5F5;
+}
+.top-search::-webkit-input-placeholder {
+    font-style: italic;
+}
+.top-search::-moz-placeholder {
+    font-style: italic;
+}
+.top-search:-ms-input-placeholder {
+    font-style: italic;
+}
+.top-search:-moz-placeholder {
+    font-style: italic;
+}
+/* End NavBar Top */
 
 /* Modal */
 .modal-header {min-height: 60px; border-bottom: 1px solid #E6E7E8 !important; padding-bottom: 15px !important;}
@@ -439,7 +467,7 @@ ul, li {
   padding-bottom: 10px;
 }
 .form-group{
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 /* core/register_user.html classes*/

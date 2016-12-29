@@ -70,14 +70,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{% url 'categories:index' %}"><img class="logo" src="{% static 'img/topo-amadeus-white.png'  %}" alt="Logo"/></a>
+                <a class="navbar-brand" href="{% url 'categories:index' %}"><img class="logo" src="{% static 'img/topo-amadeus-white.png'  %}" alt="Logo" /></a>
             </div>
             <div class="navbar-collapse collapse navbar-responsive-collapse">
                 <div class="col-md-5 cards-content" id= 'NavBarSearch'>
                     <form id="SearchForm" action="#" method="get" accept-charset="utf-8">
                         <div class="input-group">
                             <div class="form-group is-empty" >
-                                <input type="text" class="form-control" placeholder="{% trans 'Search Files (.pdf, others) and/or activities' %}" name="search">
+                                <input type="text" class="form-control top-search" placeholder="{% trans 'Search Files (.pdf, others) and/or activities' %}" name="search">
                             </div>
                             <span class="input-group-btn input-group-sm">
                                 <button type="submit" class="btn btn-primary" id="btn-search">
