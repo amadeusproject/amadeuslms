@@ -8,13 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-29 14:29-0300\n"
+"POT-Creation-Date: 2016-12-29 18:14-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=latin-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -50,23 +50,23 @@ msgstr "Data de modificação"
 msgid "Category"
 msgstr ""
 
-#: categories/models.py:20 categories/views.py:39
+#: categories/models.py:20 categories/views.py:40
 msgid "Categories"
 msgstr "Categorias"
 
 #: categories/templates/categories/category_card.html:18
-#: categories/templates/categories/list.html:61
+#: categories/templates/categories/list.html:56
 msgid "Replicate"
 msgstr "Replicar"
 
 #: categories/templates/categories/category_card.html:19
 #: categories/templates/categories/home_admin_content.html:6
-#: categories/templates/categories/list.html:64
+#: categories/templates/categories/list.html:58
 msgid "Edit"
 msgstr "Editar"
 
 #: categories/templates/categories/category_card.html:20
-#: categories/templates/categories/list.html:65
+#: categories/templates/categories/list.html:59
 msgid "Remove"
 msgstr "Remover"
 
@@ -74,7 +74,7 @@ msgstr "Remover"
 msgid "Are you sure you want to subscribe to this course?"
 msgstr "Tem certeza que você deseja se inscrever neste curso?"
 
-#: categories/templates/categories/category_card.html:26
+#: categories/templates/categories/category_card.html:27
 msgid "Subscribe"
 msgstr "Inscrever-se"
 
@@ -82,43 +82,39 @@ msgstr "Inscrever-se"
 msgid "Register"
 msgstr "Registrar"
 
-#: categories/templates/categories/delete.html:10
-msgid "Delete Category"
-msgstr "Deletar categoria"
-
-#: categories/templates/categories/delete.html:17
+#: categories/templates/categories/delete.html:12
 msgid "Are you sure you want to delete the category"
 msgstr "Voce tem certeza que seja deletar esta categoria"
 
-#: categories/templates/categories/delete.html:17
+#: categories/templates/categories/delete.html:12
 msgid "All its data will be lost and can't be recovered"
 msgstr "Todos os seus dados seråo perdido e não podem ser recuperados"
 
-#: categories/templates/categories/delete.html:23
+#: categories/templates/categories/delete.html:18
 msgid "Close"
 msgstr "Cancelar"
 
-#: categories/templates/categories/delete.html:24
+#: categories/templates/categories/delete.html:19
 msgid "Delete"
 msgstr "Deletar"
 
-#: categories/templates/categories/home.html:19
+#: categories/templates/categories/home.html:17
 msgid "categories"
 msgstr "categorias"
 
-#: categories/templates/categories/list.html:27
+#: categories/templates/categories/list.html:25
 msgid "Create Category"
 msgstr "Criar Categoria"
 
-#: categories/templates/categories/list.html:33
+#: categories/templates/categories/list.html:30
 msgid "My subjects"
 msgstr ""
 
-#: categories/templates/categories/list.html:34
+#: categories/templates/categories/list.html:31
 msgid "all subjects"
 msgstr "todos assuntos"
 
-#: categories/templates/categories/list.html:92
+#: categories/templates/categories/list.html:76
 msgid "Coordinator(s): "
 msgstr "Coordenadores"
 
@@ -134,16 +130,19 @@ msgstr "atras"
 msgid "Update"
 msgstr ""
 
-#: categories/views.py:103
+#: categories/views.py:104
 #, python-format
 msgid "Category \"%s\" register successfully!"
 msgstr "Categoria \"%s\" foi registrada com sucesso!"
 
-#: categories/views.py:127
+#: categories/views.py:128
 msgid "Category removed successfully!"
 msgstr "Categoria removida com sucesso!"
 
-#: categories/views.py:142
+#: categories/views.py:143
 #, python-format
 msgid "Category \"%s\" updated successfully!"
 msgstr "Categoria \"%s\" atualizada com sucesso!"
+
+#~ msgid "Delete Category"
+#~ msgstr "Deletar categoria"

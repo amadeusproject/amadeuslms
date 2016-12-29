@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-29 14:29-0300\n"
+"POT-Creation-Date: 2016-12-29 18:14-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,75 +20,75 @@ msgstr ""
 
 #: amadeus/templates/base.html:80
 msgid "Search Files (.pdf, others) and/or activities"
-msgstr ""
+msgstr "Pesquisar arquivos (.pdf, outros) e/ou atividades"
 
-#: amadeus/templates/base.html:91
+#: amadeus/templates/base.html:93
 msgid "settings"
-msgstr ""
+msgstr "configurações"
 
-#: amadeus/templates/base.html:94
+#: amadeus/templates/base.html:96
 msgid "Manage Users"
-msgstr ""
+msgstr "Gerenciar Usuários"
 
-#: amadeus/templates/base.html:95
+#: amadeus/templates/base.html:97
 msgid "Manage Categories"
-msgstr ""
+msgstr "Gerenciar Categorias"
 
-#: amadeus/templates/base.html:102
+#: amadeus/templates/base.html:104
 msgid "System"
-msgstr ""
-
-#: amadeus/templates/base.html:108
-msgid "Mail Sender"
-msgstr ""
-
-#: amadeus/templates/base.html:109
-msgid "Security"
-msgstr ""
+msgstr "Sistema"
 
 #: amadeus/templates/base.html:110
+msgid "Mail Sender"
+msgstr "Remetente de Email"
+
+#: amadeus/templates/base.html:111
+msgid "Security"
+msgstr "Segurança"
+
+#: amadeus/templates/base.html:112
 msgid "Theme"
-msgstr ""
+msgstr "Temas"
 
-#: amadeus/templates/base.html:118
+#: amadeus/templates/base.html:122
 msgid "account"
-msgstr ""
+msgstr "conta"
 
-#: amadeus/templates/base.html:123
+#: amadeus/templates/base.html:127
 msgid "Profile"
-msgstr ""
+msgstr "Perfil"
 
-#: amadeus/templates/base.html:124
+#: amadeus/templates/base.html:128
 msgid "Edit Profile"
-msgstr ""
+msgstr "Editar Perfil"
 
-#: amadeus/templates/base.html:125
+#: amadeus/templates/base.html:129
 msgid "Change Password"
-msgstr ""
+msgstr "Alterar Senha"
 
-#: amadeus/templates/base.html:126
+#: amadeus/templates/base.html:130
 msgid "Delete Account"
-msgstr ""
+msgstr "Deletar Conta"
 
-#: amadeus/templates/base.html:141
+#: amadeus/templates/base.html:145
 msgid "Subjects"
-msgstr ""
+msgstr "Assuntos"
 
-#: amadeus/templates/base.html:144
+#: amadeus/templates/base.html:148
 msgid "Timeline"
-msgstr ""
-
-#: amadeus/templates/base.html:147
-msgid "Messages"
-msgstr ""
+msgstr "Timeline"
 
 #: amadeus/templates/base.html:151
-msgid "Pendencias"
-msgstr ""
+msgid "Messages"
+msgstr "Mensagens"
 
 #: amadeus/templates/base.html:155
+msgid "Pendencias"
+msgstr "Pendências"
+
+#: amadeus/templates/base.html:159
 msgid "Analytics"
-msgstr ""
+msgstr "Analytics"
 
 #: amadeus/templates/recover_pass_email_template.html:7
 #, python-format

@@ -18,46 +18,34 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: subjects/models.py:12 subjects/models.py:18
-msgid "Name"
+#: log/models.py:8
+msgid "Component (Module / App)"
 msgstr ""
 
-#: subjects/models.py:19
-msgid "Slug"
+#: log/models.py:9
+msgid "Context"
 msgstr ""
 
-#: subjects/models.py:21
-msgid "simpler_description"
+#: log/models.py:10
+msgid "Action"
 msgstr ""
 
-#: subjects/models.py:22
-msgid "description"
+#: log/models.py:11
+msgid "Resource"
 msgstr ""
 
-#: subjects/models.py:23
-msgid "visible"
+#: log/models.py:12
+msgid "Actor"
 msgstr ""
 
-#: subjects/models.py:25
-msgid "Begin of Subject Date"
+#: log/models.py:13
+msgid "Date and Time of action"
 msgstr ""
 
-#: subjects/models.py:26
-msgid "End of Subject Date"
+#: log/models.py:16
+msgid "Log"
 msgstr ""
 
-#: subjects/models.py:30
-msgid "Creation Date"
-msgstr ""
-
-#: subjects/models.py:31
-msgid "Date of last update"
-msgstr ""
-
-#: subjects/models.py:34
-msgid "Students"
-msgstr ""
-
-#: subjects/models.py:38
-msgid "Maximum upload size"
+#: log/models.py:17
+msgid "Logs"
 msgstr ""
