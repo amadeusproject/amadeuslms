@@ -35,6 +35,10 @@
     color: white;
 }
 
+.category-header .dropdown-menu i {
+    color: inherit;
+}
+
 .cat-selector {
     margin: 0;
 }
