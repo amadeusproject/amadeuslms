@@ -35,7 +35,7 @@
   color: white;
   float:right;
   font-size: 25px;
-  margin-left: 2%;
+  margin-right: 10px;
 }
 
 #create-category{
@@ -51,6 +51,7 @@
 
 .category-panel-content{
   padding:10px;
+  background: #F5F5F5;
 }
 
 .core-subjects-options{
