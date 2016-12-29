@@ -121,6 +121,52 @@
 }
 /* End NavBar Top */
 
+/* Dropdown menu Topbar */
+.dropdown-menu {
+    background: #F5F5F5;
+}
+
+.dropdown-menu li > a {
+    background: #F5F5F5;
+    font-family: Roboto;
+    font-size: 16px;
+    color: #333333;
+}
+.dropdown-menu li > a:hover {
+    background: #EEEEEE !important;
+}
+
+#system_accordion {
+    margin-bottom: 0px;
+}
+
+#system_accordion > .panel > .panel-heading {
+    background: #F5F5F5;
+}
+#system_accordion > .panel > .panel-heading:hover {
+    background: #EEEEEE;
+}
+
+#system_accordion > .panel > .panel-heading > a > .panel-title {
+    font-weight: normal;
+    color: #333333;
+}
+#system_accordion > .panel > .panel-heading > a > .panel-title:hover {
+    color: #009688;
+}
+#system_accordion > .panel > .panel-heading > a:hover {
+    text-decoration: none;
+    color: #009688;
+}
+#system_accordion > .panel > .panel-heading > a:focus {
+    text-decoration: none;
+}
+
+#system_menu {
+    background: #F5F5F5;
+}
+/* End Dropdown menu Topbar */
+
 /* Modal */
 .modal-header {min-height: 60px; border-bottom: 1px solid #E6E7E8 !important; padding-bottom: 15px !important;}
 .modal-footer {text-align: right; padding-top: 5px !important; border-top: 1px solid #E6E7E8 !important;}
