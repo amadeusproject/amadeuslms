@@ -7,6 +7,8 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Q
 
+from braces import views as braces_mixins
+
 from .models import User
 from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm, PassResetRequest, SetPasswordForm
 
@@ -24,7 +26,7 @@ from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 # ================ ADMIN =======================
-class UsersListView(LoginRequiredMixin, generic.ListView):
+class UsersListView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -43,7 +45,7 @@ class UsersListView(LoginRequiredMixin, generic.ListView):
 
 		return context
 
-class SearchView(LoginRequiredMixin, generic.ListView):
+class SearchView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -73,7 +75,7 @@ class SearchView(LoginRequiredMixin, generic.ListView):
 
 		return context
 
-class CreateView(LoginRequiredMixin, generic.edit.CreateView):
+class CreateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, generic.edit.CreateView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -97,7 +99,7 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
 		return context
 
-class UpdateView(LoginRequiredMixin, generic.UpdateView):
+class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, generic.UpdateView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -133,7 +135,7 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 
 		return context
 
-class DeleteView(LoginRequiredMixin, generic.DeleteView):
+class DeleteView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, generic.DeleteView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
