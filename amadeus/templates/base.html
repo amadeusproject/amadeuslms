@@ -88,33 +88,35 @@
                     </form>
                 </div>
                 <ul class="nav navbar-nav navbar-right notifications">
-                    <li class="dropdown-accordion dropdown" data-accordion="#system_accordion" title data-original-title="{% trans 'settings' %}">
-                        <a href="#" data-toggle="dropdown"><i class="fa fa-cog" aria-hidden="true"></i></a> 
-                        <ul class="dropdown-menu pull-right" role="menu">
-                            <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
-                            <li><a href="{% url 'categories:index' %}">{% trans 'Manage Categories' %}</a></li>
-                            <li>
-                                <div class="panel-group" id="system_accordion">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <a href="#system_menu" data-toggle="collapse" data-parent="#system_accordion">
-                                                <h4 class="panel-title">
-                                                    {% trans 'System' %}
-                                                </h4>
-                                            </a>
-                                        </div>
-                                        <div class="panel-collapse collapse" id="system_menu">
-                                            <div class="panel-body">
-                                                <a href="{% url 'categories:index' %}">{% trans 'Mail Sender' %}</a><br />
-                                                <a href="{% url 'categories:index' %}">{% trans 'Security' %}</a><br />
-                                                <a href="{% url 'categories:index' %}">{% trans 'Theme' %}</a>
+                    {% if user.is_staff %}
+                        <li class="dropdown-accordion dropdown" data-accordion="#system_accordion" title data-original-title="{% trans 'settings' %}">
+                            <a href="#" data-toggle="dropdown"><i class="fa fa-cog" aria-hidden="true"></i></a> 
+                            <ul class="dropdown-menu pull-right" role="menu">
+                                <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
+                                <li><a href="{% url 'categories:index' %}">{% trans 'Manage Categories' %}</a></li>
+                                <li>
+                                    <div class="panel-group" id="system_accordion">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <a href="#system_menu" data-toggle="collapse" data-parent="#system_accordion">
+                                                    <h4 class="panel-title">
+                                                        {% trans 'System' %}
+                                                    </h4>
+                                                </a>
+                                            </div>
+                                            <div class="panel-collapse collapse" id="system_menu">
+                                                <div class="panel-body">
+                                                    <a href="{% url 'categories:index' %}">{% trans 'Mail Sender' %}</a><br />
+                                                    <a href="{% url 'categories:index' %}">{% trans 'Security' %}</a><br />
+                                                    <a href="{% url 'categories:index' %}">{% trans 'Theme' %}</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
                     <li title data-original-title="{% trans 'account' %}">
                         <a href="" data-toggle="dropdown" style="padding-top: 15px;padding-bottom:15px;">
                             <img src="{{ user.image_url }}" style="width:30px;height:30px" />
