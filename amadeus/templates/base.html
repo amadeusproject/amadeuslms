@@ -70,14 +70,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{% url 'categories:index' %}"><img class="logo" src="{% static 'img/topo-amadeus-white.png'  %}" alt="Logo"/></a>
+                <a class="navbar-brand" href="{% url 'categories:index' %}"><img class="logo" src="{% static 'img/topo-amadeus-white.png'  %}" alt="Logo" /></a>
             </div>
             <div class="navbar-collapse collapse navbar-responsive-collapse">
                 <div class="col-md-5 cards-content" id= 'NavBarSearch'>
                     <form id="SearchForm" action="#" method="get" accept-charset="utf-8">
                         <div class="input-group">
                             <div class="form-group is-empty" >
-                                <input type="text" class="form-control" placeholder="{% trans 'Search Files (.pdf, others) and/or activities' %}" name="search">
+                                <input type="text" class="form-control top-search" placeholder="{% trans 'Search Files (.pdf, others) and/or activities' %}" name="search">
                             </div>
                             <span class="input-group-btn input-group-sm">
                                 <button type="submit" class="btn btn-primary" id="btn-search">
@@ -88,32 +88,31 @@
                     </form>
                 </div>
                 <ul class="nav navbar-nav navbar-right notifications">
-                    <!--<li class="" data-toggle="tooltip" data-placement="bottom" title data-original-title="notifications">
-                      <a  class="dropdown-toggle" data-toggle="dropdown"> <span id="notification-count" class="badge notification-count">{{notifications.count}}</span><i class="fa fa-bell" aria-hidden="true"></i></a>-
-                      <ul id="notification-dropdown" class="dropdown-menu">
-                        <li class="dropdown-header"> {% trans 'Notifications' %}</li>
-                        
-                        <li>
-                          <a onclick="getNotifications(5)">
-                            <div id="notification-see-more" class="list-group-item">
-                              <div class="row-content">
-                                <p class="list-group-item-text">{% trans 'See More' %}</p>
-                              </div>
-                            </div>
-                          </a>
-                        </li>
-                      </ul>
-                    </li> -->
-                    <li title data-original-title="{% trans 'settings' %}">
-                        <a href="" data-toggle="dropdown"><i class="fa fa-cog" aria-hidden="true"></i></a> 
-                        <ul class="dropdown-menu pull-right">
+                    <li class="dropdown-accordion dropdown" data-accordion="#system_accordion" title data-original-title="{% trans 'settings' %}">
+                        <a href="#" data-toggle="dropdown"><i class="fa fa-cog" aria-hidden="true"></i></a> 
+                        <ul class="dropdown-menu pull-right" role="menu">
                             <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
                             <li><a href="{% url 'categories:index' %}">{% trans 'Manage Categories' %}</a></li>
-                            <li><a href="{% url 'categories:index' %}">{% trans 'System' %}</a></li>
-                            <div id="horizontal-line"></div>
-                            <li><a href="{% url 'categories:index' %}">{% trans 'Mail Sender' %}</a></li>
-                            <li><a href="{% url 'categories:index' %}">{% trans 'Security' %}</a></li>
-                            <li><a href="{% url 'categories:index' %}">{% trans 'Theme' %}</a></li>
+                            <li>
+                                <div class="panel-group" id="system_accordion">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <a href="#system_menu" data-toggle="collapse" data-parent="#system_accordion">
+                                                <h4 class="panel-title">
+                                                    {% trans 'System' %}
+                                                </h4>
+                                            </a>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="system_menu">
+                                            <div class="panel-body">
+                                                <a href="{% url 'categories:index' %}">{% trans 'Mail Sender' %}</a><br />
+                                                <a href="{% url 'categories:index' %}">{% trans 'Security' %}</a><br />
+                                                <a href="{% url 'categories:index' %}">{% trans 'Theme' %}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
                         </ul>
                     </li>
                     <li title data-original-title="{% trans 'account' %}">
@@ -156,10 +155,6 @@
                        <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Analytics" %}">
                             <i class="fa fa-bar-chart" aria-hidden="true"></i>
                        </li>
-
-                     
-
-                        
                    </ul>
                 {% endblock %}
             </div>
@@ -188,7 +183,7 @@
         /* Initialize tooltips*/
         $(function () {
           $('[data-toggle="tooltip"]').tooltip()
-        })
+        });
     </script>
 </body>
 

@@ -87,7 +87,105 @@
   margin-bottom: 5em;
 }
 
-.navbar .logo {position: absolute; top: 6px; text-align: center; height: 48px; width: 48px;}
+/* NavBar Top */
+.navbar {
+    height: 50px;
+}
+
+.navbar-brand {
+    height: 50px !important;
+}
+.navbar-brand:hover {
+    background: #00695C !important;
+}
+
+.navbar .logo {
+    text-align: center; 
+    margin-top: -6px;
+    height: 32px; 
+    width: 32px;
+}
+
+.navbar-nav li > a {
+    font-size: 28px;
+    padding-top: 12px !important;
+    padding-left: 20px;
+    max-height: 50px;
+}
+.navbar-nav li > a:hover {
+    background: #00695C !important;
+}
+
+.top-search {
+    color: #F5F5F5;
+}
+.top-search::-webkit-input-placeholder {
+    font-style: italic;
+}
+.top-search::-moz-placeholder {
+    font-style: italic;
+}
+.top-search:-ms-input-placeholder {
+    font-style: italic;
+}
+.top-search:-moz-placeholder {
+    font-style: italic;
+}
+
+#btn-search {
+    margin-top: -6px;
+    height: 50px;
+}
+#btn-search:hover {
+    background: #00695C;    
+}
+/* End NavBar Top */
+
+/* Dropdown menu Topbar */
+.dropdown-menu {
+    background: #F5F5F5;
+}
+
+.dropdown-menu li > a {
+    background: #F5F5F5;
+    font-family: Roboto;
+    font-size: 16px;
+    color: #333333;
+}
+.dropdown-menu li > a:hover {
+    background: #EEEEEE !important;
+}
+
+#system_accordion {
+    margin-bottom: 0px;
+}
+
+#system_accordion > .panel > .panel-heading {
+    background: #F5F5F5;
+}
+#system_accordion > .panel > .panel-heading:hover {
+    background: #EEEEEE;
+}
+
+#system_accordion > .panel > .panel-heading > a > .panel-title {
+    font-weight: normal;
+    color: #333333;
+}
+#system_accordion > .panel > .panel-heading > a > .panel-title:hover {
+    color: #009688;
+}
+#system_accordion > .panel > .panel-heading > a:hover {
+    text-decoration: none;
+    color: #009688;
+}
+#system_accordion > .panel > .panel-heading > a:focus {
+    text-decoration: none;
+}
+
+#system_menu {
+    background: #F5F5F5;
+}
+/* End Dropdown menu Topbar */
 
 /* Modal */
 .modal-header {min-height: 60px; border-bottom: 1px solid #E6E7E8 !important; padding-bottom: 15px !important;}
@@ -459,7 +557,7 @@ ul, li {
   padding-bottom: 10px;
 }
 .form-group{
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 /* core/register_user.html classes*/
