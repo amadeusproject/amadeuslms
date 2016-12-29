@@ -32,10 +32,11 @@
 }
 
 .category-header i{
-  color: white;
-  float:right;
-  font-size: 25px;
-  margin-right: 10px;
+    color: white;
+}
+
+.cat-selector {
+    margin: 0;
 }
 
 #create-category{
@@ -655,10 +656,12 @@ ul, li {
   margin-bottom: 1%;
 }
 .data_register_course p{ color: grey; }
+
 .category-course-link{
     font-size: 16px;
     color: #FFFFFF !important;
-    font-family: Roboto Regular;
+    font-family: Roboto;
+    font-weight: normal;
 }
 
 .category-course-link:hover{

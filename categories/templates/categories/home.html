@@ -2,29 +2,28 @@
 
 {% load static i18n django_bootstrap_breadcrumbs permission_tags %}
 
-
-
 {% block breadcrumbs %}
-  {% clear_breadcrumbs %}
-  {% breadcrumb 'Home' 'categories:index' %}
+    {% clear_breadcrumbs %}
+    {% breadcrumb 'Home' 'categories:index' %}
 {% endblock %}
 
 
 {% block render_breadcrumbs %}
-  {% render_breadcrumbs %}
+    {% render_breadcrumbs %}
 {% endblock %}
 
 {% block content %}
     {% if user|has_role:'system_admin' %}
-                <h3>{% trans 'categories' %}</h3>
-                <div id="timeline">
-                    {% include page_template %}
-                </div>
+        <h3>{% trans 'categories' %}</h3>
+        <div id="timeline">
+            {% include page_template %}
+        </div>
     {% else %}
-               <div id="timeline">
-                   {% include page_template %}
-               </div>
+        <div id="timeline">
+            {% include page_template %}
+        </div>
     {% endif %}
+
     <div id="loading" class="alert alert-primary" role="alert" style="display: none">
         <center>
             <span class="fa fa-spin fa-circle-o-notch"></span>

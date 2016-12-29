@@ -85,6 +85,7 @@ var delete_course = {
     });
   }
 };
+
 /*
 *
 * Function to load create course's form
@@ -99,3 +100,24 @@ function replicate_course(url, course) {
         }
     });
 }
+
+/*
+*
+* Functions to control category marker
+*
+*/
+$('.collapse').on('show.bs.collapse', function (e) {
+    if($(this).is(e.target)){
+        var btn = $(this).parent().find('.fa-angle-right');
+        
+        btn.switchClass("fa-angle-right", "fa-angle-down", 250, "easeInOutQuad");
+    }
+});
+
+$('.collapse').on('hide.bs.collapse', function (e) {
+    if($(this).is(e.target)){
+        var btn = $(this).parent().find('.fa-angle-down');
+        
+        btn.switchClass("fa-angle-down", "fa-angle-right", 250, "easeInOutQuad");
+    }
+});
