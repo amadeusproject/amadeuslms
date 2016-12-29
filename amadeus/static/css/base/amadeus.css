@@ -185,6 +185,12 @@
 #system_menu {
     background: #F5F5F5;
 }
+
+#system_menu > .panel-body > a {
+    font-family: Roboto;
+    font-weight: normal;
+    font-size: 16px;
+}
 /* End Dropdown menu Topbar */
 
 /* Modal */
