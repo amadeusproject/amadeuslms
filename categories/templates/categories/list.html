@@ -9,7 +9,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb 'Categories' 'categories:index' %}
+    {% breadcrumb   "Manage Categories" 'categories:index' %}
 {% endblock %}
 
 {% block content %}
@@ -25,12 +25,15 @@
         <a href="{% url 'categories:create' %}"><button id="create-category"> {% trans "Create Category" %}</button></a>
     {% endif %}
 
-    <div id="core-subjects-options-div">
-        <ul class="core-subjects-options">
-            <li class="active">{% trans "My subjects" %}</li>
-            <li>{% trans "all subjects" %}</li>
-        </ul>
-    </div>
+    {% if not user.is_staff %}
+        <div id="core-subjects-options-div">
+            <ul class="core-subjects-options">
+                <li class="active">{% trans "My subjects" %}</li>
+                <li>{% trans "all subjects" %}</li>
+            </ul>
+        </div>
+    {% endif %}
+   
 
     <!-- Code for listing categories -->
     <div class="col-md-12 cards-content">
