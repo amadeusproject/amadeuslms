@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-23 17:30-0300\n"
+"POT-Creation-Date: 2016-12-29 14:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,55 +19,54 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: categories/models.py:9
-msgid "category_parent"
-msgstr ""
-
-#: categories/models.py:10
 msgid "Name"
 msgstr ""
 
-#: categories/models.py:11
+#: categories/models.py:10
 msgid "Slug"
 msgstr ""
 
-#: categories/models.py:12
+#: categories/models.py:11
 msgid "description"
 msgstr ""
 
-#: categories/models.py:13
+#: categories/models.py:12
 msgid "visible"
 msgstr ""
 
-#: categories/models.py:14
+#: categories/models.py:13
 msgid "coordinators"
 msgstr ""
 
-#: categories/models.py:15
+#: categories/models.py:14
 msgid "Creation Date"
 msgstr ""
 
-#: categories/models.py:16
+#: categories/models.py:15
 msgid "Modified Date"
 msgstr ""
 
-#: categories/models.py:20
+#: categories/models.py:19
 msgid "Category"
 msgstr ""
 
-#: categories/models.py:21 categories/views.py:60
+#: categories/models.py:20 categories/views.py:39
 msgid "Categories"
 msgstr ""
 
 #: categories/templates/categories/category_card.html:18
+#: categories/templates/categories/list.html:61
 msgid "Replicate"
 msgstr ""
 
 #: categories/templates/categories/category_card.html:19
 #: categories/templates/categories/home_admin_content.html:6
+#: categories/templates/categories/list.html:64
 msgid "Edit"
 msgstr ""
 
 #: categories/templates/categories/category_card.html:20
+#: categories/templates/categories/list.html:65
 msgid "Remove"
 msgstr ""
 
@@ -79,12 +78,48 @@ msgstr ""
 msgid "Subscribe"
 msgstr ""
 
-#: categories/templates/categories/create.html:50
-msgid "Create"
+#: categories/templates/categories/create.html:53
+msgid "Register"
+msgstr ""
+
+#: categories/templates/categories/delete.html:10
+msgid "Delete Category"
+msgstr ""
+
+#: categories/templates/categories/delete.html:17
+msgid "Are you sure you want to delete the category"
+msgstr ""
+
+#: categories/templates/categories/delete.html:17
+msgid "All its data will be lost and can't be recovered"
+msgstr ""
+
+#: categories/templates/categories/delete.html:23
+msgid "Close"
+msgstr ""
+
+#: categories/templates/categories/delete.html:24
+msgid "Delete"
 msgstr ""
 
 #: categories/templates/categories/home.html:19
 msgid "categories"
+msgstr ""
+
+#: categories/templates/categories/list.html:27
+msgid "Create Category"
+msgstr ""
+
+#: categories/templates/categories/list.html:33
+msgid "My subjects"
+msgstr ""
+
+#: categories/templates/categories/list.html:34
+msgid "all subjects"
+msgstr ""
+
+#: categories/templates/categories/list.html:92
+msgid "Coordinator(s): "
 msgstr ""
 
 #: categories/templates/categories/notifications_timeline.html:14
@@ -95,6 +130,20 @@ msgstr ""
 msgid "ago"
 msgstr ""
 
-#: categories/views.py:35
-msgid "Home"
+#: categories/templates/categories/update.html:54
+msgid "Update"
+msgstr ""
+
+#: categories/views.py:103
+#, python-format
+msgid "Category \"%s\" register successfully!"
+msgstr ""
+
+#: categories/views.py:127
+msgid "Category removed successfully!"
+msgstr ""
+
+#: categories/views.py:142
+#, python-format
+msgid "Category \"%s\" updated successfully!"
 msgstr ""
