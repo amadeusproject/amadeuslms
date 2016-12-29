@@ -636,8 +636,13 @@ ul, li {
 }
 .data_register_course p{ color: grey; }
 .category-course-link{
-  font-size: 24px;
-  color: black !important;
+    font-size: 16px;
+    color: #FFFFFF !important;
+    font-family: Roboto Regular;
+}
+
+.category-course-link:hover{
+    text-decoration: none;
 }
 
 /* Menu link remove radius */
