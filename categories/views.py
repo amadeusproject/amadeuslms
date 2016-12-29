@@ -13,6 +13,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from rolepermissions.mixins import HasRoleMixin
 from .forms import CategoryForm
 
+from braces import views
 from subjects.models import Subject
 
 class IndexView(LoginRequiredMixin, ListView):
@@ -56,7 +57,7 @@ class IndexView(LoginRequiredMixin, ListView):
 
         return context
 
-class CreateCategory(HasRoleMixin, CreateView):
+class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, CreateView):
 
     allowed_rules = ['system_admin']
     login_url = reverse_lazy('users:login')
