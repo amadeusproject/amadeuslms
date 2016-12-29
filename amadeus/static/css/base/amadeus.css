@@ -33,7 +33,17 @@
 
 .category-header i{
     color: white;
+    margin-right: 10px;
+    font-size:16px;
+    float: right;
+
+
 }
+
+.category-header i:hover{
+  color: #90CAF9;
+}
+
 
 .category-header .dropdown-menu i {
     color: inherit;
@@ -664,7 +674,7 @@ ul, li {
 .category-course-link{
     font-size: 16px;
     color: #FFFFFF !important;
-    font-family: Roboto;
+    font-family: Roboto Regular;
     font-weight: normal;
 }
 

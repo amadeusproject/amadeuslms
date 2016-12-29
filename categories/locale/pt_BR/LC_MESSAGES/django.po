@@ -32,7 +32,7 @@ msgstr "descrição"
 
 #: categories/models.py:12
 msgid "visible"
-msgstr "Coordenadores"
+msgstr "visivel"
 
 #: categories/models.py:13
 msgid "coordinators"
@@ -72,15 +72,15 @@ msgstr "Remover"
 
 #: categories/templates/categories/category_card.html:26
 msgid "Are you sure you want to subscribe to this course?"
-msgstr ""
+msgstr "Tem certeza que você deseja se inscrever neste curso?"
 
 #: categories/templates/categories/category_card.html:26
 msgid "Subscribe"
-msgstr ""
+msgstr "Inscrever-se"
 
 #: categories/templates/categories/create.html:53
 msgid "Register"
-msgstr ""
+msgstr "Registrar"
 
 #: categories/templates/categories/delete.html:10
 msgid "Delete Category"
@@ -96,7 +96,7 @@ msgstr "Todos os seus dados seråo perdido e não podem ser recuperados"
 
 #: categories/templates/categories/delete.html:23
 msgid "Close"
-msgstr ""
+msgstr "Cancelar"
 
 #: categories/templates/categories/delete.html:24
 msgid "Delete"
@@ -108,7 +108,7 @@ msgstr "categorias"
 
 #: categories/templates/categories/list.html:27
 msgid "Create Category"
-msgstr ""
+msgstr "Criar Categoria"
 
 #: categories/templates/categories/list.html:33
 msgid "My subjects"
