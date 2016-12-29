@@ -235,14 +235,27 @@
 .navigation{
     margin: 10% 10% 5% 5%;
 }
+
+/* Breadcrumbs */
 .breadcrumb{
     font-size: 16px;
     margin-bottom: 5px;
+    font-style: italic;
+}
+
+.breadcrumb > li > span.divider {
+    color: #26A69A;
 }
 
 .breadcrumb > li > a{
-  color: #26A69A;
+    color: #26A69A;
 }
+
+.breadcrumb > li {
+    color: #BDBDBD;
+}
+/* End Breadcrumbs */
+
 .courseHome{
     text-align: center;
 }
