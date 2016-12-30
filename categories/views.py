@@ -18,6 +18,8 @@ from subjects.models import Subject
 
 from log.mixins import LogMixin
 
+from users.models import User
+
 class IndexView(LoginRequiredMixin, ListView):
 
     login_url = reverse_lazy("users:login")
@@ -72,6 +74,7 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, Creat
     success_url = reverse_lazy('categories:index')
 
 
+
     def get_initial(self):
         initial = super(CreateCategory, self).get_initial()
 
@@ -82,15 +85,20 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, Creat
             initial['description'] = category.description
             initial['name'] = category.name
             initial['visible'] = category.visible
-            #initial['coordinators'] = category.coordinators
+           
 
             self.log_action = 'replicate'
 
             self.log_context['replicated_category_id'] = category.id
             self.log_context['replicated_category_name'] = category.name
             self.log_context['replicated_category_slug'] = category.slug
-
         return initial
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateCategory, self).get_context_data(**kwargs)
+        context['users_count'] = User.objects.all().count()
+        context['switch'] = True
+        return context
 
 
     def get_form(self, form_class=None):

@@ -1,6 +1,6 @@
 {% extends 'categories/home.html' %}
 
-{% load widget_tweaks static i18n permission_tags django_bootstrap_breadcrumbs %}
+{% load widget_tweaks static i18n permission_tags django_bootstrap_breadcrumbs switchevenodd %}
 
 {% block breadcrumbs %}
   {{ block.super }}
@@ -28,6 +28,24 @@
 
 					{% elif field.auto_id == 'id_description' %}
 						{% render_field field class='form-control text_wysiwyg' %}
+
+						
+					{% comment %}
+						
+					{% endcomment %}
+					{% elif field.auto_id == 'id_coordinators' %}
+						<select id="{{field.auto_id}}" multiple="multiple" class="form-control"
+						style="position: absolute; left: -9999px;" name="coordinators">
+						
+							{% for value, name in form.fields.coordinators.choices %}
+								
+								<option value="{{value}}">{{name}}</option>
+							
+								
+								
+							{% endfor %}
+						</select>
+					
 					{% else %}
 						{% render_field field class='form-control' %}
 					{% endif %}

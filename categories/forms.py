@@ -9,4 +9,4 @@ class CategoryForm(forms.ModelForm):
 			'description': forms.Textarea,
 			'coordinators' : forms.SelectMultiple,
 		}
-       
+		
