@@ -170,8 +170,8 @@
 }
 
 .navbar-nav li > a {
-    font-size: 28px;
-    padding-top: 12px !important;
+    font-size: 20px;
+    padding-top: 16px !important;
     padding-left: 20px;
     max-height: 50px;
 }
