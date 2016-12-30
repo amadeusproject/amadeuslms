@@ -16,6 +16,8 @@ from .forms import CategoryForm
 from braces import views
 from subjects.models import Subject
 
+from log.mixins import LogMixin
+
 class IndexView(LoginRequiredMixin, ListView):
 
     login_url = reverse_lazy("users:login")
@@ -57,7 +59,11 @@ class IndexView(LoginRequiredMixin, ListView):
 
         return context
 
-class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, CreateView):
+class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, CreateView):
+    log_component = 'category'
+    log_action = 'create'
+    log_resource = 'category'
+    log_context = {}
 
     allowed_rules = ['system_admin']
     login_url = reverse_lazy('users:login')
@@ -68,6 +74,7 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, CreateView):
 
     def get_initial(self):
         initial = super(CreateCategory, self).get_initial()
+
         if self.kwargs.get('slug'):
             category = get_object_or_404(Category, slug = self.kwargs['slug'])
             initial = initial.copy()
@@ -76,6 +83,13 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, CreateView):
             initial['name'] = category.name
             initial['visible'] = category.visible
             #initial['coordinators'] = category.coordinators
+
+            self.log_action = 'replicate'
+
+            self.log_context['replicated_category_id'] = category.id
+            self.log_context['replicated_category_name'] = category.name
+            self.log_context['replicated_category_slug'] = category.slug
+
         return initial
 
 
@@ -93,7 +107,11 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save()
         
+        self.log_context['category_id'] = self.object.id
+        self.log_context['category_name'] = self.object.name
+        self.log_context['category_slug'] = self.object.slug
 
+        super(CreateCategory, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         #TODO: Implement log calls
         return super(CreateCategory, self).form_valid(form)
@@ -105,7 +123,11 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, CreateView):
         return reverse_lazy('categories:index')
 
 
-class DeleteCategory(DeleteView):
+class DeleteCategory(LogMixin, DeleteView):
+    log_component = 'category'
+    log_action = 'delete'
+    log_resource = 'category'
+    log_context = {}
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
@@ -125,11 +147,22 @@ class DeleteCategory(DeleteView):
         return super(DeleteCategory, self).delete(self, request, *args, **kwargs)
 
     def get_success_url(self):
+        self.log_context['category_id'] = self.object.id
+        self.log_context['category_name'] = self.object.name
+        self.log_context['category_slug'] = self.object.slug
+
+        super(DeleteCategory, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
         messages.success(self.request, _('Category removed successfully!'))
         return reverse_lazy('categories:index')
 
 
-class UpdateCategory(UpdateView):
+class UpdateCategory(LogMixin, UpdateView):
+    log_component = 'category'
+    log_action = 'update'
+    log_resource = 'category'
+    log_context = {}
+
     model = Category
     form_class = CategoryForm
     template_name = 'categories/update.html'
@@ -139,6 +172,12 @@ class UpdateCategory(UpdateView):
 
 
     def get_success_url(self):
+        self.log_context['category_id'] = self.object.id
+        self.log_context['category_name'] = self.object.name
+        self.log_context['category_slug'] = self.object.slug
+
+        super(UpdateCategory, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
         objeto = self.object.name
         messages.success(self.request, _('Category "%s" updated successfully!')%(objeto))
         return reverse_lazy('categories:index')
