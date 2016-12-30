@@ -111,6 +111,21 @@ $('.collapse').on('show.bs.collapse', function (e) {
         var btn = $(this).parent().find('.fa-angle-right');
         
         btn.switchClass("fa-angle-right", "fa-angle-down", 250, "easeInOutQuad");
+
+        var url = $(this).parent().find('.log_url').val();
+        var log_input = $(this).parent().find('.log_id');
+
+        $.ajax({
+            url: url,
+            data: {'action': 'open'},
+            dataType: 'json',
+            success: function (data) {
+                log_input.val(data.log_id);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
     }
 });
 
@@ -119,5 +134,20 @@ $('.collapse').on('hide.bs.collapse', function (e) {
         var btn = $(this).parent().find('.fa-angle-down');
         
         btn.switchClass("fa-angle-down", "fa-angle-right", 250, "easeInOutQuad");
+
+        var url = $(this).parent().find('.log_url').val();
+        var log_id = $(this).parent().find('.log_id').val();
+
+        $.ajax({
+            url: url,
+            data: {'action': 'close', 'log_id': log_id},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data.message);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
     }
 });

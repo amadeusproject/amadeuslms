@@ -32,16 +32,16 @@ class TimeSpentMiddleware(object):
 
 					request.session['log_id'] = None
 
-					oppened_logs = Log.objects.filter(user = request.user, context__contains={'timestamp_end': '-1'})
+				oppened_logs = Log.objects.filter(user = request.user, context__contains={'timestamp_end': '-1'})
 
-					for op_log in oppened_logs:
-						if type(op_log.context) == dict:
-							log_context = op_log.context
-						else:
-							log_context = json.loads(op_log.context)
+				for op_log in oppened_logs:
+					if type(op_log.context) == dict:
+						log_context = op_log.context
+					else:
+						log_context = json.loads(op_log.context)
 
-						log_context['timestamp_end'] = str(int(time.time()))
+					log_context['timestamp_end'] = str(int(time.time()))
 
-						op_log.context = log_context
+					op_log.context = log_context
 
-						op_log.save()
+					op_log.save()

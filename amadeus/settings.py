@@ -71,7 +71,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
 
-    #'core.middleware.TimeSpentMiddleware',
+    'log.middleware.TimeSpentMiddleware',
     #libs-middleware
 
 ]
