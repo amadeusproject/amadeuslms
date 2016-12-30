@@ -86,13 +86,13 @@
                                 {{coordinator.username}}
                             {% endfor %}
                         </h4>
-                        
-                    </div>
-                    {{category.description|safe}}
+                        {{category.description|safe}}
                          {% if user in category.coordinators.all %}
                         <button class="create-subject-btn"> {% trans "create new subject" %} </button>
                     {% endif %}
 
+                    </div>
+                    
                    
                     {% comment %}
                         <div id="{{category.slug}}" class="panel-collapse collapse">
