@@ -70,7 +70,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{% url 'categories:index' %}"><img class="logo" src="{% static 'img/topo-amadeus-white.png'  %}" alt="Logo" /></a>
+                <a class="navbar-brand" href="{% url 'categories:index' %}">
+                    <img class="logo pull-left" src="{% static 'img/topo-amadeus-white.png'  %}" alt="Logo" />
+                    <span class="pull-right project_name">Projeto Amadeus</span>
+                </a>
             </div>
             <div class="navbar-collapse collapse navbar-responsive-collapse">
                 <div class="col-md-5 cards-content" id= 'NavBarSearch'>
@@ -81,7 +84,7 @@
                             </div>
                             <span class="input-group-btn input-group-sm">
                                 <button type="submit" class="btn btn-primary" id="btn-search">
-                                    <i class="fa fa-search fa-2x" aria-hidden="true" style="color:white"></i>
+                                    <i class="fa fa-search" aria-hidden="true" style="color:white; font-size:20px"></i>
                                 </button>
                             </span>
                         </div>
@@ -119,19 +122,17 @@
                         </li>
                     {% endif %}
 
-                    <li title data-original-title="{% trans 'account' %}">
-                        <a href="" data-toggle="dropdown" style="padding-top: 15px;padding-bottom:15px;">
-                            <img src="{{ user.image_url }}" style="width:30px;height:30px" />
+                    <li data-toggle="tooltip" data-placement="bottom" title data-original-title="{{ user }}">
+                        <a href="" data-toggle="dropdown" class="profile">
+                            <img src="{{ user.image_url }}" style="width:50px;height:50px" />
                         </a>
                         <ul class="dropdown-menu pull-right">
                             <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                             <li><a href="{% url 'users:edit_profile' %}">{% trans 'Edit Profile' %}</a></li>
                             <li><a href="{% url 'users:change_pass' %}">{% trans 'Change Password' %}</a></li>
                             <li><a href="{% url 'users:remove_acc' %}">{% trans 'Delete Account' %}</a></li>
+                            <li><a href="{% url 'users:logout' %}">{% trans 'Logout' %}</a></li>
                         </ul>
-                    </li>
-                    <li data-toggle="tooltip" data-placement="bottom" title data-original-title="log out">
-                        <a href="{% url 'users:logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
                     </li>
                 </ul>
             </div>
@@ -139,7 +140,7 @@
     {% endblock %}
     <div class="container-fluid">
         <div class="row">
-            <div id="sidebar-menu-div" class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+            <div id="sidebar-menu-div" class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
                 {% block sidebar %}
                    <ul id="sidebar-menu">
                         <a href="{% url 'subjects:index' %}"><li class="item" id="subjects-link" data-toggle="tooltip" data-placement="right" title="{% trans "Subjects" %}">
@@ -162,7 +163,7 @@
                    </ul>
                 {% endblock %}
             </div>
-            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+            <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11 col-xl-11">
                 {% block breadcrumbs %}
                     {% breadcrumb 'Home' 'home' %}
                 {% endblock %}
@@ -170,7 +171,7 @@
                     {% render_breadcrumbs %}
                 {% endblock %}
             </div>
-            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+            <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11 col-xl-11">
                 {% block content %}
                 {% endblock %}
             </div>
