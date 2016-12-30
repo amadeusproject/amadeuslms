@@ -135,7 +135,7 @@ class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 
 		return context
 
-class DeleteView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, generic.DeleteView):
+class DeleteView(braces_mixins.LoginRequiredMixin, generic.DeleteView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
