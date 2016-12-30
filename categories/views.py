@@ -74,6 +74,7 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, Creat
 
     def get_initial(self):
         initial = super(CreateCategory, self).get_initial()
+
         if self.kwargs.get('slug'):
             category = get_object_or_404(Category, slug = self.kwargs['slug'])
             initial = initial.copy()
@@ -82,6 +83,13 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, Creat
             initial['name'] = category.name
             initial['visible'] = category.visible
             #initial['coordinators'] = category.coordinators
+
+            self.log_action = 'replicate'
+
+            self.log_context['replicated_category_id'] = category.id
+            self.log_context['replicated_category_name'] = category.name
+            self.log_context['replicated_category_slug'] = category.slug
+
         return initial
 
 
