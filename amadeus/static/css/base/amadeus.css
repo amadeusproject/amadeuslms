@@ -4,12 +4,12 @@
 #sidebar-menu{
   margin-left: 30%;
 }
-#sidebar-menu > .item{
+#sidebar-menu .item{
     font-size: 45px;
     background-color: #26A69A;
     color: white;
     width: 80%;
-    margin: 10px;
+    margin: 10px 0px 10px 10px;
     text-align: center;
 }
 
@@ -17,6 +17,14 @@
     
     background-color: #00695C;
    
+}
+
+#subjects-link{
+  margin-top: 0px !important;
+}
+
+#sidebar-menu-div{
+  padding-right: 10px;
 }
 
 

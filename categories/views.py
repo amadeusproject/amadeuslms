@@ -24,7 +24,7 @@ import time
 
 from users.models import User
 
-class IndexView(LoginRequiredMixin, ListView):
+class IndexView(views.SuperuserRequiredMixin, LoginRequiredMixin, ListView):
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'

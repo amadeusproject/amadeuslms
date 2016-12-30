@@ -139,12 +139,12 @@
     {% endblock %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+            <div id="sidebar-menu-div" class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
                 {% block sidebar %}
                    <ul id="sidebar-menu">
-                       <li class="item"  data-toggle="tooltip" data-placement="right" title="{% trans "Subjects" %}">
+                        <a href="{% url 'subjects:index' %}"><li class="item" id="subjects-link" data-toggle="tooltip" data-placement="right" title="{% trans "Subjects" %}">
                             <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-                       </li>
+                       </li></a>
                        <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Timeline" %}">
                             <i class="fa fa-list" aria-hidden="true" ></i>
                        </li>

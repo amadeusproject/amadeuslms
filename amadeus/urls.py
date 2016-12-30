@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index, name = 'home'),
     url(r'^categories/', include('categories.urls', namespace = 'categories')),
+    url(r'^subjects/', include('subjects.urls', namespace='subjects')),
     #API
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     #S3Direct
