@@ -7,6 +7,15 @@
     {% breadcrumb 'Home' 'categories:index' %}
 {% endblock %}
 
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/multi-select.css" %}">
+{% endblock style %}
+
+{% block javascript %}
+    {{super.block}}
+    <script src="{% static "js/jquery.multi-select.js" %} " type="text/javascript"></script>
+    <script type="text/javascript" src="{% static "js/quicksearch.js" %}"></script>
+{% endblock javascript %}
 
 {% block render_breadcrumbs %}
     {% render_breadcrumbs %}

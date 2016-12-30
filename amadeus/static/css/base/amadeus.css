@@ -113,6 +113,11 @@
     border: 0px;
 }
 
+.category-search-users{
+    width: 100%;
+    margin-bottom: 15px;
+}
+
 /* category app ends */
 
 .clearfix{
