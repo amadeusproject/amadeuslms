@@ -32,6 +32,7 @@ class TimeSpentMiddleware(object):
 
 					request.session['log_id'] = None
 
+				if request.user.is_authenticated:
 					oppened_logs = Log.objects.filter(user = request.user, context__contains={'timestamp_end': '-1'})
 
 					for op_log in oppened_logs:

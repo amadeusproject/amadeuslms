@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse_lazy
 from rolepermissions.verifications import has_role
 
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -17,6 +17,10 @@ from braces import views
 from subjects.models import Subject
 
 from log.mixins import LogMixin
+from log.decorators import log_decorator_ajax
+from log.models import Log
+
+import time
 
 from users.models import User
 
@@ -121,7 +125,6 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, Creat
 
         super(CreateCategory, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-        #TODO: Implement log calls
         return super(CreateCategory, self).form_valid(form)
 
     def get_success_url(self):
@@ -190,4 +193,24 @@ class UpdateCategory(LogMixin, UpdateView):
         messages.success(self.request, _('Category "%s" updated successfully!')%(objeto))
         return reverse_lazy('categories:index')
 
+@log_decorator_ajax('category', 'view', 'category')
+def category_view_log(request, category):
+    action = request.GET.get('action')
 
+    if action == 'open':
+        category = get_object_or_404(Category, id = category)
+
+        log_context = {}
+        log_context['category_id'] = category.id
+        log_context['category_name'] = category.name
+        log_context['category_slug'] = category.slug
+        log_context['timestamp_start'] = str(int(time.time()))
+        log_context['timestamp_end'] = '-1'
+
+        request.log_context = log_context
+
+        log_id = Log.objects.latest('id').id
+
+        return JsonResponse({'message': 'ok', 'log_id': log_id})
+
+    return JsonResponse({'message': 'ok'})

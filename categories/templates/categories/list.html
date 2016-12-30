@@ -32,8 +32,7 @@
                 <li>{% trans "all subjects" %}</li>
             </ul>
         </div>
-    {% endif %}
-   
+    {% endif %}   
 
     <!-- Code for listing categories -->
     <div class="col-md-12 cards-content">
@@ -79,6 +78,9 @@
                         </div>
                     </div>
                     <div id="{{category.slug}}" class="panel-collapse collapse category-panel-content">
+                        <input type="hidden" class="log_url" value="{% url 'categories:view_log' category.id %}" />
+                        <input type="hidden" class="log_id" value="" />
+
                         <h4>  {% trans "Coordinator(s): " %}
                             {% for coordinator in category.coordinators.all %}
                                 {{coordinator.username}}
