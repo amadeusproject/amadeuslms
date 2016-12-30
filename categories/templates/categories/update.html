@@ -16,16 +16,16 @@
 			{% csrf_token %}
 			{% for field in form %}
 				<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
-					{% if field.auto_id != 'id_public' %}
+					{% if field.auto_id != 'id_visible' %}
 						<label for="{{ field.auto_id }}">{{ field.label }}</label>
 					{% endif %}
 					{% if field.auto_id == 'id_init_register_date' or field.auto_id == 'id_end_register_date' or field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date'%}
 						<input type="text" class="form-control date-picker" name="{{field.name}}" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
-					{% elif field.auto_id == 'id_public' %}
+					{% elif field.auto_id == 'id_visible' %}
 						<div class="checkbox">
-							<label>
-									<input type="checkbox" name="{{field.name}}" {% if field.value %}checked="checked"{% endif %}><span class="checkbox-material"></span> {{field.name}}
-							</label>
+							<label for="{{ field.auto_id }}">
+		      					{% render_field field %} {{field.label}}
+		  					</label>
 						</div>
 					{% elif field.auto_id == 'id_description' %}
 						{% render_field field class='form-control text_wysiwyg' %}
