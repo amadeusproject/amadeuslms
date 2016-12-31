@@ -83,11 +83,11 @@
 
                         <h4>  {% trans "Coordinator(s): " %}
                             {% for coordinator in category.coordinators.all %}
-                                {{coordinator.username}}
+                                {{coordinator.social_name}}
                             {% endfor %}
                         </h4>
                        
-
+                        {{category.description|safe}}
                     </div>
                     
                    

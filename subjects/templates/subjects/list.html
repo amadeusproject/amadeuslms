@@ -76,13 +76,13 @@
 
                         <h4>  {% trans "Coordinator(s): " %}
                             {% for coordinator in category.coordinators.all %}
-                                {{coordinator.username}}
+                                {{coordinator.social_name}}
                             {% endfor %}
                         </h4>
                         {{category.description|safe}}
-                         {% if user in category.coordinators.all %}
+                        {% if user in category.coordinators.all %}
                         <button class="create-subject-btn"> {% trans "create new subject" %} </button>
-                    {% endif %}
+                        {% endif %}
 
                     </div>
                     
