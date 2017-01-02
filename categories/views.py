@@ -128,7 +128,7 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, Creat
         return super(CreateCategory, self).form_valid(form)
 
     def get_success_url(self):
-        print(self.object.coordinators)
+    
         objeto = self.object.name
         messages.success(self.request, _('Category "%s" register successfully!')%(objeto))
         return reverse_lazy('categories:index')

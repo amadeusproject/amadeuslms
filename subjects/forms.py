@@ -2,10 +2,17 @@ from .models import Subject, Marker
 from django import forms
 class CreateSubjectForm(forms.ModelForm):
     # TODO: Define form fields here
-    model = Subject
+    class Meta:
+        model = Subject
 
-    fields = ('name', 'description_brief', 'description', 'init_date', 'end_date', 'visible', 'markers', 'professor',
-	'students', 'category', )
+        fields = ('name', 'description_brief', 'description', 'markers', 'init_date', 'end_date', 'visible', 'professor',
+        'students', )
+
+        widgets = {
+            'professor': forms.SelectMultiple,
+            'students': forms.SelectMultiple,
+        }
+
 
 
 class CreateMarkerForm(forms.ModelForm):

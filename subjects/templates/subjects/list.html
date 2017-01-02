@@ -86,7 +86,7 @@
                        
                         {{category.description|safe}}
                         {% if user in category.coordinators.all %}
-                        <button class="create-subject-btn"> {% trans "create new subject" %} </button>
+                        <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "create new subject" %} </button></a>
                         {% endif %}
 
                     </div>

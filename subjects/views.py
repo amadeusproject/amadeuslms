@@ -23,6 +23,7 @@ from log.models import Log
 
 import time
 
+from .forms import CreateSubjectForm
 from users.models import User
 
 
@@ -57,9 +58,49 @@ class IndexView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        categories = self.get_queryset().order_by('name')
+        if self.request.user.is_staff:
+             categories = self.get_queryset().order_by('name')
+        else:
+            categories = self.get_queryset().order_by('name').filter(visible=True)
         
         
         context['categories'] = categories
 
         return context
+
+class SubjectCreateView(CreateView):
+    model = Subject
+    template_name = "subjects/create.html"
+
+    login_url = reverse_lazy('users:login')
+    form_class = CreateSubjectForm
+    
+    success_url = reverse_lazy('subject:index')
+
+    def get_initial(self):
+        initial = super(SubjectCreateView, self).get_initial()
+        initial['category'] = Category.objects.all().filter(slug=self.kwargs['slug'])
+        
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super(SubjectCreateView, self).get_context_data(**kwargs)
+        context['slug'] = self.kwargs['slug']
+        return context
+    def form_valid(self, form):
+        
+        self.object = form.save()
+        self.object.category = Category.objects.get(slug=self.kwargs['slug'])
+        self.object.save()
+        
+
+        return super(SubjectCreateView, self).form_valid(form)
+
+    def get_success_url(self):
+
+      
+        objeto = self.object.name
+        messages.success(self.request, _('Subject "%s" registered successfully!')%(objeto))
+        return reverse_lazy('subjects:index')
+
+

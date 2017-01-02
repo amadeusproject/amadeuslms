@@ -6,7 +6,7 @@ class CategoryForm(forms.ModelForm):
         model = Category
         fields = ( 'name', 'description', 'visible', 'coordinators', )
         widgets = {
-			'description': forms.Textarea,
-			'coordinators' : forms.SelectMultiple,
-		}
-		
+            'description': forms.Textarea,
+            'coordinators' : forms.SelectMultiple,
+        }
+        
