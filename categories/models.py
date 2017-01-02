@@ -10,7 +10,7 @@ class Category(models.Model):
 	slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
 	description = models.CharField(_("description"), max_length = 300)
 	visible = models.BooleanField(_("visible"))
-	coordinators = models.ManyToManyField(User, related_name = _("coordinators"))
+	coordinators = models.ManyToManyField(User, related_name = _("coordinators"), blank=True)
 	create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
 	modified_date = models.DateTimeField(_('Modified Date'), auto_now_add = True)
 
