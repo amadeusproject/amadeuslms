@@ -81,12 +81,10 @@
                         <input type="hidden" class="log_url" value="{% url 'categories:view_log' category.id %}" />
                         <input type="hidden" class="log_id" value="" />
 
-                        {% if coordinators %}
-                             <h4>  {% trans "Coordinator(s): " %}
-                            {% for coordinator in category.coordinators.all %}
-                                {{coordinator.social_name}}
-                            {% endfor %}
-                        </h4>
+                        {% if category.coordinators.all|length > 0 %}
+                            <h4><b>{% trans "Coordinator(s) " %}:</b>
+                                {{ category.coordinators.all|join:', ' }}
+                            </h4>
                         {% else %}
                             <h4> {% trans "It doesn't possess coordinators" %} </h4>
                         {% endif %}

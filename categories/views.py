@@ -87,7 +87,6 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, Creat
             initial['name'] = category.name
             initial['visible'] = category.visible
             initial['coordinators'] = category.coordinators.all()
-            print(category.coordinators.all())
 
             self.log_action = 'replicate'
 
@@ -106,6 +105,11 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, Creat
             context['title'] = _('Replicate Category')
         else:
             context['title'] = _('Create Category')
+
+        if 'categories' in self.request.META.get('HTTP_REFERER'):
+            context['template_extends'] = 'categories/list.html'
+        else:
+            context['template_extends'] = 'subjects/list.html'
 
         return context
 
@@ -188,6 +192,11 @@ class UpdateCategory(LogMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(UpdateCategory, self).get_context_data(**kwargs)
         context['title'] = _('Update Category')
+
+        if 'categories' in self.request.META.get('HTTP_REFERER'):
+            context['template_extends'] = 'categories/list.html'
+        else:
+            context['template_extends'] = 'subjects/list.html'
 
         return context
 
