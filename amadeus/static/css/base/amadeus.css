@@ -126,6 +126,19 @@
     margin-bottom: 15px;
 }
 
+.ms-container {
+    width: 100% !important;
+}
+
+#coordinators_accordion .panel-heading {
+    background: #FFFFFF;
+    border: none;
+}
+
+#coordinators_accordion .panel-collapse {
+    padding: 10px;
+}
+
 /* category app ends */
 
 .clearfix{
