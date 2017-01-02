@@ -32,7 +32,6 @@ class IndexView(views.SuperuserRequiredMixin, LoginRequiredMixin, ListView):
     template_name = 'categories/list.html'
     context_object_name = 'categories'
 
-
     def get_queryset(self):
         result = super(IndexView, self).get_queryset()
 
@@ -77,8 +76,6 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, Creat
     template_name = 'categories/create.html'
     success_url = reverse_lazy('categories:index')
 
-
-
     def get_initial(self):
         initial = super(CreateCategory, self).get_initial()
 
@@ -89,19 +86,25 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, Creat
             initial['description'] = category.description
             initial['name'] = category.name
             initial['visible'] = category.visible
-           
 
             self.log_action = 'replicate'
 
             self.log_context['replicated_category_id'] = category.id
             self.log_context['replicated_category_name'] = category.name
             self.log_context['replicated_category_slug'] = category.slug
+
         return initial
 
     def get_context_data(self, **kwargs):
         context = super(CreateCategory, self).get_context_data(**kwargs)
         context['users_count'] = User.objects.all().count()
         context['switch'] = True
+
+        if self.kwargs.get('slug'):
+            context['title'] = _('Replicate Category')
+        else:
+            context['title'] = _('Create Category')
+
         return context
 
 
@@ -145,7 +148,6 @@ class DeleteCategory(LogMixin, DeleteView):
     model = Category
     template_name = 'categories/delete.html'
 
-
     def delete(self, request, *args, **kwargs):
         category = get_object_or_404(Category, slug = self.kwargs.get('slug'))
         subjects = Subject.objects.filter(category = category)
@@ -181,7 +183,6 @@ class UpdateCategory(LogMixin, UpdateView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
-
     def get_success_url(self):
         self.log_context['category_id'] = self.object.id
         self.log_context['category_name'] = self.object.name
@@ -191,7 +192,14 @@ class UpdateCategory(LogMixin, UpdateView):
 
         objeto = self.object.name
         messages.success(self.request, _('Category "%s" updated successfully!')%(objeto))
+
         return reverse_lazy('categories:index')
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateCategory, self).get_context_data(**kwargs)
+        context['title'] = _('Update Category')
+
+        return context
 
 @log_decorator_ajax('category', 'view', 'category')
 def category_view_log(request, category):
