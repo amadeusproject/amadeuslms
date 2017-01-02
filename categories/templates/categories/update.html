@@ -1,104 +1,22 @@
-{% extends 'categories/home.html' %}
+{% extends 'categories/list.html' %}
 
 {% load static i18n %}
 {% load widget_tweaks django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
 	{{ block.super }}
-	{% breadcrumb 'Update' 'categories:update'  category.slug %}
+	{% with 'Update '|add:category.slug as bread_slug %}
+		{% breadcrumb bread_slug 'categories:update' %}
+	{% endwith %}
 {% endblock %}
 
 {% block content %}
-</br>
-<div class="card card-content">
-  <div class="card-body">
-		<form method="post" action="" enctype="multipart/form-data">
-			{% csrf_token %}
-			{% for field in form %}
-				<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
-					{% if field.auto_id != 'id_visible' %}
-						<label for="{{ field.auto_id }}">{{ field.label }}</label>
-					{% endif %}
-					{% if field.auto_id == 'id_init_register_date' or field.auto_id == 'id_end_register_date' or field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date'%}
-						<input type="text" class="form-control date-picker" name="{{field.name}}" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}">
-					{% elif field.auto_id == 'id_visible' %}
-						<div class="checkbox">
-							<label for="{{ field.auto_id }}">
-		      					{% render_field field %} {{field.label}}
-		  					</label>
-						</div>
-					{% elif field.auto_id == 'id_description' %}
-						{% render_field field class='form-control text_wysiwyg' %}
-					{% else %}
-						{% render_field field class='form-control' %}
-					{% endif %}
-					<span class="help-block">{{ field.help_text }}</span>
-					{% if field.errors %}
-					<div class="row">
-					</br>
-							<div class="alert alert-danger alert-dismissible" role="alert">
-			  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			  						<span aria-hidden="true">&times;</span>
-		  						</button>
-								<ul>
-									{% for error in field.errors %}
-										<li>{{ error }}</li>
-									{% endfor %}
-								</ul>
-							</div>
-					</div>
-					{% endif %}
-				</div>
-			{% endfor %}
-			<div class="row text-center">
-					<input type="submit" value="{% trans 'Update' %}" class="btn btn-primary btn-raised" />
-			</div>
-    </form>
+	<div class="card card-content">
+  		<div class="card-body">
+			{% include 'categories/_form.html' %}	
+		</div>
 	</div>
-</div>
-</br>
-</br>
-</br>
-<script type="text/javascript">
-    var locale = navigator.language || navigator.userLanguage;
-    $('.date-picker').datepicker({
-        language: locale,
-    });
+	<br clear="all" />
+	<br clear="all" />
 
-    $('#id_coordinators').multiSelect({
-		   selectableHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder='{% trans "try an username" %} '>",
-		  selectionHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder='{% trans "try an username" %} '>",
-		  afterInit: function(ms){
-		    var that = this,
-		        $selectableSearch = that.$selectableUl.prev(),
-		        $selectionSearch = that.$selectionUl.prev(),
-		        selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
-		        selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
-
-		    that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
-		    .on('keydown', function(e){
-		      if (e.which === 40){
-		        that.$selectableUl.focus();
-		        return false;
-		      }
-		    });
-
-		    that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
-		    .on('keydown', function(e){
-		      if (e.which == 40){
-		        that.$selectionUl.focus();
-		        return false;
-		      }
-		    });
-		  },
-		  afterSelect: function(){
-		    this.qs1.cache();
-		    this.qs2.cache();
-		  },
-		  afterDeselect: function(){
-		    this.qs1.cache();
-		    this.qs2.cache();
-		  }
-	});// Used to create multi-select css style
-</script>
 {% endblock %}

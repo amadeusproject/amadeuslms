@@ -86,6 +86,8 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, Creat
             initial['description'] = category.description
             initial['name'] = category.name
             initial['visible'] = category.visible
+            initial['coordinators'] = category.coordinators.all()
+            print(category.coordinators.all())
 
             self.log_action = 'replicate'
 
@@ -106,18 +108,6 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, Creat
             context['title'] = _('Create Category')
 
         return context
-
-
-    def get_form(self, form_class=None):
-        """
-        Returns an instance of the form to be used in this view.
-        """ 
-        #print(self.kwargs)
-        if form_class is None:
-            form_class = self.get_form_class()
-            
-
-        return form_class(**self.get_form_kwargs())
 
     def form_valid(self, form):
         self.object = form.save()
