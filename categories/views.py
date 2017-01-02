@@ -150,7 +150,7 @@ class DeleteCategory(LogMixin, DeleteView):
         category = get_object_or_404(Category, slug = self.kwargs.get('slug'))
         subjects = Subject.objects.filter(category = category)
         
-        if len(subjects) > 0:
+        if subjects.count() > 0:
             #objeto = category
             #messages.success(self.request, _('cannot delete Category "%s" ')%(objeto))
             return reverse_lazy('categories:index')
