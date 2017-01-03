@@ -89,6 +89,22 @@
 		    this.qs2.cache();
 		  }
 	});// Used to create multi-select css style
+
+	$('.collapse').on('show.bs.collapse', function (e) {
+	if($(this).is(e.target)){
+    	var btn = $(this).parent().find('.fa-angle-right');
+
+    	btn.switchClass("fa-angle-right", "fa-angle-down", 250, "easeInOutQuad");
+    }
+    });
+
+    $('.collapse').on('hide.bs.collapse', function (e) {
+    	if($(this).is(e.target)){
+        	var btn = $(this).parent().find('.fa-angle-down');
+
+        	btn.switchClass("fa-angle-down", "fa-angle-right", 250, "easeInOutQuad");
+        }
+    });
 	</script>
 {% endblock content %}
 

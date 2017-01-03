@@ -63,6 +63,10 @@ class IndexView(LoginRequiredMixin, ListView):
         else:
             categories = self.get_queryset().order_by('name').filter(visible=True)
         
+        #Settings subjects for template use
+        for category in categories:
+            category.subjects = Subject.objects.all().filter(category= category)
+           
         
         context['categories'] = categories
 
@@ -86,6 +90,7 @@ class SubjectCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super(SubjectCreateView, self).get_context_data(**kwargs)
         context['slug'] = self.kwargs['slug']
+        context['template_extends'] = 'categories/list.html'
         return context
     def form_valid(self, form):
         
@@ -100,7 +105,8 @@ class SubjectCreateView(CreateView):
 
       
         objeto = self.object.name
-        messages.success(self.request, _('Subject "%s" registered successfully!')%(objeto))
+        
+        messages.success(self.request, _('Subject "%s" was registered on "%s" successfully!')%(objeto, self.kwargs['slug']))
         return reverse_lazy('subjects:index')
 
 

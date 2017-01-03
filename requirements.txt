@@ -4,7 +4,7 @@ coverage==4.2
 decorator==4.0.10
 deps==0.1.0
 dj-database-url==0.4.1
-Django==1.10
+Django==1.10.4
 django-autoslug==1.9.3
 django-bootstrap-breadcrumbs==0.8
 django-braces==1.10.0
