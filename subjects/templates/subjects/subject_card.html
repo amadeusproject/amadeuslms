@@ -21,8 +21,30 @@
         </div>
 
  <div id="{{subject.slug}}" class="panel-collapse collapse category-panel-content">
-        <p>{{subject.init_date}}</p>
-        <p>{{subject.end_date}}</p>
+        <div class="row">
+            <div class="col-md-6">
+            
+      
+        {% if subject.professor.all|length > 0  %}
+            <h4><b>{% trans "Professors(s) " %}: </b>
+                {{ subject.professor.all|join:', ' }}
+            </h4>
+        {% else %}
+            <h4> {% trans "It doesn't possess professors" %} </h4>
+        {% endif %}
+            </div>
+
+       
+            <div class="col-xs-6 col-md-3">
+              <p><b>{% trans "Beginning" %}:</b> {{subject.init_date}}</p>
+            </div>
+            <div class="col-xs-6 col-md-3">
+              <p><b>{% trans "End" %}:</b> {{subject.end_date}}</p>
+            </div>
+        </div>
+       
+       
+      
        
         <p>{{subject.description_brief|safe}}</p>
 

@@ -30,7 +30,7 @@ class Subject(models.Model):
     create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
     update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
 
-    professor = models.ManyToManyField(User, related_name="professor", blank=True)
+    professor = models.ManyToManyField(User, related_name="professors", blank=True)
     students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='subject_student', blank = True)
 
     category = models.ForeignKey(Category, related_name="subject_category", null=True)
