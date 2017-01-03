@@ -71,7 +71,7 @@
 	      					{% render_field field %} {{field.label}}
 	  					</label>
 					</div>
-				{% elif field.auto_id == 'id_description' %}
+				{% elif field.auto_id == 'id_description' or field.auto_id == 'id_description_brief' %}
 					{% render_field field class='form-control text_wysiwyg' %}
 				{% else %}
 					{% render_field field class='form-control' %}

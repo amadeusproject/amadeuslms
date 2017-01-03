@@ -9,6 +9,8 @@ class CreateSubjectForm(forms.ModelForm):
         'students', )
 
         widgets = {
+            'description_brief': forms.Textarea,
+            'description': forms.Textarea,
             'professor': forms.SelectMultiple,
             'students': forms.SelectMultiple,
         }

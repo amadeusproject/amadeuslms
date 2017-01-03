@@ -18,8 +18,8 @@ class Subject(models.Model):
     name = models.CharField( _("Name"), unique = True,max_length= 200)
     slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
 
-    description_brief = models.CharField(_("simpler_description"), max_length= 100, blank=True)
-    description = models.CharField(_("description"), max_length = 300, blank= True)
+    description_brief = models.TextField(_("simpler_description"), blank=True)
+    description = models.TextField(_("description"), blank= True)
     visible = models.BooleanField(_("visible"))
 
     init_date = models.DateField(_('Begin of Subject Date'))
