@@ -92,17 +92,17 @@
     height: 30px;
 }
 
-.core-subjects-options > li{
+.core-subjects-options  li{
   float:left;
   padding: 10px;
   background-color: #FFFFFF;
   margin: 1px;
  
-    border-bottom: 4px;
+    border-bottom: 10px;
     border-bottom-style: solid;
 }
 
-.core-subjects-options > li.active{
+.core-subjects-options  li.active{
   border-bottom-color: green;
 }
 

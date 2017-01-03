@@ -22,8 +22,14 @@
     {% endif %}    
     <div id="core-subjects-options-div">
         <ul class="core-subjects-options">
-            <li class="active">{% trans "My subjects" %}</li>
-            <li>{% trans "all subjects" %}</li>
+            {% if all %}
+                <a href="{% url 'subjects:index' %}"><li >{% trans "My subjects" %}</li></a>
+                <a href="{% url 'subjects:index' 'all' %}" ><li class="active">{% trans "all subjects" %}</li></a>
+            {% else %}
+                <a href="{% url 'subjects:index' %}"><li class="active">{% trans "My subjects" %}</li></a>
+                <a href="{% url 'subjects:index' 'all' %}" ><li>{% trans "all subjects" %}</li></a>
+            {% endif %}
+            
         </ul>
     </div>
 
@@ -70,10 +76,10 @@
                             </div>
                         </div>
                     </div>
-                    <div id="{{category.slug}}" class="panel-collapse collapse category-panel-content">
+                    <div id="{{category.slug}}" class="panel-collapse panel-body collapse category-panel-content">
                         <input type="hidden" class="log_url" value="{% url 'categories:view_log' category.id %}" />
                         <input type="hidden" class="log_id" value="" />
-                        {% if coordinators %}
+                        {% if category.coordinators.all|length > 0  %}
                              <h4>  {% trans "Coordinator(s): " %}
                             {% for coordinator in category.coordinators.all %}
                                 {{coordinator.social_name}}
@@ -85,12 +91,21 @@
 
                        
                         {{category.description|safe}}
+                        
+                        
+                    
                         {% if user in category.coordinators.all %}
                         <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "create new subject" %} </button></a>
                         {% endif %}
-
+                        <div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
+                            {% for subject in category.subjects  %}
+                                {% include "subjects/subject_card.html" %}
+                            {% endfor %}
+                        </div>
+                 
+                       
                     </div>
-                    
+                   
                    
                     {% comment %}
                         <div id="{{category.slug}}" class="panel-collapse collapse">

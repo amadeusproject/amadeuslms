@@ -61,11 +61,24 @@ class IndexView(LoginRequiredMixin, ListView):
         if self.request.user.is_staff:
              categories = self.get_queryset().order_by('name')
         else:
-            categories = self.get_queryset().order_by('name').filter(visible=True)
+            if self.kwargs.get('option'):
+                categories = self.get_queryset().order_by('name').filter(visible=True)
+                context['all'] = True
+                for category in categories:
+                    category.subjects = Subject.objects.all().filter(category= category)
+            else:
+                context['all'] = False
+                categories = self.get_queryset().filter(visible=True)
+                for category in categories:
+                    category.subjects = Subject.objects.all().filter(category= category)
+
+                categories = [category for category in categories if category.subjects.count() > 0 and self.request.user in category.coordinators.all()] 
+                #So I remove all categories that doesn't have the possibility for the user to be on
+               
         
+        #print(categories[1].subject_set)
         #Settings subjects for template use
-        for category in categories:
-            category.subjects = Subject.objects.all().filter(category= category)
+       
            
         
         context['categories'] = categories

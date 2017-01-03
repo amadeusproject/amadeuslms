@@ -1,0 +1,34 @@
+{% load static i18n permission_tags %}
+ <div class="panel panel-info">
+        <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12 category-header">
+                        <h4 class="panel-title">
+                            <a class="category-course-link pull-left" data-parent="#subject-accordion" data-toggle="collapse" href="#{{subject.slug}}">
+                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{subject.name}}
+                            </a>
+                        </h4>
+                       
+                            <div class="col-md-5 pull-right category-card-items">
+                                <a href="" ><i class="fa fa-list" aria-hidden="true"></i></a>
+                                <a href=""><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+                                <a href=""><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
+                                <a href=""><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
+                            </div>
+                       
+                    </div>
+                </div>
+        </div>
+
+ <div id="{{subject.slug}}" class="panel-collapse collapse category-panel-content">
+        <p>{{subject.init_date}}</p>
+        <p>{{subject.end_date}}</p>
+       
+        <p>{{subject.description_brief|safe}}</p>
+
+                      
+
+
+</div>
+
+</div>

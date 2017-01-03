@@ -56,10 +56,8 @@ class IndexView(views.SuperuserRequiredMixin, LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        list_categories = None
+        
         categories = self.get_queryset().order_by('name')
-        
-        
         context['categories'] = categories
 
         return context
