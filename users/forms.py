@@ -34,34 +34,10 @@ class Validation(forms.ModelForm):
 
 		return image
 
-	# def clean_new_password(self):
-	# 	password = self.cleaned_data.get('new_password')
-
-	# 	if self.is_edit and len(password) == 0:
-	# 		return password
-
- #        # At least MIN_LENGTH long
-	# 	if len(password) < self.MIN_PASS_LENGTH:
-	# 		self._errors['new_password'] = [_("The new password must contain at least % d characters." % self.MIN_PASS_LENGTH)]
-			
-	# 		return ValueError
-
- #        # At least one letter and one non-letter
-	# 	first_isalpha = password[0].isalpha()
-	# 	if all(c.isalpha() == first_isalpha for c in password):
-	# 		self._errors['new_password'] = [_('The password must contain at least one letter and at least one digit or a punctuation character.')]
-
-	# 		return ValueError
-
-	# 	return password
-
 	def clean_password2(self):
 		password = self.cleaned_data.get("new_password")
 		password2 = self.cleaned_data.get("password2")
-
-		#if self.is_edit and len(password) == 0:
-		#	return password2
-
+		
 		if password and password2 and password != password2:
 			self._errors['password2'] = [_('The confirmation password is incorrect.')]
 
@@ -116,20 +92,15 @@ class UserForm(Validation):
 		super(UserForm, self).__init__(*args, **kwargs)
 
 		self.is_edit = is_update
-
-		if self.is_edit:
-			del self.fields['new_password']
-			del self.fields['password2']
 		    
-	if not is_edit:
-		new_password = forms.CharField(label=_('Password'), widget = forms.PasswordInput(render_value=True), required = False)
-		password2 = forms.CharField(label = _('Confirm Password'), widget = forms.PasswordInput(render_value=True), required = False)
+	new_password = forms.CharField(label = _('Password'), widget = forms.PasswordInput(render_value = True), required = False)
+	password2 = forms.CharField(label = _('Confirm Password'), widget = forms.PasswordInput(render_value = True), required = False)
 
 
 	def save(self, commit=True):
 		super(UserForm, self).save(commit=False)
         
-		if not self.is_edit:
+		if not self.is_edit or self.cleaned_data['new_password'] != '':
 			self.instance.set_password(self.cleaned_data['new_password'])
 
 		self.instance.save()
@@ -138,7 +109,7 @@ class UserForm(Validation):
 
 	class Meta:
 		model = User
-		fields = ['email', 'username', 'last_name', 'social_name', 'description', 'show_email', 'image', 'is_staff', 'is_active']
+		fields = ['email', 'username', 'last_name', 'social_name', 'description', 'show_email', 'image', 'is_staff', 'is_active',]
 		widgets = {
 			'description': forms.Textarea,
 		}
