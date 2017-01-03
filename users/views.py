@@ -43,6 +43,7 @@ class UsersListView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserReq
 	def get_context_data (self, **kwargs):
 		context = super(UsersListView, self).get_context_data(**kwargs)
 		context['title'] = _('Manage Users')
+		context['settings_menu_active'] = "settings_menu_active"
 
 		return context
 
@@ -73,6 +74,7 @@ class SearchView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 		context = super(SearchView, self).get_context_data(**kwargs)
 		context['title'] = _('Search Users')
 		context['search'] = self.request.GET.get('search')
+		context['settings_menu_active'] = "settings_menu_active"
 
 		return context
 
@@ -97,6 +99,7 @@ class CreateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 	def get_context_data (self, **kwargs):
 		context = super(CreateView, self).get_context_data(**kwargs)
 		context['title'] = _("Add User")
+		context['settings_menu_active'] = "settings_menu_active"
 
 		return context
 
@@ -133,6 +136,7 @@ class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 	def get_context_data (self, **kwargs):
 		context = super(UpdateView, self).get_context_data(**kwargs)
 		context['title'] = _("Update User")
+		context['settings_menu_active'] = "settings_menu_active"
 
 		return context
 
@@ -192,6 +196,7 @@ class DeleteView(braces_mixins.LoginRequiredMixin, generic.DeleteView):
 		if email is None:
 			template = 'users/delete_account.html'
 		else:
+			context['settings_menu_active'] = "settings_menu_active"
 			template = 'users/delete.html'
 
 		return self.response_class(request = self.request, template = template, context = context, using = self.template_engine, **response_kwargs)

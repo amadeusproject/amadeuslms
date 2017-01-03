@@ -59,6 +59,7 @@ class IndexView(views.SuperuserRequiredMixin, LoginRequiredMixin, ListView):
         
         categories = self.get_queryset().order_by('name')
         context['categories'] = categories
+        context['settings_menu_active'] = "settings_menu_active"
 
         return context
 
@@ -106,6 +107,7 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, Creat
 
         if 'categories' in self.request.META.get('HTTP_REFERER'):
             context['template_extends'] = 'categories/list.html'
+            context['settings_menu_active'] = "settings_menu_active"
         else:
             context['template_extends'] = 'subjects/list.html'
 
@@ -193,6 +195,7 @@ class UpdateCategory(LogMixin, UpdateView):
 
         if 'categories' in self.request.META.get('HTTP_REFERER'):
             context['template_extends'] = 'categories/list.html'
+            context['settings_menu_active'] = "settings_menu_active"
         else:
             context['template_extends'] = 'subjects/list.html'
 

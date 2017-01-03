@@ -92,8 +92,7 @@
                 </div>
                 <ul class="nav navbar-nav navbar-right notifications">
                     {% if user.is_staff %}
-
-                        <li class="dropdown-accordion dropdown" data-accordion="#system_accordion" title data-original-title="{% trans 'settings' %}">
+                        <li class="dropdown-accordion dropdown {{ settings_menu_active }}" data-accordion="#system_accordion" title data-original-title="{% trans 'settings' %}">
                             <a href="#" data-toggle="dropdown"><i class="fa fa-cog" aria-hidden="true"></i></a> 
                             <ul class="dropdown-menu pull-right" role="menu">
                                 <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>

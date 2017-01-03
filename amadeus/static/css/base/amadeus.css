@@ -192,6 +192,10 @@
     background: #00695C !important;
 }
 
+.navbar-nav li.settings_menu_active {
+    background: #00695C    
+}
+
 .top-search {
     color: #F5F5F5;
 }

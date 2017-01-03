@@ -61,15 +61,3 @@ class User(AbstractBaseUser, PermissionsMixin):
 			return _('Yes')
 
 		return _('Is not an admin')
-
-	def has_dependencies(self):
-		if self.is_staff:
-			return True
-
-		#Check if is coordinator of something
-
-		#Check if is professor of something
-
-		#Check if is student of something
-
-		return False
