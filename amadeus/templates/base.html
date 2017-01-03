@@ -142,23 +142,24 @@
             <div id="sidebar-menu-div" class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
                 {% block sidebar %}
                    <ul id="sidebar-menu">
-                        <a href="{% url 'subjects:index' %}"><li class="item" id="subjects-link" data-toggle="tooltip" data-placement="right" title="{% trans "Subjects" %}">
-                            <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-                       </li></a>
-                       <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Timeline" %}">
+                        <li class="item" id="subjects-link" data-toggle="tooltip" data-placement="right" title="{% trans "Subjects" %}">
+                            <a href="{% url 'subjects:index' %}">
+                                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Timeline" %}">
                             <i class="fa fa-list" aria-hidden="true" ></i>
-                       </li>
-                       <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Messages" %}">
+                        </li>
+                        <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Messages" %}">
                             <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                       </li>
-
-                         <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Pendencias" %}">
+                        </li>
+                        <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Pendencias" %}">
                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                       </li>
+                        </li>
 
-                       <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Analytics" %}">
+                        <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Analytics" %}">
                             <i class="fa fa-bar-chart" aria-hidden="true"></i>
-                       </li>
+                        </li>
                    </ul>
                 {% endblock %}
             </div>
