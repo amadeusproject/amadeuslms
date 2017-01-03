@@ -2,7 +2,7 @@
 
 {% load static i18n %}
 {% load widget_tweaks %}
-{% load django_bootstrap_breadcrumbs permission_tags%}
+{% load django_bootstrap_breadcrumbs profile_verifies %}
 
 {% block breadcrumbs %}
   	{{ block.super }}
@@ -42,15 +42,15 @@
 						</div>
 						<div class="form-group">
 							<label class="control-form">{% trans 'Coordinator in' %}:</label>
-							<input type="text" readonly="readonly" class="form-control" value="{{ user.is_coordinator }}" />
+							<input type="text" readonly="readonly" class="form-control" value="{{ user|is_coordinator }}" />
 						</div>
 						<div class="form-group">
 							<label class="control-form">{% trans 'Professor in' %}:</label>
-							<input type="text" readonly="readonly" class="form-control" value="{{ user.is_professor }}" />
+							<input type="text" readonly="readonly" class="form-control" value="{{ user|is_professor }}" />
 						</div>
 						<div class="form-group">
 							<label class="control-form">{% trans 'Student in' %}:</label>
-							<input type="text" readonly="readonly" class="form-control" value="{{ user.is_student }}" />
+							<input type="text" readonly="readonly" class="form-control" value="{{ user|is_student }}" />
 						</div>
 					</div>
 				</div>

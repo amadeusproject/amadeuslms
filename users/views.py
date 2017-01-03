@@ -10,6 +10,7 @@ from django.db.models import Q
 from braces import views as braces_mixins
 
 from .models import User
+from .utils import has_dependencies
 from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm, PassResetRequest, SetPasswordForm
 
 #RECOVER PASS IMPORTS
@@ -168,7 +169,7 @@ class DeleteView(braces_mixins.LoginRequiredMixin, generic.DeleteView):
 		success_msg = _('User removed successfully!')
 		error_msg = _('Could not remove the account. The user is attach to one or more functions (administrator, coordinator, professor ou student) in the system.')
 
-		if user.has_dependencies():
+		if has_dependencies(user):
 			messages.error(self.request, error_msg)
 
 			return redirect(error_url)
