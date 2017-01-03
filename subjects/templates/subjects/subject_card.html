@@ -49,8 +49,12 @@
         <p>{{subject.description_brief|safe}}</p>
 
                       
-
-
+        {% if request.user in subject.students.all %}
+            <a href="{% url 'categories:create' %}"><button class="access-subject"> {% trans "Access Subject" %}</button></a>
+        {% else %}
+            <a href="{% url 'categories:create' %}"><button class="subscribe-subject"> {% trans "Subscribe to Subject" %}</button></a>
+        {% endif %}
+         
 </div>
 
 </div>

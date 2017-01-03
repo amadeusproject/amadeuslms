@@ -92,7 +92,7 @@
                         {% if user in category.coordinators.all %}
                         <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "create new subject" %} </button></a>
                         {% endif %}
-                        <div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
+                         <div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
                             {% for subject in category.subjects  %}
                                 {% include "subjects/subject_card.html" %}
                             {% endfor %}
@@ -100,6 +100,8 @@
                  
                        
                     </div>
+
+                   
                    
                    
                     {% comment %}
