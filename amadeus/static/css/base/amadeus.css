@@ -4,6 +4,7 @@
 #sidebar-menu{
     -webkit-padding-start: 0px;
 }
+
 #sidebar-menu .item{
     font-size: 45px;
     background-color: #26A69A;
@@ -13,10 +14,12 @@
     text-align: center;
 }
 
+#sidebar-menu .item a{
+    color: white;
+}
+
 #sidebar-menu > .item:hover{
-    
     background-color: #00695C;
-   
 }
 
 #subjects-link{
