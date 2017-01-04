@@ -1,4 +1,23 @@
+/* Initial page starts */
+.users-cloud {
+    
+    width: 80%;
+}
+.users-cloud li {
+    list-style: none;
+    display: inline;
+}
 
+.users-cloud li:nth-of-type(3n + 1) {
+    font-size: 2.25em;
+}
+.users-cloud li:nth-of-type(4n+3) {
+    font-size: 3.5em;
+}
+.users-cloud li:nth-of-type(5n - 3) {
+    font-size: 3em;
+}
+/* initial page ends */
 /* sidebar menu */
 
 #sidebar-menu{

@@ -56,6 +56,9 @@ class HomeView(LoginRequiredMixin, ListView):
             subjects = paginator.page(paginator.num_pages)
 
         context['subjects'] = subjects
+        #bringing users
+        users = User.objects.all()
+        context['users'] = users
         return context
 
 
