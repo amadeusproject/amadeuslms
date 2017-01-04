@@ -1,15 +1,12 @@
 {% extends 'categories/home.html' %}
 
-
-
 {% load widget_tweaks static i18n permission_tags django_bootstrap_breadcrumbs switchevenodd %}
-
 
 {% block breadcrumbs %}
    {% clear_breadcrumbs %}
-   {% breadcrumb 'Home' 'categories:index' %}
+   {% breadcrumb 'Home' 'subjects:home' %}
 
-  {% breadcrumb slug 'categories:index' %}
+  {% breadcrumb slug 'subjects:index' %}
   {% breadcrumb 'Create Subject' 'subjects:create' %}
 {% endblock %}
 
@@ -20,13 +17,13 @@
 	<form method="post" action="" enctype="multipart/form-data">
 	{% csrf_token %}
 	{% for field in form %}
-	{% if field.auto_id == 'id_students' %}
+		{% if field.auto_id == 'id_students' %}
 			<div class="panel-group" id="coordinators_accordion" role="tablist" aria-multiselectable="true">
 				<div class="panel panel-info">
         			<div class="panel-heading">
             			<div class="row">
                 			<div class="col-md-12">
-                    			<a data-parent="#coordinators_accordion" data-toggle="collapse" href="#coords">
+                    			<a data-parent="#coordinators_accordion" data-toggle="collapse" href="#students">
                     				<h4 class="panel-title">
                             			<button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label for="{{ field.auto_id }}">{{ field.label }}</label>
                     				</h4>
@@ -34,19 +31,19 @@
                     		</div>
                     	</div>
                     </div>
-                    <div id="coords" class="panel-collapse collapse">
+                    <div id="students" class="panel-collapse collapse">
                     	<p><em>{% trans 'Attribute students to subject' %}:</em></p>
                     	{% render_field field class='form-control' %}
                     </div>
                 </div>
 			</div>
-	{% elif field.auto_id == 'id_professor' %}
-			<div class="panel-group" id="coordinators_accordion" role="tablist" aria-multiselectable="true">
+		{% elif field.auto_id == 'id_professor' %}
+			<div class="panel-group" id="professors_accordion" role="tablist" aria-multiselectable="true">
 				<div class="panel panel-info">
         			<div class="panel-heading">
             			<div class="row">
                 			<div class="col-md-12">
-                    			<a data-parent="#coordinators_accordion" data-toggle="collapse" href="#coords">
+                    			<a data-parent="#professors_accordion" data-toggle="collapse" href="#professors">
                     				<h4 class="panel-title">
                             			<button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label for="{{ field.auto_id }}">{{ field.label }}</label>
                     				</h4>
@@ -54,7 +51,7 @@
                     		</div>
                     	</div>
                     </div>
-                    <div id="coords" class="panel-collapse collapse">
+                    <div id="professors" class="panel-collapse collapse">
                     	<p><em>{% trans 'Attribute professors to subject' %}:</em></p>
                     	{% render_field field class='form-control' %}
                     </div>

@@ -138,9 +138,9 @@ class SubjectCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(SubjectCreateView, self).get_context_data(**kwargs)
+        context['title'] = _('Create Subject')
         context['slug'] = self.kwargs['slug']
-        context['template_extends'] = 'subjects/list.html'
-        context['subjects_menu_active'] = 'subjects_menu_active';
+        context['subjects_menu_active'] = 'subjects_menu_active'
         
         return context
 
@@ -154,8 +154,6 @@ class SubjectCreateView(CreateView):
         return super(SubjectCreateView, self).form_valid(form)
 
     def get_success_url(self):
-
-      
         objeto = self.object.name
         
         messages.success(self.request, _('Subject "%s" was registered on "%s" successfully!')%(objeto, self.kwargs['slug']))
