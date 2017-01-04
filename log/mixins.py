@@ -12,7 +12,9 @@ class LogMixin(object):
 
 	def createLog(self, actor = None, component = '', log_action = '', log_resource = '', context = {}):
 		log = Log()
-		log.user = actor
+		log.user = str(actor)
+		log.user_id = actor.id
+		log.user_email = actor.email
 		log.context = context
 		log.component = component
 		log.action = log_action

@@ -46,7 +46,7 @@ class HomeView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
-           
+        context['title'] = _('Home')
         # paginator = Paginator(subjects, 2)
 
         # page = self.request.GET.get('page')
