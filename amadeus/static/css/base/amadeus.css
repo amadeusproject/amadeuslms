@@ -162,12 +162,12 @@
     width: 100% !important;
 }
 
-#coordinators_accordion .panel-heading {
+#coordinators_accordion .panel-heading, #professors_accordion .panel-heading {
     background: #FFFFFF;
     border: none;
 }
 
-#coordinators_accordion .panel-collapse {
+#coordinators_accordion .panel-collapse, #professors_accordion .panel-collapse {
     padding: 10px;
 }
 
