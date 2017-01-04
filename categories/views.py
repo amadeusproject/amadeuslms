@@ -31,11 +31,11 @@ class IndexView(views.SuperuserRequiredMixin, LoginRequiredMixin, ListView):
     queryset = Category.objects.all()
     template_name = 'categories/list.html'
     context_object_name = 'categories'
+    paginate_by = 10
 
     def get_queryset(self):
         result = super(IndexView, self).get_queryset()
 
-       	
         return result
 
     def render_to_response(self, context, **response_kwargs):

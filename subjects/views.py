@@ -69,7 +69,7 @@ class IndexView(LoginRequiredMixin, ListView):
     queryset = Category.objects.all()
     template_name = 'subjects/list.html'
     context_object_name = 'categories'
-    paginate_by = 5
+    paginate_by = 10
 
     def get_queryset(self):
         categories = Category.objects.all().order_by('name')
