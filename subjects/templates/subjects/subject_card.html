@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-12 category-header">
                 <h4 class="panel-title">
-                    <a class="category-course-link pull-left" data-parent="#{{ subject.category.slug }}-accordion" data-toggle="collapse" href="#{{subject.slug}}">
+                    <a class="category-course-link pull-left" data-parent="#{% if accordion_id %}{{ accordion_id }}{% else %}{{ subject.category.slug }}-accordion{% endif %}" data-toggle="collapse" href="#{{subject.slug}}">
                         <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{subject.name}}
                     </a>
                 </h4>
