@@ -117,7 +117,7 @@ class IndexView(LoginRequiredMixin, ListView):
                 #So I remove all categories that doesn't have the possibility for the user to be on
         
         context['categories'] = categories
-        context['subjects_menu_active'] = 'subjects_menu_active';
+        context['subjects_menu_active'] = 'subjects_menu_active'
 
         return context
 
