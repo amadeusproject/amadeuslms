@@ -799,3 +799,11 @@ ul, li {
 #panel2 .col-md-2, #panel2 .col-md-10{
   padding-left: 0;
 }
+
+/* Profile */
+.profile_function {
+    padding-bottom: 7px;
+    font-size: 16px;
+    border-bottom: 1px solid #D2D2D2;
+}
+/* End Profile */

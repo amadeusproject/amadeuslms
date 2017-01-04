@@ -38,19 +38,19 @@
 					<div class="col-md-9">
 						<div class="form-group">
 							<label class="control-form">{% trans 'System Admin' %}:</label>
-							<input type="text" readonly="readonly" class="form-control" value="{{ user.is_admin }}" />
+							<p class="profile_function">{{ user.is_admin }}</p>
 						</div>
 						<div class="form-group">
 							<label class="control-form">{% trans 'Coordinator in' %}:</label>
-							<input type="text" readonly="readonly" class="form-control" value="{{ user|is_coordinator }}" />
+							<p class="profile_function">{{ user|is_coordinator }}</p>
 						</div>
 						<div class="form-group">
 							<label class="control-form">{% trans 'Professor in' %}:</label>
-							<input type="text" readonly="readonly" class="form-control" value="{{ user|is_professor }}" />
+							<p class="profile_function">{{ user|is_professor }}</p>
 						</div>
 						<div class="form-group">
 							<label class="control-form">{% trans 'Student in' %}:</label>
-							<input type="text" readonly="readonly" class="form-control" value="{{ user|is_student }}" />
+							<p class="profile_function">{{ user|is_student }}</p>
 						</div>
 					</div>
 				</div>
