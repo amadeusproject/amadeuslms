@@ -1,4 +1,4 @@
-{% extends 'categories/home.html' %}
+{% extends 'base.html' %}
 
 {% load static i18n permission_tags %}
 {% load django_bootstrap_breadcrumbs %}
@@ -9,7 +9,11 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb   "Subjects" 'categories:index' %}
+    {% if all %}
+        {% breadcrumb  "All Subjects" 'subjects:index' %}
+    {% else %}
+        {% breadcrumb  "My Subjects" 'subjects:index' %}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
