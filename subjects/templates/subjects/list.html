@@ -1,6 +1,6 @@
 {% extends 'categories/home.html' %}
 
-{% load static i18n permission_tags %}
+{% load static i18n permission_tags pagination %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% block javascript%}
@@ -169,6 +169,7 @@
                     </div>
                 {% endif %}
             {% endfor %}
+            {% pagination request paginator page_obj %}
         </div>
     </div>
     <div id="modal_course">

@@ -69,19 +69,28 @@ class IndexView(LoginRequiredMixin, ListView):
     queryset = Category.objects.all()
     template_name = 'subjects/list.html'
     context_object_name = 'categories'
-
+    paginate_by = 5
 
     def get_queryset(self):
-        result = super(IndexView, self).get_queryset()
-        return result
+        categories = Category.objects.all().order_by('name')
+
+        if not self.request.user.is_staff:
+            if not self.kwargs.get('option'):
+                categories = Category.objects.filter(visible=True)
+
+                for category in categories:
+                    category.subjects = Subject.objects.filter(category= category)
+
+                categories = [category for category in categories if category.subjects.count() > 0 or self.request.user in category.coordinators.all()] 
+                #So I remove all categories that doesn't have the possibility for the user to be on
+
+        return categories
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.user.is_staff:
             context['page_template'] = "categories/home_admin_content.html"
         else:
             context['page_template'] = "categories/home_teacher_student.html"
-
-        
 
         if self.request.is_ajax():
             if self.request.user.is_staff:
@@ -101,22 +110,6 @@ class IndexView(LoginRequiredMixin, ListView):
             context['all'] = True
             context['title'] = _('All Subjects')
 
-        if self.request.user.is_staff:
-            categories = self.get_queryset().order_by('name')
-        else:
-            if self.kwargs.get('option'):
-                categories = self.get_queryset().order_by('name')
-                for category in categories:
-                    category.subjects = Subject.objects.filter(category= category)
-            else:
-                categories = self.get_queryset().filter(visible=True)
-                for category in categories:
-                    category.subjects = Subject.objects.filter(category= category)
-
-                categories = [category for category in categories if category.subjects.count() > 0 or self.request.user in category.coordinators.all()] 
-                #So I remove all categories that doesn't have the possibility for the user to be on
-        
-        context['categories'] = categories
         context['subjects_menu_active'] = 'subjects_menu_active'
 
         return context
