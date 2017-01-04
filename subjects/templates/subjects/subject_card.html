@@ -63,10 +63,10 @@
         <p>{{subject.description_brief|safe}}</p>
 
                       
-        {% if request.user in subject.students.all %}
-            <a href="{% url 'categories:create' %}"><button class="access-subject"> {% trans "Access Subject" %}</button></a>
+        {% if request.user in subject.students.all or request.user in subject.professor.all or quest.user.is_staff %}
+            <a href="#"><button class="access-subject"> {% trans "Access Subject" %}</button></a>
         {% else %}
-            <a href="{% url 'categories:create' %}"><button class="subscribe-subject"> {% trans "Subscribe to Subject" %}</button></a>
+            <a href="#"><button class="subscribe-subject"> {% trans "Subscribe to Subject" %}</button></a>
         {% endif %}
          
 </div>
