@@ -9,7 +9,11 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb   "Subjects" 'categories:index' %}
+    {% if all %}
+        {% breadcrumb  "All Subjects" 'subjects:index' %}
+    {% else %}
+        {% breadcrumb  "My Subjects" 'subjects:index' %}
+    {% endif %}
 {% endblock %}
 
 {% block content %}

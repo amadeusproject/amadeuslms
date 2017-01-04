@@ -94,7 +94,13 @@ class IndexView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         if self.request.user.is_staff:
-             categories = self.get_queryset().order_by('name').filter(visible=True)
+            categories = self.get_queryset().order_by('name').filter(visible=True)
+
+            context['all'] = False
+            
+            if self.kwargs.get('option'):
+                context['all'] = True
+
         else:
             if self.kwargs.get('option'):
                 categories = self.get_queryset().order_by('name').filter(visible=True)
