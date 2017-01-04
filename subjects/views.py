@@ -81,7 +81,7 @@ class IndexView(LoginRequiredMixin, ListView):
         else:
             context['page_template'] = "categories/home_teacher_student.html"
 
-        context['title'] = _('Categories')
+        
 
         if self.request.is_ajax():
             if self.request.user.is_staff:
@@ -93,34 +93,31 @@ class IndexView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
+
+        context['all'] = False
+        context['title'] = _('My Subjects')
+            
+        if self.kwargs.get('option'):
+            context['all'] = True
+            context['title'] = _('All Subjects')
+
         if self.request.user.is_staff:
             categories = self.get_queryset().order_by('name').filter(visible=True)
-
-            context['all'] = False
-            
-            if self.kwargs.get('option'):
-                context['all'] = True
-
         else:
             if self.kwargs.get('option'):
                 categories = self.get_queryset().order_by('name').filter(visible=True)
-                context['all'] = True
                 for category in categories:
                     category.subjects = Subject.objects.filter(category= category)
             else:
-                context['all'] = False
                 categories = self.get_queryset().filter(visible=True)
                 for category in categories:
                     category.subjects = Subject.objects.filter(category= category)
 
                 categories = [category for category in categories if category.subjects.count() > 0 or self.request.user in category.coordinators.all()] 
                 #So I remove all categories that doesn't have the possibility for the user to be on
-               
-        
-      
-           
         
         context['categories'] = categories
+        context['subjects_menu_active'] = 'subjects_menu_active';
 
         return context
 
@@ -142,8 +139,11 @@ class SubjectCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super(SubjectCreateView, self).get_context_data(**kwargs)
         context['slug'] = self.kwargs['slug']
-        context['template_extends'] = 'categories/list.html'
+        context['template_extends'] = 'subjects/list.html'
+        context['subjects_menu_active'] = 'subjects_menu_active';
+        
         return context
+
     def form_valid(self, form):
         
         self.object = form.save()

@@ -142,7 +142,7 @@
             <div id="sidebar-menu-div" class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
                 {% block sidebar %}
                    <ul id="sidebar-menu">
-                        <li class="item" id="subjects-link" data-toggle="tooltip" data-placement="right" title="{% trans "Subjects" %}">
+                        <li class="item {{ subjects_menu_active }}" id="subjects-link" data-toggle="tooltip" data-placement="right" title="{% trans "Subjects" %}">
                             <a href="{% url 'subjects:index' %}">
                                 <i class="fa fa-graduation-cap" aria-hidden="true"></i>
                             </a>

@@ -37,6 +37,10 @@
     color: white;
 }
 
+#sidebar-menu > .subjects_menu_active {
+    background-color: #00695C;
+}
+
 #sidebar-menu > .item:hover{
     background-color: #00695C;
 }
@@ -109,23 +113,25 @@
 }
 
 #core-subjects-options-div{
-      width: 100%;
+    width: 100%;
     margin-bottom: 2%;
     height: 30px;
 }
 
 .core-subjects-options  li{
-  float:left;
-  padding: 10px;
-  background-color: #FFFFFF;
-  margin: 1px;
- 
+    float:left;
+    padding: 10px;
+    background-color: #FFFFFF;
+    margin: 1px;
     border-bottom: 10px;
     border-bottom-style: solid;
+    border-bottom-color: #D2D2D2;
+    color: #A0A0A0;
 }
 
 .core-subjects-options  li.active{
-  border-bottom-color: green;
+    color: inherit;
+    border-bottom-color: green;
 }
 
 #delete-category-footer{

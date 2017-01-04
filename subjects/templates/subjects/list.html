@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'categories/home.html' %}
 
 {% load static i18n permission_tags %}
 {% load django_bootstrap_breadcrumbs %}
@@ -28,10 +28,10 @@
         <ul class="core-subjects-options">
             {% if all %}
                 <a href="{% url 'subjects:index' %}"><li >{% trans "My subjects" %}</li></a>
-                <a href="{% url 'subjects:index' 'all' %}" ><li class="active">{% trans "all subjects" %}</li></a>
+                <a href="{% url 'subjects:index' 'all' %}" ><li class="active">{% trans "All subjects" %}</li></a>
             {% else %}
                 <a href="{% url 'subjects:index' %}"><li class="active">{% trans "My subjects" %}</li></a>
-                <a href="{% url 'subjects:index' 'all' %}" ><li>{% trans "all subjects" %}</li></a>
+                <a href="{% url 'subjects:index' 'all' %}" ><li>{% trans "All subjects" %}</li></a>
             {% endif %}
             
         </ul>

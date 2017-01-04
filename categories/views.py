@@ -110,6 +110,7 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, Creat
             context['settings_menu_active'] = "settings_menu_active"
         else:
             context['template_extends'] = 'subjects/list.html'
+            context['subjects_menu_active'] = 'subjects_menu_active';
 
         return context
 
@@ -198,6 +199,7 @@ class UpdateCategory(LogMixin, UpdateView):
             context['settings_menu_active'] = "settings_menu_active"
         else:
             context['template_extends'] = 'subjects/list.html'
+            context['subjects_menu_active'] = 'subjects_menu_active';
 
         return context
 
