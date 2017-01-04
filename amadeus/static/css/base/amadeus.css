@@ -60,31 +60,51 @@
 /* category app starts */
 
 .panel-invisible{
-  background-color: #BDBDBD;
+    background-color: #BDBDBD;
+}
+
+.category-panel {
+    background: #0277BD;
+}
+.category-panel > .panel-heading, .subject-panel > .panel-heading, .special-panel > .panel-heading {
+    padding: 2px 0px;
+}
+
+.subject-panel {
+    background: #039BE5;
+}
+
+.subject-group {
+    margin-left: 20px;    
 }
 
 .category-header > h4{
-  float:left;
-  margin-top: 0.5%;
+    float:left;
+    margin-top: 5px;
+    margin-bottom: 2px;
 }
 
+.category-header > h4 > a:focus {
+    text-decoration: none;
+}
 
+.category-card-items {
+    padding-right: 0px;
+}
 .category-card-items i{
   font-size: 25px !important;
-  margin-right: 5%;
-  margin-top: 1%;
+  margin-right: 10px;
+  margin-top: 6px;
 }
+
 .category-header i{
     color: white;
-   
     font-size: 20px;
     float: right;
-
-
 }
 
 .category-header i:hover{
-  color: #90CAF9;
+    color: #90CAF9;
 }
 
 
@@ -94,6 +114,7 @@
 
 .cat-selector {
     margin: 0;
+    top: -2px;
 }
 
 #create-category{
@@ -118,8 +139,8 @@
 
 #core-subjects-options-div{
     width: 100%;
-    margin-bottom: 2%;
-    height: 30px;
+    margin-bottom: 10px;
+    height: 50px;
 }
 
 .core-subjects-options  li{
