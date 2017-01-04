@@ -97,7 +97,7 @@
                         {{category.description|safe}}
                     
                         {% if user in category.coordinators.all %}
-                            <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "create new subject" %} </button></a>
+                            <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "Create new subject" %} </button></a>
                         {% endif %}
                         
                         <div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
@@ -178,7 +178,7 @@
                         {{category.description|safe}}
                     
                         {% if user in category.coordinators.all %}
-                            <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "create new subject" %} </button></a>
+                            <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "Create new subject" %} </button></a>
                         {% endif %}
                          <div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
                             {% for subject in category.subjects  %}
