@@ -102,10 +102,10 @@ class IndexView(LoginRequiredMixin, ListView):
             context['title'] = _('All Subjects')
 
         if self.request.user.is_staff:
-            categories = self.get_queryset().order_by('name').filter(visible=True)
+            categories = self.get_queryset().order_by('name')
         else:
             if self.kwargs.get('option'):
-                categories = self.get_queryset().order_by('name').filter(visible=True)
+                categories = self.get_queryset().order_by('name')
                 for category in categories:
                     category.subjects = Subject.objects.filter(category= category)
             else:
