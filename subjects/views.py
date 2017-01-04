@@ -22,9 +22,41 @@ from log.decorators import log_decorator_ajax
 from log.models import Log
 
 import time
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CreateSubjectForm
 from users.models import User
+
+
+class HomeView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+    queryset = Subject.objects.all()
+    template_name = 'subjects/initial.html'
+    
+
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+        if self.request.user.is_staff:
+            subjects = Subject.objects.all()
+        else:
+            subjects = Subject.objects.all()
+            subjects = [subject for subject in subjects if self.request.user in subject.students.all() or self.request.user in subject.professor.all()]
+           
+        paginator = Paginator(subjects, 2)
+
+        page = self.request.GET.get('page')
+        try:
+            subjects = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            subjects = paginator.page(1)
+
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            subjects = paginator.page(paginator.num_pages)
+
+        context['subjects'] = subjects
+        return context
 
 
 class IndexView(LoginRequiredMixin, ListView):
@@ -65,12 +97,12 @@ class IndexView(LoginRequiredMixin, ListView):
                 categories = self.get_queryset().order_by('name').filter(visible=True)
                 context['all'] = True
                 for category in categories:
-                    category.subjects = Subject.objects.all().filter(category= category)
+                    category.subjects = Subject.objects.filter(category= category)
             else:
                 context['all'] = False
                 categories = self.get_queryset().filter(visible=True)
                 for category in categories:
-                    category.subjects = Subject.objects.all().filter(category= category)
+                    category.subjects = Subject.objects.filter(category= category)
 
                 categories = [category for category in categories if category.subjects.count() > 0 or self.request.user in category.coordinators.all()] 
                 #So I remove all categories that doesn't have the possibility for the user to be on
