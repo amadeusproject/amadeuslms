@@ -53,12 +53,12 @@
                                     </h4>
                                     
                                     <div class="col-md-5 pull-right category-card-items">
-                                        {% if user.is_staff or user in category.coordinators.all %}
+                                        {% if request.user.is_staff or user in category.coordinators.all %}
                                             <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
                                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                             </a>
                                             <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-                                                {% if user.is_staff %}
+                                                {% if request.user.is_staff %}
                                                     <li><a href="{% url 'categories:replicate' category.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
                                                 {% endif %}
                                                 <li><a href="{% url 'categories:update' category.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
@@ -86,7 +86,7 @@
                            
                             {{category.description|safe}}
                         
-                            {% if user in category.coordinators.all %}
+                            {% if request.user in category.coordinators.all %}
                                 <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "Create new subject" %} </button></a>
                             {% endif %}
                             
@@ -109,12 +109,12 @@
                                     </h4>
                                     
                                     <div class="col-md-5 pull-right category-card-items">
-                                         {% if user.is_staff or user in category.coordinators.all %}
+                                         {% if request.user.is_staff or user in category.coordinators.all %}
                                             <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
                                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                             </a>
                                             <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-                                                {% if user.is_staff %}
+                                                {% if request.user.is_staff %}
                                                     <li><a href="{% url 'categories:replicate' category.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
                                                 {% endif %}
                                                 <li><a href="{% url 'categories:update' category.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
@@ -142,7 +142,7 @@
                            
                             {{category.description|safe}}
                         
-                            {% if user in category.coordinators.all %}
+                            {% if request.user in category.coordinators.all %}
                                 <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "Create new subject" %} </button></a>
                             {% endif %}
 
