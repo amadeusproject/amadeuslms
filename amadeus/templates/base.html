@@ -149,7 +149,7 @@
         <div class="row">
             <div id="sidebar-menu-div" class="col-md-1 col-lg-1 hidden-xs hidden-sm">
                 {% block sidebar %}
-                   <ul id="sidebar-menu">
+                    <ul id="sidebar-menu">
                         <li class="item {{ subjects_menu_active }}" id="subjects-link" data-toggle="tooltip" data-placement="right" title="{% trans "Subjects" %}">
                             <a href="{% url 'subjects:index' %}">
                                 <i class="fa fa-graduation-cap" aria-hidden="true"></i>
@@ -167,7 +167,7 @@
                         <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Analytics" %}">
                             <i class="fa fa-bar-chart" aria-hidden="true"></i>
                         </li>
-                   </ul>
+                    </ul>
                 {% endblock %}
             </div>
             <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11">
@@ -184,6 +184,35 @@
             </div>
         </div>
     </div>
+
+    {% block bottommenu %}
+        <div class="clearfix visible-xs visible-sm"></div>
+        <div class="bottom-menu visible-xs visible-sm">
+            <div class="row">
+                <div class="col-sm-12 col-xs-12 text-center">
+                    <ul class="mobile-menu">
+                        <li class="item {{ subjects_menu_active }}" data-toggle="tooltip" data-placement="top" title="{% trans "Subjects" %}">
+                            <a href="{% url 'subjects:index' %}">
+                                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Timeline" %}">
+                            <i class="fa fa-list" aria-hidden="true" ></i>
+                        </li>
+                        <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Messages" %}">
+                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                        </li>
+                        <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Pendencias" %}">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        </li>
+                        <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Analytics" %}">
+                            <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
 
     <!-- Init material Bootstrap -->
     <script type="text/javascript">$.material.init()</script>
