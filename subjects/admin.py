@@ -1,7 +1,7 @@
 
 from django.contrib import admin
-from .models import Subject, Marker
-from .forms import CreateSubjectForm, CreateMarkerForm
+from .models import Subject, Tag
+from .forms import CreateSubjectForm, CreateTagForm
 
 class SubjectAdmin(admin.ModelAdmin):
 	list_display = ['name', 'description_brief', 'description', 'init_date', 'end_date', 'visible', 'category']
@@ -9,11 +9,11 @@ class SubjectAdmin(admin.ModelAdmin):
 	
 
 
-class MarkerAdmin(admin.ModelAdmin):
+class TagAdmin(admin.ModelAdmin):
 	list_display = ['name']
 	search_fields = ['name']
-	form = CreateMarkerForm
+	form = CreateTagForm
 
 admin.site.register(Subject, SubjectAdmin)
-admin.site.register(Marker, MarkerAdmin)
+admin.site.register(Tag, TagAdmin)
 

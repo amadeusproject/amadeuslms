@@ -21,7 +21,7 @@ from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
 from log.models import Log
 
-from .models import Marker
+from .models import Tag
 import time
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CreateSubjectForm
@@ -54,8 +54,8 @@ class HomeView(LoginRequiredMixin, ListView):
         context['title'] = _('Home')
        
         #bringing users
-        markers = Marker.objects.all()
-        context['markers'] = markers
+        tags = Tag.objects.all()
+        context['tags'] = tags
         return context
 
 

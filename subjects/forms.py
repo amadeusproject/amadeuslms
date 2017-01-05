@@ -1,11 +1,11 @@
-from .models import Subject, Marker
+from .models import Subject, Tag
 from django import forms
 class CreateSubjectForm(forms.ModelForm):
     # TODO: Define form fields here
     class Meta:
         model = Subject
 
-        fields = ('name', 'description_brief', 'description', 'markers', 'init_date', 'end_date', 'visible', 'professor',
+        fields = ('name', 'description_brief', 'description', 'tags', 'init_date', 'end_date', 'visible', 'professor',
         'students', )
 
         widgets = {
@@ -17,8 +17,8 @@ class CreateSubjectForm(forms.ModelForm):
 
 
 
-class CreateMarkerForm(forms.ModelForm):
+class CreateTagForm(forms.ModelForm):
     class Meta:
-        model = Marker
+        model = Tag
         fields = ('name',)
     
