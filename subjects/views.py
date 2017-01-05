@@ -73,7 +73,7 @@ class IndexView(LoginRequiredMixin, ListView):
 
         if not self.request.user.is_staff:
             if not self.kwargs.get('option'):
-                categories = Category.objects.filter(visible=True)
+                categories = Category.objects.all()
 
                 for category in categories:
                     category.subjects = Subject.objects.filter(category= category)
