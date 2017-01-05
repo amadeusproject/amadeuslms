@@ -3,9 +3,9 @@
 {% load static pagination i18n %}
 
 {% block content %}
-
+	<h2 class=" my-subjects-title"><b><i>{% trans "Palavras-chave mais populares" %}</i></b></h2>
 	<div id="" class="col-md-12">
-		<h2 class="text-center my-subjects-title">{% trans "Palavras-chave mais populares" %}</h2>
+
 		<div class="users-cloud div-users-cloud">
 			<ul class=" users-cloud">
 				{% for marker in markers %}
@@ -16,7 +16,7 @@
 	</div>
 	
 	<div class="col-md-12 cards-content">
-	<h2 class="text-center my-subjects-title">{% trans "Meus Assuntos" %}</h2>
+	<h2 class=" my-subjects-title"><b><i>{% trans "Meus Assuntos" %}</i></b></h2>
     	<div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
 			{% for subject in subjects %}
 				{% include "subjects/subject_card.html" with accordion_id="subject-accordion" %}
