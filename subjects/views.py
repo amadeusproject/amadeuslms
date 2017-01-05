@@ -122,14 +122,35 @@ class SubjectCreateView(CreateView):
 
     def get_initial(self):
         initial = super(SubjectCreateView, self).get_initial()
-        initial['category'] = Category.objects.all().filter(slug=self.kwargs['slug'])
+        if self.kwargs.get('slug'): #when the user creates a subject
+            initial['category'] = Category.objects.all().filter(slug=self.kwargs['slug'])
+
+        if self.kwargs.get('subject_slug'): #when the user updates a subject
+            subject = get_object_or_404(Subject, slug = self.kwargs['subject_slug'])
+            initial = initial.copy()
+            initial['category'] = subject.category
+            initial['description'] = subject.description
+            initial['name'] = subject.name
+            initial['visible'] = subject.visible
+            initial['professor'] = subject.professor.all()
+            initial['tags'] = subject.tags.all()
+            initial['init_date'] = subject.init_date
+            initial['end_date'] = subject.end_date
+            initial['students'] = subject.students.all()
+            initial['description_brief'] = subject.description_brief
+
+       
         
         return initial
 
     def get_context_data(self, **kwargs):
         context = super(SubjectCreateView, self).get_context_data(**kwargs)
         context['title'] = _('Create Subject')
-        context['slug'] = self.kwargs['slug']
+        if self.kwargs.get('slug'):
+            context['slug'] = self.kwargs['slug']
+        if self.kwargs.get('subject_slug'):
+            subject = get_object_or_404(Subject, slug = self.kwargs['subject_slug'])
+            context['slug'] = subject.category.slug
         context['subjects_menu_active'] = 'subjects_menu_active'
         
         return context
