@@ -1,6 +1,6 @@
 {% extends "categories/home.html" %}
 
-{% load pagination %}
+{% load static pagination %}
 
 {% block content %}
 
@@ -23,5 +23,5 @@
 	</div>
 
 	{% pagination request paginator page_obj %} 
-    
+    <script type="text/javascript" src="{% static 'js/course.js' %}"></script>
 {% endblock content %}
