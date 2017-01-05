@@ -9,7 +9,9 @@ class Log(models.Model):
 	context = JSONField(_('Context'), blank = True)
 	action = models.TextField(_('Action'))
 	resource = models.TextField(_('Resource'))
-	user = models.ForeignKey(User, verbose_name = _('Actor'))
+	user = models.CharField(_('Actor'), max_length = 100)
+	user_id = models.IntegerField(_('Actor id'))
+	user_email = models.EmailField(_('Actor Mail'))
 	datetime = models.DateTimeField(_("Date and Time of action"), auto_now_add = True)
 
 	class Meta:

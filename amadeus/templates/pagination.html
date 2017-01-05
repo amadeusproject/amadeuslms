@@ -1,11 +1,13 @@
-<div class="row-fluid">
-	<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center">
-	  	<ul class="pagination">
-	    	{% for page_number in paginator.page_range %}
-	    		<li{% if page_obj.number == page_number %} class="active"{% endif %}>
-	        		<a href="?page={{ page_number }}{{ getvars }}">{{ page_number }}</a>
-	    		</li>
-	    	{% endfor %}
-	  	</ul>
+{% if paginator.count > 0 %}
+	<div class="row-fluid">
+		<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center">
+		  	<ul class="pagination">
+		    	{% for page_number in paginator.page_range %}
+		    		<li{% if page_obj.number == page_number %} class="active"{% endif %}>
+		        		<a href="?page={{ page_number }}{{ getvars }}">{{ page_number }}</a>
+		    		</li>
+		    	{% endfor %}
+		  	</ul>
+		</div>
 	</div>
-</div>
+{% endif %}

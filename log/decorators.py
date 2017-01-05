@@ -16,7 +16,9 @@ def log_decorator(log_component = '', log_action = '', log_resource = ''):
 			if request.user.is_authenticated:
 				
 				log = Log()
-				log.user = request.user
+				log.user = str(request.user)
+				log.user_id = request.user.id
+				log.user_email = request.user.email
 				log.component = log_component
 				log.context = request.log_context
 				log.action = log_action
@@ -41,7 +43,9 @@ def log_decorator_ajax(log_component = '', log_action = '', log_resource = ''):
 				if request.user.is_authenticated:
 					
 					log = Log()
-					log.user = request.user
+					log.user = str(request.user)
+					log.user_id = request.user.id
+					log.user_email = request.user.email
 					log.component = log_component
 					log.context = ""
 					log.action = log_action

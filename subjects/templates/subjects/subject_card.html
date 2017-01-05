@@ -1,29 +1,26 @@
 {% load static i18n permission_tags %}
 
-<div class="panel panel-info">
+<div class="panel panel-info subject-panel">
     <div class="panel-heading">
         <div class="row">
             <div class="col-md-12 category-header">
                 <h4 class="panel-title">
-                    <a class="category-course-link pull-left" data-parent="#{{ subject.category.slug }}-accordion" data-toggle="collapse" href="#{{subject.slug}}">
+                    <a class="category-course-link pull-left" data-parent="#{% if accordion_id %}{{ accordion_id }}{% else %}{{ subject.category.slug }}-accordion{% endif %}" data-toggle="collapse" href="#{{subject.slug}}">
                         <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{subject.name}}
                     </a>
                 </h4>
-                {% if request.user in subject.professor.all or request.user in category.coordinators.all  %}
-                    <div class="divMoreActions" >
-                        <div class="btn-group">
-                            <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-                            </button>
-                            <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-                                <li><a href="#"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
-                                <li><a href="#"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
-                                <li><a href="#"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                {% endif %}
+
                 <div class="col-md-5 pull-right category-card-items">
+                    {% if request.user in subject.professor.all or request.user in category.coordinators.all  %}
+                        <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                            <li><a href="#"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
+                            <li><a href="#"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+                            <li><a href="#"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
+                        </ul>
+                    {% endif %}
                     <a href="" ><i class="fa fa-list" aria-hidden="true"></i></a>
                     <a href=""><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
                     <a href=""><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>

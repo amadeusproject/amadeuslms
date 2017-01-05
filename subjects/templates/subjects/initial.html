@@ -1,37 +1,27 @@
 {% extends "categories/home.html" %}
 
+{% load pagination %}
+
 {% block content %}
 
 	<div id="" class="col-md-12">
 		<div class="users-cloud">
-		<ul class=" users-cloud">
-			{% for user in users %}
-				<li>{{user.social_name}}</li>
-			{% endfor %}
-		</ul>
-		</div>
-	</div>
-	<div class="col-md-12 cards-content">
-    	<div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
-		{% for subject in subjects %}
-			{% include "subjects/subject_card.html" %}
-		{% endfor %}
+			<ul class=" users-cloud">
+				{% for user in users %}
+					<li>{{user.social_name}}</li>
+				{% endfor %}
+			</ul>
 		</div>
 	</div>
 
-	 
-    <div class="pagination">
-        <span class="page-links">
-            {% if subjects.has_previous %}
-                <a href="?page={{ subjects.previous_page_number }}">previous</a>
-            {% endif %}
-            <span class="page-current">
-                Page {{ subjects.number }} of {{ subjects.paginator.num_pages }}.
-            </span>
-            {% if subjects.has_next %}
-                <a href="?page={{ subjects.next_page_number }}">next</a>
-            {% endif %}
-        </span>
-    </div>
+	<div class="col-md-12 cards-content">
+    	<div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
+			{% for subject in subjects %}
+				{% include "subjects/subject_card.html" with accordion_id="subject-accordion" %}
+			{% endfor %}
+		</div>
+	</div>
+
+	{% pagination request paginator page_obj %} 
     
 {% endblock content %}
