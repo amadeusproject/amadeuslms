@@ -223,15 +223,15 @@
 }
 
 /* NavBar Top */
-.navbar {
-    height: 50px;
-}
-
 .navbar-brand {
     height: 50px !important;
 }
 .navbar-brand:hover {
     background: #00695C !important;
+}
+
+.navbar .navbar-form {
+    margin-top: 10px;
 }
 
 .navbar .logo {
@@ -285,10 +285,6 @@
     font-style: italic;
 }
 
-#btn-search {
-    margin-top: -6px;
-    height: 50px;
-}
 #btn-search:hover {
     background: #00695C;    
 }

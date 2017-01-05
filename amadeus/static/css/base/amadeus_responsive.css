@@ -3,3 +3,46 @@
 		padding: 15px;
 	}
 }
+
+@media(max-width: 768px) {
+	#btn-search {
+		margin-top: -5px;
+		height: 30px;
+	}
+
+	.navbar-form {
+		margin-left: -30px;
+		margin-right: -30px;
+	}
+	
+	.navbar .navbar-form {
+		margin-top: 0px !important;
+	}
+}
+
+@media(min-width: 768px) {
+	.navbar {
+		height: 50px;
+	}
+
+	#btn-search {
+	    margin-top: -10px;
+	    height: 50px;
+	}
+
+	.navbar-form .input-group {
+		width: 100%;
+	}
+
+	.navbar-form .form-group {
+		width: 100%;
+	}
+
+	.navbar-form .input-group .form-control {
+		width: 100%;
+	}
+
+	.navbar-form .input-group-btn {
+		width: 50px !important;
+	}
+}
