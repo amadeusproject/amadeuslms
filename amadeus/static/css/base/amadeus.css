@@ -63,15 +63,15 @@
     background-color: #BDBDBD;
 }
 
-.category-panel {
-    background: #0277BD;
+.category-panel > .panel-heading {
+    background-color: #0277BD !important;
 }
 .category-panel > .panel-heading, .subject-panel > .panel-heading, .special-panel > .panel-heading {
     padding: 2px 0px;
 }
 
-.subject-panel {
-    background: #039BE5;
+.subject-panel > .panel-heading {
+    background-color: #039BE5 !important;
 }
 
 .subject-group {
