@@ -152,9 +152,10 @@
 .core-subjects-options  li{
     float:left;
     padding: 10px;
+    padding-bottom: 8px;
     background-color: #FFFFFF;
     margin: 1px;
-    border-bottom: 10px;
+    border-bottom: 5px;
     border-bottom-style: solid;
     border-bottom-color: #D2D2D2;
     color: #A0A0A0;
@@ -162,7 +163,7 @@
 
 .core-subjects-options  li.active{
     color: inherit;
-    border-bottom-color: green;
+    border-bottom-color: #00695C;
 }
 
 #delete-category-footer{
