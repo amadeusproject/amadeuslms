@@ -28,7 +28,7 @@ class IndexView(views.SuperuserRequiredMixin, LoginRequiredMixin, ListView):
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
-    queryset = Category.objects.all()
+    queryset = Category.objects.all().order_by('name')
     template_name = 'categories/list.html'
     context_object_name = 'categories'
     paginate_by = 10
@@ -57,8 +57,6 @@ class IndexView(views.SuperuserRequiredMixin, LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         
-        categories = self.get_queryset().order_by('name')
-        context['categories'] = categories
         context['settings_menu_active'] = "settings_menu_active"
 
         return context

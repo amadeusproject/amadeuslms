@@ -17,6 +17,12 @@
 .users-cloud li:nth-of-type(5n - 3) {
     font-size: 3em;
 }
+
+.div-users-cloud{
+  height: 200px;
+  margin-left: 20%;
+  width: 70%;
+}
 /* initial page ends */
 /* sidebar menu */
 
