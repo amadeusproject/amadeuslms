@@ -1,6 +1,6 @@
 {% extends "categories/home.html" %}
 
-{% load static pagination %}
+{% load static pagination i18n %}
 
 {% block content %}
 
@@ -13,8 +13,9 @@
 			</ul>
 		</div>
 	</div>
-
+	
 	<div class="col-md-12 cards-content">
+	<h2 class="text-center my-subjects-title">{% trans "Meus Assuntos" %}</h2>
     	<div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
 			{% for subject in subjects %}
 				{% include "subjects/subject_card.html" with accordion_id="subject-accordion" %}
