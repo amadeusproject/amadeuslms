@@ -93,12 +93,15 @@
                 </div>
                 <ul class="nav navbar-nav navbar-right notifications">
                     {% if user.is_staff %}
-                        <li class="dropdown-accordion dropdown {{ settings_menu_active }}" data-accordion="#system_accordion" title data-original-title="{% trans 'settings' %}">
-                            <a href="#" data-toggle="dropdown"><i class="fa fa-cog" aria-hidden="true"></i></a> 
-                            <ul class="dropdown-menu pull-right" role="menu">
+                        <li class="dropdown {{ settings_menu_active }}" title data-original-title="{% trans 'settings' %}">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-cog hidden-xs" aria-hidden="true"></i>
+                                <span class="visible-xs-inline">{% trans 'Settings' %}</span>
+                            </a> 
+                            <ul class="dropdown-menu" role="menu">
                                 <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
                                 <li><a href="{% url 'categories:index' %}">{% trans 'Manage Categories' %}</a></li>
-                                <li>
+                                <li class="dropdown-accordion" data-accordion="#system_accordion">
                                     <div class="panel-group" id="system_accordion">
                                         <div class="panel panel-default">
                                             <div class="panel-heading">
@@ -110,9 +113,11 @@
                                             </div>
                                             <div class="panel-collapse collapse" id="system_menu">
                                                 <div class="panel-body">
-                                                    <a href="{% url 'categories:index' %}">{% trans 'Mail Sender' %}</a><br />
-                                                    <a href="{% url 'categories:index' %}">{% trans 'Security' %}</a><br />
-                                                    <a href="{% url 'categories:index' %}">{% trans 'Theme' %}</a>
+                                                    <ul class="submenu">
+                                                        <li><a href="{% url 'categories:index' %}">{% trans 'Mail Sender' %}</a></li>
+                                                        <li><a href="{% url 'categories:index' %}">{% trans 'Security' %}</a></li>
+                                                        <li><a href="{% url 'categories:index' %}">{% trans 'Theme' %}</a></li>
+                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>
@@ -122,11 +127,12 @@
                         </li>
                     {% endif %}
 
-                    <li data-toggle="tooltip" data-placement="bottom" title data-original-title="{{ user }}">
-                        <a href="" data-toggle="dropdown" class="profile">
-                            <img src="{{ user.image_url }}" style="width:50px;height:50px" />
+                    <li class="dropdown" data-toggle="tooltip" data-placement="bottom" title data-original-title="{{ user }}">
+                        <a href="" data-toggle="dropdown" class="dropdown-toggle profile">
+                            <img src="{{ user.image_url }}" class="hidden-xs" style="width:50px;height:50px" />
+                            <span class="visible-xs-inline">{{ user }}</span>
                         </a>
-                        <ul class="dropdown-menu pull-right">
+                        <ul class="dropdown-menu" role="menu">
                             <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                             <li><a href="{% url 'users:edit_profile' %}">{% trans 'Edit Profile' %}</a></li>
                             <li><a href="{% url 'users:change_pass' %}">{% trans 'Change Password' %}</a></li>

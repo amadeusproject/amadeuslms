@@ -6,7 +6,7 @@ $('.date-picker').datepicker({
 
 $(function () {
 	//Dropdown menu collapse
-	$('a[data-toggle="collapse"]').on('click', function (event) {
+	$('.dropdown-accordion').on('click', 'a[data-toggle="collapse"]', function (event) {
         event.preventDefault();
         event.stopPropagation();
         $($(this).data('parent')).find('.panel-collapse.in').collapse('hide');

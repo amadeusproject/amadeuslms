@@ -248,11 +248,10 @@
     color: white;
 }
 
-.navbar-nav li > a.profile {
-    padding-top: 0px !important;
-    padding-bottom:15px;
-    padding-right:0px;
-    padding-left: 0px;
+
+
+.navbar-nav li.open {
+    background: #00695C;
 }
 
 .navbar-nav li > a {
@@ -267,6 +266,10 @@
 
 .navbar-nav li.settings_menu_active {
     background: #00695C    
+}
+
+.submenu {
+    -webkit-padding-start: 0px;
 }
 
 .top-search {
@@ -330,15 +333,25 @@
 #system_accordion > .panel > .panel-heading > a:focus {
     text-decoration: none;
 }
+#system_accordion .panel-body {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+}
 
 #system_menu {
     background: #F5F5F5;
 }
 
-#system_menu > .panel-body > a {
+.submenu a {
     font-family: Roboto;
     font-weight: normal;
     font-size: 16px;
+    display: block;
+    max-height: 50px;
+}
+.submenu a:hover {
+    text-decoration: none;
 }
 /* End Dropdown menu Topbar */
 
