@@ -28,15 +28,15 @@ class IndexView(views.SuperuserRequiredMixin, LoginRequiredMixin, ListView):
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
-    queryset = Category.objects.all()
+    model = Category
     template_name = 'categories/list.html'
     context_object_name = 'categories'
     paginate_by = 10
 
     def get_queryset(self):
-        result = super(IndexView, self).get_queryset()
+        categories = Category.objects.all().order_by('name')
 
-        return result
+        return categories
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.user.is_staff:
@@ -57,8 +57,6 @@ class IndexView(views.SuperuserRequiredMixin, LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         
-        categories = self.get_queryset().order_by('name')
-        context['categories'] = categories
         context['settings_menu_active'] = "settings_menu_active"
 
         return context
