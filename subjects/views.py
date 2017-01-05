@@ -42,7 +42,7 @@ class HomeView(LoginRequiredMixin, ListView):
             subjects = Subject.objects.all()
             subjects = [subject for subject in subjects if self.request.user in subject.students.all() or self.request.user in subject.professor.all()]
            
-        paginator = Paginator(subjects, 2)
+        paginator = Paginator(subjects, 10)
 
         page = self.request.GET.get('page')
         try:

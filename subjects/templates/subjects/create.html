@@ -2,6 +2,20 @@
 
 {% load widget_tweaks static i18n permission_tags django_bootstrap_breadcrumbs switchevenodd %}
 
+{% block style %}
+
+	{{block.super}}
+	<link rel="stylesheet" type="text/css" href="{% static "css/bootstrap-tagsinput.css" %}">
+	
+	
+{% endblock style %}
+
+{% block javascript %}
+	{{block.super}}
+	<script type="text/javascript" src="{% static "js/bootstrap-tagsinput.js" %} "></script>
+	
+{% endblock javascript %}
+
 {% block breadcrumbs %}
    {% clear_breadcrumbs %}
    {% breadcrumb 'Home' 'subjects:home' %}
@@ -57,6 +71,9 @@
                     </div>
                 </div>
 			</div>
+		{% elif field.auto_id == 'id_markers'%}
+			<label> {{field.label}} </label>
+			{% render_field field class='form-control' data-role="tagsinput" %}
 		{% else %}
 			<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
 				{% if field.auto_id != 'id_visible' %}
@@ -190,6 +207,8 @@
         	btn.switchClass("fa-angle-down", "fa-angle-right", 250, "easeInOutQuad");
         }
     });
+
+ 
 	</script>
 {% endblock content %}
 
