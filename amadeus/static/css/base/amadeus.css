@@ -76,6 +76,10 @@
     padding: 2px 0px;
 }
 
+.subject-panel-invisible > .panel-heading{
+    padding: 2px 0px;
+}
+
 .subject-panel > .panel-heading {
     background-color: #039BE5 !important;
 }
