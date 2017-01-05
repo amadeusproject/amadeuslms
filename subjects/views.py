@@ -41,7 +41,7 @@ class HomeView(LoginRequiredMixin, ListView):
             subjects = Subject.objects.all()
         else:
             subjects = Subject.objects.all()
-            subjects = [subject for subject in subjects if self.request.user in subject.students.all() or self.request.user in subject.professor.all()]
+            subjects = [subject for subject in subjects if self.request.user in subject.students.all() or self.request.user in subject.professor.all() or self.request.user in subject.category.coordinators.all()]
 
            
         paginator = Paginator(subjects, 10)

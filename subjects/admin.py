@@ -4,9 +4,9 @@ from .models import Subject, Marker
 from .forms import CreateSubjectForm, CreateMarkerForm
 
 class SubjectAdmin(admin.ModelAdmin):
-	list_display = ['name', 'description_brief', 'description', 'init_date', 'end_date', 'visible',]
+	list_display = ['name', 'description_brief', 'description', 'init_date', 'end_date', 'visible', 'category']
 	search_fields = ['name']
-	form = CreateSubjectForm
+	
 
 
 class MarkerAdmin(admin.ModelAdmin):
