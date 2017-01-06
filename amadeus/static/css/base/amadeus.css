@@ -729,17 +729,30 @@ ul, li {
 
 
 /* core/index.html classes*/
+.outside-title {
+    color: #43a251;
+}
 
 .logo-login{
     margin-top: 15px;
     margin-bottom: 15px;
     width: 20%;
 }
+
+.logo-register {
+    width: 10%;
+}
+
 .forgotPassword{
-  padding-bottom: 10px;
+    padding-bottom: 10px;
 }
 .form-group{
-  margin-top: 5px;
+    margin-top: 5px;
+}
+
+.form-group.form-group-sm label.control-label {
+    font-size: 10px;
+    margin: 0px;
 }
 
 /* core/register_user.html classes*/
