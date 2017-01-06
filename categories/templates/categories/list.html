@@ -91,16 +91,6 @@
                             {% endif %}
                            
                             {{category.description|safe}}
-                        
-                            {% if user in category.coordinators.all %}
-                                <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "Create new subject" %} </button></a>
-                            {% endif %}
-
-                            <div class="panel-group subject-group" id="{{ category.slug }}-accordion" role="tablist" aria-multiselectable="true">
-                                {% for subject in category.subject_category.all  %}
-                                    {% include "subjects/subject_card.html" %}
-                                {% endfor %}
-                            </div>
                         </div>
                     </div>
                 {% elif request.user in category.coordinators.all or request.user.is_staff %}
@@ -148,16 +138,6 @@
                             {% endif %}
                            
                             {{category.description|safe}}
-                        
-                            {% if user in category.coordinators.all %}
-                                <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "Create new subject" %} </button></a>
-                            {% endif %}
-                            
-                            <div class="panel-group subject-group" id="{{ category.slug }}-accordion" role="tablist" aria-multiselectable="true">
-                                {% for subject in category.subject_category.all  %}
-                                    {% include "subjects/subject_card.html" %}
-                                {% endfor %}
-                            </div>
                         </div>
                     </div>
                 {% endif %}
