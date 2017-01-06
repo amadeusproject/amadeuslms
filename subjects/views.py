@@ -158,16 +158,20 @@ class SubjectCreateView(CreateView):
     def form_valid(self, form):
         
         self.object = form.save()
-        self.object.category = Category.objects.get(slug=self.kwargs['slug'])
+        if self.kwargs.get('slug'):
+            self.object.category = Category.objects.get(slug=self.kwargs['slug'])
+        if self.kwargs.get('subject_slug'):
+            subject = get_object_or_404(Subject, slug = self.kwargs['subject_slug'])
+            self.object.category = subject.category
         self.object.save()
         
 
         return super(SubjectCreateView, self).form_valid(form)
 
     def get_success_url(self):
-        objeto = self.object.name
         
-        messages.success(self.request, _('Subject "%s" was registered on "%s" successfully!')%(objeto, self.kwargs['slug']))
+        
+        messages.success(self.request, _('Subject "%s" was registered on "%s" successfully!')%(self.object.name, self.object.category.name ))
         return reverse_lazy('subjects:index')
 
 
