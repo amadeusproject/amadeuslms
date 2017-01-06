@@ -152,7 +152,10 @@ class DeleteCategory(LogMixin, DeleteView):
         if subjects.count() > 0:
             messages.error(self.request, _('The category cannot be removed, it contains one or more virtual enviroments attach.'))
 
-            return redirect(self.request.META.get('HTTP_REFERER'))
+            if self.request.user.is_admin:
+                return redirect(reverse_lazy('categories:index'))
+
+            return redirect(reverse_lazy('subjects:index'))
        
         return super(DeleteCategory, self).delete(self, request, *args, **kwargs)
 
@@ -165,7 +168,10 @@ class DeleteCategory(LogMixin, DeleteView):
 
         messages.success(self.request, _('Category removed successfully!'))
 
-        return self.request.META.get('HTTP_REFERER')
+        if self.request.user.is_admin:
+            return reverse_lazy('categories:index')
+
+        return reverse_lazy('subjects:index')
 
 class UpdateCategory(LogMixin, UpdateView):
     log_component = 'category'
@@ -190,7 +196,10 @@ class UpdateCategory(LogMixin, UpdateView):
         objeto = self.object.name
         messages.success(self.request, _('Category "%s" updated successfully!')%(objeto))
 
-        return reverse_lazy('categories:index')
+        if self.request.user.is_admin:
+            return reverse_lazy('categories:index')
+
+        return reverse_lazy('subjects:index')
 
     def get_context_data(self, **kwargs):
         context = super(UpdateCategory, self).get_context_data(**kwargs)
