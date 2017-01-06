@@ -38,6 +38,11 @@
 	.navbar .navbar-nav .dropdown .dropdown-menu li > a:hover {
 	    color: #009688 !important;
 	}
+
+	.category-card-items i {
+		font-size: 20px;
+		margin-top: 8px;
+	}
 }
 
 @media(min-width: 768px) {
@@ -72,28 +77,9 @@
 	    padding-right:0px;
 	    padding-left: 0px;
 	}
-}
 
-@media(min-width: 541px) {
-	.mobile-menu .item {
-		font-size: 45px;
-		width: 70px;
-		height: 65px;
-	}
-
-	.bottom-menu {
-		height: 90px;
-	}
-}
-
-@media(max-width: 540px) {
-	.mobile-menu .item {
-		font-size: 35px;
-		width: 55px;
-		height: 50px;
-	}
-
-	.bottom-menu {
-		height: 80px;
-	}
+	.category-card-items i{
+  		font-size: 25px !important;
+  		margin-top: 6px;
+  	}
 }
