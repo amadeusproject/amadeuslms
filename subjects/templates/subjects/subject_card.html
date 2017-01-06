@@ -20,7 +20,7 @@
                         </a>
                         <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
                             <li><a href="{% url 'subjects:replicate' subject.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
-                            <li><a href="#"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+                            <li><a href="{% url 'subjects:update' subject.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
                             <li><a href="#"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
                         </ul>
                     {% endif %}
@@ -81,7 +81,7 @@
                         </a>
                         <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
                             <li><a href="{% url 'subjects:replicate' subject.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
-                            <li><a href="#"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+                            <li><a href="{% url 'subjects:update' subject.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
                             <li><a href="#"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
                         </ul>
                     {% endif %}
