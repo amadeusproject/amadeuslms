@@ -731,9 +731,9 @@ ul, li {
 /* core/index.html classes*/
 
 .logo-login{
-  margin-top: 15px;
-  margin-bottom: 15px;
-  width:50%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 20%;
 }
 .forgotPassword{
   padding-bottom: 10px;
