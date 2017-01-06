@@ -12,11 +12,11 @@ def pagination(request, paginator, page_obj):
 
     page_numbers = []
 
-    if paginator.num_pages <= 10:
+    if paginator.num_pages <= 6:
         page_numbers = paginator.page_range
     else:
-        init = page_obj.number - 5
-        end = page_obj.number + 5
+        init = page_obj.number - 4
+        end = page_obj.number + 2
 
         if init <= 0:
             init = 1
@@ -24,11 +24,11 @@ def pagination(request, paginator, page_obj):
         if end > paginator.num_pages:
             end = paginator.num_pages + 1
 
-        if (end - init) < 10:
+        if (end - init) < 6:
             if init == 1 and end < paginator.num_pages:
-                end += (10 - (end - init))
+                end += (6 - (end - init))
             elif init > 1 and end == paginator.num_pages + 1:
-                init -= (10 - (end - init))
+                init -= (6 - (end - init))
 
         for n in range(init, end):
             if n > 0 and n <= paginator.num_pages:
