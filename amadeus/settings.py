@@ -56,7 +56,10 @@ INSTALLED_APPS = [
     'notifications',
     'log',
     'categories',
-    'subjects'
+    'subjects',
+    'mailsender',
+    'security',
+    'themes'
 ]
 
 MIDDLEWARE_CLASSES = [
