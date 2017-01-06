@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404,redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as login_user

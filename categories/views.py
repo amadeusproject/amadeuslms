@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 from .models import Category
 from django.core.urlresolvers import reverse_lazy
@@ -139,17 +139,20 @@ class DeleteCategory(LogMixin, DeleteView):
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
+
     model = Category
     template_name = 'categories/delete.html'
 
     def delete(self, request, *args, **kwargs):
         category = get_object_or_404(Category, slug = self.kwargs.get('slug'))
         subjects = Subject.objects.filter(category = category)
+
+        print(self.request.META.get('HTTP_REFERER'))
         
         if subjects.count() > 0:
-            #objeto = category
-            #messages.success(self.request, _('cannot delete Category "%s" ')%(objeto))
-            return reverse_lazy('categories:index')
+            messages.error(self.request, _('The category cannot be removed, it contains one or more virtual enviroments attach.'))
+
+            return redirect(self.request.META.get('HTTP_REFERER'))
        
         return super(DeleteCategory, self).delete(self, request, *args, **kwargs)
 
@@ -161,8 +164,8 @@ class DeleteCategory(LogMixin, DeleteView):
         super(DeleteCategory, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         messages.success(self.request, _('Category removed successfully!'))
-        return reverse_lazy('categories:index')
 
+        return self.request.META.get('HTTP_REFERER')
 
 class UpdateCategory(LogMixin, UpdateView):
     log_component = 'category'

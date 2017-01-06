@@ -115,7 +115,7 @@
 
 .category-header .dropdown-menu i {
     font-size: 20px !important;
-    float: auto;
+    float: none;
 }
 
 .category-header i{

@@ -20,10 +20,15 @@
     {% if messages %}
         {% for message in messages %}
             <script type="text/javascript">
-                alertify.success('{{message}}');
+                {% if message.tags == "danger" %}
+                    alertify.error('{{message}}');
+                {% else %}
+                    alertify.success('{{message}}');
+                {% endif %}
             </script>
         {% endfor %}
-    {% endif %}    
+    {% endif %}
+
     <div id="core-subjects-options-div">
         <ul class="core-subjects-options">
             {% if all %}
