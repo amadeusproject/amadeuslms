@@ -201,6 +201,17 @@ class UpdateCategory(LogMixin, UpdateView):
 
         return reverse_lazy('subjects:index')
 
+    def form_valid(self, form):
+        category = form.save()
+
+        if not category.visible:
+            for subjects in category.subject_category.all():
+                subjects.visible = False
+                
+                subjects.save()
+
+        return super(UpdateCategory, self).form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super(UpdateCategory, self).get_context_data(**kwargs)
         context['title'] = _('Update Category')
