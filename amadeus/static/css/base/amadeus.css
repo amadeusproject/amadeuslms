@@ -25,7 +25,6 @@
 }
 
 .my-subjects-title{
-  
     font-family: Roboto;
     font-size: 18px;
     color: #26A69A;
@@ -74,7 +73,8 @@
 /* category app starts */
 
 .panel-invisible{
-    background-color: #4c4c4c !important;
+    background-color: #BDBDBD !important;
+    color: #F5F5F5;
 }
 
 .category-panel > .panel-heading {
