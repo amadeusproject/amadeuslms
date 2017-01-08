@@ -166,7 +166,7 @@ class DeleteCategory(LogMixin, DeleteView):
 
         super(DeleteCategory, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-        messages.success(self.request, _('Category removed successfully!'))
+        messages.success(self.request, _('Category "%s" removed successfully!')%(self.object.name))
 
         if self.request.user.is_staff:
             return reverse_lazy('categories:index')

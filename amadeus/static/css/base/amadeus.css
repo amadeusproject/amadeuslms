@@ -1,3 +1,7 @@
+.pagination > li > a, .pagination > li > span {
+    padding: 0px 8px;
+}
+
 /* Initial page starts */
 .users-cloud {
     
