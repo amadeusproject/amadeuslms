@@ -152,7 +152,7 @@ class DeleteCategory(LogMixin, DeleteView):
         if subjects.count() > 0:
             messages.error(self.request, _('The category cannot be removed, it contains one or more virtual enviroments attach.'))
 
-            if self.request.user.is_admin:
+            if self.request.user.is_staff:
                 return redirect(reverse_lazy('categories:index'))
 
             return redirect(reverse_lazy('subjects:index'))
@@ -168,7 +168,7 @@ class DeleteCategory(LogMixin, DeleteView):
 
         messages.success(self.request, _('Category removed successfully!'))
 
-        if self.request.user.is_admin:
+        if self.request.user.is_staff:
             return reverse_lazy('categories:index')
 
         return reverse_lazy('subjects:index')
@@ -196,7 +196,7 @@ class UpdateCategory(LogMixin, UpdateView):
         objeto = self.object.name
         messages.success(self.request, _('Category "%s" updated successfully!')%(objeto))
 
-        if self.request.user.is_admin:
+        if self.request.user.is_staff:
             return reverse_lazy('categories:index')
 
         return reverse_lazy('subjects:index')
@@ -207,7 +207,7 @@ class UpdateCategory(LogMixin, UpdateView):
         if not category.visible:
             for subjects in category.subject_category.all():
                 subjects.visible = False
-                
+
                 subjects.save()
 
         return super(UpdateCategory, self).form_valid(form)
