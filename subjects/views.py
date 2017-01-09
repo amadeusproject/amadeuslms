@@ -138,8 +138,6 @@ class SubjectCreateView(CreateView):
             initial['end_date'] = subject.end_date
             initial['students'] = subject.students.all()
             initial['description_brief'] = subject.description_brief
-
-       
         
         return initial
 
@@ -178,22 +176,22 @@ class SubjectCreateView(CreateView):
 
 
 class SubjectUpdateView(LogMixin, UpdateView):
-   
     model = Subject
     form_class = CreateSubjectForm
     template_name = 'subjects/update.html'
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
+
     def get_context_data(self, **kwargs):
         context = super(SubjectUpdateView, self).get_context_data(**kwargs)
         context['title'] = _('Update Subject')
-        context['template_extends'] = 'base.html'
+        context['template_extends'] = 'categories/home.html'
         context['subjects_menu_active'] = 'subjects_menu_active'
+        
         return context
 
     def get_success_url(self):
-        
         
         messages.success(self.request, _('Subject "%s" was updated on "%s" successfully!')%(self.object.name, self.object.category.name ))
         return reverse_lazy('subjects:index')

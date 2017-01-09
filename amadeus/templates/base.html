@@ -50,7 +50,7 @@
 
 	<!--Javascript block for specific-app ones -->
 	<script src="{% static 'js/base/amadeus.js' %}"></script>
-    <script src="{% static 'js/main.js' %}"></script>
+    
 	
     {% block style %}
 	{% endblock %}
@@ -216,6 +216,7 @@
 
     <!-- Init material Bootstrap -->
     <script type="text/javascript">$.material.init()</script>
+    <script src="{% static 'js/main.js' %}"></script>
     <script type="text/javascript">
         $('.text_wysiwyg').summernote({
             height: 200
