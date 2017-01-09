@@ -161,19 +161,13 @@ class SubjectCreateView(CreateView):
         if self.kwargs.get('subject_slug'):
             subject = get_object_or_404(Subject, slug = self.kwargs['subject_slug'])
             self.object.category = subject.category
-        self.object.save()
-        
+        self.object.save()        
 
         return super(SubjectCreateView, self).form_valid(form)
 
     def get_success_url(self):
-        
-        
         messages.success(self.request, _('Subject "%s" was registered on "%s" successfully!')%(self.object.name, self.object.category.name ))
         return reverse_lazy('subjects:index')
-
-
-
 
 class SubjectUpdateView(LogMixin, UpdateView):
     model = Subject
