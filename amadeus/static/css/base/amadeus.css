@@ -43,6 +43,7 @@
 
 #sidebar-menu{
     -webkit-padding-start: 0px;
+    padding-left: 0px;
 }
 
 #sidebar-menu .item{
@@ -941,19 +942,21 @@ ul, li {
 /* End Bottom Menu */
 
 
+
 /* subjects app starts*/
 
 .access-subject{
-  background-color: #2eb82e;
+  background-color: #2eb82e !important;
   color: white;
   border: none;
 }
 
 .subscribe-subject{
-  background-color: #33cc33;
+  background-color: #33cc33 !important;
   color:white;
   border:none;
 }
 
 
 /* subjects app ends */
+

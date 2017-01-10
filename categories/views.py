@@ -194,6 +194,10 @@ class UpdateCategory(LogMixin, UpdateView):
         super(UpdateCategory, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         objeto = self.object.name
+
+        if not self.object.visible:
+            for subject in self.object.subjects:
+                subject.visible = self.object.visible
         messages.success(self.request, _('Category "%s" updated successfully!')%(objeto))
 
         if self.request.user.is_staff:
