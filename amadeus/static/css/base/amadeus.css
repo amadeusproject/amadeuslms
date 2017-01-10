@@ -162,9 +162,12 @@
   background: #F5F5F5;
 }
 
+
+
 .core-subjects-options{
   padding: 0px;
 }
+
 
 #core-subjects-options-div{
     width: 100%;
@@ -936,3 +939,21 @@ ul, li {
     background-color: #00695C;
 }
 /* End Bottom Menu */
+
+
+/* subjects app starts*/
+
+.access-subject{
+  background-color: #2eb82e;
+  color: white;
+  border: none;
+}
+
+.subscribe-subject{
+  background-color: #33cc33;
+  color:white;
+  border:none;
+}
+
+
+/* subjects app ends */
