@@ -203,20 +203,27 @@ class SubjectUpdateView(LogMixin, UpdateView):
 
 
 
-class SubjectDeleteView(LoginRequiredMixin, HasRoleMixin, LogMixin, DeleteView):
+class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
    
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
     model = Subject
-    template_name = 'subject/delete.html'
+    template_name = 'subjects/delete.html'
 
     def dispatch(self, *args, **kwargs):
-        subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+       
         
         return super(SubjectDeleteView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(SubjectDeleteView, self).get_context_data(**kwargs)
+        context['subject'] = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+
+        if (self.request.GET.get('view') == 'index'):
+            context['index'] = True
+        else:
+            context['index'] = False
+
        
         return context
 

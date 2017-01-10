@@ -26,7 +26,7 @@
         {% if index %}
         <script>
           $("#delete_form").submit(function(event) {
-            RemoveSubject.remove("{% url 'course:delete_subject' subject.slug %}",$(this).serialize(),"#subject_{{subject.slug}}");
+            RemoveSubject.remove("{% url 'subjects:delete' subject.slug %}",$(this).serialize(),"#subject_{{subject.slug}}");
             event.preventDefault();
           });
         </script>
