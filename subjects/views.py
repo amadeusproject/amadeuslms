@@ -25,6 +25,7 @@ from .models import Tag
 import time
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CreateSubjectForm
+from .utils import has_student_profile, has_professor_profile
 from users.models import User
 
 
@@ -38,14 +39,12 @@ class HomeView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_staff:
-            subjects = Subject.objects.all()
+            subjects = Subject.objects.all().order_by("name")
         else:
-            subjects = Subject.objects.all()
+            subjects = Subject.objects.all().order_by("name")
             subjects = [subject for subject in subjects if self.request.user in subject.students.all() or self.request.user in subject.professor.all() or self.request.user in subject.category.coordinators.all()]
 
-           
-        paginator = Paginator(subjects, 10)
-
+        print(subjects)
 
         return subjects
 
@@ -75,10 +74,8 @@ class IndexView(LoginRequiredMixin, ListView):
             if not self.kwargs.get('option'):
                 categories = Category.objects.all()
 
-                for category in categories:
-                    category.subjects = Subject.objects.filter(category= category)
-
-                categories = [category for category in categories if category.subjects.count() > 0 or self.request.user in category.coordinators.all()] 
+                categories = [category for category in categories if self.request.user in category.coordinators.all() \
+                    or has_professor_profile(self.request.user, category) or has_student_profile(self.request.user, category)] 
                 #So I remove all categories that doesn't have the possibility for the user to be on
 
         return categories
@@ -166,11 +163,9 @@ class SubjectCreateView(CreateView):
         return super(SubjectCreateView, self).form_valid(form)
 
     def get_success_url(self):
-
         if not self.object.category.visible:
             self.object.visible = False
             self.object.save()
-        
 
         messages.success(self.request, _('Subject "%s" was registered on "%s" successfully!')%(self.object.name, self.object.category.name ))
         return reverse_lazy('subjects:index')
@@ -192,16 +187,12 @@ class SubjectUpdateView(LogMixin, UpdateView):
         return context
 
     def get_success_url(self):
-
         if not self.object.category.visible:
             self.object.visible = False
             self.object.save()
-
         
         messages.success(self.request, _('Subject "%s" was updated on "%s" successfully!')%(self.object.name, self.object.category.name ))
         return reverse_lazy('subjects:index')
-
-
 
 class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
    
@@ -228,7 +219,6 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
     def get_success_url(self):
         
         messages.success(self.request, _('Subject removed successfully!'))
-
         
         return reverse_lazy('subjects:index')
 

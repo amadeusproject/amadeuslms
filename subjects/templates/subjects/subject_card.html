@@ -57,7 +57,7 @@
             {% endif %}
         </div>
     </div>
-{% elif request.user in subject.professor.all or request.user in category.coordinators.all %}
+{% elif request.user in subject.professor.all or request.user in subject.category.coordinators.all or request.user.is_staff %}
     <div class="panel panel-info subject-panel-invisible">
         <div class="panel-heading panel-invisible">
             <div class="row">
