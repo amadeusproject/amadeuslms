@@ -2,6 +2,10 @@
     padding: 0px 8px;
 }
 
+.bootstrap-tagsinput {
+    width: 100%;
+}
+
 /* Initial page starts */
 .users-cloud {
     

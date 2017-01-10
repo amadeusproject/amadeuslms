@@ -1,107 +1,31 @@
-{% extends template_extends %}
+{% extends 'categories/home.html' %}
 
 {% load static i18n %}
 {% load widget_tweaks django_bootstrap_breadcrumbs %}
+
+{% block style %}
+	{{block.super}}
+	<link rel="stylesheet" type="text/css" href="{% static "css/bootstrap-tagsinput.css" %}">
+{% endblock %}
+
+{% block javascript %}
+	{{block.super}}
+	<script type="text/javascript" src="{% static "js/bootstrap-tagsinput.js" %} "></script>
+{% endblock %}
 
 {% block breadcrumbs %}
 	{{ block.super }}
 	{% with 'Update '|add:object.slug as bread_slug %}
 		{% breadcrumb bread_slug 'subjects:update' %}
 	{% endwith %}
-{% endblock breadcrumbs %}
+{% endblock %}
 
 {% block content %}
 	<div class="card card-content">
 	    <div class="card-body">
-	<form method="post" action="" enctype="multipart/form-data">
-	{% csrf_token %}
-	{% for field in form %}
-		{% if field.auto_id == 'id_students' %}
-			<div class="panel-group" id="coordinators_accordion" role="tablist" aria-multiselectable="true">
-				<div class="panel panel-info">
-        			<div class="panel-heading">
-            			<div class="row">
-                			<div class="col-md-12">
-                    			<a data-parent="#coordinators_accordion" data-toggle="collapse" href="#students">
-                    				<h4 class="panel-title">
-                            			<button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label for="{{ field.auto_id }}">{{ field.label }}</label>
-                    				</h4>
-                    			</a>
-                    		</div>
-                    	</div>
-                    </div>
-                    <div id="students" class="panel-collapse collapse">
-                    	<p><em>{% trans 'Attribute students to subject' %}:</em></p>
-                    	{% render_field field class='form-control' %}
-                    </div>
-                </div>
-			</div>
-		{% elif field.auto_id == 'id_professor' %}
-			<div class="panel-group" id="professors_accordion" role="tablist" aria-multiselectable="true">
-				<div class="panel panel-info">
-        			<div class="panel-heading">
-            			<div class="row">
-                			<div class="col-md-12">
-                    			<a data-parent="#professors_accordion" data-toggle="collapse" href="#professors">
-                    				<h4 class="panel-title">
-                            			<button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label for="{{ field.auto_id }}">{{ field.label }}</label>
-                    				</h4>
-                    			</a>
-                    		</div>
-                    	</div>
-                    </div>
-                    <div id="professors" class="panel-collapse collapse">
-                    	<p><em>{% trans 'Attribute professors to subject' %}:</em></p>
-                    	{% render_field field class='form-control' %}
-                    </div>
-                </div>
-			</div>
-		{% elif field.auto_id == 'id_markers'%}
-			<label> {{field.label}} </label>
-			{% render_field field class='form-control' data-role="tagsinput" %}
-		{% else %}
-			<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
-				{% if field.auto_id != 'id_visible' %}
-					<label for="{{ field.auto_id }}">{{ field.label }}</label>
-				{% endif %}
-				{% if field.auto_id == 'id_visible' %}
-					<div class="checkbox">
-						<label for="{{ field.auto_id }}">
-	      					{% render_field field %} {{field.label}}
-	  					</label>
-					</div>
-				{% elif field.auto_id == 'id_description' or field.auto_id == 'id_description_brief' %}
-					{% render_field field class='form-control text_wysiwyg' %}
-				{% else %}
-					{% render_field field class='form-control' %}
-				{% endif %}
-				<span class="help-block">{{ field.help_text }}</span>
-				{% if field.errors %}
-					<div class="row">
-						</br>
-						<div class="alert alert-danger alert-dismissible" role="alert">
-		  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		  						<span aria-hidden="true">&times;</span>
-	  						</button>
-							<ul>
-								{% for error in field.errors %}
-									<li>{{ error }}</li>
-								{% endfor %}
-							</ul>
-						</div>
-					</div>
-				{% endif %}
-			</div>
-		{% endif %}
-		
-	{% endfor %}
-		<div class="row text-center">
-			<input type="submit" value="{% trans 'Save' %}" class="btn btn-primary btn-raised" />
+			{% include 'subjects/_form.html' %}
 		</div>
-	</form>
-	</div>
 	</div>
 	<br clear="all" />
 	<br clear="all" />
-
 {% endblock %}
