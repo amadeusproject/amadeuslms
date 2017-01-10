@@ -212,7 +212,6 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
 
     def dispatch(self, *args, **kwargs):
        
-        
         return super(SubjectDeleteView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -224,15 +223,13 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
         else:
             context['index'] = False
 
-       
         return context
 
     def get_success_url(self):
         
-       
+        messages.success(self.request, _('Subject removed successfully!'))
 
-        #super(DeleteSubjectView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
-
+        
         return reverse_lazy('subjects:index')
 
 def subscribe_subject(request, subject_slug):
