@@ -5,6 +5,7 @@
 
 {% block javascript%}
     {{ block.super }}
+    <script type="text/javascript" src=" {% static "subjects/js/modal_subject.js" %} "></script>
 {% endblock%}
 
 {% block breadcrumbs %}
@@ -67,7 +68,8 @@
                                                     <li><a href="{% url 'categories:replicate' category.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
                                                 {% endif %}
                                                 <li><a href="{% url 'categories:update' category.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
-                                                <li><a href="javascript:delete_course.get('{% url 'categories:delete' category.slug %}?view=index','#category','#modal_course')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
+                                                <li>
+                                                <a href="javascript:delete_course.get('{% url 'categories:delete' category.slug %}?view=index','#category','#modal_course')" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
                                             </ul>
                                         {% endif %}
                                         <a href="" ><i class="fa fa-list" aria-hidden="true"></i></a>
