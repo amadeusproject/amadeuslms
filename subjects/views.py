@@ -44,9 +44,7 @@ class HomeView(LoginRequiredMixin, ListView):
             subjects = Subject.objects.all()
             subjects = [subject for subject in subjects if self.request.user in subject.students.all() or self.request.user in subject.professor.all() or self.request.user in subject.category.coordinators.all()]
 
-           
-        paginator = Paginator(subjects, 10)
-
+        print(subjects)
 
         return subjects
 
@@ -165,11 +163,9 @@ class SubjectCreateView(CreateView):
         return super(SubjectCreateView, self).form_valid(form)
 
     def get_success_url(self):
-
         if not self.object.category.visible:
             self.object.visible = False
             self.object.save()
-        
 
         messages.success(self.request, _('Subject "%s" was registered on "%s" successfully!')%(self.object.name, self.object.category.name ))
         return reverse_lazy('subjects:index')
@@ -191,16 +187,12 @@ class SubjectUpdateView(LogMixin, UpdateView):
         return context
 
     def get_success_url(self):
-
         if not self.object.category.visible:
             self.object.visible = False
             self.object.save()
-
         
         messages.success(self.request, _('Subject "%s" was updated on "%s" successfully!')%(self.object.name, self.object.category.name ))
         return reverse_lazy('subjects:index')
-
-
 
 class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
    
@@ -227,7 +219,6 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
     def get_success_url(self):
         
         messages.success(self.request, _('Subject removed successfully!'))
-
         
         return reverse_lazy('subjects:index')
 
