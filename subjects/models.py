@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from users.models import User
 
 from categories.models import Category
-
+import datetime
 class Tag(models.Model):
     name = models.CharField( _("Name"), unique = True,max_length= 200)
     def __str__(self):
@@ -29,6 +29,9 @@ class Subject(models.Model):
 
     create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
     update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
+
+    #subscribe_begin = models.DateTimeField(_('Begin Subscribe'))
+    #subscribe_end = models.DateTimeField(_('End Subscribe'))
 
     professor = models.ManyToManyField(User, related_name="professors", blank=True)
     students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='subject_student', blank = True)

@@ -8,4 +8,5 @@ urlpatterns = [
 	url(r'^create/(?P<slug>[\w_-]+)/$', views.SubjectCreateView.as_view(), name='create'),
 	url(r'^replicate/(?P<subject_slug>[\w_-]+)/$', views.SubjectCreateView.as_view(), name='replicate'),
 	url(r'^update/(?P<slug>[\w_-]+)/$', views.SubjectUpdateView.as_view(), name='update'),
+	#url(r'^modal/(?P<subject_slug>[\w_-]+)/$', views.subscribe_subject(), name='subscribe'),
 ]

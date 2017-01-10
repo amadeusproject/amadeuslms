@@ -5,8 +5,7 @@ class CreateSubjectForm(forms.ModelForm):
     class Meta:
         model = Subject
 
-        fields = ('name', 'description_brief', 'description', 'tags', 'init_date', 'end_date', 'visible', 'professor',
-        'students', )
+        fields = ('name', 'description_brief', 'description', 'tags', 'init_date', 'end_date', 'visible', 'professor', 'students', )
 
         widgets = {
             'description_brief': forms.Textarea,

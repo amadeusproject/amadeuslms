@@ -1,5 +1,11 @@
 {% load static i18n permission_tags %}
 {% if subject.visible %}
+
+
+
+
+<script type="text/javascript" src="{% static "subjects/js/subjects_card.js" %} "></script>
+    
 <div class="panel panel-info subject-panel">
     <div class="panel-heading">
 
@@ -56,7 +62,7 @@
         {% if request.user in subject.students.all or request.user in subject.professor.all or request.user.is_staff or request.user in category.coordinators.all %}
             <a href="#"><button class="access-subject"> {% trans "Access Subject" %}</button></a>
         {% else %}
-            <a href="#"><button class="subscribe-subject"> {% trans "Subscribe to Subject" %}</button></a>
+            <a href=""><button class="subscribe-subject"> {% trans "Subscribe to Subject" %}</button></a>
         {% endif %}
     </div>
 </div>

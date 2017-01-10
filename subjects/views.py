@@ -169,7 +169,9 @@ class SubjectCreateView(CreateView):
         return super(SubjectCreateView, self).form_valid(form)
 
     def get_success_url(self):
-        
+        if not self.object.category.visible:
+            self.object.visible = False
+            self.object.save()
         
         messages.success(self.request, _('Subject "%s" was registered on "%s" successfully!')%(self.object.name, self.object.category.name ))
         return reverse_lazy('subjects:index')
@@ -193,8 +195,20 @@ class SubjectUpdateView(LogMixin, UpdateView):
         return context
 
     def get_success_url(self):
-        
+        if not self.object.category.visible:
+            self.object.visible = False
+            self.object.save()
         
         messages.success(self.request, _('Subject "%s" was updated on "%s" successfully!')%(self.object.name, self.object.category.name ))
         return reverse_lazy('subjects:index')
+
+
+def subscribe_subject(request, subject_slug):
+    subject = get_object_or_404(Subject, slug= subject_slug)
+    subject.students.add(request.user)
+    subject.save()
+
+    messages.success(self.request, _('Subcribed "%s" was updated on "%s" successfully!')%(self.object.name, self.object.category.name ))
+    return reverse_lazy('subjects:index')
+
 
