@@ -39,9 +39,9 @@ class HomeView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_staff:
-            subjects = Subject.objects.all()
+            subjects = Subject.objects.all().order_by("name")
         else:
-            subjects = Subject.objects.all()
+            subjects = Subject.objects.all().order_by("name")
             subjects = [subject for subject in subjects if self.request.user in subject.students.all() or self.request.user in subject.professor.all() or self.request.user in subject.category.coordinators.all()]
 
         print(subjects)
