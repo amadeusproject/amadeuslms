@@ -1,5 +1,6 @@
 from django.views import generic
 from django.shortcuts import render
+from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
@@ -28,8 +29,9 @@ class MailSenderSettings(braces_mixins.LoginRequiredMixin, braces_mixins.Staffus
 		return super(MailSenderSettings, self).form_valid(form)
 
 	def get_context_data(self, **kwargs):
-		context = super(MailSenderSettings, self).context(**kwargs)
+		context = super(MailSenderSettings, self).get_context_data(**kwargs)
 
 		context['title'] = _('Mail Sender')
+		context['settings_menu_active'] = "settings_menu_active"
 
 		return context

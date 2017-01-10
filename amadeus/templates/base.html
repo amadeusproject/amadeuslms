@@ -49,8 +49,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
 
 	<!--Javascript block for specific-app ones -->
-	<script src="{% static 'js/base/amadeus.js' %}"></script>
-    
+	<script src="{% static 'js/base/amadeus.js' %}"></script>    
 	
     {% block style %}
 	{% endblock %}
@@ -114,7 +113,7 @@
                                             <div class="panel-collapse collapse" id="system_menu">
                                                 <div class="panel-body">
                                                     <ul class="submenu">
-                                                        <li><a href="{% url 'categories:index' %}">{% trans 'Mail Sender' %}</a></li>
+                                                        <li><a href="{% url 'mailsender:update' %}">{% trans 'Mail Sender' %}</a></li>
                                                         <li><a href="{% url 'categories:index' %}">{% trans 'Security' %}</a></li>
                                                         <li><a href="{% url 'categories:index' %}">{% trans 'Theme' %}</a></li>
                                                     </ul>
