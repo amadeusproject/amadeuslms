@@ -43,6 +43,7 @@
 
 #sidebar-menu{
     -webkit-padding-start: 0px;
+    padding-left: 0px;
 }
 
 #sidebar-menu .item{
@@ -936,3 +937,12 @@ ul, li {
     background-color: #00695C;
 }
 /* End Bottom Menu */
+
+/* Subject Buttons */
+.access-subject {
+    background-color: #66BB6A !important;
+}
+.subscribe-subject {
+    background-color: #85D189 !important;
+}
+/* End Subject Buttons */
