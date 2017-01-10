@@ -93,7 +93,7 @@
                            
                             {{category.description|safe}}
                         
-                            {% if request.user in category.coordinators.all %}
+                            {% if request.user in category.coordinators.all or request.user.is_staff %}
                                 <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "Create new subject" %} </button></a>
                             {% endif %}
                             
@@ -139,6 +139,7 @@
                         <div id="{{category.slug}}" class="panel-collapse panel-body collapse category-panel-content">
                             <input type="hidden" class="log_url" value="{% url 'categories:view_log' category.id %}" />
                             <input type="hidden" class="log_id" value="" />
+                            
                             {% if category.coordinators.all|length > 0  %}
                                 <h4><b>{% trans "Coordinator(s) " %}: </b>
                                     {{ category.coordinators.all|join:', ' }}
@@ -148,8 +149,8 @@
                             {% endif %}
                            
                             {{category.description|safe}}
-                        
-                            {% if request.user in category.coordinators.all %}
+                         
+                            {% if request.user in category.coordinators.all or request.user.is_staff %}
                                 <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "Create new subject" %} </button></a>
                             {% endif %}
 
