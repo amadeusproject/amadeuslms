@@ -16,8 +16,8 @@ class CreateSubjectForm(forms.ModelForm):
     class Meta:
         model = Subject
 
-        fields = ('name', 'description_brief', 'description', 'init_date', 'end_date', 'visible', 'professor',
-        'students', )
+        fields = ('name', 'description_brief', 'description', 'init_date', 'end_date','subscribe_begin', 'subscribe_end',
+         'visible', 'professor', 'students', )
 
 
         widgets = {
