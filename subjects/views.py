@@ -25,6 +25,7 @@ from .models import Tag
 import time
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CreateSubjectForm
+from .utils import has_student_profile, has_professor_profile
 from users.models import User
 
 
@@ -75,10 +76,8 @@ class IndexView(LoginRequiredMixin, ListView):
             if not self.kwargs.get('option'):
                 categories = Category.objects.all()
 
-                for category in categories:
-                    category.subjects = Subject.objects.filter(category= category)
-
-                categories = [category for category in categories if category.subjects.count() > 0 or self.request.user in category.coordinators.all()] 
+                categories = [category for category in categories if self.request.user in category.coordinators.all() \
+                    or has_professor_profile(self.request.user, category) or has_student_profile(self.request.user, category)] 
                 #So I remove all categories that doesn't have the possibility for the user to be on
 
         return categories
