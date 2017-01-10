@@ -1,6 +1,6 @@
 
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, CreateView, DeleteView, UpdateView
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView, TemplateView
 from categories.models import Category
 from django.core.urlresolvers import reverse_lazy
 from rolepermissions.verifications import has_role
@@ -51,6 +51,7 @@ class HomeView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['title'] = _('Home')
+        context['show_buttons'] = True #So it shows subscribe and access buttons
        
         #bringing users
         tags = Tag.objects.all()
@@ -99,6 +100,8 @@ class IndexView(LoginRequiredMixin, ListView):
 
         context['all'] = False
         context['title'] = _('My Subjects')
+
+        context['show_buttons'] = True #So it shows subscribe and access buttons
             
         if self.kwargs.get('option'):
             context['all'] = True
@@ -221,6 +224,19 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
         messages.success(self.request, _('Subject removed successfully!'))
         
         return reverse_lazy('subjects:index')
+
+
+class SubjectDetailView(TemplateView):
+    model = Subject
+    template_name = 'subjects/view.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SubjectDetailView, self).get_context_data(**kwargs)
+        context['subject'] = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+        context['show_buttons'] = False #So it doesn't show subscribe and access buttons
+        
+
+        return context
 
 def subscribe_subject(request, subject_slug):
     subject = get_object_or_404(Subject, slug= subject_slug)

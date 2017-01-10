@@ -1,0 +1,23 @@
+{% extends 'categories/home.html' %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block javascript%}
+    {{ block.super }}
+    
+{% endblock%}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+
+{% endblock %}
+
+
+{% block content %}
+
+	{% include "subjects/subject_card.html" %}
+
+	
+	
+{% endblock content %}
