@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^subjects/', include('subjects.urls', namespace = 'subjects')),
     url(r'^mailsender/', include('mailsender.urls', namespace = 'mailsender')),
     url(r'^security/', include('security.urls', namespace = 'security')),
+    url(r'^themes/', include('themes.urls', namespace = 'themes')),
     #API
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     #S3Direct

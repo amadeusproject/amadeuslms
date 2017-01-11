@@ -3,7 +3,7 @@ from django import forms
 
 from .models import Themes
 
-class BasciElemetsForm(forms.ModelForm):
+class BasicElemetsForm(forms.ModelForm):
 	
 	class Meta:
 		model = Themes

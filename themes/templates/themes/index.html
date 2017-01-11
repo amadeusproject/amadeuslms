@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% load static i18n %}
+{% load widget_tweaks %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+  	{{ block.super }}
+    {% breadcrumb 'Settings: Themes' 'themes:manage' %}
+{% endblock %}
+
+{% block content %}
+	<div class="card">
+		<div class="card-content">
+			<div class="card-body">
+				<a href="{% url 'themes:basic' %}" class="page_selector"><h4><i class="fa fa-angle-right"></i> {% trans 'Basic Elements' %}</h4></a>
+				<a href="{% url 'themes:css' %}" class="page_selector"><h4><i class="fa fa-angle-right"></i> {% trans 'CSS Selector' %}</h4></a>
+			</div>
+		</div>
+	</div>
+	<br clear="all" />
+	<br clear="all" />
+{% endblock %}
