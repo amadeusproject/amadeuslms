@@ -10,7 +10,8 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-
+    {% breadcrumb 'Home' 'subjects:home' %}
+    
 {% endblock %}
 
 
@@ -18,6 +19,6 @@
 
 	{% include "subjects/subject_card.html" %}
 
-	
+
 	
 {% endblock content %}
