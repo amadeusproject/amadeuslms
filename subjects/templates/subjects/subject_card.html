@@ -51,7 +51,7 @@
             <p>{{subject.description_brief|safe}}</p>
             {% if show_buttons %}                 
                                         
-                {% if request.user in subject.students.all or request.user in subject.professor.all or request.user.is_staff or request.user in category.coordinators.all %}
+                {% if request.user in subject.students.all or request.user in subject.professor.all or request.user.is_staff or request.user in subject.category.coordinators.all %}
                     <a href="{% url 'subjects:view' subject.slug %}" class="access-subject btn btn-primary btn-raised"> {% trans "Access Subject" %}</a>
                 {% else %}
                     <a href="#" class="subscribe-subject btn btn-primary btn-raised"> {% trans "Subscribe to Subject" %}</a>
