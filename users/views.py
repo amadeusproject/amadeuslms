@@ -304,6 +304,14 @@ class RegisterUser(generic.edit.CreateView):
 
 		return super(RegisterUser, self).form_valid(form)
 
+	def dispatch(self, request, *args, **kwargs):
+		security = Security.objects.get(id = 1)
+
+		if security.allow_register:
+			return redirect(reverse_lazy('users:login'))
+
+		return super(RegisterUser, self).dispatch(request, *args, **kwargs)
+
 class ForgotPassword(generic.FormView):
 	template_name = "users/forgot_password.html"
 	success_url = reverse_lazy('users:login')
@@ -401,12 +409,14 @@ class PasswordResetConfirmView(generic.FormView):
 def login(request):
 	context = {}
 	context['title'] = _('Log In')
+	security = Security.objects.get(id = 1)
+
+	context['deny_register'] = security.allow_register
 
 	if request.POST:
 		username = request.POST['email']
 		password = request.POST['password']
 		user = authenticate(username=username, password=password)
-		security = Security.objects.get(id = 1)
 
 		if user is not None:
 			if not security.maintence or user.is_staff:
