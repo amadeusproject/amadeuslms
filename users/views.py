@@ -9,6 +9,8 @@ from django.db.models import Q
 
 from braces import views as braces_mixins
 
+from security.models import Security
+
 from .models import User
 from .utils import has_dependencies
 from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm, PassResetRequest, SetPasswordForm
@@ -404,16 +406,21 @@ def login(request):
 		username = request.POST['email']
 		password = request.POST['password']
 		user = authenticate(username=username, password=password)
+		security = Security.objects.get(id = 1)
+
 		if user is not None:
-			login_user(request, user)
-			return redirect(reverse("home"))
+			if not security.maintence or user.is_staff:
+				login_user(request, user)
+				return redirect(reverse("home"))
+			else:
+				messages.error(request, _('System under maintenance. Try again later'))	
 		else:
 			messages.error(request, _('E-mail or password are incorrect.'))
 			context["username"] = username
 	elif request.user.is_authenticated:
 		return redirect(reverse('home'))
 
-	return render(request,"users/login.html",context)
+	return render(request, "users/login.html", context)
 
 
 # API VIEWS
