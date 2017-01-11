@@ -104,7 +104,7 @@
                             </div>
                         </div>
                     </div>
-                {% elif request.user in category.coordinators.all %}
+                {% elif request.user in category.coordinators.all or request.user.is_staff %}
                     <div class="panel  special-panel">
                         <div class="panel-heading panel-invisible">
                             <div class="row">

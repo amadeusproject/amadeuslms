@@ -78,7 +78,7 @@ class IndexView(LoginRequiredMixin, ListView):
                 categories = [category for category in categories if self.request.user in category.coordinators.all() \
                     or has_professor_profile(self.request.user, category) or has_student_profile(self.request.user, category)] 
                 #So I remove all categories that doesn't have the possibility for the user to be on
-
+       
         return categories
 
     def render_to_response(self, context, **response_kwargs):
