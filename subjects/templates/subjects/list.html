@@ -93,7 +93,7 @@
                            
                             {{category.description|safe}}
                         
-                            {% if request.user in category.coordinators.all %}
+                            {% if request.user in category.coordinators.all or request.user.is_staff %}
                                 <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "Create new subject" %} </button></a>
                             {% endif %}
                             
@@ -149,7 +149,7 @@
                            
                             {{category.description|safe}}
                         
-                            {% if request.user in category.coordinators.all %}
+                            {% if request.user in category.coordinators.all or request.user.is_staff %}
                                 <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "Create new subject" %} </button></a>
                             {% endif %}
 
