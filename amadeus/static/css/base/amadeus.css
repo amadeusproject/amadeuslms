@@ -599,3 +599,8 @@ ul, li {
 .footer p {
     margin: 0px;
 }
+
+.form-group input[type=file] {
+    margin-top: 20px;
+    height: initial;
+}
