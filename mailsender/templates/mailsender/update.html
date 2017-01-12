@@ -16,6 +16,12 @@
 				<form method="post" action="" enctype="multipart/form-data">
 					{% csrf_token %}
 					<legend>{% trans 'General server settings' %}</legend>
+					<em>
+						{% trans 'If your email host is Gmail make sure to turn on the option "Allow less secure apps" in' %}: 
+						<b><a href="https://www.google.com/settings/security/lesssecureapps">https://www.google.com/settings/security/lesssecureapps</a></b>
+					</em>
+					<br clear="all" />
+					<br clear="all" />
 					{% for field in form %}
 						{% if field.auto_id == 'id_username' %}
 							<br clear="all" />
