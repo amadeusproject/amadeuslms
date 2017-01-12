@@ -13,6 +13,7 @@ function Init() {
 		common = $(".common-file-input");
 		
 	// file select
+	fav.on("change", FileSelectHandler);
 	small.on("change", FileSelectHandler);
 	large.on("change", FileSelectHandler);
 

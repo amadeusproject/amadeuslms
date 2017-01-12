@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 def validate_img_extension(value):
 	valid_formats = ['image/jpeg','image/x-citrix-jpeg','image/png','image/x-citrix-png','image/x-png']
@@ -22,3 +23,24 @@ class Themes(models.Model):
 
 	def __str__(self):
 		return self.title
+
+	@property
+	def favicon_url(self):
+		if self.favicon and hasattr(self.favicon, 'url'):
+			return self.favicon.url
+		else:
+			return static('img/favicon_amadeus.png')
+
+	@property
+	def small_logo_url(self):
+		if self.small_logo and hasattr(self.small_logo, 'url'):
+			return self.small_logo.url
+		else:
+			return static('img/logo_pequena_amadeus.png')
+
+	@property
+	def large_logo_url(self):
+		if self.large_logo and hasattr(self.large_logo, 'url'):
+			return self.large_logo.url
+		else:
+			return static('img/logo_grande_amadeus.png')

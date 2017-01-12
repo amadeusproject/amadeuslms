@@ -4,6 +4,7 @@ from django import forms
 from .models import Themes
 
 class BasicElemetsForm(forms.ModelForm):
+	MAX_UPLOAD_SIZE = 2*1024*1024
 
 	def clean_favicon(self):
 		image = self.cleaned_data.get('favicon', False)
