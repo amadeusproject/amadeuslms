@@ -20,8 +20,12 @@ var delete_subject = {
       if($(id_modal).length){
         $(id_div_modal).empty();
       }
-      $(id_div_modal).append(data);
-      $(id_modal).modal('show');
+      if (!data['error']){ //If there is no error in the removing process, no message is shown
+        $(id_div_modal).append(data);
+        $(id_modal).modal('show');
+      }else{
+        window.location.href = data['url']; // If there is a error, we redirect to another URL
+      }
     });
   }
 };

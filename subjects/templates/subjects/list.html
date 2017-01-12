@@ -98,7 +98,7 @@
                             {% endif %}
                             
                             <div class="panel-group subject-group" id="{{ category.slug }}-accordion" role="tablist" aria-multiselectable="true">
-                                {% for subject in category.subject_category.all  %}
+                                {% for subject in category.subject_category.all %}
                                     {% if request.user in subject.students.all or request.user.is_staff or request.user in subject.professor.all %}
                                         
                                         {% include "subjects/subject_card.html" %}
@@ -171,7 +171,7 @@
     <div id="modal_course">
     </div>
 
-    <div id="modal_subjct"></div>
+    <div id="modal_subject"></div>
     
     <script type="text/javascript" src="{% static 'js/course.js' %}"></script>
 {% endblock %}

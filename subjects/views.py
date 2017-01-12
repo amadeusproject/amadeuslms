@@ -32,7 +32,7 @@ from users.models import User
 class HomeView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
-    queryset = Subject.objects.all()
+    queryset = Subject.objects.all().order_by('name')
     template_name = 'subjects/initial.html'
     context_object_name = 'subjects'
     paginate_by = 10    
@@ -63,7 +63,7 @@ class IndexView(LoginRequiredMixin, ListView):
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
-    queryset = Category.objects.all()
+    queryset = Category.objects.all().order_by('name')
     template_name = 'subjects/list.html'
     context_object_name = 'categories'
     paginate_by = 10
@@ -73,7 +73,7 @@ class IndexView(LoginRequiredMixin, ListView):
 
         if not self.request.user.is_staff:
             if not self.kwargs.get('option'):
-                categories = Category.objects.all()
+                categories = Category.objects.all().order_by('name')
 
                 categories = [category for category in categories if self.request.user in category.coordinators.all() \
                     or has_professor_profile(self.request.user, category) or has_student_profile(self.request.user, category)] 
@@ -205,13 +205,23 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
     template_name = 'subjects/delete.html'
 
     def dispatch(self, *args, **kwargs):
-       
+        
         return super(SubjectDeleteView, self).dispatch(*args, **kwargs)
 
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.students.all().count() > 0:
+            messages.error(self.request, _("Subject can't be removed. The subject still possess students and learning objects associated"))
+            
+            return JsonResponse({'error':True,'url':reverse_lazy('subjects:index')})
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
     def get_context_data(self, **kwargs):
         context = super(SubjectDeleteView, self).get_context_data(**kwargs)
-        context['subject'] = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+        subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+        context['subject'] = subject
 
+      
         if (self.request.GET.get('view') == 'index'):
             context['index'] = True
         else:
