@@ -1,0 +1,5 @@
+{% load static %}
+
+{% with 'css/themes/'|add:theme|add:'.css' as theme_selected %}
+	<link rel="stylesheet" type="text/css" href="{% static theme_selected %}">
+{% endwith %}
