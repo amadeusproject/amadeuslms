@@ -9,6 +9,8 @@ from django.db.models import Q
 
 from braces import views as braces_mixins
 
+from security.models import Security
+
 from .models import User
 from .utils import has_dependencies
 from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm, PassResetRequest, SetPasswordForm
@@ -302,6 +304,14 @@ class RegisterUser(generic.edit.CreateView):
 
 		return super(RegisterUser, self).form_valid(form)
 
+	def dispatch(self, request, *args, **kwargs):
+		security = Security.objects.get(id = 1)
+
+		if security.allow_register:
+			return redirect(reverse_lazy('users:login'))
+
+		return super(RegisterUser, self).dispatch(request, *args, **kwargs)
+
 class ForgotPassword(generic.FormView):
 	template_name = "users/forgot_password.html"
 	success_url = reverse_lazy('users:login')
@@ -399,21 +409,28 @@ class PasswordResetConfirmView(generic.FormView):
 def login(request):
 	context = {}
 	context['title'] = _('Log In')
+	security = Security.objects.get(id = 1)
+
+	context['deny_register'] = security.allow_register
 
 	if request.POST:
 		username = request.POST['email']
 		password = request.POST['password']
 		user = authenticate(username=username, password=password)
+
 		if user is not None:
-			login_user(request, user)
-			return redirect(reverse("home"))
+			if not security.maintence or user.is_staff:
+				login_user(request, user)
+				return redirect(reverse("home"))
+			else:
+				messages.error(request, _('System under maintenance. Try again later'))	
 		else:
 			messages.error(request, _('E-mail or password are incorrect.'))
 			context["username"] = username
 	elif request.user.is_authenticated:
 		return redirect(reverse('home'))
 
-	return render(request,"users/login.html",context)
+	return render(request, "users/login.html", context)
 
 
 # API VIEWS

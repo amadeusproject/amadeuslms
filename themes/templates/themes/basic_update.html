@@ -1,0 +1,88 @@
+{% extends 'themes/index.html' %}
+
+{% load static i18n %}
+{% load widget_tweaks %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+  	{{ block.super }}
+    {% breadcrumb 'Basic Elements' 'themes:basic' %}
+{% endblock %}
+
+{% block content %}
+	<div class="card">
+		<div class="card-content">
+			<div class="card-body">
+				<a href="{% url 'themes:basic' %}" class="page_selector"><h4><i class="fa fa-angle-down"></i> {% trans 'Basic Elements' %}</h4></a>
+
+				<form method="post" action="" enctype="multipart/form-data">
+					{% csrf_token %}
+					{% for field in form %}
+						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+							{% if field.auto_id == 'id_small_logo' or field.auto_id == 'id_large_logo' %}
+				        		{% if field.field.required %}
+									<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}">{{ field.label }}</label>
+								{% endif %}
+								
+								{% render_field field class='form-control' %}
+								
+								<div class="input-group common-file-input">
+				                  	<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your photo...' %}">
+				                  	<span class="input-group-btn input-group-sm">
+				                    	<button type="button" class="btn btn-fab btn-fab-mini">
+				                    		<i class="material-icons">attach_file</i>
+				                   		</button>
+				                  	</span>
+				                </div>
+			                  	<div class="filedrag">{% trans 'Click or drop files here' %}</div>
+
+				            {% elif field.auto_id == 'id_footer_note' %}
+				            	{% if field.field.required %}
+									<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}">{{ field.label }}</label>
+								{% endif %}
+
+				            	{% render_field field class='form-control text_wysiwyg' %}
+				            {% else %}
+								{% if field.field.required %}
+									<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
+								{% else %}
+									<label for="{{ field.auto_id }}">{{ field.label }}</label>
+								{% endif %}
+
+								{% render_field field class='form-control' %}
+							{% endif %}
+							
+							<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+							{% if field.errors %}
+								<div class="alert alert-danger alert-dismissible" role="alert">
+				  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				  						<span aria-hidden="true">&times;</span>
+										</button>
+									<ul>
+										{% for error in field.errors %}
+											<li>{{ error }}</li>
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
+						</div>
+					{% endfor %}
+					<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+						<div class="text-center">
+							<input type="submit" value="{% trans 'Save' %}" class="btn btn-raised btn-primary" />
+						</div>
+					</div>
+				</form>
+
+				<a href="{% url 'themes:css' %}" class="page_selector"><h4><i class="fa fa-angle-right"></i> {% trans 'CSS Selector' %}</h4></a>
+			</div>
+		</div>
+	</div>
+	<br clear="all" />
+	<br clear="all" />
+	<script type="text/javascript" src="{% static 'js/themes.js' %}"></script>
+{% endblock %}

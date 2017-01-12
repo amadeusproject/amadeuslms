@@ -960,3 +960,24 @@ ul, li {
 
 /* subjects app ends */
 
+/* Themes */
+.page_selector h4 {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.page_selector:hover, .page_selector:focus {
+    text-decoration: none;
+}
+
+.filedrag{
+    display: none;
+    font-weight: bold;
+    text-align: center;
+    padding: 1em 0;
+    margin: 1em 0;
+    color: #555;
+    border: 2px dashed #555;
+    border-radius: 7px;
+    cursor: pointer;
+}
+/* End Themes */

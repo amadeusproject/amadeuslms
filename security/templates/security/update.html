@@ -16,10 +16,25 @@
 				<form method="post" action="" enctype="multipart/form-data">
 					{% csrf_token %}
 					{% for field in form %}
-						<div class="checkbox">
-							<label for="{{ field.auto_id }}">
-		      					{% render_field field %} {{field.label}}
-		  					</label>
+						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+							<div class="checkbox">
+								<label for="{{ field.auto_id }}">
+			      					{% render_field field %} {{field.label}}
+			  					</label>
+							</div>
+							<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+							{% if field.errors %}
+								<div class="alert alert-danger alert-dismissible" role="alert">
+				  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				  						<span aria-hidden="true">&times;</span>
+										</button>
+									<ul>
+										{% for error in field.errors %}
+											<li>{{ error }}</li>
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
 						</div>
 					{% endfor %}
 					<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
