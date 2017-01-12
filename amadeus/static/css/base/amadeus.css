@@ -3,7 +3,6 @@ ul, li {
     text-decoration: none;
 }
 
-
 .pagination > li > a, .pagination > li > span {
     padding: 0px 8px;
 }
@@ -587,3 +586,16 @@ ul, li {
     width: 100%;
 }
 /* End Themes */
+
+.footer {
+    position: relative;
+    bottom: 0px;
+    padding: 30px 30px;
+    width: 100%;
+    margin-top: 15px;
+    font-family: Roboto;
+    font-size: 16px;
+}
+.footer p {
+    margin: 0px;
+}
