@@ -5,6 +5,18 @@ from .models import Themes
 
 class BasicElemetsForm(forms.ModelForm):
 
+	def clean_favicon(self):
+		image = self.cleaned_data.get('favicon', False)
+
+		if image:
+			if hasattr(image, '_size'):
+				if image._size > self.MAX_UPLOAD_SIZE:
+					self._errors['favicon'] = [_("The image is too large. It should have less than 2MB.")]
+
+					return ValueError
+
+		return image
+
 	def clean_small_logo(self):
 		image = self.cleaned_data.get('small_logo', False)
 
@@ -31,7 +43,7 @@ class BasicElemetsForm(forms.ModelForm):
 	
 	class Meta:
 		model = Themes
-		fields = ['title', 'small_logo', 'large_logo', 'footer_note']
+		fields = ['title', 'favicon', 'small_logo', 'large_logo', 'footer_note']
 
 class CSSStyleForm(forms.ModelForm):
 

@@ -10,6 +10,7 @@ def validate_img_extension(value):
 
 class Themes(models.Model):
 	title = models.CharField(_("Title"), max_length = 200, default = "Projeto Amadeus")
+	favicon = models.ImageField(verbose_name = _("Favicon"), blank = True, upload_to = 'themes/', default = 'favicon_amadeus.png', validators = [validate_img_extension])
 	small_logo = models.ImageField(verbose_name = _("Small Logo"), blank = True, upload_to = 'themes/', default = 'logo_pequena_amadeus.png', validators = [validate_img_extension])
 	large_logo = models.ImageField(verbose_name = _("Large Logo"), blank = True, upload_to = 'themes/', default = 'logo_grande_amadeus.png', validators = [validate_img_extension])
 	footer_note = models.TextField(_("Footer Note"), blank = True)

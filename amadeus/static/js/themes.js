@@ -8,6 +8,7 @@ if (window.File && window.FileList && window.FileReader) {
 function Init() {
 	var small = $("#id_small_logo"),
 		large = $("#id_large_logo"),
+		fav = $("#id_favicon"),
 		filedrag = $(".filedrag"),
 		common = $(".common-file-input");
 		
