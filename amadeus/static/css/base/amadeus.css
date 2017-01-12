@@ -10,6 +10,8 @@
 .users-cloud {
     
     width: 80%;
+    height: 300px;
+    overflow: hidden;
 }
 .users-cloud li {
     list-style: none;
@@ -27,7 +29,7 @@
 }
 
 .div-users-cloud{
-  height: 200px;
+  height: 300px;
   margin-left: 20%;
   width: 70%;
 }
