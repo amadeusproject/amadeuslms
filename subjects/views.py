@@ -44,7 +44,7 @@ class HomeView(LoginRequiredMixin, ListView):
             subjects = Subject.objects.all().order_by("name")
             subjects = [subject for subject in subjects if self.request.user in subject.students.all() or self.request.user in subject.professor.all() or self.request.user in subject.category.coordinators.all()]
 
-        print(subjects)
+     
 
         return subjects
 
@@ -78,7 +78,7 @@ class IndexView(LoginRequiredMixin, ListView):
                 categories = [category for category in categories if self.request.user in category.coordinators.all() \
                     or has_professor_profile(self.request.user, category) or has_student_profile(self.request.user, category)] 
                 #So I remove all categories that doesn't have the possibility for the user to be on
-       
+
         return categories
 
     def render_to_response(self, context, **response_kwargs):

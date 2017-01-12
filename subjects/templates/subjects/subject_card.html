@@ -72,7 +72,7 @@
                     </h4>
 
                     <div class="col-md-5 pull-right category-card-items">
-                        {% if request.user in subject.professor.all or request.user in category.coordinators.all  or request.user.is_staff %}
+                        {% if request.user in subject.professor.all or request.user in subject.category.coordinators.all  or request.user.is_staff %}
                             <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                             </a>
