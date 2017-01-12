@@ -13,7 +13,7 @@ class Themes(models.Model):
 	small_logo = models.ImageField(verbose_name = _("Small Logo"), blank = True, upload_to = 'themes/', default = 'logo_pequena_amadeus.png', validators = [validate_img_extension])
 	large_logo = models.ImageField(verbose_name = _("Large Logo"), blank = True, upload_to = 'themes/', default = 'logo_grande_amadeus.png', validators = [validate_img_extension])
 	footer_note = models.TextField(_("Footer Note"), blank = True)
-	css_style = models.CharField(_("Css Style"), max_length = 50, default = "green")
+	css_style = models.CharField(_("Css Style"), max_length = 50, default = "green", choices = (("green", _('Green')), ("red", _('Red')), ("black", _('Black'))))
 
 	class Meta:
 		verbose_name = _("Theme")

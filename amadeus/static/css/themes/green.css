@@ -1,0 +1,270 @@
+body .container .jumbotron-inverse, body .container .well-inverse, body .container-fluid .jumbotron-inverse, body .container-fluid .well-inverse {
+    background-color: white;
+}
+
+a, a:focus, a:hover {
+    color: #009688;
+}
+
+.radio input[type=radio]:checked~.check, label.radio-inline input[type=radio]:checked~.check {
+    background-color: #009688;
+}
+
+.radio input[type=radio]:checked~.circle, label.radio-inline input[type=radio]:checked~.circle {
+    border-color: #009688;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+
+.navbar, .navbar.navbar-default {
+    background-color: #009688;
+    color: rgba(255,255,255,.84);
+}
+
+.my-subjects-title {
+	color: #26A69A;
+}
+
+#sidebar-menu .item {
+	background-color: #26A69A;
+    color: white;
+}
+
+#sidebar-menu .item a{
+    color: white;
+}
+
+#sidebar-menu > .subjects_menu_active {
+    background-color: #00695C;
+}
+
+#sidebar-menu > .item:hover{
+    background-color: #00695C;
+}
+
+.panel-invisible{
+    background-color: #BDBDBD !important;
+    color: #F5F5F5;
+}
+
+.category-panel > .panel-heading {
+    background-color: #0277BD !important;
+}
+
+.subject-panel > .panel-heading {
+    background-color: #039BE5 !important;
+}
+
+.category-header i {
+	color: white;
+}
+
+.category-header i:hover{
+    color: #90CAF9;
+}
+
+.category-header .dropdown-menu i {
+    color: inherit;
+}
+
+#create-category {
+	background-color: #66BB6A;
+  	color: #FFFFFF;
+}
+
+.category-panel-content {
+	background: #F5F5F5;
+}
+
+.core-subjects-options  li {
+	background-color: #FFFFFF;
+	border-bottom-color: #D2D2D2;
+    color: #A0A0A0;
+}
+
+.core-subjects-options  li.active {
+    color: inherit;
+    border-bottom-color: #00695C;
+}
+
+.create-subject-btn {
+	background-color: #26A69A;
+    color: white;
+}
+
+#coordinators_accordion .panel-heading, #professors_accordion .panel-heading {
+	background: #FFFFFF;
+}
+
+.navbar-brand:hover {
+    background: #00695C !important;
+}
+
+.navbar .project_name {
+	color: white;
+}
+
+.navbar-nav li.open {
+    background: #00695C;
+}
+
+.navbar-nav li > a:hover {
+    background: #00695C !important;
+}
+
+.navbar-nav li.settings_menu_active {
+    background: #00695C    
+}
+
+.top-search {
+    color: #F5F5F5;
+}
+
+#btn-search:hover {
+    background: #00695C;    
+}
+
+.dropdown-menu {
+    background: #F5F5F5;
+}
+
+.dropdown-menu li > a {
+	background: #F5F5F5;
+	color: #333333;
+}
+
+.dropdown-menu li > a:hover {
+    background: #EEEEEE !important;
+}
+
+#system_accordion > .panel > .panel-heading {
+    background: #F5F5F5;
+}
+
+#system_accordion > .panel > .panel-heading:hover {
+    background: #EEEEEE;
+}
+
+#system_accordion > .panel > .panel-heading > a > .panel-title {
+	color: #333333;
+}
+
+#system_accordion > .panel > .panel-heading > a > .panel-title:hover {
+    color: #009688;
+}
+
+#system_accordion > .panel > .panel-heading > a:hover {
+	color: #009688;
+}
+
+#system_menu {
+    background: #F5F5F5;
+}
+
+.modal-header {
+	border-bottom: 1px solid #E6E7E8 !important; 
+}
+
+.modal-footer {
+	border-top: 1px solid #E6E7E8 !important;
+}
+
+#horizontal-line{
+	background-color: black;
+}
+
+.breadcrumb > li > span.divider {
+    color: #26A69A;
+}
+
+.breadcrumb > li > a{
+    color: #26A69A;
+}
+
+.breadcrumb > li {
+    color: #BDBDBD;
+}
+
+.panel-title{ /*Because we use an outer a tag*/
+    color: rgba(255,255,255,.84);
+}
+
+.accordion {
+    background: white;
+}
+
+.accordion_list {
+	background: #F5F5F5;
+}
+
+.outside-title {
+    color: #43a251;
+}
+
+.titleTopic a h4, .titleTopic h4 {
+    color: white;
+}
+
+.Topic-detail a h4{
+    color: black;
+}
+
+.cards-detail .panel .panel-heading h4 {
+    color:black;
+}
+
+.data_register_course p { 
+    color: grey; 
+}
+
+.category-course-link {
+	color: #FFFFFF !important;
+}
+
+.profile_function {
+	border-bottom: 1px solid #D2D2D2;
+}
+
+.bottom-menu {
+	background: #26A69A;
+}
+
+.mobile-menu .item {
+	color: #FFFFFF;
+	background: #26A69A;
+}
+
+.mobile-menu .item a {
+    color: white;
+}
+
+.mobile-menu > .subjects_menu_active {
+    background-color: #00695C;
+}
+
+.mobile-menu > .item:hover{
+    background-color: #00695C;
+}
+
+.access-subject {
+	background-color: #2eb82e !important;
+    color: white;
+}
+
+.page_selector h4 {
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.subscribe-subject {
+	background-color: #33cc33 !important;
+    color:white;
+}
+
+.filedrag {
+	color: #555;
+    border: 2px dashed #555;
+}
