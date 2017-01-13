@@ -4,7 +4,7 @@ from django.views.generic import ListView, CreateView, DeleteView, UpdateView, T
 from categories.models import Category
 from django.core.urlresolvers import reverse_lazy
 from rolepermissions.verifications import has_role
-
+from django.db.models import Q
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
 from django.utils.translation import ugettext_lazy as _
@@ -23,6 +23,7 @@ from log.models import Log
 
 from .models import Tag
 import time
+import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CreateSubjectForm
 from .utils import has_student_profile, has_professor_profile
@@ -40,9 +41,12 @@ class HomeView(LoginRequiredMixin, ListView):
         if self.request.user.is_staff:
             subjects = Subject.objects.all().order_by("name")
         else:
-            subjects = Subject.objects.all().order_by("name")
-            subjects = [subject for subject in subjects if self.request.user in subject.students.all() or self.request.user in subject.professor.all() or self.request.user in subject.category.coordinators.all()]
 
+            pk = self.request.user.pk
+
+            subjects = Subject.objects.filter(students__pk=pk) | Subject.objects.filter(professor__pk=pk) | Subject.objects.filter(category__coordinators__pk=pk)
+            
+            
      
 
         return subjects
