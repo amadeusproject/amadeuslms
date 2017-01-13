@@ -27,14 +27,23 @@
 	
 	<div class="col-md-12 cards-content">
 		<h2 class=" my-subjects-title"><b><i>{% trans "Meus Assuntos" %}</i></b></h2>
-    	<div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
-			{% for subject in subjects %}
-				{% include "subjects/subject_card.html" with accordion_id="subject-accordion" %}
-			{% endfor %}
-		</div>
+
+		{% if subjects|length > 0 %}
+	    	<div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
+				{% for subject in subjects %}
+					{% include "subjects/subject_card.html" with accordion_id="subject-accordion" %}
+				{% endfor %}
+				
+				{% pagination request paginator page_obj %}
+			</div>
+		{% else %}
+			<div class="text-center no-subjects">
+				<i class="fa fa-graduation-cap"></i>
+				<h4>{% trans 'You still do not posses any subject in our platform' %}</h4>
+			</div>
+		{% endif %}
 	</div>
 
-	{% pagination request paginator page_obj %}
 
     <script type="text/javascript" src="{% static 'js/course.js' %}"></script>
 {% endblock content %}

@@ -33,7 +33,7 @@
             <div class="row">
                 <div class="col-md-6">
                     {% if subject.professor.all|length > 0  %}
-                        <h4><b>{% trans "Professors(s) " %}: </b>
+                        <h4><b>{% trans "Professor(s) " %}: </b>
                             {{ subject.professor.all|join:', ' }}
                         </h4>
                     {% else %}
@@ -94,7 +94,7 @@
             <div class="row">
                 <div class="col-md-6">
                     {% if subject.professor.all|length > 0  %}
-                        <h4><b>{% trans "Professors(s) " %}: </b>
+                        <h4><b>{% trans "Professor(s) " %}: </b>
                             {{ subject.professor.all|join:', ' }}
                         </h4>
                     {% else %}
@@ -113,7 +113,7 @@
              {% if show_buttons %}                 
                                         
                 {% if request.user in subject.students.all or request.user in subject.professor.all or request.user.is_staff or request.user in subject.category.coordinators.all %}
-                    <a href="{% url 'subjects:view' subject.slug %}" class="access-subject btn btn-primary btn-raised"> {% trans "Access Subject" %}</a>
+                    <a href="{% url 'subjects:view' subject.slug %}" class="btn btn-success btn-raised"> {% trans "Access Subject" %}</a>
                 {% else %}
                     <a href="#" class="subscribe-subject btn btn-primary btn-raised"> {% trans "Subscribe to Subject" %}</a>
                 {% endif %}
