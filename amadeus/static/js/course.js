@@ -130,6 +130,41 @@ $('.collapse').on('show.bs.collapse', function (e) {
                 }
             });
         }
+
+    }
+});
+
+$('.category-panel-content').on('shown.bs.collapse', function(e) {
+    if($(this).is(e.target)){
+        var panel_id = $(this).attr('id');
+        var holder = $(this).find('.holder');
+        
+        var items = $('#' + panel_id + '-accordion').children(":visible").length;
+
+        if (items > 10) {
+            holder.jPages({
+                containerID : panel_id + "-accordion",
+                perPage: 10,
+                previous: "«",
+                next: "»",
+                midRange: 5
+            });
+        }
+    }
+});
+
+$('.category-panel-content').on('hidden.bs.collapse', function(e) {
+    if($(this).is(e.target)){
+        var panel_id = $(this).attr('id');
+        var holder = $(this).find('.holder');
+        
+        var items = $('#' + panel_id + '-accordion').children(":visible").length;
+
+        if (items > 10) {
+            holder.jPages("destroy");
+        }
+
+        $(this).find('.panel-collapse.in').collapse('hide');
     }
 });
 

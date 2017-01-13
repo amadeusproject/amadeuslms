@@ -277,3 +277,29 @@ a, a:focus, a:hover {
 .no-subjects {
     color: #999999;
 }
+
+.holder a.jp-disabled, a.jp-disabled:hover {
+    background: none !important;
+    color: #bbb !important;
+}
+
+.holder a.jp-current, a.jp-current:hover {
+    background: none;
+}
+
+.holder a, .holder span {
+    border: 1px solid #ddd;
+    color: #337ab7;
+}
+
+.holder a:hover {
+    color: #23527c;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.holder a.jp-current, a.jp-current:hover {
+    background: #337ab7;
+    color: #FFFFFF;
+    border-color: #337ab7;
+}

@@ -110,7 +110,8 @@
                                             {% include "subjects/subject_card.html" %}
                                         {% endif %}
                                     {% endfor %}
-                                </div>
+                                </div>                                
+                                <div class="holder text-center"></div>
                             </div>
                         </div>
                     {% elif request.user in category.coordinators.all or request.user.is_staff %}
@@ -171,7 +172,7 @@
                                 <div class="panel-group subject-group" id="{{ category.slug }}-accordion" role="tablist" aria-multiselectable="true">
                                     {% for subject in category.subject_category.all  %}
                                         {% include "subjects/subject_card.html" %}
-                                    {% endfor %}
+                                    {% endfor %}                                    
                                 </div>
                             </div>
                         </div>

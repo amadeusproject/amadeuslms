@@ -27,6 +27,8 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datepicker.standalone.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/alertifyjs/alertify.min.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/alertifyjs/themes/bootstrap.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jPages.css' %}">
   
 
 	<script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.js' %}"></script>
@@ -35,10 +37,11 @@
 	<script type="text/javascript" src="{% static 'material/js/ripples.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script>
 	{% with "js/locales/bootstrap-datepicker."|add:LANGUAGE_CODE|add:".js" as locale_datepicker %}
-	<script type="text/javascript" src="{% static locale_datepicker %}"></script>
+	   <script type="text/javascript" src="{% static locale_datepicker %}"></script>
 	{% endwith %}
 	<script type="text/javascript" src="{% static 'js/alertify.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/jscookie.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jPages.js' %}"></script>
 
   	<!-- Font awesome -->
 	<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
@@ -229,7 +232,7 @@
 
         /* Initialize tooltips*/
         $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
+            $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
 </body>
