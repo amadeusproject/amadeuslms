@@ -72,6 +72,7 @@ class IndexView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         categories = Category.objects.all().order_by('name')
+        categories = [category for category in categories if self.request.user.is_staff or self.request.user in category.coordinators.all() or category.visible]
 
         self.totals['all_subjects'] = count_subjects(categories, self.request.user)
         self.totals['my_subjects'] = self.totals['all_subjects']

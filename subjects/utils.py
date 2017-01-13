@@ -2,14 +2,14 @@
 
 def has_student_profile(user, category):
 	for subject in category.subject_category.all():
-		if user in subject.students.all():
+		if user in subject.students.all() and subject.visible:
 			return True
 
 	return False
 
 def has_professor_profile(user, category):
 	for subject in category.subject_category.all():
-		if user in subject.professor.all():
+		if user in subject.professor.all() and subject.visible:
 			return True
 
 	return False

@@ -55,7 +55,13 @@
                                     <div class="col-md-12 category-header">
                                         <h4 class="panel-title">
                                             <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{category.slug}}">
-                                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{ category.name }} ({{ category|subject_count:user }})
+                                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{ category.name }} 
+                                                
+                                                {% if not all %}
+                                                    ({{ category|subject_count:user }})
+                                                {% else %}
+                                                    ({{ category.subject_category.count }})
+                                                {% endif %}
                                             </a>
                                         </h4>
                                         
@@ -114,7 +120,13 @@
                                     <div class="col-md-12 category-header">
                                         <h4 class="panel-title">
                                             <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{category.slug}}">
-                                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{category.name}} ({{ category|subject_count:user }})
+                                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{category.name}} 
+
+                                                {% if not all %}
+                                                    ({{ category|subject_count:user }})
+                                                {% else %}
+                                                    ({{ category.subject_category.count }})
+                                                {% endif %}
                                             </a>
                                         </h4>
                                         
