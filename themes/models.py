@@ -27,7 +27,7 @@ class Themes(models.Model):
 	@property
 	def favicon_url(self):
 		if self.favicon and hasattr(self.favicon, 'url'):
-			if self.favicon.url != 'favicon_amadeus.png':
+			if self.favicon.url != '/uploads/favicon_amadeus.png':
 				return self.favicon.url
 		
 		return static('img/favicon_amadeus.png')
@@ -35,7 +35,7 @@ class Themes(models.Model):
 	@property
 	def small_logo_url(self):
 		if self.small_logo and hasattr(self.small_logo, 'url'):
-			if self.small_logo.url != 'logo_pequena_amadeus.png':
+			if self.small_logo.url != '/uploads/logo_pequena_amadeus.png':
 				return self.small_logo.url
 		
 		return static('img/logo_pequena_amadeus.png')
@@ -43,7 +43,7 @@ class Themes(models.Model):
 	@property
 	def large_logo_url(self):
 		if self.large_logo and hasattr(self.large_logo, 'url'):
-			if self.large_logo.url != 'logo_grande_amadeus.png':
+			if self.large_logo.url != '/uploads/logo_grande_amadeus.png':
 				return self.large_logo.url
 		
 		return static('img/logo_grande_amadeus.png')
