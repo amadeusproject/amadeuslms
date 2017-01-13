@@ -68,7 +68,7 @@ class IndexView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         categories = Category.objects.all().order_by('name')
 
-        self.totals['all_subjects'] = count_subjects(categories)
+        self.totals['all_subjects'] = count_subjects(categories, self.request.user)
         self.totals['my_subjects'] = self.totals['all_subjects']
 
         if not self.request.user.is_staff:
@@ -76,7 +76,7 @@ class IndexView(LoginRequiredMixin, ListView):
                         or has_professor_profile(self.request.user, category) or has_student_profile(self.request.user, category)] 
                         #So I remove all categories that doesn't have the possibility for the user to be on
 
-            self.totals['my_subjects'] = count_subjects(my_categories)
+            self.totals['my_subjects'] = count_subjects(my_categories, self.request.user, False)
 
             if not self.kwargs.get('option'):
                 categories = my_categories
