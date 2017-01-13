@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-
+import datetime
 from .models import Subject, Tag
 
 class CreateSubjectForm(forms.ModelForm):
@@ -57,6 +57,19 @@ class CreateSubjectForm(forms.ModelForm):
         #self.instance.save()
 
         return self.instance
+
+    def clean(self):
+        cleaned_data = super(CreateSubjectForm, self).clean()
+        print("este")
+        if cleaned_data['subscribe_begin'] > cleaned_data['end_date']:
+            raise forms.ValidationError(_('Subscribe period should be  between course time'))
+        return cleaned_data
+    def clean_subscribe_begin(self):
+        subscribe_begin = self.cleaned_data['subscribe_begin']
+        #if subscribe_begin < datetime.datetime.today().date():
+            #self._errors['subscribe_begin'] = _('this date must be today or after')
+            #raise forms.ValidationError(_(''))
+        return subscribe_begin
 
 class CreateTagForm(forms.ModelForm):
     class Meta:

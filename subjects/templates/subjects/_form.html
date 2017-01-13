@@ -59,7 +59,7 @@
 					</div>
 				{% elif field.auto_id == 'id_description' or field.auto_id == 'id_description_brief' %}
 					{% render_field field class='form-control text_wysiwyg' %}
-				{% elif field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date' %}
+				{% elif field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date' or field.auto_id == 'id_subscribe_begin' or field.auto_id == 'id_subscribe_end' %}
 					{% render_field field class='form-control date-picker' %}
 				{% else %}
 					{% render_field field class='form-control' %}

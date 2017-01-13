@@ -6,6 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from users.models import User
 
+from django.core.exceptions import ValidationError
+
 from categories.models import Category
 import datetime
 class Tag(models.Model):
@@ -47,6 +49,11 @@ class Subject(models.Model):
     def __str__(self):
         return self.name
     
+    def clean(self):
 
+        if  self.subscribe_begin > self.end_date:
+            raise ValidationError(_('Subscribe period should be  between course time'))
+
+        
 
 
