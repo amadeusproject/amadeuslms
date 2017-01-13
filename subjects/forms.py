@@ -66,9 +66,10 @@ class CreateSubjectForm(forms.ModelForm):
         return cleaned_data
     def clean_subscribe_begin(self):
         subscribe_begin = self.cleaned_data['subscribe_begin']
-        #if subscribe_begin < datetime.datetime.today().date():
-            #self._errors['subscribe_begin'] = _('this date must be today or after')
-            #raise forms.ValidationError(_(''))
+        if subscribe_begin < datetime.datetime.today().date():
+            print("aqui")
+            self._errors['subscribe_begin'] = _('this date must be today or after')
+            return ValueError
         return subscribe_begin
 
 class CreateTagForm(forms.ModelForm):

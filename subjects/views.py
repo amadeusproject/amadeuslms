@@ -32,7 +32,6 @@ from users.models import User
 class HomeView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
-    queryset = Subject.objects.all().order_by('name')
     template_name = 'subjects/initial.html'
     context_object_name = 'subjects'
     paginate_by = 10    
@@ -63,7 +62,6 @@ class IndexView(LoginRequiredMixin, ListView):
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
-    queryset = Category.objects.all().order_by('name')
     template_name = 'subjects/list.html'
     context_object_name = 'categories'
     paginate_by = 10
