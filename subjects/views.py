@@ -25,7 +25,7 @@ from .models import Tag
 import time
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CreateSubjectForm
-from .utils import has_student_profile, has_professor_profile
+from .utils import has_student_profile, has_professor_profile, count_subjects
 from users.models import User
 
 
@@ -43,8 +43,6 @@ class HomeView(LoginRequiredMixin, ListView):
             subjects = Subject.objects.all().order_by("name")
             subjects = [subject for subject in subjects if self.request.user in subject.students.all() or self.request.user in subject.professor.all() or self.request.user in subject.category.coordinators.all()]
 
-     
-
         return subjects
 
     def get_context_data(self, **kwargs):
@@ -59,6 +57,7 @@ class HomeView(LoginRequiredMixin, ListView):
 
 
 class IndexView(LoginRequiredMixin, ListView):
+    totals = {}
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
@@ -69,13 +68,18 @@ class IndexView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         categories = Category.objects.all().order_by('name')
 
-        if not self.request.user.is_staff:
-            if not self.kwargs.get('option'):
-                categories = Category.objects.all().order_by('name')
+        self.totals['all_subjects'] = count_subjects(categories)
+        self.totals['my_subjects'] = self.totals['all_subjects']
 
-                categories = [category for category in categories if self.request.user in category.coordinators.all() \
-                    or has_professor_profile(self.request.user, category) or has_student_profile(self.request.user, category)] 
-                #So I remove all categories that doesn't have the possibility for the user to be on
+        if not self.request.user.is_staff:
+            my_categories = [category for category in categories if self.request.user in category.coordinators.all() \
+                        or has_professor_profile(self.request.user, category) or has_student_profile(self.request.user, category)] 
+                        #So I remove all categories that doesn't have the possibility for the user to be on
+
+            self.totals['my_subjects'] = count_subjects(my_categories)
+
+            if not self.kwargs.get('option'):
+                categories = my_categories
 
         return categories
 
@@ -100,6 +104,7 @@ class IndexView(LoginRequiredMixin, ListView):
         context['title'] = _('My Subjects')
 
         context['show_buttons'] = True #So it shows subscribe and access buttons
+        context['totals'] = self.totals
             
         if self.kwargs.get('option'):
             context['all'] = True

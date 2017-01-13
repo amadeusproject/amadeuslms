@@ -33,7 +33,7 @@
             <div class="row">
                 <div class="col-md-6">
                     {% if subject.professor.all|length > 0  %}
-                        <h4><b>{% trans "Professors(s) " %}: </b>
+                        <h4><b>{% trans "Professor(s) " %}: </b>
                             {{ subject.professor.all|join:', ' }}
                         </h4>
                     {% else %}
@@ -94,7 +94,7 @@
             <div class="row">
                 <div class="col-md-6">
                     {% if subject.professor.all|length > 0  %}
-                        <h4><b>{% trans "Professors(s) " %}: </b>
+                        <h4><b>{% trans "Professor(s) " %}: </b>
                             {{ subject.professor.all|join:', ' }}
                         </h4>
                     {% else %}

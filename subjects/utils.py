@@ -13,3 +13,11 @@ def has_professor_profile(user, category):
 			return True
 
 	return False
+
+def count_subjects(categories):
+	total = 0
+
+	for category in categories:
+		total += category.subject_category.count()
+
+	return total
