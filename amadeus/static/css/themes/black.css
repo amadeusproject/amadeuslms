@@ -268,3 +268,12 @@ a, a:focus, a:hover {
     color: #555;
     border: 2px dashed #555;
 }
+
+.footer {
+    color: #FFFFFF;
+    background: #26A69A;
+}
+
+.no-subjects {
+    color: #999999;
+}

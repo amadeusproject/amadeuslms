@@ -604,3 +604,11 @@ ul, li {
     margin-top: 20px;
     height: initial;
 }
+
+.no-subjects i {
+    font-size: 50px;
+}
+.no-subjects h4 {
+    font-family: Roboto;
+    font-weight: normal;
+}
