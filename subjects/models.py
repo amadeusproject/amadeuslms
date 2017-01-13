@@ -49,10 +49,10 @@ class Subject(models.Model):
     def __str__(self):
         return self.name
     
-    def clean(self):
+    # def clean(self):
 
-        if  self.subscribe_begin > self.end_date:
-            raise ValidationError(_('Subscribe period should be  between course time'))
+    #     if  self.subscribe_begin > self.end_date:
+    #         raise ValidationError(_('Subscribe period should be  between course time'))
 
         
 

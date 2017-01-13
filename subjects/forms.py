@@ -54,22 +54,32 @@ class CreateSubjectForm(forms.ModelForm):
             if not new_tag in self.instance.tags.all():
                 self.instance.tags.add(new_tag)
 
-        #self.instance.save()
-
         return self.instance
 
-    def clean(self):
-        cleaned_data = super(CreateSubjectForm, self).clean()
-        print("este")
-        if cleaned_data['subscribe_begin'] > cleaned_data['end_date']:
-            raise forms.ValidationError(_('Subscribe period should be  between course time'))
-        return cleaned_data
+    # def clean(self):
+    #     cleaned_data = super(CreateSubjectForm, self).clean()
+    #     print("este")
+    #     if cleaned_data['subscribe_begin'] > cleaned_data['end_date']:
+    #         self._errors['subscribe_begin'] = [_('Subscribe period should be  between course time')]
+
+    #         return ValueError
+
+    #     return cleaned_data
+    
     def clean_subscribe_begin(self):
         subscribe_begin = self.cleaned_data['subscribe_begin']
+        end_date = self.cleaned_data['end_date']
+        
         if subscribe_begin < datetime.datetime.today().date():
-            print("aqui")
-            self._errors['subscribe_begin'] = _('this date must be today or after')
+            self._errors['subscribe_begin'] = [_('this date must be today or after')]
+
             return ValueError
+
+        if subscribe_begin > end_date:
+            self._errors['subscribe_begin'] = [_('Subscribe period should be  between course time')]
+
+            return ValueError
+        
         return subscribe_begin
 
 class CreateTagForm(forms.ModelForm):
