@@ -136,7 +136,7 @@ class SubjectCreateView(CreateView):
             initial['name'] = subject.name
             initial['visible'] = subject.visible
             initial['professor'] = subject.professor.all()
-            initial['tags'] = subject.tags.all()
+            initial['tags'] = ", ".join(subject.tags.all().values_list("name", flat = True))
             initial['init_date'] = subject.init_date
             initial['end_date'] = subject.end_date
             initial['students'] = subject.students.all()
