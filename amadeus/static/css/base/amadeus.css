@@ -3,6 +3,10 @@ ul, li {
     text-decoration: none;
 }
 
+a:focus {
+    outline: none;
+}
+
 .pagination > li > a, .pagination > li > span {
     padding: 0px 8px;
 }
