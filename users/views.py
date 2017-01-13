@@ -22,6 +22,10 @@ from django.conf import settings
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template import loader
+from django.core.mail import EmailMessage
+from django.core.mail.backends.smtp import EmailBackend
+
+from mailsender.models import MailSender
 
 #API IMPORTS
 from rest_framework import viewsets
@@ -346,15 +350,32 @@ class ForgotPassword(generic.FormView):
 						'protocol': 'http',
 					}
 
-					subject_template_name='registration/password_reset_subject.txt'
+					subject_template_name = 'registration/password_reset_subject.txt'
 					email_template_name = 'recover_pass_email_template.html'
 					
 					subject = loader.render_to_string(subject_template_name, c)
 	                # Email subject *must not* contain newlines
 					subject = ''.join(subject.splitlines())
 					email = loader.render_to_string(email_template_name, c)
-					
-					send_mail(subject, email, settings.DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
+
+					mailsender = MailSender.objects.get(id = 1)
+
+					if mailsender.hostname == "example.com":
+						send_mail(subject, email, settings.DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
+					else:
+						if mailsender.crypto == 3 or mailsender.crypto == 4:
+							tls = True
+						else:
+							tls = False
+
+						backend = EmailBackend(
+									host = mailsender.hostname, port = mailsender.port, username = mailsender.username, 
+									password = mailsender.password, use_tls = tls, fail_silently = False
+								)
+
+						mail_msg = EmailMessage(subject = subject, body = email, from_email = settings.DEFAULT_FROM_EMAIL, to = [user.email], connection = backend)
+
+						mail_msg.send()
 
 				result = self.form_valid(form)
 				messages.success(request, _("Soon you'll receive an email with instructions to set your new password. If you don't receive it in 24 hours, please check your spam box."))

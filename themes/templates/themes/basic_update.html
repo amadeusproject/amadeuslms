@@ -19,14 +19,14 @@
 					{% csrf_token %}
 					{% for field in form %}
 						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
-							{% if field.auto_id == 'id_small_logo' or field.auto_id == 'id_large_logo' %}
+							{% if field.auto_id == 'id_small_logo' or field.auto_id == 'id_large_logo' or field.auto_id == 'id_favicon' %}
 				        		{% if field.field.required %}
 									<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
 								{% else %}
 									<label for="{{ field.auto_id }}">{{ field.label }}</label>
 								{% endif %}
 								
-								{% render_field field class='form-control' %}
+								{% render_field field %}
 								
 								<div class="input-group common-file-input">
 				                  	<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your photo...' %}">
@@ -36,7 +36,20 @@
 				                   		</button>
 				                  	</span>
 				                </div>
-			                  	<div class="filedrag">{% trans 'Click or drop files here' %}</div>
+			                  	<div class="filedrag">
+			                  		{% trans 'Click or drop files here' %}<br />
+			                  		
+			                  		{% trans 'Recommended dimensions' %}:
+
+			                  		{% if field.auto_id == 'id_small_logo' %}
+			                  			927px x 955px <br />
+			                  			<small>{% trans 'It is recommended to be a white image' %}</small>
+			                  		{% elif field.auto_id == 'id_favicon' %}
+			                  			927px x 955px
+			                  		{% else %}
+			                  			1286px x 955px
+			                  		{% endif %}
+		                  		</div>
 
 				            {% elif field.auto_id == 'id_footer_note' %}
 				            	{% if field.field.required %}
