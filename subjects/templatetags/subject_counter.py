@@ -6,8 +6,11 @@ register = template.Library()
 def subject_count(category, user):
 	total = 0
 	
-	for subject in category.subject_category.all():
-		if user in subject.students.all() or user in subject.professor.all() or user in subject.category.coordinators.all():
-			total += 1
+	if not user.is_staff:
+		for subject in category.subject_category.all():
+			if user in subject.students.all() or user in subject.professor.all() or user in subject.category.coordinators.all():
+				total += 1
+	else:		
+		total = category.subject_category.count()
 
 	return total
