@@ -45,7 +45,7 @@
 
     <!-- Code for listing categories -->
     <div class="col-md-12 cards-content">
-        {% if subjects|length > 0 %}
+        {% if categories|length > 0 %}
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 {% for category in categories  %}
                     {% if category.visible %}
