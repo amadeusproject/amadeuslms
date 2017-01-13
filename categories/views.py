@@ -130,7 +130,6 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, Creat
         messages.success(self.request, _('Category "%s" register successfully!')%(objeto))
         return reverse_lazy('categories:index')
 
-
 class DeleteCategory(LogMixin, DeleteView):
     log_component = 'category'
     log_action = 'delete'
@@ -146,16 +145,11 @@ class DeleteCategory(LogMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         category = get_object_or_404(Category, slug = self.kwargs.get('slug'))
         subjects = Subject.objects.filter(category = category)
-
-        print(self.request.META.get('HTTP_REFERER'))
         
         if subjects.count() > 0:
             messages.error(self.request, _('The category cannot be removed, it contains one or more virtual enviroments attach.'))
-
-            if self.request.user.is_staff:
-                return redirect(reverse_lazy('categories:index'))
-
-            return redirect(reverse_lazy('subjects:index'))
+            
+            return redirect(self.request.META.get('HTTP_REFERER'))
        
         return super(DeleteCategory, self).delete(self, request, *args, **kwargs)
 
@@ -167,11 +161,8 @@ class DeleteCategory(LogMixin, DeleteView):
         super(DeleteCategory, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         messages.success(self.request, _('Category "%s" removed successfully!')%(self.object.name))
-
-        if self.request.user.is_staff:
-            return reverse_lazy('categories:index')
-
-        return reverse_lazy('subjects:index')
+        
+        return self.request.META.get('HTTP_REFERER')
 
 class UpdateCategory(LogMixin, UpdateView):
     log_component = 'category'
@@ -191,14 +182,15 @@ class UpdateCategory(LogMixin, UpdateView):
         self.log_context['category_name'] = self.object.name
         self.log_context['category_slug'] = self.object.slug
 
+        #url to return
+        return_url = self.log_context['return_url']
+        self.log_context.pop('return_url', None)
+
         super(UpdateCategory, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         messages.success(self.request, _('Category "%s" updated successfully!')%(self.object.name))
 
-        if self.request.user.is_staff:
-            return reverse_lazy('categories:index')
-
-        return reverse_lazy('subjects:index')
+        return return_url
 
     def form_valid(self, form):
         category = form.save()
@@ -214,6 +206,9 @@ class UpdateCategory(LogMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(UpdateCategory, self).get_context_data(**kwargs)
         context['title'] = _('Update Category')
+
+        if self.request.method == 'GET':
+            self.log_context['return_url'] = self.request.META.get('HTTP_REFERER')
 
         if 'categories' in self.request.META.get('HTTP_REFERER'):
             context['template_extends'] = 'categories/list.html'
