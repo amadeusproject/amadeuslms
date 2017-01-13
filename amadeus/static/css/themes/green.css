@@ -299,7 +299,7 @@ a, a:focus, a:hover {
 }
 
 .holder a.jp-current, a.jp-current:hover {
-    background: #337ab7;
+    background: #039BE5;
     color: #FFFFFF;
-    border-color: #337ab7;
+    border-color: #039BE5;
 }
