@@ -41,13 +41,10 @@ class HomeView(LoginRequiredMixin, ListView):
         if self.request.user.is_staff:
             subjects = Subject.objects.all().order_by("name")
         else:
-
-
             pk = self.request.user.pk
 
-            subjects = Subject.objects.filter(students__pk=pk) | Subject.objects.filter(professor__pk=pk) | Subject.objects.filter(category__coordinators__pk=pk)
+            subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk)).distinct()
             
-
         return subjects
 
     def get_context_data(self, **kwargs):
