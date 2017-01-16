@@ -230,12 +230,12 @@ a, a:focus, a:hover {
 }
 
 .bottom-menu {
-	background: #26A69A;
+	background: #009688;
 }
 
 .mobile-menu .item {
 	color: #FFFFFF;
-	background: #26A69A;
+	background: #009688;
 }
 
 .mobile-menu .item a {
@@ -302,4 +302,13 @@ a, a:focus, a:hover {
     background: #039BE5;
     color: #FFFFFF;
     border-color: #039BE5;
+}
+
+@media(max-width: 768px) {
+    .navbar .navbar-nav .dropdown .dropdown-menu li > a {
+        color: #333333 !important;
+    }
+    .navbar .navbar-nav .dropdown .dropdown-menu li > a:hover {
+        color: #009688 !important;
+    }
 }

@@ -32,13 +32,6 @@
 		padding: 0px;
 	}
 
-	.navbar .navbar-nav .dropdown .dropdown-menu li > a {
-		color: #333333 !important;
-	}
-	.navbar .navbar-nav .dropdown .dropdown-menu li > a:hover {
-	    color: #009688 !important;
-	}
-
 	.category-card-items i {
 		font-size: 20px;
 		margin-top: 8px;
