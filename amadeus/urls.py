@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^$', index, name = 'home'),
     url(r'^categories/', include('categories.urls', namespace = 'categories')),
     url(r'^subjects/', include('subjects.urls', namespace = 'subjects')),
+    url(r'^topics/', include('topics.urls', namespace = 'topics')),
     url(r'^mailsender/', include('mailsender.urls', namespace = 'mailsender')),
     url(r'^security/', include('security.urls', namespace = 'security')),
     url(r'^themes/', include('themes.urls', namespace = 'themes')),

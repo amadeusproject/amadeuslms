@@ -10,8 +10,8 @@ class Topic(models.Model):
 	description = models.TextField(_('Description'), blank = True)
 	repository = models.BooleanField(_('Repository'), default = False)
 	visible = models.BooleanField(_('Visible'), default = True)
-	subject = models.ForeignKey(Subject, verbose_name = _('Subject'), related_name = 'topic_subject')
-	order = models.PositiveSmallIntegerField(_('Order'))
+	subject = models.ForeignKey(Subject, verbose_name = _('Subject'), related_name = 'topic_subject', null = True)
+	order = models.PositiveSmallIntegerField(_('Order'), null = True)
 	create_date = models.DateTimeField(_('Create Date'), auto_now_add = True)
 	last_update = models.DateTimeField(_('Last Update'), auto_now = True)
 
