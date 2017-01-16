@@ -91,6 +91,11 @@ a:focus {
     margin-bottom: 2px;
 }
 
+.category-header > h4.panel-title span {
+    margin-left: 10px;
+    font-weight: normal;
+}
+
 .category-header > h4 > a:focus {
     text-decoration: none;
 }

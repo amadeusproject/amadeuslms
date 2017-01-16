@@ -189,8 +189,12 @@ a, a:focus, a:hover {
     color: #BDBDBD;
 }
 
-.panel-title{ /*Because we use an outer a tag*/
+.panel-title { /*Because we use an outer a tag*/
     color: rgba(255,255,255,.84);
+}
+
+.category-header > h4.panel-title span {
+    color: #FFFFFF;
 }
 
 .accordion {

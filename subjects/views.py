@@ -1,6 +1,6 @@
 
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, CreateView, DeleteView, UpdateView, TemplateView
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView, TemplateView, DetailView
 from categories.models import Category
 from django.core.urlresolvers import reverse_lazy
 from rolepermissions.verifications import has_role
@@ -120,11 +120,12 @@ class IndexView(LoginRequiredMixin, ListView):
 
         return context
 
-class SubjectCreateView(CreateView):
+class SubjectCreateView(LoginRequiredMixin, CreateView):
     model = Subject
     template_name = "subjects/create.html"
 
     login_url = reverse_lazy('users:login')
+    redirect_field_name = 'next'
     form_class = CreateSubjectForm
     
     success_url = reverse_lazy('subject:index')
@@ -182,7 +183,7 @@ class SubjectCreateView(CreateView):
         messages.success(self.request, _('Subject "%s" was registered on "%s" successfully!')%(self.object.name, self.object.category.name ))
         return reverse_lazy('subjects:index')
 
-class SubjectUpdateView(LogMixin, UpdateView):
+class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
     model = Subject
     form_class = CreateSubjectForm
     template_name = 'subjects/update.html'
@@ -245,15 +246,17 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
         return reverse_lazy('subjects:index')
 
 
-class SubjectDetailView(TemplateView):
+class SubjectDetailView(LoginRequiredMixin, DetailView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+
     model = Subject
     template_name = 'subjects/view.html'
+    context_object_name = 'subject'
 
     def get_context_data(self, **kwargs):
         context = super(SubjectDetailView, self).get_context_data(**kwargs)
-        context['subject'] = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
-        context['show_buttons'] = False #So it doesn't show subscribe and access buttons
-        
+        context['title'] = self.object.name
 
         return context
 
