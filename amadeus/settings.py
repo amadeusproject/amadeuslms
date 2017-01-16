@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'log',
     'categories',
     'subjects',
+    'topics',
     'mailsender',
     'security',
     'themes'
