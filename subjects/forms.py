@@ -60,15 +60,15 @@ class CreateSubjectForm(forms.ModelForm):
         cleaned_data = super(CreateSubjectForm, self).clean()
         subscribe_begin = cleaned_data.get('subscribe_begin')
         end_date = cleaned_data.get('end_date')
-        if subscribe_begin and end_date:
-            
+        """if subscribe_begin and end_date:
+
             if subscribe_begin > end_date:
                 self._errors['subscribe_begin'] = [_('Subscribe period should be  between course time')]
                 return ValueError
 
         if cleaned_data['init_date'] > cleaned_data['end_date']:
             self._errors['init_date'] = [_('This date must be before end date of the Subject')]
-            return ValueError
+            return ValueError"""
         return cleaned_data
     
     def clean_subscribe_begin(self):
