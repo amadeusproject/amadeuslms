@@ -68,19 +68,27 @@ class IndexView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        categories = Category.objects.all().order_by('name')
-        categories = [category for category in categories if self.request.user.is_staff or self.request.user in category.coordinators.all() or category.visible]
-
-        self.totals['all_subjects'] = count_subjects(categories, self.request.user)
+        
+        if self.request.user.is_staff:
+            categories = Category.objects.all().order_by('name')
+        else:
+            pk = self.request.user.pk
+            
+            categories = Category.objects.filter(Q(coordinators__pk = pk) | Q(visible=True) ).order_by('name')
+        
+        self.totals['all_subjects'] = count_subjects(self.request.user)
+        
         self.totals['my_subjects'] = self.totals['all_subjects']
 
         if not self.request.user.is_staff:
+            
+            #my_categories = Category.objects.filter(Q(coordinators__pk=pk) | Q(subject_professor__pk=pk) | Q())
             my_categories = [category for category in categories if self.request.user in category.coordinators.all() \
                         or has_professor_profile(self.request.user, category) or has_student_profile(self.request.user, category)] 
                         #So I remove all categories that doesn't have the possibility for the user to be on
-
-            self.totals['my_subjects'] = count_subjects(my_categories, self.request.user, False)
-
+           
+            self.totals['my_subjects'] = count_subjects(self.request.user, False)
+            
             if not self.kwargs.get('option'):
                 categories = my_categories
 
