@@ -5,6 +5,8 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from amadeus.permissions import has_subject_permissions
+
 from subjects.models import Subject
 
 from .models import Topic
@@ -16,6 +18,15 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
 	template_name = 'topics/create.html'
 	form_class = TopicForm
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		subject = get_object_or_404(Subject, slug = slug)
+
+		if not has_subject_permissions(request.user, subject):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(CreateView, self).dispatch(request, *args, **kwargs)
 
 	def get_initial(self):
 		initial = super(CreateView, self).get_initial()
