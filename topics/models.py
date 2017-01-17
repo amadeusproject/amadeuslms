@@ -18,6 +18,7 @@ class Topic(models.Model):
 	class Meta:
 		verbose_name = _('Topic')
 		verbose_name_plural = _('Topics')
+		ordering = ['order']
 
 	def __str__(self):
 		return self.name

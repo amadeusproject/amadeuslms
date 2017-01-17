@@ -1,9 +1,12 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 from django.contrib import messages
+from django.http import JsonResponse
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+import json
 
 from amadeus.permissions import has_subject_permissions
 
@@ -66,3 +69,18 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		messages.success(self.request, _('Topic "%s" was created on virtual enviroment "%s" successfully!')%(self.object.name, self.object.subject.name))
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.subject.slug})
+
+def update_order(request):
+	data = request.GET.get('data', None)
+
+	if not data is None:
+		data = json.loads(data)
+
+		for t_data in data:
+			topic = get_object_or_404(Topic, id = t_data['topic_id'])
+			topic.order = t_data['topic_order']
+			topic.save()
+
+		return JsonResponse({'message': 'ok'})
+
+	return JsonResponse({'message': 'No data received'})

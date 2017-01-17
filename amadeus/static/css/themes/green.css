@@ -59,6 +59,15 @@ a, a:focus, a:hover {
     background-color: #039BE5 !important;
 }
 
+.topic-panel > .panel-heading {
+    background-color: #7BA5B9 !important;
+}
+
+.topic-panel-invisible > .panel-heading {
+    background-color: #BDBDBD !important;
+    color: #F5F5F5;
+}
+
 .category-header i {
 	color: white;
 }
