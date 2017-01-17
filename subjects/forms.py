@@ -56,31 +56,53 @@ class CreateSubjectForm(forms.ModelForm):
 
         return self.instance
 
-    # def clean(self):
-    #     cleaned_data = super(CreateSubjectForm, self).clean()
-    #     print("este")
-    #     if cleaned_data['subscribe_begin'] > cleaned_data['end_date']:
-    #         self._errors['subscribe_begin'] = [_('Subscribe period should be  between course time')]
+    def clean(self):
+        cleaned_data = super(CreateSubjectForm, self).clean()
+        subscribe_begin = cleaned_data.get('subscribe_begin')
+        end_date = cleaned_data.get('end_date')
+        if subscribe_begin and end_date:
+            
+            if subscribe_begin > end_date:
+                self._errors['subscribe_begin'] = [_('Subscribe period should be  between course time')]
+                return ValueError
 
-    #         return ValueError
-
-    #     return cleaned_data
+        if cleaned_data['init_date'] > cleaned_data['end_date']:
+            self._errors['init_date'] = [_('This date must be before end date of the Subject')]
+            return ValueError
+        return cleaned_data
     
     def clean_subscribe_begin(self):
         subscribe_begin = self.cleaned_data['subscribe_begin']
-        end_date = self.cleaned_data['end_date']
         
         if subscribe_begin < datetime.datetime.today().date():
             self._errors['subscribe_begin'] = [_('this date must be today or after')]
-
-            return ValueError
-
-        if subscribe_begin > end_date:
-            self._errors['subscribe_begin'] = [_('Subscribe period should be  between course time')]
-
             return ValueError
         
         return subscribe_begin
+    def clean_init_date(self):
+        init_date = self.cleaned_data['init_date']
+       
+
+        if init_date < datetime.datetime.today().date():
+            self._errors['init_date'] = [_('this date must be today or after')]
+            return ValueError
+        return init_date
+
+    def clean_end_date(self):
+        end_date = self.cleaned_data['end_date']
+
+        if end_date < datetime.datetime.today().date():
+            self._errors['end_date'] = [_('this date must be today or after')]
+            return ValueError
+        return end_date
+
+    def clean_subscribe_end(self):
+        subscribe_end = self.cleaned_data['subscribe_end']
+
+        if subscribe_end < datetime.datetime.today().date():
+            self._errors['subscribe_end'] = [_('this date must be today or after')]
+            return ValueError
+        return subscribe_end
 
 class CreateTagForm(forms.ModelForm):
     class Meta:
