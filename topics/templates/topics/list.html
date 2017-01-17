@@ -9,7 +9,7 @@
 	
 	{% for topic in subject.topic_subject.all %}
 		{% if not topic.repository and topic.visible or has_subject_permissions %}
-			<div class="panel panel-info {% if not topic.visible or topic.repository %} topic-panel-invisible {% else %} topic-panel {% endif %} topic-panel">
+			<div class="panel panel-info {% if not topic.visible or topic.repository %} topic-panel-invisible {% else %} topic-panel {% endif %}">
 		        <div class="panel-heading">
 		            <div class="row">
 		                <div class="col-md-12 category-header">
@@ -39,7 +39,7 @@
 			    	<input type="hidden" class="order_inp" name="order" value="{{ topic.order }}" />
 			    	
 	    			{% autoescape off %}
-						{{ topic.description|default:_("Not Informed") }}
+						{{ topic.description }}
 					{% endautoescape %}
 			    </div>
 		    </div>
