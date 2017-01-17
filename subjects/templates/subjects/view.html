@@ -84,6 +84,7 @@
                 <a href="{% url 'topics:create' subject.slug %}" class="btn btn-sm btn-success btn-raised btn-block">{% trans "Create new topic" %}</a>
             {% endif %}
             
+            {% include 'topics/list.html' with subject=subject %}
         </div>
     </div>
 {% endblock content %}

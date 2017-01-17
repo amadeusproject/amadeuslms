@@ -73,11 +73,11 @@ a:focus {
 /* side bar menu ends*/
 
 /* category app starts */
-.category-panel > .panel-heading, .subject-panel > .panel-heading, .special-panel > .panel-heading {
+.category-panel > .panel-heading, .subject-panel > .panel-heading, .special-panel > .panel-heading, .topic-panel > .panel-heading {
     padding: 2px 0px;
 }
 
-.subject-panel-invisible > .panel-heading{
+.subject-panel-invisible > .panel-heading, .topic-panel-invisible > .panel-heading {
     padding: 2px 0px;
 }
 
