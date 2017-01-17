@@ -114,6 +114,28 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.subject.slug})
 
+class DeleteView(LoginRequiredMixin, generic.DeleteView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'topics/delete.html'
+	model = Topic
+	context_object_name = 'topic'
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		topic = get_object_or_404(Topic, slug = slug)
+
+		if not has_subject_permissions(request.user, topic.subject):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(DeleteView, self).dispatch(request, *args, **kwargs)
+
+	def get_success_url(self):
+		messages.success(self.request, _('Topic "%s" was removed from virtual enviroment "%s" successfully!')%(self.object.name, self.object.subject.name))
+
+		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.subject.slug})
+
 def update_order(request):
 	data = request.GET.get('data', None)
 

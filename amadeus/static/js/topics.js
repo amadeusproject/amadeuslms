@@ -64,3 +64,13 @@ function sendUpdate(data) {
 		}
 	});
 }
+
+function delete_topic(url) {
+	$('.modal').remove();
+
+	$.get(url, function (modal) {
+		$("#topics-accordion").after(modal);
+
+		$('.modal').modal('show');
+	});
+}
