@@ -101,7 +101,7 @@
                                 {{category.description|safe}}
                             
                                 {% if request.user in category.coordinators.all or request.user.is_staff %}
-                                    <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "Create new subject" %} </button></a>
+                                    <a href="{% url 'subjects:create' category.slug %}" class="btn btn-raised btn-success btn-block btn-sm">{% trans "Create new subject" %}</a>
                                 {% endif %}
                                 
                                 <div class="panel-group subject-group" id="{{ category.slug }}-accordion" role="tablist" aria-multiselectable="true">
@@ -164,9 +164,9 @@
                                 {% endif %}
                                
                                 {{category.description|safe}}
-                            
+                                
                                 {% if request.user in category.coordinators.all or request.user.is_staff %}
-                                    <a href="{% url 'subjects:create' category.slug %}"><button class="create-subject-btn"> {% trans "Create new subject" %} </button></a>
+                                    <a href="{% url 'subjects:create' category.slug %}" class="btn btn-raised btn-success btn-block btn-sm">{% trans "Create new subject" %}</a>
                                 {% endif %}
 
                                 <div class="panel-group subject-group" id="{{ category.slug }}-accordion" role="tablist" aria-multiselectable="true">

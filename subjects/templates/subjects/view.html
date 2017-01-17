@@ -79,7 +79,7 @@
             <p>{{subject.description|safe}}</p>
 
             {% if request.user in subject.professor.all or request.user in subject.category.coordinators.all or request.user.is_staff %}
-                <a href="{% url 'topics:create' subject.slug %}"><button class="btn btn-sm btn-primary btn-raised btn-block"> {% trans "Create new topic" %} </button></a>
+                <a href="{% url 'topics:create' subject.slug %}" class="btn btn-sm btn-success btn-raised btn-block">{% trans "Create new topic" %}</a>
             {% endif %}
             
         </div>
