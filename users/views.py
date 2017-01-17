@@ -155,6 +155,16 @@ class DeleteView(braces_mixins.LoginRequiredMixin, generic.DeleteView):
 	slug_url_kwarg = 'email'
 	context_object_name = 'acc'
 
+	def dispatch(self, request, *args, **kwargs):
+		email = self.kwargs.get('email', None)
+
+		if not email is None:
+			if not request.user.is_staff:
+				return redirect(reverse_lazy('subjects:home'))
+
+		return super(DeleteView, self).dispatch(request, *args, **kwargs)
+
+
 	def get_object(self):
 		email = self.kwargs.get('email', None)
 
