@@ -18,7 +18,10 @@ class TopicForm(forms.ModelForm):
 		name = self.cleaned_data.get('name', '')
 		repo = self.cleaned_data.get('repository', False)
 		
-		same_name = len(self.subject.topic_subject.filter(name__unaccent__iexact = name))
+		if self.instance.id:
+			same_name = len(self.subject.topic_subject.filter(name__unaccent__iexact = name).exclude(id = self.instance.id))
+		else:
+			same_name = len(self.subject.topic_subject.filter(name__unaccent__iexact = name))
 		
 		if same_name > 0:
 			if repo:

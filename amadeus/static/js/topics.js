@@ -1,3 +1,4 @@
+// Update breadcrumb with topic's name
 $('.collapse').on('shown.bs.collapse', function (e) {
     if($(this).is(e.target)){
     	var li = $(".breadcrumb").find('li:last-child');
@@ -14,6 +15,7 @@ $('.collapse').on('shown.bs.collapse', function (e) {
     }
 });
 
+// Reset breadcrumb to it's normal state
 $('.collapse').on('hide.bs.collapse', function (e) {
     if($(this).is(e.target)){
     	$(".breadcrumb").find('li:last-child').remove();

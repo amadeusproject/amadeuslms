@@ -36,6 +36,10 @@
 			    <div id="{{topic.slug}}" class="panel-collapse collapse category-panel-content">
 			    	<input type="hidden" class="id_inp" name="id" value="{{ topic.id }}" />
 			    	<input type="hidden" class="order_inp" name="order" value="{{ topic.order }}" />
+			    	
+	    			{% autoescape off %}
+						{{ topic.description|default:_("Not Informed") }}
+					{% endautoescape %}
 			    </div>
 		    </div>
 		{% endif %}
