@@ -30,7 +30,8 @@ def count_subjects( user, all_subs = True):
 		else:		
 			total += category.subject_category.count()"""
 	if all_subs:
-		total += Category.objects.filter(Q(coordinators__pk = pk) | Q(visible=True) ).distinct().count()
+		#total += Category.objects.filter(Q(coordinators__pk = pk) | Q(visible=True) ).distinct().count()
+		total = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk) | Q(visible = True)).distinct().count()
 	else:
 		
 		total = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk)).distinct().count()

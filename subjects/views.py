@@ -74,7 +74,7 @@ class IndexView(LoginRequiredMixin, ListView):
         else:
             pk = self.request.user.pk
             
-            categories = Category.objects.filter(Q(coordinators__pk = pk) | Q(visible=True) ).order_by('name')
+            categories = Category.objects.filter(Q(coordinators__pk = pk) | Q(visible=True) ).distinct().order_by('name')
         
         self.totals['all_subjects'] = count_subjects(self.request.user)
         
