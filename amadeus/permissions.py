@@ -10,10 +10,10 @@ def has_subject_permissions(user, subject):
 	if user.is_staff:
 		return True
 
-	if user in subject.professor.all():
+	if subject.professor.filter(id = user.id).exists():
 		return True
 
-	if user in subject.category.coordinators.all():
+	if subject.category.coordinators.filter(id = user.id).exists():
 		return True
 
 	return False

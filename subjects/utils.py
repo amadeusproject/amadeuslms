@@ -6,14 +6,14 @@ from django.db.models import Q
 
 def has_student_profile(user, category):
 	for subject in category.subject_category.all():
-		if user in subject.students.all() and subject.visible:
+		if subject.students.filter(id = user.id).exists() and subject.visible:
 			return True
 
 	return False
 
 def has_professor_profile(user, category):
 	for subject in category.subject_category.all():
-		if user in subject.professor.all() and subject.visible:
+		if subject.professor.filter(id = user.id).exists() and subject.visible:
 			return True
 
 	return False
