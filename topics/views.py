@@ -70,6 +70,50 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.subject.slug})
 
+class UpdateView(LoginRequiredMixin, generic.UpdateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'topics/update.html'
+	form_class = TopicForm
+	model = Topic
+	context_object_name = 'topic'
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('sub_slug', '')
+		subject = get_object_or_404(Subject, slug = slug)
+
+		if not has_subject_permissions(request.user, subject):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(UpdateView, self).dispatch(request, *args, **kwargs)
+
+	def get_initial(self):
+		initial = super(UpdateView, self).get_initial()
+
+		slug = self.kwargs.get('sub_slug', '')
+
+		initial['subject'] = get_object_or_404(Subject, slug = slug)
+		
+		return initial
+
+	def get_context_data(self, **kwargs):
+		context = super(UpdateView, self).get_context_data(**kwargs)
+
+		context['title'] = _('Update Topic')
+
+		slug = self.kwargs.get('sub_slug', '')
+		subject = get_object_or_404(Subject, slug = slug)
+
+		context['subject'] = subject
+
+		return context
+
+	def get_success_url(self):
+		messages.success(self.request, _('Topic "%s" was updated on virtual enviroment "%s" successfully!')%(self.object.name, self.object.subject.name))
+
+		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.subject.slug})
+
 def update_order(request):
 	data = request.GET.get('data', None)
 
