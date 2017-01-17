@@ -18,7 +18,9 @@ class TopicForm(forms.ModelForm):
 		name = self.cleaned_data.get('name', '')
 		repo = self.cleaned_data.get('repository', False)
 		
-		if len(self.subject.topic_subject.filter(name = name)) > 0:
+		same_name = len(self.subject.topic_subject.filter(name__unaccent__iexact = name))
+		
+		if same_name > 0:
 			if repo:
 				self._errors['name'] = [_('This subject already has a repository')]
 			else:
