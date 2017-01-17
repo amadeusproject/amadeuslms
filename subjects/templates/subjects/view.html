@@ -1,6 +1,6 @@
 {% extends 'categories/home.html' %}
 
-{% load static i18n pagination %}
+{% load static i18n pagination permissions_tags %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% block javascript%}
@@ -25,10 +25,12 @@
         {% endfor %}
     {% endif %}
 
+    {% subject_permissions request.user subject as has_subject_permissions %}
+
 	{% if subject.visible %}
 		<div class="panel panel-info subject-panel">
         	<div class="panel-heading">
-	{% elif request.user in subject.professor.all or request.user in subject.category.coordinators.all or request.user.is_staff %}
+	{% elif has_subject_permissions %}
 		<div class="panel panel-info subject-panel-invisible">
         	<div class="panel-heading panel-invisible">
     {% endif %}
@@ -78,7 +80,7 @@
 
             <p>{{subject.description|safe}}</p>
 
-            {% if request.user in subject.professor.all or request.user in subject.category.coordinators.all or request.user.is_staff %}
+            {% if has_subject_permissions %}
                 <a href="{% url 'topics:create' subject.slug %}" class="btn btn-sm btn-success btn-raised btn-block">{% trans "Create new topic" %}</a>
             {% endif %}
             
