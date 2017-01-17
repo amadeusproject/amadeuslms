@@ -5,6 +5,7 @@
 
 <div class="panel-group subject-group" id="topics-accordion" role="tablist" aria-multiselectable="true">
 	<input type="hidden" class="url_order" value="{% url 'topics:update_order' %}" />
+	<input type="hidden" class="subs_url" value="{% url 'subjects:view' subject.slug %}" />
 	{% for topic in subject.topic_subject.all %}
 		{% if not topic.repository and topic.visible or has_subject_permissions %}
 			<div class="panel panel-info {% if not topic.visible or topic.repository %} topic-panel-invisible {% else %} topic-panel {% endif %} topic-panel">
