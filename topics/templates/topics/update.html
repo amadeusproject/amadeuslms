@@ -4,7 +4,8 @@
 
 {% block breadcrumbs %}
   	{{ block.super }}
-    {% breadcrumb 'Update Topic' 'topics:update' subject.slug topic.slug %}
+  	{% trans 'Update Topic' as bread %}
+    {% breadcrumb bread 'topics:update' subject.slug topic.slug %}
 {% endblock %}
 
 {% block content %}

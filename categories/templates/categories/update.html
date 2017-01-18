@@ -5,7 +5,8 @@
 
 {% block breadcrumbs %}
 	{{ block.super }}
-	{% with 'Update '|add:category.slug as bread_slug %}
+	{% trans 'Update: ' as bread %}
+	{% with bread|add:category.name as bread_slug %}
 		{% breadcrumb bread_slug 'categories:update' %}
 	{% endwith %}
 {% endblock %}

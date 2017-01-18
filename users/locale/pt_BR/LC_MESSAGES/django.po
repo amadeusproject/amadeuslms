@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-18 15:35-0300\n"
+"POT-Creation-Date: 2017-01-18 15:42-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -157,26 +157,34 @@ msgstr "Escolha sua foto..."
 msgid "Save"
 msgstr "Salvar"
 
-#: users/templates/users/_form.html:64 users/templates/users/delete.html:26
-#: users/templates/users/delete_account.html:26
+#: users/templates/users/_form.html:64 users/templates/users/delete.html:27
+#: users/templates/users/delete_account.html:27
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: users/templates/users/delete.html:18
+#: users/templates/users/delete.html:9
+msgid "Delete User"
+msgstr "Deletar Usuário"
+
+#: users/templates/users/delete.html:19
 msgid "Are you sure you want delete the user"
 msgstr "Tem certeza que deseja deletar o usuário"
 
-#: users/templates/users/delete.html:19
-#: users/templates/users/delete_account.html:19
+#: users/templates/users/delete.html:20
+#: users/templates/users/delete_account.html:20
 msgid "All data will be lost and havent how recover it."
 msgstr "Toda informação será perdida e não poderá ser recuperada"
 
-#: users/templates/users/delete.html:23
-#: users/templates/users/delete_account.html:23
+#: users/templates/users/delete.html:24
+#: users/templates/users/delete_account.html:24
 msgid "Remove"
 msgstr "Deletar"
 
-#: users/templates/users/delete_account.html:18
+#: users/templates/users/delete_account.html:9
+msgid "Remove Account"
+msgstr "Remover Conta"
+
+#: users/templates/users/delete_account.html:19
 msgid "Are you sure you want delete your account?"
 msgstr "Tem certeza que deseja deletar sua conta?"
 

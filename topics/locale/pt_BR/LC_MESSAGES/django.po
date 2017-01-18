@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-18 15:35-0300\n"
+"POT-Creation-Date: 2017-01-18 15:42-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,6 +78,10 @@ msgstr "Apenas um tópico por asssunto pode ser um repositório"
 msgid "Save"
 msgstr "Salvar"
 
+#: topics/templates/topics/create.html:7 topics/views.py:59
+msgid "Create Topic"
+msgstr "Criar Tópico"
+
 #: topics/templates/topics/delete.html:9
 msgid "Are you sure you want delete the topic"
 msgstr "Tem certeza que deseja deletar o tópico"
@@ -102,18 +106,14 @@ msgstr "Editar"
 msgid "Remove"
 msgstr "Remover"
 
-#: topics/views.py:59
-msgid "Create Topic"
-msgstr "Criar Tópico"
+#: topics/templates/topics/update.html:7 topics/views.py:103
+msgid "Update Topic"
+msgstr "Atualizar Tópico"
 
 #: topics/views.py:69
 #, python-format
 msgid "Topic \"%s\" was created on virtual enviroment \"%s\" successfully!"
 msgstr "Tópico \"%s\" foi criado no ambiente virtual \"%s\" com sucesso!"
-
-#: topics/views.py:103
-msgid "Update Topic"
-msgstr "Atualizar Tópico"
 
 #: topics/views.py:113
 #, python-format
