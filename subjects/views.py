@@ -265,12 +265,24 @@ class SubjectDetailView(LoginRequiredMixin, DetailView):
 
         return context
 
-def subscribe_subject(request, subject_slug):
-    subject = get_object_or_404(Subject, slug= subject_slug)
-    subject.students.add(request.user)
-    subject.save()
 
-    messages.success(self.request, _('Subcribed "%s" was updated on "%s" successfully!')%(self.object.name, self.object.category.name ))
-    return reverse_lazy('subjects:index')
+class SubjectSubscribeView(LoginRequiredMixin, TemplateView):
+
+    template_name = 'subjects/subscribe.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SubjectSubscribeView, self).get_context_data(**kwargs)
+        context['subject'] = get_object_or_404(Subject, slug= kwargs.get('slug'))
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        subject = get_object_or_404(Subject, slug= kwargs.get('slug'))
+        print(subject)
+        subject.students.add(request.user)
+        subject.save()
+
+       
+        return HttpResponse('success')
 
 

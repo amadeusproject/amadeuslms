@@ -47,14 +47,16 @@
                     <p><b>{% trans "End" %}:</b> {{subject.end_date}}</p>
                 </div>
             </div>
-
-            <p>{{subject.description_brief|safe}}</p>
+            {% if subject.description_brief %}
+                <p>{{subject.description_brief|safe}}</p>
+            {% endif %}
+            
             {% if show_buttons %}                 
                                         
                 {% if request.user in subject.students.all or request.user in subject.professor.all or request.user.is_staff or request.user in subject.category.coordinators.all %}
                     <a href="{% url 'subjects:view' subject.slug %}" class="btn btn-success btn-raised"> {% trans "Access Subject" %}</a>
                 {% else %}
-                    <a href="#" class="subscribe-subject btn btn-primary btn-raised"> {% trans "Subscribe to Subject" %}</a>
+                    <a href="javascript:subscribe_subject.get('{% url 'subjects:subscribe' subject.slug %}?view=index','#subject-subscribe','#modal_subject')" class="subscribe-subject btn btn-primary btn-raised"> {% trans "Subscribe to Subject" %}</a>
                 {% endif %}
 
             {% endif %}
@@ -115,7 +117,7 @@
                 {% if request.user in subject.students.all or request.user in subject.professor.all or request.user.is_staff or request.user in subject.category.coordinators.all %}
                     <a href="{% url 'subjects:view' subject.slug %}" class="btn btn-success btn-raised"> {% trans "Access Subject" %}</a>
                 {% else %}
-                    <a href="#" class="subscribe-subject btn btn-primary btn-raised"> {% trans "Subscribe to Subject" %}</a>
+                    <a href="{% url 'subjects:subscribe' subject.slug %}?view=index','#subject','#subject')" class="subscribe-subject btn btn-primary btn-raised"> {% trans "Subscribe to Subject" %}</a>
                 {% endif %}
 
             {% endif %}
