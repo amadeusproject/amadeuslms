@@ -6,14 +6,14 @@ from django.db.models import Q
 
 def has_student_profile(user, category):
 	for subject in category.subject_category.all():
-		if user in subject.students.all() and subject.visible:
+		if subject.students.filter(id = user.id).exists() and subject.visible:
 			return True
 
 	return False
 
 def has_professor_profile(user, category):
 	for subject in category.subject_category.all():
-		if user in subject.professor.all() and subject.visible:
+		if subject.professor.filter(id = user.id).exists() and subject.visible:
 			return True
 
 	return False
@@ -30,7 +30,8 @@ def count_subjects( user, all_subs = True):
 		else:		
 			total += category.subject_category.count()"""
 	if all_subs:
-		total += Category.objects.filter(Q(coordinators__pk = pk) | Q(visible=True) ).distinct().count()
+		#total += Category.objects.filter(Q(coordinators__pk = pk) | Q(visible=True) ).distinct().count()
+		total = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk) | Q(visible = True)).distinct().count()
 	else:
 		
 		total = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk)).distinct().count()
