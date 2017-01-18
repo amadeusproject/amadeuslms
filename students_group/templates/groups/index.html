@@ -1,0 +1,44 @@
+{% extends 'subjects/view.html' %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block javascript%}
+    {{ block.super }}
+{% endblock%}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+
+    {% trans 'Groups' as bread %}
+    {% breadcrumb bread 'groups:index' subject.slug %}
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class='row'>
+        <div class="col-md-offset-4 col-md-3">
+            <a href="{% url 'groups:create' subject.slug %}" class="btn btn-raised btn-success btn-block">{% trans "Create Group" %}</a>
+        </div>
+    </div>
+
+    <div class="col-md-12 cards-content">
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            {% for group in groups  %}
+            {% endfor %}
+
+            {% pagination request paginator page_obj %}
+        </div>
+    </div>
+
+{% endblock %}

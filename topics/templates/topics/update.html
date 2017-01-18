@@ -1,9 +1,10 @@
 {% extends 'subjects/view.html' %}
 
-{% load django_bootstrap_breadcrumbs %}
+{% load i18n django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
   	{{ block.super }}
+  	
   	{% trans 'Update Topic' as bread %}
     {% breadcrumb bread 'topics:update' subject.slug topic.slug %}
 {% endblock %}

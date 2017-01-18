@@ -1,19 +1,18 @@
-{% extends 'subjects/view.html' %}
+{% extends 'groups/index.html' %}
 
 {% load i18n django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
   	{{ block.super }}
   	
-  	{% trans 'Create Topic' as bread %}
-    {% breadcrumb bread 'topics:create' subject.slug %}
+  	{% trans 'Create Group' as bread %}
+    {% breadcrumb bread 'groups:create' subject.slug %}
 {% endblock %}
 
 {% block content %}
 	<div class="card">
 		<div class="card-content">
 			<div class="card-body">
-				{% include 'topics/_form.html' %}
 			</div>
 		</div>
   	</div>
