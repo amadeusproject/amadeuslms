@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-18 15:17-0300\n"
+"POT-Creation-Date: 2017-01-18 15:35-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -91,6 +91,10 @@ msgstr "Atribuir professores ao assunto"
 msgid "Save"
 msgstr "Salvar"
 
+#: subjects/templates/subjects/create.html:23
+msgid "Replicate: "
+msgstr "Replicar: "
+
 #: subjects/templates/subjects/delete.html:10
 #: subjects/templates/subjects/subscribe.html:10
 msgid "Delete Subject"
@@ -158,7 +162,7 @@ msgstr "Remover"
 #: subjects/templates/subjects/list.html:94
 #: subjects/templates/subjects/list.html:159
 msgid "Coordinator(s) "
-msgstr "Coordenador(es)"
+msgstr "Coordenador(es) "
 
 #: subjects/templates/subjects/list.html:98
 #: subjects/templates/subjects/list.html:163
@@ -174,7 +178,7 @@ msgstr "Criar novo assunto"
 #: subjects/templates/subjects/subject_card.html:99
 #: subjects/templates/subjects/view.html:66
 msgid "Professor(s) "
-msgstr "Professor(es)"
+msgstr "Professor(es) "
 
 #: subjects/templates/subjects/subject_card.html:40
 #: subjects/templates/subjects/subject_card.html:103
@@ -216,6 +220,10 @@ msgstr "Cancelar"
 msgid "Ok"
 msgstr "Ok"
 
+#: subjects/templates/subjects/update.html:20
+msgid "Update: "
+msgstr "Editar: "
+
 #: subjects/templates/subjects/view.html:84
 msgid "Create new topic"
 msgstr "Criar novo tópico"
@@ -236,21 +244,25 @@ msgstr "Todos os assuntos"
 msgid "Create Subject"
 msgstr "Criar Assunto"
 
-#: subjects/views.py:188
+#: subjects/views.py:167
+msgid "Replicate Subject"
+msgstr "Replicar Assunto"
+
+#: subjects/views.py:195
 #, python-format
 msgid "Subject \"%s\" was registered on \"%s\" successfully!"
 msgstr "Assunto \"%s\" foi registrado em \"%s\" com sucesso!"
 
-#: subjects/views.py:201
+#: subjects/views.py:208
 msgid "Update Subject"
 msgstr "Atualizar Assunto"
 
-#: subjects/views.py:212
+#: subjects/views.py:219
 #, python-format
 msgid "Subject \"%s\" was updated on \"%s\" successfully!"
 msgstr "Assunto \"%s\" foi atualizado em \"%s\" com sucesso!"
 
-#: subjects/views.py:229
+#: subjects/views.py:236
 msgid ""
 "Subject can't be removed. The subject still possess students and learning "
 "objects associated"
@@ -258,14 +270,14 @@ msgstr ""
 "Assunto não pode ser removido. Ele ainda possui alunos e objetos de "
 "aprendizado associados"
 
-#: subjects/views.py:249
+#: subjects/views.py:256
 msgid "Subject removed successfully!"
 msgstr "Assunto removido com sucesso!"
 
-#: subjects/views.py:282
+#: subjects/views.py:289
 msgid "Subscription date is due!"
 msgstr "O período de inscrição está encerrado!"
 
-#: subjects/views.py:286
+#: subjects/views.py:293
 msgid "Subscription was successfull!"
 msgstr "Inscrição feita com sucesso!"

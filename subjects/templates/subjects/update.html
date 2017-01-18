@@ -15,7 +15,10 @@
 
 {% block breadcrumbs %}
 	{{ block.super }}
-	{% with 'Update '|add:object.slug as bread_slug %}
+	{% breadcrumb object.category 'subjects:index' %}
+	{% breadcrumb object 'subjects:view' object.slug %}
+	{% trans 'Update: ' as bread %}
+	{% with bread|add:object.name as bread_slug %}
 		{% breadcrumb bread_slug 'subjects:update' %}
 	{% endwith %}
 {% endblock %}

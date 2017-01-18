@@ -159,11 +159,18 @@ class SubjectCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(SubjectCreateView, self).get_context_data(**kwargs)
         context['title'] = _('Create Subject')
+        
         if self.kwargs.get('slug'):
             context['slug'] = self.kwargs['slug']
+        
         if self.kwargs.get('subject_slug'):
+            context['title'] = _('Replicate Subject')
+
             subject = get_object_or_404(Subject, slug = self.kwargs['subject_slug'])
+            
             context['slug'] = subject.category.slug
+            context['subject'] = subject
+        
         context['subjects_menu_active'] = 'subjects_menu_active'
         
         return context
