@@ -27,14 +27,43 @@
     {% endif %}
 
     <div class='row'>
-        <div class="col-md-offset-4 col-md-3">
-            <a href="{% url 'groups:create' subject.slug %}" class="btn btn-raised btn-success btn-block">{% trans "Create Group" %}</a>
+        <div class="col-md-12 text-center">
+            <a href="{% url 'groups:create' subject.slug %}" class="btn btn-raised btn-success">{% trans "Create Group" %}</a>
         </div>
     </div>
 
     <div class="col-md-12 cards-content">
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             {% for group in groups  %}
+            	<div class="panel panel-info group-panel">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-12 category-header">
+                                <h4 class="panel-title">
+                                    <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{group.slug}}">
+                                        <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{ group }}
+                                    </a>
+                                </h4>
+
+                                <div class="col-md-5 pull-right category-card-items">
+                                    <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                                        <li>
+                                            <a href="{% url 'groups:replicate' subject.slug group.slug %}">
+                                                <i class="fa fa-files-o" aria-hidden="true"></i> {% trans 'Replicate' %}
+                                            </a>
+                                        </li>
+                                        <li><a href="{% url 'groups:update' subject.slug group.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> {% trans 'Edit' %}</a></li>
+                                        <li><a href=""><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             {% endfor %}
 
             {% pagination request paginator page_obj %}

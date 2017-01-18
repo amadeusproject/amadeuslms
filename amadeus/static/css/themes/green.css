@@ -59,6 +59,14 @@ a, a:focus, a:hover {
     background-color: #039BE5 !important;
 }
 
+.group-panel > .panel-heading {
+    background-color: #FFFFFF !important;
+}
+
+.group-panel .panel-title, .group-panel .category-header i, .group-panel .category-course-link {
+    color: #000000 !important;
+}
+
 .topic-panel > .panel-heading {
     background-color: #7BA5B9 !important;
 }

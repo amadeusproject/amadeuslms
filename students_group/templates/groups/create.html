@@ -4,15 +4,24 @@
 
 {% block breadcrumbs %}
   	{{ block.super }}
-  	
-  	{% trans 'Create Group' as bread %}
-    {% breadcrumb bread 'groups:create' subject.slug %}
+
+  	{% if group %}
+  		{% trans 'Replicate: ' as bread %}
+
+  		{% with bread|add:group.name as bread_slug %}
+	    	{% breadcrumb bread_slug 'groups:replicate' subject.slug group.slug %}
+	    {% endwith %}
+  	{% else %}
+	  	{% trans 'Create Group' as bread %}
+	    {% breadcrumb bread 'groups:create' subject.slug %}
+	{% endif %}
 {% endblock %}
 
 {% block content %}
 	<div class="card">
 		<div class="card-content">
 			<div class="card-body">
+				{% include 'groups/_form.html' %}
 			</div>
 		</div>
   	</div>

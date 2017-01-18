@@ -2,6 +2,8 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+from subjects.models import Subject
+
 from .models import StudentsGroup
 
 class StudentsGroupForm(forms.ModelForm):
@@ -11,6 +13,11 @@ class StudentsGroupForm(forms.ModelForm):
 		super(StudentsGroupForm, self).__init__(*args, **kwargs)
 
 		self.subject = kwargs['initial'].get('subject', None)
+		
+		if self.instance.id:
+			self.subject = self.instance.subject
+
+		self.fields['participants'].queryset = self.subject.students.all()
 
 	def clean_name(self):
 		name = self.cleaned_data.get('name', '')

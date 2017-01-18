@@ -70,6 +70,13 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		slug = self.kwargs.get('slug', '')
 
 		initial['subject'] = get_object_or_404(Subject, slug = slug)
+
+		if self.kwargs.get('group_slug'):
+			group = get_object_or_404(StudentsGroup, slug = self.kwargs['group_slug'])
+			initial = initial.copy()
+			initial['description'] = group.description
+			initial['name'] = group.name
+			initial['participants'] = group.participants.all()
 		
 		return initial
 
@@ -95,9 +102,51 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
 		context['subject'] = subject
 
+		if self.kwargs.get('group_slug'):
+			group = get_object_or_404(StudentsGroup, slug = self.kwargs['group_slug'])
+
+			context['title'] = _('Replicate Group')
+
+			context['group'] = group
+
 		return context
 
 	def get_success_url(self):
 		messages.success(self.request, _('The group "%s" was created successfully!')%(self.object.name))
+
+		return reverse_lazy('groups:index', kwargs = {'slug': self.object.subject.slug})
+
+class UpdateView(LoginRequiredMixin, generic.UpdateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'groups/update.html'
+	model = StudentsGroup
+	form_class = StudentsGroupForm
+	context_object_name = 'group'
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('sub_slug', '')
+		subject = get_object_or_404(Subject, slug = slug)
+
+		if not has_subject_permissions(request.user, subject):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(UpdateView, self).dispatch(request, *args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super(UpdateView, self).get_context_data(**kwargs)
+
+		context['title'] = _('Update Group')
+
+		slug = self.kwargs.get('sub_slug', '')
+		subject = get_object_or_404(Subject, slug = slug)
+
+		context['subject'] = subject
+
+		return context
+
+	def get_success_url(self):
+		messages.success(self.request, _('The group "%s" was updated successfully!')%(self.object.name))
 
 		return reverse_lazy('groups:index', kwargs = {'slug': self.object.subject.slug})
