@@ -164,6 +164,7 @@ class SubjectCreateView(LoginRequiredMixin, CreateView):
         if self.kwargs.get('subject_slug'):
             subject = get_object_or_404(Subject, slug = self.kwargs['subject_slug'])
             context['slug'] = subject.category.slug
+            context['replicate'] = True
         context['subjects_menu_active'] = 'subjects_menu_active'
         
         return context
@@ -245,8 +246,10 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
         return context
 
     def get_success_url(self):
+
+
         
-        messages.success(self.request, _('Subject removed successfully!'))
+        messages.success(self.request, _('Subject "%s" removed successfully!')%(self.object.name))
         
         return reverse_lazy('subjects:index')
 
