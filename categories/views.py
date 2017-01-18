@@ -62,7 +62,7 @@ class IndexView(views.SuperuserRequiredMixin, LoginRequiredMixin, ListView):
 
         return context
 
-class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, CreateView):
+class CreateCategory(views.SuperuserRequiredMixin, LoginRequiredMixin, HasRoleMixin, LogMixin, CreateView):
     log_component = 'category'
     log_action = 'create'
     log_resource = 'category'
@@ -130,7 +130,7 @@ class CreateCategory(views.SuperuserRequiredMixin, HasRoleMixin, LogMixin, Creat
         messages.success(self.request, _('Category "%s" register successfully!')%(objeto))
         return reverse_lazy('categories:index')
 
-class DeleteCategory(LogMixin, DeleteView):
+class DeleteCategory(LoginRequiredMixin, LogMixin, DeleteView):
     log_component = 'category'
     log_action = 'delete'
     log_resource = 'category'
