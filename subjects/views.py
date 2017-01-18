@@ -278,11 +278,11 @@ class SubjectSubscribeView(LoginRequiredMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         subject = get_object_or_404(Subject, slug= kwargs.get('slug'))
-        print(subject)
         subject.students.add(request.user)
         subject.save()
 
+        messages.success(self.request, _('Subscription was successfull!'))
        
-        return HttpResponse('success')
+        return JsonResponse({'url':reverse_lazy('subjects:index')})
 
 

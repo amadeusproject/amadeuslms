@@ -56,7 +56,7 @@ var SubscribeSubject = {
         $('body').removeClass('modal-open');
         $("#modal_course").empty();
         $(".modal-backdrop.in").remove();
-        alertify.success("Subscription was succesfull!");
+        window.location.href = data['url'];
       }).fail(function(){
         $("#modal_course").empty();
         $("#modal_course").append(data);
