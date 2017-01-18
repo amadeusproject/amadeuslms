@@ -194,3 +194,13 @@ $('.collapse').on('hide.bs.collapse', function (e) {
         }
     }
 });
+
+function delete_group(url) {
+    $('.modal').remove();
+
+    $.get(url, function (modal) {
+        $("#group-accordion").after(modal);
+
+        $('.modal').modal('show');
+    });
+}

@@ -17,6 +17,7 @@ class StudentsGroup(models.Model):
 	class Meta:
 		verbose_name = _('Students Group')
 		verbose_name_plural = _('Students Groups')
+		ordering = ['name']
 
 	def __str__(self):
 		return self.name
