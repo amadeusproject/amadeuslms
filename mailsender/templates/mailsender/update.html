@@ -6,7 +6,8 @@
 
 {% block breadcrumbs %}
   	{{ block.super }}
-    {% breadcrumb 'Settings: Mail Sender' 'mailsender:update' %}
+  	{% trans 'Settings: Mail Sender' as bread %}
+    {% breadcrumb bread 'mailsender:update' %}
 {% endblock %}
 
 {% block content %}

@@ -15,9 +15,10 @@
 
 {% block breadcrumbs %}
 	{{ block.super }}
+
 	{% breadcrumb subject.category 'subjects:index' %}
 	{% breadcrumb subject 'subjects:view' subject.slug %}
-	{% with 'Edit '|add:object.slug as bread_slug %}
+	{% with 'Edit '|add:object.slug as bread_slug %}	
 		{% breadcrumb bread_slug 'subjects:update' %}
 	{% endwith %}
 {% endblock %}

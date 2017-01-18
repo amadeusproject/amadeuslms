@@ -13,17 +13,28 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-   {% clear_breadcrumbs %}
-   {% breadcrumb 'Home' 'subjects:home' %}
+   	{% clear_breadcrumbs %}
+   	{% breadcrumb 'Home' 'subjects:home' %}
 
-  {% breadcrumb slug 'subjects:index' %}
-  {% breadcrumb 'Create Subject' 'subjects:create' %}
+   	{% if subject %}
+   		{% breadcrumb subject.category 'subjects:index' %}
+   		{% breadcrumb subject 'subjects:view' subject.slug %}
+
+   		{% trans 'Replicate: ' as bread %}
+
+   		{% with bread|add:subject.name as bread_slug %}
+   			{% breadcrumb bread_slug 'subjects:create' %}
+   		{% endwith %}
+   	{% else %}
+	  	{% breadcrumb slug 'subjects:index' %}
+	  	{% breadcrumb 'Create Subject' 'subjects:create' %}
+	{% endif %}
 {% endblock %}
 
 {% block content %}
 	<div class="card card-content">
 	    <div class="card-body">
-			{% include 'subjects/_form.html' %}
+			{% include 'subjects/_form.html' %}	    	
 		</div>
 	</div>
 	<br clear="all" />

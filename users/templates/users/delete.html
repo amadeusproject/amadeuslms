@@ -6,7 +6,8 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb 'Delete User' 'users:delete' %}
+    {% trans 'Delete User' as bread %}
+    {% breadcrumb bread 'users:delete' %}
 {% endblock %}
 
 {% block content %}

@@ -45,17 +45,11 @@
 						{% for field in form %}
 							<div class="col-lg-12 col-md-12 col-sm-12">
 								<div class="form-group form-group-sm">
-									{% if field.field.required %}
-										<label for="{{ field.auto_id }}" class="col-md-2 col-sm-2 col-xs-3 col-lg-2 control-label">{{ field.label }}<span>*</span></label>
-									{% else %}
-										<label for="{{ field.auto_id }}" class="col-md-2 col-sm-2 col-xs-3 col-lg-2 control-label">{{ field.label }}</label>
-									{% endif %}
-
-									<div class="col-md-10 col-sm-10 col-xs-9 col-lg-10">
+									<div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
 										{% if field.auto_id == 'id_image' %}
 											{% render_field field class='form-control' %}
 											<div class="input-group">
-							                    <input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
+							                    <input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your photo...' %}">
 							                    <span class="input-group-btn">
 							                        <button type="button" class="btn btn-fab btn-fab-mini">
 							                          	<i class="material-icons">attach_file</i>
@@ -63,6 +57,10 @@
 							                    </span>
 							                </div>
 							            {% else %}
+							            	{% if field.auto_id == 'id_show_email' %}
+							            		<label for="{{ field.auto_id }}" class="control-label">{{ field.label }}</label>
+							            	{% endif %}
+
 											{% render_field field class='form-control' %}
 										{% endif %}
 										<span class="help-block">{{ field.help_text }}</span>

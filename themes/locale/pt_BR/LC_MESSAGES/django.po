@@ -1,0 +1,116 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-18 15:42-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: themes/forms.py:15 themes/forms.py:27 themes/forms.py:39
+msgid "The image is too large. It should have less than 2MB."
+msgstr "A imagem é muito grande. Ela deve ter menos de 2MB."
+
+#: themes/models.py:10
+msgid "File not supported."
+msgstr "Arquivo não suportado."
+
+#: themes/models.py:13
+msgid "Title"
+msgstr "Título"
+
+#: themes/models.py:14
+msgid "Favicon"
+msgstr "Favicon"
+
+#: themes/models.py:15
+msgid "Small Logo"
+msgstr "Logo Pequena"
+
+#: themes/models.py:16
+msgid "Large Logo"
+msgstr "Logo Grande"
+
+#: themes/models.py:17
+msgid "Footer Note"
+msgstr "Nota de Rodapé"
+
+#: themes/models.py:18
+msgid "Css Style"
+msgstr "Estilo CSS"
+
+#: themes/models.py:18
+msgid "Green"
+msgstr "Verde"
+
+#: themes/models.py:18
+msgid "Red"
+msgstr "Vermelho"
+
+#: themes/models.py:18
+msgid "Black"
+msgstr "Preto"
+
+#: themes/models.py:21
+msgid "Theme"
+msgstr "Tema"
+
+#: themes/models.py:22 themes/views.py:21
+msgid "Themes"
+msgstr "Temas"
+
+#: themes/templates/themes/basic_update.html:16
+#: themes/templates/themes/css_update.html:16
+#: themes/templates/themes/index.html:17 themes/views.py:48
+msgid "Basic Elements"
+msgstr "Elementos Básicos"
+
+#: themes/templates/themes/basic_update.html:32
+msgid "Choose your photo..."
+msgstr "Escolha a sua foto..."
+
+#: themes/templates/themes/basic_update.html:40
+msgid "Click or drop files here"
+msgstr "Clique ou solte os arquivos aqui"
+
+#: themes/templates/themes/basic_update.html:42
+msgid "Recommended dimensions"
+msgstr "Dimensões recomendads"
+
+#: themes/templates/themes/basic_update.html:46
+msgid "It is recommended to be a white image"
+msgstr "É recomendável ser uma imagem branca"
+
+#: themes/templates/themes/basic_update.html:89
+#: themes/templates/themes/css_update.html:69
+msgid "Save"
+msgstr "Salvar"
+
+#: themes/templates/themes/basic_update.html:94
+#: themes/templates/themes/css_update.html:17
+#: themes/templates/themes/index.html:18 themes/views.py:76
+msgid "CSS Selector"
+msgstr "Seletor CSS"
+
+#: themes/templates/themes/css_update.html:45
+msgid "Documentation"
+msgstr "Documentação"
+
+#: themes/templates/themes/index.html:9
+msgid "Settings: Themes"
+msgstr "Configurações: Temas"
+
+#: themes/views.py:41 themes/views.py:69
+msgid "Theme settings updated successfully!"
+msgstr "Configurações de tema atualizadas com sucesso!"
