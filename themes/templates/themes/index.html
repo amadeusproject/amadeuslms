@@ -6,7 +6,8 @@
 
 {% block breadcrumbs %}
   	{{ block.super }}
-    {% breadcrumb 'Settings: Themes' 'themes:manage' %}
+  	{% trans 'Settings: Themes' as bread %}
+    {% breadcrumb bread 'themes:manage' %}
 {% endblock %}
 
 {% block content %}

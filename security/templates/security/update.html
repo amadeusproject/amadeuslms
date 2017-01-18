@@ -6,7 +6,8 @@
 
 {% block breadcrumbs %}
   	{{ block.super }}
-    {% breadcrumb 'Settings: Security' 'security:update' %}
+  	{% trans 'Settings: Security' as bread %}
+    {% breadcrumb bread 'security:update' %}
 {% endblock %}
 
 {% block content %}
