@@ -46,8 +46,8 @@ class Validation(forms.ModelForm):
 		return password2	
 
 class RegisterUserForm(Validation):
-    new_password = forms.CharField(label=_('Password'), widget = forms.PasswordInput(render_value=True))
-    password2 = forms.CharField(label = _('Confirm Password'), widget = forms.PasswordInput(render_value=True))
+    new_password = forms.CharField(label=_('Password'), widget = forms.PasswordInput(render_value = True, attrs = {'placeholder': _('Password') + ' *'}))
+    password2 = forms.CharField(label = _('Confirm Password'), widget = forms.PasswordInput(render_value = True, attrs = {'placeholder': _('Confirm Password') + ' *'}))
 
     is_edit = False
 
@@ -63,6 +63,12 @@ class RegisterUserForm(Validation):
     class Meta:
         model = User
         fields = ['email', 'username', 'last_name', 'social_name', 'image', 'show_email', ]
+        widgets = {
+        	'email': forms.TextInput(attrs = {'placeholder': _('Email') + ' *'}),
+        	'username': forms.TextInput(attrs = {'placeholder': _('Name') + ' *'}),
+        	'last_name': forms.TextInput(attrs = {'placeholder': _('Last Name') + ' *'}),
+        	'social_name': forms.TextInput(attrs = {'placeholder': _('Social Name')}),
+        }
 
 class ProfileForm(Validation):
 	is_edit = True
@@ -157,7 +163,7 @@ class ChangePassForm(Validation):
 		}
 
 class PassResetRequest(forms.Form):
-	email = forms.CharField(label = _('Email'), max_length = 254)
+	email = forms.EmailField(label = _('Email'), max_length = 254, widget = forms.TextInput(attrs = {'placeholder': _('Email') + ' *'}))
 
 	def clean_email(self):
 		email = self.cleaned_data.get('email', '')
