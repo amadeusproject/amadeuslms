@@ -1,0 +1,224 @@
+{% load static i18n %}
+{% load widget_tweaks %}
+
+<form method="post" action="" enctype="multipart/form-data">
+	{% csrf_token %}
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+		<label for="{{ form.name.auto_id }}">{{ form.name.label }} <span>*</span></label>
+		{% render_field form.name class='form-control' %}
+	</div>
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+		<label for="{{ form.content.auto_id }}">{{ form.content.label }} <span>*</span></label>
+		{% render_field form.content class='form-control text_wysiwyg' %}
+	</div>
+
+	<legend>{% trans 'Common resources settings' %}</legend>
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+		<label for="{{ form.brief_description.auto_id }}">{{ form.brief_description.label }}</label>
+		{% render_field form.brief_description class='form-control text_wysiwyg' %}
+	</div>
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+		<label for="{{ form.tags.auto_id }}">{{ form.tags.label }}</label>
+		{% render_field form.tags class='form-control'  data-role="tagsinput" %}
+	</div>
+
+	<div class="panel-group" id="professors_accordion" role="tablist" aria-multiselectable="true">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+    			<div class="row">
+        			<div class="col-md-12">
+            			<a data-parent="#professors_accordion" data-toggle="collapse" href="#notifications">
+            				<h4 class="panel-title">
+                    			<button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label>{% trans 'Pendencies Notifications' %}</label>
+            				</h4>
+            			</a>
+            		</div>
+            	</div>
+            </div>
+            <div id="notifications" class="panel-collapse collapse">
+            	{{ pendencies_form.management_form }}
+                {{ pendencies_form.non_form_errors }}
+
+            	{% for notify in pendencies_form %}
+            		<div class="notifies">
+            			{% if notify.instance.pk %}{{ notify.DELETE }}{% endif %}
+	            		<div class="form-group{% if form.has_error %} has-error {% endif %}">
+	            			<label for="{{ notify.action.auto_id }}">
+	            				{{ notify.action.label }} {% render_field notify.action class='form-control' %}
+	        				</label>
+	            		</div>
+	            		<div class="form-group{% if form.has_error %} has-error {% endif %}">
+	            			<div class=" checkbox">
+		            			<label>
+			      					<input type="checkbox" class="begin_date" /> {{ notify.begin_date.label }}
+			  					</label>
+	  				 			{% render_field notify.begin_date class='form-control' %}
+			  				</div>
+	            		</div>
+	            		<div class="form-group{% if form.has_error %} has-error {% endif %}">
+	            			<div class=" checkbox">
+		            			<label>
+			      					<input type="checkbox" class="end_date" /> {{ notify.end_date.label }}
+			  					</label>
+	  				 			{% render_field notify.end_date class='form-control' %}
+			  				</div>
+	            		</div>
+	            	</div>
+            	{% endfor %}
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+			<div class="panel-heading">
+    			<div class="row">
+        			<div class="col-md-12">
+            			<a data-parent="#professors_accordion" data-toggle="collapse" href="#students">
+            				<h4 class="panel-title">
+                    			<button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label for="{{ form.students.auto_id }}">{{ form.students.label }}</label>
+            				</h4>
+            			</a>
+            		</div>
+            	</div>
+            </div>
+            <div id="students" class="panel-collapse collapse">
+            	<div class="form-group{% if form.has_error %} has-error {% endif %}">
+            		<div class=" checkbox">
+            			<label for="{{ form.all_students.auto_id }}">
+	      					{% render_field form.all_students %} {{ form.all_students.label }}
+	  					</label>
+	  				</div>
+            	</div>
+
+            	<p><em>{% trans 'Attribute students to webpage' %}:</em></p>
+            	{% render_field form.students class='form-control' %}
+
+            	<br clear="all" />
+
+            	<p><em>{% trans 'Attribute groups to webpage' %}:</em></p>
+            	{% render_field form.groups class='form-control' %}
+            </div>
+        </div>
+	</div>
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %}">
+		<div class=" checkbox">
+			<label for="{{ form.show_window.auto_id }}">
+				{% render_field form.show_window %} {{ form.show_window.label }}
+			</label>
+		</div>
+	</div>
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %}">
+		<div class=" checkbox">
+			<label for="{{ form.visible.auto_id }}">
+				{% render_field form.visible %} {{ form.visible.label }}
+			</label>
+		</div>
+	</div>
+
+	<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+		<div class="text-center">
+			<input type="submit" value="{% trans 'Save' %}" class="btn btn-raised btn-success" />
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+	$(function() {
+		$('.notifies').formset({
+			addText: '{% trans "Add new notification" %}',
+			deleteText: '{% trans "Remove this" %}'
+		}); 
+	});
+
+	$('#id_groups').multiSelect({
+	  selectableHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=' '>",
+	  selectionHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=''>",
+	  afterInit: function(ms){
+	    var that = this,
+	        $selectableSearch = that.$selectableUl.prev(),
+	        $selectionSearch = that.$selectionUl.prev(),
+	        selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
+	        selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
+
+	    that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+	    .on('keydown', function(e){
+	      if (e.which === 40){
+	        that.$selectableUl.focus();
+	        return false;
+	      }
+	    });
+
+	    that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+	    .on('keydown', function(e){
+	      if (e.which == 40){
+	        that.$selectionUl.focus();
+	        return false;
+	      }
+	    });
+	  },
+	  afterSelect: function(){
+	    this.qs1.cache();
+	    this.qs2.cache();
+	  },
+	  afterDeselect: function(){
+	    this.qs1.cache();
+	    this.qs2.cache();
+	  }
+	});// Used to create multi-select css style
+
+	$('#id_students').multiSelect({
+	  selectableHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=' '>",
+	  selectionHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=''>",
+	  afterInit: function(ms){
+	    var that = this,
+	        $selectableSearch = that.$selectableUl.prev(),
+	        $selectionSearch = that.$selectionUl.prev(),
+	        selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
+	        selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
+
+	    that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+	    .on('keydown', function(e){
+	      if (e.which === 40){
+	        that.$selectableUl.focus();
+	        return false;
+	      }
+	    });
+
+	    that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+	    .on('keydown', function(e){
+	      if (e.which == 40){
+	        that.$selectionUl.focus();
+	        return false;
+	      }
+	    });
+	  },
+	  afterSelect: function(){
+	    this.qs1.cache();
+	    this.qs2.cache();
+	  },
+	  afterDeselect: function(){
+	    this.qs1.cache();
+	    this.qs2.cache();
+	  }
+	});// Used to create multi-select css style
+
+	$('.collapse').on('show.bs.collapse', function (e) {
+	if($(this).is(e.target)){
+    	var btn = $(this).parent().find('.fa-angle-right');
+
+    	btn.switchClass("fa-angle-right", "fa-angle-down", 250, "easeInOutQuad");
+    }
+    });
+
+    $('.collapse').on('hide.bs.collapse', function (e) {
+    	if($(this).is(e.target)){
+        	var btn = $(this).parent().find('.fa-angle-down');
+
+        	btn.switchClass("fa-angle-down", "fa-angle-right", 250, "easeInOutQuad");
+        }
+    });
+</script>

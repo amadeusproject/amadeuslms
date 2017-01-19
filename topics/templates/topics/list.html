@@ -41,6 +41,23 @@
 	    			{% autoescape off %}
 						{{ topic.description }}
 					{% endautoescape %}
+
+					{% if has_subject_permissions %}
+						<div class="row text-center">
+							<div class="btn-group add_resource">
+						  		<button type="button" class="btn btn-success btn-raised dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  			<i class="fa fa-angle-right"></i> {% trans 'Add Resource' %}
+							  	</button>
+							  	<ul class="dropdown-menu">
+							    	<li><a href="#">{% trans 'Video Embed' %}</a></li>
+							    	<li><a href="#">{% trans 'Forum' %}</a></li>
+							    	<li><a href="#">{% trans 'File Link' %}</a></li>
+							    	<li><a href="{% url 'webpages:create' topic.slug %}">{% trans 'Webpage' %}</a></li>
+							    	<li><a href="#">{% trans 'Questionary' %}</a></li>
+							  	</ul>
+							</div>
+						</div>
+					{% endif %}
 			    </div>
 		    </div>
 		{% endif %}
