@@ -29,7 +29,7 @@
             </form>
         </div>
         <div class="col-md-3">
-            <a href="{% url 'users:create' %}" class="pull-right btn btn-primary btn-raised btn-md"><i class="fa fa-plus"></i> {% trans 'Create User' %}</a>
+            <a href="{% url 'users:create' %}" class="pull-right btn btn-success btn-raised btn-md"><i class="fa fa-plus"></i> {% trans 'Create User' %}</a>
         </div>
     </div>
 
@@ -53,7 +53,7 @@
                     </div>
                     <div class="col-md-3">
                         <div align="right">
-                            <a href="{% url 'users:update' acc.email %}" class="btn btn-primary btn-raised btn-sm"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
+                            <a href="{% url 'users:update' acc.email %}" class="btn btn-success btn-raised btn-sm"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
                             <a href="{% url 'users:delete' acc.email %}" class="btn btn-default btn-raised btn-sm"><i class="fa fa-trash"></i> {% trans 'Delete' %}</a>
                         </div>
                     </div>

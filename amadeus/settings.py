@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'log',
     'categories',
     'subjects',
+    'students_group',
     'topics',
     'mailsender',
     'security',

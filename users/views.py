@@ -72,7 +72,7 @@ class SearchView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 	def get_queryset(self):
 		search = self.request.GET.get('search', '')
 
-		users = User.objects.filter(Q(username__icontains = search) | Q(last_name__icontains = search) | Q(social_name__icontains = search) | Q(email__icontains = search)).order_by('social_name','username').exclude(email = self.request.user.email)
+		users = User.objects.filter(Q(username__icontains = search) | Q(last_name__icontains = search) | Q(social_name__icontains = search) | Q(email__icontains = search)).distinct().order_by('social_name','username').exclude(email = self.request.user.email)
 		
 		return users
 

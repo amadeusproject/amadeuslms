@@ -26,7 +26,7 @@ import time
 import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CreateSubjectForm
-from .utils import has_student_profile, has_professor_profile, count_subjects
+from .utils import has_student_profile, has_professor_profile, count_subjects, get_category_page
 from users.models import User
 
 
@@ -55,6 +55,7 @@ class HomeView(LoginRequiredMixin, ListView):
         #bringing users
         tags = Tag.objects.all()
         context['tags'] = tags
+
         return context
 
 
@@ -67,8 +68,7 @@ class IndexView(LoginRequiredMixin, ListView):
     context_object_name = 'categories'
     paginate_by = 10
 
-    def get_queryset(self):
-        
+    def get_queryset(self):        
         if self.request.user.is_staff:
             categories = Category.objects.all().order_by('name')
         else:
@@ -94,6 +94,39 @@ class IndexView(LoginRequiredMixin, ListView):
 
         return categories
 
+    def paginate_queryset(self, queryset, page_size): 
+        paginator = self.get_paginator(
+            queryset, page_size, orphans=self.get_paginate_orphans(),
+            allow_empty_first_page=self.get_allow_empty())
+        
+        page_kwarg = self.page_kwarg
+        
+        page = self.kwargs.get(page_kwarg) or self.request.GET.get(page_kwarg) or 1
+        
+        if self.kwargs.get('slug'):
+            categories = queryset
+
+            paginator = Paginator(categories, self.paginate_by)
+
+            page = get_category_page(categories, self.kwargs.get('slug'), self.paginate_by)
+        
+        try:
+            page_number = int(page)
+        except ValueError:
+            if page == 'last':
+                page_number = paginator.num_pages
+            else:
+                raise Http404(_("Page is not 'last', nor can it be converted to an int."))
+        
+        try:
+            page = paginator.page(page_number)
+            return (paginator, page, page.object_list, page.has_other_pages())
+        except InvalidPage as e:
+            raise Http404(_('Invalid page (%(page_number)s): %(message)s') % {
+                'page_number': page_number,
+                'message': str(e)
+            })
+
     def render_to_response(self, context, **response_kwargs):
         if self.request.user.is_staff:
             context['page_template'] = "categories/home_admin_content.html"
@@ -116,10 +149,13 @@ class IndexView(LoginRequiredMixin, ListView):
 
         context['show_buttons'] = True #So it shows subscribe and access buttons
         context['totals'] = self.totals
-            
+        
         if self.kwargs.get('option'):
             context['all'] = True
             context['title'] = _('All Subjects')
+
+        if self.kwargs.get('slug'):
+            context['cat_slug'] = self.kwargs.get('slug')
 
         context['subjects_menu_active'] = 'subjects_menu_active'
 

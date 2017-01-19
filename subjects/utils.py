@@ -18,6 +18,17 @@ def has_professor_profile(user, category):
 
 	return False
 
+def get_category_page(categories, slug, per_page):
+	total = 1
+
+	for category in categories:
+		if category.slug == slug:
+			return total / per_page + 1
+
+		total += 1
+
+	return 1
+
 def count_subjects( user, all_subs = True):
 	total = 0
 	pk = user.pk

@@ -1,0 +1,25 @@
+{% extends 'groups/index.html' %}
+
+{% load i18n django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    
+    {% trans 'Update: ' as bread %}
+    
+    {% with bread|add:group.name as bread_slug %}
+        {% breadcrumb bread_slug 'groups:update' subject.slug group.slug %}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-content">
+            <div class="card-body">
+                {% include 'groups/_form.html' %}
+            </div>
+        </div>
+    </div>
+    <br clear="all" />
+    <br clear="all" />
+{% endblock %}
