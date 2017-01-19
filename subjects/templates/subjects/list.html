@@ -90,6 +90,7 @@
                             <div id="{{category.slug}}" class="panel-collapse panel-body collapse category-panel-content">
                                 <input type="hidden" class="log_url" value="{% url 'categories:view_log' category.id %}" />
                                 <input type="hidden" class="log_id" value="" />
+                                
                                 {% if category.coordinators.all|length > 0  %}
                                     <h4><b>{% trans "Coordinator(s) " %}: </b>
                                         {{ category.coordinators.all|join:', ' }}
@@ -193,4 +194,17 @@
     <div id="modal_subject"></div>
     
     <script type="text/javascript" src="{% static 'js/course.js' %}"></script>
+    <script type="text/javascript">
+        $(function (){
+            var cat_slug = "{{ cat_slug }}"
+
+            if (cat_slug != "") {
+                $("#" + cat_slug).collapse('show');
+
+                $('html, body').animate({
+                    scrollTop: $("#" + cat_slug).parent().offset().top
+                }, 2000);
+            }
+        });
+    </script>
 {% endblock %}
