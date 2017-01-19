@@ -17,7 +17,7 @@
    	{% breadcrumb 'Home' 'subjects:home' %}
 
    	{% if subject %}
-   		{% breadcrumb subject.category 'subjects:index' %}
+   		{% breadcrumb subject.category 'subjects:cat_view' subject.category.slug %}
    		{% breadcrumb subject 'subjects:view' subject.slug %}
 
    		{% trans 'Replicate: ' as bread %}
@@ -26,7 +26,7 @@
    			{% breadcrumb bread_slug 'subjects:create' %}
    		{% endwith %}
    	{% else %}
-	  	{% breadcrumb slug 'subjects:index' %}
+	  	{% breadcrumb slug 'subjects:cat_view' slug %}
 	  	{% breadcrumb 'Create Subject' 'subjects:create' %}
 	{% endif %}
 {% endblock %}
