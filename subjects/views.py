@@ -300,3 +300,9 @@ class SubjectSubscribeView(LoginRequiredMixin, TemplateView):
         return JsonResponse({'url':reverse_lazy('subjects:index')})
 
 
+class SubjectSearchView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+    template_name = 'subjects/list.html'
+    context_object_name = 'categories'
+    paginate_by = 10
