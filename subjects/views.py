@@ -343,40 +343,41 @@ class SubjectSubscribeView(LoginRequiredMixin, TemplateView):
 
 class SubjectSearchView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("users:login")
-    template_name = 'subjects/list.html'
-    context_object_name = 'categories'
+    template_name = 'subjects/list_search.html'
+    context_object_name = 'subjects'
     paginate_by = 10
    
     def get_queryset(self):
-        if self.request.user.is_staff:
-            subjects = Subject.objects.all().order_by("name")
-        else:
-            pk = self.request.user.pk
-
-            subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk)).distinct()
         
-        self.total = len(subjects)
-
+        tags = self.request.GET.get('search')
+        self.tags = tags
+        tags = tags.split(" ")
+       
+        subjects = Subject.objects.filter(tags__name__in=tags)
+        pk = self.request.user.pk
+        my_subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk) & Q(tags__name__in=tags) ).distinct()
+        
+        self.totals = {'all_subjects': subjects.count(), 'my_subjects': my_subjects.count()}
+        if self.kwargs.get('option'):
+            subjects = my_subjects
         return subjects
-    def post(self, request, *args, **kwargs):
-        print("aqui")
-
-        return HttpResponse("T")
-
-    def get(self, request, *args, **kwargs):
-        print("get")
-        print(args)
-        print(kwargs)
-        return HttpResponse("t")
-
-
+   
     def get_context_data(self, **kwargs):
         context = super(SubjectSearchView, self).get_context_data(**kwargs)
-        print(kwargs)
-        print("teste")
-        tags = kwargs.get('tags').strip()
-        print(tags)
-
+        
+        context['tags'] = self.tags
         context['all'] = False
         context['title'] = _('My Subjects')
+
+        context['show_buttons'] = True #So it shows subscribe and access buttons
+        context['totals'] = self.totals
+        
+        if self.kwargs.get('option'):
+            context['all'] = True
+            context['title'] = _('All Subjects')
+
+        context['subjects_menu_active'] = 'subjects_menu_active'
+
         return context
+   
+

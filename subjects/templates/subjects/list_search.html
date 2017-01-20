@@ -1,0 +1,54 @@
+{% extends "subjects/list.html" %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs subject_counter %}
+
+{% block content %}
+
+	 {% if messages %}
+        {% for message in messages %}
+            <script type="text/javascript">
+                {% if message.tags == "danger" %}
+                    alertify.error('{{message}}');
+                {% else %}
+                    alertify.success('{{message}}');
+                {% endif %}
+            </script>
+        {% endfor %}
+    {% endif %}
+
+    <div id="core-subjects-options-div">
+        <ul class="core-subjects-options">
+            {% if all %}
+                <a href="{% url 'subjects:search' %}?search= {{tags}} "><li >{% trans "My subjects" %} ({{ totals.my_subjects }})</li></a>
+                <a href="{% url 'subjects:search' 'all' %}?search={{tags}}" ><li class="active">{% trans "All subjects" %} ({{ totals.all_subjects }})</li></a>
+            {% else %}
+                <a href="{% url 'subjects:search' %}?search={{tags}}"><li class="active">{% trans "My subjects" %} ({{ totals.my_subjects }})</li></a>
+                <a href="{% url 'subjects:search' 'all' %}?search={{tags}}" ><li>{% trans "All subjects" %} ({{ totals.all_subjects }})</li></a>
+            {% endif %}
+            
+        </ul>
+    </div>
+
+    <div class="col-md-12 cards-content">
+		
+
+		{% if subjects|length > 0 %}
+	    	<div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
+				{% for subject in subjects %}
+					{% include "subjects/subject_card.html" with accordion_id="subject-accordion" %}
+				{% endfor %}
+				
+				{% pagination request paginator page_obj %}
+			</div>
+		{% else %}
+			<div class="text-center no-subjects">
+				<i class="fa fa-graduation-cap"></i>
+				<h4>{% trans 'You still do not posses any subject in our platform' %}</h4>
+			</div>
+		{% endif %}
+	</div>
+
+
+	
+{% endblock content %}
