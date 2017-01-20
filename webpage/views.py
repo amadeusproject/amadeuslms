@@ -33,9 +33,58 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		
 		form_class = self.get_form_class()
 		form = self.get_form(form_class)
-		pendencies_form = InlinePendenciesFormset()
 
-		return self.render_to_response(self.get_context_data(form = form,pendencies_form = pendencies_form))
+		slug = self.kwargs.get('slug', '')
+		topic = get_object_or_404(Topic, slug = slug)
+
+		pendencies_form = InlinePendenciesFormset(initial = [{'subject': topic.subject}])
+
+		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
+
+	def post(self, request, *args, **kwargs):
+		self.object = None
+		
+		form_class = self.get_form_class()
+		form = self.get_form(form_class)
+
+		slug = self.kwargs.get('slug', '')
+		topic = get_object_or_404(Topic, slug = slug)
+
+		pendencies_form = InlinePendenciesFormset(self.request.POST, initial = [{'subject': topic.subject}])
+		
+		if (form.is_valid() and pendencies_form.is_valid()):
+			return self.form_valid(form, pendencies_form)
+		else:
+			return self.form_invalid(form, pendencies_form)
+
+	def get_initial(self):
+		initial = super(CreateView, self).get_initial()
+
+		slug = self.kwargs.get('slug', '')
+
+		topic = get_object_or_404(Topic, slug = slug)
+		initial['subject'] = topic.subject
+		
+		return initial
+
+	def form_invalid(self, form, pendencies_form):
+		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
+
+	def form_valid(self, form, pendencies_form):
+		self.object = form.save(commit = False)
+
+		slug = self.kwargs.get('slug', '')
+		topic = get_object_or_404(Topic, slug = slug)
+
+		self.object.topic = topic
+		self.object.order = topic.resource_topic.count() + 1
+
+		self.object.save()
+
+		pendencies_form.instance = self.object
+		pendencies_form.save()
+        
+		return redirect(self.get_success_url())
 
 	def get_context_data(self, **kwargs):
 		context = super(CreateView, self).get_context_data(**kwargs)
@@ -51,6 +100,6 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		return context
 
 	def get_success_url(self):
-		messages.success(self.request, _('Topic "%s" was created successfully!')%(self.object.name))
+		messages.success(self.request, _('The Webpage "%s" was added to the Topic "%s" of the virtual environment "%s" successfully!')%(self.object.name, self.object.topic.name, self.object.topic.subject.name))
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})

@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from topics.models import Resource
 
 class Webpage(Resource):
-	content = models.TextField(_('HTML Page Content'))
+	content = models.TextField(_('Webpage Content'), blank = True)
 
 	class Meta:
 		verbose_name = _('WebPage')
