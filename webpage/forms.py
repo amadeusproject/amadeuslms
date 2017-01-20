@@ -14,6 +14,10 @@ class WebpageForm(forms.ModelForm):
 	class Meta:
 		model = Webpage
 		fields = ['name', 'content', 'brief_description', 'all_students', 'students', 'groups', 'show_window', 'visible']
+		labels = {
+			'name': _('Webpage name'),
+			'content': _('Webpage content'),
+		}
 		widgets = {
 			'content': forms.Textarea,
 			'brief_description': forms.Textarea,

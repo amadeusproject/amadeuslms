@@ -45,28 +45,43 @@
 
             	{% for notify in pendencies_form %}
             		<div class="notifies">
-            			{% if notify.instance.pk %}{{ notify.DELETE }}{% endif %}
-	            		<div class="form-group{% if form.has_error %} has-error {% endif %}">
-	            			<label for="{{ notify.action.auto_id }}">
-	            				{{ notify.action.label }} {% render_field notify.action class='form-control' %}
-	        				</label>
-	            		</div>
-	            		<div class="form-group{% if form.has_error %} has-error {% endif %}">
-	            			<div class=" checkbox">
-		            			<label>
-			      					<input type="checkbox" class="begin_date" /> {{ notify.begin_date.label }}
-			  					</label>
-	  				 			{% render_field notify.begin_date class='form-control' %}
-			  				</div>
-	            		</div>
-	            		<div class="form-group{% if form.has_error %} has-error {% endif %}">
-	            			<div class=" checkbox">
-		            			<label>
-			      					<input type="checkbox" class="end_date" /> {{ notify.end_date.label }}
-			  					</label>
-	  				 			{% render_field notify.end_date class='form-control' %}
-			  				</div>
-	            		</div>
+            			<div style="text-align:left">
+	            			{% if notify.instance.pk %}{{ notify.DELETE }}{% endif %}
+		            		<div class="form-group{% if form.has_error %} has-error {% endif %} row">
+		            			<label for="{{ notify.action.auto_id }}" class="pull-left action_label contol-label">
+		            				{% trans 'Action not performed by the user' %}: 
+		        				</label>
+		        				<div class="col-md-3">
+		        					{% render_field notify.action class='form-control' %}
+		        				</div>
+		            		</div>
+		            		<br clear="all" />
+		            		<div class="row">
+		            			<div class="col-md-offset-2">
+		            				<p>{% trans 'Wished period' %}: </p>
+		            			</div>
+		            		</div>
+		            		<div class="form-group{% if form.has_error %} has-error {% endif %} row">
+		            			<div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-3 col-lg-2 col-md-2 col-sm-2 col-xs-3 checkbox">
+							        <label>
+				      					<input type="checkbox" class="begin_date" /> {{ notify.begin_date.label }}
+				  					</label>
+						        </div>
+						        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						        	{% render_field notify.begin_date class='form-control datetime-picker' %}
+						        </div>
+		            		</div>
+		            		<div class="form-group{% if form.has_error %} has-error {% endif %} row">
+		            			<div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-3 col-lg-2 col-md-2 col-sm-2 col-xs-3 checkbox">
+							        <label>
+				      					<input type="checkbox" class="end_date" /> {{ notify.end_date.label }}
+				  					</label>
+						        </div>
+						        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						        	{% render_field notify.end_date class='form-control date-picker' %}
+						        </div>
+		            		</div>
+		            	</div>
 	            	</div>
             	{% endfor %}
             </div>
@@ -130,8 +145,10 @@
 	$(function() {
 		$('.notifies').formset({
 			addText: '{% trans "Add new notification" %}',
-			deleteText: '{% trans "Remove this" %}'
+			deleteText: '{% trans "Remove this notification" %}'
 		}); 
+
+		
 	});
 
 	$('#id_groups').multiSelect({
