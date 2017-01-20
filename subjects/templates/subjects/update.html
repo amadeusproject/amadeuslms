@@ -16,9 +16,11 @@
 {% block breadcrumbs %}
 	{{ block.super }}
 
-	{% breadcrumb subject.category 'subjects:index' %}
+	{% breadcrumb subject.category 'subjects:cat_view' subject.category.slug %}
 	{% breadcrumb subject 'subjects:view' subject.slug %}
-	{% with 'Edit '|add:object.slug as bread_slug %}	
+	
+	{% trans 'Update: ' as bread %}
+	{% with bread|add:object.name as bread_slug %}	
 		{% breadcrumb bread_slug 'subjects:update' %}
 	{% endwith %}
 {% endblock %}

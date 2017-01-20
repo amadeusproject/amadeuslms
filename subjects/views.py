@@ -35,7 +35,8 @@ class HomeView(LoginRequiredMixin, ListView):
     redirect_field_name = 'next'
     template_name = 'subjects/initial.html'
     context_object_name = 'subjects'
-    paginate_by = 10    
+    paginate_by = 10
+    total = 0    
 
     def get_queryset(self):
         if self.request.user.is_staff:
@@ -44,7 +45,9 @@ class HomeView(LoginRequiredMixin, ListView):
             pk = self.request.user.pk
 
             subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk)).distinct()
-            
+        
+        self.total = len(subjects)
+
         return subjects
 
     def get_context_data(self, **kwargs):
@@ -55,6 +58,7 @@ class HomeView(LoginRequiredMixin, ListView):
         #bringing users
         tags = Tag.objects.all()
         context['tags'] = tags
+        context['total_subs'] = self.total
 
         return context
 

@@ -95,7 +95,7 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 	def get_context_data(self, **kwargs):
 		context = super(CreateView, self).get_context_data(**kwargs)
 
-		context['title'] = _('Create Topic')
+		context['title'] = _('Create Group')
 
 		slug = self.kwargs.get('slug', '')
 		subject = get_object_or_404(Subject, slug = slug)

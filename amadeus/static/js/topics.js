@@ -74,3 +74,11 @@ function delete_topic(url) {
 		$('.modal').modal('show');
 	});
 }
+
+$(".add_resource").on('show.bs.dropdown', function () {
+    $(this).find('i').switchClass("fa-angle-right", "fa-angle-down", 250, "easeInOutQuad");
+});
+
+$(".add_resource").on('hide.bs.dropdown', function () {
+    $(this).find('i').switchClass("fa-angle-down", "fa-angle-right", 250, "easeInOutQuad");
+});

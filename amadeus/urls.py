@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^subjects/', include('subjects.urls', namespace = 'subjects')),
     url(r'^groups/', include('students_group.urls', namespace = 'groups')),
     url(r'^topics/', include('topics.urls', namespace = 'topics')),
+    url(r'^webpages/', include('webpage.urls', namespace = 'webpages')),
     url(r'^mailsender/', include('mailsender.urls', namespace = 'mailsender')),
     url(r'^security/', include('security.urls', namespace = 'security')),
     url(r'^themes/', include('themes.urls', namespace = 'themes')),
