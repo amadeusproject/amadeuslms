@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
 {% load static i18n django_bootstrap_breadcrumbs %}
-{% get_current_language as LANGUAGE_CODE %}
 
 <html>
 <head>
@@ -24,21 +23,18 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.min.css' %}">
 
-	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datepicker.standalone.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datetimepicker.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/alertifyjs/alertify.min.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/alertifyjs/themes/bootstrap.css' %}">
 
-    <link rel="stylesheet" type="text/css" href="{% static 'css/jPages.css' %}">
-  
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jPages.css' %}">  
 
 	<script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/bootstrap-acessibility.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'material/js/material.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'material/js/ripples.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script>
-	{% with "js/locales/bootstrap-datepicker."|add:LANGUAGE_CODE|add:".js" as locale_datepicker %}
-	   <script type="text/javascript" src="{% static locale_datepicker %}"></script>
-	{% endwith %}
+	<script type="text/javascript" src="{% static 'js/moment-with-locales.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-datetimepicker.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/alertify.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/jscookie.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jPages.js' %}"></script>
@@ -49,11 +45,7 @@
 	<!-- Custom styles -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus_responsive.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
-    
-
-	<!--Javascript block for specific-app ones -->
-	<script src="{% static 'js/base/amadeus.js' %}"></script>    
-	
+    	
     {% block style %}
 	{% endblock %}
 	{% block javascript %}
@@ -226,16 +218,6 @@
     <!-- Init material Bootstrap -->
     <script type="text/javascript">$.material.init()</script>
     <script src="{% static 'js/main.js' %}"></script>
-    <script type="text/javascript">
-        $('.text_wysiwyg').summernote({
-            height: 200
-        });
-
-        /* Initialize tooltips*/
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
 </body>
 
 </html>
