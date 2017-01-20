@@ -18,7 +18,7 @@
 
    	{% if subject %}
    		{% breadcrumb subject.category 'subjects:cat_view' subject.category.slug %}
-   		{% breadcrumb subject 'subjects:view' subject.slug %}
+   		{% breadcrumb subject 'subjects:view' subject.name %}
 
    		{% trans 'Replicate: ' as bread %}
 

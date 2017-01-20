@@ -12,5 +12,5 @@ urlpatterns = [
 	url(r'^delete/(?P<slug>[\w_-]+)/$', views.SubjectDeleteView.as_view(), name='delete'),
 	url(r'^view/(?P<slug>[\w_-]+)/$', views.SubjectDetailView.as_view(), name='view'),
 	url(r'^subscribe/(?P<slug>[\w_-]+)/$', views.SubjectSubscribeView.as_view(), name='subscribe'),
-	#url(r'^modal/(?P<subject_slug>[\w_-]+)/$', views.subscribe_subject(), name='subscribe'),
+	url(r'^search/$', views.SubjectSearchView.as_view(), name='search'),
 ]

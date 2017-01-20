@@ -38,6 +38,7 @@ class HomeView(LoginRequiredMixin, ListView):
     paginate_by = 10
     total = 0    
 
+
     def get_queryset(self):
         if self.request.user.is_staff:
             subjects = Subject.objects.all().order_by("name")
@@ -342,7 +343,40 @@ class SubjectSubscribeView(LoginRequiredMixin, TemplateView):
 
 class SubjectSearchView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("users:login")
-    redirect_field_name = 'next'
     template_name = 'subjects/list.html'
     context_object_name = 'categories'
     paginate_by = 10
+   
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            subjects = Subject.objects.all().order_by("name")
+        else:
+            pk = self.request.user.pk
+
+            subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk)).distinct()
+        
+        self.total = len(subjects)
+
+        return subjects
+    def post(self, request, *args, **kwargs):
+        print("aqui")
+
+        return HttpResponse("T")
+
+    def get(self, request, *args, **kwargs):
+        print("get")
+        print(args)
+        print(kwargs)
+        return HttpResponse("t")
+
+
+    def get_context_data(self, **kwargs):
+        context = super(SubjectSearchView, self).get_context_data(**kwargs)
+        print(kwargs)
+        print("teste")
+        tags = kwargs.get('tags').strip()
+        print(tags)
+
+        context['all'] = False
+        context['title'] = _('My Subjects')
+        return context

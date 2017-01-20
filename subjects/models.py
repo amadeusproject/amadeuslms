@@ -27,7 +27,7 @@ class Subject(models.Model):
     init_date = models.DateField(_('Begin of Subject Date'))
     end_date = models.DateField(_('End of Subject Date'))
 
-    tags = models.ManyToManyField(Tag, verbose_name='markers', blank=True, null=True)
+    tags = models.ManyToManyField(Tag, verbose_name='tags', blank=True, null=True)
 
     create_date = models.DateTimeField(_('Creation Date'), auto_now_add = True)
     update_date = models.DateTimeField(_('Date of last update'), auto_now=True)
