@@ -3,6 +3,13 @@
 {% load static i18n pagination %}
 {% load django_bootstrap_breadcrumbs subject_counter %}
 
+{% block breadcrumbs %}
+	{% clear_breadcrumbs %}
+   	{% breadcrumb 'Home' 'subjects:home' %}
+   	{% breadcrumb  "Subjects" 'subjects:index' %}
+
+{% endblock breadcrumbs %}
+
 {% block content %}
 
 	 {% if messages %}
@@ -20,11 +27,11 @@
     <div id="core-subjects-options-div">
         <ul class="core-subjects-options">
             {% if all %}
-                <a href="{% url 'subjects:search' %}?search= {{tags}} "><li >{% trans "My subjects" %} ({{ totals.my_subjects }})</li></a>
-                <a href="{% url 'subjects:search' 'all' %}?search={{tags}}" ><li class="active">{% trans "All subjects" %} ({{ totals.all_subjects }})</li></a>
+                <a href="{% url 'subjects:search' %}?search= {{tags}} "><li >{% trans "Subjects" %} ({{ totals.my_subjects }})</li></a>
+                <a href="" ><li class="active">{% trans "Resources" %} ({{ totals.all_subjects }})</li></a>
             {% else %}
-                <a href="{% url 'subjects:search' %}?search={{tags}}"><li class="active">{% trans "My subjects" %} ({{ totals.my_subjects }})</li></a>
-                <a href="{% url 'subjects:search' 'all' %}?search={{tags}}" ><li>{% trans "All subjects" %} ({{ totals.all_subjects }})</li></a>
+                <a href="{% url 'subjects:search' %}?search={{tags}}"><li class="active">{% trans "Subjects" %} ({{ totals.my_subjects }})</li></a>
+                <a href="" ><li>{% trans "Resources" %} ({{ totals.all_subjects }})</li></a>
             {% endif %}
             
         </ul>

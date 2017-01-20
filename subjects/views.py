@@ -367,14 +367,14 @@ class SubjectSearchView(LoginRequiredMixin, ListView):
         
         context['tags'] = self.tags
         context['all'] = False
-        context['title'] = _('My Subjects')
+        context['title'] = _('Subjects')
 
         context['show_buttons'] = True #So it shows subscribe and access buttons
         context['totals'] = self.totals
         
         if self.kwargs.get('option'):
             context['all'] = True
-            context['title'] = _('All Subjects')
+            context['title'] = _('Subjects')
 
         context['subjects_menu_active'] = 'subjects_menu_active'
 
