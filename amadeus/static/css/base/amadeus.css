@@ -18,7 +18,7 @@ a:focus {
 /* Initial page starts */
 .users-cloud {
     
-    width: 80%;
+    width: 100%;
     height: 300px;
     overflow: hidden;
 }
@@ -27,20 +27,36 @@ a:focus {
     display: inline;
 }
 
-.users-cloud li:nth-of-type(3n + 1) {
+.users-cloud  li:nth-of-type(3n + 1) a {
     font-size: 2.25em;
+    color: #2E8B57;
 }
-.users-cloud li:nth-of-type(4n+3) {
+.users-cloud  li:nth-of-type(4n+3) a {
     font-size: 3.5em;
+    color: #6B8E23;
 }
-.users-cloud li:nth-of-type(5n - 3) {
+
+.users-cloud li:nth-of-type(5n - 3) a {
     font-size: 3em;
+    color:  #66CDAA;
+}
+
+.users-cloud  li:nth-of-type(6n - 3) a {
+    font-size: 1.7em;
+    color: #654321;
+}
+.users-cloud a {
+    text-decoration: none;
+}
+
+#search-results-title{
+    color: #BDBDBD;
 }
 
 .div-users-cloud{
   height: 300px;
-  margin-left: 20%;
-  width: 70%;
+  margin-left: 10%;
+  width: 80%;
 }
 
 .my-subjects-title {
