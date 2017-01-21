@@ -19,7 +19,7 @@
 		<div class="users-cloud div-users-cloud">
 			<ul class=" users-cloud">
 				{% for tag in tags %}
-					<li>{{tag.name}}</li>
+					<a href="{% url 'subjects:search' %}?search={{tag.name}}"><li>{{tag.name}}</li></a>
 				{% endfor %}
 			</ul>
 		</div>
