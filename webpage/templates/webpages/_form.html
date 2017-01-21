@@ -4,14 +4,46 @@
 <form method="post" action="" enctype="multipart/form-data">
 	{% csrf_token %}
 
+	{% render_field form.control_subject %}
+
 	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
 		<label for="{{ form.name.auto_id }}">{{ form.name.label }} <span>*</span></label>
 		{% render_field form.name class='form-control' %}
+
+		<span id="helpBlock" class="help-block">{{ form.name.help_text }}</span>
+			
+		{% if form.name.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.name.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
 	</div>
 
 	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
 		<label for="{{ form.content.auto_id }}">{{ form.content.label }} <span>*</span></label>
 		{% render_field form.content class='form-control text_wysiwyg' %}
+
+		<span id="helpBlock" class="help-block">{{ form.content.help_text }}</span>
+			
+		{% if form.content.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.content.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
 	</div>
 
 	<legend>{% trans 'Common resources settings' %}</legend>
@@ -19,11 +51,41 @@
 	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
 		<label for="{{ form.brief_description.auto_id }}">{{ form.brief_description.label }}</label>
 		{% render_field form.brief_description class='form-control text_wysiwyg' %}
+
+		<span id="helpBlock" class="help-block">{{ form.brief_description.help_text }}</span>
+			
+		{% if form.brief_description.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.brief_description.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
 	</div>
 
 	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
 		<label for="{{ form.tags.auto_id }}">{{ form.tags.label }}</label>
 		{% render_field form.tags class='form-control'  data-role="tagsinput" %}
+
+		<span id="helpBlock" class="help-block">{{ form.tags.help_text }}</span>
+			
+		{% if form.tags.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.tags.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
 	</div>
 
 	<div class="panel-group" id="professors_accordion" role="tablist" aria-multiselectable="true">
@@ -47,13 +109,29 @@
             		<div class="notifies">
             			<div style="text-align:left">
 	            			{% if notify.instance.pk %}{{ notify.DELETE }}{% endif %}
-		            		<div class="form-group{% if form.has_error %} has-error {% endif %} row">
+	            			{% render_field notify.subject %}
+		            		<div class="form-group{% if notify.has_error %} has-error {% endif %} row">
 		            			<label for="{{ notify.action.auto_id }}" class="pull-left action_label contol-label">
 		            				{% trans 'Action not performed by the user' %}: 
 		        				</label>
 		        				<div class="col-md-3">
 		        					{% render_field notify.action class='form-control' %}
 		        				</div>
+
+		        				<span id="helpBlock" class="help-block">{{ notify.action.help_text }}</span>
+			
+								{% if notify.action.errors %}
+									<div class="alert alert-danger alert-dismissible" role="alert">
+											<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										<ul>
+											{% for error in notify.action.errors %}
+												<li>{{ error }}</li>
+											{% endfor %}
+										</ul>
+									</div>
+								{% endif %}
 		            		</div>
 		            		<br clear="all" />
 		            		<div class="row">
@@ -61,25 +139,57 @@
 		            				<p>{% trans 'Wished period' %}: </p>
 		            			</div>
 		            		</div>
-		            		<div class="form-group{% if form.has_error %} has-error {% endif %} row">
+		            		<div class="form-group{% if notify.has_error %} has-error {% endif %} row">
 		            			<div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-3 col-lg-2 col-md-2 col-sm-2 col-xs-3 checkbox">
 							        <label>
-				      					<input type="checkbox" class="begin_date" /> {{ notify.begin_date.label }}
+				      					{% render_field notify.begin_date_check class="begin_date" %} {{ notify.begin_date.label }}
 				  					</label>
 						        </div>
 						        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-						        	{% render_field notify.begin_date class='form-control datetime-picker' %}
+						        	{% render_field notify.begin_date class='form-control datetime-picker begin_date_input' %}
+						        </div>						        
+		            		</div>
+		            		<div class="row">
+		            			<span id="helpBlock" class="help-block">{{ notify.begin_date.help_text }}</span>
+			
+								{% if notify.begin_date.errors %}
+									<div class="alert alert-danger alert-dismissible" role="alert">
+											<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										<ul>
+											{% for error in notify.begin_date.errors %}
+												<li>{{ error }}</li>
+											{% endfor %}
+										</ul>
+									</div>
+								{% endif %}
+		            		</div>
+		            		<div class="form-group{% if notify.has_error %} has-error {% endif %} row">
+		            			<div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-3 col-lg-2 col-md-2 col-sm-2 col-xs-3 checkbox">
+							        <label>
+				      					{% render_field notify.end_date_check class="end_date" %} {{ notify.end_date.label }}
+				  					</label>
+						        </div>
+						        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						        	{% render_field notify.end_date class='form-control datetime-picker end_date_input' %}
 						        </div>
 		            		</div>
-		            		<div class="form-group{% if form.has_error %} has-error {% endif %} row">
-		            			<div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-3 col-lg-2 col-md-2 col-sm-2 col-xs-3 checkbox">
-							        <label>
-				      					<input type="checkbox" class="end_date" /> {{ notify.end_date.label }}
-				  					</label>
-						        </div>
-						        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-						        	{% render_field notify.end_date class='form-control date-picker' %}
-						        </div>
+		            		<div class="row">
+		            			<span id="helpBlock" class="help-block">{{ notify.end_date.help_text }}</span>
+			
+								{% if notify.end_date.errors %}
+									<div class="alert alert-danger alert-dismissible" role="alert">
+											<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										<ul>
+											{% for error in notify.end_date.errors %}
+												<li>{{ error }}</li>
+											{% endfor %}
+										</ul>
+									</div>
+								{% endif %}
 		            		</div>
 		            	</div>
 	            	</div>
@@ -106,15 +216,60 @@
 	      					{% render_field form.all_students %} {{ form.all_students.label }}
 	  					</label>
 	  				</div>
+
+	  				<span id="helpBlock" class="help-block">{{ form.all_students.help_text }}</span>
+			
+					{% if form.all_students.errors %}
+						<div class="alert alert-danger alert-dismissible" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							<ul>
+								{% for error in form.all_students.errors %}
+									<li>{{ error }}</li>
+								{% endfor %}
+							</ul>
+						</div>
+					{% endif %}
             	</div>
 
             	<p><em>{% trans 'Attribute students to webpage' %}:</em></p>
             	{% render_field form.students class='form-control' %}
 
+            	<span id="helpBlock" class="help-block">{{ form.students.help_text }}</span>
+			
+				{% if form.students.errors %}
+					<div class="alert alert-danger alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						<ul>
+							{% for error in form.students.errors %}
+								<li>{{ error }}</li>
+							{% endfor %}
+						</ul>
+					</div>
+				{% endif %}
+
             	<br clear="all" />
 
             	<p><em>{% trans 'Attribute groups to webpage' %}:</em></p>
             	{% render_field form.groups class='form-control' %}
+
+            	<span id="helpBlock" class="help-block">{{ form.groups.help_text }}</span>
+			
+				{% if form.groups.errors %}
+					<div class="alert alert-danger alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						<ul>
+							{% for error in form.groups.errors %}
+								<li>{{ error }}</li>
+							{% endfor %}
+						</ul>
+					</div>
+				{% endif %}
             </div>
         </div>
 	</div>
@@ -125,6 +280,21 @@
 				{% render_field form.show_window %} {{ form.show_window.label }}
 			</label>
 		</div>
+
+		<span id="helpBlock" class="help-block">{{ form.show_window.help_text }}</span>
+			
+		{% if form.show_window.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.show_window.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
 	</div>
 
 	<div class="form-group{% if form.has_error %} has-error {% endif %}">
@@ -133,6 +303,21 @@
 				{% render_field form.visible %} {{ form.visible.label }}
 			</label>
 		</div>
+
+		<span id="helpBlock" class="help-block">{{ form.visible.help_text }}</span>
+			
+		{% if form.visible.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.visible.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
 	</div>
 
 	<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
@@ -145,10 +330,41 @@
 	$(function() {
 		$('.notifies').formset({
 			addText: '{% trans "Add new notification" %}',
-			deleteText: '{% trans "Remove this notification" %}'
-		}); 
+			deleteText: '{% trans "Remove this notification" %}',
+			prefix: '{{ pendencies_form.prefix }}',
+			added: function (row) {
+				var locale = navigator.language || navigator.userLanguage;
+				
+				$(row).find('.datetime-picker').each(function () {
+					$(this).datetimepicker({
+						locale: locale
+					});
+				});
 
-		
+				$('.begin_date_input').on('click', function () {
+			    	var checkbox = $(this).parent().parent().find('.begin_date');
+
+			    	$(checkbox).prop('checked', true);
+			    });
+
+			    $('.end_date_input').on('click', function () {
+			    	var checkbox = $(this).parent().parent().find('.end_date');
+
+			    	$(checkbox).prop('checked', true);
+			    });
+
+			    subject = $("#id_control_subject").val();
+
+			    console.log(subject);
+			    console.log($(row).find('input[type=hidden]'));
+
+			    $(row).find('input[type=hidden]').val(subject);
+			}
+		});
+
+		{% if not pendencies_form.is_valid and pendencies_form.is_bound %}
+			$("#notifications").collapse('toggle');
+		{% endif %}
 	});
 
 	$('#id_groups').multiSelect({
@@ -224,11 +440,11 @@
 	});// Used to create multi-select css style
 
 	$('.collapse').on('show.bs.collapse', function (e) {
-	if($(this).is(e.target)){
-    	var btn = $(this).parent().find('.fa-angle-right');
+		if($(this).is(e.target)){
+	    	var btn = $(this).parent().find('.fa-angle-right');
 
-    	btn.switchClass("fa-angle-right", "fa-angle-down", 250, "easeInOutQuad");
-    }
+	    	btn.switchClass("fa-angle-right", "fa-angle-down", 250, "easeInOutQuad");
+	    }
     });
 
     $('.collapse').on('hide.bs.collapse', function (e) {
@@ -237,5 +453,17 @@
 
         	btn.switchClass("fa-angle-down", "fa-angle-right", 250, "easeInOutQuad");
         }
+    });
+
+    $('.begin_date_input').on('click', function () {
+    	var checkbox = $(this).parent().parent().find('.begin_date');
+
+    	$(checkbox).prop('checked', true);
+    });
+
+    $('.end_date_input').on('click', function () {
+    	var checkbox = $(this).parent().parent().find('.end_date');
+
+    	$(checkbox).prop('checked', true);
     });
 </script>

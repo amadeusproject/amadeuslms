@@ -1,19 +1,19 @@
-var locale = navigator.language || navigator.userLanguage;
-
-$('.datetime-picker').datetimepicker({
-	locale: locale
-});
-
-$('.date-picker').datetimepicker({
-	locale: locale,
-	format: 'L'
-});
-
-$('.text_wysiwyg').summernote({
-    height: 200
-});
-
 $(function () {
+	var locale = navigator.language || navigator.userLanguage;
+
+	$('.datetime-picker').datetimepicker({
+		locale: locale
+	});
+
+	$('.date-picker').datetimepicker({
+		locale: locale,
+		format: 'L'
+	});
+
+	$('.text_wysiwyg').summernote({
+	    height: 200
+	});
+	
 	$('[data-toggle="tooltip"]').tooltip();
 
 	//Dropdown menu collapse
