@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse_lazy
 from rolepermissions.verifications import has_role
 from django.db.models import Q
 from django.contrib import messages
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -346,20 +346,37 @@ class SubjectSearchView(LoginRequiredMixin, ListView):
     template_name = 'subjects/list_search.html'
     context_object_name = 'subjects'
     paginate_by = 10
+
+    def dispatch(self, request, *args, **kwargs):
+        # Try to dispatch to the right method; if a method doesn't exist,
+        # defer to the error handler. Also defer to the error handler if the
+        # request method isn't on the approved list.
+        tags =  request.GET.get('search')
+        tags = tags.split(" ")
+
+        if tags[0] == '':
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        if request.method.lower() in self.http_method_names:
+            handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+        else:
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
    
     def get_queryset(self):
         
         tags = self.request.GET.get('search')
+
         self.tags = tags
         tags = tags.split(" ")
        
+       
         subjects = Subject.objects.filter(tags__name__in=tags)
-        pk = self.request.user.pk
-        my_subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk) & Q(tags__name__in=tags) ).distinct()
+        #pk = self.request.user.pk
+        #my_subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk) & Q(tags__name__in=tags) ).distinct()
         
-        self.totals = {'all_subjects': subjects.count(), 'my_subjects': my_subjects.count()}
-        if self.kwargs.get('option'):
-            subjects = my_subjects
+        self.totals = {'all_subjects': subjects.count(), 'my_subjects': subjects.count()}
+        #if self.kwargs.get('option'):
+        #    subjects = my_subjects
         return subjects
    
     def get_context_data(self, **kwargs):
