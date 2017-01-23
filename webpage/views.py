@@ -12,6 +12,32 @@ from topics.models import Topic
 from .forms import WebpageForm, InlinePendenciesFormset
 from .models import Webpage
 
+class NewWindowView(LoginRequiredMixin, generic.DetailView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'webpages/window_view.html'
+	model = Webpage
+	context_object_name = 'webpage'
+
+class InsideView(LoginRequiredMixin, generic.DetailView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'webpages/view.html'
+	model = Webpage
+	context_object_name = 'webpage'	
+
+	def get_context_data(self, **kwargs):
+		context = super(InsideView, self).get_context_data(**kwargs)
+
+		context['title'] = self.object.name
+		
+		context['topic'] = self.object.topic
+		context['subject'] = self.object.topic.subject
+
+		return context
+
 class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
@@ -102,4 +128,13 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 	def get_success_url(self):
 		messages.success(self.request, _('The Webpage "%s" was added to the Topic "%s" of the virtual environment "%s" successfully!')%(self.object.name, self.object.topic.name, self.object.topic.subject.name))
 
-		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+		success_url = reverse_lazy('webpages:view', kwargs = {'slug': self.object.slug})
+
+		if self.object.show_window:
+			self.request.session['resources'] = {}
+			self.request.session['resources']['new_page'] = True
+			self.request.session['resources']['new_page_url'] = reverse('webpages:window_view', kwargs = {'slug': self.object.slug})
+
+			success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+
+		return success_url
