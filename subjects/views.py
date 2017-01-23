@@ -285,11 +285,7 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
                 if request.META.get('HTTP_REFERER'):
                     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
                 else:
-                    
                     return redirect('subjects:index')
-                
-
-
 
         if request.method.lower() in self.http_method_names:
             handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
@@ -320,8 +316,18 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
     model = Subject
     template_name = 'subjects/delete.html'
 
-    def dispatch(self, *args, **kwargs):
+    def dispatch(self,request, *args, **kwargs):
+        user = self.request.user
         
+        pk = user.pk
+
+        subject = Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('slug')))
+        if not user.is_staff:
+            if subject.count() == 0:
+                if request.META.get('HTTP_REFERER'):
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                else:
+                    return redirect('subjects:index')
         return super(SubjectDeleteView, self).dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
