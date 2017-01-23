@@ -361,6 +361,18 @@ a.add-row {
     border: 1px solid #ddd;
 }
 
+.resource_list > .disabled {
+    background-color: #eee;
+}
+
+.resource_list > .disabled:hover {
+    background-color: #eee !important;   
+}
+
+.resource_list > .disabled a {
+    color: #777;
+}
+
 .resource_list > .list-group-item:hover {
     background: #F5F5F5;
 }
@@ -371,6 +383,10 @@ a.add-row {
 
 .resource_list .category-card-items i {
     color: #CCCCCC;
+}
+
+.resource_list .category-card-items .dropdown-menu i {
+    color: #333;
 }
 
 .resource_list a {

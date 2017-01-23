@@ -1,35 +1,42 @@
 {% load static i18n pagination permissions_tags %}
 {% load django_bootstrap_breadcrumbs %}
 
+{% subject_permissions request.user topic.subject as has_subject_permissions %}
+
 <div id="resource_{{ topic.slug }}" class="list-group resource_list">
 	{% for resource in topic.resource_topic.all %}
-  		<div class="list-group-item">
-  			<input type="hidden" class="id_inp" name="id" value="{{ resource.id }}" />
-	    	<input type="hidden" class="order_inp" name="order" value="{{ resource.order }}" />
-	    	<input type="hidden" class="url_order" value="{% url 'topics:update_resource_order' %}" />
+		{% if resource.visible or has_subject_permissions %}
+	  		<div class="list-group-item {% if not resource.visible %}disabled{% endif %}">
+	  			<input type="hidden" class="id_inp" name="id" value="{{ resource.id }}" />
+		    	<input type="hidden" class="order_inp" name="order" value="{{ resource.order }}" />
+		    	<input type="hidden" class="url_order" value="{% url 'topics:update_resource_order' %}" />
 
-  			<h4 class="pull-left list-group-item-heading">
-  				<a href="{% url resource.access_link resource.slug %}" class="resource_link" {% if resource.show_window %}target="_blank"{% endif %}>
-					{{ resource }}
-  				</a>
-			</h4>
-			<div class="pull-right category-card-items">
-                <a><i class="fa fa-arrows" aria-hidden="true"></i></a>
-                <span class="btn-group">
-	                <a href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-	                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-	                </a>
-	                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="moreResources">
-	                    <li><a href="{% url 'topics:update' subject.slug topic.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
-	                    <li><a href="javascript:delete_topic('{% url 'topics:delete' topic.slug %}')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remove' %}</a></li>
-	                </ul>
-	            </span>
-        	</div>
-	        <br clear="all" />
-			{% autoescape off %}
-				{{ resource.brief_description }}
-			{% endautoescape %}
-  		</div>
+	  			<h4 class="pull-left list-group-item-heading">
+	  				<a href="{% url resource.access_link resource.slug %}" class="resource_link" {% if resource.show_window %}target="_blank"{% endif %}>
+						{{ resource }}
+	  				</a>
+				</h4>
+
+				{% if has_subject_permissions %}
+					<div class="pull-right category-card-items">
+		                <a><i class="fa fa-arrows" aria-hidden="true"></i></a>
+		                <span class="btn-group">
+			                <a href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+			                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+			                </a>
+			                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="moreResources">
+			                    <li><a href="{% url 'topics:update' subject.slug topic.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+			                    <li><a href="javascript:delete_topic('{% url 'topics:delete' topic.slug %}')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remove' %}</a></li>
+			                </ul>
+			            </span>
+		        	</div>
+		        {% endif %}
+		        <br clear="all" />
+				{% autoescape off %}
+					{{ resource.brief_description }}
+				{% endautoescape %}
+	  		</div>
+	  	{% endif %}
   	{% endfor %}
 </div>
 <script type="text/javascript">

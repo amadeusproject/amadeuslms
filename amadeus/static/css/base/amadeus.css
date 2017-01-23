@@ -786,6 +786,10 @@ a.add-row {
     margin: 0px;
 }
 
+.resource_list > .disabled a {
+    cursor: not-allowed;
+}
+
 .resource_list a:hover, .resource_list a:focus {
     text-decoration: none;
 }
