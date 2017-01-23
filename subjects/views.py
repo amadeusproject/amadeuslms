@@ -179,7 +179,7 @@ class SubjectCreateView(LoginRequiredMixin, CreateView):
         user = request.user
         pk = user.pk 
         if kwargs.get('subject_slug'):
-            Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('subject_slug')))
+            subject = Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('subject_slug')))
             if not user.is_staff:
                 if subject.count() == 0:
                     if request.META.get('HTTP_REFERER'):

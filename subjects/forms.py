@@ -71,6 +71,19 @@ class CreateSubjectForm(forms.ModelForm):
             return ValueError"""
         return cleaned_data
     
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if self.instance.id:
+            same_name = Subject.objects.filter(name__unaccent__iexact = name).exclude(id = self.instance.id)
+        else:
+            same_name = Subject.objects.filter(name__unaccent__iexact = name)
+
+        if same_name.count() > 0:
+            self._errors['name'] = [_('There is another subject with this name, try another one.')]
+
+
+        return name
+
     def clean_subscribe_begin(self):
         subscribe_begin = self.cleaned_data['subscribe_begin']
         
