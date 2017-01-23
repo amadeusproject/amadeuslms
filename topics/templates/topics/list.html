@@ -28,7 +28,7 @@
 		                                <li><a href="{% url 'topics:update' subject.slug topic.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
 		                                <li><a href="javascript:delete_topic('{% url 'topics:delete' topic.slug %}')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
 		                            </ul>
-		                            <a href="" ><i class="fa fa-arrows" aria-hidden="true"></i></a>
+		                            <a href="" ><i class="fa fa-arrows move_topic" aria-hidden="true"></i></a>
 		                    	</div>
 	                        {% endif %}
 		                </div>

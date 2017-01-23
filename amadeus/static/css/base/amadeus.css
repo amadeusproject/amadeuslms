@@ -767,6 +767,8 @@ a.add-row {
     padding: 10px 15px;
     margin-bottom: -1px;
     border-width: 1px !important;
+    overflow: inherit;
+    cursor: pointer;
 }
 
 .resource_list > .list-group-item:last-child {
@@ -777,4 +779,13 @@ a.add-row {
 
 .resource_list .list-group-item .list-group-item-heading {
     font-weight: 500;
+}
+
+.resource_list .btn-group {
+    display: inline;
+    margin: 0px;
+}
+
+.resource_list a:hover, .resource_list a:focus {
+    text-decoration: none;
 }

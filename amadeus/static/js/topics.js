@@ -31,7 +31,7 @@ $('.collapse').on('hide.bs.collapse', function (e) {
 $("#topics-accordion").sortable({ 
     delay: 100,
     distance: 5,
-    handle: 'i.fa-arrows',
+    handle: 'i.move_topic',
     update: function( event, ui ) {
   		var cont = 1;
   		var data = [];
