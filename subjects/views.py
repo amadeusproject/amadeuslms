@@ -1,5 +1,5 @@
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView, TemplateView, DetailView
 from categories.models import Category
 from django.core.urlresolvers import reverse_lazy
@@ -246,6 +246,28 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
+
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        subject = get_object_or_404(Subject, slug = kwargs['slug'])
+        
+        if not user.is_staff:
+            if not user in subject.professor.all() and not user in subject.category.coordinators.all():
+
+                if request.META.get('HTTP_REFERER'):
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                else:
+                    
+                    return redirect('subjects:index')
+                
+
+
+
+        if request.method.lower() in self.http_method_names:
+            handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+        else:
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(SubjectUpdateView, self).get_context_data(**kwargs)
