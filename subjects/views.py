@@ -176,12 +176,40 @@ class SubjectCreateView(LoginRequiredMixin, CreateView):
     
     success_url = reverse_lazy('subject:index')
 
+    def dispatch(self, request, *args, **kwargs):
+        user = request.user
+        pk = user.pk 
+        if kwargs.get('subject_slug'):
+            Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('subject_slug')))
+            if not user.is_staff:
+                if subject.count() == 0:
+                    if request.META.get('HTTP_REFERER'):
+                        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                    else:
+                        return redirect('subjects:index')
+    
+
+        if kwargs.get('slug'):
+            subject = Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('slug')))
+            if not user.is_staff:
+                if subject.count() == 0:
+                        if request.META.get('HTTP_REFERER'):
+                            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                        else:
+                            return redirect('subjects:index')               
+        if request.method.lower() in self.http_method_names:
+            handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+        else:
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
+   
+
     def get_initial(self):
         initial = super(SubjectCreateView, self).get_initial()
         if self.kwargs.get('slug'): #when the user creates a subject
             initial['category'] = Category.objects.all().filter(slug=self.kwargs['slug'])
 
-        if self.kwargs.get('subject_slug'): #when the user updates a subject
+        if self.kwargs.get('subject_slug'): #when the user replicate a subject
             subject = get_object_or_404(Subject, slug = self.kwargs['subject_slug'])
             initial = initial.copy()
             initial['category'] = subject.category
@@ -249,11 +277,12 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
-        subject = get_object_or_404(Subject, slug = kwargs['slug'])
         
-        if not user.is_staff:
-            if not user in subject.professor.all() and not user in subject.category.coordinators.all():
+        pk = user.pk
 
+        subject = Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('slug')))
+        if not user.is_staff:
+            if subject.count() == 0:
                 if request.META.get('HTTP_REFERER'):
                     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
                 else:
@@ -333,6 +362,26 @@ class SubjectDetailView(LoginRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/view.html'
     context_object_name = 'subject'
+
+    def dispatch(self, request, *args,**kwargs):
+        user = request.user
+        pk = user.pk
+        if kwargs.get('slug') and not user.is_staff:
+            subject = get_object_or_404(Subject, slug = kwargs.get('slug'))
+
+            subject = Subject.objects.filter((Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('slug')))
+            
+            if subject.count() == 0:
+                if request.META.get('HTTP_REFERER'):
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                else:
+                    return redirect('subjects:home')
+                            
+        if request.method.lower() in self.http_method_names:
+            handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+        else:
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(SubjectDetailView, self).get_context_data(**kwargs)
