@@ -356,6 +356,15 @@ a.add-row {
     color: rgba(255,255,255,.84);
 }
 
+.resource_list > .list-group-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.resource_list > .list-group-item:last-child {
+    border-bottom: 1px solid #ddd !important;
+}
+
 @media(max-width: 768px) {
     .navbar .navbar-nav .dropdown .dropdown-menu li > a {
         color: #333333 !important;
