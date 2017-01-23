@@ -38,7 +38,6 @@ class HomeView(LoginRequiredMixin, ListView):
     paginate_by = 10
     total = 0    
 
-
     def get_queryset(self):
         if self.request.user.is_staff:
             subjects = Subject.objects.all().order_by("name")
@@ -386,6 +385,14 @@ class SubjectDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(SubjectDetailView, self).get_context_data(**kwargs)
         context['title'] = self.object.name
+
+        resources = self.request.session.get('resources', None)
+
+        if resources:
+            context['resource_new_page'] = resources['new_page']
+            context['resource_new_page_url'] = resources['new_page_url']
+
+            self.request.session['resources'] = None
 
         return context
 
