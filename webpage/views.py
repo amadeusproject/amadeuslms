@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from amadeus.permissions import has_subject_permissions
+from amadeus.permissions import has_subject_permissions, has_resource_permissions
 
 from topics.models import Topic
 
@@ -20,6 +20,15 @@ class NewWindowView(LoginRequiredMixin, generic.DetailView):
 	model = Webpage
 	context_object_name = 'webpage'
 
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		webpage = get_object_or_404(Webpage, slug = slug)
+
+		if not has_resource_permissions(request.user, webpage):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(NewWindowView, self).dispatch(request, *args, **kwargs)
+
 class InsideView(LoginRequiredMixin, generic.DetailView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
@@ -27,6 +36,15 @@ class InsideView(LoginRequiredMixin, generic.DetailView):
 	template_name = 'webpages/view.html'
 	model = Webpage
 	context_object_name = 'webpage'	
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		webpage = get_object_or_404(Webpage, slug = slug)
+
+		if not has_resource_permissions(request.user, webpage):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(InsideView, self).dispatch(request, *args, **kwargs)
 
 	def get_context_data(self, **kwargs):
 		context = super(InsideView, self).get_context_data(**kwargs)
