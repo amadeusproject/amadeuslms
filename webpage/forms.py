@@ -21,7 +21,7 @@ class WebpageForm(forms.ModelForm):
 		self.subject = kwargs['initial'].get('subject', None)
 		
 		if self.instance.id:
-			self.subject = self.instance.subject
+			self.subject = self.instance.topic.subject
 			self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
 
 		self.initial['control_subject'] = self.subject.id

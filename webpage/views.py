@@ -156,3 +156,102 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 			success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
 		return success_url
+
+class UpdateView(LoginRequiredMixin, generic.UpdateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'webpages/update.html'
+	model = Webpage
+	form_class = WebpageForm
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('topic_slug', '')
+		topic = get_object_or_404(Topic, slug = slug)
+
+		if not has_subject_permissions(request.user, topic.subject):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(UpdateView, self).dispatch(request, *args, **kwargs)
+
+	# def get(self, request, *args, **kwargs):
+	# 	self.object = self.get_queryset()
+
+	# 	form_class = self.get_form_class()
+	# 	form = self.get_form(form_class)
+
+	# 	slug = self.kwargs.get('topic_slug', '')
+	# 	topic = get_object_or_404(Topic, slug = slug)
+
+	# 	pendencies_form = InlinePendenciesFormset(instance = self.object)
+
+	# 	return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
+
+	def post(self, request, *args, **kwargs):
+		self.object = None
+		
+		form_class = self.get_form_class()
+		form = self.get_form(form_class)
+
+		slug = self.kwargs.get('topic_slug', '')
+		topic = get_object_or_404(Topic, slug = slug)
+
+		pendencies_form = InlinePendenciesFormset(self.request.POST, initial = [{'subject': topic.subject}])
+		
+		if (form.is_valid() and pendencies_form.is_valid()):
+			return self.form_valid(form, pendencies_form)
+		else:
+			return self.form_invalid(form, pendencies_form)
+	
+	def form_invalid(self, form, pendencies_form):
+		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
+
+	def form_valid(self, form, pendencies_form):
+		self.object = form.save(commit = False)
+
+		slug = self.kwargs.get('topic_slug', '')
+		topic = get_object_or_404(Topic, slug = slug)
+
+		self.object.topic = topic
+		self.object.order = topic.resource_topic.count() + 1
+
+		self.object.save()
+
+		pendencies_form.instance = self.object
+		pendencies_form.save()
+        
+		return redirect(self.get_success_url())
+
+	def get_context_data(self, **kwargs):
+		context = super(UpdateView, self).get_context_data(**kwargs)
+
+		context['title'] = _('Update Webpage')
+
+		slug = self.kwargs.get('topic_slug', '')
+		topic = get_object_or_404(Topic, slug = slug)
+
+		context['topic'] = topic
+		context['subject'] = topic.subject
+
+		if self.request.POST:
+			context['form'] = WebpageForm(self.request.POST, instance=self.object, initial = {'subject': topic.subject})
+			context['pendencies_form'] = InlinePendenciesFormset(self.request.POST, instance=self.object)
+		else:
+			context['form'] = WebpageForm(instance=self.object, initial = {'subject': topic.subject})
+			context['pendencies_form'] = InlinePendenciesFormset(instance=self.object)
+
+		return context
+
+	def get_success_url(self):
+		messages.success(self.request, _('The Webpage "%s" was added to the Topic "%s" of the virtual environment "%s" successfully!')%(self.object.name, self.object.topic.name, self.object.topic.subject.name))
+
+		success_url = reverse_lazy('webpages:view', kwargs = {'slug': self.object.slug})
+
+		if self.object.show_window:
+			self.request.session['resources'] = {}
+			self.request.session['resources']['new_page'] = True
+			self.request.session['resources']['new_page_url'] = reverse('webpages:window_view', kwargs = {'slug': self.object.slug})
+
+			success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+
+		return success_url
