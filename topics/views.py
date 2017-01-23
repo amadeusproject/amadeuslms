@@ -12,7 +12,7 @@ from amadeus.permissions import has_subject_permissions
 
 from subjects.models import Subject
 
-from .models import Topic
+from .models import Topic, Resource
 from .forms import TopicForm
 
 class CreateView(LoginRequiredMixin, generic.edit.CreateView):
@@ -146,6 +146,21 @@ def update_order(request):
 			topic = get_object_or_404(Topic, id = t_data['topic_id'])
 			topic.order = t_data['topic_order']
 			topic.save()
+
+		return JsonResponse({'message': 'ok'})
+
+	return JsonResponse({'message': 'No data received'})
+
+def update_resource_order(request):
+	data = request.GET.get('data', None)
+
+	if not data is None:
+		data = json.loads(data)
+
+		for t_data in data:
+			resource = get_object_or_404(Resource, id = t_data['resource_id'])
+			resource.order = t_data['resource_order']
+			resource.save()
 
 		return JsonResponse({'message': 'ok'})
 

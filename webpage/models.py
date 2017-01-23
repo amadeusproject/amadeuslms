@@ -13,3 +13,9 @@ class Webpage(Resource):
 
 	def __str__(self):
 		return self.name
+
+	def access_link(self):
+		if self.show_window:
+			return 'webpages:window_view'
+
+		return 'webpages:view'

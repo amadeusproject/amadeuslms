@@ -6,6 +6,8 @@ from subjects.models import Subject, Tag
 from students_group.models import StudentsGroup
 from users.models import User
 
+from .decorators import always_as_child
+
 class Topic(models.Model):
 	name = models.CharField(_('Name'), max_length = 200)
 	slug = AutoSlugField(_("Slug"), populate_from = 'name', unique = True)
@@ -25,7 +27,27 @@ class Topic(models.Model):
 	def __str__(self):
 		return self.name
 
-class Resource(models.Model):
+"""
+	Abstract model to make easier to know which kind of Resource we are dealing with
+"""
+class KnowsChild(models.Model):
+    # Make a place to store the class name of the child
+    _my_subclass = models.CharField(max_length=200) 
+ 
+    class Meta:
+        abstract = True
+ 
+    def as_child(self):
+        return getattr(self, self._my_subclass)
+ 
+    def save(self, *args, **kwargs):
+        # save what kind we are.
+        if not self._my_subclass:
+        	self._my_subclass = self.__class__.__name__.lower() 
+        	
+        super(KnowsChild, self).save(*args, **kwargs)
+
+class Resource(KnowsChild):
 	name = models.CharField(_('Name'), max_length = 200)
 	slug = AutoSlugField(_("Slug"), populate_from = 'name', unique = True)
 	brief_description = models.TextField(_('Brief Description'), blank = True)
@@ -43,6 +65,15 @@ class Resource(models.Model):
 	class Meta:
 		verbose_name = _('Resource')
 		verbose_name_plural = _('Resources')
+		ordering = ['order']
 
 	def __str__(self):
 		return self.name
+
+	"""
+		Method to get the appropriated view link
+		Must override in the child models
+	"""
+	@always_as_child
+	def access_link(self):
+		pass

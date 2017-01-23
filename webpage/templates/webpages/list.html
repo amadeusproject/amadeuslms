@@ -1,21 +1,29 @@
 {% load static i18n pagination permissions_tags %}
 {% load django_bootstrap_breadcrumbs %}
 
-<div class="list-group resource_list">
+<div id="resource_{{ topic.slug }}" class="list-group resource_list">
 	{% for resource in topic.resource_topic.all %}
   		<div class="list-group-item">
+  			<input type="hidden" class="id_inp" name="id" value="{{ resource.id }}" />
+	    	<input type="hidden" class="order_inp" name="order" value="{{ resource.order }}" />
+	    	<input type="hidden" class="url_order" value="{% url 'topics:update_resource_order' %}" />
+
   			<h4 class="pull-left list-group-item-heading">
-  				{{ resource }}
+  				<a href="{% url resource.access_link resource.slug %}" class="resource_link" {% if resource.show_window %}target="_blank"{% endif %}>
+					{{ resource }}
+  				</a>
 			</h4>
 			<div class="pull-right category-card-items">
-                <a href=""><i class="fa fa-arrows" aria-hidden="true"></i></a>
-                <a href="" id="moreResources" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                </a>
-                <ul class="dropdown-menu pull-right" aria-labelledby="moreResources">
-                    <li><a href="{% url 'topics:update' subject.slug topic.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
-                    <li><a href="javascript:delete_topic('{% url 'topics:delete' topic.slug %}')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
-                </ul>
+                <a><i class="fa fa-arrows" aria-hidden="true"></i></a>
+                <span class="btn-group">
+	                <a href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+	                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+	                </a>
+	                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="moreResources">
+	                    <li><a href="{% url 'topics:update' subject.slug topic.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+	                    <li><a href="javascript:delete_topic('{% url 'topics:delete' topic.slug %}')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remove' %}</a></li>
+	                </ul>
+	            </span>
         	</div>
 	        <br clear="all" />
 			{% autoescape off %}
@@ -24,3 +32,57 @@
   		</div>
   	{% endfor %}
 </div>
+<script type="text/javascript">
+	$(".list-group-item").unbind().on('click', function (e) {
+		var arrow = $(this).find('i.fa-arrows').is(e.target),
+			menu = $(this).find('i.fa-ellipsis-v').is(e.target);
+		
+		if (!arrow && !menu) {
+			var link = $(this).find('.resource_link').attr('href'),
+				target = $(this).find('.resource_link').attr('target');
+
+			if (typeof(target) != 'undefined') {
+				window.open(link, target);
+			} else {
+				window.location = link;
+			}
+		}
+	});
+
+	$("#resource_{{ topic.slug }}").sortable({ 
+	    delay: 100,
+	    distance: 5,
+	    handle: 'i.fa-arrows',
+	    update: function( event, ui ) {
+	  		var cont = 1;
+	  		var data = [];
+	  		
+	  		$("#resource_{{ topic.slug }}").find('.order_inp').each(function () {
+	  			$(this).val(cont++);
+
+	  			data.push({
+	  				'resource_id': $(this).parent().find('.id_inp').val(),
+	  				'resource_order': $(this).val()
+	  			});
+	  		});
+
+	  		data = JSON.stringify(data);
+
+	  		sendUpdateResource(data);
+	    },
+	});
+
+	function sendUpdateResource(data) {
+		$.ajax({
+			url: $("#resource_{{ topic.slug }}").find('.url_order').val(),
+			dataType: 'json',
+			data: {'data': data},
+			success: function(response) {
+				console.log(response);
+			},
+			error: function(response) {
+				console.log(response);	
+			}
+		});
+	}
+</script>
