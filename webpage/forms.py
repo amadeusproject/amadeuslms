@@ -65,9 +65,9 @@ class WebpageForm(forms.ModelForm):
 
 	def clean_content(self):
 		content = self.cleaned_data.get('content', '')
-		content = strip_tags(content)
+		cleaned_content = strip_tags(content)
 		
-		if content == '':
+		if cleaned_content == '':
 			self._errors['content'] = [_('This field is required.')]
 
 			return ValueError
