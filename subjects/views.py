@@ -178,6 +178,7 @@ class SubjectCreateView(LoginRequiredMixin, CreateView):
     def dispatch(self, request, *args, **kwargs):
         user = request.user
         pk = user.pk 
+        
         if kwargs.get('subject_slug'):
             subject = Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('subject_slug')))
             if not user.is_staff:
@@ -189,9 +190,9 @@ class SubjectCreateView(LoginRequiredMixin, CreateView):
     
 
         if kwargs.get('slug'):
-            subject = Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('slug')))
             if not user.is_staff:
-                if subject.count() == 0:
+                category = Category.objects.filter(Q(coordinators__pk=pk) & Q(slug= kwargs.get('slug')))
+                if category.count() == 0:
                         if request.META.get('HTTP_REFERER'):
                             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
                         else:
@@ -316,7 +317,7 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
     model = Subject
     template_name = 'subjects/delete.html'
 
-    def dispatch(self,request, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         user = self.request.user
         
         pk = user.pk
@@ -328,7 +329,7 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
                     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
                 else:
                     return redirect('subjects:index')
-        return super(SubjectDeleteView, self).dispatch(*args, **kwargs)
+        return super(SubjectDeleteView, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()

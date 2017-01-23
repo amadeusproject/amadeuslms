@@ -5,6 +5,7 @@
 
 {% block javascript%}
     {{ block.super }}
+    <script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
 {% endblock%}
 
 {% block breadcrumbs %}
@@ -91,6 +92,9 @@
         </div>
     </div>
 
+     <div id="modal_subject"></div>
+    
+    
     <script type="text/javascript">
         {% if resource_new_page %}
             window.open("{{ resource_new_page_url }}");
