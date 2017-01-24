@@ -793,3 +793,11 @@ a.add-row {
 .resource_list a:hover, .resource_list a:focus {
     text-decoration: none;
 }
+
+.add_resource i {
+    margin-right: 10px;
+}
+
+.add_resource ul {
+    width: 100%;
+}

@@ -9,7 +9,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb topic 'subjects:view' subject.slug %}
+    {% breadcrumb topic 'subjects:topic_view' subject.slug topic.slug %}
     {% breadcrumb webpage 'webpages:view' webpage.slug %}
 {% endblock %}
 

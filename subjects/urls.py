@@ -10,6 +10,7 @@ urlpatterns = [
 	url(r'^update/(?P<slug>[\w_-]+)/$', views.SubjectUpdateView.as_view(), name='update'),
 	url(r'^delete/(?P<slug>[\w_-]+)/$', views.SubjectDeleteView.as_view(), name='delete'),
 	url(r'^view/(?P<slug>[\w_-]+)/$', views.SubjectDetailView.as_view(), name='view'),
+	url(r'^view/(?P<slug>[\w_-]+)/(?P<topic_slug>[\w_-]+)/$', views.SubjectDetailView.as_view(), name='topic_view'),
 	url(r'^subscribe/(?P<slug>[\w_-]+)/$', views.SubjectSubscribeView.as_view(), name='subscribe'),
 	url(r'^search/$', views.SubjectSearchView.as_view(), name='search'),
 	url(r'^search/(?P<option>[\w_-]+)/$', views.SubjectSearchView.as_view(), name='search'),
