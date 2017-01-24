@@ -109,7 +109,10 @@
             		<div class="notifies">
             			<div style="text-align:left">
 	            			{% if notify.instance.pk %}{{ notify.DELETE }}{% endif %}
-	            			{% render_field notify.subject %}
+	            			{% render_field notify.id %}
+	            			{% render_field notify.resource %}
+	            			{% render_field notify.subject class='pend_subj' %}
+		            		
 		            		<div class="form-group{% if notify.has_error %} has-error {% endif %} row">
 		            			<label for="{{ notify.action.auto_id }}" class="pull-left action_label contol-label">
 		            				{% trans 'Action not performed by the user' %}: 
@@ -118,13 +121,15 @@
 		        					{% render_field notify.action class='form-control' %}
 		        				</div>
 
+		        				<br clear="all" />
+
 		        				<span id="helpBlock" class="help-block">{{ notify.action.help_text }}</span>
 			
 								{% if notify.action.errors %}
 									<div class="alert alert-danger alert-dismissible" role="alert">
-											<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
 										<ul>
 											{% for error in notify.action.errors %}
 												<li>{{ error }}</li>
@@ -154,9 +159,9 @@
 			
 								{% if notify.begin_date.errors %}
 									<div class="alert alert-danger alert-dismissible" role="alert">
-											<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
 										<ul>
 											{% for error in notify.begin_date.errors %}
 												<li>{{ error }}</li>
@@ -180,9 +185,9 @@
 			
 								{% if notify.end_date.errors %}
 									<div class="alert alert-danger alert-dismissible" role="alert">
-											<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
 										<ul>
 											{% for error in notify.end_date.errors %}
 												<li>{{ error }}</li>
@@ -355,12 +360,13 @@
 
 			    subject = $("#id_control_subject").val();
 
-			    console.log(subject);
-			    console.log($(row).find('input[type=hidden]'));
-
-			    $(row).find('input[type=hidden]').val(subject);
+			    $(row).find('.pend_subj').val(subject);
 			}
 		});
+
+		subject = $("#id_control_subject").val();
+
+	    $('.pend_subj').val(subject);
 
 		{% if not pendencies_form.is_valid and pendencies_form.is_bound %}
 			$("#notifications").collapse('toggle');

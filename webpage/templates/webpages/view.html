@@ -47,6 +47,8 @@
             </div>
         </div>
         <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
-        	{{ webpage.content }}
+            {% autoescape off %}
+        	   {{ webpage.content }}
+            {% endautoescape %}
         </div>
 {% endblock %}

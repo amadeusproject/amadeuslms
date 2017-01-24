@@ -81,7 +81,7 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		slug = self.kwargs.get('slug', '')
 		topic = get_object_or_404(Topic, slug = slug)
 
-		pendencies_form = InlinePendenciesFormset(initial = [{'subject': topic.subject}])
+		pendencies_form = InlinePendenciesFormset(initial = [{'subject': topic.subject.id}])
 
 		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
@@ -94,7 +94,7 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		slug = self.kwargs.get('slug', '')
 		topic = get_object_or_404(Topic, slug = slug)
 
-		pendencies_form = InlinePendenciesFormset(self.request.POST, initial = [{'subject': topic.subject}])
+		pendencies_form = InlinePendenciesFormset(self.request.POST, initial = [{'subject': topic.subject.id}])
 		
 		if (form.is_valid() and pendencies_form.is_valid()):
 			return self.form_valid(form, pendencies_form)
@@ -126,8 +126,13 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		self.object.save()
 
 		pendencies_form.instance = self.object
-		pendencies_form.save()
-        
+
+		for form in pendencies_form.forms:
+			pend_form = form.save(commit = False)
+
+			if not pend_form.action == "":
+				pend_form.save() 
+
 		return redirect(self.get_success_url())
 
 	def get_context_data(self, **kwargs):
@@ -174,21 +179,8 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 
 		return super(UpdateView, self).dispatch(request, *args, **kwargs)
 
-	# def get(self, request, *args, **kwargs):
-	# 	self.object = self.get_queryset()
-
-	# 	form_class = self.get_form_class()
-	# 	form = self.get_form(form_class)
-
-	# 	slug = self.kwargs.get('topic_slug', '')
-	# 	topic = get_object_or_404(Topic, slug = slug)
-
-	# 	pendencies_form = InlinePendenciesFormset(instance = self.object)
-
-	# 	return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
-
 	def post(self, request, *args, **kwargs):
-		self.object = None
+		self.object = self.get_object()
 		
 		form_class = self.get_form_class()
 		form = self.get_form(form_class)
@@ -196,7 +188,7 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 		slug = self.kwargs.get('topic_slug', '')
 		topic = get_object_or_404(Topic, slug = slug)
 
-		pendencies_form = InlinePendenciesFormset(self.request.POST, initial = [{'subject': topic.subject}])
+		pendencies_form = InlinePendenciesFormset(self.request.POST, instance = self.object, initial = [{'subject': topic.subject.id}])
 		
 		if (form.is_valid() and pendencies_form.is_valid()):
 			return self.form_valid(form, pendencies_form)
@@ -209,16 +201,15 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 	def form_valid(self, form, pendencies_form):
 		self.object = form.save(commit = False)
 
-		slug = self.kwargs.get('topic_slug', '')
-		topic = get_object_or_404(Topic, slug = slug)
-
-		self.object.topic = topic
-		self.object.order = topic.resource_topic.count() + 1
-
 		self.object.save()
 
 		pendencies_form.instance = self.object
-		pendencies_form.save()
+
+		for form in pendencies_form.forms:
+			pend_form = form.save(commit = False)
+
+			if not pend_form.action == "":
+				pend_form.save()
         
 		return redirect(self.get_success_url())
 
@@ -233,12 +224,9 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 		context['topic'] = topic
 		context['subject'] = topic.subject
 
-		if self.request.POST:
-			context['form'] = WebpageForm(self.request.POST, instance=self.object, initial = {'subject': topic.subject})
-			context['pendencies_form'] = InlinePendenciesFormset(self.request.POST, instance=self.object)
-		else:
+		if not self.request.POST:
 			context['form'] = WebpageForm(instance=self.object, initial = {'subject': topic.subject})
-			context['pendencies_form'] = InlinePendenciesFormset(instance=self.object)
+			context['pendencies_form'] = InlinePendenciesFormset(instance=self.object, initial = [{'subject': topic.subject.id}])
 
 		return context
 
