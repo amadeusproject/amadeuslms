@@ -237,7 +237,7 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 		return context
 
 	def get_success_url(self):
-		messages.success(self.request, _('The Webpage "%s" was added to the Topic "%s" of the virtual environment "%s" successfully!')%(self.object.name, self.object.topic.name, self.object.topic.subject.name))
+		messages.success(self.request, _('The Webpage "%s" was updated successfully!')%(self.object.name))
 
 		success_url = reverse_lazy('webpages:view', kwargs = {'slug': self.object.slug})
 

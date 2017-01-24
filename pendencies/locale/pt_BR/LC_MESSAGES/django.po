@@ -1,0 +1,87 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-24 15:26-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: pendencies/forms.py:38 pendencies/forms.py:41 pendencies/forms.py:44
+msgid "This field is required."
+msgstr ""
+
+#: pendencies/forms.py:49
+msgid "This input should be filled with a date equal or before the End Date."
+msgstr ""
+
+#: pendencies/forms.py:50
+msgid "This input should be filled with a date equal or after the Begin Date."
+msgstr ""
+
+#: pendencies/forms.py:57 pendencies/forms.py:67
+msgid "This input should be filled with a date equal or after today's date."
+msgstr ""
+
+#: pendencies/forms.py:60 pendencies/forms.py:70
+msgid ""
+"This input should be filled with a date equal or after the subject begin "
+"date."
+msgstr ""
+
+#: pendencies/forms.py:63
+msgid ""
+"This input should be filled with a date equal or after the subject end date."
+msgstr ""
+
+#: pendencies/forms.py:73
+msgid ""
+"This input should be filled with a date equal or before the subject end date."
+msgstr ""
+
+#: pendencies/models.py:8
+msgid "Action"
+msgstr ""
+
+#: pendencies/models.py:8
+msgid "Visualize"
+msgstr ""
+
+#: pendencies/models.py:8
+msgid "Create"
+msgstr ""
+
+#: pendencies/models.py:8
+msgid "Answer"
+msgstr ""
+
+#: pendencies/models.py:8
+msgid "Access"
+msgstr ""
+
+#: pendencies/models.py:9
+msgid "Begin Date"
+msgstr ""
+
+#: pendencies/models.py:10
+msgid "End Date"
+msgstr ""
+
+#: pendencies/models.py:11
+msgid "Limit Date"
+msgstr ""
+
+#: pendencies/models.py:12
+msgid "Resource"
+msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-19 14:46-0300\n"
+"POT-Creation-Date: 2017-01-24 15:26-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,49 +26,91 @@ msgstr "Esse assunto já possui um repositório"
 msgid "This subject already has a topic with this name"
 msgstr "Esse assunto já possui um tópico com esse nome"
 
-#: topics/models.py:8
+#: topics/models.py:12 topics/models.py:51
 msgid "Name"
 msgstr "Nome"
 
-#: topics/models.py:9
+#: topics/models.py:13 topics/models.py:52
 msgid "Slug"
 msgstr "Slug"
 
-#: topics/models.py:10
+#: topics/models.py:14
 msgid "Description"
 msgstr "Descrição"
 
-#: topics/models.py:11
+#: topics/models.py:15
 msgid "Repository"
 msgstr "Repositório"
 
-#: topics/models.py:12
+#: topics/models.py:16 topics/models.py:56
 msgid "Visible"
 msgstr "Visível"
 
-#: topics/models.py:13
+#: topics/models.py:17
 msgid "Subject"
 msgstr "Assunto"
 
-#: topics/models.py:14
+#: topics/models.py:18 topics/models.py:57
 msgid "Order"
 msgstr "Ordem"
 
-#: topics/models.py:15
+#: topics/models.py:19 topics/models.py:62
 msgid "Create Date"
 msgstr "Data de criação"
 
-#: topics/models.py:16
+#: topics/models.py:20 topics/models.py:63
 msgid "Last Update"
 msgstr "Última Atualização"
 
-#: topics/models.py:19
+#: topics/models.py:23 topics/models.py:58
 msgid "Topic"
 msgstr "Tópico"
 
-#: topics/models.py:20
+#: topics/models.py:24
 msgid "Topics"
 msgstr "Tópicos"
+
+#: topics/models.py:53
+#, fuzzy
+#| msgid "Description"
+msgid "Brief Description"
+msgstr "Descrição"
+
+#: topics/models.py:54
+msgid "Show in new window"
+msgstr "Exibir em nova janela"
+
+#: topics/models.py:55
+msgid "All Students"
+msgstr "Todos os estudantes habilitados para acessar o recurso"
+
+#: topics/models.py:59
+msgid "Students"
+msgstr "Estudantes"
+
+#: topics/models.py:60
+msgid "Groups"
+msgstr "Grupos de Estudo"
+
+#: topics/models.py:61
+msgid "Markers"
+msgstr "Marcadores"
+
+#: topics/models.py:66
+msgid "Resource"
+msgstr "Recurso"
+
+#: topics/models.py:67
+msgid "Resources"
+msgstr "Recursos"
+
+#: topics/templates/resources/list.html:30 topics/templates/topics/list.html:28
+msgid "Edit"
+msgstr "Editar"
+
+#: topics/templates/resources/list.html:31 topics/templates/topics/list.html:29
+msgid "Remove"
+msgstr "Remover"
 
 #: topics/templates/topics/_form.html:21
 msgid "Only one topic per subject can be a repository"
@@ -98,13 +140,29 @@ msgstr "Fechar"
 msgid "Delete"
 msgstr "Deletar"
 
-#: topics/templates/topics/list.html:28
-msgid "Edit"
-msgstr "Editar"
+#: topics/templates/topics/list.html:49
+msgid "Add Resource"
+msgstr "Adicionar Recurso"
 
-#: topics/templates/topics/list.html:29
-msgid "Remove"
-msgstr "Remover"
+#: topics/templates/topics/list.html:52
+msgid "Video Embed"
+msgstr "Embed de Vídeo"
+
+#: topics/templates/topics/list.html:53
+msgid "Forum"
+msgstr "Fórum"
+
+#: topics/templates/topics/list.html:54
+msgid "File Link"
+msgstr "Link para arquivo"
+
+#: topics/templates/topics/list.html:55
+msgid "Webpage"
+msgstr "Página Web"
+
+#: topics/templates/topics/list.html:56
+msgid "Questionary"
+msgstr "Questionário"
 
 #: topics/templates/topics/update.html:8 topics/views.py:103
 msgid "Update Topic"
@@ -120,7 +178,11 @@ msgstr "Tópico \"%s\" foi criado no ambiente virtual \"%s\" com sucesso!"
 msgid "Topic \"%s\" was updated on virtual enviroment \"%s\" successfully!"
 msgstr "Tópico \"%s\" foi atualizado no ambiente virtual \"%s\" com sucesso!"
 
-#: topics/views.py:135
+#: topics/views.py:138
+msgid "Could not remove this topic. It has on or more resources attached."
+msgstr "Não é possível remover esse tópico. Ele possui um ou mais recursos vinculados."
+
+#: topics/views.py:147
 #, python-format
 msgid "Topic \"%s\" was removed from virtual enviroment \"%s\" successfully!"
 msgstr "Tópico \"%s\" foi removido do ambiente virtual \"%s\" com sucesso!"

@@ -1,0 +1,128 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-24 15:26-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: webpage/forms.py:32
+msgid "Tags"
+msgstr "Tags"
+
+#: webpage/forms.py:38
+msgid "Webpage name"
+msgstr "Nome da Página Web"
+
+#: webpage/forms.py:39
+msgid "Webpage content"
+msgstr "Conteúdo da Página Web"
+
+#: webpage/forms.py:60
+msgid "This subject already has a webpage with this name"
+msgstr "Esse assunto já possui uma Página Web com esse nome"
+
+#: webpage/forms.py:71
+msgid "This field is required."
+msgstr "Esse campo é obrigatório."
+
+#: webpage/models.py:8
+msgid "Webpage Content"
+msgstr "Conteúdo da Página Web"
+
+#: webpage/models.py:11
+msgid "WebPage"
+msgstr "Página Web"
+
+#: webpage/models.py:12
+msgid "WebPages"
+msgstr "Páginas Web"
+
+#: webpage/templates/webpages/_form.html:49
+msgid "Common resources settings"
+msgstr "Configurações comuns a todos os recursos"
+
+#: webpage/templates/webpages/_form.html:98
+msgid "Pendencies Notifications"
+msgstr "Notificação de Pendências"
+
+#: webpage/templates/webpages/_form.html:118
+msgid "Action not performed by the user"
+msgstr "Ação não realizada pelo usuário"
+
+#: webpage/templates/webpages/_form.html:144
+msgid "Wished period"
+msgstr "Período desejado"
+
+#: webpage/templates/webpages/_form.html:241
+msgid "Attribute students to webpage"
+msgstr "Atribuir estudantes à Página Web"
+
+#: webpage/templates/webpages/_form.html:261
+msgid "Attribute groups to webpage"
+msgstr "Atribuir grupos de estudo à Página Web"
+
+#: webpage/templates/webpages/_form.html:330
+msgid "Save"
+msgstr "Salvar"
+
+#: webpage/templates/webpages/_form.html:337
+msgid "Add new notification"
+msgstr "Adiciona nova notificação"
+
+#: webpage/templates/webpages/_form.html:338
+msgid "Remove this notification"
+msgstr "Remover essa notificação"
+
+#: webpage/templates/webpages/create.html:21 webpage/views.py:144
+msgid "Create Webpage"
+msgstr "Criar Página Web"
+
+#: webpage/templates/webpages/delete.html:9
+msgid "Are you sure you want delete the webpage"
+msgstr "Você tem certeza que deseja remover a Página Web"
+
+#: webpage/templates/webpages/delete.html:14
+msgid "Close"
+msgstr "Fechar"
+
+#: webpage/templates/webpages/delete.html:17
+msgid "Delete"
+msgstr "Remover"
+
+#: webpage/templates/webpages/update.html:21
+msgid "Edit: "
+msgstr "Editar: "
+
+#: webpage/views.py:155
+#, python-format
+msgid ""
+"The Webpage \"%s\" was added to the Topic \"%s\" of the virtual environment "
+"\"%s\" successfully!"
+msgstr "A Página Web \"%s\" foi adicionado ao tópico \"%s\" do ambiente virtual \"%s\" com sucesso!"
+
+#: webpage/views.py:225
+msgid "Update Webpage"
+msgstr "Atualizar Página Web"
+
+#: webpage/views.py:240
+#, python-format
+msgid "The Webpage \"%s\" was updated successfully!"
+msgstr "A Página Web \"%s\" foi atualizada com sucesso!"
+
+#: webpage/views.py:271
+#, python-format
+msgid ""
+"The webpage \"%s\" was removed successfully from virtual environment \"%s\"!"
+msgstr "A Página Web \"%s\" foi removida do ambiente virtual \"%s\" com sucesso!"
