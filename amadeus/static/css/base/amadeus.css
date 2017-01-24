@@ -31,6 +31,14 @@ a:focus {
     font-size: 1.25em;
     color: #2E8B57;
 }
+
+@media (max-width: 780px ){
+    .users-cloud  .small a {
+        
+        display:none;
+    }
+
+}
 .users-cloud  .big a {
     font-size: 2.25em;
     color: #6B8E23;
