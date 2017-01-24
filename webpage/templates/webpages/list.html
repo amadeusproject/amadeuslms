@@ -25,8 +25,8 @@
 			                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
 			                </a>
 			                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="moreResources">
-			                    <li><a href="{% url 'webpages:update' topic.slug resource.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
-			                    <li><a href="javascript:delete_topic('{% url 'topics:delete' topic.slug %}')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remove' %}</a></li>
+			                    <li><a href="{% url 'webpages:update' topic.slug resource.slug %}" class="edit"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+			                    <li><a href="javascript:delete_resource('{% url 'webpages:delete' resource.slug %}')" class="delete"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remove' %}</a></li>
 			                </ul>
 			            </span>
 		        	</div>
@@ -40,11 +40,24 @@
   	{% endfor %}
 </div>
 <script type="text/javascript">
+	function delete_resource(url) {
+	    $('.modal').remove();
+
+	    $.get(url, function (modal) {
+	        $("#resource_{{ topic.slug }}").parent().after(modal);
+
+	        $('.modal').modal('show');
+	    });
+	}
+
 	$(".list-group-item").unbind().on('click', function (e) {
 		var arrow = $(this).find('i.fa-arrows').is(e.target),
-			menu = $(this).find('i.fa-ellipsis-v').is(e.target);
+			menu = $(this).find('i.fa-ellipsis-v').is(e.target),
+			del = $(this).find('a.delete').is(e.target),
+			upd = $(this).find('a.edit').is(e.target);
 		
-		if (!arrow && !menu) {
+
+		if (!arrow && !menu && !del && !upd) {
 			var link = $(this).find('.resource_link').attr('href'),
 				target = $(this).find('.resource_link').attr('target');
 

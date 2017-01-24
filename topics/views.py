@@ -131,6 +131,18 @@ class DeleteView(LoginRequiredMixin, generic.DeleteView):
 
 		return super(DeleteView, self).dispatch(request, *args, **kwargs)
 
+	def delete(self, request, *args, **kwargs):
+		self.object = self.get_object()
+
+		if self.object.resource_topic.count() > 0:
+			messages.error(self.request, _('Could not remove this topic. It has on or more resources attached.'))
+
+			return redirect(reverse_lazy('subjects:view', kwargs = {'slug': self.object.subject.slug}))
+		else:
+			self.object.delete()
+
+		return redirect(self.get_success_url())
+
 	def get_success_url(self):
 		messages.success(self.request, _('Topic "%s" was removed from virtual enviroment "%s" successfully!')%(self.object.name, self.object.subject.name))
 
