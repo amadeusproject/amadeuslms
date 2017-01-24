@@ -39,7 +39,7 @@ def has_resource_permissions(user, resource):
 
 	if resource.visible or resource.topic.repository:
 		if resource.all_students:
-			if subject.students.filter(id = user.id).exists():
+			if resource.topic.subject.students.filter(id = user.id).exists():
 				return True
 
 		if resource.students.filter(id = user.id).exists():

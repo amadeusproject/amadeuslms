@@ -779,6 +779,7 @@ a.add-row {
 
 .resource_list .list-group-item .list-group-item-heading {
     font-weight: 500;
+    font-size: 16px;
 }
 
 .resource_list .btn-group {

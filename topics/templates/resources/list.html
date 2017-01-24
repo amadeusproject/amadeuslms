@@ -5,7 +5,9 @@
 
 <div id="resource_{{ topic.slug }}" class="list-group resource_list">
 	{% for resource in topic.resource_topic.all %}
-		{% if resource.visible or has_subject_permissions %}
+		{% resource_permissions request.user resource as has_resource_permissions %}
+		
+		{% if has_resource_permissions %}
 	  		<div class="list-group-item {% if not resource.visible %}disabled{% endif %}">
 	  			<input type="hidden" class="id_inp" name="id" value="{{ resource.id }}" />
 		    	<input type="hidden" class="order_inp" name="order" value="{{ resource.order }}" />

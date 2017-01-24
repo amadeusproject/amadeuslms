@@ -49,11 +49,11 @@
 						  			<i class="fa fa-angle-right"></i> {% trans 'Add Resource' %}
 							  	</button>
 							  	<ul class="dropdown-menu">
-							    	<li><a href="#">{% trans 'Video Embed' %}</a></li>
-							    	<li><a href="#">{% trans 'Forum' %}</a></li>
-							    	<li><a href="#">{% trans 'File Link' %}</a></li>
-							    	<li><a href="{% url 'webpages:create' topic.slug %}">{% trans 'Webpage' %}</a></li>
-							    	<li><a href="#">{% trans 'Questionary' %}</a></li>
+							    	<li><a href="#"><i class="fa fa-video-camera"></i> {% trans 'Video Embed' %}</a></li>
+							    	<li><a href="#"><i class="fa fa-comments-o"></i> {% trans 'Forum' %}</a></li>
+							    	<li><a href="#"><i class="fa fa-file-archive-o"></i> {% trans 'File Link' %}</a></li>
+							    	<li><a href="{% url 'webpages:create' topic.slug %}"><i class="fa fa-file-o"></i> {% trans 'Webpage' %}</a></li>
+							    	<li><a href="#"><i class="fa fa-question-circle-o"></i> {% trans 'Questionary' %}</a></li>
 							  	</ul>
 							</div>
 						</div>
