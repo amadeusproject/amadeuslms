@@ -1,11 +1,7 @@
 # coding=utf-8
 from django import forms
-from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
-
-from pendencies.forms import PendenciesForm
-from pendencies.models import Pendencies
 
 from subjects.models import Tag
 
@@ -13,8 +9,7 @@ from .models import Webpage
 
 class WebpageForm(forms.ModelForm):
 	subject = None
-	control_subject = forms.CharField(widget = forms.HiddenInput())
-
+	
 	def __init__(self, *args, **kwargs):
 		super(WebpageForm, self).__init__(*args, **kwargs)
 
@@ -23,8 +18,6 @@ class WebpageForm(forms.ModelForm):
 		if self.instance.id:
 			self.subject = self.instance.topic.subject
 			self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
-
-		self.initial['control_subject'] = self.subject.id
 		
 		self.fields['students'].queryset = self.subject.students.all()
 		self.fields['groups'].queryset = self.subject.group_subject.all()
@@ -102,5 +95,3 @@ class WebpageForm(forms.ModelForm):
 				self.instance.tags.add(new_tag)
 
 		return self.instance
-
-InlinePendenciesFormset = inlineformset_factory(Webpage, Pendencies, form = PendenciesForm, extra = 1, can_delete = True)

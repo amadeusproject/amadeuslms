@@ -102,103 +102,98 @@
             	</div>
             </div>
             <div id="notifications" class="panel-collapse collapse">
-            	{{ pendencies_form.management_form }}
-                {{ pendencies_form.non_form_errors }}
+            	
+        		<div class="notifies">
+        			<div style="text-align:left">
+            			{% render_field pendencies_form.id %}
+            			{% render_field pendencies_form.resource %}
+            			{% render_field pendencies_form.subject class='pend_subj' %}
+	            		
+	            		<div class="form-group{% if pendencies_form.has_error %} has-error {% endif %} row">
+	            			<label for="{{ pendencies_form.action.auto_id }}" class="pull-left action_label contol-label">
+	            				{% trans 'Action not performed by the user' %}: 
+	        				</label>
+	        				<div class="col-md-3">
+	        					{% render_field pendencies_form.action class='form-control' %}
+	        				</div>
 
-            	{% for notify in pendencies_form %}
-            		<div class="notifies">
-            			<div style="text-align:left">
-	            			{% if notify.instance.pk %}{{ notify.DELETE }}{% endif %}
-	            			{% render_field notify.id %}
-	            			{% render_field notify.resource %}
-	            			{% render_field notify.subject class='pend_subj' %}
-		            		
-		            		<div class="form-group{% if notify.has_error %} has-error {% endif %} row">
-		            			<label for="{{ notify.action.auto_id }}" class="pull-left action_label contol-label">
-		            				{% trans 'Action not performed by the user' %}: 
-		        				</label>
-		        				<div class="col-md-3">
-		        					{% render_field notify.action class='form-control' %}
-		        				</div>
+	        				<br clear="all" />
 
-		        				<br clear="all" />
-
-		        				<span id="helpBlock" class="help-block">{{ notify.action.help_text }}</span>
-			
-								{% if notify.action.errors %}
-									<div class="alert alert-danger alert-dismissible" role="alert">
-										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-										<ul>
-											{% for error in notify.action.errors %}
-												<li>{{ error }}</li>
-											{% endfor %}
-										</ul>
-									</div>
-								{% endif %}
-		            		</div>
-		            		<br clear="all" />
-		            		<div class="row">
-		            			<div class="col-md-offset-2">
-		            				<p>{% trans 'Wished period' %}: </p>
-		            			</div>
-		            		</div>
-		            		<div class="form-group{% if notify.has_error %} has-error {% endif %} row">
-		            			<div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-3 col-lg-2 col-md-2 col-sm-2 col-xs-3 checkbox">
-							        <label>
-				      					{% render_field notify.begin_date_check class="begin_date" %} {{ notify.begin_date.label }}
-				  					</label>
-						        </div>
-						        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-						        	{% render_field notify.begin_date class='form-control datetime-picker begin_date_input' %}
-						        </div>						        
-		            		</div>
-		            		<div class="row">
-		            			<span id="helpBlock" class="help-block">{{ notify.begin_date.help_text }}</span>
-			
-								{% if notify.begin_date.errors %}
-									<div class="alert alert-danger alert-dismissible" role="alert">
-										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-										<ul>
-											{% for error in notify.begin_date.errors %}
-												<li>{{ error }}</li>
-											{% endfor %}
-										</ul>
-									</div>
-								{% endif %}
-		            		</div>
-		            		<div class="form-group{% if notify.has_error %} has-error {% endif %} row">
-		            			<div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-3 col-lg-2 col-md-2 col-sm-2 col-xs-3 checkbox">
-							        <label>
-				      					{% render_field notify.end_date_check class="end_date" %} {{ notify.end_date.label }}
-				  					</label>
-						        </div>
-						        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-						        	{% render_field notify.end_date class='form-control datetime-picker end_date_input' %}
-						        </div>
-		            		</div>
-		            		<div class="row">
-		            			<span id="helpBlock" class="help-block">{{ notify.end_date.help_text }}</span>
-			
-								{% if notify.end_date.errors %}
-									<div class="alert alert-danger alert-dismissible" role="alert">
-										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-										<ul>
-											{% for error in notify.end_date.errors %}
-												<li>{{ error }}</li>
-											{% endfor %}
-										</ul>
-									</div>
-								{% endif %}
-		            		</div>
-		            	</div>
+	        				<span id="helpBlock" class="help-block">{{ pendencies_form.action.help_text }}</span>
+		
+							{% if pendencies_form.action.errors %}
+								<div class="alert alert-danger alert-dismissible" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<ul>
+										{% for error in pendencies_form.action.errors %}
+											<li>{{ error }}</li>
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
+	            		</div>
+	            		<br clear="all" />
+	            		<div class="row">
+	            			<div class="col-md-12">
+	            				<p>{% trans 'Wished period' %}: </p>
+	            			</div>
+	            		</div>
+	            		<div class="form-group{% if pendencies_form.has_error %} has-error {% endif %} row">
+	            			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 checkbox">
+						        <label>
+			      					{% render_field pendencies_form.begin_date_check class="begin_date" %} {{ pendencies_form.begin_date.label }}
+			  					</label>
+					        </div>
+					        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					        	{% render_field pendencies_form.begin_date class='form-control datetime-picker begin_date_input' %}
+					        </div>						        
+	            		</div>
+	            		<div class="row">
+	            			<span id="helpBlock" class="help-block">{{ pendencies_form.begin_date.help_text }}</span>
+		
+							{% if pendencies_form.begin_date.errors %}
+								<div class="alert alert-danger alert-dismissible" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<ul>
+										{% for error in pendencies_form.begin_date.errors %}
+											<li>{{ error }}</li>
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
+	            		</div>
+	            		<div class="form-group{% if pendencies_form.has_error %} has-error {% endif %} row">
+	            			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 checkbox">
+						        <label>
+			      					{% render_field pendencies_form.end_date_check class="end_date" %} {{ pendencies_form.end_date.label }}
+			  					</label>
+					        </div>
+					        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					        	{% render_field pendencies_form.end_date class='form-control datetime-picker end_date_input' %}
+					        </div>
+	            		</div>
+	            		<div class="row">
+	            			<span id="helpBlock" class="help-block">{{ pendencies_form.end_date.help_text }}</span>
+		
+							{% if pendencies_form.end_date.errors %}
+								<div class="alert alert-danger alert-dismissible" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<ul>
+										{% for error in pendencies_form.end_date.errors %}
+											<li>{{ error }}</li>
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
+	            		</div>
 	            	</div>
-            	{% endfor %}
+            	</div>
             </div>
         </div>
 
@@ -333,40 +328,16 @@
 </form>
 <script type="text/javascript">
 	$(function() {
-		$('.notifies').formset({
-			addText: '{% trans "Add new notification" %}',
-			deleteText: '{% trans "Remove this notification" %}',
-			prefix: '{{ pendencies_form.prefix }}',
-			added: function (row) {
-				var locale = navigator.language || navigator.userLanguage;
-				
-				$(row).find('.datetime-picker').each(function () {
-					$(this).datetimepicker({
-						locale: locale
-					});
-				});
+		var begin_val = $('.begin_date_input').val(),
+			end_val = $('.end_date_input').val();
 
-				$('.begin_date_input').on('click', function () {
-			    	var checkbox = $(this).parent().parent().find('.begin_date');
+		if (begin_val != '') {
+			$(".begin_date").prop('checked', true);
+		}
 
-			    	$(checkbox).prop('checked', true);
-			    });
-
-			    $('.end_date_input').on('click', function () {
-			    	var checkbox = $(this).parent().parent().find('.end_date');
-
-			    	$(checkbox).prop('checked', true);
-			    });
-
-			    subject = $("#id_control_subject").val();
-
-			    $(row).find('.pend_subj').val(subject);
-			}
-		});
-
-		subject = $("#id_control_subject").val();
-
-	    $('.pend_subj').val(subject);
+		if (end_val != '') {
+			$(".end_date").prop('checked', true);
+		}
 
 		{% if not pendencies_form.is_valid and pendencies_form.is_bound %}
 			$("#notifications").collapse('toggle');
