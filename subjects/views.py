@@ -10,7 +10,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from random import shuffle
 from rolepermissions.mixins import HasRoleMixin
 from categories.forms import CategoryForm
 
@@ -82,7 +82,7 @@ class HomeView(LoginRequiredMixin, ListView):
             else:
                 tags.append((item[0], 2))
             i += 1
-
+        shuffle(tags)
         context['tags'] = tags
         context['total_subs'] = self.total
 
