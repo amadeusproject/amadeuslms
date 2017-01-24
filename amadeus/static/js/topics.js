@@ -1,7 +1,19 @@
+$('.collapse').on('show.bs.collapse', function (e) {
+    if($(this).is(e.target)){
+        var btn = $(this).parent().find('.fa-angle-right');
+
+        btn = btn[0];
+        
+        $(btn).switchClass("fa-angle-right", "fa-angle-down", 250, "easeInOutQuad");
+
+        $(this).parent().parent().find('.panel-collapse.in').collapse('hide');
+    }
+});
+
 // Update breadcrumb with topic's name
 $('.collapse').on('shown.bs.collapse', function (e) {
     if($(this).is(e.target)){
-    	var li = $(".breadcrumb").find('li:last-child');
+        var li = $(".breadcrumb").find('li:last-child');
     	var li_text = $(li).html();
     	var url = $(".subs_url").val();
     	var new_li = $(li).clone();
@@ -18,6 +30,12 @@ $('.collapse').on('shown.bs.collapse', function (e) {
 // Reset breadcrumb to it's normal state
 $('.collapse').on('hide.bs.collapse', function (e) {
     if($(this).is(e.target)){
+        var btn = $(this).parent().find('.fa-angle-down');
+            
+        btn = btn[0];
+        
+        $(btn).switchClass("fa-angle-down", "fa-angle-right", 250, "easeInOutQuad");
+
     	$(".breadcrumb").find('li:last-child').remove();
 
     	var li = $(".breadcrumb").find('li:last-child');
