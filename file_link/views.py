@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from os import path
 from django.views import generic
 from django.contrib import messages
@@ -34,6 +34,9 @@ class DownloadFile(LoginRequiredMixin, generic.DetailView):
 	def render_to_response(self, context, **response_kwargs):
 		slug = self.kwargs.get('slug', '')
 		file_link = get_object_or_404(FileLink, slug = slug)
+
+		if not path.exists(file_link.file_content.path):
+			raise Http404()
 
 		response = HttpResponse(open(file_link.file_content.path, 'rb').read())
 		response['Content-Type'] = 'application/force-download'
