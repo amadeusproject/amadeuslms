@@ -370,7 +370,7 @@ a.add-row {
 }
 
 .resource_list > .disabled a {
-    color: #777;
+    color: #BDBDBD;
 }
 
 .resource_list > .list-group-item:hover {
