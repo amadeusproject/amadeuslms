@@ -13,6 +13,9 @@ class PendenciesForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super(PendenciesForm, self).__init__(*args, **kwargs)
+
+		if kwargs.get('initial', None):
+			self.fields['action'].choices = kwargs['initial'].get('actions', [])
 		
 	begin_date_check = forms.BooleanField(required = False)
 	end_date_check = forms.BooleanField(required = False)

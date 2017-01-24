@@ -81,7 +81,7 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		slug = self.kwargs.get('slug', '')
 		topic = get_object_or_404(Topic, slug = slug)
 
-		pendencies_form = InlinePendenciesFormset(initial = [{'subject': topic.subject.id}])
+		pendencies_form = InlinePendenciesFormset(initial = [{'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]}])
 
 		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
@@ -94,7 +94,7 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		slug = self.kwargs.get('slug', '')
 		topic = get_object_or_404(Topic, slug = slug)
 
-		pendencies_form = InlinePendenciesFormset(self.request.POST, initial = [{'subject': topic.subject.id}])
+		pendencies_form = InlinePendenciesFormset(self.request.POST, initial = [{'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]}])
 		
 		if (form.is_valid() and pendencies_form.is_valid()):
 			return self.form_valid(form, pendencies_form)
@@ -129,9 +129,10 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		self.object.save()
 
 		pendencies_form.instance = self.object
-
-		for form in pendencies_form.forms:
-			pend_form = form.save(commit = False)
+		pendencies_form.save(commit = False)
+		
+		for pform in pendencies_form.forms:
+			pend_form = pform.save(commit = False)
 
 			if not pend_form.action == "":
 				pend_form.save() 
@@ -191,7 +192,7 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 		slug = self.kwargs.get('topic_slug', '')
 		topic = get_object_or_404(Topic, slug = slug)
 
-		pendencies_form = InlinePendenciesFormset(self.request.POST, instance = self.object, initial = [{'subject': topic.subject.id}])
+		pendencies_form = InlinePendenciesFormset(self.request.POST, instance = self.object, initial = [{'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]}])
 		
 		if (form.is_valid() and pendencies_form.is_valid()):
 			return self.form_valid(form, pendencies_form)
@@ -210,6 +211,7 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 		self.object.save()
 
 		pendencies_form.instance = self.object
+		pendencies_form.save(commit = False)
 
 		for form in pendencies_form.forms:
 			pend_form = form.save(commit = False)
@@ -232,7 +234,7 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 
 		if not self.request.POST:
 			context['form'] = WebpageForm(instance=self.object, initial = {'subject': topic.subject})
-			context['pendencies_form'] = InlinePendenciesFormset(instance=self.object, initial = [{'subject': topic.subject.id}])
+			context['pendencies_form'] = InlinePendenciesFormset(instance=self.object, initial = [{'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]}])
 
 		return context
 
