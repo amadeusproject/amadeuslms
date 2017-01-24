@@ -393,6 +393,10 @@ a.add-row {
     color: inherit;
 }
 
+.resource_list .btn-group button:active, .resource_list .btn-group button:focus, .resource_list .btn-group button:hover {
+    background-color: initial !important;
+}
+
 @media(max-width: 768px) {
     .navbar .navbar-nav .dropdown .dropdown-menu li > a {
         color: #333333 !important;
