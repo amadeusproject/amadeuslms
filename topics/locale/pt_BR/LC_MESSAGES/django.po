@@ -71,10 +71,8 @@ msgid "Topics"
 msgstr "Tópicos"
 
 #: topics/models.py:53
-#, fuzzy
-#| msgid "Description"
 msgid "Brief Description"
-msgstr "Descrição"
+msgstr "Descrição Breve"
 
 #: topics/models.py:54
 msgid "Show in new window"

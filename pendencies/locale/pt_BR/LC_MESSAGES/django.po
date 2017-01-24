@@ -20,68 +20,68 @@ msgstr ""
 
 #: pendencies/forms.py:38 pendencies/forms.py:41 pendencies/forms.py:44
 msgid "This field is required."
-msgstr ""
+msgstr "Esse campo é obrigatório."
 
 #: pendencies/forms.py:49
 msgid "This input should be filled with a date equal or before the End Date."
-msgstr ""
+msgstr "Esse campo deve ser preenchido com uma data igual ou anterior à Data Final."
 
 #: pendencies/forms.py:50
 msgid "This input should be filled with a date equal or after the Begin Date."
-msgstr ""
+msgstr "Esse campo deve ser preenchido com uma data igual ou posterior à Data Inicial."
 
 #: pendencies/forms.py:57 pendencies/forms.py:67
 msgid "This input should be filled with a date equal or after today's date."
-msgstr ""
+msgstr "Esse campo deve ser preenchido com uma data igual ou posterior à data atual."
 
 #: pendencies/forms.py:60 pendencies/forms.py:70
 msgid ""
 "This input should be filled with a date equal or after the subject begin "
 "date."
-msgstr ""
+msgstr "Esse campo deve ser preenchido com uma data igual ou posterior à data inicial do assunto."
 
 #: pendencies/forms.py:63
 msgid ""
 "This input should be filled with a date equal or after the subject end date."
-msgstr ""
+msgstr "Esse campo deve ser preenchido com uma data igual ou posterior à data final do assunto."
 
 #: pendencies/forms.py:73
 msgid ""
 "This input should be filled with a date equal or before the subject end date."
-msgstr ""
+msgstr "Esse campo deve ser preenchido com uma data igual ou anterior à data final do assunto"
 
 #: pendencies/models.py:8
 msgid "Action"
-msgstr ""
+msgstr "Ação"
 
 #: pendencies/models.py:8
 msgid "Visualize"
-msgstr ""
+msgstr "Visualizar"
 
 #: pendencies/models.py:8
 msgid "Create"
-msgstr ""
+msgstr "Criar"
 
 #: pendencies/models.py:8
 msgid "Answer"
-msgstr ""
+msgstr "Responder"
 
 #: pendencies/models.py:8
 msgid "Access"
-msgstr ""
+msgstr "Acessar"
 
 #: pendencies/models.py:9
 msgid "Begin Date"
-msgstr ""
+msgstr "Data Inicial"
 
 #: pendencies/models.py:10
 msgid "End Date"
-msgstr ""
+msgstr "Data Final"
 
 #: pendencies/models.py:11
 msgid "Limit Date"
-msgstr ""
+msgstr "Data Limite"
 
 #: pendencies/models.py:12
 msgid "Resource"
-msgstr ""
+msgstr "Recurso"
