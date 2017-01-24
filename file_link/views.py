@@ -1,4 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.http import HttpResponse
+from os import path
 from django.views import generic
 from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -13,6 +15,36 @@ from pendencies.forms import PendenciesForm
 
 from .forms import FileLinkForm
 from .models import FileLink
+
+class DownloadFile(LoginRequiredMixin, generic.DetailView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	model = FileLink
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		file_link = get_object_or_404(FileLink, slug = slug)
+
+		if not has_resource_permissions(request.user, file_link):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(DownloadFile, self).dispatch(request, *args, **kwargs)
+
+	def render_to_response(self, context, **response_kwargs):
+		slug = self.kwargs.get('slug', '')
+		file_link = get_object_or_404(FileLink, slug = slug)
+
+		response = HttpResponse(open(file_link.file_content.path, 'rb').read())
+		response['Content-Type'] = 'application/force-download'
+		response['Pragma'] = 'public'
+		response['Expires'] = '0'
+		response['Cache-Control'] = 'must-revalidate, post-check=0, pre-check=0'
+		response['Content-Disposition'] = 'attachment; filename=%s' % file_link.name
+		response['Content-Transfer-Encoding'] = 'binary'
+		response['Content-Length'] = str(path.getsize(file_link.file_content.path))
+		
+		return response
 
 class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 	login_url = reverse_lazy("users:login")

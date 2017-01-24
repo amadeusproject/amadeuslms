@@ -31,7 +31,7 @@ class FileLink(Resource):
 		return self.name
 
 	def access_link(self):
-		return 'webpages:view'
+		return 'file_links:download'
 
 	def update_link(self):
 		return 'webpages:update'
