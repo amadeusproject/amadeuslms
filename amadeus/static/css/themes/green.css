@@ -52,11 +52,11 @@ a, a:focus, a:hover {
 }
 
 .category-panel > .panel-heading {
-    background-color: #0277BD !important;
+    background-color: #015E96 !important;
 }
 
 .subject-panel > .panel-heading {
-    background-color: #039BE5 !important;
+    background-color: #0277BD !important;
 }
 
 .group-panel > .panel-heading {
@@ -73,7 +73,7 @@ a, a:focus, a:hover {
 }
 
 .topic-panel > .panel-heading {
-    background-color: #7BA5B9 !important;
+    background-color: #1d8fe0 !important;
 }
 
 .topic-panel > .category-panel-content, .topic-panel-invisible > .category-panel-content {
