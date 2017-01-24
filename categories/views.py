@@ -3,7 +3,7 @@ from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 from .models import Category
 from django.core.urlresolvers import reverse_lazy
 from rolepermissions.verifications import has_role
-
+from django.db.models import Q
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
 from django.utils.translation import ugettext_lazy as _
@@ -141,6 +141,22 @@ class DeleteCategory(LoginRequiredMixin, LogMixin, DeleteView):
 
     model = Category
     template_name = 'categories/delete.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        pk = request.user.pk
+
+        if not request.user.is_staff:
+            category = Category.objects.filter(Q(coordinators__pk = pk) & Q(slug = kwargs['slug']))
+            if category.count() == 0:
+                if request.META.get('HTTP_REFERER'):
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                else:
+                    return redirect('subjects:index')
+        if request.method.lower() in self.http_method_names:
+            handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+        else:
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         category = get_object_or_404(Category, slug = self.kwargs.get('slug'))
