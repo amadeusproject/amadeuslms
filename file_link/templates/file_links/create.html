@@ -17,15 +17,15 @@
 
 	{% breadcrumb topic 'subjects:topic_view' topic.subject.slug topic.slug %}
 	
-	{% trans 'Create Webpage' as bread %}
-	{% breadcrumb bread 'webpages:create' topic.slug %}
+	{% trans 'Create File Link' as bread %}
+	{% breadcrumb bread 'file_links:create' topic.slug %}
 {% endblock %}
 
 {% block content %}
 	<div class="card">
 		<div class="card-content">
 			<div class="card-body">
-				{% include 'webpages/_form.html' %}
+				{% include 'file_links/_form.html' %}
 			</div>
 		</div>
 	</div>

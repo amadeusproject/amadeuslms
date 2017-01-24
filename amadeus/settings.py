@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'students_group',
     'topics',
     'pendencies',
+    'file_link',
     'webpage',
     'mailsender',
     'security',

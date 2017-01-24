@@ -27,18 +27,32 @@
 	</div>
 
 	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
-		<label for="{{ form.content.auto_id }}">{{ form.content.label }} <span>*</span></label>
-		{% render_field form.content class='form-control text_wysiwyg' %}
+		{% render_field form.file_content %}
+		
+		<div class="input-group common-file-input">
+	      	<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
+	      	<span class="input-group-btn input-group-sm">
+	        	<button type="button" class="btn btn-fab btn-fab-mini">
+	        		<i class="material-icons">attach_file</i>
+	       		</button>
+	      	</span>
+	    </div>
 
-		<span id="helpBlock" class="help-block">{{ form.content.help_text }}</span>
+	    <div class="filedrag">
+      		{% trans 'Click or drop the file here' %}<br />
+      		
+      		<small>{% trans 'The file could not exceed 10MB.' %}</small>
+  		</div>
+
+		<span id="helpBlock" class="help-block">{{ form.file_content.help_text }}</span>
 			
-		{% if form.content.errors %}
+		{% if form.file_content.errors %}
 			<div class="alert alert-danger alert-dismissible" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				<ul>
-					{% for error in form.content.errors %}
+					{% for error in form.file_content.errors %}
 						<li>{{ error }}</li>
 					{% endfor %}
 				</ul>
@@ -272,29 +286,6 @@
 				{% endif %}
             </div>
         </div>
-	</div>
-
-	<div class="form-group{% if form.has_error %} has-error {% endif %}">
-		<div class=" checkbox">
-			<label for="{{ form.show_window.auto_id }}">
-				{% render_field form.show_window %} {{ form.show_window.label }}
-			</label>
-		</div>
-
-		<span id="helpBlock" class="help-block">{{ form.show_window.help_text }}</span>
-			
-		{% if form.show_window.errors %}
-			<div class="alert alert-danger alert-dismissible" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				<ul>
-					{% for error in form.show_window.errors %}
-						<li>{{ error }}</li>
-					{% endfor %}
-				</ul>
-			</div>
-		{% endif %}
 	</div>
 
 	<div class="form-group{% if form.has_error %} has-error {% endif %}">

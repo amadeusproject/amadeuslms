@@ -1,5 +1,4 @@
 from django.db import models
-from autoslug.fields import AutoSlugField
 from django.utils.translation import ugettext_lazy as _
 
 from topics.models import Resource
