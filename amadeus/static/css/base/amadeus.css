@@ -19,7 +19,7 @@ a:focus {
 .users-cloud {
     
     width: 100%;
-    height: 300px;
+    height: 100%;
     overflow: hidden;
 }
 .users-cloud li {
@@ -28,21 +28,21 @@ a:focus {
 }
 
 .users-cloud  li:nth-of-type(3n + 1) a {
-    font-size: 2.25em;
+    font-size: 1.25em;
     color: #2E8B57;
 }
 .users-cloud  li:nth-of-type(4n+3) a {
-    font-size: 3.5em;
+    font-size: 2.25em;
     color: #6B8E23;
 }
 
 .users-cloud li:nth-of-type(5n - 3) a {
-    font-size: 3em;
+    font-size: 1.75em;
     color:  #66CDAA;
 }
 
 .users-cloud  li:nth-of-type(6n - 3) a {
-    font-size: 1.7em;
+    font-size: 0.75em;
     color: #654321;
 }
 .users-cloud a {
@@ -54,9 +54,9 @@ a:focus {
 }
 
 .div-users-cloud{
-  height: 300px;
-  margin-left: 10%;
-  width: 80%;
+  height: 100%;
+  margin-left: -45px;
+  width: 100%;
 }
 
 .my-subjects-title {
