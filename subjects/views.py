@@ -453,6 +453,9 @@ class SubjectDetailView(LoginRequiredMixin, DetailView):
 
             self.request.session['resources'] = None
 
+        if self.kwargs.get('topic_slug'):
+            context['topic_slug'] = self.kwargs.get('topic_slug')
+
         return context
 
 

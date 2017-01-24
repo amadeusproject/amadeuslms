@@ -752,29 +752,21 @@ a.add-row {
 }
 
 .resource_list {
-    margin-left: 30px;
+    margin-left: 20px;
     border-top: none !important;
-}
-
-.resource_list > .list-group-item:first-child {
-    border-top-left-radius: 4px !important;
-    border-top-right-radius: 4px !important;
 }
 
 .resource_list > .list-group-item {
     position: relative;
     display: block;
-    padding: 10px 15px;
+    padding: 10px 0px 10px 15px;
     margin-bottom: -1px;
-    border-width: 1px !important;
     overflow: inherit;
     cursor: pointer;
 }
 
 .resource_list > .list-group-item:last-child {
     margin-bottom: 0;
-    border-bottom-right-radius: 4px !important;
-    border-bottom-left-radius: 4px !important;
 }
 
 .resource_list .list-group-item .list-group-item-heading {
@@ -786,10 +778,40 @@ a.add-row {
     margin: 0px;
 }
 
+.resource_list .btn-group button {
+    margin-top: -5px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.resource_list .btn-group button:focus {
+    outline: none;
+}
+
+.resource_list .btn-group button:active {
+    margin-top: -5px;
+}
+
+.resource_list .btn-group button i {
+    margin-right: 0px;
+}
+
+.resource_list .fa-arrows {
+    margin-right: 0px;
+}
+
 .resource_list > .disabled a {
     cursor: not-allowed;
 }
 
 .resource_list a:hover, .resource_list a:focus {
     text-decoration: none;
+}
+
+.add_resource i {
+    margin-right: 10px;
+}
+
+.add_resource ul {
+    width: 100%;
 }

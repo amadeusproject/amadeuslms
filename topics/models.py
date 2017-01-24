@@ -77,3 +77,19 @@ class Resource(KnowsChild):
 	@always_as_child
 	def access_link(self):
 		pass
+
+	"""
+		Method to get the appropriated update link
+		Must override in the child models
+	"""
+	@always_as_child
+	def update_link(self):
+		pass
+
+	"""
+		Method to get the appropriated delete link
+		Must override in the child models
+	"""
+	@always_as_child
+	def delete_link(self):
+		pass

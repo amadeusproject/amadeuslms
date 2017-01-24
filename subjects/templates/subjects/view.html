@@ -81,5 +81,17 @@
         {% if resource_new_page %}
             window.open("{{ resource_new_page_url }}");
         {% endif %}
+
+        $(function (){
+            var topic_slug = "{{ topic_slug }}"
+
+            if (topic_slug != "") {
+                $("#" + topic_slug).collapse('show');
+
+                $('html, body').animate({
+                    scrollTop: $("#" + topic_slug).parent().offset().top
+                }, 1000);
+            }
+        });
     </script>
 {% endblock content %}

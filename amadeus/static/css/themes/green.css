@@ -370,7 +370,7 @@ a.add-row {
 }
 
 .resource_list > .disabled a {
-    color: #777;
+    color: #BDBDBD;
 }
 
 .resource_list > .list-group-item:hover {
@@ -391,6 +391,10 @@ a.add-row {
 
 .resource_list a {
     color: inherit;
+}
+
+.resource_list .btn-group button:active, .resource_list .btn-group button:focus, .resource_list .btn-group button:hover {
+    background-color: initial !important;
 }
 
 @media(max-width: 768px) {

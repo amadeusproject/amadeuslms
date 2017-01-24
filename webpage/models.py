@@ -19,3 +19,9 @@ class Webpage(Resource):
 			return 'webpages:window_view'
 
 		return 'webpages:view'
+
+	def update_link(self):
+		return 'webpages:update'
+
+	def delete_link(self):
+		return 'webpages:delete'

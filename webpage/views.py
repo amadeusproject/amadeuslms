@@ -123,6 +123,9 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		self.object.topic = topic
 		self.object.order = topic.resource_topic.count() + 1
 
+		if not self.object.topic.visible and not self.object.topic.repository:
+			self.object.visible = False
+
 		self.object.save()
 
 		pendencies_form.instance = self.object
@@ -201,6 +204,9 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 	def form_valid(self, form, pendencies_form):
 		self.object = form.save(commit = False)
 
+		if not self.object.topic.visible and not self.object.topic.repository:
+			self.object.visible = False
+		
 		self.object.save()
 
 		pendencies_form.instance = self.object

@@ -16,7 +16,7 @@
 {% block breadcrumbs %}
 	{{ block.super }}
 
-	{% breadcrumb topic 'subjects:view' topic.subject.slug %}
+	{% breadcrumb topic 'subjects:topic_view' topic.subject.slug topic.slug %}
 	
 	{% trans 'Edit: ' as bread %}
 	{% with bread|add:webpage.name as bread_slug %}
