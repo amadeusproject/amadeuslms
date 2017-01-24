@@ -90,6 +90,8 @@
                             <div id="{{category.slug}}" class="panel-collapse panel-body collapse category-panel-content">
                                 <input type="hidden" class="log_url" value="{% url 'categories:view_log' category.id %}" />
                                 <input type="hidden" class="log_id" value="" />
+
+                                <input type="hidden" class="load_sub_url" value="{% url 'subjects:load_view' category.slug %}" />
                                 
                                 {% if category.coordinators.all|length > 0  %}
                                     <h4><b>{% trans "Coordinator(s) " %}: </b>
@@ -106,11 +108,7 @@
                                 {% endif %}
                                 
                                 <div class="panel-group subject-group" id="{{ category.slug }}-accordion" role="tablist" aria-multiselectable="true">
-                                    {% for subject in category.subject_category.all %}
-                                        {% if request.user in subject.students.all or request.user.is_staff or request.user in subject.professor.all or all or request.user in subject.category.coordinators.all %}
-                                            {% include "subjects/subject_card.html" %}
-                                        {% endif %}
-                                    {% endfor %}
+                                    
                                 </div>                                
                                 <div class="holder text-center"></div>
                             </div>
@@ -171,9 +169,7 @@
                                 {% endif %}
 
                                 <div class="panel-group subject-group" id="{{ category.slug }}-accordion" role="tablist" aria-multiselectable="true">
-                                    {% for subject in category.subject_category.all  %}
-                                        {% include "subjects/subject_card.html" %}
-                                    {% endfor %}                                    
+                                                                       
                                 </div>
                             </div>
                         </div>

@@ -13,5 +13,6 @@ urlpatterns = [
 	url(r'^subscribe/(?P<slug>[\w_-]+)/$', views.SubjectSubscribeView.as_view(), name='subscribe'),
 	url(r'^search/$', views.SubjectSearchView.as_view(), name='search'),
 	url(r'^search/(?P<option>[\w_-]+)/$', views.SubjectSearchView.as_view(), name='search'),
+	url(r'^load_subs/(?P<slug>[\w_-]+)/$', views.GetSubjectList.as_view(), name='load_view'),
 	url(r'^(?P<option>[\w_-]+)/$', views.IndexView.as_view(), name='index'),
 ]

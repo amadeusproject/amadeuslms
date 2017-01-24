@@ -20,6 +20,15 @@ def has_subject_permissions(user, subject):
 
 	return False
 
+def has_subject_view_permissions(user, subject):
+	if has_subject_permissions(user, subject):
+		return True
+
+	if subject.students.filter(id = user.id).exists():
+		return True
+
+	return False
+
 """
 	Function to know if user has permission to:
 		- Access Resource

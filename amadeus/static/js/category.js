@@ -1,9 +1,3 @@
-var locale = navigator.language || navigator.userLanguage;
-
-$('.date-picker').datepicker({
-    language: locale,
-});
-
 /*
 *
 * Function to get a cookie stored on browser
@@ -106,49 +100,107 @@ function replicate_course(url, course) {
 * Functions to control category marker
 *
 */
-$('.collapse').on('show.bs.collapse', function (e) {
-    if($(this).is(e.target)){
-        var btn = $(this).parent().find('.fa-angle-right');
-
-        btn = btn[0];
-        
-        $(btn).switchClass("fa-angle-right", "fa-angle-down", 250, "easeInOutQuad");
-
-        var url = $(this).parent().find('.log_url').val();
-        var log_input = $(this).parent().find('.log_id');
-
-        if (typeof(url) != 'undefined') {
-            $.ajax({
-                url: url,
-                data: {'action': 'open'},
-                dataType: 'json',
-                success: function (data) {
-                    log_input.val(data.log_id);
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
-        }
-
-    }
+$(function () {
+    bindCollapse();
 });
+
+function bindCollapse() {
+    $('.collapse').on('show.bs.collapse', function (e) {
+        if($(this).is(e.target)){
+            var btn = $(this).parent().find('.fa-angle-right');
+
+            btn = btn[0];
+            
+            $(btn).switchClass("fa-angle-right", "fa-angle-down", 250, "easeInOutQuad");
+
+            var url = $(this).parent().find('.log_url').val();
+            var log_input = $(this).parent().find('.log_id');
+
+            if (typeof(url) != 'undefined') {
+                $.ajax({
+                    url: url,
+                    data: {'action': 'open'},
+                    dataType: 'json',
+                    success: function (data) {
+                        log_input.val(data.log_id);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            }
+
+        }
+    });
+
+    $('.collapse').on('hide.bs.collapse', function (e) {
+        if($(this).is(e.target)){
+            var btn = $(this).parent().find('.fa-angle-down');
+            
+            btn = btn[0];
+            
+            $(btn).switchClass("fa-angle-down", "fa-angle-right", 250, "easeInOutQuad");
+
+            var url = $(this).parent().find('.log_url').val();
+            var log_id = $(this).parent().find('.log_id').val();
+
+            if (typeof(url) != 'undefined') {
+                $.ajax({
+                    url: url,
+                    data: {'action': 'close', 'log_id': log_id},
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data.message);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            }
+        }
+    });
+}
 
 $('.category-panel-content').on('shown.bs.collapse', function(e) {
     if($(this).is(e.target)){
         var panel_id = $(this).attr('id');
         var holder = $(this).find('.holder');
         
-        var items = $('#' + panel_id + '-accordion').children(":visible").length;
+        if ($('#' + panel_id + '-accordion').children().length == 0) {
+            var load_sub_url = $(this).find('.load_sub_url').val();
 
-        if (items > 10) {
-            holder.jPages({
-                containerID : panel_id + "-accordion",
-                perPage: 10,
-                previous: "«",
-                next: "»",
-                midRange: 5
+            $.ajax({
+                url: load_sub_url,
+                success: function (data) {
+                    $('#' + panel_id + '-accordion').html(data);
+
+                    var items = $('#' + panel_id + '-accordion').children(":visible").length;
+
+                    if (items > 10) {
+                        holder.jPages({
+                            containerID : panel_id + "-accordion",
+                            perPage: 10,
+                            previous: "«",
+                            next: "»",
+                            midRange: 5
+                        });
+                    }
+
+                    bindCollapse();
+                }
             });
+        } else {
+            var items = $('#' + panel_id + '-accordion').children(":visible").length;
+
+            if (items > 10) {
+                holder.jPages({
+                    containerID : panel_id + "-accordion",
+                    perPage: 10,
+                    previous: "«",
+                    next: "»",
+                    midRange: 5
+                });
+            }
         }
     }
 });
@@ -168,32 +220,6 @@ $('.category-panel-content').on('hidden.bs.collapse', function(e) {
     }
 });
 
-$('.collapse').on('hide.bs.collapse', function (e) {
-    if($(this).is(e.target)){
-        var btn = $(this).parent().find('.fa-angle-down');
-        
-        btn = btn[0];
-        
-        $(btn).switchClass("fa-angle-down", "fa-angle-right", 250, "easeInOutQuad");
-
-        var url = $(this).parent().find('.log_url').val();
-        var log_id = $(this).parent().find('.log_id').val();
-
-        if (typeof(url) != 'undefined') {
-            $.ajax({
-                url: url,
-                data: {'action': 'close', 'log_id': log_id},
-                dataType: 'json',
-                success: function (data) {
-                    console.log(data.message);
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
-        }
-    }
-});
 
 function delete_group(url) {
     $('.modal').remove();
