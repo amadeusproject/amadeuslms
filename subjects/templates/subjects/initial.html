@@ -19,7 +19,21 @@
 		<div class="users-cloud div-users-cloud">
 			<ul class=" users-cloud">
 				{% for tag in tags %}
-					<li><a href="{% url 'subjects:search' %}?search={{tag.name}}">{{tag.name}}</a></li>
+					{% if tag.1 == 0 %}
+						<li class="big"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
+					{% elif tag.1 == 1 %}
+						<li class="medium"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
+					{% else %}
+						<li class="small"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
+					{% endif %}
+
+					
+					{% comment %}
+						
+					
+					<li class="big"><a href="{% url 'subjects:search' %}?search={{tag.name}}">{{tag.name}}</a></li>
+					
+					{% endcomment %}
 				{% endfor %}
 			</ul>
 		</div>

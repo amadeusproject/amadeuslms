@@ -27,21 +27,21 @@ a:focus {
     display: inline;
 }
 
-.users-cloud  li:nth-of-type(3n + 1) a {
+.users-cloud  .small a {
     font-size: 1.25em;
     color: #2E8B57;
 }
-.users-cloud  li:nth-of-type(4n+3) a {
+.users-cloud  .big a {
     font-size: 2.25em;
     color: #6B8E23;
 }
 
-.users-cloud li:nth-of-type(5n - 3) a {
+.users-cloud .medium a {
     font-size: 1.75em;
     color:  #66CDAA;
 }
 
-.users-cloud  li:nth-of-type(6n - 3) a {
+.users-cloud  .tiny a {
     font-size: 0.75em;
     color: #654321;
 }

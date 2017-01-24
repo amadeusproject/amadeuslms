@@ -56,7 +56,33 @@ class HomeView(LoginRequiredMixin, ListView):
         context['show_buttons'] = True #So it shows subscribe and access buttons
        
         #bringing users
+        tag_amount = 50
         tags = Tag.objects.all()
+        tags_list = []
+        for tag in tags:
+            if len(tags_list) <= tag_amount:
+                tags_list.append((tag.name, Subject.objects.filter(tags__pk = tag.pk).count()))
+                tags_list.sort(key= lambda x: x[1], reverse=True) #sort by value
+                
+            else:
+                count = Subject.objects.filter(tags__pk = tag.pk).count()
+                if count > tags_list[tag_amount][1]:
+                    tags_list[tag_amount - 1] = (tag.name, count)
+                    tags_list.sort(key = lambda x: x[1], reverse=True)
+
+       
+        i = 0
+        tags = []
+
+        for item in tags_list:
+            if i < tag_amount/10:
+                tags.append((item[0], 0))
+            elif i < tag_amount/2:
+                tags.append((item[0], 1))
+            else:
+                tags.append((item[0], 2))
+            i += 1
+
         context['tags'] = tags
         context['total_subs'] = self.total
 
