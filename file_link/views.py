@@ -113,7 +113,6 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		slug = self.kwargs.get('slug', '')
 		topic = get_object_or_404(Topic, slug = slug)
 
-		self.object.show_window = True
 		self.object.topic = topic
 		self.object.order = topic.resource_topic.count() + 1
 
