@@ -1,4 +1,4 @@
-$('.collapse').on('show.bs.collapse', function (e) {
+$('.topic-panel').on('show.bs.collapse', function (e) {
     if($(this).is(e.target)){
         var btn = $(this).parent().find('.fa-angle-right');
 
@@ -11,7 +11,7 @@ $('.collapse').on('show.bs.collapse', function (e) {
 });
 
 // Update breadcrumb with topic's name
-$('.collapse').on('shown.bs.collapse', function (e) {
+$('.topic-panel').on('shown.bs.collapse', function (e) {
     if($(this).is(e.target)){
         var li = $(".breadcrumb").find('li:last-child');
     	var li_text = $(li).html();
@@ -28,7 +28,7 @@ $('.collapse').on('shown.bs.collapse', function (e) {
 });
 
 // Reset breadcrumb to it's normal state
-$('.collapse').on('hide.bs.collapse', function (e) {
+$('.topic-panel').on('hide.bs.collapse', function (e) {
     if($(this).is(e.target)){
         var btn = $(this).parent().find('.fa-angle-down');
             
