@@ -369,7 +369,7 @@ a.add-row {
     background-color: #eee !important;   
 }
 
-.resource_list > .disabled a {
+.resource_list > .disabled a.resource_link {
     color: #BDBDBD;
 }
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-24 15:26-0300\n"
+"POT-Creation-Date: 2017-01-24 23:42-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,37 +18,47 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: pendencies/forms.py:38 pendencies/forms.py:41 pendencies/forms.py:44
+#: pendencies/forms.py:41 pendencies/forms.py:44 pendencies/forms.py:47
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
-#: pendencies/forms.py:49
+#: pendencies/forms.py:52
 msgid "This input should be filled with a date equal or before the End Date."
-msgstr "Esse campo deve ser preenchido com uma data igual ou anterior à Data Final."
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou anterior à Data Final."
 
-#: pendencies/forms.py:50
+#: pendencies/forms.py:53
 msgid "This input should be filled with a date equal or after the Begin Date."
-msgstr "Esse campo deve ser preenchido com uma data igual ou posterior à Data Inicial."
-
-#: pendencies/forms.py:57 pendencies/forms.py:67
-msgid "This input should be filled with a date equal or after today's date."
-msgstr "Esse campo deve ser preenchido com uma data igual ou posterior à data atual."
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou posterior à Data "
+"Inicial."
 
 #: pendencies/forms.py:60 pendencies/forms.py:70
+msgid "This input should be filled with a date equal or after today's date."
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou posterior à data atual."
+
+#: pendencies/forms.py:63 pendencies/forms.py:73
 msgid ""
 "This input should be filled with a date equal or after the subject begin "
 "date."
-msgstr "Esse campo deve ser preenchido com uma data igual ou posterior à data inicial do assunto."
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou posterior à data "
+"inicial do assunto."
 
-#: pendencies/forms.py:63
+#: pendencies/forms.py:66
 msgid ""
 "This input should be filled with a date equal or after the subject end date."
-msgstr "Esse campo deve ser preenchido com uma data igual ou posterior à data final do assunto."
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou posterior à data final "
+"do assunto."
 
-#: pendencies/forms.py:73
+#: pendencies/forms.py:76
 msgid ""
 "This input should be filled with a date equal or before the subject end date."
-msgstr "Esse campo deve ser preenchido com uma data igual ou anterior à data final do assunto"
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou anterior à data final "
+"do assunto"
 
 #: pendencies/models.py:8
 msgid "Action"

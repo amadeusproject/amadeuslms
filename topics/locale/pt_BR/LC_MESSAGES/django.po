@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-24 15:26-0300\n"
+"POT-Creation-Date: 2017-01-24 23:42-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -178,7 +178,9 @@ msgstr "Tópico \"%s\" foi atualizado no ambiente virtual \"%s\" com sucesso!"
 
 #: topics/views.py:138
 msgid "Could not remove this topic. It has on or more resources attached."
-msgstr "Não é possível remover esse tópico. Ele possui um ou mais recursos vinculados."
+msgstr ""
+"Não é possível remover esse tópico. Ele possui um ou mais recursos "
+"vinculados."
 
 #: topics/views.py:147
 #, python-format
