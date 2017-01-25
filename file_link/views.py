@@ -9,6 +9,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 
+from log.mixins import LogMixin
+
 from topics.models import Topic
 
 from pendencies.forms import PendenciesForm
@@ -16,7 +18,12 @@ from pendencies.forms import PendenciesForm
 from .forms import FileLinkForm
 from .models import FileLink
 
-class DownloadFile(LoginRequiredMixin, generic.DetailView):
+class DownloadFile(LoginRequiredMixin, LogMixin, generic.DetailView):
+	log_component = 'resources'
+	log_action = 'view'
+	log_resource = 'file_link'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -46,10 +53,30 @@ class DownloadFile(LoginRequiredMixin, generic.DetailView):
 		response['Content-Disposition'] = 'attachment; filename=%s' % file_link.name
 		response['Content-Transfer-Encoding'] = 'binary'
 		response['Content-Length'] = str(path.getsize(file_link.file_content.path))
+
+		self.log_context['category_id'] = file_link.topic.subject.category.id
+		self.log_context['category_name'] = file_link.topic.subject.category.name
+		self.log_context['category_slug'] = file_link.topic.subject.category.slug
+		self.log_context['subject_id'] = file_link.topic.subject.id
+		self.log_context['subject_name'] = file_link.topic.subject.name
+		self.log_context['subject_slug'] = file_link.topic.subject.slug
+		self.log_context['topic_id'] = file_link.topic.id
+		self.log_context['topic_name'] = file_link.topic.name
+		self.log_context['topic_slug'] = file_link.topic.slug
+		self.log_context['file_link_id'] = file_link.id
+		self.log_context['file_link_name'] = file_link.name
+		self.log_context['file_link_slug'] = file_link.slug
+
+		super(DownloadFile, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
 		
 		return response
 
-class CreateView(LoginRequiredMixin, generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = 'resources'
+	log_action = 'create'
+	log_resource = 'file_link'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -127,6 +154,21 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		if not pend_form.action == "":
 			pend_form.save() 
 		
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['file_link_id'] = self.object.id
+		self.log_context['file_link_name'] = self.object.name
+		self.log_context['file_link_slug'] = self.object.slug
+
+		super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return redirect(self.get_success_url())
 
 	def get_context_data(self, **kwargs):
@@ -147,7 +189,12 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
-class UpdateView(LoginRequiredMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+	log_component = 'resources'
+	log_action = 'update'
+	log_resource = 'file_link'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -221,6 +268,21 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 		if not pend_form.action == "":
 			pend_form.save()
         
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['file_link_id'] = self.object.id
+		self.log_context['file_link_name'] = self.object.name
+		self.log_context['file_link_slug'] = self.object.slug
+
+		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return redirect(self.get_success_url())
 
 	def get_context_data(self, **kwargs):
@@ -241,7 +303,12 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
-class DeleteView(LoginRequiredMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+	log_component = 'resources'
+	log_action = 'delete'
+	log_resource = 'file_link'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -260,5 +327,20 @@ class DeleteView(LoginRequiredMixin, generic.DeleteView):
 
 	def get_success_url(self):
 		messages.success(self.request, _('The File Link "%s" was removed successfully from virtual environment "%s"!')%(self.object.name, self.object.topic.subject.name))
+
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['file_link_id'] = self.object.id
+		self.log_context['file_link_name'] = self.object.name
+		self.log_context['file_link_slug'] = self.object.slug
+
+		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})

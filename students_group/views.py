@@ -53,7 +53,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
 class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 	log_component = 'students_group'
 	log_action = 'create'
-	log_resource = 'students group'
+	log_resource = 'students_group'
 	log_context = {}
 
 	login_url = reverse_lazy("users:login")
@@ -144,7 +144,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 	log_component = 'students_group'
 	log_action = 'update'
-	log_resource = 'students group'
+	log_resource = 'students_group'
 	log_context = {}
 
 	login_url = reverse_lazy("users:login")
@@ -196,7 +196,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
 	log_component = 'students_group'
 	log_action = 'delete'
-	log_resource = 'students group'
+	log_resource = 'students_group'
 	log_context = {}
 
 	login_url = reverse_lazy("users:login")
