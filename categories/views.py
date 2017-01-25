@@ -68,8 +68,9 @@ class CreateCategory(views.SuperuserRequiredMixin, LoginRequiredMixin, HasRoleMi
     log_resource = 'category'
     log_context = {}
 
-    allowed_rules = ['system_admin']
-    login_url = reverse_lazy('users:login')
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+    
     form_class = CategoryForm
     template_name = 'categories/create.html'
     success_url = reverse_lazy('categories:index')

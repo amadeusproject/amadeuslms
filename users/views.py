@@ -12,6 +12,7 @@ from braces import views as braces_mixins
 from security.models import Security
 
 from log.decorators import log_decorator
+from log.mixins import LogMixin
 
 from .models import User
 from .utils import has_dependencies
@@ -86,7 +87,12 @@ class SearchView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 
 		return context
 
-class CreateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, generic.edit.CreateView):
+class CreateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = 'user'
+	log_action = 'create'
+	log_resource = 'user'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -100,6 +106,12 @@ class CreateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 
 		msg = _("User %s created successfully" % self.object.get_short_name())
 
+		self.log_context['user_id'] = self.object.id
+		self.log_context['user_name'] = self.object.get_short_name()
+		self.log_context['user_email'] = self.object.email
+
+		super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		messages.success(self.request, msg)
 
 		return super(CreateView, self).form_valid(form)
@@ -111,7 +123,12 @@ class CreateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 
 		return context
 
-class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, generic.UpdateView):
+class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, LogMixin, generic.UpdateView):
+	log_component = 'user'
+	log_action = 'update'
+	log_resource = 'user'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -137,6 +154,12 @@ class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 
 		msg = _("User %s updated successfully" % self.object.get_short_name())
 
+		self.log_context['user_id'] = self.object.id
+		self.log_context['user_name'] = self.object.get_short_name()
+		self.log_context['user_email'] = self.object.email
+
+		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		messages.success(self.request, msg)
 
 		return super(UpdateView, self).form_valid(form)
@@ -148,7 +171,12 @@ class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 
 		return context
 
-class DeleteView(braces_mixins.LoginRequiredMixin, generic.DeleteView):
+class DeleteView(braces_mixins.LoginRequiredMixin, LogMixin, generic.DeleteView):
+	log_component = 'user'
+	log_action = 'delete'
+	log_resource = 'user'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -166,7 +194,6 @@ class DeleteView(braces_mixins.LoginRequiredMixin, generic.DeleteView):
 
 		return super(DeleteView, self).dispatch(request, *args, **kwargs)
 
-
 	def get_object(self):
 		email = self.kwargs.get('email', None)
 
@@ -182,9 +209,15 @@ class DeleteView(braces_mixins.LoginRequiredMixin, generic.DeleteView):
 		user = self.get_object()
 
 		if email is None:
+			self.log_action = 'remove_account'
+
 			success_url = reverse_lazy('users:login')
 			error_url = reverse_lazy('users:profile')
 		else:
+			self.log_context['user_id'] = user.id
+			self.log_context['user_name'] = user.get_short_name()
+			self.log_context['user_email'] = user.email
+
 			success_url = reverse_lazy('users:manage')
 			error_url = reverse_lazy('users:manage')
 
@@ -192,15 +225,23 @@ class DeleteView(braces_mixins.LoginRequiredMixin, generic.DeleteView):
 		error_msg = _('Could not remove the account. The user is attach to one or more functions (administrator, coordinator, professor ou student) in the system.')
 
 		if has_dependencies(user):
+			self.log_context['dependencies'] = True
+
 			messages.error(self.request, error_msg)
 
-			return redirect(error_url)
+			redirect_url = redirect(error_url)
 		else:
+			self.log_context['dependencies'] = False
+
 			user.delete()
 			
 			messages.success(self.request, success_msg)
 
-			return redirect(success_url)
+			redirect_url = redirect(success_url)
+
+		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		return redirect_url
 
 	def get_context_data(self, **kwargs):
 		context = super(DeleteView, self).get_context_data(**kwargs)
