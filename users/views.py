@@ -11,6 +11,8 @@ from braces import views as braces_mixins
 
 from security.models import Security
 
+from log.decorators import log_decorator
+
 from .models import User
 from .utils import has_dependencies
 from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm, PassResetRequest, SetPasswordForm
@@ -436,7 +438,7 @@ class PasswordResetConfirmView(generic.FormView):
 			messages.error(request, _('The reset password link is no longer valid.'))
 			return self.form_invalid(form)
 
-
+@log_decorator('user', 'access', 'system')
 def login(request):
 	context = {}
 	context['title'] = _('Log In')
@@ -452,6 +454,14 @@ def login(request):
 		if user is not None:
 			if not security.maintence or user.is_staff:
 				login_user(request, user)
+
+				next_url = request.GET.get('next', None)
+
+				request.log_context = {}
+
+				if next_url:
+					return redirect(next_url)
+
 				return redirect(reverse("home"))
 			else:
 				messages.error(request, _('System under maintenance. Try again later'))	
