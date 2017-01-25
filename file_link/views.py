@@ -240,3 +240,25 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 		messages.success(self.request, _('The File Link "%s" was updated successfully!')%(self.object.name))
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+
+class DeleteView(LoginRequiredMixin, generic.DeleteView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'file_links/delete.html'
+	model = FileLink
+	context_object_name = 'file_link'
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		file_link = get_object_or_404(FileLink, slug = slug)
+
+		if not has_subject_permissions(request.user, file_link.topic.subject):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(DeleteView, self).dispatch(request, *args, **kwargs)
+
+	def get_success_url(self):
+		messages.success(self.request, _('The File Link "%s" was removed successfully from virtual environment "%s"!')%(self.object.name, self.object.topic.subject.name))
+
+		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})

@@ -42,4 +42,4 @@ class FileLink(Resource):
 		return 'file_links:update'
 
 	def delete_link(self):
-		return 'webpages:delete'
+		return 'file_links:delete'
