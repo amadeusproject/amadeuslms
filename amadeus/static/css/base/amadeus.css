@@ -609,6 +609,10 @@ a:focus {
     cursor: pointer;
 }
 
+.filedrag i {
+    font-size: 35px;
+}
+
 .theme_img {
     width: 100%;
 }

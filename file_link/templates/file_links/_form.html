@@ -39,9 +39,15 @@
 	    </div>
 
 	    <div class="filedrag">
-      		{% trans 'Click or drop the file here' %}<br />
-      		
-      		<small>{% trans 'The file could not exceed 10MB.' %}</small>
+	    	{% if file_link %}
+	    		<i class="fa fa-file-archive-o"></i> <br />
+
+	    		<small>{{ file_link.filename }}</small>
+	    	{% else %}
+	      		{% trans 'Click or drop the file here' %}<br />
+	      		
+	      		<small>{% trans 'The file could not exceed 10MB.' %}</small>
+	      	{% endif %}
   		</div>
 
 		<span id="helpBlock" class="help-block">{{ form.file_content.help_text }}</span>

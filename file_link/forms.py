@@ -65,6 +65,12 @@ class FileLinkForm(forms.ModelForm):
 
 					return ValueError
 
+
+		if not self.instance.pk:
+			self._errors['file_content'] = [_('This field is required.')]
+
+			return ValueError
+
 		return file_content
 
 	def save(self, commit = True):

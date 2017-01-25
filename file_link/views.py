@@ -146,3 +146,97 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		messages.success(self.request, _('The File Link "%s" was added to the Topic "%s" of the virtual environment "%s" successfully!')%(self.object.name, self.object.topic.name, self.object.topic.subject.name))
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+
+class UpdateView(LoginRequiredMixin, generic.UpdateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'file_links/update.html'
+	model = FileLink
+	form_class = FileLinkForm
+	context_object_name = 'file_link'
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('topic_slug', '')
+		topic = get_object_or_404(Topic, slug = slug)
+
+		if not has_subject_permissions(request.user, topic.subject):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(UpdateView, self).dispatch(request, *args, **kwargs)
+
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		
+		form_class = self.get_form_class()
+		form = self.get_form(form_class)
+
+		slug = self.kwargs.get('topic_slug', '')
+		topic = get_object_or_404(Topic, slug = slug)
+
+		pend_form = self.object.pendencies_resource.all()
+
+		if len(pend_form) > 0:
+			pendencies_form = PendenciesForm(instance = pend_form[0], initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+		else:
+			pendencies_form = PendenciesForm(initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+
+		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		
+		form_class = self.get_form_class()
+		form = self.get_form(form_class)
+
+		slug = self.kwargs.get('topic_slug', '')
+		topic = get_object_or_404(Topic, slug = slug)
+
+		pend_form = self.object.pendencies_resource.all()
+
+		if len(pend_form) > 0:
+			pendencies_form = PendenciesForm(self.request.POST, instance = pend_form[0], initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+		else:
+			pendencies_form = PendenciesForm(self.request.POST, initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+		
+		if (form.is_valid() and pendencies_form.is_valid()):
+			return self.form_valid(form, pendencies_form)
+		else:
+			return self.form_invalid(form, pendencies_form)
+	
+	def form_invalid(self, form, pendencies_form):
+		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
+
+	def form_valid(self, form, pendencies_form):
+		self.object = form.save(commit = False)
+
+		if not self.object.topic.visible and not self.object.topic.repository:
+			self.object.visible = False
+		
+		self.object.save()
+
+		pend_form = pendencies_form.save(commit = False)
+		pend_form.resource = self.object
+
+		if not pend_form.action == "":
+			pend_form.save()
+        
+		return redirect(self.get_success_url())
+
+	def get_context_data(self, **kwargs):
+		context = super(UpdateView, self).get_context_data(**kwargs)
+
+		context['title'] = _('Update File Link')
+
+		slug = self.kwargs.get('topic_slug', '')
+		topic = get_object_or_404(Topic, slug = slug)
+
+		context['topic'] = topic
+		context['subject'] = topic.subject
+
+		return context
+
+	def get_success_url(self):
+		messages.success(self.request, _('The File Link "%s" was updated successfully!')%(self.object.name))
+
+		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})

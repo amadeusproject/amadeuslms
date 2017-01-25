@@ -18,8 +18,8 @@
 	{% breadcrumb topic 'subjects:topic_view' topic.subject.slug topic.slug %}
 	
 	{% trans 'Edit: ' as bread %}
-	{% with bread|add:webpage.name as bread_slug %}
-		{% breadcrumb bread_slug 'webpages:update' topic.slug webpage.slug %}
+	{% with bread|add:file_link.name as bread_slug %}
+		{% breadcrumb bread_slug 'file_links:update' topic.slug file_link.slug %}
 	{% endwith %}
 {% endblock %}
 
@@ -27,7 +27,7 @@
 	<div class="card">
 		<div class="card-content">
 			<div class="card-body">
-				{% include 'webpages/_form.html' %}
+				{% include 'file_links/_form.html' %}
 			</div>
 		</div>
 	</div>

@@ -1,3 +1,4 @@
+import os
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
@@ -21,11 +22,15 @@ def validate_file_extension(value):
 			raise ValidationError(_('File not supported.'))
 
 class FileLink(Resource):
-	file_content = models.FileField(_('File'), upload_to = 'files/', validators = [validate_file_extension])
+	file_content = models.FileField(_('File'), blank = True, upload_to = 'files/', validators = [validate_file_extension])
 
 	class Meta:
 		verbose_name = _('File Link')
 		verbose_name_plural = _('File Links')
+
+	@property
+	def filename(self):
+		return os.path.basename(self.file_content.name)
 
 	def __str__(self):
 		return self.name
@@ -34,7 +39,7 @@ class FileLink(Resource):
 		return 'file_links:download'
 
 	def update_link(self):
-		return 'webpages:update'
+		return 'file_links:update'
 
 	def delete_link(self):
 		return 'webpages:delete'
