@@ -10,6 +10,8 @@ from amadeus.permissions import has_subject_permissions
 
 from subjects.models import Subject
 
+from log.mixins import LogMixin
+
 from .models import StudentsGroup
 from .forms import StudentsGroupForm
 
@@ -48,7 +50,12 @@ class IndexView(LoginRequiredMixin, generic.ListView):
 
 		return context
 
-class CreateView(LoginRequiredMixin, generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = 'students_group'
+	log_action = 'create'
+	log_resource = 'students group'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -77,6 +84,12 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 			initial['description'] = group.description
 			initial['name'] = group.name
 			initial['participants'] = group.participants.all()
+
+			self.log_action = 'replicate'
+
+			self.log_context['replicated_group_id'] = group.id
+			self.log_context['replicated_group_name'] = group.name
+			self.log_context['replicated_group_slug'] = group.slug
 		
 		return initial
 
@@ -89,6 +102,18 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		self.object.subject = subject
 
 		self.object.save()
+
+		self.log_context['category_id'] = self.object.subject.category.id
+		self.log_context['category_name'] = self.object.subject.category.name
+		self.log_context['category_slug'] = self.object.subject.category.slug
+		self.log_context['subject_id'] = self.object.subject.id
+		self.log_context['subject_name'] = self.object.subject.name
+		self.log_context['subject_slug'] = self.object.subject.slug
+		self.log_context['group_id'] = self.object.id
+		self.log_context['group_name'] = self.object.name
+		self.log_context['group_slug'] = self.object.slug
+
+		super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(CreateView, self).form_valid(form)
 
@@ -116,7 +141,12 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
 		return reverse_lazy('groups:index', kwargs = {'slug': self.object.subject.slug})
 
-class UpdateView(LoginRequiredMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+	log_component = 'students_group'
+	log_action = 'update'
+	log_resource = 'students group'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -149,9 +179,26 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 	def get_success_url(self):
 		messages.success(self.request, _('The group "%s" was updated successfully!')%(self.object.name))
 
+		self.log_context['category_id'] = self.object.subject.category.id
+		self.log_context['category_name'] = self.object.subject.category.name
+		self.log_context['category_slug'] = self.object.subject.category.slug
+		self.log_context['subject_id'] = self.object.subject.id
+		self.log_context['subject_name'] = self.object.subject.name
+		self.log_context['subject_slug'] = self.object.subject.slug
+		self.log_context['group_id'] = self.object.id
+		self.log_context['group_name'] = self.object.name
+		self.log_context['group_slug'] = self.object.slug
+
+		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return reverse_lazy('groups:index', kwargs = {'slug': self.object.subject.slug})
 
-class DeleteView(LoginRequiredMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+	log_component = 'students_group'
+	log_action = 'delete'
+	log_resource = 'students group'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -170,5 +217,17 @@ class DeleteView(LoginRequiredMixin, generic.DeleteView):
 
 	def get_success_url(self):
 		messages.success(self.request, _('The group "%s" was removed successfully!')%(self.object.name))
+
+		self.log_context['category_id'] = self.object.subject.category.id
+		self.log_context['category_name'] = self.object.subject.category.name
+		self.log_context['category_slug'] = self.object.subject.category.slug
+		self.log_context['subject_id'] = self.object.subject.id
+		self.log_context['subject_name'] = self.object.subject.name
+		self.log_context['subject_slug'] = self.object.subject.slug
+		self.log_context['group_id'] = self.object.id
+		self.log_context['group_name'] = self.object.name
+		self.log_context['group_slug'] = self.object.slug
+
+		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return reverse_lazy('groups:index', kwargs = {'slug': self.object.subject.slug})
