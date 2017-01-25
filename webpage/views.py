@@ -7,6 +7,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 
+import time
+from log.models import Log
+from log.mixins import LogMixin
+
 from topics.models import Topic
 
 from pendencies.forms import PendenciesForm
@@ -14,7 +18,12 @@ from pendencies.forms import PendenciesForm
 from .forms import WebpageForm
 from .models import Webpage
 
-class NewWindowView(LoginRequiredMixin, generic.DetailView):
+class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
+	log_component = 'resources'
+	log_action = 'view'
+	log_resource = 'webpage'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -31,7 +40,35 @@ class NewWindowView(LoginRequiredMixin, generic.DetailView):
 
 		return super(NewWindowView, self).dispatch(request, *args, **kwargs)
 
-class InsideView(LoginRequiredMixin, generic.DetailView):
+	def get_context_data(self, **kwargs):
+		context = super(NewWindowView, self).get_context_data(**kwargs)
+
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['webpage_id'] = self.object.id
+		self.log_context['webpage_name'] = self.object.name
+		self.log_context['webpage_slug'] = self.object.slug
+		self.log_context['timestamp_start'] = str(int(time.time()))
+
+		super(NewWindowView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
+		return context
+
+class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
+	log_component = 'resources'
+	log_action = 'view'
+	log_resource = 'webpage'
+	log_context = {}
+	
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -56,9 +93,32 @@ class InsideView(LoginRequiredMixin, generic.DetailView):
 		context['topic'] = self.object.topic
 		context['subject'] = self.object.topic.subject
 
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['webpage_id'] = self.object.id
+		self.log_context['webpage_name'] = self.object.name
+		self.log_context['webpage_slug'] = self.object.slug
+		self.log_context['timestamp_start'] = str(int(time.time()))
+
+		super(InsideView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
 		return context
 
-class CreateView(LoginRequiredMixin, generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = 'resources'
+	log_action = 'create'
+	log_resource = 'webpage'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -134,7 +194,22 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		pend_form.resource = self.object
 		
 		if not pend_form.action == "":
-			pend_form.save() 
+			pend_form.save()
+
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['webpage_id'] = self.object.id
+		self.log_context['webpage_name'] = self.object.name
+		self.log_context['webpage_slug'] = self.object.slug
+
+		super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
 		
 		return redirect(self.get_success_url())
 
@@ -165,7 +240,12 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
 		return success_url
 
-class UpdateView(LoginRequiredMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+	log_component = 'resources'
+	log_action = 'update'
+	log_resource = 'webpage'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -237,6 +317,21 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 
 		if not pend_form.action == "":
 			pend_form.save()
+
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['webpage_id'] = self.object.id
+		self.log_context['webpage_name'] = self.object.name
+		self.log_context['webpage_slug'] = self.object.slug
+
+		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
         
 		return redirect(self.get_success_url())
 
@@ -267,7 +362,12 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 
 		return success_url
 
-class DeleteView(LoginRequiredMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+	log_component = 'resources'
+	log_action = 'delete'
+	log_resource = 'webpage'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -286,5 +386,20 @@ class DeleteView(LoginRequiredMixin, generic.DeleteView):
 
 	def get_success_url(self):
 		messages.success(self.request, _('The webpage "%s" was removed successfully from virtual environment "%s"!')%(self.object.name, self.object.topic.subject.name))
+
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['webpage_id'] = self.object.id
+		self.log_context['webpage_name'] = self.object.name
+		self.log_context['webpage_slug'] = self.object.slug
+
+		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
