@@ -42,6 +42,9 @@
             </div>
         </div>
         <div id="{{subject.slug}}" class="panel-collapse collapse category-panel-content">
+        <input type="hidden" class="log_url" value="{% url 'subjects:view_log' subject.id %}" />
+            <input type="hidden" class="log_id" value="" />
+
             <div class="row">
                 <div class="col-md-6">
                     {% if subject.professor.all|length > 0  %}

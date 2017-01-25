@@ -14,35 +14,36 @@ class TimeSpentMiddleware(object):
 
 		if not 'admin' in app_names:
 			if not request.is_ajax():
-				log_id = request.session.get('log_id', None)
+				if not request.path.startswith('/uploads/'):
+					log_id = request.session.get('log_id', None)
 
-				if not log_id is None:
-					log = get_object_or_404(Log, id = log_id)
+					if not log_id is None:
+						log = get_object_or_404(Log, id = log_id)
 
-					if type(log.context) == dict:
-						log_context = log.context
-					else:
-						log_context = json.loads(log.context)
-
-					log_context['timestamp_end'] = str(int(time.time()))
-
-					log.context = log_context
-
-					log.save()
-
-					request.session['log_id'] = None
-
-				if request.user.is_authenticated:
-					oppened_logs = Log.objects.filter(user = request.user, context__contains={'timestamp_end': '-1'})
-
-					for op_log in oppened_logs:
-						if type(op_log.context) == dict:
-							log_context = op_log.context
+						if type(log.context) == dict:
+							log_context = log.context
 						else:
-							log_context = json.loads(op_log.context)
+							log_context = json.loads(log.context)
 
 						log_context['timestamp_end'] = str(int(time.time()))
 
-						op_log.context = log_context
+						log.context = log_context
 
-						op_log.save()
+						log.save()
+
+						request.session['log_id'] = None
+
+					if request.user.is_authenticated:
+						oppened_logs = Log.objects.filter(user = request.user, context__contains={'timestamp_end': '-1'})
+
+						for op_log in oppened_logs:
+							if type(op_log.context) == dict:
+								log_context = op_log.context
+							else:
+								log_context = json.loads(op_log.context)
+
+							log_context['timestamp_end'] = str(int(time.time()))
+
+							op_log.context = log_context
+
+							op_log.save()
