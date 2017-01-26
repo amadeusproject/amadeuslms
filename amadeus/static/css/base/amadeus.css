@@ -123,6 +123,11 @@ a:focus {
 }
 .category-card-items i{
     margin-right: 10px;
+    color: #90CAF9 !important;
+}
+
+.category-card-items i:hover{
+    color: white !important;
 }
 
 .category-header .dropdown-menu i {
