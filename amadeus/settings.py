@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django_bootstrap_breadcrumbs',
     's3direct',
     'django_summernote',
+    'session_security',
 
     'amadeus',
     'users',
@@ -76,6 +77,8 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'users.middleware.SessionExpireMiddleware',
+    'session_security.middleware.SessionSecurityMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -106,7 +109,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'amadeus.wsgi.application'
 
-
+SESSION_SECURITY_WARN_AFTER = 1140
+SESSION_SECURITY_EXPIRE_AFTER = 1200
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Database
 # https://docs.djangopr/*oject.com/en/1.9/ref/settings/#databases
 

@@ -59,6 +59,7 @@
         <link rel="stylesheet" type="text/css" href="{% static theme_selected %}">
     {% endwith %}
 
+
 </head>
 <body>
     {% block nav %}
@@ -214,6 +215,8 @@
             </div>
         </div>
     {% endblock %}
+
+    {% include 'session_security/all.html' %}
 
     <!-- Init material Bootstrap -->
     <script type="text/javascript">$.material.init()</script>
