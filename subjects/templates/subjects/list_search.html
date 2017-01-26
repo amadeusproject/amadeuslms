@@ -13,6 +13,28 @@
 
 {% endblock breadcrumbs %}
 
+ {% block sidebar %}
+                    <ul id="sidebar-menu">
+                        <li class="item " id="subjects-link" data-toggle="tooltip" data-placement="right" title="{% trans "Subjects" %}">
+                            <a href="{% url 'subjects:index' %}">
+                                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Timeline" %}">
+                            <i class="fa fa-list" aria-hidden="true" ></i>
+                        </li>
+                        <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Messages" %}">
+                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                        </li>
+                        <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Pendencias" %}">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        </li>
+                        <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Analytics" %}">
+                            <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                        </li>
+                    </ul>
+                {% endblock %}
+
 {% block content %}
 
 	 {% if messages %}
@@ -26,7 +48,11 @@
             </script>
         {% endfor %}
     {% endif %}
-
+    {% if subjects|length > 0 %}
+         <p id="search-results-title">{% trans "Search results" %}:</p>
+    {% else %}
+         <p id="search-results-title">{% trans "Search results" %}: {% trans " any subjects or resources were found on the search for " %}  {{tags}} </p>
+    {% endif %}
     <div id="core-subjects-options-div">
         <ul class="core-subjects-options">
             {% if all %}
@@ -40,7 +66,7 @@
         </ul>
     </div>
 
-    <p id="search-results-title">{% trans "Search results" %}:</p>
+   
 
     <div class="col-md-12 cards-content">
 		
@@ -54,10 +80,7 @@
 				{% pagination request paginator page_obj %}
 			</div>
 		{% else %}
-			<div class="text-center no-subjects">
-				<i class="fa fa-graduation-cap"></i>
-				<h4>{% trans 'You still do not posses any subject in our platform' %}</h4>
-			</div>
+			
 		{% endif %}
 	</div>
 

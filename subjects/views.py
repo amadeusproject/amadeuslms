@@ -597,7 +597,7 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
 		self.tags = tags
 		tags = tags.split(" ")
 	   	   
-		subjects = Subject.objects.filter(tags__name__in=tags)
+		subjects = Subject.objects.filter(tags__name__unaccent__in=tags)
 		#pk = self.request.user.pk
 		#my_subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk) & Q(tags__name__in=tags) ).distinct()
 		
