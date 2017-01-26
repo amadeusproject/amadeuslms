@@ -594,6 +594,20 @@ a:focus {
 .subscribe-subject {
     border:none;
 }
+
+.subject-card-items {
+    padding-right: 0px;
+}
+.subject-card-items i{
+    font-size: 25px !important;
+    margin-top: 6px;
+    margin-right: 10px;
+    color: black !important;
+}
+
+.subject-card-items i:hover{
+    color: white !important;
+}
 /* subjects app ends */
 
 /* Themes */
@@ -827,3 +841,21 @@ a.add-row {
 .add_resource ul {
     width: 100%;
 }
+
+/*topics app starts*/
+
+.topic-card-items {
+    padding-right: 0px;
+}
+.topic-card-items i{
+    font-size: 25px !important;
+    margin-top: 6px;
+    margin-right: 10px;
+    color: black !important;
+}
+
+.topic-card-items i:hover{
+    color: white !important;
+}
+
+/*topic app ends*/
