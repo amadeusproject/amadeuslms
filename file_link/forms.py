@@ -64,9 +64,8 @@ class FileLinkForm(forms.ModelForm):
 					self._errors['file_content'] = [_("The file is too large. It should have less than 10MB.")]
 
 					return ValueError
-
-
-		if not self.instance.pk:
+		
+		elif not self.instance.pk:
 			self._errors['file_content'] = [_('This field is required.')]
 
 			return ValueError
