@@ -50,7 +50,7 @@ class DownloadFile(LoginRequiredMixin, LogMixin, generic.DetailView):
 		response['Pragma'] = 'public'
 		response['Expires'] = '0'
 		response['Cache-Control'] = 'must-revalidate, post-check=0, pre-check=0'
-		response['Content-Disposition'] = 'attachment; filename=%s' % file_link.name
+		response['Content-Disposition'] = 'attachment; filename=%s' % file_link.filename
 		response['Content-Transfer-Encoding'] = 'binary'
 		response['Content-Length'] = str(path.getsize(file_link.file_content.path))
 
