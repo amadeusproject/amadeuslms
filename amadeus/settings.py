@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     's3direct',
     'django_summernote',
     'session_security',
+    'django_cron',
 
     'amadeus',
     'users',
@@ -167,6 +168,10 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "amadeus/static")
+]
+
+CRON_CLASSES = [
+    'notifications.cron.Test'
 ]
 
 #SECURITY
