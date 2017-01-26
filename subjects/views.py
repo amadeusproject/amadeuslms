@@ -529,6 +529,9 @@ class SubjectSubscribeView(LoginRequiredMixin, LogMixin, TemplateView):
 	log_resource = 'subject'
 	log_context = {}
 
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
 	template_name = 'subjects/subscribe.html'
 
 	def get_context_data(self, **kwargs):
@@ -559,8 +562,15 @@ class SubjectSubscribeView(LoginRequiredMixin, LogMixin, TemplateView):
 		return JsonResponse({'url':reverse_lazy('subjects:index')})
 
 
-class SubjectSearchView(LoginRequiredMixin, ListView):
+class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
+	log_component = 'subject'
+	log_action = 'search'
+	log_resource = 'subject/resources'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
 	template_name = 'subjects/list_search.html'
 	context_object_name = 'subjects'
 	paginate_by = 10
@@ -586,8 +596,7 @@ class SubjectSearchView(LoginRequiredMixin, ListView):
 
 		self.tags = tags
 		tags = tags.split(" ")
-	   
-	   
+	   	   
 		subjects = Subject.objects.filter(tags__name__in=tags)
 		#pk = self.request.user.pk
 		#my_subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk) & Q(tags__name__in=tags) ).distinct()
@@ -612,6 +621,9 @@ class SubjectSearchView(LoginRequiredMixin, ListView):
 			context['title'] = _('Subjects')
 
 		context['subjects_menu_active'] = 'subjects_menu_active'
+
+		self.log_context['search_for'] = self.tags
+		super(SubjectSearchView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return context
    
