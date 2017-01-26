@@ -7,6 +7,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 import json
+import time
+
+from log.models import Log
+from log.mixins import LogMixin
+from log.decorators import log_decorator_ajax
 
 from amadeus.permissions import has_subject_permissions
 
@@ -15,7 +20,12 @@ from subjects.models import Subject
 from .models import Topic, Resource
 from .forms import TopicForm
 
-class CreateView(LoginRequiredMixin, generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = 'topic'
+	log_action = 'create'
+	log_resource = 'topic'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -51,6 +61,18 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
 		self.object.save()
 
+		self.log_context['category_id'] = self.object.subject.category.id
+		self.log_context['category_name'] = self.object.subject.category.name
+		self.log_context['category_slug'] = self.object.subject.category.slug
+		self.log_context['subject_id'] = self.object.subject.id
+		self.log_context['subject_name'] = self.object.subject.name
+		self.log_context['subject_slug'] = self.object.subject.slug
+		self.log_context['topic_id'] = self.object.id
+		self.log_context['topic_name'] = self.object.name
+		self.log_context['topic_slug'] = self.object.slug
+
+		super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return super(CreateView, self).form_valid(form)
 
 	def get_context_data(self, **kwargs):
@@ -70,7 +92,12 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.subject.slug})
 
-class UpdateView(LoginRequiredMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+	log_component = 'topic'
+	log_action = 'update'
+	log_resource = 'topic'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -112,9 +139,26 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 	def get_success_url(self):
 		messages.success(self.request, _('Topic "%s" was updated on virtual enviroment "%s" successfully!')%(self.object.name, self.object.subject.name))
 
+		self.log_context['category_id'] = self.object.subject.category.id
+		self.log_context['category_name'] = self.object.subject.category.name
+		self.log_context['category_slug'] = self.object.subject.category.slug
+		self.log_context['subject_id'] = self.object.subject.id
+		self.log_context['subject_name'] = self.object.subject.name
+		self.log_context['subject_slug'] = self.object.subject.slug
+		self.log_context['topic_id'] = self.object.id
+		self.log_context['topic_name'] = self.object.name
+		self.log_context['topic_slug'] = self.object.slug
+
+		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.subject.slug})
 
-class DeleteView(LoginRequiredMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+	log_component = 'topic'
+	log_action = 'delete'
+	log_resource = 'topic'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -146,7 +190,47 @@ class DeleteView(LoginRequiredMixin, generic.DeleteView):
 	def get_success_url(self):
 		messages.success(self.request, _('Topic "%s" was removed from virtual enviroment "%s" successfully!')%(self.object.name, self.object.subject.name))
 
+		self.log_context['category_id'] = self.object.subject.category.id
+		self.log_context['category_name'] = self.object.subject.category.name
+		self.log_context['category_slug'] = self.object.subject.category.slug
+		self.log_context['subject_id'] = self.object.subject.id
+		self.log_context['subject_name'] = self.object.subject.name
+		self.log_context['subject_slug'] = self.object.subject.slug
+		self.log_context['topic_id'] = self.object.id
+		self.log_context['topic_name'] = self.object.name
+		self.log_context['topic_slug'] = self.object.slug
+
+		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.subject.slug})
+
+@log_decorator_ajax('topic', 'view', 'topic')
+def topic_view_log(request, topic):
+	action = request.GET.get('action')
+
+	if action == 'open':
+		topic = get_object_or_404(Topic, id = topic)
+
+		log_context = {}
+		log_context['category_id'] = topic.subject.category.id
+		log_context['category_name'] = topic.subject.category.name
+		log_context['category_slug'] = topic.subject.category.slug
+		log_context['subject_id'] = topic.subject.id
+		log_context['subject_name'] = topic.subject.name
+		log_context['subject_slug'] = topic.subject.slug
+		log_context['topic_id'] = topic.id
+		log_context['topic_name'] = topic.name
+		log_context['topic_slug'] = topic.slug
+		log_context['timestamp_start'] = str(int(time.time()))
+		log_context['timestamp_end'] = '-1'
+
+		request.log_context = log_context
+
+		log_id = Log.objects.latest('id').id
+
+		return JsonResponse({'message': 'ok', 'log_id': log_id})
+
+	return JsonResponse({'message': 'ok'})
 
 def update_order(request):
 	data = request.GET.get('data', None)

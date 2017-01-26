@@ -37,6 +37,9 @@
 			    <div id="{{topic.slug}}" class="panel-collapse collapse category-panel-content topic-panel">
 			    	<input type="hidden" class="id_inp" name="id" value="{{ topic.id }}" />
 			    	<input type="hidden" class="order_inp" name="order" value="{{ topic.order }}" />
+
+			    	<input type="hidden" class="log_url" value="{% url 'topics:view_log' topic.id %}" />
+            		<input type="hidden" class="log_id" value="" />
 			    	
 	    			{% autoescape off %}
 						{{ topic.description }}
