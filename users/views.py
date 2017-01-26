@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 from django.contrib import messages
-from django.contrib.auth import authenticate, login as login_user
+from django.contrib.auth import authenticate, login as login_user, logout as logout_user
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
@@ -498,8 +498,6 @@ def login(request):
 
 				next_url = request.GET.get('next', None)
 
-				request.log_context = {}
-
 				if next_url:
 					return redirect(next_url)
 
@@ -514,6 +512,14 @@ def login(request):
 
 	return render(request, "users/login.html", context)
 
+@log_decorator('user', 'logout', 'system')
+def logout(request, next_page = None):
+	logout_user(request)
+
+	if next_page:
+		return redirect(next_page)
+
+	return redirect(reverse('users:login'))
 
 # API VIEWS
 class UserViewSet(viewsets.ModelViewSet):

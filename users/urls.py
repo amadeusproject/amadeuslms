@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
 	url(r'^login/$', views.login, name='login'),
-	url(r'^logout/$', auth_views.logout, {'next_page': 'users:login'}, name='logout'),
+	url(r'^logout/$', views.logout, {'next_page': 'users:login'}, name='logout'),
 	url(r'^signup/$', views.RegisterUser.as_view(), name = 'signup'),
 	url(r'^forgot_password/$', views.ForgotPassword.as_view(), name = 'forgot_pass'),
 	url(r'^reset_password_confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', views.PasswordResetConfirmView.as_view(), name = 'reset_password_confirm'), 

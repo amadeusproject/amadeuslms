@@ -10,17 +10,25 @@ def log_decorator(log_component = '', log_action = '', log_resource = ''):
 	def _log_decorator(view_function):
 
 		def _decorator(request, *args, **kwargs):
+			user = None
+
+			if request.user.is_authenticated:
+				user = request.user				
 
 			response = view_function(request, *args, **kwargs)
 
-			if request.user.is_authenticated:
-				
+			log_context = {}
+
+			if hasattr(request, 'log_context'):
+				log_context = request.log_context
+
+			if user:				
 				log = Log()
-				log.user = str(request.user)
-				log.user_id = request.user.id
-				log.user_email = request.user.email
+				log.user = str(user)
+				log.user_id = user.id
+				log.user_email = user.email
 				log.component = log_component
-				log.context = request.log_context
+				log.context = log_context
 				log.action = log_action
 				log.resource = log_resource
 
@@ -55,9 +63,15 @@ def log_decorator_ajax(log_component = '', log_action = '', log_resource = ''):
 
 					response = view_function(request, *args, **kwargs)
 					
+					log_context = {}
+
+					if hasattr(request, 'log_context'):
+						log_context = request.log_context
+
 					log = Log.objects.latest('id')
-					log.context = request.log_context
+					log.context = log_context
 					log.save()
+					
 			elif view_action == 'close':
 				if request.user.is_authenticated:
 					log = get_object_or_404(Log, id = request.GET.get('log_id'))
