@@ -20,10 +20,10 @@ def subject_count(category, user):
 	return total
 
 @register.inclusion_tag('subjects/badge.html')
-def notifies_number(subject):
+def notifies_number(subject, user):
 	context = {}
 
-	context['number'] = Notification.objects.filter(task__resource__topic__subject = subject, creation_date = datetime.datetime.now()).count()
+	context['number'] = Notification.objects.filter(task__resource__topic__subject = subject, creation_date = datetime.datetime.now(), viewed = False, user = user).count()
 	
 	return context
 

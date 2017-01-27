@@ -83,7 +83,7 @@
                                             <a href="" class="pull-right action_icon"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
                                             <a href="" class="pull-right action_icon">
                                                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                                {% notifies_cat_number category %}
+                                                {% notifies_cat_number category request.user %}
                                             </a>
                                             <a href="" class="pull-right action_icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
                                             <a href="" class="pull-right action_icon"><i class="fa fa-list" aria-hidden="true"></i></a>
@@ -147,10 +147,14 @@
                                                     <li><a href="javascript:delete_course.get('{% url 'categories:delete' category.slug %}?view=index','#category','#modal_course')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>
                                                 </ul>
                                             {% endif %}
-                                            <a href=""><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
-                                            <a href=""><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
-                                            <a href=""><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
-                                            <a href="" ><i class="fa fa-list" aria-hidden="true"></i></a>
+                                            
+                                            <a href="" class="pull-right action_icon"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
+                                            <a href="" class="pull-right action_icon">
+                                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                                {% notifies_cat_number category request.user %}
+                                            </a>
+                                            <a href="" class="pull-right action_icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+                                            <a href="" class="pull-right action_icon"><i class="fa fa-list" aria-hidden="true"></i></a>
                                         </div>
                                     </div>
                                 </div>

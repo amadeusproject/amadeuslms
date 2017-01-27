@@ -15,7 +15,10 @@ def theme(request):
 def notifies(request):
 	context = {}
 
-	notifications = Notification.objects.filter(creation_date = datetime.now()).count()
+	notifications = 0
+
+	if request.user.is_authenticated:
+		notifications = Notification.objects.filter(creation_date = datetime.now(), viewed = False, user = request.user).count()
 
 	context['notifications_count'] = notifications
 
