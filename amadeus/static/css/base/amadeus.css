@@ -589,6 +589,11 @@ a:focus {
 .subscribe-subject {
     border:none;
 }
+
+.no-subscribe-btn{
+    background-color: #BDBDBD !important;
+    color: #F5F5F5 !important;
+}
 /* subjects app ends */
 
 /* Themes */

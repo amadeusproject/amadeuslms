@@ -77,7 +77,7 @@
                     <a href="javascript:subscribe_subject.get('{% url 'subjects:subscribe' subject.slug %}?view=index','#subject-subscribe','#modal_subject')" class="subscribe-subject btn btn-primary btn-raised"> {% trans "Subscribe to Subject" %}</a>
 
                 {% else %}
-                    <a  class="subscribe-subject btn btn-primary btn-raised" disabled="disabled"> {% trans "This subject doesn't allow new subscriptions" %}</a>
+                    <a  class="no-subscribe-btn btn btn-danger" disabled="disabled"> {% trans "This subject doesn't allow new subscriptions" %}</a>
 
                 {% endif %}
 
