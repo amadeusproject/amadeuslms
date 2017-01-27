@@ -21,6 +21,7 @@ a:focus {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    text:center;
 }
 .users-cloud li {
     list-style: none;
