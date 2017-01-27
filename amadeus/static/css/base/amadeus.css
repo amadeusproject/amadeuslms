@@ -30,36 +30,28 @@ a:focus {
 
 .users-cloud  .small a {
     font-size: 1.25em;
-    color: #2E8B57;
 }
 
 
 .users-cloud  .big a {
     font-size: 2.25em;
-    color: #6B8E23;
 }
 
 .users-cloud .medium a {
     font-size: 1.75em;
-    color:  #66CDAA;
 }
 
 .users-cloud  .tiny a {
     font-size: 0.75em;
-    color: #654321;
 }
 .users-cloud a {
     text-decoration: none;
 }
 
-#search-results-title{
-    color: #BDBDBD;
-}
-
 .div-users-cloud{
-  height: 100%;
-  margin-left: -10px;
-  width: 100%;
+    height: 100%;
+    margin-left: -10px;
+    width: 100%;
 }
 
 .my-subjects-title {
@@ -590,11 +582,6 @@ a:focus {
 .subscribe-subject {
     border:none;
 }
-
-.no-subscribe-btn{
-    background-color: #BDBDBD !important;
-    color: #F5F5F5 !important;
-}
 /* subjects app ends */
 
 /* Themes */
@@ -827,4 +814,24 @@ a.add-row {
 
 .add_resource ul {
     width: 100%;
+}
+
+.action_icon {
+    position: relative;
+}
+
+li.item .notify_badge {
+    top: 0px;
+    right: 0px;
+}
+
+.notify_badge {
+    position: absolute;
+    right: 4px;
+    top: -5px;
+    width: 1.9rem;
+    line-height: 1.9rem;
+    font-size: 0.9rem;
+    border-radius: 50%;
+    padding: 0px;
 }

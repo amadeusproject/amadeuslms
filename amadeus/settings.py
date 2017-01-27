@@ -103,6 +103,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'amadeus.context_processors.theme',
+                'amadeus.context_processors.notifies',
             ],
         },
     },
@@ -171,7 +172,7 @@ STATICFILES_DIRS = [
 ]
 
 CRON_CLASSES = [
-    'notifications.cron.Test'
+    'notifications.cron.Notify'
 ]
 
 #SECURITY

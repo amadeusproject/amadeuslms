@@ -1,5 +1,9 @@
-from django import template
 import datetime
+from django import template
+from django.db.models import Q
+
+from notifications.models import Notification
+
 register = template.Library()
 
 @register.filter(name = 'subject_count')
@@ -15,6 +19,13 @@ def subject_count(category, user):
 
 	return total
 
+@register.inclusion_tag('subjects/badge.html')
+def notifies_number(subject):
+	context = {}
+
+	context['number'] = Notification.objects.filter(task__resource__topic__subject = subject, creation_date = datetime.datetime.now()).count()
+	
+	return context
 
 @register.filter(name = 'aftertoday')
 def after_today(date):

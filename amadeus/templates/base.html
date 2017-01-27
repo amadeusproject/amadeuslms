@@ -160,8 +160,13 @@
                         <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Messages" %}">
                             <i class="fa fa-envelope-o" aria-hidden="true"></i>
                         </li>
-                        <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Pendencias" %}">
-                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        <li class="item action_icon" data-toggle="tooltip" data-placement="right" title="{% trans "Pendencias" %}">
+                            <a href="">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                {% if notifications_count > 0 %}
+                                    <span class="badge notify_badge">{% if notifications_count > 99 %} +99 {% else %} {{ notifications_count }} {% endif %}</span>
+                                {% endif %}
+                            </a>
                         </li>
                         <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Analytics" %}">
                             <i class="fa fa-bar-chart" aria-hidden="true"></i>
@@ -204,8 +209,13 @@
                         <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Messages" %}">
                             <i class="fa fa-envelope-o" aria-hidden="true"></i>
                         </li>
-                        <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Pendencias" %}">
-                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        <li class="item action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Pendencias" %}">
+                            <a href="">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                {% if notifications_count > 0 %}
+                                    <span class="badge notify_badge">{% if notifications_count > 99 %} +99 {% else %} {{ notifications_count }} {% endif %}</span>
+                                {% endif %}
+                            </a>
                         </li>
                         <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Analytics" %}">
                             <i class="fa fa-bar-chart" aria-hidden="true"></i>

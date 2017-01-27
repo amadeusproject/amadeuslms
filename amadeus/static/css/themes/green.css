@@ -397,6 +397,35 @@ a.add-row {
     background-color: initial !important;
 }
 
+.notify_badge {
+    background-color: #FF0000 !important;
+}
+
+#search-results-title{
+    color: #BDBDBD;
+}
+
+.users-cloud  .small a {
+    color: #2E8B57;
+}
+
+.users-cloud  .big a {
+    color: #6B8E23;
+}
+
+.users-cloud .medium a {
+    color:  #66CDAA;
+}
+
+.users-cloud  .tiny a {
+    color: #654321;
+}
+
+.no-subscribe-btn{
+    background-color: #BDBDBD !important;
+    color: #F5F5F5 !important;
+}
+
 @media(max-width: 768px) {
     .navbar .navbar-nav .dropdown .dropdown-menu li > a {
         color: #333333 !important;
