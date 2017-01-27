@@ -1,4 +1,4 @@
-{% load static i18n permissions_tags %}
+{% load static i18n permissions_tags subject_counter %}
 
 {% subject_permissions request.user subject as has_subject_permissions %}
 {% subject_view_permissions request.user subject as has_subject_view_permissions %}
@@ -73,8 +73,12 @@
                                         
                 {% if has_subject_view_permissions %}
                     <a href="{% url 'subjects:view' subject.slug %}" class="btn btn-success btn-raised"> {% trans "Access Subject" %}</a>
-                {% else %}
+                {% elif subject.subscribe_end|aftertoday %}
                     <a href="javascript:subscribe_subject.get('{% url 'subjects:subscribe' subject.slug %}?view=index','#subject-subscribe','#modal_subject')" class="subscribe-subject btn btn-primary btn-raised"> {% trans "Subscribe to Subject" %}</a>
+
+                {% else %}
+                    <a  class="subscribe-subject btn btn-primary btn-raised" disabled="disabled"> {% trans "This subject doesn't allow new subscriptions" %}</a>
+
                 {% endif %}
 
             {% endif %}

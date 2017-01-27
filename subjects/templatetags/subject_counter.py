@@ -1,5 +1,5 @@
 from django import template
-
+import datetime
 register = template.Library()
 
 @register.filter(name = 'subject_count')
@@ -14,3 +14,10 @@ def subject_count(category, user):
 		total = category.subject_category.count()
 
 	return total
+
+
+@register.filter(name = 'aftertoday')
+def after_today(date):
+	if date > datetime.datetime.today().date():
+		return True
+	return False
