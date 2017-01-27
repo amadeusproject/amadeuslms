@@ -1,0 +1,50 @@
+{% extends 'subjects/view.html' %}
+
+{% load static i18n pagination permissions_tags subject_counter %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+
+    {% breadcrumb 'Pendencies' 'notifications:view' subject.slug %}
+{% endblock %}
+
+{% block content %}
+	{% if subject.visible %}
+		<div class="panel panel-info subject-panel">
+        	<div class="panel-heading">
+	{% else %}
+		<div class="panel panel-info subject-panel-invisible">
+        	<div class="panel-heading panel-invisible">
+    {% endif %}
+    		<div class="row">
+                <div class="col-md-12 category-header">
+                    <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
+                        <span>{% trans 'Pendencies' %}</span>
+                    </h4>
+                </div>
+            </div>
+    	</div>
+    	<div id="{{subject.slug}}" class="panel-collapse in collapse pendencies-content">
+            <div id="core-subjects-options-div">
+		        <ul class="core-subjects-options">
+	                <a href="{% url 'notifications:view' subject.slug %}"><li class="active">{% trans "Actual Pendencies" %} ({{ notifications.count }})</li></a>
+	                <a href="" ><li>{% trans "Notifications History" %}</li></a>
+		        </ul>
+		    </div>
+
+		    {% if notifications.count > 0 %}
+		    	{% for notification in notifications %}
+		    		{% include 'notifications/_view.html' %}
+		    	{% endfor %}
+
+		    	{% pagination request paginator page_obj %}
+		    {% else %}
+		    	<div class="text-center no-subjects">
+	                <i class="fa fa-exclamation-triangle"></i>
+	                <h4>{% trans 'You do not posses any pendency in this subject' %}</h4>
+	            </div>
+		    {% endif %}
+        </div>
+    </div>
+{% endblock %}

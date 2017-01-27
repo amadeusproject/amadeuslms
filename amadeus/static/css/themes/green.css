@@ -85,6 +85,14 @@ a, a:focus, a:hover {
     color: #F5F5F5;
 }
 
+.pendencies-content {
+    background: #FFFFFF;
+}
+
+.pendencies-content .core-subjects-options li {
+    background: #F5F5F5;
+}
+
 .category-header i {
 	color: white;
 }
@@ -424,6 +432,27 @@ a.add-row {
 .no-subscribe-btn{
     background-color: #BDBDBD !important;
     color: #F5F5F5 !important;
+}
+
+.pendency {
+    border-color: #CCCCCC;
+}
+
+.pendency .breadcrumb {
+    background-color: #FFFFFF;
+}
+
+.pendency .meta {
+    color: #FF0000;
+}
+
+.alert-low, .alert-medium {
+    background-color: #FFA500;
+    color: #FFFFFF;
+}
+
+.no_button:hover, .no_button:focus, .no_button:active {
+    background-color: initial !important;
 }
 
 @media(max-width: 768px) {

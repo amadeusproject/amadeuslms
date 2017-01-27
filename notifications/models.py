@@ -11,3 +11,6 @@ class Notification(models.Model):
 	level = models.IntegerField(_('Type'), choices = ((1, _('Type 1-A')), (2, _('Type 1-B')), (3, _('Type 2')), (4, _('Type 3'))))
 	viewed = models.BooleanField(_('Visualized'), default = False)
 	creation_date = models.DateField(_('Creation Date'), auto_now_add = True)
+
+	def __str__(self):
+		return self.task.get_action_display() + " " + str(self.task.resource)

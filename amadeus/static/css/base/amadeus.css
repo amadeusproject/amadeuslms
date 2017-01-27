@@ -142,6 +142,10 @@ a:focus {
     font-size: 15px;
 }
 
+.pendencies-content {
+    padding: 10px;
+}
+
 .category-panel-content {
     padding:10px;
 }
@@ -834,4 +838,54 @@ li.item .notify_badge {
     font-size: 0.9rem;
     border-radius: 50%;
     padding: 0px;
+}
+
+.pendency {
+    border: 1px solid;
+    padding-left: 10px;
+    padding-top: 7px;
+    margin-bottom: 15px;
+}
+
+.pendency .breadcrumb {
+    padding-left: 0px;
+    margin-bottom: 0px;
+}
+
+.pendency h4 {
+    margin: 0px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.pendency p {
+    margin-bottom: 3px;
+}
+
+.pendency .alert {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: 700;
+}
+
+.pendency .alert span {
+    position: relative;
+    top: -7px;
+    padding-left: 10px;
+}
+
+.pendency .alert i {
+    font-size: 35px;
+}
+
+.alert-low {
+    opacity: 0.5;
+}
+
+.no_button {
+    cursor: initial;
+}
+
+.no_button:focus, .no_button:active:focus, .no_button.active:focus, .no_button.focus, .no_button:active.focus, .no_button.active.focus {
+    outline: none;
 }

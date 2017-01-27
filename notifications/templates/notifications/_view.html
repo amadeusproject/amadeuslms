@@ -1,0 +1,65 @@
+{% load i18n notification_filters %}
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="pendency">
+			<ul class="breadcrumb">
+				<li>
+					<a href="">{% trans 'Home' %}</a>
+				</li>
+				<li>
+					<a href="">{{ notification.task.resource.topic.subject.category }}</a>
+				</li>
+				<li>
+					<a href="">{{ notification.task.resource.topic.subject }}</a>
+				</li>
+				<li>
+					<a href="">{{ notification.task.resource.topic }}</a>
+				</li>
+				<li>
+					<a href="">{{ notification.task.resource }}</a>
+				</li>
+			</ul>
+			<div class="row">
+				<div class="col-md-6">
+					<h4>{{ notification }}</h4>
+					<p>{% trans 'Final Date/Time' %}: {{ notification.task.end_date|default:_('Not Informed') }}</p>
+
+					{% if notification.level == 2 %}
+						<p class="meta">{% trans 'Your goal was to realize this in' %}: {{ notification.meta }}</p>
+					{% elif notification.level == 4 %}
+						<p class="meta">{% trans 'Task finished in' %}: {{ notification.task.limit_date }}</p>
+					{% endif %}
+
+					<b>{{ notification|done_percent }}%</b> {% trans 'of the participants already realized this task.' %}
+				</div>
+				<div class="col-md-6">
+					<div class="alert {{ notification.level|warning_class }}">
+						<i class="fa fa-exclamation-triangle"></i>
+						<span>{{ notification.level|warning_msg }}</span>
+					</div>
+				</div>
+			</div>
+			<div class="row text-center">
+				<a href="" class="btn btn-success btn-raised">
+					{% if notification.level == 4 %}
+						{% trans 'Access the task' %}
+					{% else %}
+						{% trans 'Realize the task' %}
+					{% endif %}
+				</a>
+
+				{% if notification.level < 3 %}
+					<button class="btn btn-default no_button">{% trans 'or' %}</button>
+					<a href="" class="btn btn-default btn-raised">
+						{% if notification.level == 1 %}
+							{% trans 'Define goal to realization' %}
+						{% else %}
+							{% trans 'Define new goal' %}
+						{% endif %}
+					</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>

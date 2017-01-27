@@ -46,7 +46,7 @@ class HomeView(LoginRequiredMixin, ListView):
 
 			subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk)).distinct()
 		
-		self.total = len(subjects)
+		self.total = subjects.count()
 
 		return subjects
 
