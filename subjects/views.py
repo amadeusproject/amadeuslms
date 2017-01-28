@@ -339,7 +339,7 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
             self.object.visible = False
             self.object.save()
 
-        messages.success(self.request, _('Subject "%s" was registered on "%s" successfully!')%(self.object.name, self.object.category.name ))
+        messages.success(self.request, _('The Subject "%s" was registered on "%s" Category successfully!')%(self.object.name, self.object.category.name ))
         return reverse_lazy('subjects:index')
 
 class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
@@ -396,7 +396,7 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
 
         super(SubjectUpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
         
-        messages.success(self.request, _('Subject "%s" was updated on "%s" successfully!')%(self.object.name, self.object.category.name ))
+        messages.success(self.request, _('The Subject "%s" was updated on "%s" Category successfully!')%(self.object.name, self.object.category.name ))
         return reverse_lazy('subjects:index')
 
 class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
