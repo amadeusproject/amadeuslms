@@ -25,7 +25,7 @@ from .models import Tag
 import time
 import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .forms import CreateSubjectForm
+from .forms import CreateSubjectForm, UpdateSubjectForm
 from .utils import has_student_profile, has_professor_profile, count_subjects, get_category_page
 from users.models import User
 
@@ -349,7 +349,7 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
     log_context = {}
 
     model = Subject
-    form_class = CreateSubjectForm
+    form_class = UpdateSubjectForm
     template_name = 'subjects/update.html'
 
     login_url = reverse_lazy("users:login")

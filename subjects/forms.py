@@ -117,6 +117,80 @@ class CreateSubjectForm(forms.ModelForm):
             return ValueError
         return subscribe_end
 
+
+class UpdateSubjectForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(UpdateSubjectForm, self).__init__(*args, **kwargs)
+        
+        if not kwargs['instance'] is None:
+            self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
+
+    # TODO: Define form fields here
+    tags = forms.CharField(label = _('Tags'), required = False)
+
+    class Meta:
+        model = Subject
+
+        fields = ('name', 'description_brief', 'description',
+         'visible', 'professor', 'students', )
+
+
+        widgets = {
+            'description_brief': forms.Textarea,
+            'description': forms.Textarea,
+            'professor': forms.SelectMultiple,
+            'students': forms.SelectMultiple,
+        }
+
+    def save(self, commit=True):
+        super(UpdateSubjectForm, self).save(commit = True)
+
+        self.instance.save()
+
+        previous_tags = self.instance.tags.all()
+
+        tags = self.cleaned_data['tags'].split(",")
+
+        #Excluding unwanted tags
+        for prev in previous_tags:
+            if not prev.name in tags:
+                self.instance.tags.remove(prev)
+        
+        for tag in tags:
+            tag = tag.strip()
+
+            exist = Tag.objects.filter(name = tag).exists()
+
+            if exist:
+                new_tag = Tag.objects.get(name = tag)
+            else:
+                new_tag = Tag.objects.create(name = tag)
+
+            if not new_tag in self.instance.tags.all():
+                self.instance.tags.add(new_tag)
+
+        return self.instance
+
+    def clean(self):
+        cleaned_data = super(UpdateSubjectForm, self).clean()
+        
+        return cleaned_data
+    
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if self.instance.id:
+            same_name = Subject.objects.filter(name__unaccent__iexact = name).exclude(id = self.instance.id)
+        else:
+            same_name = Subject.objects.filter(name__unaccent__iexact = name)
+
+        if same_name.count() > 0:
+            self._errors['name'] = [_('There is another subject with this name, try another one.')]
+
+
+        return name
+
+    
+
 class CreateTagForm(forms.ModelForm):
     class Meta:
         model = Tag
