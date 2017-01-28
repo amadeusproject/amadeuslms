@@ -15,7 +15,7 @@ def get_resource_users(resource):
 	return User.objects.filter(Q(resource_students = resource) | Q(group_participants__resource_groups = resource)).distinct()
 
 def set_notifications():
-	pendencies = Pendencies.objects.filter(begin_date__date__lt = timezone.now(), resource__visible = True)
+	pendencies = Pendencies.objects.filter(begin_date__date__lte = timezone.now(), resource__visible = True)
 
 	for pendency in pendencies:
 		users = get_resource_users(pendency.resource)
