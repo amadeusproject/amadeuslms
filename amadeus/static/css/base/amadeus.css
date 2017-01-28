@@ -15,12 +15,10 @@ a:focus {
     width: 100%;
 }
 
-.language-selector{
-    margin-left: 8%;
-}
+
 
 .language-selector img{
-    width: 3%;
+    width: 4%;
 }
 
 .language-selector > ul img{

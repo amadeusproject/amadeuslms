@@ -39,7 +39,7 @@
                             <h2 class="outside-title"><strong> {% trans 'Sign in with your account to continue' %} </strong></h2>
                         </div>
                     </div>
-                    <div class="row">
+                    
                     <form id="form-login" method="post" action="">
                         {% csrf_token %}
                         <div class="col-lg-10 col-md-10 col-sm-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1">
@@ -54,8 +54,8 @@
                         </div>
                    
                     </form>
-                    </div>
-                     <li class="dropdown language-selector"> 
+                    
+                     <li class="dropdown language-selector col-lg-10 col-md-10 col-sm-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1"> 
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
                             <img src="{% static "img/brazilicon.png" %}" />
                         </a>
