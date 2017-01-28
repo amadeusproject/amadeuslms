@@ -31,624 +31,627 @@ from users.models import User
 
 
 class HomeView(LoginRequiredMixin, ListView):
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
-	template_name = 'subjects/initial.html'
-	context_object_name = 'subjects'
-	paginate_by = 10
-	total = 0    
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+    template_name = 'subjects/initial.html'
+    context_object_name = 'subjects'
+    paginate_by = 10
+    total = 0    
 
-	def get_queryset(self):
-		if self.request.user.is_staff:
-			subjects = Subject.objects.all().order_by("name")
-		else:
-			pk = self.request.user.pk
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            subjects = Subject.objects.all().order_by("name")
+        else:
+            pk = self.request.user.pk
 
-			subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk)).distinct()
-		
-		self.total = subjects.count()
+            subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk)).distinct()
+        
+        self.total = subjects.count()
 
-		return subjects
+        return subjects
 
-	def get_context_data(self, **kwargs):
-		context = super(HomeView, self).get_context_data(**kwargs)
-		context['title'] = _('Home')
-		context['show_buttons'] = True #So it shows subscribe and access buttons
-	   
-		#bringing users
-		tag_amount = 50
-		tags = Tag.objects.all()
-		tags_list = []
-		for tag in tags:
-			if len(tags_list) <= tag_amount:
-				tags_list.append((tag.name, Subject.objects.filter(tags__pk = tag.pk).count()))
-				tags_list.sort(key= lambda x: x[1], reverse=True) #sort by value
-				
-			else:
-				count = Subject.objects.filter(tags__pk = tag.pk).count()
-				if count > tags_list[tag_amount][1]:
-					tags_list[tag_amount - 1] = (tag.name, count)
-					tags_list.sort(key = lambda x: x[1], reverse=True)
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+        context['title'] = _('Home')
+        context['show_buttons'] = True #So it shows subscribe and access buttons
+       
+        #bringing users
+        tag_amount = 50
+        tags = Tag.objects.all()
+        tags_list = []
+        for tag in tags:
+            if len(tags_list) <= tag_amount:
+                tags_list.append((tag.name, Subject.objects.filter(tags__pk = tag.pk).count()))
+                tags_list.sort(key= lambda x: x[1], reverse=True) #sort by value
+                
+            else:
+                count = Subject.objects.filter(tags__pk = tag.pk).count()
+                if count > tags_list[tag_amount][1]:
+                    tags_list[tag_amount - 1] = (tag.name, count)
+                    tags_list.sort(key = lambda x: x[1], reverse=True)
 
-	   
-		i = 0
-		tags = []
+       
+        i = 0
+        tags = []
 
-		for item in tags_list:
-			if i < tag_amount/10:
-				tags.append((item[0], 0))
-			elif i < tag_amount/2:
-				tags.append((item[0], 1))
-			else:
-				tags.append((item[0], 2))
-			i += 1
-		shuffle(tags)
-		context['tags'] = tags
-		context['total_subs'] = self.total
+        for item in tags_list:
+            if i < tag_amount/10:
+                tags.append((item[0], 0))
+            elif i < tag_amount/2:
+                tags.append((item[0], 1))
+            else:
+                tags.append((item[0], 2))
+            i += 1
+        shuffle(tags)
+        context['tags'] = tags
+        context['total_subs'] = self.total
 
-		return context
+        return context
 
 
 class IndexView(LoginRequiredMixin, ListView):
-	totals = {}
+    totals = {}
 
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
-	template_name = 'subjects/list.html'
-	context_object_name = 'categories'
-	paginate_by = 10
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+    template_name = 'subjects/list.html'
+    context_object_name = 'categories'
+    paginate_by = 10
 
-	def get_queryset(self):        
-		self.totals['all_subjects'] = count_subjects(self.request.user)
-		
-		self.totals['my_subjects'] = self.totals['all_subjects']
-		
-		if self.request.user.is_staff:
-			categories = Category.objects.all().order_by('name')
-		else:
-			pk = self.request.user.pk
-			
-			self.totals['my_subjects'] = count_subjects(self.request.user, False)
-		
-			if not self.kwargs.get('option'):
-				my_categories = Category.objects.filter(Q(coordinators__pk=pk) | Q(subject_category__professor__pk=pk) | Q(subject_category__students__pk = pk, visible = True)).distinct().order_by('name')
-				
-				categories = my_categories
-			else:
-				categories = Category.objects.filter(Q(coordinators__pk = pk) | Q(visible=True) ).distinct().order_by('name')
-		
-		#if not self.request.user.is_staff:
-						
-				#my_categories = [category for category in categories if self.request.user in category.coordinators.all() \
-						#or has_professor_profile(self.request.user, category) or has_student_profile(self.request.user, category)] 
-						#So I remove all categories that doesn't have the possibility for the user to be on
-		   
+    def get_queryset(self):        
+        self.totals['all_subjects'] = count_subjects(self.request.user)
+        
+        self.totals['my_subjects'] = self.totals['all_subjects']
+        
+        if self.request.user.is_staff:
+            categories = Category.objects.all().order_by('name')
+        else:
+            pk = self.request.user.pk
+            
+            self.totals['my_subjects'] = count_subjects(self.request.user, False)
+        
+            if not self.kwargs.get('option'):
+                my_categories = Category.objects.filter(Q(coordinators__pk=pk) | Q(subject_category__professor__pk=pk) | Q(subject_category__students__pk = pk, visible = True)).distinct().order_by('name')
+                
+                categories = my_categories
+            else:
+                categories = Category.objects.filter(Q(coordinators__pk = pk) | Q(visible=True) ).distinct().order_by('name')
+        
+        #if not self.request.user.is_staff:
+                        
+                #my_categories = [category for category in categories if self.request.user in category.coordinators.all() \
+                        #or has_professor_profile(self.request.user, category) or has_student_profile(self.request.user, category)] 
+                        #So I remove all categories that doesn't have the possibility for the user to be on
+           
 
-		return categories
+        return categories
 
-	def paginate_queryset(self, queryset, page_size): 
-		paginator = self.get_paginator(
-			queryset, page_size, orphans=self.get_paginate_orphans(),
-			allow_empty_first_page=self.get_allow_empty())
-		
-		page_kwarg = self.page_kwarg
-		
-		page = self.kwargs.get(page_kwarg) or self.request.GET.get(page_kwarg) or 1
-		
-		if self.kwargs.get('slug'):
-			categories = queryset
+    def paginate_queryset(self, queryset, page_size): 
+        paginator = self.get_paginator(
+            queryset, page_size, orphans=self.get_paginate_orphans(),
+            allow_empty_first_page=self.get_allow_empty())
+        
+        page_kwarg = self.page_kwarg
+        
+        page = self.kwargs.get(page_kwarg) or self.request.GET.get(page_kwarg) or 1
+        
+        if self.kwargs.get('slug'):
+            categories = queryset
 
-			paginator = Paginator(categories, self.paginate_by)
+            paginator = Paginator(categories, self.paginate_by)
 
-			page = get_category_page(categories, self.kwargs.get('slug'), self.paginate_by)
-		
-		try:
-			page_number = int(page)
-		except ValueError:
-			if page == 'last':
-				page_number = paginator.num_pages
-			else:
-				raise Http404(_("Page is not 'last', nor can it be converted to an int."))
-		
-		try:
-			page = paginator.page(page_number)
-			return (paginator, page, page.object_list, page.has_other_pages())
-		except InvalidPage as e:
-			raise Http404(_('Invalid page (%(page_number)s): %(message)s') % {
-				'page_number': page_number,
-				'message': str(e)
-			})
+            page = get_category_page(categories, self.kwargs.get('slug'), self.paginate_by)
+        
+        try:
+            page_number = int(page)
+        except ValueError:
+            if page == 'last':
+                page_number = paginator.num_pages
+            else:
+                raise Http404(_("Page is not 'last', nor can it be converted to an int."))
+        
+        try:
+            page = paginator.page(page_number)
+            return (paginator, page, page.object_list, page.has_other_pages())
+        except InvalidPage as e:
+            raise Http404(_('Invalid page (%(page_number)s): %(message)s') % {
+                'page_number': page_number,
+                'message': str(e)
+            })
 
-	def render_to_response(self, context, **response_kwargs):
-		if self.request.user.is_staff:
-			context['page_template'] = "categories/home_admin_content.html"
-		else:
-			context['page_template'] = "categories/home_teacher_student.html"
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.user.is_staff:
+            context['page_template'] = "categories/home_admin_content.html"
+        else:
+            context['page_template'] = "categories/home_teacher_student.html"
 
-		if self.request.is_ajax():
-			if self.request.user.is_staff:
-				self.template_name = "categories/home_admin_content.html"
-			else:
-				self.template_name = "categories/home_teacher_student_content.html"
+        if self.request.is_ajax():
+            if self.request.user.is_staff:
+                self.template_name = "categories/home_admin_content.html"
+            else:
+                self.template_name = "categories/home_teacher_student_content.html"
 
-		return self.response_class(request = self.request, template = self.template_name, context = context, using = self.template_engine, **response_kwargs)
+        return self.response_class(request = self.request, template = self.template_name, context = context, using = self.template_engine, **response_kwargs)
 
-	def get_context_data(self, **kwargs):
-		context = super(IndexView, self).get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
 
-		context['all'] = False
-		context['title'] = _('My Subjects')
+        context['all'] = False
+        context['title'] = _('My Subjects')
 
-		context['show_buttons'] = True #So it shows subscribe and access buttons
-		context['totals'] = self.totals
-		
-		if self.kwargs.get('option'):
-			context['all'] = True
-			context['title'] = _('All Subjects')
+        context['show_buttons'] = True #So it shows subscribe and access buttons
+        context['totals'] = self.totals
+        
+        if self.kwargs.get('option'):
+            context['all'] = True
+            context['title'] = _('All Subjects')
 
-		if self.kwargs.get('slug'):
-			context['cat_slug'] = self.kwargs.get('slug')
+        if self.kwargs.get('slug'):
+            context['cat_slug'] = self.kwargs.get('slug')
 
-		context['subjects_menu_active'] = 'subjects_menu_active'
+        context['subjects_menu_active'] = 'subjects_menu_active'
 
-		return context
+        return context
 
 class GetSubjectList(LoginRequiredMixin, ListView):
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
 
-	template_name = 'subjects/_list.html'
-	model = Subject
-	context_object_name = 'subjects'
+    template_name = 'subjects/_list.html'
+    model = Subject
+    context_object_name = 'subjects'
 
-	def get_queryset(self):
-		slug = self.kwargs.get('slug')
-		category = get_object_or_404(Category, slug = slug)
+    def get_queryset(self):
+        slug = self.kwargs.get('slug')
+        category = get_object_or_404(Category, slug = slug)
 
-		return category.subject_category.all()
+        return category.subject_category.all()
 
-	def get_context_data(self, **kwargs):
-		context = super(GetSubjectList, self).get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(GetSubjectList, self).get_context_data(**kwargs)
 
-		context['show_buttons'] = True #So it shows subscribe and access buttons
+        context['show_buttons'] = True #So it shows subscribe and access buttons
 
-		if 'all' in self.request.META.get('HTTP_REFERER'):
-			context['all'] = True
+        if 'all' in self.request.META.get('HTTP_REFERER'):
+            context['all'] = True
 
-		return context
+        return context
 
 class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
-	log_component = 'subject'
-	log_action = 'create'
-	log_resource = 'subject'
-	log_context = {}
+    log_component = 'subject'
+    log_action = 'create'
+    log_resource = 'subject'
+    log_context = {}
 
-	model = Subject
-	template_name = "subjects/create.html"
+    model = Subject
+    template_name = "subjects/create.html"
 
-	login_url = reverse_lazy('users:login')
-	redirect_field_name = 'next'
-	form_class = CreateSubjectForm
-	
-	success_url = reverse_lazy('subject:index')
+    login_url = reverse_lazy('users:login')
+    redirect_field_name = 'next'
+    form_class = CreateSubjectForm
+    
+    success_url = reverse_lazy('subject:index')
 
-	def dispatch(self, request, *args, **kwargs):
-		user = request.user
-		pk = user.pk 
-		
-		if kwargs.get('subject_slug'):
-			subject = Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('subject_slug')))
-			if not user.is_staff:
-				if subject.count() == 0:
-					if request.META.get('HTTP_REFERER'):
-						return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-					else:
-						return redirect('subjects:index')
-	
+    def dispatch(self, request, *args, **kwargs):
+        user = request.user
+        pk = user.pk 
+        
+        if kwargs.get('subject_slug'):
+            subject = Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('subject_slug')))
+            if not user.is_staff:
+                if subject.count() == 0:
+                    if request.META.get('HTTP_REFERER'):
+                        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                    else:
+                        return redirect('subjects:index')
+    
 
-		if kwargs.get('slug'):
-			if not user.is_staff:
-				category = Category.objects.filter(Q(coordinators__pk=pk) & Q(slug= kwargs.get('slug')))
-				if category.count() == 0:
-						if request.META.get('HTTP_REFERER'):
-							return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-						else:
-							return redirect('subjects:index')               
-		if request.method.lower() in self.http_method_names:
-			handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
-		else:
-			handler = self.http_method_not_allowed
-		return handler(request, *args, **kwargs)
+        if kwargs.get('slug'):
+            if not user.is_staff:
+                category = Category.objects.filter(Q(coordinators__pk=pk) & Q(slug= kwargs.get('slug')))
+                if category.count() == 0:
+                        if request.META.get('HTTP_REFERER'):
+                            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                        else:
+                            return redirect('subjects:index')               
+        if request.method.lower() in self.http_method_names:
+            handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+        else:
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
    
 
-	def get_initial(self):
-		initial = super(SubjectCreateView, self).get_initial()
-		
-		if self.kwargs.get('slug'): #when the user creates a subject
-			initial['category'] = Category.objects.all().filter(slug=self.kwargs['slug'])
+    def get_initial(self):
+        initial = super(SubjectCreateView, self).get_initial()
+        
+        if self.kwargs.get('slug'): #when the user creates a subject
+            initial['category'] = Category.objects.all().filter(slug=self.kwargs['slug'])
 
-		if self.kwargs.get('subject_slug'): #when the user replicate a subject
-			subject = get_object_or_404(Subject, slug = self.kwargs['subject_slug'])
-			initial = initial.copy()
-			initial['category'] = subject.category
-			initial['description'] = subject.description
-			initial['name'] = subject.name
-			initial['visible'] = subject.visible
-			initial['professor'] = subject.professor.all()
-			initial['tags'] = ", ".join(subject.tags.all().values_list("name", flat = True))
-			initial['init_date'] = subject.init_date
-			initial['end_date'] = subject.end_date
-			initial['students'] = subject.students.all()
-			initial['description_brief'] = subject.description_brief
-		
-			self.log_action = 'replicate'
+        if self.kwargs.get('subject_slug'): #when the user replicate a subject
+            subject = get_object_or_404(Subject, slug = self.kwargs['subject_slug'])
+            initial = initial.copy()
+            initial['category'] = subject.category
+            initial['description'] = subject.description
+            initial['name'] = subject.name
+            initial['visible'] = subject.visible
+            initial['professor'] = subject.professor.all()
+            initial['tags'] = ", ".join(subject.tags.all().values_list("name", flat = True))
+            initial['init_date'] = subject.init_date
+            initial['end_date'] = subject.end_date
+            initial['students'] = subject.students.all()
+            initial['description_brief'] = subject.description_brief
+        
+            self.log_action = 'replicate'
 
-			self.log_context['replicated_subject_id'] = subject.id
-			self.log_context['replicated_subject_name'] = subject.name
-			self.log_context['replicated_subject_slug'] = subject.slug
+            self.log_context['replicated_subject_id'] = subject.id
+            self.log_context['replicated_subject_name'] = subject.name
+            self.log_context['replicated_subject_slug'] = subject.slug
 
-		return initial
+        return initial
 
-	def get_context_data(self, **kwargs):
-		context = super(SubjectCreateView, self).get_context_data(**kwargs)
-		context['title'] = _('Create Subject')
-		
-		if self.kwargs.get('slug'):
-			context['slug'] = self.kwargs['slug']
-		
-		if self.kwargs.get('subject_slug'):
-			context['title'] = _('Replicate Subject')
+    def get_context_data(self, **kwargs):
+        context = super(SubjectCreateView, self).get_context_data(**kwargs)
+        context['title'] = _('Create Subject')
+        
+        if self.kwargs.get('slug'):
+            context['slug'] = self.kwargs['slug']
+        
+        if self.kwargs.get('subject_slug'):
+            context['title'] = _('Replicate Subject')
 
-			subject = get_object_or_404(Subject, slug = self.kwargs['subject_slug'])
-			
-			context['slug'] = subject.category.slug
-			context['replicate'] = True
+            subject = get_object_or_404(Subject, slug = self.kwargs['subject_slug'])
+            
+            context['slug'] = subject.category.slug
+            context['replicate'] = True
 
-			context['subject'] = subject
+            context['subject'] = subject
 
-		context['subjects_menu_active'] = 'subjects_menu_active'
-		
-		return context
+        context['subjects_menu_active'] = 'subjects_menu_active'
+        
+        return context
 
-	def form_valid(self, form):
-		
-		self.object = form.save()
-		
-		if self.kwargs.get('slug'):
-			self.object.category = Category.objects.get(slug=self.kwargs['slug'])
-		
-		if self.kwargs.get('subject_slug'):
-			subject = get_object_or_404(Subject, slug = self.kwargs['subject_slug'])
-			self.object.category = subject.category
-		
-		self.object.save()
+    def form_valid(self, form):
+        
+        self.object = form.save()
+        
+        if self.kwargs.get('slug'):
+            self.object.category = Category.objects.get(slug=self.kwargs['slug'])
+        
+        if self.kwargs.get('subject_slug'):
+            subject = get_object_or_404(Subject, slug = self.kwargs['subject_slug'])
+            self.object.category = subject.category
+        
+        self.object.save()
 
-		self.log_context['category_id'] = self.object.category.id
-		self.log_context['category_name'] = self.object.category.name
-		self.log_context['category_slug'] = self.object.category.slug
-		self.log_context['subject_id'] = self.object.id
-		self.log_context['subject_name'] = self.object.name
-		self.log_context['subject_slug'] = self.object.slug
+        self.log_context['category_id'] = self.object.category.id
+        self.log_context['category_name'] = self.object.category.name
+        self.log_context['category_slug'] = self.object.category.slug
+        self.log_context['subject_id'] = self.object.id
+        self.log_context['subject_name'] = self.object.name
+        self.log_context['subject_slug'] = self.object.slug
 
-		super(SubjectCreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)        
+        super(SubjectCreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)        
 
-		return super(SubjectCreateView, self).form_valid(form)
+        return super(SubjectCreateView, self).form_valid(form)
 
-	def get_success_url(self):
-		if not self.object.category.visible:
-			self.object.visible = False
-			self.object.save()
+    def get_success_url(self):
+        if not self.object.category.visible:
+            self.object.visible = False
+            self.object.save()
 
-		messages.success(self.request, _('Subject "%s" was registered on "%s" successfully!')%(self.object.name, self.object.category.name ))
-		return reverse_lazy('subjects:index')
+        messages.success(self.request, _('Subject "%s" was registered on "%s" successfully!')%(self.object.name, self.object.category.name ))
+        return reverse_lazy('subjects:index')
 
 class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
-	log_component = 'subject'
-	log_action = 'update'
-	log_resource = 'subject'
-	log_context = {}
+    log_component = 'subject'
+    log_action = 'update'
+    log_resource = 'subject'
+    log_context = {}
 
-	model = Subject
-	form_class = CreateSubjectForm
-	template_name = 'subjects/update.html'
+    model = Subject
+    form_class = CreateSubjectForm
+    template_name = 'subjects/update.html'
 
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
 
-	def dispatch(self, request, *args, **kwargs):
-		user = self.request.user
-		
-		pk = user.pk
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        
+        pk = user.pk
 
-		subject = Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('slug')))
-		if not user.is_staff:
-			if subject.count() == 0:
-				if request.META.get('HTTP_REFERER'):
-					return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-				else:
-					return redirect('subjects:index')
+        subject = Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('slug')))
+        if not user.is_staff:
+            if subject.count() == 0:
+                if request.META.get('HTTP_REFERER'):
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                else:
+                    return redirect('subjects:index')
 
-		if request.method.lower() in self.http_method_names:
-			handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
-		else:
-			handler = self.http_method_not_allowed
-		return handler(request, *args, **kwargs)
+        if request.method.lower() in self.http_method_names:
+            handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+        else:
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
 
-	def get_context_data(self, **kwargs):
-		context = super(SubjectUpdateView, self).get_context_data(**kwargs)
-		context['title'] = _('Update Subject')
-		context['template_extends'] = 'categories/home.html'
-		context['subjects_menu_active'] = 'subjects_menu_active'
-		
-		return context
+    def get_context_data(self, **kwargs):
+        context = super(SubjectUpdateView, self).get_context_data(**kwargs)
+        context['title'] = _('Update Subject')
+        context['template_extends'] = 'categories/home.html'
+        context['subjects_menu_active'] = 'subjects_menu_active'
+        
+        return context
 
-	def get_success_url(self):
-		if not self.object.category.visible:
-			self.object.visible = False
-			self.object.save()
+    def get_success_url(self):
+        if not self.object.category.visible:
+            self.object.visible = False
+            self.object.save()
 
-		self.log_context['category_id'] = self.object.category.id
-		self.log_context['category_name'] = self.object.category.name
-		self.log_context['category_slug'] = self.object.category.slug
-		self.log_context['subject_id'] = self.object.id
-		self.log_context['subject_name'] = self.object.name
-		self.log_context['subject_slug'] = self.object.slug
+        self.log_context['category_id'] = self.object.category.id
+        self.log_context['category_name'] = self.object.category.name
+        self.log_context['category_slug'] = self.object.category.slug
+        self.log_context['subject_id'] = self.object.id
+        self.log_context['subject_name'] = self.object.name
+        self.log_context['subject_slug'] = self.object.slug
 
-		super(SubjectUpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
-		
-		messages.success(self.request, _('Subject "%s" was updated on "%s" successfully!')%(self.object.name, self.object.category.name ))
-		return reverse_lazy('subjects:index')
+        super(SubjectUpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        
+        messages.success(self.request, _('Subject "%s" was updated on "%s" successfully!')%(self.object.name, self.object.category.name ))
+        return reverse_lazy('subjects:index')
 
 class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
-	log_component = 'subject'
-	log_action = 'delete'
-	log_resource = 'subject'
-	log_context = {}
+    log_component = 'subject'
+    log_action = 'delete'
+    log_resource = 'subject'
+    log_context = {}
    
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
-	model = Subject
-	template_name = 'subjects/delete.html'
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+    model = Subject
+    template_name = 'subjects/delete.html'
 
-	def dispatch(self, request, *args, **kwargs):
-		user = self.request.user
-		
-		pk = user.pk
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        
+        pk = user.pk
 
-		subject = Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('slug')))
-		if not user.is_staff:
-			if subject.count() == 0:
-				if request.META.get('HTTP_REFERER'):
-					return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-				else:
-					return redirect('subjects:index')
-		return super(SubjectDeleteView, self).dispatch(request, *args, **kwargs)
+        subject = Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('slug')))
+        if not user.is_staff:
+            if subject.count() == 0:
+                if request.META.get('HTTP_REFERER'):
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                else:
+                    return redirect('subjects:index')
+        return super(SubjectDeleteView, self).dispatch(request, *args, **kwargs)
 
-	def get(self, request, *args, **kwargs):
-		self.object = self.get_object()
-		if self.object.students.all().count() > 0:
-			messages.error(self.request, _("Subject can't be removed. The subject still possess students and learning objects associated"))
-			
-			return JsonResponse({'error':True,'url':reverse_lazy('subjects:index')})
-		context = self.get_context_data(object=self.object)
-		return self.render_to_response(context)
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.students.all().count() > 0:
+            messages.error(self.request, _("Subject can't be removed. The subject still possess students and learning objects associated"))
+            
+            return JsonResponse({'error':True,'url':reverse_lazy('subjects:index')})
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
 
-	def get_context_data(self, **kwargs):
-		context = super(SubjectDeleteView, self).get_context_data(**kwargs)
-		subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
-		context['subject'] = subject
-	  
-		if (self.request.GET.get('view') == 'index'):
-			context['index'] = True
-		else:
-			context['index'] = False
+    def get_context_data(self, **kwargs):
+        context = super(SubjectDeleteView, self).get_context_data(**kwargs)
+        subject = get_object_or_404(Subject, slug = self.kwargs.get('slug'))
+        context['subject'] = subject
+      
+        if (self.request.GET.get('view') == 'index'):
+            context['index'] = True
+        else:
+            context['index'] = False
 
-		return context
+        return context
 
-	def get_success_url(self):
-		self.log_context['category_id'] = self.object.category.id
-		self.log_context['category_name'] = self.object.category.name
-		self.log_context['category_slug'] = self.object.category.slug
-		self.log_context['subject_id'] = self.object.id
-		self.log_context['subject_name'] = self.object.name
-		self.log_context['subject_slug'] = self.object.slug
+    def get_success_url(self):
+        self.log_context['category_id'] = self.object.category.id
+        self.log_context['category_name'] = self.object.category.name
+        self.log_context['category_slug'] = self.object.category.slug
+        self.log_context['subject_id'] = self.object.id
+        self.log_context['subject_name'] = self.object.name
+        self.log_context['subject_slug'] = self.object.slug
 
-		super(SubjectDeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(SubjectDeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		
-		messages.success(self.request, _('Subject "%s" removed successfully!')%(self.object.name))
-		
-		return reverse_lazy('subjects:index')
+        
+        messages.success(self.request, _('Subject "%s" removed successfully!')%(self.object.name))
+        
+        return reverse_lazy('subjects:index')
 
 
 class SubjectDetailView(LoginRequiredMixin, LogMixin, DetailView):
-	log_component = 'subject'
-	log_action = 'access'
-	log_resource = 'subject'
-	log_context = {}
+    log_component = 'subject'
+    log_action = 'access'
+    log_resource = 'subject'
+    log_context = {}
 
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
 
-	model = Subject
-	template_name = 'subjects/view.html'
-	context_object_name = 'subject'
+    model = Subject
+    template_name = 'subjects/view.html'
+    context_object_name = 'subject'
 
-	def dispatch(self, request, *args,**kwargs):
-		user = request.user
-		pk = user.pk
-		if kwargs.get('slug') and not user.is_staff:
-			subject = get_object_or_404(Subject, slug = kwargs.get('slug'))
+    def dispatch(self, request, *args,**kwargs):
+        user = request.user
+        pk = user.pk
+        if kwargs.get('slug') and not user.is_staff:
+            subject = get_object_or_404(Subject, slug = kwargs.get('slug'))
 
-			subject = Subject.objects.filter((Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('slug')))
-			
-			if subject.count() == 0:
-				if request.META.get('HTTP_REFERER'):
-					return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-				else:
-					return redirect('subjects:home')
-							
-		if request.method.lower() in self.http_method_names:
-			handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
-		else:
-			handler = self.http_method_not_allowed
-		return handler(request, *args, **kwargs)
+            subject = Subject.objects.filter((Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('slug')))
+            
+            if subject.count() == 0:
+                if request.META.get('HTTP_REFERER'):
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                else:
+                    return redirect('subjects:home')
+                            
+        if request.method.lower() in self.http_method_names:
+            handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+        else:
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
 
-	def get_context_data(self, **kwargs):
-		context = super(SubjectDetailView, self).get_context_data(**kwargs)
-		context['title'] = self.object.name
+    def get_context_data(self, **kwargs):
+        context = super(SubjectDetailView, self).get_context_data(**kwargs)
+        context['title'] = self.object.name
 
-		resources = self.request.session.get('resources', None)
+        resources = self.request.session.get('resources', None)
 
-		if resources:
-			context['resource_new_page'] = resources['new_page']
-			context['resource_new_page_url'] = resources['new_page_url']
+        if resources:
+            context['resource_new_page'] = resources['new_page']
+            context['resource_new_page_url'] = resources['new_page_url']
 
-			self.request.session['resources'] = None
+            self.request.session['resources'] = None
 
-		if self.kwargs.get('topic_slug'):
-			context['topic_slug'] = self.kwargs.get('topic_slug')
+        if self.kwargs.get('topic_slug'):
+            context['topic_slug'] = self.kwargs.get('topic_slug')
 
-		self.log_context['category_id'] = self.object.category.id
-		self.log_context['category_name'] = self.object.category.name
-		self.log_context['category_slug'] = self.object.category.slug
-		self.log_context['subject_id'] = self.object.id
-		self.log_context['subject_name'] = self.object.name
-		self.log_context['subject_slug'] = self.object.slug
-		self.log_context['timestamp_start'] = str(int(time.time()))
+        self.log_context['category_id'] = self.object.category.id
+        self.log_context['category_name'] = self.object.category.name
+        self.log_context['category_slug'] = self.object.category.slug
+        self.log_context['subject_id'] = self.object.id
+        self.log_context['subject_name'] = self.object.name
+        self.log_context['subject_slug'] = self.object.slug
+        self.log_context['timestamp_start'] = str(int(time.time()))
 
-		super(SubjectDetailView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(SubjectDetailView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		self.request.session['log_id'] = Log.objects.latest('id').id
+        self.request.session['log_id'] = Log.objects.latest('id').id
 
-		return context
+        return context
 
 class SubjectSubscribeView(LoginRequiredMixin, LogMixin, TemplateView):
-	log_component = 'subject'
-	log_action = 'subscribe'
-	log_resource = 'subject'
-	log_context = {}
+    log_component = 'subject'
+    log_action = 'subscribe'
+    log_resource = 'subject'
+    log_context = {}
 
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
 
-	template_name = 'subjects/subscribe.html'
+    template_name = 'subjects/subscribe.html'
 
-	def get_context_data(self, **kwargs):
-		context = super(SubjectSubscribeView, self).get_context_data(**kwargs)
-		context['subject'] = get_object_or_404(Subject, slug= kwargs.get('slug'))
+    def get_context_data(self, **kwargs):
+        context = super(SubjectSubscribeView, self).get_context_data(**kwargs)
+        context['subject'] = get_object_or_404(Subject, slug= kwargs.get('slug'))
 
-		return context
+        return context
 
-	def post(self, request, *args, **kwargs):
-		subject = get_object_or_404(Subject, slug= kwargs.get('slug'))
+    def post(self, request, *args, **kwargs):
+        subject = get_object_or_404(Subject, slug= kwargs.get('slug'))
 
-		if subject.subscribe_end < datetime.datetime.today().date():
-			messages.error(self.request, _('Subscription date is due!'))
-		else:
-			self.log_context['category_id'] = subject.category.id
-			self.log_context['category_name'] = subject.category.name
-			self.log_context['category_slug'] = subject.category.slug
-			self.log_context['subject_id'] = subject.id
-			self.log_context['subject_name'] = subject.name
-			self.log_context['subject_slug'] = subject.slug
+        if subject.subscribe_end < datetime.datetime.today().date():
+            messages.error(self.request, _('Subscription date is due!'))
+        else:
+            self.log_context['category_id'] = subject.category.id
+            self.log_context['category_name'] = subject.category.name
+            self.log_context['category_slug'] = subject.category.slug
+            self.log_context['subject_id'] = subject.id
+            self.log_context['subject_name'] = subject.name
+            self.log_context['subject_slug'] = subject.slug
 
-			super(SubjectSubscribeView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+            super(SubjectSubscribeView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-			subject.students.add(request.user)
-			subject.save()
-			messages.success(self.request, _('Subscription was successfull!'))
-	   
-		return JsonResponse({'url':reverse_lazy('subjects:index')})
+            subject.students.add(request.user)
+            subject.save()
+            messages.success(self.request, _('Subscription was successfull!'))
+       
+        return JsonResponse({'url':reverse_lazy('subjects:index')})
 
 
 class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
-	log_component = 'subject'
-	log_action = 'search'
-	log_resource = 'subject/resources'
-	log_context = {}
+    log_component = 'subject'
+    log_action = 'search'
+    log_resource = 'subject/resources'
+    log_context = {}
 
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
 
-	template_name = 'subjects/list_search.html'
-	context_object_name = 'subjects'
-	paginate_by = 10
+    template_name = 'subjects/list_search.html'
+    context_object_name = 'subjects'
+    paginate_by = 10
 
-	def dispatch(self, request, *args, **kwargs):
-		# Try to dispatch to the right method; if a method doesn't exist,
-		# defer to the error handler. Also defer to the error handler if the
-		# request method isn't on the approved list.
-		tags =  request.GET.get('search')
-		tags = tags.split(" ")
+    def dispatch(self, request, *args, **kwargs):
+        # Try to dispatch to the right method; if a method doesn't exist,
+        # defer to the error handler. Also defer to the error handler if the
+        # request method isn't on the approved list.
+        tags =  request.GET.get('search')
+        tags = tags.split(" ")
 
-		if tags[0] == '':
-			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-		if request.method.lower() in self.http_method_names:
-			handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
-		else:
-			handler = self.http_method_not_allowed
-		return handler(request, *args, **kwargs)
+        if tags[0] == '':
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        if request.method.lower() in self.http_method_names:
+            handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+        else:
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
    
-	def get_queryset(self):
-		
-		tags = self.request.GET.get('search')
+    def get_queryset(self):
+        
+        tags = self.request.GET.get('search')
 
-		self.tags = tags
-		tags = tags.split(" ")
-	   	   
-		subjects = Subject.objects.filter(tags__name__unaccent__in=tags)
-		#pk = self.request.user.pk
-		#my_subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk) & Q(tags__name__in=tags) ).distinct()
-		
-		self.totals = {'all_subjects': subjects.count(), 'my_subjects': subjects.count()}
-		#if self.kwargs.get('option'):
-		#    subjects = my_subjects
-		return subjects
+        self.tags = tags
+        tags = tags.split(" ")
+        q = Q()
+        for tag in tags:
+            q = q | Q(tags__name__unaccent__iexact=tag)
+       
+        subjects = Subject.objects.filter(q)
+        #pk = self.request.user.pk
+        #my_subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk) & Q(tags__name__in=tags) ).distinct()
+        
+        self.totals = {'all_subjects': subjects.count(), 'my_subjects': subjects.count()}
+        #if self.kwargs.get('option'):
+        #    subjects = my_subjects
+        return subjects
    
-	def get_context_data(self, **kwargs):
-		context = super(SubjectSearchView, self).get_context_data(**kwargs)
-		
-		context['tags'] = self.tags
-		context['all'] = False
-		context['title'] = _('Subjects')
+    def get_context_data(self, **kwargs):
+        context = super(SubjectSearchView, self).get_context_data(**kwargs)
+        
+        context['tags'] = self.tags
+        context['all'] = False
+        context['title'] = _('Subjects')
 
-		context['show_buttons'] = True #So it shows subscribe and access buttons
-		context['totals'] = self.totals
-		
-		if self.kwargs.get('option'):
-			context['all'] = True
-			context['title'] = _('Subjects')
+        context['show_buttons'] = True #So it shows subscribe and access buttons
+        context['totals'] = self.totals
+        
+        if self.kwargs.get('option'):
+            context['all'] = True
+            context['title'] = _('Subjects')
 
-		context['subjects_menu_active'] = 'subjects_menu_active'
+        context['subjects_menu_active'] = 'subjects_menu_active'
 
-		self.log_context['search_for'] = self.tags
-		super(SubjectSearchView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        self.log_context['search_for'] = self.tags
+        super(SubjectSearchView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		return context
+        return context
    
 @log_decorator_ajax('subject', 'view', 'subject')
 def subject_view_log(request, subject):
-	action = request.GET.get('action')
+    action = request.GET.get('action')
 
-	if action == 'open':
-		subject = get_object_or_404(Subject, id = subject)
+    if action == 'open':
+        subject = get_object_or_404(Subject, id = subject)
 
-		log_context = {}
-		log_context['category_id'] = subject.category.id
-		log_context['category_name'] = subject.category.name
-		log_context['category_slug'] = subject.category.slug
-		log_context['subject_id'] = subject.id
-		log_context['subject_name'] = subject.name
-		log_context['subject_slug'] = subject.slug
-		log_context['timestamp_start'] = str(int(time.time()))
-		log_context['timestamp_end'] = '-1'
+        log_context = {}
+        log_context['category_id'] = subject.category.id
+        log_context['category_name'] = subject.category.name
+        log_context['category_slug'] = subject.category.slug
+        log_context['subject_id'] = subject.id
+        log_context['subject_name'] = subject.name
+        log_context['subject_slug'] = subject.slug
+        log_context['timestamp_start'] = str(int(time.time()))
+        log_context['timestamp_end'] = '-1'
 
-		request.log_context = log_context
+        request.log_context = log_context
 
-		log_id = Log.objects.latest('id').id
+        log_id = Log.objects.latest('id').id
 
-		return JsonResponse({'message': 'ok', 'log_id': log_id})
+        return JsonResponse({'message': 'ok', 'log_id': log_id})
 
-	return JsonResponse({'message': 'ok'})
+    return JsonResponse({'message': 'ok'})
 
