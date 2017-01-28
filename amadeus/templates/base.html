@@ -75,7 +75,25 @@
                     <span class="pull-right project_name">{{ theme.title }}</span>
                 </a>
 
-                 <li class="dropdown language-selector-on-header"> 
+                
+            </div>
+            <div class="navbar-collapse collapse navbar-responsive-collapse">
+                <div class="col-md-7 col-md-offset-1 col-sm-6 col-sm-offset-1 col-lg-7 col-lg-offset-1 text-center">
+                    <form id="SearchForm" action="{% url 'subjects:search' %}" method="get" accept-charset="utf-8" class="navbar-form">
+                        <div class="input-group">
+                            <div class="form-group is-empty" >
+                                <input type="text" class="form-control top-search" placeholder="{% trans 'Search for subjects and resources' %}" name="search">
+                            </div>
+                            <span class="input-group-btn input-group-sm">
+                                <button type="submit" class="btn btn-primary" id="btn-search">
+                                    <i class="fa fa-search" aria-hidden="true" style="color:white; font-size:20px"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+                
+                <li class="dropdown language-selector-on-header"> 
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
                             <img src="{% static "img/brazilicon.png" %}" />
                         </a>
@@ -94,23 +112,10 @@
                             </li>
                         </ul>
                 </li>
-            </div>
-            <div class="navbar-collapse collapse navbar-responsive-collapse">
-                <div class="col-md-7 col-md-offset-1 col-sm-6 col-sm-offset-1 col-lg-7 col-lg-offset-1 text-center">
-                    <form id="SearchForm" action="{% url 'subjects:search' %}" method="get" accept-charset="utf-8" class="navbar-form">
-                        <div class="input-group">
-                            <div class="form-group is-empty" >
-                                <input type="text" class="form-control top-search" placeholder="{% trans 'Search for subjects and resources' %}" name="search">
-                            </div>
-                            <span class="input-group-btn input-group-sm">
-                                <button type="submit" class="btn btn-primary" id="btn-search">
-                                    <i class="fa fa-search" aria-hidden="true" style="color:white; font-size:20px"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
+                
                 <ul class="nav navbar-nav navbar-right notifications">
+
+
                     {% if user.is_staff %}
                         <li class="dropdown {{ settings_menu_active }}" title data-original-title="{% trans 'settings' %}">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

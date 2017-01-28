@@ -24,13 +24,17 @@ a:focus {
 .language-selector > ul img{
     width: 15%;
 }
+.language-selector-on-header{
+    float: left;
+    width: 5%;
+}
 
 .language-selector-on-header img{
-    width: 15%;
-    margin-top: 2%;
+    margin-top: 10%;
+    width: 50%;
 }
 .language-selector-on-header > ul img{
-    width: 15%;
+    width: 30%;
 }
 
 .navbar-header{
