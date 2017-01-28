@@ -74,6 +74,26 @@
                     <img class="logo pull-left" src="{{ theme.small_logo_url }}" alt="Logo" />
                     <span class="pull-right project_name">{{ theme.title }}</span>
                 </a>
+
+                 <li class="dropdown language-selector-on-header"> 
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
+                            <img src="{% static "img/brazilicon.png" %}" />
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="active">
+                              <a href="#">
+                                <img src="{% static "img/brazilicon.png" %}" />
+                                <span>{% trans "PT-BR" %}</span>
+                              </a>
+                            </li>
+                            <li >
+                              <a href="#">
+                                <img src="{% static "img/euaicon.png" %}" />
+                                <span>{% trans "EN" %}</span>
+                              </a>
+                            </li>
+                        </ul>
+                </li>
             </div>
             <div class="navbar-collapse collapse navbar-responsive-collapse">
                 <div class="col-md-7 col-md-offset-1 col-sm-6 col-sm-offset-1 col-lg-7 col-lg-offset-1 text-center">

@@ -15,6 +15,30 @@ a:focus {
     width: 100%;
 }
 
+.language-selector{
+    margin-left: 8%;
+}
+
+.language-selector img{
+    width: 3%;
+}
+
+.language-selector > ul img{
+    width: 15%;
+}
+
+.language-selector-on-header img{
+    width: 15%;
+    margin-top: 2%;
+}
+.language-selector-on-header > ul img{
+    width: 15%;
+}
+
+.navbar-header{
+    width: 20%;
+}
+
 /* Initial page starts */
 .users-cloud {
     
