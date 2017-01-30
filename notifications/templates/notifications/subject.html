@@ -28,23 +28,27 @@
     	<div id="{{subject.slug}}" class="panel-collapse in collapse pendencies-content">
             <div id="core-subjects-options-div">
 		        <ul class="core-subjects-options">
-	                <a href="{% url 'notifications:view' subject.slug %}"><li class="active">{% trans "Actual Pendencies" %} ({{ notifications.count }})</li></a>
-	                <a href="" ><li>{% trans "Notifications History" %}</li></a>
+	                <a href="{% url 'notifications:view' subject.slug %}"><li {% if not history %} class="active" {% endif %}>{% trans "Actual Pendencies" %} ({{ total }})</li></a>
+	                <a href="{% url 'notifications:history' subject.slug %}" ><li {% if history %} class="active" {% endif %}>{% trans "Notifications History" %}</li></a>
 		        </ul>
 		    </div>
 
-		    {% if notifications.count > 0 %}
-		    	{% for notification in notifications %}
-		    		{% include 'notifications/_view.html' %}
-		    	{% endfor %}
+		    {% if not history %}
+			    {% if notifications.count > 0 %}
+			    	{% for notification in notifications %}
+			    		{% include 'notifications/_view.html' %}
+			    	{% endfor %}
 
-		    	{% pagination request paginator page_obj %}
-		    {% else %}
-		    	<div class="text-center no-subjects">
-	                <i class="fa fa-exclamation-triangle"></i>
-	                <h4>{% trans 'You do not posses any pendency in this subject' %}</h4>
-	            </div>
-		    {% endif %}
+			    	{% pagination request paginator page_obj %}
+			    {% else %}
+			    	<div class="text-center no-subjects">
+		                <i class="fa fa-exclamation-triangle"></i>
+		                <h4>{% trans 'You do not posses any pendency in this subject' %}</h4>
+		            </div>
+			    {% endif %}
+			{% else %}
+				{% include 'notifications/_history.html' %}
+			{% endif %}
         </div>
     </div>
 {% endblock %}

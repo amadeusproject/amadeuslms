@@ -915,3 +915,13 @@ li.item .notify_badge {
 .no_button:focus, .no_button:active:focus, .no_button.active:focus, .no_button.focus, .no_button:active.focus, .no_button.active.focus {
     outline: none;
 }
+
+.history-header {
+    line-height: 1.8;
+}
+
+.history-control-label {
+    padding-right: 0px;
+    font-size: 16px !important;
+    margin: 7px 0 0 0 !important;
+}
