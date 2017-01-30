@@ -1,0 +1,47 @@
+{% load i18n notification_filters pagination %}
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="col-md-offset-3 col-md-5">
+			<h4 class="text-center history-header">{{ rows }} {% trans 'rows' %}</h4>
+		</div>
+		<div class="col-md-4">
+			<form action="" method="GET" class="form-horizontal">
+				<div class="form-group">
+	                <label class="col-md-4 history-control-label control-label">{% trans 'Search' %}:</label>
+	                <div class="col-md-8">
+	                	<input type="text" class="form-control" name="search" placeholder="{% trans 'Search...' %}" />
+	                </div>
+	            </div>
+	        </form>
+	    </div>
+		<table class="table table-striped table-bordered">
+			<thead>
+				<th>{% trans 'Date' %}</th>
+				<th>{% trans 'Resource' %}</th>
+				<th>{% trans 'Task' %}</th>
+				<th>{% trans 'Final Date' %}</th>
+				<th>{% trans 'Notification' %}</th>
+				<th>{% trans 'Observation' %}</th>
+			</thead>
+			<tbody>
+				{% if rows > 0 %}
+					{% for notification in notifications %}
+						<tr>
+							<td>{{ notification.creation_date|date:"SHORT_DATE_FORMAT" }}</td>
+							<td>{{ notification.task.resource }}</td>
+							<td>{{ notification.task.get_action_display }}</td>
+							<td>{{ notification.task.end_date|date:"SHORT_DATE_FORMAT"|default:_('Not Informed') }}</td>
+							<td>{{ notification.level|warning_msg }}</td>
+							<td>
+							</td>
+						</tr>
+					{% endfor %}
+				{% else %}
+				{% endif %}
+			</tbody>
+		</table>
+
+		{% pagination request paginator page_obj %}
+	</div>
+</div>

@@ -56,7 +56,7 @@ class PendenciesForm(forms.ModelForm):
 			subject = Subject.objects.get(id = subject_id)
 
 			if not begin_date == ValueError and begin_date:
-				if not pend_id and begin_date.date() < datetime.datetime.today().date():
+				if not self.instance.id and begin_date.date() < datetime.datetime.today().date():
 					self.add_error('begin_date', _("This input should be filled with a date equal or after today's date."))
 
 				if begin_date.date() < subject.init_date:
@@ -66,7 +66,7 @@ class PendenciesForm(forms.ModelForm):
 					self.add_error('begin_date', _('This input should be filled with a date equal or after the subject end date.'))
 
 			if not end_date == ValueError and end_date:
-				if not pend_id and end_date.date() < datetime.datetime.today().date():
+				if not self.instance.id and end_date.date() < datetime.datetime.today().date():
 					self.add_error('end_date', _("This input should be filled with a date equal or after today's date."))
 
 				if end_date.date() < subject.init_date:
