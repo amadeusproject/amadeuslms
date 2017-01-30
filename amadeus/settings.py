@@ -67,7 +67,8 @@ INSTALLED_APPS = [
     'webpage',
     'mailsender',
     'security',
-    'themes'
+    'themes',
+    'links'
 ]
 
 MIDDLEWARE_CLASSES = [

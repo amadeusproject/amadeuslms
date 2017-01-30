@@ -1,25 +1,23 @@
 from django.db import models
-from subject.models import Tag
+from django.utils.translation import ugettext_lazy as _
+from autoslug.fields import AutoSlugField
 
-from topics.models import Topic
+import datetime
+from topics.models import Topic, Resource
 from users.models import User
+from django.utils import timezone
 # Create your models here.
-class Link(models.Model):
-	name = models.CharField( _("Name"), unique = True,max_length= 200)
-    slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
+class Link(Resource):
+   
 
-    description_brief = models.TextField(_("simpler_description"), blank=True)
-    description = models.TextField(_("description"), blank= True)
+    description = models.TextField(_("simpler_description"), blank=True)
 
     link_url = models.URLField(verbose_name = _("Link_URL"))
-
-    tags = models.ManyToManyField(Tag, verbose_name='tags', blank=True, null=True)
-    visible = models.BooleanField(_('Visible'), default = True)
-    all_students = models.BooleanField(_('all_students'), default= False)
-    students = models.ManyToManyField(User,verbose_name=_('Students'), related_name='students', blank = True)
-    topic = models.ForeignKey(Topic, verbose_name='topic')
+    
     initial_view = models.BooleanField(_('Initial View'), default = False)
-    initia_view_date = models.DateField(_('Initial View Date'), required= False)
+    initial_view_date = models.DateField(_('Initial View Date'), default=timezone.now)
+    end_view =  models.BooleanField(_('Initial View'), default = False)
+    end_view_date = models.DateField(_('Initial View Date'), default=timezone.now)
     class Meta:
         verbose_name = "Link"
         verbose_name_plural = "Links"
