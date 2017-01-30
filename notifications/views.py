@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 
 from datetime import datetime
 
@@ -12,6 +13,7 @@ from amadeus.permissions import has_subject_view_permissions
 from subjects.models import Subject
 
 from .models import Notification
+from .utils import get_order_by
 
 class SubjectNotifications(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
@@ -35,7 +37,7 @@ class SubjectNotifications(LoginRequiredMixin, generic.ListView):
 		slug = self.kwargs.get('slug', '')
 		subject = get_object_or_404(Subject, slug = slug)
 
-		notifications = Notification.objects.filter(user = self.request.user, task__resource__topic__subject = subject, creation_date = datetime.now())
+		notifications = Notification.objects.filter(user = self.request.user, task__resource__topic__subject = subject, creation_date = datetime.now()).order_by("task__limit_date", "task__end_date")
 
 		self.total = notifications.count()
 
@@ -76,9 +78,16 @@ class SubjectHistory(LoginRequiredMixin, generic.ListView):
 		slug = self.kwargs.get('slug', '')
 		subject = get_object_or_404(Subject, slug = slug)
 
-		notifications = Notification.objects.filter(user = self.request.user, task__resource__topic__subject = subject).order_by("-creation_date")
+		order = get_order_by(self.request.GET.get("order_by", None))
+		search = self.request.GET.get("search", None)
+
+		notifications = Notification.objects.filter(user = self.request.user, task__resource__topic__subject = subject).order_by(*order)
 
 		self.total = notifications.filter(creation_date = datetime.now()).count()
+		
+		if search:
+			notifications = notifications.filter(Q(task__resource__name__icontains = search)).order_by(*order)
+
 		self.num_rows = notifications.count()
 
 		return notifications

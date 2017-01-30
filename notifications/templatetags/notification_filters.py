@@ -43,3 +43,48 @@ def done_percent(notification):
 	not_done = (notified * 100) / number_users
 
 	return 100 - not_done
+
+@register.filter(name = 'order_icon_class')
+def order_icon_class(request, column):
+	getvars = request.GET.copy()
+	order = None
+	class_name = "fa-sort"
+
+	if 'order_by' in getvars:
+		order = getvars['order_by']
+
+	if not order:
+		if column == "creation_date":
+			class_name = "fa-sort-desc"
+	else:
+		if column in order:
+			if "-" in order:
+				class_name = "fa-sort-desc"
+			else:
+				class_name = "fa-sort-asc"
+
+	return class_name
+
+@register.filter(name = 'order_href')
+def order_href(request, column):
+	getvars = request.GET.copy()
+	order_href = "-" + column
+	order = None
+	params = ""
+
+	if 'order_by' in getvars:
+		order = getvars['order_by']
+		del getvars['order_by']
+    
+	if not order:
+		if column == "creation_date":
+			order_href = "creation_date"
+	else:
+		if column in order:
+			if "-" in order:
+				order_href = column
+        
+	if len(getvars) > 0:
+		params = '&%s' % getvars.urlencode()
+
+	return "?order_by=" + order_href + params

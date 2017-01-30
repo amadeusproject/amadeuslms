@@ -60,4 +60,37 @@ def set_notifications():
 
 				notification.save()
 
+def get_order_by(order):
+	if not order:
+		return ["-creation_date"]
 
+	if "creation_date" in order:
+		if "-" in order:
+			return ["-creation_date"]
+		else:
+			return ["creation_date"]
+	elif "resource" in order:
+		if "-" in order:
+			return ["-task__resource__name"]
+		else:
+			return ["task__resource__name"]
+	elif "task" in order:
+		if "-" in order:
+			return ["-task__action"]
+		else:
+			return ["task__action"]
+	elif "final_date" in order:
+		if "-" in order:
+			return ["-task__limit_date", "-task__end_date"]
+		else:
+			return ["task__limit_date", "task__end_date"]
+	elif "notification" in order:
+		if "-" in order:
+			return ["-level"]
+		else:
+			return ["level"]
+	elif "obs" in order:
+		if "-" in order:
+			return ["-meta"]
+		else:
+			return ["meta"]

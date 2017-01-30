@@ -17,12 +17,36 @@
 	    </div>
 		<table class="table table-striped table-bordered">
 			<thead>
-				<th>{% trans 'Date' %}</th>
-				<th>{% trans 'Resource' %}</th>
-				<th>{% trans 'Task' %}</th>
-				<th>{% trans 'Final Date' %}</th>
-				<th>{% trans 'Notification' %}</th>
-				<th>{% trans 'Observation' %}</th>
+				<th>
+					<a href="{{ request|order_href:'creation_date' }}">
+						{% trans 'Date' %} <i class="fa fa-fw {{ request|order_icon_class:'creation_date' }} pull-right"></i>
+					</a>
+				</th>
+				<th>
+					<a href="{{ request|order_href:'resource' }}">
+						{% trans 'Resource' %} <i class="fa fa-fw {{ request|order_icon_class:'resource' }} pull-right"></i>
+					</a>
+				</th>
+				<th>
+					<a href="{{ request|order_href:'task' }}">
+						{% trans 'Task' %} <i class="fa fa-fw {{ request|order_icon_class:'task' }} pull-right"></i>
+					</a>
+				</th>
+				<th>
+					<a href="{{ request|order_href:'final_date' }}">
+						{% trans 'Final Date' %} <i class="fa fa-fw {{ request|order_icon_class:'final_date' }} pull-right"></i>
+					</a>
+				</th>
+				<th>
+					<a href="{{ request|order_href:'notification' }}">
+						{% trans 'Notification' %} <i class="fa fa-fw {{ request|order_icon_class:'notification' }} pull-right"></i>
+					</a>
+				</th>
+				<th>
+					<a href="{{ request|order_href:'obs' }}">
+						{% trans 'Observation' %} <i class="fa fa-fw {{ request|order_icon_class:'obs' }} pull-right"></i>
+					</a>
+				</th>
 			</thead>
 			<tbody>
 				{% if rows > 0 %}
