@@ -42,7 +42,7 @@
 					</div>
 				</div>
 				<div class="row text-center">
-					<a href="" class="btn btn-success btn-raised">
+					<a href="{% url notification.task.resource.access_link notification.task.resource.slug %}" class="btn btn-success btn-raised" {% if notification.task.resource.show_window %}target="_blank"{% endif %}>
 						{% if notification.level == 4 %}
 							{% trans 'Access the task' %}
 						{% else %}
@@ -52,16 +52,83 @@
 
 					{% if notification.level < 3 %}
 						<button class="btn btn-default no_button">{% trans 'or' %}</button>
-						<a href="" class="btn btn-default btn-raised">
+						<button class="btn btn-default btn-raised" data-toggle="popover" data-trigger="focus" data-placement="right">
 							{% if notification.level == 1 %}
 								{% trans 'Define goal to realization' %}
 							{% else %}
 								{% trans 'Define new goal' %}
 							{% endif %}
-						</a>
+						</button>
+
+						<div class="popover">
+              				<div class="popover-content">
+								<form role="form" method="post">
+									{% csrf_token %}
+	  								<div style="overflow:hidden;">
+									    <div class="form-group">
+									        <div class="row">
+									            <div class="col-md-12">
+									                <div class="datetimepicker"></div>
+									                <input type="hidden" class="meta" name="meta" />
+									                <input type="hidden" name="id" value="{{ notification.id }}">
+									            </div>
+									        </div>
+									    </div>
+									</div>
+								</form>
+              				</div>
+              				<div class="popover-footer">
+              					<button type="button" class="btn btn-raised btn-sm btn-primary save pull-left">
+              						{% trans 'Save Goal' %}
+          						</button>
+              					<button type="button" class="btn btn-default btn-sm btn-raised cancel pull-right">
+              						{% trans 'Cancel' %}
+          						</button>
+      						</div>
+  						</div>
 					{% endif %}
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<script>
+$(document).ready(function(){
+	var locale = navigator.language || navigator.userLanguage;
+
+    $('[data-toggle="popover"]').popover({
+    	html: true,
+        content: function () {
+            return $(".popover").html();
+        }
+	}).on('shown.bs.popover', function (e) {
+		if($(this).is(e.target)){
+			var popover = $(this),
+				datetime = popover.parent().find('.datetimepicker'),
+				form = popover.parent().find('form'),
+				cancel = popover.parent().find('.cancel'),
+				save = popover.parent().find('.save');
+
+			if (typeof(datetime.data("DateTimePicker")) != "undefined") {
+				datetime.data("DateTimePicker").destroy();
+			}
+		    
+		    datetime.datetimepicker({
+		    	locale: locale,
+		        inline: true,
+		        sideBySide: false
+		    });
+
+		    cancel.on("click", function () {
+		    	popover.popover('hide');
+		    });	
+
+		    save.on("click", function () {
+		    	var field = form.find('.meta');
+		    	field.val(datetime.data('date'));
+		    	console.log(form.serialize());
+		    });
+		}
+	}); 
+});
+</script>

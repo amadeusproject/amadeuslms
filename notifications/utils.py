@@ -28,6 +28,7 @@ def set_notifications():
 		for user in users:
 			prev_notify = Notification.objects.filter(user = user, task = pendency).order_by("-creation_date")
 			notify_type = 1
+			meta = None
 
 			if prev_notify.count() > 0:
 				last_notify = prev_notify[0]
@@ -36,9 +37,10 @@ def set_notifications():
 					continue
 
 				if last_notify.meta:
-					if last_notify.creation_date < date.today() < last_notify.meta:
+					if last_notify.creation_date < date.today() < last_notify.meta.date():
 						continue
 
+					meta = last_notify.meta
 					notify_type = 2
 
 			has_action = Log.objects.filter(user_id = user.id, action = pend_action, resource = resource_type, context__contains = {resource_key: resource_id}, datetime__date__gte = subject_begin_date).exists()
@@ -51,12 +53,12 @@ def set_notifications():
 				if pendency.limit_date:
 					if timezone.now() > pendency.limit_date:
 						notify_type = 4
-
 				
 				notification = Notification()
 				notification.user = user
 				notification.level = notify_type
 				notification.task = pendency
+				notification.meta = meta
 
 				notification.save()
 

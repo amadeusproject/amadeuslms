@@ -455,6 +455,11 @@ a.add-row {
     background-color: initial !important;
 }
 
+.popover {
+    background: #FFF;
+    color: #333;
+}
+
 @media(max-width: 768px) {
     .navbar .navbar-nav .dropdown .dropdown-menu li > a {
         color: #333333 !important;
