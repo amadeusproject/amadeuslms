@@ -623,7 +623,7 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
             context['all'] = True
             context['title'] = _('Subjects')
 
-        context['subjects_menu_active'] = 'subjects_menu_active'
+        context['subjects_menu_active'] = ''
 
         self.log_context['search_for'] = self.tags
         super(SubjectSearchView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
