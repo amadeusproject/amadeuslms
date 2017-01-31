@@ -57,8 +57,7 @@
 							<td>{{ notification.task.get_action_display }}</td>
 							<td>{{ notification.task.end_date|date:"SHORT_DATE_FORMAT"|default:_('Not Informed') }}</td>
 							<td>{{ notification.level|warning_msg }}</td>
-							<td>
-							</td>
+							<td>{{ notification|observation }}</td>
 						</tr>
 					{% endfor %}
 				{% else %}

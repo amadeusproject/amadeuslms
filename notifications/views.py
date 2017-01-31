@@ -4,9 +4,13 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.db.models import Q
 
+from dateutil import parser
 from datetime import datetime
+from django.utils import formats, timezone
 
 from amadeus.permissions import has_subject_view_permissions
 
@@ -105,3 +109,38 @@ class SubjectHistory(LoginRequiredMixin, generic.ListView):
 		context['rows'] = self.num_rows
 
 		return context
+
+@login_required
+def set_goal(request):
+	if request.method == "POST" and request.is_ajax():
+		meta = request.POST.get('meta', None)
+
+		if not meta:
+			return JsonResponse({'error': True, 'message': _('No goal date received')})
+
+		meta = parser.parse(meta)
+
+		notify_id = request.POST.get('id', None)
+
+		if not notify_id:
+			return JsonResponse({'error': True, 'message': _('Could not identify the notification')})
+
+		notification = get_object_or_404(Notification, id = notify_id)
+
+		meta = timezone.make_aware(meta, timezone.get_current_timezone())
+
+		if meta < timezone.now():
+			return JsonResponse({'error': True, 'message': _("The goal date should be equal or after today's date")})
+
+		if meta.date() > notification.task.resource.topic.subject.end_date:
+			return JsonResponse({'error': True, 'message': _("The goal date should be equal or before subject's date")})
+
+		notification.meta = meta
+		notification.save()
+
+		if notification.level == 2:
+			message = _('Your new goal to realize the task %s is %s')%(str(notification.task), formats.date_format(meta, "SHORT_DATETIME_FORMAT"))
+		else:
+			message = _('Your goal to realize the task %s is %s')%(str(notification.task), formats.date_format(meta, "SHORT_DATETIME_FORMAT"))
+
+	return JsonResponse({'error': False, 'message': message})

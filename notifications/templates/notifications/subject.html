@@ -76,6 +76,7 @@
 					}
 				    
 				    datetime.datetimepicker({
+				    	format: "YYYY-MM-DD HH:mm",
 				    	locale: locale,
 				        inline: true,
 				        sideBySide: false
@@ -86,9 +87,26 @@
 				    });	
 
 				    save.on("click", function () {
-				    	var field = form.find('.meta');
-				    	field.val(datetime.data('date'));
-				    	console.log(form.serialize());
+				    	var meta = datetime.data('date'),
+				    		url = form.attr('action'),
+				    		method = form.attr('method'),
+				    		token = form.find('input[name="csrfmiddlewaretoken"]').val(),
+				    		notification = form.find('input[name="id"]').val();
+				    					    	
+				    	$.ajax({
+				    		url: url,
+				    		method: method,
+				    		data: {'csrfmiddlewaretoken': token, 'meta': meta, 'id': notification},
+				    		dataType: 'json',
+				    		success: function (response) {
+				    			if (response.error) {
+				    				alertify.error(response.message);
+				    			} else {
+				    				alertify.success(response.message);
+				    				popover.popover('hide');
+				    			}
+				    		}
+				    	});
 				    });
 				}
 			}).on('hide.bs.popover', function (e) {

@@ -62,14 +62,13 @@
 
 						<div class="popover">
               				<div class="popover-content">
-								<form role="form" method="post">
+								<form action="{% url 'notifications:set_goal' %}" role="form" method="post">
 									{% csrf_token %}
 	  								<div style="overflow:hidden;">
 									    <div class="form-group">
 									        <div class="row">
 									            <div class="col-md-12">
 									                <div class="datetimepicker"></div>
-									                <input type="hidden" class="meta" name="meta" />
 									                <input type="hidden" name="id" value="{{ notification.id }}">
 									            </div>
 									        </div>
