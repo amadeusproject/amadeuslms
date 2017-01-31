@@ -17,7 +17,7 @@ from amadeus.permissions import has_subject_view_permissions
 from subjects.models import Subject
 
 from .models import Notification
-from .utils import get_order_by
+from .utils import get_order_by, is_date
 
 class SubjectNotifications(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
@@ -90,7 +90,23 @@ class SubjectHistory(LoginRequiredMixin, generic.ListView):
 		self.total = notifications.filter(creation_date = datetime.now()).count()
 		
 		if search:
-			notifications = notifications.filter(Q(task__resource__name__icontains = search)).order_by(*order)
+			queries = Q(task__resource__name__icontains = search)
+			queries |= Q(task__action__icontains = search)
+
+			if search.isdigit():
+				queries |= Q(level = search)
+
+			if is_date(search):
+				search_date = parser.parse(search)
+				search_date = timezone.make_aware(search_date, timezone.get_current_timezone())
+
+				queries |= Q(creation_date = search_date)
+				queries |= Q(task__limit_date = search_date)
+				queries |= Q(task__end_date = search_date)
+				queries |= Q(meta__date = search_date)
+
+
+			notifications = notifications.filter(queries).order_by(*order)
 
 		self.num_rows = notifications.count()
 
@@ -107,6 +123,7 @@ class SubjectHistory(LoginRequiredMixin, generic.ListView):
 		context['history'] = True
 		context['total'] = self.total
 		context['rows'] = self.num_rows
+		context['searched'] = self.request.GET.get("search", "")
 
 		return context
 
