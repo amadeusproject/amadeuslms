@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.db.models import Q
+from django.db.models import Q, Count
 
 from dateutil import parser
 from datetime import datetime
@@ -105,7 +105,6 @@ class SubjectHistory(LoginRequiredMixin, generic.ListView):
 				queries |= Q(task__end_date = search_date)
 				queries |= Q(meta__date = search_date)
 
-
 			notifications = notifications.filter(queries).order_by(*order)
 
 		self.num_rows = notifications.count()
@@ -124,6 +123,89 @@ class SubjectHistory(LoginRequiredMixin, generic.ListView):
 		context['total'] = self.total
 		context['rows'] = self.num_rows
 		context['searched'] = self.request.GET.get("search", "")
+
+		return context
+
+class IndexView(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	context_object_name = 'notifications'
+	template_name = 'notifications/index.html'
+	paginate_by = 10
+
+	def get_queryset(self):
+		notifications = Notification.objects.filter(user = self.request.user, viewed = False, creation_date = datetime.now()).values('task__resource__topic__subject', 'task__resource__topic__subject__name').annotate(total = Count('task__resource__topic__subject'))
+
+		return notifications
+
+	def get_context_data(self, **kwargs):
+		context = super(IndexView, self).get_context_data(**kwargs)
+
+		context['title'] = _('Pendencies')
+
+		return context
+
+class AjaxNotifications(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	context_object_name = 'notifications'
+	template_name = 'notifications/_view.html'
+
+	def get_queryset(self):
+		subject_id = self.kwargs.get('id', '')
+		
+		notifications = Notification.objects.filter(user = self.request.user, task__resource__topic__subject__id = subject_id, creation_date = datetime.now()).order_by("task__limit_date", "task__end_date")
+
+		return notifications
+
+class AjaxHistory(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	context_object_name = 'notifications'
+	template_name = 'notifications/_ajax_history.html'
+
+	def get_queryset(self):
+		subject_id = self.kwargs.get('id', '')
+
+		order = get_order_by(self.request.GET.get("order_by", None))
+		search = self.request.GET.get("search", None)
+
+		notifications = Notification.objects.filter(user = self.request.user, task__resource__topic__subject__id = subject_id).order_by(*order)
+
+		if search:
+			queries = Q(task__resource__name__icontains = search)
+			queries |= Q(task__action__icontains = search)
+
+			if search.isdigit():
+				queries |= Q(level = search)
+
+			if is_date(search):
+				search_date = parser.parse(search)
+				search_date = timezone.make_aware(search_date, timezone.get_current_timezone())
+
+				queries |= Q(creation_date = search_date)
+				queries |= Q(task__limit_date = search_date)
+				queries |= Q(task__end_date = search_date)
+				queries |= Q(meta__date = search_date)
+
+			notifications = notifications.filter(queries).order_by(*order)
+
+		self.num_rows = notifications.count()
+
+		return notifications
+
+	def get_context_data(self, **kwargs):
+		context = super(AjaxHistory, self).get_context_data(**kwargs)
+
+		subject_id = self.kwargs.get('id', '')
+
+		context['subject_id'] = subject_id
+		context['rows'] = self.num_rows
+		context['searched'] = self.request.GET.get("search", "")
+		context['order_by'] = self.request.GET.get("order_by", "")
 
 		return context
 

@@ -29,15 +29,13 @@
             <div id="core-subjects-options-div">
 		        <ul class="core-subjects-options">
 	                <a href="{% url 'notifications:view' subject.slug %}"><li {% if not history %} class="active" {% endif %}>{% trans "Actual Pendencies" %} ({{ total }})</li></a>
-	                <a href="{% url 'notifications:history' subject.slug %}" ><li {% if history %} class="active" {% endif %}>{% trans "Notifications History" %}</li></a>
+	                <a href="{% url 'notifications:history' subject.slug %}"><li {% if history %} class="active" {% endif %}>{% trans "Notifications History" %}</li></a>
 		        </ul>
 		    </div>
 
 		    {% if not history %}
 			    {% if notifications.count > 0 %}
-			    	{% for notification in notifications %}
-			    		{% include 'notifications/_view.html' %}
-			    	{% endfor %}
+			    	{% include 'notifications/_view.html' %}
 
 			    	{% pagination request paginator page_obj %}
 			    {% else %}
@@ -52,77 +50,10 @@
         </div>
     </div>
 	
+	<script type="text/javascript" src="{% static 'js/pendencies.js' %}"></script>
 	<script type="text/javascript">
 		$(function () {
-			var locale = navigator.language || navigator.userLanguage;
-
-		    $('[data-toggle="popover"]').popover({
-		    	html: true,
-		        content: function () {
-		            return $(".popover").html();
-		        }
-			}).on('show.bs.popover', function (e) {
-				$('[data-toggle="popover"]').not(e.target).popover('hide');
-			}).on('shown.bs.popover', function (e) {
-				if($(this).is(e.target)){
-					var popover = $(this),
-						datetime = popover.parent().find('.datetimepicker'),
-						form = popover.parent().find('form:visible'),
-						cancel = popover.parent().find('.cancel:visible'),
-						save = popover.parent().find('.save:visible');
-
-					if (typeof(datetime.data("DateTimePicker")) != "undefined") {
-						datetime.data("DateTimePicker").destroy();
-					}
-				    
-				    datetime.datetimepicker({
-				    	format: "YYYY-MM-DD HH:mm",
-				    	locale: locale,
-				        inline: true,
-				        sideBySide: false
-				    });
-
-				    cancel.on("click", function () {
-				    	popover.popover('hide');
-				    });	
-
-				    save.on("click", function () {
-				    	var meta = datetime.data('date'),
-				    		url = form.attr('action'),
-				    		method = form.attr('method'),
-				    		token = form.find('input[name="csrfmiddlewaretoken"]').val(),
-				    		notification = form.find('input[name="id"]').val();
-				    					    	
-				    	$.ajax({
-				    		url: url,
-				    		method: method,
-				    		data: {'csrfmiddlewaretoken': token, 'meta': meta, 'id': notification},
-				    		dataType: 'json',
-				    		success: function (response) {
-				    			if (response.error) {
-				    				alertify.error(response.message);
-				    			} else {
-				    				alertify.success(response.message);
-				    				popover.popover('hide');
-				    			}
-				    		}
-				    	});
-				    });
-				}
-			}).on('hide.bs.popover', function (e) {
-				if($(this).is(e.target)){
-					var popover = $(this),
-						datetime = popover.parent().find('.datetimepicker');
-
-					if (typeof(datetime.data("DateTimePicker")) != "undefined") {
-						datetime.data("DateTimePicker").destroy();
-					}
-
-					datetime.html('');
-				}
-			}).on('hidden.bs.popover', function (e) {
-			    $(e.target).data("bs.popover").inState.click = false;
-			}); 
+			metaFunctions();
 		});
 	</script>
 {% endblock %}

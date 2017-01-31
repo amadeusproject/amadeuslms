@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% load static i18n pagination permissions_tags subject_counter %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+
+    {% breadcrumb 'Pendencies' 'notifications:manage' %}
+{% endblock %}
+
+{% block content %}
+	{% if notifications.count > 0 %}
+		<div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
+			{% for notification in notifications %}
+				<div class="panel panel-info subject-panel">
+            		<div class="panel-heading">
+            			<div class="row">
+			                <div class="col-md-12 category-header">
+			                    <h4 class="panel-title">
+			                        <a class="category-course-link pull-left" data-parent="#subject-accordion" data-toggle="collapse" href="#subject_{{ notification.task__resource__topic__subject }}">
+			                            <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{ notification.task__resource__topic__subject__name }} ({{ notification.total }})
+			                        </a>
+			                    </h4>
+			                </div>
+			            </div>
+            		</div>
+            		<div id="subject_{{ notification.task__resource__topic__subject }}" class="panel-collapse collapse pendencies-content" data-id="{{ notification.task__resource__topic__subject }}">
+            			<div id="core-subjects-options-div">
+					        <ul class="core-subjects-options">
+				                <a href="javascript:getPendencies({{ notification.task__resource__topic__subject }})"><li class="pendencies_link active">{% trans "Actual Pendencies" %} ({{ notification.total }})</li></a>
+				                <a href="javascript:getHistory({{ notification.task__resource__topic__subject }})"><li class="history_link">{% trans "Notifications History" %}</li></a>
+					        </ul>
+					    </div>
+
+					    <div class="pendencies" data-url="{% url 'notifications:ajax_view' notification.task__resource__topic__subject %}">
+					    	<div id="pendencies_list_{{ notification.task__resource__topic__subject }}" class="pendencies-cards"></div>
+					    	<div class="holder"></div>
+					    </div>
+
+					    <div class="history" data-url="{% url 'notifications:ajax_history' notification.task__resource__topic__subject %}">
+					    	<div class="history_data"></div>
+					    	<div class="text-center">
+					    		<div class="holder"></div>
+					    	</div>
+					    </div>
+            		</div>
+            	</div>
+			{% endfor %}
+
+			{% pagination request paginator page_obj %}
+		</div>
+	{% else %}
+		<div class="text-center no-subjects">
+			<i class="fa fa-exclamation-triangle"></i>
+			<h4>{% trans 'You do not posses any pendency in this subject' %}</h4>
+		</div>
+	{% endif %}
+
+	<script type="text/javascript" src="{% static 'js/pendencies.js' %}"></script>
+{% endblock %}

@@ -64,7 +64,7 @@ def set_notifications():
 				notification.save()
 
 def get_order_by(order):
-	if not order:
+	if order is None or order == "":
 		return ["-creation_date"]
 
 	if "creation_date" in order:
