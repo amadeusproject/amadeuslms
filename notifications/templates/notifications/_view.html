@@ -52,7 +52,7 @@
 
 					{% if notification.level < 3 %}
 						<button class="btn btn-default no_button">{% trans 'or' %}</button>
-						<button class="btn btn-default btn-raised" data-toggle="popover" data-trigger="focus" data-placement="right">
+						<button class="btn btn-default btn-raised" data-toggle="popover" data-placement="right">
 							{% if notification.level == 1 %}
 								{% trans 'Define goal to realization' %}
 							{% else %}
@@ -78,7 +78,7 @@
 								</form>
               				</div>
               				<div class="popover-footer">
-              					<button type="button" class="btn btn-raised btn-sm btn-primary save pull-left">
+              					<button type="button" class="btn btn-raised btn-sm btn-success save pull-left">
               						{% trans 'Save Goal' %}
           						</button>
               					<button type="button" class="btn btn-default btn-sm btn-raised cancel pull-right">
@@ -92,43 +92,3 @@
 		</div>
 	</div>
 </div>
-<script>
-$(document).ready(function(){
-	var locale = navigator.language || navigator.userLanguage;
-
-    $('[data-toggle="popover"]').popover({
-    	html: true,
-        content: function () {
-            return $(".popover").html();
-        }
-	}).on('shown.bs.popover', function (e) {
-		if($(this).is(e.target)){
-			var popover = $(this),
-				datetime = popover.parent().find('.datetimepicker'),
-				form = popover.parent().find('form'),
-				cancel = popover.parent().find('.cancel'),
-				save = popover.parent().find('.save');
-
-			if (typeof(datetime.data("DateTimePicker")) != "undefined") {
-				datetime.data("DateTimePicker").destroy();
-			}
-		    
-		    datetime.datetimepicker({
-		    	locale: locale,
-		        inline: true,
-		        sideBySide: false
-		    });
-
-		    cancel.on("click", function () {
-		    	popover.popover('hide');
-		    });	
-
-		    save.on("click", function () {
-		    	var field = form.find('.meta');
-		    	field.val(datetime.data('date'));
-		    	console.log(form.serialize());
-		    });
-		}
-	}); 
-});
-</script>

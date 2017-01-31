@@ -51,4 +51,60 @@
 			{% endif %}
         </div>
     </div>
+	
+	<script type="text/javascript">
+		$(function () {
+			var locale = navigator.language || navigator.userLanguage;
+
+		    $('[data-toggle="popover"]').popover({
+		    	html: true,
+		        content: function () {
+		            return $(".popover").html();
+		        }
+			}).on('show.bs.popover', function (e) {
+				$('[data-toggle="popover"]').not(e.target).popover('hide');
+			}).on('shown.bs.popover', function (e) {
+				if($(this).is(e.target)){
+					var popover = $(this),
+						datetime = popover.parent().find('.datetimepicker'),
+						form = popover.parent().find('form:visible'),
+						cancel = popover.parent().find('.cancel:visible'),
+						save = popover.parent().find('.save:visible');
+
+					if (typeof(datetime.data("DateTimePicker")) != "undefined") {
+						datetime.data("DateTimePicker").destroy();
+					}
+				    
+				    datetime.datetimepicker({
+				    	locale: locale,
+				        inline: true,
+				        sideBySide: false
+				    });
+
+				    cancel.on("click", function () {
+				    	popover.popover('hide');
+				    });	
+
+				    save.on("click", function () {
+				    	var field = form.find('.meta');
+				    	field.val(datetime.data('date'));
+				    	console.log(form.serialize());
+				    });
+				}
+			}).on('hide.bs.popover', function (e) {
+				if($(this).is(e.target)){
+					var popover = $(this),
+						datetime = popover.parent().find('.datetimepicker');
+
+					if (typeof(datetime.data("DateTimePicker")) != "undefined") {
+						datetime.data("DateTimePicker").destroy();
+					}
+
+					datetime.html('');
+				}
+			}).on('hidden.bs.popover', function (e) {
+			    $(e.target).data("bs.popover").inState.click = false;
+			}); 
+		});
+	</script>
 {% endblock %}
