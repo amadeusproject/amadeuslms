@@ -603,7 +603,7 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
         for tag in tags:
             q = q | Q(tags__name__unaccent__icontains=tag  )
        
-        subjects = Subject.objects.filter(q)
+        subjects = Subject.objects.filter(q).distinct()
         #pk = self.request.user.pk
         #my_subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk) & Q(tags__name__in=tags) ).distinct()
         
