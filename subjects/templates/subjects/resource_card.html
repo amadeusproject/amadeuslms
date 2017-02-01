@@ -1,0 +1,66 @@
+ {% load static i18n permissions_tags subject_counter %}
+
+ {% resource_permissions request.user resource as has_resource_permissions %}
+{% subject_permissions request.user resource.topic.subject as has_subject_permissions %}
+ {% if has_resource_permissions %}
+	<div class="panel panel-info subject-panel">
+        <div class="panel-heading">
+		
+	  		<div class="row">
+                <div class="col-md-12 category-header">
+                	<h4 class="panel-title">
+                   		<a class="category-course-link pull-left" data-parent="#{% if accordion_id %}{{ accordion_id }}{% else %}{{ subject.category.slug }}-accordion{% endif %}" data-toggle="collapse" href="#{{resource.slug}}">
+                            <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{ resource }}
+                        </a>
+                	</h4>
+
+                    {% if has_subject_permissions %}
+					<div class="col-md-5 pull-right category-card-items">
+		                <span class="btn-group pull-right">
+			                <a class="btn btn-sm btn_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			                	<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+			                </a>
+			                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="moreResources">
+			                    <li><a href="{% url resource.update_link resource.topic.slug resource.slug %}" class="edit"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+			                    <li><a href="javascript:delete_resource('{% url resource.delete_link resource.slug %}')" class="delete"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remove' %}</a></li>
+			                </ul>
+			            </span>
+		        	</div>
+		   			{% endif %}
+                </div>
+            </div>
+
+           
+	  	</div>
+
+	  	 <div id="{{resource.slug}}" class="panel-collapse collapse category-panel-content">
+            <div class="row">
+                <div class="col-md-6">
+                    {% if resource.topic.subject.professor.all|length > 0  %}
+                        <h4><b>{% trans "Professor(s) " %}: </b>
+                            {{ resource.topic.subject.professor.all|join:', ' }}
+                        </h4>
+                    {% else %}
+                        <h4> {% trans "It doesn't possess professors" %} </h4>
+                    {% endif %}
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <p><b>{% trans "Category" %}: </b> {{resource.topic.subject.category.name}}</p>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <p><b>{% trans "Subject" %}:</b> {{resource.topic.subject.name}}</p>
+                </div>
+            </div>
+            {% if resource.description %}
+                <p>{{resource.description|safe}}</p>
+            {% elif resource.description_brief %}
+            	<p>{{resource.description_brief|safe}}</p>
+            {% endif %}
+            
+             <a href="{% url resource.access_link resource.slug %}" class="btn btn-success btn-raised"> {% trans "Access Resource" %}</a>
+         
+        </div>
+	</div>
+
+
+{% endif %}

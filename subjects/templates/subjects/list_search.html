@@ -35,11 +35,11 @@
     <div id="core-subjects-options-div">
         <ul class="core-subjects-options">
             {% if all %}
-                <a href="{% url 'subjects:search' %}?search= {{tags}} "><li >{% trans "Subjects" %} ({{ totals.my_subjects }})</li></a>
-                <a href="" ><li class="active">{% trans "Resources" %} ({{ totals.resources }})</li></a>
+                <a href="{% url 'subjects:search' 'subjects' %}?search={{tags}} "><li >{% trans "Subjects" %} ({{ totals.my_subjects }})</li></a>
+                <a href="{% url 'subjects:search' 'resources' %}?search={{tags}}" ><li class="active">{% trans "Resources" %} ({{ totals.resources }})</li></a>
             {% else %}
-                <a href="{% url 'subjects:search' %}?search={{tags}}"><li class="active">{% trans "Subjects" %} ({{ totals.my_subjects }})</li></a>
-                <a href="" ><li>{% trans "Resources" %} ({{ totals.resources }})</li></a>
+                <a href="{% url 'subjects:search' 'subjects' %}?search={{tags}}"><li class="active">{% trans "Subjects" %} ({{ totals.my_subjects }})</li></a>
+                <a href="{% url 'subjects:search' 'resources' %}?search={{tags}}" ><li>{% trans "Resources" %} ({{ totals.resources }})</li></a>
             {% endif %}
             
         </ul>
@@ -50,7 +50,7 @@
     <div class="col-md-12 cards-content">
 		
 
-		{% if subjects|length > 0 %}
+		{% if not all %}
 	    	<div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
 				{% for subject in subjects %}
 					{% include "subjects/subject_card.html" with accordion_id="subject-accordion" %}
@@ -58,9 +58,17 @@
 				
 				{% pagination request paginator page_obj %}
 			</div>
-		{% else %}
-			
+		 {% elif resources|length > 0 and all %}
+            <div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
+                {% for resource in resources %}
+                    {% include "subjects/resource_card.html" with resource=resource %}
+                {% endfor %}
+                
+                {% pagination request paginator page_obj %}
+            </div>
+        {% else %}	
 		{% endif %}
+
 	</div>
 
 	<div id="modal_course">

@@ -29,14 +29,14 @@ class LinkForm(forms.ModelForm):
 	
 	class Meta:
 		model = Link
-		fields = ['name','link_url', 'brief_description', 'all_students', 'students', 'groups', 'visible']
+		fields = ['name','link_url', 'description_brief', 'all_students', 'students', 'groups', 'visible']
 		labels = {
 			'name': _('Link name'),
 			'end_view' : _('End View'),
 			'end_view_date': _('End View Date')
 		}
 		widgets = {
-			'brief_description': forms.Textarea,
+			'description_brief': forms.Textarea,
 			'students': forms.SelectMultiple,
 			'groups': forms.SelectMultiple,
 		}

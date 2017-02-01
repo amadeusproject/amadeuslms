@@ -10,7 +10,7 @@ from django.utils import timezone
 class Link(Resource):
    
 
-    description = models.TextField(_("simpler_description"), blank=True)
+    description_brief = models.TextField(_("simpler_description"), blank=True)
 
     link_url = models.URLField(verbose_name = _("Link_URL"))
     

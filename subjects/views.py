@@ -28,6 +28,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CreateSubjectForm, UpdateSubjectForm
 from .utils import has_student_profile, has_professor_profile, count_subjects, get_category_page
 from users.models import User
+from topics.models import Resource
 
 
 class HomeView(LoginRequiredMixin, ListView):
@@ -602,14 +603,19 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
         q = Q()
         for tag in tags:
             q = q | Q(tags__name__unaccent__icontains=tag  )
-       
+        
         subjects = Subject.objects.filter(q).distinct()
+       
+        self.resources = Resource.objects.filter(q).distinct()
         #pk = self.request.user.pk
         #my_subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk) & Q(tags__name__in=tags) ).distinct()
         
-        self.totals = {'resources': subjects.count(), 'my_subjects': subjects.count()}
+        self.totals = {'resources': self.resources.count(), 'my_subjects': subjects.count()}
         #if self.kwargs.get('option'):
         #    subjects = my_subjects
+        option = self.kwargs.get('option')
+        if option and option == 'resources':
+            return self.resources
         return subjects
    
     def get_context_data(self, **kwargs):
@@ -621,10 +627,11 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
 
         context['show_buttons'] = True #So it shows subscribe and access buttons
         context['totals'] = self.totals
-        
-        if self.kwargs.get('option'):
+        option = self.kwargs.get('option')
+        if option and option == 'resources':
             context['all'] = True
-            context['title'] = _('Subjects')
+            context['title'] = _('Resources')
+            context['resources'] = self.resources
 
         context['subjects_menu_active'] = ''
 
