@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^mailsender/', include('mailsender.urls', namespace = 'mailsender')),
     url(r'^security/', include('security.urls', namespace = 'security')),
     url(r'^themes/', include('themes.urls', namespace = 'themes')),
-    url(r'^notifications/', include('notifications.urls', namespace = 'notifications')),
+    url(r'^pendencies/', include('notifications.urls', namespace = 'notifications')),
     url(r'^links/', include('links.urls', namespace='links')),
     #API
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
