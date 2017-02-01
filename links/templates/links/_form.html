@@ -92,7 +92,7 @@
 	<div class="form-group{% if form.has_error %} has-error {% endif %}">
 		<label for="{{ form.initial_view_date.auto_id }}">{{ form.initial_view_date.label }}</label>
 		
-		{% render_field form.initial_view_date class='form-control date-picker'   %}
+		{% render_field form.initial_view_date class='form-control datetime-picker'   %}
 
 		<span id="helpBlock" class="help-block">{{ form.initial_view.help_text }}</span>
 			
@@ -136,7 +136,7 @@
 	<div class="form-group{% if form.has_error %} has-error {% endif %}">
 		<label for="{{ form.end_view_date.auto_id }}">{{ form.end_view_date.label }}</label>
 		
-		{% render_field form.end_view_date class='form-control date-picker'   %}
+		{% render_field form.end_view_date class='form-control datetime-picker'   %}
 
 		<span id="helpBlock" class="help-block">{{ form.end_view.help_text }}</span>
 			

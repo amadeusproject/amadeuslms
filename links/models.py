@@ -15,9 +15,9 @@ class Link(Resource):
     link_url = models.URLField(verbose_name = _("Link_URL"))
     
     initial_view = models.BooleanField(_('Initial View'), default = False)
-    initial_view_date = models.DateField(_('Initial View Date'), default=timezone.now)
+    initial_view_date = models.DateTimeField(_('Initial View Date'), default= timezone.now, null=True)
     end_view =  models.BooleanField(_('Initial View'), default = False)
-    end_view_date = models.DateField(_('Initial View Date'), default=timezone.now)
+    end_view_date = models.DateTimeField(_('Initial View Date'), default=timezone.now, null=True)
     class Meta:
         verbose_name = "Link"
         verbose_name_plural = "Links"
