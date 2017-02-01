@@ -65,11 +65,12 @@ INSTALLED_APPS = [
     'topics',
     'pendencies',
     'file_link',
+    'links',
     'webpage',
+    'youtube_video',
     'mailsender',
     'security',
     'themes',
-    'links'
 ]
 
 MIDDLEWARE_CLASSES = [
