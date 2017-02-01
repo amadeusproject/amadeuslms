@@ -141,10 +141,43 @@ class CreateLinkView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 class DeleteLinkView(LoginRequiredMixin, LogMixin, generic.edit.DeleteView):
 
+
+    log_component = 'resources'
+    log_action = 'delete'
+    log_resource = 'link'
+    log_context = {}
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
     model = Link
     template_name = 'links/delete.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug', '')
+        link = get_object_or_404(Link, slug = slug)
+
+        if not has_subject_permissions(request.user, link.topic.subject):
+            return redirect(reverse_lazy('subjects:home'))
+        return super(DeleteLinkView, self).dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        messages.success(self.request, _('The Website Link "%s" was removed successfully from virtual environment "%s"!')%(self.object.name, self.object.topic.subject.name))
+
+        self.log_context['category_id'] = self.object.topic.subject.category.id
+        self.log_context['category_name'] = self.object.topic.subject.category.name
+        self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        self.log_context['subject_id'] = self.object.topic.subject.id
+        self.log_context['subject_name'] = self.object.topic.subject.name
+        self.log_context['subject_slug'] = self.object.topic.subject.slug
+        self.log_context['topic_id'] = self.object.topic.id
+        self.log_context['topic_name'] = self.object.topic.name
+        self.log_context['topic_slug'] = self.object.topic.slug
+        self.log_context['link_id'] = self.object.id
+        self.log_context['link_name'] = self.object.name
+        self.log_context['link_slug'] = self.object.slug
+
+        super(DeleteLinkView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+        return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
 
 class DetailLinkView(LoginRequiredMixin, LogMixin, generic.detail.DetailView):
