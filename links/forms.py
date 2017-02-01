@@ -26,12 +26,10 @@ class LinkForm(forms.ModelForm):
 
 	tags = forms.CharField(label = _('Tags'), required = False)
 	link_url = forms.URLField(label = _('Website URL'),required=True)
-	initial_view_date = forms.DateTimeField(input_formats=['%Y/%m/%d %I:%M %p', '%d/%m/%Y %I:%M %p', '%m/%d/%Y %I:%M %p'], required=False)
-	end_view_date = forms.DateTimeField(input_formats=['%Y/%m/%d %I:%M %p', '%d/%m/%Y %I:%M %p', '%m/%d/%Y %I:%M %p'], required=False ,help_text=[_('It sets a limit date to finish viewing the website link  ')])
-
+	
 	class Meta:
 		model = Link
-		fields = ['name','link_url', 'initial_view','initial_view_date', 'end_view','end_view_date', 'brief_description', 'all_students', 'students', 'groups', 'visible']
+		fields = ['name','link_url', 'brief_description', 'all_students', 'students', 'groups', 'visible']
 		labels = {
 			'name': _('Link name'),
 			'end_view' : _('End View'),
@@ -47,21 +45,7 @@ class LinkForm(forms.ModelForm):
 
 		cleaned_data = self.cleaned_data
 
-		if cleaned_data.get('end_view'):
-			end_view = cleaned_data.get('end_view')
-			if end_view and not cleaned_data.get('end_view_date'):
-				raise ValidationError(_('End View Date is not set'), code='invalid' )
-
-		if cleaned_data.get('initial_view'):
-			initial_view = cleaned_data.get('initial_view')
-			if initial_view and not cleaned_data.get('initial_view_date'):
-				raise ValidationError(_('Initial View Date is not set'), code='invalid' )
-		if cleaned_data.get('initial_view_date') and cleaned_data.get('end_view_date'):
-			end_view_date = cleaned_data.get('end_view_date')
-			initial_view_date = cleaned_data.get('initial_view_date')
-			if end_view_date < initial_view_date:
-				raise ValidationError(_('End View Date before Initial View Date'), code='invalid' )
-
+	
 		return cleaned_data
 	
 

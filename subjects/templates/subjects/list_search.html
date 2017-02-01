@@ -36,10 +36,10 @@
         <ul class="core-subjects-options">
             {% if all %}
                 <a href="{% url 'subjects:search' %}?search= {{tags}} "><li >{% trans "Subjects" %} ({{ totals.my_subjects }})</li></a>
-                <a href="" ><li class="active">{% trans "Resources" %} ({{ totals.all_subjects }})</li></a>
+                <a href="" ><li class="active">{% trans "Resources" %} ({{ totals.resources }})</li></a>
             {% else %}
                 <a href="{% url 'subjects:search' %}?search={{tags}}"><li class="active">{% trans "Subjects" %} ({{ totals.my_subjects }})</li></a>
-                <a href="" ><li>{% trans "Resources" %} ({{ totals.all_subjects }})</li></a>
+                <a href="" ><li>{% trans "Resources" %} ({{ totals.resources }})</li></a>
             {% endif %}
             
         </ul>

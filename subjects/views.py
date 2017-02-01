@@ -607,7 +607,7 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
         #pk = self.request.user.pk
         #my_subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk) & Q(tags__name__in=tags) ).distinct()
         
-        self.totals = {'all_subjects': subjects.count(), 'my_subjects': subjects.count()}
+        self.totals = {'resources': subjects.count(), 'my_subjects': subjects.count()}
         #if self.kwargs.get('option'):
         #    subjects = my_subjects
         return subjects
