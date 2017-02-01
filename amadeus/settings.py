@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     's3direct',
     'django_summernote',
     'session_security',
+    'django_crontab',
     'django_cron',
 
     'amadeus',
@@ -174,6 +175,10 @@ STATICFILES_DIRS = [
 
 CRON_CLASSES = [
     'notifications.cron.Notify'
+]
+
+CRONJOBS = [
+    ('1 */12 * * *', 'notifications.cron.notification_cron')
 ]
 
 #SECURITY
