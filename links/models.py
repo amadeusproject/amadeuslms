@@ -8,10 +8,6 @@ from users.models import User
 from django.utils import timezone
 # Create your models here.
 class Link(Resource):
-   
-
-    description_brief = models.TextField(_("simpler_description"), blank=True)
-
     link_url = models.URLField(verbose_name = _("Link_URL"))
     
    

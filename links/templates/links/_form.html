@@ -61,18 +61,18 @@
 
 
 	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
-		<label for="{{ form.description_brief.auto_id }}">{{ form.description_brief.label }}</label>
-		{% render_field form.description_brief class='form-control text_wysiwyg' %}
+		<label for="{{ form.brief_description.auto_id }}">{{ form.brief_description.label }}</label>
+		{% render_field form.brief_description class='form-control text_wysiwyg' %}
 
-		<span id="helpBlock" class="help-block">{{ form.description_brief.help_text }}</span>
+		<span id="helpBlock" class="help-block">{{ form.brief_description.help_text }}</span>
 			
-		{% if form.description_brief.errors %}
+		{% if form.brief_description.errors %}
 			<div class="alert alert-danger alert-dismissible" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				<ul>
-					{% for error in form.description_brief.errors %}
+					{% for error in form.brief_description.errors %}
 						<li>{{ error }}</li>
 					{% endfor %}
 				</ul>

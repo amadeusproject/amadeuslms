@@ -51,10 +51,9 @@
                     <p><b>{% trans "Subject" %}:</b> {{resource.topic.subject.name}}</p>
                 </div>
             </div>
-            {% if resource.description %}
-                <p>{{resource.description|safe}}</p>
-            {% elif resource.description_brief %}
-            	<p>{{resource.description_brief|safe}}</p>
+            {% if resource.brief_description %}
+                <p>{{resource.brief_description|safe}}</p>
+           
             {% endif %}
             
              <a href="{% url resource.access_link resource.slug %}" class="btn btn-success btn-raised"> {% trans "Access Resource" %}</a>
