@@ -601,7 +601,7 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
         tags = tags.split(" ")
         q = Q()
         for tag in tags:
-            q = q | Q(tags__name__unaccent__iexact=tag)
+            q = q | Q(tags__name__unaccent__icontains=tag  )
        
         subjects = Subject.objects.filter(q)
         #pk = self.request.user.pk

@@ -179,7 +179,7 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
 		self.object = self.get_object()
 
 		if self.object.resource_topic.count() > 0:
-			messages.error(self.request, _('Could not remove this topic. It has on or more resources attached.'))
+			messages.error(self.request, _('Could not remove this topic. It has one or more resources attached.'))
 
 			return redirect(reverse_lazy('subjects:view', kwargs = {'slug': self.object.subject.slug}))
 		else:
