@@ -2,7 +2,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
-
+from django.core.exceptions import ValidationError
 from subjects.models import Tag
 
 from pendencies.forms import PendenciesForm
@@ -26,8 +26,8 @@ class LinkForm(forms.ModelForm):
 
 	tags = forms.CharField(label = _('Tags'), required = False)
 	link_url = forms.URLField(label = _('Website URL'),required=True)
-	initial_view_date = forms.DateTimeField(input_formats=['%Y/%m/%d %H:%M', '%d/%m/%Y %H:%M', '%m/%d/%Y %H:%M'], required=False)
-	end_view_date = forms.DateTimeField(input_formats=['%Y/%m/%d %H:%M', '%d/%m/%Y %H:%M', '%m/%d/%Y %H:%M'], required=False ,help_text=[_('It sets a limit date to finish viewing the website link  ')])
+	initial_view_date = forms.DateTimeField(input_formats=['%Y/%m/%d %I:%M %p', '%d/%m/%Y %I:%M %p', '%m/%d/%Y %I:%M %p'], required=False)
+	end_view_date = forms.DateTimeField(input_formats=['%Y/%m/%d %I:%M %p', '%d/%m/%Y %I:%M %p', '%m/%d/%Y %I:%M %p'], required=False ,help_text=[_('It sets a limit date to finish viewing the website link  ')])
 
 	class Meta:
 		model = Link
@@ -50,12 +50,20 @@ class LinkForm(forms.ModelForm):
 		if cleaned_data.get('end_view'):
 			end_view = cleaned_data.get('end_view')
 			if end_view and not cleaned_data.get('end_view_date'):
+				print("here 1")
 				raise ValidationError(_('End View Date is not set'), code='invalid' )
 
 		if cleaned_data.get('initial_view'):
 			initial_view = cleaned_data.get('initial_view')
 			if initial_view and not cleaned_data.get('initial_view_date'):
+					print("here 2")
 					raise ValidationError(_('Initial View Date is not set'), code='invalid' )
+		if cleaned_data.get('initial_view_date') and cleaned_data.get('end_view_date'):
+			end_view_date = cleaned_data.get('end_view_date')
+			initial_view_date = cleaned_data.get('initial_view_date')
+			if end_view_date < initial_view_date:
+				print("here 3")
+				raise ValidationError(_('End View Date before Initial View Date'), code='invalid' )
 
 		return cleaned_data
 	
