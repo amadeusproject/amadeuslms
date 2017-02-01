@@ -1,5 +1,6 @@
 # File used to store functions to handle permissions
 
+from subjects.models import Subject
 from topics.models import Resource
 
 """
@@ -20,6 +21,10 @@ def has_subject_permissions(user, subject):
 
 	return False
 
+"""
+	Function to know if user has permission to:
+		- See subject
+"""
 def has_subject_view_permissions(user, subject):
 	if has_subject_permissions(user, subject):
 		return True
@@ -28,6 +33,14 @@ def has_subject_view_permissions(user, subject):
 		return True
 
 	return False
+
+"""
+	Function to know if user is student of some subject in category
+"""
+def has_category_permission(user, cat_slug):
+	exist = Subject.objects.filter(students__id = user.id, category__slug = cat_slug).exists()
+
+	return exist
 
 """
 	Function to know if user has permission to:

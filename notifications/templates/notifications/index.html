@@ -6,13 +6,18 @@
 {% block breadcrumbs %}
     {{ block.super }}
 
+    {% if category %}
+    	{% breadcrumb category 'subjects:cat_view' category.slug %}
+    {% endif %}
+
     {% breadcrumb 'Pendencies' 'notifications:manage' %}
+
 {% endblock %}
 
 {% block content %}
 	<input type="hidden" id="pend_url" value="{% url 'notifications:manage' %}" />
-
 	{% if notifications.count > 0 %}
+		<p>{% trans 'You got pendencies in the following subjects' %}: </p>
 		<div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
 			{% for notification in notifications %}
 				<div class="panel panel-info subject-panel">
