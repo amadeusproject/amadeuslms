@@ -12,6 +12,7 @@ from .models import YTVideo
 
 class YTVideoForm(forms.ModelForm):
 	subject = None
+	control_subject = forms.CharField(widget = forms.HiddenInput())
 	
 	def __init__(self, *args, **kwargs):
 		super(YTVideoForm, self).__init__(*args, **kwargs)
@@ -22,6 +23,8 @@ class YTVideoForm(forms.ModelForm):
 			self.subject = self.instance.topic.subject
 			self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
 		
+		self.initial['control_subject'] = self.subject.id
+
 		self.fields['students'].queryset = self.subject.students.all()
 		self.fields['groups'].queryset = self.subject.group_subject.all()
 

@@ -18,8 +18,10 @@
 
 	{% breadcrumb topic 'subjects:topic_view' topic.subject.slug topic.slug %}
 	
-	{% trans 'Create YouTube Video' as bread %}
-	{% breadcrumb bread 'youtube:create' topic.slug %}
+	{% trans 'Edit: ' as bread %}
+	{% with bread|add:youtube.name as bread_slug %}
+		{% breadcrumb bread_slug 'youtube:update' topic.slug youtube.slug %}
+	{% endwith %}
 {% endblock %}
 
 {% block content %}

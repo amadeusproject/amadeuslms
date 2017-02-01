@@ -20,7 +20,7 @@ class YTVideo(Resource):
 		return 'webpages:view'
 
 	def update_link(self):
-		return 'webpages:update'
+		return 'youtube:update'
 
 	def delete_link(self):
 		return 'webpages:delete'
