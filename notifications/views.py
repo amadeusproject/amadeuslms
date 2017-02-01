@@ -12,9 +12,10 @@ from dateutil import parser
 from datetime import datetime
 from django.utils import formats, timezone
 
-from amadeus.permissions import has_subject_view_permissions
+from amadeus.permissions import has_subject_view_permissions, has_category_permission
 
 from subjects.models import Subject
+from categories.models import Category
 
 from .models import Notification
 from .utils import get_order_by, is_date
@@ -42,6 +43,8 @@ class SubjectNotifications(LoginRequiredMixin, generic.ListView):
         subject = get_object_or_404(Subject, slug = slug)
 
         notifications = Notification.objects.filter(user = self.request.user, task__resource__topic__subject = subject, creation_date = datetime.now()).order_by("task__limit_date", "task__end_date")
+
+        notifications.update(viewed = True)
 
         self.total = notifications.count()
 
@@ -134,8 +137,22 @@ class IndexView(LoginRequiredMixin, generic.ListView):
     template_name = 'notifications/index.html'
     paginate_by = 10
 
+    def dispatch(self, request, *args, **kwargs):
+        cat = self.kwargs.get('slug', None)
+
+        if cat:
+            if not has_category_permission(request.user, cat):
+                return redirect(reverse_lazy('subjects:home'))
+
+        return super(IndexView, self).dispatch(request, *args, **kwargs)
+
     def get_queryset(self):
-        notifications = Notification.objects.filter(user = self.request.user, viewed = False, creation_date = datetime.now()).values('task__resource__topic__subject', 'task__resource__topic__subject__name').annotate(total = Count('task__resource__topic__subject'))
+        cat = self.kwargs.get('slug', None)
+
+        if cat:
+            notifications = Notification.objects.filter(user = self.request.user, creation_date = datetime.now(), task__resource__topic__subject__category__slug = cat).values('task__resource__topic__subject', 'task__resource__topic__subject__name').annotate(total = Count('task__resource__topic__subject'))
+        else:
+            notifications = Notification.objects.filter(user = self.request.user, creation_date = datetime.now()).values('task__resource__topic__subject', 'task__resource__topic__subject__name').annotate(total = Count('task__resource__topic__subject'))
 
         return notifications
 
@@ -143,7 +160,14 @@ class IndexView(LoginRequiredMixin, generic.ListView):
         context = super(IndexView, self).get_context_data(**kwargs)
 
         context['title'] = _('Pendencies')
-        context['pendencies_menu_active'] = "subjects_menu_active"
+
+        cat = self.kwargs.get('slug', None)
+
+        if cat:
+            context['category'] = get_object_or_404(Category, slug = cat)
+        else:
+            context['pendencies_menu_active'] = "subjects_menu_active"
+
 
         return context
 
@@ -158,6 +182,8 @@ class AjaxNotifications(LoginRequiredMixin, generic.ListView):
         subject_id = self.kwargs.get('id', '')
         
         notifications = Notification.objects.filter(user = self.request.user, task__resource__topic__subject__id = subject_id, creation_date = datetime.now()).order_by("task__limit_date", "task__end_date")
+
+        notifications.update(viewed = True)
 
         return notifications
 

@@ -81,7 +81,7 @@
                                             {% endif %}
                                             
                                             <a href="" class="pull-right action_icon"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
-                                            <a href="" class="pull-right action_icon">
+                                            <a href="{% url 'notifications:manage_cat' category.slug %}" class="pull-right action_icon">
                                                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                                                 {% notifies_cat_number category request.user %}
                                             </a>
