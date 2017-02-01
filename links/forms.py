@@ -50,19 +50,16 @@ class LinkForm(forms.ModelForm):
 		if cleaned_data.get('end_view'):
 			end_view = cleaned_data.get('end_view')
 			if end_view and not cleaned_data.get('end_view_date'):
-				print("here 1")
 				raise ValidationError(_('End View Date is not set'), code='invalid' )
 
 		if cleaned_data.get('initial_view'):
 			initial_view = cleaned_data.get('initial_view')
 			if initial_view and not cleaned_data.get('initial_view_date'):
-					print("here 2")
-					raise ValidationError(_('Initial View Date is not set'), code='invalid' )
+				raise ValidationError(_('Initial View Date is not set'), code='invalid' )
 		if cleaned_data.get('initial_view_date') and cleaned_data.get('end_view_date'):
 			end_view_date = cleaned_data.get('end_view_date')
 			initial_view_date = cleaned_data.get('initial_view_date')
 			if end_view_date < initial_view_date:
-				print("here 3")
 				raise ValidationError(_('End View Date before Initial View Date'), code='invalid' )
 
 		return cleaned_data
