@@ -426,10 +426,13 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.object.students.all().count() > 0:
+        if self.object.students.count() > 0:
             messages.error(self.request, _("Subject can't be removed. The subject still possess students and learning objects associated"))
-            
             return JsonResponse({'error':True,'url':reverse_lazy('subjects:index')})
+        for topic in self.object.topic_subject.all():
+            if topic.resource_topic.count() > 0:
+                messages.error(self.request, _("Subject can't be removed. The subject still possess students and learning objects associated"))
+                return JsonResponse({'error':True,'url':reverse_lazy('subjects:index')})
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
 
