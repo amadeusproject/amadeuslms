@@ -1,5 +1,6 @@
 from django import template
 from datetime import datetime
+from django.utils import timezone, formats
 from django.utils.translation import ugettext_lazy as _
 
 from notifications.utils import get_resource_users
@@ -88,3 +89,40 @@ def order_href(request, column):
 		params = '&%s' % getvars.urlencode()
 
 	return "?order_by=" + order_href + params
+
+@register.filter(name = 'order_ajax')
+def order_ajax(request, column):
+	getvars = request.GET.copy()
+	order_href = "-" + column
+	order = None
+	params = ""
+
+	if 'order_by' in getvars:
+		order = getvars['order_by']
+		del getvars['order_by']
+    
+	if not order:
+		if column == "creation_date":
+			order_href = "creation_date"
+	else:
+		if column in order:
+			if "-" in order:
+				order_href = column
+    
+	return order_href
+
+@register.filter(name = 'observation')
+def observation(notification):
+	msg = ''
+
+	if notification.level == 1:
+		if notification.meta:
+			msg = _('Goal defined to task realization: %s')%(formats.date_format(notification.meta, "SHORT_DATETIME_FORMAT"))
+	elif notification.level == 2:
+		if notification.meta:
+			if notification.meta < timezone.now():
+				msg = _('Goal defined to task realization: %s')%(formats.date_format(notification.meta, "SHORT_DATETIME_FORMAT"))
+			else:
+				msg = _('New goal defined to task realization: %s')%(formats.date_format(notification.meta, "SHORT_DATETIME_FORMAT"))
+
+	return msg

@@ -1,6 +1,7 @@
 from datetime import date
 from django.utils import timezone
 from django.db.models import Q
+from dateutil.parser import parse
 
 from log.models import Log
 from pendencies.models import Pendencies
@@ -63,7 +64,7 @@ def set_notifications():
 				notification.save()
 
 def get_order_by(order):
-	if not order:
+	if order is None or order == "":
 		return ["-creation_date"]
 
 	if "creation_date" in order:
@@ -96,3 +97,10 @@ def get_order_by(order):
 			return ["-meta"]
 		else:
 			return ["meta"]
+
+def is_date(string):
+    try: 
+        parse(string)
+        return True
+    except ValueError:
+        return False

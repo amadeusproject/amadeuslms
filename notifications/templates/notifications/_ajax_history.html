@@ -1,4 +1,4 @@
-{% load i18n notification_filters pagination %}
+{% load i18n notification_filters %}
 
 <div class="row">
 	<div class="col-md-12">
@@ -6,11 +6,12 @@
 			<h4 class="text-center history-header">{{ rows }} {% trans 'rows' %}</h4>
 		</div>
 		<div class="col-md-4">
-			<form action="" method="GET" class="form-horizontal">
+			<form action="" method="GET" class="form-horizontal form_search">
 				<div class="form-group">
 	                <label class="col-md-4 history-control-label control-label">{% trans 'Search' %}:</label>
 	                <div class="col-md-8">
 	                	<input type="text" class="form-control" name="search" value="{{ searched }}" placeholder="{% trans 'Insert date or resource' %}" />
+	                	<input type="hidden" name="order_by" value="{{ order_by }}" />
 	                </div>
 	            </div>
 	        </form>
@@ -18,37 +19,37 @@
 		<table class="table table-striped table-bordered">
 			<thead>
 				<th>
-					<a href="{{ request|order_href:'creation_date' }}">
+					<a href="javascript: orderBy({{ subject_id }}, '{{ request|order_ajax:'creation_date' }}')">
 						{% trans 'Date' %} <i class="fa fa-fw {{ request|order_icon_class:'creation_date' }} pull-right"></i>
 					</a>
 				</th>
 				<th>
-					<a href="{{ request|order_href:'resource' }}">
+					<a href="javascript: orderBy({{ subject_id }}, '{{ request|order_ajax:'resource' }}')">
 						{% trans 'Resource' %} <i class="fa fa-fw {{ request|order_icon_class:'resource' }} pull-right"></i>
 					</a>
 				</th>
 				<th>
-					<a href="{{ request|order_href:'task' }}">
+					<a href="javascript: orderBy({{ subject_id }}, '{{ request|order_ajax:'task' }}')">
 						{% trans 'Task' %} <i class="fa fa-fw {{ request|order_icon_class:'task' }} pull-right"></i>
 					</a>
 				</th>
 				<th>
-					<a href="{{ request|order_href:'final_date' }}">
+					<a href="javascript: orderBy({{ subject_id }}, '{{ request|order_ajax:'final_date' }}')">
 						{% trans 'Final Date' %} <i class="fa fa-fw {{ request|order_icon_class:'final_date' }} pull-right"></i>
 					</a>
 				</th>
 				<th>
-					<a href="{{ request|order_href:'notification' }}">
+					<a href="javascript: orderBy({{ subject_id }}, '{{ request|order_ajax:'notification' }}')">
 						{% trans 'Notification' %} <i class="fa fa-fw {{ request|order_icon_class:'notification' }} pull-right"></i>
 					</a>
 				</th>
 				<th>
-					<a href="{{ request|order_href:'obs' }}">
+					<a href="javascript: orderBy({{ subject_id }}, '{{ request|order_ajax:'obs' }}'')">
 						{% trans 'Observation' %} <i class="fa fa-fw {{ request|order_icon_class:'obs' }} pull-right"></i>
 					</a>
 				</th>
 			</thead>
-			<tbody>
+			<tbody id="history_table_{{ subject_id }}">
 				{% if rows > 0 %}
 					{% for notification in notifications %}
 						<tr>
@@ -67,7 +68,5 @@
 				{% endif %}
 			</tbody>
 		</table>
-
-		{% pagination request paginator page_obj %}
 	</div>
 </div>

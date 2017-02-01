@@ -29,15 +29,13 @@
             <div id="core-subjects-options-div">
 		        <ul class="core-subjects-options">
 	                <a href="{% url 'notifications:view' subject.slug %}"><li {% if not history %} class="active" {% endif %}>{% trans "Actual Pendencies" %} ({{ total }})</li></a>
-	                <a href="{% url 'notifications:history' subject.slug %}" ><li {% if history %} class="active" {% endif %}>{% trans "Notifications History" %}</li></a>
+	                <a href="{% url 'notifications:history' subject.slug %}"><li {% if history %} class="active" {% endif %}>{% trans "Notifications History" %}</li></a>
 		        </ul>
 		    </div>
 
 		    {% if not history %}
 			    {% if notifications.count > 0 %}
-			    	{% for notification in notifications %}
-			    		{% include 'notifications/_view.html' %}
-			    	{% endfor %}
+			    	{% include 'notifications/_view.html' %}
 
 			    	{% pagination request paginator page_obj %}
 			    {% else %}
@@ -51,4 +49,11 @@
 			{% endif %}
         </div>
     </div>
+	
+	<script type="text/javascript" src="{% static 'js/pendencies.js' %}"></script>
+	<script type="text/javascript">
+		$(function () {
+			metaFunctions();
+		});
+	</script>
 {% endblock %}

@@ -1,0 +1,296 @@
+$('.pendencies-content').on('show.bs.collapse', function(e) {
+    if($(this).is(e.target)){
+        var panel_id = $(this).data('id'),
+        	pendencies = $(this).find('.pendencies'),
+        	history = $(this).find('.history'),
+        	btn = $(this).parent().find('.fa-angle-right');
+
+        btn = btn[0];
+        
+        $(btn).switchClass("fa-angle-right", "fa-angle-down", 250, "easeInOutQuad");
+
+        getPendencies(panel_id);
+    }
+});
+
+$('.pendencies-content').on('hidden.bs.collapse', function(e) {
+	if($(this).is(e.target)){
+        var btn = $(this).parent().find('.fa-angle-down');
+        
+        btn = btn[0];
+        
+        $(btn).switchClass("fa-angle-down", "fa-angle-right", 250, "easeInOutQuad");
+    }
+});
+
+$('.pendencies-content').on('hidden.bs.collapse', function(e) {
+    if($(this).is(e.target)){
+    	var panel_id = $(this).data('id'),
+        	pendencies = $(this).find('.pendencies'),
+        	history = $(this).find('.history'),
+        	p_holder = pendencies.find('.holder'),
+        	h_holder = history.find('.holder');
+
+        
+        var p_items = pendencies.find('.pendencies-cards').children(":visible").length;
+
+        if (p_items > 10) {
+            p_holder.jPages("destroy");
+        }
+
+        var h_items = history.find("#history_table_" + panel_id).children(":visible").length;
+
+        if (h_items > 10) {
+        	h_holder.jPages("destroy");
+        }
+    }
+});
+
+function getPendencies(panel_id) {
+	var list = $("#pendencies_list_" + panel_id),
+		holder = list.parent().find('.holder');
+
+	if (list.children().length == 0) {
+		var url = list.parent().data('url');
+
+		$.ajax({
+            url: url,
+            success: function (data) {
+                list.html(data);
+
+                var items = list.children(":visible").length;
+
+                if (items > 10) {
+                    holder.jPages({
+                        containerID : "pendencies_list_" + panel_id,
+                        perPage: 10,
+                        previous: "«",
+                        next: "»",
+                        midRange: 5
+                    });
+                }
+
+                metaFunctions();
+            }
+        });
+	} else {
+		var items = list.children(":visible").length;
+
+        if (items > 10) {
+            holder.jPages({
+                containerID : "pendencies_list_" + panel_id,
+                perPage: 10,
+                previous: "«",
+                next: "»",
+                midRange: 5
+            });
+        }
+
+        metaFunctions();
+	}
+
+	list.parent().parent().find('.history').attr('style', 'display: none');
+	list.parent().attr('style', 'display: block');
+
+	list.parent().parent().find('.pendencies_link').addClass('active');
+	list.parent().parent().find('.history_link').removeClass('active');
+}
+
+function getHistory(panel_id) {
+	var container = $("#subject_" + panel_id),
+		list = container.find('.history_data'),
+		holder = container.find('.holder');
+
+	if (list.children().length == 0) {
+		var url = list.parent().data('url');
+
+		$.ajax({
+            url: url,
+            success: function (data) {
+                list.html(data);
+
+                var form = list.find('.form_search');
+
+                form.submit(function () {
+                	searchHistory(panel_id);
+
+                	return false;
+                });
+
+                var items = $("#history_table_" + panel_id).children(":visible").length;
+
+                if (items > 10) {
+                    holder.jPages({
+                        containerID : "history_table_" + panel_id,
+                        perPage: 10,
+                        previous: "«",
+                        next: "»",
+                        midRange: 5
+                    });
+                }
+            }
+        });
+	} else {
+		var items = $("#history_table_" + panel_id).children(":visible").length;
+
+        if (items > 10) {
+            holder.jPages({
+                containerID : "history_table_" + panel_id,
+                perPage: 10,
+                previous: "«",
+                next: "»",
+                midRange: 5
+            });
+        }
+	}
+
+	container.find('.pendencies_link').removeClass('active');
+	container.find('.history_link').addClass('active');
+
+	container.find('.history').attr('style', 'display: block');
+	container.find('.pendencies').attr('style', 'display: none');
+}
+
+function searchHistory(panel_id) {
+	var container = $("#subject_" + panel_id),
+		url = container.find('.history').data('url'),
+		list = container.find('.history_data'),
+		form = container.find('.form_search'),
+		holder = container.find('.holder');
+
+	$.ajax({
+        url: url,
+        data: form.serialize(),
+        success: function (data) {
+            list.html(data);
+
+            var form = list.find('.form_search');
+
+            form.submit(function () {
+            	searchHistory(panel_id);
+
+            	return false;
+            });
+
+            var items = $("#history_table_" + panel_id).children(":visible").length;
+
+            if (items > 10) {
+                holder.jPages({
+                    containerID : "history_table_" + panel_id,
+                    perPage: 10,
+                    previous: "«",
+                    next: "»",
+                    midRange: 5
+                });
+            }
+        }
+    });
+}
+
+function orderBy(panel_id, order) {
+	var container = $("#subject_" + panel_id),
+		url = container.find('.history').data('url'),
+		list = container.find('.history_data'),
+		search = container.find('input[name="search"]').val(),
+		holder = container.find('.holder');
+
+	$.ajax({
+        url: url,
+        data: {'order_by': order, 'search': search},
+        success: function (data) {
+            list.html(data);
+
+            var form = list.find('.form_search');
+
+            form.submit(function () {
+            	searchHistory(panel_id);
+
+            	return false;
+            });
+
+            var items = $("#history_table_" + panel_id).children(":visible").length;
+
+            if (items > 10) {
+                holder.jPages({
+                    containerID : "history_table_" + panel_id,
+                    perPage: 10,
+                    previous: "«",
+                    next: "»",
+                    midRange: 5
+                });
+            }
+        }
+    });
+}
+
+function metaFunctions() {
+	var locale = navigator.language || navigator.userLanguage;
+
+    $('[data-toggle="popover"]').popover({
+    	html: true,
+        content: function () {
+            return $(".popover").html();
+        }
+	}).on('show.bs.popover', function (e) {
+		$('[data-toggle="popover"]').not(e.target).popover('hide');
+	}).on('shown.bs.popover', function (e) {
+		if($(this).is(e.target)){
+			var popover = $(this),
+				datetime = popover.parent().find('.datetimepicker'),
+				form = popover.parent().find('form:visible'),
+				cancel = popover.parent().find('.cancel:visible'),
+				save = popover.parent().find('.save:visible');
+
+			if (typeof(datetime.data("DateTimePicker")) != "undefined") {
+				datetime.data("DateTimePicker").destroy();
+			}
+		    
+		    datetime.datetimepicker({
+		    	format: "YYYY-MM-DD HH:mm",
+		    	locale: locale,
+		        inline: true,
+		        sideBySide: false
+		    });
+
+		    cancel.on("click", function () {
+		    	popover.popover('hide');
+		    });	
+
+		    save.on("click", function () {
+		    	var meta = datetime.data('date'),
+		    		url = form.attr('action'),
+		    		method = form.attr('method'),
+		    		token = form.find('input[name="csrfmiddlewaretoken"]').val(),
+		    		notification = form.find('input[name="id"]').val();
+		    					    	
+		    	$.ajax({
+		    		url: url,
+		    		method: method,
+		    		data: {'csrfmiddlewaretoken': token, 'meta': meta, 'id': notification},
+		    		dataType: 'json',
+		    		success: function (response) {
+		    			if (response.error) {
+		    				alertify.error(response.message);
+		    			} else {
+		    				alertify.success(response.message);
+		    				popover.popover('hide');
+		    			}
+		    		}
+		    	});
+		    });
+		}
+	}).on('hide.bs.popover', function (e) {
+		if($(this).is(e.target)){
+			var popover = $(this),
+				datetime = popover.parent().find('.datetimepicker');
+
+			if (typeof(datetime.data("DateTimePicker")) != "undefined") {
+				datetime.data("DateTimePicker").destroy();
+			}
+
+			datetime.html('');
+		}
+	}).on('hidden.bs.popover', function (e) {
+	    $(e.target).data("bs.popover").inState.click = false;
+	});
+}
