@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-24 23:42-0300\n"
+"POT-Creation-Date: 2017-02-01 15:48-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,7 +54,7 @@ msgstr "Última Atualização"
 msgid "Students Group"
 msgstr "Grupo de Estudo"
 
-#: students_group/models.py:19 students_group/views.py:46
+#: students_group/models.py:19 students_group/views.py:48
 msgid "Students Groups"
 msgstr "Grupos de Estudo"
 
@@ -71,7 +71,7 @@ msgid "Replicate: "
 msgstr "Replicar: "
 
 #: students_group/templates/groups/create.html:15
-#: students_group/templates/groups/index.html:31 students_group/views.py:98
+#: students_group/templates/groups/index.html:31 students_group/views.py:123
 msgid "Create Group"
 msgstr "Criar Grupo"
 
@@ -119,25 +119,25 @@ msgstr "Participante(s)"
 msgid "Update: "
 msgstr "Editar: "
 
-#: students_group/views.py:108
+#: students_group/views.py:133
 msgid "Replicate Group"
 msgstr "Replicar Grupo"
 
-#: students_group/views.py:115
+#: students_group/views.py:140
 #, python-format
 msgid "The group \"%s\" was created successfully!"
 msgstr "O grupo \"%s\" foi criado com sucesso!"
 
-#: students_group/views.py:140
+#: students_group/views.py:170
 msgid "Update Group"
 msgstr "Atualizar Grupo"
 
-#: students_group/views.py:150
+#: students_group/views.py:180
 #, python-format
 msgid "The group \"%s\" was updated successfully!"
 msgstr "O grupo \"%s\" foi atualizado com sucesso!"
 
-#: students_group/views.py:172
+#: students_group/views.py:219
 #, python-format
 msgid "The group \"%s\" was removed successfully!"
 msgstr "O grupo \"%s\" foi removido com sucesso!"

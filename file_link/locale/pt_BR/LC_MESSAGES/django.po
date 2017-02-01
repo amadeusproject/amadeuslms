@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-24 23:42-0300\n"
+"POT-Creation-Date: 2017-02-01 15:48-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr "Esse assunto já possui um Link para Arquivo com esse nome"
 msgid "The file is too large. It should have less than 10MB."
 msgstr "Esse arquivo é muito grande. Ele deve conter menos de 10MB."
 
-#: file_link/forms.py:70
+#: file_link/forms.py:69
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
@@ -94,7 +94,7 @@ msgstr "Atribuir grupos de estudo ao Link para Arquivo"
 msgid "Save"
 msgstr "Salvar"
 
-#: file_link/templates/file_links/create.html:20 file_link/views.py:135
+#: file_link/templates/file_links/create.html:20 file_link/views.py:177
 msgid "Create File Link"
 msgstr "Criar Link para Arquivo"
 
@@ -114,30 +114,34 @@ msgstr "Remover"
 msgid "Edit: "
 msgstr "Editar: "
 
-#: file_link/views.py:77 file_link/views.py:90 file_link/views.py:180
-#: file_link/views.py:182 file_link/views.py:198 file_link/views.py:200
+#: file_link/views.py:104 file_link/views.py:117 file_link/views.py:227
+#: file_link/views.py:229 file_link/views.py:245 file_link/views.py:247
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: file_link/views.py:146
+#: file_link/views.py:188
 #, python-format
 msgid ""
 "The File Link \"%s\" was added to the Topic \"%s\" of the virtual "
 "environment \"%s\" successfully!"
-msgstr "O Link para Arquivo \"%s\" foi adicionado ao tópico \"%s\" do ambiente virtual \"%s\" com sucesso!"
+msgstr ""
+"O Link para Arquivo \"%s\" foi adicionado ao tópico \"%s\" do ambiente "
+"virtual \"%s\" com sucesso!"
 
-#: file_link/views.py:229
+#: file_link/views.py:291
 msgid "Update File Link"
 msgstr "Atualizar Link para Arquivo"
 
-#: file_link/views.py:240
+#: file_link/views.py:302
 #, python-format
 msgid "The File Link \"%s\" was updated successfully!"
 msgstr "O Link para Arquivo \"%s\" foi atualizado com sucesso!"
 
-#: file_link/views.py:262
+#: file_link/views.py:329
 #, python-format
 msgid ""
 "The File Link \"%s\" was removed successfully from virtual environment \"%s"
 "\"!"
-msgstr "O Link para Arquivo \"%s\" foi removido do ambiente virtual \"%s\" com sucesso!"
+msgstr ""
+"O Link para Arquivo \"%s\" foi removido do ambiente virtual \"%s\" com "
+"sucesso!"

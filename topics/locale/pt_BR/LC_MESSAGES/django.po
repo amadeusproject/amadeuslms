@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-24 23:42-0300\n"
+"POT-Creation-Date: 2017-02-01 15:48-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,7 +118,7 @@ msgstr "Apenas um tópico por asssunto pode ser um repositório"
 msgid "Save"
 msgstr "Salvar"
 
-#: topics/templates/topics/create.html:8 topics/views.py:59
+#: topics/templates/topics/create.html:8 topics/views.py:81
 msgid "Create Topic"
 msgstr "Criar Tópico"
 
@@ -138,51 +138,55 @@ msgstr "Fechar"
 msgid "Delete"
 msgstr "Deletar"
 
-#: topics/templates/topics/list.html:49
+#: topics/templates/topics/list.html:52
 msgid "Add Resource"
 msgstr "Adicionar Recurso"
 
-#: topics/templates/topics/list.html:52
+#: topics/templates/topics/list.html:55
 msgid "Video Embed"
 msgstr "Embed de Vídeo"
 
-#: topics/templates/topics/list.html:53
+#: topics/templates/topics/list.html:56
 msgid "Forum"
 msgstr "Fórum"
 
-#: topics/templates/topics/list.html:54
+#: topics/templates/topics/list.html:57
 msgid "File Link"
 msgstr "Link para arquivo"
 
-#: topics/templates/topics/list.html:55
+#: topics/templates/topics/list.html:58
+msgid "Link to Website"
+msgstr ""
+
+#: topics/templates/topics/list.html:59
 msgid "Webpage"
 msgstr "Página Web"
 
-#: topics/templates/topics/list.html:56
+#: topics/templates/topics/list.html:60
 msgid "Questionary"
 msgstr "Questionário"
 
-#: topics/templates/topics/update.html:8 topics/views.py:103
+#: topics/templates/topics/update.html:8 topics/views.py:130
 msgid "Update Topic"
 msgstr "Atualizar Tópico"
 
-#: topics/views.py:69
+#: topics/views.py:91
 #, python-format
 msgid "Topic \"%s\" was created on virtual enviroment \"%s\" successfully!"
 msgstr "Tópico \"%s\" foi criado no ambiente virtual \"%s\" com sucesso!"
 
-#: topics/views.py:113
+#: topics/views.py:140
 #, python-format
 msgid "Topic \"%s\" was updated on virtual enviroment \"%s\" successfully!"
 msgstr "Tópico \"%s\" foi atualizado no ambiente virtual \"%s\" com sucesso!"
 
-#: topics/views.py:138
+#: topics/views.py:182
 msgid "Could not remove this topic. It has on or more resources attached."
 msgstr ""
 "Não é possível remover esse tópico. Ele possui um ou mais recursos "
 "vinculados."
 
-#: topics/views.py:147
+#: topics/views.py:191
 #, python-format
 msgid "Topic \"%s\" was removed from virtual enviroment \"%s\" successfully!"
 msgstr "Tópico \"%s\" foi removido do ambiente virtual \"%s\" com sucesso!"

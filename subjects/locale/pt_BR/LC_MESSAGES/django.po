@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-24 23:42-0300\n"
+"POT-Creation-Date: 2017-02-01 15:48-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: subjects/forms.py:14
+#: subjects/forms.py:14 subjects/forms.py:129
 msgid "Tags"
 msgstr "Tags"
 
-#: subjects/forms.py:82
+#: subjects/forms.py:82 subjects/forms.py:187
 msgid "There is another subject with this name, try another one."
-msgstr ""
+msgstr "Já existe um assunto com esse nome, tente outro."
 
 #: subjects/forms.py:91 subjects/forms.py:100 subjects/forms.py:108
 #: subjects/forms.py:116
@@ -120,8 +120,7 @@ msgid "Meus Assuntos"
 msgstr "Meus Assuntos"
 
 #: subjects/templates/subjects/initial.html:57
-#: subjects/templates/subjects/list.html:186
-#: subjects/templates/subjects/list_search.html:59
+#: subjects/templates/subjects/list.html:194
 msgid "You still do not posses any subject in our platform"
 msgstr "Você ainda não possui assuntos em nossa plataforma"
 
@@ -136,90 +135,95 @@ msgid "All subjects"
 msgstr "Todos os assuntos"
 
 #: subjects/templates/subjects/list.html:75
-#: subjects/templates/subjects/list.html:140
+#: subjects/templates/subjects/list.html:144
 #: subjects/templates/subjects/subject_card.html:29
 #: subjects/templates/subjects/view.html:51
 msgid "Replicate"
 msgstr "Replicar"
 
 #: subjects/templates/subjects/list.html:77
-#: subjects/templates/subjects/list.html:142
+#: subjects/templates/subjects/list.html:146
 #: subjects/templates/subjects/subject_card.html:31
 #: subjects/templates/subjects/view.html:53
 msgid "Edit"
 msgstr "Editar"
 
 #: subjects/templates/subjects/list.html:79
-#: subjects/templates/subjects/list.html:143
+#: subjects/templates/subjects/list.html:147
 #: subjects/templates/subjects/subject_card.html:33
 #: subjects/templates/subjects/view.html:55
 msgid "Remove"
 msgstr "Remover"
 
-#: subjects/templates/subjects/list.html:97
-#: subjects/templates/subjects/list.html:161
+#: subjects/templates/subjects/list.html:101
+#: subjects/templates/subjects/list.html:169
 msgid "Coordinator(s) "
 msgstr "Coordenador(es) "
 
-#: subjects/templates/subjects/list.html:101
-#: subjects/templates/subjects/list.html:165
+#: subjects/templates/subjects/list.html:105
+#: subjects/templates/subjects/list.html:173
 msgid "It doesn't possess coordinators"
 msgstr "Não possui coordenadores"
 
-#: subjects/templates/subjects/list.html:107
-#: subjects/templates/subjects/list.html:171
+#: subjects/templates/subjects/list.html:111
+#: subjects/templates/subjects/list.html:179
 msgid "Create new subject"
 msgstr "Criar novo assunto"
 
+#: subjects/templates/subjects/list_search.html:31
 #: subjects/templates/subjects/list_search.html:33
-#: subjects/templates/subjects/list_search.html:36 subjects/views.py:527
-#: subjects/views.py:534
-#, fuzzy
-#| msgid "My Subjects"
-msgid "Subjects"
-msgstr "Meus assuntos"
-
-#: subjects/templates/subjects/list_search.html:34
-#: subjects/templates/subjects/list_search.html:37
-msgid "Resources"
-msgstr ""
-
-#: subjects/templates/subjects/list_search.html:43
 msgid "Search results"
-msgstr ""
+msgstr "Resultados da busca"
+
+#: subjects/templates/subjects/list_search.html:33
+msgid " any subjects or resources were found on the search for "
+msgstr " quaisquer assuntos ou recursos foram encontrados na busca por "
+
+#: subjects/templates/subjects/list_search.html:38
+#: subjects/templates/subjects/list_search.html:41 subjects/views.py:617
+#: subjects/views.py:624
+msgid "Subjects"
+msgstr "Assuntos"
+
+#: subjects/templates/subjects/list_search.html:39
+#: subjects/templates/subjects/list_search.html:42
+msgid "Resources"
+msgstr "Recursos"
 
 #: subjects/templates/subjects/subject_card.html:32
 #: subjects/templates/subjects/view.html:54
 msgid "Groups"
 msgstr "Grupos"
 
-#: subjects/templates/subjects/subject_card.html:48
+#: subjects/templates/subjects/subject_card.html:57
 msgid "Professor(s) "
 msgstr "Professor(es) "
 
-#: subjects/templates/subjects/subject_card.html:52
+#: subjects/templates/subjects/subject_card.html:61
 msgid "It doesn't possess professors"
 msgstr "Não possui professores"
 
-#: subjects/templates/subjects/subject_card.html:56
+#: subjects/templates/subjects/subject_card.html:65
 msgid "Beginning"
 msgstr "Início"
 
-#: subjects/templates/subjects/subject_card.html:59
+#: subjects/templates/subjects/subject_card.html:68
 msgid "End"
 msgstr "Fim"
 
-#: subjects/templates/subjects/subject_card.html:69
+#: subjects/templates/subjects/subject_card.html:78
 msgid "Access Subject"
 msgstr "Acessar Assunto"
 
-#: subjects/templates/subjects/subject_card.html:71
+#: subjects/templates/subjects/subject_card.html:80
 msgid "Subscribe to Subject"
 msgstr "Inscrever-se no Assunto"
 
+#: subjects/templates/subjects/subject_card.html:83
+msgid "This subject doesn't allow new subscriptions"
+msgstr "Esse assunto não permite novas inscrições"
+
 #: subjects/templates/subjects/subscribe.html:10
-#, fuzzy
-#| msgid "Subscribe to Subject"
 msgid "Subscribe To Subject"
 msgstr "Inscrever-se no Assunto"
 
@@ -239,7 +243,7 @@ msgstr "Ok"
 msgid "Update: "
 msgstr "Editar: "
 
-#: subjects/templates/subjects/view.html:70
+#: subjects/templates/subjects/view.html:73
 msgid "Create new topic"
 msgstr "Criar novo tópico"
 
@@ -265,29 +269,27 @@ msgstr "Meus assuntos"
 msgid "All Subjects"
 msgstr "Todos os assuntos"
 
-#: subjects/views.py:282
+#: subjects/views.py:294
 msgid "Create Subject"
 msgstr "Criar Assunto"
 
-#: subjects/views.py:288
+#: subjects/views.py:300
 msgid "Replicate Subject"
 msgstr "Replicar Assunto"
 
-#: subjects/views.py:319
-#, python-format
-msgid "Subject \"%s\" was registered on \"%s\" successfully!"
-msgstr "Assunto \"%s\" foi registrado em \"%s\" com sucesso!"
+#: subjects/views.py:342
+msgid "The Subject \"%s\" was registered on \"%s\" Category successfully!"
+msgstr "Assunto \"%s\" foi registrado na categoria \"%s\" com sucesso!"
 
-#: subjects/views.py:351
+#: subjects/views.py:379
 msgid "Update Subject"
 msgstr "Atualizar Assunto"
 
-#: subjects/views.py:362
-#, python-format
-msgid "Subject \"%s\" was updated on \"%s\" successfully!"
-msgstr "Assunto \"%s\" foi atualizado em \"%s\" com sucesso!"
+#: subjects/views.py:399
+msgid "The Subject \"%s\" was updated on \"%s\" Category successfully!"
+msgstr "Assunto \"%s\" foi atualizado na categoria \"%s\" com sucesso!"
 
-#: subjects/views.py:389
+#: subjects/views.py:430
 msgid ""
 "Subject can't be removed. The subject still possess students and learning "
 "objects associated"
@@ -295,25 +297,14 @@ msgstr ""
 "Assunto não pode ser removido. Ele ainda possui alunos e objetos de "
 "aprendizado associados"
 
-#: subjects/views.py:411
-#, fuzzy, python-format
-#| msgid "Subject removed successfully!"
+#: subjects/views.py:459
 msgid "Subject \"%s\" removed successfully!"
-msgstr "Assunto removido com sucesso!"
+msgstr "Assunto \"%s\" removido com sucesso!"
 
-#: subjects/views.py:475
+#: subjects/views.py:547
 msgid "Subscription date is due!"
 msgstr "O período de inscrição está encerrado!"
 
-#: subjects/views.py:479
+#: subjects/views.py:560
 msgid "Subscription was successfull!"
 msgstr "Inscrição feita com sucesso!"
-
-#~ msgid "ACESS SUBJECT"
-#~ msgstr "Acessar assunto"
-
-#~ msgid "SUBSCRIBE TO SUBJECT"
-#~ msgstr "Inscrever-se no assunto"
-
-#~ msgid "Delete Subject"
-#~ msgstr "Deletar Assunto"

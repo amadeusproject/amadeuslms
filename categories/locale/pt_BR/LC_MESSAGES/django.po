@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-24 23:42-0300\n"
+"POT-Creation-Date: 2017-02-01 15:48-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,7 +118,7 @@ msgstr "Deletar"
 msgid "categories"
 msgstr "Categorias"
 
-#: categories/templates/categories/list.html:31 categories/views.py:105
+#: categories/templates/categories/list.html:31 categories/views.py:106
 msgid "Create Category"
 msgstr "Criar Categoria"
 
@@ -152,16 +152,16 @@ msgstr "atras"
 msgid "Update: "
 msgstr "Editar: "
 
-#: categories/views.py:103
+#: categories/views.py:104
 msgid "Replicate Category"
 msgstr "Replicar Categoria"
 
-#: categories/views.py:130
+#: categories/views.py:131
 #, python-format
 msgid "Category \"%s\" register successfully!"
 msgstr "Categoria \"%s\" foi registrada com sucesso!"
 
-#: categories/views.py:166
+#: categories/views.py:167
 msgid ""
 "The category cannot be removed, it contains one or more virtual enviroments "
 "attach."
@@ -169,16 +169,16 @@ msgstr ""
 "A categoria não pode ser removida, ela contém um ou mais ambientes virtuais "
 "vinculados."
 
-#: categories/views.py:179
+#: categories/views.py:180
 #, python-format
 msgid "Category \"%s\" removed successfully!"
 msgstr "Categoria \"%s\" removida com sucesso!"
 
-#: categories/views.py:207
+#: categories/views.py:208
 #, python-format
 msgid "Category \"%s\" updated successfully!"
 msgstr "Categoria \"%s\" atualizada com sucesso!"
 
-#: categories/views.py:224
+#: categories/views.py:225
 msgid "Update Category"
 msgstr "Atualizar Categoria"
