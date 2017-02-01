@@ -26,17 +26,47 @@ class LinkForm(forms.ModelForm):
 
 	tags = forms.CharField(label = _('Tags'), required = False)
 	link_url = forms.URLField(label = _('Website URL'),required=True)
+	initial_view_date = forms.DateField(input_formats=['%Y/%m/%d', '%d/%m/%Y', '%m/%d/%Y'])
+	end_view_date = forms.DateField(input_formats=['%Y/%m/%d', '%d/%m/%Y', '%m/%d/%Y'])
+
 	class Meta:
 		model = Link
 		fields = ['name','link_url', 'initial_view','initial_view_date', 'end_view','end_view_date', 'brief_description', 'all_students', 'students', 'groups', 'visible']
 		labels = {
 			'name': _('Link name'),
+			'end_view' : _('End View'),
+			'end_view_date': _('End View Date')
 		}
 		widgets = {
 			'brief_description': forms.Textarea,
 			'students': forms.SelectMultiple,
 			'groups': forms.SelectMultiple,
 		}
+
+	def clean(self):
+
+		cleaned_data = self.cleaned_data
+
+		if cleaned_data.get('end_view'):
+			end_view = cleaned_data.get('end_view')
+			if end_view:
+				if cleaned_data.get('end_view_date'):
+					end_view_date = cleaned_data.get('end_view_date')
+					print(end_view_date)
+					if not end_view_date:
+						raise ValidationError(_('End View Date is not set'), code='invalid' )
+
+		if cleaned_data.get('initial_view'):
+			initial_view = cleaned_data.get('initial_view')
+			if initial_view:
+				if cleaned_data.get('initial_view_date'):
+					initial_view_date = cleaned_data.get('initial_view_date')
+					print(initial_view_date)
+					if not initial_view_date:
+						raise ValidationError(_('Initial View Date is not set'), code='invalid' )
+
+		return cleaned_data
+	
 
 	def clean_name(self):
 		name = self.cleaned_data.get('name', '')
@@ -50,11 +80,12 @@ class LinkForm(forms.ModelForm):
 				same_name = topic.resource_topic.filter(name__unaccent__iexact = name).count()
 		
 			if same_name > 0:
-				self._errors['name'] = [_('This subject already has a link with this name')]
+				self._errors['name'] = [_('There is already a link with this name on this subject')]
 
 				return ValueError
 
 		return name
+
 
 	
 

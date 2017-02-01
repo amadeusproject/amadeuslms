@@ -12,6 +12,7 @@ from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
 from log.models import Log
 
+from django.contrib import messages
 from pendencies.forms import PendenciesForm
 
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
