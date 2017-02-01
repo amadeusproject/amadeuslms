@@ -20,119 +20,249 @@ from amadeus.permissions import has_subject_permissions, has_resource_permission
 from topics.models import Topic
 # Create your views here.
 class CreateLinkView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
-	log_component = 'resources'
-	log_action = 'create'
-	log_resource = 'file_link'
-	log_context = {}
+    log_component = 'resources'
+    log_action = 'create'
+    log_resource = 'file_link'
+    log_context = {}
 
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
 
-	template_name = 'links/create.html'
-	form_class = LinkForm
+    template_name = 'links/create.html'
+    form_class = LinkForm
 
-	def dispatch(self, request, *args, **kwargs):
-		slug = self.kwargs.get('slug', '')
-		topic = get_object_or_404(Topic, slug = slug)
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
 
-		if not has_subject_permissions(request.user, topic.subject):
-			return redirect(reverse_lazy('subjects:home'))
+        if not has_subject_permissions(request.user, topic.subject):
+            return redirect(reverse_lazy('subjects:home'))
 
-		return super(CreateLinkView, self).dispatch(request, *args, **kwargs)
+        return super(CreateLinkView, self).dispatch(request, *args, **kwargs)
 
-	def get(self, request, *args, **kwargs):
-		self.object = None
-		
-		form_class = self.get_form_class()
-		form = self.get_form(form_class)
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
 
-		slug = self.kwargs.get('slug', '')
-		topic = get_object_or_404(Topic, slug = slug)
+        slug = self.kwargs.get('slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
 
-		pendencies_form = PendenciesForm(initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+        pendencies_form = PendenciesForm(initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
 
-		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
+        return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
-	def post(self, request, *args, **kwargs):
-		self.object = None
-		
-		form_class = self.get_form_class()
-		form = self.get_form(form_class)
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
 
-		slug = self.kwargs.get('slug', '')
-		topic = get_object_or_404(Topic, slug = slug)
+        slug = self.kwargs.get('slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
 
-		pendencies_form = PendenciesForm(self.request.POST, initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
-		
-		if (form.is_valid() and pendencies_form.is_valid()):
-			return self.form_valid(form, pendencies_form)
-		else:
-			return self.form_invalid(form, pendencies_form)
+        pendencies_form = PendenciesForm(self.request.POST, initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+        
+        if (form.is_valid() and pendencies_form.is_valid()):
+            return self.form_valid(form, pendencies_form)
+        else:
+            return self.form_invalid(form, pendencies_form)
 
-	def get_initial(self):
-		initial = super(CreateLinkView, self).get_initial()
+    def get_initial(self):
+        initial = super(CreateLinkView, self).get_initial()
 
-		slug = self.kwargs.get('slug', '')
+        slug = self.kwargs.get('slug', '')
 
-		topic = get_object_or_404(Topic, slug = slug)
-		initial['subject'] = topic.subject
-		
-		return initial
+        topic = get_object_or_404(Topic, slug = slug)
+        initial['subject'] = topic.subject
+        
+        return initial
 
-	def form_invalid(self, form, pendencies_form):
-		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
+    def form_invalid(self, form, pendencies_form):
+        return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
-	def form_valid(self, form, pendencies_form):
-		self.object = form.save(commit = False)
+    def form_valid(self, form, pendencies_form):
+        self.object = form.save(commit = False)
 
-		slug = self.kwargs.get('slug', '')
-		topic = get_object_or_404(Topic, slug = slug)
+        slug = self.kwargs.get('slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
 
-		self.object.topic = topic
-		self.object.order = topic.resource_topic.count() + 1
+        self.object.topic = topic
+        self.object.order = topic.resource_topic.count() + 1
 
-		if not self.object.topic.visible and not self.object.topic.repository:
-			self.object.visible = False
+        if not self.object.topic.visible and not self.object.topic.repository:
+            self.object.visible = False
 
-		self.object.save()
+        self.object.save()
 
-		pend_form = pendencies_form.save(commit = False)
-		pend_form.resource = self.object
-		
-		if not pend_form.action == "":
-			pend_form.save() 
-		
-		self.log_context['category_id'] = self.object.topic.subject.category.id
-		self.log_context['category_name'] = self.object.topic.subject.category.name
-		self.log_context['category_slug'] = self.object.topic.subject.category.slug
-		self.log_context['subject_id'] = self.object.topic.subject.id
-		self.log_context['subject_name'] = self.object.topic.subject.name
-		self.log_context['subject_slug'] = self.object.topic.subject.slug
-		self.log_context['topic_id'] = self.object.topic.id
-		self.log_context['topic_name'] = self.object.topic.name
-		self.log_context['topic_slug'] = self.object.topic.slug
-		self.log_context['link_id'] = self.object.id
-		self.log_context['link_name'] = self.object.name
-		self.log_context['link_slug'] = self.object.slug
+        pend_form = pendencies_form.save(commit = False)
+        pend_form.resource = self.object
+        
+        if not pend_form.action == "":
+            pend_form.save() 
+        
+        self.log_context['category_id'] = self.object.topic.subject.category.id
+        self.log_context['category_name'] = self.object.topic.subject.category.name
+        self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        self.log_context['subject_id'] = self.object.topic.subject.id
+        self.log_context['subject_name'] = self.object.topic.subject.name
+        self.log_context['subject_slug'] = self.object.topic.subject.slug
+        self.log_context['topic_id'] = self.object.topic.id
+        self.log_context['topic_name'] = self.object.topic.name
+        self.log_context['topic_slug'] = self.object.topic.slug
+        self.log_context['link_id'] = self.object.id
+        self.log_context['link_name'] = self.object.name
+        self.log_context['link_slug'] = self.object.slug
 
-		super(CreateLinkView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(CreateLinkView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		return redirect(self.get_success_url())
+        return redirect(self.get_success_url())
 
-	def get_context_data(self, **kwargs):
-		context = super(CreateLinkView, self).get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(CreateLinkView, self).get_context_data(**kwargs)
 
-		context['title'] = _('Create Webiste Link')
+        context['title'] = _('Create Webiste Link')
 
-		slug = self.kwargs.get('slug', '')
-		topic = get_object_or_404(Topic, slug = slug)
+        slug = self.kwargs.get('slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
 
-		context['topic'] = topic
-		context['subject'] = topic.subject
+        context['topic'] = topic
+        context['subject'] = topic.subject
 
-		return context
+        return context
 
-	def get_success_url(self):
-		messages.success(self.request, _('The  Link "%s" was added to the Topic "%s" of the virtual environment "%s" successfully!')%(self.object.name, self.object.topic.name, self.object.topic.subject.name))
+    def get_success_url(self):
+        messages.success(self.request, _('The  Link "%s" was added to the Topic "%s" of the virtual environment "%s" successfully!')%(self.object.name, self.object.topic.name, self.object.topic.subject.name))
 
-		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+        return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+
+
+
+class DeleteLinkView(LoginRequiredMixin, LogMixin, generic.edit.DeleteView):
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+    model = Link
+    template_name = 'links/delete.html'
+
+
+class DetailLinkView(LoginRequiredMixin, LogMixin, generic.detail.DetailView):
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+
+    model = Link
+    template_name = 'links/view.html'
+    context_object_name = 'web_link'
+
+class UpdateLinkView(LoginRequiredMixin, LogMixin, generic.edit.UpdateView):
+    model = Link
+    form_class = LinkForm
+    template_name = 'links/update.html'
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+
+    def dispatch(self, request, *args, **kwargs):
+
+
+        slug = self.kwargs.get('topic_slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
+
+        if not has_subject_permissions(request.user, topic.subject):
+            return redirect(reverse_lazy('subjects:home'))
+
+        return super(UpdateLinkView, self).dispatch(request, *args, **kwargs)
+
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        slug = self.kwargs.get('topic_slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
+
+        pend_form = self.object.pendencies_resource.all()
+
+        if len(pend_form) > 0:
+            pendencies_form = PendenciesForm(instance = pend_form[0], initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+        else:
+            pendencies_form = PendenciesForm(initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+
+        return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        slug = self.kwargs.get('topic_slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
+
+        pend_form = self.object.pendencies_resource.all()
+
+        if len(pend_form) > 0:
+            pendencies_form = PendenciesForm(self.request.POST, instance = pend_form[0], initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+        else:
+            pendencies_form = PendenciesForm(self.request.POST, initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+        
+        if (form.is_valid() and pendencies_form.is_valid()):
+            return self.form_valid(form, pendencies_form)
+        else:
+            return self.form_invalid(form, pendencies_form)
+    
+    def form_invalid(self, form, pendencies_form):
+        return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
+
+    def form_valid(self, form, pendencies_form):
+        self.object = form.save(commit = False)
+
+        if not self.object.topic.visible and not self.object.topic.repository:
+            self.object.visible = False
+        
+        self.object.save()
+
+        pend_form = pendencies_form.save(commit = False)
+        pend_form.resource = self.object
+
+        if not pend_form.action == "":
+            pend_form.save()
+        
+        self.log_context['category_id'] = self.object.topic.subject.category.id
+        self.log_context['category_name'] = self.object.topic.subject.category.name
+        self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        self.log_context['subject_id'] = self.object.topic.subject.id
+        self.log_context['subject_name'] = self.object.topic.subject.name
+        self.log_context['subject_slug'] = self.object.topic.subject.slug
+        self.log_context['topic_id'] = self.object.topic.id
+        self.log_context['topic_name'] = self.object.topic.name
+        self.log_context['topic_slug'] = self.object.topic.slug
+        self.log_context['link_id'] = self.object.id
+        self.log_context['link_name'] = self.object.name
+        self.log_context['link_slug'] = self.object.slug
+
+        super(UpdateLinkView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+        return redirect(self.get_success_url())
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateLinkView, self).get_context_data(**kwargs)
+
+        context['title'] = _('Update Website Link')
+
+        slug = self.kwargs.get('topic_slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
+
+        context['topic'] = topic
+        context['subject'] = topic.subject
+
+        return context
+
+    def get_success_url(self):
+        messages.success(self.request, _('The Website Link "%s" was updated successfully!')%(self.object.name))
+
+        return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})

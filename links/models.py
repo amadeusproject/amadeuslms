@@ -23,5 +23,14 @@ class Link(Resource):
         verbose_name_plural = "Links"
 
     def __str__(self):
-        pass
+        return self.name
+
+    def access_link(self):
+        return 'links:view'
+
+    def update_link(self):
+        return 'links:update'
+
+    def delete_link(self):
+        return 'links:delete'
     
