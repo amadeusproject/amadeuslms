@@ -10,6 +10,8 @@
 {% endblock %}
 
 {% block content %}
+	<input type="hidden" id="pend_url" value="{% url 'notifications:manage' %}" />
+
 	{% if notifications.count > 0 %}
 		<div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
 			{% for notification in notifications %}
@@ -17,7 +19,7 @@
             		<div class="panel-heading">
             			<div class="row">
 			                <div class="col-md-12 category-header">
-			                    <h4 class="panel-title">
+			                    <h4 class="panel-title" data-title="{{ notification.task__resource__topic__subject__name }}">
 			                        <a class="category-course-link pull-left" data-parent="#subject-accordion" data-toggle="collapse" href="#subject_{{ notification.task__resource__topic__subject }}">
 			                            <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{ notification.task__resource__topic__subject__name }} ({{ notification.total }})
 			                        </a>

@@ -185,7 +185,7 @@
                         <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Messages" %}">
                             <i class="fa fa-envelope-o" aria-hidden="true"></i>
                         </li>
-                        <li class="item action_icon" data-toggle="tooltip" data-placement="right" title="{% trans "Pendencias" %}">
+                        <li class="item {{ pendencies_menu_active }} action_icon" data-toggle="tooltip" data-placement="right" title="{% trans "Pendencias" %}">
                             <a href="{% url 'notifications:manage' %}">
                                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                                 {% if notifications_count > 0 %}
@@ -234,7 +234,7 @@
                         <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Messages" %}">
                             <i class="fa fa-envelope-o" aria-hidden="true"></i>
                         </li>
-                        <li class="item action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Pendencias" %}">
+                        <li class="item {{ pendencies_menu_active }} action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Pendencias" %}">
                             <a href="{% url 'notifications:manage' %}">
                                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                                 {% if notifications_count > 0 %}

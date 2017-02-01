@@ -143,6 +143,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
         context = super(IndexView, self).get_context_data(**kwargs)
 
         context['title'] = _('Pendencies')
+        context['pendencies_menu_active'] = "subjects_menu_active"
 
         return context
 
