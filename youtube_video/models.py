@@ -23,7 +23,7 @@ class YTVideo(Resource):
 		return 'youtube:update'
 
 	def delete_link(self):
-		return 'webpages:delete'
+		return 'youtube:delete'
 
 	def delete_message(self):
 		return _('Are you sure you want delete the YouTube Video')

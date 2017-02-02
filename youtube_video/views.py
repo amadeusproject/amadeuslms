@@ -274,3 +274,25 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 			success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
 		return success_url
+
+class DeleteView(LoginRequiredMixin, generic.DeleteView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'resources/delete.html'
+	model = YTVideo
+	context_object_name = 'resource'
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		youtube = get_object_or_404(YTVideo, slug = slug)
+
+		if not has_subject_permissions(request.user, youtube.topic.subject):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(DeleteView, self).dispatch(request, *args, **kwargs)
+
+	def get_success_url(self):
+		messages.success(self.request, _('The YouTube Video "%s" was removed successfully from virtual environment "%s"!')%(self.object.name, self.object.topic.subject.name))
+		
+		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
