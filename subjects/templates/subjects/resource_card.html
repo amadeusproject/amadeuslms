@@ -59,7 +59,20 @@
              <a href="{% url resource.access_link resource.slug %}" class="btn btn-success btn-raised"> {% trans "Access Resource" %}</a>
          
         </div>
+
 	</div>
 
+  {% include "resources/delete.html" with resource=resource %}
+<script type="text/javascript">
+	function delete_resource(url) {
+	 
+
+	    $.get(url, function (modal) {
+	        $("#resource_{{ topic.slug }}").parent().after(modal);
+
+	        $('.modal').modal('show');
+	    });
+	}
+</script>
 
 {% endif %}

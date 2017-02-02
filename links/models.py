@@ -27,3 +27,5 @@ class Link(Resource):
     def delete_link(self):
         return 'links:delete'
     
+    def delete_message(self):
+        return _('Are you sure you want delete the Website link')

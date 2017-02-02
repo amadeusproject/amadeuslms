@@ -93,3 +93,7 @@ class Resource(KnowsChild):
 	@always_as_child
 	def delete_link(self):
 		pass
+
+	@always_as_child
+	def delete_message(self):
+		pass
