@@ -312,9 +312,9 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
-	template_name = 'file_links/delete.html'
+	template_name = 'resources/delete.html'
 	model = FileLink
-	context_object_name = 'file_link'
+	context_object_name = 'resource'
 
 	def dispatch(self, request, *args, **kwargs):
 		slug = self.kwargs.get('slug', '')

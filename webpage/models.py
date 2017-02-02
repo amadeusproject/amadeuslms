@@ -24,3 +24,6 @@ class Webpage(Resource):
 
 	def delete_link(self):
 		return 'webpages:delete'
+
+	def delete_message(self):
+		return _('Are you sure you want delete the webpage')

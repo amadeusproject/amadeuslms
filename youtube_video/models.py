@@ -15,12 +15,15 @@ class YTVideo(Resource):
 
 	def access_link(self):
 		if self.show_window:
-			return 'webpages:window_view'
+			return 'youtube:window_view'
 
-		return 'webpages:view'
+		return 'youtube:view'
 
 	def update_link(self):
 		return 'youtube:update'
 
 	def delete_link(self):
 		return 'webpages:delete'
+
+	def delete_message(self):
+		return _('Are you sure you want delete the YouTube Video')

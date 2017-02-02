@@ -12,6 +12,57 @@ from topics.models import Topic
 from .forms import YTVideoForm, InlinePendenciesFormset
 from .models import YTVideo
 
+class NewWindowView(LoginRequiredMixin, generic.DetailView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'youtube/window_view.html'
+	model = YTVideo
+	context_object_name = 'youtube'
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		youtube = get_object_or_404(YTVideo, slug = slug)
+
+		if not has_resource_permissions(request.user, youtube):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(NewWindowView, self).dispatch(request, *args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super(NewWindowView, self).get_context_data(**kwargs)
+		
+		context['title'] = _("%s - Video")%(self.object.name)
+
+		return context
+
+class InsideView(LoginRequiredMixin, generic.DetailView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'youtube/view.html'
+	model = YTVideo
+	context_object_name = 'youtube'	
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		youtube = get_object_or_404(YTVideo, slug = slug)
+
+		if not has_resource_permissions(request.user, youtube):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(InsideView, self).dispatch(request, *args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super(InsideView, self).get_context_data(**kwargs)
+
+		context['title'] = self.object.name
+		
+		context['topic'] = self.object.topic
+		context['subject'] = self.object.topic.subject
+
+		return context
+
 class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
@@ -68,6 +119,9 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		return initial
 
 	def form_invalid(self, form, pendencies_form):
+		for p_form in pendencies_form.forms:
+			p_form.fields['action'].choices = [("", "-------"),("view", _("Visualize")), ("finish", _("Finish"))]
+
 		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
 	def form_valid(self, form, pendencies_form):
@@ -111,14 +165,14 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 	def get_success_url(self):
 		messages.success(self.request, _('The Youtube Video "%s" was added to the Topic "%s" of the virtual environment "%s" successfully!')%(self.object.name, self.object.topic.name, self.object.topic.subject.name))
 
-		#success_url = reverse_lazy('webpages:view', kwargs = {'slug': self.object.slug})
+		success_url = reverse_lazy('youtube:view', kwargs = {'slug': self.object.slug})
 
-		#if self.object.show_window:
-		#	self.request.session['resources'] = {}
-		#	self.request.session['resources']['new_page'] = True
-		#	self.request.session['resources']['new_page_url'] = reverse('webpages:window_view', kwargs = {'slug': self.object.slug})
+		if self.object.show_window:
+			self.request.session['resources'] = {}
+			self.request.session['resources']['new_page'] = True
+			self.request.session['resources']['new_page_url'] = reverse('youtube:window_view', kwargs = {'slug': self.object.slug})
 
-		success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+			success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
 		return success_url
 
@@ -170,6 +224,9 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 			return self.form_invalid(form, pendencies_form)
 	
 	def form_invalid(self, form, pendencies_form):
+		for p_form in pendencies_form.forms:
+			p_form.fields['action'].choices = [("", "-------"),("view", _("Visualize")), ("finish", _("Finish"))]
+
 		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
 	def form_valid(self, form, pendencies_form):
@@ -207,13 +264,13 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 	def get_success_url(self):
 		messages.success(self.request, _('The YouTube Video "%s" was updated successfully!')%(self.object.name))
 
-		#success_url = reverse_lazy('webpages:view', kwargs = {'slug': self.object.slug})
+		success_url = reverse_lazy('youtube:view', kwargs = {'slug': self.object.slug})
 
-		#if self.object.show_window:
-		#	self.request.session['resources'] = {}
-		#	self.request.session['resources']['new_page'] = True
-		#	self.request.session['resources']['new_page_url'] = reverse('webpages:window_view', kwargs = {'slug': self.object.slug})
+		if self.object.show_window:
+			self.request.session['resources'] = {}
+			self.request.session['resources']['new_page'] = True
+			self.request.session['resources']['new_page_url'] = reverse('youtube:window_view', kwargs = {'slug': self.object.slug})
 
-		success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+			success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
 		return success_url

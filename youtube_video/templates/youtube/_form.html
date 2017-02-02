@@ -239,7 +239,7 @@
 					{% endif %}
             	</div>
 
-            	<p><em>{% trans 'Attribute students to webpage' %}:</em></p>
+            	<p><em>{% trans 'Attribute students to YouTube Video' %}:</em></p>
             	{% render_field form.students class='form-control' %}
 
             	<span id="helpBlock" class="help-block">{{ form.students.help_text }}</span>
@@ -259,7 +259,7 @@
 
             	<br clear="all" />
 
-            	<p><em>{% trans 'Attribute groups to webpage' %}:</em></p>
+            	<p><em>{% trans 'Attribute groups to YouTube Video' %}:</em></p>
             	{% render_field form.groups class='form-control' %}
 
             	<span id="helpBlock" class="help-block">{{ form.groups.help_text }}</span>
@@ -354,23 +354,33 @@
 			    	var checkbox = $(this).parent().parent().find('.end_date');
 			    	$(checkbox).prop('checked', true);
 			    });
-			    subject = $("#id_control_subject").val();
-			    console.log(subject);
-			    console.log($(row).find('.pend_subj'));
+			    
+			    var subject = $("#id_control_subject").val();
+			    
 			    $(row).find('.pend_subj').val(subject);
 			}
 		}); 
 
-		var begin_val = $('.begin_date_input').val(),
-			end_val = $('.end_date_input').val();
+		$('.begin_date_input').each(function () {
+			console.log($(this).val());
+			if ($(this).val() != '') {
+				$(this).parent().parent().find('.begin_date').prop('checked', true);
+			} else {
+				$(this).parent().parent().find('.begin_date').prop('checked', false);
+			}
+		});
 
-		if (begin_val != '') {
-			$(".begin_date").prop('checked', true);
-		}
+		$('.end_date_input').each(function () {
+			if ($(this).val() != '') {
+				$(this).parent().parent().find('.end_date').prop('checked', true);
+			} else {
+				$(this).parent().parent().find('.end_date').prop('checked', false);
+			}
+		});
 
-		if (end_val != '') {
-			$(".end_date").prop('checked', true);
-		}
+		var subject = $("#id_control_subject").val();
+
+		$('.pend_subj').val(subject);
 
 		{% if not pendencies_form.is_valid and pendencies_form.is_bound %}
 			$("#notifications").collapse('toggle');

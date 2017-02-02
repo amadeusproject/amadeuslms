@@ -60,6 +60,16 @@ class YTVideoForm(forms.ModelForm):
 
 		return name
 
+	def clean_url(self):
+		url = self.cleaned_data.get('url', '')
+
+		if not 'youtube' in url or not 'embed' in url:
+			self._errors['url'] = [_('Invalid URL. It should be an embed YouTube link.')]
+
+			return ValueError
+
+		return url
+
 	def save(self, commit = True):
 		super(YTVideoForm, self).save(commit = True)
 
@@ -89,4 +99,4 @@ class YTVideoForm(forms.ModelForm):
 
 		return self.instance
 
-InlinePendenciesFormset = inlineformset_factory(YTVideo, Pendencies, form = PendenciesForm, extra = 1, max_num = 2, validate_max = True, can_delete = True)
+InlinePendenciesFormset = inlineformset_factory(YTVideo, Pendencies, form = PendenciesForm, extra = 1, max_num = 3, validate_max = True, can_delete = True)
