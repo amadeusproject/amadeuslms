@@ -47,6 +47,9 @@
 				</div>
 			</div>
 			<div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content" style="padding: 0px; overflow: hidden;">
+				<input type="hidden" id="log_finish_url" value="{% url 'youtube:finish' youtube.slug %}" />
+				<input type="hidden" id="log_url" value="{% url 'youtube:watch' youtube.slug %}" />
+				<input type="hidden" id="log_id" value="" />
 				<iframe src="{{ youtube.url }}?enablejsapi=1" frameborder="0" allowfullscreen id="video"></iframe>
 			</div>
 		</div>

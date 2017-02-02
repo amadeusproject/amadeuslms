@@ -20,17 +20,22 @@ function onPlayerStateChange(event) {
 	  		break;
 		case YT.PlayerState.ENDED:
 			clearInterval(keepAlive)
-	  		console.log('ended');
+	  		
+			watchLog("close");
+	  		
+	  		finishLog();
 	  		break;
 		case YT.PlayerState.PLAYING:
 			keepAlive = setInterval(function () {
 				keepLogged()
 			}, 60000);
-	  		console.log('playing');
+			
+	  		watchLog("open");
 	  		break;
 		case YT.PlayerState.PAUSED:
 			clearInterval(keepAlive)
-	  		console.log('paused');
+	  		
+	  		watchLog("close");
 	  		break;
 		case YT.PlayerState.BUFFERING:
 	  		console.log('buffering');
@@ -41,6 +46,40 @@ function onPlayerStateChange(event) {
   	}
 }
 
-function keepLogged() {
+function keepLogged () {
 	$(document).mousemove();
+}
+
+function watchLog (action) {
+	var url = $('#log_url').val();
+    var log_input = $('#log_id');
+
+	$.ajax({
+        url: url,
+        data: {'action': action, 'log_id': log_input.val()},
+        dataType: 'json',
+        success: function (data) {
+        	if (action == "open") {
+            	log_input.val(data.log_id);
+        	}
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+}
+
+function finishLog () {
+	var url = $('#log_finish_url').val();
+
+	$.ajax({
+        url: url,
+        dataType: 'json',
+        success: function (data) {
+        	console.log(data);
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
 }

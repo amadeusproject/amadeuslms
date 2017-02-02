@@ -1,18 +1,29 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 from django.contrib import messages
+from django.http import JsonResponse
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 
+import time
+from log.models import Log
+from log.mixins import LogMixin
+from log.decorators import log_decorator_ajax, log_decorator
+
 from topics.models import Topic
 
 from .forms import YTVideoForm, InlinePendenciesFormset
 from .models import YTVideo
 
-class NewWindowView(LoginRequiredMixin, generic.DetailView):
+class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
+	log_component = 'resources'
+	log_action = 'view'
+	log_resource = 'ytvideo'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -34,9 +45,32 @@ class NewWindowView(LoginRequiredMixin, generic.DetailView):
 		
 		context['title'] = _("%s - Video")%(self.object.name)
 
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['ytvideo_id'] = self.object.id
+		self.log_context['ytvideo_name'] = self.object.name
+		self.log_context['ytvideo_slug'] = self.object.slug
+		self.log_context['timestamp_start'] = str(int(time.time()))
+
+		super(NewWindowView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
 		return context
 
-class InsideView(LoginRequiredMixin, generic.DetailView):
+class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
+	log_component = 'resources'
+	log_action = 'view'
+	log_resource = 'ytvideo'
+	log_context = {}
+	
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -61,9 +95,32 @@ class InsideView(LoginRequiredMixin, generic.DetailView):
 		context['topic'] = self.object.topic
 		context['subject'] = self.object.topic.subject
 
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['ytvideo_id'] = self.object.id
+		self.log_context['ytvideo_name'] = self.object.name
+		self.log_context['ytvideo_slug'] = self.object.slug
+		self.log_context['timestamp_start'] = str(int(time.time()))
+
+		super(InsideView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
 		return context
 
-class CreateView(LoginRequiredMixin, generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = 'resources'
+	log_action = 'create'
+	log_resource = 'ytvideo'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -146,6 +203,21 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
 			if not pend_form.action == "":
 				pend_form.save()
+
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['ytvideo_id'] = self.object.id
+		self.log_context['ytvideo_name'] = self.object.name
+		self.log_context['ytvideo_slug'] = self.object.slug
+
+		super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
 		
 		return redirect(self.get_success_url())
 
@@ -176,7 +248,12 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
 		return success_url
 
-class UpdateView(LoginRequiredMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+	log_component = 'resources'
+	log_action = 'update'
+	log_resource = 'ytvideo'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -245,6 +322,21 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 
 			if not pend_form.action == "":
 				pend_form.save()
+
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['ytvideo_id'] = self.object.id
+		self.log_context['ytvideo_name'] = self.object.name
+		self.log_context['ytvideo_slug'] = self.object.slug
+
+		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
         
 		return redirect(self.get_success_url())
 
@@ -275,7 +367,12 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 
 		return success_url
 
-class DeleteView(LoginRequiredMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+	log_component = 'resources'
+	log_action = 'delete'
+	log_resource = 'ytvideo'
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -295,4 +392,72 @@ class DeleteView(LoginRequiredMixin, generic.DeleteView):
 	def get_success_url(self):
 		messages.success(self.request, _('The YouTube Video "%s" was removed successfully from virtual environment "%s"!')%(self.object.name, self.object.topic.subject.name))
 		
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['ytvideo_id'] = self.object.id
+		self.log_context['ytvideo_name'] = self.object.name
+		self.log_context['ytvideo_slug'] = self.object.slug
+
+		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+
+@log_decorator_ajax('resources', 'watch', 'ytvideo')
+def ytvideo_watch_log(request, ytvideo):
+	action = request.GET.get('action')
+
+	if action == 'open':
+		ytvideo = get_object_or_404(YTVideo, slug = ytvideo)
+
+		log_context = {}
+		log_context['category_id'] = ytvideo.topic.subject.category.id
+		log_context['category_name'] = ytvideo.topic.subject.category.name
+		log_context['category_slug'] = ytvideo.topic.subject.category.slug
+		log_context['subject_id'] = ytvideo.topic.subject.id
+		log_context['subject_name'] = ytvideo.topic.subject.name
+		log_context['subject_slug'] = ytvideo.topic.subject.slug
+		log_context['topic_id'] = ytvideo.topic.id
+		log_context['topic_name'] = ytvideo.topic.name
+		log_context['topic_slug'] = ytvideo.topic.slug
+		log_context['ytvideo_id'] = ytvideo.id
+		log_context['ytvideo_name'] = ytvideo.name
+		log_context['ytvideo_slug'] = ytvideo.slug
+		log_context['timestamp_start'] = str(int(time.time()))
+		log_context['timestamp_end'] = '-1'
+
+		request.log_context = log_context
+
+		log_id = Log.objects.latest('id').id
+
+		return JsonResponse({'message': 'ok', 'log_id': log_id})
+
+	return JsonResponse({'message': 'ok'})
+
+@log_decorator('resources', 'finish', 'ytvideo')
+def ytvideo_finish_log(request, ytvideo):
+	ytvideo = get_object_or_404(YTVideo, slug = ytvideo)
+
+	log_context = {}
+	log_context['category_id'] = ytvideo.topic.subject.category.id
+	log_context['category_name'] = ytvideo.topic.subject.category.name
+	log_context['category_slug'] = ytvideo.topic.subject.category.slug
+	log_context['subject_id'] = ytvideo.topic.subject.id
+	log_context['subject_name'] = ytvideo.topic.subject.name
+	log_context['subject_slug'] = ytvideo.topic.subject.slug
+	log_context['topic_id'] = ytvideo.topic.id
+	log_context['topic_name'] = ytvideo.topic.name
+	log_context['topic_slug'] = ytvideo.topic.slug
+	log_context['ytvideo_id'] = ytvideo.id
+	log_context['ytvideo_name'] = ytvideo.name
+	log_context['ytvideo_slug'] = ytvideo.slug
+	
+	request.log_context = log_context
+
+	return JsonResponse({'message': 'ok'})
