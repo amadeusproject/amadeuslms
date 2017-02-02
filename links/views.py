@@ -4,7 +4,6 @@ from .models import Link
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from .forms import LinkForm
 from rolepermissions.mixins import HasRoleMixin
 

@@ -398,6 +398,7 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
         super(SubjectUpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
         
         messages.success(self.request, _('The Subject "%s" was updated on "%s" Category successfully!')%(self.object.name, self.object.category.name ))
+       
         return reverse_lazy('subjects:index')
 
 class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
