@@ -30,11 +30,12 @@ a:focus {
 }
 
 .language-selector-on-header img{
-    margin-top: 10%;
-    width: 50%;
+    margin-top: 15%;
+    width: 40%;
 }
 .language-selector-on-header > ul img{
     width: 30%;
+    margin-top: 0%;
 }
 
 .navbar-header{
