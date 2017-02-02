@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-01 15:48-0300\n"
+"POT-Creation-Date: 2017-02-02 18:45-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
 #: notifications/models.py:8
 msgid "Meta"
 msgstr "Meta"
@@ -224,11 +225,15 @@ msgstr "Não foi possível identificar a notificação"
 
 #: notifications/views.py:259
 msgid "The goal date should be equal or after today's date"
-msgstr "A meta de realização da tarefa deve ser uma data igual ou posterior à data atual"
+msgstr ""
+"A meta de realização da tarefa deve ser uma data igual ou posterior à data "
+"atual"
 
 #: notifications/views.py:262
 msgid "The goal date should be equal or before subject's date"
-msgstr "A meta de realização da tarefa deve ser uma data igual ou anterior à data final do assunto"
+msgstr ""
+"A meta de realização da tarefa deve ser uma data igual ou anterior à data "
+"final do assunto"
 
 #: notifications/views.py:268
 #, python-format

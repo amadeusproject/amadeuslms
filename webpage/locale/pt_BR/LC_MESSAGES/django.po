@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-01 15:48-0300\n"
+"POT-Creation-Date: 2017-02-02 18:45-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,6 +50,10 @@ msgstr "Página Web"
 msgid "WebPages"
 msgstr "Páginas Web"
 
+#: webpage/models.py:29
+msgid "Are you sure you want delete the webpage"
+msgstr "Você tem certeza que deseja remover a Página Web"
+
 #: webpage/templates/webpages/_form.html:49
 msgid "Common resources settings"
 msgstr "Configurações comuns a todos os recursos"
@@ -81,18 +85,6 @@ msgstr "Salvar"
 #: webpage/templates/webpages/create.html:20 webpage/views.py:219
 msgid "Create Webpage"
 msgstr "Criar Página Web"
-
-#: webpage/templates/webpages/delete.html:9
-msgid "Are you sure you want delete the webpage"
-msgstr "Você tem certeza que deseja remover a Página Web"
-
-#: webpage/templates/webpages/delete.html:14
-msgid "Close"
-msgstr "Fechar"
-
-#: webpage/templates/webpages/delete.html:17
-msgid "Delete"
-msgstr "Remover"
 
 #: webpage/templates/webpages/update.html:20
 msgid "Edit: "
@@ -127,9 +119,3 @@ msgid ""
 "The webpage \"%s\" was removed successfully from virtual environment \"%s\"!"
 msgstr ""
 "A Página Web \"%s\" foi removida do ambiente virtual \"%s\" com sucesso!"
-
-#~ msgid "Add new notification"
-#~ msgstr "Adiciona nova notificação"
-
-#~ msgid "Remove this notification"
-#~ msgstr "Remover essa notificação"

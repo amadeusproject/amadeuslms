@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-01 15:48-0300\n"
+"POT-Creation-Date: 2017-02-02 18:45-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,6 +54,10 @@ msgstr "Link para Arquivo"
 msgid "File Links"
 msgstr "Links para Arquivo"
 
+#: file_link/models.py:48
+msgid "Are you sure you want delete the file link"
+msgstr "Você tem certeza que deseja remover o Link para Arquivo"
+
 #: file_link/templates/file_links/_form.html:33
 msgid "Choose your file..."
 msgstr "Escolha seu arquivo..."
@@ -98,18 +102,6 @@ msgstr "Salvar"
 msgid "Create File Link"
 msgstr "Criar Link para Arquivo"
 
-#: file_link/templates/file_links/delete.html:9
-msgid "Are you sure you want delete the file link"
-msgstr "Você tem certeza que deseja remover o Link para Arquivo"
-
-#: file_link/templates/file_links/delete.html:14
-msgid "Close"
-msgstr "Fechar"
-
-#: file_link/templates/file_links/delete.html:17
-msgid "Delete"
-msgstr "Remover"
-
 #: file_link/templates/file_links/update.html:20
 msgid "Edit: "
 msgstr "Editar: "
@@ -145,3 +137,9 @@ msgid ""
 msgstr ""
 "O Link para Arquivo \"%s\" foi removido do ambiente virtual \"%s\" com "
 "sucesso!"
+
+#~ msgid "Close"
+#~ msgstr "Fechar"
+
+#~ msgid "Delete"
+#~ msgstr "Remover"

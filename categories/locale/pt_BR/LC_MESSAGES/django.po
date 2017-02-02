@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-01 15:48-0300\n"
+"POT-Creation-Date: 2017-02-02 18:45-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,20 +73,20 @@ msgstr "Tente um nome de usuário"
 
 #: categories/templates/categories/category_card.html:18
 #: categories/templates/categories/list.html:69
-#: categories/templates/categories/list.html:118
+#: categories/templates/categories/list.html:116
 msgid "Replicate"
 msgstr "Replicar"
 
 #: categories/templates/categories/category_card.html:19
 #: categories/templates/categories/home_admin_content.html:6
 #: categories/templates/categories/list.html:73
-#: categories/templates/categories/list.html:120
+#: categories/templates/categories/list.html:118
 msgid "Edit"
 msgstr "Editar"
 
 #: categories/templates/categories/category_card.html:20
 #: categories/templates/categories/list.html:74
-#: categories/templates/categories/list.html:121
+#: categories/templates/categories/list.html:119
 msgid "Remove"
 msgstr "Remover"
 
@@ -130,13 +130,13 @@ msgstr "Meus assuntos"
 msgid "all subjects"
 msgstr "Todos os assuntos"
 
-#: categories/templates/categories/list.html:90
-#: categories/templates/categories/list.html:137
+#: categories/templates/categories/list.html:88
+#: categories/templates/categories/list.html:133
 msgid "Coordinator(s) "
 msgstr "Coordenador(es)"
 
-#: categories/templates/categories/list.html:94
-#: categories/templates/categories/list.html:141
+#: categories/templates/categories/list.html:92
+#: categories/templates/categories/list.html:137
 msgid "It doesn't possess coordinators"
 msgstr "Não possui coordenadores"
 

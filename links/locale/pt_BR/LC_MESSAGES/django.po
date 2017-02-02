@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-01 15:48-0300\n"
+"POT-Creation-Date: 2017-02-02 18:45-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
 #: links/forms.py:27
 msgid "Tags"
 msgstr ""
@@ -25,85 +26,57 @@ msgstr ""
 msgid "Website URL"
 msgstr "URL do site:"
 
-#: links/forms.py:30
-msgid "It sets a limit date to finish viewing the website link  "
-msgstr ""
-
-#: links/forms.py:36
+#: links/forms.py:34
 msgid "Link name"
 msgstr "Nome do Link"
 
-#: links/forms.py:37
+#: links/forms.py:35
 msgid "End View"
 msgstr ""
 
-#: links/forms.py:38
+#: links/forms.py:36
 msgid "End View Date"
 msgstr ""
 
-#: links/forms.py:53
-msgid "End View Date is not set"
-msgstr ""
-
-#: links/forms.py:58
-msgid "Initial View Date is not set"
-msgstr ""
-
-#: links/forms.py:63
-msgid "End View Date before Initial View Date"
-msgstr ""
-
-#: links/forms.py:80
+#: links/forms.py:64
 msgid "There is already a link with this name on this subject"
 msgstr "Ja existe um link com este nome neste Assunto"
 
-#: links/models.py:13
-msgid "simpler_description"
-msgstr ""
-
-#: links/models.py:15
+#: links/models.py:11
 msgid "Link_URL"
 msgstr "URL do link"
 
-#: links/models.py:17 links/models.py:19
-msgid "Initial View"
-msgstr ""
+#: links/models.py:31 links/templates/links/delete.html:9
+msgid "Are you sure you want delete the Website link"
+msgstr "Tem certeza que voce deseja remover esse Link para Website"
 
-#: links/models.py:18 links/models.py:20
-msgid "Initial View Date"
-msgstr ""
-
-#: links/templates/links/_form.html:199
+#: links/templates/links/_form.html:112
 msgid "Pendencies Notifications"
 msgstr ""
 
-#: links/templates/links/_form.html:217
+#: links/templates/links/_form.html:130
 msgid "Action not performed by the user"
 msgstr ""
 
-#: links/templates/links/_form.html:243
+#: links/templates/links/_form.html:156
 msgid "Wished period"
 msgstr ""
 
-#: links/templates/links/_form.html:339
+#: links/templates/links/_form.html:252
 msgid "Attribute students to file link"
 msgstr ""
 
-#: links/templates/links/_form.html:359
+#: links/templates/links/_form.html:272
 msgid "Attribute groups to file link"
 msgstr ""
 
-#: links/templates/links/_form.html:407
+#: links/templates/links/_form.html:320
 msgid "Save"
 msgstr "Salvar"
 
 #: links/templates/links/create.html:20
 msgid "Create Website Link"
 msgstr "Criar Link do Website"
-
-#: links/templates/links/delete.html:9
-msgid "Are you sure you want delete the Website link"
-msgstr "Tem certeza que voce deseja remover esse Link para Website"
 
 #: links/templates/links/delete.html:14
 msgid "Close"
@@ -117,36 +90,37 @@ msgstr "Remover"
 msgid "Edit: "
 msgstr "Editar: "
 
-#: links/views.py:52 links/views.py:65 links/views.py:224 links/views.py:226
-#: links/views.py:242 links/views.py:244
+#: links/views.py:51 links/views.py:64 links/views.py:223 links/views.py:225
+#: links/views.py:241 links/views.py:243
 msgid "Visualize"
 msgstr ""
 
-#: links/views.py:125
+#: links/views.py:124
 msgid "Create Webiste Link"
 msgstr ""
 
-#: links/views.py:136
+#: links/views.py:135
 #, python-format
 msgid ""
 "The  Link \"%s\" was added to the Topic \"%s\" of the virtual environment "
 "\"%s\" successfully!"
-msgstr "O link \"%s\" foi adicionado com sucesso ao Topico \"%s\"  do ambiente virtual "
-"\"%s\" "
+msgstr ""
+"O link \"%s\" foi adicionado com sucesso ao Topico \"%s\"  do ambiente "
+"virtual \"%s\" "
 
-#: links/views.py:163
+#: links/views.py:162
 #, python-format
 msgid ""
 "The Website Link \"%s\" was removed successfully from virtual environment "
 "\"%s\"!"
-msgstr "O Link do site \"%s\" foi removido com sucesso do ambiente virtual "
-"\"%s\"  "
+msgstr ""
+"O Link do site \"%s\" foi removido com sucesso do ambiente virtual \"%s\"  "
 
-#: links/views.py:288
+#: links/views.py:287
 msgid "Update Website Link"
 msgstr "Atualizar Link do website"
 
-#: links/views.py:299
+#: links/views.py:298
 #, python-format
 msgid "The Website Link \"%s\" was updated successfully!"
 msgstr "O link do website  \"%s\" foi atualizado com sucesso! "

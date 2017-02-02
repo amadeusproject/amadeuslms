@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-01 15:48-0300\n"
+"POT-Creation-Date: 2017-02-02 18:45-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,6 +102,16 @@ msgstr "Recurso"
 msgid "Resources"
 msgstr "Recursos"
 
+#: topics/templates/resources/delete.html:14
+#: topics/templates/topics/delete.html:15
+msgid "Close"
+msgstr "Fechar"
+
+#: topics/templates/resources/delete.html:17
+#: topics/templates/topics/delete.html:18
+msgid "Delete"
+msgstr "Deletar"
+
 #: topics/templates/resources/list.html:30 topics/templates/topics/list.html:28
 msgid "Edit"
 msgstr "Editar"
@@ -129,14 +139,6 @@ msgstr "Tem certeza que deseja deletar o tópico"
 #: topics/templates/topics/delete.html:10
 msgid "All data will be lost and havent how recover it."
 msgstr "Todas as informações serão perdidas e não poderão ser recuperadas."
-
-#: topics/templates/topics/delete.html:15
-msgid "Close"
-msgstr "Fechar"
-
-#: topics/templates/topics/delete.html:18
-msgid "Delete"
-msgstr "Deletar"
 
 #: topics/templates/topics/list.html:52
 msgid "Add Resource"
@@ -181,7 +183,9 @@ msgid "Topic \"%s\" was updated on virtual enviroment \"%s\" successfully!"
 msgstr "Tópico \"%s\" foi atualizado no ambiente virtual \"%s\" com sucesso!"
 
 #: topics/views.py:182
-msgid "Could not remove this topic. It has on or more resources attached."
+#, fuzzy
+#| msgid "Could not remove this topic. It has on or more resources attached."
+msgid "Could not remove this topic. It has one or more resources attached."
 msgstr ""
 "Não é possível remover esse tópico. Ele possui um ou mais recursos "
 "vinculados."
