@@ -131,14 +131,16 @@ msgstr ""
 msgid ""
 "The  Link \"%s\" was added to the Topic \"%s\" of the virtual environment "
 "\"%s\" successfully!"
-msgstr "O link \"%s\" foi adicionado com sucesso ao Topico \"%s\"  do ambiente virtual "\"%s\"" "
+msgstr "O link \"%s\" foi adicionado com sucesso ao Topico \"%s\"  do ambiente virtual "
+"\"%s\" "
 
 #: links/views.py:163
 #, python-format
 msgid ""
 "The Website Link \"%s\" was removed successfully from virtual environment "
 "\"%s\"!"
-msgstr "O Link do site \"%s\" foi removido com sucesso do ambiente virtual "\"%s\" " "
+msgstr "O Link do site \"%s\" foi removido com sucesso do ambiente virtual "
+"\"%s\"  "
 
 #: links/views.py:288
 msgid "Update Website Link"

@@ -6,7 +6,7 @@
 {% block breadcrumbs %}
 	{% clear_breadcrumbs %}
    	{% breadcrumb 'Home' 'subjects:home' %}
-    {% with "You search for "|add:tags as term  %}
+    {% with "You searched for "|add:tags as term  %}
         {% breadcrumb  term 'subjects:index' %}
     {% endwith %}
    	

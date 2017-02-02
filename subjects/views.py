@@ -606,14 +606,11 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
             q = q | Q(tags__name__unaccent__icontains=tag  )
         
         subjects = Subject.objects.filter(q).distinct()
-       
         self.resources = Resource.objects.filter(q).distinct()
-        #pk = self.request.user.pk
-        #my_subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk) & Q(tags__name__in=tags) ).distinct()
         
+    
         self.totals = {'resources': self.resources.count(), 'my_subjects': subjects.count()}
-        #if self.kwargs.get('option'):
-        #    subjects = my_subjects
+        
         option = self.kwargs.get('option')
         if option and option == 'resources':
             return self.resources
