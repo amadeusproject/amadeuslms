@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    
+    {% trans 'Mural: General' as general %}
+
+    {% breadcrumb  general 'mural:manage_general' %}
+{% endblock %}
+
+{% block content %}
+	<div id="core-subjects-options-div">
+        <ul class="core-subjects-options">
+            <a href="{% url 'mural:manage_general' %}"><li class="active">{% trans "General" %} ({{ totals.general }})</li></a>
+            <a href=""><li>{% trans "Per Category" %} ({{ totals.category }})</li></a>
+            <a href=""><li>{% trans "Per Subject" %} ({{ totals.subject }})</li></a>
+        </ul>
+    </div>
+
+    <div class="col-md-12 cards-content mural">
+    	<div class="col-md-9 col-sm-9 col-xs-9">
+    		<div class="row post_make">
+    			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 user-img">
+    				<img src="{{ request.user.image_url }}" class="img-responsive" />
+    			</div>
+    			<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 post-field">
+    				<div>
+    					<h4>{% trans 'Wish to make a new post?' %}</h4>
+    				</div>
+    			</div>
+    		</div>
+
+    		{% if posts.count > 0 %}
+    		{% else %}
+    			<div class="text-center no-subjects">
+	                <i class="fa fa-list"></i>
+	                <h4>{% trans 'There are no posts in this mural yet.' %}</h4>
+	            </div>
+    		{% endif %}
+    	</div>
+    	<div class="col-md-3 col-sm-3 col-xs-3">
+    	</div>
+    </div>
+{% endblock %}

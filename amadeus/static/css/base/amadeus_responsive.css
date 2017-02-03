@@ -1,6 +1,26 @@
+@media(min-width: 1200px) {
+	.mural .post_make .user-img img {
+	    max-width: 70px;
+	    max-height: 70px;
+	}
+
+	.mural .post_make .post-field h4 {
+		line-height: 2.6em;
+	}
+}
+
 @media(max-width: 1199px) {
 	.navbar .navbar-brand {
 		padding: 15px;
+	}
+
+	.mural .post_make .user-img img {
+	    max-width: 65px;
+	    max-height: 65px;
+	}
+
+	.mural .post_make .post-field h4 {
+		line-height: 2.3em;
 	}
 }
 
@@ -42,6 +62,14 @@
         display:none;
     }
 
+    .mural .post_make .user-img img {
+	    max-width: 60px;
+	    max-height: 60px;
+	}
+
+	.mural .post_make .post-field h4 {
+		line-height: 2em;
+	}
 }
 
 @media(min-width: 768px) {
@@ -81,4 +109,15 @@
   		font-size: 25px !important;
   		margin-top: 6px;
   	}
+}
+
+@media(max-width: 680px) {
+	.mural .post_make .user-img img {
+	    max-width: 50px;
+	    max-height: 50px;
+	}
+
+	.mural .post_make .post-field h4 {
+		line-height: 1.6em;
+	}
 }

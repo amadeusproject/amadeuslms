@@ -179,8 +179,10 @@
                                 <i class="fa fa-graduation-cap" aria-hidden="true"></i>
                             </a>
                         </li>
-                        <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Timeline" %}">
-                            <i class="fa fa-list" aria-hidden="true" ></i>
+                        <li class="item {{ mural_menu_active }}" data-toggle="tooltip" data-placement="right" title="{% trans "Timeline" %}">
+                            <a href="{% url 'mural:manage_general' %}">
+                                <i class="fa fa-list" aria-hidden="true" ></i>
+                            </a>
                         </li>
                         <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Messages" %}">
                             <i class="fa fa-envelope-o" aria-hidden="true"></i>
@@ -228,8 +230,10 @@
                                 <i class="fa fa-graduation-cap" aria-hidden="true"></i>
                             </a>
                         </li>
-                        <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Timeline" %}">
-                            <i class="fa fa-list" aria-hidden="true" ></i>
+                        <li class="item  {{ mural_menu_active }}" data-toggle="tooltip" data-placement="top" title="{% trans "Timeline" %}">
+                            <a href="{% url 'mural:manage_general' %}"
+                                <i class="fa fa-list" aria-hidden="true" ></i>
+                            </a>
                         </li>
                         <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Messages" %}">
                             <i class="fa fa-envelope-o" aria-hidden="true"></i>

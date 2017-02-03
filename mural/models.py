@@ -40,3 +40,9 @@ class Comment(models.Model):
 	user = models.ForeignKey(User, verbose_name = _('User'), related_name = "comment_user", null = True)
 	create_date = models.DateTimeField(_('Create Date'), auto_now_add = True)
 	last_update = models.DateTimeField(_('Last Update'), auto_now = True)
+
+class MuralVisualizations(models.Model):
+	viewed = models.BooleanField(_('Viewed'), default = False)
+	post = models.ForeignKey(Mural, verbose_name = _('Post'), related_name = 'visualization_post', null = True)
+	comment = models.ForeignKey(Comment, verbose_name = _('Comment'), related_name = 'visualization_comment', null = True)
+	user = models.ForeignKey(User, verbose_name = _('User'), related_name = "visualization_user", null = True)

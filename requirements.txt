@@ -36,3 +36,5 @@ django-session-security==2.4.0
 django-cron==0.5.0
 django-crontab==0.7.1
 python-dateutil==2.6.0
+channels==1.0.3
+asgi_redis==1.0.0

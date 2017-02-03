@@ -488,6 +488,14 @@ a.add-row {
     color: #333;
 }
 
+.mural .post_make {
+    background: #FFFFFF;
+}
+
+.mural .post_make .post-field div {
+    border-color: #CCCCCC;
+}
+
 @media(max-width: 768px) {
     .navbar .navbar-nav .dropdown .dropdown-menu li > a {
         color: #333333 !important;

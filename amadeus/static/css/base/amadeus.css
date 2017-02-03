@@ -926,3 +926,23 @@ li.item .notify_badge {
     font-size: 16px !important;
     margin: 7px 0 0 0 !important;
 }
+
+.mural .post_make {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.mural .post_make .user-img {
+    padding: 0;
+}
+.mural .post_make .post-field {
+    padding-right: 0px;
+}
+.mural .post_make .post-field div {
+    border-width: 1px;
+    border-style: solid;
+    padding: 0px 5px;
+}
+.mural .post_make .post-field h4 {
+    cursor: text;
+    font-style: italic;
+}
