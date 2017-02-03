@@ -27,3 +27,13 @@ class YTVideo(Resource):
 
 	def delete_message(self):
 		return _('Are you sure you want delete the YouTube Video')
+
+	def get_embed_url(self):
+		if not "embed" in self.url:
+			parts = self.url.split("=")
+
+			if parts[1]:
+				return "https://www.youtube.com/embed/" + parts[1]
+
+		return self.url
+
