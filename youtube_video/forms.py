@@ -63,8 +63,8 @@ class YTVideoForm(forms.ModelForm):
 	def clean_url(self):
 		url = self.cleaned_data.get('url', '')
 
-		if not 'youtube' in url or not 'embed' in url:
-			self._errors['url'] = [_('Invalid URL. It should be an embed YouTube link.')]
+		if not 'youtube' in url:
+			self._errors['url'] = [_('Invalid URL. It should be an YouTube link.')]
 
 			return ValueError
 

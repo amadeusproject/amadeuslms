@@ -23,7 +23,7 @@
 	<input type="hidden" id="log_finish_url" value="{% url 'youtube:finish' youtube.slug %}" />
 	<input type="hidden" id="log_url" value="{% url 'youtube:watch' youtube.slug %}" />
 	<input type="hidden" id="log_id" value="" />
-  	<iframe src="{{ youtube.url }}?enablejsapi=1" frameborder="0" allowfullscreen id="video"></iframe>
+  	<iframe src="{{ youtube.get_embed_url }}?enablejsapi=1" frameborder="0" allowfullscreen id="video"></iframe>
 
   	<script type="text/javascript" src="{% static 'js/ytvideo.js' %}"></script>
 	<script type="text/javascript">
