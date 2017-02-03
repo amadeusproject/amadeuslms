@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'session_security',
     'django_crontab',
     'django_cron',
+    #'channels',
 
     'amadeus',
     'users',
@@ -64,6 +65,7 @@ INSTALLED_APPS = [
     'students_group',
     'topics',
     'pendencies',
+    'mural',
     'file_link',
     'links',
     'webpage',
@@ -181,6 +183,13 @@ CRON_CLASSES = [
 CRONJOBS = [
     ('1 */12 * * *', 'notifications.cron.notification_cron')
 ]
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "ROUTING": "amadeus.routing.channel_routing",
+    },
+}
 
 #SECURITY
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO','https')
