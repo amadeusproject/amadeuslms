@@ -93,11 +93,11 @@ msgstr "Editar: "
 #: links/views.py:51 links/views.py:64 links/views.py:223 links/views.py:225
 #: links/views.py:241 links/views.py:243
 msgid "Visualize"
-msgstr ""
+msgstr "Visualizar"
 
 #: links/views.py:124
 msgid "Create Webiste Link"
-msgstr ""
+msgstr "Criar Link de Website"
 
 #: links/views.py:135
 #, python-format

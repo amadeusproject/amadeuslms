@@ -20,7 +20,7 @@ from subjects.models import Subject
 from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
 from log.models import Log
-
+from itertools import chain
 from .models import Tag
 import time
 import datetime
@@ -608,9 +608,8 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
         subjects = Subject.objects.filter(q).distinct()
         self.resources = Resource.objects.filter(q).distinct()
         
-    
         self.totals = {'resources': self.resources.count(), 'my_subjects': subjects.count()}
-        
+       
         option = self.kwargs.get('option')
         if option and option == 'resources':
             return self.resources
