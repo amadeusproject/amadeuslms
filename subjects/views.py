@@ -30,6 +30,7 @@ from .utils import has_student_profile, has_professor_profile, count_subjects, g
 from users.models import User
 from topics.models import Resource
 
+from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions
 
 class HomeView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("users:login")
@@ -234,32 +235,19 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
     success_url = reverse_lazy('subject:index')
 
     def dispatch(self, request, *args, **kwargs):
-        user = request.user
-        pk = user.pk 
-        
         if kwargs.get('subject_slug'):
-            subject = Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('subject_slug')))
-            if not user.is_staff:
-                if subject.count() == 0:
-                    if request.META.get('HTTP_REFERER'):
-                        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-                    else:
-                        return redirect('subjects:index')
-    
+            subject = get_object_or_404(Subject, slug = kwargs.get('subject_slug', ''))
+            
+            if not has_category_permissions(request.user, subject.category):
+                return redirect(reverse_lazy('subjects:home'))
 
         if kwargs.get('slug'):
-            if not user.is_staff:
-                category = Category.objects.filter(Q(coordinators__pk=pk) & Q(slug= kwargs.get('slug')))
-                if category.count() == 0:
-                        if request.META.get('HTTP_REFERER'):
-                            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-                        else:
-                            return redirect('subjects:index')               
-        if request.method.lower() in self.http_method_names:
-            handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
-        else:
-            handler = self.http_method_not_allowed
-        return handler(request, *args, **kwargs)
+            category = get_object_or_404(Category, slug = kwargs.get('slug', ''))
+
+            if not has_category_permissions(request.user, category):
+                return redirect(reverse_lazy('subjects:home'))
+            
+        return super(SubjectCreateView, self).dispatch(request, *args, **kwargs)
    
 
     def get_initial(self):
@@ -357,23 +345,12 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
     redirect_field_name = 'next'
 
     def dispatch(self, request, *args, **kwargs):
-        user = self.request.user
+        subject = get_object_or_404(Subject, slug = kwargs.get('slug', ''))
         
-        pk = user.pk
+        if not has_subject_permissions(request.user, subject):
+            return redirect(reverse_lazy('subjects:home'))
 
-        subject = Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('slug')))
-        if not user.is_staff:
-            if subject.count() == 0:
-                if request.META.get('HTTP_REFERER'):
-                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-                else:
-                    return redirect('subjects:index')
-
-        if request.method.lower() in self.http_method_names:
-            handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
-        else:
-            handler = self.http_method_not_allowed
-        return handler(request, *args, **kwargs)
+        return super(SubjectUpdateView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(SubjectUpdateView, self).get_context_data(**kwargs)
@@ -413,17 +390,11 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
     template_name = 'subjects/delete.html'
 
     def dispatch(self, request, *args, **kwargs):
-        user = self.request.user
+        subject = get_object_or_404(Subject, slug = kwargs.get('slug', ''))
         
-        pk = user.pk
+        if not has_subject_permissions(request.user, subject):
+            return redirect(reverse_lazy('subjects:home'))
 
-        subject = Subject.objects.filter((Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('slug')))
-        if not user.is_staff:
-            if subject.count() == 0:
-                if request.META.get('HTTP_REFERER'):
-                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-                else:
-                    return redirect('subjects:index')
         return super(SubjectDeleteView, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
@@ -480,24 +451,12 @@ class SubjectDetailView(LoginRequiredMixin, LogMixin, DetailView):
     context_object_name = 'subject'
 
     def dispatch(self, request, *args,**kwargs):
-        user = request.user
-        pk = user.pk
-        if kwargs.get('slug') and not user.is_staff:
-            subject = get_object_or_404(Subject, slug = kwargs.get('slug'))
+        subject = get_object_or_404(Subject, slug = kwargs.get('slug', ''))
 
-            subject = Subject.objects.filter((Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk)) & Q(slug = kwargs.get('slug')))
-            
-            if subject.count() == 0:
-                if request.META.get('HTTP_REFERER'):
-                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-                else:
-                    return redirect('subjects:home')
-                            
-        if request.method.lower() in self.http_method_names:
-            handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
-        else:
-            handler = self.http_method_not_allowed
-        return handler(request, *args, **kwargs)
+        if not has_subject_view_permissions(request.user, subject):
+            return redirect(reverse_lazy('subjects:home'))
+
+        return super(SubjectDetailView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(SubjectDetailView, self).get_context_data(**kwargs)

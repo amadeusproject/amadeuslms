@@ -1,7 +1,24 @@
 # File used to store functions to handle permissions
 
+from categories.models import Category
 from subjects.models import Subject
 from topics.models import Resource
+
+"""
+	Function to know if a user has permission to:
+		- Edit Category
+		- Delete Category
+		- Create Subject
+		- Replicate Subject
+"""
+def has_category_permissions(user, category):
+	if user.is_staff:
+		return True
+
+	if category.coordinators.filter(id = user.id).exists():
+		return True
+
+	return False
 
 """
 	Function to know if a user has permission to:
