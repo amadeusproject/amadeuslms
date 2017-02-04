@@ -62,7 +62,10 @@
 		 {% elif resources|length > 0 and all %}
             <div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
                 {% for resource in resources %}
-                    {% include "subjects/resource_card.html" with resource=resource %}
+                    {% if request.user in resource.students.all or request.user in resource.topic.subject.category.coordinators.all or request.user.is_staff %}
+                        {% include "subjects/resource_card.html" with resource=resource %}
+                    {% endif %}
+                   
                 {% endfor %}
                 
                 {% pagination request paginator page_obj %}
