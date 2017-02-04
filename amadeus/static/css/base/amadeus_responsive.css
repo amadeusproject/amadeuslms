@@ -1,4 +1,8 @@
 @media(min-width: 1200px) {
+	.mural .post_make .user-img {
+		height: 70px;
+	}
+
 	.mural .post_make .user-img img {
 	    max-width: 70px;
 	    max-height: 70px;
@@ -12,6 +16,10 @@
 @media(max-width: 1199px) {
 	.navbar .navbar-brand {
 		padding: 15px;
+	}
+
+	.mural .post_make .user-img {
+		height: 65px;
 	}
 
 	.mural .post_make .user-img img {
@@ -61,6 +69,10 @@
         
         display:none;
     }
+
+    .mural .post_make .user-img {
+		height: 60px;
+	}
 
     .mural .post_make .user-img img {
 	    max-width: 60px;
@@ -112,6 +124,10 @@
 }
 
 @media(max-width: 680px) {
+	.mural .post_make .user-img {
+		height: 50px;
+	}
+
 	.mural .post_make .user-img img {
 	    max-width: 50px;
 	    max-height: 50px;

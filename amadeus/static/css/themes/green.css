@@ -492,8 +492,16 @@ a.add-row {
     background: #FFFFFF;
 }
 
+.mural .post_make .user-img {
+    background: #CCCCCC;
+}
+
 .mural .post_make .post-field div {
     border-color: #CCCCCC;
+}
+
+.mural .post_make .post-field h4 {
+    color: #CCCCCC;
 }
 
 @media(max-width: 768px) {

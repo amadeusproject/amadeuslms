@@ -931,8 +931,18 @@ li.item .notify_badge {
     padding: 10px;
     margin-bottom: 10px;
 }
+.mural .post_make .panel-body {
+    padding: 0;
+}
 .mural .post_make .user-img {
     padding: 0;
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    flex-direction: column;
+    justify-content: center;
 }
 .mural .post_make .post-field {
     padding-right: 0px;
