@@ -29,21 +29,72 @@
 	    			</div>
 	    			<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 post-field">
 	    				<div>
-	    					<h4>{% trans 'Wish to make a new post?' %}</h4>
+	    					<h4 data-url="{% url 'mural:create_general' %}">{% trans 'Wish to make a new post?' %}</h4>
 	    				</div>
 	    			</div>
 	    		</div>
     		</div>
 
-    		{% if posts.count > 0 %}
-    		{% else %}
-    			<div class="text-center no-subjects">
-	                <i class="fa fa-list"></i>
-	                <h4>{% trans 'There are no posts in this mural yet.' %}</h4>
-	            </div>
-    		{% endif %}
+    		<div class="posts">
+                {% for post in posts %}
+                    {% include 'mural/_view.html' %}
+                {% endfor %}
+            </div>
+			<div class="text-center no-subjects" {% if posts.count > 0 %} style="display:none" {% endif %}>
+                <i class="fa fa-list"></i>
+                <h4>{% trans 'There are no posts in this mural yet.' %}</h4>
+            </div>
     	</div>
     	<div class="col-md-3 col-sm-3 col-xs-3">
     	</div>
     </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+  
+    <script type="text/javascript">
+        $(function () {
+            $(".post-field").click(function () {
+                var url = $(this).find('h4').data('url');
+
+                $.ajax({
+                    url: url,
+                    success: function (data) {
+                        $('.modal').html(data);
+
+                        setPostFormSubmit();
+
+                        $('.modal').modal('show');
+                    }
+                })
+            });
+        });
+
+        function setPostFormSubmit() {
+            var frm = $('#post-form');
+
+            frm.submit(function () {
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+                    dataType: "json",
+                    success: function (data) {
+                        $('.posts').prepend(data.view);
+
+                        $('.no-subjects').attr('style', 'display:none');
+
+                        $('.modal').modal('hide');
+
+                        alertify.success(data.message);
+                    },
+                    error: function(data) {
+                        $(".modal").html(data.responseText);
+                        setPostFormSubmit();
+                    }
+                });
+
+                return false;
+            });
+        }
+    </script>
 {% endblock %}

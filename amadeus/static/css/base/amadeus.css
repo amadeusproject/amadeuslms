@@ -969,3 +969,12 @@ li.item .notify_badge {
     cursor: text;
     font-style: italic;
 }
+
+.post_action i {
+    font-size: 45px;
+}
+
+.post-button {
+    padding-right: inherit !important;
+    padding-left: inherit !important;
+}
