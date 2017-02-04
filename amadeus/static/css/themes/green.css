@@ -504,6 +504,10 @@ a.add-row {
     color: #CCCCCC;
 }
 
+.post_action i {
+    color: #1d8fe0;
+}
+
 @media(max-width: 768px) {
     .navbar .navbar-nav .dropdown .dropdown-menu li > a {
         color: #333333 !important;

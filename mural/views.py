@@ -2,12 +2,16 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 from django.contrib import messages
 from django.http import JsonResponse
+from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Count
 
+from users.models import User
+
 from .models import GeneralPost, CategoryPost, SubjectPost, MuralVisualizations
+from .forms import GeneralPostForm
 
 class GeneralIndex(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
@@ -39,3 +43,53 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
 		context['mural_menu_active'] = 'subjects_menu_active'
 
 		return context
+
+class GeneralCreate(LoginRequiredMixin, generic.edit.CreateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/_form.html'
+	form_class = GeneralPostForm
+
+	def form_invalid(self, form):
+		context = super(GeneralCreate, self).form_invalid(form)
+		context.status_code = 400
+
+		return context
+
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+
+		self.object.user = self.request.user
+
+		self.object.save()
+
+		users = User.objects.all().exclude(id = self.request.user.id)
+		entries = []
+
+		for user in users:
+			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object)) 
+
+		MuralVisualizations.objects.bulk_create(entries)
+
+		return super(GeneralCreate, self).form_valid(form)
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(GeneralCreate, self).get_context_data(*args, **kwargs)
+
+		context['form_url'] = reverse_lazy("mural:create_general")
+
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('mural:render_post_general', args = (self.object.id, ))
+
+def render_gen_post(request, post):
+	post = get_object_or_404(GeneralPost, id = post)
+
+	context = {}
+	context['post'] = post
+
+	html = render_to_string("mural/_view.html", context, request)
+
+	return JsonResponse({'message': _('Your post was published successfully!'), 'view': html})

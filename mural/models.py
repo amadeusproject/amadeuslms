@@ -16,7 +16,7 @@ def validate_img_extension(value):
 			raise ValidationError(_('File not supported.'))
 
 class Mural(KnowsChild):
-	action = models.CharField(_('Action'), max_length = 100, choices = (("comment", _("Comment")), ("help", _("Ask for Help"))), blank = True)
+	action = models.CharField(_('Action'), max_length = 100, default = "comment", choices = (("comment", _("Comment")), ("help", _("Ask for Help"))))
 	post = models.TextField(_('Post'), blank = True)
 	image = models.ImageField(verbose_name = _('Image'), null=True, blank = True, upload_to = 'posts/', validators = [validate_img_extension])
 	user = models.ForeignKey(User, verbose_name = _('User'), related_name = "post_user", null = True)
