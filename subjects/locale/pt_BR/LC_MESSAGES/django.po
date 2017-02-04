@@ -179,7 +179,7 @@ msgstr "Resultados da busca"
 
 #: subjects/templates/subjects/list_search.html:33
 msgid " any subjects or resources were found on the search for "
-msgstr " quaisquer assuntos ou recursos foram encontrados na busca por "
+msgstr " Nenhum assunto ou recursos foram encontrados na busca por "
 
 #: subjects/templates/subjects/list_search.html:38
 #: subjects/templates/subjects/list_search.html:41 subjects/views.py:624
