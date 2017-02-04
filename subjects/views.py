@@ -577,6 +577,8 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(SubjectSearchView, self).get_context_data(**kwargs)
         
+        if self.totals['resources'] == 0 and self.totals['my_subjects'] == 0:
+            context['empty'] = True
         context['tags'] = self.tags
         context['all'] = False
         context['title'] = _('Subjects')

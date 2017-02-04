@@ -272,8 +272,7 @@ msgstr "Início"
 
 #: subjects/views.py:152
 msgid "Page is not 'last', nor can it be converted to an int."
-msgstr ""
-"Página não é a 'última', e também não pode ser convertido para um inteiro"
+msgstr "Página não é a 'última', e também não pode ser convertido para um inteiro"
 
 #: subjects/views.py:158
 #, python-format

@@ -27,10 +27,11 @@
             </script>
         {% endfor %}
     {% endif %}
-    {% if subjects|length > 0 %}
-         <p id="search-results-title">{% trans "Search results" %}:</p>
+    {% if empty %}
+        <p id="search-results-title">{% trans "Search results" %}: {% trans " Any subjects or Resources were not found on the search for " %}  {{tags}} </p>
+
     {% else %}
-         <p id="search-results-title">{% trans "Search results" %}: {% trans " Any subjects or Resources were not found on the search for " %}  {{tags}} </p>
+        <p id="search-results-title">{% trans "Search results" %}:</p>
     {% endif %}
     <div id="core-subjects-options-div">
         <ul class="core-subjects-options">
