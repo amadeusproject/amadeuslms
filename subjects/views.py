@@ -562,7 +562,8 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
         tags = tags.split(" ")
         q = Q()
         for tag in tags:
-            q = q | Q(tags__name__unaccent__icontains=tag  )
+            for word in tag.split(' '):
+                q = q | Q(tags__name__unaccent__iexact=word  )
         
         subjects = Subject.objects.filter(q).distinct()
         self.resources = Resource.objects.filter(q).distinct()
