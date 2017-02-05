@@ -1,3 +1,10 @@
+if (("Notification" in window)) {
+	if (Notification.permission !== 'denied') {
+		Notification.requestPermission();
+	}
+}
+
+
 socket = new WebSocket("ws://" + window.location.host + "/");
 
 socket.onmessage = function(e) {
@@ -20,16 +27,7 @@ socket.onmessage = function(e) {
 		    	var notification = new Notification("", options);
 
 		    	setTimeout(notification.close.bind(notification), 3000);
-		    } else if (Notification.permission !== 'denied') {
-		    	Notification.requestPermission(function (permission) {
-		      		// If the user accepts, let's create a notification
-		      		if (permission === "granted") {
-		        		var notification = new Notification("", options);
-
-		        		setTimeout(notification.close.bind(notification), 3000);
-		      		}
-		    	});
-		  	}
+		    }
 	  	}
 	}
 }
