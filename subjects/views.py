@@ -567,7 +567,7 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
         
         subjects = Subject.objects.filter(q).distinct()
         self.resources = Resource.objects.filter(q).distinct()
-        
+
         self.totals = {'resources': self.resources.count(), 'my_subjects': subjects.count()}
        
         option = self.kwargs.get('option')
