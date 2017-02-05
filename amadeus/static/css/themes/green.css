@@ -504,8 +504,30 @@ a.add-row {
     color: #CCCCCC;
 }
 
-.post_action i {
+.post_action i, .post .post-user .user-action i {
     color: #1d8fe0;
+}
+
+.post .post-user {
+    color: #4caf50;
+}
+
+.post .post-user .user-action {
+    color: #BBBBBB;
+}
+
+.post .time {
+    color: #ABABAB;
+}
+
+.post .post-comment {
+    border-top-color: #888888;
+    background: #D5D5D5;
+}
+
+.post .post-comment .comment-field div {
+    border-color: #888888;
+    background: #FFFFFF;
 }
 
 @media(max-width: 768px) {

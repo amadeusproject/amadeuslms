@@ -947,7 +947,7 @@ li.item .notify_badge {
 .mural .post_make .panel-body {
     padding: 0;
 }
-.mural .post_make .user-img {
+.mural .post_make .user-img, .post .post-img {
     padding: 0;
     display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
     display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
@@ -977,4 +977,72 @@ li.item .notify_badge {
 .post-button {
     padding-right: inherit !important;
     padding-left: inherit !important;
+}
+
+.post .post-body {
+    padding-right: 0;
+}
+
+.post .post-user {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.post .post-user .btn-group {
+    margin: 0;
+}
+
+.post .post-user .btn-group .btn_menu i {
+    font-size: 18px;
+}
+
+.post .post-user .user-action {
+    padding-left: 5px;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.post .post-user .user-action i {
+    font-size: 22px;
+}
+
+.post .time {
+    font-size: 14px;
+}
+
+.post .post-comment {
+    margin-top: 10px;
+    border-top-width: 1px;
+    border-top-style: solid;
+    padding: 10px 0px 8px 0px;
+}
+
+.post .post-comment .user-img {
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    flex-direction: column;
+    justify-content: center;
+}
+
+.post .post-comment .comment-field {
+    padding-left: 0px;
+}
+
+.post .post-comment .comment-field div {
+    border-width: 1px;
+    border-style: solid;
+}
+
+.post .post-comment .comment-field h4 {
+    margin: 5px 0px;
+    line-height: 1.8em;
+    padding-left: 10px;
+    font-size: 14px;
+    font-style: italic;
+    cursor: text;
 }

@@ -73,11 +73,14 @@
             var frm = $('#post-form');
 
             frm.submit(function () {
+                var formData = new FormData($(this)[0]);
+
                 $.ajax({
                     type: frm.attr('method'),
                     url: frm.attr('action'),
-                    data: frm.serialize(),
+                    data: formData,
                     dataType: "json",
+                    async: false,
                     success: function (data) {
                         $('.posts').prepend(data.view);
 
@@ -90,7 +93,10 @@
                     error: function(data) {
                         $(".modal").html(data.responseText);
                         setPostFormSubmit();
-                    }
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false
                 });
 
                 return false;
