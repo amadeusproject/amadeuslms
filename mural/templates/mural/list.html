@@ -49,7 +49,7 @@
     	</div>
     </div>
 
-    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+    <div class="modal fade" id="post-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
   
     <script type="text/javascript">
         $(function () {
@@ -59,11 +59,11 @@
                 $.ajax({
                     url: url,
                     success: function (data) {
-                        $('.modal').html(data);
+                        $('#post-modal-form').html(data);
 
                         setPostFormSubmit();
 
-                        $('.modal').modal('show');
+                        $('#post-modal-form').modal('show');
                     }
                 })
             });
@@ -86,12 +86,12 @@
 
                         $('.no-subjects').attr('style', 'display:none');
 
-                        $('.modal').modal('hide');
+                        $('#post-modal-form').modal('hide');
 
                         alertify.success(data.message);
                     },
                     error: function(data) {
-                        $(".modal").html(data.responseText);
+                        $("#post-modal-form").html(data.responseText);
                         setPostFormSubmit();
                     },
                     cache: false,
