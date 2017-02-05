@@ -79,7 +79,11 @@ a, a:focus, a:hover {
     background-color: #FFFFFF !important;
 }
 
-.group-panel .panel-title, .group-panel .category-header i, .group-panel .category-course-link {
+.group-panel .panel-title, .group-panel .category-header i, .group-panel .category-course-link  {
+    color: #000000 !important;
+}
+
+.resource-link{
     color: #000000 !important;
 }
 

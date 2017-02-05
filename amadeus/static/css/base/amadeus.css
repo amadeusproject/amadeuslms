@@ -113,7 +113,7 @@ a:focus {
 /* category app starts */
 .resource-panel > .panel-heading{
     padding: 0px 0px;
-    background-color: #BDBDBD;
+    background-color: #BDBDBD !important;
 }
 
 .resource-panel .btn-group{
@@ -122,6 +122,41 @@ a:focus {
 
 .resource-panel h4{
     margin-top: 8px !important;
+}
+
+.resource-header > h4{
+    float:left;
+    margin-top: 5px;
+    margin-bottom: 2px;
+}
+
+.resource-header > h4.panel-title span {
+    margin-left: 10px;
+    font-weight: normal;
+}
+
+.resource-header > h4 > a:focus {
+    text-decoration: none;
+}
+
+.resource-header .dropdown-menu i {
+    font-size: 20px !important;
+    float: none;
+}
+
+.resource-header i {
+    font-size: 20px;
+    float: right;
+}
+
+.resource-link{
+    font-size: 16px;
+    font-family: Roboto;
+    font-weight: normal;
+}
+
+.resource-link:hover{
+    text-decoration: none;
 }
 
 .category-panel > .panel-heading, .subject-panel > .panel-heading, .special-panel > .panel-heading, .topic-panel > .panel-heading, .group-panel > .panel-heading {
@@ -557,6 +592,8 @@ a:focus {
 .category-course-link:hover{
     text-decoration: none;
 }
+
+
 
 /* Menu link remove radius */
 .nav-pills > li > a {
