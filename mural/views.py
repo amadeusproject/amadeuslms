@@ -8,6 +8,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Count
 
+from channels import Group
+import json
+
 from users.models import User
 
 from .models import GeneralPost, CategoryPost, SubjectPost, MuralVisualizations
@@ -67,8 +70,15 @@ class GeneralCreate(LoginRequiredMixin, generic.edit.CreateView):
 		users = User.objects.all().exclude(id = self.request.user.id)
 		entries = []
 
+		notify_type = "mural"
+		user_icon = self.object.user.image_url
+		_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
+		simple_notify = _("%s has made a post in General")%(str(self.object.user))
+		pathname = reverse("mural:manage_general")
+
 		for user in users:
-			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object)) 
+			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
+			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view})})
 
 		MuralVisualizations.objects.bulk_create(entries)
 

@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'session_security',
     'django_crontab',
     'django_cron',
-    #'channels',
+    'channels',
 
     'amadeus',
     'users',

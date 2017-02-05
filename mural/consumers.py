@@ -1,14 +1,15 @@
 from channels import Group
 from channels.sessions import channel_session
-from django.http import HttpResponse
-from channels.handler import AsgiHandler
+from channels.auth import channel_session_user, channel_session_user_from_http
 
-def http_consumer(message):
-    # Make standard HTTP response - access ASGI path attribute directly
-    response = HttpResponse("Hello world! You asked for %s" % message.content['path'])
-    # Encode that response into message format (ASGI)
-    for chunk in AsgiHandler.encode_response(response):
-        message.reply_channel.send(chunk)
+# Connected to websocket.connect
+@channel_session_user_from_http
+def ws_add(message):
+    # Accept connection
+    message.reply_channel.send({"accept": True})
+    # Add them to the right group
+    Group("user-%s" % message.user.id).add(message.reply_channel)
+
 
 def ws_message(message):
     # ASGI WebSocket packet-received and send-packet message types
