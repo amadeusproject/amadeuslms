@@ -132,6 +132,23 @@ class GeneralUpdate(LoginRequiredMixin, generic.UpdateView):
 	def get_success_url(self):
 		return reverse_lazy('mural:render_post_general', args = (self.object.id, 'update', ))
 
+class GeneralDelete(LoginRequiredMixin, generic.DeleteView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/delete.html'
+	model = GeneralPost
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(GeneralDelete, self).get_context_data(*args, **kwargs)
+
+		context['form_url'] = reverse_lazy("mural:delete_general", args = (), kwargs = {'pk': self.object.id})
+
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('mural:deleted_post')	
+
 def render_gen_post(request, post, msg):
 	post = get_object_or_404(GeneralPost, id = post)
 
@@ -148,6 +165,9 @@ def render_gen_post(request, post, msg):
 	html = render_to_string("mural/_view.html", context, request)
 
 	return JsonResponse({'message': msg, 'view': html})
+
+def deleted_post(request):
+	return JsonResponse({'msg': _('Post deleted successfully!')})
 
 @login_required
 def favorite(request, post):

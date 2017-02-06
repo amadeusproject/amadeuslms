@@ -30,11 +30,18 @@ class Mural(KnowsChild):
 	def update_link(self):
 		pass
 
+	@always_as_child
+	def delete_link(self):
+		pass
+
 class GeneralPost(Mural):
 	space = models.IntegerField(_('Space'), default = 0, blank = True)
 
 	def update_link(self):
 		return "mural:update_general"
+
+	def delete_link(self):
+		return "mural:delete_general"
 
 class CategoryPost(Mural):
 	space = models.ForeignKey(Category, verbose_name = ('Category'), related_name = 'post_category')
@@ -42,11 +49,17 @@ class CategoryPost(Mural):
 	def update_link(self):
 		return ""
 
+	def delete_link(self):
+		return ""
+
 class SubjectPost(Mural):
 	space = models.ForeignKey(Subject, verbose_name = _('Subject'), related_name = 'post_subject')
 	resource = models.ForeignKey(Resource, verbose_name = _('Resource'), related_name = 'post_resource', null = True)
 
 	def update_link(self):
+		return ""
+
+	def delete_link(self):
 		return ""
 
 class Comment(models.Model):

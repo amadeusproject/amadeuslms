@@ -136,10 +136,7 @@
         function editPost(btn) {
             var url = btn.data('url');
             var post = btn.data('post');
-
-            console.log(url);
-            console.log(post);
-
+            
             $.ajax({
                 url: url,
                 success: function (data) {
@@ -149,6 +146,46 @@
 
                     $('#post-modal-form').modal('show');
                 }
+            });
+        }
+
+        function deletePost(btn) {
+            var url = btn.data('url');
+            var post = btn.data('post');
+
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    $('#post-modal-form').html(data);
+
+                    setPostDeleteSubmit(post);
+
+                    $('#post-modal-form').modal('show');
+                }
+            });
+        }
+
+        function setPostDeleteSubmit (post) {
+            var frm = $("#delete_form");
+
+            frm.submit(function () {
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+                    success: function (response) {
+                        $("#post-" + post).remove();
+
+                        $('#post-modal-form').modal('hide');
+
+                        alertify.success(response.msg);                        
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+
+                return false;
             });
         }
     </script>

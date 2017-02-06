@@ -20,7 +20,7 @@
 						<ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
 		                    <li><a onclick="editPost($(this));" data-url="{% url post.update_link post.id %}" data-post="{{ post.id }}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> {% trans 'Edit' %}</a></li>
 		                    <li>
-		                    <a href="" aria-hidden="true"><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>
+		                    <a onclick="deletePost($(this))" data-url="{% url post.delete_link post.id %}" data-post="{{ post.id }}" aria-hidden="true"><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>
 		                </ul>
 		            </span>
 		        {% endif %}

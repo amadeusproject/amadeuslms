@@ -1018,6 +1018,10 @@ li.item .notify_badge {
     margin: 0;
 }
 
+.post .post-user .btn-group .dropdown-menu a {
+    cursor: pointer;
+}
+
 .post .post-user .btn-group .btn_menu i {
     font-size: 18px;
 }
