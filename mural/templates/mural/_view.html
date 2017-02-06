@@ -24,6 +24,11 @@
 		                </ul>
 		            </span>
 		        {% endif %}
+		        <span class="btn-group pull-right">
+			        <button class="btn btn-sm btn_menu" data-toggle="tooltip" data-placement="top" title="{{ post|fav_label:request.user }}">
+			        	<i class="fa fa-thumb-tack"></i>
+			        </button>
+			    </span>
 			</h4>
 			<p class="time">
 				<i class="fa fa-clock-o"></i>
@@ -37,7 +42,6 @@
 			{% if post.image %}
 				<img src="{{ post.image.url }}" class="img-responsive center-block" />
 			{% endif %}
-
 		</div>
 		<div class="col-md-12 post-comment">
 			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 user-img">
