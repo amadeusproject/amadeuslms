@@ -65,11 +65,11 @@
 
                         $('#post-modal-form').modal('show');
                     }
-                })
+                });
             });
         });
 
-        function setPostFormSubmit() {
+        function setPostFormSubmit(post = "") {
             var frm = $('#post-form');
 
             frm.submit(function () {
@@ -82,9 +82,17 @@
                     dataType: "json",
                     async: false,
                     success: function (data) {
-                        $('.posts').prepend(data.view);
+                        if (post != "") {
+                            var old = $("#post-" + post);
+                            
+                            old.before(data.view);
 
-                        $('.no-subjects').attr('style', 'display:none');
+                            old.remove();
+                        } else {
+                            $('.posts').prepend(data.view);
+
+                            $('.no-subjects').attr('style', 'display:none');
+                        }
 
                         $('#post-modal-form').modal('hide');
 
@@ -92,7 +100,7 @@
                     },
                     error: function(data) {
                         $("#post-modal-form").html(data.responseText);
-                        setPostFormSubmit();
+                        setPostFormSubmit(post);
                     },
                     cache: false,
                     contentType: false,
@@ -123,7 +131,25 @@
                     btn.attr('data-original-title', response.label);
                 }
             });
+        }
 
+        function editPost(btn) {
+            var url = btn.data('url');
+            var post = btn.data('post');
+
+            console.log(url);
+            console.log(post);
+
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    $('#post-modal-form').html(data);
+
+                    setPostFormSubmit(post);
+
+                    $('#post-modal-form').modal('show');
+                }
+            });
         }
     </script>
 {% endblock %}

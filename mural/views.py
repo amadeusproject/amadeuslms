@@ -97,17 +97,57 @@ class GeneralCreate(LoginRequiredMixin, generic.edit.CreateView):
 		return context
 
 	def get_success_url(self):
-		return reverse_lazy('mural:render_post_general', args = (self.object.id, ))
+		return reverse_lazy('mural:render_post_general', args = (self.object.id, 'create', ))
 
-def render_gen_post(request, post):
+class GeneralUpdate(LoginRequiredMixin, generic.UpdateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/_form.html'
+	model = GeneralPost
+	form_class = GeneralPostForm
+
+	def form_invalid(self, form):
+		context = super(GeneralUpdate, self).form_invalid(form)
+		context.status_code = 400
+
+		return context
+
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+
+		self.object.edited = True
+
+		self.object.save()
+		
+		return super(GeneralUpdate, self).form_valid(form)
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(GeneralUpdate, self).get_context_data(*args, **kwargs)
+
+		context['form_url'] = reverse_lazy("mural:update_general", args = (), kwargs = {'pk': self.object.id})
+
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('mural:render_post_general', args = (self.object.id, 'update', ))
+
+def render_gen_post(request, post, msg):
 	post = get_object_or_404(GeneralPost, id = post)
 
 	context = {}
 	context['post'] = post
 
+	msg = ""
+
+	if msg == 'create':
+		msg = _('Your post was published successfully!')
+	else:
+		msg = _('Your post was edited successfully!')
+
 	html = render_to_string("mural/_view.html", context, request)
 
-	return JsonResponse({'message': _('Your post was published successfully!'), 'view': html})
+	return JsonResponse({'message': msg, 'view': html})
 
 @login_required
 def favorite(request, post):

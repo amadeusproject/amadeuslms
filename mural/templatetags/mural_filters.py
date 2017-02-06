@@ -5,6 +5,13 @@ from mural.models import MuralFavorites
 
 register = template.Library()
 
+@register.filter(name = 'is_edited')
+def is_edited(post):
+	if post.edited:
+		return _("(Edited)")
+
+	return ""
+
 @register.filter(name = 'action_icon')
 def action_icon(action):
 	if action == "comment":
