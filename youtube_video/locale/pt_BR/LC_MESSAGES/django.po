@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-02 18:45-0300\n"
+"POT-Creation-Date: 2017-02-06 13:59-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
 #: youtube_video/forms.py:31
 msgid "Tags"
 msgstr "Tags"
@@ -30,7 +31,9 @@ msgid "This subject already has a youtube video with this name"
 msgstr "Esse assunto já possui um vídeo do YouTube com esse nome"
 
 #: youtube_video/forms.py:67
-msgid "Invalid URL. It should be an embed YouTube link."
+#, fuzzy
+#| msgid "Invalid URL. It should be an embed YouTube link."
+msgid "Invalid URL. It should be an YouTube link."
 msgstr "URL inválida. Ela deve ser uma URL de embed do YouTube."
 
 #: youtube_video/models.py:7
@@ -119,7 +122,9 @@ msgstr "Adicionar Vídeo do YouTube"
 msgid ""
 "The Youtube Video \"%s\" was added to the Topic \"%s\" of the virtual "
 "environment \"%s\" successfully!"
-msgstr "O Vídeo do YouTube \"%s\" foi adicionado ao tópico \"%s\" do ambiente virtual \"%s\" com sucesso!"
+msgstr ""
+"O Vídeo do YouTube \"%s\" foi adicionado ao tópico \"%s\" do ambiente "
+"virtual \"%s\" com sucesso!"
 
 #: youtube_video/views.py:346
 msgid "Update YouTube Video"
@@ -135,4 +140,6 @@ msgstr "O Vídeo do YouTube \"%s\" foi atualizado com sucesso!"
 msgid ""
 "The YouTube Video \"%s\" was removed successfully from virtual environment "
 "\"%s\"!"
-msgstr "O Vídeo do YouTube \"%s\" foi removido do ambiente virtual \"%s\" com sucesso!"
+msgstr ""
+"O Vídeo do YouTube \"%s\" foi removido do ambiente virtual \"%s\" com "
+"sucesso!"

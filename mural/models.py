@@ -46,3 +46,7 @@ class MuralVisualizations(models.Model):
 	post = models.ForeignKey(Mural, verbose_name = _('Post'), related_name = 'visualization_post', null = True)
 	comment = models.ForeignKey(Comment, verbose_name = _('Comment'), related_name = 'visualization_comment', null = True)
 	user = models.ForeignKey(User, verbose_name = _('User'), related_name = "visualization_user", null = True)
+
+class MuralFavorites(models.Model):
+	post = models.ForeignKey(Mural, verbose_name = _('Post'), related_name = 'favorites_post', null = True)
+	user = models.ForeignKey(User, verbose_name = _('User'), related_name = "favorites_user", null = True)

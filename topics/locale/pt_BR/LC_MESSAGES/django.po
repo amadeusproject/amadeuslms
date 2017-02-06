@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-02 18:45-0300\n"
+"POT-Creation-Date: 2017-02-06 13:59-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -112,11 +112,11 @@ msgstr "Fechar"
 msgid "Delete"
 msgstr "Deletar"
 
-#: topics/templates/resources/list.html:30 topics/templates/topics/list.html:28
+#: topics/templates/resources/list.html:32 topics/templates/topics/list.html:28
 msgid "Edit"
 msgstr "Editar"
 
-#: topics/templates/resources/list.html:31 topics/templates/topics/list.html:29
+#: topics/templates/resources/list.html:33 topics/templates/topics/list.html:29
 msgid "Remove"
 msgstr "Remover"
 

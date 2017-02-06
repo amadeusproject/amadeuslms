@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-02 18:45-0300\n"
+"POT-Creation-Date: 2017-02-06 13:59-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -173,21 +173,23 @@ msgid "Create new subject"
 msgstr "Criar novo assunto"
 
 #: subjects/templates/subjects/list_search.html:31
-#: subjects/templates/subjects/list_search.html:33
+#: subjects/templates/subjects/list_search.html:34
 msgid "Search results"
 msgstr "Resultados da busca"
 
-#: subjects/templates/subjects/list_search.html:33
-msgid " any subjects or resources were found on the search for "
+#: subjects/templates/subjects/list_search.html:31
+#, fuzzy
+#| msgid " any subjects or resources were found on the search for "
+msgid " Any subjects or Resources were not found on the search for "
 msgstr " Nenhum assunto ou recursos foram encontrados na busca por "
 
-#: subjects/templates/subjects/list_search.html:38
-#: subjects/templates/subjects/list_search.html:41 subjects/views.py:624
+#: subjects/templates/subjects/list_search.html:39
+#: subjects/templates/subjects/list_search.html:42 subjects/views.py:586
 msgid "Subjects"
 msgstr "Assuntos"
 
-#: subjects/templates/subjects/list_search.html:39
-#: subjects/templates/subjects/list_search.html:42 subjects/views.py:631
+#: subjects/templates/subjects/list_search.html:40
+#: subjects/templates/subjects/list_search.html:43 subjects/views.py:593
 msgid "Resources"
 msgstr "Recursos"
 
@@ -211,6 +213,7 @@ msgstr ""
 msgid "Subject"
 msgstr "Assuntos"
 
+#: subjects/templates/subjects/resource_card.html:59
 #: subjects/templates/subjects/resource_card.html:61
 #, fuzzy
 #| msgid "Resources"
@@ -266,50 +269,51 @@ msgstr "Editar: "
 msgid "Create new topic"
 msgstr "Criar novo tópico"
 
-#: subjects/views.py:56
+#: subjects/views.py:57
 msgid "Home"
 msgstr "Início"
 
-#: subjects/views.py:152
+#: subjects/views.py:153
 msgid "Page is not 'last', nor can it be converted to an int."
-msgstr "Página não é a 'última', e também não pode ser convertido para um inteiro"
+msgstr ""
+"Página não é a 'última', e também não pode ser convertido para um inteiro"
 
-#: subjects/views.py:158
+#: subjects/views.py:159
 #, python-format
 msgid "Invalid page (%(page_number)s): %(message)s"
 msgstr "Página inválida (%(page_number)s): %(message)s"
 
-#: subjects/views.py:181
+#: subjects/views.py:182
 msgid "My Subjects"
 msgstr "Meus assuntos"
 
-#: subjects/views.py:188
+#: subjects/views.py:189
 msgid "All Subjects"
 msgstr "Todos os assuntos"
 
-#: subjects/views.py:295
+#: subjects/views.py:283
 msgid "Create Subject"
 msgstr "Criar Assunto"
 
-#: subjects/views.py:301
+#: subjects/views.py:289
 msgid "Replicate Subject"
 msgstr "Replicar Assunto"
 
-#: subjects/views.py:343
+#: subjects/views.py:331
 #, python-format
 msgid "The Subject \"%s\" was registered on \"%s\" Category successfully!"
 msgstr "Assunto \"%s\" foi registrado na categoria \"%s\" com sucesso!"
 
-#: subjects/views.py:380
+#: subjects/views.py:357
 msgid "Update Subject"
 msgstr "Atualizar Assunto"
 
-#: subjects/views.py:400
+#: subjects/views.py:377
 #, python-format
 msgid "The Subject \"%s\" was updated on \"%s\" Category successfully!"
 msgstr "Assunto \"%s\" foi atualizado na categoria \"%s\" com sucesso!"
 
-#: subjects/views.py:432 subjects/views.py:436
+#: subjects/views.py:403 subjects/views.py:407
 msgid ""
 "Subject can't be removed. The subject still possess students and learning "
 "objects associated"
@@ -317,15 +321,15 @@ msgstr ""
 "Assunto não pode ser removido. Ele ainda possui alunos e objetos de "
 "aprendizado associados"
 
-#: subjects/views.py:464
+#: subjects/views.py:435
 #, python-format
 msgid "Subject \"%s\" removed successfully!"
 msgstr "Assunto \"%s\" removido com sucesso!"
 
-#: subjects/views.py:552
+#: subjects/views.py:511
 msgid "Subscription date is due!"
 msgstr "O período de inscrição está encerrado!"
 
-#: subjects/views.py:565
+#: subjects/views.py:524
 msgid "Subscription was successfull!"
 msgstr "Inscrição feita com sucesso!"
