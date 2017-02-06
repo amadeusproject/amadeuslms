@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-02 18:45-0300\n"
+"POT-Creation-Date: 2017-02-06 13:59-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,23 +82,23 @@ msgstr "Remover Conta"
 msgid "Logout"
 msgstr "Sair"
 
-#: amadeus/templates/base.html:177 amadeus/templates/base.html:226
+#: amadeus/templates/base.html:177 amadeus/templates/base.html:228
 msgid "Subjects"
 msgstr "Assuntos"
 
-#: amadeus/templates/base.html:182 amadeus/templates/base.html:231
+#: amadeus/templates/base.html:182 amadeus/templates/base.html:233
 msgid "Timeline"
 msgstr "Timeline"
 
-#: amadeus/templates/base.html:185 amadeus/templates/base.html:234
+#: amadeus/templates/base.html:187 amadeus/templates/base.html:238
 msgid "Messages"
 msgstr "Mensagens"
 
-#: amadeus/templates/base.html:188 amadeus/templates/base.html:237
+#: amadeus/templates/base.html:190 amadeus/templates/base.html:241
 msgid "Pendencias"
 msgstr "Pendências"
 
-#: amadeus/templates/base.html:196 amadeus/templates/base.html:245
+#: amadeus/templates/base.html:198 amadeus/templates/base.html:249
 msgid "Analytics"
 msgstr "Analytics"
 

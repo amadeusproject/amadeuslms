@@ -1,0 +1,159 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-06 13:59-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: mural/forms.py:16
+msgid "This field is required."
+msgstr ""
+
+#: mural/forms.py:28
+msgid "The image is too large. It should have less than 5MB."
+msgstr ""
+
+#: mural/models.py:16
+msgid "File not supported."
+msgstr ""
+
+#: mural/models.py:19
+msgid "Action"
+msgstr ""
+
+#: mural/models.py:19 mural/models.py:37 mural/models.py:47
+msgid "Comment"
+msgstr ""
+
+#: mural/models.py:19
+msgid "Ask for Help"
+msgstr ""
+
+#: mural/models.py:20 mural/models.py:39 mural/models.py:46 mural/models.py:51
+msgid "Post"
+msgstr ""
+
+#: mural/models.py:21 mural/models.py:38
+msgid "Image"
+msgstr ""
+
+#: mural/models.py:22 mural/models.py:40 mural/models.py:48 mural/models.py:52
+msgid "User"
+msgstr ""
+
+#: mural/models.py:23 mural/models.py:41
+msgid "Create Date"
+msgstr ""
+
+#: mural/models.py:24 mural/models.py:42
+msgid "Last Update"
+msgstr ""
+
+#: mural/models.py:27
+msgid "Space"
+msgstr ""
+
+#: mural/models.py:33
+msgid "Subject"
+msgstr ""
+
+#: mural/models.py:34
+msgid "Resource"
+msgstr ""
+
+#: mural/models.py:45
+msgid "Viewed"
+msgstr ""
+
+#: mural/templates/mural/_form.html:54
+msgid "Choose your photo..."
+msgstr ""
+
+#: mural/templates/mural/_form.html:63
+msgid "Click or drop the file here"
+msgstr ""
+
+#: mural/templates/mural/_form.html:65
+msgid "The file could not exceed 5MB."
+msgstr ""
+
+#: mural/templates/mural/_form.html:87
+msgid "Save"
+msgstr ""
+
+#: mural/templates/mural/_form.html:88
+msgid "Cancel"
+msgstr ""
+
+#: mural/templates/mural/_view.html:21
+msgid "Edit"
+msgstr ""
+
+#: mural/templates/mural/_view.html:23
+msgid "Remove"
+msgstr ""
+
+#: mural/templates/mural/_view.html:35
+msgid "In"
+msgstr ""
+
+#: mural/templates/mural/_view.html:52
+msgid "Make a comment..."
+msgstr ""
+
+#: mural/templates/mural/list.html:9
+msgid "Mural: General"
+msgstr ""
+
+#: mural/templates/mural/list.html:17
+msgid "General"
+msgstr ""
+
+#: mural/templates/mural/list.html:18
+msgid "Per Category"
+msgstr ""
+
+#: mural/templates/mural/list.html:19
+msgid "Per Subject"
+msgstr ""
+
+#: mural/templates/mural/list.html:32
+msgid "Wish to make a new post?"
+msgstr ""
+
+#: mural/templates/mural/list.html:45
+msgid "There are no posts in this mural yet."
+msgstr ""
+
+#: mural/templatetags/mural_filters.py:20
+msgid "Unfavorite"
+msgstr ""
+
+#: mural/templatetags/mural_filters.py:22
+msgid "Favorite"
+msgstr ""
+
+#: mural/views.py:44
+msgid "Mural"
+msgstr ""
+
+#: mural/views.py:76
+#, python-format
+msgid "%s has made a post in General"
+msgstr ""
+
+#: mural/views.py:105
+msgid "Your post was published successfully!"
+msgstr ""
