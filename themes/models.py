@@ -1,3 +1,4 @@
+from os import path
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.staticfiles.templatetags.staticfiles import static
@@ -27,7 +28,7 @@ class Themes(models.Model):
 	@property
 	def favicon_url(self):
 		if self.favicon and hasattr(self.favicon, 'url'):
-			if self.favicon.url != '/uploads/favicon_amadeus.png':
+			if path.exists(self.favicon.url):
 				return self.favicon.url
 		
 		return static('img/favicon_amadeus.png')
@@ -35,7 +36,7 @@ class Themes(models.Model):
 	@property
 	def small_logo_url(self):
 		if self.small_logo and hasattr(self.small_logo, 'url'):
-			if self.small_logo.url != '/uploads/logo_pequena_amadeus.png':
+			if path.exists(self.small_logo.url):
 				return self.small_logo.url
 		
 		return static('img/logo_pequena_amadeus.png')
@@ -43,7 +44,7 @@ class Themes(models.Model):
 	@property
 	def large_logo_url(self):
 		if self.large_logo and hasattr(self.large_logo, 'url'):
-			if self.large_logo.url != '/uploads/logo_grande_amadeus.png':
+			if path.exists(self.large_logo.url):
 				return self.large_logo.url
 		
 		return static('img/logo_grande_amadeus.png')
