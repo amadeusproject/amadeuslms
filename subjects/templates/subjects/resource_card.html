@@ -2,6 +2,7 @@
 
  {% resource_permissions request.user resource as has_resource_permissions %}
 {% subject_permissions request.user resource.topic.subject as has_subject_permissions %}
+
  {% if has_resource_permissions %}
 	<div class="panel panel-info resource-panel">
         <div class="panel-heading">

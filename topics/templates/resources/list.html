@@ -1,4 +1,4 @@
-{% load static i18n pagination permissions_tags %}
+{% load static i18n pagination permissions_tags class_filter %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% subject_permissions request.user topic.subject as has_subject_permissions %}
@@ -14,11 +14,15 @@
 		    	<input type="hidden" class="url_order" value="{% url 'topics:update_resource_order' %}" />
 
 	  			<h4 class="pull-left list-group-item-heading">
-
+	  			{% if resource|class_name == 'link' %}
+	  				 <a href="{{resource|resource_link}}" class="resource_link" target="_blank"> {{resource.name}}</a>
+	  			{% else %}
 	  				<a href="{% url resource.access_link resource.slug %}" class="resource_link" {% if resource.show_window %}target="_blank"{% endif %}>
 
 						{{ resource.name }}
 	  				</a>
+	  			{% endif %}
+	  				
 				</h4>
 
 				{% if has_subject_permissions %}
