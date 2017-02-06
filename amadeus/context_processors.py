@@ -2,6 +2,7 @@ from datetime import datetime
 
 from themes.models import Themes
 from notifications.models import Notification
+from mural.models import MuralVisualizations
 
 def theme(request):
 	context = {}
@@ -21,5 +22,17 @@ def notifies(request):
 		notifications = Notification.objects.filter(creation_date = datetime.now(), viewed = False, user = request.user).count()
 
 	context['notifications_count'] = notifications
+
+	return context
+
+def mural_notifies(request):
+	context = {}
+
+	notifications = 0
+
+	if request.user.is_authenticated:
+		notifications = MuralVisualizations.objects.filter(viewed = False, user = request.user).count()
+
+	context['mural_notifications_count'] = notifications
 
 	return context

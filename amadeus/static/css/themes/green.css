@@ -496,7 +496,7 @@ a.add-row {
     background: #FFFFFF;
 }
 
-.mural .post_make .user-img {
+.mural .post_make .user-img, .post .post-img, .post .post-comment .user-img div {
     background: #CCCCCC;
 }
 

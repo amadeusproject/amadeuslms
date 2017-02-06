@@ -15,6 +15,22 @@ socket.onmessage = function(e) {
 			$('.posts').prepend(content.complete);
 
 	        $('.no-subjects').attr('style', 'display:none');
+		} else {
+			$('.mural_badge').each(function () {
+				var actual = $(this).text();
+
+				if (actual != "+99") {
+					actual = parseInt(actual, 10) + 1;
+
+					if (actual > 99) {
+						actual = "+99";
+					}
+
+					$(this).text(actual);
+				}
+
+				$(this).show();
+			});
 		}
 
 		if (("Notification" in window)) {

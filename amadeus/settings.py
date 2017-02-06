@@ -109,6 +109,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'amadeus.context_processors.theme',
                 'amadeus.context_processors.notifies',
+                'amadeus.context_processors.mural_notifies',
             ],
         },
     },
