@@ -14,7 +14,9 @@ $(function () {
 	    height: 200
 	});
 	
-	$('[data-toggle="tooltip"]').tooltip();
+	$('[data-toggle="tooltip"]').tooltip({
+		trigger: 'hover'
+	});
 
 	//Dropdown menu collapse
 	$('.dropdown-accordion').on('click', 'a[data-toggle="collapse"]', function (event) {

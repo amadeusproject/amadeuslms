@@ -25,7 +25,7 @@
 		            </span>
 		        {% endif %}
 		        <span class="btn-group pull-right">
-			        <button class="btn btn-sm btn_menu" data-toggle="tooltip" data-placement="top" title="{{ post|fav_label:request.user }}">
+			        <button class="btn btn-sm btn_menu {{ post|fav_class:request.user }}" onclick="favorite($(this))" data-url="{% url 'mural:favorite' post.mural_ptr_id %}" data-action="{{ post|fav_action:request.user }}" data-toggle="tooltip" data-placement="top" title="{{ post|fav_label:request.user }}">
 			        	<i class="fa fa-thumb-tack"></i>
 			        </button>
 			    </span>

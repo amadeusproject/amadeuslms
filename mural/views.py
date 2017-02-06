@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Count
 
 from channels import Group
@@ -13,7 +14,7 @@ import json
 
 from users.models import User
 
-from .models import GeneralPost, CategoryPost, SubjectPost, MuralVisualizations
+from .models import Mural, GeneralPost, CategoryPost, SubjectPost, MuralVisualizations, MuralFavorites
 from .forms import GeneralPostForm
 
 class GeneralIndex(LoginRequiredMixin, generic.ListView):
@@ -103,3 +104,17 @@ def render_gen_post(request, post):
 	html = render_to_string("mural/_view.html", context, request)
 
 	return JsonResponse({'message': _('Your post was published successfully!'), 'view': html})
+
+@login_required
+def favorite(request, post):
+	action = request.GET.get('action', '')
+	post = get_object_or_404(Mural, id = post)
+
+	if action == 'favorite':
+		MuralFavorites.objects.create(post = post, user = request.user)
+
+		return JsonResponse({'label': _('Unfavorite')})
+	else:
+		MuralFavorites.objects.filter(post = post, user = request.user).delete()
+
+		return JsonResponse({'label': _('Favorite')})

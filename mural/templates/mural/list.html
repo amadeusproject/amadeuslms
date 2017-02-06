@@ -102,5 +102,28 @@
                 return false;
             });
         }
+
+        function favorite(btn) {
+            var action = btn.data('action'),
+                url = btn.data('url');
+
+            $.ajax({
+                url: url,
+                data: {'action': action},
+                dataType: 'json',
+                success: function (response) {
+                    if (action == 'favorite') {
+                        btn.switchClass("btn_fav", "btn_unfav", 250, "easeInOutQuad");
+                        btn.data('action', 'unfavorite');
+                    } else {
+                        btn.switchClass("btn_unfav", "btn_fav", 250, "easeInOutQuad");
+                        btn.data('action', 'favorite');
+                    }
+
+                    btn.attr('data-original-title', response.label);
+                }
+            });
+
+        }
     </script>
 {% endblock %}

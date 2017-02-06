@@ -534,6 +534,18 @@ a.add-row {
     background: #FFFFFF;
 }
 
+.btn_unfav {
+    color: #FF0000 !important;
+}
+
+.btn_fav {
+    color: #BBBBBB !important;
+}
+
+.btn:not(.btn-raised):not(.btn-link):focus, .btn:not(.btn-raised):not(.btn-link):hover, .input-group-btn .btn:not(.btn-raised):not(.btn-link):focus, .input-group-btn .btn:not(.btn-raised):not(.btn-link):hover {
+    background-color: initial;
+}
+
 @media(max-width: 768px) {
     .navbar .navbar-nav .dropdown .dropdown-menu li > a {
         color: #333333 !important;
