@@ -83,7 +83,7 @@ class GeneralCreate(LoginRequiredMixin, generic.edit.CreateView):
 
 		for user in users:
 			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
-			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view})})
+			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view})})
 
 		MuralVisualizations.objects.bulk_create(entries)
 
@@ -119,6 +119,15 @@ class GeneralUpdate(LoginRequiredMixin, generic.UpdateView):
 		self.object.edited = True
 
 		self.object.save()
+
+		users = User.objects.all().exclude(id = self.request.user.id)
+		
+		notify_type = "mural"
+		_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
+		pathname = reverse("mural:manage_general")
+
+		for user in users:
+			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "update", "pathname": pathname, "complete": _view, "post_id": self.object.id})})
 		
 		return super(GeneralUpdate, self).form_valid(form)
 
@@ -147,6 +156,14 @@ class GeneralDelete(LoginRequiredMixin, generic.DeleteView):
 		return context
 
 	def get_success_url(self):
+		users = User.objects.all().exclude(id = self.request.user.id)
+		
+		notify_type = "mural"
+		pathname = reverse("mural:manage_general")
+
+		for user in users:
+			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "delete", "pathname": pathname, "post_id": self.object.id})})
+
 		return reverse_lazy('mural:deleted_post')	
 
 def render_gen_post(request, post, msg):
