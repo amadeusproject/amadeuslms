@@ -24,19 +24,6 @@ a:focus {
 .language-selector > ul img{
     width: 15%;
 }
-.language-selector-on-header{
-    float: left;
-    width: 5%;
-}
-
-.language-selector-on-header img{
-    margin-top: 15%;
-    width: 40%;
-}
-.language-selector-on-header > ul img{
-    width: 30%;
-    margin-top: 0%;
-}
 
 .navbar-header{
     width: 20%;
