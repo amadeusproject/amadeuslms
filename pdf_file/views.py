@@ -128,3 +128,6 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
 		messages.success(self.request, _('The PDF File "%s" was added to the Topic "%s" of the virtual environment "%s" successfully!')%(self.object.name, self.object.topic.name, self.object.topic.subject.name))
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+
+
+

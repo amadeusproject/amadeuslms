@@ -92,14 +92,15 @@
                         </div>
                     </form>
                 </div>
-                
-                <li class="dropdown language-selector-on-header"> 
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
+                <ul class="nav navbar-nav">
+                <li class="dropdown language-selector-on-header {{ settings_menu_active }}" title data-original-title="{% trans 'Language Selector' %}"> 
+                        <a href="#" class="dropdown-toggle hidden-xs" data-toggle="dropdown" data-close-others="true">
                             <img src="{% static "img/brazilicon.png" %}" />
                         </a>
 
                         <a href="#" class="dropdown-toggle title" data-toggle="dropdown" data-close-others="true">
-                            <h4 >{% trans "Language Selector" %}</h4>
+                            <i class="fa fa-cog hidden-xs" aria-hidden="true"></i>
+                            <span class="visible-xs-inline">{% trans 'Language Selector' %}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="active">
@@ -114,8 +115,7 @@
                                 <span>{% trans "EN-US" %}</span>
                               </a>
                             </li>
-
-                            <li >
+                            <li>
                               <a href="#">
                                 <img src="{% static "img/euaicon.png" %}" />
                                 <span>{% trans "EN" %}</span>
@@ -123,7 +123,7 @@
                             </li>
                         </ul>
                 </li>
-                
+                </ul>
                 <ul class="nav navbar-nav navbar-right notifications">
 
 

@@ -53,6 +53,11 @@
 	    display:none;
 	}
 
+	.language-selector-on-header{
+		display:block;
+		position: relative;
+	}
+
 	.language-selector-on-header h4{
 		color:rgba(255,255,255,.84);
 		padding-left: 5px;
@@ -63,6 +68,9 @@
 		position: relative;
 	}
 
+	.navbar-header{
+		width: 30% !important;
+	}
 
 	#btn-search {
 		margin-top: -5px;
