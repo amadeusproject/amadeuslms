@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+import os
+from django.core.exceptions import ValidationError
 
 from topics.models import Resource
 # Create your models here.
@@ -13,7 +15,7 @@ def validate_file_extension(value):
             raise ValidationError(_('File not supported, use PDF format instead.'))
 
 class PDFFile(Resource):
-    file = models.FileField(_('File'), upload_to='/files', validators = [validate_file_extension])
+    file = models.FileField(_('File'), upload_to='files/', validators = [validate_file_extension])
     class Meta:
         verbose_name = "PDFFile"
         verbose_name_plural = "PDFFiles"

@@ -17,8 +17,10 @@
 
 	{% breadcrumb topic 'subjects:topic_view' topic.subject.slug topic.slug %}
 	
-	{% trans 'Create PDF file' as bread %}
-	{% breadcrumb bread 'pdf_file:create' topic.slug %}
+	{% trans 'Edit: ' as bread %}
+	{% with bread|add:pdf_file.name as bread_slug %}
+		{% breadcrumb bread_slug 'pdf_file:update' topic.slug pdf_file.slug %}
+	{% endwith %}
 {% endblock %}
 
 {% block content %}
