@@ -69,9 +69,12 @@
 	}
 
 	.navbar-header{
-		width: 30% !important;
+		width: 100% !important;
 	}
 
+	.navbar .navbar-brand{
+		float: right;
+	}
 	#btn-search {
 		margin-top: -5px;
 		height: 30px;
