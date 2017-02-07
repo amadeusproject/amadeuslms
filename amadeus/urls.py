@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^themes/', include('themes.urls', namespace = 'themes')),
     url(r'^pendencies/', include('notifications.urls', namespace = 'notifications')),
     url(r'^links/', include('links.urls', namespace='links')),
+    url(r'^pdf_files/', include('pdf_file.urls', namespace='pdf_files')),
     #API
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     #S3Direct

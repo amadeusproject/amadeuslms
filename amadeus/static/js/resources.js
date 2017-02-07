@@ -106,7 +106,7 @@ if (window.File && window.FileList && window.FileReader) {
 
 // initialize
 function Init() {
-	var small = $("#id_file_content"),
+	var small = $(".file-selector"),
 		filedrag = $(".filedrag"),
 		common = $(".common-file-input");
 		
