@@ -18,6 +18,11 @@
 }
 
 @media(max-width: 1199px) {
+
+	.navbar .project_name{
+		display: none;
+	}
+
 	.navbar .navbar-brand {
 		padding: 15px;
 	}
@@ -49,7 +54,8 @@
 	}
 
 	.language-selector-on-header h4{
-		color:white;
+		color:rgba(255,255,255,.84);
+		padding-left: 5px;
 	}
 
 	.language-selector-on-header .dropdown-menu{
