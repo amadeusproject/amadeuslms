@@ -12,9 +12,9 @@ def validate_img_extension(value):
 
 class Themes(models.Model):
 	title = models.CharField(_("Title"), max_length = 200, default = "Projeto Amadeus")
-	favicon = models.ImageField(verbose_name = _("Favicon"), blank = True, upload_to = 'themes/', default = 'favicon_amadeus.png', validators = [validate_img_extension])
-	small_logo = models.ImageField(verbose_name = _("Small Logo"), blank = True, upload_to = 'themes/', default = 'logo_pequena_amadeus.png', validators = [validate_img_extension])
-	large_logo = models.ImageField(verbose_name = _("Large Logo"), blank = True, upload_to = 'themes/', default = 'logo_grande_amadeus.png', validators = [validate_img_extension])
+	favicon = models.ImageField(verbose_name = _("Favicon"), blank = True, null = True, upload_to = 'themes/', validators = [validate_img_extension])
+	small_logo = models.ImageField(verbose_name = _("Small Logo"), blank = True, null = True, upload_to = 'themes/', validators = [validate_img_extension])
+	large_logo = models.ImageField(verbose_name = _("Large Logo"), blank = True, null = True, upload_to = 'themes/', validators = [validate_img_extension])
 	footer_note = models.TextField(_("Footer Note"), blank = True)
 	css_style = models.CharField(_("Css Style"), max_length = 50, default = "green", choices = (("green", _('Green')), ("red", _('Red')), ("black", _('Black'))))
 
@@ -28,7 +28,7 @@ class Themes(models.Model):
 	@property
 	def favicon_url(self):
 		if self.favicon and hasattr(self.favicon, 'url'):
-			if path.exists(self.favicon.url):
+			if path.exists(self.favicon.path):
 				return self.favicon.url
 		
 		return static('img/favicon_amadeus.png')
@@ -36,7 +36,7 @@ class Themes(models.Model):
 	@property
 	def small_logo_url(self):
 		if self.small_logo and hasattr(self.small_logo, 'url'):
-			if path.exists(self.small_logo.url):
+			if path.exists(self.small_logo.path):
 				return self.small_logo.url
 		
 		return static('img/logo_pequena_amadeus.png')
@@ -44,7 +44,7 @@ class Themes(models.Model):
 	@property
 	def large_logo_url(self):
 		if self.large_logo and hasattr(self.large_logo, 'url'):
-			if path.exists(self.large_logo.url):
+			if path.exists(self.large_logo.path):
 				return self.large_logo.url
 		
 		return static('img/logo_grande_amadeus.png')

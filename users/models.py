@@ -1,5 +1,6 @@
 import re
 
+from os import path
 from django.db import models
 from django.core import validators
 from django.core.exceptions import ValidationError
@@ -52,9 +53,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 	@property
 	def image_url(self):
 		if self.image and hasattr(self.image, 'url'):
-			return self.image.url
-		else:
-			return static('img/no_image.jpg')
+			if path.exists(self.image.path):
+				return self.image.url
+		
+		return static('img/no_image.jpg')
 
 	def is_admin(self):
 		if self.is_staff:
