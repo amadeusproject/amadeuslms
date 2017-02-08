@@ -28,7 +28,7 @@ class PDFFile(Resource):
         return self.name
 
     def access_link(self):
-        return 'pdf_files:download'
+        return 'pdf_files:view'
 
     def update_link(self):
         return 'pdf_files:update'
