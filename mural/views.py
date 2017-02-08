@@ -31,6 +31,8 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
 		user = self.request.user
 		favorites = self.request.GET.get('favorite', False)
 		mines = self.request.GET.get('mine', False)
+		showing = self.request.GET.get('showing', False)
+		page = self.request.GET.get('page', False)
 
 		if not favorites:
 			if mines:
@@ -43,18 +45,28 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
 			else:
 				general = GeneralPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_generalpost.mural_ptr_id))"}).filter(favorites_post__isnull = False)
 
-		general_visualizations = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__generalpost__isnull = False) | Q(comment__post__generalpost__isnull = False))).distinct()
+		if showing: #Exclude ajax creation posts results
+			showing = showing.split(',')
+			general = general.exclude(id__in = showing)
 
-		self.totals['general'] = general_visualizations.count()
-		self.totals['category'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__categorypost__space__coordinators = user) | Q(comment__post__categorypost__space__coordinators = user) | Q(post__categorypost__space__subject_category__professor = user) | Q(post__categorypost__space__subject_category__students = user) | Q(comment__post__categorypost__space__subject_category__professor = user) | Q(comment__post__categorypost__space__subject_category__students = user))).distinct().count()
-		self.totals['subject'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space__professor = user) | Q(comment__post__subjectpost__space__professor = user) | Q(post__subjectpost__space__students = user) | Q(comment__post__subjectpost__space__students = user))).distinct().count()
+		if not page: #Don't need this if is pagination
+			general_visualizations = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__generalpost__isnull = False) | Q(comment__post__generalpost__isnull = False))).distinct()
 
-		general_visualizations.update(viewed = True)
+			self.totals['general'] = general_visualizations.count()
+			self.totals['category'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__categorypost__space__coordinators = user) | Q(comment__post__categorypost__space__coordinators = user) | Q(post__categorypost__space__subject_category__professor = user) | Q(post__categorypost__space__subject_category__students = user) | Q(comment__post__categorypost__space__subject_category__professor = user) | Q(comment__post__categorypost__space__subject_category__students = user))).distinct().count()
+			self.totals['subject'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space__professor = user) | Q(comment__post__subjectpost__space__professor = user) | Q(post__subjectpost__space__students = user) | Q(comment__post__subjectpost__space__students = user))).distinct().count()
+
+			general_visualizations.update(viewed = True)
 
 		return general.order_by("-most_recent")
 
 	def get_context_data(self, **kwargs):
 		context = super(GeneralIndex, self).get_context_data(**kwargs)
+
+		page = self.request.GET.get('page', '')
+
+		if page:
+			self.template_name = "mural/_list_view.html"
 
 		context['title'] = _('Mural')
 		context['totals'] = self.totals
@@ -203,7 +215,7 @@ def render_gen_post(request, post, msg):
 
 	html = render_to_string("mural/_view.html", context, request)
 
-	return JsonResponse({'message': msg, 'view': html})
+	return JsonResponse({'message': msg, 'view': html, 'new_id': post.id})
 
 def deleted_post(request):
 	return JsonResponse({'msg': _('Post deleted successfully!')})

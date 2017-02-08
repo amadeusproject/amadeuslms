@@ -20,7 +20,7 @@
         </ul>
     </div>
 
-    <div class="col-md-12 cards-content mural">
+    <div class="col-md-12 cards-content mural" data-url="{% url 'mural:manage_general' %}" data-pages="{{ paginator.num_pages }}" data-page="{{ page_obj.number }}" data-fav="{{ favorites }}" data-mine="{{ mines }}">
     	<div class="col-md-9 col-sm-9 col-xs-9 mural-list">
     		<div class="post_make panel panel-default">
     			<div class="panel-body">
@@ -39,6 +39,11 @@
                 {% for post in posts %}
                     {% include 'mural/_view.html' %}
                 {% endfor %}
+            </div>
+            <div id="loading_posts" class="alert alert-success" role="alert" style="display:none">
+                <center>
+                    <span class="fa fa-spin fa-circle-o-notch"></span>
+                </center>
             </div>
 			<div class="text-center no-subjects" {% if posts.count > 0 %} style="display:none" {% endif %}>
                 <i class="fa fa-list"></i>
@@ -68,7 +73,56 @@
     <div class="modal fade" id="post-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
   
     <script type="text/javascript">
+        var new_posts = [];
+        // loadOnScroll handler
+        var loadOnScroll = function() {
+           // If the current scroll position is past out cutoff point...
+            if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
+                // temporarily unhook the scroll event watcher so we don't call a bunch of times in a row
+                $(window).unbind();
+                // execute the load function below that will visit the view and return the content
+                loadPosts();
+            }
+        };
+
+        var loadPosts = function() {
+            var loadUrl = $('.mural').data('url'),
+                pageNum = $('.mural').data('page'),
+                numberPages = $('.mural').data('pages'),
+                favorites = $('.mural').data('fav'),
+                mine = $('.mural').data('mine'),
+                showing = new_posts.join(',');
+            // Check if page is equal to the number of pages
+            if (pageNum == numberPages) {
+                return false
+            }
+            // Update the page number
+            pageNum = pageNum + 1;
+
+            $("#loading_posts").show();
+            // Configure the url we're about to hit
+            setTimeout(function (){
+                $.ajax({
+                    url: loadUrl,
+                    data: {'page': pageNum, "favorite": favorites, "mine": mine, "showing": showing},
+                    success: function(data) {
+                        $("#loading_posts").hide();
+
+                        $(".posts").append(data);
+
+                        $('.mural').data('page', pageNum);
+                    },
+                    complete: function(data, textStatus){
+                        // Turn the scroll monitor back on
+                        $(window).bind('scroll', loadOnScroll);
+                    }
+                });
+            }, 1000)
+        };
+
         $(function () {
+            $(window).bind('scroll', loadOnScroll);
+            
             $(".post-field").click(function () {
                 var url = $(this).find('h4').data('url');
 
@@ -114,6 +168,8 @@
                             old.remove();
                         } else {
                             $('.posts').prepend(data.view);
+
+                            new_posts.push(data.new_id);
 
                             $('.no-subjects').attr('style', 'display:none');
                         }
