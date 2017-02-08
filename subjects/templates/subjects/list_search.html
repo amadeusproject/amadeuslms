@@ -3,6 +3,13 @@
 {% load static i18n pagination %}
 {% load django_bootstrap_breadcrumbs subject_counter %}
 
+
+{% block javascript%}
+    {{ block.super }}
+    <script type="text/javascript" src=" {% static "js/category.js" %} "></script>
+{% endblock%}
+
+
 {% block breadcrumbs %}
 	{% clear_breadcrumbs %}
    	{% breadcrumb 'Home' 'subjects:home' %}
