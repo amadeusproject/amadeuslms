@@ -964,6 +964,10 @@ li.item .notify_badge {
     margin: 7px 0 0 0 !important;
 }
 
+.mural .mural-list {
+    padding-left: 0;
+}
+
 .mural .post_make {
     padding: 10px;
     margin-bottom: 10px;
@@ -1073,6 +1077,11 @@ li.item .notify_badge {
     font-size: 14px;
     font-style: italic;
     cursor: text;
+}
+
+.post-filter h4 {
+    font-weight: 700;
+    margin-bottom: 15px;
 }
 
 .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {

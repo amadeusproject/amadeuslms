@@ -14,6 +14,8 @@ def is_edited(post):
 
 @register.filter(name = 'action_icon')
 def action_icon(action):
+	icon = ""
+
 	if action == "comment":
 		icon = "fa-commenting-o"
 	elif action == "help":

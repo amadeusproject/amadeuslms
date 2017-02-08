@@ -542,6 +542,22 @@ a.add-row {
     color: #BBBBBB !important;
 }
 
+.post-filter {
+    background: #DDDDDD;
+}
+
+.post-filter h4 {
+    color: #4caf50;
+}
+
+.post-filter label {
+    color: #333333;
+}
+
+.post-filter i {
+    color: #FF0000;
+}
+
 .btn:not(.btn-raised):not(.btn-link):focus, .btn:not(.btn-raised):not(.btn-link):hover, .input-group-btn .btn:not(.btn-raised):not(.btn-link):focus, .input-group-btn .btn:not(.btn-raised):not(.btn-link):hover {
     background-color: initial;
 }

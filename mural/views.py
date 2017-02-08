@@ -22,7 +22,6 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
 	redirect_field_name = 'next'
 
 	template_name = 'mural/list.html'
-	model = GeneralPost
 	context_object_name = "posts"
 	paginate_by = 10
 
@@ -30,9 +29,20 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
 
 	def get_queryset(self):
 		user = self.request.user
+		favorites = self.request.GET.get('favorite', False)
+		mines = self.request.GET.get('mine', False)
 
-		general = GeneralPost.objects.extra(select={"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_generalpost.mural_ptr_id))"}).order_by("-most_recent")
-		
+		if not favorites:
+			if mines:
+				general = GeneralPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_generalpost.mural_ptr_id))"}).filter(mural_ptr__user = user)
+			else:
+				general = GeneralPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_generalpost.mural_ptr_id))"})
+		else:
+			if mines:
+				general = GeneralPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_generalpost.mural_ptr_id))"}).filter(favorites_post__isnull = False, mural_ptr__user = user)
+			else:
+				general = GeneralPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_generalpost.mural_ptr_id))"}).filter(favorites_post__isnull = False)
+
 		general_visualizations = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__generalpost__isnull = False) | Q(comment__post__generalpost__isnull = False))).distinct()
 
 		self.totals['general'] = general_visualizations.count()
@@ -41,7 +51,7 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
 
 		general_visualizations.update(viewed = True)
 
-		return general
+		return general.order_by("-most_recent")
 
 	def get_context_data(self, **kwargs):
 		context = super(GeneralIndex, self).get_context_data(**kwargs)
@@ -49,6 +59,18 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
 		context['title'] = _('Mural')
 		context['totals'] = self.totals
 		context['mural_menu_active'] = 'subjects_menu_active'
+		context['favorites'] = ""
+		context['mines'] = ""
+
+		favs = self.request.GET.get('favorite', False)
+
+		if favs:
+			context['favorites'] = "checked"
+
+		mines = self.request.GET.get('mine', False)
+
+		if mines:
+			context['mines'] = "checked"
 
 		return context
 

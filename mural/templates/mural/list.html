@@ -21,8 +21,8 @@
     </div>
 
     <div class="col-md-12 cards-content mural">
-    	<div class="col-md-9 col-sm-9 col-xs-9">
-    		<div class="row post_make panel panel-default">
+    	<div class="col-md-9 col-sm-9 col-xs-9 mural-list">
+    		<div class="post_make panel panel-default">
     			<div class="panel-body">
 	    			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 user-img text-center">
 	    				<img src="{{ request.user.image_url }}" class="img-responsive" />
@@ -45,7 +45,23 @@
                 <h4>{% trans 'There are no posts in this mural yet.' %}</h4>
             </div>
     	</div>
-    	<div class="col-md-3 col-sm-3 col-xs-3">
+    	<div class="col-md-3 col-sm-3 col-xs-3 post-filter">
+            <h4>{% trans 'Filter' %}</h4>
+
+            <form id="post-filters" action="" method="GET">
+                <div class="checkbox">
+                    <label>
+                        <input name="favorite" type="checkbox" {{ favorites }}> {% trans 'Favorite posts' %} <i class="fa fa-thumb-tack"></i>
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input name="mine" type="checkbox" {{ mines }}> {% trans 'Only my posts' %}
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-success btn-raised btn-block">{% trans 'Filter' %}</button>
+                <button type="button" id="clear_filter" class="btn btn-default btn-raised btn-block">{% trans 'Clean Filters' %}</button>
+            </form>
     	</div>
     </div>
 
@@ -66,6 +82,14 @@
                         $('#post-modal-form').modal('show');
                     }
                 });
+            });
+
+            $("#clear_filter").click(function () {
+                var frm = $(this).parent();
+
+                frm.find("input[type='checkbox']").prop('checked', false);
+
+                frm.submit();
             });
         });
 

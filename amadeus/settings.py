@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'pendencies',
     'mural',
     'file_link',
+    'pdf_file',
     'links',
     'webpage',
     'youtube_video',
