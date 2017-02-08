@@ -92,8 +92,10 @@
                         </div>
                     </form>
                 </div>
-                <ul class="nav navbar-nav">
-                <li class="dropdown language-selector-on-header {{ settings_menu_active }}" title data-original-title="{% trans 'Language Selector' %}"> 
+               
+                <ul class="nav navbar-nav navbar-right notifications">
+
+                      <li class="dropdown language-selector-on-header {{ settings_menu_active }}" title data-original-title="{% trans 'Language Selector' %}"> 
                         <a href="#" class="dropdown-toggle hidden-xs" data-toggle="dropdown" data-close-others="true">
                             <img src="{% static "img/brazilicon.png" %}" />
                         </a>
@@ -117,12 +119,24 @@
                             </li>
                         </ul>
                 </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right notifications">
+                   
 
+                    <li id="profile-menu" class="dropdown" data-toggle="tooltip" data-placement="bottom" title data-original-title="{{ user }}">
+                        <a href="" data-toggle="dropdown" class="dropdown-toggle profile">
+                            <img src="{{ user.image_url }}" class="hidden-xs" style="width:50px;height:50px" />
+                            <span class="visible-xs-inline">{{ user }}</span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
+                            <li><a href="{% url 'users:edit_profile' %}">{% trans 'Edit Profile' %}</a></li>
+                            <li><a href="{% url 'users:change_pass' %}">{% trans 'Change Password' %}</a></li>
+                            <li><a href="{% url 'users:remove_acc' %}">{% trans 'Delete Account' %}</a></li>
+                            <li><a href="{% url 'users:logout' %}">{% trans 'Logout' %}</a></li>
+                        </ul>
+                    </li>
 
-                    {% if user.is_staff %}
-                        <li class="dropdown {{ settings_menu_active }}" title data-original-title="{% trans 'settings' %}">
+                     {% if user.is_staff %}
+                        <li id="staff-menu" class="dropdown {{ settings_menu_active }}" title data-original-title="{% trans 'settings' %}">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-cog hidden-xs" aria-hidden="true"></i>
                                 <span class="visible-xs-inline">{% trans 'Settings' %}</span>
@@ -155,20 +169,6 @@
                             </ul>
                         </li>
                     {% endif %}
-
-                    <li class="dropdown" data-toggle="tooltip" data-placement="bottom" title data-original-title="{{ user }}">
-                        <a href="" data-toggle="dropdown" class="dropdown-toggle profile">
-                            <img src="{{ user.image_url }}" class="hidden-xs" style="width:50px;height:50px" />
-                            <span class="visible-xs-inline">{{ user }}</span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
-                            <li><a href="{% url 'users:edit_profile' %}">{% trans 'Edit Profile' %}</a></li>
-                            <li><a href="{% url 'users:change_pass' %}">{% trans 'Change Password' %}</a></li>
-                            <li><a href="{% url 'users:remove_acc' %}">{% trans 'Delete Account' %}</a></li>
-                            <li><a href="{% url 'users:logout' %}">{% trans 'Logout' %}</a></li>
-                        </ul>
-                    </li>
                 </ul>
             </div>
         </div>

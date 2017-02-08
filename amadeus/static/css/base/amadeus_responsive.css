@@ -46,6 +46,8 @@
 }
 
 @media(max-width: 768px) {
+
+
 	.language-selector-on-header img{
 		display: none;
 	}
@@ -127,6 +129,14 @@
 }
 
 @media(min-width: 768px) {
+
+	#profile-menu{
+		float:right;
+	}
+
+	#staff-menu{
+		float:right;
+	}
 
 	.language-selector-on-header{
 	    float: left;
