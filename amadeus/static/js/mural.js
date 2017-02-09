@@ -1,4 +1,5 @@
 var new_posts = [];
+var new_comments = {};
 // loadOnScroll handler
 var loadOnScroll = function() {
    // If the current scroll position is past out cutoff point...
@@ -69,6 +70,12 @@ $(function () {
         frm.find("input[type='checkbox']").prop('checked', false);
 
         frm.submit();
+    });
+
+    $(".comment-section").each(function () {
+        var height = $(this)[0].scrollHeight;
+
+        $(this).animate({scrollTop: height}, 0);
     });
 });
 
@@ -196,7 +203,7 @@ function setPostDeleteSubmit (post) {
 
 function comment(field) {
     var url = field.find('h4').data('url'),
-        post = field.parent().parent();
+        post = field.find('h4').data('post');
 
     $.ajax({
         url: url,
@@ -212,8 +219,7 @@ function comment(field) {
 
 function editComment(btn) {
     var url = btn.data('url'),
-        post_id = btn.data('post'),
-        post = $("#post-" + post_id),
+        post = btn.data('post'),
         comment = btn.data('id');
     
     $.ajax({
@@ -248,9 +254,13 @@ function setCommentFormSubmit(post, comment = "") {
 
                     old.remove();
                 } else {
-                    $(post).find(".comment-section").append(data.view);
+                    $("#post-" + post).find(".comment-section").append(data.view);
 
-                    //new_posts.push(data.new_id);
+                    if (typeof(new_comments[post]) == 'undefined') {
+                        new_comments[post] = [];
+                    }
+
+                    new_comments[post].push(data.new_id);
                 }
 
                 $('#post-modal-form').modal('hide');
@@ -310,5 +320,38 @@ function setCommentDeleteSubmit (comment) {
         });
 
         return false;
+    });
+}
+
+function loadComments (btn) {
+    var url = btn.data('url'),
+        post = btn.data('post'),
+        page = btn.parent().data('page'),
+        loading = btn.parent().find('.loading');
+
+    page = parseInt(page);
+    page = page + 1;
+
+    loading.show();
+    btn.hide();
+
+    var showing;
+
+    if (typeof(new_comments[post]) == 'undefined') {
+        showing = "";
+    } else {
+        showing = new_comments[post].join(',');
+    }
+
+    $.ajax({
+        url: url,
+        data: {'page': page, 'showing': showing},
+        dataType: 'json',
+        success: function (response) {
+            loading.hide();
+            btn.show();
+
+            btn.after(response.loaded);
+        }
     });
 }

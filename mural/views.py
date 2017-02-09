@@ -1,4 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.core.paginator import Paginator, EmptyPage
+from django.http import Http404
 from django.views import generic
 from django.contrib import messages
 from django.http import JsonResponse
@@ -390,3 +392,38 @@ def suggest_users(request):
 	response = render_to_string("mural/_user_suggestions_list.html", context, request)
 
 	return JsonResponse({"search_result": response})
+
+def load_comments(request, post, child_id):
+	context = {
+		'request': request,
+	}
+
+	showing = request.GET.get('showing', '')
+
+	if showing == '':
+		comments = Comment.objects.filter(post__id = post).order_by('-last_update')
+	else:
+		showing = showing.split(',')
+		comments = Comment.objects.filter(post__id = post).exclude(id__in = showing).order_by('-last_update')	
+
+	paginator = Paginator(comments, 5)
+
+	try:
+		page_number = int(request.GET.get('page', 1))
+	except ValueError:
+		raise Http404
+
+	try:
+		page_obj = paginator.page(page_number)
+	except EmptyPage:
+		raise Http404
+
+	context['paginator'] = paginator
+	context['page_obj'] = page_obj
+
+	context['comments'] = page_obj.object_list
+	context['post_id'] = child_id
+
+	response = render_to_string("mural/_list_view_comment.html", context, request)
+
+	return JsonResponse({"loaded": response})
