@@ -186,6 +186,7 @@ class GeneralDelete(LoginRequiredMixin, generic.DeleteView):
 		context = super(GeneralDelete, self).get_context_data(*args, **kwargs)
 
 		context['form_url'] = reverse_lazy("mural:delete_general", args = (), kwargs = {'pk': self.object.id})
+		context['message'] = _('Are you sure you want to delete this post?')
 
 		return context
 
@@ -332,6 +333,32 @@ class CommentUpdate(LoginRequiredMixin, generic.UpdateView):
 	def get_success_url(self):
 		return reverse_lazy('mural:render_comment', args = (self.object.id, 'update', ))
 
+class CommentDelete(LoginRequiredMixin, generic.DeleteView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/delete.html'
+	model = Comment
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(CommentDelete, self).get_context_data(*args, **kwargs)
+
+		context['form_url'] = reverse_lazy("mural:delete_comment", args = (), kwargs = {'pk': self.object.id})
+		context['message'] = _('Are you sure you want to delete this comment?')
+
+		return context
+
+	def get_success_url(self):
+		users = User.objects.all().exclude(id = self.request.user.id)
+		
+		notify_type = "mural"
+		pathname = reverse("mural:manage_general")
+
+		#for user in users:
+		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "delete", "pathname": pathname, "post_id": self.object.id})})
+
+		return reverse_lazy('mural:deleted_comment')
+
 def render_comment(request, comment, msg):
 	comment = get_object_or_404(Comment, id = comment)
 
@@ -348,6 +375,9 @@ def render_comment(request, comment, msg):
 	html = render_to_string("mural/_view_comment.html", context, request)
 
 	return JsonResponse({'message': msg, 'view': html, 'new_id': comment.id})
+
+def deleted_comment(request):
+	return JsonResponse({'msg': _('Comment deleted successfully!')})
 
 def suggest_users(request):
 	param = request.GET.get('param', '')

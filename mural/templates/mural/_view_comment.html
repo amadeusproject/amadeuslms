@@ -21,7 +21,7 @@
 					<ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
 	                    <li><a onclick="editComment($(this));" data-url="{% url 'mural:update_comment' comment.id %}" data-id="{{ comment.id }}" data-post="{{ comment.post.id }}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> {% trans 'Edit' %}</a></li>
 	                    <li>
-	                    <a onclick="deletePost($(this))" aria-hidden="true"><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>
+	                    <a onclick="deleteComment($(this))" data-url="{% url 'mural:delete_comment' comment.id %}" data-id="{{ comment.id }}" aria-hidden="true"><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>
 	                </ul>
 	            </span>
 	        {% endif %}

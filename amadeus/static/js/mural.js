@@ -269,3 +269,46 @@ function setCommentFormSubmit(post, comment = "") {
         return false;
     });
 }
+
+function deleteComment(btn) {
+    var url = btn.data('url');
+    var comment = btn.data('id');
+
+    console.log(comment);
+
+    $.ajax({
+        url: url,
+        success: function (data) {
+            $('#post-modal-form').html(data);
+
+            setCommentDeleteSubmit(comment);
+
+            $('#post-modal-form').modal('show');
+        }
+    });
+}
+
+function setCommentDeleteSubmit (comment) {
+    var frm = $("#delete_form");
+
+    frm.submit(function () {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (response) {
+
+                $("#comment-" + comment).remove();
+
+                $('#post-modal-form').modal('hide');
+
+                alertify.success(response.msg);                        
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
+        return false;
+    });
+}
