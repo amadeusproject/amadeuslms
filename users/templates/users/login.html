@@ -74,29 +74,30 @@
                     </div>
                     <div class="row">
 
-                          <li class="dropdown language-selector pull-right "> 
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
-                            <img src="{% static "img/brazilicon.png" %}" />
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="active">
-                              <a href="#">
-                                <img src="{% static "img/brazilicon.png" %}" />
-                                <span>{% trans "PT-BR" %}</span>
-                              </a>
-                            </li>
-                            <li >
-                              <a href="#">
-                                <img src="{% static "img/euaicon.png" %}" />
-                                <span>{% trans "EN" %}</span>
-                              </a>
-                            </li>
-                        </ul>
-                    </li>
+                        
                         {% if not deny_register %}
                             <div class="col-sm-offset-1 col-md-10 col-lg-10 col-sm-10 col-xs-12">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right forgotPassword">
-                                    <a href="{% url 'users:forgot_pass' %}">{% trans 'Forgot your password?' %}</a>
+                                    <a class="pull-right" href="{% url 'users:forgot_pass' %}">{% trans 'Forgot your password?' %}</a>
+                                    <li class="dropdown language-selector pull-right "> 
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
+                                            <img src="{% static "img/brazilicon.png" %}" />
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="active">
+                                              <a href="#">
+                                                <img src="{% static "img/brazilicon.png" %}" />
+                                                <span>{% trans "PT-BR" %}</span>
+                                              </a>
+                                            </li>
+                                            <li >
+                                              <a href="#">
+                                                <img src="{% static "img/euaicon.png" %}" />
+                                                <span>{% trans "EN" %}</span>
+                                              </a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 </div>
                             </div>
                         {% else %}

@@ -16,9 +16,12 @@ a:focus {
 }
 
 
+.language-selector{
+    margin-right: 20px;
+}
 
 .language-selector img{
-    width: 4%;
+    width: 20%;
 }
 
 .language-selector > ul img{
