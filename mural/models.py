@@ -69,6 +69,7 @@ class Comment(models.Model):
 	user = models.ForeignKey(User, verbose_name = _('User'), related_name = "comment_user", null = True)
 	create_date = models.DateTimeField(_('Create Date'), auto_now_add = True)
 	last_update = models.DateTimeField(_('Last Update'), auto_now = True)
+	edited = models.BooleanField(_('Edited'), default = False)
 
 """
 	Model to handle posts visualizations

@@ -259,7 +259,6 @@ class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
 		self.object.save()
 
 		users = User.objects.all().exclude(id = self.request.user.id)
-		entries = []
 
 		notify_type = "mural"
 		user_icon = self.object.user.image_url
@@ -270,8 +269,6 @@ class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
 		#for user in users:
 		#	entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
 		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view})})
-
-		#MuralVisualizations.objects.bulk_create(entries)
 
 		return super(CommentCreate, self).form_valid(form)
 
@@ -286,6 +283,54 @@ class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
 
 	def get_success_url(self):
 		return reverse_lazy('mural:render_comment', args = (self.object.id, 'create', ))
+
+class CommentUpdate(LoginRequiredMixin, generic.UpdateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/_form_comment.html'
+	model = Comment
+	form_class = CommentForm
+
+	def form_invalid(self, form):
+		context = super(CommentUpdate, self).form_invalid(form)
+		context.status_code = 400
+
+		return context
+
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+
+		self.object.edited = True
+
+		self.object.save()
+
+		users = User.objects.all().exclude(id = self.request.user.id)
+		entries = []
+
+		notify_type = "mural"
+		user_icon = self.object.user.image_url
+		#_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
+		simple_notify = _("%s has made a post in General")%(str(self.object.user))
+		pathname = reverse("mural:manage_general")
+
+		#for user in users:
+		#	entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
+		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view})})
+
+		#MuralVisualizations.objects.bulk_create(entries)
+
+		return super(CommentUpdate, self).form_valid(form)
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(CommentUpdate, self).get_context_data(*args, **kwargs)
+
+		context['form_url'] = reverse_lazy("mural:update_comment", args = (), kwargs = {'pk': self.object.id})
+
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('mural:render_comment', args = (self.object.id, 'update', ))
 
 def render_comment(request, comment, msg):
 	comment = get_object_or_404(Comment, id = comment)
