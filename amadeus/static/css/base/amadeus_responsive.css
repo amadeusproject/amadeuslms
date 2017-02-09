@@ -46,7 +46,9 @@
 }
 
 @media(max-width: 768px) {
-
+	.navbar .project_name{
+		display: block !important;
+	}
 
 	.language-selector-on-header img{
 		display: none;
