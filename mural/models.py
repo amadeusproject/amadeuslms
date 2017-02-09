@@ -65,7 +65,7 @@ class SubjectPost(Mural):
 class Comment(models.Model):
 	comment = models.TextField(_('Comment'), blank = True)
 	image = models.ImageField(verbose_name = _('Image'), null=True, blank = True, upload_to = 'posts/comments/', validators = [validate_img_extension])
-	post = models.ForeignKey(Mural, verbose_name = _('Post'), related_name = 'comment_post')
+	post = models.ForeignKey(Mural, verbose_name = _('Post'), related_name = 'comment_post', null = True)
 	user = models.ForeignKey(User, verbose_name = _('User'), related_name = "comment_user", null = True)
 	create_date = models.DateTimeField(_('Create Date'), auto_now_add = True)
 	last_update = models.DateTimeField(_('Last Update'), auto_now = True)

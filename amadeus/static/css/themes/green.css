@@ -496,7 +496,7 @@ a.add-row {
     background: #FFFFFF;
 }
 
-.mural .post_make .user-img, .post .post-img, .post .post-comment .user-img div {
+.mural .post_make .user-img, .post .post-img, .post .post-comment .user-img div, .comment .comment-img div {
     background: #CCCCCC;
 }
 
@@ -508,11 +508,11 @@ a.add-row {
     color: #CCCCCC;
 }
 
-.post_action i, .post .post-user .user-action i {
+.post_action i, .post .post-user .user-action i, .comment .comment-user .user-action i {
     color: #1d8fe0;
 }
 
-.post .post-user {
+.post .post-user, .comment .comment-user {
     color: #4caf50;
 }
 
@@ -532,6 +532,18 @@ a.add-row {
 .post .post-comment .comment-field div {
     border-color: #888888;
     background: #FFFFFF;
+}
+
+.comment-section {
+    background: #D5D5D5;    
+}
+
+.comment .comment-user .user-action {
+    color: #999999;
+}
+
+.comment-time {
+    color: #9A9A9A;
 }
 
 .btn_unfav {

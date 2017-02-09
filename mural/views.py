@@ -14,8 +14,8 @@ import json
 
 from users.models import User
 
-from .models import Mural, GeneralPost, CategoryPost, SubjectPost, MuralVisualizations, MuralFavorites
-from .forms import GeneralPostForm
+from .models import Mural, GeneralPost, CategoryPost, SubjectPost, MuralVisualizations, MuralFavorites, Comment
+from .forms import GeneralPostForm, CommentForm
 
 class GeneralIndex(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
@@ -233,3 +233,73 @@ def favorite(request, post):
 		MuralFavorites.objects.filter(post = post, user = request.user).delete()
 
 		return JsonResponse({'label': _('Favorite')})
+
+class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/_form_comment.html'
+	form_class = CommentForm
+
+	def form_invalid(self, form):
+		context = super(CommentCreate, self).form_invalid(form)
+		context.status_code = 400
+
+		return context
+
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+
+		post_id = self.kwargs.get('post', '')
+		post = get_object_or_404(Mural, id = post_id)
+
+		self.object.user = self.request.user
+		self.object.post = post
+
+		self.object.save()
+
+		users = User.objects.all().exclude(id = self.request.user.id)
+		entries = []
+
+		notify_type = "mural"
+		user_icon = self.object.user.image_url
+		#_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
+		simple_notify = _("%s has made a post in General")%(str(self.object.user))
+		pathname = reverse("mural:manage_general")
+
+		#for user in users:
+		#	entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
+		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view})})
+
+		#MuralVisualizations.objects.bulk_create(entries)
+
+		return super(CommentCreate, self).form_valid(form)
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(CommentCreate, self).get_context_data(*args, **kwargs)
+
+		post_id = self.kwargs.get('post', '')
+
+		context['form_url'] = reverse_lazy("mural:create_comment", kwargs = {"post": post_id})
+
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('mural:render_comment', args = (self.object.id, 'create', ))
+
+def render_comment(request, comment, msg):
+	comment = get_object_or_404(Comment, id = comment)
+
+	context = {}
+	context['comment'] = comment
+
+	msg = ""
+
+	if msg == 'create':
+		msg = _('Your comment was published successfully!')
+	else:
+		msg = _('Your comment was edited successfully!')
+
+	html = render_to_string("mural/_view_comment.html", context, request)
+
+	return JsonResponse({'message': msg, 'view': html, 'new_id': comment.id})

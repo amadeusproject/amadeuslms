@@ -1009,16 +1009,17 @@ li.item .notify_badge {
 
 .post .post-body {
     padding-right: 0;
+    margin-bottom: 10px;
 }
 
-.post .post-user {
+.post .post-user, .comment .comment-user {
     margin-top: 0;
     margin-bottom: 5px;
     font-size: 18px;
     font-weight: 700;
 }
 
-.post .post-user .btn-group {
+.post .post-user .btn-group, .comment .comment-user .btn-group {
     margin: 0;
 }
 
@@ -1030,28 +1031,27 @@ li.item .notify_badge {
     font-size: 18px;
 }
 
-.post .post-user .user-action {
+.post .post-user .user-action, .comment .comment-user .user-action {
     padding-left: 5px;
     font-size: 16px;
     font-weight: normal;
 }
 
-.post .post-user .user-action i {
+.post .post-user .user-action i, .comment .comment-user .user-action i {
     font-size: 22px;
 }
 
-.post .time {
+.post .time, .comment-time {
     font-size: 14px;
 }
 
 .post .post-comment {
-    margin-top: 10px;
     border-top-width: 1px;
     border-top-style: solid;
     padding: 10px 0px 8px 0px;
 }
 
-.post .post-comment .user-img div {
+.post .post-comment .user-img div, .comment .comment-img div {
     display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
     display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
     display: -ms-flexbox;      /* TWEENER - IE 10 */
@@ -1082,6 +1082,19 @@ li.item .notify_badge {
 .post-filter h4 {
     font-weight: 700;
     margin-bottom: 15px;
+}
+
+.comment-section {
+    max-height: 700px;
+    overflow-y: scroll;
+}
+
+.comment {
+    padding: 10px 0px 8px 0px;
+}
+
+.comment .comment-user .btn-group .btn_menu i {
+    font-size: 15px;
 }
 
 .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {

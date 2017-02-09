@@ -268,5 +268,63 @@
                 return false;
             });
         }
+
+        function comment(field) {
+            var url = field.find('h4').data('url'),
+                post = field.parent().parent();
+
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    $('#post-modal-form').html(data);
+
+                    setCommentFormSubmit(post);
+
+                    $('#post-modal-form').modal('show');
+                }
+            });
+        }
+
+        function setCommentFormSubmit(post, comment = "") {
+            var frm = $('#comment-form');
+
+            frm.submit(function () {
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: formData,
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        /*if (post != "") {
+                            var old = $("#post-" + post);
+                            
+                            old.before(data.view);
+
+                            old.remove();
+                        } else {*/
+                        $(post).find(".comment-section").append(data.view);
+
+                            //new_posts.push(data.new_id);
+                        //}
+
+                        $('#post-modal-form').modal('hide');
+
+                        alertify.success(data.message);
+                    },
+                    error: function(data) {
+                        $("#post-modal-form").html(data.responseText);
+                        setPostFormSubmit(post, comment);
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                });
+
+                return false;
+            });
+        }
     </script>
 {% endblock %}
