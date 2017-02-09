@@ -16,6 +16,7 @@ def validate_file_extension(value):
 
 class PDFFile(Resource):
     file = models.FileField(_('File'), upload_to='files/', validators = [validate_file_extension])
+   
     class Meta:
         verbose_name = "PDFFile"
         verbose_name_plural = "PDFFiles"

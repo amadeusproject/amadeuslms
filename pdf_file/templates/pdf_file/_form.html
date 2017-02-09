@@ -87,6 +87,29 @@
 		{% endif %}
 	</div>
 
+	<div class="form-group{% if form.has_error %} has-error {% endif %}">
+		<div class=" checkbox">
+			<label for="{{ form.show_window.auto_id }}">
+				{% render_field form.show_window %} {{ form.show_window.label }}
+			</label>
+		</div>
+
+		<span id="helpBlock" class="help-block">{{ form.show_window.help_text }}</span>
+			
+		{% if form.show_window.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.show_window.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+	</div>
+
 	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
 		<label for="{{ form.tags.auto_id }}">{{ form.tags.label }}</label>
 		{% render_field form.tags class='form-control'  data-role="tagsinput" %}

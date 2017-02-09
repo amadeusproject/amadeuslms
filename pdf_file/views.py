@@ -32,6 +32,12 @@ class ViewPDFFile(generic.TemplateView):
 
         return super(ViewPDFFile, self).dispatch(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super(ViewPDFFile, self).get_context_data(**kwargs)
+        slug = self.kwargs.get('slug', '')
+        pdf_file = PDFFile.objects.get(slug=slug)
+        context['pdf_file'] = pdf_file
+        return context
 
 
     def render_to_response(self, context, **response_kwargs):
@@ -40,10 +46,18 @@ class ViewPDFFile(generic.TemplateView):
 
         if not path.exists(pdf_file.file.path):
             raise Http404()
+        if pdf_file.show_window:
+            response = HttpResponse(open(pdf_file.file.path, 'rb').read(),content_type = 'application/pdf')
+            return response
 
-        response = HttpResponse(open(pdf_file.file.path, 'rb').read(),content_type = 'application/pdf')
-        
-        return response
+
+        response_kwargs.setdefault('content_type', self.content_type)
+        return self.response_class(
+        request = self.request,
+        template = self.get_template_names(),
+        context = context,
+        **response_kwargs
+        )
 
 class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
     form_class = PDFFileForm

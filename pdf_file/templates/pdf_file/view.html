@@ -17,13 +17,16 @@
 
 	{% breadcrumb topic 'subjects:topic_view' topic.subject.slug topic.slug %}
 	
-	{% trans 'Edit: ' as bread %}
-	{% with bread|add:pdf_file.name as bread_slug %}
-		{% breadcrumb bread_slug 'pdf_file:update' topic.slug pdf_file.slug %}
-	{% endwith %}
+	
 {% endblock %}
 
 
 {% block content %}
-	{{context\pdf_file}}
+
+<object width="100%" height="100%" type="application/pdf" data="{{pdf_file.file.path}}" id="pdf_content">
+    <p>Insert your error message here, if the PDF cannot be displayed.</p>
+  </object>
+
+  <embed src="{{pdf_file.file.path}}" width="100%" height="100%">
+ 
 {% endblock content %}

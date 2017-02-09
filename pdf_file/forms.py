@@ -24,7 +24,7 @@ class PDFFileForm(forms.ModelForm):
     tags = forms.CharField(label = _('Tags'), required = False)
     class Meta:
         model = PDFFile
-        fields = ['name', 'file', 'brief_description', 'all_students', 'students', 'groups', 'visible']
+        fields = ['name', 'file', 'brief_description','show_window', 'all_students', 'students', 'groups', 'visible']
         labels = {
             'name': _('File name'),
         }

@@ -566,9 +566,9 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
                 q = q | Q(tags__name__unaccent__iexact=word  )
         
         subjects = Subject.objects.filter(q).distinct()
+        self.resources = Resource.objects.select_related('link', 'filelink', 'webpage', 'ytvideo', 'pdffile').filter(q ).distinct()
+
         
-        self.resources = Resource.objects.select_related('link', 'filelink', 'webpage', 'ytvideo').filter(q).distinct()
-       
         self.totals = {'resources': self.resources.count(), 'my_subjects': subjects.count()}
        
         option = self.kwargs.get('option')
