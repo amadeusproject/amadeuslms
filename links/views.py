@@ -134,7 +134,8 @@ class CreateLinkView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
     def get_success_url(self):
         messages.success(self.request, _('The  Link "%s" was added to the Topic "%s" of the virtual environment "%s" successfully!')%(self.object.name, self.object.topic.name, self.object.topic.subject.name))
 
-        return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+        return reverse_lazy('subjects:topic_view', kwargs = {'slug': self.object.topic.subject.slug, 'topic_slug': self.object.topic.slug})
+        
 
 
 
