@@ -513,7 +513,7 @@ a.add-row {
 }
 
 .post .post-user, .comment .comment-user, .marked_user {
-    color: #4caf50;
+    color: #26A69A;
 }
 
 .post .post-user .user-action {
@@ -526,7 +526,7 @@ a.add-row {
 
 .post .post-comment {
     border-top-color: #888888;
-    background: #D5D5D5;
+    background: #e5e5e5;
 }
 
 .post .post-comment .comment-field div {
@@ -535,7 +535,8 @@ a.add-row {
 }
 
 .comment-section {
-    background: #D5D5D5;    
+    background: #f5f5f5;
+    border-top-color: #AAAAAA;
 }
 
 .comment .comment-user .user-action {
@@ -559,7 +560,7 @@ a.add-row {
 }
 
 .post-filter h4 {
-    color: #4caf50;
+    color: #26A69A;
 }
 
 .post-filter label {
