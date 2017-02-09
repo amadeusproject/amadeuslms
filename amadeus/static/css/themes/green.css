@@ -512,7 +512,7 @@ a.add-row {
     color: #1d8fe0;
 }
 
-.post .post-user, .comment .comment-user {
+.post .post-user, .comment .comment-user, .marked_user {
     color: #4caf50;
 }
 
@@ -568,6 +568,10 @@ a.add-row {
 
 .post-filter i {
     color: #FF0000;
+}
+
+.suggestions {
+    background: #FFFFFF;
 }
 
 .btn:not(.btn-raised):not(.btn-link):focus, .btn:not(.btn-raised):not(.btn-link):hover, .input-group-btn .btn:not(.btn-raised):not(.btn-link):focus, .input-group-btn .btn:not(.btn-raised):not(.btn-link):hover {

@@ -303,3 +303,15 @@ def render_comment(request, comment, msg):
 	html = render_to_string("mural/_view_comment.html", context, request)
 
 	return JsonResponse({'message': msg, 'view': html, 'new_id': comment.id})
+
+def suggest_users(request):
+	param = request.GET.get('param', '')
+
+	users = User.objects.filter(Q(username__icontains = param) | Q(last_name__icontains = param) | Q(social_name__icontains = param)).exclude(id = request.user.id)[:5]
+
+	context = {}
+	context['users'] = users
+
+	response = render_to_string("mural/_user_suggestions_list.html", context, request)
+
+	return JsonResponse({"search_result": response})

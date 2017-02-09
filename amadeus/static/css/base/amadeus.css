@@ -975,7 +975,7 @@ li.item .notify_badge {
 .mural .post_make .panel-body {
     padding: 0;
 }
-.mural .post_make .user-img, .post .post-img {
+.mural .post_make .user-img, .post .post-img, .suggestions .suggested-user .user-img {
     padding: 0;
     display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
     display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
@@ -1095,6 +1095,25 @@ li.item .notify_badge {
 
 .comment .comment-user .btn-group .btn_menu i {
     font-size: 15px;
+}
+
+#adduser_field {
+    margin-bottom: 0px;
+}
+
+.suggestions {
+    position: absolute;
+    width: 100%;
+    z-index: 9;
+}
+
+.suggestions .suggested-user {
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.marked_user {
+    font-weight: 700;
 }
 
 .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {

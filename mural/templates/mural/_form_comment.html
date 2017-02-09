@@ -70,16 +70,87 @@
 	</div>
 </div>
 
+<div id="add-user-modal" style="display:none">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3>{% trans 'Mark user in comment' %}</h3>
+			</div>
+			<div class="modal-body">
+				<p>{% trans 'Type the user name in the field below' %}</p>
+				<div class="form-group">
+					<input type="text" class="form-control" id="adduser_field" oninput="typing_search($(this));" />
+					<div class="suggestions list-group" data-url="{% url 'mural:suggest_users' %}" style="display:none">
+						
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="col-md-12">
+					<button type="button" id="mark_btn" class="btn btn-success btn-raised post-button pull-left">{% trans "Mark" %}</button>
+					<button type="button" class="btn btn-raised btn-default pull-right" data-dismiss="modal">{% trans "Cancel" %}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script type="text/javascript">
 	$(function () {
+		var AddUserBtn = function (context) {
+		  	var ui = $.summernote.ui;
+
+			  // create button
+		  	var button = ui.button({
+			    contents: '<i class="fa fa-user"/>',
+			    tooltip: '{% trans "Mark User" %}',
+			    click: function () {
+			    	var modal_content = $("#add-user-modal").html();
+		      		var modal = document.createElement('div');
+			      	$(modal).addClass('modal');
+			      	$(modal).attr('id', 'teste-modal');
+			      	$(modal).html(modal_content);
+
+			      	$(modal).modal('show');
+
+			      	var btn = $(modal).find("#mark_btn"),
+			      		field = $(modal).find("#adduser_field");
+
+			      	btn.prop('disabled', true);
+
+			      	btn.click(function () {
+			      		var node = document.createElement('span'),
+			      			value = field.val();
+
+			      		$(node).addClass('marked_user');
+			      		$(node).html(value);
+			      		
+			      		var code = context.invoke('code');
+
+			      		var new_code = $(code).append(node).append("&nbsp;");
+
+			      		context.invoke('code', new_code);
+
+			      		$(modal).modal('hide');
+			      	});
+			    }
+	  		});
+
+		  	return button.render();   // return button as jquery object 
+		}
+
 		$('.text_simple_wysiwyg').summernote({
 			dialogsInBody: true,
 			height: 150,
 		  	toolbar: [
 			    // [groupName, [list of button]]
 			    ['style', ['bold', 'italic']],
-			    ['insert', ['link']]
-		  	]
+			    ['insert', ['link']],
+			    ['mybuttons', ['addUser']],
+		  	],
+		  	buttons: {
+		  		addUser: AddUserBtn
+		  	}
 		});
 
 		$.material.init();
@@ -88,6 +159,53 @@
 			Init();
 		}
 	});
+
+	var typingSearchTimer;                //timer identifier
+	var doneTypingSearchInterval = 1000; 
+
+	function typing_search(field) {
+		clearTimeout(typingSearchTimer);
+
+		var loading = '<button type="button" class="btn btn-block btn-default btn-sm"><span class="fa fa-spin fa-circle-o-notch"></span></button>';
+
+		if (field.val() != "") {
+        	typingSearchTimer = setTimeout(function () { searchUsers(field); }, doneTypingSearchInterval);
+
+			$('.suggestions').html(loading);
+			$('.suggestions').show();
+		} else {
+			$('.suggestions').html("");
+			$('.suggestions').hide();
+		}
+
+		$("#mark_btn").prop('disabled', true);
+	}
+
+	function searchUsers (field) {
+		var url = $('.suggestions').data('url'),
+			param = field.val();
+	    
+	    $.ajax({
+	    	url: url,
+	    	data: {'param': param},
+	    	dataType: 'json',
+	    	success: function (response) {
+	    		$('.suggestions').html(response.search_result);
+
+	    		$('.suggestions').find('.is-user').click(function (e) {
+	    			e.preventDefault();
+
+	    			var user_name = $(this).find('h4').text();
+
+	    			field.val(user_name);
+
+	    			$('.suggestions').hide();
+
+	    			$('.suggestions').parent().parent().parent().find("#mark_btn").prop('disabled', false);
+	    		});
+	    	}
+	    });
+	}
 
 	// initialize
 	function Init() {

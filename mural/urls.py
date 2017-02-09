@@ -11,4 +11,5 @@ urlpatterns = [
 	url(r'^comment/(?P<post>[\w_-]+)/$', views.CommentCreate.as_view(), name='create_comment'),
 	url(r'^render_comment/([\w_-]+)/([\w_-]+)/$', views.render_comment, name='render_comment'),
 	url(r'^render_post/([\w_-]+)/([\w_-]+)/$', views.render_gen_post, name='render_post_general'),
+	url(r'^suggest_users/$', views.suggest_users, name='suggest_users'),
 ]

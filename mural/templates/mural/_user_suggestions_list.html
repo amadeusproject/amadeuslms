@@ -1,0 +1,18 @@
+{% load i18n %}
+
+{% if users.count > 0 %}
+	{% for user in users %}
+		<a href="#" class="list-group-item suggested-user is-user">
+			<div class="col-md-1 user-img">
+				<img src="{{ user.image_url }}" class="img-responsive" />
+			</div>
+			<div class="col-md-11">
+				<h4 data-user="{{ user.id }}">{{ user }}</h4>
+			</div>
+		</a>
+	{% endfor %}
+{% else %}
+	<a href="#" class="list-group-item suggested-user">
+		<h4 class="text-center">{% trans 'No results found.' %}</h4>
+	</a>
+{% endif %}
