@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-06 13:59-0300\n"
+"POT-Creation-Date: 2017-02-10 16:40-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,51 +22,51 @@ msgstr ""
 msgid "The image is too large. It should have less than 2MB."
 msgstr "A imagem é muito grande. Ela deve ter menos de 2MB."
 
-#: themes/models.py:10
+#: themes/models.py:11
 msgid "File not supported."
 msgstr "Arquivo não suportado."
 
-#: themes/models.py:13
+#: themes/models.py:14
 msgid "Title"
 msgstr "Título"
 
-#: themes/models.py:14
+#: themes/models.py:15
 msgid "Favicon"
 msgstr "Favicon"
 
-#: themes/models.py:15
+#: themes/models.py:16
 msgid "Small Logo"
 msgstr "Logo Pequena"
 
-#: themes/models.py:16
+#: themes/models.py:17
 msgid "Large Logo"
 msgstr "Logo Grande"
 
-#: themes/models.py:17
+#: themes/models.py:18
 msgid "Footer Note"
 msgstr "Nota de Rodapé"
 
-#: themes/models.py:18
+#: themes/models.py:19
 msgid "Css Style"
 msgstr "Estilo CSS"
 
-#: themes/models.py:18
+#: themes/models.py:19
 msgid "Green"
 msgstr "Verde"
 
-#: themes/models.py:18
+#: themes/models.py:19
 msgid "Red"
 msgstr "Vermelho"
 
-#: themes/models.py:18
+#: themes/models.py:19
 msgid "Black"
 msgstr "Preto"
 
-#: themes/models.py:21
+#: themes/models.py:22
 msgid "Theme"
 msgstr "Tema"
 
-#: themes/models.py:22 themes/views.py:21
+#: themes/models.py:23 themes/views.py:21
 msgid "Themes"
 msgstr "Temas"
 

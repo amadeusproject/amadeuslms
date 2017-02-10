@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-06 13:59-0300\n"
+"POT-Creation-Date: 2017-02-10 16:40-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -112,11 +112,11 @@ msgstr "Fechar"
 msgid "Delete"
 msgstr "Deletar"
 
-#: topics/templates/resources/list.html:32 topics/templates/topics/list.html:28
+#: topics/templates/resources/list.html:36 topics/templates/topics/list.html:28
 msgid "Edit"
 msgstr "Editar"
 
-#: topics/templates/resources/list.html:33 topics/templates/topics/list.html:29
+#: topics/templates/resources/list.html:37 topics/templates/topics/list.html:29
 msgid "Remove"
 msgstr "Remover"
 
@@ -145,26 +145,30 @@ msgid "Add Resource"
 msgstr "Adicionar Recurso"
 
 #: topics/templates/topics/list.html:55
+msgid "PDF File"
+msgstr "Arquivo PDF"
+
+#: topics/templates/topics/list.html:56
 msgid "Video Embed"
 msgstr "Embed de Vídeo"
 
-#: topics/templates/topics/list.html:56
+#: topics/templates/topics/list.html:57
 msgid "Forum"
 msgstr "Fórum"
 
-#: topics/templates/topics/list.html:57
+#: topics/templates/topics/list.html:58
 msgid "File Link"
 msgstr "Link para arquivo"
 
-#: topics/templates/topics/list.html:58
-msgid "Link to Website"
-msgstr ""
-
 #: topics/templates/topics/list.html:59
+msgid "Link to Website"
+msgstr "Link para Site"
+
+#: topics/templates/topics/list.html:60
 msgid "Webpage"
 msgstr "Página Web"
 
-#: topics/templates/topics/list.html:60
+#: topics/templates/topics/list.html:61
 msgid "Questionary"
 msgstr "Questionário"
 

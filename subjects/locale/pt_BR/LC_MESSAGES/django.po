@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-06 13:59-0300\n"
+"POT-Creation-Date: 2017-02-10 16:40-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -143,7 +143,7 @@ msgstr "Replicar"
 
 #: subjects/templates/subjects/list.html:77
 #: subjects/templates/subjects/list.html:144
-#: subjects/templates/subjects/resource_card.html:24
+#: subjects/templates/subjects/resource_card.html:25
 #: subjects/templates/subjects/subject_card.html:31
 #: subjects/templates/subjects/view.html:53
 msgid "Edit"
@@ -151,7 +151,7 @@ msgstr "Editar"
 
 #: subjects/templates/subjects/list.html:79
 #: subjects/templates/subjects/list.html:145
-#: subjects/templates/subjects/resource_card.html:25
+#: subjects/templates/subjects/resource_card.html:26
 #: subjects/templates/subjects/subject_card.html:33
 #: subjects/templates/subjects/view.html:55
 msgid "Remove"
@@ -172,49 +172,49 @@ msgstr "Não possui coordenadores"
 msgid "Create new subject"
 msgstr "Criar novo assunto"
 
-#: subjects/templates/subjects/list_search.html:31
-#: subjects/templates/subjects/list_search.html:34
+#: subjects/templates/subjects/list_search.html:38
+#: subjects/templates/subjects/list_search.html:41
 msgid "Search results"
 msgstr "Resultados da busca"
 
-#: subjects/templates/subjects/list_search.html:31
+#: subjects/templates/subjects/list_search.html:38
 #, fuzzy
 #| msgid " any subjects or resources were found on the search for "
 msgid " Any subjects or Resources were not found on the search for "
 msgstr " Nenhum assunto ou recursos foram encontrados na busca por "
 
-#: subjects/templates/subjects/list_search.html:39
-#: subjects/templates/subjects/list_search.html:42 subjects/views.py:586
+#: subjects/templates/subjects/list_search.html:46
+#: subjects/templates/subjects/list_search.html:49 subjects/views.py:586
 msgid "Subjects"
 msgstr "Assuntos"
 
-#: subjects/templates/subjects/list_search.html:40
-#: subjects/templates/subjects/list_search.html:43 subjects/views.py:593
+#: subjects/templates/subjects/list_search.html:47
+#: subjects/templates/subjects/list_search.html:50 subjects/views.py:593
 msgid "Resources"
 msgstr "Recursos"
 
-#: subjects/templates/subjects/resource_card.html:40
+#: subjects/templates/subjects/resource_card.html:42
 #: subjects/templates/subjects/subject_card.html:53
 msgid "Professor(s) "
 msgstr "Professor(es) "
 
-#: subjects/templates/subjects/resource_card.html:44
+#: subjects/templates/subjects/resource_card.html:46
 #: subjects/templates/subjects/subject_card.html:57
 msgid "It doesn't possess professors"
 msgstr "Não possui professores"
 
-#: subjects/templates/subjects/resource_card.html:48
+#: subjects/templates/subjects/resource_card.html:50
 msgid "Category"
 msgstr ""
 
-#: subjects/templates/subjects/resource_card.html:51
+#: subjects/templates/subjects/resource_card.html:53
 #, fuzzy
 #| msgid "Subjects"
 msgid "Subject"
 msgstr "Assuntos"
 
-#: subjects/templates/subjects/resource_card.html:59
 #: subjects/templates/subjects/resource_card.html:61
+#: subjects/templates/subjects/resource_card.html:63
 #, fuzzy
 #| msgid "Resources"
 msgid "Access Resource"
