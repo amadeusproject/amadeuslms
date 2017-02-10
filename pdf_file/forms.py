@@ -46,7 +46,7 @@ class PDFFileForm(forms.ModelForm):
                 same_name = topic.resource_topic.filter(name__unaccent__iexact = name).count()
         
             if same_name > 0:
-                self._errors['name'] = [_('This subject already has a file link with this name')]
+                self._errors['name'] = [_('This subject already has a pdf file with this name')]
 
                 return ValueError
 

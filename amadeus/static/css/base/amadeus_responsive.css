@@ -77,7 +77,7 @@
 	}
 
 	.navbar .navbar-brand{
-		float: right;
+		float: left;
 	}
 	#btn-search {
 		margin-top: -5px;

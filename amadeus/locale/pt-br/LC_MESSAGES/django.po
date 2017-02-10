@@ -1,0 +1,122 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-09 18:40-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: amadeus/templates/base.html:85
+msgid "Search for subjects and resources"
+msgstr ""
+
+#: amadeus/templates/base.html:98 amadeus/templates/base.html:105
+msgid "Language Selector"
+msgstr ""
+
+#: amadeus/templates/base.html:111
+msgid "PT-BR"
+msgstr ""
+
+#: amadeus/templates/base.html:117
+msgid "EN"
+msgstr ""
+
+#: amadeus/templates/base.html:130
+msgid "Profile"
+msgstr ""
+
+#: amadeus/templates/base.html:131
+msgid "Edit Profile"
+msgstr ""
+
+#: amadeus/templates/base.html:132
+msgid "Change Password"
+msgstr ""
+
+#: amadeus/templates/base.html:133
+msgid "Delete Account"
+msgstr ""
+
+#: amadeus/templates/base.html:134
+msgid "Logout"
+msgstr ""
+
+#: amadeus/templates/base.html:139
+msgid "settings"
+msgstr ""
+
+#: amadeus/templates/base.html:142
+msgid "Settings"
+msgstr ""
+
+#: amadeus/templates/base.html:145
+msgid "Manage Users"
+msgstr ""
+
+#: amadeus/templates/base.html:146
+msgid "Manage Categories"
+msgstr ""
+
+#: amadeus/templates/base.html:153
+msgid "System"
+msgstr ""
+
+#: amadeus/templates/base.html:160
+msgid "Mail Sender"
+msgstr ""
+
+#: amadeus/templates/base.html:161
+msgid "Security"
+msgstr ""
+
+#: amadeus/templates/base.html:162
+msgid "Theme"
+msgstr ""
+
+#: amadeus/templates/base.html:182 amadeus/templates/base.html:234
+msgid "Subjects"
+msgstr ""
+
+#: amadeus/templates/base.html:187 amadeus/templates/base.html:239
+msgid "Timeline"
+msgstr ""
+
+#: amadeus/templates/base.html:193 amadeus/templates/base.html:245
+msgid "Messages"
+msgstr ""
+
+#: amadeus/templates/base.html:196 amadeus/templates/base.html:248
+msgid "Pendencias"
+msgstr ""
+
+#: amadeus/templates/base.html:204 amadeus/templates/base.html:256
+msgid "Analytics"
+msgstr ""
+
+#: amadeus/templates/recover_pass_email_template.html:7
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+
+#: amadeus/templates/recover_pass_email_template.html:9
+msgid "Please go to the following page and choose a new password:"
+msgstr ""
+
+#: amadeus/templates/recover_pass_email_template.html:15
+#, python-format
+msgid "The %(site_name)s team"
+msgstr ""

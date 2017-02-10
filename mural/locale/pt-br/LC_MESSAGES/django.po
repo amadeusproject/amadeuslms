@@ -1,0 +1,241 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-09 18:40-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: mural/forms.py:16 mural/forms.py:51
+msgid "This field is required."
+msgstr ""
+
+#: mural/forms.py:28 mural/forms.py:63
+msgid "The image is too large. It should have less than 5MB."
+msgstr ""
+
+#: mural/models.py:18
+msgid "File not supported."
+msgstr ""
+
+#: mural/models.py:21
+msgid "Action"
+msgstr ""
+
+#: mural/models.py:21 mural/models.py:66 mural/models.py:79
+#: mural/templates/mural/_view_comment.html:14
+msgid "Comment"
+msgstr ""
+
+#: mural/models.py:21
+msgid "Ask for Help"
+msgstr ""
+
+#: mural/models.py:22 mural/models.py:68 mural/models.py:78 mural/models.py:86
+msgid "Post"
+msgstr ""
+
+#: mural/models.py:23 mural/models.py:67
+msgid "Image"
+msgstr ""
+
+#: mural/models.py:24 mural/models.py:69 mural/models.py:80 mural/models.py:87
+msgid "User"
+msgstr ""
+
+#: mural/models.py:25 mural/models.py:70
+msgid "Create Date"
+msgstr ""
+
+#: mural/models.py:26 mural/models.py:71
+msgid "Last Update"
+msgstr ""
+
+#: mural/models.py:27
+msgid "Edited"
+msgstr ""
+
+#: mural/models.py:38
+msgid "Space"
+msgstr ""
+
+#: mural/models.py:56
+msgid "Subject"
+msgstr ""
+
+#: mural/models.py:57
+msgid "Resource"
+msgstr ""
+
+#: mural/models.py:77
+msgid "Viewed"
+msgstr ""
+
+#: mural/templates/mural/_form.html:54
+#: mural/templates/mural/_form_comment.html:33
+msgid "Choose your photo..."
+msgstr ""
+
+#: mural/templates/mural/_form.html:63
+#: mural/templates/mural/_form_comment.html:42
+msgid "Click or drop the file here"
+msgstr ""
+
+#: mural/templates/mural/_form.html:65
+#: mural/templates/mural/_form_comment.html:44
+msgid "The file could not exceed 5MB."
+msgstr ""
+
+#: mural/templates/mural/_form.html:87
+#: mural/templates/mural/_form_comment.html:66
+msgid "Save"
+msgstr ""
+
+#: mural/templates/mural/_form.html:88
+#: mural/templates/mural/_form_comment.html:67
+#: mural/templates/mural/_form_comment.html:91
+msgid "Cancel"
+msgstr ""
+
+#: mural/templates/mural/_form_comment.html:77
+msgid "Mark user in comment"
+msgstr ""
+
+#: mural/templates/mural/_form_comment.html:80
+msgid "Type the user name in the field below"
+msgstr ""
+
+#: mural/templates/mural/_form_comment.html:90
+msgid "Mark"
+msgstr ""
+
+#: mural/templates/mural/_form_comment.html:106
+msgid "Mark User"
+msgstr ""
+
+#: mural/templates/mural/_user_suggestions_list.html:16
+msgid "No results found."
+msgstr ""
+
+#: mural/templates/mural/_view.html:21
+#: mural/templates/mural/_view_comment.html:22
+msgid "Edit"
+msgstr ""
+
+#: mural/templates/mural/_view.html:23
+#: mural/templates/mural/_view_comment.html:24
+msgid "Remove"
+msgstr ""
+
+#: mural/templates/mural/_view.html:35
+#: mural/templates/mural/_view_comment.html:31
+msgid "In"
+msgstr ""
+
+#: mural/templates/mural/_view.html:59
+msgid "Make a comment..."
+msgstr ""
+
+#: mural/templates/mural/delete.html:8
+msgid "Are you sure you want to delete this post"
+msgstr ""
+
+#: mural/templates/mural/delete.html:13
+msgid "Close"
+msgstr ""
+
+#: mural/templates/mural/delete.html:16
+msgid "Delete"
+msgstr ""
+
+#: mural/templates/mural/list.html:9
+msgid "Mural: General"
+msgstr ""
+
+#: mural/templates/mural/list.html:17
+msgid "General"
+msgstr ""
+
+#: mural/templates/mural/list.html:18
+msgid "Per Category"
+msgstr ""
+
+#: mural/templates/mural/list.html:19
+msgid "Per Subject"
+msgstr ""
+
+#: mural/templates/mural/list.html:32
+msgid "Wish to make a new post?"
+msgstr ""
+
+#: mural/templates/mural/list.html:50
+msgid "There are no posts in this mural yet."
+msgstr ""
+
+#: mural/templates/mural/list.html:54 mural/templates/mural/list.html:67
+msgid "Filter"
+msgstr ""
+
+#: mural/templates/mural/list.html:59
+msgid "Favorite posts"
+msgstr ""
+
+#: mural/templates/mural/list.html:64
+msgid "Only my posts"
+msgstr ""
+
+#: mural/templates/mural/list.html:68
+msgid "Clean Filters"
+msgstr ""
+
+#: mural/templatetags/mural_filters.py:11
+msgid "(Edited)"
+msgstr ""
+
+#: mural/templatetags/mural_filters.py:29 mural/views.py:231
+msgid "Unfavorite"
+msgstr ""
+
+#: mural/templatetags/mural_filters.py:31 mural/views.py:235
+msgid "Favorite"
+msgstr ""
+
+#: mural/views.py:71
+msgid "Mural"
+msgstr ""
+
+#: mural/views.py:115 mural/views.py:267
+#, python-format
+msgid "%s has made a post in General"
+msgstr ""
+
+#: mural/views.py:212
+msgid "Your post was published successfully!"
+msgstr ""
+
+#: mural/views.py:214
+msgid "Your post was edited successfully!"
+msgstr ""
+
+#: mural/views.py:221
+msgid "Post deleted successfully!"
+msgstr ""
+
+#: mural/views.py:299
+msgid "Your comment was published successfully!"
+msgstr ""
+
+#: mural/views.py:301
+msgid "Your comment was edited successfully!"
+msgstr ""
