@@ -18,7 +18,7 @@ def comments_list(request, post):
 	paginator = Paginator(comments, 5)
 
 	try:
-		page_number = int(request.GET.get('page', 1))
+		page_number = 1
 	except ValueError:
 		raise Http404
 
