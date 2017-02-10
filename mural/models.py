@@ -27,6 +27,10 @@ class Mural(KnowsChild):
 	edited = models.BooleanField(_('Edited'), default = False)
 
 	@always_as_child
+	def get_id(self):
+		pass	
+
+	@always_as_child
 	def update_link(self):
 		pass
 
@@ -37,6 +41,9 @@ class Mural(KnowsChild):
 class GeneralPost(Mural):
 	space = models.IntegerField(_('Space'), default = 0, blank = True)
 
+	def get_id(self):
+		return self.id
+
 	def update_link(self):
 		return "mural:update_general"
 
@@ -45,6 +52,12 @@ class GeneralPost(Mural):
 
 class CategoryPost(Mural):
 	space = models.ForeignKey(Category, verbose_name = ('Category'), related_name = 'post_category')
+
+	def get_id(self):
+		return self.id
+
+	def get_id(self):
+		return self.id
 
 	def update_link(self):
 		return ""

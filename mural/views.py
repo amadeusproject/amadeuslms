@@ -262,16 +262,19 @@ class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
 		self.object.save()
 
 		users = User.objects.all().exclude(id = self.request.user.id)
+		entries = []
 
 		notify_type = "mural"
 		user_icon = self.object.user.image_url
-		#_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
-		simple_notify = _("%s has made a post in General")%(str(self.object.user))
+		_view = render_to_string("mural/_view_comment.html", {"comment": self.object}, self.request)
+		simple_notify = _("%s has commented in a post in General")%(str(self.object.user))
 		pathname = reverse("mural:manage_general")
 
-		#for user in users:
-		#	entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
-		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view})})
+		for user in users:
+			entries.append(MuralVisualizations(viewed = False, user = user, comment = self.object))
+			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create_comment", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view, "post_id": post.get_id()})})
+
+		MuralVisualizations.objects.bulk_create(entries)
 
 		return super(CommentCreate, self).form_valid(form)
 
@@ -309,20 +312,14 @@ class CommentUpdate(LoginRequiredMixin, generic.UpdateView):
 		self.object.save()
 
 		users = User.objects.all().exclude(id = self.request.user.id)
-		entries = []
-
+		
 		notify_type = "mural"
-		user_icon = self.object.user.image_url
-		#_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
-		simple_notify = _("%s has made a post in General")%(str(self.object.user))
+		_view = render_to_string("mural/_view_comment.html", {"comment": self.object}, self.request)
 		pathname = reverse("mural:manage_general")
 
-		#for user in users:
-		#	entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
-		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view})})
-
-		#MuralVisualizations.objects.bulk_create(entries)
-
+		for user in users:
+			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "update_comment", "pathname": pathname, "complete": _view, "comment_id": self.object.id})})
+		
 		return super(CommentUpdate, self).form_valid(form)
 
 	def get_context_data(self, *args, **kwargs):
@@ -356,8 +353,8 @@ class CommentDelete(LoginRequiredMixin, generic.DeleteView):
 		notify_type = "mural"
 		pathname = reverse("mural:manage_general")
 
-		#for user in users:
-		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "delete", "pathname": pathname, "post_id": self.object.id})})
+		for user in users:
+			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "delete_comment", "pathname": pathname, "comment_id": self.object.id})})
 
 		return reverse_lazy('mural:deleted_comment')
 
