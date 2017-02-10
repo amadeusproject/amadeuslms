@@ -13,7 +13,9 @@
 {% block breadcrumbs %}
 	{% clear_breadcrumbs %}
    	{% breadcrumb 'Home' 'subjects:home' %}
-    {% with "You searched for "|add:tags as term  %}
+
+    {% trans 'You Searched for: ' as bread %}
+    {% with bread|add:tags as term  %}
         {% breadcrumb  term 'subjects:index' %}
     {% endwith %}
    	
