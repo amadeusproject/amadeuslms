@@ -1,4 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.core.paginator import Paginator, EmptyPage
+from django.http import Http404
 from django.views import generic
 from django.contrib import messages
 from django.http import JsonResponse
@@ -186,6 +188,7 @@ class GeneralDelete(LoginRequiredMixin, generic.DeleteView):
 		context = super(GeneralDelete, self).get_context_data(*args, **kwargs)
 
 		context['form_url'] = reverse_lazy("mural:delete_general", args = (), kwargs = {'pk': self.object.id})
+		context['message'] = _('Are you sure you want to delete this post?')
 
 		return context
 
@@ -259,7 +262,6 @@ class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
 		self.object.save()
 
 		users = User.objects.all().exclude(id = self.request.user.id)
-		entries = []
 
 		notify_type = "mural"
 		user_icon = self.object.user.image_url
@@ -270,8 +272,6 @@ class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
 		#for user in users:
 		#	entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
 		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view})})
-
-		#MuralVisualizations.objects.bulk_create(entries)
 
 		return super(CommentCreate, self).form_valid(form)
 
@@ -286,6 +286,80 @@ class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
 
 	def get_success_url(self):
 		return reverse_lazy('mural:render_comment', args = (self.object.id, 'create', ))
+
+class CommentUpdate(LoginRequiredMixin, generic.UpdateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/_form_comment.html'
+	model = Comment
+	form_class = CommentForm
+
+	def form_invalid(self, form):
+		context = super(CommentUpdate, self).form_invalid(form)
+		context.status_code = 400
+
+		return context
+
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+
+		self.object.edited = True
+
+		self.object.save()
+
+		users = User.objects.all().exclude(id = self.request.user.id)
+		entries = []
+
+		notify_type = "mural"
+		user_icon = self.object.user.image_url
+		#_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
+		simple_notify = _("%s has made a post in General")%(str(self.object.user))
+		pathname = reverse("mural:manage_general")
+
+		#for user in users:
+		#	entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
+		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view})})
+
+		#MuralVisualizations.objects.bulk_create(entries)
+
+		return super(CommentUpdate, self).form_valid(form)
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(CommentUpdate, self).get_context_data(*args, **kwargs)
+
+		context['form_url'] = reverse_lazy("mural:update_comment", args = (), kwargs = {'pk': self.object.id})
+
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('mural:render_comment', args = (self.object.id, 'update', ))
+
+class CommentDelete(LoginRequiredMixin, generic.DeleteView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/delete.html'
+	model = Comment
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(CommentDelete, self).get_context_data(*args, **kwargs)
+
+		context['form_url'] = reverse_lazy("mural:delete_comment", args = (), kwargs = {'pk': self.object.id})
+		context['message'] = _('Are you sure you want to delete this comment?')
+
+		return context
+
+	def get_success_url(self):
+		users = User.objects.all().exclude(id = self.request.user.id)
+		
+		notify_type = "mural"
+		pathname = reverse("mural:manage_general")
+
+		#for user in users:
+		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "delete", "pathname": pathname, "post_id": self.object.id})})
+
+		return reverse_lazy('mural:deleted_comment')
 
 def render_comment(request, comment, msg):
 	comment = get_object_or_404(Comment, id = comment)
@@ -304,6 +378,9 @@ def render_comment(request, comment, msg):
 
 	return JsonResponse({'message': msg, 'view': html, 'new_id': comment.id})
 
+def deleted_comment(request):
+	return JsonResponse({'msg': _('Comment deleted successfully!')})
+
 def suggest_users(request):
 	param = request.GET.get('param', '')
 
@@ -315,3 +392,38 @@ def suggest_users(request):
 	response = render_to_string("mural/_user_suggestions_list.html", context, request)
 
 	return JsonResponse({"search_result": response})
+
+def load_comments(request, post, child_id):
+	context = {
+		'request': request,
+	}
+
+	showing = request.GET.get('showing', '')
+
+	if showing == '':
+		comments = Comment.objects.filter(post__id = post).order_by('-last_update')
+	else:
+		showing = showing.split(',')
+		comments = Comment.objects.filter(post__id = post).exclude(id__in = showing).order_by('-last_update')	
+
+	paginator = Paginator(comments, 5)
+
+	try:
+		page_number = int(request.GET.get('page', 1))
+	except ValueError:
+		raise Http404
+
+	try:
+		page_obj = paginator.page(page_number)
+	except EmptyPage:
+		raise Http404
+
+	context['paginator'] = paginator
+	context['page_obj'] = page_obj
+
+	context['comments'] = page_obj.object_list
+	context['post_id'] = child_id
+
+	response = render_to_string("mural/_list_view_comment.html", context, request)
+
+	return JsonResponse({"loaded": response})

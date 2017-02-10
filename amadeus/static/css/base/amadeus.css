@@ -1026,7 +1026,7 @@ li.item .notify_badge {
     margin: 0;
 }
 
-.post .post-user .btn-group .dropdown-menu a {
+.post .post-user .btn-group .dropdown-menu a, .comment .comment-user .btn-group .dropdown-menu a {
     cursor: pointer;
 }
 

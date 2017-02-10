@@ -1,4 +1,4 @@
-{% load i18n mural_filters %}
+{% load i18n mural_filters comments_list %}
 
 <div id="post-{{ post.id }}" class="panel panel-default">
 	<div class="panel-body post">
@@ -44,9 +44,9 @@
 			{% endif %}
 		</div>
 		<div class="col-md-12 comment-section">
-			{% for comment in post.comment_post.all %}
-				{% include 'mural/_view_comment.html' %}
-			{% endfor %}
+			<button type="button" class="btn btn-block btn-default btn-sm loading" style="display:none"><span class="fa fa-spin fa-circle-o-notch"></span></button>
+			<button type="button" onclick="loadComments($(this))" data-url="{% url 'mural:load_comments' post.mural_ptr_id post.id %}" data-post="{{ post.id }}" class="btn btn-block btn-default btn-sm load-btn">{% trans 'See more comments...' %}</button>
+			{% comments_list request post %}
 		</div>
 		<div class="col-md-12 post-comment">
 			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 user-img">
@@ -56,7 +56,7 @@
 			</div>
 			<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 comment-field" onclick="comment($(this))">
 				<div>
-					<h4 data-url="{% url 'mural:create_comment' post.mural_ptr_id %}">{% trans 'Make a comment...' %}</h4>
+					<h4 data-url="{% url 'mural:create_comment' post.mural_ptr_id %}" data-post="{{ post.id }}">{% trans 'Make a comment...' %}</h4>
 				</div>
 			</div>
 		</div>
