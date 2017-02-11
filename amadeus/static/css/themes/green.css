@@ -579,6 +579,15 @@ a.add-row {
     background-color: initial;
 }
 
+.language-selector .dropdown-menu > .active > a {
+    background: #EEEEEE;
+    color: #009688;
+}
+
+.language-selector .dropdown-menu > .active > a:hover {
+    color: #009688;
+}
+
 @media(max-width: 768px) {
     .navbar .navbar-nav .dropdown .dropdown-menu li > a {
         color: #333333 !important;

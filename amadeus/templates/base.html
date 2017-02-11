@@ -184,7 +184,7 @@
                                 <i class="fa fa-graduation-cap" aria-hidden="true"></i>
                             </a>
                         </li>
-                        <li class="item {{ mural_menu_active }} action_icon" data-toggle="tooltip" data-placement="right" title="{% trans "Timeline" %}">
+                        <li class="item {{ mural_menu_active }} action_icon" data-toggle="tooltip" data-placement="right" title="{% trans "Mural" %}">
                             <a href="{% url 'mural:manage_general' %}">
                                 <i class="fa fa-list" aria-hidden="true" ></i>
                                 <span class="badge notify_badge mural_badge" {% if mural_notifications_count == 0 %} style="display:none" {% endif %}>{% if mural_notifications_count > 99 %} +99 {% else %} {{ mural_notifications_count }} {% endif %}</span>
@@ -236,7 +236,7 @@
                                 <i class="fa fa-graduation-cap" aria-hidden="true"></i>
                             </a>
                         </li>
-                        <li class="item {{ mural_menu_active }} action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Timeline" %}">
+                        <li class="item {{ mural_menu_active }} action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Mural" %}">
                             <a href="{% url 'mural:manage_general' %}"
                                 <i class="fa fa-list" aria-hidden="true" ></i>
                                 <span class="badge notify_badge mural_badge" {% if mural_notifications_count == 0 %} style="display:none" {% endif %}>{% if mural_notifications_count > 99 %} +99 {% else %} {{ mural_notifications_count }} {% endif %}</span>
