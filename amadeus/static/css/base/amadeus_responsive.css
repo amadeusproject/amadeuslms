@@ -142,16 +142,18 @@
 
 	.language-selector-on-header{
 	    float: left;
-	    width: 5%;
+	    width: 50px;
 	}
 
 	.language-selector-on-header img{
-	    margin-top: 15%;
-	    width: 30px;
+	    margin-top: -20%;
+	    margin-left: -20%;
+	    width: 20px;
 	}
 	.language-selector-on-header > ul img{
-	    width: 30%;
+	    width: 15%;
 	    margin-top: 0%;
+	    margin-left: 0%;
 	}
 
 
