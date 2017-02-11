@@ -27,7 +27,7 @@ class ViewPDFFile(generic.TemplateView):
         resource = get_object_or_404(Resource, slug = slug)
         topic = resource.topic
 
-        if not has_subject_permissions(request.user, topic.subject):
+        if not has_subject_permissions(request.user, topic.subject) and not has_resource_permissions(request.user, resource):
             return redirect(reverse_lazy('subjects:home'))
 
         return super(ViewPDFFile, self).dispatch(request, *args, **kwargs)
