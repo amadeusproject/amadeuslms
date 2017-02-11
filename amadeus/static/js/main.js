@@ -30,7 +30,7 @@ $(function () {
 var change_language = {
 	post: function(url, language){
 		$.post(url, language ,function(data){
-				console.log(data);
+				window.location.href= window.location.href;
 		});
 	}
 }

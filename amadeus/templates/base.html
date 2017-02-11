@@ -106,13 +106,13 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li >
-                              <a href="#" class="language-item">
+                              <a class="language-item" value="pt-br">
                                 <img src="{% static "img/brazilicon.png" %}" />
                                 <span>{% trans "pt_BR" %}</span>
                               </a>
                             </li>
                             <li>
-                              <a href="#" class="language-item">
+                              <a  class="language-item" value="en">
                                 <img src="{% static "img/euaicon.png" %}" />
                                 <span>{% trans "EN" %}</span>
                               </a>
@@ -273,8 +273,8 @@
 
      <script>
           $(".language-item").click(function(event) {
-
-            change_language.post("{% url 'set_language' %}", );
+            
+            change_language.post("{% url 'set_language' %}", {'language': $(this)[0].attributes[1].value, next: "{% url 'users:login' %}", csrfmiddlewaretoken: '{{ csrf_token }}' } );
            
           });
         </script>
