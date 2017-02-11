@@ -39,6 +39,7 @@ urlpatterns = [
     url(r'^pendencies/', include('notifications.urls', namespace = 'notifications')),
     url(r'^links/', include('links.urls', namespace='links')),
     url(r'^pdf_files/', include('pdf_file.urls', namespace='pdf_files')),
+    url(r'^i18n/', include('django.conf.urls.i18n')),
     #API
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     #S3Direct

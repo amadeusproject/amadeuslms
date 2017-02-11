@@ -26,3 +26,12 @@ $(function () {
         $($(this).attr('href')).collapse('show');
     });
 });
+
+var change_language = {
+	post: function(url, language){
+		$.post(url, language ,function(data){
+				console.log(data);
+		});
+	}
+}
+

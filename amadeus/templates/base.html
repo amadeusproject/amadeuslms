@@ -106,13 +106,13 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li >
-                              <a href="#">
+                              <a href="#" class="language-item">
                                 <img src="{% static "img/brazilicon.png" %}" />
-                                <span>{% trans "PT-BR" %}</span>
+                                <span>{% trans "pt_BR" %}</span>
                               </a>
                             </li>
                             <li>
-                              <a href="#">
+                              <a href="#" class="language-item">
                                 <img src="{% static "img/euaicon.png" %}" />
                                 <span>{% trans "EN" %}</span>
                               </a>
@@ -268,6 +268,16 @@
     <script type="text/javascript">$.material.init()</script>
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/socket.js' %}"></script>
+
+    <!-- Language selector code -->
+
+     <script>
+          $(".language-item").click(function(event) {
+
+            change_language.post("{% url 'set_language' %}", );
+           
+          });
+        </script>
 </body>
 
 </html>
