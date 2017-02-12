@@ -30,7 +30,7 @@ from .utils import has_student_profile, has_professor_profile, count_subjects, g
 from users.models import User
 from topics.models import Resource
 
-from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions
+from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions, has_resource_permissions
 
 class HomeView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("users:login")
@@ -62,7 +62,7 @@ class HomeView(LoginRequiredMixin, ListView):
         tags = Tag.objects.all()
         tags_list = []
         for tag in tags:
-            if Resource.objects.filter(tags__pk=tag.pk).count() > 0 and len(tags_list) <= tag_amount:
+            if Resource.objects.filter(tags__pk=tag.pk, students__pk = self.request.user.pk).count() > 0 and len(tags_list) <= tag_amount:
                 tags_list.append((tag.name, Subject.objects.filter(tags__pk = tag.pk).count()))
                 tags_list.sort(key= lambda x: x[1], reverse=True) #sort by value
                 
@@ -567,8 +567,10 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
                 q = q | Q(tags__name__unaccent__iexact=word  )
         
         subjects = Subject.objects.filter(q).distinct()
-        self.resources = Resource.objects.select_related('link', 'filelink', 'webpage', 'ytvideo', 'pdffile').filter(q ).distinct()
-
+        
+        self.resources = Resource.objects.select_related('link', 'filelink', 'webpage', 'ytvideo', 'pdffile').filter(q).distinct()
+        self.resources = [resource.id for resource in self.resources if has_resource_permissions(self.request.user, resource)]
+        self.resources = Resource.objects.select_related('link', 'filelink', 'webpage', 'ytvideo', 'pdffile').filter(id__in = self.resources)
         
         self.totals = {'resources': self.resources.count(), 'my_subjects': subjects.count()}
        
