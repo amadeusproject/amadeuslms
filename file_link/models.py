@@ -2,6 +2,7 @@ import os
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+from django.core.urlresolvers import reverse_lazy
 
 from topics.models import Resource
 
@@ -36,7 +37,7 @@ class FileLink(Resource):
 		return self.name
 
 	def access_link(self):
-		return 'file_links:download'
+		return reverse_lazy('file_links:download', args = (), kwargs = {'slug': self.slug})
 
 	def update_link(self):
 		return 'file_links:update'

@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 import os
 from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse_lazy
 
 from topics.models import Resource
 # Create your models here.
@@ -29,7 +30,7 @@ class PDFFile(Resource):
         return self.name
 
     def access_link(self):
-        return 'pdf_files:view'
+        return reverse_lazy('pdf_files:view', args = (), kwargs = {'slug': self.slug})
 
     def update_link(self):
         return 'pdf_files:update'

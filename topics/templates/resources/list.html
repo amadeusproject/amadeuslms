@@ -14,7 +14,7 @@
 		    	<input type="hidden" class="url_order" value="{% url 'topics:update_resource_order' %}" />
 
 	  			<h4 class="pull-left list-group-item-heading">
-	  				<a data-href="{% url resource.access_link resource.slug %}" class="resource_link" {% if resource.show_window %}target="_blank"{% endif %}>
+	  				<a data-href="{{ resource.access_link }}" class="resource_link" {% if resource.show_window %}target="_blank"{% endif %}>
 
 						{{ resource.name }}
 	  				</a>

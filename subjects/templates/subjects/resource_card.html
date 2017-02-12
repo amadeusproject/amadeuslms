@@ -57,14 +57,8 @@
                 <p>{{resource.brief_description|safe}}</p>
            
             {% endif %}
-        {% if resource.link %}
-             <a href="{{resource.link.link_url}}" class="btn btn-success btn-raised" target="_blank"> {% trans "Access Resource" %}</a>
-        {% else %}
-            <a href="{% url resource.access_link resource.slug %}" class="btn btn-success btn-raised"> {% trans "Access Resource" %}</a>
-        {% endif %}
-            
-           
-            
+
+            <a href="{{ resource.access_link }}" {% if resource.show_window %}target="_blank"{% endif %} class="btn btn-success btn-raised"> {% trans "Access Resource" %}</a>
          
         </div>
 

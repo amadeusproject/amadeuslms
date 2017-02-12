@@ -19,7 +19,7 @@ class Link(Resource):
         return self.name
 
     def access_link(self):
-        return 'links:view'
+        return self.link_url
 
     def update_link(self):
         return 'links:update'

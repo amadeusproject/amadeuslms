@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.core.urlresolvers import reverse_lazy
 
 from topics.models import Resource
 
@@ -15,9 +16,9 @@ class YTVideo(Resource):
 
 	def access_link(self):
 		if self.show_window:
-			return 'youtube:window_view'
+			return reverse_lazy('youtube:window_view', args = (), kwargs = {'slug': self.slug})
 
-		return 'youtube:view'
+		return reverse_lazy('youtube:view', args = (), kwargs = {'slug': self.slug})
 
 	def update_link(self):
 		return 'youtube:update'
