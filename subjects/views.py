@@ -62,9 +62,10 @@ class HomeView(LoginRequiredMixin, ListView):
         tags = Tag.objects.all()
         tags_list = []
         for tag in tags:
-            if Resource.objects.filter(tags__pk=tag.pk, students__pk = self.request.user.pk).count() > 0 and len(tags_list) <= tag_amount:
-                tags_list.append((tag.name, Subject.objects.filter(tags__pk = tag.pk).count()))
-                tags_list.sort(key= lambda x: x[1], reverse=True) #sort by value
+            if len(tags_list) <= tag_amount:
+                if Resource.objects.filter(tags__pk=tag.pk, students__pk = self.request.user.pk).count() > 0 or Subject.objects.filter(tags__pk = tag.pk).count() > 0:
+                    tags_list.append((tag.name, Subject.objects.filter(tags__pk = tag.pk).count()))
+                    tags_list.sort(key= lambda x: x[1], reverse=True) #sort by value
                 
             elif len(tags_list) > tag_amount:
                 count = Subject.objects.filter(tags__pk = tag.pk).count()
