@@ -14,15 +14,10 @@
 		    	<input type="hidden" class="url_order" value="{% url 'topics:update_resource_order' %}" />
 
 	  			<h4 class="pull-left list-group-item-heading">
-	  			{% if resource|class_name == 'link' %}
-	  				 <a href="{{resource|resource_link}}" class="resource_link" target="_blank"> {{resource.name}}</a>
-	  			{% else %}
-	  				<a href="{% url resource.access_link resource.slug %}" class="resource_link" {% if resource.show_window %}target="_blank"{% endif %}>
+	  				<a data-href="{% url resource.access_link resource.slug %}" class="resource_link" {% if resource.show_window %}target="_blank"{% endif %}>
 
 						{{ resource.name }}
 	  				</a>
-	  			{% endif %}
-	  				
 				</h4>
 
 				{% if has_subject_permissions %}
@@ -66,7 +61,7 @@
 			upd = $(this).find('a.edit').is(e.target);
 		
 		if (!arrow && !menu && !del && !upd && !btn) {
-			var link = $(this).find('.resource_link').attr('href'),
+			var link = $(this).find('.resource_link').data('href'),
 				target = $(this).find('.resource_link').attr('target');
 
 			if (typeof(target) != 'undefined') {

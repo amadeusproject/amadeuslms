@@ -93,6 +93,8 @@ class CreateLinkView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         if not self.object.topic.visible and not self.object.topic.repository:
             self.object.visible = False
 
+        self.object.show_window = True
+
         self.object.save()
 
         pend_form = pendencies_form.save(commit = False)
@@ -256,6 +258,8 @@ class UpdateLinkView(LoginRequiredMixin, LogMixin, generic.edit.UpdateView):
 
         if not self.object.topic.visible and not self.object.topic.repository:
             self.object.visible = False
+
+        self.object.show_window = True
         
         self.object.save()
 
