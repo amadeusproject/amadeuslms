@@ -62,11 +62,11 @@ class HomeView(LoginRequiredMixin, ListView):
         tags = Tag.objects.all()
         tags_list = []
         for tag in tags:
-            if len(tags_list) <= tag_amount:
+            if Resource.objects.filter(tags__pk=tag.pk).count() > 0 and len(tags_list) <= tag_amount:
                 tags_list.append((tag.name, Subject.objects.filter(tags__pk = tag.pk).count()))
                 tags_list.sort(key= lambda x: x[1], reverse=True) #sort by value
                 
-            else:
+            elif len(tags_list) > tag_amount:
                 count = Subject.objects.filter(tags__pk = tag.pk).count()
                 if count > tags_list[tag_amount][1]:
                     tags_list[tag_amount - 1] = (tag.name, count)
@@ -85,6 +85,7 @@ class HomeView(LoginRequiredMixin, ListView):
                 tags.append((item[0], 2))
             i += 1
         shuffle(tags)
+
         context['tags'] = tags
         context['total_subs'] = self.total
 
