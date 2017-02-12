@@ -80,22 +80,33 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right forgotPassword">
                                     <a class="pull-right" href="{% url 'users:forgot_pass' %}">{% trans 'Forgot your password?' %}</a>
                                     <li class="dropdown language-selector pull-right "> 
+                                        {% get_current_language as LANGUAGE_CODE %}
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
-                                            <img src="{% static "img/brazilicon.png" %}" />
+
+                                            {% with 'img/'|add:LANGUAGE_CODE|add:'.png' as image_static %}
+                                                <img src="{% static image_static %}" />
+                                            {% endwith %}
+                                           
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li class="active">
-                                              <a class="language-item" value-lang="pt-br">
-                                                <img src="{% static "img/brazilicon.png" %}" />
-                                                <span>{% trans "pt_BR" %}</span>
-                                              </a>
-                                            </li>
-                                            <li >
-                                              <a  class="language-item" value-lang="en">
-                                                <img src="{% static "img/euaicon.png" %}" />
-                                                <span>{% trans "EN" %}</span>
-                                              </a>
-                                            </li>
+
+                                            
+                                            {% get_available_languages as LANGUAGES %}
+                                            {% get_language_info_list for LANGUAGES as languages %}
+                                            {% for language in languages %}
+
+                                                <li {% if language.code == LANGUAGE_CODE %}
+                                                    class="active"
+                                                {% endif %}>
+                                                    <a class="language-item" value-lang="{{language.code}}">
+                                                    {% with 'img/'|add:language.code|add:'.png' as image_static %}
+                                                        <img src="{% static image_static %}" />
+                                                    {% endwith %}
+                                                        <span>{{language.code}}</span>
+                                                    </a>
+                                                </li>
+                                               
+                                            {% endfor %}
                                         </ul>
                                     </li>
                                 </div>
@@ -104,6 +115,37 @@
                             <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center forgotPassword">
                                     <a href="{% url 'users:forgot_pass' %}">{% trans 'Forgot your password?' %}</a>
+
+                                    <li class="dropdown language-selector pull-right "> 
+                                        {% get_current_language as LANGUAGE_CODE %}
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
+
+                                            {% with 'img/'|add:LANGUAGE_CODE|add:'.png' as image_static %}
+                                                <img src="{% static image_static %}" />
+                                            {% endwith %}
+                                           
+                                        </a>
+                                        <ul class="dropdown-menu">
+
+                                            
+                                            {% get_available_languages as LANGUAGES %}
+                                            {% get_language_info_list for LANGUAGES as languages %}
+                                            {% for language in languages %}
+
+                                                <li {% if language.code == LANGUAGE_CODE %}
+                                                    class="active"
+                                                {% endif %}>
+                                                    <a class="language-item" value-lang="{{language.code}}">
+                                                    {% with 'img/'|add:language.code|add:'.png' as image_static %}
+                                                        <img src="{% static image_static %}" />
+                                                    {% endwith %}
+                                                        <span>{{language.code}}</span>
+                                                    </a>
+                                                </li>
+                                               
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
                                 </div>
                             </div>
                         {% endif %}
@@ -113,7 +155,7 @@
         </div>
     </div>
 
-
+    
 {% endblock%}
 
 {% block footer %}

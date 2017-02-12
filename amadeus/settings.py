@@ -15,6 +15,7 @@ import os
 import dj_database_url
 
 from django.conf.global_settings import DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS
+from django.utils.translation import ugettext_lazy as _
 
 db_from_ev = dj_database_url.config(conn_max_age=500)
 
@@ -155,6 +156,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
 LANGUAGE_CODE = 'pt-br'
+
+LANGUAGES = [
+ ('pt-br', _('Portuguese')),
+ ('en', _('English')),
+]
 
 TIME_ZONE = 'America/Recife'
 
