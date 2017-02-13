@@ -8,14 +8,14 @@
     
     {% trans 'Mural: General' as general %}
 
-    {% breadcrumb  general 'mural:manage_general' %}
+    {% breadcrumb general 'mural:manage_general' %}
 {% endblock %}
 
 {% block content %}
 	<div id="core-subjects-options-div">
         <ul class="core-subjects-options">
             <a href="{% url 'mural:manage_general' %}"><li class="active">{% trans "General" %} ({{ totals.general }})</li></a>
-            <a href=""><li>{% trans "Per Category" %} ({{ totals.category }})</li></a>
+            <a href="{% url 'mural:manage_category' %}"><li>{% trans "Per Category" %} ({{ totals.category }})</li></a>
             <a href=""><li>{% trans "Per Subject" %} ({{ totals.subject }})</li></a>
         </ul>
     </div>

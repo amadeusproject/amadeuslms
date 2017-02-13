@@ -643,6 +643,10 @@ a.add-row {
     background: #FFFFFF;
 }
 
+.mural-category {
+    background: #EEE;
+}
+
 .btn:not(.btn-raised):not(.btn-link):focus, .btn:not(.btn-raised):not(.btn-link):hover, .input-group-btn .btn:not(.btn-raised):not(.btn-link):focus, .input-group-btn .btn:not(.btn-raised):not(.btn-link):hover {
     background-color: initial;
 }

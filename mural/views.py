@@ -14,11 +14,16 @@ from django.db.models import Q, Count
 from channels import Group
 import json
 
+from categories.models import Category
+from subjects.models import Subject
 from users.models import User
 
 from .models import Mural, GeneralPost, CategoryPost, SubjectPost, MuralVisualizations, MuralFavorites, Comment
 from .forms import GeneralPostForm, CommentForm
 
+"""
+	Section for GeneralPost classes
+"""
 class GeneralIndex(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
@@ -201,7 +206,45 @@ class GeneralDelete(LoginRequiredMixin, generic.DeleteView):
 		for user in users:
 			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "delete", "pathname": pathname, "post_id": self.object.id})})
 
-		return reverse_lazy('mural:deleted_post')	
+		return reverse_lazy('mural:deleted_post')
+
+"""
+	Section for CategoryPost classes
+"""
+class CategoryIndex(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/list_category.html'
+	context_object_name = "categories"
+	paginate_by = 10
+
+	totals = {}
+
+	def get_queryset(self):
+		user = self.request.user
+		
+		if user.is_staff:
+			categories = Category.objects.all()
+		else:
+			categories = Category.objects.filter(Q(coordinators__pk = user.pk) | Q(subject_category__professor__pk = user.pk) | Q(subject_category__students__pk = user.pk, visible = True)).distinct()
+
+		self.totals['general'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__generalpost__isnull = False) | Q(comment__post__generalpost__isnull = False))).distinct().count()
+		self.totals['category'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__categorypost__space__coordinators = user) | Q(comment__post__categorypost__space__coordinators = user) | Q(post__categorypost__space__subject_category__professor = user) | Q(post__categorypost__space__subject_category__students = user) | Q(comment__post__categorypost__space__subject_category__professor = user) | Q(comment__post__categorypost__space__subject_category__students = user))).distinct().count()
+		self.totals['subject'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space__professor = user) | Q(comment__post__subjectpost__space__professor = user) | Q(post__subjectpost__space__students = user) | Q(comment__post__subjectpost__space__students = user))).distinct().count()
+
+		print(categories)
+
+		return categories
+
+	def get_context_data(self, **kwargs):
+		context = super(CategoryIndex, self).get_context_data(**kwargs)
+
+		context['title'] = _('Mural - Per Category')
+		context['totals'] = self.totals
+		context['mural_menu_active'] = 'subjects_menu_active'
+		
+		return context
 
 def render_gen_post(request, post, msg):
 	post = get_object_or_404(GeneralPost, id = post)
