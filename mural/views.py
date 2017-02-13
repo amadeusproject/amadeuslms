@@ -65,6 +65,8 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
 
 			general_visualizations.update(viewed = True)
 
+			MuralVisualizations.objects.filter(user = user, viewed = False, comment__post__generalpost__isnull = False).update(viewed = True)
+
 		return general.order_by("-most_recent")
 
 	def get_context_data(self, **kwargs):
