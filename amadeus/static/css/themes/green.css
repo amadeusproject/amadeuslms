@@ -40,21 +40,24 @@ a, a:focus, a:hover {
 }
 
 /*
-* === SUBJECT APP ===
+* — Language selector —
 */
 
-/*
-* — Home —
-*/
-
-
-
-.my-subjects-title {
-	color: #26A69A;
+.language-selector .dropdown-menu > .active > a {
+    background: #EEEEEE;
+    color: #009688;
 }
 
+.language-selector .dropdown-menu > .active > a:hover {
+    color: #009688;
+}
+
+/*
+* — Sidebar menu in every page —
+*/
+
 #sidebar-menu .item {
-	background-color: #009688;
+    background-color: #009688;
     color: white;
 }
 
@@ -69,6 +72,36 @@ a, a:focus, a:hover {
 #sidebar-menu > .item:hover{
     background-color: #00695C;
 }
+
+/*
+* === SUBJECT APP ===
+*/
+
+/*
+* — Home —
+*/
+
+.users-cloud  .small a {
+    color: #2E8B57;
+}
+
+.users-cloud  .big a {
+    color: #6B8E23;
+}
+
+.users-cloud .medium a {
+    color:  #66CDAA;
+}
+
+.users-cloud  .tiny a {
+    color: #654321;
+}
+
+
+.my-subjects-title {
+	color: #26A69A;
+}
+
 
 .panel-invisible{
     background-color: #BDBDBD !important;
@@ -344,9 +377,6 @@ a, a:focus, a:hover {
 	border-bottom: 1px solid #D2D2D2;
 }
 
-.bottom-menu {
-	background: #009688;
-}
 
 .mobile-menu .item {
 	color: #FFFFFF;
@@ -498,21 +528,6 @@ a.add-row {
     color: #BDBDBD;
 }
 
-.users-cloud  .small a {
-    color: #2E8B57;
-}
-
-.users-cloud  .big a {
-    color: #6B8E23;
-}
-
-.users-cloud .medium a {
-    color:  #66CDAA;
-}
-
-.users-cloud  .tiny a {
-    color: #654321;
-}
 
 .no-subscribe-btn{
     background-color: #BDBDBD !important;
@@ -632,14 +647,6 @@ a.add-row {
     background-color: initial;
 }
 
-.language-selector .dropdown-menu > .active > a {
-    background: #EEEEEE;
-    color: #009688;
-}
-
-.language-selector .dropdown-menu > .active > a:hover {
-    color: #009688;
-}
 
 @media(max-width: 768px) {
     .navbar .navbar-nav .dropdown .dropdown-menu li > a {
