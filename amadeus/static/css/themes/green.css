@@ -1,3 +1,7 @@
+/*
+* === COMMON TAGS (Body, h4, p, etc...) and base.html ===
+*/
+
 body .container .jumbotron-inverse, body .container .well-inverse, body .container-fluid .jumbotron-inverse, body .container-fluid .well-inverse {
     background-color: white;
 }
@@ -24,6 +28,26 @@ a, a:focus, a:hover {
     background-color: #009688;
     color: rgba(255,255,255,.84);
 }
+
+.notify_badge {
+    background-color: #FF0000 !important;
+}
+
+
+
+#btn-search:hover {
+    background: #00695C;    
+}
+
+/*
+* === SUBJECT APP ===
+*/
+
+/*
+* — Home —
+*/
+
+
 
 .my-subjects-title {
 	color: #26A69A;
@@ -75,6 +99,34 @@ a, a:focus, a:hover {
     color: #ffffff;
 }
 
+.resource-link{
+    color: #000000 !important;
+}
+
+/*
+* — subscribe.html —
+*/
+.modal-header {
+    border-bottom: 1px solid #E6E7E8 !important; 
+}
+
+.modal-footer {
+    border-top: 1px solid #E6E7E8 !important;
+}
+
+/*
+* — subject_card.html —
+*/
+
+.access-subject {
+    background-color: #2eb82e !important;
+    color: white;
+}
+
+/*
+* — Groups App —
+*/
+
 .group-panel > .panel-heading {
     background-color: #FFFFFF !important;
 }
@@ -83,14 +135,15 @@ a, a:focus, a:hover {
     color: #000000 !important;
 }
 
-.resource-link{
-    color: #000000 !important;
-}
-
 .group-panel-body {
     background: #FFFFFF !important;
     border-top: 1px solid #CCCCCC;
 }
+
+
+/*
+* === Resources Common (ex: PDF, WebPage ) App ===
+*/
 
 .topic-panel > .panel-heading {
     background-color: #1d8fe0 !important;
@@ -162,6 +215,12 @@ a, a:focus, a:hover {
 	background: #FFFFFF;
 }
 
+/*
+* === Amadeus APP ===
+*/
+
+
+
 .navbar-brand:hover {
     background: #00695C !important;
 }
@@ -186,9 +245,6 @@ a, a:focus, a:hover {
     color: #F5F5F5;
 }
 
-#btn-search:hover {
-    background: #00695C;    
-}
 
 .dropdown-menu {
     background: #F5F5F5;
@@ -227,13 +283,6 @@ a, a:focus, a:hover {
     background: #F5F5F5;
 }
 
-.modal-header {
-	border-bottom: 1px solid #E6E7E8 !important; 
-}
-
-.modal-footer {
-	border-top: 1px solid #E6E7E8 !important;
-}
 
 #horizontal-line{
 	background-color: black;
@@ -316,10 +365,6 @@ a, a:focus, a:hover {
     background-color: #00695C;
 }
 
-.access-subject {
-	background-color: #2eb82e !important;
-    color: white;
-}
 
 .page_selector h4 {
 	border-bottom: 1px solid #e5e5e5;
@@ -370,6 +415,11 @@ a, a:focus, a:hover {
     border-color: #039BE5;
 }
 
+
+/*
+* — Pendencies Form —
+*/
+
 .notifies {
     border: 1px solid #EEEEEE;
 }
@@ -391,6 +441,11 @@ a.add-row {
     background-color: #59b75c;
     color: rgba(255,255,255,.84);
 }
+
+
+/*
+* — Resource List on topic templates —
+*/
 
 .resource_list > .list-group-item {
     background-color: #fff;
@@ -437,9 +492,7 @@ a.add-row {
     background-color: initial !important;
 }
 
-.notify_badge {
-    background-color: #FF0000 !important;
-}
+
 
 #search-results-title{
     color: #BDBDBD;
