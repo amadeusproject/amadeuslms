@@ -51,7 +51,7 @@ class GeneralPost(Mural):
 		return "mural:delete_general"
 
 class CategoryPost(Mural):
-	space = models.ForeignKey(Category, verbose_name = ('Category'), related_name = 'post_category')
+	space = models.ForeignKey(Category, verbose_name = ('Category'), related_name = 'post_category', null = True)
 
 	def get_id(self):
 		return self.id
@@ -60,10 +60,10 @@ class CategoryPost(Mural):
 		return self.id
 
 	def update_link(self):
-		return ""
+		return "mural:update_category"
 
 	def delete_link(self):
-		return ""
+		return "mural:delete_category"
 
 class SubjectPost(Mural):
 	space = models.ForeignKey(Subject, verbose_name = _('Subject'), related_name = 'post_subject')

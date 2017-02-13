@@ -3,7 +3,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
 
-from .models import GeneralPost, Comment
+from .models import GeneralPost, CategoryPost, Comment
 
 class Validation(forms.ModelForm):
 	MAX_UPLOAD_SIZE = 5*1024*1024
@@ -34,6 +34,15 @@ class Validation(forms.ModelForm):
 class GeneralPostForm(Validation):
 	class Meta:
 		model = GeneralPost
+		fields = ['action', 'post', 'image']
+		widgets = {
+			'action': forms.RadioSelect,
+			'post': forms.Textarea
+		}
+
+class CategoryPostForm(Validation):
+	class Meta:
+		model = CategoryPost
 		fields = ['action', 'post', 'image']
 		widgets = {
 			'action': forms.RadioSelect,

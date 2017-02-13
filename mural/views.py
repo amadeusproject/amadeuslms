@@ -19,7 +19,7 @@ from subjects.models import Subject
 from users.models import User
 
 from .models import Mural, GeneralPost, CategoryPost, SubjectPost, MuralVisualizations, MuralFavorites, Comment
-from .forms import GeneralPostForm, CommentForm
+from .forms import GeneralPostForm, CategoryPostForm, CommentForm
 
 """
 	Section for GeneralPost classes
@@ -140,7 +140,7 @@ class GeneralCreate(LoginRequiredMixin, generic.edit.CreateView):
 		return context
 
 	def get_success_url(self):
-		return reverse_lazy('mural:render_post_general', args = (self.object.id, 'create', ))
+		return reverse_lazy('mural:render_post', args = (self.object.id, 'create', 'gen', ))
 
 class GeneralUpdate(LoginRequiredMixin, generic.UpdateView):
 	login_url = reverse_lazy("users:login")
@@ -182,7 +182,7 @@ class GeneralUpdate(LoginRequiredMixin, generic.UpdateView):
 		return context
 
 	def get_success_url(self):
-		return reverse_lazy('mural:render_post_general', args = (self.object.id, 'update', ))
+		return reverse_lazy('mural:render_post', args = (self.object.id, 'update', 'gen', ))
 
 class GeneralDelete(LoginRequiredMixin, generic.DeleteView):
 	login_url = reverse_lazy("users:login")
@@ -213,6 +213,33 @@ class GeneralDelete(LoginRequiredMixin, generic.DeleteView):
 """
 	Section for CategoryPost classes
 """
+def load_category_posts(request, category):
+	context = {
+		'request': request,
+	}
+
+	showing = request.GET.get('showing', '')
+
+	posts = CategoryPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_categorypost.mural_ptr_id))"}).filter(space__id = category).order_by("-most_recent")
+	
+	paginator = Paginator(posts, 10)
+
+	try:
+		page_number = int(request.GET.get('page', 1))
+	except ValueError:
+		raise Http404
+
+	try:
+		page_obj = paginator.page(page_number)
+	except EmptyPage:
+		raise Http404
+
+	context['posts'] = page_obj.object_list
+
+	response = render_to_string("mural/_list_view.html", context, request)
+
+	return JsonResponse({"posts": response, "count": posts.count(), "num_pages": paginator.num_pages, "num_page": page_obj.number})
+
 class CategoryIndex(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
@@ -235,8 +262,6 @@ class CategoryIndex(LoginRequiredMixin, generic.ListView):
 		self.totals['category'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__categorypost__space__coordinators = user) | Q(comment__post__categorypost__space__coordinators = user) | Q(post__categorypost__space__subject_category__professor = user) | Q(post__categorypost__space__subject_category__students = user) | Q(comment__post__categorypost__space__subject_category__professor = user) | Q(comment__post__categorypost__space__subject_category__students = user))).distinct().count()
 		self.totals['subject'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space__professor = user) | Q(comment__post__subjectpost__space__professor = user) | Q(post__subjectpost__space__students = user) | Q(comment__post__subjectpost__space__students = user))).distinct().count()
 
-		print(categories)
-
 		return categories
 
 	def get_context_data(self, **kwargs):
@@ -248,22 +273,144 @@ class CategoryIndex(LoginRequiredMixin, generic.ListView):
 		
 		return context
 
-def render_gen_post(request, post, msg):
-	post = get_object_or_404(GeneralPost, id = post)
+class CategoryCreate(LoginRequiredMixin, generic.edit.CreateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/_form.html'
+	form_class = CategoryPostForm
+
+	def form_invalid(self, form):
+		context = super(CategoryCreate, self).form_invalid(form)
+		context.status_code = 400
+
+		return context
+
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+
+		slug = self.kwargs.get('slug', None)
+		cat = get_object_or_404(Category, slug = slug)
+
+		self.object.space = cat
+		self.object.user = self.request.user
+
+		self.object.save()
+
+		users = User.objects.all().exclude(id = self.request.user.id)
+		entries = []
+
+		notify_type = "mural"
+		user_icon = self.object.user.image_url
+		#_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
+		simple_notify = _("%s has made a post in General")%(str(self.object.user))
+		pathname = reverse("mural:manage_general")
+
+		#for user in users:
+		#	entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
+		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view})})
+
+		#MuralVisualizations.objects.bulk_create(entries)
+
+		return super(CategoryCreate, self).form_valid(form)
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(CategoryCreate, self).get_context_data(*args, **kwargs)
+
+		context['form_url'] = reverse_lazy("mural:create_category", args = (), kwargs = {'slug': self.kwargs.get('slug', None)})
+
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('mural:render_post', args = (self.object.id, 'create', 'cat', ))
+
+class CategoryUpdate(LoginRequiredMixin, generic.UpdateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/_form.html'
+	model = CategoryPost
+	form_class = CategoryPostForm
+
+	def form_invalid(self, form):
+		context = super(CategoryUpdate, self).form_invalid(form)
+		context.status_code = 400
+
+		return context
+
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+
+		self.object.edited = True
+
+		self.object.save()
+
+		users = User.objects.all().exclude(id = self.request.user.id)
+		
+		notify_type = "mural"
+		#_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
+		pathname = reverse("mural:manage_general")
+
+		#for user in users:
+		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "update", "pathname": pathname, "complete": _view, "post_id": self.object.id})})
+		
+		return super(CategoryUpdate, self).form_valid(form)
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(CategoryUpdate, self).get_context_data(*args, **kwargs)
+
+		context['form_url'] = reverse_lazy("mural:update_category", args = (), kwargs = {'pk': self.object.id})
+
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('mural:render_post', args = (self.object.id, 'update', 'cat', ))
+
+class CategoryDelete(LoginRequiredMixin, generic.DeleteView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/delete.html'
+	model = CategoryPost
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(CategoryDelete, self).get_context_data(*args, **kwargs)
+
+		context['form_url'] = reverse_lazy("mural:delete_category", args = (), kwargs = {'pk': self.object.id})
+		context['message'] = _('Are you sure you want to delete this post?')
+
+		return context
+
+	def get_success_url(self):
+		users = User.objects.all().exclude(id = self.request.user.id)
+		
+		notify_type = "mural"
+		pathname = reverse("mural:manage_general")
+
+		#for user in users:
+		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "delete", "pathname": pathname, "post_id": self.object.id})})
+
+		return reverse_lazy('mural:deleted_post')
+
+def render_post(request, post, msg, ptype):
+	if ptype == 'gen':
+		post = get_object_or_404(GeneralPost, id = post)
+	elif ptype == 'cat':
+		post = get_object_or_404(CategoryPost, id = post)
 
 	context = {}
 	context['post'] = post
 
-	msg = ""
+	message = ""
 
 	if msg == 'create':
-		msg = _('Your post was published successfully!')
+		message = _('Your post was published successfully!')
 	else:
-		msg = _('Your post was edited successfully!')
+		message = _('Your post was edited successfully!')
 
 	html = render_to_string("mural/_view.html", context, request)
 
-	return JsonResponse({'message': msg, 'view': html, 'new_id': post.id})
+	return JsonResponse({'message': message, 'view': html, 'new_id': post.id})
 
 def deleted_post(request):
 	return JsonResponse({'msg': _('Post deleted successfully!')})
@@ -282,6 +429,9 @@ def favorite(request, post):
 
 		return JsonResponse({'label': _('Favorite')})
 
+"""
+	Section for comment functions
+"""
 class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'

@@ -65,7 +65,7 @@
                     </label>
                 </div>
                 <button type="submit" class="btn btn-success btn-raised btn-block">{% trans 'Filter' %}</button>
-                <button type="button" id="clear_filter" class="btn btn-default btn-raised btn-block">{% trans 'Clean Filters' %}</button>
+                <button type="button" id="clear_filter" class="btn btn-default btn-raised btn-block clear_filter">{% trans 'Clean Filters' %}</button>
             </form>
     	</div>
     </div>
@@ -73,4 +73,5 @@
     <div class="modal fade" id="post-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
   
     <script type="text/javascript" src="{% static 'js/mural.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/mural_general.js' %}"></script>
 {% endblock %}

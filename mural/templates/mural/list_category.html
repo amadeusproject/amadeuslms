@@ -12,6 +12,8 @@
 {% endblock %}
 
 {% block content %}
+    <input type="hidden" value="{% url 'mural:manage_category' %}" class="mural_url" />
+
     <div id="core-subjects-options-div">
         <ul class="core-subjects-options">
             <a href="{% url 'mural:manage_general' %}"><li>{% trans "General" %} ({{ totals.general }})</li></a>
@@ -38,7 +40,7 @@
                                 <div class="col-md-12 category-header">
                                     <h4 class="panel-title">
                                         <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{category.slug}}">
-                                            <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{ category.name }} 
+                                            <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> <span>{{ category.name }}</span>
 
                                             ({{ category|unviewed:request.user }})
                                         </a>
@@ -63,7 +65,7 @@
                             </div>
                         </div>
                         <div id="{{category.slug}}" class="panel-collapse panel-body collapse mural-category">
-                            <div class="col-md-12 cards-content mural" data-url="{% url 'mural:manage_general' %}">
+                            <div class="col-md-12 cards-content mural" data-url="{% url 'mural:load_category' category.id %}">
                                 <div class="col-md-9 col-sm-9 col-xs-9 mural-list">
                                     <div class="post_make panel panel-default">
                                         <div class="panel-body">
@@ -72,13 +74,18 @@
                                             </div>
                                             <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 post-field">
                                                 <div>
-                                                    <h4 data-url="{% url 'mural:create_general' %}">{% trans 'Wish to make a new post?' %}</h4>
+                                                    <h4 data-url="{% url 'mural:create_category' category.slug %}">{% trans 'Wish to make a new post?' %}</h4>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
+                                    <button type="button" class="btn btn-block btn-default btn-sm loading-posts"><span class="fa fa-spin fa-circle-o-notch"></span></button>
                                     <div class="posts">
+                                    </div>
+                                    <div class="text-center no-subjects" style="display:none">
+                                        <i class="fa fa-list"></i>
+                                        <h4>{% trans 'There are no posts in this mural yet.' %}</h4>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-sm-3 col-xs-3 post-filter">
@@ -109,5 +116,9 @@
         {% endif %}
     </div>
 
+    <div class="modal fade" id="post-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
     <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/mural.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/mural_category.js' %}"></script>
 {% endblock %}
