@@ -21,7 +21,7 @@ from topics.models import Topic
 class CreateLinkView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
     log_component = 'resources'
     log_action = 'create'
-    log_resource = 'file_link'
+    log_resource = 'links'
     log_context = {}
 
     login_url = reverse_lazy("users:login")
@@ -176,14 +176,17 @@ class DeleteLinkView(LoginRequiredMixin, LogMixin, generic.edit.DeleteView):
         self.log_context['link_id'] = self.object.id
         self.log_context['link_name'] = self.object.name
         self.log_context['link_slug'] = self.object.slug
-
+       
         super(DeleteLinkView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
 
 class DetailLinkView(LoginRequiredMixin, LogMixin, generic.detail.DetailView):
-
+    log_component = 'resources'
+    log_action = 'view'
+    log_resource = 'links'
+    log_context = {}
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
@@ -192,6 +195,11 @@ class DetailLinkView(LoginRequiredMixin, LogMixin, generic.detail.DetailView):
     context_object_name = 'web_link'
 
 class UpdateLinkView(LoginRequiredMixin, LogMixin, generic.edit.UpdateView):
+    
+    log_component = 'resources'
+    log_action = 'update'
+    log_resource = 'links'
+    log_context = {}
     model = Link
     form_class = LinkForm
     template_name = 'links/update.html'

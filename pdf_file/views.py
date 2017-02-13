@@ -19,9 +19,12 @@ from pendencies.forms import PendenciesForm
 
 
 
-class ViewPDFFile(generic.TemplateView):
+class ViewPDFFile(LoginRequiredMixin, LogMixin, generic.TemplateView):
     template_name='pdf_file/view.html'
-
+    log_component = 'resources'
+    log_action = 'view'
+    log_resource = 'pdf_file'
+    log_context = {}
     def dispatch(self, request, *args, **kwargs):
         slug = self.kwargs.get('slug', '')
         resource = get_object_or_404(Resource, slug = slug)
@@ -38,6 +41,23 @@ class ViewPDFFile(generic.TemplateView):
         pdf_file = PDFFile.objects.get(slug=slug)
         context['pdf_file'] = pdf_file
         context['subject'] = pdf_file.topic.subject
+
+
+        self.log_context['category_id'] = pdf_file.topic.subject.category.id
+        self.log_context['category_name'] = pdf_file.topic.subject.category.name
+        self.log_context['category_slug'] = pdf_file.topic.subject.category.slug
+        self.log_context['subject_id'] = pdf_file.topic.subject.id
+        self.log_context['subject_name'] = pdf_file.topic.subject.name
+        self.log_context['subject_slug'] = pdf_file.topic.subject.slug
+        self.log_context['topic_id'] = pdf_file.topic.id
+        self.log_context['topic_name'] = pdf_file.topic.name
+        self.log_context['topic_slug'] = pdf_file.topic.slug
+        self.log_context['pdf_id'] = pdf_file.id
+        self.log_context['pdf_name'] = pdf_file.name
+        self.log_context['pdf_slug'] = pdf_file.slug
+
+        super(ViewPDFFile, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
         return context
 
 
