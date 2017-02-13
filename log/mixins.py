@@ -11,16 +11,17 @@ class LogMixin(object):
 	log_resource = ""
 
 	def createLog(self, actor = None, component = '', log_action = '', log_resource = '', context = {}):
-		log = Log()
-		log.user = str(actor)
-		log.user_id = actor.id
-		log.user_email = actor.email
-		log.context = context
-		log.component = component
-		log.action = log_action
-		log.resource = log_resource
+		if actor.is_authenticated:
+			log = Log()
+			log.user = str(actor)
+			log.user_id = actor.id
+			log.user_email = actor.email
+			log.context = context
+			log.component = component
+			log.action = log_action
+			log.resource = log_resource
 
-		log.save()
+			log.save()
 
 	def dispatch(self, request, *args, **kwargs):
 		return super(LogMixin, self).dispatch(request, *args, **kwargs)

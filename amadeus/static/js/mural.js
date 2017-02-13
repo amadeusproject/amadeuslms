@@ -37,6 +37,8 @@ var loadPosts = function() {
                 $(".posts").append(data);
 
                 $('.mural').data('page', pageNum);
+
+                setTimeout(function () { postHeightLimits() }, 10);
             },
             complete: function(data, textStatus){
                 // Turn the scroll monitor back on
@@ -77,7 +79,33 @@ $(function () {
 
         $(this).animate({scrollTop: height}, 0);
     });
+
+    postHeightLimits();
+
 });
+
+function postHeightLimits() {
+    $('.post-body').each(function () {
+        if ($(this).outerHeight() > 500) {
+            var post = $(this),
+                btn = post.parent().find('.see-complete');
+            
+            post.attr('style', 'overflow:hidden;max-height:500px');
+
+            btn.attr('style', 'display:block');
+
+            btn.click(function () {
+                seeComplete($(this), post);
+            });
+        }
+    });
+}
+
+function seeComplete(btn, post) {
+    post.attr('style', '');
+
+    btn.attr('style', 'display:none');
+}
 
 function setPostFormSubmit(post = "") {
     var frm = $('#post-form');
@@ -100,11 +128,13 @@ function setPostFormSubmit(post = "") {
                     old.remove();
                 } else {
                     $('.posts').prepend(data.view);
-
+    
                     new_posts.push(data.new_id);
 
                     $('.no-subjects').attr('style', 'display:none');
                 }
+
+                setTimeout(function () { postHeightLimits() }, 100);
 
                 $('#post-modal-form').modal('hide');
 
@@ -122,7 +152,7 @@ function setPostFormSubmit(post = "") {
         return false;
     });
 }
-
+    
 function favorite(btn) {
     var action = btn.data('action'),
         url = btn.data('url');
