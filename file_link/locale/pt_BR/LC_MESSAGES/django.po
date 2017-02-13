@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-10 17:05-0300\n"
+"POT-Creation-Date: 2017-02-13 16:59-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,23 +38,23 @@ msgstr "Esse arquivo é muito grande. Ele deve conter menos de 10MB."
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
-#: file_link/models.py:22
+#: file_link/models.py:23
 msgid "File not supported."
 msgstr "Arquivo não suportado."
 
-#: file_link/models.py:25
+#: file_link/models.py:26
 msgid "File"
 msgstr "Arquivo"
 
-#: file_link/models.py:28
+#: file_link/models.py:29
 msgid "File Link"
 msgstr "Link para Arquivo"
 
-#: file_link/models.py:29
+#: file_link/models.py:30
 msgid "File Links"
 msgstr "Links para Arquivo"
 
-#: file_link/models.py:48
+#: file_link/models.py:49
 msgid "Are you sure you want delete the file link"
 msgstr "Você tem certeza que deseja remover o Link para Arquivo"
 

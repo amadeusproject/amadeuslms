@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-10 17:05-0300\n"
+"POT-Creation-Date: 2017-02-13 16:59-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,16 +90,16 @@ msgstr "Remover"
 msgid "Edit: "
 msgstr "Editar: "
 
-#: links/views.py:51 links/views.py:64 links/views.py:224 links/views.py:226
-#: links/views.py:242 links/views.py:244
+#: links/views.py:51 links/views.py:64 links/views.py:234 links/views.py:236
+#: links/views.py:252 links/views.py:254
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: links/views.py:124
+#: links/views.py:126
 msgid "Create Webiste Link"
 msgstr "Criar Link de Website"
 
-#: links/views.py:135
+#: links/views.py:137
 #, python-format
 msgid ""
 "The  Link \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -108,7 +108,7 @@ msgstr ""
 "O link \"%s\" foi adicionado com sucesso ao Topico \"%s\"  do ambiente "
 "virtual \"%s\" "
 
-#: links/views.py:163
+#: links/views.py:165
 #, python-format
 msgid ""
 "The Website Link \"%s\" was removed successfully from virtual environment "
@@ -116,11 +116,11 @@ msgid ""
 msgstr ""
 "O Link do site \"%s\" foi removido com sucesso do ambiente virtual \"%s\"  "
 
-#: links/views.py:288
+#: links/views.py:300
 msgid "Update Website Link"
 msgstr "Atualizar Link do website"
 
-#: links/views.py:299
+#: links/views.py:311
 #, python-format
 msgid "The Website Link \"%s\" was updated successfully!"
 msgstr "O link do website  \"%s\" foi atualizado com sucesso! "

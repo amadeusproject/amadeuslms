@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-10 17:05-0300\n"
+"POT-Creation-Date: 2017-02-13 16:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,19 +38,19 @@ msgstr "Esse assunto já possui uma Página Web com esse nome"
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
-#: webpage/models.py:7
+#: webpage/models.py:8
 msgid "Webpage Content"
 msgstr "Conteúdo da Página Web"
 
-#: webpage/models.py:10
+#: webpage/models.py:11
 msgid "WebPage"
 msgstr "Página Web"
 
-#: webpage/models.py:11
+#: webpage/models.py:12
 msgid "WebPages"
 msgstr "Páginas Web"
 
-#: webpage/models.py:29
+#: webpage/models.py:30
 msgid "Are you sure you want delete the webpage"
 msgstr "Você tem certeza que deseja remover a Página Web"
 

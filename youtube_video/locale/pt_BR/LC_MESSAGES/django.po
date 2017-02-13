@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-10 17:05-0300\n"
+"POT-Creation-Date: 2017-02-13 16:59-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,19 +36,19 @@ msgstr "Esse assunto já possui um vídeo do YouTube com esse nome"
 msgid "Invalid URL. It should be an YouTube link."
 msgstr "URL inválida. Ela deve ser uma URL de embed do YouTube."
 
-#: youtube_video/models.py:7
+#: youtube_video/models.py:8
 msgid "URL"
 msgstr "URL"
 
-#: youtube_video/models.py:10
+#: youtube_video/models.py:11
 msgid "YTVideo"
 msgstr "Vídeo do YouTube"
 
-#: youtube_video/models.py:11
+#: youtube_video/models.py:12
 msgid "YTVideos"
 msgstr "Vídeos do YouTube"
 
-#: youtube_video/models.py:29
+#: youtube_video/models.py:30
 msgid "Are you sure you want delete the YouTube Video"
 msgstr "Você tem certeza que deseja deletar o Vídeo do YouTube"
 

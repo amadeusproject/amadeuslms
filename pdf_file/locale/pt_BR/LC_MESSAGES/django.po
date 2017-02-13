@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-10 17:05-0300\n"
+"POT-Creation-Date: 2017-02-13 16:59-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,15 +38,15 @@ msgstr "O arquivo é muito grande. Deve ser menor do que 10MB"
 msgid "This field is required."
 msgstr ""
 
-#: pdf_file/models.py:15
+#: pdf_file/models.py:16
 msgid "File not supported, use PDF format instead."
 msgstr "Este formato não é suportado, use PDF."
 
-#: pdf_file/models.py:18
+#: pdf_file/models.py:19
 msgid "File"
 msgstr ""
 
-#: pdf_file/models.py:41
+#: pdf_file/models.py:42
 msgid "Are you sure you want delete the PDF File"
 msgstr "Tem certeza que deseja deletar este arquivo PDF?"
 
@@ -102,16 +102,16 @@ msgstr "Editar: "
 msgid "PDF could not be displayed"
 msgstr "PDF não pode ser mostrado"
 
-#: pdf_file/views.py:89 pdf_file/views.py:102 pdf_file/views.py:213
-#: pdf_file/views.py:215 pdf_file/views.py:231 pdf_file/views.py:233
+#: pdf_file/views.py:109 pdf_file/views.py:122 pdf_file/views.py:233
+#: pdf_file/views.py:235 pdf_file/views.py:251 pdf_file/views.py:253
 msgid "Visualize"
 msgstr ""
 
-#: pdf_file/views.py:162
+#: pdf_file/views.py:182
 msgid "Create PDF File"
 msgstr "Criar o arquivo PDF"
 
-#: pdf_file/views.py:173
+#: pdf_file/views.py:193
 #, python-format
 msgid ""
 "The PDF File \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -120,16 +120,16 @@ msgstr ""
 "O arquivo PDF \"%s\"  foi adicionado ao topico \"%s\" do ambiente virtual "
 "\"%s\" com sucesso!"
 
-#: pdf_file/views.py:277
+#: pdf_file/views.py:297
 msgid "Update PDF File"
 msgstr "Atualize arquivo PDF"
 
-#: pdf_file/views.py:288
+#: pdf_file/views.py:308
 #, python-format
 msgid "The PDF File \"%s\" was updated successfully!"
 msgstr "O arquivo PDF \"%s\"  foi atualizado com sucesso!"
 
-#: pdf_file/views.py:315
+#: pdf_file/views.py:335
 #, python-format
 msgid ""
 "The PDF File \"%s\" was removed successfully from virtual environment \"%s\"!"

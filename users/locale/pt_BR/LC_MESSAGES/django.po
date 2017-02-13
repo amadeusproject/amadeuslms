@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-10 17:05-0300\n"
+"POT-Creation-Date: 2017-02-13 16:59-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -247,17 +247,9 @@ msgstr "Entrar"
 msgid "Sign Up"
 msgstr "Cadastrar"
 
-#: users/templates/users/login.html:81 users/templates/users/login.html:106
+#: users/templates/users/login.html:81 users/templates/users/login.html:117
 msgid "Forgot your password?"
 msgstr "Esqueceu sua senha?"
-
-#: users/templates/users/login.html:90
-msgid "PT-BR"
-msgstr ""
-
-#: users/templates/users/login.html:96
-msgid "EN"
-msgstr ""
 
 #: users/templates/users/new_password.html:39
 msgid "Set new password"
