@@ -1,7 +1,7 @@
 from django import template
 from django.utils.translation import ugettext_lazy as _
 
-from mural.models import MuralFavorites
+from mural.models import MuralFavorites, MuralVisualizations
 
 register = template.Library()
 
@@ -43,3 +43,9 @@ def fav_class(post, user):
 		return "btn_unfav"
 
 	return "btn_fav"
+
+@register.filter(name = 'unviewed')
+def unviewed(category, user):
+	count = MuralVisualizations.objects.filter(user = user, viewed = False, post__categorypost__space = category).count()
+
+	return count

@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% load static i18n pagination permissions_tags mural_filters %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    
+    {% trans 'Mural: Per Category' as category %}
+
+    {% breadcrumb category 'mural:manage_category' %}
+{% endblock %}
+
+{% block content %}
+    <div id="core-subjects-options-div">
+        <ul class="core-subjects-options">
+            <a href="{% url 'mural:manage_general' %}"><li>{% trans "General" %} ({{ totals.general }})</li></a>
+            <a href="{% url 'mural:manage_category' %}"><li class="active">{% trans "Per Category" %} ({{ totals.category }})</li></a>
+            <a href=""><li>{% trans "Per Subject" %} ({{ totals.subject }})</li></a>
+        </ul>
+    </div>
+
+    <div class="col-md-12 cards-content">
+        {% if categories.count > 0 %}
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                {% for category in categories %}
+                    {% category_permissions request.user category as has_category_permissions %}
+                    
+                    {% if category.visible %}
+                        <div class="panel panel-info category-panel">
+                            <div class="panel-heading">
+                    {% elif has_category_permissions %}
+                        <div class="panel special-panel">
+                            <div class="panel-heading panel-invisible">
+                    {% endif %}
+
+                            <div class="row">
+                                <div class="col-md-12 category-header">
+                                    <h4 class="panel-title">
+                                        <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{category.slug}}">
+                                            <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{ category.name }} 
+
+                                            ({{ category|unviewed:request.user }})
+                                        </a>
+                                    </h4>
+                                    
+                                    <div class="col-md-5 pull-right category-card-items">
+                                        {% if has_category_permissions %}
+                                            <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                            </a>
+                                            <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                                                {% if request.user.is_staff %}
+                                                    <li><a href="{% url 'categories:replicate' category.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i> {% trans 'Replicate' %}</a></li>
+                                                {% endif %}
+                                                <li><a href="{% url 'categories:update' category.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> {% trans 'Edit' %}</a></li>
+                                                <li>
+                                                <a href="javascript:delete_course.get('{% url 'categories:delete' category.slug %}?view=index','#category','#modal_course')" aria-hidden="true"><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>
+                                            </ul>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="{{category.slug}}" class="panel-collapse panel-body collapse mural-category">
+                            <div class="col-md-12 cards-content mural" data-url="{% url 'mural:manage_general' %}">
+                                <div class="col-md-9 col-sm-9 col-xs-9 mural-list">
+                                    <div class="post_make panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 user-img text-center">
+                                                <img src="{{ request.user.image_url }}" class="img-responsive" />
+                                            </div>
+                                            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 post-field">
+                                                <div>
+                                                    <h4 data-url="{% url 'mural:create_general' %}">{% trans 'Wish to make a new post?' %}</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="posts">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-3 post-filter">
+                                    <h4>{% trans 'Filter' %}</h4>
+
+                                    <form id="post-filters" action="" method="GET">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input name="favorite" type="checkbox"> {% trans 'Favorite posts' %} <i class="fa fa-thumb-tack"></i>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input name="mine" type="checkbox"> {% trans 'Only my posts' %}
+                                            </label>
+                                        </div>
+                                        <button type="submit" class="btn btn-success btn-raised btn-block">{% trans 'Filter' %}</button>
+                                        <button type="button" id="clear_filter" class="btn btn-default btn-raised btn-block">{% trans 'Clean Filters' %}</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                {% pagination request paginator page_obj %}
+            </div>
+        {% endif %}
+    </div>
+
+    <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
+{% endblock %}
