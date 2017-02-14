@@ -33,6 +33,15 @@ a:focus {
     width: 20%;
 }
 
+.bottom-menu {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    padding: 0px 30px;
+    z-index: 999;
+    height: 50px;
+}
+
 /* Initial page starts */
 .users-cloud {
     

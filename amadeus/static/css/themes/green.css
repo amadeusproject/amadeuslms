@@ -33,7 +33,9 @@ a, a:focus, a:hover {
     background-color: #FF0000 !important;
 }
 
-
+.bottom-menu{
+    background: #009688;
+}
 
 #btn-search:hover {
     background: #00695C;    
