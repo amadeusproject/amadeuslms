@@ -45,6 +45,38 @@ a, a:focus, a:hover
 #btn-search:hover 
     background: $secondary-color    
 
+// Card's btns
+
+.btn.btn-sucess.btn-raised
+    color: $white
+    background-color: $primary-color !important 
+
+button.btn.btn-sucess.btn-raised
+    color: $white
+    background-color: $primary-color !important 
+
+
+a.btn.btn-sm.btn-success.btn-raised
+    color: $white
+    background-color: $primary-color !important 
+
+.btn-group-raised .btn.btn-success, 
+.btn-group-raised .input-group-btn .btn.btn-success, 
+.btn.btn-fab.btn-success, .btn.btn-raised.btn-success, 
+.input-group-btn .btn.btn-fab.btn-success, 
+.input-group-btn .btn.btn-raised.btn-success
+    color: $white
+    background-color: $primary-color !important 
+
+
+.btn-group-raised .btn.btn-success :hover, 
+.btn-group-raised .input-group-btn .btn.btn-success :hover, 
+.btn.btn-fab.btn-success, .btn.btn-raised.btn-success:hover, 
+.input-group-btn .btn.btn-fab.btn-success:hover , 
+.input-group-btn .btn.btn-raised.btn-success:hover
+    color: $white
+    background-color: $secondary-color !important
+
 
 /* language selector */
 
@@ -171,12 +203,14 @@ a, a:focus, a:hover
 
 /* === Resources Common (ex: PDF, WebPage) App === */
 
+
+
 .topic-panel > .panel-heading 
-    background-color: #1d8fe0 !important
+    background-color: $secondary-color !important
 
 
 .topic-panel .category-header .category-card-items i, .topic-panel-invisible .category-header .category-card-items i 
-    color: #1772b3
+    color: $strong-color
 
 
 .topic-panel .category-header .category-card-items i:hover, .topic-panel-invisible .category-header .category-card-items i:hover 
@@ -213,7 +247,7 @@ a, a:focus, a:hover
 
 
 #create-category 
-    background-color: #66BB6A
+    background-color: $primary-color
     color: $white
 
 
@@ -223,8 +257,8 @@ a, a:focus, a:hover
 
 .core-subjects-options  li 
     background-color: $white
-    border-bottom-color: #D2D2D2
-    color: #A0A0A0
+    border-bottom-color: $disabled
+    color: $secondary-color
 
 
 .core-subjects-options  li.active 
@@ -563,7 +597,7 @@ a.add-row
 
 
 .post_action i, .post .post-user .user-action i, .comment .comment-user .user-action i 
-    color: #1d8fe0
+    color: $secondary-color
 
 
 .post .post-user, .comment .comment-user, .marked_user 
