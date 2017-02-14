@@ -216,10 +216,8 @@ msgid "Subject"
 msgstr "Assuntos"
 
 #: subjects/templates/subjects/resource_card.html:61
-#, fuzzy
-#| msgid "Resources"
 msgid "Access Resource"
-msgstr "Recursos"
+msgstr "Acessar Recurso"
 
 #: subjects/templates/subjects/subject_card.html:32
 #: subjects/templates/subjects/view.html:54
