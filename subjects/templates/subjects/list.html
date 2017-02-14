@@ -80,11 +80,6 @@
                                                 </ul>
                                             {% endif %}
                                             
-                                            <a href="" class="pull-right action_icon"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
-                                            <a href="{% url 'notifications:manage_cat' category.slug %}" class="pull-right action_icon">
-                                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                                {% notifies_cat_number category request.user %}
-                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -145,12 +140,7 @@
                                                     <li><a href="javascript:delete_course.get('{% url 'categories:delete' category.slug %}?view=index','#category','#modal_course')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>
                                                 </ul>
                                             {% endif %}
-                                            
-                                            <a href="" class="pull-right action_icon"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
-                                            <a href="" class="pull-right action_icon">
-                                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                                {% notifies_cat_number category request.user %}
-                                            </a>
+                                                                                        
                                         </div>
                                     </div>
                                 </div>
