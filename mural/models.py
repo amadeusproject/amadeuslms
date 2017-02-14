@@ -28,6 +28,10 @@ class Mural(KnowsChild):
 
 	@always_as_child
 	def get_id(self):
+		pass
+
+	@always_as_child
+	def get_space(self):
 		pass	
 
 	@always_as_child
@@ -44,6 +48,9 @@ class GeneralPost(Mural):
 	def get_id(self):
 		return self.id
 
+	def get_space(self):
+		return self.space
+
 	def update_link(self):
 		return "mural:update_general"
 
@@ -56,8 +63,8 @@ class CategoryPost(Mural):
 	def get_id(self):
 		return self.id
 
-	def get_id(self):
-		return self.id
+	def get_space(self):
+		return self.space.id
 
 	def update_link(self):
 		return "mural:update_category"
@@ -68,6 +75,12 @@ class CategoryPost(Mural):
 class SubjectPost(Mural):
 	space = models.ForeignKey(Subject, verbose_name = _('Subject'), related_name = 'post_subject')
 	resource = models.ForeignKey(Resource, verbose_name = _('Resource'), related_name = 'post_resource', null = True)
+
+	def get_id(self):
+		return self.id
+
+	def get_space(self):
+		return self.space.id
 
 	def update_link(self):
 		return ""
