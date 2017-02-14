@@ -43,7 +43,7 @@
 						</div>
 					</div>
 					<div class="row text-center">
-						<a href="{% url notification.task.resource.access_link notification.task.resource.slug %}" class="btn btn-success btn-raised" {% if notification.task.resource.show_window %}target="_blank"{% endif %}>
+						<a href="{{ notification.task.resource.access_link }}" class="btn btn-success btn-raised" {% if notification.task.resource.show_window %}target="_blank"{% endif %}>
 							{% if notification.level == 4 %}
 								{% trans 'Access the task' %}
 							{% else %}
