@@ -97,7 +97,15 @@
 
                       <li class="dropdown language-selector-on-header {{ settings_menu_active }}" title data-original-title="{% trans 'Language Selector' %}"> 
                        {% get_current_language as LANGUAGE_CODE %}
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
+
+                        <a href="#" class="dropdown-toggle title" data-toggle="dropdown" data-close-others="true">
+                            <i class="fa fa-cog hidden-xs" aria-hidden="true"></i>
+                            <span class="visible-xs-inline">{% trans 'Language Selector' %}</span>
+                            {% with 'img/'|add:LANGUAGE_CODE|add:'.png' as image_static %}                            
+                            <img src="{% static image_static %}" />
+                            {% endwith %}                         
+                        </a>
+                        <a href="#" class="dropdown-toggle no-title" data-toggle="dropdown" data-close-others="true">
 
                             {% with 'img/'|add:LANGUAGE_CODE|add:'.png' as image_static %}
                                 <img src="{% static image_static %}" />

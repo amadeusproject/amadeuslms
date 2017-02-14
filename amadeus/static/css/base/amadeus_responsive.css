@@ -50,6 +50,10 @@
 		display: block !important;
 	}
 
+	.language-selector-on-header .no-title{
+		display:none;
+	}
+
 	.language-selector-on-header img{
 		display: none;
 	}
