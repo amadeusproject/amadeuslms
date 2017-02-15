@@ -22,6 +22,12 @@ socket.onmessage = function(e) {
 			muralNotificationCommentUpdate(content);
 		} else if (content.subtype == "delete_comment") {
 			muralNotificationCommentDelete(content);
+		} else if (content.subtype == "create_cat") {
+			muralNotificationCategory(content);
+		} else if (content.subtype == "update_cat") {
+			muralNotificationCategoryUpdate(content);
+		} else if (content.subtype == "delete_cat") {
+			muralNotificationCategoryDelete(content);
 		}
 	}
 }
@@ -144,6 +150,68 @@ function muralNotificationCommentDelete(content) {
 
 		if (comment.is(":visible")) {
 			comment.remove();
+		}
+	}
+}
+
+function muralNotificationCategory(content) {
+	var cat_section = $("#" + content.cat);
+	
+	if (window.location.pathname == content.pathname && cat_section.is(':visible')) {
+		
+		cat_section.find('.posts').prepend(content.complete);
+
+        cat_section.find('.no-subjects').hide();
+	} else {
+		$('.mural_badge').each(function () {
+			var actual = $(this).text();
+
+			if (actual != "+99") {
+				actual = parseInt(actual, 10) + 1;
+
+				if (actual > 99) {
+					actual = "+99";
+				}
+
+				$(this).text(actual);
+			}
+
+			$(this).show();
+		});
+	}
+
+	if (("Notification" in window)) {
+		var options = {
+			icon: content.user_icon,
+			body: content.simple
+		}
+
+	    if (Notification.permission === "granted") {
+	    	var notification = new Notification("", options);
+
+	    	setTimeout(notification.close.bind(notification), 3000);
+	    }
+  	}
+}
+
+function muralNotificationCategoryUpdate(content) {
+	if (window.location.pathname == content.pathname) {
+		var post = $("#post-" + content.post_id);
+
+		if (post.is(":visible") || post.is(":hidden")) {
+			post.before(content.complete);
+
+			post.remove();
+		}
+	}
+}
+
+function muralNotificationCategoryDelete(content) {
+	if (window.location.pathname == content.pathname) {
+		var post = $("#post-" + content.post_id);
+
+		if (post.is(":visible") || post.is(":hidden")) {
+			post.remove();
 		}
 	}
 }
