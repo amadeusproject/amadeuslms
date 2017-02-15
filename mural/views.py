@@ -219,11 +219,27 @@ def load_category_posts(request, category):
 		'request': request,
 	}
 
+	user = request.user
+	favorites = request.GET.get('favorite', False)
+	mines = request.GET.get('mine', False)
 	showing = request.GET.get('showing', '')
-
-	posts = CategoryPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_categorypost.mural_ptr_id))"}).filter(space__id = category).order_by("-most_recent")
 	
-	paginator = Paginator(posts, 10)
+	if not favorites:
+		if mines:
+			posts = CategoryPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_categorypost.mural_ptr_id))"}).filter(space__id = category, mural_ptr__user = user)
+		else:
+			posts = CategoryPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_categorypost.mural_ptr_id))"}).filter(space__id = category)
+	else:
+		if mines:
+			posts = CategoryPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_categorypost.mural_ptr_id))"}).filter(space__id = category, favorites_post__isnull = False, favorites_post__user = user, mural_ptr__user = user)
+		else:
+			posts = CategoryPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_categorypost.mural_ptr_id))"}).filter(space__id = category, favorites_post__isnull = False, favorites_post__user = user)
+	
+	if showing: #Exclude ajax creation posts results
+		showing = showing.split(',')
+		posts = posts.exclude(id__in = showing)
+
+	paginator = Paginator(posts.order_by("-most_recent"), 2)
 
 	try:
 		page_number = int(request.GET.get('page', 1))

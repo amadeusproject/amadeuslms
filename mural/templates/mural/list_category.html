@@ -80,9 +80,19 @@
                                         </div>
                                     </div>
 
-                                    <button type="button" class="btn btn-block btn-default btn-sm loading-posts"><span class="fa fa-spin fa-circle-o-notch"></span></button>
                                     <div class="posts">
                                     </div>
+
+                                    <button type="button" class="btn btn-block btn-success btn-raised more-posts" style="display:none">
+                                        {% trans 'See more posts' %}
+                                    </button>
+
+                                    <div class="alert alert-success loading-posts" role="alert">
+                                        <center>
+                                            <span class="fa fa-spin fa-circle-o-notch"></span>
+                                        </center>
+                                    </div>
+
                                     <div class="text-center no-subjects" style="display:none">
                                         <i class="fa fa-list"></i>
                                         <h4>{% trans 'There are no posts in this mural yet.' %}</h4>
@@ -91,7 +101,7 @@
                                 <div class="col-md-3 col-sm-3 col-xs-3 post-filter">
                                     <h4>{% trans 'Filter' %}</h4>
 
-                                    <form id="post-filters" action="" method="GET">
+                                    <form class="post-filters" action="" method="GET">
                                         <div class="checkbox">
                                             <label>
                                                 <input name="favorite" type="checkbox"> {% trans 'Favorite posts' %} <i class="fa fa-thumb-tack"></i>
@@ -103,7 +113,7 @@
                                             </label>
                                         </div>
                                         <button type="submit" class="btn btn-success btn-raised btn-block">{% trans 'Filter' %}</button>
-                                        <button type="button" id="clear_filter" class="btn btn-default btn-raised btn-block">{% trans 'Clean Filters' %}</button>
+                                        <button type="button" class="clear_filter btn btn-default btn-raised btn-block">{% trans 'Clean Filters' %}</button>
                                     </form>
                                 </div>
                             </div>
