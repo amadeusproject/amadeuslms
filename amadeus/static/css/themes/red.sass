@@ -292,15 +292,15 @@ a.btn.btn-sm.btn-success.btn-raised
 
 
 .navbar-nav li.open 
-    background: $secondary-color
+    background: $primary-hover
 
 
 .navbar-nav li > a:hover 
-    background: $secondary-color !important
+    background: $primary-hover !important
 
 
 .navbar-nav li.settings_menu_active 
-    background: $secondary-color    
+    background: $primary-hover    
 
 
 .top-search 
@@ -318,8 +318,14 @@ a.btn.btn-sm.btn-success.btn-raised
 
 
 .dropdown-menu li > a:hover 
-    background: #EEEEEE !important
+    background: $primary-color !important
+    color: $white !important
 
+.navbar .dropdown-menu .active>a, .navbar.navbar-default .dropdown-menu .active>a
+    background-color: $primary-color !important
+
+.navbar .dropdown-menu .active>a:hover, .navbar.navbar-default .dropdown-menu .active>a:hover
+    background-color: $primary-hover
 
 #system_accordion > .panel > .panel-heading 
     background: $default-white
@@ -679,8 +685,9 @@ a.add-row
 
 @media(max-width: 768px) 
     .navbar .navbar-nav .dropdown .dropdown-menu li > a 
-        color: #333333 !important
+        color: $white !important
+        background-color: $primary-color
     
     .navbar .navbar-nav .dropdown .dropdown-menu li > a:hover 
-        color: $primary-color !important
+        backgroun-color: $primary-hover !important
     
