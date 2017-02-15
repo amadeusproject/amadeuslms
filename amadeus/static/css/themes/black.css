@@ -81,16 +81,16 @@ a.btn.btn-sm.btn-success.btn-raised {
 /* === SUBJECT APP === */
 /* home */
 .users-cloud .small a {
-  color: #2E8B57; }
+  color: #232b2b; }
 
 .users-cloud .big a {
-  color: #6B8E23; }
+  color: #0e1111; }
 
 .users-cloud .medium a {
-  color: #66CDAA; }
+  color: gray; }
 
 .users-cloud .tiny a {
-  color: #654321; }
+  color: #5e6262; }
 
 .my-subjects-title {
   color: #3b444b; }
