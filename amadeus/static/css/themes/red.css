@@ -56,6 +56,13 @@ a.btn.btn-sm.btn-success.btn-raised {
   color: #FFFFFF;
   background-color: #591111 !important; }
 
+/* PAGINATION BOTTOM */
+.pagination > li > a, .pagination > li > span {
+  color: #8e1c1c; }
+
+.pagination > li > a:hover, .pagination > li > span:hover {
+  color: #591111; }
+
 /* language selector */
 .language-selector .dropdown-menu > .active > a {
   background: #EEEEEE;
@@ -81,16 +88,16 @@ a.btn.btn-sm.btn-success.btn-raised {
 /* === SUBJECT APP === */
 /* home */
 .users-cloud .small a {
-  color: #2E8B57; }
+  color: #146b6b; }
 
 .users-cloud .big a {
-  color: #6B8E23; }
+  color: #8e1c1c; }
 
 .users-cloud .medium a {
-  color: #66CDAA; }
+  color: #591111; }
 
 .users-cloud .tiny a {
-  color: #654321; }
+  color: #136363; }
 
 .my-subjects-title {
   color: #003333; }
@@ -200,7 +207,7 @@ a.btn.btn-sm.btn-success.btn-raised {
 
 /* === Amadeus APP === */
 .navbar-brand:hover {
-  background: #136363 !important; }
+  background: #591111 !important; }
 
 .navbar .project_name {
   color: white; }

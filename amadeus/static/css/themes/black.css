@@ -56,6 +56,13 @@ a.btn.btn-sm.btn-success.btn-raised {
   color: #FFFFFF;
   background-color: #474b4b !important; }
 
+/* PAGINATION BOTTOM */
+.pagination > li > a, .pagination > li > span {
+  color: #0e1111; }
+
+.pagination > li > a:hover, .pagination > li > span:hover {
+  color: #474b4b; }
+
 /* language selector */
 .language-selector .dropdown-menu > .active > a {
   background: #EEEEEE;
