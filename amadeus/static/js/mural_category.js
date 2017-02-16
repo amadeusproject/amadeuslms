@@ -17,6 +17,7 @@ $('.mural-category').on('shown.bs.collapse', function(e) {
 			loading = $(this).find('.loading-posts'),
 			more = $(this).find('.more-posts'),
 			filters = $(this).find('.post-filters'),
+			clear_filters = $(this).find('.clear_filter'),
 			mural = post_section.parent().parent();
 
 		if (post_section.children().length == 0) {
@@ -164,6 +165,14 @@ $('.mural-category').on('shown.bs.collapse', function(e) {
 
 			return false;
 		});
+
+		clear_filters.click(function () {
+	        var frm = $(this).parent();
+
+	        frm.find("input[type='checkbox']").prop('checked', false);
+
+	        frm.submit();
+	    });
     }
 });
 

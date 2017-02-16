@@ -16,7 +16,7 @@
         <ul class="core-subjects-options">
             <a href="{% url 'mural:manage_general' %}"><li class="active">{% trans "General" %} ({{ totals.general }})</li></a>
             <a href="{% url 'mural:manage_category' %}"><li>{% trans "Per Category" %} ({{ totals.category }})</li></a>
-            <a href=""><li>{% trans "Per Subject" %} ({{ totals.subject }})</li></a>
+            <a href="{% url 'mural:manage_subject' %}"><li>{% trans "Per Subject" %} ({{ totals.subject }})</li></a>
         </ul>
     </div>
 

@@ -6,67 +6,66 @@
 {% block breadcrumbs %}
     {{ block.super }}
     
-    {% trans 'Mural: Per Category' as category %}
+    {% trans 'Mural: Per Subject' as subject %}
 
-    {% breadcrumb category 'mural:manage_category' %}
+    {% breadcrumb subject 'mural:manage_category' %}
 {% endblock %}
 
 {% block content %}
-    <input type="hidden" value="{% url 'mural:manage_category' %}" class="mural_url" />
+    <input type="hidden" value="{% url 'mural:manage_subject' %}" class="mural_url" />
 
     <div id="core-subjects-options-div">
         <ul class="core-subjects-options">
             <a href="{% url 'mural:manage_general' %}"><li>{% trans "General" %} ({{ totals.general }})</li></a>
-            <a href="{% url 'mural:manage_category' %}"><li class="active">{% trans "Per Category" %} (<span class="cat_badge">{{ totals.category }}</span>)</li></a>
-            <a href="{% url 'mural:manage_subject' %}"><li>{% trans "Per Subject" %} ({{ totals.subject }})</li></a>
+            <a href="{% url 'mural:manage_category' %}"><li>{% trans "Per Category" %} ({{ totals.category }})</li></a>
+            <a href="{% url 'mural:manage_subject' %}"><li class="active">{% trans "Per Subject" %} (<span class="sub_badge">{{ totals.subject }}</span>)</li></a>
         </ul>
     </div>
 
     <div class="col-md-12 cards-content">
-        {% if categories.count > 0 %}
+        {% if subjects.count > 0 %}
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                {% for category in categories %}
-                    {% category_permissions request.user category as has_category_permissions %}
-                    
-                    {% if category.visible or has_category_permissions %}
-                        {% if category.visible %}
-                            <div class="panel panel-info category-panel">
+                {% for subject in subjects %}
+                    {% subject_permissions request.user subject as has_subject_permissions %}
+
+                    {% if subject.visible or has_subject_permissions %}
+                        {% if subject.visible %}
+                            <div class="panel panel-info subject-panel">
                                 <div class="panel-heading">
-                        {% elif has_category_permissions %}
-                            <div class="panel special-panel">
+                        {% elif has_subject_permissions %}
+                            <div class="panel panel-info subject-panel-invisible">
                                 <div class="panel-heading panel-invisible">
                         {% endif %}
-
                                 <div class="row">
                                     <div class="col-md-12 category-header">
                                         <h4 class="panel-title">
-                                            <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{category.slug}}">
-                                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> <span>{{ category.name }}</span>
+                                            <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{subject.slug}}">
+                                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> <span>{{ subject }}</span>
 
-                                                ({{ category|unviewed:request.user }})
+                                                ({{ subject|sub_unviewed:request.user }})
                                             </a>
                                         </h4>
-                                        
+
                                         <div class="col-md-5 pull-right category-card-items">
-                                            {% if has_category_permissions %}
+                                            {% if has_subject_permissions %}
                                                 <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
                                                     <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                 </a>
                                                 <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-                                                    {% if request.user.is_staff %}
-                                                        <li><a href="{% url 'categories:replicate' category.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i> {% trans 'Replicate' %}</a></li>
+                                                    {% if request.user not in subject.professor.all %}
+                                                        <li><a href="{% url 'subjects:replicate' subject.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
                                                     {% endif %}
-                                                    <li><a href="{% url 'categories:update' category.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> {% trans 'Edit' %}</a></li>
-                                                    <li>
-                                                    <a href="javascript:delete_course.get('{% url 'categories:delete' category.slug %}?view=index','#category','#modal_course')" aria-hidden="true"><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>
+                                                    <li><a href="{% url 'subjects:update' subject.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+                                                    <li><a href="{% url 'groups:index' subject.slug %}"><i class="fa fa-group fa-fw" aria-hidden="true"></i>{% trans 'Groups' %}</a></li>
+                                                    <li><a href="javascript:delete_subject.get('{% url 'subjects:delete' subject.slug %}?view=index','#subject','#modal_subject')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
                                                 </ul>
                                             {% endif %}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div id="{{category.slug}}" class="panel-collapse panel-body collapse mural-category">
-                                <div class="col-md-12 cards-content mural" data-url="{% url 'mural:load_category' category.id %}">
+                            <div id="{{subject.slug}}" class="panel-collapse panel-body collapse mural-subject">
+                                <div class="col-md-12 cards-content mural" data-url="{% url 'mural:load_category' subject.id %}">
                                     <div class="col-md-9 col-sm-9 col-xs-9 mural-list">
                                         <div class="post_make panel panel-default">
                                             <div class="panel-body">
@@ -75,7 +74,7 @@
                                                 </div>
                                                 <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 post-field">
                                                     <div>
-                                                        <h4 data-url="{% url 'mural:create_category' category.slug %}">{% trans 'Wish to make a new post?' %}</h4>
+                                                        <h4 data-url="{% url 'mural:create_category' subject.slug %}">{% trans 'Wish to make a new post?' %}</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -128,11 +127,11 @@
         {% endif %}
     </div>
 
-    <div id="modal_course"></div>
+    <div id="modal_subject"></div>
 
     <div class="modal fade" id="post-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
 
     <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/mural.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/mural_category.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/mural_subject.js' %}"></script>
 {% endblock %}

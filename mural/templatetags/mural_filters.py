@@ -50,3 +50,37 @@ def unviewed(category, user):
 	count = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__categorypost__space = category) | Q(comment__post__categorypost__space = category))).count()
 
 	return count
+
+@register.filter(name = 'sub_unviewed')
+def sub_unviewed(subject, user):
+	count = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space = subject) | Q(comment__post__subjectpost__space = subject))).count()
+
+	return count
+
+@register.filter(name = 'show_settings')
+def show_settings(post, user):
+	if user.is_staff:
+		return True
+
+	if post.user == user:
+		return True
+
+	if post._my_subclass == "categorypost":
+		if post.space.coordinators == user:
+			return True
+
+	return False
+
+@register.filter(name = 'show_settings_comment')
+def show_settings_comment(comment, user):
+	if user.is_staff:
+		return True
+
+	if comment.user == user:
+		return True
+
+	if comment.post._my_subclass == "categorypost":
+		if comment.post.space.coordinators == user:
+			return True
+
+	return False

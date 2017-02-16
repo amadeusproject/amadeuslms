@@ -12,7 +12,7 @@
 					<i class="fa {{ post.action|action_icon }}"></i>
 					{{ post.get_action_display }}
 				</span>
-				{% if request.user == post.user or request.user.is_staff %}
+				{% if post|show_settings:request.user %}
 					<span class="btn-group pull-right">
 		                <button class="btn btn-sm btn_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		                	<i class="fa fa-ellipsis-v" aria-hidden="true"></i>

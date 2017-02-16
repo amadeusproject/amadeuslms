@@ -417,6 +417,45 @@ class CategoryDelete(LoginRequiredMixin, generic.DeleteView):
 
 		return reverse_lazy('mural:deleted_post')
 
+"""
+	Section for SubjectPost classes
+"""
+class SubjectIndex(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/list_subject.html'
+	context_object_name = "subjects"
+	paginate_by = 10
+
+	totals = {}
+
+	def get_queryset(self):
+		user = self.request.user
+		
+		if user.is_staff:
+			subjects = Subject.objects.all()
+		else:
+			subjects = Subject.objects.filter(Q(category__coordinators__pk = user.pk) | Q(professor__pk = user.pk) | Q(students__pk = user.pk, visible = True)).distinct()
+
+		self.totals['general'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__generalpost__isnull = False) | Q(comment__post__generalpost__isnull = False))).distinct().count()
+		self.totals['category'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(user__is_staff = True) | Q(post__categorypost__space__coordinators = user) | Q(comment__post__categorypost__space__coordinators = user) | Q(post__categorypost__space__subject_category__students = user) | Q(comment__post__categorypost__space__subject_category__students = user) | Q(post__categorypost__space__subject_category__professor = user) | Q(comment__post__categorypost__space__subject_category__professor = user))).distinct().count()
+		self.totals['subject'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space__professor = user) | Q(comment__post__subjectpost__space__professor = user) | Q(post__subjectpost__space__students = user) | Q(comment__post__subjectpost__space__students = user))).distinct().count()
+
+		return subjects
+
+	def get_context_data(self, **kwargs):
+		context = super(SubjectIndex, self).get_context_data(**kwargs)
+
+		context['title'] = _('Mural - Per Subject')
+		context['totals'] = self.totals
+		context['mural_menu_active'] = 'subjects_menu_active'
+		
+		return context
+
+"""
+	Section for common post functions
+"""
 def render_post(request, post, msg, ptype):
 	if ptype == 'gen':
 		post = get_object_or_404(GeneralPost, id = post)

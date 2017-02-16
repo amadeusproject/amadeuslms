@@ -13,7 +13,7 @@
 				<i class="fa fa-commenting-o"></i>
 				{% trans 'Comment' %}
 			</span>
-			{% if request.user == comment.user or request.user.is_staff %}
+			{% if comment|show_settings_comment:request.user %}
 				<span class="btn-group pull-right">
 	                <button class="btn btn-sm btn_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	                	<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
