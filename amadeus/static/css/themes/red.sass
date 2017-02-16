@@ -46,7 +46,54 @@ a, a:focus, a:hover
 
 
 #btn-search:hover 
-    background: $secondary-color    
+    background: $secondary-color
+
+
+.alert.alert-success 
+    background-color: $primary-hover
+    color: $white
+
+/* FORM Fields */
+
+.form-group.is-focused label, .form-group.is-focused label.control-label
+    color: $primary-color
+
+.form-group.is-focused .form-control 
+    outline: 0
+    background-image: -webkit-gradient(linear,left top,left bottom,from($primary-hover),to($primary-hover)),-webkit-gradient(linear,left top,left bottom,from(#D2D2D2),to(#D2D2D2))
+    background-image: -webkit-linear-gradient($primary-hover,$primary-hover),-webkit-linear-gradient(#D2D2D2,#D2D2D2)
+    background-image: -o-linear-gradient($primary-hover,$primary-hover),-o-linear-gradient(#D2D2D2,#D2D2D2)
+    background-image: linear-gradient($primary-hover,$primary-hover),linear-gradient(#D2D2D2,#D2D2D2)
+    -webkit-background-size: 100% 2px,100% 1px
+    background-size: 100% 2px,100% 1px
+    -webkit-box-shadow: none
+    box-shadow: none
+    -webkit-transition-duration: .3s
+    -o-transition-duration: .3s
+    transition-duration: .3s
+
+.form-control, .form-group .form-control 
+    border: 0
+    background-image: -webkit-gradient(linear, left top, left bottom, from($primary-hover), to($primary-hover)), -webkit-gradient(linear, left top, left bottom, from(#D2D2D2), to(#D2D2D2))
+    background-image: -webkit-linear-gradient($primary-hover, $primary-hover), -webkit-linear-gradient(#D2D2D2, #D2D2D2)
+    background-image: -o-linear-gradient($primary-hover, $primary-hover), -o-linear-gradient(#D2D2D2, #D2D2D2)
+    background-image: linear-gradient($primary-hover, $primary-hover), linear-gradient(#D2D2D2, #D2D2D2)
+    -webkit-background-size: 0 2px, 100% 1px
+    background-size: 0 2px, 100% 1px
+    background-repeat: no-repeat
+    background-position: center bottom, center -webkit-calc(100% - 1px)
+    background-position: center bottom, center calc(100% - 1px)
+    background-color: transparent
+    -webkit-transition: background 0s ease-out
+    -o-transition: background 0s ease-out
+    transition: background 0s ease-out
+    float: none
+    -webkit-box-shadow: none
+    box-shadow: none
+    border-radius: 0
+
+
+/**/    
 
 // Card's btns
 
@@ -62,6 +109,7 @@ button.btn.btn-sucess.btn-raised
 a.btn.btn-sm.btn-success.btn-raised
     color: $white
     background-color: $primary-color !important 
+
 
 .btn-group-raised .btn.btn-success, 
 .btn-group-raised .input-group-btn .btn.btn-success, 
@@ -270,12 +318,12 @@ a.btn.btn-sm.btn-success.btn-raised
 .core-subjects-options  li 
     background-color: $white
     border-bottom-color: $disabled
-    color: $secondary-color
+    color: $primary-hover
 
 
 .core-subjects-options  li.active 
     color: inherit
-    border-bottom-color: $secondary-color
+    border-bottom-color: $primary-color
 
 
 .create-subject-btn 
@@ -394,7 +442,7 @@ a.btn.btn-sm.btn-success.btn-raised
 
 
 .outside-title 
-    color: #43a251
+    color: $primary-color
 
 
 .titleTopic a h4, .titleTopic h4 
