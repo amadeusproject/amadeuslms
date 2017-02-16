@@ -219,11 +219,35 @@ def load_category_posts(request, category):
 		'request': request,
 	}
 
+	user = request.user
+	favorites = request.GET.get('favorite', False)
+	mines = request.GET.get('mine', False)
 	showing = request.GET.get('showing', '')
-
-	posts = CategoryPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_categorypost.mural_ptr_id))"}).filter(space__id = category).order_by("-most_recent")
+	n_views = 0
 	
-	paginator = Paginator(posts, 10)
+	if not favorites:
+		if mines:
+			posts = CategoryPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_categorypost.mural_ptr_id))"}).filter(space__id = category, mural_ptr__user = user)
+		else:
+			posts = CategoryPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_categorypost.mural_ptr_id))"}).filter(space__id = category)
+	else:
+		if mines:
+			posts = CategoryPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_categorypost.mural_ptr_id))"}).filter(space__id = category, favorites_post__isnull = False, favorites_post__user = user, mural_ptr__user = user)
+		else:
+			posts = CategoryPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_categorypost.mural_ptr_id))"}).filter(space__id = category, favorites_post__isnull = False, favorites_post__user = user)
+	
+	if showing: #Exclude ajax creation posts results
+		showing = showing.split(',')
+		posts = posts.exclude(id__in = showing)
+
+	has_page = request.GET.get('page', None)
+
+	if has_page is None:
+		views = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(comment__post__categorypost__space__id = category) | Q(post__categorypost__space__id = category)))
+		n_views = views.count()
+		views.update(viewed = True)
+
+	paginator = Paginator(posts.order_by("-most_recent"), 10)
 
 	try:
 		page_number = int(request.GET.get('page', 1))
@@ -239,7 +263,7 @@ def load_category_posts(request, category):
 
 	response = render_to_string("mural/_list_view.html", context, request)
 
-	return JsonResponse({"posts": response, "count": posts.count(), "num_pages": paginator.num_pages, "num_page": page_obj.number})
+	return JsonResponse({"posts": response, "unviewed": n_views, "count": posts.count(), "num_pages": paginator.num_pages, "num_page": page_obj.number})
 
 class CategoryIndex(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
