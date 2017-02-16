@@ -42,6 +42,34 @@ $('.mural-category').on('shown.bs.collapse', function(e) {
                     		more.hide();
                     	}
 
+                    	$('.mural_badge').each(function () {
+							var actual = $(this).text();
+
+							if (actual != "+99") {
+								actual = parseInt(actual, 10) - data.unviewed;
+
+								if (actual <= 0) {
+									$(this).hide();
+								} else {
+									$(this).text(actual);
+								}
+							}
+						});
+
+						$('.cat_badge').each(function () {
+							var actual = $(this).text();
+
+							if (actual != "+99") {
+								actual = parseInt(actual, 10) - data.unviewed;
+
+								if (actual < 0) {
+									actual = 0;
+								}
+								
+								$(this).text(actual);
+							}
+						});
+
                     	without.hide();
                     } else {
                     	more.hide();

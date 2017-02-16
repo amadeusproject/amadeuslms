@@ -223,6 +223,7 @@ def load_category_posts(request, category):
 	favorites = request.GET.get('favorite', False)
 	mines = request.GET.get('mine', False)
 	showing = request.GET.get('showing', '')
+	n_views = 0
 	
 	if not favorites:
 		if mines:
@@ -239,7 +240,14 @@ def load_category_posts(request, category):
 		showing = showing.split(',')
 		posts = posts.exclude(id__in = showing)
 
-	paginator = Paginator(posts.order_by("-most_recent"), 2)
+	has_page = request.GET.get('page', None)
+
+	if has_page is None:
+		views = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(comment__post__categorypost__space__id = category) | Q(post__categorypost__space__id = category)))
+		n_views = views.count()
+		views.update(viewed = True)
+
+	paginator = Paginator(posts.order_by("-most_recent"), 10)
 
 	try:
 		page_number = int(request.GET.get('page', 1))
@@ -255,7 +263,7 @@ def load_category_posts(request, category):
 
 	response = render_to_string("mural/_list_view.html", context, request)
 
-	return JsonResponse({"posts": response, "count": posts.count(), "num_pages": paginator.num_pages, "num_page": page_obj.number})
+	return JsonResponse({"posts": response, "unviewed": n_views, "count": posts.count(), "num_pages": paginator.num_pages, "num_page": page_obj.number})
 
 class CategoryIndex(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
