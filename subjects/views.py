@@ -413,7 +413,7 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
         self.log_context['subject_id'] = self.object.id
         self.log_context['subject_name'] = self.object.name
         self.log_context['subject_slug'] = self.object.slug
-        print("here 2")
+        
         super(SubjectDeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         
@@ -435,7 +435,7 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
         return self.render_to_response(context)
 
     def post(self, *args, **kwargs):
-        print("here")
+        
         return self.delete(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
