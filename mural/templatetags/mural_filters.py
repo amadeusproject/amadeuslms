@@ -69,6 +69,13 @@ def show_settings(post, user):
 		if post.space.coordinators == user:
 			return True
 
+	if post._my_subclass == "subjectpost":
+		if post.space.professor == user:
+			return True
+
+		if post.space.category.coordinators == user:
+			return True
+
 	return False
 
 @register.filter(name = 'show_settings_comment')
@@ -83,4 +90,19 @@ def show_settings_comment(comment, user):
 		if comment.post.space.coordinators == user:
 			return True
 
+	if comment.post._my_subclass == "subjectpost":
+		if comment.post.space.professor == user:
+			return True
+
+		if comment.post.space.category.coordinators == user:
+			return True
+
 	return False
+
+@register.filter(name = 'has_resource')
+def has_resource(post):
+	if post._my_subclass == 'subjectpost':
+		if post.subjectpost.resource:
+			return _("about") + " <span class='post_resource'>" + str(post.subjectpost.resource) + "</span>"
+
+	return ""

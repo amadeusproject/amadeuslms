@@ -19,7 +19,7 @@ from subjects.models import Subject
 from users.models import User
 
 from .models import Mural, GeneralPost, CategoryPost, SubjectPost, MuralVisualizations, MuralFavorites, Comment
-from .forms import GeneralPostForm, CategoryPostForm, CommentForm
+from .forms import GeneralPostForm, CategoryPostForm, SubjectPostForm, CommentForm
 from .utils import getSpaceUsers
 
 """
@@ -420,6 +420,57 @@ class CategoryDelete(LoginRequiredMixin, generic.DeleteView):
 """
 	Section for SubjectPost classes
 """
+def load_subject_posts(request, subject):
+	context = {
+		'request': request,
+	}
+
+	user = request.user
+	favorites = request.GET.get('favorite', False)
+	mines = request.GET.get('mine', False)
+	showing = request.GET.get('showing', '')
+	n_views = 0
+	
+	if not favorites:
+		if mines:
+			posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space__id = subject, mural_ptr__user = user)
+		else:
+			posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space__id = subject)
+	else:
+		if mines:
+			posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space__id = subject, favorites_post__isnull = False, favorites_post__user = user, mural_ptr__user = user)
+		else:
+			posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space__id = subject, favorites_post__isnull = False, favorites_post__user = user)
+	
+	if showing: #Exclude ajax creation posts results
+		showing = showing.split(',')
+		posts = posts.exclude(id__in = showing)
+
+	has_page = request.GET.get('page', None)
+
+	if has_page is None:
+		views = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(comment__post__subjectpost__space__id = subject) | Q(post__subjectpost__space__id = subject)))
+		n_views = views.count()
+		views.update(viewed = True)
+
+	paginator = Paginator(posts.order_by("-most_recent"), 10)
+
+	try:
+		page_number = int(request.GET.get('page', 1))
+	except ValueError:
+		raise Http404
+
+	try:
+		page_obj = paginator.page(page_number)
+	except EmptyPage:
+		raise Http404
+
+	context['posts'] = page_obj.object_list
+
+	response = render_to_string("mural/_list_view.html", context, request)
+
+	return JsonResponse({"posts": response, "unviewed": n_views, "count": posts.count(), "num_pages": paginator.num_pages, "num_page": page_obj.number})
+
 class SubjectIndex(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
@@ -453,6 +504,143 @@ class SubjectIndex(LoginRequiredMixin, generic.ListView):
 		
 		return context
 
+class SubjectCreate(LoginRequiredMixin, generic.edit.CreateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/_form.html'
+	form_class = SubjectPostForm
+
+	def get_initial(self):
+		initial = super(SubjectCreate, self).get_initial()
+
+		slug = self.kwargs.get('slug', None)
+		sub = get_object_or_404(Subject, slug = slug)
+
+		initial['subject'] = sub
+		initial['user'] = self.request.user
+
+		return initial
+
+	def form_invalid(self, form):
+		context = super(SubjectCreate, self).form_invalid(form)
+		context.status_code = 400
+
+		return context
+
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+
+		slug = self.kwargs.get('slug', None)
+		sub = get_object_or_404(Subject, slug = slug)
+
+		self.object.space = sub
+		self.object.user = self.request.user
+
+		self.object.save()
+
+		#users = User.objects.filter(Q(is_staff = True) | Q(coordinators = cat) | Q(professors__category = cat) | Q(subject_student__category = cat)).exclude(id = self.request.user.id)
+		entries = []
+
+		notify_type = "mural"
+		user_icon = self.object.user.image_url
+		#_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
+		simple_notify = _("%s has made a post in %s")%(str(self.object.user), str(self.object.space))
+		pathname = reverse("mural:manage_category")
+
+		#for user in users:
+		#	entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
+		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create_cat", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view, "cat": slug})})
+
+		#MuralVisualizations.objects.bulk_create(entries)
+
+		return super(SubjectCreate, self).form_valid(form)
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(SubjectCreate, self).get_context_data(*args, **kwargs)
+
+		context['form_url'] = reverse_lazy("mural:create_subject", args = (), kwargs = {'slug': self.kwargs.get('slug', None)})
+
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('mural:render_post', args = (self.object.id, 'create', 'sub', ))
+
+class SubjectUpdate(LoginRequiredMixin, generic.UpdateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/_form.html'
+	model = SubjectPost
+	form_class = SubjectPostForm
+
+	def get_initial(self):
+		initial = super(SubjectUpdate, self).get_initial()
+
+		initial['user'] = self.request.user
+
+		return initial
+
+	def form_invalid(self, form):
+		context = super(SubjectUpdate, self).form_invalid(form)
+		context.status_code = 400
+
+		return context
+
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+
+		self.object.edited = True
+
+		self.object.save()
+
+		#users = User.objects.all().exclude(id = self.request.user.id)
+		
+		notify_type = "mural"
+		_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
+		pathname = reverse("mural:manage_category")
+
+		#for user in users:
+		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "update_cat", "pathname": pathname, "complete": _view, "post_id": self.object.id})})
+		
+		return super(SubjectUpdate, self).form_valid(form)
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(SubjectUpdate, self).get_context_data(*args, **kwargs)
+
+		context['form_url'] = reverse_lazy("mural:update_subject", args = (), kwargs = {'pk': self.object.id})
+
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('mural:render_post', args = (self.object.id, 'update', 'sub', ))
+
+class SubjectDelete(LoginRequiredMixin, generic.DeleteView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/delete.html'
+	model = SubjectPost
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(SubjectDelete, self).get_context_data(*args, **kwargs)
+
+		context['form_url'] = reverse_lazy("mural:delete_subject", args = (), kwargs = {'pk': self.object.id})
+		context['message'] = _('Are you sure you want to delete this post?')
+
+		return context
+
+	def get_success_url(self):
+		#users = User.objects.all().exclude(id = self.request.user.id)
+		
+		notify_type = "mural"
+		pathname = reverse("mural:manage_subject")
+
+		#for user in users:
+		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "delete_cat", "pathname": pathname, "post_id": self.object.id})})
+
+		return reverse_lazy('mural:deleted_post')
+
 """
 	Section for common post functions
 """
@@ -461,6 +649,8 @@ def render_post(request, post, msg, ptype):
 		post = get_object_or_404(GeneralPost, id = post)
 	elif ptype == 'cat':
 		post = get_object_or_404(CategoryPost, id = post)
+	elif ptype == 'sub':
+		post = get_object_or_404(SubjectPost, id = post)
 
 	context = {}
 	context['post'] = post

@@ -27,6 +27,28 @@
 					</div>
 				</div>
 
+				{% if form.resource %}
+					<div class="form-group{% if form.has_error %} has-error {% endif %}">
+						<label for="{{ form.resource.auto_id }}">{{ form.resource.label }}</label>
+						{% render_field form.resource class='form-control' %}
+
+						<span id="helpBlock" class="help-block">{{ form.resource.help_text }}</span>
+							
+						{% if form.resource.errors %}
+							<div class="alert alert-danger alert-dismissible" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								<ul>
+									{% for error in form.resource.errors %}
+										<li>{{ error }}</li>
+									{% endfor %}
+								</ul>
+							</div>
+						{% endif %}
+					</div>
+				{% endif %}
+
 				<div class="form-group{% if form.has_error %} has-error {% endif %}">
 					<label for="{{ form.post.auto_id }}">{{ form.post.label }} <span>*</span></label>
 					{% render_field form.post class='form-control text_simple_wysiwyg' %}

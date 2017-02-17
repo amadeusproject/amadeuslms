@@ -411,7 +411,7 @@ a.add-row {
 .post_action i, .post .post-user .user-action i, .comment .comment-user .user-action i {
   color: #1d8fe0; }
 
-.post .post-user, .comment .comment-user, .marked_user {
+.post .post-user, .comment .comment-user, .marked_user, .post_resource {
   color: #26A69A; }
 
 .post .post-user .user-action {
@@ -459,7 +459,7 @@ a.add-row {
 .suggestions {
   background: #FFFFFF; }
 
-.mural-category {
+.mural-category, .mural-subject {
   background: #EEE; }
 
 .btn:not(.btn-raised):not(.btn-link):focus, .btn:not(.btn-raised):not(.btn-link):hover, .input-group-btn .btn:not(.btn-raised):not(.btn-link):focus, .input-group-btn .btn:not(.btn-raised):not(.btn-link):hover {
