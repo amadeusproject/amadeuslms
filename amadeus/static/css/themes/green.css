@@ -459,7 +459,7 @@ a.add-row {
 .suggestions {
   background: #FFFFFF; }
 
-.mural-category, .mural-subject {
+.mural-ungeneral {
   background: #EEE; }
 
 .btn:not(.btn-raised):not(.btn-link):focus, .btn:not(.btn-raised):not(.btn-link):hover, .input-group-btn .btn:not(.btn-raised):not(.btn-link):focus, .input-group-btn .btn:not(.btn-raised):not(.btn-link):hover {

@@ -61,9 +61,9 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
 			general_visualizations = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__generalpost__isnull = False) | Q(comment__post__generalpost__isnull = False))).distinct()
 
 			self.totals['general'] = general_visualizations.count()
-			self.totals['category'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(user__is_staff = True) | Q(post__categorypost__space__coordinators = user) | Q(comment__post__categorypost__space__coordinators = user) | Q(post__categorypost__space__subject_category__students = user) | Q(comment__post__categorypost__space__subject_category__students = user) | Q(post__categorypost__space__subject_category__professor = user) | Q(comment__post__categorypost__space__subject_category__professor = user))).distinct().count()
-			self.totals['subject'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space__professor = user) | Q(comment__post__subjectpost__space__professor = user) | Q(post__subjectpost__space__students = user) | Q(comment__post__subjectpost__space__students = user))).distinct().count()
-
+			self.totals['category'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & ((Q(user__is_staff = True) & (Q(post__categorypost__isnull = False) | Q(comment__post__categorypost__isnull = False))) | Q(post__categorypost__space__coordinators = user) | Q(comment__post__categorypost__space__coordinators = user) | Q(post__categorypost__space__subject_category__students = user) | Q(comment__post__categorypost__space__subject_category__students = user) | Q(post__categorypost__space__subject_category__professor = user) | Q(comment__post__categorypost__space__subject_category__professor = user))).distinct().count()
+			self.totals['subject'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & ((Q(user__is_staff = True) & (Q(post__subjectpost__isnull = False) | Q(comment__post__subjectpost__isnull = False))) | Q(post__subjectpost__space__professor = user) | Q(comment__post__subjectpost__space__professor = user) | Q(post__subjectpost__space__students = user) | Q(comment__post__subjectpost__space__students = user))).distinct().count()
+			
 			general_visualizations.update(viewed = True)
 
 			MuralVisualizations.objects.filter(user = user, viewed = False, comment__post__generalpost__isnull = False).update(viewed = True)
@@ -284,8 +284,8 @@ class CategoryIndex(LoginRequiredMixin, generic.ListView):
 			categories = Category.objects.filter(Q(coordinators__pk = user.pk) | Q(subject_category__professor__pk = user.pk) | Q(subject_category__students__pk = user.pk, visible = True)).distinct()
 
 		self.totals['general'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__generalpost__isnull = False) | Q(comment__post__generalpost__isnull = False))).distinct().count()
-		self.totals['category'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(user__is_staff = True) | Q(post__categorypost__space__coordinators = user) | Q(comment__post__categorypost__space__coordinators = user) | Q(post__categorypost__space__subject_category__students = user) | Q(comment__post__categorypost__space__subject_category__students = user) | Q(post__categorypost__space__subject_category__professor = user) | Q(comment__post__categorypost__space__subject_category__professor = user))).distinct().count()
-		self.totals['subject'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space__professor = user) | Q(comment__post__subjectpost__space__professor = user) | Q(post__subjectpost__space__students = user) | Q(comment__post__subjectpost__space__students = user))).distinct().count()
+		self.totals['category'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & ((Q(user__is_staff = True) & (Q(post__categorypost__isnull = False) | Q(comment__post__categorypost__isnull = False))) | Q(post__categorypost__space__coordinators = user) | Q(comment__post__categorypost__space__coordinators = user) | Q(post__categorypost__space__subject_category__students = user) | Q(comment__post__categorypost__space__subject_category__students = user) | Q(post__categorypost__space__subject_category__professor = user) | Q(comment__post__categorypost__space__subject_category__professor = user))).distinct().count()
+		self.totals['subject'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & ((Q(user__is_staff = True) & (Q(post__subjectpost__isnull = False) | Q(comment__post__subjectpost__isnull = False))) | Q(post__subjectpost__space__professor = user) | Q(comment__post__subjectpost__space__professor = user) | Q(post__subjectpost__space__students = user) | Q(comment__post__subjectpost__space__students = user))).distinct().count()
 
 		return categories
 
@@ -490,8 +490,8 @@ class SubjectIndex(LoginRequiredMixin, generic.ListView):
 			subjects = Subject.objects.filter(Q(category__coordinators__pk = user.pk) | Q(professor__pk = user.pk) | Q(students__pk = user.pk, visible = True)).distinct()
 
 		self.totals['general'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__generalpost__isnull = False) | Q(comment__post__generalpost__isnull = False))).distinct().count()
-		self.totals['category'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(user__is_staff = True) | Q(post__categorypost__space__coordinators = user) | Q(comment__post__categorypost__space__coordinators = user) | Q(post__categorypost__space__subject_category__students = user) | Q(comment__post__categorypost__space__subject_category__students = user) | Q(post__categorypost__space__subject_category__professor = user) | Q(comment__post__categorypost__space__subject_category__professor = user))).distinct().count()
-		self.totals['subject'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space__professor = user) | Q(comment__post__subjectpost__space__professor = user) | Q(post__subjectpost__space__students = user) | Q(comment__post__subjectpost__space__students = user))).distinct().count()
+		self.totals['category'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & ((Q(user__is_staff = True) & (Q(post__categorypost__isnull = False) | Q(comment__post__categorypost__isnull = False))) | Q(post__categorypost__space__coordinators = user) | Q(comment__post__categorypost__space__coordinators = user) | Q(post__categorypost__space__subject_category__students = user) | Q(comment__post__categorypost__space__subject_category__students = user) | Q(post__categorypost__space__subject_category__professor = user) | Q(comment__post__categorypost__space__subject_category__professor = user))).distinct().count()
+		self.totals['subject'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & ((Q(user__is_staff = True) & (Q(post__subjectpost__isnull = False) | Q(comment__post__subjectpost__isnull = False))) | Q(post__subjectpost__space__professor = user) | Q(comment__post__subjectpost__space__professor = user) | Q(post__subjectpost__space__students = user) | Q(comment__post__subjectpost__space__students = user))).distinct().count()
 
 		return subjects
 
@@ -539,20 +539,20 @@ class SubjectCreate(LoginRequiredMixin, generic.edit.CreateView):
 
 		self.object.save()
 
-		#users = User.objects.filter(Q(is_staff = True) | Q(coordinators = cat) | Q(professors__category = cat) | Q(subject_student__category = cat)).exclude(id = self.request.user.id)
+		users = getSpaceUsers(self.request.user.id, self.object)
 		entries = []
 
 		notify_type = "mural"
 		user_icon = self.object.user.image_url
-		#_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
+		_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
 		simple_notify = _("%s has made a post in %s")%(str(self.object.user), str(self.object.space))
-		pathname = reverse("mural:manage_category")
+		pathname = reverse("mural:manage_subject")
 
-		#for user in users:
-		#	entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
-		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create_cat", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view, "cat": slug})})
+		for user in users:
+			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
+			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create_sub", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view, "sub": slug})})
 
-		#MuralVisualizations.objects.bulk_create(entries)
+		MuralVisualizations.objects.bulk_create(entries)
 
 		return super(SubjectCreate, self).form_valid(form)
 
@@ -594,14 +594,14 @@ class SubjectUpdate(LoginRequiredMixin, generic.UpdateView):
 
 		self.object.save()
 
-		#users = User.objects.all().exclude(id = self.request.user.id)
+		users = getSpaceUsers(self.request.user.id, self.object)
 		
 		notify_type = "mural"
 		_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
-		pathname = reverse("mural:manage_category")
+		pathname = reverse("mural:manage_subject")
 
-		#for user in users:
-		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "update_cat", "pathname": pathname, "complete": _view, "post_id": self.object.id})})
+		for user in users:
+			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "update_sub", "pathname": pathname, "complete": _view, "post_id": self.object.id})})
 		
 		return super(SubjectUpdate, self).form_valid(form)
 
@@ -631,13 +631,13 @@ class SubjectDelete(LoginRequiredMixin, generic.DeleteView):
 		return context
 
 	def get_success_url(self):
-		#users = User.objects.all().exclude(id = self.request.user.id)
+		users = getSpaceUsers(self.request.user.id, self.object)
 		
 		notify_type = "mural"
 		pathname = reverse("mural:manage_subject")
 
-		#for user in users:
-		#	Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "delete_cat", "pathname": pathname, "post_id": self.object.id})})
+		for user in users:
+			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "delete_sub", "pathname": pathname, "post_id": self.object.id})})
 
 		return reverse_lazy('mural:deleted_post')
 

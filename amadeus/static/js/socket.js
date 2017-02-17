@@ -28,6 +28,12 @@ socket.onmessage = function(e) {
 			muralNotificationCategoryUpdate(content);
 		} else if (content.subtype == "delete_cat") {
 			muralNotificationCategoryDelete(content);
+		} else if (content.subtype == "create_sub") {
+			muralNotificationSubject(content);
+		} else if (content.subtype == "update_sub") {
+			muralNotificationSubjectUpdate(content);
+		} else if (content.subtype == "delete_sub") {
+			muralNotificationSubjectDelete(content);
 		}
 	}
 }
@@ -207,6 +213,68 @@ function muralNotificationCategoryUpdate(content) {
 }
 
 function muralNotificationCategoryDelete(content) {
+	if (window.location.pathname == content.pathname) {
+		var post = $("#post-" + content.post_id);
+
+		if (post.is(":visible") || post.is(":hidden")) {
+			post.remove();
+		}
+	}
+}
+
+function muralNotificationSubject(content) {
+	var sub_section = $("#" + content.sub);
+	
+	if (window.location.pathname == content.pathname && sub_section.is(':visible')) {
+		
+		sub_section.find('.posts').prepend(content.complete);
+
+        sub_section.find('.no-subjects').hide();
+	} else {
+		$('.mural_badge').each(function () {
+			var actual = $(this).text();
+
+			if (actual != "+99") {
+				actual = parseInt(actual, 10) + 1;
+
+				if (actual > 99) {
+					actual = "+99";
+				}
+
+				$(this).text(actual);
+			}
+
+			$(this).show();
+		});
+	}
+
+	if (("Notification" in window)) {
+		var options = {
+			icon: content.user_icon,
+			body: content.simple
+		}
+
+	    if (Notification.permission === "granted") {
+	    	var notification = new Notification("", options);
+
+	    	setTimeout(notification.close.bind(notification), 3000);
+	    }
+  	}
+}
+
+function muralNotificationSubjectUpdate(content) {
+	if (window.location.pathname == content.pathname) {
+		var post = $("#post-" + content.post_id);
+
+		if (post.is(":visible") || post.is(":hidden")) {
+			post.before(content.complete);
+
+			post.remove();
+		}
+	}
+}
+
+function muralNotificationSubjectDelete(content) {
 	if (window.location.pathname == content.pathname) {
 		var post = $("#post-" + content.post_id);
 

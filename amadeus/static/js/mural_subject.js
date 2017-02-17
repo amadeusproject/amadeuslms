@@ -80,6 +80,47 @@ $('.mural-subject').on('shown.bs.collapse', function(e) {
                 }
             });
 		}
+
+		more.click(function () {
+			var url = mural.data('url'),
+				pageNum = mural.data('page'),
+		        numberPages = mural.data('pages'),
+		        favorites = mural.data('fav'),
+		        mine = mural.data('mine'),
+		        showing = new_posts.join(',');
+
+		    if (pageNum == numberPages) {
+		        return false
+		    }
+
+		    pageNum = pageNum + 1;
+
+		    more.hide();
+
+		    loading.show();
+
+		    $.ajax({
+		    	url: url,
+		    	data: {'page': pageNum, 'favorite': favorites, 'mine': mine, 'showing': showing},
+		    	dataType: 'json',
+		    	success: function (data) {
+		    		loading.hide();
+
+		    		post_section.append(data.posts);
+
+                	mural.data('pages', data.num_pages);
+                	mural.data('page', data.num_page);
+
+                	setTimeout(function () { postHeightLimits() }, 100);
+
+                	if (data.num_page < data.num_pages) {
+                		more.show();
+                	} else {
+                		more.hide();
+                	}
+		    	}
+		    });
+		});
 	}
 });
 

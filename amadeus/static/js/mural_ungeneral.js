@@ -1,4 +1,4 @@
-$('.mural-category').on('shown.bs.collapse', function(e) {
+$('.mural-ungeneral').on('shown.bs.collapse', function(e) {
     if($(this).is(e.target)){
     	var li = $(".breadcrumb").find('li:last-child');
 		var li_text = $(li).html();
@@ -57,7 +57,7 @@ $('.mural-category').on('shown.bs.collapse', function(e) {
 							}
 						});
 
-						$('.cat_badge').each(function () {
+						$('.ung_badge').each(function () {
 							var actual = $(this).text();
 
 							if (actual != "+99") {
@@ -176,7 +176,7 @@ $('.mural-category').on('shown.bs.collapse', function(e) {
     }
 });
 
-$('.mural-category').on('hidden.bs.collapse', function(e) {
+$('.mural-ungeneral').on('hidden.bs.collapse', function(e) {
     if($(this).is(e.target)){
     	$(".breadcrumb").find('li:last-child').remove();
 
