@@ -402,7 +402,7 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.delete()
-        if not (self.request.GET.get('view') == 'index'):
+        if not (self.request.GET.get('view') == 'index'): #It still falling all the time into this if, I need to fix this
             return self.ajax_success()
         return HttpResponseRedirect(self.get_success_url())
 
@@ -416,7 +416,6 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
         
         super(SubjectDeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-        
         messages.success(self.request, _('Subject "%s" removed successfully!')%(self.object.name))
         
         return JsonResponse({'url':reverse_lazy('subjects:index')})
