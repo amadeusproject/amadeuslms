@@ -11,6 +11,7 @@
 				<span class="user-action">
 					<i class="fa {{ post.action|action_icon }}"></i>
 					{{ post.get_action_display }}
+					{{ post|has_resource|safe }}
 				</span>
 				{% if post|show_settings:request.user %}
 					<span class="btn-group pull-right">

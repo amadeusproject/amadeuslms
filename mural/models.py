@@ -74,7 +74,7 @@ class CategoryPost(Mural):
 
 class SubjectPost(Mural):
 	space = models.ForeignKey(Subject, verbose_name = _('Subject'), related_name = 'post_subject')
-	resource = models.ForeignKey(Resource, verbose_name = _('Resource'), related_name = 'post_resource', null = True)
+	resource = models.ForeignKey(Resource, verbose_name = _('Resource'), related_name = 'post_resource', null = True, blank = True)
 
 	def get_id(self):
 		return self.id
@@ -83,10 +83,10 @@ class SubjectPost(Mural):
 		return self.space.id
 
 	def update_link(self):
-		return ""
+		return "mural:update_subject"
 
 	def delete_link(self):
-		return ""
+		return "mural:delete_subject"
 
 class Comment(models.Model):
 	comment = models.TextField(_('Comment'), blank = True)

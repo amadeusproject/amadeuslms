@@ -2,8 +2,11 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
+from django.db.models import Q
 
-from .models import GeneralPost, CategoryPost, Comment
+from topics.models import Resource
+
+from .models import GeneralPost, CategoryPost, SubjectPost, Comment
 
 class Validation(forms.ModelForm):
 	MAX_UPLOAD_SIZE = 5*1024*1024
@@ -44,6 +47,31 @@ class CategoryPostForm(Validation):
 	class Meta:
 		model = CategoryPost
 		fields = ['action', 'post', 'image']
+		widgets = {
+			'action': forms.RadioSelect,
+			'post': forms.Textarea
+		}
+
+class SubjectPostForm(Validation):
+	def __init__(self, *args, **kwargs):
+		super(SubjectPostForm, self).__init__(*args, **kwargs)
+
+		user = kwargs['initial'].get('user', None)
+		subject = kwargs['initial'].get('subject', None)
+
+		if not kwargs['instance'] is None:
+			subject = self.instance.space	
+
+		if user.is_staff:
+			self.fields['resource'].choices = [(r.id, str(r)) for r in Resource.objects.filter(Q(topic__subject = subject))]
+		else:
+			self.fields['resource'].choices = [(r.id, str(r)) for r in Resource.objects.filter(Q(topic__subject = subject) & (Q(all_students = True) | Q(students = user) | Q(groups__participants = user)))]
+
+		self.fields['resource'].choices.append(("", _("Choose an especific resource")))
+
+	class Meta:
+		model = SubjectPost
+		fields = ['action', 'resource', 'post', 'image']
 		widgets = {
 			'action': forms.RadioSelect,
 			'post': forms.Textarea

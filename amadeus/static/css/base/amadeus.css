@@ -1119,7 +1119,7 @@ li.item .notify_badge {
     padding-top: 5px;
 }
 
-.marked_user {
+.marked_user, .post_resource {
     font-weight: 700;
 }
 
