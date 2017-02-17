@@ -172,8 +172,7 @@ class IndexView(LoginRequiredMixin, ListView):
         if self.request.is_ajax():
             if self.request.user.is_staff:
                 self.template_name = "categories/home_admin_content.html"
-            else:
-                self.template_name = "categories/home_teacher_student_content.html"
+         
 
         return self.response_class(request = self.request, template = self.template_name, context = context, using = self.template_engine, **response_kwargs)
 
@@ -399,6 +398,30 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
 
         return super(SubjectDeleteView, self).dispatch(request, *args, **kwargs)
 
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        if not (self.request.GET.get('view') == 'index'):
+            return self.ajax_success()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def ajax_success(self):
+        self.log_context['category_id'] = self.object.category.id
+        self.log_context['category_name'] = self.object.category.name
+        self.log_context['category_slug'] = self.object.category.slug
+        self.log_context['subject_id'] = self.object.id
+        self.log_context['subject_name'] = self.object.name
+        self.log_context['subject_slug'] = self.object.slug
+        print("here 2")
+        super(SubjectDeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+        
+        messages.success(self.request, _('Subject "%s" removed successfully!')%(self.object.name))
+        
+        return JsonResponse({'url':reverse_lazy('subjects:index')})
+
+
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         if self.object.students.count() > 0:
@@ -410,6 +433,10 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
                 return JsonResponse({'error':True,'url':reverse_lazy('subjects:index')})
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
+
+    def post(self, *args, **kwargs):
+        print("here")
+        return self.delete(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(SubjectDeleteView, self).get_context_data(**kwargs)

@@ -50,8 +50,7 @@ class IndexView(views.SuperuserRequiredMixin, LoginRequiredMixin, ListView):
         if self.request.is_ajax():
             if self.request.user.is_staff:
                 self.template_name = "categories/home_admin_content.html"
-            else:
-                self.template_name = "categories/home_teacher_student_content.html"
+           
 
         return self.response_class(request = self.request, template = self.template_name, context = context, using = self.template_engine, **response_kwargs)
 

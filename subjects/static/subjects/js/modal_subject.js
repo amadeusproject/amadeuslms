@@ -6,6 +6,7 @@ var RemoveSubject = {
         $('body').removeClass('modal-open');
         $("#modal_course").empty();
         $(".modal-backdrop.in").remove();
+        window.location.href = data['url'];
         alertify.success("Subject removed successfully!");
       }).fail(function(){
         $("#modal_course").empty();
