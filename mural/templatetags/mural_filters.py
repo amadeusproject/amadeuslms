@@ -66,14 +66,14 @@ def show_settings(post, user):
 		return True
 
 	if post._my_subclass == "categorypost":
-		if post.space.coordinators == user:
+		if post.categorypost.space.coordinators == user:
 			return True
 
 	if post._my_subclass == "subjectpost":
-		if post.space.professor == user:
+		if post.subjectpost.space.professor == user:
 			return True
 
-		if post.space.category.coordinators == user:
+		if post.subjectpost.space.category.coordinators == user:
 			return True
 
 	return False
@@ -87,14 +87,14 @@ def show_settings_comment(comment, user):
 		return True
 
 	if comment.post._my_subclass == "categorypost":
-		if comment.post.space.coordinators == user:
+		if comment.post.categorypost.space.coordinators == user:
 			return True
 
 	if comment.post._my_subclass == "subjectpost":
-		if comment.post.space.professor == user:
+		if comment.post.subjectpost.space.professor == user:
 			return True
 
-		if comment.post.space.category.coordinators == user:
+		if comment.post.subjectpost.space.category.coordinators == user:
 			return True
 
 	return False

@@ -322,7 +322,7 @@ class CategoryCreate(LoginRequiredMixin, generic.edit.CreateView):
 
 		self.object.save()
 
-		users = User.objects.filter(Q(is_staff = True) | Q(coordinators = cat) | Q(professors__category = cat) | Q(subject_student__category = cat)).exclude(id = self.request.user.id)
+		users = getSpaceUsers(self.request.user.id, self.object)
 		entries = []
 
 		notify_type = "mural"
@@ -370,7 +370,7 @@ class CategoryUpdate(LoginRequiredMixin, generic.UpdateView):
 
 		self.object.save()
 
-		users = User.objects.all().exclude(id = self.request.user.id)
+		users = getSpaceUsers(self.request.user.id, self.object)
 		
 		notify_type = "mural"
 		_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
@@ -407,7 +407,7 @@ class CategoryDelete(LoginRequiredMixin, generic.DeleteView):
 		return context
 
 	def get_success_url(self):
-		users = User.objects.all().exclude(id = self.request.user.id)
+		users = getSpaceUsers(self.request.user.id, self.object)
 		
 		notify_type = "mural"
 		pathname = reverse("mural:manage_category")
