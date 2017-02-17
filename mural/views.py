@@ -119,15 +119,24 @@ class GeneralCreate(LoginRequiredMixin, generic.edit.CreateView):
 		users = User.objects.all().exclude(id = self.request.user.id)
 		entries = []
 
-		notify_type = "mural"
-		user_icon = self.object.user.image_url
-		_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
-		simple_notify = _("%s has made a post in General")%(str(self.object.user))
-		pathname = reverse("mural:manage_general")
+		paths = [reverse("mural:manage_general")]
+
+		notification = {
+			"type": "mural",
+			"subtype": "post",
+			"paths": paths,
+			"user_icon": self.object.user.image_url,
+			"simple_notify": _("%s has made a post in General")%(str(self.object.user)),
+			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
+			"container": ".post", 
+			"accordion": False
+		}
+
+		notification = json.dumps(notification)
 
 		for user in users:
 			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
-			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view})})
+			Group("user-%s" % user.id).send({'text': notification})
 
 		MuralVisualizations.objects.bulk_create(entries)
 
@@ -166,12 +175,20 @@ class GeneralUpdate(LoginRequiredMixin, generic.UpdateView):
 
 		users = User.objects.all().exclude(id = self.request.user.id)
 		
-		notify_type = "mural"
-		_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
-		pathname = reverse("mural:manage_general")
+		paths = [reverse("mural:manage_general")]
+
+		notification = {
+			"type": "mural",
+			"subtype": "mural_update",
+			"paths": paths,
+			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
+			"container": "#post-" + str(self.object.id),
+		}
+
+		notification = json.dumps(notification)
 
 		for user in users:
-			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "update", "pathname": pathname, "complete": _view, "post_id": self.object.id})})
+			Group("user-%s" % user.id).send({'text': notification})
 		
 		return super(GeneralUpdate, self).form_valid(form)
 
@@ -202,12 +219,20 @@ class GeneralDelete(LoginRequiredMixin, generic.DeleteView):
 
 	def get_success_url(self):
 		users = User.objects.all().exclude(id = self.request.user.id)
-		
-		notify_type = "mural"
-		pathname = reverse("mural:manage_general")
+				
+		paths = [reverse("mural:manage_general")]
+
+		notification = {
+			"type": "mural",
+			"subtype": "mural_delete",
+			"paths": paths,
+			"container": "#post-" + str(self.object.id),
+		}
+
+		notification = json.dumps(notification)
 
 		for user in users:
-			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "delete", "pathname": pathname, "post_id": self.object.id})})
+			Group("user-%s" % user.id).send({'text': notification})
 
 		return reverse_lazy('mural:deleted_post')
 
@@ -324,16 +349,25 @@ class CategoryCreate(LoginRequiredMixin, generic.edit.CreateView):
 
 		users = getSpaceUsers(self.request.user.id, self.object)
 		entries = []
+		
+		paths = [reverse("mural:manage_category")]
 
-		notify_type = "mural"
-		user_icon = self.object.user.image_url
-		_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
-		simple_notify = _("%s has made a post in %s")%(str(self.object.user), str(self.object.space))
-		pathname = reverse("mural:manage_category")
+		notification = {
+			"type": "mural",
+			"subtype": "post",
+			"paths": paths,
+			"user_icon": self.object.user.image_url,
+			"simple_notify": _("%s has made a post in %s")%(str(self.object.user), str(self.object.space)),
+			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
+			"container": "#" + slug, 
+			"accordion": True
+		}
+
+		notification = json.dumps(notification)
 
 		for user in users:
 			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
-			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create_cat", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view, "cat": slug})})
+			Group("user-%s" % user.id).send({'text': notification})
 
 		MuralVisualizations.objects.bulk_create(entries)
 
@@ -372,12 +406,20 @@ class CategoryUpdate(LoginRequiredMixin, generic.UpdateView):
 
 		users = getSpaceUsers(self.request.user.id, self.object)
 		
-		notify_type = "mural"
-		_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
-		pathname = reverse("mural:manage_category")
+		paths = [reverse("mural:manage_category")]
+
+		notification = {
+			"type": "mural",
+			"subtype": "mural_update",
+			"paths": paths,
+			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
+			"container": "#post-" + str(self.object.id),
+		}
+
+		notification = json.dumps(notification)
 
 		for user in users:
-			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "update_cat", "pathname": pathname, "complete": _view, "post_id": self.object.id})})
+			Group("user-%s" % user.id).send({'text': notification})
 		
 		return super(CategoryUpdate, self).form_valid(form)
 
@@ -409,11 +451,19 @@ class CategoryDelete(LoginRequiredMixin, generic.DeleteView):
 	def get_success_url(self):
 		users = getSpaceUsers(self.request.user.id, self.object)
 		
-		notify_type = "mural"
-		pathname = reverse("mural:manage_category")
+		paths = [reverse("mural:manage_category")]
+
+		notification = {
+			"type": "mural",
+			"subtype": "mural_delete",
+			"paths": paths,
+			"container": "#post-" + str(self.object.id),
+		}
+
+		notification = json.dumps(notification)
 
 		for user in users:
-			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "delete_cat", "pathname": pathname, "post_id": self.object.id})})
+			Group("user-%s" % user.id).send({'text': notification})
 
 		return reverse_lazy('mural:deleted_post')
 
@@ -542,15 +592,24 @@ class SubjectCreate(LoginRequiredMixin, generic.edit.CreateView):
 		users = getSpaceUsers(self.request.user.id, self.object)
 		entries = []
 
-		notify_type = "mural"
-		user_icon = self.object.user.image_url
-		_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
-		simple_notify = _("%s has made a post in %s")%(str(self.object.user), str(self.object.space))
-		pathname = reverse("mural:manage_subject")
+		paths = [reverse("mural:manage_subject")]
+
+		notification = {
+			"type": "mural",
+			"subtype": "post",
+			"paths": paths,
+			"user_icon": self.object.user.image_url,
+			"simple_notify": _("%s has made a post in %s")%(str(self.object.user), str(self.object.space)),
+			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
+			"container": "#" + slug, 
+			"accordion": True
+		}
+
+		notification = json.dumps(notification)
 
 		for user in users:
 			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
-			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create_sub", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view, "sub": slug})})
+			Group("user-%s" % user.id).send({'text': notification})
 
 		MuralVisualizations.objects.bulk_create(entries)
 
@@ -596,12 +655,20 @@ class SubjectUpdate(LoginRequiredMixin, generic.UpdateView):
 
 		users = getSpaceUsers(self.request.user.id, self.object)
 		
-		notify_type = "mural"
-		_view = render_to_string("mural/_view.html", {"post": self.object}, self.request)
-		pathname = reverse("mural:manage_subject")
+		paths = [reverse("mural:manage_subject")]
+
+		notification = {
+			"type": "mural",
+			"subtype": "mural_update",
+			"paths": paths,
+			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
+			"container": "#post-" + str(self.object.id),
+		}
+
+		notification = json.dumps(notification)
 
 		for user in users:
-			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "update_sub", "pathname": pathname, "complete": _view, "post_id": self.object.id})})
+			Group("user-%s" % user.id).send({'text': notification})
 		
 		return super(SubjectUpdate, self).form_valid(form)
 
@@ -633,11 +700,19 @@ class SubjectDelete(LoginRequiredMixin, generic.DeleteView):
 	def get_success_url(self):
 		users = getSpaceUsers(self.request.user.id, self.object)
 		
-		notify_type = "mural"
-		pathname = reverse("mural:manage_subject")
+		paths = [reverse("mural:manage_subject")]
+
+		notification = {
+			"type": "mural",
+			"subtype": "mural_delete",
+			"paths": paths,
+			"container": "#post-" + str(self.object.id),
+		}
+
+		notification = json.dumps(notification)
 
 		for user in users:
-			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "delete_sub", "pathname": pathname, "post_id": self.object.id})})
+			Group("user-%s" % user.id).send({'text': notification})
 
 		return reverse_lazy('mural:deleted_post')
 
@@ -762,12 +837,24 @@ class CommentUpdate(LoginRequiredMixin, generic.UpdateView):
 
 		users = getSpaceUsers(self.request.user.id, self.object.post)
 		
-		notify_type = "mural"
-		_view = render_to_string("mural/_view_comment.html", {"comment": self.object}, self.request)
-		pathname = reverse("mural:manage_general")
+		paths = [
+			reverse("mural:manage_general"),
+			reverse("mural:manage_category"),
+			reverse("mural:manage_subject")
+		]
+
+		notification = {
+			"type": "mural",
+			"subtype": "mural_update",
+			"paths": paths,
+			"complete": render_to_string("mural/_view_comment.html", {"comment": self.object}, self.request),
+			"container": "#comment-" + str(self.object.id),
+		}
+
+		notification = json.dumps(notification)
 
 		for user in users:
-			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "update_comment", "pathname": pathname, "complete": _view, "comment_id": self.object.id})})
+			Group("user-%s" % user.id).send({'text': notification})
 		
 		return super(CommentUpdate, self).form_valid(form)
 
@@ -798,12 +885,24 @@ class CommentDelete(LoginRequiredMixin, generic.DeleteView):
 
 	def get_success_url(self):
 		users = getSpaceUsers(self.request.user.id, self.object.post)
-		
-		notify_type = "mural"
-		pathname = reverse("mural:manage_general")
+
+		paths = [
+			reverse("mural:manage_general"),
+			reverse("mural:manage_category"),
+			reverse("mural:manage_subject")
+		]
+
+		notification = {
+			"type": "mural",
+			"subtype": "mural_delete",
+			"paths": paths,
+			"container": "#comment-" + str(self.object.id),
+		}
+
+		notification = json.dumps(notification)
 
 		for user in users:
-			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "delete_comment", "pathname": pathname, "comment_id": self.object.id})})
+			Group("user-%s" % user.id).send({'text': notification})
 
 		return reverse_lazy('mural:deleted_comment')
 
