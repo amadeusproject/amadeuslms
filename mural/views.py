@@ -719,6 +719,71 @@ class SubjectDelete(LoginRequiredMixin, generic.DeleteView):
 
 		return reverse_lazy('mural:deleted_post')
 
+class SubjectView(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/subject_view.html'
+	context_object_name = "posts"
+	paginate_by = 10
+
+	def get_queryset(self):
+		user = self.request.user
+		favorites = self.request.GET.get('favorite', False)
+		mines = self.request.GET.get('mine', False)
+		showing = self.request.GET.get('showing', False)
+		page = self.request.GET.get('page', False)
+		slug = self.kwargs.get('slug')
+		subject = get_object_or_404(Subject, slug = slug)
+
+		if not favorites:
+			if mines:
+				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(mural_ptr__user = user, space = subject)
+			else:
+				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space = subject)
+		else:
+			if mines:
+				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(favorites_post__isnull = False, favorites_post__user = user, mural_ptr__user = user, space = subject)
+			else:
+				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(favorites_post__isnull = False, favorites_post__user = user, space = subject)
+
+		if showing: #Exclude ajax creation posts results
+			showing = showing.split(',')
+			posts = posts.exclude(id__in = showing)
+
+		if not page: #Don't need this if is pagination
+			MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space = subject) | Q(comment__post__subjectpost__space = subject))).update(viewed = True)
+
+		return posts.order_by("-most_recent")
+
+	def get_context_data(self, **kwargs):
+		context = super(SubjectView, self).get_context_data(**kwargs)
+
+		page = self.request.GET.get('page', '')
+
+		slug = self.kwargs.get('slug', None)
+		subject = get_object_or_404(Subject, slug = slug)
+
+		if page:
+			self.template_name = "mural/_list_view.html"
+
+		context['title'] = _('%s - Mural')%(str(subject))
+		context['subject'] = subject
+		context['favorites'] = ""
+		context['mines'] = ""
+
+		favs = self.request.GET.get('favorite', False)
+
+		if favs:
+			context['favorites'] = "checked"
+
+		mines = self.request.GET.get('mine', False)
+
+		if mines:
+			context['mines'] = "checked"
+
+		return context
+
 """
 	Section for common post functions
 """

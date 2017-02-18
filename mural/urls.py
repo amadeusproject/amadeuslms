@@ -14,6 +14,7 @@ urlpatterns = [
 	url(r'^delete_gen/(?P<pk>[\w_-]+)/$', views.GeneralDelete.as_view(), name='delete_general'),
 	url(r'^delete_cat/(?P<pk>[\w_-]+)/$', views.CategoryDelete.as_view(), name='delete_category'),
 	url(r'^delete_sub/(?P<pk>[\w_-]+)/$', views.SubjectDelete.as_view(), name='delete_subject'),
+	url(r'^subject/(?P<slug>[\w_-]+)/$', views.SubjectView.as_view(), name='subject_view'),
 	url(r'^load_category/([\w_-]+)/$', views.load_category_posts, name='load_category'),
 	url(r'^load_subject/([\w_-]+)/$', views.load_subject_posts, name='load_subject'),
 	url(r'^favorite/([\w_-]+)/$', views.favorite, name='favorite'),

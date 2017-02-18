@@ -40,7 +40,7 @@
                             {% notifies_number subject request.user %}
                         </a>
                         <a href="" class="pull-right action_icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
-                        <a href="" class="pull-right action_icon">
+                        <a href="{% url 'mural:subject_view' subject.slug %}" class="pull-right action_icon">
                             <i class="fa fa-list" aria-hidden="true"></i>
                             {% mural_number subject request.user %}
                         </a>
