@@ -16,7 +16,7 @@ socket.onmessage = function(e) {
 			muralNotificationMuralUpdate(content);
 		} else if (content.subtype == "mural_delete") {
 			muralNotificationMuralDelete(content);
-		} else if (content.subtype == "create_comment") {
+		} else if (content.subtype == "comment") {
 			muralNotificationComment(content);
 		}
 	}
@@ -103,11 +103,26 @@ function muralNotificationMuralDelete(content) {
 }
 
 function muralNotificationComment(content) {
-	if (window.location.pathname == content.pathname) {
-		if ($("#post-" + content.post_id).is(":visible")) {
-			var section = $("#post-" + content.post_id).find('.comment-section');
+	var page = window.location.pathname,
+		render = (content.paths.indexOf(page) != -1),
+		checker = "";
 
-			section.append(content.complete);
+	switch (content.post_type) {
+		case "categorypost":
+			checker = "category";
+			break;
+		case "subjectpost":
+			checker = "subject";
+			break;
+	}
+
+	if ((render && page.indexOf(checker) != -1) || (render && content.post_type == "generalpost")) {
+		var section = $(content.container);
+
+		if (section.is(":visible") || section.is(":hidden")) {
+			var comments = section.find('.comment-section');
+
+			comments.append(content.complete);
 		}
 	} else {
 		$('.mural_badge').each(function () {
@@ -130,7 +145,7 @@ function muralNotificationComment(content) {
 	if (("Notification" in window)) {
 		var options = {
 			icon: content.user_icon,
-			body: content.simple
+			body: content.simple_notify
 		}
 
 	    if (Notification.permission === "granted") {

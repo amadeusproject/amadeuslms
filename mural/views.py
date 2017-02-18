@@ -787,16 +787,29 @@ class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
 
 		users = getSpaceUsers(self.request.user.id, post)
 		entries = []
+		
+		paths = [
+			reverse("mural:manage_general"),
+			reverse("mural:manage_category"),
+			reverse("mural:manage_subject")
+		]
 
-		notify_type = "mural"
-		user_icon = self.object.user.image_url
-		_view = render_to_string("mural/_view_comment.html", {"comment": self.object}, self.request)
-		simple_notify = _("%s has commented in a post")%(str(self.object.user))
-		pathname = reverse("mural:manage_general")
+		notification = {
+			"type": "mural",
+			"subtype": "comment",
+			"paths": paths,
+			"user_icon": self.object.user.image_url,
+			"simple_notify": _("%s has commented in a post")%(str(self.object.user)),
+			"complete": render_to_string("mural/_view_comment.html", {"comment": self.object}, self.request),
+			"container": "#post-id" + str(post.get_id()),
+			"post_type": post._my_subclass
+		}
+
+		notification = json.dumps(notification)
 
 		for user in users:
 			entries.append(MuralVisualizations(viewed = False, user = user, comment = self.object))
-			Group("user-%s" % user.id).send({'text': json.dumps({"type": notify_type, "subtype": "create_comment", "user_icon": user_icon, "pathname": pathname, "simple": simple_notify, "complete": _view, "post_id": post.get_id()})})
+			Group("user-%s" % user.id).send({'text': notification})
 
 		MuralVisualizations.objects.bulk_create(entries)
 
