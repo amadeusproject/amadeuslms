@@ -2,6 +2,7 @@ import datetime
 from django import template
 from django.db.models import Q
 
+from mural.models import MuralVisualizations
 from notifications.models import Notification
 
 register = template.Library()
@@ -24,6 +25,25 @@ def notifies_number(subject, user):
 	context = {}
 
 	context['number'] = Notification.objects.filter(task__resource__topic__subject = subject, creation_date = datetime.datetime.now(), viewed = False, user = user).count()
+	context['custom_class'] = 'pendencies_notify'
+	
+	return context
+
+@register.inclusion_tag('subjects/badge.html')
+def mural_number(subject, user):
+	context = {}
+
+	context['number'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space = subject) | Q(comment__post__subjectpost__space = subject))).count()
+	context['custom_class'] = 'mural_notify'
+	
+	return context
+
+@register.inclusion_tag('subjects/badge.html')
+def resource_mural_number(resource, user):
+	context = {}
+
+	context['number'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__resource = resource) | Q(comment__post__subjectpost__resource = resource))).count()
+	context['custom_class'] = 'mural_resource_notify'
 	
 	return context
 

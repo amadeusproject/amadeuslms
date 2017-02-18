@@ -1,6 +1,6 @@
 {% extends 'subjects/view.html' %}
 
-{% load static i18n pagination permissions_tags %}
+{% load static i18n pagination permissions_tags subject_counter %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% block javascript%}
@@ -41,7 +41,10 @@
                         </h4>
 
                         <div class="col-md-5 pull-right category-card-items">
-                            <a href="" ><i class="fa fa-list" aria-hidden="true"></i></a>
+                            <a href="" >
+                                <i class="fa fa-list" aria-hidden="true"></i>
+                                {% resource_mural_number webpage request.user %}
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -1,3 +1,1 @@
-{% if number > 0 %}
-	<span class="badge notify_badge">{% if number > 99 %} +99 {% else %} {{ number }} {% endif %}</span>
-{% endif %}
+<span class="badge notify_badge {{ custom_class }}" {% if number <= 0 %} style="display:none" {% endif %}>{% if number > 99 %} +99 {% else %} {{ number }} {% endif %}</span>

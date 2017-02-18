@@ -28,7 +28,7 @@ function muralNotificationPost(content) {
 	var page = window.location.pathname,
 		render = (content.paths.indexOf(page) != -1);
 
-	if (render) {
+	if ((render && page.indexOf(content.post_type) != -1) || (render && content.post_type == "general")) {
 		if (content.accordion) {
 			var section = $(content.container);
 
@@ -58,6 +58,37 @@ function muralNotificationPost(content) {
 
 			$(this).show();
 		});
+
+		$('.mural-tabs').find('li').each(function () {
+			var identity = $(this).data('mural');
+
+			if (identity == content.post_type) {
+				var span = $(this).find('span'),
+					actual = span.text();
+
+				actual = parseInt(actual, 10) + 1;
+
+				span.text(actual);
+			}
+		});
+
+		if (content.post_type == "subject") {
+			var slug = content.container.substring(1, content.container.length),
+				subject_mbadge = $("#subject_" + slug).find('.mural_notify'),
+				actual = subject_mbadge.text();
+
+			if (actual != "+99") {
+				actual = parseInt(actual, 10) + 1;
+
+				if (actual > 99) {
+					actual = "+99";
+				}
+
+				subject_mbadge.text(actual);
+			}
+
+			subject_mbadge.show();
+		}
 	}
 
 	if (("Notification" in window)) {
@@ -105,18 +136,18 @@ function muralNotificationMuralDelete(content) {
 function muralNotificationComment(content) {
 	var page = window.location.pathname,
 		render = (content.paths.indexOf(page) != -1),
-		checker = "";
+		checker = "general";
 
 	switch (content.post_type) {
 		case "categorypost":
-			checker = "category";
+			checker = "categories";
 			break;
 		case "subjectpost":
-			checker = "subject";
+			checker = "subjects";
 			break;
 	}
 
-	if ((render && page.indexOf(checker) != -1) || (render && content.post_type == "generalpost")) {
+	if ((render && page.indexOf(checker) != -1) || (render && content.post_type == "generalpost" && page.indexOf("categories") == -1 && page.indexOf("subjects") == -1)) {
 		var section = $(content.container);
 
 		if (section.is(":visible") || section.is(":hidden")) {
@@ -125,6 +156,8 @@ function muralNotificationComment(content) {
 			comments.append(content.complete);
 		}
 	} else {
+		console.log("Lester");
+
 		$('.mural_badge').each(function () {
 			var actual = $(this).text();
 
@@ -140,6 +173,36 @@ function muralNotificationComment(content) {
 
 			$(this).show();
 		});
+
+		$('.mural-tabs').find('li').each(function () {
+			var identity = $(this).data('mural');
+
+			if ((identity == checker) || (identity == "general" && content.post_type == "generalpost")) {
+				var span = $(this).find('span'),
+					actual = span.text();
+
+				actual = parseInt(actual, 10) + 1;
+
+				span.text(actual);
+			}
+		});
+
+		if (content.post_type == "subjectpost") {
+			var subject_mbadge = $("#subject_" + content.type_slug).find('.mural_notify'),
+				actual = subject_mbadge.text();
+
+			if (actual != "+99") {
+				actual = parseInt(actual, 10) + 1;
+
+				if (actual > 99) {
+					actual = "+99";
+				}
+
+				subject_mbadge.text(actual);
+			}
+
+			subject_mbadge.show();
+		}
 	}
 
 	if (("Notification" in window)) {

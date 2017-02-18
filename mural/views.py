@@ -129,7 +129,8 @@ class GeneralCreate(LoginRequiredMixin, generic.edit.CreateView):
 			"simple_notify": _("%s has made a post in General")%(str(self.object.user)),
 			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
 			"container": ".post", 
-			"accordion": False
+			"accordion": False,
+			"post_type": "general"
 		}
 
 		notification = json.dumps(notification)
@@ -360,7 +361,8 @@ class CategoryCreate(LoginRequiredMixin, generic.edit.CreateView):
 			"simple_notify": _("%s has made a post in %s")%(str(self.object.user), str(self.object.space)),
 			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
 			"container": "#" + slug, 
-			"accordion": True
+			"accordion": True,
+			"post_type": "categories"
 		}
 
 		notification = json.dumps(notification)
@@ -602,7 +604,8 @@ class SubjectCreate(LoginRequiredMixin, generic.edit.CreateView):
 			"simple_notify": _("%s has made a post in %s")%(str(self.object.user), str(self.object.space)),
 			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
 			"container": "#" + slug, 
-			"accordion": True
+			"accordion": True,
+			"post_type": "subjects"
 		}
 
 		notification = json.dumps(notification)
@@ -801,8 +804,9 @@ class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
 			"user_icon": self.object.user.image_url,
 			"simple_notify": _("%s has commented in a post")%(str(self.object.user)),
 			"complete": render_to_string("mural/_view_comment.html", {"comment": self.object}, self.request),
-			"container": "#post-id" + str(post.get_id()),
-			"post_type": post._my_subclass
+			"container": "#post-" + str(post.get_id()),
+			"post_type": post._my_subclass,
+			"type_slug": post.get_space_slug()
 		}
 
 		notification = json.dumps(notification)
