@@ -73,7 +73,7 @@ function muralNotificationPost(content) {
 			}
 		});
 
-		if (content.post_type == "subject") {
+		if (content.post_type == "subjects") {
 			var slug = content.container.substring(1, content.container.length),
 				subject_mbadge = $("#subject_" + slug).find('.mural_notify'),
 				actual = subject_mbadge.text();
@@ -158,8 +158,6 @@ function muralNotificationComment(content) {
 			comments.append(content.complete);
 		}
 	} else {
-		console.log("Lester");
-
 		$('.mural_badge').each(function () {
 			var actual = $(this).text();
 
