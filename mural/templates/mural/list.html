@@ -13,10 +13,10 @@
 
 {% block content %}
 	<div id="core-subjects-options-div">
-        <ul class="core-subjects-options">
-            <a href="{% url 'mural:manage_general' %}"><li class="active">{% trans "General" %} ({{ totals.general }})</li></a>
-            <a href="{% url 'mural:manage_category' %}"><li>{% trans "Per Category" %} ({{ totals.category }})</li></a>
-            <a href="{% url 'mural:manage_subject' %}"><li>{% trans "Per Subject" %} ({{ totals.subject }})</li></a>
+        <ul class="core-subjects-options mural-tabs">
+            <a href="{% url 'mural:manage_general' %}"><li data-mural="general" class="active">{% trans "General" %} (<span>{{ totals.general }}</span>)</li></a>
+            <a href="{% url 'mural:manage_category' %}"><li data-mural="categories">{% trans "Per Category" %} (<span>{{ totals.category }}</span>)</li></a>
+            <a href="{% url 'mural:manage_subject' %}"><li data-mural="subjects">{% trans "Per Subject" %} (<span>{{ totals.subject }}</span>)</li></a>
         </ul>
     </div>
 

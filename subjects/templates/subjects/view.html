@@ -29,10 +29,10 @@
     {% subject_permissions request.user subject as has_subject_permissions %}
 
 	{% if subject.visible %}
-		<div class="panel panel-info subject-panel">
+		<div class="panel panel-info subject-panel" id="subject_{{subject.slug}}">
         	<div class="panel-heading">
 	{% elif has_subject_permissions %}
-		<div class="panel panel-info subject-panel-invisible">
+		<div class="panel panel-info subject-panel-invisible" id="subject_{{subject.slug}}">
         	<div class="panel-heading panel-invisible">
     {% endif %}
             <div class="row">
@@ -62,7 +62,10 @@
                             {% notifies_number subject request.user %}
                         </a>
                         <a href="" class="pull-right action_icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
-                        <a href="" class="pull-right action_icon"><i class="fa fa-list" aria-hidden="true"></i></a>
+                        <a href="{% url 'mural:subject_view' subject.slug %}" class="pull-right action_icon">
+                            <i class="fa fa-list" aria-hidden="true"></i>
+                            {% mural_number subject request.user %}
+                        </a>
                     </div>
                 </div>
             </div>

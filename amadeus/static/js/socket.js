@@ -10,35 +10,38 @@ socket.onmessage = function(e) {
 	content = JSON.parse(e.data);
 
 	if (content.type == "mural") {
-		if (content.subtype == "create") {
-			muralNotificationCreate(content);
-		} else if (content.subtype == "update") {
-			muralNotificationUpdate(content);
-		} else if (content.subtype == "delete") {
-			muralNotificationDelete(content);
-		} else if (content.subtype == "create_comment") {
+		if (content.subtype == "post") {
+			muralNotificationPost(content);
+		} else if (content.subtype == "mural_update") {
+			muralNotificationMuralUpdate(content);
+		} else if (content.subtype == "mural_delete") {
+			muralNotificationMuralDelete(content);
+		} else if (content.subtype == "comment") {
 			muralNotificationComment(content);
-		} else if (content.subtype == "update_comment") {
-			muralNotificationCommentUpdate(content);
-		} else if (content.subtype == "delete_comment") {
-			muralNotificationCommentDelete(content);
-		} else if (content.subtype == "create_cat") {
-			muralNotificationCategory(content);
-		} else if (content.subtype == "update_cat") {
-			muralNotificationCategoryUpdate(content);
-		} else if (content.subtype == "delete_cat") {
-			muralNotificationCategoryDelete(content);
 		}
 	}
 }
 // Call onopen directly if socket is already open
 if (socket.readyState == WebSocket.OPEN) socket.onopen();
 
-function muralNotificationCreate(content) {
-	if (window.location.pathname == content.pathname) {
-		$('.posts').prepend(content.complete);
+function muralNotificationPost(content) {
+	var page = window.location.pathname,
+		render = (content.paths.indexOf(page) != -1);
 
-        $('.no-subjects').attr('style', 'display:none');
+	if ((render && page.indexOf(content.post_type) != -1) || (render && content.post_type == "general")) {
+		if (content.accordion) {
+			var section = $(content.container);
+
+			if (section.is(':visible')) {
+				section.find('.posts').prepend(content.complete);
+
+		        section.find('.no-subjects').hide();
+		    }
+		} else {
+			$(content.container).prepend(content.complete);
+
+	        $('.no-subjects').attr('style', 'display:none');
+		}	
 	} else {
 		$('.mural_badge').each(function () {
 			var actual = $(this).text();
@@ -55,12 +58,43 @@ function muralNotificationCreate(content) {
 
 			$(this).show();
 		});
+
+		$('.mural-tabs').find('li').each(function () {
+			var identity = $(this).data('mural');
+
+			if (identity == content.post_type) {
+				var span = $(this).find('span'),
+					actual = span.text();
+
+				actual = parseInt(actual, 10) + 1;
+
+				span.text(actual);
+			}
+		});
+
+		if (content.post_type == "subject") {
+			var slug = content.container.substring(1, content.container.length),
+				subject_mbadge = $("#subject_" + slug).find('.mural_notify'),
+				actual = subject_mbadge.text();
+
+			if (actual != "+99") {
+				actual = parseInt(actual, 10) + 1;
+
+				if (actual > 99) {
+					actual = "+99";
+				}
+
+				subject_mbadge.text(actual);
+			}
+
+			subject_mbadge.show();
+		}
 	}
 
 	if (("Notification" in window)) {
 		var options = {
 			icon: content.user_icon,
-			body: content.simple
+			body: content.simple_notify
 		}
 
 	    if (Notification.permission === "granted") {
@@ -71,36 +105,59 @@ function muralNotificationCreate(content) {
   	}
 }
 
-function muralNotificationUpdate(content) {
-	if (window.location.pathname == content.pathname) {
-		var post = $("#post-" + content.post_id);
+function muralNotificationMuralUpdate(content) {
+	var page = window.location.pathname,
+		render = (content.paths.indexOf(page) != -1);
 
-		if (post.is(":visible")) {
-			post.before(content.complete);
+	if (render) {
+		var mural_item = $(content.container);
 
-			post.remove();
+		if (mural_item.is(":visible") || mural_item.is(":hidden")) {
+			mural_item.before(content.complete);
+
+			mural_item.remove();
 		}
 	}
 }
 
-function muralNotificationDelete(content) {
-	if (window.location.pathname == content.pathname) {
-		var post = $("#post-" + content.post_id);
+function muralNotificationMuralDelete(content) {
+	var page = window.location.pathname,
+		render = (content.paths.indexOf(page) != -1);
 
-		if (post.is(":visible")) {
-			post.remove();
+	if (render) {
+		var mural_item = $(content.container);
+
+		if (mural_item.is(":visible") || mural_item.is(":hidden")) {
+			mural_item.remove();
 		}
 	}
 }
 
 function muralNotificationComment(content) {
-	if (window.location.pathname == content.pathname) {
-		if ($("#post-" + content.post_id).is(":visible")) {
-			var section = $("#post-" + content.post_id).find('.comment-section');
+	var page = window.location.pathname,
+		render = (content.paths.indexOf(page) != -1),
+		checker = "general";
 
-			section.append(content.complete);
+	switch (content.post_type) {
+		case "categorypost":
+			checker = "categories";
+			break;
+		case "subjectpost":
+			checker = "subjects";
+			break;
+	}
+
+	if ((render && page.indexOf(checker) != -1) || (render && content.post_type == "generalpost" && page.indexOf("categories") == -1 && page.indexOf("subjects") == -1)) {
+		var section = $(content.container);
+
+		if (section.is(":visible") || section.is(":hidden")) {
+			var comments = section.find('.comment-section');
+
+			comments.append(content.complete);
 		}
 	} else {
+		console.log("Lester");
+
 		$('.mural_badge').each(function () {
 			var actual = $(this).text();
 
@@ -116,55 +173,23 @@ function muralNotificationComment(content) {
 
 			$(this).show();
 		});
-	}
 
-	if (("Notification" in window)) {
-		var options = {
-			icon: content.user_icon,
-			body: content.simple
-		}
+		$('.mural-tabs').find('li').each(function () {
+			var identity = $(this).data('mural');
 
-	    if (Notification.permission === "granted") {
-	    	var notification = new Notification("", options);
+			if ((identity == checker) || (identity == "general" && content.post_type == "generalpost")) {
+				var span = $(this).find('span'),
+					actual = span.text();
 
-	    	setTimeout(notification.close.bind(notification), 3000);
-	    }
-  	}
-}
+				actual = parseInt(actual, 10) + 1;
 
-function muralNotificationCommentUpdate(content) {
-	if (window.location.pathname == content.pathname) {
-		var comment = $("#comment-" + content.comment_id);
+				span.text(actual);
+			}
+		});
 
-		if (comment.is(":visible")) {
-			comment.before(content.complete);
-
-			comment.remove();
-		}
-	}
-}
-
-function muralNotificationCommentDelete(content) {
-	if (window.location.pathname == content.pathname) {
-		var comment = $("#comment-" + content.comment_id);
-
-		if (comment.is(":visible")) {
-			comment.remove();
-		}
-	}
-}
-
-function muralNotificationCategory(content) {
-	var cat_section = $("#" + content.cat);
-	
-	if (window.location.pathname == content.pathname && cat_section.is(':visible')) {
-		
-		cat_section.find('.posts').prepend(content.complete);
-
-        cat_section.find('.no-subjects').hide();
-	} else {
-		$('.mural_badge').each(function () {
-			var actual = $(this).text();
+		if (content.post_type == "subjectpost") {
+			var subject_mbadge = $("#subject_" + content.type_slug).find('.mural_notify'),
+				actual = subject_mbadge.text();
 
 			if (actual != "+99") {
 				actual = parseInt(actual, 10) + 1;
@@ -173,17 +198,17 @@ function muralNotificationCategory(content) {
 					actual = "+99";
 				}
 
-				$(this).text(actual);
+				subject_mbadge.text(actual);
 			}
 
-			$(this).show();
-		});
+			subject_mbadge.show();
+		}
 	}
 
 	if (("Notification" in window)) {
 		var options = {
 			icon: content.user_icon,
-			body: content.simple
+			body: content.simple_notify
 		}
 
 	    if (Notification.permission === "granted") {
@@ -192,26 +217,4 @@ function muralNotificationCategory(content) {
 	    	setTimeout(notification.close.bind(notification), 3000);
 	    }
   	}
-}
-
-function muralNotificationCategoryUpdate(content) {
-	if (window.location.pathname == content.pathname) {
-		var post = $("#post-" + content.post_id);
-
-		if (post.is(":visible") || post.is(":hidden")) {
-			post.before(content.complete);
-
-			post.remove();
-		}
-	}
-}
-
-function muralNotificationCategoryDelete(content) {
-	if (window.location.pathname == content.pathname) {
-		var post = $("#post-" + content.post_id);
-
-		if (post.is(":visible") || post.is(":hidden")) {
-			post.remove();
-		}
-	}
 }

@@ -15,10 +15,10 @@
     <input type="hidden" value="{% url 'mural:manage_subject' %}" class="mural_url" />
 
     <div id="core-subjects-options-div">
-        <ul class="core-subjects-options">
-            <a href="{% url 'mural:manage_general' %}"><li>{% trans "General" %} ({{ totals.general }})</li></a>
-            <a href="{% url 'mural:manage_category' %}"><li>{% trans "Per Category" %} ({{ totals.category }})</li></a>
-            <a href="{% url 'mural:manage_subject' %}"><li class="active">{% trans "Per Subject" %} (<span class="sub_badge">{{ totals.subject }}</span>)</li></a>
+        <ul class="core-subjects-options mural-tabs">
+            <a href="{% url 'mural:manage_general' %}"><li data-mural="general">{% trans "General" %} (<span>{{ totals.general }}</span>)</li></a>
+            <a href="{% url 'mural:manage_category' %}"><li data-mural="categories">{% trans "Per Category" %} (<span>{{ totals.category }}</span>)</li></a>
+            <a href="{% url 'mural:manage_subject' %}"><li data-mural="subjects" class="active">{% trans "Per Subject" %} (<span class="ung_badge">{{ totals.subject }}</span>)</li></a>
         </ul>
     </div>
 
@@ -64,7 +64,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="{{subject.slug}}" class="panel-collapse panel-body collapse mural-subject">
+                            <div id="{{subject.slug}}" class="panel-collapse panel-body collapse mural-ungeneral">
                                 <div class="col-md-12 cards-content mural" data-url="{% url 'mural:load_subject' subject.id %}">
                                     <div class="col-md-9 col-sm-9 col-xs-9 mural-list">
                                         <div class="post_make panel panel-default">
@@ -133,5 +133,6 @@
 
     <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/mural.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/mural_subject.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/mural_ungeneral.js' %}"></script>
+    <script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
 {% endblock %}

@@ -32,7 +32,11 @@ class Mural(KnowsChild):
 
 	@always_as_child
 	def get_space(self):
-		pass	
+		pass
+
+	@always_as_child
+	def get_space_slug(self):
+		pass
 
 	@always_as_child
 	def update_link(self):
@@ -51,6 +55,9 @@ class GeneralPost(Mural):
 	def get_space(self):
 		return self.space
 
+	def get_space_slug(self):
+		return ""
+
 	def update_link(self):
 		return "mural:update_general"
 
@@ -65,6 +72,9 @@ class CategoryPost(Mural):
 
 	def get_space(self):
 		return self.space.id
+
+	def get_space_slug(self):
+		return self.space.slug
 
 	def update_link(self):
 		return "mural:update_category"
@@ -81,6 +91,9 @@ class SubjectPost(Mural):
 
 	def get_space(self):
 		return self.space.id
+
+	def get_space_slug(self):
+		return self.space.slug
 
 	def update_link(self):
 		return "mural:update_subject"
