@@ -597,7 +597,13 @@ class SubjectCreate(LoginRequiredMixin, generic.edit.CreateView):
 		users = getSpaceUsers(self.request.user.id, self.object)
 		entries = []
 
-		paths = [reverse("mural:manage_subject")]
+		paths = [
+			reverse("mural:manage_subject"),
+			reverse("mural:subject_view", args = (), kwargs = {'slug': self.object.space.slug})
+		]
+
+		if self.object.resource:
+			paths.append(reverse("mural:resource_view", args = (), kwargs = {'slug': self.object.resource.slug}))
 
 		notification = {
 			"type": "mural",
@@ -668,7 +674,13 @@ class SubjectUpdate(LoginRequiredMixin, generic.UpdateView):
 
 		users = getSpaceUsers(self.request.user.id, self.object)
 		
-		paths = [reverse("mural:manage_subject")]
+		paths = [
+			reverse("mural:manage_subject"),
+			reverse("mural:subject_view", args = (), kwargs = {'slug': self.object.space.slug})
+		]
+
+		if self.object.resource:
+			paths.append(reverse("mural:resource_view", args = (), kwargs = {'slug': self.object.resource.slug}))
 
 		notification = {
 			"type": "mural",
@@ -713,7 +725,13 @@ class SubjectDelete(LoginRequiredMixin, generic.DeleteView):
 	def get_success_url(self):
 		users = getSpaceUsers(self.request.user.id, self.object)
 		
-		paths = [reverse("mural:manage_subject")]
+		paths = [
+			reverse("mural:manage_subject"),
+			reverse("mural:subject_view", args = (), kwargs = {'slug': self.object.space.slug})
+		]
+
+		if self.object.resource:
+			paths.append(reverse("mural:resource_view", args = (), kwargs = {'slug': self.object.resource.slug}))
 
 		notification = {
 			"type": "mural",
@@ -911,7 +929,13 @@ class ResourceCreate(LoginRequiredMixin, generic.edit.CreateView):
 		users = getSpaceUsers(self.request.user.id, self.object)
 		entries = []
 
-		paths = [reverse("mural:manage_subject")]
+		paths = [
+			reverse("mural:manage_subject"),
+			reverse("mural:subject_view", args = (), kwargs = {'slug': self.object.space.slug})
+		]
+
+		if self.object.resource:
+			paths.append(reverse("mural:resource_view", args = (), kwargs = {'slug': self.object.resource.slug}))
 
 		notification = {
 			"type": "mural",
@@ -1023,6 +1047,12 @@ class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
 			reverse("mural:manage_subject")
 		]
 
+		if post._my_subclass == "subjectpost":
+			paths.append(reverse("mural:subject_view", args = (), kwargs = {'slug': post.get_space_slug()}))
+
+			if post.subjectpost.resource:
+				paths.append(reverse("mural:resource_view", args = (), kwargs = {'slug': post.subjectpost.resource.slug}))
+
 		notification = {
 			"type": "mural",
 			"subtype": "comment",
@@ -1086,6 +1116,12 @@ class CommentUpdate(LoginRequiredMixin, generic.UpdateView):
 			reverse("mural:manage_subject")
 		]
 
+		if self.object.post._my_subclass == "subjectpost":
+			paths.append(reverse("mural:subject_view", args = (), kwargs = {'slug': self.object.post.get_space_slug()}))
+
+			if self.object.post.subjectpost.resource:
+				paths.append(reverse("mural:resource_view", args = (), kwargs = {'slug': self.object.post.subjectpost.resource.slug}))
+
 		notification = {
 			"type": "mural",
 			"subtype": "mural_update",
@@ -1134,6 +1170,12 @@ class CommentDelete(LoginRequiredMixin, generic.DeleteView):
 			reverse("mural:manage_category"),
 			reverse("mural:manage_subject")
 		]
+
+		if self.object.post._my_subclass == "subjectpost":
+			paths.append(reverse("mural:subject_view", args = (), kwargs = {'slug': self.object.post.get_space_slug()}))
+
+			if self.object.post.subjectpost.resource:
+				paths.append(reverse("mural:resource_view", args = (), kwargs = {'slug': self.object.post.subjectpost.resource.slug}))
 
 		notification = {
 			"type": "mural",

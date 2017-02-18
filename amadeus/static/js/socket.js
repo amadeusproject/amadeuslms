@@ -26,9 +26,10 @@ if (socket.readyState == WebSocket.OPEN) socket.onopen();
 
 function muralNotificationPost(content) {
 	var page = window.location.pathname,
-		render = (content.paths.indexOf(page) != -1);
+		render = (content.paths.indexOf(page) != -1),
+		is_resource = (page.indexOf("resource") != -1);
 
-	if ((render && page.indexOf(content.post_type) != -1) || (render && content.post_type == "general")) {
+	if ((render && page.indexOf(content.post_type) != -1) || (render && content.post_type == "general") || (render && is_resource)) {
 		if (content.accordion) {
 			var section = $(content.container);
 
@@ -136,6 +137,7 @@ function muralNotificationMuralDelete(content) {
 function muralNotificationComment(content) {
 	var page = window.location.pathname,
 		render = (content.paths.indexOf(page) != -1),
+		is_resource = (page.indexOf("resource") != -1),
 		checker = "general";
 
 	switch (content.post_type) {
@@ -147,7 +149,7 @@ function muralNotificationComment(content) {
 			break;
 	}
 
-	if ((render && page.indexOf(checker) != -1) || (render && content.post_type == "generalpost" && page.indexOf("categories") == -1 && page.indexOf("subjects") == -1)) {
+	if ((render && page.indexOf(checker) != -1) || (render && content.post_type == "generalpost" && page.indexOf("categories") == -1 && page.indexOf("subjects") == -1) || (render && is_resource)) {
 		var section = $(content.container);
 
 		if (section.is(":visible") || section.is(":hidden")) {

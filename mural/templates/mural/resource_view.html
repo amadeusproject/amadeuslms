@@ -17,10 +17,10 @@
 	{% subject_permissions request.user subject as has_subject_permissions %}
 
     {% if subject.visible %}
-		<div class="panel panel-info topic-panel">
+		<div class="panel panel-info topic-panel" id="subject_{{subject.slug}}">
         	<div class="panel-heading">
 	{% elif has_subject_permissions %}
-		<div class="panel panel-info topic-panel-invisible">
+		<div class="panel panel-info topic-panel-invisible" id="subject_{{subject.slug}}">
         	<div class="panel-heading panel-invisible">
     {% endif %}
         		<div class="row">
