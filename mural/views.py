@@ -16,11 +16,14 @@ import json
 
 from categories.models import Category
 from subjects.models import Subject
+from topics.models import Resource
 from users.models import User
 
 from .models import Mural, GeneralPost, CategoryPost, SubjectPost, MuralVisualizations, MuralFavorites, Comment
-from .forms import GeneralPostForm, CategoryPostForm, SubjectPostForm, CommentForm
+from .forms import GeneralPostForm, CategoryPostForm, SubjectPostForm, ResourcePostForm, CommentForm
 from .utils import getSpaceUsers
+
+from amadeus.permissions import has_subject_view_permissions, has_resource_permissions
 
 """
 	Section for GeneralPost classes
@@ -643,6 +646,13 @@ class SubjectUpdate(LoginRequiredMixin, generic.UpdateView):
 
 		return initial
 
+	def get_form_class(self):
+		if self.object.resource:
+			if "resource" in self.request.META.get('HTTP_REFERER'):
+				self.form_class = ResourcePostForm
+
+		return self.form_class
+
 	def form_invalid(self, form):
 		context = super(SubjectUpdate, self).form_invalid(form)
 		context.status_code = 400
@@ -727,6 +737,14 @@ class SubjectView(LoginRequiredMixin, generic.ListView):
 	context_object_name = "posts"
 	paginate_by = 10
 
+	def dispatch(self, request, *args,**kwargs):
+		subject = get_object_or_404(Subject, slug = kwargs.get('slug', ''))
+
+		if not has_subject_view_permissions(request.user, subject):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(SubjectView, self).dispatch(request, *args, **kwargs)
+
 	def get_queryset(self):
 		user = self.request.user
 		favorites = self.request.GET.get('favorite', False)
@@ -783,6 +801,149 @@ class SubjectView(LoginRequiredMixin, generic.ListView):
 			context['mines'] = "checked"
 
 		return context
+
+"""
+	Section for specific resource post classes
+"""
+class ResourceView(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/resource_view.html'
+	context_object_name = "posts"
+	paginate_by = 10
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		resource = get_object_or_404(Resource, slug = slug)
+
+		if not has_resource_permissions(request.user, resource):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(ResourceView, self).dispatch(request, *args, **kwargs)
+
+	def get_queryset(self):
+		user = self.request.user
+		favorites = self.request.GET.get('favorite', False)
+		mines = self.request.GET.get('mine', False)
+		showing = self.request.GET.get('showing', False)
+		page = self.request.GET.get('page', False)
+		slug = self.kwargs.get('slug')
+		resource = get_object_or_404(Resource, slug = slug)
+
+		if not favorites:
+			if mines:
+				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(mural_ptr__user = user, resource = resource)
+			else:
+				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(resource = resource)
+		else:
+			if mines:
+				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(favorites_post__isnull = False, favorites_post__user = user, mural_ptr__user = user, resource = resource)
+			else:
+				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(favorites_post__isnull = False, favorites_post__user = user, resource = resource)
+
+		if showing: #Exclude ajax creation posts results
+			showing = showing.split(',')
+			posts = posts.exclude(id__in = showing)
+
+		if not page: #Don't need this if is pagination
+			MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__resource = resource) | Q(comment__post__subjectpost__resource = resource))).update(viewed = True)
+
+		return posts.order_by("-most_recent")
+
+	def get_context_data(self, **kwargs):
+		context = super(ResourceView, self).get_context_data(**kwargs)
+
+		page = self.request.GET.get('page', '')
+
+		slug = self.kwargs.get('slug', None)
+		resource = get_object_or_404(Resource, slug = slug)
+
+		if page:
+			self.template_name = "mural/_list_view.html"
+
+		context['title'] = _('%s - Mural')%(str(resource))
+		context['subject'] = resource.topic.subject
+		context['resource'] = resource
+		context['favorites'] = ""
+		context['mines'] = ""
+
+		favs = self.request.GET.get('favorite', False)
+
+		if favs:
+			context['favorites'] = "checked"
+
+		mines = self.request.GET.get('mine', False)
+
+		if mines:
+			context['mines'] = "checked"
+
+		return context
+
+class ResourceCreate(LoginRequiredMixin, generic.edit.CreateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'mural/_form.html'
+	form_class = ResourcePostForm
+
+	def form_invalid(self, form):
+		context = super(SubjectCreate, self).form_invalid(form)
+		context.status_code = 400
+
+		return context
+
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+
+		slug = self.kwargs.get('slug', None)
+		sub = get_object_or_404(Subject, slug = slug)
+
+		rslug = self.kwargs.get('rslug', None)
+		resource = get_object_or_404(Resource, slug = rslug)
+
+		self.object.space = sub
+		self.object.resource = resource
+		self.object.user = self.request.user
+
+		self.object.save()
+
+		users = getSpaceUsers(self.request.user.id, self.object)
+		entries = []
+
+		paths = [reverse("mural:manage_subject")]
+
+		notification = {
+			"type": "mural",
+			"subtype": "post",
+			"paths": paths,
+			"user_icon": self.object.user.image_url,
+			"simple_notify": _("%s has made a post in %s")%(str(self.object.user), str(self.object.space)),
+			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
+			"container": "#" + slug, 
+			"accordion": True,
+			"post_type": "subjects"
+		}
+
+		notification = json.dumps(notification)
+
+		for user in users:
+			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
+			Group("user-%s" % user.id).send({'text': notification})
+
+		MuralVisualizations.objects.bulk_create(entries)
+
+		return super(ResourceCreate, self).form_valid(form)
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(ResourceCreate, self).get_context_data(*args, **kwargs)
+
+		context['form_url'] = reverse_lazy("mural:create_resource", args = (), kwargs = {'slug': self.kwargs.get('slug', None), 'rslug': self.kwargs.get('rslug', None)})
+
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('mural:render_post', args = (self.object.id, 'create', 'sub', ))
 
 """
 	Section for common post functions
