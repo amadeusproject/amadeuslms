@@ -41,7 +41,7 @@
                         </h4>
 
                         <div class="col-md-5 pull-right category-card-items">
-                            <a href="" >
+                            <a href="{% url 'mural:resource_view' webpage.slug %}" class="pull-right action_icon">
                                 <i class="fa fa-list" aria-hidden="true"></i>
                                 {% resource_mural_number webpage request.user %}
                             </a>

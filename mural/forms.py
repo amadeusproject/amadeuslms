@@ -77,6 +77,15 @@ class SubjectPostForm(Validation):
 			'post': forms.Textarea
 		}
 
+class ResourcePostForm(Validation):
+	class Meta:
+		model = SubjectPost
+		fields = ['action', 'post', 'image']
+		widgets = {
+			'action': forms.RadioSelect,
+			'post': forms.Textarea
+		}
+
 class CommentForm(forms.ModelForm):
 	MAX_UPLOAD_SIZE = 5*1024*1024
 
