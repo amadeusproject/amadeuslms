@@ -261,3 +261,22 @@ def update_resource_order(request):
 		return JsonResponse({'message': 'ok'})
 
 	return JsonResponse({'message': 'No data received'})
+
+
+def getResourceCount(request):
+	resources = Resource.objects.distinct()
+	
+	data = {}
+	for resource in resources:
+		key = resource.__dict__['_my_subclass']
+		if key in data.keys():
+			data[key] = data[key] + 1
+		else:
+			data[key] = 1
+	
+	data["test"] = 30
+	data["azul"] = 20
+	real_data = []	
+	for item in data.items():
+		real_data.append(item)
+	return JsonResponse(real_data, safe=False)

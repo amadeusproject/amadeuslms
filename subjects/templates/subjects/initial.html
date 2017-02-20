@@ -28,37 +28,26 @@
   <div class="carousel-inner" role="listbox">
     <div class="item active">
      	<h2 class=" my-subjects-title"><b><i>{% trans "Most popular keywords" %}</i></b></h2>
-	<div id="" class="col-md-12">
-		<div class="users-cloud div-users-cloud">
-			<ul class=" users-cloud">
-				{% for tag in tags %}
-					{% if tag.1 == 0 %}
-						<li class="big"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
-					{% elif tag.1 == 1 %}
-						<li class="medium"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
-					{% else %}
-						<li class="small"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
-					{% endif %}
+      	<div id="" class="col-md-12">
+      		<div class="users-cloud div-users-cloud">
+      			<ul class=" users-cloud">
+      				{% for tag in tags %}
+      					{% if tag.1 == 0 %}
+      						<li class="big"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
+      					{% elif tag.1 == 1 %}
+      						<li class="medium"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
+      					{% else %}
+      						<li class="small"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
+      					{% endif %}
 
-					
-				{% endfor %}
-			</ul>
-		</div>
-	</div>
+      					
+      				{% endfor %}
+      			</ul>
+      		</div>
+      	</div>
     </div>
 
-    <div class="item">
-    	
-      <img src="{% static "img/pt-br.png" %} " alt="Chania">
-    </div>
-
-    <div class="item">
-      <img src="{% static "img/en.png" %} " alt="Flower">
-    </div>
-
-    <div class="item">
-      <img src="{% static "img/pt-br.png" %} " alt="Flower">
-    </div>
+   
   </div>
 
   <!-- Left and right controls -->
@@ -93,6 +82,7 @@
 	</div>
 
 	<div id="modal_subject"></div>
+  <script type="text/javascript" src="{% static "js/charts/home.js" %}"></script>
 	<script type="text/javascript" src="{% static "subjects/js/modal_subject.js" %}"></script>
-    <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
 {% endblock content %}
