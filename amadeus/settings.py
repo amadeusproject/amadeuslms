@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'mailsender',
     'security',
     'themes',
+    'api',
 
 ]
 
@@ -288,6 +289,21 @@ S3DIRECT_DESTINATIONS = {
     'material': (lambda original_filename: 'uploads/material/'+str(uuid4())+'.pdf', lambda u: True, ['application/pdf']),
 
 }
+
+#API CONFIG STARTS
+#TELL the rest framework to use a different backend
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',),
+    'DEFAULT_PERMISSION_CLASSES':(
+        'rest_framework.permissions.IsAuthenticated',),
+     'PAGE_SIZE': 10, #pagination purposes
+}
+
+OAUTH2_PROVIDER = {
+    'SCOPES':{'read':'Read scope', 'write': 'Write scope'}
+}
+#API CONFIG ENDS
 
 # FILE UPLOAD
 MAX_UPLOAD_SIZE = 10485760
