@@ -274,8 +274,6 @@ def getResourceCount(request):
 		else:
 			data[key] = 1
 	
-	data["test"] = 30
-	data["azul"] = 20
 	real_data = []	
 	for item in data.items():
 		real_data.append(item)
