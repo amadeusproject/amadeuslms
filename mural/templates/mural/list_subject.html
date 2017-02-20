@@ -66,7 +66,27 @@
                             </div>
                             <div id="{{subject.slug}}" class="panel-collapse panel-body collapse mural-ungeneral">
                                 <div class="col-md-12 cards-content mural" data-url="{% url 'mural:load_subject' subject.id %}">
-                                    <div class="col-md-9 col-sm-9 col-xs-9 mural-list">
+                                    <div class="col-sm-12 col-xs-12 visible-xs visible-sm" style="padding-left: 0px">
+                                        <div class="post-filter post-filter-small">
+                                            <h4>{% trans 'Filter' %}</h4>
+
+                                            <form class="post-filters form-inline" action="" method="GET">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="favorite" type="checkbox"> {% trans 'Favorite posts' %} <i class="fa fa-thumb-tack"></i>
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="mine" type="checkbox"> {% trans 'Only my posts' %}
+                                                    </label>
+                                                </div>
+                                                <button type="submit" class="btn btn-success btn-raised">{% trans 'Filter' %}</button>
+                                                <button type="button" class="btn btn-default btn-raised clear_filter">{% trans 'Clean Filters' %}</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 mural-list">
                                         <div class="post_make panel panel-default">
                                             <div class="panel-body">
                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 user-img text-center">
@@ -98,7 +118,7 @@
                                             <h4>{% trans 'There are no posts in this mural yet.' %}</h4>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 col-sm-3 col-xs-3 post-filter">
+                                    <div class="col-lg-3 col-md-3 hidden-xs hidden-sm post-filter">
                                         <h4>{% trans 'Filter' %}</h4>
 
                                         <form class="post-filters" action="" method="GET">

@@ -43,6 +43,16 @@
 	.mural .post_make .post-field h4 {
 		line-height: 2.3em;
 	}
+
+	.post .post-comment .user-img {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	.comment-section .comment .comment-img {
+		padding-left: 10px;
+		padding-right: 10px;	
+	}
 }
 
 @media(max-width: 768px) {
@@ -131,6 +141,16 @@
 
 	.mural .post_make .post-field h4 {
 		line-height: 2em;
+	}
+
+	.post .post-comment .user-img {
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+
+	.comment-section .comment .comment-img {
+		padding-left: 5px;
+		padding-right: 5px;	
 	}
 }
 

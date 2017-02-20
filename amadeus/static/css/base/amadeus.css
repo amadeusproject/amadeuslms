@@ -1084,6 +1084,18 @@ li.item .notify_badge {
     cursor: text;
 }
 
+.post-filter-small {
+    padding-top: 10px;
+    padding-left: 15px;
+    margin-bottom: 10px;
+}
+.post-filter-small h4 {
+    margin-bottom: 10px !important;
+}
+.post-filter-small .checkbox {
+    margin-right: 15px;
+}
+
 .post-filter h4 {
     font-weight: 700;
     margin-bottom: 15px;

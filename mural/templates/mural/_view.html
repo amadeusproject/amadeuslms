@@ -50,7 +50,7 @@
 			<button type="button" onclick="loadComments($(this))" data-url="{% url 'mural:load_comments' post.mural_ptr_id post.id %}" data-post="{{ post.id }}" class="btn btn-block btn-default btn-sm load-btn">{% trans 'See more comments...' %}</button>
 			{% comments_list request post %}
 		</div>
-		<div class="col-md-12 post-comment">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 post-comment">
 			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 user-img">
 				<div>
 					<img src="{{ request.user.image_url }}" class="img-responsive" />

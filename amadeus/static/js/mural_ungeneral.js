@@ -122,6 +122,22 @@ $('.mural-ungeneral').on('shown.bs.collapse', function(e) {
 		    });
 		});
 
+		$("input[name='favorite']").on('click', function () {
+			var checked = $(this).is(':checked');
+
+			$("input[name='favorite']").each(function () {
+				$(this).prop('checked', checked);
+			});
+		});
+
+		$("input[name='mine']").on('click', function () {
+			var checked = $(this).is(':checked');
+
+			$("input[name='mine']").each(function () {
+				$(this).prop('checked', checked);
+			});
+		});
+
 		filters.submit(function () {
 			var favorite = $(this).find("input[name='favorite']").is(':checked') ? "True" : "",
 				mine = $(this).find("input[name='mine']").is(':checked') ? "True" : "",
@@ -169,7 +185,7 @@ $('.mural-ungeneral').on('shown.bs.collapse', function(e) {
 		clear_filters.click(function () {
 	        var frm = $(this).parent();
 
-	        frm.find("input[type='checkbox']").prop('checked', false);
+	        $("input[type='checkbox']").prop('checked', false);
 
 	        frm.submit();
 	    });
