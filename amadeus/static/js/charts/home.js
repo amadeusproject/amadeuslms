@@ -22,14 +22,14 @@ var resource_donut_chart = {
 	        var padding = 30;
 	        var radius = Math.min(width, height) / 2 - padding;
 	       
-	        var color = d3.scaleOrdinal(d3.schemeCategory20c);
+	        var color = d3.scaleOrdinal(d3.schemeCategory20);
 	        var new_div = d3.select(".carousel-inner").append("div").attr("class","item");
 	        var svg = new_div.append("svg").attr("width", width).attr("height", height)
 	        	.style("margin","auto")
 	        	.style("display","block")
 	        	.append('g')
 	          	.attr('transform', 'translate(' + (width / 2) +
-	            ',' + (height / 2 ) + ')');
+	            ',' + (height / 2 + padding ) + ')');
 	      
 	     
 
@@ -41,7 +41,7 @@ var resource_donut_chart = {
 	        svg.append("text")
 	        	.attr("text-anchor", "middle")
 	        	.attr("x",0  )
-	        	.attr("y", -height/2 + padding)  
+	        	.attr("y", -height/2 )  
 	        	.style("font-size", "30px") 
 	        	.text("Recursos mais utilizados");
 
