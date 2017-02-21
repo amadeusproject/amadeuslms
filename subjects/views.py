@@ -28,7 +28,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CreateSubjectForm, UpdateSubjectForm
 from .utils import has_student_profile, has_professor_profile, count_subjects, get_category_page
 from users.models import User
-from topics.models import Resource
+from topics.models import Topic, Resource
 
 from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions, has_resource_permissions
 
@@ -365,6 +365,10 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
         if not self.object.category.visible:
             self.object.visible = False
             self.object.save()
+
+        if not self.object.visible:
+            Topic.objects.filter(subject = self.object, repository = False).update(visible = False)
+            Resource.objects.filter(topic__subject = self.object, topic__repository = False).update(visible = False)
 
         self.log_context['category_id'] = self.object.category.id
         self.log_context['category_name'] = self.object.category.name

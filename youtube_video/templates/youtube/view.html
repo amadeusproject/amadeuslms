@@ -25,15 +25,15 @@
 		{% endfor %}
 	{% endif %}
 
-	{% subject_permissions request.user subject as has_subject_permissions %}
+	{% resource_permissions request.user youtube as has_resource_permissions %}
 
-	{% if subject.visible %}
-		<div class="panel panel-info topic-panel" style="margin-bottom: 0px;">
-			<div class="panel-heading">
-	{% elif has_subject_permissions %}
-		<div class="panel panel-info topic-panel-invisible" style="margin-bottom: 0px;">
-			<div class="panel-heading panel-invisible">
-	{% endif %}
+    {% if youtube.visible %}
+		<div class="panel panel-info topic-panel">
+        	<div class="panel-heading">
+	{% elif has_resource_permissions %}
+		<div class="panel panel-info topic-panel-invisible">
+        	<div class="panel-heading panel-invisible">
+    {% endif %}
 				<div class="row">
 					<div class="col-md-12 category-header">
 						<h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">

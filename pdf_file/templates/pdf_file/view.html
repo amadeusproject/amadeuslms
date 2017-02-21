@@ -24,14 +24,14 @@
 
 
 {% block content %}
-    {% subject_permissions request.user subject as has_subject_permissions %}
+    {% resource_permissions request.user pdf_file as has_resource_permissions %}
 
- {% if subject.visible %}
-		<div class="panel panel-info topic-panel">
-        	<div class="panel-heading">
-	{% elif has_subject_permissions %}
-		<div class="panel panel-info topic-panel-invisible">
-        	<div class="panel-heading panel-invisible">
+    {% if pdf_file.visible %}
+        <div class="panel panel-info topic-panel">
+            <div class="panel-heading">
+    {% elif has_resource_permissions %}
+        <div class="panel panel-info topic-panel-invisible">
+            <div class="panel-heading panel-invisible">
     {% endif %}
         		<div class="row">
                     <div class="col-md-12 category-header">

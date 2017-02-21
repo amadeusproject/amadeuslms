@@ -61,6 +61,10 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		self.object.save()
 
+		if not self.object.subject.visible and not self.object.repository:
+			self.object.visible = False
+			self.object.save()
+
 		self.log_context['category_id'] = self.object.subject.category.id
 		self.log_context['category_name'] = self.object.subject.category.name
 		self.log_context['category_slug'] = self.object.subject.category.slug
@@ -137,6 +141,13 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 		return context
 
 	def get_success_url(self):
+		if not self.object.subject.visible:
+			self.object.visible = False
+			self.object.save()
+
+		if not self.object.visible and not self.object.repository:
+			Resource.objects.filter(topic = self.object).update(visible = False)
+
 		messages.success(self.request, _('Topic "%s" was updated on virtual enviroment "%s" successfully!')%(self.object.name, self.object.subject.name))
 
 		self.log_context['category_id'] = self.object.subject.category.id

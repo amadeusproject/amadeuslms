@@ -22,6 +22,7 @@ from log.models import Log
 
 import time
 
+from topics.models import Topic, Resource
 from users.models import User
 
 class IndexView(views.SuperuserRequiredMixin, LoginRequiredMixin, ListView):
@@ -212,10 +213,9 @@ class UpdateCategory(LogMixin, UpdateView):
         category = form.save()
 
         if not category.visible:
-            for subjects in category.subject_category.all():
-                subjects.visible = False
-
-                subjects.save()
+            category.subject_category.all().update(visible = False)
+            Topic.objects.filter(subject__category = category, repository = False).update(visible = False)
+            Resource.objects.filter(topic__subject__category = category, topic__repository = False).update(visible = False)
 
         return super(UpdateCategory, self).form_valid(form)
 
