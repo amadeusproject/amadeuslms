@@ -1142,18 +1142,14 @@ li.item .notify_badge {
 
 /* CHART APP */
 .pie-tooltip{
-  background: #eee;
-  box-shadow: 0 0 5px #999999;
-  color: #333;
-  display: none;
+  
+ 
   font-size: 30px;
   left: 130px;
   padding: 10px;
   position: absolute;
   text-align: center;
-  top: 95px;
   width: 80px;
-  z-index: 10;
 }
 
 

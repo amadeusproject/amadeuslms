@@ -60,27 +60,25 @@ var resource_donut_chart = {
 	          .attr('fill', function(d, i) {
 	            return color(i);
 	          });
-	        
+	        var labelArc = d3.arc()
+			    .outerRadius(radius*1.2 - donutInner)
+			    .innerRadius(radius*1.2 - donutInner);
+
 	       	
 	       	svg.selectAll("text.pie-tooltip")
-            .data(dataset)
+            .data(pie(dataset))
             .enter()
             .append("text")
-                    .text(function(d){
-                        return d[0];
-                    })
                     .attr("id", function(d){
-                    	return d[0];
+                    	return d.data[0];
                     })
-                    .attr("class","pie-tooltip");
+                    .attr("class","pie-tooltip")
+                    .attr('fill',"#172121")
+                    .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+				      .attr("dy", ".35em")
+				      .text(function(d) { return d.data[0]; });
 
-            path.on('mouseover', function(d) { //When the mouse is over the path         
-			  $('#'+d.data[0]).css("display", "block");                                   
-			});                                          
-
-			path.on('mouseout', function(d) { //When the mouse "leaves" the path
-			  t = $('#'+d.data[0]).css("display", "none");                                   
-			});                                          
+                                
 
 		}) // end of the get method
 	}
