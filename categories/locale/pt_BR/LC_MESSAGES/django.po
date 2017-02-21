@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-13 16:59-0300\n"
+"POT-Creation-Date: 2017-02-20 22:07-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,10 +37,6 @@ msgstr "Descrição"
 #: categories/models.py:12
 msgid "visible"
 msgstr "Visível"
-
-#: categories/models.py:13
-msgid "coordinators"
-msgstr "Coordenadores"
 
 #: categories/models.py:14
 msgid "Creation Date"
@@ -73,20 +69,20 @@ msgstr "Tente um nome de usuário"
 
 #: categories/templates/categories/category_card.html:18
 #: categories/templates/categories/list.html:69
-#: categories/templates/categories/list.html:116
+#: categories/templates/categories/list.html:114
 msgid "Replicate"
 msgstr "Replicar"
 
 #: categories/templates/categories/category_card.html:19
 #: categories/templates/categories/home_admin_content.html:6
 #: categories/templates/categories/list.html:73
-#: categories/templates/categories/list.html:118
+#: categories/templates/categories/list.html:116
 msgid "Edit"
 msgstr "Editar"
 
 #: categories/templates/categories/category_card.html:20
 #: categories/templates/categories/list.html:74
-#: categories/templates/categories/list.html:119
+#: categories/templates/categories/list.html:117
 msgid "Remove"
 msgstr "Remover"
 
@@ -118,7 +114,7 @@ msgstr "Deletar"
 msgid "categories"
 msgstr "Categorias"
 
-#: categories/templates/categories/list.html:31 categories/views.py:106
+#: categories/templates/categories/list.html:31 categories/views.py:105
 msgid "Create Category"
 msgstr "Criar Categoria"
 
@@ -130,13 +126,13 @@ msgstr "Meus assuntos"
 msgid "all subjects"
 msgstr "Todos os assuntos"
 
-#: categories/templates/categories/list.html:88
-#: categories/templates/categories/list.html:133
+#: categories/templates/categories/list.html:86
+#: categories/templates/categories/list.html:131
 msgid "Coordinator(s) "
 msgstr "Coordenador(es)"
 
-#: categories/templates/categories/list.html:92
-#: categories/templates/categories/list.html:137
+#: categories/templates/categories/list.html:90
+#: categories/templates/categories/list.html:135
 msgid "It doesn't possess coordinators"
 msgstr "Não possui coordenadores"
 
@@ -152,16 +148,16 @@ msgstr "atras"
 msgid "Update: "
 msgstr "Editar: "
 
-#: categories/views.py:104
+#: categories/views.py:103
 msgid "Replicate Category"
 msgstr "Replicar Categoria"
 
-#: categories/views.py:131
+#: categories/views.py:130
 #, python-format
 msgid "Category \"%s\" register successfully!"
 msgstr "Categoria \"%s\" foi registrada com sucesso!"
 
-#: categories/views.py:167
+#: categories/views.py:166
 msgid ""
 "The category cannot be removed, it contains one or more virtual enviroments "
 "attach."
@@ -169,16 +165,19 @@ msgstr ""
 "A categoria não pode ser removida, ela contém um ou mais ambientes virtuais "
 "vinculados."
 
-#: categories/views.py:180
+#: categories/views.py:179
 #, python-format
 msgid "Category \"%s\" removed successfully!"
 msgstr "Categoria \"%s\" removida com sucesso!"
 
-#: categories/views.py:208
+#: categories/views.py:207
 #, python-format
 msgid "Category \"%s\" updated successfully!"
 msgstr "Categoria \"%s\" atualizada com sucesso!"
 
-#: categories/views.py:225
+#: categories/views.py:224
 msgid "Update Category"
 msgstr "Atualizar Categoria"
+
+#~ msgid "coordinators"
+#~ msgstr "Coordenadores"
