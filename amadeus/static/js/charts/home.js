@@ -12,8 +12,8 @@ d3.selection.prototype.last = function() {
   return d3.select(this[last]);
 };
 
-var resource_donut_chart = {
-	build: function(url){
+var charts = {
+	build_resource: function(url){
 		$.get(url, function(dataset){
 			
 
@@ -81,7 +81,134 @@ var resource_donut_chart = {
                                 
 
 		}) // end of the get method
+	},
+
+	build_bubble_user: function(url){
+		$.get(url, function(dataset){
+			var width = 600;
+	        var height = 480;
+	       
+	        
+	       	function min(){
+	       		min = 100000000000;
+	       		for(var i = 0; i < dataset.length; i++){
+	       			if (dataset[i]['count'] < min){
+	       				min = dataset[i]['count'];
+	       			}
+	       		}
+
+	       		return min
+	       	}
+
+	       	function max(){
+	       		max = 0;
+	       		for(var i = 0; i < dataset.length; i++){
+	       			if (dataset[i]['count'] > max){
+	       				max = dataset[i]['count'];
+	       			}
+	       		}
+
+	       		return max
+	       	}
+	       	
+
+
+	        var color = d3.scaleOrdinal(d3.schemeCategory20);
+	         //adding new div to carousel-inner div
+	        var new_div = d3.select(".carousel-inner").append("div").attr("class","item"); 
+	        var radiusScale = d3.scaleSqrt().domain([min(), max()]).range([10,50]);
+	        var svg = new_div.append("svg").attr("width", width).attr("height", height)
+	        	.style("margin","auto")
+	        	.style("display","block")
+	        	.append('g')
+	        	.attr("transform", "translate(0,0)")
+	        	.attr("width", width)
+	        	.attr("height", height);
+
+	        //adding svg title
+
+	        svg.append("text")
+	        	.attr("text-anchor", "middle")
+	        	.attr("x", width/2  )
+	        	.attr("y", 30)  
+	        	.style("font-size", "30px") 
+	        	.text("Usuários mais ativos no Amadeus");
+
+	        var simulation = d3.forceSimulation()
+	        	.force("x", d3.forceX(width/2).strength(0.05))
+	        	.force("y", d3.forceY(height/2).strength(0.05))
+	        	.force("collide", d3.forceCollide(function(d){
+	        		return radiusScale(d['count']);
+	        	}));
+
+	        //First I create as many groups as datapoints so 
+	        //it can hold all other objects (circle, texts, images)
+	        var groups = svg.selectAll('.users-item')
+	        	.data(dataset)
+	        	.enter()
+	        	.append("g")
+	        	.attr("class",".user-dot");
+
+	       	//Create circles to be drawn
+	       	var circles = groups
+	       		.append('circle')
+	       		.attr("r", function(d){
+	       			return radiusScale(d['count']);
+	       		})
+
+	       		.attr("fill", function(d){
+	       			//return color(d['count']);
+	       			return 'url('+'#'+d['user']+')';
+	       		});
+
+
+
+	       	//Add texts to show user names
+	       	groups.append("text")
+	       	.text(function(d){
+	       		return d['user'];
+	       	}).attr("fill", "#FFFFFF");
+
+
+	       	var defs = groups.append('svg:defs');
+
+			defs.append("svg:pattern")
+			    .attr("id", function(d){
+			    	return d['user'];
+			    })
+			    .attr("width", function(d){
+	       			return radiusScale(d['count']);
+	       		})
+			    .attr("height", function(d){
+	       			return radiusScale(d['count']);
+	       		})
+			    .append("svg:image")
+			    .attr("xlink:href", '/uploads/users/estilocabelo.jpg')
+			    .attr("width",function(d){
+	       			return radiusScale(d['count'])*2;
+	       		})
+			    .attr("height", function(d){
+	       			return radiusScale(d['count'])*2;
+	       		})
+			    .attr("x", 0)
+			    .attr("y", 0);
+
+
+
+	       	//simulation
+	       	simulation.nodes(dataset)
+	       		.on('tick', ticked); //so all data points are attached to it
+
+	       	function ticked(){
+	       		groups.attr("transform", function(d){
+	       			return "translate(" + d.x + "," + d.y + ")";
+	       		})
+	       	}
+		});
+
+
 	}
 }
 
-resource_donut_chart.build('/topics/count_resources/');
+charts.build_resource('/topics/count_resources/');
+charts.build_bubble_user('/users/get_users_log/');

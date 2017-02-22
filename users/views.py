@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login as login_user, logout as log
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-from django.db.models import Q
+from django.db.models import Q, Count
 
 from braces import views as braces_mixins
 
@@ -13,7 +13,8 @@ from security.models import Security
 
 from log.decorators import log_decorator
 from log.mixins import LogMixin
-
+from log.models import Log
+from django.http import JsonResponse
 from .models import User
 from .utils import has_dependencies
 from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm, PassResetRequest, SetPasswordForm
@@ -520,6 +521,15 @@ def logout(request, next_page = None):
 		return redirect(next_page)
 
 	return redirect(reverse('users:login'))
+
+
+def get_users_log(request):
+	fifty_users = Log.objects.values('user_id').annotate(count = Count('user_id')).order_by('-count')[:50]
+	
+	return JsonResponse(list(fifty_users.values('user_id','user','count')), safe=False)
+
+
+
 
 # API VIEWS
 class UserViewSet(viewsets.ModelViewSet):
