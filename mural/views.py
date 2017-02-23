@@ -19,6 +19,11 @@ from subjects.models import Subject
 from topics.models import Resource
 from users.models import User
 
+from log.models import Log
+from log.mixins import LogMixin
+from log.decorators import log_decorator, log_decorator_ajax
+import time
+
 from .models import Mural, GeneralPost, CategoryPost, SubjectPost, MuralVisualizations, MuralFavorites, Comment
 from .forms import GeneralPostForm, CategoryPostForm, SubjectPostForm, ResourcePostForm, CommentForm
 from .utils import getSpaceUsers
@@ -28,7 +33,12 @@ from amadeus.permissions import has_subject_view_permissions, has_resource_permi
 """
 	Section for GeneralPost classes
 """
-class GeneralIndex(LoginRequiredMixin, generic.ListView):
+class GeneralIndex(LoginRequiredMixin, LogMixin, generic.ListView):
+	log_component = "mural"
+	log_action = "view"
+	log_resource = "general"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -80,6 +90,12 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
 
 		if page:
 			self.template_name = "mural/_list_view.html"
+		else:
+			self.log_context['timestamp_start'] = str(int(time.time()))
+
+			super(GeneralIndex, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+			self.request.session['log_id'] = Log.objects.latest('id').id
 
 		context['title'] = _('Mural')
 		context['totals'] = self.totals
@@ -99,7 +115,12 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
 
 		return context
 
-class GeneralCreate(LoginRequiredMixin, generic.edit.CreateView):
+class GeneralCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = "mural"
+	log_action = "create_post"
+	log_resource = "general"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -144,6 +165,8 @@ class GeneralCreate(LoginRequiredMixin, generic.edit.CreateView):
 
 		MuralVisualizations.objects.bulk_create(entries)
 
+		super(GeneralCreate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return super(GeneralCreate, self).form_valid(form)
 
 	def get_context_data(self, *args, **kwargs):
@@ -156,7 +179,12 @@ class GeneralCreate(LoginRequiredMixin, generic.edit.CreateView):
 	def get_success_url(self):
 		return reverse_lazy('mural:render_post', args = (self.object.id, 'create', 'gen', ))
 
-class GeneralUpdate(LoginRequiredMixin, generic.UpdateView):
+class GeneralUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
+	log_component = "mural"
+	log_action = "edit_post"
+	log_resource = "general"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -193,6 +221,10 @@ class GeneralUpdate(LoginRequiredMixin, generic.UpdateView):
 
 		for user in users:
 			Group("user-%s" % user.id).send({'text': notification})
+
+		self.log_context['post_id'] = str(self.object.id)
+
+		super(GeneralUpdate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 		
 		return super(GeneralUpdate, self).form_valid(form)
 
@@ -206,7 +238,12 @@ class GeneralUpdate(LoginRequiredMixin, generic.UpdateView):
 	def get_success_url(self):
 		return reverse_lazy('mural:render_post', args = (self.object.id, 'update', 'gen', ))
 
-class GeneralDelete(LoginRequiredMixin, generic.DeleteView):
+class GeneralDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
+	log_component = "mural"
+	log_action = "delete_post"
+	log_resource = "general"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -237,6 +274,10 @@ class GeneralDelete(LoginRequiredMixin, generic.DeleteView):
 
 		for user in users:
 			Group("user-%s" % user.id).send({'text': notification})
+
+		self.log_context['post_id'] = str(self.object.id)
+
+		super(GeneralDelete, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return reverse_lazy('mural:deleted_post')
 
@@ -327,7 +368,12 @@ class CategoryIndex(LoginRequiredMixin, generic.ListView):
 		
 		return context
 
-class CategoryCreate(LoginRequiredMixin, generic.edit.CreateView):
+class CategoryCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = "mural"
+	log_action = "create_post"
+	log_resource = "category"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -376,6 +422,12 @@ class CategoryCreate(LoginRequiredMixin, generic.edit.CreateView):
 
 		MuralVisualizations.objects.bulk_create(entries)
 
+		self.log_context['category_id'] = self.object.space.id
+		self.log_context['category_name'] = self.object.space.name
+		self.log_context['category_slug'] = self.object.space.slug
+
+		super(CategoryCreate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return super(CategoryCreate, self).form_valid(form)
 
 	def get_context_data(self, *args, **kwargs):
@@ -388,7 +440,12 @@ class CategoryCreate(LoginRequiredMixin, generic.edit.CreateView):
 	def get_success_url(self):
 		return reverse_lazy('mural:render_post', args = (self.object.id, 'create', 'cat', ))
 
-class CategoryUpdate(LoginRequiredMixin, generic.UpdateView):
+class CategoryUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
+	log_component = "mural"
+	log_action = "edit_post"
+	log_resource = "category"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -426,6 +483,13 @@ class CategoryUpdate(LoginRequiredMixin, generic.UpdateView):
 		for user in users:
 			Group("user-%s" % user.id).send({'text': notification})
 		
+		self.log_context['post_id'] = self.object.id
+		self.log_context['category_id'] = self.object.space.id
+		self.log_context['category_name'] = self.object.space.name
+		self.log_context['category_slug'] = self.object.space.slug
+
+		super(CategoryUpdate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return super(CategoryUpdate, self).form_valid(form)
 
 	def get_context_data(self, *args, **kwargs):
@@ -438,7 +502,12 @@ class CategoryUpdate(LoginRequiredMixin, generic.UpdateView):
 	def get_success_url(self):
 		return reverse_lazy('mural:render_post', args = (self.object.id, 'update', 'cat', ))
 
-class CategoryDelete(LoginRequiredMixin, generic.DeleteView):
+class CategoryDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
+	log_component = "mural"
+	log_action = "delete_post"
+	log_resource = "category"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -470,7 +539,36 @@ class CategoryDelete(LoginRequiredMixin, generic.DeleteView):
 		for user in users:
 			Group("user-%s" % user.id).send({'text': notification})
 
+		self.log_context['post_id'] = self.object.id
+		self.log_context['category_id'] = self.object.space.id
+		self.log_context['category_name'] = self.object.space.name
+		self.log_context['category_slug'] = self.object.space.slug
+
+		super(CategoryDelete, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return reverse_lazy('mural:deleted_post')
+
+@log_decorator_ajax('mural', 'view', 'category')
+def mural_category_log(request, category):
+    action = request.GET.get('action')
+
+    if action == 'open':
+        category = get_object_or_404(Category, id = category)
+
+        log_context = {}
+        log_context['category_id'] = category.id
+        log_context['category_name'] = category.name
+        log_context['category_slug'] = category.slug
+        log_context['timestamp_start'] = str(int(time.time()))
+        log_context['timestamp_end'] = '-1'
+
+        request.log_context = log_context
+
+        log_id = Log.objects.latest('id').id
+
+        return JsonResponse({'message': 'ok', 'log_id': log_id})
+
+    return JsonResponse({'message': 'ok'})
 
 """
 	Section for SubjectPost classes
@@ -559,7 +657,12 @@ class SubjectIndex(LoginRequiredMixin, generic.ListView):
 		
 		return context
 
-class SubjectCreate(LoginRequiredMixin, generic.edit.CreateView):
+class SubjectCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = "mural"
+	log_action = "create_post"
+	log_resource = "subject"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -625,6 +728,17 @@ class SubjectCreate(LoginRequiredMixin, generic.edit.CreateView):
 
 		MuralVisualizations.objects.bulk_create(entries)
 
+		self.log_context['subject_id'] = self.object.space.id
+		self.log_context['subject_name'] = self.object.space.name
+		self.log_context['subject_slug'] = self.object.space.slug
+
+		if self.object.resource:
+			self.log_context['resource_id'] = self.object.resource.id
+			self.log_context['resource_name'] = self.object.resource.name
+			self.log_context['resource_slug'] = self.object.resource.slug
+
+		super(SubjectCreate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return super(SubjectCreate, self).form_valid(form)
 
 	def get_context_data(self, *args, **kwargs):
@@ -637,7 +751,12 @@ class SubjectCreate(LoginRequiredMixin, generic.edit.CreateView):
 	def get_success_url(self):
 		return reverse_lazy('mural:render_post', args = (self.object.id, 'create', 'sub', ))
 
-class SubjectUpdate(LoginRequiredMixin, generic.UpdateView):
+class SubjectUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
+	log_component = "mural"
+	log_action = "edit_post"
+	log_resource = "subject"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -694,6 +813,18 @@ class SubjectUpdate(LoginRequiredMixin, generic.UpdateView):
 
 		for user in users:
 			Group("user-%s" % user.id).send({'text': notification})
+
+		self.log_context['post_id'] = self.object.id
+		self.log_context['subject_id'] = self.object.space.id
+		self.log_context['subject_name'] = self.object.space.name
+		self.log_context['subject_slug'] = self.object.space.slug
+
+		if self.object.resource:
+			self.log_context['resource_id'] = self.object.resource.id
+			self.log_context['resource_name'] = self.object.resource.name
+			self.log_context['resource_slug'] = self.object.resource.slug
+
+		super(SubjectUpdate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 		
 		return super(SubjectUpdate, self).form_valid(form)
 
@@ -707,7 +838,12 @@ class SubjectUpdate(LoginRequiredMixin, generic.UpdateView):
 	def get_success_url(self):
 		return reverse_lazy('mural:render_post', args = (self.object.id, 'update', 'sub', ))
 
-class SubjectDelete(LoginRequiredMixin, generic.DeleteView):
+class SubjectDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
+	log_component = "mural"
+	log_action = "delete_post"
+	log_resource = "subject"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -745,9 +881,26 @@ class SubjectDelete(LoginRequiredMixin, generic.DeleteView):
 		for user in users:
 			Group("user-%s" % user.id).send({'text': notification})
 
+		self.log_context['post_id'] = self.object.id
+		self.log_context['subject_id'] = self.object.space.id
+		self.log_context['subject_name'] = self.object.space.name
+		self.log_context['subject_slug'] = self.object.space.slug
+
+		if self.object.resource:
+			self.log_context['resource_id'] = self.object.resource.id
+			self.log_context['resource_name'] = self.object.resource.name
+			self.log_context['resource_slug'] = self.object.resource.slug
+
+		super(SubjectDelete, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return reverse_lazy('mural:deleted_post')
 
-class SubjectView(LoginRequiredMixin, generic.ListView):
+class SubjectView(LoginRequiredMixin, LogMixin, generic.ListView):
+	log_component = "mural"
+	log_action = "view"
+	log_resource = "subject"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -802,6 +955,15 @@ class SubjectView(LoginRequiredMixin, generic.ListView):
 
 		if page:
 			self.template_name = "mural/_list_view.html"
+		else:
+			self.log_context['subject_id'] = subject.id
+			self.log_context['subject_name'] = subject.name
+			self.log_context['subject_slug'] = subject.slug
+			self.log_context['timestamp_start'] = str(int(time.time()))
+
+			super(SubjectView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+			self.request.session['log_id'] = Log.objects.latest('id').id
 
 		context['title'] = _('%s - Mural')%(str(subject))
 		context['subject'] = subject
@@ -820,10 +982,37 @@ class SubjectView(LoginRequiredMixin, generic.ListView):
 
 		return context
 
+@log_decorator_ajax('mural', 'view', 'subject')
+def mural_subject_log(request, subject):
+    action = request.GET.get('action')
+
+    if action == 'open':
+        subject = get_object_or_404(Subject, id = subject)
+
+        log_context = {}
+        log_context['subject_id'] = subject.id
+        log_context['subject_name'] = subject.name
+        log_context['subject_slug'] = subject.slug
+        log_context['timestamp_start'] = str(int(time.time()))
+        log_context['timestamp_end'] = '-1'
+
+        request.log_context = log_context
+
+        log_id = Log.objects.latest('id').id
+
+        return JsonResponse({'message': 'ok', 'log_id': log_id})
+
+    return JsonResponse({'message': 'ok'})
+
 """
 	Section for specific resource post classes
 """
-class ResourceView(LoginRequiredMixin, generic.ListView):
+class ResourceView(LoginRequiredMixin, LogMixin, generic.ListView):
+	log_component = "mural"
+	log_action = "view"
+	log_resource = "subject"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -879,6 +1068,18 @@ class ResourceView(LoginRequiredMixin, generic.ListView):
 
 		if page:
 			self.template_name = "mural/_list_view.html"
+		else:
+			self.log_context['subject_id'] = resource.topic.subject.id
+			self.log_context['subject_name'] = resource.topic.subject.name
+			self.log_context['subject_slug'] = resource.topic.subject.slug
+			self.log_context['resource_id'] = resource.id
+			self.log_context['resource_name'] = resource.name
+			self.log_context['resource_slug'] = resource.slug
+			self.log_context['timestamp_start'] = str(int(time.time()))
+
+			super(ResourceView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+			self.request.session['log_id'] = Log.objects.latest('id').id
 
 		context['title'] = _('%s - Mural')%(str(resource))
 		context['subject'] = resource.topic.subject
@@ -898,7 +1099,12 @@ class ResourceView(LoginRequiredMixin, generic.ListView):
 
 		return context
 
-class ResourceCreate(LoginRequiredMixin, generic.edit.CreateView):
+class ResourceCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = "mural"
+	log_action = "create_post"
+	log_resource = "subject"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -957,6 +1163,17 @@ class ResourceCreate(LoginRequiredMixin, generic.edit.CreateView):
 
 		MuralVisualizations.objects.bulk_create(entries)
 
+		self.log_context['subject_id'] = self.object.space.id
+		self.log_context['subject_name'] = self.object.space.name
+		self.log_context['subject_slug'] = self.object.space.slug
+
+		if self.object.resource:
+			self.log_context['resource_id'] = self.object.resource.id
+			self.log_context['resource_name'] = self.object.resource.name
+			self.log_context['resource_slug'] = self.object.resource.slug
+
+		super(ResourceCreate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return super(ResourceCreate, self).form_valid(form)
 
 	def get_context_data(self, *args, **kwargs):
@@ -1014,7 +1231,12 @@ def favorite(request, post):
 """
 	Section for comment functions
 """
-class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
+class CommentCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = "mural"
+	log_action = "create_comment"
+	log_resource = "general"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -1073,6 +1295,30 @@ class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
 
 		MuralVisualizations.objects.bulk_create(entries)
 
+		self.log_context = {}
+		self.log_context['post_id'] = str(post.id)
+
+		if post._my_subclass == "categorypost":
+			self.log_resource = "category"
+
+			self.log_context['category_id'] = post.categorypost.space.id
+			self.log_context['category_name'] = post.categorypost.space.name
+			self.log_context['category_slug'] = post.categorypost.space.slug
+
+		elif post._my_subclass == "subjectpost":
+			self.log_resource = "subject"
+
+			self.log_context['subject_id'] = post.subjectpost.space.id
+			self.log_context['subject_name'] = post.subjectpost.space.name
+			self.log_context['subject_slug'] = post.subjectpost.space.slug
+
+			if post.subjectpost.resource:
+				self.log_context['resource_id'] = post.subjectpost.resource.id
+				self.log_context['resource_name'] = post.subjectpost.resource.name
+				self.log_context['resource_slug'] = post.subjectpost.resource.slug
+
+		super(CommentCreate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return super(CommentCreate, self).form_valid(form)
 
 	def get_context_data(self, *args, **kwargs):
@@ -1087,7 +1333,12 @@ class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
 	def get_success_url(self):
 		return reverse_lazy('mural:render_comment', args = (self.object.id, 'create', ))
 
-class CommentUpdate(LoginRequiredMixin, generic.UpdateView):
+class CommentUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
+	log_component = "mural"
+	log_action = "edit_comment"
+	log_resource = "general"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -1134,6 +1385,31 @@ class CommentUpdate(LoginRequiredMixin, generic.UpdateView):
 
 		for user in users:
 			Group("user-%s" % user.id).send({'text': notification})
+
+		self.log_context = {}
+		self.log_context['post_id'] = str(self.object.post.id)
+		self.log_context['comment_id'] = str(self.object.id)
+
+		if self.object.post._my_subclass == "categorypost":
+			self.log_resource = "category"
+
+			self.log_context['category_id'] = self.object.post.categorypost.space.id
+			self.log_context['category_name'] = self.object.post.categorypost.space.name
+			self.log_context['category_slug'] = self.object.post.categorypost.space.slug
+
+		elif self.object.post._my_subclass == "subjectpost":
+			self.log_resource = "subject"
+
+			self.log_context['subject_id'] = self.object.post.subjectpost.space.id
+			self.log_context['subject_name'] = self.object.post.subjectpost.space.name
+			self.log_context['subject_slug'] = self.object.post.subjectpost.space.slug
+
+			if self.object.post.subjectpost.resource:
+				self.log_context['resource_id'] = self.object.post.subjectpost.resource.id
+				self.log_context['resource_name'] = self.object.post.subjectpost.resource.name
+				self.log_context['resource_slug'] = self.object.post.subjectpost.resource.slug
+
+		super(CommentUpdate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 		
 		return super(CommentUpdate, self).form_valid(form)
 
@@ -1147,7 +1423,12 @@ class CommentUpdate(LoginRequiredMixin, generic.UpdateView):
 	def get_success_url(self):
 		return reverse_lazy('mural:render_comment', args = (self.object.id, 'update', ))
 
-class CommentDelete(LoginRequiredMixin, generic.DeleteView):
+class CommentDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
+	log_component = "mural"
+	log_action = "delete_comment"
+	log_resource = "general"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -1188,6 +1469,31 @@ class CommentDelete(LoginRequiredMixin, generic.DeleteView):
 
 		for user in users:
 			Group("user-%s" % user.id).send({'text': notification})
+
+		self.log_context = {}
+		self.log_context['post_id'] = str(self.object.post.id)
+		self.log_context['comment_id'] = str(self.object.id)
+
+		if self.object.post._my_subclass == "categorypost":
+			self.log_resource = "category"
+
+			self.log_context['category_id'] = self.object.post.categorypost.space.id
+			self.log_context['category_name'] = self.object.post.categorypost.space.name
+			self.log_context['category_slug'] = self.object.post.categorypost.space.slug
+
+		elif self.object.post._my_subclass == "subjectpost":
+			self.log_resource = "subject"
+
+			self.log_context['subject_id'] = self.object.post.subjectpost.space.id
+			self.log_context['subject_name'] = self.object.post.subjectpost.space.name
+			self.log_context['subject_slug'] = self.object.post.subjectpost.space.slug
+
+			if self.object.post.subjectpost.resource:
+				self.log_context['resource_id'] = self.object.post.subjectpost.resource.id
+				self.log_context['resource_name'] = self.object.post.subjectpost.resource.name
+				self.log_context['resource_slug'] = self.object.post.subjectpost.resource.slug
+
+		super(CommentDelete, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return reverse_lazy('mural:deleted_comment')
 
