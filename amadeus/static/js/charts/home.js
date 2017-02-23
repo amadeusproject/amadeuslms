@@ -201,7 +201,9 @@ var charts = {
 	       			return radiusScale(d['count']);
 	       		})
 			    .append("svg:image")
-			    .attr("xlink:href", '/uploads/users/estilocabelo.jpg')
+			    .attr("xlink:href", function(d){
+			    	return d['image'];
+			    })
 			    .attr("width",function(d){
 	       			return radiusScale(d['count'])*2;
 	       		})
