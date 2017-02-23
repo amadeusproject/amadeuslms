@@ -173,8 +173,20 @@ var charts = {
 	       	groups.append("text")
 	       	.text(function(d){
 	       		return d['user'];
-	       	}).attr("fill", "#FFFFFF");
+	       	}).attr("fill", "#FFFFFF")
+	       	.attr("id", function(d){
+	       		return "user_tooltip_"+d['user_id'];
+	       	}).style("display", "none");
 
+
+	       	groups.on("mouseover", function(d){
+	       		$("#"+"user_tooltip_"+d['user_id']).show();
+	       	});
+
+
+	       	groups.on("mouseout", function(d){
+	       		$("#"+"user_tooltip_"+d['user_id']).hide();
+	       	});
 
 	       	var defs = groups.append('svg:defs');
 
