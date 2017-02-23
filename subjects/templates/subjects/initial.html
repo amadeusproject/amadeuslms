@@ -82,7 +82,10 @@
 	</div>
 
 	<div id="modal_subject"></div>
-  <script type="text/javascript" src="{% static "js/charts/home.js" %}"></script>
+  {% if user.is_staff %}
+    <script type="text/javascript" src="{% static "js/charts/home.js" %}"></script>
+  {% endif %}
+  
 	<script type="text/javascript" src="{% static "subjects/js/modal_subject.js" %}"></script>
   <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
 {% endblock content %}

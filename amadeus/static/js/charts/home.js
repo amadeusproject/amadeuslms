@@ -18,7 +18,7 @@ var charts = {
 			
 
 	        var width = 600;
-	        var height = 480;
+	        var height = 300;
 	        var padding = 30;
 	        var radius = Math.min(width, height) / 2 - padding;
 	       
@@ -43,7 +43,10 @@ var charts = {
 	        	.attr("x",0  )
 	        	.attr("y", -height/2 )  
 	        	.style("font-size", "30px") 
-	        	.text("Recursos mais utilizados");
+	        	.text("Recursos mais utilizados")
+	        	.attr("fill", "#003333")
+	        	.style("font-weight", "bold")
+	        	.style("font-style", "italic");
 
 
 	        var pie = d3.pie()
@@ -86,7 +89,7 @@ var charts = {
 	build_bubble_user: function(url){
 		$.get(url, function(dataset){
 			var width = 600;
-	        var height = 480;
+	        var height = 300;
 	       
 	        
 	       	function min(){
@@ -132,7 +135,10 @@ var charts = {
 	        	.attr("x", width/2  )
 	        	.attr("y", 30)  
 	        	.style("font-size", "30px") 
-	        	.text("Usuários mais ativos no Amadeus");
+	        	.text("Usuários mais ativos no Amadeus")
+	        	.attr("fill", "#003333")
+	        	.style("font-weight", "bold")
+	        	.style("font-style", "italic");
 
 	        var simulation = d3.forceSimulation()
 	        	.force("x", d3.forceX(width/2).strength(0.05))
@@ -158,7 +164,7 @@ var charts = {
 
 	       		.attr("fill", function(d){
 	       			//return color(d['count']);
-	       			return 'url('+'#'+d['user']+')';
+	       			return 'url('+'#'+'user_'+d['user_id']+')';
 	       		});
 
 
@@ -174,7 +180,7 @@ var charts = {
 
 			defs.append("svg:pattern")
 			    .attr("id", function(d){
-			    	return d['user'];
+			    	return "user_"+d['user_id'];
 			    })
 			    .attr("width", function(d){
 	       			return radiusScale(d['count']);

@@ -525,8 +525,12 @@ def logout(request, next_page = None):
 
 def get_users_log(request):
 	fifty_users = Log.objects.values('user_id').annotate(count = Count('user_id')).order_by('-count')[:50]
-	
-	return JsonResponse(list(fifty_users.values('user_id','user','count')), safe=False)
+	fifty_users = list(fifty_users)
+	for user in fifty_users:
+		user_object = User.objects.get(id=user['user_id'])
+		user['image'] = user_object.image_url
+		user['user'] = user_object.social_name
+	return JsonResponse(fifty_users, safe=False)
 
 
 
