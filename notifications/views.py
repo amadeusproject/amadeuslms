@@ -17,10 +17,20 @@ from amadeus.permissions import has_subject_view_permissions, has_category_permi
 from subjects.models import Subject
 from categories.models import Category
 
+from log.models import Log
+from log.mixins import LogMixin
+from log.decorators import log_decorator, log_decorator_ajax
+import time
+
 from .models import Notification
 from .utils import get_order_by, is_date
 
-class SubjectNotifications(LoginRequiredMixin, generic.ListView):
+class SubjectNotifications(LoginRequiredMixin, LogMixin, generic.ListView):
+    log_component = 'pendencies'
+    log_action = 'view'
+    log_resource = 'pendencies'
+    log_context = {}
+
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
@@ -60,9 +70,24 @@ class SubjectNotifications(LoginRequiredMixin, generic.ListView):
         context['subject'] = subject
         context['total'] = self.total
 
+        self.log_context['subject_id'] = subject.id
+        self.log_context['subject_name'] = subject.name
+        self.log_context['subject_slug'] = subject.slug
+        self.log_context['view_page'] = self.request.GET.get("page", 1)
+        self.log_context['timestamp_start'] = str(int(time.time()))
+
+        super(SubjectNotifications, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+        self.request.session['log_id'] = Log.objects.latest('id').id
+
         return context
 
-class SubjectHistory(LoginRequiredMixin, generic.ListView):
+class SubjectHistory(LoginRequiredMixin, LogMixin, generic.ListView):
+    log_component = 'pendencies'
+    log_action = 'view_history'
+    log_resource = 'pendencies'
+    log_context = {}
+
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
@@ -126,6 +151,17 @@ class SubjectHistory(LoginRequiredMixin, generic.ListView):
         context['total'] = self.total
         context['rows'] = self.num_rows
         context['searched'] = self.request.GET.get("search", "")
+
+        self.log_context['subject_id'] = subject.id
+        self.log_context['subject_name'] = subject.name
+        self.log_context['subject_slug'] = subject.slug
+        self.log_context['history_page'] = self.request.GET.get("page", 1)
+        self.log_context['searched'] = self.request.GET.get("search", "")
+        self.log_context['timestamp_start'] = str(int(time.time()))
+
+        super(SubjectHistory, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+        self.request.session['log_id'] = Log.objects.latest('id').id
 
         return context
 
@@ -237,6 +273,7 @@ class AjaxHistory(LoginRequiredMixin, generic.ListView):
         return context
 
 @login_required
+@log_decorator('pendencies', 'set_goal', 'pendencies')
 def set_goal(request):
     if request.method == "POST" and request.is_ajax():
         meta = request.POST.get('meta', None)
@@ -264,9 +301,59 @@ def set_goal(request):
         notification.meta = meta
         notification.save()
 
+        log_context = {}
+        log_context['notification_id'] = notification.id
+        log_context['notification'] = str(notification)
+
+        request.log_context = log_context
+
         if notification.level == 2:
-            message = _('Your new goal to realize the task %s is %s')%(str(notification.task), formats.date_format(meta, "SHORT_DATETIME_FORMAT"))
+            message = _('Your new goal to realize the task %s is %s')%(str(notification), formats.date_format(meta, "SHORT_DATETIME_FORMAT"))
         else:
-            message = _('Your goal to realize the task %s is %s')%(str(notification.task), formats.date_format(meta, "SHORT_DATETIME_FORMAT"))
+            message = _('Your goal to realize the task %s is %s')%(str(notification), formats.date_format(meta, "SHORT_DATETIME_FORMAT"))
 
     return JsonResponse({'error': False, 'message': message})
+
+@log_decorator_ajax('pendencies', 'view', 'pendencies')
+def pendencies_view_log(request, subject):
+    action = request.GET.get('action')
+
+    if action == 'open':
+        subject = get_object_or_404(Subject, id = subject)
+
+        log_context = {}
+        log_context['subject_id'] = subject.id
+        log_context['subject_name'] = subject.name
+        log_context['subject_slug'] = subject.slug
+        log_context['timestamp_start'] = str(int(time.time()))
+        log_context['timestamp_end'] = '-1'
+
+        request.log_context = log_context
+
+        log_id = Log.objects.latest('id').id
+
+        return JsonResponse({'message': 'ok', 'log_id': log_id})
+
+    return JsonResponse({'message': 'ok'})
+
+@log_decorator_ajax('pendencies', 'view_history', 'pendencies')
+def pendencies_hist_log(request, subject):
+    action = request.GET.get('action')
+
+    if action == 'open':
+        subject = get_object_or_404(Subject, id = subject)
+
+        log_context = {}
+        log_context['subject_id'] = subject.id
+        log_context['subject_name'] = subject.name
+        log_context['subject_slug'] = subject.slug
+        log_context['timestamp_start'] = str(int(time.time()))
+        log_context['timestamp_end'] = '-1'
+
+        request.log_context = log_context
+
+        log_id = Log.objects.latest('id').id
+
+        return JsonResponse({'message': 'ok', 'log_id': log_id})
+
+    return JsonResponse({'message': 'ok'})

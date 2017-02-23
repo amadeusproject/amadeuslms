@@ -65,6 +65,40 @@ $('.pendencies-content').on('hidden.bs.collapse', function(e) {
         if (h_items > 10) {
         	h_holder.jPages("destroy");
         }
+
+        var url = pendencies.find('.view_log_url').val();
+        var log_id = pendencies.find('.view_log_id').val();
+
+        if (typeof(url) != 'undefined') {
+            $.ajax({
+                url: url,
+                data: {'action': 'close', 'log_id': log_id},
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data.message);
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        var hist_url = history.find('.hist_log_url').val();
+        var hist_log_id = history.find('.hist_log_id').val();
+
+        if (typeof(hist_url) != 'undefined' && hist_log_id != "") {
+            $.ajax({
+                url: hist_url,
+                data: {'action': 'close', 'log_id': hist_log_id},
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data.message);
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
     }
 });
 
@@ -110,6 +144,40 @@ function getPendencies(panel_id) {
 
         metaFunctions();
 	}
+
+    var url = list.parent().find('.view_log_url').val();
+    var log_input = list.parent().find('.view_log_id');
+
+    if (typeof(url) != 'undefined') {
+        $.ajax({
+            url: url,
+            data: {'action': 'open'},
+            dataType: 'json',
+            success: function (data) {
+                log_input.val(data.log_id);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    var hist_url = list.parent().parent().find('.hist_log_url').val();
+    var hist_log_id = list.parent().parent().find('.hist_log_id').val();
+
+    if (typeof(hist_url) != 'undefined' && hist_log_id != "") {
+        $.ajax({
+            url: hist_url,
+            data: {'action': 'close', 'log_id': hist_log_id},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data.message);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
 
 	list.parent().parent().find('.history').attr('style', 'display: none');
 	list.parent().attr('style', 'display: block');
@@ -165,6 +233,40 @@ function getHistory(panel_id) {
             });
         }
 	}
+
+    var url = container.find('.view_log_url').val();
+    var log_id = container.find('.view_log_id').val();
+
+    if (typeof(url) != 'undefined') {
+        $.ajax({
+            url: url,
+            data: {'action': 'close', 'log_id': log_id},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data.message);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    var hist_url = container.find('.hist_log_url').val();
+    var hist_log_input = container.find('.hist_log_id');
+
+    if (typeof(hist_url) != 'undefined') {
+        $.ajax({
+            url: hist_url,
+            data: {'action': 'open'},
+            dataType: 'json',
+            success: function (data) {
+                hist_log_input.val(data.log_id);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
 
 	container.find('.pendencies_link').removeClass('active');
 	container.find('.history_link').addClass('active');
