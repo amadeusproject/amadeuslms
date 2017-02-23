@@ -41,11 +41,17 @@
 					    </div>
 
 					    <div class="pendencies" data-url="{% url 'notifications:ajax_view' notification.task__resource__topic__subject %}">
+					    	<input type="hidden" class="view_log_url" value="{% url 'notifications:view_log' notification.task__resource__topic__subject %}" />
+            				<input type="hidden" class="view_log_id" value="" />
+					    	
 					    	<div id="pendencies_list_{{ notification.task__resource__topic__subject }}" class="pendencies-cards"></div>
 					    	<div class="holder"></div>
 					    </div>
 
 					    <div class="history" data-url="{% url 'notifications:ajax_history' notification.task__resource__topic__subject %}">
+					    	<input type="hidden" class="hist_log_url" value="{% url 'notifications:hist_log' notification.task__resource__topic__subject %}" />
+            				<input type="hidden" class="hist_log_id" value="" />
+
 					    	<div class="history_data"></div>
 					    	<div class="text-center">
 					    		<div class="holder"></div>

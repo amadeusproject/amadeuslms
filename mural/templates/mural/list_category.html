@@ -66,6 +66,9 @@
                                 </div>
                             </div>
                             <div id="{{category.slug}}" class="panel-collapse panel-body collapse mural-ungeneral">
+                                <input type="hidden" class="log_url" value="{% url 'mural:view_log_cat' category.id %}" />
+                                <input type="hidden" class="log_id" value="" />
+
                                 <div class="col-md-12 cards-content mural" data-url="{% url 'mural:load_category' category.id %}">
                                     <div class="col-sm-12 col-xs-12 visible-xs visible-sm" style="padding-left: 0px">
                                         <div class="post-filter post-filter-small">

@@ -2,6 +2,7 @@
 import datetime
 
 from django import forms
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from subjects.models import Subject
@@ -19,13 +20,17 @@ class PendenciesForm(forms.ModelForm):
 		
 	begin_date_check = forms.BooleanField(required = False)
 	end_date_check = forms.BooleanField(required = False)
+	begin_date = forms.DateTimeField(input_formats = settings.DATETIME_INPUT_FORMATS)
+	end_date = forms.DateTimeField(input_formats = settings.DATETIME_INPUT_FORMATS)
 
 	class Meta:
 		model = Pendencies
-		fields = ['action', 'begin_date', 'end_date']
+		fields = ['action']
 
 	def clean(self):
 		cleaned_data = super(PendenciesForm, self).clean()
+
+		print(cleaned_data)
 
 		pend_id = cleaned_data.get('id', None)
 

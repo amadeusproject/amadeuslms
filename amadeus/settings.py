@@ -269,8 +269,10 @@ OAUTH2_PROVIDER = {
 
 #For date purposes
 DATETIME_INPUT_FORMATS.append('%d/%m/%y')
-DATE_INPUT_FORMATS.append('%d/%m/%y')
 DATETIME_INPUT_FORMATS.append('%m/%d/%y')
+DATETIME_INPUT_FORMATS.append('%m/%d/%Y %I:%M %p')
+DATETIME_INPUT_FORMATS.append('%d/%m/%Y %H:%M')
+DATE_INPUT_FORMATS.append('%d/%m/%y')
 DATE_INPUT_FORMATS.append('%m/%d/%y')
 
 #s3direct

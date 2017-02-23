@@ -7,6 +7,8 @@ urlpatterns = [
 	url(r'^set_goal/$', views.set_goal, name='set_goal'),
 	url(r'^ajax/(?P<id>[\w_-]+)/$', views.AjaxNotifications.as_view(), name='ajax_view'),
 	url(r'^ajax_history/(?P<id>[\w_-]+)/$', views.AjaxHistory.as_view(), name='ajax_history'),
+	url(r'^view_log/(?P<subject>[\w_-]+)/$', views.pendencies_view_log, name = 'view_log'),
+	url(r'^hist_log/(?P<subject>[\w_-]+)/$', views.pendencies_hist_log, name = 'hist_log'),
 	url(r'^(?P<slug>[\w_-]+)/$', views.SubjectNotifications.as_view(), name='view'),
 	url(r'^(?P<slug>[\w_-]+)/history/$', views.SubjectHistory.as_view(), name='history'),
 ]
