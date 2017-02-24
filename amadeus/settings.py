@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'pendencies',
     'mural',
     'file_link',
+    'goals',
     'pdf_file',
     'links',
     'webpage',

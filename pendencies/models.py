@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from topics.models import Resource
 
 class Pendencies(models.Model):
-	action = models.CharField(_('Action'), max_length = 100, choices = (("view", _("Visualize")), ("create", _("Create")), ("answer", _("Answer")), ("access", _("Access")), ("finish", _("Finish"))), blank = True)
+	action = models.CharField(_('Action'), max_length = 100, choices = (("view", _("Visualize")), ("create", _("Create")), ("answer", _("Answer")), ("access", _("Access")), ("finish", _("Finish")), ("submit", _("Submit"))), blank = True)
 	begin_date = models.DateTimeField(_('Begin Date'), null = True, blank = True)
 	end_date = models.DateTimeField(_('End Date'), null = True, blank = True)
 	limit_date = models.DateTimeField(_('Limit Date'), null = True, blank = True)

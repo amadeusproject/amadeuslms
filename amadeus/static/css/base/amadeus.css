@@ -747,7 +747,7 @@ a:focus {
 }
 /* end jPages */
 
-.notifies {
+.notifies, .goalitems {
     padding: 5px 20px;
     text-align: right;
     margin-bottom: 10px;
@@ -761,7 +761,7 @@ a:focus {
     font-weight: 700;
 }
 
-.notifies a.delete-row {
+.notifies a.delete-row, .goalitems a.delete-row {
     padding: 5px 20px;
     font-size: 12px;
     border: none;

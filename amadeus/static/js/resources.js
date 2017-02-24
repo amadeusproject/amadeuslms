@@ -98,6 +98,12 @@ $('.end_date_input').on('click', function () {
 	$(checkbox).prop('checked', true);
 });
 
+$('.limit_date_input').on('click', function () {
+	var checkbox = $(this).parent().parent().find('.limit_date');
+
+	$(checkbox).prop('checked', true);
+});
+
 // check if browser supports drag n drop
 // call initialization file
 if (window.File && window.FileList && window.FileReader) {
