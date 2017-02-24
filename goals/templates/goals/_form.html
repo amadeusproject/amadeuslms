@@ -100,8 +100,10 @@
 		            			<label for="{{ item.ref_value.auto_id }}" class="pull-left action_label contol-label">
 		            				{{ item.ref_value.label }}<span>*</span>: 
 		        				</label>
-		        				<div class="col-md-3">
-		        					{% render_field item.ref_value class='form-control' %}
+		        				<div class="col-md-9">
+		        					<span>0%</span>
+		        					{% render_field item.ref_value class='slider_value' data-slider-min="0" data-slider-max="100" %}
+		        					<span>100%</span>
 		        				</div>
 
 		        				<br clear="all" />
@@ -386,10 +388,28 @@
 </form>
 <script type="text/javascript">
 	$(function() {
+		$(".slider_value").bootstrapSlider({
+			tooltip: 'always'
+		});
+
 		$('.goalitems').formset({
 			addText: '{% trans "Add new goal" %}',
 			deleteText: '{% trans "Remove this goal" %}',
 			prefix: '{{ goalitems_form.prefix }}',
+			added: function (row) {
+				var input = $(row).find(".slider_value"),
+					new_input = $("<input type='number' />");
+				input.parent().find('.slider').remove();
+				new_input.attr('class', input.attr('class'));
+				new_input.attr('id', input.attr('id'));
+				new_input.insertBefore(input);
+				input.remove();
+				new_input.bootstrapSlider({
+					tooltip: 'always',
+					min: '0',
+					max: '100'
+				});
+			}
 		});
 
 		$('.notifies').formset({
