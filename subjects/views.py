@@ -16,6 +16,8 @@ from categories.forms import CategoryForm
 
 from braces import views
 from subjects.models import Subject
+from django.contrib.auth.decorators import login_required
+from collections import namedtuple
 
 from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
@@ -656,3 +658,24 @@ def subject_view_log(request, subject):
 
     return JsonResponse({'message': 'ok'})
 
+
+"""
+Subject view that returns a list of the most used subjects     """
+
+@login_required
+def most_acessed_subjects(request):
+    data = {} #empty response
+
+    data = Log.objects.filter(resource = 'subject')
+    subjects = {}
+    for datum in data:
+        if datum.context:
+            subject_id = datum.context['subject_id'] 
+            if subject_id in subjects.keys():
+                subjects[subject_id]['count']  = subjects[subject_id]['count'] + 1
+            else:
+                subjects[subject_id] = {'name': datum.context['subject_name'], 'count':0 }
+
+
+
+    return JsonResponse(list(subjects.values()), safe=False)

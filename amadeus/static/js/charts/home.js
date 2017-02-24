@@ -82,7 +82,7 @@ var charts = {
                     	return "translate(" + (c[0]*1.0 - 20) +"," + c[1]*0.8 + ")"; 
                     })
 				      .attr("dy", ".25em")
-				      .text(function(d) { return d.data[0]; });
+				      .text(function(d) { return d.data[0] +'('+ d.data[1] +')'; });
 
                                 
 
@@ -174,7 +174,7 @@ var charts = {
 	       	//Add texts to show user names
 	       	groups.append("text")
 	       	.text(function(d){
-	       		return d['user'];
+	       		return d['user'] +'('+ d['count'] + ')';
 	       	}).attr("fill", "#FFFFFF")
 	       	.attr("id", function(d){
 	       		return "user_tooltip_"+d['user_id'];
@@ -233,44 +233,35 @@ var charts = {
 
 	most_accessed_subjects: function(url){
 		$.get(url, function(dataset){
-			var w = 400;
-            var h = 300;
+			var width = 400;
+            var height = 300;
 
             var new_div = d3.select(".carousel-inner").append("div").attr("class","item"); 
 
-         	var padding = 20;
-        	var xScale = d3.scaleLinear().
-        		domain([0 , d3.max(dataset, function(d){ return d[0]; })])
-        		.range([padding, w - padding]);
-        	var yScale = d3.scaleLinear()
-                     .domain([0, d3.max(dataset, function(d) { return d[1]; })])
-                     .range([h - padding, padding]);
+           	var svg = new_div.append("svg").attr("width", "100%").attr("height", height)
+	        	.style("margin","auto")
+	        	.style("display","block");
 
-            svg = d3.select("body").append("svg").attr("height", h).attr("width", w);
-           	svg.selectAll("rect")
+		    svg.selectAll("rect")
 	        .data(dataset)
 	        .enter()
 	            .append("rect")
 	            .attr("x", function(d, i){
-	                return i * (w / dataset.length - barPadding );
+	                return i * (width / dataset.length - 1 );
 	            })
 	            .attr("y", function(d){
-	                return h - d*2;
+	                return height - d.count*2;
 	            })
 	            .attr("width", 20)
 	            .attr("height", function(d){
-	                return d*2;
-	            })
-	            .attr("fill", function(d){
-	                if (d <= average(dataset)){
-	                    return "#BDBDBD";
-	                }else{
-	                    return "red";
-	                }
+	                return d.count*2;
 	            });
-			});
+	        	
+         	
+		});
 	}
 }
 
 charts.build_resource('/topics/count_resources/');
 charts.build_bubble_user('/users/get_users_log/');
+charts.most_accessed_subjects('/subjects/most_accessed_subjects');
