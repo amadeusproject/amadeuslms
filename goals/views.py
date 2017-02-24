@@ -90,7 +90,7 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		if not self.object.topic.visible and not self.object.topic.repository:
 			self.object.visible = False
 
-		self.object.save()
+		#self.object.save()
 
 		pendencies_form.instance = self.object
 		pendencies_form.save(commit = False)
@@ -98,8 +98,8 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		for pform in pendencies_form.forms:
 			pend_form = pform.save(commit = False)
 
-			if not pend_form.action == "":
-				pend_form.save()
+			#if not pend_form.action == "":
+				#pend_form.save()
 
 		goalitems_form.instance = self.object
 		goalitems_form.save(commit = False)

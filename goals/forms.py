@@ -27,11 +27,11 @@ class GoalsForm(forms.ModelForm):
 		self.initial['control_subject'] = self.subject.id
 
 	tags = forms.CharField(label = _('Tags'), required = False)
-	limit_submission_date = forms.DateTimeField(input_formats = settings.DATETIME_INPUT_FORMATS)
+	#limit_submission_date = forms.DateTimeField(input_formats = settings.DATETIME_INPUT_FORMATS)
 
 	class Meta:
 		model = Goals
-		fields = ['name', 'presentation', 'brief_description', 'show_window', 'visible']
+		fields = ['name', 'presentation', 'limit_submission_date', 'brief_description', 'show_window', 'visible']
 		labels = {
 			'name': _('Name'),
 		}

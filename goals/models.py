@@ -7,7 +7,7 @@ from topics.models import Resource
 
 class Goals(Resource):
 	presentation = models.TextField(_('Presentation'), blank = True)
-	limit_submission_date = models.DateTimeField(_('Submission Limit Date'))
+	limit_submission_date = models.DateTimeField(_('Submission Limit Date'), null = True, blank = True)
 
 	class Meta:
 		verbose_name = _('Goal')

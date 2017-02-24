@@ -753,7 +753,7 @@ a:focus {
     margin-bottom: 10px;
 }
 
-.notifies .action_label {
+.notifies .action_label, .goalitems .desc_label {
     padding-top: 7px;
 }
 

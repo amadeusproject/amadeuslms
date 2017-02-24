@@ -71,10 +71,10 @@
 	            			{% if item.instance.pk %}{{ item.DELETE }}{% endif %}
 		            		
 		            		<div class="form-group{% if item.has_error %} has-error {% endif %} row">
-		            			<label for="{{ item.description.auto_id }}" class="pull-left action_label contol-label">
+		            			<label for="{{ item.description.auto_id }}" class="pull-left desc_label contol-label">
 		            				{{ item.description.label }}<span>*</span>: 
 		        				</label>
-		        				<div class="col-md-3">
+		        				<div class="col-md-11">
 		        					{% render_field item.description class='form-control' %}
 		        				</div>
 
@@ -98,12 +98,12 @@
 		            		<br clear="all" />
 		            		<div class="form-group{% if item.has_error %} has-error {% endif %} row">
 		            			<label for="{{ item.ref_value.auto_id }}" class="pull-left action_label contol-label">
-		            				{{ item.ref_value.label }}<span>*</span>: 
+		            				{% trans 'Minimum percentage desired' %}<span>*</span>: 
 		        				</label>
 		        				<div class="col-md-9">
-		        					<span>0%</span>
+		        					<span class="label">0%</span>
 		        					{% render_field item.ref_value class='slider_value' data-slider-min="0" data-slider-max="100" %}
-		        					<span>100%</span>
+		        					<span class="label">100%</span>
 		        				</div>
 
 		        				<br clear="all" />
@@ -389,7 +389,8 @@
 <script type="text/javascript">
 	$(function() {
 		$(".slider_value").bootstrapSlider({
-			tooltip: 'always'
+			tooltip: 'always',
+			value: '0'
 		});
 
 		$('.goalitems').formset({
@@ -407,7 +408,8 @@
 				new_input.bootstrapSlider({
 					tooltip: 'always',
 					min: '0',
-					max: '100'
+					max: '100',
+					value: '0'
 				});
 			}
 		});
