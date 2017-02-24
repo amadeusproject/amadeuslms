@@ -1140,6 +1140,18 @@ li.item .notify_badge {
 }
 
 
+/*Carrosel change*/
+
+                    
+                    
+.carousel-control.right{
+    background-image: none !important;
+}
+
+.carousel-control.left{
+    background-image: none !important;
+}
+
 /* CHART APP */
 .pie-tooltip{
   

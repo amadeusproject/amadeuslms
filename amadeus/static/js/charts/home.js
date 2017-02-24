@@ -33,7 +33,7 @@ var charts = {
 	      
 	     
 
-	        var donutInner = 50;
+	        var donutInner = 20;
 	        var arc = d3.arc()
 	          .innerRadius(radius - donutInner)
 	          .outerRadius(radius);
@@ -64,8 +64,8 @@ var charts = {
 	            return color(i);
 	          });
 	        var labelArc = d3.arc()
-			    .outerRadius(radius*1.2 - donutInner)
-			    .innerRadius(radius*1.2 - donutInner);
+			    .outerRadius(radius - donutInner + 30)
+			    .innerRadius(radius + 20 );
 
 	       	
 	       	svg.selectAll("text.pie-tooltip")
@@ -77,8 +77,11 @@ var charts = {
                     })
                     .attr("class","pie-tooltip")
                     .attr('fill',"#172121")
-                    .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
-				      .attr("dy", ".35em")
+                    .attr("transform", function(d) { 
+                    	c = labelArc.centroid(d);
+                    	return "translate(" + (c[0]*1.0 - 20) +"," + c[1]*0.8 + ")"; 
+                    })
+				      .attr("dy", ".25em")
 				      .text(function(d) { return d.data[0]; });
 
                                 
@@ -163,7 +166,6 @@ var charts = {
 	       		})
 
 	       		.attr("fill", function(d){
-	       			//return color(d['count']);
 	       			return 'url('+'#'+'user_'+d['user_id']+')';
 	       		});
 
@@ -227,6 +229,46 @@ var charts = {
 		});
 
 
+	},
+
+	most_accessed_subjects: function(url){
+		$.get(url, function(dataset){
+			var w = 400;
+            var h = 300;
+
+            var new_div = d3.select(".carousel-inner").append("div").attr("class","item"); 
+
+         	var padding = 20;
+        	var xScale = d3.scaleLinear().
+        		domain([0 , d3.max(dataset, function(d){ return d[0]; })])
+        		.range([padding, w - padding]);
+        	var yScale = d3.scaleLinear()
+                     .domain([0, d3.max(dataset, function(d) { return d[1]; })])
+                     .range([h - padding, padding]);
+
+            svg = d3.select("body").append("svg").attr("height", h).attr("width", w);
+           	svg.selectAll("rect")
+	        .data(dataset)
+	        .enter()
+	            .append("rect")
+	            .attr("x", function(d, i){
+	                return i * (w / dataset.length - barPadding );
+	            })
+	            .attr("y", function(d){
+	                return h - d*2;
+	            })
+	            .attr("width", 20)
+	            .attr("height", function(d){
+	                return d*2;
+	            })
+	            .attr("fill", function(d){
+	                if (d <= average(dataset)){
+	                    return "#BDBDBD";
+	                }else{
+	                    return "red";
+	                }
+	            });
+			});
 	}
 }
 
