@@ -1,5 +1,6 @@
 # coding=utf-8
 from django import forms
+from datetime import datetime
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.forms.models import inlineformset_factory
@@ -13,21 +14,23 @@ from .models import Goals, GoalItem
 
 class GoalsForm(forms.ModelForm):
 	subject = None
+	topic = None
 	control_subject = forms.CharField(widget = forms.HiddenInput())
 	
 	def __init__(self, *args, **kwargs):
 		super(GoalsForm, self).__init__(*args, **kwargs)
 
 		self.subject = kwargs['initial'].get('subject', None)
+		self.topic = kwargs['initial'].get('topic', None)
 
 		if self.instance.id:
 			self.subject = self.instance.topic.subject
+			self.topic = self.instance.topic
 			self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
 		
 		self.initial['control_subject'] = self.subject.id
 
 	tags = forms.CharField(label = _('Tags'), required = False)
-	#limit_submission_date = forms.DateTimeField(input_formats = settings.DATETIME_INPUT_FORMATS)
 
 	class Meta:
 		model = Goals
@@ -43,16 +46,27 @@ class GoalsForm(forms.ModelForm):
 	def clean(self):
 		cleaned_data = super(GoalsForm, self).clean()
 
-		topic = cleaned_data.get('topic', None)
+		limit_submission_date = cleaned_data.get('limit_submission_date', None)
 
-		if topic:
+		if self.topic:
 			if self.instance.id:
-				exist = topic.resource_topic.filter(goals__isnull = False).exclude(id = self.instance.id).exists()
+				exist = self.topic.resource_topic.filter(goals__isnull = False).exclude(id = self.instance.id).exists()
 			else:
-				exist = topic.resource_topic.filter(goals__isnull = False).exists()
+				exist = self.topic.resource_topic.filter(goals__isnull = False).exists()
 
 			if exist:
-				self.add_error('name', _('There already is another resource with the goals specification for the Topic %s')%(str(topic)))
+				self.add_error('name', _('There already is another resource with the goals specification for the Topic %s')%(str(self.topic)))
+
+		if limit_submission_date:
+			if not limit_submission_date == ValueError:
+				if not self.instance.id and limit_submission_date.date() < datetime.today().date():
+					self.add_error('limit_submission_date', _("This input should be filled with a date equal or after today's date."))
+
+				if limit_submission_date.date() < self.subject.init_date:
+					self.add_error('limit_submission_date', _('This input should be filled with a date equal or after the subject begin date.'))
+
+				if limit_submission_date.date() > self.subject.end_date:
+					self.add_error('limit_submission_date', _('This input should be filled with a date equal or after the subject end date.'))
 
 		return cleaned_data
 
@@ -89,6 +103,19 @@ class GoalItemForm(forms.ModelForm):
 	class Meta:
 		model = GoalItem
 		fields = ['description', 'ref_value']
+
+	def clean(self):
+		cleaned_data = super(GoalItemForm, self).clean()
+
+		description = cleaned_data.get('description', None)
+		ref_value = cleaned_data.get('ref_value', None)
+
+		if ref_value and ref_value != "0":
+			if not description:
+				self.add_error('description', _('This field is required.'))
+
+		return cleaned_data
+
 
 InlinePendenciesFormset = inlineformset_factory(Goals, Pendencies, form = PendenciesLimitedForm, extra = 1, max_num = 3, validate_max = True, can_delete = True)
 InlineGoalItemFormset = inlineformset_factory(Goals, GoalItem, form = GoalItemForm, extra = 1, can_delete = True)

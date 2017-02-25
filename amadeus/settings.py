@@ -172,7 +172,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+FORMAT_MODULE_PATH = 'amadeus.formats'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
@@ -269,10 +269,6 @@ OAUTH2_PROVIDER = {
 
 
 #For date purposes
-DATETIME_INPUT_FORMATS.append('%d/%m/%y')
-DATETIME_INPUT_FORMATS.append('%m/%d/%y')
-DATETIME_INPUT_FORMATS.append('%m/%d/%Y %I:%M %p')
-DATETIME_INPUT_FORMATS.append('%d/%m/%Y %H:%M')
 DATE_INPUT_FORMATS.append('%d/%m/%y')
 DATE_INPUT_FORMATS.append('%m/%d/%y')
 

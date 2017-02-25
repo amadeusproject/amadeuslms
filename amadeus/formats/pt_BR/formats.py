@@ -1,0 +1,2 @@
+DATETIME_FORMAT = '%d/%m/%Y %H:%M'
+DATETIME_INPUT_FORMATS = ('%d/%m/%Y %H:%M',)

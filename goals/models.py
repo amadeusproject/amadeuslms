@@ -20,7 +20,7 @@ class Goals(Resource):
 		return reverse_lazy('file_links:download', args = (), kwargs = {'slug': self.slug})
 
 	def update_link(self):
-		return 'file_links:update'
+		return 'goals:update'
 
 	def delete_link(self):
 		return 'file_links:delete'
@@ -29,7 +29,7 @@ class Goals(Resource):
 		return _('Are you sure you want delete the goals')
 
 class GoalItem(models.Model):
-	description = models.CharField(_('Description'), max_length = 255)
+	description = models.CharField(_('Description'), max_length = 255, blank = True)
 	ref_value = models.IntegerField(_('Referential Value'))
 	order = models.PositiveSmallIntegerField(_('Order'), null = True)
 	goal = models.ForeignKey(Goals, verbose_name = _('Goal'), related_name = 'item_goal')
