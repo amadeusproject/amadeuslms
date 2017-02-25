@@ -71,10 +71,10 @@
 	            			{% if item.instance.pk %}{{ item.DELETE }}{% endif %}
 		            		
 		            		<div class="form-group{% if item.has_error %} has-error {% endif %} row">
-		            			<label for="{{ item.description.auto_id }}" class="pull-left action_label contol-label">
+		            			<label for="{{ item.description.auto_id }}" class="pull-left desc_label contol-label">
 		            				{{ item.description.label }}<span>*</span>: 
 		        				</label>
-		        				<div class="col-md-3">
+		        				<div class="col-md-11">
 		        					{% render_field item.description class='form-control' %}
 		        				</div>
 
@@ -98,12 +98,14 @@
 		            		<br clear="all" />
 		            		<div class="form-group{% if item.has_error %} has-error {% endif %} row">
 		            			<label for="{{ item.ref_value.auto_id }}" class="pull-left action_label contol-label">
-		            				{{ item.ref_value.label }}<span>*</span>: 
+		            				{% trans 'Minimum percentage desired' %}<span>*</span>: 
 		        				</label>
 		        				<div class="col-md-9">
-		        					<span>0%</span>
-		        					{% render_field item.ref_value class='slider_value' data-slider-min="0" data-slider-max="100" %}
-		        					<span>100%</span>
+		        					<span class="label">0%</span>
+		        					{% with item.ref_value.value|default:"0" as item_value %}
+		        						{% render_field item.ref_value class='slider_value' data-slider-value=item_value data-slider-min="0" data-slider-max="100" %}
+		        					{% endwith %}
+		        					<span class="label">100%</span>
 		        				</div>
 
 		        				<br clear="all" />
@@ -192,7 +194,7 @@
 				</div>
 			{% endif %}
 		</div>
-	
+		
 		<div class="panel panel-info">
 			<div class="panel-heading">
     			<div class="row">
@@ -212,6 +214,7 @@
 				{% for notify in pendencies_form %}
 	        		<div class="notifies">
 	        			<div style="text-align:left">
+	        				{{ notify.errors }}
 	            			{% render_field notify.id %}
 	            			{% render_field notify.resource %}
 	            			{% render_field notify.subject class='pend_subj' %}
@@ -389,7 +392,7 @@
 <script type="text/javascript">
 	$(function() {
 		$(".slider_value").bootstrapSlider({
-			tooltip: 'always'
+			tooltip: 'always',
 		});
 
 		$('.goalitems').formset({
@@ -407,7 +410,8 @@
 				new_input.bootstrapSlider({
 					tooltip: 'always',
 					min: '0',
-					max: '100'
+					max: '100',
+					value: '0'
 				});
 			}
 		});
@@ -474,6 +478,10 @@
 
 		{% if not pendencies_form.is_valid and pendencies_form.is_bound %}
 			$("#notifications").collapse('toggle');
+		{% endif %}
+
+		{% if not goalitems_form.is_valid and goalitems_form.is_bound %}
+			$("#goal_items").collapse('toggle');
 		{% endif %}
 	});
 </script>

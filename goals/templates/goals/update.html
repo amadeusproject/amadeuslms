@@ -1,0 +1,37 @@
+{% extends 'subjects/view.html' %}
+
+{% load static i18n django_bootstrap_breadcrumbs %}
+
+{% block style %}
+	{{block.super}}
+	<link rel="stylesheet" type="text/css" href="{% static "css/bootstrap-tagsinput.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "css/bootstrap-slider.css" %}">
+{% endblock %}
+
+{% block javascript %}
+	{{block.super}}
+	<script type="text/javascript" src="{% static "js/bootstrap-tagsinput.js" %} "></script>
+	<script type="text/javascript" src="{% static "js/bootstrap-slider.js" %} "></script>
+	<script type="text/javascript" src="{% static "js/jquery.formset.js" %} "></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+	{{ block.super }}
+
+	{% breadcrumb topic 'subjects:topic_view' topic.subject.slug topic.slug %}
+	
+	{% trans 'Edit: Topic Goals ' as bread %}
+	{% breadcrumb bread 'goals:update' topic.slug goal.slug %}
+{% endblock %}
+
+{% block content %}
+	<div class="card">
+		<div class="card-content">
+			<div class="card-body">
+				{% include 'goals/_form.html' %}
+			</div>
+		</div>
+	</div>
+	<br clear="all" />
+	<br clear="all" />
+{% endblock %}
