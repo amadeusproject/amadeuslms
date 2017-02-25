@@ -233,7 +233,7 @@ var charts = {
 
 	most_accessed_subjects: function(url){
 		$.get(url, function(dataset){
-			var width = 400;
+			var width = 1000;
             var height = 300;
 
             var new_div = d3.select(".carousel-inner").append("div").attr("class","item"); 
@@ -242,22 +242,48 @@ var charts = {
 	        	.style("margin","auto")
 	        	.style("display","block");
 
-		    svg.selectAll("rect")
+	        var barPadding = 5
+	        var bottomPadding = 15;
+	      	var padding = 30;
+	      	var yScale = d3.scaleLinear()
+                     .domain([0, d3.max(dataset, function(d) { return d.count; })])
+                     .range([bottomPadding, 300]);
+
+		    var rects = svg.selectAll("rect")
 	        .data(dataset)
 	        .enter()
 	            .append("rect")
 	            .attr("x", function(d, i){
-	                return i * (width / dataset.length - 1 );
+	                return i * (width / dataset.length ) + barPadding ;
 	            })
 	            .attr("y", function(d){
-	                return height - d.count*2;
+	                return height - d.count - bottomPadding;
 	            })
-	            .attr("width", 20)
+	            .attr("width", 
+	            	width / dataset.length - barPadding
+	            )
 	            .attr("height", function(d){
-	                return d.count*2;
+	                return  yScale(d.count);
 	            });
 	        	
-         	
+         	rects.on("mouseover", function(d){
+	       		$(this).attr("fill", "red");
+	       	});
+
+	       	rects.on("mouseout", function(d){
+	       		$(this).attr("fill", "black");
+	       	});
+
+	       	 svg.append("text")
+		        .attr("x", width/2)             
+		        .attr("y", 20)
+		        .attr("text-anchor", "middle")  
+		        .style("font-size", "30px") 
+		        .text("Subjects mais acessados")
+		         .attr("fill", "#003333")
+	        	.style("font-weight", "bold")
+	        	.style("font-style", "italic");
+
 		});
 	}
 }
