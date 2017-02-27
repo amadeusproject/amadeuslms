@@ -118,6 +118,7 @@ class MuralVisualizations(models.Model):
 	post = models.ForeignKey(Mural, verbose_name = _('Post'), related_name = 'visualization_post', null = True)
 	comment = models.ForeignKey(Comment, verbose_name = _('Comment'), related_name = 'visualization_comment', null = True)
 	user = models.ForeignKey(User, verbose_name = _('User'), related_name = "visualization_user", null = True)
+	date_viewed = models.DateTimeField(_('Date/Time Viewed'), null = True, blank = True)
 
 """
 	Model to handle users favorite posts

@@ -23,6 +23,7 @@ from log.models import Log
 from log.mixins import LogMixin
 from log.decorators import log_decorator, log_decorator_ajax
 import time
+from datetime import datetime
 
 from .models import Mural, GeneralPost, CategoryPost, SubjectPost, MuralVisualizations, MuralFavorites, Comment
 from .forms import GeneralPostForm, CategoryPostForm, SubjectPostForm, ResourcePostForm, CommentForm
@@ -77,9 +78,9 @@ class GeneralIndex(LoginRequiredMixin, LogMixin, generic.ListView):
 			self.totals['category'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & ((Q(user__is_staff = True) & (Q(post__categorypost__isnull = False) | Q(comment__post__categorypost__isnull = False))) | Q(post__categorypost__space__coordinators = user) | Q(comment__post__categorypost__space__coordinators = user) | Q(post__categorypost__space__subject_category__students = user) | Q(comment__post__categorypost__space__subject_category__students = user) | Q(post__categorypost__space__subject_category__professor = user) | Q(comment__post__categorypost__space__subject_category__professor = user))).distinct().count()
 			self.totals['subject'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & ((Q(user__is_staff = True) & (Q(post__subjectpost__isnull = False) | Q(comment__post__subjectpost__isnull = False))) | Q(post__subjectpost__space__professor = user) | Q(comment__post__subjectpost__space__professor = user) | Q(post__subjectpost__space__students = user) | Q(comment__post__subjectpost__space__students = user))).distinct().count()
 			
-			general_visualizations.update(viewed = True)
+			general_visualizations.update(viewed = True, date_viewed = datetime.now())
 
-			MuralVisualizations.objects.filter(user = user, viewed = False, comment__post__generalpost__isnull = False).update(viewed = True)
+			MuralVisualizations.objects.filter(user = user, viewed = False, comment__post__generalpost__isnull = False).update(viewed = True, date_viewed = datetime.now())
 
 		return general.order_by("-most_recent")
 
@@ -315,7 +316,7 @@ def load_category_posts(request, category):
 	if has_page is None:
 		views = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(comment__post__categorypost__space__id = category) | Q(post__categorypost__space__id = category)))
 		n_views = views.count()
-		views.update(viewed = True)
+		views.update(viewed = True, date_viewed = datetime.now())
 
 	paginator = Paginator(posts.order_by("-most_recent"), 10)
 
@@ -604,7 +605,7 @@ def load_subject_posts(request, subject):
 	if has_page is None:
 		views = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(comment__post__subjectpost__space__id = subject) | Q(post__subjectpost__space__id = subject)))
 		n_views = views.count()
-		views.update(viewed = True)
+		views.update(viewed = True, date_viewed = datetime.now())
 
 	paginator = Paginator(posts.order_by("-most_recent"), 10)
 
@@ -941,7 +942,7 @@ class SubjectView(LoginRequiredMixin, LogMixin, generic.ListView):
 			posts = posts.exclude(id__in = showing)
 
 		if not page: #Don't need this if is pagination
-			MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space = subject) | Q(comment__post__subjectpost__space = subject))).update(viewed = True)
+			MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space = subject) | Q(comment__post__subjectpost__space = subject))).update(viewed = True, date_viewed = datetime.now())
 
 		return posts.order_by("-most_recent")
 
@@ -1054,7 +1055,7 @@ class ResourceView(LoginRequiredMixin, LogMixin, generic.ListView):
 			posts = posts.exclude(id__in = showing)
 
 		if not page: #Don't need this if is pagination
-			MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__resource = resource) | Q(comment__post__subjectpost__resource = resource))).update(viewed = True)
+			MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__resource = resource) | Q(comment__post__subjectpost__resource = resource))).update(viewed = True, date_viewed = datetime.now())
 
 		return posts.order_by("-most_recent")
 
