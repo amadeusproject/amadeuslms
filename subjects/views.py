@@ -13,7 +13,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from random import shuffle
 from rolepermissions.mixins import HasRoleMixin
 from categories.forms import CategoryForm
-
+import operator
 from braces import views
 from subjects.models import Subject
 from django.contrib.auth.decorators import login_required
@@ -676,6 +676,9 @@ def most_acessed_subjects(request):
             else:
                 subjects[subject_id] = {'name': datum.context['subject_name'], 'count':0 }
 
+    
+    #order the values of the dictionary by the count in descendent order
+    subjects = sorted(subjects.values(), key = lambda x: x['count'], reverse=True ) 
+    subjects = subjects[:30]
 
-
-    return JsonResponse(list(subjects.values()), safe=False)
+    return JsonResponse(subjects, safe=False)

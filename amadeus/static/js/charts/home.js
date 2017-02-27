@@ -67,7 +67,7 @@ var charts = {
 			    .outerRadius(radius - donutInner + 30)
 			    .innerRadius(radius + 20 );
 
-	       	
+	       	//Adding tooltips to each part of the pie chart.
 	       	svg.selectAll("text.pie-tooltip")
             .data(pie(dataset))
             .enter()
@@ -192,6 +192,7 @@ var charts = {
 
 	       	var defs = groups.append('svg:defs');
 
+	       	//Attching images to bubbles
 			defs.append("svg:pattern")
 			    .attr("id", function(d){
 			    	return "user_"+d['user_id'];
@@ -233,7 +234,7 @@ var charts = {
 
 	most_accessed_subjects: function(url){
 		$.get(url, function(dataset){
-			var width = 1000;
+			var width = 800;
             var height = 300;
 
             var new_div = d3.select(".carousel-inner").append("div").attr("class","item"); 
@@ -242,22 +243,25 @@ var charts = {
 	        	.style("margin","auto")
 	        	.style("display","block");
 
-	        var barPadding = 5
+	        var barPadding = 2
 	        var bottomPadding = 15;
-	      	var padding = 30;
+	        var marginLeft = 170; //Margin Left for all bars inside the graph
+	      	
 	      	var yScale = d3.scaleLinear()
                      .domain([0, d3.max(dataset, function(d) { return d.count; })])
-                     .range([bottomPadding, 300]);
+                     .range([bottomPadding, 260]);
 
 		    var rects = svg.selectAll("rect")
 	        .data(dataset)
 	        .enter()
-	            .append("rect")
+	        	.append("g");
+	            
+	        rects.append("rect")
 	            .attr("x", function(d, i){
-	                return i * (width / dataset.length ) + barPadding ;
+	                return i * (width / dataset.length ) + barPadding + marginLeft ;
 	            })
 	            .attr("y", function(d){
-	                return height - d.count - bottomPadding;
+	                return height - yScale(d.count) - bottomPadding;
 	            })
 	            .attr("width", 
 	            	width / dataset.length - barPadding
@@ -265,18 +269,39 @@ var charts = {
 	            .attr("height", function(d){
 	                return  yScale(d.count);
 	            });
-	        	
-         	rects.on("mouseover", function(d){
+
+
+	        var tooltipDiv = new_div.append("div").attr("class","bar-tip");
+
+         	rects.on("mouseover", function(d, i){
 	       		$(this).attr("fill", "red");
+	       		$("#accessed_subject_"+i).show(); //So the tooltip is hidden 
+	       		 tooltipDiv.transition()		
+                .duration(200)		
+                .style("opacity", .9);		
+            	tooltipDiv.html("<p style='font-size:9px'>" + d.name + "( " + d.count + " )" +"</p>")	
+                .style("left", (i * (width / dataset.length ) + barPadding + marginLeft) + "px")		
+                .style("top", (height - yScale(d.count) - bottomPadding) + "px");
 	       	});
 
-	       	rects.on("mouseout", function(d){
+	       	rects.on("mouseout", function(d, i ){
 	       		$(this).attr("fill", "black");
+	       		
+	       		$("#accessed_subject_"+i).hide(); //So the tooltip shows up
+
+
+	       		  tooltipDiv.transition()		
+                .duration(500)		
+                .style("opacity", 0);	
+	       			
 	       	});
 
+	     
+
+	        //Styling title
 	       	 svg.append("text")
 		        .attr("x", width/2)             
-		        .attr("y", 20)
+		        .attr("y", 30)
 		        .attr("text-anchor", "middle")  
 		        .style("font-size", "30px") 
 		        .text("Subjects mais acessados")

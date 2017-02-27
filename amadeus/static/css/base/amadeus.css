@@ -1164,6 +1164,20 @@ li.item .notify_badge {
   width: 80px;
 }
 
+.bar-tip{
+    position: absolute;
+    text-align: center;
+    line-height: 1;
+    font-weight: bold;
+    width: 140px;
+    height: 32px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+    pointer-events: none;      
+}
+
 
 
 /**/
