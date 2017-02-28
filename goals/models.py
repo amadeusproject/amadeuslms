@@ -26,10 +26,10 @@ class Goals(Resource):
 		return 'goals:update'
 
 	def delete_link(self):
-		return 'file_links:delete'
+		return 'goals:delete'
 
 	def delete_message(self):
-		return _('Are you sure you want delete the goals')
+		return _('Are you sure you want delete the %s topic goals specification')%(self.topic.name)
 
 class GoalItem(models.Model):
 	description = models.CharField(_('Description'), max_length = 255, blank = True)
