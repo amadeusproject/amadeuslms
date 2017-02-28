@@ -12,6 +12,57 @@ from topics.models import Topic
 from .forms import GoalsForm, InlinePendenciesFormset, InlineGoalItemFormset
 from .models import Goals
 
+class NewWindowView(LoginRequiredMixin, generic.DetailView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'goals/window_view.html'
+	model = Goals
+	context_object_name = 'goals'
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		goals = get_object_or_404(Goals, slug = slug)
+
+		if not has_resource_permissions(request.user, goals):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(NewWindowView, self).dispatch(request, *args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super(NewWindowView, self).get_context_data(**kwargs)
+		
+		context['title'] = (self.object.name)
+
+		return context
+
+class InsideView(LoginRequiredMixin, generic.DetailView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'goals/view.html'
+	model = Goals
+	context_object_name = 'goals'	
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		goals = get_object_or_404(Goals, slug = slug)
+
+		if not has_resource_permissions(request.user, goals):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(InsideView, self).dispatch(request, *args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super(InsideView, self).get_context_data(**kwargs)
+
+		context['title'] = self.object.name
+		
+		context['topic'] = self.object.topic
+		context['subject'] = self.object.topic.subject
+
+		return context
+
 class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
@@ -131,16 +182,16 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 		return context
 
 	def get_success_url(self):
-		messages.success(self.request, _('The topic "%s" Goals specification was realized successfully!')%(self.object.topic.name))
+		messages.success(self.request, _('The Goals specification for the topic %s was realized successfully!')%(self.object.topic.name))
 
-		#success_url = reverse_lazy('youtube:view', kwargs = {'slug': self.object.slug})
+		success_url = reverse_lazy('goals:view', kwargs = {'slug': self.object.slug})
 
-		#if self.object.show_window:
-		#	self.request.session['resources'] = {}
-		#	self.request.session['resources']['new_page'] = True
-		#	self.request.session['resources']['new_page_url'] = reverse('youtube:window_view', kwargs = {'slug': self.object.slug})
+		if self.object.show_window:
+			self.request.session['resources'] = {}
+			self.request.session['resources']['new_page'] = True
+			self.request.session['resources']['new_page_url'] = reverse('goals:window_view', kwargs = {'slug': self.object.slug})
 
-		success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+			success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
 		return success_url
 
@@ -219,7 +270,7 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 		goalitems_form.instance = self.object
 		goalitems_form.save(commit = False)
 
-		g_order = self.object.item_goal.count() + 1
+		g_order = 1
 
 		for gform in goalitems_form.forms:
 			goal_form = gform.save(commit = False)
@@ -246,15 +297,15 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 		return context
 
 	def get_success_url(self):
-		messages.success(self.request, _('The YouTube Video "%s" was updated successfully!')%(self.object.name))
+		messages.success(self.request, _('The Goals specification for the topic %s was updated successfully!')%(self.object.topic.name))
 
-		#success_url = reverse_lazy('youtube:view', kwargs = {'slug': self.object.slug})
+		success_url = reverse_lazy('goals:view', kwargs = {'slug': self.object.slug})
 
-		#if self.object.show_window:
-		#	self.request.session['resources'] = {}
-		#	self.request.session['resources']['new_page'] = True
-		#	self.request.session['resources']['new_page_url'] = reverse('youtube:window_view', kwargs = {'slug': self.object.slug})
+		if self.object.show_window:
+			self.request.session['resources'] = {}
+			self.request.session['resources']['new_page'] = True
+			self.request.session['resources']['new_page_url'] = reverse('goals:window_view', kwargs = {'slug': self.object.slug})
 
-		success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+			success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
 		return success_url

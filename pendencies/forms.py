@@ -188,7 +188,7 @@ class PendenciesLimitedForm(forms.ModelForm):
 					self.add_error('limit_date', _('This input should be filled with a date equal or before the subject end date.'))
 
 		if limit_submission_date:
-			limit_submission_date = datetime.datetime.strptime(limit_submission_date, get_format('DATETIME_FORMAT'))
+			limit_submission_date = datetime.datetime.strptime(limit_submission_date, get_format('DATETIME_CONVERT_FORMAT'))
 			limit_submission_date = timezone.make_aware(limit_submission_date, timezone.get_current_timezone())
 
 			if not begin_date == ValueError and begin_date:

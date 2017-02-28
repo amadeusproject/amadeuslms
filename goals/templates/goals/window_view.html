@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+{% load static i18n %}
+
+<html>
+<head>
+	<title>{{ title }} | {{ theme.title }}</title>
+
+	<script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
+
+	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
+	<link href="{{ theme.favicon_url }}" rel="shortcut icon" />
+
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'material/css/bootstrap-material-design.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-slider.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
+
+	<!-- Custom styles -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus_responsive.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
+
+    {% with 'css/themes/'|add:theme.css_style|add:'.css' as theme_selected %}
+        <link rel="stylesheet" type="text/css" href="{% static theme_selected %}">
+    {% endwith %}
+
+	<script type="text/javascript" src="{% static 'js/bootstrap-slider.js' %} "></script>
+</head>
+<body style="background: #FFF">
+	<div class="container-fluid" style="padding-top: 20px">
+		{% autoescape off %}
+			{{ goals.presentation }}
+		{% endautoescape %}
+
+		<br clear="all" />
+
+		<b>{% trans "Limit submission date" %}:</b> {{ goals.limit_submission_date }}
+
+		<hr class="goal_divider" />
+
+		{% for item in goals.item_goal.all %}
+			<div class="row goal_item">
+				<div class="col-md-12">
+					<h4>{% trans 'Goal' %} {{ item.order }}: {{ item.description }}</h4>
+					<p>{% trans 'Minimum percentage desired' %}: {{ item.ref_value }}%</p>
+					<br clear="all" />
+					<span class="label">0%</span>
+						<input type="text" class="slider_value" value="{{ item.ref_value }}" data-slider-value="{{ item.ref_value }}" data-slider-min="0" data-slider-max="100" />
+					<span class="label">100%</span>
+				</div>
+			</div>
+		{% endfor %}
+
+		<hr />
+
+		<div class="text-center">
+			<a href="#" class="btn btn-success btn-raised">{% trans 'Save' %}</a>
+		</div>
+	</div>
+
+<script type="text/javascript">
+	$(function () {
+		$(".slider_value").bootstrapSlider({
+			tooltip: 'always',
+			enabled: false
+		});
+	});
+</script>
+</body>
+</html>

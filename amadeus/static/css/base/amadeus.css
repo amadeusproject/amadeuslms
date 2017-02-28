@@ -1181,3 +1181,19 @@ li.item .notify_badge {
 
 
 /**/
+
+/* Goals */
+.goal_divider {
+    margin-bottom: 0px;
+    border-top-width: 2px;
+}
+
+.goal_item {
+    margin-bottom: 20px;
+}
+
+.goal_item h4 {
+    font-weight: 700;
+    font-size: 20px;
+}
+/* End Goals */
