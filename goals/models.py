@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy
 
 from topics.models import Resource
+from users.models import User
 
 class Goals(Resource):
 	presentation = models.TextField(_('Presentation'), blank = True)
@@ -20,7 +21,7 @@ class Goals(Resource):
 		if self.show_window:
 			return reverse_lazy('goals:window_view', args = (), kwargs = {'slug': self.slug})
 
-		return reverse_lazy('goals:view', args = (), kwargs = {'slug': self.slug})
+		return reverse_lazy('goals:submit', args = (), kwargs = {'slug': self.slug})
 
 	def update_link(self):
 		return 'goals:update'
@@ -39,3 +40,10 @@ class GoalItem(models.Model):
 
 	class Meta:
 		ordering = ['order']
+
+class MyGoals(models.Model):
+	value = models.IntegerField(_('My Value'))
+	user = models.ForeignKey(User, verbose_name = _('User'), related_name = 'user_goals')
+	item = models.ForeignKey(GoalItem, verbose_name = _('Goal'), related_name = 'mine_goals')
+	create_date = models.DateTimeField(_('Create Date'), auto_now_add = True)
+	last_update = models.DateTimeField(_('Last Update'), auto_now = True)

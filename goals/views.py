@@ -4,13 +4,14 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms import formset_factory
 
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 
 from topics.models import Topic
 
-from .forms import GoalsForm, InlinePendenciesFormset, InlineGoalItemFormset
-from .models import Goals
+from .forms import GoalsForm, MyGoalsForm, InlinePendenciesFormset, InlineGoalItemFormset
+from .models import Goals, MyGoals
 
 class NewWindowView(LoginRequiredMixin, generic.DetailView):
 	login_url = reverse_lazy("users:login")
@@ -36,13 +37,21 @@ class NewWindowView(LoginRequiredMixin, generic.DetailView):
 
 		return context
 
-class InsideView(LoginRequiredMixin, generic.DetailView):
+class InsideView(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
 	template_name = 'goals/view.html'
 	model = Goals
-	context_object_name = 'goals'	
+	context_object_name = 'itens'	
+
+	def get_queryset(self):
+		slug = self.kwargs.get('slug', '')
+		goal = get_object_or_404(Goals, slug = slug)
+
+		goals = MyGoals.objects.filter(user = self.request.user)
+
+		return goals
 
 	def dispatch(self, request, *args, **kwargs):
 		slug = self.kwargs.get('slug', '')
@@ -56,12 +65,99 @@ class InsideView(LoginRequiredMixin, generic.DetailView):
 	def get_context_data(self, **kwargs):
 		context = super(InsideView, self).get_context_data(**kwargs)
 
-		context['title'] = self.object.name
+		slug = self.kwargs.get('slug', '')
+		goals = get_object_or_404(Goals, slug = slug)
+
+		context['title'] = _("My Goals")
 		
-		context['topic'] = self.object.topic
-		context['subject'] = self.object.topic.subject
+		context['goal'] = goals
+		context['topic'] = goals.topic
+		context['subject'] = goals.topic.subject
 
 		return context
+
+class SubmitView(LoginRequiredMixin, generic.edit.CreateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'goals/submit.html'
+	form_class = MyGoalsForm
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		goals = get_object_or_404(Goals, slug = slug)
+
+		if not has_resource_permissions(request.user, goals):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(SubmitView, self).dispatch(request, *args, **kwargs)
+
+	def get(self, request, *args, **kwargs):
+		self.object = None
+		
+		form_class = self.get_form_class()
+		form = self.get_form(form_class)
+
+		slug = self.kwargs.get('slug', '')
+		goals = get_object_or_404(Goals, slug = slug)
+
+		MyGoalsFormset = formset_factory(MyGoalsForm, extra = 0)
+		my_goals_formset = MyGoalsFormset(initial = [{'item': x.id, 'value': x.ref_value} for x in goals.item_goal.all()])
+		
+		return self.render_to_response(self.get_context_data(my_goals_formset = my_goals_formset))
+
+	def post(self, request, *args, **kwargs):
+		self.object = None
+		
+		form_class = self.get_form_class()
+		form = self.get_form(form_class)
+
+		slug = self.kwargs.get('slug', '')
+		goals = get_object_or_404(Goals, slug = slug)
+
+		MyGoalsFormset = formset_factory(MyGoalsForm, extra = 0)
+		my_goals_formset = MyGoalsFormset(self.request.POST, initial = [{'item': x.id, 'value': x.ref_value} for x in goals.item_goal.all()])
+		
+		if (my_goals_formset.is_valid()):
+			return self.form_valid(my_goals_formset)
+		else:
+			return self.form_invalid(my_goals_formset)
+
+	def form_invalid(self, my_goals_formset):
+		return self.render_to_response(self.get_context_data(my_goals_formset = my_goals_formset))
+
+	def form_valid(self, my_goals_formset):
+		for forms in my_goals_formset.forms:
+			form = forms.save(commit = False)
+			form.user = self.request.user
+
+			form.save()
+
+		return redirect(self.get_success_url())
+
+	def get_context_data(self, **kwargs):
+		context = super(SubmitView, self).get_context_data(**kwargs)
+
+		slug = self.kwargs.get('slug', '')
+		goals = get_object_or_404(Goals, slug = slug)
+
+		context['title'] = goals.name
+		
+		context['goals'] = goals
+		context['topic'] = goals.topic
+		context['subject'] = goals.topic.subject
+
+		return context
+
+	def get_success_url(self):
+		slug = self.kwargs.get('slug', '')
+		goals = get_object_or_404(Goals, slug = slug)
+
+		messages.success(self.request, _('Your goals for %s was save successfully!')%(goals.topic.name))
+
+		success_url = reverse_lazy('goals:view', kwargs = {'slug': slug})
+
+		return success_url
 
 class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 	login_url = reverse_lazy("users:login")
@@ -184,7 +280,7 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 	def get_success_url(self):
 		messages.success(self.request, _('The Goals specification for the topic %s was realized successfully!')%(self.object.topic.name))
 
-		success_url = reverse_lazy('goals:view', kwargs = {'slug': self.object.slug})
+		success_url = reverse_lazy('goals:submit', kwargs = {'slug': self.object.slug})
 
 		if self.object.show_window:
 			self.request.session['resources'] = {}
@@ -299,7 +395,7 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 	def get_success_url(self):
 		messages.success(self.request, _('The Goals specification for the topic %s was updated successfully!')%(self.object.topic.name))
 
-		success_url = reverse_lazy('goals:view', kwargs = {'slug': self.object.slug})
+		success_url = reverse_lazy('goals:submit', kwargs = {'slug': self.object.slug})
 
 		if self.object.show_window:
 			self.request.session['resources'] = {}

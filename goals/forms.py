@@ -10,7 +10,7 @@ from subjects.models import Tag
 from pendencies.forms import PendenciesLimitedForm
 from pendencies.models import Pendencies
 
-from .models import Goals, GoalItem
+from .models import Goals, GoalItem, MyGoals
 
 class GoalsForm(forms.ModelForm):
 	subject = None
@@ -116,6 +116,15 @@ class GoalItemForm(forms.ModelForm):
 
 		return cleaned_data
 
+class MyGoalsForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(MyGoalsForm, self).__init__(*args, **kwargs)
+
+		self.fields['item'].widget = forms.HiddenInput()
+
+	class Meta:
+		model = MyGoals
+		fields = ['value', 'item']
 
 InlinePendenciesFormset = inlineformset_factory(Goals, Pendencies, form = PendenciesLimitedForm, extra = 1, max_num = 3, validate_max = True, can_delete = True)
 InlineGoalItemFormset = inlineformset_factory(Goals, GoalItem, form = GoalItemForm, extra = 1, can_delete = True)
