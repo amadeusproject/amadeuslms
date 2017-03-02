@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    
+    {% trans 'Mural: General' as general %}
+
+    {% breadcrumb general 'mural:manage_general' %}
+{% endblock %}
+
+{% block content %}
+	
+{% endblock content %}

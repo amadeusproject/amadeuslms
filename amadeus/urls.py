@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^users/', include('users.urls', namespace = 'users')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', index, name = 'home'),
-    url(r'api/', include('api.urls', namespace = 'api')),
+    url(r'^api/', include('api.urls', namespace = 'api')),
     url(r'^categories/', include('categories.urls', namespace = 'categories')),
     url(r'^subjects/', include('subjects.urls', namespace = 'subjects')),
     url(r'^groups/', include('students_group.urls', namespace = 'groups')),
