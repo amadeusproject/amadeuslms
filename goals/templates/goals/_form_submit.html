@@ -1,0 +1,53 @@
+{% load static i18n util_tags %}
+{% load widget_tweaks %}
+
+<form id="mygoals_submit" method="post" action="" enctype="multipart/form-data">
+	{% csrf_token %}
+
+	{{ my_goals_formset.management_form }}
+    {{ my_goals_formset.non_form_errors }}
+
+	{% for form, item in my_goals_formset|zip:goals.item_goal.all %}
+		{% render_field form.id %}
+		{% render_field form.item %}
+		{{ form.errors }}
+    			
+		{% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+		
+		<div class="form-group{% if form.has_error %} has-error {% endif %} row goal_item">
+			<div class="col-md-12">
+				<h4>{% trans 'Goal' %} {{ item.order }}: {{ item.description }}</h4>
+				<p>{% trans 'Minimum percentage desired' %}: {{ item.ref_value }}%</p>
+				<br clear="all" />
+				<span class="label">0%</span>
+					{% with form.value.value|default:"0" as item_value %}
+						{% render_field form.value class='slider_value' data-slider-value=item_value data-slider-min="0" data-slider-max="100" %}
+					{% endwith %}
+				<span class="label">100%</span>
+			</div>
+
+			<br clear="all" />
+
+			<span id="helpBlock" class="help-block">{{ form.value.help_text }}</span>
+
+			{% if form.value.errors %}
+				<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<ul>
+						{% for error in form.value.errors %}
+							<li>{{ error }}</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
+		</div>
+	{% endfor %}
+</form>
+
+<hr />
+
+<div class="text-center">
+	<button type="submit" form="mygoals_submit" class="btn btn-success btn-raised">{% trans 'Save' %}</a>
+</div>

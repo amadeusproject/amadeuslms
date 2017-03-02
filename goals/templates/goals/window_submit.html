@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
-{% load static i18n %}
+{% load static i18n util_tags %}
+{% load widget_tweaks %}
 
 <html>
 <head>
@@ -40,31 +41,13 @@
 
 		<hr class="goal_divider" />
 
-		{% for item in goals.item_goal.all %}
-			<div class="row goal_item">
-				<div class="col-md-12">
-					<h4>{% trans 'Goal' %} {{ item.order }}: {{ item.description }}</h4>
-					<p>{% trans 'Minimum percentage desired' %}: {{ item.ref_value }}%</p>
-					<br clear="all" />
-					<span class="label">0%</span>
-						<input type="text" class="slider_value" value="{{ item.ref_value }}" data-slider-value="{{ item.ref_value }}" data-slider-min="0" data-slider-max="100" />
-					<span class="label">100%</span>
-				</div>
-			</div>
-		{% endfor %}
-
-		<hr />
-
-		<div class="text-center">
-			<a href="#" class="btn btn-success btn-raised">{% trans 'Save' %}</a>
-		</div>
+		{% include "goals/_form_submit.html" %}
 	</div>
 
 <script type="text/javascript">
 	$(function () {
 		$(".slider_value").bootstrapSlider({
 			tooltip: 'always',
-			enabled: false
 		});
 	});
 </script>

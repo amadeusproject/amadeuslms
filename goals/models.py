@@ -19,7 +19,7 @@ class Goals(Resource):
 
 	def access_link(self):
 		if self.show_window:
-			return reverse_lazy('goals:window_view', args = (), kwargs = {'slug': self.slug})
+			return reverse_lazy('goals:window_submit', args = (), kwargs = {'slug': self.slug})
 
 		return reverse_lazy('goals:submit', args = (), kwargs = {'slug': self.slug})
 

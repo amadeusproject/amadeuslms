@@ -18,6 +18,9 @@
 	{{ block.super }}
 	{% breadcrumb topic 'subjects:topic_view' subject.slug topic.slug %}
 	{% breadcrumb goals 'goals:view' goals.slug %}
+	
+	{% trans 'Update My Goals' as bread %}
+	{% breadcrumb bread 'goals:update_submit' goals.slug %}
 {% endblock %}
 
 {% block content %}
