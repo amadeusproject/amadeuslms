@@ -28,7 +28,7 @@ class ReportView(LoginRequiredMixin, generic.TemplateView):
                     end_date = datetime.strptime(params['end_date'], fmt)
                 except ValueError:
                     pass
-
+            
             for student in students:
                 interactions = {}
                 #first columns
@@ -36,7 +36,7 @@ class ReportView(LoginRequiredMixin, generic.TemplateView):
                 interactions['username'] = student.social_name
                 interactions['init_date'] = init_date
                 interactions['end_date'] = end_date
-                print(datetime.now())
+                
                 #number of help posts created by the student
                 interactions['doubts_count'] = SubjectPost.objects.filter(action="help", create_date__range=(init_date, end_date), 
                 space__id=subject_id, user=student).count()
@@ -79,11 +79,11 @@ class ReportView(LoginRequiredMixin, generic.TemplateView):
                 #Number of student visualizations on the mural of the subject
                 interactions['mural_visualizations_count'] = MuralVisualizations.objects.filter(post__in = SubjectPost.objects.filter(space__id=subject.id),
                     user = student).count()
-                print(datetime.now())
+                
 
                 data[student] = interactions
               
-            print(data)
+            context["data"] = data
 
 
         return context
