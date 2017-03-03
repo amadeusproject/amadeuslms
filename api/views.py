@@ -65,7 +65,7 @@ class ReportView(LoginRequiredMixin, generic.TemplateView):
                 for comment in  comments_by_teacher:
                     help_posts_ids.append(comment.post.id)
                  #number of help posts created by the user that the teacher commented on
-                interactions['help_posts_commented_by_teacher'] = help_posts.filter(user=student, id__in = help_posts_ids)
+                interactions['help_posts_commented_by_teacher'] = help_posts.filter(user=student, id__in = help_posts_ids).count()
 
                
                 comments_by_others = Comment.objects.filter(user__in=subject.students.exclude(id = student.id))
