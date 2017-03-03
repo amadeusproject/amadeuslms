@@ -188,11 +188,13 @@ STATICFILES_DIRS = [
 ]
 
 CRON_CLASSES = [
-    'notifications.cron.Notify'
+    'notifications.cron.Notify',
+    'goals.cron.SetGoals'
 ]
 
 CRONJOBS = [
-    ('1 */12 * * *', 'notifications.cron.notification_cron')
+    ('1 */12 * * *', 'notifications.cron.notification_cron'),
+    ('1 */12 * * *', 'goals.cron.setgoals_cron')
 ]
 
 CHANNEL_LAYERS = {
