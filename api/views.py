@@ -9,6 +9,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import datetime, date
 from subjects.models import Subject
 
+from log.models import Log
+
 class ReportView(LoginRequiredMixin, generic.TemplateView):
     template_name = "api/report.html"
 
@@ -37,9 +39,11 @@ class ReportView(LoginRequiredMixin, generic.TemplateView):
                 interactions['init_date'] = init_date
                 interactions['end_date'] = end_date
                 
+                help_posts_made_by_user = SubjectPost.objects.filter(action="help",space__id=subject.id, user=student, 
+                    create_date__range=(init_date, end_date))
+
                 #number of help posts created by the student
-                interactions['doubts_count'] = SubjectPost.objects.filter(action="help", create_date__range=(init_date, end_date), 
-                space__id=subject_id, user=student).count()
+                interactions['doubts_count'] = help_posts_made_by_user.count()
 
                 help_posts = SubjectPost.objects.filter(action="help", create_date__range=(init_date, end_date), 
                 space__id=subject_id)
@@ -75,15 +79,38 @@ class ReportView(LoginRequiredMixin, generic.TemplateView):
                 #number of help posts created by the user others students commented on
                 interactions['help_posts_commented_by_others'] = help_posts.filter(user=student, id__in = help_posts_ids).count()
 
-
                 #Number of student visualizations on the mural of the subject
                 interactions['mural_visualizations_count'] = MuralVisualizations.objects.filter(post__in = SubjectPost.objects.filter(space__id=subject.id),
                     user = student).count()
                 
 
+                #VAR20 - number of access to mural between 6 a.m to 12a.m.
+                interactions['access_subject_between_6_to_12_am'] =  Log.objects.filter(action="access", resource="subject", 
+                    user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (5, 11)).count()
+
+                #VAR21 - number of access to mural between 6 a.m to 12a.m.
+                interactions['access_subject_between_0_to_6_pm'] =  Log.objects.filter(action="access", resource="subject", 
+                    user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (11, 17)).count()
+                #VAR22
+                interactions['access_subject_between_6_to_12_pm'] =  Log.objects.filter(action="access", resource="subject", 
+                    user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (17, 23)).count()
+
+                #VAR23
+                interactions['access_subject_between_0_to_6_am'] =  Log.objects.filter(action="access", resource="subject", 
+                    user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (23, 5)).count()
+
+                #VAR24 through 30
+                day_numbers = [0, 1, 2, 3, 4, 5, 6]
+                day_names = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
+                for day_num in day_numbers:
+                    interactions['access_subject_'+day_names[day_num]] =  Log.objects.filter(action="access", resource="subject", 
+                    user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__week_day = day_num).count()
+                            
                 data[student] = interactions
               
             context["data"] = data
 
 
         return context
+
+
