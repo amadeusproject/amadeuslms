@@ -13,6 +13,45 @@ from topics.models import Topic
 from .forms import GoalsForm, MyGoalsForm, InlinePendenciesFormset, InlineGoalItemFormset
 from .models import Goals, MyGoals
 
+class AnsweredReport(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+	
+	template_name = 'goals/reports.html'	
+	model = MyGoals
+	context_object_name = 'answered'
+
+	def get_queryset(self):
+		slug = self.kwargs.get('slug', '')
+		goal = get_object_or_404(Goals, slug = slug)
+
+		goals = MyGoals.objects.filter(item__goal = goal)
+
+		return goals
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		goals = get_object_or_404(Goals, slug = slug)
+
+		if not has_resource_permissions(request.user, goals):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(AnsweredReport, self).dispatch(request, *args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super(AnsweredReport, self).get_context_data(**kwargs)
+
+		slug = self.kwargs.get('slug', '')
+		goals = get_object_or_404(Goals, slug = slug)
+
+		context['title'] = _("Reports: Answered")
+		
+		context['goal'] = goals
+		context['topic'] = goals.topic
+		context['subject'] = goals.topic.subject
+
+		return context
+
 class InsideView(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
