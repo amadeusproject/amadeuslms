@@ -410,7 +410,7 @@ class UpdateSubmit(LoginRequiredMixin, LogMixin, generic.UpdateView):
 		goals = get_object_or_404(Goals, slug = slug)
 
 		MyGoalsFormset = modelformset_factory(MyGoals, form = MyGoalsForm, extra = 0)
-		my_goals_formset = MyGoalsFormset()
+		my_goals_formset = MyGoalsFormset(queryset = MyGoals.objects.filter(user = request.user, item__goal = goals))
 		
 		return self.render_to_response(self.get_context_data(my_goals_formset = my_goals_formset))
 
@@ -424,7 +424,7 @@ class UpdateSubmit(LoginRequiredMixin, LogMixin, generic.UpdateView):
 		goals = get_object_or_404(Goals, slug = slug)
 
 		MyGoalsFormset = modelformset_factory(MyGoals, form = MyGoalsForm, extra = 0)
-		my_goals_formset = MyGoalsFormset(self.request.POST)
+		my_goals_formset = MyGoalsFormset(self.request.POST, queryset = MyGoals.objects.filter(user = request.user, item__goal = goals))
 		
 		if (my_goals_formset.is_valid()):
 			return self.form_valid(my_goals_formset)

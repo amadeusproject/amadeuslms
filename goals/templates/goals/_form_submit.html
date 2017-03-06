@@ -8,8 +8,10 @@
     {{ my_goals_formset.non_form_errors }}
 
 	{% for form, item in my_goals_formset|zip:goals.item_goal.all %}
-		{% render_field form.id %}
-		{% render_field form.item %}
+		{% for hidden in form.hidden_fields %}
+	        {{ hidden }}
+	    {% endfor %}
+		
 		{{ form.errors }}
     			
 		{% if form.instance.pk %}{{ form.DELETE }}{% endif %}
