@@ -6,6 +6,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import formset_factory, modelformset_factory
 
+from log.models import Log
+from log.mixins import LogMixin
+from log.decorators import log_decorator, log_decorator_ajax
+import time
+
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 
 from topics.models import Topic
@@ -52,7 +57,12 @@ class AnsweredReport(LoginRequiredMixin, generic.ListView):
 
 		return context
 
-class InsideView(LoginRequiredMixin, generic.ListView):
+class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
+	log_component = "resources"
+	log_action = "view"
+	log_resource = "my_goals"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -89,9 +99,32 @@ class InsideView(LoginRequiredMixin, generic.ListView):
 		context['topic'] = goals.topic
 		context['subject'] = goals.topic.subject
 
+		self.log_context['category_id'] = goals.topic.subject.category.id
+		self.log_context['category_name'] = goals.topic.subject.category.name
+		self.log_context['category_slug'] = goals.topic.subject.category.slug
+		self.log_context['subject_id'] = goals.topic.subject.id
+		self.log_context['subject_name'] = goals.topic.subject.name
+		self.log_context['subject_slug'] = goals.topic.subject.slug
+		self.log_context['topic_id'] = goals.topic.id
+		self.log_context['topic_name'] = goals.topic.name
+		self.log_context['topic_slug'] = goals.topic.slug
+		self.log_context['goals_id'] = goals.id
+		self.log_context['goals_name'] = goals.name
+		self.log_context['goals_slug'] = goals.slug
+		self.log_context['timestamp_start'] = str(int(time.time()))
+
+		super(InsideView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
 		return context
 
-class NewWindowSubmit(LoginRequiredMixin, generic.edit.CreateView):
+class NewWindowSubmit(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = "resources"
+	log_action = "submit"
+	log_resource = "goals"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -121,6 +154,28 @@ class NewWindowSubmit(LoginRequiredMixin, generic.edit.CreateView):
 
 		MyGoalsFormset = formset_factory(MyGoalsForm, extra = 0)
 		my_goals_formset = MyGoalsFormset(initial = [{'item': x.id, 'value': x.ref_value} for x in goals.item_goal.all()])
+
+		self.log_action = "view"
+
+		self.log_context['category_id'] = goals.topic.subject.category.id
+		self.log_context['category_name'] = goals.topic.subject.category.name
+		self.log_context['category_slug'] = goals.topic.subject.category.slug
+		self.log_context['subject_id'] = goals.topic.subject.id
+		self.log_context['subject_name'] = goals.topic.subject.name
+		self.log_context['subject_slug'] = goals.topic.subject.slug
+		self.log_context['topic_id'] = goals.topic.id
+		self.log_context['topic_name'] = goals.topic.name
+		self.log_context['topic_slug'] = goals.topic.slug
+		self.log_context['goals_id'] = goals.id
+		self.log_context['goals_name'] = goals.name
+		self.log_context['goals_slug'] = goals.slug
+		self.log_context['timestamp_start'] = str(int(time.time()))
+
+		super(NewWindowSubmit, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
+		self.log_context = {}
 		
 		return self.render_to_response(self.get_context_data(my_goals_formset = my_goals_formset))
 
@@ -173,9 +228,29 @@ class NewWindowSubmit(LoginRequiredMixin, generic.edit.CreateView):
 
 		success_url = reverse_lazy('goals:view', kwargs = {'slug': slug})
 
+		self.log_context['category_id'] = goals.topic.subject.category.id
+		self.log_context['category_name'] = goals.topic.subject.category.name
+		self.log_context['category_slug'] = goals.topic.subject.category.slug
+		self.log_context['subject_id'] = goals.topic.subject.id
+		self.log_context['subject_name'] = goals.topic.subject.name
+		self.log_context['subject_slug'] = goals.topic.subject.slug
+		self.log_context['topic_id'] = goals.topic.id
+		self.log_context['topic_name'] = goals.topic.name
+		self.log_context['topic_slug'] = goals.topic.slug
+		self.log_context['goals_id'] = goals.id
+		self.log_context['goals_name'] = goals.name
+		self.log_context['goals_slug'] = goals.slug
+
+		super(NewWindowSubmit, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+
 		return success_url
 
-class SubmitView(LoginRequiredMixin, generic.edit.CreateView):
+class SubmitView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = "resources"
+	log_action = "submit"
+	log_resource = "goals"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -205,6 +280,28 @@ class SubmitView(LoginRequiredMixin, generic.edit.CreateView):
 
 		MyGoalsFormset = formset_factory(MyGoalsForm, extra = 0)
 		my_goals_formset = MyGoalsFormset(initial = [{'item': x.id, 'value': x.ref_value} for x in goals.item_goal.all()])
+
+		self.log_action = "view"
+
+		self.log_context['category_id'] = goals.topic.subject.category.id
+		self.log_context['category_name'] = goals.topic.subject.category.name
+		self.log_context['category_slug'] = goals.topic.subject.category.slug
+		self.log_context['subject_id'] = goals.topic.subject.id
+		self.log_context['subject_name'] = goals.topic.subject.name
+		self.log_context['subject_slug'] = goals.topic.subject.slug
+		self.log_context['topic_id'] = goals.topic.id
+		self.log_context['topic_name'] = goals.topic.name
+		self.log_context['topic_slug'] = goals.topic.slug
+		self.log_context['goals_id'] = goals.id
+		self.log_context['goals_name'] = goals.name
+		self.log_context['goals_slug'] = goals.slug
+		self.log_context['timestamp_start'] = str(int(time.time()))
+
+		super(SubmitView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
+		self.log_context = {}
 		
 		return self.render_to_response(self.get_context_data(my_goals_formset = my_goals_formset))
 
@@ -259,9 +356,29 @@ class SubmitView(LoginRequiredMixin, generic.edit.CreateView):
 
 		success_url = reverse_lazy('goals:view', kwargs = {'slug': slug})
 
+		self.log_context['category_id'] = goals.topic.subject.category.id
+		self.log_context['category_name'] = goals.topic.subject.category.name
+		self.log_context['category_slug'] = goals.topic.subject.category.slug
+		self.log_context['subject_id'] = goals.topic.subject.id
+		self.log_context['subject_name'] = goals.topic.subject.name
+		self.log_context['subject_slug'] = goals.topic.subject.slug
+		self.log_context['topic_id'] = goals.topic.id
+		self.log_context['topic_name'] = goals.topic.name
+		self.log_context['topic_slug'] = goals.topic.slug
+		self.log_context['goals_id'] = goals.id
+		self.log_context['goals_name'] = goals.name
+		self.log_context['goals_slug'] = goals.slug
+
+		super(SubmitView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+
 		return success_url
 
-class UpdateSubmit(LoginRequiredMixin, generic.UpdateView):
+class UpdateSubmit(LoginRequiredMixin, LogMixin, generic.UpdateView):
+	log_component = "resources"
+	log_action = "update"
+	log_resource = "my_goals"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -293,7 +410,7 @@ class UpdateSubmit(LoginRequiredMixin, generic.UpdateView):
 		goals = get_object_or_404(Goals, slug = slug)
 
 		MyGoalsFormset = modelformset_factory(MyGoals, form = MyGoalsForm, extra = 0)
-		my_goals_formset = MyGoalsFormset()
+		my_goals_formset = MyGoalsFormset(queryset = MyGoals.objects.filter(user = request.user, item__goal = goals))
 		
 		return self.render_to_response(self.get_context_data(my_goals_formset = my_goals_formset))
 
@@ -307,7 +424,7 @@ class UpdateSubmit(LoginRequiredMixin, generic.UpdateView):
 		goals = get_object_or_404(Goals, slug = slug)
 
 		MyGoalsFormset = modelformset_factory(MyGoals, form = MyGoalsForm, extra = 0)
-		my_goals_formset = MyGoalsFormset(self.request.POST)
+		my_goals_formset = MyGoalsFormset(self.request.POST, queryset = MyGoals.objects.filter(user = request.user, item__goal = goals))
 		
 		if (my_goals_formset.is_valid()):
 			return self.form_valid(my_goals_formset)
@@ -347,9 +464,29 @@ class UpdateSubmit(LoginRequiredMixin, generic.UpdateView):
 
 		success_url = reverse_lazy('goals:view', kwargs = {'slug': slug})
 
+		self.log_context['category_id'] = goals.topic.subject.category.id
+		self.log_context['category_name'] = goals.topic.subject.category.name
+		self.log_context['category_slug'] = goals.topic.subject.category.slug
+		self.log_context['subject_id'] = goals.topic.subject.id
+		self.log_context['subject_name'] = goals.topic.subject.name
+		self.log_context['subject_slug'] = goals.topic.subject.slug
+		self.log_context['topic_id'] = goals.topic.id
+		self.log_context['topic_name'] = goals.topic.name
+		self.log_context['topic_slug'] = goals.topic.slug
+		self.log_context['goals_id'] = goals.id
+		self.log_context['goals_name'] = goals.name
+		self.log_context['goals_slug'] = goals.slug
+
+		super(UpdateSubmit, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+
 		return success_url
 
-class CreateView(LoginRequiredMixin, generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = "resources"
+	log_action = "create"
+	log_resource = "goals"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -452,6 +589,21 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
 				g_order += 1
 		
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['goals_id'] = self.object.id
+		self.log_context['goals_name'] = self.object.name
+		self.log_context['goals_slug'] = self.object.slug
+
+		super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+		
 		return redirect(self.get_success_url())
 
 	def get_context_data(self, **kwargs):
@@ -481,7 +633,12 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
 		return success_url
 
-class UpdateView(LoginRequiredMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+	log_component = "resources"
+	log_action = "update"
+	log_resource = "goals"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -567,6 +724,21 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 
 				g_order += 1
 		
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['goals_id'] = self.object.id
+		self.log_context['goals_name'] = self.object.name
+		self.log_context['goals_slug'] = self.object.slug
+
+		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+		
 		return redirect(self.get_success_url())
 
 	def get_context_data(self, **kwargs):
@@ -596,7 +768,12 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 
 		return success_url
 
-class DeleteView(LoginRequiredMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+	log_component = "resources"
+	log_action = "delete"
+	log_resource = "goals"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -616,4 +793,19 @@ class DeleteView(LoginRequiredMixin, generic.DeleteView):
 	def get_success_url(self):
 		messages.success(self.request, _('The Goals specification of the thopic %s was removed successfully!')%(self.object.topic.name))
 		
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['goals_id'] = self.object.id
+		self.log_context['goals_name'] = self.object.name
+		self.log_context['goals_slug'] = self.object.slug
+
+		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
