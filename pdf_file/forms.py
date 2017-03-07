@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
 
 from subjects.models import Tag
+from resubmit.widgets import ResubmitFileWidget
 
 from .models import PDFFile
 
@@ -17,7 +18,7 @@ class PDFFileForm(forms.ModelForm):
         if self.instance.id:
             self.subject = self.instance.topic.subject
             self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
-        
+
         self.fields['students'].queryset = self.subject.students.all()
         self.fields['groups'].queryset = self.subject.group_subject.all()
 
@@ -32,11 +33,12 @@ class PDFFileForm(forms.ModelForm):
             'brief_description': forms.Textarea,
             'students': forms.SelectMultiple,
             'groups': forms.SelectMultiple,
+            'file': ResubmitFileWidget(attrs={'accept':'application/pdf, application/x-pdf, application/x-bzpdf, application/x-gzpdf'}),
         }
 
     def clean_name(self):
         name = self.cleaned_data.get('name', '')
-        
+
         topics = self.subject.topic_subject.all()
 
         for topic in topics:
@@ -44,7 +46,7 @@ class PDFFileForm(forms.ModelForm):
                 same_name = topic.resource_topic.filter(name__unaccent__iexact = name).exclude(id = self.instance.id).count()
             else:
                 same_name = topic.resource_topic.filter(name__unaccent__iexact = name).count()
-        
+
             if same_name > 0:
                 self._errors['name'] = [_('This subject already has a pdf file with this name')]
 
@@ -54,14 +56,14 @@ class PDFFileForm(forms.ModelForm):
 
     def clean_file(self):
         file = self.cleaned_data.get('file', False)
-        
+
         if file:
             if hasattr(file, '_size'):
                 if file._size > self.MAX_UPLOAD_SIZE:
                     self._errors['file'] = [_("The file is too large. It should have less than 10MB.")]
 
                     return ValueError
-        
+
         elif not self.instance.pk:
             self._errors['file'] = [_('This field is required.')]
 
@@ -82,7 +84,7 @@ class PDFFileForm(forms.ModelForm):
         for prev in previous_tags:
             if not prev.name in tags:
                 self.instance.tags.remove(prev)
-        
+
         for tag in tags:
             tag = tag.strip()
 
