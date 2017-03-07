@@ -14,7 +14,6 @@ router.register(r'usersapi', UserViewSet)
 
 urlpatterns = [
 	#API REST
-    url(r'^report/$', views.ReportView.as_view(), name='report'),
 
     url(r'^', include(router.urls)),
 ]
