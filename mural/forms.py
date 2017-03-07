@@ -4,6 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
 from django.db.models import Q
 
+from resubmit.widgets import ResubmitFileWidget
+
 from topics.models import Resource
 
 from .models import GeneralPost, CategoryPost, SubjectPost, Comment
@@ -14,7 +16,7 @@ class Validation(forms.ModelForm):
 	def clean_post(self):
 		post = self.cleaned_data.get('post', '')
 		cleaned_post = strip_tags(post)
-		
+
 		if cleaned_post == '':
 			self._errors['post'] = [_('This field is required.')]
 
@@ -34,13 +36,15 @@ class Validation(forms.ModelForm):
 
 		return image
 
+
 class GeneralPostForm(Validation):
 	class Meta:
 		model = GeneralPost
 		fields = ['action', 'post', 'image']
 		widgets = {
 			'action': forms.RadioSelect,
-			'post': forms.Textarea
+			'post': forms.Textarea,
+			'image': ResubmitFileWidget(attrs={'accept':'image/*'}),
 		}
 
 class CategoryPostForm(Validation):
@@ -49,7 +53,8 @@ class CategoryPostForm(Validation):
 		fields = ['action', 'post', 'image']
 		widgets = {
 			'action': forms.RadioSelect,
-			'post': forms.Textarea
+			'post': forms.Textarea,
+			'image': ResubmitFileWidget(attrs={'accept':'image/*'}),
 		}
 
 class SubjectPostForm(Validation):
@@ -60,7 +65,7 @@ class SubjectPostForm(Validation):
 		subject = kwargs['initial'].get('subject', None)
 
 		if not kwargs['instance'] is None:
-			subject = self.instance.space	
+			subject = self.instance.space
 
 		if user.is_staff:
 			self.fields['resource'].choices = [(r.id, str(r)) for r in Resource.objects.filter(Q(topic__subject = subject))]
@@ -74,7 +79,8 @@ class SubjectPostForm(Validation):
 		fields = ['action', 'resource', 'post', 'image']
 		widgets = {
 			'action': forms.RadioSelect,
-			'post': forms.Textarea
+			'post': forms.Textarea,
+			'image': ResubmitFileWidget(attrs={'accept':'image/*'}),
 		}
 
 class ResourcePostForm(Validation):
@@ -83,7 +89,8 @@ class ResourcePostForm(Validation):
 		fields = ['action', 'post', 'image']
 		widgets = {
 			'action': forms.RadioSelect,
-			'post': forms.Textarea
+			'post': forms.Textarea,
+			'image': ResubmitFileWidget(attrs={'accept':'image/*'}),
 		}
 
 class CommentForm(forms.ModelForm):
@@ -92,7 +99,7 @@ class CommentForm(forms.ModelForm):
 	def clean_comment(self):
 		comment = self.cleaned_data.get('comment', '')
 		cleaned_comment = strip_tags(comment)
-		
+
 		if cleaned_comment == '':
 			self._errors['comment'] = [_('This field is required.')]
 
@@ -115,3 +122,6 @@ class CommentForm(forms.ModelForm):
 	class Meta:
 		model = Comment
 		fields = ['comment', 'image']
+		widgets = {
+			'image': ResubmitFileWidget(attrs={'accept':'image/*'}),
+		}

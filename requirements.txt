@@ -38,3 +38,4 @@ django-crontab==0.7.1
 python-dateutil==2.6.0
 channels==1.0.3
 asgi_redis==1.0.0
+file-resubmit==0.1.0

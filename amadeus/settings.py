@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'django_crontab',
     'django_cron',
     'channels',
+    'resubmit', # Utilizado para salvar arquivos na cache, para caso o formulario não seja preenchido corretamente o usuário não precise fazer o upload outra vez dos arquivos
 
     'amadeus',
     'users',
@@ -119,6 +120,17 @@ TEMPLATES = [
         },
     },
 ]
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    },
+    "resubmit": {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        "LOCATION": os.path.join(BASE_DIR, 'data/cache/resubmit'),
+    },
+}
 
 WSGI_APPLICATION = 'amadeus.wsgi.application'
 
@@ -357,7 +369,7 @@ SUMMERNOTE_CONFIG = {
     # Set `upload_to` function for attachments.
     #'attachment_upload_to': my_custom_upload_to_func(),
 
-    
+
 
 }
 

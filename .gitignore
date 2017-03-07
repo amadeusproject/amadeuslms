@@ -51,5 +51,6 @@ coverage.xml
 angular_api
 logs/
 amadeus/uploads/
+data/
 links/static/images/
 uploads/
