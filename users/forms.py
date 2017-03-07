@@ -5,6 +5,9 @@ from rolepermissions.shortcuts import assign_role
 from django.contrib.auth import update_session_auth_hash
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+
+from resubmit.widgets import ResubmitFileWidget
+
 from .models import User
 
 class Validation(forms.ModelForm):
@@ -19,7 +22,7 @@ class Validation(forms.ModelForm):
 			return email
 		except ValidationError:
 			self._errors['email'] = [_('You must insert an email address')]
-			
+
 			return ValueError
 
 	def clean_image(self):
@@ -37,13 +40,13 @@ class Validation(forms.ModelForm):
 	def clean_password2(self):
 		password = self.cleaned_data.get("new_password")
 		password2 = self.cleaned_data.get("password2")
-		
+
 		if password and password2 and password != password2:
 			self._errors['password2'] = [_('The confirmation password is incorrect.')]
 
 			return ValueError
-        
-		return password2	
+
+		return password2
 
 class RegisterUserForm(Validation):
     new_password = forms.CharField(label=_('Password'), widget = forms.PasswordInput(render_value = True, attrs = {'placeholder': _('Password') + ' *'}))
@@ -53,11 +56,11 @@ class RegisterUserForm(Validation):
 
     def save(self, commit=True):
         super(RegisterUserForm, self).save(commit=False)
-        
+
         self.instance.set_password(self.cleaned_data['new_password'])
 
         self.instance.save()
-        
+
         return self.instance
 
     class Meta:
@@ -68,6 +71,7 @@ class RegisterUserForm(Validation):
         	'username': forms.TextInput(attrs = {'placeholder': _('Name') + ' *'}),
         	'last_name': forms.TextInput(attrs = {'placeholder': _('Last Name') + ' *'}),
         	'social_name': forms.TextInput(attrs = {'placeholder': _('Social Name')}),
+			'image': ResubmitFileWidget(attrs={'accept':'image/*'}),
         }
 
 class ProfileForm(Validation):
@@ -75,9 +79,9 @@ class ProfileForm(Validation):
 
 	def save(self, commit=True):
 		super(ProfileForm, self).save(commit=False)
-        
+
 		self.instance.save()
-        
+
 		return self.instance
 
 	class Meta:
@@ -86,7 +90,8 @@ class ProfileForm(Validation):
 		widgets = {
 			'description': forms.Textarea,
 			'username': forms.TextInput(attrs = {'readonly': 'readonly'}),
-			'last_name': forms.TextInput(attrs = {'readonly': 'readonly'})
+			'last_name': forms.TextInput(attrs = {'readonly': 'readonly'}),
+			'image': ResubmitFileWidget(attrs={'accept':'image/*'}),
 		}
 
 class UserForm(Validation):
@@ -98,19 +103,19 @@ class UserForm(Validation):
 		super(UserForm, self).__init__(*args, **kwargs)
 
 		self.is_edit = is_update
-		    
+
 	new_password = forms.CharField(label = _('Password'), widget = forms.PasswordInput(render_value = True), required = False)
 	password2 = forms.CharField(label = _('Confirm Password'), widget = forms.PasswordInput(render_value = True), required = False)
 
 
 	def save(self, commit=True):
 		super(UserForm, self).save(commit=False)
-        
+
 		if not self.is_edit or self.cleaned_data['new_password'] != '':
 			self.instance.set_password(self.cleaned_data['new_password'])
 
 		self.instance.save()
-        
+
 		return self.instance
 
 	class Meta:
@@ -118,6 +123,7 @@ class UserForm(Validation):
 		fields = ['email', 'username', 'last_name', 'social_name', 'description', 'show_email', 'image', 'is_staff', 'is_active',]
 		widgets = {
 			'description': forms.Textarea,
+			'image': ResubmitFileWidget(attrs={'accept':'image/*'}),
 		}
 
 class ChangePassForm(Validation):
@@ -143,13 +149,13 @@ class ChangePassForm(Validation):
 
 	def save(self, commit=True):
 		super(ChangePassForm, self).save(commit=False)
-        
+
 		self.instance.set_password(self.cleaned_data['new_password'])
 
 		update_session_auth_hash(self.request, self.instance)
 
 		self.instance.save()
-        
+
 		return self.instance
 
 	class Meta:
@@ -173,7 +179,7 @@ class PassResetRequest(forms.Form):
 			return email
 		except ValidationError:
 			self._errors['email'] = [_('You must insert a valid email address')]
-			
+
 			return ValueError
 
 class SetPasswordForm(Validation):
