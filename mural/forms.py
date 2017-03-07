@@ -4,6 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
 from django.db.models import Q
 
+from resubmit.widgets import ResubmitFileWidget
+
 from topics.models import Resource
 
 from .models import GeneralPost, CategoryPost, SubjectPost, Comment
@@ -34,6 +36,7 @@ class Validation(forms.ModelForm):
 
 		return image
 
+
 class GeneralPostForm(Validation):
 	class Meta:
 		model = GeneralPost
@@ -41,7 +44,7 @@ class GeneralPostForm(Validation):
 		widgets = {
 			'action': forms.RadioSelect,
 			'post': forms.Textarea,
-			'image': forms.ClearableFileInput(attrs={'accept':'image/*'}),
+			'image': ResubmitFileWidget(attrs={'accept':'image/*'}),
 		}
 
 class CategoryPostForm(Validation):
@@ -51,7 +54,7 @@ class CategoryPostForm(Validation):
 		widgets = {
 			'action': forms.RadioSelect,
 			'post': forms.Textarea,
-			'image': forms.ClearableFileInput(attrs={'accept':'image/*'}),
+			'image': ResubmitFileWidget(attrs={'accept':'image/*'}),
 		}
 
 class SubjectPostForm(Validation):
@@ -77,7 +80,7 @@ class SubjectPostForm(Validation):
 		widgets = {
 			'action': forms.RadioSelect,
 			'post': forms.Textarea,
-			'image': forms.ClearableFileInput(attrs={'accept':'image/*'}),
+			'image': ResubmitFileWidget(attrs={'accept':'image/*'}),
 		}
 
 class ResourcePostForm(Validation):
@@ -87,7 +90,7 @@ class ResourcePostForm(Validation):
 		widgets = {
 			'action': forms.RadioSelect,
 			'post': forms.Textarea,
-			'image': forms.ClearableFileInput(attrs={'accept':'image/*'}),
+			'image': ResubmitFileWidget(attrs={'accept':'image/*'}),
 		}
 
 class CommentForm(forms.ModelForm):
@@ -120,5 +123,5 @@ class CommentForm(forms.ModelForm):
 		model = Comment
 		fields = ['comment', 'image']
 		widgets = {
-			'image': forms.ClearableFileInput(attrs={'accept':'image/*'}),
+			'image': ResubmitFileWidget(attrs={'accept':'image/*'}),
 		}
