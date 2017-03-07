@@ -78,7 +78,7 @@ INSTALLED_APPS = [
     'security',
     'themes',
     'api',
-
+    'reports',
 ]
 
 MIDDLEWARE_CLASSES = [

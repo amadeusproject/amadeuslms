@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from . import views
 
 urlpatterns = [
@@ -17,6 +17,7 @@ urlpatterns = [
 	url(r'^load_subs/(?P<slug>[\w_-]+)/$', views.GetSubjectList.as_view(), name='load_view'),
 	url(r'^view_log/(?P<subject>[\w_-]+)/$', views.subject_view_log, name = 'view_log'),
 	url(r'^most_accessed_subjects/$', views.most_acessed_subjects, name='most_acessed'),
+	url(r'^report/', include('reports.urls', namespace='reports')),
 	url(r'^(?P<option>[\w_-]+)/$', views.IndexView.as_view(), name='index'),
 
 ]
