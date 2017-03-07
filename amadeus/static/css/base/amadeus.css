@@ -1197,3 +1197,12 @@ li.item .notify_badge {
     font-size: 20px;
 }
 /* End Goals */
+
+
+/* Reports */
+
+.report-menu-choice li{
+    width: 15%;
+    text-align: center;
+}
+/* End Reports */

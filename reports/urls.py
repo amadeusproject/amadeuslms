@@ -3,5 +3,5 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^report/$', views.ReportView.as_view(), name='report'),
+    url(r'^create/interactions/$', views.ReportView.as_view(), name='create_interaction'),
 ]
