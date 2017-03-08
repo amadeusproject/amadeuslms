@@ -30,7 +30,7 @@
 			                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="moreResources">
 			                    <li><a href="{% url resource.update_link topic.slug resource.slug %}" class="edit"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
 			                    {% if resource|class_name == 'goals' %}
-			                    	<li><a href="{% url 'goals:answered_reports' resource.slug %}" class="edit"><i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
+			                    	<li><a href="{% url 'goals:reports' resource.slug %}" class="edit"><i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
 			                    {% endif %}
 			                    <li><a href="javascript:delete_resource('{% url resource.delete_link resource.slug %}')" class="delete"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remove' %}</a></li>
 			                </ul>

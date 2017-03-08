@@ -5,10 +5,13 @@
 
 {% block style %}
 	{{block.super}}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.css' %}">
 {% endblock %}
 
 {% block javascript%}
 	{{ block.super }}
+	<script type="text/javascript" src="{% static 'js/jquery.dataTables.js' %} "></script>
+	<script type="text/javascript" src="{% static 'js/dataTables.bootstrap.js' %} "></script>
 {% endblock%}
 
 {% block breadcrumbs %}
@@ -45,14 +48,23 @@
 					</div>
 				</div>
 			</div>
-			<div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
+			<div id="reports" class="panel-collapse in collapse category-panel-content">
 				<div id="core-subjects-options-div">
 			        <ul class="core-subjects-options">
-		                <a href=""><li class="active">{% trans "Answered" %}</li></a>
-		                <a href=""><li class="">{% trans "Unanswered" %}</li></a>
+		                <a href=""><li class="answered_link active">{% trans "Answered" %} ({{ totals.answered }})</li></a>
+		                <a href=""><li class="">{% trans "Unanswered" %} ({{ totals.unanswered }})</li></a>
 		                <a href=""><li class="">{% trans "Resource History" %}</li></a>
 			        </ul>
 			    </div>
+
+		        <div class="answered" data-url="{% url 'goals:answered_report' goal.slug %}">
+			    	<div class="answered_data"></div>
+			    	<div class="text-center">
+			    		<div class="holder"></div>
+			    	</div>
+			    </div>
 			</div>
 		</div>
+
+		<script type="text/javascript" src="{% static 'js/goals_reports.js' %}"></script>
 {% endblock %}
