@@ -558,4 +558,15 @@ a.add-row {
   .navbar .navbar-nav .dropdown .dropdown-menu li > a:hover {
     backgroun-color: #591111 !important; } }
 
+/* Color Checkbox */
+
+.checkbox input[type=checkbox]:checked+.checkbox-material .check, label.checkbox-inline input[type=checkbox]:checked+.checkbox-material .check {
+    color: #8e1c1c;
+    border-color: #8e1c1c;
+}
+
+.checkbox input[type=checkbox]:checked+.checkbox-material .check:before, label.checkbox-inline input[type=checkbox]:checked+.checkbox-material .check:before {
+  color: #8e1c1c;
+}
+
 /*# sourceMappingURL=red.css.map */

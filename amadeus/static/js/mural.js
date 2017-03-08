@@ -242,7 +242,7 @@ function setCommentFormSubmit(post, comment = "") {
             },
             error: function(data) {
                 $("#post-modal-form").html(data.responseText);
-                setPostFormSubmit(post, comment);
+                setCommentFormSubmit(post, comment);
             },
             cache: false,
             contentType: false,

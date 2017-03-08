@@ -1,4 +1,5 @@
 # coding=utf-8
+import re
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from rolepermissions.shortcuts import assign_role
@@ -19,6 +20,11 @@ class Validation(forms.ModelForm):
 
 		try:
 			validate_email( email )
+			v_email = re.compile('[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}')
+			if v_email.fullmatch(email) is None:
+				self._errors['email'] = [_('You must insert an email address')]
+
+				return ValueError
 			return email
 		except ValidationError:
 			self._errors['email'] = [_('You must insert an email address')]
@@ -67,7 +73,7 @@ class RegisterUserForm(Validation):
         model = User
         fields = ['email', 'username', 'last_name', 'social_name', 'image', 'show_email', ]
         widgets = {
-        	'email': forms.TextInput(attrs = {'placeholder': _('Email') + ' *'}),
+        	'email': forms.EmailInput(attrs = {'placeholder': _('Email') + ' *'}),
         	'username': forms.TextInput(attrs = {'placeholder': _('Name') + ' *'}),
         	'last_name': forms.TextInput(attrs = {'placeholder': _('Last Name') + ' *'}),
         	'social_name': forms.TextInput(attrs = {'placeholder': _('Social Name')}),
@@ -88,6 +94,7 @@ class ProfileForm(Validation):
 		model = User
 		fields = ['email', 'username', 'last_name', 'social_name', 'description', 'show_email', 'image']
 		widgets = {
+			'email': forms.EmailInput,
 			'description': forms.Textarea,
 			'username': forms.TextInput(attrs = {'readonly': 'readonly'}),
 			'last_name': forms.TextInput(attrs = {'readonly': 'readonly'}),
@@ -122,6 +129,7 @@ class UserForm(Validation):
 		model = User
 		fields = ['email', 'username', 'last_name', 'social_name', 'description', 'show_email', 'image', 'is_staff', 'is_active',]
 		widgets = {
+			'email': forms.EmailInput,
 			'description': forms.Textarea,
 			'image': ResubmitFileWidget(attrs={'accept':'image/*'}),
 		}
@@ -169,13 +177,18 @@ class ChangePassForm(Validation):
 		}
 
 class PassResetRequest(forms.Form):
-	email = forms.EmailField(label = _('Email'), max_length = 254, widget = forms.TextInput(attrs = {'placeholder': _('Email') + ' *'}))
+	email = forms.EmailField(label = _('Email'), max_length = 254, widget = forms.EmailInput(attrs = {'placeholder': _('Email') + ' *'}))
 
 	def clean_email(self):
 		email = self.cleaned_data.get('email', '')
 
 		try:
 			validate_email( email )
+			v_email = re.compile('[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}')
+			if v_email.fullmatch(email) is None:
+				self._errors['email'] = [_('You must insert an email address')]
+
+				return ValueError
 			return email
 		except ValidationError:
 			self._errors['email'] = [_('You must insert a valid email address')]

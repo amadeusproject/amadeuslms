@@ -25,6 +25,7 @@ class AnsweredReport(LoginRequiredMixin, generic.ListView):
 	template_name = 'goals/reports.html'	
 	model = MyGoals
 	context_object_name = 'answered'
+	totals = {}
 
 	def get_queryset(self):
 		slug = self.kwargs.get('slug', '')
