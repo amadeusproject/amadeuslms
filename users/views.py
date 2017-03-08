@@ -47,7 +47,7 @@ class UsersListView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserReq
 
 	def get_queryset(self):
 		users = User.objects.all().order_by('social_name','username').exclude(email = self.request.user.email)
-		
+
 		return users
 
 	def get_context_data (self, **kwargs):
@@ -70,14 +70,14 @@ class SearchView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 
 		if search == '':
 			return redirect(reverse_lazy('users:manage'))
-    
+
 		return super(SearchView, self).dispatch(request, *args, **kwargs)
 
 	def get_queryset(self):
 		search = self.request.GET.get('search', '')
 
 		users = User.objects.filter(Q(username__icontains = search) | Q(last_name__icontains = search) | Q(social_name__icontains = search) | Q(email__icontains = search)).distinct().order_by('social_name','username').exclude(email = self.request.user.email)
-		
+
 		return users
 
 	def get_context_data (self, **kwargs):
@@ -143,9 +143,9 @@ class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 
 	def get_form_kwargs(self):
 		kwargs = super(UpdateView, self).get_form_kwargs()
-		
+
 		kwargs.update({'is_edit': True})
-		
+
 		return kwargs
 
 	def form_valid(self, form):
@@ -235,7 +235,7 @@ class DeleteView(braces_mixins.LoginRequiredMixin, LogMixin, generic.DeleteView)
 			self.log_context['dependencies'] = False
 
 			user.delete()
-			
+
 			messages.success(self.request, success_msg)
 
 			redirect_url = redirect(success_url)
@@ -275,10 +275,10 @@ class ChangePassView(LoginRequiredMixin, generic.UpdateView):
 
 	def get_form_kwargs(self):
 		kwargs = super(ChangePassView, self).get_form_kwargs()
-		
+
 		kwargs.update({'user': self.request.user})
 		kwargs.update({'request': self.request})
-		
+
 		return kwargs
 
 	def get_object(self):
@@ -297,7 +297,7 @@ class ChangePassView(LoginRequiredMixin, generic.UpdateView):
 		context = super(ChangePassView, self).get_context_data(**kwargs)
 		context['title'] = _("Change Password")
 
-		return context	
+		return context
 
 class Profile(LoginRequiredMixin, generic.DetailView):
 	login_url = reverse_lazy("users:login")
@@ -333,7 +333,7 @@ class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(UpdateProfile, self).get_context_data(**kwargs)
 		context['title'] = _('Update Profile')
-		
+
 		return context
 
 	def form_valid(self, form):
@@ -406,7 +406,7 @@ class ForgotPassword(generic.FormView):
 
 					subject_template_name = 'registration/password_reset_subject.txt'
 					email_template_name = 'recover_pass_email_template.html'
-					
+
 					subject = loader.render_to_string(subject_template_name, c)
 	                # Email subject *must not* contain newlines
 					subject = ''.join(subject.splitlines())
@@ -423,7 +423,7 @@ class ForgotPassword(generic.FormView):
 							tls = False
 
 						backend = EmailBackend(
-									host = mailsender.hostname, port = mailsender.port, username = mailsender.username, 
+									host = mailsender.hostname, port = mailsender.port, username = mailsender.username,
 									password = mailsender.password, use_tls = tls, fail_silently = False
 								)
 
@@ -433,12 +433,12 @@ class ForgotPassword(generic.FormView):
 
 				result = self.form_valid(form)
 				messages.success(request, _("Soon you'll receive an email with instructions to set your new password. If you don't receive it in 24 hours, please check your spam box."))
-				
+
 				return result
-		
+			messages.error(request, _('No user is associated with this email address'))
+
 		result = self.form_invalid(form)
-		messages.error(request, _('No user is associated with this email address'))
-		
+
 		return result
 
 class PasswordResetConfirmView(generic.FormView):
@@ -456,7 +456,7 @@ class PasswordResetConfirmView(generic.FormView):
 		form = self.get_form()
 
 		assert uidb64 is not None and token is not None
-        
+
 		try:
 			uid = urlsafe_base64_decode(uidb64)
 			user = User._default_manager.get(pk=uid)
@@ -466,12 +466,12 @@ class PasswordResetConfirmView(generic.FormView):
 		if user is not None and default_token_generator.check_token(user, token):
 			if form.is_valid():
 				new_password = form.cleaned_data['new_password']
-                
+
 				user.set_password(new_password)
 				user.save()
-                
+
 				messages.success(request, _('Password reset successfully.'))
-                
+
 				return self.form_valid(form)
 			else:
 				messages.error(request, _('We were not able to reset your password.'))
@@ -504,7 +504,7 @@ def login(request):
 
 				return redirect(reverse("home"))
 			else:
-				messages.error(request, _('System under maintenance. Try again later'))	
+				messages.error(request, _('System under maintenance. Try again later'))
 		else:
 			messages.error(request, _('E-mail or password are incorrect.'))
 			context["username"] = username
