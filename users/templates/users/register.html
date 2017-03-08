@@ -44,7 +44,7 @@
 						{% csrf_token %}
 						{% for field in form %}
 							<div class="col-lg-12 col-md-12 col-sm-12">
-								<div class="form-group form-group-sm">
+								<div class="form-group form-group-md">
 									<div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
 										{% if field.auto_id == 'id_image' %}
 											{% render_field field class='form-control' %}
