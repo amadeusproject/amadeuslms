@@ -1,0 +1,28 @@
+{% load i18n goals_filters %}
+
+<div class="row">
+	<div class="col-md-12">
+		<table id="unanswered_table" class="table table-striped table-bordered">
+			<thead>
+				<th>
+					{% trans 'Student' %}
+				</th>
+				<th>
+					{% trans 'Group' %}
+				</th>
+				<th>
+					<input type="checkbox" id="check_all_rows" /> {% trans 'Select All' %}
+				</th>
+			</thead>
+			<tbody>
+				{% for student in students %}
+					<tr>
+						<td>{{ student }}</td>
+						<td>{{ student|groups }}</td>
+						<td class="text-center"><input type="checkbox" /></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>

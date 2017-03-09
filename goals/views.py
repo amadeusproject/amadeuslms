@@ -105,6 +105,47 @@ class AnsweredReport(LoginRequiredMixin, generic.ListView):
 
 		return context
 
+class UnansweredReport(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+	
+	template_name = 'goals/_unanswered.html'	
+	model = MyGoals
+	context_object_name = 'students'
+
+	def get_queryset(self):
+		slug = self.kwargs.get('slug', '')
+		goal = get_object_or_404(Goals, slug = slug)
+
+		users = goal.topic.subject.students.values_list('id', flat = True)
+
+		submited = Log.objects.filter(user_id__in = users, action = 'submit', resource = 'goals', context__contains = {"goals_id": goal.id}).values_list('user_id', flat = True)
+
+		users = [i for i in users if i not in submited]
+		
+		submited_users = User.objects.filter(id__in = users)
+
+		return submited_users
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		goals = get_object_or_404(Goals, slug = slug)
+
+		if not has_resource_permissions(request.user, goals):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(UnansweredReport, self).dispatch(request, *args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super(UnansweredReport, self).get_context_data(**kwargs)
+
+		slug = self.kwargs.get('slug', '')
+		goals = get_object_or_404(Goals, slug = slug)
+		
+		context['goal'] = goals
+
+		return context
+
 class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
 	log_component = "resources"
 	log_action = "view"

@@ -13,4 +13,5 @@ urlpatterns = [
 	url(r'^update_submit/(?P<slug>[\w_-]+)/$', views.UpdateSubmit.as_view(), name = 'update_submit'),
 	url(r'^reports/(?P<slug>[\w_-]+)/$', views.Reports.as_view(), name = 'reports'),
 	url(r'^answered_report/(?P<slug>[\w_-]+)/$', views.AnsweredReport.as_view(), name = 'answered_report'),
+	url(r'^unanswered_report/(?P<slug>[\w_-]+)/$', views.UnansweredReport.as_view(), name = 'unanswered_report'),
 ]

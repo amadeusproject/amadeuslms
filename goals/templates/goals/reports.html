@@ -54,14 +54,21 @@
 			<div id="reports" class="panel-collapse in collapse category-panel-content">
 				<div id="core-subjects-options-div">
 			        <ul class="core-subjects-options">
-		                <a href=""><li class="answered_link active">{% trans "Answered" %} ({{ totals.answered }})</li></a>
-		                <a href=""><li class="">{% trans "Unanswered" %} ({{ totals.unanswered }})</li></a>
+		                <a href="javascript:getAnswered()"><li class="answered_link active">{% trans "Answered" %} ({{ totals.answered }})</li></a>
+		                <a href="javascript:getUnanswered()"><li class="unanswered_link">{% trans "Unanswered" %} ({{ totals.unanswered }})</li></a>
 		                <a href=""><li class="">{% trans "Resource History" %}</li></a>
 			        </ul>
 			    </div>
 
 		        <div class="answered" data-url="{% url 'goals:answered_report' goal.slug %}">
 			    	<div class="answered_data"></div>
+			    	<div class="text-center">
+			    		<div class="holder"></div>
+			    	</div>
+			    </div>
+
+			    <div class="unanswered" data-url="{% url 'goals:unanswered_report' goal.slug %}">
+			    	<div class="unanswered_data"></div>
 			    	<div class="text-center">
 			    		<div class="holder"></div>
 			    	</div>
@@ -95,7 +102,9 @@
 		        }
 		    };
 
-		    var csvBtnLabeli18n = "<i class='fa fa-download'></i> {% trans 'Download .csv file' %}";
+		    var csvBtnLabeli18n = "<i class='fa fa-download'></i> {% trans 'Download .csv file' %}",
+		    	answeredBread = "{% trans 'Reports: Answered' %}",
+		    	unansweredBread = "{% trans 'Reports: Unanswered' %}";
 		</script>
 		<script type="text/javascript" src="{% static 'js/goals_reports.js' %}"></script>
 {% endblock %}
