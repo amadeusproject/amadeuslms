@@ -11,5 +11,6 @@ urlpatterns = [
 	url(r'^view/(?P<slug>[\w_-]+)/$', views.InsideView.as_view(), name = 'view'),
 	url(r'^submit/(?P<slug>[\w_-]+)/$', views.SubmitView.as_view(), name = 'submit'),
 	url(r'^update_submit/(?P<slug>[\w_-]+)/$', views.UpdateSubmit.as_view(), name = 'update_submit'),
-	url(r'^answered_reports/(?P<slug>[\w_-]+)/$', views.AnsweredReport.as_view(), name = 'answered_reports'),
+	url(r'^reports/(?P<slug>[\w_-]+)/$', views.Reports.as_view(), name = 'reports'),
+	url(r'^answered_report/(?P<slug>[\w_-]+)/$', views.AnsweredReport.as_view(), name = 'answered_report'),
 ]

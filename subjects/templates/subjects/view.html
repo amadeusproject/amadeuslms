@@ -56,7 +56,7 @@
                             </ul>
                         {% endif %}
 
-                        <a href="" class="pull-right action_icon"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
+                        <a href="{% url 'subjects:reports:create_interaction' %}?subject_id={{subject.id}}" class="pull-right action_icon"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
                         <a href="{% url 'notifications:view' subject.slug %}" class="pull-right action_icon">
                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                             {% notifies_number subject request.user %}

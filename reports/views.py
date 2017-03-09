@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.utils.translation import ugettext_lazy as _
 
+from django import forms
 
 import django.views.generic as generic
 from mural.models import SubjectPost, Comment, MuralVisualizations
@@ -15,19 +17,16 @@ from log.models import Log
 class ReportView(LoginRequiredMixin, generic.FormView):
     template_name = "reports/report.html"
     form_class = CreateInteractionReportForm
-    success_url =  "/teste"
+    
     def get_initial(self):
         """
         Returns the initial data to use for forms on this view.
         """
 
-        initial = super(ReportView, self).get_initial()
+        initial = {}
         params = self.request.GET
         subject = Subject.objects.get(id=params['subject_id'])
-
-        initial['topics'] = subject.topic_subject.all()
-
+        topics = subject.topic_subject.all()
+        initial['topic'] = topics
+        initial['end_date'] =  date.today()
         return initial
-  
-
-

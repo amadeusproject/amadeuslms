@@ -1,0 +1,47 @@
+{% load i18n goals_filters %}
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="col-md-3">
+			<h4 class="history-header"><a href="#"><i class="fa fa-download"></i> {% trans 'Download .csv file' %}</a></h4>
+		</div>
+		<table id="answered_table" class="table table-striped table-bordered">
+			<thead>
+				<th>
+					<a href="">
+						{% trans 'Student' %} <i class="fa fa-fw pull-right"></i>
+					</a>
+				</th>
+				<th>
+					{% trans 'Group' %}
+				</th>
+				<th>
+					<a href="">
+						{% trans 'Definition Date' %} <i class="fa fa-fw pull-right"></i>
+					</a>
+				</th>
+				<th>
+					<a href="">
+						{% trans 'Update Date' %} <i class="fa fa-fw pull-right"></i>
+					</a>
+				</th>
+				<th>
+					<a href="">
+						{% trans 'Goals' %} <i class="fa fa-fw pull-right"></i>
+					</a>
+				</th>
+			</thead>
+			<tbody>
+				{% for student in students %}
+					<tr>
+						<td>{{ student }}</td>
+						<td>{{ student|groups }}</td>
+						<td>{{ student|creation_date:goal|date:"SHORT_DATE_FORMAT" }}</td>
+						<td>{{ student|update_date:goal|date:"SHORT_DATE_FORMAT" }}</td>
+						<td>{{ student|my_goals:goal }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>

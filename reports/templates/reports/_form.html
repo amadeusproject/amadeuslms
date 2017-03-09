@@ -1,0 +1,18 @@
+{% load widget_tweaks static i18n %}
+
+<form action="" method="post">{% csrf_token %}
+    {% for field  in form %}
+    {% if field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date' %}
+    	<label> {{field.label}} </label>
+		{% render_field field class='form-control date-picker' %}
+    	
+    {% else %}
+    	<label> {{field.label}} </label>
+			{% render_field field class='form-control' %}
+    {% endif %}
+    	
+    {% endfor %}
+    <div class="row text-center">
+        <input type="submit" value="Search" class="btn btn-success btn-raised" />
+    </div>
+</form>

@@ -14,25 +14,77 @@ import time
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 
 from topics.models import Topic
+from users.models import User
 
 from .forms import GoalsForm, MyGoalsForm, InlinePendenciesFormset, InlineGoalItemFormset
 from .models import Goals, MyGoals
 
-class AnsweredReport(LoginRequiredMixin, generic.ListView):
+class Reports(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 	
 	template_name = 'goals/reports.html'	
-	model = MyGoals
-	context_object_name = 'answered'
+	model = Goals
+	totals = {}
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		goals = get_object_or_404(Goals, slug = slug)
+
+		if not has_resource_permissions(request.user, goals):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(Reports, self).dispatch(request, *args, **kwargs)
 
 	def get_queryset(self):
 		slug = self.kwargs.get('slug', '')
 		goal = get_object_or_404(Goals, slug = slug)
 
-		goals = MyGoals.objects.filter(item__goal = goal)
+		users = goal.topic.subject.students.values_list('id')
 
-		return goals
+		submited = Log.objects.filter(user_id__in = users, action = 'submit', resource = 'goals', context__contains = {"goals_id": goal.id}).values_list('user_id')
+
+		submited_users = User.objects.filter(id__in = submited)
+
+		self.totals['answered'] = submited_users.count()
+		self.totals['unanswered'] = users.count() - self.totals['answered']
+		
+		return goal
+
+	def get_context_data(self, **kwargs):
+		context = super(Reports, self).get_context_data(**kwargs)
+
+		slug = self.kwargs.get('slug', '')
+		goals = get_object_or_404(Goals, slug = slug)
+
+		context['title'] = _("Reports")
+		
+		context['goal'] = goals
+		context['topic'] = goals.topic
+		context['subject'] = goals.topic.subject
+		context['totals'] = self.totals
+
+		return context
+
+class AnsweredReport(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+	
+	template_name = 'goals/_answered.html'	
+	model = MyGoals
+	context_object_name = 'students'
+
+	def get_queryset(self):
+		slug = self.kwargs.get('slug', '')
+		goal = get_object_or_404(Goals, slug = slug)
+
+		users = goal.topic.subject.students.values_list('id')
+
+		submited = Log.objects.filter(user_id__in = users, action = 'submit', resource = 'goals', context__contains = {"goals_id": goal.id}).values_list('user_id')
+
+		submited_users = User.objects.filter(id__in = submited)
+
+		return submited_users
 
 	def dispatch(self, request, *args, **kwargs):
 		slug = self.kwargs.get('slug', '')
@@ -48,12 +100,8 @@ class AnsweredReport(LoginRequiredMixin, generic.ListView):
 
 		slug = self.kwargs.get('slug', '')
 		goals = get_object_or_404(Goals, slug = slug)
-
-		context['title'] = _("Reports: Answered")
 		
 		context['goal'] = goals
-		context['topic'] = goals.topic
-		context['subject'] = goals.topic.subject
 
 		return context
 
@@ -74,7 +122,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
 		slug = self.kwargs.get('slug', '')
 		goal = get_object_or_404(Goals, slug = slug)
 
-		goals = MyGoals.objects.filter(user = self.request.user)
+		goals = MyGoals.objects.filter(user = self.request.user, item__goal = goal)
 
 		return goals
 
