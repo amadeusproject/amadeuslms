@@ -3,6 +3,10 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.forms.models import inlineformset_factory
 
+
+import requests
+import re
+
 from subjects.models import Tag
 
 from pendencies.forms import PendenciesForm
@@ -10,19 +14,20 @@ from pendencies.models import Pendencies
 
 from .models import YTVideo
 
+
 class YTVideoForm(forms.ModelForm):
 	subject = None
 	control_subject = forms.CharField(widget = forms.HiddenInput())
-	
+
 	def __init__(self, *args, **kwargs):
 		super(YTVideoForm, self).__init__(*args, **kwargs)
 
 		self.subject = kwargs['initial'].get('subject', None)
-		
+
 		if self.instance.id:
 			self.subject = self.instance.topic.subject
 			self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
-		
+
 		self.initial['control_subject'] = self.subject.id
 
 		self.fields['students'].queryset = self.subject.students.all()
@@ -44,7 +49,7 @@ class YTVideoForm(forms.ModelForm):
 
 	def clean_name(self):
 		name = self.cleaned_data.get('name', '')
-		
+
 		topics = self.subject.topic_subject.all()
 
 		for topic in topics:
@@ -52,7 +57,7 @@ class YTVideoForm(forms.ModelForm):
 				same_name = topic.resource_topic.filter(name__unaccent__iexact = name).exclude(id = self.instance.id).count()
 			else:
 				same_name = topic.resource_topic.filter(name__unaccent__iexact = name).count()
-		
+
 			if same_name > 0:
 				self._errors['name'] = [_('This subject already has a youtube video with this name')]
 
@@ -62,8 +67,7 @@ class YTVideoForm(forms.ModelForm):
 
 	def clean_url(self):
 		url = self.cleaned_data.get('url', '')
-
-		if not 'youtube' in url:
+		if not 'youtube' in url or re.compile('[htps:/]*w*\.youtube\.com/?').fullmatch(url) or requests.get(url).status_code == 404:
 			self._errors['url'] = [_('Invalid URL. It should be an YouTube link.')]
 
 			return ValueError
@@ -83,7 +87,7 @@ class YTVideoForm(forms.ModelForm):
 		for prev in previous_tags:
 			if not prev.name in tags:
 				self.instance.tags.remove(prev)
-        
+
 		for tag in tags:
 			tag = tag.strip()
 
