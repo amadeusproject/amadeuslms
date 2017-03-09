@@ -56,9 +56,24 @@
     		<li><b>{% trans "Topic" %}:</b> {{topic_name}}</li>
     		<li><b>{% trans "Initial Date" %}:</b> {{init_date}}</li>
     		<li><b>{% trans "End Date" %}:</b> {{end_date}}</li>
-    		<li><button class="btn btn-success btn-raised">{% trans "new search" %}</button></li>
+    		<li><a href="{% url 'subjects:reports:create_interaction' %}?subject_id={{subject.id}}"><button class="btn btn-success btn-raised">{% trans "new search" %}</button></a></li>
 
     	</ul>
+
+    <div>
+    	<ul id="report-info">
+    		<li> {{data.values|length}} {% trans "register(s)" %} </li>
+    		<li>
+    			<i class="fa fa-download" aria-hidden="true"></i> {% trans "Variable Descriptions" %}
+
+    		</li>
+    		<li>
+    			<i class="fa fa-download" aria-hidden="true"></i> {% trans "Interactions Data" %}
+    		</li>
+    	</ul>
+    	
+
+    </div>
     <div class="table-responsive">
     	<table class="table table-striped">
     	<thead>

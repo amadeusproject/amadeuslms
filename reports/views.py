@@ -77,6 +77,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         context['topic_name'] = params_data['topic']
         context['init_date'] = params_data['init_date']
         context['end_date'] = params_data['end_date']
+        context['subject'] = subject
         if params_data['from_mural']:
             context['data'], context['header'] = self.get_mural_data(subject, params_data['init_date'], params_data['end_date'])
         return context
