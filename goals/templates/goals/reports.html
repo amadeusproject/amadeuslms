@@ -6,12 +6,15 @@
 {% block style %}
 	{{block.super}}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.buttons.bootstrap.css' %}">
 {% endblock %}
 
 {% block javascript%}
 	{{ block.super }}
 	<script type="text/javascript" src="{% static 'js/jquery.dataTables.js' %} "></script>
+	<script type="text/javascript" src="{% static 'js/dataTables.buttons.js' %} "></script>
 	<script type="text/javascript" src="{% static 'js/dataTables.bootstrap.js' %} "></script>
+	<script type="text/javascript" src="{% static 'js/dataTables.buttons.html5.js' %} "></script>
 {% endblock%}
 
 {% block breadcrumbs %}
@@ -66,5 +69,33 @@
 			</div>
 		</div>
 
+		<script type="text/javascript">
+			var dataTablei18n = {
+		        "decimal":        "",
+		        "emptyTable":     "{% trans 'No data available in table' %}",
+		        "info":           "{% trans 'Showing _START_ to _END_ of _TOTAL_ entries' %}",
+		        "infoEmpty":      "{% trans 'Showing 0 to 0 of 0 entries' %}",
+		        "infoFiltered":   "{% trans '(filtered from _MAX_ total entries)' %}",
+		        "infoPostFix":    "",
+		        "thousands":      ",",
+		        "lengthMenu":     "{% trans 'Show _MENU_ entries' %}",
+		        "loadingRecords": "{% trans 'Loading...' %}",
+		        "processing":     "{% trans 'Processing...' %}",
+		        "search":         "{% trans 'Search' %}:",
+		        "zeroRecords":    "{% trans 'No matching records found' %}",
+		        "paginate": {
+		            "first":      "{% trans 'First' %}",
+		            "last":       "{% trans 'Last' %}",
+		            "next":       "»",
+		            "previous":   "«"
+		        },
+		        "aria": {
+		            "sortAscending":  "{% trans ': activate to sort column ascending' %}",
+		            "sortDescending": "{% trans ': activate to sort column descending' %}"
+		        }
+		    };
+
+		    var csvBtnLabeli18n = "<i class='fa fa-download'></i> {% trans 'Download .csv file' %}";
+		</script>
 		<script type="text/javascript" src="{% static 'js/goals_reports.js' %}"></script>
 {% endblock %}
