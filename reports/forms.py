@@ -5,7 +5,7 @@ import datetime
 
 
 class CreateInteractionReportForm(forms.Form):
-	topic = forms.ChoiceField( label= _("topics to select data from"))
+	topic = forms.ChoiceField( label= _("Topics to select data from"))
 	init_date = forms.DateField()
 	end_date = forms.DateField()
 
@@ -22,4 +22,4 @@ class CreateInteractionReportForm(forms.Form):
 		topics = list(initial['topic'])
 		
 		self.fields['topic'].choices = [(topic.id, topic.name) for topic in topics]
-		self.fields['topic'].choices.append((_("all"), _("all")))
+		self.fields['topic'].choices.append((_("All"), _("All")))

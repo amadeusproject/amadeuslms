@@ -34,6 +34,13 @@ class ReportView(LoginRequiredMixin, generic.FormView):
         initial['end_date'] =  date.today()
         return initial
 
+    def get_context_data(self, **kwargs):
+        context = super(ReportView, self).get_context_data(**kwargs)
+        subject = Subject.objects.get(id=self.request.GET['subject_id'])
+
+        context['subject'] = subject
+       
+        return context
 
     def get_success_url(self):
 
@@ -93,7 +100,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             except ValueError:
                 pass
 
-        header = ['social_name']
+        header = ['User']
 
         for student in students:
             data[student] = []
@@ -107,22 +114,22 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                 create_date__range=(init_date, end_date))
 
             #number of help posts created by the student
-            interactions['doubts_count'] = help_posts_made_by_user.count()
+            interactions['v01'] = help_posts_made_by_user.count()
 
             help_posts = SubjectPost.objects.filter(action="help", create_date__range=(init_date, end_date), 
             space__id=subject.id)
 
             #comments count on help posts created by the student
-            interactions['comments_count'] = Comment.objects.filter(post__in = help_posts.filter(user=student), 
+            interactions['v02'] = Comment.objects.filter(post__in = help_posts.filter(user=student), 
                 create_date__range=(init_date, end_date)).count()
             
 
             #count the amount of comments made by the student on posts made by one of the professors
-            interactions['comments_professor_count'] = Comment.objects.filter(post__in = help_posts.filter(user__in= subject.professor.all()), create_date__range=(init_date, end_date),
+            interactions['v03'] = Comment.objects.filter(post__in = help_posts.filter(user__in= subject.professor.all()), create_date__range=(init_date, end_date),
              user=student).count()
 
              #comments made by the user on other users posts
-            interactions['comments_on_others_count'] = Comment.objects.filter(post__in = help_posts.exclude(user=student), 
+            interactions['v04'] = Comment.objects.filter(post__in = help_posts.exclude(user=student), 
                 create_date__range=(init_date, end_date),
                 user= student).count()
            
@@ -133,7 +140,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             for comment in  comments_by_teacher:
                 help_posts_ids.append(comment.post.id)
              #number of help posts created by the user that the teacher commented on
-            interactions['help_posts_commented_by_teacher'] = help_posts.filter(user=student, id__in = help_posts_ids).count()
+            interactions['v05'] = help_posts.filter(user=student, id__in = help_posts_ids).count()
 
            
             comments_by_others = Comment.objects.filter(user__in=subject.students.exclude(id = student.id))
@@ -141,33 +148,33 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             for comment in  comments_by_teacher:
                 help_posts_ids.append(comment.post.id)
             #number of help posts created by the user others students commented on
-            interactions['help_posts_commented_by_others'] = help_posts.filter(user=student, id__in = help_posts_ids).count()
+            interactions['v06'] = help_posts.filter(user=student, id__in = help_posts_ids).count()
 
             #Number of student visualizations on the mural of the subject
-            interactions['mural_visualizations_count'] = MuralVisualizations.objects.filter(post__in = SubjectPost.objects.filter(space__id=subject.id),
+            interactions['v07'] = MuralVisualizations.objects.filter(post__in = SubjectPost.objects.filter(space__id=subject.id),
                 user = student).count()
             
 
             #VAR20 - number of access to mural between 6 a.m to 12a.m.
-            interactions['access_subject_between_6_to_12_am'] =  Log.objects.filter(action="access", resource="subject", 
+            interactions['v20'] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (5, 11)).count()
 
             #VAR21 - number of access to mural between 6 a.m to 12a.m.
-            interactions['access_subject_between_0_to_6_pm'] =  Log.objects.filter(action="access", resource="subject", 
+            interactions['v21'] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (11, 17)).count()
             #VAR22
-            interactions['access_subject_between_6_to_12_pm'] =  Log.objects.filter(action="access", resource="subject", 
+            interactions['v22'] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (17, 23)).count()
 
             #VAR23
-            interactions['access_subject_between_0_to_6_am'] =  Log.objects.filter(action="access", resource="subject", 
+            interactions['v23'] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (23, 5)).count()
 
             #VAR24 through 30
             day_numbers = [0, 1, 2, 3, 4, 5, 6]
             day_names = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
             for day_num in day_numbers:
-                interactions['access_subject_'+day_names[day_num]] =  Log.objects.filter(action="access", resource="subject", 
+                interactions['v'+ str(24+day_num)] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__week_day = day_num).count()
              
             for value in interactions.values():

@@ -6,7 +6,8 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    
+    {% breadcrumb subject.category 'subjects:cat_view' subject.category.slug %}
+    {% breadcrumb subject 'subjects:view' subject.slug %}
     {% breadcrumb 'analytics' '' %}
 {% endblock %}
 
