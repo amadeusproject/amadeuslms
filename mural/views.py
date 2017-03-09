@@ -77,7 +77,7 @@ class GeneralIndex(LoginRequiredMixin, LogMixin, generic.ListView):
 			self.totals['general'] = general_visualizations.count()
 			self.totals['category'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & ((Q(user__is_staff = True) & (Q(post__categorypost__isnull = False) | Q(comment__post__categorypost__isnull = False))) | Q(post__categorypost__space__coordinators = user) | Q(comment__post__categorypost__space__coordinators = user) | Q(post__categorypost__space__subject_category__students = user) | Q(comment__post__categorypost__space__subject_category__students = user) | Q(post__categorypost__space__subject_category__professor = user) | Q(comment__post__categorypost__space__subject_category__professor = user))).distinct().count()
 			self.totals['subject'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & ((Q(user__is_staff = True) & (Q(post__subjectpost__isnull = False) | Q(comment__post__subjectpost__isnull = False))) | Q(post__subjectpost__space__professor = user) | Q(comment__post__subjectpost__space__professor = user) | Q(post__subjectpost__space__students = user) | Q(comment__post__subjectpost__space__students = user))).distinct().count()
-			
+
 			general_visualizations.update(viewed = True, date_viewed = datetime.now())
 
 			MuralVisualizations.objects.filter(user = user, viewed = False, comment__post__generalpost__isnull = False).update(viewed = True, date_viewed = datetime.now())
@@ -153,7 +153,7 @@ class GeneralCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 			"user_icon": self.object.user.image_url,
 			"simple_notify": _("%s has made a post in General")%(str(self.object.user)),
 			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
-			"container": ".post", 
+			"container": ".post",
 			"accordion": False,
 			"post_type": "general"
 		}
@@ -207,7 +207,7 @@ class GeneralUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
 		self.object.save()
 
 		users = User.objects.all().exclude(id = self.request.user.id)
-		
+
 		paths = [reverse("mural:manage_general")]
 
 		notification = {
@@ -226,7 +226,7 @@ class GeneralUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
 		self.log_context['post_id'] = str(self.object.id)
 
 		super(GeneralUpdate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
-		
+
 		return super(GeneralUpdate, self).form_valid(form)
 
 	def get_context_data(self, *args, **kwargs):
@@ -261,7 +261,7 @@ class GeneralDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
 
 	def get_success_url(self):
 		users = User.objects.all().exclude(id = self.request.user.id)
-				
+
 		paths = [reverse("mural:manage_general")]
 
 		notification = {
@@ -295,7 +295,7 @@ def load_category_posts(request, category):
 	mines = request.GET.get('mine', False)
 	showing = request.GET.get('showing', '')
 	n_views = 0
-	
+
 	if not favorites:
 		if mines:
 			posts = CategoryPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_categorypost.mural_ptr_id))"}).filter(space__id = category, mural_ptr__user = user)
@@ -306,7 +306,7 @@ def load_category_posts(request, category):
 			posts = CategoryPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_categorypost.mural_ptr_id))"}).filter(space__id = category, favorites_post__isnull = False, favorites_post__user = user, mural_ptr__user = user)
 		else:
 			posts = CategoryPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_categorypost.mural_ptr_id))"}).filter(space__id = category, favorites_post__isnull = False, favorites_post__user = user)
-	
+
 	if showing: #Exclude ajax creation posts results
 		showing = showing.split(',')
 		posts = posts.exclude(id__in = showing)
@@ -348,7 +348,7 @@ class CategoryIndex(LoginRequiredMixin, generic.ListView):
 
 	def get_queryset(self):
 		user = self.request.user
-		
+
 		if user.is_staff:
 			categories = Category.objects.all()
 		else:
@@ -366,7 +366,7 @@ class CategoryIndex(LoginRequiredMixin, generic.ListView):
 		context['title'] = _('Mural - Per Category')
 		context['totals'] = self.totals
 		context['mural_menu_active'] = 'subjects_menu_active'
-		
+
 		return context
 
 class CategoryCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
@@ -400,7 +400,7 @@ class CategoryCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		users = getSpaceUsers(self.request.user.id, self.object)
 		entries = []
-		
+
 		paths = [reverse("mural:manage_category")]
 
 		notification = {
@@ -410,7 +410,7 @@ class CategoryCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 			"user_icon": self.object.user.image_url,
 			"simple_notify": _("%s has made a post in %s")%(str(self.object.user), str(self.object.space)),
 			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
-			"container": "#" + slug, 
+			"container": "#" + slug,
 			"accordion": True,
 			"post_type": "categories"
 		}
@@ -468,7 +468,7 @@ class CategoryUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
 		self.object.save()
 
 		users = getSpaceUsers(self.request.user.id, self.object)
-		
+
 		paths = [reverse("mural:manage_category")]
 
 		notification = {
@@ -483,7 +483,7 @@ class CategoryUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
 		for user in users:
 			Group("user-%s" % user.id).send({'text': notification})
-		
+
 		self.log_context['post_id'] = self.object.id
 		self.log_context['category_id'] = self.object.space.id
 		self.log_context['category_name'] = self.object.space.name
@@ -525,7 +525,7 @@ class CategoryDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
 
 	def get_success_url(self):
 		users = getSpaceUsers(self.request.user.id, self.object)
-		
+
 		paths = [reverse("mural:manage_category")]
 
 		notification = {
@@ -584,7 +584,7 @@ def load_subject_posts(request, subject):
 	mines = request.GET.get('mine', False)
 	showing = request.GET.get('showing', '')
 	n_views = 0
-	
+
 	if not favorites:
 		if mines:
 			posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space__id = subject, mural_ptr__user = user)
@@ -595,7 +595,7 @@ def load_subject_posts(request, subject):
 			posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space__id = subject, favorites_post__isnull = False, favorites_post__user = user, mural_ptr__user = user)
 		else:
 			posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space__id = subject, favorites_post__isnull = False, favorites_post__user = user)
-	
+
 	if showing: #Exclude ajax creation posts results
 		showing = showing.split(',')
 		posts = posts.exclude(id__in = showing)
@@ -637,7 +637,7 @@ class SubjectIndex(LoginRequiredMixin, generic.ListView):
 
 	def get_queryset(self):
 		user = self.request.user
-		
+
 		if user.is_staff:
 			subjects = Subject.objects.all()
 		else:
@@ -655,7 +655,7 @@ class SubjectIndex(LoginRequiredMixin, generic.ListView):
 		context['title'] = _('Mural - Per Subject')
 		context['totals'] = self.totals
 		context['mural_menu_active'] = 'subjects_menu_active'
-		
+
 		return context
 
 class SubjectCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
@@ -716,7 +716,7 @@ class SubjectCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 			"user_icon": self.object.user.image_url,
 			"simple_notify": _("%s has made a post in %s")%(str(self.object.user), str(self.object.space)),
 			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
-			"container": "#" + slug, 
+			"container": "#" + slug,
 			"accordion": True,
 			"post_type": "subjects"
 		}
@@ -793,7 +793,7 @@ class SubjectUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
 		self.object.save()
 
 		users = getSpaceUsers(self.request.user.id, self.object)
-		
+
 		paths = [
 			reverse("mural:manage_subject"),
 			reverse("mural:subject_view", args = (), kwargs = {'slug': self.object.space.slug})
@@ -826,7 +826,7 @@ class SubjectUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
 			self.log_context['resource_slug'] = self.object.resource.slug
 
 		super(SubjectUpdate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
-		
+
 		return super(SubjectUpdate, self).form_valid(form)
 
 	def get_context_data(self, *args, **kwargs):
@@ -861,7 +861,7 @@ class SubjectDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
 
 	def get_success_url(self):
 		users = getSpaceUsers(self.request.user.id, self.object)
-		
+
 		paths = [
 			reverse("mural:manage_subject"),
 			reverse("mural:subject_view", args = (), kwargs = {'slug': self.object.space.slug})
@@ -1113,7 +1113,7 @@ class ResourceCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 	form_class = ResourcePostForm
 
 	def form_invalid(self, form):
-		context = super(SubjectCreate, self).form_invalid(form)
+		context = super(ResourceCreate, self).form_invalid(form)
 		context.status_code = 400
 
 		return context
@@ -1151,7 +1151,7 @@ class ResourceCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 			"user_icon": self.object.user.image_url,
 			"simple_notify": _("%s has made a post in %s")%(str(self.object.user), str(self.object.space)),
 			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
-			"container": "#" + slug, 
+			"container": "#" + slug,
 			"accordion": True,
 			"post_type": "subjects"
 		}
@@ -1263,7 +1263,7 @@ class CommentCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		users = getSpaceUsers(self.request.user.id, post)
 		entries = []
-		
+
 		paths = [
 			reverse("mural:manage_general"),
 			reverse("mural:manage_category"),
@@ -1361,7 +1361,7 @@ class CommentUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
 		self.object.save()
 
 		users = getSpaceUsers(self.request.user.id, self.object.post)
-		
+
 		paths = [
 			reverse("mural:manage_general"),
 			reverse("mural:manage_category"),
@@ -1411,7 +1411,7 @@ class CommentUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
 				self.log_context['resource_slug'] = self.object.post.subjectpost.resource.slug
 
 		super(CommentUpdate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
-		
+
 		return super(CommentUpdate, self).form_valid(form)
 
 	def get_context_data(self, *args, **kwargs):
@@ -1541,7 +1541,7 @@ def load_comments(request, post, child_id):
 		comments = Comment.objects.filter(post__id = post).order_by('-last_update')
 	else:
 		showing = showing.split(',')
-		comments = Comment.objects.filter(post__id = post).exclude(id__in = showing).order_by('-last_update')	
+		comments = Comment.objects.filter(post__id = post).exclude(id__in = showing).order_by('-last_update')
 
 	paginator = Paginator(comments, 5)
 
