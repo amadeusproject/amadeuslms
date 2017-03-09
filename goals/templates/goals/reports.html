@@ -6,12 +6,15 @@
 {% block style %}
 	{{block.super}}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.buttons.bootstrap.css' %}">
 {% endblock %}
 
 {% block javascript%}
 	{{ block.super }}
 	<script type="text/javascript" src="{% static 'js/jquery.dataTables.js' %} "></script>
+	<script type="text/javascript" src="{% static 'js/dataTables.buttons.js' %} "></script>
 	<script type="text/javascript" src="{% static 'js/dataTables.bootstrap.js' %} "></script>
+	<script type="text/javascript" src="{% static 'js/dataTables.buttons.html5.js' %} "></script>
 {% endblock%}
 
 {% block breadcrumbs %}
@@ -90,7 +93,9 @@
 		            "sortAscending":  "{% trans ': activate to sort column ascending' %}",
 		            "sortDescending": "{% trans ': activate to sort column descending' %}"
 		        }
-		    }
+		    };
+
+		    var csvBtnLabeli18n = "<i class='fa fa-download'></i> {% trans 'Download .csv file' %}";
 		</script>
 		<script type="text/javascript" src="{% static 'js/goals_reports.js' %}"></script>
 {% endblock %}

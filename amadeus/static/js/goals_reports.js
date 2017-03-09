@@ -23,8 +23,26 @@ function getAnswered() {
                 // 	return false;
                 // });
                 $('#answered_table').DataTable({
-                    "dom": "frtip",
-                    "language": dataTablei18n
+                    "dom": "Bfrtip",
+                    "language": dataTablei18n,
+                    buttons: {
+                        dom: {
+                            container: {
+                                className: 'col-md-3'
+                            },
+                            buttonContainer: {
+                                tag: 'h4',
+                                className: 'history-header'
+                            },
+                        },
+                        buttons: [
+                            {
+                                extend: 'csv',
+                                text: csvBtnLabeli18n,
+                                filename: 'report-answered'
+                            }
+                        ]
+                    }
                 });
                 // var items = $("#answered_table").children(":visible").length;
 
