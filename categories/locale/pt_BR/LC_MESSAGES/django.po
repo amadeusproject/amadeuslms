@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-20 22:07-0300\n"
+"POT-Creation-Date: 2017-03-09 17:01-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,7 +50,7 @@ msgstr "Data de modificação"
 msgid "Category"
 msgstr "Categoria"
 
-#: categories/models.py:20 categories/views.py:48
+#: categories/models.py:20 categories/views.py:49
 msgid "Categories"
 msgstr "Categorias"
 
@@ -114,7 +114,7 @@ msgstr "Deletar"
 msgid "categories"
 msgstr "Categorias"
 
-#: categories/templates/categories/list.html:31 categories/views.py:105
+#: categories/templates/categories/list.html:31 categories/views.py:106
 msgid "Create Category"
 msgstr "Criar Categoria"
 
@@ -127,12 +127,12 @@ msgid "all subjects"
 msgstr "Todos os assuntos"
 
 #: categories/templates/categories/list.html:86
-#: categories/templates/categories/list.html:131
+#: categories/templates/categories/list.html:129
 msgid "Coordinator(s) "
 msgstr "Coordenador(es)"
 
 #: categories/templates/categories/list.html:90
-#: categories/templates/categories/list.html:135
+#: categories/templates/categories/list.html:133
 msgid "It doesn't possess coordinators"
 msgstr "Não possui coordenadores"
 
@@ -148,16 +148,16 @@ msgstr "atras"
 msgid "Update: "
 msgstr "Editar: "
 
-#: categories/views.py:103
+#: categories/views.py:104
 msgid "Replicate Category"
 msgstr "Replicar Categoria"
 
-#: categories/views.py:130
+#: categories/views.py:131
 #, python-format
 msgid "Category \"%s\" register successfully!"
 msgstr "Categoria \"%s\" foi registrada com sucesso!"
 
-#: categories/views.py:166
+#: categories/views.py:167
 msgid ""
 "The category cannot be removed, it contains one or more virtual enviroments "
 "attach."
@@ -165,12 +165,12 @@ msgstr ""
 "A categoria não pode ser removida, ela contém um ou mais ambientes virtuais "
 "vinculados."
 
-#: categories/views.py:179
+#: categories/views.py:180
 #, python-format
 msgid "Category \"%s\" removed successfully!"
 msgstr "Categoria \"%s\" removida com sucesso!"
 
-#: categories/views.py:207
+#: categories/views.py:208
 #, python-format
 msgid "Category \"%s\" updated successfully!"
 msgstr "Categoria \"%s\" atualizada com sucesso!"

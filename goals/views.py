@@ -912,7 +912,7 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
 		return super(DeleteView, self).dispatch(request, *args, **kwargs)
 
 	def get_success_url(self):
-		messages.success(self.request, _('The Goals specification of the thopic %s was removed successfully!')%(self.object.topic.name))
+		messages.success(self.request, _('The Goals specification of the topic %s was removed successfully!')%(self.object.topic.name))
 		
 		self.log_context['category_id'] = self.object.topic.subject.category.id
 		self.log_context['category_name'] = self.object.topic.subject.category.name
