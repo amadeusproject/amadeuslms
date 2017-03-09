@@ -23,7 +23,8 @@ function getAnswered() {
                 // 	return false;
                 // });
                 $('#answered_table').DataTable({
-                    "dom": "frtip"
+                    "dom": "frtip",
+                    "language": dataTablei18n
                 });
                 // var items = $("#answered_table").children(":visible").length;
 

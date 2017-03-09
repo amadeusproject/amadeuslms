@@ -1196,6 +1196,10 @@ li.item .notify_badge {
     font-weight: 700;
     font-size: 20px;
 }
+
+div.dataTables_wrapper div.dataTables_paginate {
+    text-align: center !important;
+}
 /* End Goals */
 
 
