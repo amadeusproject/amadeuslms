@@ -77,9 +77,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         context['topic_name'] = params_data['topic']
         context['init_date'] = params_data['init_date']
         context['end_date'] = params_data['end_date']
-
         if params_data['from_mural']:
-            context['data'] = self.get_mural_data(subject, params_data['init_date'], params_data['end_date'])
+            context['data'], context['header'] = self.get_mural_data(subject, params_data['init_date'], params_data['end_date'])
         return context
 
     def get_mural_data(self, subject, init_date, end_date):
@@ -93,10 +92,15 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             except ValueError:
                 pass
 
+        header = ['social_name']
 
         for student in students:
+            data[student] = []
+
+            data[student].append(student.social_name)
+
             interactions = {}
-            interactions['username'] = student.social_name
+            #interactions['username'] = student.social_name
             
             help_posts_made_by_user = SubjectPost.objects.filter(action="help",space__id=subject.id, user=student, 
                 create_date__range=(init_date, end_date))
@@ -164,8 +168,11 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             for day_num in day_numbers:
                 interactions['access_subject_'+day_names[day_num]] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__week_day = day_num).count()
-                        
-            data[student] = interactions
-        print(data)
-        return data
+             
+            for value in interactions.values():
+                data[student].append(value)
+            if len(header) <= 1:
+                for key in interactions.keys():
+                    header.append(key)
+        return data, header
 

@@ -60,22 +60,24 @@
 
     	</ul>
     <div class="table-responsive">
-    	<table class="table table-stripped">
+    	<table class="table table-striped">
     	<thead>
     		<tr>	
-	    	{% for key  in data.keys %}
-	    		<th>{{key}}</th>
+    		
+	    	{% for value in header  %}
+	    		<th>{{value}}</th>
 	    	{% endfor %}
     		</tr>
     	</thead>
     	<tbody>
+    		
 
-    		{% for value_dict in  data.values %}
-    			<tr>
-    			{% for key, value in value_dict.items %}
-    				<td>{{value}}</td>
+    		{% for variables in data.values  %}
+    		<tr>
+    			{% for variable in variables %}
+    				<td>{{variable}}</td>
     			{% endfor %}
-    			</tr>
+    		</tr>
     		{% endfor %}
     	</tbody>
 
