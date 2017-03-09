@@ -15,4 +15,5 @@ urlpatterns = [
 	url(r'^answered_report/(?P<slug>[\w_-]+)/$', views.AnsweredReport.as_view(), name = 'answered_report'),
 	url(r'^unanswered_report/(?P<slug>[\w_-]+)/$', views.UnansweredReport.as_view(), name = 'unanswered_report'),
 	url(r'^history_report/(?P<slug>[\w_-]+)/$', views.HistoryReport.as_view(), name = 'history_report'),
+	url(r'^view_log/(?P<goal>[\w_-]+)/(?P<report>[\w_-]+)/$', views.reports_log, name = 'reports_log'),
 ]

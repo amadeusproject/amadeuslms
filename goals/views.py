@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import formset_factory, modelformset_factory
+from django.http import JsonResponse
 
 from log.models import Log
 from log.mixins import LogMixin
@@ -155,7 +156,7 @@ class HistoryReport(LoginRequiredMixin, generic.ListView):
 		slug = self.kwargs.get('slug', '')
 		goal = get_object_or_404(Goals, slug = slug)
 
-		rows = Log.objects.filter(context__contains = {"goals_id": goal.id})
+		rows = Log.objects.filter(context__contains = {"goals_id": goal.id}).exclude(action = 'view_reports')
 		
 		return rows
 
@@ -930,3 +931,35 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
 		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+
+@log_decorator_ajax('resources', 'view_reports', 'goals')
+def reports_log(request, goal, report):
+	action = request.GET.get('action')
+
+	if action == 'open':
+		goals = get_object_or_404(Goals, slug = goal)
+
+		log_context = {}
+		log_context['category_id'] = goals.topic.subject.category.id
+		log_context['category_name'] = goals.topic.subject.category.name
+		log_context['category_slug'] = goals.topic.subject.category.slug
+		log_context['subject_id'] = goals.topic.subject.id
+		log_context['subject_name'] = goals.topic.subject.name
+		log_context['subject_slug'] = goals.topic.subject.slug
+		log_context['topic_id'] = goals.topic.id
+		log_context['topic_name'] = goals.topic.name
+		log_context['topic_slug'] = goals.topic.slug
+		log_context['goals_id'] = goals.id
+		log_context['goals_name'] = goals.name
+		log_context['goals_slug'] = goals.slug
+		log_context['goals_report'] = report
+		log_context['timestamp_start'] = str(int(time.time()))
+		log_context['timestamp_end'] = '-1'
+
+		request.log_context = log_context
+
+		log_id = Log.objects.latest('id').id
+
+		return JsonResponse({'message': 'ok', 'log_id': log_id})
+
+	return JsonResponse({'message': 'ok'})
