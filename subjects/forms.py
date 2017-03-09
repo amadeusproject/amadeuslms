@@ -6,7 +6,7 @@ from .models import Subject, Tag
 class CreateSubjectForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CreateSubjectForm, self).__init__(*args, **kwargs)
-        
+
         if not kwargs['instance'] is None:
             self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
 
@@ -16,7 +16,7 @@ class CreateSubjectForm(forms.ModelForm):
     class Meta:
         model = Subject
 
-        fields = ('name', 'description_brief', 'description', 'init_date', 'end_date','subscribe_begin', 'subscribe_end',
+        fields = ('name', 'description_brief', 'description', 'subscribe_begin', 'subscribe_end', 'init_date', 'end_date',
          'visible', 'professor', 'students', )
 
 
@@ -40,7 +40,7 @@ class CreateSubjectForm(forms.ModelForm):
         for prev in previous_tags:
             if not prev.name in tags:
                 self.instance.tags.remove(prev)
-        
+
         for tag in tags:
             tag = tag.strip()
 
@@ -56,21 +56,6 @@ class CreateSubjectForm(forms.ModelForm):
 
         return self.instance
 
-    def clean(self):
-        cleaned_data = super(CreateSubjectForm, self).clean()
-        subscribe_begin = cleaned_data.get('subscribe_begin')
-        end_date = cleaned_data.get('end_date')
-        """if subscribe_begin and end_date:
-
-            if subscribe_begin > end_date:
-                self._errors['subscribe_begin'] = [_('Subscribe period should be  between course time')]
-                return ValueError
-
-        if cleaned_data['init_date'] > cleaned_data['end_date']:
-            self._errors['init_date'] = [_('This date must be before end date of the Subject')]
-            return ValueError"""
-        return cleaned_data
-    
     def clean_name(self):
         name = self.cleaned_data.get('name')
         if self.instance.id:
@@ -86,42 +71,45 @@ class CreateSubjectForm(forms.ModelForm):
 
     def clean_subscribe_begin(self):
         subscribe_begin = self.cleaned_data['subscribe_begin']
-        
+
         if subscribe_begin < datetime.datetime.today().date():
-            self._errors['subscribe_begin'] = [_('this date must be today or after')]
+            self._errors['subscribe_begin'] = [_('This date must be today or after')]
             return ValueError
-        
+
         return subscribe_begin
+
+    def clean_subscribe_end(self):
+        subscribe_end = self.cleaned_data['subscribe_end']
+        subscribe_begin =  self.cleaned_data['subscribe_begin']
+
+        if subscribe_begin is ValueError or subscribe_end < subscribe_begin:
+            self._errors['subscribe_end'] = [_('This date must be equal subscribe begin or after')]
+            return ValueError
+        return subscribe_end
+
     def clean_init_date(self):
         init_date = self.cleaned_data['init_date']
-       
+        subscribe_end = self.cleaned_data['subscribe_end']
 
-        if init_date < datetime.datetime.today().date():
-            self._errors['init_date'] = [_('this date must be today or after')]
+
+        if subscribe_end is ValueError or init_date <= subscribe_end:
+            self._errors['init_date'] = [_('This date must be after subscribe end')]
             return ValueError
         return init_date
 
     def clean_end_date(self):
         end_date = self.cleaned_data['end_date']
+        init_date = self.cleaned_data['init_date']
 
-        if end_date < datetime.datetime.today().date():
-            self._errors['end_date'] = [_('this date must be today or after')]
+        if init_date is ValueError or end_date < init_date:
+            self._errors['end_date'] = [_('This date must be equal init date or after')]
             return ValueError
         return end_date
-
-    def clean_subscribe_end(self):
-        subscribe_end = self.cleaned_data['subscribe_end']
-
-        if subscribe_end < datetime.datetime.today().date():
-            self._errors['subscribe_end'] = [_('this date must be today or after')]
-            return ValueError
-        return subscribe_end
-
 
 class UpdateSubjectForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UpdateSubjectForm, self).__init__(*args, **kwargs)
-        
+
         if not kwargs['instance'] is None:
             self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
 
@@ -131,7 +119,7 @@ class UpdateSubjectForm(forms.ModelForm):
     class Meta:
         model = Subject
 
-        fields = ('name', 'description_brief', 'description',  'init_date', 'end_date','subscribe_begin', 'subscribe_end',
+        fields = ('name', 'description_brief', 'description', 'subscribe_begin', 'subscribe_end', 'init_date', 'end_date',
          'visible', 'professor', 'students',  )
 
 
@@ -155,7 +143,7 @@ class UpdateSubjectForm(forms.ModelForm):
         for prev in previous_tags:
             if not prev.name in tags:
                 self.instance.tags.remove(prev)
-        
+
         for tag in tags:
             tag = tag.strip()
 
@@ -171,11 +159,6 @@ class UpdateSubjectForm(forms.ModelForm):
 
         return self.instance
 
-    def clean(self):
-        cleaned_data = super(UpdateSubjectForm, self).clean()
-        
-        return cleaned_data
-    
     def clean_name(self):
         name = self.cleaned_data.get('name')
         if self.instance.id:
@@ -189,10 +172,46 @@ class UpdateSubjectForm(forms.ModelForm):
 
         return name
 
-    
+    def clean_subscribe_begin(self):
+        subscribe_begin = self.cleaned_data['subscribe_begin']
+
+        print (self.instance.subscribe_begin, "################################")
+        if subscribe_begin < datetime.datetime.today().date() and subscribe_begin < self.instance.subscribe_begin:
+            self._errors['subscribe_begin'] = [_('This date must be today or after')]
+            return ValueError
+
+        return subscribe_begin
+
+    def clean_subscribe_end(self):
+        subscribe_end = self.cleaned_data['subscribe_end']
+        subscribe_begin =  self.cleaned_data['subscribe_begin']
+
+        if subscribe_begin is ValueError or subscribe_end < subscribe_begin:
+            self._errors['subscribe_end'] = [_('This date must be equal subscribe begin or after')]
+            return ValueError
+        return subscribe_end
+
+    def clean_init_date(self):
+        init_date = self.cleaned_data['init_date']
+        subscribe_end = self.cleaned_data['subscribe_end']
+
+
+        if subscribe_end is ValueError or init_date <= subscribe_end:
+            self._errors['init_date'] = [_('This date must be after subscribe end')]
+            return ValueError
+        return init_date
+
+    def clean_end_date(self):
+        end_date = self.cleaned_data['end_date']
+        init_date = self.cleaned_data['init_date']
+
+        if init_date is ValueError or end_date < init_date:
+            self._errors['end_date'] = [_('This date must be equal init date or after')]
+            return ValueError
+        return end_date
+
 
 class CreateTagForm(forms.ModelForm):
     class Meta:
         model = Tag
         fields = ('name',)
-    
