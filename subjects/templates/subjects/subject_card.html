@@ -14,14 +14,14 @@
             <div class="row">
                 <div class="col-md-12 category-header">
                     <h4 class="panel-title">
-                        <a class="category-course-link pull-left" data-parent="#{% if accordion_id %}{{ accordion_id }}{% else %}{{ subject.category.slug }}-accordion{% endif %}" data-toggle="collapse" href="#{{subject.slug}}">
+                        <a class="category-course-link pull-left" data-parent="#{% if accordion_id %}{{ accordion_id }}{% else %}{{ subject.category.slug }}_category-accordion{% endif %}" data-toggle="collapse" href="#{{subject.slug}}_subject">
                             <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{ subject }}
                         </a>
                     </h4>
 
                     <div class="col-md-5 pull-right category-card-items">
                         {% if has_subject_permissions %}
-                            <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                            <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                             </a>
                             <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div id="{{subject.slug}}" class="panel-collapse collapse category-panel-content">
+        <div id="{{subject.slug}}_subject" class="panel-collapse collapse category-panel-content">
             <input type="hidden" class="log_url" value="{% url 'subjects:view_log' subject.id %}" />
             <input type="hidden" class="log_id" value="" />
 
@@ -72,9 +72,9 @@
             {% if subject.description_brief %}
                 <p>{{subject.description_brief|safe}}</p>
             {% endif %}
-            
-            {% if show_buttons %}                 
-                                        
+
+            {% if show_buttons %}
+
                 {% if has_subject_view_permissions %}
                     <a href="{% url 'subjects:view' subject.slug %}" class="btn btn-success btn-raised"> {% trans "Access Subject" %}</a>
                 {% elif subject.subscribe_end|aftertoday %}

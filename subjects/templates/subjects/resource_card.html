@@ -6,11 +6,11 @@
  {% if has_resource_permissions %}
 	<div class="panel panel-info resource-panel">
         <div class="panel-heading">
-		
+
 	  		<div class="row">
                 <div class="col-md-12 resource-header">
                 	<h4 class="panel-title">
-                   		<a class="resource-link pull-left" data-parent="#{% if accordion_id %}{{ accordion_id }}{% else %}{{ subject.category.slug }}-accordion{% endif %}" data-toggle="collapse" href="#{{resource.slug}}">
+                   		<a class="resource-link pull-left" data-parent="#{% if accordion_id %}{{ accordion_id }}{% else %}{{ subject.category.slug }}_category-accordion{% endif %}" data-toggle="collapse" href="#{{resource.slug}}">
                             <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{ resource }}
                         </a>
                 	</h4>
@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-           
+
 	  	</div>
 
 	  	 <div id="{{resource.slug}}" class="panel-collapse collapse category-panel-content">
@@ -55,11 +55,11 @@
             </div>
             {% if resource.brief_description %}
                 <p>{{resource.brief_description|safe}}</p>
-           
+
             {% endif %}
 
             <a href="{{ resource.access_link }}" {% if resource.show_window %}target="_blank"{% endif %} class="btn btn-success btn-raised"> {% trans "Access Resource" %}</a>
-         
+
         </div>
 
 	</div>
@@ -67,7 +67,7 @@
   {% include "resources/delete.html" with resource=resource %}
 <script type="text/javascript">
 	function delete_resource(url) {
-	 
+
 
 	    $.get(url, function (modal) {
 	        $("#resource_{{ topic.slug }}").parent().after(modal);

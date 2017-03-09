@@ -43,7 +43,7 @@
 
                     <div class="col-md-5 pull-right category-card-items">
                         {% if request.user in subject.professor.all or request.user in subject.category.coordinators.all or request.user.is_staff %}
-                            <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                            <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                             </a>
                             <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
@@ -55,7 +55,7 @@
                                 <li><a href="javascript:delete_subject.get('{% url 'subjects:delete' subject.slug %}?view=index','#subject','#modal_subject')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
                             </ul>
                         {% endif %}
-                        
+
                         <a href="" class="pull-right action_icon"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
                         <a href="{% url 'notifications:view' subject.slug %}" class="pull-right action_icon">
                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
@@ -76,14 +76,14 @@
             {% if has_subject_permissions %}
                 <a href="{% url 'topics:create' subject.slug %}" class="btn btn-sm btn-success btn-raised btn-block">{% trans "Create new topic" %}</a>
             {% endif %}
-            
+
             {% include 'topics/list.html' with subject=subject %}
         </div>
     </div>
 
      <div id="modal_subject"></div>
-    
-    
+
+
     <script type="text/javascript">
         {% if resource_new_page %}
             window.open("{{ resource_new_page_url }}");

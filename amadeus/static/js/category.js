@@ -110,7 +110,7 @@ function bindCollapse() {
             var btn = $(this).parent().find('.fa-angle-right');
 
             btn = btn[0];
-            
+
             $(btn).switchClass("fa-angle-right", "fa-angle-down", 250, "easeInOutQuad");
 
             var url = $(this).parent().find('.log_url').val();
@@ -136,9 +136,9 @@ function bindCollapse() {
     $('.collapse').on('hide.bs.collapse', function (e) {
         if($(this).is(e.target)){
             var btn = $(this).parent().find('.fa-angle-down');
-            
+
             btn = btn[0];
-            
+
             $(btn).switchClass("fa-angle-down", "fa-angle-right", 250, "easeInOutQuad");
 
             var url = $(this).parent().find('.log_url').val();
@@ -165,7 +165,7 @@ $('.category-panel-content').on('shown.bs.collapse', function(e) {
     if($(this).is(e.target)){
         var panel_id = $(this).attr('id');
         var holder = $(this).find('.holder');
-        
+
         if ($('#' + panel_id + '-accordion').children().length == 0) {
             var load_sub_url = $(this).find('.load_sub_url').val();
 
@@ -209,7 +209,7 @@ $('.category-panel-content').on('hidden.bs.collapse', function(e) {
     if($(this).is(e.target)){
         var panel_id = $(this).attr('id');
         var holder = $(this).find('.holder');
-        
+
         var items = $('#' + panel_id + '-accordion').children(":visible").length;
 
         if (items > 10) {

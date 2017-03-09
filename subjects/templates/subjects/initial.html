@@ -13,7 +13,7 @@
             </div>
         {% endfor %}
     {% endif %}
-    
+
 
 
 
@@ -43,7 +43,7 @@
                   <li class="small"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
                 {% endif %}
 
-                
+
               {% endfor %}
             </ul>
           </div>
@@ -77,7 +77,7 @@
                   <li class="small"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
                 {% endif %}
 
-                
+
               {% endfor %}
             </ul>
           </div>
@@ -85,10 +85,10 @@
   {% endif %}
 
 
-   
- 
-	
-	
+
+
+
+
 	<div class="col-md-12 cards-content">
 		<h2 class=" my-subjects-title"><b><i>{% trans "My Subjects" %} ({{ total_subs }})</i></b></h2>
 
@@ -97,7 +97,7 @@
 				{% for subject in subjects %}
 					{% include "subjects/subject_card.html" with accordion_id="subject-accordion" %}
 				{% endfor %}
-				
+
 				{% pagination request paginator page_obj %}
 			</div>
 		{% else %}
@@ -110,9 +110,9 @@
 
 	<div id="modal_subject"></div>
   {% if user.is_staff %}
-    <script type="text/javascript" src="{% static "js/charts/home.js" %}"></script>
+    <script type="text/javascript" src="{% static 'js/charts/home.js' %}"></script>
   {% endif %}
-  
-	<script type="text/javascript" src="{% static "subjects/js/modal_subject.js" %}"></script>
+
+	<script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
 {% endblock content %}

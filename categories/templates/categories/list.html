@@ -40,7 +40,7 @@
                 <li>{% trans "all subjects" %}</li>
             </ul>
         </div>
-    {% endif %}   
+    {% endif %}
 
     <!-- Code for listing categories -->
     <div class="col-md-12 cards-content">
@@ -52,14 +52,14 @@
                             <div class="row">
                                 <div class="col-md-12 category-header">
                                     <h4 class="panel-title">
-                                        <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{category.slug}}">
+                                        <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{category.slug}}_category">
                                             <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{category.name}}
                                         </a>
                                     </h4>
-                                    
+
                                     <div class="col-md-5 pull-right category-card-items">
                                         {% if user.is_staff or user in category.coordinators.all %}
-                                            <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                            <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                             </a>
                                             <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
@@ -78,10 +78,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="{{category.slug}}" class="panel-collapse panel-body collapse category-panel-content">
+                        <div id="{{category.slug}}_category" class="panel-collapse panel-body collapse category-panel-content">
                             <input type="hidden" class="log_url" value="{% url 'categories:view_log' category.id %}" />
                             <input type="hidden" class="log_id" value="" />
-                            
+
                             {% if category.coordinators.all|length > 0  %}
                                 <h4><b>{% trans "Coordinator(s) " %}: </b>
                                     {{ category.coordinators.all|join:', ' }}
@@ -89,7 +89,7 @@
                             {% else %}
                                 <h4> {% trans "It doesn't possess coordinators" %} </h4>
                             {% endif %}
-                           
+
                             {{category.description|safe}}
                         </div>
                     </div>
@@ -99,14 +99,14 @@
                             <div class="row">
                                 <div class="col-md-12 category-header">
                                     <h4 class="panel-title">
-                                        <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{category.slug}}">
+                                        <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{category.slug}}_category">
                                             <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{category.name}}
                                         </a>
                                     </h4>
 
                                     <div class="col-md-5 pull-right category-card-items">
                                         {% if user.is_staff or user in category.coordinators.all %}
-                                            <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                            <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                             </a>
                                             <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
@@ -121,10 +121,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="{{category.slug}}" class="panel-collapse panel-body collapse category-panel-content">
+                        <div id="{{category.slug}}_category" class="panel-collapse panel-body collapse category-panel-content">
                             <input type="hidden" class="log_url" value="{% url 'categories:view_log' category.id %}" />
                             <input type="hidden" class="log_id" value="" />
-                            
+
                             {% if category.coordinators.all|length > 0  %}
                                 <h4><b>{% trans "Coordinator(s) " %}: </b>
                                     {{ category.coordinators.all|join:', ' }}
@@ -132,7 +132,7 @@
                             {% else %}
                                 <h4> {% trans "It doesn't possess coordinators" %} </h4>
                             {% endif %}
-                           
+
                             {{category.description|safe}}
                         </div>
                     </div>
