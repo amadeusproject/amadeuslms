@@ -1,0 +1,40 @@
+{% load i18n goals_filters %}
+
+<div class="row">
+	<div class="col-md-12">
+		<table id="history_table" class="table table-striped table-bordered">
+			<thead>
+				<th>
+					{% trans 'Date/Hour' %}
+				</th>
+				<th>
+					{% trans 'Student' %}
+				</th>
+				<th>
+					{% trans 'Group' %}
+				</th>
+				<th>
+					{% trans 'Action' %}
+				</th>
+				<th>
+					{% trans 'Object' %}
+				</th>
+				<th>
+					{% trans 'Resource' %}
+				</th>
+			</thead>
+			<tbody>
+				{% for row in records %}
+					<tr>
+						<td>{{ row.datetime }}</td>
+						<td>{{ row.user }}</td>
+						<td>{{ row.user_id|log_groups }}</td>
+						<td>{{ row.action|log_action }}</td>
+						<td>{{ row|log_object }}</td>
+						<td>{{ row.context.goals_name }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>

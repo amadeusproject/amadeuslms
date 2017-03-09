@@ -71,7 +71,6 @@ class AnsweredReport(LoginRequiredMixin, generic.ListView):
 	redirect_field_name = 'next'
 	
 	template_name = 'goals/_answered.html'	
-	model = MyGoals
 	context_object_name = 'students'
 
 	def get_queryset(self):
@@ -110,7 +109,6 @@ class UnansweredReport(LoginRequiredMixin, generic.ListView):
 	redirect_field_name = 'next'
 	
 	template_name = 'goals/_unanswered.html'	
-	model = MyGoals
 	context_object_name = 'students'
 
 	def get_queryset(self):
@@ -138,6 +136,40 @@ class UnansweredReport(LoginRequiredMixin, generic.ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(UnansweredReport, self).get_context_data(**kwargs)
+
+		slug = self.kwargs.get('slug', '')
+		goals = get_object_or_404(Goals, slug = slug)
+		
+		context['goal'] = goals
+
+		return context
+
+class HistoryReport(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+	
+	template_name = 'goals/_history.html'	
+	context_object_name = 'records'
+
+	def get_queryset(self):
+		slug = self.kwargs.get('slug', '')
+		goal = get_object_or_404(Goals, slug = slug)
+
+		rows = Log.objects.filter(context__contains = {"goals_id": goal.id})
+		
+		return rows
+
+	def dispatch(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		goals = get_object_or_404(Goals, slug = slug)
+
+		if not has_resource_permissions(request.user, goals):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(HistoryReport, self).dispatch(request, *args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super(HistoryReport, self).get_context_data(**kwargs)
 
 		slug = self.kwargs.get('slug', '')
 		goals = get_object_or_404(Goals, slug = slug)
