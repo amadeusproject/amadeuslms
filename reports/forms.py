@@ -5,12 +5,12 @@ import datetime
 
 
 class CreateInteractionReportForm(forms.Form):
-	topic = forms.ChoiceField(required=True, label= _("topics to select data from"))
-	init_date = forms.DateField(required=True)
-	end_date = forms.DateField(required=True)
+	topic = forms.ChoiceField( label= _("topics to select data from"))
+	init_date = forms.DateField()
+	end_date = forms.DateField()
 
-	from_mural = forms.BooleanField()
-	from_messages = forms.BooleanField()
+	from_mural = forms.BooleanField(required=False)
+	from_messages = forms.BooleanField(required=False)
 
 	class Meta:
 		fields = ('topic', 'init_date', 'end_date', 'from_mural' , 'from_messages')
@@ -22,3 +22,4 @@ class CreateInteractionReportForm(forms.Form):
 		topics = list(initial['topic'])
 		
 		self.fields['topic'].choices = [(topic.id, topic.name) for topic in topics]
+		self.fields['topic'].choices.append((_("all"), _("all")))

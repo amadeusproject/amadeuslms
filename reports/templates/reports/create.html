@@ -40,18 +40,5 @@
 
     {% include "reports/_form.html" %}
 	
-	{% for user, datum in data.items %}
-		
-
-		<p>
-			<ul>
-
-				{{user}} : 
-				{% for key, value in datum.items %}
-					<li>{{key}}: {{value}}</li>
-				{% endfor %}
-			</ul>
-
-		</p>
-	{% endfor %}
+	
 {% endblock content %}
