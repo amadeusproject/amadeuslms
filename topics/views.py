@@ -47,7 +47,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		slug = self.kwargs.get('slug', '')
 
 		initial['subject'] = get_object_or_404(Subject, slug = slug)
-		
+
 		return initial
 
 	def form_valid(self, form):
@@ -57,6 +57,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		subject = get_object_or_404(Subject, slug = slug)
 
 		self.object.subject = subject
+		print (subject.topic_subject.count())
 		self.object.order = subject.topic_subject.count() + 1
 
 		self.object.save()
@@ -125,7 +126,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 		slug = self.kwargs.get('sub_slug', '')
 
 		initial['subject'] = get_object_or_404(Subject, slug = slug)
-		
+
 		return initial
 
 	def get_context_data(self, **kwargs):
@@ -263,7 +264,7 @@ def update_resource_order(request):
 
 	if not data is None:
 		data = json.loads(data)
-
+		
 		for t_data in data:
 			resource = get_object_or_404(Resource, id = t_data['resource_id'])
 			resource.order = t_data['resource_order']
@@ -276,7 +277,7 @@ def update_resource_order(request):
 
 def getResourceCount(request):
 	resources = Resource.objects.distinct()
-	
+
 	data = {}
 	for resource in resources:
 		key = resource.__dict__['_my_subclass']
@@ -284,8 +285,8 @@ def getResourceCount(request):
 			data[key] = data[key] + 1
 		else:
 			data[key] = 1
-	
-	real_data = []	
+
+	real_data = []
 	for item in data.items():
 		real_data.append(item)
 	return JsonResponse(real_data, safe=False)

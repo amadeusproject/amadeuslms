@@ -242,8 +242,8 @@ LOGS_URL = 'logs/'
 
 
 # E-mail
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'admin@amadeus.com.br'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# DEFAULT_FROM_EMAIL = 'admin@amadeus.com.br'
 
 # Messages
 from django.contrib.messages import constants as messages_constants
@@ -256,9 +256,10 @@ MESSAGE_TAGS = {
 }
 
 #Send email for forgot Password
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'test@gmail.com'
-SERVER_EMAIL = 'test@gmail.com'
+DEFAULT_FROM_EMAIL = 'amadeusteste@gmail.com'
+# SERVER_EMAIL = 'amadeusteste@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'amadeusteste@gmail.com'

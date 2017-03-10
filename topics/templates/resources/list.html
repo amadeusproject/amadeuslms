@@ -3,15 +3,15 @@
 
 {% subject_permissions request.user topic.subject as has_subject_permissions %}
 
-<div id="resource_{{ topic.slug }}" class="list-group resource_list">
+<div id="resource_{{ topic.slug }}_topic" class="list-group resource_list">
 	{% for resource in topic.resource_topic.all %}
 		{% resource_permissions request.user resource as has_resource_permissions %}
-		
+
 		{% if has_resource_permissions %}
 	  		<div class="list-group-item {% if not resource.visible %}disabled{% endif %}">
-	  			<input type="hidden" class="id_inp" name="id" value="{{ resource.id }}" />
-		    	<input type="hidden" class="order_inp" name="order" value="{{ resource.order }}" />
-		    	<input type="hidden" class="url_order" value="{% url 'topics:update_resource_order' %}" />
+	  			<input type="hidden" class="id_inp_resource" name="id" value="{{ resource.id }}" />
+		    	<input type="hidden" class="order_inp_resource" name="order" value="{{ resource.order }}" />
+		    	<input type="hidden" class="url_order_resource" value="{% url 'topics:update_resource_order' %}" />
 
 	  			<h4 class="pull-left list-group-item-heading">
 	  				<a data-href="{{ resource.access_link }}" class="resource_link" {% if resource.show_window %}target="_blank"{% endif %}>
@@ -50,7 +50,7 @@
 	    $('.modal').remove();
 
 	    $.get(url, function (modal) {
-	        $("#resource_{{ topic.slug }}").parent().after(modal);
+	        $("#resource_{{ topic.slug }}_topic").parent().after(modal);
 
 	        $('.modal').modal('show');
 	    });
@@ -62,7 +62,7 @@
 			btn = $(this).find('button.btn_menu').is(e.target),
 			del = $(this).find('a.delete').is(e.target),
 			upd = $(this).find('a.edit').is(e.target);
-		
+
 		if (!arrow && !menu && !del && !upd && !btn) {
 			var link = $(this).find('.resource_link').data('href'),
 				target = $(this).find('.resource_link').attr('target');
@@ -75,19 +75,19 @@
 		}
 	});
 
-	$("#resource_{{ topic.slug }}").sortable({ 
+	$("#resource_{{ topic.slug }}_topic").sortable({
 	    delay: 100,
 	    distance: 5,
 	    handle: 'i.fa-arrows',
 	    update: function( event, ui ) {
 	  		var cont = 1;
 	  		var data = [];
-	  		
-	  		$("#resource_{{ topic.slug }}").find('.order_inp').each(function () {
+
+	  		$("#resource_{{ topic.slug }}_topic").find('.order_inp_resource').each(function () {
 	  			$(this).val(cont++);
 
 	  			data.push({
-	  				'resource_id': $(this).parent().find('.id_inp').val(),
+	  				'resource_id': $(this).parent().find('.id_inp_resource').val(),
 	  				'resource_order': $(this).val()
 	  			});
 	  		});
@@ -100,14 +100,14 @@
 
 	function sendUpdateResource(data) {
 		$.ajax({
-			url: $("#resource_{{ topic.slug }}").find('.url_order').val(),
+			url: $('.url_order_resource').val(),
 			dataType: 'json',
 			data: {'data': data},
 			success: function(response) {
 				console.log(response);
 			},
 			error: function(response) {
-				console.log(response);	
+				console.log(response);
 			}
 		});
 	}
