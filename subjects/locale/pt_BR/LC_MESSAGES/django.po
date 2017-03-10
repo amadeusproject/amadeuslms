@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-20 22:07-0300\n"
+"POT-Creation-Date: 2017-03-09 17:01-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,17 +18,36 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: subjects/forms.py:14 subjects/forms.py:129
+#: subjects/forms.py:14 subjects/forms.py:117
 msgid "Tags"
 msgstr "Tags"
 
-#: subjects/forms.py:82 subjects/forms.py:187
+#: subjects/forms.py:67 subjects/forms.py:170
 msgid "There is another subject with this name, try another one."
 msgstr "Já existe um assunto com esse nome, tente outro."
 
-#: subjects/forms.py:91 subjects/forms.py:100 subjects/forms.py:108
-#: subjects/forms.py:116
-msgid "this date must be today or after"
+#: subjects/forms.py:76 subjects/forms.py:180
+#, fuzzy
+#| msgid "this date must be today or after"
+msgid "This date must be today or after"
+msgstr "Essa data deve ser hoje ou depois disso"
+
+#: subjects/forms.py:86 subjects/forms.py:190
+#, fuzzy
+#| msgid "this date must be today or after"
+msgid "This date must be equal subscribe begin or after"
+msgstr "Essa data deve ser hoje ou depois disso"
+
+#: subjects/forms.py:96 subjects/forms.py:200
+#, fuzzy
+#| msgid "this date must be today or after"
+msgid "This date must be after subscribe end"
+msgstr "Essa data deve ser hoje ou depois disso"
+
+#: subjects/forms.py:105 subjects/forms.py:209
+#, fuzzy
+#| msgid "this date must be today or after"
+msgid "This date must be equal init date or after"
 msgstr "Essa data deve ser hoje ou depois disso"
 
 #: subjects/models.py:14 subjects/models.py:20
@@ -111,15 +130,16 @@ msgstr "Fechar"
 msgid "DELETE"
 msgstr "Deletar"
 
-#: subjects/templates/subjects/initial.html:30
+#: subjects/templates/subjects/initial.html:33
+#: subjects/templates/subjects/initial.html:67
 msgid "Most popular keywords"
 msgstr "Palavras-chave mais populares"
 
-#: subjects/templates/subjects/initial.html:66 subjects/views.py:183
+#: subjects/templates/subjects/initial.html:93 subjects/views.py:185
 msgid "My Subjects"
 msgstr "Meus assuntos"
 
-#: subjects/templates/subjects/initial.html:79
+#: subjects/templates/subjects/initial.html:106
 #: subjects/templates/subjects/list.html:180
 msgid "You still do not posses any subject in our platform"
 msgstr "Você ainda não possui assuntos em nossa plataforma"
@@ -186,12 +206,12 @@ msgid " Any subjects or Resources were not found on the search for "
 msgstr " Nenhum assunto ou recursos foram encontrados na busca por "
 
 #: subjects/templates/subjects/list_search.html:48
-#: subjects/templates/subjects/list_search.html:51 subjects/views.py:613
+#: subjects/templates/subjects/list_search.html:51 subjects/views.py:619
 msgid "Subjects"
 msgstr "Assuntos"
 
 #: subjects/templates/subjects/list_search.html:49
-#: subjects/templates/subjects/list_search.html:52 subjects/views.py:620
+#: subjects/templates/subjects/list_search.html:52 subjects/views.py:626
 msgid "Resources"
 msgstr "Recursos"
 
@@ -268,52 +288,52 @@ msgstr "Editar: "
 msgid "Create new topic"
 msgstr "Criar novo tópico"
 
-#: subjects/views.py:57
+#: subjects/views.py:59
 msgid "Home"
 msgstr "Início"
 
-#: subjects/views.py:155
+#: subjects/views.py:157
 msgid "Page is not 'last', nor can it be converted to an int."
 msgstr ""
 "Página não é a 'última', e também não pode ser convertido para um inteiro"
 
-#: subjects/views.py:161
+#: subjects/views.py:163
 #, python-format
 msgid "Invalid page (%(page_number)s): %(message)s"
 msgstr "Página inválida (%(page_number)s): %(message)s"
 
-#: subjects/views.py:190
+#: subjects/views.py:192
 msgid "All Subjects"
 msgstr "Todos os assuntos"
 
-#: subjects/views.py:284
+#: subjects/views.py:286
 msgid "Create Subject"
 msgstr "Criar Assunto"
 
-#: subjects/views.py:290
+#: subjects/views.py:292
 msgid "Replicate Subject"
 msgstr "Replicar Assunto"
 
-#: subjects/views.py:332
+#: subjects/views.py:334
 #, python-format
 msgid "The Subject \"%s\" was registered on \"%s\" Category successfully!"
 msgstr "Assunto \"%s\" foi registrado na categoria \"%s\" com sucesso!"
 
-#: subjects/views.py:358
+#: subjects/views.py:360
 msgid "Update Subject"
 msgstr "Atualizar Assunto"
 
-#: subjects/views.py:378
+#: subjects/views.py:384
 #, python-format
 msgid "The Subject \"%s\" was updated on \"%s\" Category successfully!"
 msgstr "Assunto \"%s\" foi atualizado na categoria \"%s\" com sucesso!"
 
-#: subjects/views.py:419 subjects/views.py:463
+#: subjects/views.py:425 subjects/views.py:469
 #, python-format
 msgid "Subject \"%s\" removed successfully!"
 msgstr "Assunto \"%s\" removido com sucesso!"
 
-#: subjects/views.py:427 subjects/views.py:431
+#: subjects/views.py:433 subjects/views.py:437
 msgid ""
 "Subject can't be removed. The subject still possess students and learning "
 "objects associated"
@@ -321,11 +341,11 @@ msgstr ""
 "Assunto não pode ser removido. Ele ainda possui alunos e objetos de "
 "aprendizado associados"
 
-#: subjects/views.py:539
+#: subjects/views.py:545
 msgid "Subscription date is due!"
 msgstr "O período de inscrição está encerrado!"
 
-#: subjects/views.py:552
+#: subjects/views.py:558
 msgid "Subscription was successfull!"
 msgstr "Inscrição feita com sucesso!"
 

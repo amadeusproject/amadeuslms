@@ -1,0 +1,86 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-09 17:01-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: reports/forms.py:8
+msgid "Topics to select data from"
+msgstr ""
+
+#: reports/forms.py:25
+msgid "All"
+msgstr ""
+
+#: reports/templates/reports/create.html:21
+#: reports/templates/reports/report.html.py:20
+#: reports/templates/reports/view.html:33
+msgid "Analytics"
+msgstr ""
+
+#: reports/templates/reports/create.html:31
+#: reports/templates/reports/report.html.py:30
+#: reports/templates/reports/view.html:43
+msgid "Interaction Data"
+msgstr ""
+
+#: reports/templates/reports/create.html:34
+#: reports/templates/reports/report.html.py:33
+#: reports/templates/reports/view.html:46
+msgid "Report Card"
+msgstr ""
+
+#: reports/templates/reports/create.html:37
+#: reports/templates/reports/report.html.py:36
+#: reports/templates/reports/view.html:49
+msgid "Participation"
+msgstr ""
+
+#: reports/templates/reports/view.html:56
+msgid "Subject"
+msgstr ""
+
+#: reports/templates/reports/view.html:57
+msgid "Topic"
+msgstr ""
+
+#: reports/templates/reports/view.html:58
+msgid "Initial Date"
+msgstr ""
+
+#: reports/templates/reports/view.html:59
+msgid "End Date"
+msgstr ""
+
+#: reports/templates/reports/view.html:60
+msgid "new search"
+msgstr ""
+
+#: reports/templates/reports/view.html:66
+msgid "register(s)"
+msgstr ""
+
+#: reports/templates/reports/view.html:68
+msgid "Variable Descriptions"
+msgstr ""
+
+#: reports/templates/reports/view.html:72
+msgid "Interactions Data"
+msgstr ""
+
+#: reports/views.py:47
+msgid "Report created successfully"
+msgstr ""

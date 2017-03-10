@@ -172,6 +172,7 @@ function getPendencies(panel_id) {
             dataType: 'json',
             success: function (data) {
                 console.log(data.message);
+                list.parent().parent().find('.hist_log_id').val("");
             },
             error: function (data) {
                 console.log(data);
@@ -244,6 +245,7 @@ function getHistory(panel_id) {
             dataType: 'json',
             success: function (data) {
                 console.log(data.message);
+                container.find('.view_log_id').val("");
             },
             error: function (data) {
                 console.log(data);
