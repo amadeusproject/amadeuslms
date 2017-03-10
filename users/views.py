@@ -412,7 +412,7 @@ class ForgotPassword(generic.FormView):
 					subject = ''.join(subject.splitlines())
 					email = loader.render_to_string(email_template_name, c)
 
-					mailsender = MailSender.objects.get(id = 1)
+					mailsender = MailSender.objects.latest('id')
 
 					if mailsender.hostname == "example.com":
 						send_mail(subject, email, settings.DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
@@ -424,10 +424,10 @@ class ForgotPassword(generic.FormView):
 
 						backend = EmailBackend(
 									host = mailsender.hostname, port = mailsender.port, username = mailsender.username,
-									password = mailsender.password, use_tls = tls, fail_silently = False
+									password = mailsender.password, use_tls = tls
 								)
 
-						mail_msg = EmailMessage(subject = subject, body = email, from_email = settings.DEFAULT_FROM_EMAIL, to = [user.email], connection = backend)
+						mail_msg = EmailMessage(subject = subject, body = email, to = [user.email], connection = backend)
 
 						mail_msg.send()
 
