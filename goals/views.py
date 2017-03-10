@@ -32,7 +32,7 @@ class Reports(LoginRequiredMixin, generic.ListView):
 		slug = self.kwargs.get('slug', '')
 		goals = get_object_or_404(Goals, slug = slug)
 
-		if not has_resource_permissions(request.user, goals):
+		if not has_subject_permissions(request.user, goals):
 			return redirect(reverse_lazy('subjects:home'))
 
 		return super(Reports, self).dispatch(request, *args, **kwargs)
@@ -90,7 +90,7 @@ class AnsweredReport(LoginRequiredMixin, generic.ListView):
 		slug = self.kwargs.get('slug', '')
 		goals = get_object_or_404(Goals, slug = slug)
 
-		if not has_resource_permissions(request.user, goals):
+		if not has_subject_permissions(request.user, goals):
 			return redirect(reverse_lazy('subjects:home'))
 
 		return super(AnsweredReport, self).dispatch(request, *args, **kwargs)
@@ -130,7 +130,7 @@ class UnansweredReport(LoginRequiredMixin, generic.ListView):
 		slug = self.kwargs.get('slug', '')
 		goals = get_object_or_404(Goals, slug = slug)
 
-		if not has_resource_permissions(request.user, goals):
+		if not has_subject_permissions(request.user, goals):
 			return redirect(reverse_lazy('subjects:home'))
 
 		return super(UnansweredReport, self).dispatch(request, *args, **kwargs)
@@ -164,7 +164,7 @@ class HistoryReport(LoginRequiredMixin, generic.ListView):
 		slug = self.kwargs.get('slug', '')
 		goals = get_object_or_404(Goals, slug = slug)
 
-		if not has_resource_permissions(request.user, goals):
+		if not has_subject_permissions(request.user, goals):
 			return redirect(reverse_lazy('subjects:home'))
 
 		return super(HistoryReport, self).dispatch(request, *args, **kwargs)

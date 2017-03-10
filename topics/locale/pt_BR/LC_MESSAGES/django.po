@@ -118,7 +118,7 @@ msgstr "Editar"
 
 #: topics/templates/resources/list.html:33
 msgid "Reports"
-msgstr ""
+msgstr "Relatórios"
 
 #: topics/templates/resources/list.html:35 topics/templates/topics/list.html:29
 msgid "Remove"
@@ -173,10 +173,8 @@ msgid "Webpage"
 msgstr "Página Web"
 
 #: topics/templates/topics/list.html:61
-#, fuzzy
-#| msgid "Topics"
 msgid "Topic Goals"
-msgstr "Tópicos"
+msgstr "Metas do Tópico"
 
 #: topics/templates/topics/list.html:62
 msgid "Questionary"
@@ -197,8 +195,6 @@ msgid "Topic \"%s\" was updated on virtual enviroment \"%s\" successfully!"
 msgstr "Tópico \"%s\" foi atualizado no ambiente virtual \"%s\" com sucesso!"
 
 #: topics/views.py:193
-#, fuzzy
-#| msgid "Could not remove this topic. It has on or more resources attached."
 msgid "Could not remove this topic. It has one or more resources attached."
 msgstr ""
 "Não é possível remover esse tópico. Ele possui um ou mais recursos "
