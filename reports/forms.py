@@ -20,6 +20,18 @@ class CreateInteractionReportForm(forms.Form):
 		
 		initial = kwargs['initial']
 		topics = list(initial['topic'])
-		
+		self.subject = initial['subject'] #so we can check date cleaned data
 		self.fields['topic'].choices = [(topic.id, topic.name) for topic in topics]
 		self.fields['topic'].choices.append((_("All"), _("All")))
+
+	def clean_init_date(self):
+		init_date = self.cleaned_data.get('init_date')
+		if init_date < self.subject.init_date:
+			self._errors['init_date'] = [_('This date should be right or after ' + str(self.subject.init_date) + ', which is when the subject started. ')]
+		return init_date
+
+	def clean_end_date(self):
+		end_date = self.cleaned_data.get('init_date')
+		if end_date > self.subject.init_date:
+			self._errors['end_date'] = [_('This date should be right or before ' + str(self.subject.init_date) + ', which is when the subject finishes. ')]
+		return end_date

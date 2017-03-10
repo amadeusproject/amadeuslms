@@ -30,6 +30,7 @@ class ReportView(LoginRequiredMixin, generic.FormView):
         params = self.request.GET
         subject = Subject.objects.get(id=params['subject_id'])
         topics = subject.topic_subject.all()
+        initial['subject'] = subject
         initial['topic'] = topics
         initial['end_date'] =  date.today()
         return initial
