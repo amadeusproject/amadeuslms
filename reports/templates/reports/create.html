@@ -11,6 +11,12 @@
     {% breadcrumb 'analytics' '' %}
 {% endblock %}
 
+{% block javascript %}
+    {{block.super}}
+    <script type="text/javascript" src="{% static "js/jquery.formset.js" %} "></script>
+    
+{% endblock javascript %}
+
 {% block content %}
 	
 	<div class="panel panel-info topic-panel">
@@ -41,5 +47,11 @@
 
     {% include "reports/_form.html" %}
 	
-	
+    <script type="text/javascript" src="{% static "reports/js/report.js" %}"></script>
+	<script>
+    $('.resource-tag-formset').formset({
+        addText: 'add data source',
+        deleteText: 'remove data source'
+    });
+    </script>
 {% endblock content %}

@@ -1,33 +1,72 @@
 {% load widget_tweaks static i18n %}
 
 <form action="" method="post">{% csrf_token %}
+    <p>{% trans "General Parameters" %}</p><hr>
     {% for field  in form %}
-    {% if field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date' %}
-    	<label> {{field.label}} </label>
-		{% render_field field class='form-control date-picker' %}
-    	
-    {% else %}
-    	<label> {{field.label}} </label>
-			{% render_field field class='form-control' %}
-    {% endif %}
-    	
-    {% if field.errors %}
-            <div class="row">
-                </br>
-                <div class="alert alert-danger alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    <ul>
-                        {% for error in field.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
+        {% if field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date' %}
+        	<label> {{field.label}} </label>
+    		{% render_field field class='form-control date-picker' %}
+        	
+        
+        {% elif field.auto_id == 'id_from_mural' %}
+            <p>{% trans "Data Source" %}</p><hr>   
+            <label> {{field.label}} </label>
+            {% render_field field class='form-control' %}
+        {% else %}
+        	<label> {{field.label}} </label>
+    		{% render_field field class='form-control' %}
         {% endif %}
+        	
+        {% if field.errors %}
+                <div class="row">
+                    </br>
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        <ul>
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
     {% endfor %}
+
+    <!---Adding the selector -->
+    <div class="panel-group" id="resources_accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a data-parent="#resources_accordion" data-toggle="collapse" href="#resources">
+                                    <h4 class="panel-title">
+                                    <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label for="resources">{% trans "Interaction with resources" %}</label>
+                                    </h4>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                      <div id="resources" class="panel-collapse collapse">
+                           {{ resource_tag_formset.management_form }}
+
+                           {% for resource_tag_form in resource_tag_formset %}
+                               <div class="resource-tag-formset">
+                                   {% for field in resource_tag_form %}
+                                    <label>{{field.label}}</label>
+                                    {% render_field field class="form-control" %}
+                                   {% endfor %}
+                               </div>
+                           {% endfor %}
+                      </div>
+                </div>
+    </div>
+
     <div class="row text-center">
         <input type="submit" value="Search" class="btn btn-success btn-raised" />
     </div>
 </form>
+
+

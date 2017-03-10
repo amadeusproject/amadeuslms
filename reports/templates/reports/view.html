@@ -6,9 +6,9 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb view.subject.category 'subjects:cat_view' view.subject.category.slug %}
-    {% breadcrumb view.subject 'subjects:view' view.subject.slug %}
-    {% breadcrumb 'analytics' '' %}
+    {% breadcrumb subject.category 'subjects:cat_view' subject.category.slug %}
+    {% breadcrumb subject 'subjects:view' subject.slug %}
+    {% breadcrumb 'Analytics' '' %}
 {% endblock %}
 
 {% block content %}
@@ -64,10 +64,6 @@
     <div>
     	<ul id="report-info">
     		<li> {{data.values|length}} {% trans "register(s)" %} </li>
-    		<li>
-    			<i class="fa fa-download" aria-hidden="true"></i> {% trans "Variable Descriptions" %}
-
-    		</li>
     		<li>
     			<i class="fa fa-download" aria-hidden="true"></i> {% trans "Interactions Data" %}
     		</li>

@@ -2,6 +2,13 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 import datetime
 
+from django.forms.formsets import BaseFormSet
+
+class ResourceAndTagForm(forms.Form):
+
+	resource = forms.ChoiceField(label=_("Resources"), required=True)
+	tag  = forms.ChoiceField(label=_('Tag'))
+
 
 
 class CreateInteractionReportForm(forms.Form):
@@ -17,12 +24,13 @@ class CreateInteractionReportForm(forms.Form):
 
 	def __init__(self, *args, **kwargs):
 		super(CreateInteractionReportForm, self).__init__(*args, **kwargs)
-		
 		initial = kwargs['initial']
 		topics = list(initial['topic'])
 		self.subject = initial['subject'] #so we can check date cleaned data
 		self.fields['topic'].choices = [(topic.id, topic.name) for topic in topics]
 		self.fields['topic'].choices.append((_("All"), _("All")))
+
+
 
 	def clean_init_date(self):
 		init_date = self.cleaned_data.get('init_date')
@@ -32,6 +40,6 @@ class CreateInteractionReportForm(forms.Form):
 
 	def clean_end_date(self):
 		end_date = self.cleaned_data.get('init_date')
-		if end_date > self.subject.init_date:
-			self._errors['end_date'] = [_('This date should be right or before ' + str(self.subject.init_date) + ', which is when the subject finishes. ')]
+		if end_date > self.subject.end_date:
+			self._errors['end_date'] = [_('This date should be right or before ' + str(self.subject.end_date) + ', which is when the subject finishes. ')]
 		return end_date
