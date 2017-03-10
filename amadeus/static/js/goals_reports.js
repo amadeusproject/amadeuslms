@@ -40,6 +40,60 @@ function getAnswered() {
         });
 	}
 
+
+    var url = container.find('.answ_log_url').val();
+    var log_input = container.find('.answ_log_id');
+
+    if (typeof(url) != 'undefined') {
+        $.ajax({
+            url: url,
+            data: {'action': 'open'},
+            dataType: 'json',
+            success: function (data) {
+                log_input.val(data.log_id);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    var unan_url = container.find('.unan_log_url').val();
+    var unan_log_id = container.find('.unan_log_id').val();
+
+    if (typeof(unan_url) != 'undefined' && unan_log_id != "") {
+        $.ajax({
+            url: unan_url,
+            data: {'action': 'close', 'log_id': unan_log_id},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data.message);
+                container.find('.unan_log_id').val("");
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    var hist_url = container.find('.hist_log_url').val();
+    var hist_log_id = container.find('.hist_log_id').val();
+
+    if (typeof(hist_url) != 'undefined' && hist_log_id != "") {
+        $.ajax({
+            url: hist_url,
+            data: {'action': 'close', 'log_id': hist_log_id},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data.message);
+                container.find('.hist_log_id').val("");
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
     container.find('.answered_link').addClass('active');
   	container.find('.answered').show();
 
@@ -103,6 +157,59 @@ function getUnanswered() {
         });
     }
 
+    var url = container.find('.answ_log_url').val();
+    var log_id = container.find('.answ_log_id').val();
+
+    if (typeof(url) != 'undefined' && log_id != "") {
+        $.ajax({
+            url: url,
+            data: {'action': 'close', 'log_id': log_id},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data.message);
+                container.find('.answ_log_id').val("");
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    var unan_url = container.find('.unan_log_url').val();
+    var unan_log_input = container.find('.unan_log_id');
+
+    if (typeof(unan_url) != 'undefined') {
+        $.ajax({
+            url: unan_url,
+            data: {'action': 'open'},
+            dataType: 'json',
+            success: function (data) {
+                unan_log_input.val(data.log_id);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    var hist_url = container.find('.hist_log_url').val();
+    var hist_log_id = container.find('.hist_log_id').val();
+
+    if (typeof(hist_url) != 'undefined' && hist_log_id != "") {
+        $.ajax({
+            url: hist_url,
+            data: {'action': 'close', 'log_id': hist_log_id},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data.message);
+                container.find('.hist_log_id').val("");
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
     container.find('.answered_link').removeClass('active');
     container.find('.answered').hide();
 
@@ -149,6 +256,60 @@ function getHistory() {
                         ],
                     },
                 });
+            }
+        });
+    }
+
+    var url = container.find('.answ_log_url').val();
+    var log_id = container.find('.answ_log_id').val();
+
+    if (typeof(url) != 'undefined' && log_id != "") {
+        $.ajax({
+            url: url,
+            data: {'action': 'close', 'log_id': log_id},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data.message);
+                container.find('.answ_log_id').val("");
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    var unan_url = container.find('.unan_log_url').val();
+    var unan_log_id = container.find('.unan_log_id').val();
+
+    if (typeof(unan_url) != 'undefined' && unan_log_id != "") {
+        $.ajax({
+            url: unan_url,
+            data: {'action': 'close', 'log_id': unan_log_id},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data.message);
+                container.find('.unan_log_id').val("");
+            },
+            error: function (data) {
+                console.log(data);
+            }
+            
+        });
+    }
+
+    var hist_url = container.find('.hist_log_url').val();
+    var hist_log_input = container.find('.hist_log_id');
+
+    if (typeof(hist_url) != 'undefined') {
+        $.ajax({
+            url: hist_url,
+            data: {'action': 'open'},
+            dataType: 'json',
+            success: function (data) {
+                hist_log_input.val(data.log_id);
+            },
+            error: function (data) {
+                console.log(data);
             }
         });
     }

@@ -61,14 +61,23 @@
 			    </div>
 
 		        <div class="answered" data-url="{% url 'goals:answered_report' goal.slug %}">
+			    	<input type="hidden" class="answ_log_url" value="{% url 'goals:reports_log' goal.slug 'answered' %}" />
+			    	<input type="hidden" class="answ_log_id" value="" />
+
 			    	<div class="answered_data"></div>
 			    </div>
 
 			    <div class="unanswered" data-url="{% url 'goals:unanswered_report' goal.slug %}">
+			    	<input type="hidden" class="unan_log_url" value="{% url 'goals:reports_log' goal.slug 'unanaswered' %}" />
+			    	<input type="hidden" class="unan_log_id" value="" />
+			    	
 			    	<div class="unanswered_data"></div>
 			    </div>
 
 			    <div class="history" data-url="{% url 'goals:history_report' goal.slug %}">
+			    	<input type="hidden" class="hist_log_url" value="{% url 'goals:reports_log' goal.slug 'history' %}" />
+			    	<input type="hidden" class="hist_log_id" value="" />
+
 			    	<div class="history_data"></div>
 			    </div>
 			</div>
