@@ -1,0 +1,14 @@
+{% load i18n chat_tags %}
+
+<div class="col-md-12 participant panel">
+    <div class="col-md-1 user-img">
+        <img src="{{ participant.image_url }}" class="img-responsive" />
+    </div>
+    <div class="col-md-6 user-info">
+        <h4><div class="status {{ participant|is_online:online_users }}"></div> {{ participant }}</h4>
+    </div>
+    <div class="col-md-4 buttons pull-right text-center">
+        <a href="" class="btn btn-raised btn-default">{% trans 'See Profile' %}</a>
+        <a href="" class="btn btn-raised btn-success">{% trans 'Send Message' %}</a>
+    </div>
+</div>
