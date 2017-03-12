@@ -57,7 +57,6 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		subject = get_object_or_404(Subject, slug = slug)
 
 		self.object.subject = subject
-		print (subject.topic_subject.count())
 		self.object.order = subject.topic_subject.count() + 1
 
 		self.object.save()

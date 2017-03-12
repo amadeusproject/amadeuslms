@@ -51,12 +51,29 @@
 
                       <div id="resources" class="panel-collapse collapse">
                            {{ resource_tag_formset.management_form }}
+                            {{ resource_tag_formset.non_form_errors }}
 
                            {% for resource_tag_form in resource_tag_formset %}
                                <div class="resource-tag-formset">
                                    {% for field in resource_tag_form %}
                                     <label>{{field.label}}</label>
                                     {% render_field field class="form-control" %}
+
+                                     {% if field.errors %}
+                                        <div class="row">
+                                            </br>
+                                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                <ul>
+                                                    {% for error in field.errors %}
+                                                        <li>{{ error }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    {% endif %}
                                    {% endfor %}
                                </div>
                            {% endfor %}

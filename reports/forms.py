@@ -7,9 +7,16 @@ from django.forms.formsets import BaseFormSet
 class ResourceAndTagForm(forms.Form):
 
 	resource = forms.ChoiceField(label=_("Resources"), required=True)
-	tag  = forms.ChoiceField(label=_('Tag'))
+	tag  = forms.ChoiceField(label=_('Tag'), required=True)
 
-
+	def __init__(self, *args, **kwargs):
+		super(ResourceAndTagForm, self).__init__(*args, **kwargs)
+		if kwargs.get('initial'):
+			initial = kwargs['initial']
+			print(initial)
+			self.fields['resource'].choices = [(resource.id, resource.name) for resource in initial['resource']]
+			self.fields['tag'].choices = [(tag.id, tag.name) for tag in initial['tag']]
+		
 
 class CreateInteractionReportForm(forms.Form):
 	topic = forms.ChoiceField( label= _("Topics to select data from"))

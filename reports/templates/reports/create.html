@@ -49,9 +49,31 @@
 	
     <script type="text/javascript" src="{% static "reports/js/report.js" %}"></script>
 	<script>
+
+    var subject_id = "{{subject.id}}";
     $('.resource-tag-formset').formset({
         addText: 'add data source',
-        deleteText: 'remove data source'
+        deleteText: 'remove data source',
+        added: function(object){
+            $.get("{% url 'subjects:reports:get_resource_and_tags' %}?subject_id={{subject.id}}", function(data){
+                fields = object.children("select");
+                
+                for(var j = 0; j < data.resources.length; j++){ 
+                   fields[0].options[fields[0].options.length] = new Option(data.resources[j].name,data.resources[j].id);
+
+                }
+                //Modify tags fields
+                fields[0].onchange = function(item){
+                    //it request all tags associated with that resource 
+                    $.get("{% url 'subjects:reports:get_tags' %}?resource_id="+item.target.value, function(data){
+                        fields[1].options.length = 0;
+                        for(var j = 0; j < data.tags.length; j++){ 
+                            fields[1].options[fields[1].options.length] = new Option(data.tags[j].name,data.tags[j].id);
+                        }
+                    });
+                };
+            });
+        },
     });
     </script>
 {% endblock content %}

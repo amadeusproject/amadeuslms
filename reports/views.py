@@ -15,7 +15,7 @@ from datetime import datetime, date
 from subjects.models import Subject
 from .forms import CreateInteractionReportForm, ResourceAndTagForm
 from log.models import Log
-from topics.models import Resource
+from topics.models import Resource, Topic
 
 from django.forms import formset_factory
 
@@ -55,10 +55,11 @@ class ReportView(LoginRequiredMixin, generic.FormView):
                 resources.append(resource)
         context['resources'] = resources
         context['tags'] = tags
-       
+        
 
         #set formset
-        resourceTagFormSet = formset_factory(ResourceAndTagForm, extra= 1)
+        resourceTagFormSet = formset_factory(ResourceAndTagForm, extra = 1)
+        resourceTagFormSet = resourceTagFormSet(initial=[{'resource':resources, 'tag':tags}])
         context['resource_tag_formset'] = resourceTagFormSet
         return context
 
@@ -72,6 +73,10 @@ class ReportView(LoginRequiredMixin, generic.FormView):
             get_params += key +  "=" + str(value)  + "&"
 
         
+        for form_data in self.formset_data:   
+            for key, value in form_data.items():
+                get_params += key +  "=" + str(value)  + "&"
+
         #retrieving subject id for data purposes
         for key, value in self.request.GET.items():
             get_params += key + "=" + str(value) 
@@ -84,10 +89,24 @@ class ReportView(LoginRequiredMixin, generic.FormView):
         POST variables and then checked for validity.
         """
         form = self.get_form()
-        print(form)
-        if form.is_valid():
-            print(form)
+
+        subject = Subject.objects.get(id=self.request.GET['subject_id'])
+
+        topics = subject.topic_subject.all()
+        #get all resources associated with topics
+        resources = []
+        tags = []
+        for topic in topics:
+            resources_set = topic.resource_topic.all()
+            for resource in resources_set:
+                for tag in resource.tags.all():
+                    tags.append(tag)
+                resources.append(resource)
+        resourceTagFormSet = formset_factory(ResourceAndTagForm, extra= 1)
+        resources_formset = resourceTagFormSet(self.request.POST, initial=[{'resource':resources, 'tag':tags}])
+        if form.is_valid() and resources_formset.is_valid():
             self.form_data = form.cleaned_data
+            self.formset_data = resources_formset.cleaned_data
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
@@ -208,3 +227,33 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         return data, header
 
 
+
+def get_resources(request):
+    subject = Subject.objects.get(id=request.GET['subject_id'])
+
+    topics = subject.topic_subject.all()
+    #get all resources associated with topics
+    resources = []
+    tags = []
+    for topic in topics:
+        resources_set = topic.resource_topic.all()
+        for resource in resources_set:
+            for tag in resource.tags.all():
+                tags.append(tag)
+            resources.append(resource)
+
+    data = {}
+   
+    data['resources']= [ {'id':resource.id, 'name':resource.name} for resource in  resources]
+    return JsonResponse(data)
+
+
+def get_tags(request):
+    resource = Resource.objects.get(id=request.GET['resource_id'])
+    data = {}
+    tags = []
+   
+    for tag in resource.tags.all():
+        tags.append(tag)
+    data['tags'] = [ {'id':tag.id, 'name':tag.name} for tag in  tags]
+    return JsonResponse(data)
