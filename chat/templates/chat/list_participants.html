@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% load static i18n pagination chat_tags %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    
+    {% trans 'Messages General' as general %}
+    {% trans 'Participants' as participants_bread %}
+
+    {% breadcrumb general 'chat:manage_general' %}
+    {% breadcrumb participants_bread 'chat:participants_general' %}
+{% endblock %}
+
+{% block content %}
+    {% users_online as online_users %}
+
+	<div id="core-subjects-options-div">
+        <ul class="core-subjects-options mural-tabs">
+            <a href="{% url 'chat:manage_general' %}"><li data-chat="general" class="active">{% trans "General" %} (<span>{{ totals.general }}</span>)</li></a>
+            <a href=""><li data-chat="categories">{% trans "Per Category" %} (<span>{{ totals.category }}</span>)</li></a>
+            <a href=""><li data-chat="subjects">{% trans "Per Subject" %} (<span>{{ totals.subject }}</span>)</li></a>
+        </ul>
+    </div>
+
+    <div class="col-md-12 cards-content">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+        		<div class="panel panel-default">
+        			<div class="panel-body">
+    	    			<div class="col-md-8">
+                            <form action="" method="GET" class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-md-11 col-sm-11 col-xs-11">
+                                        <input type="text" class="form-control" name="search" placeholder="{% trans 'Search...' %}" />
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-1">
+                                        <button type="submit" class="btn btn-fab btn-fab-mini">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{% url 'chat:participants_general' %}" class="pull-right btn btn-default btn-raised btn-md">{% trans 'List all participants' %}</a>
+                        </div>
+    	    		</div>
+        		</div>
+
+                {% if participants.count > 0 %}
+            		<div class="panel category-panel-content panel-body">
+                        <h2 class="my-subjects-title"><b>{% trans 'Participants' %}</b></h2>
+
+                        <div class="participants-group">
+                            {% for participant in participants %}
+                                {% include 'chat/_view_participant.html' %}
+                            {% endfor %}
+                        </div>
+
+                        {% pagination request paginator page_obj %}
+                    </div>
+                {% else %}
+        			<div class="text-center no-subjects">
+                        <i class="fa fa-envelope-o"></i>
+                        <h4>{% trans 'There is no other participants in this space yet.' %}</h4>
+                    </div>
+                {% endif %}
+        	</div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="post-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+  {% endblock %}
