@@ -58,8 +58,8 @@ class ReportView(LoginRequiredMixin, generic.FormView):
         
 
         #set formset
-        resourceTagFormSet = formset_factory(ResourceAndTagForm, extra = 1)
-        resourceTagFormSet = resourceTagFormSet(initial=[{'resource':resources, 'tag':tags}])
+        resourceTagFormSet = formset_factory(ResourceAndTagForm)
+        resourceTagFormSet = resourceTagFormSet()
         context['resource_tag_formset'] = resourceTagFormSet
         return context
 
@@ -102,7 +102,7 @@ class ReportView(LoginRequiredMixin, generic.FormView):
                 for tag in resource.tags.all():
                     tags.append(tag)
                 resources.append(resource)
-        resourceTagFormSet = formset_factory(ResourceAndTagForm, extra= 1)
+        resourceTagFormSet = formset_factory(ResourceAndTagForm)
         resources_formset = resourceTagFormSet(self.request.POST, initial=[{'resource':resources, 'tag':tags}])
         if form.is_valid() and resources_formset.is_valid():
             self.form_data = form.cleaned_data
