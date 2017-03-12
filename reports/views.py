@@ -221,9 +221,10 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
              
             for value in interactions.values():
                 data[student].append(value)
-            if len(header) <= 1:
-                for key in interactions.keys():
-                    header.append(key)
+           
+                
+        for key in interactions.keys():
+            header.append(key)
         return data, header
 
 
