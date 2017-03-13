@@ -1,6 +1,6 @@
 $(function () {
-	var locale = navigator.language || navigator.userLanguage;
-
+	var locale = $("body").data('lang');
+	
 	$('.datetime-picker').datetimepicker({
 		locale: locale
 	});
@@ -13,7 +13,7 @@ $(function () {
 	$('.text_wysiwyg').summernote({
 	    height: 200
 	});
-	
+
 	$('[data-toggle="tooltip"]').tooltip({
 		trigger: 'hover'
 	});
@@ -34,6 +34,3 @@ var change_language = {
 		});
 	}
 }
-
-
-
