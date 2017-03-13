@@ -50,7 +50,7 @@
     <script type="text/javascript" src="{% static "reports/js/report.js" %}"></script>
 	<script>
 
-    var subject_id = "{{subject.id}}";
+    
     $('.resource-tag-formset').formset({
         addText: 'add data source',
         deleteText: 'remove data source',
@@ -63,7 +63,8 @@
 
                 }
                 //Set initial tag options
-                $.get("{% url 'subjects:reports:get_tags' %}?resource_id="+fields[0].value, function(data){
+                var form_topic = $("select#id_topic :selected").filter(":selected").val(); //get user selected topic option
+                $.get("{% url 'subjects:reports:get_tags' %}?resource_class_name="+fields[0].value+"&subject_id={{subject.id}}"+"&topic_choice="+form_topic, function(data){
                         fields[1].options.length = 0;
                         for(var j = 0; j < data.tags.length; j++){ 
                             fields[1].options[fields[1].options.length] = new Option(data.tags[j].name,data.tags[j].id);
@@ -72,8 +73,10 @@
 
                 //Modify tags fields - on resource type value modifies
                 fields[0].onchange = function(item){
-                    //it request all tags associated with that resource 
-                    $.get("{% url 'subjects:reports:get_tags' %}?resource_id="+item.target.value, function(data){
+                    //it request all tags associated with that resource
+                    var form_topic = $("select#id_topic :selected").filter(":selected").val(); //get user selected topic option
+
+                    $.get("{% url 'subjects:reports:get_tags' %}?resource_class_name="+item.target.value+"&"+"subject_id={{subject.id}}"+"&topic_choice="+form_topic, function(data){
                         fields[1].options.length = 0;
                         for(var j = 0; j < data.tags.length; j++){ 
                             fields[1].options[fields[1].options.length] = new Option(data.tags[j].name,data.tags[j].id);

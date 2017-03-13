@@ -230,31 +230,36 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
 
 
 def get_resources(request):
-    subject = Subject.objects.get(id=request.GET['subject_id'])
 
-    topics = subject.topic_subject.all()
-    #get all resources associated with topics
-    resources = []
-    tags = []
-    for topic in topics:
-        resources_set = topic.resource_topic.all()
-        for resource in resources_set:
-            for tag in resource.tags.all():
-                tags.append(tag)
-            resources.append(resource)
+    #get all possible resources
+    classes = Resource.__subclasses__()    
 
     data = {}
-   
-    data['resources']= [ {'id':resource.id, 'name':resource.name} for resource in  resources]
+
+    
+    data['resources']= [ {'id':class_name.__name__, 'name':class_name.__name__} for class_name in  classes]
     return JsonResponse(data)
 
 
 def get_tags(request):
-    resource = Resource.objects.get(id=request.GET['resource_id'])
+    resource_type = request.GET['resource_class_name']
+    subject = Subject.objects.get(id=request.GET['subject_id'])
+    topic_choice = request.GET["topic_choice"]
+    if topic_choice.lower() == "all":
+        topics = subject.topic_subject.all()
+    else:
+        topics = [Topic.objects.get(id=int(topic_choice))]
     data = {}
     tags = []
+    for topic in topics:
+        resource_set = Resource.objects.select_related(resource_type.lower()).filter(topic = topic)
+       
+        for resource in resource_set:
+            if resource._my_subclass == resource_type.lower():
+                for tag in resource.tags.all():
+                    tags.append(tag)
+    
    
-    for tag in resource.tags.all():
-        tags.append(tag)
+  
     data['tags'] = [ {'id':tag.id, 'name':tag.name} for tag in  tags]
     return JsonResponse(data)
