@@ -1227,6 +1227,22 @@ div.dataTables_wrapper div.dataTables_paginate {
     display: inline;
     margin-right: 30px;
 }
+
+.delete-row{
+    float: right;
+    background-color: gray;
+    color: white;
+    padding: 5px 20px;
+    font-size: 12px;
+    text-decoration: none;
+    border: none;
+    border-radius: 2px;
+    position: relative;
+    margin: 10px 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0;
+}
 /* End Reports */
 
 /* Chat */

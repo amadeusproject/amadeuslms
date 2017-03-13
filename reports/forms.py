@@ -6,7 +6,7 @@ from django.forms.formsets import BaseFormSet
 
 class ResourceAndTagForm(forms.Form):
 
-	resource = forms.ChoiceField(label=_("Resources"), required=True)
+	resource = forms.ChoiceField(label=_("Kind Of Resource"), required=True)
 	tag  = forms.ChoiceField(label=_('Tag'), required=True)
 
 	def __init__(self, *args, **kwargs):
@@ -37,15 +37,22 @@ class CreateInteractionReportForm(forms.Form):
 		self.fields['topic'].choices.append((_("All"), _("All")))
 
 
+	def clean(self):
+		cleaned_data = super(CreateInteractionReportForm, self).clean()
+		init_date = cleaned_data.get("init_date")
+		end_date = cleaned_data.get("end_date")
+		if init_date and end_date:
+			if init_date > end_date:
+				raise forms.ValidationError(_("The initial date can't be after the end one."))
 
 	def clean_init_date(self):
-		init_date = self.cleaned_data.get('init_date')
+		init_date = self.cleaned_data['init_date']
 		if init_date < self.subject.init_date:
 			self._errors['init_date'] = [_('This date should be right or after ' + str(self.subject.init_date) + ', which is when the subject started. ')]
 		return init_date
 
 	def clean_end_date(self):
-		end_date = self.cleaned_data.get('init_date')
+		end_date = self.cleaned_data['end_date']
 		if end_date > self.subject.end_date:
 			self._errors['end_date'] = [_('This date should be right or before ' + str(self.subject.end_date) + ', which is when the subject finishes. ')]
 		return end_date
