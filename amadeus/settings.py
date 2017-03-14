@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'topics',
     'pendencies',
     'mural',
+    'chat',
     'file_link',
     'goals',
     'pdf_file',

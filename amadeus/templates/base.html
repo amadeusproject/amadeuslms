@@ -206,10 +206,12 @@
                                 <span class="badge notify_badge mural_badge" {% if mural_notifications_count == 0 %} style="display:none" {% endif %}>{% if mural_notifications_count > 99 %} +99 {% else %} {{ mural_notifications_count }} {% endif %}</span>
                             </a>
                         </li>
-                        <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Messages" %}">
-                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                        <li class="item {{ chat_menu_active }} action_icon" data-toggle="tooltip" data-placement="right" title="{% trans "Messages" %}">
+                            <a href="{% url 'chat:manage_general' %}">
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                            </a>
                         </li>
-                        <li class="item {{ pendencies_menu_active }} action_icon" data-toggle="tooltip" data-placement="right" title="{% trans "Pendencias" %}">
+                        <li class="item {{ pendencies_menu_active }} action_icon" data-toggle="tooltip" data-placement="right" title="{% trans "Pendencies" %}">
                             <a href="{% url 'notifications:manage' %}">
                                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                                 {% if notifications_count > 0 %}
@@ -253,15 +255,17 @@
                             </a>
                         </li>
                         <li class="item {{ mural_menu_active }} action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Mural" %}">
-                            <a href="{% url 'mural:manage_general' %}"
+                            <a href="{% url 'mural:manage_general' %}">
                                 <i class="fa fa-list" aria-hidden="true" ></i>
                                 <span class="badge notify_badge mural_badge" {% if mural_notifications_count == 0 %} style="display:none" {% endif %}>{% if mural_notifications_count > 99 %} +99 {% else %} {{ mural_notifications_count }} {% endif %}</span>
                             </a>
                         </li>
-                        <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Messages" %}">
-                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                        <li class="item {{ chat_menu_active }} action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Messages" %}">
+                            <a href="{% url 'chat:manage_general' %}">
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                            </a>
                         </li>
-                        <li class="item {{ pendencies_menu_active }} action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Pendencias" %}">
+                        <li class="item {{ pendencies_menu_active }} action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Pendencies" %}">
                             <a href="{% url 'notifications:manage' %}">
                                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                                 {% if notifications_count > 0 %}

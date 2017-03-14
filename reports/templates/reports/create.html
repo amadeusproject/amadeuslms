@@ -11,6 +11,12 @@
     {% breadcrumb 'analytics' '' %}
 {% endblock %}
 
+{% block javascript %}
+    {{block.super}}
+    <script type="text/javascript" src="{% static "js/jquery.formset.js" %} "></script>
+    
+{% endblock javascript %}
+
 {% block content %}
 	
 	<div class="panel panel-info topic-panel">
@@ -41,5 +47,44 @@
 
     {% include "reports/_form.html" %}
 	
-	
+    <script type="text/javascript" src="{% static "reports/js/report.js" %}"></script>
+	<script>
+
+    
+    $('.resource-tag-formset').formset({
+        addText: 'add data source',
+        deleteText: 'remove data source',
+        added: function(object){
+            $.get("{% url 'subjects:reports:get_resource_and_tags' %}?subject_id={{subject.id}}", function(data){
+                fields = object.children("select");
+                
+                for(var j = 0; j < data.resources.length; j++){ 
+                   fields[0].options[fields[0].options.length] = new Option(data.resources[j].name,data.resources[j].id);
+
+                }
+                //Set initial tag options
+                var form_topic = $("select#id_topic :selected").filter(":selected").val(); //get user selected topic option
+                $.get("{% url 'subjects:reports:get_tags' %}?resource_class_name="+fields[0].value+"&subject_id={{subject.id}}"+"&topic_choice="+form_topic, function(data){
+                        fields[1].options.length = 0;
+                        for(var j = 0; j < data.tags.length; j++){ 
+                            fields[1].options[fields[1].options.length] = new Option(data.tags[j].name,data.tags[j].id);
+                        }
+                });
+
+                //Modify tags fields - on resource type value modifies
+                fields[0].onchange = function(item){
+                    //it request all tags associated with that resource
+                    var form_topic = $("select#id_topic :selected").filter(":selected").val(); //get user selected topic option
+
+                    $.get("{% url 'subjects:reports:get_tags' %}?resource_class_name="+item.target.value+"&"+"subject_id={{subject.id}}"+"&topic_choice="+form_topic, function(data){
+                        fields[1].options.length = 0;
+                        for(var j = 0; j < data.tags.length; j++){ 
+                            fields[1].options[fields[1].options.length] = new Option(data.tags[j].name,data.tags[j].id);
+                        }
+                    });
+                };
+            });
+        },
+    });
+    </script>
 {% endblock content %}
