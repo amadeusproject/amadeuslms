@@ -1,0 +1,60 @@
+{% load static i18n chat_tags %}
+
+{% is_online participant as status %}
+
+<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-header talk_header">
+			<div class="modal_profile_sidebar pull-left">
+				<span class="pull-left">
+					<img src="{{ participant.image_url }}" />
+				</span>
+				<h4 class=" pull-left">
+					<a class="status {{ status }}" title="{{ status|status_text }}"></a> 
+					<b>{{ participant }}</b>
+				</h4>
+			</div>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="{% trans 'Close' %}"><span aria-hidden="true">&times;</span></button>
+      	</div>
+		<div class="modal-body talk_body">
+			<div class="row-fluid">
+				<div class="talk-filter">
+	                <h4>{% trans 'Filter' %}</h4>
+
+	                <form id="post-filters" class="form-inline" action="" method="GET">
+	                    <div class="checkbox">
+	                        <label>
+	                            <input name="favorite" type="checkbox"> {% trans 'Favorite messages' %} <i class="fa fa-thumb-tack"></i>
+	                        </label>
+	                    </div>
+	                    <div class="checkbox">
+	                        <label>
+	                            <input name="mine" type="checkbox"> {% trans 'Only my messages' %}
+	                        </label>
+	                    </div>
+	                    <button type="submit" class="btn btn-success btn-sm btn-raised">{% trans 'Filter' %}</button>
+	                    <button type="button" id="clear_filter" class="btn btn-default btn-sm btn-raised clear_filter">{% trans 'Clean Filters' %}</button>
+	                </form>
+	            </div>
+	        </div>
+	        <div class="row-fluid">
+	        	<div class="messages-container">
+	        	</div>
+	        </div>
+		</div>
+		<div class="modal-footer message-sender">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 message-sender-container">
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 user-img">
+					<div>
+						<img src="{{ request.user.image_url }}" class="img-responsive" />
+					</div>
+				</div>
+				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 message-field" onclick="comment($(this))">
+					<div>
+						<h4 data-url="">{% trans 'Type a new message to ' %}{{ participant }} <i class="fa fa-camera pull-right"></i></h4>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

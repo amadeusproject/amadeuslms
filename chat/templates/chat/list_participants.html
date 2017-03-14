@@ -53,7 +53,7 @@
 
                         <div class="participants-group">
                             {% for participant in participants %}
-                                {% include 'chat/_view_participant.html' %}
+                                {% include 'chat/_view_participant.html' with space="0" %}
                             {% endfor %}
                         </div>
 

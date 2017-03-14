@@ -444,16 +444,16 @@ a.add-row {
 .btn_fav {
   color: #BBBBBB !important; }
 
-.post-filter {
+.post-filter, .talk-filter {
   background: #F5F5F5; }
 
-.post-filter h4 {
+.post-filter h4, .talk-filter h4 {
   color: #26A69A; }
 
-.post-filter label {
+.post-filter label, .talk-filter label {
   color: #333333; }
 
-.post-filter i {
+.post-filter i, .talk-filter i {
   color: #FF0000; }
 
 .suggestions {
@@ -486,6 +486,20 @@ a.add-row {
 
 .participant .user-info .status.away, .modal_profile_sidebar .status.away {
   background-color: #DAA520; }
+
+.messages-container {
+  border-top-color: #cacaca;
+  background-color: #f5f5f5; }
+
+.message-sender {
+  border-top-color: #000000 !important; }
+
+.message-sender-container {
+  background-color: #e5e5e5; }
+
+.message-sender-container .message-field div {
+  background-color: #FFFFFF;
+  border-color: #888888; }
 
 @media(max-width: 768px) {
   .navbar .navbar-nav .dropdown .dropdown-menu li > a {
