@@ -13,7 +13,7 @@ from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import datetime, date
 from subjects.models import Subject
-from .forms import CreateInteractionReportForm, ResourceAndTagForm
+from .forms import CreateInteractionReportForm, ResourceAndTagForm, BaseResourceAndTagFormset
 from log.models import Log
 from topics.models import Resource, Topic
 
@@ -45,21 +45,20 @@ class ReportView(LoginRequiredMixin, generic.FormView):
 
         topics = subject.topic_subject.all()
         #get all resources associated with topics
-        resources = []
         tags = []
         for topic in topics:
             resources_set = topic.resource_topic.all()
             for resource in resources_set:
                 for tag in resource.tags.all():
                     tags.append(tag)
-                resources.append(resource)
-        context['resources'] = resources
-        context['tags'] = tags
         
 
+        classes = Resource.__subclasses__()    
+
+
         #set formset
-        resourceTagFormSet = formset_factory(ResourceAndTagForm)
-        resourceTagFormSet = resourceTagFormSet()
+        resourceTagFormSet = formset_factory(ResourceAndTagForm, formset=BaseResourceAndTagFormset)
+        resourceTagFormSet = resourceTagFormSet(initial=[{'class_name': classes, 'tag':tags}])
         context['resource_tag_formset'] = resourceTagFormSet
         return context
 
@@ -94,16 +93,22 @@ class ReportView(LoginRequiredMixin, generic.FormView):
 
         topics = subject.topic_subject.all()
         #get all resources associated with topics
-        resources = []
         tags = []
         for topic in topics:
             resources_set = topic.resource_topic.all()
             for resource in resources_set:
                 for tag in resource.tags.all():
                     tags.append(tag)
-                resources.append(resource)
-        resourceTagFormSet = formset_factory(ResourceAndTagForm)
-        resources_formset = resourceTagFormSet(self.request.POST, initial=[{'resource':resources, 'tag':tags}])
+
+        classes = Resource.__subclasses__()  
+        amount_of_forms = self.request.POST['form-TOTAL_FORMS']
+        initial_datum = {'class_name': classes , 'tag': tags}
+        initial_data = []
+        for i in range(int(amount_of_forms)):
+            initial_data.append(initial_datum)
+
+        resourceTagFormSet = formset_factory(ResourceAndTagForm, formset=BaseResourceAndTagFormset)
+        resources_formset = resourceTagFormSet(self.request.POST, initial = initial_data)
         if form.is_valid() and resources_formset.is_valid():
             self.form_data = form.cleaned_data
             self.formset_data = resources_formset.cleaned_data
@@ -125,7 +130,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         context['init_date'] = params_data['init_date']
         context['end_date'] = params_data['end_date']
         context['subject'] = subject
-
+        print(params_data)
 
         if params_data['from_mural']:
             context['data'], context['header'] = self.get_mural_data(subject, params_data['init_date'], params_data['end_date'])
@@ -197,6 +202,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                 user = student).count()
             
 
+            #VAR08 - 
+
             #VAR20 - number of access to mural between 6 a.m to 12a.m.
             interactions[' number of access to mural between 6 a.m to 12a.m.'] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (5, 11)).count()
@@ -205,11 +212,11 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             interactions['number of access to mural between 0 p.m to 6p.m.'] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (11, 17)).count()
             #VAR22
-            interactions[' number of access to mural between 6 p.m to 12p.m.'] =  Log.objects.filter(action="access", resource="subject", 
+            interactions['number of access to mural between 6 p.m to 12p.m.'] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (17, 23)).count()
 
             #VAR23
-            interactions[' number of access to mural between 0 a.m to 6a.m.'] =  Log.objects.filter(action="access", resource="subject", 
+            interactions['number of access to mural between 0 a.m to 6a.m.'] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (23, 5)).count()
 
             #VAR24 through 30

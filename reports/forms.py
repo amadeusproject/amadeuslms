@@ -4,6 +4,21 @@ import datetime
 
 from django.forms.formsets import BaseFormSet
 
+
+class BaseResourceAndTagFormset(BaseFormSet):
+    def clean(self):
+        """
+        Adds validation to check that no two links have the same anchor or URL
+        and that all links have both an anchor and URL.
+        """
+        print("here 2")
+        print(self.errors)
+        if any(self.errors):
+            return
+
+        for form in self.forms:
+        	print(form)
+
 class ResourceAndTagForm(forms.Form):
 
 	resource = forms.ChoiceField(label=_("Kind Of Resource"), required=True)
@@ -13,7 +28,7 @@ class ResourceAndTagForm(forms.Form):
 		super(ResourceAndTagForm, self).__init__(*args, **kwargs)
 		if kwargs.get('initial'):
 			initial = kwargs['initial']
-			self.fields['resource'].choices = [(resource.id, resource.name) for resource in initial['resource']]
+			self.fields['resource'].choices = [(classes.__name__, classes.__name__) for classes in initial['class_name']]
 			self.fields['tag'].choices = [(tag.id, tag.name) for tag in initial['tag']]
 		
 
