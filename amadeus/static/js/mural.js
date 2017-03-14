@@ -32,7 +32,7 @@ function postHeightLimits() {
         if ($(this).outerHeight() > 500) {
             var post = $(this),
                 btn = post.parent().find('.see-complete');
-            
+
             post.attr('style', 'overflow:hidden;max-height:500px');
 
             btn.attr('style', 'display:block');
@@ -65,13 +65,13 @@ function setPostFormSubmit(post = "") {
             success: function (data) {
                 if (post != "") {
                     var old = $("#post-" + post);
-                    
+
                     old.before(data.view);
 
                     old.remove();
                 } else {
                     $('.posts:visible').prepend(data.view);
-    
+
                     new_posts.push(data.new_id);
 
                     $('.no-subjects:visible').attr('style', 'display:none');
@@ -95,7 +95,7 @@ function setPostFormSubmit(post = "") {
         return false;
     });
 }
-    
+
 function favorite(btn) {
     var action = btn.data('action'),
         url = btn.data('url');
@@ -121,7 +121,7 @@ function favorite(btn) {
 function editPost(btn) {
     var url = btn.data('url');
     var post = btn.data('post');
-    
+
     $.ajax({
         url: url,
         success: function (data) {
@@ -163,7 +163,7 @@ function setPostDeleteSubmit (post) {
 
                 $('#post-modal-form').modal('hide');
 
-                alertify.success(response.msg);                        
+                alertify.success(response.msg);
             },
             error: function (data) {
                 console.log(data);
@@ -194,7 +194,7 @@ function editComment(btn) {
     var url = btn.data('url'),
         post = btn.data('post'),
         comment = btn.data('id');
-    
+
     $.ajax({
         url: url,
         success: function (data) {
@@ -222,7 +222,7 @@ function setCommentFormSubmit(post, comment = "") {
             success: function (data) {
                 if (comment != "") {
                     var old = $("#comment-" + comment);
-                    
+
                     old.before(data.view);
 
                     old.remove();
@@ -285,7 +285,7 @@ function setCommentDeleteSubmit (comment) {
 
                 $('#post-modal-form').modal('hide');
 
-                alertify.success(response.msg);                        
+                alertify.success(response.msg);
             },
             error: function (data) {
                 console.log(data);

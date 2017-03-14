@@ -98,6 +98,9 @@
 	        $selectionSearch = that.$selectionUl.prev(),
 	        selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
 	        selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
+					// console.log($selectableSearch);
+					// alert("oi");
+			// console.log($eselectableSearch);
 
 	    that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
 	    .on('keydown', function(e){
@@ -115,11 +118,18 @@
 	      }
 	    });
 	  },
-	  afterSelect: function(){
-	    this.qs1.cache();
+	  afterSelect: function(values){
+			$("#id_students option[value='" + values[0] + "']").remove();
+			$('#id_students').multiSelect('refresh');
+
+			this.qs1.cache();
 	    this.qs2.cache();
 	  },
-	  afterDeselect: function(){
+	  afterDeselect: function(values){
+			var label = $("#id_professor option[value='" + values[0] + "']").text();
+
+			$("#id_students").multiSelect('addOption', {value: values[0], text: label});
+
 	    this.qs1.cache();
 	    this.qs2.cache();
 	  }
@@ -135,6 +145,7 @@
 	        selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
 	        selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
 
+
 	    that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
 	    .on('keydown', function(e){
 	      if (e.which === 40){
@@ -151,11 +162,21 @@
 	      }
 	    });
 	  },
-	  afterSelect: function(){
+		// afterInit: function(){
+		//
+		// },
+	  afterSelect: function(values){
+			$("#id_professor option[value='" + values[0] + "']").remove();
+			$('#id_professor').multiSelect('refresh');
+
 	    this.qs1.cache();
 	    this.qs2.cache();
 	  },
-	  afterDeselect: function(){
+	  afterDeselect: function(values){
+			var label = $("#id_students option[value='" + values[0] + "']").text();
+
+			$("#id_professor").multiSelect('addOption', {value: values[0], text: label});
+
 	    this.qs1.cache();
 	    this.qs2.cache();
 	  }
@@ -163,13 +184,19 @@
 
 	$('.collapse').on('show.bs.collapse', function (e) {
 	if($(this).is(e.target)){
-    	var btn = $(this).parent().find('.fa-angle-right');
+			// console.log(e);
+			var btn = $(this).parent().find('.fa-angle-right');
 
     	btn.switchClass("fa-angle-right", "fa-angle-down", 250, "easeInOutQuad");
-    }
+
+			$(this).parent().parent().parent().find('.panel-collapse.in').collapse('hide');
+		}
+
+
     });
 
     $('.collapse').on('hide.bs.collapse', function (e) {
+			// console.log(e);
     	if($(this).is(e.target)){
         	var btn = $(this).parent().find('.fa-angle-down');
 
