@@ -1255,14 +1255,22 @@ div.dataTables_wrapper div.dataTables_paginate {
     border-width: 1px;
     border-style: solid;
     padding-right: 10px;
+    height: 70px;
 }
 
 .participant .user-img {
-    padding: 5px 0px;
+    height: 70px;
+    padding: 3px 0px 5px 0px;
+    text-align: center;
+}
+
+.participant .user-img img {
+    height: 100%;
+    margin: 0 auto;
 }
 
 .participant .user-info {
-    padding: 20px 15px;
+    padding: 7px 15px;
 }
 .participant .user-info .status {
     width: 20px;
@@ -1283,6 +1291,6 @@ div.dataTables_wrapper div.dataTables_paginate {
 }
 
 .participant .buttons {
-    padding: 20px 0px;
+    padding: 7px 0px;
 }
 /* End Chat */
