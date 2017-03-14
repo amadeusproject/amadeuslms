@@ -1303,7 +1303,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 .participant .user-info {
     padding: 7px 15px;
 }
-.participant .user-info .status {
+.participant .user-info .status, .modal_profile_sidebar .status {
     width: 20px;
     height: 20px;
     border-width: 1px;
@@ -1323,5 +1323,16 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 .participant .buttons {
     padding: 7px 0px;
+}
+
+.modal_profile {
+    font-size: 14px;
+}
+
+.modal_profile_sidebar {
+    text-align: center;
+}
+.modal_profile_sidebar h4 {
+    font-size: 16px;
 }
 /* End Chat */

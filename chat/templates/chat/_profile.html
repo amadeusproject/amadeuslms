@@ -1,0 +1,52 @@
+{% load static i18n chat_tags profile_verifies %}
+
+{% is_online participant as status %}
+
+<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="{% trans 'Close' %}"><span aria-hidden="true">&times;</span></button>
+      	</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-4 modal_profile_sidebar">
+					<span class="thumbnail">
+						<img src="{{ participant.image_url }}" />
+					</span>
+					<h4>
+						<a class="status {{ status }}" title="{{ status|status_text }}"></a> 
+						<b>{{ participant }}</b>
+					</h4>
+					<a href="" class="btn btn-raised btn-success btn-block">{% trans 'Send Message' %}</a>
+				</div>
+				<div class="col-md-8">
+					<div class="form-group">
+						<label class="control-form">{% trans 'System Admin' %}:</label>
+						<p class="profile_function modal_profile">{{ participant.is_admin }}</p>
+					</div>
+					<div class="form-group">
+						<label class="control-form">{% trans 'Coordinator in' %}:</label>
+						<p class="profile_function modal_profile">{{ participant|is_coordinator }}</p>
+					</div>
+					<div class="form-group">
+						<label class="control-form">{% trans 'Professor in' %}:</label>
+						<p class="profile_function modal_profile">{{ participant|is_professor }}</p>
+					</div>
+					<div class="form-group">
+						<label class="control-form">{% trans 'Student in' %}:</label>
+						<p class="profile_function modal_profile">{{ participant|is_student }}</p>
+					</div>
+				</div>
+			</div>
+			<hr />
+			<div class="row">
+				<label class="control-form">{% trans 'Description' %}:</label>
+				<div class="col-md-12">
+					{% autoescape off %}
+						{{ participant.description|default:_("Not Informed") }}
+					{% endautoescape %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

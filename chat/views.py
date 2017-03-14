@@ -74,3 +74,13 @@ class GeneralParticipants(LoginRequiredMixin, generic.ListView):
 		context['chat_menu_active'] = 'subjects_menu_active'
 		
 		return context
+
+class ParticipantProfile(LoginRequiredMixin, generic.DetailView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	model = User
+	slug_field = 'email'
+	slug_url_kwarg = 'email'
+	context_object_name = 'participant'
+	template_name = 'chat/_profile.html'
