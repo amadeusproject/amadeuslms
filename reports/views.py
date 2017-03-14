@@ -12,7 +12,7 @@ from mural.models import SubjectPost, Comment, MuralVisualizations
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import datetime, date
-from subjects.models import Subject
+from subjects.models import Subject, Tag
 from .forms import CreateInteractionReportForm, ResourceAndTagForm, BaseResourceAndTagFormset
 from log.models import Log
 from topics.models import Resource, Topic
@@ -130,13 +130,12 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         context['init_date'] = params_data['init_date']
         context['end_date'] = params_data['end_date']
         context['subject'] = subject
-        print(params_data)
-
         if params_data['from_mural']:
-            context['data'], context['header'] = self.get_mural_data(subject, params_data['init_date'], params_data['end_date'])
+            context['data'], context['header'] = self.get_mural_data(subject, params_data['init_date'], params_data['end_date'],
+                params_data.getlist('resource'), params_data.getlist('tag'))
         return context
 
-    def get_mural_data(self, subject, init_date, end_date):
+    def get_mural_data(self, subject, init_date, end_date, resources_id, tags_id):
         data = {}
         students = subject.students.all()
         formats = ["%d/%m/%Y", "%m/%d/%Y"] #so it accepts english and portuguese date formats
@@ -202,8 +201,11 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                 user = student).count()
             
 
-            #VAR08 - 
+            #VAR08 through VAR_019 of documenttation:
+            print(resources_id)
+            resources_data = self.get_resources_and_tags_data(resources_id, tags_id, student, subject)
 
+            interactions = {**interactions, **resources_data}
             #VAR20 - number of access to mural between 6 a.m to 12a.m.
             interactions[' number of access to mural between 6 a.m to 12a.m.'] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (5, 11)).count()
@@ -225,7 +227,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             for day_num in day_numbers:
                 interactions['number of access to the subject on '+ day_names[day_num]] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__week_day = day_num).count()
-             
+            
+
             for value in interactions.values():
                 data[student].append(value)
            
@@ -233,6 +236,19 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         for key in interactions.keys():
             header.append(key)
         return data, header
+
+    def get_resources_and_tags_data(self, resources, tags, student, subject):
+        data = {}
+
+        for i in range(len(resources)):
+            print(data)
+            print(resources)
+            print(resources[i])
+            print(tags[i])
+            data[str(resources[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = Log.objects.filter(action="view", resource=resources[i].lower(),
+                user_id = student.id, context__contains = {'subject_id': subject.id}).count()
+
+        return data
 
 
 
