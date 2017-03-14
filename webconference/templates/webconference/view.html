@@ -1,0 +1,58 @@
+{% extends 'subjects/view.html' %}
+
+{% load static i18n pagination permissions_tags subject_counter %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block javascript%}
+    {{ block.super }}
+{% endblock%}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb topic 'subjects:topic_view' subject.slug topic.slug %}
+    {% breadcrumb web conference 'webconferences:view' webconference.slug %}
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% resource_permissions request.user webconference as has_resource_permissions %}
+
+    {% if webconference.visible %}
+		<div class="panel panel-info topic-panel">
+        	<div class="panel-heading">
+	{% elif has_resource_permissions %}
+		<div class="panel panel-info topic-panel-invisible">
+        	<div class="panel-heading panel-invisible">
+    {% endif %}
+        		<div class="row">
+                    <div class="col-md-12 category-header">
+                        <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
+                            <span>{{ webconference }}</span>
+                        </h4>
+
+                        <div class="col-md-5 pull-right category-card-items">
+                            <a href="{% url 'mural:resource_view' webconference.slug %}" class="pull-right action_icon">
+                                <i class="fa fa-list" aria-hidden="true"></i>
+                                {% resource_mural_number webconference request.user %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
+                {% autoescape off %}
+            	   {{ webconference.content }}
+                {% endautoescape %}
+            </div>
+        </div>
+{% endblock %}
