@@ -80,6 +80,7 @@ INSTALLED_APPS = [
     'themes',
     'api',
     'reports',
+    'webconference',
 ]
 
 MIDDLEWARE_CLASSES = [
