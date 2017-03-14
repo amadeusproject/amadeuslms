@@ -12,10 +12,15 @@ def log_decorator(log_component = '', log_action = '', log_resource = ''):
 		def _decorator(request, *args, **kwargs):
 			user = None
 
+			#Get user before logout
 			if request.user.is_authenticated:
 				user = request.user				
 
 			response = view_function(request, *args, **kwargs)
+
+			#Get user after login
+			if user is None and request.user.is_authenticated:
+				user = request.user
 
 			log_context = {}
 

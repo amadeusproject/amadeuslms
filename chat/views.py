@@ -58,7 +58,7 @@ class GeneralParticipants(LoginRequiredMixin, generic.ListView):
 	def get_queryset(self):
 		user = self.request.user
 
-		users = User.objects.all().exclude(id = user.id)
+		users = User.objects.all().exclude(id = user.id).order_by('social_name','username')
 		
 		self.totals['general'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__generaltalk__isnull = False).count()
 		self.totals['category'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__categorytalk__isnull = False).count()

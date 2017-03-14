@@ -522,7 +522,6 @@ def logout(request, next_page = None):
 
 	return redirect(reverse('users:login'))
 
-
 def get_users_log(request):
 	fifty_users = Log.objects.values('user_id').annotate(count = Count('user_id')).order_by('-count')[:50]
 	fifty_users = list(fifty_users)

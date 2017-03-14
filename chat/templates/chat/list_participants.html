@@ -14,8 +14,6 @@
 {% endblock %}
 
 {% block content %}
-    {% users_online as online_users %}
-
 	<div id="core-subjects-options-div">
         <ul class="core-subjects-options mural-tabs">
             <a href="{% url 'chat:manage_general' %}"><li data-chat="general" class="active">{% trans "General" %} (<span>{{ totals.general }}</span>)</li></a>
