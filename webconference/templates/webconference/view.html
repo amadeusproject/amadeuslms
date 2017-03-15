@@ -1,6 +1,6 @@
 {% extends 'subjects/view.html' %}
 
-{% load static i18n pagination permissions_tags subject_counter %}
+{% load static i18n pagination permissions_tags subject_counter access_conference %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% block javascript%}
@@ -10,7 +10,7 @@
 {% block breadcrumbs %}
     {{ block.super }}
     {% breadcrumb topic 'subjects:topic_view' subject.slug topic.slug %}
-    {% breadcrumb web conference 'webconferences:view' webconference.slug %}
+    {% breadcrumb webconference 'webconferences:view' webconference.slug %}
 {% endblock %}
 
 {% block content %}
@@ -51,8 +51,25 @@
             </div>
             <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
                 {% autoescape off %}
-            	   {{ webconference.content }}
+            	   {{ webconference.presentation }}
                 {% endautoescape %}
+                <div class="">
+                    <p><b>{% trans "Start date/hour" %}:</b> {{webconference.start}}</p>
+                </div>
+                <div class="">
+                    <p><b>{% trans "End date/hour" %}:</b> {{webconference.end}}</p>
+                </div>
+
+                {% access_conference webconference.start as access %}
+                {% if access %}
+                <!--  Button to join in web conference -->
+                <div class="row">
+                  <div class="text-center">
+                    <a href="#" class="btn btn-raised btn-success">{% trans "Participate" %}</a>
+                  </div>
+                </div>
+                {% endif %}
+
             </div>
         </div>
 {% endblock %}

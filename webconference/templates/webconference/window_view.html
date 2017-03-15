@@ -1,1 +1,58 @@
-{{ webconference.content|safe }}
+<!DOCTYPE html>
+
+{% load static i18n access_conference%}
+
+<html>
+<head>
+	<title>{{ title }} | {{ theme.title }}</title>
+
+	<script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
+
+	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
+	<link href="{{ theme.favicon_url }}" rel="shortcut icon" />
+
+	<style type="text/css">
+		body {
+			padding: 0;
+			margin: 0;
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body>
+  <div class="container">
+    <br>
+    <div class="row">
+      <div class="col-md-12">
+          {% autoescape off %}
+           {{ webconference.presentation }}
+          {% endautoescape %}
+          <div class="">
+              <p><b>{% trans "Start date/hour" %}:</b> {{webconference.start}}</p>
+          </div>
+          <div class="">
+              <p><b>{% trans "End date/hour" %}:</b> {{webconference.end}}</p>
+          </div>
+
+          {% access_conference webconference.start as access %}
+          {% if access %}
+          <!--  Button to join in web conference -->
+          <div class="row">
+            <div class="text-center">
+              <a href="#" class="btn btn-raised btn-success">{% trans "Participate" %}</a>
+            </div>
+          </div>
+          {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+	{#<!-- <input type="hidden" id="log_finish_url" value="{% url 'youtube:finish' youtube.slug %}" />#}
+	{#<input type="hidden" id="log_url" value="{% url 'youtube:watch' youtube.slug %}" />#}
+	{#<input type="hidden" id="log_id" value="" /> -->#}
+  	{#<!-- <iframe src="{{ youtube.get_embed_url }}?enablejsapi=1" frameborder="0" allowfullscreen id="video"></iframe> -->#}
+
+</body>
+</html>
