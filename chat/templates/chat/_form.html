@@ -1,0 +1,113 @@
+{% load static i18n %}
+{% load widget_tweaks %}
+
+<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-body">
+			<form id="chat-form" method="post" action="{{ form_url }}" enctype="multipart/form-data">
+				{% csrf_token %}
+				
+				<div class="form-group{% if form.has_error %} has-error {% endif %}">
+					<label for="{{ form.text.auto_id }}">{{ form.text.label }} <span>*</span></label>
+					{% render_field form.text class='form-control text_simple_wysiwyg' %}
+
+					<span id="helpBlock" class="help-block">{{ form.text.help_text }}</span>
+
+					{% if form.text.errors %}
+						<div class="alert alert-danger alert-dismissible" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							<ul>
+								{% for error in form.text.errors %}
+									<li>{{ error }}</li>
+								{% endfor %}
+							</ul>
+						</div>
+					{% endif %}
+				</div>
+
+				<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+					{% render_field form.image %}
+
+				    <div class="filedrag">
+			    		{% trans 'Click or drop the file here' %}<br />
+
+			      		<small>{% trans 'The file could not exceed 5MB.' %}</small>
+			  		</div>
+
+					<span id="helpBlock" class="help-block">{{ form.image.help_text }}</span>
+
+					{% if form.image.errors %}
+						<div class="alert alert-danger alert-dismissible" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							<ul>
+								{% for error in form.image.errors %}
+									<li>{{ error }}</li>
+								{% endfor %}
+							</ul>
+						</div>
+					{% endif %}
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<div class="col-md-12">
+				<button type="submit" id="button" form="chat-form" class="btn btn-success btn-raised post-button pull-left">{% trans "Save" %}</button>
+				<button type="button" class="btn btn-raised btn-default pull-right" data-dismiss="modal">{% trans "Cancel" %}</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function () {
+		$('.text_simple_wysiwyg').summernote({
+			dialogsInBody: true,
+			height: 150,
+		  	toolbar: [
+			    // [groupName, [list of button]]
+			    ['style', ['bold', 'italic']],
+			    ['insert', ['link']]
+		  	]
+		});
+
+		$.material.init();
+
+		if (window.File && window.FileList && window.FileReader) {
+			Init();
+		}
+	});
+
+	// initialize
+	function Init() {
+		var small = $("#id_image"),
+			filedrag = $(".filedrag"),
+			common = $(".common-file-input");
+
+		// file select
+		small.on("change", FileSelectHandler);
+
+		// is XHR2 available?
+		var xhr = new XMLHttpRequest();
+		if (xhr.upload) {
+			// file drop
+			filedrag.on("drop", FileSelectHandler);
+			filedrag.attr('style', 'display:block');
+			common.attr('style', 'display:none');
+		}
+	}
+
+	// file selection
+	function FileSelectHandler(e) {
+		var files = e.target.files || e.dataTransfer.files,
+			parent = $(e.target.offsetParent);
+
+		// process all File objects
+		for (var i = 0, f; f = files[i]; i++) {
+			parent.find('.filedrag').html(f.name);
+		}
+	}
+</script>

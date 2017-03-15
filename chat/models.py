@@ -36,13 +36,13 @@ class CategoryTalk(Conversation):
 	space = models.ForeignKey(Category, verbose_name = ('Category'), related_name = 'talk_category', null = True)
 
 class SubjectTalk(Conversation):
-	space = models.ForeignKey(Subject, verbose_name = _('Subject'), related_name = 'talk_subject')
+	space = models.ForeignKey(Subject, verbose_name = _('Subject'), related_name = 'talk_subject', null = True)
 
 class TalkMessages(models.Model):
 	text = models.TextField(_('Comment'), blank = True)
-	image = models.ImageField(verbose_name = _('Image'), null=True, blank = True, upload_to = upload_filename, validators = [validate_img_extension])
-	talk = models.ForeignKey(Conversation, verbose_name = _('Conversation'), related_name = 'message_talk')
-	user = models.ForeignKey(User, verbose_name = _('User'), related_name = 'message_user')
+	image = models.ImageField(verbose_name = _('Image'), null = True, blank = True, upload_to = upload_filename, validators = [validate_img_extension])
+	talk = models.ForeignKey(Conversation, verbose_name = _('Conversation'), related_name = 'message_talk', null = True)
+	user = models.ForeignKey(User, verbose_name = _('User'), related_name = 'message_user', null = True)
 	create_date = models.DateTimeField(_('Create Date'), auto_now_add = True)
 
 class ChatVisualizations(models.Model):

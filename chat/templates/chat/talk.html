@@ -39,6 +39,9 @@
 	        </div>
 	        <div class="row-fluid">
 	        	<div class="messages-container">
+	        		{% for talk_msg in messages %}
+	        			{% include 'chat/_message.html' %}
+	        		{% endfor %}
 	        	</div>
 	        </div>
 		</div>
@@ -49,9 +52,9 @@
 						<img src="{{ request.user.image_url }}" class="img-responsive" />
 					</div>
 				</div>
-				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 message-field" onclick="comment($(this))">
-					<div>
-						<h4 data-url="">{% trans 'Type a new message to ' %}{{ participant }} <i class="fa fa-camera pull-right"></i></h4>
+				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 message-field">
+					<div onclick="getForm($(this));">
+						<h4 data-url="{% url 'chat:create' participant.email talk_id space space_type %}">{% trans 'Type a new message to ' %}{{ participant }} <i class="fa fa-camera pull-right"></i></h4>
 					</div>
 				</div>
 			</div>
