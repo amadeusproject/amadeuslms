@@ -1243,6 +1243,37 @@ div.dataTables_wrapper div.dataTables_paginate {
     text-transform: uppercase;
     letter-spacing: 0;
 }
+
+    h5 {
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+
+  h5.one {
+    margin-top: 0;
+    color: #bdbdbd;
+  }
+  
+  h5.one:before {
+    content: "";
+    display: block;
+    border-top: solid 1px #bdbdbd;
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+  }
+  
+  h5.one span {
+    background: #eee;
+    padding-right: 20px;
+    position: relative;
+    z-index: 5;
+  }
+
 /* End Reports */
 
 /* Chat */
@@ -1272,7 +1303,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 .participant .user-info {
     padding: 7px 15px;
 }
-.participant .user-info .status {
+.participant .user-info .status, .modal_profile_sidebar .status {
     width: 20px;
     height: 20px;
     border-width: 1px;
@@ -1292,5 +1323,88 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 .participant .buttons {
     padding: 7px 0px;
+}
+
+.modal_profile {
+    font-size: 14px;
+}
+
+.modal_profile_sidebar {
+    text-align: center;
+}
+.modal_profile_sidebar h4 {
+    font-size: 16px;
+}
+
+.talk_header {
+    padding-top: 5px !important;
+    padding-left: 10px !important;
+}
+.talk_header .close {
+    padding-top: 17px !important;
+}
+.talk_header, .talk_header img {
+    height: 50px;
+}
+.talk_header h4 {
+    margin-left: 10px;
+    margin-top: 13px;
+    margin-bottom: 14px;
+}
+
+.talk_body {
+    padding: 0px !important;
+}
+
+.talk-filter {
+    padding-top: 1px;
+    padding-left: 12px;
+    margin-bottom: 10px;
+}
+.talk-filter h4 {
+    font-weight: 700;
+    margin-bottom: 5px !important;
+}
+.talk-filter .checkbox {
+    margin-right: 10px;
+}
+
+.messages-container {
+    height: 400px;
+    overflow-y: scroll;
+    border-top-width: 1px;
+    border-top-style: solid;
+}
+
+.message-sender {
+    padding: 0px !important;
+}
+.message-sender-container {
+    padding: 5px;
+}
+.message-sender-container .user-img {
+    padding: 0px;
+    height: 46px;
+}
+.message-sender-container .user-img img {
+    max-height: 46px;
+}
+.message-sender-container .message-field {
+    padding-left: 10px;
+    padding-right: 0px;
+    height: 46px;
+    text-align: left;
+}
+.message-sender-container .message-field h4 {
+    margin-top: 0px;
+}
+.message-sender-container .message-field div {
+    height: 46px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-width: 1px;
+    border-style: solid;
 }
 /* End Chat */

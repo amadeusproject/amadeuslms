@@ -12,7 +12,7 @@ from django.db.models import Q
 
 from users.models import User
 
-from .models import Conversation, ChatVisualizations
+from .models import Conversation, TalkMessages, ChatVisualizations
 
 class GeneralIndex(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
@@ -72,5 +72,54 @@ class GeneralParticipants(LoginRequiredMixin, generic.ListView):
 		context['title'] = _('Messages - Participants')
 		context['totals'] = self.totals
 		context['chat_menu_active'] = 'subjects_menu_active'
+		
+		return context
+
+class GetTalk(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	context_object_name = 'messages'
+	template_name = 'chat/talk.html'
+	paginate_by = 20
+
+	def get_queryset(self):
+		user = self.request.user
+		user_email = self.kwargs.get('email', '')
+
+		talks = Conversation.objects.filter((Q(user_one = user) & Q(user_two__email = user_email)) | (Q(user_two = user) & Q(user_one__email = user_email)))
+
+		messages = TalkMessages.objects.none()
+
+		if talks.count() > 0:
+			talk = talks[0]
+
+			messages = TalkMessages.objects.filter(talk = talk).order_by('-create_date')
+
+		return messages
+
+	def get_context_data(self, **kwargs):
+		context = super(GetTalk, self).get_context_data(**kwargs)
+
+		user_email = self.kwargs.get('email', '')
+
+		context['participant'] = get_object_or_404(User, email = user_email)
+		
+		return context
+
+class ParticipantProfile(LoginRequiredMixin, generic.DetailView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	model = User
+	slug_field = 'email'
+	slug_url_kwarg = 'email'
+	context_object_name = 'participant'
+	template_name = 'chat/_profile.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(ParticipantProfile, self).get_context_data(**kwargs)
+
+		context['space'] = self.request.GET.get('space', '0')
 		
 		return context

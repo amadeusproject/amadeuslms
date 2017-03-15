@@ -1,7 +1,8 @@
 {% load widget_tweaks static i18n %}
 
 <form action="" method="post">{% csrf_token %}
-    <p>{% trans "General Parameters" %}</p><hr>
+    <h5 class="one"> <span>{% trans "General Parameters" %}</span></h5>
+   
     {% if form.errors %}
             <div class="alert alert-danger alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -23,7 +24,7 @@
         	
         
         {% elif field.auto_id == 'id_from_mural' %}
-            <p>{% trans "Data Source" %}</p><hr>   
+    <h5 class="one"> <span>{% trans "Data Source" %}</span></h5>
             <label> {{field.label}} </label>
             {% render_field field class='form-control' %}
         {% else %}

@@ -444,16 +444,16 @@ a.add-row {
 .btn_fav {
   color: #BBBBBB !important; }
 
-.post-filter {
+.post-filter, .talk-filter {
   background: #F5F5F5; }
 
-.post-filter h4 {
+.post-filter h4, .talk-filter h4 {
   color: #26A69A; }
 
-.post-filter label {
+.post-filter label, .talk-filter label {
   color: #333333; }
 
-.post-filter i {
+.post-filter i, .talk-filter i {
   color: #FF0000; }
 
 .suggestions {
@@ -474,18 +474,32 @@ a.add-row {
 .participant {
   border-color: #888; }
 
-.participant .user-info h4 {
+.participant .user-info h4, .modal_profile_sidebar h4 {
   color: #59b75c; }
 
-.participant .user-info .status {
+.participant .user-info .status, .modal_profile_sidebar .status {
   border-color: #888;
   background-color: #F5F5F5; }
 
-.participant .user-info .status.active {
+.participant .user-info .status.active, .modal_profile_sidebar .status.active {
   background-color: #59b75c; }
 
-.participant .user-info .status.away {
+.participant .user-info .status.away, .modal_profile_sidebar .status.away {
   background-color: #DAA520; }
+
+.messages-container {
+  border-top-color: #cacaca;
+  background-color: #f5f5f5; }
+
+.message-sender {
+  border-top-color: #000000 !important; }
+
+.message-sender-container {
+  background-color: #e5e5e5; }
+
+.message-sender-container .message-field div {
+  background-color: #FFFFFF;
+  border-color: #888888; }
 
 @media(max-width: 768px) {
   .navbar .navbar-nav .dropdown .dropdown-menu li > a {
