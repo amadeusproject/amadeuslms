@@ -55,7 +55,9 @@
         addText: 'add data source',
         deleteText: 'remove data source',
         added: function(object){
-            $.get("{% url 'subjects:reports:get_resource_and_tags' %}?subject_id={{subject.id}}", function(data){
+            var form_topic = $("select#id_topic :selected").filter(":selected").val(); //get user selected topic option
+
+            $.get("{% url 'subjects:reports:get_resource_and_tags' %}?subject_id={{subject.id}}"+"&topic_choice="+form_topic, function(data){
                 fields = object.children("select");
                 
                 for(var j = 0; j < data.resources.length; j++){ 
@@ -63,7 +65,6 @@
 
                 }
                 //Set initial tag options
-                var form_topic = $("select#id_topic :selected").filter(":selected").val(); //get user selected topic option
                 $.get("{% url 'subjects:reports:get_tags' %}?resource_class_name="+fields[0].value+"&subject_id={{subject.id}}"+"&topic_choice="+form_topic, function(data){
                         fields[1].options.length = 0;
                         for(var j = 0; j < data.tags.length; j++){ 
@@ -86,5 +87,7 @@
             });
         },
     });
+
+    $('.resource-tag-formset').remove(); //I remove the element so there is no empty form with no data, I can't override this behavior on the previous function call
     </script>
 {% endblock content %}

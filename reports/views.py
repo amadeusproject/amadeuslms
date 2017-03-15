@@ -58,7 +58,7 @@ class ReportView(LoginRequiredMixin, generic.FormView):
 
         #set formset
         resourceTagFormSet = formset_factory(ResourceAndTagForm, formset=BaseResourceAndTagFormset)
-        resourceTagFormSet = resourceTagFormSet(initial=[{'class_name': classes, 'tag':tags}])
+        resourceTagFormSet = resourceTagFormSet()
         context['resource_tag_formset'] = resourceTagFormSet
         return context
 
@@ -131,6 +131,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         context['end_date'] = params_data['end_date']
         context['subject'] = subject
         if params_data['from_mural']:
+            #I used getlist method so it can get more than one tag and one resource class_name
             context['data'], context['header'] = self.get_mural_data(subject, params_data['init_date'], params_data['end_date'],
                 params_data.getlist('resource'), params_data.getlist('tag'))
         return context
@@ -148,6 +149,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
 
         header = ['User']
 
+        #For each student in the subject
         for student in students:
             data[student] = []
 
@@ -202,7 +204,6 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             
 
             #VAR08 through VAR_019 of documenttation:
-            print(resources_id)
             resources_data = self.get_resources_and_tags_data(resources_id, tags_id, student, subject)
 
             interactions = {**interactions, **resources_data}
@@ -246,29 +247,47 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         data = {}
 
         for i in range(len(resources)):
-            print(data)
-            print(resources)
-            print(resources[i])
-            print(tags[i])
             data[str(resources[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = Log.objects.filter(action="view", resource=resources[i].lower(),
                 user_id = student.id, context__contains = {'subject_id': subject.id}).count()
 
         return data
 
 
-
+"""
+Get all possible resource subclasses available for that topic selected
+"""
 def get_resources(request):
 
     #get all possible resources
     classes = Resource.__subclasses__()    
 
     data = {}
-
+    subject = Subject.objects.get(id=request.GET['subject_id'])
     
-    data['resources']= [ {'id':class_name.__name__, 'name':class_name.__name__} for class_name in  classes]
+    topic_choice = request.GET["topic_choice"]
+    if topic_choice.lower() == "all":
+        topics = subject.topic_subject.all()
+    else:
+        topics = [Topic.objects.get(id=int(topic_choice))]
+
+    resources_class_names = []
+    for topic in topics:
+        resource_set = Resource.objects.filter(topic = topic)
+        for resource in resource_set:
+            resources_class_names.append(resource._my_subclass)
+
+    #remove duplicates
+    resources = set(resources_class_names)
+
+    data['resources']= [ {'id':resource_type, 'name':resource_type} for resource_type in  resources]
     return JsonResponse(data)
 
 
+
+"""
+This function returns all the tags associated 
+with a resource that is of the type of of the resource_class_name provided.
+"""
 def get_tags(request):
     resource_type = request.GET['resource_class_name']
     subject = Subject.objects.get(id=request.GET['subject_id'])
