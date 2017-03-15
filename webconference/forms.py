@@ -2,6 +2,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
+import datetime
 
 from subjects.models import Tag
 
@@ -50,25 +51,33 @@ class WebconferenceForm(forms.ModelForm):
 				same_name = topic.resource_topic.filter(name__unaccent__iexact = name).count()
 
 			if same_name > 0:
-				self._errors['name'] = [_('This subject already has a webpage with this name')]
+				self._errors['name'] = [_('This subject already has a web conference with this name')]
 
 				return ValueError
 
 		return name
 
-	# def clean_content(self):
-	# 	content = self.cleaned_data.get('content', '')
-	# 	cleaned_content = strip_tags(content)
-	#
-	# 	if cleaned_content == '':
-	# 		self._errors['content'] = [_('This field is required.')]
-	#
-	# 		return ValueError
-	#
-	# 	return content
+
+	def clean_start(self):
+		start = self.cleaned_data['start']
+		if start.timetuple() < datetime.datetime.now().timetuple():
+			self._errors['start'] = [_('This date must be today or after')]
+			return ValueError
+
+		return start
+
+	def clean_end(self):
+		end = self.cleaned_data['end']
+		start =  self.cleaned_data['start']
+
+		if start is ValueError or end < start:
+			self._errors['end'] = [_('This date must be equal start date/hour or after')]
+			return ValueError
+
+		return end
 
 	def save(self, commit = True):
-		super(WebpageForm, self).save(commit = True)
+		super(WebconferenceForm, self).save(commit = True)
 
 		self.instance.save()
 
