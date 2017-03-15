@@ -16,11 +16,12 @@ class Webconference(Resource):
     def __str__(self):
         return self.name
 
-	# def access_link(self):
-	# 	if self.show_window:
-	# 		return reverse_lazy('webpages:window_view', args = (), kwargs = {'slug': self.slug})
-    #
-	# 	return reverse_lazy('webpages:view', args = (), kwargs = {'slug': self.slug})
+    def access_link(self):
+        if self.show_window:
+            return reverse_lazy('webconferences:window_view', args = (), kwargs = {'slug': self.slug})
+
+        return reverse_lazy('webconferences:view', args = (), kwargs = {'slug': self.slug})
+
     def update_link(self):
         return 'webconferences:update'
 
@@ -28,4 +29,4 @@ class Webconference(Resource):
         return 'webconferences:delete'
 
     def delete_message(self):
-        return _('Are you sure you want delete the webpage')
+        return _('Are you sure you want delete the web conference')
