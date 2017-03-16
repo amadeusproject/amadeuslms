@@ -19,17 +19,21 @@
 
 
         {% if field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date' %}
-        	<label> {{field.label}} </label>
-    		{% render_field field class='form-control date-picker' %}
+        	<label class="form-field-report"> {{field.label}} </label>
+    		{% render_field field class='form-control  date-picker' %}
+      
         	
         
         {% elif field.auto_id == 'id_from_mural' %}
-    <h5 class="one"> <span>{% trans "Data Source" %}</span></h5>
-            <label> {{field.label}} </label>
-            {% render_field field class='form-control' %}
+    <h5 class="one"> <span>{% trans "Choose the Data Source (is possible to pick more than one)" %}</span></h5>
+        <div class="report-check-fields">
+        
+            <label class="form-field-report"> {{field.label}} </label>
+            {% render_field field class='form-control ' %}
+        </div>
         {% else %}
-        	<label> {{field.label}} </label>
-    		{% render_field field class='form-control' %}
+        	<label class="form-field-report"> {{field.label}} </label>
+    		{% render_field field class='form-control ' %}
         {% endif %}
         	
         {% if field.errors %}
@@ -77,8 +81,11 @@
                                 {% endif %}
                                <div class="resource-tag-formset">
                                    {% for field in resource_tag_form %}
-                                    <label>{{field.label}}</label>
-                                    {% render_field field class="form-control" %}
+                                   <div class="report-resource-form">
+                                        <label class="form-field-report">{{field.label}}</label>
+                                        {% render_field field class="form-control " %}
+
+                                    </div>
 
                                    
                                    {% endfor %}
@@ -89,7 +96,7 @@
     </div>
 
     <div class="row text-center">
-        <input type="submit" value="Search" class="btn btn-success btn-raised" />
+        <input type="submit" value="{% trans "Search" %}" class="btn btn-success btn-raised" />
     </div>
 </form>
 

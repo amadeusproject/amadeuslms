@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-16 16:47-0300\n"
+"POT-Creation-Date: 2017-03-16 19:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,8 +27,20 @@ msgid "Tag"
 msgstr "Tag"
 
 #: forms.py:36
-msgid "Topics to select data from"
-msgstr "Tópico do qual os dados serão retirados"
+#, fuzzy
+#| msgid "Topic"
+msgid "Topics"
+msgstr "Tópico"
+
+#: forms.py:37 templates/reports/view.html:58
+msgid "Initial Date"
+msgstr "Data inicial"
+
+#: forms.py:38
+#, fuzzy
+#| msgid "Initial Date"
+msgid "Final Date"
+msgstr "Data inicial"
 
 #: forms.py:40
 msgid "From Mural"
@@ -56,15 +68,19 @@ msgstr "Esta data deve ser igual ou anterior à"
 
 #: templates/reports/_form.html:4
 msgid "General Parameters"
-msgstr "Parâmetros Gerais"
+msgstr "Escolha o Tópico e o Período"
 
 #: templates/reports/_form.html:27
-msgid "Data Source"
-msgstr "Fonte de dados"
+msgid "Choose the Data Source (is possible to pick more than one)"
+msgstr "Escolha a fonte de dados (é possível escolher mais de uma)"
 
 #: templates/reports/_form.html:60
 msgid "Interaction with resources"
 msgstr "Interação com recursos"
+
+#: templates/reports/_form.html:92
+msgid "Search"
+msgstr "Buscar"
 
 #: templates/reports/create.html:27 templates/reports/view.html:33
 msgid "Analytics"
@@ -76,7 +92,7 @@ msgstr "Dados de Interação"
 
 #: templates/reports/create.html:40 templates/reports/view.html:46
 msgid "Report Card"
-msgstr "Boletim da Etapa"
+msgstr "Boletim do Topico"
 
 #: templates/reports/create.html:43 templates/reports/view.html:49
 msgid "Participation"
@@ -97,10 +113,6 @@ msgstr "Assunto"
 #: templates/reports/view.html:57
 msgid "Topic"
 msgstr "Tópico"
-
-#: templates/reports/view.html:58
-msgid "Initial Date"
-msgstr "Data inicial"
 
 #: templates/reports/view.html:59
 msgid "End Date"
@@ -195,6 +207,12 @@ msgstr "Classe"
 #: views.py:244
 msgid "Performance"
 msgstr "Desempenho"
+
+#~ msgid "Topics to select data from"
+#~ msgstr "Tópico do qual os dados serão retirados"
+
+#~ msgid "Data Source"
+#~ msgstr "Escolha a origem dos dados (É possível selecionar mais de uma)"
 
 #~ msgid "sunday"
 #~ msgstr "domingo"

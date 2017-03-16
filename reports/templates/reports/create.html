@@ -58,7 +58,7 @@
             var form_topic = $("select#id_topic :selected").filter(":selected").val(); //get user selected topic option
 
             $.get("{% url 'subjects:reports:get_resource_and_tags' %}?subject_id={{subject.id}}"+"&topic_choice="+form_topic, function(data){
-                fields = object.children("select");
+                fields = object.find("select"); //get any select below, which are the two fields of the form
                 
                 for(var j = 0; j < data.resources.length; j++){ 
                    fields[0].options[fields[0].options.length] = new Option(data.resources[j].name,data.resources[j].id);

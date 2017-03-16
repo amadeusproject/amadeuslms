@@ -1229,6 +1229,23 @@ div.dataTables_wrapper div.dataTables_paginate {
     margin-right: 30px;
 }
 
+.form-field-report{
+    color: #000000 !important;
+}
+
+.resource-tag-formset{
+    width: 100%;
+    display: inline-block;
+    padding: 15px;
+}
+
+
+.report-resource-form{
+    width: 30%;
+    float: left;
+}
+
+
 .delete-row{
     float: right;
     background-color: gray;
