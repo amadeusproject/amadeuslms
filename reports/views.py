@@ -272,7 +272,7 @@ def get_resources(request):
     subject = Subject.objects.get(id=request.GET['subject_id'])
 
     topic_choice = request.GET["topic_choice"]
-    if topic_choice.lower() == "all":
+    if topic_choice.lower() == "all" or topic_choice.lower() == "todos":
         topics = subject.topic_subject.all()
     else:
         topics = [Topic.objects.get(id=int(topic_choice))]
@@ -299,7 +299,7 @@ def get_tags(request):
     resource_type = request.GET['resource_class_name']
     subject = Subject.objects.get(id=request.GET['subject_id'])
     topic_choice = request.GET["topic_choice"]
-    if topic_choice.lower() == "all":
+    if topic_choice.lower() == "all" or topic_choice.lower() == "todos":
         topics = subject.topic_subject.all()
     else:
         topics = [Topic.objects.get(id=int(topic_choice))]

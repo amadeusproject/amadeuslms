@@ -1245,6 +1245,10 @@ div.dataTables_wrapper div.dataTables_paginate {
     float: left;
 }
 
+#resources_accordion .panel-heading{
+    background-color: #c4c4c4 !important;
+    
+}
 
 .delete-row{
     float: right;

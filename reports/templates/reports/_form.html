@@ -25,11 +25,12 @@
         	
         
         {% elif field.auto_id == 'id_from_mural' %}
-    <h5 class="one"> <span>{% trans "Choose the Data Source (is possible to pick more than one)" %}</span></h5>
+        <h5 class="one"> <span>{% trans "Choose the Data Source (is possible to pick more than one)" %}</span></h5>
         <div class="report-check-fields">
         
-            <label class="form-field-report"> {{field.label}} </label>
+            <label class="form-field-report"> {{field.label}} 
             {% render_field field class='form-control ' %}
+            </label>
         </div>
         {% else %}
         	<label class="form-field-report"> {{field.label}} </label>
@@ -61,7 +62,7 @@
                             <div class="col-md-12">
                                 <a data-parent="#resources_accordion" data-toggle="collapse" href="#resources">
                                     <h4 class="panel-title">
-                                    <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label for="resources">{% trans "Interaction with resources" %}</label>
+                                    <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label class="form-field-report" for="resources">{% trans "Interaction with resources" %}</label>
                                     </h4>
                                 </a>
                             </div>

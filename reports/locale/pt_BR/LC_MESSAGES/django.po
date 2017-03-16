@@ -92,7 +92,7 @@ msgstr "Dados de Interação"
 
 #: templates/reports/create.html:40 templates/reports/view.html:46
 msgid "Report Card"
-msgstr "Boletim do Topico"
+msgstr "Boletim do Tópico"
 
 #: templates/reports/create.html:43 templates/reports/view.html:49
 msgid "Participation"
