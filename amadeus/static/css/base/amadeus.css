@@ -448,6 +448,7 @@ a:focus {
     padding-bottom: 200px;
 }
 .panel-info{
+    margin-top: 10px;
 }
 .panel-default{
 }

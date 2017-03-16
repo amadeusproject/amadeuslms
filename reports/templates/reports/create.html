@@ -52,8 +52,8 @@
 
     
     $('.resource-tag-formset').formset({
-        addText: 'add data source',
-        deleteText: 'remove data source',
+        addText: "{% trans "add data source" %}",
+        deleteText: "{% trans "remove data source" %}",
         added: function(object){
             var form_topic = $("select#id_topic :selected").filter(":selected").val(); //get user selected topic option
 

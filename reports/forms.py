@@ -33,12 +33,12 @@ class ResourceAndTagForm(forms.Form):
 		
 
 class CreateInteractionReportForm(forms.Form):
-	topic = forms.ChoiceField( label= _("Topics to select data from"))
-	init_date = forms.DateField()
-	end_date = forms.DateField()
+	topic = forms.ChoiceField( label= _("Topics to select data from"), required=True)
+	init_date = forms.DateField(required=True)
+	end_date = forms.DateField(required=True)
 
-	from_mural = forms.BooleanField(required=False)
-	from_messages = forms.BooleanField(required=False)
+	from_mural = forms.BooleanField(required=False, label=_("From Mural"))
+	from_messages = forms.BooleanField(required=False, label=_("Messages"))
 
 	class Meta:
 		fields = ('topic', 'init_date', 'end_date', 'from_mural' , 'from_messages')

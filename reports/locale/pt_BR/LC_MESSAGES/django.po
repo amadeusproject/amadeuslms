@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-16 15:36-0300\n"
+"POT-Creation-Date: 2017-03-16 16:47-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,6 +29,14 @@ msgstr "Tag"
 #: forms.py:36
 msgid "Topics to select data from"
 msgstr "Tópico do qual os dados serão retirados"
+
+#: forms.py:40
+msgid "From Mural"
+msgstr "Mural da disciplina"
+
+#: forms.py:41
+msgid "Messages"
+msgstr "Mensagens"
 
 #: forms.py:52
 msgid "All"
@@ -68,11 +76,19 @@ msgstr "Dados de Interação"
 
 #: templates/reports/create.html:40 templates/reports/view.html:46
 msgid "Report Card"
-msgstr "Boletim"
+msgstr "Boletim da Etapa"
 
 #: templates/reports/create.html:43 templates/reports/view.html:49
 msgid "Participation"
-msgstr "Participação"
+msgstr "Participações"
+
+#: templates/reports/create.html:55
+msgid "add data source"
+msgstr "Adicionar nova fonte de dados"
+
+#: templates/reports/create.html:56
+msgid "remove data source"
+msgstr "Remover esta fonte"
 
 #: templates/reports/view.html:56
 msgid "Subject"
@@ -164,34 +180,6 @@ msgid "Number of access to mural between 0 a.m to 6a.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 24h às 06h."
 
-#: views.py:233
-msgid "sunday"
-msgstr "domingo"
-
-#: views.py:233
-msgid "monday"
-msgstr "segunda-feira"
-
-#: views.py:233
-msgid "tuesday"
-msgstr "terça-feira"
-
-#: views.py:233
-msgid "wednesday"
-msgstr "quarta-feira"
-
-#: views.py:233
-msgid "thursday"
-msgstr "quinta-feira"
-
-#: views.py:233
-msgid "friday"
-msgstr "sexta-feira"
-
-#: views.py:233
-msgid "saturday"
-msgstr "sábado"
-
 #: views.py:236 views.py:239
 msgid "Number of access to the subject on "
 msgstr "Número de acesso ao subject no "
@@ -207,3 +195,24 @@ msgstr "Classe"
 #: views.py:244
 msgid "Performance"
 msgstr "Desempenho"
+
+#~ msgid "sunday"
+#~ msgstr "domingo"
+
+#~ msgid "monday"
+#~ msgstr "segunda-feira"
+
+#~ msgid "tuesday"
+#~ msgstr "terça-feira"
+
+#~ msgid "wednesday"
+#~ msgstr "quarta-feira"
+
+#~ msgid "thursday"
+#~ msgstr "quinta-feira"
+
+#~ msgid "friday"
+#~ msgstr "sexta-feira"
+
+#~ msgid "saturday"
+#~ msgstr "sábado"
