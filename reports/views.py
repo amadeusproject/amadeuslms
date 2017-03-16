@@ -233,14 +233,15 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             day_names = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
             distinct_days = 0
             for day_num in day_numbers:
-                interactions['Number of access to the subject on '+ day_names[day_num]] =  Log.objects.filter(action="access", resource="subject", 
+                interactions[_('Number of access to the subject on ')+ day_names[day_num]] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__week_day = day_num).count()
                 #to save the distinct days the user has accessed 
-                if interactions['Number of access to the subject on '+ day_names[day_num]] > 0:
+                if interactions[_('Number of access to the subject on ')+ day_names[day_num]] > 0:
                     distinct_days += 1
 
-            interactions[_('Number of distinct days the user access the subject')] = distinct_days
-
+            interactions[_('Number of distinct days the user access the subject. ')] = distinct_days
+            interactions[_("Class")] = ""
+            interactions[_("Performance")] = ""
             for value in interactions.values():
                 data[student].append(value)
            
