@@ -1277,7 +1277,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 /* End Reports */
 
 /* Chat */
-.participants-group {
+.participants-group, .talks-group {
     margin-left: 40px;
 }
 
@@ -1406,5 +1406,14 @@ div.dataTables_wrapper div.dataTables_paginate {
     padding-right: 10px;
     border-width: 1px;
     border-style: solid;
+}
+
+.talking-header {
+    line-height: 0.5 !important;
+    margin-top: 0px;
+}
+
+.talk-last_msg {
+    font-size: 14px;
 }
 /* End Chat */
