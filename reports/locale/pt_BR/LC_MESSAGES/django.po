@@ -28,7 +28,7 @@ msgstr "Tag"
 
 #: forms.py:36
 msgid "Topics to select data from"
-msgstr "Topics de onde os dados serão retirados"
+msgstr "Tópico do qual os dados serão retirados"
 
 #: forms.py:52
 msgid "All"
