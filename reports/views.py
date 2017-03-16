@@ -16,7 +16,7 @@ from subjects.models import Subject, Tag
 from .forms import CreateInteractionReportForm, ResourceAndTagForm, BaseResourceAndTagFormset
 from log.models import Log
 from topics.models import Resource, Topic
-
+from collections import OrderedDict
 from django.forms import formset_factory
 
 class ReportView(LoginRequiredMixin, generic.FormView):
@@ -130,10 +130,13 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         context['init_date'] = params_data['init_date']
         context['end_date'] = params_data['end_date']
         context['subject'] = subject
+      
+        resources = params_data.getlist('resource')
+        tags = params_data.getlist('tag')
         if params_data['from_mural']:
             #I used getlist method so it can get more than one tag and one resource class_name
             context['data'], context['header'] = self.get_mural_data(subject, params_data['init_date'], params_data['end_date'],
-                params_data.getlist('resource'), params_data.getlist('tag'))
+               resources, tags )
         return context
 
     def get_mural_data(self, subject, init_date, end_date, resources_id, tags_id):
@@ -155,40 +158,40 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
 
             data[student].append(student.social_name)
 
-            interactions = {}
+            interactions = OrderedDict()            
             #interactions['username'] = student.social_name
             
             help_posts_made_by_user = SubjectPost.objects.filter(action="help",space__id=subject.id, user=student, 
                 create_date__range=(init_date, end_date))
 
             #number of help posts created by the student
-            interactions['number of help posts created by the user'] = help_posts_made_by_user.count()
+            interactions[_('Number of help posts created by the user.')] = help_posts_made_by_user.count()
 
             help_posts = SubjectPost.objects.filter(action="help", create_date__range=(init_date, end_date), 
             space__id=subject.id)
 
             #comments count on help posts created by the student
-            interactions['amount of comments on help posts created by the student'] = Comment.objects.filter(post__in = help_posts.filter(user=student), 
+            interactions[_('Amount of comments on help posts created by the student.')] = Comment.objects.filter(post__in = help_posts.filter(user=student), 
                 create_date__range=(init_date, end_date)).count()
             
 
             #count the amount of comments made by the student on posts made by one of the professors
-            interactions['amount of comments made by the student on teachers help posts'] = Comment.objects.filter(post__in = help_posts.filter(user__in= subject.professor.all()), create_date__range=(init_date, end_date),
+            interactions[_('Amount of comments made by the student on teachers help posts.')] = Comment.objects.filter(post__in = help_posts.filter(user__in= subject.professor.all()), create_date__range=(init_date, end_date),
              user=student).count()
 
              #comments made by the user on other users posts
-            interactions['amount of comments made by the student on other students help posts'] = Comment.objects.filter(post__in = help_posts.exclude(user=student), 
+            interactions[_('Amount of comments made by the student on other students help posts.')] = Comment.objects.filter(post__in = help_posts.exclude(user=student), 
                 create_date__range=(init_date, end_date),
                 user= student).count()
            
             
-           
+            
             comments_by_teacher = Comment.objects.filter(user__in=subject.professor.all())
             help_posts_ids = []
             for comment in  comments_by_teacher:
                 help_posts_ids.append(comment.post.id)
              #number of help posts created by the user that the teacher commented on
-            interactions['Number of help posts created by the user that the teacher commented on'] = help_posts.filter(user=student, id__in = help_posts_ids).count()
+            interactions[_('Number of help posts created by the user that the teacher commented on.')] = help_posts.filter(user=student, id__in = help_posts_ids).count()
 
            
             comments_by_others = Comment.objects.filter(user__in=subject.students.exclude(id = student.id))
@@ -196,30 +199,33 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             for comment in  comments_by_teacher:
                 help_posts_ids.append(comment.post.id)
             #number of help posts created by the user others students commented on
-            interactions['number of help posts created by the user others students commented on'] = help_posts.filter(user=student, id__in = help_posts_ids).count()
+            interactions[_('Number of help posts created by the user others students commented on.')] = help_posts.filter(user=student, id__in = help_posts_ids).count()
 
             #Number of student visualizations on the mural of the subject
-            interactions['Number of student visualizations on the mural of the subject'] = MuralVisualizations.objects.filter(post__in = SubjectPost.objects.filter(space__id=subject.id),
+            interactions[_('Number of student visualizations on the mural of the subject.')] = MuralVisualizations.objects.filter(post__in = SubjectPost.objects.filter(space__id=subject.id),
                 user = student).count()
             
 
             #VAR08 through VAR_019 of documenttation:
-            resources_data = self.get_resources_and_tags_data(resources_id, tags_id, student, subject)
+            if len(resources_id) > 0:
+                resources_data = self.get_resources_and_tags_data(resources_id, tags_id, student, subject)
+                for key, value in resources_data.items():
+                    interactions[key] = value
 
-            interactions = {**interactions, **resources_data}
+
             #VAR20 - number of access to mural between 6 a.m to 12a.m.
-            interactions[' number of access to mural between 6 a.m to 12a.m.'] =  Log.objects.filter(action="access", resource="subject", 
+            interactions[_('Number of access to mural between 6 a.m to 12a.m. .')] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (5, 11)).count()
 
             #VAR21 - number of access to mural between 0 p.m to 6p.m.
-            interactions['number of access to mural between 0 p.m to 6p.m.'] =  Log.objects.filter(action="access", resource="subject", 
+            interactions[_('Number of access to mural between 0 p.m to 6p.m. .')] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (11, 17)).count()
             #VAR22
-            interactions['number of access to mural between 6 p.m to 12p.m.'] =  Log.objects.filter(action="access", resource="subject", 
+            interactions[_('Number of access to mural between 6 p.m to 12p.m. .')] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (17, 23)).count()
 
             #VAR23
-            interactions['number of access to mural between 0 a.m to 6a.m.'] =  Log.objects.filter(action="access", resource="subject", 
+            interactions[_('Number of access to mural between 0 a.m to 6a.m. .')] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (23, 5)).count()
 
             #VAR24 through 30
@@ -227,13 +233,13 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             day_names = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
             distinct_days = 0
             for day_num in day_numbers:
-                interactions['number of access to the subject on '+ day_names[day_num]] =  Log.objects.filter(action="access", resource="subject", 
+                interactions['Number of access to the subject on '+ day_names[day_num]] =  Log.objects.filter(action="access", resource="subject", 
                 user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__week_day = day_num).count()
                 #to save the distinct days the user has accessed 
-                if interactions['number of access to the subject on '+ day_names[day_num]] > 0:
+                if interactions['Number of access to the subject on '+ day_names[day_num]] > 0:
                     distinct_days += 1
 
-            interactions['number of distinct days the user access the subject'] = distinct_days
+            interactions[_('Number of distinct days the user access the subject')] = distinct_days
 
             for value in interactions.values():
                 data[student].append(value)
@@ -263,7 +269,7 @@ def get_resources(request):
 
     data = {}
     subject = Subject.objects.get(id=request.GET['subject_id'])
-    
+
     topic_choice = request.GET["topic_choice"]
     if topic_choice.lower() == "all":
         topics = subject.topic_subject.all()

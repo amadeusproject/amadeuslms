@@ -89,5 +89,7 @@
     });
 
     $('.resource-tag-formset').remove(); //I remove the element so there is no empty form with no data, I can't override this behavior on the previous function call
+
+    $('#id_form-TOTAL_FORMS')[0].value = 0;
     </script>
 {% endblock content %}
