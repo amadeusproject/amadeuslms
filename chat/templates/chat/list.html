@@ -49,9 +49,11 @@
             		<div class="panel panel-info panel-body">
                         <h2 class="my-subjects-title"><b>{% trans 'Conversations' %}</b></h2>
 
-                        {% for chat in conversations %}
-                            
-                        {% endfor %}
+                        <div class="talks-group">
+                            {% for chat in conversations %}
+                                {% include 'chat/_view.html' with space="0" space_type='general' %}
+                            {% endfor %}
+                        </div>
                     </div>
                 {% else %}
         			<div class="text-center no-subjects">
@@ -63,5 +65,9 @@
         </div>
     </div>
 
-    <div class="modal fade" id="post-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+    <div class="modal fade" id="chat-modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+    <div class="modal fade" id="chat-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+    <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
   {% endblock %}
