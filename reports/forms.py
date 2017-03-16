@@ -11,18 +11,16 @@ class BaseResourceAndTagFormset(BaseFormSet):
         Adds validation to check that no two links have the same anchor or URL
         and that all links have both an anchor and URL.
         """
-        print("here 2")
-        print(self.errors)
         if any(self.errors):
             return
 
         for form in self.forms:
-        	print(form)
+        	pass
 
 class ResourceAndTagForm(forms.Form):
 
 	resource = forms.ChoiceField(label=_("Kind Of Resource"), required=True)
-	tag  = forms.ChoiceField(label=_('Tag'), required=True)
+	tag  = forms.ChoiceField(label=_('Tag'))
 
 	def __init__(self, *args, **kwargs):
 		super(ResourceAndTagForm, self).__init__(*args, **kwargs)
