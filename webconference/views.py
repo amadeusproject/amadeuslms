@@ -65,6 +65,20 @@ class NewWindowView(LoginRequiredMixin,
 
     	return context
 
+class Conference(LoginRequiredMixin,generic.TemplateView):
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+
+    template_name = 'webconference/jitsi.html'
+
+
+    def get_context_data(self, **kwargs):
+        context = super(Conference, self).get_context_data(**kwargs)
+        context['name_room'] = kwargs.get('slug')
+        return context
+
+
 class InsideView(LoginRequiredMixin,
 # '''LogMixin,'''
 generic.DetailView):

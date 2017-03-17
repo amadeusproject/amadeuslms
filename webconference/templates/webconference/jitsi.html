@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load static i18n %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{% trans "Web Conference" %}</title>
+    <script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
+    <!-- <script src="https://meet.jit.si/external_api.js"></script> -->
+    <script src="{% static 'js/jitsi.js' %}"></script>
+    <style>
+      body, html, #jitsi, iframe{
+          margin-left: -1px;
+          margin-right: 0px;
+          margin-top: -2px;
+          margin-bottom: -1px;
+          padding: 0px;
+          width: 100%;
+          min-height: 100%;
+          height: 100%;
+      }
+      </style>
+  </head>
+  <body>
+    <div id="jitsi">
+
+    </div>
+
+    <script>
+    // code to start jitsi api
+      var domain = "meet.jit.si"; // domain that jitsi will itself connect
+      var room = "{{name_room}}"; // name of the room to be created
+      var width = $("body").width(); // width of the window to be created
+      var height = $("body").height(); // height of the window to be created
+      var html = document.getElementById("jitsi");
+      var api = new JitsiMeetExternalAPI(domain, room, width, height,html);
+    </script>
+
+  </body>
+</html>

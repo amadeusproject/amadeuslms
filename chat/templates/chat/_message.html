@@ -1,6 +1,20 @@
-<div class="col-md-12">
-	<p>{{ talk_msg.user }}</p>
+<div class="col-md-12 message-view">
+	<h4 class="message-user">
+		{{ talk_msg.user }}
+		<span class="message-date">
+			({{ talk_msg.create_date }})
+		</span>
+		<span class="btn-group pull-right">
+	        <button class="btn btn-sm btn_menu btn_fav" onclick="favorite($(this))" data-url="" data-action="" data-toggle="tooltip" data-placement="top" title="">
+	        	<i class="fa fa-thumb-tack"></i>
+	        </button>
+	    </span>
+	</h4>
 	{% autoescape off %}
 		{{ talk_msg.text }}
 	{% endautoescape %}
+
+	{% if talk_msg.image %}
+		<img src="{{ talk_msg.image.url }}" class="img-responsive center-block" />
+	{% endif %}
 </div>

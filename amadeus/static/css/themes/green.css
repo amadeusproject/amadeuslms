@@ -474,7 +474,7 @@ a.add-row {
 .participant {
   border-color: #888; }
 
-.participant .user-info h4, .modal_profile_sidebar h4 {
+.participant .user-info h4, .modal_profile_sidebar h4, .message-view .message-user {
   color: #59b75c; }
 
 .participant .user-info .status, .modal_profile_sidebar .status {
@@ -502,6 +502,12 @@ a.add-row {
   border-color: #888888; }
 
 .talk-last_msg {
+  color: #888; }
+
+.message-view {
+  border-top-color: #cacaca; }
+
+.message-view .message-user .message-date {
   color: #888; }
 
 @media(max-width: 768px) {

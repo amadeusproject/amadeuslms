@@ -60,8 +60,9 @@ class GeneralParticipants(LoginRequiredMixin, generic.ListView):
 
 	def get_queryset(self):
 		user = self.request.user
+		search = self.request.GET.get('search', '')
 
-		users = User.objects.all().exclude(id = user.id).order_by('social_name','username')
+		users = User.objects.filter(Q(username__icontains = search) | Q(last_name__icontains = search) | Q(social_name__icontains = search) | Q(email__icontains = search)).distinct().order_by('social_name','username').exclude(email = user.email)
 		
 		self.totals['general'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__generaltalk__isnull = False).count()
 		self.totals['category'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__categorytalk__isnull = False).count()
@@ -74,6 +75,7 @@ class GeneralParticipants(LoginRequiredMixin, generic.ListView):
 
 		context['title'] = _('Messages - Participants')
 		context['totals'] = self.totals
+		context['search'] = self.request.GET.get('search')
 		context['chat_menu_active'] = 'subjects_menu_active'
 		
 		return context
