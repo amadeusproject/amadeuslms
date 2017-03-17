@@ -10,9 +10,12 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
+from categories.models import Category
+from subjects.models import Subject
 from users.models import User
 
-from .models import Conversation, TalkMessages, ChatVisualizations
+from .models import Conversation, GeneralTalk, CategoryTalk, SubjectTalk, TalkMessages, ChatVisualizations
+from .forms import ChatMessageForm
 
 class GeneralIndex(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
@@ -75,38 +78,6 @@ class GeneralParticipants(LoginRequiredMixin, generic.ListView):
 		
 		return context
 
-class GetTalk(LoginRequiredMixin, generic.ListView):
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
-
-	context_object_name = 'messages'
-	template_name = 'chat/talk.html'
-	paginate_by = 20
-
-	def get_queryset(self):
-		user = self.request.user
-		user_email = self.kwargs.get('email', '')
-
-		talks = Conversation.objects.filter((Q(user_one = user) & Q(user_two__email = user_email)) | (Q(user_two = user) & Q(user_one__email = user_email)))
-
-		messages = TalkMessages.objects.none()
-
-		if talks.count() > 0:
-			talk = talks[0]
-
-			messages = TalkMessages.objects.filter(talk = talk).order_by('-create_date')
-
-		return messages
-
-	def get_context_data(self, **kwargs):
-		context = super(GetTalk, self).get_context_data(**kwargs)
-
-		user_email = self.kwargs.get('email', '')
-
-		context['participant'] = get_object_or_404(User, email = user_email)
-		
-		return context
-
 class ParticipantProfile(LoginRequiredMixin, generic.DetailView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
@@ -121,5 +92,128 @@ class ParticipantProfile(LoginRequiredMixin, generic.DetailView):
 		context = super(ParticipantProfile, self).get_context_data(**kwargs)
 
 		context['space'] = self.request.GET.get('space', '0')
+		context['space_type'] = self.request.GET.get('space_type', 'general')
 		
 		return context
+
+class GetTalk(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	context_object_name = 'messages'
+	template_name = 'chat/talk.html'
+	paginate_by = 20
+	talk_id = "-1"
+
+	def get_queryset(self):
+		user = self.request.user
+		user_email = self.kwargs.get('email', '')
+
+		talks = Conversation.objects.filter((Q(user_one = user) & Q(user_two__email = user_email)) | (Q(user_two = user) & Q(user_one__email = user_email)))
+
+		messages = TalkMessages.objects.none()
+
+		if talks.count() > 0:
+			talk = talks[0]
+			self.talk_id = talk.id
+
+			messages = TalkMessages.objects.filter(talk = talk).order_by('-create_date')
+
+		return messages
+
+	def get_context_data(self, **kwargs):
+		context = super(GetTalk, self).get_context_data(**kwargs)
+
+		user_email = self.kwargs.get('email', '')
+
+		context['participant'] = get_object_or_404(User, email = user_email)
+		context['talk_id'] = self.talk_id
+		context['space'] = self.request.GET.get('space', '0')
+		context['space_type'] = self.request.GET.get('space_type', 'general')
+		
+		return context
+
+class SendMessage(LoginRequiredMixin, generic.edit.CreateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	form_class = ChatMessageForm
+	template_name = "chat/_form.html"
+
+	def form_invalid(self, form):
+		context = super(SendMessage, self).form_invalid(form)
+		context.status_code = 400
+
+		return context
+
+	def form_valid(self, form):
+		self.object = form.save(commit = False)
+
+		self.object.user = self.request.user
+
+		talk_id = self.kwargs.get('talk_id', '-1')
+		user = get_object_or_404(User, email = self.kwargs.get('email', ''))
+		space_type = self.kwargs.get('space_type', 'general')
+		space = self.kwargs.get('space', 0)
+
+		if talk_id == "-1":
+			if space_type == 'general':
+				talk = GeneralTalk.objects.create(user_one = self.request.user, user_two = user, space = 0)
+			elif space_type == 'category':
+				cat = get_object_or_404(Category, id = space)
+				talk = CategoryTalk.objects.create(user_one = self.request.user, user_two = user, space = cat)
+			else:
+				sub = get_object_or_404(Subject, id = space)
+				talk = SubjectTalk.objects.create(user_one = self.request.user, user_two = user, space = sub)
+		else:
+			talk = get_object_or_404(Conversation, id = talk_id)
+
+		self.object.talk = talk
+
+		self.object.save()
+
+		#entries = []
+
+		#paths = [reverse("mural:manage_general")]
+
+		#notification = {
+		#	"type": "mural",
+		#	"subtype": "post",
+		#	"paths": paths,
+		#	"user_icon": self.object.user.image_url,
+		#	"simple_notify": _("%s has made a post in General")%(str(self.object.user)),
+		#	"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
+		#	"container": ".post",
+		#	"accordion": False,
+		#	"post_type": "general"
+		#}
+
+		#notification = json.dumps(notification)
+
+		#Group("user-%s" % user.id).send({'text': notification})
+
+		ChatVisualizations.objects.create(viewed = False, message = self.object, user = user)
+
+		return super(SendMessage, self).form_valid(form)
+
+	def get_context_data(self, **kwargs):
+		context = super(SendMessage, self).get_context_data(**kwargs)
+
+		context['form_url'] = reverse_lazy('chat:create', args = (), kwargs = {'email': self.kwargs.get('email', ''), 'talk_id': self.kwargs.get('talk_id', None), 'space': self.kwargs.get('space', '0'), 'space_type': self.kwargs.get('space_type', 'general')})
+		
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('chat:render_message', args = (self.object.id, ))
+
+def render_message(request, talk_msg):
+	msg = get_object_or_404(TalkMessages, id = talk_msg)
+
+	context = {}
+	context['talk_msg'] = msg
+	
+	message = _('Message sent successfully!')
+	
+	html = render_to_string("chat/_message.html", context, request)
+
+	return JsonResponse({'message': message, 'view': html, 'new_id': msg.id})

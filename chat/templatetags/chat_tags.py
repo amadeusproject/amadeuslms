@@ -7,6 +7,8 @@ from django.contrib.sessions.models import Session
 
 from log.models import Log
 
+from chat.models import TalkMessages
+
 register = template.Library()
 
 @register.assignment_tag(name = 'is_online')
@@ -35,3 +37,16 @@ def status_text(status):
 		return _('Away')
 	else:
 		return _("Offline")
+
+@register.assignment_tag(name = 'chat_user')
+def chat_user(user, chat):
+	if chat.user_one == user:
+		return chat.user_two
+
+	return chat.user_one
+
+@register.filter(name = 'last_message')
+def last_message(chat):
+	last_message = TalkMessages.objects.filter(talk = chat).order_by('-create_date')[0]
+
+	return last_message.create_date

@@ -53,7 +53,7 @@
 
                         <div class="participants-group">
                             {% for participant in participants %}
-                                {% include 'chat/_view_participant.html' with space="0" %}
+                                {% include 'chat/_view_participant.html' with space="0" space_type='general' %}
                             {% endfor %}
                         </div>
 
@@ -70,6 +70,8 @@
     </div>
 
     <div class="modal fade" id="chat-modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+    <div class="modal fade" id="chat-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
 
     <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
   {% endblock %}

@@ -448,6 +448,7 @@ a:focus {
     padding-bottom: 200px;
 }
 .panel-info{
+    margin-top: 10px;
 }
 .panel-default{
 }
@@ -1228,6 +1229,27 @@ div.dataTables_wrapper div.dataTables_paginate {
     margin-right: 30px;
 }
 
+.form-field-report{
+    color: #000000 !important;
+}
+
+.resource-tag-formset{
+    width: 100%;
+    display: inline-block;
+    padding: 15px;
+}
+
+
+.report-resource-form{
+    width: 30%;
+    float: left;
+}
+
+#resources_accordion .panel-heading{
+    background-color: #c4c4c4 !important;
+    
+}
+
 .delete-row{
     float: right;
     background-color: gray;
@@ -1277,7 +1299,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 /* End Reports */
 
 /* Chat */
-.participants-group {
+.participants-group, .talks-group {
     margin-left: 40px;
 }
 
@@ -1406,5 +1428,14 @@ div.dataTables_wrapper div.dataTables_paginate {
     padding-right: 10px;
     border-width: 1px;
     border-style: solid;
+}
+
+.talking-header {
+    line-height: 0.5 !important;
+    margin-top: 0px;
+}
+
+.talk-last_msg {
+    font-size: 14px;
 }
 /* End Chat */
