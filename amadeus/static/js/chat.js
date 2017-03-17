@@ -11,6 +11,14 @@ function getModalInfo(btn, space, space_type) {
 			$("#chat-modal-info").modal('show');
 
 			$.material.init();
+
+            $('#chat-modal-info').on('shown.bs.modal', function () {
+                $(".messages-container").each(function () {
+                    var height = $(this)[0].scrollHeight;
+
+                    $(this).animate({scrollTop: height}, 0);
+                });
+            });
 		}
 	});
 }
@@ -43,7 +51,13 @@ function setChatFormSubmit() {
             dataType: "json",
             async: false,
             success: function (data) {
-                $('.messages-container').append(data.view);
+                $('.messages-list').append(data.view);
+
+                $(".messages-container").each(function () {
+                    var height = $(this)[0].scrollHeight;
+
+                    $(this).animate({scrollTop: height}, 0);
+                });
 
                 $('#chat-modal-form').modal('hide');
 

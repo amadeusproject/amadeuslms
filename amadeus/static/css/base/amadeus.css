@@ -1393,9 +1393,16 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 .messages-container {
     height: 400px;
-    overflow-y: scroll;
     border-top-width: 1px;
     border-top-style: solid;
+    line-height: 399px;
+    overflow-y: scroll;
+}
+.messages-container .messages-list {
+    display: inline-block;
+    vertical-align: bottom;
+    line-height: normal;
+    width: 100%;
 }
 
 .message-sender {
@@ -1437,5 +1444,37 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 .talk-last_msg {
     font-size: 14px;
+}
+
+.message-view {
+    border-top-width: 1px;
+    border-top-style: solid;
+}
+
+.message-view img {
+    margin-bottom: 10px;
+}
+
+.message-view .message-user {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.message-view .message-user .message-date {
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.message-view .btn-group {
+    margin-top: -5px;
+    margin-bottom: 0px;
+}
+
+.message-view .btn-group .dropdown-menu a {
+    cursor: pointer;
+}
+
+.message-view .btn-group .btn_menu i {
+    font-size: 16px;
 }
 /* End Chat */
