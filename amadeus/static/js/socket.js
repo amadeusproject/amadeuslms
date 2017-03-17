@@ -19,6 +19,8 @@ socket.onmessage = function(e) {
 		} else if (content.subtype == "comment") {
 			muralNotificationComment(content);
 		}
+	} else if (content.type == "chat") {
+		messageReceived(content);
 	}
 }
 // Call onopen directly if socket is already open
@@ -217,4 +219,38 @@ function muralNotificationComment(content) {
 	    	setTimeout(notification.close.bind(notification), 3000);
 	    }
   	}
+}
+
+function messageReceived(content) {
+	var talk_modal = $("#" + content.container);
+
+	if (talk_modal.is(':visible')) {
+		var new_msg_btn = talk_modal.find('.messages_new'),
+			msg_container = talk_modal.find('.messages-container');
+
+		talk_modal.find('.messages-list').append(content.complete);
+
+		new_msg_btn.show();
+
+		new_msg_btn.click(function () {
+			var height = msg_container[0].scrollHeight;
+
+            msg_container.animate({scrollTop: height}, 0);
+
+            $(this).hide();
+		});
+	}
+
+	if (("Notification" in window)) {
+		var options = {
+			icon: content.user_icon,
+			body: content.simple_notify
+		}
+
+	    if (Notification.permission === "granted") {
+	    	var notification = new Notification(content.notify_title, options);
+
+	    	setTimeout(notification.close.bind(notification), 3000);
+	    }
+  	}	
 }
