@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-16 19:05-0300\n"
+"POT-Creation-Date: 2017-03-17 00:26-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,15 +70,15 @@ msgstr "Esta data deve ser igual ou anterior à"
 msgid "General Parameters"
 msgstr "Escolha o Tópico e o Período"
 
-#: templates/reports/_form.html:27
+#: templates/reports/_form.html:28
 msgid "Choose the Data Source (is possible to pick more than one)"
 msgstr "Escolha a fonte de dados (é possível escolher mais de uma)"
 
-#: templates/reports/_form.html:60
+#: templates/reports/_form.html:65
 msgid "Interaction with resources"
 msgstr "Interação com recursos"
 
-#: templates/reports/_form.html:92
+#: templates/reports/_form.html:100
 msgid "Search"
 msgstr "Buscar"
 
@@ -132,7 +132,7 @@ msgstr "Dados de interação"
 
 #: views.py:67
 msgid "Report created successfully"
-msgstr "Report criado com sucesso!"
+msgstr "Relatório criado com sucesso!"
 
 #: views.py:168
 msgid "Number of help posts created by the user."
@@ -192,9 +192,13 @@ msgid "Number of access to mural between 0 a.m to 6a.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 24h às 06h."
 
+#: views.py:233
+msgid "sunday"
+msgstr "domingo"
+
 #: views.py:236 views.py:239
 msgid "Number of access to the subject on "
-msgstr "Número de acesso ao subject no "
+msgstr "Número de acessos ao assunto na(o) "
 
 #: views.py:242
 msgid "Number of distinct days the user access the subject. "
@@ -213,24 +217,3 @@ msgstr "Desempenho"
 
 #~ msgid "Data Source"
 #~ msgstr "Escolha a origem dos dados (É possível selecionar mais de uma)"
-
-#~ msgid "sunday"
-#~ msgstr "domingo"
-
-#~ msgid "monday"
-#~ msgstr "segunda-feira"
-
-#~ msgid "tuesday"
-#~ msgstr "terça-feira"
-
-#~ msgid "wednesday"
-#~ msgstr "quarta-feira"
-
-#~ msgid "thursday"
-#~ msgstr "quinta-feira"
-
-#~ msgid "friday"
-#~ msgstr "sexta-feira"
-
-#~ msgid "saturday"
-#~ msgstr "sábado"

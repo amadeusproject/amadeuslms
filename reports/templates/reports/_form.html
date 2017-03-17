@@ -1,7 +1,7 @@
 {% load widget_tweaks static i18n %}
 
 <form action="" method="post">{% csrf_token %}
-    <h5 class="one"> <span>{% trans "General Parameters" %}</span></h5>
+ 
    
     {% if form.errors %}
             <div class="alert alert-danger alert-dismissible" role="alert">
@@ -15,6 +15,8 @@
                 </ul>
             </div>
         {% endif %}
+
+    <h5 class="one"> <span>{% trans "General Parameters" %}</span></h5>
     {% for field  in form %}
 
 
@@ -62,7 +64,10 @@
                             <div class="col-md-12">
                                 <a data-parent="#resources_accordion" data-toggle="collapse" href="#resources">
                                     <h4 class="panel-title">
-                                    <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label class="form-field-report" for="resources">{% trans "Interaction with resources" %}</label>
+                                    <button class="btn btn-default btn-xs text-center cat-selector">
+                                        <i class="fa fa-angle-right fa-2x" aria-hidden="true"></i>
+                                    </button>
+                                    <label class="form-field-report" for="resources">{% trans "Interaction with resources" %}</label>
                                     </h4>
                                 </a>
                             </div>
@@ -97,8 +102,26 @@
     </div>
 
     <div class="row text-center">
-        <input type="submit" value="{% trans "Search" %}" class="btn btn-success btn-raised" />
+        <input type="submit" value="{% trans 'Search' %}" class="btn btn-success btn-raised" />
     </div>
 </form>
+
+<script>
+        $('.collapse').on('show.bs.collapse', function (e) {
+        if($(this).is(e.target)){
+            var btn = $(this).parent().find('.fa-angle-right');
+
+            btn.switchClass("fa-angle-right", "fa-angle-down", 250, "easeInOutQuad");
+        }
+    });
+
+    $('.collapse').on('hide.bs.collapse', function (e) {
+        if($(this).is(e.target)){
+            var btn = $(this).parent().find('.fa-angle-down');
+
+            btn.switchClass("fa-angle-down", "fa-angle-right", 250, "easeInOutQuad");
+        }
+    });
+</script>
 
 
