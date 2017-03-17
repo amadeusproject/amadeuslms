@@ -26,10 +26,10 @@
         		<div class="panel panel-default">
         			<div class="panel-body">
     	    			<div class="col-md-8">
-                            <form action="" method="GET" class="form-horizontal">
+                            <form action="{% url 'chat:participants_general' %}" method="GET" class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-md-11 col-sm-11 col-xs-11">
-                                        <input type="text" class="form-control" name="search" placeholder="{% trans 'Search...' %}" />
+                                        <input type="text" class="form-control" name="search" value="{{ search }}" placeholder="{% trans 'Search...' %}" />
                                     </div>
                                     <div class="col-md-1 col-sm-1 col-xs-1">
                                         <button type="submit" class="btn btn-fab btn-fab-mini">
