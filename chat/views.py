@@ -6,9 +6,14 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse, reverse_lazy
+import textwrap
+from django.utils.html import strip_tags
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+
+from channels import Group
+import json
 
 from categories.models import Category
 from subjects.models import Subject
@@ -174,25 +179,24 @@ class SendMessage(LoginRequiredMixin, generic.edit.CreateView):
 
 		self.object.save()
 
-		#entries = []
+		simple_notify = textwrap.shorten(strip_tags(self.object.text), width = 30, placeholder = "...")
 
-		#paths = [reverse("mural:manage_general")]
+		if self.object.image:
+			simple_notify += " ".join(_("[Photo]"))
 
-		#notification = {
-		#	"type": "mural",
-		#	"subtype": "post",
-		#	"paths": paths,
-		#	"user_icon": self.object.user.image_url,
-		#	"simple_notify": _("%s has made a post in General")%(str(self.object.user)),
-		#	"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
-		#	"container": ".post",
-		#	"accordion": False,
-		#	"post_type": "general"
-		#}
+		notification = {
+			"type": "chat",
+			"subtype": space_type,
+			"user_icon": self.object.user.image_url,
+			"notify_title": str(self.object.user),
+			"simple_notify": simple_notify,
+			"complete": render_to_string("chat/_message.html", {"talk_msg": self.object}, self.request),
+			"container": "chat-" + str(self.object.user.id)
+		}
 
-		#notification = json.dumps(notification)
+		notification = json.dumps(notification)
 
-		#Group("user-%s" % user.id).send({'text': notification})
+		Group("user-%s" % user.id).send({'text': notification})
 
 		ChatVisualizations.objects.create(viewed = False, message = self.object, user = user)
 

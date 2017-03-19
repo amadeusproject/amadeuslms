@@ -2,7 +2,7 @@
 
 {% is_online participant as status %}
 
-<div class="modal-dialog" role="document">
+<div id="chat-{{ participant.id }}" class="modal-dialog" role="document">
 	<div class="modal-content">
 		<div class="modal-header talk_header">
 			<div class="modal_profile_sidebar pull-left">
@@ -39,6 +39,9 @@
 	        </div>
 	        <div class="row-fluid">
 	        	<div class="messages-container">
+	        		<div class="messages_new">
+	        			{% trans 'You have new messages...' %}
+	        		</div>
 	        		<div class="messages-list">
 	        			{% include 'chat/_list_messages.html' %}
 	        		</div>
