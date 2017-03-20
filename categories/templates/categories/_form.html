@@ -26,7 +26,12 @@
 		{% else %}
 			<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
 				{% if field.auto_id != 'id_visible' %}
-					<label for="{{ field.auto_id }}">{{ field.label }}</label>
+						{% if field.field.required %}
+							<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
+						{% else %}
+							<label for="{{ field.auto_id }}">{{ field.label }}</label>
+
+						{% endif %}
 				{% endif %}
 				{% if field.auto_id == 'id_visible' %}
 					<div class="checkbox">
