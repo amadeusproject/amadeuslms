@@ -317,6 +317,12 @@ a:focus {
     -webkit-padding-start: 0px;
 }
 
+@-moz-document url-prefix() {
+    .submenu {
+        padding-left: 0px;
+    }
+}
+
 .top-search::-webkit-input-placeholder {
     font-style: italic;
 }
