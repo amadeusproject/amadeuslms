@@ -25,8 +25,8 @@
 			</div>
 		{% else %}
 			<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
-				<label for="{{ field.auto_id }}" class="control-label">{{ field.label }}</label>
-				
+				<label for="{{ field.auto_id }}">{{ field.label }}</label>
+
 				{% if field.auto_id == 'id_description' %}
 					{% render_field field class='form-control text_wysiwyg' %}
 				{% else %}
@@ -34,9 +34,9 @@
 				{% endif %}
 			</div>
 		{% endif %}
-		
+
 		<span class="help-block">{{ field.help_text }}</span>
-		
+
 		{% if field.errors %}
 			<div class="row">
 				</br>
