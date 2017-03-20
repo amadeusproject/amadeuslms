@@ -1296,6 +1296,18 @@ div.dataTables_wrapper div.dataTables_paginate {
     z-index: 5;
   }
 
+  .general-parameters-field{
+    width: 25%;
+    float: left;
+    margin-left: 1%;
+  }
+
+  #general-parameters-div{
+    width: 100%;
+    display: block;
+    height: 100px;
+  }
+
 /* End Reports */
 
 /* Chat */

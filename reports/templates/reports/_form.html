@@ -17,44 +17,36 @@
         {% endif %}
 
     <h5 class="one"> <span>{% trans "General Parameters" %}</span></h5>
-    {% for field  in form %}
-
-
-        {% if field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date' %}
-        	<label class="form-field-report"> {{field.label}} </label>
-    		{% render_field field class='form-control  date-picker' %}
-      
-        	
-        
-        {% elif field.auto_id == 'id_from_mural' %}
-        <h5 class="one"> <span>{% trans "Choose the Data Source (is possible to pick more than one)" %}</span></h5>
-        <div class="report-check-fields">
-        
-            <label class="form-field-report"> {{field.label}} 
-            {% render_field field class='form-control ' %}
-            </label>
+    <div id="general-parameters-div">
+        <div  class="general-parameters-field">
+             {{form.topic.errors}}   
+             <label> {{form.topic.label}} </label>
+            {% render_field form.topic class="form-control" %}
         </div>
-        {% else %}
-        	<label class="form-field-report"> {{field.label}} </label>
-    		{% render_field field class='form-control ' %}
-        {% endif %}
-        	
-        {% if field.errors %}
-                <div class="row">
-                    </br>
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        <ul>
-                            {% for error in field.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            {% endif %}
-    {% endfor %}
+         <div class="general-parameters-field">
+                <label> {{form.init_date.label}} </label>
+                {% render_field form.init_date class='form-control  date-picker' %}
+        </div>
+
+        <div class="general-parameters-field">
+                <label> {{form.end_date.label}} </label>
+                {% render_field form.end_date class='form-control  date-picker' %}
+        </div>
+    </div>
+
+    <h5 class="one"> <span>{% trans "Choose the Data Source (is possible to pick more than one)" %}</span></h5>
+    <div id="data-source-parameters-div">
+        <div class="report-check-fields">
+              <label class="form-field-report"> {% render_field form.from_mural  %} {{form.from_mural.label}} </label>
+              
+        </div>
+        <div class="report-check-fields">
+            <label class="form-field-report">  {% render_field form.from_messages  %} {{form.from_messages.label}} </label>
+           
+        </div>
+    </div>
+            
+        
 
     <!---Adding the selector -->
     <div class="panel-group" id="resources_accordion" role="tablist" aria-multiselectable="true">
