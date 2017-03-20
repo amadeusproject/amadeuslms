@@ -46,7 +46,7 @@
                                 </h4>
 
                                 <div class="col-md-5 pull-right category-card-items">
-                                    <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                    <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                     </a>
                                     <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
@@ -67,8 +67,8 @@
                             {{ group.description }}
                         {% endautoescape %}
 
-                        <h3>{% trans 'Participant(s)' %}: </h3>
-                        
+                        <h4>{% trans 'Participant(s)' %}: </h4>
+
                         <ul class="list-inline">
                             {% for user in group.participants.all %}
                                 <li class="list-inline-item text-center col-lg-2 col-md-2 col-sm-2 col-xs-3">
