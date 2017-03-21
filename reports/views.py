@@ -18,6 +18,8 @@ from log.models import Log
 from topics.models import Resource, Topic
 from collections import OrderedDict
 from django.forms import formset_factory
+from .models import ReportCSV
+import pandas as pd
 
 class ReportView(LoginRequiredMixin, generic.FormView):
     template_name = "reports/create.html"
@@ -133,10 +135,25 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
       
         resources = params_data.getlist('resource')
         tags = params_data.getlist('tag')
-        if params_data['from_mural']:
-            #I used getlist method so it can get more than one tag and one resource class_name
-            context['data'], context['header'] = self.get_mural_data(subject, params_data['init_date'], params_data['end_date'],
-               resources, tags )
+        self.from_mural = params_data['from_mural']
+        #I used getlist method so it can get more than one tag and one resource class_name
+        context['data'], context['header'] = self.get_mural_data(subject, params_data['init_date'], params_data['end_date'],
+            resources, tags )
+
+
+        #this is to save the csv for further download
+        df = pd.DataFrame.from_dict(context['data'], orient='index')
+
+        df.columns = context['header']
+        #so it does not exist more than one report CSV available for that user to download
+        if ReportCSV.objects.filter(user= self.request.user).count() > 0:
+            report = ReportCSV.objects.get(user=self.request.user)
+            report.delete()
+      
+           
+        report = ReportCSV(user= self.request.user, csv_data = df.to_csv())
+        report.save()
+
         return context
 
     def get_mural_data(self, subject, init_date, end_date, resources_id, tags_id):
@@ -158,52 +175,53 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
 
             data[student].append(student.social_name)
 
-            interactions = OrderedDict()            
+            interactions = OrderedDict()    
+                  
             #interactions['username'] = student.social_name
-            
-            help_posts_made_by_user = SubjectPost.objects.filter(action="help",space__id=subject.id, user=student, 
-                create_date__range=(init_date, end_date))
+            if self.from_mural == "True":
+                help_posts_made_by_user = SubjectPost.objects.filter(action="help",space__id=subject.id, user=student, 
+                    create_date__range=(init_date, end_date))
 
-            #number of help posts created by the student
-            interactions[_('Number of help posts created by the user.')] = help_posts_made_by_user.count()
+                #number of help posts created by the student
+                interactions[_('Number of help posts created by the user.')] = help_posts_made_by_user.count()
 
-            help_posts = SubjectPost.objects.filter(action="help", create_date__range=(init_date, end_date), 
-            space__id=subject.id)
+                help_posts = SubjectPost.objects.filter(action="help", create_date__range=(init_date, end_date), 
+                space__id=subject.id)
 
-            #comments count on help posts created by the student
-            interactions[_('Amount of comments on help posts created by the student.')] = Comment.objects.filter(post__in = help_posts.filter(user=student), 
-                create_date__range=(init_date, end_date)).count()
-            
+                #comments count on help posts created by the student
+                interactions[_('Amount of comments on help posts created by the student.')] = Comment.objects.filter(post__in = help_posts.filter(user=student), 
+                    create_date__range=(init_date, end_date)).count()
+                
 
-            #count the amount of comments made by the student on posts made by one of the professors
-            interactions[_('Amount of comments made by the student on teachers help posts.')] = Comment.objects.filter(post__in = help_posts.filter(user__in= subject.professor.all()), create_date__range=(init_date, end_date),
-             user=student).count()
+                #count the amount of comments made by the student on posts made by one of the professors
+                interactions[_('Amount of comments made by the student on teachers help posts.')] = Comment.objects.filter(post__in = help_posts.filter(user__in= subject.professor.all()), create_date__range=(init_date, end_date),
+                 user=student).count()
 
-             #comments made by the user on other users posts
-            interactions[_('Amount of comments made by the student on other students help posts.')] = Comment.objects.filter(post__in = help_posts.exclude(user=student), 
-                create_date__range=(init_date, end_date),
-                user= student).count()
-           
-            
-            
-            comments_by_teacher = Comment.objects.filter(user__in=subject.professor.all())
-            help_posts_ids = []
-            for comment in  comments_by_teacher:
-                help_posts_ids.append(comment.post.id)
-             #number of help posts created by the user that the teacher commented on
-            interactions[_('Number of help posts created by the user that the teacher commented on.')] = help_posts.filter(user=student, id__in = help_posts_ids).count()
+                 #comments made by the user on other users posts
+                interactions[_('Amount of comments made by the student on other students help posts.')] = Comment.objects.filter(post__in = help_posts.exclude(user=student), 
+                    create_date__range=(init_date, end_date),
+                    user= student).count()
+               
+                
+                
+                comments_by_teacher = Comment.objects.filter(user__in=subject.professor.all())
+                help_posts_ids = []
+                for comment in  comments_by_teacher:
+                    help_posts_ids.append(comment.post.id)
+                 #number of help posts created by the user that the teacher commented on
+                interactions[_('Number of help posts created by the user that the teacher commented on.')] = help_posts.filter(user=student, id__in = help_posts_ids).count()
 
-           
-            comments_by_others = Comment.objects.filter(user__in=subject.students.exclude(id = student.id))
-            help_posts_ids = []
-            for comment in  comments_by_teacher:
-                help_posts_ids.append(comment.post.id)
-            #number of help posts created by the user others students commented on
-            interactions[_('Number of help posts created by the user others students commented on.')] = help_posts.filter(user=student, id__in = help_posts_ids).count()
+               
+                comments_by_others = Comment.objects.filter(user__in=subject.students.exclude(id = student.id))
+                help_posts_ids = []
+                for comment in  comments_by_teacher:
+                    help_posts_ids.append(comment.post.id)
+                #number of help posts created by the user others students commented on
+                interactions[_('Number of help posts created by the user others students commented on.')] = help_posts.filter(user=student, id__in = help_posts_ids).count()
 
-            #Number of student visualizations on the mural of the subject
-            interactions[_('Number of student visualizations on the mural of the subject.')] = MuralVisualizations.objects.filter(post__in = SubjectPost.objects.filter(space__id=subject.id),
-                user = student).count()
+                #Number of student visualizations on the mural of the subject
+                interactions[_('Number of student visualizations on the mural of the subject.')] = MuralVisualizations.objects.filter(post__in = SubjectPost.objects.filter(space__id=subject.id),
+                    user = student).count()
             
 
             #VAR08 through VAR_019 of documenttation:
@@ -317,3 +335,12 @@ def get_tags(request):
   
     data['tags'] = [ {'id':tag.id, 'name':tag.name} for tag in  tags]
     return JsonResponse(data)
+
+
+def download_report(request):
+    report = ReportCSV.objects.get(user=request.user)
+     
+    response = HttpResponse(report.csv_data,content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="report.csv"'
+
+    return response
