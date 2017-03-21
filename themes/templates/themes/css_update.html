@@ -25,12 +25,12 @@
 							{% else %}
 								<label for="{{ field.auto_id }}">{{ field.label }}</label>
 							{% endif %}
-							    
+
 							<br clear="all" />
 
 							{% for radio in field %}
 							    <label for="{{ radio.id_for_label }}" class="row text-center">
-						    		<div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-lg-2 col-md-2 col-sm-2 col-xs-3">
+						    		<div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-lg-2 col-md-2 col-sm-2 col-xs-3 text-left">
 								        <span class="radio">
 								        	{{ radio }}
 							        	</span>
