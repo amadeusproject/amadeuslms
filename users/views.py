@@ -105,7 +105,7 @@ class CreateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 	def form_valid(self, form):
 		self.object = form.save()
 
-		msg = _("User %s created successfully" % self.object.get_short_name())
+		msg = _('User "%s" created successfully')%(self.object.get_short_name() )
 
 		self.log_context['user_id'] = self.object.id
 		self.log_context['user_name'] = self.object.get_short_name()
