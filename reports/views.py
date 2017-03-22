@@ -11,14 +11,14 @@ import django.views.generic as generic
 from mural.models import SubjectPost, Comment, MuralVisualizations
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from subjects.models import Subject, Tag
 from .forms import CreateInteractionReportForm, ResourceAndTagForm, BaseResourceAndTagFormset
 from log.models import Log
 from topics.models import Resource, Topic
 from collections import OrderedDict
 from django.forms import formset_factory
-from .models import ReportCSV
+from .models import ReportCSV, ReportXLS
 import pandas as pd
 
 class ReportView(LoginRequiredMixin, generic.FormView):
@@ -143,32 +143,47 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
 
         #this is to save the csv for further download
         df = pd.DataFrame.from_dict(context['data'], orient='index')
-
         df.columns = context['header']
         #so it does not exist more than one report CSV available for that user to download
         if ReportCSV.objects.filter(user= self.request.user).count() > 0:
             report = ReportCSV.objects.get(user=self.request.user)
             report.delete()
       
-           
+        
         report = ReportCSV(user= self.request.user, csv_data = df.to_csv())
         report.save()
+
+        #for excel files
+        """ if ReportXLS.objects.filter(user= self.request.user).count() > 0:
+            report = ReportXLS.objects.get(user=self.request.user)
+            report.delete()
+        
+        df.drop(df.columns[[0]], axis=1, inplace=True)
+        writer = pd.ExcelWriter('pandas_simple.xlsx')
+        report = ReportXLS(user= self.request.user, xls_data = df.to_excel(writer))
+        report.save()"""
+
 
         return context
 
     def get_mural_data(self, subject, init_date, end_date, resources_id, tags_id):
         data = {}
         students = subject.students.all()
-        formats = ["%d/%m/%Y", "%m/%d/%Y"] #so it accepts english and portuguese date formats
+        formats = ["%d/%m/%Y", "%m/%d/%Y", "%Y-%m-%d"] #so it accepts english and portuguese date formats
         for fmt in formats:
             try:
-                init_date = datetime.strptime(init_date, fmt)
-                end_date = datetime.strptime(end_date, fmt)
+                init_date = datetime.strptime(init_date, fmt).date()
+                end_date = datetime.strptime(end_date, fmt).date()
+                
             except ValueError:
                 pass
 
         header = ['User']
-
+       
+        #I use this so the system can gather data up to end_date 11h59 p.m.
+        end_date = end_date + timedelta(days=1)
+   
+       
         #For each student in the subject
         for student in students:
             data[student] = []
@@ -226,7 +241,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
 
             #VAR08 through VAR_019 of documenttation:
             if len(resources_id) > 0:
-                resources_data = self.get_resources_and_tags_data(resources_id, tags_id, student, subject)
+                resources_data = self.get_resources_and_tags_data(resources_id, tags_id, student, subject, init_date, end_date)
                 for key, value in resources_data.items():
                     interactions[key] = value
 
@@ -268,12 +283,26 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             header.append(key)
         return data, header
 
-    def get_resources_and_tags_data(self, resources, tags, student, subject):
-        data = {}
+    def get_resources_and_tags_data(self, resources_types, tags, student, subject, init_date, end_date):
+        data = OrderedDict()  
 
-        for i in range(len(resources)):
-            data[str(resources[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = Log.objects.filter(action="view", resource=resources[i].lower(),
-                user_id = student.id, context__contains = {'subject_id': subject.id}).count()
+        for i in range(len(resources_types)):
+            
+            resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = tags, topic__in=subject.topic_subject.all())
+            distinct_resources = 0
+            total_count = 0
+            for resource in resources:
+                count = Log.objects.filter(action="view", resource=resources_types[i].lower(),
+                      user_id = student.id, context__contains = {'subject_id': subject.id, 
+                      resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date)).count()
+                if count > 0:
+                    distinct_resources += 1
+                    total_count += count
+                
+            data[str(resources_types[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = total_count
+            data["distintic " + str(resources_types[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = distinct_resources
+            """data["distinct" + str(resources[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = Log.objects.filter(action="view", resource=resources[i].lower(),
+                user_id = student.id, context__contains = {'subject_id': subject.id}).distinct().count()"""
 
         return data
 
@@ -317,27 +346,32 @@ def get_tags(request):
     resource_type = request.GET['resource_class_name']
     subject = Subject.objects.get(id=request.GET['subject_id'])
     topic_choice = request.GET["topic_choice"]
+    
+    #Have to fix this to accept translated options
     if topic_choice.lower() == "all" or topic_choice.lower() == "todos":
         topics = subject.topic_subject.all()
     else:
         topics = [Topic.objects.get(id=int(topic_choice))]
     data = {}
-    tags = []
+    tags = set()
     for topic in topics:
         resource_set = Resource.objects.select_related(resource_type.lower()).filter(topic = topic)
        
         for resource in resource_set:
             if resource._my_subclass == resource_type.lower():
                 for tag in resource.tags.all():
-                    tags.append(tag)
-    
+                    if tag.name != "":
+                        tags.add(tag)
+                
    
-  
+    #adding empty tag for the purpose of giving the user this option for adicional behavior
+    tags = list(tags)
+    tags.append(Tag(name=""))
     data['tags'] = [ {'id':tag.id, 'name':tag.name} for tag in  tags]
     return JsonResponse(data)
 
 
-def download_report(request):
+def download_report_csv(request):
     report = ReportCSV.objects.get(user=request.user)
      
     response = HttpResponse(report.csv_data,content_type='text/csv')

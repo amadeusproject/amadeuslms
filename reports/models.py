@@ -13,3 +13,16 @@ class ReportCSV(models.Model):
     def __str__(self):
         pass
     
+
+class ReportXLS(models.Model):
+
+    user = models.ForeignKey(User)
+    xls_data = models.TextField() 
+
+    class Meta:
+        verbose_name = "ReportCSV"
+        verbose_name_plural = "ReportCSVs"
+
+    def __str__(self):
+        pass
+    

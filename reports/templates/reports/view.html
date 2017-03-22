@@ -65,7 +65,7 @@
     	<ul id="report-info">
     		<li> {{data.values|length}} {% trans "register(s)" %} </li>
     		<li>
-    			<a href="{% url 'subjects:reports:download_report' %}?{{csv_data}}"><i class="fa fa-download" aria-hidden="true"></i> {% trans "Interactions Data" %}</a>
+    			<a href="{% url 'subjects:reports:download_report_csv' %}"><i class="fa fa-download" aria-hidden="true"></i> {% trans "Interactions Data" %}</a>
 
 
     		</li>
