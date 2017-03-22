@@ -35,8 +35,8 @@ class ConferenceSettings(models.Model):
 	domain = models.CharField(_("Domain"), max_length = 100, blank=False, null = False)
 
 	class Meta:
-		verbose_name = _("Conference Setting")
-		verbose_name_plural = _("Conferences Setting")
+		verbose_name = _("Web Conference Setting")
+		verbose_name_plural = _("Web Conferences Setting")
 
 	def __str__(self):
 		return self.domain

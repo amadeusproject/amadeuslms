@@ -457,7 +457,7 @@ class ConferenceSettings(braces_mixins.LoginRequiredMixin, braces_mixins.Staffus
     def get_context_data(self, **kwargs):
     	context = super(ConferenceSettings, self).get_context_data(**kwargs)
 
-    	context['title'] = _('Conference Settings')
+    	context['title'] = _('Web Conference Settings')
     	# context['settings_menu_active'] = "settings_menu_active"
 
     	return context
