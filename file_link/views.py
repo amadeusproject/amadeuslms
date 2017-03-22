@@ -21,7 +21,7 @@ from .models import FileLink
 class DownloadFile(LoginRequiredMixin, LogMixin, generic.DetailView):
 	log_component = 'resources'
 	log_action = 'view'
-	log_resource = 'file_link'
+	log_resource = 'filelink'
 	log_context = {}
 
 	login_url = reverse_lazy("users:login")
@@ -63,9 +63,9 @@ class DownloadFile(LoginRequiredMixin, LogMixin, generic.DetailView):
 		self.log_context['topic_id'] = file_link.topic.id
 		self.log_context['topic_name'] = file_link.topic.name
 		self.log_context['topic_slug'] = file_link.topic.slug
-		self.log_context['file_link_id'] = file_link.id
-		self.log_context['file_link_name'] = file_link.name
-		self.log_context['file_link_slug'] = file_link.slug
+		self.log_context['filelink_id'] = file_link.id
+		self.log_context['filelink_name'] = file_link.name
+		self.log_context['filelink_slug'] = file_link.slug
 
 		super(DownloadFile, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
 		
@@ -74,7 +74,7 @@ class DownloadFile(LoginRequiredMixin, LogMixin, generic.DetailView):
 class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 	log_component = 'resources'
 	log_action = 'create'
-	log_resource = 'file_link'
+	log_resource = 'filelink'
 	log_context = {}
 
 	login_url = reverse_lazy("users:login")
@@ -163,9 +163,9 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		self.log_context['topic_id'] = self.object.topic.id
 		self.log_context['topic_name'] = self.object.topic.name
 		self.log_context['topic_slug'] = self.object.topic.slug
-		self.log_context['file_link_id'] = self.object.id
-		self.log_context['file_link_name'] = self.object.name
-		self.log_context['file_link_slug'] = self.object.slug
+		self.log_context['filelink_id'] = self.object.id
+		self.log_context['filelink_name'] = self.object.name
+		self.log_context['filelink_slug'] = self.object.slug
 
 		super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
@@ -192,7 +192,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 	log_component = 'resources'
 	log_action = 'update'
-	log_resource = 'file_link'
+	log_resource = 'filelink'
 	log_context = {}
 
 	login_url = reverse_lazy("users:login")
@@ -277,9 +277,9 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 		self.log_context['topic_id'] = self.object.topic.id
 		self.log_context['topic_name'] = self.object.topic.name
 		self.log_context['topic_slug'] = self.object.topic.slug
-		self.log_context['file_link_id'] = self.object.id
-		self.log_context['file_link_name'] = self.object.name
-		self.log_context['file_link_slug'] = self.object.slug
+		self.log_context['filelink_id'] = self.object.id
+		self.log_context['filelink_name'] = self.object.name
+		self.log_context['filelink_slug'] = self.object.slug
 
 		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
@@ -306,7 +306,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
 	log_component = 'resources'
 	log_action = 'delete'
-	log_resource = 'file_link'
+	log_resource = 'filelink'
 	log_context = {}
 
 	login_url = reverse_lazy("users:login")
@@ -337,9 +337,9 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
 		self.log_context['topic_id'] = self.object.topic.id
 		self.log_context['topic_name'] = self.object.topic.name
 		self.log_context['topic_slug'] = self.object.topic.slug
-		self.log_context['file_link_id'] = self.object.id
-		self.log_context['file_link_name'] = self.object.name
-		self.log_context['file_link_slug'] = self.object.slug
+		self.log_context['filelink_id'] = self.object.id
+		self.log_context['filelink_name'] = self.object.name
+		self.log_context['filelink_slug'] = self.object.slug
 
 		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 

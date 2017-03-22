@@ -23,7 +23,7 @@ class ViewPDFFile(LoginRequiredMixin, LogMixin, generic.TemplateView):
     template_name='pdf_file/view.html'
     log_component = 'resources'
     log_action = 'view'
-    log_resource = 'pdf_file'
+    log_resource = 'pdffile'
     log_context = {}
     def dispatch(self, request, *args, **kwargs):
         slug = self.kwargs.get('slug', '')
@@ -52,9 +52,9 @@ class ViewPDFFile(LoginRequiredMixin, LogMixin, generic.TemplateView):
         self.log_context['topic_id'] = pdf_file.topic.id
         self.log_context['topic_name'] = pdf_file.topic.name
         self.log_context['topic_slug'] = pdf_file.topic.slug
-        self.log_context['pdf_id'] = pdf_file.id
-        self.log_context['pdf_name'] = pdf_file.name
-        self.log_context['pdf_slug'] = pdf_file.slug
+        self.log_context['pdffile_id'] = pdf_file.id
+        self.log_context['pdffile_name'] = pdf_file.name
+        self.log_context['pdffile_slug'] = pdf_file.slug
 
         super(ViewPDFFile, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
@@ -87,6 +87,7 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
+    log_resource = 'pdffile'
 
     def dispatch(self, request, *args, **kwargs):
         slug = self.kwargs.get('slug', '')
@@ -168,9 +169,9 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
         self.log_context['topic_id'] = self.object.topic.id
         self.log_context['topic_name'] = self.object.topic.name
         self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['pdf_file_id'] = self.object.id
-        self.log_context['pdf_file_name'] = self.object.name
-        self.log_context['pdf_file_slug'] = self.object.slug
+        self.log_context['pdffile_id'] = self.object.id
+        self.log_context['pdffile_name'] = self.object.name
+        self.log_context['pdffile_slug'] = self.object.slug
 
         super(PDFFileCreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
@@ -198,7 +199,7 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
 class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
     log_component = 'resources'
     log_action = 'update'
-    log_resource = 'pdf_file'
+    log_resource = 'pdffile'
     log_context = {}
 
     login_url = reverse_lazy("users:login")
@@ -283,9 +284,9 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         self.log_context['topic_id'] = self.object.topic.id
         self.log_context['topic_name'] = self.object.topic.name
         self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['pdf_file_id'] = self.object.id
-        self.log_context['pdf_file_name'] = self.object.name
-        self.log_context['pdf_file_slug'] = self.object.slug
+        self.log_context['pdffile_id'] = self.object.id
+        self.log_context['pdffile_name'] = self.object.name
+        self.log_context['pdffile_slug'] = self.object.slug
 
         super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
@@ -343,9 +344,9 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
         self.log_context['topic_id'] = self.object.topic.id
         self.log_context['topic_name'] = self.object.topic.name
         self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['pdf_file_id'] = self.object.id
-        self.log_context['pdf_file_name'] = self.object.name
-        self.log_context['pdf_file_slug'] = self.object.slug
+        self.log_context['pdffile_id'] = self.object.id
+        self.log_context['pdffile_name'] = self.object.name
+        self.log_context['pdffile_slug'] = self.object.slug
 
         super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 

@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse, reverse_lazy
 import textwrap
+from django.utils import formats
 from django.utils.html import strip_tags
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -193,7 +194,8 @@ class SendMessage(LoginRequiredMixin, generic.edit.CreateView):
 			"notify_title": str(self.object.user),
 			"simple_notify": simple_notify,
 			"complete": render_to_string("chat/_message.html", {"talk_msg": self.object}, self.request),
-			"container": "chat-" + str(self.object.user.id)
+			"container": "chat-" + str(self.object.user.id),
+			"last_date": _("Last message in %s")%(formats.date_format(self.object.create_date, "SHORT_DATETIME_FORMAT"))
 		}
 
 		notification = json.dumps(notification)

@@ -7,5 +7,5 @@ urlpatterns = [
     url(r'^view/interactions/$', views.ViewReportView.as_view(), name='view_report'),
     url(r'^get/resources/$', views.get_resources, name='get_resource_and_tags'),
     url(r'^get/tags/$', views.get_tags, name='get_tags'),
-    url(r'^post/download_report/$', views.download_report, name="download_report"),
+    url(r'^post/download_report/$', views.download_report_csv, name="download_report_csv"),
 ]

@@ -11,14 +11,14 @@
                 			<div class="col-md-12">
                     			<a data-parent="#coordinators_accordion" data-toggle="collapse" href="#coords">
                     				<h4 class="panel-title">
-                            			<button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label for="{{ field.auto_id }}">{{ field.label }}</label>
+                            			<button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label for="{{ field.auto_id }}">{% trans 'Coordinators' %}</label>
                     				</h4>
                     			</a>
                     		</div>
                     	</div>
                     </div>
                     <div id="coords" class="panel-collapse collapse">
-                    	<p><em>{% trans 'Atribute coordinators role to users' %}:</em></p>
+                    	<p><em>{% trans 'Atribute coordinator role to users' %}:</em></p>
                     	{% render_field field class='form-control' %}
                     </div>
                 </div>
@@ -70,8 +70,8 @@
 
 <script type="text/javascript">
     $('#id_coordinators').multiSelect({
-	  	selectableHeader: "<input type='text' class='form-control search-input category-search-users' autocomplete='off' placeholder='{% trans "try an username" %} '>",
-	  	selectionHeader: "<input type='text' class='form-control search-input category-search-users' autocomplete='off' placeholder='{% trans "try an username" %} '>",
+	  	selectableHeader: "<input type='text' class='form-control search-input category-search-users' autocomplete='off' placeholder='{% trans "search for an username" %} '>",
+	  	selectionHeader: "<input type='text' class='form-control search-input category-search-users' autocomplete='off' placeholder='{% trans "search for an username" %} '>",
 	  	afterInit: function(ms){
 		    var that = this,
 		        $selectableSearch = that.$selectableUl.prev(),
