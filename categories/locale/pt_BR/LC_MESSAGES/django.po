@@ -20,7 +20,7 @@ msgstr ""
 
 #: .\forms.py:23
 msgid "There is another category with this name, try another one."
-msgstr ""
+msgstr "Existe outra categoria com este nome, tente outro nome."
 
 #: .\models.py:9
 msgid "Name"
