@@ -1,3 +1,5 @@
+{% load chat_tags %}
+
 <div class="col-md-12 message-view">
 	<h4 class="message-user">
 		{{ talk_msg.user }}
@@ -5,7 +7,7 @@
 			({{ talk_msg.create_date }})
 		</span>
 		<span class="btn-group pull-right">
-	        <button class="btn btn-sm btn_menu btn_fav" onclick="favorite($(this))" data-url="" data-action="" data-toggle="tooltip" data-placement="top" title="">
+	        <button class="btn btn-sm btn_menu {{ talk_msg|fav_class:request.user }}" onclick="favorite($(this))" data-url="{% url 'chat:favorite' talk_msg.id %}" data-action="{{ talk_msg|fav_action:request.user }}" data-toggle="tooltip" data-placement="top" title="{{ talk_msg|fav_label:request.user }}">
 	        	<i class="fa fa-thumb-tack"></i>
 	        </button>
 	    </span>

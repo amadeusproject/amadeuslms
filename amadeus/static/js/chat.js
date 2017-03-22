@@ -1,3 +1,5 @@
+var new_msgs = {};
+
 function getModalInfo(btn, space, space_type) {
 	var url = btn.data('url');
 
@@ -6,13 +8,15 @@ function getModalInfo(btn, space, space_type) {
 		url: url,
 		data: {'space': space, 'space_type': space_type},
 		success: function (response) {
+            var modal_shown = $("#chat-modal-info").is(":visible");
+
 			$("#chat-modal-info").html(response);
 
 			$("#chat-modal-info").modal('show');
 
 			$.material.init();
 
-            $('#chat-modal-info').on('shown.bs.modal', function () {
+            if (modal_shown) {
                 $(".messages-container").each(function () {
                     var height = $(this)[0].scrollHeight;
 
@@ -20,7 +24,19 @@ function getModalInfo(btn, space, space_type) {
                 });
 
                 setShortChatFormSubmit();
-            });
+                setFiltersSubmitAndPagination();
+            } else {
+                $('#chat-modal-info').on('shown.bs.modal', function () {
+                    $(".messages-container").each(function () {
+                        var height = $(this)[0].scrollHeight;
+
+                        $(this).animate({scrollTop: height}, 0);
+                    });
+
+                    setShortChatFormSubmit();
+                    setFiltersSubmitAndPagination();
+                });
+            }
 
             $("#msg_editable").on('click', function () {
                 $(this).trigger('focusin');
@@ -93,9 +109,13 @@ function setChatFormSubmit() {
                     $(this).animate({scrollTop: height}, 0);
                 });
 
-                $('#chat-modal-form').modal('hide');
+                if (typeof(new_msgs[data.talk_id]) == 'undefined') {
+                    new_msgs[data.talk_id] = [];
+                }
 
-                alertify.success(data.message);
+                new_msgs[data.talk_id].push(data.new_id);
+
+                $('#chat-modal-form').modal('hide');
             },
             error: function(data) {
                 $("#chat-modal-form").html(data.responseText);
@@ -137,13 +157,16 @@ function setShortChatFormSubmit() {
                         $(this).animate({scrollTop: height}, 0);
                     });
 
+                    if (typeof(new_msgs[data.talk_id]) == 'undefined') {
+                        new_msgs[data.talk_id] = [];
+                    }
+
+                    new_msgs[data.talk_id].push(data.new_id);
+
                     editable.html("");
                     editable.trigger("focusout");
-
-                    alertify.success(data.message);
                 },
                 error: function(data) {
-                    alertify.error(data.responseText);
                     setShortChatFormSubmit();
                 },
                 cache: false,
@@ -153,5 +176,134 @@ function setShortChatFormSubmit() {
         }
 
         return false;
+    });
+}
+
+function favorite(btn) {
+    var action = btn.data('action'),
+        url = btn.data('url');
+
+    $.ajax({
+        url: url,
+        data: {'action': action},
+        dataType: 'json',
+        success: function (response) {
+            if (action == 'favorite') {
+                btn.switchClass("btn_fav", "btn_unfav", 250, "easeInOutQuad");
+                btn.data('action', 'unfavorite');
+            } else {
+                btn.switchClass("btn_unfav", "btn_fav", 250, "easeInOutQuad");
+                btn.data('action', 'favorite');
+            }
+
+            btn.attr('data-original-title', response.label);
+        }
+    });
+}
+
+function setFiltersSubmitAndPagination() {
+    var filters = $('#chat-filters'),
+        clear_filters = $('#clear_filter'),
+        messages = $('.messages-container'),
+        loading = messages.find('.loading-msgs'),
+        more = messages.find('.more-msgs'),
+        msg_section = $('.messages-list');
+
+    filters.submit(function () {
+        var favorite = $(this).find("input[name='favorite']").is(':checked') ? "True" : "",
+            mine = $(this).find("input[name='mine']").is(':checked') ? "True" : "",
+            url = messages.data('url');
+
+        msg_section.html('');
+
+        more.hide();
+        loading.show();
+
+        $.ajax({
+            url: url,
+            data: {'favorite': favorite, 'mine': mine},
+            dataType: 'json',
+            success: function (data) {
+                loading.hide();
+
+                if (data.count > 0) {
+                    msg_section.append(data.messages);
+
+                    messages.data('pages', data.num_pages);
+                    messages.data('page', data.num_page);
+
+                    if (data.num_page < data.num_pages) {
+                        more.show();
+                    } else {
+                        more.hide();
+                    }
+                }
+
+                messages.data('fav', favorite);
+                messages.data('mine', mine);
+
+                messages.each(function () {
+                    var height = $(this)[0].scrollHeight;
+
+                    $(this).animate({scrollTop: height}, 0);
+                });
+            }
+        });
+
+        return false;
+    });
+
+    clear_filters.click(function () {
+        var frm = $(this).parent();
+
+        $("input[type='checkbox']").prop('checked', false);
+
+        frm.submit();
+    });
+
+    more.click(function () {
+        var url = messages.data('url'),
+            pageNum = messages.data('page'),
+            numberPages = messages.data('pages'),
+            favorites = messages.data('fav'),
+            mine = messages.data('mine'),
+            talk = messages.data('talk');
+
+        var showing;
+
+        if (typeof(new_msgs[talk]) == 'undefined') {
+            showing = "";
+        } else {
+            showing = new_msgs[talk].join(',');
+        }
+
+        if (pageNum == numberPages) {
+            return false
+        }
+
+        pageNum = pageNum + 1;
+
+        more.hide();
+        loading.show();
+
+        $.ajax({
+            url: url,
+            data: {'page': pageNum, 'favorite': favorites, 'mine': mine, 'showing': showing},
+            dataType: 'json',
+            success: function (data) {
+                loading.hide();
+
+                msg_section.prepend(data.messages);
+
+                messages.data('pages', data.num_pages);
+                messages.data('page', data.num_page);
+
+                if (data.num_page < data.num_pages) {
+                    more.show();
+                } else {
+                    more.hide();
+                }
+            }
+        });
     });
 }

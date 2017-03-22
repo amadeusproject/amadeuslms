@@ -96,11 +96,11 @@ msgstr "Inscrever-se"
 
 #: .\templates\categories\delete.html:12
 msgid "Are you sure you want to delete the category"
-msgstr "Voce tem certeza que seja deletar esta categoria"
+msgstr "Você tem certeza que deseja deletar a categoria"
 
 #: .\templates\categories\delete.html:12
 msgid "All its data will be lost and can't be recovered"
-msgstr "Todos os seus dados seråo perdido e não podem ser recuperados"
+msgstr "Todos os seus dados serão perdidos e não poderão ser recuperados"
 
 #: .\templates\categories\delete.html:18
 msgid "Close"

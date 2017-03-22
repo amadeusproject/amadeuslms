@@ -7,7 +7,7 @@ from django.contrib.sessions.models import Session
 
 from log.models import Log
 
-from chat.models import TalkMessages, ChatVisualizations
+from chat.models import TalkMessages, ChatVisualizations, ChatFavorites
 
 register = template.Library()
 
@@ -56,3 +56,24 @@ def notifies(chat, user):
 	total = ChatVisualizations.objects.filter(message__talk = chat, user = user).count()
 
 	return total
+
+@register.filter(name = 'fav_label')
+def fav_label(message, user):
+	if ChatFavorites.objects.filter(message = message, user = user).exists():
+		return _('Unfavorite')
+
+	return _('Favorite')
+
+@register.filter(name = 'fav_action')
+def fav_action(message, user):
+	if ChatFavorites.objects.filter(message = message, user = user).exists():
+		return "unfavorite"
+
+	return "favorite"
+
+@register.filter(name = 'fav_class')
+def fav_class(message, user):
+	if ChatFavorites.objects.filter(message = message, user = user).exists():
+		return "btn_unfav"
+
+	return "btn_fav"
