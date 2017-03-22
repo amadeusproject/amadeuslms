@@ -7,10 +7,12 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse, reverse_lazy
 import textwrap
+from datetime import datetime
 from django.utils import formats
 from django.utils.html import strip_tags
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
 from channels import Group
@@ -20,7 +22,7 @@ from categories.models import Category
 from subjects.models import Subject
 from users.models import User
 
-from .models import Conversation, GeneralTalk, CategoryTalk, SubjectTalk, TalkMessages, ChatVisualizations
+from .models import Conversation, GeneralTalk, CategoryTalk, SubjectTalk, TalkMessages, ChatVisualizations, ChatFavorites
 from .forms import ChatMessageForm
 
 class GeneralIndex(LoginRequiredMixin, generic.ListView):
@@ -81,7 +83,7 @@ class GeneralParticipants(LoginRequiredMixin, generic.ListView):
 
 		context['title'] = _('Messages - Participants')
 		context['totals'] = self.totals
-		context['search'] = self.request.GET.get('search')
+		context['search'] = self.request.GET.get('search', '')
 		context['chat_menu_active'] = 'subjects_menu_active'
 		
 		return context
@@ -222,8 +224,71 @@ def render_message(request, talk_msg):
 	context = {}
 	context['talk_msg'] = msg
 	
-	message = _('Message sent successfully!')
-	
 	html = render_to_string("chat/_message.html", context, request)
 
-	return JsonResponse({'message': message, 'view': html, 'new_id': msg.id})
+	return JsonResponse({'view': html, 'new_id': msg.id, 'talk_id': msg.talk.id})
+
+@login_required
+def favorite(request, message):
+	action = request.GET.get('action', '')
+	message = get_object_or_404(TalkMessages, id = message)
+
+	if action == 'favorite':
+		ChatFavorites.objects.create(message = message, user = request.user)
+
+		return JsonResponse({'label': _('Unfavorite')})
+	else:
+		ChatFavorites.objects.filter(message = message, user = request.user).delete()
+
+		return JsonResponse({'label': _('Favorite')})
+
+def load_messages(request, talk):
+	context = {
+		'request': request,
+	}
+
+	user = request.user
+	favorites = request.GET.get('favorite', False)
+	mines = request.GET.get('mine', False)
+	showing = request.GET.get('showing', '')
+	n_views = 0
+
+	if not favorites:
+		if mines:
+			messages = TalkMessages.objects.filter(talk__id = talk, user = user)
+		else:
+			messages = TalkMessages.objects.filter(talk__id = talk)
+	else:
+		if mines:
+			messages = TalkMessages.objects.filter(talk__id = talk, chat_favorites_message__isnull = False, chat_favorites_message__user = user, user = user)
+		else:
+			messages = TalkMessages.objects.filter(talk__id = talk, chat_favorites_message__isnull = False, chat_favorites_message__user = user)
+
+	if showing: #Exclude ajax creation messages results
+		showing = showing.split(',')
+		messages = messages.exclude(id__in = showing)
+
+	has_page = request.GET.get('page', None)
+
+	if has_page is None:
+		views = ChatVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(message__talk__id = talk)))
+		n_views = views.count()
+		views.update(viewed = True, date_viewed = datetime.now())
+
+	paginator = Paginator(messages.order_by("-create_date"), 20)
+
+	try:
+		page_number = int(request.GET.get('page', 1))
+	except ValueError:
+		raise Http404
+
+	try:
+		page_obj = paginator.page(page_number)
+	except EmptyPage:
+		raise Http404
+
+	context['messages'] = page_obj.object_list
+
+	response = render_to_string("chat/_list_messages.html", context, request)
+
+	return JsonResponse({"messages": response, "unviewed": n_views, "count": messages.count(), "num_pages": paginator.num_pages, "num_page": page_obj.number})

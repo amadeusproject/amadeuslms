@@ -1349,9 +1349,9 @@ div.dataTables_wrapper div.dataTables_paginate {
     border-width: 1px;
     border-style: solid;
     border-radius: 10px;
-    margin-right: 10px;
+    margin-right: 5px;
     position: relative;
-    top: 3px;
+    top: -1px;
     display: inline-block;
     border-spacing: 0;
     border-collapse: collapse;
