@@ -27,28 +27,20 @@ msgid "There is another subject with this name, try another one."
 msgstr "Já existe um assunto com esse nome, tente outro."
 
 #: subjects/forms.py:76 subjects/forms.py:180
-#, fuzzy
-#| msgid "this date must be today or after"
 msgid "This date must be today or after"
 msgstr "Essa data deve ser hoje ou depois disso"
 
 #: subjects/forms.py:86 subjects/forms.py:190
-#, fuzzy
-#| msgid "this date must be today or after"
 msgid "This date must be equal subscribe begin or after"
-msgstr "Essa data deve ser hoje ou depois disso"
+msgstr "Essa data deve ser igual ou depois de começarem as incrições"
 
 #: subjects/forms.py:96 subjects/forms.py:200
-#, fuzzy
-#| msgid "this date must be today or after"
 msgid "This date must be after subscribe end"
-msgstr "Essa data deve ser hoje ou depois disso"
+msgstr "Essa data deve ser depois do fim das inscrições"
 
 #: subjects/forms.py:105 subjects/forms.py:209
-#, fuzzy
-#| msgid "this date must be today or after"
 msgid "This date must be equal init date or after"
-msgstr "Essa data deve ser hoje ou depois disso"
+msgstr "Essa data deve ser igual ou depois da data de início"
 
 #: subjects/models.py:14 subjects/models.py:20
 msgid "Name"
@@ -227,13 +219,11 @@ msgstr "Não possui professores"
 
 #: subjects/templates/subjects/resource_card.html:50
 msgid "Category"
-msgstr ""
+msgstr "Categoria"
 
 #: subjects/templates/subjects/resource_card.html:53
-#, fuzzy
-#| msgid "Subjects"
 msgid "Subject"
-msgstr "Assuntos"
+msgstr "Assunto"
 
 #: subjects/templates/subjects/resource_card.html:61
 msgid "Access Resource"
