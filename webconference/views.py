@@ -143,13 +143,11 @@ generic.DetailView):
 
 		return context
 
-class CreateView(LoginRequiredMixin,
- # '''LogMixin,'''
- generic.edit.CreateView):
-	# log_component = 'resources'
-	# log_action = 'create'
-	# log_resource = 'webpage'
-	# log_context = {}
+class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+    log_component = 'resources'
+    log_action = 'create'
+    log_resource = 'webconference'
+    log_context = {}
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
@@ -223,20 +221,21 @@ class CreateView(LoginRequiredMixin,
         if not pend_form.action == "":
         	pend_form.save()
 
-		# self.log_context['category_id'] = self.object.topic.subject.category.id
-		# self.log_context['category_name'] = self.object.topic.subject.category.name
-		# self.log_context['category_slug'] = self.object.topic.subject.category.slug
-		# self.log_context['subject_id'] = self.object.topic.subject.id
-		# self.log_context['subject_name'] = self.object.topic.subject.name
-		# self.log_context['subject_slug'] = self.object.topic.subject.slug
-		# self.log_context['topic_id'] = self.object.topic.id
-		# self.log_context['topic_name'] = self.object.topic.name
-		# self.log_context['topic_slug'] = self.object.topic.slug
-		# self.log_context['webpage_id'] = self.object.id
-		# self.log_context['webpage_name'] = self.object.name
-		# self.log_context['webpage_slug'] = self.object.slug
-        #
-		# super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+        self.log_context['category_id'] = self.object.topic.subject.category.id
+        self.log_context['category_name'] = self.object.topic.subject.category.name
+        self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        self.log_context['subject_id'] = self.object.topic.subject.id
+        self.log_context['subject_name'] = self.object.topic.subject.name
+        self.log_context['subject_slug'] = self.object.topic.subject.slug
+        self.log_context['topic_id'] = self.object.topic.id
+        self.log_context['topic_name'] = self.object.topic.name
+        self.log_context['topic_slug'] = self.object.topic.slug
+        self.log_context['webconference_id'] = self.object.id
+        self.log_context['webconference_name'] = self.object.name
+        self.log_context['webconference_slug'] = self.object.slug
+
+        super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return redirect(self.get_success_url())
 
@@ -267,13 +266,11 @@ class CreateView(LoginRequiredMixin,
 
     	return success_url
 
-class UpdateView(LoginRequiredMixin,
-# ''' LogMixin,'''
-generic.UpdateView):
-	# log_component = 'resources'
-	# log_action = 'update'
-	# log_resource = 'webpage'
-	# log_context = {}
+class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+	log_component = 'resources'
+	log_action = 'update'
+	log_resource = 'webconference'
+	log_context = {}
 
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
@@ -347,20 +344,20 @@ generic.UpdateView):
 		if not pend_form.action == "":
 			pend_form.save()
 
-		# self.log_context['category_id'] = self.object.topic.subject.category.id
-		# self.log_context['category_name'] = self.object.topic.subject.category.name
-		# self.log_context['category_slug'] = self.object.topic.subject.category.slug
-		# self.log_context['subject_id'] = self.object.topic.subject.id
-		# self.log_context['subject_name'] = self.object.topic.subject.name
-		# self.log_context['subject_slug'] = self.object.topic.subject.slug
-		# self.log_context['topic_id'] = self.object.topic.id
-		# self.log_context['topic_name'] = self.object.topic.name
-		# self.log_context['topic_slug'] = self.object.topic.slug
-		# self.log_context['webpage_id'] = self.object.id
-		# self.log_context['webpage_name'] = self.object.name
-		# self.log_context['webpage_slug'] = self.object.slug
-        #
-		# super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['webconference_id'] = self.object.id
+		self.log_context['webconference_name'] = self.object.name
+		self.log_context['webconference_slug'] = self.object.slug
+
+		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return redirect(self.get_success_url())
 
@@ -391,13 +388,11 @@ generic.UpdateView):
 
 		return success_url
 
-class DeleteView(LoginRequiredMixin,
-# ''' LogMixin,'''
-generic.DeleteView):
-	# log_component = 'resources'
-	# log_action = 'delete'
-	# log_resource = 'webpage'
-	# log_context = {}
+class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+	log_component = 'resources'
+	log_action = 'delete'
+	log_resource = 'webconference'
+	log_context = {}
 
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
@@ -418,20 +413,20 @@ generic.DeleteView):
 	def get_success_url(self):
 		messages.success(self.request, _('The web conference "%s" was removed successfully from virtual environment "%s"!')%(self.object.name, self.object.topic.subject.name))
 
-		# self.log_context['category_id'] = self.object.topic.subject.category.id
-		# self.log_context['category_name'] = self.object.topic.subject.category.name
-		# self.log_context['category_slug'] = self.object.topic.subject.category.slug
-		# self.log_context['subject_id'] = self.object.topic.subject.id
-		# self.log_context['subject_name'] = self.object.topic.subject.name
-		# self.log_context['subject_slug'] = self.object.topic.subject.slug
-		# self.log_context['topic_id'] = self.object.topic.id
-		# self.log_context['topic_name'] = self.object.topic.name
-		# self.log_context['topic_slug'] = self.object.topic.slug
-		# self.log_context['webpage_id'] = self.object.id
-		# self.log_context['webpage_name'] = self.object.name
-		# self.log_context['webpage_slug'] = self.object.slug
-        #
-		# super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['webconference_id'] = self.object.id
+		self.log_context['webconference_name'] = self.object.name
+		self.log_context['webconference_slug'] = self.object.slug
+
+		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
