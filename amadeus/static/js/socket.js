@@ -239,6 +239,43 @@ function messageReceived(content) {
 
             $(this).hide();
 		});
+	} else {
+		var talk_line = $("#talk-" + content.container),
+			talk_notifies = talk_line.find('.chat_notify'),
+			actual_count = talk_notifies.text();
+
+			actual_count = parseInt(actual_count, 10) + 1;
+
+			talk_notifies.text(actual_count);
+	
+		$('.chat_badge').each(function () {
+			var actual = $(this).text();
+
+			if (actual != "+99") {
+				actual = parseInt(actual, 10) + 1;
+
+				if (actual > 99) {
+					actual = "+99";
+				}
+
+				$(this).text(actual);
+			}
+
+			$(this).show();
+		});
+
+		$('.chat-tabs').find('li').each(function () {
+			var identity = $(this).data('chat');
+
+			if (identity == content.subtype) {
+				var span = $(this).find('span'),
+					actual = span.text();
+
+				actual = parseInt(actual, 10) + 1;
+
+				span.text(actual);
+			}
+		});
 	}
 
 	if (("Notification" in window)) {

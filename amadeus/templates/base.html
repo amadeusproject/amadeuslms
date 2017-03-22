@@ -209,6 +209,7 @@
                         <li class="item {{ chat_menu_active }} action_icon" data-toggle="tooltip" data-placement="right" title="{% trans "Messages" %}">
                             <a href="{% url 'chat:manage_general' %}">
                                 <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                <span class="badge notify_badge chat_badge" {% if chat_notifications_count == 0 %} style="display:none" {% endif %}>{% if chat_notifications_count > 99 %} +99 {% else %} {{ chat_notifications_count }} {% endif %}</span>
                             </a>
                         </li>
                         <li class="item {{ pendencies_menu_active }} action_icon" data-toggle="tooltip" data-placement="right" title="{% trans "Pendencies" %}">
@@ -263,6 +264,7 @@
                         <li class="item {{ chat_menu_active }} action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Messages" %}">
                             <a href="{% url 'chat:manage_general' %}">
                                 <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                <span class="badge notify_badge chat_badge" {% if chat_notifications_count == 0 %} style="display:none" {% endif %}>{% if chat_notifications_count > 99 %} +99 {% else %} {{ chat_notifications_count }} {% endif %}</span>
                             </a>
                         </li>
                         <li class="item {{ pendencies_menu_active }} action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Pendencies" %}">
