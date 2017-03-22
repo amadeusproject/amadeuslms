@@ -1439,20 +1439,48 @@ div.dataTables_wrapper div.dataTables_paginate {
 .message-sender-container .message-field {
     padding-left: 10px;
     padding-right: 0px;
-    height: 46px;
+    min-height: 46px;
+    max-height: 90px;
     text-align: left;
 }
 .message-sender-container .message-field h4 {
     margin-top: 0px;
 }
-.message-sender-container .message-field div {
-    height: 46px;
+.message-sender-container .message-field div.message-container {
+    min-height: 46px;
+    max-height: 90px;
+    overflow-y: scroll;
     padding-top: 14px;
-    padding-bottom: 14px;
+    padding-bottom: 10px;
     padding-left: 10px;
     padding-right: 10px;
     border-width: 1px;
     border-style: solid;
+}
+
+.msg_placeholder {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    visibility: visible;
+}
+
+#msg_editable {
+    width: 100%;
+    z-index: 1;
+}
+
+.action-button {
+    position: absolute;
+    bottom: 5px;
+    right: 20px;
+    height: 36px;
+    font-size: 18px;
+    width: 40px;
+    padding: 2px;
+    border: none;
+    background: none;
+    margin-bottom: 0px !important;
 }
 
 .talking-header {

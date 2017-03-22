@@ -137,7 +137,9 @@ class GetTalk(LoginRequiredMixin, generic.ListView):
 		context['talk_id'] = self.talk_id
 		context['space'] = self.request.GET.get('space', '0')
 		context['space_type'] = self.request.GET.get('space_type', 'general')
-		
+		context['form'] = ChatMessageForm()
+		context['form_url'] = reverse_lazy('chat:create', args = (), kwargs = {'email': self.kwargs.get('email', ''), 'talk_id': self.talk_id, 'space': self.kwargs.get('space', '0'), 'space_type': self.kwargs.get('space_type', 'general')})
+
 		return context
 
 class SendMessage(LoginRequiredMixin, generic.edit.CreateView):
@@ -205,7 +207,7 @@ class SendMessage(LoginRequiredMixin, generic.edit.CreateView):
 	def get_context_data(self, **kwargs):
 		context = super(SendMessage, self).get_context_data(**kwargs)
 
-		context['form_url'] = reverse_lazy('chat:create', args = (), kwargs = {'email': self.kwargs.get('email', ''), 'talk_id': self.kwargs.get('talk_id', None), 'space': self.kwargs.get('space', '0'), 'space_type': self.kwargs.get('space_type', 'general')})
+		context['form_url'] = reverse_lazy('chat:create', args = (), kwargs = {'email': self.kwargs.get('email', ''), 'talk_id': self.kwargs.get('talk_id', '-1'), 'space': self.kwargs.get('space', '0'), 'space_type': self.kwargs.get('space_type', 'general')})
 		
 		return context
 

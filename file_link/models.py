@@ -17,10 +17,10 @@ def validate_file_extension(value):
 		'application/vnd.oasis.opendocument.spreadsheet','application/vnd.oasis.opendocument.text',
 		'application/pdf'
 	]
-	
+
 	if hasattr(value.file, 'content_type'):
 		if not value.file.content_type in valid_formats:
-			raise ValidationError(_('File not supported.'))
+			raise ValidationError(_('Please select a valid file. The uploaded file must have one of the following extensions: .doc, .docx, .html, .jpg, .odp, .ods, .odt, .pdf, .png, .ppt, .pptx, .xlx e .xlsx'))
 
 class FileLink(Resource):
 	file_content = models.FileField(_('File'), blank = True, upload_to = 'files/', validators = [validate_file_extension])

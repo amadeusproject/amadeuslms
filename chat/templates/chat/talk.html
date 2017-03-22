@@ -1,4 +1,5 @@
 {% load static i18n chat_tags %}
+{% load widget_tweaks %}
 
 {% is_online participant as status %}
 
@@ -56,8 +57,20 @@
 					</div>
 				</div>
 				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 message-field">
-					<div onclick="getForm($(this));">
-						<h4 data-url="{% url 'chat:create' participant.email talk_id space space_type %}">{% trans 'Type a new message to ' %}{{ participant }} <i class="fa fa-camera pull-right"></i></h4>
+					<div class="message-container">
+						<form id="short-chat" class="col-md-11" method="post" action="{{ form_url }}" enctype="multipart/form-data">
+							{% csrf_token %}
+
+							<div class="msg_placeholder">{% trans 'Type a new message to ' %}{{ participant }}</div>
+							<div id="msg_editable" contenteditable="true"></div>
+							{% render_field form.text style="display:none" %}
+						</form>
+						<button id="send-img" onclick="getForm($(this));" data-url="{% url 'chat:create' participant.email talk_id space space_type %}" class="action-button" type="button">
+							<i class="fa fa-camera"></i>
+						</button>
+						<button id="send-msg" class="action-button" type="submit" form="short-chat" style="display:none">
+							<i class="fa fa-send"></i>
+						</button>
 					</div>
 				</div>
 			</div>
