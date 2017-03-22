@@ -22,7 +22,7 @@
 				<div class="talk-filter">
 	                <h4>{% trans 'Filter' %}</h4>
 
-	                <form id="post-filters" class="form-inline" action="" method="GET">
+	                <form id="chat-filters" class="form-inline" action="" method="GET">
 	                    <div class="checkbox">
 	                        <label>
 	                            <input name="favorite" type="checkbox"> {% trans 'Favorite messages' %} <i class="fa fa-thumb-tack"></i>
@@ -39,7 +39,16 @@
 	            </div>
 	        </div>
 	        <div class="row-fluid">
-	        	<div class="messages-container">
+	        	<div class="messages-container" data-talk="{{ talk_id }}" data-url="{% url 'chat:load_messages' talk_id %}" data-page="{{ page_obj.number }}" data-pages="{{ paginator.num_pages }}">
+	        		<button type="button" class="btn btn-block btn-success btn-raised more-msgs" style="{% if paginator.num_pages == page_obj.number %}display:none;{% endif %}margin:0px">
+	                    {% trans 'See old messages' %}
+	                </button>
+
+	                <div class="alert alert-success loading-msgs" role="alert" style="display:none">
+	                    <center>
+	                        <span class="fa fa-spin fa-circle-o-notch"></span>
+	                    </center>
+	                </div>
 	        		<div class="messages_new">
 	        			{% trans 'You have new messages...' %}
 	        		</div>
