@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 
@@ -76,7 +77,12 @@ class Conference(LoginRequiredMixin,generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(Conference, self).get_context_data(**kwargs)
         context['name_room'] = kwargs.get('slug')
+        context['user_image'] = 'http://localhost:8000'+str(self.request.user.image.url)
         return context
+
+def saiu(request):
+    url = {'url': 'http://localhost:8000' + str(reverse_lazy('webconferences:view', kwargs = {'slug': request.GET['roomName']}))}
+    return JsonResponse(url, safe=False)
 
 
 class InsideView(LoginRequiredMixin,

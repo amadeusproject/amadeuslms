@@ -32,7 +32,35 @@
       var width = $("body").width(); // width of the window to be created
       var height = $("body").height(); // height of the window to be created
       var html = document.getElementById("jitsi");
-      var api = new JitsiMeetExternalAPI(domain, room, width, height,html);
+      var configOverwrite = {disableSimulcast: false};
+      var interfaceConfigOverwrite = {filmStripOnly: false};
+      var jwt = "Amadeus_Token";
+      var api = new JitsiMeetExternalAPI(domain, room, width, height,html,configOverwrite, interfaceConfigOverwrite, false, jwt);
+      window.onload = initpage;
+      function initpage(){
+        api.executeCommand('displayName', '{{user}}');
+        api.executeCommand('email', '{{user.email}}');
+        api.executeCommand('avatarUrl', '{{user_image}}');
+        api.addEventListener('videoConferenceLeft', function(res){
+          console.log(res);
+          console.log("saiu");
+          $.ajax({
+            method: "GET",
+      			url: "{% url 'webconferences:saiu'%}",
+      			dataType: 'json',
+      			data: $.extend(res,{'email':'{{user_email}}'}),
+      			success: function(response) {
+              window.location.replace(response['url']);
+      				console.log(response);
+      			},
+      			error: function(response) {
+      				console.log(response);
+      			}
+      		});
+        });
+      }
+
+      // api.executeCommands({displayName: ['Jailson']});
     </script>
 
   </body>
