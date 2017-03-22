@@ -6,7 +6,7 @@ import datetime
 
 from subjects.models import Tag
 
-from .models import Webconference
+from .models import Webconference, ConferenceSettings
 
 class WebconferenceForm(forms.ModelForm):
 	subject = None
@@ -104,3 +104,19 @@ class WebconferenceForm(forms.ModelForm):
 				self.instance.tags.add(new_tag)
 
 		return self.instance
+
+
+
+class SettingsForm(forms.ModelForm):
+
+	class Meta:
+		model = ConferenceSettings
+		fields = ['domain']
+
+		labels = {
+			'domain': _('Domain'),
+		}
+
+		help_texts = {
+			'domain': _('The domain of the jitsi server, e.g. meet.jit.si'),
+		}

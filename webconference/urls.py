@@ -12,4 +12,5 @@ urlpatterns = [
 	url(r'^view/(?P<slug>[\w_-]+)/$', views.InsideView.as_view(), name = 'view'),
 	url(r'^conference/(?P<slug>[\w_-]+)/$',views.Conference.as_view(), name = 'conference'),
 	url(r'^saiu/$',views.saiu, name = 'saiu'),
+	url(r'^settings/$', views.ConferenceSettings.as_view(), name = 'settings'),
 ]

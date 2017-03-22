@@ -15,9 +15,10 @@ from log.mixins import LogMixin
 from topics.models import Topic
 
 from pendencies.forms import PendenciesForm
+from braces import views as braces_mixins
 
-from .forms import WebconferenceForm
-from .models import Webconference
+from .forms import WebconferenceForm, SettingsForm
+from .models import Webconference, ConferenceSettings as Settings
 
 class NewWindowView(LoginRequiredMixin,
  # '''LogMixin,'''
@@ -78,6 +79,11 @@ class Conference(LoginRequiredMixin,generic.TemplateView):
         context = super(Conference, self).get_context_data(**kwargs)
         context['name_room'] = kwargs.get('slug')
         context['user_image'] = 'http://localhost:8000'+str(self.request.user.image.url)
+        try:
+            context['domain'] = Settings.objects.last().domain
+        except AttributeError:
+            context['domain'] = 'meet.jit.si'
+
         return context
 
 def saiu(request):
@@ -428,3 +434,30 @@ generic.DeleteView):
 		# super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+
+class ConferenceSettings(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, generic.UpdateView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+
+    template_name = 'webconference/config.html'
+    model = Settings
+    form_class = SettingsForm
+    success_url = reverse_lazy("subjects:home")
+
+    def get_object(self, queryset = None):
+        return Settings.objects.last()
+
+    def form_valid(self, form):
+    	form.save()
+
+    	messages.success(self.request, _("Conference settings updated successfully!"))
+
+    	return super(ConferenceSettings, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+    	context = super(ConferenceSettings, self).get_context_data(**kwargs)
+
+    	context['title'] = _('Conference Settings')
+    	# context['settings_menu_active'] = "settings_menu_active"
+
+    	return context

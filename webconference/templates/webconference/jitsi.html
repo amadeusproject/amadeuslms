@@ -27,15 +27,13 @@
 
     <script>
     // code to start jitsi api
-      var domain = "meet.jit.si"; // domain that jitsi will itself connect
+      var domain = "{{domain}}"; // domain that jitsi will itself connect
       var room = "{{name_room}}"; // name of the room to be created
       var width = $("body").width(); // width of the window to be created
       var height = $("body").height(); // height of the window to be created
       var html = document.getElementById("jitsi");
-      var configOverwrite = {disableSimulcast: false};
-      var interfaceConfigOverwrite = {filmStripOnly: false};
-      var jwt = "Amadeus_Token";
-      var api = new JitsiMeetExternalAPI(domain, room, width, height,html,configOverwrite, interfaceConfigOverwrite, false, jwt);
+      var api = new JitsiMeetExternalAPI(domain, room, width, height,html);
+      // window.onload = initpage;
       window.onload = initpage;
       function initpage(){
         api.executeCommand('displayName', '{{user}}');
@@ -59,6 +57,28 @@
       		});
         });
       }
+      // callfunction();
+      var callCount = 1;
+      var repeater = setInterval(function () {
+        console.log(callCount);
+        if (callCount < 10) {
+
+          var doc = document.getElementById('jitsiConferenceFrame0').document;
+          // var iframe = document.getElementById('jitsiConferenceFrame0');
+          // var innerDoc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
+
+          // var ls = doc.getElementById('toolbar_button_link');
+          console.log(doc);
+          // $("#jitsiConferenceFrame0").contents().find("#toolbar_button_link").remove();
+          // $("a#toolbar_button_link.button.icon-link").remove();
+          // console.log($("#toolbar_contact_list").remove());
+          // $("#toolbar_button_link").remove(); //utilizandos para retirar o botão de compartilhar do jitsi
+          callCount += 1;
+          console.log("aqui");
+        } else {
+          clearInterval(repeater);
+        }
+      }, 1000);
 
       // api.executeCommands({displayName: ['Jailson']});
     </script>

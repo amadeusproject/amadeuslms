@@ -30,3 +30,13 @@ class Webconference(Resource):
 
     def delete_message(self):
         return _('Are you sure you want delete the web conference')
+
+class ConferenceSettings(models.Model):
+	domain = models.CharField(_("Domain"), max_length = 100, blank=False, null = False)
+
+	class Meta:
+		verbose_name = _("Conference Setting")
+		verbose_name_plural = _("Conferences Setting")
+
+	def __str__(self):
+		return self.domain
