@@ -242,11 +242,14 @@ function messageReceived(content) {
 	} else {
 		var talk_line = $("#talk-" + content.container),
 			talk_notifies = talk_line.find('.chat_notify'),
-			actual_count = talk_notifies.text();
+			actual_count = talk_notifies.text(),
+			actual_date = talk_line.find(".talk-last_msg");
 
 			actual_count = parseInt(actual_count, 10) + 1;
 
 			talk_notifies.text(actual_count);
+
+			actual_date.html(content.last_date);
 	
 		$('.chat_badge').each(function () {
 			var actual = $(this).text();
