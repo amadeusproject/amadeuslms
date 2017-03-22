@@ -153,7 +153,7 @@ class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 
 		self.object.save()
 
-		msg = _("User %s updated successfully" % self.object.get_short_name())
+		msg = _('User "%s" updated successfully')%(self.object.get_short_name())
 
 		self.log_context['user_id'] = self.object.id
 		self.log_context['user_name'] = self.object.get_short_name()
