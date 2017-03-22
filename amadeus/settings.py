@@ -118,6 +118,7 @@ TEMPLATES = [
                 'amadeus.context_processors.theme',
                 'amadeus.context_processors.notifies',
                 'amadeus.context_processors.mural_notifies',
+                'amadeus.context_processors.chat_notifies',
             ],
         },
     },

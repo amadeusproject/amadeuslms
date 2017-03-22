@@ -7,7 +7,7 @@ from django.contrib.sessions.models import Session
 
 from log.models import Log
 
-from chat.models import TalkMessages
+from chat.models import TalkMessages, ChatVisualizations
 
 register = template.Library()
 
@@ -50,3 +50,9 @@ def last_message(chat):
 	last_message = TalkMessages.objects.filter(talk = chat).order_by('-create_date')[0]
 
 	return last_message.create_date
+
+@register.filter(name = 'notifies')
+def notifies(chat, user):
+	total = ChatVisualizations.objects.filter(message__talk = chat, user = user).count()
+
+	return total
