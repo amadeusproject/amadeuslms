@@ -89,6 +89,11 @@ class Conference(LoginRequiredMixin,LogMixin,generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(Conference, self).get_context_data(**kwargs)
+        conference = get_object_or_404(Webconference, slug = kwargs.get('slug'))
+        context['title'] = _("%s - Web Conference")%(conference)
+        context['webconference'] = conference
+        context['topic'] = conference.topic
+        context['subject'] = conference.topic.subject
         context['name_room'] = kwargs.get('slug')
         context['user_image'] = 'http://localhost:8000'+str(self.request.user.image.url)
         try:
@@ -96,7 +101,7 @@ class Conference(LoginRequiredMixin,LogMixin,generic.TemplateView):
         except AttributeError:
             context['domain'] = 'meet.jit.si'
 
-        conference = get_object_or_404(Webconference, slug = kwargs.get('slug'))
+
         self.log_context['category_id'] = conference.topic.subject.category.id
         self.log_context['category_name'] = conference.topic.subject.category.name
         self.log_context['category_slug'] = conference.topic.subject.category.slug
@@ -115,8 +120,8 @@ class Conference(LoginRequiredMixin,LogMixin,generic.TemplateView):
 
         return context
 
-@log_decorator('resources', 'online', 'webconference')
-def online(request):
+@log_decorator('resources', 'participando', 'webconference')
+def participando(request):
     webconference = get_object_or_404(Webconference, slug = request.GET['slug'])
     log_context = {}
     log_context['category_id'] = webconference.topic.subject.category.id
