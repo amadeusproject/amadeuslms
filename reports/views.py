@@ -139,7 +139,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         
         self.from_mural = params_data['from_mural']
        
-        context['data'], context['header'] = self.get_mural_data(subject, params_data['init_date'], params_data['end_date'],
+        context['data'], context['header'] = self.get_mural_data(subject, context['topic_name'], params_data['init_date'], params_data['end_date'],
             resources, tags )
 
 
@@ -168,7 +168,15 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
 
         return context
 
-    def get_mural_data(self, subject, init_date, end_date, resources_id, tags_id):
+    """
+        Subject: subject where the report is being created
+        topics_query: it's either one of the topics or all of them
+        init_date: When the reports filter of dates stars
+        end_date: When the reports filter of dates end
+        resources_type_names: resources subclasses name that were selected
+        tags_id = ID of tag objects that were selected
+    """
+    def get_mural_data(self, subject, topics_query, init_date, end_date, resources_type_names, tags_id):
         data = {}
         students = subject.students.all()
         formats = ["%d/%m/%Y", "%m/%d/%Y", "%Y-%m-%d"] #so it accepts english and portuguese date formats
@@ -179,7 +187,10 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                 
             except ValueError:
                 pass
-
+        if topics_query == _("All"):
+            topics = subject.topic_subject.all()
+        else:
+            topics = Topic.objects.get(id=topics_query)
         header = ['User']
        
         #I use this so the system can gather data up to end_date 11h59 p.m.
@@ -242,8 +253,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             
 
             #VAR08 through VAR_019 of documenttation:
-            if len(resources_id) > 0:
-                resources_data = self.get_resources_and_tags_data(resources_id, tags_id, student, subject, init_date, end_date)
+            if len(resources_type_names) > 0:
+                resources_data = self.get_resources_and_tags_data(resources_type_names, tags_id, student, subject, topics, init_date, end_date)
                 for key, value in resources_data.items():
                     interactions[key] = value
 
@@ -285,18 +296,32 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             header.append(key)
         return data, header
 
-    def get_resources_and_tags_data(self, resources_types, tags, student, subject, init_date, end_date):
+    def get_resources_and_tags_data(self, resources_types, tags, student, subject, topics, init_date, end_date):
         data = OrderedDict()  
-        print(tags)
+        
         for i in range(len(resources_types)):
             
-            resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = tags, topic__in=subject.topic_subject.all())
+            if isinstance(topics,Topic):
+                resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = tags, topic=topics)
+            else: 
+                resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = tags, topic__in=topics)
             distinct_resources = 0
             total_count = 0
+            
             for resource in resources:
-                count = Log.objects.filter(action="view", resource=resources_types[i].lower(),
-                      user_id = student.id, context__contains = {'subject_id': subject.id, 
-                      resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date)).count()
+                if isinstance(topics,Topic):
+                    #or it selected only one topic to work with
+                    count = Log.objects.filter(action="view", resource=resources_types[i].lower(),
+                          user_id = student.id, context__contains = {'subject_id': subject.id, 
+                          resources_types[i].lower()+'_id': resource.id, 'topic_id': topics.id}, datetime__range=(init_date, end_date)).count()
+                   
+                else:
+                    #or the user selected all
+
+                     count = Log.objects.filter(action="view", resource=resources_types[i].lower(),
+                          user_id = student.id, context__contains = {'subject_id': subject.id, 
+                          resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date)).count()
+                   
                 if count > 0:
                     distinct_resources += 1
                     total_count += count
@@ -368,7 +393,7 @@ def get_tags(request):
    
     #adding empty tag for the purpose of giving the user this option for adicional behavior
     tags = list(tags)
-    tags.append(Tag(name=""))
+    tags.append(Tag(name=" "))
     data['tags'] = [ {'id':tag.id, 'name':tag.name} for tag in  tags]
     return JsonResponse(data)
 
