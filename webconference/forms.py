@@ -2,14 +2,19 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
+from django.forms.models import inlineformset_factory
 import datetime
 
 from subjects.models import Tag
 
 from .models import Webconference, ConferenceSettings
 
+from pendencies.forms import PendenciesForm
+from pendencies.models import Pendencies
+
 class WebconferenceForm(forms.ModelForm):
 	subject = None
+	control_subject = forms.CharField(widget = forms.HiddenInput())
 
 	def __init__(self, *args, **kwargs):
 		super(WebconferenceForm, self).__init__(*args, **kwargs)
@@ -20,6 +25,8 @@ class WebconferenceForm(forms.ModelForm):
 			self.subject = self.instance.topic.subject
 			self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
 
+		self.initial['control_subject'] = self.subject.id
+		
 		self.fields['students'].queryset = self.subject.students.all()
 		self.fields['groups'].queryset = self.subject.group_subject.all()
 
@@ -120,3 +127,5 @@ class SettingsForm(forms.ModelForm):
 		help_texts = {
 			'domain': _('The domain of the jitsi server, e.g. meet.jit.si'),
 		}
+
+InlinePendenciesFormset = inlineformset_factory(Webconference, Pendencies, form = PendenciesForm, extra = 1, max_num = 3, validate_max = True, can_delete = True)

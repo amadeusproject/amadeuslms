@@ -18,7 +18,7 @@ from topics.models import Topic
 from pendencies.forms import PendenciesForm
 from braces import views as braces_mixins
 
-from .forms import WebconferenceForm, SettingsForm
+from .forms import WebconferenceForm, SettingsForm, InlinePendenciesFormset
 from .models import Webconference, ConferenceSettings as Settings
 
 class NewWindowView(LoginRequiredMixin,LogMixin, generic.DetailView):
@@ -142,7 +142,7 @@ def participating(request):
 
     return JsonResponse({'message':'ok'})
 
-@log_decorator('resources', 'finish', 'webconference')
+@log_decorator('resources', 'participate', 'webconference')
 def finish(request):
 
     webconference = get_object_or_404(Webconference, slug = request.GET['roomName'])
@@ -244,7 +244,8 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         slug = self.kwargs.get('slug', '')
         topic = get_object_or_404(Topic, slug = slug)
-        pendencies_form = PendenciesForm(initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+        pendencies_form = InlinePendenciesFormset(initial = [{'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize")), ("participate", _("Participate"))]}])
+        print (pendencies_form)
         return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
     def post(self, request, *args, **kwargs):
@@ -256,12 +257,12 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         slug = self.kwargs.get('slug', '')
         topic = get_object_or_404(Topic, slug = slug)
 
-        pendencies_form = PendenciesForm(self.request.POST, initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+        pendencies_form = InlinePendenciesFormset(self.request.POST, initial = [{'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize")), ("participate", _("Participate"))]}])
 
         if (form.is_valid() and pendencies_form.is_valid()):
-            return self.form_valid(form, pendencies_form)
+        	return self.form_valid(form, pendencies_form)
         else:
-            return self.form_invalid(form, pendencies_form)
+	        return self.form_invalid(form, pendencies_form)
 
     def get_initial(self):
         initial = super(CreateView, self).get_initial()
@@ -274,6 +275,11 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return initial
 
     def form_invalid(self, form, pendencies_form):
+        # print (form,"       Form")
+        # print (pendencies_form, "      Penden")
+        for p_form in pendencies_form.forms:
+        	p_form.fields['action'].choices = [("", "-------"),("view", _("Visualize")), ("participate", _("Participate"))]
+        print ("Invalid")
         return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
     def form_valid(self, form, pendencies_form):
@@ -289,13 +295,15 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         	self.object.visible = False
 
         self.object.save()
-        pend_form = pendencies_form.save(commit = False)
-        pend_form.resource = self.object
+        pendencies_form.instance = self.object
+        pendencies_form.save(commit = False)
 
-        if not pend_form.action == "":
-        	pend_form.save()
+        for pform in pendencies_form.forms:
+        	pend_form = pform.save(commit = False)
 
-
+        	if not pend_form.action == "":
+        		pend_form.save()
+        print ("Valid")
         self.log_context['category_id'] = self.object.topic.subject.category.id
         self.log_context['category_name'] = self.object.topic.subject.category.name
         self.log_context['category_slug'] = self.object.topic.subject.category.slug
@@ -341,126 +349,122 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
     	return success_url
 
 class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
-	log_component = 'resources'
-	log_action = 'update'
-	log_resource = 'webconference'
-	log_context = {}
+    log_component = 'resources'
+    log_action = 'update'
+    log_resource = 'webconference'
+    log_context = {}
 
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
 
-	template_name = 'webconference/update.html'
-	model = Webconference
-	form_class = WebconferenceForm
+    template_name = 'webconference/update.html'
+    model = Webconference
+    form_class = WebconferenceForm
 
-	def dispatch(self, request, *args, **kwargs):
-		slug = self.kwargs.get('topic_slug', '')
-		topic = get_object_or_404(Topic, slug = slug)
+    def dispatch(self, request, *args, **kwargs):
+    	slug = self.kwargs.get('topic_slug', '')
+    	topic = get_object_or_404(Topic, slug = slug)
 
-		if not has_subject_permissions(request.user, topic.subject):
-			return redirect(reverse_lazy('subjects:home'))
+    	if not has_subject_permissions(request.user, topic.subject):
+    		return redirect(reverse_lazy('subjects:home'))
 
-		return super(UpdateView, self).dispatch(request, *args, **kwargs)
+    	return super(UpdateView, self).dispatch(request, *args, **kwargs)
 
-	def get(self, request, *args, **kwargs):
-		self.object = self.get_object()
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
 
-		form_class = self.get_form_class()
-		form = self.get_form(form_class)
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
 
-		slug = self.kwargs.get('topic_slug', '')
-		topic = get_object_or_404(Topic, slug = slug)
+        slug = self.kwargs.get('topic_slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
 
-		pend_form = self.object.pendencies_resource.all()
+        pendencies_form = InlinePendenciesFormset(instance=self.object, initial = [{'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize")), ("participate", _("Participate"))]}])
 
-		if len(pend_form) > 0:
-			pendencies_form = PendenciesForm(instance = pend_form[0], initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
-		else:
-			pendencies_form = PendenciesForm(initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+        return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
-		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
 
-	def post(self, request, *args, **kwargs):
-		self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
 
-		form_class = self.get_form_class()
-		form = self.get_form(form_class)
+        slug = self.kwargs.get('topic_slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
 
-		slug = self.kwargs.get('topic_slug', '')
-		topic = get_object_or_404(Topic, slug = slug)
+        pendencies_form = InlinePendenciesFormset(self.request.POST, instance = self.object, initial = [{'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize")), ("participate", _("Participate"))]}])
 
-		pend_form = self.object.pendencies_resource.all()
+        if (form.is_valid() and pendencies_form.is_valid()):
+        	return self.form_valid(form, pendencies_form)
+        else:
+        	return self.form_invalid(form, pendencies_form)
 
-		if len(pend_form) > 0:
-			pendencies_form = PendenciesForm(self.request.POST, instance = pend_form[0], initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
-		else:
-			pendencies_form = PendenciesForm(self.request.POST, initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+    def form_invalid(self, form, pendencies_form):
+        for p_form in pendencies_form.forms:
+        	p_form.fields['action'].choices = [("", "-------"),("view", _("Visualize")), ("participate", _("Participate"))]
 
-		if (form.is_valid() and pendencies_form.is_valid()):
-			return self.form_valid(form, pendencies_form)
-		else:
-			return self.form_invalid(form, pendencies_form)
+        return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
-	def form_invalid(self, form, pendencies_form):
-		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
+    def form_valid(self, form, pendencies_form):
+    	self.object = form.save(commit = False)
 
-	def form_valid(self, form, pendencies_form):
-		self.object = form.save(commit = False)
+    	if not self.object.topic.visible and not self.object.topic.repository:
+    		self.object.visible = False
 
-		if not self.object.topic.visible and not self.object.topic.repository:
-			self.object.visible = False
+    	self.object.save()
 
-		self.object.save()
+    	pendencies_form.instance = self.object
+    	pendencies_form.save(commit = False)
 
-		pend_form = pendencies_form.save(commit = False)
-		pend_form.resource = self.object
+    	for form in pendencies_form.forms:
+    		pend_form = form.save(commit = False)
 
-		if not pend_form.action == "":
-			pend_form.save()
+    		if not pend_form.action == "":
+    			pend_form.save()
 
-		self.log_context['category_id'] = self.object.topic.subject.category.id
-		self.log_context['category_name'] = self.object.topic.subject.category.name
-		self.log_context['category_slug'] = self.object.topic.subject.category.slug
-		self.log_context['subject_id'] = self.object.topic.subject.id
-		self.log_context['subject_name'] = self.object.topic.subject.name
-		self.log_context['subject_slug'] = self.object.topic.subject.slug
-		self.log_context['topic_id'] = self.object.topic.id
-		self.log_context['topic_name'] = self.object.topic.name
-		self.log_context['topic_slug'] = self.object.topic.slug
-		self.log_context['webconference_id'] = self.object.id
-		self.log_context['webconference_name'] = self.object.name
-		self.log_context['webconference_slug'] = self.object.slug
+    	self.log_context['category_id'] = self.object.topic.subject.category.id
+    	self.log_context['category_name'] = self.object.topic.subject.category.name
+    	self.log_context['category_slug'] = self.object.topic.subject.category.slug
+    	self.log_context['subject_id'] = self.object.topic.subject.id
+    	self.log_context['subject_name'] = self.object.topic.subject.name
+    	self.log_context['subject_slug'] = self.object.topic.subject.slug
+    	self.log_context['topic_id'] = self.object.topic.id
+    	self.log_context['topic_name'] = self.object.topic.name
+    	self.log_context['topic_slug'] = self.object.topic.slug
+    	self.log_context['webconference_id'] = self.object.id
+    	self.log_context['webconference_name'] = self.object.name
+    	self.log_context['webconference_slug'] = self.object.slug
 
-		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+    	super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		return redirect(self.get_success_url())
+    	return redirect(self.get_success_url())
 
-	def get_context_data(self, **kwargs):
-		context = super(UpdateView, self).get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+    	context = super(UpdateView, self).get_context_data(**kwargs)
 
-		context['title'] = _('Update Web Conference')
+    	context['title'] = _('Update Web Conference')
 
-		slug = self.kwargs.get('topic_slug', '')
-		topic = get_object_or_404(Topic, slug = slug)
+    	slug = self.kwargs.get('topic_slug', '')
+    	topic = get_object_or_404(Topic, slug = slug)
 
-		context['topic'] = topic
-		context['subject'] = topic.subject
+    	context['topic'] = topic
+    	context['subject'] = topic.subject
 
-		return context
+    	return context
 
-	def get_success_url(self):
-		messages.success(self.request, _('The Web conference "%s" was updated successfully!')%(self.object.name))
+    def get_success_url(self):
+    	messages.success(self.request, _('The Web conference "%s" was updated successfully!')%(self.object.name))
 
-		success_url = reverse_lazy('webconferences:view', kwargs = {'slug': self.object.slug})
+    	success_url = reverse_lazy('webconferences:view', kwargs = {'slug': self.object.slug})
 
-		if self.object.show_window:
-			self.request.session['resources'] = {}
-			self.request.session['resources']['new_page'] = True
-			self.request.session['resources']['new_page_url'] = reverse('webconferences:window_view', kwargs = {'slug': self.object.slug})
+    	if self.object.show_window:
+    		self.request.session['resources'] = {}
+    		self.request.session['resources']['new_page'] = True
+    		self.request.session['resources']['new_page_url'] = reverse('webconferences:window_view', kwargs = {'slug': self.object.slug})
 
-			success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+    		success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
-		return success_url
+    	return success_url
 
 class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
 	log_component = 'resources'
