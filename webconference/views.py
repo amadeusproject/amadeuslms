@@ -120,8 +120,8 @@ class Conference(LoginRequiredMixin,LogMixin,generic.TemplateView):
 
         return context
 
-@log_decorator('resources', 'participando', 'webconference')
-def participando(request):
+@log_decorator('resources', 'participating', 'webconference')
+def participating(request):
     webconference = get_object_or_404(Webconference, slug = request.GET['slug'])
     log_context = {}
     log_context['category_id'] = webconference.topic.subject.category.id

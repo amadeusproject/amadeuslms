@@ -60,7 +60,7 @@
     var repeater = setInterval(function () {
       $.ajax({
         method: "GET",
-        url: "{% url 'webconferences:participando'%}",
+        url: "{% url 'webconferences:participating'%}",
         dataType: 'json',
         data: {'slug':'{{name_room}}'},
         success: function(response) {
