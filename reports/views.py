@@ -133,10 +133,12 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         context['end_date'] = params_data['end_date']
         context['subject'] = subject
       
+        #I used getlist method so it can get more than one tag and one resource class_name
         resources = params_data.getlist('resource')
         tags = params_data.getlist('tag')
+        
         self.from_mural = params_data['from_mural']
-        #I used getlist method so it can get more than one tag and one resource class_name
+       
         context['data'], context['header'] = self.get_mural_data(subject, params_data['init_date'], params_data['end_date'],
             resources, tags )
 
@@ -248,18 +250,18 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
 
             #VAR20 - number of access to mural between 6 a.m to 12a.m.
             interactions[_('Number of access to mural between 6 a.m to 12a.m. .')] =  Log.objects.filter(action="access", resource="subject", 
-                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (5, 11)).count()
+                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (5, 11),  datetime__range=(init_date,end_date)).count()
 
             #VAR21 - number of access to mural between 0 p.m to 6p.m.
             interactions[_('Number of access to mural between 0 p.m to 6p.m. .')] =  Log.objects.filter(action="access", resource="subject", 
-                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (11, 17)).count()
+                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (11, 17), datetime__range=(init_date,end_date)).count()
             #VAR22
             interactions[_('Number of access to mural between 6 p.m to 12p.m. .')] =  Log.objects.filter(action="access", resource="subject", 
-                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (17, 23)).count()
+                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (17, 23),  datetime__range=(init_date,end_date)).count()
 
             #VAR23
             interactions[_('Number of access to mural between 0 a.m to 6a.m. .')] =  Log.objects.filter(action="access", resource="subject", 
-                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (23, 5)).count()
+                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (23, 5),  datetime__range=(init_date,end_date)).count()
 
             #VAR24 through 30
             day_numbers = [0, 1, 2, 3, 4, 5, 6]
@@ -267,7 +269,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             distinct_days = 0
             for day_num in day_numbers:
                 interactions[_('Number of access to the subject on ')+ day_names[day_num]] =  Log.objects.filter(action="access", resource="subject", 
-                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__week_day = day_num).count()
+                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__week_day = day_num, datetime__range = (init_date, end_date)).count()
                 #to save the distinct days the user has accessed 
                 if interactions[_('Number of access to the subject on ')+ day_names[day_num]] > 0:
                     distinct_days += 1
@@ -285,7 +287,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
 
     def get_resources_and_tags_data(self, resources_types, tags, student, subject, init_date, end_date):
         data = OrderedDict()  
-
+        print(tags)
         for i in range(len(resources_types)):
             
             resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = tags, topic__in=subject.topic_subject.all())
