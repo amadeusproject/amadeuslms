@@ -17,7 +17,7 @@ class ReportCSV(models.Model):
 class ReportXLS(models.Model):
 
     user = models.ForeignKey(User)
-    xls_data = models.TextField() 
+    xls_data = models.FileField(upload_to = 'files/') 
 
     class Meta:
         verbose_name = "ReportCSV"

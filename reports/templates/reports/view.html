@@ -65,10 +65,11 @@
     	<ul id="report-info">
     		<li> {{data.values|length}} {% trans "register(s)" %} </li>
     		<li>
-    			<a href="{% url 'subjects:reports:download_report_csv' %}"><i class="fa fa-download" aria-hidden="true"></i> {% trans "Interactions Data" %}</a>
+    			<a href="{% url 'subjects:reports:download_report_csv' %}"><i class="fa fa-download" aria-hidden="true"></i> {% trans "Interactions Data (.csv)" %}</a>
 
 
     		</li>
+            <li><a href="{% url 'subjects:reports:download_report_xls' %}"><i class="fa fa-download" aria-hidden="true"></i> {% trans "Interactions Data (.xls)" %}</a></li>
     	</ul>
     	
 

@@ -4,9 +4,9 @@ from django.utils.translation import ugettext_lazy as _
 
 from django import forms
 from django.core.urlresolvers import reverse_lazy
-
+from amadeus import settings
 from django.contrib import messages
-
+from os.path import join
 import django.views.generic as generic
 from mural.models import SubjectPost, Comment, MuralVisualizations
 from django.db.models import Q
@@ -20,6 +20,7 @@ from collections import OrderedDict
 from django.forms import formset_factory
 from .models import ReportCSV, ReportXLS
 import pandas as pd
+from io import BytesIO
 
 class ReportView(LoginRequiredMixin, generic.FormView):
     template_name = "reports/create.html"
@@ -156,27 +157,32 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         report.save()
 
         #for excel files
-        """ if ReportXLS.objects.filter(user= self.request.user).count() > 0:
+        if ReportXLS.objects.filter(user= self.request.user).count() > 0:
             report = ReportXLS.objects.get(user=self.request.user)
             report.delete()
         
-        df.drop(df.columns[[0]], axis=1, inplace=True)
-        writer = pd.ExcelWriter('pandas_simple.xlsx')
-        report = ReportXLS(user= self.request.user, xls_data = df.to_excel(writer))
-        report.save()"""
-
+        path = join(settings.MEDIA_ROOT, 'files' , 'report'+str(self.request.user.id)+'.xls')
+        writer = pd.ExcelWriter(path)
+        df.to_excel(writer, sheet_name='first_sheet')
+        writer.save()
+        report = ReportXLS(user= self.request.user )
+        report.xls_data.name = path 
+        report.save()
 
         return context
 
-    """
-        Subject: subject where the report is being created
-        topics_query: it's either one of the topics or all of them
-        init_date: When the reports filter of dates stars
-        end_date: When the reports filter of dates end
-        resources_type_names: resources subclasses name that were selected
-        tags_id = ID of tag objects that were selected
-    """
+  
     def get_mural_data(self, subject, topics_query, init_date, end_date, resources_type_names, tags_id):
+        """
+
+            Process all the data to be brough by the report
+            Subject: subject where the report is being created
+            topics_query: it's either one of the topics or all of them
+            init_date: When the reports filter of dates stars
+            end_date: When the reports filter of dates end
+            resources_type_names: resources subclasses name that were selected
+            tags_id = ID of tag objects that were selected
+        """
         data = {}
         students = subject.students.all()
         formats = ["%d/%m/%Y", "%m/%d/%Y", "%Y-%m-%d"] #so it accepts english and portuguese date formats
@@ -199,9 +205,9 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
        
         #For each student in the subject
         for student in students:
-            data[student] = []
+            data[student.id] = []
 
-            data[student].append(student.social_name)
+            data[student.id].append(student.social_name)
 
             interactions = OrderedDict()    
                   
@@ -289,7 +295,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             interactions[_("Class")] = ""
             interactions[_("Performance")] = ""
             for value in interactions.values():
-                data[student].append(value)
+                data[student.id].append(value)
            
                 
         for key in interactions.keys():
@@ -403,5 +409,13 @@ def download_report_csv(request):
      
     response = HttpResponse(report.csv_data,content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="report.csv"'
+
+    return response
+
+def download_report_xls(request):
+    report = ReportXLS.objects.get(user= request.user)
+
+    response = HttpResponse(report.xls_data,content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="report.xls"'
 
     return response
