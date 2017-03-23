@@ -40,13 +40,11 @@
         api.executeCommand('email', '{{user.email}}');
         api.executeCommand('avatarUrl', '{{user_image}}');
         api.addEventListener('videoConferenceLeft', function(res){
-          console.log(res);
-          console.log("saiu");
           $.ajax({
             method: "GET",
-      			url: "{% url 'webconferences:saiu'%}",
+      			url: "{% url 'webconferences:exit'%}",
       			dataType: 'json',
-      			data: $.extend(res,{'email':'{{user_email}}'}),
+      			data: res,
       			success: function(response) {
               window.location.replace(response['url']);
       				console.log(response);
@@ -56,31 +54,21 @@
       			}
       		});
         });
+        var repeater = setInterval(function () {
+          $.ajax({
+            method: "GET",
+            url: "{% url 'webconferences:online'%}",
+            dataType: 'json',
+            data: {'slug':'{{name_room}}'},
+            success: function(response) {
+              console.log(response);
+            },
+            error: function(response) {
+              console.log(response);
+            }
+          });
+        }, 60*1000);
       }
-      // callfunction();
-      var callCount = 1;
-      var repeater = setInterval(function () {
-        console.log(callCount);
-        if (callCount < 10) {
-
-          var doc = document.getElementById('jitsiConferenceFrame0').document;
-          // var iframe = document.getElementById('jitsiConferenceFrame0');
-          // var innerDoc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
-
-          // var ls = doc.getElementById('toolbar_button_link');
-          console.log(doc);
-          // $("#jitsiConferenceFrame0").contents().find("#toolbar_button_link").remove();
-          // $("a#toolbar_button_link.button.icon-link").remove();
-          // console.log($("#toolbar_contact_list").remove());
-          // $("#toolbar_button_link").remove(); //utilizandos para retirar o botão de compartilhar do jitsi
-          callCount += 1;
-          console.log("aqui");
-        } else {
-          clearInterval(repeater);
-        }
-      }, 1000);
-
-      // api.executeCommands({displayName: ['Jailson']});
     </script>
 
   </body>

@@ -11,6 +11,7 @@ from amadeus.permissions import has_subject_permissions, has_resource_permission
 import time
 from log.models import Log
 from log.mixins import LogMixin
+from log.decorators import log_decorator
 
 from topics.models import Topic
 
@@ -20,13 +21,11 @@ from braces import views as braces_mixins
 from .forms import WebconferenceForm, SettingsForm
 from .models import Webconference, ConferenceSettings as Settings
 
-class NewWindowView(LoginRequiredMixin,
- # '''LogMixin,'''
- generic.DetailView):
-	# log_component = 'resources'
-	# log_action = 'view'
-	# log_resource = 'webpage'
-	# log_context = {}
+class NewWindowView(LoginRequiredMixin,LogMixin, generic.DetailView):
+    log_component = 'resources'
+    log_action = 'view'
+    log_resource = 'webconference'
+    log_context = {}
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
@@ -47,33 +46,46 @@ class NewWindowView(LoginRequiredMixin,
     def get_context_data(self, **kwargs):
     	context = super(NewWindowView, self).get_context_data(**kwargs)
     	context['title'] = _("%s - Web Conference")%(self.object.name)
-    	# self.log_context['category_id'] = self.object.topic.subject.category.id
-    	# self.log_context['category_name'] = self.object.topic.subject.category.name
-    	# self.log_context['category_slug'] = self.object.topic.subject.category.slug
-    	# self.log_context['subject_id'] = self.object.topic.subject.id
-    	# self.log_context['subject_name'] = self.object.topic.subject.name
-    	# self.log_context['subject_slug'] = self.object.topic.subject.slug
-    	# self.log_context['topic_id'] = self.object.topic.id
-    	# self.log_context['topic_name'] = self.object.topic.name
-    	# self.log_context['topic_slug'] = self.object.topic.slug
-    	# self.log_context['webpage_id'] = self.object.id
-    	# self.log_context['webpage_name'] = self.object.name
-    	# self.log_context['webpage_slug'] = self.object.slug
-    	# self.log_context['timestamp_start'] = str(int(time.time()))
+    	self.log_context['category_id'] = self.object.topic.subject.category.id
+    	self.log_context['category_name'] = self.object.topic.subject.category.name
+    	self.log_context['category_slug'] = self.object.topic.subject.category.slug
+    	self.log_context['subject_id'] = self.object.topic.subject.id
+    	self.log_context['subject_name'] = self.object.topic.subject.name
+    	self.log_context['subject_slug'] = self.object.topic.subject.slug
+    	self.log_context['topic_id'] = self.object.topic.id
+    	self.log_context['topic_name'] = self.object.topic.name
+    	self.log_context['topic_slug'] = self.object.topic.slug
+    	self.log_context['webconference_id'] = self.object.id
+    	self.log_context['webconference_name'] = self.object.name
+    	self.log_context['webconference_slug'] = self.object.slug
+    	self.log_context['webconference_view'] = str(int(time.time()))
 
-    	# super(NewWindowView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
-        #
-    	# self.request.session['log_id'] = Log.objects.latest('id').id
+    	super(NewWindowView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+    	self.request.session['log_id'] = Log.objects.latest('id').id
 
     	return context
 
-class Conference(LoginRequiredMixin,generic.TemplateView):
+class Conference(LoginRequiredMixin,LogMixin,generic.TemplateView):
+
+    log_component = 'resources'
+    log_action = 'initwebconference'
+    log_resource = 'webconference'
+    log_context = {}
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
     template_name = 'webconference/jitsi.html'
 
+    def dispatch(self, request, *args, **kwargs):
+    	slug = self.kwargs.get('slug', '')
+    	conference = get_object_or_404(Webconference, slug = slug)
+
+    	if not has_resource_permissions(request.user, conference):
+    		return redirect(reverse_lazy('subjects:home'))
+
+    	return super(Conference, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(Conference, self).get_context_data(**kwargs)
@@ -84,20 +96,77 @@ class Conference(LoginRequiredMixin,generic.TemplateView):
         except AttributeError:
             context['domain'] = 'meet.jit.si'
 
+        conference = get_object_or_404(Webconference, slug = kwargs.get('slug'))
+        self.log_context['category_id'] = conference.topic.subject.category.id
+        self.log_context['category_name'] = conference.topic.subject.category.name
+        self.log_context['category_slug'] = conference.topic.subject.category.slug
+        self.log_context['subject_id'] = conference.topic.subject.id
+        self.log_context['subject_name'] = conference.topic.subject.name
+        self.log_context['subject_slug'] = conference.topic.subject.slug
+        self.log_context['topic_id'] = conference.topic.id
+        self.log_context['topic_name'] = conference.topic.name
+        self.log_context['topic_slug'] = conference.topic.slug
+        self.log_context['webconference_id'] = conference.id
+        self.log_context['webconference_name'] = conference.name
+        self.log_context['webconference_slug'] = conference.slug
+        self.log_context['webconference_init'] = str(int(time.time()))
+
+        super(Conference, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
         return context
 
-def saiu(request):
+@log_decorator('resources', 'online', 'webconference')
+def online(request):
+    webconference = get_object_or_404(Webconference, slug = request.GET['slug'])
+    log_context = {}
+    log_context['category_id'] = webconference.topic.subject.category.id
+    log_context['category_name'] = webconference.topic.subject.category.name
+    log_context['category_slug'] = webconference.topic.subject.category.slug
+    log_context['subject_id'] = webconference.topic.subject.id
+    log_context['subject_name'] = webconference.topic.subject.name
+    log_context['subject_slug'] = webconference.topic.subject.slug
+    log_context['topic_id'] = webconference.topic.id
+    log_context['topic_name'] = webconference.topic.name
+    log_context['topic_slug'] = webconference.topic.slug
+    log_context['webconference_id'] = webconference.id
+    log_context['webconference_name'] = webconference.name
+    log_context['webconference_slug'] = webconference.slug
+    log_context['webconference_online'] = str(int(time.time()))
+
+    request.log_context = log_context
+
+    return JsonResponse({'message':'ok'})
+
+@log_decorator('resources', 'finish', 'webconference')
+def finish(request):
+
+    webconference = get_object_or_404(Webconference, slug = request.GET['roomName'])
+    log_context = {}
+    log_context['category_id'] = webconference.topic.subject.category.id
+    log_context['category_name'] = webconference.topic.subject.category.name
+    log_context['category_slug'] = webconference.topic.subject.category.slug
+    log_context['subject_id'] = webconference.topic.subject.id
+    log_context['subject_name'] = webconference.topic.subject.name
+    log_context['subject_slug'] = webconference.topic.subject.slug
+    log_context['topic_id'] = webconference.topic.id
+    log_context['topic_name'] = webconference.topic.name
+    log_context['topic_slug'] = webconference.topic.slug
+    log_context['webconference_id'] = webconference.id
+    log_context['webconference_name'] = webconference.name
+    log_context['webconference_slug'] = webconference.slug
+    log_context['webconference_finish'] = str(int(time.time()))
+
+    request.log_context = log_context
+
     url = {'url': 'http://localhost:8000' + str(reverse_lazy('webconferences:view', kwargs = {'slug': request.GET['roomName']}))}
     return JsonResponse(url, safe=False)
 
 
-class InsideView(LoginRequiredMixin,
-# '''LogMixin,'''
-generic.DetailView):
-	# log_component = 'resources'
-	# log_action = 'view'
-	# log_resource = 'webpage'
-	# log_context = {}
+class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
+	log_component = 'resources'
+	log_action = 'view'
+	log_resource = 'webconference'
+	log_context = {}
 
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
@@ -123,23 +192,23 @@ generic.DetailView):
 		context['topic'] = self.object.topic
 		context['subject'] = self.object.topic.subject
 
-		# self.log_context['category_id'] = self.object.topic.subject.category.id
-		# self.log_context['category_name'] = self.object.topic.subject.category.name
-		# self.log_context['category_slug'] = self.object.topic.subject.category.slug
-		# self.log_context['subject_id'] = self.object.topic.subject.id
-		# self.log_context['subject_name'] = self.object.topic.subject.name
-		# self.log_context['subject_slug'] = self.object.topic.subject.slug
-		# self.log_context['topic_id'] = self.object.topic.id
-		# self.log_context['topic_name'] = self.object.topic.name
-		# self.log_context['topic_slug'] = self.object.topic.slug
-		# self.log_context['webpage_id'] = self.object.id
-		# self.log_context['webpage_name'] = self.object.name
-		# self.log_context['webpage_slug'] = self.object.slug
-		# self.log_context['timestamp_start'] = str(int(time.time()))
-        #
-		# super(InsideView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
-        #
-		# self.request.session['log_id'] = Log.objects.latest('id').id
+		self.log_context['category_id'] = self.object.topic.subject.category.id
+		self.log_context['category_name'] = self.object.topic.subject.category.name
+		self.log_context['category_slug'] = self.object.topic.subject.category.slug
+		self.log_context['subject_id'] = self.object.topic.subject.id
+		self.log_context['subject_name'] = self.object.topic.subject.name
+		self.log_context['subject_slug'] = self.object.topic.subject.slug
+		self.log_context['topic_id'] = self.object.topic.id
+		self.log_context['topic_name'] = self.object.topic.name
+		self.log_context['topic_slug'] = self.object.topic.slug
+		self.log_context['webconference_id'] = self.object.id
+		self.log_context['webconference_name'] = self.object.name
+		self.log_context['webconference_slug'] = self.object.slug
+		self.log_context['webconference_view'] = str(int(time.time()))
+
+		super(InsideView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		self.request.session['log_id'] = Log.objects.latest('id').id
 
 		return context
 
@@ -453,6 +522,5 @@ class ConferenceSettings(braces_mixins.LoginRequiredMixin, braces_mixins.Staffus
     	context = super(ConferenceSettings, self).get_context_data(**kwargs)
 
     	context['title'] = _('Web Conference Settings')
-    	# context['settings_menu_active'] = "settings_menu_active"
 
     	return context

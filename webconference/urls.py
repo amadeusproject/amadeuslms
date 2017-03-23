@@ -11,6 +11,7 @@ urlpatterns = [
 	url(r'^window_view/(?P<slug>[\w_-]+)/$', views.NewWindowView.as_view(), name = 'window_view'),
 	url(r'^view/(?P<slug>[\w_-]+)/$', views.InsideView.as_view(), name = 'view'),
 	url(r'^conference/(?P<slug>[\w_-]+)/$',views.Conference.as_view(), name = 'conference'),
-	url(r'^saiu/$',views.saiu, name = 'saiu'),
+	url(r'^finish/$',views.finish, name = 'exit'),
+	url(r'^online/$',views.online, name = 'online'),
 	url(r'^settings/$', views.ConferenceSettings.as_view(), name = 'settings'),
 ]
