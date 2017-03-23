@@ -4,9 +4,9 @@ from django.utils.translation import ugettext_lazy as _
 
 from django import forms
 from django.core.urlresolvers import reverse_lazy
-
+from amadeus import settings
 from django.contrib import messages
-
+from os.path import join
 import django.views.generic as generic
 from mural.models import SubjectPost, Comment, MuralVisualizations
 from django.db.models import Q
@@ -20,6 +20,7 @@ from collections import OrderedDict
 from django.forms import formset_factory
 from .models import ReportCSV, ReportXLS
 import pandas as pd
+from io import BytesIO
 
 class ReportView(LoginRequiredMixin, generic.FormView):
     template_name = "reports/create.html"
@@ -133,11 +134,13 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         context['end_date'] = params_data['end_date']
         context['subject'] = subject
       
+        #I used getlist method so it can get more than one tag and one resource class_name
         resources = params_data.getlist('resource')
         tags = params_data.getlist('tag')
+        
         self.from_mural = params_data['from_mural']
-        #I used getlist method so it can get more than one tag and one resource class_name
-        context['data'], context['header'] = self.get_mural_data(subject, params_data['init_date'], params_data['end_date'],
+       
+        context['data'], context['header'] = self.get_mural_data(subject, context['topic_name'], params_data['init_date'], params_data['end_date'],
             resources, tags )
 
 
@@ -154,19 +157,32 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         report.save()
 
         #for excel files
-        """ if ReportXLS.objects.filter(user= self.request.user).count() > 0:
+        if ReportXLS.objects.filter(user= self.request.user).count() > 0:
             report = ReportXLS.objects.get(user=self.request.user)
             report.delete()
         
-        df.drop(df.columns[[0]], axis=1, inplace=True)
-        writer = pd.ExcelWriter('pandas_simple.xlsx')
-        report = ReportXLS(user= self.request.user, xls_data = df.to_excel(writer))
-        report.save()"""
-
+        path = join(settings.MEDIA_ROOT, 'files' , 'report'+str(self.request.user.id)+'.xls')
+        writer = pd.ExcelWriter(path)
+        df.to_excel(writer, sheet_name='first_sheet')
+        writer.save()
+        report = ReportXLS(user= self.request.user )
+        report.xls_data.name = path 
+        report.save()
 
         return context
 
-    def get_mural_data(self, subject, init_date, end_date, resources_id, tags_id):
+  
+    def get_mural_data(self, subject, topics_query, init_date, end_date, resources_type_names, tags_id):
+        """
+
+            Process all the data to be brough by the report
+            Subject: subject where the report is being created
+            topics_query: it's either one of the topics or all of them
+            init_date: When the reports filter of dates stars
+            end_date: When the reports filter of dates end
+            resources_type_names: resources subclasses name that were selected
+            tags_id = ID of tag objects that were selected
+        """
         data = {}
         students = subject.students.all()
         formats = ["%d/%m/%Y", "%m/%d/%Y", "%Y-%m-%d"] #so it accepts english and portuguese date formats
@@ -177,7 +193,10 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                 
             except ValueError:
                 pass
-
+        if topics_query == _("All"):
+            topics = subject.topic_subject.all()
+        else:
+            topics = Topic.objects.get(id=topics_query)
         header = ['User']
        
         #I use this so the system can gather data up to end_date 11h59 p.m.
@@ -186,9 +205,9 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
        
         #For each student in the subject
         for student in students:
-            data[student] = []
+            data[student.id] = []
 
-            data[student].append(student.social_name)
+            data[student.id].append(student.social_name)
 
             interactions = OrderedDict()    
                   
@@ -240,26 +259,26 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             
 
             #VAR08 through VAR_019 of documenttation:
-            if len(resources_id) > 0:
-                resources_data = self.get_resources_and_tags_data(resources_id, tags_id, student, subject, init_date, end_date)
+            if len(resources_type_names) > 0:
+                resources_data = self.get_resources_and_tags_data(resources_type_names, tags_id, student, subject, topics, init_date, end_date)
                 for key, value in resources_data.items():
                     interactions[key] = value
 
 
             #VAR20 - number of access to mural between 6 a.m to 12a.m.
             interactions[_('Number of access to mural between 6 a.m to 12a.m. .')] =  Log.objects.filter(action="access", resource="subject", 
-                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (5, 11)).count()
+                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (5, 11),  datetime__range=(init_date,end_date)).count()
 
             #VAR21 - number of access to mural between 0 p.m to 6p.m.
             interactions[_('Number of access to mural between 0 p.m to 6p.m. .')] =  Log.objects.filter(action="access", resource="subject", 
-                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (11, 17)).count()
+                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (11, 17), datetime__range=(init_date,end_date)).count()
             #VAR22
             interactions[_('Number of access to mural between 6 p.m to 12p.m. .')] =  Log.objects.filter(action="access", resource="subject", 
-                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (17, 23)).count()
+                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (17, 23),  datetime__range=(init_date,end_date)).count()
 
             #VAR23
             interactions[_('Number of access to mural between 0 a.m to 6a.m. .')] =  Log.objects.filter(action="access", resource="subject", 
-                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (23, 5)).count()
+                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (23, 5),  datetime__range=(init_date,end_date)).count()
 
             #VAR24 through 30
             day_numbers = [0, 1, 2, 3, 4, 5, 6]
@@ -267,7 +286,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             distinct_days = 0
             for day_num in day_numbers:
                 interactions[_('Number of access to the subject on ')+ day_names[day_num]] =  Log.objects.filter(action="access", resource="subject", 
-                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__week_day = day_num).count()
+                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__week_day = day_num, datetime__range = (init_date, end_date)).count()
                 #to save the distinct days the user has accessed 
                 if interactions[_('Number of access to the subject on ')+ day_names[day_num]] > 0:
                     distinct_days += 1
@@ -276,25 +295,39 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             interactions[_("Class")] = ""
             interactions[_("Performance")] = ""
             for value in interactions.values():
-                data[student].append(value)
+                data[student.id].append(value)
            
                 
         for key in interactions.keys():
             header.append(key)
         return data, header
 
-    def get_resources_and_tags_data(self, resources_types, tags, student, subject, init_date, end_date):
+    def get_resources_and_tags_data(self, resources_types, tags, student, subject, topics, init_date, end_date):
         data = OrderedDict()  
-
+        
         for i in range(len(resources_types)):
             
-            resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = tags, topic__in=subject.topic_subject.all())
+            if isinstance(topics,Topic):
+                resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = tags, topic=topics)
+            else: 
+                resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = tags, topic__in=topics)
             distinct_resources = 0
             total_count = 0
+            
             for resource in resources:
-                count = Log.objects.filter(action="view", resource=resources_types[i].lower(),
-                      user_id = student.id, context__contains = {'subject_id': subject.id, 
-                      resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date)).count()
+                if isinstance(topics,Topic):
+                    #or it selected only one topic to work with
+                    count = Log.objects.filter(action="view", resource=resources_types[i].lower(),
+                          user_id = student.id, context__contains = {'subject_id': subject.id, 
+                          resources_types[i].lower()+'_id': resource.id, 'topic_id': topics.id}, datetime__range=(init_date, end_date)).count()
+                   
+                else:
+                    #or the user selected all
+
+                     count = Log.objects.filter(action="view", resource=resources_types[i].lower(),
+                          user_id = student.id, context__contains = {'subject_id': subject.id, 
+                          resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date)).count()
+                   
                 if count > 0:
                     distinct_resources += 1
                     total_count += count
@@ -366,7 +399,7 @@ def get_tags(request):
    
     #adding empty tag for the purpose of giving the user this option for adicional behavior
     tags = list(tags)
-    tags.append(Tag(name=""))
+    tags.append(Tag(name=" "))
     data['tags'] = [ {'id':tag.id, 'name':tag.name} for tag in  tags]
     return JsonResponse(data)
 
@@ -376,5 +409,13 @@ def download_report_csv(request):
      
     response = HttpResponse(report.csv_data,content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="report.csv"'
+
+    return response
+
+def download_report_xls(request):
+    report = ReportXLS.objects.get(user= request.user)
+
+    response = HttpResponse(report.xls_data,content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="report.xls"'
 
     return response

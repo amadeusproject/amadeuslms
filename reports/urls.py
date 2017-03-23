@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^get/resources/$', views.get_resources, name='get_resource_and_tags'),
     url(r'^get/tags/$', views.get_tags, name='get_tags'),
     url(r'^post/download_report/$', views.download_report_csv, name="download_report_csv"),
+    url(r'^post/download_report/excel$', views.download_report_xls, name="download_report_xls"),
 ]
