@@ -18,7 +18,7 @@ from topics.models import Topic
 from pendencies.forms import PendenciesForm
 from braces import views as braces_mixins
 
-from .forms import WebconferenceForm, SettingsForm, InlinePendenciesFormset
+from .forms import WebconferenceForm, SettingsForm, InlinePendenciesFormset, WebConferenceUpdateForm
 from .models import Webconference, ConferenceSettings as Settings
 
 class NewWindowView(LoginRequiredMixin,LogMixin, generic.DetailView):
@@ -359,7 +359,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
     template_name = 'webconference/update.html'
     model = Webconference
-    form_class = WebconferenceForm
+    form_class = WebConferenceUpdateForm
 
     def dispatch(self, request, *args, **kwargs):
     	slug = self.kwargs.get('topic_slug', '')

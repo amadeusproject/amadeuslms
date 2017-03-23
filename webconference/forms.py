@@ -26,7 +26,7 @@ class WebconferenceForm(forms.ModelForm):
 			self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
 
 		self.initial['control_subject'] = self.subject.id
-		
+
 		self.fields['students'].queryset = self.subject.students.all()
 		self.fields['groups'].queryset = self.subject.group_subject.all()
 
@@ -112,6 +112,10 @@ class WebconferenceForm(forms.ModelForm):
 
 		return self.instance
 
+class WebConferenceUpdateForm(WebconferenceForm):
+
+	def clean_start(self):
+		return self.cleaned_data['start']
 
 
 class SettingsForm(forms.ModelForm):
