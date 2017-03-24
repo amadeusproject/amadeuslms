@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-20 18:40-0300\n"
+"POT-Creation-Date: 2017-03-24 18:33-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,7 +50,7 @@ msgstr "Mural da disciplina"
 msgid "Messages"
 msgstr "Mensagens"
 
-#: forms.py:52
+#: forms.py:52 views.py:133 views.py:200
 msgid "All"
 msgstr "Todos"
 
@@ -127,84 +127,88 @@ msgid "register(s)"
 msgstr "registro(s)"
 
 #: templates/reports/view.html:68
-msgid "Interactions Data"
-msgstr "Dados de interação"
+msgid "Interactions Data (.csv)"
+msgstr "Dados de interação (.csv)"
 
-#: views.py:67
+#: templates/reports/view.html:72
+msgid "Interactions Data (.xls)"
+msgstr "Dados de interação (.xls)"
+
+#: views.py:70
 msgid "Report created successfully"
 msgstr "Relatório criado com sucesso!"
 
-#: views.py:169
+#: views.py:224
 msgid "Number of help posts created by the user."
 msgstr "Número de postagens de dúvidas criadas no mural da disciplina."
 
-#: views.py:175
+#: views.py:230
 msgid "Amount of comments on help posts created by the student."
 msgstr ""
 "Número de comentários criados para as próprias postagens de dúvidas no mural "
 "da disciplina."
 
-#: views.py:180
+#: views.py:235
 msgid "Amount of comments made by the student on teachers help posts."
 msgstr ""
 "Número de comentários às postagens de dúvidas no mural da disciplina criadas "
 "pelo professor."
 
-#: views.py:184
+#: views.py:239
 msgid "Amount of comments made by the student on other students help posts."
 msgstr ""
 "Número de comentários às postagens de dúvidas no mural da disciplina criadas "
 "por outros estudantes."
 
-#: views.py:195
+#: views.py:250
 msgid "Number of help posts created by the user that the teacher commented on."
 msgstr ""
 "Número de comentários às postagens de dúvidas no mural da disciplina criadas "
 "por outros estudantes"
 
-#: views.py:203
+#: views.py:258
 msgid "Number of help posts created by the user others students commented on."
 msgstr ""
 " Número de postagens de dúvidas criadas no mural da disciplina que foram "
 "comentadas por outros estudantes."
 
-#: views.py:206
+#: views.py:261
 msgid "Number of student visualizations on the mural of the subject."
 msgstr "Número de visualizações do mural da disciplina."
 
-#: views.py:218
+#: views.py:273
 msgid "Number of access to mural between 6 a.m to 12a.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 06h às 12h."
 
-#: views.py:222
+#: views.py:277
 msgid "Number of access to mural between 0 p.m to 6p.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 12h às 18h."
 
-#: views.py:225
+#: views.py:280
 msgid "Number of access to mural between 6 p.m to 12p.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 18h às 24h."
 
-#: views.py:229
+#: views.py:284
 msgid "Number of access to mural between 0 a.m to 6a.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 24h às 06h."
 
-#: views.py:237 views.py:240
+#: views.py:292 views.py:295
 msgid "Number of access to the subject on "
 msgstr "Número de acessos ao assunto na(o) "
 
-#: views.py:243
+#: views.py:298
 msgid "Number of distinct days the user access the subject. "
 msgstr "Número de dias distintos que acessou o ambiente virtual da disciplina."
 
-#: views.py:244
+#: views.py:299
 msgid "Class"
 msgstr "Classe"
 
-#: views.py:245
+#: views.py:300
 msgid "Performance"
 msgstr "Desempenho"
 

@@ -20,16 +20,16 @@
     <div id="general-parameters-div">
         <div  class="general-parameters-field">
              {{form.topic.errors}}   
-             <label> {{form.topic.label}} </label>
+             <label class="form-field-report"> {{form.topic.label}} </label>
             {% render_field form.topic class="form-control" %}
         </div>
          <div class="general-parameters-field">
-                <label> {{form.init_date.label}} </label>
+                <label class="form-field-report"> {{form.init_date.label}} </label>
                 {% render_field form.init_date class='form-control  date-picker' %}
         </div>
 
         <div class="general-parameters-field">
-                <label> {{form.end_date.label}} </label>
+                <label class="form-field-report"> {{form.end_date.label}} </label>
                 {% render_field form.end_date class='form-control  date-picker' %}
         </div>
     </div>
