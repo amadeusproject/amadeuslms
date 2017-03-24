@@ -1,5 +1,34 @@
 var new_msgs = {};
 
+$('#chat-modal-info').on('show.bs.modal', function (e) {
+    var header = $(this).find('.talk_header');
+    if (header.length > 0) {
+        var li = $(".breadcrumb").find('li:last-child');
+        var li_text = $(li).html();
+        var new_li = $(li).clone();
+        
+        new_li.html(header.find('h4').data('breadcrumb'));
+
+        $(li).html("<a href='#'>" + li_text + "</a>");
+        $(li).append("<span class='divider'>/</span>");
+
+        new_li.appendTo('.breadcrumb');
+    }
+});
+
+$('#chat-modal-info').on('hide.bs.modal', function (e) {
+    var header = $(this).find('.talk_header');
+    if (header.length > 0) {
+        $(".breadcrumb").find('li:last-child').remove();
+
+        var li = $(".breadcrumb").find('li:last-child');
+        var text = $(li).find('a').text();
+
+        $(li).html(text);
+    }
+});
+
+
 function getModalInfo(btn, space, space_type) {
 	var url = btn.data('url');
 

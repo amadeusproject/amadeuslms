@@ -10,7 +10,7 @@
 				<span class="pull-left">
 					<img src="{{ participant.image_url }}" />
 				</span>
-				<h4 class=" pull-left">
+				<h4 class="pull-left" data-breadcrumb="{% trans 'Talk with ' %}{{ participant }}">
 					<a class="status {{ status }}" title="{{ status|status_text }}"></a> 
 					<b>{{ participant }}</b>
 				</h4>
