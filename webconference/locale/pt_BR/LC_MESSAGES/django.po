@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-22 17:37-0300\n"
+"POT-Creation-Date: 2017-03-23 13:53-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,7 +62,6 @@ msgid "End date/hour"
 msgstr "Data/hora de termino"
 
 #: webconference/models.py:13
-#: webconference/templates/webconference/jitsi.html:6
 msgid "Web Conference"
 msgstr "Web Conferência"
 
@@ -122,7 +121,7 @@ msgid "Settings: Conference"
 msgstr "Configurações: Web Conferência"
 
 #: webconference/templates/webconference/create.html:20
-#: webconference/views.py:246
+#: webconference/views.py:319
 msgid "Create Web Conference"
 msgstr "Criar Web Conferência"
 
@@ -135,18 +134,18 @@ msgstr "Editar: "
 msgid "Participate"
 msgstr "Participar"
 
-#: webconference/views.py:49
+#: webconference/views.py:48 webconference/views.py:93
 #, python-format
 msgid "%s - Web Conference"
 msgstr "%s - Web Conferência"
 
-#: webconference/views.py:175 webconference/views.py:187
-#: webconference/views.py:306 webconference/views.py:308
-#: webconference/views.py:324 webconference/views.py:326
+#: webconference/views.py:247 webconference/views.py:259
+#: webconference/views.py:377 webconference/views.py:379
+#: webconference/views.py:395 webconference/views.py:397
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: webconference/views.py:257
+#: webconference/views.py:330
 #, fuzzy, python-format
 #| msgid ""
 #| "The Web conference '%s' was added to the Topic '%s' of the virtual "
@@ -158,17 +157,17 @@ msgstr ""
 "A web conferência '%s' foi adicionada ao tópico '%s' do ambiente virtual "
 "'%s' com sucesso!"
 
-#: webconference/views.py:370
+#: webconference/views.py:441
 msgid "Update Web Conference"
 msgstr "Atualizar a web conferência"
 
-#: webconference/views.py:381
+#: webconference/views.py:452
 #, fuzzy, python-format
 #| msgid "Security settings updated successfully!"
 msgid "The Web conference \"%s\" was updated successfully!"
 msgstr "A web conferência '%s' foi atualizada com sucesso!"
 
-#: webconference/views.py:419
+#: webconference/views.py:488
 #, python-format
 msgid ""
 "The web conference \"%s\" was removed successfully from virtual environment "
@@ -176,13 +175,13 @@ msgid ""
 msgstr ""
 "A web conferência '%s' foi removida com sucesso do ambiente virtual '%s'!"
 
-#: webconference/views.py:453
+#: webconference/views.py:522
 #, fuzzy
 #| msgid "Security settings updated successfully!"
 msgid "Conference settings updated successfully!"
 msgstr "Configurações de segurança atualizadas com sucesso!"
 
-#: webconference/views.py:460
+#: webconference/views.py:529
 #, fuzzy
 #| msgid "Conference Setting"
 msgid "Web Conference Settings"

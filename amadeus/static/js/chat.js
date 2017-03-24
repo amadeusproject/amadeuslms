@@ -1,5 +1,34 @@
 var new_msgs = {};
 
+$('#chat-modal-info').on('show.bs.modal', function (e) {
+    var header = $(this).find('.talk_header');
+    if (header.length > 0) {
+        var li = $(".breadcrumb").find('li:last-child');
+        var li_text = $(li).html();
+        var new_li = $(li).clone();
+        
+        new_li.html(header.find('h4').data('breadcrumb'));
+
+        $(li).html("<a href='#'>" + li_text + "</a>");
+        $(li).append("<span class='divider'>/</span>");
+
+        new_li.appendTo('.breadcrumb');
+    }
+});
+
+$('#chat-modal-info').on('hide.bs.modal', function (e) {
+    var header = $(this).find('.talk_header');
+    if (header.length > 0) {
+        $(".breadcrumb").find('li:last-child').remove();
+
+        var li = $(".breadcrumb").find('li:last-child');
+        var text = $(li).find('a').text();
+
+        $(li).html(text);
+    }
+});
+
+
 function getModalInfo(btn, space, space_type) {
 	var url = btn.data('url');
 
@@ -115,6 +144,10 @@ function setChatFormSubmit() {
 
                 new_msgs[data.talk_id].push(data.new_id);
 
+                frm.attr('action', data.new_form_url);
+                $("#short-chat").attr('action', data.new_form_url);
+                $("#send-img").data('url', data.new_form_url);
+
                 $('#chat-modal-form').modal('hide');
             },
             error: function(data) {
@@ -149,6 +182,7 @@ function setShortChatFormSubmit() {
                 dataType: "json",
                 async: false,
                 success: function (data) {
+
                     $('.messages-list').append(data.view);
 
                     $(".messages-container").each(function () {
@@ -165,6 +199,9 @@ function setShortChatFormSubmit() {
 
                     editable.html("");
                     editable.trigger("focusout");
+
+                    frm.attr('action', data.new_form_url);
+                    $("#send-img").data('url', data.new_form_url);
                 },
                 error: function(data) {
                     setShortChatFormSubmit();
@@ -227,7 +264,7 @@ function setFiltersSubmitAndPagination() {
                 loading.hide();
 
                 if (data.count > 0) {
-                    msg_section.append(data.messages);
+                    msg_section.html(data.messages);
 
                     messages.data('pages', data.num_pages);
                     messages.data('page', data.num_page);
@@ -307,3 +344,79 @@ function setFiltersSubmitAndPagination() {
         });
     });
 }
+
+function getParticipants(btn) {
+    var url = btn.attr('href'),
+        content_section = btn.parent().parent().parent().parent().find('.content');
+
+    $.ajax({
+        url: url,
+        success: function (response) {
+            content_section.html(response);
+
+            var items = $('#content-list').children(":visible").length;
+            var holder = content_section.find('.holder');
+
+            if (items > 10) {
+                holder.jPages({
+                    containerID : "content-list",
+                    perPage: 10,
+                    previous: "«",
+                    next: "»",
+                    midRange: 5
+                });
+            }
+        }
+    });
+}
+
+$('.chat-collapse').on('shown.bs.collapse', function(e) {
+    if($(this).is(e.target)){
+        var li = $(".breadcrumb").find('li:last-child');
+        var li_text = $(li).html();
+        var url = $(".cat_url").val();
+        var new_li = $(li).clone();
+        
+        new_li.html($(this).parent().find('.panel-title span').text());
+
+        $(li).html("<a href='" + url + "'>" + li_text + "</a>");
+        $(li).append("<span class='divider'>/</span>");
+
+        new_li.appendTo('.breadcrumb');
+
+        var content_section = $(this).find('.content');
+
+        var url = $(this).data('url');
+
+        $.ajax({
+            url: url,
+            success: function (response) {
+                content_section.html(response);
+
+                var items = $('#content-list').children(":visible").length;
+                var holder = content_section.find('.holder');
+
+                if (items > 10) {
+                    holder.jPages({
+                        containerID : "content-list",
+                        perPage: 10,
+                        previous: "«",
+                        next: "»",
+                        midRange: 5
+                    });
+                }
+            }
+        });
+    }
+});
+
+$('.chat-collapse').on('hidden.bs.collapse', function(e) {
+    if($(this).is(e.target)){
+        $(".breadcrumb").find('li:last-child').remove();
+
+        var li = $(".breadcrumb").find('li:last-child');
+        var text = $(li).find('a').text();
+
+        $(li).html(text);
+    }
+});

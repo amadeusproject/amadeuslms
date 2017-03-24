@@ -15,7 +15,7 @@
 	<div id="core-subjects-options-div">
         <ul class="core-subjects-options chat-tabs">
             <a href="{% url 'chat:manage_general' %}"><li data-chat="general" class="active">{% trans "General" %} (<span>{{ totals.general }}</span>)</li></a>
-            <a href=""><li data-chat="category">{% trans "Per Category" %} (<span>{{ totals.category }}</span>)</li></a>
+            <a href="{% url 'chat:manage_category' %}"><li data-chat="category">{% trans "Per Category" %} (<span>{{ totals.category }}</span>)</li></a>
             <a href=""><li data-chat="subject">{% trans "Per Subject" %} (<span>{{ totals.subject }}</span>)</li></a>
         </ul>
     </div>
@@ -46,7 +46,7 @@
         		</div>
 
                 {% if conversations.count > 0 %}
-            		<div class="panel panel-info panel-body">
+            		<div class="panel category-panel-content panel-body">
                         <h2 class="my-subjects-title"><b>{% trans 'Conversations' %}</b></h2>
 
                         <div class="talks-group">
@@ -70,4 +70,4 @@
     <div class="modal fade" id="chat-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
 
     <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
-  {% endblock %}
+{% endblock %}

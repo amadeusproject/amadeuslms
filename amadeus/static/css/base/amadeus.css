@@ -1538,6 +1538,18 @@ div.dataTables_wrapper div.dataTables_paginate {
     display: none;
 }
 
+.chat-panel {
+    box-shadow: none;
+}
+
+.chat-panel .content {
+    margin-top: 10px;
+}
+
+.chat-panel .chat-collapse {
+    padding: 15px 0px;
+}
+
 @-moz-document url-prefix() {
     .talk_body .checkbox input[type="checkbox"] {
         display: none;

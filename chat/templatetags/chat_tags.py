@@ -53,7 +53,7 @@ def last_message(chat):
 
 @register.filter(name = 'notifies')
 def notifies(chat, user):
-	total = ChatVisualizations.objects.filter(message__talk = chat, user = user).count()
+	total = ChatVisualizations.objects.filter(message__talk = chat, user = user, viewed = False).count()
 
 	return total
 
