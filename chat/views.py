@@ -39,7 +39,7 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
 		user = self.request.user
 		page = self.request.GET.get('page', False)
 
-		conversations = Conversation.objects.filter(Q(user_one = user) | Q(user_two = user))
+		conversations = Conversation.objects.filter((Q(user_one = user) | Q(user_two = user)) & Q(categorytalk__isnull = True) & Q(subjecttalk__isnull = True))
 		
 		self.totals['general'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__generaltalk__isnull = False).count()
 		self.totals['category'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__categorytalk__isnull = False).count()
@@ -88,6 +88,89 @@ class GeneralParticipants(LoginRequiredMixin, generic.ListView):
 		
 		return context
 
+class CategoryIndex(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'chat/list_category.html'
+	context_object_name = "categories"
+	paginate_by = 10
+
+	totals = {}
+
+	def get_queryset(self):
+		user = self.request.user
+		page = self.request.GET.get('page', False)
+
+		if user.is_staff:
+			categories = Category.objects.all()
+		else:
+			categories = Category.objects.filter(Q(coordinators__pk = user.pk) | Q(subject_category__professor__pk = user.pk) | Q(subject_category__students__pk = user.pk, visible = True)).distinct()
+		
+		self.totals['general'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__generaltalk__isnull = False).count()
+		self.totals['category'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__categorytalk__isnull = False).count()
+		self.totals['subject'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__subjecttalk__isnull = False).count()
+
+		return categories
+
+	def get_context_data(self, **kwargs):
+		context = super(CategoryIndex, self).get_context_data(**kwargs)
+
+		context['title'] = _('Messages per Category')
+		context['totals'] = self.totals
+		context['chat_menu_active'] = 'subjects_menu_active'
+		
+		return context
+
+class CategoryTalks(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'chat/_talks_list.html'
+	context_object_name = "conversations"
+
+	def get_queryset(self):
+		user = self.request.user
+		cat = self.kwargs.get('category', 0)
+
+		conversations = CategoryTalk.objects.filter((Q(user_one = user) | Q(user_two = user)) & Q(space__id = cat))
+		
+		print(cat)
+
+		return conversations
+
+	def get_context_data(self, **kwargs):
+		context = super(CategoryTalks, self).get_context_data(**kwargs)
+
+		context['space'] = self.kwargs.get('category', 0)
+		context['space_type'] = 'category'
+		
+		return context
+
+class CategoryParticipants(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'chat/_participants.html'
+	context_object_name = "participants"
+
+	def get_queryset(self):
+		user = self.request.user
+		cat = self.kwargs.get('category', 0)
+		search = self.request.GET.get('search', '')
+
+		users = User.objects.filter((Q(username__icontains = search) | Q(last_name__icontains = search) | Q(social_name__icontains = search) | Q(email__icontains = search)) & (Q(is_staff = True) | Q(subject_student__category__id = cat) | Q(professors__category__id = cat) | Q(coordinators__id = cat))).distinct().order_by('social_name','username').exclude(email = user.email)
+		
+		return users
+
+	def get_context_data(self, **kwargs):
+		context = super(CategoryParticipants, self).get_context_data(**kwargs)
+
+		context['space'] = self.kwargs.get('category', 0)
+		context['space_type'] = 'category'
+		
+		return context
+
 class ParticipantProfile(LoginRequiredMixin, generic.DetailView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
@@ -129,6 +212,9 @@ class GetTalk(LoginRequiredMixin, generic.ListView):
 
 			messages = TalkMessages.objects.filter(talk = talk).order_by('-create_date')
 
+			views = ChatVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(message__talk = talk)))
+			views.update(viewed = True, date_viewed = datetime.now())
+
 		return messages
 
 	def get_context_data(self, **kwargs):
@@ -141,7 +227,7 @@ class GetTalk(LoginRequiredMixin, generic.ListView):
 		context['space'] = self.request.GET.get('space', '0')
 		context['space_type'] = self.request.GET.get('space_type', 'general')
 		context['form'] = ChatMessageForm()
-		context['form_url'] = reverse_lazy('chat:create', args = (), kwargs = {'email': self.kwargs.get('email', ''), 'talk_id': self.talk_id, 'space': self.kwargs.get('space', '0'), 'space_type': self.kwargs.get('space_type', 'general')})
+		context['form_url'] = reverse_lazy('chat:create', args = (), kwargs = {'email': self.kwargs.get('email', ''), 'talk_id': self.talk_id, 'space': self.request.GET.get('space', '0'), 'space_type': self.request.GET.get('space_type', 'general')})
 
 		return context
 
@@ -216,17 +302,19 @@ class SendMessage(LoginRequiredMixin, generic.edit.CreateView):
 		return context
 
 	def get_success_url(self):
-		return reverse_lazy('chat:render_message', args = (self.object.id, ))
+		return reverse_lazy('chat:render_message', args = (self.object.id, self.object.talk.id, self.kwargs.get('space', '0'), self.kwargs.get('space_type', 'general'), self.kwargs.get('email', ''),))
 
-def render_message(request, talk_msg):
+def render_message(request, talk_msg, talk_id, space, space_type, email):
 	msg = get_object_or_404(TalkMessages, id = talk_msg)
 
 	context = {}
 	context['talk_msg'] = msg
 	
+	form_url = reverse_lazy('chat:create', args = (), kwargs = {'email': email, 'talk_id': talk_id, 'space': space, 'space_type': space_type})
+
 	html = render_to_string("chat/_message.html", context, request)
 
-	return JsonResponse({'view': html, 'new_id': msg.id, 'talk_id': msg.talk.id})
+	return JsonResponse({'view': html, 'new_id': msg.id, 'talk_id': msg.talk.id, 'new_form_url': form_url})
 
 @login_required
 def favorite(request, message):
@@ -270,11 +358,6 @@ def load_messages(request, talk):
 
 	has_page = request.GET.get('page', None)
 
-	if has_page is None:
-		views = ChatVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(message__talk__id = talk)))
-		n_views = views.count()
-		views.update(viewed = True, date_viewed = datetime.now())
-
 	paginator = Paginator(messages.order_by("-create_date"), 20)
 
 	try:
@@ -291,4 +374,4 @@ def load_messages(request, talk):
 
 	response = render_to_string("chat/_list_messages.html", context, request)
 
-	return JsonResponse({"messages": response, "unviewed": n_views, "count": messages.count(), "num_pages": paginator.num_pages, "num_page": page_obj.number})
+	return JsonResponse({"messages": response, "count": messages.count(), "num_pages": paginator.num_pages, "num_page": page_obj.number})

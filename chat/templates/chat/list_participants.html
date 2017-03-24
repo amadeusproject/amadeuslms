@@ -17,7 +17,7 @@
 	<div id="core-subjects-options-div">
         <ul class="core-subjects-options mural-tabs">
             <a href="{% url 'chat:manage_general' %}"><li data-chat="general" class="active">{% trans "General" %} (<span>{{ totals.general }}</span>)</li></a>
-            <a href=""><li data-chat="categories">{% trans "Per Category" %} (<span>{{ totals.category }}</span>)</li></a>
+            <a href="{% url 'chat:manage_category' %}"><li data-chat="categories">{% trans "Per Category" %} (<span>{{ totals.category }}</span>)</li></a>
             <a href=""><li data-chat="subjects">{% trans "Per Subject" %} (<span>{{ totals.subject }}</span>)</li></a>
         </ul>
     </div>
