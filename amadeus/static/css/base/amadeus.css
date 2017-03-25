@@ -1344,8 +1344,8 @@ div.dataTables_wrapper div.dataTables_paginate {
     padding: 7px 15px;
 }
 .participant .user-info .status, .modal_profile_sidebar .status {
-    width: 20px;
-    height: 20px;
+    width: 12px;
+    height: 12px;
     border-width: 1px;
     border-style: solid;
     border-radius: 10px;

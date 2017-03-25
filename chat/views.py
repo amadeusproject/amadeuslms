@@ -159,6 +159,8 @@ class CategoryParticipants(LoginRequiredMixin, generic.ListView):
 		cat = self.kwargs.get('category', 0)
 		search = self.request.GET.get('search', '')
 
+		print(search)
+
 		users = User.objects.filter((Q(username__icontains = search) | Q(last_name__icontains = search) | Q(social_name__icontains = search) | Q(email__icontains = search)) & (Q(is_staff = True) | Q(subject_student__category__id = cat) | Q(professors__category__id = cat) | Q(coordinators__id = cat))).distinct().order_by('social_name','username').exclude(email = user.email)
 		
 		return users

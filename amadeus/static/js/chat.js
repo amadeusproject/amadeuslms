@@ -370,6 +370,44 @@ function getParticipants(btn) {
     });
 }
 
+function setSearchSubmit() {
+    var frm = $("#search-participants"),
+        content_section = frm.parent().parent().parent().parent().find('.content');
+
+    frm.submit(function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: {'search': frm.find("input[name='search']").val()},
+            success: function (response) {
+
+                content_section.html(response);
+
+                var items = $('#content-list').children(":visible").length;
+                var holder = content_section.find('.holder');
+
+                if (items > 10) {
+                    holder.jPages({
+                        containerID : "content-list",
+                        perPage: 10,
+                        previous: "«",
+                        next: "»",
+                        midRange: 5
+                    });
+                }
+            },
+            error: function(data) {
+                setSearchSubmit();
+            },
+        });
+
+        return false;
+    });
+}
+
 $('.chat-collapse').on('shown.bs.collapse', function(e) {
     if($(this).is(e.target)){
         var li = $(".breadcrumb").find('li:last-child');
@@ -387,6 +425,8 @@ $('.chat-collapse').on('shown.bs.collapse', function(e) {
         var content_section = $(this).find('.content');
 
         var url = $(this).data('url');
+
+        setSearchSubmit();
 
         $.ajax({
             url: url,
