@@ -335,10 +335,24 @@ Once this is done, the breadcrumbs of the 'Create discipline' page is as follows
 
 
 
+## Docker image
 
+Já tendo o docker instalado para executar o amadeus é preciso executar o seguinte comando:
 
+``` bash
+	sudo docker run -itp 9000:9000 jailsondias/amadeus:0.1
+```
+Depois que ja estiver no ambiente do docker execute os seguintes comandos:
 
+``` bash
+	/etc/init.d/postgresql start
+	/etc/init.d/nginx start
+	cd amadeuslms
+	gunicorn -D amadeus.wsgi:application
+```
+Agora só precisa abrir o navegador com localhost:9000 que vai abrir a página inicial do amadeus
 
+Caso queira sair do docker e continuar com o amadeus executando no container só é preciso apertar crtl + p + q.
 
 
 ## Link's úteis
