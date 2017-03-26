@@ -129,18 +129,22 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         params_data = self.request.GET
         subject = Subject.objects.get(id=params_data['subject_id'])
         context['subject_name'] = subject.name
-        context['topic_name'] = params_data['topic']
+
+        if params_data['topic'] == _("All"):
+            context['topic_name'] = params_data['topic']
+        else:
+            context['topic_name'] = Topic.objects.get(id=int(params_data['topic'])).name
         context['init_date'] = params_data['init_date']
         context['end_date'] = params_data['end_date']
         context['subject'] = subject
-      
+        
         #I used getlist method so it can get more than one tag and one resource class_name
         resources = params_data.getlist('resource')
         tags = params_data.getlist('tag')
         
         self.from_mural = params_data['from_mural']
        
-        context['data'], context['header'] = self.get_mural_data(subject, context['topic_name'], params_data['init_date'], params_data['end_date'],
+        context['data'], context['header'] = self.get_mural_data(subject, params_data['topic'], params_data['init_date'], params_data['end_date'],
             resources, tags )
 
 
@@ -254,7 +258,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                 interactions[_('Number of help posts created by the user others students commented on.')] = help_posts.filter(user=student, id__in = help_posts_ids).count()
 
                 #Number of student visualizations on the mural of the subject
-                interactions[_('Number of student visualizations on the mural of the subject.')] = MuralVisualizations.objects.filter(post__in = SubjectPost.objects.filter(space__id=subject.id),
+                interactions[_('Number of student visualizations on the mural of the subject.')] = MuralVisualizations.objects.filter(post__in = SubjectPost.objects.filter(space__id=subject.id, create_date__range=(init_date, end_date)),
                     user = student).count()
             
 
@@ -285,8 +289,9 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             day_names = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
             distinct_days = 0
             for day_num in day_numbers:
+                #day+1 is because the days are started on 1 instead of the lists, which index starts at 0
                 interactions[_('Number of access to the subject on ')+ day_names[day_num]] =  Log.objects.filter(action="access", resource="subject", 
-                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__week_day = day_num, datetime__range = (init_date, end_date)).count()
+                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__week_day = day_num+1, datetime__range = (init_date, end_date)).count()
                 #to save the distinct days the user has accessed 
                 if interactions[_('Number of access to the subject on ')+ day_names[day_num]] > 0:
                     distinct_days += 1

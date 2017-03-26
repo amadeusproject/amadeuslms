@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% load static i18n pagination permissions_tags %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    
+    {% trans 'Messages per Category' as category %}
+
+    {% breadcrumb category 'chat:manage_category' %}
+{% endblock %}
+
+{% block content %}
+    <input type="hidden" value="{% url 'chat:manage_category' %}" class="cat_url">
+
+	<div id="core-subjects-options-div">
+        <ul class="core-subjects-options chat-tabs">
+            <a href="{% url 'chat:manage_general' %}"><li data-chat="general">{% trans "General" %} (<span>{{ totals.general }}</span>)</li></a>
+            <a href="{% url 'chat:manage_category' %}"><li data-chat="category" class="active">{% trans "Per Category" %} (<span>{{ totals.category }}</span>)</li></a>
+            <a href=""><li data-chat="subject">{% trans "Per Subject" %} (<span>{{ totals.subject }}</span>)</li></a>
+        </ul>
+    </div>
+
+    <div class="col-md-12 cards-content">
+        {% if categories.count > 0 %}
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                {% for category in categories %}
+                    {% category_permissions request.user category as has_category_permissions %}
+                    
+                    {% if category.visible or has_category_permissions %}
+                        {% if category.visible %}
+                            <div class="panel panel-info category-panel chat-panel">
+                                <div class="panel-heading">
+                        {% elif has_category_permissions %}
+                            <div class="panel special-panel">
+                                <div class="panel-heading panel-invisible chat-panel">
+                        {% endif %}
+
+                                <div class="row">
+                                    <div class="col-md-12 category-header">
+                                        <h4 class="panel-title">
+                                            <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{category.slug}}">
+                                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> <span>{{ category.name }}</span>
+
+                                            </a>
+                                        </h4>
+
+                                        <div class="col-md-5 pull-right category-card-items">
+                                            {% if has_category_permissions %}
+                                                <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                </a>
+                                                <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                                                    {% if request.user.is_staff %}
+                                                        <li><a href="{% url 'categories:replicate' category.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i> {% trans 'Replicate' %}</a></li>
+                                                    {% endif %}
+                                                    <li><a href="{% url 'categories:update' category.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> {% trans 'Edit' %}</a></li>
+                                                    <li>
+                                                    <a href="javascript:delete_course.get('{% url 'categories:delete' category.slug %}?view=index','#category','#modal_course')" aria-hidden="true"><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>
+                                                </ul>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="{{category.slug}}" class="panel-collapse panel-body collapse chat-collapse" data-url="{% url 'chat:category_talks' category.id %}">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="col-md-8">
+                                            <form id="search-participants" action="{% url 'chat:participants_category' category.id %}" method="GET" class="form-horizontal">
+                                                <div class="form-group">
+                                                    <div class="col-md-11 col-sm-11 col-xs-11">
+                                                        <input type="text" class="form-control" name="search" value="{{ search }}" placeholder="{% trans 'Search...' %}" />
+                                                    </div>
+                                                    <div class="col-md-1 col-sm-1 col-xs-1">
+                                                        <button type="submit" class="btn btn-fab btn-fab-mini">
+                                                            <i class="fa fa-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a href="{% url 'chat:participants_category' category.id %}" onclick="getParticipants($(this)); return false;" class="pull-right btn btn-default btn-raised btn-md">{% trans 'List all participants' %}</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="content">
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                {% pagination request paginator page_obj %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div id="modal_course"></div>
+
+    <div class="modal fade" id="chat-modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+    <div class="modal fade" id="chat-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+    <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
+{% endblock %}
