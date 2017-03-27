@@ -186,6 +186,10 @@ $('.category-panel-content').on('shown.bs.collapse', function(e) {
                         });
                     }
 
+                    $('[data-toggle="tooltip"]').tooltip({
+                        trigger: 'hover'
+                    });
+
                     bindCollapse();
                 }
             });
@@ -202,6 +206,8 @@ $('.category-panel-content').on('shown.bs.collapse', function(e) {
                 });
             }
         }
+
+
     }
 });
 
