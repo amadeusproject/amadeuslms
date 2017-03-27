@@ -77,3 +77,9 @@ def fav_class(message, user):
 		return "btn_unfav"
 
 	return "btn_fav"
+
+@register.filter(name = 'notifies_category')
+def notifies_category(category, user):
+	total = ChatVisualizations.objects.filter(message__talk__categorytalk__space = category, user = user, viewed = False).count()
+
+	return total
