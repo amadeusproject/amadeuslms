@@ -21,7 +21,7 @@ from topics.models import Topic
 class CreateLinkView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
     log_component = 'resources'
     log_action = 'create'
-    log_resource = 'links'
+    log_resource = 'link'
     log_context = {}
 
     login_url = reverse_lazy("users:login")
@@ -185,7 +185,7 @@ class DeleteLinkView(LoginRequiredMixin, LogMixin, generic.edit.DeleteView):
 class DetailLinkView(LoginRequiredMixin, LogMixin, generic.detail.DetailView):
     log_component = 'resources'
     log_action = 'view'
-    log_resource = 'links'
+    log_resource = 'link'
     log_context = {}
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'

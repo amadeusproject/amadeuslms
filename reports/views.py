@@ -58,7 +58,6 @@ class ReportView(LoginRequiredMixin, generic.FormView):
 
         classes = Resource.__subclasses__()    
 
-
         #set formset
         resourceTagFormSet = formset_factory(ResourceAndTagForm, formset=BaseResourceAndTagFormset)
         resourceTagFormSet = resourceTagFormSet()
@@ -319,26 +318,44 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             distinct_resources = 0
             total_count = 0
             
+            day_numbers = [0, 1, 2, 3, 4, 5, 6]
+            distinct_days = 0
             for resource in resources:
+
                 if isinstance(topics,Topic):
                     #or it selected only one topic to work with
                     count = Log.objects.filter(action="view", resource=resources_types[i].lower(),
                           user_id = student.id, context__contains = {'subject_id': subject.id, 
                           resources_types[i].lower()+'_id': resource.id, 'topic_id': topics.id}, datetime__range=(init_date, end_date)).count()
-                   
+                    
+                    for daynum in day_numbers:
+                        count_temp = Log.objects.filter(action="view", resource=resources_types[i].lower(),
+                              user_id = student.id, context__contains = {'subject_id': subject.id, 
+                              resources_types[i].lower()+'_id': resource.id, 'topic_id': topics.id}, datetime__week_day = day_num+1, datetime__range=(init_date, end_date)).count()
+                        if count_temp > 0:
+                            distinct_days += 1
                 else:
                     #or the user selected all
 
-                     count = Log.objects.filter(action="view", resource=resources_types[i].lower(),
+                    count = Log.objects.filter(action="view", resource=resources_types[i].lower(),
                           user_id = student.id, context__contains = {'subject_id': subject.id, 
                           resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date)).count()
                    
+                    for daynum in day_numbers:
+                        count_temp =  Log.objects.filter(action="view", resource=resources_types[i].lower(),
+                          user_id = student.id, context__contains = {'subject_id': subject.id, 
+                          resources_types[i].lower()+'_id': resource.id}, datetime__week_day = daynum+1,
+                           datetime__range=(init_date, end_date)).count()
+                        if count_temp > 0:
+                            distinct_days += 1
                 if count > 0:
                     distinct_resources += 1
                     total_count += count
                 
             data[str(resources_types[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = total_count
             data["distintic " + str(resources_types[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = distinct_resources
+            data["distintic days " + str(resources_types[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name]  = distinct_days
+
             """data["distinct" + str(resources[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = Log.objects.filter(action="view", resource=resources[i].lower(),
                 user_id = student.id, context__contains = {'subject_id': subject.id}).distinct().count()"""
 
