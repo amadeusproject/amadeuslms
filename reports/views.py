@@ -315,11 +315,15 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                 resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = tags, topic=topics)
             else: 
                 resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = tags, topic__in=topics)
+            
             distinct_resources = 0
             total_count = 0
             
+            #variables to handle distinct days report's variable
             day_numbers = [0, 1, 2, 3, 4, 5, 6]
             distinct_days = 0
+
+            hours_viewed = 0 #youtube video as well as webconference
             for resource in resources:
 
                 if isinstance(topics,Topic):
@@ -328,6 +332,17 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                           user_id = student.id, context__contains = {'subject_id': subject.id, 
                           resources_types[i].lower()+'_id': resource.id, 'topic_id': topics.id}, datetime__range=(init_date, end_date)).count()
                     
+
+                    if resources_types[i].lower() in ["ytvideo", "webconference"]:
+                        watch_times = Log.objects.filter(action="watch", resource=resources_types[i].lower(),user_id = student.id, context__contains = {'subject_id': subject.id, 
+                            resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
+                        if watch_times.count() > 0:
+                            for watch_time in watch_times:
+                                begin_time = timedelta(microseconds = int(watch_time.context['timestamp_start']))
+                                end_time = timedelta(microseconds =  int(watch_time.context['timestamp_end']))
+                                time_delta = end_time - begin_time
+                                hours_viewed +=  time_delta.microseconds/3600 #so it's turned this seconds into hours
+
                     for daynum in day_numbers:
                         count_temp = Log.objects.filter(action="view", resource=resources_types[i].lower(),
                               user_id = student.id, context__contains = {'subject_id': subject.id, 
@@ -341,6 +356,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                           user_id = student.id, context__contains = {'subject_id': subject.id, 
                           resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date)).count()
                    
+
                     for daynum in day_numbers:
                         count_temp =  Log.objects.filter(action="view", resource=resources_types[i].lower(),
                           user_id = student.id, context__contains = {'subject_id': subject.id, 
@@ -348,6 +364,16 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                            datetime__range=(init_date, end_date)).count()
                         if count_temp > 0:
                             distinct_days += 1
+
+                    if resources_types[i].lower() in ["ytvideo", "webconference"]:
+                        watch_times = Log.objects.filter(action="watch", resource=resources_types[i].lower(),user_id = student.id, context__contains = {'subject_id': subject.id, 
+                            resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
+                        if watch_times.count() > 0:
+                            for watch_time in watch_times:
+                                begin_time = timedelta(microseconds = int(watch_time.context['timestamp_start']))
+                                end_time = timedelta(microseconds =  int(watch_time.context['timestamp_end']))
+                                time_delta = end_time - begin_time
+                                hours_viewed +=  time_delta.microseconds/3600 #so it's turned this seconds into hours
                 if count > 0:
                     distinct_resources += 1
                     total_count += count
@@ -355,7 +381,10 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             data[str(resources_types[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = total_count
             data["distintic " + str(resources_types[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = distinct_resources
             data["distintic days " + str(resources_types[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name]  = distinct_days
-
+            
+            if resources_types[i].lower() in ["ytvideo", "webconference"]:
+                data["hours viewed of " + str(resources_types[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = hours_viewed
+                
             """data["distinct" + str(resources[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = Log.objects.filter(action="view", resource=resources[i].lower(),
                 user_id = student.id, context__contains = {'subject_id': subject.id}).distinct().count()"""
 
