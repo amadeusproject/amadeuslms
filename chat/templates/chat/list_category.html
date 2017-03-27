@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load static i18n pagination permissions_tags %}
+{% load static i18n pagination permissions_tags chat_tags %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
@@ -41,7 +41,7 @@
                                     <div class="col-md-12 category-header">
                                         <h4 class="panel-title">
                                             <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{category.slug}}">
-                                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> <span>{{ category.name }}</span>
+                                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{ category.name }} (<span style="margin-left:0px">{{ category|notifies_category:request.user }}</span>)
 
                                             </a>
                                         </h4>
