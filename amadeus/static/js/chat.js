@@ -19,6 +19,7 @@ $('#chat-modal-info').on('show.bs.modal', function (e) {
 $('#chat-modal-info').on('hide.bs.modal', function (e) {
     var header = $(this).find('.talk_header');
     if (header.length > 0) {
+
         $(".breadcrumb").find('li:last-child').remove();
 
         var li = $(".breadcrumb").find('li:last-child');
@@ -347,7 +348,8 @@ function setFiltersSubmitAndPagination() {
 
 function getParticipants(btn) {
     var url = btn.attr('href'),
-        content_section = btn.parent().parent().parent().parent().find('.content');
+        container = btn.parent().parent().parent().parent(),
+        content_section = container.find('.content');
 
     $.ajax({
         url: url,
@@ -366,13 +368,25 @@ function getParticipants(btn) {
                     midRange: 5
                 });
             }
+
+            var li = $(".breadcrumb").find('li:last-child');
+            var li_text = $(li).html();
+            var new_li = $(li).clone();
+            
+            new_li.html(container.data('breadtext'));
+
+            $(li).html("<a href='" + container.data('breadurl') + "'>" + li_text + "</a>");
+            $(li).append("<span class='divider'>/</span>");
+
+            new_li.appendTo('.breadcrumb');
         }
     });
 }
 
 function setSearchSubmit() {
     var frm = $("#search-participants"),
-        content_section = frm.parent().parent().parent().parent().find('.content');
+        container = frm.parent().parent().parent().parent(),
+        content_section = container.find('.content');
 
     frm.submit(function (e) {
         e.preventDefault();
@@ -398,6 +412,17 @@ function setSearchSubmit() {
                         midRange: 5
                     });
                 }
+
+                var li = $(".breadcrumb").find('li:last-child');
+                var li_text = $(li).html();
+                var new_li = $(li).clone();
+                
+                new_li.html(container.data('breadtext'));
+
+                $(li).html("<a href='" + container.data('breadurl') + "'>" + li_text + "</a>");
+                $(li).append("<span class='divider'>/</span>");
+
+                new_li.appendTo('.breadcrumb');
             },
             error: function(data) {
                 setSearchSubmit();
@@ -452,6 +477,13 @@ $('.chat-collapse').on('shown.bs.collapse', function(e) {
 
 $('.chat-collapse').on('hidden.bs.collapse', function(e) {
     if($(this).is(e.target)){
+        var last_txt = $(".breadcrumb").find('li:last-child').text(),
+            participants_bread = $(this).data('breadtext');
+
+        if (last_txt == participants_bread) {
+            $(".breadcrumb").find('li:last-child').remove();            
+        }
+
         $(".breadcrumb").find('li:last-child').remove();
 
         var li = $(".breadcrumb").find('li:last-child');

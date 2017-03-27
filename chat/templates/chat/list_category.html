@@ -64,7 +64,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="{{category.slug}}" class="panel-collapse panel-body collapse chat-collapse" data-url="{% url 'chat:category_talks' category.id %}">
+                            <div id="{{category.slug}}" class="panel-collapse panel-body collapse chat-collapse" data-url="{% url 'chat:category_talks' category.id %}" data-breadurl="{% url 'subjects:cat_view' category.slug %}" data-breadtext="{% trans 'Participants' %}">
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <div class="col-md-8">
