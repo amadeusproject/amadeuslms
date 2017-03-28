@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-24 18:33-0300\n"
+"POT-Creation-Date: 2017-03-28 20:11-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -196,24 +196,67 @@ msgid "Number of access to mural between 0 a.m to 6a.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 24h às 06h."
 
-#: views.py:292 views.py:295
+#: views.py:289
+msgid "sunday"
+msgstr "domingo"
+
+#: views.py:289
+#, fuzzy
+#| msgid "sunday"
+msgid "monday"
+msgstr "domingo"
+
+#: views.py:289
+msgid "tuesday"
+msgstr "terça-feira"
+
+#: views.py:289
+msgid "wednesday"
+msgstr "quarta"
+
+#: views.py:289
+msgid "thursday"
+msgstr "quinta-feira"
+
+#: views.py:290
+msgid "friday"
+msgstr "sexta"
+
+#: views.py:290
+msgid "saturday"
+msgstr "sábado"
+
+#: views.py:294 views.py:297
 msgid "Number of access to the subject on "
 msgstr "Número de acessos ao assunto na(o) "
 
-#: views.py:298
+#: views.py:300
 msgid "Number of distinct days the user access the subject. "
 msgstr "Número de dias distintos que acessou o ambiente virtual da disciplina."
 
-#: views.py:299
+#: views.py:301
 msgid "Class"
 msgstr "Classe"
 
-#: views.py:300
+#: views.py:302
 msgid "Performance"
 msgstr "Desempenho"
 
-#~ msgid "sunday"
-#~ msgstr "domingo"
+#: views.py:414 views.py:415 views.py:416 views.py:419
+msgid " with tag "
+msgstr " com a tag "
+
+#: views.py:415
+msgid "distintic "
+msgstr "distintos "
+
+#: views.py:416
+msgid "distintic days "
+msgstr "dias distintos "
+
+#: views.py:419
+msgid "hours viewed of "
+msgstr "quantidade de horas vistas "
 
 #~ msgid "Topics to select data from"
 #~ msgstr "Tópico do qual os dados serão retirados"

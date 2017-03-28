@@ -286,7 +286,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
 
             #VAR24 through 30
             day_numbers = [0, 1, 2, 3, 4, 5, 6]
-            day_names = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
+            day_names = [str(_("sunday")), str(_("monday")), str(_("tuesday")), str(_("wednesday")), str(_("thursday")), 
+            str(_("friday")), str(_("saturday"))]
             distinct_days = 0
             for day_num in day_numbers:
                 #day+1 is because the days are started on 1 instead of the lists, which index starts at 0
@@ -407,13 +408,15 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                 if count > 0:
                     distinct_resources += 1
                     total_count += count
+
+
                 
-            data[str(resources_types[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = total_count
-            data["distintic " + str(resources_types[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = distinct_resources
-            data["distintic days " + str(resources_types[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name]  = distinct_days
+            data[str(resources_types[i]) + str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name] = total_count
+            data[str(_("distintic ")) + str(resources_types[i]) + str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name] = distinct_resources
+            data[str(_("distintic days ")) + str(resources_types[i]) + str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name]  = distinct_days
             
             if resources_types[i].lower() in ["ytvideo", "webconference"]:
-                data["hours viewed of " + str(resources_types[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = hours_viewed
+                data[str(_("hours viewed of ")) + str(resources_types[i]) + str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name] = hours_viewed
                 
             """data["distinct" + str(resources[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = Log.objects.filter(action="view", resource=resources[i].lower(),
                 user_id = student.id, context__contains = {'subject_id': subject.id}).distinct().count()"""
