@@ -20,6 +20,7 @@ from collections import OrderedDict
 from django.forms import formset_factory
 from .models import ReportCSV, ReportXLS
 import pandas as pd
+import math
 from io import BytesIO
 
 class ReportView(LoginRequiredMixin, generic.FormView):
@@ -333,7 +334,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                           resources_types[i].lower()+'_id': resource.id, 'topic_id': topics.id}, datetime__range=(init_date, end_date)).count()
                     
 
-                    if resources_types[i].lower() in ["ytvideo", "webconference"]:
+                    if resources_types[i].lower() == "ytvideo":
                         watch_times = Log.objects.filter(action="watch", resource=resources_types[i].lower(),user_id = student.id, context__contains = {'subject_id': subject.id, 
                             resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
                         if watch_times.count() > 0:
@@ -343,6 +344,20 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                                 time_delta = end_time - begin_time
                                 hours_viewed +=  time_delta.microseconds/3600 #so it's turned this seconds into hours
 
+                    if resources_types[i].lower() == "webconference":
+                        init_times = Log.objects.filter(action="initwebconference", resource=resources_types[i].lower(), user_id = student.id, context__contains = {'subject_id': subject.id, 
+                            resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
+                        end_times = Log.objects.filter(action="participate", resource=resources_types[i].lower(), user_id = student.id, context__contains = {'subject_id': subject.id, 
+                            resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
+                        if init_times.count() > 0:
+                            j = 0
+                            for init_time in init_times:
+                                begin_time = int(init_time.context['webconference_init'])
+                                end_time =  int(end_times[j].context['webconference_finish'])
+                                j += 1
+                                time_delta = math.fabs(end_time - begin_time)
+                              
+                                hours_viewed +=  time_delta/3600 #so it's turned this seconds into hours
                     for daynum in day_numbers:
                         count_temp = Log.objects.filter(action="view", resource=resources_types[i].lower(),
                               user_id = student.id, context__contains = {'subject_id': subject.id, 
@@ -365,7 +380,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                         if count_temp > 0:
                             distinct_days += 1
 
-                    if resources_types[i].lower() in ["ytvideo", "webconference"]:
+                    if resources_types[i].lower() == "ytvideo":
                         watch_times = Log.objects.filter(action="watch", resource=resources_types[i].lower(),user_id = student.id, context__contains = {'subject_id': subject.id, 
                             resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
                         if watch_times.count() > 0:
@@ -374,6 +389,21 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                                 end_time = timedelta(microseconds =  int(watch_time.context['timestamp_end']))
                                 time_delta = end_time - begin_time
                                 hours_viewed +=  time_delta.microseconds/3600 #so it's turned this seconds into hours
+
+                    if resources_types[i].lower() == "webconference":
+                        init_times = Log.objects.filter(action="initwebconference", resource=resources_types[i].lower(), user_id = student.id, context__contains = {'subject_id': subject.id, 
+                            resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
+                        end_times = Log.objects.filter(action="participate", resource=resources_types[i].lower(), user_id = student.id, context__contains = {'subject_id': subject.id, 
+                            resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
+                        if init_times.count() > 0:
+                            j = 0
+                            for init_time in init_times:
+                                begin_time = int(init_time.context['webconference_init'])
+                                end_time =  int(end_times[j].context['webconference_finish'])
+                                j += 1
+                                time_delta = math.fabs(end_time - begin_time)
+                              
+                                hours_viewed +=  time_delta/3600 #so it's turned this seconds into hours
                 if count > 0:
                     distinct_resources += 1
                     total_count += count
