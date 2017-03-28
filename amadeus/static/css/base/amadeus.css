@@ -1339,7 +1339,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 }
 
 .participant .user-info {
-    padding: 7px 15px;
+    padding: 10px 15px;
 }
 .participant .user-info .status, .modal_profile_sidebar .status {
     width: 12px;
@@ -1483,7 +1483,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 }
 
 .talking-header {
-    line-height: 0.5 !important;
+    line-height: 1.2 !important;
     margin-top: 0px;
 }
 
