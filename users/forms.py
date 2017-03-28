@@ -8,6 +8,8 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
 from resubmit.widgets import ResubmitFileWidget
+from PIL import Image
+
 
 from .models import User
 
@@ -60,8 +62,25 @@ class RegisterUserForm(Validation):
 
     is_edit = False
 
+	#Cropping image
+    x = forms.FloatField(widget=forms.HiddenInput())
+    y = forms.FloatField(widget=forms.HiddenInput())
+    width = forms.FloatField(widget=forms.HiddenInput())
+    height = forms.FloatField(widget=forms.HiddenInput())
+
+
     def save(self, commit=True):
         super(RegisterUserForm, self).save(commit=False)
+
+        x = self.cleaned_data.get('x')
+        y = self.cleaned_data.get('y')
+        w = self.cleaned_data.get('width')
+        h = self.cleaned_data.get('height')
+
+        image = Image.open(self.instance.image)
+        cropped_image = image.crop((x, y, w+x, h+y))
+        resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
+        resized_image.save(self.instance.image.path)
 
         self.instance.set_password(self.cleaned_data['new_password'])
 
@@ -71,7 +90,7 @@ class RegisterUserForm(Validation):
 
     class Meta:
         model = User
-        fields = ['email', 'username', 'last_name', 'social_name', 'image', 'show_email', ]
+        fields = ['email', 'username', 'last_name', 'social_name', 'image', 'show_email', 'x', 'y', 'width', 'height',]
         widgets = {
         	'email': forms.EmailInput(attrs = {'placeholder': _('Email') + ' *'}),
         	'username': forms.TextInput(attrs = {'placeholder': _('Name') + ' *'}),
