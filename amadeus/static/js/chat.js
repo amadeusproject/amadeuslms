@@ -437,7 +437,7 @@ $('.chat-collapse').on('shown.bs.collapse', function(e) {
     if($(this).is(e.target)){
         var li = $(".breadcrumb").find('li:last-child');
         var li_text = $(li).html();
-        var url = $(".cat_url").val();
+        var url = $(".item_url").val();
         var new_li = $(li).clone();
         
         new_li.html($(this).parent().find('.panel-title .item_name').text());

@@ -283,8 +283,8 @@ function messageReceived(content) {
 		var item = $("#" + content.space);
 
 		if (typeof(item) != "undefined") {
-			var span = item.parent().find('span:not(.item_name)'),
-					actual = span.text();
+			var span = item.parent().find('span.item_badge'),
+				actual = span.text();
 
 			actual = parseInt(actual, 10) + 1;
 
