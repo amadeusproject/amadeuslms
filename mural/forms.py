@@ -1,6 +1,6 @@
 # coding=utf-8
 from django import forms
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, pgettext_lazy
 from django.utils.html import strip_tags
 from django.db.models import Q
 
@@ -12,6 +12,11 @@ from .models import GeneralPost, CategoryPost, SubjectPost, Comment
 
 class Validation(forms.ModelForm):
 	MAX_UPLOAD_SIZE = 5*1024*1024
+
+	def __init__(self, *args, **kwargs):
+		super(Validation, self).__init__(*args, **kwargs)
+		CHOICES = (("comment", pgettext_lazy("form","Comment")), ("help", pgettext_lazy("form","Ask for Help")))
+		self.fields['action'].choices = CHOICES
 
 	def clean_post(self):
 		post = self.cleaned_data.get('post', '')
@@ -38,9 +43,11 @@ class Validation(forms.ModelForm):
 
 
 class GeneralPostForm(Validation):
+
 	class Meta:
 		model = GeneralPost
 		fields = ['action', 'post', 'image']
+
 		widgets = {
 			'action': forms.RadioSelect,
 			'post': forms.Textarea,

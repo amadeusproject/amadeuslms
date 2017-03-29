@@ -1,7 +1,7 @@
 from django.db import models
 from django.core import validators
 from django.core.exceptions import ValidationError
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, pgettext_lazy
 
 from topics.decorators import always_as_child
 
@@ -12,13 +12,13 @@ from users.models import User
 
 def validate_img_extension(value):
 	valid_formats = ['image/jpeg','image/x-citrix-jpeg','image/png','image/x-citrix-png','image/x-png']
-	
+
 	if hasattr(value.file, 'content_type'):
 		if not value.file.content_type in valid_formats:
 			raise ValidationError(_('File not supported.'))
 
 class Mural(KnowsChild):
-	action = models.CharField(_('Action'), max_length = 100, default = "comment", choices = (("comment", _("Comment")), ("help", _("Ask for Help"))))
+	action = models.CharField(_('Action'), max_length = 100, default = "comment", choices = (("comment", pgettext_lazy("modal","Comment")), ("help", pgettext_lazy("modal","Ask for Help"))))
 	post = models.TextField(_('Post'), blank = True)
 	image = models.ImageField(verbose_name = _('Image'), null=True, blank = True, upload_to = 'posts/', validators = [validate_img_extension])
 	user = models.ForeignKey(User, verbose_name = _('User'), related_name = "post_user", null = True)

@@ -11,7 +11,7 @@
 			{{ comment.user }}
 			<span class="user-action">
 				<i class="fa fa-commenting-o"></i>
-				{% trans 'Comment' %}
+				{% trans 'Comment' context "view" %}
 			</span>
 			{% if comment|show_settings_comment:request.user %}
 				<span class="btn-group pull-right">
