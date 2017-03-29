@@ -73,9 +73,9 @@
 					{% render_field form.image %}
 
 				    <div class="filedrag">
-			    		{% trans 'Click or drop the file here' %}<br />
+			    		{% trans 'Click or drop the picture here' %}<br />
 
-			      		<small>{% trans 'The file could not exceed 5MB.' %}</small>
+			      		<small>{% trans 'The picture could not exceed 5MB.' %}</small>
 			  		</div>
 
 					<span id="helpBlock" class="help-block">{{ form.image.help_text }}</span>
@@ -97,7 +97,7 @@
 		</div>
 		<div class="modal-footer">
 			<div class="col-md-12">
-				<button type="submit" id="button" form="post-form" class="btn btn-success btn-raised post-button pull-left">{% trans "Save" %}</button>
+				<button type="submit" id="button" form="post-form" class="btn btn-success btn-raised post-button pull-left">{% trans "Post" context "button"%}</button>
 				<button type="button" class="btn btn-raised btn-default pull-right" data-dismiss="modal">{% trans "Cancel" %}</button>
 			</div>
 		</div>

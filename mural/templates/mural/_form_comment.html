@@ -11,7 +11,7 @@
 					{% render_field form.comment class='form-control text_simple_wysiwyg' %}
 
 					<span id="helpBlock" class="help-block">{{ form.post.help_text }}</span>
-						
+
 					{% if form.comment.errors %}
 						<div class="alert alert-danger alert-dismissible" role="alert">
 								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -28,7 +28,7 @@
 
 				<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
 					{% render_field form.image %}
-					
+
 					<div class="input-group common-file-input">
 				      	<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your photo...' %}">
 				      	<span class="input-group-btn input-group-sm">
@@ -39,13 +39,13 @@
 				    </div>
 
 				    <div class="filedrag">
-			    		{% trans 'Click or drop the file here' %}<br />
-			      		
-			      		<small>{% trans 'The file could not exceed 5MB.' %}</small>
+			    		{% trans 'Click or drop the picture here' %}<br />
+
+			      		<small>{% trans 'The picture could not exceed 5MB.' %}</small>
 			  		</div>
 
 					<span id="helpBlock" class="help-block">{{ form.image.help_text }}</span>
-						
+
 					{% if form.image.errors %}
 						<div class="alert alert-danger alert-dismissible" role="alert">
 								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -63,7 +63,7 @@
 		</div>
 		<div class="modal-footer">
 			<div class="col-md-12">
-				<button type="submit" id="button" form="comment-form" class="btn btn-success btn-raised post-button pull-left">{% trans "Save" %}</button>
+				<button type="submit" id="button" form="comment-form" class="btn btn-success btn-raised post-button pull-left">{% trans "Comment" %}</button>
 				<button type="button" class="btn btn-raised btn-default pull-right" data-dismiss="modal">{% trans "Cancel" %}</button>
 			</div>
 		</div>
@@ -118,7 +118,7 @@
 
 			      		$(node).addClass('marked_user');
 			      		$(node).html(value);
-			      		
+
 			      		var code = context.invoke('code');
 
 			      		var new_code = $(code).append(node).append("&nbsp;");
@@ -130,7 +130,7 @@
 			    }
 	  		});
 
-		  	return button.render();   // return button as jquery object 
+		  	return button.render();   // return button as jquery object
 		}
 
 		$('.text_simple_wysiwyg').summernote({
@@ -155,7 +155,7 @@
 	});
 
 	var typingSearchTimer;                //timer identifier
-	var doneTypingSearchInterval = 1000; 
+	var doneTypingSearchInterval = 1000;
 
 	function typing_search(field) {
 		clearTimeout(typingSearchTimer);
@@ -178,7 +178,7 @@
 	function searchUsers (field) {
 		var url = $('.suggestions').data('url'),
 			param = field.val();
-	    
+
 	    $.ajax({
 	    	url: url,
 	    	data: {'param': param},
@@ -206,7 +206,7 @@
 		var small = $("#id_image"),
 			filedrag = $(".filedrag"),
 			common = $(".common-file-input");
-			
+
 		// file select
 		small.on("change", FileSelectHandler);
 

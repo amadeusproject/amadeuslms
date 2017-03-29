@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-09 17:01-0300\n"
+"POT-Creation-Date: 2017-03-28 22:35-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,13 +39,14 @@ msgid "Action"
 msgstr "Ação"
 
 #: mural/models.py:21 mural/models.py:105 mural/models.py:119
+#: mural/templates/mural/_form_comment.html:66
 #: mural/templates/mural/_view_comment.html:14
 msgid "Comment"
-msgstr "Comentou"
+msgstr "Comentar"
 
 #: mural/models.py:21
 msgid "Ask for Help"
-msgstr "Pediu ajuda"
+msgstr "Pedir ajuda"
 
 #: mural/models.py:22 mural/models.py:107 mural/models.py:118
 #: mural/models.py:127
@@ -95,18 +96,24 @@ msgstr ""
 
 #: mural/templates/mural/_form.html:76
 #: mural/templates/mural/_form_comment.html:42
-msgid "Click or drop the file here"
-msgstr "Clique ou solte o arquivo aqui"
+#, fuzzy
+#| msgid "Click or drop the file here"
+msgid "Click or drop the picture here"
+msgstr "Clique ou solte a imagem aqui"
 
 #: mural/templates/mural/_form.html:78
 #: mural/templates/mural/_form_comment.html:44
-msgid "The file could not exceed 5MB."
-msgstr "O arquivo não pode exceder 5MB."
+#, fuzzy
+#| msgid "The file could not exceed 5MB."
+msgid "The picture could not exceed 5MB."
+msgstr "A imagem não pode exceder 5MB."
 
 #: mural/templates/mural/_form.html:100
-#: mural/templates/mural/_form_comment.html:66
-msgid "Save"
-msgstr "Salvar"
+#, fuzzy
+#| msgid "Post"
+msgctxt "button"
+msgid "Post"
+msgstr "Postar"
 
 #: mural/templates/mural/_form.html:101
 #: mural/templates/mural/_form_comment.html:67
@@ -364,3 +371,6 @@ msgstr "Seu comentário foi editado com sucesso!"
 #: mural/views.py:1519
 msgid "Comment deleted successfully!"
 msgstr "Comentário deletado com sucesso!"
+
+#~ msgid "Save"
+#~ msgstr "Salvar"
