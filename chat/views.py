@@ -233,6 +233,18 @@ class SubjectParticipants(LoginRequiredMixin, generic.ListView):
 
 	template_name = 'chat/_participants.html'
 	context_object_name = "participants"
+	paginate_by = None
+
+	def dispatch(self, request, *args,**kwargs):
+		typep = self.request.GET.get('type', '')
+
+		if not typep == 'modal':
+			subject = get_object_or_404(Subject, id = kwargs.get('subject', 0))
+
+			if not has_subject_view_permissions(request.user, subject):
+				return redirect(reverse_lazy('subjects:home'))
+
+		return super(SubjectParticipants, self).dispatch(request, *args, **kwargs)
 
 	def get_queryset(self):
 		user = self.request.user
@@ -240,11 +252,27 @@ class SubjectParticipants(LoginRequiredMixin, generic.ListView):
 		search = self.request.GET.get('search', '')
 
 		users = User.objects.filter((Q(username__icontains = search) | Q(last_name__icontains = search) | Q(social_name__icontains = search) | Q(email__icontains = search)) & (Q(is_staff = True) | Q(subject_student__id = sub) | Q(professors__id = sub) | Q(coordinators__subject_category__id = sub))).distinct().order_by('social_name','username').exclude(email = user.email)
-		
+	
+		typep = self.request.GET.get('type', '')
+
+		if not typep == 'modal':
+			self.paginate_by = 10
+
 		return users
 
 	def get_context_data(self, **kwargs):
 		context = super(SubjectParticipants, self).get_context_data(**kwargs)
+
+		typep = self.request.GET.get('type', '')
+
+		if not typep == 'modal':
+			sub = self.kwargs.get('subject', 0)
+			subject = get_object_or_404(Subject, id = sub)
+
+			context['subject'] = subject
+			context['search'] = self.request.GET.get('search', '')
+			context['title'] = _('%s - Participants')%(str(subject))
+			self.template_name = 'chat/subject_view_participants.html'
 
 		context['space'] = self.kwargs.get('subject', 0)
 		context['space_type'] = 'subject'

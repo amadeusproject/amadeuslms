@@ -369,11 +369,18 @@ function getParticipants(btn) {
                 });
             }
 
-            var li = $(".breadcrumb").find('li:last-child');
-            var li_text = $(li).html();
+            var li = $(".breadcrumb").find('li:last-child'),
+                li_text = $(li).html(),
+                new_li_text = container.data('breadtext');
+
+            if (li_text == new_li_text) {
+
+                $(".breadcrumb").find('li:last-child').remove();
+            }
+
             var new_li = $(li).clone();
-            
-            new_li.html(container.data('breadtext'));
+                        
+            new_li.html(new_li_text);
 
             $(li).html("<a href='" + container.data('breadurl') + "'>" + li_text + "</a>");
             $(li).append("<span class='divider'>/</span>");
@@ -413,11 +420,17 @@ function setSearchSubmit() {
                     });
                 }
 
-                var li = $(".breadcrumb").find('li:last-child');
-                var li_text = $(li).html();
+                var li = $(".breadcrumb").find('li:last-child'),
+                    li_text = $(li).html(),
+                    new_li_text = container.data('breadtext');
+
+                if (li_text == new_li_text) {
+                    $(".breadcrumb").find('li:last-child').remove();
+                }
+
                 var new_li = $(li).clone();
-                
-                new_li.html(container.data('breadtext'));
+                            
+                new_li.html(new_li_text);
 
                 $(li).html("<a href='" + container.data('breadurl') + "'>" + li_text + "</a>");
                 $(li).append("<span class='divider'>/</span>");

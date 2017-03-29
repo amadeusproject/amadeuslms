@@ -68,7 +68,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <div class="col-md-8">
-                                            <form id="search-participants" action="{% url 'chat:participants_subject' subject.id %}" method="GET" class="form-horizontal">
+                                            <form id="search-participants" action="{% url 'chat:participants_subject' subject.id %}?type=modal" method="GET" class="form-horizontal">
                                                 <div class="form-group">
                                                     <div class="col-md-11 col-sm-11 col-xs-11">
                                                         <input type="text" class="form-control" name="search" value="{{ search }}" placeholder="{% trans 'Search...' %}" />
@@ -82,7 +82,7 @@
                                             </form>
                                         </div>
                                         <div class="col-md-4">
-                                            <a href="{% url 'chat:participants_subject' subject.id %}" onclick="getParticipants($(this)); return false;" class="pull-right btn btn-default btn-raised btn-md">{% trans 'List all participants' %}</a>
+                                            <a href="{% url 'chat:participants_subject' subject.id %}?type=modal" onclick="getParticipants($(this)); return false;" class="pull-right btn btn-default btn-raised btn-md">{% trans 'List all participants' %}</a>
                                         </div>
                                     </div>
                                 </div>
