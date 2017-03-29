@@ -4,33 +4,28 @@
 <div class="modal fade" id="subject-subscribe" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <!-- Modal Header -->
-      <div class="modal-header">
-
-        <h4 class="modal-title" id="myModalLabel">{% trans "Subscribe To Subject" %}</h4>
-      </div>
-      <!-- Modal Body -->
+           <!-- Modal Body -->
       <div class="modal-body">
         <!-- Put ONLY your content here!!!  -->
-    <form id="subscribe" action="" method="post">
-      {% csrf_token %}
-        <p>{% trans 'Are you sure you want to subscribe to the subject' %} "{{subject.name}}"?</p>
-    </form>
+        <form id="subscribe" action="" method="post">
+          {% csrf_token %}
+          <p>{% trans 'Are you sure you want to subscribe to the subject' %} "{{subject.name}}"?</p>
+        </form>
       </div>
       <!-- Modal Footer -->
-      <div class="modal-footer">
+      <div id="delete-category-footer"class="modal-footer">
         <!-- Don't remove that!!!  -->
         <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">{% trans "Cancel" %}</button>
-        <button type="submit" id="button" form="subscribe" class="btn btn-success btn-raised">{% trans "Ok" %}</button>
+        <button type="submit" id="button" form="subscribe" class="btn btn-success btn-raised erase-button">{% trans "Ok" %}</button>
 
-       
+        {% if index %}
         <script>
           $("#subscribe").submit(function(event) {
             SubscribeSubject.subscribe("{% url 'subjects:subscribe' subject.slug %}",$(this).serialize(),"#subject_{{subject.slug}}");
             event.preventDefault();
           });
         </script>
-        
+        {% endif %}
       </div>
     </div>
   </div>
