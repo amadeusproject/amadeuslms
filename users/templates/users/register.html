@@ -12,6 +12,7 @@
 {% block sidebar %}
 {% endblock sidebar %}
 
+
 {% block content %}
 	<div class="row">
 		<div class="col-lg-offset-1 col-md-offset-1">
@@ -40,7 +41,7 @@
 						</div>
 					</div>
 
-					<form class="{% if form.has_error %} has-error {% endif %} form-horizontal is-fileinput" method="post" enctype="multipart/form-data">
+					<form class="{% if form.has_error %} has-error {% endif %} form-horizontal is-fileinput" method="post" enctype="multipart/form-data" id="formUpload">
 						{% csrf_token %}
 						{% for field in form %}
 							<div class="col-lg-12 col-md-12 col-sm-12">
@@ -49,7 +50,7 @@
 										{% if field.auto_id == 'id_image' %}
 											{% render_field field class='form-control' %}
 											<div class="input-group">
-							                    <input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your photo...' %}">
+							                    <input type="text" readonly="" class="form-control" id="pic_holder" placeholder="{% trans 'Choose your photo...' %}">
 							                    <span class="input-group-btn">
 							                        <button type="button" class="btn btn-fab btn-fab-mini">
 							                          	<i class="material-icons">image</i>
@@ -97,6 +98,9 @@
 			</div>
 		</div>
 	</div>
+
+{% include 'users/modal_crop.html'  %}
+
 {% endblock %}
 
 {% block bottommenu %}
