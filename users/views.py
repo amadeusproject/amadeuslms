@@ -247,6 +247,7 @@ class DeleteView(braces_mixins.LoginRequiredMixin, LogMixin, generic.DeleteView)
 	def get_context_data(self, **kwargs):
 		context = super(DeleteView, self).get_context_data(**kwargs)
 		context['title'] = _('Delete Account')
+		context['email'] = self.kwargs.get('email', None)
 
 		return context
 

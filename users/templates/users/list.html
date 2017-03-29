@@ -54,7 +54,7 @@
                     <div class="col-md-6">
                         <p><b>{% trans 'Name' %}:</b> {{ acc }}</p>
                         <p><b>{% trans 'Email' %}:</b> {{ acc.email }}</p>
-                        <p><b>{% trans 'Description' %}:</b> 
+                        <p><b>{% trans 'Description' %}:</b>
                             {% autoescape off %}
                                 {{ acc.description|default:_("Not Informed")|striptags|truncatechars:300 }}
                             {% endautoescape %}
@@ -63,7 +63,7 @@
                     <div class="col-md-3">
                         <div align="right">
                             <a href="{% url 'users:update' acc.email %}" class="btn btn-success btn-raised btn-sm"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
-                            <a href="{% url 'users:delete' acc.email %}" class="btn btn-default btn-raised btn-sm"><i class="fa fa-trash"></i> {% trans 'Delete' %}</a>
+                            <a href="javascript:delete_subject.get('{% url 'users:delete' acc.email %}','#users','#modal_remove')" class="btn btn-default btn-raised btn-sm"><i class="fa fa-trash"></i> {% trans 'Delete' %}</a>
                         </div>
                     </div>
                 </div>
@@ -77,4 +77,7 @@
             </div>
         </div>
     {% endif %}
+    <div id="modal_remove">
+
+    </div>
 {% endblock %}

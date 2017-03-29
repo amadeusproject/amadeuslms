@@ -44,7 +44,8 @@
 	<script type="text/javascript" src="{% static 'js/alertify.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/jscookie.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jPages.js' %}"></script>
-    <script type="text/javascript" src="{% static "js/d3.min.js" %}"></script>
+    <script type="text/javascript" src="{% static 'js/d3.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
 
   	<!-- Font awesome -->
 	<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
@@ -151,7 +152,7 @@
                             <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                             <li><a href="{% url 'users:edit_profile' %}">{% trans 'Edit Profile' %}</a></li>
                             <li><a href="{% url 'users:change_pass' %}">{% trans 'Change Password' %}</a></li>
-                            <li><a href="{% url 'users:remove_acc' %}">{% trans 'Delete Account' %}</a></li>
+                            <li><a href="javascript:delete_subject.get('{% url 'users:remove_acc' %}','#remove_account','#remove_acc')">{% trans 'Delete Account' %}</a></li>
                             <li><a href="{% url 'users:logout' %}">{% trans 'Logout' %}</a></li>
                         </ul>
                     </li>
@@ -306,6 +307,9 @@
 
           });
         </script>
+				<div id="remove_acc">
+
+				</div>
 </body>
 
 </html>
