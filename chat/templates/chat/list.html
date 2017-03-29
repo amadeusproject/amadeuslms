@@ -16,7 +16,7 @@
         <ul class="core-subjects-options chat-tabs">
             <a href="{% url 'chat:manage_general' %}"><li data-chat="general" class="active">{% trans "General" %} (<span>{{ totals.general }}</span>)</li></a>
             <a href="{% url 'chat:manage_category' %}"><li data-chat="category">{% trans "Per Category" %} (<span>{{ totals.category }}</span>)</li></a>
-            <a href=""><li data-chat="subject">{% trans "Per Subject" %} (<span>{{ totals.subject }}</span>)</li></a>
+            <a href="{% url 'chat:manage_subject' %}"><li data-chat="subject">{% trans "Per Subject" %} (<span>{{ totals.subject }}</span>)</li></a>
         </ul>
     </div>
 
@@ -54,6 +54,9 @@
                                 {% include 'chat/_view.html' with space="0" space_type='general' %}
                             {% endfor %}
                         </div>
+                        
+                        {% pagination request paginator page_obj %}
+                    
                     </div>
                 {% else %}
         			<div class="text-center no-subjects">

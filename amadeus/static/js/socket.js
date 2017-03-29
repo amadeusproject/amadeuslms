@@ -283,12 +283,29 @@ function messageReceived(content) {
 		var item = $("#" + content.space);
 
 		if (typeof(item) != "undefined") {
-			var span = item.parent().find('span:not(.item_name)'),
-					actual = span.text();
+			var span = item.parent().find('span.item_badge'),
+				actual = span.text();
 
 			actual = parseInt(actual, 10) + 1;
 
 			span.text(actual);
+		}
+
+		if (content.subtype == "subject") {
+			var subject_cbadge = $("#subject_" + content.space).find('.chat_notify'),
+				actual = subject_cbadge.text();
+
+			if (actual != "+99") {
+				actual = parseInt(actual, 10) + 1;
+
+				if (actual > 99) {
+					actual = "+99";
+				}
+
+				subject_cbadge.text(actual);
+			}
+
+			subject_cbadge.show();
 		}
 	}
 

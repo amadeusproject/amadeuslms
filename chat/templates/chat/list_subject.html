@@ -6,69 +6,69 @@
 {% block breadcrumbs %}
     {{ block.super }}
     
-    {% trans 'Messages per Category' as category %}
+    {% trans 'Messages per Subject' as subject %}
 
-    {% breadcrumb category 'chat:manage_category' %}
+    {% breadcrumb subject 'chat:manage_category' %}
 {% endblock %}
 
 {% block content %}
-    <input type="hidden" value="{% url 'chat:manage_category' %}" class="item_url">
+    <input type="hidden" value="{% url 'chat:manage_subject' %}" class="item_url">
 
-	<div id="core-subjects-options-div">
+    <div id="core-subjects-options-div">
         <ul class="core-subjects-options chat-tabs">
             <a href="{% url 'chat:manage_general' %}"><li data-chat="general">{% trans "General" %} (<span>{{ totals.general }}</span>)</li></a>
-            <a href="{% url 'chat:manage_category' %}"><li data-chat="category" class="active">{% trans "Per Category" %} (<span>{{ totals.category }}</span>)</li></a>
-            <a href="{% url 'chat:manage_subject' %}"><li data-chat="subject">{% trans "Per Subject" %} (<span>{{ totals.subject }}</span>)</li></a>
+            <a href="{% url 'chat:manage_category' %}"><li data-chat="category">{% trans "Per Category" %} (<span>{{ totals.category }}</span>)</li></a>
+            <a href="{% url 'chat:manage_subject' %}"><li data-chat="subject" class="active">{% trans "Per Subject" %} (<span>{{ totals.subject }}</span>)</li></a>
         </ul>
     </div>
 
     <div class="col-md-12 cards-content">
-        {% if categories.count > 0 %}
+        {% if subjects.count > 0 %}
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                {% for category in categories %}
-                    {% category_permissions request.user category as has_category_permissions %}
-                    
-                    {% if category.visible or has_category_permissions %}
-                        {% if category.visible %}
-                            <div class="panel panel-info category-panel chat-panel">
-                                <div class="panel-heading">
-                        {% elif has_category_permissions %}
-                            <div class="panel special-panel">
-                                <div class="panel-heading panel-invisible chat-panel">
-                        {% endif %}
+                {% for subject in subjects %}
+                    {% subject_permissions request.user subject as has_subject_permissions %}
 
+                    {% if subject.visible or has_subject_permissions %}
+                        {% if subject.visible %}
+                            <div class="panel panel-info subject-panel chat-panel">
+                                <div class="panel-heading">
+                        {% elif has_subject_permissions %}
+                            <div class="panel panel-info subject-panel-invisible chat-panel">
+                                <div class="panel-heading panel-invisible">
+                        {% endif %}
                                 <div class="row">
                                     <div class="col-md-12 category-header">
                                         <h4 class="panel-title">
-                                            <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{category.slug}}">
-                                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> <span class="item_name">{{ category.name }}</span> (<span class="item_badge" style="margin-left:0px">{{ category|notifies_category:request.user }}</span>)
+                                            <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{subject.slug}}">
+                                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> <span class="item_name">{{ subject }}</span>
 
+                                                (<span class="item_badge" style="margin-left:0px">{{ subject|notifies_subject:request.user }}</span>)
                                             </a>
                                         </h4>
 
                                         <div class="col-md-5 pull-right category-card-items">
-                                            {% if has_category_permissions %}
+                                            {% if has_subject_permissions %}
                                                 <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
                                                     <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                 </a>
                                                 <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-                                                    {% if request.user.is_staff %}
-                                                        <li><a href="{% url 'categories:replicate' category.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i> {% trans 'Replicate' %}</a></li>
+                                                    {% if request.user not in subject.professor.all %}
+                                                        <li><a href="{% url 'subjects:replicate' subject.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
                                                     {% endif %}
-                                                    <li><a href="{% url 'categories:update' category.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> {% trans 'Edit' %}</a></li>
-                                                    <li>
-                                                    <a href="javascript:delete_course.get('{% url 'categories:delete' category.slug %}?view=index','#category','#modal_course')" aria-hidden="true"><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>
+                                                    <li><a href="{% url 'subjects:update' subject.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+                                                    <li><a href="{% url 'groups:index' subject.slug %}"><i class="fa fa-group fa-fw" aria-hidden="true"></i>{% trans 'Groups' %}</a></li>
+                                                    <li><a href="javascript:delete_subject.get('{% url 'subjects:delete' subject.slug %}?view=index','#subject','#modal_subject')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
                                                 </ul>
                                             {% endif %}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div id="{{category.slug}}" class="panel-collapse panel-body collapse chat-collapse" data-url="{% url 'chat:category_talks' category.id %}" data-breadurl="{% url 'subjects:cat_view' category.slug %}" data-breadtext="{% trans 'Participants' %}">
+                            <div id="{{subject.slug}}" class="panel-collapse panel-body collapse chat-collapse"data-url="{% url 'chat:subject_talks' subject.id %}" data-breadurl="{% url 'subjects:view' subject.slug %}" data-breadtext="{% trans 'Participants' %}">
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <div class="col-md-8">
-                                            <form id="search-participants" action="{% url 'chat:participants_category' category.id %}" method="GET" class="form-horizontal">
+                                            <form id="search-participants" action="{% url 'chat:participants_subject' subject.id %}" method="GET" class="form-horizontal">
                                                 <div class="form-group">
                                                     <div class="col-md-11 col-sm-11 col-xs-11">
                                                         <input type="text" class="form-control" name="search" value="{{ search }}" placeholder="{% trans 'Search...' %}" />
@@ -82,7 +82,7 @@
                                             </form>
                                         </div>
                                         <div class="col-md-4">
-                                            <a href="{% url 'chat:participants_category' category.id %}" onclick="getParticipants($(this)); return false;" class="pull-right btn btn-default btn-raised btn-md">{% trans 'List all participants' %}</a>
+                                            <a href="{% url 'chat:participants_subject' subject.id %}" onclick="getParticipants($(this)); return false;" class="pull-right btn btn-default btn-raised btn-md">{% trans 'List all participants' %}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +99,7 @@
         {% endif %}
     </div>
 
-    <div id="modal_course"></div>
+    <div id="modal_subject"></div>
 
     <div class="modal fade" id="chat-modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
 
@@ -107,4 +107,5 @@
 
     <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
+    <script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
 {% endblock %}

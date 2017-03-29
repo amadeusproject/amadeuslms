@@ -83,3 +83,9 @@ def notifies_category(category, user):
 	total = ChatVisualizations.objects.filter(message__talk__categorytalk__space = category, user = user, viewed = False).count()
 
 	return total
+
+@register.filter(name = 'notifies_subject')
+def notifies_subject(subject, user):
+	total = ChatVisualizations.objects.filter(message__talk__subjecttalk__space = subject, user = user, viewed = False).count()
+
+	return total

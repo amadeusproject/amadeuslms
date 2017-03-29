@@ -2,6 +2,7 @@ import datetime
 from django import template
 from django.db.models import Q
 
+from chat.models import ChatVisualizations
 from mural.models import MuralVisualizations
 from notifications.models import Notification
 
@@ -35,6 +36,15 @@ def mural_number(subject, user):
 
 	context['number'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space = subject) | Q(comment__post__subjectpost__space = subject))).count()
 	context['custom_class'] = 'mural_notify'
+	
+	return context
+
+@register.inclusion_tag('subjects/badge.html')
+def chat_number(subject, user):
+	context = {}
+
+	context['number'] = ChatVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & Q(message__talk__subjecttalk__space = subject)).count()
+	context['custom_class'] = 'chat_notify'
 	
 	return context
 
