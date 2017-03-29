@@ -54,6 +54,9 @@
                                 {% include 'chat/_view.html' with space="0" space_type='general' %}
                             {% endfor %}
                         </div>
+                        
+                        {% pagination request paginator page_obj %}
+                    
                     </div>
                 {% else %}
         			<div class="text-center no-subjects">

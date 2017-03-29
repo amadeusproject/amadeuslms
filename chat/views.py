@@ -15,6 +15,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
+from amadeus.permissions import has_subject_view_permissions
+
 from channels import Group
 import json
 
@@ -37,7 +39,6 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
 
 	def get_queryset(self):
 		user = self.request.user
-		page = self.request.GET.get('page', False)
 
 		conversations = Conversation.objects.filter((Q(user_one = user) | Q(user_two = user)) & Q(categorytalk__isnull = True) & Q(subjecttalk__isnull = True))
 		
@@ -247,6 +248,42 @@ class SubjectParticipants(LoginRequiredMixin, generic.ListView):
 
 		context['space'] = self.kwargs.get('subject', 0)
 		context['space_type'] = 'subject'
+		
+		return context
+
+class SubjectView(LoginRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	template_name = 'chat/subject_view.html'
+	context_object_name = "conversations"
+	paginate_by = 10
+
+	def dispatch(self, request, *args,**kwargs):
+		subject = get_object_or_404(Subject, slug = kwargs.get('slug', ''))
+
+		if not has_subject_view_permissions(request.user, subject):
+			return redirect(reverse_lazy('subjects:home'))
+
+		return super(SubjectView, self).dispatch(request, *args, **kwargs)
+
+	def get_queryset(self):
+		user = self.request.user
+		slug = self.kwargs.get('slug')
+		subject = get_object_or_404(Subject, slug = slug)
+
+		conversations = SubjectTalk.objects.filter((Q(user_one = user) | Q(user_two = user)) & Q(space = subject))
+
+		return conversations
+
+	def get_context_data(self, **kwargs):
+		context = super(SubjectView, self).get_context_data(**kwargs)
+
+		slug = self.kwargs.get('slug', None)
+		subject = get_object_or_404(Subject, slug = slug)
+
+		context['title'] = _('%s - Messages')%(str(subject))
+		context['subject'] = subject
 		
 		return context
 

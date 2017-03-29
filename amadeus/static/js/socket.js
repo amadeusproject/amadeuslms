@@ -290,6 +290,23 @@ function messageReceived(content) {
 
 			span.text(actual);
 		}
+
+		if (content.subtype == "subject") {
+			var subject_cbadge = $("#subject_" + content.space).find('.chat_notify'),
+				actual = subject_cbadge.text();
+
+			if (actual != "+99") {
+				actual = parseInt(actual, 10) + 1;
+
+				if (actual > 99) {
+					actual = "+99";
+				}
+
+				subject_cbadge.text(actual);
+			}
+
+			subject_cbadge.show();
+		}
 	}
 
 	if (("Notification" in window)) {

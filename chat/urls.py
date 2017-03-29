@@ -5,6 +5,7 @@ urlpatterns = [
 	url(r'^$', views.GeneralIndex.as_view(), name='manage_general'),
 	url(r'^categories/$', views.CategoryIndex.as_view(), name='manage_category'),
 	url(r'^subjects/$', views.SubjectIndex.as_view(), name='manage_subject'),
+	url(r'^subject/(?P<slug>[\w_-]+)/$', views.SubjectView.as_view(), name='subject_view'),
 	url(r'^participants/$', views.GeneralParticipants.as_view(), name='participants_general'),
 	url(r'^category/talks/(?P<category>[\w_-]+)/$', views.CategoryTalks.as_view(), name='category_talks'),
 	url(r'^category/participants/(?P<category>[\w_-]+)/$', views.CategoryParticipants.as_view(), name='participants_category'),

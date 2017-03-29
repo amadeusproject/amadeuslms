@@ -61,7 +61,10 @@
                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                             {% notifies_number subject request.user %}
                         </a>
-                        <a href="" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Messages' %}"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+                        <a href="{% url 'chat:subject_view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Messages' %}">
+                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                            {% chat_number subject request.user %}
+                        </a>
                         <a href="{% url 'mural:subject_view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Mural' %}">
                             <i class="fa fa-list" aria-hidden="true"></i>
                             {% mural_number subject request.user %}
