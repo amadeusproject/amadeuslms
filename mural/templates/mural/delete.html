@@ -1,20 +1,20 @@
-{% load i18n %}
+{% load static i18n permission_tags %}
 
 <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-body">
-            <form id="delete_form" action="{{ form_url }}" method="post">
-                {% csrf_token %}
-                <h4>{{ message }}</h4>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <div class="pull-right">
-                <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
-            </div>
-            <div class="pull-left">
-                <button type="submit" form="delete_form" class="btn btn-success btn-raised">{% trans "Delete" %}</button>
-            </div>
-        </div>
+  <div class="modal-content">
+         <!-- Modal Body -->
+    <div class="modal-body">
+      <!-- Put ONLY your content here!!!  -->
+      <form id="delete_form" action="{{ form_url }}" method="post">
+        {% csrf_token %}
+        <h4>{{ message }}</h4>
+      </form>
     </div>
+    <!-- Modal Footer -->
+    <div id="delete-category-footer"class="modal-footer">
+      <!-- Don't remove that!!!  -->
+      <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+      <button type="submit" id="button" form="delete_form" class="btn btn-success btn-raised erase-button">{% trans "Delete" %}</button>
+    </div>
+  </div>
 </div>
