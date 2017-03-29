@@ -64,7 +64,7 @@
 			$("#id_y").val(cropData["y"]);
 			$("#id_height").val(cropData["height"]);
 			$("#id_width").val(cropData["width"]);
-			$("#formUpload").submit();
+			$("#modalCrop").modal('hide');
 		});
 
 	});
@@ -182,8 +182,8 @@
 	            <span class="glyphicon glyphicon-zoom-out"></span>
 	          </button>
 	        </div>
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Nevermind</button>
-	        <button type="button" class="btn btn-primary js-crop-and-upload">Crop and upload</button>
+	        <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">{% trans 'Cancel' %}</button>
+	        <button type="button" class="btn btn-success btn-raised post-button js-crop-and-upload">{% trans 'Crop' %} </button>
 	      </div>
 	    </div>
 	  </div>
