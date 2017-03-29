@@ -279,6 +279,17 @@ function messageReceived(content) {
 				span.text(actual);
 			}
 		});
+
+		var item = $("#" + content.space);
+
+		if (typeof(item) != "undefined") {
+			var span = item.parent().find('span:not(.item_name)'),
+					actual = span.text();
+
+			actual = parseInt(actual, 10) + 1;
+
+			span.text(actual);
+		}
 	}
 
 	if (("Notification" in window)) {

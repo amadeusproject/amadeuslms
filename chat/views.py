@@ -277,9 +277,21 @@ class SendMessage(LoginRequiredMixin, generic.edit.CreateView):
 		if self.object.image:
 			simple_notify += " ".join(_("[Photo]"))
 
+		subclass = self.object.talk._my_subclass
+
+		if subclass == "generaltalk":
+			space_type = "general"
+		elif subclass == "categorytalk":
+			space_type = "category"
+			space = self.object.talk.categorytalk.space.slug
+		else:
+			space_type = "subject"
+			space = self.object.talk.subjecttalk.space.slug
+
 		notification = {
 			"type": "chat",
 			"subtype": space_type,
+			"space": space,
 			"user_icon": self.object.user.image_url,
 			"notify_title": str(self.object.user),
 			"simple_notify": simple_notify,

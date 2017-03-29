@@ -41,7 +41,7 @@
                                     <div class="col-md-12 category-header">
                                         <h4 class="panel-title">
                                             <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{category.slug}}">
-                                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{ category.name }} (<span style="margin-left:0px">{{ category|notifies_category:request.user }}</span>)
+                                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> <span class="item_name">{{ category.name }}</span> (<span style="margin-left:0px">{{ category|notifies_category:request.user }}</span>)
 
                                             </a>
                                         </h4>

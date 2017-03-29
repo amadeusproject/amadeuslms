@@ -440,7 +440,7 @@ $('.chat-collapse').on('shown.bs.collapse', function(e) {
         var url = $(".cat_url").val();
         var new_li = $(li).clone();
         
-        new_li.html($(this).parent().find('.panel-title span').text());
+        new_li.html($(this).parent().find('.panel-title .item_name').text());
 
         $(li).html("<a href='" + url + "'>" + li_text + "</a>");
         $(li).append("<span class='divider'>/</span>");
