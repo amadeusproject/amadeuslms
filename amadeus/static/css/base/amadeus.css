@@ -1430,12 +1430,13 @@ div.dataTables_wrapper div.dataTables_paginate {
 .message-sender-container .user-img {
     padding: 0px;
     height: 46px;
+    text-align: center;
 }
 .message-sender-container .user-img img {
     max-height: 46px;
 }
 .message-sender-container .message-field {
-    padding-left: 10px;
+    padding-left: 5px;
     padding-right: 0px;
     min-height: 46px;
     max-height: 90px;
