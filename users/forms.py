@@ -102,9 +102,25 @@ class RegisterUserForm(Validation):
 
 class ProfileForm(Validation):
 	is_edit = True
+	#Cropping image
+	x = forms.FloatField(widget=forms.HiddenInput(),required=False)
+	y = forms.FloatField(widget=forms.HiddenInput(),required=False)
+	width = forms.FloatField(widget=forms.HiddenInput(),required=False)
+	height = forms.FloatField(widget=forms.HiddenInput(),required=False)
+
 
 	def save(self, commit=True):
 		super(ProfileForm, self).save(commit=False)
+		x = self.cleaned_data.get('x')
+		y = self.cleaned_data.get('y')
+		w = self.cleaned_data.get('width')
+		h = self.cleaned_data.get('height')
+
+		if self.instance.image :
+			image = Image.open(self.instance.image)
+			cropped_image = image.crop((x, y, w+x, h+y))
+			resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
+			resized_image.save(self.instance.image.path)
 
 		self.instance.save()
 
@@ -134,9 +150,26 @@ class UserForm(Validation):
 	new_password = forms.CharField(label = _('Password'), widget = forms.PasswordInput(render_value = True), required = False)
 	password2 = forms.CharField(label = _('Confirm Password'), widget = forms.PasswordInput(render_value = True), required = False)
 
+	#Cropping image
+	x = forms.FloatField(widget=forms.HiddenInput(),required=False)
+	y = forms.FloatField(widget=forms.HiddenInput(),required=False)
+	width = forms.FloatField(widget=forms.HiddenInput(),required=False)
+	height = forms.FloatField(widget=forms.HiddenInput(),required=False)
 
 	def save(self, commit=True):
 		super(UserForm, self).save(commit=False)
+
+		x = self.cleaned_data.get('x')
+		y = self.cleaned_data.get('y')
+		w = self.cleaned_data.get('width')
+		h = self.cleaned_data.get('height')
+
+		if self.instance.image :
+			image = Image.open(self.instance.image)
+			cropped_image = image.crop((x, y, w+x, h+y))
+			resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
+			resized_image.save(self.instance.image.path)
+
 
 		if not self.is_edit or self.cleaned_data['new_password'] != '':
 			self.instance.set_password(self.cleaned_data['new_password'])
