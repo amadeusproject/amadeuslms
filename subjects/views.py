@@ -558,7 +558,9 @@ class SubjectSubscribeView(LoginRequiredMixin, LogMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         subject = get_object_or_404(Subject, slug= kwargs.get('slug'))
 
-        if subject.subscribe_end < datetime.datetime.today().date():
+        print ("Deu Certo     ",    subject)
+
+        if subject.subscribe_end <= datetime.datetime.today().date():
             messages.error(self.request, _('Subscription date is due!'))
         else:
             self.log_context['category_id'] = subject.category.id
@@ -574,7 +576,7 @@ class SubjectSubscribeView(LoginRequiredMixin, LogMixin, TemplateView):
             subject.save()
             messages.success(self.request, _('Subscription was successfull!'))
 
-        return JsonResponse({'url':reverse_lazy('subjects:index')})
+        return redirect(reverse_lazy('subjects:view',kwargs={"slug": subject.slug}))
 
 
 class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):

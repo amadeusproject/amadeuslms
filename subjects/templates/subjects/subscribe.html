@@ -7,7 +7,7 @@
            <!-- Modal Body -->
       <div class="modal-body">
         <!-- Put ONLY your content here!!!  -->
-        <form id="subscribe" action="" method="post">
+        <form id="subscribe" action="{% url 'subjects:subscribe' subject.slug %}" method="post">
           {% csrf_token %}
           <p>{% trans 'Are you sure you want to subscribe to the subject' %} "{{subject.name}}"?</p>
         </form>
