@@ -66,8 +66,17 @@
                         {% autoescape off %}
                             {{ group.description }}
                         {% endautoescape %}
+                        {% if group.participants.count  >= 0 %}
+                            {% if group.participants.count == 0 %}
+                                <h4>{% trans 'No participants' %}  </h4>
+                            {% elif group.participants.count  == 1%}
+                                <h4>{% trans 'Participant' %}:  </h4>
+                            {% else %}
+                                <h4>{% trans 'Participants' %}:  </h4>
+                            {% endif %}
+                        {% endif %}
 
-                        <h4>{% trans 'Participant(s)' %}: </h4>
+
 
                         <ul class="list-inline">
                             {% for user in group.participants.all %}
