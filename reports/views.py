@@ -22,6 +22,7 @@ from .models import ReportCSV, ReportXLS
 import pandas as pd
 import math
 from io import BytesIO
+import os
 
 class ReportView(LoginRequiredMixin, generic.FormView):
     template_name = "reports/create.html"
@@ -165,6 +166,10 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             report = ReportXLS.objects.get(user=self.request.user)
             report.delete()
         
+        folder_path = join(settings.MEDIA_ROOT, 'files')
+        #check if the folder already exists
+        if not os.path.isdir(folder_path):
+            os.makedirs(folder_path)
         path = join(settings.MEDIA_ROOT, 'files' , 'report'+str(self.request.user.id)+'.xls')
         writer = pd.ExcelWriter(path)
         df.to_excel(writer, sheet_name='first_sheet')
