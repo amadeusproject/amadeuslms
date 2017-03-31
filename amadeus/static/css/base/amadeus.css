@@ -1566,38 +1566,13 @@ div.dataTables_wrapper div.dataTables_paginate {
 }
 
 #participants {
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
-    -o-transform: rotate(-90deg);
-    transform: rotate(-90deg);
-
-    /* also accepts left, right, top, bottom coordinates; not required, but a good idea for styling */
-    -webkit-transform-origin: 90% 140%;
-    -moz-transform-origin: 90% 140%;
-    -ms-transform-origin: 90% 140%;
-    -o-transform-origin: 90% 140%;
-    transform-origin: 90% 140%;
-
-    /* Should be unset in IE9+ I think. */
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-
     position: absolute;
-    top: -25px;
-    right: -20px;
+    top: 5px;
+    right: 0px;
     cursor: pointer;
     padding: 5px;
     border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-}
-
-#participants.open {
-    -webkit-transform-origin: 95% 140%;
-    -moz-transform-origin: 95% 140%;
-    -ms-transform-origin: 95% 140%;
-    -o-transform-origin: 95% 140%;
-    transform-origin: 95% 140%;
-    width: 200px;
+    border-bottom-left-radius: 5px;
 }
 
 #participants h4 {

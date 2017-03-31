@@ -82,8 +82,8 @@
 
             {% include 'topics/list.html' with subject=subject %}
             
-            <div id="participants">
-                <h4>{% trans 'Participants' %}</h4>
+            <div id="participants" data-toggle="tooltip" data-title="{% trans 'Participants' %}">
+                <i class="fa fa-group"></i>
             </div>
 
             <div class="participants-list">
@@ -190,7 +190,7 @@
                 
                 if ($this.hasClass('open')) {
                     $this.animate({
-                        right : '-20px'
+                        right : '0px'
                     }, 500);
 
                     list.animate({
@@ -201,7 +201,7 @@
                     $this.removeClass('open');
                 } else {
                     $this.animate({
-                        right : "295px"
+                        right : "317"
                     }, 500).addClass('open');
 
                     list.animate({
