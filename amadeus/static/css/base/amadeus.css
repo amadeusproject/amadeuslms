@@ -1,3 +1,7 @@
+body {
+    overflow-x: hidden;
+}
+
 ul, li {
     list-style-type: none;
     text-decoration: none;
@@ -1557,7 +1561,8 @@ div.dataTables_wrapper div.dataTables_paginate {
     position: absolute;
     top: 5px;
     right: -315px;
-    overflow-y: auto
+    overflow-y: auto;
+    opacity: 0;
 }
 
 #participants {
@@ -1579,12 +1584,11 @@ div.dataTables_wrapper div.dataTables_paginate {
 
     position: absolute;
     top: -25px;
-    right: -25px;
+    right: -20px;
     cursor: pointer;
     padding: 5px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    
 }
 
 #participants.open {

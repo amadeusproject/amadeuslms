@@ -73,7 +73,7 @@
                 </div>
             </div>
         </div>
-        <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content" style="overflow:hidden;position: relative">
+        <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content" style="position: relative">
             <p>{{subject.description|safe}}</p>
 
             {% if has_subject_permissions %}
@@ -190,11 +190,12 @@
                 
                 if ($this.hasClass('open')) {
                     $this.animate({
-                        right : '-25px'
+                        right : '-20px'
                     }, 500);
 
                     list.animate({
-                        right : '-315px'
+                        right : '-315px',
+                        opacity: 0
                     }, 500);
 
                     $this.removeClass('open');
@@ -204,7 +205,8 @@
                     }, 500).addClass('open');
 
                     list.animate({
-                        right : 0
+                        right : 0,
+                        opacity: 1
                     }, 500);
                 }
             });
