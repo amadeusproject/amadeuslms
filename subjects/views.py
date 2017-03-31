@@ -513,6 +513,10 @@ class SubjectDetailView(LoginRequiredMixin, LogMixin, DetailView):
         context = super(SubjectDetailView, self).get_context_data(**kwargs)
         context['title'] = self.object.name
 
+        sub = self.kwargs.get('slug', '')
+
+        context['participants'] = User.objects.filter(Q(is_staff = True) | Q(subject_student__slug = sub) | Q(professors__slug = sub) | Q(coordinators__subject_category__slug = sub)).distinct().order_by('social_name','username').exclude(email = self.request.user.email)
+
         resources = self.request.session.get('resources', None)
 
         if resources:

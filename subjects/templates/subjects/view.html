@@ -1,6 +1,6 @@
 {% extends 'categories/home.html' %}
 
-{% load static i18n pagination permissions_tags subject_counter %}
+{% load static i18n pagination permissions_tags subject_counter chat_tags %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% block javascript%}
@@ -74,18 +74,65 @@
             </div>
         </div>
         <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
-            <p>{{subject.description|safe}}</p>
+            <div class="row">
+                <div class="col-md-9">
+                    <p>{{subject.description|safe}}</p>
 
-            {% if has_subject_permissions %}
-                <a href="{% url 'topics:create' subject.slug %}" class="btn btn-sm btn-success btn-raised btn-block">{% trans "Create new topic" %}</a>
-            {% endif %}
+                    {% if has_subject_permissions %}
+                        <a href="{% url 'topics:create' subject.slug %}" class="btn btn-sm btn-success btn-raised btn-block">{% trans "Create new topic" %}</a>
+                    {% endif %}
 
-            {% include 'topics/list.html' with subject=subject %}
+                    {% include 'topics/list.html' with subject=subject %}
+                </div>
+                <div class="col-md-3 participants-list">
+                    <h2 class="my-subjects-title subject-participants-label"><b>{% trans 'Participants' %}</b></h2>
+                    
+                    <div class="subject-participants">
+                        {% for participant in participants %}
+                            {% is_online participant as status %}
+
+                            <div class="participants-container">
+                                <div class="col-md-12 sub-user" data-toggle="popover" data-placement="left">
+                                    <h4><a class="status {{ status }}" data-placement="right" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
+                                </div>
+
+                                <div class="popover">
+                                    <div class="popover-content participant">
+                                        <button type="button" class="close" aria-label="{% trans 'Close' %}"><span aria-hidden="true">&times;</span></button>
+
+                                        <br clear="all" />
+
+                                        <div class="col-md-3 user-img">
+                                            <img src="{{ participant.image_url }}" class="img-responsive" />
+                                        </div>
+                                        <div class="col-md-9 user-info">
+                                            <h4><a class="status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
+                                        </div>
+                                    </div>
+                                    <div class="popover-footer">
+                                        <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:profile" participant.email %}' class="btn btn-default btn-sm btn-raised pull-left">
+                                            {% trans 'See Profile' %}
+                                        </a>
+                                        <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:talk" participant.email %}' class="btn btn-success btn-sm btn-raised pull-right">
+                                            {% trans 'Send Message' %}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-     <div id="modal_subject"></div>
+    <div id="modal_subject"></div>
 
+    <div class="modal fade" id="chat-modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+    <div class="modal fade" id="chat-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+    <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
 
     <script type="text/javascript">
         {% if resource_new_page %}
@@ -102,6 +149,29 @@
                     scrollTop: $("#" + topic_slug).parent().offset().top
                 }, 1000);
             }
+
+            $('[data-toggle="popover"]').popover({
+                html: true,
+                content: function () {
+                    return $(this).parent().find(".popover").html();
+                }
+            }).on('show.bs.popover', function (e) {
+                $('[data-toggle="popover"]').not(e.target).popover('hide');
+            }).on('shown.bs.popover', function (e) {
+                if($(this).is(e.target)){
+                    var popover = $(this),
+                        buttons = popover.parent().find('a'),
+                        close = popover.parent().find('.close:visible');
+                 
+                    close.on("click", function () {
+                        popover.popover('hide');
+                    }); 
+
+                    buttons.on("click", function () {
+                        popover.popover('hide');
+                    })
+                }
+            });
         });
     </script>
 {% endblock content %}

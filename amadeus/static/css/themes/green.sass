@@ -648,15 +648,15 @@ a.add-row
 .modal_profile_sidebar h4, .message-view .message-user
     color: #26A69A
 
-.participant .user-info .status, .modal_profile_sidebar .status
+.participant .user-info .status, .modal_profile_sidebar .status, .subject-participants .status
     border-color: #888
     background-color: $default-white
 
 
-.participant .user-info .status.active, .modal_profile_sidebar .status.active
+.participant .user-info .status.active, .modal_profile_sidebar .status.active, .subject-participants .status.active
     background-color: #59b75c
 
-.participant .user-info .status.away, .modal_profile_sidebar .status.away
+.participant .user-info .status.away, .modal_profile_sidebar .status.away, .subject-participants .status.away
     background-color: #DAA520
 
 .messages-container
@@ -688,6 +688,12 @@ a.add-row
 
 .chat-panel .chat-collapse
     background: #EEE
+
+.subject-participants-label
+    border-bottom-color: #DDD
+
+.subject-participants .sub-user:hover
+    background-color: #CCCCCC
 
 @media(max-width: 768px) 
     .navbar .navbar-nav .dropdown .dropdown-menu li > a 

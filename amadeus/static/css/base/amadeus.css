@@ -1341,7 +1341,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 .participant .user-info {
     padding: 10px 15px;
 }
-.participant .user-info .status, .modal_profile_sidebar .status {
+.participant .user-info .status, .modal_profile_sidebar .status, .subject-participants .status {
     width: 12px;
     height: 12px;
     border-width: 1px;
@@ -1547,6 +1547,28 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 .chat-panel .chat-collapse {
     padding: 15px 0px;
+}
+
+.subject-participants-label {
+    padding-bottom: 5px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.subject-participants .sub-user {
+    cursor: pointer;
+}
+
+.participants-container .popover {
+    max-width: 330px;
+}
+
+.participants-container .popover-content {
+    padding: 9px 5px;
+}
+
+.participants-container .popover-content h4 {
+    font-size: 16px;
 }
 
 @-moz-document url-prefix() {
