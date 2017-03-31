@@ -30,7 +30,7 @@ from django.core.mail import EmailMessage
 from django.core.mail.backends.smtp import EmailBackend
 
 from mailsender.models import MailSender
-
+import os
 #API IMPORTS
 from rest_framework import viewsets
 from .serializers import UserSerializer
@@ -209,6 +209,8 @@ class DeleteView(braces_mixins.LoginRequiredMixin, LogMixin, generic.DeleteView)
 		email = self.kwargs.get('email', None)
 		user = self.get_object()
 
+
+
 		if email is None:
 			self.log_action = 'remove_account'
 
@@ -233,11 +235,12 @@ class DeleteView(braces_mixins.LoginRequiredMixin, LogMixin, generic.DeleteView)
 			redirect_url = redirect(error_url)
 		else:
 			self.log_context['dependencies'] = False
-
+			image_path_to_delete = user.image.path
 			user.delete()
 
 			messages.success(self.request, success_msg)
-
+			#deleting the user image
+			os.remove(image_path_to_delete)
 			redirect_url = redirect(success_url)
 
 		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
