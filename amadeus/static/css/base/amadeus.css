@@ -1575,13 +1575,6 @@ div.dataTables_wrapper div.dataTables_paginate {
     border-bottom-left-radius: 5px;
 }
 
-#participants h4 {
-    font-size: 14px;
-    font-weight: 700;
-    margin-top: 2px;
-    margin-bottom: 2px; 
-}
-
 .participants-list .subject-participants {
     width: 300px;
 }
