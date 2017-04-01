@@ -6,10 +6,11 @@ from rolepermissions.shortcuts import assign_role
 from django.contrib.auth import update_session_auth_hash
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
-
+from os.path import join
 from resubmit.widgets import ResubmitFileWidget
 from PIL import Image
-
+import os
+from amadeus import settings
 
 from .models import User
 
@@ -71,6 +72,7 @@ class RegisterUserForm(Validation):
 
     def save(self, commit=True):
         super(RegisterUserForm, self).save(commit=False)
+        self.deletepath = ""
 
         x = self.cleaned_data.get('x')
         y = self.cleaned_data.get('y')
@@ -81,12 +83,22 @@ class RegisterUserForm(Validation):
 	        image = Image.open(self.instance.image)
 	        cropped_image = image.crop((x, y, w+x, h+y))
 	        resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
+
+	        folder_path = join(settings.MEDIA_ROOT, 'users')
+	        #check if the folder already exists
+	        if not os.path.isdir(folder_path):
+	            os.makedirs(folder_path)
+
+	        if ("users" not in self.instance.image.path):
+	            self.deletepath = self.instance.image.path
+
 	        resized_image.save(self.instance.image.path)
 
         self.instance.set_password(self.cleaned_data['new_password'])
 
         self.instance.save()
-
+        if (self.deletepath):
+	        os.remove(self.deletepath)
         return self.instance
 
     class Meta:
@@ -111,6 +123,7 @@ class ProfileForm(Validation):
 
 	def save(self, commit=True):
 		super(ProfileForm, self).save(commit=False)
+		self.deletepath = ""
 		x = self.cleaned_data.get('x')
 		y = self.cleaned_data.get('y')
 		w = self.cleaned_data.get('width')
@@ -120,10 +133,20 @@ class ProfileForm(Validation):
 			image = Image.open(self.instance.image)
 			cropped_image = image.crop((x, y, w+x, h+y))
 			resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
+
+			folder_path = join(settings.MEDIA_ROOT, 'users')
+	        #check if the folder already exists
+			if not os.path.isdir(folder_path):
+				os.makedirs(folder_path)
+
+			if ("users" not in self.instance.image.path):
+				self.deletepath = self.instance.image.path
+
 			resized_image.save(self.instance.image.path)
 
 		self.instance.save()
-
+		if (self.deletepath):
+		    os.remove(self.deletepath)
 		return self.instance
 
 	class Meta:
@@ -158,6 +181,7 @@ class UserForm(Validation):
 
 	def save(self, commit=True):
 		super(UserForm, self).save(commit=False)
+		self.deletepath = ""		
 
 		x = self.cleaned_data.get('x')
 		y = self.cleaned_data.get('y')
@@ -168,6 +192,15 @@ class UserForm(Validation):
 			image = Image.open(self.instance.image)
 			cropped_image = image.crop((x, y, w+x, h+y))
 			resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
+
+			folder_path = join(settings.MEDIA_ROOT, 'users')
+	        #check if the folder already exists
+			if not os.path.isdir(folder_path):
+				os.makedirs(folder_path)
+
+			if ("users" not in self.instance.image.path):
+				self.deletepath = self.instance.image.path
+
 			resized_image.save(self.instance.image.path)
 
 
@@ -175,7 +208,8 @@ class UserForm(Validation):
 			self.instance.set_password(self.cleaned_data['new_password'])
 
 		self.instance.save()
-
+		if (self.deletepath):
+			os.remove(self.deletepath)
 		return self.instance
 
 	class Meta:

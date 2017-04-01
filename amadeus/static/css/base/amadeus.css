@@ -1,3 +1,7 @@
+body {
+    overflow-x: hidden;
+}
+
 ul, li {
     list-style-type: none;
     text-decoration: none;
@@ -1549,26 +1553,35 @@ div.dataTables_wrapper div.dataTables_paginate {
     padding: 15px 0px;
 }
 
-.subject-participants-label {
-    padding-bottom: 5px;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
+.participants-list {
+    height: 200px;
+    max-height: 200px;
+    width: 315px;
+    float: right;
+    position: absolute;
+    top: 5px;
+    right: -315px;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
 }
 
-.subject-participants .sub-user {
+#participants {
+    position: absolute;
+    top: 5px;
+    right: 0px;
     cursor: pointer;
+    padding: 8px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
 
-.participants-container .popover {
-    max-width: 330px;
+.participants-list .subject-participants {
+    width: 300px;
 }
 
-.participants-container .popover-content {
-    padding: 9px 5px;
-}
-
-.participants-container .popover-content h4 {
-    font-size: 16px;
+.participants-container {
+    cursor: pointer;
 }
 
 @-moz-document url-prefix() {

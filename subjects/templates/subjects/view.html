@@ -73,54 +73,53 @@
                 </div>
             </div>
         </div>
-        <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
-            <div class="row">
-                <div class="col-md-9">
-                    <p>{{subject.description|safe}}</p>
+        <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content" style="position: relative">
+            <p>{{subject.description|safe}}</p>
 
-                    {% if has_subject_permissions %}
-                        <a href="{% url 'topics:create' subject.slug %}" class="btn btn-sm btn-success btn-raised btn-block">{% trans "Create new topic" %}</a>
-                    {% endif %}
+            {% if has_subject_permissions %}
+                <a href="{% url 'topics:create' subject.slug %}" class="btn btn-sm btn-success btn-raised btn-block">{% trans "Create new topic" %}</a>
+            {% endif %}
 
-                    {% include 'topics/list.html' with subject=subject %}
-                </div>
-                <div class="col-md-3 participants-list">
-                    <h2 class="my-subjects-title subject-participants-label"><b>{% trans 'Participants' %}</b></h2>
-                    
-                    <div class="subject-participants">
-                        {% for participant in participants %}
-                            {% is_online participant as status %}
+            {% include 'topics/list.html' with subject=subject %}
+            
+            <div id="participants" data-toggle="tooltip" data-title="{% trans 'Participants' %}">
+                <i class="fa fa-group"></i>
+            </div>
 
-                            <div class="participants-container">
-                                <div class="col-md-12 sub-user" data-toggle="popover" data-placement="left">
-                                    <h4><a class="status {{ status }}" data-placement="right" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
+            <div class="participants-list">
+                <div class="subject-participants">
+                    {% for participant in participants %}
+                        {% is_online participant as status %}
+
+                        <div class="participants-container">
+                            <div class="col-md-12 sub-user" data-toggle="popover" data-container="body" data-placement="left">
+                                <h4><a class="status {{ status }}" data-placement="right" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
+                            </div>
+
+                            <div class="popover">
+                                <div class="popover-content participant">
+                                    <button type="button" class="close" aria-label="{% trans 'Close' %}"><span aria-hidden="true">&times;</span></button>
+
+                                    <br clear="all" />
+
+                                    <div class="col-md-3 user-img">
+                                        <img src="{{ participant.image_url }}" class="img-responsive" />
+                                    </div>
+                                    <div class="col-md-9 user-info">
+                                        <h4><a class="status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
+                                    </div>
                                 </div>
-
-                                <div class="popover">
-                                    <div class="popover-content participant">
-                                        <button type="button" class="close" aria-label="{% trans 'Close' %}"><span aria-hidden="true">&times;</span></button>
-
-                                        <br clear="all" />
-
-                                        <div class="col-md-3 user-img">
-                                            <img src="{{ participant.image_url }}" class="img-responsive" />
-                                        </div>
-                                        <div class="col-md-9 user-info">
-                                            <h4><a class="status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
-                                        </div>
-                                    </div>
-                                    <div class="popover-footer">
-                                        <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:profile" participant.email %}' class="btn btn-default btn-sm btn-raised pull-left">
-                                            {% trans 'See Profile' %}
-                                        </a>
-                                        <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:talk" participant.email %}' class="btn btn-success btn-sm btn-raised pull-right">
-                                            {% trans 'Send Message' %}
-                                        </a>
-                                    </div>
+                                <div class="popover-footer">
+                                    <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:profile" participant.email %}' class="btn btn-default btn-sm btn-raised pull-left">
+                                        {% trans 'See Profile' %}
+                                    </a>
+                                    <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:talk" participant.email %}' class="btn btn-success btn-sm btn-raised pull-right">
+                                        {% trans 'Send Message' %}
+                                    </a>
                                 </div>
                             </div>
-                        {% endfor %}
-                    </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -159,10 +158,22 @@
                 $('[data-toggle="popover"]').not(e.target).popover('hide');
             }).on('shown.bs.popover', function (e) {
                 if($(this).is(e.target)){
-                    var popover = $(this),
+                    var popover = $(".popover.fade.in"),
                         buttons = popover.parent().find('a'),
                         close = popover.parent().find('.close:visible');
-                 
+    
+                    popover.animate({
+                        'max-width': '330px',
+                    }, 0);
+
+                    popover.find('.popover-content').animate({
+                        padding: '9px 5px',
+                    }, 0);
+
+                    popover.find('h4').animate({
+                        'font-size': '16px',
+                    }, 0);
+
                     close.on("click", function () {
                         popover.popover('hide');
                     }); 
@@ -170,6 +181,33 @@
                     buttons.on("click", function () {
                         popover.popover('hide');
                     })
+                }
+            });
+
+            $('#participants').on('click', function(){
+                var $this = $(this),
+                    list = $this.parent().find(".participants-list");
+                
+                if ($this.hasClass('open')) {
+                    $this.animate({
+                        right : '0px'
+                    }, 500);
+
+                    list.animate({
+                        right : '-315px',
+                        opacity: 0
+                    }, 500).css({visibility: 'hidden'});
+
+                    $this.removeClass('open');
+                } else {
+                    $this.animate({
+                        right : "317"
+                    }, 500).addClass('open');
+
+                    list.animate({
+                        right : 0,
+                        opacity: 1
+                    }, 500).css({visibility: 'visible'});
                 }
             });
         });

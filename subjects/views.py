@@ -5,6 +5,7 @@ from categories.models import Category
 from django.core.urlresolvers import reverse_lazy
 from rolepermissions.verifications import has_role
 from django.db.models import Q
+from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
@@ -515,7 +516,15 @@ class SubjectDetailView(LoginRequiredMixin, LogMixin, DetailView):
 
         sub = self.kwargs.get('slug', '')
 
-        context['participants'] = User.objects.filter(Q(is_staff = True) | Q(subject_student__slug = sub) | Q(professors__slug = sub) | Q(coordinators__subject_category__slug = sub)).distinct().order_by('social_name','username').exclude(email = self.request.user.email)
+        status_query = "SELECT CASE WHEN action = 'logout' AND EXTRACT(EPOCH FROM(NOW() - datetime::timestamp)) < 1200 THEN 2 WHEN action = 'logout' AND EXTRACT(EPOCH FROM(NOW() - datetime::timestamp)) >= 1200 THEN 1 ELSE 0 END FROM log_log WHERE log_log.user_id = users_user.id ORDER BY datetime DESC LIMIT 1"
+
+        expire_time = settings.SESSION_SECURITY_EXPIRE_AFTER
+
+        context['participants'] = User.objects.filter(
+            Q(is_staff = True) | Q(subject_student__slug = sub) | 
+            Q(professors__slug = sub) | 
+            Q(coordinators__subject_category__slug = sub)
+            ).extra(select = {'status': status_query}, select_params=(expire_time, expire_time,),).distinct().order_by('status', 'social_name','username').exclude(email = self.request.user.email)
 
         resources = self.request.session.get('resources', None)
 
