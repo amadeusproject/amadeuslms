@@ -1570,9 +1570,9 @@ div.dataTables_wrapper div.dataTables_paginate {
     top: 5px;
     right: 0px;
     cursor: pointer;
-    padding: 5px;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    padding: 8px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
 
 .participants-list .subject-participants {
