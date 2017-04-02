@@ -54,12 +54,12 @@
 							  	<ul class="dropdown-menu">
 							  		<li><a href="{% url 'pdf_files:create' topic.slug %}"><i class="fa fa-file-pdf-o"></i> {% trans "PDF File" %}</a></li>
 							    	<li><a href="{% url 'youtube:create' topic.slug %}"><i class="fa fa-video-camera"></i> {% trans 'YouTube Video' %}</a></li>
-							    	<li><a href="#"><i class="fa fa-comments-o"></i> {% trans 'Forum' %}</a></li>
+							    	<!-- <li><a href="#"><i class="fa fa-comments-o"></i> {% trans 'Forum' %}</a></li> -->
 							    	<li><a href="{% url 'file_links:create' topic.slug %}"><i class="fa fa-file-archive-o"></i> {% trans 'File Link' %}</a></li>
 							    	<li><a href="{% url 'links:create' topic.slug %}" > <i class="fa fa-globe"></i> {% trans "Link to Website" %}</a>
 							    	<li><a href="{% url 'goals:create' topic.slug %}"><i class="fa fa-line-chart"></i> {% trans 'Topic Goals' %}</a></li>
 							    	<li><a href="{% url 'webpages:create' topic.slug %}"><i class="fa fa-file-code-o"></i> {% trans 'Webpage' %}</a></li>
-							    	<li><a href="#"><i class="fa fa-question-circle-o"></i> {% trans 'Questionary' %}</a></li>
+							    	<!-- <li><a href="#"><i class="fa fa-question-circle-o"></i> {% trans 'Questionary' %}</a></li> -->
 										<li><a href="{% url 'webconferences:create' topic.slug %}"><i class="fa fa-desktop"></i> {% trans 'Web Conference' %}</a></li>
 
 							  	</ul>
