@@ -364,7 +364,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                                 time_delta = math.fabs(end_time - begin_time)
                               
                                 hours_viewed +=  time_delta/3600 #so it's turned this seconds into hours
-                    for daynum in day_numbers:
+                    for day_num in day_numbers:
                         count_temp = Log.objects.filter(action="view", resource=resources_types[i].lower(),
                               user_id = student.id, context__contains = {'subject_id': subject.id, 
                               resources_types[i].lower()+'_id': resource.id, 'topic_id': topics.id}, datetime__week_day = day_num+1, datetime__range=(init_date, end_date)).count()

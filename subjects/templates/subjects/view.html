@@ -195,9 +195,8 @@
 
                     list.animate({
                         right : '-315px',
-                        opacity: 0,
-                        'z-index': '-1'
-                    }, 500);
+                        opacity: 0
+                    }, 500).css({visibility: 'hidden'});
 
                     $this.removeClass('open');
                 } else {
@@ -207,9 +206,8 @@
 
                     list.animate({
                         right : 0,
-                        opacity: 1,
-                        'z-index': '1'
-                    }, 500);
+                        opacity: 1
+                    }, 500).css({visibility: 'visible'});
                 }
             });
         });

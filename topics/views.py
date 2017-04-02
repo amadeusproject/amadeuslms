@@ -20,6 +20,8 @@ from subjects.models import Subject
 from .models import Topic, Resource
 from .forms import TopicForm
 
+import operator
+
 class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 	log_component = 'topic'
 	log_action = 'create'
@@ -285,7 +287,16 @@ def getResourceCount(request):
 		else:
 			data[key] = 1
 
+	data = [(key,value) for key,value in sorted(data.items(), key=operator.itemgetter(1), reverse=True)]
+
+	others = data[4:]
+	total_others = 0
+	for key,value in others:
+		total_others += value
+
+	del data[4:] #remove from the 5th element
+	data.append(("others", total_others)) #so I have the sum of all other resources added up
 	real_data = []
-	for item in data.items():
-		real_data.append(item)
+	for key,value in data:
+		real_data.append((key,value))
 	return JsonResponse(real_data, safe=False)
