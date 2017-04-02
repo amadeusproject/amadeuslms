@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-09 17:01-0300\n"
+"POT-Creation-Date: 2017-04-02 18:30-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,68 +18,68 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: students_group/forms.py:31
+#: .\forms.py:31
 msgid "This subject already has a group with this name"
 msgstr "Esse assunto já possui um grupo com esse nome"
 
-#: students_group/models.py:9
+#: .\models.py:9
 msgid "Name"
 msgstr "Nome"
 
-#: students_group/models.py:10
+#: .\models.py:10
 msgid "Slug"
 msgstr "Slug"
 
-#: students_group/models.py:11
+#: .\models.py:11
 msgid "Description"
 msgstr "Descrição"
 
-#: students_group/models.py:12
+#: .\models.py:12
 msgid "Subject"
 msgstr "Assunto"
 
-#: students_group/models.py:13
+#: .\models.py:13 .\templates\groups\index.html:75
 msgid "Participants"
 msgstr "Participantes"
 
-#: students_group/models.py:14
+#: .\models.py:14
 msgid "Create Date"
 msgstr "Data de criação"
 
-#: students_group/models.py:15
+#: .\models.py:15
 msgid "Last Update"
 msgstr "Última Atualização"
 
-#: students_group/models.py:18
+#: .\models.py:18
 msgid "Students Group"
 msgstr "Grupo de Estudo"
 
-#: students_group/models.py:19 students_group/views.py:48
+#: .\models.py:19 .\views.py:48
 msgid "Students Groups"
 msgstr "Grupos de Estudo"
 
-#: students_group/templates/groups/_form.html:21
+#: .\templates\groups\_form.html:21
 msgid "Attribute students to group"
 msgstr "Atribuir estudantes ao grupo"
 
-#: students_group/templates/groups/_form.html:57
+#: .\templates\groups\_form.html:60
 msgid "Save"
 msgstr "Salvar"
 
-#: students_group/templates/groups/create.html:9
+#: .\templates\groups\create.html:9
 msgid "Replicate: "
 msgstr "Replicar: "
 
-#: students_group/templates/groups/create.html:15
-#: students_group/templates/groups/index.html:31 students_group/views.py:123
+#: .\templates\groups\create.html:15 .\templates\groups\index.html:31
+#: .\views.py:123
 msgid "Create Group"
 msgstr "Criar Grupo"
 
-#: students_group/templates/groups/delete.html:9
+#: .\templates\groups\delete.html:12
 msgid "Are you sure you want delete the group"
 msgstr "Tem certeza que deseja deletar o grupo"
 
-#: students_group/templates/groups/delete.html:10
+#: .\templates\groups\delete.html:13
 msgid ""
 "With this action the group will no longer exist but your participants will "
 "still be attached to the subject."
@@ -87,57 +87,64 @@ msgstr ""
 "Com essa ação o grupo irá deixar de existir mas os seus participantes "
 "continuarão vinculados ao assunto."
 
-#: students_group/templates/groups/delete.html:15
+#: .\templates\groups\delete.html:19
 msgid "Close"
 msgstr "Fechar"
 
-#: students_group/templates/groups/delete.html:18
+#: .\templates\groups\delete.html:20
 msgid "Delete"
 msgstr "Deletar"
 
-#: students_group/templates/groups/index.html:13
+#: .\templates\groups\index.html:13
 msgid "Groups"
 msgstr "Grupos"
 
-#: students_group/templates/groups/index.html:55
+#: .\templates\groups\index.html:55
 msgid "Replicate"
 msgstr "Replicar"
 
-#: students_group/templates/groups/index.html:58
+#: .\templates\groups\index.html:58
 msgid "Edit"
 msgstr "Editar"
 
-#: students_group/templates/groups/index.html:59
+#: .\templates\groups\index.html:59
 msgid "Remove"
 msgstr "Deletar"
 
-#: students_group/templates/groups/index.html:70
-msgid "Participant(s)"
-msgstr "Participante(s)"
+#: .\templates\groups\index.html:71
+msgid "No participants"
+msgstr "Sem participantes"
 
-#: students_group/templates/groups/update.html:8
+#: .\templates\groups\index.html:73
+msgid "Participant"
+msgstr "Participante"
+
+#: .\templates\groups\update.html:8
 msgid "Update: "
 msgstr "Editar: "
 
-#: students_group/views.py:133
+#: .\views.py:133
 msgid "Replicate Group"
 msgstr "Replicar Grupo"
 
-#: students_group/views.py:140
+#: .\views.py:140
 #, python-format
 msgid "The group \"%s\" was created successfully!"
 msgstr "O grupo \"%s\" foi criado com sucesso!"
 
-#: students_group/views.py:170
+#: .\views.py:170
 msgid "Update Group"
 msgstr "Atualizar Grupo"
 
-#: students_group/views.py:180
+#: .\views.py:180
 #, python-format
 msgid "The group \"%s\" was updated successfully!"
 msgstr "O grupo \"%s\" foi atualizado com sucesso!"
 
-#: students_group/views.py:219
+#: .\views.py:219
 #, python-format
 msgid "The group \"%s\" was removed successfully!"
 msgstr "O grupo \"%s\" foi removido com sucesso!"
+
+#~ msgid "Participant(s)"
+#~ msgstr "Participante(s)"
