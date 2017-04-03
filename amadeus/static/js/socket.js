@@ -267,30 +267,6 @@ function messageReceived(content) {
 			$(this).show();
 		});
 
-		$('.chat-tabs').find('li').each(function () {
-			var identity = $(this).data('chat');
-
-			if (identity == content.subtype) {
-				var span = $(this).find('span'),
-					actual = span.text();
-
-				actual = parseInt(actual, 10) + 1;
-
-				span.text(actual);
-			}
-		});
-
-		var item = $("#" + content.space);
-
-		if (typeof(item) != "undefined") {
-			var span = item.parent().find('span.item_badge'),
-				actual = span.text();
-
-			actual = parseInt(actual, 10) + 1;
-
-			span.text(actual);
-		}
-
 		if (content.subtype == "subject") {
 			var subject_cbadge = $("#subject_" + content.space).find('.chat_notify'),
 				actual = subject_cbadge.text();

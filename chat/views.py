@@ -24,7 +24,7 @@ from categories.models import Category
 from subjects.models import Subject
 from users.models import User
 
-from .models import Conversation, GeneralTalk, CategoryTalk, SubjectTalk, TalkMessages, ChatVisualizations, ChatFavorites
+from .models import Conversation, TalkMessages, ChatVisualizations, ChatFavorites
 from .forms import ChatMessageForm
 
 class GeneralIndex(LoginRequiredMixin, generic.ListView):
@@ -40,12 +40,8 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
 	def get_queryset(self):
 		user = self.request.user
 
-		conversations = Conversation.objects.filter((Q(user_one = user) | Q(user_two = user)) & Q(categorytalk__isnull = True) & Q(subjecttalk__isnull = True))
-		
-		self.totals['general'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__generaltalk__isnull = False).count()
-		self.totals['category'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__categorytalk__isnull = False).count()
-		self.totals['subject'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__subjecttalk__isnull = False).count()
-
+		conversations = Conversation.objects.filter((Q(user_one = user) | Q(user_two = user)))
+				
 		return conversations
 
 	def get_context_data(self, **kwargs):
@@ -72,11 +68,7 @@ class GeneralParticipants(LoginRequiredMixin, generic.ListView):
 		search = self.request.GET.get('search', '')
 
 		users = User.objects.filter(Q(username__icontains = search) | Q(last_name__icontains = search) | Q(social_name__icontains = search) | Q(email__icontains = search)).distinct().order_by('social_name','username').exclude(email = user.email)
-		
-		self.totals['general'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__generaltalk__isnull = False).count()
-		self.totals['category'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__categorytalk__isnull = False).count()
-		self.totals['subject'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__subjecttalk__isnull = False).count()
-
+				
 		return users
 
 	def get_context_data(self, **kwargs):
@@ -89,151 +81,13 @@ class GeneralParticipants(LoginRequiredMixin, generic.ListView):
 		
 		return context
 
-class CategoryIndex(LoginRequiredMixin, generic.ListView):
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
-
-	template_name = 'chat/list_category.html'
-	context_object_name = "categories"
-	paginate_by = 10
-
-	totals = {}
-
-	def get_queryset(self):
-		user = self.request.user
-		page = self.request.GET.get('page', False)
-
-		if user.is_staff:
-			categories = Category.objects.all()
-		else:
-			categories = Category.objects.filter(Q(coordinators__pk = user.pk) | Q(subject_category__professor__pk = user.pk) | Q(subject_category__students__pk = user.pk, visible = True)).distinct()
-		
-		self.totals['general'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__generaltalk__isnull = False).count()
-		self.totals['category'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__categorytalk__isnull = False).count()
-		self.totals['subject'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__subjecttalk__isnull = False).count()
-
-		return categories
-
-	def get_context_data(self, **kwargs):
-		context = super(CategoryIndex, self).get_context_data(**kwargs)
-
-		context['title'] = _('Messages per Category')
-		context['totals'] = self.totals
-		context['chat_menu_active'] = 'subjects_menu_active'
-		
-		return context
-
-class CategoryTalks(LoginRequiredMixin, generic.ListView):
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
-
-	template_name = 'chat/_talks_list.html'
-	context_object_name = "conversations"
-
-	def get_queryset(self):
-		user = self.request.user
-		cat = self.kwargs.get('category', 0)
-
-		conversations = CategoryTalk.objects.filter((Q(user_one = user) | Q(user_two = user)) & Q(space__id = cat))
-		
-		return conversations
-
-	def get_context_data(self, **kwargs):
-		context = super(CategoryTalks, self).get_context_data(**kwargs)
-
-		context['space'] = self.kwargs.get('category', 0)
-		context['space_type'] = 'category'
-		
-		return context
-
-class CategoryParticipants(LoginRequiredMixin, generic.ListView):
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
-
-	template_name = 'chat/_participants.html'
-	context_object_name = "participants"
-
-	def get_queryset(self):
-		user = self.request.user
-		cat = self.kwargs.get('category', 0)
-		search = self.request.GET.get('search', '')
-
-		users = User.objects.filter((Q(username__icontains = search) | Q(last_name__icontains = search) | Q(social_name__icontains = search) | Q(email__icontains = search)) & (Q(is_staff = True) | Q(subject_student__category__id = cat) | Q(professors__category__id = cat) | Q(coordinators__id = cat))).distinct().order_by('social_name','username').exclude(email = user.email)
-		
-		return users
-
-	def get_context_data(self, **kwargs):
-		context = super(CategoryParticipants, self).get_context_data(**kwargs)
-
-		context['space'] = self.kwargs.get('category', 0)
-		context['space_type'] = 'category'
-		
-		return context
-
-class SubjectIndex(LoginRequiredMixin, generic.ListView):
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
-
-	template_name = 'chat/list_subject.html'
-	context_object_name = "subjects"
-	paginate_by = 10
-
-	totals = {}
-
-	def get_queryset(self):
-		user = self.request.user
-		page = self.request.GET.get('page', False)
-
-		if user.is_staff:
-			subjects = Subject.objects.all()
-		else:
-			subjects = Subject.objects.filter(Q(professor__pk = user.pk) | Q(students__pk = user.pk, visible = True) | Q(category__coordinators__pk = user.pk)).distinct()
-		
-		self.totals['general'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__generaltalk__isnull = False).count()
-		self.totals['category'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__categorytalk__isnull = False).count()
-		self.totals['subject'] = ChatVisualizations.objects.filter(user = user, viewed = False, message__talk__subjecttalk__isnull = False).count()
-
-		return subjects
-
-	def get_context_data(self, **kwargs):
-		context = super(SubjectIndex, self).get_context_data(**kwargs)
-
-		context['title'] = _('Messages per Subject')
-		context['totals'] = self.totals
-		context['chat_menu_active'] = 'subjects_menu_active'
-		
-		return context
-
-class SubjectTalks(LoginRequiredMixin, generic.ListView):
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
-
-	template_name = 'chat/_talks_list.html'
-	context_object_name = "conversations"
-
-	def get_queryset(self):
-		user = self.request.user
-		sub = self.kwargs.get('subject', 0)
-
-		conversations = SubjectTalk.objects.filter((Q(user_one = user) | Q(user_two = user)) & Q(space__id = sub))
-
-		return conversations
-
-	def get_context_data(self, **kwargs):
-		context = super(SubjectTalks, self).get_context_data(**kwargs)
-
-		context['space'] = self.kwargs.get('subject', 0)
-		context['space_type'] = 'subject'
-		
-		return context
-
 class SubjectParticipants(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
-	template_name = 'chat/_participants.html'
+	template_name = 'chat/subject_view_participants.html'
 	context_object_name = "participants"
-	paginate_by = None
+	paginate_by = 10
 
 	def dispatch(self, request, *args,**kwargs):
 		typep = self.request.GET.get('type', '')
@@ -253,27 +107,18 @@ class SubjectParticipants(LoginRequiredMixin, generic.ListView):
 
 		users = User.objects.filter((Q(username__icontains = search) | Q(last_name__icontains = search) | Q(social_name__icontains = search) | Q(email__icontains = search)) & (Q(is_staff = True) | Q(subject_student__id = sub) | Q(professors__id = sub) | Q(coordinators__subject_category__id = sub))).distinct().order_by('social_name','username').exclude(email = user.email)
 	
-		typep = self.request.GET.get('type', '')
-
-		if not typep == 'modal':
-			self.paginate_by = 10
-
 		return users
 
 	def get_context_data(self, **kwargs):
 		context = super(SubjectParticipants, self).get_context_data(**kwargs)
 
-		typep = self.request.GET.get('type', '')
+		sub = self.kwargs.get('subject', 0)
+		subject = get_object_or_404(Subject, id = sub)
 
-		if not typep == 'modal':
-			sub = self.kwargs.get('subject', 0)
-			subject = get_object_or_404(Subject, id = sub)
-
-			context['subject'] = subject
-			context['search'] = self.request.GET.get('search', '')
-			context['title'] = _('%s - Participants')%(str(subject))
-			self.template_name = 'chat/subject_view_participants.html'
-
+		context['subject'] = subject
+		context['search'] = self.request.GET.get('search', '')
+		context['title'] = _('%s - Participants')%(str(subject))
+		
 		context['space'] = self.kwargs.get('subject', 0)
 		context['space_type'] = 'subject'
 		
@@ -300,7 +145,10 @@ class SubjectView(LoginRequiredMixin, generic.ListView):
 		slug = self.kwargs.get('slug')
 		subject = get_object_or_404(Subject, slug = slug)
 
-		conversations = SubjectTalk.objects.filter((Q(user_one = user) | Q(user_two = user)) & Q(space = subject))
+		conversations = Conversation.objects.filter((Q(user_one = user) & (Q(user_two__is_staff = True) | 
+			Q(user_two__subject_student = subject) | Q(user_two__professors = subject) | Q(user_two__coordinators__subject_category = subject))) |
+			(Q(user_two = user) & (Q(user_one__is_staff = True) | Q(user_one__subject_student = subject) |
+			Q(user_one__professors = subject) | Q(user_one__coordinators__subject_category = subject)))).distinct()
 
 		return conversations
 
@@ -399,18 +247,15 @@ class SendMessage(LoginRequiredMixin, generic.edit.CreateView):
 		space = self.kwargs.get('space', 0)
 
 		if talk_id == "-1":
-			if space_type == 'general':
-				talk = GeneralTalk.objects.create(user_one = self.request.user, user_two = user, space = 0)
-			elif space_type == 'category':
-				cat = get_object_or_404(Category, id = space)
-				talk = CategoryTalk.objects.create(user_one = self.request.user, user_two = user, space = cat)
-			else:
-				sub = get_object_or_404(Subject, id = space)
-				talk = SubjectTalk.objects.create(user_one = self.request.user, user_two = user, space = sub)
+			talk = Conversation.objects.create(user_one = self.request.user, user_two = user)			
 		else:
 			talk = get_object_or_404(Conversation, id = talk_id)
 
 		self.object.talk = talk
+
+		if space_type == 'subject':
+			self.object.subject = get_object_or_404(Subject, id = space)
+			space = self.object.subject.slug
 
 		self.object.save()
 
@@ -418,18 +263,7 @@ class SendMessage(LoginRequiredMixin, generic.edit.CreateView):
 
 		if self.object.image:
 			simple_notify += " ".join(_("[Photo]"))
-
-		subclass = self.object.talk._my_subclass
-
-		if subclass == "generaltalk":
-			space_type = "general"
-		elif subclass == "categorytalk":
-			space_type = "category"
-			space = self.object.talk.categorytalk.space.slug
-		else:
-			space_type = "subject"
-			space = self.object.talk.subjecttalk.space.slug
-
+		
 		notification = {
 			"type": "chat",
 			"subtype": space_type,
