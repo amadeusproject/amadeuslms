@@ -6,21 +6,13 @@
 {% block breadcrumbs %}
     {{ block.super }}
     
-    {% trans 'Messages General' as general %}
+    {% trans 'Messages' as general %}
 
     {% breadcrumb general 'chat:manage_general' %}
 {% endblock %}
 
 {% block content %}
-	<div id="core-subjects-options-div">
-        <ul class="core-subjects-options chat-tabs">
-            <a href="{% url 'chat:manage_general' %}"><li data-chat="general" class="active">{% trans "General" %} (<span>{{ totals.general }}</span>)</li></a>
-            <a href="{% url 'chat:manage_category' %}"><li data-chat="category">{% trans "Per Category" %} (<span>{{ totals.category }}</span>)</li></a>
-            <a href="{% url 'chat:manage_subject' %}"><li data-chat="subject">{% trans "Per Subject" %} (<span>{{ totals.subject }}</span>)</li></a>
-        </ul>
-    </div>
-
-    <div class="col-md-12 cards-content">
+	<div class="col-md-12 cards-content">
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
         		<div class="panel panel-default">

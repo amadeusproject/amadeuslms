@@ -1,7 +1,7 @@
 from django import template
 from django.conf import settings
 from django.utils import timezone
-from django.db.models import Count, F
+from django.db.models import Count, F, Q
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.sessions.models import Session
 
@@ -78,14 +78,8 @@ def fav_class(message, user):
 
 	return "btn_fav"
 
-@register.filter(name = 'notifies_category')
-def notifies_category(category, user):
-	total = ChatVisualizations.objects.filter(message__talk__categorytalk__space = category, user = user, viewed = False).count()
-
-	return total
-
 @register.filter(name = 'notifies_subject')
 def notifies_subject(subject, user):
-	total = ChatVisualizations.objects.filter(message__talk__subjecttalk__space = subject, user = user, viewed = False).count()
+	total = ChatVisualizations.objects.filter(Q(message__subject = subject, user = user, viewed = False)  & (Q(user__is_staff = True) | Q(message__subject__students = user) | Q(message__subject__professor = user) | Q(message__subject__category__coordinators = user))).distinct().count()
 
 	return total
