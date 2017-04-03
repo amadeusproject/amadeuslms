@@ -201,10 +201,8 @@ msgid "sunday"
 msgstr "domingo"
 
 #: views.py:289
-#, fuzzy
-#| msgid "sunday"
 msgid "monday"
-msgstr "domingo"
+msgstr "segunda"
 
 #: views.py:289
 msgid "tuesday"

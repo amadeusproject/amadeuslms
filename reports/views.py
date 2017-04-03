@@ -206,7 +206,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             topics = subject.topic_subject.all()
         else:
             topics = Topic.objects.get(id=topics_query)
-        header = ['User']
+        header = [str(_('User'))]
        
         #I use this so the system can gather data up to end_date 11h59 p.m.
         end_date = end_date + timedelta(days=1)
