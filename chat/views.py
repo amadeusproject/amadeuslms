@@ -20,6 +20,10 @@ from amadeus.permissions import has_subject_view_permissions
 from channels import Group
 import json
 
+from log.models import Log
+from log.mixins import LogMixin
+import time
+
 from categories.models import Category
 from subjects.models import Subject
 from users.models import User
@@ -27,7 +31,12 @@ from users.models import User
 from .models import Conversation, TalkMessages, ChatVisualizations, ChatFavorites
 from .forms import ChatMessageForm
 
-class GeneralIndex(LoginRequiredMixin, generic.ListView):
+class GeneralIndex(LoginRequiredMixin, LogMixin, generic.ListView):
+	log_component = "chat"
+	log_action = "view"
+	log_resource = "general"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -47,13 +56,24 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
 	def get_context_data(self, **kwargs):
 		context = super(GeneralIndex, self).get_context_data(**kwargs)
 
+		self.log_context['timestamp_start'] = str(int(time.time()))
+
+		super(GeneralIndex, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
 		context['title'] = _('Messages')
 		context['totals'] = self.totals
 		context['chat_menu_active'] = 'subjects_menu_active'
 		
 		return context
 
-class GeneralParticipants(LoginRequiredMixin, generic.ListView):
+class GeneralParticipants(LoginRequiredMixin, LogMixin, generic.ListView):
+	log_component = "chat"
+	log_action = "view"
+	log_resource = "general_participants"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -74,6 +94,13 @@ class GeneralParticipants(LoginRequiredMixin, generic.ListView):
 	def get_context_data(self, **kwargs):
 		context = super(GeneralParticipants, self).get_context_data(**kwargs)
 
+		self.log_context['search_by'] = self.request.GET.get('search', '')
+		self.log_context['timestamp_start'] = str(int(time.time()))
+
+		super(GeneralParticipants, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
 		context['title'] = _('Messages - Participants')
 		context['totals'] = self.totals
 		context['search'] = self.request.GET.get('search', '')
@@ -81,7 +108,12 @@ class GeneralParticipants(LoginRequiredMixin, generic.ListView):
 		
 		return context
 
-class SubjectParticipants(LoginRequiredMixin, generic.ListView):
+class SubjectParticipants(LoginRequiredMixin, LogMixin, generic.ListView):
+	log_component = "chat"
+	log_action = "view"
+	log_resource = "subject_participants"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -90,13 +122,10 @@ class SubjectParticipants(LoginRequiredMixin, generic.ListView):
 	paginate_by = 10
 
 	def dispatch(self, request, *args,**kwargs):
-		typep = self.request.GET.get('type', '')
+		subject = get_object_or_404(Subject, id = kwargs.get('subject', 0))
 
-		if not typep == 'modal':
-			subject = get_object_or_404(Subject, id = kwargs.get('subject', 0))
-
-			if not has_subject_view_permissions(request.user, subject):
-				return redirect(reverse_lazy('subjects:home'))
+		if not has_subject_view_permissions(request.user, subject):
+			return redirect(reverse_lazy('subjects:home'))
 
 		return super(SubjectParticipants, self).dispatch(request, *args, **kwargs)
 
@@ -112,6 +141,13 @@ class SubjectParticipants(LoginRequiredMixin, generic.ListView):
 	def get_context_data(self, **kwargs):
 		context = super(SubjectParticipants, self).get_context_data(**kwargs)
 
+		self.log_context['search_by'] = self.request.GET.get('search', '')
+		self.log_context['timestamp_start'] = str(int(time.time()))
+
+		super(SubjectParticipants, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
 		sub = self.kwargs.get('subject', 0)
 		subject = get_object_or_404(Subject, id = sub)
 
@@ -124,7 +160,12 @@ class SubjectParticipants(LoginRequiredMixin, generic.ListView):
 		
 		return context
 
-class SubjectView(LoginRequiredMixin, generic.ListView):
+class SubjectView(LoginRequiredMixin, LogMixin, generic.ListView):
+	log_component = "chat"
+	log_action = "view"
+	log_resource = "subject"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -158,12 +199,26 @@ class SubjectView(LoginRequiredMixin, generic.ListView):
 		slug = self.kwargs.get('slug', None)
 		subject = get_object_or_404(Subject, slug = slug)
 
+		self.log_context['subject_id'] = subject.id
+		self.log_context['subject_name'] = subject.name
+		self.log_context['subject_slug'] = subject.slug
+		self.log_context['timestamp_start'] = str(int(time.time()))
+
+		super(SubjectView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		self.request.session['log_id'] = Log.objects.latest('id').id
+
 		context['title'] = _('%s - Messages')%(str(subject))
 		context['subject'] = subject
 		
 		return context
 
-class ParticipantProfile(LoginRequiredMixin, generic.DetailView):
+class ParticipantProfile(LoginRequiredMixin, LogMixin, generic.DetailView):
+	log_component = "chat"
+	log_action = "view"
+	log_resource = "profile"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -176,12 +231,23 @@ class ParticipantProfile(LoginRequiredMixin, generic.DetailView):
 	def get_context_data(self, **kwargs):
 		context = super(ParticipantProfile, self).get_context_data(**kwargs)
 
+		self.log_context['user_id'] = self.object.id
+		self.log_context['user_name'] = str(self.object)
+		self.log_context['user_email'] = self.object.email
+
+		super(ParticipantProfile, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		context['space'] = self.request.GET.get('space', '0')
 		context['space_type'] = self.request.GET.get('space_type', 'general')
 		
 		return context
 
-class GetTalk(LoginRequiredMixin, generic.ListView):
+class GetTalk(LoginRequiredMixin, LogMixin, generic.ListView):
+	log_component = "chat"
+	log_action = "view"
+	log_resource = "talk"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -221,9 +287,21 @@ class GetTalk(LoginRequiredMixin, generic.ListView):
 		context['form'] = ChatMessageForm()
 		context['form_url'] = reverse_lazy('chat:create', args = (), kwargs = {'email': self.kwargs.get('email', ''), 'talk_id': self.talk_id, 'space': self.request.GET.get('space', '0'), 'space_type': self.request.GET.get('space_type', 'general')})
 
+		self.log_context['talk_id'] = self.talk_id
+		self.log_context['user_id'] = context['participant'].id
+		self.log_context['user_name'] = str(context['participant'])
+		self.log_context['user_email'] = context['participant'].email
+
+		super(GetTalk, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return context
 
-class SendMessage(LoginRequiredMixin, generic.edit.CreateView):
+class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = "chat"
+	log_action = "send"
+	log_resource = "message"
+	log_context = {}
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
@@ -292,6 +370,22 @@ class SendMessage(LoginRequiredMixin, generic.edit.CreateView):
 		return context
 
 	def get_success_url(self):
+		user = get_object_or_404(User, email = self.kwargs.get('email', ''))
+
+		self.log_context = {}
+
+		self.log_context['talk_id'] = self.object.talk.id
+		self.log_context['user_id'] = user.id
+		self.log_context['user_name'] = str(user)
+		self.log_context['user_email'] = user.email
+
+		if self.object.subject:
+			self.log_context['subject_id'] = self.object.subject.id
+			self.log_context['subject_name'] = self.object.subject.name
+			self.log_context['subject_slug'] = self.object.subject.slug
+
+		super(SendMessage, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return reverse_lazy('chat:render_message', args = (self.object.id, self.object.talk.id, self.kwargs.get('space', '0'), self.kwargs.get('space_type', 'general'), self.kwargs.get('email', ''),))
 
 def render_message(request, talk_msg, talk_id, space, space_type, email):
