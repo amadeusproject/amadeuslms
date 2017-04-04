@@ -1358,6 +1358,10 @@ div.dataTables_wrapper div.dataTables_paginate {
     border-spacing: 0;
     border-collapse: collapse;
 }
+.subject-participants .status {
+    width: 10px;
+    height: 10px;
+}
 .participant .user-info h4 {
     font-weight: 700;
     line-height: 2.0;
@@ -1556,11 +1560,11 @@ div.dataTables_wrapper div.dataTables_paginate {
 .participants-list {
     height: 200px;
     max-height: 200px;
-    width: 315px;
+    width: 180px;
     float: right;
     position: absolute;
     top: 5px;
-    right: -315px;
+    right: -180px;
     overflow-y: auto;
     opacity: 0;
     visibility: hidden;
@@ -1577,11 +1581,15 @@ div.dataTables_wrapper div.dataTables_paginate {
 }
 
 .participants-list .subject-participants {
-    width: 300px;
+    width: 165px;
 }
 
 .participants-container {
     cursor: pointer;
+}
+
+.participants-container h4 {
+    font-size: 14px;
 }
 
 @-moz-document url-prefix() {
