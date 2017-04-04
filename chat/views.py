@@ -141,15 +141,18 @@ class SubjectParticipants(LoginRequiredMixin, LogMixin, generic.ListView):
 	def get_context_data(self, **kwargs):
 		context = super(SubjectParticipants, self).get_context_data(**kwargs)
 
+		sub = self.kwargs.get('subject', 0)
+		subject = get_object_or_404(Subject, id = sub)
+
+		self.log_context['subject_id'] = subject.id
+		self.log_context['subject_name'] = subject.name
+		self.log_context['subject_slug'] = subject.slug
 		self.log_context['search_by'] = self.request.GET.get('search', '')
 		self.log_context['timestamp_start'] = str(int(time.time()))
 
 		super(SubjectParticipants, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		self.request.session['log_id'] = Log.objects.latest('id').id
-
-		sub = self.kwargs.get('subject', 0)
-		subject = get_object_or_404(Subject, id = sub)
 
 		context['subject'] = subject
 		context['search'] = self.request.GET.get('search', '')
