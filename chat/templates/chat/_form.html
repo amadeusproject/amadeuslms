@@ -4,7 +4,7 @@
 <div class="modal-dialog" role="document">
 	<div class="modal-content">
 		<div class="modal-body">
-			<form id="chat-form" method="post" action="{{ form_url }}" enctype="multipart/form-data">
+			<form id="chat-form" method="post" action="{{ form_url }}" enctype="multipart/form-data" data-error="{% trans 'Something went wrong. Please try again later.' %}">
 				{% csrf_token %}
 				
 				<div class="form-group{% if form.has_error %} has-error {% endif %}">
@@ -27,22 +27,22 @@
 					{% endif %}
 				</div>
 
-				<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+				<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput" data-overlay="{% trans 'The image is too large. It should have less than 5MB.' %}" data-invalid="{% trans 'Select a valid file. The file must posses one of this extensions: .jpg, .png, .gif' %}">
 					{% render_field form.image %}
 
 				    <div class="filedrag">
-			    		{% trans 'Click or drop the file here' %}<br />
+			    		{% trans 'Click or drop the image here' %}<br />
 
-			      		<small>{% trans 'The file could not exceed 5MB.' %}</small>
+			      		<small>{% trans 'The image could not exceed 5MB.' %}</small>
 			  		</div>
 
 					<span id="helpBlock" class="help-block">{{ form.image.help_text }}</span>
 
 					{% if form.image.errors %}
 						<div class="alert alert-danger alert-dismissible" role="alert">
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
 							<ul>
 								{% for error in form.image.errors %}
 									<li>{{ error }}</li>

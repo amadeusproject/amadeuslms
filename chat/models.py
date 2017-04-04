@@ -13,7 +13,7 @@ def validate_img_extension(value):
 	
 	if hasattr(value.file, 'content_type'):
 		if not value.file.content_type in valid_formats:
-			raise ValidationError(_('File not supported.'))
+			raise ValidationError(_('Select a valid file. The file must posses one of this extensions: .jpg, .png, .gif'))
 
 def upload_filename(instance, filename):
 	path = "chat/"
@@ -26,7 +26,7 @@ class Conversation(models.Model):
 	user_two = models.ForeignKey(User, verbose_name = _('User Two'), related_name = 'talk_user_end')
 
 class TalkMessages(models.Model):
-	text = models.TextField(_('Comment'), blank = True)
+	text = models.TextField(_('Message'), blank = True)
 	image = models.ImageField(verbose_name = _('Image'), null = True, blank = True, upload_to = upload_filename, validators = [validate_img_extension])
 	talk = models.ForeignKey(Conversation, verbose_name = _('Conversation'), related_name = 'message_talk', null = True)
 	user = models.ForeignKey(User, verbose_name = _('User'), related_name = 'message_user', null = True)

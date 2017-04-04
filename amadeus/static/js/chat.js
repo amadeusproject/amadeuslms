@@ -119,10 +119,33 @@ function getForm(field) {
 }
 
 function setChatFormSubmit() {
-    var frm = $('#chat-form');
+    var frm = $('#chat-form'),
+        error_msg = frm.data('error');
 
     frm.submit(function () {
-        var formData = new FormData($(this)[0]);
+        var formData = new FormData($(this)[0]),
+            file = $("#id_image")[0].files[0],
+            max_filesize = 5*1024*1024;
+
+        if (typeof(file) != "undefined") {
+            var image_container = $("#id_image").parent(),
+                overlay_msg = image_container.data('overlay'),
+                wrong_format_msg = image_container.data('invalid'),
+                file_type = file.type,
+                type_accept = /^image\/(jpg|png|jpeg|gif)$/;
+
+            if (file.size > max_filesize) {
+                image_container.append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><ul><li>' + overlay_msg + '</li></ul></div>');
+
+                return false;
+            }
+
+            if (!type_accept.test(file_type)) {
+                image_container.append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><ul><li>' + wrong_format_msg + '</li></ul></div>');
+
+                return false;   
+            }
+        }
 
         $.ajax({
             type: frm.attr('method'),
@@ -152,7 +175,12 @@ function setChatFormSubmit() {
                 $('#chat-modal-form').modal('hide');
             },
             error: function(data) {
-                $("#chat-modal-form").html(data.responseText);
+                if (data.status == 400) {
+                    $("#chat-modal-form").html(data.responseText);
+                } else {
+                    alertify.error(error_msg);
+                }
+
                 setChatFormSubmit();
             },
             cache: false,
