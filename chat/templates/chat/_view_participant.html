@@ -7,7 +7,7 @@
         <img src="{{ participant.image_url }}" class="img-responsive" />
     </div>
     <div class="col-md-6 user-info">
-        <h4><a class="status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
+        <h4><a class="user_{{ participant.id }}_status status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
     </div>
     <div class="col-md-4 buttons pull-right text-center">
         <a href="#" onclick="getModalInfo($(this), '{{ space }}', '{{ space_type }}'); return false;" data-url='{% url "chat:profile" participant.email %}' class="btn btn-raised btn-default">{% trans 'See Profile' %}</a>
