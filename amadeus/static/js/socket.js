@@ -21,6 +21,8 @@ socket.onmessage = function(e) {
 		}
 	} else if (content.type == "chat") {
 		messageReceived(content);
+	} else if (content.type == "user_status") {
+		changeUserStatus(content);
 	}
 }
 // Call onopen directly if socket is already open
@@ -297,4 +299,18 @@ function messageReceived(content) {
 	    	setTimeout(notification.close.bind(notification), 3000);
 	    }
   	}	
+}
+
+function changeUserStatus(content) {
+	var elem = $(".user_" + content.user_id + "_status");
+
+	elem.removeClass(content.remove_class);
+
+	if (content.status_class == "") {
+		elem.removeClass('active');
+	} else {
+		elem.addClass(content.status_class);
+	}
+
+	elem.attr('data-original-title', content.status);
 }

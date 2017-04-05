@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login as login_user, logout as log
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _u
 from django.db.models import Q, Count
 
 from braces import views as braces_mixins
@@ -18,6 +19,10 @@ from django.http import JsonResponse
 from .models import User
 from .utils import has_dependencies
 from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm, PassResetRequest, SetPasswordForm
+
+#USER STATUS NOTIFICATION
+from channels import Group
+import json
 
 #RECOVER PASS IMPORTS
 from django.contrib.auth.tokens import default_token_generator
@@ -501,6 +506,21 @@ def login(request):
 			if not security.maintence or user.is_staff:
 				login_user(request, user)
 
+				users = User.objects.all().exclude(email = username)
+
+				notification = {
+					"type": "user_status",
+					"user_id": str(user.id),
+					"status": _u("Online"),
+					"status_class": "active",
+					"remove_class": "away"
+				}
+
+				notification = json.dumps(notification)
+
+				for u in users:
+					Group("user-%s" % u.id).send({'text': notification})
+
 				next_url = request.GET.get('next', None)
 
 				if next_url:
@@ -519,7 +539,24 @@ def login(request):
 
 @log_decorator('user', 'logout', 'system')
 def logout(request, next_page = None):
+	user = request.user
+
 	logout_user(request)
+
+	users = User.objects.all().exclude(email = user.email)
+
+	notification = {
+		"type": "user_status",
+		"user_id": str(user.id),
+		"status": _u("Offline"),
+		"status_class": "",
+		"remove_class": "away"
+	}
+
+	notification = json.dumps(notification)
+
+	for u in users:
+		Group("user-%s" % u.id).send({'text': notification})
 
 	if next_page:
 		return redirect(next_page)

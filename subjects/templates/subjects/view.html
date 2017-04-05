@@ -93,7 +93,7 @@
 
                         <div class="participants-container">
                             <div class="col-md-12 sub-user" data-toggle="popover" data-container="body" data-placement="left">
-                                <h4><a class="status {{ status }}" data-placement="right" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
+                                <h4><a class="user_{{ participant.id }}_status status {{ status }}" data-placement="right" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
                             </div>
 
                             <div class="popover">

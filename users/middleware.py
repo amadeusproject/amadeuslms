@@ -9,6 +9,11 @@ from session_security.utils import get_last_activity, set_last_activity
 
 from log.models import Log
 
+from .models import User
+from django.utils.translation import ugettext as _u
+from channels import Group
+import json
+
 class SessionExpireMiddleware(object):
 
 	def process_request(self, request):
@@ -34,3 +39,18 @@ class SessionExpireMiddleware(object):
 			log.resource = "system"
 
 			log.save()
+
+			users = User.objects.all().exclude(email = request.user.email)
+
+			notification = {
+				"type": "user_status",
+				"user_id": str(request.user.id),
+				"status": _u("Offline"),
+				"status_class": "",
+				"remove_class": "away"
+			}
+
+			notification = json.dumps(notification)
+
+			for u in users:
+				Group("user-%s" % u.id).send({'text': notification})
