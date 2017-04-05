@@ -53,6 +53,12 @@ function getModalInfo(btn, space, space_type) {
                     $(this).animate({scrollTop: height}, 0);
                 });
 
+                $(".messages-container").on('scroll', function () {
+                    if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+                        $('.messages_new').hide();
+                    }
+                });
+
                 setShortChatFormSubmit();
                 setFiltersSubmitAndPagination();
             } else {
@@ -61,6 +67,12 @@ function getModalInfo(btn, space, space_type) {
                         var height = $(this)[0].scrollHeight;
 
                         $(this).animate({scrollTop: height}, 0);
+                    });
+
+                    $(".messages-container").on('scroll', function () {
+                        if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+                            $('.messages_new').hide();
+                        }
                     });
 
                     setShortChatFormSubmit();
@@ -73,6 +85,10 @@ function getModalInfo(btn, space, space_type) {
             });
 
             $("#msg_editable").on('focusin', function () {
+                $(".msg_placeholder").hide();                
+            });
+
+            $("#msg_editable").on('keydown', function () {
                 $("#send-img").hide();
                 $("#send-msg").show();
 
@@ -227,7 +243,7 @@ function setShortChatFormSubmit() {
                     new_msgs[data.talk_id].push(data.new_id);
 
                     editable.html("");
-                    editable.trigger("focusout");
+                    editable.blur();
 
                     frm.attr('action', data.new_form_url);
                     $("#send-img").data('url', data.new_form_url);
