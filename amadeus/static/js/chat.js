@@ -1,5 +1,9 @@
 var new_msgs = {};
 
+$(document).on('hidden.bs.modal', '.modal', function () {
+    $('.modal:visible').length && $(document.body).addClass('modal-open'); //Fixing scroll bar for modals
+});
+
 $('#chat-modal-info').on('show.bs.modal', function (e) {
     var header = $(this).find('.talk_header');
     if (header.length > 0) {
