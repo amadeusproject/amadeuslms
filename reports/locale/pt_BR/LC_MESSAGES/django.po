@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-02 23:42-0300\n"
+"POT-Creation-Date: 2017-04-06 16:30-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,39 +26,39 @@ msgstr "Tipo de recurso"
 msgid "Tag"
 msgstr "Tag"
 
-#: forms.py:36
+#: forms.py:35
 msgid "Topics"
 msgstr "Tópicos"
 
-#: forms.py:37 templates/reports/view.html:58
+#: forms.py:36 templates/reports/view.html:58
 msgid "Initial Date"
 msgstr "Data inicial"
 
-#: forms.py:38
+#: forms.py:37
 msgid "Final Date"
 msgstr "Data Final"
 
-#: forms.py:40
+#: forms.py:39
 msgid "From Mural"
 msgstr "Mural da disciplina"
 
-#: forms.py:41
+#: forms.py:40
 msgid "Messages"
 msgstr "Mensagens"
 
-#: forms.py:52 views.py:134 views.py:205
+#: forms.py:51 views.py:127 views.py:198
 msgid "All"
 msgstr "Todos"
 
-#: forms.py:61
+#: forms.py:60
 msgid "The initial date can't be after the end one."
 msgstr "A data inicial não pode ser depois da final"
 
-#: forms.py:66
+#: forms.py:65
 msgid "This date should be right or after "
 msgstr "Esta data deve ser igual ou após"
 
-#: forms.py:72
+#: forms.py:71
 msgid "This date should be right or before "
 msgstr "Esta data deve ser igual ou anterior à"
 
@@ -130,133 +130,167 @@ msgstr "Dados de interação (.csv)"
 msgid "Interactions Data (.xls)"
 msgstr "Dados de interação (.xls)"
 
-#: views.py:71
+#: views.py:60
 msgid "Report created successfully"
 msgstr "Relatório criado com sucesso!"
 
-#: views.py:209
+#: views.py:202
 msgid "User"
 msgstr ""
 
-#: views.py:229
+#: views.py:222
 msgid "Number of help posts created by the user."
 msgstr "Número de postagens de dúvidas criadas no mural da disciplina."
 
-#: views.py:235
+#: views.py:228
 msgid "Amount of comments on help posts created by the student."
 msgstr ""
 "Número de comentários criados para as próprias postagens de dúvidas no mural "
 "da disciplina."
 
-#: views.py:240
+#: views.py:233
 msgid "Amount of comments made by the student on teachers help posts."
 msgstr ""
 "Número de comentários às postagens de dúvidas no mural da disciplina criadas "
 "pelo professor."
 
-#: views.py:244
+#: views.py:237
 msgid "Amount of comments made by the student on other students help posts."
 msgstr ""
 "Número de comentários às postagens de dúvidas no mural da disciplina criadas "
 "por outros estudantes."
 
-#: views.py:255
+#: views.py:248
 msgid "Number of help posts created by the user that the teacher commented on."
 msgstr ""
 "Número de comentários às postagens de dúvidas no mural da disciplina criadas "
 "por outros estudantes"
 
-#: views.py:263
+#: views.py:256
 msgid "Number of help posts created by the user others students commented on."
 msgstr ""
 " Número de postagens de dúvidas criadas no mural da disciplina que foram "
 "comentadas por outros estudantes."
 
-#: views.py:266
+#: views.py:259
 msgid "Number of student visualizations on the mural of the subject."
 msgstr "Número de visualizações do mural da disciplina."
 
-#: views.py:278
+#: views.py:271
 msgid "Number of access to mural between 6 a.m to 12a.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 06h às 12h."
 
-#: views.py:282
+#: views.py:275
 msgid "Number of access to mural between 0 p.m to 6p.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 12h às 18h."
 
-#: views.py:285
+#: views.py:278
 msgid "Number of access to mural between 6 p.m to 12p.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 18h às 24h."
 
-#: views.py:289
+#: views.py:282
 msgid "Number of access to mural between 0 a.m to 6a.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 24h às 06h."
 
-#: views.py:294
+#: views.py:287
 msgid "sunday"
 msgstr "domingo"
 
-#: views.py:294
+#: views.py:287
 msgid "monday"
 msgstr "segunda"
 
-#: views.py:294
+#: views.py:287
 msgid "tuesday"
 msgstr "terça-feira"
 
-#: views.py:294
+#: views.py:287
 msgid "wednesday"
 msgstr "quarta"
 
-#: views.py:294
+#: views.py:287
 msgid "thursday"
 msgstr "quinta-feira"
 
-#: views.py:295
+#: views.py:288
 msgid "friday"
 msgstr "sexta"
 
-#: views.py:295
+#: views.py:288
 msgid "saturday"
 msgstr "sábado"
 
-#: views.py:299 views.py:302
+#: views.py:292 views.py:295
 msgid "Number of access to the subject on "
 msgstr "Número de acessos ao assunto na(o) "
 
-#: views.py:305
+#: views.py:298
 msgid "Number of distinct days the user access the subject. "
 msgstr "Número de dias distintos que acessou o ambiente virtual da disciplina."
 
-#: views.py:306
+#: views.py:299
 msgid "Class"
 msgstr "Classe"
 
-#: views.py:307
+#: views.py:299 views.py:300
+msgid "Undefined"
+msgstr "Indefinido"
+
+#: views.py:300
 msgid "Performance"
 msgstr "Desempenho"
 
-#: views.py:419
+#: views.py:448 views.py:498
+msgid "PDF File"
+msgstr ""
+
+#: views.py:449 views.py:499
+#, fuzzy
+#| msgid "Topics"
+msgid "Topic Goals"
+msgstr "Tópicos"
+
+#: views.py:450 views.py:500
+msgid "Link to Website"
+msgstr ""
+
+#: views.py:451 views.py:501
+msgid "File Link"
+msgstr ""
+
+#: views.py:452 views.py:502
+msgid "Web Conference"
+msgstr ""
+
+#: views.py:453 views.py:503
+msgid "YouTube Video"
+msgstr ""
+
+#: views.py:454 views.py:504
+msgid "WebPage"
+msgstr ""
+
+#: views.py:456 views.py:463
 msgid "number of visualizations of "
 msgstr "Número de visualizações do(e) "
 
-#: views.py:419 views.py:420 views.py:421 views.py:424
+#: views.py:456 views.py:457 views.py:458 views.py:461
 msgid " with tag "
 msgstr " com a tag "
 
-#: views.py:420
+#: views.py:457 views.py:464
 msgid "number of visualizations of distintic "
 msgstr "Número de visualizações dos distintos "
 
-#: views.py:421
+#: views.py:458 views.py:465
 msgid "distintic days "
 msgstr "número de dias distintos "
 
-#: views.py:424
+#: views.py:461 views.py:468
 msgid "hours viewed of "
 msgstr "quantidade de horas vistas "
 
