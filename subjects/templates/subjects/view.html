@@ -196,7 +196,7 @@
                     list.animate({
                         right : '-180px',
                         opacity: 0
-                    }, 500).css({visibility: 'hidden'});
+                    }, 500).css({display: "none", visibility: 'hidden'});
 
                     $this.removeClass('open');
                 } else {
@@ -206,8 +206,12 @@
 
                     list.animate({
                         right : 0,
-                        opacity: 1
+                        opacity: 1,
                     }, 500).css({visibility: 'visible'});
+
+                    setTimeout(function () {
+                        list.fadeIn();
+                    }, 500);
                 }
             });
         });
