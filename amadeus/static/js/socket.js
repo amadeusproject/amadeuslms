@@ -4,7 +4,7 @@ if (("Notification" in window)) {
 	}
 }
 
-socket = new WebSocket("ws://" + window.location.host + "/");
+socket = new WebSocket("ws://" + window.location.host + ":8888/");
 
 socket.onmessage = function(e) {
 	content = JSON.parse(e.data);
