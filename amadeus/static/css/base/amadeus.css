@@ -1113,7 +1113,7 @@ li.item .notify_badge {
 }
 
 .comment-section {
-    max-height: 700px;
+    max-height: 500px;
     overflow-y: scroll;
     border-top-width: 1px;
     border-top-style: solid;
