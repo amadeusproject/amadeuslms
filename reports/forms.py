@@ -29,7 +29,6 @@ class ResourceAndTagForm(forms.Form):
 			initial = kwargs['initial']
 			self.fields['resource'].choices = [(classes.__name__.lower(), classes.__name__.lower()) for classes in initial['class_name']]
 			self.fields['tag'].choices = [(tag.id, tag.name) for tag in initial['tag']]
-
 		
 
 class CreateInteractionReportForm(forms.Form):
