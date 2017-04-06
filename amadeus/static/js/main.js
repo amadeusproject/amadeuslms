@@ -11,7 +11,8 @@ $(function () {
 	});
 
 	$('.text_wysiwyg').summernote({
-	    height: 200
+	    height: 200,
+	    disableDragAndDrop: true,
 	});
 
 	$('[data-toggle="tooltip"]').tooltip({

@@ -4631,7 +4631,7 @@
         documentEventHandlers.onDrop = function (e) {
           e.preventDefault();
         };
-        $document.on('drop', documentEventHandlers.onDrop);
+        $dropzone.on('drop', documentEventHandlers.onDrop);
       } else {
         this.attachDragAndDropEvent();
       }
