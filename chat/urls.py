@@ -8,6 +8,7 @@ urlpatterns = [
 	url(r'^subject/participants/(?P<subject>[\w_-]+)/$', views.SubjectParticipants.as_view(), name='participants_subject'),
 	url(r'^render_message/([\w_-]+)/([\w_-]+)/([\w_-]+)/([\w_-]+)/([\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.render_message, name='render_message'),
 	url(r'^favorite/([\w_-]+)/$', views.favorite, name='favorite'),
+	url(r'^view_message/([\w_-]+)/$', views.message_viewed, name='view_message'),
 	url(r'^load_messages/([\w_-]+)/$', views.load_messages, name='load_messages'),
 	url(r'^talk/(?P<email>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.GetTalk.as_view(), name = 'talk'),
 	url(r'^send_message/(?P<email>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/(?P<talk_id>[\w_-]+)/(?P<space>[\w_-]+)/(?P<space_type>[\w_-]+)/$', views.SendMessage.as_view(), name = 'create'),

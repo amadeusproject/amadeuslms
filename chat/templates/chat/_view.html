@@ -9,7 +9,7 @@
         <img src="{{ talking_to.image_url }}" class="img-responsive" />
     </div>
     <div class="col-md-6 user-info">
-        <h4 class='talking-header'><a class="user_{{ talking_to.id }}_status status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ talking_to }} (<span class="chat_notify">{{ chat|notifies:request.user }}</span>)</h4>
+        <h4 class='talking-header'><a class="user_{{ talking_to.id }}_status status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ talking_to }} (<span class="chat_notify_list">{{ chat|notifies:request.user }}</span>)</h4>
         <p class="talk-last_msg">{% trans 'Last message in' %} {{ chat|last_message }}</p>
     </div>
     <div class="col-md-4 buttons pull-right text-center">

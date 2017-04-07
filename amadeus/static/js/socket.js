@@ -241,9 +241,14 @@ function messageReceived(content) {
 
             $(this).hide();
 		});
+
+		$.ajax({
+			type: 'GET',
+			url: content.view_url
+		});
 	} else {
 		var talk_line = $("#talk-" + content.container),
-			talk_notifies = talk_line.find('.chat_notify'),
+			talk_notifies = talk_line.find('.chat_notify_list'),
 			actual_count = talk_notifies.text(),
 			actual_date = talk_line.find(".talk-last_msg");
 

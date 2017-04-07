@@ -258,6 +258,7 @@ class GetTalk(LoginRequiredMixin, LogMixin, generic.ListView):
 	template_name = 'chat/talk.html'
 	paginate_by = 20
 	talk_id = "-1"
+	n_viewed = 0
 
 	def get_queryset(self):
 		user = self.request.user
@@ -274,6 +275,7 @@ class GetTalk(LoginRequiredMixin, LogMixin, generic.ListView):
 			messages = TalkMessages.objects.filter(talk = talk).order_by('-create_date')
 
 			views = ChatVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(message__talk = talk)))
+			self.n_viewed = views.count()
 			views.update(viewed = True, date_viewed = datetime.now())
 
 		return messages
@@ -283,12 +285,17 @@ class GetTalk(LoginRequiredMixin, LogMixin, generic.ListView):
 
 		user_email = self.kwargs.get('email', '')
 
+		context['messages_viewed'] = self.n_viewed
 		context['participant'] = get_object_or_404(User, email = user_email)
 		context['talk_id'] = self.talk_id
 		context['space'] = self.request.GET.get('space', '0')
 		context['space_type'] = self.request.GET.get('space_type', 'general')
 		context['form'] = ChatMessageForm()
 		context['form_url'] = reverse_lazy('chat:create', args = (), kwargs = {'email': self.kwargs.get('email', ''), 'talk_id': self.talk_id, 'space': self.request.GET.get('space', '0'), 'space_type': self.request.GET.get('space_type', 'general')})
+
+		if context['space_type'] == "subject":
+			subject = get_object_or_404(Subject, id = context['space'])
+			context['subject'] = subject.slug
 
 		self.log_context['talk_id'] = self.talk_id
 		self.log_context['user_id'] = context['participant'].id
@@ -352,6 +359,7 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 			"user_icon": self.object.user.image_url,
 			"notify_title": str(self.object.user),
 			"simple_notify": simple_notify,
+			"view_url": reverse("chat:view_message", args = (self.object.id, ), kwargs = {}),
 			"complete": render_to_string("chat/_message.html", {"talk_msg": self.object}, self.request),
 			"container": "chat-" + str(self.object.user.id),
 			"last_date": _("Last message in %s")%(formats.date_format(self.object.create_date, "SHORT_DATETIME_FORMAT"))
@@ -416,6 +424,13 @@ def favorite(request, message):
 		ChatFavorites.objects.filter(message = message, user = request.user).delete()
 
 		return JsonResponse({'label': _('Favorite')})
+
+def message_viewed(request, message):
+	view = ChatVisualizations.objects.filter(message__id = message, user = request.user)
+
+	view.update(viewed = True, date_viewed = datetime.now())
+
+	return JsonResponse({'msg': 'ok'})
 
 def load_messages(request, talk):
 	context = {
