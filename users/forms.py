@@ -128,8 +128,8 @@ class ProfileForm(Validation):
 		y = self.cleaned_data.get('y')
 		w = self.cleaned_data.get('width')
 		h = self.cleaned_data.get('height')
-
-		if self.instance.image :
+		
+		if self.instance.image:
 			image = Image.open(self.instance.image)
 			cropped_image = image.crop((x, y, w+x, h+y))
 			resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)

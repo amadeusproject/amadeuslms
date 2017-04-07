@@ -49,7 +49,7 @@ class GeneralIndex(LoginRequiredMixin, LogMixin, generic.ListView):
 	def get_queryset(self):
 		user = self.request.user
 
-		conversations = Conversation.objects.filter((Q(user_one = user) | Q(user_two = user)))
+		conversations = Conversation.objects.extra(select = {"most_recent": "select create_date from chat_talkmessages where chat_talkmessages.talk_id = chat_conversation.id order by create_date DESC LIMIT 1"}).filter((Q(user_one = user) | Q(user_two = user))).order_by('-most_recent')
 				
 		return conversations
 
@@ -189,10 +189,10 @@ class SubjectView(LoginRequiredMixin, LogMixin, generic.ListView):
 		slug = self.kwargs.get('slug')
 		subject = get_object_or_404(Subject, slug = slug)
 
-		conversations = Conversation.objects.filter((Q(user_one = user) & (Q(user_two__is_staff = True) | 
+		conversations = Conversation.objects.extra(select = {"most_recent": "select create_date from chat_talkmessages where chat_talkmessages.talk_id = chat_conversation.id order by create_date DESC LIMIT 1"}).filter((Q(user_one = user) & (Q(user_two__is_staff = True) | 
 			Q(user_two__subject_student = subject) | Q(user_two__professors = subject) | Q(user_two__coordinators__subject_category = subject))) |
 			(Q(user_two = user) & (Q(user_one__is_staff = True) | Q(user_one__subject_student = subject) |
-			Q(user_one__professors = subject) | Q(user_one__coordinators__subject_category = subject)))).distinct()
+			Q(user_one__professors = subject) | Q(user_one__coordinators__subject_category = subject)))).distinct().order_by('-most_recent')
 
 		return conversations
 
