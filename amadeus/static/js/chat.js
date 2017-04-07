@@ -79,6 +79,48 @@ function getModalInfo(btn, space, space_type) {
                         }
                     });
 
+                    var viewed = $(".messages-container").data('viewed'),
+                        sub_badge = $(".messages-container").data('space'),
+                        father = $(".messages-container").parent().parent().parent().parent(),
+                        chat_list_item_id = "#talk-" + father.attr("id");
+
+                    $('.chat_badge').each(function () {
+                        var actual = $(this).text();
+
+                        if (actual != "+99") {
+                            actual = parseInt(actual, 10) - viewed;
+
+                            if (actual <= 0) {
+                                $(this).text("0");
+                                $(this).hide();
+                            } else {
+                                $(this).text(actual);
+                            }
+                        }
+                    });
+
+                    var counter = $(chat_list_item_id).find('.chat_notify_list').text();
+
+                    counter = parseInt(counter, 10) - viewed;
+
+                    if (counter <= 0) {
+                        counter = "0";
+                    }
+
+                    $(chat_list_item_id).find('.chat_notify_list').text(counter);
+
+                    var subject_cbadge = $("#subject_" + sub_badge).find('.chat_notify'),
+                        actual = subject_cbadge.text();
+
+                    if (actual != "+99") {
+                        actual = parseInt(actual, 10) - viewed;
+
+                        if (actual <= 0) {
+                            subject_cbadge.text("0");
+                            subject_cbadge.hide();
+                        }
+                    }
+
                     setShortChatFormSubmit();
                     setFiltersSubmitAndPagination();
                 });
