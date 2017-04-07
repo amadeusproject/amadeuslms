@@ -17,43 +17,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
-#: log/models.py:8
-msgid "Component (Module / App)"
+#: news/models.py:15
+msgid "File not supported."
 msgstr ""
 
-#: log/models.py:9
-msgid "Context"
+#: news/models.py:18
+msgid "Name"
 msgstr ""
 
-#: log/models.py:10
-msgid "Action"
+#: news/models.py:19
+msgid "Slug"
 msgstr ""
 
-#: log/models.py:11
-msgid "Resource"
+#: news/models.py:20
+msgid "News Image"
 msgstr ""
 
-#: log/models.py:12
-msgid "Actor"
-msgstr ""
-
-#: log/models.py:13
-msgid "Actor id"
-msgstr ""
-
-#: log/models.py:14
-msgid "Actor Mail"
-msgstr ""
-
-#: log/models.py:15
-msgid "Date and Time of action"
-msgstr ""
-
-#: log/models.py:18
-msgid "Log"
-msgstr ""
-
-#: log/models.py:19
-msgid "Logs"
+#: news/models.py:21
+msgid "Description"
 msgstr ""

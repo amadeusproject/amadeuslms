@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-22 11:57-0300\n"
+"POT-Creation-Date: 2017-04-06 22:17-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,102 +18,104 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\forms.py:36
+#: youtube_video/forms.py:36
 msgid "Tags"
 msgstr "Tags"
 
-#: .\forms.py:42
+#: youtube_video/forms.py:42
 msgid "Video title"
 msgstr "Título do Vídeo"
 
-#: .\forms.py:62
+#: youtube_video/forms.py:62
 msgid "This subject already has a resource with this name"
 msgstr "Esse assunto já possui um recurso com esse nome"
 
-#: .\forms.py:71
+#: youtube_video/forms.py:71
 msgid "Invalid URL. It should be an YouTube link."
 msgstr "URL inválida. Ela deve ser uma URL de um vídeo do YouTube."
 
-#: .\models.py:8
+#: youtube_video/models.py:8
 msgid "URL"
 msgstr "URL"
 
-#: .\models.py:11
+#: youtube_video/models.py:11
 msgid "YTVideo"
 msgstr "Vídeo do YouTube"
 
-#: .\models.py:12
+#: youtube_video/models.py:12
 msgid "YTVideos"
 msgstr "Vídeos do YouTube"
 
-#: .\models.py:30
+#: youtube_video/models.py:30
 msgid "Are you sure you want delete the YouTube Video"
 msgstr "Você tem certeza que deseja deletar o Vídeo do YouTube"
 
-#: .\templates\youtube\_form.html:49
+#: youtube_video/templates/youtube/_form.html:49
 msgid "Common resources settings"
 msgstr "Configurações comuns à todos os recursos"
 
-#: .\templates\youtube\_form.html:98
+#: youtube_video/templates/youtube/_form.html:98
 msgid "Pendencies Notifications"
 msgstr "Notificações de Pendências"
 
-#: .\templates\youtube\_form.html:119
+#: youtube_video/templates/youtube/_form.html:119
 msgid "Action not performed by the user"
 msgstr "Ação não realizada pelo usuário"
 
-#: .\templates\youtube\_form.html:145
+#: youtube_video/templates/youtube/_form.html:145
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: .\templates\youtube\_form.html:242
+#: youtube_video/templates/youtube/_form.html:242
 msgid "Attribute students to YouTube Video"
 msgstr "Atribuir estudantes ao Vídeo do YouTube"
 
-#: .\templates\youtube\_form.html:262
+#: youtube_video/templates/youtube/_form.html:262
 msgid "Attribute groups to YouTube Video"
 msgstr "Atribuir grupos de estudo ao Vídeo do YouTube"
 
-#: .\templates\youtube\_form.html:331
+#: youtube_video/templates/youtube/_form.html:331
 msgid "Save"
 msgstr "Salvar"
 
-#: .\templates\youtube\_form.html:338
+#: youtube_video/templates/youtube/_form.html:338
 msgid "Add new notification"
 msgstr "Adicionar nova notificação"
 
-#: .\templates\youtube\_form.html:339
+#: youtube_video/templates/youtube/_form.html:339
 msgid "Remove this"
 msgstr "Remover essa notificação"
 
-#: .\templates\youtube\create.html:21
+#: youtube_video/templates/youtube/create.html:21
 msgid "Create YouTube Video"
 msgstr "Adicionar Vídeo do YouTube"
 
-#: .\templates\youtube\update.html:21
+#: youtube_video/templates/youtube/update.html:21
 msgid "Edit: "
 msgstr "Editar: "
 
-#: .\views.py:46
+#: youtube_video/views.py:46
 #, python-format
 msgid "%s - Video"
 msgstr "%s - Vídeo"
 
-#: .\views.py:148 .\views.py:161 .\views.py:180 .\views.py:283 .\views.py:296
-#: .\views.py:305
+#: youtube_video/views.py:148 youtube_video/views.py:161
+#: youtube_video/views.py:180 youtube_video/views.py:283
+#: youtube_video/views.py:296 youtube_video/views.py:305
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: .\views.py:148 .\views.py:161 .\views.py:180 .\views.py:283 .\views.py:296
-#: .\views.py:305
+#: youtube_video/views.py:148 youtube_video/views.py:161
+#: youtube_video/views.py:180 youtube_video/views.py:283
+#: youtube_video/views.py:296 youtube_video/views.py:305
 msgid "Finish"
 msgstr "Finalizar"
 
-#: .\views.py:227
+#: youtube_video/views.py:227
 msgid "Create Youtube Video"
 msgstr "Adicionar Vídeo do YouTube"
 
-#: .\views.py:238
+#: youtube_video/views.py:238
 #, python-format
 msgid ""
 "The Youtube Video \"%s\" was added to the Topic \"%s\" of the virtual "
@@ -122,16 +124,16 @@ msgstr ""
 "O Vídeo do YouTube \"%s\" foi adicionado ao tópico \"%s\" do ambiente "
 "virtual \"%s\" com sucesso!"
 
-#: .\views.py:346
+#: youtube_video/views.py:346
 msgid "Update YouTube Video"
 msgstr "Atualizar Vídeo do YouTube"
 
-#: .\views.py:357
+#: youtube_video/views.py:357
 #, python-format
 msgid "The YouTube Video \"%s\" was updated successfully!"
 msgstr "O Vídeo do YouTube \"%s\" foi atualizado com sucesso!"
 
-#: .\views.py:393
+#: youtube_video/views.py:393
 #, python-format
 msgid ""
 "The YouTube Video \"%s\" was removed successfully from virtual environment "

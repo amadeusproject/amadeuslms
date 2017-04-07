@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-29 17:22-0300\n"
+"POT-Creation-Date: 2017-04-06 22:17-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,340 +18,371 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: forms.py:18
-#| msgid "Comment"
+#: mural/forms.py:18
 msgctxt "form"
 msgid "Comment"
 msgstr "Comentar"
 
-#: forms.py:18
-#| msgctxt "modal"
-#| msgid "Ask for Help"
+#: mural/forms.py:18
 msgctxt "form"
 msgid "Ask for Help"
 msgstr "Pedir ajuda"
 
-#: forms.py:26 forms.py:111
+#: mural/forms.py:26 mural/forms.py:111
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
-#: forms.py:38 forms.py:123
+#: mural/forms.py:38 mural/forms.py:123
 msgid "The image is too large. It should have less than 5MB."
 msgstr "A imagem é muito grande. Ela deve possuir 5MB ou menos."
 
-#: forms.py:82
+#: mural/forms.py:82
 msgid "Choose an especific resource"
 msgstr "Escolha um recurso específico"
 
-#: models.py:18
+#: mural/models.py:18
 msgid "File not supported."
 msgstr "Arquivo não suportado."
 
-#: models.py:21
+#: mural/models.py:21
 msgid "Action"
 msgstr "Ação"
 
-#: models.py:21
+#: mural/models.py:21
 msgctxt "modal"
 msgid "Comment"
 msgstr "Comentou"
 
-#: models.py:21
+#: mural/models.py:21
 msgctxt "modal"
 msgid "Ask for Help"
 msgstr "Pediu ajuda"
 
-#: models.py:22 models.py:107 models.py:118 models.py:127
+#: mural/models.py:22 mural/models.py:107 mural/models.py:118
+#: mural/models.py:127
 msgid "Post"
 msgstr "Postagem"
 
-#: models.py:23 models.py:106
+#: mural/models.py:23 mural/models.py:106
 msgid "Image"
 msgstr "Imagem"
 
-#: models.py:24 models.py:108 models.py:120 models.py:128
+#: mural/models.py:24 mural/models.py:108 mural/models.py:120
+#: mural/models.py:128
 msgid "User"
 msgstr "Usuário"
 
-#: models.py:25 models.py:109
+#: mural/models.py:25 mural/models.py:109
 msgid "Create Date"
 msgstr "Data de criação"
 
-#: models.py:26 models.py:110
+#: mural/models.py:26 mural/models.py:110
 msgid "Last Update"
 msgstr "Última atualização"
 
-#: models.py:27 models.py:111
+#: mural/models.py:27 mural/models.py:111
 msgid "Edited"
 msgstr "Editado"
 
-#: models.py:50
+#: mural/models.py:50
 msgid "Space"
 msgstr "Espaço"
 
-#: models.py:86
+#: mural/models.py:86
 msgid "Subject"
 msgstr "Assunto"
 
-#: models.py:87
+#: mural/models.py:87
 msgid "Resource"
 msgstr "Recurso"
 
-#: models.py:105 models.py:119 templates/mural/_form_comment.html:66
+#: mural/models.py:105 mural/models.py:119
+#: mural/templates/mural/_form_comment.html:66
 msgid "Comment"
 msgstr "Comentar"
 
-#: models.py:117
+#: mural/models.py:117
 msgid "Viewed"
 msgstr "Visualizado"
 
-#: models.py:121
+#: mural/models.py:121
 msgid "Date/Time Viewed"
 msgstr ""
 
-#: templates/mural/_form.html:76 templates/mural/_form_comment.html:42
+#: mural/templates/mural/_form.html:76
+#: mural/templates/mural/_form_comment.html:42
 msgid "Click or drop the picture here"
 msgstr "Clique ou solte a imagem aqui"
 
-#: templates/mural/_form.html:78 templates/mural/_form_comment.html:44
+#: mural/templates/mural/_form.html:78
+#: mural/templates/mural/_form_comment.html:44
 msgid "The picture could not exceed 5MB."
 msgstr "A imagem não pode exceder 5MB."
 
-#: templates/mural/_form.html:100
+#: mural/templates/mural/_form.html:100
 msgctxt "button"
 msgid "Post"
 msgstr "Postar"
 
-#: templates/mural/_form.html:101 templates/mural/_form_comment.html:67
-#: templates/mural/_form_comment.html:85
+#: mural/templates/mural/_form.html:101
+#: mural/templates/mural/_form_comment.html:67
+#: mural/templates/mural/_form_comment.html:85
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: templates/mural/_form_comment.html:33
+#: mural/templates/mural/_form_comment.html:33
 msgid "Choose your photo..."
 msgstr "Escolha sua foto..."
 
-#: templates/mural/_form_comment.html:78
+#: mural/templates/mural/_form_comment.html:78
 msgid "Insert here the name of the user you wish to mark in this comment"
 msgstr "Insira aqui o nome do usuário que você quer marcar nesse comentário"
 
-#: templates/mural/_form_comment.html:84
+#: mural/templates/mural/_form_comment.html:84
 msgid "Mark"
 msgstr "Marcar"
 
-#: templates/mural/_form_comment.html:100
+#: mural/templates/mural/_form_comment.html:100
 msgid "Mark User"
 msgstr "Marcar Usuário"
 
-#: templates/mural/_user_suggestions_list.html:16
+#: mural/templates/mural/_user_suggestions_list.html:16
 msgid "No results found."
 msgstr "Nenhum resultado encontrado."
 
-#: templates/mural/_view.html:22 templates/mural/_view_comment.html:22
-#: templates/mural/list_category.html:59 templates/mural/list_subject.html:58
-#: templates/mural/subject_view.html:39
+#: mural/templates/mural/_view.html:22
+#: mural/templates/mural/_view_comment.html:22
+#: mural/templates/mural/list_category.html:59
+#: mural/templates/mural/list_subject.html:58
+#: mural/templates/mural/subject_view.html:39
 msgid "Edit"
 msgstr "Editar"
 
-#: templates/mural/_view.html:24 templates/mural/_view_comment.html:24
-#: templates/mural/list_category.html:61 templates/mural/list_subject.html:60
-#: templates/mural/subject_view.html:41
+#: mural/templates/mural/_view.html:24
+#: mural/templates/mural/_view_comment.html:24
+#: mural/templates/mural/list_category.html:61
+#: mural/templates/mural/list_subject.html:60
+#: mural/templates/mural/subject_view.html:41
 msgid "Remove"
 msgstr "Remover"
 
-#: templates/mural/_view.html:36 templates/mural/_view_comment.html:31
+#: mural/templates/mural/_view.html:36
+#: mural/templates/mural/_view_comment.html:31
 msgid "In"
 msgstr "Em"
 
-#: templates/mural/_view.html:47
+#: mural/templates/mural/_view.html:47
 msgid "See complete post"
 msgstr "Ver postagem completa"
 
-#: templates/mural/_view.html:50
+#: mural/templates/mural/_view.html:50
 msgid "See more comments..."
 msgstr "Ver mais comentários..."
 
-#: templates/mural/_view.html:61
+#: mural/templates/mural/_view.html:61
 msgid "Make a comment..."
 msgstr "Faça um comentário..."
 
-#: templates/mural/_view_comment.html:14
-#| msgid "Comment"
+#: mural/templates/mural/_view_comment.html:14
 msgctxt "view"
 msgid "Comment"
 msgstr "Comentou"
 
-#: templates/mural/delete.html:13
+#: mural/templates/mural/delete.html:16
 msgid "Close"
 msgstr "Fechar"
 
-#: templates/mural/delete.html:16
+#: mural/templates/mural/delete.html:17
 msgid "Delete"
 msgstr "Deletar"
 
-#: templates/mural/list.html:9
+#: mural/templates/mural/list.html:9
 msgid "Mural: General"
 msgstr "Mural: Geral"
 
-#: templates/mural/list.html:17 templates/mural/list_category.html:19
-#: templates/mural/list_subject.html:19
+#: mural/templates/mural/list.html:17
+#: mural/templates/mural/list_category.html:19
+#: mural/templates/mural/list_subject.html:19
 msgid "General"
 msgstr "Geral"
 
-#: templates/mural/list.html:18 templates/mural/list_category.html:20
-#: templates/mural/list_subject.html:20
+#: mural/templates/mural/list.html:18
+#: mural/templates/mural/list_category.html:20
+#: mural/templates/mural/list_subject.html:20
 msgid "Per Category"
 msgstr "Por Categoria"
 
-#: templates/mural/list.html:19 templates/mural/list_category.html:21
-#: templates/mural/list_subject.html:21
+#: mural/templates/mural/list.html:19
+#: mural/templates/mural/list_category.html:21
+#: mural/templates/mural/list_subject.html:21
 msgid "Per Subject"
 msgstr "Por Assunto"
 
-#: templates/mural/list.html:26 templates/mural/list.html:39
-#: templates/mural/list.html:74 templates/mural/list.html:87
-#: templates/mural/list_category.html:75 templates/mural/list_category.html:88
-#: templates/mural/list_category.html:126
-#: templates/mural/list_category.html:139 templates/mural/list_subject.html:74
-#: templates/mural/list_subject.html:87 templates/mural/list_subject.html:125
-#: templates/mural/list_subject.html:138 templates/mural/resource_view.html:73
-#: templates/mural/resource_view.html:86 templates/mural/subject_view.html:85
-#: templates/mural/subject_view.html:98
+#: mural/templates/mural/list.html:26 mural/templates/mural/list.html:39
+#: mural/templates/mural/list.html:74 mural/templates/mural/list.html:87
+#: mural/templates/mural/list_category.html:75
+#: mural/templates/mural/list_category.html:88
+#: mural/templates/mural/list_category.html:126
+#: mural/templates/mural/list_category.html:139
+#: mural/templates/mural/list_subject.html:74
+#: mural/templates/mural/list_subject.html:87
+#: mural/templates/mural/list_subject.html:125
+#: mural/templates/mural/list_subject.html:138
+#: mural/templates/mural/resource_view.html:73
+#: mural/templates/mural/resource_view.html:86
+#: mural/templates/mural/subject_view.html:85
+#: mural/templates/mural/subject_view.html:98
 msgid "Filter"
 msgstr "Filtrar"
 
-#: templates/mural/list.html:31 templates/mural/list.html:79
-#: templates/mural/list_category.html:80 templates/mural/list_category.html:131
-#: templates/mural/list_subject.html:79 templates/mural/list_subject.html:130
-#: templates/mural/resource_view.html:78 templates/mural/subject_view.html:90
+#: mural/templates/mural/list.html:31 mural/templates/mural/list.html:79
+#: mural/templates/mural/list_category.html:80
+#: mural/templates/mural/list_category.html:131
+#: mural/templates/mural/list_subject.html:79
+#: mural/templates/mural/list_subject.html:130
+#: mural/templates/mural/resource_view.html:78
+#: mural/templates/mural/subject_view.html:90
 msgid "Favorite posts"
 msgstr "Postagens favoritas"
 
-#: templates/mural/list.html:36 templates/mural/list.html:84
-#: templates/mural/list_category.html:85 templates/mural/list_category.html:136
-#: templates/mural/list_subject.html:84 templates/mural/list_subject.html:135
-#: templates/mural/resource_view.html:83 templates/mural/subject_view.html:95
+#: mural/templates/mural/list.html:36 mural/templates/mural/list.html:84
+#: mural/templates/mural/list_category.html:85
+#: mural/templates/mural/list_category.html:136
+#: mural/templates/mural/list_subject.html:84
+#: mural/templates/mural/list_subject.html:135
+#: mural/templates/mural/resource_view.html:83
+#: mural/templates/mural/subject_view.html:95
 msgid "Only my posts"
 msgstr "Apenas minhas postagens"
 
-#: templates/mural/list.html:40 templates/mural/list.html:88
-#: templates/mural/list_category.html:89 templates/mural/list_category.html:140
-#: templates/mural/list_subject.html:88 templates/mural/list_subject.html:139
-#: templates/mural/resource_view.html:87 templates/mural/subject_view.html:99
+#: mural/templates/mural/list.html:40 mural/templates/mural/list.html:88
+#: mural/templates/mural/list_category.html:89
+#: mural/templates/mural/list_category.html:140
+#: mural/templates/mural/list_subject.html:88
+#: mural/templates/mural/list_subject.html:139
+#: mural/templates/mural/resource_view.html:87
+#: mural/templates/mural/subject_view.html:99
 msgid "Clean Filters"
 msgstr "Limpar Filtros"
 
-#: templates/mural/list.html:52 templates/mural/list_category.html:101
-#: templates/mural/list_subject.html:100 templates/mural/resource_view.html:51
-#: templates/mural/subject_view.html:63
+#: mural/templates/mural/list.html:52
+#: mural/templates/mural/list_category.html:101
+#: mural/templates/mural/list_subject.html:100
+#: mural/templates/mural/resource_view.html:51
+#: mural/templates/mural/subject_view.html:63
 msgid "Wish to make a new post?"
 msgstr "Deseja fazer uma nova postagem?"
 
-#: templates/mural/list.html:70 templates/mural/list_category.html:122
-#: templates/mural/list_subject.html:121 templates/mural/resource_view.html:69
-#: templates/mural/subject_view.html:81
+#: mural/templates/mural/list.html:70
+#: mural/templates/mural/list_category.html:122
+#: mural/templates/mural/list_subject.html:121
+#: mural/templates/mural/resource_view.html:69
+#: mural/templates/mural/subject_view.html:81
 msgid "There are no posts in this mural yet."
 msgstr "Ainda não existe nenhuma postagem nesse mural."
 
-#: templates/mural/list_category.html:9
+#: mural/templates/mural/list_category.html:9
 msgid "Mural: Per Category"
 msgstr "Mural: Por Categoria"
 
-#: templates/mural/list_category.html:57 templates/mural/list_subject.html:56
-#: templates/mural/subject_view.html:37
+#: mural/templates/mural/list_category.html:57
+#: mural/templates/mural/list_subject.html:56
+#: mural/templates/mural/subject_view.html:37
 msgid "Replicate"
 msgstr "Replicar"
 
-#: templates/mural/list_category.html:111 templates/mural/list_subject.html:110
+#: mural/templates/mural/list_category.html:111
+#: mural/templates/mural/list_subject.html:110
 msgid "See more posts"
 msgstr "Ver mais postagens"
 
-#: templates/mural/list_subject.html:9
+#: mural/templates/mural/list_subject.html:9
 msgid "Mural: Per Subject"
 msgstr "Mural: Por Assunto"
 
-#: templates/mural/list_subject.html:59 templates/mural/subject_view.html:40
+#: mural/templates/mural/list_subject.html:59
+#: mural/templates/mural/subject_view.html:40
 msgid "Groups"
 msgstr "Grupos"
 
-#: templates/mural/resource_view.html:12 templates/mural/subject_view.html:9
-#: views.py:101
+#: mural/templates/mural/resource_view.html:12
+#: mural/templates/mural/subject_view.html:9 mural/views.py:101
 msgid "Mural"
 msgstr "Mural"
 
-#: templatetags/mural_filters.py:12
+#: mural/templatetags/mural_filters.py:12
 msgid "(Edited)"
 msgstr "(Editado)"
 
-#: templatetags/mural_filters.py:30 views.py:1226
+#: mural/templatetags/mural_filters.py:30 mural/views.py:1226
 msgid "Unfavorite"
 msgstr "Desfavoritar"
 
-#: templatetags/mural_filters.py:32 views.py:1230
+#: mural/templatetags/mural_filters.py:32 mural/views.py:1230
 msgid "Favorite"
 msgstr "Favoritar"
 
-#: templatetags/mural_filters.py:106
+#: mural/templatetags/mural_filters.py:106
 msgid "about"
 msgstr "sobre"
 
-#: views.py:154
+#: mural/views.py:154
 #, python-format
 msgid "%s has made a post in General"
 msgstr "%s postou em Geral"
 
-#: views.py:258 views.py:522 views.py:858
+#: mural/views.py:258 mural/views.py:522 mural/views.py:858
 msgid "Are you sure you want to delete this post?"
 msgstr "Você tem certeza que deseja deletar essa postagem?"
 
-#: views.py:366
+#: mural/views.py:366
 msgid "Mural - Per Category"
 msgstr "Mural - Por Categoria"
 
-#: views.py:411 views.py:717 views.py:1152
+#: mural/views.py:411 mural/views.py:717 mural/views.py:1152
 #, python-format
 msgid "%s has made a post in %s"
 msgstr "%s postou em %s"
 
-#: views.py:655
+#: mural/views.py:655
 msgid "Mural - Per Subject"
 msgstr "Mural - Por Assunto"
 
-#: views.py:969 views.py:1085
+#: mural/views.py:969 mural/views.py:1085
 #, python-format
 msgid "%s - Mural"
 msgstr "%s - Mural"
 
-#: views.py:1207
+#: mural/views.py:1207
 msgid "Your post was published successfully!"
 msgstr "Sua postagem foi publicada com sucesso!"
 
-#: views.py:1209
+#: mural/views.py:1209
 msgid "Your post was edited successfully!"
 msgstr "Sua postagem foi editada com sucesso!"
 
-#: views.py:1216
+#: mural/views.py:1216
 msgid "Post deleted successfully!"
 msgstr "Postagem deletada com sucesso!"
 
-#: views.py:1284
+#: mural/views.py:1284
 #, python-format
 msgid "%s has commented in a post"
 msgstr "%s comentou em um postagem"
 
-#: views.py:1443
+#: mural/views.py:1443
 msgid "Are you sure you want to delete this comment?"
 msgstr "Você tem certeza que deseja deletar esse comentário?"
 
-#: views.py:1510
+#: mural/views.py:1510
 msgid "Your comment was published successfully!"
 msgstr "Seu comentário foi publicado com sucesso!"
 
-#: views.py:1512
+#: mural/views.py:1512
 msgid "Your comment was edited successfully!"
 msgstr "Seu comentário foi editado com sucesso!"
 
-#: views.py:1519
+#: mural/views.py:1519
 msgid "Comment deleted successfully!"
 msgstr "Comentário deletado com sucesso!"
 
