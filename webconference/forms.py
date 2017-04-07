@@ -67,7 +67,7 @@ class WebconferenceForm(forms.ModelForm):
 
 	def clean_start(self):
 		start = self.cleaned_data['start']
-		if start.timetuple() < datetime.datetime.now().timetuple():
+		if start.date() < datetime.datetime.now().date():
 			self._errors['start'] = [_('This date must be today or after')]
 			return ValueError
 
