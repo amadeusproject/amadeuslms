@@ -4,15 +4,15 @@
 
 {% is_online talking_to as status %}
 
-<div id="talk-chat-{{ talking_to.id }}" class="col-md-12 participant panel">
-    <div class="col-md-1 user-img">
+<div id="talk-chat-{{ talking_to.id }}" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 participant panel">
+    <div class="col-md-1 col-sm-1 col-xs-2 user-img">
         <img src="{{ talking_to.image_url }}" class="img-responsive" />
     </div>
-    <div class="col-md-6 user-info">
+    <div class="col-md-6 col-sm-6 col-xs-10 user-info">
         <h4 class='talking-header'><a class="user_{{ talking_to.id }}_status status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ talking_to }} (<span class="chat_notify_list">{{ chat|notifies:request.user }}</span>)</h4>
         <p class="talk-last_msg">{% trans 'Last message in' %} {{ chat|last_message }}</p>
     </div>
-    <div class="col-md-4 buttons pull-right text-center">
+    <div class="col-md-4 col-sm-4 col-xs-12 buttons pull-right text-center">
         <a href="#" onclick="getModalInfo($(this), '{{ space }}', '{{ space_type }}'); return false;" data-url='{% url "chat:talk" talking_to.email %}' class="btn btn-raised btn-success pull-right">{% trans 'Access Talk' %}</a>
     </div>
 </div>

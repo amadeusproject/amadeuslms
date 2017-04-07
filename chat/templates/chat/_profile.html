@@ -9,7 +9,7 @@
       	</div>
 		<div class="modal-body">
 			<div class="row">
-				<div class="col-md-4 modal_profile_sidebar">
+				<div class="col-md-4 col-sm-4 modal_profile_sidebar">
 					<span class="thumbnail">
 						<img src="{{ participant.image_url }}" />
 					</span>
@@ -19,7 +19,7 @@
 					</h4>
 					<a href="#" onclick="getModalInfo($(this), '{{ space }}', '{{ space_type }}'); return false;" data-url='{% url "chat:talk" participant.email %}' class="btn btn-raised btn-success btn-block" style="padding: 8px 15px">{% trans 'Send Message' %}</a>
 				</div>
-				<div class="col-md-8">
+				<div class="col-md-8 col-sm-8">
 					<div class="form-group">
 						<label class="control-form">{% trans 'System Admin' %}:</label>
 						<p class="profile_function modal_profile">{{ participant.is_admin }}</p>
