@@ -23,6 +23,7 @@ import pandas as pd
 import math
 from io import BytesIO
 import os
+import copy
 
 class ReportView(LoginRequiredMixin, generic.FormView):
     template_name = "reports/create.html"
@@ -46,19 +47,7 @@ class ReportView(LoginRequiredMixin, generic.FormView):
         context = super(ReportView, self).get_context_data(**kwargs)
         subject = Subject.objects.get(id=self.request.GET['subject_id'])
 
-        context['subject'] = subject
-
-        topics = subject.topic_subject.all()
-        #get all resources associated with topics
-        tags = []
-        for topic in topics:
-            resources_set = topic.resource_topic.all()
-            for resource in resources_set:
-                for tag in resource.tags.all():
-                    tags.append(tag)
-        
-
-        classes = Resource.__subclasses__()    
+        context['subject'] = subject   
 
         #set formset
         resourceTagFormSet = formset_factory(ResourceAndTagForm, formset=BaseResourceAndTagFormset)
@@ -104,6 +93,10 @@ class ReportView(LoginRequiredMixin, generic.FormView):
                 for tag in resource.tags.all():
                     tags.append(tag)
 
+
+        t = Tag(name=" ")
+        t.id = -1 #so I know he choose empyt one
+        tags.append(t)
         classes = Resource.__subclasses__()  
         amount_of_forms = self.request.POST['form-TOTAL_FORMS']
         initial_datum = {'class_name': classes , 'tag': tags}
@@ -211,7 +204,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         #I use this so the system can gather data up to end_date 11h59 p.m.
         end_date = end_date + timedelta(days=1)
    
-       
+        self.used_tags = copy.deepcopy(tags_id) #so I can check whether we are dealing with multiple or single tags (empty option)
         #For each student in the subject
         for student in students:
             data[student.id] = []
@@ -303,8 +296,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                     distinct_days += 1
 
             interactions[_('Number of distinct days the user access the subject. ')] = distinct_days
-            interactions[_("Class")] = ""
-            interactions[_("Performance")] = ""
+            interactions[_("Class")] = _("Undefined")
+            interactions[_("Performance")] = _("Undefined")
             for value in interactions.values():
                 data[student.id].append(value)
            
@@ -316,13 +309,47 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
     def get_resources_and_tags_data(self, resources_types, tags, student, subject, topics, init_date, end_date):
         data = OrderedDict()  
         
+        new_tags = [] #tags will be replaced by this variable
         for i in range(len(resources_types)):
-            
+           
+            if tags[i] == "-1": #it means I should select all of tags available for this kind of resource
+                new_tags = set()
+                if not isinstance(topics,Topic):
+                    topics = subject.topic_subject.all()
+                    for topic in topics:
+                        resource_set = Resource.objects.select_related(resources_types[i].lower()).filter(topic = topic)
+                       
+                        for resource in resource_set:
+                            if resource._my_subclass == resources_types[i].lower():
+                                for tag in resource.tags.all():
+                                    if tag.name != "":
+                                        new_tags.add(tag)
+                else:
+                    topics = topics
+                    resource_set = Resource.objects.select_related(resources_types[i].lower()).filter(topic = topics)
+                       
+                    for resource in resource_set:
+                        if resource._my_subclass == resources_types[i].lower():
+                            for tag in resource.tags.all():
+                                if tag.name != "":
+                                    new_tags.add(tag)
+                data = {}
+                
+              
+                new_tags = [tag.id for tag in new_tags]
+                tags[i] = new_tags
+        for i in range(len(resources_types)):
+            original_tags = copy.deepcopy(self.used_tags) #effectiving copy
             if isinstance(topics,Topic):
-                resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = tags, topic=topics)
+                if type(tags[i]) == type(list()):
+                    resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = tags[i], topic=topics)
+                else:
+                    resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = [tags[i]], topic=topics)
             else: 
-                resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = tags, topic__in=topics)
-            
+                if type(tags[i]) == type(list()):
+                    resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = tags[i], topic__in=topics)
+                else:
+                    resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = [tags[i]], topic__in=topics)
             distinct_resources = 0
             total_count = 0
             
@@ -425,15 +452,20 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             mapping['webconference'] = str(_('Web Conference'))
             mapping['ytvideo'] = str(_('YouTube Video'))
             mapping['webpage'] = str(_('WebPage'))
-            data[str(_("number of visualizations of ")) + mapping[str(resources_types[i])] + str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name] = total_count
-            data[str(_("number of visualizations of distintic ")) +  mapping[str(resources_types[i])] + str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name] = distinct_resources
-            data[str(_("distintic days ")) +  mapping[str(resources_types[i])] + str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name]  = distinct_days
-            
-            if resources_types[i].lower() in ["ytvideo", "webconference"]:
-                data[str(_("hours viewed of ")) + str(resources_types[i]) + str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name] = hours_viewed
+            if original_tags[i] != "-1":
+                data[str(_("number of visualizations of ")) + mapping[str(resources_types[i])] + str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name] = total_count
+                data[str(_("number of visualizations of distintic ")) +  mapping[str(resources_types[i])] + str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name] = distinct_resources
+                data[str(_("distintic days ")) +  mapping[str(resources_types[i])] + str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name]  = distinct_days
                 
-            """data["distinct" + str(resources[i]) + " with tag " + Tag.objects.get(id=int(tags[i])).name] = Log.objects.filter(action="view", resource=resources[i].lower(),
-                user_id = student.id, context__contains = {'subject_id': subject.id}).distinct().count()"""
+                if resources_types[i].lower() in ["ytvideo", "webconference"]:
+                    data[str(_("hours viewed of ")) + str(resources_types[i]) + str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name] = hours_viewed
+            else:
+                data[str(_("number of visualizations of ")) + mapping[str(resources_types[i])] ] = total_count
+                data[str(_("number of visualizations of distintic ")) +  mapping[str(resources_types[i])] ] = distinct_resources
+                data[str(_("distintic days ")) +  mapping[str(resources_types[i])]]  = distinct_days
+                
+                if resources_types[i].lower() in ["ytvideo", "webconference"]:
+                    data[str(_("hours viewed of ")) + str(resources_types[i]) ] = hours_viewed
 
         return data
 
@@ -504,7 +536,10 @@ def get_tags(request):
    
     #adding empty tag for the purpose of giving the user this option for adicional behavior
     tags = list(tags)
-    tags.append(Tag(name=" "))
+    #creating empty tag
+    t = Tag(name=" ")
+    t.id = -1 #so I know he choose empyt one
+    tags.append(t)
     data['tags'] = [ {'id':tag.id, 'name':tag.name} for tag in  tags]
     return JsonResponse(data)
 
