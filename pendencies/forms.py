@@ -68,20 +68,20 @@ class PendenciesForm(forms.ModelForm):
 					self.add_error('begin_date', _("This input should be filled with a date equal or after today's date."))
 
 				if begin_date.date() < subject.init_date:
-					self.add_error('begin_date', _('This input should be filled with a date equal or after the subject begin date.'))
+					self.add_error('begin_date', _('This input should be filled with a date equal or after the subject begin date.("%s")')%(subject.init_date))
 
 				if begin_date.date() > subject.end_date:
-					self.add_error('begin_date', _('This input should be filled with a date equal or after the subject end date.'))
+					self.add_error('begin_date', _('This input should be filled with a date equal or before the subject end date.("%s")')%(subject.end_date))
 
 			if not end_date == ValueError and end_date:
 				if not self.instance.id and end_date.date() < datetime.datetime.today().date():
 					self.add_error('end_date', _("This input should be filled with a date equal or after today's date."))
 
 				if end_date.date() < subject.init_date:
-					self.add_error('end_date', _('This input should be filled with a date equal or after the subject begin date.'))
+					self.add_error('end_date', _('This input should be filled with a date equal or after the subject begin date.("%s")')%(subject.init_date))
 
 				if end_date.date() > subject.end_date:
-					self.add_error('end_date', _('This input should be filled with a date equal or before the subject end date.'))
+					self.add_error('end_date', _('This input should be filled with a date equal or before the subject end date.("%s")')%(subject.end_date))
 
 		return cleaned_data
 
@@ -162,30 +162,30 @@ class PendenciesLimitedForm(forms.ModelForm):
 					self.add_error('begin_date', _("This input should be filled with a date equal or after today's date."))
 
 				if begin_date.date() < subject.init_date:
-					self.add_error('begin_date', _('This input should be filled with a date equal or after the subject begin date.'))
+					self.add_error('begin_date', _('This input should be filled with a date equal or after the subject begin date.("%s")')%(subject.init_date))
 
 				if begin_date.date() > subject.end_date:
-					self.add_error('begin_date', _('This input should be filled with a date equal or after the subject end date.'))
+					self.add_error('begin_date', _('This input should be filled with a date equal or before the subject end date.("%s")')%(subject.end_date))
 
 			if not end_date == ValueError and end_date:
 				if not self.instance.id and end_date.date() < datetime.datetime.today().date():
 					self.add_error('end_date', _("This input should be filled with a date equal or after today's date."))
 
 				if end_date.date() < subject.init_date:
-					self.add_error('end_date', _('This input should be filled with a date equal or after the subject begin date.'))
+					self.add_error('end_date', _('This input should be filled with a date equal or after the subject begin date.("%s")')%(subject.init_date))
 
 				if end_date.date() > subject.end_date:
-					self.add_error('end_date', _('This input should be filled with a date equal or before the subject end date.'))
+					self.add_error('end_date', _('This input should be filled with a date equal or before the subject end date.("%s")')%(subject.end_date))
 
 			if not limit_date == ValueError and limit_date:
 				if not self.instance.id and limit_date.date() < datetime.datetime.today().date():
 					self.add_error('limit_date', _("This input should be filled with a date equal or after today's date."))
 
 				if limit_date.date() < subject.init_date:
-					self.add_error('limit_date', _('This input should be filled with a date equal or after the subject begin date.'))
+					self.add_error('limit_date', _('This input should be filled with a date equal or after the subject begin date.("%s")')%(subject.init_date))
 
 				if limit_date.date() > subject.end_date:
-					self.add_error('limit_date', _('This input should be filled with a date equal or before the subject end date.'))
+					self.add_error('limit_date', _('This input should be filled with a date equal or before the subject end date.("%s")')%(subject.end_date))
 
 		if limit_submission_date:
 			limit_submission_date = datetime.datetime.strptime(limit_submission_date, get_format('DATETIME_CONVERT_FORMAT'))
@@ -193,14 +193,14 @@ class PendenciesLimitedForm(forms.ModelForm):
 
 			if not begin_date == ValueError and begin_date:
 				if begin_date.date() > limit_submission_date.date():
-					self.add_error('begin_date', _('This input should be filled with a date equal or before the goals submission limit date.'))
+					self.add_error('begin_date', _('This input should be filled with a date equal or before the goals submission limit date.("%s")')%(subject.limit_submission_date.date()))
 
 			if not end_date == ValueError and end_date:
 				if end_date.date() > limit_submission_date.date():
-					self.add_error('end_date', _('This input should be filled with a date equal or before the goals submission limit date.'))
+					self.add_error('end_date', _('This input should be filled with a date equal or before the goals submission limit date.("%s")')%(subject.limit_submission_date.date()))
 
 			if not limit_date == ValueError and limit_date:
 				if limit_date.date() > limit_submission_date.date():
-					self.add_error('limit_date', _('This input should be filled with a date equal or before the goals submission limit date.'))
+					self.add_error('limit_date', _('This input should be filled with a date equal or before the goals submission limit date.("%s")')%(subject.limit_submission_date.date()))
 
 		return cleaned_data
