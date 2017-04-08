@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load static i18n django_bootstrap_breadcrumbs permission_tags %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb   "Manage News" 'news:manage_news' %}
+{% endblock %}
+
+{% block render_breadcrumbs %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+{% block content %}{% endblock %}
