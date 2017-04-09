@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-06 22:17-0300\n"
+"POT-Creation-Date: 2017-04-09 13:24-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,22 +17,85 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-#: news/models.py:15
+
+#: .\forms.py:22
+msgid "This field is required"
+msgstr "Este campo é obrigatório."
+
+#: .\forms.py:33
+msgid "The image is too large. It should have less than 5MB."
+msgstr "A imagem é muito grande. Ela deve ter menos que 5MB."
+
+#: .\forms.py:36
+msgid "This field is required."
+msgstr "Este campo é obrigatório."
+
+#: .\models.py:15
 msgid "File not supported."
-msgstr ""
+msgstr "Arquivo não suportado"
 
-#: news/models.py:18
-msgid "Name"
-msgstr ""
+#: .\models.py:18
+msgid "Title"
+msgstr "Título"
 
-#: news/models.py:19
+#: .\models.py:19
 msgid "Slug"
 msgstr ""
 
-#: news/models.py:20
+#: .\models.py:20
 msgid "News Image"
-msgstr ""
+msgstr "Imagem de apresentação da notícia"
 
-#: news/models.py:21
-msgid "Description"
-msgstr ""
+#: .\models.py:21
+msgid "News Content"
+msgstr "Conteúdo da notícia"
+
+#: .\models.py:22
+msgid "Create Date"
+msgstr "Data de criação"
+
+#: .\models.py:23
+msgid "Creator"
+msgstr "Autor"
+
+#: .\models.py:25 .\models.py:26
+msgid "News"
+msgstr "Notícia"
+
+#: .\templates\news\_form.html:12
+msgid "Choose your photo..."
+msgstr "Escolha a foto"
+
+#: .\templates\news\_form.html:59
+msgid "Save"
+msgstr "Salvar"
+
+#: .\templates\news\_form.html:62
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: .\templates\news\create.html:7
+msgid "Register News"
+msgstr "Cadastrar notícia"
+
+#: .\templates\news\list.html:7
+msgid "Manage News"
+msgstr "Gerenciar notícias"
+
+#: .\templates\news\list.html:31
+msgid "Create news"
+msgstr "Criar notícia"
+
+#: .\views.py:50
+msgid "News successfully created!"
+msgstr "Notícia criada com sucesso"
+
+#: .\views.py:55
+msgid "Create News"
+msgstr "Criar notícia"
+
+#~ msgid "There is already a news with this name"
+#~ msgstr "Já existe uma notícia com esse nome"
+
+#~ msgid "Name"
+#~ msgstr "Nome"
