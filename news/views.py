@@ -5,6 +5,8 @@ from log.models import Log
 from log.mixins import LogMixin
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages
+from django.utils.translation import ugettext_lazy as _
+
 
 from .models import News
 from .forms import NewsForm
@@ -32,26 +34,26 @@ class ListNewsView(LoginRequiredMixin,LogMixin,generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        news = News.objects.all()
+        news = News.objects.all().order_by('create_date')
         return news
 
 class CreateNewsView(LoginRequiredMixin,LogMixin,generic.edit.CreateView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
-
-
-    template_name = 'news/_form.html'
+    template_name = 'news/create.html'
     form_class = NewsForm
+    def form_valid(self, form):
+        self.object = form.save()
+        return super(CreateNewsView, self).form_valid(form)
 
-    def form_invalid(self, form):
-    	context = super(CreateNewsView, self).form_invalid(form)
-    	context.status_code = 400
-
-    	return context
     def get_success_url(self):
         messages.success(self.request, _('News successfully created!'))
 
         return reverse_lazy('news:view', kwargs = {'slug': self.object.slug} )
+    def get_context_data (self, **kwargs):
+        context = super(CreateNewsView, self).get_context_data(**kwargs)
+        context['title'] = _("Create News")
+        return context
 
 class UpdateNewsView(LoginRequiredMixin,LogMixin,generic.UpdateView):
     pass
