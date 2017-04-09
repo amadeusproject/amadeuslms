@@ -15,7 +15,7 @@ def validate_img_extension(value):
 			raise ValidationError(_('File not supported.'))
 
 class News(models.Model):
-	title = models.CharField( _("Name"), unique = True,max_length= 200)
+	title = models.CharField( _("Title"), unique = True,max_length= 200)
 	slug = AutoSlugField(_("Slug"),populate_from='title',unique=True)
 	image = models.ImageField(verbose_name = _('News Image'), upload_to = 'news/', validators = [validate_img_extension])
 	content = models.TextField(_('News Content'))
