@@ -1,14 +1,36 @@
 {% extends 'base.html' %}
 
-{% load static i18n django_bootstrap_breadcrumbs permission_tags %}
+{% load static i18n django_bootstrap_breadcrumbs permission_tags pagination %}
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb   "Manage News" 'news:manage_news' %}
+    {% trans 'Manage News' as manage_news %}
+    {% breadcrumb  manage_news 'news:manage_news' %}
 {% endblock %}
 
 {% block render_breadcrumbs %}
     {% render_breadcrumbs %}
 {% endblock %}
 
-{% block content %}{% endblock %}
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <script type="text/javascript">
+            {% if message.tags == "danger" %}
+                alertify.error('{{message}}');
+            {% else %}
+                alertify.success('{{message}}');
+            {% endif %}
+        </script>
+    {% endfor %}
+{% endif %}
+
+<div class='row'>
+    <div class="col-md-offset-3 col-md-6">
+        <a href="{% url 'news:create' %}" class="btn btn-raised btn-success btn-block">{% trans "Create news" %}</a>
+    </div>
+</div>
+
+
+{% endblock %}
