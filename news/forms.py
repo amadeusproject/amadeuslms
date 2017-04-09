@@ -18,8 +18,8 @@ class NewsForm(forms.ModelForm):
 
     def clean_title(self):
         title = self.cleaned_data.get('title', '')
-        if same_name > 0:
-            self._errors['name'] = [_('This subject already has a pdf file with this name')]
+        if title == '':
+            self._errors['name'] = [_('This field is required')]
 
             return ValueError
 
