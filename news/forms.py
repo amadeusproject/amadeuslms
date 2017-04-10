@@ -37,4 +37,4 @@ class NewsForm(forms.ModelForm):
 
             return ValueError
 
-            return image
+        return image
