@@ -49,7 +49,7 @@ var loadPosts = function() {
 $(function () {
     $(window).bind('scroll', loadOnScroll);
 
-    $("#clear_filter").click(function () {
+    $(".clear_filter").click(function () {
         var frm = $(this).parent();
 
         frm.find("input[type='checkbox']").prop('checked', false);

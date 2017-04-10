@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-09 17:01-0300\n"
+"POT-Creation-Date: 2017-04-06 22:17-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgstr "Ja existe um link com este nome neste Assunto"
 msgid "Link_URL"
 msgstr "URL do link"
 
-#: links/models.py:31 links/templates/links/delete.html:9
+#: links/models.py:31 links/templates/links/delete.html:12
 msgid "Are you sure you want delete the Website link"
 msgstr "Tem certeza que voce deseja remover esse Link para Website"
 
@@ -78,11 +78,11 @@ msgstr "Salvar"
 msgid "Create Website Link"
 msgstr "Criar Link do Website"
 
-#: links/templates/links/delete.html:14
+#: links/templates/links/delete.html:18
 msgid "Close"
 msgstr "Fechar"
 
-#: links/templates/links/delete.html:17
+#: links/templates/links/delete.html:19
 msgid "Delete"
 msgstr "Remover"
 

@@ -39,7 +39,7 @@
 	            </div>
 	        </div>
 	        <div class="row-fluid">
-	        	<div class="messages-container" data-talk="{{ talk_id }}" data-url="{% url 'chat:load_messages' talk_id %}" data-page="{{ page_obj.number }}" data-pages="{{ paginator.num_pages }}">
+	        	<div class="messages-container" data-talk="{{ talk_id }}" data-url="{% url 'chat:load_messages' talk_id %}" data-page="{{ page_obj.number }}" data-pages="{{ paginator.num_pages }}" data-viewed="{{ messages_viewed }}" data-space="{{ subject }}">
 	        		<button type="button" class="btn btn-block btn-success btn-raised more-msgs" style="{% if paginator.num_pages == page_obj.number %}display:none;{% endif %}margin:0px">
 	                    {% trans 'See old messages' %}
 	                </button>

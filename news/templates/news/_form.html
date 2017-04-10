@@ -6,21 +6,19 @@
 	{% for field in form %}
 		<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput col-lg-12 col-md-12 col-sm-12">
 			{% if field.auto_id == 'id_image' %}
-        		{% if field.field.required %}
 					<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
-					{% else %}
-					<label for="{{ field.auto_id }}">{{ field.label }}</label>
-					{% endif %}
-				{% render_field field class='form-control' %}
-				<div class="input-group">
-                  	<input type="text" readonly="" class="form-control" id="pic_holder" placeholder="{% trans 'Choose your photo...' %}">
-                  	<span class="input-group-btn input-group-sm">
-                    	<button type="button" class="btn btn-fab btn-fab-mini">
-                    		<i class="material-icons">image</i>
-                   		</button>
-                  	</span>
-                </div>
-            {% elif field.auto_id == 'id_description' %}
+					{% render_field field class='form-control' %}
+					<div class="input-group">
+											<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your photo...' %}">
+											<span class="input-group-btn input-group-sm">
+												<button type="button" class="btn btn-fab btn-fab-mini">
+													<i class="material-icons">image</i>
+												</button>
+											</span>
+									</div>
+
+
+            {% elif field.auto_id == 'id_content' %}
             	{% if field.field.required %}
 									<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
 							{% else %}
@@ -28,30 +26,15 @@
 								<label for="{{ field.auto_id }}">{{ field.label }}</label>
 							{% endif %}
             	{% render_field field class='form-control text_wysiwyg' %}
-      		{% elif field.auto_id == 'id_is_staff' or  field.auto_id == 'id_is_active' %}
-				<div class="checkbox">
-  					<label for="{{ field.auto_id }}">
-      					{% render_field field %} {{field.label}}
-  					</label>
-				</div>
 			{% else %}
 				{% if field.field.required %}
 					<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
 				{% else %}
-									{% if field.auto_id == 'id_x' or field.auto_id == 'id_show_email' or field.auto_id == 'id_y' or field.auto_id == 'id_width' or field.auto_id == 'id_height'%}
-
-									{% else %}
-
 											<label for="{{ field.auto_id }}">{{ field.label }}</label>
-									{% endif %}
-
 
 				{% endif %}
-				{% if field.auto_id == 'id_show_email' %}
-
-				{% else %}
 							{% render_field field class='form-control' %}
-				{% endif %}
+
 
 
 			{% endif %}
@@ -76,10 +59,9 @@
 				<input type="submit" value="{% trans 'Save' %}" class="btn btn-success btn-raised btn-block" />
 			</div>
 			<div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 text-center">
-				<a href="{% url back_url %}" class="btn btn-default btn-raised btn-block">{% trans 'Cancel' %}</a>
+				<input type=button value="{% trans 'Cancel' %}" class="btn btn-default btn-raised btn-block" onClick="window.history.back();return false;">
 			</div>
 		</div>
 	</div>
 
 </form>
-{% include 'users/modal_crop.html'  %}

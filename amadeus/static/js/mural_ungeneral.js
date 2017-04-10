@@ -50,6 +50,7 @@ $('.mural-ungeneral').on('shown.bs.collapse', function(e) {
 								actual = parseInt(actual, 10) - data.unviewed;
 
 								if (actual <= 0) {
+									$(this).text("0");
 									$(this).hide();
 								} else {
 									$(this).text(actual);

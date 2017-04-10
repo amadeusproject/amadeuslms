@@ -59,10 +59,11 @@
 							                </div>
 							            {% else %}
 							            	{% if field.auto_id == 'id_show_email' %}
-							            		<label for="{{ field.auto_id }}" class="control-label">{{ field.label }}</label>
+														{% else %}
+															{% render_field field class='form-control' %}
 							            	{% endif %}
 
-											{% render_field field class='form-control' %}
+
 										{% endif %}
 										<span class="help-block">{{ field.help_text }}</span>
 										{% if field.errors %}
