@@ -19,12 +19,13 @@ class VisualizeNews(LoginRequiredMixin,LogMixin,generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(VisualizeNews, self).get_context_data(**kwargs)
-        slug = self.kwargs.get('slug', '')
-        news = News.objects.get(slug=slug)
-        context['news'] = news
+        context['title'] = _('Visualize News')
 
         return context
-
+    def get_queryset(self):
+        slug = self.kwargs.get('slug', '')
+        news = News.objects.get(slug=slug)
+        return news
 class ListNewsView(LoginRequiredMixin,LogMixin,generic.ListView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
