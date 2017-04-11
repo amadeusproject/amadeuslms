@@ -8,7 +8,37 @@
 	</div>
 	<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 comment-body">
 		<h4 class="comment-user">
-			{{ comment.user }}
+			{% if not post.user == request.user %}
+				{% is_online comment.user as status %}
+
+				<span data-toggle="popover" data-container="body" data-placement="right">{{ comment.user }}</span>
+
+				<div class="popover">
+                    <div class="popover-content participant">
+                        <button type="button" class="close" aria-label="{% trans 'Close' %}"><span aria-hidden="true">&times;</span></button>
+
+                        <br clear="all" />
+
+                        <div class="col-md-3 col-sm-3 user-img">
+                            <img src="{{ comment.user.image_url }}" class="img-responsive" />
+                        </div>
+                        <div class="col-md-9 col-sm-9 user-info">
+                            <h4><a class="status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ comment.user }}</h4>
+                        </div>
+                    </div>
+                    <div class="popover-footer">
+                        <a href="#" onclick="getModalInfo($(this), '{{ comment.post|chat_space }}', '{{ comment.post|chat_space_type }}'); return false;" data-url='{% url "chat:profile" comment.user.email %}' class="btn btn-default btn-sm btn-raised pull-left">
+                            {% trans 'See Profile' %}
+                        </a>
+                        <a href="#" onclick="getModalInfo($(this), '{{ comment.post|chat_space }}', '{{ comment.post|chat_space_type }}'); return false;" data-url='{% url "chat:talk" comment.user.email %}' class="btn btn-success btn-sm btn-raised pull-right">
+                            {% trans 'Send Message' %}
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+            	{{ comment.user }}
+            {% endif %}
+
 			<span class="user-action">
 				<i class="fa fa-commenting-o"></i>
 				{% trans 'Comment' context "view" %}
