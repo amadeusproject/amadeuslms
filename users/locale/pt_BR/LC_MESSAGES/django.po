@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-06 22:17-0300\n"
+"POT-Creation-Date: 2017-04-11 19:17-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -153,11 +153,11 @@ msgstr "Não é administrador"
 msgid "Choose your photo..."
 msgstr "Escolha sua foto..."
 
-#: users/templates/users/_form.html:70
+#: users/templates/users/_form.html:76
 msgid "Save"
 msgstr "Salvar"
 
-#: users/templates/users/_form.html:73 users/templates/users/modal_crop.html:24
+#: users/templates/users/_form.html:79 users/templates/users/modal_crop.html:24
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -198,7 +198,7 @@ msgstr "Recuperar"
 
 #: users/templates/users/forgot_password.html:75
 #: users/templates/users/new_password.html:80
-#: users/templates/users/register.html:92
+#: users/templates/users/register.html:93
 msgid "Back"
 msgstr "Voltar"
 
@@ -275,7 +275,7 @@ msgstr "Estudante em"
 msgid "User Register"
 msgstr "Cadastro de Usuário"
 
-#: users/templates/users/register.html:89
+#: users/templates/users/register.html:90
 msgid "Register"
 msgstr "Cadastrar"
 

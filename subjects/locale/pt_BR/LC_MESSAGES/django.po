@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-06 22:17-0300\n"
+"POT-Creation-Date: 2017-04-11 19:18-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "Tags"
 msgid "There is another subject with this name, try another one."
 msgstr "Já existe um assunto com esse nome, tente outro."
 
-#: subjects/forms.py:76 subjects/forms.py:179
+#: subjects/forms.py:76
 msgid "This date must be today or after"
 msgstr "Essa data deve ser hoje ou depois disso"
 

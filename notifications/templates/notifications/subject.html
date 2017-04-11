@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block content %}
+	<h5>{% trans 'This pendencies list is updated every 24 hours. Last update was in:' %} {{ last_update|default:_('Not determined') }}</h5>
 	{% if subject.visible %}
 		<div class="panel panel-info subject-panel">
         	<div class="panel-heading">
@@ -34,6 +35,7 @@
 		    </div>
 
 		    {% if not history %}
+
 			    {% if notifications.count > 0 %}
 			    	{% include 'notifications/_view.html' %}
 

@@ -16,6 +16,7 @@
 
 {% block content %}
 	<input type="hidden" id="pend_url" value="{% url 'notifications:manage' %}" />
+	<h5>{% trans 'This pendencies list is updated every 24 hours. Last update was in:' %} {{ last_update|default:_('Not determined') }}</h5>
 	{% if notifications.count > 0 %}
 		<p>{% trans 'You got pendencies in the following subjects' %}: </p>
 		<div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">

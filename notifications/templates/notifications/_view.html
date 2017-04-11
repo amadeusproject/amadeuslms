@@ -33,7 +33,9 @@
 								<p class="meta">{% trans 'Task finished in' %}: {{ notification.task.limit_date }}</p>
 							{% endif %}
 
-							<b>{{ notification|done_percent|floatformat:2 }}%</b> {% trans 'of the participants already realized this task.' %}
+							{% if notification|done_percent >= 30 %}
+								<b>{{ notification|done_percent|floatformat:2 }}%</b> {% trans 'of the participants already realized this task.' %}
+							{% endif %}
 						</div>
 						<div class="col-md-6">
 							<div class="alert {{ notification.level|warning_class }}">
