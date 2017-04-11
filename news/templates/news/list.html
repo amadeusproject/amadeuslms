@@ -26,11 +26,55 @@
     {% endfor %}
 {% endif %}
 
-<div class='row'>
-    <div class="col-md-offset-3 col-md-6">
-        <a href="{% url 'news:create' %}" class="btn btn-raised btn-success btn-block">{% trans "Create news" %}</a>
+<div class="row">
+    <div class="col-md-9">
+        <form action="{% url 'users:search' %}" method="GET" class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-11 col-sm-11 col-xs-11">
+                    <input type="text" class="form-control" name="search" placeholder="{% trans 'Search...' %}" />
+                </div>
+                <div class="col-md-1 col-sm-1 col-xs-1">
+                    <button type="submit" class="btn btn-fab btn-fab-mini">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-3">
+        <a href="{% url 'news:create' %}" class="pull-right btn btn-success btn-raised btn-md"><i class="fa fa-plus"></i> {% trans 'Create News' %}</a>
     </div>
 </div>
 
+{% if news %}
+    {% for new in news %}
+        <div class="row-fluid panel panel-default">
+            <div class="panel-body">
+                <div class="col-md-6">
+                    <!-- <a href="{% url 'news:view' new.slug %}"> <h3> <b>{{ new }}</b> </h3><a> -->
+                    <h3> <b>{{ new }}</b> </h3>
+                    <p>{{ new.creator}}, em {{ new.create_date }}</p>
+                </div>
+                <div class="col-md-6">
+                    <div align="right">
+                        <a href="{% url 'news:update' new.slug %}" class="btn btn-success btn-raised btn-sm"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
+                        <a href="" class="btn btn-default btn-raised btn-sm"><i class="fa fa-trash"></i> {% trans 'Delete' %}</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    {% endfor %}
+    {% pagination request paginator page_obj %}
+{% else %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <p>{% trans 'No news found' %}</p>
+        </div>
+    </div>
+{% endif %}
+<div id="modal_remove">
+
+</div>
 
 {% endblock %}
