@@ -43,7 +43,7 @@ class ListNewsView(LoginRequiredMixin,LogMixin,generic.ListView):
         return news
 
     def get_context_data(self, **kwargs):
-        context = super(ListNewsViewNews, self).get_context_data(**kwargs)
+        context = super(ListNewsView, self).get_context_data(**kwargs)
         context['title'] = _('Manage News')
 
         return context
