@@ -1,1 +1,33 @@
-{{news}}
+{% extends 'news/list.html' %}
+
+{% load widget_tweaks static i18n django_bootstrap_breadcrumbs permission_tags pagination %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% trans 'Visualize News' as visualize_news %}
+    {% breadcrumb  visualize_news 'news:view' %}
+{% endblock %}
+
+{% block render_breadcrumbs %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <script type="text/javascript">
+            {% if message.tags == "danger" %}
+                alertify.error('{{message}}');
+            {% else %}
+                alertify.success('{{message}}');
+            {% endif %}
+        </script>
+    {% endfor %}
+{% endif %}
+
+{{new.title}}
+<br>{{new.creator}}
+<br>{{new.create_date}}
+{% endblock  %}
