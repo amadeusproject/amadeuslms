@@ -4,8 +4,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% trans 'Visualize News' as visualize_news %}
-    {% breadcrumb  visualize_news 'news:view' %}
+    {% breadcrumb  new.title 'news:view' %}
 {% endblock %}
 
 {% block render_breadcrumbs %}
@@ -26,8 +25,24 @@
         </script>
     {% endfor %}
 {% endif %}
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+  <div class="col-lg-12 row-fluid panel panel-default">
+            <div class="panel-body">
+                <div class="col-md-12" style="display:inline-block">
+                  <h2><b>{{new.title}}</b></h2>
+                  <p>{{new.creator}}, em {{new.create_date}}</p>
+                </div>
+                <div class="col-md-12">
+                  <br>
+                    {% autoescape off %}
+                    {{new.content}}
+                    {% endautoescape %}
+                </div>
 
-{{new.title}}
-<br>{{new.creator}}
-<br>{{new.create_date}}
+            </div>
+
+        </div>
+
+
+</div>
 {% endblock  %}
