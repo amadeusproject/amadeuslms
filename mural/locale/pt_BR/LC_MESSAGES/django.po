@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-06 22:17-0300\n"
+"POT-Creation-Date: 2017-04-11 19:17-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -150,47 +150,59 @@ msgstr "Marcar Usuário"
 msgid "No results found."
 msgstr "Nenhum resultado encontrado."
 
-#: mural/templates/mural/_view.html:22
-#: mural/templates/mural/_view_comment.html:22
+#: mural/templates/mural/_view.html:17
+#: mural/templates/mural/_view_comment.html:18
+#: mural/templates/mural/delete.html:16
+msgid "Close"
+msgstr "Fechar"
+
+#: mural/templates/mural/_view.html:30
+#: mural/templates/mural/_view_comment.html:31
+msgid "See Profile"
+msgstr ""
+
+#: mural/templates/mural/_view.html:33
+#: mural/templates/mural/_view_comment.html:34
+msgid "Send Message"
+msgstr ""
+
+#: mural/templates/mural/_view.html:52
+#: mural/templates/mural/_view_comment.html:52
 #: mural/templates/mural/list_category.html:59
 #: mural/templates/mural/list_subject.html:58
 #: mural/templates/mural/subject_view.html:39
 msgid "Edit"
 msgstr "Editar"
 
-#: mural/templates/mural/_view.html:24
-#: mural/templates/mural/_view_comment.html:24
+#: mural/templates/mural/_view.html:54
+#: mural/templates/mural/_view_comment.html:54
 #: mural/templates/mural/list_category.html:61
 #: mural/templates/mural/list_subject.html:60
 #: mural/templates/mural/subject_view.html:41
 msgid "Remove"
 msgstr "Remover"
 
-#: mural/templates/mural/_view.html:36
-#: mural/templates/mural/_view_comment.html:31
+#: mural/templates/mural/_view.html:66
+#: mural/templates/mural/_view_comment.html:61
 msgid "In"
 msgstr "Em"
 
-#: mural/templates/mural/_view.html:47
+#: mural/templates/mural/_view.html:77
 msgid "See complete post"
 msgstr "Ver postagem completa"
 
-#: mural/templates/mural/_view.html:50
+#: mural/templates/mural/_view.html:80
 msgid "See more comments..."
 msgstr "Ver mais comentários..."
 
-#: mural/templates/mural/_view.html:61
+#: mural/templates/mural/_view.html:91
 msgid "Make a comment..."
 msgstr "Faça um comentário..."
 
-#: mural/templates/mural/_view_comment.html:14
+#: mural/templates/mural/_view_comment.html:44
 msgctxt "view"
 msgid "Comment"
 msgstr "Comentou"
-
-#: mural/templates/mural/delete.html:16
-msgid "Close"
-msgstr "Fechar"
 
 #: mural/templates/mural/delete.html:17
 msgid "Delete"
@@ -310,21 +322,33 @@ msgstr "Grupos"
 msgid "Mural"
 msgstr "Mural"
 
-#: mural/templatetags/mural_filters.py:12
+#: mural/templatetags/mural_filters.py:17
 msgid "(Edited)"
 msgstr "(Editado)"
 
-#: mural/templatetags/mural_filters.py:30 mural/views.py:1226
+#: mural/templatetags/mural_filters.py:35 mural/views.py:1226
 msgid "Unfavorite"
 msgstr "Desfavoritar"
 
-#: mural/templatetags/mural_filters.py:32 mural/views.py:1230
+#: mural/templatetags/mural_filters.py:37 mural/views.py:1230
 msgid "Favorite"
 msgstr "Favoritar"
 
-#: mural/templatetags/mural_filters.py:106
+#: mural/templatetags/mural_filters.py:111
 msgid "about"
 msgstr "sobre"
+
+#: mural/templatetags/mural_filters.py:136
+msgid "Online"
+msgstr ""
+
+#: mural/templatetags/mural_filters.py:138
+msgid "Away"
+msgstr ""
+
+#: mural/templatetags/mural_filters.py:140
+msgid "Offline"
+msgstr ""
 
 #: mural/views.py:154
 #, python-format

@@ -51,8 +51,7 @@
         <div class="row-fluid panel panel-default">
             <div class="panel-body">
                 <div class="col-md-6">
-                    <!-- <a href="{% url 'news:view' new.slug %}"> <h3> <b>{{ new }}</b> </h3><a> -->
-                    <h3> <b>{{ new }}</b> </h3>
+                    <a href="{% url 'news:view' new.slug %}"><h3> <b>{{ new }}</b> </h3></a>
                     <p>{{ new.creator}}, em {{ new.create_date }}</p>
                 </div>
                 <div class="col-md-6">
