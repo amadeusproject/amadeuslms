@@ -28,10 +28,10 @@
 
 <div class="row">
     <div class="col-md-9">
-        <form action="{% url 'users:search' %}" method="GET" class="form-horizontal">
+        <form action="{% url 'news:search' %}" method="GET" class="form-horizontal">
             <div class="form-group">
                 <div class="col-md-11 col-sm-11 col-xs-11">
-                    <input type="text" class="form-control" name="search" placeholder="{% trans 'Search...' %}" />
+                    <input type="text" class="form-control" name="search" placeholder="{% trans 'Search by title, author or date' %}" />
                 </div>
                 <div class="col-md-1 col-sm-1 col-xs-1">
                     <button type="submit" class="btn btn-fab btn-fab-mini">
