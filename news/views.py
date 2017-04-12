@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from log.models import Log
@@ -145,4 +145,26 @@ class SearchNewsView(LoginRequiredMixin, LogMixin, generic.ListView):
     	return context
 
 class DeleteNewsView(LoginRequiredMixin,LogMixin,generic.DeleteView):
-    pass
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+
+    model = News
+    template_name = 'news/delete.html'
+
+    def delete(self, request, *args, **kwargs):
+        news = get_object_or_404(News, slug = self.kwargs.get('slug'))
+        return super(DeleteNewsView, self).delete(self, request, *args, **kwargs)
+
+    def get_success_url(self):
+        messages.success(self.request, _('News "%s" removed successfully!')%(self.object.title))
+        success_url = reverse_lazy('news:manage_news')
+
+        return success_url
+
+    def get_context_data(self, **kwargs):
+        context = super(DeleteNewsView, self).get_context_data(**kwargs)
+        context['title'] = _('Delete News')
+        news = get_object_or_404(News, slug = self.kwargs.get('slug'))
+        context['new'] = news
+
+        return context
