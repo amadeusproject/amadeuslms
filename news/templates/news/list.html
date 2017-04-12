@@ -57,7 +57,7 @@
                 <div class="col-md-6">
                     <div align="right">
                         <a href="{% url 'news:update' new.slug %}" class="btn btn-success btn-raised btn-sm"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
-                        <a href="" class="btn btn-default btn-raised btn-sm"><i class="fa fa-trash"></i> {% trans 'Delete' %}</a>
+                        <a href="javascript:delete_news.get('{% url 'news:delete' new.slug %}','#news','#modal_remove')" class="btn btn-default btn-raised btn-sm" class="btn btn-default btn-raised btn-sm"><i class="fa fa-trash"></i> {% trans 'Delete' %}</a>
                     </div>
                 </div>
             </div>
@@ -75,5 +75,21 @@
 <div id="modal_remove">
 
 </div>
+<script type="text/javascript">
+var delete_news = {
+  get: function (url, id_modal, id_div_modal){
+    $.get(url, function(data){
+      if($(id_modal).length){
+        $(id_div_modal).empty();
+        $(id_div_modal).append(data);
+      } else {
+        $(id_div_modal).append(data);
+      }
+      $(id_modal).modal('show');
+    });
+  }
+};
+
+</script>
 
 {% endblock %}
