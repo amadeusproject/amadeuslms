@@ -34,6 +34,15 @@ def warning_msg(level):
 
 	return msg
 
+@register.filter(name = 'viewed_msg')
+def viewed_msg(aware):
+	if aware:
+		msg = _('Yes')
+	else:
+		msg = _('No')
+
+	return msg
+
 @register.filter(name = 'done_percent')
 def done_percent(notification):
 	users = get_resource_users(notification.task.resource)
@@ -117,12 +126,12 @@ def observation(notification):
 
 	if notification.level == 1:
 		if notification.meta:
-			msg = _('Goal defined to task realization: %s')%(formats.date_format(notification.meta, "SHORT_DATETIME_FORMAT"))
+			msg = _('Goal defined to task realization: %s')%(formats.date_format(notification.meta.astimezone(timezone.get_current_timezone()), "SHORT_DATETIME_FORMAT"))
 	elif notification.level == 2:
 		if notification.meta:
 			if notification.meta < timezone.now():
-				msg = _('Goal defined to task realization: %s')%(formats.date_format(notification.meta, "SHORT_DATETIME_FORMAT"))
+				msg = _('Goal defined to task realization: %s')%(formats.date_format(notification.meta.astimezone(timezone.get_current_timezone()), "SHORT_DATETIME_FORMAT"))
 			else:
-				msg = _('New goal defined to task realization: %s')%(formats.date_format(notification.meta, "SHORT_DATETIME_FORMAT"))
+				msg = _('New goal defined to task realization: %s')%(formats.date_format(notification.meta.astimezone(timezone.get_current_timezone()), "SHORT_DATETIME_FORMAT"))
 
 	return msg

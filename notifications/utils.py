@@ -94,6 +94,11 @@ def get_order_by(order):
 			return ["-level"]
 		else:
 			return ["level"]
+	elif "aware" in order:
+		if "-" in order:
+			return ["-viewed"]
+		else:
+			return ["viewed"]
 	elif "obs" in order:
 		if "-" in order:
 			return ["-meta"]
