@@ -25,11 +25,11 @@
         </script>
     {% endfor %}
 {% endif %}
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-  <div class="col-lg-12 row-fluid panel panel-default">
-            <div class="panel-body">
+
+  <div class="row-fluid panel panel-default" >
+            <div class="panel-body" id="printArea">
                 <div class="col-md-12" style="display:inline-block">
-                  <h2><b>{{new.title}}</b></h2>
+                  <h2><b>{{new.title}}</b></h2> <button style="text-transform:none; text-decoration: underline;"   type="button" class="pull-right btn btn-default btn-sm" id="printButton" name="button">{% trans "Print News" %}        <i class="fa fa-print" aria-hidden="true"></i></button><br>
                   <p>{{new.creator}}, em {{new.create_date}}</p>
                 </div>
                 <div class="col-md-12">
@@ -43,6 +43,12 @@
 
         </div>
 
+        <script type="text/javascript" src="{% static 'js/printThis.js' %}"></script>
+        <script type="text/javascript">
+        $('#printButton').click(function(){
+             $("#printArea").printThis({removeInline:true,importStyle: true, });
+        });
 
-</div>
+        </script>
+
 {% endblock  %}

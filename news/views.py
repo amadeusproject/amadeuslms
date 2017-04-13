@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from log.models import Log
@@ -6,7 +6,7 @@ from log.mixins import LogMixin
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
-
+from django.db.models import Q, Count
 
 from .models import News
 from .forms import NewsForm
@@ -101,3 +101,70 @@ class UpdateNewsView(LoginRequiredMixin,LogMixin,generic.UpdateView):
             self.object.save()
 
             return super(UpdateNewsView, self).form_valid(form)
+
+class SearchNewsView(LoginRequiredMixin, LogMixin, generic.ListView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+
+    template_name = 'news/search.html'
+    context_object_name = 'news'
+    paginate_by = 10
+
+    def dispatch(self, request, *args, **kwargs):
+    	search = self.request.GET.get('search', '')
+
+    	if search == '':
+    		return redirect(reverse_lazy('news:manage_news'))
+
+    	return super(SearchNewsView, self).dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        inteiro = False
+
+        search = self.request.GET.get('search', '')
+        print(type(search))
+        try:
+            search = int(search)
+            inteiro = True
+        except Exception as e:
+            inteiro = False
+
+        if inteiro:
+            news = News.objects.filter(Q(title__icontains = search) | Q(creator__username__icontains = search) | Q(create_date__icontains = search)  | Q(create_date__year = search) | Q(create_date__month = search)  | Q(create_date__day = search) ).distinct().order_by('create_date')
+        else:
+            news = News.objects.filter(Q(title__icontains = search) | Q(creator__username__icontains = search) | Q(create_date__icontains = search) ).distinct().order_by('create_date')
+
+
+        return news
+
+    def get_context_data (self, **kwargs):
+    	context = super(SearchNewsView, self).get_context_data(**kwargs)
+    	context['title'] = _('Search News')
+    	context['search'] = self.request.GET.get('search')
+
+    	return context
+
+class DeleteNewsView(LoginRequiredMixin,LogMixin,generic.DeleteView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+
+    model = News
+    template_name = 'news/delete.html'
+
+    def delete(self, request, *args, **kwargs):
+        news = get_object_or_404(News, slug = self.kwargs.get('slug'))
+        return super(DeleteNewsView, self).delete(self, request, *args, **kwargs)
+
+    def get_success_url(self):
+        messages.success(self.request, _('News "%s" removed successfully!')%(self.object.title))
+        success_url = reverse_lazy('news:manage_news')
+
+        return success_url
+
+    def get_context_data(self, **kwargs):
+        context = super(DeleteNewsView, self).get_context_data(**kwargs)
+        context['title'] = _('Delete News')
+        news = get_object_or_404(News, slug = self.kwargs.get('slug'))
+        context['new'] = news
+
+        return context
