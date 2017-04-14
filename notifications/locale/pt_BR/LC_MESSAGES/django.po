@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-11 19:18-0300\n"
+"POT-Creation-Date: 2017-04-14 07:26-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -97,17 +97,22 @@ msgstr "Notificação"
 
 #: notifications/templates/notifications/_ajax_history.html:48
 #: notifications/templates/notifications/_history.html:47
+msgid "Aware"
+msgstr "Ciente"
+
+#: notifications/templates/notifications/_ajax_history.html:53
+#: notifications/templates/notifications/_history.html:52
 msgid "Observation"
 msgstr "Observação"
 
-#: notifications/templates/notifications/_ajax_history.html:59
-#: notifications/templates/notifications/_history.html:58
+#: notifications/templates/notifications/_ajax_history.html:64
+#: notifications/templates/notifications/_history.html:63
 #: notifications/templates/notifications/_view.html:28
 msgid "Not Informed"
 msgstr "Não Informado"
 
-#: notifications/templates/notifications/_ajax_history.html:66
-#: notifications/templates/notifications/_history.html:65
+#: notifications/templates/notifications/_ajax_history.html:72
+#: notifications/templates/notifications/_history.html:71
 msgid "No results found"
 msgstr "Nenhum resultado encontrado"
 
@@ -162,7 +167,9 @@ msgstr "Cancelar"
 #: notifications/templates/notifications/index.html:19
 #: notifications/templates/notifications/subject.html:13
 msgid "This pendencies list is updated every 24 hours. Last update was in:"
-msgstr "Esta lista de pendências é atualizada a cada 24 horas. A última atualização ocorreu em:"
+msgstr ""
+"Esta lista de pendências é atualizada a cada 24 horas. A última atualização "
+"ocorreu em:"
 
 #: notifications/templates/notifications/index.html:19
 #: notifications/templates/notifications/subject.html:13
@@ -209,13 +216,21 @@ msgstr "Essa tarefa está atrasada"
 msgid "You miss this task"
 msgstr "Você perdeu essa tarefa"
 
-#: notifications/templatetags/notification_filters.py:120
-#: notifications/templatetags/notification_filters.py:124
+#: notifications/templatetags/notification_filters.py:40
+msgid "Yes"
+msgstr "Sim"
+
+#: notifications/templatetags/notification_filters.py:42
+msgid "No"
+msgstr "Não"
+
+#: notifications/templatetags/notification_filters.py:129
+#: notifications/templatetags/notification_filters.py:133
 #, python-format
 msgid "Goal defined to task realization: %s"
 msgstr "Meta definida para realização da tarefa: %s"
 
-#: notifications/templatetags/notification_filters.py:126
+#: notifications/templatetags/notification_filters.py:135
 #, python-format
 msgid "New goal defined to task realization: %s"
 msgstr "Nova meta definida para realização da tarefa: %s"

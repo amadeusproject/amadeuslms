@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-11 19:17-0300\n"
+"POT-Creation-Date: 2017-04-14 07:26-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: users/forms.py:28 users/forms.py:33 users/forms.py:276
+#: users/forms.py:28 users/forms.py:33 users/forms.py:279
 msgid "You must insert an email address"
 msgstr "Você deve inserir um endereço de email"
 
@@ -30,45 +30,45 @@ msgstr "A imagem é muito grande. Ela deve conter menos de 2MB."
 msgid "The confirmation password is incorrect."
 msgstr "A confirmação de senha está incorreta."
 
-#: users/forms.py:61 users/forms.py:173 users/templates/users/login.html:52
+#: users/forms.py:61 users/forms.py:175 users/templates/users/login.html:52
 msgid "Password"
 msgstr "Senha"
 
-#: users/forms.py:62 users/forms.py:174 users/forms.py:233 users/forms.py:289
+#: users/forms.py:62 users/forms.py:176 users/forms.py:236 users/forms.py:292
 msgid "Confirm Password"
 msgstr "Confirmação de Senha"
 
-#: users/forms.py:108 users/forms.py:267 users/templates/users/list.html:56
+#: users/forms.py:109 users/forms.py:270 users/templates/users/list.html:56
 #: users/templates/users/login.html:47 users/templates/users/search.html:47
 msgid "Email"
 msgstr "Email"
 
-#: users/forms.py:109 users/models.py:27 users/templates/users/list.html:55
+#: users/forms.py:110 users/models.py:27 users/templates/users/list.html:55
 #: users/templates/users/search.html:46
 msgid "Name"
 msgstr "Nome"
 
-#: users/forms.py:110 users/models.py:28
+#: users/forms.py:111 users/models.py:28
 msgid "Last Name"
 msgstr "Sobrenome"
 
-#: users/forms.py:111 users/models.py:29
+#: users/forms.py:112 users/models.py:29
 msgid "Social Name"
 msgstr "Nome Social"
 
-#: users/forms.py:232 users/forms.py:288
+#: users/forms.py:235 users/forms.py:291
 msgid "New Password"
 msgstr "Nova Senha"
 
-#: users/forms.py:239
+#: users/forms.py:242
 msgid "The value inputed does not match with your actual password."
 msgstr "O valor inserido não corresponde à sua senha atual."
 
-#: users/forms.py:260
+#: users/forms.py:263
 msgid "Actual Password"
 msgstr "Senha Atual"
 
-#: users/forms.py:281
+#: users/forms.py:284
 msgid "You must insert a valid email address"
 msgstr "Você deve inserir um endereço de email válido"
 

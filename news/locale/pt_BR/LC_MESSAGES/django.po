@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-11 19:18-0300\n"
+"POT-Creation-Date: 2017-04-14 07:26-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: news/forms.py:22
+#: news/forms.py:62
 msgid "This field is required"
 msgstr "Este campo é obrigatório."
 
-#: news/forms.py:33
+#: news/forms.py:73
 msgid "The image is too large. It should have less than 5MB."
 msgstr "A imagem é muito grande. Ela deve ter menos que 5MB."
 
-#: news/forms.py:36
+#: news/forms.py:76
 msgid "This field is required."
 msgstr "Este campo é obrigatório."
 
@@ -66,11 +66,11 @@ msgstr "Notícia"
 msgid "Choose your photo..."
 msgstr "Escolha a foto"
 
-#: news/templates/news/_form.html:59
+#: news/templates/news/_form.html:60
 msgid "Save"
 msgstr "Salvar"
 
-#: news/templates/news/_form.html:62
+#: news/templates/news/_form.html:63
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -78,34 +78,60 @@ msgstr "Cancelar"
 msgid "Register News"
 msgstr "Cadastrar notícia"
 
+#: news/templates/news/delete.html:12
+msgid "Are you sure you want to delete the news"
+msgstr ""
+
+#: news/templates/news/delete.html:12
+msgid "All its data will be lost and can't be recovered"
+msgstr ""
+
+#: news/templates/news/delete.html:18
+msgid "Close"
+msgstr ""
+
+#: news/templates/news/delete.html:19 news/templates/news/list.html:60
+#: news/templates/news/search.html:60
+msgid "Delete"
+msgstr ""
+
 #: news/templates/news/list.html:7 news/views.py:47
 msgid "Manage News"
 msgstr "Gerenciar notícias"
 
-#: news/templates/news/list.html:34
-msgid "Search..."
+#: news/templates/news/list.html:34 news/templates/news/search.html:34
+msgid "Search by title, author or date"
 msgstr ""
 
-#: news/templates/news/list.html:45 news/views.py:74
+#: news/templates/news/list.html:45 news/templates/news/search.html:45
+#: news/views.py:74
 msgid "Create News"
 msgstr "Criar notícia"
 
-#: news/templates/news/list.html:59
+#: news/templates/news/list.html:59 news/templates/news/search.html:59
 msgid "Edit"
 msgstr ""
 
-#: news/templates/news/list.html:60
-msgid "Delete"
-msgstr ""
-
-#: news/templates/news/list.html:71
+#: news/templates/news/list.html:71 news/templates/news/search.html:71
 msgid "No news found"
 msgstr ""
+
+#: news/templates/news/search.html:7 news/views.py:142
+#, fuzzy
+#| msgid "Create News"
+msgid "Search News"
+msgstr "Criar notícia"
 
 #: news/templates/news/update.html:7 news/views.py:92
 #, fuzzy
 #| msgid "Create News"
 msgid "Update News"
+msgstr "Criar notícia"
+
+#: news/templates/news/view.html:32
+#, fuzzy
+#| msgid "Create News"
+msgid "Print News"
 msgstr "Criar notícia"
 
 #: news/views.py:22
@@ -115,6 +141,18 @@ msgstr ""
 #: news/views.py:68 news/views.py:86
 msgid "News successfully created!"
 msgstr "Notícia criada com sucesso"
+
+#: news/views.py:159
+#, fuzzy, python-format
+#| msgid "News successfully created!"
+msgid "News \"%s\" removed successfully!"
+msgstr "Notícia criada com sucesso"
+
+#: news/views.py:166
+#, fuzzy
+#| msgid "Create News"
+msgid "Delete News"
+msgstr "Criar notícia"
 
 #~ msgid "Create news"
 #~ msgstr "Criar notícia"
