@@ -2,8 +2,9 @@
 from django import forms
 from datetime import datetime
 from django.conf import settings
+from django.utils.html import strip_tags
 from django.utils.translation import ugettext_lazy as _
-from django.forms.models import inlineformset_factory
+from django.forms.models import inlineformset_factory, BaseInlineFormSet
 
 from subjects.models import Tag
 
@@ -48,6 +49,9 @@ class GoalsForm(forms.ModelForm):
 
 		limit_submission_date = cleaned_data.get('limit_submission_date', None)
 
+		presentation = cleaned_data.get('presentation', '')
+		cleaned_presentation = strip_tags(presentation)
+		
 		if self.topic:
 			if self.instance.id:
 				exist = self.topic.resource_topic.filter(goals__isnull = False).exclude(id = self.instance.id).exists()
@@ -56,6 +60,9 @@ class GoalsForm(forms.ModelForm):
 
 			if exist:
 				self.add_error('name', _('There already is another resource with the goals specification for the Topic %s')%(str(self.topic)))
+
+		if cleaned_presentation == '':
+			self.add_error('presentation', _('This field is required.'))
 
 		if limit_submission_date:
 			if not limit_submission_date == ValueError:
@@ -67,6 +74,8 @@ class GoalsForm(forms.ModelForm):
 
 				if limit_submission_date.date() > self.subject.end_date:
 					self.add_error('limit_submission_date', _('This input should be filled with a date equal or after the subject end date.'))
+		else:
+			self.add_error('limit_submission_date', _('This field is required'))
 
 		return cleaned_data
 
@@ -116,6 +125,18 @@ class GoalItemForm(forms.ModelForm):
 
 		return cleaned_data
 
+class GoalItemFormset(BaseInlineFormSet):
+    def __init__(self, *args, **kwargs):
+        super(GoalItemFormset, self).__init__(*args, **kwargs)
+        
+        self.forms[0].empty_permitted = False
+
+    def clean(self):
+    	description = self.forms[0].cleaned_data.get('description', None)
+
+    	if not description:
+    		raise forms.ValidationError(_('It\'s necessary to enter at least one goal specification.'))
+
 class MyGoalsForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(MyGoalsForm, self).__init__(*args, **kwargs)
@@ -127,4 +148,4 @@ class MyGoalsForm(forms.ModelForm):
 		fields = ['value', 'item']
 
 InlinePendenciesFormset = inlineformset_factory(Goals, Pendencies, form = PendenciesLimitedForm, extra = 1, max_num = 3, validate_max = True, can_delete = True)
-InlineGoalItemFormset = inlineformset_factory(Goals, GoalItem, form = GoalItemForm, extra = 1, can_delete = True)
+InlineGoalItemFormset = inlineformset_factory(Goals, GoalItem, form = GoalItemForm, min_num = 1, validate_min = True, extra = 0, can_delete = True, formset = GoalItemFormset)
