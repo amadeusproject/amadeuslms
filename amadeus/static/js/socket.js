@@ -4,7 +4,8 @@ if (("Notification" in window)) {
 	}
 }
 
-socket = new WebSocket("wss://" + window.location.host + "/");
+var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+socket = new WebSocket(ws_scheme + "://" + window.location.host + "/");
 
 socket.onmessage = function(e) {
 	content = JSON.parse(e.data);
