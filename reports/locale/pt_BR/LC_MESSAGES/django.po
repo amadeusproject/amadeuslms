@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-06 16:30-0300\n"
+"POT-Creation-Date: 2017-04-15 00:13-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,279 +18,284 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: forms.py:23
+#: reports/forms.py:23
 msgid "Kind Of Resource"
 msgstr "Tipo de recurso"
 
-#: forms.py:24
+#: reports/forms.py:24
 msgid "Tag"
 msgstr "Tag"
 
-#: forms.py:35
+#: reports/forms.py:35
 msgid "Topics"
 msgstr "Tópicos"
 
-#: forms.py:36 templates/reports/view.html:58
+#: reports/forms.py:36 reports/templates/reports/view.html:58
 msgid "Initial Date"
 msgstr "Data inicial"
 
-#: forms.py:37
+#: reports/forms.py:37
 msgid "Final Date"
 msgstr "Data Final"
 
-#: forms.py:39
+#: reports/forms.py:39
 msgid "From Mural"
 msgstr "Mural da disciplina"
 
-#: forms.py:40
+#: reports/forms.py:40
 msgid "Messages"
 msgstr "Mensagens"
 
-#: forms.py:51 views.py:127 views.py:198
+#: reports/forms.py:51 reports/views.py:127 reports/views.py:198
 msgid "All"
 msgstr "Todos"
 
-#: forms.py:60
+#: reports/forms.py:60
 msgid "The initial date can't be after the end one."
 msgstr "A data inicial não pode ser depois da final"
 
-#: forms.py:65
+#: reports/forms.py:65
 msgid "This date should be right or after "
 msgstr "Esta data deve ser igual ou após"
 
-#: forms.py:71
+#: reports/forms.py:71
 msgid "This date should be right or before "
 msgstr "Esta data deve ser igual ou anterior à"
 
-#: templates/reports/_form.html:19
+#: reports/templates/reports/_form.html:19
 msgid "General Parameters"
 msgstr "Escolha o Tópico e o Período"
 
-#: templates/reports/_form.html:37
+#: reports/templates/reports/_form.html:37
 msgid "Choose the Data Source (is possible to pick more than one)"
 msgstr "Escolha a fonte de dados (é possível escolher mais de uma)"
 
-#: templates/reports/_form.html:62
+#: reports/templates/reports/_form.html:62
 msgid "Interaction with resources"
 msgstr "Interação com recursos"
 
-#: templates/reports/_form.html:97
+#: reports/templates/reports/_form.html:97
 msgid "Search Report"
 msgstr "Buscar"
 
-#: templates/reports/create.html:27 templates/reports/view.html:33
+#: reports/templates/reports/create.html:27
+#: reports/templates/reports/view.html:33
 msgid "Analytics"
 msgstr ""
 
-#: templates/reports/create.html:37 templates/reports/view.html:43
+#: reports/templates/reports/create.html:37
+#: reports/templates/reports/view.html:43
 msgid "Interaction Data"
 msgstr "Dados de Interação"
 
-#: templates/reports/create.html:40 templates/reports/view.html:46
+#: reports/templates/reports/create.html:40
+#: reports/templates/reports/view.html:46
 msgid "Report Card"
 msgstr "Boletim do Tópico"
 
-#: templates/reports/create.html:43 templates/reports/view.html:49
+#: reports/templates/reports/create.html:43
+#: reports/templates/reports/view.html:49
 msgid "Participation"
 msgstr "Participações"
 
-#: templates/reports/create.html:55
+#: reports/templates/reports/create.html:55
 msgid "add data source"
 msgstr "Adicionar nova fonte de dados"
 
-#: templates/reports/create.html:56
+#: reports/templates/reports/create.html:56
 msgid "remove data source"
 msgstr "Remover esta fonte"
 
-#: templates/reports/view.html:56
+#: reports/templates/reports/view.html:56
 msgid "Subject"
 msgstr "Assunto"
 
-#: templates/reports/view.html:57
+#: reports/templates/reports/view.html:57
 msgid "Topic"
 msgstr "Tópico"
 
-#: templates/reports/view.html:59
+#: reports/templates/reports/view.html:59
 msgid "End Date"
 msgstr "Data final"
 
-#: templates/reports/view.html:60
+#: reports/templates/reports/view.html:60
 msgid "new search"
 msgstr "Nova Busca"
 
-#: templates/reports/view.html:66
+#: reports/templates/reports/view.html:66
 msgid "register(s)"
 msgstr "registro(s)"
 
-#: templates/reports/view.html:68
+#: reports/templates/reports/view.html:68
 msgid "Interactions Data (.csv)"
 msgstr "Dados de interação (.csv)"
 
-#: templates/reports/view.html:72
+#: reports/templates/reports/view.html:72
 msgid "Interactions Data (.xls)"
 msgstr "Dados de interação (.xls)"
 
-#: views.py:60
+#: reports/views.py:60
 msgid "Report created successfully"
 msgstr "Relatório criado com sucesso!"
 
-#: views.py:202
+#: reports/views.py:202
 msgid "User"
 msgstr ""
 
-#: views.py:222
+#: reports/views.py:222
 msgid "Number of help posts created by the user."
 msgstr "Número de postagens de dúvidas criadas no mural da disciplina."
 
-#: views.py:228
+#: reports/views.py:228
 msgid "Amount of comments on help posts created by the student."
 msgstr ""
 "Número de comentários criados para as próprias postagens de dúvidas no mural "
 "da disciplina."
 
-#: views.py:233
+#: reports/views.py:233
 msgid "Amount of comments made by the student on teachers help posts."
 msgstr ""
 "Número de comentários às postagens de dúvidas no mural da disciplina criadas "
 "pelo professor."
 
-#: views.py:237
+#: reports/views.py:237
 msgid "Amount of comments made by the student on other students help posts."
 msgstr ""
 "Número de comentários às postagens de dúvidas no mural da disciplina criadas "
 "por outros estudantes."
 
-#: views.py:248
+#: reports/views.py:248
 msgid "Number of help posts created by the user that the teacher commented on."
 msgstr ""
 "Número de comentários às postagens de dúvidas no mural da disciplina criadas "
 "por outros estudantes"
 
-#: views.py:256
+#: reports/views.py:256
 msgid "Number of help posts created by the user others students commented on."
 msgstr ""
 " Número de postagens de dúvidas criadas no mural da disciplina que foram "
 "comentadas por outros estudantes."
 
-#: views.py:259
+#: reports/views.py:259
 msgid "Number of student visualizations on the mural of the subject."
 msgstr "Número de visualizações do mural da disciplina."
 
-#: views.py:271
+#: reports/views.py:271
 msgid "Number of access to mural between 6 a.m to 12a.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 06h às 12h."
 
-#: views.py:275
+#: reports/views.py:275
 msgid "Number of access to mural between 0 p.m to 6p.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 12h às 18h."
 
-#: views.py:278
+#: reports/views.py:278
 msgid "Number of access to mural between 6 p.m to 12p.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 18h às 24h."
 
-#: views.py:282
+#: reports/views.py:282
 msgid "Number of access to mural between 0 a.m to 6a.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 24h às 06h."
 
-#: views.py:287
+#: reports/views.py:287
 msgid "sunday"
 msgstr "domingo"
 
-#: views.py:287
+#: reports/views.py:287
 msgid "monday"
 msgstr "segunda"
 
-#: views.py:287
+#: reports/views.py:287
 msgid "tuesday"
 msgstr "terça-feira"
 
-#: views.py:287
+#: reports/views.py:287
 msgid "wednesday"
 msgstr "quarta"
 
-#: views.py:287
+#: reports/views.py:287
 msgid "thursday"
 msgstr "quinta-feira"
 
-#: views.py:288
+#: reports/views.py:288
 msgid "friday"
 msgstr "sexta"
 
-#: views.py:288
+#: reports/views.py:288
 msgid "saturday"
 msgstr "sábado"
 
-#: views.py:292 views.py:295
+#: reports/views.py:292 reports/views.py:295
 msgid "Number of access to the subject on "
 msgstr "Número de acessos ao assunto na(o) "
 
-#: views.py:298
+#: reports/views.py:298
 msgid "Number of distinct days the user access the subject. "
 msgstr "Número de dias distintos que acessou o ambiente virtual da disciplina."
 
-#: views.py:299
+#: reports/views.py:299
 msgid "Class"
 msgstr "Classe"
 
-#: views.py:299 views.py:300
+#: reports/views.py:299 reports/views.py:300
 msgid "Undefined"
 msgstr "Indefinido"
 
-#: views.py:300
+#: reports/views.py:300
 msgid "Performance"
 msgstr "Desempenho"
 
-#: views.py:448 views.py:498
+#: reports/views.py:448 reports/views.py:498
 msgid "PDF File"
 msgstr ""
 
-#: views.py:449 views.py:499
+#: reports/views.py:449 reports/views.py:499
 #, fuzzy
 #| msgid "Topics"
 msgid "Topic Goals"
 msgstr "Tópicos"
 
-#: views.py:450 views.py:500
+#: reports/views.py:450 reports/views.py:500
 msgid "Link to Website"
 msgstr ""
 
-#: views.py:451 views.py:501
+#: reports/views.py:451 reports/views.py:501
 msgid "File Link"
 msgstr ""
 
-#: views.py:452 views.py:502
+#: reports/views.py:452 reports/views.py:502
 msgid "Web Conference"
 msgstr ""
 
-#: views.py:453 views.py:503
+#: reports/views.py:453 reports/views.py:503
 msgid "YouTube Video"
 msgstr ""
 
-#: views.py:454 views.py:504
+#: reports/views.py:454 reports/views.py:504
 msgid "WebPage"
 msgstr ""
 
-#: views.py:456 views.py:463
+#: reports/views.py:456 reports/views.py:463
 msgid "number of visualizations of "
 msgstr "Número de visualizações do(e) "
 
-#: views.py:456 views.py:457 views.py:458 views.py:461
+#: reports/views.py:456 reports/views.py:457 reports/views.py:458
+#: reports/views.py:461
 msgid " with tag "
 msgstr " com a tag "
 
-#: views.py:457 views.py:464
+#: reports/views.py:457 reports/views.py:464
 msgid "number of visualizations of distintic "
 msgstr "Número de visualizações dos distintos "
 
-#: views.py:458 views.py:465
+#: reports/views.py:458 reports/views.py:465
 msgid "distintic days "
 msgstr "número de dias distintos "
 
-#: views.py:461 views.py:468
+#: reports/views.py:461 reports/views.py:468
 msgid "hours viewed of "
 msgstr "quantidade de horas vistas "
 

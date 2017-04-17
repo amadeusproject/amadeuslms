@@ -172,14 +172,14 @@ class UpdateSubjectForm(forms.ModelForm):
 
         return name
 
-    def clean_subscribe_begin(self):
-        subscribe_begin = self.cleaned_data['subscribe_begin']
-
-        if subscribe_begin < datetime.datetime.today().date() and subscribe_begin < self.instance.subscribe_begin:
-            self._errors['subscribe_begin'] = [_('This date must be today or after')]
-            return ValueError
-
-        return subscribe_begin
+    # def clean_subscribe_begin(self):
+    #     subscribe_begin = self.cleaned_data['subscribe_begin']
+    #
+    #     if subscribe_begin < datetime.datetime.today().date() and subscribe_begin < self.instance.subscribe_begin:
+    #         self._errors['subscribe_begin'] = [_('This date must be today or after')]
+    #         return ValueError
+    #
+    #     return subscribe_begin
 
     def clean_subscribe_end(self):
         subscribe_end = self.cleaned_data['subscribe_end']

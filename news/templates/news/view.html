@@ -1,0 +1,54 @@
+{% extends 'news/list.html' %}
+
+{% load widget_tweaks static i18n django_bootstrap_breadcrumbs permission_tags pagination %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb  new.title 'news:view' %}
+{% endblock %}
+
+{% block render_breadcrumbs %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <script type="text/javascript">
+            {% if message.tags == "danger" %}
+                alertify.error('{{message}}');
+            {% else %}
+                alertify.success('{{message}}');
+            {% endif %}
+        </script>
+    {% endfor %}
+{% endif %}
+
+  <div class="row-fluid panel panel-default" >
+            <div class="panel-body" id="printArea">
+                <div class="col-md-12" style="display:inline-block">
+                  <h2><b>{{new.title}}</b></h2> <button style="text-transform:none; text-decoration: underline;"   type="button" class="pull-right btn btn-default btn-sm" id="printButton" name="button">{% trans "Print News" %}        <i class="fa fa-print" aria-hidden="true"></i></button><br>
+                  <p>{{new.creator}}, em {{new.create_date}}</p>
+                </div>
+                <div class="col-md-12">
+                  <br>
+                    {% autoescape off %}
+                    {{new.content}}
+                    {% endautoescape %}
+                </div>
+
+            </div>
+
+        </div>
+
+        <script type="text/javascript" src="{% static 'js/printThis.js' %}"></script>
+        <script type="text/javascript">
+        $('#printButton').click(function(){
+             $("#printArea").printThis({removeInline:true,importStyle: true, });
+        });
+
+        </script>
+
+{% endblock  %}

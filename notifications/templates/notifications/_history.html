@@ -43,6 +43,11 @@
 					</a>
 				</th>
 				<th>
+					<a href="{{ request|order_href:'aware' }}">
+						{% trans 'Aware' %} <i class="fa fa-fw {{ request|order_icon_class:'aware' }} pull-right"></i>
+					</a>
+				</th>	
+				<th>
 					<a href="{{ request|order_href:'obs' }}">
 						{% trans 'Observation' %} <i class="fa fa-fw {{ request|order_icon_class:'obs' }} pull-right"></i>
 					</a>
@@ -57,12 +62,13 @@
 							<td>{{ notification.task.get_action_display }}</td>
 							<td>{{ notification.task.end_date|date:"SHORT_DATE_FORMAT"|default:_('Not Informed') }}</td>
 							<td>{{ notification.level|warning_msg }}</td>
+							<td>{{ notification.viewed|viewed_msg }}</td>
 							<td>{{ notification|observation }}</td>
 						</tr>
 					{% endfor %}
 				{% else %}
 					<tr>
-						<td colspan="6" class="text-center">{% trans 'No results found' %}</td>
+						<td colspan="7" class="text-center">{% trans 'No results found' %}</td>
 					</tr>
 				{% endif %}
 			</tbody>

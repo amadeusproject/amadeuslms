@@ -49,10 +49,10 @@
         <div id="{{subject.slug}}" class="panel-collapse panel-body in collapse chat-collapse">
         	<div class="panel panel-default">
                 <div class="panel-body">
-                    <div class="col-md-8">
+                    <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
                         <form action="{% url 'chat:participants_subject' subject.id %}" method="GET" class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-md-11 col-sm-11 col-xs-11">
+                                <div class="col-md-10 col-sm-9 col-xs-10">
                                     <input type="text" class="form-control" name="search" value="{{ search }}" placeholder="{% trans 'Search...' %}" />
                                 </div>
                                 <div class="col-md-1 col-sm-1 col-xs-1">
@@ -63,7 +63,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
                         <a href="{% url 'chat:participants_subject' subject.id %}" class="pull-right btn btn-default btn-raised btn-md">{% trans 'List all participants' %}</a>
                     </div>
                 </div>
@@ -88,6 +88,7 @@
                 </div>
             {% endif %}
 		</div>
+    </div>
 
 	<div class="modal fade" id="chat-modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
 

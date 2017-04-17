@@ -32,7 +32,10 @@
 
  		<script src="{% static 'js/cropper.min.js' %}"></script> <!-- Js for cropper-->
 		<script src="{% static 'js/crop.js' %}"></script> <!-- Js for cropper-->
+		<script src="{% static 'js/crop_news.js' %}"></script>
 		<link href="{% static 'css/cropper.min.css' %}" rel="stylesheet"> <!-- CSS for cropper-->
+
+		<script type="text/javascript" src="{% static 'js/printThis.js' %}"></script> <!-- Print this plugin js-->
 
 
 	<script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
@@ -166,6 +169,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
                                 <li><a href="{% url 'categories:index' %}">{% trans 'Manage Categories' %}</a></li>
+																<li><a href="{% url 'news:manage_news' %}">{% trans 'Manage News' %}</a></li>
                                 <li class="dropdown-accordion" data-accordion="#system_accordion">
                                     <div class="panel-group" id="system_accordion">
                                         <div class="panel panel-default">

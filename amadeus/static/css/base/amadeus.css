@@ -1409,10 +1409,29 @@ div.dataTables_wrapper div.dataTables_paginate {
 }
 .talk-filter h4 {
     font-weight: 700;
+    font-size: 14px;
     margin-bottom: 5px !important;
 }
 .talk-filter .checkbox {
     margin-right: 10px;
+}
+.talk-filter .checkbox .checkbox-material {
+    top: 0px;
+}
+.talk-filter .checkbox .checkbox-material .check {
+    width: 14px;
+    height: 14px;
+}
+.talk-filter .checkbox .checkbox-material .check::before {
+    margin-top: -8px;
+    margin-left: 4px;
+}
+.talk-filter label {
+    font-size: 14px;
+}
+
+#chat-filters .btn-sm {
+    padding: 5px 10px;
 }
 
 .messages-container {

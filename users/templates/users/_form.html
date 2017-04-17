@@ -38,16 +38,22 @@
 				{% if field.field.required %}
 					<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
 				{% else %}
-									{% if field.auto_id == 'id_x' or field.auto_id == 'id_y' or field.auto_id == 'id_width' or field.auto_id == 'id_height'%}
+									{% if field.auto_id == 'id_x' or field.auto_id == 'id_show_email' or field.auto_id == 'id_y' or field.auto_id == 'id_width' or field.auto_id == 'id_height'%}
 
 									{% else %}
+
 											<label for="{{ field.auto_id }}">{{ field.label }}</label>
 									{% endif %}
 
 
 				{% endif %}
+				{% if field.auto_id == 'id_show_email' %}
 
-				{% render_field field class='form-control' %}
+				{% else %}
+							{% render_field field class='form-control' %}
+				{% endif %}
+
+
 			{% endif %}
 				<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
 			{% if field.errors %}

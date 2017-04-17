@@ -35,7 +35,8 @@ $('.mural-ungeneral').on('shown.bs.collapse', function(e) {
                     	mural.data('pages', data.num_pages);
                     	mural.data('page', data.num_page);
 
-                    	setTimeout(function () { postHeightLimits() }, 100);
+                    	setUserDataPopover();
+                    	setTimeout(function () { postHeightLimits(); }, 100);
 
                     	if (data.num_page < data.num_pages) {
                     		more.show();
@@ -50,6 +51,7 @@ $('.mural-ungeneral').on('shown.bs.collapse', function(e) {
 								actual = parseInt(actual, 10) - data.unviewed;
 
 								if (actual <= 0) {
+									$(this).text("0");
 									$(this).hide();
 								} else {
 									$(this).text(actual);
@@ -111,7 +113,8 @@ $('.mural-ungeneral').on('shown.bs.collapse', function(e) {
                 	mural.data('pages', data.num_pages);
                 	mural.data('page', data.num_page);
 
-                	setTimeout(function () { postHeightLimits() }, 100);
+                	setUserDataPopover();
+                	setTimeout(function () { postHeightLimits(); }, 100);
 
                 	if (data.num_page < data.num_pages) {
                 		more.show();
@@ -167,7 +170,8 @@ $('.mural-ungeneral').on('shown.bs.collapse', function(e) {
                     		more.hide();
                     	}
 
-                    	setTimeout(function () { postHeightLimits() }, 100);
+                    	setUserDataPopover();
+                    	setTimeout(function () { postHeightLimits(); }, 100);
 
                     	without.hide();
                     } else {

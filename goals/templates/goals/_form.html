@@ -61,7 +61,15 @@
             </div>
             <div id="goal_items" class="panel-collapse collapse">
             	{{ goalitems_form.management_form }}
-                {{ goalitems_form.non_form_errors }}
+
+            	{% if goalitems_form.non_form_errors %}
+            		<div class="alert alert-danger alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+            			{{ goalitems_form.non_form_errors }}
+                	</div>	
+                {% endif %}
 
 				{% for item in goalitems_form %}
 	        		<div class="goalitems">
@@ -209,12 +217,18 @@
             </div>
             <div id="notifications" class="panel-collapse collapse">
             	{{ pendencies_form.management_form }}
-                {{ pendencies_form.non_form_errors }}
+                {% if pendencies_form.non_form_errors %}
+            		<div class="alert alert-danger alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+            			{{ pendencies_form.non_form_errors }}
+                	</div>	
+                {% endif %}
 
 				{% for notify in pendencies_form %}
 	        		<div class="notifies">
 	        			<div style="text-align:left">
-	        				{{ notify.errors }}
 	            			{% render_field notify.id %}
 	            			{% render_field notify.resource %}
 	            			{% render_field notify.subject class='pend_subj' %}

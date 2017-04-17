@@ -81,6 +81,7 @@ INSTALLED_APPS = [
     'api',
     'reports',
     'webconference',
+    'news',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -208,8 +209,8 @@ CRON_CLASSES = [
 ]
 
 CRONJOBS = [
-    ('1 */12 * * *', 'notifications.cron.notification_cron'),
-    ('1 */12 * * *', 'goals.cron.setgoals_cron')
+    ('0 0 * * *', 'notifications.cron.notification_cron'),
+    ('0 0 * * *', 'goals.cron.setgoals_cron')
 ]
 
 CHANNEL_LAYERS = {

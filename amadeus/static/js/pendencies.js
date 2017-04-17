@@ -300,6 +300,8 @@ function searchHistory(panel_id) {
 
             var items = $("#history_table_" + panel_id).children(":visible").length;
 
+            holder.jPages("destroy");
+
             if (items > 10) {
                 holder.jPages({
                     containerID : "history_table_" + panel_id,
@@ -382,7 +384,10 @@ function metaFunctions() {
 		    	popover.popover('hide');
 		    });	
 
-		    save.on("click", function () {
+		    save.on("click", function (e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
 		    	var meta = datetime.data('date'),
 		    		url = form.attr('action'),
 		    		method = form.attr('method'),

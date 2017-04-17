@@ -24,8 +24,46 @@ $(function () {
     });
 
     postHeightLimits();
+    setUserDataPopover();
 
 });
+
+function setUserDataPopover() {
+    $('[data-toggle="popover"]').popover({
+        html: true,
+        content: function () {
+            return $(this).parent().find(".popover").html();
+        }
+    }).on('show.bs.popover', function (e) {
+        $('[data-toggle="popover"]').not(e.target).popover('hide');
+    }).on('shown.bs.popover', function (e) {
+        if($(this).is(e.target)){
+            var popover = $(".popover.fade.in"),
+                buttons = popover.parent().find('a'),
+                close = popover.parent().find('.close:visible');
+
+            popover.animate({
+                'max-width': '330px',
+            }, 0);
+
+            popover.find('.popover-content').animate({
+                padding: '9px 5px',
+            }, 0);
+
+            popover.find('h4').animate({
+                'font-size': '16px',
+            }, 0);
+
+            close.on("click", function () {
+                popover.popover('hide');
+            }); 
+
+            buttons.on("click", function () {
+                popover.popover('hide');
+            })
+        }
+    });
+}
 
 function postHeightLimits() {
     $('.post-body').each(function () {
@@ -77,6 +115,7 @@ function setPostFormSubmit(post = "") {
                     $('.no-subjects:visible').attr('style', 'display:none');
                 }
 
+                setUserDataPopover();
                 setTimeout(function () { postHeightLimits() }, 100);
 
                 $('#post-modal-form').modal('hide');
@@ -325,6 +364,8 @@ function loadComments (btn) {
             btn.show();
 
             btn.after(response.loaded);
+
+            setUserDataPopover();
         }
     });
 }

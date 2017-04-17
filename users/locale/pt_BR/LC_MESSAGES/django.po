@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-04 23:45-0300\n"
+"POT-Creation-Date: 2017-04-15 00:13-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,69 +18,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\forms.py:28 .\forms.py:33 .\forms.py:276
+#: users/forms.py:28 users/forms.py:33 users/forms.py:279
 msgid "You must insert an email address"
 msgstr "Você deve inserir um endereço de email"
 
-#: .\forms.py:43
+#: users/forms.py:43
 msgid "The image is too large. It should have less than 2MB."
 msgstr "A imagem é muito grande. Ela deve conter menos de 2MB."
 
-#: .\forms.py:54
+#: users/forms.py:54
 msgid "The confirmation password is incorrect."
 msgstr "A confirmação de senha está incorreta."
 
-#: .\forms.py:61 .\forms.py:173 .\templates\users\login.html:52
+#: users/forms.py:61 users/forms.py:175 users/templates/users/login.html:52
 msgid "Password"
 msgstr "Senha"
 
-#: .\forms.py:62 .\forms.py:174 .\forms.py:233 .\forms.py:289
+#: users/forms.py:62 users/forms.py:176 users/forms.py:236 users/forms.py:292
 msgid "Confirm Password"
 msgstr "Confirmação de Senha"
 
-#: .\forms.py:108 .\forms.py:267 .\templates\users\list.html:56
-#: .\templates\users\login.html:47 .\templates\users\search.html:47
+#: users/forms.py:109 users/forms.py:270 users/templates/users/list.html:56
+#: users/templates/users/login.html:47 users/templates/users/search.html:47
 msgid "Email"
 msgstr "Email"
 
-#: .\forms.py:109 .\models.py:27 .\templates\users\list.html:55
-#: .\templates\users\search.html:46
+#: users/forms.py:110 users/models.py:27 users/templates/users/list.html:55
+#: users/templates/users/search.html:46
 msgid "Name"
 msgstr "Nome"
 
-#: .\forms.py:110 .\models.py:28
+#: users/forms.py:111 users/models.py:28
 msgid "Last Name"
 msgstr "Sobrenome"
 
-#: .\forms.py:111 .\models.py:29
+#: users/forms.py:112 users/models.py:29
 msgid "Social Name"
 msgstr "Nome Social"
 
-#: .\forms.py:232 .\forms.py:288
+#: users/forms.py:235 users/forms.py:291
 msgid "New Password"
 msgstr "Nova Senha"
 
-#: .\forms.py:239
+#: users/forms.py:242
 msgid "The value inputed does not match with your actual password."
 msgstr "O valor inserido não corresponde à sua senha atual."
 
-#: .\forms.py:260
+#: users/forms.py:263
 msgid "Actual Password"
 msgstr "Senha Atual"
 
-#: .\forms.py:281
+#: users/forms.py:284
 msgid "You must insert a valid email address"
 msgstr "Você deve inserir um endereço de email válido"
 
-#: .\models.py:16
+#: users/models.py:16
 msgid "File not supported."
 msgstr "Arquivo não suportado."
 
-#: .\models.py:20
+#: users/models.py:20
 msgid "Mail"
 msgstr "Email"
 
-#: .\models.py:23
+#: users/models.py:23
 msgid ""
 "Type a valid email. This fields should only contain letters, numbers and the "
 "characteres: @/./+/-/_ ."
@@ -88,101 +88,103 @@ msgstr ""
 "Digite um email válido. Esse campo deve conter apenas letras, números e os "
 "caracteres: @/./+/-/_ ."
 
-#: .\models.py:26
+#: users/models.py:26
 msgid "Your email address that will be used to access the platform"
 msgstr "Seu endereço de email que será usado para acessar a plataforma"
 
-#: .\models.py:30 .\templates\users\list.html:57
-#: .\templates\users\profile.html:60 .\templates\users\search.html:48
+#: users/models.py:30 users/templates/users/list.html:57
+#: users/templates/users/profile.html:60 users/templates/users/search.html:48
 msgid "Description"
 msgstr "Descrição"
 
-#: .\models.py:31
+#: users/models.py:31
 msgid "Photo"
 msgstr "Foto"
 
-#: .\models.py:32
+#: users/models.py:32
 msgid "Create Date"
 msgstr "Data de Criação"
 
-#: .\models.py:33
+#: users/models.py:33
 msgid "Last Update"
 msgstr "Última Atualização"
 
-#: .\models.py:34
+#: users/models.py:34
 msgid "Show email?"
 msgstr "Mostrar email?"
 
-#: .\models.py:34
+#: users/models.py:34
 msgid "Allow everyone to see my address"
 msgstr "Permitir que todos vejam meu endereço de email"
 
-#: .\models.py:34
+#: users/models.py:34
 msgid "Only classmates can see my address"
 msgstr "Apenas meus colegas de disciplina podem ver meu endereço de email"
 
-#: .\models.py:34
+#: users/models.py:34
 msgid "Nobody can see my address"
 msgstr "Ninguém pode ver meu endereço de email"
 
-#: .\models.py:35
+#: users/models.py:35
 msgid "Administrator"
 msgstr "Administrador"
 
-#: .\models.py:36
+#: users/models.py:36
 msgid "Active"
 msgstr "Ativo"
 
-#: .\models.py:44
+#: users/models.py:44
 msgid "User"
 msgstr "Usuário"
 
-#: .\models.py:45
+#: users/models.py:45
 msgid "Users"
 msgstr "Usuários"
 
-#: .\models.py:63
+#: users/models.py:63
 msgid "Yes"
 msgstr "Sim"
 
-#: .\models.py:65
+#: users/models.py:65
 msgid "Is not an admin"
 msgstr "Não é administrador"
 
-#: .\templates\users\_form.html:16 .\templates\users\register.html:53
+#: users/templates/users/_form.html:16 users/templates/users/register.html:53
 msgid "Choose your photo..."
 msgstr "Escolha sua foto..."
 
-#: .\templates\users\_form.html:70
+#: users/templates/users/_form.html:76
 msgid "Save"
 msgstr "Salvar"
 
-#: .\templates\users\_form.html:73 .\templates\users\modal_crop.html:24
+#: users/templates/users/_form.html:79 users/templates/users/modal_crop.html:24
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: .\templates\users\delete.html:12
+#: users/templates/users/delete.html:12
 msgid "Are you sure you want delete the user"
 msgstr "Tem certeza que deseja deletar o usuário"
 
-#: .\templates\users\delete.html:18 .\templates\users\delete_account.html:18
+#: users/templates/users/delete.html:18
+#: users/templates/users/delete_account.html:18
 msgid "Close"
 msgstr ""
 
-#: .\templates\users\delete.html:19 .\templates\users\delete_account.html:19
-#: .\templates\users\list.html:66 .\templates\users\search.html:57
+#: users/templates/users/delete.html:19
+#: users/templates/users/delete_account.html:19
+#: users/templates/users/list.html:66 users/templates/users/search.html:57
 msgid "Delete"
 msgstr "Deletar"
 
-#: .\templates\users\delete_account.html:12
+#: users/templates/users/delete_account.html:12
 msgid "Are you sure you want delete your account?"
 msgstr "Tem certeza que deseja deletar sua conta?"
 
-#: .\templates\users\forgot_password.html:39 .\views.py:389
+#: users/templates/users/forgot_password.html:39 users/views.py:389
 msgid "Forgot Password"
 msgstr "Esqueceu Senha"
 
-#: .\templates\users\forgot_password.html:40
+#: users/templates/users/forgot_password.html:40
 msgid ""
 "Enter your email below (the one used to access the platform) to recover your "
 "password"
@@ -190,135 +192,136 @@ msgstr ""
 "Digite seu endereço de email abaixo (o utilizado para acessar a plataforma) "
 "para recuperar sua senha"
 
-#: .\templates\users\forgot_password.html:72
+#: users/templates/users/forgot_password.html:72
 msgid "Recover"
 msgstr "Recuperar"
 
-#: .\templates\users\forgot_password.html:75
-#: .\templates\users\new_password.html:80 .\templates\users\register.html:92
+#: users/templates/users/forgot_password.html:75
+#: users/templates/users/new_password.html:80
+#: users/templates/users/register.html:93
 msgid "Back"
 msgstr "Voltar"
 
-#: .\templates\users\list.html:30 .\templates\users\search.html:21
+#: users/templates/users/list.html:30 users/templates/users/search.html:21
 msgid "Search..."
 msgstr "Pesquisar..."
 
-#: .\templates\users\list.html:41 .\templates\users\search.html:32
+#: users/templates/users/list.html:41 users/templates/users/search.html:32
 msgid "Create User"
 msgstr "Criar Usuário"
 
-#: .\templates\users\list.html:59 .\templates\users\profile.html:63
-#: .\templates\users\search.html:50
+#: users/templates/users/list.html:59 users/templates/users/profile.html:63
+#: users/templates/users/search.html:50
 msgid "Not Informed"
 msgstr "Não Informado"
 
-#: .\templates\users\list.html:65 .\templates\users\search.html:56
+#: users/templates/users/list.html:65 users/templates/users/search.html:56
 msgid "Edit"
 msgstr "Editar"
 
-#: .\templates\users\list.html:76 .\templates\users\search.html:67
+#: users/templates/users/list.html:76 users/templates/users/search.html:67
 msgid "No users found"
 msgstr "Nenhum usuário encontrado"
 
-#: .\templates\users\login.html:39
+#: users/templates/users/login.html:39
 msgid "Sign in with your account to continue"
 msgstr "Entre com a sua conta para continuar"
 
-#: .\templates\users\login.html:63 .\templates\users\login.html:70
+#: users/templates/users/login.html:63 users/templates/users/login.html:70
 msgid "Log in"
 msgstr "Entrar"
 
-#: .\templates\users\login.html:66 .\views.py:363
+#: users/templates/users/login.html:66 users/views.py:363
 msgid "Sign Up"
 msgstr "Cadastrar"
 
-#: .\templates\users\login.html:81 .\templates\users\login.html:117
+#: users/templates/users/login.html:81 users/templates/users/login.html:117
 msgid "Forgot your password?"
 msgstr "Esqueceu sua senha?"
 
-#: .\templates\users\modal_crop.html:10
+#: users/templates/users/modal_crop.html:10
 msgid "Image selection"
 msgstr "Seleção de Imagem"
 
-#: .\templates\users\modal_crop.html:25
+#: users/templates/users/modal_crop.html:25
 msgid "Save Image"
 msgstr "Salvar Imagem"
 
-#: .\templates\users\new_password.html:39
+#: users/templates/users/new_password.html:39
 msgid "Set new password"
 msgstr "Digite a nova senha"
 
-#: .\templates\users\new_password.html:77
+#: users/templates/users/new_password.html:77
 msgid "Reset"
 msgstr "Restaurar"
 
-#: .\templates\users\profile.html:40
+#: users/templates/users/profile.html:40
 msgid "System Admin"
 msgstr "Administrador do sistema"
 
-#: .\templates\users\profile.html:44
+#: users/templates/users/profile.html:44
 msgid "Coordinator in"
 msgstr "Coordenador em"
 
-#: .\templates\users\profile.html:48
+#: users/templates/users/profile.html:48
 msgid "Professor in"
 msgstr "Professor em"
 
-#: .\templates\users\profile.html:52
+#: users/templates/users/profile.html:52
 msgid "Student in"
 msgstr "Estudante em"
 
-#: .\templates\users\register.html:40
+#: users/templates/users/register.html:40
 msgid "User Register"
 msgstr "Cadastro de Usuário"
 
-#: .\templates\users\register.html:89
+#: users/templates/users/register.html:90
 msgid "Register"
 msgstr "Cadastrar"
 
-#: .\templatetags\profile_verifies.py:16
+#: users/templatetags/profile_verifies.py:16
 msgid "Is not a coordinator"
 msgstr "Não é coordenador"
 
-#: .\templatetags\profile_verifies.py:25
+#: users/templatetags/profile_verifies.py:25
 msgid "Is not a professor"
 msgstr "Não é professor"
 
-#: .\templatetags\profile_verifies.py:34
+#: users/templatetags/profile_verifies.py:34
 msgid "Is not a student"
 msgstr "Não é estudante"
 
-#: .\views.py:60
+#: users/views.py:60
 msgid "Manage Users"
 msgstr "Gerenciar Usuários"
 
-#: .\views.py:90
+#: users/views.py:90
 msgid "Search Users"
 msgstr "Pesquisar Usuário"
 
-#: .\views.py:113
+#: users/views.py:113
 #, python-format
 msgid "User \"%s\" created successfully"
 msgstr "Usuário \"%s\" criado com sucesso"
 
-#: .\views.py:127
+#: users/views.py:127
 msgid "Add User"
 msgstr "Cadastrar Usuário"
 
-#: .\views.py:161
+#: users/views.py:161
 #, python-format
 msgid "User \"%s\" updated successfully"
 msgstr "Usuário \"%s\" atualizado com sucesso"
 
-#: .\views.py:175
+#: users/views.py:175
 msgid "Update User"
 msgstr "Atualizar Usuário"
 
-#: .\views.py:232
+#: users/views.py:232
 msgid "User removed successfully!"
 msgstr "Usuário removido com sucesso!"
 
-#: .\views.py:233
+#: users/views.py:233
 msgid ""
 "Could not remove the account. The user is attach to one or more functions "
 "(administrator, coordinator, professor ou student) in the system."
@@ -326,39 +329,39 @@ msgstr ""
 "Não é possível deletar a conta. O usuário está vinculado com uma ou mais "
 "funções (administrador, coordenador, professor ou estudante) no sistema."
 
-#: .\views.py:257
+#: users/views.py:257
 msgid "Delete Account"
 msgstr "Remover Conta"
 
-#: .\views.py:301
+#: users/views.py:301
 msgid "Password changed successfully!"
 msgstr "Senha alterada com sucesso!"
 
-#: .\views.py:307
+#: users/views.py:307
 msgid "Change Password"
 msgstr "Alterar Senha"
 
-#: .\views.py:325
+#: users/views.py:325
 msgid "Profile"
 msgstr "Perfil"
 
-#: .\views.py:344
+#: users/views.py:344
 msgid "Update Profile"
 msgstr "Atualizar Perfil"
 
-#: .\views.py:350
+#: users/views.py:350
 msgid "Profile edited successfully!"
 msgstr "Perfil editado com sucesso!"
 
-#: .\views.py:370
+#: users/views.py:370
 msgid "User successfully registered!"
 msgstr "Usuário cadastrado com sucesso!"
 
-#: .\views.py:408
+#: users/views.py:408
 msgid "Recover Password"
 msgstr "Recuperar Senha"
 
-#: .\views.py:444
+#: users/views.py:444
 msgid ""
 "Soon you'll receive an email with instructions to set your new password. If "
 "you don't receive it in 24 hours, please check your spam box."
@@ -366,35 +369,35 @@ msgstr ""
 "Em breve você receberá um email com instruções para cadastrar sua nova "
 "senha. Se você não recebê-lo em 24 hhoras, por favor olhe sua caixa de spam."
 
-#: .\views.py:447
+#: users/views.py:447
 msgid "No user is associated with this email address"
 msgstr "Nenhum usuário associado com esse endereço de email."
 
-#: .\views.py:460
+#: users/views.py:460
 msgid "Reset Password"
 msgstr "Recuperar Senha"
 
-#: .\views.py:482
+#: users/views.py:482
 msgid "Password reset successfully."
 msgstr "Senha alterada com sucesso!"
 
-#: .\views.py:486
+#: users/views.py:486
 msgid "We were not able to reset your password."
 msgstr "Não foi possível restaurar sua senha"
 
-#: .\views.py:489
+#: users/views.py:489
 msgid "The reset password link is no longer valid."
 msgstr "O link para restaurar senha não está mais válido."
 
-#: .\views.py:495
+#: users/views.py:495
 msgid "Log In"
 msgstr "Entrar"
 
-#: .\views.py:531
+#: users/views.py:531
 msgid "System under maintenance. Try again later"
 msgstr "Sistema em manutenção. Tente novamente mais tarde"
 
-#: .\views.py:533
+#: users/views.py:533
 msgid "E-mail or password are incorrect."
 msgstr "Email ou senha incorretos."
 

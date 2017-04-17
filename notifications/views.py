@@ -23,7 +23,7 @@ from log.decorators import log_decorator, log_decorator_ajax
 import time
 
 from .models import Notification
-from .utils import get_order_by, is_date
+from .utils import get_order_by, is_date, strToDate
 
 class SubjectNotifications(LoginRequiredMixin, LogMixin, generic.ListView):
     log_component = 'pendencies'
@@ -69,6 +69,13 @@ class SubjectNotifications(LoginRequiredMixin, LogMixin, generic.ListView):
         context['title'] = _('%s - Pendencies')%(subject.name)
         context['subject'] = subject
         context['total'] = self.total
+
+        update_pendencies = Log.objects.filter(action = "cron", component = "notifications").order_by('-datetime')
+
+        if update_pendencies.count() > 0:
+            last_update = update_pendencies[0]
+
+            context['last_update'] = last_update.datetime
 
         self.log_context['subject_id'] = subject.id
         self.log_context['subject_name'] = subject.name
@@ -125,8 +132,7 @@ class SubjectHistory(LoginRequiredMixin, LogMixin, generic.ListView):
                 queries |= Q(level = search)
 
             if is_date(search):
-                search_date = parser.parse(search)
-                search_date = timezone.make_aware(search_date, timezone.get_current_timezone())
+                search_date = strToDate(search)
 
                 queries |= Q(creation_date = search_date)
                 queries |= Q(task__limit_date = search_date)
@@ -197,6 +203,13 @@ class IndexView(LoginRequiredMixin, generic.ListView):
 
         context['title'] = _('Pendencies')
 
+        update_pendencies = Log.objects.filter(action = "cron", component = "notifications").order_by('-datetime')
+
+        if update_pendencies.count() > 0:
+            last_update = update_pendencies[0]
+
+            context['last_update'] = last_update.datetime
+
         cat = self.kwargs.get('slug', None)
 
         if cat:
@@ -246,8 +259,7 @@ class AjaxHistory(LoginRequiredMixin, generic.ListView):
                 queries |= Q(level = search)
 
             if is_date(search):
-                search_date = parser.parse(search)
-                search_date = timezone.make_aware(search_date, timezone.get_current_timezone())
+                search_date = strToDate(search)
 
                 queries |= Q(creation_date = search_date)
                 queries |= Q(task__limit_date = search_date)

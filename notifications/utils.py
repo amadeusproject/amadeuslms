@@ -2,6 +2,8 @@ from datetime import date
 from django.utils import timezone
 from django.db.models import Q
 from dateutil.parser import parse
+from datetime import datetime
+from django.utils import formats
 
 from log.models import Log
 from pendencies.models import Pendencies
@@ -92,6 +94,11 @@ def get_order_by(order):
 			return ["-level"]
 		else:
 			return ["level"]
+	elif "aware" in order:
+		if "-" in order:
+			return ["-viewed"]
+		else:
+			return ["viewed"]
 	elif "obs" in order:
 		if "-" in order:
 			return ["-meta"]
@@ -99,8 +106,28 @@ def get_order_by(order):
 			return ["meta"]
 
 def is_date(string):
-    try: 
-        parse(string)
-        return True
-    except ValueError:
-        return False
+	try: 
+		parse(string)
+		return True
+	except ValueError:
+		return False
+
+def strToDate(string):
+	correct_format = formats.get_format("SHORT_DATE_FORMAT")
+	correct_format = correct_format.split('/')
+	correct_format = ["%" + x for x in correct_format]
+	
+	slash_format = '/'.join(correct_format)
+	hiphen_format = '-'.join(correct_format)
+
+	try:
+		search_date = datetime.strptime(string, slash_format)
+		search_date = timezone.make_aware(search_date, timezone.get_current_timezone())
+	except ValueError:
+		try:
+			search_date = datetime.strptime(string, hiphen_format)
+			search_date = timezone.make_aware(search_date, timezone.get_current_timezone())
+		except ValueError:
+			search_date = datetime.fromtimestamp(0)
+
+	return search_date
