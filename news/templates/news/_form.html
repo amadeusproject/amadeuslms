@@ -9,7 +9,7 @@
 					<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
 					{% render_field field class='form-control' %}
 					<div class="input-group">
-											<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your photo...' %}">
+											<input type="text" readonly="" class="form-control" id="pic_holder" placeholder="{% trans 'Choose your photo...' %}">
 											<span class="input-group-btn input-group-sm">
 												<button type="button" class="btn btn-fab btn-fab-mini">
 													<i class="material-icons">image</i>
@@ -27,11 +27,12 @@
 							{% endif %}
             	{% render_field field class='form-control text_wysiwyg' %}
 			{% else %}
-				{% if field.field.required %}
-					<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
-				{% else %}
-											<label for="{{ field.auto_id }}">{{ field.label }}</label>
 
+							{% if field.auto_id == 'id_title' %}
+										{% if field.field.required %}
+											<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
+										{% else %}
+							{% endif %}
 				{% endif %}
 							{% render_field field class='form-control' %}
 
@@ -65,3 +66,4 @@
 	</div>
 
 </form>
+{% include 'users/modal_crop.html'  %}

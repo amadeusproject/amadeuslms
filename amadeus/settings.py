@@ -209,8 +209,8 @@ CRON_CLASSES = [
 ]
 
 CRONJOBS = [
-    ('1 */12 * * *', 'notifications.cron.notification_cron'),
-    ('1 */12 * * *', 'goals.cron.setgoals_cron')
+    ('0 0 * * *', 'notifications.cron.notification_cron'),
+    ('0 0 * * *', 'goals.cron.setgoals_cron')
 ]
 
 CHANNEL_LAYERS = {
