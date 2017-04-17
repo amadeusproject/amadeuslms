@@ -4,7 +4,8 @@ if (("Notification" in window)) {
 	}
 }
 
-socket = new WebSocket("ws://" + window.location.host + "/");
+var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+socket = new WebSocket(ws_scheme + "://" + window.location.host + "/");
 
 socket.onmessage = function(e) {
 	content = JSON.parse(e.data);
@@ -46,7 +47,7 @@ function muralNotificationPost(content) {
 			$(content.container).prepend(content.complete);
 
 	        $('.no-subjects').attr('style', 'display:none');
-		}	
+		}
 	} else {
 		$('.mural_badge').each(function () {
 			var actual = $(this).text();
@@ -257,7 +258,7 @@ function messageReceived(content) {
 			talk_notifies.text(actual_count);
 
 			actual_date.html(content.last_date);
-	
+
 		$('.chat_badge').each(function () {
 			var actual = $(this).text();
 
@@ -303,7 +304,7 @@ function messageReceived(content) {
 
 	    	setTimeout(notification.close.bind(notification), 3000);
 	    }
-  	}	
+  	}
 }
 
 function changeUserStatus(content) {
