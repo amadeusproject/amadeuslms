@@ -28,7 +28,14 @@
     <li data-target="#myCarousel" data-slide-to="3"></li>
   </ol>
 
-      <div class="carousel-inner" role="listbox">
+<div class="carousel-inner" role="listbox">
+		{% for new in news %}
+		<div class="item" style="text-align:center">
+				 <h3> {{new.title}}</h3>
+				 <span><a href="{% url 'news:view' new.slug %}"> <img src="{{ new.image.url }}" alt="Image"> </a></span>
+		</div>
+		{% endfor %}
+
     <div class="item active">
       <h2 class=" my-subjects-title"><b><i>{% trans "Most popular keywords" %}</i></b></h2>
         <div id="" class="col-md-12">
@@ -50,7 +57,7 @@
         </div>
     </div>
 
-     </div>
+</div>
 
   <!-- Left and right controls -->
   <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
