@@ -14,14 +14,13 @@ $(function () {
 
   /* Scripts da caixa de corte da imagem */
   var $image = $("#image");
-  var cropBoxData = {"width":700,"height":200};
+  var cropBoxData;
   var canvasData;
   $("#modalCrop").on("shown.bs.modal", function () {
     $image.cropper({
-      cropBoxResizable: false,
       viewMode: 1 ,
       aspectRatio: 7/2,
-      minCropBoxWidth: 700,
+      minCropBoxWidth: 200,
       minCropBoxHeight: 200,
       dragMode: 'move',
       ready: function () {
