@@ -20,7 +20,7 @@ $(function () {
     $image.cropper({
       cropBoxResizable: false,
       viewMode: 1 ,
-      aspectRatio: 4/3,
+      aspectRatio: 7/2,
       minCropBoxWidth: 700,
       minCropBoxHeight: 200,
       dragMode: 'move',
