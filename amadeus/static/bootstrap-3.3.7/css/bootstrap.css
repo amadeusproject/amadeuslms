@@ -6319,7 +6319,7 @@ button.close {
   top: 0;
   bottom: 0;
   left: 0;
-  width: 15%;
+  width: 5%;
   font-size: 20px;
   color: #fff;
   text-align: center;
@@ -6407,14 +6407,14 @@ button.close {
   cursor: pointer;
   background-color: #000 \9;
   background-color: rgba(0, 0, 0, 0);
-  border: 1px solid #fff;
+  border: 1px solid #bcbcbc;
   border-radius: 10px;
 }
 .carousel-indicators .active {
   width: 12px;
   height: 12px;
   margin: 0;
-  background-color: #fff;
+  background-color: #d6d6d6;
 }
 .carousel-caption {
   position: absolute;
@@ -6455,7 +6455,7 @@ button.close {
     padding-bottom: 30px;
   }
   .carousel-indicators {
-    bottom: 20px;
+    bottom: -30px;
   }
 }
 .clearfix:before,
