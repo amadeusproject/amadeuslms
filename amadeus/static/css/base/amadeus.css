@@ -48,7 +48,7 @@ a:focus {
 
 /* Initial page starts */
 .users-cloud {
-    
+
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -87,7 +87,7 @@ a:focus {
 
 .my-subjects-title {
     font-family: Roboto;
-    font-size: 18px;    
+    font-size: 18px;
 }
 
 /* initial page ends */
@@ -172,7 +172,7 @@ a:focus {
 }
 
 .subject-group {
-    margin-left: 20px;    
+    margin-left: 20px;
 }
 
 .category-header > h4{
@@ -298,9 +298,9 @@ a:focus {
 }
 
 .navbar .logo {
-    text-align: center; 
+    text-align: center;
     margin-top: -6px;
-    height: 32px; 
+    height: 32px;
     width: 32px;
 }
 .navbar .project_name {
@@ -385,8 +385,8 @@ a:focus {
     padding-bottom: 15px !important;
 }
 .modal-footer {
-    text-align: right; 
-    padding-top: 5px !important; 
+    text-align: right;
+    padding-top: 5px !important;
 }
 
 /* HEADER */
@@ -427,7 +427,7 @@ a:focus {
 /* Breadcrumbs */
 .breadcrumb{
     font-size: 16px;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
     font-style: italic;
 }
 /* End Breadcrumbs */
@@ -535,8 +535,8 @@ a:focus {
 
 /* Icon Topic */
 .divMoreActions {
-    text-align: right; 
-    height: 30px; 
+    text-align: right;
+    height: 30px;
     float: right;
     width: 3%;
 }
@@ -550,12 +550,12 @@ a:focus {
 }
 
 .moreAccordion button {
-    margin-bottom: 0px; 
+    margin-bottom: 0px;
     margin-top: 8px;
 }
 
 .titleTopic {
-    padding-top: 10px; 
+    padding-top: 10px;
     padding-bottom: 10px;
 }
 
@@ -567,9 +567,9 @@ a:focus {
     right: 0;
 }
 
-.cards-content{ 
-    padding-left: 0px; 
-    padding-right: 0px; 
+.cards-content{
+    padding-left: 0px;
+    padding-right: 0px;
     font-family: Roboto;
     font-size: 18px;
 }
@@ -577,12 +577,12 @@ a:focus {
     margin-left: 4%;
 }
 
-.course, .subject, .topic { 
-    padding-top: 0px; 
-    padding-bottom: 0px; 
+.course, .subject, .topic {
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
 .course-detail {
-    padding-top: 10px; 
+    padding-top: 10px;
     padding-bottom: 10px;
 }
 
@@ -1153,8 +1153,8 @@ li.item .notify_badge {
 
 /*Carrosel change*/
 
-                    
-                    
+
+
 .carousel-control.right{
     background-image: none !important;
 }
@@ -1165,8 +1165,8 @@ li.item .notify_badge {
 
 /* CHART APP */
 .pie-tooltip{
-  
- 
+
+
   font-size: 30px;
   left: 130px;
   padding: 10px;
@@ -1186,7 +1186,7 @@ li.item .notify_badge {
     background: rgba(0, 0, 0, 0.8);
     color: #fff;
     border-radius: 2px;
-    pointer-events: none;      
+    pointer-events: none;
 }
 
 
@@ -1257,7 +1257,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 #resources_accordion .panel-heading{
     background-color: #c4c4c4 !important;
-    
+
 }
 
 .delete-row{
@@ -1287,7 +1287,7 @@ div.dataTables_wrapper div.dataTables_paginate {
     margin-top: 0;
     color: #bdbdbd;
   }
-  
+
   h5.one:before {
     content: "";
     display: block;
@@ -1298,7 +1298,7 @@ div.dataTables_wrapper div.dataTables_paginate {
     top: 50%;
     z-index: 1;
   }
-  
+
   h5.one span {
     background: #eee;
     padding-right: 20px;
