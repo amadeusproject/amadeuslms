@@ -3,10 +3,16 @@
 {% load static i18n django_bootstrap_breadcrumbs permission_tags pagination %}
 
 {% block breadcrumbs %}
-    {{ block.super }}
+  {{ block.super }}
+  {% if user.is_staff %}
     {% trans 'Manage News' as manage_news %}
     {% breadcrumb  manage_news 'news:manage_news' %}
+  {% else %}
+    {% trans 'News' as news %}
+    {% breadcrumb  news 'news:manage_news' %}
+  {% endif %}
 {% endblock %}
+
 
 {% block render_breadcrumbs %}
     {% render_breadcrumbs %}
@@ -41,9 +47,11 @@
             </div>
         </form>
     </div>
+    {% if user.is_staff %}
     <div class="col-md-3">
         <a href="{% url 'news:create' %}" class="pull-right btn btn-success btn-raised btn-md"><i class="fa fa-plus"></i> {% trans 'Create News' %}</a>
     </div>
+    {% endif %}
 </div>
 
 {% if news %}
@@ -54,12 +62,14 @@
                     <a href="{% url 'news:view' new.slug %}"><h3> <b>{{ new }}</b> </h3></a>
                     <p>{{ new.creator}}, em {{ new.create_date }}</p>
                 </div>
+                {% if user.is_staff %}
                 <div class="col-md-6">
                     <div align="right">
                         <a href="{% url 'news:update' new.slug %}" class="btn btn-success btn-raised btn-sm"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
                         <a href="javascript:delete_news.get('{% url 'news:delete' new.slug %}','#news','#modal_remove')" class="btn btn-default btn-raised btn-sm" class="btn btn-default btn-raised btn-sm"><i class="fa fa-trash"></i> {% trans 'Delete' %}</a>
                     </div>
                 </div>
+                {% endif %}
             </div>
 
         </div>
