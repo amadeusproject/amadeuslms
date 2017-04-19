@@ -78,6 +78,11 @@ class CreateNewsView(LoginRequiredMixin,LogMixin,generic.edit.CreateView):
     template_name = 'news/create.html'
     form_class = NewsForm
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return redirect(reverse_lazy('subjects:home'))
+        return super(CreateNewsView, self).dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         self.object = form.save(commit = False)
         creator = self.request.user
@@ -116,6 +121,11 @@ class UpdateNewsView(LoginRequiredMixin,LogMixin,generic.UpdateView):
     template_name = 'news/update.html'
     form_class = NewsForm
     model = News
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return redirect(reverse_lazy('subjects:home'))
+        return super(UpdateNewsView, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         messages.success(self.request, _('News successfully created!'))
@@ -197,6 +207,11 @@ class DeleteNewsView(LoginRequiredMixin,LogMixin,generic.DeleteView):
 
     model = News
     template_name = 'news/delete.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return redirect(reverse_lazy('subjects:home'))
+        return super(DeleteNewsView, self).dispatch(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         news = get_object_or_404(News, slug = self.kwargs.get('slug'))
