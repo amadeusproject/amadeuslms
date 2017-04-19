@@ -18,7 +18,6 @@
 
 
   <!-- Wrapper for slides -->
-  {% if user.is_staff %}
     <div id="myCarousel" class="carousel slide " data-ride="carousel">
   <!-- Indicators -->
   <ol class="carousel-indicators">
@@ -28,7 +27,13 @@
     <li data-target="#myCarousel" data-slide-to="3"></li>
   </ol>
 
-      <div class="carousel-inner" role="listbox">
+<div class="carousel-inner" role="listbox">
+		{% for new in news %}
+		<div class="item" style="text-align:center">
+				 <span><a href="{% url 'news:view' new.slug %}"> <img src="{{ new.image.url }}" alt="Image"> </a></span>
+		</div>
+		{% endfor %}
+
     <div class="item active">
       <h2 class=" my-subjects-title"><b><i>{% trans "Most popular keywords" %}</i></b></h2>
         <div id="" class="col-md-12">
@@ -50,7 +55,7 @@
         </div>
     </div>
 
-     </div>
+</div>
 
   <!-- Left and right controls -->
   <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
@@ -62,27 +67,6 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
-  {% else %}
-
-     <h2 class=" my-subjects-title"><b><i>{% trans "Most popular keywords" %}</i></b></h2>
-        <div id="" class="col-md-12">
-          <div class="users-cloud div-users-cloud">
-            <ul class=" users-cloud">
-              {% for tag in tags %}
-                {% if tag.1 == 0 %}
-                  <li class="big"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
-                {% elif tag.1 == 1 %}
-                  <li class="medium"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
-                {% else %}
-                  <li class="small"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
-                {% endif %}
-
-
-              {% endfor %}
-            </ul>
-          </div>
-        </div>
-  {% endif %}
 
 
 
