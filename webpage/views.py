@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 
@@ -57,7 +58,7 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
 		self.log_context['webpage_slug'] = self.object.slug
 		self.log_context['timestamp_start'] = str(int(time.time()))
 
-		super(NewWindowView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+		super(NewWindowView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -68,13 +69,13 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
 	log_action = 'view'
 	log_resource = 'webpage'
 	log_context = {}
-	
+
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
 
 	template_name = 'webpages/view.html'
 	model = Webpage
-	context_object_name = 'webpage'	
+	context_object_name = 'webpage'
 
 	def dispatch(self, request, *args, **kwargs):
 		slug = self.kwargs.get('slug', '')
@@ -89,7 +90,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
 		context = super(InsideView, self).get_context_data(**kwargs)
 
 		context['title'] = self.object.name
-		
+
 		context['topic'] = self.object.topic
 		context['subject'] = self.object.topic.subject
 
@@ -107,7 +108,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
 		self.log_context['webpage_slug'] = self.object.slug
 		self.log_context['timestamp_start'] = str(int(time.time()))
 
-		super(InsideView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+		super(InsideView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -136,7 +137,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 	def get(self, request, *args, **kwargs):
 		self.object = None
-		
+
 		form_class = self.get_form_class()
 		form = self.get_form(form_class)
 
@@ -149,7 +150,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 	def post(self, request, *args, **kwargs):
 		self.object = None
-		
+
 		form_class = self.get_form_class()
 		form = self.get_form(form_class)
 
@@ -157,7 +158,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		topic = get_object_or_404(Topic, slug = slug)
 
 		pendencies_form = PendenciesForm(self.request.POST, initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
-		
+
 		if (form.is_valid() and pendencies_form.is_valid()):
 			return self.form_valid(form, pendencies_form)
 		else:
@@ -170,7 +171,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		topic = get_object_or_404(Topic, slug = slug)
 		initial['subject'] = topic.subject
-		
+
 		return initial
 
 	def form_invalid(self, form, pendencies_form):
@@ -192,7 +193,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		pend_form = pendencies_form.save(commit = False)
 		pend_form.resource = self.object
-		
+
 		if not pend_form.action == "":
 			pend_form.save()
 
@@ -209,8 +210,8 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		self.log_context['webpage_name'] = self.object.name
 		self.log_context['webpage_slug'] = self.object.slug
 
-		super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
-		
+		super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return redirect(self.get_success_url())
 
 	def get_context_data(self, **kwargs):
@@ -264,7 +265,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
 	def get(self, request, *args, **kwargs):
 		self.object = self.get_object()
-		
+
 		form_class = self.get_form_class()
 		form = self.get_form(form_class)
 
@@ -282,7 +283,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object()
-		
+
 		form_class = self.get_form_class()
 		form = self.get_form(form_class)
 
@@ -295,12 +296,12 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 			pendencies_form = PendenciesForm(self.request.POST, instance = pend_form[0], initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
 		else:
 			pendencies_form = PendenciesForm(self.request.POST, initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
-		
+
 		if (form.is_valid() and pendencies_form.is_valid()):
 			return self.form_valid(form, pendencies_form)
 		else:
 			return self.form_invalid(form, pendencies_form)
-	
+
 	def form_invalid(self, form, pendencies_form):
 		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
@@ -309,7 +310,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
 		if not self.object.topic.visible and not self.object.topic.repository:
 			self.object.visible = False
-		
+
 		self.object.save()
 
 		pend_form = pendencies_form.save(commit = False)
@@ -331,8 +332,8 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 		self.log_context['webpage_name'] = self.object.name
 		self.log_context['webpage_slug'] = self.object.slug
 
-		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
-        
+		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return redirect(self.get_success_url())
 
 	def get_context_data(self, **kwargs):
@@ -400,6 +401,94 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
 		self.log_context['webpage_name'] = self.object.name
 		self.log_context['webpage_slug'] = self.object.slug
 
-		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+
+
+def get_chart(request,slug):
+    webpage = get_object_or_404(Webpage, slug=slug)
+    alunos = webpage.students.all()
+    visualizou = Log.objects.filter(context__contains={'webpage_id':webpage.id},resource="webpage",action="view",user_email__in=(aluno.email for aluno in alunos)).distinct("user_email")
+    re = []
+    c_visualizou = visualizou.count()
+    re.append(["Página Web","Fez","Não fez"])
+    re.append(["Visualizar",c_visualizou, alunos.count() - c_visualizou])
+    return JsonResponse({"dados":re})
+
+
+class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
+    log_component = 'resources'
+    log_action = 'view_statistics'
+    log_resource = 'webpage'
+    log_context = {}
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+    model = Webpage
+    template_name = 'webpages/estatisticas.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug', '')
+        webpage = get_object_or_404(Webpage, slug = slug)
+
+        if not has_subject_permissions(request.user, webpage.topic.subject):
+        	return redirect(reverse_lazy('subjects:home'))
+
+        return super(StatisticsView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(StatisticsView, self).get_context_data(**kwargs)
+
+        self.log_context['category_id'] = self.object.topic.subject.category.id
+        self.log_context['category_name'] = self.object.topic.subject.category.name
+        self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        self.log_context['subject_id'] = self.object.topic.subject.id
+        self.log_context['subject_name'] = self.object.topic.subject.name
+        self.log_context['subject_slug'] = self.object.topic.subject.slug
+        self.log_context['topic_id'] = self.object.topic.id
+        self.log_context['topic_name'] = self.object.topic.name
+        self.log_context['topic_slug'] = self.object.topic.slug
+        self.log_context['webpage_id'] = self.object.id
+        self.log_context['webpage_name'] = self.object.name
+        self.log_context['webpage_slug'] = self.object.slug
+
+        super(StatisticsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+
+        context['title'] = _('Webpage Statistics')
+
+        slug = self.kwargs.get('slug')
+        webpage = get_object_or_404(Webpage, slug = slug)
+
+        parameter = self.request.GET.get('col','')
+
+        alunos = webpage.students.all()
+        visualizou = Log.objects.filter(context__contains={'webpage_id':webpage.id},resource="webpage",action="view",user_email__in=(aluno.email for aluno in alunos)).distinct("user_email")
+        re = []
+        c_visualizou = visualizou.count()
+        did,n_did = str(_("Did")),str(_("Did not"))
+        re.append(['Webpage',did,n_did])
+        re.append(['View',c_visualizou, alunos.count() - c_visualizou])
+        context['topic'] = webpage.topic
+        context['subject'] = webpage.topic.subject
+        context['db_data'] = re
+        context['title_chart'] = _('Students viewing the web conference')
+        context['title_vAxis'] = _('Quantity')
+        data = []
+        if not parameter == n_did:
+            for a in visualizou:
+                data.append([str(alunos.get(email=a.user_email)),a.user_email,a.action,a.datetime])
+
+        if not parameter == did:
+            alunos = alunos.exclude(email__in=(log.user_email for log in visualizou))
+            for a in alunos:
+                data.append([str(a),a.email,None,None])
+
+        context["history"] = data
+        context["title_table"] = _("History")
+        if parameter == did:
+            context["title_table"] = did
+        elif parameter == n_did:
+            context["title_table"] = n_did
+        return context
