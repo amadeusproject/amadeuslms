@@ -39,7 +39,7 @@ from amadeus.permissions import has_category_permissions, has_subject_permission
 class HomeView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
-    template_name = 'subjects/initial.html'
+    template_name = 'subjects/home.html'
     context_object_name = 'subjects'
     paginate_by = 10
     total = 0
