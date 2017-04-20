@@ -1,0 +1,84 @@
+{% extends "categories/home.html" %}
+
+{% load static pagination i18n %}
+
+{% block content %}
+	{% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+
+
+  <!-- Wrapper for slides -->
+    <div id="myCarousel" class="carousel slide " data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+    <li data-target="#myCarousel" data-slide-to="3"></li>
+  </ol>
+
+<div class="carousel-inner" role="listbox">
+		{% for new in news %}
+        {% if forloop.first %}
+            <div class="item active" style="text-align:center">
+                 <span><a href="{% url 'news:view' new.slug %}"> <img src="{{ new.image.url }}" alt="Image"> </a></span>
+            </div>
+        {% else %}
+            <div class="item" style="text-align:center">
+                 <span><a href="{% url 'news:view' new.slug %}"> <img src="{{ new.image.url }}" alt="Image"> </a></span>
+            </div>
+        {% endif%}
+		{% endfor %}
+
+</div>
+
+  <!-- Left and right controls -->
+  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+
+
+
+
+
+	<div class="col-md-12 cards-content">
+		<h2 class=" my-subjects-title"><b><i>{% trans "My Subjects" %} ({{ total_subs }})</i></b></h2>
+
+		{% if subjects|length > 0 %}
+	    	<div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
+				{% for subject in subjects %}
+					{% include "subjects/subject_card.html" with accordion_id="subject-accordion" %}
+				{% endfor %}
+
+				{% pagination request paginator page_obj %}
+			</div>
+		{% else %}
+			<div class="text-center no-subjects">
+				<i class="fa fa-graduation-cap"></i>
+				<h4>{% trans 'You still do not posses any subject in our platform' %}</h4>
+			</div>
+		{% endif %}
+	</div>
+
+	<div id="modal_subject"></div>
+
+	<script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
+{% endblock content %}
