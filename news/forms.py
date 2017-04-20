@@ -7,6 +7,7 @@ from os.path import join
 from PIL import Image
 import os
 from amadeus import settings
+from django.utils.html import strip_tags
 
 class NewsForm(forms.ModelForm):
     MAX_UPLOAD_SIZE = 5*1024*1024
@@ -30,7 +31,7 @@ class NewsForm(forms.ModelForm):
 	        image = Image.open(self.instance.image)
 	        if not x is None:
 		        cropped_image = image.crop((x, y, w+x, h+y))
-		        resized_image = cropped_image.resize((700, 200), Image.ANTIALIAS)
+		        resized_image = cropped_image.resize((1200, 250), Image.ANTIALIAS)
 
 		        folder_path = join(settings.MEDIA_ROOT, 'news')
 		        #check if the folder already exists
@@ -78,3 +79,13 @@ class NewsForm(forms.ModelForm):
             return ValueError
 
         return image
+    def clean_content(self):
+        content = self.cleaned_data.get('content', '')
+        cleaned_content = strip_tags(content)
+
+        if cleaned_content == '':
+        	self._errors['content'] = [_('This field is required.')]
+
+        	return ValueError
+
+        return content

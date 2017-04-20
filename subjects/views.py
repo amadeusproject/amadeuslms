@@ -32,13 +32,14 @@ from .forms import CreateSubjectForm, UpdateSubjectForm
 from .utils import has_student_profile, has_professor_profile, count_subjects, get_category_page
 from users.models import User
 from topics.models import Topic, Resource
+from news.models import News
 
 from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions, has_resource_permissions
 
 class HomeView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
-    template_name = 'subjects/initial.html'
+    template_name = 'subjects/home.html'
     context_object_name = 'subjects'
     paginate_by = 10
     total = 0
@@ -59,6 +60,7 @@ class HomeView(LoginRequiredMixin, ListView):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['title'] = _('Home')
         context['show_buttons'] = True #So it shows subscribe and access buttons
+        context['news'] = News.objects.all()
 
         #bringing users
         tag_amount = 50
@@ -521,8 +523,8 @@ class SubjectDetailView(LoginRequiredMixin, LogMixin, DetailView):
         expire_time = settings.SESSION_SECURITY_EXPIRE_AFTER
 
         context['participants'] = User.objects.filter(
-            Q(is_staff = True) | Q(subject_student__slug = sub) | 
-            Q(professors__slug = sub) | 
+            Q(is_staff = True) | Q(subject_student__slug = sub) |
+            Q(professors__slug = sub) |
             Q(coordinators__subject_category__slug = sub)
             ).extra(select = {'status': status_query}, select_params=(expire_time, expire_time,),).distinct().order_by('status', 'social_name','username').exclude(email = self.request.user.email)
 

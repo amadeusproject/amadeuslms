@@ -29,31 +29,16 @@
 
 <div class="carousel-inner" role="listbox">
 		{% for new in news %}
-		<div class="item" style="text-align:center">
-				 <span><a href="{% url 'news:view' new.slug %}"> <img src="{{ new.image.url }}" alt="Image"> </a></span>
-		</div>
+        {% if forloop.first %}
+            <div class="item active" style="text-align:center">
+                 <span><a href="{% url 'news:view' new.slug %}"> <img src="{{ new.image.url }}" alt="Image"> </a></span>
+            </div>
+        {% else %}
+            <div class="item" style="text-align:center">
+                 <span><a href="{% url 'news:view' new.slug %}"> <img src="{{ new.image.url }}" alt="Image"> </a></span>
+            </div>
+        {% endif%}
 		{% endfor %}
-
-    <div class="item active">
-      <h2 class=" my-subjects-title"><b><i>{% trans "Most popular keywords" %}</i></b></h2>
-        <div id="" class="col-md-12">
-          <div class="users-cloud div-users-cloud">
-            <ul class=" users-cloud">
-              {% for tag in tags %}
-                {% if tag.1 == 0 %}
-                  <li class="big"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
-                {% elif tag.1 == 1 %}
-                  <li class="medium"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
-                {% else %}
-                  <li class="small"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
-                {% endif %}
-
-
-              {% endfor %}
-            </ul>
-          </div>
-        </div>
-    </div>
 
 </div>
 
@@ -93,9 +78,6 @@
 	</div>
 
 	<div id="modal_subject"></div>
-  {% if user.is_staff %}
-    <script type="text/javascript" src="{% static 'js/charts/home.js' %}"></script>
-  {% endif %}
 
 	<script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/category.js' %}"></script>

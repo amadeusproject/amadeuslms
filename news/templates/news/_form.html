@@ -19,13 +19,8 @@
 
 
             {% elif field.auto_id == 'id_content' %}
-            	{% if field.field.required %}
 									<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
-							{% else %}
-
-								<label for="{{ field.auto_id }}">{{ field.label }}</label>
-							{% endif %}
-            	{% render_field field class='form-control text_wysiwyg' %}
+            			{% render_field field class='form-control text_wysiwyg' %}
 			{% else %}
 
 							{% if field.auto_id == 'id_title' %}
@@ -66,4 +61,6 @@
 	</div>
 
 </form>
+<script src="{% static 'js/crop_news.js' %}"></script> <!-- Js for cropper-->
+
 {% include 'users/modal_crop.html'  %}
