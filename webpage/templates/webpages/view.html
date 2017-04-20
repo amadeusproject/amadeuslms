@@ -54,5 +54,11 @@
             	   {{ webpage.content }}
                 {% endautoescape %}
             </div>
+
+            <div class="row">
+              <div class="text-center">
+                <a href="{% url 'webpages:get_chart' webpage.slug %}" class="btn btn-raised btn-success">{% trans "Statistics" %}</a>
+              </div>
+            </div>
         </div>
 {% endblock %}

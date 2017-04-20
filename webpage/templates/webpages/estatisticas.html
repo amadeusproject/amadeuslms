@@ -1,0 +1,104 @@
+{% extends "webpages/view.html" %}
+
+{% load static i18n pagination permissions_tags subject_counter %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block javascript%}
+    {{ block.super }}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart',"table"]});
+      google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(drawTable);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable({{db_data|safe}});
+
+        var options = {
+          title: '{{title_chart}}',
+          vAxis: {
+              title: '{{title_vAxis}}',
+              ticks: [0, .20, .40, .60, .80, 1],
+              viewWindow: {
+                  min: 0,
+                  max: 1
+              }
+          },
+          isStacked: "percent",
+        };
+
+        function selectHandler() {
+           var selectedItem = chart.getSelection()[0];
+           if (selectedItem) {
+               var col = data.getColumnLabel(selectedItem.column);
+               window.location.href = '{% url "webpages:get_chart" webpage.slug %}?col='+col + ''
+           }
+         }
+
+        var chart = new google.visualization.SteppedAreaChart(document.getElementById('chart_div'));
+        google.visualization.events.addListener(chart, 'select', selectHandler);
+        chart.draw(data, options);
+      }
+
+        function drawTable() {
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'Student');
+          data.addColumn('string', 'Email');
+          data.addColumn('string', 'Action');
+          data.addColumn('date', 'Date/Hour');
+          data.addRows(getData());
+
+          function getData(){
+              var array = [];
+              {%for a in history%}
+                array.push(['{{a.0}}','{{a.1}}',{% if a.2 is not None %}'{{a.2}}'{% else%}null{% endif %},{% if a.3 is not None %}new Date('{{a.3|date:"D, d M Y H:i:s"}}'){% else%}null{% endif %}]);
+              {% endfor%}
+              return array;
+          }
+          var formate_date = new google.visualization.DateFormat({pattern: 'dd/MM/yyyy HH:mm'});
+          formate_date.format(data, 3);
+
+
+          var table = new google.visualization.Table(document.getElementById('table_div'));
+
+          table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+        }
+    </script>
+{% endblock%}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% trans 'Estatisticas' as bread %}
+	{% breadcrumb bread webpage%}
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="row">
+        <div class="col-md-10">
+            <div id="chart_div" style="height: 500px"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10">
+            <div class="text-center">
+
+                <h3>{{title_table}}</h3>
+            </div>
+            <div id="table_div"></div>
+        </div>
+    </div>
+    <div class="row">
+        <br><br>
+    </div>
+{% endblock %}
