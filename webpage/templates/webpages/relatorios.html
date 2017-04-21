@@ -35,29 +35,34 @@
            }
          }
 
-        var chart = new google.visualization.SteppedAreaChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
         google.visualization.events.addListener(chart, 'select', selectHandler);
         chart.draw(data, options);
       }
 
         function drawTable() {
           var data = new google.visualization.DataTable();
-          data.addColumn('string', 'Student');
-          data.addColumn('string', 'Email');
-          data.addColumn('string', 'Action');
-          data.addColumn('date', 'Date/Hour');
+          {%for a in column%}
+                data.addColumn('{{a.1}}', '{{a.0}}');
+          {% endfor%}
           data.addRows(getData());
-
           function getData(){
               var array = [];
               {%for a in history%}
-                array.push(['{{a.0}}','{{a.1}}',{% if a.2 is not None %}'{{a.2}}'{% else%}null{% endif %},{% if a.3 is not None %}new Date('{{a.3|date:"D, d M Y H:i:s"}}'){% else%}null{% endif %}]);
+                  {% if title_table == n_did_table %}
+                    array.push(['{{a.0}}','{{a.1}}']);
+                  {% else %}
+                    array.push(['{{a.0}}','{{a.1}}','{{a.2}}',{% if a.3 is not None %}new Date('{{a.3.isoformat}}'){% else%}null{% endif %}]);
+                    // console.log(new Date('{{a.3.isoformat}}'));
+                  {% endif %}
               {% endfor%}
               return array;
           }
           var formate_date = new google.visualization.DateFormat({pattern: 'dd/MM/yyyy HH:mm'});
-          formate_date.format(data, 3);
-
+          {% if not title_table == n_did_table %}
+            formate_date.format(data, 3);
+            console.log(data);
+          {% endif %}
 
           var table = new google.visualization.Table(document.getElementById('table_div'));
 
@@ -68,7 +73,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% trans 'Estatisticas' as bread %}
+    {% trans 'Reports' as bread %}
 	{% breadcrumb bread webpage%}
 {% endblock %}
 
@@ -93,7 +98,27 @@
         <div class="col-md-10">
             <div class="text-center">
 
-                <h3>{{title_table}}</h3>
+            <ul class="list-inline">
+                <li>
+                    {% if out_history %}
+                        <a href="{% url 'webpages:get_chart' webpage.slug %}"> <i class="fa fa-arrow-left ta-fw">  </i> {% trans "History" %}</a>
+                    {% endif %}
+                </li>
+                <li><h3>{{title_table}}</h3></li>
+            </ul>
+            <div class="row">
+                <div class="col-md-7">
+                    <ul id="report-info">
+                		{# <li> {{data.values|length}} {% trans "register(s)" %} </li>#}
+                		<li>
+                			<a href=""><i class="fa fa-download" aria-hidden="true"></i> {% trans "Interactions Data (.csv)" %}</a>
+                		</li>
+                        <li><a href=""><i class="fa fa-download" aria-hidden="true"></i> {% trans "Interactions Data (.xls)" %}</a></li>
+                	</ul>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
             </div>
             <div id="table_div"></div>
         </div>
