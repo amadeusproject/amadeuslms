@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="col-md-12 category-header">
                     <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
-                        <span>{{subject.name}}</span>
+                        <span>{{subject.name}} / {% trans 'Messages' %}</span>
                     </h4>
 
                     <div class="col-md-5 pull-right category-card-items">
@@ -51,30 +51,30 @@
             </div>
         </div>
         <div id="{{subject.slug}}" class="panel-collapse panel-body in collapse chat-collapse">
-        	<div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
-                        <form action="{% url 'chat:participants_subject' subject.id %}" method="GET" class="form-horizontal">
-                            <div class="form-group">
-                                <div class="col-md-10 col-sm-9 col-xs-10">
-                                    <input type="text" class="form-control" name="search" value="{{ search }}" placeholder="{% trans 'Search...' %}" />
+            <div class="panel category-panel-content panel-body">
+            	<div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+                            <form action="{% url 'chat:participants_subject' subject.id %}" method="GET" class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-md-10 col-sm-9 col-xs-10">
+                                        <input type="text" class="form-control" name="search" value="{{ search }}" placeholder="{% trans 'Search...' %}" />
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-1">
+                                        <button type="submit" class="btn btn-fab btn-fab-mini">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="col-md-1 col-sm-1 col-xs-1">
-                                    <button type="submit" class="btn btn-fab btn-fab-mini">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
-                        <a href="{% url 'chat:participants_subject' subject.id %}" class="pull-right btn btn-default btn-raised btn-md">{% trans 'List all participants' %}</a>
+                            </form>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                            <a href="{% url 'chat:participants_subject' subject.id %}" class="pull-right btn btn-default btn-raised btn-md">{% trans 'List all participants' %}</a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            {% if participants.count > 0 %}
-                <div class="panel category-panel-content panel-body">
+                {% if participants.count > 0 %}
                     <h2 class="my-subjects-title"><b>{% trans 'Participants' %}</b></h2>
 
                     <div class="talks-group">
@@ -84,13 +84,13 @@
                     </div>
 
                     {% pagination request paginator page_obj %}
-                </div>
-            {% else %}
-                <div class="text-center no-subjects">
-                    <i class="fa fa-envelope-o"></i>
-                    <h4>{% trans 'There is no other participants in this space yet.' %}</h4>
-                </div>
-            {% endif %}
+                {% else %}
+                    <div class="text-center no-subjects">
+                        <i class="fa fa-envelope-o"></i>
+                        <h4>{% trans 'There is no other participants in this space yet.' %}</h4>
+                    </div>
+                {% endif %}
+            </div>
 		</div>
     </div>
 

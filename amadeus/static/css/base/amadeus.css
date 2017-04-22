@@ -1573,7 +1573,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 }
 
 .chat-panel .chat-collapse {
-    padding: 15px 0px;
+    padding: 0px 0px;
 }
 
 .participants-list {
@@ -1610,6 +1610,10 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 .participants-container h4 {
     font-size: 14px;
+}
+
+.subject-related-panel .panel {
+    margin-bottom: 0px;
 }
 
 @-moz-document url-prefix() {

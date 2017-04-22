@@ -10,7 +10,6 @@
 {% endblock %}
 
 {% block content %}
-	<h5>{% trans 'This pendencies list is updated every 24 hours. Last update was in:' %} {{ last_update|default:_('Not determined') }}</h5>
 	{% if subject.visible %}
 		<div class="panel panel-info subject-panel">
         	<div class="panel-heading">
@@ -21,12 +20,13 @@
     		<div class="row">
                 <div class="col-md-12 category-header">
                     <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
-                        <span>{% trans 'Pendencies' %}</span>
+                        <span>{{ subject }} / {% trans 'Pendencies' %}</span>
                     </h4>
                 </div>
             </div>
     	</div>
-    	<div id="{{subject.slug}}" class="panel-collapse in collapse pendencies-content">
+    	<div id="{{subject.slug}}" class="panel-collapse in collapse pendencies-content subject-related-panel">
+			<h5>{% trans 'This pendencies list is updated every 24 hours. Last update was in:' %} {{ last_update|default:_('Not determined') }}</h5>
             <div id="core-subjects-options-div">
 		        <ul class="core-subjects-options">
 	                <a href="{% url 'notifications:view' subject.slug %}"><li {% if not history %} class="active" {% endif %}>{% trans "Actual Pendencies" %} ({{ total }})</li></a>

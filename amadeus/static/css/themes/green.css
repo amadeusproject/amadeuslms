@@ -135,9 +135,6 @@ a, a:focus, a:hover {
 .pendencies-content {
   background: #FFFFFF; }
 
-.pendencies-content .core-subjects-options li {
-  background: #F5F5F5; }
-
 .category-header i {
   color: white; }
 
@@ -458,6 +455,9 @@ a.add-row {
 
 .suggestions {
   background: #FFFFFF; }
+
+.subject-related-panel {
+  background: #F5F5F5 !important; }
 
 .mural-ungeneral {
   background: #EEE; }
