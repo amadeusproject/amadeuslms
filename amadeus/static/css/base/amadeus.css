@@ -1612,6 +1612,10 @@ div.dataTables_wrapper div.dataTables_paginate {
     font-size: 14px;
 }
 
+.subject-related-panel .panel {
+    margin-bottom: 0px;
+}
+
 @-moz-document url-prefix() {
     .talk_body .checkbox input[type="checkbox"] {
         display: none;
