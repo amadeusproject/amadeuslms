@@ -550,6 +550,18 @@ a.add-row {
 .btn:not(.btn-raised):not(.btn-link):focus, .btn:not(.btn-raised):not(.btn-link):hover, .input-group-btn .btn:not(.btn-raised):not(.btn-link):focus, .input-group-btn .btn:not(.btn-raised):not(.btn-link):hover {
   background-color: initial; }
 
+#participants, .participants-list {
+  background-color: #FFFFFF; }
+
+#participants {
+  box-shadow: -1px 1px 8px #000000; }
+
+#participants i {
+  color: #000000; }
+
+.participants-list {
+  box-shadow: -1px 2px 1px #000000; }
+
 @media(max-width: 768px) {
   .navbar .navbar-nav .dropdown .dropdown-menu li > a {
     color: #FFFFFF !important;
@@ -557,16 +569,5 @@ a.add-row {
 
   .navbar .navbar-nav .dropdown .dropdown-menu li > a:hover {
     backgroun-color: #474b4b !important; } }
-
-/* Color Checkbox */
-
-.checkbox input[type=checkbox]:checked+.checkbox-material .check, label.checkbox-inline input[type=checkbox]:checked+.checkbox-material .check {
-    color: black;
-    border-color: black;
-}
-
-.checkbox input[type=checkbox]:checked+.checkbox-material .check:before, label.checkbox-inline input[type=checkbox]:checked+.checkbox-material .check:before {
-  color: black;
-}
 
 /*# sourceMappingURL=black.css.map */
