@@ -7,13 +7,41 @@
     {{ block.super }}
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
+    var array_history = [];
+    {%for data_json in json_history.data%}
+        array_history.push(["{{data_json.0}}","{{data_json.1}}","{{data_json.2}}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
+        // var teste = ["{{data_json.0}}","{{data_json.1}}","{{data_json.2}}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}];
+        // console.log(teste[3] instanceof Date);
+    {% endfor%}
+    var json_history = {"data":array_history};
+    var column_history = [{"string":"User"},{"string":"Group"},{"string":"Action"},{"date":"Date of Action"}];
+    // console.log(json_history);
+
+    var array_did = [];
+    {%for data_json in json_did.data%}
+        array_did.push(["{{data_json.0}}","{{data_json.1}}","{{data_json.2}}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
+    {% endfor%}
+    var json_did = {"data":array_did};
+    var column_did = [{"string":"User"},{"string":"Group"},{"string":"Number of Views"},{"date":"Date of Last View"}];
+    // console.log(json_did);
+
+    var array_n_did = [];
+    {%for data_json in json_n_did.data%}
+        array_n_did.push(["{{data_json.0}}","{{data_json.1}}"]);
+    {% endfor%}
+    var json_n_did = {"data":array_n_did};
+    var column_n_did = [{"string":"User"},{"string":"Group"}];
+    // console.log(json_n_did);
+    </script>
+
+
+    <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart',"table"]});
       google.charts.setOnLoadCallback(drawChart);
       google.charts.setOnLoadCallback(drawTable);
 
       function drawChart() {
         var data = google.visualization.arrayToDataTable({{db_data|safe}});
-
         var options = {
           title: '{{title_chart}}',
           vAxis: {
@@ -31,43 +59,58 @@
            var selectedItem = chart.getSelection()[0];
            if (selectedItem) {
                var col = data.getColumnLabel(selectedItem.column);
-               window.location.href = '{% url "webpages:get_chart" webpage.slug %}?col='+col + ''
+               var element = '<li id="link-history">\
+                                    <a id="call-history" href="javascript:void(0)" onclick="return backhistory();"> <i class="fa fa-arrow-left ta-fw">  </i> {{history_table}}</a>\
+                               </li>';
+               if (col == "{{n_did_table}}" && text("#title-table") != "{{n_did_table}}"){
+                   if (length("#link-history") <= 0){
+                       add(element,"#view-table",true);
+                   }
+                   altertitle("{{n_did_table}}");
+                   drawTable(column_n_did,json_n_did["data"],false);
+                //    console.log("n_did_table");
+
+               } else if (col == "{{did_table}}" && text("#title-table") != "{{did_table}}"){
+                   if (length("#link-history") <= 0){
+                       add(element,"#view-table",true);
+                   }
+                   altertitle("{{did_table}}");
+                   drawTable(column_did,json_did["data"],true,3);
+                //    console.log("did_table");
+               }
            }
+          chart.setSelection([])
          }
 
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
         google.visualization.events.addListener(chart, 'select', selectHandler);
         chart.draw(data, options);
-      }
 
-        function drawTable() {
-          var data = new google.visualization.DataTable();
-          {%for a in column%}
-                data.addColumn('{{a.1}}', '{{a.0}}');
-          {% endfor%}
-          data.addRows(getData());
-          function getData(){
-              var array = [];
-              {%for a in history%}
-                  {% if title_table == n_did_table %}
-                    array.push(['{{a.0}}','{{a.1}}']);
-                  {% else %}
-                    array.push(['{{a.0}}','{{a.1}}','{{a.2}}',{% if a.3 is not None %}new Date('{{a.3.isoformat}}'){% else%}null{% endif %}]);
-                    // console.log(new Date('{{a.3.isoformat}}'));
-                  {% endif %}
-              {% endfor%}
-              return array;
+      }
+      function drawTable(columns = column_history,rows = json_history["data"],isdate = true,columndate = 3) {
+          var data_table = new google.visualization.DataTable();
+          for (var i in columns){
+              for (var item in columns[i]){
+                 data_table.addColumn(item,columns[i][item]);
+              }
           }
+
+          data_table.addRows(rows);
           var formate_date = new google.visualization.DateFormat({pattern: 'dd/MM/yyyy HH:mm'});
-          {% if not title_table == n_did_table %}
-            formate_date.format(data, 3);
-            console.log(data);
-          {% endif %}
+          if (isdate) formate_date.format(data_table, columndate);
+
+        //   var methods = [];
+        //       for (var m in data_table) {
+        //           if (typeof data_table[m] == "function") {
+        //               methods.push(m);
+        //           }
+        //       }
+        //   console.log(methods.join(","));
 
           var table = new google.visualization.Table(document.getElementById('table_div'));
 
-          table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
-        }
+          table.draw(data_table, {showRowNumber: true, width: '100%', height: '100%'});
+      }
     </script>
 {% endblock%}
 
@@ -90,40 +133,133 @@
     {% endif %}
     <div class="row">
         <div class="col-md-10">
-            <div id="chart_div" style="height: 500px"></div>
+            <div class="text-center">
+                <h2>{% trans "Report of the resource webpage" %}</h2>
+            </div>
+            <h3>{% trans "Select the period" %}</h3>
+            <div id="general-parameters-div">
+                <form id="period-form" action="" method="get">
+                    <div class="general-parameters-field">
+                           <label class="form-field-report"> {% trans "Initial Date" %} </label>
+                           <input class="form-control date-picker" name="init_date" type="text" required="" value="{% if LANGUAGE_CODE == 'pt-br' %}{{init_date|date:'d/m/Y'}} {% else %} {{init_date|date:'m/d/Y'}} {% endif %}">
+                   </div>
+
+                   <div class="general-parameters-field">
+                           <label class="form-field-report"> {% trans "Final Date" %} </label>
+                           <input id="inputdate" class="form-control date-picker" name="end_date" type="text" required="" value="{% if LANGUAGE_CODE == 'pt-br' %}{{end_date|date:'d/m/Y'}} {% else %} {{end_date|date:'m/d/Y'}} {% endif %}">
+                   </div>
+                    <input type="submit" value="{% trans 'Search' %}" class="btn btn-success btn-raised">
+               </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <div id="chart_div" style="height: 500px;"></div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-10">
             <div class="text-center">
+                <ul class="list-inline nav-justified">
+                    <li>
+                        <ul id="view-table" class="list-inline text-right">
+                            <li><h3 id="title-table">{{history_table}}</h3></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="list-inline text-right">
+                            <li><input id="search-input" class="form-control" type="text" name="search" value=""></li>
+                            <li><button id="search-button" class="btn btn-success btn-raised" type="button" name="button">{% trans "Search" %}</button></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
 
-            <ul class="list-inline">
-                <li>
-                    {% if out_history %}
-                        <a href="{% url 'webpages:get_chart' webpage.slug %}"> <i class="fa fa-arrow-left ta-fw">  </i> {% trans "History" %}</a>
-                    {% endif %}
-                </li>
-                <li><h3>{{title_table}}</h3></li>
-            </ul>
-            <div class="row">
-                <div class="col-md-7">
-                    <ul id="report-info">
-                		{# <li> {{data.values|length}} {% trans "register(s)" %} </li>#}
-                		<li>
-                			<a href=""><i class="fa fa-download" aria-hidden="true"></i> {% trans "Interactions Data (.csv)" %}</a>
-                		</li>
-                        <li><a href=""><i class="fa fa-download" aria-hidden="true"></i> {% trans "Interactions Data (.xls)" %}</a></li>
-                	</ul>
-                </div>
-                <div class="col-md-3">
-                </div>
-            </div>
-            </div>
             <div id="table_div"></div>
         </div>
     </div>
     <div class="row">
         <br><br>
     </div>
+    <script type="text/javascript">
+        $('#period-form').submit(function(event) {
+            $("#inputdate").datepicker();
+            $('<input />').attr('type', 'hidden')
+              .attr('name', "language")
+              .attr('value', '{{ LANGUAGE_CODE }}')
+              .appendTo('#period-form');
+        });
+        function altertitle(value) {
+            $("#title-table").text(value);
+        }
+        function add(element,local, first = false){
+            if (first) $(local).prepend(element);
+            else $(local).append(element);
+        }
+        function text(element){
+            return $(element).text();
+        }
+        function length(element) {
+            return $(element).length;
+        }
+        function backhistory(){
+            drawTable(column_history,json_history["data"],true,3);
+            $("#title-table").text("{{history_table}}");
+            $("#link-history").remove();
+        }
+        $("#search-button").click(function(){
+            var text = $("#search-input").val();
+            var data = [];
+            if ($("#title-table").text() == "{{n_did_table}}"){
+                data = $.map(json_n_did["data"], function (obj) {
+                          return $.extend(true, {}, obj);
+                      });
+            } else if ($("#title-table").text() == "{{did_table}}") {
+                data = $.map(json_did["data"], function (obj) {
+                          return $.extend(true, {}, obj);
+                      });
+            } else {
+                data = $.map(json_history["data"], function (obj) {
+                      return $.extend(true, {}, obj);
+                  });
+            }
+            if ($("#title-table").text() != "{{n_did_table}}"){
+                for (var i in data){
+                    data[i][3] = moment(data[i][3]).format("DD/MM/YYYY HH:mm");
+                }
+            }
+            var search = []
+            if ($("#title-table").text() != "{{n_did_table}}"){
+                for (var i in data){
+                    if (data[i][0].toLowerCase().includes(text.toLowerCase())
+                        || data[i][1].toLowerCase().includes(text.toLowerCase())
+                        || data[i][2].toLowerCase().includes(text.toLowerCase())
+                        || data[i][3].toLowerCase().includes(text.toLowerCase())){
+                            if ($("#title-table").text() == "{{did_table}}"){
+                                search.push(json_did["data"][i]);
+                            } else {
+                                search.push(json_history["data"][i]);
+                            }
+                        }
+                }
+            }
+            else {
+                for (var i in data){
+                    if (data[i][0].toLowerCase().includes(text.toLowerCase())
+                        || data[i][1].toLowerCase().includes(text.toLowerCase())){
+                                search.push(json_n_did["data"][i]);
+                        }
+                }
+            }
+            if (($("#title-table").text() == "{{did_table}}")){
+                drawTable(column_did,search,true,3);
+            } else if (($("#title-table").text() == "{{n_did_table}}")){
+                drawTable(column_n_did,search,false);
+            } else {
+                drawTable(column_history,search,true,3);
+            }
+        });
+    </script>
 {% endblock %}
