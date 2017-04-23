@@ -550,6 +550,18 @@ a.add-row {
 .btn:not(.btn-raised):not(.btn-link):focus, .btn:not(.btn-raised):not(.btn-link):hover, .input-group-btn .btn:not(.btn-raised):not(.btn-link):focus, .input-group-btn .btn:not(.btn-raised):not(.btn-link):hover {
   background-color: initial; }
 
+#participants, .participants-list {
+  background-color: #FFFFFF; }
+
+#participants {
+  box-shadow: -1px 1px 8px #8e1c1c; }
+
+#participants i {
+  color: #8e1c1c; }
+
+.participants-list {
+  box-shadow: -1px 2px 1px #8e1c1c; }
+
 @media(max-width: 768px) {
   .navbar .navbar-nav .dropdown .dropdown-menu li > a {
     color: #FFFFFF !important;
@@ -557,16 +569,5 @@ a.add-row {
 
   .navbar .navbar-nav .dropdown .dropdown-menu li > a:hover {
     backgroun-color: #591111 !important; } }
-
-/* Color Checkbox */
-
-.checkbox input[type=checkbox]:checked+.checkbox-material .check, label.checkbox-inline input[type=checkbox]:checked+.checkbox-material .check {
-    color: #8e1c1c;
-    border-color: #8e1c1c;
-}
-
-.checkbox input[type=checkbox]:checked+.checkbox-material .check:before, label.checkbox-inline input[type=checkbox]:checked+.checkbox-material .check:before {
-  color: #8e1c1c;
-}
 
 /*# sourceMappingURL=red.css.map */
