@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 
 import time
+import datetime
 from log.models import Log
 from log.mixins import LogMixin
 
@@ -461,41 +462,55 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         slug = self.kwargs.get('slug')
         webpage = get_object_or_404(Webpage, slug = slug)
 
-        parameter = self.request.GET.get('col','')
+        date_format = "%d/%m/%Y" if self.request.GET.get('language','') == 'pt-br' else "%m/%d/%Y"
+        if self.request.GET.get('language','') == "":
+            start_date = datetime.date.today() - datetime.timedelta(30)
+            end_date = datetime.date.today()
+        else :
+            start_date = datetime.datetime.strptime(self.request.GET.get('init_date',''),date_format)
+            end_date = datetime.datetime.strptime(self.request.GET.get('end_date',''),date_format)
 
+        context["init_date"] = start_date
+        context["end_date"] = end_date
         alunos = webpage.students.all()
-        vis_ou = Log.objects.filter(context__contains={'webpage_id':webpage.id},resource="webpage",action="view",user_email__in=(aluno.email for aluno in alunos))
+
+        vis_ou = Log.objects.filter(context__contains={'webpage_id':webpage.id},resource="webpage",action="view",user_email__in=(aluno.email for aluno in alunos), datetime__range=(start_date,end_date))
         did,n_did,history = str(_("Users who viewed")),str(_("Users who did not viewed")),str(_("History"))
         re = []
-        data = []
-        column = []
-        column.append([str(_("User")),"string"])
-        column.append([str(_("Group")),"string"])
+        data_did, data_n_did,data_history = [],[],[]
+        json_did, json_n_did, json_history = {},{},{}
+        # column = []
+        # column.append([str(_("User")),"string"])
+        # column.append([str(_("Group")),"string"])
 
-        if parameter == did:
-            from django.db.models import Count, Max
-            views_user = vis_ou.values("user_email").annotate(views=Count("user_email"))
-            date_last = vis_ou.values("user_email").annotate(last=Max("datetime"))
-            column.append([str(_("Number of views")),"string"])
-            column.append([str(_("Date of last view")),"date"])
-            for i in range(0,len(views_user)):
-                data.append([str(alunos.get(email=views_user[i].get("user_email"))),
-                    ", ".join([str(x) for x in webpage.topic.subject.group_subject.filter(participants__email=views_user[i].get("user_email"))]),
-                    views_user[i].get("views"),date_last.get(user_email=views_user[i].get("user_email")).get("last")])
-        elif parameter == n_did:
-            not_view = alunos.exclude(email__in=[log.user_email for log in vis_ou.distinct("user_email")])
-            for alun in not_view:
-                data.append([str(alun),", ".join([str(x) for x in webpage.topic.subject.group_subject.filter(participants__email=alun.email)])])
+        from django.db.models import Count, Max
+        views_user = vis_ou.values("user_email").annotate(views=Count("user_email"))
+        date_last = vis_ou.values("user_email").annotate(last=Max("datetime"))
+        # column.append([str(_("Number of views")),"string"])
+        # column.append([str(_("Date of last view")),"date"])
+        for i in range(0,len(views_user)):
+            data_did.append([str(alunos.get(email=views_user[i].get("user_email"))),
+                ", ".join([str(x) for x in webpage.topic.subject.group_subject.filter(participants__email=views_user[i].get("user_email"))]),
+                views_user[i].get("views"),date_last.get(user_email=views_user[i].get("user_email")).get("last")])
+        json_did["data"] = data_did
 
-        else:
-            column.append([str(_("Action")),"string"])
-            column.append([str(_("Date of action")),"date"])
-            for log_al in vis_ou.order_by("datetime"):
-                data.append([str(alunos.get(email=log_al.user_email)),
-                    ", ".join([str(x) for x in webpage.topic.subject.group_subject.filter(participants__email=log_al.user_email)]),
-                    log_al.action,log_al.datetime])
+        # column.append([str(_("Action")),"string"])
+        # column.append([str(_("Date of action")),"date"])
+        for log_al in vis_ou.order_by("datetime"):
+            data_history.append([str(alunos.get(email=log_al.user_email)),
+            ", ".join([str(x) for x in webpage.topic.subject.group_subject.filter(participants__email=log_al.user_email)]),
+            log_al.action,log_al.datetime])
+            json_history["data"] = data_history
+
+        not_view = alunos.exclude(email__in=[log.user_email for log in vis_ou.distinct("user_email")])
+        for alun in not_view:
+            data_n_did.append([str(alun),", ".join([str(x) for x in webpage.topic.subject.group_subject.filter(participants__email=alun.email)])])
+        json_n_did["data"] = data_n_did
 
 
+        context["json_did"] = json_did
+        context["json_n_did"] = json_n_did
+        context["json_history"] = json_history
         c_visualizou = vis_ou.distinct("user_email").count()
         re.append([str(_('Webpage')),did,n_did])
         re.append([str(_('View')),c_visualizou, alunos.count() - c_visualizou])
@@ -504,26 +519,8 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context['db_data'] = re
         context['title_chart'] = _('Students viewing the web conference')
         context['title_vAxis'] = _('Quantity')
-        # data = []
-        # if not parameter == n_did:
-        #     for a in vis_ou.distinct("user_email"):
-        #         data.append([str(alunos.get(email=a.user_email)),a.user_email,a.action,a.datetime])
-        #
-        # if not parameter == did:
-        #     alunos = alunos.exclude(email__in=(log.user_email for log in vis_ou.distinct("user_email")))
-        #     for a in alunos:
-        #         data.append([str(a),a.email,None,None])
-        print (column, "column\n\n")
-        context["column"] = column
-        print (data, "data\n\n")
-        context["history"] = data
-        context["title_table"] = history
+
         context["n_did_table"] = n_did
-        context["out_history"] = False
-        if parameter == did:
-            context["title_table"] = did
-            context["out_history"] = True
-        elif parameter == n_did:
-            context["title_table"] = n_did
-            context["out_history"] = True
+        context["did_table"] = did
+        context["history_table"] = history
         return context
