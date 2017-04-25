@@ -141,12 +141,12 @@
                 <form id="period-form" action="" method="get">
                     <div class="general-parameters-field">
                            <label class="form-field-report"> {% trans "Initial Date" %} </label>
-                           <input class="form-control date-picker" name="init_date" type="text" required="" value="{% if LANGUAGE_CODE == 'pt-br' %}{{init_date|date:'d/m/Y'}} {% else %} {{init_date|date:'m/d/Y'}} {% endif %}">
+                           <input class="form-control datetime-picker" name="init_date" type="text" required="" value="{% if LANGUAGE_CODE == 'pt-br' %}{{init_date|date:'d/m/Y H:i'}} {% else %} {{init_date|date:'m/d/Y H:i P'}} {% endif %}">
                    </div>
 
                    <div class="general-parameters-field">
                            <label class="form-field-report"> {% trans "Final Date" %} </label>
-                           <input id="inputdate" class="form-control date-picker" name="end_date" type="text" required="" value="{% if LANGUAGE_CODE == 'pt-br' %}{{end_date|date:'d/m/Y'}} {% else %} {{end_date|date:'m/d/Y'}} {% endif %}">
+                           <input id="inputdate" class="form-control datetime-picker" name="end_date" type="text" required="" value="{% if LANGUAGE_CODE == 'pt-br' %}{{end_date|date:'d/m/Y H:i'}} {% else %} {{end_date|date:'m/d/Y H:i P'}} {% endif %}">
                    </div>
                     <input type="submit" value="{% trans 'Search' %}" class="btn btn-success btn-raised">
                </form>
@@ -185,7 +185,6 @@
     </div>
     <script type="text/javascript">
         $('#period-form').submit(function(event) {
-            $("#inputdate").datepicker();
             $('<input />').attr('type', 'hidden')
               .attr('name', "language")
               .attr('value', '{{ LANGUAGE_CODE }}')
