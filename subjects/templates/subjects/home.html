@@ -31,6 +31,11 @@
 		{% for new in news %}
 			<div class="item {% if forloop.first %}active{% endif %}" style="text-align:center">
 				 <span><a href="{% url 'news:view' new.slug %}"> <img src="{% if new.image %}{{ new.image.url }}{% endif %}" alt="Image"> </a></span>
+				<!-- <div class="container">-->
+ 					<div class="carousel-caption">
+						<span><a href="{% url 'news:view' new.slug %}"> {% if new.title %}{{new.title}}{% endif %} </a></span>
+ 					</div>
+ 				<!--</div>-->
 			</div>
 		{% endfor %}
 

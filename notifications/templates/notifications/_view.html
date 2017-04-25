@@ -7,19 +7,19 @@
 				<div class="pendency panel-body">
 					<ul class="breadcrumb pend-card">
 						<li>
-							<a href="">{% trans 'Home' %}</a>
+							<a href="{% url 'subjects:home' %}">{% trans 'Home' %}</a>
 						</li>
 						<li>
-							<a href="">{{ notification.task.resource.topic.subject.category }}</a>
+							<a href="{% url 'subjects:cat_view' notification.task.resource.topic.subject.category.slug %}">{{ notification.task.resource.topic.subject.category }}</a>
 						</li>
 						<li>
-							<a href="">{{ notification.task.resource.topic.subject }}</a>
+							<a href="{% url 'subjects:view' notification.task.resource.topic.subject.slug %}">{{ notification.task.resource.topic.subject }}</a>
 						</li>
 						<li>
-							<a href="">{{ notification.task.resource.topic }}</a>
+							<a href="{% url 'subjects:topic_view' notification.task.resource.topic.subject.slug notification.task.resource.topic.slug %}">{{ notification.task.resource.topic }}</a>
 						</li>
 						<li>
-							<a href="">{{ notification.task.resource }}</a>
+							<a href="{{ notification.task.resource.access_link }}" {% if notification.task.resource.show_window %}target="_blank"{% endif %}>{{ notification.task.resource }}</a>
 						</li>
 					</ul>
 					<div class="row">
