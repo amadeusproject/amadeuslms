@@ -461,20 +461,20 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
         slug = self.kwargs.get('slug')
         webpage = get_object_or_404(Webpage, slug = slug)
-
-        date_format = "%d/%m/%Y" if self.request.GET.get('language','') == 'pt-br' else "%m/%d/%Y"
+        print (self.request.GET.get('init_date',''))
+        date_format = "%d/%m/%Y %H:%M" if self.request.GET.get('language','') == 'pt-br' else "%m/%d/%Y %I:%M %p"
         if self.request.GET.get('language','') == "":
-            start_date = datetime.date.today() - datetime.timedelta(30)
-            end_date = datetime.date.today()
+            start_date = datetime.datetime.now() - datetime.timedelta(30)
+            end_date = datetime.datetime.now()
         else :
             start_date = datetime.datetime.strptime(self.request.GET.get('init_date',''),date_format)
             end_date = datetime.datetime.strptime(self.request.GET.get('end_date',''),date_format)
-
+        print (start_date,"     depois")
         context["init_date"] = start_date
         context["end_date"] = end_date
         alunos = webpage.students.all()
 
-        vis_ou = Log.objects.filter(context__contains={'webpage_id':webpage.id},resource="webpage",action="view",user_email__in=(aluno.email for aluno in alunos), datetime__range=(start_date,end_date))
+        vis_ou = Log.objects.filter(context__contains={'webpage_id':webpage.id},resource="webpage",action="view",user_email__in=(aluno.email for aluno in alunos), datetime__range=(start_date,end_date + datetime.timedelta(minutes = 1)))
         did,n_did,history = str(_("Users who viewed")),str(_("Users who did not viewed")),str(_("History"))
         re = []
         data_did, data_n_did,data_history = [],[],[]

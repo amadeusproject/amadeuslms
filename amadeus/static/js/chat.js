@@ -4,6 +4,30 @@ $(document).on('hidden.bs.modal', '.modal', function () {
     $('.modal:visible').length && $(document.body).addClass('modal-open'); //Fixing scroll bar for modals
 });
 
+$(document).on("click", function (e) {
+    //console.log(e);
+    var container = $('#participants'),
+        $popover = $('.popover'),
+        list = container.parent().find(".participants-list");;
+
+    if (!container.is(e.target) && container.has(e.target).length === 0 
+        && !list.is(e.target) && list.has(e.target).length === 0
+        && !$popover.is(e.target) && $popover.has(e.target).length === 0) {
+        if (container.hasClass('open')) {
+            container.animate({
+                right : '0px'
+            }, 500);
+
+            list.animate({
+                right : '-180px',
+                opacity: 0
+            }, 500).css({display: "none", visibility: 'hidden'});
+
+            container.removeClass('open');
+        }
+    }
+});
+
 $('#chat-modal-info').on('show.bs.modal', function (e) {
     var header = $(this).find('.talk_header');
     if (header.length > 0) {
