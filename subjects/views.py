@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView, TemplateView, DetailView
 from categories.models import Category
@@ -33,6 +32,13 @@ from .utils import has_student_profile, has_professor_profile, count_subjects, g
 from users.models import User
 from topics.models import Topic, Resource
 from news.models import News
+
+import os
+import zipfile
+from io import BytesIO
+from itertools import chain
+from django.core import serializers
+from django.contrib.admin.utils import NestedObjects
 
 from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions, has_resource_permissions
 
@@ -716,3 +722,34 @@ def most_acessed_subjects(request):
     subjects = subjects[:30]
 
     return JsonResponse(subjects, safe=False)
+
+
+def backup(request):
+    #collector = NestedObjects(using="default") # database name
+    #collector.collect(list(Resource.objects.filter(visible = True)))
+    zip_subdir = "backup"
+    zip_filename = "%s.zip" % zip_subdir
+
+    s = BytesIO()
+
+    zf = zipfile.ZipFile(s, "w", compression = zipfile.ZIP_DEFLATED)
+
+    resources = Resource.objects.all()
+
+    for resource in resources:
+        if resource._my_subclass == "filelink":
+            fdir, fname = os.path.split(resource.filelink.file_content.path)
+            zip_path = os.path.join(zip_subdir, fname)
+
+            # Add file, at correct path
+            zf.write(resource.filelink.file_content.path, zip_path)
+
+    zf.close()
+
+    # Grab ZIP file from in-memory, make response with correct MIME-type
+    resp = HttpResponse(s.getvalue(), content_type = "application/x-zip-compressed")
+    # ..and correct content-disposition
+    resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+    resp['Content-Length'] = s.tell()
+
+    return resp
