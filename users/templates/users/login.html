@@ -31,7 +31,7 @@
                     </div>
                 {% endfor %}
             {% endif %}
-    
+
             <div class="card">
                 <div class="card-block">
                     <div class="row">
@@ -39,7 +39,7 @@
                             <h2 class="outside-title"><strong> {% trans 'Sign in with your account to continue' %} </strong></h2>
                         </div>
                     </div>
-                    
+
                     <form id="form-login" method="post" action="">
                         {% csrf_token %}
                         <div class="col-lg-10 col-md-10 col-sm-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1">
@@ -52,10 +52,10 @@
                                 <input form="form-login" for="inputSmall" type="password" name="password" class="form-control" id="inputPassword" placeholder="{% trans 'Password' %}">
                             </div>
                         </div>
-                   
+
                     </form>
-                    
-                   
+
+
                     <div class="row">
                         <div class="col-lg-10 col-md-10 col-sm-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1">
                             {% if not deny_register %}
@@ -74,23 +74,23 @@
                     </div>
                     <div class="row">
 
-                        
+
                         {% if not deny_register %}
                             <div class="col-sm-offset-1 col-md-10 col-lg-10 col-sm-10 col-xs-12">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right forgotPassword">
                                     <a class="pull-right" href="{% url 'users:forgot_pass' %}">{% trans 'Forgot your password?' %}</a>
-                                    <li class="dropdown language-selector pull-right "> 
+                                    <li class="dropdown language-selector pull-right ">
                                         {% get_current_language as LANGUAGE_CODE %}
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
 
-                                            {% with 'img/'|add:LANGUAGE_CODE|add:'.png' as image_static %}
-                                                <img src="{% static image_static %}" />
-                                            {% endwith %}
-                                           
+
+                                           <span>[{{LANGUAGE_CODE}}]  </span>
+
                                         </a>
+                                        <i class="glyphicon glyphicon-adjust"></i>
                                         <ul class="dropdown-menu">
 
-                                            
+
                                             {% get_available_languages as LANGUAGES %}
                                             {% get_language_info_list for LANGUAGES as languages %}
                                             {% for language in languages %}
@@ -99,13 +99,10 @@
                                                     class="active"
                                                 {% endif %}>
                                                     <a class="language-item" value-lang="{{language.code}}">
-                                                    {% with 'img/'|add:language.code|add:'.png' as image_static %}
-                                                        <img src="{% static image_static %}" />
-                                                    {% endwith %}
                                                         <span>{{language.code}}</span>
                                                     </a>
                                                 </li>
-                                               
+
                                             {% endfor %}
                                         </ul>
                                     </li>
@@ -116,15 +113,14 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center forgotPassword">
                                     <a href="{% url 'users:forgot_pass' %}">{% trans 'Forgot your password?' %}</a>
 
-                                    <li class="dropdown language-selector pull-right "> 
+                                    <li class="dropdown language-selector pull-right ">
                                         {% get_current_language as LANGUAGE_CODE %}
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
 
-                                            {% with 'img/'|add:LANGUAGE_CODE|add:'.png' as image_static %}
-                                                <img src="{% static image_static %}" />
-                                            {% endwith %}
-                                           
+                                          <span>[{{LANGUAGE_CODE}}]  </span>
+
                                         </a>
+                                        <i class="glyphicon glyphicon-adjust"></i>
                                         <ul class="dropdown-menu">
                                             {% get_available_languages as LANGUAGES %}
                                             {% get_language_info_list for LANGUAGES as languages %}
@@ -134,13 +130,10 @@
                                                     class="active"
                                                 {% endif %}>
                                                     <a class="language-item" value-lang="{{language.code}}">
-                                                    {% with 'img/'|add:language.code|add:'.png' as image_static %}
-                                                        <img src="{% static image_static %}" />
-                                                    {% endwith %}
                                                         <span>{{language.code}}</span>
                                                     </a>
                                                 </li>
-                                               
+
                                             {% endfor %}
                                         </ul>
                                     </li>
@@ -153,7 +146,7 @@
         </div>
     </div>
 
-    
+
 {% endblock%}
 
 {% block footer %}
