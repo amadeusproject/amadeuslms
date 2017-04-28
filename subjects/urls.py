@@ -9,6 +9,8 @@ urlpatterns = [
 	url(r'^replicate/(?P<subject_slug>[\w_-]+)/$', views.SubjectCreateView.as_view(), name='replicate'),
 	url(r'^update/(?P<slug>[\w_-]+)/$', views.SubjectUpdateView.as_view(), name='update'),
 	url(r'^delete/(?P<slug>[\w_-]+)/$', views.SubjectDeleteView.as_view(), name='delete'),
+	url(r'^backup/(?P<slug>[\w_-]+)/$', views.Backup.as_view(), name='backup'),
+	url(r'^do_backup/$', views.realize_backup, name='do_backup'),
 	url(r'^view/(?P<slug>[\w_-]+)/$', views.SubjectDetailView.as_view(), name='view'),
 	url(r'^view/(?P<slug>[\w_-]+)/(?P<topic_slug>[\w_-]+)/$', views.SubjectDetailView.as_view(), name='topic_view'),
 	url(r'^subscribe/(?P<slug>[\w_-]+)/$', views.SubjectSubscribeView.as_view(), name='subscribe'),
@@ -18,7 +20,6 @@ urlpatterns = [
 	url(r'^view_log/(?P<subject>[\w_-]+)/$', views.subject_view_log, name = 'view_log'),
 	url(r'^most_accessed_subjects/$', views.most_acessed_subjects, name='most_acessed'),
 	url(r'^report/', include('reports.urls', namespace='reports')),
-	url(r'^backup/$', views.backup, name='backup'),
 	url(r'^(?P<option>[\w_-]+)/$', views.IndexView.as_view(), name='index'),
 
 ]

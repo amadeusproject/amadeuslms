@@ -52,6 +52,7 @@
                                 {% endif %}
                                 <li><a href="{% url 'subjects:update' subject.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
                                 <li><a href="{% url 'groups:index' subject.slug %}"><i class="fa fa-group fa-fw" aria-hidden="true"></i>{% trans 'Groups' %}</a></li>
+                                <li><a href="{% url 'subjects:backup' subject.slug %}"><i class="fa fa-database fa-fw" aria-hidden="true"></i>{% trans 'Backup' %}</a></li>
                                 <li><a href="javascript:delete_subject.get('{% url 'subjects:delete' subject.slug %}?view=index','#subject','#modal_subject')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
                             </ul>
                         {% endif %}
