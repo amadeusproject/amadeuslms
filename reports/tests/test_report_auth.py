@@ -41,5 +41,5 @@ class ReportTest(TestCase):
 		"""
 		report_view =  self.c.get('/subjects/report/create/interactions/?subject_id='+ str(self.subject.id))
 		
-		self.assertEqual(report_view.url, "/subjects/home")
+		self.assertEqual(report_view.url, "/subjects/home/")
 	
