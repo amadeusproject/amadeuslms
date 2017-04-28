@@ -1,0 +1,163 @@
+{% extends 'categories/home.html' %}
+
+{% load static i18n pagination permissions_tags subject_counter chat_tags %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block javascript%}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
+{% endblock%}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb subject.category 'subjects:cat_view' subject.category.slug %}
+    {% breadcrumb subject 'subjects:view' subject.slug %}
+
+    {% trans "Backup" as bread %}
+    {% breadcrumb bread 'subjects:backup' subject.slug %}
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% subject_permissions request.user subject as has_subject_permissions %}
+
+	{% if subject.visible %}
+		<div class="panel panel-info subject-panel" id="subject_{{subject.slug}}">
+        	<div class="panel-heading">
+	{% elif has_subject_permissions %}
+		<div class="panel panel-info subject-panel-invisible" id="subject_{{subject.slug}}">
+        	<div class="panel-heading panel-invisible">
+    {% endif %}
+            <div class="row">
+                <div class="col-md-12 category-header">
+                    <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
+                        <span>{{ subject.name }} / {% trans "Backup" %}</span>
+                    </h4>
+
+                    <div class="col-md-5 pull-right category-card-items">
+                        {% if request.user in subject.professor.all or request.user in subject.category.coordinators.all or request.user.is_staff %}
+                            <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </a>
+                            <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                                {% if request.user not in subject.professor.all %}
+                                <li><a href="{% url 'subjects:replicate' subject.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
+                                {% endif %}
+                                <li><a href="{% url 'subjects:update' subject.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+                                <li><a href="{% url 'groups:index' subject.slug %}"><i class="fa fa-group fa-fw" aria-hidden="true"></i>{% trans 'Groups' %}</a></li>
+                                <li><a href="{% url 'subjects:backup' subject.slug %}"><i class="fa fa-database fa-fw" aria-hidden="true"></i>{% trans 'Backup' %}</a></li>
+                                <li><a href="javascript:delete_subject.get('{% url 'subjects:delete' subject.slug %}?view=index','#subject','#modal_subject')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content" style="position: relative">
+            <h5>{% trans "Please select below the topics and resources which you want to backup:" %}</h5>
+
+            <div class="backup_container">
+                <form id="bkp_form" method="post" action="{% url 'subjects:do_backup' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% for topic in topics %}
+                        <div class="topic item">
+                            <span class="more_items"><i class="fa fa-plus"></i></span>
+                            <div class="checkbox backup_item">
+                                <label>
+                                    <input type="checkbox" class="topics_check" /> {{ topic }}
+                                </label>
+                            </div>
+                            <div class="resources_list">
+                                {% for resource in topic.resource_topic.all %}
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" class="resources_check" name="resource[]" value="{{ resource.id }}" /> {{ resource }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    <div class="row text-center">
+                        <input type="submit" value="{% trans 'Backup' %}" class="btn btn-success btn-raised" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".more_items").click(function () {
+                var icon = $(this).find('i'),
+                    resources = $(this).parent().find(".resources_list");
+
+                if (icon.hasClass("fa-plus")) {
+                    icon.addClass("fa-minus");
+                    icon.removeClass("fa-plus");
+                    resources.show();
+                } else {
+                    icon.removeClass("fa-minus");
+                    icon.addClass("fa-plus");
+                    resources.hide();
+                }
+            });
+
+            $(".resources_check").on('click', function () {
+                var container = $(this).parent().parent().parent().parent(),
+                    resource_list = $(this).parent().parent().parent(),
+                    topic_check = container.find(".topics_check"),
+                    topic_checkbox = topic_check.parent().find(".check");
+
+                if ($(this).is(':checked')) {
+                    topic_checkbox.addClass("semi-check");
+                } else {
+                    var checked = resource_list.find(".resources_check:checked");
+
+                    if (checked.length == 0) {
+                        topic_checkbox.removeClass("semi-check");
+                    }
+                }
+            });
+
+            $(".topics_check").on('click', function () {
+                var container = $(this).parent().parent().parent(),
+                    resource_list = container.find(".resources_list"),
+                    resources = resource_list.find(".resources_check"),
+                    topic_checkbox = $(this).parent().find(".check"),
+                    is_checked = $(this).is(':checked');
+
+                resources.each(function () {
+                    this.checked = is_checked;
+                });
+
+                if (!is_checked) {
+                    var checked = resource_list.find(".resources_check:checked");
+
+                    if (checked.length == 0) {
+                        topic_checkbox.removeClass("semi-check");
+                    }
+                }
+            });
+        });
+
+        // $("#bkp_form").submit(function () {
+        //     setTimeout(function() {
+        //         // Should be triggered after download started
+        //         document.location.href="{% url 'subjects:view' subject.slug %}";
+        //     }, 3000);
+        // });
+    </script>
+{% endblock content %}
