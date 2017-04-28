@@ -535,6 +535,16 @@ a.add-row {
 #analytics-panel {
   background-color: #0277BD !important; }
 
+.backup_container .more_items {
+  background: #009688;
+  color: #FFFFFF; }
+
+.backup_container .backup_item label, .backup_container .resources_list label {
+  color: #333333; }
+
+.semi-check {
+  border-color: #009688 !important; }
+
 @media(max-width: 768px) {
   .navbar .navbar-nav .dropdown .dropdown-menu li > a {
     color: #333333 !important; }

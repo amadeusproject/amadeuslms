@@ -723,26 +723,83 @@ def most_acessed_subjects(request):
 
     return JsonResponse(subjects, safe=False)
 
+""" BACKUP / RESTORE SECTION  """
+class Backup(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
 
-def backup(request):
+    template_name = 'subjects/backup.html'
+    model = Subject
+    context_object_name = 'topics'
+
+    def dispatch(self, request, *args, **kwargs):
+        subject = get_object_or_404(Subject, slug = kwargs.get('slug', ''))
+
+        if not has_subject_permissions(request.user, subject):
+            return redirect(reverse_lazy('subjects:home'))
+
+        return super(Backup, self).dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        slug = self.kwargs.get('slug')
+        topics = Topic.objects.filter(subject__slug = slug)
+
+        return topics
+
+    def get_context_data(self, **kwargs):
+        context = super(Backup, self).get_context_data(**kwargs)
+
+        subject = get_object_or_404(Subject, slug = self.kwargs.get('slug', ''))
+        
+        context['title'] = _('%s - Backup')%(str(subject))
+        context['subject'] = subject
+
+        return context
+
+@login_required
+def realize_backup(request):
     #collector = NestedObjects(using="default") # database name
     #collector.collect(list(Resource.objects.filter(visible = True)))
-    zip_subdir = "backup"
-    zip_filename = "%s.zip" % zip_subdir
+    resources_ids = request.POST.getlist("resource[]")
+
+    resource_files_subdir = "files"
+    zip_filename = "backup.zip"
 
     s = BytesIO()
 
     zf = zipfile.ZipFile(s, "w", compression = zipfile.ZIP_DEFLATED)
 
-    resources = Resource.objects.all()
+    resources = Resource.objects.filter(id__in = resources_ids)
 
     for resource in resources:
         if resource._my_subclass == "filelink":
             fdir, fname = os.path.split(resource.filelink.file_content.path)
-            zip_path = os.path.join(zip_subdir, fname)
+            zip_path = os.path.join(resource_files_subdir, fname)
 
             # Add file, at correct path
             zf.write(resource.filelink.file_content.path, zip_path)
+        elif resource._my_subclass == "pdffile":
+            fdir, fname = os.path.split(resource.pdffile.file.path)
+            zip_path = os.path.join(resource_files_subdir, fname)
+
+            # Add file, at correct path
+            zf.write(resource.pdffile.file.path, zip_path)
+
+    topics = Topic.objects.filter(resource_topic__id__in = resources_ids).distinct()
+
+    file = open("backup.json", "w")
+
+    json_serializer = serializers.get_serializer('json')()
+    json_serializer.serialize(topics, stream = file)
+    json_serializer.serialize(resources, stream = file)
+
+    file.close()
+
+    fdir, fname = os.path.split("backup.json")
+    zip_path = os.path.join("", fname)
+
+    # Add file, at correct path
+    zf.write("backup.json", zip_path)
 
     zf.close()
 

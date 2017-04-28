@@ -1620,6 +1620,27 @@ div.dataTables_wrapper div.dataTables_paginate {
     margin-bottom: 10px;
 }
 
+.backup_container {
+    padding: 0 30px;
+}
+
+.backup_container .backup_item {
+    display: inline;
+    margin-left: 10px;
+}
+
+.backup_container .resources_list {
+    display: none;
+    margin-left: 30px;
+}
+
+.backup_container .more_items {
+    padding: 2px 5px;
+    border-radius: 2px;
+    position: relative;
+    top: -2px;
+}
+
 @-moz-document url-prefix() {
     .talk_body .checkbox input[type="checkbox"] {
         display: none;
