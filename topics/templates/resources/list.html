@@ -33,6 +33,9 @@
 			                    {% if resource|class_name == 'webpage' %}
 			                    	<li><a href="{% url 'webpages:get_chart' resource.slug %}" class="edit"><i class="fa fa-line-chart fa-fw" aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
 			                    {% endif %}
+                                {% if resource|class_name == 'pdffile' %}
+			                    	<li><a href="{% url 'pdf_files:get_chart' resource.slug %}" class="edit"><i class="fa fa-line-chart fa-fw" aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
+			                    {% endif %}
 			                    {% if resource|class_name == 'goals' %}
 			                    	<li><a href="{% url 'goals:reports' resource.slug %}" class="edit"><i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
 			                    {% endif %}

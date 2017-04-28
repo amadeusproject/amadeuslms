@@ -10,6 +10,8 @@ from django.contrib import messages
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 from .forms import PDFFileForm
 from os import path
+import datetime
+from log.models import Log
 from django.http import HttpResponse, Http404
 
 from log.mixins import LogMixin
@@ -100,7 +102,7 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
 
     def get(self, request, *args, **kwargs):
         self.object = None
-        
+
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
@@ -113,7 +115,7 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
 
     def post(self, request, *args, **kwargs):
         self.object = None
-        
+
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
@@ -121,7 +123,7 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
         topic = get_object_or_404(Topic, slug = slug)
 
         pendencies_form = PendenciesForm(self.request.POST, initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
-        
+
         if (form.is_valid() and pendencies_form.is_valid()):
             return self.form_valid(form, pendencies_form)
         else:
@@ -134,7 +136,7 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
 
         topic = get_object_or_404(Topic, slug = slug)
         initial['subject'] = topic.subject
-        
+
         return initial
 
     def form_invalid(self, form, pendencies_form):
@@ -156,10 +158,10 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
 
         pend_form = pendencies_form.save(commit = False)
         pend_form.resource = self.object
-        
+
         if not pend_form.action == "":
-            pend_form.save() 
-        
+            pend_form.save()
+
         self.log_context['category_id'] = self.object.topic.subject.category.id
         self.log_context['category_name'] = self.object.topic.subject.category.name
         self.log_context['category_slug'] = self.object.topic.subject.category.slug
@@ -221,7 +223,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        
+
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
@@ -239,7 +241,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        
+
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
@@ -252,12 +254,12 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
             pendencies_form = PendenciesForm(self.request.POST, instance = pend_form[0], initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
         else:
             pendencies_form = PendenciesForm(self.request.POST, initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
-        
+
         if (form.is_valid() and pendencies_form.is_valid()):
             return self.form_valid(form, pendencies_form)
         else:
             return self.form_invalid(form, pendencies_form)
-    
+
     def form_invalid(self, form, pendencies_form):
         return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
@@ -266,7 +268,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
         if not self.object.topic.visible and not self.object.topic.repository:
             self.object.visible = False
-        
+
         self.object.save()
 
         pend_form = pendencies_form.save(commit = False)
@@ -274,7 +276,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
         if not pend_form.action == "":
             pend_form.save()
-        
+
         self.log_context['category_id'] = self.object.topic.subject.category.id
         self.log_context['category_name'] = self.object.topic.subject.category.name
         self.log_context['category_slug'] = self.object.topic.subject.category.slug
@@ -352,5 +354,104 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
 
         return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
+class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
+    log_component = 'resources'
+    log_action = 'view_statistics'
+    log_resource = 'pdf_file'
+    log_context = {}
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+    model = PDFFile
+    template_name = 'pdf_file/relatorios.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug', '')
+        pdf_file = get_object_or_404(PDFFile, slug = slug)
+
+        if not has_subject_permissions(request.user, pdf_file.topic.subject):
+        	return redirect(reverse_lazy('subjects:home'))
+
+        return super(StatisticsView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(StatisticsView, self).get_context_data(**kwargs)
+
+        self.log_context['category_id'] = self.object.topic.subject.category.id
+        self.log_context['category_name'] = self.object.topic.subject.category.name
+        self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        self.log_context['subject_id'] = self.object.topic.subject.id
+        self.log_context['subject_name'] = self.object.topic.subject.name
+        self.log_context['subject_slug'] = self.object.topic.subject.slug
+        self.log_context['topic_id'] = self.object.topic.id
+        self.log_context['topic_name'] = self.object.topic.name
+        self.log_context['topic_slug'] = self.object.topic.slug
+        self.log_context['pdffile_id'] = self.object.id
+        self.log_context['pdffile_name'] = self.object.name
+        self.log_context['pdffile_slug'] = self.object.slug
+
+        super(StatisticsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 
+        context['title'] = _('PDF File Reports')
+
+        slug = self.kwargs.get('slug')
+        pdf_file = get_object_or_404(PDFFile, slug = slug)
+        context['pdf_file'] = pdf_file
+        date_format = "%d/%m/%Y %H:%M" if self.request.GET.get('language','') == 'pt-br' else "%m/%d/%Y %I:%M %p"
+        if self.request.GET.get('language','') == "":
+            start_date = datetime.datetime.now() - datetime.timedelta(30)
+            end_date = datetime.datetime.now()
+        else :
+            start_date = datetime.datetime.strptime(self.request.GET.get('init_date',''),date_format)
+            end_date = datetime.datetime.strptime(self.request.GET.get('end_date',''),date_format)
+        # print (start_date,"     depois")
+        context["init_date"] = start_date
+        context["end_date"] = end_date
+        alunos = pdf_file.students.all()
+
+        vis_ou = Log.objects.filter(context__contains={'pdffile_id':pdf_file.id},resource="pdffile",action="view",user_email__in=(aluno.email for aluno in alunos), datetime__range=(start_date,end_date + datetime.timedelta(minutes = 1)))
+        did,n_did,history = str(_("Users who viewed")),str(_("Users who did not viewed")),str(_("Historic"))
+        re = []
+        data_did, data_n_did,data_history = [],[],[]
+        json_did, json_n_did, json_history = {},{},{}
+
+        from django.db.models import Count, Max
+        views_user = vis_ou.values("user_email").annotate(views=Count("user_email"))
+        date_last = vis_ou.values("user_email").annotate(last=Max("datetime"))
+
+        for i in range(0,len(views_user)):
+            data_did.append([str(alunos.get(email=views_user[i].get("user_email"))),
+                ", ".join([str(x) for x in pdf_file.topic.subject.group_subject.filter(participants__email=views_user[i].get("user_email"))]),
+                views_user[i].get("views"),date_last.get(user_email=views_user[i].get("user_email")).get("last")])
+        json_did["data"] = data_did
+
+
+        for log_al in vis_ou.order_by("datetime"):
+            data_history.append([str(alunos.get(email=log_al.user_email)),
+            ", ".join([str(x) for x in pdf_file.topic.subject.group_subject.filter(participants__email=log_al.user_email)]),
+            log_al.action,log_al.datetime])
+            json_history["data"] = data_history
+
+        not_view = alunos.exclude(email__in=[log.user_email for log in vis_ou.distinct("user_email")])
+        for alun in not_view:
+            data_n_did.append([str(alun),", ".join([str(x) for x in pdf_file.topic.subject.group_subject.filter(participants__email=alun.email)])])
+        json_n_did["data"] = data_n_did
+
+
+        context["json_did"] = json_did
+        context["json_n_did"] = json_n_did
+        context["json_history"] = json_history
+        c_visualizou = vis_ou.distinct("user_email").count()
+        re.append([str(_('PDF File')),did,n_did])
+        re.append([str(_('View')),c_visualizou, alunos.count() - c_visualizou])
+        context['topic'] = pdf_file.topic
+        context['subject'] = pdf_file.topic.subject
+        context['db_data'] = re
+        context['title_chart'] = _('Students viewing the PDF File')
+        context['title_vAxis'] = _('Quantity')
+
+        context["n_did_table"] = n_did
+        context["did_table"] = did
+        context["history_table"] = history
+        return context
