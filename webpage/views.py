@@ -475,7 +475,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         alunos = webpage.students.all()
 
         vis_ou = Log.objects.filter(context__contains={'webpage_id':webpage.id},resource="webpage",action="view",user_email__in=(aluno.email for aluno in alunos), datetime__range=(start_date,end_date + datetime.timedelta(minutes = 1)))
-        did,n_did,history = str(_("Users who viewed")),str(_("Users who did not viewed")),str(_("History"))
+        did,n_did,history = str(_("Users who viewed")),str(_("Users who did not viewed")),str(_("Historic"))
         re = []
         data_did, data_n_did,data_history = [],[],[]
         json_did, json_n_did, json_history = {},{},{}
@@ -517,7 +517,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context['topic'] = webpage.topic
         context['subject'] = webpage.topic.subject
         context['db_data'] = re
-        context['title_chart'] = _('Students viewing the web conference')
+        context['title_chart'] = _('Students viewing the webpage')
         context['title_vAxis'] = _('Quantity')
 
         context["n_did_table"] = n_did

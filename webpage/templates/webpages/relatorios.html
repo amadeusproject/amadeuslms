@@ -13,7 +13,7 @@
         array_history.push(["{{data_json.0}}","{{data_json.1}}","{{data_json.2}}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
     {% endfor%}
     var json_history = {"data":array_history};
-    var column_history = [{"string":"User"},{"string":"Group"},{"string":"Action"},{"date":"Date of Action"}];
+    var column_history = [{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":'{% trans "Action" %}'},{"date":'{% trans "Date of Action" %}'}];
 
     var search = [];
     for (var i in json_history["data"]){
@@ -27,14 +27,14 @@
         array_did.push(["{{data_json.0}}","{{data_json.1}}","{{data_json.2}}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
     {% endfor%}
     var json_did = {"data":array_did};
-    var column_did = [{"string":"User"},{"string":"Group"},{"string":"Number of Views"},{"date":"Date of Last View"}];
+    var column_did = [{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":'{% trans "Action" %}'},{"date":'{% trans "Date of Action" %}'}];
 
     var array_n_did = [];
     {%for data_json in json_n_did.data%}
         array_n_did.push(["{{data_json.0}}","{{data_json.1}}"]);
     {% endfor%}
     var json_n_did = {"data":array_n_did};
-    var column_n_did = [{"string":"User"},{"string":"Group"}];
+    var column_n_did = [{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'}];
     </script>
 
 
@@ -198,7 +198,7 @@
                         </li>
                         <li>
                             <ul class="list-inline text-right">
-                                <li><p>{% trans "Filtro: " %}</p></li>
+                                <li><p>{% trans "Filter: " %}</p></li>
                                 <li><input id="search-input" class="form-control" type="text" name="search" value=""></li>
                             </ul>
                         </li>

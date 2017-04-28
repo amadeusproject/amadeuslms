@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-15 00:13-0300\n"
+"POT-Creation-Date: 2017-04-28 20:41-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,84 +18,123 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: webpage/forms.py:25
+#: forms.py:25
 msgid "Tags"
 msgstr "Tags"
 
-#: webpage/forms.py:31
+#: forms.py:31
 msgid "Webpage name"
 msgstr "Nome da Página Web"
 
-#: webpage/forms.py:32
+#: forms.py:32
 msgid "Webpage content"
 msgstr "Conteúdo da Página Web"
 
-#: webpage/forms.py:53
+#: forms.py:53
 msgid "This subject already has a webpage with this name"
 msgstr "Esse assunto já possui uma Página Web com esse nome"
 
-#: webpage/forms.py:64
+#: forms.py:64
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
-#: webpage/models.py:8
+#: models.py:8
 msgid "Webpage Content"
 msgstr "Conteúdo da Página Web"
 
-#: webpage/models.py:11
+#: models.py:11
 msgid "WebPage"
 msgstr "Página Web"
 
-#: webpage/models.py:12
+#: models.py:12
 msgid "WebPages"
 msgstr "Páginas Web"
 
-#: webpage/models.py:30
+#: models.py:30
 msgid "Are you sure you want delete the webpage"
 msgstr "Você tem certeza que deseja remover a Página Web"
 
-#: webpage/templates/webpages/_form.html:49
+#: templates/webpages/_form.html:49
 msgid "Common resources settings"
 msgstr "Configurações comuns a todos os recursos"
 
-#: webpage/templates/webpages/_form.html:98
+#: templates/webpages/_form.html:98
 msgid "Pendencies Notifications"
 msgstr "Notificação de Pendências"
 
-#: webpage/templates/webpages/_form.html:114
+#: templates/webpages/_form.html:114
 msgid "Action not performed by the user"
 msgstr "Ação não realizada pelo usuário"
 
-#: webpage/templates/webpages/_form.html:140
+#: templates/webpages/_form.html:140
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: webpage/templates/webpages/_form.html:236
+#: templates/webpages/_form.html:236
 msgid "Attribute students to webpage"
 msgstr "Atribuir estudantes à Página Web"
 
-#: webpage/templates/webpages/_form.html:256
+#: templates/webpages/_form.html:256
 msgid "Attribute groups to webpage"
 msgstr "Atribuir grupos de estudo à Página Web"
 
-#: webpage/templates/webpages/_form.html:325
+#: templates/webpages/_form.html:325
 msgid "Save"
 msgstr "Salvar"
 
-#: webpage/templates/webpages/create.html:20 webpage/views.py:219
+#: templates/webpages/create.html:20 views.py:221
 msgid "Create Webpage"
 msgstr "Criar Página Web"
 
-#: webpage/templates/webpages/update.html:20
+#: templates/webpages/relatorios.html:16 templates/webpages/relatorios.html:30
+#: templates/webpages/relatorios.html:37
+msgid "User"
+msgstr "Usuário"
+
+#: templates/webpages/relatorios.html:16 templates/webpages/relatorios.html:30
+#: templates/webpages/relatorios.html:37
+msgid "Group"
+msgstr "Grupo"
+
+#: templates/webpages/relatorios.html:16 templates/webpages/relatorios.html:30
+msgid "Action"
+msgstr "Ação"
+
+#: templates/webpages/relatorios.html:16 templates/webpages/relatorios.html:30
+msgid "Date of Action"
+msgstr "Data da ação"
+
+#: templates/webpages/relatorios.html:135
+#: templates/webpages/relatorios.html:155
+msgid "Reports"
+msgstr "Relatórios"
+
+#: templates/webpages/relatorios.html:162
+msgid "Report of the resource "
+msgstr "Relatórios do recurso "
+
+#: templates/webpages/relatorios.html:165
+msgid "Select the period: "
+msgstr "Selecione o período: "
+
+#: templates/webpages/relatorios.html:179
+msgid "Search"
+msgstr "Pesquisar"
+
+#: templates/webpages/relatorios.html:201
+msgid "Filter: "
+msgstr "Filtro: "
+
+#: templates/webpages/update.html:20
 msgid "Edit: "
 msgstr "Editar: "
 
-#: webpage/views.py:146 webpage/views.py:159 webpage/views.py:277
-#: webpage/views.py:279 webpage/views.py:295 webpage/views.py:297
+#: views.py:148 views.py:161 views.py:279 views.py:281 views.py:297
+#: views.py:299
 msgid "Visualize"
-msgstr ""
+msgstr "Visualizar"
 
-#: webpage/views.py:230
+#: views.py:232
 #, python-format
 msgid ""
 "The Webpage \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -104,18 +143,50 @@ msgstr ""
 "A Página Web \"%s\" foi adicionado ao tópico \"%s\" do ambiente virtual \"%s"
 "\" com sucesso!"
 
-#: webpage/views.py:341
+#: views.py:343
 msgid "Update Webpage"
 msgstr "Atualizar Página Web"
 
-#: webpage/views.py:352
+#: views.py:354
 #, python-format
 msgid "The Webpage \"%s\" was updated successfully!"
 msgstr "A Página Web \"%s\" foi atualizada com sucesso!"
 
-#: webpage/views.py:388
+#: views.py:390
 #, python-format
 msgid ""
 "The webpage \"%s\" was removed successfully from virtual environment \"%s\"!"
 msgstr ""
 "A Página Web \"%s\" foi removida do ambiente virtual \"%s\" com sucesso!"
+
+#: views.py:460
+msgid "Webpage Reports"
+msgstr "Nome da Página Web"
+
+#: views.py:478
+msgid "Users who viewed"
+msgstr "Usuários que visualizaram"
+
+#: views.py:478
+msgid "Users who did not viewed"
+msgstr "Usuários que não visualizaram"
+
+#: views.py:478
+msgid "Historic"
+msgstr "Histórico"
+
+#: views.py:515
+msgid "Webpage"
+msgstr "Nome da Página Web"
+
+#: views.py:516
+msgid "View"
+msgstr "Visualizar"
+
+#: views.py:520
+msgid "Students viewing the webpage"
+msgstr "Estudantes que visualizaram a webpage"
+
+#: views.py:521
+msgid "Quantity"
+msgstr "Quantidade"
