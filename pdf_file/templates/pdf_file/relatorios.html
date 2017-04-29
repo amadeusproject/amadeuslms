@@ -13,7 +13,7 @@
         array_history.push(["{{data_json.0}}","{{data_json.1}}","{{data_json.2}}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
     {% endfor%}
     var json_history = {"data":array_history};
-    var column_history = [{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":'{% trans "Action" %}'},{"date":'{% trans "Date of Action" %}'}];
+    var column_history = [{"string":"{% trans 'User' %}"},{"string":"{% trans 'Group' %}"},{"string":"{% trans 'Action' %}"},{"date":"{% trans 'Date of Action' %}"}];
 
     var search = [];
     for (var i in json_history["data"]){
@@ -21,20 +21,12 @@
                     json_history["data"][i][2],json_history["data"][i][3]]);
     }
 
-
-    var array_did = [];
-    {%for data_json in json_did.data%}
-        array_did.push(["{{data_json.0}}","{{data_json.1}}","{{data_json.2}}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
-    {% endfor%}
-    var json_did = {"data":array_did};
-    var column_did = [{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":'{% trans "Action" %}'},{"date":'{% trans "Date of Action" %}'}];
-
     var array_n_did = [];
     {%for data_json in json_n_did.data%}
-        array_n_did.push(["{{data_json.0}}","{{data_json.1}}"]);
+        array_n_did.push(['<input type="checkbox" value="">',"{{data_json.0}}","{{data_json.1}}", "{{data_json.2}}"]);
     {% endfor%}
     var json_n_did = {"data":array_n_did};
-    var column_n_did = [{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'}];
+    var column_n_did = [{"string":'{% trans "Enviar mensagem" %}'},{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":"Action don't realized"}];
     </script>
 
 
@@ -82,17 +74,12 @@
                     putpagination(json_n_did["data"]);
 
                } else if (col == "{{did_table}}" && text("#title-table") != "{{did_table}}"){
-                   if (length("#link-history") <= 0){
-                       add(element,"#view-table",true);
-                   }
-                   altertitle("{{did_table}}");
                    search = [];
-                   for (var i in json_did["data"]){
-                       search.push([json_did["data"][i][0],json_did["data"][i][1],
-                                   json_did["data"][i][2],json_did["data"][i][3]]);
+                   for (var i in json_history["data"]){
+                       search.push([json_history["data"][i][0],json_history["data"][i][1],
+                                   json_history["data"][i][2],json_history["data"][i][3]]);
                    }
-                   drawTable(column_did,pagination(json_did["data"],1),true,3);
-                   putpagination(json_did["data"]);
+                   searcher(col, true);
                }
            }
           chart.setSelection([])
@@ -125,7 +112,7 @@
 
           var table = new google.visualization.Table(document.getElementById('table_div'));
 
-          table.draw(data_table, {showRowNumber: true, width: '100%', height: '100%'});
+          table.draw(data_table, {allowHtml: true, cssClassNames : {tableRow: 'text-center',tableCell: 'text-center', headerCell: 'text-center'},showRowNumber: true, width: '100%', height: '100%'});
       }
     </script>
 {% endblock%}
@@ -218,6 +205,7 @@
     </div>
 
     <script type="text/javascript">
+        $("#title-table").text(search.length + " {% trans 'record(s)' %}");
         function putpagination(data = json_history["data"]){
             var len = Math.ceil(data.length / 20);
             $(".pagination").empty();
@@ -256,28 +244,29 @@
         }
         function backhistory(){
             drawTable(column_history,json_history["data"],true,3);
-            $("#title-table").text("{{history_table}}");
             $("#link-history").remove();
             search = [];
             for (var i in json_history["data"]){
                 search.push([json_history["data"][i][0],json_history["data"][i][1],
                             json_history["data"][i][2],json_history["data"][i][3]]);
             }
+            $("#title-table").text(search.length + " {% trans 'record(s)' %}");
             putpagination(json_history["data"]);
         }
-        // $("#search-input").on("keyup",function(){
-        //     console.log($("#search-input").val());
-        // });
+
         $("#search-input").on("keyup",function(){
             search = [];
             var text = $("#search-input").val();
+            searcher(text);
+        });
+
+        function searcher(text, load_histoty = false){
+            if (load_histoty){
+                $("#link-history").remove();
+            }
             var data = [];
-            if ($("#title-table").text() == "{{n_did_table}}"){
+            if ($("#title-table").text() == "{{n_did_table}}" && !load_histoty){
                 data = $.map(json_n_did["data"], function (obj) {
-                          return $.extend(true, {}, obj);
-                      });
-            } else if ($("#title-table").text() == "{{did_table}}") {
-                data = $.map(json_did["data"], function (obj) {
                           return $.extend(true, {}, obj);
                       });
             } else {
@@ -285,22 +274,18 @@
                       return $.extend(true, {}, obj);
                   });
             }
-            if ($("#title-table").text() != "{{n_did_table}}"){
+            if (load_histoty || $("#title-table").text() != "{{n_did_table}}"){
                 for (var i in data){
                     data[i][3] = moment(data[i][3]).format("DD/MM/YYYY HH:mm");
                 }
             }
-            if ($("#title-table").text() != "{{n_did_table}}"){
+            if (load_histoty || $("#title-table").text() != "{{n_did_table}}"){
                 for (var i in data){
                     if (data[i][0].toLowerCase().includes(text.toLowerCase())
                         || data[i][1].toLowerCase().includes(text.toLowerCase())
                         || data[i][2].toLowerCase().includes(text.toLowerCase())
                         || data[i][3].toLowerCase().includes(text.toLowerCase())){
-                            if ($("#title-table").text() == "{{did_table}}"){
-                                search.push(json_did["data"][i]);
-                            } else {
-                                search.push(json_history["data"][i]);
-                            }
+                            search.push(json_history["data"][i]);
                         }
                 }
             }
@@ -312,16 +297,16 @@
                         }
                 }
             }
-            // console.log(search,"busca");
-            if (($("#title-table").text() == "{{did_table}}")){
-                drawTable(column_did,pagination(search,1),true,3);
-            } else if (($("#title-table").text() == "{{n_did_table}}")){
+            if (!load_histoty && ($("#title-table").text() == "{{n_did_table}}")){
                 drawTable(column_n_did,pagination(search,1),false);
             } else {
                 drawTable(column_history,pagination(search,1),true,3);
             }
+            if (load_histoty || ($("#title-table").text() != "{{n_did_table}}")){
+                $("#title-table").text(search.length + " {% trans 'record(s)' %}");
+            }
             putpagination(search);
-        });
+        }
 
         function pagination(data,pag){
             var len = data.length;
@@ -329,16 +314,12 @@
             var end = (pag * 20 < len) ? pag * 20:len;
             var search = data.slice(first,end);
             return search;
-            // $(".pagination > .disabled").css("color","red");
         }
         function clickPagination(pag){
             $(".pagination > li").last().remove();
             $(".pagination > li").first().remove();
 
-            // console.log(search,"texto");
-            if (($("#title-table").text() == "{{did_table}}")){
-                drawTable(column_did,pagination(search,pag),true,3);
-            } else if (($("#title-table").text() == "{{n_did_table}}")){
+            if (($("#title-table").text() == "{{n_did_table}}")){
                 drawTable(column_n_did,pagination(search,pag),false);
             } else {
                 drawTable(column_history,pagination(search,pag),true,3);
