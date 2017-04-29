@@ -475,27 +475,15 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         alunos = webpage.students.all()
 
         vis_ou = Log.objects.filter(context__contains={'webpage_id':webpage.id},resource="webpage",action="view",user_email__in=(aluno.email for aluno in alunos), datetime__range=(start_date,end_date + datetime.timedelta(minutes = 1)))
-        did,n_did,history = str(_("Users who viewed")),str(_("Users who did not viewed")),str(_("History"))
+        did,n_did,history = str(_("Realized")),str(_("Unrealized")),str(_("Historic"))
         re = []
-        data_did, data_n_did,data_history = [],[],[]
-        json_did, json_n_did, json_history = {},{},{}
-        # column = []
-        # column.append([str(_("User")),"string"])
-        # column.append([str(_("Group")),"string"])
+        data_n_did,data_history = [],[]
+        json_n_did, json_history = {},{}
 
         from django.db.models import Count, Max
         views_user = vis_ou.values("user_email").annotate(views=Count("user_email"))
         date_last = vis_ou.values("user_email").annotate(last=Max("datetime"))
-        # column.append([str(_("Number of views")),"string"])
-        # column.append([str(_("Date of last view")),"date"])
-        for i in range(0,len(views_user)):
-            data_did.append([str(alunos.get(email=views_user[i].get("user_email"))),
-                ", ".join([str(x) for x in webpage.topic.subject.group_subject.filter(participants__email=views_user[i].get("user_email"))]),
-                views_user[i].get("views"),date_last.get(user_email=views_user[i].get("user_email")).get("last")])
-        json_did["data"] = data_did
 
-        # column.append([str(_("Action")),"string"])
-        # column.append([str(_("Date of action")),"date"])
         for log_al in vis_ou.order_by("datetime"):
             data_history.append([str(alunos.get(email=log_al.user_email)),
             ", ".join([str(x) for x in webpage.topic.subject.group_subject.filter(participants__email=log_al.user_email)]),
@@ -503,12 +491,12 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
             json_history["data"] = data_history
 
         not_view = alunos.exclude(email__in=[log.user_email for log in vis_ou.distinct("user_email")])
+
         for alun in not_view:
-            data_n_did.append([str(alun),", ".join([str(x) for x in webpage.topic.subject.group_subject.filter(participants__email=alun.email)])])
+            data_n_did.append([str(alun),", ".join([str(x) for x in webpage.topic.subject.group_subject.filter(participants__email=alun.email)]),str(_('View'))])
         json_n_did["data"] = data_n_did
 
 
-        context["json_did"] = json_did
         context["json_n_did"] = json_n_did
         context["json_history"] = json_history
         c_visualizou = vis_ou.distinct("user_email").count()
@@ -517,7 +505,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context['topic'] = webpage.topic
         context['subject'] = webpage.topic.subject
         context['db_data'] = re
-        context['title_chart'] = _('Students viewing the web conference')
+        context['title_chart'] = _('Students viewing the webpage')
         context['title_vAxis'] = _('Quantity')
 
         context["n_did_table"] = n_did

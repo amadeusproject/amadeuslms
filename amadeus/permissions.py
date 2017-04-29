@@ -15,7 +15,7 @@ def has_category_permissions(user, category):
 	if user.is_staff:
 		return True
 
-	if category.coordinators.filter(id = user.id).exists():
+	if category and category.coordinators.filter(id = user.id).exists():
 		return True
 
 	return False
@@ -27,13 +27,13 @@ def has_category_permissions(user, category):
 		- Create Topic inside Subject 
 """
 def has_subject_permissions(user, subject):
-	if user.is_staff:
+	if user and user.is_staff:
 		return True
 
-	if subject.professor.filter(id = user.id).exists():
+	if subject.professor and subject.professor.filter(id = user.id).exists():
 		return True
 
-	if subject.category.coordinators.filter(id = user.id).exists():
+	if subject.category and subject.category.coordinators.filter(id = user.id).exists():
 		return True
 
 	return False
@@ -46,7 +46,7 @@ def has_subject_view_permissions(user, subject):
 	if has_subject_permissions(user, subject):
 		return True
 
-	if subject.students.filter(id = user.id).exists():
+	if subject and subject.students.filter(id = user.id).exists():
 		return True
 
 	return False

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-15 00:12-0300\n"
+"POT-Creation-Date: 2017-04-28 20:39-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,100 +18,139 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: pdf_file/forms.py:25
+#: forms.py:25
 msgid "Tags"
-msgstr ""
+msgstr "Tags"
 
-#: pdf_file/forms.py:30
+#: forms.py:30
 msgid "File name"
 msgstr "Nome do arquivo"
 
-#: pdf_file/forms.py:51
+#: forms.py:51
 msgid "This subject already has a pdf file with this name"
 msgstr "Este assunto já possui um arquivo PDF com este nome"
 
-#: pdf_file/forms.py:63
+#: forms.py:63
 msgid "The file is too large. It should have less than 10MB."
 msgstr "O arquivo é muito grande. Deve ser menor do que 10MB"
 
-#: pdf_file/forms.py:68
+#: forms.py:68
 msgid "This field is required."
-msgstr ""
+msgstr "Este campo é requerido."
 
-#: pdf_file/models.py:16
+#: models.py:16
 msgid "File not supported, use PDF format instead."
 msgstr "Este formato não é suportado, use PDF."
 
-#: pdf_file/models.py:19
+#: models.py:19
 msgid "File"
-msgstr ""
+msgstr "Arquivo"
 
-#: pdf_file/models.py:42
+#: models.py:42
 msgid "Are you sure you want delete the PDF File"
 msgstr "Tem certeza que deseja deletar este arquivo PDF?"
 
-#: pdf_file/templates/pdf_file/_form.html:32
+#: templates/pdf_file/_form.html:32
 msgid "Choose your file..."
 msgstr ""
 
-#: pdf_file/templates/pdf_file/_form.html:46
+#: templates/pdf_file/_form.html:46
 msgid "Click or drop the file here"
 msgstr "Clique ou arraste o arquivo aqui."
 
-#: pdf_file/templates/pdf_file/_form.html:48
+#: templates/pdf_file/_form.html:48
 msgid "The file could not exceed 10MB."
 msgstr "O arquivo não pode exceder 10MB."
 
-#: pdf_file/templates/pdf_file/_form.html:68
+#: templates/pdf_file/_form.html:68
 msgid "Common resources settings"
-msgstr ""
+msgstr "Configurações comuns à todos os recursos"
 
-#: pdf_file/templates/pdf_file/_form.html:119
+#: templates/pdf_file/_form.html:119
 msgid "Pendencies Notifications"
-msgstr ""
+msgstr "Notificações pendentes"
 
-#: pdf_file/templates/pdf_file/_form.html:135
+#: templates/pdf_file/_form.html:135
 msgid "Action not performed by the user"
-msgstr ""
+msgstr "Ação não permitida pelo usuário"
 
-#: pdf_file/templates/pdf_file/_form.html:161
+#: templates/pdf_file/_form.html:161
 msgid "Wished period"
 msgstr ""
 
-#: pdf_file/templates/pdf_file/_form.html:257
+#: templates/pdf_file/_form.html:257
 msgid "Attribute students to file link"
 msgstr ""
 
-#: pdf_file/templates/pdf_file/_form.html:277
+#: templates/pdf_file/_form.html:277
 msgid "Attribute groups to file link"
 msgstr ""
 
-#: pdf_file/templates/pdf_file/_form.html:346
+#: templates/pdf_file/_form.html:346
 msgid "Save"
-msgstr ""
+msgstr "Salvar"
 
-#: pdf_file/templates/pdf_file/create.html:20
+#: templates/pdf_file/create.html:20
 msgid "Create PDF file"
 msgstr "Criar arquivo PDF"
 
-#: pdf_file/templates/pdf_file/update.html:20
+#: templates/pdf_file/relatorios.html:16 templates/pdf_file/relatorios.html:30
+#: templates/pdf_file/relatorios.html:37
+msgid "User"
+msgstr "Usuário"
+
+#: templates/pdf_file/relatorios.html:16 templates/pdf_file/relatorios.html:30
+#: templates/pdf_file/relatorios.html:37
+msgid "Group"
+msgstr "Grupo"
+
+#: templates/pdf_file/relatorios.html:16 templates/pdf_file/relatorios.html:30
+msgid "Action"
+msgstr "Ação"
+
+#: templates/pdf_file/relatorios.html:16 templates/pdf_file/relatorios.html:30
+msgid "Date of Action"
+msgstr "Data da ação"
+
+#: templates/pdf_file/relatorios.html:135
+#: templates/pdf_file/relatorios.html:155
+msgid "Reports"
+msgstr "Relatórios"
+
+#: templates/pdf_file/relatorios.html:162
+msgid "Report of the resource "
+msgstr "Relatórios do recurso "
+
+#: templates/pdf_file/relatorios.html:165
+msgid "Select the period: "
+msgstr "Selecione o período: "
+
+#: templates/pdf_file/relatorios.html:178
+msgid "Search"
+msgstr "Pesquisar"
+
+#: templates/pdf_file/relatorios.html:200
+msgid "Filter: "
+msgstr "Filtro: "
+
+#: templates/pdf_file/update.html:20
 msgid "Edit: "
 msgstr "Editar: "
 
-#: pdf_file/templates/pdf_file/view.html:52
+#: templates/pdf_file/view.html:52
 msgid "PDF could not be displayed"
 msgstr "PDF não pode ser mostrado"
 
-#: pdf_file/views.py:110 pdf_file/views.py:123 pdf_file/views.py:234
-#: pdf_file/views.py:236 pdf_file/views.py:252 pdf_file/views.py:254
+#: views.py:112 views.py:125 views.py:236 views.py:238 views.py:254
+#: views.py:256
 msgid "Visualize"
-msgstr ""
+msgstr "Visualizar"
 
-#: pdf_file/views.py:183
+#: views.py:185
 msgid "Create PDF File"
 msgstr "Criar o arquivo PDF"
 
-#: pdf_file/views.py:194
+#: views.py:196
 #, python-format
 msgid ""
 "The PDF File \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -120,18 +159,50 @@ msgstr ""
 "O arquivo PDF \"%s\"  foi adicionado ao topico \"%s\" do ambiente virtual "
 "\"%s\" com sucesso!"
 
-#: pdf_file/views.py:298
+#: views.py:300
 msgid "Update PDF File"
 msgstr "Atualize arquivo PDF"
 
-#: pdf_file/views.py:309
+#: views.py:311
 #, python-format
 msgid "The PDF File \"%s\" was updated successfully!"
 msgstr "O arquivo PDF \"%s\"  foi atualizado com sucesso!"
 
-#: pdf_file/views.py:336
+#: views.py:338
 #, python-format
 msgid ""
 "The PDF File \"%s\" was removed successfully from virtual environment \"%s\"!"
 msgstr ""
 "O arquivo PDF \"%s\"  foi removido com sucesso do ambiente virtual \"%s\" "
+
+#: views.py:396
+msgid "PDF File Reports"
+msgstr "Relatórios do arquivo de PDF"
+
+#: views.py:414
+msgid "Users who viewed"
+msgstr "Usuário que visualizaram"
+
+#: views.py:414
+msgid "Users who did not viewed"
+msgstr "Usuários que não visualizaram"
+
+#: views.py:414
+msgid "Historic"
+msgstr "Histórico"
+
+#: views.py:446
+msgid "PDF File"
+msgstr "Criar o arquivo PDF"
+
+#: views.py:447
+msgid "View"
+msgstr "Visualizar"
+
+#: views.py:451
+msgid "Students viewing the PDF File"
+msgstr "Estudantes que visualizaram o arquivo PDF"
+
+#: views.py:452
+msgid "Quantity"
+msgstr "Quantidade"

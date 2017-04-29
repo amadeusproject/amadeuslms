@@ -1,4 +1,4 @@
-{% extends "webpages/view.html" %}
+{% extends "pdf_file/view.html" %}
 
 {% load static i18n pagination permissions_tags subject_counter %}
 {% load django_bootstrap_breadcrumbs %}
@@ -13,7 +13,7 @@
         array_history.push(["{{data_json.0}}","{{data_json.1}}","{{data_json.2}}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
     {% endfor%}
     var json_history = {"data":array_history};
-    var column_history = [{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":'{% trans "Action" %}'},{"date":'{% trans "Date of Action" %}'}];
+    var column_history = [{"string":"{% trans 'User' %}"},{"string":"{% trans 'Group' %}"},{"string":"{% trans 'Action' %}"},{"date":"{% trans 'Date of Action' %}"}];
 
     var search = [];
     for (var i in json_history["data"]){
@@ -23,10 +23,10 @@
 
     var array_n_did = [];
     {%for data_json in json_n_did.data%}
-        array_n_did.push(["{{data_json.0}}","{{data_json.1}}"]);
+        array_n_did.push(['<input type="checkbox" value="">',"{{data_json.0}}","{{data_json.1}}", "{{data_json.2}}"]);
     {% endfor%}
     var json_n_did = {"data":array_n_did};
-    var column_n_did = [{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'}];
+    var column_n_did = [{"string":'{% trans "Enviar mensagem" %}'},{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":"Action don't realized"}];
     </script>
 
 
@@ -120,7 +120,7 @@
 {% block breadcrumbs %}
     {{ block.super }}
     {% trans 'Reports' as bread %}
-	{% breadcrumb bread webpage%}
+	{% breadcrumb bread pdf_file%}
 {% endblock %}
 
 {% block content %}
@@ -139,14 +139,14 @@
             <div class="row">
                 <div class="col-md-12 category-header">
                     <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
-                        <span>{{webpage}} / {% trans "Reports" %}</span>
+                        <span>{{pdf_file}} / {% trans "Reports" %}</span>
                     </h4>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 text-center">
-                <h4 style="margin-top: 15px; margin-bottom: 10px" ><strong>{% trans "Report of the resource " %}{{webpage}}</strong></h4>
+                <h4 style="margin-top: 15px; margin-bottom: 10px" ><strong>{% trans "Report of the resource " %}{{pdf_file}}</strong></h4>
             </div>
             <div class="col-md-2 text-right">
                 <h4>{% trans "Select the period: " %}</h4>
@@ -155,7 +155,6 @@
                 <div id="general-parameters-div">
                     <form id="period-form" action="" method="get">
                         <div class="general-parameters-field">
-                               {# <label class="form-field-report"> {% trans "Initial Date" %} </label> #}
                                <input class="form-control datetime-picker" name="init_date" type="text" required="" value="{% if LANGUAGE_CODE == 'pt-br' %}{{init_date|date:'d/m/Y H:i'}} {% else %} {{init_date|date:'m/d/Y H:i P'}} {% endif %}">
                        </div>
 
@@ -180,7 +179,7 @@
                     <ul class="list-inline nav-justified">
                         <li>
                             <ul id="view-table" class="list-inline text-right">
-                                <li><h3 id="title-table"></h3></li>
+                                <li><h3 id="title-table">{{history_table}}</h3></li>
                             </ul>
                         </li>
                         <li>
@@ -254,7 +253,6 @@
             $("#title-table").text(search.length + " {% trans 'record(s)' %}");
             putpagination(json_history["data"]);
         }
-
 
         $("#search-input").on("keyup",function(){
             search = [];

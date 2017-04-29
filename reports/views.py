@@ -24,11 +24,26 @@ import math
 from io import BytesIO
 import os
 import copy
+from django.shortcuts import render, get_object_or_404, redirect
+
+from amadeus.permissions import has_category_permissions, has_subject_permissions
 
 class ReportView(LoginRequiredMixin, generic.FormView):
     template_name = "reports/create.html"
     form_class = CreateInteractionReportForm
     
+
+    def dispatch(self, request, *args, **kwargs):
+        params = self.request.GET
+        subject = Subject.objects.get(id=params['subject_id'])
+       
+        if not has_subject_permissions(request.user, subject):
+            return redirect(reverse_lazy('subjects:home'))
+
+        
+
+        return super(ReportView, self).dispatch(request, *args, **kwargs)
+
     def get_initial(self):
         """
         Returns the initial data to use for forms on this view.
