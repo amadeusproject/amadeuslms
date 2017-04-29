@@ -428,8 +428,10 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
             json_history["data"] = data_history
 
         not_view = alunos.exclude(email__in=[log.user_email for log in vis_ou.distinct("user_email")])
+        index = 0
         for alun in not_view:
-            data_n_did.append([str(alun),", ".join([str(x) for x in pdf_file.topic.subject.group_subject.filter(participants__email=alun.email)]),str(_('View'))])
+            data_n_did.append([index,str(alun),", ".join([str(x) for x in pdf_file.topic.subject.group_subject.filter(participants__email=alun.email)]),str(_('View')), str(alun.email)])
+            index += 1
         json_n_did["data"] = data_n_did
 
 
@@ -441,10 +443,27 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context['topic'] = pdf_file.topic
         context['subject'] = pdf_file.topic.subject
         context['db_data'] = re
-        context['title_chart'] = _('Students viewing the PDF File')
+        context['title_chart'] = _('Actions about resource')
         context['title_vAxis'] = _('Quantity')
 
         context["n_did_table"] = n_did
         context["did_table"] = did
         context["history_table"] = history
         return context
+
+
+from chat.models import Conversation, TalkMessages
+from users.models import User
+from subjects.models import Subject
+def sendMessage(request, slug):
+    message = request.GET.get('message','')
+    users = request.GET.getlist('users[]','')
+    user = request.user
+    subject = get_object_or_404(Subject,slug = slug)
+
+    for u in users:
+        to_user = User.objects.get(email=u)
+        talk, create = Conversation.objects.get_or_create(user_one=user,user_two=to_user)
+        created = TalkMessages.objects.create(text=message,talk=talk,user=user,subject=subject)
+
+    return JsonResponse({"message":"ok"})
