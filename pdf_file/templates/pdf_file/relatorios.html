@@ -7,13 +7,14 @@
     {{ block.super }}
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
+    var tabela_atual = true;
 
     var array_history = [];
     {%for data_json in json_history.data%}
         array_history.push(["{{data_json.0}}","{{data_json.1}}","{{data_json.2}}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
     {% endfor%}
     var json_history = {"data":array_history};
-    var column_history = [{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":'{% trans "Action" %}'},{"date":'{% trans "Date of Action" %}'}];
+    var column_history = [{"string":"{% trans 'User' %}"},{"string":"{% trans 'Group' %}"},{"string":"{% trans 'Action' %}"},{"date":"{% trans 'Date of Action' %}"}];
 
     var search = [];
     for (var i in json_history["data"]){
@@ -21,20 +22,19 @@
                     json_history["data"][i][2],json_history["data"][i][3]]);
     }
 
-
-    var array_did = [];
-    {%for data_json in json_did.data%}
-        array_did.push(["{{data_json.0}}","{{data_json.1}}","{{data_json.2}}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
-    {% endfor%}
-    var json_did = {"data":array_did};
-    var column_did = [{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":'{% trans "Action" %}'},{"date":'{% trans "Date of Action" %}'}];
-
     var array_n_did = [];
+    var checkbox = {};
     {%for data_json in json_n_did.data%}
-        array_n_did.push(["{{data_json.0}}","{{data_json.1}}"]);
+        var input = '<div class="checkbox">\
+             <label for="{{data_json.0}}_google_table">\
+                <input id="{{data_json.0}}_google_table" name="{{data_json.0}}_google_table" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>\
+            </label>\
+        </div>'
+        checkbox["{{data_json.0}}_google_table"] = "{{data_json.4}}";
+        array_n_did.push([input,"{{data_json.1}}","{{data_json.2}}", "{{data_json.3}}"]);
     {% endfor%}
     var json_n_did = {"data":array_n_did};
-    var column_n_did = [{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'}];
+    var column_n_did = [{"string":'<a href="javascript:void(0);" onclick="return openmodal();"> {% trans "Send message" %}</a>'},{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":"Action don't realized"}];
     </script>
 
 
@@ -66,43 +66,35 @@
            var selectedItem = chart.getSelection()[0];
            if (selectedItem) {
                var col = data.getColumnLabel(selectedItem.column);
-               var element = '<li id="link-history">\
-                                    <a id="call-history" href="javascript:void(0);" onclick="return backhistory();"> <i class="fa fa-arrow-left ta-fw">  </i> {{history_table}}</a>\
-                               </li>';
-               if (col == "{{n_did_table}}" && text("#title-table") != "{{n_did_table}}"){
-                   if (length("#link-history") <= 0){
-                       add(element,"#view-table",true);
-                   }
-                   altertitle("{{n_did_table}}");
+               if (col == "{{n_did_table}}"){
+                   tabela_atual = false;
                    search = [];
                    for (var i in json_n_did["data"]){
-                       search.push([json_n_did["data"][i][0],json_n_did["data"][i][1]]);
+                       search.push([json_n_did["data"][i][0],json_n_did["data"][i][1],
+                                    json_n_did["data"][i][2],json_n_did["data"][i][3]]);
                    }
-                   drawTable(column_n_did,pagination(json_n_did["data"],1),false);
-                    putpagination(json_n_did["data"]);
+                   searcher(col, tabela_atual,true);
 
-               } else if (col == "{{did_table}}" && text("#title-table") != "{{did_table}}"){
-                   if (length("#link-history") <= 0){
-                       add(element,"#view-table",true);
-                   }
-                   altertitle("{{did_table}}");
+               } else if (col == "{{did_table}}"){
+                   tabela_atual = true;
                    search = [];
-                   for (var i in json_did["data"]){
-                       search.push([json_did["data"][i][0],json_did["data"][i][1],
-                                   json_did["data"][i][2],json_did["data"][i][3]]);
+                   for (var i in json_history["data"]){
+                       search.push([json_history["data"][i][0],json_history["data"][i][1],
+                                   json_history["data"][i][2],json_history["data"][i][3]]);
                    }
-                   drawTable(column_did,pagination(json_did["data"],1),true,3);
-                   putpagination(json_did["data"]);
+                   searcher(col, tabela_atual,true);
                }
            }
           chart.setSelection([])
-         }
+            }
 
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
         google.visualization.events.addListener(chart, 'select', selectHandler);
         chart.draw(data, options);
 
       }
+
+      var sortAscending = {0:false,1:false,2:false,3:false};
       function drawTable(columns = column_history,rows = pagination(json_history["data"],1),isdate = true,columndate = 3) {
           var data_table = new google.visualization.DataTable();
           for (var i in columns){
@@ -122,10 +114,33 @@
         //           }
         //       }
         //   console.log(methods.join(","));
-
+            var options = {
+                sort: "event",
+                allowHtml: true,
+                cssClassNames : {
+                    tableRow: 'text-center',
+                    tableCell: 'text-center',
+                    headerCell: 'text-center'
+                },
+                showRowNumber: true,
+                width: '100%',
+                height: '100%',
+            }
+            function ordenar(properties){
+                var columnIndex = properties['column'];
+                if (columnIndex > 0) {
+                    options["sortColumn"] = columnIndex;
+                    options["sortAscending"] = sortAscending[columnIndex];
+                    data_table.sort({column:columnIndex,desc:sortAscending[columnIndex]});
+                    sortAscending = {0:false,1:false,2:false,3:false};
+                    sortAscending[columnIndex] = !sortAscending[columnIndex];
+                    // console.log(sortAscending);
+                    table.draw(data_table, options);
+                }
+            }
           var table = new google.visualization.Table(document.getElementById('table_div'));
-
-          table.draw(data_table, {showRowNumber: true, width: '100%', height: '100%'});
+          google.visualization.events.addListener(table, 'sort', function(e) {ordenar(e)});
+          table.draw(data_table, options);
       }
     </script>
 {% endblock%}
@@ -161,25 +176,29 @@
             <div class="col-md-12 text-center">
                 <h4 style="margin-top: 15px; margin-bottom: 10px" ><strong>{% trans "Report of the resource " %}{{pdf_file}}</strong></h4>
             </div>
-            <div class="col-md-2 text-right">
-                <h4>{% trans "Select the period: " %}</h4>
-            </div>
-            <div class="col-md-8">
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+
+            <ul class="list-inline nav-justified">
                 <div id="general-parameters-div">
+                    <div class="general-parameters-field">
+                        <li class="text-right"><h4>{% trans "Select the period: " %}</h4></li>
+                    </div>
                     <form id="period-form" action="" method="get">
                         <div class="general-parameters-field">
-                               <input class="form-control datetime-picker" name="init_date" type="text" required="" value="{% if LANGUAGE_CODE == 'pt-br' %}{{init_date|date:'d/m/Y H:i'}} {% else %} {{init_date|date:'m/d/Y H:i P'}} {% endif %}">
-                       </div>
-
-                       <div class="general-parameters-field">
-                               {# <label class="form-field-report"> {% trans "Final Date" %} </label> #}
-                               <input id="inputdate" class="form-control datetime-picker" name="end_date" type="text" required="" value="{% if LANGUAGE_CODE == 'pt-br' %}{{end_date|date:'d/m/Y H:i'}} {% else %} {{end_date|date:'m/d/Y H:i P'}} {% endif %}">
-                       </div>
-                        <input type="submit" value="{% trans 'Search' %}" style="margin-left: 15px;" class="btn btn-success btn-raised">
-                   </form>
+                            <li> <input class="form-control datetime-picker" name="init_date" type="text" required="" value="{% if LANGUAGE_CODE == 'pt-br' %}{{init_date|date:'d/m/Y H:i'}} {% else %} {{init_date|date:'m/d/Y H:i P'}} {% endif %}"></li>
+                        </div>
+                        <div class="general-parameters-field">
+                            <li><input id="inputdate" class="form-control datetime-picker" name="end_date" type="text" required="" value="{% if LANGUAGE_CODE == 'pt-br' %}{{end_date|date:'d/m/Y H:i'}} {% else %} {{end_date|date:'m/d/Y H:i P'}} {% endif %}"></li>
+                        </div>
+                        <li><input type="submit" value="{% trans 'Search' %}" style="margin-left: 15px;" class="btn btn-success btn-raised"></li>
+                    </form>
                 </div>
+            <ul>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div id="chart_div" style="height: 500px; margin-top: -50px;"></div>
@@ -212,12 +231,45 @@
         		</div>
             </div>
         </div>
+        <!-- Modal (remember to change the ids!!!) -->
+        <div class="modal fade" id="send-message-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                   <!-- Modal Body -->
+              <div class="modal-body">
+                <!-- Put ONLY your content here!!!  -->
+                <h3>{% trans "Message: " %}</h3>
+                <form id="text_chat_form" action="" method="GET">
+                    <textarea id="message" name="message" rows="5" cols="80"></textarea>
+                </form>
+              </div>
+              <!-- Modal Footer -->
+              <div id="delete-category-footer"class="modal-footer">
+                <!-- Don't remove that!!!  -->
+                <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+                <a href="javascript:void(0)" onclick="return sendMessage()" form="text_chat_form" class="btn btn-success btn-raised erase-button">{% trans "Send" %}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row">
             <br><br>
         </div>
     </div>
 
     <script type="text/javascript">
+        $('#message').summernote({
+            dialogsInBody: true,
+            disableDragAndDrop: true,
+            height: 150,
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic']],
+                ['insert', ['link']]
+            ]
+        });
+        $("#title-table").text(search.length + " {% trans 'record(s)' %}");
         function putpagination(data = json_history["data"]){
             var len = Math.ceil(data.length / 20);
             $(".pagination").empty();
@@ -241,9 +293,6 @@
               .attr('value', '{{ LANGUAGE_CODE }}')
               .appendTo('#period-form');
         });
-        function altertitle(value) {
-            $("#title-table").text(value);
-        }
         function add(element,local, first = false){
             if (first) $(local).prepend(element);
             else $(local).append(element);
@@ -254,30 +303,20 @@
         function length(element) {
             return $(element).length;
         }
-        function backhistory(){
-            drawTable(column_history,json_history["data"],true,3);
-            $("#title-table").text("{{history_table}}");
-            $("#link-history").remove();
-            search = [];
-            for (var i in json_history["data"]){
-                search.push([json_history["data"][i][0],json_history["data"][i][1],
-                            json_history["data"][i][2],json_history["data"][i][3]]);
-            }
-            putpagination(json_history["data"]);
-        }
-        // $("#search-input").on("keyup",function(){
-        //     console.log($("#search-input").val());
-        // });
+
         $("#search-input").on("keyup",function(){
             search = [];
             var text = $("#search-input").val();
+            searcher(text,tabela_atual);
+        });
+
+        function searcher(text, load_histoty = false,apaga=false){
+            if(apaga){
+                $("#search-input").val("");
+            }
             var data = [];
-            if ($("#title-table").text() == "{{n_did_table}}"){
+            if (!load_histoty){
                 data = $.map(json_n_did["data"], function (obj) {
-                          return $.extend(true, {}, obj);
-                      });
-            } else if ($("#title-table").text() == "{{did_table}}") {
-                data = $.map(json_did["data"], function (obj) {
                           return $.extend(true, {}, obj);
                       });
             } else {
@@ -285,43 +324,39 @@
                       return $.extend(true, {}, obj);
                   });
             }
-            if ($("#title-table").text() != "{{n_did_table}}"){
+            if (load_histoty){
                 for (var i in data){
                     data[i][3] = moment(data[i][3]).format("DD/MM/YYYY HH:mm");
                 }
             }
-            if ($("#title-table").text() != "{{n_did_table}}"){
+            if (load_histoty){
                 for (var i in data){
                     if (data[i][0].toLowerCase().includes(text.toLowerCase())
                         || data[i][1].toLowerCase().includes(text.toLowerCase())
                         || data[i][2].toLowerCase().includes(text.toLowerCase())
                         || data[i][3].toLowerCase().includes(text.toLowerCase())){
-                            if ($("#title-table").text() == "{{did_table}}"){
-                                search.push(json_did["data"][i]);
-                            } else {
-                                search.push(json_history["data"][i]);
-                            }
+                            search.push(json_history["data"][i]);
                         }
                 }
             }
             else {
                 for (var i in data){
-                    if (data[i][0].toLowerCase().includes(text.toLowerCase())
-                        || data[i][1].toLowerCase().includes(text.toLowerCase())){
+                    if (data[i][1].toLowerCase().includes(text.toLowerCase())
+                        || data[i][2].toLowerCase().includes(text.toLowerCase())
+                        || data[i][3].toLowerCase().includes(text.toLowerCase())){
                                 search.push(json_n_did["data"][i]);
                         }
                 }
             }
-            // console.log(search,"busca");
-            if (($("#title-table").text() == "{{did_table}}")){
-                drawTable(column_did,pagination(search,1),true,3);
-            } else if (($("#title-table").text() == "{{n_did_table}}")){
+            console.log(search);
+            if (!load_histoty){
                 drawTable(column_n_did,pagination(search,1),false);
             } else {
                 drawTable(column_history,pagination(search,1),true,3);
             }
+            $("#title-table").text(search.length + " {% trans 'record(s)' %}");
             putpagination(search);
-        });
+        }
 
         function pagination(data,pag){
             var len = data.length;
@@ -329,16 +364,12 @@
             var end = (pag * 20 < len) ? pag * 20:len;
             var search = data.slice(first,end);
             return search;
-            // $(".pagination > .disabled").css("color","red");
         }
-        function clickPagination(pag){
+        function clickPagination(pag, load_histoty = false){
             $(".pagination > li").last().remove();
             $(".pagination > li").first().remove();
 
-            // console.log(search,"texto");
-            if (($("#title-table").text() == "{{did_table}}")){
-                drawTable(column_did,pagination(search,pag),true,3);
-            } else if (($("#title-table").text() == "{{n_did_table}}")){
+            if (!load_histoty){
                 drawTable(column_n_did,pagination(search,pag),false);
             } else {
                 drawTable(column_history,pagination(search,pag),true,3);
@@ -352,6 +383,27 @@
             else $(".pagination").prepend('<li class="disabled"><span>«</span></li>');
             $(".active").removeClass("active");
             $("#" + pag).addClass("active");
+        }
+        function sendMessage(){
+            $("#send-message-modal").modal("hide");
+            var checked = $("#google-chart-checkbox").serializeArray();
+            var email = [];
+            for (var i in checked){
+                email.push(checkbox[checked[i]["name"]]);
+            }
+            var message = $("#text_chat_form").serializeArray()[0]["value"];
+            $.ajax({
+               type: "GET",
+               data: {"message":message,"users[]":email},
+               url: "{% url 'pdf_files:send_message' subject.slug %}",
+               success: function(msg){
+                   console.log(msg);
+                   $('#message').summernote("reset");
+               }
+           });
+        }
+        function openmodal(){
+            $("#send-message-modal").modal("show");
         }
     </script>
 {% endblock %}

@@ -405,26 +405,20 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         else :
             start_date = datetime.datetime.strptime(self.request.GET.get('init_date',''),date_format)
             end_date = datetime.datetime.strptime(self.request.GET.get('end_date',''),date_format)
-        # print (start_date,"     depois")
+
         context["init_date"] = start_date
         context["end_date"] = end_date
         alunos = pdf_file.students.all()
 
         vis_ou = Log.objects.filter(context__contains={'pdffile_id':pdf_file.id},resource="pdffile",action="view",user_email__in=(aluno.email for aluno in alunos), datetime__range=(start_date,end_date + datetime.timedelta(minutes = 1)))
-        did,n_did,history = str(_("Users who viewed")),str(_("Users who did not viewed")),str(_("Historic"))
+        did,n_did,history = str(_("Realized")),str(_("Unrealized")),str(_("Historic"))
         re = []
-        data_did, data_n_did,data_history = [],[],[]
-        json_did, json_n_did, json_history = {},{},{}
+        data_n_did,data_history = [],[]
+        json_n_did, json_history = {},{}
 
         from django.db.models import Count, Max
         views_user = vis_ou.values("user_email").annotate(views=Count("user_email"))
         date_last = vis_ou.values("user_email").annotate(last=Max("datetime"))
-
-        for i in range(0,len(views_user)):
-            data_did.append([str(alunos.get(email=views_user[i].get("user_email"))),
-                ", ".join([str(x) for x in pdf_file.topic.subject.group_subject.filter(participants__email=views_user[i].get("user_email"))]),
-                views_user[i].get("views"),date_last.get(user_email=views_user[i].get("user_email")).get("last")])
-        json_did["data"] = data_did
 
 
         for log_al in vis_ou.order_by("datetime"):
@@ -434,12 +428,13 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
             json_history["data"] = data_history
 
         not_view = alunos.exclude(email__in=[log.user_email for log in vis_ou.distinct("user_email")])
+        index = 0
         for alun in not_view:
-            data_n_did.append([str(alun),", ".join([str(x) for x in pdf_file.topic.subject.group_subject.filter(participants__email=alun.email)])])
+            data_n_did.append([index,str(alun),", ".join([str(x) for x in pdf_file.topic.subject.group_subject.filter(participants__email=alun.email)]),str(_('View')), str(alun.email)])
+            index += 1
         json_n_did["data"] = data_n_did
 
 
-        context["json_did"] = json_did
         context["json_n_did"] = json_n_did
         context["json_history"] = json_history
         c_visualizou = vis_ou.distinct("user_email").count()
@@ -448,10 +443,27 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context['topic'] = pdf_file.topic
         context['subject'] = pdf_file.topic.subject
         context['db_data'] = re
-        context['title_chart'] = _('Students viewing the PDF File')
+        context['title_chart'] = _('Actions about resource')
         context['title_vAxis'] = _('Quantity')
 
         context["n_did_table"] = n_did
         context["did_table"] = did
         context["history_table"] = history
         return context
+
+
+from chat.models import Conversation, TalkMessages
+from users.models import User
+from subjects.models import Subject
+def sendMessage(request, slug):
+    message = request.GET.get('message','')
+    users = request.GET.getlist('users[]','')
+    user = request.user
+    subject = get_object_or_404(Subject,slug = slug)
+
+    for u in users:
+        to_user = User.objects.get(email=u)
+        talk, create = Conversation.objects.get_or_create(user_one=user,user_two=to_user)
+        created = TalkMessages.objects.create(text=message,talk=talk,user=user,subject=subject)
+
+    return JsonResponse({"message":"ok"})
