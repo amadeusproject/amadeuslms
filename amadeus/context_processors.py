@@ -11,7 +11,11 @@ def theme(request):
 	theme = Themes.objects.get(id = 1)
 
 	context['theme'] = theme
-
+	if ("contrast_check" in request.COOKIES.keys()):
+		context ['contrast_cookie'] = True
+	else:
+		context ['contrast_cookie'] = False
+	
 	return context
 
 def notifies(request):
