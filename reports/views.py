@@ -26,6 +26,9 @@ import os
 import copy
 from django.shortcuts import render, get_object_or_404, redirect
 
+from chat.models import Conversation, TalkMessages
+
+
 from amadeus.permissions import has_category_permissions, has_subject_permissions
 
 class ReportView(LoginRequiredMixin, generic.FormView):
@@ -146,15 +149,17 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         context['init_date'] = params_data['init_date']
         context['end_date'] = params_data['end_date']
         context['subject'] = subject
+
         
         #I used getlist method so it can get more than one tag and one resource class_name
         resources = params_data.getlist('resource')
         tags = params_data.getlist('tag')
         
         self.from_mural = params_data['from_mural']
-       
+        self.from_messages = params_data['from_messages']
+
         context['data'], context['header'] = self.get_mural_data(subject, params_data['topic'], params_data['init_date'], params_data['end_date'],
-            resources, tags )
+            resources, tags )                 
 
 
         #this is to save the csv for further download
@@ -226,8 +231,11 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
 
             data[student.id].append(student.social_name)
 
-            interactions = OrderedDict()    
-                  
+            interactions = OrderedDict()
+
+
+            
+
             #interactions['username'] = student.social_name
             if self.from_mural == "True":
                 help_posts_made_by_user = SubjectPost.objects.filter(action="help",space__id=subject.id, user=student, 
@@ -274,6 +282,15 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                 interactions[_('Number of student visualizations on the mural of the subject.')] = MuralVisualizations.objects.filter(post__in = SubjectPost.objects.filter(space__id=subject.id, create_date__range=(init_date, end_date)),
                     user = student).count()
             
+
+            #variables from messages
+          
+          
+            if self.from_messages == "True":
+              
+                message_data = self.get_messages_data(subject, student)
+                for key, value in message_data.items():
+                    interactions[key] = value
 
             #VAR08 through VAR_019 of documenttation:
             if len(resources_type_names) > 0:
@@ -376,7 +393,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             for resource in resources:
 
                 if isinstance(topics,Topic):
-                    #or it selected only one topic to work with
+                    #if it selected only one topic to work with
                     count = Log.objects.filter(action="view", resource=resources_types[i].lower(),
                           user_id = student.id, context__contains = {'subject_id': subject.id, 
                           resources_types[i].lower()+'_id': resource.id, 'topic_id': topics.id}, datetime__range=(init_date, end_date)).count()
@@ -452,6 +469,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                                 time_delta = math.fabs(end_time - begin_time)
                               
                                 hours_viewed +=  time_delta/3600 #so it's turned this seconds into hours
+
+
                 if count > 0:
                     distinct_resources += 1
                     total_count += count
@@ -484,15 +503,66 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
 
         return data
 
+    def get_messages_data(self, subject, student):
+        data = OrderedDict()
+        
+   
+
+        messages_sent_to_other_students = 0
+
+        distinct_students = 0
+     
+        for other_student in subject.students.exclude(id = student.id):
+            conversations_with_other = Conversation.objects.filter(Q(user_one=student) & Q(user_two = other_student) | Q(user_one = other_student) & Q(user_two = student) )
+            messages_sent_other = TalkMessages.objects.filter(talk__in = conversations_with_other, user = student , subject= subject)
+            messages_received_other = TalkMessages.objects.filter(talk__in = conversations_with_other, user = other_student, subject = subject)
+            
+         
+         
+            if data.get(_(" amount of messages sent to other students")):
+                data[_(" amount of messages sent to other students")] = messages_sent_other.count() + data.get(_(" amount of messages sent to other students"))
+            else:
+                data[_(" amount of messages sent to other students")] = messages_sent_other.count()
+           
+            if data.get(_("amount of messages received from other students")):
+                data[_("amount of messages received from other students")] = messages_received_other.count() + data.get(_("amount of messages received from other students"))
+            else:
+
+                data[_("amount of messages received from other students")] = messages_received_other.count()
+
+            #check whether the other started a conversation or not
+            if messages_sent_other.count() >0:
+                distinct_students += 1
+        
+        data[_("amount of distinct students to whom sent messages")] = distinct_students
+        #calculate the amount of messages sent to and received from professor
+        messages_sent_professors = 0
+        messages_received_professors = 0
+        for professor in subject.professor.all():
+            conversations_with_professor = Conversation.objects.filter(Q(user_one = student) & Q(user_two = professor) | Q(user_one = professor) & Q(user_two = student))
+            messages_sent_to_professors = TalkMessages.objects.filter(talk__in = conversations_with_professor, user = student, subject = subject)
+
+            messages_received_from_professors = TalkMessages.objects.filter(talk__in = conversations_with_professor, user = professor, subject = subject)
+            if data.get(_("amount messages sent to professors")):
+                data[_("amount messages sent to professors")] = messages_sent_to_professors.count() + data.get(_("amount messages sent to professors"))
+            else:
+                data[_("amount messages sent to professors")] = messages_sent_to_professors.count()
+
+            if data.get(_("amount of messages received from professors")):
+                data[_("amount of messages received from professors")] = messages_received_from_professors.count() + data.get(_("amount of messages received from professors"))  
+            else:
+                data[_("amount of messages received from professors")] = messages_received_from_professors.count() 
+                     
+
+        return data
+
 
 """
 Get all possible resource subclasses available for that topic selected
 """
 def get_resources(request):
 
-    #get all possible resources
-    classes = Resource.__subclasses__()    
-    data = {}
+    #get all possible resources 
     subject = Subject.objects.get(id=request.GET['subject_id'])
 
     topic_choice = request.GET["topic_choice"]

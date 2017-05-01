@@ -9,4 +9,5 @@ urlpatterns = [
 	url(r'^delete/(?P<slug>[\w_-]+)/$', views.DeleteView.as_view(), name = 'delete'),
 	url(r'^view/(?P<slug>[\w_-]+)/$', views.ViewPDFFile.as_view(), name = 'view'),
 	url(r'^chart/(?P<slug>[\w_-]+)/$', views.StatisticsView.as_view(), name = 'get_chart'),
+    url(r'^send-message/(?P<slug>[\w_-]+)/$', views.sendMessage, name = 'send_message'),
 ]

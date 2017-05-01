@@ -3,8 +3,12 @@ from django.core.urlresolvers import resolve
 from reports.views import ReportView
 from subjects.models import Subject
 from users.models import User
-
+from topics.models import Topic
+from chat.models import Conversation, TalkMessages
 from datetime import datetime
+from log.models import Log
+from django.db.models import Q
+
 
 class ReportTest(TestCase):
 
@@ -43,3 +47,28 @@ class ReportTest(TestCase):
 		
 		self.assertEqual(report_view.url, "/subjects/home/")
 	
+
+	@override_settings(STATICFILES_STORAGE = None)
+	def test_message_data_from_view(self):
+		"""
+		test if I'm capturing the message data correctly in all scenarios
+		"""
+		
+		#scenario 01: the number of messages a student receives from other students
+		topic = Topic.objects.create(name="novo topico", subject= self.subject, visible = True)
+		topic.save()
+		student02 = User.objects.create(username="student02", email= "student02@gmail.com", password="amadeus")
+		student02.save()
+		conversation_01 = Conversation.objects.create(user_one = self.student, user_two = student02)
+
+		#building messages 
+		message01 = TalkMessages(text="hi", talk = conversation_01, subject = self.subject, user = self.student)
+		message01.save()
+		message02 = TalkMessages(text="hello, how are you?", talk = conversation_01, subject = self.subject, user = student02)
+		message02.save()
+		#get all conversations where a student of the subject is in and the amount of messages the hey sent to other students
+		conversations = Conversation.objects.filter(Q(user_one = self.student) | Q(user_two = self.student) )
+		
+		amount_of_messages = TalkMessages.objects.filter(talk__in= conversations).count()
+		print(amount_of_messages)
+		self.assertEqual(3,3)
