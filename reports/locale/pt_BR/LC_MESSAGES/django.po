@@ -296,23 +296,23 @@ msgstr "quantidade de horas vistas "
 
 #: .\views.py:522 .\views.py:523 .\views.py:525
 msgid " amount of messages sent to other students"
-msgstr " quantidade mensagens enviadas para outros estudantes"
+msgstr " Quantidade mensagens enviadas para outros estudantes"
 
 #: .\views.py:527 .\views.py:528 .\views.py:531
 msgid "amount of messages received from other students"
-msgstr "quantidade de mensagens recebidas de outros estudantes"
+msgstr "Quantidade de mensagens recebidas de outros estudantes"
 
 #: .\views.py:537
 msgid "amount of distinct students to whom sent messages"
-msgstr "quantidade de estudantes distintos para quem enviou mensagem"
+msgstr "Quantidade de estudantes distintos para quem enviou mensagem"
 
 #: .\views.py:546 .\views.py:547 .\views.py:549
 msgid "amount messages sent to professors"
-msgstr "quantidade mensagens enviadas para o(s) professor(es)"
+msgstr "Quantidade mensagens enviadas para o(s) professor(es)"
 
 #: .\views.py:551 .\views.py:552 .\views.py:554
 msgid "amount of messages received from professors"
-msgstr "quantidade de mensagens recebidas do(s) professor(es)"
+msgstr "Quantidade de mensagens recebidas do(s) professor(es)"
 
 #~ msgid " amount messages sent to other students"
 #~ msgstr " número de mensagens enviadas para outros estudantes"
