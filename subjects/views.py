@@ -35,10 +35,24 @@ from news.models import News
 
 import os
 import zipfile
+import json
 from io import BytesIO
 from itertools import chain
 from django.core import serializers
-from django.contrib.admin.utils import NestedObjects
+from rest_framework.renderers import JSONRenderer
+
+from file_link.serializers import SimpleFileLinkSerializer
+from file_link.models import FileLink
+from goals.serializers import SimpleGoalSerializer
+from goals.models import Goals
+from links.serializers import SimpleLinkSerializer
+from links.models import Link
+from pdf_file.serializers import SimplePDFFileSerializer
+from pdf_file.models import PDFFile
+from youtube_video.serializers import SimpleYTVideoSerializer
+from youtube_video.models import YTVideo
+from webpage.serializers import SimpleWebpageSerializer
+from webpage.models import Webpage
 
 from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions, has_resource_permissions
 
@@ -758,8 +772,6 @@ class Backup(LoginRequiredMixin, ListView):
 
 @login_required
 def realize_backup(request):
-    #collector = NestedObjects(using="default") # database name
-    #collector.collect(list(Resource.objects.filter(visible = True)))
     resources_ids = request.POST.getlist("resource[]")
 
     resource_files_subdir = "files"
@@ -785,13 +797,28 @@ def realize_backup(request):
             # Add file, at correct path
             zf.write(resource.pdffile.file.path, zip_path)
 
-    topics = Topic.objects.filter(resource_topic__id__in = resources_ids).distinct()
+    webpages = Webpage.objects.filter(id__in = resources_ids)
+    ytvideos = YTVideo.objects.filter(id__in = resources_ids)
+    filelinks = FileLink.objects.filter(id__in = resources_ids)
+    links = Link.objects.filter(id__in = resources_ids)
+    pdffiles = PDFFile.objects.filter(id__in = resources_ids)
+    goals = Goals.objects.filter(id__in = resources_ids)
 
     file = open("backup.json", "w")
 
-    json_serializer = serializers.get_serializer('json')()
-    json_serializer.serialize(topics, stream = file)
-    json_serializer.serialize(resources, stream = file)
+    serializer_w = SimpleWebpageSerializer(webpages, many = True)
+    serializer_y = SimpleYTVideoSerializer(ytvideos, many = True)
+    serializer_f = SimpleFileLinkSerializer(filelinks, many = True)
+    serializer_l = SimpleLinkSerializer(links, many = True)
+    serializer_p = SimplePDFFileSerializer(pdffiles, many = True)
+    serializer_g = SimpleGoalSerializer(goals, many = True)
+
+    json.dump(serializer_w.data, file)
+    json.dump(serializer_y.data, file)
+    json.dump(serializer_f.data, file)
+    json.dump(serializer_l.data, file)
+    json.dump(serializer_p.data, file)
+    json.dump(serializer_g.data, file)
 
     file.close()
 
