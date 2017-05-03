@@ -41,17 +41,18 @@ from itertools import chain
 from django.core import serializers
 from rest_framework.renderers import JSONRenderer
 
-from file_link.serializers import SimpleFileLinkSerializer
+from users.serializers import UserSerializer
+from file_link.serializers import SimpleFileLinkSerializer, CompleteFileLinkSerializer
 from file_link.models import FileLink
-from goals.serializers import SimpleGoalSerializer
+from goals.serializers import SimpleGoalSerializer, CompleteGoalSerializer
 from goals.models import Goals
-from links.serializers import SimpleLinkSerializer
+from links.serializers import SimpleLinkSerializer, CompleteLinkSerializer
 from links.models import Link
-from pdf_file.serializers import SimplePDFFileSerializer
+from pdf_file.serializers import SimplePDFFileSerializer, CompletePDFFileSerializer
 from pdf_file.models import PDFFile
-from youtube_video.serializers import SimpleYTVideoSerializer
+from youtube_video.serializers import SimpleYTVideoSerializer, CompleteYTVideoSerializer
 from youtube_video.models import YTVideo
-from webpage.serializers import SimpleWebpageSerializer
+from webpage.serializers import SimpleWebpageSerializer, CompleteWebpageSerializer
 from webpage.models import Webpage
 
 from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions, has_resource_permissions
@@ -771,8 +772,9 @@ class Backup(LoginRequiredMixin, ListView):
         return context
 
 @login_required
-def realize_backup(request):
+def realize_backup(request, subject):
     resources_ids = request.POST.getlist("resource[]")
+    participants = request.POST.get('participants', False)
 
     resource_files_subdir = "files"
     zip_filename = "backup.zip"
@@ -781,22 +783,6 @@ def realize_backup(request):
 
     zf = zipfile.ZipFile(s, "w", compression = zipfile.ZIP_DEFLATED)
 
-    resources = Resource.objects.filter(id__in = resources_ids)
-
-    for resource in resources:
-        if resource._my_subclass == "filelink":
-            fdir, fname = os.path.split(resource.filelink.file_content.path)
-            zip_path = os.path.join(resource_files_subdir, fname)
-
-            # Add file, at correct path
-            zf.write(resource.filelink.file_content.path, zip_path)
-        elif resource._my_subclass == "pdffile":
-            fdir, fname = os.path.split(resource.pdffile.file.path)
-            zip_path = os.path.join(resource_files_subdir, fname)
-
-            # Add file, at correct path
-            zf.write(resource.pdffile.file.path, zip_path)
-
     webpages = Webpage.objects.filter(id__in = resources_ids)
     ytvideos = YTVideo.objects.filter(id__in = resources_ids)
     filelinks = FileLink.objects.filter(id__in = resources_ids)
@@ -804,14 +790,52 @@ def realize_backup(request):
     pdffiles = PDFFile.objects.filter(id__in = resources_ids)
     goals = Goals.objects.filter(id__in = resources_ids)
 
+
+    for filelink in filelinks:
+        if os.path.exists(filelink.file_content.path):
+            fdir, fname = os.path.split(filelink.file_content.path)
+            zip_path = os.path.join(resource_files_subdir, fname)
+
+            # Add file, at correct path
+            zf.write(filelink.file_content.path, zip_path)
+
+    for pdffile in pdffiles:
+        if os.path.exists(pdffile.file.path):
+            fdir, fname = os.path.split(pdffile.file.path)
+            zip_path = os.path.join(resource_files_subdir, fname)
+
+            # Add file, at correct path
+            zf.write(pdffile.file.path, zip_path)
+
     file = open("backup.json", "w")
 
-    serializer_w = SimpleWebpageSerializer(webpages, many = True)
-    serializer_y = SimpleYTVideoSerializer(ytvideos, many = True)
-    serializer_f = SimpleFileLinkSerializer(filelinks, many = True)
-    serializer_l = SimpleLinkSerializer(links, many = True)
-    serializer_p = SimplePDFFileSerializer(pdffiles, many = True)
-    serializer_g = SimpleGoalSerializer(goals, many = True)
+    if participants:
+        participants = User.objects.filter(subject_student__slug = subject)
+
+        for user in participants:
+            if os.path.exists(user.image.path):
+                fdir, fname = os.path.split(user.image.path)
+                zip_path = os.path.join('users', fname)
+
+                zf.write(user.image.path, zip_path)
+
+        serializer_u = UserSerializer(participants, many = True)
+
+        json.dump(serializer_u.data, file)
+
+        serializer_w = CompleteWebpageSerializer(webpages, many = True)
+        serializer_y = CompleteYTVideoSerializer(ytvideos, many = True)
+        serializer_f = CompleteFileLinkSerializer(filelinks, many = True)
+        serializer_l = CompleteLinkSerializer(links, many = True)
+        serializer_p = CompletePDFFileSerializer(pdffiles, many = True)
+        serializer_g = CompleteGoalSerializer(goals, many = True)
+    else:
+        serializer_w = SimpleWebpageSerializer(webpages, many = True)
+        serializer_y = SimpleYTVideoSerializer(ytvideos, many = True)
+        serializer_f = SimpleFileLinkSerializer(filelinks, many = True)
+        serializer_l = SimpleLinkSerializer(links, many = True)
+        serializer_p = SimplePDFFileSerializer(pdffiles, many = True)
+        serializer_g = SimpleGoalSerializer(goals, many = True)
 
     json.dump(serializer_w.data, file)
     json.dump(serializer_y.data, file)

@@ -67,7 +67,7 @@
             <h5>{% trans "Please select below the topics and resources which you want to backup:" %}</h5>
 
             <div class="backup_container">
-                <form id="bkp_form" method="post" action="{% url 'subjects:do_backup' %}" enctype="multipart/form-data">
+                <form id="bkp_form" method="post" action="{% url 'subjects:do_backup' subject.slug %}" enctype="multipart/form-data">
                     {% csrf_token %}
 
                     {% for topic in topics %}
@@ -89,6 +89,15 @@
                             </div>
                         </div>
                     {% endfor %}
+
+                    {% if  request.user.is_staff %}
+                        <br clear="all" />
+                        <div class="checkbox backup_item" style="margin-left: 0">
+                            <label>
+                                <input type="checkbox" name="participants" /> {% trans 'Include participants data.' %}
+                            </label>
+                        </div>
+                    {% endif %}
 
                     <div class="row text-center">
                         <input type="submit" value="{% trans 'Backup' %}" class="btn btn-success btn-raised" />
