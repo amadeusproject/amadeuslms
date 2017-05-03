@@ -154,6 +154,9 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
         if not self.object.topic.visible and not self.object.topic.repository:
             self.object.visible = False
 
+        if form.cleaned_data["all_students"]:
+            self.object.students.add(*self.object.topic.subject.students.all())
+
         self.object.save()
 
         pend_form = pendencies_form.save(commit = False)
