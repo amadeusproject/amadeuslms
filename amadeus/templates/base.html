@@ -108,8 +108,18 @@
                 </div>
 
                 <ul class="nav navbar-nav navbar-right notifications">
+									<a href="" id="contrast_button" style="color:inherit;padding-right:5px;">
+										{% if user.is_staff %}
+											<i style="top:18px;left:5px;"class="glyphicon glyphicon-adjust"></i>
+										{% else %}
+											<i style="top:18px;right:5px;" class="glyphicon glyphicon-adjust"></i>
+										{% endif %}  </a>
 
-                      <li class="dropdown language-selector-on-header {{ settings_menu_active }}" title data-original-title="{% trans 'Language Selector' %}">
+										{% if user.is_staff %}
+										<li class="dropdown language-selector-on-header {{ settings_menu_active }}" title data-original-title="{% trans 'Language Selector' %}" style="width:40px;">
+										{% else %}
+										<li class="dropdown language-selector-on-header {{ settings_menu_active }}" title data-original-title="{% trans 'Language Selector' %}" style="width:40px;right:10px">
+										{% endif %}
 
 
                         <a href="#" class="dropdown-toggle title" data-toggle="dropdown" data-close-others="true">
@@ -119,11 +129,9 @@
                             <img src="{% static image_static %}" />
                             {% endwith %}
                         </a>
-                        <a href="#" class="dropdown-toggle no-title" data-toggle="dropdown" data-close-others="true">
+                        <a href="#" class="dropdown-toggle no-title" data-toggle="dropdown" style="padding-left:0px;padding-right:0px;font-size:14px;text-align:center" data-close-others="true">
 
-                            {% with 'img/'|add:LANGUAGE_CODE|add:'.png' as image_static %}
-                                <img src="{% static image_static %}" />
-                            {% endwith %}
+                           <span>[{{LANGUAGE_CODE}}]</span>
 
                         </a>
                         <ul class="dropdown-menu">
@@ -137,9 +145,6 @@
                                     class="active"
                                 {% endif %}>
                                     <a class="language-item" value-lang="{{language.code}}">
-                                    {% with 'img/'|add:language.code|add:'.png' as image_static %}
-                                        <img src="{% static image_static %}" />
-                                    {% endwith %}
                                         <span>{{language.code}}</span>
                                     </a>
                                 </li>
@@ -202,6 +207,19 @@
                 </ul>
             </div>
         </div>
+				<script type="text/javascript">
+				    $("#contrast_button" ).click(function() {
+				      if (Cookies.get('contrast_check')) {
+				        Cookies.remove('contrast_check')
+				        location.reload()
+				      }
+				      else {
+				        Cookies.set('contrast_check','contrast')
+				        location.reload()
+				      }
+
+				    });
+				</script>
     {% endblock %}
 
     <div class="container-fluid">
@@ -235,7 +253,7 @@
                             </a>
                         </li>
                         <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Analytics" %}">
-                            <a href="{% url 'analytics:view_general' %}"><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a> 
+                            <a href="{% url 'analytics:view_general' %}"><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
                         </li>
                     </ul>
                 {% endblock %}
@@ -290,7 +308,7 @@
                             </a>
                         </li>
                         <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Analytics" %}">
-                            <a href="{% url 'analytics:view_general' %}"><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a> 
+                            <a href="{% url 'analytics:view_general' %}"><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
                         </li>
                     </ul>
                 </div>
