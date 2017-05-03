@@ -270,19 +270,19 @@
             ]
         });
         $("#title-table").text(search.length + " {% trans 'record(s)' %}");
-        function putpagination(data = json_history["data"]){
+        function putpagination(data = json_history["data"], load_histoty = true){
             var len = Math.ceil(data.length / 20);
             $(".pagination").empty();
             $(".pagination").append('<li class="disabled"><span>«</span></li>');
             $(".pagination").append('<li id="1" class="active">\
-                                        <a href="javascript:void(0);" onclick="return clickPagination(1);">1</a>\
+                                        <a href="javascript:void(0);" onclick="return clickPagination(1, '+ load_histoty +');">1</a>\
                                     </li>');
             for (var i = 2; i <= len;i++){
                 $(".pagination").append('<li id="' + i + '">\
-                                            <a href="javascript:void(0);" onclick="return clickPagination(' + i +');">' + i + '</a>\
+                                            <a href="javascript:void(0);" onclick="return clickPagination(' + i +', ' + load_histoty + ');">' + i + '</a>\
                                         </li>');
             }
-            if (len > 1) $(".pagination").append('<li><a href="javascript:void(0);" onclick="return clickPagination(2);"><span>»</span></a></li>');
+            if (len > 1) $(".pagination").append('<li><a href="javascript:void(0);" onclick="return clickPagination(2, '+ load_histoty +');"><span>»</span></a></li>');
             else $(".pagination").append('<li class="disabled"><span>»</span></li>');
         };
         putpagination();
@@ -355,7 +355,7 @@
                 drawTable(column_history,pagination(search,1),true,3);
             }
             $("#title-table").text(search.length + " {% trans 'record(s)' %}");
-            putpagination(search);
+            putpagination(search,load_histoty);
         }
 
         function pagination(data,pag){
@@ -376,10 +376,10 @@
             }
 
             if (pag < Math.ceil(search.length / 20))
-                $(".pagination").append('<li><a href="javascript:void(0);" onclick="return clickPagination(' + (pag + 1) + ');"><span>»</span></a></li>');
+                $(".pagination").append('<li><a href="javascript:void(0);" onclick="return clickPagination(' + (pag + 1) + ', '+ load_histoty +');"><span>»</span></a></li>');
             else $(".pagination").append('<li class="disabled"><span>»</span></li>');
             if (pag > 1)
-                $(".pagination").prepend('<li><a href="javascript:void(0);" onclick="return clickPagination(' + (pag - 1) + ');"><span>«</span></a></li>');
+                $(".pagination").prepend('<li><a href="javascript:void(0);" onclick="return clickPagination(' + (pag - 1) + ', '+ load_histoty +');"><span>«</span></a></li>');
             else $(".pagination").prepend('<li class="disabled"><span>«</span></li>');
             $(".active").removeClass("active");
             $("#" + pag).addClass("active");
