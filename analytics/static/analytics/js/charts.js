@@ -318,25 +318,25 @@ var charts = {
 			var height = 300;
 
 			function min(){
-	       		min = 100000000000;
+	       		minimum = 100000000000;
 	       		for(var i = 0; i < dataset.length; i++){
 	       			if (dataset[i]['count'] < min){
-	       				min = dataset[i]['count'];
+	       				minimum = dataset[i]['count'];
 	       			}
 	       		}
 
-	       		return min
+	       		return minimum
 	       	}
 
 	       	function max(){
-	       		max = 0;
+	       		maximum = 0;
 	       		for(var i = 0; i < dataset.length; i++){
 	       			if (dataset[i]['count'] > max){
-	       				max = dataset[i]['count'];
+	       				maximum = dataset[i]['count'];
 	       			}
 	       		}
 
-	       		return max
+	       		return maximum
 	       	}
 	       	
 	       	console.log(dataset);
@@ -348,26 +348,65 @@ var charts = {
 	        	.style("background","#ddf8e7")
 	        	.append('g')
 	        	.attr("transform", "translate(0,0)")
-	        	.attr("width", width)
+	        	.style("width", width)
 	        	.attr("height", height);
 
 	        
+	        var color = d3.scaleLinear()
+	     	.domain([min(), max()])
+	     	.range(['#bdbdbd','#52b7bd', '#149e91']);
 
-	        var radiusScale = d3.scaleSqrt().domain([min(), max()]).range([10,50]);
+	        var xScale = d3.scaleSqrt().domain([min(), max()]).range([10,50]);
 	        var tag_cloud = svg.selectAll('.tag-cloud-div')
 	        .data(dataset)
 	        .enter()
 	        .append('g')
-	        .attr("class", "data-container");
+	        .attr("class", "data-container")
+	        .attr("width", 100)
+	        .attr("height", 50);
 
 
-	        var tag_divs = tag_cloud
-	        .append('div')
+	        var tag_rects = tag_cloud
+	        .append('rect')
 	        .attr('class', 'tag-cloud')
-	        .attr('text', function(d){
-	        	return d['name'];
-	        });
-	        
+	        .attr("width", function(d){
+	        	return xScale(d['count']);
+	        })
+	        .attr("height", 25)
+	        .attr("fill", function(d, i) {
+	            return color(xScale[d["count"]]);
+	          })
+	        .attr("rx", 20)
+	        .attr("ry", 20);
+
+	        var tag_texts = tag_cloud
+	        .append("text")
+	       	.text(function(d){
+	       		return d['name'];
+	       	})
+	       	.attr("x", 15)
+	       	.attr("y", 20)
+	       	.attr("class", "tag-name")
+	       	.attr("fill", "#ffffff");
+
+
+		    var simulation = d3.forceSimulation()
+		        .force("x", d3.forceX(width/2).strength(0.05))
+		        .force("y", d3.forceY(height/2).strength(0.05))
+		        .force("collide", d3.forceCollide(function(d){
+		        	return 25;
+		        }));
+
+		    //simulation
+	       	simulation.nodes(dataset)
+	       		.on('tick', ticked); //so all data points are attached to it
+
+	       	function ticked(){
+	       		tag_cloud.attr("transform", function(d){
+	       			return "translate(" + d.x + "," + d.y + ")";
+	       		})
+	       	}
+
 		});
 	}
 }
