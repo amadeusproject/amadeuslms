@@ -713,29 +713,6 @@ def subject_view_log(request, subject):
     return JsonResponse({'message': 'ok'})
 
 
-"""
-Subject view that returns a list of the most used subjects     """
-
-@login_required
-def most_acessed_subjects(request):
-    data = {} #empty response
-
-    data = Log.objects.filter(resource = 'subject')
-    subjects = {}
-    for datum in data:
-        if datum.context:
-            subject_id = datum.context['subject_id']
-            if subject_id in subjects.keys():
-                subjects[subject_id]['count']  = subjects[subject_id]['count'] + 1
-            else:
-                subjects[subject_id] = {'name': datum.context['subject_name'], 'count':0 }
-
-
-    #order the values of the dictionary by the count in descendent order
-    subjects = sorted(subjects.values(), key = lambda x: x['count'], reverse=True )
-    subjects = subjects[:30]
-
-    return JsonResponse(subjects, safe=False)
 
 """ BACKUP / RESTORE SECTION  """
 class Backup(LoginRequiredMixin, ListView):
