@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect,HttpRequest
 from django.shortcuts import redirect
 
 from braces import views as braces_mixins
@@ -79,16 +79,3 @@ class CSSStyleSettings(braces_mixins.LoginRequiredMixin, braces_mixins.Staffuser
 		context['settings_menu_active'] = "settings_menu_active"
 
 		return context
-
-def Contrast(request):
-	theme = Themes.objects.get(id = 1)
-
-	if theme.css_style == 'contrast':
-		theme.css_style = 'green'
-	else:
-		theme.css_style = 'contrast'
-	theme.save()
-
-	caminho = request.META.get('HTTP_REFERER')
-	
-	return HttpResponseRedirect(caminho)
