@@ -61,8 +61,33 @@
                 </div>
             </div>
             <div class="bottom-section">
-                <div class="left-chart"></div>
-                <div class="middle-chart"></div>
+                <div class="left-chart">
+                    <div id="date-selector">
+                        <p>{% trans "Between" %}</p>
+                        <p>20-20-17</p>
+                        <p>{% trans "and" %}</p>
+                        <p>20-20-17</p>
+                    </div>
+
+                    <div id="left-data-selector">
+                        <ul>
+                            <li>
+                                {% trans "most accessed categories" %}
+                            </li>
+                            <li>
+                                {% trans "most accessed subjects" %}
+                            </li>
+                            <li>
+                                {% trans "most accessed resource" %}
+                            </li>
+                        </ul>
+                        
+                    </div>
+
+                </div>
+                <div class="middle-chart">
+                    <h4>{% trans "most active users" %}</h4>
+                </div>
                 <div class="right-chart"></div>
             </div>
 
