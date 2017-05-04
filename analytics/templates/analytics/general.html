@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'analytics/general.css' %}">  
+{% endblock style %}
+
+{% block javascript %}
+    <script type="text/javascript" src="{% static "analytics/js/charts.js" %}"></script>
+{% endblock javascript %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    
+    {% trans 'Analytics General' as general %}
+
+    {% breadcrumb general 'dashboard:view_general' %}
+{% endblock %}
+
+
+{% block content %}
+    <div id="core-subjects-options-div">
+        <ul class="core-subjects-options report-menu-choice">
+        	<li class="active">
+        		{% trans "Platform Report" %}
+        	</li>
+        	<li>
+        		{% trans "Category Report" %}
+        	</li>
+        	<li>
+        		{% trans "Subject Report" %}
+        	</li>
+        </ul>
+    </div>
+
+    <div id="general-report">
+        <div id="general-report-header">
+            <h3>{% trans "Amadeus Report" %}</h3>
+
+            <ul id="report-header-options">
+                <li >
+                    <div class="selected">{% trans "Focus" %}<div>
+                </li>
+                <li>
+                    <div>{% trans "Log" %}<div>
+                </li>
+            </ul>
+        </div> 
+
+        <div class="report-body">
+            
+            <div id="most-used-tags">
+                <div id="most-used-tags-header">
+                    <h4 >
+                        {% trans "most used tags" %}
+                    </h4>
+                </div>
+                <div id="most-used-tags-body">
+                    
+                </div>
+            </div>
+            <div class="bottom-section">
+                <div class="left-chart">
+                    <div id="date-selector">
+                        <p>{% trans "Between" %}</p>
+                        <p>20-20-17</p>
+                        <p>{% trans "and" %}</p>
+                        <p>20-20-17</p>
+                    </div>
+
+                    <div id="left-data-selector">
+                        <ul>
+                            <li>
+                                {% trans "most accessed categories" %}
+                            </li>
+                            <li>
+                                {% trans "most accessed subjects" %}
+                            </li>
+                            <li>
+                                {% trans "most accessed resource" %}
+                            </li>
+                        </ul>
+                        
+                    </div>
+
+                </div>
+                <div class="middle-chart">
+                    <h4>{% trans "most active users" %}</h4>
+                </div>
+                <div class="right-chart"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+    </script>
+
+
+{% endblock content %}

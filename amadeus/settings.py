@@ -82,6 +82,7 @@ INSTALLED_APPS = [
     'reports',
     'webconference',
     'news',
+    'analytics',
 ]
 
 MIDDLEWARE_CLASSES = [

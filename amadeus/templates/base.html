@@ -112,7 +112,9 @@
 
                 <ul class="nav navbar-nav navbar-right notifications">
 
-                      <li class="dropdown language-selector-on-header {{ settings_menu_active }}" title data-original-title="{% trans 'Language Selector' %}">
+
+										<li class="dropdown language-selector-on-header {{ settings_menu_active }}" title data-original-title="{% trans 'Language Selector' %}" style="width:40px;">
+
 
 
                         <a href="#" class="dropdown-toggle title" data-toggle="dropdown" data-close-others="true">
@@ -122,11 +124,9 @@
                             <img src="{% static image_static %}" />
                             {% endwith %}
                         </a>
-                        <a href="#" class="dropdown-toggle no-title" data-toggle="dropdown" data-close-others="true">
+                        <a href="#" class="dropdown-toggle no-title" data-toggle="dropdown" style="padding-left:0px;padding-right:0px;font-size:14px;text-align:center" data-close-others="true">
 
-                            {% with 'img/'|add:LANGUAGE_CODE|add:'.png' as image_static %}
-                                <img src="{% static image_static %}" />
-                            {% endwith %}
+                           <span>[{{LANGUAGE_CODE}}]</span>
 
                         </a>
                         <ul class="dropdown-menu">
@@ -140,9 +140,6 @@
                                     class="active"
                                 {% endif %}>
                                     <a class="language-item" value-lang="{{language.code}}">
-                                    {% with 'img/'|add:language.code|add:'.png' as image_static %}
-                                        <img src="{% static image_static %}" />
-                                    {% endwith %}
                                         <span>{{language.code}}</span>
                                     </a>
                                 </li>
@@ -150,6 +147,12 @@
                             {% endfor %}
                         </ul>
                     </li>
+										<li style="width:40px;">
+											<a href="" id="contrast_button">
+													<i style="font-size:15px;right: 150%;" class="glyphicon glyphicon-adjust"></i>
+											</a>
+
+										</li>
 
 
                     <li id="profile-menu" class="dropdown" data-toggle="tooltip" data-placement="bottom" title data-original-title="{{ user }}">
@@ -167,9 +170,9 @@
                     </li>
 
                      {% if user.is_staff %}
-                        <li id="staff-menu" class="dropdown {{ settings_menu_active }}" title data-original-title="{% trans 'settings' %}">
+                        <li id="staff-menu" style="width:40px;" class="dropdown {{ settings_menu_active }}" title data-original-title="{% trans 'settings' %}">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-cog hidden-xs" aria-hidden="true"></i>
+                                <i class="fa fa-cog hidden-xs" style="position:relative;right:150%;"aria-hidden="true"></i>
                                 <span class="visible-xs-inline">{% trans 'Settings' %}</span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
@@ -205,6 +208,19 @@
                 </ul>
             </div>
         </div>
+				<script type="text/javascript">
+				    $("#contrast_button" ).click(function() {
+				      if (Cookies.get('contrast_check')) {
+				        Cookies.remove('contrast_check')
+				        location.reload()
+				      }
+				      else {
+				        Cookies.set('contrast_check','contrast')
+				        location.reload()
+				      }
+
+				    });
+				</script>
     {% endblock %}
 
     <div class="container-fluid">
@@ -238,7 +254,7 @@
                             </a>
                         </li>
                         <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Analytics" %}">
-                            <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                            <a href="{% url 'analytics:view_general' %}"><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
                         </li>
                     </ul>
                 {% endblock %}
@@ -293,7 +309,7 @@
                             </a>
                         </li>
                         <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Analytics" %}">
-                            <i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i>
+                            <a href="{% url 'analytics:view_general' %}"><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
                         </li>
                     </ul>
                 </div>

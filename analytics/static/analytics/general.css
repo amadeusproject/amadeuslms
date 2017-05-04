@@ -1,0 +1,66 @@
+.report-body {
+  border: 1px solid #3ebeb4;
+  border-radius: 20px;
+  padding: 10px; }
+
+#general-report-header {
+  height: 10%;
+  display: block; }
+  #general-report-header h3 {
+    color: #009688; }
+  #general-report-header ul {
+    float: right;
+    display: inline-flex;
+    width: 50%;
+    height: 15%; }
+    #general-report-header ul li {
+      margin-right: 2%;
+      width: 50%;
+      color: white; }
+      #general-report-header ul li div.selected {
+        background-color: #4dcfbd;
+        width: 100%;
+        text-align: center;
+        border-radius: 20px; }
+      #general-report-header ul li div {
+        background-color: #0f8a9a;
+        width: 100%;
+        text-align: center;
+        border-radius: 20px; }
+
+#most-used-tags-header {
+  background: linear-gradient(to right, #0e8999, #6bf0ce);
+  height: 40px;
+  border-radius: 10px;
+  color: #ffffff; }
+
+.data-container {
+  width: 80px;
+  height: 40px; }
+
+.tag-cloud {
+  border-radius: 25px;
+  color: #ffffff;
+  width: 80px; }
+
+.tag-name {
+  color: #ffffff;
+  font-size: 10px; }
+
+#left-data-selector {
+  background: linear-gradient(#0e8999, #6bf0ce);
+  width: 30%; }
+
+.middle-chart {
+  width: 30%;
+  float: left; }
+  .middle-chart h4 {
+    color: #009688; }
+
+.right-chart {
+  width: 30%;
+  float: left; }
+  .right-chart h4 {
+    color: #009688; }
+
+/*# sourceMappingURL=general.css.map */
