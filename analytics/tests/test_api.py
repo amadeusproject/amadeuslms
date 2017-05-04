@@ -21,6 +21,10 @@ class APIDashBoardTest(TestCase):
 
 
 	def test_most_used_tags(self):
+
+		"""
+		testing if the catches all tags used in a resource and in a subject
+		"""
 		t = Tag(name="felipe")
 		t.save()
 		t1 = Tag(name="b2")
@@ -39,7 +43,13 @@ class APIDashBoardTest(TestCase):
 		r1.save()
  
 		
-		expected_data = {'felipe': 2, 'b2': 1}
+		expected_data = [{'name': 'felipe', 'count': 2}, {'name':'b2', 'count': 1}]
 		data = self.c.get('/analytics/most_used_tags/')
-		print(data)
-		self.assertEqual(data, expected_data)
+		self.assertEqual(data.status_code, 200 )
+		self.assertJSONEqual(str(data.content, encoding='UTF-8'), expected_data)
+
+	def test_most_accessed_subjects(self):
+		return None
+
+	def test_most_active_users(self):
+		return None

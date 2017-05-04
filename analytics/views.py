@@ -82,7 +82,7 @@ def most_accessed_resource_kind(request):
     return None
 
 
-def get_users_log(request):
+def most_active_users(request):
     fifty_users = Log.objects.values('user_id').annotate(count = Count('user_id')).order_by('-count')[:50]
     fifty_users = list(fifty_users)
     for user in fifty_users:
