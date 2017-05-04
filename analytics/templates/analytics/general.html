@@ -8,6 +8,7 @@
 
 {% block javascript %}
     <script type="text/javascript" src="{% static "analytics/js/charts.js" %}"></script>
+    <script type="text/javascript" src=" {% static "analytics/js/behavior.js" %} "></script>
 {% endblock javascript %}
 
 {% block breadcrumbs %}
@@ -70,18 +71,19 @@
                     </div>
 
                     <div id="left-data-selector">
-                        <ul>
-                            <li>
-                                {% trans "most accessed categories" %}
-                            </li>
-                            <li>
-                                {% trans "most accessed subjects" %}
-                            </li>
-                            <li>
-                                {% trans "most accessed resource" %}
-                            </li>
-                        </ul>
-                        
+                      
+                                <div class="selector">
+                                    <p>  {% trans "most accessed categories" %} </p>
+                                </div>
+                          
+                                <div class="selector" data-url="subjects">
+                                   <p> {% trans "most accessed subjects" %} </p>
+                                </div>
+                           
+                                <div class="selector">
+                                   <p> {% trans "most accessed resource" %} </p>
+                                </div>
+                         
                     </div>
 
                 </div>

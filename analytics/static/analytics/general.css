@@ -62,4 +62,16 @@
   .chart h4 {
     color: #009688; }
 
+.selector {
+  width: 80%;
+  height: 40px;
+  color: white;
+  padding-left: 5px;
+  background-color: #009688;
+  margin-top: 10px;
+  border-radius: 0px 20px 20px 0px; }
+  .selector p {
+    padding-top: 10px;
+    font-size: 16px; }
+
 /*# sourceMappingURL=general.css.map */
