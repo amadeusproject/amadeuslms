@@ -108,18 +108,10 @@
                 </div>
 
                 <ul class="nav navbar-nav navbar-right notifications">
-									<a href="" id="contrast_button" style="color:inherit;padding-right:5px;">
-										{% if user.is_staff %}
-											<i style="top:18px;left:5px;"class="glyphicon glyphicon-adjust"></i>
-										{% else %}
-											<i style="top:18px;right:5px;" class="glyphicon glyphicon-adjust"></i>
-										{% endif %}  </a>
 
-										{% if user.is_staff %}
+
 										<li class="dropdown language-selector-on-header {{ settings_menu_active }}" title data-original-title="{% trans 'Language Selector' %}" style="width:40px;">
-										{% else %}
-										<li class="dropdown language-selector-on-header {{ settings_menu_active }}" title data-original-title="{% trans 'Language Selector' %}" style="width:40px;right:10px">
-										{% endif %}
+
 
 
                         <a href="#" class="dropdown-toggle title" data-toggle="dropdown" data-close-others="true">
@@ -152,6 +144,12 @@
                             {% endfor %}
                         </ul>
                     </li>
+										<li style="width:40px;">
+											<a href="" id="contrast_button">
+													<i style="font-size:15px;right: 150%;" class="glyphicon glyphicon-adjust"></i>
+											</a>
+
+										</li>
 
 
                     <li id="profile-menu" class="dropdown" data-toggle="tooltip" data-placement="bottom" title data-original-title="{{ user }}">
@@ -169,9 +167,9 @@
                     </li>
 
                      {% if user.is_staff %}
-                        <li id="staff-menu" class="dropdown {{ settings_menu_active }}" title data-original-title="{% trans 'settings' %}">
+                        <li id="staff-menu" style="width:40px;" class="dropdown {{ settings_menu_active }}" title data-original-title="{% trans 'settings' %}">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-cog hidden-xs" aria-hidden="true"></i>
+                                <i class="fa fa-cog hidden-xs" style="position:relative;right:150%;"aria-hidden="true"></i>
                                 <span class="visible-xs-inline">{% trans 'Settings' %}</span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
