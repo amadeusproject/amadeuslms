@@ -147,7 +147,7 @@ msgstr "Relatório(s)"
 
 #: templates/webpages/send_message.html:38
 msgid "Click or drop the picture here"
-msgstr "Clique ou arraste a imagem aqui"
+msgstr "Clique ou solte a imagem aqui"
 
 #: templates/webpages/send_message.html:40
 msgid "The picture could not exceed 5MB."

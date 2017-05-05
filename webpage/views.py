@@ -10,7 +10,6 @@ from amadeus.permissions import has_subject_permissions, has_resource_permission
 
 import time
 import datetime
-from log.models import Log
 from log.mixins import LogMixin
 
 from topics.models import Topic
@@ -20,6 +19,7 @@ from pendencies.forms import PendenciesForm
 from .forms import WebpageForm
 from .models import Webpage
 
+from log.models import Log
 from chat.models import Conversation, TalkMessages
 from users.models import User
 from subjects.models import Subject
