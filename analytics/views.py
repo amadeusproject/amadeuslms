@@ -8,6 +8,7 @@ from subjects.models import Tag, Subject
 from topics.models import Resource
 from users.models import User
 from django.http import HttpResponse, JsonResponse
+from log.models import Log
 
 
 class GeneralView(generic.TemplateView):
@@ -53,7 +54,7 @@ def heatmap(request):
 Subject view that returns a list of the most used subjects     """
 
 
-def most_acessed_subjects(request):
+def most_accessed_subjects(request):
     data = {} #empty response
 
     data = Log.objects.filter(resource = 'subject')
@@ -63,9 +64,9 @@ def most_acessed_subjects(request):
             subject_id = datum.context['subject_id']
             if subject_id in subjects.keys():
                 subjects[subject_id]['count']  = subjects[subject_id]['count'] + 1
-            else:
-                subjects[subject_id] = {'name': datum.context['subject_name'], 'count':0 }
 
+            else:
+                subjects[subject_id] = {'name': datum.context['subject_name'], 'count': 1 }
 
     #order the values of the dictionary by the count in descendent order
     subjects = sorted(subjects.values(), key = lambda x: x['count'], reverse=True )
@@ -76,13 +77,20 @@ def most_acessed_subjects(request):
 
 
 def most_accessed_categories(request):
+    data = {}
+
+    data = Log.objects.filter('category')
+    categories = {}
+    for datum in data:
+        if datum.context:
+           pass 
     return None
 
 def most_accessed_resource_kind(request):
     return None
 
 
-def get_users_log(request):
+def most_active_users(request):
     fifty_users = Log.objects.values('user_id').annotate(count = Count('user_id')).order_by('-count')[:50]
     fifty_users = list(fifty_users)
     for user in fifty_users:

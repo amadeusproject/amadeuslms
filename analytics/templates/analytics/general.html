@@ -8,6 +8,7 @@
 
 {% block javascript %}
     <script type="text/javascript" src="{% static "analytics/js/charts.js" %}"></script>
+    <script type="text/javascript" src=" {% static "analytics/js/behavior.js" %} "></script>
 {% endblock javascript %}
 
 {% block breadcrumbs %}
@@ -20,22 +21,24 @@
 
 
 {% block content %}
-    <div id="core-subjects-options-div">
-        <ul class="core-subjects-options report-menu-choice">
-        	<li class="active">
-        		{% trans "Platform Report" %}
-        	</li>
-        	<li>
-        		{% trans "Category Report" %}
-        	</li>
-        	<li>
-        		{% trans "Subject Report" %}
-        	</li>
-        </ul>
-    </div>
+    <section id="core-subjects-options-div">
+        <nav>
+            <ul class="core-subjects-options report-menu-choice">
+            	<li class="active">
+            		{% trans "Platform Report" %}
+            	</li>
+            	<li>
+            		{% trans "Category Report" %}
+            	</li>
+            	<li>
+            		{% trans "Subject Report" %}
+            	</li>
+            </ul>
+        </nav>
+    </section>
 
-    <div id="general-report">
-        <div id="general-report-header">
+    <section id="general-report">
+        <header id="general-report-header">
             <h3>{% trans "Amadeus Report" %}</h3>
 
             <ul id="report-header-options">
@@ -46,53 +49,57 @@
                     <div>{% trans "Log" %}<div>
                 </li>
             </ul>
-        </div> 
+        </header> 
 
-        <div class="report-body">
+        <article class="report-body">
             
-            <div id="most-used-tags">
-                <div id="most-used-tags-header">
+            <section id="most-used-tags">
+                <header id="most-used-tags-header">
                     <h4 >
                         {% trans "most used tags" %}
                     </h4>
-                </div>
+                </header>
                 <div id="most-used-tags-body">
                     
                 </div>
-            </div>
-            <div class="bottom-section">
-                <div class="left-chart">
+            </section>
+            <section class="bottom-section">
+                <div class="chart left-chart">
                     <div id="date-selector">
-                        <p>{% trans "Between" %}</p>
-                        <p>20-20-17</p>
-                        <p>{% trans "and" %}</p>
-                        <p>20-20-17</p>
+                        <p>{% trans "Between" %}  20-20-17 {% trans "and" %}
+                        20-20-17</p>
                     </div>
 
                     <div id="left-data-selector">
-                        <ul>
-                            <li>
-                                {% trans "most accessed categories" %}
-                            </li>
-                            <li>
-                                {% trans "most accessed subjects" %}
-                            </li>
-                            <li>
-                                {% trans "most accessed resource" %}
-                            </li>
-                        </ul>
-                        
+                      
+                                <div class="selector">
+                                    <p>  {% trans "most accessed categories" %} </p>
+                                </div>
+                          
+                                <div class="selector" data-url="subjects">
+                                   <p> {% trans "most accessed subjects" %} </p>
+                                </div>
+                           
+                                <div class="selector">
+                                   <p> {% trans "most accessed resource" %} </p>
+                                </div>
+                         
                     </div>
 
                 </div>
-                <div class="middle-chart">
-                    <h4>{% trans "most active users" %}</h4>
+                <div class="chart middle-chart">
+                    <article>
+                        <h4>{% trans "most active users" %}</h4>
+                    </article>
                 </div>
-                <div class="right-chart"></div>
-            </div>
+                <div class="chart right-chart">
+                    
 
-        </div>
-    </div>
+                </div>
+            </section>
+
+        </article>
+    </section>
 
     <script type="text/javascript">
     </script>

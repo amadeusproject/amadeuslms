@@ -1,7 +1,9 @@
 .report-body {
   border: 1px solid #3ebeb4;
   border-radius: 20px;
-  padding: 10px; }
+  padding: 10px;
+  overflow: auto;
+  width: 100%; }
 
 #general-report-header {
   height: 10%;
@@ -32,7 +34,11 @@
   background: linear-gradient(to right, #0e8999, #6bf0ce);
   height: 40px;
   border-radius: 10px;
-  color: #ffffff; }
+  color: #ffffff;
+  padding-top: 1px;
+  margin-top: 10px; }
+  #most-used-tags-header h4 {
+    margin-left: 1%; }
 
 .data-container {
   width: 80px;
@@ -48,19 +54,24 @@
   font-size: 10px; }
 
 #left-data-selector {
-  background: linear-gradient(#0e8999, #6bf0ce);
-  width: 30%; }
+  background: linear-gradient(#0e8999, #6bf0ce); }
 
-.middle-chart {
+.chart {
   width: 30%;
   float: left; }
-  .middle-chart h4 {
+  .chart h4 {
     color: #009688; }
 
-.right-chart {
-  width: 30%;
-  float: left; }
-  .right-chart h4 {
-    color: #009688; }
+.selector {
+  width: 80%;
+  height: 40px;
+  color: white;
+  padding-left: 5px;
+  background-color: #009688;
+  margin-top: 10px;
+  border-radius: 0px 20px 20px 0px; }
+  .selector p {
+    padding-top: 10px;
+    font-size: 16px; }
 
 /*# sourceMappingURL=general.css.map */
