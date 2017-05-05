@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-28 20:39-0300\n"
+"POT-Creation-Date: 2017-05-05 17:16-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -76,7 +76,7 @@ msgstr "Ação não permitida pelo usuário"
 
 #: templates/pdf_file/_form.html:161
 msgid "Wished period"
-msgstr ""
+msgstr "Período desejado"
 
 #: templates/pdf_file/_form.html:257
 msgid "Attribute students to file link"
@@ -94,44 +94,72 @@ msgstr "Salvar"
 msgid "Create PDF file"
 msgstr "Criar arquivo PDF"
 
-#: templates/pdf_file/relatorios.html:16 templates/pdf_file/relatorios.html:30
-#: templates/pdf_file/relatorios.html:37
+#: templates/pdf_file/relatorios.html:17 templates/pdf_file/relatorios.html:37
 msgid "User"
 msgstr "Usuário"
 
-#: templates/pdf_file/relatorios.html:16 templates/pdf_file/relatorios.html:30
-#: templates/pdf_file/relatorios.html:37
+#: templates/pdf_file/relatorios.html:17 templates/pdf_file/relatorios.html:37
 msgid "Group"
 msgstr "Grupo"
 
-#: templates/pdf_file/relatorios.html:16 templates/pdf_file/relatorios.html:30
+#: templates/pdf_file/relatorios.html:17
 msgid "Action"
 msgstr "Ação"
 
-#: templates/pdf_file/relatorios.html:16 templates/pdf_file/relatorios.html:30
+#: templates/pdf_file/relatorios.html:17
 msgid "Date of Action"
 msgstr "Data da ação"
 
-#: templates/pdf_file/relatorios.html:135
-#: templates/pdf_file/relatorios.html:155
+#: templates/pdf_file/relatorios.html:37
+msgid "Send message"
+msgstr "Enviar Mensagem"
+
+#: templates/pdf_file/relatorios.html:37
+#| msgid "Actions about resource"
+msgid "Action don't realized"
+msgstr "Ação não realizada"
+
+#: templates/pdf_file/relatorios.html:151
+#: templates/pdf_file/relatorios.html:171
 msgid "Reports"
 msgstr "Relatórios"
 
-#: templates/pdf_file/relatorios.html:162
+#: templates/pdf_file/relatorios.html:178
 msgid "Report of the resource "
 msgstr "Relatórios do recurso "
 
-#: templates/pdf_file/relatorios.html:165
+#: templates/pdf_file/relatorios.html:187
 msgid "Select the period: "
 msgstr "Selecione o período: "
 
-#: templates/pdf_file/relatorios.html:178
+#: templates/pdf_file/relatorios.html:196
 msgid "Search"
 msgstr "Pesquisar"
 
-#: templates/pdf_file/relatorios.html:200
+#: templates/pdf_file/relatorios.html:220
 msgid "Filter: "
 msgstr "Filtro: "
+
+#: templates/pdf_file/relatorios.html:244
+#: templates/pdf_file/relatorios.html:329
+msgid "record(s)"
+msgstr "Relatório(s)"
+
+#: templates/pdf_file/send_message.html:38
+msgid "Click or drop the picture here"
+msgstr "Clique ou arraste a imagem aqui"
+
+#: templates/pdf_file/send_message.html:40
+msgid "The picture could not exceed 5MB."
+msgstr "A imagem não pode exceder 5MB."
+
+#: templates/pdf_file/send_message.html:62
+msgid "Close"
+msgstr "Fechar"
+
+#: templates/pdf_file/send_message.html:63
+msgid "Send"
+msgstr "Enviar"
 
 #: templates/pdf_file/update.html:20
 msgid "Edit: "
@@ -141,16 +169,16 @@ msgstr "Editar: "
 msgid "PDF could not be displayed"
 msgstr "PDF não pode ser mostrado"
 
-#: views.py:112 views.py:125 views.py:236 views.py:238 views.py:254
-#: views.py:256
+#: views.py:116 views.py:129 views.py:240 views.py:242 views.py:258
+#: views.py:260
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: views.py:185
+#: views.py:189
 msgid "Create PDF File"
 msgstr "Criar o arquivo PDF"
 
-#: views.py:196
+#: views.py:200
 #, python-format
 msgid ""
 "The PDF File \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -159,50 +187,59 @@ msgstr ""
 "O arquivo PDF \"%s\"  foi adicionado ao topico \"%s\" do ambiente virtual "
 "\"%s\" com sucesso!"
 
-#: views.py:300
+#: views.py:304
 msgid "Update PDF File"
 msgstr "Atualize arquivo PDF"
 
-#: views.py:311
+#: views.py:315
 #, python-format
 msgid "The PDF File \"%s\" was updated successfully!"
 msgstr "O arquivo PDF \"%s\"  foi atualizado com sucesso!"
 
-#: views.py:338
+#: views.py:342
 #, python-format
 msgid ""
 "The PDF File \"%s\" was removed successfully from virtual environment \"%s\"!"
 msgstr ""
 "O arquivo PDF \"%s\"  foi removido com sucesso do ambiente virtual \"%s\" "
 
-#: views.py:396
+#: views.py:400
 msgid "PDF File Reports"
 msgstr "Relatórios do arquivo de PDF"
 
-#: views.py:414
-msgid "Users who viewed"
-msgstr "Usuário que visualizaram"
+#: views.py:420
+msgid "Realized"
+msgstr "Realizado"
 
-#: views.py:414
-msgid "Users who did not viewed"
-msgstr "Usuários que não visualizaram"
+#: views.py:420
+msgid "Unrealized"
+msgstr "Não Realizado"
 
-#: views.py:414
+#: views.py:420
 msgid "Historic"
 msgstr "Histórico"
 
-#: views.py:446
-msgid "PDF File"
-msgstr "Criar o arquivo PDF"
-
-#: views.py:447
+#: views.py:439 views.py:448
 msgid "View"
 msgstr "Visualizar"
 
-#: views.py:451
-msgid "Students viewing the PDF File"
-msgstr "Estudantes que visualizaram o arquivo PDF"
+#: views.py:447
+msgid "PDF File"
+msgstr "Criar o arquivo PDF"
 
 #: views.py:452
+msgid "Actions about resource"
+msgstr "Ações sobre o recurso"
+
+#: views.py:453
 msgid "Quantity"
 msgstr "Quantidade"
+
+#~ msgid "Users who viewed"
+#~ msgstr "Usuário que visualizaram"
+
+#~ msgid "Users who did not viewed"
+#~ msgstr "Usuários que não visualizaram"
+
+#~ msgid "Students viewing the PDF File"
+#~ msgstr "Estudantes que visualizaram o arquivo PDF"
