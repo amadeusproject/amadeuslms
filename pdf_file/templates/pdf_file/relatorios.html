@@ -34,7 +34,7 @@
         array_n_did.push([input,"{{data_json.1}}","{{data_json.2}}", "{{data_json.3}}"]);
     {% endfor%}
     var json_n_did = {"data":array_n_did};
-    var column_n_did = [{"string":'<a href="javascript:void(0);" onclick="return openmodal();"> {% trans "Send message" %}</a>'},{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":"Action don't realized"}];
+    var column_n_did = [{"string":'<a href="javascript:void(0);" onclick="return openmodal();"> {% trans "Send message" %}</a>'},{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":"{% trans "Action don't realized" %}"}];
     </script>
 
 
@@ -138,6 +138,7 @@
                     table.draw(data_table, options);
                 }
             }
+
           var table = new google.visualization.Table(document.getElementById('table_div'));
           google.visualization.events.addListener(table, 'sort', function(e) {ordenar(e)});
           table.draw(data_table, options);
@@ -205,13 +206,13 @@
             </div>
         </div>
 
-        <div class="row">
+         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="text-center">
                     <ul class="list-inline nav-justified">
                         <li>
                             <ul id="view-table" class="list-inline text-right">
-                                <li><h3 id="title-table">{{history_table}}</h3></li>
+                                <li><h3 id="title-table"></h3></li>
                             </ul>
                         </li>
                         <li>
@@ -222,8 +223,9 @@
                         </li>
                     </ul>
                 </div>
-
-                <div id="table_div"></div>
+                <form id="google-chart-checkbox" action="" method="get">
+                    <div id="table_div"></div>
+                </form>
                 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center">
         		  	<ul class="pagination">
 
@@ -231,44 +233,14 @@
         		</div>
             </div>
         </div>
-        <!-- Modal (remember to change the ids!!!) -->
-        <div class="modal fade" id="send-message-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                   <!-- Modal Body -->
-              <div class="modal-body">
-                <!-- Put ONLY your content here!!!  -->
-                <h3>{% trans "Message: " %}</h3>
-                <form id="text_chat_form" action="" method="GET">
-                    <textarea id="message" name="message" rows="5" cols="80"></textarea>
-                </form>
-              </div>
-              <!-- Modal Footer -->
-              <div id="delete-category-footer"class="modal-footer">
-                <!-- Don't remove that!!!  -->
-                <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
-                <a href="javascript:void(0)" onclick="return sendMessage()" form="text_chat_form" class="btn btn-success btn-raised erase-button">{% trans "Send" %}</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <div id="modal-message"></div>
         <div class="row">
             <br><br>
         </div>
     </div>
 
     <script type="text/javascript">
-        $('#message').summernote({
-            dialogsInBody: true,
-            disableDragAndDrop: true,
-            height: 150,
-            toolbar: [
-                // [groupName, [list of button]]
-                ['style', ['bold', 'italic']],
-                ['insert', ['link']]
-            ]
-        });
+        
         $("#title-table").text(search.length + " {% trans 'record(s)' %}");
         function putpagination(data = json_history["data"], load_histoty = true){
             var len = Math.ceil(data.length / 20);
@@ -384,6 +356,15 @@
             $(".active").removeClass("active");
             $("#" + pag).addClass("active");
         }
+
+        function openmodal(){
+            $( "#modal-message" ).empty();
+           $.get( "{% url 'pdf_files:send_message' pdf_file.slug %}", function( data ) {
+                $( "#modal-message" ).append( data );
+                $("#send-message-modal").modal("show");
+            });
+        }
+
         function sendMessage(){
             $("#send-message-modal").modal("hide");
             var checked = $("#google-chart-checkbox").serializeArray();
@@ -391,19 +372,36 @@
             for (var i in checked){
                 email.push(checkbox[checked[i]["name"]]);
             }
-            var message = $("#text_chat_form").serializeArray()[0]["value"];
+            $('<input />').attr('type', 'hidden')
+            .attr('name', "users[]")
+            .attr('value', email)
+            .appendTo('#text_chat_form');
+
+            var formData = new FormData($('#text_chat_form').get(0));
             $.ajax({
-               type: "GET",
-               data: {"message":message,"users[]":email},
-               url: "{% url 'pdf_files:send_message' subject.slug %}",
-               success: function(msg){
-                   console.log(msg);
-                   $('#message').summernote("reset");
-               }
-           });
-        }
-        function openmodal(){
-            $("#send-message-modal").modal("show");
+                url: "{% url 'pdf_files:send_message' pdf_file.slug %}",
+                type: "POST",
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    if (data["message"]){
+                        console.log("success");
+                        $("body").removeClass("modal-open");
+                        $( "#modal-message" ).empty();
+                        $(".modal-backdrop.fade.in").remove();
+                    } else {
+                        $( "#modal-message" ).empty();
+                        $(".modal-backdrop.fade.in").remove();
+                        $( "#modal-message" ).append( data );
+                        $("#send-message-modal").modal("show");
+                    }
+                },
+                error: function(data){
+                    console.log("erro");
+                }
+            });
         }
     </script>
 {% endblock %}
