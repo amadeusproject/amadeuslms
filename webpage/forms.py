@@ -101,7 +101,7 @@ class WebpageForm(forms.ModelForm):
 class FormModalMessage(forms.Form):
     MAX_UPLOAD_SIZE = 5*1024*1024
 
-    comment = forms.CharField(widget=forms.Textarea)
+    comment = forms.CharField(widget=forms.Textarea,label=_("Message"))
     image = forms.FileField(widget=ResubmitFileWidget(attrs={'accept':'image/*'}))
 
     def clean_comment(self):

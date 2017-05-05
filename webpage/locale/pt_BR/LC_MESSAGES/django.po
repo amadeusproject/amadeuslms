@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 17:14-0300\n"
+"POT-Creation-Date: 2017-05-05 17:59-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,6 +37,11 @@ msgstr "Esse assunto já possui uma Página Web com esse nome"
 #: forms.py:66 forms.py:112
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
+
+#: forms.py:104
+#| msgid "Send message"
+msgid "Message"
+msgstr "Mensagem"
 
 #: forms.py:124
 msgid "The image is too large. It should have less than 5MB."
@@ -111,7 +116,6 @@ msgid "Send message"
 msgstr "Enviar Mensagem"
 
 #: templates/webpages/relatorios.html:37
-#| msgid "Action"
 msgid "Action don't realized"
 msgstr "Ação não realizada"
 
@@ -193,7 +197,7 @@ msgstr ""
 
 #: views.py:455
 msgid "Webpage Reports"
-msgstr "Nome da Página Web"
+msgstr "Relatórios da Webpage"
 
 #: views.py:474
 msgid "Realized"
