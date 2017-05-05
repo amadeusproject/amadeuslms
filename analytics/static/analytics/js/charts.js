@@ -187,22 +187,38 @@ var charts = {
 
 
 	       	//Add texts to show user names
-	       	groups.append("text")
+	       	/*groups.append("text")
 	       	.text(function(d){
 	       		return d['user'] +'('+ d['count'] + ')';
 	       	}).attr("fill", "#000000")
 	       	.attr("id", function(d){
 	       		return "user_tooltip_"+d['user_id'];
-	       	}).style("display", "none");
+	       	}).style("display", "none");*/
+
+	       	var tooltip_div = d3.select("body").append("div")
+	       		.attr('class','user-tooltip')
+	       		.attr("display", "none")
+	       		.attr("height", 28)
+	       		.attr("width", 80)
+	       		.style("position", "absolute")
+	       		.style('pointer-events', 'none');
+
+
 
 
 	       	groups.on("mouseover", function(d){
-	       		$("#"+"user_tooltip_"+d['user_id']).show();
+	       		//$("#"+"user_tooltip_"+d['user_id']).show();
+	       		tooltip_div.transition().duration(200).style("opacity", .9);
+	       		tooltip_div.html(d['user'] + '</br>' +  d['count'] + ' acessos')
+	       		.style("left", (d3.event.pageX) + "px")
+	       		.style("top", (d3.event.pageY - 28) + "px");
+	       		console.log(d3.event.pageX);
+	       		console.log(d3.event.pageY);
 	       	});
 
 
 	       	groups.on("mouseout", function(d){
-	       		$("#"+"user_tooltip_"+d['user_id']).hide();
+	       		//$("#"+"user_tooltip_"+d['user_id']).hide();
 	       	});
 
 

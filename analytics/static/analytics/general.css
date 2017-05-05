@@ -77,6 +77,12 @@
 .middle-chart article {
   text-align: center; }
 
+.user-tooltip {
+  background: linear-gradient(#0e8999, #6bf0ce);
+  color: white;
+  border-radius: 10px;
+  padding: 7px; }
+
 .most-accessed-list {
   background-color: #52b7bd;
   width: 80%;
