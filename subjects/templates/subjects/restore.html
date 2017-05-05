@@ -1,0 +1,138 @@
+{% extends 'categories/home.html' %}
+
+{% load static i18n pagination permissions_tags subject_counter chat_tags %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block javascript%}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
+{% endblock%}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb subject.category 'subjects:cat_view' subject.category.slug %}
+    {% breadcrumb subject 'subjects:view' subject.slug %}
+
+    {% trans "Restore" as bread %}
+    {% breadcrumb bread 'subjects:restore' subject.slug %}
+{% endblock %}
+
+{% block content %}
+	{% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% subject_permissions request.user subject as has_subject_permissions %}
+
+	{% if subject.visible %}
+		<div class="panel panel-info subject-panel" id="subject_{{subject.slug}}">
+        	<div class="panel-heading">
+	{% elif has_subject_permissions %}
+		<div class="panel panel-info subject-panel-invisible" id="subject_{{subject.slug}}">
+        	<div class="panel-heading panel-invisible">
+    {% endif %}
+            <div class="row">
+                <div class="col-md-12 category-header">
+                    <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
+                        <span>{{ subject.name }} / {% trans "Restore" %}</span>
+                    </h4>
+
+                    <div class="col-md-5 pull-right category-card-items">
+                        {% if request.user in subject.professor.all or request.user in subject.category.coordinators.all or request.user.is_staff %}
+                            <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </a>
+                            <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                                {% if request.user not in subject.professor.all %}
+                                <li><a href="{% url 'subjects:replicate' subject.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
+                                {% endif %}
+                                <li><a href="{% url 'subjects:update' subject.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+                                <li><a href="{% url 'groups:index' subject.slug %}"><i class="fa fa-group fa-fw" aria-hidden="true"></i>{% trans 'Groups' %}</a></li>
+                                <li><a href="{% url 'subjects:backup' subject.slug %}"><i class="fa fa-database fa-fw" aria-hidden="true"></i>{% trans 'Backup' %}</a></li>
+                                <li><a href="{% url 'subjects:restore' subject.slug %}"><i class="fa fa-recycle fa-fw" aria-hidden="true"></i>{% trans 'Restore' %}</a></li>
+                                <li><a href="javascript:delete_subject.get('{% url 'subjects:delete' subject.slug %}?view=index','#subject','#modal_subject')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content" style="position: relative">
+            <h5>{% trans "Please select below the file you want to use for restore:" %}</h5>
+
+            <div class="backup_container">
+                <form id="restore_form" method="post" action="{% url 'subjects:do_restore' subject.slug %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="form-group is-fileinput">
+                    	<input type="file" id="zip_file" name="zip_file" class="form-control" accept=".zip" />
+
+	                    <div class="input-group common-file-input">
+					      	<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
+					      	<span class="input-group-btn input-group-sm">
+					        	<button type="button" class="btn btn-fab btn-fab-mini">
+					        		<i class="material-icons">attach_file</i>
+					       		</button>
+					      	</span>
+					    </div>
+
+					    <div class="filedrag">
+				    		{% trans 'Click or drop the file here' %}<br />
+				  		</div>
+                    </div>
+
+			  		<div class="row text-center">
+                        <input type="submit" value="{% trans 'Restore' %}" class="btn btn-success btn-raised" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+		$(function () {
+			$.material.init();
+
+			if (window.File && window.FileList && window.FileReader) {
+				Init();
+			}
+		});
+
+		// initialize
+		function Init() {
+			var small = $("#zip_file"),
+				filedrag = $(".filedrag"),
+				common = $(".common-file-input");
+
+			// file select
+			small.on("change", FileSelectHandler);
+
+			// is XHR2 available?
+			var xhr = new XMLHttpRequest();
+			if (xhr.upload) {
+				// file drop
+				filedrag.on("drop", FileSelectHandler);
+				filedrag.attr('style', 'display:block');
+				common.attr('style', 'display:none');
+			}
+		}
+
+		// file selection
+		function FileSelectHandler(e) {
+			var files = e.target.files || e.dataTransfer.files,
+				parent = $(e.target.offsetParent);
+
+			// process all File objects
+			for (var i = 0, f; f = files[i]; i++) {
+				parent.find('.filedrag').html(f.name);
+			}
+		}
+	</script>
+{% endblock %}
