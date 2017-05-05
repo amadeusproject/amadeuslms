@@ -62,4 +62,39 @@
   .chart h4 {
     color: #009688; }
 
+.selector {
+  width: 90%;
+  height: 20%;
+  color: white;
+  padding-left: 5px;
+  background-color: #009688;
+  margin-top: 10px;
+  border-radius: 0px 20px 20px 0px; }
+  .selector p {
+    padding-top: 10px;
+    font-size: 16px; }
+
+.middle-chart article {
+  text-align: center; }
+
+.user-tooltip {
+  background: linear-gradient(#0e8999, #6bf0ce);
+  color: white;
+  border-radius: 10px;
+  padding: 7px; }
+
+.most-accessed-list {
+  background-color: #52b7bd;
+  width: 80%;
+  margin-left: 2%;
+  margin-top: 2%;
+  padding-left: 0;
+  color: white;
+  transition: width 2s, height 2s, background-color 2s, transform 2s; }
+  .most-accessed-list li {
+    padding-left: 1%; }
+
+.most-accessed-item:hover {
+  background-color: #3aa7ad; }
+
 /*# sourceMappingURL=general.css.map */

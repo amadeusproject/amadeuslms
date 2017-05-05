@@ -838,3 +838,39 @@ def realize_backup(request, subject):
     resp['Content-Length'] = s.tell()
 
     return resp
+
+class Restore(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+
+    template_name = 'subjects/restore.html'
+    model = Subject
+
+    def dispatch(self, request, *args, **kwargs):
+        subject = get_object_or_404(Subject, slug = kwargs.get('slug', ''))
+
+        if not has_subject_permissions(request.user, subject):
+            return redirect(reverse_lazy('subjects:home'))
+
+        return super(Restore, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(Restore, self).get_context_data(**kwargs)
+
+        subject = get_object_or_404(Subject, slug = self.kwargs.get('slug', ''))
+        
+        context['title'] = _('%s - Restore')%(str(subject))
+        context['subject'] = subject
+
+        return context
+
+@login_required
+def realize_restore(request, subject):
+    zip_file = request.FILES.get('zip_file', None)
+
+    if zip_file:
+        if zipfile.is_zipfile(zip_file):
+            file = zipfile.ZipFile(zip_file)
+            print(file.namelist())
+
+    return JsonResponse({'message': 'ok'})

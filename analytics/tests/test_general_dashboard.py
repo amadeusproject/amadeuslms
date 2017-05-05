@@ -88,7 +88,7 @@ class APIDashBoardTest(TestCase):
 
 
 	def test_most_accessed_categories(self):
-		self.fail("finish the test")
+		self.fail("finish test on categories")
 
 	def test_most_active_users(self):
 		self.fail("finish the test")
