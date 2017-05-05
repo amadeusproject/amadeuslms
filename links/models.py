@@ -6,6 +6,8 @@ import datetime
 from topics.models import Topic, Resource
 from users.models import User
 from django.utils import timezone
+from django.core.urlresolvers import reverse_lazy
+
 # Create your models here.
 class Link(Resource):
     link_url = models.URLField(verbose_name = _("Link_URL"))
@@ -19,7 +21,7 @@ class Link(Resource):
         return self.name
 
     def access_link(self):
-        return self.link_url
+        return reverse_lazy('links:view', kwargs = {'slug': self.slug})
 
     def update_link(self):
         return 'links:update'

@@ -181,18 +181,32 @@ class DeleteLinkView(LoginRequiredMixin, LogMixin, generic.edit.DeleteView):
 
         return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
+from django.views.generic.base import RedirectView
 
-class DetailLinkView(LoginRequiredMixin, LogMixin, generic.detail.DetailView):
+class RedirectUrl(LogMixin, RedirectView):
     log_component = 'resources'
     log_action = 'view'
     log_resource = 'link'
     log_context = {}
-    login_url = reverse_lazy("users:login")
-    redirect_field_name = 'next'
 
-    model = Link
-    template_name = 'links/view.html'
-    context_object_name = 'web_link'
+    def get_redirect_url(self, *args, **kwargs):
+        link = get_object_or_404(Link,slug=self.kwargs.get("slug",""))
+        self.log_context['category_id'] = link.topic.subject.category.id
+        self.log_context['category_name'] = link.topic.subject.category.name
+        self.log_context['category_slug'] = link.topic.subject.category.slug
+        self.log_context['subject_id'] = link.topic.subject.id
+        self.log_context['subject_name'] = link.topic.subject.name
+        self.log_context['subject_slug'] = link.topic.subject.slug
+        self.log_context['topic_id'] = link.topic.id
+        self.log_context['topic_name'] = link.topic.name
+        self.log_context['topic_slug'] = link.topic.slug
+        self.log_context['link_id'] = link.id
+        self.log_context['link_name'] = link.name
+        self.log_context['link_slug'] = link.slug
+
+        super(RedirectUrl, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+        return link.link_url
 
 class UpdateLinkView(LoginRequiredMixin, LogMixin, generic.edit.UpdateView):
     
