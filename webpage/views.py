@@ -196,9 +196,6 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         if not self.object.topic.visible and not self.object.topic.repository:
                 self.object.visible = False
 
-
-        # if form.cleaned_data["all_students"]:
-            # self.object.students.add(*self.object.topic.subject.students.all())
         self.object.save()
 
         pend_form = pendencies_form.save(commit = False)
@@ -416,17 +413,6 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
 
-def get_chart(request,slug):
-    webpage = get_object_or_404(Webpage, slug=slug)
-    alunos = webpage.students.all()
-    visualizou = Log.objects.filter(context__contains={'webpage_id':webpage.id},resource="webpage",action="view",user_email__in=(aluno.email for aluno in alunos)).distinct("user_email")
-    re = []
-    c_visualizou = visualizou.count()
-    re.append(["Página Web","Fez","Não fez"])
-    re.append(["Visualizar",c_visualizou, alunos.count() - c_visualizou])
-    return JsonResponse({"dados":re})
-
-
 class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view_statistics'
@@ -566,15 +552,3 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
         return context
     
 
-def sendMessage(request, slug):
-    message = request.GET.get('message','')
-    users = request.GET.getlist('users[]','')
-    user = request.user
-    subject = get_object_or_404(Subject,slug = slug)
-
-    for u in users:
-        to_user = User.objects.get(email=u)
-        talk, create = Conversation.objects.get_or_create(user_one=user,user_two=to_user)
-        created = TalkMessages.objects.create(text=message,talk=talk,user=user,subject=subject)
-
-    return JsonResponse({"message":"ok"})

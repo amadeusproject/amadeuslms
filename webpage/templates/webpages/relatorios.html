@@ -34,7 +34,7 @@
         array_n_did.push([input,"{{data_json.1}}","{{data_json.2}}","{{data_json.3}}"]);
     {% endfor%}
     var json_n_did = {"data":array_n_did};
-    var column_n_did = [{"string":'<a href="javascript:void(0);" onclick="return openmodal();"> {% trans "Send message" %}</a>'},{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":"Action don't realized"}];
+    var column_n_did = [{"string":'<a href="javascript:void(0);" onclick="return openmodal();"> {% trans "Send message" %}</a>'},{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":"{% trans "Action don't realized" %}"}];
     </script>
 
 
@@ -74,6 +74,7 @@
                                     json_n_did["data"][i][2],json_n_did["data"][i][3]]);
                    }
                    searcher(col, tabela_atual,true);
+
                } else if (col == "{{did_table}}"){
                    tabela_atual = true;
                    search = [];
@@ -92,6 +93,7 @@
         chart.draw(data, options);
 
       }
+
       var sortAscending = {0:false,1:false,2:false,3:false};
       function drawTable(columns = column_history,rows = pagination(json_history["data"],1),isdate = true,columndate = 3) {
           var data_table = new google.visualization.DataTable();
@@ -197,6 +199,7 @@
             <ul>
             </div>
         </div>
+        
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div id="chart_div" style="height: 500px; margin-top: -50px;"></div>
@@ -376,8 +379,6 @@
             .appendTo('#text_chat_form');
 
             var formData = new FormData($('#text_chat_form').get(0));
-            console.log("formData");
-            console.log(formData);
             $.ajax({
                 url: "{% url 'webpages:send_message' webpage.slug %}",
                 type: "POST",
@@ -392,7 +393,6 @@
                         $( "#modal-message" ).empty();
                         $(".modal-backdrop.fade.in").remove();
                     } else {
-                        console.log("teste");
                         $( "#modal-message" ).empty();
                         $(".modal-backdrop.fade.in").remove();
                         $( "#modal-message" ).append( data );
@@ -401,7 +401,6 @@
                 },
                 error: function(data){
                     console.log("erro");
-                    console.log(data);
                 }
             });
         }
