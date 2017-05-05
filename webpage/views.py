@@ -20,100 +20,107 @@ from pendencies.forms import PendenciesForm
 from .forms import WebpageForm
 from .models import Webpage
 
+from chat.models import Conversation, TalkMessages
+from users.models import User
+from subjects.models import Subject
+
+from .forms import FormModalMessage
+
 class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
-	log_component = 'resources'
-	log_action = 'view'
-	log_resource = 'webpage'
-	log_context = {}
+    log_component = 'resources'
+    log_action = 'view'
+    log_resource = 'webpage'
+    log_context = {}
 
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
 
-	template_name = 'webpages/window_view.html'
-	model = Webpage
-	context_object_name = 'webpage'
+    template_name = 'webpages/window_view.html'
+    model = Webpage
+    context_object_name = 'webpage'
 
-	def dispatch(self, request, *args, **kwargs):
-		slug = self.kwargs.get('slug', '')
-		webpage = get_object_or_404(Webpage, slug = slug)
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug', '')
+        webpage = get_object_or_404(Webpage, slug=slug)
 
-		if not has_resource_permissions(request.user, webpage):
-			return redirect(reverse_lazy('subjects:home'))
+        if not has_resource_permissions(request.user, webpage):
+            return redirect(reverse_lazy('subjects:home'))
 
-		return super(NewWindowView, self).dispatch(request, *args, **kwargs)
+        return super(NewWindowView, self).dispatch(request, *args, **kwargs)
 
-	def get_context_data(self, **kwargs):
-		context = super(NewWindowView, self).get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(NewWindowView, self).get_context_data(**kwargs)
 
-		self.log_context['category_id'] = self.object.topic.subject.category.id
-		self.log_context['category_name'] = self.object.topic.subject.category.name
-		self.log_context['category_slug'] = self.object.topic.subject.category.slug
-		self.log_context['subject_id'] = self.object.topic.subject.id
-		self.log_context['subject_name'] = self.object.topic.subject.name
-		self.log_context['subject_slug'] = self.object.topic.subject.slug
-		self.log_context['topic_id'] = self.object.topic.id
-		self.log_context['topic_name'] = self.object.topic.name
-		self.log_context['topic_slug'] = self.object.topic.slug
-		self.log_context['webpage_id'] = self.object.id
-		self.log_context['webpage_name'] = self.object.name
-		self.log_context['webpage_slug'] = self.object.slug
-		self.log_context['timestamp_start'] = str(int(time.time()))
+        self.log_context['category_id'] = self.object.topic.subject.category.id
+        self.log_context['category_name'] = self.object.topic.subject.category.name
+        self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        self.log_context['subject_id'] = self.object.topic.subject.id
+        self.log_context['subject_name'] = self.object.topic.subject.name
+        self.log_context['subject_slug'] = self.object.topic.subject.slug
+        self.log_context['topic_id'] = self.object.topic.id
+        self.log_context['topic_name'] = self.object.topic.name
+        self.log_context['topic_slug'] = self.object.topic.slug
+        self.log_context['webpage_id'] = self.object.id
+        self.log_context['webpage_name'] = self.object.name
+        self.log_context['webpage_slug'] = self.object.slug
+        self.log_context['timestamp_start'] = str(int(time.time()))
 
-		super(NewWindowView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(NewWindowView, self).createLog(self.request.user, self.log_component, self.log_action,
+                                             self.log_resource, self.log_context)
 
-		self.request.session['log_id'] = Log.objects.latest('id').id
+        self.request.session['log_id'] = Log.objects.latest('id').id
 
-		return context
+        return context
 
 class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
-	log_component = 'resources'
-	log_action = 'view'
-	log_resource = 'webpage'
-	log_context = {}
+    log_component = 'resources'
+    log_action = 'view'
+    log_resource = 'webpage'
+    log_context = {}
 
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
 
-	template_name = 'webpages/view.html'
-	model = Webpage
-	context_object_name = 'webpage'
+    template_name = 'webpages/view.html'
+    model = Webpage
+    context_object_name = 'webpage'
 
-	def dispatch(self, request, *args, **kwargs):
-		slug = self.kwargs.get('slug', '')
-		webpage = get_object_or_404(Webpage, slug = slug)
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug', '')
+        webpage = get_object_or_404(Webpage, slug=slug)
 
-		if not has_resource_permissions(request.user, webpage):
-			return redirect(reverse_lazy('subjects:home'))
+        if not has_resource_permissions(request.user, webpage):
+            return redirect(reverse_lazy('subjects:home'))
 
-		return super(InsideView, self).dispatch(request, *args, **kwargs)
+        return super(InsideView, self).dispatch(request, *args, **kwargs)
 
-	def get_context_data(self, **kwargs):
-		context = super(InsideView, self).get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(InsideView, self).get_context_data(**kwargs)
 
-		context['title'] = self.object.name
+        context['title'] = self.object.name
 
-		context['topic'] = self.object.topic
-		context['subject'] = self.object.topic.subject
+        context['topic'] = self.object.topic
+        context['subject'] = self.object.topic.subject
 
-		self.log_context['category_id'] = self.object.topic.subject.category.id
-		self.log_context['category_name'] = self.object.topic.subject.category.name
-		self.log_context['category_slug'] = self.object.topic.subject.category.slug
-		self.log_context['subject_id'] = self.object.topic.subject.id
-		self.log_context['subject_name'] = self.object.topic.subject.name
-		self.log_context['subject_slug'] = self.object.topic.subject.slug
-		self.log_context['topic_id'] = self.object.topic.id
-		self.log_context['topic_name'] = self.object.topic.name
-		self.log_context['topic_slug'] = self.object.topic.slug
-		self.log_context['webpage_id'] = self.object.id
-		self.log_context['webpage_name'] = self.object.name
-		self.log_context['webpage_slug'] = self.object.slug
-		self.log_context['timestamp_start'] = str(int(time.time()))
+        self.log_context['category_id'] = self.object.topic.subject.category.id
+        self.log_context['category_name'] = self.object.topic.subject.category.name
+        self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        self.log_context['subject_id'] = self.object.topic.subject.id
+        self.log_context['subject_name'] = self.object.topic.subject.name
+        self.log_context['subject_slug'] = self.object.topic.subject.slug
+        self.log_context['topic_id'] = self.object.topic.id
+        self.log_context['topic_name'] = self.object.topic.name
+        self.log_context['topic_slug'] = self.object.topic.slug
+        self.log_context['webpage_id'] = self.object.id
+        self.log_context['webpage_name'] = self.object.name
+        self.log_context['webpage_slug'] = self.object.slug
+        self.log_context['timestamp_start'] = str(int(time.time()))
 
-		super(InsideView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(InsideView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		self.request.session['log_id'] = Log.objects.latest('id').id
+        self.request.session['log_id'] = Log.objects.latest('id').id
 
-		return context
+        return context
 
 class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
     log_component = 'resources'
@@ -128,55 +135,55 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
     form_class = WebpageForm
 
     def dispatch(self, request, *args, **kwargs):
-    	slug = self.kwargs.get('slug', '')
-    	topic = get_object_or_404(Topic, slug = slug)
+        slug = self.kwargs.get('slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
+        
+        if not has_subject_permissions(request.user, topic.subject):
+            return redirect(reverse_lazy('subjects:home'))
 
-    	if not has_subject_permissions(request.user, topic.subject):
-    		return redirect(reverse_lazy('subjects:home'))
-
-    	return super(CreateView, self).dispatch(request, *args, **kwargs)
+        return super(CreateView, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
-    	self.object = None
+        self.object = None
 
-    	form_class = self.get_form_class()
-    	form = self.get_form(form_class)
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
 
-    	slug = self.kwargs.get('slug', '')
-    	topic = get_object_or_404(Topic, slug = slug)
+        slug = self.kwargs.get('slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
 
-    	pendencies_form = PendenciesForm(initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+        pendencies_form = PendenciesForm(initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
 
-    	return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
+        return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
     def post(self, request, *args, **kwargs):
-    	self.object = None
+        self.object = None
 
-    	form_class = self.get_form_class()
-    	form = self.get_form(form_class)
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
 
-    	slug = self.kwargs.get('slug', '')
-    	topic = get_object_or_404(Topic, slug = slug)
+        slug = self.kwargs.get('slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
 
-    	pendencies_form = PendenciesForm(self.request.POST, initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+        pendencies_form = PendenciesForm(self.request.POST, initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
 
-    	if (form.is_valid() and pendencies_form.is_valid()):
-    		return self.form_valid(form, pendencies_form)
-    	else:
-    		return self.form_invalid(form, pendencies_form)
+        if (form.is_valid() and pendencies_form.is_valid()):
+            return self.form_valid(form, pendencies_form)
+        else:
+            return self.form_invalid(form, pendencies_form)
 
     def get_initial(self):
-    	initial = super(CreateView, self).get_initial()
+        initial = super(CreateView, self).get_initial()
 
-    	slug = self.kwargs.get('slug', '')
+        slug = self.kwargs.get('slug', '')
 
-    	topic = get_object_or_404(Topic, slug = slug)
-    	initial['subject'] = topic.subject
+        topic = get_object_or_404(Topic, slug = slug)
+        initial['subject'] = topic.subject
 
-    	return initial
+        return initial
 
     def form_invalid(self, form, pendencies_form):
-    	return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
+        return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
     def form_valid(self, form, pendencies_form):
         self.object = form.save(commit = False)
@@ -187,18 +194,18 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         self.object.order = topic.resource_topic.count() + 1
 
         if not self.object.topic.visible and not self.object.topic.repository:
-	           self.object.visible = False
+                self.object.visible = False
 
 
-        if form.cleaned_data["all_students"]:
-            self.object.students.add(*self.object.topic.subject.students.all())
+        # if form.cleaned_data["all_students"]:
+            # self.object.students.add(*self.object.topic.subject.students.all())
         self.object.save()
 
         pend_form = pendencies_form.save(commit = False)
         pend_form.resource = self.object
 
         if not pend_form.action == "":
-        	pend_form.save()
+            pend_form.save()
 
         self.log_context['category_id'] = self.object.topic.subject.category.id
         self.log_context['category_name'] = self.object.topic.subject.category.name
@@ -218,153 +225,153 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return redirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
-    	context = super(CreateView, self).get_context_data(**kwargs)
+        context = super(CreateView, self).get_context_data(**kwargs)
 
-    	context['title'] = _('Create Webpage')
+        context['title'] = _('Create Webpage')
 
-    	slug = self.kwargs.get('slug', '')
-    	topic = get_object_or_404(Topic, slug = slug)
+        slug = self.kwargs.get('slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
 
-    	context['topic'] = topic
-    	context['subject'] = topic.subject
+        context['topic'] = topic
+        context['subject'] = topic.subject
 
-    	return context
+        return context
 
     def get_success_url(self):
-    	messages.success(self.request, _('The Webpage "%s" was added to the Topic "%s" of the virtual environment "%s" successfully!')%(self.object.name, self.object.topic.name, self.object.topic.subject.name))
+        messages.success(self.request, _('The Webpage "%s" was added to the Topic "%s" of the virtual environment "%s" successfully!')%(self.object.name, self.object.topic.name, self.object.topic.subject.name))
 
-    	success_url = reverse_lazy('webpages:view', kwargs = {'slug': self.object.slug})
+        success_url = reverse_lazy('webpages:view', kwargs = {'slug': self.object.slug})
 
-    	if self.object.show_window:
-    		self.request.session['resources'] = {}
-    		self.request.session['resources']['new_page'] = True
-    		self.request.session['resources']['new_page_url'] = reverse('webpages:window_view', kwargs = {'slug': self.object.slug})
+        if self.object.show_window:
+            self.request.session['resources'] = {}
+            self.request.session['resources']['new_page'] = True
+            self.request.session['resources']['new_page_url'] = reverse('webpages:window_view', kwargs = {'slug': self.object.slug})
 
-    		success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+            success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
-    	return success_url
+        return success_url
 
 class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
-	log_component = 'resources'
-	log_action = 'update'
-	log_resource = 'webpage'
-	log_context = {}
+    log_component = 'resources'
+    log_action = 'update'
+    log_resource = 'webpage'
+    log_context = {}
 
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
 
-	template_name = 'webpages/update.html'
-	model = Webpage
-	form_class = WebpageForm
+    template_name = 'webpages/update.html'
+    model = Webpage
+    form_class = WebpageForm
 
-	def dispatch(self, request, *args, **kwargs):
-		slug = self.kwargs.get('topic_slug', '')
-		topic = get_object_or_404(Topic, slug = slug)
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get('topic_slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
 
-		if not has_subject_permissions(request.user, topic.subject):
-			return redirect(reverse_lazy('subjects:home'))
+        if not has_subject_permissions(request.user, topic.subject):
+            return redirect(reverse_lazy('subjects:home'))
 
-		return super(UpdateView, self).dispatch(request, *args, **kwargs)
+        return super(UpdateView, self).dispatch(request, *args, **kwargs)
 
-	def get(self, request, *args, **kwargs):
-		self.object = self.get_object()
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
 
-		form_class = self.get_form_class()
-		form = self.get_form(form_class)
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
 
-		slug = self.kwargs.get('topic_slug', '')
-		topic = get_object_or_404(Topic, slug = slug)
+        slug = self.kwargs.get('topic_slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
 
-		pend_form = self.object.pendencies_resource.all()
+        pend_form = self.object.pendencies_resource.all()
 
-		if len(pend_form) > 0:
-			pendencies_form = PendenciesForm(instance = pend_form[0], initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
-		else:
-			pendencies_form = PendenciesForm(initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+        if len(pend_form) > 0:
+            pendencies_form = PendenciesForm(instance = pend_form[0], initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+        else:
+            pendencies_form = PendenciesForm(initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
 
-		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
+        return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
-	def post(self, request, *args, **kwargs):
-		self.object = self.get_object()
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
 
-		form_class = self.get_form_class()
-		form = self.get_form(form_class)
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
 
-		slug = self.kwargs.get('topic_slug', '')
-		topic = get_object_or_404(Topic, slug = slug)
+        slug = self.kwargs.get('topic_slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
 
-		pend_form = self.object.pendencies_resource.all()
+        pend_form = self.object.pendencies_resource.all()
 
-		if len(pend_form) > 0:
-			pendencies_form = PendenciesForm(self.request.POST, instance = pend_form[0], initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
-		else:
-			pendencies_form = PendenciesForm(self.request.POST, initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+        if len(pend_form) > 0:
+            pendencies_form = PendenciesForm(self.request.POST, instance = pend_form[0], initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
+        else:
+            pendencies_form = PendenciesForm(self.request.POST, initial = {'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize"))]})
 
-		if (form.is_valid() and pendencies_form.is_valid()):
-			return self.form_valid(form, pendencies_form)
-		else:
-			return self.form_invalid(form, pendencies_form)
+        if (form.is_valid() and pendencies_form.is_valid()):
+            return self.form_valid(form, pendencies_form)
+        else:
+            return self.form_invalid(form, pendencies_form)
 
-	def form_invalid(self, form, pendencies_form):
-		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
+    def form_invalid(self, form, pendencies_form):
+        return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
-	def form_valid(self, form, pendencies_form):
-		self.object = form.save(commit = False)
+    def form_valid(self, form, pendencies_form):
+        self.object = form.save(commit = False)
 
-		if not self.object.topic.visible and not self.object.topic.repository:
-			self.object.visible = False
+        if not self.object.topic.visible and not self.object.topic.repository:
+            self.object.visible = False
 
-		self.object.save()
+        self.object.save()
 
-		pend_form = pendencies_form.save(commit = False)
-		pend_form.resource = self.object
+        pend_form = pendencies_form.save(commit = False)
+        pend_form.resource = self.object
 
-		if not pend_form.action == "":
-			pend_form.save()
+        if not pend_form.action == "":
+            pend_form.save()
 
-		self.log_context['category_id'] = self.object.topic.subject.category.id
-		self.log_context['category_name'] = self.object.topic.subject.category.name
-		self.log_context['category_slug'] = self.object.topic.subject.category.slug
-		self.log_context['subject_id'] = self.object.topic.subject.id
-		self.log_context['subject_name'] = self.object.topic.subject.name
-		self.log_context['subject_slug'] = self.object.topic.subject.slug
-		self.log_context['topic_id'] = self.object.topic.id
-		self.log_context['topic_name'] = self.object.topic.name
-		self.log_context['topic_slug'] = self.object.topic.slug
-		self.log_context['webpage_id'] = self.object.id
-		self.log_context['webpage_name'] = self.object.name
-		self.log_context['webpage_slug'] = self.object.slug
+        self.log_context['category_id'] = self.object.topic.subject.category.id
+        self.log_context['category_name'] = self.object.topic.subject.category.name
+        self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        self.log_context['subject_id'] = self.object.topic.subject.id
+        self.log_context['subject_name'] = self.object.topic.subject.name
+        self.log_context['subject_slug'] = self.object.topic.subject.slug
+        self.log_context['topic_id'] = self.object.topic.id
+        self.log_context['topic_name'] = self.object.topic.name
+        self.log_context['topic_slug'] = self.object.topic.slug
+        self.log_context['webpage_id'] = self.object.id
+        self.log_context['webpage_name'] = self.object.name
+        self.log_context['webpage_slug'] = self.object.slug
 
-		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		return redirect(self.get_success_url())
+        return redirect(self.get_success_url())
 
-	def get_context_data(self, **kwargs):
-		context = super(UpdateView, self).get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(UpdateView, self).get_context_data(**kwargs)
 
-		context['title'] = _('Update Webpage')
+        context['title'] = _('Update Webpage')
 
-		slug = self.kwargs.get('topic_slug', '')
-		topic = get_object_or_404(Topic, slug = slug)
+        slug = self.kwargs.get('topic_slug', '')
+        topic = get_object_or_404(Topic, slug = slug)
 
-		context['topic'] = topic
-		context['subject'] = topic.subject
+        context['topic'] = topic
+        context['subject'] = topic.subject
 
-		return context
+        return context
 
-	def get_success_url(self):
-		messages.success(self.request, _('The Webpage "%s" was updated successfully!')%(self.object.name))
+    def get_success_url(self):
+        messages.success(self.request, _('The Webpage "%s" was updated successfully!')%(self.object.name))
 
-		success_url = reverse_lazy('webpages:view', kwargs = {'slug': self.object.slug})
+        success_url = reverse_lazy('webpages:view', kwargs = {'slug': self.object.slug})
 
-		if self.object.show_window:
-			self.request.session['resources'] = {}
-			self.request.session['resources']['new_page'] = True
-			self.request.session['resources']['new_page_url'] = reverse('webpages:window_view', kwargs = {'slug': self.object.slug})
+        if self.object.show_window:
+            self.request.session['resources'] = {}
+            self.request.session['resources']['new_page'] = True
+            self.request.session['resources']['new_page_url'] = reverse('webpages:window_view', kwargs = {'slug': self.object.slug})
 
-			success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+            success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
-		return success_url
+        return success_url
 
 class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
 	log_component = 'resources'
@@ -474,6 +481,8 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context["init_date"] = start_date
         context["end_date"] = end_date
         alunos = webpage.students.all()
+        if webpage.all_students :
+        	alunos = webpage.topic.subject.students.all()
 
         vis_ou = Log.objects.filter(context__contains={'webpage_id':webpage.id},resource="webpage",action="view",user_email__in=(aluno.email for aluno in alunos), datetime__range=(start_date,end_date + datetime.timedelta(minutes = 1)))
         did,n_did,history = str(_("Realized")),str(_("Unrealized")),str(_("Historic"))
@@ -516,9 +525,47 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         return context
 
 
-from chat.models import Conversation, TalkMessages
-from users.models import User
-from subjects.models import Subject
+
+class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
+    log_component = 'resources'
+    log_action = 'send'
+    log_resource = 'webpage'
+    log_context = {}
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+
+    template_name = 'webpages/send_message.html'
+    form_class = FormModalMessage
+
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug', '')
+        webpage = get_object_or_404(Webpage, slug = slug)
+        self.webpage = webpage
+        
+        if not has_subject_permissions(request.user, webpage.topic.subject):
+            return redirect(reverse_lazy('subjects:home'))
+
+        return super(SendMessage, self).dispatch(request, *args, **kwargs)
+    
+    def form_valid(self, form):
+        message = form.cleaned_data.get('comment')
+        image = form.cleaned_data.get("image")
+        users = (self.request.POST.get('users[]','')).split(",")
+        user = self.request.user
+        subject = self.webpage.topic.subject
+        for u in users:
+            to_user = User.objects.get(email=u)
+            talk, create = Conversation.objects.get_or_create(user_one=user,user_two=to_user)
+            created = TalkMessages.objects.create(text=message,talk=talk,user=user,subject=subject,image=image)
+        return JsonResponse({"message":"ok"})
+
+    def get_context_data(self, **kwargs):
+        context = super(SendMessage,self).get_context_data()
+        context["webpage"] = get_object_or_404(Webpage, slug=self.kwargs.get('slug', ''))
+        return context
+    
+
 def sendMessage(request, slug):
     message = request.GET.get('message','')
     users = request.GET.getlist('users[]','')

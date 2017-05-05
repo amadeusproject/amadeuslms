@@ -9,9 +9,8 @@
     <script type="text/javascript">
     var tabela_atual = true;
 
-
     var array_history = [];
-    {%for data_json in json_history.data%}
+    {%for data_json in json_history.data %}
         array_history.push(["{{data_json.0}}","{{data_json.1}}","{{data_json.2}}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
     {% endfor%}
     var json_history = {"data":array_history};
@@ -231,44 +230,14 @@
         		</div>
             </div>
         </div>
-
-        <!-- Modal (remember to change the ids!!!) -->
-        <div class="modal fade" id="send-message-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                   <!-- Modal Body -->
-              <div class="modal-body">
-                <!-- Put ONLY your content here!!!  -->
-                <h3>{% trans "Message: " %}</h3>
-                <form id="text_chat_form" action="" method="GET">
-                    <textarea id="message" name="message" rows="5" cols="80"></textarea>
-                </form>
-              </div>
-              <!-- Modal Footer -->
-              <div id="delete-category-footer"class="modal-footer">
-                <!-- Don't remove that!!!  -->
-                <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
-                <a href="javascript:void(0)" onclick="return sendMessage()" form="text_chat_form" class="btn btn-success btn-raised erase-button">{% trans "Send" %}</a>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div id="modal-message"></div>
         <div class="row">
             <br><br>
         </div>
     </div>
 
     <script type="text/javascript">
-        $('#message').summernote({
-            dialogsInBody: true,
-            disableDragAndDrop: true,
-            height: 150,
-            toolbar: [
-                // [groupName, [list of button]]
-                ['style', ['bold', 'italic']],
-                ['insert', ['link']]
-            ]
-        });
+
         $("#title-table").text(search.length + " {% trans 'record(s)' %}");
         function putpagination(data = json_history["data"], load_histoty = true){
             var len = Math.ceil(data.length / 20);
@@ -385,6 +354,15 @@
             $(".active").removeClass("active");
             $("#" + pag).addClass("active");
         }
+
+        function openmodal(){
+            $( "#modal-message" ).empty();
+           $.get( "{% url 'webpages:send_message' webpage.slug %}", function( data ) {
+                $( "#modal-message" ).append( data );
+                $("#send-message-modal").modal("show");
+            });
+        }
+
         function sendMessage(){
             $("#send-message-modal").modal("hide");
             var checked = $("#google-chart-checkbox").serializeArray();
@@ -392,19 +370,40 @@
             for (var i in checked){
                 email.push(checkbox[checked[i]["name"]]);
             }
-            var message = $("#text_chat_form").serializeArray()[0]["value"];
+            $('<input />').attr('type', 'hidden')
+            .attr('name', "users[]")
+            .attr('value', email)
+            .appendTo('#text_chat_form');
+
+            var formData = new FormData($('#text_chat_form').get(0));
+            console.log("formData");
+            console.log(formData);
             $.ajax({
-               type: "GET",
-               data: {"message":message,"users[]":email},
-               url: "{% url 'webpages:send_message' subject.slug %}",
-               success: function(msg){
-                   console.log(msg);
-                   $('#message').summernote("reset");
-               }
-           });
-        }
-        function openmodal(){
-            $("#send-message-modal").modal("show");
+                url: "{% url 'webpages:send_message' webpage.slug %}",
+                type: "POST",
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    if (data["message"]){
+                        console.log("success");
+                        $("body").removeClass("modal-open");
+                        $( "#modal-message" ).empty();
+                        $(".modal-backdrop.fade.in").remove();
+                    } else {
+                        console.log("teste");
+                        $( "#modal-message" ).empty();
+                        $(".modal-backdrop.fade.in").remove();
+                        $( "#modal-message" ).append( data );
+                        $("#send-message-modal").modal("show");
+                    }
+                },
+                error: function(data){
+                    console.log("erro");
+                    console.log(data);
+                }
+            });
         }
     </script>
 {% endblock %}
