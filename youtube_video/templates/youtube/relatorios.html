@@ -1,4 +1,4 @@
-{% extends "pdf_file/view.html" %}
+{% extends "youtube/view.html" %}
 
 {% load static i18n pagination permissions_tags subject_counter %}
 {% load django_bootstrap_breadcrumbs %}
@@ -10,11 +10,11 @@
     var tabela_atual = true;
 
     var array_history = [];
-    {%for data_json in json_history.data%}
-        array_history.push(["{{data_json.0}}","{{data_json.1}}","{{view}}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
+    {%for data_json in json_history.data %}
+        array_history.push(["{{data_json.0}}","{{data_json.1}}","{% if data_json.2 == 'view' %} {{view}} {% elif data_json.2 == 'watch' %} {{watch}} {% else %} {{finish}} {% endif %}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
     {% endfor%}
     var json_history = {"data":array_history};
-    var column_history = [{"string":"{% trans 'User' %}"},{"string":"{% trans 'Group' %}"},{"string":"{% trans 'Action' %}"},{"date":"{% trans 'Date of Action' %}"}];
+    var column_history = [{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":'{% trans "Action" %}'},{"date":'{% trans "Date of Action" %}'}];
 
     var search = [];
     for (var i in json_history["data"]){
@@ -31,7 +31,7 @@
             </label>\
         </div>'
         checkbox["{{data_json.0}}_google_table"] = "{{data_json.4}}";
-        array_n_did.push([input,"{{data_json.1}}","{{data_json.2}}", "{{data_json.3}}"]);
+        array_n_did.push([input,"{{data_json.1}}","{{data_json.2}}","{{data_json.3}}"]);
     {% endfor%}
     var json_n_did = {"data":array_n_did};
     var column_n_did = [{"string":'<a href="javascript:void(0);" onclick="return openmodal();"> {% trans "Send message" %}</a>'},{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":"{% trans "Action don't realized" %}"}];
@@ -48,7 +48,7 @@
         var options = {
           title: '{{title_chart}}',
         //   legend: {position: 'right', maxLines: 1},
-          bar: { groupWidth: '30%' },
+          bar: { groupWidth: '50%' },
           chartArea:{width:"50%"},
           titlePosition: 'out',
           vAxis: {
@@ -64,29 +64,90 @@
 
         function selectHandler() {
            var selectedItem = chart.getSelection()[0];
+           console.log(selectedItem.row,selectedItem.column);
            if (selectedItem) {
-               var col = data.getColumnLabel(selectedItem.column);
-               if (col == "{{n_did_table}}"){
-                   tabela_atual = false;
-                   search = [];
-                   for (var i in json_n_did["data"]){
-                       search.push([json_n_did["data"][i][0],json_n_did["data"][i][1],
-                                    json_n_did["data"][i][2],json_n_did["data"][i][3]]);
-                   }
-                   searcher(col, tabela_atual,true);
-
-               } else if (col == "{{did_table}}"){
+               if (selectedItem.row == 0 && selectedItem.column == 1){
                    tabela_atual = true;
                    search = [];
+                   var text = "{{view}}";
                    for (var i in json_history["data"]){
-                       search.push([json_history["data"][i][0],json_history["data"][i][1],
-                                   json_history["data"][i][2],json_history["data"][i][3]]);
+                       if (json_history["data"][i][2].toLowerCase().includes(text.toLowerCase())){
+                            search.push([json_history["data"][i][0],json_history["data"][i][1],
+                                    json_history["data"][i][2],json_history["data"][i][3]]);
+                       }
                    }
-                   searcher(col, tabela_atual,true);
+                    drawTable(column_history,pagination(search,1),true,3);
+                    alterTitleTable(search.length);
+                    putpagination(search,tabela_atual);
+               } else if(selectedItem.row == 0 && selectedItem.column == 2){
+                   tabela_atual = false;
+                   search = [];
+                   var text = "{{view}}";
+                   for (var i in json_n_did["data"]){
+                       if (json_n_did["data"][i][3].toLowerCase().includes(text.toLowerCase())){
+                            search.push([json_n_did["data"][i][0],json_n_did["data"][i][1],
+                                    json_n_did["data"][i][2],json_n_did["data"][i][3]]);
+                       }
+                   }
+                    drawTable(column_n_did,pagination(search,1),false);
+                    alterTitleTable(search.length);
+                    putpagination(search,tabela_atual);
+               } else if (selectedItem.row == 1 && selectedItem.column == 1){
+                   tabela_atual = true;
+                   search = [];
+                   var text = "{{watch}}";
+                   for (var i in json_history["data"]){
+                       if (json_history["data"][i][2].toLowerCase().includes(text.toLowerCase())){
+                            search.push([json_history["data"][i][0],json_history["data"][i][1],
+                                    json_history["data"][i][2],json_history["data"][i][3]]);
+                       }
+                   }
+                    drawTable(column_history,pagination(search,1),true,3);
+                    alterTitleTable(search.length);
+                    putpagination(search,tabela_atual);
+               } else if(selectedItem.row == 1 && selectedItem.column == 2){
+                   tabela_atual = false;
+                   search = [];
+                   var text = "{{watch}}";
+                   for (var i in json_n_did["data"]){
+                       if (json_n_did["data"][i][3].toLowerCase().includes(text.toLowerCase())){
+                            search.push([json_n_did["data"][i][0],json_n_did["data"][i][1],
+                                    json_n_did["data"][i][2],json_n_did["data"][i][3]]);
+                       }
+                   }
+                    drawTable(column_n_did,pagination(search,1),false);
+                    alterTitleTable(search.length);
+                    putpagination(search,tabela_atual);
+               } else if (selectedItem.row == 2 && selectedItem.column == 1){
+                   tabela_atual = true;
+                   search = [];
+                   var text = "{{finish}}";
+                   for (var i in json_history["data"]){
+                       if (json_history["data"][i][2].toLowerCase().includes(text.toLowerCase())){
+                            search.push([json_history["data"][i][0],json_history["data"][i][1],
+                                    json_history["data"][i][2],json_history["data"][i][3]]);
+                       }
+                   }
+                    drawTable(column_history,pagination(search,1),true,3);
+                    alterTitleTable(search.length);
+                    putpagination(search,tabela_atual);
+               } else if(selectedItem.row == 2 && selectedItem.column == 2){
+                   tabela_atual = false;
+                   search = [];
+                   var text = "{{finish}}";
+                   for (var i in json_n_did["data"]){
+                       if (json_n_did["data"][i][3].toLowerCase().includes(text.toLowerCase())){
+                            search.push([json_n_did["data"][i][0],json_n_did["data"][i][1],
+                                    json_n_did["data"][i][2],json_n_did["data"][i][3]]);
+                       }
+                   }
+                    drawTable(column_n_did,pagination(search,1),false);
+                    alterTitleTable(search.length);
+                    putpagination(search,tabela_atual);
                }
            }
           chart.setSelection([])
-            }
+         }
 
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
         google.visualization.events.addListener(chart, 'select', selectHandler);
@@ -149,7 +210,7 @@
 {% block breadcrumbs %}
     {{ block.super }}
     {% trans 'Reports' as bread %}
-	{% breadcrumb bread pdf_file%}
+	{% breadcrumb bread ytvideo%}
 {% endblock %}
 
 {% block content %}
@@ -168,14 +229,14 @@
             <div class="row">
                 <div class="col-md-12 category-header">
                     <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
-                        <span>{{pdf_file}} / {% trans "Reports" %}</span>
+                        <span>{{ytvideo}} / {% trans "Reports" %}</span>
                     </h4>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 text-center">
-                <h4 style="margin-top: 15px; margin-bottom: 10px" ><strong>{% trans "Report of the resource " %}{{pdf_file}}</strong></h4>
+                <h4 style="margin-top: 15px; margin-bottom: 10px" ><strong>{% trans "Report of the resource " %}{{ytvideo}}</strong></h4>
             </div>
         </div>
         <div class="row">
@@ -199,14 +260,14 @@
             <ul>
             </div>
         </div>
-
+        
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div id="chart_div" style="height: 500px; margin-top: -50px;"></div>
             </div>
         </div>
 
-         <div class="row">
+        <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="text-center">
                     <ul class="list-inline nav-justified">
@@ -240,7 +301,7 @@
     </div>
 
     <script type="text/javascript">
-        
+
         $("#title-table").text(search.length + " {% trans 'record(s)' %}");
         function putpagination(data = json_history["data"], load_histoty = true){
             var len = Math.ceil(data.length / 20);
@@ -337,6 +398,7 @@
             var search = data.slice(first,end);
             return search;
         }
+
         function clickPagination(pag, load_histoty = false){
             $(".pagination > li").last().remove();
             $(".pagination > li").first().remove();
@@ -359,7 +421,7 @@
 
         function openmodal(){
             $( "#modal-message" ).empty();
-           $.get( "{% url 'pdf_files:send_message' pdf_file.slug %}", function( data ) {
+           $.get( "{% url 'youtube:send_message' ytvideo.slug %}", function( data ) {
                 $( "#modal-message" ).append( data );
                 $("#send-message-modal").modal("show");
             });
@@ -379,7 +441,7 @@
 
             var formData = new FormData($('#text_chat_form').get(0));
             $.ajax({
-                url: "{% url 'pdf_files:send_message' pdf_file.slug %}",
+                url: "{% url 'youtube:send_message' ytvideo.slug %}",
                 type: "POST",
                 data: formData,
                 cache: false,
@@ -402,6 +464,10 @@
                     console.log("erro");
                 }
             });
+        }
+
+        function alterTitleTable (quant){
+            $("#title-table").text(quant + " {% trans 'record(s)' %}");
         }
     </script>
 {% endblock %}

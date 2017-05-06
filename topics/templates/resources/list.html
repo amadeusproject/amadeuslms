@@ -29,7 +29,15 @@
 			                </button>
 			                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="moreResources">
 			                    <li><a href="{% url resource.update_link topic.slug resource.slug %}" class="edit"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
-
+                                {% if resource|class_name == 'ytvideo' %}
+			                    	<li><a href="{% url 'youtube:get_chart' resource.slug %}" class="edit"><i class="fa fa-line-chart fa-fw" aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
+			                    {% endif %}
+                                {% if resource|class_name == 'link' %}
+			                    	<li><a href="{% url 'links:get_chart' resource.slug %}" class="edit"><i class="fa fa-line-chart fa-fw" aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
+			                    {% endif %}
+                                {% if resource|class_name == 'filelink' %}
+			                    	<li><a href="{% url 'file_links:get_chart' resource.slug %}" class="edit"><i class="fa fa-line-chart fa-fw" aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
+			                    {% endif %}
 			                    {% if resource|class_name == 'webpage' %}
 			                    	<li><a href="{% url 'webpages:get_chart' resource.slug %}" class="edit"><i class="fa fa-line-chart fa-fw" aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
 			                    {% endif %}

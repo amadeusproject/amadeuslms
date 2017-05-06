@@ -79,15 +79,38 @@ def most_accessed_subjects(request):
 def most_accessed_categories(request):
     data = {}
 
-    data = Log.objects.filter('category')
+    data = Log.objects.filter(resource = 'category')
     categories = {}
     for datum in data:
         if datum.context:
-           pass 
-    return None
+            category_id = datum.context['category_id']
+            if category_id in categories.keys():
+               categories[category_id]['count']  = categories[category_id]['count'] + 1
+            else:
+                categories[category_id] = {'name': datum.context['category_name'], 'count': 1 }
+
+    categories = sorted(categories.values(), key = lambda x: x['count'], reverse = True)
+    categories = categories[:5]
+    return JsonResponse(categories, safe= False)
 
 def most_accessed_resource_kind(request):
-    return None
+    resources_names = [cls.__name__ for cls in Resource.__subclasses__()]
+    print(resources_names)
+    resources = {}
+
+    mapping = {}
+    mapping['pdffile'] = str(_('PDF File'))
+    mapping['goals'] = str(_('Topic Goals'))
+    mapping['link'] = str(_('Link to Website'))
+    mapping['filelink'] = str(_('File Link'))
+    mapping['webconference'] = str(_('Web Conference'))
+    mapping['ytvideo'] = str(_('YouTube Video'))
+    mapping['webpage'] = str(_('WebPage'))
+
+    
+
+
+    return JsonResponse(resources, safe = False)
 
 
 def most_active_users(request):

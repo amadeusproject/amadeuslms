@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-09 18:40-0300\n"
+"POT-Creation-Date: 2017-05-05 19:49-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,106 +17,197 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: links/forms.py:27
+#: forms.py:27
 msgid "Tags"
 msgstr ""
 
-#: links/forms.py:28
+#: forms.py:28
 msgid "Website URL"
 msgstr ""
 
-#: links/forms.py:34
+#: forms.py:34
 msgid "Link name"
 msgstr ""
 
-#: links/forms.py:35
+#: forms.py:35
 msgid "End View"
 msgstr ""
 
-#: links/forms.py:36
+#: forms.py:36
 msgid "End View Date"
 msgstr ""
 
-#: links/forms.py:64
+#: forms.py:64
 msgid "There is already a link with this name on this subject"
 msgstr ""
 
-#: links/models.py:11
+#: models.py:13
 msgid "Link_URL"
 msgstr ""
 
-#: links/models.py:31 links/templates/links/delete.html:9
+#: models.py:33 templates/links/delete.html:12
 msgid "Are you sure you want delete the Website link"
 msgstr ""
 
-#: links/templates/links/_form.html:112
+#: templates/links/_form.html:112
 msgid "Pendencies Notifications"
 msgstr ""
 
-#: links/templates/links/_form.html:130
+#: templates/links/_form.html:130
 msgid "Action not performed by the user"
 msgstr ""
 
-#: links/templates/links/_form.html:156
+#: templates/links/_form.html:156
 msgid "Wished period"
 msgstr ""
 
-#: links/templates/links/_form.html:252
+#: templates/links/_form.html:252
 msgid "Attribute students to file link"
 msgstr ""
 
-#: links/templates/links/_form.html:272
+#: templates/links/_form.html:272
 msgid "Attribute groups to file link"
 msgstr ""
 
-#: links/templates/links/_form.html:320
+#: templates/links/_form.html:320
 msgid "Save"
 msgstr ""
 
-#: links/templates/links/create.html:20
+#: templates/links/create.html:20
 msgid "Create Website Link"
 msgstr ""
 
-#: links/templates/links/delete.html:14
+#: templates/links/delete.html:18 templates/links/send_message.html:62
 msgid "Close"
 msgstr ""
 
-#: links/templates/links/delete.html:17
+#: templates/links/delete.html:19
 msgid "Delete"
 msgstr ""
 
-#: links/templates/links/update.html:20
+#: templates/links/relatorios.html:17 templates/links/relatorios.html:37
+msgid "User"
+msgstr ""
+
+#: templates/links/relatorios.html:17 templates/links/relatorios.html:37
+msgid "Group"
+msgstr ""
+
+#: templates/links/relatorios.html:17
+msgid "Action"
+msgstr ""
+
+#: templates/links/relatorios.html:17
+msgid "Date of Action"
+msgstr ""
+
+#: templates/links/relatorios.html:37
+msgid "Send message"
+msgstr ""
+
+#: templates/links/relatorios.html:37
+msgid "Action don't realized"
+msgstr ""
+
+#: templates/links/relatorios.html:151 templates/links/relatorios.html:171
+msgid "Reports"
+msgstr ""
+
+#: templates/links/relatorios.html:178
+msgid "Report of the resource "
+msgstr ""
+
+#: templates/links/relatorios.html:187
+msgid "Select the period: "
+msgstr ""
+
+#: templates/links/relatorios.html:196
+msgid "Search"
+msgstr ""
+
+#: templates/links/relatorios.html:220
+msgid "Filter: "
+msgstr ""
+
+#: templates/links/relatorios.html:244 templates/links/relatorios.html:329
+msgid "record(s)"
+msgstr ""
+
+#: templates/links/send_message.html:38
+msgid "Click or drop the picture here"
+msgstr ""
+
+#: templates/links/send_message.html:40
+msgid "The picture could not exceed 5MB."
+msgstr ""
+
+#: templates/links/send_message.html:63
+msgid "Send"
+msgstr ""
+
+#: templates/links/update.html:20
 msgid "Edit: "
 msgstr ""
 
-#: links/views.py:51 links/views.py:64 links/views.py:224 links/views.py:226
-#: links/views.py:242 links/views.py:244
+#: views.py:59 views.py:72 views.py:256 views.py:258 views.py:274 views.py:276
 msgid "Visualize"
 msgstr ""
 
-#: links/views.py:124
+#: views.py:134
 msgid "Create Webiste Link"
 msgstr ""
 
-#: links/views.py:135
+#: views.py:145
 #, python-format
 msgid ""
 "The  Link \"%s\" was added to the Topic \"%s\" of the virtual environment "
 "\"%s\" successfully!"
 msgstr ""
 
-#: links/views.py:163
+#: views.py:173
 #, python-format
 msgid ""
 "The Website Link \"%s\" was removed successfully from virtual environment "
 "\"%s\"!"
 msgstr ""
 
-#: links/views.py:288
+#: views.py:322
 msgid "Update Website Link"
 msgstr ""
 
-#: links/views.py:299
+#: views.py:333
 #, python-format
 msgid "The Website Link \"%s\" was updated successfully!"
+msgstr ""
+
+#: views.py:377
+msgid "Links Reports"
+msgstr ""
+
+#: views.py:396
+msgid "Realized"
+msgstr ""
+
+#: views.py:396
+msgid "Unrealized"
+msgstr ""
+
+#: views.py:396
+msgid "Historic"
+msgstr ""
+
+#: views.py:414 views.py:423
+msgid "View"
+msgstr ""
+
+#: views.py:422
+msgid "Links"
+msgstr ""
+
+#: views.py:427
+msgid "Actions about resource"
+msgstr ""
+
+#: views.py:428
+msgid "Quantity"
 msgstr ""

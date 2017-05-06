@@ -91,7 +91,7 @@ var charts = {
 
 	build_bubble_user: function(url){
 		$.get(url, function(dataset){
-			var width = 600;
+			var width = 300;
 	        var height = 300;
 	       
 	        
@@ -121,7 +121,7 @@ var charts = {
 
 	        var color = d3.scaleOrdinal(d3.schemeCategory20);
 	         //adding new div to carousel-inner div
-	        var new_div = d3.select(".carousel-inner").append("div").attr("class","item"); 
+	        var new_div = d3.select(".middle-chart").append("div").attr("class","item"); 
 	        var radiusScale = d3.scaleSqrt().domain([min(), max()]).range([10,50]);
 	        var svg = new_div.append("svg").attr("width", width).attr("height", height)
 	        	.style("margin","auto")
@@ -131,17 +131,7 @@ var charts = {
 	        	.attr("width", width)
 	        	.attr("height", height);
 
-	        //adding svg title
-
-	        svg.append("text")
-	        	.attr("text-anchor", "middle")
-	        	.attr("x", width/2  )
-	        	.attr("y", 30)  
-	        	.style("font-size", "30px") 
-	        	.text("Usuários mais ativos no Amadeus")
-	        	.attr("fill", "#003333")
-	        	.style("font-weight", "bold")
-	        	.style("font-style", "italic");
+	        
 
 	        var simulation = d3.forceSimulation()
 	        	.force("x", d3.forceX(width/2).strength(0.05))
@@ -158,6 +148,29 @@ var charts = {
 	        	.append("g")
 	        	.attr("class",".user-dot");
 
+
+	       	var defs = groups.append('svg:defs');
+
+	        var gradient = defs.append("linearGradient")
+			   .attr("id", "svgGradient")
+			   .attr("x1", "0%")
+			   .attr("x2", "100%")
+			   .attr("y1", "0%")
+			   .attr("y2", "100%");
+
+			gradient.append("stop")
+			   .attr('class', 'start')
+			   .attr("offset", "0%")
+			   .attr("stop-color", "#007991")
+			   .attr("stop-opacity", 1);
+
+			gradient.append("stop")
+			   .attr('class', 'end')
+			   .attr("offset", "100%")
+			   .attr("stop-color", "#78ffd6")
+			   .attr("stop-opacity", 1);
+
+
 	       	//Create circles to be drawn
 	       	var circles = groups
 	       		.append('circle')
@@ -167,30 +180,47 @@ var charts = {
 
 	       		.attr("fill", function(d){
 	       			return 'url('+'#'+'user_'+d['user_id']+')';
-	       		});
+	       		})
+	       		.attr("stroke", "url(#svgGradient)") //using id setted by the svg
+	       		.attr("stroke-width", 3);
 
 
 
 	       	//Add texts to show user names
-	       	groups.append("text")
+	       	/*groups.append("text")
 	       	.text(function(d){
 	       		return d['user'] +'('+ d['count'] + ')';
-	       	}).attr("fill", "#FFFFFF")
+	       	}).attr("fill", "#000000")
 	       	.attr("id", function(d){
 	       		return "user_tooltip_"+d['user_id'];
-	       	}).style("display", "none");
+	       	}).style("display", "none");*/
+
+	       	var tooltip_div = d3.select("body").append("div")
+	       		.attr('class','user-tooltip')
+	       		.attr("display", "none")
+	       		.attr("height", 28)
+	       		.attr("width", 80)
+	       		.style("position", "absolute")
+	       		.style('pointer-events', 'none');
+
+
 
 
 	       	groups.on("mouseover", function(d){
-	       		$("#"+"user_tooltip_"+d['user_id']).show();
+	       		//$("#"+"user_tooltip_"+d['user_id']).show();
+	       		tooltip_div.transition().duration(200).style("opacity", .9);
+	       		tooltip_div.html(d['user'] + '</br>' +  d['count'] + ' acessos')
+	       		.style("left", (d3.event.pageX) + "px")
+	       		.style("top", (d3.event.pageY - 28) + "px");
+	       		console.log(d3.event.pageX);
+	       		console.log(d3.event.pageY);
 	       	});
 
 
 	       	groups.on("mouseout", function(d){
-	       		$("#"+"user_tooltip_"+d['user_id']).hide();
+	       		//$("#"+"user_tooltip_"+d['user_id']).hide();
 	       	});
 
-	       	var defs = groups.append('svg:defs');
 
 	       	//Attching images to bubbles
 			defs.append("svg:pattern")
@@ -217,11 +247,13 @@ var charts = {
 			    .attr("y", 0);
 
 
+			
 
 	       	//simulation
 	       	simulation.nodes(dataset)
 	       		.on('tick', ticked); //so all data points are attached to it
 
+	       	console.log("finished simulation");
 	       	function ticked(){
 	       		groups.attr("transform", function(d){
 	       			return "translate(" + d.x + "," + d.y + ")";
@@ -234,10 +266,10 @@ var charts = {
 
 	most_accessed_subjects: function(url){
 		$.get(url, function(dataset){
-			var width = 800;
+			var width = 200;
             var height = 300;
 
-            var new_div = d3.select(".carousel-inner").append("div").attr("class","item"); 
+            var new_div = d3.select(".carousel-inner").append("div").attr("test","ok");
 
            	var svg = new_div.append("svg").attr("width", "100%").attr("height", height)
 	        	.style("margin","auto")
@@ -417,7 +449,10 @@ var charts = {
 	}
 }
 
-charts.most_used_tags('/analytics/most_used_tags');
-//charts.build_resource('/topics/count_resources/');
-//charts.build_bubble_user('/users/get_users_log/');
-//charts.most_accessed_subjects('/subjects/most_accessed_subjects');
+
+$(document).ready(function(){
+	charts.most_used_tags('/analytics/most_used_tags');
+	//charts.build_resource('/topics/count_resources/');
+	charts.build_bubble_user('/analytics/most_active_users/');
+	//charts.most_accessed_subjects('/subjects/most_accessed_subjects');
+});

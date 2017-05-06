@@ -8,4 +8,7 @@ urlpatterns = [
 	#"api" callls
 	url(r'^most_used_tags/$', views.most_used_tags, name="most_used_tags"),
 	url(r'^most_accessed_subjects/$', views.most_accessed_subjects, name="most_accessed_subjects"),
+	url(r'^most_accessed_categories/$', views.most_accessed_categories, name = "most_accessed_categories"),
+	url(r'^most_accessed_resources/$', views.most_accessed_resource_kind, name= "most_accessed_resources"),
+	url(r'^most_active_users/$', views.most_active_users, name= "most_active_users"),
 ]
