@@ -11,4 +11,6 @@ urlpatterns = [
 	url(r'^view/(?P<slug>[\w_-]+)/$', views.InsideView.as_view(), name = 'view'),
 	url(r'^watch/(?P<ytvideo>[\w_-]+)/$', views.ytvideo_watch_log, name = 'watch'),
 	url(r'^finish/(?P<ytvideo>[\w_-]+)/$', views.ytvideo_finish_log, name = 'finish'),
+    url(r'^chart/(?P<slug>[\w_-]+)/$', views.StatisticsView.as_view(), name = 'get_chart'),
+    url(r'^send-message/(?P<slug>[\w_-]+)/$', views.SendMessage.as_view(), name = 'send_message'),
 ]
