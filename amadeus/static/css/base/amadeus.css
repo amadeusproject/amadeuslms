@@ -1612,7 +1612,7 @@ div.dataTables_wrapper div.dataTables_paginate {
     font-size: 14px;
 }
 
-.subject-related-panel .panel {
+.subject-related-panel .panel:not(.participant) {
     margin-bottom: 0px;
 }
 
