@@ -396,9 +396,6 @@ a.add-row {
 .mural .post_make {
   background: #FFFFFF; }
 
-.mural .post_make .user-img, .post .post-img, .post .post-comment .user-img div, .comment .comment-img div {
-  background: #CCCCCC; }
-
 .mural .post_make .post-field div {
   border-color: #CCCCCC; }
 
