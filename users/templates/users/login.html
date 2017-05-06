@@ -87,7 +87,7 @@
                                            <span >[{{LANGUAGE_CODE}}]  </span>
 
                                         </a>
-                                        <a href="" id = "contrast_button" style="margin-left:10px;"><i class="glyphicon glyphicon-adjust"></i></a>
+                                        <a href="{% url 'themes:contrast' %}" id = "contrast_button" style="margin-left:10px;"><i class="glyphicon glyphicon-adjust"></i></a>
                                         <ul class="dropdown-menu">
 
 
@@ -150,11 +150,11 @@
     $("#contrast_button" ).click(function() {
       if (Cookies.get('contrast_check')) {
         Cookies.remove('contrast_check')
-        location.reload()
+        //location.reload()
       }
       else {
         Cookies.set('contrast_check','contrast')
-        location.reload()
+        //location.reload()
       }
 
     });
