@@ -497,14 +497,15 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context["json_n_did"] = json_n_did
         context["json_history"] = json_history
         c_visualizou = vis_ou.distinct("user_email").count()
+        column_view = str(_('View'))
         re.append([str(_('Webpage')),did,n_did])
-        re.append([str(_('View')),c_visualizou, alunos.count() - c_visualizou])
+        re.append([column_view,c_visualizou, alunos.count() - c_visualizou])
         context['topic'] = webpage.topic
         context['subject'] = webpage.topic.subject
         context['db_data'] = re
         context['title_chart'] = _('Actions about resource')
         context['title_vAxis'] = _('Quantity')
-
+        context['view'] = column_view
         context["n_did_table"] = n_did
         context["did_table"] = did
         context["history_table"] = history
