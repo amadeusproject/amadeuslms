@@ -145,7 +145,7 @@
                         </ul>
                     </li>
 										<li style="width:40px;">
-											<a href="" id="contrast_button">
+											<a href="{% url 'themes:contrast' %}" id="contrast_button">
 													<i style="font-size:15px;right: 150%;" class="glyphicon glyphicon-adjust"></i>
 											</a>
 
@@ -209,11 +209,11 @@
 				    $("#contrast_button" ).click(function() {
 				      if (Cookies.get('contrast_check')) {
 				        Cookies.remove('contrast_check')
-				        location.reload()
+				        //location.reload()
 				      }
 				      else {
 				        Cookies.set('contrast_check','contrast')
-				        location.reload()
+				        //location.reload()
 				      }
 
 				    });
