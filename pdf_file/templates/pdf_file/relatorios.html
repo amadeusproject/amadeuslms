@@ -11,7 +11,7 @@
 
     var array_history = [];
     {%for data_json in json_history.data%}
-        array_history.push(["{{data_json.0}}","{{data_json.1}}","{{data_json.2}}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
+        array_history.push(["{{data_json.0}}","{{data_json.1}}","{{view}}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
     {% endfor%}
     var json_history = {"data":array_history};
     var column_history = [{"string":"{% trans 'User' %}"},{"string":"{% trans 'Group' %}"},{"string":"{% trans 'Action' %}"},{"date":"{% trans 'Date of Action' %}"}];
