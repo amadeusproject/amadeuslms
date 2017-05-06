@@ -583,6 +583,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context['finish'] = column_finish
         context['topic'] = ytvideo.topic
         context['subject'] = ytvideo.topic.subject
+        context['youtube'] = ytvideo
         context['db_data'] = re
         context['title_chart'] = _('Actions about resource')
         context['title_vAxis'] = _('Quantity')
