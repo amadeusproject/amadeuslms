@@ -20,7 +20,6 @@ from subjects.models import Subject
 from .models import Topic, Resource
 from .forms import TopicForm
 
-import operator
 
 class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 	log_component = 'topic'

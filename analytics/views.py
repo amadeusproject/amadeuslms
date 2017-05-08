@@ -9,6 +9,8 @@ from topics.models import Resource
 from users.models import User
 from django.http import HttpResponse, JsonResponse
 from log.models import Log
+import operator
+from django.utils.translation import ugettext_lazy as _
 
 
 class GeneralView(generic.TemplateView):
@@ -94,10 +96,17 @@ def most_accessed_categories(request):
     return JsonResponse(categories, safe= False)
 
 def most_accessed_resource_kind(request):
-    resources_names = [cls.__name__ for cls in Resource.__subclasses__()]
-    print(resources_names)
-    resources = {}
+    resources = Resource.objects.distinct()
 
+    data = {}
+    for resource in resources:
+        key = resource.__dict__['_my_subclass']
+        if key in data.keys():
+            data[key]['count'] = data[key]['count'] + 1
+        else:
+            data[key] = {'name': key, 'count': 1}
+
+    data = sorted(data.values(), key = lambda x: x['count'], reverse= True)
     mapping = {}
     mapping['pdffile'] = str(_('PDF File'))
     mapping['goals'] = str(_('Topic Goals'))
@@ -107,10 +116,9 @@ def most_accessed_resource_kind(request):
     mapping['ytvideo'] = str(_('YouTube Video'))
     mapping['webpage'] = str(_('WebPage'))
 
-    
-
-
-    return JsonResponse(resources, safe = False)
+    data = [ {'name': mapping[resource['name']] , 'count': resource['count']} for resource in data]
+    data =  data[:5]
+    return JsonResponse(data, safe=False)
 
 
 def most_active_users(request):
