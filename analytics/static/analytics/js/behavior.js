@@ -56,20 +56,13 @@ var selectors_options = {
 		
 		$(e).after(string_build);
 		var new_elem = $(e).next();
-		new_elem.slideDown();
+		new_elem.slideDown({easing: 'easeInOutSine'}, 5000);
 		$(e).attr("opened", true);
 		
 	},
 	deleteChildren: function(e){
-		console.log("delete children");
 		var most_accessed_list = $(e).next();
-		$(most_accessed_list).animate(
-			{height: 0,
-			 opacity: 0.1
-			}, 1000, function(){
-			$(this).remove(); //remove list from UI
-		});
-		
+		$(most_accessed_list).slideUp({easing: 'easeInOutSine'}, 1200);		
 		$(e).removeAttr("opened"); //remove attribute so it can call API again
 	},
 };

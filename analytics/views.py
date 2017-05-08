@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
-# Create your views here.
 from django.views import generic
 from django.db.models import Count
+from django.core.urlresolvers import reverse_lazy
 
 from subjects.models import Tag, Subject
 from topics.models import Resource
@@ -11,10 +11,18 @@ from django.http import HttpResponse, JsonResponse
 from log.models import Log
 import operator
 from django.utils.translation import ugettext_lazy as _
+from django.shortcuts import render, get_object_or_404, redirect
 
 
 class GeneralView(generic.TemplateView):
     template_name = "analytics/general.html"
+
+    def dispatch(self, request, *args, **kwargs):
+       
+        if not request.user.is_staff:
+            self.template_name = "analytics/category.html"
+        return super(GeneralView, self).dispatch(request, *args, **kwargs)
+
 
     def get_context_data(self, **kwargs):
         context = {}
@@ -72,7 +80,7 @@ def most_accessed_subjects(request):
 
     #order the values of the dictionary by the count in descendent order
     subjects = sorted(subjects.values(), key = lambda x: x['count'], reverse=True )
-    subjects = subjects[:30]
+    subjects = subjects[:5]
 
     return JsonResponse(subjects, safe=False)
 

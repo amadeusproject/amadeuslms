@@ -49,14 +49,11 @@ $title-color: #009688
     h4
         margin-left: 1%
 
-.data-container
-    width: 80px 
-    height: 40px
 
 .tag-cloud
     border-radius: 25px
     color: #ffffff
-    width: 80px
+
 
     
 
@@ -67,6 +64,9 @@ $title-color: #009688
 
 #left-data-selector
     background: linear-gradient( #0e8999, #6bf0ce )
+    margin-top: 5%
+    padding-top: 3%
+    padding-bottom: 2%
 
 .chart
     width: 30%
@@ -76,11 +76,11 @@ $title-color: #009688
 
 .selector
     width: 90%
-    height: 20%
+    height: 40px
     color: white
     padding-left: 5px
     background-color: #009688
-    margin-top: 10px
+    margin-top: 5px
     border-radius: 0px 20px 20px 0px
     p
         padding-top: 10px
@@ -101,13 +101,32 @@ $title-color: #009688
     background-color: #52b7bd
     width: 80%
     margin-left: 2%
-    margin-top: 2%
+    margin-top: 4%
+    position: relative
     padding-left: 0
     color: white
+    border: 2px solid #52b7bd
     transition: width 2s, height 2s, background-color 2s, transform 2s
 
     li
         padding-left: 1%
+
+.most-accessed-list:after, .most-accessed-list:before
+    bottom: 100%
+    left: 50%
+    border: solid transparent
+    content: " "
+    height: 0
+    width: 0
+    position: absolute
+    pointer-events: none
+
+
+.most-accessed-list:before
+    border-width: 12px
+    margin-left: -50%
+    border-color: rgba(136, 183, 213, 0)
+    border-bottom-color: #52b7bd
 
 .most-accessed-item:hover 
     background-color: #3aa7ad
