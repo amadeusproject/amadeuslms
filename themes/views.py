@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect,HttpRequest
 from django.shortcuts import redirect
-
+from log.decorators import log_decorator
 from braces import views as braces_mixins
 
 from .models import Themes
@@ -79,3 +79,8 @@ class CSSStyleSettings(braces_mixins.LoginRequiredMixin, braces_mixins.Staffuser
 		context['settings_menu_active'] = "settings_menu_active"
 
 		return context
+
+@log_decorator("contrast", "click", "contrast")
+def Contrast(request):
+	caminho = request.META.get('HTTP_REFERER')
+	return HttpResponseRedirect(caminho)

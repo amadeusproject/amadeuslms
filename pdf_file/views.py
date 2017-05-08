@@ -19,6 +19,10 @@ from topics.models import Topic, Resource
 from .models import PDFFile
 from pendencies.forms import PendenciesForm
 
+from chat.models import Conversation, TalkMessages
+from users.models import User
+from subjects.models import Subject
+from webpage.forms import FormModalMessage
 
 
 class ViewPDFFile(LoginRequiredMixin, LogMixin, generic.TemplateView):
@@ -153,9 +157,6 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
 
         if not self.object.topic.visible and not self.object.topic.repository:
             self.object.visible = False
-
-        if form.cleaned_data["all_students"]:
-            self.object.students.add(*self.object.topic.subject.students.all())
 
         self.object.save()
 
@@ -412,6 +413,8 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context["init_date"] = start_date
         context["end_date"] = end_date
         alunos = pdf_file.students.all()
+        if pdf_file.all_students :
+        	alunos = pdf_file.topic.subject.students.all()
 
         vis_ou = Log.objects.filter(context__contains={'pdffile_id':pdf_file.id},resource="pdffile",action="view",user_email__in=(aluno.email for aluno in alunos), datetime__range=(start_date,end_date + datetime.timedelta(minutes = 1)))
         did,n_did,history = str(_("Realized")),str(_("Unrealized")),str(_("Historic"))
@@ -441,32 +444,56 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context["json_n_did"] = json_n_did
         context["json_history"] = json_history
         c_visualizou = vis_ou.distinct("user_email").count()
+        column_view = str(_('View'))
         re.append([str(_('PDF File')),did,n_did])
-        re.append([str(_('View')),c_visualizou, alunos.count() - c_visualizou])
+        re.append([column_view,c_visualizou, alunos.count() - c_visualizou])
         context['topic'] = pdf_file.topic
         context['subject'] = pdf_file.topic.subject
         context['db_data'] = re
         context['title_chart'] = _('Actions about resource')
         context['title_vAxis'] = _('Quantity')
-
+        context['view'] = column_view
         context["n_did_table"] = n_did
         context["did_table"] = did
         context["history_table"] = history
         return context
 
+class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
+    log_component = 'resources'
+    log_action = 'send'
+    log_resource = 'pdffile'
+    log_context = {}
 
-from chat.models import Conversation, TalkMessages
-from users.models import User
-from subjects.models import Subject
-def sendMessage(request, slug):
-    message = request.GET.get('message','')
-    users = request.GET.getlist('users[]','')
-    user = request.user
-    subject = get_object_or_404(Subject,slug = slug)
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
 
-    for u in users:
-        to_user = User.objects.get(email=u)
-        talk, create = Conversation.objects.get_or_create(user_one=user,user_two=to_user)
-        created = TalkMessages.objects.create(text=message,talk=talk,user=user,subject=subject)
+    template_name = 'pdf_file/send_message.html'
+    form_class = FormModalMessage
 
-    return JsonResponse({"message":"ok"})
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug', '')
+        pdf_file = get_object_or_404(PDFFile, slug = slug)
+        self.pdf_file = pdf_file
+        
+        if not has_subject_permissions(request.user, pdf_file.topic.subject):
+            return redirect(reverse_lazy('subjects:home'))
+
+        return super(SendMessage, self).dispatch(request, *args, **kwargs)
+    
+    def form_valid(self, form):
+        message = form.cleaned_data.get('comment')
+        image = form.cleaned_data.get("image")
+        users = (self.request.POST.get('users[]','')).split(",")
+        user = self.request.user
+        subject = self.pdf_file.topic.subject
+        for u in users:
+            to_user = User.objects.get(email=u)
+            talk, create = Conversation.objects.get_or_create(user_one=user,user_two=to_user)
+            created = TalkMessages.objects.create(text=message,talk=talk,user=user,subject=subject,image=image)
+        return JsonResponse({"message":"ok"})
+
+    def get_context_data(self, **kwargs):
+        context = super(SendMessage,self).get_context_data()
+        context["pdf_file"] = get_object_or_404(PDFFile, slug=self.kwargs.get('slug', ''))
+        return context
+
