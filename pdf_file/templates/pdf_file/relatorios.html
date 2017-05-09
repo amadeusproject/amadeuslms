@@ -84,6 +84,7 @@
                    }
                    searcher(col, tabela_atual,true);
                }
+               scroll("#title-table");
            }
           chart.setSelection([])
             }
@@ -153,16 +154,18 @@
 {% endblock %}
 
 {% block content %}
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <p>{{ message }}</p>
-            </div>
-        {% endfor %}
-    {% endif %}
+    <div id="message-top">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
     <div class="panel panel-info topic-panel">
         <div class="panel-heading">
             <div class="row">
@@ -391,17 +394,41 @@
                         $("body").removeClass("modal-open");
                         $( "#modal-message" ).empty();
                         $(".modal-backdrop.fade.in").remove();
+                        $("#message-top").empty();
+                        $("#message-top").append('\
+                            <div class="alert alert-success alert-dismissible" role="alert">\
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">\
+                                    <span aria-hidden="true">&times;</span>\
+                                </button>\
+                                <p>' + data["message"] + '</p>\
+                            </div>\
+                        ');
+                         $("html, body").animate({ scrollTop: 0 }, "slow");
+                         $('#google-chart-checkbox')[0].reset();
                     } else {
                         $( "#modal-message" ).empty();
                         $(".modal-backdrop.fade.in").remove();
                         $( "#modal-message" ).append( data );
                         $("#send-message-modal").modal("show");
+                        $("html, body").animate({ scrollTop: 0 }, "slow");
                     }
                 },
                 error: function(data){
-                    console.log("erro");
+                    $("#message-top").empty();
+                    $("#message-top").append('\
+                        <div class="alert alert-danger alert-dismissible" role="alert">\
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">\
+                                <span aria-hidden="true">&times;</span>\
+                            </button>\
+                            <p>' + data.responseText + '</p>\
+                        </div>\
+                    ');
+                    $("html, body").animate({ scrollTop: 0 }, "slow");
                 }
             });
+        }
+        function scroll(to){
+            $("html, body").animate({ scrollTop: $(to).offset().top }, "slow");
         }
     </script>
 {% endblock %}
