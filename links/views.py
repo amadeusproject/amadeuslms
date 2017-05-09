@@ -24,6 +24,7 @@ from users.models import User
 from subjects.models import Subject
 
 from webpage.forms import FormModalMessage
+from django.http import JsonResponse
 
 # Create your views here.
 class CreateLinkView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
@@ -433,7 +434,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context["history_table"] = history
         return context
 
-
+from django.http import HttpResponse #used to send HTTP 404 error to ajax
 
 class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
     log_component = 'resources'
@@ -463,11 +464,17 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
         users = (self.request.POST.get('users[]','')).split(",")
         user = self.request.user
         subject = self.link.topic.subject
-        for u in users:
-            to_user = User.objects.get(email=u)
-            talk, create = Conversation.objects.get_or_create(user_one=user,user_two=to_user)
-            created = TalkMessages.objects.create(text=message,talk=talk,user=user,subject=subject,image=image)
-        return JsonResponse({"message":"ok"})
+
+        if (users[0] is not ''):
+            for u in users:
+                to_user = User.objects.get(email=u)
+                talk, create = Conversation.objects.get_or_create(user_one=user,user_two=to_user)
+                created = TalkMessages.objects.create(text=message,talk=talk,user=user,subject=subject,image=image)
+            success = str(_('The message was successfull sent!'))
+            return JsonResponse({"message":success})
+        erro = HttpResponse(str(_("No user selected!")))
+        erro.status_code = 404
+        return erro
 
     def get_context_data(self, **kwargs):
         context = super(SendMessage,self).get_context_data()
