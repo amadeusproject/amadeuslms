@@ -10,5 +10,4 @@ urlpatterns = [
 	url(r'^view_log/(?P<topic>[\w_-]+)/$', views.topic_view_log, name = 'view_log'),
 	url(r'^update_order/$', views.update_order, name = 'update_order'),
 	url(r'^update_resource_order/$', views.update_resource_order, name = 'update_resource_order'),
-	url(r'^count_resources/$', views.getResourceCount, name='resource_count'),
 ]

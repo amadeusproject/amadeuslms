@@ -208,17 +208,17 @@ var charts = {
 
 	       	groups.on("mouseover", function(d){
 	       		//$("#"+"user_tooltip_"+d['user_id']).show();
-	       		tooltip_div.transition().duration(200).style("opacity", .9);
+	       		tooltip_div.transition().duration(500).style("opacity", .9);
 	       		tooltip_div.html(d['user'] + '</br>' +  d['count'] + ' acessos')
 	       		.style("left", (d3.event.pageX) + "px")
 	       		.style("top", (d3.event.pageY - 28) + "px");
-	       		console.log(d3.event.pageX);
-	       		console.log(d3.event.pageY);
 	       	});
 
 
 	       	groups.on("mouseout", function(d){
 	       		//$("#"+"user_tooltip_"+d['user_id']).hide();
+	       		tooltip_div.transition().duration(500).style("opacity", 0);
+	       		
 	       	});
 
 
@@ -253,7 +253,6 @@ var charts = {
 	       	simulation.nodes(dataset)
 	       		.on('tick', ticked); //so all data points are attached to it
 
-	       	console.log("finished simulation");
 	       	function ticked(){
 	       		groups.attr("transform", function(d){
 	       			return "translate(" + d.x + "," + d.y + ")";
@@ -371,7 +370,6 @@ var charts = {
 	       		return maximum
 	       	}
 	       	
-	       	console.log(dataset);
 
 			var container_div = d3.select("#most-used-tags-body");
 			var svg = container_div.append("svg").attr("width", "100%").attr("height", height)
@@ -394,7 +392,7 @@ var charts = {
 			  return Math.floor(Math.random() * (max - min)) + min;
 			}
 
-	        var xScale = d3.scaleSqrt().domain([min(), max()]).range([10,50]);
+	        var xScale = d3.scaleSqrt().domain([min(), max()]).range([10,80]);
 	        var tag_cloud = svg.selectAll('.tag-cloud-div')
 	        .data(dataset)
 	        .enter()
@@ -409,7 +407,7 @@ var charts = {
 	        	return xScale(d['count'])*1.2;
 	        })
 	        .attr("height", function(d){
-	        	return xScale(d["count"])*0.8;
+	        	return xScale(d["count"])*0.4;
 	        })
 	        .attr("fill", function(d, i) {
 	            return color(getRandomInt(0,3));
@@ -422,8 +420,12 @@ var charts = {
 	       	.text(function(d){
 	       		return d['name'];
 	       	})
-	       	.attr("x", 20)
-	       	.attr("y", 25)
+	       	.attr("x", function(d){
+	       		return xScale(d['count'])*0.2;
+	       	})
+	       	.attr("y", function(d){
+	       		return xScale(d["count"])*0.2;
+	       	})
 	       	.attr("class", "tag-name")
 	       	.attr("fill", "#ffffff");
 
@@ -432,7 +434,7 @@ var charts = {
 		        .force("x", d3.forceX(width/2).strength(0.05))
 		        .force("y", d3.forceY(height/2).strength(0.05))
 		        .force("collide", d3.forceCollide(function(d){
-		        	return 30;
+		        	return xScale(d['count'])*0.4;
 		        }));
 
 		    //simulation

@@ -3,7 +3,8 @@
   border-radius: 20px;
   padding: 10px;
   overflow: auto;
-  width: 100%; }
+  width: 100%;
+  background-color: #ffffff; }
 
 #general-report-header {
   height: 10%;
@@ -14,21 +15,22 @@
     float: right;
     display: inline-flex;
     width: 50%;
-    height: 15%; }
+    margin-bottom: 0px; }
     #general-report-header ul li {
       margin-right: 2%;
       width: 50%;
-      color: white; }
-      #general-report-header ul li div.selected {
-        background-color: #4dcfbd;
-        width: 100%;
-        text-align: center;
-        border-radius: 20px; }
-      #general-report-header ul li div {
-        background-color: #0f8a9a;
-        width: 100%;
-        text-align: center;
-        border-radius: 20px; }
+      color: white;
+      font-size: 20px;
+      background-color: #0f8a9a;
+      width: 100%;
+      text-align: center;
+      border-radius: 20px;
+      height: 30px; }
+    #general-report-header ul li.selected {
+      background-color: #4dcfbd;
+      width: 100%;
+      text-align: center;
+      border-radius: 20px; }
 
 #most-used-tags-header {
   background: linear-gradient(to right, #0e8999, #6bf0ce);
@@ -40,21 +42,19 @@
   #most-used-tags-header h4 {
     margin-left: 1%; }
 
-.data-container {
-  width: 80px;
-  height: 40px; }
-
 .tag-cloud {
   border-radius: 25px;
-  color: #ffffff;
-  width: 80px; }
+  color: #ffffff; }
 
 .tag-name {
   color: #ffffff;
   font-size: 10px; }
 
 #left-data-selector {
-  background: linear-gradient(#0e8999, #6bf0ce); }
+  background: linear-gradient(#0e8999, #6bf0ce);
+  margin-top: 5%;
+  padding-top: 3%;
+  padding-bottom: 2%; }
 
 .chart {
   width: 30%;
@@ -64,11 +64,11 @@
 
 .selector {
   width: 90%;
-  height: 20%;
+  height: 40px;
   color: white;
   padding-left: 5px;
   background-color: #009688;
-  margin-top: 10px;
+  margin-top: 5px;
   border-radius: 0px 20px 20px 0px; }
   .selector p {
     padding-top: 10px;
@@ -87,12 +87,30 @@
   background-color: #52b7bd;
   width: 80%;
   margin-left: 2%;
-  margin-top: 2%;
+  margin-top: 4%;
+  position: relative;
   padding-left: 0;
   color: white;
+  border: 2px solid #52b7bd;
   transition: width 2s, height 2s, background-color 2s, transform 2s; }
   .most-accessed-list li {
     padding-left: 1%; }
+
+.most-accessed-list:after, .most-accessed-list:before {
+  bottom: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none; }
+
+.most-accessed-list:before {
+  border-width: 12px;
+  margin-left: -50%;
+  border-color: rgba(136, 183, 213, 0);
+  border-bottom-color: #52b7bd; }
 
 .most-accessed-item:hover {
   background-color: #3aa7ad; }
