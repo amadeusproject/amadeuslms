@@ -24,15 +24,17 @@
     <section id="core-subjects-options-div">
         <nav>
             <ul class="core-subjects-options report-menu-choice">
-            	<li class="active">
-            		{% trans "Platform Report" %}
-            	</li>
-            	<li>
-            		{% trans "Category Report" %}
-            	</li>
-            	<li>
-            		{% trans "Subject Report" %}
-            	</li>
+              
+                    <li class="active">
+                        {% trans "Platform Report" %}
+                    </li>
+                    <li>
+                        {% trans "Category Report" %}
+                    </li>
+                    <li>
+                        {% trans "Subject Report" %}
+                    </li>
+              
             </ul>
         </nav>
     </section>
@@ -42,11 +44,11 @@
             <h3>{% trans "Amadeus Report" %}</h3>
 
             <ul id="report-header-options">
-                <li >
-                    <div class="selected">{% trans "Focus" %}<div>
+                <li  class="selected">
+                    {% trans "Focus" %}
                 </li>
                 <li>
-                    <div>{% trans "Log" %}<div>
+                    {% trans "Log" %}
                 </li>
             </ul>
         </header> 
@@ -65,10 +67,7 @@
             </section>
             <section class="bottom-section">
                 <div class="chart left-chart">
-                    <div id="date-selector">
-                        <p>{% trans "Between" %}  20-20-17 {% trans "and" %}
-                        20-20-17</p>
-                    </div>
+                 
 
                     <div id="left-data-selector">
                       

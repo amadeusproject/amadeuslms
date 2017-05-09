@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'analytics/general.css' %}">  
+{% endblock style %}
+
+{% block javascript %}
+    <script type="text/javascript" src="{% static "analytics/js/charts.js" %}"></script>
+    <script type="text/javascript" src=" {% static "analytics/js/behavior.js" %} "></script>
+{% endblock javascript %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    
+    {% trans 'Analytics Category' as category %}
+
+    {% breadcrumb category 'dashboard:view_general' %}
+{% endblock %}
+
+
+{% block content %}
+	test
+{% endblock content %}

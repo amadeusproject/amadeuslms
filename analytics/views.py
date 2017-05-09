@@ -1,18 +1,28 @@
 from django.shortcuts import render
 
-# Create your views here.
 from django.views import generic
 from django.db.models import Count
+from django.core.urlresolvers import reverse_lazy
 
 from subjects.models import Tag, Subject
 from topics.models import Resource
 from users.models import User
 from django.http import HttpResponse, JsonResponse
 from log.models import Log
+import operator
+from django.utils.translation import ugettext_lazy as _
+from django.shortcuts import render, get_object_or_404, redirect
 
 
 class GeneralView(generic.TemplateView):
     template_name = "analytics/general.html"
+
+    def dispatch(self, request, *args, **kwargs):
+       
+        if not request.user.is_staff:
+            self.template_name = "analytics/category.html"
+        return super(GeneralView, self).dispatch(request, *args, **kwargs)
+
 
     def get_context_data(self, **kwargs):
         context = {}
@@ -70,7 +80,7 @@ def most_accessed_subjects(request):
 
     #order the values of the dictionary by the count in descendent order
     subjects = sorted(subjects.values(), key = lambda x: x['count'], reverse=True )
-    subjects = subjects[:30]
+    subjects = subjects[:5]
 
     return JsonResponse(subjects, safe=False)
 
@@ -94,10 +104,17 @@ def most_accessed_categories(request):
     return JsonResponse(categories, safe= False)
 
 def most_accessed_resource_kind(request):
-    resources_names = [cls.__name__ for cls in Resource.__subclasses__()]
-    print(resources_names)
-    resources = {}
+    resources = Resource.objects.distinct()
 
+    data = {}
+    for resource in resources:
+        key = resource.__dict__['_my_subclass']
+        if key in data.keys():
+            data[key]['count'] = data[key]['count'] + 1
+        else:
+            data[key] = {'name': key, 'count': 1}
+
+    data = sorted(data.values(), key = lambda x: x['count'], reverse= True)
     mapping = {}
     mapping['pdffile'] = str(_('PDF File'))
     mapping['goals'] = str(_('Topic Goals'))
@@ -107,10 +124,9 @@ def most_accessed_resource_kind(request):
     mapping['ytvideo'] = str(_('YouTube Video'))
     mapping['webpage'] = str(_('WebPage'))
 
-    
-
-
-    return JsonResponse(resources, safe = False)
+    data = [ {'name': mapping[resource['name']] , 'count': resource['count']} for resource in data]
+    data =  data[:5]
+    return JsonResponse(data, safe=False)
 
 
 def most_active_users(request):
