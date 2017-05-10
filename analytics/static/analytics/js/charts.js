@@ -448,6 +448,51 @@ var charts = {
 	       	}
 
 		});
+	},
+	month_heatmap: function(data){
+
+		if($('#month-chart').length != 0){
+			$('#month-chart').fadeOut();
+			$('#month-chart').remove();
+		}
+		var svg = d3.select('#right-chart-body').append('svg')
+		.attr('width', 300)
+		.attr('height', 200)
+		.attr('id', 'month-chart');
+
+		//color range
+		var color = d3.scaleLinear().range(["#29c8b8", '#149e91']).domain([0, d3.max(data, function(d){ return d.count; })]);
+
+	    var rects = svg.selectAll("rect")
+	        .data(data)
+	        .enter()
+	        	.append("g");
+	    rect_width = 40;
+	    rect_height = 40;        
+	    rects.append("rect")
+	    	.attr("width", rect_width)
+	    	.attr("height", rect_height)
+	    	.attr("class", "day_rect")
+	    	.attr("x", function(d){
+
+	    		return rect_width* (d.day % 7);
+	    	}).attr("y", function(d){
+	    		return rect_height*(Math.floor(d.day / 7));
+	    	}).attr("fill", function(d){
+	    		return color(d.count);
+	    	});
+
+	    rects.append("text")
+	    	.text( function(d){
+	    		return d.day;
+	    	}).attr("fill", "white")
+	    	.attr("text-anchor", "middle")
+	    	.attr("x", function(d){
+	    		return rect_width* (d.day % 7) + rect_width/2;
+	    	}).attr("y", function(d){
+	    		return rect_height*(Math.floor(d.day / 7)) + rect_height/2;
+	    	});
+
 	}
 }
 

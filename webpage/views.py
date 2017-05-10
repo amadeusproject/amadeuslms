@@ -513,6 +513,8 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
 
 
+from django.http import HttpResponse #used to send HTTP 404 error to ajax
+
 class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
     log_component = 'resources'
     log_action = 'send'
@@ -541,11 +543,17 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
         users = (self.request.POST.get('users[]','')).split(",")
         user = self.request.user
         subject = self.webpage.topic.subject
-        for u in users:
-            to_user = User.objects.get(email=u)
-            talk, create = Conversation.objects.get_or_create(user_one=user,user_two=to_user)
-            created = TalkMessages.objects.create(text=message,talk=talk,user=user,subject=subject,image=image)
-        return JsonResponse({"message":"ok"})
+        
+        if (users[0] is not ''):
+            for u in users:
+                to_user = User.objects.get(email=u)
+                talk, create = Conversation.objects.get_or_create(user_one=user,user_two=to_user)
+                created = TalkMessages.objects.create(text=message,talk=talk,user=user,subject=subject,image=image)
+            success = str(_('The message was successfull sent!'))
+            return JsonResponse({"message":success})
+        erro = HttpResponse(str(_("No user selected!")))
+        erro.status_code = 404
+        return erro
 
     def get_context_data(self, **kwargs):
         context = super(SendMessage,self).get_context_data()
