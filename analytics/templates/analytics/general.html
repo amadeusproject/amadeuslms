@@ -93,8 +93,18 @@
                   
                 </div>
                 <div class="chart right-chart">
-                    
+                    <div>
+                        <p>{% trans "amount of access in: " %}</p>
+                        <select id="month_selector">
+                            {% for month in months  %}
+                                <option>{{month}}</option>
+                            {% endfor %}
 
+                        </select>
+                    </div>
+                    <div id="right-chart-body">
+                        
+                    </div>
                 </div>
             </section>
 

@@ -1,7 +1,20 @@
 
 $(document).ready(function(){
 	selectors_options.init();
+
+	//for month selector
+
+	$('#month_selector').change(function(){
+		$.get('/analytics/amount_active_users_per_day', {month: $(this).val() }).done(function(data){
+			console.log(data);
+			charts.month_heatmap(data);
+			
+		});
+	});
+
+
 });
+
 
 
 var selectors_options = {
@@ -66,3 +79,5 @@ var selectors_options = {
 		$(e).removeAttr("opened"); //remove attribute so it can call API again
 	},
 };
+
+

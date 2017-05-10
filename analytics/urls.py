@@ -11,4 +11,5 @@ urlpatterns = [
 	url(r'^most_accessed_categories/$', views.most_accessed_categories, name = "most_accessed_categories"),
 	url(r'^most_accessed_resources/$', views.most_accessed_resource_kind, name= "most_accessed_resources"),
 	url(r'^most_active_users/$', views.most_active_users, name= "most_active_users"),
+	url(r'^amount_active_users_per_day/$', views.most_active_users_in_a_month, name="most_active_users_in_a_month")
 ]
