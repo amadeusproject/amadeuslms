@@ -13,6 +13,9 @@ import operator
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render, get_object_or_404, redirect
 
+from datetime import date
+import calendar
+
 
 class GeneralView(generic.TemplateView):
     template_name = "analytics/general.html"
@@ -26,6 +29,9 @@ class GeneralView(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = {}
+
+        context['months'] = [_('January'), _('February'), _('March'), _('April'), _('May'), _('June'), _('July'), _('August'), 
+        _('September'), _('October'), _('November'), _('December')]
         
         return context
 
@@ -55,8 +61,23 @@ def most_used_tags(request):
     return JsonResponse(data, safe= False) 
 
 
-def heatmap(request):
-    return None
+def most_active_users_in_a_month(request):
+    params = request.GET
+    days = get_days_of_the_month(params['month'])
+    print(days)
+    data = {}
+    mappings = {_('January'): 1, _('February'): 2, _('March'): 3, _('April'): 4, _('May'): 5, _('June'): 6, _('July'): 7
+    , _('August'): 8, _('September'): 9, _('October'): 10, _('November'): 11, _('December'): 12}
+    
+
+    for day in days:
+        built_date = date(date.today().year, mappings[params['month']], day)
+        print(built_date)
+        day_count = Log.objects.filter(datetime__date = built_date).count()
+        data[day] = day_count
+
+    data = [{"day": day, "count": day_count} for day, day_count in data.items()]
+    return JsonResponse(data, safe=False)
 
 
 
@@ -137,3 +158,24 @@ def most_active_users(request):
         user['image'] = user_object.image_url
         user['user'] = user_object.social_name
     return JsonResponse(fifty_users, safe=False)
+
+
+def get_days_of_the_month(month):
+ 
+    #get current year
+    year = date.today().year
+    print(year)
+    print(month)
+    mappings = {_('January'): 1, _('February'): 2, _('March'): 3, _('April'): 4, _('May'): 5, _('June'): 6, _('July'): 7
+    , _('August'): 8, _('September'): 9, _('October'): 10, _('November'): 11, _('December'): 12}
+  
+    c = calendar.Calendar()
+    days = c.itermonthdays(year, mappings[month])
+    days_set = set()
+    for day in days:
+        days_set.add(day)
+
+    days_set.remove(0) #because 0 is not aan actual day from that month
+    return days_set 
+
+
