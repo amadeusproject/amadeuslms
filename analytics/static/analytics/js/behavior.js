@@ -1,4 +1,6 @@
 
+
+
 $(document).ready(function(){
 	selectors_options.init();
 
@@ -6,12 +8,14 @@ $(document).ready(function(){
 
 	$('#month_selector').change(function(){
 		$.get('/analytics/amount_active_users_per_day', {month: $(this).val() }).done(function(data){
-			console.log(data);
 			charts.month_heatmap(data);
 			
 		});
 	});
 
+	
+    $('#datetimepicker1').datetimepicker();
+ 
 
 });
 

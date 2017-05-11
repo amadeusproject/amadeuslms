@@ -348,27 +348,7 @@ var charts = {
 			var width = 800;
 			var height = 300;
 
-			function min(){
-	       		minimum = 100000000000;
-	       		for(var i = 0; i < dataset.length; i++){
-	       			if (dataset[i]['count'] < min){
-	       				minimum = dataset[i]['count'];
-	       			}
-	       		}
-
-	       		return minimum
-	       	}
-
-	       	function max(){
-	       		maximum = 0;
-	       		for(var i = 0; i < dataset.length; i++){
-	       			if (dataset[i]['count'] > max){
-	       				maximum = dataset[i]['count'];
-	       			}
-	       		}
-
-	       		return maximum
-	       	}
+			
 	       	
 
 			var container_div = d3.select("#most-used-tags-body");
@@ -378,8 +358,8 @@ var charts = {
 	        	.style("background","#ddf8e7")
 	        	.append('g')
 	        	.attr("transform", "translate(0,0)")
-	        	.style("width", width)
-	        	.attr("height", height);
+	        	.attr("width", "100%")
+	        	.attr("height", height - 60);
 
 	        
 	        var color = d3.scaleLinear()
@@ -392,7 +372,8 @@ var charts = {
 			  return Math.floor(Math.random() * (max - min)) + min;
 			}
 
-	        var xScale = d3.scaleSqrt().domain([min(), max()]).range([10,80]);
+	        var xScale = d3.scaleSqrt().domain([d3.min(dataset, function(d){ return d['count']}), 
+	        	d3.max(dataset, function(d){ return d.count; })]).range([100,200]);
 	        var tag_cloud = svg.selectAll('.tag-cloud-div')
 	        .data(dataset)
 	        .enter()
@@ -420,23 +401,29 @@ var charts = {
 	       	.text(function(d){
 	       		return d['name'];
 	       	})
+	       	.attr("text-anchor", "middle")
 	       	.attr("x", function(d){
-	       		return xScale(d['count'])*0.2;
+	       		return xScale(d['count'])*1.2/2;
 	       	})
 	       	.attr("y", function(d){
-	       		return xScale(d["count"])*0.2;
+	       		return xScale(d["count"])*0.4/2;
 	       	})
 	       	.attr("class", "tag-name")
-	       	.attr("fill", "#ffffff");
+	       	.attr("fill", "#ffffff")
+	       	.style("font-size", function(d){
+	       		return xScale(d["count"])*0.1 + "px";
+	       	});
 
 
 		    var simulation = d3.forceSimulation()
 		        .force("x", d3.forceX(width/2).strength(0.05))
 		        .force("y", d3.forceY(height/2).strength(0.05))
-		        .force("collide", d3.forceCollide(function(d){
-		        	return xScale(d['count'])*0.4;
-		        }));
-
+		        .force("charge", d3.forceManyBody().strength(-120).distanceMax(300)
+                   .distanceMin(0));
+		    /*
+		      .force("collide", d3.forceCollide(function(d){
+		        	return xScale(d['count'])*0.3;
+		        }))*/
 		    //simulation
 	       	simulation.nodes(dataset)
 	       		.on('tick', ticked); //so all data points are attached to it

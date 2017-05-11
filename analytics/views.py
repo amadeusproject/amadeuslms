@@ -57,14 +57,13 @@ def most_used_tags(request):
                 data[tag.name]['count'] = resources_count
 
     data = sorted(data.values(), key = lambda x: x['count'], reverse=True )
-    data = data[:30] #get top 30 tags
+    data = data[:15] #get top 30 tags
     return JsonResponse(data, safe= False) 
 
 
 def most_active_users_in_a_month(request):
     params = request.GET
     days = get_days_of_the_month(params['month'])
-    print(days)
     data = {}
     mappings = {_('January'): 1, _('February'): 2, _('March'): 3, _('April'): 4, _('May'): 5, _('June'): 6, _('July'): 7
     , _('August'): 8, _('September'): 9, _('October'): 10, _('November'): 11, _('December'): 12}
@@ -164,8 +163,6 @@ def get_days_of_the_month(month):
  
     #get current year
     year = date.today().year
-    print(year)
-    print(month)
     mappings = {_('January'): 1, _('February'): 2, _('March'): 3, _('April'): 4, _('May'): 5, _('June'): 6, _('July'): 7
     , _('August'): 8, _('September'): 9, _('October'): 10, _('November'): 11, _('December'): 12}
   

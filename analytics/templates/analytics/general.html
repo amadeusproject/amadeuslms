@@ -7,6 +7,7 @@
 {% endblock style %}
 
 {% block javascript %}
+    
     <script type="text/javascript" src="{% static "analytics/js/charts.js" %}"></script>
     <script type="text/javascript" src=" {% static "analytics/js/behavior.js" %} "></script>
 {% endblock javascript %}
@@ -102,8 +103,18 @@
 
                         </select>
                     </div>
+
                     <div id="right-chart-body">
                         
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </section>
