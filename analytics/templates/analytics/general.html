@@ -7,7 +7,7 @@
 {% endblock style %}
 
 {% block javascript %}
-    
+
     <script type="text/javascript" src="{% static "analytics/js/charts.js" %}"></script>
     <script type="text/javascript" src=" {% static "analytics/js/behavior.js" %} "></script>
 {% endblock javascript %}
@@ -69,19 +69,20 @@
             <section class="bottom-section">
                 <div class="chart left-chart">
                  
-
+                    <h4>{% trans "Most accessed " %}</h4>
                     <div id="left-data-selector">
+
                       
                                 <div class="selector" data-url="categories">
-                                    <p>  {% trans "most accessed categories" %} </p>
+                                    <p>  {% trans "Most accessed categories" %} </p>
                                 </div>
                           
                                 <div class="selector" data-url="subjects">
-                                   <p> {% trans "most accessed subjects" %} </p>
+                                   <p> {% trans "Most accessed subjects" %} </p>
                                 </div>
                            
                                 <div class="selector" data-url="resources">
-                                   <p> {% trans "most accessed resource" %} </p>
+                                   <p> {% trans "Most accessed resource" %} </p>
                                 </div>
                          
                     </div>
@@ -89,33 +90,34 @@
                 </div>
                 <div class="chart middle-chart">
                     <article>
-                        <h4>{% trans "most active users" %}</h4>
+                        <h4>{% trans "Most active users" %}</h4>
                     </article>
                   
                 </div>
                 <div class="chart right-chart">
-                    <div>
-                        <p>{% trans "amount of access in: " %}</p>
+                    <div id="month_selector_div">
+                        <h4>{% trans "Amount of access in: " %}
                         <select id="month_selector">
                             {% for month in months  %}
                                 <option>{{month}}</option>
                             {% endfor %}
 
                         </select>
+                        </h4>
                     </div>
 
                     <div id="right-chart-body">
                         
                     </div>
                     
-                    <div class="form-group">
-                        <div class='input-group date' id='datetimepicker1'>
-                            <input type='text' class="form-control" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
+                    <div class='input-group date'>
+                        <label>{% trans "Select the begin of the week: " %}</label>
+                        <input type='text' class="datepicker form-control"  />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
                     </div>
+                       
                 </div>
             </section>
 

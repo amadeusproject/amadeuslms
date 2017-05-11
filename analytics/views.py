@@ -176,3 +176,7 @@ def get_days_of_the_month(month):
     return days_set 
 
 
+def get_days_of_the_week(date):
+
+    days_set = set()
+    return days_set

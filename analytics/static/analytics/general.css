@@ -57,7 +57,8 @@
 
 .chart {
   width: 30%;
-  float: left; }
+  float: left;
+  text-align: center; }
   .chart h4 {
     color: #009688; }
 
@@ -113,5 +114,9 @@
 
 .most-accessed-item:hover {
   background-color: #3aa7ad; }
+
+#month_selector_div {
+  text-align: center;
+  color: #009688; }
 
 /*# sourceMappingURL=general.css.map */

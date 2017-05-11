@@ -12,9 +12,14 @@ $(document).ready(function(){
 			
 		});
 	});
+	//week date selector at the right-chart field
+   $('input.datepicker').datetimepicker({
+		format: 'L',
+		defaultDate: new Date(),
+    }).on('dp.change', function(ev){
+    	console.log(ev.date._i);
+    });
 
-	
-    $('#datetimepicker1').datetimepicker();
  
 
 });
