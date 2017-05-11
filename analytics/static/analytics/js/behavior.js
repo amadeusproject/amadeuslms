@@ -8,7 +8,7 @@ $(document).ready(function(){
 
 	$('#month_selector').change(function(){
 		$.get('/analytics/amount_active_users_per_day', {month: $(this).val() }).done(function(data){
-			charts.month_heatmap(data);
+			charts.month_heatmap(data, '#right-chart-body');
 			
 		});
 	});
@@ -17,7 +17,10 @@ $(document).ready(function(){
 		format: 'L',
 		defaultDate: new Date(),
     }).on('dp.change', function(ev){
-    	console.log(ev.date._i);
+    	$.get('/analytics/get_days_of_the_week_log', {date: ev.date._i}).done(function(data){
+    		charts.month_heatmap(data, '#bottom-right-chart-body');
+    	});
+
     });
 
  

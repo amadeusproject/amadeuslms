@@ -436,16 +436,30 @@ var charts = {
 
 		});
 	},
-	month_heatmap: function(data){
+	month_heatmap: function(data, target){
 
-		if($('#month-chart').length != 0){
+	
+		if(target == '#right-chart-body' && $('#month-chart').length != 0){
 			$('#month-chart').fadeOut();
 			$('#month-chart').remove();
 		}
-		var svg = d3.select('#right-chart-body').append('svg')
+
+		if(target == "#bottom-right-chart-body" && $('#weekly-chart').length != 0){
+			$('#weekly-chart').fadeOut();
+			$('#weekly-chart').remove();
+		}
+
+		var svg = d3.select(target).append('svg')
 		.attr('width', 300)
-		.attr('height', 200)
-		.attr('id', 'month-chart');
+		.attr('height', 200);
+		
+		if (target == "#right-chart-body"){
+			svg.attr('id', 'month-chart');
+		}
+		
+		if (target == "#bottom-right-chart-body"){
+			svg.attr('id', 'weekly-chart');
+		}
 
 		//color range
 		var color = d3.scaleLinear().range(["#29c8b8", '#149e91']).domain([0, d3.max(data, function(d){ return d.count; })]);
@@ -460,12 +474,12 @@ var charts = {
 	    	.attr("width", rect_width)
 	    	.attr("height", rect_height)
 	    	.attr("class", "day_rect")
-	    	.attr("x", function(d){
+	    	.attr("x", function(d, i){
 
-	    		return rect_width* (d.day % 7);
-	    	}).attr("y", function(d){
-	    		return rect_height*(Math.floor(d.day / 7));
-	    	}).attr("fill", function(d){
+	    		return rect_width* (i % 7);
+	    	}).attr("y", function(d, i){
+	    		return rect_height*(Math.floor(i / 7));
+	    	}).attr("fill", function(d, i ){
 	    		return color(d.count);
 	    	});
 
@@ -474,10 +488,10 @@ var charts = {
 	    		return d.day;
 	    	}).attr("fill", "white")
 	    	.attr("text-anchor", "middle")
-	    	.attr("x", function(d){
-	    		return rect_width* (d.day % 7) + rect_width/2;
-	    	}).attr("y", function(d){
-	    		return rect_height*(Math.floor(d.day / 7)) + rect_height/2;
+	    	.attr("x", function(d, i){
+	    		return rect_width* ( i % 7) + rect_width/2;
+	    	}).attr("y", function(d, i){
+	    		return rect_height*(Math.floor(  i  / 7)) + rect_height/2;
 	    	});
 
 	}

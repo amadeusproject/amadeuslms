@@ -57,10 +57,10 @@
 
 .chart {
   width: 30%;
-  float: left;
-  text-align: center; }
+  float: left; }
   .chart h4 {
-    color: #009688; }
+    color: #009688;
+    text-align: center; }
 
 .selector {
   width: 90%;

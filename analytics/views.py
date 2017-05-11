@@ -13,8 +13,9 @@ import operator
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render, get_object_or_404, redirect
 
-from datetime import date
+from datetime import date, timedelta, datetime
 import calendar
+from collections import OrderedDict
 
 
 class GeneralView(generic.TemplateView):
@@ -71,7 +72,6 @@ def most_active_users_in_a_month(request):
 
     for day in days:
         built_date = date(date.today().year, mappings[params['month']], day)
-        print(built_date)
         day_count = Log.objects.filter(datetime__date = built_date).count()
         data[day] = day_count
 
@@ -159,6 +159,8 @@ def most_active_users(request):
     return JsonResponse(fifty_users, safe=False)
 
 
+
+
 def get_days_of_the_month(month):
  
     #get current year
@@ -176,7 +178,24 @@ def get_days_of_the_month(month):
     return days_set 
 
 
+
+def get_days_of_the_week_log(request):
+    date = request.GET['date']
+    date = datetime.strptime( date, '%m/%d/%Y',)
+    days = get_days_of_the_week(date)
+    data = {}
+
+    for day in days:
+        day_count = Log.objects.filter(datetime__date = day).count()
+        data[day] = day_count
+    data = [{"day": day.day, "count": day_count} for day, day_count in data.items()]
+
+    return JsonResponse(data, safe= False)
+
 def get_days_of_the_week(date):
 
-    days_set = set()
+    days_set = []
+    days_set.append(date)
+    for j in range(1, 7):
+        days_set.append(date + timedelta(days=j))
     return days_set
