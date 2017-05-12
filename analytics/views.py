@@ -24,7 +24,7 @@ class GeneralView(generic.TemplateView):
     def dispatch(self, request, *args, **kwargs):
        
         if not request.user.is_staff:
-            self.template_name = "analytics/category.html"
+            return redirect('analytics:view_category_data')
         return super(GeneralView, self).dispatch(request, *args, **kwargs)
 
 
@@ -39,8 +39,16 @@ class GeneralView(generic.TemplateView):
 
 
 def most_used_tags(request):
-    tags = Tag.objects.all()
+   
 
+    data = get_most_used_tags()
+    data = sorted(data.values(), key = lambda x: x['count'], reverse=True )
+    data = data[:15] #get top 15 tags
+    return JsonResponse(data, safe= False) 
+
+def get_most_used_tags():
+
+    tags = Tag.objects.all()
     data = {}
     #grab all references to that tag
     for tag in tags:
@@ -56,30 +64,31 @@ def most_used_tags(request):
             else:
                 data[tag.name] = {'name': tag.name}
                 data[tag.name]['count'] = resources_count
-
-    data = sorted(data.values(), key = lambda x: x['count'], reverse=True )
-    data = data[:15] #get top 30 tags
-    return JsonResponse(data, safe= False) 
+    return data
 
 
 def most_active_users_in_a_month(request):
     params = request.GET
     days = get_days_of_the_month(params['month'])
-    data = {}
     mappings = {_('January'): 1, _('February'): 2, _('March'): 3, _('April'): 4, _('May'): 5, _('June'): 6, _('July'): 7
     , _('August'): 8, _('September'): 9, _('October'): 10, _('November'): 11, _('December'): 12}
     
-
+    days_list = []
     for day in days:
-        built_date = date(date.today().year, mappings[params['month']], day)
-        day_count = Log.objects.filter(datetime__date = built_date).count()
-        data[day] = day_count
-
-    data = [{"day": day, "count": day_count} for day, day_count in data.items()]
+        built_date = date(date.today().year, mappings[params['month']],  day)
+        days_list.append(built_date)
+    data = activity_in_timestamp(days_list)
+    data = [{"day": day.day, "count": day_count} for day, day_count in data.items()]
     return JsonResponse(data, safe=False)
 
 
+def activity_in_timestamp(days):
+    data = {}
+    for day in days:
+        day_count = Log.objects.filter(datetime__date = day).count()
+        data[day] = day_count
 
+    return data
 """
 Subject view that returns a list of the most used subjects     """
 
@@ -88,44 +97,45 @@ def most_accessed_subjects(request):
     data = {} #empty response
 
     data = Log.objects.filter(resource = 'subject')
-    subjects = {}
-    for datum in data:
-        if datum.context:
-            subject_id = datum.context['subject_id']
-            if subject_id in subjects.keys():
-                subjects[subject_id]['count']  = subjects[subject_id]['count'] + 1
-
-            else:
-                subjects[subject_id] = {'name': datum.context['subject_name'], 'count': 1 }
-
+    subjects = get_log_count_of_resource(resource='subject')
     #order the values of the dictionary by the count in descendent order
     subjects = sorted(subjects.values(), key = lambda x: x['count'], reverse=True )
     subjects = subjects[:5]
 
     return JsonResponse(subjects, safe=False)
 
+def get_log_count_of_resource(resource = ''):
+
+    data = Log.objects.filter(resource = resource)
+    items = {}
+    for datum in data:
+        if datum.context:
+            item_id = datum.context[resource + '_id']
+            if item_id in items.keys():
+                items[item_id]['count'] = items[item_id]['count'] + 1
+            else:
+                items[item_id] = {'name': datum.context[resource+'_name'], 'count': 1}
+    return items
 
 
 def most_accessed_categories(request):
     data = {}
 
     data = Log.objects.filter(resource = 'category')
-    categories = {}
-    for datum in data:
-        if datum.context:
-            category_id = datum.context['category_id']
-            if category_id in categories.keys():
-               categories[category_id]['count']  = categories[category_id]['count'] + 1
-            else:
-                categories[category_id] = {'name': datum.context['category_name'], 'count': 1 }
+    categories = get_log_count_of_resource('category')
+
+   
 
     categories = sorted(categories.values(), key = lambda x: x['count'], reverse = True)
     categories = categories[:5]
     return JsonResponse(categories, safe= False)
 
-def most_accessed_resource_kind(request):
-    resources = Resource.objects.distinct()
 
+def get_resource_subclasses_count():
+    """
+        get the amount of objects in each sub_class of resource
+    """
+    resources = Resource.objects.distinct()
     data = {}
     for resource in resources:
         key = resource.__dict__['_my_subclass']
@@ -133,6 +143,13 @@ def most_accessed_resource_kind(request):
             data[key]['count'] = data[key]['count'] + 1
         else:
             data[key] = {'name': key, 'count': 1}
+
+    return data
+
+
+def most_accessed_resource_kind(request):
+
+    data = get_resource_subclasses_count()
 
     data = sorted(data.values(), key = lambda x: x['count'], reverse= True)
     mapping = {}
@@ -183,11 +200,7 @@ def get_days_of_the_week_log(request):
     date = request.GET['date']
     date = datetime.strptime( date, '%m/%d/%Y',)
     days = get_days_of_the_week(date)
-    data = {}
-
-    for day in days:
-        day_count = Log.objects.filter(datetime__date = day).count()
-        data[day] = day_count
+    data = activity_in_timestamp(days)
     data = [{"day": day.day, "count": day_count} for day, day_count in data.items()]
 
     return JsonResponse(data, safe= False)
@@ -199,3 +212,7 @@ def get_days_of_the_week(date):
     for j in range(1, 7):
         days_set.append(date + timedelta(days=j))
     return days_set
+
+
+class CategoryView(generic.TemplateView):
+    template_name = "analytics/category.html"
