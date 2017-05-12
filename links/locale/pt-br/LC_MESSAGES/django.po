@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 19:49-0300\n"
+"POT-Creation-Date: 2017-05-12 11:56-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,27 +109,27 @@ msgstr ""
 msgid "Action don't realized"
 msgstr ""
 
-#: templates/links/relatorios.html:151 templates/links/relatorios.html:171
+#: templates/links/relatorios.html:153 templates/links/relatorios.html:175
 msgid "Reports"
 msgstr ""
 
-#: templates/links/relatorios.html:178
+#: templates/links/relatorios.html:182
 msgid "Report of the resource "
 msgstr ""
 
-#: templates/links/relatorios.html:187
+#: templates/links/relatorios.html:191
 msgid "Select the period: "
 msgstr ""
 
-#: templates/links/relatorios.html:196
+#: templates/links/relatorios.html:200
 msgid "Search"
 msgstr ""
 
-#: templates/links/relatorios.html:220
+#: templates/links/relatorios.html:224
 msgid "Filter: "
 msgstr ""
 
-#: templates/links/relatorios.html:244 templates/links/relatorios.html:329
+#: templates/links/relatorios.html:248 templates/links/relatorios.html:333
 msgid "record(s)"
 msgstr ""
 
@@ -149,65 +149,82 @@ msgstr ""
 msgid "Edit: "
 msgstr ""
 
-#: views.py:59 views.py:72 views.py:256 views.py:258 views.py:274 views.py:276
+#: views.py:67 views.py:80 views.py:264 views.py:266 views.py:282 views.py:284
 msgid "Visualize"
 msgstr ""
 
-#: views.py:134
+#: views.py:142
 msgid "Create Webiste Link"
 msgstr ""
 
-#: views.py:145
+#: views.py:153
 #, python-format
 msgid ""
 "The  Link \"%s\" was added to the Topic \"%s\" of the virtual environment "
 "\"%s\" successfully!"
 msgstr ""
 
-#: views.py:173
+#: views.py:181
 #, python-format
 msgid ""
 "The Website Link \"%s\" was removed successfully from virtual environment "
 "\"%s\"!"
 msgstr ""
 
-#: views.py:322
+#: views.py:330
 msgid "Update Website Link"
 msgstr ""
 
-#: views.py:333
+#: views.py:341
 #, python-format
 msgid "The Website Link \"%s\" was updated successfully!"
 msgstr ""
 
-#: views.py:377
+#: views.py:385
 msgid "Links Reports"
 msgstr ""
 
-#: views.py:396
+#: views.py:404
 msgid "Realized"
 msgstr ""
 
-#: views.py:396
+#: views.py:404
 msgid "Unrealized"
 msgstr ""
 
-#: views.py:396
+#: views.py:404
 msgid "Historic"
 msgstr ""
 
-#: views.py:414 views.py:423
+#: views.py:419 views.py:427
 msgid "View"
 msgstr ""
 
-#: views.py:422
+#: views.py:428
 msgid "Links"
 msgstr ""
 
-#: views.py:427
+#: views.py:433
 msgid "Actions about resource"
 msgstr ""
 
-#: views.py:428
+#: views.py:434
 msgid "Quantity"
+msgstr ""
+
+#: views.py:481
+msgid "[Photo]"
+msgstr ""
+
+#: views.py:493
+#, python-format
+msgid "Last message in %s"
+msgstr ""
+
+#: views.py:502
+msgid "The message was successfull sent!"
+msgstr ""
+
+#: views.py:504
+msgid "No user selected!"
 msgstr ""

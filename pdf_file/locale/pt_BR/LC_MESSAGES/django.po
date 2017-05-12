@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 17:16-0300\n"
+"POT-Creation-Date: 2017-05-12 11:59-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -115,33 +115,32 @@ msgid "Send message"
 msgstr "Enviar Mensagem"
 
 #: templates/pdf_file/relatorios.html:37
-#| msgid "Actions about resource"
 msgid "Action don't realized"
 msgstr "Ação não realizada"
 
-#: templates/pdf_file/relatorios.html:151
-#: templates/pdf_file/relatorios.html:171
+#: templates/pdf_file/relatorios.html:152
+#: templates/pdf_file/relatorios.html:174
 msgid "Reports"
 msgstr "Relatórios"
 
-#: templates/pdf_file/relatorios.html:178
+#: templates/pdf_file/relatorios.html:181
 msgid "Report of the resource "
 msgstr "Relatórios do recurso "
 
-#: templates/pdf_file/relatorios.html:187
+#: templates/pdf_file/relatorios.html:190
 msgid "Select the period: "
 msgstr "Selecione o período: "
 
-#: templates/pdf_file/relatorios.html:196
+#: templates/pdf_file/relatorios.html:199
 msgid "Search"
 msgstr "Pesquisar"
 
-#: templates/pdf_file/relatorios.html:220
+#: templates/pdf_file/relatorios.html:223
 msgid "Filter: "
 msgstr "Filtro: "
 
-#: templates/pdf_file/relatorios.html:244
-#: templates/pdf_file/relatorios.html:329
+#: templates/pdf_file/relatorios.html:247
+#: templates/pdf_file/relatorios.html:332
 msgid "record(s)"
 msgstr "Relatório(s)"
 
@@ -169,16 +168,16 @@ msgstr "Editar: "
 msgid "PDF could not be displayed"
 msgstr "PDF não pode ser mostrado"
 
-#: views.py:116 views.py:129 views.py:240 views.py:242 views.py:258
-#: views.py:260
+#: views.py:124 views.py:137 views.py:248 views.py:250 views.py:266
+#: views.py:268
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: views.py:189
+#: views.py:197
 msgid "Create PDF File"
 msgstr "Criar o arquivo PDF"
 
-#: views.py:200
+#: views.py:208
 #, python-format
 msgid ""
 "The PDF File \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -187,53 +186,71 @@ msgstr ""
 "O arquivo PDF \"%s\"  foi adicionado ao topico \"%s\" do ambiente virtual "
 "\"%s\" com sucesso!"
 
-#: views.py:304
+#: views.py:312
 msgid "Update PDF File"
 msgstr "Atualize arquivo PDF"
 
-#: views.py:315
+#: views.py:323
 #, python-format
 msgid "The PDF File \"%s\" was updated successfully!"
 msgstr "O arquivo PDF \"%s\"  foi atualizado com sucesso!"
 
-#: views.py:342
+#: views.py:350
 #, python-format
 msgid ""
 "The PDF File \"%s\" was removed successfully from virtual environment \"%s\"!"
 msgstr ""
 "O arquivo PDF \"%s\"  foi removido com sucesso do ambiente virtual \"%s\" "
 
-#: views.py:400
+#: views.py:408
 msgid "PDF File Reports"
 msgstr "Relatórios do arquivo de PDF"
 
-#: views.py:420
+#: views.py:428
 msgid "Realized"
 msgstr "Realizado"
 
-#: views.py:420
+#: views.py:428
 msgid "Unrealized"
 msgstr "Não Realizado"
 
-#: views.py:420
+#: views.py:428
 msgid "Historic"
 msgstr "Histórico"
 
-#: views.py:439 views.py:448
+#: views.py:444 views.py:452
 msgid "View"
 msgstr "Visualizar"
 
-#: views.py:447
+#: views.py:453
 msgid "PDF File"
 msgstr "Criar o arquivo PDF"
 
-#: views.py:452
+#: views.py:458
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: views.py:453
+#: views.py:459
 msgid "Quantity"
 msgstr "Quantidade"
+
+#: views.py:506
+msgid "[Photo]"
+msgstr "[Imagem]"
+
+#: views.py:518
+#, python-format
+msgid "Last message in %s"
+msgstr "Última mensagem em %s"
+
+#: views.py:527
+#| msgid "The PDF File \"%s\" was updated successfully!"
+msgid "The message was successfull sent!"
+msgstr "A mensagem foi enviada com sucesso!"
+
+#: views.py:529
+msgid "No user selected!"
+msgstr "Nenhum usuário selecionado!"
 
 #~ msgid "Users who viewed"
 #~ msgstr "Usuário que visualizaram"

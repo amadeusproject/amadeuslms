@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 17:50-0300\n"
+"POT-Creation-Date: 2017-05-12 11:53-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,7 +104,7 @@ msgstr "Atribuir grupos de estudo ao Link para Arquivo"
 msgid "Save"
 msgstr "Salvar"
 
-#: templates/file_links/create.html:20 views.py:186
+#: templates/file_links/create.html:20 views.py:194
 msgid "Create File Link"
 msgstr "Criar Link para Arquivo"
 
@@ -134,39 +134,37 @@ msgstr "Enviar Mensagem"
 msgid "Action don't realized"
 msgstr "Ação não realizada"
 
-#: templates/file_links/relatorios.html:151
-#: templates/file_links/relatorios.html:171
+#: templates/file_links/relatorios.html:153
+#: templates/file_links/relatorios.html:175
 msgid "Reports"
 msgstr "Relatórios"
 
-#: templates/file_links/relatorios.html:178
+#: templates/file_links/relatorios.html:182
 msgid "Report of the resource "
 msgstr "Relatórios do recurso "
 
-#: templates/file_links/relatorios.html:187
+#: templates/file_links/relatorios.html:191
 msgid "Select the period: "
 msgstr "Selecione o período: "
 
-#: templates/file_links/relatorios.html:196
+#: templates/file_links/relatorios.html:200
 msgid "Search"
 msgstr "Pesquisar"
 
-#: templates/file_links/relatorios.html:220
+#: templates/file_links/relatorios.html:224
 msgid "Filter: "
 msgstr "Filtro: "
 
-#: templates/file_links/relatorios.html:244
-#: templates/file_links/relatorios.html:329
+#: templates/file_links/relatorios.html:248
+#: templates/file_links/relatorios.html:333
 msgid "record(s)"
 msgstr "Relatório(s)"
 
 #: templates/file_links/send_message.html:38
-#| msgid "Click or drop the file here"
 msgid "Click or drop the picture here"
 msgstr "Clique ou solte a imagem aqui"
 
 #: templates/file_links/send_message.html:40
-#| msgid "The file could not exceed 10MB."
 msgid "The picture could not exceed 5MB."
 msgstr "A imagem não pode exceder 5MB."
 
@@ -182,12 +180,12 @@ msgstr "Enviar"
 msgid "Edit: "
 msgstr "Editar: "
 
-#: views.py:113 views.py:126 views.py:236 views.py:238 views.py:254
-#: views.py:256
+#: views.py:121 views.py:134 views.py:244 views.py:246 views.py:262
+#: views.py:264
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: views.py:197
+#: views.py:205
 #, python-format
 msgid ""
 "The File Link \"%s\" was added to the Topic \"%s\" of the virtual "
@@ -196,16 +194,16 @@ msgstr ""
 "O Link para Arquivo \"%s\" foi adicionado ao tópico \"%s\" do ambiente "
 "virtual \"%s\" com sucesso!"
 
-#: views.py:300
+#: views.py:308
 msgid "Update File Link"
 msgstr "Atualizar Link para Arquivo"
 
-#: views.py:311
+#: views.py:319
 #, python-format
 msgid "The File Link \"%s\" was updated successfully!"
 msgstr "O Link para Arquivo \"%s\" foi atualizado com sucesso!"
 
-#: views.py:338
+#: views.py:346
 #, python-format
 msgid ""
 "The File Link \"%s\" was removed successfully from virtual environment \"%s"
@@ -214,40 +212,55 @@ msgstr ""
 "O Link para Arquivo \"%s\" foi removido do ambiente virtual \"%s\" com "
 "sucesso!"
 
-#: views.py:397
-#| msgid "File Links"
+#: views.py:405
 msgid "File Link Reports"
 msgstr "Relatŕios de Link para Arquivo"
 
-#: views.py:416
+#: views.py:424
 msgid "Realized"
 msgstr "Realizado"
 
-#: views.py:416
+#: views.py:424
 msgid "Unrealized"
 msgstr "Não Realizado"
 
-#: views.py:416
+#: views.py:424
 msgid "Historic"
 msgstr "Histórico"
 
-#: views.py:434 views.py:443
+#: views.py:439 views.py:447
 msgid "View"
 msgstr "Visualizar"
 
-#: views.py:442
-#, fuzzy
+#: views.py:448
 #| msgid "File Link"
 msgid "File link"
 msgstr "Link para Arquivo"
 
-#: views.py:447
+#: views.py:453
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: views.py:448
+#: views.py:454
 msgid "Quantity"
 msgstr "Quantidade"
+
+#: views.py:501
+msgid "[Photo]"
+msgstr "[Imagem]"
+
+#: views.py:513
+#, python-format
+msgid "Last message in %s"
+msgstr "Última mensagem em %s"
+
+#: views.py:522
+msgid "The message was successfull sent!"
+msgstr "A mensagem foi enviada com sucesso!"
+
+#: views.py:524
+msgid "No user selected!"
+msgstr "Nenhum usuário selecionado!"
 
 #~ msgid "File not supported."
 #~ msgstr "Arquivo não suportado."
