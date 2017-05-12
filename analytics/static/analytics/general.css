@@ -47,8 +47,7 @@
   color: #ffffff; }
 
 .tag-name {
-  color: #ffffff;
-  font-size: 10px; }
+  color: #ffffff; }
 
 #left-data-selector {
   background: linear-gradient(#0e8999, #6bf0ce);
@@ -60,7 +59,8 @@
   width: 30%;
   float: left; }
   .chart h4 {
-    color: #009688; }
+    color: #009688;
+    text-align: center; }
 
 .selector {
   width: 90%;
@@ -114,5 +114,9 @@
 
 .most-accessed-item:hover {
   background-color: #3aa7ad; }
+
+#month_selector_div {
+  text-align: center;
+  color: #009688; }
 
 /*# sourceMappingURL=general.css.map */

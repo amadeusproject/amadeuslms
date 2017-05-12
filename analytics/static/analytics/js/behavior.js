@@ -1,7 +1,33 @@
 
+
+
 $(document).ready(function(){
 	selectors_options.init();
+
+	//for month selector
+
+	$('#month_selector').change(function(){
+		$.get('/analytics/amount_active_users_per_day', {month: $(this).val() }).done(function(data){
+			charts.month_heatmap(data, '#right-chart-body');
+			
+		});
+	});
+	//week date selector at the right-chart field
+   $('input.datepicker').datetimepicker({
+		format: 'L',
+		defaultDate: new Date(),
+    }).on('dp.change', function(ev){
+    	$.get('/analytics/get_days_of_the_week_log', {date: ev.date._i}).done(function(data){
+    		charts.month_heatmap(data, '#bottom-right-chart-body');
+    	});
+
+    });
+
+ 
+ 
+
 });
+
 
 
 var selectors_options = {
@@ -66,3 +92,5 @@ var selectors_options = {
 		$(e).removeAttr("opened"); //remove attribute so it can call API again
 	},
 };
+
+
