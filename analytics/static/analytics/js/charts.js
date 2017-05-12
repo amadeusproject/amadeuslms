@@ -348,27 +348,7 @@ var charts = {
 			var width = 800;
 			var height = 300;
 
-			function min(){
-	       		minimum = 100000000000;
-	       		for(var i = 0; i < dataset.length; i++){
-	       			if (dataset[i]['count'] < min){
-	       				minimum = dataset[i]['count'];
-	       			}
-	       		}
-
-	       		return minimum
-	       	}
-
-	       	function max(){
-	       		maximum = 0;
-	       		for(var i = 0; i < dataset.length; i++){
-	       			if (dataset[i]['count'] > max){
-	       				maximum = dataset[i]['count'];
-	       			}
-	       		}
-
-	       		return maximum
-	       	}
+			
 	       	
 
 			var container_div = d3.select("#most-used-tags-body");
@@ -378,8 +358,8 @@ var charts = {
 	        	.style("background","#ddf8e7")
 	        	.append('g')
 	        	.attr("transform", "translate(0,0)")
-	        	.style("width", width)
-	        	.attr("height", height);
+	        	.attr("width", "100%")
+	        	.attr("height", height - 60);
 
 	        
 	        var color = d3.scaleLinear()
@@ -392,7 +372,8 @@ var charts = {
 			  return Math.floor(Math.random() * (max - min)) + min;
 			}
 
-	        var xScale = d3.scaleSqrt().domain([min(), max()]).range([10,80]);
+	        var xScale = d3.scaleSqrt().domain([d3.min(dataset, function(d){ return d['count']}), 
+	        	d3.max(dataset, function(d){ return d.count; })]).range([100,200]);
 	        var tag_cloud = svg.selectAll('.tag-cloud-div')
 	        .data(dataset)
 	        .enter()
@@ -420,23 +401,29 @@ var charts = {
 	       	.text(function(d){
 	       		return d['name'];
 	       	})
+	       	.attr("text-anchor", "middle")
 	       	.attr("x", function(d){
-	       		return xScale(d['count'])*0.2;
+	       		return xScale(d['count'])*1.2/2;
 	       	})
 	       	.attr("y", function(d){
-	       		return xScale(d["count"])*0.2;
+	       		return xScale(d["count"])*0.4/2;
 	       	})
 	       	.attr("class", "tag-name")
-	       	.attr("fill", "#ffffff");
+	       	.attr("fill", "#ffffff")
+	       	.style("font-size", function(d){
+	       		return xScale(d["count"])*0.1 + "px";
+	       	});
 
 
 		    var simulation = d3.forceSimulation()
 		        .force("x", d3.forceX(width/2).strength(0.05))
 		        .force("y", d3.forceY(height/2).strength(0.05))
-		        .force("collide", d3.forceCollide(function(d){
-		        	return xScale(d['count'])*0.4;
-		        }));
-
+		        .force("charge", d3.forceManyBody().strength(-120).distanceMax(300)
+                   .distanceMin(0));
+		    /*
+		      .force("collide", d3.forceCollide(function(d){
+		        	return xScale(d['count'])*0.3;
+		        }))*/
 		    //simulation
 	       	simulation.nodes(dataset)
 	       		.on('tick', ticked); //so all data points are attached to it
@@ -449,16 +436,30 @@ var charts = {
 
 		});
 	},
-	month_heatmap: function(data){
+	month_heatmap: function(data, target){
 
-		if($('#month-chart').length != 0){
+	
+		if(target == '#right-chart-body' && $('#month-chart').length != 0){
 			$('#month-chart').fadeOut();
 			$('#month-chart').remove();
 		}
-		var svg = d3.select('#right-chart-body').append('svg')
+
+		if(target == "#bottom-right-chart-body" && $('#weekly-chart').length != 0){
+			$('#weekly-chart').fadeOut();
+			$('#weekly-chart').remove();
+		}
+
+		var svg = d3.select(target).append('svg')
 		.attr('width', 300)
-		.attr('height', 200)
-		.attr('id', 'month-chart');
+		.attr('height', 200);
+		
+		if (target == "#right-chart-body"){
+			svg.attr('id', 'month-chart');
+		}
+		
+		if (target == "#bottom-right-chart-body"){
+			svg.attr('id', 'weekly-chart');
+		}
 
 		//color range
 		var color = d3.scaleLinear().range(["#29c8b8", '#149e91']).domain([0, d3.max(data, function(d){ return d.count; })]);
@@ -473,12 +474,12 @@ var charts = {
 	    	.attr("width", rect_width)
 	    	.attr("height", rect_height)
 	    	.attr("class", "day_rect")
-	    	.attr("x", function(d){
+	    	.attr("x", function(d, i){
 
-	    		return rect_width* (d.day % 7);
-	    	}).attr("y", function(d){
-	    		return rect_height*(Math.floor(d.day / 7));
-	    	}).attr("fill", function(d){
+	    		return rect_width* (i % 7);
+	    	}).attr("y", function(d, i){
+	    		return rect_height*(Math.floor(i / 7));
+	    	}).attr("fill", function(d, i ){
 	    		return color(d.count);
 	    	});
 
@@ -487,10 +488,10 @@ var charts = {
 	    		return d.day;
 	    	}).attr("fill", "white")
 	    	.attr("text-anchor", "middle")
-	    	.attr("x", function(d){
-	    		return rect_width* (d.day % 7) + rect_width/2;
-	    	}).attr("y", function(d){
-	    		return rect_height*(Math.floor(d.day / 7)) + rect_height/2;
+	    	.attr("x", function(d, i){
+	    		return rect_width* ( i % 7) + rect_width/2;
+	    	}).attr("y", function(d, i){
+	    		return rect_height*(Math.floor(  i  / 7)) + rect_height/2;
 	    	});
 
 	}
