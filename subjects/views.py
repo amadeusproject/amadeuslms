@@ -40,6 +40,7 @@ from io import BytesIO
 from itertools import chain
 from django.core import serializers
 from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
 
 from users.serializers import UserSerializer
 from file_link.serializers import SimpleFileLinkSerializer, CompleteFileLinkSerializer
@@ -871,6 +872,21 @@ def realize_restore(request, subject):
     if zip_file:
         if zipfile.is_zipfile(zip_file):
             file = zipfile.ZipFile(zip_file)
-            print(file.namelist())
+            total_files = len(file.namelist())
+
+            json_file = file.namelist()[total_files-1]
+
+            dst_path = os.path.join(settings.MEDIA_ROOT, "tmp")
+            
+            path = file.extract(json_file, dst_path)
+
+            for line in open(path, 'r'):
+                print(line)
+                #print(json.loads(line))
+
+            # with open(path) as bkp_file:
+            #     data = json.loads(bkp_file.read())
+
+            #     print(data)
 
     return JsonResponse({'message': 'ok'})
