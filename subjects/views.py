@@ -40,6 +40,7 @@ from io import BytesIO
 from itertools import chain
 from django.core import serializers
 from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
 
 from users.serializers import UserSerializer
 from file_link.serializers import SimpleFileLinkSerializer, CompleteFileLinkSerializer
@@ -786,6 +787,8 @@ def realize_backup(request, subject):
 
     file = open("backup.json", "w")
 
+    data_list = []
+
     if participants:
         participants = User.objects.filter(subject_student__slug = subject)
 
@@ -798,7 +801,7 @@ def realize_backup(request, subject):
 
         serializer_u = UserSerializer(participants, many = True)
 
-        json.dump(serializer_u.data, file)
+        data_list.append(serializer_u.data)
 
         serializer_w = CompleteWebpageSerializer(webpages, many = True)
         serializer_y = CompleteYTVideoSerializer(ytvideos, many = True)
@@ -814,12 +817,21 @@ def realize_backup(request, subject):
         serializer_p = SimplePDFFileSerializer(pdffiles, many = True)
         serializer_g = SimpleGoalSerializer(goals, many = True)
 
-    json.dump(serializer_w.data, file)
-    json.dump(serializer_y.data, file)
-    json.dump(serializer_f.data, file)
-    json.dump(serializer_l.data, file)
-    json.dump(serializer_p.data, file)
-    json.dump(serializer_g.data, file)
+    
+    data_list.append(serializer_w.data)
+    data_list.append(serializer_y.data)
+    data_list.append(serializer_f.data)
+    data_list.append(serializer_l.data)
+    data_list.append(serializer_p.data)
+    data_list.append(serializer_g.data)
+
+    json.dump(data_list, file)
+    # json.dump(serializer_w.data, file)
+    # json.dump(serializer_y.data, file)
+    # json.dump(serializer_f.data, file)
+    # json.dump(serializer_l.data, file)
+    # json.dump(serializer_p.data, file)
+    # json.dump(serializer_g.data, file)
 
     file.close()
 
@@ -871,6 +883,38 @@ def realize_restore(request, subject):
     if zip_file:
         if zipfile.is_zipfile(zip_file):
             file = zipfile.ZipFile(zip_file)
-            print(file.namelist())
+            total_files = len(file.namelist())
+
+            json_file = file.namelist()[total_files-1]
+
+            dst_path = os.path.join(settings.MEDIA_ROOT, "tmp")
+            
+            path = file.extract(json_file, dst_path)
+
+            with open(path) as bkp_file:
+                data = json.loads(bkp_file.read())
+
+                for line in data:
+                    if "_my_subclass" in line[0]:
+                        print(line)
+                        if line[0]["_my_subclass"] == "webpage":
+                            serial = SimpleWebpageSerializer(data = line, many = True)
+                        elif line[0]["_my_subclass"] == "filelink":
+                            serial = SimpleFileLinkSerializer(data = line, many = True)
+                        elif line[0]["_my_subclass"] == "link":
+                            serial = SimpleLinkSerializer(data = line, many = True)
+                        elif line[0]["_my_subclass"] == "pdffile":
+                            serial = SimplePDFFileSerializer(data = line, many = True)
+                        elif line[0]["_my_subclass"] == "goals":
+                            serial = SimpleGoalSerializer(data = line, many = True)
+                        elif line[0]["_my_subclass"] == "ytvideo":
+                            serial = SimpleYTVideoSerializer(data = line, many = True)
+                        
+                        serial.is_valid()
+                        print(serial.errors)
+                        print("\n\n\n")
+                        # stream = BytesIO(line[0])
+                        #line_data = JSONParser().parse(line[0])
+                        # print(line_data)
 
     return JsonResponse({'message': 'ok'})

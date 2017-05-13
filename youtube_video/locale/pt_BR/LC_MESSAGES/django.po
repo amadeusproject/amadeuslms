@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 21:46-0300\n"
+"POT-Creation-Date: 2017-05-12 12:04-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -114,28 +114,28 @@ msgstr "Enviar Mensagem"
 msgid "Action don't realized"
 msgstr "Ação não realizada"
 
-#: templates/youtube/relatorios.html:212 templates/youtube/relatorios.html:232
+#: templates/youtube/relatorios.html:230 templates/youtube/relatorios.html:252
 msgid "Reports"
 msgstr "Relatórios"
 
-#: templates/youtube/relatorios.html:239
+#: templates/youtube/relatorios.html:259
 msgid "Report of the resource "
 msgstr "Relatórios do recurso "
 
-#: templates/youtube/relatorios.html:248
+#: templates/youtube/relatorios.html:268
 msgid "Select the period: "
 msgstr "Selecione o período: "
 
-#: templates/youtube/relatorios.html:257
+#: templates/youtube/relatorios.html:277
 msgid "Search"
 msgstr "Pesquisar"
 
-#: templates/youtube/relatorios.html:281
+#: templates/youtube/relatorios.html:301
 msgid "Filter: "
 msgstr "Filtro: "
 
-#: templates/youtube/relatorios.html:305 templates/youtube/relatorios.html:390
-#: templates/youtube/relatorios.html:470
+#: templates/youtube/relatorios.html:325 templates/youtube/relatorios.html:410
+#: templates/youtube/relatorios.html:513
 msgid "record(s)"
 msgstr "Relatório(s)"
 
@@ -159,26 +159,26 @@ msgstr "Enviar"
 msgid "Edit: "
 msgstr "Editar: "
 
-#: views.py:56
+#: views.py:62
 #, python-format
 msgid "%s - Video"
 msgstr "%s - Vídeo"
 
-#: views.py:158 views.py:171 views.py:190 views.py:293 views.py:306
-#: views.py:315
+#: views.py:164 views.py:177 views.py:196 views.py:299 views.py:312
+#: views.py:321
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: views.py:158 views.py:171 views.py:190 views.py:293 views.py:306
-#: views.py:315 views.py:549
+#: views.py:164 views.py:177 views.py:196 views.py:299 views.py:312
+#: views.py:321 views.py:552
 msgid "Finish"
 msgstr "Finalizar"
 
-#: views.py:237
+#: views.py:243
 msgid "Create Youtube Video"
 msgstr "Adicionar Vídeo do YouTube"
 
-#: views.py:248
+#: views.py:254
 #, python-format
 msgid ""
 "The Youtube Video \"%s\" was added to the Topic \"%s\" of the virtual "
@@ -187,16 +187,16 @@ msgstr ""
 "O Vídeo do YouTube \"%s\" foi adicionado ao tópico \"%s\" do ambiente "
 "virtual \"%s\" com sucesso!"
 
-#: views.py:356
+#: views.py:362
 msgid "Update YouTube Video"
 msgstr "Atualizar Vídeo do YouTube"
 
-#: views.py:367
+#: views.py:373
 #, python-format
 msgid "The YouTube Video \"%s\" was updated successfully!"
 msgstr "O Vídeo do YouTube \"%s\" foi atualizado com sucesso!"
 
-#: views.py:403
+#: views.py:409
 #, python-format
 msgid ""
 "The YouTube Video \"%s\" was removed successfully from virtual environment "
@@ -205,40 +205,55 @@ msgstr ""
 "O Vídeo do YouTube \"%s\" foi removido do ambiente virtual \"%s\" com "
 "sucesso!"
 
-#: views.py:515
-#| msgid "Create Youtube Video"
+#: views.py:521
 msgid "Youtube Video Reports"
 msgstr "Relatórios de Vídeo do YouTube"
 
-#: views.py:534
+#: views.py:540
 msgid "Realized"
 msgstr "Realizado"
 
-#: views.py:534
+#: views.py:540
 msgid "Unrealized"
 msgstr "Não Realizado"
 
-#: views.py:534
+#: views.py:540
 msgid "Historic"
 msgstr "Histórico"
 
-#: views.py:549
+#: views.py:552
 msgid "View"
 msgstr "Visualizar"
 
-#: views.py:549
+#: views.py:552
 msgid "Watch"
 msgstr "Assistir"
 
-#: views.py:575
-#| msgid "Create Youtube Video"
+#: views.py:578
 msgid "Youtube Video"
 msgstr "Vídeo do YouTube"
 
-#: views.py:587
+#: views.py:591
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: views.py:588
+#: views.py:592
 msgid "Quantity"
 msgstr "Quantidade"
+
+#: views.py:639
+msgid "[Photo]"
+msgstr "[Imagem]"
+
+#: views.py:651
+#, python-format
+msgid "Last message in %s"
+msgstr "Última mensagem em %s"
+
+#: views.py:659
+msgid "The message was successfull sent!"
+msgstr "A mensagem foi enviada com sucesso!"
+
+#: views.py:661
+msgid "No user selected!"
+msgstr "Nenhum usuário selecionado!"

@@ -19,11 +19,18 @@ from topics.models import Topic, Resource
 from .models import PDFFile
 from pendencies.forms import PendenciesForm
 
-from chat.models import Conversation, TalkMessages
+from chat.models import Conversation, TalkMessages, ChatVisualizations
 from users.models import User
 from subjects.models import Subject
 from webpage.forms import FormModalMessage
 from django.http import JsonResponse
+
+from django.template.loader import render_to_string
+from django.utils import formats
+import textwrap
+from django.utils.html import strip_tags
+import json
+from channels import Group
 
 
 class ViewPDFFile(LoginRequiredMixin, LogMixin, generic.TemplateView):
@@ -423,16 +430,13 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         data_n_did,data_history = [],[]
         json_n_did, json_history = {},{}
 
-        from django.db.models import Count, Max
-        views_user = vis_ou.values("user_email").annotate(views=Count("user_email"))
-        date_last = vis_ou.values("user_email").annotate(last=Max("datetime"))
-
 
         for log_al in vis_ou.order_by("datetime"):
             data_history.append([str(alunos.get(email=log_al.user_email)),
             ", ".join([str(x) for x in pdf_file.topic.subject.group_subject.filter(participants__email=log_al.user_email)]),
             log_al.action,log_al.datetime])
-            json_history["data"] = data_history
+        
+        json_history["data"] = data_history
 
         not_view = alunos.exclude(email__in=[log.user_email for log in vis_ou.distinct("user_email")])
         index = 0
@@ -495,6 +499,31 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
                 to_user = User.objects.get(email=u)
                 talk, create = Conversation.objects.get_or_create(user_one=user,user_two=to_user)
                 created = TalkMessages.objects.create(text=message,talk=talk,user=user,subject=subject,image=image)
+                
+                simple_notify = textwrap.shorten(strip_tags(message), width = 30, placeholder = "...")
+
+                if image is not '':
+                    simple_notify += " ".join(_("[Photo]"))
+                
+                notification = {
+                    "type": "chat",
+                    "subtype": "subject",
+                    "space": subject.slug,
+                    "user_icon": created.user.image_url,
+                    "notify_title": str(created.user),
+                    "simple_notify": simple_notify,
+                    "view_url": reverse("chat:view_message", args = (created.id, ), kwargs = {}),
+                    "complete": render_to_string("chat/_message.html", {"talk_msg": created}, self.request),
+                    "container": "chat-" + str(created.user.id),
+                    "last_date": _("Last message in %s")%(formats.date_format(created.create_date, "SHORT_DATETIME_FORMAT"))
+                }
+
+                notification = json.dumps(notification)
+
+                Group("user-%s" % to_user.id).send({'text': notification})
+
+                ChatVisualizations.objects.create(viewed = False, message = created, user = to_user)
+            
             success = str(_('The message was successfull sent!'))
             return JsonResponse({"message":success})
         erro = HttpResponse(str(_("No user selected!")))

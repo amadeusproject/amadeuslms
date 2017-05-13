@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 17:59-0300\n"
+"POT-Creation-Date: 2017-05-12 12:02-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,6 @@ msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
 #: forms.py:104
-#| msgid "Send message"
 msgid "Message"
 msgstr "Mensagem"
 
@@ -91,7 +90,7 @@ msgstr "Atribuir grupos de estudo à Página Web"
 msgid "Save"
 msgstr "Salvar"
 
-#: templates/webpages/create.html:20 views.py:227
+#: templates/webpages/create.html:20 views.py:234
 msgid "Create Webpage"
 msgstr "Criar Página Web"
 
@@ -119,29 +118,29 @@ msgstr "Enviar Mensagem"
 msgid "Action don't realized"
 msgstr "Ação não realizada"
 
-#: templates/webpages/relatorios.html:151
-#: templates/webpages/relatorios.html:171
+#: templates/webpages/relatorios.html:152
+#: templates/webpages/relatorios.html:174
 msgid "Reports"
 msgstr "Relatórios"
 
-#: templates/webpages/relatorios.html:178
+#: templates/webpages/relatorios.html:181
 msgid "Report of the resource "
 msgstr "Relatórios do recurso "
 
-#: templates/webpages/relatorios.html:187
+#: templates/webpages/relatorios.html:190
 msgid "Select the period: "
 msgstr "Selecione o período: "
 
-#: templates/webpages/relatorios.html:196
+#: templates/webpages/relatorios.html:199
 msgid "Search"
 msgstr "Pesquisar"
 
-#: templates/webpages/relatorios.html:220
+#: templates/webpages/relatorios.html:223
 msgid "Filter: "
 msgstr "Filtro: "
 
-#: templates/webpages/relatorios.html:244
-#: templates/webpages/relatorios.html:329
+#: templates/webpages/relatorios.html:247
+#: templates/webpages/relatorios.html:332
 msgid "record(s)"
 msgstr "Relatório(s)"
 
@@ -165,12 +164,12 @@ msgstr "Enviar"
 msgid "Edit: "
 msgstr "Editar: "
 
-#: views.py:155 views.py:168 views.py:285 views.py:287 views.py:303
-#: views.py:305
+#: views.py:162 views.py:175 views.py:292 views.py:294 views.py:310
+#: views.py:312
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: views.py:238
+#: views.py:245
 #, python-format
 msgid ""
 "The Webpage \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -179,53 +178,71 @@ msgstr ""
 "A Página Web \"%s\" foi adicionado ao tópico \"%s\" do ambiente virtual \"%s"
 "\" com sucesso!"
 
-#: views.py:349
+#: views.py:356
 msgid "Update Webpage"
 msgstr "Atualizar Página Web"
 
-#: views.py:360
+#: views.py:367
 #, python-format
 msgid "The Webpage \"%s\" was updated successfully!"
 msgstr "A Página Web \"%s\" foi atualizada com sucesso!"
 
-#: views.py:396
+#: views.py:403
 #, python-format
 msgid ""
 "The webpage \"%s\" was removed successfully from virtual environment \"%s\"!"
 msgstr ""
 "A Página Web \"%s\" foi removida do ambiente virtual \"%s\" com sucesso!"
 
-#: views.py:455
+#: views.py:462
 msgid "Webpage Reports"
 msgstr "Relatórios da Webpage"
 
-#: views.py:474
+#: views.py:481
 msgid "Realized"
 msgstr "Realizado"
 
-#: views.py:474
+#: views.py:481
 msgid "Unrealized"
 msgstr "Não Realizado"
 
-#: views.py:474
+#: views.py:481
 msgid "Historic"
 msgstr "Histórico"
 
-#: views.py:492 views.py:501
+#: views.py:496 views.py:504
 msgid "View"
 msgstr "Visualizar"
 
-#: views.py:500
+#: views.py:505
 msgid "Webpage"
 msgstr "Nome da Página Web"
 
-#: views.py:505
+#: views.py:510
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: views.py:506
+#: views.py:511
 msgid "Quantity"
 msgstr "Quantidade"
+
+#: views.py:560
+msgid "[Photo]"
+msgstr "[Imagem]"
+
+#: views.py:572
+#, python-format
+msgid "Last message in %s"
+msgstr "Última mensagem em %s"
+
+#: views.py:581
+#| msgid "The Webpage \"%s\" was updated successfully!"
+msgid "The message was successfull sent!"
+msgstr "A mensagem foi enviada com sucesso!"
+
+#: views.py:583
+msgid "No user selected!"
+msgstr "Nenhum usuário selecionado!"
 
 #~ msgid "Users who viewed"
 #~ msgstr "Usuários que visualizaram"

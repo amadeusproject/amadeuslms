@@ -20,13 +20,19 @@ from .models import YTVideo
 
 import datetime
 from log.models import Log
-from chat.models import Conversation, TalkMessages
+from chat.models import Conversation, TalkMessages, ChatVisualizations
 from users.models import User
 from subjects.models import Subject
 
 from webpage.forms import FormModalMessage
 
 from django.db.models import Q
+from django.template.loader import render_to_string
+from django.utils import formats
+import textwrap
+from django.utils.html import strip_tags
+import json
+from channels import Group
 
 class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
 	log_component = 'resources'
@@ -516,7 +522,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
         slug = self.kwargs.get('slug')
         ytvideo = get_object_or_404(YTVideo, slug = slug)
-        print (self.request.GET.get('init_date',''))
+
         date_format = "%d/%m/%Y %H:%M" if self.request.GET.get('language','') == 'pt-br' else "%m/%d/%Y %I:%M %p"
         if self.request.GET.get('language','') == "":
             start_date = datetime.datetime.now() - datetime.timedelta(30)
@@ -536,15 +542,12 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         data_n_did,data_history = [],[]
         json_n_did, json_history = {},{}
 
-        from django.db.models import Count, Max
-        views_user = vis_ou.values("user_email").annotate(views=Count("user_email"))
-        date_last = vis_ou.values("user_email").annotate(last=Max("datetime"))
-
         for log_al in vis_ou.order_by("datetime"):
             data_history.append([str(alunos.get(email=log_al.user_email)),
             ", ".join([str(x) for x in ytvideo.topic.subject.group_subject.filter(participants__email=log_al.user_email)]),
             log_al.action,log_al.datetime])
-            json_history["data"] = data_history
+        
+        json_history["data"] = data_history
 
         column_view,column_watch,column_finish = str(_('View')),str(_('Watch')),str(_('Finish'))
 
@@ -619,7 +622,7 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
     
     def form_valid(self, form):
         message = form.cleaned_data.get('comment')
-        image = form.cleaned_data.get("image")
+        image = form.cleaned_data.get("image",'')
         users = (self.request.POST.get('users[]','')).split(",")
         user = self.request.user
         subject = self.ytvideo.topic.subject
@@ -629,6 +632,30 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
                 to_user = User.objects.get(email=u)
                 talk, create = Conversation.objects.get_or_create(user_one=user,user_two=to_user)
                 created = TalkMessages.objects.create(text=message,talk=talk,user=user,subject=subject,image=image)
+
+                simple_notify = textwrap.shorten(strip_tags(message), width = 30, placeholder = "...")
+
+                if image is not '':
+                    simple_notify += " ".join(_("[Photo]"))
+                
+                notification = {
+                    "type": "chat",
+                    "subtype": "subject",
+                    "space": subject.slug,
+                    "user_icon": created.user.image_url,
+                    "notify_title": str(created.user),
+                    "simple_notify": simple_notify,
+                    "view_url": reverse("chat:view_message", args = (created.id, ), kwargs = {}),
+                    "complete": render_to_string("chat/_message.html", {"talk_msg": created}, self.request),
+                    "container": "chat-" + str(created.user.id),
+                    "last_date": _("Last message in %s")%(formats.date_format(created.create_date, "SHORT_DATETIME_FORMAT"))
+                }
+
+                notification = json.dumps(notification)
+
+                Group("user-%s" % to_user.id).send({'text': notification})
+
+                ChatVisualizations.objects.create(viewed = False, message = created, user = to_user)
             success = str(_('The message was successfull sent!'))
             return JsonResponse({"message":success})
         erro = HttpResponse(str(_("No user selected!")))

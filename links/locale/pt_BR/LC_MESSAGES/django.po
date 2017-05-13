@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 19:49-0300\n"
+"POT-Creation-Date: 2017-05-12 11:56-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: forms.py:27
 msgid "Tags"
-msgstr ""
+msgstr "Tags"
 
 #: forms.py:28
 msgid "Website URL"
@@ -110,27 +110,27 @@ msgstr "Enviar Mensagem"
 msgid "Action don't realized"
 msgstr "Ação não realizada"
 
-#: templates/links/relatorios.html:151 templates/links/relatorios.html:171
+#: templates/links/relatorios.html:153 templates/links/relatorios.html:175
 msgid "Reports"
 msgstr "Relatórios"
 
-#: templates/links/relatorios.html:178
+#: templates/links/relatorios.html:182
 msgid "Report of the resource "
 msgstr "Relatórios do recurso "
 
-#: templates/links/relatorios.html:187
+#: templates/links/relatorios.html:191
 msgid "Select the period: "
 msgstr "Selecione o período: "
 
-#: templates/links/relatorios.html:196
+#: templates/links/relatorios.html:200
 msgid "Search"
 msgstr "Pesquisar"
 
-#: templates/links/relatorios.html:220
+#: templates/links/relatorios.html:224
 msgid "Filter: "
 msgstr "Filtro: "
 
-#: templates/links/relatorios.html:244 templates/links/relatorios.html:329
+#: templates/links/relatorios.html:248 templates/links/relatorios.html:333
 msgid "record(s)"
 msgstr "Relatório(s)"
 
@@ -150,15 +150,15 @@ msgstr "Enviar"
 msgid "Edit: "
 msgstr "Editar: "
 
-#: views.py:59 views.py:72 views.py:256 views.py:258 views.py:274 views.py:276
+#: views.py:67 views.py:80 views.py:264 views.py:266 views.py:282 views.py:284
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: views.py:134
+#: views.py:142
 msgid "Create Webiste Link"
 msgstr "Criar Link de Website"
 
-#: views.py:145
+#: views.py:153
 #, python-format
 msgid ""
 "The  Link \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -167,7 +167,7 @@ msgstr ""
 "O link \"%s\" foi adicionado com sucesso ao Topico \"%s\"  do ambiente "
 "virtual \"%s\" "
 
-#: views.py:173
+#: views.py:181
 #, python-format
 msgid ""
 "The Website Link \"%s\" was removed successfully from virtual environment "
@@ -175,45 +175,62 @@ msgid ""
 msgstr ""
 "O Link do site \"%s\" foi removido com sucesso do ambiente virtual \"%s\"  "
 
-#: views.py:322
+#: views.py:330
 msgid "Update Website Link"
 msgstr "Atualizar Link do website"
 
-#: views.py:333
+#: views.py:341
 #, python-format
 msgid "The Website Link \"%s\" was updated successfully!"
 msgstr "O link do website  \"%s\" foi atualizado com sucesso! "
 
-#: views.py:377
+#: views.py:385
 msgid "Links Reports"
 msgstr "Relatórios de links"
 
-#: views.py:396
+#: views.py:404
 msgid "Realized"
 msgstr "Realizado"
 
-#: views.py:396
+#: views.py:404
 msgid "Unrealized"
 msgstr "Não Realizado"
 
-#: views.py:396
+#: views.py:404
 msgid "Historic"
 msgstr "Histórico"
 
-#: views.py:414 views.py:423
+#: views.py:419 views.py:427
 msgid "View"
 msgstr "Visualizar"
 
-#: views.py:422
-#, fuzzy
+#: views.py:428
 #| msgid "Link_URL"
 msgid "Links"
 msgstr "Links"
 
-#: views.py:427
+#: views.py:433
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: views.py:428
+#: views.py:434
 msgid "Quantity"
 msgstr "Quantidade"
+
+#: views.py:481
+msgid "[Photo]"
+msgstr "[Imagem]"
+
+#: views.py:493
+#, python-format
+msgid "Last message in %s"
+msgstr "Última mensagem em %s"
+
+#: views.py:502
+#| msgid "The Website Link \"%s\" was updated successfully!"
+msgid "The message was successfull sent!"
+msgstr "A mensagem foi enviada com sucesso!"
+
+#: views.py:504
+msgid "No user selected!"
+msgstr "Nenhum usuário selecionado!"
