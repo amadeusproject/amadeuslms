@@ -436,30 +436,21 @@ var charts = {
 
 		});
 	},
-	month_heatmap: function(data, target){
+	month_heatmap: function(data, target, div_target){
 
 	
-		if(target == '#right-chart-body' && $('#month-chart').length != 0){
-			$('#month-chart').fadeOut();
-			$('#month-chart').remove();
-		}
+		
 
-		if(target == "#bottom-right-chart-body" && $('#weekly-chart').length != 0){
-			$('#weekly-chart').fadeOut();
-			$('#weekly-chart').remove();
+		if($(div_target).lenght != 0 ){
+			$(div_target).fadeOut();
+			$(div_target).remove();
 		}
-
 		var svg = d3.select(target).append('svg')
 		.attr('width', 300)
 		.attr('height', 200);
 		
-		if (target == "#right-chart-body"){
-			svg.attr('id', 'month-chart');
-		}
-		
-		if (target == "#bottom-right-chart-body"){
-			svg.attr('id', 'weekly-chart');
-		}
+		svg.attr('id', div_target);
+	
 
 		//color range
 		var color = d3.scaleLinear().range(["#29c8b8", '#149e91']).domain([0, d3.max(data, function(d){ return d.count; })]);
