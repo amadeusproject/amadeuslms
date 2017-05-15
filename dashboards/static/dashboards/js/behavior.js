@@ -8,7 +8,7 @@ $(document).ready(function(){
 
 	$('#month_selector').change(function(){
 		$.get('/analytics/amount_active_users_per_day', {month: $(this).val() }).done(function(data){
-			charts.month_heatmap(data, '#right-chart-body', '#month-chart');
+			charts.month_heatmap(data, '#right-chart-body', 'month-chart');
 			
 		});
 	});
@@ -18,7 +18,7 @@ $(document).ready(function(){
 		defaultDate: new Date(),
     }).on('dp.change', function(ev){
     	$.get('/analytics/get_days_of_the_week_log', {date: ev.date._i}).done(function(data){
-    		charts.month_heatmap(data, '#bottom-right-chart-body', '#weekly-chart');
+    		charts.month_heatmap(data, '#bottom-right-chart-body', 'weekly-chart');
     	});
 
     });
@@ -27,14 +27,14 @@ $(document).ready(function(){
  	//first call to month selector 
  	$.get('/analytics/amount_active_users_per_day', {month: $('#month_selector option')[(new Date()).getMonth()].text }).done(function(data){
 			$('#month_selector').val($('#month_selector option')[(new Date()).getMonth()].text); //update value to actual month
-			charts.month_heatmap(data, '#right-chart-body');
+			charts.month_heatmap(data, '#right-chart-body', 'month-chart');
 	});
 
  	//first call to weekly chart
  	var today_date = new Date();
  	var date = (today_date.getMonth() + 1) + '/' + today_date.getDate() + '/' + today_date.getFullYear();
  	$.get('/analytics/get_days_of_the_week_log', {date: date}).done(function(data){
-    		charts.month_heatmap(data, '#bottom-right-chart-body', '#weekly-chart');
+    		charts.month_heatmap(data, '#bottom-right-chart-body', 'weekly-chart');
     });
 
 

@@ -440,10 +440,10 @@ var charts = {
 
 	
 		
-
-		if($(div_target).lenght != 0 ){
-			$(div_target).fadeOut();
-			$(div_target).remove();
+		
+		if($('#'+div_target).lenght != 0 ){
+			$('#'+div_target).fadeOut();
+			$('#'+div_target).remove();
 		}
 		var svg = d3.select(target).append('svg')
 		.attr('width', 300)
