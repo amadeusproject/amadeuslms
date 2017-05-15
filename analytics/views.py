@@ -18,23 +18,6 @@ import calendar
 from collections import OrderedDict
 
 
-class GeneralView(generic.TemplateView):
-    template_name = "analytics/general.html"
-
-    def dispatch(self, request, *args, **kwargs):
-       
-        if not request.user.is_staff:
-            return redirect('analytics:view_category_data')
-        return super(GeneralView, self).dispatch(request, *args, **kwargs)
-
-
-    def get_context_data(self, **kwargs):
-        context = {}
-
-        context['months'] = [_('January'), _('February'), _('March'), _('April'), _('May'), _('June'), _('July'), _('August'), 
-        _('September'), _('October'), _('November'), _('December')]
-        
-        return context
 
 
 
@@ -94,9 +77,7 @@ Subject view that returns a list of the most used subjects     """
 
 
 def most_accessed_subjects(request):
-    data = {} #empty response
 
-    data = Log.objects.filter(resource = 'subject')
     subjects = get_log_count_of_resource(resource='subject')
     #order the values of the dictionary by the count in descendent order
     subjects = sorted(subjects.values(), key = lambda x: x['count'], reverse=True )
@@ -119,9 +100,7 @@ def get_log_count_of_resource(resource = ''):
 
 
 def most_accessed_categories(request):
-    data = {}
 
-    data = Log.objects.filter(resource = 'category')
     categories = get_log_count_of_resource('category')
 
    
@@ -214,5 +193,3 @@ def get_days_of_the_week(date):
     return days_set
 
 
-class CategoryView(generic.TemplateView):
-    template_name = "analytics/category.html"

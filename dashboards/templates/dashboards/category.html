@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'analytics/general.css' %}">  
+{% endblock style %}
+
+{% block javascript %}
+    <script type="text/javascript" src="{% static "analytics/js/charts.js" %}"></script>
+    <script type="text/javascript" src=" {% static "dashboards/js/behavior.js" %} "></script>
+{% endblock javascript %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    
+    {% trans 'Analytics Category' as category %}
+
+    {% breadcrumb category 'dashboard:view_general' %}
+{% endblock %}
+
+
+{% block content %}
+	 <section id="core-subjects-options-div">
+        <nav>
+            <ul class="core-subjects-options report-menu-choice">
+              
+                    <li>
+                        {% trans "Platform Report" %}
+                    </li>
+                   <a href=""><li class="active">
+                        {% trans "Category Report" %}
+                    </li></a> 
+                    <li>
+                        {% trans "Subject Report" %}
+                    </li>
+              
+            </ul>
+        </nav>
+    </section>
+
+    <section id="general-report">
+        <header id="general-report-header">
+            <h3>{{category.name}} {% trans "Category Report" %}</h3>
+
+            <ul id="report-header-options">
+                <li  class="selected">
+                    {% trans "Focus" %}
+                </li>
+                <li>
+                    {% trans "Log" %}
+                </li>
+            </ul>
+        </header> 
+
+        <article class="report-body">
+        </article>
+    </section>
+{% endblock content %}

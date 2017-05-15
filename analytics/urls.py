@@ -3,8 +3,6 @@ from . import views
 
 
 urlpatterns = [
-	url(r'^view/general/$', views.GeneralView.as_view(), name='view_general'),
-	url(r'^view/category/data$', views.CategoryView.as_view(), name='view_category_data'),
 
 	#"api" callls
 	url(r'^most_used_tags/$', views.most_used_tags, name="most_used_tags"),
