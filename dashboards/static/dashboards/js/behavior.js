@@ -30,6 +30,13 @@ $(document).ready(function(){
 			charts.month_heatmap(data, '#right-chart-body');
 	});
 
+ 	//first call to weekly chart
+ 	var today_date = new Date();
+ 	var date = (today_date.getMonth() + 1) + '/' + today_date.getDate() + '/' + today_date.getFullYear();
+ 	$.get('/analytics/get_days_of_the_week_log', {date: date}).done(function(data){
+    		charts.month_heatmap(data, '#bottom-right-chart-body', '#weekly-chart');
+    });
+
 
 
 });
