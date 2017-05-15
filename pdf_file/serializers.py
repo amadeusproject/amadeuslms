@@ -11,6 +11,12 @@ class SimplePDFFileSerializer(serializers.ModelSerializer):
 	topic = TopicSerializer()
 	tags = TagSerializer(many = True)
 	pendencies_resource = PendenciesSerializer(many = True)
+	file = serializers.CharField(required = False, allow_blank = True)
+
+	def validate(self, data):
+		print(self.context)
+
+		return data
 
 	class Meta:
 		model = PDFFile
