@@ -24,7 +24,13 @@ $(document).ready(function(){
     });
 
  
- 
+ 	//first call to month selector 
+ 	$.get('/analytics/amount_active_users_per_day', {month: $('#month_selector option')[(new Date()).getMonth()].text }).done(function(data){
+			$('#month_selector').val($('#month_selector option')[(new Date()).getMonth()].text); //update value to actual month
+			charts.month_heatmap(data, '#right-chart-body');
+	});
+
+
 
 });
 
