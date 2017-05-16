@@ -878,6 +878,7 @@ class Restore(LoginRequiredMixin, TemplateView):
 
 @login_required
 def realize_restore(request, subject):
+    subjetc = get_object_or_404(Subject, slug = subject)
     zip_file = request.FILES.get('zip_file', None)
 
     if zip_file:
@@ -896,25 +897,23 @@ def realize_restore(request, subject):
 
                 for line in data:
                     if "_my_subclass" in line[0]:
-                        print(line)
                         if line[0]["_my_subclass"] == "webpage":
-                            serial = SimpleWebpageSerializer(data = line, many = True)
+                            serial = SimpleWebpageSerializer(data = line, many = True, context = {'subject': subject})
                         elif line[0]["_my_subclass"] == "filelink":
-                            serial = SimpleFileLinkSerializer(data = line, many = True)
+                            serial = SimpleFileLinkSerializer(data = line, many = True, context = {'subject': subject})
                         elif line[0]["_my_subclass"] == "link":
-                            serial = SimpleLinkSerializer(data = line, many = True)
+                            serial = SimpleLinkSerializer(data = line, many = True, context = {'subject': subject})
                         elif line[0]["_my_subclass"] == "pdffile":
-                            serial = SimplePDFFileSerializer(data = line, many = True)
+                            serial = SimplePDFFileSerializer(data = line, many = True, context = {'subject': subject})
                         elif line[0]["_my_subclass"] == "goals":
-                            serial = SimpleGoalSerializer(data = line, many = True)
+                            serial = SimpleGoalSerializer(data = line, many = True, context = {'subject': subject})
                         elif line[0]["_my_subclass"] == "ytvideo":
-                            serial = SimpleYTVideoSerializer(data = line, many = True)
+                            serial = SimpleYTVideoSerializer(data = line, many = True, context = {'subject': subject})
                         
                         serial.is_valid()
                         print(serial.errors)
+                        print("\n")
+                        print(serial.validated_data)
                         print("\n\n\n")
-                        # stream = BytesIO(line[0])
-                        #line_data = JSONParser().parse(line[0])
-                        # print(line_data)
 
     return JsonResponse({'message': 'ok'})
