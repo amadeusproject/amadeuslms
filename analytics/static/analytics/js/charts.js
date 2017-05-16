@@ -438,16 +438,18 @@ var charts = {
 	},
 	month_heatmap: function(data, target, div_target){
 
-	
+		
 		
 		
 		if($('#'+div_target).lenght != 0 ){
 			$('#'+div_target).fadeOut();
 			$('#'+div_target).remove();
 		}
+		var width = 300;
+		var height = 200;
 		var svg = d3.select(target).append('svg')
-		.attr('width', 300)
-		.attr('height', 200);
+		.attr('width', width)
+		.attr('height', height);
 		
 		svg.attr('id', div_target);
 	
@@ -485,6 +487,19 @@ var charts = {
 	    		return rect_height*(Math.floor(  i  / 7)) + rect_height/2;
 	    	});
 
+	    rects.on('mouseover', function(d, i){
+	    	tooltip = d3.select(target)
+	    		.append('div')
+	    		.attr('class', 'date-tooltip')
+	    		.style("left", ((d3.event.pageX) - width/2) + "px")
+	    		.style("top", ((d3.event.pageY) - height/2) + "px")
+	    		.style("position", "absolute")
+	    		.html(d['count'])
+	    });
+
+	    rects.on('mouseout', function(){
+	    	tooltip.remove();
+	    })
 	}
 }
 
