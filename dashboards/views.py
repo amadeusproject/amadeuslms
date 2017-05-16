@@ -17,6 +17,8 @@ from datetime import date, timedelta, datetime
 import calendar
 from collections import OrderedDict
 
+from categories.models import Category
+
 
 class GeneralView(generic.TemplateView):
     template_name = "dashboards/general.html"
@@ -24,7 +26,7 @@ class GeneralView(generic.TemplateView):
     def dispatch(self, request, *args, **kwargs):
        
         if not request.user.is_staff:
-            return redirect('analytics:view_category_data')
+            return redirect('dashboards:view_categories')
         return super(GeneralView, self).dispatch(request, *args, **kwargs)
 
 
@@ -44,5 +46,14 @@ class CategoryView(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = {}
+
+        context['categories'] = self.categories_associated_with_user(self.request.user)
         
         return context
+
+    def categories_associated_with_user(self, user):
+        if user.is_staff:
+            categories = Category.objects.all()
+        else:
+            categories = Category.objects.filter(coordinators__in = [user])
+        return categories

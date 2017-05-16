@@ -4,11 +4,11 @@
 {% load django_bootstrap_breadcrumbs %}
 {% block style %}
     <link rel="stylesheet" type="text/css" href="{% static 'analytics/general.css' %}">  
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboards/css/dashboards_category.css' %}">
 {% endblock style %}
 
 {% block javascript %}
     <script type="text/javascript" src="{% static "analytics/js/charts.js" %}"></script>
-    <script type="text/javascript" src=" {% static "dashboards/js/behavior.js" %} "></script>
 {% endblock javascript %}
 
 {% block breadcrumbs %}
@@ -24,11 +24,13 @@
 	 <section id="core-subjects-options-div">
         <nav>
             <ul class="core-subjects-options report-menu-choice">
-              
-                    <li>
+                    {% if user.is_staff %}
+                          <a href="{% url 'dashboards:view_general' %}"><li>
                         {% trans "Platform Report" %}
-                    </li>
-                   <a href="{% url 'dashboards:' %}"><li class="active">
+                            </li></a>
+                    {% endif %}
+                  
+                   <a href="{% url 'dashboards:view_categories' %}"><li class="active">
                         {% trans "Category Report" %}
                     </li></a> 
                     <li>
@@ -42,7 +44,11 @@
     <section id="general-report">
         <header id="general-report-header">
             <h3>{{category.name}} {% trans "Category Report" %}</h3>
-
+            <select id="category-selector">
+                {% for category in categories %}
+                    <option>{{category.name}}</option>
+                {% endfor %}
+            </select>
             <ul id="report-header-options">
                 <li  class="selected">
                     {% trans "Focus" %}
