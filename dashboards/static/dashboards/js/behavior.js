@@ -17,7 +17,9 @@ $(document).ready(function(){
 		format: 'L',
 		defaultDate: new Date(),
     }).on('dp.change', function(ev){
-    	$.get('/analytics/get_days_of_the_week_log', {date: ev.date._i}).done(function(data){
+    	new_date = new Date(ev.date);
+    	var date = (new_date.getMonth() + 1) + '/' + new_date.getDate() + '/' + new_date.getFullYear();
+    	$.get('/analytics/get_days_of_the_week_log', {date: date}).done(function(data){
     		charts.month_heatmap(data, '#bottom-right-chart-body', 'weekly-chart');
     	});
 
