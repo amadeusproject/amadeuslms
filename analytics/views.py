@@ -5,7 +5,7 @@ from django.db.models import Count
 from django.core.urlresolvers import reverse_lazy
 
 from subjects.models import Tag, Subject
-from topics.models import Resource
+from topics.models import Resource, Topic
 from users.models import User
 from django.http import HttpResponse, JsonResponse
 from log.models import Log
@@ -193,3 +193,33 @@ def get_days_of_the_week(date):
     return days_set
 
 
+
+def category_tags(request):
+    category_id = request.GET['category_id']
+    data = most_tags_inside_category(category_id)
+    data = sorted(data.values(), key = lambda x: x['count'], reverse=True )
+    data = data[:15] #get top 15 tags
+    return JsonResponse(data, safe=False)
+
+def most_tags_inside_category(category_id):
+    tags = Tag.objects.all()
+    data = {}
+    #grab all references to that tag
+    for tag in tags:
+        subjects_count =  Subject.objects.filter(tags = tag, category__id = category_id).count()
+        if  subjects_count > 0:
+            data[tag.name] = {'name': tag.name}
+            data[tag.name]['count'] = subjects_count
+
+        subjects = Subject.objects.filter(category__id = category_id)
+        topics = Topic.objects.filter(subject__in= subjects)
+        if topics.count() > 0 :
+            resources_count = Resource.objects.filter(tags = tag, topic__in = topics).count()
+
+            if resources_count > 0:
+                if data.get(tag.name):
+                    data[tag.name]['count'] = data[tag.name]['count']  + resources_count
+                else:
+                    data[tag.name] = {'name': tag.name}
+                    data[tag.name]['count'] = resources_count
+    return data

@@ -352,7 +352,12 @@ var charts = {
 	       	
 
 			var container_div = d3.select("#most-used-tags-body");
+			if($('#most_used_tag_chart').length > 0){
+				$('#most_used_tag_chart').remove();
+			}
+
 			var svg = container_div.append("svg").attr("width", "100%").attr("height", height)
+			.attr("id", "most_used_tag_chart")
 			.style("margin","auto")
 	        	.style("display","block")
 	        	.style("background","#ddf8e7")
@@ -505,8 +510,6 @@ var charts = {
 
 
 $(document).ready(function(){
-	charts.most_used_tags('/analytics/most_used_tags');
-	//charts.build_resource('/topics/count_resources/');
-	charts.build_bubble_user('/analytics/most_active_users/');
+	
 	//charts.most_accessed_subjects('/subjects/most_accessed_subjects');
 });
