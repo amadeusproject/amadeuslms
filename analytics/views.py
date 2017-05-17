@@ -5,7 +5,7 @@ from django.db.models import Count
 from django.core.urlresolvers import reverse_lazy
 
 from subjects.models import Tag, Subject
-from topics.models import Resource
+from topics.models import Resource, Topic
 from users.models import User
 from django.http import HttpResponse, JsonResponse
 from log.models import Log
@@ -18,23 +18,6 @@ import calendar
 from collections import OrderedDict
 
 
-class GeneralView(generic.TemplateView):
-    template_name = "analytics/general.html"
-
-    def dispatch(self, request, *args, **kwargs):
-       
-        if not request.user.is_staff:
-            return redirect('analytics:view_category_data')
-        return super(GeneralView, self).dispatch(request, *args, **kwargs)
-
-
-    def get_context_data(self, **kwargs):
-        context = {}
-
-        context['months'] = [_('January'), _('February'), _('March'), _('April'), _('May'), _('June'), _('July'), _('August'), 
-        _('September'), _('October'), _('November'), _('December')]
-        
-        return context
 
 
 
@@ -94,9 +77,7 @@ Subject view that returns a list of the most used subjects     """
 
 
 def most_accessed_subjects(request):
-    data = {} #empty response
 
-    data = Log.objects.filter(resource = 'subject')
     subjects = get_log_count_of_resource(resource='subject')
     #order the values of the dictionary by the count in descendent order
     subjects = sorted(subjects.values(), key = lambda x: x['count'], reverse=True )
@@ -119,9 +100,7 @@ def get_log_count_of_resource(resource = ''):
 
 
 def most_accessed_categories(request):
-    data = {}
 
-    data = Log.objects.filter(resource = 'category')
     categories = get_log_count_of_resource('category')
 
    
@@ -214,5 +193,33 @@ def get_days_of_the_week(date):
     return days_set
 
 
-class CategoryView(generic.TemplateView):
-    template_name = "analytics/category.html"
+
+def category_tags(request):
+    category_id = request.GET['category_id']
+    data = most_tags_inside_category(category_id)
+    data = sorted(data.values(), key = lambda x: x['count'], reverse=True )
+    data = data[:15] #get top 15 tags
+    return JsonResponse(data, safe=False)
+
+def most_tags_inside_category(category_id):
+    tags = Tag.objects.all()
+    data = {}
+    #grab all references to that tag
+    for tag in tags:
+        subjects_count =  Subject.objects.filter(tags = tag, category__id = category_id).count()
+        if  subjects_count > 0:
+            data[tag.name] = {'name': tag.name}
+            data[tag.name]['count'] = subjects_count
+
+        subjects = Subject.objects.filter(category__id = category_id)
+        topics = Topic.objects.filter(subject__in= subjects)
+        if topics.count() > 0 :
+            resources_count = Resource.objects.filter(tags = tag, topic__in = topics).count()
+
+            if resources_count > 0:
+                if data.get(tag.name):
+                    data[tag.name]['count'] = data[tag.name]['count']  + resources_count
+                else:
+                    data[tag.name] = {'name': tag.name}
+                    data[tag.name]['count'] = resources_count
+    return data

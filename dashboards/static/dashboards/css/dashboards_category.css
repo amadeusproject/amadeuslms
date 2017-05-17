@@ -1,0 +1,17 @@
+#category-selector {
+  background: transparent;
+  font-size: 1.5em;
+  font-weight: 700;
+  color: #5b8583;
+  border: none;
+  border-right: 2px solid;
+  border-left: 2px solid; }
+
+#category-selector option {
+  background: #ffffff;
+  color: #5b8583; }
+
+#category-selector option:hover {
+  background: red; }
+
+/*# sourceMappingURL=dashboards_category.css.map */

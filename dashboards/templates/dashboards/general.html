@@ -9,13 +9,13 @@
 {% block javascript %}
 
     <script type="text/javascript" src="{% static "analytics/js/charts.js" %}"></script>
-    <script type="text/javascript" src=" {% static "analytics/js/behavior.js" %} "></script>
+    <script type="text/javascript" src=" {% static "dashboards/js/behavior.js" %} "></script>
 {% endblock javascript %}
 
 {% block breadcrumbs %}
     {{ block.super }}
     
-    {% trans 'Analytics General' as general %}
+    {% trans 'Dashboards General' as general %}
 
     {% breadcrumb general 'dashboard:view_general' %}
 {% endblock %}
@@ -25,13 +25,13 @@
     <section id="core-subjects-options-div">
         <nav>
             <ul class="core-subjects-options report-menu-choice">
-              
+                 
                     <li class="active">
                         {% trans "Platform Report" %}
                     </li>
-                    <li>
+                   <a href="{% url 'dashboards:view_categories' %}"><li>
                         {% trans "Category Report" %}
-                    </li>
+                    </li></a> 
                     <li>
                         {% trans "Subject Report" %}
                     </li>

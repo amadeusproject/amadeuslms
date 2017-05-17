@@ -80,7 +80,7 @@ msgstr "Buscar"
 
 #: .\templates\reports\create.html:27 .\templates\reports\view.html:33
 msgid "Analytics"
-msgstr ""
+msgstr "Análises"
 
 #: .\templates\reports\create.html:36 .\templates\reports\view.html:43
 msgid "Interaction Data"
@@ -136,7 +136,7 @@ msgstr "Relatório criado com sucesso!"
 
 #: .\views.py:222
 msgid "User"
-msgstr ""
+msgstr "Usuário"
 
 #: .\views.py:245
 msgid "Number of help posts created by the user."
@@ -144,33 +144,23 @@ msgstr "Número de postagens de dúvidas criadas no mural da disciplina."
 
 #: .\views.py:251
 msgid "Amount of comments on help posts created by the student."
-msgstr ""
-"Número de comentários criados para as próprias postagens de dúvidas no mural "
-"da disciplina."
+msgstr "Número de comentários criados para as próprias postagens de dúvidas no mural da disciplina."
 
 #: .\views.py:256
 msgid "Amount of comments made by the student on teachers help posts."
-msgstr ""
-"Número de comentários às postagens de dúvidas no mural da disciplina criadas "
-"pelo professor."
+msgstr "Número de comentários às postagens de dúvidas no mural da disciplina criadas pelo professor."
 
 #: .\views.py:260
 msgid "Amount of comments made by the student on other students help posts."
-msgstr ""
-"Número de comentários às postagens de dúvidas no mural da disciplina criadas "
-"por outros estudantes."
+msgstr "Número de comentários às postagens de dúvidas no mural da disciplina criadas por outros estudantes."
 
 #: .\views.py:271
 msgid "Number of help posts created by the user that the teacher commented on."
-msgstr ""
-"Número de comentários às postagens de dúvidas no mural da disciplina criadas "
-"por outros estudantes"
+msgstr "Número de comentários às postagens de dúvidas no mural da disciplina criadas por outros estudantes"
 
 #: .\views.py:279
 msgid "Number of help posts created by the user others students commented on."
-msgstr ""
-" Número de postagens de dúvidas criadas no mural da disciplina que foram "
-"comentadas por outros estudantes."
+msgstr "Número de postagens de dúvidas criadas no mural da disciplina que foram comentadas por outros estudantes."
 
 #: .\views.py:282
 msgid "Number of student visualizations on the mural of the subject."
@@ -178,23 +168,19 @@ msgstr "Número de visualizações do mural da disciplina."
 
 #: .\views.py:303
 msgid "Number of access to mural between 6 a.m to 12a.m. ."
-msgstr ""
-"Número de acessos ao ambiente virtual da disciplina no horário de 06h às 12h."
+msgstr "Número de acessos ao ambiente virtual da disciplina no horário de 06h às 12h."
 
 #: .\views.py:307
 msgid "Number of access to mural between 0 p.m to 6p.m. ."
-msgstr ""
-"Número de acessos ao ambiente virtual da disciplina no horário de 12h às 18h."
+msgstr "Número de acessos ao ambiente virtual da disciplina no horário de 12h às 18h."
 
 #: .\views.py:310
 msgid "Number of access to mural between 6 p.m to 12p.m. ."
-msgstr ""
-"Número de acessos ao ambiente virtual da disciplina no horário de 18h às 24h."
+msgstr "Número de acessos ao ambiente virtual da disciplina no horário de 18h às 24h."
 
 #: .\views.py:314
 msgid "Number of access to mural between 0 a.m to 6a.m. ."
-msgstr ""
-"Número de acessos ao ambiente virtual da disciplina no horário de 24h às 06h."
+msgstr "Número de acessos ao ambiente virtual da disciplina no horário de 24h às 06h."
 
 #: .\views.py:319
 msgid "sunday"
@@ -246,7 +232,7 @@ msgstr "Desempenho"
 
 #: .\views.py:482 .\views.py:583
 msgid "PDF File"
-msgstr ""
+msgstr "Arquivo PDF"
 
 #: .\views.py:483 .\views.py:584
 #, fuzzy
@@ -256,23 +242,23 @@ msgstr "Tópicos"
 
 #: .\views.py:484 .\views.py:585
 msgid "Link to Website"
-msgstr ""
+msgstr "Link do Site"
 
 #: .\views.py:485 .\views.py:586
 msgid "File Link"
-msgstr ""
+msgstr "Link para Arquivo"
 
 #: .\views.py:486 .\views.py:587
 msgid "Web Conference"
-msgstr ""
+msgstr "Conferência Web"
 
 #: .\views.py:487 .\views.py:588
 msgid "YouTube Video"
-msgstr ""
+msgstr "Vídeo do Youtube"
 
 #: .\views.py:488 .\views.py:589
 msgid "WebPage"
-msgstr ""
+msgstr "Página na Web"
 
 #: .\views.py:490 .\views.py:497
 msgid "number of visualizations of "

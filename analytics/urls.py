@@ -3,8 +3,6 @@ from . import views
 
 
 urlpatterns = [
-	url(r'^view/general/$', views.GeneralView.as_view(), name='view_general'),
-	url(r'^view/category/data$', views.CategoryView.as_view(), name='view_category_data'),
 
 	#"api" callls
 	url(r'^most_used_tags/$', views.most_used_tags, name="most_used_tags"),
@@ -14,4 +12,5 @@ urlpatterns = [
 	url(r'^most_active_users/$', views.most_active_users, name= "most_active_users"),
 	url(r'^amount_active_users_per_day/$', views.most_active_users_in_a_month, name="most_active_users_in_a_month"),
 	url(r'^get_days_of_the_week_log/$', views.get_days_of_the_week_log, name="get_days_of_the_week_log"),
+	url(r'^get_category_tags/$', views.category_tags, name='get_category_tags'),
 ]

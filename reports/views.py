@@ -587,7 +587,7 @@ def get_resources(request):
     mapping['webconference'] = str(_('Web Conference'))
     mapping['ytvideo'] = str(_('YouTube Video'))
     mapping['webpage'] = str(_('WebPage'))
-
+    data = {}
     data['resources']= [ {'id':resource_type, 'name':mapping[resource_type]} for resource_type in  resources]
     return JsonResponse(data)
 
