@@ -4,7 +4,6 @@
 $(document).ready(function(){
 	selectors_options.init();
 
-	//for month selector
 
 	$('#month_selector').change(function(){
 		$.get('/analytics/amount_active_users_per_day', {month: $(this).val() }).done(function(data){

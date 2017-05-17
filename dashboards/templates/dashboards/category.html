@@ -9,6 +9,7 @@
 
 {% block javascript %}
     <script type="text/javascript" src="{% static "analytics/js/charts.js" %}"></script>
+    <script type="text/javascript" src="{% static "dashboards/js/behavior_categories.js" %}"></script>
 {% endblock javascript %}
 
 {% block breadcrumbs %}
@@ -46,7 +47,7 @@
             <h3>{{category.name}} {% trans "Category Report" %}</h3>
             <select id="category-selector">
                 {% for category in categories %}
-                    <option>{{category.name}}</option>
+                    <option value="{{category.id}}">{{category.name}}</option>
                 {% endfor %}
             </select>
             <ul id="report-header-options">
@@ -60,6 +61,17 @@
         </header> 
 
         <article class="report-body">
+
+            <section id="most-used-tags">
+                <header id="most-used-tags-header">
+                    <h4 >
+                        {% trans "most used tags" %}
+                    </h4>
+                </header>
+                <div id="most-used-tags-body">
+                    
+                </div>
+            </section>
         </article>
     </section>
 {% endblock content %}
