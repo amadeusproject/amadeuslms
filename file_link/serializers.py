@@ -4,6 +4,7 @@ from subjects.serializers import TagSerializer
 from topics.serializers import TopicSerializer
 from pendencies.serializers import PendenciesSerializer
 from students_group.serializers import StudentsGroupSerializer
+from users.serializers import UserBackupSerializer
 
 from .models import FileLink
 
@@ -30,10 +31,12 @@ class SimpleFileLinkSerializer(serializers.ModelSerializer):
 		validators = []
 
 class CompleteFileLinkSerializer(serializers.ModelSerializer):
+	file_content = serializers.CharField(required = False, allow_blank = True)
 	topic = TopicSerializer()
 	tags = TagSerializer(many = True)
 	pendencies_resource = PendenciesSerializer(many = True)
 	groups = StudentsGroupSerializer(many = True)
+	students = UserBackupSerializer(many = True)
 
 	class Meta:
 		model = FileLink
