@@ -352,7 +352,12 @@ var charts = {
 	       	
 
 			var container_div = d3.select("#most-used-tags-body");
+			if($('#most_used_tag_chart').length > 0){
+				$('#most_used_tag_chart').remove();
+			}
+
 			var svg = container_div.append("svg").attr("width", "100%").attr("height", height)
+			.attr("id", "most_used_tag_chart")
 			.style("margin","auto")
 	        	.style("display","block")
 	        	.style("background","#ddf8e7")
@@ -436,30 +441,23 @@ var charts = {
 
 		});
 	},
-	month_heatmap: function(data, target){
+	month_heatmap: function(data, target, div_target){
 
-	
-		if(target == '#right-chart-body' && $('#month-chart').length != 0){
-			$('#month-chart').fadeOut();
-			$('#month-chart').remove();
+		
+		
+		
+		if($('#'+div_target).lenght != 0 ){
+			$('#'+div_target).fadeOut();
+			$('#'+div_target).remove();
 		}
-
-		if(target == "#bottom-right-chart-body" && $('#weekly-chart').length != 0){
-			$('#weekly-chart').fadeOut();
-			$('#weekly-chart').remove();
-		}
-
+		var width = 300;
+		var height = 200;
 		var svg = d3.select(target).append('svg')
-		.attr('width', 300)
-		.attr('height', 200);
+		.attr('width', width)
+		.attr('height', height);
 		
-		if (target == "#right-chart-body"){
-			svg.attr('id', 'month-chart');
-		}
-		
-		if (target == "#bottom-right-chart-body"){
-			svg.attr('id', 'weekly-chart');
-		}
+		svg.attr('id', div_target);
+	
 
 		//color range
 		var color = d3.scaleLinear().range(["#29c8b8", '#149e91']).domain([0, d3.max(data, function(d){ return d.count; })]);
@@ -494,13 +492,24 @@ var charts = {
 	    		return rect_height*(Math.floor(  i  / 7)) + rect_height/2;
 	    	});
 
+	    rects.on('mouseover', function(d, i){
+	    	tooltip = d3.select(target)
+	    		.append('div')
+	    		.attr('class', 'date-tooltip')
+	    		.style("left", ((d3.event.pageX) - width/2) + "px")
+	    		.style("top", ((d3.event.pageY) - height/2) + "px")
+	    		.style("position", "absolute")
+	    		.html(d['count'])
+	    });
+
+	    rects.on('mouseout', function(){
+	    	tooltip.remove();
+	    })
 	}
 }
 
 
 $(document).ready(function(){
-	charts.most_used_tags('/analytics/most_used_tags');
-	//charts.build_resource('/topics/count_resources/');
-	charts.build_bubble_user('/analytics/most_active_users/');
+	
 	//charts.most_accessed_subjects('/subjects/most_accessed_subjects');
 });

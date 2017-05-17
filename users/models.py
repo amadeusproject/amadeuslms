@@ -8,6 +8,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
+from log.models import Log
+
 def validate_img_extension(value):
 	valid_formats = ['image/jpeg','image/x-citrix-jpeg','image/png','image/x-citrix-png','image/x-png']
 	
@@ -57,6 +59,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 				return self.image.url
 		
 		return static('img/no_image.jpg')
+
+	def get_items(self):
+		data = Log.objects.filter(user_id = self.id)
+
+		return data
 
 	def is_admin(self):
 		if self.is_staff:

@@ -12,4 +12,5 @@ urlpatterns = [
 	url(r'^most_active_users/$', views.most_active_users, name= "most_active_users"),
 	url(r'^amount_active_users_per_day/$', views.most_active_users_in_a_month, name="most_active_users_in_a_month"),
 	url(r'^get_days_of_the_week_log/$', views.get_days_of_the_week_log, name="get_days_of_the_week_log"),
+	url(r'^get_category_tags/$', views.category_tags, name='get_category_tags'),
 ]

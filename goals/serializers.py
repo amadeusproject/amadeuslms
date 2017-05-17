@@ -4,6 +4,7 @@ from subjects.serializers import TagSerializer
 from topics.serializers import TopicSerializer
 from pendencies.serializers import PendenciesSerializer
 from students_group.serializers import StudentsGroupSerializer
+from users.serializers import UserBackupSerializer
 
 from .models import Goals, GoalItem
 
@@ -25,8 +26,10 @@ class SimpleGoalSerializer(serializers.ModelSerializer):
 class CompleteGoalSerializer(serializers.ModelSerializer):
 	topic = TopicSerializer()
 	tags = TagSerializer(many = True)
+	item_goal = GoalItemSerializer(many = True)
 	pendencies_resource = PendenciesSerializer(many = True)
 	groups = StudentsGroupSerializer(many = True)
+	students = UserBackupSerializer(many = True)
 
 	class Meta:
 		model = Goals
