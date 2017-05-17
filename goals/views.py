@@ -20,6 +20,22 @@ from users.models import User
 from .forms import GoalsForm, MyGoalsForm, InlinePendenciesFormset, InlineGoalItemFormset
 from .models import Goals, MyGoals
 
+import datetime
+from log.models import Log
+from chat.models import Conversation, TalkMessages, ChatVisualizations
+from users.models import User
+from subjects.models import Subject
+
+from webpage.forms import FormModalMessage
+
+from django.db.models import Q
+from django.template.loader import render_to_string
+from django.utils import formats
+import textwrap
+from django.utils.html import strip_tags
+import json
+from channels import Group
+
 class Reports(LoginRequiredMixin, generic.ListView):
 	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
@@ -967,3 +983,184 @@ def reports_log(request, goal, report):
 		return JsonResponse({'message': 'ok', 'log_id': log_id})
 
 	return JsonResponse({'message': 'ok'})
+
+class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
+    log_component = 'resources'
+    log_action = 'view_statistics'
+    log_resource = 'goals'
+    log_context = {}
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+    model = Goals
+    template_name = 'goals/relatorios.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug', '')
+        goal = get_object_or_404(Goals, slug = slug)
+
+        if not has_subject_permissions(request.user, goal.topic.subject):
+        	return redirect(reverse_lazy('subjects:home'))
+
+        return super(StatisticsView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(StatisticsView, self).get_context_data(**kwargs)
+
+        self.log_context['category_id'] = self.object.topic.subject.category.id
+        self.log_context['category_name'] = self.object.topic.subject.category.name
+        self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        self.log_context['subject_id'] = self.object.topic.subject.id
+        self.log_context['subject_name'] = self.object.topic.subject.name
+        self.log_context['subject_slug'] = self.object.topic.subject.slug
+        self.log_context['topic_id'] = self.object.topic.id
+        self.log_context['topic_name'] = self.object.topic.name
+        self.log_context['topic_slug'] = self.object.topic.slug
+        self.log_context['goals_id'] = self.object.id
+        self.log_context['goals_name'] = self.object.name
+        self.log_context['goals_slug'] = self.object.slug
+
+        super(StatisticsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+
+        context['title'] = _('Goals Reports')
+
+        slug = self.kwargs.get('slug')
+        goal = get_object_or_404(Goals, slug = slug)
+
+        date_format = "%d/%m/%Y %H:%M" if self.request.GET.get('language','') == 'pt-br' else "%m/%d/%Y %I:%M %p"
+        if self.request.GET.get('language','') == "":
+            start_date = datetime.datetime.now() - datetime.timedelta(30)
+            end_date = datetime.datetime.now()
+        else :
+            start_date = datetime.datetime.strptime(self.request.GET.get('init_date',''),date_format)
+            end_date = datetime.datetime.strptime(self.request.GET.get('end_date',''),date_format)
+        context["init_date"] = start_date
+        context["end_date"] = end_date
+        alunos = goal.students.all()
+        if goal.all_students :
+        	alunos = goal.topic.subject.students.all()
+
+        vis_ou = Log.objects.filter(context__contains={'goals_id':goal.id},resource="goals",user_email__in=(aluno.email for aluno in alunos), datetime__range=(start_date,end_date + datetime.timedelta(minutes = 1))).filter(Q(action="view") | Q(action="submit"))
+        did,n_did,history = str(_("Realized")),str(_("Unrealized")),str(_("Historic"))
+        re = []
+        data_n_did,data_history = [],[]
+        json_n_did, json_history = {},{}
+
+        for log_al in vis_ou.order_by("datetime"):
+            data_history.append([str(alunos.get(email=log_al.user_email)),
+            ", ".join([str(x) for x in goal.topic.subject.group_subject.filter(participants__email=log_al.user_email)]),
+            log_al.action,log_al.datetime])
+        
+        json_history["data"] = data_history
+
+        column_view,column_submit = str(_('View')),str(_('Submitted'))
+
+        not_view = alunos.exclude(email__in=[log.user_email for log in vis_ou.filter(action="view").distinct("user_email")])
+        index = 0
+        for alun in not_view:
+            data_n_did.append([index,str(alun),", ".join([str(x) for x in goal.topic.subject.group_subject.filter(participants__email=alun.email)]),column_view, str(alun.email)])
+            index += 1
+        
+        not_watch = alunos.exclude(email__in=[log.user_email for log in vis_ou.filter(action="submit").distinct("user_email")])
+        for alun in not_watch:
+            data_n_did.append([index,str(alun),", ".join([str(x) for x in goal.topic.subject.group_subject.filter(participants__email=alun.email)]),column_submit, str(alun.email)])
+            index += 1
+
+        json_n_did["data"] = data_n_did
+
+
+        context["json_n_did"] = json_n_did
+        context["json_history"] = json_history
+        c_visualizou = vis_ou.filter(action="view").distinct("user_email").count()
+        c_submit = vis_ou.filter(action="submit").distinct("user_email").count()
+        re.append([str(_('Goals')),did,n_did])
+        
+        re.append([column_view,c_visualizou, alunos.count() - c_visualizou])
+        re.append([column_submit,c_submit, alunos.count() - c_submit])
+
+        context['view'] = column_view
+        context['submit'] = column_submit
+        context['topic'] = goal.topic
+        context['subject'] = goal.topic.subject
+        context['goal'] = goal
+        context['db_data'] = re
+        context['title_chart'] = _('Actions about resource')
+        context['title_vAxis'] = _('Quantity')
+
+        context["n_did_table"] = n_did
+        context["did_table"] = did
+        context["history_table"] = history
+        return context
+
+from django.http import HttpResponse #used to send HTTP 404 error to ajax
+
+class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
+    log_component = 'resources'
+    log_action = 'send'
+    log_resource = 'goals'
+    log_context = {}
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+
+    template_name = 'goals/send_message.html'
+    form_class = FormModalMessage
+
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug', '')
+        goal = get_object_or_404(Goals, slug = slug)
+        self.goal = goal
+        
+        if not has_subject_permissions(request.user, goal.topic.subject):
+            return redirect(reverse_lazy('subjects:home'))
+
+        return super(SendMessage, self).dispatch(request, *args, **kwargs)
+    
+    def form_valid(self, form):
+        message = form.cleaned_data.get('comment')
+        image = form.cleaned_data.get("image",'')
+        users = (self.request.POST.get('users[]','')).split(",")
+        user = self.request.user
+        subject = self.goal.topic.subject
+
+        if (users[0] is not ''):
+            for u in users:
+                to_user = User.objects.get(email=u)
+                talk, create = Conversation.objects.get_or_create(user_one=user,user_two=to_user)
+                created = TalkMessages.objects.create(text=message,talk=talk,user=user,subject=subject,image=image)
+
+                simple_notify = textwrap.shorten(strip_tags(message), width = 30, placeholder = "...")
+
+                if image is not '':
+                    simple_notify += " ".join(_("[Photo]"))
+                
+                notification = {
+                    "type": "chat",
+                    "subtype": "subject",
+                    "space": subject.slug,
+                    "user_icon": created.user.image_url,
+                    "notify_title": str(created.user),
+                    "simple_notify": simple_notify,
+                    "view_url": reverse("chat:view_message", args = (created.id, ), kwargs = {}),
+                    "complete": render_to_string("chat/_message.html", {"talk_msg": created}, self.request),
+                    "container": "chat-" + str(created.user.id),
+                    "last_date": _("Last message in %s")%(formats.date_format(created.create_date, "SHORT_DATETIME_FORMAT"))
+                }
+
+                notification = json.dumps(notification)
+
+                Group("user-%s" % to_user.id).send({'text': notification})
+
+                ChatVisualizations.objects.create(viewed = False, message = created, user = to_user)
+            success = str(_('The message was successfull sent!'))
+            return JsonResponse({"message":success})
+        erro = HttpResponse(str(_("No user selected!")))
+        erro.status_code = 404
+        return erro
+
+    def get_context_data(self, **kwargs):
+        context = super(SendMessage,self).get_context_data()
+        context["goal"] = get_object_or_404(Goals, slug=self.kwargs.get('slug', ''))
+        return context
+    

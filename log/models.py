@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django.utils.translation import ugettext_lazy as _
 
-from users.models import User
-
 class Log(models.Model):
 	component = models.TextField(_('Component (Module / App)'))
 	context = JSONField(_('Context'), blank = True)

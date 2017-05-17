@@ -14,4 +14,6 @@ urlpatterns = [
 	url(r'^finish/$',views.finish, name = 'exit'),
 	url(r'^participating/$',views.participating, name = 'participating'),
 	url(r'^settings/$', views.ConferenceSettings.as_view(), name = 'settings'),
+	url(r'^chart/(?P<slug>[\w_-]+)/$', views.StatisticsView.as_view(), name = 'get_chart'),
+    url(r'^send-message/(?P<slug>[\w_-]+)/$', views.SendMessage.as_view(), name = 'send_message'),
 ]

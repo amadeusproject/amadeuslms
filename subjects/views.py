@@ -42,7 +42,7 @@ from django.core import serializers
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 
-from users.serializers import UserSerializer
+from users.serializers import UserBackupSerializer
 from file_link.serializers import SimpleFileLinkSerializer, CompleteFileLinkSerializer
 from file_link.models import FileLink
 from goals.serializers import SimpleGoalSerializer, CompleteGoalSerializer
@@ -798,10 +798,6 @@ def realize_backup(request, subject):
                 zip_path = os.path.join('users', fname)
 
                 zf.write(user.image.path, zip_path)
-
-        serializer_u = UserSerializer(participants, many = True)
-
-        data_list.append(serializer_u.data)
 
         serializer_w = CompleteWebpageSerializer(webpages, many = True)
         serializer_y = CompleteYTVideoSerializer(ytvideos, many = True)
