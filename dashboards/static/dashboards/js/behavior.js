@@ -4,6 +4,9 @@
 $(document).ready(function(){
 	selectors_options.init();
 
+	charts.most_used_tags('/analytics/most_used_tags');
+	charts.build_bubble_user('/analytics/most_active_users/');
+	
 
 	$('#month_selector').change(function(){
 		$.get('/analytics/amount_active_users_per_day', {month: $(this).val() }).done(function(data){
