@@ -180,7 +180,9 @@ def get_days_of_the_week_log(request):
     date = datetime.strptime( date, '%m/%d/%Y',)
     days = get_days_of_the_week(date)
     data = activity_in_timestamp(days)
-    data = [{"day": day.day, "count": day_count} for day, day_count in data.items()]
+    #mapping of number to days
+    mapping = {0: _("Mon"), 1: _("Tue"), 2: _("Wed"), 3: _("Thu"), 4: _("Fri"), 5: _("Sat"), 6: _("Sun")}
+    data = [{"day": mapping[day.weekday()], "count": day_count} for day, day_count in data.items()]
 
     return JsonResponse(data, safe= False)
 

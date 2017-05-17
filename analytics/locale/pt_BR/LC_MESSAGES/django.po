@@ -1,0 +1,123 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-17 16:28-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\views.py:56 .\views.py:164
+msgid "January"
+msgstr "Janeiro"
+
+#: .\views.py:56 .\views.py:164
+msgid "February"
+msgstr "Fevereiro"
+
+#: .\views.py:56 .\views.py:164
+msgid "March"
+msgstr "Março"
+
+#: .\views.py:56 .\views.py:164
+msgid "April"
+msgstr "Abril"
+
+#: .\views.py:56 .\views.py:164
+msgid "May"
+msgstr "Maio"
+
+#: .\views.py:56 .\views.py:164
+msgid "June"
+msgstr "Junho"
+
+#: .\views.py:56 .\views.py:164
+msgid "July"
+msgstr "Julho"
+
+#: .\views.py:57 .\views.py:165
+msgid "August"
+msgstr "Agosto"
+
+#: .\views.py:57 .\views.py:165
+msgid "September"
+msgstr "Setembro"
+
+#: .\views.py:57 .\views.py:165
+msgid "October"
+msgstr "Outubro"
+
+#: .\views.py:57 .\views.py:165
+msgid "November"
+msgstr "Novembro"
+
+#: .\views.py:57 .\views.py:165
+msgid "December"
+msgstr "Dezembro"
+
+#: .\views.py:135
+msgid "PDF File"
+msgstr "Arquivo"
+
+#: .\views.py:136
+msgid "Topic Goals"
+msgstr "Objetivos"
+
+#: .\views.py:137
+msgid "Link to Website"
+msgstr "Link para Site"
+
+#: .\views.py:138
+msgid "File Link"
+msgstr "Link para Arquivo"
+
+#: .\views.py:139
+msgid "Web Conference"
+msgstr "Conferência Web"
+
+#: .\views.py:140
+msgid "YouTube Video"
+msgstr "Vídeo no Youtube"
+
+#: .\views.py:141
+msgid "WebPage"
+msgstr "Página Web"
+
+#: .\views.py:184
+msgid "Mon"
+msgstr "Seg"
+
+#: .\views.py:184
+msgid "Tue"
+msgstr "Ter"
+
+#: .\views.py:184
+msgid "Wed"
+msgstr "Qua"
+
+#: .\views.py:184
+msgid "Thu"
+msgstr "Qui"
+
+#: .\views.py:184
+msgid "Fri"
+msgstr "Sex"
+
+#: .\views.py:184
+msgid "Sat"
+msgstr "Sab"
+
+#: .\views.py:184
+msgid "Sun"
+msgstr "Dom"
