@@ -16,4 +16,6 @@ urlpatterns = [
 	url(r'^unanswered_report/(?P<slug>[\w_-]+)/$', views.UnansweredReport.as_view(), name = 'unanswered_report'),
 	url(r'^history_report/(?P<slug>[\w_-]+)/$', views.HistoryReport.as_view(), name = 'history_report'),
 	url(r'^view_log/(?P<goal>[\w_-]+)/(?P<report>[\w_-]+)/$', views.reports_log, name = 'reports_log'),
+    url(r'^chart/(?P<slug>[\w_-]+)/$', views.StatisticsView.as_view(), name = 'get_chart'),
+    url(r'^send-message/(?P<slug>[\w_-]+)/$', views.SendMessage.as_view(), name = 'send_message'),
 ]
