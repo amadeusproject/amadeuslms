@@ -419,6 +419,7 @@
 				input.parent().find('.slider').remove();
 				new_input.attr('class', input.attr('class'));
 				new_input.attr('id', input.attr('id'));
+				new_input.attr('name', input.attr('name'));
 				new_input.insertBefore(input);
 				input.remove();
 				new_input.bootstrapSlider({
