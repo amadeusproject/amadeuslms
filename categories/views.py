@@ -25,7 +25,7 @@ import time
 from topics.models import Topic, Resource
 from users.models import User
 
-class IndexView(views.SuperuserRequiredMixin, LoginRequiredMixin, ListView):
+class IndexView(LoginRequiredMixin, views.StaffuserRequiredMixin, ListView):
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
@@ -62,7 +62,7 @@ class IndexView(views.SuperuserRequiredMixin, LoginRequiredMixin, ListView):
 
         return context
 
-class CreateCategory(views.SuperuserRequiredMixin, LoginRequiredMixin, HasRoleMixin, LogMixin, CreateView):
+class CreateCategory(LoginRequiredMixin, views.StaffuserRequiredMixin, LogMixin, CreateView):
     log_component = 'category'
     log_action = 'create'
     log_resource = 'category'

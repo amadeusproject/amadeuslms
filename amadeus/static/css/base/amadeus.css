@@ -800,6 +800,7 @@ a:focus {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    float: none;
 }
 
 a.add-row {

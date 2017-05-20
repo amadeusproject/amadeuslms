@@ -111,50 +111,34 @@
                 </div>
 
                 <ul class="nav navbar-nav navbar-right notifications">
-
-
-										<li class="dropdown language-selector-on-header {{ settings_menu_active }}" title data-original-title="{% trans 'Language Selector' %}" style="width:40px;">
-
-
-
+					<li class="dropdown language-selector-on-header" title data-original-title="{% trans 'Language Selector' %}" style="width:40px;">
                         <a href="#" class="dropdown-toggle title" data-toggle="dropdown" data-close-others="true">
                             <i class="fa fa-cog hidden-xs" aria-hidden="true"></i>
                             <span class="visible-xs-inline">{% trans 'Language Selector' %}</span>
                             {% with 'img/'|add:LANGUAGE_CODE|add:'.png' as image_static %}
-                            <img src="{% static image_static %}" />
+                                <img src="{% static image_static %}" />
                             {% endwith %}
                         </a>
                         <a href="#" class="dropdown-toggle no-title" data-toggle="dropdown" style="padding-left:0px;padding-right:0px;font-size:14px;text-align:center" data-close-others="true">
-
-                           <span>[{{LANGUAGE_CODE}}]</span>
-
+                            <span>[{{LANGUAGE_CODE}}]</span>
                         </a>
                         <ul class="dropdown-menu">
-
-
                             {% get_available_languages as LANGUAGES %}
                             {% get_language_info_list for LANGUAGES as languages %}
                             {% for language in languages %}
-
-                                <li {% if language.code == LANGUAGE_CODE %}
-                                    class="active"
-                                {% endif %}>
+                                <li {% if language.code == LANGUAGE_CODE %}class="active"{% endif %}>
                                     <a class="language-item" value-lang="{{language.code}}">
                                         <span>{{language.code}}</span>
                                     </a>
                                 </li>
-
                             {% endfor %}
                         </ul>
                     </li>
-										<li style="width:40px;">
-											<a href="{% url 'themes:contrast' %}" id="contrast_button">
-													<i style="font-size:15px;right: 150%;" class="glyphicon glyphicon-adjust"></i>
-											</a>
-
-										</li>
-
-
+					<li style="width:40px;">
+						<a href="{% url 'themes:contrast' %}" id="contrast_button">
+							<i style="font-size:15px;right: 150%;" class="glyphicon glyphicon-adjust"></i>
+						</a>
+					</li>
                     <li id="profile-menu" class="dropdown" data-toggle="tooltip" data-placement="bottom" title data-original-title="{{ user }}">
                         <a href="" data-toggle="dropdown" class="dropdown-toggle profile">
                             <img src="{{ user.image_url }}" class="hidden-xs" style="width:50px;height:50px" />
@@ -169,7 +153,7 @@
                         </ul>
                     </li>
 
-                     {% if user.is_staff %}
+                    {% if user.is_staff %}
                         <li id="staff-menu" style="width:40px;" class="dropdown {{ settings_menu_active }}" title data-original-title="{% trans 'settings' %}">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-cog hidden-xs" style="position:relative;right:150%;"aria-hidden="true"></i>
@@ -178,7 +162,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
                                 <li><a href="{% url 'categories:index' %}">{% trans 'Manage Categories' %}</a></li>
-																<li><a href="{% url 'news:manage_news' %}">{% trans 'Manage News' %}</a></li>
+								<li><a href="{% url 'news:manage_news' %}">{% trans 'Manage News' %}</a></li>
                                 <li class="dropdown-accordion" data-accordion="#system_accordion">
                                     <div class="panel-group" id="system_accordion">
                                         <div class="panel panel-default">
@@ -208,19 +192,20 @@
                 </ul>
             </div>
         </div>
-				<script type="text/javascript">
-				    $("#contrast_button" ).click(function() {
-				      if (Cookies.get('contrast_check')) {
-				        Cookies.remove('contrast_check')
-				        //location.reload()
-				      }
-				      else {
-				        Cookies.set('contrast_check','contrast')
-				        //location.reload()
-				      }
+		
+        <script type="text/javascript">
+		    $("#contrast_button" ).click(function() {
+		      if (Cookies.get('contrast_check')) {
+		        Cookies.remove('contrast_check')
+		        //location.reload()
+		      }
+		      else {
+		        Cookies.set('contrast_check','contrast')
+		        //location.reload()
+		      }
 
-				    });
-				</script>
+		    });
+		</script>
     {% endblock %}
 
     <div class="container-fluid">
@@ -326,16 +311,14 @@
 
     <!-- Language selector code -->
 
-     <script>
-          $(".language-item").click(function(event) {
+    <script>
+      $(".language-item").click(function(event) {
 
-            change_language.post("{% url 'set_language' %}", {'language': $(this)[0].attributes[1].value, next: "{% url 'users:login' %}", csrfmiddlewaretoken: '{{ csrf_token }}' } );
+        change_language.post("{% url 'set_language' %}", {'language': $(this)[0].attributes[1].value, next: "{% url 'users:login' %}", csrfmiddlewaretoken: '{{ csrf_token }}' } );
 
-          });
-        </script>
-				<div id="remove_acc">
-
-				</div>
+      });
+    </script>
+	<div id="remove_acc"></div>
 </body>
 
 </html>
