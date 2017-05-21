@@ -129,9 +129,6 @@ class ReportView(LoginRequiredMixin, generic.FormView):
             self.formset_data = resources_formset.cleaned_data
             return self.form_valid(form)
         else:
-            for field in form:
-                for error in field.errors:
-                    print(error)
             return self.form_invalid(form)
 
 

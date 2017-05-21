@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-29 21:14-0300\n"
+"POT-Creation-Date: 2017-05-21 19:45-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,26 +55,26 @@ msgid "The initial date can't be after the end one."
 msgstr "A data inicial não pode ser depois da final"
 
 #: .\forms.py:65
-msgid "This date should be right or after "
-msgstr "Esta data deve ser igual ou após"
+msgid "This date should be right or after %s, which is when the subject started. "
+msgstr "Esta data deve ser igual ou após %s, pois é quando o assunto começa."
 
 #: .\forms.py:71
-msgid "This date should be right or before "
-msgstr "Esta data deve ser igual ou anterior à"
+msgid "This date should be right or before %s, which is when the subject finishes. "
+msgstr "Esta data deve ser igual ou anterior à %s, pois é quando o assunto termina."
 
-#: .\templates\reports\_form.html:19
+#: .\templates\reports\_form.html:32
 msgid "General Parameters"
 msgstr "Escolha o Tópico e o Período"
 
-#: .\templates\reports\_form.html:37
+#: .\templates\reports\_form.html:50
 msgid "Choose the Data Source (is possible to pick more than one)"
 msgstr "Escolha a fonte de dados (é possível escolher mais de uma)"
 
-#: .\templates\reports\_form.html:62
+#: .\templates\reports\_form.html:75
 msgid "Interaction with resources"
 msgstr "Interação com recursos"
 
-#: .\templates\reports\_form.html:97
+#: .\templates\reports\_form.html:110
 msgid "Search Report"
 msgstr "Buscar"
 
@@ -144,23 +144,33 @@ msgstr "Número de postagens de dúvidas criadas no mural da disciplina."
 
 #: .\views.py:251
 msgid "Amount of comments on help posts created by the student."
-msgstr "Número de comentários criados para as próprias postagens de dúvidas no mural da disciplina."
+msgstr ""
+"Número de comentários criados para as próprias postagens de dúvidas no mural "
+"da disciplina."
 
 #: .\views.py:256
 msgid "Amount of comments made by the student on teachers help posts."
-msgstr "Número de comentários às postagens de dúvidas no mural da disciplina criadas pelo professor."
+msgstr ""
+"Número de comentários às postagens de dúvidas no mural da disciplina criadas "
+"pelo professor."
 
 #: .\views.py:260
 msgid "Amount of comments made by the student on other students help posts."
-msgstr "Número de comentários às postagens de dúvidas no mural da disciplina criadas por outros estudantes."
+msgstr ""
+"Número de comentários às postagens de dúvidas no mural da disciplina criadas "
+"por outros estudantes."
 
 #: .\views.py:271
 msgid "Number of help posts created by the user that the teacher commented on."
-msgstr "Número de comentários às postagens de dúvidas no mural da disciplina criadas por outros estudantes"
+msgstr ""
+"Número de comentários às postagens de dúvidas no mural da disciplina criadas "
+"por outros estudantes"
 
 #: .\views.py:279
 msgid "Number of help posts created by the user others students commented on."
-msgstr "Número de postagens de dúvidas criadas no mural da disciplina que foram comentadas por outros estudantes."
+msgstr ""
+"Número de postagens de dúvidas criadas no mural da disciplina que foram "
+"comentadas por outros estudantes."
 
 #: .\views.py:282
 msgid "Number of student visualizations on the mural of the subject."
@@ -168,19 +178,23 @@ msgstr "Número de visualizações do mural da disciplina."
 
 #: .\views.py:303
 msgid "Number of access to mural between 6 a.m to 12a.m. ."
-msgstr "Número de acessos ao ambiente virtual da disciplina no horário de 06h às 12h."
+msgstr ""
+"Número de acessos ao ambiente virtual da disciplina no horário de 06h às 12h."
 
 #: .\views.py:307
 msgid "Number of access to mural between 0 p.m to 6p.m. ."
-msgstr "Número de acessos ao ambiente virtual da disciplina no horário de 12h às 18h."
+msgstr ""
+"Número de acessos ao ambiente virtual da disciplina no horário de 12h às 18h."
 
 #: .\views.py:310
 msgid "Number of access to mural between 6 p.m to 12p.m. ."
-msgstr "Número de acessos ao ambiente virtual da disciplina no horário de 18h às 24h."
+msgstr ""
+"Número de acessos ao ambiente virtual da disciplina no horário de 18h às 24h."
 
 #: .\views.py:314
 msgid "Number of access to mural between 0 a.m to 6a.m. ."
-msgstr "Número de acessos ao ambiente virtual da disciplina no horário de 24h às 06h."
+msgstr ""
+"Número de acessos ao ambiente virtual da disciplina no horário de 24h às 06h."
 
 #: .\views.py:319
 msgid "sunday"
