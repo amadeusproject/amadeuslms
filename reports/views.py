@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.utils.translation import ugettext_lazy as _
 
 from django import forms
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from amadeus import settings
 from django.contrib import messages
 from os.path import join
@@ -41,7 +41,7 @@ class ReportView(LoginRequiredMixin, generic.FormView):
         subject = Subject.objects.get(id=params['subject_id'])
        
         if not has_subject_permissions(request.user, subject):
-            return redirect(reverse_lazy('subjects:home'))
+            return redirect(reverse('subjects:home'))
 
         
 
@@ -91,7 +91,7 @@ class ReportView(LoginRequiredMixin, generic.FormView):
         for key, value in self.request.GET.items():
             get_params += key + "=" + str(value) 
 
-        return reverse_lazy('subjects:reports:view_report', kwargs={}) + get_params
+        return reverse('subjects:reports:view_report', kwargs={}) + get_params
 
     def post(self, request, *args, **kwargs):
         """
@@ -129,6 +129,9 @@ class ReportView(LoginRequiredMixin, generic.FormView):
             self.formset_data = resources_formset.cleaned_data
             return self.form_valid(form)
         else:
+            for field in form:
+                for error in field.errors:
+                    print(error)
             return self.form_invalid(form)
 
 

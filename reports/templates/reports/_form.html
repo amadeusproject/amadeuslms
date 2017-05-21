@@ -16,6 +16,21 @@
             </div>
         {% endif %}
 
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <ul>
+               
+                    <li>{{error}}</li>
+            
+                </ul>
+            </div>
+        {% endfor %}
+        
+    {% endfor %}
     <h5 class="one"> <span>{% trans "General Parameters" %}</span></h5>
     <div id="general-parameters-div">
         <div  class="general-parameters-field">
