@@ -20,11 +20,11 @@ msgstr ""
 
 #: amadeus/settings.py:179
 msgid "Portuguese"
-msgstr ""
+msgstr "Português"
 
 #: amadeus/settings.py:180
 msgid "English"
-msgstr ""
+msgstr "Inglês"
 
 #: amadeus/templates/base.html:96
 msgid "Search for subjects and resources"
@@ -32,7 +32,7 @@ msgstr "Buscar por assuntos ou recursos"
 
 #: amadeus/templates/base.html:109 amadeus/templates/base.html:114
 msgid "Language Selector"
-msgstr ""
+msgstr "Seletor de Línguas"
 
 #: amadeus/templates/base.html:155
 msgid "Profile"
@@ -91,8 +91,6 @@ msgid "Theme"
 msgstr "Temas"
 
 #: amadeus/templates/base.html:189
-#, fuzzy
-#| msgid "Web Conference Settings"
 msgid "Web Conference"
 msgstr "Web conferência"
 
@@ -102,15 +100,13 @@ msgstr "Assuntos"
 
 #: amadeus/templates/base.html:214 amadeus/templates/base.html:269
 msgid "Mural"
-msgstr ""
+msgstr "Mural"
 
 #: amadeus/templates/base.html:220 amadeus/templates/base.html:275
 msgid "Messages"
 msgstr "Mensagens"
 
 #: amadeus/templates/base.html:226 amadeus/templates/base.html:281
-#, fuzzy
-#| msgid "Pendencias"
 msgid "Pendencies"
 msgstr "Pendências"
 

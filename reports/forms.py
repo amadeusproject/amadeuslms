@@ -62,11 +62,11 @@ class CreateInteractionReportForm(forms.Form):
 	def clean_init_date(self):
 		init_date = self.cleaned_data['init_date']
 		if init_date < self.subject.init_date:
-			self._errors['init_date'] = [_('This date should be right or after ' + str(self.subject.init_date) + ', which is when the subject started. ')]
+			self._errors['init_date'] = [_('This date should be right or after %s, which is when the subject started. ') % str(self.subject.init_date)]
 		return init_date
 
 	def clean_end_date(self):
 		end_date = self.cleaned_data['end_date']
 		if end_date > self.subject.end_date:
-			self._errors['end_date'] = [_('This date should be right or before ' + str(self.subject.end_date) + ', which is when the subject finishes. ')]
+			self._errors['end_date'] = [_('This date should be right or before %s, which is when the subject finishes. ') % str(self.subject.end_date)]
 		return end_date

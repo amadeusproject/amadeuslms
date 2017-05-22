@@ -10,6 +10,7 @@ from webpage.forms import FormModalMessage
 from chat.models import Conversation, TalkMessages, ChatVisualizations
 import textwrap
 import json
+from django.db.models import Q
 from channels import Group
 import datetime
 from users.models import User
@@ -545,6 +546,7 @@ class ConferenceSettings(braces_mixins.LoginRequiredMixin, braces_mixins.Staffus
     	context['title'] = _('Web Conference Settings')
 
     	return context
+
 class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view_statistics'
@@ -561,7 +563,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         webconference = get_object_or_404(Webconference, slug = slug)
 
         if not has_subject_permissions(request.user, webconference.topic.subject):
-        	return redirect(reverse_lazy('subjects:home'))
+            return redirect(reverse_lazy('subjects:home'))
 
         return super(StatisticsView, self).dispatch(request, *args, **kwargs)
 
@@ -584,7 +586,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         super(StatisticsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 
-        context['title'] = _('Webconference Reports')
+        context['title'] = _('Youtube Video Reports')
 
         slug = self.kwargs.get('slug')
         webconference = get_object_or_404(Webconference, slug = slug)
@@ -602,7 +604,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         if webconference.all_students :
         	alunos = webconference.topic.subject.students.all()
 
-        vis_ou = Log.objects.filter(context__contains={'webconference_id':webconference.id},resource="webconference",action="view",user_email__in=(aluno.email for aluno in alunos), datetime__range=(start_date,end_date + datetime.timedelta(minutes = 1)))
+        vis_ou = Log.objects.filter(context__contains={'webconference_id':webconference.id},resource="webconference",user_email__in=(aluno.email for aluno in alunos), datetime__range=(start_date,end_date + datetime.timedelta(minutes = 1))).filter(Q(action="view") | Q(action="initwebconference") | Q(action="participating"))
         did,n_did,history = str(_("Realized")),str(_("Unrealized")),str(_("Historic"))
         re = []
         data_n_did,data_history = [],[]
@@ -615,26 +617,48 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
         json_history["data"] = data_history
 
-        not_view = alunos.exclude(email__in=[log.user_email for log in vis_ou.distinct("user_email")])
+        column_view,column_initwebconference,column_participate = str(_('View')),str(_('Enter')),str(_('Participate'))
+
+        not_view = alunos.exclude(email__in=[log.user_email for log in vis_ou.filter(action="view").distinct("user_email")])
         index = 0
         for alun in not_view:
-            data_n_did.append([index,str(alun),", ".join([str(x) for x in webconference.topic.subject.group_subject.filter(participants__email=alun.email)]),str(_('View')), str(alun.email)])
+            data_n_did.append([index,str(alun),", ".join([str(x) for x in webconference.topic.subject.group_subject.filter(participants__email=alun.email)]),column_view, str(alun.email)])
             index += 1
+
+        not_initwebconference = alunos.exclude(email__in=[log.user_email for log in vis_ou.filter(action="initwebconference").distinct("user_email")])
+        for alun in not_initwebconference:
+            data_n_did.append([index,str(alun),", ".join([str(x) for x in webconference.topic.subject.group_subject.filter(participants__email=alun.email)]),column_initwebconference, str(alun.email)])
+            index += 1
+
+        not_participate = alunos.exclude(email__in=[log.user_email for log in vis_ou.filter(action="participating").distinct("user_email")])
+        for alun in not_participate:
+            data_n_did.append([index,str(alun),", ".join([str(x) for x in webconference.topic.subject.group_subject.filter(participants__email=alun.email)]),column_participate, str(alun.email)])
+            index += 1
+
         json_n_did["data"] = data_n_did
 
 
         context["json_n_did"] = json_n_did
         context["json_history"] = json_history
-        c_visualizou = vis_ou.distinct("user_email").count()
-        column_view = str(_('View'))
-        re.append([str(_('File link')),did,n_did])
+        c_visualizou = vis_ou.filter(action="view").distinct("user_email").count()
+        c_initwebconference = vis_ou.filter(action="initwebconference").distinct("user_email").count()
+        c_participate = vis_ou.filter(action="participating").distinct("user_email").count()
+        re.append([str(_('Webconference')),did,n_did])
+
         re.append([column_view,c_visualizou, alunos.count() - c_visualizou])
+        re.append([column_initwebconference,c_initwebconference, alunos.count() - c_initwebconference])
+        re.append([column_participate,c_participate, alunos.count() - c_participate])
+
+        context['view'] = column_view
+        context['initwebconference'] = column_initwebconference
+        context['participate'] = column_participate
         context['topic'] = webconference.topic
         context['subject'] = webconference.topic.subject
+        context['webconference'] = webconference
         context['db_data'] = re
         context['title_chart'] = _('Actions about resource')
         context['title_vAxis'] = _('Quantity')
-        context['view'] = column_view
+
         context["n_did_table"] = n_did
         context["did_table"] = did
         context["history_table"] = history
