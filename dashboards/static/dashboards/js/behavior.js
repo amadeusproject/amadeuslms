@@ -9,7 +9,9 @@ $(document).ready(function(){
 	
 
 	$('#month_selector').change(function(){
-		$.get('/analytics/amount_active_users_per_day', {month: $(this).val() }).done(function(data){
+
+		var date = $(this).val().split("/");
+		$.get('/analytics/amount_active_users_per_day', {month: date[0], year: date[1] }).done(function(data){
 			charts.month_heatmap(data, '#right-chart-body', 'month-chart');
 			
 		});
@@ -28,9 +30,21 @@ $(document).ready(function(){
     });
 
  
- 	//first call to month selector 
- 	$.get('/analytics/amount_active_users_per_day', {month: $('#month_selector option')[(new Date()).getMonth()].text }).done(function(data){
-			$('#month_selector').val($('#month_selector option')[(new Date()).getMonth()].text); //update value to actual month
+ 	//first call to month selector
+	var month = new Array();
+	month[0] = "January";
+	month[1] = "February";
+	month[2] = "March";
+	month[3] = "April";
+	month[4] = "May";
+	month[5] = "June";
+	month[6] = "July";
+	month[7] = "August";
+	month[8] = "September";
+	month[9] = "October";
+	month[10] = "November";
+	month[11] = "December";
+ 	$.get('/analytics/amount_active_users_per_day', { month: month[(new Date()).getMonth()] }).done(function(data){
 			charts.month_heatmap(data, '#right-chart-body', 'month-chart');
 	});
 

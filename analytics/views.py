@@ -52,13 +52,17 @@ def get_most_used_tags():
 
 def most_active_users_in_a_month(request):
     params = request.GET
-    days = get_days_of_the_month(params['month'])
+    month = params['month']
+    year = params.get('year')
+    days = get_days_of_the_month(month, year)
+    if year is None:
+        year = date.today().year
     mappings = {_('January'): 1, _('February'): 2, _('March'): 3, _('April'): 4, _('May'): 5, _('June'): 6, _('July'): 7
     , _('August'): 8, _('September'): 9, _('October'): 10, _('November'): 11, _('December'): 12}
     
     days_list = []
     for day in days:
-        built_date = date(date.today().year, mappings[params['month']],  day)
+        built_date = date(int(year), mappings[_(month)],  day)
         days_list.append(built_date)
     data = activity_in_timestamp(days_list)
     data = [{"day": day.day, "count": day_count} for day, day_count in data.items()]
@@ -72,6 +76,26 @@ def activity_in_timestamp(days):
         data[day] = day_count
 
     return data
+
+
+
+def get_days_of_the_month(month, year = date.today().year):
+ 
+    #get current year
+    if year is  None:
+        year = date.today().year
+    mappings = {_('January'): 1, _('February'): 2, _('March'): 3, _('April'): 4, _('May'): 5, _('June'): 6, _('July'): 7
+    , _('August'): 8, _('September'): 9, _('October'): 10, _('November'): 11, _('December'): 12}
+  
+    c = calendar.Calendar()
+    days = c.itermonthdays(int(year), mappings[_(month)])
+    days_set = set()
+    for day in days:
+        days_set.add(day)
+
+    days_set.remove(0) #because 0 is not aan actual day from that month
+    return days_set 
+
 """
 Subject view that returns a list of the most used subjects     """
 
@@ -156,22 +180,6 @@ def most_active_users(request):
 
 
 
-
-def get_days_of_the_month(month):
- 
-    #get current year
-    year = date.today().year
-    mappings = {_('January'): 1, _('February'): 2, _('March'): 3, _('April'): 4, _('May'): 5, _('June'): 6, _('July'): 7
-    , _('August'): 8, _('September'): 9, _('October'): 10, _('November'): 11, _('December'): 12}
-  
-    c = calendar.Calendar()
-    days = c.itermonthdays(year, mappings[month])
-    days_set = set()
-    for day in days:
-        days_set.add(day)
-
-    days_set.remove(0) #because 0 is not aan actual day from that month
-    return days_set 
 
 
 

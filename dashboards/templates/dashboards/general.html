@@ -3,7 +3,7 @@
 {% load static i18n pagination %}
 {% load django_bootstrap_breadcrumbs %}
 {% block style %}
-    <link rel="stylesheet" type="text/css" href="{% static 'analytics/general.css' %}">  
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboards/css/general.css' %}">  
 {% endblock style %}
 
 {% block javascript %}
@@ -75,14 +75,17 @@
                       
                                 <div class="selector" data-url="categories">
                                     <p>  {% trans "Categories" %} </p>
+                                    <i class="fa fa-2x pull-right fa-angle-right" aria-hidden="true" style=""></i>
                                 </div>
                           
                                 <div class="selector" data-url="subjects">
                                    <p> {% trans "Subjects" %} </p>
+                                   <i class="fa fa-2x pull-right fa-angle-right" aria-hidden="true" style=""></i>
                                 </div>
                            
                                 <div class="selector" data-url="resources">
                                    <p> {% trans "Resource" %} </p>
+                                   <i class="fa fa-2x pull-right fa-angle-right" aria-hidden="true" style=""></i>
                                 </div>
                          
                     </div>
