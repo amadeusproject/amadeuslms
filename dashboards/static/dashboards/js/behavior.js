@@ -119,7 +119,8 @@ var selectors_options = {
 	},
 	deleteChildren: function(e){
 		var most_accessed_list = $(e).next();
-		$(most_accessed_list).slideUp({easing: 'easeInOutSine'}, 1200);		
+		$(most_accessed_list).slideUp({easing: 'easeInOutSine'}, 1200);
+		$(most_accessed_list).remove();		
 		$(e).removeAttr("opened"); //remove attribute so it can call API again
 	},
 };
