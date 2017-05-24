@@ -20,8 +20,18 @@ from collections import OrderedDict
 from categories.models import Category
 
 
-class GeneralView(generic.TemplateView):
+from log.mixins import LogMixin
+from log.decorators import log_decorator_ajax
+from log.models import Log
+
+
+class GeneralView(LogMixin, generic.TemplateView):
     template_name = "dashboards/general.html"
+
+    log_component = "General_Dashboard"
+    log_action = "view"
+    log_resource = "General_Dashboard"
+    log_context = {}
 
     def dispatch(self, request, *args, **kwargs):
        
@@ -33,7 +43,7 @@ class GeneralView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = {}
         
-       
+        self.createLog(actor = self.request.user)
         context['months'] = self.get_last_twelve_months()
         
         return context
@@ -57,15 +67,21 @@ class GeneralView(generic.TemplateView):
         return months
     
 
-class CategoryView(generic.TemplateView):
+class CategoryView(LogMixin, generic.TemplateView):
     template_name = "dashboards/category.html"
     
+    log_component = "Category_Dashboard"
+    log_action = "view"
+    log_resource = "Category_Dashboard"
+    log_context = {}
+
     def dispatch(self, request, *args, **kwargs):
         return super(CategoryView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = {}
-
+        self.createLog(actor = self.request.user)
+        
         context['categories'] = self.categories_associated_with_user(self.request.user)
         
         return context
