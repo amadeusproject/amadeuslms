@@ -1,0 +1,234 @@
+{% load static i18n %}
+{% load widget_tweaks %}
+
+<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-body">
+			<form id="comment-form" method="post" action="{{ form_url }}" enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="form-group{% if form.has_error %} has-error {% endif %}">
+					<label for="{{ form.comment.auto_id }}">{{ form.comment.label }} <span>*</span></label>
+					{% render_field form.comment class='form-control text_simple_wysiwyg' %}
+
+					<span id="helpBlock" class="help-block">{{ form.post.help_text }}</span>
+
+					{% if form.comment.errors %}
+						<div class="alert alert-danger alert-dismissible" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							<ul>
+								{% for error in form.comment.errors %}
+									<li>{{ error }}</li>
+								{% endfor %}
+							</ul>
+						</div>
+					{% endif %}
+				</div>
+
+				<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+					{% render_field form.image %}
+
+					<div class="input-group common-file-input">
+				      	<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your photo...' %}">
+				      	<span class="input-group-btn input-group-sm">
+				        	<button type="button" class="btn btn-fab btn-fab-mini">
+				        		<i class="material-icons">attach_file</i>
+				       		</button>
+				      	</span>
+				    </div>
+
+				    <div class="filedrag">
+			    		{% trans 'Click or drop the picture here' %}<br />
+
+			      		<small>{% trans 'The picture could not exceed 5MB.' %}</small>
+			  		</div>
+
+					<span id="helpBlock" class="help-block">{{ form.image.help_text }}</span>
+
+					{% if form.image.errors %}
+						<div class="alert alert-danger alert-dismissible" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							<ul>
+								{% for error in form.image.errors %}
+									<li>{{ error }}</li>
+								{% endfor %}
+							</ul>
+						</div>
+					{% endif %}
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<div class="col-md-12">
+				<button type="submit" id="button" form="comment-form" class="btn btn-success btn-raised post-button pull-left">{% trans "Comment" %}</button>
+				<button type="button" class="btn btn-raised btn-default pull-right" data-dismiss="modal">{% trans "Cancel" %}</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="add-user-modal" style="display:none">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="form-group">
+					<input type="text" class="form-control" id="adduser_field" oninput="typing_search($(this));" placeholder="{% trans 'Insert here the name of the user you wish to mark in this comment' %}" />
+					<div class="suggestions list-group" data-url="{% url 'mural:suggest_users' %}" style="display:none"></div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="col-md-12">
+					<button type="button" id="mark_btn" class="btn btn-success btn-raised post-button pull-left">{% trans "Mark" %}</button>
+					<button type="button" class="btn btn-raised btn-default pull-right" data-dismiss="modal">{% trans "Cancel" %}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function () {
+		var AddUserBtn = function (context) {
+		  	var ui = $.summernote.ui;
+
+			  // create button
+		  	var button = ui.button({
+			    contents: '<i class="fa fa-user"/>',
+			    tooltip: '{% trans "Mark User" %}',
+			    click: function () {
+			    	var modal_content = $("#add-user-modal").html();
+		      		var modal = document.createElement('div');
+			      	$(modal).addClass('modal');
+			      	$(modal).attr('id', 'teste-modal');
+			      	$(modal).html(modal_content);
+
+			      	$(modal).modal('show');
+
+			      	var btn = $(modal).find("#mark_btn"),
+			      		field = $(modal).find("#adduser_field");
+
+			      	btn.prop('disabled', true);
+
+			      	btn.click(function () {
+			      		var node = document.createElement('span'),
+			      			value = field.val();
+
+			      		$(node).addClass('marked_user');
+			      		$(node).html(value);
+
+			      		var code = context.invoke('code');
+
+			      		var new_code = $(code).append(node).append("&nbsp;");
+
+			      		context.invoke('code', new_code);
+
+			      		$(modal).modal('hide');
+			      	});
+			    }
+	  		});
+
+		  	return button.render();   // return button as jquery object
+		}
+
+		$('.text_simple_wysiwyg').summernote({
+			dialogsInBody: true,
+			disableDragAndDrop: true,
+			height: 150,
+		  	toolbar: [
+			    // [groupName, [list of button]]
+			    ['style', ['bold', 'italic']],
+			    ['insert', ['link']],
+			    ['mybuttons', ['addUser']],
+		  	],
+		  	buttons: {
+		  		addUser: AddUserBtn
+		  	}
+		});
+
+		$.material.init();
+
+		if (window.File && window.FileList && window.FileReader) {
+			Init();
+		}
+	});
+
+	var typingSearchTimer;                //timer identifier
+	var doneTypingSearchInterval = 1000;
+
+	function typing_search(field) {
+		clearTimeout(typingSearchTimer);
+
+		var loading = '<button type="button" class="btn btn-block btn-default btn-sm"><span class="fa fa-spin fa-circle-o-notch"></span></button>';
+
+		if (field.val() != "") {
+        	typingSearchTimer = setTimeout(function () { searchUsers(field); }, doneTypingSearchInterval);
+
+			$('.suggestions').html(loading);
+			$('.suggestions').show();
+		} else {
+			$('.suggestions').html("");
+			$('.suggestions').hide();
+		}
+
+		$("#mark_btn").prop('disabled', true);
+	}
+
+	function searchUsers (field) {
+		var url = $('.suggestions').data('url'),
+			param = field.val();
+
+	    $.ajax({
+	    	url: url,
+	    	data: {'param': param},
+	    	dataType: 'json',
+	    	success: function (response) {
+	    		$('.suggestions').html(response.search_result);
+
+	    		$('.suggestions').find('.is-user').click(function (e) {
+	    			e.preventDefault();
+
+	    			var user_name = $(this).find('h4').text();
+
+	    			field.val(user_name);
+
+	    			$('.suggestions').hide();
+
+	    			$('.suggestions').parent().parent().parent().find("#mark_btn").prop('disabled', false);
+	    		});
+	    	}
+	    });
+	}
+
+	// initialize
+	function Init() {
+		var small = $("#id_image"),
+			filedrag = $(".filedrag"),
+			common = $(".common-file-input");
+
+		// file select
+		small.on("change", FileSelectHandler);
+
+		// is XHR2 available?
+		var xhr = new XMLHttpRequest();
+		if (xhr.upload) {
+			// file drop
+			filedrag.on("drop", FileSelectHandler);
+			filedrag.attr('style', 'display:block');
+			common.attr('style', 'display:none');
+		}
+	}
+
+	// file selection
+	function FileSelectHandler(e) {
+		var files = e.target.files || e.dataTransfer.files,
+			parent = $(e.target.offsetParent);
+
+		// process all File objects
+		for (var i = 0, f; f = files[i]; i++) {
+			parent.find('.filedrag').html(f.name);
+		}
+	}
+</script>

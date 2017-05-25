@@ -1,0 +1,23 @@
+{% extends template_extends %}
+
+{% load static i18n %}
+{% load widget_tweaks django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+	{{ block.super }}
+	{% trans 'Update: ' as bread %}
+	{% with bread|add:category.name as bread_slug %}
+		{% breadcrumb bread_slug 'categories:update' %}
+	{% endwith %}
+{% endblock %}
+
+{% block content %}
+	<div class="card card-content">
+  		<div class="card-body">
+			{% include 'categories/_form.html' %}	
+		</div>
+	</div>
+	<br clear="all" />
+	<br clear="all" />
+
+{% endblock %}

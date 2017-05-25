@@ -1,146 +1,71 @@
-{% extends 'home.html' %}
+{% extends 'users/list.html' %}
 
 {% load i18n pagination django_bootstrap_breadcrumbs permission_tags static  %}
-{% block javascript %}
-   <script type="text/javascript" src="{% static 'js/forum.js' %}"></script>
-   <script src="{% static 'js/file.js' %}"></script>
-   <script type="text/javascript" src="{% static 'js/material.js' %}"></script>
-   <script type = "text/javascript" src="{% static 'js/links.js' %}"></script>
-   <script src="{% static 'js/modals_requisitions.js'%}"></script>
-   <script src="{% static 'js/modal_poll.js'%}"></script>
-{% endblock %}
 
 {% block breadcrumbs %}
-  {{ block.super }}
-  {% breadcrumb search 'users:search' %}
+    {{ block.super }}
+    {% with 'Search for "'|add:search|add:'"' as search_bread %}
+    	{% breadcrumb search_bread 'users:search' %}
+    {% endwith %}
 {% endblock %}
 
+{% block menu %}
+{% endblock %}
 
 {% block content %}
-<div class="jumbotron">
-<h3>Search Result:</h3> {{qtd}} items found
-
-{% if link_list %}
-<div class="panel-group">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" href="#Link" id="bot" style="color: black"> <i class="fa fa-caret-square-o-down" aria-hidden="true" id="down"></i>Links</a>
-      </h4>
+    <div class="row">
+        <div class="col-md-9">
+            <form action="{% url 'users:search' %}" method="GET" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-11 col-sm-11 col-xs-11">
+                        <input type="text" class="form-control" name="search" placeholder="{% trans 'Search...' %}" />
+                    </div>
+                    <div class="col-md-1 col-sm-1 col-xs-1">
+                        <button type="submit" class="btn btn-fab btn-fab-mini">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'users:create' %}" class="pull-right btn btn-success btn-raised btn-md"><i class="fa fa-plus"></i> {% trans 'Create User' %}</a>
+        </div>
     </div>
-    <div id="Link" class="panel-collapse collapse">
-      <div class="panel-body">
 
-
-          {% for link in link_list %}
-              <li id = "link_{{ link.slug }}"><i class="fa fa-link" aria-hidden="true"></i>  <a href="javascript:modal.get('{% url 'course:links:view_link' link.slug %}', '#viewLinkModal','#divModalLink')">{{link.name}}</a></li>
-          {% endfor %}
-          <div class = 'row' id ="divModalLink">
-
-          </div>
-
-      </div>
-
-    </div>
-  </div>
-</div>
-{% endif%}
-
-{% if file_list %}
-<div class="panel-group">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" href="#File" id="bot1" style="color: black"> <i class="fa fa-caret-square-o-down" aria-hidden="true" id="down1"></i>File</a>
-      </h4>
-    </div>
-    <div id="File" class="panel-collapse collapse">
-      <div class="panel-body">
-
-          {% for file in file_list %}
-              <li id="file_{{ file.slug }}"><i class="material-icons">{{ file.file_type.icon }}</i> <a href="{% url 'course:file_material_view' file.slug %}" target="_blank">{{ file.name }}</a></li>
-          {% endfor%}
-
-
-      <div class="row" id="divModalFile">
-
-      </div>
-      </div>
-
-
-    </div>
-  </div>
-</div>
-{% endif %}
-
-{% if forum_list %}
-<div class="panel-group">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" href="#Forum" id="bot2" style="color: black"> <i class="fa fa-caret-square-o-down" aria-hidden="true" id="down2"></i>Forum</a>
-      </h4>
-    </div>
-    <div id="Forum" class="panel-collapse collapse">
-      <div class="panel-body">
-              {% for forum in forum_list %}
-              <li><i class="fa fa-commenting" aria-hidden="true"></i> <a id="forum_{{ forum.id }}" href="{% url 'course:forum:view' forum.slug %}"> {{ forum }}</a></li>
-              {% endfor %}
-
-      </div>
-
-    </div>
-  </div>
-</div>
-{% endif %}
-
-{% if exam_list %}
-<div class="panel-group">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-       <a data-toggle="collapse" href="#Exam" id="bot3" style="color: black"> <i class="fa fa-caret-square-o-down" aria-hidden="true" id="down3"></i>Exam</a>
-      </h4>
-    </div>
-    <div id="Exam" class="panel-collapse collapse">
-      <div class="panel-body">
-        {% for exam in exam_list %}
-              {{exam.name}}
-        {% endfor %}
-
-      </div>
-
-    </div>
-  </div>
-</div>
-{% endif %}
-
-{% if poll_list %}
-<div class="panel-group">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" href="#Poll" id="bot4" style="color: black"> <i class="fa fa-caret-square-o-down" aria-hidden="true" id="down4"></i>Poll</a>
-      </h4>
-    </div>
-    <div id="Poll" class="panel-collapse collapse">
-      <div class="panel-body">
-
-              {% for poll in poll_list %}
-                  <li id="poll_{{poll.slug}}"><i class="material-icons">{% trans 'poll' %}</i> <a href="javascript:modal.get('{% url 'course:poll:view_poll' poll.slug %}','#poll','#modal_poll');">{{ poll.name }}</a></li>
-              {% endfor %}
-
-            <div class="row" id="modal_poll">
-
+    {% if users %}
+        {% for acc in users %}
+            <div class="row-fluid panel panel-default">
+                <div class="panel-body">
+                    <div class="col-md-3">
+                        <span class="thumbnail">
+                            <img src="{{ acc.image_url }}" class="img-responsive" />
+                        </span>
+                    </div>
+                    <div class="col-md-6">
+                        <p><b>{% trans 'Name' %}:</b> {{ acc }}</p>
+                        <p><b>{% trans 'Email' %}:</b> {{ acc.email }}</p>
+                        <p><b>{% trans 'Description' %}:</b> 
+                            {% autoescape off %}
+                                {{ acc.description|default:_("Not Informed")|striptags|truncatechars:300 }}
+                            {% endautoescape %}
+                        </p>
+                    </div>
+                    <div class="col-md-3">
+                        <div align="right">
+                            <a href="{% url 'users:update' acc.email %}" class="btn btn-success btn-raised btn-sm"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
+                            <a href="{% url 'users:delete' acc.email %}" class="btn btn-default btn-raised btn-sm"><i class="fa fa-trash"></i> {% trans 'Delete' %}</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-      </div>
-    </div>
-  </div>
-</div>
-{% endif %}
-</div>
-
-
-<script type="text/javascript" src="{% static 'js/amadeus.js' %}"> </script>
-<script type="text/javascript" src="{% static 'js/topic_editation_presentation_search.js' %}"></script>
+        {% endfor %}
+        {% pagination request paginator page_obj %}
+    {% else %}
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <p>{% trans 'No users found' %}</p>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

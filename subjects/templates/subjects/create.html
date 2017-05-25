@@ -1,0 +1,43 @@
+{% extends 'categories/home.html' %}
+
+{% load static i18n django_bootstrap_breadcrumbs switchevenodd %}
+
+{% block style %}
+	{{block.super}}
+	<link rel="stylesheet" type="text/css" href="{% static "css/bootstrap-tagsinput.css" %}">
+{% endblock %}
+
+{% block javascript %}
+	{{block.super}}
+	<script type="text/javascript" src="{% static "js/bootstrap-tagsinput.js" %} "></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+   	{% clear_breadcrumbs %}
+   	{% breadcrumb 'Home' 'subjects:home' %}
+
+   	{% if subject %}
+   		{% breadcrumb subject.category 'subjects:cat_view' subject.category.slug %}
+   		{% breadcrumb subject 'subjects:view' subject.name %}
+
+   		{% trans 'Replicate: ' as bread %}
+
+   		{% with bread|add:subject.name as bread_slug %}
+   			{% breadcrumb bread_slug 'subjects:create' %}
+   		{% endwith %}
+   	{% else %}
+	  	{% breadcrumb slug 'subjects:cat_view' slug %}
+	  	{% breadcrumb 'Create Subject' 'subjects:create' %}
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+	<div class="card card-content">
+	    <div class="card-body">
+			{% include 'subjects/_form.html' %}	    	
+		</div>
+	</div>
+	<br clear="all" />
+	<br clear="all" />
+{% endblock %}
+

@@ -1,8 +1,0 @@
-{% load static i18n permission_tags professor_access %}
-
-<div id="list-topic-{{ topic.slug }}-poll">
-  {% for poll in polls %}
-      <li id="poll_{{poll.slug}}"><i class="fa fa-bar-chart"></i> <a href="javascript:modal.get('{% url 'course:poll:view_poll' poll.slug %}','#poll','#requisicoes_ajax');">{{ poll }}</a></li>
-  {% endfor %}
-
-</div>

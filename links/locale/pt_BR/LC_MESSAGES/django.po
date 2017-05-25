@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-10 00:29-0300\n"
+"POT-Creation-Date: 2017-05-24 13:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,91 +18,218 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\forms.py:14 .\forms.py:16 .\forms.py:29 .\forms.py:31
-msgid "Invalid url!"
-msgstr "Url inválida!"
+#: .\forms.py:27
+msgid "Tags"
+msgstr "Tags"
 
-#: .\models.py:8
+#: .\forms.py:28
+msgid "Website URL"
+msgstr "URL do site:"
+
+#: .\forms.py:34
+msgid "Link name"
+msgstr "Nome do Link"
+
+#: .\forms.py:35
+msgid "End View"
+msgstr ""
+
+#: .\forms.py:36
+msgid "End View Date"
+msgstr "Data final para visualizar"
+
+#: .\forms.py:64
+msgid "There is already a link with this name on this subject"
+msgstr "Ja existe um link com este nome neste Assunto"
+
+#: .\models.py:13
 msgid "Link_URL"
-msgstr "URL"
+msgstr "URL do link"
 
-#: .\models.py:9
-msgid "Description"
-msgstr "Descrição"
+#: .\models.py:33 .\templates\links\delete.html:12
+msgid "Are you sure you want delete the Website link"
+msgstr "Tem certeza que voce deseja remover esse Link para Website"
 
-#: .\templates\links\create_link.html:8
-msgid "Create a New Link"
-msgstr "Criar um novo link"
+#: .\templates\links\_form.html:112
+msgid "Pendencies Notifications"
+msgstr "Notificações de pendências"
 
-#: .\templates\links\create_link.html:35 .\templates\links\update_link.html:39
-msgid "Cancel"
-msgstr "Cancelar"
+#: .\templates\links\_form.html:130
+msgid "Action not performed by the user"
+msgstr "Ação não realizada pelo usuário"
 
-#: .\templates\links\create_link.html:36 .\templates\links\update_link.html:40
-msgid "Submit"
-msgstr "Enviar"
+#: .\templates\links\_form.html:156
+msgid "Wished period"
+msgstr "Período desejado"
 
-#: .\templates\links\create_link.html:62
-msgid "Link successfully created!"
-msgstr "Link criado com sucesso!"
+#: .\templates\links\_form.html:252
+msgid "Attribute students to file link"
+msgstr "Atribuir estudantes para o link de arquivo"
 
-#: .\templates\links\create_link.html:69 .\templates\links\update_link.html:74
-msgid "Invalid link, insert a valid one!"
-msgstr "Link inválido, insira um válido! "
+#: .\templates\links\_form.html:272
+msgid "Attribute groups to file link"
+msgstr "Atribuir grupos para o link de arquivo"
 
-#: .\templates\links\delete_link.html:12
-msgid "Delete Link"
-msgstr "Apagar Link"
+#: .\templates\links\_form.html:320
+msgid "Save"
+msgstr "Salvar"
 
-#: .\templates\links\delete_link.html:20
-msgid "Are you sure to delete the link "
-msgstr "Você realmente deseja apagar o link "
+#: .\templates\links\create.html:20
+msgid "Create Website Link"
+msgstr "Criar Link do Website"
 
-#: .\templates\links\delete_link.html:24
+#: .\templates\links\delete.html:18 .\templates\links\send_message.html:62
 msgid "Close"
 msgstr "Fechar"
 
-#: .\templates\links\delete_link.html:25
+#: .\templates\links\delete.html:19
 msgid "Delete"
-msgstr "Apagar"
+msgstr "Remover"
 
-#: .\templates\links\delete_link.html:58
-msgid "Link successfully deleted!"
-msgstr "Link apagado com sucesso!"
+#: .\templates\links\relatorios.html:17 .\templates\links\relatorios.html:37
+msgid "User"
+msgstr "Usuário"
 
-#: .\templates\links\delete_link.html:64
-msgid "Error when trying to delete."
-msgstr "Erro ao tentar apagar."
+#: .\templates\links\relatorios.html:17 .\templates\links\relatorios.html:37
+msgid "Group"
+msgstr "Grupo"
 
-#: .\templates\links\update_link.html:8
-#, fuzzy
-#| msgid "Link"
-msgid "Edit Link"
-msgstr "Link"
+#: .\templates\links\relatorios.html:17
+msgid "Action"
+msgstr "Ação"
 
-#: .\templates\links\update_link.html:67
-msgid "Link Sucessfully Updated!"
-msgstr "Link atualizado com sucesso!"
+#: .\templates\links\relatorios.html:17
+msgid "Date of Action"
+msgstr "Data da ação"
 
-#: .\templates\links\view_link.html:8
-msgid "Link"
-msgstr "Link"
+#: .\templates\links\relatorios.html:37
+msgid "Send message"
+msgstr "Enviar Mensagem"
 
-#: .\templates\links\view_link.html:17
-msgid "Read more"
-msgstr "Ler mais"
+#: .\templates\links\relatorios.html:37
+msgid "Action don't realized"
+msgstr "Ação não realizada"
 
-#~ msgid "Confirm"
-#~ msgstr "Confirmar"
+#: .\templates\links\relatorios.html:153 .\templates\links\relatorios.html:175
+msgid "Reports"
+msgstr "Relatórios"
 
-#~ msgid "Links"
-#~ msgstr "Links"
+#: .\templates\links\relatorios.html:182
+msgid "Report of the resource "
+msgstr "Relatórios do recurso "
 
-#~ msgid "Name"
-#~ msgstr "Nome"
+#: .\templates\links\relatorios.html:191
+msgid "Select the period: "
+msgstr "Selecione o período: "
 
-#~ msgid "URL"
-#~ msgstr "URL"
+#: .\templates\links\relatorios.html:200
+msgid "Search"
+msgstr "Pesquisar"
 
-#~ msgid "Link updated successfully!"
-#~ msgstr "Link atualizado com sucesso!"
+#: .\templates\links\relatorios.html:224
+msgid "Filter: "
+msgstr "Filtro: "
+
+#: .\templates\links\relatorios.html:248 .\templates\links\relatorios.html:333
+msgid "record(s)"
+msgstr "Relatório(s)"
+
+#: .\templates\links\send_message.html:38
+msgid "Click or drop the picture here"
+msgstr "Clique ou solte a imagem aqui"
+
+#: .\templates\links\send_message.html:40
+msgid "The picture could not exceed 5MB."
+msgstr "A imagem não pode exceder 5MB."
+
+#: .\templates\links\send_message.html:63
+msgid "Send"
+msgstr "Enviar"
+
+#: .\templates\links\update.html:20
+msgid "Edit: "
+msgstr "Editar: "
+
+#: .\views.py:67 .\views.py:80 .\views.py:264 .\views.py:266 .\views.py:282
+#: .\views.py:284
+msgid "Visualize"
+msgstr "Visualizar"
+
+#: .\views.py:142
+msgid "Create Webiste Link"
+msgstr "Criar Link de Website"
+
+#: .\views.py:153
+#, python-format
+msgid ""
+"The  Link \"%s\" was added to the Topic \"%s\" of the virtual environment "
+"\"%s\" successfully!"
+msgstr ""
+"O link \"%s\" foi adicionado com sucesso ao Topico \"%s\"  do ambiente "
+"virtual \"%s\" "
+
+#: .\views.py:181
+#, python-format
+msgid ""
+"The Website Link \"%s\" was removed successfully from virtual environment "
+"\"%s\"!"
+msgstr ""
+"O Link do site \"%s\" foi removido com sucesso do ambiente virtual \"%s\"  "
+
+#: .\views.py:330
+msgid "Update Website Link"
+msgstr "Atualizar Link do website"
+
+#: .\views.py:341
+#, python-format
+msgid "The Website Link \"%s\" was updated successfully!"
+msgstr "O link do website  \"%s\" foi atualizado com sucesso! "
+
+#: .\views.py:385
+msgid "Links Reports"
+msgstr "Relatórios de links"
+
+#: .\views.py:404
+msgid "Realized"
+msgstr "Realizada"
+
+#: .\views.py:404
+msgid "Unrealized"
+msgstr "Não Realizada"
+
+#: .\views.py:404
+msgid "Historic"
+msgstr "Histórico"
+
+#: .\views.py:419 .\views.py:427
+msgid "View"
+msgstr "Visualizar"
+
+#: .\views.py:428
+msgid "Links"
+msgstr "Links"
+
+#: .\views.py:433
+msgid "Actions about resource"
+msgstr "Ações sobre o recurso"
+
+#: .\views.py:434
+msgid "Quantity"
+msgstr "Quantidade"
+
+#: .\views.py:481
+msgid "[Photo]"
+msgstr "[Imagem]"
+
+#: .\views.py:493
+#, python-format
+msgid "Last message in %s"
+msgstr "Última mensagem em %s"
+
+#: .\views.py:502
+msgid "The message was successfull sent!"
+msgstr "A mensagem foi enviada com sucesso!"
+
+#: .\views.py:504
+msgid "No user selected!"
+msgstr "Nenhum usuário selecionado!"

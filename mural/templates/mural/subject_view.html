@@ -1,0 +1,105 @@
+{% extends 'subjects/view.html' %}
+
+{% load static i18n pagination permissions_tags subject_counter %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    
+    {% trans 'Mural' as mural %}
+
+    {% breadcrumb mural 'mural:subject_view' subject.slug %}
+{% endblock %}
+
+{% block content %}
+	{% subject_permissions request.user subject as has_subject_permissions %}
+
+	{% if subject.visible %}
+		<div class="panel panel-info subject-panel" id="subject_{{subject.slug}}">
+        	<div class="panel-heading">
+	{% elif has_subject_permissions %}
+		<div class="panel panel-info subject-panel-invisible" id="subject_{{subject.slug}}">
+        	<div class="panel-heading panel-invisible">
+    {% endif %}
+            <div class="row">
+                <div class="col-md-12 category-header">
+                    <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
+                        <span>{{subject.name}} / {% trans 'Mural' %}</span>
+                    </h4>
+
+                    <div class="col-md-5 pull-right category-card-items">
+                        {% if request.user in subject.professor.all or request.user in subject.category.coordinators.all or request.user.is_staff %}
+                            <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </a>
+                            <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                                {% if request.user not in subject.professor.all %}
+                                <li><a href="{% url 'subjects:replicate' subject.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
+                                {% endif %}
+                                <li><a href="{% url 'subjects:update' subject.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+                                <li><a href="{% url 'groups:index' subject.slug %}"><i class="fa fa-group fa-fw" aria-hidden="true"></i>{% trans 'Groups' %}</a></li>
+                                <li><a href="{% url 'subjects:backup' subject.slug %}"><i class="fa fa-database fa-fw" aria-hidden="true"></i>{% trans 'Backup' %}</a></li>
+                                <li><a href="javascript:delete_subject.get('{% url 'subjects:delete' subject.slug %}?view=index','#subject','#modal_subject')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="{{subject.slug}}" class="panel-collapse panel-body in collapse mural-ungeneral subject-related-panel">
+        	<div class="col-md-12 cards-content mural" data-url="{% url 'mural:subject_view' subject.slug %}" data-pages="{{ paginator.num_pages }}" data-page="{{ page_obj.number }}" data-fav="{{ favorites }}" data-mine="{{ mines }}">
+		    	<div class="col-md-9 col-sm-9 col-xs-9 mural-list">
+		    		<div class="post_make panel panel-default">
+		    			<div class="panel-body">
+			    			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 user-img text-center">
+			    				<img src="{{ request.user.image_url }}" class="img-responsive" />
+			    			</div>
+			    			<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 post-field">
+			    				<div>
+			    					<h4 data-url="{% url 'mural:create_subject' subject.slug %}">{% trans 'Wish to make a new post?' %}</h4>
+			    				</div>
+			    			</div>
+			    		</div>
+		    		</div>
+
+		    		<div class="posts" style="margin-top: 10px">
+		                {% for post in posts %}
+		                    {% include 'mural/_view.html' %}
+		                {% endfor %}
+		            </div>
+		            <div id="loading_posts" class="alert alert-success" role="alert" style="display:none">
+		                <center>
+		                    <span class="fa fa-spin fa-circle-o-notch"></span>
+		                </center>
+		            </div>
+					<div class="text-center no-subjects" {% if posts.count > 0 %} style="display:none" {% endif %}>
+		                <i class="fa fa-list"></i>
+		                <h4>{% trans 'There are no posts in this mural yet.' %}</h4>
+		            </div>
+		    	</div>
+		    	<div class="col-md-3 col-sm-3 col-xs-3 post-filter">
+		            <h4>{% trans 'Filter' %}</h4>
+
+		            <form id="post-filters" action="" method="GET">
+		                <div class="checkbox">
+		                    <label>
+		                        <input name="favorite" type="checkbox" {{ favorites }}> {% trans 'Favorite posts' %} <i class="fa fa-thumb-tack"></i>
+		                    </label>
+		                </div>
+		                <div class="checkbox">
+		                    <label>
+		                        <input name="mine" type="checkbox" {{ mines }}> {% trans 'Only my posts' %}
+		                    </label>
+		                </div>
+		                <button type="submit" class="btn btn-success btn-raised btn-block">{% trans 'Filter' %}</button>
+		                <button type="button" id="clear_filter" class="btn btn-default btn-raised btn-block clear_filter">{% trans 'Clean Filters' %}</button>
+		            </form>
+		    	</div>
+		    </div>
+		</div>
+
+	<div class="modal fade" id="post-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+  
+    <script type="text/javascript" src="{% static 'js/mural.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/mural_general.js' %}"></script>
+{% endblock %}

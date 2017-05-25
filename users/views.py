@@ -1,60 +1,107 @@
-from django.shortcuts import get_object_or_404,redirect
-from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 from django.contrib import messages
-from rolepermissions.mixins import HasRoleMixin
+from django.contrib.auth import authenticate, login as login_user, logout as logout_user
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-from rolepermissions.shortcuts import assign_role
-from rolepermissions.verifications import has_role
-from itertools import chain
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils.translation import ugettext as _u
+from django.db.models import Q, Count
 
+from braces import views as braces_mixins
+
+from security.models import Security
+
+from log.decorators import log_decorator
+from log.mixins import LogMixin
+from log.models import Log
+from django.http import JsonResponse
 from .models import User
-from .forms import UserForm, UpdateProfileForm, UpdateUserForm, UpdateProfileFormAdmin
-from links.models import Link
-from poll.models import *
-from forum.models import *
-from files.models import *
-from exam.models import *
-from courses.models import *
+from .utils import has_dependencies
+from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm, PassResetRequest, SetPasswordForm
 
+#USER STATUS NOTIFICATION
+from channels import Group
+import json
+
+#RECOVER PASS IMPORTS
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
+from django.conf import settings
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template import loader
+from django.core.mail import EmailMessage
+from django.core.mail.backends.smtp import EmailBackend
+
+from mailsender.models import MailSender
+import os
 #API IMPORTS
 from rest_framework import viewsets
 from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 # ================ ADMIN =======================
-class UsersListView(HasRoleMixin, LoginRequiredMixin, generic.ListView):
-
-	allowed_roles = ['system_admin']
-	login_url = reverse_lazy("core:home")
+class UsersListView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
-	template_name = 'list_users.html'
+
+	template_name = 'users/list.html'
 	context_object_name = 'users'
 	paginate_by = 10
 
 	def get_queryset(self):
-		search = self.request.GET.get('search', None)
-
-		if search is None:
-			users = User.objects.all().order_by('name').exclude( username = self.request.user.username)
-		else:
-			users = User.objects.filter(Q(username = search) | Q(name = search) | Q(name__icontains = search) | Q(username__icontains = search)).exclude( username = self.request.user.username)
+		users = User.objects.all().order_by('social_name','username').exclude(email = self.request.user.email)
 
 		return users
 
 	def get_context_data (self, **kwargs):
 		context = super(UsersListView, self).get_context_data(**kwargs)
-		context['title'] = 'Manage Users'
+		context['title'] = _('Manage Users')
+		context['settings_menu_active'] = "settings_menu_active"
+
 		return context
 
-class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
-
-	allowed_roles = ['system_admin']
-	login_url = reverse_lazy("core:home")
+class SearchView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, generic.ListView):
+	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
+
+	template_name = 'users/search.html'
+	context_object_name = 'users'
+	paginate_by = 10
+
+	def dispatch(self, request, *args, **kwargs):
+		search = self.request.GET.get('search', '')
+
+		if search == '':
+			return redirect(reverse_lazy('users:manage'))
+
+		return super(SearchView, self).dispatch(request, *args, **kwargs)
+
+	def get_queryset(self):
+		search = self.request.GET.get('search', '')
+
+		users = User.objects.filter(Q(username__icontains = search) | Q(last_name__icontains = search) | Q(social_name__icontains = search) | Q(email__icontains = search)).distinct().order_by('social_name','username').exclude(email = self.request.user.email)
+
+		return users
+
+	def get_context_data (self, **kwargs):
+		context = super(SearchView, self).get_context_data(**kwargs)
+		context['title'] = _('Search Users')
+		context['search'] = self.request.GET.get('search')
+		context['settings_menu_active'] = "settings_menu_active"
+
+		return context
+
+class CreateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, LogMixin, generic.edit.CreateView):
+	log_component = 'user'
+	log_action = 'create'
+	log_resource = 'user'
+	log_context = {}
+
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
 	template_name = 'users/create.html'
 	form_class = UserForm
 	context_object_name = 'acc'
@@ -63,117 +110,239 @@ class Create(HasRoleMixin, LoginRequiredMixin, generic.edit.CreateView):
 	def form_valid(self, form):
 		self.object = form.save()
 
-		if self.object.type_profile == 2:
-			assign_role(self.object, 'student')
-		elif self.object.type_profile == 1:
-			assign_role(self.object, 'professor')
-		elif self.object.is_staff:
-			assign_role(self.object, 'system_admin')
+		msg = _('User "%s" created successfully')%(self.object.get_short_name() )
 
-		self.object.save()
+		self.log_context['user_id'] = self.object.id
+		self.log_context['user_name'] = self.object.get_short_name()
+		self.log_context['user_email'] = self.object.email
 
-		messages.success(self.request, ('User ')+self.object.name+(' created successfully!'))
+		super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-		return super(Create, self).form_valid(form)
+		messages.success(self.request, msg)
+
+		return super(CreateView, self).form_valid(form)
+
 	def get_context_data (self, **kwargs):
-		context = super(Create, self).get_context_data(**kwargs)
-		context['title'] = "Add User"
+		context = super(CreateView, self).get_context_data(**kwargs)
+		context['title'] = _("Add User")
+		context['settings_menu_active'] = "settings_menu_active"
+
 		return context
 
-class Update(HasRoleMixin, LoginRequiredMixin, generic.UpdateView):
+class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, LogMixin, generic.UpdateView):
+	log_component = 'user'
+	log_action = 'update'
+	log_resource = 'user'
+	log_context = {}
 
-	allowed_roles = ['system_admin']
-	login_url = reverse_lazy("core:home")
+	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
+
 	template_name = 'users/update.html'
-	slug_field = 'username'
-	slug_url_kwarg = 'username'
+	slug_field = 'email'
+	slug_url_kwarg = 'email'
 	context_object_name = 'acc'
 	model = User
-	form_class = UpdateUserForm
+	form_class = UserForm
 	success_url = reverse_lazy('users:manage')
+
+	def get_form_kwargs(self):
+		kwargs = super(UpdateView, self).get_form_kwargs()
+
+		kwargs.update({'is_edit': True})
+
+		return kwargs
 
 	def form_valid(self, form):
 		self.object = form.save(commit = False)
 
-		if self.object.type_profile == 2:
-			assign_role(self.object, 'student')
-		elif self.object.type_profile == 1:
-			assign_role(self.object, 'professor')
-		elif self.object.is_staff:
-			assign_role(self.object, 'system_admin')
-
 		self.object.save()
 
-		messages.success(self.request, _('User ')+self.object.name+_(' updated successfully!'))
+		msg = _('User "%s" updated successfully')%(self.object.get_short_name())
 
-		return super(Update, self).form_valid(form)
+		self.log_context['user_id'] = self.object.id
+		self.log_context['user_name'] = self.object.get_short_name()
+		self.log_context['user_email'] = self.object.email
+
+		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		messages.success(self.request, msg)
+
+		return super(UpdateView, self).form_valid(form)
 
 	def get_context_data (self, **kwargs):
-		context = super(Update, self).get_context_data(**kwargs)
-		context['title'] = "Update User"
+		context = super(UpdateView, self).get_context_data(**kwargs)
+		context['title'] = _("Update User")
+		context['settings_menu_active'] = "settings_menu_active"
+
 		return context
 
-class View(LoginRequiredMixin, generic.DetailView):
+class DeleteView(braces_mixins.LoginRequiredMixin, LogMixin, generic.DeleteView):
+	log_component = 'user'
+	log_action = 'delete'
+	log_resource = 'user'
+	log_context = {}
 
-	login_url = reverse_lazy("core:home")
+	login_url = reverse_lazy("users:login")
 	redirect_field_name = 'next'
+
+	template_name = 'users/delete.html'
 	model = User
+	slug_url_kwarg = 'email'
 	context_object_name = 'acc'
-	template_name = 'users/view.html'
-	slug_field = 'username'
-	slug_url_kwarg = 'username'
 
-	def get_context_data (self, **kwargs):
-		context = super(View, self).get_context_data(**kwargs)
-		context['title'] = "User"
+	def dispatch(self, request, *args, **kwargs):
+		email = self.kwargs.get('email', None)
+
+		if not email is None:
+			if not request.user.is_staff:
+				return redirect(reverse_lazy('subjects:home'))
+
+		return super(DeleteView, self).dispatch(request, *args, **kwargs)
+
+	def get_object(self):
+		email = self.kwargs.get('email', None)
+
+		if email is None:
+			user = get_object_or_404(User, email = self.request.user.email)
+		else:
+			user = get_object_or_404(User, email = email)
+
+		return user
+
+	def delete(self, request, *args, **kwargs):
+		email = self.kwargs.get('email', None)
+		user = self.get_object()
+
+
+
+		if email is None:
+			self.log_action = 'remove_account'
+
+			success_url = reverse_lazy('users:login')
+			error_url = reverse_lazy('users:profile')
+		else:
+			self.log_context['user_id'] = user.id
+			self.log_context['user_name'] = user.get_short_name()
+			self.log_context['user_email'] = user.email
+
+			success_url = reverse_lazy('users:manage')
+			error_url = reverse_lazy('users:manage')
+
+		success_msg = _('User removed successfully!')
+		error_msg = _('Could not remove the account. The user is attach to one or more functions (administrator, coordinator, professor ou student) in the system.')
+
+		if has_dependencies(user):
+			self.log_context['dependencies'] = True
+
+			messages.error(self.request, error_msg)
+
+			redirect_url = redirect(error_url)
+		else:
+			self.log_context['dependencies'] = False
+			image_path_to_delete = user.image.path
+			user.delete()
+
+			messages.success(self.request, success_msg)
+			#deleting the user image
+			os.remove(image_path_to_delete)
+			redirect_url = redirect(success_url)
+
+		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+		return redirect_url
+
+	def get_context_data(self, **kwargs):
+		context = super(DeleteView, self).get_context_data(**kwargs)
+		context['title'] = _('Delete Account')
+		context['email'] = self.kwargs.get('email', None)
+
 		return context
 
-def delete_user(request,username):
-	user = get_object_or_404(User,username = username)
-	user.delete()
-	messages.success(request,_("User deleted Successfully!"))
-	return redirect('users:manage')
+	def render_to_response(self, context, **response_kwargs):
+		email = self.kwargs.get('email', None)
 
-def remove_account(request,username):
-	user = get_object_or_404(User,username = username)
-	user.delete()
-	messages.success(request,_("User deleted Successfully!"))
-	return redirect('core:logout')
+		if email is None:
+			template = 'users/delete_account.html'
+		else:
+			context['settings_menu_active'] = "settings_menu_active"
+			template = 'users/delete.html'
 
-class Change_password(generic.TemplateView):
+		return self.response_class(request = self.request, template = template, context = context, using = self.template_engine, **response_kwargs)
+
+class ChangePassView(LoginRequiredMixin, generic.UpdateView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
 	template_name = 'users/change_password.html'
+	slug_field = 'email'
+	slug_url_kwarg = 'email'
+	context_object_name = 'acc'
+	model = User
+	form_class = ChangePassForm
+	success_url = reverse_lazy('users:profile')
+
+	def get_form_kwargs(self):
+		kwargs = super(ChangePassView, self).get_form_kwargs()
+
+		kwargs.update({'user': self.request.user})
+		kwargs.update({'request': self.request})
+
+		return kwargs
+
+	def get_object(self):
+		user = get_object_or_404(User, email = self.request.user.email)
+
+		return user
+
+	def form_valid(self, form):
+		form.save()
+
+		messages.success(self.request, _('Password changed successfully!'))
+
+		return super(ChangePassView, self).form_valid(form)
 
 	def get_context_data (self, **kwargs):
-		context = super(Change_password, self).get_context_data(**kwargs)
-		context['title'] = "Change Password"
+		context = super(ChangePassView, self).get_context_data(**kwargs)
+		context['title'] = _("Change Password")
+
 		return context
 
-class Remove_account(generic.TemplateView):
-	template_name = 'users/remove_account.html'
+class Profile(LoginRequiredMixin, generic.DetailView):
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
+	context_object_name = 'acc'
+	template_name = 'users/profile.html'
+
+	def get_object(self):
+		user = get_object_or_404(User, email = self.request.user.email)
+
+		return user
 
 	def get_context_data (self, **kwargs):
-		context = super(Remove_account, self).get_context_data(**kwargs)
-		context['title'] = "Remove Account"
+		context = super(Profile, self).get_context_data(**kwargs)
+		context['title'] = _("Profile")
+
 		return context
 
 class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
-	login_url = reverse_lazy("core:home")
+	login_url = reverse_lazy("users:login")
+	redirect_field_name = 'next'
+
 	template_name = 'users/edit_profile.html'
-	form_class = UpdateProfileForm
+	form_class = ProfileForm
 	success_url = reverse_lazy('users:profile')
 
 	def get_object(self):
-		user = get_object_or_404(User, username = self.request.user.username)
+		user = get_object_or_404(User, email = self.request.user.email)
+
 		return user
 
 	def get_context_data(self, **kwargs):
 		context = super(UpdateProfile, self).get_context_data(**kwargs)
-		context['title'] = 'Update Profile'
-		if has_role(self.request.user, 'system_admin'):
-			context['form'] = UpdateProfileFormAdmin(instance = self.object)
-		else:
-			context['form'] = UpdateProfileForm(instance = self.object)
+		context['title'] = _('Update Profile')
+
 		return context
 
 	def form_valid(self, form):
@@ -182,99 +351,224 @@ class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
 
 		return super(UpdateProfile, self).form_valid(form)
 
-class DeleteUser(LoginRequiredMixin, generic.edit.DeleteView):
-	allowed_roles = ['student']
-	login_url = reverse_lazy("core:home")
+class RegisterUser(generic.edit.CreateView):
 	model = User
-	success_url = reverse_lazy('core:index')
-	success_message = "Deleted Successfully"
+	form_class = RegisterUserForm
+	template_name = 'users/register.html'
 
-	def get_queryset(self):
-		user = get_object_or_404(User, username = self.request.user.username)
-		return user
-
-
-class Profile(LoginRequiredMixin, generic.DetailView):
-
-	login_url = reverse_lazy("core:home")
-	redirect_field_name = 'next'
-	context_object_name = 'user'
-	template_name = 'users/profile.html'
-
-	def get_object(self):
-		user = get_object_or_404(User, username = self.request.user.username)
-		return user
-
-	def get_context_data (self, **kwargs):
-		context = super(Profile, self).get_context_data(**kwargs)
-		context['title'] = "Profile"
-		return context
-
-class SearchView(LoginRequiredMixin, generic.ListView):
-
-	login_url = reverse_lazy("core:home")
-	redirect_field_name = 'next'
-	queryset = Material.objects.all()
-	template_name = 'users/search.html'
-	paginate_by = 10
+	success_url = reverse_lazy('users:login')
 
 	def get_context_data(self, **kwargs):
-		context = super(SearchView, self).get_context_data(**kwargs)
-		search = self.request.GET.get('search', None)
-		link_list = []
-		file_list = []
-		poll_list = []
-		exam_list = []
-		forum_list = []
-		qtd = 0
-
-		if has_role(self.request.user,'system_admin'):
-			if search != '':
-				link_list = Link.objects.filter( Q(name__icontains=search)).order_by('name')
-				file_list = TopicFile.objects.filter(Q(name__icontains=search)).order_by('name')
-				poll_list = Poll.objects.filter(Q(name__icontains=search)).order_by('name')
-				exam_list = Exam.objects.filter(Q(name__icontains=search)).order_by('name')
-				forum_list = Forum.objects.filter(Q(name__icontains=search)).order_by('name')
-				qtd = len(link_list) + len(file_list) + len(poll_list) + len(exam_list) + len(forum_list)
-
-		elif has_role(self.request.user,'professor'):
-			topics = Topic.objects.filter(owner = self.request.user)
-			links = Link.objects.all()
-			files = TopicFile.objects.all()
-			polls = Poll.objects.all()
-			exams = Exam.objects.all()
-			forums = Forum.objects.all()
-			if search != '':
-				link_list = sorted([link for link in links for topic in topics if (link.topic == topic) and ( search in link.name ) ],key = lambda x:x.name)
-				exam_list = sorted([exam for exam in exams for topic in topics if (exam.topic == topic) and ( search in exam.name ) ],key = lambda x:x.name)
-				file_list = sorted([arquivo for arquivo in files for topic in topics if (arquivo.topic == topic) and  (search in arquivo.name ) ],key = lambda x:x.name)
-				poll_list = sorted([poll for poll in polls for topic in topics if (poll.topic == topic) and ( search in poll.name ) ],key = lambda x:x.name)
-				forum_list = sorted([forum for forum in forums for topic in topics if (forum.topic == topic) and ( search in forum.name ) ],key = lambda x:x.name)
-				qtd = len(link_list) + len(file_list) + len(poll_list) + len(exam_list) + len(forum_list)
-
-		elif has_role(self.request.user, 'student'):
-			if search != '':
-				link_list = Link.objects.filter( Q(name__icontains=search) and Q(students__name = self.request.user.name)).order_by('name')
-				file_list = TopicFile.objects.filter(Q(name__icontains=search) and Q(students__name = self.request.user.name)).order_by('name')
-				poll_list = Poll.objects.filter(Q(name__icontains=search)and Q(students__name = self.request.user.name)).order_by('name')
-				exam_list = Exam.objects.filter(Q(name__icontains=search)and Q(students__name = self.request.user.name)).order_by('name')
-				forum_list = Forum.objects.filter(Q(name__icontains=search)and Q(students__name = self.request.user.name)).order_by('name')
-				qtd = len(link_list) + len(file_list) + len(poll_list) + len(exam_list) + len(forum_list)
-
-		translated = _('You searched for... ')
-		context['link_list'] = link_list
-		context['file_list'] = file_list
-		context['poll_list'] = poll_list
-		context['exam_list'] = exam_list
-		context['forum_list'] = forum_list
-		context['qtd'] = qtd
-		context['search'] = translated + search
+		context = super(RegisterUser, self).get_context_data(**kwargs)
+		context['title'] = _('Sign Up')
 
 		return context
+
+	def form_valid(self, form):
+		form.save()
+
+		messages.success(self.request, _('User successfully registered!'))
+
+		return super(RegisterUser, self).form_valid(form)
+
+	def dispatch(self, request, *args, **kwargs):
+		security = Security.objects.get(id = 1)
+
+		if security.allow_register:
+			return redirect(reverse_lazy('users:login'))
+
+		return super(RegisterUser, self).dispatch(request, *args, **kwargs)
+
+class ForgotPassword(generic.FormView):
+	template_name = "users/forgot_password.html"
+	success_url = reverse_lazy('users:login')
+	form_class = PassResetRequest
+
+	def get_context_data(self, **kwargs):
+		context = super(ForgotPassword, self).get_context_data(**kwargs)
+		context['title'] = _('Forgot Password')
+
+		return context
+
+	def post(self, request, *args, **kwargs):
+		form = self.get_form()
+
+		if form.is_valid():
+			email = form.cleaned_data['email']
+
+			users = User.objects.filter(email = email)
+
+			if users.exists():
+				for user in users:
+					uid = urlsafe_base64_encode(force_bytes(user.pk))
+					token = default_token_generator.make_token(user)
+
+					c = {
+						'request': request,
+						'title': _('Recover Password'),
+						'email': user.email,
+						'domain': request.build_absolute_uri(reverse("users:reset_password_confirm", kwargs = {'uidb64': uid, 'token':token})), #or your domain
+						'site_name': 'Amadeus',
+						'user': user,
+						'protocol': 'http',
+					}
+
+					subject_template_name = 'registration/password_reset_subject.txt'
+					email_template_name = 'recover_pass_email_template.html'
+
+					subject = loader.render_to_string(subject_template_name, c)
+	                # Email subject *must not* contain newlines
+					subject = ''.join(subject.splitlines())
+					email = loader.render_to_string(email_template_name, c)
+
+					mailsender = MailSender.objects.latest('id')
+
+					if mailsender.hostname == "example.com":
+						send_mail(subject, email, settings.DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
+					else:
+						if mailsender.crypto == 3 or mailsender.crypto == 4:
+							tls = True
+						else:
+							tls = False
+
+						backend = EmailBackend(
+									host = mailsender.hostname, port = mailsender.port, username = mailsender.username,
+									password = mailsender.password, use_tls = tls
+								)
+
+						mail_msg = EmailMessage(subject = subject, body = email, to = [user.email], connection = backend)
+
+						mail_msg.send()
+
+				result = self.form_valid(form)
+				messages.success(request, _("Soon you'll receive an email with instructions to set your new password. If you don't receive it in 24 hours, please check your spam box."))
+
+				return result
+			messages.error(request, _('No user is associated with this email address'))
+
+		result = self.form_invalid(form)
+
+		return result
+
+class PasswordResetConfirmView(generic.FormView):
+	template_name = "users/new_password.html"
+	success_url = reverse_lazy('users:login')
+	form_class = SetPasswordForm
+
+	def get_context_data(self, **kwargs):
+		context = super(PasswordResetConfirmView, self).get_context_data(**kwargs)
+		context['title'] = _('Reset Password')
+
+		return context
+
+	def post(self, request, uidb64=None, token=None, *arg, **kwargs):
+		form = self.get_form()
+
+		assert uidb64 is not None and token is not None
+
+		try:
+			uid = urlsafe_base64_decode(uidb64)
+			user = User._default_manager.get(pk=uid)
+		except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+			user = None
+
+		if user is not None and default_token_generator.check_token(user, token):
+			if form.is_valid():
+				new_password = form.cleaned_data['new_password']
+
+				user.set_password(new_password)
+				user.save()
+
+				messages.success(request, _('Password reset successfully.'))
+
+				return self.form_valid(form)
+			else:
+				messages.error(request, _('We were not able to reset your password.'))
+				return self.form_invalid(form)
+		else:
+			messages.error(request, _('The reset password link is no longer valid.'))
+			return self.form_invalid(form)
+
+@log_decorator('user', 'access', 'system')
+def login(request):
+	context = {}
+	context['title'] = _('Log In')
+	security = Security.objects.get(id = 1)
+
+	context['deny_register'] = security.allow_register
+
+	if request.POST:
+		username = request.POST['email']
+		password = request.POST['password']
+		user = authenticate(username=username, password=password)
+
+		if user is not None:
+			if not security.maintence or user.is_staff:
+				login_user(request, user)
+
+				users = User.objects.all().exclude(email = username)
+
+				notification = {
+					"type": "user_status",
+					"user_id": str(user.id),
+					"status": _u("Online"),
+					"status_class": "active",
+					"remove_class": "away"
+				}
+
+				notification = json.dumps(notification)
+
+				for u in users:
+					Group("user-%s" % u.id).send({'text': notification})
+
+				next_url = request.GET.get('next', None)
+
+				if next_url:
+					return redirect(next_url)
+
+				return redirect(reverse("home"))
+			else:
+				messages.error(request, _('System under maintenance. Try again later'))
+		else:
+			messages.error(request, _('E-mail or password are incorrect.'))
+			context["username"] = username
+	elif request.user.is_authenticated:
+		return redirect(reverse('home'))
+
+	return render(request, "users/login.html", context)
+
+@log_decorator('user', 'logout', 'system')
+def logout(request, next_page = None):
+	user = request.user
+
+	logout_user(request)
+
+	users = User.objects.all().exclude(email = user.email)
+
+	notification = {
+		"type": "user_status",
+		"user_id": str(user.id),
+		"status": _u("Offline"),
+		"status_class": "",
+		"remove_class": "away"
+	}
+
+	notification = json.dumps(notification)
+
+	for u in users:
+		Group("user-%s" % u.id).send({'text': notification})
+
+	if next_page:
+		return redirect(next_page)
+
+	return redirect(reverse('users:login'))
+
+
+
+
 
 
 # API VIEWS
-
 class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer

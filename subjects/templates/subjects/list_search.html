@@ -1,0 +1,91 @@
+{% extends "subjects/list.html" %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs subject_counter %}
+
+
+{% block javascript%}
+    {{ block.super }}
+    <script type="text/javascript" src=" {% static 'js/category.js' %} "></script>
+{% endblock%}
+
+
+{% block breadcrumbs %}
+	{% clear_breadcrumbs %}
+   	{% breadcrumb 'Home' 'subjects:home' %}
+
+    {% trans 'You Searched for: ' as bread %}
+    {% with bread|add:tags as term  %}
+        {% breadcrumb  term 'subjects:index' %}
+    {% endwith %}
+
+
+{% endblock breadcrumbs %}
+
+
+{% block content %}
+
+	 {% if messages %}
+        {% for message in messages %}
+            <script type="text/javascript">
+                {% if message.tags == "danger" %}
+                    alertify.error('{{message}}');
+                {% else %}
+                    alertify.success('{{message}}');
+                {% endif %}
+            </script>
+        {% endfor %}
+    {% endif %}
+    {% if empty %}
+        <p id="search-results-title">{% trans "Search results" %}: {% trans " Any subjects or Resources were not found on the search for " %}  {{tags}} </p>
+
+    {% else %}
+        <p id="search-results-title">{% trans "Search results" %}:</p>
+    {% endif %}
+    <div id="core-subjects-options-div">
+        <ul class="core-subjects-options">
+            {% if all %}
+                <a href="{% url 'subjects:search' 'subjects' %}?search={{tags}} "><li >{% trans "Subjects" %} ({{ totals.my_subjects }})</li></a>
+                <a href="{% url 'subjects:search' 'resources' %}?search={{tags}}" ><li class="active">{% trans "Resources" %} ({{ totals.resources }})</li></a>
+            {% else %}
+                <a href="{% url 'subjects:search' 'subjects' %}?search={{tags}}"><li class="active">{% trans "Subjects" %} ({{ totals.my_subjects }})</li></a>
+                <a href="{% url 'subjects:search' 'resources' %}?search={{tags}}" ><li>{% trans "Resources" %} ({{ totals.resources }})</li></a>
+            {% endif %}
+
+        </ul>
+    </div>
+
+
+
+    <div class="col-md-12 cards-content">
+
+
+		{% if not all %}
+	    	<div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
+				{% for subject in subjects %}
+					{% include "subjects/subject_card.html" with accordion_id="subject-accordion" %}
+				{% endfor %}
+
+				{% pagination request paginator page_obj %}
+			</div>
+		 {% elif resources|length > 0 and all %}
+            <div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
+                {% for resource in resources %}
+                    {% include "subjects/resource_card.html" with resource=resource accordion_id="subject-accordion" %}
+                {% endfor %}
+
+                {% pagination request paginator page_obj %}
+            </div>
+        {% else %}
+		{% endif %}
+
+	</div>
+
+	<div id="modal_course">
+    </div>
+
+    <div id="modal_subject"></div>
+
+    <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
+
+{% endblock content %}

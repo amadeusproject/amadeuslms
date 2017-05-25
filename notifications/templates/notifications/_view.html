@@ -1,0 +1,97 @@
+{% load i18n notification_filters %}
+
+{% for notification in notifications %}
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="pendency panel-body">
+					<ul class="breadcrumb pend-card">
+						<li>
+							<a href="{% url 'subjects:home' %}">{% trans 'Home' %}</a>
+						</li>
+						<li>
+							<a href="{% url 'subjects:cat_view' notification.task.resource.topic.subject.category.slug %}">{{ notification.task.resource.topic.subject.category }}</a>
+						</li>
+						<li>
+							<a href="{% url 'subjects:view' notification.task.resource.topic.subject.slug %}">{{ notification.task.resource.topic.subject }}</a>
+						</li>
+						<li>
+							<a href="{% url 'subjects:topic_view' notification.task.resource.topic.subject.slug notification.task.resource.topic.slug %}">{{ notification.task.resource.topic }}</a>
+						</li>
+						<li>
+							<a href="{{ notification.task.resource.access_link }}" {% if notification.task.resource.show_window %}target="_blank"{% endif %}>{{ notification.task.resource }}</a>
+						</li>
+					</ul>
+					<div class="row">
+						<div class="col-md-6">
+							<h4>{{ notification }}</h4>
+							<p>{% trans 'Final Date/Time' %}: {{ notification.task.end_date|default:_('Not Informed') }}</p>
+
+							{% if notification.level == 2 %}
+								<p class="meta">{% trans 'Your goal was to realize this in' %}: {{ notification.meta }}</p>
+							{% elif notification.level == 4 %}
+								<p class="meta">{% trans 'Task finished in' %}: {{ notification.task.limit_date }}</p>
+							{% endif %}
+
+							{% if notification|done_percent >= 30 %}
+								<b>{{ notification|done_percent|floatformat:2 }}%</b> {% trans 'of the participants already realized this task.' %}
+							{% endif %}
+						</div>
+						<div class="col-md-6">
+							<div class="alert {{ notification.level|warning_class }}">
+								<i class="fa fa-exclamation-triangle"></i>
+								<span>{{ notification.level|warning_msg }}</span>
+							</div>
+						</div>
+					</div>
+					<div class="row text-center">
+						<a href="{{ notification.task.resource.access_link }}" class="btn btn-success btn-raised" {% if notification.task.resource.show_window %}target="_blank"{% endif %}>
+							{% if notification.level == 4 %}
+								{% trans 'Access the task' %}
+							{% else %}
+								{% trans 'Realize the task' %}
+							{% endif %}
+						</a>
+
+						{% if notification.level < 3 %}
+							<button class="btn btn-default no_button">{% trans 'or' %}</button>
+							<button class="btn btn-default btn-raised" data-toggle="popover" data-placement="right">
+								{% if notification.level == 1 %}
+									{% trans 'Define goal to realization' %}
+								{% else %}
+									{% trans 'Define new goal' %}
+								{% endif %}
+							</button>
+
+							<div class="popover">
+	              				<div class="popover-content">
+									<form action="{% url 'notifications:set_goal' %}" role="form" method="post">
+										{% csrf_token %}
+		  								<div style="overflow:hidden;">
+										    <div class="form-group">
+										        <div class="row">
+										            <div class="col-md-12">
+										                <div class="datetimepicker"></div>
+										                <input type="hidden" name="id" value="{{ notification.id }}">
+										            </div>
+										        </div>
+										    </div>
+										</div>
+									</form>
+	              				</div>
+	              				<div class="popover-footer">
+	              					<button type="button" class="btn btn-raised btn-sm btn-success save pull-left">
+	              						{% trans 'Save Goal' %}
+	          						</button>
+	              					<button type="button" class="btn btn-default btn-sm btn-raised cancel pull-right">
+	              						{% trans 'Cancel' %}
+	          						</button>
+	      						</div>
+	  						</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endfor %}

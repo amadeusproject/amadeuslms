@@ -1,0 +1,36 @@
+{% extends 'subjects/view.html' %}
+
+{% load static i18n django_bootstrap_breadcrumbs %}
+
+{% block style %}
+	{{block.super}}
+	<link rel="stylesheet" type="text/css" href="{% static "css/bootstrap-tagsinput.css" %}">
+{% endblock %}
+
+{% block javascript %}
+	{{block.super}}
+	<script type="text/javascript" src="{% static "js/bootstrap-tagsinput.js" %} "></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+	{{ block.super }}
+
+	{% breadcrumb topic 'subjects:topic_view' topic.subject.slug topic.slug %}
+	
+	{% trans 'Edit: ' as bread %}
+	{% with bread|add:webpage.name as bread_slug %}
+		{% breadcrumb bread_slug 'webpages:update' topic.slug webpage.slug %}
+	{% endwith %}
+{% endblock %}
+
+{% block content %}
+	<div class="card">
+		<div class="card-content">
+			<div class="card-body">
+				{% include 'webpages/_form.html' %}
+			</div>
+		</div>
+	</div>
+	<br clear="all" />
+	<br clear="all" />
+{% endblock %}

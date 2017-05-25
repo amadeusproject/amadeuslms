@@ -1,0 +1,33 @@
+{% load static i18n permission_tags %}
+
+<!-- Modal (remember to change the ids!!!) -->
+<div class="modal fade" id="subject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <!-- Put ONLY your content here!!!  -->
+		<form id="delete_form" action="" method="post">
+		  {% csrf_token %}
+		    <p>{% trans 'Are you sure you want to delete the subject' %} "{{subject.name}}"?</p>
+		</form>
+      </div>
+      <!-- Modal Footer -->
+      <div id="delete-category-footer" class="modal-footer">
+        <!-- Don't remove that!!!  -->
+        <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">{% trans "CLOSE" %}</button>
+        <button type="submit" id="button" form="delete_form" class="btn btn-success btn-raised erase-button">{% trans "DELETE" %}</button>
+
+        {% if index %}
+        <script>
+          $("#delete_form").submit(function(event) {
+            RemoveSubject.remove("{% url 'subjects:delete' subject.slug %}",$(this).serialize(),"#subject_{{subject.slug}}");
+            event.preventDefault();
+          });
+        </script>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,230 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-12 11:56-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: forms.py:27
+msgid "Tags"
+msgstr ""
+
+#: forms.py:28
+msgid "Website URL"
+msgstr ""
+
+#: forms.py:34
+msgid "Link name"
+msgstr ""
+
+#: forms.py:35
+msgid "End View"
+msgstr ""
+
+#: forms.py:36
+msgid "End View Date"
+msgstr ""
+
+#: forms.py:64
+msgid "There is already a link with this name on this subject"
+msgstr ""
+
+#: models.py:13
+msgid "Link_URL"
+msgstr ""
+
+#: models.py:33 templates/links/delete.html:12
+msgid "Are you sure you want delete the Website link"
+msgstr ""
+
+#: templates/links/_form.html:112
+msgid "Pendencies Notifications"
+msgstr ""
+
+#: templates/links/_form.html:130
+msgid "Action not performed by the user"
+msgstr ""
+
+#: templates/links/_form.html:156
+msgid "Wished period"
+msgstr ""
+
+#: templates/links/_form.html:252
+msgid "Attribute students to file link"
+msgstr ""
+
+#: templates/links/_form.html:272
+msgid "Attribute groups to file link"
+msgstr ""
+
+#: templates/links/_form.html:320
+msgid "Save"
+msgstr ""
+
+#: templates/links/create.html:20
+msgid "Create Website Link"
+msgstr ""
+
+#: templates/links/delete.html:18 templates/links/send_message.html:62
+msgid "Close"
+msgstr ""
+
+#: templates/links/delete.html:19
+msgid "Delete"
+msgstr ""
+
+#: templates/links/relatorios.html:17 templates/links/relatorios.html:37
+msgid "User"
+msgstr ""
+
+#: templates/links/relatorios.html:17 templates/links/relatorios.html:37
+msgid "Group"
+msgstr ""
+
+#: templates/links/relatorios.html:17
+msgid "Action"
+msgstr ""
+
+#: templates/links/relatorios.html:17
+msgid "Date of Action"
+msgstr ""
+
+#: templates/links/relatorios.html:37
+msgid "Send message"
+msgstr ""
+
+#: templates/links/relatorios.html:37
+msgid "Action don't realized"
+msgstr ""
+
+#: templates/links/relatorios.html:153 templates/links/relatorios.html:175
+msgid "Reports"
+msgstr ""
+
+#: templates/links/relatorios.html:182
+msgid "Report of the resource "
+msgstr ""
+
+#: templates/links/relatorios.html:191
+msgid "Select the period: "
+msgstr ""
+
+#: templates/links/relatorios.html:200
+msgid "Search"
+msgstr ""
+
+#: templates/links/relatorios.html:224
+msgid "Filter: "
+msgstr ""
+
+#: templates/links/relatorios.html:248 templates/links/relatorios.html:333
+msgid "record(s)"
+msgstr ""
+
+#: templates/links/send_message.html:38
+msgid "Click or drop the picture here"
+msgstr ""
+
+#: templates/links/send_message.html:40
+msgid "The picture could not exceed 5MB."
+msgstr ""
+
+#: templates/links/send_message.html:63
+msgid "Send"
+msgstr ""
+
+#: templates/links/update.html:20
+msgid "Edit: "
+msgstr ""
+
+#: views.py:67 views.py:80 views.py:264 views.py:266 views.py:282 views.py:284
+msgid "Visualize"
+msgstr ""
+
+#: views.py:142
+msgid "Create Webiste Link"
+msgstr ""
+
+#: views.py:153
+#, python-format
+msgid ""
+"The  Link \"%s\" was added to the Topic \"%s\" of the virtual environment "
+"\"%s\" successfully!"
+msgstr ""
+
+#: views.py:181
+#, python-format
+msgid ""
+"The Website Link \"%s\" was removed successfully from virtual environment "
+"\"%s\"!"
+msgstr ""
+
+#: views.py:330
+msgid "Update Website Link"
+msgstr ""
+
+#: views.py:341
+#, python-format
+msgid "The Website Link \"%s\" was updated successfully!"
+msgstr ""
+
+#: views.py:385
+msgid "Links Reports"
+msgstr ""
+
+#: views.py:404
+msgid "Realized"
+msgstr ""
+
+#: views.py:404
+msgid "Unrealized"
+msgstr ""
+
+#: views.py:404
+msgid "Historic"
+msgstr ""
+
+#: views.py:419 views.py:427
+msgid "View"
+msgstr ""
+
+#: views.py:428
+msgid "Links"
+msgstr ""
+
+#: views.py:433
+msgid "Actions about resource"
+msgstr ""
+
+#: views.py:434
+msgid "Quantity"
+msgstr ""
+
+#: views.py:481
+msgid "[Photo]"
+msgstr ""
+
+#: views.py:493
+#, python-format
+msgid "Last message in %s"
+msgstr ""
+
+#: views.py:502
+msgid "The message was successfull sent!"
+msgstr ""
+
+#: views.py:504
+msgid "No user selected!"
+msgstr ""

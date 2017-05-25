@@ -1,0 +1,147 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-17 16:27-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\templates\dashboards\category.html:18
+msgid "Analytics Category"
+msgstr "Análise de Categoria"
+
+#: .\templates\dashboards\category.html:31
+#: .\templates\dashboards\general.html:30
+msgid "Platform Report"
+msgstr "Report da Plataforma"
+
+#: .\templates\dashboards\category.html:36
+#: .\templates\dashboards\category.html:48
+#: .\templates\dashboards\general.html:33
+msgid "Category Report"
+msgstr "Report da Categoria"
+
+#: .\templates\dashboards\category.html:39
+#: .\templates\dashboards\general.html:36
+msgid "Subject Report"
+msgstr "Report do Assunto"
+
+#: .\templates\dashboards\category.html:56
+#: .\templates\dashboards\general.html:49
+msgid "Focus"
+msgstr "Destaques"
+
+#: .\templates\dashboards\category.html:59
+#: .\templates\dashboards\general.html:52
+msgid "Log"
+msgstr "Log"
+
+#: .\templates\dashboards\category.html:69
+#: .\templates\dashboards\general.html:62
+msgid "most used tags"
+msgstr "tags mais usadas"
+
+#: .\templates\dashboards\general.html:18
+msgid "Dashboards General"
+msgstr "Dashboards Geral"
+
+#: .\templates\dashboards\general.html:45
+msgid "Amadeus Report"
+msgstr "Report do Amadeus"
+
+#: .\templates\dashboards\general.html:72
+msgid "Most accessed "
+msgstr "Mais acessadas"
+
+#: .\templates\dashboards\general.html:77
+msgid "Categories"
+msgstr "Categorias"
+
+#: .\templates\dashboards\general.html:81
+msgid "Subjects"
+msgstr "Assuntos"
+
+#: .\templates\dashboards\general.html:85
+msgid "Resource"
+msgstr "Recursos"
+
+#: .\templates\dashboards\general.html:93
+msgid "Most active users"
+msgstr "Usuários mais ativos"
+
+#: .\templates\dashboards\general.html:99
+msgid "Amount of access in: "
+msgstr "Quantidade de acessos em: "
+
+#: .\templates\dashboards\general.html:114
+msgid "Select the begin of the week: "
+msgstr "Selecione o dia da semana: "
+
+#: .\views.py:36
+msgid "January"
+msgstr "Janeiro"
+
+#: .\views.py:36
+msgid "February"
+msgstr "Fevereiro"
+
+#: .\views.py:36
+msgid "March"
+msgstr "Março"
+
+#: .\views.py:36
+msgid "April"
+msgstr "Abril"
+
+#: .\views.py:36
+msgid "May"
+msgstr "Maio"
+
+#: .\views.py:36
+msgid "June"
+msgstr "Junho"
+
+#: .\views.py:36
+msgid "July"
+msgstr "Julho"
+
+#: .\views.py:36
+msgid "August"
+msgstr "Agosto"
+
+#: .\views.py:37
+msgid "September"
+msgstr "Setembro"
+
+#: .\views.py:37
+msgid "October"
+msgstr "Outubro"
+
+#: .\views.py:37
+msgid "November"
+msgstr "Novembro"
+
+#: .\views.py:37
+msgid "December"
+msgstr "Dezembro"
+
+#~ msgid "Most accessed categories"
+#~ msgstr "Categorias mais acessadas"
+
+#~ msgid "Most accessed subjects"
+#~ msgstr "Assuntos mais acessados"
+
+#~ msgid "Most accessed resource"
+#~ msgstr "Recursos mais acessados"

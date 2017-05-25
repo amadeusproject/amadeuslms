@@ -1,0 +1,130 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-15 00:13-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: pendencies/forms.py:49 pendencies/forms.py:52 pendencies/forms.py:55
+#: pendencies/forms.py:128 pendencies/forms.py:131 pendencies/forms.py:134
+#: pendencies/forms.py:137
+msgid "This field is required."
+msgstr "Esse campo é obrigatório."
+
+#: pendencies/forms.py:60 pendencies/forms.py:142
+msgid "This input should be filled with a date equal or before the End Date."
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou anterior à Data Final."
+
+#: pendencies/forms.py:61 pendencies/forms.py:143 pendencies/forms.py:149
+msgid "This input should be filled with a date equal or after the Begin Date."
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou posterior à Data "
+"Inicial."
+
+#: pendencies/forms.py:68 pendencies/forms.py:78 pendencies/forms.py:162
+#: pendencies/forms.py:172 pendencies/forms.py:182
+msgid "This input should be filled with a date equal or after today's date."
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou posterior à data atual."
+
+#: pendencies/forms.py:71 pendencies/forms.py:81 pendencies/forms.py:165
+#: pendencies/forms.py:175 pendencies/forms.py:185
+#, python-format
+msgid ""
+"This input should be filled with a date equal or after the subject begin "
+"date.(\"%s\")"
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou posterior à data "
+"inicial do assunto.(\"%s\")"
+
+#: pendencies/forms.py:74 pendencies/forms.py:84 pendencies/forms.py:168
+#: pendencies/forms.py:178 pendencies/forms.py:188
+#, python-format
+msgid ""
+"This input should be filled with a date equal or before the subject end date."
+"(\"%s\")"
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou anterior à data final "
+"do assunto.(\"%s\")"
+
+#: pendencies/forms.py:148 pendencies/forms.py:154
+msgid "This input should be filled with a date equal or before the Limit Date."
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou anterior à Data Final."
+
+#: pendencies/forms.py:155
+msgid "This input should be filled with a date equal or after the End Date."
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou posterior à Data "
+"Inicial."
+
+#: pendencies/forms.py:196 pendencies/forms.py:200 pendencies/forms.py:204
+#, python-format
+msgid ""
+"This input should be filled with a date equal or before the goals submission "
+"limit date.(\"%s\")"
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou anterior à data final "
+"do assunto.(\"%s\")"
+
+#: pendencies/models.py:8
+msgid "Action"
+msgstr "Ação"
+
+#: pendencies/models.py:8
+msgid "Visualize"
+msgstr "Visualizar"
+
+#: pendencies/models.py:8
+msgid "Create"
+msgstr "Criar"
+
+#: pendencies/models.py:8
+msgid "Answer"
+msgstr "Responder"
+
+#: pendencies/models.py:8
+msgid "Access"
+msgstr "Acessar"
+
+#: pendencies/models.py:8
+msgid "Participate"
+msgstr "Participar"
+
+#: pendencies/models.py:8
+msgid "Finish"
+msgstr "Fim"
+
+#: pendencies/models.py:8
+msgid "Submit"
+msgstr "Enviar"
+
+#: pendencies/models.py:9
+msgid "Begin Date"
+msgstr "Data Inicial"
+
+#: pendencies/models.py:10
+msgid "End Date"
+msgstr "Data Final"
+
+#: pendencies/models.py:11
+msgid "Limit Date"
+msgstr "Data Limite"
+
+#: pendencies/models.py:12
+msgid "Resource"
+msgstr "Recurso"

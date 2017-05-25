@@ -1,0 +1,9 @@
+{% load permissions_tags %}
+
+{% for subject in subjects %}
+	{% subject_view_permissions request.user subject as has_subject_view_permissions %}
+    
+    {% if all or has_subject_view_permissions %}
+        {% include "subjects/subject_card.html" with subject=subject %}
+    {% endif %}
+{% endfor %}

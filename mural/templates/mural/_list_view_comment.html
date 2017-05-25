@@ -1,0 +1,18 @@
+{% for comment in comments reversed %}
+    {% include 'mural/_view_comment.html' %}
+{% endfor %}
+
+<script type="text/javascript">
+	$(function () {
+		var section = $("#post-{{ post_id }}").find('.comment-section'),
+			pageNumber = "{{ page_obj.number }}",
+			totalPages = "{{ paginator.num_pages }}";
+
+		section.data('page', pageNumber);
+		section.data('pages', totalPages);
+
+		if (pageNumber == totalPages) {
+			section.find('.load-btn').hide();
+		}
+	});
+</script>

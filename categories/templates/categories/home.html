@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% load static i18n django_bootstrap_breadcrumbs permission_tags %}
+
+{% block breadcrumbs %}
+    {% clear_breadcrumbs %}
+    {% breadcrumb 'Home' 'subjects:home' %}
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/multi-select.css" %}">
+{% endblock style %}
+
+{% block javascript %}
+    {{super.block}}
+    <script src="{% static "js/jquery.multi-select.js" %} " type="text/javascript"></script>
+    <script type="text/javascript" src="{% static "js/quicksearch.js" %}"></script>
+{% endblock javascript %}
+
+{% block render_breadcrumbs %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+{% block content %}
+    {% if user|has_role:'system_admin' %}
+        <h3>{% trans 'categories' %}</h3>
+        <div id="timeline">
+            {% include page_template %}
+        </div>
+    {% else %}
+        <div id="timeline">
+            {% include page_template %}
+        </div>
+    {% endif %}
+
+    <div id="loading" class="alert alert-primary" role="alert" style="display: none">
+        <center>
+            <span class="fa fa-spin fa-circle-o-notch"></span>
+        </center>
+    </div>
+{% endblock %}

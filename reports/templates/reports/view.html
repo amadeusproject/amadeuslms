@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs %}
+{% load widget_tweaks %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb subject.category 'subjects:cat_view' subject.category.slug %}
+    {% breadcrumb subject 'subjects:view' subject.slug %}
+    {% breadcrumb 'Analytics' '' %}
+{% endblock %}
+
+{% block content %}
+
+	{% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+	<div class="panel panel-info topic-panel">
+            <div class="panel-heading" id="analytics-panel">
+            	<div class="row">
+                    <div class="col-md-12 category-header">
+                        <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
+                            <span>{% trans "Analytics" %}</span>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <div id="core-subjects-options-div">
+        <ul class="core-subjects-options report-menu-choice">
+        	<li class="active">
+        		{% trans "Interaction Data" %}
+        	</li>
+        	<li>
+        		{% trans "Report Card" %}
+        	</li>
+        	<li>
+        		{% trans "Participation" %}
+        	</li>
+        </ul>
+    </div>
+
+    <div class="col-md-12">
+    	<ul id="report-header">
+    		<li><b>{% trans "Subject" %}:</b> {{subject_name}}</li>
+    		<li><b>{% trans "Topic" %}:</b> {{topic_name}}</li>
+    		<li><b>{% trans "Initial Date" %}:</b> {{init_date}}</li>
+    		<li><b>{% trans "End Date" %}:</b> {{end_date}}</li>
+    		<li><a href="{% url 'subjects:reports:create_interaction' %}?subject_id={{subject.id}}"><button class="btn btn-success btn-raised">{% trans "new search" %}</button></a></li>
+
+    	</ul>
+
+    <div>
+    	<ul id="report-info">
+    		<li> {{data.values|length}} {% trans "register(s)" %} </li>
+    		<li>
+    			<a href="{% url 'subjects:reports:download_report_csv' %}"><i class="fa fa-download" aria-hidden="true"></i> {% trans "Interactions Data (.csv)" %}</a>
+
+
+    		</li>
+            <li><a href="{% url 'subjects:reports:download_report_xls' %}"><i class="fa fa-download" aria-hidden="true"></i> {% trans "Interactions Data (.xls)" %}</a></li>
+    	</ul>
+    	
+
+    </div>
+    <div class="table-responsive">
+    	<table class="table table-striped">
+    	<thead>
+    		<tr>	
+    		
+	    	{% for value in header  %}
+	    		<th>{{value}}</th>
+	    	{% endfor %}
+    		</tr>
+    	</thead>
+    	<tbody>
+    		
+
+    		{% for variables in data.values  %}
+    		<tr>
+    			{% for variable in variables %}
+    				<td>{{variable}}</td>
+    			{% endfor %}
+    		</tr>
+    		{% endfor %}
+    	</tbody>
+
+    	</table>
+    </div>
+    </div>
+
+
+{% endblock content %}

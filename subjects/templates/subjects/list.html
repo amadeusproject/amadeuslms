@@ -1,0 +1,204 @@
+{% extends 'categories/home.html' %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs subject_counter category_counters %}
+
+{% block javascript%}
+    {{ block.super }}
+    <script type="text/javascript" src=" {% static 'subjects/js/modal_subject.js' %} "></script>
+{% endblock%}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% if all %}
+        {% breadcrumb  "All Subjects" 'subjects:index' %}
+    {% else %}
+        {% breadcrumb  "My Subjects" 'subjects:index' %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <script type="text/javascript">
+                {% if message.tags == "danger" %}
+                    alertify.error('{{message}}');
+                {% else %}
+                    alertify.success('{{message}}');
+                {% endif %}
+            </script>
+        {% endfor %}
+    {% endif %}
+
+    <div id="core-subjects-options-div">
+        <ul class="core-subjects-options">
+            {% if all %}
+                <a href="{% url 'subjects:index' %}"><li >{% trans "My subjects" %} ({{ totals.my_subjects }})</li></a>
+                <a href="{% url 'subjects:index' 'all' %}" ><li class="active">{% trans "All subjects" %} ({{ totals.all_subjects }})</li></a>
+            {% else %}
+                <a href="{% url 'subjects:index' %}"><li class="active">{% trans "My subjects" %} ({{ totals.my_subjects }})</li></a>
+                <a href="{% url 'subjects:index' 'all' %}" ><li>{% trans "All subjects" %} ({{ totals.all_subjects }})</li></a>
+            {% endif %}
+
+        </ul>
+    </div>
+
+    <!-- Code for listing categories -->
+    <div class="col-md-12 cards-content">
+        {% if categories|length > 0 %}
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                {% for category in categories  %}
+                    {% if category.visible %}
+                        <div class="panel panel-info category-panel">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-12 category-header">
+                                        <h4 class="panel-title">
+                                            <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{category.slug}}_category">
+                                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{ category.name }}
+
+                                                {% if not all %}
+                                                    ({{ category|subject_count:user }})
+                                                {% else %}
+                                                    ({{ category.subject_category.count }})
+                                                {% endif %}
+                                            </a>
+                                        </h4>
+
+                                        <div class="col-md-5 pull-right category-card-items">
+                                            {% if request.user.is_staff or user in category.coordinators.all %}
+                                                <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                </a>
+                                                <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                                                    {% if request.user.is_staff %}
+                                                        <li><a href="{% url 'categories:replicate' category.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i> {% trans 'Replicate' %}</a></li>
+                                                    {% endif %}
+                                                    <li><a href="{% url 'categories:update' category.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> {% trans 'Edit' %}</a></li>
+                                                    <li>
+                                                    <a href="javascript:delete_course.get('{% url 'categories:delete' category.slug %}?view=index','#category','#modal_course')" aria-hidden="true"><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>
+                                                </ul>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="{{category.slug}}_category" class="panel-collapse panel-body collapse category-panel-content">
+                                <input type="hidden" class="log_url" value="{% url 'categories:view_log' category.id %}" />
+                                <input type="hidden" class="log_id" value="" />
+
+                                <input type="hidden" class="load_sub_url" value="{% url 'subjects:load_view' category.slug %}" />
+
+                                {% if category.coordinators.all|length > 0  %}
+                                    <h4><b>{% trans "Coordinator(s) " %}: </b>
+                                        {{ category.coordinators.all|join:', ' }}
+                                    </h4>
+                                {% else %}
+                                    <h4> {% trans "It doesn't possess coordinators" %} </h4>
+                                {% endif %}
+
+                                {{category.description|safe}}
+
+                                {% if request.user in category.coordinators.all or request.user.is_staff %}
+                                    <a href="{% url 'subjects:create' category.slug %}" class="btn btn-raised btn-success btn-block btn-sm">{% trans "Create new subject" %}</a>
+                                {% endif %}
+
+                                <div class="panel-group subject-group" id="{{ category.slug }}_category-accordion" role="tablist" aria-multiselectable="true">
+
+                                </div>
+                                <div class="holder text-center"></div>
+                            </div>
+                        </div>
+                    {% elif request.user in category.coordinators.all or request.user.is_staff %}
+                        <div class="panel  special-panel">
+                            <div class="panel-heading panel-invisible">
+                                <div class="row">
+                                    <div class="col-md-12 category-header">
+                                        <h4 class="panel-title">
+                                            <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{category.slug}}_category">
+                                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{category.name}}
+
+                                                {% if not all %}
+                                                    ({{ category|subject_count:user }})
+                                                {% else %}
+                                                    ({{ category.subject_category.count }})
+                                                {% endif %}
+                                            </a>
+                                        </h4>
+
+                                        <div class="col-md-5 pull-right category-card-items">
+                                             {% if request.user.is_staff or user in category.coordinators.all %}
+                                                <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                </a>
+                                                <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                                                    {% if request.user.is_staff %}
+                                                        <li><a href="{% url 'categories:replicate' category.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i> {% trans 'Replicate' %}</a></li>
+                                                    {% endif %}
+                                                    <li><a href="{% url 'categories:update' category.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> {% trans 'Edit' %}</a></li>
+                                                    <li><a href="javascript:delete_course.get('{% url 'categories:delete' category.slug %}?view=index','#category','#modal_course')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>
+                                                </ul>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="{{category.slug}}_category" class="panel-collapse panel-body collapse category-panel-content">
+                                <input type="hidden" class="log_url" value="{% url 'categories:view_log' category.id %}" />
+                                <input type="hidden" class="log_id" value="" />
+
+                                <input type="hidden" class="load_sub_url" value="{% url 'subjects:load_view' category.slug %}" />
+
+                                {% if category.coordinators.all|length > 0  %}
+                                    <h4><b>{% trans "Coordinator(s) " %}: </b>
+                                        {{ category.coordinators.all|join:', ' }}
+                                    </h4>
+                                {% else %}
+                                    <h4> {% trans "It doesn't possess coordinators" %} </h4>
+                                {% endif %}
+
+                                {{category.description|safe}}
+
+                                {% if request.user in category.coordinators.all or request.user.is_staff %}
+                                    <a href="{% url 'subjects:create' category.slug %}" class="btn btn-raised btn-success btn-block btn-sm">{% trans "Create new subject" %}</a>
+                                {% endif %}
+
+                                <div class="panel-group subject-group" id="{{ category.slug }}_category-accordion" role="tablist" aria-multiselectable="true">
+
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {% pagination request paginator page_obj %}
+            </div>
+        {% else %}
+            <div class="text-center no-subjects">
+                <i class="fa fa-graduation-cap"></i>
+                <h4>{% trans 'You still do not posses any subject in our platform' %}</h4>
+            </div>
+        {% endif %}
+    </div>
+    <div id="modal_course">
+    </div>
+
+    <div id="modal_subject"></div>
+
+    <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
+    <script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
+    <script type="text/javascript">
+        $(function (){
+            var cat_slug = "{{ cat_slug }}_category"
+
+            if (cat_slug != "") {
+                $("#" + cat_slug).collapse('show');
+
+                $('html, body').animate({
+                    scrollTop: $("#" + cat_slug).parent().offset().top
+                }, 1000);
+            }
+        });
+    </script>
+{% endblock %}

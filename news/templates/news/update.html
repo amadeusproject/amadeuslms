@@ -1,0 +1,25 @@
+{% extends 'news/list.html' %}
+
+{% load widget_tweaks static i18n django_bootstrap_breadcrumbs permission_tags pagination %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% trans 'Update News' as update_news %}
+    {% breadcrumb  update_news 'news:update' %}
+{% endblock %}
+
+{% block render_breadcrumbs %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+{% block content %}
+<div class="card card-content">
+    <div class="card-body">
+      {% include 'news/_form.html' %}
+  </div>
+</div>
+<br clear="all">
+<br clear="all">
+
+<script src="{% static 'js/crop_news.js' %}"></script> <!-- Js for cropper-->
+{% endblock %}

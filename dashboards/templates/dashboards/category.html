@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboards/css/general.css' %}">  
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboards/css/dashboards_category.css' %}">
+{% endblock style %}
+
+{% block javascript %}
+    <script type="text/javascript" src="{% static "analytics/js/charts.js" %}"></script>
+    <script type="text/javascript" src="{% static "dashboards/js/behavior_categories.js" %}"></script>
+{% endblock javascript %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    
+    {% trans 'Analytics Category' as category %}
+
+    {% breadcrumb category 'dashboard:view_general' %}
+
+{% endblock %}
+
+
+{% block content %}
+	 <section id="core-subjects-options-div">
+        <nav>
+            <ul class="core-subjects-options report-menu-choice">
+                    {% if user.is_staff %}
+                          <a href="{% url 'dashboards:view_general' %}"><li>
+                        {% trans "Platform Report" %}
+                            </li></a>
+                    {% endif %}
+                  
+                   <a href="{% url 'dashboards:view_categories' %}"><li class="active">
+                        {% trans "Category Report" %}
+                    </li></a> 
+                    <li>
+                        {% trans "Subject Report" %}
+                    </li>
+              
+            </ul>
+        </nav>
+    </section>
+
+    <section id="general-report">
+        <header id="general-report-header">
+            <h3>{{category.name}} {% trans "Category Report" %}</h3>
+            <select id="category-selector">
+                {% for category in categories %}
+                    <option value="{{category.id}}">{{category.name}}</option>
+                {% endfor %}
+            </select>
+            <ul id="report-header-options">
+                <li  class="selected">
+                    {% trans "Focus" %}
+                </li>
+                <li>
+                    {% trans "Log" %}
+                </li>
+            </ul>
+        </header> 
+
+        <article class="report-body">
+
+            <section id="most-used-tags">
+                <header id="most-used-tags-header">
+                    <h4 >
+                        {% trans "most used tags" %}
+                    </h4>
+                </header>
+                <div id="most-used-tags-body">
+                    
+                </div>
+            </section>
+        </article>
+    </section>
+{% endblock content %}

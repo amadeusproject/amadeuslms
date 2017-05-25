@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% load static i18n django_bootstrap_breadcrumbs permission_tags pagination %}
+
+{% block breadcrumbs %}
+  {{ block.super }}
+  {% if user.is_staff %}
+    {% trans 'Manage News' as manage_news %}
+    {% breadcrumb  manage_news 'news:manage_news' %}
+  {% else %}
+    {% trans 'News' as news %}
+    {% breadcrumb  news 'news:manage_news' %}
+  {% endif %}
+{% endblock %}
+
+
+{% block render_breadcrumbs %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <script type="text/javascript">
+            {% if message.tags == "danger" %}
+                alertify.error('{{message}}');
+            {% else %}
+                alertify.success('{{message}}');
+            {% endif %}
+        </script>
+    {% endfor %}
+{% endif %}
+
+<div class="row">
+    <div class="col-md-9">
+        <form action="{% url 'news:search' %}" method="GET" class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-11 col-sm-11 col-xs-11">
+                    <input type="text" class="form-control" name="search" placeholder="{% trans 'Search by title, author or date' %}" />
+                </div>
+                <div class="col-md-1 col-sm-1 col-xs-1">
+                    <button type="submit" class="btn btn-fab btn-fab-mini">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% if user.is_staff %}
+    <div class="col-md-3">
+        <a href="{% url 'news:create' %}" class="pull-right btn btn-success btn-raised btn-md"><i class="fa fa-plus"></i> {% trans 'Create News' %}</a>
+    </div>
+    {% endif %}
+</div>
+
+{% if news %}
+    {% for new in news %}
+        <div class="row-fluid panel panel-default">
+            <div class="panel-body">
+                <div class="col-md-6">
+                    <a href="{% url 'news:view' new.slug %}"><h3> <b>{{ new }}</b> </h3></a>
+                    <p>{{ new.creator}}, em {{ new.create_date }}</p>
+                </div>
+                {% if user.is_staff %}
+                <div class="col-md-6">
+                    <div align="right">
+                        <a href="{% url 'news:update' new.slug %}" class="btn btn-success btn-raised btn-sm"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
+                        <a href="javascript:delete_news.get('{% url 'news:delete' new.slug %}','#news','#modal_remove')" class="btn btn-default btn-raised btn-sm" class="btn btn-default btn-raised btn-sm"><i class="fa fa-trash"></i> {% trans 'Delete' %}</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+    {% endfor %}
+    {% pagination request paginator page_obj %}
+{% else %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <p>{% trans 'No news found' %}</p>
+        </div>
+    </div>
+{% endif %}
+<div id="modal_remove">
+
+</div>
+<script type="text/javascript">
+var delete_news = {
+  get: function (url, id_modal, id_div_modal){
+    $.get(url, function(data){
+      if($(id_modal).length){
+        $(id_div_modal).empty();
+        $(id_div_modal).append(data);
+      } else {
+        $(id_div_modal).append(data);
+      }
+      $(id_modal).modal('show');
+    });
+  }
+};
+
+</script>
+
+<script src="{% static 'js/crop_news.js' %}"></script> <!-- Js for cropper-->
+{% endblock %}

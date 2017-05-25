@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% load static i18n %}
+{% load widget_tweaks %}
+
+{% block nav %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block sidebar %}
+{% endblock sidebar %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1">
+            <img src="{{ theme.large_logo_url }}" class="img-responsive center-block logo-login " alt="logo amadeus">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-1 col-lg-9 col-md-9 col-sm-10">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <p>{{ message }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="card">
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                            <h2 class="outside-title"><strong> {% trans 'Sign in with your account to continue' %} </strong></h2>
+                        </div>
+                    </div>
+
+                    <form id="form-login" method="post" action="">
+                        {% csrf_token %}
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1">
+                            <div class="form-group">
+                                <input form="form-login" for="inputSmall" type="text" name="email" class="form-control" placeholder="{% trans 'Email' %}" id="inputEmail" value="{% if username %}{{username}}{% endif %}">
+                            </div>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1">
+                            <div class="form-group">
+                                <input form="form-login" for="inputSmall" type="password" name="password" class="form-control" id="inputPassword" placeholder="{% trans 'Password' %}">
+                            </div>
+                        </div>
+
+                    </form>
+
+
+                    <div class="row">
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1">
+                            {% if not deny_register %}
+                                <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 text-center">
+                                    <button type="submite" class="btn btn-success btn-raised btn-block" form="form-login" style="position: initial;"> {% trans 'Log in' %} </button>
+                                </div>
+                                <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 text-center">
+                                    <a class="btn btn-default btn-raised btn-block" href="{% url 'users:signup' %}" formaction="#" style="position: initial;">{% trans 'Sign Up' %}</a>
+                                </div>
+                            {% else %}
+                                <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 col-lg-offset-3 col-md-offset-3 col-sm-offset-3 col-xs-offset-3 text-center">
+                                    <button type="submite" class="btn btn-success btn-raised btn-block" form="form-login" style="position: initial;"> {% trans 'Log in' %} </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+
+
+                        {% if not deny_register %}
+                            <div class="col-sm-offset-1 col-md-10 col-lg-10 col-sm-10 col-xs-12">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right forgotPassword">
+                                    <a class="pull-right" href="{% url 'users:forgot_pass' %}">{% trans 'Forgot your password?' %}</a>
+                                    <li class="dropdown language-selector pull-right " style="margin-top:1px;margin-right:10px;">
+                                        {% get_current_language as LANGUAGE_CODE %}
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
+
+
+                                           <span >[{{LANGUAGE_CODE}}]  </span>
+
+                                        </a>
+                                        <a href="{% url 'themes:contrast' %}" id = "contrast_button" style="margin-left:10px;"><i class="glyphicon glyphicon-adjust"></i></a>
+                                        <ul class="dropdown-menu">
+
+
+                                            {% get_available_languages as LANGUAGES %}
+                                            {% get_language_info_list for LANGUAGES as languages %}
+                                            {% for language in languages %}
+
+                                                <li {% if language.code == LANGUAGE_CODE %}
+                                                    class="active"
+                                                {% endif %}>
+                                                    <a class="language-item" value-lang="{{language.code}}">
+                                                        <span>{{language.code}}</span>
+                                                    </a>
+                                                </li>
+
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center forgotPassword">
+                                    <a href="{% url 'users:forgot_pass' %}">{% trans 'Forgot your password?' %}</a>
+
+                                    <li class="dropdown language-selector pull-right " style="margin-top:1px;margin-right:10px;">
+                                        {% get_current_language as LANGUAGE_CODE %}
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
+
+                                          <span>[{{LANGUAGE_CODE}}]  </span>
+
+                                        </a>
+                                        <a href="{% url 'themes:contrast'%}" style="margin-left:10px;"><i class="glyphicon glyphicon-adjust"></i></a>
+                                        <ul class="dropdown-menu">
+                                            {% get_available_languages as LANGUAGES %}
+                                            {% get_language_info_list for LANGUAGES as languages %}
+                                            {% for language in languages %}
+
+                                                <li {% if language.code == LANGUAGE_CODE %}
+                                                    class="active"
+                                                {% endif %}>
+                                                    <a class="language-item" value-lang="{{language.code}}">
+                                                        <span>{{language.code}}</span>
+                                                    </a>
+                                                </li>
+
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+    $("#contrast_button" ).click(function() {
+      if (Cookies.get('contrast_check')) {
+        Cookies.remove('contrast_check')
+        //location.reload()
+      }
+      else {
+        Cookies.set('contrast_check','contrast')
+        //location.reload()
+      }
+
+    });
+</script>
+{% endblock%}
+
+{% block footer %}
+    {% if theme.footer_note != '' and theme.footer_note != '<p><br></p>' %}
+        <div class="footer">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    {% autoescape off %}
+                        {{ theme.footer_note }}
+                    {% endautoescape %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block bottommenu %}
+{% endblock %}

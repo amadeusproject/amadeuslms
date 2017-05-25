@@ -1,0 +1,36 @@
+{% load i18n goals_filters %}
+
+<div class="row">
+	<div class="col-md-12">
+		<table id="answered_table" class="table table-striped table-bordered">
+			<thead>
+				<th>
+					{% trans 'Student' %}
+				</th>
+				<th>
+					{% trans 'Group' %}
+				</th>
+				<th>
+					{% trans 'Definition Date' %}
+				</th>
+				<th>
+					{% trans 'Update Date' %}
+				</th>
+				<th>
+					{% trans 'Goals' %}
+				</th>
+			</thead>
+			<tbody>
+				{% for student in students %}
+					<tr>
+						<td>{{ student }}</td>
+						<td>{{ student|groups }}</td>
+						<td>{{ student|creation_date:goal|date:"SHORT_DATE_FORMAT" }}</td>
+						<td>{{ student|update_date:goal|date:"SHORT_DATE_FORMAT" }}</td>
+						<td>{{ student|my_goals:goal }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>

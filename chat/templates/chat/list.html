@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    
+    {% trans 'Messages' as general %}
+
+    {% breadcrumb general 'chat:manage_general' %}
+{% endblock %}
+
+{% block content %}
+	<div class="col-md-12 cards-content">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+        		<div class="panel panel-default">
+        			<div class="panel-body">
+    	    			<div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+                            <form action="{% url 'chat:participants_general' %}" method="GET" class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-md-10 col-sm-9 col-xs-10">
+                                        <input type="text" class="form-control" name="search" value="{{ search }}" placeholder="{% trans 'Search...' %}" />
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-1">
+                                        <button type="submit" class="btn btn-fab btn-fab-mini">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                            <a href="{% url 'chat:participants_general' %}" class="pull-right btn btn-default btn-raised btn-md">{% trans 'List all participants' %}</a>
+                        </div>
+    	    		</div>
+        		</div>
+
+                {% if conversations.count > 0 %}
+            		<div class="panel category-panel-content panel-body">
+                        <h2 class="my-subjects-title"><b>{% trans 'Conversations' %}</b></h2>
+
+                        <div class="talks-group">
+                            {% for chat in conversations %}
+                                {% include 'chat/_view.html' with space="0" space_type='general' %}
+                            {% endfor %}
+                        </div>
+                        
+                        {% pagination request paginator page_obj %}
+                    
+                    </div>
+                {% else %}
+        			<div class="text-center no-subjects">
+                        <i class="fa fa-envelope-o"></i>
+                        <h4>{% trans 'You do not posses messages in this space yet.' %}</h4>
+                    </div>
+                {% endif %}
+        	</div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="chat-modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+    <div class="modal fade" id="chat-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+    <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
+{% endblock %}

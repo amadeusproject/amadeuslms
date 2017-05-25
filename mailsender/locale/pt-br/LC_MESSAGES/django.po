@@ -1,0 +1,96 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-09 18:40-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: mailsender/models.py:5
+msgid "Description"
+msgstr ""
+
+#: mailsender/models.py:6
+msgid "Host name"
+msgstr ""
+
+#: mailsender/models.py:7
+msgid "Port Number"
+msgstr ""
+
+#: mailsender/models.py:8
+msgid "Username"
+msgstr ""
+
+#: mailsender/models.py:9
+msgid "Password"
+msgstr ""
+
+#: mailsender/models.py:10 mailsender/templates/mailsender/update.html:32
+msgid "Criptografy"
+msgstr ""
+
+#: mailsender/models.py:10
+msgid "No"
+msgstr ""
+
+#: mailsender/models.py:10
+msgid "SSL"
+msgstr ""
+
+#: mailsender/models.py:10
+msgid "TLS"
+msgstr ""
+
+#: mailsender/models.py:10
+msgid "TLS, if possible"
+msgstr ""
+
+#: mailsender/models.py:13
+msgid "Mail sender configuration"
+msgstr ""
+
+#: mailsender/models.py:14
+msgid "Mail sender configurations"
+msgstr ""
+
+#: mailsender/templates/mailsender/update.html:9
+msgid "Settings: Mail Sender"
+msgstr ""
+
+#: mailsender/templates/mailsender/update.html:19
+msgid "General server settings"
+msgstr ""
+
+#: mailsender/templates/mailsender/update.html:21
+msgid ""
+"If your email host is Gmail make sure to turn on the option \"Allow less "
+"secure apps\" in"
+msgstr ""
+
+#: mailsender/templates/mailsender/update.html:29
+msgid "Autentication"
+msgstr ""
+
+#: mailsender/templates/mailsender/update.html:60
+msgid "Save"
+msgstr ""
+
+#: mailsender/views.py:27
+msgid "Mail Sender configuration updated successfully!"
+msgstr ""
+
+#: mailsender/views.py:34
+msgid "Mail Sender"
+msgstr ""

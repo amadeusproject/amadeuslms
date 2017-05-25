@@ -1,0 +1,181 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-09 18:40-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: categories/forms.py:23
+msgid "There is another category with this name, try another one."
+msgstr ""
+
+#: categories/models.py:9
+msgid "Name"
+msgstr ""
+
+#: categories/models.py:10
+msgid "Slug"
+msgstr ""
+
+#: categories/models.py:11
+msgid "description"
+msgstr ""
+
+#: categories/models.py:12
+msgid "visible"
+msgstr ""
+
+#: categories/models.py:13
+msgid "coordinators"
+msgstr ""
+
+#: categories/models.py:14
+msgid "Creation Date"
+msgstr ""
+
+#: categories/models.py:15
+msgid "Modified Date"
+msgstr ""
+
+#: categories/models.py:19
+msgid "Category"
+msgstr ""
+
+#: categories/models.py:20 categories/views.py:48
+msgid "Categories"
+msgstr ""
+
+#: categories/templates/categories/_form.html:21
+msgid "Atribute coordinators role to users"
+msgstr ""
+
+#: categories/templates/categories/_form.html:62
+msgid "Save"
+msgstr ""
+
+#: categories/templates/categories/_form.html:68
+#: categories/templates/categories/_form.html:69
+msgid "try an username"
+msgstr ""
+
+#: categories/templates/categories/category_card.html:18
+#: categories/templates/categories/list.html:69
+#: categories/templates/categories/list.html:116
+msgid "Replicate"
+msgstr ""
+
+#: categories/templates/categories/category_card.html:19
+#: categories/templates/categories/home_admin_content.html:6
+#: categories/templates/categories/list.html:73
+#: categories/templates/categories/list.html:118
+msgid "Edit"
+msgstr ""
+
+#: categories/templates/categories/category_card.html:20
+#: categories/templates/categories/list.html:74
+#: categories/templates/categories/list.html:119
+msgid "Remove"
+msgstr ""
+
+#: categories/templates/categories/category_card.html:26
+msgid "Are you sure you want to subscribe to this course?"
+msgstr ""
+
+#: categories/templates/categories/category_card.html:27
+msgid "Subscribe"
+msgstr ""
+
+#: categories/templates/categories/delete.html:12
+msgid "Are you sure you want to delete the category"
+msgstr ""
+
+#: categories/templates/categories/delete.html:12
+msgid "All its data will be lost and can't be recovered"
+msgstr ""
+
+#: categories/templates/categories/delete.html:18
+msgid "Close"
+msgstr ""
+
+#: categories/templates/categories/delete.html:19
+msgid "Delete"
+msgstr ""
+
+#: categories/templates/categories/home.html:26
+msgid "categories"
+msgstr ""
+
+#: categories/templates/categories/list.html:31 categories/views.py:106
+msgid "Create Category"
+msgstr ""
+
+#: categories/templates/categories/list.html:39
+msgid "My subjects"
+msgstr ""
+
+#: categories/templates/categories/list.html:40
+msgid "all subjects"
+msgstr ""
+
+#: categories/templates/categories/list.html:88
+#: categories/templates/categories/list.html:133
+msgid "Coordinator(s) "
+msgstr ""
+
+#: categories/templates/categories/list.html:92
+#: categories/templates/categories/list.html:137
+msgid "It doesn't possess coordinators"
+msgstr ""
+
+#: categories/templates/categories/notifications_timeline.html:14
+msgid "at"
+msgstr ""
+
+#: categories/templates/categories/notifications_timeline.html:15
+msgid "ago"
+msgstr ""
+
+#: categories/templates/categories/update.html:8
+msgid "Update: "
+msgstr ""
+
+#: categories/views.py:104
+msgid "Replicate Category"
+msgstr ""
+
+#: categories/views.py:131
+#, python-format
+msgid "Category \"%s\" register successfully!"
+msgstr ""
+
+#: categories/views.py:167
+msgid ""
+"The category cannot be removed, it contains one or more virtual enviroments "
+"attach."
+msgstr ""
+
+#: categories/views.py:180
+#, python-format
+msgid "Category \"%s\" removed successfully!"
+msgstr ""
+
+#: categories/views.py:208
+#, python-format
+msgid "Category \"%s\" updated successfully!"
+msgstr ""
+
+#: categories/views.py:225
+msgid "Update Category"
+msgstr ""

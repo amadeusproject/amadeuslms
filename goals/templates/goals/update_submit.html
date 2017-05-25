@@ -1,0 +1,84 @@
+{% extends 'subjects/view.html' %}
+
+{% load static i18n pagination permissions_tags subject_counter util_tags %}
+{% load django_bootstrap_breadcrumbs %}
+{% load widget_tweaks %}
+
+{% block style %}
+	{{block.super}}
+	<link rel="stylesheet" type="text/css" href="{% static "css/bootstrap-slider.css" %}">
+{% endblock %}
+
+{% block javascript%}
+	{{ block.super }}
+	<script type="text/javascript" src="{% static "js/bootstrap-slider.js" %} "></script>
+{% endblock%}
+
+{% block breadcrumbs %}
+	{{ block.super }}
+	{% breadcrumb topic 'subjects:topic_view' subject.slug topic.slug %}
+	{% breadcrumb goals 'goals:view' goals.slug %}
+	
+	{% trans 'Update My Goals' as bread %}
+	{% breadcrumb bread 'goals:update_submit' goals.slug %}
+{% endblock %}
+
+{% block content %}
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<p>{{ message }}</p>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+	{% resource_permissions request.user goals as has_resource_permissions %}
+
+    {% if goals.visible %}
+		<div class="panel panel-info topic-panel">
+        	<div class="panel-heading">
+	{% elif has_resource_permissions %}
+		<div class="panel panel-info topic-panel-invisible">
+        	<div class="panel-heading panel-invisible">
+    {% endif %}
+				<div class="row">
+					<div class="col-md-12 category-header">
+						<h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
+							<span>{{ goals }}</span>
+						</h4>
+
+						<div class="col-md-5 pull-right category-card-items">
+							<a href="{% url 'mural:resource_view' goals.slug %}" class="pull-right action_icon">
+								<i class="fa fa-list" aria-hidden="true"></i>
+								{% resource_mural_number goals request.user %}
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
+				{% autoescape off %}
+					{{ goals.presentation }}
+				{% endautoescape %}
+
+				<br clear="all" />
+
+				<b>{% trans "Limit submission date" %}:</b> {{ goals.limit_submission_date }}
+
+				<hr class="goal_divider" />
+
+				{% include "goals/_form_submit.html" %}
+			</div>
+		</div>
+
+	<script type="text/javascript">
+		$(function () {
+			$(".slider_value").bootstrapSlider({
+				tooltip: 'always',
+			});
+		});
+	</script>
+{% endblock %}

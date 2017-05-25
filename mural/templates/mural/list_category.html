@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% load static i18n pagination permissions_tags mural_filters %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    
+    {% trans 'Mural: Per Category' as category %}
+
+    {% breadcrumb category 'mural:manage_category' %}
+{% endblock %}
+
+{% block content %}
+    <input type="hidden" value="{% url 'mural:manage_category' %}" class="mural_url" />
+
+    <div id="core-subjects-options-div">
+        <ul class="core-subjects-options mural-tabs">
+            <a href="{% url 'mural:manage_general' %}"><li data-mural="general">{% trans "General" %} (<span>{{ totals.general }}</span>)</li></a>
+            <a href="{% url 'mural:manage_category' %}"><li data-mural="categories" class="active">{% trans "Per Category" %} (<span class="ung_badge">{{ totals.category }}</span>)</li></a>
+            <a href="{% url 'mural:manage_subject' %}"><li data-mural="subjects">{% trans "Per Subject" %} (<span>{{ totals.subject }}</span>)</li></a>
+        </ul>
+    </div>
+
+    <div class="col-md-12 cards-content">
+        {% if categories.count > 0 %}
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                {% for category in categories %}
+                    {% category_permissions request.user category as has_category_permissions %}
+                    
+                    {% if category.visible or has_category_permissions %}
+                        {% if category.visible %}
+                            <div class="panel panel-info category-panel">
+                                <div class="panel-heading">
+                        {% elif has_category_permissions %}
+                            <div class="panel special-panel">
+                                <div class="panel-heading panel-invisible">
+                        {% endif %}
+
+                                <div class="row">
+                                    <div class="col-md-12 category-header">
+                                        <h4 class="panel-title">
+                                            <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#{{category.slug}}">
+                                                <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> <span>{{ category.name }}</span>
+
+                                                ({{ category|unviewed:request.user }})
+                                            </a>
+                                        </h4>
+                                        
+                                        <div class="col-md-5 pull-right category-card-items">
+                                            {% if has_category_permissions %}
+                                                <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                </a>
+                                                <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                                                    {% if request.user.is_staff %}
+                                                        <li><a href="{% url 'categories:replicate' category.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i> {% trans 'Replicate' %}</a></li>
+                                                    {% endif %}
+                                                    <li><a href="{% url 'categories:update' category.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> {% trans 'Edit' %}</a></li>
+                                                    <li>
+                                                    <a href="javascript:delete_course.get('{% url 'categories:delete' category.slug %}?view=index','#category','#modal_course')" aria-hidden="true"><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>
+                                                </ul>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="{{category.slug}}" class="panel-collapse panel-body collapse mural-ungeneral">
+                                <input type="hidden" class="log_url" value="{% url 'mural:view_log_cat' category.id %}" />
+                                <input type="hidden" class="log_id" value="" />
+
+                                <div class="col-md-12 cards-content mural" data-url="{% url 'mural:load_category' category.id %}">
+                                    <div class="col-sm-12 col-xs-12 visible-xs visible-sm" style="padding-left: 0px">
+                                        <div class="post-filter post-filter-small">
+                                            <h4>{% trans 'Filter' %}</h4>
+
+                                            <form class="post-filters form-inline" action="" method="GET">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="favorite" type="checkbox"> {% trans 'Favorite posts' %} <i class="fa fa-thumb-tack"></i>
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="mine" type="checkbox"> {% trans 'Only my posts' %}
+                                                    </label>
+                                                </div>
+                                                <button type="submit" class="btn btn-success btn-raised">{% trans 'Filter' %}</button>
+                                                <button type="button" class="btn btn-default btn-raised clear_filter">{% trans 'Clean Filters' %}</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 mural-list">
+                                        <div class="post_make panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 user-img text-center">
+                                                    <img src="{{ request.user.image_url }}" class="img-responsive" />
+                                                </div>
+                                                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 post-field">
+                                                    <div>
+                                                        <h4 data-url="{% url 'mural:create_category' category.slug %}">{% trans 'Wish to make a new post?' %}</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="posts">
+                                        </div>
+
+                                        <button type="button" class="btn btn-block btn-success btn-raised more-posts" style="display:none">
+                                            {% trans 'See more posts' %}
+                                        </button>
+
+                                        <div class="alert alert-success loading-posts" role="alert">
+                                            <center>
+                                                <span class="fa fa-spin fa-circle-o-notch"></span>
+                                            </center>
+                                        </div>
+
+                                        <div class="text-center no-subjects" style="display:none">
+                                            <i class="fa fa-list"></i>
+                                            <h4>{% trans 'There are no posts in this mural yet.' %}</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 hidden-xs hidden-sm post-filter">
+                                        <h4>{% trans 'Filter' %}</h4>
+
+                                        <form class="post-filters" action="" method="GET">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input name="favorite" type="checkbox"> {% trans 'Favorite posts' %} <i class="fa fa-thumb-tack"></i>
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input name="mine" type="checkbox"> {% trans 'Only my posts' %}
+                                                </label>
+                                            </div>
+                                            <button type="submit" class="btn btn-success btn-raised btn-block">{% trans 'Filter' %}</button>
+                                            <button type="button" class="clear_filter btn btn-default btn-raised btn-block">{% trans 'Clean Filters' %}</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                {% pagination request paginator page_obj %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div id="modal_course"></div>
+
+    <div class="modal fade" id="post-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+    <div class="modal fade" id="chat-modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+    <div class="modal fade" id="chat-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+    <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/mural.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/mural_ungeneral.js' %}"></script>
+{% endblock %}

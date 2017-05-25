@@ -1,0 +1,153 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-17 12:04-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\forms.py:62
+msgid "This field is required"
+msgstr "Este campo é obrigatório."
+
+#: .\forms.py:73
+msgid "The image is too large. It should have less than 5MB."
+msgstr "A imagem é muito grande. Ela deve ter menos que 5MB."
+
+#: .\forms.py:76
+msgid "This field is required."
+msgstr "Este campo é obrigatório."
+
+#: .\models.py:15
+msgid "File not supported."
+msgstr "Arquivo não suportado"
+
+#: .\models.py:18
+msgid "Title"
+msgstr "Título"
+
+#: .\models.py:19
+msgid "Slug"
+msgstr ""
+
+#: .\models.py:20
+msgid "News Image"
+msgstr "Imagem de apresentação da notícia"
+
+#: .\models.py:21
+msgid "News Content"
+msgstr "Conteúdo da notícia"
+
+#: .\models.py:22
+msgid "Create Date"
+msgstr "Data de criação"
+
+#: .\models.py:23
+msgid "Creator"
+msgstr "Autor"
+
+#: .\models.py:25 .\models.py:26
+msgid "News"
+msgstr "Notícia"
+
+#: .\templates\news\_form.html:12
+msgid "Choose your photo..."
+msgstr "Escolha a foto"
+
+#: .\templates\news\_form.html:60
+msgid "Save"
+msgstr "Salvar"
+
+#: .\templates\news\_form.html:63
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: .\templates\news\create.html:7
+msgid "Register News"
+msgstr "Cadastrar notícia"
+
+#: .\templates\news\delete.html:12
+msgid "Are you sure you want to delete the news"
+msgstr "Você tem certeza que deseja apagar a notícia"
+
+#: .\templates\news\delete.html:12
+msgid "All its data will be lost and can't be recovered"
+msgstr "Todos seus dados serão perdidos e não podem ser recuperados"
+
+#: .\templates\news\delete.html:18
+msgid "Close"
+msgstr "Cancelar"
+
+#: .\templates\news\delete.html:19 .\templates\news\list.html:60
+#: .\templates\news\search.html:60
+msgid "Delete"
+msgstr "Apagar"
+
+#: .\templates\news\list.html:7 .\views.py:47
+msgid "Manage News"
+msgstr "Gerenciar notícias"
+
+#: .\templates\news\list.html:34 .\templates\news\search.html:34
+msgid "Search by title, author or date"
+msgstr "Pesquisar por título, autor ou data"
+
+#: .\templates\news\list.html:45 .\templates\news\search.html:45 .\views.py:74
+msgid "Create News"
+msgstr "Criar notícia"
+
+#: .\templates\news\list.html:59 .\templates\news\search.html:59
+msgid "Edit"
+msgstr "Editar"
+
+#: .\templates\news\list.html:71 .\templates\news\search.html:71
+msgid "No news found"
+msgstr "Nenhuma notícia encontrada"
+
+#: .\templates\news\search.html:7 .\views.py:142
+msgid "Search News"
+msgstr "Pesquisar Notícia"
+
+#: .\templates\news\update.html:7 .\views.py:92
+msgid "Update News"
+msgstr "Atualizar Notícia"
+
+#: .\templates\news\view.html:32
+msgid "Print News"
+msgstr "Imprimir Notícia"
+
+#: .\views.py:22
+msgid "Visualize News"
+msgstr "Visualizar Notícia"
+
+#: .\views.py:68 .\views.py:86
+msgid "News successfully created!"
+msgstr "Notícia criada com sucesso"
+
+#: .\views.py:159
+msgid "News \"%s\" removed successfully!"
+msgstr "Notícia \"%s\" removida com sucesso"
+
+#: .\views.py:166
+msgid "Delete News"
+msgstr "Apagar Notícia"
+
+#~ msgid "Create news"
+#~ msgstr "Criar notícia"
+
+#~ msgid "There is already a news with this name"
+#~ msgstr "Já existe uma notícia com esse nome"
+
+#~ msgid "Name"
+#~ msgstr "Nome"

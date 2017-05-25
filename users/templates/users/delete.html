@@ -1,0 +1,23 @@
+{% load static i18n permission_tags %}
+
+<!-- Modal (remember to change the ids!!!) -->
+<div class="modal fade" id="users" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+           <!-- Modal Body -->
+      <div class="modal-body">
+        <!-- Put ONLY your content here!!!  -->
+        <form id="delete_form" action="{% url 'users:delete' email %}" method="post">
+          {% csrf_token %}
+          <p>{% trans 'Are you sure you want delete the user' %}: {{ acc }}?</p>
+        </form>
+      </div>
+      <!-- Modal Footer -->
+      <div id="delete-category-footer"class="modal-footer">
+        <!-- Don't remove that!!!  -->
+        <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+        <button type="submit" form="delete_form" class="btn btn-success btn-raised erase-button">{% trans "Delete" %}</button>
+      </div>
+    </div>
+  </div>
+</div>

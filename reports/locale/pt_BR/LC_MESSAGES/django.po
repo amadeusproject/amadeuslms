@@ -1,0 +1,330 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-21 19:45-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\forms.py:23
+msgid "Kind Of Resource"
+msgstr "Tipo de recurso"
+
+#: .\forms.py:24
+msgid "Tag"
+msgstr "Tag"
+
+#: .\forms.py:35
+msgid "Topics"
+msgstr "Tópicos"
+
+#: .\forms.py:36 .\templates\reports\view.html:58
+msgid "Initial Date"
+msgstr "Data inicial"
+
+#: .\forms.py:37
+msgid "Final Date"
+msgstr "Data Final"
+
+#: .\forms.py:39
+msgid "From Mural"
+msgstr "Mural da disciplina"
+
+#: .\forms.py:40
+msgid "Messages"
+msgstr "Mensagens"
+
+#: .\forms.py:51 .\views.py:145 .\views.py:218
+msgid "All"
+msgstr "Todos"
+
+#: .\forms.py:60
+msgid "The initial date can't be after the end one."
+msgstr "A data inicial não pode ser depois da final"
+
+#: .\forms.py:65
+msgid "This date should be right or after %s, which is when the subject started. "
+msgstr "Esta data deve ser igual ou após %s, pois é quando o assunto começa."
+
+#: .\forms.py:71
+msgid "This date should be right or before %s, which is when the subject finishes. "
+msgstr "Esta data deve ser igual ou anterior à %s, pois é quando o assunto termina."
+
+#: .\templates\reports\_form.html:32
+msgid "General Parameters"
+msgstr "Escolha o Tópico e o Período"
+
+#: .\templates\reports\_form.html:50
+msgid "Choose the Data Source (is possible to pick more than one)"
+msgstr "Escolha a fonte de dados (é possível escolher mais de uma)"
+
+#: .\templates\reports\_form.html:75
+msgid "Interaction with resources"
+msgstr "Interação com recursos"
+
+#: .\templates\reports\_form.html:110
+msgid "Search Report"
+msgstr "Buscar"
+
+#: .\templates\reports\create.html:27 .\templates\reports\view.html:33
+msgid "Analytics"
+msgstr "Análises"
+
+#: .\templates\reports\create.html:36 .\templates\reports\view.html:43
+msgid "Interaction Data"
+msgstr "Dados de Interação"
+
+#: .\templates\reports\create.html:39 .\templates\reports\view.html:46
+msgid "Report Card"
+msgstr "Boletim do Tópico"
+
+#: .\templates\reports\create.html:42 .\templates\reports\view.html:49
+msgid "Participation"
+msgstr "Participações"
+
+#: .\templates\reports\create.html:55
+msgid "add data source"
+msgstr "Adicionar nova fonte de dados"
+
+#: .\templates\reports\create.html:56
+msgid "remove data source"
+msgstr "Remover esta fonte"
+
+#: .\templates\reports\view.html:56
+msgid "Subject"
+msgstr "Assunto"
+
+#: .\templates\reports\view.html:57
+msgid "Topic"
+msgstr "Tópico"
+
+#: .\templates\reports\view.html:59
+msgid "End Date"
+msgstr "Data final"
+
+#: .\templates\reports\view.html:60
+msgid "new search"
+msgstr "Nova Busca"
+
+#: .\templates\reports\view.html:66
+msgid "register(s)"
+msgstr "registro(s)"
+
+#: .\templates\reports\view.html:68
+msgid "Interactions Data (.csv)"
+msgstr "Dados de interação (.csv)"
+
+#: .\templates\reports\view.html:72
+msgid "Interactions Data (.xls)"
+msgstr "Dados de interação (.xls)"
+
+#: .\views.py:78
+msgid "Report created successfully"
+msgstr "Relatório criado com sucesso!"
+
+#: .\views.py:222
+msgid "User"
+msgstr "Usuário"
+
+#: .\views.py:245
+msgid "Number of help posts created by the user."
+msgstr "Número de postagens de dúvidas criadas no mural da disciplina."
+
+#: .\views.py:251
+msgid "Amount of comments on help posts created by the student."
+msgstr ""
+"Número de comentários criados para as próprias postagens de dúvidas no mural "
+"da disciplina."
+
+#: .\views.py:256
+msgid "Amount of comments made by the student on teachers help posts."
+msgstr ""
+"Número de comentários às postagens de dúvidas no mural da disciplina criadas "
+"pelo professor."
+
+#: .\views.py:260
+msgid "Amount of comments made by the student on other students help posts."
+msgstr ""
+"Número de comentários às postagens de dúvidas no mural da disciplina criadas "
+"por outros estudantes."
+
+#: .\views.py:271
+msgid "Number of help posts created by the user that the teacher commented on."
+msgstr ""
+"Número de comentários às postagens de dúvidas no mural da disciplina criadas "
+"por outros estudantes"
+
+#: .\views.py:279
+msgid "Number of help posts created by the user others students commented on."
+msgstr ""
+"Número de postagens de dúvidas criadas no mural da disciplina que foram "
+"comentadas por outros estudantes."
+
+#: .\views.py:282
+msgid "Number of student visualizations on the mural of the subject."
+msgstr "Número de visualizações do mural da disciplina."
+
+#: .\views.py:303
+msgid "Number of access to mural between 6 a.m to 12a.m. ."
+msgstr ""
+"Número de acessos ao ambiente virtual da disciplina no horário de 06h às 12h."
+
+#: .\views.py:307
+msgid "Number of access to mural between 0 p.m to 6p.m. ."
+msgstr ""
+"Número de acessos ao ambiente virtual da disciplina no horário de 12h às 18h."
+
+#: .\views.py:310
+msgid "Number of access to mural between 6 p.m to 12p.m. ."
+msgstr ""
+"Número de acessos ao ambiente virtual da disciplina no horário de 18h às 24h."
+
+#: .\views.py:314
+msgid "Number of access to mural between 0 a.m to 6a.m. ."
+msgstr ""
+"Número de acessos ao ambiente virtual da disciplina no horário de 24h às 06h."
+
+#: .\views.py:319
+msgid "sunday"
+msgstr "domingo"
+
+#: .\views.py:319
+msgid "monday"
+msgstr "segunda"
+
+#: .\views.py:319
+msgid "tuesday"
+msgstr "terça-feira"
+
+#: .\views.py:319
+msgid "wednesday"
+msgstr "quarta"
+
+#: .\views.py:319
+msgid "thursday"
+msgstr "quinta-feira"
+
+#: .\views.py:320
+msgid "friday"
+msgstr "sexta"
+
+#: .\views.py:320
+msgid "saturday"
+msgstr "sábado"
+
+#: .\views.py:324 .\views.py:327
+msgid "Number of access to the subject on "
+msgstr "Número de acessos ao assunto na(o) "
+
+#: .\views.py:330
+msgid "Number of distinct days the user access the subject. "
+msgstr "Número de dias distintos que acessou o ambiente virtual da disciplina."
+
+#: .\views.py:331
+msgid "Class"
+msgstr "Classe"
+
+#: .\views.py:331 .\views.py:332
+msgid "Undefined"
+msgstr "Indefinido"
+
+#: .\views.py:332
+msgid "Performance"
+msgstr "Desempenho"
+
+#: .\views.py:482 .\views.py:583
+msgid "PDF File"
+msgstr "Arquivo PDF"
+
+#: .\views.py:483 .\views.py:584
+#, fuzzy
+#| msgid "Topics"
+msgid "Topic Goals"
+msgstr "Tópicos"
+
+#: .\views.py:484 .\views.py:585
+msgid "Link to Website"
+msgstr "Link do Site"
+
+#: .\views.py:485 .\views.py:586
+msgid "File Link"
+msgstr "Link para Arquivo"
+
+#: .\views.py:486 .\views.py:587
+msgid "Web Conference"
+msgstr "Conferência Web"
+
+#: .\views.py:487 .\views.py:588
+msgid "YouTube Video"
+msgstr "Vídeo do Youtube"
+
+#: .\views.py:488 .\views.py:589
+msgid "WebPage"
+msgstr "Página na Web"
+
+#: .\views.py:490 .\views.py:497
+msgid "number of visualizations of "
+msgstr "Número de visualizações do(e) "
+
+#: .\views.py:490 .\views.py:491 .\views.py:492 .\views.py:495
+msgid " with tag "
+msgstr " com a tag "
+
+#: .\views.py:491 .\views.py:498
+msgid "number of visualizations of distintic "
+msgstr "Número de visualizações dos distintos "
+
+#: .\views.py:492 .\views.py:499
+msgid "distintic days "
+msgstr "número de dias distintos "
+
+#: .\views.py:495 .\views.py:502
+msgid "hours viewed of "
+msgstr "quantidade de horas vistas "
+
+#: .\views.py:522 .\views.py:523 .\views.py:525
+msgid " amount of messages sent to other students"
+msgstr " Quantidade mensagens enviadas para outros estudantes"
+
+#: .\views.py:527 .\views.py:528 .\views.py:531
+msgid "amount of messages received from other students"
+msgstr "Quantidade de mensagens recebidas de outros estudantes"
+
+#: .\views.py:537
+msgid "amount of distinct students to whom sent messages"
+msgstr "Quantidade de estudantes distintos para quem enviou mensagem"
+
+#: .\views.py:546 .\views.py:547 .\views.py:549
+msgid "amount messages sent to professors"
+msgstr "Quantidade mensagens enviadas para o(s) professor(es)"
+
+#: .\views.py:551 .\views.py:552 .\views.py:554
+msgid "amount of messages received from professors"
+msgstr "Quantidade de mensagens recebidas do(s) professor(es)"
+
+#~ msgid " amount messages sent to other students"
+#~ msgstr " número de mensagens enviadas para outros estudantes"
+
+#~ msgid " amount of messages sent to others students"
+#~ msgstr " número de mensagens enviadas para outros estudantes"
+
+#~ msgid "distintic "
+#~ msgstr "distintos "
+
+#~ msgid "Topics to select data from"
+#~ msgstr "Tópico do qual os dados serão retirados"
+
+#~ msgid "Data Source"
+#~ msgstr "Escolha a origem dos dados (É possível selecionar mais de uma)"

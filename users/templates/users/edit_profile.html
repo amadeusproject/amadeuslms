@@ -6,111 +6,19 @@
 {% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
-	{% if user|has_role:'system_admin' %}
-		{{ block.super }}
-    	{% breadcrumb 'Update User' 'users:update' %}
-	{% else %}
-		{{ block.super }}
-		{% breadcrumb 'Update Profile' 'users:update' %}
-	{% endif %}
-
+	{{ block.super }}
+	{% breadcrumb 'Update Profile' 'users:edit_profile' %}
 {% endblock %}
 
 
 {% block content %}
-	{% if messages %}
-		{% for message in messages %}
-			<div class="alert alert-success alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<p>{{ message }}</p>
-			</div>
-		{% endfor %}
-	{% endif %}
-	<div class="card mg-b-5m">
-		<div class="card-content">
-			<div class="card-body">
-				<form method="post" action="" enctype="multipart/form-data">
-					{% csrf_token %}
-					{% for field in form %}
-						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
-							{% if not field.auto_id == 'id_is_staff' and not field.auto_id == 'id_is_active' and not field.auto_id == 'id_type_profile' %}
-								<label for="{{ field.auto_id }}">{{ field.label }}</label>
-							{% endif %}
-							{% if field.auto_id == 'id_birth_date' %}
-								<input type="text" class="form-control date-picker"name="{{field.name}}" value="{{field.value|date:'SHORT_DATE_FORMAT'}}" min="{{now|date:'SHORT_DATE_FORMAT'}}" id="{{ field.auto_id }}">
-								<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-							{% elif field.auto_id == 'id_image'  or field.auto_id == 'id_curriculum'%}
-								{% render_field field class='form-control input-sm' %}
-								<div class="input-group">
-				                    <input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
-				                    <span class="input-group-btn input-group-sm">
-				                        <button type="button" class="btn btn-fab btn-fab-mini">
-				                          	<i class="material-icons">attach_file</i>
-				                        </button>
-				                    </span>
-				                </div>
-						    {% elif field.auto_id == 'id_cpf' %}
-                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarCpf(this,event);' %}
-
-                			{% elif field.auto_id == 'id_phone' %}
-                				{% render_field field class='form-control' onkeypress='campoNumerico(this,event); formatarTelefone(this,event);' %}
-
-							{% elif field.auto_id == 'id_year_titration' %}
-								{% render_field field class='form-control' onkeypress='campoNumerico(this,event);' %}
-
-                			{% elif field.auto_id == 'id_is_staff' or field.auto_id == 'id_is_active' %}
-                				{% if user|has_role:'system_admin' %}
-                					<label for="{{ field.auto_id }}">{{ field.label }}</label>
-									<div class="checkbox">
-	                  					<label for="{{ field.auto_id }}">
-	                      					{% render_field field %} {{field.label}}
-	                  					</label>
-	                				</div>
-								{% endif %}
-							{% elif field.auto_id == 'id_type_profile' %}
-								{% if user|has_role:'system_admin' %}
-	            					<label for="{{ field.auto_id }}">{{ field.label }}</label>
-									{% render_field field class='form-control' %}
-									<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-								{% endif %}
-							{% else %}
-								{% if not field.auto_id == 'id_is_staff' and not field.auto_id == 'id_is_active' and not field.auto_id == 'id_type_profile' %}
-									{% render_field field class='form-control' %}
-									<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-								{% endif %}
-							{% endif %}
-							{% if field.errors %}
-								<div class="alert alert-danger alert-dismissible" role="alert">
-				  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				  						<span aria-hidden="true">&times;</span>
-			  						</button>
-									<ul>
-										{% for error in field.errors %}
-											<li>{{ error }}</li>
-										{% endfor %}
-									</ul>
-								</div>
-							{% endif %}
-						</div>
-					{% endfor %}
-					<div class="col-md-offset-2 col-md-2 col-sm-2 col-xs-2">
-						<input type="submit" value="{% trans 'Save' %}" class="btn btn-raised btn-success" />
-					</div>
-					<div class="col-md-offset-3 col-md-2 col-sm-2 col-xs-2">
-						<a href="{% url 'users:profile' %}" class="btn btn-raised btn-default" >{% trans 'Cancel' %}</a>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<br clear="all" />
-	<script type="text/javascript">
-	var locale = navigator.language || navigator.userLanguage;
-
-	$('.date-picker').datepicker({
-		language: locale,
-	});
-	</script>
+	<div class="card">
+        <div class="card-content">
+            <div class="card-body">
+                {% include "users/_form.html" with back_url="users:profile" %}
+            </div>
+        </div>
+    </div>
+    <br clear="all" />
+    <br clear="all" />
 {% endblock %}

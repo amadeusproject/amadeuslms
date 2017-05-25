@@ -1,0 +1,221 @@
+{% extends 'categories/home.html' %}
+
+{% load static i18n pagination permissions_tags subject_counter chat_tags %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block javascript%}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
+{% endblock%}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb subject.category 'subjects:cat_view' subject.category.slug %}
+    {% breadcrumb subject 'subjects:view' subject.slug %}
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% subject_permissions request.user subject as has_subject_permissions %}
+
+	{% if subject.visible %}
+		<div class="panel panel-info subject-panel" id="subject_{{subject.slug}}">
+        	<div class="panel-heading">
+	{% elif has_subject_permissions %}
+		<div class="panel panel-info subject-panel-invisible" id="subject_{{subject.slug}}">
+        	<div class="panel-heading panel-invisible">
+    {% endif %}
+            <div class="row">
+                <div class="col-md-12 category-header">
+                    <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
+                        <span>{{subject.name}}</span>
+                    </h4>
+
+                    <div class="col-md-5 pull-right category-card-items">
+                        {% if request.user in subject.professor.all or request.user in subject.category.coordinators.all or request.user.is_staff %}
+                            <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </a>
+                            <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                                {% if request.user not in subject.professor.all %}
+                                <li><a href="{% url 'subjects:replicate' subject.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
+                                {% endif %}
+                                <li><a href="{% url 'subjects:update' subject.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+                                <li><a href="{% url 'groups:index' subject.slug %}"><i class="fa fa-group fa-fw" aria-hidden="true"></i>{% trans 'Groups' %}</a></li>
+                                <li><a href="{% url 'subjects:backup' subject.slug %}"><i class="fa fa-database fa-fw" aria-hidden="true"></i>{% trans 'Backup' %}</a></li>
+                                <li><a href="{% url 'subjects:restore' subject.slug %}"><i class="fa fa-recycle fa-fw" aria-hidden="true"></i>{% trans 'Restore' %}</a></li>
+                                <li><a href="javascript:delete_subject.get('{% url 'subjects:delete' subject.slug %}?view=index','#subject','#modal_subject')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
+                            </ul>
+                        {% endif %}
+
+                        <a href="{% url 'subjects:reports:create_interaction' %}?subject_id={{subject.id}}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Analytics' %}"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
+                        <a href="{% url 'notifications:view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Pendencies' %}">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            {% notifies_number subject request.user %}
+                        </a>
+                        <a href="{% url 'chat:subject_view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Messages' %}">
+                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                            {% chat_number subject request.user %}
+                        </a>
+                        <a href="{% url 'mural:subject_view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Mural' %}">
+                            <i class="fa fa-list" aria-hidden="true"></i>
+                            {% mural_number subject request.user %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content" style="position: relative">
+            <p>{{subject.description|safe}}</p>
+
+            {% if has_subject_permissions %}
+                <a href="{% url 'topics:create' subject.slug %}" class="btn btn-sm btn-success btn-raised btn-block">{% trans "Create new topic" %}</a>
+            {% endif %}
+
+            {% include 'topics/list.html' with subject=subject %}
+            
+            <div id="participants" data-toggle="tooltip" data-title="{% trans 'Participants' %}">
+                <i class="fa fa-group"></i>
+            </div>
+
+            <div class="participants-list">
+                <div class="subject-participants">
+                    {% for participant in participants %}
+                        {% is_online participant as status %}
+
+                        <div class="participants-container">
+                            <div class="col-md-12 sub-user" data-toggle="popover" data-container="body" data-placement="left">
+                                <h4><a class="user_{{ participant.id }}_status status {{ status }}" data-placement="right" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
+                            </div>
+
+                            <div class="popover">
+                                <div class="popover-content participant">
+                                    <button type="button" class="close" aria-label="{% trans 'Close' %}"><span aria-hidden="true">&times;</span></button>
+
+                                    <br clear="all" />
+
+                                    <div class="col-md-3 col-sm-3 user-img">
+                                        <img src="{{ participant.image_url }}" class="img-responsive" />
+                                    </div>
+                                    <div class="col-md-9 col-sm-9 user-info">
+                                        <h4><a class="status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
+                                    </div>
+                                </div>
+                                <div class="popover-footer">
+                                    <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:profile" participant.email %}' class="btn btn-default btn-sm btn-raised pull-left">
+                                        {% trans 'See Profile' %}
+                                    </a>
+                                    <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:talk" participant.email %}' class="btn btn-success btn-sm btn-raised pull-right">
+                                        {% trans 'Send Message' %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_subject"></div>
+
+    <div class="modal fade" id="chat-modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+    <div class="modal fade" id="chat-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+    <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
+
+    <script type="text/javascript">
+        {% if resource_new_page %}
+            window.open("{{ resource_new_page_url }}");
+        {% endif %}
+
+        $(function (){
+            var topic_slug = "{{ topic_slug }}"
+
+            if (topic_slug != "") {
+                $("#" + topic_slug).collapse('show');
+
+                $('html, body').animate({
+                    scrollTop: $("#" + topic_slug).parent().offset().top
+                }, 1000);
+            }
+
+            $('[data-toggle="popover"]').popover({
+                html: true,
+                content: function () {
+                    return $(this).parent().find(".popover").html();
+                }
+            }).on('show.bs.popover', function (e) {
+                $('[data-toggle="popover"]').not(e.target).popover('hide');
+            }).on('shown.bs.popover', function (e) {
+                if($(this).is(e.target)){
+                    var popover = $(".popover.fade.in"),
+                        buttons = popover.parent().find('a'),
+                        close = popover.parent().find('.close:visible');
+    
+                    popover.animate({
+                        'max-width': '330px',
+                    }, 0);
+
+                    popover.find('.popover-content').animate({
+                        padding: '9px 5px',
+                    }, 0);
+
+                    popover.find('h4').animate({
+                        'font-size': '16px',
+                    }, 0);
+
+                    close.on("click", function () {
+                        popover.popover('hide');
+                    }); 
+
+                    buttons.on("click", function () {
+                        popover.popover('hide');
+                    })
+                }
+            });
+
+            $('#participants').on('click', function(){
+                var $this = $(this),
+                    list = $this.parent().find(".participants-list");
+                
+                if ($this.hasClass('open')) {
+                    $this.animate({
+                        right : '0px'
+                    }, 500);
+
+                    list.animate({
+                        right : '-180px',
+                        opacity: 0
+                    }, 500).css({display: "none", visibility: 'hidden'});
+
+                    $this.removeClass('open');
+                } else {
+                    $this.animate({
+                        right : "182"
+                    }, 500).addClass('open');
+
+                    list.animate({
+                        right : 0,
+                        opacity: 1,
+                    }, 500).css({visibility: 'visible'});
+
+                    setTimeout(function () {
+                        list.fadeIn();
+                    }, 500);
+                }
+            });
+        });
+    </script>
+{% endblock content %}

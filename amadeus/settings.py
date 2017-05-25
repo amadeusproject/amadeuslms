@@ -15,6 +15,7 @@ import os
 import dj_database_url
 
 from django.conf.global_settings import DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS
+from django.utils.translation import ugettext_lazy as _
 
 db_from_ev = dj_database_url.config(conn_max_age=500)
 
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
 
     'widget_tweaks',
     'rolepermissions',
@@ -50,17 +52,38 @@ INSTALLED_APPS = [
     'django_bootstrap_breadcrumbs',
     's3direct',
     'django_summernote',
+    'session_security',
+    'django_crontab',
+    'django_cron',
+    'channels',
+    'resubmit', # Utilizado para salvar arquivos na cache, para caso o formulario não seja preenchido corretamente o usuário não precise fazer o upload outra vez dos arquivos
 
+    'amadeus',
     'users',
-    'core',
-    'app',
-    'courses',
-    'forum',
-    'poll',
-    'exam',
+    'notifications',
+    'log',
+    'categories',
+    'subjects',
+    'students_group',
+    'topics',
+    'pendencies',
+    'mural',
+    'chat',
+    'file_link',
+    'goals',
+    'pdf_file',
     'links',
-    'files',
-
+    'webpage',
+    'youtube_video',
+    'mailsender',
+    'security',
+    'themes',
+    'api',
+    'reports',
+    'webconference',
+    'news',
+    'analytics',
+    'dashboards',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -71,11 +94,13 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'users.middleware.SessionExpireMiddleware',
+    'session_security.middleware.SessionSecurityMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
 
-    'core.middleware.TimeSpentMiddleware',
+    'log.middleware.TimeSpentMiddleware',
     #libs-middleware
 
 ]
@@ -93,17 +118,31 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-
-                'core.context_processors.notifications',
-                'courses.context_processors.courses',
+                'amadeus.context_processors.theme',
+                'amadeus.context_processors.notifies',
+                'amadeus.context_processors.mural_notifies',
+                'amadeus.context_processors.chat_notifies',
             ],
         },
     },
 ]
 
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    },
+    "resubmit": {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        "LOCATION": os.path.join(BASE_DIR, 'data/cache/resubmit'),
+    },
+}
+
 WSGI_APPLICATION = 'amadeus.wsgi.application'
 
-
+SESSION_SECURITY_WARN_AFTER = 1140
+SESSION_SECURITY_EXPIRE_AFTER = 1200
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Database
 # https://docs.djangopr/*oject.com/en/1.9/ref/settings/#databases
 
@@ -138,6 +177,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'pt-br'
 
+LANGUAGES = [
+ ('pt-br', _('Portuguese')),
+ ('en', _('English')),
+]
+
 TIME_ZONE = 'America/Recife'
 
 USE_I18N = True
@@ -146,7 +190,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+FORMAT_MODULE_PATH = 'amadeus.formats'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
@@ -161,6 +205,23 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "amadeus/static")
 ]
 
+CRON_CLASSES = [
+    'notifications.cron.Notify',
+    'goals.cron.SetGoals'
+]
+
+CRONJOBS = [
+    ('0 0 * * *', 'notifications.cron.notification_cron'),
+    ('0 0 * * *', 'goals.cron.setgoals_cron')
+]
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "ROUTING": "amadeus.routing.channel_routing",
+    },
+}
+
 #SECURITY
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO','https')
 
@@ -173,8 +234,8 @@ MEDIA_URL = '/uploads/'
 
 
 # Users
-LOGIN_REDIRECT_URL = 'app:index'
-LOGIN_URL = 'core:home'
+LOGIN_REDIRECT_URL = 'subjects:home'
+LOGIN_URL = 'users:login'
 AUTH_USER_MODEL = 'users.User'
 
 AUTHENTICATION_BACKENDS = [
@@ -187,8 +248,8 @@ LOGS_URL = 'logs/'
 
 
 # E-mail
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'admin@admin.com'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# DEFAULT_FROM_EMAIL = 'admin@amadeus.com.br'
 
 # Messages
 from django.contrib.messages import constants as messages_constants
@@ -201,9 +262,10 @@ MESSAGE_TAGS = {
 }
 
 #Send email for forgot Password
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'test@gmail.com'
-SERVER_EMAIL = 'test@gmail.com'
+DEFAULT_FROM_EMAIL = 'amadeusteste@gmail.com'
+# SERVER_EMAIL = 'amadeusteste@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'amadeusteste@gmail.com'
@@ -228,9 +290,7 @@ OAUTH2_PROVIDER = {
 
 
 #For date purposes
-DATETIME_INPUT_FORMATS.append('%d/%m/%y')
 DATE_INPUT_FORMATS.append('%d/%m/%y')
-DATETIME_INPUT_FORMATS.append('%m/%d/%y')
 DATE_INPUT_FORMATS.append('%m/%d/%y')
 
 #s3direct
@@ -249,6 +309,21 @@ S3DIRECT_DESTINATIONS = {
     'material': (lambda original_filename: 'uploads/material/'+str(uuid4())+'.pdf', lambda u: True, ['application/pdf']),
 
 }
+
+#API CONFIG STARTS
+#TELL the rest framework to use a different backend
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',),
+    'DEFAULT_PERMISSION_CLASSES':(
+        'rest_framework.permissions.IsAuthenticated',),
+     'PAGE_SIZE': 10, #pagination purposes
+}
+
+OAUTH2_PROVIDER = {
+    'SCOPES':{'read':'Read scope', 'write': 'Write scope'}
+}
+#API CONFIG ENDS
 
 # FILE UPLOAD
 MAX_UPLOAD_SIZE = 10485760
@@ -301,7 +376,7 @@ SUMMERNOTE_CONFIG = {
     # Set `upload_to` function for attachments.
     #'attachment_upload_to': my_custom_upload_to_func(),
 
-    
+
 
 }
 

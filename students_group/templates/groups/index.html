@@ -1,0 +1,98 @@
+{% extends 'subjects/view.html' %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block javascript%}
+    {{ block.super }}
+{% endblock%}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+
+    {% trans 'Groups' as bread %}
+    {% breadcrumb bread 'groups:index' subject.slug %}
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class='row'>
+        <div class="col-md-12 text-center">
+            <a href="{% url 'groups:create' subject.slug %}" class="btn btn-raised btn-success">{% trans "Create Group" %}</a>
+        </div>
+    </div>
+
+    <div class="col-md-12 cards-content">
+        <div class="panel-group" id="group-accordion" role="tablist" aria-multiselectable="true">
+            {% for group in groups  %}
+            	<div class="panel panel-info group-panel">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-12 category-header">
+                                <h4 class="panel-title">
+                                    <a class="category-course-link pull-left" data-parent="#group-accordion" data-toggle="collapse" href="#{{group.slug}}">
+                                        <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {{ group }} ({{ group.participants.count }})
+                                    </a>
+                                </h4>
+
+                                <div class="col-md-5 pull-right category-card-items">
+                                    <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                                        <li>
+                                            <a href="{% url 'groups:replicate' subject.slug group.slug %}">
+                                                <i class="fa fa-files-o" aria-hidden="true"></i> {% trans 'Replicate' %}
+                                            </a>
+                                        </li>
+                                        <li><a href="{% url 'groups:update' subject.slug group.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> {% trans 'Edit' %}</a></li>
+                                        <li><a href="javascript:delete_group('{% url 'groups:delete' group.slug %}')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="{{ group.slug }}" class="panel-collapse panel-body collapse category-panel-content group-panel-body">
+                        {% autoescape off %}
+                            {{ group.description }}
+                        {% endautoescape %}
+                        {% if group.participants.count  >= 0 %}
+                            {% if group.participants.count == 0 %}
+                                <h4>{% trans 'No participants' %}  </h4>
+                            {% elif group.participants.count  == 1%}
+                                <h4>{% trans 'Participant' %}:  </h4>
+                            {% else %}
+                                <h4>{% trans 'Participants' %}:  </h4>
+                            {% endif %}
+                        {% endif %}
+
+
+
+                        <ul class="list-inline">
+                            {% for user in group.participants.all %}
+                                <li class="list-inline-item text-center col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                    <img src="{{ user.image_url }}" class="img-responsive" />
+                                    <p><small>{{ user }}</small></p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+
+            {% pagination request paginator page_obj %}
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
+{% endblock %}

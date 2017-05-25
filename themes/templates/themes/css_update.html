@@ -1,0 +1,84 @@
+{% extends 'themes/index.html' %}
+
+{% load static i18n %}
+{% load widget_tweaks %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+  	{{ block.super }}
+    {% breadcrumb 'CSS Selector' 'themes:css' %}
+{% endblock %}
+
+{% block content %}
+	<div class="card">
+		<div class="card-content">
+			<div class="card-body">
+				<a href="{% url 'themes:basic' %}" class="page_selector"><h4><i class="fa fa-angle-right"></i> {% trans 'Basic Elements' %}</h4></a>
+				<a href="{% url 'themes:css' %}" class="page_selector"><h4><i class="fa fa-angle-down"></i> {% trans 'CSS Selector' %}</h4></a>
+
+				<form method="post" action="" enctype="multipart/form-data">
+					{% csrf_token %}
+					{% for field in form %}
+						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+							{% if field.field.required %}
+								<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
+							{% else %}
+								<label for="{{ field.auto_id }}">{{ field.label }}</label>
+							{% endif %}
+
+							<br clear="all" />
+
+							{% for radio in field %}
+                    {% if radio.choice_value == 'contrast' %}
+
+                    {% else %}
+
+							    <label for="{{ radio.id_for_label }}" class="row text-center">
+						    		<div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-lg-2 col-md-2 col-sm-2 col-xs-3 text-left">
+								        <span class="radio">
+								        	{{ radio }}
+							        	</span>
+							        </div>
+							        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+							        	{% with 'img/themes/'|add:radio.choice_value|add:'.png' as img_presentation %}
+							        		<img class="radio theme_img" src="{% static img_presentation %}" />
+							        	{% endwith %}
+							        </div>
+							        <div class="col-md-2 col-md-2 col-sm-2 col-xs-2">
+							        	{% with 'css/themes/'|add:radio.choice_value|add:'.css' as doc_presentation %}
+							        		<a class="radio" href="{% static doc_presentation %}" target="blank">{% trans 'Documentation' %}</a>
+							        	{% endwith %}
+							        </div>
+							    </label>
+							    <br clear="all" />
+                  {% endif %}
+
+							{% endfor %}
+						</div>
+
+						<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+						{% if field.errors %}
+							<div class="alert alert-danger alert-dismissible" role="alert">
+			  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  						<span aria-hidden="true">&times;</span>
+									</button>
+								<ul>
+									{% for error in field.errors %}
+										<li>{{ error }}</li>
+									{% endfor %}
+								</ul>
+							</div>
+						{% endif %}
+					{% endfor %}
+					<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+						<div class="text-center">
+							<input type="submit" value="{% trans 'Save' %}" class="btn btn-raised btn-success" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<br clear="all" />
+	<br clear="all" />
+{% endblock %}

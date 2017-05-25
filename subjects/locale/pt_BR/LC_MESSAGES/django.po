@@ -1,0 +1,381 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-15 00:13-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: subjects/forms.py:14 subjects/forms.py:117
+msgid "Tags"
+msgstr "Tags"
+
+#: subjects/forms.py:67 subjects/forms.py:170
+msgid "There is another subject with this name, try another one."
+msgstr "Já existe um assunto com esse nome, tente outro."
+
+#: subjects/forms.py:76
+msgid "This date must be today or after"
+msgstr "Essa data deve ser hoje ou depois disso"
+
+#: subjects/forms.py:86 subjects/forms.py:189
+msgid "This date must be equal subscribe begin or after"
+msgstr "Essa data deve ser igual ou depois de começarem as incrições"
+
+#: subjects/forms.py:96 subjects/forms.py:199
+msgid "This date must be after subscribe end"
+msgstr "Essa data deve ser depois do fim das inscrições"
+
+#: subjects/forms.py:105 subjects/forms.py:208
+msgid "This date must be equal init date or after"
+msgstr "Essa data deve ser igual ou depois da data de início"
+
+#: subjects/models.py:14 subjects/models.py:20
+msgid "Name"
+msgstr "Nome"
+
+#: subjects/models.py:21
+msgid "Slug"
+msgstr "Slug"
+
+#: subjects/models.py:23
+msgid "simpler_description"
+msgstr "Descrição simples"
+
+#: subjects/models.py:24
+msgid "description"
+msgstr "Descrição"
+
+#: subjects/models.py:25
+msgid "visible"
+msgstr "Visível"
+
+#: subjects/models.py:27
+msgid "Begin of Subject Date"
+msgstr "Data de início"
+
+#: subjects/models.py:28
+msgid "End of Subject Date"
+msgstr "Data de encerramento"
+
+#: subjects/models.py:32
+msgid "Creation Date"
+msgstr "Data de criação"
+
+#: subjects/models.py:33
+msgid "Date of last update"
+msgstr "Última Atualização"
+
+#: subjects/models.py:35
+msgid "Begin Subscribe"
+msgstr "Início de inscrição"
+
+#: subjects/models.py:36
+msgid "End Subscribe"
+msgstr "Encerramento de inscrição"
+
+#: subjects/models.py:39
+msgid "Students"
+msgstr "Estudantes"
+
+#: subjects/models.py:43
+msgid "Maximum upload size"
+msgstr "Tamanho máximo de upload"
+
+#: subjects/templates/subjects/_form.html:21
+msgid "Attribute students to subject"
+msgstr "Atribuir estudantes ao assunto"
+
+#: subjects/templates/subjects/_form.html:41
+msgid "Attribute professors to subject"
+msgstr "Atribuir professores ao assunto"
+
+#: subjects/templates/subjects/_form.html:91
+msgid "Save"
+msgstr "Salvar"
+
+#: subjects/templates/subjects/create.html:23
+msgid "Replicate: "
+msgstr "Replicar: "
+
+#: subjects/templates/subjects/delete.html:13
+msgid "Are you sure you want to delete the subject"
+msgstr "Tem certeza que deseja deletar o assunto"
+
+#: subjects/templates/subjects/delete.html:19
+msgid "CLOSE"
+msgstr "Fechar"
+
+#: subjects/templates/subjects/delete.html:20
+msgid "DELETE"
+msgstr "Deletar"
+
+#: subjects/templates/subjects/initial.html:33
+#: subjects/templates/subjects/initial.html:67
+msgid "Most popular keywords"
+msgstr "Palavras-chave mais populares"
+
+#: subjects/templates/subjects/initial.html:93 subjects/views.py:186
+msgid "My Subjects"
+msgstr "Meus assuntos"
+
+#: subjects/templates/subjects/initial.html:106
+#: subjects/templates/subjects/list.html:180
+msgid "You still do not posses any subject in our platform"
+msgstr "Você ainda não possui assuntos em nossa plataforma"
+
+#: subjects/templates/subjects/list.html:36
+#: subjects/templates/subjects/list.html:39
+msgid "My subjects"
+msgstr "Meus assuntos"
+
+#: subjects/templates/subjects/list.html:37
+#: subjects/templates/subjects/list.html:40
+msgid "All subjects"
+msgstr "Todos os assuntos"
+
+#: subjects/templates/subjects/list.html:75
+#: subjects/templates/subjects/list.html:137
+#: subjects/templates/subjects/subject_card.html:29
+#: subjects/templates/subjects/view.html:51
+msgid "Replicate"
+msgstr "Replicar"
+
+#: subjects/templates/subjects/list.html:77
+#: subjects/templates/subjects/list.html:139
+#: subjects/templates/subjects/resource_card.html:25
+#: subjects/templates/subjects/subject_card.html:31
+#: subjects/templates/subjects/view.html:53
+msgid "Edit"
+msgstr "Editar"
+
+#: subjects/templates/subjects/list.html:79
+#: subjects/templates/subjects/list.html:140
+#: subjects/templates/subjects/resource_card.html:26
+#: subjects/templates/subjects/subject_card.html:33
+#: subjects/templates/subjects/view.html:55
+msgid "Remove"
+msgstr "Remover"
+
+#: subjects/templates/subjects/list.html:94
+#: subjects/templates/subjects/list.html:155
+msgid "Coordinator(s) "
+msgstr "Coordenador(es) "
+
+#: subjects/templates/subjects/list.html:98
+#: subjects/templates/subjects/list.html:159
+msgid "It doesn't possess coordinators"
+msgstr "Não possui coordenadores"
+
+#: subjects/templates/subjects/list.html:104
+#: subjects/templates/subjects/list.html:165
+msgid "Create new subject"
+msgstr "Criar novo assunto"
+
+#: subjects/templates/subjects/list_search.html:17
+msgid "You Searched for: "
+msgstr "Você pesquisou por: "
+
+#: subjects/templates/subjects/list_search.html:40
+#: subjects/templates/subjects/list_search.html:43
+msgid "Search results"
+msgstr "Resultados da busca"
+
+#: subjects/templates/subjects/list_search.html:40
+msgid " Any subjects or Resources were not found on the search for "
+msgstr " Nenhum assunto ou recursos foram encontrados na busca por "
+
+#: subjects/templates/subjects/list_search.html:48
+#: subjects/templates/subjects/list_search.html:51 subjects/views.py:651
+msgid "Subjects"
+msgstr "Assuntos"
+
+#: subjects/templates/subjects/list_search.html:49
+#: subjects/templates/subjects/list_search.html:52 subjects/views.py:658
+msgid "Resources"
+msgstr "Recursos"
+
+#: subjects/templates/subjects/resource_card.html:42
+#: subjects/templates/subjects/subject_card.html:61
+msgid "Professor(s) "
+msgstr "Professor(es) "
+
+#: subjects/templates/subjects/resource_card.html:46
+#: subjects/templates/subjects/subject_card.html:65
+msgid "It doesn't possess professors"
+msgstr "Não possui professores"
+
+#: subjects/templates/subjects/resource_card.html:50
+msgid "Category"
+msgstr "Categoria"
+
+#: subjects/templates/subjects/resource_card.html:53
+msgid "Subject"
+msgstr "Assunto"
+
+#: subjects/templates/subjects/resource_card.html:61
+msgid "Access Resource"
+msgstr "Acessar Recurso"
+
+#: subjects/templates/subjects/subject_card.html:32
+#: subjects/templates/subjects/view.html:54
+msgid "Groups"
+msgstr "Grupos"
+
+#: subjects/templates/subjects/subject_card.html:37
+#: subjects/templates/subjects/view.html:59
+msgid "Analytics"
+msgstr ""
+
+#: subjects/templates/subjects/subject_card.html:38
+#: subjects/templates/subjects/view.html:60
+msgid "Pendencies"
+msgstr ""
+
+#: subjects/templates/subjects/subject_card.html:42
+#: subjects/templates/subjects/view.html:64
+msgid "Messages"
+msgstr ""
+
+#: subjects/templates/subjects/subject_card.html:46
+#: subjects/templates/subjects/view.html:68
+msgid "Mural"
+msgstr ""
+
+#: subjects/templates/subjects/subject_card.html:69
+msgid "Beginning"
+msgstr "Início"
+
+#: subjects/templates/subjects/subject_card.html:72
+msgid "End"
+msgstr "Fim"
+
+#: subjects/templates/subjects/subject_card.html:82
+msgid "Access Subject"
+msgstr "Acessar Assunto"
+
+#: subjects/templates/subjects/subject_card.html:84
+msgid "Subscribe to Subject"
+msgstr "Inscrever-se no Assunto"
+
+#: subjects/templates/subjects/subject_card.html:87
+msgid "This subject doesn't allow new subscriptions"
+msgstr "Esse assunto não permite novas inscrições"
+
+#: subjects/templates/subjects/subscribe.html:12
+msgid "Are you sure you want to subscribe to the subject"
+msgstr "Tem certeza que deseja se inscrever no assunto"
+
+#: subjects/templates/subjects/subscribe.html:18
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: subjects/templates/subjects/subscribe.html:19
+msgid "Ok"
+msgstr "Ok"
+
+#: subjects/templates/subjects/update.html:22
+msgid "Update: "
+msgstr "Editar: "
+
+#: subjects/templates/subjects/view.html:80
+msgid "Create new topic"
+msgstr "Criar novo tópico"
+
+#: subjects/templates/subjects/view.html:85
+msgid "Participants"
+msgstr ""
+
+#: subjects/templates/subjects/view.html:101
+msgid "Close"
+msgstr ""
+
+#: subjects/templates/subjects/view.html:114
+msgid "See Profile"
+msgstr ""
+
+#: subjects/templates/subjects/view.html:117
+msgid "Send Message"
+msgstr ""
+
+#: subjects/views.py:60
+msgid "Home"
+msgstr "Início"
+
+#: subjects/views.py:158
+msgid "Page is not 'last', nor can it be converted to an int."
+msgstr ""
+"Página não é a 'última', e também não pode ser convertido para um inteiro"
+
+#: subjects/views.py:164
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr "Página inválida (%(page_number)s): %(message)s"
+
+#: subjects/views.py:193
+msgid "All Subjects"
+msgstr "Todos os assuntos"
+
+#: subjects/views.py:289
+msgid "Create Subject"
+msgstr "Criar Assunto"
+
+#: subjects/views.py:301
+msgid "Replicate Subject"
+msgstr "Replicar Assunto"
+
+#: subjects/views.py:343
+#, python-format
+msgid "The Subject \"%s\" was registered on \"%s\" Category successfully!"
+msgstr "Assunto \"%s\" foi registrado na categoria \"%s\" com sucesso!"
+
+#: subjects/views.py:378
+msgid "Update Subject"
+msgstr "Atualizar Assunto"
+
+#: subjects/views.py:402
+#, python-format
+msgid "The Subject \"%s\" was updated on \"%s\" Category successfully!"
+msgstr "Assunto \"%s\" foi atualizado na categoria \"%s\" com sucesso!"
+
+#: subjects/views.py:443 subjects/views.py:487
+#, python-format
+msgid "Subject \"%s\" removed successfully!"
+msgstr "Assunto \"%s\" removido com sucesso!"
+
+#: subjects/views.py:451 subjects/views.py:455
+msgid ""
+"Subject can't be removed. The subject still possess students and learning "
+"objects associated"
+msgstr ""
+"Assunto não pode ser removido. Ele ainda possui alunos e objetos de "
+"aprendizado associados"
+
+#: subjects/views.py:577
+msgid "Subscription date is due!"
+msgstr "O período de inscrição está encerrado!"
+
+#: subjects/views.py:590
+msgid "Subscription was successfull!"
+msgstr "Inscrição feita com sucesso!"
+
+#~ msgid "Subscribe To Subject"
+#~ msgstr "Inscrever-se no Assunto"
+
+#~ msgid "Palavras-chave mais populares"
+#~ msgstr "Palavras-chave mais populares"
+
+#~ msgid "Meus Assuntos"
+#~ msgstr "My Subjects"

@@ -1,0 +1,72 @@
+{% load i18n mural_filters %}
+
+<div id="comment-{{ comment.id }}" class="row comment">
+	<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 comment-img">
+		<div>
+			<img src="{{ comment.user.image_url }}" class="img-responsive" />
+		</div>
+	</div>
+	<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 comment-body">
+		<h4 class="comment-user">
+			{% if not post.user == request.user %}
+				{% is_online comment.user as status %}
+
+				<span data-toggle="popover" data-container="body" data-placement="right">{{ comment.user }}</span>
+
+				<div class="popover">
+                    <div class="popover-content participant">
+                        <button type="button" class="close" aria-label="{% trans 'Close' %}"><span aria-hidden="true">&times;</span></button>
+
+                        <br clear="all" />
+
+                        <div class="col-md-3 col-sm-3 user-img">
+                            <img src="{{ comment.user.image_url }}" class="img-responsive" />
+                        </div>
+                        <div class="col-md-9 col-sm-9 user-info">
+                            <h4><a class="status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ comment.user }}</h4>
+                        </div>
+                    </div>
+                    <div class="popover-footer">
+                        <a href="#" onclick="getModalInfo($(this), '{{ comment.post|chat_space }}', '{{ comment.post|chat_space_type }}'); return false;" data-url='{% url "chat:profile" comment.user.email %}' class="btn btn-default btn-sm btn-raised pull-left">
+                            {% trans 'See Profile' %}
+                        </a>
+                        <a href="#" onclick="getModalInfo($(this), '{{ comment.post|chat_space }}', '{{ comment.post|chat_space_type }}'); return false;" data-url='{% url "chat:talk" comment.user.email %}' class="btn btn-success btn-sm btn-raised pull-right">
+                            {% trans 'Send Message' %}
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+            	{{ comment.user }}
+            {% endif %}
+
+			<span class="user-action">
+				<i class="fa fa-commenting-o"></i>
+				{% trans 'Comment' context "view" %}
+			</span>
+			{% if comment|show_settings_comment:request.user %}
+				<span class="btn-group pull-right">
+	                <button class="btn btn-sm btn_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                	<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+	                </button>
+					<ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+	                    <li><a onclick="editComment($(this));" data-url="{% url 'mural:update_comment' comment.id %}" data-id="{{ comment.id }}" data-post="{{ comment.post.id }}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> {% trans 'Edit' %}</a></li>
+	                    <li>
+	                    <a onclick="deleteComment($(this))" data-url="{% url 'mural:delete_comment' comment.id %}" data-id="{{ comment.id }}" aria-hidden="true"><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>
+	                </ul>
+	            </span>
+	        {% endif %}
+		</h4>
+		<p class="comment-time">
+			<i class="fa fa-clock-o"></i>
+			{% trans 'In' %} {{ comment.last_update }} {{ comment|is_edited }}
+		</p>
+
+		{% autoescape off %}
+			{{ comment.comment }}
+		{% endautoescape %}
+
+		{% if comment.image %}
+			<img src="{{ comment.image.url }}" class="img-responsive center-block" />
+		{% endif %}
+	</div>
+</div>

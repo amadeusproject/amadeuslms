@@ -1,40 +1,44 @@
 import re
 
+from os import path
 from django.db import models
 from django.core import validators
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
+from log.models import Log
+
+def validate_img_extension(value):
+	valid_formats = ['image/jpeg','image/x-citrix-jpeg','image/png','image/x-citrix-png','image/x-png']
+	
+	if hasattr(value.file, 'content_type'):
+		if not value.file.content_type in valid_formats:
+			raise ValidationError(_('File not supported.'))
+
 class User(AbstractBaseUser, PermissionsMixin):
 
-	username = models.CharField(_('Login'), max_length = 35, unique = True, validators = [
+	email = models.EmailField(_('Mail'), unique = True, validators = [
 			validators.RegexValidator(
 				re.compile('^[\w.@+-]+$'),
-				_('Type a valid username. This fields should only contain letters, numbers and the characteres: @/./+/-/_ .')
+				_('Type a valid email. This fields should only contain letters, numbers and the characteres: @/./+/-/_ .')
 				, 'invalid'
 			)
-		], help_text = _('A short name that will be used to identify you in the platform and to access it'))
-	email = models.EmailField(_('Mail'), unique = True)
-	name = models.CharField(_('Name'), max_length = 100)
-	city = models.CharField(_('City'), max_length = 90, blank = True)
-	state = models.CharField(_('State'), max_length = 30, blank = True)
-	gender = models.CharField(_('Gender'), max_length = 1, choices = (('M', _('Male')), ('F', _('Female'))))
-	image = models.ImageField(verbose_name = _('Photo'), null=True, blank = True, upload_to = 'users/')
-	birth_date = models.DateField(_('Birth Date'), null=True)
-	phone = models.CharField(_('Phone'), max_length = 30, blank = True)
-	cpf = models.CharField(_('CPF'), max_length = 15, blank=True, null=True)
-	type_profile = models.IntegerField(_('Type'), null = True, blank = True, choices = ((1, _('Professor')), (2, _('Student'))), default=2)
-	titration = models.CharField(_('Titration'), max_length = 50, blank = True, null = True)
-	year_titration = models.CharField(_('Year of titration'), max_length = 4, blank = True, null = True)
-	institution = models.CharField(_('Institution'), max_length = 50, blank=True, null=True)
-	curriculum = models.FileField(verbose_name = _('Curriculum'), upload_to='users/curriculum/', null=True, blank=True)
+		], help_text = _('Your email address that will be used to access the platform'))
+	username = models.CharField(_('Name'), max_length = 100)
+	last_name = models.CharField(_('Last Name'), max_length = 100)
+	social_name = models.CharField(_('Social Name'), max_length = 100, blank = True, null = True)
+	description = models.TextField(_('Description'), blank = True)
+	image = models.ImageField(verbose_name = _('Photo'), null=True, blank = True, upload_to = 'users/', validators = [validate_img_extension])
 	date_created = models.DateTimeField(_('Create Date'), auto_now_add = True)
+	last_update = models.DateTimeField(_('Last Update'), auto_now = True)
+	show_email = models.IntegerField(_('Show email?'), null = True, blank = True, choices = ((1, _('Allow everyone to see my address')), (2, _('Only classmates can see my address')), (3, _('Nobody can see my address'))), default = 1)
 	is_staff = models.BooleanField(_('Administrator'), default = False)
 	is_active = models.BooleanField(_('Active'), default = True)
 
-	USERNAME_FIELD = 'username'
-	REQUIRED_FIELDS = ['email', 'cpf']
+	USERNAME_FIELD = 'email'
+	REQUIRED_FIELDS = ['username', 'last_name']
 
 	objects = UserManager()
 
@@ -43,17 +47,26 @@ class User(AbstractBaseUser, PermissionsMixin):
 		verbose_name_plural = _('Users')
 
 	def __str__(self):
-		return self.name or self.username
-
-	def get_full_name(self):
-		return str(self)
+		return self.social_name or (self.username + " " + self.last_name)
 
 	def get_short_name(self):
-		return str(self).split(" ")[0]
+		return str(self)
 
 	@property
 	def image_url(self):
 		if self.image and hasattr(self.image, 'url'):
-			return self.image.url
-		else:
-			return static('img/no_image.jpg')
+			if path.exists(self.image.path):
+				return self.image.url
+		
+		return static('img/no_image.jpg')
+
+	def get_items(self):
+		data = Log.objects.filter(user_id = self.id)
+
+		return data
+
+	def is_admin(self):
+		if self.is_staff:
+			return _('Yes')
+
+		return _('Is not an admin')

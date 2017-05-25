@@ -1,0 +1,116 @@
+{% load widget_tweaks static i18n %}
+
+<form method="post" action="" enctype="multipart/form-data">
+	{% csrf_token %}
+	{% for field in form %}
+		{% if field.auto_id == 'id_participants' %}
+			<div class="panel-group" id="professors_accordion" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-info">
+        			<div class="panel-heading">
+            			<div class="row">
+                			<div class="col-md-12">
+                    			<a data-parent="#professors_accordion" data-toggle="collapse" href="#group_participants">
+                    				<h4 class="panel-title">
+                            			<button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label for="{{ field.auto_id }}">{{ field.label }}</label>
+                    				</h4>
+                    			</a>
+                    		</div>
+                    	</div>
+                    </div>
+                    <div id="group_participants" class="panel-collapse collapse">
+                    	<p><em>{% trans 'Attribute students to group' %}:</em></p>
+                    	{% render_field field class='form-control' %}
+                    </div>
+                </div>
+			</div>
+		{% else %}
+			<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
+						{% if field.field.required %}
+					<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
+						{% else %}
+						<label for="{{ field.auto_id }}">{{ field.label }}</label>
+						{% endif %}
+				{% if field.auto_id == 'id_description' %}
+					{% render_field field class='form-control text_wysiwyg' %}
+				{% else %}
+					{% render_field field class='form-control' %}
+				{% endif %}
+			</div>
+		{% endif %}
+
+		<span class="help-block">{{ field.help_text }}</span>
+
+		{% if field.errors %}
+			<div class="row">
+				</br>
+				<div class="alert alert-danger alert-dismissible" role="alert">
+  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  						<span aria-hidden="true">&times;</span>
+					</button>
+					<ul>
+						{% for error in field.errors %}
+							<li>{{ error }}</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		{% endif %}
+	{% endfor %}
+	<div class="row text-center">
+		<input type="submit" value="{% trans 'Save' %}" class="btn btn-success btn-raised" />
+	</div>
+</form>
+
+<script type="text/javascript">
+	$('#id_participants').multiSelect({
+	  selectableHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=' '>",
+	  selectionHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=''>",
+	  afterInit: function(ms){
+	    var that = this,
+	        $selectableSearch = that.$selectableUl.prev(),
+	        $selectionSearch = that.$selectionUl.prev(),
+	        selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
+	        selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
+
+	    that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+	    .on('keydown', function(e){
+	      if (e.which === 40){
+	        that.$selectableUl.focus();
+	        return false;
+	      }
+	    });
+
+	    that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+	    .on('keydown', function(e){
+	      if (e.which == 40){
+	        that.$selectionUl.focus();
+	        return false;
+	      }
+	    });
+	  },
+	  afterSelect: function(){
+	    this.qs1.cache();
+	    this.qs2.cache();
+	  },
+	  afterDeselect: function(){
+	    this.qs1.cache();
+	    this.qs2.cache();
+	  }
+	});// Used to create multi-select css style
+
+	$('.collapse').on('show.bs.collapse', function (e) {
+	if($(this).is(e.target)){
+    	var btn = $(this).parent().find('.fa-angle-right');
+
+    	btn.switchClass("fa-angle-right", "fa-angle-down", 250, "easeInOutQuad");
+    }
+    });
+
+    $('.collapse').on('hide.bs.collapse', function (e) {
+    	if($(this).is(e.target)){
+        	var btn = $(this).parent().find('.fa-angle-down');
+
+        	btn.switchClass("fa-angle-down", "fa-angle-right", 250, "easeInOutQuad");
+        }
+    });
+</script>

@@ -3,7 +3,7 @@
   Repositório para o back-end do projetos Amadeus, na versão 0.9
 
 **Linguagem Utilizada no Projeto:**
-* Python 3.5 
+* Python 3.5
 * Django 1.9
 * Material Design Bootstrap [2]
 
@@ -87,17 +87,17 @@ Estamos usando em sua maioria viewsets ( http://www.django-rest-framework.org/ap
 ##API Setup
 **Criar aplicação**
 * Vá para "/o/applications/" e clique "new application". Um formulário irá aparecer para preencher.
-* No formulário, preencha somente o "Name" com o nome da aplicação, os campos "client id" e "client secret" são gerados automaticamente e não devem ser modificados. 
+* No formulário, preencha somente o "Name" com o nome da aplicação, os campos "client id" e "client secret" são gerados automaticamente e não devem ser modificados.
 "Client type" deve ser confidential, e "Authorization Grant Type" como " Resource owner password-based".
 
 **Obtendo um access Token**
 
-* Crie um request, usando um usuário valido, usando o seguinte abaixo (lembre-se que isso é  um POST, estou usando um comando curl para fins de teste): 
+* Crie um request, usando um usuário valido, usando o seguinte abaixo (lembre-se que isso é  um POST, estou usando um comando curl para fins de teste):
 curl -X POST -d "grant_type=password&username=<user_name>&password=<password>" -u"<client_id>:<client_secret>" http://amadeus/o/token/
 
-* finalmente, com o seu access token, você pode testar um dos endpoints usando o template abaixo: 
+* finalmente, com o seu access token, você pode testar um dos endpoints usando o template abaixo:
 curl -H "Authorization: Bearer <your_access_token>" -X POST -d"username=foo&password=bar" http://localhost:8000/users/ (inserting a new user)
- 
+
 
 * model list(GET) = list all objects from that mode in pagination mode, each page has 10
 * model detail(GET) = give the details of the objects and most important fields of the ones objects its has relationships.
@@ -180,7 +180,7 @@ O primeiro parâmetro da template tag: o 'Home', é o texto que vai ficar linkad
 O arquivo ```2``` é o index da app ```courses``` e ele herda o template ```1```.
 
 
-```python 
+```python
 1 {% block breadcrumbs %}
 2
 3     {{ block.super }}
@@ -225,8 +225,8 @@ O arquivo ```4``` é o template de criar uma disciplica e ele herda do template 
 Feito isso o breadcrumbs da página 'Criar disciplina' fica da seguinte forma:
 
 
- [Home]() / [Cursos]() / [Nome do Curso]() / Criar disciplina 
- 
+ [Home]() / [Cursos]() / [Nome do Curso]() / Criar disciplina
+
 
 [EN-SU]
 
@@ -335,10 +335,28 @@ Once this is done, the breadcrumbs of the 'Create discipline' page is as follows
 
 
 
+## Docker image
 
+Já tendo o docker instalado para executar o amadeus é preciso executar o seguinte comando:
 
+``` bash
+	sudo docker run -itp 9000:9000 jailsondias/amadeus:0.1
+```
+Depois que ja estiver no ambiente do docker execute os seguintes comandos:
 
+``` bash
+	/etc/init.d/postgresql start
+	/etc/init.d/nginx start
+	cd amadeuslms
+```
+Espere mais ou menos um minuto para que o PostgreSQL inicie e depois disso execute o seguinte comando:
 
+``` bash
+	gunicorn amadeus.wsgi:application
+```
+Agora só precisa abrir o navegador com localhost:9000 que vai abrir a página inicial do amadeus, caso apareça uma página de erro aperte crtl + c no terminal do docker e execute novamente o gunicorn.
+
+Caso queira sair do docker e continuar com o amadeus executando no container só é preciso apertar crtl + p + q.
 
 
 ## Link's úteis

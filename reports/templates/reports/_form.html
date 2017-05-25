@@ -1,0 +1,132 @@
+{% load widget_tweaks static i18n %}
+
+<form action="" method="post">{% csrf_token %}
+ 
+   
+    {% if form.errors %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <ul>
+                {% for key, message in form.errors.items  %}
+                    <li>{{message}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <ul>
+                    <li>{{error}}</li>
+                </ul>
+            </div>
+    {% endfor %}
+        
+    {% endfor %}
+    <h5 class="one"> <span>{% trans "General Parameters" %}</span></h5>
+    <div id="general-parameters-div">
+        <div  class="general-parameters-field">
+             {{form.topic.errors}}   
+             <label class="form-field-report"> {{form.topic.label}} </label>
+            {% render_field form.topic class="form-control" %}
+        </div>
+         <div class="general-parameters-field">
+                <label class="form-field-report"> {{form.init_date.label}} </label>
+                {% render_field form.init_date class='form-control  date-picker' %}
+        </div>
+
+        <div class="general-parameters-field">
+                <label class="form-field-report"> {{form.end_date.label}} </label>
+                {% render_field form.end_date class='form-control  date-picker' %}
+        </div>
+    </div>
+
+    <h5 class="one"> <span>{% trans "Choose the Data Source (is possible to pick more than one)" %}</span></h5>
+    <div id="data-source-parameters-div">
+        <div class="report-check-fields">
+              <label class="form-field-report"> {% render_field form.from_mural  %} {{form.from_mural.label}} </label>
+              
+        </div>
+        <div class="report-check-fields">
+            <label class="form-field-report">  {% render_field form.from_messages  %} {{form.from_messages.label}} </label>
+           
+        </div>
+    </div>
+            
+        
+
+    <!---Adding the selector -->
+    <div class="panel-group" id="resources_accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a data-parent="#resources_accordion" data-toggle="collapse" href="#resources">
+                                    <h4 class="panel-title">
+                                    <button class="btn btn-default btn-xs text-center cat-selector">
+                                        <i class="fa fa-angle-right fa-2x" aria-hidden="true"></i>
+                                    </button>
+                                    <label class="form-field-report" for="resources">{% trans "Interaction with resources" %}</label>
+                                    </h4>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                      <div id="resources" class="panel-collapse collapse">
+                           {{ resource_tag_formset.management_form }}
+
+
+                           {% for resource_tag_form in resource_tag_formset %}
+
+                                {% if resource_tag_form.anchor.errors %}
+                                    {% for error in resource_tag_form.anchor.errors %}
+                                        {{ error|escape }}
+                                    {% endfor %}
+                                {% endif %}
+                               <div class="resource-tag-formset">
+                                   {% for field in resource_tag_form %}
+                                   <div class="report-resource-form">
+                                        <label class="form-field-report">{{field.label}}</label>
+                                        {% render_field field class="form-control " %}
+
+                                    </div>
+
+                                   
+                                   {% endfor %}
+                               </div>
+                           {% endfor %}
+                      </div>
+                </div>
+    </div>
+
+    <div class="row text-center">
+        <input type="submit" value="{% trans 'Search Report' %}" class="btn btn-success btn-raised" />
+    </div>
+</form>
+
+<script>
+        $('.collapse').on('show.bs.collapse', function (e) {
+        if($(this).is(e.target)){
+            var btn = $(this).parent().find('.fa-angle-right');
+
+            btn.switchClass("fa-angle-right", "fa-angle-down", 250, "easeInOutQuad");
+        }
+    });
+
+    $('.collapse').on('hide.bs.collapse', function (e) {
+        if($(this).is(e.target)){
+            var btn = $(this).parent().find('.fa-angle-down');
+
+            btn.switchClass("fa-angle-down", "fa-angle-right", 250, "easeInOutQuad");
+        }
+    });
+</script>
+
+

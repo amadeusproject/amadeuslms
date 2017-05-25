@@ -1,0 +1,36 @@
+{% extends 'categories/home.html' %}
+
+{% load static i18n %}
+{% load widget_tweaks django_bootstrap_breadcrumbs %}
+
+{% block style %}
+	{{block.super}}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-tagsinput.css' %}">
+{% endblock %}
+
+{% block javascript %}
+	{{block.super}}
+	<script type="text/javascript" src="{% static 'js/bootstrap-tagsinput.js' %} "></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+	{{ block.super }}
+
+	{% breadcrumb subject.category 'subjects:cat_view' subject.category.slug %}
+	{% breadcrumb subject 'subjects:view' subject.slug %}
+
+	{% trans 'Update: ' as bread %}
+	{% with bread|add:object.name as bread_slug %}
+		{% breadcrumb bread_slug 'subjects:update' %}
+	{% endwith %}
+{% endblock %}
+
+{% block content %}
+	<div class="card card-content">
+	    <div class="card-body">
+			{% include 'subjects/_form.html' %}
+		</div>
+	</div>
+	<br clear="all" />
+	<br clear="all" />
+{% endblock %}

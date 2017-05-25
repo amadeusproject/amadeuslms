@@ -1,0 +1,136 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-15 00:12-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: amadeus/settings.py:179
+msgid "Portuguese"
+msgstr "Português"
+
+#: amadeus/settings.py:180
+msgid "English"
+msgstr "Inglês"
+
+#: amadeus/templates/base.html:96
+msgid "Search for subjects and resources"
+msgstr "Buscar por assuntos ou recursos"
+
+#: amadeus/templates/base.html:109 amadeus/templates/base.html:114
+msgid "Language Selector"
+msgstr "Seletor de Línguas"
+
+#: amadeus/templates/base.html:155
+msgid "Profile"
+msgstr "Perfil"
+
+#: amadeus/templates/base.html:156
+msgid "Edit Profile"
+msgstr "Editar Perfil"
+
+#: amadeus/templates/base.html:157
+msgid "Change Password"
+msgstr "Alterar Senha"
+
+#: amadeus/templates/base.html:158
+msgid "Delete Account"
+msgstr "Remover Conta"
+
+#: amadeus/templates/base.html:159
+msgid "Logout"
+msgstr "Sair"
+
+#: amadeus/templates/base.html:164
+msgid "settings"
+msgstr "configurações"
+
+#: amadeus/templates/base.html:167
+msgid "Settings"
+msgstr "Configurações"
+
+#: amadeus/templates/base.html:170
+msgid "Manage Users"
+msgstr "Gerenciar Usuários"
+
+#: amadeus/templates/base.html:171
+msgid "Manage Categories"
+msgstr "Gerenciar Categorias"
+
+#: amadeus/templates/base.html:172
+msgid "Manage News"
+msgstr "Gerenciar Notícias"
+
+#: amadeus/templates/base.html:179
+msgid "System"
+msgstr "Sistema"
+
+#: amadeus/templates/base.html:186
+msgid "Mail Sender"
+msgstr "Remetente de Email"
+
+#: amadeus/templates/base.html:187
+msgid "Security"
+msgstr "Segurança"
+
+#: amadeus/templates/base.html:188
+msgid "Theme"
+msgstr "Temas"
+
+#: amadeus/templates/base.html:189
+msgid "Web Conference"
+msgstr "Web conferência"
+
+#: amadeus/templates/base.html:209 amadeus/templates/base.html:264
+msgid "Subjects"
+msgstr "Assuntos"
+
+#: amadeus/templates/base.html:214 amadeus/templates/base.html:269
+msgid "Mural"
+msgstr "Mural"
+
+#: amadeus/templates/base.html:220 amadeus/templates/base.html:275
+msgid "Messages"
+msgstr "Mensagens"
+
+#: amadeus/templates/base.html:226 amadeus/templates/base.html:281
+msgid "Pendencies"
+msgstr "Pendências"
+
+#: amadeus/templates/base.html:234 amadeus/templates/base.html:289
+msgid "Analytics"
+msgstr "Analytics"
+
+#: amadeus/templates/recover_pass_email_template.html:7
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+"Você está recebendo esse email porque você solicitou uma alteração de senha "
+"para a sua conta em %(site_name)s."
+
+#: amadeus/templates/recover_pass_email_template.html:9
+msgid "Please go to the following page and choose a new password:"
+msgstr "Por favor vá até a seguinte página e escolha uma nova senha:"
+
+#: amadeus/templates/recover_pass_email_template.html:15
+#, python-format
+msgid "The %(site_name)s team"
+msgstr "Time %(site_name)s"
+
+#~ msgid "Timeline"
+#~ msgstr "Timeline"

@@ -1,0 +1,18 @@
+{% extends template_extends %}
+
+{% load widget_tweaks static i18n permission_tags django_bootstrap_breadcrumbs switchevenodd %}
+
+{% block breadcrumbs %}
+	{{ block.super }}
+	{% breadcrumb 'Create Category' 'categories:create' %}
+{% endblock %}
+
+{% block content %}
+	<div class="card card-content">
+	    <div class="card-body">
+	    	{% include 'categories/_form.html' %}
+		</div>
+	</div>
+	<br clear="all">
+	<br clear="all">
+{% endblock %}

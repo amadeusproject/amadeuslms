@@ -1,0 +1,263 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-23 12:29-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\forms.py:36
+msgid "Tags"
+msgstr "Tags"
+
+#: .\forms.py:42
+msgid "Video title"
+msgstr "Título do Vídeo"
+
+#: .\forms.py:62
+msgid "This subject already has a resource with this name"
+msgstr "Esse assunto já possui um recurso com esse nome"
+
+#: .\forms.py:71
+msgid "Invalid URL. It should be an YouTube link."
+msgstr "URL inválida. Ela deve ser uma URL de um vídeo do YouTube."
+
+#: .\models.py:8
+msgid "URL"
+msgstr "URL"
+
+#: .\models.py:11
+msgid "YTVideo"
+msgstr "Vídeo do YouTube"
+
+#: .\models.py:12
+msgid "YTVideos"
+msgstr "Vídeos do YouTube"
+
+#: .\models.py:30
+msgid "Are you sure you want delete the YouTube Video"
+msgstr "Você tem certeza que deseja deletar o Vídeo do YouTube"
+
+#: .\templates\youtube\_form.html:49
+msgid "Common resources settings"
+msgstr "Configurações comuns à todos os recursos"
+
+#: .\templates\youtube\_form.html:98
+msgid "Pendencies Notifications"
+msgstr "Notificações de Pendências"
+
+#: .\templates\youtube\_form.html:119
+msgid "Action not performed by the user"
+msgstr "Ação não realizada pelo usuário"
+
+#: .\templates\youtube\_form.html:145
+msgid "Wished period"
+msgstr "Período desejado"
+
+#: .\templates\youtube\_form.html:242
+msgid "Attribute students to YouTube Video"
+msgstr "Atribuir estudantes ao Vídeo do YouTube"
+
+#: .\templates\youtube\_form.html:262
+msgid "Attribute groups to YouTube Video"
+msgstr "Atribuir grupos de estudo ao Vídeo do YouTube"
+
+#: .\templates\youtube\_form.html:331
+msgid "Save"
+msgstr "Salvar"
+
+#: .\templates\youtube\_form.html:338
+msgid "Add new notification"
+msgstr "Adicionar nova notificação"
+
+#: .\templates\youtube\_form.html:339
+msgid "Remove this"
+msgstr "Remover essa notificação"
+
+#: .\templates\youtube\create.html:21
+msgid "Create YouTube Video"
+msgstr "Adicionar Vídeo do YouTube"
+
+#: .\templates\youtube\relatorios.html:17
+#: .\templates\youtube\relatorios.html:37
+msgid "User"
+msgstr "Usuário"
+
+#: .\templates\youtube\relatorios.html:17
+#: .\templates\youtube\relatorios.html:37
+msgid "Group"
+msgstr "Grupo"
+
+#: .\templates\youtube\relatorios.html:17
+msgid "Action"
+msgstr "Ação"
+
+#: .\templates\youtube\relatorios.html:17
+msgid "Date of Action"
+msgstr "Data da ação"
+
+#: .\templates\youtube\relatorios.html:37
+msgid "Send message"
+msgstr "Enviar Mensagem"
+
+#: .\templates\youtube\relatorios.html:37
+msgid "Action don't realized"
+msgstr "Ação não realizada"
+
+#: .\templates\youtube\relatorios.html:230
+#: .\templates\youtube\relatorios.html:252
+msgid "Reports"
+msgstr "Relatórios"
+
+#: .\templates\youtube\relatorios.html:259
+msgid "Report of the resource "
+msgstr "Relatórios do recurso "
+
+#: .\templates\youtube\relatorios.html:268
+msgid "Select the period: "
+msgstr "Selecione o período: "
+
+#: .\templates\youtube\relatorios.html:277
+msgid "Search"
+msgstr "Pesquisar"
+
+#: .\templates\youtube\relatorios.html:301
+msgid "Filter: "
+msgstr "Filtro: "
+
+#: .\templates\youtube\relatorios.html:325
+#: .\templates\youtube\relatorios.html:410
+#: .\templates\youtube\relatorios.html:513
+msgid "record(s)"
+msgstr "Relatório(s)"
+
+#: .\templates\youtube\send_message.html:38
+msgid "Click or drop the picture here"
+msgstr "Clique ou solte a imagem aqui"
+
+#: .\templates\youtube\send_message.html:40
+msgid "The picture could not exceed 5MB."
+msgstr "A imagem não pode exceder 5MB."
+
+#: .\templates\youtube\send_message.html:62
+msgid "Close"
+msgstr "Fechar"
+
+#: .\templates\youtube\send_message.html:63
+msgid "Send"
+msgstr "Enviar"
+
+#: .\templates\youtube\update.html:21
+msgid "Edit: "
+msgstr "Editar: "
+
+#: .\views.py:62
+#, python-format
+msgid "%s - Video"
+msgstr "%s - Vídeo"
+
+#: .\views.py:164 .\views.py:177 .\views.py:196 .\views.py:299 .\views.py:312
+#: .\views.py:321
+msgid "Visualize"
+msgstr "Visualizar"
+
+#: .\views.py:164 .\views.py:177 .\views.py:196 .\views.py:299 .\views.py:312
+#: .\views.py:321 .\views.py:552
+msgid "Finish"
+msgstr "Finalizar"
+
+#: .\views.py:243
+msgid "Create Youtube Video"
+msgstr "Adicionar Vídeo do YouTube"
+
+#: .\views.py:254
+#, python-format
+msgid ""
+"The Youtube Video \"%s\" was added to the Topic \"%s\" of the virtual "
+"environment \"%s\" successfully!"
+msgstr ""
+"O Vídeo do YouTube \"%s\" foi adicionado ao tópico \"%s\" do ambiente "
+"virtual \"%s\" com sucesso!"
+
+#: .\views.py:362
+msgid "Update YouTube Video"
+msgstr "Atualizar Vídeo do YouTube"
+
+#: .\views.py:373
+#, python-format
+msgid "The YouTube Video \"%s\" was updated successfully!"
+msgstr "O Vídeo do YouTube \"%s\" foi atualizado com sucesso!"
+
+#: .\views.py:409
+#, python-format
+msgid ""
+"The YouTube Video \"%s\" was removed successfully from virtual environment "
+"\"%s\"!"
+msgstr ""
+"O Vídeo do YouTube \"%s\" foi removido do ambiente virtual \"%s\" com "
+"sucesso!"
+
+#: .\views.py:521
+msgid "Youtube Video Reports"
+msgstr "Relatórios de Vídeo do YouTube"
+
+#: .\views.py:540
+msgid "Realized"
+msgstr "Realizada"
+
+#: .\views.py:540
+msgid "Unrealized"
+msgstr "Não Realizada"
+
+#: .\views.py:540
+msgid "Historic"
+msgstr "Histórico"
+
+#: .\views.py:552
+msgid "View"
+msgstr "Visualizar"
+
+#: .\views.py:552
+msgid "Watch"
+msgstr "Assistir"
+
+#: .\views.py:578
+msgid "Youtube Video"
+msgstr "Vídeo do YouTube"
+
+#: .\views.py:591
+msgid "Actions about resource"
+msgstr "Ações sobre o recurso"
+
+#: .\views.py:592
+msgid "Quantity"
+msgstr "Quantidade"
+
+#: .\views.py:639
+msgid "[Photo]"
+msgstr "[Imagem]"
+
+#: .\views.py:651
+#, python-format
+msgid "Last message in %s"
+msgstr "Última mensagem em %s"
+
+#: .\views.py:659
+msgid "The message was successfull sent!"
+msgstr "A mensagem foi enviada com sucesso!"
+
+#: .\views.py:661
+msgid "No user selected!"
+msgstr "Nenhum usuário selecionado!"

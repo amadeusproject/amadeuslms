@@ -1,0 +1,24 @@
+{% load static i18n permission_tags %}
+
+<!-- Modal (remember to change the ids!!!) -->
+<div class="modal fade" id="topic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+           <!-- Modal Body -->
+      <div class="modal-body">
+        <!-- Put ONLY your content here!!!  -->
+        <form id="delete_form" action="{% url 'topics:delete' topic.slug %}" method="post">
+          {% csrf_token %}
+          <h4>{% trans 'Are you sure you want delete the topic' %}: {{ topic }}?</h4>
+          <p>{% trans 'All data will be lost and havent how recover it.' %}</p>
+        </form>
+      </div>
+      <!-- Modal Footer -->
+      <div id="delete-category-footer"class="modal-footer">
+        <!-- Don't remove that!!!  -->
+        <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+        <button type="submit" id="button" form="delete_form" class="btn btn-success btn-raised erase-button">{% trans "Delete" %}</button>
+      </div>
+    </div>
+  </div>
+</div>

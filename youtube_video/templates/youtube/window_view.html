@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+{% load static i18n %}
+
+<html>
+<head>
+	<title>{{ title }} | {{ theme.title }}</title>
+
+	<script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
+
+	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
+	<link href="{{ theme.favicon_url }}" rel="shortcut icon" />
+
+	<style type="text/css">
+		body {
+			padding: 0;
+			margin: 0;
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body>
+	<input type="hidden" id="log_finish_url" value="{% url 'youtube:finish' youtube.slug %}" />
+	<input type="hidden" id="log_url" value="{% url 'youtube:watch' youtube.slug %}" />
+	<input type="hidden" id="log_id" value="" />
+  	<iframe src="{{ youtube.get_embed_url }}?enablejsapi=1" frameborder="0" allowfullscreen id="video"></iframe>
+
+  	<script type="text/javascript" src="{% static 'js/ytvideo.js' %}"></script>
+	<script type="text/javascript">
+		$(function(){
+  			$('#video').css({ width: $(window).innerWidth() + 'px', height: $(window).innerHeight() + 'px' });
+
+  			// If you want to keep full screen on window resize
+  			$(window).resize(function(){
+    			$('#video').css({ width: $(window).innerWidth() + 'px', height: $(window).innerHeight() + 'px' });
+  			});
+		});
+	</script>
+</body>
+</html>
