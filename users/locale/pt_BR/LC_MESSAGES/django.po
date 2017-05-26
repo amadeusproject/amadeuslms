@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-15 00:13-0300\n"
+"POT-Creation-Date: 2017-05-25 23:31-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,16 +43,16 @@ msgstr "Confirmação de Senha"
 msgid "Email"
 msgstr "Email"
 
-#: users/forms.py:110 users/models.py:27 users/templates/users/list.html:55
+#: users/forms.py:110 users/models.py:29 users/templates/users/list.html:55
 #: users/templates/users/search.html:46
 msgid "Name"
 msgstr "Nome"
 
-#: users/forms.py:111 users/models.py:28
+#: users/forms.py:111 users/models.py:30
 msgid "Last Name"
 msgstr "Sobrenome"
 
-#: users/forms.py:112 users/models.py:29
+#: users/forms.py:112 users/models.py:31
 msgid "Social Name"
 msgstr "Nome Social"
 
@@ -72,15 +72,15 @@ msgstr "Senha Atual"
 msgid "You must insert a valid email address"
 msgstr "Você deve inserir um endereço de email válido"
 
-#: users/models.py:16
+#: users/models.py:18
 msgid "File not supported."
 msgstr "Arquivo não suportado."
 
-#: users/models.py:20
+#: users/models.py:22
 msgid "Mail"
 msgstr "Email"
 
-#: users/models.py:23
+#: users/models.py:25
 msgid ""
 "Type a valid email. This fields should only contain letters, numbers and the "
 "characteres: @/./+/-/_ ."
@@ -88,64 +88,64 @@ msgstr ""
 "Digite um email válido. Esse campo deve conter apenas letras, números e os "
 "caracteres: @/./+/-/_ ."
 
-#: users/models.py:26
+#: users/models.py:28
 msgid "Your email address that will be used to access the platform"
 msgstr "Seu endereço de email que será usado para acessar a plataforma"
 
-#: users/models.py:30 users/templates/users/list.html:57
+#: users/models.py:32 users/templates/users/list.html:57
 #: users/templates/users/profile.html:60 users/templates/users/search.html:48
 msgid "Description"
 msgstr "Descrição"
 
-#: users/models.py:31
+#: users/models.py:33
 msgid "Photo"
 msgstr "Foto"
 
-#: users/models.py:32
+#: users/models.py:34
 msgid "Create Date"
 msgstr "Data de Criação"
 
-#: users/models.py:33
+#: users/models.py:35
 msgid "Last Update"
 msgstr "Última Atualização"
 
-#: users/models.py:34
+#: users/models.py:36
 msgid "Show email?"
 msgstr "Mostrar email?"
 
-#: users/models.py:34
+#: users/models.py:36
 msgid "Allow everyone to see my address"
 msgstr "Permitir que todos vejam meu endereço de email"
 
-#: users/models.py:34
+#: users/models.py:36
 msgid "Only classmates can see my address"
 msgstr "Apenas meus colegas de disciplina podem ver meu endereço de email"
 
-#: users/models.py:34
+#: users/models.py:36
 msgid "Nobody can see my address"
 msgstr "Ninguém pode ver meu endereço de email"
 
-#: users/models.py:35
+#: users/models.py:37
 msgid "Administrator"
 msgstr "Administrador"
 
-#: users/models.py:36
+#: users/models.py:38
 msgid "Active"
 msgstr "Ativo"
 
-#: users/models.py:44
+#: users/models.py:46
 msgid "User"
 msgstr "Usuário"
 
-#: users/models.py:45
+#: users/models.py:47
 msgid "Users"
 msgstr "Usuários"
 
-#: users/models.py:63
+#: users/models.py:70
 msgid "Yes"
 msgstr "Sim"
 
-#: users/models.py:65
+#: users/models.py:72
 msgid "Is not an admin"
 msgstr "Não é administrador"
 
@@ -235,7 +235,7 @@ msgstr "Entrar"
 msgid "Sign Up"
 msgstr "Cadastrar"
 
-#: users/templates/users/login.html:81 users/templates/users/login.html:117
+#: users/templates/users/login.html:81 users/templates/users/login.html:114
 msgid "Forgot your password?"
 msgstr "Esqueceu sua senha?"
 

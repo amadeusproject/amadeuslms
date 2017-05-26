@@ -17,6 +17,7 @@ from amadeus.permissions import has_subject_permissions, has_resource_permission
 from topics.models import Topic
 from users.models import User
 
+from .utils import brodcast_dificulties
 from .forms import GoalsForm, MyGoalsForm, InlinePendenciesFormset, InlineGoalItemFormset
 from .models import Goals, MyGoals
 
@@ -344,6 +345,16 @@ class NewWindowSubmit(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 			form.save()
 
+		dificulties = self.request.POST.get('dificulties', None)
+
+		if not dificulties is None:
+			slug = self.kwargs.get('slug', '')
+			goals = get_object_or_404(Goals, slug = slug)
+
+			message = _("#Dificulty(ies) found in %s")%(str(goals)) + ":<p>" + dificulties + "</p>"
+
+			brodcast_dificulties(self.request, message, goals.topic.subject)
+
 		return redirect(self.get_success_url())
 
 	def get_context_data(self, **kwargs):
@@ -445,7 +456,7 @@ class SubmitView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 	def post(self, request, *args, **kwargs):
 		self.object = None
-		
+
 		form_class = self.get_form_class()
 		form = self.get_form(form_class)
 
@@ -469,6 +480,16 @@ class SubmitView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 			form.user = self.request.user
 
 			form.save()
+
+		dificulties = self.request.POST.get('dificulties', None)
+
+		if not dificulties is None:
+			slug = self.kwargs.get('slug', '')
+			goals = get_object_or_404(Goals, slug = slug)
+
+			message = _("#Dificulty(ies) found in %s")%(str(goals)) + ":<p>" + dificulties + "</p>"
+
+			brodcast_dificulties(self.request, message, goals.topic.subject)
 
 		return redirect(self.get_success_url())
 
@@ -577,6 +598,16 @@ class UpdateSubmit(LoginRequiredMixin, LogMixin, generic.UpdateView):
 			form = forms.save(commit = False)
 
 			form.save()
+
+		dificulties = self.request.POST.get('dificulties', None)
+
+		if not dificulties is None:
+			slug = self.kwargs.get('slug', '')
+			goals = get_object_or_404(Goals, slug = slug)
+
+			message = _("#Dificulty(ies) found in %s")%(str(goals)) + ":<p>" + dificulties + "</p>"
+
+			brodcast_dificulties(self.request, message, goals.topic.subject)
 
 		return redirect(self.get_success_url())
 

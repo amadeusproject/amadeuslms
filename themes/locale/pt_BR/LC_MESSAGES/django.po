@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-15 00:13-0300\n"
+"POT-Creation-Date: 2017-05-25 23:31-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,6 +55,10 @@ msgid "Green"
 msgstr "Verde"
 
 #: themes/models.py:19
+msgid "Contrast"
+msgstr ""
+
+#: themes/models.py:19
 msgid "Red"
 msgstr "Vermelho"
 
@@ -66,13 +70,13 @@ msgstr "Preto"
 msgid "Theme"
 msgstr "Tema"
 
-#: themes/models.py:23 themes/views.py:21
+#: themes/models.py:23 themes/views.py:23
 msgid "Themes"
 msgstr "Temas"
 
 #: themes/templates/themes/basic_update.html:16
 #: themes/templates/themes/css_update.html:16
-#: themes/templates/themes/index.html:17 themes/views.py:48
+#: themes/templates/themes/index.html:17 themes/views.py:50
 msgid "Basic Elements"
 msgstr "Elementos Básicos"
 
@@ -93,17 +97,17 @@ msgid "It is recommended to be a white image"
 msgstr "É recomendável ser uma imagem branca"
 
 #: themes/templates/themes/basic_update.html:89
-#: themes/templates/themes/css_update.html:69
+#: themes/templates/themes/css_update.html:75
 msgid "Save"
 msgstr "Salvar"
 
 #: themes/templates/themes/basic_update.html:94
 #: themes/templates/themes/css_update.html:17
-#: themes/templates/themes/index.html:18 themes/views.py:76
+#: themes/templates/themes/index.html:18 themes/views.py:78
 msgid "CSS Selector"
 msgstr "Seletor CSS"
 
-#: themes/templates/themes/css_update.html:45
+#: themes/templates/themes/css_update.html:49
 msgid "Documentation"
 msgstr "Documentação"
 
@@ -111,6 +115,6 @@ msgstr "Documentação"
 msgid "Settings: Themes"
 msgstr "Configurações: Temas"
 
-#: themes/views.py:41 themes/views.py:69
+#: themes/views.py:43 themes/views.py:71
 msgid "Theme settings updated successfully!"
 msgstr "Configurações de tema atualizadas com sucesso!"

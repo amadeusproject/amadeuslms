@@ -12,7 +12,7 @@ class SimpleFileLinkSerializer(serializers.ModelSerializer):
 	topic = TopicSerializer('get_subject')
 	tags = TagSerializer(many = True)
 	pendencies_resource = PendenciesSerializer(many = True)
-	file_content = serializers.CharField(required = False, allow_blank = True)
+	file_content = serializers.CharField(required = False, allow_blank = True, max_length = 255)
 
 	def get_subject(self, obj):
 		subject = self.context.get("subject", None)

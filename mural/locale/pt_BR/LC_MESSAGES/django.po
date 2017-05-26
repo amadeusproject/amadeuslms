@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-15 00:13-0300\n"
+"POT-Creation-Date: 2017-05-25 23:31-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -178,7 +178,7 @@ msgstr "Editar"
 #: mural/templates/mural/_view_comment.html:54
 #: mural/templates/mural/list_category.html:61
 #: mural/templates/mural/list_subject.html:60
-#: mural/templates/mural/subject_view.html:41
+#: mural/templates/mural/subject_view.html:42
 msgid "Remove"
 msgstr "Remover"
 
@@ -240,10 +240,10 @@ msgstr "Por Assunto"
 #: mural/templates/mural/list_subject.html:87
 #: mural/templates/mural/list_subject.html:125
 #: mural/templates/mural/list_subject.html:138
-#: mural/templates/mural/resource_view.html:73
-#: mural/templates/mural/resource_view.html:86
-#: mural/templates/mural/subject_view.html:85
-#: mural/templates/mural/subject_view.html:98
+#: mural/templates/mural/resource_view.html:66
+#: mural/templates/mural/resource_view.html:79
+#: mural/templates/mural/subject_view.html:81
+#: mural/templates/mural/subject_view.html:94
 msgid "Filter"
 msgstr "Filtrar"
 
@@ -252,8 +252,8 @@ msgstr "Filtrar"
 #: mural/templates/mural/list_category.html:131
 #: mural/templates/mural/list_subject.html:79
 #: mural/templates/mural/list_subject.html:130
-#: mural/templates/mural/resource_view.html:78
-#: mural/templates/mural/subject_view.html:90
+#: mural/templates/mural/resource_view.html:71
+#: mural/templates/mural/subject_view.html:86
 msgid "Favorite posts"
 msgstr "Postagens favoritas"
 
@@ -262,8 +262,8 @@ msgstr "Postagens favoritas"
 #: mural/templates/mural/list_category.html:136
 #: mural/templates/mural/list_subject.html:84
 #: mural/templates/mural/list_subject.html:135
-#: mural/templates/mural/resource_view.html:83
-#: mural/templates/mural/subject_view.html:95
+#: mural/templates/mural/resource_view.html:76
+#: mural/templates/mural/subject_view.html:91
 msgid "Only my posts"
 msgstr "Apenas minhas postagens"
 
@@ -272,24 +272,24 @@ msgstr "Apenas minhas postagens"
 #: mural/templates/mural/list_category.html:140
 #: mural/templates/mural/list_subject.html:88
 #: mural/templates/mural/list_subject.html:139
-#: mural/templates/mural/resource_view.html:87
-#: mural/templates/mural/subject_view.html:99
+#: mural/templates/mural/resource_view.html:80
+#: mural/templates/mural/subject_view.html:95
 msgid "Clean Filters"
 msgstr "Limpar Filtros"
 
 #: mural/templates/mural/list.html:52
 #: mural/templates/mural/list_category.html:101
 #: mural/templates/mural/list_subject.html:100
-#: mural/templates/mural/resource_view.html:51
-#: mural/templates/mural/subject_view.html:63
+#: mural/templates/mural/resource_view.html:44
+#: mural/templates/mural/subject_view.html:59
 msgid "Wish to make a new post?"
 msgstr "Deseja fazer uma nova postagem?"
 
 #: mural/templates/mural/list.html:70
 #: mural/templates/mural/list_category.html:122
 #: mural/templates/mural/list_subject.html:121
-#: mural/templates/mural/resource_view.html:69
-#: mural/templates/mural/subject_view.html:81
+#: mural/templates/mural/resource_view.html:62
+#: mural/templates/mural/subject_view.html:77
 msgid "There are no posts in this mural yet."
 msgstr "Ainda não existe nenhuma postagem nesse mural."
 
@@ -318,9 +318,15 @@ msgid "Groups"
 msgstr "Grupos"
 
 #: mural/templates/mural/resource_view.html:12
-#: mural/templates/mural/subject_view.html:9 mural/views.py:101
+#: mural/templates/mural/resource_view.html:29
+#: mural/templates/mural/subject_view.html:9
+#: mural/templates/mural/subject_view.html:27 mural/views.py:101
 msgid "Mural"
 msgstr "Mural"
+
+#: mural/templates/mural/subject_view.html:41
+msgid "Backup"
+msgstr ""
 
 #: mural/templatetags/mural_filters.py:17
 msgid "(Edited)"
