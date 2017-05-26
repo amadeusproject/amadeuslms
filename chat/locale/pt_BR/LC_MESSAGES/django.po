@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-15 00:12-0300\n"
+"POT-Creation-Date: 2017-05-25 22:34-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -141,25 +141,27 @@ msgstr "Ver Perfil"
 
 #: chat/templates/chat/list.html:9 chat/templates/chat/list_participants.html:9
 #: chat/templates/chat/subject_view.html:9
-#: chat/templates/chat/subject_view_participants.html:9 chat/views.py:65
+#: chat/templates/chat/subject_view.html:27
+#: chat/templates/chat/subject_view_participants.html:9
+#: chat/templates/chat/subject_view_participants.html:31 chat/views.py:65
 msgid "Messages"
 msgstr "Mensagens"
 
 #: chat/templates/chat/list.html:24
 #: chat/templates/chat/list_participants.html:26
-#: chat/templates/chat/subject_view.html:56
-#: chat/templates/chat/subject_view_participants.html:60
+#: chat/templates/chat/subject_view.html:58
+#: chat/templates/chat/subject_view_participants.html:62
 msgid "Search..."
 msgstr "Pesquisar..."
 
 #: chat/templates/chat/list.html:35
 #: chat/templates/chat/list_participants.html:37
-#: chat/templates/chat/subject_view.html:67
-#: chat/templates/chat/subject_view_participants.html:71
+#: chat/templates/chat/subject_view.html:69
+#: chat/templates/chat/subject_view_participants.html:73
 msgid "List all participants"
 msgstr "Listar todos os Participantes"
 
-#: chat/templates/chat/list.html:42 chat/templates/chat/subject_view.html:74
+#: chat/templates/chat/list.html:42 chat/templates/chat/subject_view.html:75
 msgid "Conversations"
 msgstr "Conversas"
 
@@ -170,7 +172,7 @@ msgstr "Você não possui mensagens nesse espaço ainda."
 #: chat/templates/chat/list_participants.html:10
 #: chat/templates/chat/list_participants.html:44
 #: chat/templates/chat/subject_view_participants.html:13
-#: chat/templates/chat/subject_view_participants.html:78
+#: chat/templates/chat/subject_view_participants.html:79
 msgid "Participants"
 msgstr "Participantes"
 
@@ -196,6 +198,11 @@ msgstr "Grupos"
 
 #: chat/templates/chat/subject_view.html:41
 #: chat/templates/chat/subject_view_participants.html:45
+msgid "Backup"
+msgstr ""
+
+#: chat/templates/chat/subject_view.html:42
+#: chat/templates/chat/subject_view_participants.html:46
 msgid "Remove"
 msgstr "Remover"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-15 00:12-0300\n"
+"POT-Creation-Date: 2017-05-25 22:34-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -165,14 +165,14 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: notifications/templates/notifications/index.html:19
-#: notifications/templates/notifications/subject.html:13
+#: notifications/templates/notifications/subject.html:29
 msgid "This pendencies list is updated every 24 hours. Last update was in:"
 msgstr ""
 "Esta lista de pendências é atualizada a cada 24 horas. A última atualização "
 "ocorreu em:"
 
 #: notifications/templates/notifications/index.html:19
-#: notifications/templates/notifications/subject.html:13
+#: notifications/templates/notifications/subject.html:29
 msgid "Not determined"
 msgstr "Não Determinado"
 
@@ -194,7 +194,7 @@ msgstr "Histórico de Notificações"
 msgid "You do not posses any pendency."
 msgstr "Você não possui nenhuma pendência."
 
-#: notifications/templates/notifications/subject.html:24
+#: notifications/templates/notifications/subject.html:23
 #: notifications/views.py:204
 msgid "Pendencies"
 msgstr "Pendências"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-24 13:26-0300\n"
+"POT-Creation-Date: 2017-05-25 22:34-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\forms.py:26
+#: file_link/forms.py:26
 msgid "Tags"
 msgstr "Tags"
 
-#: .\forms.py:32
+#: file_link/forms.py:32
 msgid "File name"
 msgstr "Nome do arquivo"
 
-#: .\forms.py:52
+#: file_link/forms.py:52
 msgid "This subject already has a file link with this name"
 msgstr "Esse assunto já possui um Link para Arquivo com esse nome"
 
-#: .\forms.py:64
+#: file_link/forms.py:64
 msgid "The file is too large. It should have less than 10MB."
 msgstr "Esse arquivo é muito grande. Ele deve conter menos de 10MB."
 
-#: .\forms.py:69
+#: file_link/forms.py:69
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
-#: .\models.py:23
+#: file_link/models.py:23
 msgid ""
 "Please select a valid file. The uploaded file must have one of the following "
 "extensions: .doc, .docx, .html, .jpg, .odp, .ods, .odt, .pdf, .png, .ppt, ."
@@ -48,144 +48,144 @@ msgstr ""
 "das seguintes extensões: .doc, .docx, .html, .jpg, .odp, .ods, .odt, .pdf, ."
 "png, .ppt, .pptx, .xlx e .xlsx"
 
-#: .\models.py:26
+#: file_link/models.py:26
 msgid "File"
 msgstr "Arquivo"
 
-#: .\models.py:29
+#: file_link/models.py:29
 msgid "File Link"
 msgstr "Link para Arquivo"
 
-#: .\models.py:30
+#: file_link/models.py:30
 msgid "File Links"
 msgstr "Links para Arquivo"
 
-#: .\models.py:49
+#: file_link/models.py:49
 msgid "Are you sure you want delete the file link"
 msgstr "Você tem certeza que deseja remover o Link para Arquivo"
 
-#: .\templates\file_links\_form.html:33
+#: file_link/templates/file_links/_form.html:33
 msgid "Choose your file..."
 msgstr "Escolha seu arquivo..."
 
-#: .\templates\file_links\_form.html:47
+#: file_link/templates/file_links/_form.html:47
 msgid "Click or drop the file here"
 msgstr "Clique ou solte o arquivo aqui"
 
-#: .\templates\file_links\_form.html:49
+#: file_link/templates/file_links/_form.html:49
 msgid "The file could not exceed 10MB."
 msgstr "O arquivo não pode exceder 10MB."
 
-#: .\templates\file_links\_form.html:69
+#: file_link/templates/file_links/_form.html:69
 msgid "Common resources settings"
 msgstr "Configurações comuns à todos os recursos"
 
-#: .\templates\file_links\_form.html:118
+#: file_link/templates/file_links/_form.html:118
 msgid "Pendencies Notifications"
 msgstr "Notificações de Pendências"
 
-#: .\templates\file_links\_form.html:134
+#: file_link/templates/file_links/_form.html:134
 msgid "Action not performed by the user"
 msgstr "Ação não realizada pelo usuário"
 
-#: .\templates\file_links\_form.html:160
+#: file_link/templates/file_links/_form.html:160
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: .\templates\file_links\_form.html:256
+#: file_link/templates/file_links/_form.html:256
 msgid "Attribute students to file link"
 msgstr "Atribuir estudantes ao Link para Arquivo"
 
-#: .\templates\file_links\_form.html:276
+#: file_link/templates/file_links/_form.html:276
 msgid "Attribute groups to file link"
 msgstr "Atribuir grupos de estudo ao Link para Arquivo"
 
-#: .\templates\file_links\_form.html:322
+#: file_link/templates/file_links/_form.html:322
 msgid "Save"
 msgstr "Salvar"
 
-#: .\templates\file_links\create.html:20 .\views.py:194
+#: file_link/templates/file_links/create.html:20 file_link/views.py:194
 msgid "Create File Link"
 msgstr "Criar Link para Arquivo"
 
-#: .\templates\file_links\relatorios.html:17
-#: .\templates\file_links\relatorios.html:37
+#: file_link/templates/file_links/relatorios.html:17
+#: file_link/templates/file_links/relatorios.html:37
 msgid "User"
 msgstr "Usuário"
 
-#: .\templates\file_links\relatorios.html:17
-#: .\templates\file_links\relatorios.html:37
+#: file_link/templates/file_links/relatorios.html:17
+#: file_link/templates/file_links/relatorios.html:37
 msgid "Group"
 msgstr "Grupo"
 
-#: .\templates\file_links\relatorios.html:17
+#: file_link/templates/file_links/relatorios.html:17
 msgid "Action"
 msgstr "Ação"
 
-#: .\templates\file_links\relatorios.html:17
+#: file_link/templates/file_links/relatorios.html:17
 msgid "Date of Action"
 msgstr "Data da ação"
 
-#: .\templates\file_links\relatorios.html:37
+#: file_link/templates/file_links/relatorios.html:37
 msgid "Send message"
 msgstr "Enviar Mensagem"
 
-#: .\templates\file_links\relatorios.html:37
+#: file_link/templates/file_links/relatorios.html:37
 msgid "Action don't realized"
 msgstr "Ação não realizada"
 
-#: .\templates\file_links\relatorios.html:153
-#: .\templates\file_links\relatorios.html:175
+#: file_link/templates/file_links/relatorios.html:153
+#: file_link/templates/file_links/relatorios.html:175
 msgid "Reports"
 msgstr "Relatórios"
 
-#: .\templates\file_links\relatorios.html:182
+#: file_link/templates/file_links/relatorios.html:182
 msgid "Report of the resource "
 msgstr "Relatórios do recurso "
 
-#: .\templates\file_links\relatorios.html:191
+#: file_link/templates/file_links/relatorios.html:191
 msgid "Select the period: "
 msgstr "Selecione o período: "
 
-#: .\templates\file_links\relatorios.html:200
+#: file_link/templates/file_links/relatorios.html:200
 msgid "Search"
 msgstr "Pesquisar"
 
-#: .\templates\file_links\relatorios.html:224
+#: file_link/templates/file_links/relatorios.html:224
 msgid "Filter: "
 msgstr "Filtro: "
 
-#: .\templates\file_links\relatorios.html:248
-#: .\templates\file_links\relatorios.html:333
+#: file_link/templates/file_links/relatorios.html:248
+#: file_link/templates/file_links/relatorios.html:333
 msgid "record(s)"
 msgstr "Relatório(s)"
 
-#: .\templates\file_links\send_message.html:38
+#: file_link/templates/file_links/send_message.html:38
 msgid "Click or drop the picture here"
 msgstr "Clique ou solte a imagem aqui"
 
-#: .\templates\file_links\send_message.html:40
+#: file_link/templates/file_links/send_message.html:40
 msgid "The picture could not exceed 5MB."
 msgstr "A imagem não pode exceder 5MB."
 
-#: .\templates\file_links\send_message.html:62
+#: file_link/templates/file_links/send_message.html:62
 msgid "Close"
 msgstr "Fechar"
 
-#: .\templates\file_links\send_message.html:63
+#: file_link/templates/file_links/send_message.html:63
 msgid "Send"
 msgstr "Enviar"
 
-#: .\templates\file_links\update.html:20
+#: file_link/templates/file_links/update.html:20
 msgid "Edit: "
 msgstr "Editar: "
 
-#: .\views.py:121 .\views.py:134 .\views.py:244 .\views.py:246 .\views.py:262
-#: .\views.py:264
+#: file_link/views.py:121 file_link/views.py:134 file_link/views.py:244
+#: file_link/views.py:246 file_link/views.py:262 file_link/views.py:264
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: .\views.py:205
+#: file_link/views.py:205
 #, python-format
 msgid ""
 "The File Link \"%s\" was added to the Topic \"%s\" of the virtual "
@@ -194,16 +194,16 @@ msgstr ""
 "O Link para Arquivo \"%s\" foi adicionado ao tópico \"%s\" do ambiente "
 "virtual \"%s\" com sucesso!"
 
-#: .\views.py:308
+#: file_link/views.py:308
 msgid "Update File Link"
 msgstr "Atualizar Link para Arquivo"
 
-#: .\views.py:319
+#: file_link/views.py:319
 #, python-format
 msgid "The File Link \"%s\" was updated successfully!"
 msgstr "O Link para Arquivo \"%s\" foi atualizado com sucesso!"
 
-#: .\views.py:346
+#: file_link/views.py:346
 #, python-format
 msgid ""
 "The File Link \"%s\" was removed successfully from virtual environment \"%s"
@@ -212,52 +212,52 @@ msgstr ""
 "O Link para Arquivo \"%s\" foi removido do ambiente virtual \"%s\" com "
 "sucesso!"
 
-#: .\views.py:405
+#: file_link/views.py:405
 msgid "File Link Reports"
 msgstr "Relatŕios de Link para Arquivo"
 
-#: .\views.py:424
+#: file_link/views.py:424
 msgid "Realized"
 msgstr "Realizada"
 
-#: .\views.py:424
+#: file_link/views.py:424
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: .\views.py:424
+#: file_link/views.py:424
 msgid "Historic"
 msgstr "Histórico"
 
-#: .\views.py:439 .\views.py:447
+#: file_link/views.py:439 file_link/views.py:447
 msgid "View"
 msgstr "Visualizar"
 
-#: .\views.py:448
+#: file_link/views.py:448
 msgid "File link"
 msgstr "Link para Arquivo"
 
-#: .\views.py:453
+#: file_link/views.py:453
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: .\views.py:454
+#: file_link/views.py:454
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: .\views.py:501
+#: file_link/views.py:501
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: .\views.py:513
+#: file_link/views.py:513
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: .\views.py:522
+#: file_link/views.py:522
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: .\views.py:524
+#: file_link/views.py:524
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
 

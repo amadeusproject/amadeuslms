@@ -12,7 +12,7 @@ class SimplePDFFileSerializer(serializers.ModelSerializer):
 	topic = TopicSerializer()
 	tags = TagSerializer(many = True)
 	pendencies_resource = PendenciesSerializer(many = True)
-	file = serializers.CharField(required = False, allow_blank = True)
+	file = serializers.CharField(required = False, allow_blank = True, max_length = 255)
 
 	def validate(self, data):
 		print(self.context)
