@@ -16,21 +16,24 @@
     display: inline-flex;
     width: 50%;
     margin-bottom: 0px; }
-    #general-report-header ul li {
-      margin-right: 2%;
-      width: 50%;
-      color: white;
-      font-size: 20px;
-      background-color: #0f8a9a;
-      width: 100%;
-      text-align: center;
-      border-radius: 20px;
-      height: 30px; }
-    #general-report-header ul li.selected {
-      background-color: #4dcfbd;
-      width: 100%;
-      text-align: center;
-      border-radius: 20px; }
+    #general-report-header ul a {
+      width: 100%; }
+
+li.tab-option {
+  margin-right: 2%;
+  color: white;
+  font-size: 20px;
+  background-color: #0f8a9a;
+  width: 100%;
+  text-align: center;
+  border-radius: 20px;
+  height: 30px; }
+
+li.selected {
+  background-color: #4dcfbd;
+  width: 100%;
+  text-align: center;
+  border-radius: 20px; }
 
 #most-used-tags-header {
   background: linear-gradient(to right, #0e8999, #6bf0ce);
@@ -130,5 +133,8 @@
   background: #52b7bd;
   color: white;
   text-align: center; }
+
+#period-selector {
+  display: flex; }
 
 /*# sourceMappingURL=general.css.map */

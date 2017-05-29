@@ -1,0 +1,52 @@
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs %}
+
+    <section id="general-report">
+        <header id="general-report-header">
+            <h3>{% trans "Amadeus Report" %}</h3>
+
+            <ul id="report-header-options">
+                <a href="{% url 'dashboards:view_general' %}"><li class="tab-option">
+                    {% trans "Focus" %}
+                </li></a>
+                <li  class="tab-option selected">
+                    {% trans "Log" %}
+                </li>
+            </ul>
+        </header> 
+          <div id="period-selector">
+                <div class="container">
+                    <div class='col-md-5'>
+                        <div class="form-group">
+                            <div class='input-group date' id='init_date'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-md-5'>
+                        <div class="form-group">
+                            <div class='input-group date' id='end_date'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                
+            </div>
+        <article class="report-body">
+
+
+            <div id="counter"></div>
+
+            <section id="log-body">
+               
+            </section>
+        </article>
+    </section>
+
