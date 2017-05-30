@@ -137,4 +137,14 @@ li.selected {
 #period-selector {
   display: flex; }
 
+#log-table tr {
+  height: 25px; }
+  #log-table tr:nth-child(odd) {
+    background-color: #bdbdbd; }
+  #log-table tr:nth-child(even) {
+    background-color: white; }
+  #log-table tr td {
+    margin-right: 1%;
+    padding-right: 1%; }
+
 /*# sourceMappingURL=general.css.map */

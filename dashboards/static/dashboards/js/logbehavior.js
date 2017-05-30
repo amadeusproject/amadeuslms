@@ -8,6 +8,7 @@ $(document).ready(function(){
     });
     $("#end_date").on("dp.change", function (e) {
         $('#init_date').data("DateTimePicker").maxDate(e.date);
+        //when the user updates the second one we build the log table
         init_date = $("#init_date").data("DateTimePicker").date();
         log.refresh_log_data(init_date, e.date);
     });
@@ -30,6 +31,9 @@ var log = {
 
 		content = "<table id='log-table'>";
 
+		//add register count
+		count = data.length;
+
 		//load row names at the top 
 		
 		//build row html data
@@ -46,6 +50,7 @@ var log = {
 
 var html_helper = {
 	row_builder: function(datum){
+		//build each table row for each log record
 		result = "";
 		result = "<td>" + datum.datetime + "</td>" + "<td>" + datum.user + "</td>" + "<td>" + datum.component + "</td>"
 		+ "<td>" + datum.resource + "</td>" + "<td>" + datum.action + "</td>" + "<td>" + datum.context.category_name + "</td>"
