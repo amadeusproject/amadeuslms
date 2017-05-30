@@ -110,7 +110,7 @@ class LogView(LogMixin, generic.TemplateView):
         context = {}
         self.createLog(actor = self.request.user)
         
-        context['javascript_files'] = ['dashboards/js/logbehavior.js']
+        context['javascript_files'] = ['dashboards/js/logbehavior.js',  "dashboards/js/jquery.table.hpaging.min.js"]
         context['child_template'] = "dashboards/log.html"
         return context
 

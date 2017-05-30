@@ -29,13 +29,18 @@ var log = {
 	render_table: function(target_id, data){
 		table_body = $('#' + target_id);
 
+
+
 		content = "<table id='log-table'>";
 
 		//add register count
 		count = data.length;
 
+		$(table_body).append( "<h3 id='log-count'>"+count + " registros" + "</h3>");
+
 		//load row names at the top 
-		
+		content += "<th> Datetime </th> <th> Usuário </th> <th> Components </th> <th> Recurso </th><th> Ação </th>"
+			+ "<th> Categoria </th> <th> Assunto </th> <th> Contexto </th>"
 		//build row html data
 		data.forEach(function(datum){
 			content += "<tr>" + html_helper.row_builder(datum) + "</tr>";
@@ -44,6 +49,11 @@ var log = {
 		content += "</table>";
 
 		$(table_body).append(content);
+
+		$('#log-table').hpaging({
+			"limit": 20, //maximum number of elements per page
+		});
+
 	},
 }
 

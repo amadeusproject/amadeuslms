@@ -137,14 +137,33 @@ li.selected {
 #period-selector {
   display: flex; }
 
-#log-table tr {
-  height: 25px; }
-  #log-table tr:nth-child(odd) {
-    background-color: #bdbdbd; }
-  #log-table tr:nth-child(even) {
-    background-color: white; }
-  #log-table tr td {
-    margin-right: 1%;
-    padding-right: 1%; }
+#log-table {
+  width: 100%;
+  border: 1px solid #bdbdbd; }
+  #log-table tr {
+    height: 25px; }
+    #log-table tr:nth-child(odd) {
+      background-color: #bdbdbd; }
+    #log-table tr:nth-child(even) {
+      background-color: white; }
+    #log-table tr td {
+      margin-right: 1%;
+      padding-right: 1%; }
+
+#log-count {
+  text-align: center; }
+
+.pagination {
+  display: inline-block; }
+  .pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none; }
+  .pagination a.active {
+    background-color: #4CAF50;
+    color: white; }
+  .pagination a:hover:not(.active) {
+    background-color: #ddd; }
 
 /*# sourceMappingURL=general.css.map */
