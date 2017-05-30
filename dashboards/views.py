@@ -135,6 +135,10 @@ def parse_log_queryset_to_JSON(logs):
     for log in logs:
         datum = {}
         datum['user'] = log.user
-
+        datum['resource'] = log.resource
+        datum['datetime'] = log.datetime
+        datum['action'] = log.action
+        datum['context'] = log.context
+        datum['component'] = log.component
         data.append(datum)
     return data
