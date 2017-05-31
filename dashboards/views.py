@@ -45,7 +45,8 @@ class GeneralView(LogMixin, generic.TemplateView):
         
         self.createLog(actor = self.request.user)
         context['months'] = self.get_last_twelve_months()
-        
+        context['child_template'] = "dashboards/general_body.html"
+        context['javascript_files'] = ["analytics/js/charts.js", "dashboards/js/behavior.js"]
         return context
 
     def get_last_twelve_months(self):
@@ -83,6 +84,7 @@ class CategoryView(LogMixin, generic.TemplateView):
         self.createLog(actor = self.request.user)
         
         context['categories'] = self.categories_associated_with_user(self.request.user)
+        context['javascript_files'] = ["analytics/js/charts.js", "dashboards/js/behavior.js"]
         
         return context
 
@@ -92,3 +94,51 @@ class CategoryView(LogMixin, generic.TemplateView):
         else:
             categories = Category.objects.filter(coordinators__in = [user])
         return categories
+
+class LogView(LogMixin, generic.TemplateView):
+    template_name = "dashboards/general.html"
+
+    log_component = "admin_log"
+    log_action = "view"
+    log_resource = "admin_log"
+    log_context = {}
+
+    def dispatch(self, request, *args, **kwargs):
+        return super(LogView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        self.createLog(actor = self.request.user)
+        
+        context['javascript_files'] = ['dashboards/js/logbehavior.js',  "dashboards/js/jquery.table.hpaging.min.js"]
+        context['child_template'] = "dashboards/log.html"
+        return context
+
+    
+
+def load_log_data(request):
+    params = request.GET
+    print(params)
+    init_date = datetime.strptime(params['init_date'], '%Y-%m-%d %H:%M')
+
+    end_date = datetime.strptime(params['end_date'], '%Y-%m-%d %H:%M')
+
+    if params.get('category'):
+        print("has category")
+    logs = Log.objects.filter(datetime__range = (init_date, end_date) )
+    logs = parse_log_queryset_to_JSON(logs)
+    return JsonResponse(logs, safe=False)
+
+
+def parse_log_queryset_to_JSON(logs):
+    data = []
+    for log in logs:
+        datum = {}
+        datum['user'] = log.user
+        datum['resource'] = log.resource
+        datum['datetime'] = log.datetime
+        datum['action'] = log.action
+        datum['context'] = log.context
+        datum['component'] = log.component
+        data.append(datum)
+    return data

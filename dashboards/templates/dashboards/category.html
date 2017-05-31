@@ -63,16 +63,7 @@
 
         <article class="report-body">
 
-            <section id="most-used-tags">
-                <header id="most-used-tags-header">
-                    <h4 >
-                        {% trans "most used tags" %}
-                    </h4>
-                </header>
-                <div id="most-used-tags-body">
-                    
-                </div>
-            </section>
+            {% include "dashboards/tags_body.html" %}
         </article>
     </section>
 {% endblock content %}
