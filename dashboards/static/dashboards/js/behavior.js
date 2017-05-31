@@ -71,7 +71,7 @@ var selectors_options = {
 	loadData: function(e){
 		if (e){
 			opened = $(e).attr('opened');
-			if (typeof opened !== typeof undefined && opened !== false){
+			if (typeof opened !== typeof undefined){
 				selectors_options.deleteChildren(e);
 			}else {
 				switch(e.attributes['data-url'].value){
@@ -120,7 +120,7 @@ var selectors_options = {
 	deleteChildren: function(e){
 		var most_accessed_list = $(e).next();
 		$(most_accessed_list).slideUp({easing: 'easeInOutSine'}, 1200);
-		$(most_accessed_list).remove();		
+		$(most_accessed_list).remove();
 		$(e).removeAttr("opened"); //remove attribute so it can call API again
 	},
 };
