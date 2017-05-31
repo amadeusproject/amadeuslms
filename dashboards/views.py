@@ -24,6 +24,8 @@ from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
 from log.models import Log
 
+from amadeus.permissions import has_category_permissions
+
 
 class GeneralView(LogMixin, generic.TemplateView):
     template_name = "dashboards/general.html"
@@ -77,7 +79,11 @@ class CategoryView(LogMixin, generic.TemplateView):
     log_context = {}
 
     def dispatch(self, request, *args, **kwargs):
-        return super(CategoryView, self).dispatch(request, *args, **kwargs)
+        if  Category.objects.filter(coordinators__id = self.request.user.id).exists() or self.request.user.is_staff:
+            return super(CategoryView, self).dispatch(request, *args, **kwargs)
+        else:
+            return redirect('users:login')
+
 
     def get_context_data(self, **kwargs):
         context = {}
