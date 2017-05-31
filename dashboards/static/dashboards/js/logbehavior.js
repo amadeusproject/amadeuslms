@@ -31,7 +31,7 @@ var log = {
 
 
 
-		content = "<table id='log-table'>";
+		content = "<table id='log-table' class='table table-striped table-bordered'>";
 
 		//add register count
 		count = data.length;
@@ -39,8 +39,8 @@ var log = {
 		$(table_body).append( "<h3 id='log-count'>"+count + " registros" + "</h3>");
 
 		//load row names at the top 
-		content += "<th> Datetime </th> <th> Usuário </th> <th> Components </th> <th> Recurso </th><th> Ação </th>"
-			+ "<th> Categoria </th> <th> Assunto </th> <th> Contexto </th>"
+		content += "<thead><th> Datetime </th> <th> Usuário </th> <th> Components </th> <th> Recurso </th><th> Ação </th>"
+			+ "<th> Categoria </th> <th> Assunto </th> <th> Contexto </th></thead>"
 		//build row html data
 		data.forEach(function(datum){
 			content += "<tr>" + html_helper.row_builder(datum) + "</tr>";
@@ -50,9 +50,11 @@ var log = {
 
 		$(table_body).append(content);
 
-		$('#log-table').hpaging({
+		/*$('#log-table').hpaging({
 			"limit": 20, //maximum number of elements per page
-		});
+		});*/
+
+		$('#log-table').DataTable();
 
 	},
 }
