@@ -3,7 +3,10 @@
 {% load static i18n pagination %}
 {% load django_bootstrap_breadcrumbs %}
 {% block style %}
-    <link rel="stylesheet" type="text/css" href="{% static 'dashboards/css/general.css' %}">  
+    {% for file in style_files %}
+        <link rel="stylesheet" type="text/css" href="{% static file %}">
+    {% endfor %}
+   
 {% endblock style %}
 
 {% block javascript %}

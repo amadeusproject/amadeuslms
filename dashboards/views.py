@@ -24,6 +24,8 @@ from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
 from log.models import Log
 
+from amadeus.permissions import has_category_permissions
+
 
 class GeneralView(LogMixin, generic.TemplateView):
     template_name = "dashboards/general.html"
@@ -47,6 +49,7 @@ class GeneralView(LogMixin, generic.TemplateView):
         context['months'] = self.get_last_twelve_months()
         context['child_template'] = "dashboards/general_body.html"
         context['javascript_files'] = ["analytics/js/charts.js", "dashboards/js/behavior.js"]
+        context['style_files'] = ['dashboards/css/general.css']
         return context
 
     def get_last_twelve_months(self):
@@ -77,7 +80,11 @@ class CategoryView(LogMixin, generic.TemplateView):
     log_context = {}
 
     def dispatch(self, request, *args, **kwargs):
-        return super(CategoryView, self).dispatch(request, *args, **kwargs)
+        if  Category.objects.filter(coordinators__id = self.request.user.id).exists() or self.request.user.is_staff:
+            return super(CategoryView, self).dispatch(request, *args, **kwargs)
+        else:
+            return redirect('users:login')
+
 
     def get_context_data(self, **kwargs):
         context = {}
@@ -85,7 +92,7 @@ class CategoryView(LogMixin, generic.TemplateView):
         
         context['categories'] = self.categories_associated_with_user(self.request.user)
         context['javascript_files'] = ["analytics/js/charts.js", "dashboards/js/behavior.js"]
-        
+        context['style_files'] = ['dashboards/css/general.css']
         return context
 
     def categories_associated_with_user(self, user):
@@ -110,15 +117,16 @@ class LogView(LogMixin, generic.TemplateView):
         context = {}
         self.createLog(actor = self.request.user)
         
-        context['javascript_files'] = ['dashboards/js/logbehavior.js',  "dashboards/js/jquery.table.hpaging.min.js"]
+        context['javascript_files'] = ['dashboards/js/logbehavior.js',
+        'dashboards/js/dataTables.bootstrap.min.js', 'dashboards/js/jquery.dataTables.min.js']
         context['child_template'] = "dashboards/log.html"
+        context['style_files'] = ['dashboards/css/general.css', 'dashboards/css/jquery.dataTables.min.css' ]
         return context
 
     
 
 def load_log_data(request):
     params = request.GET
-    print(params)
     init_date = datetime.strptime(params['init_date'], '%Y-%m-%d %H:%M')
 
     end_date = datetime.strptime(params['end_date'], '%Y-%m-%d %H:%M')
