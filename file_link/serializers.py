@@ -1,3 +1,7 @@
+import os
+import zipfile
+import time
+from django.conf import settings
 from rest_framework import serializers
 
 from subjects.serializers import TagSerializer
@@ -18,6 +22,27 @@ class SimpleFileLinkSerializer(serializers.ModelSerializer):
 		subject = self.context.get("subject", None)
 
 		return subject
+
+	def validate(self, data):
+		files = self.context.get('files', None)
+
+		if files:
+			file_path = os.path.join(settings.MEDIA_ROOT, data["file_content"])
+
+			if os.path.isfile(file_path):
+				dst_path = os.path.join(settings.MEDIA_ROOT, "tmp")
+
+				path = files.extract(data["file_content"], dst_path)
+
+				new_name = "files/file_" + str(time.time()) + os.path.splitext(data["file_content"])[1]
+
+				os.rename(os.path.join(dst_path, path), os.path.join(settings.MEDIA_ROOT, new_name))
+				
+				data["file_content"] = new_name
+			else:
+				path = files.extract(data["file_content"], settings.MEDIA_ROOT)
+
+		return data
 
 	class Meta:
 		model = FileLink
