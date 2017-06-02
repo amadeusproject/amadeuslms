@@ -120,16 +120,17 @@ class LogView(LogMixin, generic.TemplateView):
         context['javascript_files'] = ['dashboards/js/logbehavior.js',
         'dashboards/js/dataTables.bootstrap.min.js', 'dashboards/js/jquery.dataTables.min.js']
         context['child_template'] = "dashboards/log.html"
-        context['style_files'] = ['dashboards/css/general.css', 'dashboards/css/jquery.dataTables.min.css' ]
+        context['style_files'] = [ 'dashboards/css/jquery.dataTables.min.css', 'dashboards/css/general.css', 
+        'dashboards/css/dataTables.bootstrap.min.css' ]
         return context
 
     
 
 def load_log_data(request):
     params = request.GET
-    init_date = datetime.strptime(params['init_date'], '%Y-%m-%d %H:%M')
+    init_date = datetime.strptime(params['init_date'], '%Y-%m-%d')
 
-    end_date = datetime.strptime(params['end_date'], '%Y-%m-%d %H:%M')
+    end_date = datetime.strptime(params['end_date'], '%Y-%m-%d')
 
     if params.get('category'):
         print("has category")
@@ -144,7 +145,7 @@ def parse_log_queryset_to_JSON(logs):
         datum = {}
         datum['user'] = log.user
         datum['resource'] = log.resource
-        datum['datetime'] = log.datetime
+        datum['datetime'] = log.datetime.strftime("%d/%m/%Y")
         datum['action'] = log.action
         datum['context'] = log.context
         datum['component'] = log.component

@@ -14,10 +14,15 @@ class GoalItemSerializer(serializers.ModelSerializer):
 		exclude = ('goal',)
 
 class SimpleGoalSerializer(serializers.ModelSerializer):
-	topic = TopicSerializer()
+	topic = TopicSerializer('get_subject')
 	tags = TagSerializer(many = True)
 	item_goal = GoalItemSerializer(many = True)
 	pendencies_resource = PendenciesSerializer(many = True)
+
+	def get_subject(self, obj):
+		subject = self.context.get("subject", None)
+
+		return subject
 
 	class Meta:
 		model = Goals

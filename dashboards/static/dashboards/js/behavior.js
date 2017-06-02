@@ -114,7 +114,7 @@ var selectors_options = {
 		$(e).after(string_build);
 		var new_elem = $(e).next();
 		new_elem.slideDown({easing: 'easeInOutSine'}, 5000);
-		$(e).attr("opened", true);
+		$(e).attr("opened");
 		
 	},
 	deleteChildren: function(e){

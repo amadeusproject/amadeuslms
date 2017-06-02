@@ -17,7 +17,8 @@
     width: 50%;
     margin-bottom: 0px; }
     #general-report-header ul a {
-      width: 100%; }
+      width: 100%;
+      text-decoration: none; }
 
 li.tab-option {
   margin-right: 2%;
@@ -28,6 +29,8 @@ li.tab-option {
   text-align: center;
   border-radius: 20px;
   height: 30px; }
+  li.tab-option:hover {
+    background-color: #bdbdbd; }
 
 li.selected {
   background-color: #4dcfbd;

@@ -2,6 +2,31 @@
 {% load django_bootstrap_breadcrumbs %}
 
     <section id="general-report">
+       <div id="period-selector">
+                <div class="container">
+                    <div class='col-md-4'>
+                        <div class="form-group">
+                            <div class='input-group date' id='init_date'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-md-4'>
+                        <div class="form-group">
+                            <div class='input-group date' id='end_date'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="search" class="btn btn-success btn-lg">{% trans "search" %}</button>         
+            </div>
         <header id="general-report-header">
             <h3>{% trans "Amadeus Report" %}</h3>
 
@@ -14,31 +39,7 @@
                 </li>
             </ul>
         </header> 
-          <div id="period-selector">
-                <div class="container">
-                    <div class='col-md-5'>
-                        <div class="form-group">
-                            <div class='input-group date' id='init_date'>
-                                <input type='text' class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class='col-md-5'>
-                        <div class="form-group">
-                            <div class='input-group date' id='end_date'>
-                                <input type='text' class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                                
-            </div>
+       
         <article class="report-body">
 
 

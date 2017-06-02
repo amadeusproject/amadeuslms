@@ -1,19 +1,37 @@
 $(document).ready(function(){
-	$('#init_date').datetimepicker();
+	d = new Date();
+	d.setDate(d.getDate() - 30);
+	$('#init_date').datetimepicker({
+		defaultDate: d,
+		format: 'L'
+	});
     $('#end_date').datetimepicker({
-        useCurrent: false //Important! See issue #1075
+        useCurrent: false, //Important! See issue #1075
+        defaultDate: new Date(),
+        format: 'L'
     });
     $("#init_date").on("dp.change", function (e) {
         $('#end_date').data("DateTimePicker").minDate(e.date);
+       	$('#search').removeClass("disabled");
     });
     $("#end_date").on("dp.change", function (e) {
         $('#init_date').data("DateTimePicker").maxDate(e.date);
-        //when the user updates the second one we build the log table
-        init_date = $("#init_date").data("DateTimePicker").date();
-        log.refresh_log_data(init_date, e.date);
+     	$('#search').removeClass("disabled");
     });
+    //initialize the table with log from last 30 days
+    init_date = $("#init_date").data("DateTimePicker").date();
+   	end_date = $("#end_date").data("DateTimePicker").date();
+   	log.refresh_log_data(init_date, end_date);
 
-   
+   	$("#search").click(function(){
+   		if (!$("#search").hasClass("disabled")){
+	   		init_date = $("#init_date").data("DateTimePicker").date();
+		   	end_date = $("#end_date").data("DateTimePicker").date();
+		   	log.refresh_log_data(init_date, end_date);
+	     	$('#search').addClass("disabled");
+     	}
+
+   	});
 });
 
 
@@ -22,22 +40,20 @@ $(document).ready(function(){
 var log = {
 	
 	refresh_log_data: function(init_date, end_date){
-		$.get("/dashboards/get_log_data", {init_date: init_date.format("YYYY-MM-DD HH:mm"), end_date: end_date.format("YYYY-MM-DD HH:mm")}).done(function(data){
+		$.get("/dashboards/get_log_data", {init_date: init_date.format("YYYY-MM-DD"), end_date: end_date.format("YYYY-MM-DD")}).done(function(data){
 			log.render_table("log-body", data);
 		})
 	},
 	render_table: function(target_id, data){
 		table_body = $('#' + target_id);
 
+		tables = $('#log-table_wrapper');
+		if (tables.length > 0){
+			$(tables).remove();
+		}
 
 
 		content = "<table id='log-table' class='table table-striped table-bordered'>";
-
-		//add register count
-		count = data.length;
-
-		$(table_body).append( "<h3 id='log-count'>"+count + " registros" + "</h3>");
-
 		//load row names at the top 
 		content += "<thead><th> Datetime </th> <th> Usuário </th> <th> Components </th> <th> Recurso </th><th> Ação </th>"
 			+ "<th> Categoria </th> <th> Assunto </th> <th> Contexto </th></thead>"

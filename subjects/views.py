@@ -896,11 +896,11 @@ def realize_restore(request, subject):
                         if line[0]["_my_subclass"] == "webpage":
                             serial = SimpleWebpageSerializer(data = line, many = True, context = {'subject': subject})
                         elif line[0]["_my_subclass"] == "filelink":
-                            serial = SimpleFileLinkSerializer(data = line, many = True, context = {'subject': subject})
+                            serial = SimpleFileLinkSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
                         elif line[0]["_my_subclass"] == "link":
                             serial = SimpleLinkSerializer(data = line, many = True, context = {'subject': subject})
                         elif line[0]["_my_subclass"] == "pdffile":
-                            serial = SimplePDFFileSerializer(data = line, many = True, context = {'subject': subject})
+                            serial = SimplePDFFileSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
                         elif line[0]["_my_subclass"] == "goals":
                             serial = SimpleGoalSerializer(data = line, many = True, context = {'subject': subject})
                         elif line[0]["_my_subclass"] == "ytvideo":
