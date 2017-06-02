@@ -10,19 +10,26 @@ $(document).ready(function(){
     });
     $("#init_date").on("dp.change", function (e) {
         $('#end_date').data("DateTimePicker").minDate(e.date);
-        end_date = $("#end_date").data("DateTimePicker").date();
-        log.refresh_log_data(e.date, end_date);
+       	$('#search').removeClass("disabled");
     });
     $("#end_date").on("dp.change", function (e) {
         $('#init_date').data("DateTimePicker").maxDate(e.date);
-        //when the user updates the second one we build the log table
-        init_date = $("#init_date").data("DateTimePicker").date();
-        log.refresh_log_data(init_date, e.date);
+     	$('#search').removeClass("disabled");
     });
     //initialize the table with log from last 30 days
     init_date = $("#init_date").data("DateTimePicker").date();
    	end_date = $("#end_date").data("DateTimePicker").date();
    	log.refresh_log_data(init_date, end_date);
+
+   	$("#search").click(function(){
+   		if (!$("#search").hasClass("disabled")){
+	   		init_date = $("#init_date").data("DateTimePicker").date();
+		   	end_date = $("#end_date").data("DateTimePicker").date();
+		   	log.refresh_log_data(init_date, end_date);
+	     	$('#search').addClass("disabled");
+     	}
+
+   	});
 });
 
 
