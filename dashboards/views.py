@@ -128,9 +128,9 @@ class LogView(LogMixin, generic.TemplateView):
 
 def load_log_data(request):
     params = request.GET
-    init_date = datetime.strptime(params['init_date'], '%Y-%m-%d %H:%M')
+    init_date = datetime.strptime(params['init_date'], '%Y-%m-%d')
 
-    end_date = datetime.strptime(params['end_date'], '%Y-%m-%d %H:%M')
+    end_date = datetime.strptime(params['end_date'], '%Y-%m-%d')
 
     if params.get('category'):
         print("has category")
@@ -145,7 +145,7 @@ def parse_log_queryset_to_JSON(logs):
         datum = {}
         datum['user'] = log.user
         datum['resource'] = log.resource
-        datum['datetime'] = log.datetime
+        datum['datetime'] = log.datetime.strftime("%d/%m/%Y")
         datum['action'] = log.action
         datum['context'] = log.context
         datum['component'] = log.component

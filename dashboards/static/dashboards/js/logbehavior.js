@@ -3,10 +3,12 @@ $(document).ready(function(){
 	d.setDate(d.getDate() - 30);
 	$('#init_date').datetimepicker({
 		defaultDate: d,
+		format: 'L'
 	});
     $('#end_date').datetimepicker({
         useCurrent: false, //Important! See issue #1075
-        defaultDate: new Date()
+        defaultDate: new Date(),
+        format: 'L'
     });
     $("#init_date").on("dp.change", function (e) {
         $('#end_date').data("DateTimePicker").minDate(e.date);
@@ -38,7 +40,7 @@ $(document).ready(function(){
 var log = {
 	
 	refresh_log_data: function(init_date, end_date){
-		$.get("/dashboards/get_log_data", {init_date: init_date.format("YYYY-MM-DD HH:mm"), end_date: end_date.format("YYYY-MM-DD HH:mm")}).done(function(data){
+		$.get("/dashboards/get_log_data", {init_date: init_date.format("YYYY-MM-DD"), end_date: end_date.format("YYYY-MM-DD")}).done(function(data){
 			log.render_table("log-body", data);
 		})
 	},

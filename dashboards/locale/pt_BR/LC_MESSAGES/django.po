@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-25 23:31-0300\n"
+"POT-Creation-Date: 2017-06-01 21:27-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,122 +18,128 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: dashboards/templates/dashboards/category.html:18
+#: .\templates\dashboards\category.html:18
 msgid "Analytics Category"
 msgstr "Análise de Categoria"
 
-#: dashboards/templates/dashboards/category.html:31
-#: dashboards/templates/dashboards/general.html:30
+#: .\templates\dashboards\category.html:31
+#: .\templates\dashboards\general.html:34
 msgid "Platform Report"
 msgstr "Report da Plataforma"
 
-#: dashboards/templates/dashboards/category.html:36
-#: dashboards/templates/dashboards/category.html:48
-#: dashboards/templates/dashboards/general.html:33
+#: .\templates\dashboards\category.html:36
+#: .\templates\dashboards\category.html:48
+#: .\templates\dashboards\general.html:37
 msgid "Category Report"
 msgstr "Report da Categoria"
 
-#: dashboards/templates/dashboards/category.html:39
-#: dashboards/templates/dashboards/general.html:36
+#: .\templates\dashboards\category.html:39
+#: .\templates\dashboards\general.html:40
 msgid "Subject Report"
 msgstr "Report do Assunto"
 
-#: dashboards/templates/dashboards/category.html:56
-#: dashboards/templates/dashboards/general.html:49
+#: .\templates\dashboards\category.html:56
+#: .\templates\dashboards\general_body.html:8
+#: .\templates\dashboards\log.html:35
 msgid "Focus"
 msgstr "Destaques"
 
-#: dashboards/templates/dashboards/category.html:59
-#: dashboards/templates/dashboards/general.html:52
+#: .\templates\dashboards\category.html:59
+#: .\templates\dashboards\general_body.html:11
+#: .\templates\dashboards\log.html:38
 msgid "Log"
 msgstr "Log"
 
-#: dashboards/templates/dashboards/category.html:69
-#: dashboards/templates/dashboards/general.html:62
-msgid "most used tags"
-msgstr "tags mais usadas"
-
-#: dashboards/templates/dashboards/general.html:18
+#: .\templates\dashboards\general.html:22
 msgid "Dashboards General"
 msgstr "Dashboards Geral"
 
-#: dashboards/templates/dashboards/general.html:45
+#: .\templates\dashboards\general_body.html:4
+#: .\templates\dashboards\log.html:31
 msgid "Amadeus Report"
 msgstr "Report do Amadeus"
 
-#: dashboards/templates/dashboards/general.html:72
+#: .\templates\dashboards\general_body.html:21
 msgid "Most accessed "
 msgstr "Mais acessadas"
 
-#: dashboards/templates/dashboards/general.html:77
+#: .\templates\dashboards\general_body.html:26
 msgid "Categories"
 msgstr "Categorias"
 
-#: dashboards/templates/dashboards/general.html:82
+#: .\templates\dashboards\general_body.html:31
 msgid "Subjects"
 msgstr "Assuntos"
 
-#: dashboards/templates/dashboards/general.html:87
+#: .\templates\dashboards\general_body.html:36
 msgid "Resource"
 msgstr "Recursos"
 
-#: dashboards/templates/dashboards/general.html:96
+#: .\templates\dashboards\general_body.html:45
 msgid "Most active users"
 msgstr "Usuários mais ativos"
 
-#: dashboards/templates/dashboards/general.html:102
+#: .\templates\dashboards\general_body.html:51
 msgid "Amount of access in: "
 msgstr "Quantidade de acessos em: "
 
-#: dashboards/templates/dashboards/general.html:117
+#: .\templates\dashboards\general_body.html:66
 msgid "Select the begin of the week: "
 msgstr "Selecione o dia da semana: "
 
-#: dashboards/views.py:54
+#: .\templates\dashboards\log.html:28
+msgid "search"
+msgstr "Pesquisar"
+
+#: .\templates\dashboards\tags_body.html:6
+msgid "most used tags"
+msgstr "tags mais usadas"
+
+#: .\views.py:58
 msgid "January"
 msgstr "Janeiro"
 
-#: dashboards/views.py:54
+#: .\views.py:58
 msgid "February"
 msgstr "Fevereiro"
 
-#: dashboards/views.py:54
+#: .\views.py:58
 msgid "March"
 msgstr "Março"
 
-#: dashboards/views.py:54
+#: .\views.py:58
 msgid "April"
 msgstr "Abril"
 
-#: dashboards/views.py:54
+#: .\views.py:58
 msgid "May"
 msgstr "Maio"
 
-#: dashboards/views.py:54
+#: .\views.py:58
 msgid "June"
 msgstr "Junho"
 
-#: dashboards/views.py:54
+#: .\views.py:58
 msgid "July"
 msgstr "Julho"
 
-#: dashboards/views.py:55
+#: .\views.py:59
 msgid "August"
 msgstr "Agosto"
 
-#: dashboards/views.py:55
+#: .\views.py:59
 msgid "September"
 msgstr "Setembro"
 
-#: dashboards/views.py:55
+#: .\views.py:59
 msgid "October"
 msgstr "Outubro"
 
-#: dashboards/views.py:55
+#: .\views.py:59
 msgid "November"
 msgstr "Novembro"
 
-#: dashboards/views.py:55
+#: .\views.py:59
 msgid "December"
 msgstr "Dezembro"
 
