@@ -145,7 +145,7 @@ def parse_log_queryset_to_JSON(logs):
         datum = {}
         datum['user'] = log.user
         datum['resource'] = log.resource
-        datum['datetime'] = log.datetime.strftime("%d/%m/%Y")
+        datum['datetime'] = log.datetime.strftime("%d/%m/%Y %H:%M")
         datum['action'] = log.action
         datum['context'] = log.context
         datum['component'] = log.component
