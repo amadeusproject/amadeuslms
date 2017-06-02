@@ -1,10 +1,17 @@
 $(document).ready(function(){
-	$('#init_date').datetimepicker();
+	d = new Date();
+	d.setDate(d.getDate() - 30);
+	$('#init_date').datetimepicker({
+		defaultDate: d,
+	});
     $('#end_date').datetimepicker({
-        useCurrent: false //Important! See issue #1075
+        useCurrent: false, //Important! See issue #1075
+        defaultDate: new Date()
     });
     $("#init_date").on("dp.change", function (e) {
         $('#end_date').data("DateTimePicker").minDate(e.date);
+        end_date = $("#end_date").data("DateTimePicker").date();
+        log.refresh_log_data(e.date, end_date);
     });
     $("#end_date").on("dp.change", function (e) {
         $('#init_date').data("DateTimePicker").maxDate(e.date);
@@ -12,8 +19,10 @@ $(document).ready(function(){
         init_date = $("#init_date").data("DateTimePicker").date();
         log.refresh_log_data(init_date, e.date);
     });
-
-   
+    //initialize the table with log from last 30 days
+    init_date = $("#init_date").data("DateTimePicker").date();
+   	end_date = $("#end_date").data("DateTimePicker").date();
+   	log.refresh_log_data(init_date, end_date);
 });
 
 
@@ -29,15 +38,13 @@ var log = {
 	render_table: function(target_id, data){
 		table_body = $('#' + target_id);
 
+		tables = $('#log-table_wrapper');
+		if (tables.length > 0){
+			$(tables).remove();
+		}
 
 
 		content = "<table id='log-table' class='table table-striped table-bordered'>";
-
-		//add register count
-		count = data.length;
-
-		$(table_body).append( "<h3 id='log-count'>"+count + " registros" + "</h3>");
-
 		//load row names at the top 
 		content += "<thead><th> Datetime </th> <th> Usuário </th> <th> Components </th> <th> Recurso </th><th> Ação </th>"
 			+ "<th> Categoria </th> <th> Assunto </th> <th> Contexto </th></thead>"

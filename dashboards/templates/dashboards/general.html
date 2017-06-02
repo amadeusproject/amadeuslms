@@ -10,6 +10,7 @@
 {% endblock style %}
 
 {% block javascript %}
+
     {% for file in javascript_files %}
          <script type="text/javascript" src="{% static file %}"></script>
     {% endfor %}

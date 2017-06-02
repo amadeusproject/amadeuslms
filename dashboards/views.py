@@ -120,7 +120,8 @@ class LogView(LogMixin, generic.TemplateView):
         context['javascript_files'] = ['dashboards/js/logbehavior.js',
         'dashboards/js/dataTables.bootstrap.min.js', 'dashboards/js/jquery.dataTables.min.js']
         context['child_template'] = "dashboards/log.html"
-        context['style_files'] = ['dashboards/css/general.css', 'dashboards/css/jquery.dataTables.min.css' ]
+        context['style_files'] = [ 'dashboards/css/jquery.dataTables.min.css', 'dashboards/css/general.css', 
+        'dashboards/css/dataTables.bootstrap.min.css' ]
         return context
 
     
