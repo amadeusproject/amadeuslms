@@ -71,7 +71,7 @@ var selectors_options = {
 	loadData: function(e){
 		if (e){
 			opened = $(e).attr('opened');
-			if (typeof opened !== typeof undefined){
+			if (opened == "true"){
 				selectors_options.deleteChildren(e);
 			}else {
 				switch(e.attributes['data-url'].value){
@@ -113,15 +113,16 @@ var selectors_options = {
 		
 		$(e).after(string_build);
 		var new_elem = $(e).next();
+		$(new_elem).addClass($(e).attr("data-url"));
 		new_elem.slideDown({easing: 'easeInOutSine'}, 5000);
-		$(e).attr("opened");
+		$(e).attr("opened", true);
 		
 	},
 	deleteChildren: function(e){
-		var most_accessed_list = $(e).next();
+		var most_accessed_list = $(e).siblings("." + $(e).attr("data-url"));
 		$(most_accessed_list).slideUp({easing: 'easeInOutSine'}, 1200);
 		$(most_accessed_list).remove();
-		$(e).removeAttr("opened"); //remove attribute so it can call API again
+		$(e).attr("opened", false); //remove attribute so it can call API again
 	},
 };
 
