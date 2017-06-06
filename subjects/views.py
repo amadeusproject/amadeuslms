@@ -907,9 +907,6 @@ def realize_restore(request, subject):
                             serial = SimpleYTVideoSerializer(data = line, many = True, context = {'subject': subject})
                         
                         serial.is_valid()
-                        print(serial.errors)
-                        print("\n")
-                        print(serial.validated_data)
-                        print("\n\n\n")
+                        serial.save()
 
     return JsonResponse({'message': 'ok'})
