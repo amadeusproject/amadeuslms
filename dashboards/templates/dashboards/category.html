@@ -76,7 +76,10 @@
                 <div id="left-chart">
                     
                 </div>
-                  <div id="month_selector_div">
+                
+
+                <div id="right-side-heatmaps">
+                      <div id="month_selector_div">
                         <h4>{% trans "Amount of access in: " %}
                         <select id="month_selector">
                             {% for month in months  %}
@@ -86,9 +89,16 @@
                         </select>
                         </h4>
                     </div>
+                    <div id="upper-right-part"></div>
 
-                <div id="right-side-heatmaps">
-                    
+                      <div class='input-group date'>
+                        <label>{% trans "Select the begin of the week: " %}</label>
+                        <input type='text' class="datepicker form-control"  />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    <div id="bottom-right-part"></div>
                 </div>
             </div>
         </article>

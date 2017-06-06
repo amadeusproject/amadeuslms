@@ -72,12 +72,10 @@ def most_active_users_in_a_month(request):
 def activity_in_timestamp(days, **kwargs):
     data = {}
     params = kwargs.get('params')
-    print(params)
     for day in days:
         if params.get('category_id'):
             category_id = params['category_id']
             day_count = Log.objects.filter(datetime__date = day, context__contains = {"category_id" : int(category_id)}).count()
-
         else:
             day_count = Log.objects.filter(datetime__date = day).count()
         data[day] = day_count
