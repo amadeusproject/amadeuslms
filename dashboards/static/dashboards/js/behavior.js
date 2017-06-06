@@ -7,28 +7,6 @@ $(document).ready(function(){
 	charts.most_used_tags('/analytics/most_used_tags');
 	charts.build_bubble_user('/analytics/most_active_users/');
 	
-
-	$('#month_selector').change(function(){
-
-		var date = $(this).val().split("/");
-		$.get('/analytics/amount_active_users_per_day', {month: date[0], year: date[1] }).done(function(data){
-			charts.month_heatmap(data, '#right-chart-body', 'month-chart');
-			
-		});
-	});
-	//week date selector at the right-chart field
-   $('input.datepicker').datetimepicker({
-		format: 'L',
-		defaultDate: new Date(),
-    }).on('dp.change', function(ev){
-    	new_date = new Date(ev.date);
-    	var date = (new_date.getMonth() + 1) + '/' + new_date.getDate() + '/' + new_date.getFullYear();
-    	$.get('/analytics/get_days_of_the_week_log', {date: date}).done(function(data){
-    		charts.month_heatmap(data, '#bottom-right-chart-body', 'weekly-chart');
-    	});
-
-    });
-
  
  	//first call to month selector
 	var month = new Array();
@@ -56,6 +34,28 @@ $(document).ready(function(){
     });
 
 
+ 	//update month heatmap when the month selector is changed
+	$('#month_selector').change(function(){
+
+		var date = $(this).val().split("/");
+		$.get('/analytics/amount_active_users_per_day', {month: date[0], year: date[1] }).done(function(data){
+			charts.month_heatmap(data, '#right-chart-body', 'month-chart');
+			
+		});
+	});
+
+	//week date selector at the right-chart field
+	$('input.datepicker').datetimepicker({
+		format: 'L',
+		defaultDate: new Date(),
+	}).on('dp.change', function(ev){
+		new_date = new Date(ev.date);
+		var date = (new_date.getMonth() + 1) + '/' + new_date.getDate() + '/' + new_date.getFullYear();
+		$.get('/analytics/get_days_of_the_week_log', {date: date}).done(function(data){
+			charts.month_heatmap(data, '#bottom-right-chart-body', 'weekly-chart');
+		});
+
+	});
 
 });
 

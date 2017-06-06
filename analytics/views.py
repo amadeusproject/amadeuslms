@@ -64,15 +64,22 @@ def most_active_users_in_a_month(request):
     for day in days:
         built_date = date(int(year), mappings[_(month)],  day)
         days_list.append(built_date)
-    data = activity_in_timestamp(days_list)
+    data = activity_in_timestamp(days_list, params = params)
     data = [{"day": day.day, "count": day_count} for day, day_count in data.items()]
     return JsonResponse(data, safe=False)
 
 
-def activity_in_timestamp(days):
+def activity_in_timestamp(days, **kwargs):
     data = {}
+    params = kwargs.get('params')
+    print(params)
     for day in days:
-        day_count = Log.objects.filter(datetime__date = day).count()
+        if params.get('category_id'):
+            category_id = params['category_id']
+            day_count = Log.objects.filter(datetime__date = day, context__contains = {"category_id" : int(category_id)}).count()
+
+        else:
+            day_count = Log.objects.filter(datetime__date = day).count()
         data[day] = day_count
 
     return data
@@ -184,10 +191,12 @@ def most_active_users(request):
 
 
 def get_days_of_the_week_log(request):
-    date = request.GET['date']
+  
+    params = request.GET
+    date = params['date']
     date = datetime.strptime( date, '%m/%d/%Y',)
     days = get_days_of_the_week(date)
-    data = activity_in_timestamp(days)
+    data = activity_in_timestamp(days, params = params)
     #mapping of number to days
     mapping = {0: _("Mon"), 1: _("Tue"), 2: _("Wed"), 3: _("Thu"), 4: _("Fri"), 5: _("Sat"), 6: _("Sun")}
     data = [{"day": mapping[day.weekday()], "count": day_count} for day, day_count in data.items()]

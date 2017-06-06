@@ -70,7 +70,9 @@ var log = {
 			"limit": 20, //maximum number of elements per page
 		});*/
 
-		$('#log-table').DataTable();
+		$('#log-table').DataTable({
+			"pageLength": 100
+		});
 
 	},
 }
