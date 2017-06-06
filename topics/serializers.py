@@ -14,14 +14,16 @@ class TopicSerializer(serializers.ModelSerializer):
 			topic = Topic.objects.filter(subject = subject, name__unaccent__iexact = data["name"])
 			
 			if topic.exists():
-				data = topic[0]
+				data = topic[0].__dict__
 			else:
 				topic = Topic.objects.filter(subject = subject, repository = True)
 
 				if topic.exists():
-					data = topic[0]
+					data = topic[0].__dict__
 				else:
 					data["id"] = ""
+					data["subject"] = subject
+					data["order"] = Topic.objects.filter(subject = subject).count() + 1
 
 		return data
 
