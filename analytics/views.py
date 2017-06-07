@@ -18,7 +18,7 @@ import calendar
 from collections import OrderedDict
 
 
-
+from mural.models import Comment
 
 
 def most_used_tags(request):
@@ -192,7 +192,7 @@ def get_days_of_the_week_log(request):
   
     params = request.GET
     date = params['date']
-    date = datetime.strptime( date, '%m/%d/%Y',)
+    date = datetime.strptime( date, '%m/%d/%Y')
     days = get_days_of_the_week(date)
     data = activity_in_timestamp(days, params = params)
     #mapping of number to days
@@ -240,3 +240,21 @@ def most_tags_inside_category(category_id):
                     data[tag.name] = {'name': tag.name}
                     data[tag.name]['count'] = resources_count
     return data
+
+
+def get_amount_of_comments(request):
+    params = request.GET
+    init_date = params.get('init_date')
+    end_date = params.get('end_date')
+    init_date = datetime.strptime( init_date, '%m/%d/%Y')
+    end_date = datetime.strptime(end_time, '%m/%d/%Y')
+    day_count = (end_date - init_date).days + 1
+    data = {}
+    for i in range(day_count):
+        single_day = init_date + timedelta(i)
+        if params.get('category_id'):
+            category_id = int(params['category_id'])
+            data[single_day] = Mural.objects.filter(space__id = category_id, create_date = single_day).count()
+        else:
+            data[single_day] = Comment.objects.filter(create_date = single_day).count()
+    return JsonResponse(data, safe=False)
