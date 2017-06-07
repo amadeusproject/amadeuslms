@@ -822,12 +822,6 @@ def realize_backup(request, subject):
     data_list.append(serializer_g.data)
 
     json.dump(data_list, file)
-    # json.dump(serializer_w.data, file)
-    # json.dump(serializer_y.data, file)
-    # json.dump(serializer_f.data, file)
-    # json.dump(serializer_l.data, file)
-    # json.dump(serializer_p.data, file)
-    # json.dump(serializer_g.data, file)
 
     file.close()
 
@@ -909,4 +903,6 @@ def realize_restore(request, subject):
                         serial.is_valid()
                         serial.save()
 
-    return JsonResponse({'message': 'ok'})
+    messages.success(request, _('Backup restored successfully!'))
+
+    return redirect(reverse_lazy('subjects:restore', kwargs = {"slug": subject}))

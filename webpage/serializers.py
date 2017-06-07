@@ -33,49 +33,55 @@ class SimpleWebpageSerializer(serializers.ModelSerializer):
 		webpage = None
 
 		if not topic["id"] is None:
-			if topic['id'] == "":
-				topic_exist = Topic.objects.filter(subject = topic['subject'], name__unaccent__iexact = topic["name"])
-
-				if topic_exist.exists():
-					topic = topic_exist[0]
-				else:
-					topic = Topic.objects.create(name = topic['name'], subject = topic['subject'], repository = topic['repository'], visible = topic['visible'], order = topic['order'])
-				
-				data["topic"] = topic
+			if "subject" in topic:
+				r_exits = Resource.objects.filter(topic__subject = topic["subject"], name__unaccent__iexact = data["name"])
 			else:
-				data["topic"] = get_object_or_404(Topic, id = topic["id"])
+				r_exits = Resource.objects.filter(topic__subject__id = topic["subject_id"], name__unaccent__iexact = data["name"])
 
-			webpage_data = data
-			
-			pendencies = webpage_data["pendencies_resource"]
-			del webpage_data["pendencies_resource"]
+			if not r_exits.exists():
+				if topic['id'] == "":
+					topic_exist = Topic.objects.filter(subject = topic['subject'], name__unaccent__iexact = topic["name"])
 
-			webpage = Webpage()
-			webpage.name = webpage_data["name"]
-			webpage.brief_description = webpage_data["brief_description"]
-			webpage.show_window = webpage_data["show_window"]
-			webpage.all_students = webpage_data["all_students"]
-			webpage.visible = webpage_data["visible"]
-			webpage.order = webpage_data["order"]
-			webpage.topic = webpage_data["topic"]
-			webpage.content = webpage_data["content"]
-
-			webpage.save()
-
-			tags = data["tags"]
-
-			for tag in tags:
-				if tag["id"] == "":
-					tag = Tag.objects.create(name = tag["name"])
+					if topic_exist.exists():
+						topic = topic_exist[0]
+					else:
+						topic = Topic.objects.create(name = topic['name'], subject = topic['subject'], repository = topic['repository'], visible = topic['visible'], order = topic['order'])
+					
+					data["topic"] = topic
 				else:
-					tag = get_object_or_404(Tag, id = tag["id"])
+					data["topic"] = get_object_or_404(Topic, id = topic["id"])
 
-				webpage.tags.add(tag)
+				webpage_data = data
+				
+				pendencies = webpage_data["pendencies_resource"]
+				del webpage_data["pendencies_resource"]
 
-			resource = get_object_or_404(Resource, id = webpage.id)
+				webpage = Webpage()
+				webpage.name = webpage_data["name"]
+				webpage.brief_description = webpage_data["brief_description"]
+				webpage.show_window = webpage_data["show_window"]
+				webpage.all_students = webpage_data["all_students"]
+				webpage.visible = webpage_data["visible"]
+				webpage.order = webpage_data["order"]
+				webpage.topic = webpage_data["topic"]
+				webpage.content = webpage_data["content"]
 
-			for pend in pendencies:
-				Pendencies.objects.create(resource = resource, **pend)
+				webpage.save()
+
+				tags = data["tags"]
+
+				for tag in tags:
+					if tag["id"] == "":
+						tag = Tag.objects.create(name = tag["name"])
+					else:
+						tag = get_object_or_404(Tag, id = tag["id"])
+
+					webpage.tags.add(tag)
+
+				resource = get_object_or_404(Resource, id = webpage.id)
+
+				for pend in pendencies:
+					Pendencies.objects.create(resource = resource, **pend)
 
 		return webpage
 

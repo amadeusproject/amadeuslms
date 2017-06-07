@@ -39,56 +39,62 @@ class SimpleGoalSerializer(serializers.ModelSerializer):
 		goals = None
 
 		if not topic["id"] is None:
-			if topic['id'] == "":
-				topic_exist = Topic.objects.filter(subject = topic['subject'], name__unaccent__iexact = topic["name"])
-
-				if topic_exist.exists():
-					topic = topic_exist[0]
-				else:
-					topic = Topic.objects.create(name = topic['name'], subject = topic['subject'], repository = topic['repository'], visible = topic['visible'], order = topic['order'])
-				
-				data["topic"] = topic
+			if "subject" in topic:
+				r_exits = Resource.objects.filter(topic__subject = topic["subject"], name__unaccent__iexact = data["name"])
 			else:
-				data["topic"] = get_object_or_404(Topic, id = topic["id"])
+				r_exits = Resource.objects.filter(topic__subject__id = topic["subject_id"], name__unaccent__iexact = data["name"])
 
-			goals_data = data
-			
-			pendencies = goals_data["pendencies_resource"]
-			del goals_data["pendencies_resource"]
+			if not r_exits.exists():
+				if topic['id'] == "":
+					topic_exist = Topic.objects.filter(subject = topic['subject'], name__unaccent__iexact = topic["name"])
 
-			goal_items = goals_data["item_goal"]
-			del goals_data["item_goal"]
-
-			goals = Goals()
-			goals.name = goals_data["name"]
-			goals.brief_description = goals_data["brief_description"]
-			goals.show_window = goals_data["show_window"]
-			goals.all_students = goals_data["all_students"]
-			goals.visible = goals_data["visible"]
-			goals.order = goals_data["order"]
-			goals.topic = goals_data["topic"]
-			goals.presentation = goals_data["presentation"]
-			goals.limit_submission_date = goals_data["limit_submission_date"]
-
-			goals.save()
-			
-			tags = data["tags"]
-
-			for tag in tags:
-				if tag["id"] == "":
-					tag = Tag.objects.create(name = tag["name"])
+					if topic_exist.exists():
+						topic = topic_exist[0]
+					else:
+						topic = Topic.objects.create(name = topic['name'], subject = topic['subject'], repository = topic['repository'], visible = topic['visible'], order = topic['order'])
+					
+					data["topic"] = topic
 				else:
-					tag = get_object_or_404(Tag, id = tag["id"])
+					data["topic"] = get_object_or_404(Topic, id = topic["id"])
 
-				goals.tags.add(tag)
+				goals_data = data
+				
+				pendencies = goals_data["pendencies_resource"]
+				del goals_data["pendencies_resource"]
 
-			resource = get_object_or_404(Resource, id = goals.id)
+				goal_items = goals_data["item_goal"]
+				del goals_data["item_goal"]
 
-			for item in goal_items:
-				GoalItem.objects.create(goal = goals, **item)
+				goals = Goals()
+				goals.name = goals_data["name"]
+				goals.brief_description = goals_data["brief_description"]
+				goals.show_window = goals_data["show_window"]
+				goals.all_students = goals_data["all_students"]
+				goals.visible = goals_data["visible"]
+				goals.order = goals_data["order"]
+				goals.topic = goals_data["topic"]
+				goals.presentation = goals_data["presentation"]
+				goals.limit_submission_date = goals_data["limit_submission_date"]
 
-			for pend in pendencies:
-				Pendencies.objects.create(resource = resource, **pend)
+				goals.save()
+				
+				tags = data["tags"]
+
+				for tag in tags:
+					if tag["id"] == "":
+						tag = Tag.objects.create(name = tag["name"])
+					else:
+						tag = get_object_or_404(Tag, id = tag["id"])
+
+					goals.tags.add(tag)
+
+				resource = get_object_or_404(Resource, id = goals.id)
+
+				for item in goal_items:
+					GoalItem.objects.create(goal = goals, **item)
+
+				for pend in pendencies:
+					Pendencies.objects.create(resource = resource, **pend)
 
 		return goals
 
