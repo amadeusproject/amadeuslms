@@ -3,13 +3,16 @@
 {% load static i18n pagination %}
 {% load django_bootstrap_breadcrumbs %}
 {% block style %}
-    <link rel="stylesheet" type="text/css" href="{% static 'dashboards/css/general.css' %}">  
-    <link rel="stylesheet" type="text/css" href="{% static 'dashboards/css/dashboards_category.css' %}">
+    {% for file in style_files %}
+        <link rel="stylesheet" type="text/css" href="{% static file %}">
+    {% endfor %}
 {% endblock style %}
 
 {% block javascript %}
-    <script type="text/javascript" src="{% static "analytics/js/charts.js" %}"></script>
-    <script type="text/javascript" src="{% static "dashboards/js/behavior_categories.js" %}"></script>
+    
+    {% for file in javascript_files %}
+         <script type="text/javascript" src="{% static file %}"></script>
+    {% endfor %}
 {% endblock javascript %}
 
 {% block breadcrumbs %}
@@ -27,14 +30,18 @@
         <nav>
             <ul class="core-subjects-options report-menu-choice">
                     {% if user.is_staff %}
-                          <a href="{% url 'dashboards:view_general' %}"><li>
-                        {% trans "Platform Report" %}
-                            </li></a>
+                        <a href="{% url 'dashboards:view_general' %}">
+                            <li>
+                                {% trans "Platform Report" %}
+                            </li>
+                        </a>
                     {% endif %}
                   
-                   <a href="{% url 'dashboards:view_categories' %}"><li class="active">
-                        {% trans "Category Report" %}
-                    </li></a> 
+                    <a href="{% url 'dashboards:view_categories' %}">
+                        <li class="active">
+                            {% trans "Category Report" %}
+                        </li>
+                    </a> 
                     <li>
                         {% trans "Subject Report" %}
                     </li>
@@ -52,18 +59,48 @@
                 {% endfor %}
             </select>
             <ul id="report-header-options">
-                <li  class="selected">
+                <li  class="tab-option selected">
                     {% trans "Focus" %}
                 </li>
-                <li>
+                <a href="{% url 'dashboards:view_general_log' %}"><li class="tab-option">
                     {% trans "Log" %}
-                </li>
+                </li></a>
             </ul>
         </header> 
 
         <article class="report-body">
 
             {% include "dashboards/tags_body.html" %}
+
+            <div id="bottom-part">
+                <div id="left-chart">
+                    
+                </div>
+                
+
+                <div id="right-side-heatmaps">
+                      <div id="month_selector_div">
+                        <h4>{% trans "Amount of access in: " %}
+                        <select id="month_selector">
+                            {% for month in months  %}
+                                <option>{{month}}</option>
+                            {% endfor %}
+
+                        </select>
+                        </h4>
+                    </div>
+                    <div id="upper-right-part"></div>
+
+                      <div class='input-group date'>
+                        <label>{% trans "Select the begin of the week: " %}</label>
+                        <input type='text' class="datepicker form-control"  />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    <div id="bottom-right-part"></div>
+                </div>
+            </div>
         </article>
     </section>
 {% endblock content %}

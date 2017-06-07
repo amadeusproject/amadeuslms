@@ -90,10 +90,31 @@ class CategoryView(LogMixin, generic.TemplateView):
         context = {}
         self.createLog(actor = self.request.user)
         
+        context['months'] = self.get_last_twelve_months()
+
         context['categories'] = self.categories_associated_with_user(self.request.user)
-        context['javascript_files'] = ["analytics/js/charts.js", "dashboards/js/behavior.js"]
-        context['style_files'] = ['dashboards/css/general.css']
+        context['javascript_files'] = ["analytics/js/charts.js", "dashboards/js/behavior_categories.js"]
+        context['style_files'] = ['dashboards/css/general.css', 'dashboards/css/dashboards_category.css']
         return context
+
+    
+    def get_last_twelve_months(self):
+        today = date.today()
+        months = []
+        month_mappings = { 1: _('January'), 2: _('February'), 3: _('March'), 4: _('April'), 5: _('May'), 6: _('June'), 7: _('July')
+            , 8: _('August'), 9: _('September'), 10: _('October'), 11: _('November'), 12:  _('December')}
+        date_used = today #the date used for solving the inital month problem
+        offset = 0 #offset is the amount of weeks I had to shift so I could change the month if 4 weeks weren't enough
+        for i in range(12):
+
+            operation_date = today - timedelta(weeks= (4*i + offset))
+            while date_used.month == operation_date.month:
+                offset += 2
+                operation_date = today - timedelta(weeks= (4*i + offset))
+
+            months.append(month_mappings[date_used.month] + '/' + str(date_used.year))
+            date_used = operation_date
+        return months
 
     def categories_associated_with_user(self, user):
         if user.is_staff:
