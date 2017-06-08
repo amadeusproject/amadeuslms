@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-25 23:31-0300\n"
+"POT-Creation-Date: 2017-06-07 23:34-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -114,7 +114,7 @@ msgstr "Salvar"
 #: subjects/templates/subjects/subject_card.html:33
 #: subjects/templates/subjects/view.html:55
 msgid "Backup"
-msgstr ""
+msgstr "Backup"
 
 #: subjects/templates/subjects/backup.html:54
 #: subjects/templates/subjects/list.html:75
@@ -150,7 +150,7 @@ msgstr "Grupos"
 #: subjects/templates/subjects/subject_card.html:34
 #: subjects/templates/subjects/view.html:56
 msgid "Restore"
-msgstr ""
+msgstr "Restaurar"
 
 #: subjects/templates/subjects/backup.html:60
 #: subjects/templates/subjects/list.html:79
@@ -164,11 +164,11 @@ msgstr "Remover"
 
 #: subjects/templates/subjects/backup.html:68
 msgid "Please select below the topics and resources which you want to backup:"
-msgstr ""
+msgstr "Por favor selecione abaixo os tópicos e recursos que você deseja adicionar no backup:"
 
 #: subjects/templates/subjects/backup.html:98
 msgid "Include participants data."
-msgstr ""
+msgstr "Incluir dados dos participantes."
 
 #: subjects/templates/subjects/create.html:23
 msgid "Replicate: "
@@ -273,35 +273,35 @@ msgstr "Acessar Recurso"
 
 #: subjects/templates/subjects/restore.html:68
 msgid "Please select below the file you want to use for restore:"
-msgstr ""
+msgstr "Por favor selecione abaixo o arquivo que você quer usar para restauração:"
 
 #: subjects/templates/subjects/restore.html:78
 msgid "Choose your file..."
-msgstr ""
+msgstr "Escolha seu arquivo..."
 
 #: subjects/templates/subjects/restore.html:87
 msgid "Click or drop the file here"
-msgstr ""
+msgstr "Clique ou solte o arquivo aqui"
 
 #: subjects/templates/subjects/subject_card.html:39
 #: subjects/templates/subjects/view.html:61
 msgid "Analytics"
-msgstr ""
+msgstr "Analytics"
 
 #: subjects/templates/subjects/subject_card.html:40
 #: subjects/templates/subjects/view.html:62
 msgid "Pendencies"
-msgstr ""
+msgstr "Pendências"
 
 #: subjects/templates/subjects/subject_card.html:44
 #: subjects/templates/subjects/view.html:66
 msgid "Messages"
-msgstr ""
+msgstr "Mensagens"
 
 #: subjects/templates/subjects/subject_card.html:48
 #: subjects/templates/subjects/view.html:70
 msgid "Mural"
-msgstr ""
+msgstr "Mural"
 
 #: subjects/templates/subjects/subject_card.html:71
 msgid "Beginning"
@@ -345,19 +345,19 @@ msgstr "Criar novo tópico"
 
 #: subjects/templates/subjects/view.html:87
 msgid "Participants"
-msgstr ""
+msgstr "Participantes"
 
 #: subjects/templates/subjects/view.html:103
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #: subjects/templates/subjects/view.html:116
 msgid "See Profile"
-msgstr ""
+msgstr "Ver Perfil"
 
 #: subjects/templates/subjects/view.html:119
 msgid "Send Message"
-msgstr ""
+msgstr "Enviar Mensagem"
 
 #: subjects/views.py:83
 msgid "Home"
@@ -423,18 +423,13 @@ msgstr "Inscrição feita com sucesso!"
 #: subjects/views.py:747
 #, python-format
 msgid "%s - Backup"
-msgstr ""
+msgstr "%s - Backup"
 
-#: subjects/views.py:870
+#: subjects/views.py:864
 #, python-format
 msgid "%s - Restore"
-msgstr ""
+msgstr "%s - Restaurar"
 
-#~ msgid "Subscribe To Subject"
-#~ msgstr "Inscrever-se no Assunto"
-
-#~ msgid "Palavras-chave mais populares"
-#~ msgstr "Palavras-chave mais populares"
-
-#~ msgid "Meus Assuntos"
-#~ msgstr "My Subjects"
+#: subjects/views.py:925
+msgid "Backup restored successfully!"
+msgstr "Backup restaurado com sucesso!"
