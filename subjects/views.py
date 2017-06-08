@@ -886,22 +886,41 @@ def realize_restore(request, subject):
                 data = json.loads(bkp_file.read())
 
                 for line in data:
-                    if "_my_subclass" in line[0]:
-                        if line[0]["_my_subclass"] == "webpage":
-                            serial = SimpleWebpageSerializer(data = line, many = True, context = {'subject': subject})
-                        elif line[0]["_my_subclass"] == "filelink":
-                            serial = SimpleFileLinkSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
-                        elif line[0]["_my_subclass"] == "link":
-                            serial = SimpleLinkSerializer(data = line, many = True, context = {'subject': subject})
-                        elif line[0]["_my_subclass"] == "pdffile":
-                            serial = SimplePDFFileSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
-                        elif line[0]["_my_subclass"] == "goals":
-                            serial = SimpleGoalSerializer(data = line, many = True, context = {'subject': subject})
-                        elif line[0]["_my_subclass"] == "ytvideo":
-                            serial = SimpleYTVideoSerializer(data = line, many = True, context = {'subject': subject})
-                        
-                        serial.is_valid()
-                        serial.save()
+                    if len(line) > 0:
+                        if "_my_subclass" in line[0]:
+                            if line[0]["_my_subclass"] == "webpage":
+                                if "students" in line[0]:
+                                    serial = CompleteWebpageSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                                else:
+                                    serial = SimpleWebpageSerializer(data = line, many = True, context = {'subject': subject})
+                            elif line[0]["_my_subclass"] == "filelink":
+                                if "students" in line[0]:
+                                    serial = CompleteFileLinkSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                                else:
+                                    serial = SimpleFileLinkSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                            elif line[0]["_my_subclass"] == "link":
+                                if "students" in line[0]:
+                                    serial = CompleteLinkSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                                else:
+                                    serial = SimpleLinkSerializer(data = line, many = True, context = {'subject': subject})
+                            elif line[0]["_my_subclass"] == "pdffile":
+                                if "students" in line[0]:
+                                    serial = CompletePDFFileSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                                else:
+                                    serial = SimplePDFFileSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                            elif line[0]["_my_subclass"] == "goals":
+                                if "students" in line[0]:
+                                    serial = CompleteGoalSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                                else:
+                                    serial = SimpleGoalSerializer(data = line, many = True, context = {'subject': subject})
+                            elif line[0]["_my_subclass"] == "ytvideo":
+                                if "students" in line[0]:
+                                    serial = CompleteYTVideoSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                                else:
+                                    serial = SimpleYTVideoSerializer(data = line, many = True, context = {'subject': subject})
+                            
+                            serial.is_valid()
+                            serial.save()
 
     messages.success(request, _('Backup restored successfully!'))
 
