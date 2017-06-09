@@ -770,20 +770,22 @@ def realize_backup(request, subject):
 
 
     for filelink in filelinks:
-        if os.path.exists(filelink.file_content.path):
-            fdir, fname = os.path.split(filelink.file_content.path)
-            zip_path = os.path.join(resource_files_subdir, fname)
+        if bool(filelink.file_content):
+            if os.path.exists(filelink.file_content.path):
+                fdir, fname = os.path.split(filelink.file_content.path)
+                zip_path = os.path.join(resource_files_subdir, fname)
 
-            # Add file, at correct path
-            zf.write(filelink.file_content.path, zip_path)
+                # Add file, at correct path
+                zf.write(filelink.file_content.path, zip_path)
 
     for pdffile in pdffiles:
-        if os.path.exists(pdffile.file.path):
-            fdir, fname = os.path.split(pdffile.file.path)
-            zip_path = os.path.join(resource_files_subdir, fname)
+        if bool(pdffile.file):
+            if os.path.exists(pdffile.file.path):
+                fdir, fname = os.path.split(pdffile.file.path)
+                zip_path = os.path.join(resource_files_subdir, fname)
 
-            # Add file, at correct path
-            zf.write(pdffile.file.path, zip_path)
+                # Add file, at correct path
+                zf.write(pdffile.file.path, zip_path)
 
     file = open("backup.json", "w")
 
@@ -793,11 +795,12 @@ def realize_backup(request, subject):
         participants = User.objects.filter(subject_student__slug = subject)
 
         for user in participants:
-            if os.path.exists(user.image.path):
-                fdir, fname = os.path.split(user.image.path)
-                zip_path = os.path.join('users', fname)
+            if bool(user.image):
+                if os.path.exists(user.image.path):
+                    fdir, fname = os.path.split(user.image.path)
+                    zip_path = os.path.join('users', fname)
 
-                zf.write(user.image.path, zip_path)
+                    zf.write(user.image.path, zip_path)
 
         serializer_w = CompleteWebpageSerializer(webpages, many = True)
         serializer_y = CompleteYTVideoSerializer(ytvideos, many = True)
