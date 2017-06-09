@@ -167,6 +167,7 @@ class CompleteWebpageSerializer(serializers.ModelSerializer):
 					webpage.tags.add(tag)
 
 				students = data["students"]
+				subject = get_object_or_404(Subject, slug = self.context.get("subject", None))
 
 				for student_data in students:
 					logs = student_data["get_items"]
@@ -212,10 +213,9 @@ class CompleteWebpageSerializer(serializers.ModelSerializer):
 								Log.objects.create(**log)
 
 					webpage.students.add(student)
+					subject.students.add(student)
 
 				groups = data["groups"]
-
-				subject = get_object_or_404(Subject, slug = self.context.get("subject", None))
 
 				for group_data in groups:
 					g_exists = StudentsGroup.objects.filter(subject = subject, slug = group_data["slug"])

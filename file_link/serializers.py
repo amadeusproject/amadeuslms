@@ -230,6 +230,7 @@ class CompleteFileLinkSerializer(serializers.ModelSerializer):
 					file_link.tags.add(tag)
 				
 				students = data["students"]
+				subject = get_object_or_404(Subject, slug = self.context.get("subject", None))
 
 				for student_data in students:
 					logs = student_data["get_items"]
@@ -274,10 +275,9 @@ class CompleteFileLinkSerializer(serializers.ModelSerializer):
 								Log.objects.create(**log)
 
 					file_link.students.add(student)
+					subject.students.add(student)
 
 				groups = data["groups"]
-
-				subject = get_object_or_404(Subject, slug = self.context.get("subject", None))
 
 				for group_data in groups:
 					g_exists = StudentsGroup.objects.filter(subject = subject, slug = group_data["slug"])
