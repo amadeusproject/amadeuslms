@@ -92,13 +92,7 @@ class SimpleFileLinkSerializer(serializers.ModelSerializer):
 					data["topic"] = topic
 				else:
 					data["topic"] = get_object_or_404(Topic, id = topic["id"])
-
-				if not data["file_content"] is None:
-					f = open(os.path.join(settings.MEDIA_ROOT, data["file_content"]), encoding="latin-1")
-					file = File(f)
-
-					data["file_content"] = file
-
+			
 				file_link_data = data
 				
 				pendencies = file_link_data["pendencies_resource"]
@@ -208,12 +202,6 @@ class CompleteFileLinkSerializer(serializers.ModelSerializer):
 				else:
 					data["topic"] = get_object_or_404(Topic, id = topic["id"])
 
-				if not data["file_content"] is None:
-					f = open(os.path.join(settings.MEDIA_ROOT, data["file_content"]), encoding="latin-1")
-					file = File(f)
-
-					data["file_content"] = file
-
 				file_link_data = data
 				
 				pendencies = file_link_data["pendencies_resource"]
@@ -260,12 +248,6 @@ class CompleteFileLinkSerializer(serializers.ModelSerializer):
 								if not l_exists.exists():
 									Log.objects.create(**log)
 						else:
-							if not student_data["image"] is None:
-								f = open(os.path.join(settings.MEDIA_ROOT, student_data["image"]), encoding="latin-1")
-								file = File(f)
-
-								student_data["image"] = file
-
 							student = User()
 							student.email = student_data["email"]
 							student.username = student_data["username"]

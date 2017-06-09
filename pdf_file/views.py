@@ -56,7 +56,6 @@ class ViewPDFFile(LoginRequiredMixin, LogMixin, generic.TemplateView):
         context['pdf_file'] = pdf_file
         context['subject'] = pdf_file.topic.subject
 
-
         self.log_context['category_id'] = pdf_file.topic.subject.category.id
         self.log_context['category_name'] = pdf_file.topic.subject.category.name
         self.log_context['category_slug'] = pdf_file.topic.subject.category.slug
@@ -81,6 +80,7 @@ class ViewPDFFile(LoginRequiredMixin, LogMixin, generic.TemplateView):
 
         if not path.exists(pdf_file.file.path):
             raise Http404()
+        
         if pdf_file.show_window:
             response = HttpResponse(open(pdf_file.file.path, 'rb').read(),content_type = 'application/pdf')
             return response

@@ -16,15 +16,16 @@ class TopicSerializer(serializers.ModelSerializer):
 			if topic.exists():
 				data = topic[0].__dict__
 			else:
-				topic = Topic.objects.filter(subject = subject, repository = True)
+				data["id"] = ""
+				data["subject"] = subject
+				data["order"] = Topic.objects.filter(subject = subject).count() + 1
 
-				if topic.exists():
-					data = topic[0].__dict__
-				else:
-					data["id"] = ""
-					data["subject"] = subject
-					data["order"] = Topic.objects.filter(subject = subject).count() + 1
+				if data["repository"] == True:
+					topic = Topic.objects.filter(subject = subject, repository = True)
 
+					if topic.exists():
+						data = topic[0].__dict__
+				
 		return data
 
 	class Meta:

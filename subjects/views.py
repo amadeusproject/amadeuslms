@@ -813,13 +813,23 @@ def realize_backup(request, subject):
         serializer_p = SimplePDFFileSerializer(pdffiles, many = True)
         serializer_g = SimpleGoalSerializer(goals, many = True)
 
+    if len(serializer_w.data) > 0:
+        data_list.append(serializer_w.data)
     
-    data_list.append(serializer_w.data)
-    data_list.append(serializer_y.data)
-    data_list.append(serializer_f.data)
-    data_list.append(serializer_l.data)
-    data_list.append(serializer_p.data)
-    data_list.append(serializer_g.data)
+    if len(serializer_y.data) > 0:
+        data_list.append(serializer_y.data)
+
+    if len(serializer_f.data) > 0:
+        data_list.append(serializer_f.data)
+
+    if len(serializer_l.data) > 0:
+        data_list.append(serializer_l.data)
+
+    if len(serializer_p.data) > 0:
+        data_list.append(serializer_p.data)
+
+    if len(serializer_g.data) > 0:
+        data_list.append(serializer_g.data)
 
     json.dump(data_list, file)
 
