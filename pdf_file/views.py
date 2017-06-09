@@ -101,7 +101,10 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
+    log_component = 'resources'
     log_resource = 'pdffile'
+    log_action = 'create'
+    log_context = {}
 
     def dispatch(self, request, *args, **kwargs):
         slug = self.kwargs.get('slug', '')
