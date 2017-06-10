@@ -770,20 +770,22 @@ def realize_backup(request, subject):
 
 
     for filelink in filelinks:
-        if os.path.exists(filelink.file_content.path):
-            fdir, fname = os.path.split(filelink.file_content.path)
-            zip_path = os.path.join(resource_files_subdir, fname)
+        if bool(filelink.file_content):
+            if os.path.exists(filelink.file_content.path):
+                fdir, fname = os.path.split(filelink.file_content.path)
+                zip_path = os.path.join(resource_files_subdir, fname)
 
-            # Add file, at correct path
-            zf.write(filelink.file_content.path, zip_path)
+                # Add file, at correct path
+                zf.write(filelink.file_content.path, zip_path)
 
     for pdffile in pdffiles:
-        if os.path.exists(pdffile.file.path):
-            fdir, fname = os.path.split(pdffile.file.path)
-            zip_path = os.path.join(resource_files_subdir, fname)
+        if bool(pdffile.file):
+            if os.path.exists(pdffile.file.path):
+                fdir, fname = os.path.split(pdffile.file.path)
+                zip_path = os.path.join(resource_files_subdir, fname)
 
-            # Add file, at correct path
-            zf.write(pdffile.file.path, zip_path)
+                # Add file, at correct path
+                zf.write(pdffile.file.path, zip_path)
 
     file = open("backup.json", "w")
 
@@ -793,11 +795,12 @@ def realize_backup(request, subject):
         participants = User.objects.filter(subject_student__slug = subject)
 
         for user in participants:
-            if os.path.exists(user.image.path):
-                fdir, fname = os.path.split(user.image.path)
-                zip_path = os.path.join('users', fname)
+            if bool(user.image):
+                if os.path.exists(user.image.path):
+                    fdir, fname = os.path.split(user.image.path)
+                    zip_path = os.path.join('users', fname)
 
-                zf.write(user.image.path, zip_path)
+                    zf.write(user.image.path, zip_path)
 
         serializer_w = CompleteWebpageSerializer(webpages, many = True)
         serializer_y = CompleteYTVideoSerializer(ytvideos, many = True)
@@ -813,13 +816,23 @@ def realize_backup(request, subject):
         serializer_p = SimplePDFFileSerializer(pdffiles, many = True)
         serializer_g = SimpleGoalSerializer(goals, many = True)
 
+    if len(serializer_w.data) > 0:
+        data_list.append(serializer_w.data)
     
-    data_list.append(serializer_w.data)
-    data_list.append(serializer_y.data)
-    data_list.append(serializer_f.data)
-    data_list.append(serializer_l.data)
-    data_list.append(serializer_p.data)
-    data_list.append(serializer_g.data)
+    if len(serializer_y.data) > 0:
+        data_list.append(serializer_y.data)
+
+    if len(serializer_f.data) > 0:
+        data_list.append(serializer_f.data)
+
+    if len(serializer_l.data) > 0:
+        data_list.append(serializer_l.data)
+
+    if len(serializer_p.data) > 0:
+        data_list.append(serializer_p.data)
+
+    if len(serializer_g.data) > 0:
+        data_list.append(serializer_g.data)
 
     json.dump(data_list, file)
 
