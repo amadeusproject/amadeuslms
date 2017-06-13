@@ -65,7 +65,10 @@ def most_active_users_in_a_month(request):
         built_date = date(int(year), mappings[_(month)],  day)
         days_list.append(built_date)
     data = activity_in_timestamp(days_list, params = params)
+    
     data = [{"day": day.day, "count": day_count} for day, day_count in data.items()]
+    data = sorted(data, key =lambda x: x['day'])
+    
     return JsonResponse(data, safe=False)
 
 
