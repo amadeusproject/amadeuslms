@@ -73,12 +73,45 @@
             {% include "dashboards/tags_body.html" %}
 
             <div id="bottom-part">
-                <div id="left-chart">
-                    
+
+            <div id="left-side" class="chart-side">
+                <h2>{% trans "between" %}</h2>
+               
+                        <div class='col-md-4'>
+                            <div class="form-group">
+                                <div class='input-group date' id='init_date'>
+                                    <input type='text' class="form-control" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='col-md-4'>
+                            <div class="form-group">
+                                <div class='input-group date' id='end_date'>
+                                    <input type='text' class="form-control" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                
+                <div>
+                    <h4>{% trans "by" %}</h4>
+                    <select>
+                        <option>month</option>
+                        <option>year</option>
+                    </select>
                 </div>
+                <div id="left-chart">
+
+                </div>
+            </div>
                 
 
-                <div id="right-side-heatmaps">
+            <div id="right-side-heatmaps" class="chart-side">
                       <div id="month_selector_div">
                         <h4>{% trans "Amount of access in: " %}
                         <select id="month_selector">

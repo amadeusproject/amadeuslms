@@ -71,6 +71,17 @@ $(document).ready(function(){
 
     });
 
-
+    $.get('/analytics/get_comments_count/', {category_id: $("#category-selector").val()}).done(function(dataset){
+    	console.log(dataset);
+    });
 	
 });
+
+
+var filtering = {
+	by_month: function(data){
+
+	},
+	by_year: function(data){},
+	by_week: function(data){}
+};
