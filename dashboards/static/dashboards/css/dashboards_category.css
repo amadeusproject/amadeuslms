@@ -14,4 +14,8 @@
 #category-selector option:hover {
   background: red; }
 
+.chart-side {
+  float: left;
+  width: 40%; }
+
 /*# sourceMappingURL=dashboards_category.css.map */

@@ -244,8 +244,10 @@ def most_tags_inside_category(category_id):
 
 def get_amount_of_comments(request):
     params = request.GET
-    init_date = params.get('init_date')
-    end_date = params.get('end_date')
+    #init_date = params.get('init_date')
+    #end_date = params.get('end_date')
+    init_date = "04/20/2017"
+    end_date = "06/09/2017"
     init_date = datetime.strptime( init_date, '%m/%d/%Y')
     end_date = datetime.strptime(end_time, '%m/%d/%Y')
     day_count = (end_date - init_date).days + 1
@@ -257,4 +259,6 @@ def get_amount_of_comments(request):
             data[single_day] = Mural.objects.filter(space__id = category_id, create_date = single_day).count()
         else:
             data[single_day] = Comment.objects.filter(create_date = single_day).count()
-    return JsonResponse(data, safe=False)
+
+    data_finished = [{date:key, count:value} for key, value in data.items()]
+    return JsonResponse(data_finished, safe=False)
