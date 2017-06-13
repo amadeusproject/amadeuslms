@@ -55,6 +55,8 @@ from youtube_video.serializers import SimpleYTVideoSerializer, CompleteYTVideoSe
 from youtube_video.models import YTVideo
 from webpage.serializers import SimpleWebpageSerializer, CompleteWebpageSerializer
 from webpage.models import Webpage
+from webconference.serializers import SimpleWebconferenceSerializer, CompleteWebconferenceSerializer
+from webconference.models import Webconference
 
 from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions, has_resource_permissions
 
@@ -767,6 +769,7 @@ def realize_backup(request, subject):
     links = Link.objects.filter(id__in = resources_ids)
     pdffiles = PDFFile.objects.filter(id__in = resources_ids)
     goals = Goals.objects.filter(id__in = resources_ids)
+    webconferences = Webconference.objects.filter(id__in = resources_ids)
 
 
     for filelink in filelinks:
@@ -808,6 +811,7 @@ def realize_backup(request, subject):
         serializer_l = CompleteLinkSerializer(links, many = True)
         serializer_p = CompletePDFFileSerializer(pdffiles, many = True)
         serializer_g = CompleteGoalSerializer(goals, many = True)
+        serializer_c = CompleteWebconferenceSerializer(webconferences, many = True)
     else:
         serializer_w = SimpleWebpageSerializer(webpages, many = True)
         serializer_y = SimpleYTVideoSerializer(ytvideos, many = True)
@@ -815,6 +819,7 @@ def realize_backup(request, subject):
         serializer_l = SimpleLinkSerializer(links, many = True)
         serializer_p = SimplePDFFileSerializer(pdffiles, many = True)
         serializer_g = SimpleGoalSerializer(goals, many = True)
+        serializer_c = SimpleWebconferenceSerializer(webconferences, many = True)
 
     if len(serializer_w.data) > 0:
         data_list.append(serializer_w.data)
@@ -833,6 +838,9 @@ def realize_backup(request, subject):
 
     if len(serializer_g.data) > 0:
         data_list.append(serializer_g.data)
+
+    if len(serializer_c.data) > 0:
+        data_list.append(serializer_c.data)
 
     json.dump(data_list, file)
 
@@ -931,6 +939,11 @@ def realize_restore(request, subject):
                                     serial = CompleteYTVideoSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
                                 else:
                                     serial = SimpleYTVideoSerializer(data = line, many = True, context = {'subject': subject})
+                            elif line[0]["_my_subclass"] == "webconference":
+                                if "students" in line[0]:
+                                    serial = CompleteWebconferenceSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                                else:
+                                    serial = SimpleWebconferenceSerializer(data = line, many = True, context = {'subject': subject})
                             
                             serial.is_valid()
                             serial.save()
