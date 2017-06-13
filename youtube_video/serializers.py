@@ -169,6 +169,7 @@ class CompleteYTVideoSerializer(serializers.ModelSerializer):
 					ytvideo.tags.add(tag)
 
 				students = data["students"]
+				subject = get_object_or_404(Subject, slug = self.context.get("subject", None))
 
 				for student_data in students:
 					logs = student_data["get_items"]
@@ -187,12 +188,6 @@ class CompleteYTVideoSerializer(serializers.ModelSerializer):
 								if not l_exists.exists():
 									Log.objects.create(**log)
 						else:
-							if not student_data["image"] is None:
-								f = open(os.path.join(settings.MEDIA_ROOT, student_data["image"]), encoding="latin-1")
-								file = File(f)
-
-								student_data["image"] = file
-
 							student = User()
 							student.email = student_data["email"]
 							student.username = student_data["username"]
@@ -219,10 +214,9 @@ class CompleteYTVideoSerializer(serializers.ModelSerializer):
 								Log.objects.create(**log)
 
 					ytvideo.students.add(student)
+					subject.students.add(student)
 
 				groups = data["groups"]
-
-				subject = get_object_or_404(Subject, slug = self.context.get("subject", None))
 
 				for group_data in groups:
 					g_exists = StudentsGroup.objects.filter(subject = subject, slug = group_data["slug"])
