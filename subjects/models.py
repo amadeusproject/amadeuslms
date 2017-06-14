@@ -11,7 +11,7 @@ from django.core.exceptions import ValidationError
 from categories.models import Category
 import datetime
 class Tag(models.Model):
-    name = models.CharField( _("Name"), unique = True,max_length= 200)
+    name = models.CharField( _("Name"), unique = True,max_length= 200, blank = True)
     def __str__(self):
         return self.name
 

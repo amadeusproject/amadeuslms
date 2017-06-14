@@ -106,12 +106,13 @@ class SimplePDFFileSerializer(serializers.ModelSerializer):
 				tags = data["tags"]
 
 				for tag in tags:
-					if tag["id"] == "":
-						tag = Tag.objects.create(name = tag["name"])
-					else:
-						tag = get_object_or_404(Tag, id = tag["id"])
+					if not tag["name"] == "":
+						if tag["id"] == "":
+							tag = Tag.objects.create(name = tag["name"])
+						else:
+							tag = get_object_or_404(Tag, id = tag["id"])
 
-					pdf.tags.add(tag)
+						pdf.tags.add(tag)
 				
 				resource = get_object_or_404(Resource, id = pdf.id)
 
@@ -216,12 +217,13 @@ class CompletePDFFileSerializer(serializers.ModelSerializer):
 				tags = data["tags"]
 
 				for tag in tags:
-					if tag["id"] == "":
-						tag = Tag.objects.create(name = tag["name"])
-					else:
-						tag = get_object_or_404(Tag, id = tag["id"])
+					if not tag["name"] == "":
+						if tag["id"] == "":
+							tag = Tag.objects.create(name = tag["name"])
+						else:
+							tag = get_object_or_404(Tag, id = tag["id"])
 
-					pdf.tags.add(tag)
+						pdf.tags.add(tag)
 				
 				students = data["students"]
 				subject = get_object_or_404(Subject, slug = self.context.get("subject", None))

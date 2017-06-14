@@ -17,9 +17,9 @@ from students_group.models import StudentsGroup
 from log.models import Log
 from users.models import User
 
-from .models import YTVideo
+from .models import Webconference
 
-class SimpleYTVideoSerializer(serializers.ModelSerializer):
+class SimpleWebconferenceSerializer(serializers.ModelSerializer):
 	topic = TopicSerializer('get_subject')
 	tags = TagSerializer(many = True)
 	pendencies_resource = PendenciesSerializer(many = True)
@@ -30,13 +30,13 @@ class SimpleYTVideoSerializer(serializers.ModelSerializer):
 		return subject
 
 	class Meta:
-		model = YTVideo
+		model = Webconference
 		exclude = ('students', 'groups',)
 
 	def create(self, data):
 		topic = data['topic']
 
-		ytvideo = None
+		webconference = None
 
 		if not topic["id"] is None:
 			if "subject" in topic:
@@ -56,25 +56,26 @@ class SimpleYTVideoSerializer(serializers.ModelSerializer):
 					data["topic"] = topic
 				else:
 					data["topic"] = get_object_or_404(Topic, id = topic["id"])
-				
 
-				ytvideo_data = data
+				webconference_data = data
 				
-				pendencies = ytvideo_data["pendencies_resource"]
-				del ytvideo_data["pendencies_resource"]
+				pendencies = webconference_data["pendencies_resource"]
+				del webconference_data["pendencies_resource"]
 
-				ytvideo = YTVideo()
-				ytvideo.name = ytvideo_data["name"]
-				ytvideo.brief_description = ytvideo_data["brief_description"]
-				ytvideo.show_window = ytvideo_data["show_window"]
-				ytvideo.all_students = ytvideo_data["all_students"]
-				ytvideo.visible = ytvideo_data["visible"]
-				ytvideo.order = ytvideo_data["order"]
-				ytvideo.topic = ytvideo_data["topic"]
-				ytvideo.url = ytvideo_data["url"]
+				webconference = Webconference()
+				webconference.name = webconference_data["name"]
+				webconference.brief_description = webconference_data["brief_description"]
+				webconference.show_window = webconference_data["show_window"]
+				webconference.all_students = webconference_data["all_students"]
+				webconference.visible = webconference_data["visible"]
+				webconference.order = webconference_data["order"]
+				webconference.topic = webconference_data["topic"]
+				webconference.presentation = webconference_data["presentation"]
+				webconference.start = webconference_data["start"]
+				webconference.end = webconference_data["end"]
 
-				ytvideo.save()
-				
+				webconference.save()
+
 				tags = data["tags"]
 
 				for tag in tags:
@@ -84,19 +85,19 @@ class SimpleYTVideoSerializer(serializers.ModelSerializer):
 						else:
 							tag = get_object_or_404(Tag, id = tag["id"])
 
-						ytvideo.tags.add(tag)
-					
-				resource = get_object_or_404(Resource, id = ytvideo.id)
+						webconference.tags.add(tag)
+
+				resource = get_object_or_404(Resource, id = webconference.id)
 
 				for pend in pendencies:
 					Pendencies.objects.create(resource = resource, **pend)
 
-		return ytvideo
+		return webconference
 
 	def update(self, instance, data):
 		return instance
 
-class CompleteYTVideoSerializer(serializers.ModelSerializer):
+class CompleteWebconferenceSerializer(serializers.ModelSerializer):
 	topic = TopicSerializer('get_subject')
 	tags = TagSerializer(many = True)
 	pendencies_resource = PendenciesSerializer(many = True)
@@ -114,13 +115,13 @@ class CompleteYTVideoSerializer(serializers.ModelSerializer):
 		return files
 
 	class Meta:
-		model = YTVideo
+		model = Webconference
 		fields = '__all__'
 
 	def create(self, data):
 		topic = data['topic']
 
-		ytvideo = None
+		webconference = None
 
 		if not topic["id"] is None:
 			if "subject" in topic:
@@ -140,25 +141,26 @@ class CompleteYTVideoSerializer(serializers.ModelSerializer):
 					data["topic"] = topic
 				else:
 					data["topic"] = get_object_or_404(Topic, id = topic["id"])
-				
 
-				ytvideo_data = data
+				webconference_data = data
 				
-				pendencies = ytvideo_data["pendencies_resource"]
-				del ytvideo_data["pendencies_resource"]
+				pendencies = webconference_data["pendencies_resource"]
+				del webconference_data["pendencies_resource"]
 
-				ytvideo = YTVideo()
-				ytvideo.name = ytvideo_data["name"]
-				ytvideo.brief_description = ytvideo_data["brief_description"]
-				ytvideo.show_window = ytvideo_data["show_window"]
-				ytvideo.all_students = ytvideo_data["all_students"]
-				ytvideo.visible = ytvideo_data["visible"]
-				ytvideo.order = ytvideo_data["order"]
-				ytvideo.topic = ytvideo_data["topic"]
-				ytvideo.url = ytvideo_data["url"]
+				webconference = Webconference()
+				webconference.name = webconference_data["name"]
+				webconference.brief_description = webconference_data["brief_description"]
+				webconference.show_window = webconference_data["show_window"]
+				webconference.all_students = webconference_data["all_students"]
+				webconference.visible = webconference_data["visible"]
+				webconference.order = webconference_data["order"]
+				webconference.topic = webconference_data["topic"]
+				webconference.presentation = webconference_data["presentation"]
+				webconference.start = webconference_data["start"]
+				webconference.end = webconference_data["end"]
 
-				ytvideo.save()
-				
+				webconference.save()
+
 				tags = data["tags"]
 
 				for tag in tags:
@@ -168,7 +170,7 @@ class CompleteYTVideoSerializer(serializers.ModelSerializer):
 						else:
 							tag = get_object_or_404(Tag, id = tag["id"])
 
-						ytvideo.tags.add(tag)
+						webconference.tags.add(tag)
 
 				students = data["students"]
 				subject = get_object_or_404(Subject, slug = self.context.get("subject", None))
@@ -178,6 +180,7 @@ class CompleteYTVideoSerializer(serializers.ModelSerializer):
 					
 					if student_data["id"] == "":
 						u_exist = User.objects.filter(email = student_data["email"])
+
 
 						if not u_exist.exists():
 							student = u_exist[0]
@@ -215,7 +218,7 @@ class CompleteYTVideoSerializer(serializers.ModelSerializer):
 							if not l_exists.exists():
 								Log.objects.create(**log)
 
-					ytvideo.students.add(student)
+					webconference.students.add(student)
 					subject.students.add(student)
 
 				groups = data["groups"]
@@ -238,11 +241,11 @@ class CompleteYTVideoSerializer(serializers.ModelSerializer):
 
 							group.participants.add(p_user)
 
-					ytvideo.groups.add(group)
-					
-				resource = get_object_or_404(Resource, id = ytvideo.id)
+					webconference.groups.add(group)
+
+				resource = get_object_or_404(Resource, id = webconference.id)
 
 				for pend in pendencies:
 					Pendencies.objects.create(resource = resource, **pend)
 
-		return ytvideo
+		return webconference
