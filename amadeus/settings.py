@@ -273,22 +273,6 @@ EMAIL_HOST_PASSWORD = 'amadeusteste'
 # SMTP CONFIG
 # EMAIL_BACKEND = 'core.smtp.AmadeusEmailBackend'
 
-#API CONFIG STARTS
-#TELL the rest framework to use a different backend
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES':(
-        'oauth2_provider.ext.rest_framework.OAuth2Authentication',),
-    'DEFAULT_PERMISSION_CLASSES':(
-        'rest_framework.permissions.IsAuthenticated',),
-     'PAGE_SIZE': 10, #pagination purposes
-}
-
-OAUTH2_PROVIDER = {
-    'SCOPES':{'read':'Read scope', 'write': 'Write scope'}
-}
-#API CONFIG ENDS
-
-
 #For date purposes
 DATE_INPUT_FORMATS.append('%d/%m/%y')
 DATE_INPUT_FORMATS.append('%m/%d/%y')
@@ -314,7 +298,7 @@ S3DIRECT_DESTINATIONS = {
 #TELL the rest framework to use a different backend
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':(
-        'oauth2_provider.ext.rest_framework.OAuth2Authentication',),
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',),
     'DEFAULT_PERMISSION_CLASSES':(
         'rest_framework.permissions.IsAuthenticated',),
      'PAGE_SIZE': 10, #pagination purposes

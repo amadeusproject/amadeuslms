@@ -40,6 +40,8 @@ import os
 from rest_framework import viewsets
 from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from oauth2_provider.contrib.rest_framework.authentication import OAuth2Authentication
+from oauth2_provider.contrib.rest_framework.permissions import IsAuthenticatedOrTokenHasScope
 
 # ================ ADMIN =======================
 class UsersListView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, generic.ListView):
@@ -572,4 +574,5 @@ def logout(request, next_page = None):
 class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer
-	permissions_classes = (IsAuthenticatedOrReadOnly,)
+	authentication_classes = [OAuth2Authentication]
+	permissions_classes = (IsAuthenticatedOrTokenHasScope,)
