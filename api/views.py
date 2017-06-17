@@ -23,16 +23,12 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet):
 	@detail_route(methods = ['post'])
 	def login(self, request):
 		username = request.DATA['email']
-		password = request.DATA['password']
-		user = authenticate(username = username, password = password)
+		
+		user = get_object_or_404(self.queryset, email = username)
 
-		if user is not None:
-			if not security.maintence or user.is_staff:
-				serializer = UserSerializer(user)
+		serializer = UserSerializer(user)
 					
-				return Response(serializer.data)
-
-		return Response()
+		return Response(serializer.data)
 
 def getToken(request):
 	oauth = Application.objects.filter(name = "amadeus-droid")

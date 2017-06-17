@@ -17,5 +17,5 @@ router.register(r'users', views.LoginViewset)
 urlpatterns = [
 	#API REST
     url(r'^', include(router.urls)),
-    url(r'^token', views.getToken),
+    url(r'^token$', views.getToken),
 ]
