@@ -1,6 +1,7 @@
-import requests
+import requests, json
 from django.shortcuts import get_object_or_404, reverse
 from django.contrib.auth import authenticate
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
@@ -17,9 +18,9 @@ from django.http import HttpResponse
 
 class LoginViewset(viewsets.ReadOnlyModelViewSet):
 	queryset = User.objects.all()
-	security = Security.objects.get(id = 1)
 	permissions_classes = (IsAuthenticatedOrReadOnly,)
 
+	@csrf_exempt
 	@detail_route(methods = ['post'])
 	def login(self, request):
 		username = request.DATA['email']
@@ -30,30 +31,48 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet):
 					
 		return Response(serializer.data)
 
+@csrf_exempt
 def getToken(request):
 	oauth = Application.objects.filter(name = "amadeus-droid")
+	security = Security.objects.get(id = 1)
 
 	response = ""
 
-	if request.POST:
-		username = request.POST['email']
-		password = request.POST['password']
+	if request.method == "POST":
+		json_data = json.loads(request.body.decode('utf-8'))
 
-		user = authenticate(username = username, password = password)
+		try:
+			username = json_data['email']
+			password = json_data['password']
 
-		if user is not None:
-			if not security.maintence or user.is_staff:
-				if oauth.count() > 0:
-					oauth = oauth[0]
+			user = authenticate(username = username, password = password)
 
-					data = {
-						"grant_type": "password",
-						"username": username,
-						"password": password
-					}
+			if user is not None:
+				if not security.maintence or user.is_staff:
+					if oauth.count() > 0:
+						oauth = oauth[0]
 
-					auth = (oauth.client_id, oauth.client_secret)
+						data = {
+							"grant_type": "password",
+							"username": username,
+							"password": password
+						}
 
-					response = requests.post(request.build_absolute_uri(reverse('oauth2_provider:token')), data = data, auth = auth)
+						auth = (oauth.client_id, oauth.client_secret)
+
+						response = requests.post(request.build_absolute_uri(reverse('oauth2_provider:token')), data = data, auth = auth)
+
+						json_r = json.loads(response.content.decode('utf-8'))
+
+						json_r["message"] = ""
+						json_r["type"] = ""
+						json_r["title"] = ""
+						json_r["success"] = True
+						json_r["number"] = 1
+						json_r['extra'] = 0
+
+						response = json.dumps(json_r)
+		except KeyError:
+			response = "Error"
 		
 	return HttpResponse(response)
