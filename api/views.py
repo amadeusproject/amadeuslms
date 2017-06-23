@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import detail_route, list_route
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from security.models import Security
@@ -18,18 +18,32 @@ from django.http import HttpResponse
 
 class LoginViewset(viewsets.ReadOnlyModelViewSet):
 	queryset = User.objects.all()
-	permissions_classes = (IsAuthenticatedOrReadOnly,)
+	permissions_classes = (IsAuthenticated,)
 
 	@csrf_exempt
-	@detail_route(methods = ['post'])
+	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def login(self, request):
-		username = request.DATA['email']
+		username = request.data['email']
 		
-		user = get_object_or_404(self.queryset, email = username)
+		user = self.queryset.get(email = username)
 
-		serializer = UserSerializer(user)
+		if not user is None:
+			serializer = UserSerializer(user)
+
+			json_r = json.dumps(serializer.data)
+			json_r = json.loads(json_r)
+			print(type(serializer.data))
+
+			json_r["message"] = ""
+			json_r["type"] = ""
+			json_r["title"] = ""
+			json_r["success"] = True
+			json_r["number"] = 1
+			json_r['extra'] = 0
+
+			response = json.dumps(json_r)
 					
-		return Response(serializer.data)
+		return HttpResponse(response)
 
 @csrf_exempt
 def getToken(request):
