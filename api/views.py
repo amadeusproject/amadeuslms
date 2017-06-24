@@ -32,16 +32,18 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet):
 
 			json_r = json.dumps(serializer.data)
 			json_r = json.loads(json_r)
-			print(type(serializer.data))
+			
+			user_info = {}
+			user_info["data"] = json_r
 
-			json_r["message"] = ""
-			json_r["type"] = ""
-			json_r["title"] = ""
-			json_r["success"] = True
-			json_r["number"] = 1
-			json_r['extra'] = 0
+			user_info["message"] = ""
+			user_info["type"] = ""
+			user_info["title"] = ""
+			user_info["success"] = True
+			user_info["number"] = 1
+			user_info['extra'] = 0
 
-			response = json.dumps(json_r)
+			response = json.dumps(user_info)
 					
 		return HttpResponse(response)
 
