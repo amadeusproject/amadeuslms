@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
-from .models import Tag
+from .models import Subject, Tag
+
+from users.serializers import UserSerializer
 
 class TagSerializer(serializers.ModelSerializer):
 	def validate(self, data):
@@ -22,3 +24,10 @@ class TagSerializer(serializers.ModelSerializer):
 	        },
 	    }
 		validators = []
+
+class SubjectSerializer(serializers.ModelSerializer):
+	participants = UserSerializer(many = True, source = 'get_participants')
+
+	class Meta:
+		model = Subject
+		fields = ["name", "slug", "visible", "participants"]

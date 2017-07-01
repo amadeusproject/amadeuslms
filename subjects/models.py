@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 
 from autoslug.fields import AutoSlugField
 
@@ -10,8 +11,10 @@ from django.core.exceptions import ValidationError
 
 from categories.models import Category
 import datetime
+
 class Tag(models.Model):
     name = models.CharField( _("Name"), unique = True,max_length= 200, blank = True)
+    
     def __str__(self):
         return self.name
 
@@ -41,6 +44,7 @@ class Subject(models.Model):
     category = models.ForeignKey(Category, related_name="subject_category", null=True)
 
     max_upload_size = models.IntegerField(_("Maximum upload size"), default=1024, null=True)
+    
     class Meta:
         verbose_name = "Subject"
         verbose_name_plural = "Subjects"
@@ -49,11 +53,11 @@ class Subject(models.Model):
     def __str__(self):
         return self.name
     
-    # def clean(self):
+    def get_participants(self):
+        data = User.objects.filter(
+            Q(is_staff = True) | Q(subject_student__slug = self.slug) |
+            Q(professors__slug = self.slug) |
+            Q(coordinators__subject_category__slug = self.slug)
+            ).distinct()
 
-    #     if  self.subscribe_begin > self.end_date:
-    #         raise ValidationError(_('Subscribe period should be  between course time'))
-
-        
-
-
+        return data

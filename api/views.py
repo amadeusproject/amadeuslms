@@ -9,43 +9,15 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 
 from security.models import Security
 
+from subjects.serializers import SubjectSerializer
+from subjects.models import Subject
+
 from users.serializers import UserSerializer
 from users.models import User
 
 from oauth2_provider.views.generic import ProtectedResourceView
 from oauth2_provider.models import Application
 from django.http import HttpResponse
-
-class LoginViewset(viewsets.ReadOnlyModelViewSet):
-	queryset = User.objects.all()
-	permissions_classes = (IsAuthenticated,)
-
-	@csrf_exempt
-	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
-	def login(self, request):
-		username = request.data['email']
-		
-		user = self.queryset.get(email = username)
-
-		if not user is None:
-			serializer = UserSerializer(user)
-
-			json_r = json.dumps(serializer.data)
-			json_r = json.loads(json_r)
-			
-			user_info = {}
-			user_info["data"] = json_r
-
-			user_info["message"] = ""
-			user_info["type"] = ""
-			user_info["title"] = ""
-			user_info["success"] = True
-			user_info["number"] = 1
-			user_info['extra'] = 0
-
-			response = json.dumps(user_info)
-					
-		return HttpResponse(response)
 
 @csrf_exempt
 def getToken(request):
@@ -92,3 +64,79 @@ def getToken(request):
 			response = "Error"
 		
 	return HttpResponse(response)
+
+class LoginViewset(viewsets.ReadOnlyModelViewSet):
+	queryset = User.objects.all()
+	permissions_classes = (IsAuthenticated,)
+
+	@csrf_exempt
+	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
+	def login(self, request):
+		username = request.data['email']
+		
+		user = self.queryset.get(email = username)
+		response = ""
+
+		if not user is None:
+			serializer = UserSerializer(user)
+
+			json_r = json.dumps(serializer.data)
+			json_r = json.loads(json_r)
+			
+			user_info = {}
+			user_info["data"] = json_r
+
+			user_info["message"] = ""
+			user_info["type"] = ""
+			user_info["title"] = ""
+			user_info["success"] = True
+			user_info["number"] = 1
+			user_info['extra'] = 0
+
+			response = json.dumps(user_info)
+					
+		return HttpResponse(response)
+
+class SubjectViewset(viewsets.ReadOnlyModelViewSet):
+	queryset = Subject.objects.all()
+	permissions_classes = (IsAuthenticated, )
+
+	@csrf_exempt
+	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
+	def get_subjects(self, request):
+		username = request.data['email']
+
+		user = User.objects.get(email = username)
+
+		subjects = None
+
+		response = ""
+
+		if not user is None:
+			if user.is_staff:
+				subjects = Subject.objects.all().order_by("name")
+			else:
+				pk = user.pk
+
+				subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk)).distinct()
+
+			serializer = SubjectSerializer(subjects, many = True)
+
+			json_r = json.dumps(serializer.data)
+			json_r = json.loads(json_r)
+			
+			sub_info = {}
+
+			sub_info["data"] = {}
+			sub_info["data"]["subjects"] = json_r
+
+			sub_info["message"] = ""
+			sub_info["type"] = ""
+			sub_info["title"] = ""
+			sub_info["success"] = True
+			sub_info["number"] = 1
+			sub_info['extra'] = 0
+
+			response = json.dumps(sub_info)
+
+		return HttpResponse(response)
