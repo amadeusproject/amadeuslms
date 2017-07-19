@@ -47,6 +47,7 @@ urlpatterns = [
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^analytics/', include('analytics.urls', namespace='analytics')),
     url(r'^dashboards/', include('dashboards.urls', namespace='dashboards')),
+    url(r'^bulletin/', include('bulletin.urls', namespace='bulletin')),
     #API
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     #S3Direct

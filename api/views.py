@@ -2,10 +2,13 @@ import requests, json
 from django.shortcuts import get_object_or_404, reverse
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
+
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+
+from django.db.models import Q
 
 from security.models import Security
 
@@ -138,5 +141,43 @@ class SubjectViewset(viewsets.ReadOnlyModelViewSet):
 			sub_info['extra'] = 0
 
 			response = json.dumps(sub_info)
+
+		return HttpResponse(response)
+
+class ParticipantsViewset(viewsets.ReadOnlyModelViewSet):
+	queryset = User.objects.all()
+	permissions_classes = (IsAuthenticated, )
+
+	@csrf_exempt
+	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
+	def get_participants(self, request):
+		username = request.data['email']
+		subject_slug = request.data['subject_slug']
+
+		participants = None
+
+		response = ""
+
+		if not subject_slug == "":
+			participants = User.objects.filter(Q(is_staff = True) | Q(subject_student__slug = subject_slug) | Q(professors__slug = subject_slug) | Q(coordinators__subject_category__slug = subject_slug)).exclude(email = username).distinct()
+
+			serializer = UserSerializer(participants, many = True)
+
+			json_r = json.dumps(serializer.data)
+			json_r = json.loads(json_r)
+			
+			info = {}
+
+			info["data"] = {}
+			info["data"]["participants"] = json_r
+
+			info["message"] = ""
+			info["type"] = ""
+			info["title"] = ""
+			info["success"] = True
+			info["number"] = 1
+			info['extra'] = 0
+
+			response = json.dumps(info)
 
 		return HttpResponse(response)

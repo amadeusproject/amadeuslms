@@ -14,6 +14,7 @@ router.register(r'logs', LogViewSet)
 router.register(r'usersapi', UserViewSet)
 router.register(r'users', views.LoginViewset)
 router.register(r'subjects', views.SubjectViewset)
+router.register(r'participants', views.ParticipantsViewset)
 
 urlpatterns = [
 	#API REST

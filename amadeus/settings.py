@@ -84,6 +84,7 @@ INSTALLED_APPS = [
     'news',
     'analytics',
     'dashboards',
+    'bulletin',
 ]
 
 MIDDLEWARE_CLASSES = [

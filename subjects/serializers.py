@@ -26,8 +26,7 @@ class TagSerializer(serializers.ModelSerializer):
 		validators = []
 
 class SubjectSerializer(serializers.ModelSerializer):
-	participants = UserSerializer(many = True, source = 'get_participants')
-
+	
 	class Meta:
 		model = Subject
-		fields = ["name", "slug", "visible", "participants"]
+		fields = ["name", "slug", "visible"]
