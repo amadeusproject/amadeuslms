@@ -88,7 +88,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
-    template_name = 'bulletins/view.html'
+    template_name = 'bulletin/view.html'
     model = Bulletin
     context_object_name = 'bulletin'
 
