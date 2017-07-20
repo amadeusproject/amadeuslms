@@ -11,6 +11,7 @@ from resubmit.widgets import ResubmitFileWidget
 
 class BulletinForm(forms.ModelForm):
     subject = None
+    MAX_UPLOAD_SIZE = 1024*1024
 
     def __init__(self, *args, **kwargs):
         super(BulletinForm, self).__init__(*args, **kwargs)
@@ -21,14 +22,13 @@ class BulletinForm(forms.ModelForm):
             self.subject = self.instance.topic.subject
             self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
 
-        self.fields['students'].queryset = self.subject.students.all()
         self.fields['groups'].queryset = self.subject.group_subject.all()
 
     tags = forms.CharField(label = _('Tags'), required = False)
 
     class Meta:
         model = Bulletin
-        fields = ['name', 'content', 'brief_description', 'all_students', 'students', 'groups', 'show_window', 'visible']
+        fields = ['name', 'content', 'brief_description', 'all_students', 'groups', 'show_window', 'visible','file_content']
         labels = {
             'name': _('Bulletin name'),
             'content': _('Bulletin content'),
@@ -36,8 +36,8 @@ class BulletinForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea,
             'brief_description': forms.Textarea,
-            'students': forms.SelectMultiple,
             'groups': forms.SelectMultiple,
+            'all_students': forms.HiddenInput(),
         }
 
     def clean_name(self):
@@ -58,16 +58,27 @@ class BulletinForm(forms.ModelForm):
 
         return name
 
-    def clean_content(self):
-        content = self.cleaned_data.get('content', '')
-        cleaned_content = strip_tags(content)
+    def clean_all_students(self):
+        all_students = True
+        return all_students
+        
 
-        if cleaned_content == '':
-            self._errors['content'] = [_('This field is required.')]
+    def clean_file_content(self):
+        file_content = self.cleaned_data.get('file_content', False)
 
-            return ValueError
+        if file_content:
+        	if hasattr(file_content, '_size'):
+        		if file_content._size > self.MAX_UPLOAD_SIZE:
+        			self._errors['file_content'] = [_("The file is too large. It should have less than 1MB.")]
 
-        return content
+        			return ValueError
+
+        elif not self.instance.pk:
+        	self._errors['file_content'] = [_('This field is required.')]
+
+        	return ValueError
+
+        return file_content
 
     def save(self, commit = True):
         super(BulletinForm, self).save(commit = True)
