@@ -2,8 +2,6 @@ from rest_framework import serializers
 
 from .models import Subject, Tag
 
-from users.serializers import UserSerializer
-
 class TagSerializer(serializers.ModelSerializer):
 	def validate(self, data):
 		query = Tag.objects.filter(name = data['name'])

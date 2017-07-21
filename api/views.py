@@ -12,6 +12,9 @@ from django.db.models import Q
 
 from security.models import Security
 
+from chat.serializers import ChatSerializer
+from chat.models import TalkMessages
+
 from subjects.serializers import SubjectSerializer
 from subjects.models import Subject
 
@@ -170,6 +173,44 @@ class ParticipantsViewset(viewsets.ReadOnlyModelViewSet):
 
 			info["data"] = {}
 			info["data"]["participants"] = json_r
+
+			info["message"] = ""
+			info["type"] = ""
+			info["title"] = ""
+			info["success"] = True
+			info["number"] = 1
+			info['extra'] = 0
+
+			response = json.dumps(info)
+
+		return HttpResponse(response)
+
+class ChatViewset(viewsets.ModelViewSet):
+	queryset = TalkMessages.objects.all()
+	permissions_classes = (IsAuthenticated, )
+
+	@csrf_exempt
+	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
+	def get_messages(self, request):
+		username = request.data['email']
+		user_two = request.data['user_two']
+
+		messages = None
+
+		response = ""
+
+		if not user_two == "":
+			messages = TalkMessages.objects.filter((Q(talk__user_one__email = username) & Q(talk__user_two__email = user_two)) | (Q(talk__user_one__email = user_two) & Q(talk__user_two__email = username))).order_by('-create_date')
+
+			serializer = ChatSerializer(messages, many = True)
+
+			json_r = json.dumps(serializer.data)
+			json_r = json.loads(json_r)
+			
+			info = {}
+
+			info["data"] = {}
+			info["data"]["messages"] = json_r
 
 			info["message"] = ""
 			info["type"] = ""
