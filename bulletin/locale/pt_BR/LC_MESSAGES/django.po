@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-18 23:30-0300\n"
+"POT-Creation-Date: 2017-07-20 21:36-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,156 +34,162 @@ msgstr "Conteúdo do boletim"
 msgid "This subject already has a bulletin with this name"
 msgstr "Este assunto já possui um boletim com este nome"
 
-#: .\forms.py:66 .\forms.py:112
+#: .\forms.py:72
+msgid "The file is too large. It should have less than 1MB."
+msgstr "O arquivo é muito grande. Ele deve ter menos que 1MB."
+
+#: .\forms.py:77 .\forms.py:123
 msgid "This field is required."
 msgstr "Este campo é obrigatório."
 
-#: .\forms.py:104
+#: .\forms.py:115
 msgid "Message"
 msgstr "Mensagem"
 
-#: .\forms.py:124
+#: .\forms.py:135
 msgid "The image is too large. It should have less than 5MB."
-msgstr ""
+msgstr "A imagem é muito grande. Ela deve ter menos que 5MB."
 
-#: .\models.py:23
+#: .\models.py:17
 msgid ""
 "Please select a valid file. The uploaded file must have one of the following "
-"extensions: .doc, .docx, .html, .jpg, .odp, .ods, .odt, .pdf, .png, .ppt, ."
-"pptx, .xlx e .xlsx"
+"extensions: .csv, .xlx, .xls and .xlsx"
 msgstr ""
 "Por favor selecione um arquivo válido. O arquivo enviado deve possuir uma "
-"das seguintes extensões: .doc, .docx, .html, .jpg, .odp, .ods, .odt, .pdf, ."
-"png, .ppt, .pptx, .xlx e .xlsx"
+"das seguintes extensões: .csv, .xlx, .xls and .xlsx"
 
-#: .\models.py:26
+#: .\models.py:20
 msgid "Bulletin Content"
-msgstr ""
+msgstr "Apresentação"
 
-#: .\models.py:27
-msgid "File"
-msgstr ""
+#: .\models.py:21
+msgid "Bulletin Data (Goals)"
+msgstr "Dados do boletim (Metas)"
 
-#: .\models.py:30 .\views.py:505
+#: .\models.py:24 .\views.py:505
 msgid "Bulletin"
-msgstr ""
+msgstr "Boletim"
 
-#: .\models.py:31
+#: .\models.py:25
 msgid "Bulletins"
-msgstr ""
+msgstr "Boletins"
 
-#: .\models.py:49
+#: .\models.py:43
 msgid "Are you sure you want delete the bulletin"
-msgstr ""
+msgstr "Você tem certeza que deseja apagar o boletim"
 
 #: .\templates\bulletin\_form.html:49
 msgid "Common resources settings"
-msgstr ""
+msgstr "Configurações comuns dos recursos"
 
-#: .\templates\bulletin\_form.html:98
+#: .\templates\bulletin\_form.html:76
+msgid "Choose your file..."
+msgstr "Escolha seu arquivo..."
+
+#: .\templates\bulletin\_form.html:90
+msgid "Click or drop the .xls file with the goals data"
+msgstr "Selecione ou solte o arquivo .xls com os dados das metas"
+
+#: .\templates\bulletin\_form.html:92
+msgid "The file could not exceed 1MB."
+msgstr "O arquivo não pode exceder 1MB."
+
+#: .\templates\bulletin\_form.html:141
 msgid "Pendencies Notifications"
-msgstr ""
+msgstr "Notificação de pendências"
 
-#: .\templates\bulletin\_form.html:114
+#: .\templates\bulletin\_form.html:157
 msgid "Action not performed by the user"
-msgstr ""
+msgstr "Ação não realizada pelo usuário"
 
-#: .\templates\bulletin\_form.html:140
+#: .\templates\bulletin\_form.html:183
 msgid "Wished period"
-msgstr ""
+msgstr "Período desejado"
 
-#: .\templates\bulletin\_form.html:236
-msgid "Attribute students to bulletin"
-msgstr ""
-
-#: .\templates\bulletin\_form.html:256
-msgid "Attribute groups to bulletin"
-msgstr ""
-
-#: .\templates\bulletin\_form.html:325
+#: .\templates\bulletin\_form.html:294
 msgid "Save"
-msgstr ""
+msgstr "Salvar"
 
 #: .\templates\bulletin\create.html:20 .\views.py:234
 msgid "Create Bulletin"
-msgstr ""
+msgstr "Criar boletim"
 
 #: .\templates\bulletin\relatorios.html:17
 #: .\templates\bulletin\relatorios.html:37
 msgid "User"
-msgstr ""
+msgstr "Usuário"
 
 #: .\templates\bulletin\relatorios.html:17
 #: .\templates\bulletin\relatorios.html:37
 msgid "Group"
-msgstr ""
+msgstr "Grupo"
 
 #: .\templates\bulletin\relatorios.html:17
 msgid "Action"
-msgstr ""
+msgstr "Ação"
 
 #: .\templates\bulletin\relatorios.html:17
 msgid "Date of Action"
-msgstr ""
+msgstr "Data da ação"
 
 #: .\templates\bulletin\relatorios.html:37
 msgid "Send message"
-msgstr ""
+msgstr "Enviar mensagem"
 
 #: .\templates\bulletin\relatorios.html:37
 msgid "Action don't realized"
-msgstr ""
+msgstr "Ação não realizada"
 
 #: .\templates\bulletin\relatorios.html:152
 #: .\templates\bulletin\relatorios.html:174
 msgid "Reports"
-msgstr ""
+msgstr "Relatórios"
 
 #: .\templates\bulletin\relatorios.html:181
 msgid "Report of the resource "
-msgstr ""
+msgstr "Relatório do recurso"
 
 #: .\templates\bulletin\relatorios.html:190
 msgid "Select the period: "
-msgstr ""
+msgstr "Selecione o período: "
 
 #: .\templates\bulletin\relatorios.html:199
 msgid "Search"
-msgstr ""
+msgstr "Pesquisar"
 
 #: .\templates\bulletin\relatorios.html:223
 msgid "Filter: "
-msgstr ""
+msgstr "Filtrar: "
 
 #: .\templates\bulletin\relatorios.html:247
 #: .\templates\bulletin\relatorios.html:332
 msgid "record(s)"
-msgstr ""
+msgstr "registro(s)"
 
 #: .\templates\bulletin\send_message.html:38
 msgid "Click or drop the picture here"
-msgstr ""
+msgstr "Selecione ou solte a imagem aqui"
 
 #: .\templates\bulletin\send_message.html:40
 msgid "The picture could not exceed 5MB."
-msgstr ""
+msgstr "A imagem não pode exceder 5MB."
 
 #: .\templates\bulletin\send_message.html:62
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #: .\templates\bulletin\send_message.html:63
 msgid "Send"
-msgstr ""
+msgstr "Enviar"
 
 #: .\templates\bulletin\update.html:20
 msgid "Edit: "
-msgstr ""
+msgstr "Editar: "
 
 #: .\views.py:162 .\views.py:175 .\views.py:292 .\views.py:294 .\views.py:310
 #: .\views.py:312
 msgid "Visualize"
-msgstr ""
+msgstr "Visualizar"
 
 #: .\views.py:245
 #, python-format
@@ -191,63 +197,65 @@ msgid ""
 "The Bulletin \"%s\" was added to the Topic \"%s\" of the virtual environment "
 "\"%s\" successfully!"
 msgstr ""
+"O Boletim \"%s\" foi adicionado ao Tópio \"%s\" do ambiente virtual "
+"\"%s\" com sucesso!"
 
 #: .\views.py:356
 msgid "Update Bulletin"
-msgstr ""
+msgstr "Atualizar boletim"
 
 #: .\views.py:367
 #, python-format
 msgid "The Bulletin \"%s\" was updated successfully!"
-msgstr ""
+msgstr "O Boletim \"%s\" foi atualizado com sucesso!"
 
 #: .\views.py:403
 #, python-format
 msgid ""
 "The bulletin \"%s\" was removed successfully from virtual environment \"%s\"!"
-msgstr ""
+msgstr "O boletim \"%s\" foi removido com sucesso do ambiente virtual \"%s\"! "
 
 #: .\views.py:462
 msgid "Bulletin Reports"
-msgstr ""
+msgstr "Relatórios do Boletim"
 
 #: .\views.py:481
 msgid "Realized"
-msgstr ""
+msgstr "Realizada"
 
 #: .\views.py:481
 msgid "Unrealized"
-msgstr ""
+msgstr "Não realizada"
 
 #: .\views.py:481
 msgid "Historic"
-msgstr ""
+msgstr "Histórico"
 
 #: .\views.py:496 .\views.py:504
 msgid "View"
-msgstr ""
+msgstr "Visualizar"
 
 #: .\views.py:510
 msgid "Actions about resource"
-msgstr ""
+msgstr "Ações sobre o recurso"
 
 #: .\views.py:511
 msgid "Quantity"
-msgstr ""
+msgstr "Quantidade"
 
 #: .\views.py:560
 msgid "[Photo]"
-msgstr ""
+msgstr "[Foto]"
 
 #: .\views.py:572
 #, python-format
 msgid "Last message in %s"
-msgstr ""
+msgstr "Última mensagem em %s"
 
 #: .\views.py:581
 msgid "The message was successfull sent!"
-msgstr ""
+msgstr "A mensagem foi enviada com sucesso!"
 
 #: .\views.py:583
 msgid "No user selected!"
-msgstr ""
+msgstr "Nenhum usuário selecionado!"
