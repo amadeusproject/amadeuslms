@@ -8,8 +8,7 @@ from users.serializers import UserSerializer
 class ChatSerializer(serializers.ModelSerializer):
 	user = UserSerializer()
 	subject = SubjectSerializer()
-	image = serializers.CharField(required = False, allow_blank = True, max_length = 255)
 
 	class Meta:
 		model = TalkMessages
-		exclude = ["talk"]
+		fields = ('text', 'user', 'subject', 'image_url', 'create_date', )

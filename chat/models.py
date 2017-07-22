@@ -1,9 +1,12 @@
 import os
 import time
+from os import path
 from django.db import models
 from django.core import validators
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+
+from datetime import timezone
 
 from subjects.models import Subject
 from users.models import User
@@ -32,6 +35,17 @@ class TalkMessages(models.Model):
 	user = models.ForeignKey(User, verbose_name = _('User'), related_name = 'message_user', null = True)
 	subject = models.ForeignKey(Subject, verbose_name = _('Subject'), related_name = 'message_subject', null = True)
 	create_date = models.DateTimeField(_('Create Date'), auto_now_add = True)
+
+	def get_timestamp(self):
+		return str(self.create_date.replace(tzinfo = timezone.utc).timestamp())
+
+	@property
+	def image_url(self):
+		if self.image and hasattr(self.image, 'url'):
+			if path.exists(self.image.path):
+				return self.image.url
+		
+		return ""
 
 class ChatVisualizations(models.Model):
 	viewed = models.BooleanField(_('Viewed'), default = False)
