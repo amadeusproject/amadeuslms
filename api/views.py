@@ -2,6 +2,14 @@ import requests, json
 from django.shortcuts import get_object_or_404, reverse
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.translation import ugettext as _
+from django.template.loader import render_to_string
+import textwrap
+from datetime import datetime
+from django.utils import formats
+from django.utils.html import strip_tags
+
+from channels import Group
 
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -13,7 +21,7 @@ from django.db.models import Q
 from security.models import Security
 
 from chat.serializers import ChatSerializer
-from chat.models import TalkMessages
+from chat.models import TalkMessages, Conversation, ChatVisualizations
 
 from subjects.serializers import SubjectSerializer
 from subjects.models import Subject
@@ -220,5 +228,85 @@ class ChatViewset(viewsets.ModelViewSet):
 			info['extra'] = 0
 
 			response = json.dumps(info)
+
+		return HttpResponse(response)
+
+	@csrf_exempt
+	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
+	def send_message(self, request):
+		username = request.data['email']
+		user_two = request.data['user_two']
+		subject = request.data['subject']
+		msg_text = request.data['text']
+		create_date = request.data['create_date']
+
+		info = {}
+
+		if not user_two == "" and not username == "":
+			user = User.objects.get(email = username)
+			user_to = User.objects.get(email = user_two)
+
+			talks = Conversation.objects.filter((Q(user_one__email = username) & Q(user_two__email = user_two)) | (Q(user_two__email = username) & Q(user_one__email = user_two)))
+
+			if talks.count() > 0:
+				talk = talks[0]
+			else:
+				talk = Conversation()
+				talk.user_one = user
+				talk.user_two = user_to
+
+				talk.save()
+
+			subject = Subject.objects.get(slug = subject)
+
+			message = TalkMessages()
+			message.text = "<p>" + msg_text + "</p>"
+			message.user = user
+			message.talk = talk
+
+			message.save()
+
+			if not message.pk is None:
+				simple_notify = textwrap.shorten(strip_tags(message.text), width = 30, placeholder = "...")
+				
+				notification = {
+					"type": "chat",
+					"subtype": "subject",
+					"space": subject.slug,
+					"user_icon": message.user.image_url,
+					"notify_title": str(message.user),
+					"simple_notify": simple_notify,
+					"view_url": reverse("chat:view_message", args = (message.id, ), kwargs = {}),
+					"complete": render_to_string("chat/_message.html", {"talk_msg": message}, request),
+					"container": "chat-" + str(message.user.id),
+					"last_date": _("Last message in %s")%(formats.date_format(message.create_date, "SHORT_DATETIME_FORMAT"))
+				}
+
+				notification = json.dumps(notification)
+
+				Group("user-%s" % user_to.id).send({'text': notification})
+
+				ChatVisualizations.objects.create(viewed = False, message = message, user = user_to)
+
+				info["message"] = _("Message sent successfully!")
+				info["success"] = True
+				info["number"] = 1
+			else:
+				info["message"] = _("Error while sending message!")
+				info["success"] = False
+				info["number"] = 0
+		else:
+			info["message"] = _("No information received!")
+			info["success"] = False
+			info["number"] = 0
+
+		info["data"] = {}
+		info["data"]["messages"] = []
+
+		info["type"] = ""
+		info["title"] = _("Amadeus")
+		info['extra'] = 0
+
+		response = json.dumps(info)
 
 		return HttpResponse(response)
