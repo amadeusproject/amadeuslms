@@ -22,13 +22,12 @@ class BulletinForm(forms.ModelForm):
             self.subject = self.instance.topic.subject
             self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
 
-        self.fields['groups'].queryset = self.subject.group_subject.all()
 
     tags = forms.CharField(label = _('Tags'), required = False)
 
     class Meta:
         model = Bulletin
-        fields = ['name', 'content', 'brief_description', 'all_students', 'groups', 'show_window', 'visible','file_content']
+        fields = ['name', 'content', 'brief_description',  'show_window', 'visible','file_content']
         labels = {
             'name': _('Bulletin name'),
             'content': _('Bulletin content'),
@@ -36,8 +35,6 @@ class BulletinForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea,
             'brief_description': forms.Textarea,
-            'groups': forms.SelectMultiple,
-            'all_students': forms.HiddenInput(),
         }
 
     def clean_name(self):
@@ -58,10 +55,6 @@ class BulletinForm(forms.ModelForm):
 
         return name
 
-    def clean_all_students(self):
-        all_students = True
-        return all_students
-        
 
     def clean_file_content(self):
         file_content = self.cleaned_data.get('file_content', False)
