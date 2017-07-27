@@ -7,6 +7,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
+from .utils import brodcast_dificulties
+from goals.models import Goals
 
 import time
 import datetime
@@ -145,6 +147,13 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         slug = self.kwargs.get('slug', '')
         topic = get_object_or_404(Topic, slug = slug)
 
+        existe = Goals.objects.filter(topic=topic).exists()
+
+        if not existe:
+            messages.error(request,_("The topic has no goals, so you can't create a Bulletin") )
+            caminho = request.META['HTTP_REFERER']
+            return redirect(caminho)
+
         if not has_subject_permissions(request.user, topic.subject):
             return redirect(reverse_lazy('subjects:home'))
 
@@ -199,6 +208,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         self.object.topic = topic
         self.object.order = topic.resource_topic.count() + 1
+        self.object.all_students = True
 
         if not self.object.topic.visible and not self.object.topic.repository:
                 self.object.visible = False
