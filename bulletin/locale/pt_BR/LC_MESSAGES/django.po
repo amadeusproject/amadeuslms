@@ -28,7 +28,7 @@ msgstr "Nome do boletim"
 
 #: .\forms.py:34
 msgid "Bulletin content"
-msgstr "Conteúdo do boletim"
+msgstr "Apresentação do boletim"
 
 #: .\forms.py:55
 msgid "This subject already has a bulletin with this name"
