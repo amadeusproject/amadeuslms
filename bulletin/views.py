@@ -147,12 +147,18 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         slug = self.kwargs.get('slug', '')
         topic = get_object_or_404(Topic, slug = slug)
 
-        existe = Goals.objects.filter(topic=topic).exists()
+        existe_meta = Goals.objects.filter(topic=topic).exists()
+        existe_boletim = Bulletin.objects.filter(topic=topic).exists()
 
-        if not existe:
-            messages.error(request,_("The topic has no goals, so you can't create a Bulletin") )
-            caminho = request.META['HTTP_REFERER']
-            return redirect(caminho)
+        if not existe_meta:
+            messages.error(request,_("The topic %s has no goals, so you can't create a Bulletin.") %(topic) )
+            caminho1 = request.META['HTTP_REFERER']
+            return redirect(caminho1)
+
+        if existe_boletim:
+            messages.error(request,_("The topic %s already has a Bulletin, so you can't create another.") %(topic) )
+            caminho2 = request.META['HTTP_REFERER']
+            return redirect(caminho2)
 
         if not has_subject_permissions(request.user, topic.subject):
             return redirect(reverse_lazy('subjects:home'))
