@@ -103,6 +103,25 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
         return super(InsideView, self).dispatch(request, *args, **kwargs)
 
+    def post(self, request, *args, **kwargs):
+        difficulties = self.request.POST.get('difficulties', None)
+
+        slug = self.kwargs.get('slug', '')
+        bulletin = get_object_or_404(Bulletin, slug=slug)
+
+        self.object = bulletin
+
+        if not difficulties is None and not difficulties == "":
+            message = _("#Dificulty(ies) found in %s")%(str(bulletin)) + ":<p>" + difficulties + "</p>"
+
+            brodcast_dificulties(self.request, message, bulletin.topic.subject)
+
+            messages.success(self.request, message = _("Difficulties sent to the subject professor(s)"))
+            return self.render_to_response(context = self.get_context_data())
+        else:
+            messages.error(self.request, message = _("You should inform some difficulty"))
+            return self.render_to_response(context = self.get_context_data())
+
     def get_context_data(self, **kwargs):
         context = super(InsideView, self).get_context_data(**kwargs)
 
