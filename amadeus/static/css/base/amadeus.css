@@ -1642,6 +1642,24 @@ div.dataTables_wrapper div.dataTables_paginate {
     top: -2px;
 }
 
+.bulletin-warning img {
+    margin: 7px 0px 7px 0px;
+}
+
+.bulletin-warning h4 {
+    margin-top: 10px;
+    line-height: 30px;
+}
+
+.bulletin-warning p {
+    font-size: 15px;
+    margin: 0;
+}
+
+.bulletin-warning h4, .bulletin-warning a {
+    font-weight: bold;
+}
+
 @-moz-document url-prefix() {
     .talk_body .checkbox input[type="checkbox"] {
         display: none;
