@@ -8,7 +8,7 @@ from django.http import JsonResponse
 
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 from .utils import brodcast_dificulties
-from goals.models import Goals
+from goals.models import Goals,GoalItem
 
 import time
 import datetime
@@ -255,6 +255,11 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         context['topic'] = topic
         context['subject'] = topic.subject
 
+
+        meta_geral = Goals.objects.filter(topic=topic)
+        metas = GoalItem.objects.filter(goal = meta_geral)
+
+
         return context
 
     def get_success_url(self):
@@ -270,6 +275,10 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
             success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
         return success_url
+
+    def create_excel_file():
+        pass
+
 
 class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
     log_component = 'resources'
