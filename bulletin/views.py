@@ -7,6 +7,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
+from .utils import brodcast_dificulties
+from goals.models import Goals,GoalItem
 
 import time
 import datetime
@@ -101,6 +103,25 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
         return super(InsideView, self).dispatch(request, *args, **kwargs)
 
+    def post(self, request, *args, **kwargs):
+        difficulties = self.request.POST.get('difficulties', None)
+
+        slug = self.kwargs.get('slug', '')
+        bulletin = get_object_or_404(Bulletin, slug=slug)
+
+        self.object = bulletin
+
+        if not difficulties is None and not difficulties == "":
+            message = _("#Dificulty(ies) found in %s")%(str(bulletin)) + ":<p>" + difficulties + "</p>"
+
+            brodcast_dificulties(self.request, message, bulletin.topic.subject)
+
+            messages.success(self.request, message = _("Difficulties sent to the subject professor(s)"))
+            return self.render_to_response(context = self.get_context_data())
+        else:
+            messages.error(self.request, message = _("You should inform some difficulty"))
+            return self.render_to_response(context = self.get_context_data())
+
     def get_context_data(self, **kwargs):
         context = super(InsideView, self).get_context_data(**kwargs)
 
@@ -144,6 +165,19 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
     def dispatch(self, request, *args, **kwargs):
         slug = self.kwargs.get('slug', '')
         topic = get_object_or_404(Topic, slug = slug)
+
+        existe_meta = Goals.objects.filter(topic=topic).exists()
+        existe_boletim = Bulletin.objects.filter(topic=topic).exists()
+
+        if not existe_meta:
+            messages.error(request,_("The topic %s has no goals, so you can't create a Bulletin.") %(topic) )
+            caminho1 = request.META['HTTP_REFERER']
+            return redirect(caminho1)
+
+        if existe_boletim:
+            messages.error(request,_("The topic %s already has a Bulletin, so you can't create another.") %(topic) )
+            caminho2 = request.META['HTTP_REFERER']
+            return redirect(caminho2)
 
         if not has_subject_permissions(request.user, topic.subject):
             return redirect(reverse_lazy('subjects:home'))
@@ -199,6 +233,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         self.object.topic = topic
         self.object.order = topic.resource_topic.count() + 1
+        self.object.all_students = True
 
         if not self.object.topic.visible and not self.object.topic.repository:
                 self.object.visible = False
@@ -239,6 +274,11 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         context['topic'] = topic
         context['subject'] = topic.subject
 
+
+        meta_geral = Goals.objects.filter(topic=topic)
+        metas = GoalItem.objects.filter(goal = meta_geral)
+
+
         return context
 
     def get_success_url(self):
@@ -254,6 +294,10 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
             success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
         return success_url
+
+    def create_excel_file():
+        pass
+
 
 class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
     log_component = 'resources'

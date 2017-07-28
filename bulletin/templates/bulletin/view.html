@@ -53,6 +53,42 @@
                 {% autoescape off %}
             	   {{ bulletin.content }}
                 {% endautoescape %}
+
+                <hr />
+
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 alert-warning bulletin-warning">
+                        <div class="col-md-2">
+                            <img src="{% static 'img/warning.png' %}" class="img-responsive" />
+                        </div>
+                        <div class="col-md-10">
+                            <h4>{% trans 'There are obstructions to your activities?' %}</h4>
+                            <p><a data-toggle="modal" data-target="#bulletin-difficulties-modal" href="">{% trans 'Click here' %}</a> {% trans 'to communicate the difficulties that may decrease your performance.' %}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="bulletin-difficulties-modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">{% trans 'Inform difficulties' %}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="bulletin-difficulties" action="" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <textarea class="form-control" id="dificulties" name="difficulties" placeholder="{% trans 'Type here the dificulties that may harm your performance' %}"></textarea>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+                        <button type="submit" class="btn btn-success btn-raised erase-button" form="bulletin-difficulties">{% trans "Send" %}</button>
+                    </div>
+                </div>
             </div>
         </div>
 {% endblock %}
