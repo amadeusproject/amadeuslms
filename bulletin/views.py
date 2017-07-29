@@ -10,11 +10,16 @@ from amadeus.permissions import has_subject_permissions, has_resource_permission
 from .utils import brodcast_dificulties
 from goals.models import Goals,GoalItem
 
+import xlwt
 import time
 import datetime
 from log.mixins import LogMixin
 
 from topics.models import Topic
+
+from django.conf import settings
+import os
+from os.path import join
 
 from pendencies.forms import PendenciesForm
 
@@ -275,8 +280,11 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         context['subject'] = topic.subject
 
 
-        meta_geral = Goals.objects.filter(topic=topic)
+        meta_geral = Goals.objects.get(topic=topic)
         metas = GoalItem.objects.filter(goal = meta_geral)
+        itens_da_meta = list(metas)
+        alunos = meta_geral.topic.subject.students.all()
+        create_excel_file(alunos, itens_da_meta,meta_geral)
 
 
         return context
@@ -295,8 +303,33 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         return success_url
 
-    def create_excel_file():
-        pass
+def create_excel_file(estudantes,metas,meta):
+    workbook = xlwt.Workbook()
+    worksheet = workbook.add_sheet(u'Bulletin')
+    worksheet.write(0, 0, u'ID do Usuário')
+    worksheet.write(0, 1, u'Usuário')
+    count_meta = 2
+    contador_estudante = 1
+
+    for m in metas:
+        worksheet.write(0,count_meta,u'%s' % (m.description) )
+        count_meta += 1
+    for estudante in estudantes:
+        worksheet.write(contador_estudante,0,estudante.id )
+        if estudante.social_name:
+            worksheet.write(contador_estudante,1,estudante.social_name)
+        else:
+            nome = estudante.username + " " + estudante.last_name
+            worksheet.write(contador_estudante,1,nome)
+
+        contador_estudante += 1
+
+    folder_path = join(settings.BASE_DIR, 'bulletin\\localfiles')
+    #check if the folder already exists
+    if not os.path.isdir(folder_path):
+        os.makedirs(folder_path)
+    workbook.save(settings.BASE_DIR+"\\bulletin\\localfiles\\"+str(meta.slug)+".xls")
+
 
 
 class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
