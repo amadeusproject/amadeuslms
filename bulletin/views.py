@@ -282,9 +282,10 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         meta_geral = Goals.objects.get(topic=topic)
         metas = GoalItem.objects.filter(goal = meta_geral)
-        itens_da_meta = list(metas)
+        itens_da_meta = sorted(list(metas), key = lambda met: met.id)
         alunos = meta_geral.topic.subject.students.all()
         create_excel_file(alunos, itens_da_meta,meta_geral)
+        context['goal_file'] = str(meta_geral.slug)+".xls"
 
 
         return context
@@ -324,11 +325,11 @@ def create_excel_file(estudantes,metas,meta):
 
         contador_estudante += 1
 
-    folder_path = join(settings.BASE_DIR, 'bulletin\\localfiles')
+    folder_path = join(settings.BASE_DIR, 'bulletin\\static\\xls')
     #check if the folder already exists
     if not os.path.isdir(folder_path):
         os.makedirs(folder_path)
-    workbook.save(settings.BASE_DIR+"\\bulletin\\localfiles\\"+str(meta.slug)+".xls")
+    workbook.save(settings.BASE_DIR+"\\bulletin\\static\\xls\\"+str(meta.slug)+".xls")
 
 
 
