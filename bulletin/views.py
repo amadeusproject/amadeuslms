@@ -8,7 +8,7 @@ from django.http import JsonResponse
 
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 from .utils import brodcast_dificulties
-from goals.models import Goals,GoalItem
+from goals.models import Goals,GoalItem,MyGoals
 
 import xlwt
 import time
@@ -152,6 +152,29 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
         super(InsideView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
+
+
+        topic = self.object.topic
+
+        meta_geral = Goals.objects.get(topic=topic)
+        metas = GoalItem.objects.filter(goal = meta_geral)
+        metas_pessoais = []
+        '''
+        for m in metas:
+            if MyGoals.objects.filter(item = m).exists():
+                metas_pessoais.append(MyGoals.objects.get(item = m))
+        '''
+
+        itens_da_meta = sorted(list(metas), key = lambda met: met.id)
+        metas_pessoais = sorted(list(metas_pessoais), key = lambda me: me.id)
+        lista_metas = [{'description':geral.description, 'desejada':geral.ref_value} for geral in itens_da_meta ]
+        '''
+        for x in range(0,len(metas_pessoais)):
+            lista_metas[x]['estabelecida'] = metas_pessoais[x].value
+        print(metas_pessoais)
+        print(lista_metas)
+        '''
+        context['metas'] = lista_metas
 
         return context
 

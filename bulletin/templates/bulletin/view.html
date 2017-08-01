@@ -57,8 +57,46 @@
                 <hr />
 
                 <div class="row">
+<<<<<<< HEAD
                     <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 alert-warning bulletin-warning">
                         <div class="col-md-2 col-sm-2">
+=======
+                  <div class="col-md-12">
+                      <b><h5>    {% trans "Check your goals" %}:</b></h5>
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th style="text-align:center;vertical-align:middle" colspan="1" rowspan="2">Meta</th>
+                                  <th style="text-align:center;vertical-align:middle" colspan="1" rowspan="2">Média da Turma</th>
+                                  <th style="text-align:center" colspan="3">Dados Individuais</th>
+                                </tr>
+                                <tr>
+                                  <th style="text-align:center" colspan="">Desejada</th>
+                                  <th style="text-align:center">Estabelecida</th>
+                                  <th style="text-align:center">Alcançada</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for meta in metas%}
+                                <tr>
+                                  <td>{{ meta.description }}</td>
+                                  <td></td>
+                                  <td style="text-align:center">{{ meta.desejada }} %</td>
+                                  <td style="text-align:center"> %</td>
+                                  <td style="text-align:center">%</td>
+                                </tr>
+
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 alert-warning bulletin-warning">
+                        <div class="col-md-2">
+>>>>>>> cba88b9cfc2d1ed7f6ebb2af37b204fb9e96f113
                             <img src="{% static 'img/warning.png' %}" class="img-responsive" />
                         </div>
                         <div class="col-md-10 col-sm-10">
