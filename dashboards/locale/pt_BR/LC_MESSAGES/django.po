@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-07 23:34-0300\n"
+"POT-Creation-Date: 2017-07-31 22:49-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,12 +50,20 @@ msgstr "Destaques"
 msgid "Log"
 msgstr "Log"
 
-#: dashboards/templates/dashboards/category.html:83
+#: dashboards/templates/dashboards/category.html:78
+msgid "between"
+msgstr ""
+
+#: dashboards/templates/dashboards/category.html:102
+msgid "by"
+msgstr ""
+
+#: dashboards/templates/dashboards/category.html:116
 #: dashboards/templates/dashboards/general_body.html:51
 msgid "Amount of access in: "
 msgstr "Quantidade de acessos em: "
 
-#: dashboards/templates/dashboards/category.html:95
+#: dashboards/templates/dashboards/category.html:128
 #: dashboards/templates/dashboards/general_body.html:66
 msgid "Select the begin of the week: "
 msgstr "Selecione o dia da semana: "
@@ -97,51 +105,51 @@ msgstr "Pesquisar"
 msgid "most used tags"
 msgstr "tags mais usadas"
 
-#: dashboards/views.py:58 dashboards/views.py:104
+#: dashboards/views.py:58 dashboards/views.py:105
 msgid "January"
 msgstr "Janeiro"
 
-#: dashboards/views.py:58 dashboards/views.py:104
+#: dashboards/views.py:58 dashboards/views.py:105
 msgid "February"
 msgstr "Fevereiro"
 
-#: dashboards/views.py:58 dashboards/views.py:104
+#: dashboards/views.py:58 dashboards/views.py:105
 msgid "March"
 msgstr "Março"
 
-#: dashboards/views.py:58 dashboards/views.py:104
+#: dashboards/views.py:58 dashboards/views.py:105
 msgid "April"
 msgstr "Abril"
 
-#: dashboards/views.py:58 dashboards/views.py:104
+#: dashboards/views.py:58 dashboards/views.py:105
 msgid "May"
 msgstr "Maio"
 
-#: dashboards/views.py:58 dashboards/views.py:104
+#: dashboards/views.py:58 dashboards/views.py:105
 msgid "June"
 msgstr "Junho"
 
-#: dashboards/views.py:58 dashboards/views.py:104
+#: dashboards/views.py:58 dashboards/views.py:105
 msgid "July"
 msgstr "Julho"
 
-#: dashboards/views.py:59 dashboards/views.py:105
+#: dashboards/views.py:59 dashboards/views.py:106
 msgid "August"
 msgstr "Agosto"
 
-#: dashboards/views.py:59 dashboards/views.py:105
+#: dashboards/views.py:59 dashboards/views.py:106
 msgid "September"
 msgstr "Setembro"
 
-#: dashboards/views.py:59 dashboards/views.py:105
+#: dashboards/views.py:59 dashboards/views.py:106
 msgid "October"
 msgstr "Outubro"
 
-#: dashboards/views.py:59 dashboards/views.py:105
+#: dashboards/views.py:59 dashboards/views.py:106
 msgid "November"
 msgstr "Novembro"
 
-#: dashboards/views.py:59 dashboards/views.py:105
+#: dashboards/views.py:59 dashboards/views.py:106
 msgid "December"
 msgstr "Dezembro"
 

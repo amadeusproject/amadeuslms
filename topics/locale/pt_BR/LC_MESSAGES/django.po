@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-20 22:04-0300\n"
+"POT-Creation-Date: 2017-07-31 22:49-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,198 +18,205 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\forms.py:28
+#: topics/forms.py:28
 msgid "This subject already has a repository"
 msgstr "Esse assunto já possui um repositório"
 
-#: .\forms.py:30
+#: topics/forms.py:30
 msgid "This subject already has a topic with this name"
 msgstr "Esse assunto já possui um tópico com esse nome"
 
-#: .\models.py:12 .\models.py:51
+#: topics/models.py:12 topics/models.py:51
 msgid "Name"
 msgstr "Nome"
 
-#: .\models.py:13 .\models.py:52
+#: topics/models.py:13 topics/models.py:52
 msgid "Slug"
 msgstr "Slug"
 
-#: .\models.py:14
+#: topics/models.py:14
 msgid "Description"
 msgstr "Descrição"
 
-#: .\models.py:15
+#: topics/models.py:15
 msgid "Repository"
 msgstr "Repositório"
 
-#: .\models.py:16 .\models.py:56
+#: topics/models.py:16 topics/models.py:56
 msgid "Visible"
 msgstr "Visível"
 
-#: .\models.py:17
+#: topics/models.py:17
 msgid "Subject"
 msgstr "Assunto"
 
-#: .\models.py:18 .\models.py:57
+#: topics/models.py:18 topics/models.py:57
 msgid "Order"
 msgstr "Ordem"
 
-#: .\models.py:19 .\models.py:62
+#: topics/models.py:19 topics/models.py:62
 msgid "Create Date"
 msgstr "Data de criação"
 
-#: .\models.py:20 .\models.py:63
+#: topics/models.py:20 topics/models.py:63
 msgid "Last Update"
 msgstr "Última Atualização"
 
-#: .\models.py:23 .\models.py:58
+#: topics/models.py:23 topics/models.py:58
 msgid "Topic"
 msgstr "Tópico"
 
-#: .\models.py:24
+#: topics/models.py:24
 msgid "Topics"
 msgstr "Tópicos"
 
-#: .\models.py:53
+#: topics/models.py:53
 msgid "Brief Description"
 msgstr "Descrição Breve"
 
-#: .\models.py:54
+#: topics/models.py:54
 msgid "Show in new window"
 msgstr "Exibir em nova janela"
 
-#: .\models.py:55
+#: topics/models.py:55
 msgid "All Students"
 msgstr "Todos os estudantes habilitados para acessar o recurso"
 
-#: .\models.py:59
+#: topics/models.py:59
 msgid "Students"
 msgstr "Estudantes"
 
-#: .\models.py:60
+#: topics/models.py:60
 msgid "Groups"
 msgstr "Grupos de Estudo"
 
-#: .\models.py:61
+#: topics/models.py:61
 msgid "Markers"
 msgstr "Marcadores"
 
-#: .\models.py:66
+#: topics/models.py:66
 msgid "Resource"
 msgstr "Recurso"
 
-#: .\models.py:67
+#: topics/models.py:67
 msgid "Resources"
 msgstr "Recursos"
 
-#: .\templates\resources\delete.html:18 .\templates\topics\delete.html:19
+#: topics/templates/resources/delete.html:18
+#: topics/templates/topics/delete.html:19
 msgid "Close"
 msgstr "Fechar"
 
-#: .\templates\resources\delete.html:19 .\templates\topics\delete.html:20
+#: topics/templates/resources/delete.html:19
+#: topics/templates/topics/delete.html:20
 msgid "Delete"
 msgstr "Deletar"
 
-#: .\templates\resources\list.html:31 .\templates\topics\list.html:28
+#: topics/templates/resources/list.html:31 topics/templates/topics/list.html:28
 msgid "Edit"
 msgstr "Editar"
 
-#: .\templates\resources\list.html:33 .\templates\resources\list.html:35
-#: .\templates\resources\list.html:37 .\templates\resources\list.html:39
-#: .\templates\resources\list.html:41 .\templates\resources\list.html:43
-#: .\templates\resources\list.html:45 .\templates\resources\list.html:47
+#: topics/templates/resources/list.html:33
+#: topics/templates/resources/list.html:35
+#: topics/templates/resources/list.html:37
+#: topics/templates/resources/list.html:39
+#: topics/templates/resources/list.html:41
+#: topics/templates/resources/list.html:43
+#: topics/templates/resources/list.html:45
+#: topics/templates/resources/list.html:47
+#: topics/templates/resources/list.html:49
 msgid "Reports"
 msgstr "Relatórios"
 
-#: .\templates\resources\list.html:49 .\templates\topics\list.html:29
+#: topics/templates/resources/list.html:51 topics/templates/topics/list.html:29
 msgid "Remove"
 msgstr "Remover"
 
-#: .\templates\topics\_form.html:21
+#: topics/templates/topics/_form.html:21
 msgid "Only one topic per subject can be a repository"
 msgstr "Apenas um tópico por asssunto pode ser um repositório"
 
-#: .\templates\topics\_form.html:52
+#: topics/templates/topics/_form.html:52
 msgid "Save"
 msgstr "Salvar"
 
-#: .\templates\topics\create.html:8 .\views.py:86
+#: topics/templates/topics/create.html:8 topics/views.py:86
 msgid "Create Topic"
 msgstr "Criar Tópico"
 
-#: .\templates\topics\delete.html:12
+#: topics/templates/topics/delete.html:12
 msgid "Are you sure you want delete the topic"
 msgstr "Tem certeza que deseja deletar o tópico"
 
-#: .\templates\topics\delete.html:13
+#: topics/templates/topics/delete.html:13
 msgid "All data will be lost and havent how recover it."
 msgstr "Todas as informações serão perdidas e não poderão ser recuperadas."
 
-#: .\templates\topics\list.html:52
+#: topics/templates/topics/list.html:52
 msgid "Add Resource"
 msgstr "Adicionar Recurso"
 
-#: .\templates\topics\list.html:55
+#: topics/templates/topics/list.html:55
 msgid "PDF File"
 msgstr "Arquivo PDF"
 
-#: .\templates\topics\list.html:56
+#: topics/templates/topics/list.html:56
 msgid "Topic Bulletin"
 msgstr "Boletim do Tópico"
 
-#: .\templates\topics\list.html:57
+#: topics/templates/topics/list.html:57
 msgid "YouTube Video"
 msgstr "Video do YouTube"
 
-#: .\templates\topics\list.html:58
+#: topics/templates/topics/list.html:58
 msgid "Forum"
 msgstr "Fórum"
 
-#: .\templates\topics\list.html:59
+#: topics/templates/topics/list.html:59
 msgid "File Link"
 msgstr "Link para arquivo"
 
-#: .\templates\topics\list.html:60
+#: topics/templates/topics/list.html:60
 msgid "Link to Website"
 msgstr "Link para Site"
 
-#: .\templates\topics\list.html:61
+#: topics/templates/topics/list.html:61
 msgid "Topic Goals"
 msgstr "Metas do Tópico"
 
-#: .\templates\topics\list.html:62
+#: topics/templates/topics/list.html:62
 msgid "Webpage"
 msgstr "Página Web"
 
-#: .\templates\topics\list.html:63
+#: topics/templates/topics/list.html:63
 msgid "Questionary"
 msgstr "Questionário"
 
-#: .\templates\topics\list.html:64
+#: topics/templates/topics/list.html:64
 msgid "Web Conference"
 msgstr "Conferência Web"
 
-#: .\templates\topics\update.html:8 .\views.py:135
+#: topics/templates/topics/update.html:8 topics/views.py:135
 msgid "Update Topic"
 msgstr "Atualizar Tópico"
 
-#: .\views.py:96
+#: topics/views.py:96
 #, python-format
 msgid "Topic \"%s\" was created on virtual enviroment \"%s\" successfully!"
 msgstr "Tópico \"%s\" foi criado no ambiente virtual \"%s\" com sucesso!"
 
-#: .\views.py:152
+#: topics/views.py:152
 #, python-format
 msgid "Topic \"%s\" was updated on virtual enviroment \"%s\" successfully!"
 msgstr "Tópico \"%s\" foi atualizado no ambiente virtual \"%s\" com sucesso!"
 
-#: .\views.py:194
+#: topics/views.py:194
 msgid "Could not remove this topic. It has one or more resources attached."
 msgstr ""
 "Não é possível remover esse tópico. Ele possui um ou mais recursos "
 "vinculados."
 
-#: .\views.py:203
+#: topics/views.py:203
 #, python-format
 msgid "Topic \"%s\" was removed from virtual enviroment \"%s\" successfully!"
 msgstr "Tópico \"%s\" foi removido do ambiente virtual \"%s\" com sucesso!"
