@@ -306,7 +306,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         meta_geral = Goals.objects.get(topic=topic)
         metas = GoalItem.objects.filter(goal = meta_geral)
         itens_da_meta = sorted(list(metas), key = lambda met: met.id)
-        alunos = meta_geral.topic.subject.students.all()
+        alunos =  sorted(list(meta_geral.topic.subject.students.all()), key = lambda e: e.id)
         create_excel_file(alunos, itens_da_meta,meta_geral)
         context['goal_file'] = str(meta_geral.slug)+".xls"
 
