@@ -8,13 +8,18 @@ from django.http import JsonResponse
 
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 from .utils import brodcast_dificulties
-from goals.models import Goals,GoalItem
+from goals.models import Goals,GoalItem,MyGoals
 
+import xlwt
 import time
 import datetime
 from log.mixins import LogMixin
 
 from topics.models import Topic
+
+from django.conf import settings
+import os
+from os.path import join
 
 from pendencies.forms import PendenciesForm
 
@@ -148,6 +153,29 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
+
+        topic = self.object.topic
+
+        meta_geral = Goals.objects.get(topic=topic)
+        metas = GoalItem.objects.filter(goal = meta_geral)
+        metas_pessoais = []
+        '''
+        for m in metas:
+            if MyGoals.objects.filter(item = m).exists():
+                metas_pessoais.append(MyGoals.objects.get(item = m))
+        '''
+
+        itens_da_meta = sorted(list(metas), key = lambda met: met.id)
+        metas_pessoais = sorted(list(metas_pessoais), key = lambda me: me.id)
+        lista_metas = [{'description':geral.description, 'desejada':geral.ref_value} for geral in itens_da_meta ]
+        '''
+        for x in range(0,len(metas_pessoais)):
+            lista_metas[x]['estabelecida'] = metas_pessoais[x].value
+        print(metas_pessoais)
+        print(lista_metas)
+        '''
+        context['metas'] = lista_metas
+
         return context
 
 class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
@@ -275,8 +303,12 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         context['subject'] = topic.subject
 
 
-        meta_geral = Goals.objects.filter(topic=topic)
+        meta_geral = Goals.objects.get(topic=topic)
         metas = GoalItem.objects.filter(goal = meta_geral)
+        itens_da_meta = sorted(list(metas), key = lambda met: met.id)
+        alunos =  sorted(list(meta_geral.topic.subject.students.all()), key = lambda e: e.id)
+        create_excel_file(alunos, itens_da_meta,meta_geral)
+        context['goal_file'] = str(meta_geral.slug)+".xls"
 
 
         return context
@@ -295,8 +327,33 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         return success_url
 
-    def create_excel_file():
-        pass
+def create_excel_file(estudantes,metas,meta):
+    workbook = xlwt.Workbook()
+    worksheet = workbook.add_sheet(u'Bulletin')
+    worksheet.write(0, 0, u'ID do Usuário')
+    worksheet.write(0, 1, u'Usuário')
+    count_meta = 2
+    contador_estudante = 1
+
+    for m in metas:
+        worksheet.write(0,count_meta,u'%s' % (m.description) )
+        count_meta += 1
+    for estudante in estudantes:
+        worksheet.write(contador_estudante,0,estudante.id )
+        if estudante.social_name:
+            worksheet.write(contador_estudante,1,estudante.social_name)
+        else:
+            nome = estudante.username + " " + estudante.last_name
+            worksheet.write(contador_estudante,1,nome)
+
+        contador_estudante += 1
+
+    folder_path = join(settings.BASE_DIR, 'bulletin\\static\\xls')
+    #check if the folder already exists
+    if not os.path.isdir(folder_path):
+        os.makedirs(folder_path)
+    workbook.save(settings.BASE_DIR+"\\bulletin\\static\\xls\\"+str(meta.slug)+".xls")
+
 
 
 class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):

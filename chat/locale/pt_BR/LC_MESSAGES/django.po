@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-07 23:34-0300\n"
+"POT-Creation-Date: 2017-07-31 22:49-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "Esse campo é obrigatório."
 msgid "The image is too large. It should have less than 5MB."
 msgstr "A imagem é muito grande. Ela deve possuir 5MB ou menos."
 
-#: chat/models.py:16 chat/templates/chat/_form.html:30
+#: chat/models.py:19 chat/templates/chat/_form.html:30
 msgid ""
 "Select a valid file. The file must posses one of this extensions: .jpg, ."
 "png, .gif"
@@ -34,43 +34,43 @@ msgstr ""
 "Selecione um arquivo válido. O arquivo deve possuir uma das extensões a "
 "seguir: .jpg, .png, .gif"
 
-#: chat/models.py:25
+#: chat/models.py:28
 msgid "User One"
 msgstr "Usuário Um"
 
-#: chat/models.py:26
+#: chat/models.py:29
 msgid "User Two"
 msgstr "Usuário Dois"
 
-#: chat/models.py:29 chat/models.py:38 chat/models.py:43
+#: chat/models.py:32 chat/models.py:52 chat/models.py:57
 msgid "Message"
 msgstr "Mensagem"
 
-#: chat/models.py:30
+#: chat/models.py:33
 msgid "Image"
 msgstr "Imagem"
 
-#: chat/models.py:31
+#: chat/models.py:34
 msgid "Conversation"
 msgstr "Conversa"
 
-#: chat/models.py:32 chat/models.py:39 chat/models.py:44
+#: chat/models.py:35 chat/models.py:53 chat/models.py:58
 msgid "User"
 msgstr "Usuário"
 
-#: chat/models.py:33
+#: chat/models.py:36
 msgid "Subject"
 msgstr "Assunto"
 
-#: chat/models.py:34
+#: chat/models.py:37
 msgid "Create Date"
 msgstr "Data de Criação"
 
-#: chat/models.py:37
+#: chat/models.py:51
 msgid "Viewed"
 msgstr "Visualizado"
 
-#: chat/models.py:40
+#: chat/models.py:54
 msgid "Date/Time Viewed"
 msgstr "Data/Hora da visualização"
 

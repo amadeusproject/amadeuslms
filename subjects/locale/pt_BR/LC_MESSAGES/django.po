@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-07 23:34-0300\n"
+"POT-Creation-Date: 2017-07-31 22:49-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,55 +42,55 @@ msgstr "Essa data deve ser depois do fim das inscrições"
 msgid "This date must be equal init date or after"
 msgstr "Essa data deve ser igual ou depois da data de início"
 
-#: subjects/models.py:14 subjects/models.py:20
+#: subjects/models.py:16 subjects/models.py:23
 msgid "Name"
 msgstr "Nome"
 
-#: subjects/models.py:21
+#: subjects/models.py:24
 msgid "Slug"
 msgstr "Slug"
 
-#: subjects/models.py:23
+#: subjects/models.py:26
 msgid "simpler_description"
 msgstr "Descrição simples"
 
-#: subjects/models.py:24
+#: subjects/models.py:27
 msgid "description"
 msgstr "Descrição"
 
-#: subjects/models.py:25
+#: subjects/models.py:28
 msgid "visible"
 msgstr "Visível"
 
-#: subjects/models.py:27
+#: subjects/models.py:30
 msgid "Begin of Subject Date"
 msgstr "Data de início"
 
-#: subjects/models.py:28
+#: subjects/models.py:31
 msgid "End of Subject Date"
 msgstr "Data de encerramento"
 
-#: subjects/models.py:32
+#: subjects/models.py:35
 msgid "Creation Date"
 msgstr "Data de criação"
 
-#: subjects/models.py:33
+#: subjects/models.py:36
 msgid "Date of last update"
 msgstr "Última Atualização"
 
-#: subjects/models.py:35
+#: subjects/models.py:38
 msgid "Begin Subscribe"
 msgstr "Início de inscrição"
 
-#: subjects/models.py:36
+#: subjects/models.py:39
 msgid "End Subscribe"
 msgstr "Encerramento de inscrição"
 
-#: subjects/models.py:39
+#: subjects/models.py:42
 msgid "Students"
 msgstr "Estudantes"
 
-#: subjects/models.py:43
+#: subjects/models.py:46
 msgid "Maximum upload size"
 msgstr "Tamanho máximo de upload"
 
@@ -164,7 +164,9 @@ msgstr "Remover"
 
 #: subjects/templates/subjects/backup.html:68
 msgid "Please select below the topics and resources which you want to backup:"
-msgstr "Por favor selecione abaixo os tópicos e recursos que você deseja adicionar no backup:"
+msgstr ""
+"Por favor selecione abaixo os tópicos e recursos que você deseja adicionar "
+"no backup:"
 
 #: subjects/templates/subjects/backup.html:98
 msgid "Include participants data."
@@ -187,7 +189,7 @@ msgid "DELETE"
 msgstr "Deletar"
 
 #: subjects/templates/subjects/home.html:67
-#: subjects/templates/subjects/initial.html:77 subjects/views.py:210
+#: subjects/templates/subjects/initial.html:77 subjects/views.py:212
 msgid "My Subjects"
 msgstr "Meus assuntos"
 
@@ -240,12 +242,12 @@ msgid " Any subjects or Resources were not found on the search for "
 msgstr " Nenhum assunto ou recursos foram encontrados na busca por "
 
 #: subjects/templates/subjects/list_search.html:48
-#: subjects/templates/subjects/list_search.html:51 subjects/views.py:675
+#: subjects/templates/subjects/list_search.html:51 subjects/views.py:677
 msgid "Subjects"
 msgstr "Assuntos"
 
 #: subjects/templates/subjects/list_search.html:49
-#: subjects/templates/subjects/list_search.html:52 subjects/views.py:682
+#: subjects/templates/subjects/list_search.html:52 subjects/views.py:684
 msgid "Resources"
 msgstr "Recursos"
 
@@ -273,7 +275,8 @@ msgstr "Acessar Recurso"
 
 #: subjects/templates/subjects/restore.html:68
 msgid "Please select below the file you want to use for restore:"
-msgstr "Por favor selecione abaixo o arquivo que você quer usar para restauração:"
+msgstr ""
+"Por favor selecione abaixo o arquivo que você quer usar para restauração:"
 
 #: subjects/templates/subjects/restore.html:78
 msgid "Choose your file..."
@@ -359,52 +362,52 @@ msgstr "Ver Perfil"
 msgid "Send Message"
 msgstr "Enviar Mensagem"
 
-#: subjects/views.py:83
+#: subjects/views.py:85
 msgid "Home"
 msgstr "Início"
 
-#: subjects/views.py:182
+#: subjects/views.py:184
 msgid "Page is not 'last', nor can it be converted to an int."
 msgstr ""
 "Página não é a 'última', e também não pode ser convertido para um inteiro"
 
-#: subjects/views.py:188
+#: subjects/views.py:190
 #, python-format
 msgid "Invalid page (%(page_number)s): %(message)s"
 msgstr "Página inválida (%(page_number)s): %(message)s"
 
-#: subjects/views.py:217
+#: subjects/views.py:219
 msgid "All Subjects"
 msgstr "Todos os assuntos"
 
-#: subjects/views.py:313
+#: subjects/views.py:315
 msgid "Create Subject"
 msgstr "Criar Assunto"
 
-#: subjects/views.py:325
+#: subjects/views.py:327
 msgid "Replicate Subject"
 msgstr "Replicar Assunto"
 
-#: subjects/views.py:367
+#: subjects/views.py:369
 #, python-format
 msgid "The Subject \"%s\" was registered on \"%s\" Category successfully!"
 msgstr "Assunto \"%s\" foi registrado na categoria \"%s\" com sucesso!"
 
-#: subjects/views.py:402
+#: subjects/views.py:404
 msgid "Update Subject"
 msgstr "Atualizar Assunto"
 
-#: subjects/views.py:426
+#: subjects/views.py:428
 #, python-format
 msgid "The Subject \"%s\" was updated on \"%s\" Category successfully!"
 msgstr "Assunto \"%s\" foi atualizado na categoria \"%s\" com sucesso!"
 
-#: subjects/views.py:467 subjects/views.py:511
+#: subjects/views.py:469 subjects/views.py:513
 #, python-format
 msgid "Subject \"%s\" removed successfully!"
 msgstr "Assunto \"%s\" removido com sucesso!"
 
-#: subjects/views.py:475 subjects/views.py:479
+#: subjects/views.py:477 subjects/views.py:481
 msgid ""
 "Subject can't be removed. The subject still possess students and learning "
 "objects associated"
@@ -412,24 +415,24 @@ msgstr ""
 "Assunto não pode ser removido. Ele ainda possui alunos e objetos de "
 "aprendizado associados"
 
-#: subjects/views.py:601
+#: subjects/views.py:603
 msgid "Subscription date is due!"
 msgstr "O período de inscrição está encerrado!"
 
-#: subjects/views.py:614
+#: subjects/views.py:616
 msgid "Subscription was successfull!"
 msgstr "Inscrição feita com sucesso!"
 
-#: subjects/views.py:747
+#: subjects/views.py:749
 #, python-format
 msgid "%s - Backup"
 msgstr "%s - Backup"
 
-#: subjects/views.py:864
+#: subjects/views.py:885
 #, python-format
 msgid "%s - Restore"
 msgstr "%s - Restaurar"
 
-#: subjects/views.py:925
+#: subjects/views.py:951
 msgid "Backup restored successfully!"
 msgstr "Backup restaurado com sucesso!"
