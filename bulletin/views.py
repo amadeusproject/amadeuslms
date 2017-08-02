@@ -20,6 +20,7 @@ from topics.models import Topic
 from django.conf import settings
 import os
 from os.path import join
+from django.utils import timezone
 
 from pendencies.forms import PendenciesForm
 
@@ -159,21 +160,24 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
         meta_geral = Goals.objects.get(topic=topic)
         metas = GoalItem.objects.filter(goal = meta_geral)
         metas_pessoais = []
-        '''
+        n_submeteu = False
         for m in metas:
-            if MyGoals.objects.filter(item = m).exists():
-                metas_pessoais.append(MyGoals.objects.get(item = m))
-        '''
+            if MyGoals.objects.filter(item = m, user = self.request.user).exists():
+                metas_pessoais.append(MyGoals.objects.get(item = m, user = self.request.user))
+                n_submeteu = False 
+            else:
+                n_submeteu = True
 
         itens_da_meta = sorted(list(metas), key = lambda met: met.id)
         metas_pessoais = sorted(list(metas_pessoais), key = lambda me: me.id)
         lista_metas = [{'description':geral.description, 'desejada':geral.ref_value} for geral in itens_da_meta ]
-        '''
-        for x in range(0,len(metas_pessoais)):
-            lista_metas[x]['estabelecida'] = metas_pessoais[x].value
-        print(metas_pessoais)
-        print(lista_metas)
-        '''
+
+        for x in range(len(lista_metas)):
+            if n_submeteu:
+                lista_metas[x]['estabelecida'] = lista_metas[x]['desejada']
+            else:
+                lista_metas[x]['estabelecida'] = metas_pessoais[x].value
+
         context['metas'] = lista_metas
 
         return context
@@ -202,10 +206,18 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
             caminho1 = request.META['HTTP_REFERER']
             return redirect(caminho1)
 
+        if existe_meta:
+            meta_geral = Goals.objects.get(topic=topic)
+            now = timezone.now()
+            if meta_geral.limit_submission_date > now:
+                messages.error(request,_("The deadline to submit the goals of the topic %s has not yet closed, so you can't create a Bulletin.") %(topic) )
+                caminho2 = request.META['HTTP_REFERER']
+                return redirect(caminho2)
+
         if existe_boletim:
             messages.error(request,_("The topic %s already has a Bulletin, so you can't create another.") %(topic) )
-            caminho2 = request.META['HTTP_REFERER']
-            return redirect(caminho2)
+            caminho3 = request.META['HTTP_REFERER']
+            return redirect(caminho3)
 
         if not has_subject_permissions(request.user, topic.subject):
             return redirect(reverse_lazy('subjects:home'))
