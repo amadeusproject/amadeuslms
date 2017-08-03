@@ -2,12 +2,16 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
+from django.forms.models import inlineformset_factory
 
 from subjects.models import Tag
 
 from .models import Bulletin
 
 from resubmit.widgets import ResubmitFileWidget
+
+from pendencies.forms import PendenciesLimitedForm
+from pendencies.models import Pendencies
 
 class BulletinForm(forms.ModelForm):
     subject = None
@@ -130,3 +134,5 @@ class FormModalMessage(forms.Form):
                     return ValueError
 
         return image
+
+InlinePendenciesFormset = inlineformset_factory(Bulletin, Pendencies, form = PendenciesLimitedForm, extra = 1, max_num = 3, validate_max = True, can_delete = True)

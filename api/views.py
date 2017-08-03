@@ -219,6 +219,7 @@ class ChatViewset(viewsets.ModelViewSet):
 
 			info["data"] = {}
 			info["data"]["messages"] = json_r
+			info["data"]["message_sent"] = {}
 
 			info["message"] = ""
 			info["type"] = ""
@@ -234,11 +235,23 @@ class ChatViewset(viewsets.ModelViewSet):
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def send_message(self, request):
-		username = request.data['email']
-		user_two = request.data['user_two']
-		subject = request.data['subject']
-		msg_text = request.data['text']
-		create_date = request.data['create_date']
+		if 'file' in request.data:
+			file = request.FILES['file']
+			
+			data = json.loads(request.data['data'])
+
+			username = data['email']
+			user_two = data['user_two']
+			subject = data['subject']
+			msg_text = data['text']
+			create_date = data['create_date']
+		else:
+			file = None
+			username = request.data['email']
+			user_two = request.data['user_two']
+			subject = request.data['subject']
+			msg_text = request.data['text']
+			create_date = request.data['create_date']
 
 		info = {}
 
@@ -263,6 +276,10 @@ class ChatViewset(viewsets.ModelViewSet):
 			message.text = "<p>" + msg_text + "</p>"
 			message.user = user
 			message.talk = talk
+			message.subject = subject
+
+			if not file is None:
+				message.image = file
 
 			message.save()
 
@@ -288,6 +305,14 @@ class ChatViewset(viewsets.ModelViewSet):
 
 				ChatVisualizations.objects.create(viewed = False, message = message, user = user_to)
 
+				serializer = ChatSerializer(message)
+
+				json_r = json.dumps(serializer.data)
+				json_r = json.loads(json_r)
+
+				info["data"] = {}
+				info["data"]["message_sent"] = json_r
+
 				info["message"] = _("Message sent successfully!")
 				info["success"] = True
 				info["number"] = 1
@@ -296,13 +321,14 @@ class ChatViewset(viewsets.ModelViewSet):
 				info["success"] = False
 				info["number"] = 0
 		else:
+			info["data"] = {}
+			info["data"]["message_sent"] = {}
+
 			info["message"] = _("No information received!")
 			info["success"] = False
 			info["number"] = 0
 
-		info["data"] = {}
 		info["data"]["messages"] = []
-
 		info["type"] = ""
 		info["title"] = _("Amadeus")
 		info['extra'] = 0
