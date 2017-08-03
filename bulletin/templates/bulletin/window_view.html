@@ -1,1 +1,108 @@
-{{ bulletin.content|safe }}
+<!DOCTYPE html>
+
+{% load static i18n util_tags %}
+{% load widget_tweaks %}
+
+<html>
+<head>
+	<title>{{ title }} | {{ theme.title }}</title>
+
+	<script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
+
+	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
+	<link href="{{ theme.favicon_url }}" rel="shortcut icon" />
+
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'material/css/bootstrap-material-design.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-slider.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
+
+	<!-- Custom styles -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus_responsive.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
+
+    {% with 'css/themes/'|add:theme.css_style|add:'.css' as theme_selected %}
+        <link rel="stylesheet" type="text/css" href="{% static theme_selected %}">
+    {% endwith %}
+
+	<script type="text/javascript" src="{% static 'js/bootstrap-slider.js' %} "></script>
+</head>
+<body style="background: #FFF">
+	<div class="container-fluid" style="padding-top: 20px">
+				{% autoescape off %}
+				 {{ bulletin.content }}
+				{% endautoescape %}
+
+				<hr />
+
+				<div class="row">
+					<div class="col-md-12">
+							<b><h5>    {% trans "Check your goals" %}:</b></h5>
+										<table class="table table-bordered">
+											<thead>
+												<tr>
+													<th style="text-align:center;vertical-align:middle" colspan="1" rowspan="2">Meta</th>
+													<th style="text-align:center;vertical-align:middle" colspan="1" rowspan="2">Média da Turma</th>
+													<th style="text-align:center" colspan="3">Dados Individuais</th>
+												</tr>
+												<tr>
+													<th style="text-align:center">Desejada</th>
+													<th style="text-align:center">Estabelecida</th>
+													<th style="text-align:center">Alcançada</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for meta in metas%}
+												<tr>
+													<td>{{ meta.description }}</td>
+													<td></td>
+													<td style="text-align:center">{{ meta.desejada }} %</td>
+													<td style="text-align:center">{{ meta.estabelecida }} %</td>
+													<td style="text-align:center">%</td>
+												</tr>
+
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+						</div>
+
+				<div class="row">
+						<div class="col-md-8 col-md-offset-2 alert-warning bulletin-warning">
+								<div class="col-md-2">
+										<img src="{% static 'img/warning.png' %}" class="img-responsive" />
+								</div>
+								<div class="col-md-10 col-sm-10">
+										<h4>{% trans 'There are obstructions to your activities?' %}</h4>
+										<p><a data-toggle="modal" data-target="#bulletin-difficulties-modal" href="">{% trans 'Click here' %}</a> {% trans 'to communicate the difficulties that may decrease your performance.' %}</p>
+								</div>
+						</div>
+				</div>
+		</div>
+		<div class="modal fade" tabindex="-1" role="dialog" id="bulletin-difficulties-modal">
+				<div class="modal-dialog" role="document">
+						<div class="modal-content">
+								<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										<h4 class="modal-title">{% trans 'Inform difficulties' %}</h4>
+								</div>
+								<div class="modal-body">
+										<form id="bulletin-difficulties" action="" method="POST" enctype="multipart/form-data">
+												{% csrf_token %}
+
+												<textarea class="form-control" id="dificulties" name="difficulties" placeholder="{% trans 'Type here the dificulties that may harm your performance' %}"></textarea>
+										</form>
+								</div>
+								<div class="modal-footer">
+										<button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+										<button type="submit" class="btn btn-success btn-raised erase-button" form="bulletin-difficulties">{% trans "Send" %}</button>
+								</div>
+						</div>
+				</div>
+		</div>
+
+
+</body>
+</html>
