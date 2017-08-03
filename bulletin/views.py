@@ -63,8 +63,32 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
         return super(NewWindowView, self).dispatch(request, *args, **kwargs)
 
+    def post(self, request, *args, **kwargs):
+        difficulties = self.request.POST.get('difficulties', None)
+
+        slug = self.kwargs.get('slug', '')
+        bulletin = get_object_or_404(Bulletin, slug=slug)
+
+        self.object = bulletin
+
+        if not difficulties is None and not difficulties == "":
+            message = _("#Dificulty(ies) found in %s")%(str(bulletin)) + ":<p>" + difficulties + "</p>"
+
+            brodcast_dificulties(self.request, message, bulletin.topic.subject)
+
+            messages.success(self.request, message = _("Difficulties sent to the subject professor(s)"))
+            return self.render_to_response(context = self.get_context_data())
+        else:
+            messages.error(self.request, message = _("You should inform some difficulty"))
+            return self.render_to_response(context = self.get_context_data())
+
     def get_context_data(self, **kwargs):
         context = super(NewWindowView, self).get_context_data(**kwargs)
+        context['title'] = self.object.name
+
+        context['topic'] = self.object.topic
+        context['subject'] = self.object.topic.subject
+
 
         self.log_context['category_id'] = self.object.topic.subject.category.id
         self.log_context['category_name'] = self.object.topic.subject.category.name
@@ -84,6 +108,32 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
                                              self.log_resource, self.log_context)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
+
+        topic = self.object.topic
+
+        meta_geral = Goals.objects.get(topic=topic)
+        metas = GoalItem.objects.filter(goal = meta_geral)
+        metas_pessoais = []
+        n_submeteu = False
+        for m in metas:
+            if MyGoals.objects.filter(item = m, user = self.request.user).exists():
+                metas_pessoais.append(MyGoals.objects.get(item = m, user = self.request.user))
+                n_submeteu = False
+            else:
+                n_submeteu = True
+
+        itens_da_meta = sorted(list(metas), key = lambda met: met.id)
+        metas_pessoais = sorted(list(metas_pessoais), key = lambda me: me.id)
+        lista_metas = [{'description':geral.description, 'desejada':geral.ref_value} for geral in itens_da_meta ]
+
+        for x in range(len(lista_metas)):
+            if n_submeteu:
+                lista_metas[x]['estabelecida'] = lista_metas[x]['desejada']
+            else:
+                lista_metas[x]['estabelecida'] = metas_pessoais[x].value
+
+        context['metas'] = lista_metas
+
 
         return context
 
@@ -164,7 +214,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
         for m in metas:
             if MyGoals.objects.filter(item = m, user = self.request.user).exists():
                 metas_pessoais.append(MyGoals.objects.get(item = m, user = self.request.user))
-                n_submeteu = False 
+                n_submeteu = False
             else:
                 n_submeteu = True
 
@@ -473,6 +523,13 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
         context['topic'] = topic
         context['subject'] = topic.subject
+
+        meta_geral = Goals.objects.get(topic=topic)
+        metas = GoalItem.objects.filter(goal = meta_geral)
+        itens_da_meta = sorted(list(metas), key = lambda met: met.id)
+        alunos =  sorted(list(meta_geral.topic.subject.students.all()), key = lambda e: e.id)
+        create_excel_file(alunos, itens_da_meta,meta_geral)
+        context['goal_file'] = str(meta_geral.slug)+".xls"
 
         return context
 
