@@ -425,12 +425,17 @@ def create_excel_file(estudantes,metas,meta):
             worksheet.write(contador_estudante,1,nome)
 
         contador_estudante += 1
+    path1 = os.path.join(settings.BASE_DIR,'bulletin')
+    path2 = os.path.join(path1,'static')
+    path3 = os.path.join(path2,'xls')
 
-    folder_path = join(settings.BASE_DIR, 'bulletin\\static\\xls')
+    nome = str(meta.slug) + ".xls"
+    folder_path = join(path3, nome)
     #check if the folder already exists
-    if not os.path.isdir(folder_path):
-        os.makedirs(folder_path)
-    workbook.save(settings.BASE_DIR+"\\bulletin\\static\\xls\\"+str(meta.slug)+".xls")
+    if not os.path.isdir(path3):
+        os.makedirs(path3)
+    workbook.save(folder_path)
+    
 def read_excel_file(estudante,meta,qtd,boletim):
     nome = boletim.file_content.path
     arquivo = xlrd.open_workbook(nome)
