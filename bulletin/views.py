@@ -143,7 +143,7 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
         for x in range(len(lista_metas)):
             lista_metas[x]['alcancada'] = alcancadas[x]
             lista_metas[x]['media'] = medias[x]
-            
+
 
         return context
 
@@ -275,10 +275,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         if existe_meta:
             meta_geral = Goals.objects.get(topic=topic)
-            print(meta_geral.limit_submission_date.date() - 1)
-            print(meta_geral.presentation)
             now = timezone.now()
-            print(datetime.datetime.today().date())
             if meta_geral.limit_submission_date.date() > datetime.datetime.today().date():
                 messages.error(request,_("The deadline to submit the goals of the topic %s has not yet closed, so you can't create a Bulletin.") %(topic) )
                 caminho2 = request.META['HTTP_REFERER']
