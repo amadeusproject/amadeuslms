@@ -275,7 +275,6 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         if existe_meta:
             meta_geral = Goals.objects.get(topic=topic)
-            now = timezone.now()
             if meta_geral.limit_submission_date.date() > datetime.datetime.today().date():
                 messages.error(request,_("The deadline to submit the goals of the topic %s has not yet closed, so you can't create a Bulletin.") %(topic) )
                 caminho2 = request.META['HTTP_REFERER']
