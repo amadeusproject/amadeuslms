@@ -125,6 +125,7 @@ TEMPLATES = [
                 'amadeus.context_processors.mural_notifies',
                 'amadeus.context_processors.chat_notifies',
             ],
+            'debug': True
         },
     },
 ]
@@ -204,7 +205,8 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "amadeus/static")
+    os.path.join(BASE_DIR, "amadeus/static"),
+    os.path.join(BASE_DIR, "bulletin/static")
 ]
 
 CRON_CLASSES = [
