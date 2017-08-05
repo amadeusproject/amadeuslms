@@ -76,10 +76,35 @@
                                 {% for meta in metas%}
                                 <tr>
                                   <td>{{ meta.description }}</td>
-                                  <td></td>
+                                  <td style="text-align:center">{{ meta.media }}%</td>
                                   <td style="text-align:center">{{ meta.desejada }} %</td>
                                   <td style="text-align:center">{{ meta.estabelecida }} %</td>
-                                  <td style="text-align:center">%</td>
+
+                                  <!-- Cor amarela -->
+                                  {% if meta.alcancada < meta.desejada and meta.alcancada > meta.estabelecida %}
+                                        <td style="text-align:center;background-color:#f3ff00">{{ meta.alcancada }}%</td>
+                                  {% endif %}
+
+                                  {% if meta.alcancada > meta.desejada and meta.alcancada < meta.estabelecida %}
+                                        <td style="text-align:center;background-color:#f3ff00">{{ meta.alcancada }}%</td>
+
+                                  {% endif %}
+                                  <!-- Cor amarela -->
+
+
+                                  <!-- Cor verde -->
+                                  {% if meta.alcancada > meta.desejada and meta.alcancada > meta.estabelecida %}
+                                        <td style="text-align:center;background-color:#7bdc42">{{ meta.alcancada }}%</td>
+                                  {% endif %}
+                                  <!-- Cor verde -->
+
+                                  <!-- Cor vermelha -->
+                                  {% if meta.alcancada < meta.desejada and meta.alcancada < meta.estabelecida %}
+                                        <td style="text-align:center;background-color:#ff0000">{{ meta.alcancada }}%</td>
+
+                                  {% endif %}
+                                  <!-- Cor vermelha -->
+
                                 </tr>
 
                                 {% endfor %}

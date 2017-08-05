@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'django_cron',
     'channels',
     'resubmit', # Utilizado para salvar arquivos na cache, para caso o formulario não seja preenchido corretamente o usuário não precise fazer o upload outra vez dos arquivos
+    'fcm_django',
 
     'amadeus',
     'users',
@@ -221,6 +222,17 @@ CHANNEL_LAYERS = {
         "BACKEND": "asgiref.inmemory.ChannelLayer",
         "ROUTING": "amadeus.routing.channel_routing",
     },
+}
+
+FCM_DJANGO_SETTINGS = {
+    "FCM_SERVER_KEY": "AAAA9XnDjxo:APA91bF-Cpz-GxeNBwHwWVq17reoCpEtQcX_3okZ0BU5qUdbyQ9QCamQfy0XQTkY74ksdEnQB0xLBiyNo99es0a0U5C-SmZd3oGt75nHpg3iVtXUc_mcqlSq4p9hBhG7BWXvzBVFdGt_",
+    # true if you want to have only one active device per registered user at a time
+    # default: False
+    "ONE_DEVICE_PER_USER": False,
+    # devices to which notifications cannot be sent,
+    # are deleted upon receiving error response from FCM
+    # default: False
+    "DELETE_INACTIVE_DEVICES": False,
 }
 
 #SECURITY

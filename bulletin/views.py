@@ -11,6 +11,7 @@ from .utils import brodcast_dificulties
 from goals.models import Goals,GoalItem,MyGoals
 
 import xlwt
+import xlrd
 import time
 import datetime
 from log.mixins import LogMixin
@@ -111,6 +112,9 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
         topic = self.object.topic
 
+        slug = self.kwargs.get('slug', '')
+        bulletin = get_object_or_404(Bulletin, slug=slug)
+
         meta_geral = Goals.objects.get(topic=topic)
         metas = GoalItem.objects.filter(goal = meta_geral)
         metas_pessoais = []
@@ -133,6 +137,12 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
                 lista_metas[x]['estabelecida'] = metas_pessoais[x].value
 
         context['metas'] = lista_metas
+
+        alcancadas, medias = read_excel_file(self.request.user,meta_geral,len(itens_da_meta),bulletin)
+
+        for x in range(len(lista_metas)):
+            lista_metas[x]['alcancada'] = alcancadas[x]
+            lista_metas[x]['media'] = medias[x]
 
 
         return context
@@ -206,7 +216,8 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
 
         topic = self.object.topic
-
+        slug = self.kwargs.get('slug', '')
+        bulletin = get_object_or_404(Bulletin, slug=slug)
         meta_geral = Goals.objects.get(topic=topic)
         metas = GoalItem.objects.filter(goal = meta_geral)
         metas_pessoais = []
@@ -227,6 +238,12 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
                 lista_metas[x]['estabelecida'] = lista_metas[x]['desejada']
             else:
                 lista_metas[x]['estabelecida'] = metas_pessoais[x].value
+
+        alcancadas, medias = read_excel_file(self.request.user,meta_geral,len(itens_da_meta),bulletin)
+
+        for x in range(len(lista_metas)):
+            lista_metas[x]['alcancada'] = alcancadas[x]
+            lista_metas[x]['media'] = medias[x]
 
         context['metas'] = lista_metas
 
@@ -258,8 +275,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         if existe_meta:
             meta_geral = Goals.objects.get(topic=topic)
-            now = timezone.now()
-            if meta_geral.limit_submission_date > now:
+            if meta_geral.limit_submission_date.date() > datetime.datetime.today().date():
                 messages.error(request,_("The deadline to submit the goals of the topic %s has not yet closed, so you can't create a Bulletin.") %(topic) )
                 caminho2 = request.META['HTTP_REFERER']
                 return redirect(caminho2)
@@ -409,13 +425,40 @@ def create_excel_file(estudantes,metas,meta):
             worksheet.write(contador_estudante,1,nome)
 
         contador_estudante += 1
+    path1 = os.path.join(settings.BASE_DIR,'bulletin')
+    path2 = os.path.join(path1,'static')
+    path3 = os.path.join(path2,'xls')
 
-    folder_path = join(settings.BASE_DIR, 'bulletin\\static\\xls')
+    nome = str(meta.slug) + ".xls"
+    folder_path = join(path3, nome)
     #check if the folder already exists
-    if not os.path.isdir(folder_path):
-        os.makedirs(folder_path)
-    workbook.save(settings.BASE_DIR+"\\bulletin\\static\\xls\\"+str(meta.slug)+".xls")
+    if not os.path.isdir(path3):
+        os.makedirs(path3)
+    workbook.save(folder_path)
+    
+def read_excel_file(estudante,meta,qtd,boletim):
+    nome = boletim.file_content.path
+    arquivo = xlrd.open_workbook(nome)
+    planilha = arquivo.sheet_by_index(0)
+    alcance = []
+    medias = []
 
+    for n in range(planilha.nrows):
+        if n == 0:
+            continue
+        else:
+            linha = planilha.row_values(n)
+            if int(linha[0]) == int(estudante.id):
+                for x in range(2,2+qtd):
+                    alcance.append(int(linha[x]))
+                break
+
+    for b in range(2,planilha.ncols):
+        soma = sum(list(planilha.col_values(b,1,planilha.nrows)))
+        media = soma // (planilha.nrows - 1)
+        medias.append(media)
+
+    return alcance, medias
 
 
 class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
