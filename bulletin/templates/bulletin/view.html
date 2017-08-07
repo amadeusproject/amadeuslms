@@ -4,148 +4,148 @@
 {% load django_bootstrap_breadcrumbs %}
 
 {% block javascript%}
-    {{ block.super }}
+	{{ block.super }}
 {% endblock%}
 
 {% block breadcrumbs %}
-    {{ block.super }}
-    {% breadcrumb topic 'subjects:topic_view' subject.slug topic.slug %}
-    {% breadcrumb bulletin 'bulletin:view' bulletin.slug %}
+	{{ block.super }}
+	{% breadcrumb topic 'subjects:topic_view' subject.slug topic.slug %}
+	{% breadcrumb bulletin 'bulletin:view' bulletin.slug %}
 {% endblock %}
 
 {% block content %}
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <p>{{ message }}</p>
-            </div>
-        {% endfor %}
-    {% endif %}
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<p>{{ message }}</p>
+			</div>
+		{% endfor %}
+	{% endif %}
 
-    {% resource_permissions request.user bulletin as has_resource_permissions %}
+	{% resource_permissions request.user bulletin as has_resource_permissions %}
 
-    {% if bulletin.visible %}
+	{% if bulletin.visible %}
 		<div class="panel panel-info topic-panel">
-        	<div class="panel-heading">
+			<div class="panel-heading">
 	{% elif has_resource_permissions %}
 		<div class="panel panel-info topic-panel-invisible">
-        	<div class="panel-heading panel-invisible">
-    {% endif %}
-        		<div class="row">
-                    <div class="col-md-12 category-header">
-                        <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
-                            <span>{{ bulletin }}</span>
-                        </h4>
+			<div class="panel-heading panel-invisible">
+	{% endif %}
+				<div class="row">
+					<div class="col-md-12 category-header">
+						<h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
+							<span>{{ bulletin }}</span>
+						</h4>
 
-                        <div class="col-md-5 pull-right category-card-items">
-                            <a href="{% url 'mural:resource_view' bulletin.slug %}" class="pull-right action_icon">
-                                <i class="fa fa-list" aria-hidden="true"></i>
-                                {% resource_mural_number bulletin request.user %}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
-                {% autoescape off %}
-            	   {{ bulletin.content }}
-                {% endautoescape %}
+						<div class="col-md-5 pull-right category-card-items">
+							<a href="{% url 'mural:resource_view' bulletin.slug %}" class="pull-right action_icon">
+								<i class="fa fa-list" aria-hidden="true"></i>
+								{% resource_mural_number bulletin request.user %}
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
+				{% autoescape off %}
+				   {{ bulletin.content }}
+				{% endautoescape %}
 
-                <hr />
+				<hr />
 
-                <div class="row">
-                  <div class="col-md-12">
-                      <b><h5>    {% trans "Check your goals" %}:</b></h5>
-                            <table class="table table-bordered">
-                              <thead>
-                                <tr>
-                                  <th style="text-align:center;vertical-align:middle" colspan="1" rowspan="2">Meta</th>
-                                  <th style="text-align:center;vertical-align:middle" colspan="1" rowspan="2">Média da Turma</th>
-                                  <th style="text-align:center" colspan="3">Dados Individuais</th>
-                                </tr>
-                                <tr>
-                                  <th style="text-align:center">Desejada</th>
-                                  <th style="text-align:center">Estabelecida</th>
-                                  <th style="text-align:center">Alcançada</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {% for meta in metas%}
-                                <tr>
-                                  <td>{{ meta.description }}</td>
-                                  <td style="text-align:center">{{ meta.media }}%</td>
-                                  <td style="text-align:center">{{ meta.desejada }} %</td>
-                                  <td style="text-align:center">{{ meta.estabelecida }} %</td>
+				<div class="row">
+				  <div class="col-md-12">
+					  <b><h5>    {% trans "Check your goals" %}:</b></h5>
+							<table class="table table-bordered">
+							  <thead>
+								<tr>
+								  <th style="text-align:center;vertical-align:middle" colspan="1" rowspan="2">Meta</th>
+								  <th style="text-align:center;vertical-align:middle" colspan="1" rowspan="2">Média da Turma</th>
+								  <th style="text-align:center" colspan="3">Dados Individuais</th>
+								</tr>
+								<tr>
+								  <th style="text-align:center">Desejada</th>
+								  <th style="text-align:center">Estabelecida</th>
+								  <th style="text-align:center">Alcançada</th>
+								</tr>
+							  </thead>
+							  <tbody>
+								{% for meta in metas%}
+								<tr>
+								  <td>{{ meta.description }}</td>
+								  <td style="text-align:center">{{ meta.media }}%</td>
+								  <td style="text-align:center">{{ meta.desejada }} %</td>
+								  <td style="text-align:center">{{ meta.estabelecida }} %</td>
 
-                                  <!-- Cor amarela -->
-                                  {% if meta.alcancada < meta.desejada and meta.alcancada > meta.estabelecida %}
-                                        <td style="text-align:center;background-color:#f3ff00">{{ meta.alcancada }}%</td>
-                                  {% endif %}
+								  <!-- Cor amarela -->
+								  {% if meta.alcancada < meta.desejada and meta.alcancada > meta.estabelecida %}
+										<td style="text-align:center;background-color:#f3ff00">{{ meta.alcancada }}%</td>
+								  {% endif %}
 
-                                  {% if meta.alcancada > meta.desejada and meta.alcancada < meta.estabelecida %}
-                                        <td style="text-align:center;background-color:#f3ff00">{{ meta.alcancada }}%</td>
+								  {% if meta.alcancada > meta.desejada and meta.alcancada < meta.estabelecida %}
+										<td style="text-align:center;background-color:#f3ff00">{{ meta.alcancada }}%</td>
 
-                                  {% endif %}
-                                  <!-- Cor amarela -->
+								  {% endif %}
+								  <!-- Cor amarela -->
 
 
-                                  <!-- Cor verde -->
-                                  {% if meta.alcancada > meta.desejada and meta.alcancada > meta.estabelecida %}
-                                        <td style="text-align:center;background-color:#7bdc42">{{ meta.alcancada }}%</td>
-                                  {% endif %}
-                                  <!-- Cor verde -->
+								  <!-- Cor verde -->
+								  {% if meta.alcancada > meta.desejada and meta.alcancada > meta.estabelecida %}
+										<td style="text-align:center;background-color:#7bdc42">{{ meta.alcancada }}%</td>
+								  {% endif %}
+								  <!-- Cor verde -->
 
-                                  <!-- Cor vermelha -->
-                                  {% if meta.alcancada < meta.desejada and meta.alcancada < meta.estabelecida %}
-                                        <td style="text-align:center;background-color:#ff0000">{{ meta.alcancada }}%</td>
+								  <!-- Cor vermelha -->
+								  {% if meta.alcancada < meta.desejada and meta.alcancada < meta.estabelecida %}
+										<td style="text-align:center;background-color:#ff0000">{{ meta.alcancada }}%</td>
 
-                                  {% endif %}
-                                  <!-- Cor vermelha -->
+								  {% endif %}
+								  <!-- Cor vermelha -->
 
-                                </tr>
+								</tr>
 
-                                {% endfor %}
-                              </tbody>
-                            </table>
-                          </div>
-                    </div>
+								{% endfor %}
+							  </tbody>
+							</table>
+						  </div>
+					</div>
 
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2 alert-warning bulletin-warning">
-                        <div class="col-md-2">
-                            <img src="{% static 'img/warning.png' %}" class="img-responsive" />
-                        </div>
-                        <div class="col-md-10 col-sm-10">
-                            <h4>{% trans 'There are obstructions to your activities?' %}</h4>
-                            <p><a data-toggle="modal" data-target="#bulletin-difficulties-modal" href="">{% trans 'Click here' %}</a> {% trans 'to communicate the difficulties that may decrease your performance.' %}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 alert-warning bulletin-warning">
+						<div class="col-md-2">
+							<img src="{% static 'img/warning.png' %}" class="img-responsive" />
+						</div>
+						<div class="col-md-10 col-sm-10">
+							<h4>{% trans 'There are obstructions to your activities?' %}</h4>
+							<p><a data-toggle="modal" data-target="#bulletin-difficulties-modal" href="">{% trans 'Click here' %}</a> {% trans 'to communicate the difficulties that may decrease your performance.' %}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <div class="modal fade" tabindex="-1" role="dialog" id="bulletin-difficulties-modal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">{% trans 'Inform difficulties' %}</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form id="bulletin-difficulties" action="" method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
+		<div class="modal fade" tabindex="-1" role="dialog" id="bulletin-difficulties-modal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">{% trans 'Inform difficulties' %}</h4>
+					</div>
+					<div class="modal-body">
+						<form id="bulletin-difficulties" action="" method="POST" enctype="multipart/form-data">
+							{% csrf_token %}
 
-                            <textarea class="form-control" id="dificulties" name="difficulties" placeholder="{% trans 'Type here the dificulties that may harm your performance' %}"></textarea>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
-                        <button type="submit" class="btn btn-success btn-raised erase-button" form="bulletin-difficulties">{% trans "Send" %}</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+							<textarea class="form-control" id="dificulties" name="difficulties" placeholder="{% trans 'Type here the dificulties that may harm your performance' %}"></textarea>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+						<button type="submit" class="btn btn-success btn-raised erase-button" form="bulletin-difficulties">{% trans "Send" %}</button>
+					</div>
+				</div>
+			</div>
+		</div>
 {% endblock %}

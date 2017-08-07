@@ -416,24 +416,26 @@ def create_excel_file(estudantes,metas,meta):
     for m in metas:
         worksheet.write(0,count_meta,u'%s' % (m.description) )
         count_meta += 1
+    
     for estudante in estudantes:
         worksheet.write(contador_estudante,0,estudante.id )
-        if estudante.social_name:
-            worksheet.write(contador_estudante,1,estudante.social_name)
-        else:
-            nome = estudante.username + " " + estudante.last_name
-            worksheet.write(contador_estudante,1,nome)
+        
+        nome = str(estudante)
+        worksheet.write(contador_estudante,1,nome)
 
         contador_estudante += 1
+
     path1 = os.path.join(settings.BASE_DIR,'bulletin')
     path2 = os.path.join(path1,'static')
     path3 = os.path.join(path2,'xls')
 
     nome = str(meta.slug) + ".xls"
     folder_path = join(path3, nome)
+    
     #check if the folder already exists
     if not os.path.isdir(path3):
         os.makedirs(path3)
+    
     workbook.save(folder_path)
     
 def read_excel_file(estudante,meta,qtd,boletim):
@@ -442,19 +444,21 @@ def read_excel_file(estudante,meta,qtd,boletim):
     planilha = arquivo.sheet_by_index(0)
     alcance = []
     medias = []
+    soma = 0
 
     for n in range(planilha.nrows):
         if n == 0:
             continue
         else:
             linha = planilha.row_values(n)
-            if int(linha[0]) == int(estudante.id):
-                for x in range(2,2+qtd):
-                    alcance.append(int(linha[x]))
-                break
+            
+            for x in range(2,2+qtd):
+                alcance.append(int(linha[x]))
 
     for b in range(2,planilha.ncols):
-        soma = sum(list(planilha.col_values(b,1,planilha.nrows)))
+        for item in planilha.col_values(b,1,planilha.nrows):
+            soma += int(item)
+
         media = soma // (planilha.nrows - 1)
         medias.append(media)
 
