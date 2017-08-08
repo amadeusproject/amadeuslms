@@ -6,6 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 
+from os import path
+
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 from .utils import brodcast_dificulties
 from goals.models import Goals,GoalItem,MyGoals
@@ -386,7 +388,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         itens_da_meta = sorted(list(metas), key = lambda met: met.id)
         alunos =  sorted(list(meta_geral.topic.subject.students.all()), key = lambda e: e.id)
         create_excel_file(alunos, itens_da_meta,meta_geral)
-        context['goal_file'] = str(meta_geral.slug)+".xls"
+        context['goal_file'] = str(meta_geral.slug)
 
 
         return context
@@ -404,6 +406,23 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
             success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
         return success_url
+
+def download_excel(request, file):
+    filepath = 'bulletin/sheets/xls/' + file + '.xls'
+
+    if not path.exists(filepath):
+        raise Http404()
+
+    response = HttpResponse(open(filepath, 'rb').read())
+    response['Content-Type'] = 'application/force-download'
+    response['Pragma'] = 'public'
+    response['Expires'] = '0'
+    response['Cache-Control'] = 'must-revalidate, post-check=0, pre-check=0'
+    response['Content-Disposition'] = 'attachment; filename=%s' % (file + '.xls')
+    response['Content-Transfer-Encoding'] = 'binary'
+    response['Content-Length'] = str(path.getsize(filepath))
+
+    return response
 
 def create_excel_file(estudantes,metas,meta):
     workbook = xlwt.Workbook()
@@ -426,7 +445,7 @@ def create_excel_file(estudantes,metas,meta):
         contador_estudante += 1
 
     path1 = os.path.join(settings.BASE_DIR,'bulletin')
-    path2 = os.path.join(path1,'static')
+    path2 = os.path.join(path1,'sheets')
     path3 = os.path.join(path2,'xls')
 
     nome = str(meta.slug) + ".xls"
@@ -576,7 +595,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         itens_da_meta = sorted(list(metas), key = lambda met: met.id)
         alunos =  sorted(list(meta_geral.topic.subject.students.all()), key = lambda e: e.id)
         create_excel_file(alunos, itens_da_meta,meta_geral)
-        context['goal_file'] = str(meta_geral.slug)+".xls"
+        context['goal_file'] = str(meta_geral.slug)
 
         return context
 

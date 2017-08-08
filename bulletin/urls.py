@@ -11,4 +11,5 @@ urlpatterns = [
 	url(r'^view/(?P<slug>[\w_-]+)/$', views.InsideView.as_view(), name = 'view'),
     url(r'^chart/(?P<slug>[\w_-]+)/$', views.StatisticsView.as_view(), name = 'get_chart'),
     url(r'^send-message/(?P<slug>[\w_-]+)/$', views.SendMessage.as_view(), name = 'send_message'),
+    url(r'^download_file/(?P<file>[\w_-]+)/$', views.download_excel, name = 'download_file'),
 ]

@@ -70,9 +70,7 @@
 
 	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
 		<label for="{{ form.file_content.auto_id }}">{{ form.file_content.label }} <span>*</span></label>
-		{% with 'xls/'|add:goal_file as file_static %}
-			<a href="{% static file_static %}"> {% trans "Click to download a xls file with the data of the goals" %}</a>
-		{% endwith %}
+		<a href="{% url 'bulletin:download_file' file=goal_file %}"> {% trans "Click to download a xls file with the data of the goals" %}</a>
 		{% render_field form.file_content class='file-selector' %}
 
 		<div class="input-group common-file-input">
