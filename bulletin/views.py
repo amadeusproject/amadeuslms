@@ -6,8 +6,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 
-from os import path
-
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 from .utils import brodcast_dificulties
 from goals.models import Goals,GoalItem,MyGoals
@@ -408,9 +406,9 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return success_url
 
 def download_excel(request, file):
-    filepath = 'bulletin/sheets/xls/' + file + '.xls'
+    filepath = os.path.join('bulletin', os.path.join('sheets', os.path.join('xls', file + '.xls')))
 
-    if not path.exists(filepath):
+    if not os.path.exists(filepath):
         raise Http404()
 
     response = HttpResponse(open(filepath, 'rb').read())
@@ -420,7 +418,7 @@ def download_excel(request, file):
     response['Cache-Control'] = 'must-revalidate, post-check=0, pre-check=0'
     response['Content-Disposition'] = 'attachment; filename=%s' % (file + '.xls')
     response['Content-Transfer-Encoding'] = 'binary'
-    response['Content-Length'] = str(path.getsize(filepath))
+    response['Content-Length'] = str(os.path.getsize(filepath))
 
     return response
 
