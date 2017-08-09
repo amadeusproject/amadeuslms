@@ -433,10 +433,10 @@ def create_excel_file(estudantes,metas,meta):
     for m in metas:
         worksheet.write(0,count_meta,u'%s' % (m.description) )
         count_meta += 1
-    
+
     for estudante in estudantes:
         worksheet.write(contador_estudante,0,estudante.id )
-        
+
         nome = str(estudante)
         worksheet.write(contador_estudante,1,nome)
 
@@ -448,13 +448,13 @@ def create_excel_file(estudantes,metas,meta):
 
     nome = str(meta.slug) + ".xls"
     folder_path = join(path3, nome)
-    
+
     #check if the folder already exists
     if not os.path.isdir(path3):
         os.makedirs(path3)
-    
+
     workbook.save(folder_path)
-    
+
 def read_excel_file(estudante,meta,qtd,boletim):
     nome = boletim.file_content.path
     arquivo = xlrd.open_workbook(nome)
@@ -468,9 +468,13 @@ def read_excel_file(estudante,meta,qtd,boletim):
             continue
         else:
             linha = planilha.row_values(n)
-            
-            for x in range(2,2+qtd):
-                alcance.append(int(linha[x]))
+            if int(linha[0]) == int(estudante.id):
+                for x in range(2,2+qtd):
+                    alcance.append(int(linha[x]))
+                break
+    if len(alcance) == 0:
+        for x in range(0,qtd):
+            alcance.append(0)
 
     for b in range(2,planilha.ncols):
         for item in planilha.col_values(b,1,planilha.nrows):
@@ -478,6 +482,10 @@ def read_excel_file(estudante,meta,qtd,boletim):
 
         media = soma // (planilha.nrows - 1)
         medias.append(media)
+
+    if len(medias) == 0:
+        for x in range(0,qtd):
+            medias.append(0)
 
     return alcance, medias
 
