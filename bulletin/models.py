@@ -18,7 +18,8 @@ def validate_file_extension(value):
 
 class Bulletin(Resource):
 	content = models.TextField(_('Bulletin Content'), blank = True)
-	file_content = models.FileField(_('Bulletin Data (Goals)'), blank = True, upload_to = 'bulletin/', validators = [validate_file_extension])
+	file_content = models.FileField(_('Goals'), blank = True, upload_to = 'bulletin/goals', validators = [validate_file_extension])
+	indicators = models.FileField(_('Relevant Indicators'), blank = True,null = True, upload_to = 'bulletin/indicators', validators = [validate_file_extension])
 
 	class Meta:
 		verbose_name = _('Bulletin')
