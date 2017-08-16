@@ -14,6 +14,7 @@ import xlwt
 import xlrd
 import time
 import datetime
+from statistics import median
 from log.mixins import LogMixin
 
 from topics.models import Topic
@@ -136,14 +137,33 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
             else:
                 lista_metas[x]['estabelecida'] = metas_pessoais[x].value
 
-        context['metas'] = lista_metas
-
         alcancadas, medias = read_excel_file(self.request.user,meta_geral,len(itens_da_meta),bulletin)
+        maximos, medianas, resultados,titulos = read_excel_file_indicators(self.request.user,bulletin)
 
         for x in range(len(lista_metas)):
             lista_metas[x]['alcancada'] = alcancadas[x]
             lista_metas[x]['media'] = medias[x]
 
+        qtd_atendida = 0
+        qtd_metas = len(itens_da_meta)
+        for x in range(len(lista_metas)):
+            #Caso 1: Meta alcançada foi maior que a meta desejada
+            caso1 = lista_metas[x]['alcancada'] > lista_metas[x]['desejada']
+
+            #Caso 2: Meta alcançada foi maior que a meta estabelecida
+            caso2 = lista_metas[x]['alcancada'] > lista_metas[x]['estabelecida']
+            if caso1 or caso2:
+                qtd_atendida += 1
+
+        porcentagem = calcula_porcentagem(qtd_atendida,qtd_metas)
+
+        #Adicionando ao contexto
+        context['metas'] = lista_metas
+        context['percent'] = porcentagem
+        context['maximos'] = maximos
+        context['medianas'] = medianas
+        context['resultados'] = resultados
+        context['titulos'] = titulos
 
         return context
 
@@ -240,12 +260,33 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
                 lista_metas[x]['estabelecida'] = metas_pessoais[x].value
 
         alcancadas, medias = read_excel_file(self.request.user,meta_geral,len(itens_da_meta),bulletin)
+        maximos, medianas, resultados,titulos = read_excel_file_indicators(self.request.user,bulletin)
 
         for x in range(len(lista_metas)):
             lista_metas[x]['alcancada'] = alcancadas[x]
             lista_metas[x]['media'] = medias[x]
 
+
+        qtd_atendida = 0
+        qtd_metas = len(itens_da_meta)
+        for x in range(len(lista_metas)):
+            #Caso 1: Meta alcançada foi maior que a meta desejada
+            caso1 = lista_metas[x]['alcancada'] > lista_metas[x]['desejada']
+
+            #Caso 2: Meta alcançada foi maior que a meta estabelecida
+            caso2 = lista_metas[x]['alcancada'] > lista_metas[x]['estabelecida']
+            if caso1 or caso2:
+                qtd_atendida += 1
+
+        porcentagem = calcula_porcentagem(qtd_atendida,qtd_metas)
+
+        #Adicionando ao contexto
         context['metas'] = lista_metas
+        context['percent'] = porcentagem
+        context['maximos'] = maximos
+        context['medianas'] = medianas
+        context['resultados'] = resultados
+        context['titulos'] = titulos
 
         return context
 
@@ -489,6 +530,65 @@ def read_excel_file(estudante,meta,qtd,boletim):
 
     return alcance, medias
 
+def read_excel_file_indicators(estudante,boletim):
+    name = boletim.indicators.path
+    arq = xlrd.open_workbook(name)
+    sheet = arq.sheet_by_index(0)
+    maximos = []
+    medianas = []
+    resultados = []
+    ind1 = []
+    ind2 = []
+    ind3 = []
+    ind4 = []
+    ind5 = []
+    ind6 = []
+
+    #Adicionando na lista de cada indicador o resultado de cada estudante
+    for n in range(0,sheet.nrows):
+        if n == 0:
+            linha = sheet.row_values(n,2,8)
+            titulos = list(linha)
+
+        else:
+            linha = sheet.row_values(n)
+            if int(linha[8]) == 1:
+                ind1.append(int(linha[2]))
+                ind2.append(int(linha[3]))
+                ind3.append(int(linha[4]))
+                ind4.append(int(linha[5]))
+                ind5.append(int(linha[6]))
+                ind6.append(int(linha[7]))
+            if int(linha[0]) == int(estudante.id):
+                for x in range(2,8):
+                    resultados.append(int(linha[x]))
+
+    #Adicionando na lista de maximos o valor máximo para cada indicador
+    maximos.append(max(ind1))
+    maximos.append(max(ind2))
+    maximos.append(max(ind3))
+    maximos.append(max(ind4))
+    maximos.append(max(ind5))
+    maximos.append(max(ind6))
+
+    #Adicionando na lista de medianas o valor da mediana para cada indicador
+    mediana1, mediana2, mediana3, mediana4, mediana5, mediana6 = round(median(ind1), 1), round(median(ind2), 1), round(median(ind3), 1), round(median(ind4), 1), round(median(ind5), 1), round(median(ind6), 1)
+
+    medianas.append(mediana1)
+    medianas.append(mediana2)
+    medianas.append(mediana3)
+    medianas.append(mediana4)
+    medianas.append(mediana5)
+    medianas.append(mediana6)
+
+    #Checando caso quem está visualizando não seja um estudante, dai preenche com 0
+    if len(resultados) == 0:
+        resultados = [0] * 6
+
+    return maximos, medianas, resultados, titulos
+
+def calcula_porcentagem(parte, todo):
+  return int(100 * int(parte)/int(todo))
 
 class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
     log_component = 'resources'
