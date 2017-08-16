@@ -31,7 +31,7 @@ class BulletinForm(forms.ModelForm):
 
     class Meta:
         model = Bulletin
-        fields = ['name', 'content', 'brief_description',  'show_window', 'visible','file_content']
+        fields = ['name', 'content', 'brief_description',  'show_window', 'visible','file_content','indicators']
         labels = {
             'name': _('Bulletin name'),
             'content': _('Bulletin content'),
@@ -76,6 +76,23 @@ class BulletinForm(forms.ModelForm):
         	return ValueError
 
         return file_content
+
+    def clean_indicators(self):
+        indicators = self.cleaned_data.get('indicators', False)
+
+        if indicators:
+        	if hasattr(indicators, '_size'):
+        		if indicators._size > self.MAX_UPLOAD_SIZE:
+        			self._errors['indicators'] = [_("The file is too large. It should have less than 1MB.")]
+
+        			return ValueError
+
+        elif not self.instance.pk:
+        	self._errors['indicators'] = [_('This field is required.')]
+
+        	return ValueError
+
+        return indicators
 
     def save(self, commit = True):
         super(BulletinForm, self).save(commit = True)
