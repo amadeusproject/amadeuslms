@@ -68,10 +68,10 @@
 		{% endif %}
 	</div>
 
+	<h4>{% trans "Bulletin Data" %}</h4><hr>
+	<label for="{{ form.file_content.auto_id }}">{{ form.file_content.label }} <span>*</span></label>
+	<a href="{% url 'bulletin:download_file' file=goal_file %}"> {% trans "Click to download a xls file with the data of the goals" %}</a>
 	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
-		<h4>{% trans "Bulletin Data" %}</h4><hr>
-		<label for="{{ form.file_content.auto_id }}">{{ form.file_content.label }} <span>*</span></label>
-		<a href="{% url 'bulletin:download_file' file=goal_file %}"> {% trans "Click to download a xls file with the data of the goals" %}</a>
 		{% render_field form.file_content class='file-selector' %}
 
 		<div class="input-group common-file-input">
