@@ -6,56 +6,62 @@
 <html>
 <head>
 	<title>{{ title }} | {{ theme.title }}</title>
-	<script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
 
-	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
-	<link href="{{ theme.favicon_url }}" rel="shortcut icon" />
 
-	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'material/css/bootstrap-material-design.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-slider.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
-	<script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
-	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
-	<!-- Custom styles -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus_responsive.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
+	    <!-- jQuery & jQuery UI -->
+	    <script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
+	    <script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
 
+		<meta http-equiv="Cache-Control" content="no-cache, no-store" />
 		<link href="{{ theme.favicon_url }}" rel="shortcut icon" />
 		<!-- Roboto font -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datetimepicker.css' %}">
+
+	  	<!-- Bootstrap and themes (material) -->
+		<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
+
+		<link rel="stylesheet" type="text/css" href="{% static 'material/css/bootstrap-material-design.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.min.css' %}">
+
+	    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datetimepicker.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/alertifyjs/alertify.min.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/alertifyjs/themes/bootstrap.css' %}">
 
+	    <link rel="stylesheet" type="text/css" href="{% static 'css/jPages.css' %}">
+
+	 		<script src="{% static 'js/cropper.min.js' %}"></script> <!-- Js for cropper-->
+			<link href="{% static 'css/cropper.min.css' %}" rel="stylesheet"> <!-- CSS for cropper-->
+
+			<script type="text/javascript" src="{% static 'js/printThis.js' %}"></script> <!-- Print this plugin js-->
+
+
+		<script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
+		<!--<script type="text/javascript" src="{% static 'js/bootstrap-acessibility2.min.js' %}"></script>-->
 		<script type="text/javascript" src="{% static 'material/js/material.min.js' %}"></script>
 		<script type="text/javascript" src="{% static 'material/js/ripples.min.js' %}"></script>
 		<script type="text/javascript" src="{% static 'js/moment-with-locales.js' %}"></script>
-			<script type="text/javascript" src="{% static 'js/bootstrap-datetimepicker.js' %}"></script>
+	    <script type="text/javascript" src="{% static 'js/bootstrap-datetimepicker.js' %}"></script>
 		<script type="text/javascript" src="{% static 'js/alertify.min.js' %}"></script>
 		<script type="text/javascript" src="{% static 'js/jscookie.js' %}"></script>
-			<script type="text/javascript" src="{% static 'js/jPages.js' %}"></script>
-			<script type="text/javascript" src="{% static 'js/d3.min.js' %}"></script>
+	    <script type="text/javascript" src="{% static 'js/jPages.js' %}"></script>
+	    <script type="text/javascript" src="{% static 'js/d3.v3.min.js' %}"></script>
 			<script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
 
+	  	<!-- Font awesome -->
+		<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
 
-		<script type="text/javascript">$.material.init()</script>
-    <script src="{% static 'js/main.js' %}"></script>
-    <script src="{% static 'js/socket.js' %}"></script>
-
-		<!-- Summernote -->
-		<script src="{% static 'summernote/summernote.js' %}" type="text/javascript"></script>
-		<link href="{% static 'summernote/summernote.css' %}" type="text/css" rel="stylesheet" />
+		<!-- Custom styles -->
+	    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus_responsive.css' %}">
+	    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
 
     {% with 'css/themes/'|add:theme.css_style|add:'.css' as theme_selected %}
         <link rel="stylesheet" type="text/css" href="{% static theme_selected %}">
     {% endwith %}
 
-	<script type="text/javascript" src="{% static 'js/bootstrap-slider.js' %} "></script>
+
+		<link rel="stylesheet" href="{% static  'css/estilo.css' %}">
 </head>
 <body style="background: #FFF">
 	<div class="container-fluid" style="padding-top: 20px">
@@ -63,39 +69,127 @@
 				 {{ bulletin.content }}
 				{% endautoescape %}
 
-				<hr />
 
-				<div class="row">
-					<div class="col-md-12">
-							<b><h5>    {% trans "Check your goals" %}:</b></h5>
-										<table class="table table-bordered">
-											<thead>
-												<tr>
-													<th style="text-align:center;vertical-align:middle" colspan="1" rowspan="2">Meta</th>
-													<th style="text-align:center;vertical-align:middle" colspan="1" rowspan="2">Média da Turma</th>
-													<th style="text-align:center" colspan="3">Dados Individuais</th>
-												</tr>
-												<tr>
-													<th style="text-align:center">Desejada</th>
-													<th style="text-align:center">Estabelecida</th>
-													<th style="text-align:center">Alcançada</th>
-												</tr>
-											</thead>
-											<tbody>
-												{% for meta in metas%}
-												<tr>
-													<td>{{ meta.description }}</td>
-													<td></td>
-													<td style="text-align:center">{{ meta.desejada }} %</td>
-													<td style="text-align:center">{{ meta.estabelecida }} %</td>
-													<td style="text-align:center">%</td>
-												</tr>
 
-												{% endfor %}
-											</tbody>
-										</table>
-									</div>
-						</div>
+				<div style="padding-left: 80px;padding-right: 80px;">
+					<div align="left" style="font-size:22px; color: #878787; padding-top: 30px;">Confira as suas metas</div>
+					<hr style="height:2px; background-color:#878787; margin-top: 5px;">
+					<div class="row">
+					    <div class="col-md-4">
+								<div style="font-size:16px; color: #000; padding-botom: 10px;"><b>Metas Atingidas</b></div>
+								<div id="donut_chart" align="center"></div>
+							</div>
+
+					    <div class="col-md-8">
+								<div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>Detalhamento das metas</b></div>
+								<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
+								<table class="table table-hover">
+									<thead>
+				    				<tr>
+				      				<th style="text-align:center">Descrição</th>
+				      				<th style="width:150px; text-align:center">Recomendação </br> do(a) professor(a)</th>
+											<th style="text-align:center">Mádia da turma</th>
+											<th style="text-align:center">Sua meta</th>
+											<th style="text-align:center">Seu resultado</th>
+				    				</tr>
+				  				</thead>
+				  				<tbody>
+										{% for meta in metas%}
+										<tr>
+											<th style="font-weight: normal;">{{ meta.description }}</th>
+											<th style="text-align:center;font-weight: normal;">{{ meta.desejada }} %</th>
+				      				<td style="text-align:center;font-weight: normal;">{{ meta.media }}%</td>
+											<th style="text-align:center; font-weight: normal;">{{ meta.estabelecida }}%</th>
+
+
+											<!-- Cor amarela -->
+										  {% if meta.alcancada < meta.desejada and meta.alcancada > meta.estabelecida %}
+												<th style="text-align:center;background-color:#f3ff00 ; font-weight: normal;">{{ meta.alcancada }}%</th>
+										  {% endif %}
+
+										  {% if meta.alcancada > meta.desejada and meta.alcancada < meta.estabelecida %}
+												<th style="text-align:center;background-color:#f3ff00 ; font-weight: normal;">{{ meta.alcancada }}%</th>
+
+										  {% endif %}
+										  <!-- Cor amarela -->
+
+
+										  <!-- Cor verde -->
+										  {% if meta.alcancada > meta.desejada and meta.alcancada > meta.estabelecida %}
+												<th style="text-align:center;background-color:#7bdc42 ; font-weight: normal;">{{ meta.alcancada }}%</th>
+										  {% endif %}
+										  <!-- Cor verde -->
+
+										  <!-- Cor vermelha -->
+										  {% if meta.alcancada < meta.desejada and meta.alcancada < meta.estabelecida %}
+												<th style="text-align:center;background-color:#ff0000; font-weight: normal;">{{ meta.alcancada }}%</th>
+
+										  {% endif %}
+										  <!-- Cor vermelha -->
+
+
+										</tr>
+
+										{% endfor %}
+
+
+				  				</tbody>
+								</table>
+								<hr style="height:1px; background-color:#878787;margin-top: -20px;">
+							</div>
+					</div>
+				</div>
+				<div style="padding-left: 80px;padding-right: 80px;">
+					<div align="left" style="font-size:22px; color: #878787; padding-top: 30px; ">Indicadores relevantes para o seu desempenho</div>
+					<hr style="height:2px; background-color:#878787; margin-top: 5px;">
+					<div class="row" style="padding-left: 15px;" >
+						<table >
+							<tr >
+								<td style="background-color:#002F4B; width: 20px;"></td>
+								<td style="padding-left: 5px;">Seu ressultado</td>
+								<td style="width: 20px"></td>
+								<td style="background-color:#35ae5d; width: 20px;"></td>
+								<td style="padding-left: 5px;">Nível acima da mediana dos aprovados</td>
+								<td style="width: 20px"></td>
+								<td style="background-color:#ffd75d; width: 20px;"></td>
+								<td style="padding-left: 5px;">Nível abaixo da mediana dos aprovados</td>
+								<td style="width: 30px"></td>
+							</tr>
+						</table>
+					</div>
+
+					<div class="row" style="padding-left: 10px;">
+							<div class="col-md-7" >
+								<div class="row">
+									<div id="bullet_chart"> </div>
+								</div>
+							</div>
+							<div class="col-md-5">
+
+								<div style="font-size:16px; text-align:left; color: #000; padding-left: 20px;padding-top: 30px; ">
+									<b>Descrição dos indicadores</b>
+								</div>
+
+								<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: -1px;">
+
+								<table class="table table-hover">
+				  				<tbody>
+										{% for titulo in titulos %}
+												<tr>
+													<th style="width:110px;">
+														Indicador 0{{forloop.counter }}:
+													</th>
+													<th style="text-align:left; font-weight: normal; padding-left:0px;">
+														{{titulo}}
+													</th>
+												</tr>
+										{% endfor %}
+
+				  					</tbody>
+									</table>
+								</div>
+					</div>
+				</div>
 
 				<div class="row">
 					<div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 alert-warning bulletin-warning">
@@ -131,6 +225,1043 @@
 				</div>
 		</div>
 
+
+		<script type="text/javascript">
+		// Variável obtidas a partir do número de metas atendidas
+		var percent = "{{ percent }}";
+
+
+
+		// Script para a geração do gráfico de metas atingidas
+		var ratio=percent/100;
+		var pie = d3.layout.pie()
+		        .value(function(d){return d})
+		        .sort(null);
+		var w=200,h=200;
+		var outerRadius=(w/2)-10;
+		var innerRadius=70;
+		var color = ['#ececec','#002F4B'];
+		var arc=d3.svg.arc()
+		        .innerRadius(innerRadius)
+		        .outerRadius(outerRadius)
+		        .startAngle(0)
+		        .endAngle(2*Math.PI);
+		var arcLine=d3.svg.arc()
+		        .innerRadius(innerRadius)
+		        .outerRadius(outerRadius)
+		        .cornerRadius(20)
+		        .startAngle(-0.05);
+		var svg=d3.select("#donut_chart")
+		        .append("svg")
+		        .attr({
+		            width:w,
+		            height:h,
+		            class:'shadow'
+		        }).append('g')
+		        .attr({
+		            transform:'translate('+w/2+','+h/2+')'
+		        });
+		var defs = svg.append("svg:defs");
+		var inset_shadow = defs.append("svg:filter")
+		        .attr("id", "inset-shadow");
+		inset_shadow.append("svg:feOffset")
+		        .attr({
+		            dx:0,
+		            dy:0
+		        });
+		inset_shadow.append("svg:feGaussianBlur")
+		        .attr({
+		            stdDeviation:4,
+		            result:'offset-blur'
+		        });
+		inset_shadow.append("svg:feComposite")
+		        .attr({
+		            operator:'out',
+		            in:'SourceGraphic',
+		            in2:'offset-blur',
+		            result:'inverse'
+		        });
+		inset_shadow.append("svg:feFlood")
+		        .attr({
+		            'flood-color':'black',
+		            'flood-opacity':.7,
+		            result:'color'
+		        });
+		inset_shadow.append("svg:feComposite")
+		        .attr({
+		            operator:'in',
+		            in:'color',
+		            in2:'inverse',
+		            result:'shadow'
+		        });
+		inset_shadow.append("svg:feComposite")
+		        .attr({
+		            operator:'over',
+		            in:'shadow',
+		            in2:'SourceGraphic'
+		        });
+		var pathBackground=svg.append('path')
+		        .attr({
+		            d:arc
+		        })
+		        .style({
+		            fill:color[0],
+		            filter:'url(#inset-shadow)'
+		        });
+		var pathForeground=svg.append('path')
+		        .datum({endAngle:0})
+		        .attr({
+		            d:arcLine
+		        })
+		        .style({
+		            fill:color[1],
+		            filter:'url(#inset-shadow)'
+		        });
+		var circle=svg.append('circle')
+		        .attr({
+		            cx:0,
+		            cy:0,
+		            r:innerRadius
+		        })
+		        .style({
+		            fill:color[0],
+		            'fill-opacity':.1
+		        });
+		var middleCount=svg.append('text')
+		        .datum(0)
+		        .text(function(d){
+		            return d+'%';
+		        })
+		        .attr({
+		            class:'middleText',
+		            'text-anchor':'middle',
+		            dy:12
+		        })
+		        .style({
+		            fill:d3.rgb(color[1]),
+		            'font-size':'50px',
+		            filter:'url(#inset-shadow)'
+		        });
+		var oldValue=0;
+		var arcTween=function(transition, newValue,oldValue) {
+		    transition.attrTween("d", function (d) {
+		        var interpolate = d3.interpolate(d.endAngle, ((2*Math.PI))*(newValue/100));
+		        var interpolateCount = d3.interpolate(oldValue, newValue);
+		        return function (t) {
+		            d.endAngle = interpolate(t);
+		            middleCount.text(Math.floor(interpolateCount(t))+'%');
+		            return arcLine(d);
+		        };
+		    });
+		};
+		var animate=function(){
+		    pathForeground.transition()
+		            .duration(1500)
+		            .ease('cubic')
+		            .call(arcTween,percent,oldValue);
+		    oldValue=percent;
+		};
+		setTimeout(animate,0);
+
+		</script>
+
+		<script type="text/javascript">
+		// Script para a geração do gráfico de indicadores relevantes
+		var mediana1 = parseFloat("{{medianas.0}}".replace(",","."))
+		var mediana2 = parseFloat("{{medianas.1}}".replace(",","."))
+		var mediana3 = parseFloat("{{medianas.2}}".replace(",","."))
+		var mediana4 = parseFloat("{{medianas.3}}".replace(",","."))
+		var mediana5 = parseFloat("{{medianas.4}}".replace(",","."))
+		var mediana6 = parseFloat("{{medianas.5}}".replace(",","."))
+
+		var maximo1 = {{maximos.0}}
+		var maximo2 = {{maximos.1}}
+		var maximo3 = {{maximos.2}}
+		var maximo4 = {{maximos.3}}
+		var maximo5 = {{maximos.4}}
+		var maximo6 = {{maximos.5}}
+
+		var resultado1 = {{resultados.0}}
+		var resultado2 = {{resultados.1}}
+		var resultado3 = {{resultados.2}}
+		var resultado4 = {{resultados.3}}
+		var resultado5 = {{resultados.4}}
+		var resultado6 = {{resultados.5}}
+
+
+		// Variável com os dados obtidos da planilha carregada com os dados dos indicadores
+		var dataset = [
+		{indicador: "Frequência", 	valor: resultado1, 		mediana: mediana1, 	maximo: maximo1},
+		{indicador: "Nota no Simulado 01", 	valor: resultado2, 	mediana: mediana2, 	maximo: maximo2},
+		{indicador: "Nota no simulado 02", 	valor: resultado3, 		mediana: mediana3, 	maximo: maximo3},
+		{indicador: "Atividades on-line", 	valor: resultado4,		mediana: mediana4, 	maximo: maximo4},
+		{indicador: "Número de dias que viu o simulado", 	valor: resultado5, 		mediana: mediana5, 	maximo: maximo5},
+		{indicador: "Número de acesso ao anbiente virtual", 	valor: resultado6, 		mediana: mediana6, 	maximo: maximo6}
+		];
+
+		// Script para a geração do gráfico de indicadores relevantes
+
+		var ind01 = [{indicador: dataset[0].indicador , valor: dataset[0].valor,  mediana: dataset[0].mediana, maximo: dataset[0].maximo}];
+		var ind02 = [{indicador: dataset[1].indicador , valor: dataset[1].valor,  mediana: dataset[1].mediana, maximo: dataset[1].maximo}];
+		var ind03 = [{indicador: dataset[2].indicador , valor: dataset[2].valor,  mediana: dataset[2].mediana, maximo: dataset[2].maximo}];
+		var ind04 = [{indicador: dataset[3].indicador , valor: dataset[3].valor,  mediana: dataset[3].mediana, maximo: dataset[3].maximo}];
+		var ind05 = [{indicador: dataset[4].indicador , valor: dataset[4].valor,  mediana: dataset[4].mediana, maximo: dataset[4].maximo}];
+		var ind06 = [{indicador: dataset[5].indicador , valor: dataset[5].valor,  mediana: dataset[5].mediana, maximo: dataset[5].maximo}];
+
+		// Variáveis de largura e altura da área de desenho do SVG
+		var w = 110;
+		var h = 350;
+
+		// Margens
+		var margin = {top: 40,bottom: 40,left: 40,right: 10};
+
+		// Definindo a área em que o gráfico será construído dentro da área de desenho
+		var width = w - margin.left - margin.right;
+		var height = h - margin.top - margin.bottom;
+
+		// Definindo x1 com escala ordinal
+		var x = d3.scale.ordinal().domain(ind01.map(function(entry){return "Indicador 01";})).rangeBands([0, width]);
+		var x2 = d3.scale.ordinal().domain(ind02.map(function(entry){return "Indicador 02";})).rangeBands([0, width]);
+		var x3 = d3.scale.ordinal().domain(ind03.map(function(entry){return "Indicador 03";})).rangeBands([0, width]);
+		var x4 = d3.scale.ordinal().domain(ind04.map(function(entry){return "Indicador 04";})).rangeBands([0, width]);
+		var x5 = d3.scale.ordinal().domain(ind05.map(function(entry){return "Indicador 05";})).rangeBands([0, width]);
+		var x6 = d3.scale.ordinal().domain(ind06.map(function(entry){return "Indicador 06";})).rangeBands([0, width]);
+
+		// Definindo y com escala linear
+		var y = d3.scale.linear().domain([0, d3.max(ind01, function(d){return d.maximo;})]).range([height, 0]);
+		var y2 = d3.scale.linear().domain([0, d3.max(ind02, function(d){return d.maximo;})]).range([height, 0]);
+		var y3 = d3.scale.linear().domain([0, d3.max(ind03, function(d){return d.maximo;})]).range([height, 0]);
+		var y4 = d3.scale.linear().domain([0, d3.max(ind04, function(d){return d.maximo;})]).range([height, 0]);
+		var y5 = d3.scale.linear().domain([0, d3.max(ind05, function(d){return d.maximo;})]).range([height, 0]);
+		var y6 = d3.scale.linear().domain([0, d3.max(ind06, function(d){return d.maximo;})]).range([height, 0]);
+
+		// Desenhando o eixo x
+		var xAxis = d3.svg.axis().scale(x).orient("bottom");
+		var xAxis2 = d3.svg.axis().scale(x2).orient("bottom");
+		var xAxis3 = d3.svg.axis().scale(x3).orient("bottom");
+		var xAxis4 = d3.svg.axis().scale(x4).orient("bottom");
+		var xAxis5 = d3.svg.axis().scale(x5).orient("bottom");
+		var xAxis6 = d3.svg.axis().scale(x6).orient("bottom");
+
+		// Desenhando o eixo y
+		var yAxis = d3.svg.axis().scale(y).orient("left");
+		var yAxis2 = d3.svg.axis().scale(y2).orient("left");
+		var yAxis3 = d3.svg.axis().scale(y3).orient("left");
+		var yAxis4 = d3.svg.axis().scale(y4).orient("left");
+		var yAxis5 = d3.svg.axis().scale(y5).orient("left");
+		var yAxis6 = d3.svg.axis().scale(y6).orient("left");
+
+		// Definindo linhas de grid
+		var yGridlines = d3.svg.axis()
+					.scale(y)
+					.tickSize(-width,0,0)
+					.tickFormat("")
+					.orient("left");
+
+
+		// Definindo o objeto SVG
+		var svg = d3.select("#bullet_chart").append("svg").attr("id", "bullet_chart1").attr("width", 6*w).attr("height", h);
+
+		// Definindo um objeto SVG agrupado
+		var bullet_chart = svg.append("g").classed("display", true).attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		var bullet_chart2 = svg.append("g").classed("display", true).attr("transform", "translate(" + (margin.left+w) + "," + margin.top + ")");
+		var bullet_chart3 = svg.append("g").classed("display", true).attr("transform", "translate(" + (margin.left+2*w) + "," + margin.top + ")");
+		var bullet_chart4 = svg.append("g").classed("display", true).attr("transform", "translate(" + (margin.left+3*w) + "," + margin.top + ")");
+		var bullet_chart5 = svg.append("g").classed("display", true).attr("transform", "translate(" + (margin.left+4*w) + "," + margin.top + ")");
+		var bullet_chart6 = svg.append("g").classed("display", true).attr("transform", "translate(" + (margin.left+5*w) + "," + margin.top + ")");
+
+		// Definindo o objeto tooltip
+		var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+
+		// Definindo o gradiente verde
+		var gradient_green = svg.append('svg:defs')
+		                  .append('svg:linearGradient')
+		                  .attr('id', 'gradient_green')
+		                  .attr('x1', '0%')
+		                  .attr('y1', '0%')
+		                  .attr('x2', '100%')
+		                  .attr('y2', '0%');
+
+		  gradient_green.append('svg:stop')
+		          .attr('offset', '5%')
+		          .attr('stop-color', '#008c2f')
+		          .attr('stop-opacity', 0.8);
+
+		  gradient_green.append('svg:stop')
+		          .attr('offset', '10%')
+		          .attr('stop-color', '#d4eedc')
+		          .attr('stop-opacity', 0.8);
+
+		  gradient_green.append('svg:stop')
+		          .attr('offset', '20%')
+		          .attr('stop-color', '#009933')
+		          .attr('stop-opacity', 0.8);
+
+			gradient_green.append('svg:stop')
+								.attr('offset', '85%')
+								.attr('stop-color', '#35ae5d')
+								.attr('stop-opacity', 0.8);
+
+			gradient_green.append('svg:stop')
+								.attr('offset', '95%')
+								.attr('stop-color', '#007c29')
+								.attr('stop-opacity', 0.8);
+
+
+		// Definindo o gradiente amarelo
+		var gradient_yellow = svg.append('svg:defs')
+		                  .append('svg:linearGradient')
+		                  .attr('id', 'gradient_yellow')
+		                  .attr('x1', '0%')
+		                  .attr('y1', '0%')
+		                  .attr('x2', '100%')
+		                  .attr('y2', '0%');
+
+		  gradient_yellow.append('svg:stop')
+		          .attr('offset', '5%')
+		          .attr('stop-color', '#bc9626')
+		          .attr('stop-opacity', 0.8);
+
+		  gradient_yellow.append('svg:stop')
+		          .attr('offset', '10%')
+		          .attr('stop-color', '#fff6dc')
+		          .attr('stop-opacity', 0.8);
+
+		  gradient_yellow.append('svg:stop')
+		          .attr('offset', '20%')
+		          .attr('stop-color', '#ffcc33')
+		          .attr('stop-opacity', 0.8);
+
+			gradient_yellow.append('svg:stop')
+								.attr('offset', '85%')
+								.attr('stop-color', '#ffd75d')
+								.attr('stop-opacity', 0.8);
+
+			gradient_yellow.append('svg:stop')
+								.attr('offset', '95%')
+								.attr('stop-color', '#b28e24')
+								.attr('stop-opacity', 0.8);
+
+
+		// Função que desenha o gráfico 1
+		function plot1(params){
+		this.append("g")
+			.call(params.gridlines)
+			.classed("gridline", true)
+			.attr("transform", "translate(0,0)")
+
+		// Interartividade ao passar o mouse pelas barras
+		this.selectAll(".maximo")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', 'url(#gradient_green)')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "Máximo: " + (d.maximo)
+												+ "<br>" +  "Mediana: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y(d.maximo);
+						})
+						.attr("height", function(d,i){
+							return height - y(d.maximo-d.mediana);
+						})
+						.attr("width", function(d){
+							return x.rangeBand();
+						})
+
+		this.selectAll(".mediana")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', 'url(#gradient_yellow)')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "Máximo: " + (d.maximo)
+												+ "<br>" +  "Mediana: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y(d.mediana);
+						})
+						.attr("height", function(d,i){
+							return height - y(d.mediana);
+						})
+						.attr("width", function(d){
+							return x.rangeBand();
+						})
+
+		this.selectAll(".valor")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill',  "#002f4b")
+						.on("mouseover", function(d,i){
+							d3.select(this).style("fill", 'rgba(0, 0, 0, 0.5)');
+						})
+						.on("mouseout", function(d,i){
+							d3.select(this).style("fill", "#002f4b");
+							tooltip.style("display", "none");
+						})
+
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "Máximo: " + (d.maximo)
+												+ "<br>" +  "Mediana: " + (d.mediana));
+						})
+						.attr("x", 20)
+						.attr("width", function(d){
+							return x.rangeBand()-40;
+						})
+						.attr("height",function(d,i) {return y(d.maximo);})
+						.attr("y", function(d,i) {return height - y(d.maximo);})
+								.transition()
+								.duration(2000)
+						    .attr("height", function(d,i) {return height - y(d.valor);})
+						    .attr("y",function(d,i) {return y(d.valor);})
+
+		// Eixo x
+		this.append("g")
+			.classed("x axis", true)
+			.attr("transform", "translate(" + 0 + "," + height + ")")
+			.call(params.axis.x)
+			.selectAll("text")
+				.style("text-anchor", "end")
+				.attr("dx", 40)
+				.attr("dy", 15)
+				.attr("transform", "translate(0,0) rotate(0)");
+
+		// Eixo y
+		this.append("g")
+			.classed("y axis", true)
+			.attr("transform", "translate(0,0)")
+			.call(params.axis.y);
+		}
+
+		// Função que desenha o gráfico 2
+		function plot2(params){
+		this.append("g")
+			.call(params.gridlines)
+			.classed("gridline", true)
+			.attr("transform", "translate(0,0)")
+
+		// Interartividade ao passar o mouse pelas barras
+		this.selectAll(".maximo")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', 'url(#gradient_green)')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "Máximo: " + (d.maximo)
+												+ "<br>" +  "Mediana: " + (d.mediana));
+						})
+						.attr("y2", function(d,i){
+							return y2(d.maximo);
+						})
+						.attr("height", function(d,i){
+							return height - y2(d.maximo-d.mediana);
+						})
+						.attr("width", function(d){
+							return x2.rangeBand();
+
+						})
+
+		this.selectAll(".mediana")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', 'url(#gradient_yellow)')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "Máximo: " + (d.maximo)
+												+ "<br>" +  "Mediana: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y2(d.mediana);
+						})
+						.attr("height", function(d,i){
+							return height - y2(d.mediana);
+						})
+						.attr("width", function(d){
+							return x2.rangeBand();
+						})
+
+			this.selectAll(".valor")
+				.data(params.data)
+						.enter()
+							.append("rect")
+							.attr('fill',  "#002f4b")
+							.on("mouseover", function(d,i){
+								d3.select(this).style("fill", 'rgba(0, 0, 0, 0.5)');
+							})
+							.on("mouseout", function(d,i){
+								d3.select(this).style("fill", "#002f4b");
+								tooltip.style("display", "none");
+							})
+							.on("mousemove", function(d){
+									tooltip
+										.style("left", d3.event.pageX - 80 + "px")
+										.style("top", d3.event.pageY - 110 + "px")
+										.style("display", "inline-block")
+										.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+													+ "Máximo: " + (d.maximo)
+													+ "<br>" +  "Mediana: " + (d.mediana));
+							})
+							.attr("x", 20)
+							.attr("width", function(d){
+								return x2.rangeBand()-40;
+							})
+							.attr("height",function(d,i) {return y2(d.maximo);})
+							.attr("y", function(d,i) {return height - y2(d.maximo);})
+									.transition()
+									.duration(2000)
+									.attr("height", function(d,i) {return height - y2(d.valor);})
+									.attr("y",function(d,i) {return y2(d.valor);})
+		// Eixo x
+		this.append("g")
+			.classed("x2 axis", true)
+			.attr("transform", "translate(" + 0 + "," + height + ")")
+			.call(params.axis.x)
+			.selectAll("text")
+				.style("text-anchor", "end")
+				.attr("dx", 40)
+				.attr("dy", 15)
+				.attr("transform", "translate(0,0) rotate(0)");
+
+		// Eixo y
+		this.append("g")
+			.classed("y2 axis", true)
+			.attr("transform", "translate(0,0)")
+			.call(params.axis.y);
+		}
+
+
+		// Função que desenha o gráfico 3
+		function plot3(params){
+		this.append("g")
+			.call(params.gridlines)
+			.classed("gridline", true)
+			.attr("transform", "translate(0,0)")
+
+		// Interartividade ao passar o mouse pelas barras
+		this.selectAll(".bar")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', 'url(#gradient_green)')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "Máximo: " + (d.maximo)
+												+ "<br>" +  "Mediana: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y3(d.maximo);
+						})
+						.attr("height", function(d,i){
+							return height - y3(d.maximo-d.mediana);
+						})
+						.attr("width", function(d){
+							return x3.rangeBand();
+						})
+
+		this.selectAll(".mediana")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', 'url(#gradient_yellow)')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "Máximo: " + (d.maximo)
+												+ "<br>" +  "Mediana: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y3(d.mediana);
+						})
+						.attr("height", function(d,i){
+							return height - y3(d.mediana);
+						})
+						.attr("width", function(d){
+							return x3.rangeBand();
+						})
+
+		this.selectAll(".valor")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill',  "#002f4b")
+						.on("mouseover", function(d,i){
+							d3.select(this).style("fill", 'rgba(0, 0, 0, 0.5)');
+						})
+						.on("mouseout", function(d,i){
+							d3.select(this).style("fill", "#002f4b");
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "Máximo: " + (d.maximo)
+												+ "<br>" +  "Mediana: " + (d.mediana));
+						})
+
+						.attr("x", 20)
+						.attr("width", function(d){
+							return x3.rangeBand()-40;
+						})
+						.attr("height",function(d,i) {return y3(d.maximo);})
+						.attr("y", function(d,i) {return height - y3(d.maximo);})
+								.transition()
+								.duration(2000)
+								.attr("height", function(d,i) {return height - y3(d.valor);})
+								.attr("y",function(d,i) {return y3(d.valor);})
+
+		// Eixo x
+		this.append("g")
+			.classed("x3 axis", true)
+			.attr("transform", "translate(" + 0 + "," + height + ")")
+			.call(params.axis.x)
+			.selectAll("text")
+				.style("text-anchor", "end")
+				.attr("dx", 40)
+				.attr("dy", 15)
+				.attr("transform", "translate(0,0) rotate(0)");
+
+		// Eixo y
+		this.append("g")
+			.classed("y3 axis", true)
+			.attr("transform", "translate(0,0)")
+			.call(params.axis.y);
+		}
+
+		// Função que desenha o gráfico 4
+		function plot4(params){
+		this.append("g")
+			.call(params.gridlines)
+			.classed("gridline", true)
+			.attr("transform", "translate(0,0)")
+
+		// Interartividade ao passar o mouse pelas barras
+		this.selectAll(".bar")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', 'url(#gradient_green)')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "Máximo: " + (d.maximo)
+												+ "<br>" +  "Mediana: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y4(d.maximo);
+						})
+						.attr("height", function(d,i){
+							return height - y4(d.maximo-d.mediana);
+						})
+						.attr("width", function(d){
+							return x4.rangeBand();
+						})
+
+		this.selectAll(".mediana")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', 'url(#gradient_yellow)')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "Máximo: " + (d.maximo)
+												+ "<br>" +  "Mediana: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y4(d.mediana);
+						})
+						.attr("height", function(d,i){
+							return height - y4(d.mediana);
+						})
+						.attr("width", function(d){
+							return x4.rangeBand();
+						})
+
+		this.selectAll(".valor")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', "#002f4b")
+						.on("mouseover", function(d,i){
+							d3.select(this).style("fill", 'rgba(0, 0, 0, 0.5)');
+						})
+						.on("mouseout", function(d,i){
+							d3.select(this).style("fill", "#002f4b");
+							tooltip.style("display", "none");
+						})
+
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "Máximo: " + (d.maximo)
+												+ "<br>" +  "Mediana: " + (d.mediana));
+						})
+
+						.attr("x", 20)
+						.attr("width", function(d){
+							return x4.rangeBand()-40;
+						})
+						.attr("height",function(d,i) {return y4(d.maximo);})
+						.attr("y", function(d,i) {return height - y4(d.maximo);})
+								.transition()
+								.duration(2000)
+								.attr("height", function(d,i) {return height - y4(d.valor);})
+								.attr("y",function(d,i) {return y4(d.valor);})
+
+		// Eixo x
+		this.append("g")
+			.classed("x4 axis", true)
+			.attr("transform", "translate(" + 0 + "," + height + ")")
+			.call(params.axis.x)
+			.selectAll("text")
+				.style("text-anchor", "end")
+				.attr("dx", 40)
+				.attr("dy", 15)
+				.attr("transform", "translate(0,0) rotate(0)");
+
+		// Eixo y
+		this.append("g")
+			.classed("y4 axis", true)
+			.attr("transform", "translate(0,0)")
+			.call(params.axis.y);
+		}
+
+
+		// Função que desenha o gráfico 5
+		function plot5(params){
+		this.append("g")
+			.call(params.gridlines)
+			.classed("gridline", true)
+			.attr("transform", "translate(0,0)")
+
+		// Interartividade ao passar o mouse pelas barras
+		this.selectAll(".maximo")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', 'url(#gradient_green)')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "Máximo: " + (d.maximo)
+												+ "<br>" +  "Mediana: " + (d.mediana));
+						})
+						.attr("y5", function(d,i){
+							return y5(d.maximo);
+						})
+						.attr("height", function(d,i){
+							return height - y5(d.maximo-d.mediana);
+						})
+						.attr("width", function(d){
+							return x5.rangeBand();
+						})
+
+		this.selectAll(".mediana")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', 'url(#gradient_yellow)')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "Máximo: " + (d.maximo)
+												+ "<br>" +  "Mediana: " + (d.mediana));
+						})
+
+						.attr("y", function(d,i){
+							return y5(d.mediana);
+						})
+						.attr("height", function(d,i){
+							return height - y5(d.mediana);
+						})
+						.attr("width", function(d){
+							return x5.rangeBand();
+						})
+
+			this.selectAll(".valor")
+				.data(params.data)
+						.enter()
+							.append("rect")
+							.attr('fill',  "#002f4b")
+							.on("mouseover", function(d,i){
+								d3.select(this).style("fill", 'rgba(0, 0, 0, 0.5)');
+							})
+							.on("mouseout", function(d,i){
+								d3.select(this).style("fill", "#002f4b");
+								tooltip.style("display", "none");
+							})
+							.on("mousemove", function(d){
+									tooltip
+										.style("left", d3.event.pageX - 80 + "px")
+										.style("top", d3.event.pageY - 110 + "px")
+										.style("display", "inline-block")
+										.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+													+ "Máximo: " + (d.maximo)
+													+ "<br>" +  "Mediana: " + (d.mediana));
+							})
+
+							.attr("x", 20)
+							.attr("width", function(d){
+								return x5.rangeBand()-40;
+							})
+							.attr("height",function(d,i) {return y5(d.maximo);})
+							.attr("y", function(d,i) {return height - y5(d.maximo);})
+									.transition()
+									.duration(2000)
+									.attr("height", function(d,i) {return height - y5(d.valor);})
+									.attr("y",function(d,i) {return y5(d.valor);})
+
+		// Eixo x
+		this.append("g")
+			.classed("x5 axis", true)
+			.attr("transform", "translate(" + 0 + "," + height + ")")
+			.call(params.axis.x)
+			.selectAll("text")
+				.style("text-anchor", "end")
+				.attr("dx", 40)
+				.attr("dy", 15)
+				.attr("transform", "translate(0,0) rotate(0)");
+
+		// Eixo y
+		this.append("g")
+			.classed("y5 axis", true)
+			.attr("transform", "translate(0,0)")
+			.call(params.axis.y);
+		}
+
+
+		// Função que desenha o gráfico 6
+		function plot6(params){
+		this.append("g")
+			.call(params.gridlines)
+			.classed("gridline", true)
+			.attr("transform", "translate(0,0)")
+
+		// Interartividade ao passar o mouse pelas barras
+		this.selectAll(".bar")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', 'url(#gradient_green)')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "Máximo: " + (d.maximo)
+												+ "<br>" +  "Mediana: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y6(d.maximo);
+						})
+						.attr("height", function(d,i){
+							return height - y6(d.maximo-d.mediana);
+						})
+						.attr("width", function(d){
+							return x4.rangeBand();
+						})
+
+		this.selectAll(".mediana")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', 'url(#gradient_yellow)')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "Máximo: " + (d.maximo)
+												+ "<br>" +  "Mediana: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y6(d.mediana);
+						})
+						.attr("height", function(d,i){
+							return height - y6(d.mediana);
+						})
+						.attr("width", function(d){
+							return x6.rangeBand();
+						})
+
+		this.selectAll(".valor")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', "#002f4b")
+						.on("mouseover", function(d,i){
+							d3.select(this).style("fill", 'rgba(0, 0, 0, 0.5)');
+						})
+						.on("mouseout", function(d,i){
+							d3.select(this).style("fill", "#002f4b");
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "Máximo: " + (d.maximo)
+												+ "<br>" +  "Mediana: " + (d.mediana));
+						})
+
+						.attr("x", 20 )
+						.attr("width", function(d){
+							return x6.rangeBand()-40;
+						})
+						.attr("height",function(d,i) {return y6(d.maximo);})
+						.attr("y", function(d,i) {return height - y6(d.maximo);})
+								.transition()
+								.duration(2000)
+								.attr("height", function(d,i) {return height - y6(d.valor);})
+								.attr("y",function(d,i) {return y6(d.valor);})
+
+		// Eixo x
+		this.append("g")
+			.classed("x6 axis", true)
+			.attr("transform", "translate(" + 0 + "," + height + ")")
+			.call(params.axis.x)
+			.selectAll("text")
+				.style("text-anchor", "end")
+				.attr("dx", 40)
+				.attr("dy", 15)
+				.attr("transform", "translate(0,0) rotate(0)");
+
+		// Eixo y
+		this.append("g")
+			.classed("y6 axis", true)
+			.attr("transform", "translate(0,0)")
+			.call(params.axis.y);
+		}
+
+		// Chamada às funções
+
+		plot1.call(bullet_chart, {
+		data: ind01,
+		axis:{x: xAxis,y: yAxis},
+		gridlines: yGridlines});
+
+		plot2.call(bullet_chart2, {
+		data: ind02,
+		axis:{x: xAxis2,y: yAxis2},
+		gridlines: yGridlines});
+
+		plot3.call(bullet_chart3, {
+		data: ind03,
+		axis:{x: xAxis3,y: yAxis3},
+		gridlines: yGridlines});
+
+		plot4.call(bullet_chart4, {
+		data: ind04,
+		axis:{x: xAxis4,y: yAxis4},
+		gridlines: yGridlines});
+
+		plot5.call(bullet_chart5, {
+		data: ind05,
+		axis:{x: xAxis5,y: yAxis5},
+		gridlines: yGridlines});
+
+		plot6.call(bullet_chart6, {
+		data: ind06,
+		axis:{x: xAxis6,y: yAxis6},
+		gridlines: yGridlines});
+
+		</script>
 
 </body>
 </html>
