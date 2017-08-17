@@ -25,12 +25,12 @@ body,html{
   position: absolute;
   display: none;
   min-width: 20px;
-  height: 110px;
-  background: none repeat scroll 0 0 #fff;
-  border: 3px solid #ccc;
+  height: 105px;
+  background: none repeat scroll 0 0 #000;
+  border: 2px solid #ccc;
 	border-radius:10px;
   padding: 10px;
   text-align: center;
-	color: #000;
-	opacity: 0.93
+	color: #fff;
+	opacity: 0.8;
 }
