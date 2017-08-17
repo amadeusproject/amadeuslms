@@ -64,12 +64,10 @@
 		<link rel="stylesheet" href="{% static  'css/estilo.css' %}">
 </head>
 <body style="background: #FFF">
-	<div class="container-fluid" style="padding-top: 20px">
+	<div class="container-fluid" style="padding-top: 20px;">
 				{% autoescape off %}
 				 {{ bulletin.content }}
 				{% endautoescape %}
-
-
 
 				<div style="padding-left: 80px;padding-right: 80px;">
 					<div align="left" style="font-size:22px; color: #878787; padding-top: 30px;">Confira as suas metas</div>
@@ -104,11 +102,11 @@
 
 											<!-- Cor amarela -->
 										  {% if meta.alcancada < meta.desejada and meta.alcancada > meta.estabelecida %}
-												<th style="text-align:center;background-color:#f3ff00 ; font-weight: normal;">{{ meta.alcancada }}%</th>
+												<th style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 10px #000; color:#fff; font-weight: normal;">{{ meta.alcancada }}%</th>
 										  {% endif %}
 
 										  {% if meta.alcancada > meta.desejada and meta.alcancada < meta.estabelecida %}
-												<th style="text-align:center;background-color:#f3ff00 ; font-weight: normal;">{{ meta.alcancada }}%</th>
+												<th style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 10px #000; color:#fff; font-weight: normal;">{{ meta.alcancada }}%</th>
 
 										  {% endif %}
 										  <!-- Cor amarela -->
@@ -116,13 +114,13 @@
 
 										  <!-- Cor verde -->
 										  {% if meta.alcancada > meta.desejada and meta.alcancada > meta.estabelecida %}
-												<th style="text-align:center;background-color:#7bdc42 ; font-weight: normal;">{{ meta.alcancada }}%</th>
+												<th style="text-align:center;background-color:#00d337;  text-shadow: 1px 1px 10px #000; color:#fff; font-weight: normal;">{{ meta.alcancada }}%</th>
 										  {% endif %}
 										  <!-- Cor verde -->
 
 										  <!-- Cor vermelha -->
 										  {% if meta.alcancada < meta.desejada and meta.alcancada < meta.estabelecida %}
-												<th style="text-align:center;background-color:#ff0000; font-weight: normal;">{{ meta.alcancada }}%</th>
+												<th style="text-align:center;background-color:#ff0000; text-shadow: 1px 1px 10px #000; color:#fff; font-weight: normal;">{{ meta.alcancada }}%</th>
 
 										  {% endif %}
 										  <!-- Cor vermelha -->
@@ -140,7 +138,7 @@
 					</div>
 				</div>
 				<div style="padding-left: 80px;padding-right: 80px;">
-					<div align="left" style="font-size:22px; color: #878787; padding-top: 30px; ">Indicadores relevantes para o seu desempenho</div>
+					<div align="left" style="font-size:22px; color: #878787; padding-top: 25px; ">Indicadores relevantes para o seu desempenho</div>
 					<hr style="height:2px; background-color:#878787; margin-top: 5px;">
 					<div class="row" style="padding-left: 15px;" >
 						<table >
@@ -148,10 +146,10 @@
 								<td style="background-color:#002F4B; width: 20px;"></td>
 								<td style="padding-left: 5px;">Seu ressultado</td>
 								<td style="width: 20px"></td>
-								<td style="background-color:#35ae5d; width: 20px;"></td>
+								<td style="background-color:#009688; width: 20px;"></td>
 								<td style="padding-left: 5px;">Nível acima da mediana dos aprovados</td>
 								<td style="width: 20px"></td>
-								<td style="background-color:#ffd75d; width: 20px;"></td>
+								<td style="background-color:#d0cebb; width: 20px;"></td>
 								<td style="padding-left: 5px;">Nível abaixo da mediana dos aprovados</td>
 								<td style="width: 30px"></td>
 							</tr>
@@ -187,33 +185,27 @@
 
 				  					</tbody>
 									</table>
+									<hr style="height:1px; background-color:#878787;margin-top: -20px;">
 								</div>
 					</div>
 				</div>
-
-				<div class="row">
-					<div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 alert-warning bulletin-warning">
-						<div class="col-md-2 col-sm-2">
-							<img src="{% static 'img/warning.png' %}" class="img-responsive" />
-						</div>
-						<div class="col-md-10 col-sm-10">
-							<h4>{% trans 'There are obstructions to your activities?' %}</h4>
-							<p><a data-toggle="modal" data-target="#bulletin-difficulties-modal" href="">{% trans 'Click here' %}</a> {% trans 'to communicate the difficulties that may decrease your performance.' %}</p>
-						</div>
+				<div style=" padding-left: 80px;padding-right: 80px;">
+					<div align="left" style="font-size:22px; color: #878787; padding-top: 15px;"><img src="{% static 'img/warning.png' %}"  height="40" width="50" align= "bottom"/>{% trans 'There are obstructions to your activities?' %}</div>
+					<hr style="height:2px; background-color:#878787; margin-top: 5px;"><br>
+					<div style="background-color:#fff; box-shadow: 1px 1px 10px #c0beaf; margin-top: -20px;">
+						<p align="left" style="font-size:16px; padding-left: 15px; padding-top: 20px; padding-bottom: 20px; "><a data-toggle="modal" data-target="#bulletin-difficulties-modal" href=""><b>{% trans 'Click here' %}</b></a> {% trans 'to communicate the difficulties that may decrease your performance.' %}</p>
 					</div>
-				</div>
+					<br>
 		</div>
 		<div class="modal fade" tabindex="-1" role="dialog" id="bulletin-difficulties-modal">
 				<div class="modal-dialog" role="document">
 						<div class="modal-content">
 								<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-										<h4 class="modal-title">{% trans 'Inform difficulties' %}</h4>
 								</div>
 								<div class="modal-body">
 										<form id="bulletin-difficulties" action="" method="POST" enctype="multipart/form-data">
 												{% csrf_token %}
-
 												<textarea class="form-control" id="dificulties" name="difficulties" placeholder="{% trans 'Type here the dificulties that may harm your performance' %}"></textarea>
 										</form>
 								</div>
@@ -240,7 +232,7 @@
 		var w=200,h=200;
 		var outerRadius=(w/2)-10;
 		var innerRadius=70;
-		var color = ['#ececec','#002F4B'];
+		var color = ['#d0cebb','#002F4B'];
 		var arc=d3.svg.arc()
 		        .innerRadius(innerRadius)
 		        .outerRadius(outerRadius)
@@ -284,7 +276,7 @@
 		inset_shadow.append("svg:feFlood")
 		        .attr({
 		            'flood-color':'black',
-		            'flood-opacity':.7,
+		            'flood-opacity':.6,
 		            result:'color'
 		        });
 		inset_shadow.append("svg:feComposite")
@@ -374,39 +366,39 @@
 		var mediana5 = parseFloat("{{medianas.4}}".replace(",","."))
 		var mediana6 = parseFloat("{{medianas.5}}".replace(",","."))
 
-		var maximo1 = {{maximos.0}}
-		var maximo2 = {{maximos.1}}
-		var maximo3 = {{maximos.2}}
-		var maximo4 = {{maximos.3}}
-		var maximo5 = {{maximos.4}}
-		var maximo6 = {{maximos.5}}
+		var maximo1 = parseFloat("{{maximos.0}}".replace(",","."))
+		var maximo2 = parseFloat("{{maximos.1}}".replace(",","."))
+		var maximo3 = parseFloat("{{maximos.2}}".replace(",","."))
+		var maximo4 = parseFloat("{{maximos.3}}".replace(",","."))
+		var maximo5 = parseFloat("{{maximos.4}}".replace(",","."))
+		var maximo6 = parseFloat("{{maximos.5}}".replace(",","."))
 
-		var resultado1 = {{resultados.0}}
-		var resultado2 = {{resultados.1}}
-		var resultado3 = {{resultados.2}}
-		var resultado4 = {{resultados.3}}
-		var resultado5 = {{resultados.4}}
-		var resultado6 = {{resultados.5}}
+		var resultado1 = parseFloat("{{resultados.0}}".replace(",","."))
+		var resultado2 = parseFloat("{{resultados.1}}".replace(",","."))
+		var resultado3 = parseFloat("{{resultados.2}}".replace(",","."))
+		var resultado4 = parseFloat("{{resultados.3}}".replace(",","."))
+		var resultado5 = parseFloat("{{resultados.4}}".replace(",","."))
+		var resultado6 = parseFloat("{{resultados.5}}".replace(",","."))
 
 
 		// Variável com os dados obtidos da planilha carregada com os dados dos indicadores
 		var dataset = [
-		{indicador: "Frequência", 	valor: resultado1, 		mediana: mediana1, 	maximo: maximo1},
-		{indicador: "Nota no Simulado 01", 	valor: resultado2, 	mediana: mediana2, 	maximo: maximo2},
-		{indicador: "Nota no simulado 02", 	valor: resultado3, 		mediana: mediana3, 	maximo: maximo3},
-		{indicador: "Atividades on-line", 	valor: resultado4,		mediana: mediana4, 	maximo: maximo4},
-		{indicador: "Número de dias que viu o simulado", 	valor: resultado5, 		mediana: mediana5, 	maximo: maximo5},
-		{indicador: "Número de acesso ao anbiente virtual", 	valor: resultado6, 		mediana: mediana6, 	maximo: maximo6}
+		{valor: resultado1, 	mediana: mediana1, 	maximo: maximo1},
+		{valor: resultado2, 	mediana: mediana2, 	maximo: maximo2},
+		{valor: resultado3, 	mediana: mediana3, 	maximo: maximo3},
+		{valor: resultado4,		mediana: mediana4, 	maximo: maximo4},
+		{valor: resultado5, 	mediana: mediana5, 	maximo: maximo5},
+		{valor: resultado6, 	mediana: mediana6, 	maximo: maximo6}
 		];
 
 		// Script para a geração do gráfico de indicadores relevantes
 
-		var ind01 = [{indicador: dataset[0].indicador , valor: dataset[0].valor,  mediana: dataset[0].mediana, maximo: dataset[0].maximo}];
-		var ind02 = [{indicador: dataset[1].indicador , valor: dataset[1].valor,  mediana: dataset[1].mediana, maximo: dataset[1].maximo}];
-		var ind03 = [{indicador: dataset[2].indicador , valor: dataset[2].valor,  mediana: dataset[2].mediana, maximo: dataset[2].maximo}];
-		var ind04 = [{indicador: dataset[3].indicador , valor: dataset[3].valor,  mediana: dataset[3].mediana, maximo: dataset[3].maximo}];
-		var ind05 = [{indicador: dataset[4].indicador , valor: dataset[4].valor,  mediana: dataset[4].mediana, maximo: dataset[4].maximo}];
-		var ind06 = [{indicador: dataset[5].indicador , valor: dataset[5].valor,  mediana: dataset[5].mediana, maximo: dataset[5].maximo}];
+		var ind01 = [{valor: dataset[0].valor,  mediana: dataset[0].mediana, maximo: dataset[0].maximo}];
+		var ind02 = [{valor: dataset[1].valor,  mediana: dataset[1].mediana, maximo: dataset[1].maximo}];
+		var ind03 = [{valor: dataset[2].valor,  mediana: dataset[2].mediana, maximo: dataset[2].maximo}];
+		var ind04 = [{valor: dataset[3].valor,  mediana: dataset[3].mediana, maximo: dataset[3].maximo}];
+		var ind05 = [{valor: dataset[4].valor,  mediana: dataset[4].mediana, maximo: dataset[4].maximo}];
+		var ind06 = [{valor: dataset[5].valor,  mediana: dataset[5].mediana, maximo: dataset[5].maximo}];
 
 		// Variáveis de largura e altura da área de desenho do SVG
 		var w = 110;
@@ -473,75 +465,6 @@
 		// Definindo o objeto tooltip
 		var tooltip = d3.select("body").append("div").attr("class", "toolTip");
 
-		// Definindo o gradiente verde
-		var gradient_green = svg.append('svg:defs')
-		                  .append('svg:linearGradient')
-		                  .attr('id', 'gradient_green')
-		                  .attr('x1', '0%')
-		                  .attr('y1', '0%')
-		                  .attr('x2', '100%')
-		                  .attr('y2', '0%');
-
-		  gradient_green.append('svg:stop')
-		          .attr('offset', '5%')
-		          .attr('stop-color', '#008c2f')
-		          .attr('stop-opacity', 0.8);
-
-		  gradient_green.append('svg:stop')
-		          .attr('offset', '10%')
-		          .attr('stop-color', '#d4eedc')
-		          .attr('stop-opacity', 0.8);
-
-		  gradient_green.append('svg:stop')
-		          .attr('offset', '20%')
-		          .attr('stop-color', '#009933')
-		          .attr('stop-opacity', 0.8);
-
-			gradient_green.append('svg:stop')
-								.attr('offset', '85%')
-								.attr('stop-color', '#35ae5d')
-								.attr('stop-opacity', 0.8);
-
-			gradient_green.append('svg:stop')
-								.attr('offset', '95%')
-								.attr('stop-color', '#007c29')
-								.attr('stop-opacity', 0.8);
-
-
-		// Definindo o gradiente amarelo
-		var gradient_yellow = svg.append('svg:defs')
-		                  .append('svg:linearGradient')
-		                  .attr('id', 'gradient_yellow')
-		                  .attr('x1', '0%')
-		                  .attr('y1', '0%')
-		                  .attr('x2', '100%')
-		                  .attr('y2', '0%');
-
-		  gradient_yellow.append('svg:stop')
-		          .attr('offset', '5%')
-		          .attr('stop-color', '#bc9626')
-		          .attr('stop-opacity', 0.8);
-
-		  gradient_yellow.append('svg:stop')
-		          .attr('offset', '10%')
-		          .attr('stop-color', '#fff6dc')
-		          .attr('stop-opacity', 0.8);
-
-		  gradient_yellow.append('svg:stop')
-		          .attr('offset', '20%')
-		          .attr('stop-color', '#ffcc33')
-		          .attr('stop-opacity', 0.8);
-
-			gradient_yellow.append('svg:stop')
-								.attr('offset', '85%')
-								.attr('stop-color', '#ffd75d')
-								.attr('stop-opacity', 0.8);
-
-			gradient_yellow.append('svg:stop')
-								.attr('offset', '95%')
-								.attr('stop-color', '#b28e24')
-								.attr('stop-opacity', 0.8);
-
 
 		// Função que desenha o gráfico 1
 		function plot1(params){
@@ -555,7 +478,7 @@
 			.data(params.data)
 					.enter()
 						.append("rect")
-						.attr('fill', 'url(#gradient_green)')
+						.attr('fill', '#009688')
 						.on("mouseout", function(d,i){
 							tooltip.style("display", "none");
 						})
@@ -583,7 +506,7 @@
 			.data(params.data)
 					.enter()
 						.append("rect")
-						.attr('fill', 'url(#gradient_yellow)')
+						.attr('fill', '#d0cebb')
 						.on("mouseout", function(d,i){
 							tooltip.style("display", "none");
 						})
@@ -670,7 +593,7 @@
 			.data(params.data)
 					.enter()
 						.append("rect")
-						.attr('fill', 'url(#gradient_green)')
+						.attr('fill', '#009688')
 						.on("mouseout", function(d,i){
 							tooltip.style("display", "none");
 						})
@@ -699,7 +622,7 @@
 			.data(params.data)
 					.enter()
 						.append("rect")
-						.attr('fill', 'url(#gradient_yellow)')
+						.attr('fill', '#d0cebb')
 						.on("mouseout", function(d,i){
 							tooltip.style("display", "none");
 						})
@@ -784,7 +707,7 @@
 			.data(params.data)
 					.enter()
 						.append("rect")
-						.attr('fill', 'url(#gradient_green)')
+						.attr('fill', '#009688')
 						.on("mouseout", function(d,i){
 							tooltip.style("display", "none");
 						})
@@ -811,7 +734,7 @@
 			.data(params.data)
 					.enter()
 						.append("rect")
-						.attr('fill', 'url(#gradient_yellow)')
+						.attr('fill', '#d0cebb')
 						.on("mouseout", function(d,i){
 							tooltip.style("display", "none");
 						})
@@ -897,7 +820,7 @@
 			.data(params.data)
 					.enter()
 						.append("rect")
-						.attr('fill', 'url(#gradient_green)')
+						.attr('fill', '#009688')
 						.on("mouseout", function(d,i){
 							tooltip.style("display", "none");
 						})
@@ -924,7 +847,7 @@
 			.data(params.data)
 					.enter()
 						.append("rect")
-						.attr('fill', 'url(#gradient_yellow)')
+						.attr('fill', '#d0cebb')
 						.on("mouseout", function(d,i){
 							tooltip.style("display", "none");
 						})
@@ -1012,7 +935,7 @@
 			.data(params.data)
 					.enter()
 						.append("rect")
-						.attr('fill', 'url(#gradient_green)')
+						.attr('fill', '#009688')
 						.on("mouseout", function(d,i){
 							tooltip.style("display", "none");
 						})
@@ -1040,7 +963,7 @@
 			.data(params.data)
 					.enter()
 						.append("rect")
-						.attr('fill', 'url(#gradient_yellow)')
+						.attr('fill', '#d0cebb')
 						.on("mouseout", function(d,i){
 							tooltip.style("display", "none");
 						})
@@ -1128,7 +1051,7 @@
 			.data(params.data)
 					.enter()
 						.append("rect")
-						.attr('fill', 'url(#gradient_green)')
+						.attr('fill', '#009688')
 						.on("mouseout", function(d,i){
 							tooltip.style("display", "none");
 						})
@@ -1155,7 +1078,7 @@
 			.data(params.data)
 					.enter()
 						.append("rect")
-						.attr('fill', 'url(#gradient_yellow)')
+						.attr('fill', '#d0cebb')
 						.on("mouseout", function(d,i){
 							tooltip.style("display", "none");
 						})
