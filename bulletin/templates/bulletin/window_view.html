@@ -111,12 +111,11 @@
 										  {% endif %}
 										  <!-- Cor amarela -->
 
-
-										  <!-- Cor verde -->
-										  {% if meta.alcancada > meta.desejada and meta.alcancada > meta.estabelecida %}
+											<!-- Cor verde -->
+											{% if meta.alcancada > meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada == 100 %}
 												<th style="text-align:center;background-color:#00d337;  text-shadow: 1px 1px 10px #000; color:#fff; font-weight: normal;">{{ meta.alcancada }}%</th>
-										  {% endif %}
-										  <!-- Cor verde -->
+											{% endif %}
+											<!-- Cor verde -->
 
 										  <!-- Cor vermelha -->
 										  {% if meta.alcancada < meta.desejada and meta.alcancada < meta.estabelecida %}
@@ -189,14 +188,21 @@
 								</div>
 					</div>
 				</div>
-				<div style=" padding-left: 0px;padding-right: 0px;">
-					<div align="left" style="font-size:22px; color: #878787; padding-top: 15px;"><img src="{% static 'img/warning.png' %}"  height="40" width="50" align= "bottom"/>{% trans 'There are obstructions to your activities?' %}</div>
-					<hr style="height:2px; background-color:#878787; margin-top: 5px;"><br>
-					<div style="background-color:#fff; box-shadow: 1px 1px 10px #c0beaf; margin-top: -20px;">
-						<p align="left" style="font-size:16px; padding-left: 15px; padding-top: 20px; padding-bottom: 20px; "><a data-toggle="modal" data-target="#bulletin-difficulties-modal" href=""><b>{% trans 'Click here' %}</b></a> {% trans 'to communicate the difficulties that may decrease your performance.' %}</p>
+
+				<div class="form-group" style="background-color:#fff; box-shadow: 1px 1px 25px #c0beaf; margin-top: 15px;">
+						<div class="row">
+						<div class="col-md-1" align="left" style="padding-left: 25px; padding-top: 10px;">
+									<img src="{% static 'img/warning.png' %}"  height="80" width="95"/>
+						</div>
+						<div class="col-md-11">
+							<div class="row">
+									<div align="left" style="padding-left: 25px; font-size:22px; color: #878787; padding-top: 15px;padding-bottom: 20px;">{% trans 'There are obstructions to your activities?' %}</div>
+									<div align="left" style="padding-left: 25px; padding-right:35px; font-size:16px;"><p><a data-toggle="modal" data-target="#bulletin-difficulties-modal" href=""><b>{% trans 'Click here' %}</b></a> {% trans 'to communicate the difficulties that may decrease your performance.' %}</p></div>
+							</div>
+						</div>
 					</div>
-					<br>
-		</div>
+				</div>
+			</br>
 		<div class="modal fade" tabindex="-1" role="dialog" id="bulletin-difficulties-modal">
 				<div class="modal-dialog" role="document">
 						<div class="modal-content">
