@@ -11,11 +11,11 @@
 		{% for hidden in form.hidden_fields %}
 	        {{ hidden }}
 	    {% endfor %}
-		
+
 		{{ form.errors }}
-    			
+
 		{% if form.instance.pk %}{{ form.DELETE }}{% endif %}
-		
+
 		<div class="form-group{% if form.has_error %} has-error {% endif %} row goal_item">
 			<div class="col-md-12">
 				<h4>{% trans 'Goal' %} {{ item.order }}: {{ item.description }}</h4>
@@ -48,13 +48,19 @@
 	{% endfor %}
 
 	<hr />
-
-	<div class="form-group">
-		<div class="col-md-12">
-	    	<h4><b>{% trans 'There are obstacles to your activities?' %}</b></h4>
-	    	<textarea class="form-control" id="dificulties" name="dificulties" placeholder="{% trans 'Type here the dificulties that may harm your performance' %}"></textarea>
-	    </div>
-  	</div>
+	<div class="form-group" style="background-color:#fff; box-shadow: 1px 1px 10px #c0beaf; margin-top: 40px;">
+			<div class="row">
+			<div class="col-md-1" style="padding-left: 25px; padding-top: 10px;">
+		    		<img src="{% static 'img/warning.png' %}"  height="80" width="95"/>
+			</div>
+			<div class="col-md-11">
+				<div class="row">
+		    		<div style="padding-left: 30px;"><h4><b>{% trans 'There are obstacles to your activities?' %}</b></h4></div>
+						<div style="padding-left: 30px; padding-right:35px"><textarea class="form-control" id="dificulties" name="dificulties" placeholder="{% trans 'Type here the dificulties that may harm your performance' %}"></textarea></div>
+				</div>
+			</div>
+		</div>
+  </div>
 </form>
 
 <hr />

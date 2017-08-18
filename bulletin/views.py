@@ -518,9 +518,7 @@ def read_excel_file(estudante,meta,qtd,boletim):
             alcance.append(0)
 
     for b in range(2,planilha.ncols):
-        for item in planilha.col_values(b,1,planilha.nrows):
-            soma += int(item)
-
+        soma = int(sum(list(planilha.col_values(b,1,planilha.nrows))))
         media = soma // (planilha.nrows - 1)
         medias.append(media)
 
