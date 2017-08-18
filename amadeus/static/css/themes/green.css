@@ -382,9 +382,15 @@ a.add-row {
 .pendency .meta {
   color: #FF0000; }
 
-.alert-low, .alert-medium {
-  background-color: #FFA500;
-  color: #FFFFFF; }
+.alert-low {
+  background-color: #FFD800; }
+
+.alert-medium {
+  background-color: #FF9000; }
+
+.alert-low, .alert-medium, .alert-danger {
+  color: #FFFFFF !important;
+  text-shadow: 0px 0px 1px #000000; }
 
 .no_button:hover, .no_button:focus, .no_button:active {
   background-color: initial !important; }
