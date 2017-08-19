@@ -33,6 +33,8 @@ from oauth2_provider.views.generic import ProtectedResourceView
 from oauth2_provider.models import Application
 from django.http import HttpResponse
 
+from fcm_django.models import FCMDevice
+
 @csrf_exempt
 def getToken(request):
 	oauth = Application.objects.filter(name = "amadeus-droid")
@@ -108,6 +110,37 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet):
 			user_info['extra'] = 0
 
 			response = json.dumps(user_info)
+					
+		return HttpResponse(response)
+
+	@csrf_exempt
+	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
+	def register_device(self, request):
+		username = request.data['email']
+		device = request.data['device']
+		
+		user = self.queryset.get(email = username)
+		response = ""
+		json_r = {}
+
+		if not user is None:
+			fcm_d = FCMDevice()
+			fcm_d.name = "phone" 
+			fcm_d.registration_id = device
+			fcm_d.type = 'android'
+			fcm_d.user = user
+
+			fcm_d.save()
+
+			if not fcm_d.pk is None:
+				json_r["message"] = ""
+				json_r["type"] = ""
+				json_r["title"] = ""
+				json_r["success"] = True
+				json_r["number"] = 1
+				json_r['extra'] = 0
+
+			response = json.dumps(json_r)
 					
 		return HttpResponse(response)
 
