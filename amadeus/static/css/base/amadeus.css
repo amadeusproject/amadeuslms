@@ -959,10 +959,6 @@ li.item .notify_badge {
     font-size: 35px;
 }
 
-.alert-low {
-    opacity: 0.5;
-}
-
 .no_button {
     cursor: initial;
 }
