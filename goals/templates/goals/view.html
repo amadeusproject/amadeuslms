@@ -1,6 +1,6 @@
 {% extends 'subjects/view.html' %}
 
-{% load static i18n pagination permissions_tags subject_counter %}
+{% load static i18n pagination permissions_tags subject_counter goals_filters %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% block style %}
@@ -77,11 +77,13 @@
 					</div>
 				{% endfor %}
 
-				<hr />
+				{% if not goal|is_close %}
+					<hr />
 
-				<div class="text-center">
-					<a href="{% url 'goals:update_submit' goal.slug %}" class="btn btn-success btn-raised">{% trans 'Update Goals' %}</a>
-				</div>
+					<div class="text-center">
+						<a href="{% url 'goals:update_submit' goal.slug %}" class="btn btn-success btn-raised">{% trans 'Update Goals' %}</a>
+					</div>
+				{% endif %}
 			</div>
 		</div>
 {% endblock %}

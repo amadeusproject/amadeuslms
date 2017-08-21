@@ -31,7 +31,7 @@ from webpage.forms import FormModalMessage
 
 from django.db.models import Q
 from django.template.loader import render_to_string
-from django.utils import formats
+from django.utils import formats, timezone
 import textwrap
 from django.utils.html import strip_tags
 import json
@@ -556,6 +556,10 @@ class UpdateSubmit(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
 		if not has_resource_permissions(request.user, goals):
 			return redirect(reverse_lazy('subjects:home'))
+
+		if goals.limit_submission_date < timezone.now():
+			messages.error(self.request, _('The date limit to submit your Goals specification for the topic %s has passed, so you can\'t edit your values!')%(goals.topic.name))
+			return redirect(reverse_lazy('goals:view', kwargs = {'slug': slug}))
 
 		return super(UpdateSubmit, self).dispatch(request, *args, **kwargs)
 
