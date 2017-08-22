@@ -10,6 +10,8 @@
 {% endblock %}
 
 {% block content %}
+	{% subject_permissions request.user subject as has_subject_permissions %}
+
 	{% if subject.visible %}
 		<div class="panel panel-info subject-panel">
         	<div class="panel-heading">
@@ -26,11 +28,36 @@
             </div>
     	</div>
     	<div id="{{subject.slug}}" class="panel-collapse in collapse pendencies-content subject-related-panel">
+    		{% if has_subject_permissions %}
+				<form id="student_goals" action="" method="POST">
+					{% csrf_token %}
+					<select name="selected_student" onchange="$('#student_goals').submit();">
+						{% for stu in sub_students %}
+							<option value="{{ stu.email }}" {% if stu.email == student %}selected{% endif %}>{{ stu }}</option>
+						{% endfor %}
+					</select>
+				</form>
+				<br clear="all" />
+			{% endif %}
+
 			<h5>{% trans 'This pendencies list is updated every 24 hours. Last update was in:' %} {{ last_update|default:_('Not determined') }}</h5>
             <div id="core-subjects-options-div">
 		        <ul class="core-subjects-options">
-	                <a href="{% url 'notifications:view' subject.slug %}"><li {% if not history %} class="active" {% endif %}>{% trans "Actual Pendencies" %} ({{ total }})</li></a>
-	                <a href="{% url 'notifications:history' subject.slug %}"><li {% if history %} class="active" {% endif %}>{% trans "Notifications History" %}</li></a>
+		        	{% if has_subject_permissions %}
+		        		<form id="student_pend" action="{% url 'notifications:view' subject.slug %}" method="POST">
+		        			{% csrf_token %}
+		        			<input type="hidden" value="{{ student }}" name="selected_student" />
+		        			<a onclick="$('#student_pend').submit();" style="cursor:pointer"><li {% if not history %} class="active" {% endif %}>{% trans "Actual Pendencies" %} ({{ total }})</li></a>
+		        		</form>
+		        		<form id="student_history" action="{% url 'notifications:history' subject.slug %}" method="POST">
+		        			{% csrf_token %}
+		        			<input type="hidden" value="{{ student }}" name="selected_student" />
+		        			<a onclick="$('#student_history').submit();" style="cursor:pointer"><li {% if history %} class="active" {% endif %}>{% trans "Notifications History" %}</li></a>
+		        		</form>
+		        	{% else %}
+		                <a href="{% url 'notifications:view' subject.slug %}"><li {% if not history %} class="active" {% endif %}>{% trans "Actual Pendencies" %} ({{ total }})</li></a>
+		                <a href="{% url 'notifications:history' subject.slug %}"><li {% if history %} class="active" {% endif %}>{% trans "Notifications History" %}</li></a>
+		            {% endif %}
 		        </ul>
 		    </div>
 
@@ -57,5 +84,11 @@
 		$(function () {
 			metaFunctions();
 		});
+	</script>
+{% endblock %}
+
+{% block addtional_scripts %}
+	<script type="text/javascript">
+		sessionSecurity.confirmFormDiscard = undefined;
 	</script>
 {% endblock %}

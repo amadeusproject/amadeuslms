@@ -33,7 +33,7 @@
 	{% endif %}
 
 	{% resource_permissions request.user goal as has_resource_permissions %}
-	{% subject_permissions request.user goal as has_subject_permissions %}
+	{% subject_permissions request.user goal.topic.subject as has_subject_permissions %}
 
     {% if goal.visible %}
 		<div class="panel panel-info topic-panel">

@@ -12,10 +12,11 @@ from dateutil import parser
 from datetime import datetime
 from django.utils import formats, timezone
 
-from amadeus.permissions import has_subject_view_permissions, has_category_permission
+from amadeus.permissions import has_subject_view_permissions, has_category_permission, has_subject_permissions
 
 from subjects.models import Subject
 from categories.models import Category
+from users.models import User
 
 from log.models import Log
 from log.mixins import LogMixin
@@ -39,6 +40,8 @@ class SubjectNotifications(LoginRequiredMixin, LogMixin, generic.ListView):
     paginate_by = 10
     total = 0
 
+    students = None
+
     def dispatch(self, request, *args, **kwargs):
         slug = self.kwargs.get('slug', '')
         subject = get_object_or_404(Subject, slug = slug)
@@ -52,13 +55,37 @@ class SubjectNotifications(LoginRequiredMixin, LogMixin, generic.ListView):
         slug = self.kwargs.get('slug', '')
         subject = get_object_or_404(Subject, slug = slug)
 
-        notifications = Notification.objects.filter(user = self.request.user, task__resource__topic__subject = subject, creation_date = datetime.now()).order_by("task__limit_date", "task__end_date")
+        if has_subject_permissions(self.request.user, subject):
+            self.students = User.objects.filter(subject_student = subject).order_by('social_name', 'username')
 
-        notifications.update(viewed = True)
-
+            notifications = Notification.objects.filter(user = self.students.first(), task__resource__topic__subject = subject, creation_date = datetime.now()).order_by("task__limit_date", "task__end_date")
+        else:
+            notifications = Notification.objects.filter(user = self.request.user, task__resource__topic__subject = subject, creation_date = datetime.now()).order_by("task__limit_date", "task__end_date")
+            notifications.update(viewed = True)
+            
         self.total = notifications.count()
 
         return notifications
+
+    def post(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug', '')
+        subject = get_object_or_404(Subject, slug = slug)
+
+        user = request.POST.get('selected_student', None)
+
+        if has_subject_permissions(request.user, subject):
+            self.students = User.objects.filter(subject_student = subject).order_by('social_name', 'username')
+
+            if not user is None:
+                self.object_list = Notification.objects.filter(user__email = user, task__resource__topic__subject = subject, creation_date = datetime.now()).order_by("task__limit_date", "task__end_date")
+            else:
+                self.object_list = Notification.objects.filter(user = self.request.user, task__resource__topic__subject = subject, creation_date = datetime.now()).order_by("task__limit_date", "task__end_date")
+        else:
+            self.object_list = Notification.objects.filter(user = self.request.user, task__resource__topic__subject = subject, creation_date = datetime.now()).order_by("task__limit_date", "task__end_date")
+
+        self.total = self.object_list.count()
+
+        return self.render_to_response(self.get_context_data())
 
     def get_context_data(self, **kwargs):
         context = super(SubjectNotifications, self).get_context_data(**kwargs)
@@ -69,6 +96,12 @@ class SubjectNotifications(LoginRequiredMixin, LogMixin, generic.ListView):
         context['title'] = _('%s - Pendencies')%(subject.name)
         context['subject'] = subject
         context['total'] = self.total
+
+        if not self.students is None:
+            context['sub_students'] = self.students
+            context['student'] = self.request.POST.get('selected_student', self.students.first().email)
+        else:
+            context['student'] = None
 
         update_pendencies = Log.objects.filter(action = "cron", component = "notifications").order_by('-datetime')
 
@@ -104,6 +137,8 @@ class SubjectHistory(LoginRequiredMixin, LogMixin, generic.ListView):
     total = 0
     num_rows = 0
 
+    students = None
+
     def dispatch(self, request, *args, **kwargs):
         slug = self.kwargs.get('slug', '')
         subject = get_object_or_404(Subject, slug = slug)
@@ -120,7 +155,17 @@ class SubjectHistory(LoginRequiredMixin, LogMixin, generic.ListView):
         order = get_order_by(self.request.GET.get("order_by", None))
         search = self.request.GET.get("search", None)
 
-        notifications = Notification.objects.filter(user = self.request.user, task__resource__topic__subject = subject).order_by(*order)
+        if has_subject_permissions(self.request.user, subject):
+            user = self.request.GET.get("selected_student", None)
+
+            self.students = User.objects.filter(subject_student = subject).order_by('social_name', 'username')
+
+            if not user is None:
+                notifications = Notification.objects.filter(user__email = user, task__resource__topic__subject = subject).order_by(*order)
+            else:
+                notifications = Notification.objects.filter(user = self.students.first(), task__resource__topic__subject = subject).order_by(*order)
+        else:
+            notifications = Notification.objects.filter(user = self.request.user, task__resource__topic__subject = subject).order_by(*order)
 
         self.total = notifications.filter(creation_date = datetime.now()).count()
         
@@ -145,6 +190,30 @@ class SubjectHistory(LoginRequiredMixin, LogMixin, generic.ListView):
 
         return notifications
 
+    def post(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug', '')
+        subject = get_object_or_404(Subject, slug = slug)
+
+        order = get_order_by(self.request.POST.get("order_by", None))
+
+        user = request.POST.get('selected_student', None)
+
+        if has_subject_permissions(request.user, subject):
+            self.students = User.objects.filter(subject_student = subject).order_by('social_name', 'username')
+
+            if not user is None:
+                self.object_list = Notification.objects.filter(user__email = user, task__resource__topic__subject = subject).order_by(*order)
+            else:
+                self.object_list = Notification.objects.filter(user = self.request.user, task__resource__topic__subject = subject).order_by(*order)
+        else:
+            self.object_list = Notification.objects.filter(user = self.request.user, task__resource__topic__subject = subject).order_by(*order)
+
+        self.total = self.object_list.filter(creation_date = datetime.now()).count()
+
+        self.num_rows = self.object_list.count()
+
+        return self.render_to_response(self.get_context_data())
+
     def get_context_data(self, **kwargs):
         context = super(SubjectHistory, self).get_context_data(**kwargs)
 
@@ -157,6 +226,12 @@ class SubjectHistory(LoginRequiredMixin, LogMixin, generic.ListView):
         context['total'] = self.total
         context['rows'] = self.num_rows
         context['searched'] = self.request.GET.get("search", "")
+
+        if not self.students is None:
+            context['sub_students'] = self.students
+            context['student'] = self.request.POST.get('selected_student', self.request.GET.get('selected_student', self.students.first().email))
+        else:
+            context['student'] = None
 
         self.log_context['subject_id'] = subject.id
         self.log_context['subject_name'] = subject.name

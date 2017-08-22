@@ -85,7 +85,7 @@ def order_href(request, column):
 	if 'order_by' in getvars:
 		order = getvars['order_by']
 		del getvars['order_by']
-    
+	
 	if not order:
 		if column == "creation_date":
 			order_href = "creation_date"
@@ -93,11 +93,27 @@ def order_href(request, column):
 		if column in order:
 			if "-" in order:
 				order_href = column
-        
+		
 	if len(getvars) > 0:
 		params = '&%s' % getvars.urlencode()
 
 	return "?order_by=" + order_href + params
+
+@register.filter(name = 'add_student')
+def add_student(request, student):
+	getvars = request.GET.copy()
+	params = ""
+
+	if not student is None:
+		if not student == "":
+			if 'selected_student' in getvars:
+				del getvars['selected_student']
+				   
+			getvars['selected_student'] = student
+
+			request.GET = getvars
+
+	return request
 
 @register.filter(name = 'order_ajax')
 def order_ajax(request, column):
@@ -109,7 +125,7 @@ def order_ajax(request, column):
 	if 'order_by' in getvars:
 		order = getvars['order_by']
 		del getvars['order_by']
-    
+	
 	if not order:
 		if column == "creation_date":
 			order_href = "creation_date"
@@ -117,7 +133,7 @@ def order_ajax(request, column):
 		if column in order:
 			if "-" in order:
 				order_href = column
-    
+	
 	return order_href
 
 @register.filter(name = 'observation')

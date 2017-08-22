@@ -215,7 +215,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
 		slug = self.kwargs.get('slug', '')
 		goal = get_object_or_404(Goals, slug = slug)
 
-		if has_subject_permissions(self.request.user, goal):
+		if has_subject_permissions(self.request.user, goal.topic.subject):
 			self.students = User.objects.filter(subject_student = goal.topic.subject).order_by('social_name', 'username')
 
 			goals = MyGoals.objects.filter(user = self.students.first(), item__goal = goal)
@@ -230,7 +230,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
 
 		user = request.POST.get('selected_student', None)
 
-		if has_subject_permissions(request.user, goal):
+		if has_subject_permissions(request.user, goal.topic.subject):
 			self.students = User.objects.filter(subject_student = goal.topic.subject).order_by('social_name', 'username')
 
 			if not user is None:
