@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-21 23:53-0300\n"
+"POT-Creation-Date: 2017-08-22 06:51-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgstr "Meta"
 
 #: notifications/models.py:9
 #: notifications/templates/notifications/_ajax_history.html:33
-#: notifications/templates/notifications/_history.html:33
+#: notifications/templates/notifications/_history.html:35
 msgid "Task"
 msgstr "Tarefa"
 
@@ -61,58 +61,58 @@ msgid "Creation Date"
 msgstr "Data de Criação"
 
 #: notifications/templates/notifications/_ajax_history.html:6
-#: notifications/templates/notifications/_history.html:6
+#: notifications/templates/notifications/_history.html:8
 msgid "rows"
 msgstr "registros"
 
 #: notifications/templates/notifications/_ajax_history.html:11
-#: notifications/templates/notifications/_history.html:12
+#: notifications/templates/notifications/_history.html:14
 msgid "Search"
 msgstr "Buscar"
 
 #: notifications/templates/notifications/_ajax_history.html:13
-#: notifications/templates/notifications/_history.html:14
+#: notifications/templates/notifications/_history.html:16
 msgid "Insert date or resource"
 msgstr "Digite uma data ou recurso"
 
 #: notifications/templates/notifications/_ajax_history.html:23
-#: notifications/templates/notifications/_history.html:23
+#: notifications/templates/notifications/_history.html:25
 msgid "Date"
 msgstr "Data"
 
 #: notifications/templates/notifications/_ajax_history.html:28
-#: notifications/templates/notifications/_history.html:28
+#: notifications/templates/notifications/_history.html:30
 msgid "Resource"
 msgstr "Recurso"
 
 #: notifications/templates/notifications/_ajax_history.html:38
-#: notifications/templates/notifications/_history.html:38
+#: notifications/templates/notifications/_history.html:40
 msgid "Final Date"
 msgstr "Data Final"
 
 #: notifications/templates/notifications/_ajax_history.html:43
-#: notifications/templates/notifications/_history.html:43
+#: notifications/templates/notifications/_history.html:45
 msgid "Notification"
 msgstr "Notificação"
 
 #: notifications/templates/notifications/_ajax_history.html:48
-#: notifications/templates/notifications/_history.html:48
+#: notifications/templates/notifications/_history.html:50
 msgid "Aware"
 msgstr "Ciente"
 
 #: notifications/templates/notifications/_ajax_history.html:53
-#: notifications/templates/notifications/_history.html:53
+#: notifications/templates/notifications/_history.html:55
 msgid "Observation"
 msgstr "Observação"
 
 #: notifications/templates/notifications/_ajax_history.html:64
-#: notifications/templates/notifications/_history.html:64
+#: notifications/templates/notifications/_history.html:66
 #: notifications/templates/notifications/_view.html:30
 msgid "Not Informed"
 msgstr "Não Informado"
 
 #: notifications/templates/notifications/_ajax_history.html:72
-#: notifications/templates/notifications/_history.html:72
+#: notifications/templates/notifications/_history.html:74
 msgid "No results found"
 msgstr "Nenhum resultado encontrado"
 
@@ -201,7 +201,11 @@ msgstr "Você não possui nenhuma pendência."
 msgid "Pendencies"
 msgstr "Pendências"
 
-#: notifications/templates/notifications/subject.html:73
+#: notifications/templates/notifications/subject.html:74
+msgid "The student do not posses any pendency."
+msgstr "O estudante não possui nenhuma pendência."
+
+#: notifications/templates/notifications/subject.html:76
 msgid "You do not posses any pendency in this subject"
 msgstr "Você não possui nenhuma pendência nesse assunto"
 
