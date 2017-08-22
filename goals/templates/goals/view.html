@@ -1,6 +1,6 @@
 {% extends 'subjects/view.html' %}
 
-{% load static i18n pagination permissions_tags subject_counter %}
+{% load static i18n pagination permissions_tags subject_counter goals_filters %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% block style %}
@@ -33,6 +33,7 @@
 	{% endif %}
 
 	{% resource_permissions request.user goal as has_resource_permissions %}
+	{% subject_permissions request.user goal.topic.subject as has_subject_permissions %}
 
     {% if goal.visible %}
 		<div class="panel panel-info topic-panel">
@@ -57,6 +58,18 @@
 				</div>
 			</div>
 			<div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
+				{% if has_subject_permissions %}
+					<form id="student_goals" action="" method="POST">
+						{% csrf_token %}
+						<select name="selected_student" onchange="$('#student_goals').submit();">
+							{% for stu in sub_students %}
+								<option value="{{ stu.email }}" {% if stu.email == student %}selected{% endif %}>{{ stu }}</option>
+							{% endfor %}
+						</select>
+					</form>
+					<br clear="all" />
+				{% endif %}
+
 				{% autoescape off %}
 					{{ goal.presentation }}
 				{% endautoescape %}
@@ -77,11 +90,22 @@
 					</div>
 				{% endfor %}
 
-				<hr />
+				{% if not has_subject_permissions %}
+					{% if not goal|is_close %}
+						<hr />
 
-				<div class="text-center">
-					<a href="{% url 'goals:update_submit' goal.slug %}" class="btn btn-success btn-raised">{% trans 'Update Goals' %}</a>
-				</div>
+						<div class="text-center">
+							<a href="{% url 'goals:update_submit' goal.slug %}" class="btn btn-success btn-raised">{% trans 'Update Goals' %}</a>
+						</div>
+					{% endif %}
+				{% endif %}
 			</div>
 		</div>
+{% endblock %}
+
+
+{% block addtional_scripts %}
+	<script type="text/javascript">
+		sessionSecurity.confirmFormDiscard = undefined;
+	</script>
 {% endblock %}

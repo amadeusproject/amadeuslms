@@ -1,4 +1,6 @@
-{% load i18n notification_filters pagination %}
+{% load i18n notification_filters pagination permissions_tags %}
+
+{% subject_permissions request.user subject as has_subject_permissions %}
 
 <div class="row">
 	<div class="col-md-12">
@@ -7,6 +9,7 @@
 		</div>
 		<div class="col-md-4">
 			<form action="" method="GET" class="form-horizontal">
+				<input type="hidden" value="{{ student }}" name="selected_student" />
 				<div class="form-group">
 	                <label class="col-md-4 history-control-label control-label">{% trans 'Search' %}:</label>
 	                <div class="col-md-8">
@@ -18,37 +21,37 @@
 		<table class="table table-striped table-bordered">
 			<thead>
 				<th>
-					<a href="{{ request|order_href:'creation_date' }}">
+					<a href="{{ request|add_student:student|order_href:'creation_date' }}">
 						{% trans 'Date' %} <i class="fa fa-fw {{ request|order_icon_class:'creation_date' }} pull-right"></i>
 					</a>
 				</th>
 				<th>
-					<a href="{{ request|order_href:'resource' }}">
+					<a href="{{ request|add_student:student|order_href:'resource' }}">
 						{% trans 'Resource' %} <i class="fa fa-fw {{ request|order_icon_class:'resource' }} pull-right"></i>
 					</a>
 				</th>
 				<th>
-					<a href="{{ request|order_href:'task' }}">
+					<a href="{{ request|add_student:student|order_href:'task' }}">
 						{% trans 'Task' %} <i class="fa fa-fw {{ request|order_icon_class:'task' }} pull-right"></i>
 					</a>
 				</th>
 				<th>
-					<a href="{{ request|order_href:'final_date' }}">
+					<a href="{{ request|add_student:student|order_href:'final_date' }}">
 						{% trans 'Final Date' %} <i class="fa fa-fw {{ request|order_icon_class:'final_date' }} pull-right"></i>
 					</a>
 				</th>
 				<th>
-					<a href="{{ request|order_href:'notification' }}">
+					<a href="{{ request|add_student:student|order_href:'notification' }}">
 						{% trans 'Notification' %} <i class="fa fa-fw {{ request|order_icon_class:'notification' }} pull-right"></i>
 					</a>
 				</th>
 				<th>
-					<a href="{{ request|order_href:'aware' }}">
+					<a href="{{ request|add_student:student|order_href:'aware' }}">
 						{% trans 'Aware' %} <i class="fa fa-fw {{ request|order_icon_class:'aware' }} pull-right"></i>
 					</a>
 				</th>	
 				<th>
-					<a href="{{ request|order_href:'obs' }}">
+					<a href="{{ request|add_student:student|order_href:'obs' }}">
 						{% trans 'Observation' %} <i class="fa fa-fw {{ request|order_icon_class:'obs' }} pull-right"></i>
 					</a>
 				</th>
@@ -61,7 +64,7 @@
 							<td>{{ notification.task.resource }}</td>
 							<td>{{ notification.task.get_action_display }}</td>
 							<td>{{ notification.task.end_date|date:"SHORT_DATE_FORMAT"|default:_('Not Informed') }}</td>
-							<td>{{ notification.level|warning_msg }}</td>
+							<td>{{ notification.level|warning_msg:has_subject_permissions }}</td>
 							<td>{{ notification.viewed|viewed_msg }}</td>
 							<td>{{ notification|observation }}</td>
 						</tr>

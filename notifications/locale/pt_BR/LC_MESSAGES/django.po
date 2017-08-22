@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-16 19:24-0300\n"
+"POT-Creation-Date: 2017-08-22 06:51-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgstr "Meta"
 
 #: notifications/models.py:9
 #: notifications/templates/notifications/_ajax_history.html:33
-#: notifications/templates/notifications/_history.html:32
+#: notifications/templates/notifications/_history.html:35
 msgid "Task"
 msgstr "Tarefa"
 
@@ -61,118 +61,118 @@ msgid "Creation Date"
 msgstr "Data de Criação"
 
 #: notifications/templates/notifications/_ajax_history.html:6
-#: notifications/templates/notifications/_history.html:6
+#: notifications/templates/notifications/_history.html:8
 msgid "rows"
 msgstr "registros"
 
 #: notifications/templates/notifications/_ajax_history.html:11
-#: notifications/templates/notifications/_history.html:11
+#: notifications/templates/notifications/_history.html:14
 msgid "Search"
 msgstr "Buscar"
 
 #: notifications/templates/notifications/_ajax_history.html:13
-#: notifications/templates/notifications/_history.html:13
+#: notifications/templates/notifications/_history.html:16
 msgid "Insert date or resource"
 msgstr "Digite uma data ou recurso"
 
 #: notifications/templates/notifications/_ajax_history.html:23
-#: notifications/templates/notifications/_history.html:22
+#: notifications/templates/notifications/_history.html:25
 msgid "Date"
 msgstr "Data"
 
 #: notifications/templates/notifications/_ajax_history.html:28
-#: notifications/templates/notifications/_history.html:27
+#: notifications/templates/notifications/_history.html:30
 msgid "Resource"
 msgstr "Recurso"
 
 #: notifications/templates/notifications/_ajax_history.html:38
-#: notifications/templates/notifications/_history.html:37
+#: notifications/templates/notifications/_history.html:40
 msgid "Final Date"
 msgstr "Data Final"
 
 #: notifications/templates/notifications/_ajax_history.html:43
-#: notifications/templates/notifications/_history.html:42
+#: notifications/templates/notifications/_history.html:45
 msgid "Notification"
 msgstr "Notificação"
 
 #: notifications/templates/notifications/_ajax_history.html:48
-#: notifications/templates/notifications/_history.html:47
+#: notifications/templates/notifications/_history.html:50
 msgid "Aware"
 msgstr "Ciente"
 
 #: notifications/templates/notifications/_ajax_history.html:53
-#: notifications/templates/notifications/_history.html:52
+#: notifications/templates/notifications/_history.html:55
 msgid "Observation"
 msgstr "Observação"
 
 #: notifications/templates/notifications/_ajax_history.html:64
-#: notifications/templates/notifications/_history.html:63
-#: notifications/templates/notifications/_view.html:28
+#: notifications/templates/notifications/_history.html:66
+#: notifications/templates/notifications/_view.html:30
 msgid "Not Informed"
 msgstr "Não Informado"
 
 #: notifications/templates/notifications/_ajax_history.html:72
-#: notifications/templates/notifications/_history.html:71
+#: notifications/templates/notifications/_history.html:74
 msgid "No results found"
 msgstr "Nenhum resultado encontrado"
 
-#: notifications/templates/notifications/_view.html:10
+#: notifications/templates/notifications/_view.html:12
 msgid "Home"
 msgstr "Início"
 
-#: notifications/templates/notifications/_view.html:28
+#: notifications/templates/notifications/_view.html:30
 msgid "Final Date/Time"
 msgstr "Data/Hora Final"
 
-#: notifications/templates/notifications/_view.html:31
+#: notifications/templates/notifications/_view.html:33
 msgid "Your goal was to realize this in"
 msgstr "Sua meta é realizar essa tarefa em"
 
-#: notifications/templates/notifications/_view.html:33
+#: notifications/templates/notifications/_view.html:35
 msgid "Task finished in"
 msgstr "Tarefa finalizada em"
 
-#: notifications/templates/notifications/_view.html:37
+#: notifications/templates/notifications/_view.html:39
 msgid "of the participants already realized this task."
 msgstr "dos participantes já realizaram essa tarefa."
 
-#: notifications/templates/notifications/_view.html:50
+#: notifications/templates/notifications/_view.html:53
 msgid "Access the task"
 msgstr "Acessar a Tarefa"
 
-#: notifications/templates/notifications/_view.html:52
+#: notifications/templates/notifications/_view.html:55
 msgid "Realize the task"
 msgstr "Realizar a Tarefa"
 
-#: notifications/templates/notifications/_view.html:57
+#: notifications/templates/notifications/_view.html:60
 msgid "or"
 msgstr "ou"
 
-#: notifications/templates/notifications/_view.html:60
+#: notifications/templates/notifications/_view.html:63
 msgid "Define goal to realization"
 msgstr "Definir meta para realização"
 
-#: notifications/templates/notifications/_view.html:62
+#: notifications/templates/notifications/_view.html:65
 msgid "Define new goal"
 msgstr "Definir nova meta"
 
-#: notifications/templates/notifications/_view.html:84
+#: notifications/templates/notifications/_view.html:87
 msgid "Save Goal"
 msgstr "Salvar Meta"
 
-#: notifications/templates/notifications/_view.html:87
+#: notifications/templates/notifications/_view.html:90
 msgid "Cancel"
 msgstr "Cancelar"
 
 #: notifications/templates/notifications/index.html:19
-#: notifications/templates/notifications/subject.html:29
+#: notifications/templates/notifications/subject.html:43
 msgid "This pendencies list is updated every 24 hours. Last update was in:"
 msgstr ""
 "Esta lista de pendências é atualizada a cada 24 horas. A última atualização "
 "ocorreu em:"
 
 #: notifications/templates/notifications/index.html:19
-#: notifications/templates/notifications/subject.html:29
+#: notifications/templates/notifications/subject.html:43
 msgid "Not determined"
 msgstr "Não Determinado"
 
@@ -181,12 +181,14 @@ msgid "You got pendencies in the following subjects"
 msgstr "Você possui pendências nos seguintes assuntos"
 
 #: notifications/templates/notifications/index.html:39
-#: notifications/templates/notifications/subject.html:32
+#: notifications/templates/notifications/subject.html:50
+#: notifications/templates/notifications/subject.html:58
 msgid "Actual Pendencies"
 msgstr "Pendências Atuais"
 
 #: notifications/templates/notifications/index.html:40
-#: notifications/templates/notifications/subject.html:33
+#: notifications/templates/notifications/subject.html:55
+#: notifications/templates/notifications/subject.html:59
 msgid "Notifications History"
 msgstr "Histórico de Notificações"
 
@@ -194,78 +196,91 @@ msgstr "Histórico de Notificações"
 msgid "You do not posses any pendency."
 msgstr "Você não possui nenhuma pendência."
 
-#: notifications/templates/notifications/subject.html:23
-#: notifications/views.py:204
+#: notifications/templates/notifications/subject.html:25
+#: notifications/views.py:279
 msgid "Pendencies"
 msgstr "Pendências"
 
-#: notifications/templates/notifications/subject.html:46
+#: notifications/templates/notifications/subject.html:74
+msgid "The student do not posses any pendency."
+msgstr "O estudante não possui nenhuma pendência."
+
+#: notifications/templates/notifications/subject.html:76
 msgid "You do not posses any pendency in this subject"
 msgstr "Você não possui nenhuma pendência nesse assunto"
 
-#: notifications/templatetags/notification_filters.py:27
-#: notifications/templatetags/notification_filters.py:29
+#: notifications/templatetags/notification_filters.py:28
+#: notifications/templatetags/notification_filters.py:33
+msgid "The student still did not realize this task"
+msgstr "O estudante ainda não realizou essa tarefa"
+
+#: notifications/templatetags/notification_filters.py:30
+#: notifications/templatetags/notification_filters.py:35
 msgid "You still did not realize this task"
 msgstr "Você ainda não realizou essa tarefa"
 
-#: notifications/templatetags/notification_filters.py:31
+#: notifications/templatetags/notification_filters.py:37
 msgid "This task is late"
 msgstr "Essa tarefa está atrasada"
 
-#: notifications/templatetags/notification_filters.py:33
+#: notifications/templatetags/notification_filters.py:40
+msgid "The student miss this task"
+msgstr "O estudante perdeu essa tarefa"
+
+#: notifications/templatetags/notification_filters.py:42
 msgid "You miss this task"
 msgstr "Você perdeu essa tarefa"
 
-#: notifications/templatetags/notification_filters.py:40
+#: notifications/templatetags/notification_filters.py:49
 msgid "Yes"
 msgstr "Sim"
 
-#: notifications/templatetags/notification_filters.py:42
+#: notifications/templatetags/notification_filters.py:51
 msgid "No"
 msgstr "Não"
 
-#: notifications/templatetags/notification_filters.py:129
-#: notifications/templatetags/notification_filters.py:133
+#: notifications/templatetags/notification_filters.py:154
+#: notifications/templatetags/notification_filters.py:158
 #, python-format
 msgid "Goal defined to task realization: %s"
 msgstr "Meta definida para realização da tarefa: %s"
 
-#: notifications/templatetags/notification_filters.py:135
+#: notifications/templatetags/notification_filters.py:160
 #, python-format
 msgid "New goal defined to task realization: %s"
 msgstr "Nova meta definida para realização da tarefa: %s"
 
-#: notifications/views.py:69 notifications/views.py:154
+#: notifications/views.py:96 notifications/views.py:223
 #, python-format
 msgid "%s - Pendencies"
 msgstr "%s - Pendências"
 
-#: notifications/views.py:294
+#: notifications/views.py:382
 msgid "No goal date received"
 msgstr "Nenhuma data para meta recebida"
 
-#: notifications/views.py:301
+#: notifications/views.py:389
 msgid "Could not identify the notification"
 msgstr "Não foi possível identificar a notificação"
 
-#: notifications/views.py:308
+#: notifications/views.py:396
 msgid "The goal date should be equal or after today's date"
 msgstr ""
 "A meta de realização da tarefa deve ser uma data igual ou posterior à data "
 "atual"
 
-#: notifications/views.py:311
+#: notifications/views.py:399
 msgid "The goal date should be equal or before subject's date"
 msgstr ""
 "A meta de realização da tarefa deve ser uma data igual ou anterior à data "
 "final do assunto"
 
-#: notifications/views.py:323
+#: notifications/views.py:411
 #, python-format
 msgid "Your new goal to realize the task %s is %s"
 msgstr "Sua nova meta para realizar a tarefa %s é %s"
 
-#: notifications/views.py:325
+#: notifications/views.py:413
 #, python-format
 msgid "Your goal to realize the task %s is %s"
 msgstr "Sua meta para realizar a tarefa %s é %s"

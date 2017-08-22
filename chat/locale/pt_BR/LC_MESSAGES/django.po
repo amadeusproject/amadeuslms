@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-16 19:24-0300\n"
+"POT-Creation-Date: 2017-08-22 06:51-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -143,7 +143,7 @@ msgstr "Ver Perfil"
 #: chat/templates/chat/subject_view.html:9
 #: chat/templates/chat/subject_view.html:27
 #: chat/templates/chat/subject_view_participants.html:9
-#: chat/templates/chat/subject_view_participants.html:31 chat/views.py:65
+#: chat/templates/chat/subject_view_participants.html:31 chat/views.py:67
 msgid "Messages"
 msgstr "Mensagens"
 
@@ -250,33 +250,33 @@ msgstr "Inativo"
 msgid "Offline"
 msgstr "Offline"
 
-#: chat/templatetags/chat_tags.py:63 chat/views.py:422
+#: chat/templatetags/chat_tags.py:63 chat/views.py:429
 msgid "Unfavorite"
 msgstr "Desfavoritar"
 
-#: chat/templatetags/chat_tags.py:65 chat/views.py:426
+#: chat/templatetags/chat_tags.py:65 chat/views.py:433
 msgid "Favorite"
 msgstr "Favoritar"
 
-#: chat/views.py:104
+#: chat/views.py:106
 msgid "Messages - Participants"
 msgstr "Mensagems - Participantes"
 
-#: chat/views.py:159
+#: chat/views.py:161
 #, python-format
 msgid "%s - Participants"
 msgstr "%s - Participantes"
 
-#: chat/views.py:214
+#: chat/views.py:216
 #, python-format
 msgid "%s - Messages"
 msgstr "%s - Mensagens"
 
-#: chat/views.py:353
+#: chat/views.py:355
 msgid "[Photo]"
 msgstr "[Foto]"
 
-#: chat/views.py:365
+#: chat/views.py:367
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"

@@ -1,4 +1,5 @@
 from django import template
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from goals.models import MyGoals
@@ -74,3 +75,10 @@ def log_object(log):
 	name = log.context['goals_name']
 
 	return _("%s Instance")%(name)
+
+@register.filter(name = 'is_close')
+def is_close(goal):
+	if goal.limit_submission_date < timezone.now():
+		return True
+
+	return False

@@ -1,4 +1,6 @@
-{% load i18n notification_filters %}
+{% load i18n notification_filters permissions_tags %}
+
+{% subject_permissions request.user subject as has_subject_permissions %}
 
 {% for notification in notifications %}
 	<div class="row">
@@ -40,56 +42,58 @@
 						<div class="col-md-6">
 							<div class="alert {{ notification.level|warning_class }}">
 								<i class="fa fa-exclamation-triangle"></i>
-								<span>{{ notification.level|warning_msg }}</span>
+								<span>{{ notification.level|warning_msg:has_subject_permissions }}</span>
 							</div>
 						</div>
 					</div>
-					<div class="row text-center">
-						<a href="{{ notification.task.resource.access_link }}" class="btn btn-success btn-raised" {% if notification.task.resource.show_window %}target="_blank"{% endif %}>
-							{% if notification.level == 4 %}
-								{% trans 'Access the task' %}
-							{% else %}
-								{% trans 'Realize the task' %}
-							{% endif %}
-						</a>
-
-						{% if notification.level < 3 %}
-							<button class="btn btn-default no_button">{% trans 'or' %}</button>
-							<button class="btn btn-default btn-raised" data-toggle="popover" data-placement="right">
-								{% if notification.level == 1 %}
-									{% trans 'Define goal to realization' %}
+					{% if not has_subject_permissions %}
+						<div class="row text-center">
+							<a href="{{ notification.task.resource.access_link }}" class="btn btn-success btn-raised" {% if notification.task.resource.show_window %}target="_blank"{% endif %}>
+								{% if notification.level == 4 %}
+									{% trans 'Access the task' %}
 								{% else %}
-									{% trans 'Define new goal' %}
+									{% trans 'Realize the task' %}
 								{% endif %}
-							</button>
+							</a>
 
-							<div class="popover">
-	              				<div class="popover-content">
-									<form action="{% url 'notifications:set_goal' %}" role="form" method="post">
-										{% csrf_token %}
-		  								<div style="overflow:hidden;">
-										    <div class="form-group">
-										        <div class="row">
-										            <div class="col-md-12">
-										                <div class="datetimepicker"></div>
-										                <input type="hidden" name="id" value="{{ notification.id }}">
-										            </div>
-										        </div>
-										    </div>
-										</div>
-									</form>
-	              				</div>
-	              				<div class="popover-footer">
-	              					<button type="button" class="btn btn-raised btn-sm btn-success save pull-left">
-	              						{% trans 'Save Goal' %}
-	          						</button>
-	              					<button type="button" class="btn btn-default btn-sm btn-raised cancel pull-right">
-	              						{% trans 'Cancel' %}
-	          						</button>
-	      						</div>
-	  						</div>
-						{% endif %}
-					</div>
+							{% if notification.level < 3 %}
+								<button class="btn btn-default no_button">{% trans 'or' %}</button>
+								<button class="btn btn-default btn-raised" data-toggle="popover" data-placement="right">
+									{% if notification.level == 1 %}
+										{% trans 'Define goal to realization' %}
+									{% else %}
+										{% trans 'Define new goal' %}
+									{% endif %}
+								</button>
+
+								<div class="popover">
+		              				<div class="popover-content">
+										<form action="{% url 'notifications:set_goal' %}" role="form" method="post">
+											{% csrf_token %}
+			  								<div style="overflow:hidden;">
+											    <div class="form-group">
+											        <div class="row">
+											            <div class="col-md-12">
+											                <div class="datetimepicker"></div>
+											                <input type="hidden" name="id" value="{{ notification.id }}">
+											            </div>
+											        </div>
+											    </div>
+											</div>
+										</form>
+		              				</div>
+		              				<div class="popover-footer">
+		              					<button type="button" class="btn btn-raised btn-sm btn-success save pull-left">
+		              						{% trans 'Save Goal' %}
+		          						</button>
+		              					<button type="button" class="btn btn-default btn-sm btn-raised cancel pull-right">
+		              						{% trans 'Cancel' %}
+		          						</button>
+		      						</div>
+		  						</div>
+							{% endif %}
+						</div>
+					{% endif %}
 				</div>
 			</div>
 		</div>
