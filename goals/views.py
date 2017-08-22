@@ -306,6 +306,9 @@ class NewWindowSubmit(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		if not has_resource_permissions(request.user, goals):
 			return redirect(reverse_lazy('subjects:home'))
 
+		if has_subject_permissions(request.user, goals.topic.subject):
+			return redirect(reverse_lazy('goals:view', kwargs = {'slug': goals.slug}))
+
 		if MyGoals.objects.filter(item__goal = goals, user = request.user).exists():
 			return redirect(reverse_lazy('goals:view', args = (), kwargs = {'slug': slug}))
 
@@ -441,6 +444,9 @@ class SubmitView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		if not has_resource_permissions(request.user, goals):
 			return redirect(reverse_lazy('subjects:home'))
+
+		if has_subject_permissions(request.user, goals.topic.subject):
+			return redirect(reverse_lazy('goals:view', kwargs = {'slug': goals.slug}))
 
 		if MyGoals.objects.filter(item__goal = goals, user = request.user).exists():
 			return redirect(reverse_lazy('goals:view', args = (), kwargs = {'slug': slug}))
@@ -828,7 +834,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 	def get_success_url(self):
 		messages.success(self.request, _('The Goals specification for the topic %s was realized successfully!')%(self.object.topic.name))
 
-		if has_subject_permissions(self.request.user, self.object):
+		if has_subject_permissions(self.request.user, self.object.topic.subject):
 			success_url = reverse_lazy('goals:view', kwargs = {'slug': self.object.slug})
 		else:
 			success_url = reverse_lazy('goals:submit', kwargs = {'slug': self.object.slug})
