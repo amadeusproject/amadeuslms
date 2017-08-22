@@ -972,14 +972,17 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 	def get_success_url(self):
 		messages.success(self.request, _('The Goals specification for the topic %s was updated successfully!')%(self.object.topic.name))
 
-		success_url = reverse_lazy('goals:submit', kwargs = {'slug': self.object.slug})
+		if has_subject_permissions(self.request.user, self.object.topic.subject):
+			success_url = reverse_lazy('goals:view', kwargs = {'slug': self.object.slug})
+		else:
+			success_url = reverse_lazy('goals:submit', kwargs = {'slug': self.object.slug})
 
-		if self.object.show_window:
-			self.request.session['resources'] = {}
-			self.request.session['resources']['new_page'] = True
-			self.request.session['resources']['new_page_url'] = reverse('goals:window_submit', kwargs = {'slug': self.object.slug})
+			if self.object.show_window:
+				self.request.session['resources'] = {}
+				self.request.session['resources']['new_page'] = True
+				self.request.session['resources']['new_page_url'] = reverse('goals:window_submit', kwargs = {'slug': self.object.slug})
 
-			success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+				success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
 		return success_url
 
