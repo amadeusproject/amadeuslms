@@ -311,6 +311,17 @@ class AjaxNotifications(LoginRequiredMixin, generic.ListView):
 
         return notifications
 
+    def get_context_data(self, **kwargs):
+        context = super(AjaxNotifications, self).get_context_data(**kwargs)
+
+        subject_id = self.kwargs.get('id', '')
+        subject = Subject.objects.get(id = subject_id)
+
+        context['subject_id'] = subject_id
+        context['subject'] = subject
+        
+        return context
+
 class AjaxHistory(LoginRequiredMixin, generic.ListView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
@@ -351,8 +362,10 @@ class AjaxHistory(LoginRequiredMixin, generic.ListView):
         context = super(AjaxHistory, self).get_context_data(**kwargs)
 
         subject_id = self.kwargs.get('id', '')
+        subject = Subject.objects.get(id = subject_id)
 
         context['subject_id'] = subject_id
+        context['subject'] = subject
         context['rows'] = self.num_rows
         context['searched'] = self.request.GET.get("search", "")
         context['order_by'] = self.request.GET.get("order_by", "")
