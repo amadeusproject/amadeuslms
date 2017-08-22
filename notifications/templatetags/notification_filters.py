@@ -22,15 +22,24 @@ def warning_class(level):
 	return class_name
 
 @register.filter(name = 'warning_msg')
-def warning_msg(level):
+def warning_msg(level, isnt_student):
 	if level == 1:
-		msg = _('You still did not realize this task')
+		if isnt_student:
+			msg = _('The student still did not realize this task')
+		else:
+			msg = _('You still did not realize this task')
 	elif level == 2:
-		msg = _('You still did not realize this task')
+		if isnt_student:
+			msg = _('The student still did not realize this task')
+		else:
+			msg = _('You still did not realize this task')
 	elif level == 3:
 		msg = _('This task is late')
 	else:
-		msg = _('You miss this task')
+		if isnt_student:
+			msg = _('The student miss this task')
+		else:
+			msg = _('You miss this task')
 
 	return msg
 

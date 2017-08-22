@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-21 20:43-0300\n"
+"POT-Creation-Date: 2017-08-21 23:53-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -76,12 +76,12 @@ msgstr "Data limite para submissão"
 
 #: goals/models.py:14 goals/models.py:39 goals/models.py:47
 #: goals/templates/goals/_form_submit.html:21
-#: goals/templates/goals/view.html:73
+#: goals/templates/goals/view.html:86
 msgid "Goal"
 msgstr "Meta"
 
 #: goals/models.py:15 goals/templates/goals/_answered.html:20
-#: goals/views.py:1112
+#: goals/views.py:1153
 msgid "Goals"
 msgstr "Metas"
 
@@ -148,7 +148,7 @@ msgstr "Especificação de Metas"
 
 #: goals/templates/goals/_form.html:109
 #: goals/templates/goals/_form_submit.html:22
-#: goals/templates/goals/view.html:74
+#: goals/templates/goals/view.html:87
 msgid "Minimum percentage desired"
 msgstr "Porcentagem mínima desejada"
 
@@ -356,7 +356,7 @@ msgstr "Enviar"
 
 #: goals/templates/goals/submit.html:66
 #: goals/templates/goals/update_submit.html:69
-#: goals/templates/goals/view.html:66
+#: goals/templates/goals/view.html:79
 #: goals/templates/goals/window_submit.html:40
 msgid "Limit submission date"
 msgstr "Data limite de submissão"
@@ -370,15 +370,15 @@ msgid "Update My Goals"
 msgstr "Atualizar Minhas Metas"
 
 #: goals/templates/goals/view.html:19 goals/templatetags/goals_filters.py:73
-#: goals/views.py:235
+#: goals/views.py:260
 msgid "My Goals"
 msgstr "Minhas Metas"
 
-#: goals/templates/goals/view.html:75
+#: goals/templates/goals/view.html:88
 msgid "Goal stabilished"
 msgstr "Meta estabelecida"
 
-#: goals/templates/goals/view.html:84
+#: goals/templates/goals/view.html:98
 msgid "Update Goals"
 msgstr "Atualizar Metas"
 
@@ -394,7 +394,7 @@ msgstr "Adicionou"
 msgid "Updated"
 msgstr "Atualizou"
 
-#: goals/templatetags/goals_filters.py:66 goals/views.py:1092
+#: goals/templatetags/goals_filters.py:66 goals/views.py:1133
 msgid "Submitted"
 msgstr "Submeteu"
 
@@ -403,102 +403,104 @@ msgstr "Submeteu"
 msgid "%s Instance"
 msgstr "Instância de %s"
 
-#: goals/utils.py:59 goals/views.py:1183
+#: goals/utils.py:59 goals/views.py:1224
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: goals/views.py:354 goals/views.py:490 goals/views.py:612
+#: goals/views.py:386 goals/views.py:525 goals/views.py:647
 #, python-format
 msgid "#Dificulty(ies) found in %s"
 msgstr "#Dificuldade(s) comunicada(s) em %s"
 
-#: goals/views.py:376 goals/views.py:514
+#: goals/views.py:408 goals/views.py:549
 #, python-format
 msgid "Your goals for %s was save successfully!"
 msgstr "Suas metas para %s foram salvas com sucesso!"
 
-#: goals/views.py:561
+#: goals/views.py:596
 #, python-format
 msgid ""
 "The date limit to submit your Goals specification for the topic %s has "
 "passed, so you can't edit your values!"
-msgstr "A data limite para submeter suas Metas para o tópico %s passou, então você não pode editar seus valores!"
+msgstr ""
+"A data limite para submeter suas Metas para o tópico %s passou, então você "
+"não pode editar seus valores!"
 
-#: goals/views.py:636
+#: goals/views.py:671
 #, python-format
 msgid "Your goals for %s was update successfully!"
 msgstr "Suas metas para %s foram atualizadas com sucesso!"
 
-#: goals/views.py:687 goals/views.py:701 goals/views.py:726 goals/views.py:845
-#: goals/views.py:859 goals/views.py:869
+#: goals/views.py:722 goals/views.py:736 goals/views.py:761 goals/views.py:883
+#: goals/views.py:897 goals/views.py:907
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: goals/views.py:687 goals/views.py:701 goals/views.py:726 goals/views.py:845
-#: goals/views.py:859 goals/views.py:869
+#: goals/views.py:722 goals/views.py:736 goals/views.py:761 goals/views.py:883
+#: goals/views.py:897 goals/views.py:907
 msgid "Submit"
 msgstr "Submeter"
 
-#: goals/views.py:789
+#: goals/views.py:824
 msgid "Create Topic Goals"
 msgstr "Adicionar Metas do Tópico"
 
-#: goals/views.py:800
+#: goals/views.py:835
 #, python-format
 msgid "The Goals specification for the topic %s was realized successfully!"
 msgstr "A Especificação de Metas para o tópico %s foi realizada com sucesso!"
 
-#: goals/views.py:924
+#: goals/views.py:962
 msgid "Update Topic Goals"
 msgstr "Atualizar Metas do Tópico"
 
-#: goals/views.py:935
+#: goals/views.py:973
 #, python-format
 msgid "The Goals specification for the topic %s was updated successfully!"
 msgstr "A Especificação de Metas para o tópico %s foi atualizada com sucesso!"
 
-#: goals/views.py:971
+#: goals/views.py:1012
 #, python-format
 msgid "The Goals specification of the topic %s was removed successfully!"
 msgstr "A Especificação de Metas para o tópico %s foi removida com sucesso!"
 
-#: goals/views.py:1061
+#: goals/views.py:1102
 msgid "Goals Reports"
 msgstr "Relatórios de metas"
 
-#: goals/views.py:1080
+#: goals/views.py:1121
 msgid "Realized"
 msgstr "Realizada"
 
-#: goals/views.py:1080
+#: goals/views.py:1121
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: goals/views.py:1080
+#: goals/views.py:1121
 msgid "Historic"
 msgstr "Histórico"
 
-#: goals/views.py:1092
+#: goals/views.py:1133
 msgid "View"
 msgstr "Visualizar"
 
-#: goals/views.py:1123
+#: goals/views.py:1164
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: goals/views.py:1124
+#: goals/views.py:1165
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: goals/views.py:1171
+#: goals/views.py:1212
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: goals/views.py:1191
+#: goals/views.py:1232
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: goals/views.py:1193
+#: goals/views.py:1234
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"

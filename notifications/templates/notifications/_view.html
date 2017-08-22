@@ -42,7 +42,7 @@
 						<div class="col-md-6">
 							<div class="alert {{ notification.level|warning_class }}">
 								<i class="fa fa-exclamation-triangle"></i>
-								<span>{{ notification.level|warning_msg }}</span>
+								<span>{{ notification.level|warning_msg:has_subject_permissions }}</span>
 							</div>
 						</div>
 					</div>

@@ -1,4 +1,6 @@
-{% load i18n notification_filters pagination %}
+{% load i18n notification_filters pagination permissions_tags %}
+
+{% subject_permissions request.user subject as has_subject_permissions %}
 
 <div class="row">
 	<div class="col-md-12">
@@ -62,7 +64,7 @@
 							<td>{{ notification.task.resource }}</td>
 							<td>{{ notification.task.get_action_display }}</td>
 							<td>{{ notification.task.end_date|date:"SHORT_DATE_FORMAT"|default:_('Not Informed') }}</td>
-							<td>{{ notification.level|warning_msg }}</td>
+							<td>{{ notification.level|warning_msg:has_subject_permissions }}</td>
 							<td>{{ notification.viewed|viewed_msg }}</td>
 							<td>{{ notification|observation }}</td>
 						</tr>
