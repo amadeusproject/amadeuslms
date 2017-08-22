@@ -207,15 +207,40 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
 
 	template_name = 'goals/view.html'
 	model = Goals
-	context_object_name = 'itens'	
+	context_object_name = 'itens'
+
+	students = None
 
 	def get_queryset(self):
 		slug = self.kwargs.get('slug', '')
 		goal = get_object_or_404(Goals, slug = slug)
 
-		goals = MyGoals.objects.filter(user = self.request.user, item__goal = goal)
+		if has_subject_permissions(self.request.user, goal):
+			self.students = User.objects.filter(subject_student = goal.topic.subject).order_by('social_name', 'username')
+
+			goals = MyGoals.objects.filter(user = self.students.first(), item__goal = goal)
+		else:
+			goals = MyGoals.objects.filter(user = self.request.user, item__goal = goal)
 
 		return goals
+
+	def post(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		goal = get_object_or_404(Goals, slug = slug)
+
+		user = request.POST.get('selected_student', None)
+
+		if has_subject_permissions(request.user, goal):
+			self.students = User.objects.filter(subject_student = goal.topic.subject).order_by('social_name', 'username')
+
+			if not user is None:
+				self.object_list = MyGoals.objects.filter(user__email = user, item__goal = goal)
+			else:
+				self.object_list = MyGoals.objects.filter(user = self.request.user, item__goal = goal)	
+		else:
+			self.object_list = MyGoals.objects.filter(user = self.request.user, item__goal = goal)
+
+		return self.render_to_response(self.get_context_data())
 
 	def dispatch(self, request, *args, **kwargs):
 		slug = self.kwargs.get('slug', '')
@@ -237,6 +262,10 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
 		context['goal'] = goals
 		context['topic'] = goals.topic
 		context['subject'] = goals.topic.subject
+
+		if not self.students is None:
+			context['sub_students'] = self.students
+			context['student'] = self.request.POST.get('selected_student', self.students.first().email)
 
 		self.log_context['category_id'] = goals.topic.subject.category.id
 		self.log_context['category_name'] = goals.topic.subject.category.name
@@ -799,14 +828,17 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 	def get_success_url(self):
 		messages.success(self.request, _('The Goals specification for the topic %s was realized successfully!')%(self.object.topic.name))
 
-		success_url = reverse_lazy('goals:submit', kwargs = {'slug': self.object.slug})
+		if has_subject_permissions(self.request.user, self.object):
+			success_url = reverse_lazy('goals:view', kwargs = {'slug': self.object.slug})
+		else:
+			success_url = reverse_lazy('goals:submit', kwargs = {'slug': self.object.slug})
 
-		if self.object.show_window:
-			self.request.session['resources'] = {}
-			self.request.session['resources']['new_page'] = True
-			self.request.session['resources']['new_page_url'] = reverse('goals:window_submit', kwargs = {'slug': self.object.slug})
+			if self.object.show_window:
+				self.request.session['resources'] = {}
+				self.request.session['resources']['new_page'] = True
+				self.request.session['resources']['new_page_url'] = reverse('goals:window_submit', kwargs = {'slug': self.object.slug})
 
-			success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+				success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
 		return success_url
 
