@@ -31,6 +31,7 @@
 	{% endif %}
 
 	{% resource_permissions request.user bulletin as has_resource_permissions %}
+	{% subject_permissions request.user bulletin.topic.subject as has_subject_permissions %}
 
 	{% if bulletin.visible %}
 		<div class="panel panel-info topic-panel">
@@ -55,6 +56,18 @@
 				</div>
 			</div>
 			<div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
+				{% if has_subject_permissions %}
+					<form id="student_bulletin" action="" method="POST">
+						{% csrf_token %}
+						<select name="selected_student" onchange="$('#student_bulletin').submit();">
+							{% for stu in students %}
+								<option value="{{ stu.email }}" {% if stu.email == student %}selected{% endif %}>{{ stu }}</option>
+							{% endfor %}
+						</select>
+					</form>
+					<br clear="all" />
+				{% endif %}
+
 				{% autoescape off %}
 				 {{ bulletin.content }}
 				{% endautoescape %}
@@ -179,6 +192,7 @@
 					</div>
 				</div>
 
+				{% if not has_subject_permissions %}
 				<div class="form-group" style="background-color:#fff; box-shadow: 1px 1px 25px #c0beaf; margin-top: 15px;">
 						<div class="row">
 						<div class="col-md-1" align="left" style="padding-left: 25px; padding-top: 10px;">
@@ -212,6 +226,13 @@
 						</div>
 				</div>
 		</div>
+		{% endif %}
+
+		{% block addtional_scripts %}
+			<script type="text/javascript">
+				sessionSecurity.confirmFormDiscard = undefined;
+			</script>
+		{% endblock %}
 
 
 		<script type="text/javascript">

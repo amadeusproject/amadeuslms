@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-22 06:51-0300\n"
+"POT-Creation-Date: 2017-08-23 23:53-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,23 +34,29 @@ msgstr "A confirmação de senha está incorreta."
 msgid "Password"
 msgstr "Senha"
 
+#: users/forms.py:61
+msgid "Password *"
+msgstr "Senha *"
+
 #: users/forms.py:62 users/forms.py:176 users/forms.py:236 users/forms.py:292
 msgid "Confirm Password"
 msgstr "Confirmação de Senha"
 
-#: users/forms.py:109 users/forms.py:270 users/templates/users/list.html:56
-#: users/templates/users/login.html:47 users/templates/users/search.html:47
-msgid "Email"
-msgstr "Email"
+#: users/forms.py:62
+msgid "Confirm Password *"
+msgstr "Confirmação de Senha *"
 
-#: users/forms.py:110 users/models.py:29 users/templates/users/list.html:55
-#: users/templates/users/search.html:46
-msgid "Name"
-msgstr "Nome"
+#: users/forms.py:109
+msgid "Email *"
+msgstr "Email *"
 
-#: users/forms.py:111 users/models.py:30
-msgid "Last Name"
-msgstr "Sobrenome"
+#: users/forms.py:110
+msgid "Name *"
+msgstr "Nome *"
+
+#: users/forms.py:111
+msgid "Last Name *"
+msgstr "Sobrenome *"
 
 #: users/forms.py:112 users/models.py:31
 msgid "Social Name"
@@ -67,6 +73,11 @@ msgstr "O valor inserido não corresponde à sua senha atual."
 #: users/forms.py:263
 msgid "Actual Password"
 msgstr "Senha Atual"
+
+#: users/forms.py:270 users/templates/users/list.html:56
+#: users/templates/users/login.html:47 users/templates/users/search.html:47
+msgid "Email"
+msgstr "Email"
 
 #: users/forms.py:284
 msgid "You must insert a valid email address"
@@ -91,6 +102,15 @@ msgstr ""
 #: users/models.py:28
 msgid "Your email address that will be used to access the platform"
 msgstr "Seu endereço de email que será usado para acessar a plataforma"
+
+#: users/models.py:29 users/templates/users/list.html:55
+#: users/templates/users/search.html:46
+msgid "Name"
+msgstr "Nome"
+
+#: users/models.py:30
+msgid "Last Name"
+msgstr "Sobrenome"
 
 #: users/models.py:32 users/templates/users/list.html:57
 #: users/templates/users/profile.html:60 users/templates/users/search.html:48
@@ -400,19 +420,3 @@ msgstr "Sistema em manutenção. Tente novamente mais tarde"
 #: users/views.py:535
 msgid "E-mail or password are incorrect."
 msgstr "Email ou senha incorretos."
-
-#~ msgid "Delete User"
-#~ msgstr "Deletar Usuário"
-
-#~ msgid "All data will be lost and havent how recover it."
-#~ msgstr "Toda informação será perdida e não poderá ser recuperada"
-
-#~ msgid "Remove"
-#~ msgstr "Deletar"
-
-#~ msgid "Remove Account"
-#~ msgstr "Remover Conta"
-
-#, fuzzy
-#~ msgid "User {name} created successfully"
-#~ msgstr "Usuário {name} criado com sucesso"

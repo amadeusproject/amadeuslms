@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-{% load static i18n util_tags %}
+{% load static i18n permissions_tags util_tags %}
 {% load widget_tweaks %}
 
 <html>
@@ -64,7 +64,21 @@
 		<link rel="stylesheet" href="{% static  'css/estilo.css' %}">
 </head>
 <body style="background: #FFF">
+
+	{% subject_permissions request.user bulletin.topic.subject as has_subject_permissions %}
 	<div class="container-fluid" style="padding-top: 20px;">
+		{% if has_subject_permissions %}
+			<form id="student_bulletin" action="" method="POST">
+				{% csrf_token %}
+				<select name="selected_student" onchange="$('#student_bulletin').submit();">
+					{% for stu in students %}
+						<option value="{{ stu.email }}" {% if stu.email == student %}selected{% endif %}>{{ stu }}</option>
+					{% endfor %}
+				</select>
+			</form>
+			<br clear="all" />
+		{% endif %}
+
 				{% autoescape off %}
 				 {{ bulletin.content }}
 				{% endautoescape %}
@@ -189,6 +203,7 @@
 					</div>
 				</div>
 
+				{% if not has_subject_permissions %}
 				<div class="form-group" style="background-color:#fff; box-shadow: 1px 1px 25px #c0beaf; margin-top: 15px;">
 						<div class="row">
 						<div class="col-md-1" align="left" style="padding-left: 25px; padding-top: 10px;">
@@ -222,7 +237,12 @@
 						</div>
 				</div>
 		</div>
+		{% endif %}
 
+{% include 'session_security/all.html' %}
+			<script type="text/javascript">
+				sessionSecurity.confirmFormDiscard = undefined;
+			</script>
 
 		<script type="text/javascript">
 		// Variável obtidas a partir do número de metas atendidas

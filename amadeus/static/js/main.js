@@ -12,6 +12,7 @@ $(function () {
 
 	$('.text_wysiwyg').summernote({
 	    height: 200,
+	    lang: new_lang,
 	    disableDragAndDrop: true,
 	});
 

@@ -55,6 +55,7 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
     template_name = 'bulletin/window_view.html'
     model = Bulletin
     context_object_name = 'bulletin'
+    student = None
 
     def dispatch(self, request, *args, **kwargs):
         slug = self.kwargs.get('slug', '')
@@ -67,22 +68,30 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
     def post(self, request, *args, **kwargs):
         difficulties = self.request.POST.get('difficulties', None)
+        user_selected = request.POST.get('selected_student', None)
 
         slug = self.kwargs.get('slug', '')
         bulletin = get_object_or_404(Bulletin, slug=slug)
 
         self.object = bulletin
 
-        if not difficulties is None and not difficulties == "":
-            message = _("#Dificulty(ies) found in %s")%(str(bulletin)) + ":<p>" + difficulties + "</p>"
-
-            brodcast_dificulties(self.request, message, bulletin.topic.subject)
-
-            messages.success(self.request, message = _("Difficulties sent to the subject professor(s)"))
-            return self.render_to_response(context = self.get_context_data())
+        if has_subject_permissions(request.user, bulletin.topic.subject):
+            if not user_selected is None:
+                user = User.objects.get(email = user_selected)
+                self.student = user
         else:
-            messages.error(self.request, message = _("You should inform some difficulty"))
-            return self.render_to_response(context = self.get_context_data())
+            if not difficulties is None and not difficulties == "":
+                message = _("#Dificulty(ies) found in %s")%(str(bulletin)) + ":<p>" + difficulties + "</p>"
+
+                brodcast_dificulties(self.request, message, bulletin.topic.subject)
+
+                messages.success(self.request, message = _("Difficulties sent to the subject professor(s)"))
+                return self.render_to_response(context = self.get_context_data())
+            else:
+                messages.error(self.request, message = _("You should inform some difficulty"))
+                return self.render_to_response(context = self.get_context_data())
+
+        return self.render_to_response(context = self.get_context_data())
 
     def get_context_data(self, **kwargs):
         context = super(NewWindowView, self).get_context_data(**kwargs)
@@ -115,14 +124,23 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
         slug = self.kwargs.get('slug', '')
         bulletin = get_object_or_404(Bulletin, slug=slug)
+        students = User.objects.filter(subject_student = bulletin.topic.subject).order_by('social_name', 'username')
+
+        if has_subject_permissions(self.request.user, bulletin.topic.subject):
+            if  not self.student is None:
+                estudante = self.student
+            else:
+                estudante = students.first()
+        else:
+            estudante = self.request.user
 
         meta_geral = Goals.objects.get(topic=topic)
         metas = GoalItem.objects.filter(goal = meta_geral)
         metas_pessoais = []
         n_submeteu = False
         for m in metas:
-            if MyGoals.objects.filter(item = m, user = self.request.user).exists():
-                metas_pessoais.append(MyGoals.objects.get(item = m, user = self.request.user))
+            if MyGoals.objects.filter(item = m, user = estudante).exists():
+                metas_pessoais.append(MyGoals.objects.get(item = m, user = estudante))
                 n_submeteu = False
             else:
                 n_submeteu = True
@@ -137,8 +155,8 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
             else:
                 lista_metas[x]['estabelecida'] = metas_pessoais[x].value
 
-        alcancadas, medias = read_excel_file(self.request.user,meta_geral,len(itens_da_meta),bulletin)
-        maximos, medianas, resultados,titulos = read_excel_file_indicators(self.request.user,bulletin)
+        alcancadas, medias = read_excel_file(estudante,meta_geral,len(itens_da_meta),bulletin)
+        maximos, medianas, resultados,titulos = read_excel_file_indicators(estudante,bulletin)
 
         for x in range(len(lista_metas)):
             lista_metas[x]['alcancada'] = alcancadas[x]
@@ -164,9 +182,10 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context['medianas'] = medianas
         context['resultados'] = resultados
         context['titulos'] = titulos
+        context['student'] = self.request.POST.get('selected_student', students.first().email)
+        context['students'] = students
 
         return context
-
 class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view'
@@ -179,6 +198,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
     template_name = 'bulletin/view.html'
     model = Bulletin
     context_object_name = 'bulletin'
+    student = None
 
     def dispatch(self, request, *args, **kwargs):
         slug = self.kwargs.get('slug', '')
@@ -191,22 +211,30 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
     def post(self, request, *args, **kwargs):
         difficulties = self.request.POST.get('difficulties', None)
+        user_selected = request.POST.get('selected_student', None)
 
         slug = self.kwargs.get('slug', '')
         bulletin = get_object_or_404(Bulletin, slug=slug)
 
         self.object = bulletin
 
-        if not difficulties is None and not difficulties == "":
-            message = _("#Dificulty(ies) found in %s")%(str(bulletin)) + ":<p>" + difficulties + "</p>"
-
-            brodcast_dificulties(self.request, message, bulletin.topic.subject)
-
-            messages.success(self.request, message = _("Difficulties sent to the subject professor(s)"))
-            return self.render_to_response(context = self.get_context_data())
+        if has_subject_permissions(request.user, bulletin.topic.subject):
+            if not user_selected is None:
+                user = User.objects.get(email = user_selected)
+                self.student = user
         else:
-            messages.error(self.request, message = _("You should inform some difficulty"))
-            return self.render_to_response(context = self.get_context_data())
+            if not difficulties is None and not difficulties == "":
+                message = _("#Dificulty(ies) found in %s")%(str(bulletin)) + ":<p>" + difficulties + "</p>"
+
+                brodcast_dificulties(self.request, message, bulletin.topic.subject)
+
+                messages.success(self.request, message = _("Difficulties sent to the subject professor(s)"))
+                return self.render_to_response(context = self.get_context_data())
+            else:
+                messages.error(self.request, message = _("You should inform some difficulty"))
+                return self.render_to_response(context = self.get_context_data())
+
+        return self.render_to_response(context = self.get_context_data())
 
     def get_context_data(self, **kwargs):
         context = super(InsideView, self).get_context_data(**kwargs)
@@ -238,13 +266,22 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
         topic = self.object.topic
         slug = self.kwargs.get('slug', '')
         bulletin = get_object_or_404(Bulletin, slug=slug)
+        students = User.objects.filter(subject_student = bulletin.topic.subject).order_by('social_name', 'username')
+        if has_subject_permissions(self.request.user, bulletin.topic.subject):
+            if  not self.student is None:
+                estudante = self.student
+            else:
+                estudante = students.first()
+        else:
+            estudante = self.request.user
+
         meta_geral = Goals.objects.get(topic=topic)
         metas = GoalItem.objects.filter(goal = meta_geral)
         metas_pessoais = []
         n_submeteu = False
         for m in metas:
-            if MyGoals.objects.filter(item = m, user = self.request.user).exists():
-                metas_pessoais.append(MyGoals.objects.get(item = m, user = self.request.user))
+            if MyGoals.objects.filter(item = m, user = estudante).exists():
+                metas_pessoais.append(MyGoals.objects.get(item = m, user = estudante))
                 n_submeteu = False
             else:
                 n_submeteu = True
@@ -259,8 +296,8 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
             else:
                 lista_metas[x]['estabelecida'] = metas_pessoais[x].value
 
-        alcancadas, medias = read_excel_file(self.request.user,meta_geral,len(itens_da_meta),bulletin)
-        maximos, medianas, resultados,titulos = read_excel_file_indicators(self.request.user,bulletin)
+        alcancadas, medias = read_excel_file(estudante,meta_geral,len(itens_da_meta),bulletin)
+        maximos, medianas, resultados,titulos = read_excel_file_indicators(estudante,bulletin)
 
         for x in range(len(lista_metas)):
             lista_metas[x]['alcancada'] = alcancadas[x]
@@ -287,7 +324,8 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context['medianas'] = medianas
         context['resultados'] = resultados
         context['titulos'] = titulos
-
+        context['student'] = self.request.POST.get('selected_student', students.first().email)
+        context['students'] = students
         return context
 
 class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
