@@ -14,6 +14,25 @@ class TopicForm(forms.ModelForm):
 
 		self.subject = kwargs['initial'].get('subject', None)
 
+		if self.instance and self.instance.id:
+			if self.instance.repository:
+				self.fields['name'].widget.attrs['readonly'] = True
+
+
+	def clean_repository(self):
+		repository = self.cleaned_data.get('repository', False)
+
+		if not self.instance.id:
+			if repository:
+				has_repo = self.subject.topic_subject.filter(repository = True).exists()
+
+				if has_repo:
+					self._errors['repository'] = [_('This subject already has a repository')]
+
+					return ValueError
+
+		return repository
+
 	def clean_name(self):
 		name = self.cleaned_data.get('name', '')
 		repo = self.cleaned_data.get('repository', False)
