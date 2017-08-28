@@ -242,12 +242,20 @@ class DeleteView(braces_mixins.LoginRequiredMixin, LogMixin, generic.DeleteView)
 			redirect_url = redirect(error_url)
 		else:
 			self.log_context['dependencies'] = False
-			image_path_to_delete = user.image.path
+
+			if user.image:
+				image_path_to_delete = user.image.path
+			else:
+				image_path_to_delete = None
+
 			user.delete()
 
 			messages.success(self.request, success_msg)
-			#deleting the user image
-			os.remove(image_path_to_delete)
+			
+			if not image_path_to_delete is None:
+				#deleting the user image
+				os.remove(image_path_to_delete)
+				
 			redirect_url = redirect(success_url)
 
 		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
