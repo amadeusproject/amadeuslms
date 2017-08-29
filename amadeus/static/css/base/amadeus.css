@@ -1150,7 +1150,9 @@ li.item .notify_badge {
 
 /*Carrosel change*/
 
-
+.carousel-inner > .item > span > img, .carousel-inner > .item > span > a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    width: 100%;
+}
 
 .carousel-control.right{
     background-image: none !important;
