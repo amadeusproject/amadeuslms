@@ -391,7 +391,7 @@ msgid ""
 "you don't receive it in 24 hours, please check your spam box."
 msgstr ""
 "Em breve você receberá um email com instruções para cadastrar sua nova "
-"senha. Se você não recebê-lo em 24 hhoras, por favor olhe sua caixa de spam."
+"senha. Se você não recebê-lo em 24 horas, por favor olhe sua caixa de spam."
 
 #: users/views.py:457
 msgid "No user is associated with this email address"
