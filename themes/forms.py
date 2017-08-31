@@ -1,6 +1,8 @@
 # coding=utf-8
 from django import forms
 
+from resubmit.widgets import ResubmitFileWidget
+
 from .models import Themes
 
 class BasicElemetsForm(forms.ModelForm):
@@ -45,6 +47,11 @@ class BasicElemetsForm(forms.ModelForm):
 	class Meta:
 		model = Themes
 		fields = ['title', 'favicon', 'small_logo', 'large_logo', 'footer_note']
+		widgets = {
+			'favicon': ResubmitFileWidget(attrs={'accept':'image/*'}),
+			'small_logo': ResubmitFileWidget(attrs={'accept':'image/*'}),
+			'larger_logo': ResubmitFileWidget(attrs={'accept':'image/*'}),
+		}
 
 class CSSStyleForm(forms.ModelForm):
 

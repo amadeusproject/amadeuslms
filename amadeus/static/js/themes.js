@@ -30,10 +30,47 @@ function Init() {
 // file selection
 function FileSelectHandler(e) {
 	var files = e.target.files || e.dataTransfer.files,
-		parent = $(e.target.offsetParent);
+		parent = $(e.target.offsetParent),
+		file_id = parent.data('file_id'),
+		submit_btn = $("#theme-form").find("input[type='submit']"),
+		max_size = 2*1024*1024;
 
+	parent.removeClass('alert-file');
+
+	var alerts_open = $("#theme-form").find(".alert-file").length;
+
+	console.log(alerts_open);
+
+	if (alerts_open == 0) {
+		$(submit_btn).prop('disable', false);
+		$(submit_btn).prop('disabled', false);
+	}
+
+	$("." + file_id + "-file-errors").hide();
+	$("." + file_id + "-file-errors .size").hide();
+	$("." + file_id + "-file-errors .format").hide();
 	// process all File objects
 	for (var i = 0, f; f = files[i]; i++) {
+		if (f.size > max_size) {
+			$(submit_btn).prop('disable', true);
+			$(submit_btn).prop('disabled', true);
+
+			$("." + file_id + "-file-errors").show();
+			$("." + file_id + "-file-errors .size").show();
+
+			parent.addClass('alert-file');
+		} 
+
+		if (!f.type.match(/^image\//)) {
+			$(submit_btn).prop('disable', true);
+			$(submit_btn).prop('disabled', true);
+
+			$("." + file_id + "-file-errors").show();
+			$("." + file_id + "-file-errors .format").show();
+
+			parent.addClass('alert-file');
+		}
+
 		parent.find('.filedrag').html(f.name);
 	}
 }
