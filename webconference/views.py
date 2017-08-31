@@ -176,7 +176,7 @@ def finish(request):
 
     request.log_context = log_context
 
-    url = {'url': 'http://localhost:8000' + str(reverse_lazy('webconferences:view', kwargs = {'slug': request.GET['roomName']}))}
+    url = {'url': str(reverse_lazy('webconferences:view', kwargs = {'slug': request.GET['roomName']}))}
     return JsonResponse(url, safe=False)
 
 
