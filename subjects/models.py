@@ -20,7 +20,7 @@ class Tag(models.Model):
 
 class Subject(models.Model):
 
-    name = models.CharField( _("Name"), unique = True,max_length= 200)
+    name = models.CharField( _("Name"), unique = False, max_length= 200)
     slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
 
     description_brief = models.TextField(_("simpler_description"), blank=True)

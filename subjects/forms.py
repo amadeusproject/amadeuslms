@@ -4,8 +4,18 @@ import datetime
 from .models import Subject, Tag
 
 class CreateSubjectForm(forms.ModelForm):
+    category_id = None
+
     def __init__(self, *args, **kwargs):
         super(CreateSubjectForm, self).__init__(*args, **kwargs)
+
+        if kwargs['initial']:
+            if kwargs['initial']['category']:
+                categories = kwargs['initial']['category']
+
+                if categories.count() > 0:
+                    self.category_id = categories[0].id
+
 
         if not kwargs['instance'] is None:
             self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
@@ -58,15 +68,16 @@ class CreateSubjectForm(forms.ModelForm):
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
-        categoria = self.instance.category
+        
         if self.instance.id:
-            same_name = Subject.objects.filter(name__unaccent__iexact = name, category = categoria).exclude(id = self.instance.id)
+            same_name = Subject.objects.filter(name__unaccent__iexact = name, category = self.category_id).exclude(id = self.instance.id)
         else:
-            same_name = Subject.objects.filter(name__unaccent__iexact = name, category = categoria)
+            same_name = Subject.objects.filter(name__unaccent__iexact = name, category = self.category_id)
+        
         if same_name.count() > 0:
             self._errors['name'] = [_('There is another subject with this name, try another one.')]
-
-
+            return ValueError
+        
         return name
 
     def clean_subscribe_begin(self):
@@ -162,13 +173,14 @@ class UpdateSubjectForm(forms.ModelForm):
     def clean_name(self):
         name = self.cleaned_data.get('name')
         categoria = self.instance.category
+        
         if self.instance.id:
             same_name = Subject.objects.filter(name__unaccent__iexact = name , category = categoria).exclude(id = self.instance.id)
         else:
-            same_name = Subject.objects.filter(name__unaccent__iexact = name).exclude(category = categoria)
+            same_name = Subject.objects.filter(name__unaccent__iexact = name, category = categoria)
+        
         if same_name.count() > 0:
             self._errors['name'] = [_('There is another subject with this name, try another one.')]
-
 
         return name
 
