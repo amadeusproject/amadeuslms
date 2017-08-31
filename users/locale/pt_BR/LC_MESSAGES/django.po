@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-27 21:08-0300\n"
+"POT-Creation-Date: 2017-08-30 22:41-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "You must insert an email address"
 msgstr "Você deve inserir um endereço de email"
 
-#: users/forms.py:43
+#: users/forms.py:43 users/templates/users/_form.html:94
 msgid "The image is too large. It should have less than 2MB."
 msgstr "A imagem é muito grande. Ela deve conter menos de 2MB."
 
@@ -87,7 +87,7 @@ msgstr "Email"
 msgid "You must insert a valid email address"
 msgstr "Você deve inserir um endereço de email válido"
 
-#: users/models.py:18
+#: users/models.py:18 users/templates/users/_form.html:95
 msgid "File not supported."
 msgstr "Arquivo não suportado."
 
@@ -173,15 +173,24 @@ msgstr "Sim"
 msgid "Is not an admin"
 msgstr "Não é administrador"
 
-#: users/templates/users/_form.html:16 users/templates/users/register.html:53
+#: users/templates/users/_form.html:18 users/templates/users/register.html:53
 msgid "Choose your photo..."
 msgstr "Escolha sua foto..."
 
-#: users/templates/users/_form.html:76
+#: users/templates/users/_form.html:32
+msgid "Click or drop the file here"
+msgstr ""
+
+#: users/templates/users/_form.html:34
+msgid "The photo could not exceed 2MB."
+msgstr "A imagem não pode exceder o tamanho de 2MB."
+
+#: users/templates/users/_form.html:103
 msgid "Save"
 msgstr "Salvar"
 
-#: users/templates/users/_form.html:79 users/templates/users/modal_crop.html:24
+#: users/templates/users/_form.html:106
+#: users/templates/users/modal_crop.html:24
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -259,7 +268,7 @@ msgstr "Entrar"
 msgid "Sign Up"
 msgstr "Cadastrar"
 
-#: users/templates/users/login.html:81 users/templates/users/login.html:114
+#: users/templates/users/login.html:79 users/templates/users/login.html:107
 msgid "Forgot your password?"
 msgstr "Esqueceu sua senha?"
 

@@ -557,6 +557,9 @@ a.add-row {
 .bulletin-warning a {
   color: #4caf50; }
 
+.login_subcommands a, .login_subcommands a:hover {
+  color: #43a251; }
+
 @media(max-width: 768px) {
   .navbar .navbar-nav .dropdown .dropdown-menu li > a {
     color: #333333 !important; }
