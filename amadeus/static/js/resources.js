@@ -132,10 +132,39 @@ function Init() {
 // file selection
 function FileSelectHandler(e) {
 	var files = e.target.files || e.dataTransfer.files,
-		parent = $(e.target.offsetParent);
+		parent = $(e.target.offsetParent),
+		max_size = parseInt($(e.target).data("max_size")) * 1024 * 1024,
+		submit_btn = $(e.target).closest("form").find("input[type='submit']"),
+		mimeTypes = $(e.target).data('mimetypes');
+
+	$(".client-file-errors").hide();
+	$(".size").hide();
+	$(".format").hide();
+	$(submit_btn).prop('disable', false);
+	$(submit_btn).prop('disabled', false);
+
+	console.log($(e.target).data('mimetypes'));
+	console.log(mimeTypes);
 
 	// process all File objects
 	for (var i = 0, f; f = files[i]; i++) {
+
+		if (f.size > max_size) {
+			$(submit_btn).prop('disable', true);
+			$(submit_btn).prop('disabled', true);
+
+			$(".client-file-errors").show();
+			$(".size").show();
+		} 
+
+		if (!mimeTypes.includes(f.type)) {
+			$(submit_btn).prop('disable', true);
+			$(submit_btn).prop('disabled', true);
+
+			$(".client-file-errors").show();
+			$(".format").show();
+		}
+
 		parent.find('.filedrag').html(f.name);
 	}
 }

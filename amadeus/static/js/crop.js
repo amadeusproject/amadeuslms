@@ -3,7 +3,6 @@ $(function () {
 	$("#id_image").change(function () {
 		var max_size = 2*1024*1024;
 		var submit_btn = $("#user-form").find("input[type='submit']");
-		var regex = new RegExp("(.*?)\.(jpg|jpeg|png)$");
 		var errors = 0;
 
 		$(".client-file-errors").hide();

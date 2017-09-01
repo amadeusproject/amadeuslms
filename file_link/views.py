@@ -16,7 +16,7 @@ from topics.models import Topic
 from pendencies.forms import PendenciesForm
 
 from .forms import FileLinkForm
-from .models import FileLink
+from .models import FileLink, valid_formats
 
 
 import datetime
@@ -198,6 +198,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		context['topic'] = topic
 		context['subject'] = topic.subject
+		context['mimeTypes'] = valid_formats
 
 		return context
 
@@ -312,6 +313,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
 		context['topic'] = topic
 		context['subject'] = topic.subject
+		context['mimeTypes'] = valid_formats
 
 		return context
 

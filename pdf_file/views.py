@@ -16,7 +16,7 @@ from django.http import HttpResponse, Http404
 
 from log.mixins import LogMixin
 from topics.models import Topic, Resource
-from .models import PDFFile
+from .models import PDFFile, valid_formats
 from pendencies.forms import PendenciesForm
 
 from chat.models import Conversation, TalkMessages, ChatVisualizations
@@ -204,6 +204,7 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
 
         context['topic'] = topic
         context['subject'] = topic.subject
+        context['mimeTypes'] = valid_formats
 
         return context
 
@@ -319,6 +320,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
         context['topic'] = topic
         context['subject'] = topic.subject
+        context['mimeTypes'] = valid_formats
 
         return context
 
