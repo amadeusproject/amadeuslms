@@ -135,20 +135,16 @@ function FileSelectHandler(e) {
 		parent = $(e.target.offsetParent),
 		max_size = parseInt($(e.target).data("max_size")) * 1024 * 1024,
 		submit_btn = $(e.target).closest("form").find("input[type='submit']"),
-		mimeTypes = ['image/jpeg','image/x-citrix-jpeg','image/png','image/x-citrix-png','image/x-png',
-		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-		'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-		'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-		'application/vnd.ms-excel','text/html','application/msword','application/vnd.oasis.opendocument.presentation',
-		'application/vnd.oasis.opendocument.spreadsheet','application/vnd.oasis.opendocument.text',
-		'application/pdf', 'application/vnd.ms-powerpoint'];
+		mimeTypes = $(e.target).data('mimetypes');
 
 	$(".client-file-errors").hide();
 	$(".size").hide();
 	$(".format").hide();
 	$(submit_btn).prop('disable', false);
 	$(submit_btn).prop('disabled', false);
+
+	console.log($(e.target).data('mimetypes'));
+	console.log(mimeTypes);
 
 	// process all File objects
 	for (var i = 0, f; f = files[i]; i++) {

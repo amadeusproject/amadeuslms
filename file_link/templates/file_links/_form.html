@@ -27,7 +27,7 @@
 	</div>
 
 	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
-		{% render_field form.file_content class='file-selector' data-max_size="10" %}
+		{% render_field form.file_content class='file-selector' data-max_size="10" data-mimetypes=mimeTypes %}
 		
 		<div class="input-group common-file-input">
 	      	<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">

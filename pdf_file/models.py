@@ -6,11 +6,11 @@ from django.core.urlresolvers import reverse_lazy
 
 from topics.models import Resource
 # Create your models here.
+valid_formats = [
+    'application/pdf'
+]
+
 def validate_file_extension(value):
-    valid_formats = [
-        'application/pdf'
-    ]
-    
     if hasattr(value.file, 'content_type'):
         if not value.file.content_type in valid_formats:
             raise ValidationError(_('File not supported, use PDF format instead.'))
