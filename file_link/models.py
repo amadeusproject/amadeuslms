@@ -15,7 +15,8 @@ def validate_file_extension(value):
 		'application/vnd.openxmlformats-officedocument.presentationml.presentation',
 		'application/vnd.ms-excel','text/html','application/msword','application/vnd.oasis.opendocument.presentation',
 		'application/vnd.oasis.opendocument.spreadsheet','application/vnd.oasis.opendocument.text',
-		'application/pdf'
+		'application/pdf',
+		'application/vnd.ms-powerpoint'
 	]
 
 	if hasattr(value.file, 'content_type'):
