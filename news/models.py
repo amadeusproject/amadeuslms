@@ -7,9 +7,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from users.models import User
 
-def validate_img_extension(value):
-	valid_formats = ['image/jpeg','image/x-citrix-jpeg','image/png','image/x-citrix-png','image/x-png']
+valid_formats = ['image/jpeg','image/x-citrix-jpeg','image/png','image/x-citrix-png','image/x-png']
 
+def validate_img_extension(value):
 	if hasattr(value.file, 'content_type'):
 		if not value.file.content_type in valid_formats:
 			raise ValidationError(_('File not supported.'))
@@ -21,6 +21,7 @@ class News(models.Model):
 	content = models.TextField(_('News Content'), blank = True)
 	create_date = models.DateTimeField(_('Create Date'), auto_now_add = True)
 	creator = models.ForeignKey(User, verbose_name = _('Creator'), related_name = "news_creator_user", null = True)
+	
 	class Meta:
 		verbose_name = _('News')
 		verbose_name_plural = _('News')

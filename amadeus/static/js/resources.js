@@ -143,9 +143,6 @@ function FileSelectHandler(e) {
 	$(submit_btn).prop('disable', false);
 	$(submit_btn).prop('disabled', false);
 
-	console.log($(e.target).data('mimetypes'));
-	console.log(mimeTypes);
-
 	// process all File objects
 	for (var i = 0, f; f = files[i]; i++) {
 
