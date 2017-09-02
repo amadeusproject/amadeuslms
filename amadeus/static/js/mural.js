@@ -255,6 +255,11 @@ function setCommentFormSubmit(post, comment = "") {
     var frm = $('#comment-form');
 
     frm.submit(function () {
+        var btn = frm.parent().parent().parent().find("button[form='comment-form']")
+
+        btn.prop('disable', true);
+        btn.prop('disabled', true);
+
         var formData = new FormData($(this)[0]);
 
         $.ajax({
