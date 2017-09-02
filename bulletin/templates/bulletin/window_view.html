@@ -47,7 +47,7 @@
 		<script type="text/javascript" src="{% static 'js/jscookie.js' %}"></script>
 	    <script type="text/javascript" src="{% static 'js/jPages.js' %}"></script>
 	    <script type="text/javascript" src="{% static 'js/d3.v3.min.js' %}"></script>
-			<script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
+		<script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
 
 	  	<!-- Font awesome -->
 		<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
@@ -55,13 +55,14 @@
 		<!-- Custom styles -->
 	    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus_responsive.css' %}">
 	    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
+		<link rel="stylesheet" href="{% static  'css/estilo.css' %}">
 
     {% with 'css/themes/'|add:theme.css_style|add:'.css' as theme_selected %}
         <link rel="stylesheet" type="text/css" href="{% static theme_selected %}">
     {% endwith %}
 
 
-		<link rel="stylesheet" href="{% static  'css/estilo.css' %}">
+
 </head>
 <body style="background: #FFF">
 
@@ -115,28 +116,40 @@
 
 
 											<!-- Cor amarela -->
-										  {% if meta.alcancada < meta.desejada and meta.alcancada > meta.estabelecida %}
-												<th style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 10px #000; color:#fff; font-weight: normal;">{{ meta.alcancada }}%</th>
-										  {% endif %}
+											{% if meta.alcancada < meta.desejada and meta.alcancada > meta.estabelecida %}
+												<th style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
+												data-toggle="tooltip" data-html="true" data-placement="bottom"
+												title="<b>Meta atingida!</b><br><br>Atenção! O seu resultado foi inferior ao recomendado pelo professor." class="grey-tooltip">
+												{{ meta.alcancada }}%</th>
+											{% endif %}
 
-										  {% if meta.alcancada > meta.desejada and meta.alcancada < meta.estabelecida %}
-												<th style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 10px #000; color:#fff; font-weight: normal;">{{ meta.alcancada }}%</th>
+											{% if meta.alcancada > meta.desejada and meta.alcancada < meta.estabelecida %}
+												<th style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
+												data-toggle="tooltip" data-html="true" data-placement="bottom"
+												title="<b>Meta atingida!</b><br><br>Atenção! O seu resultado foi inferior a sua meta inicial." class="grey-tooltip">
+												{{ meta.alcancada }}%</th>
 
-										  {% endif %}
-										  <!-- Cor amarela -->
+											{% endif %}
+											<!-- Cor amarela -->
 
 											<!-- Cor verde -->
 											{% if meta.alcancada > meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada == 100 %}
-												<th style="text-align:center;background-color:#00d337;  text-shadow: 1px 1px 10px #000; color:#fff; font-weight: normal;">{{ meta.alcancada }}%</th>
+												<th style="text-align:center;background-color:#00d337;  text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
+												data-toggle="tooltip" data-html="true" data-placement="bottom"
+												title="<b>Meta atingida!</b>" class="grey-tooltip">
+												{{ meta.alcancada }}%</th>
 											{% endif %}
 											<!-- Cor verde -->
 
-										  <!-- Cor vermelha -->
-										  {% if meta.alcancada < meta.desejada and meta.alcancada < meta.estabelecida %}
-												<th style="text-align:center;background-color:#ff0000; text-shadow: 1px 1px 10px #000; color:#fff; font-weight: normal;">{{ meta.alcancada }}%</th>
+											<!-- Cor vermelha -->
+											{% if meta.alcancada < meta.desejada and meta.alcancada < meta.estabelecida %}
+												<th style="text-align:center;background-color:#ff0000; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
+												data-toggle="tooltip" data-html="true" data-placement="bottom"
+												title="<b>Meta não atingida!</b><br><br>Resultado inferior </br>a sua meta e ao recomendado pelo professor." class="grey-tooltip">
+												{{ meta.alcancada }}%</th>
 
-										  {% endif %}
-										  <!-- Cor vermelha -->
+											{% endif %}
+											<!-- Cor vermelha -->
 
 
 										</tr>
@@ -245,6 +258,9 @@
 			</script>
 
 		<script type="text/javascript">
+		$('[data-toggle="tooltip"]').tooltip({
+			trigger: 'hover'
+		});
 		// Variável obtidas a partir do número de metas atendidas
 		var percent = "{{ percent }}";
 
