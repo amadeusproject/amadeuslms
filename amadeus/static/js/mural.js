@@ -91,7 +91,12 @@ function seeComplete(btn, post) {
 function setPostFormSubmit(post = "") {
     var frm = $('#post-form');
 
-    frm.submit(function () {
+    frm.submit(function (e) {
+        var btn = frm.parent().parent().parent().find("button[form='post-form']")
+
+        btn.prop('disable', true);
+        btn.prop('disabled', true);
+
         var formData = new FormData($(this)[0]);
 
         $.ajax({
