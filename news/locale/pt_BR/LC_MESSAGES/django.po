@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 22:41-0300\n"
+"POT-Creation-Date: 2017-09-02 01:44-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "This field is required"
 msgstr "Este campo é obrigatório."
 
-#: news/forms.py:74
+#: news/forms.py:74 news/templates/news/_form.html:72
 msgid "The image is too large. It should have less than 5MB."
 msgstr "A imagem é muito grande. Ela deve ter menos que 5MB."
 
@@ -30,7 +30,7 @@ msgstr "A imagem é muito grande. Ela deve ter menos que 5MB."
 msgid "This field is required."
 msgstr "Este campo é obrigatório."
 
-#: news/models.py:15
+#: news/models.py:15 news/templates/news/_form.html:73
 msgid "File not supported."
 msgstr "Arquivo não suportado"
 
@@ -58,19 +58,27 @@ msgstr "Data de criação"
 msgid "Creator"
 msgstr "Autor"
 
-#: news/models.py:25 news/models.py:26 news/templates/news/list.html:11
+#: news/models.py:26 news/models.py:27 news/templates/news/list.html:11
 msgid "News"
 msgstr "Notícia"
 
-#: news/templates/news/_form.html:12
+#: news/templates/news/_form.html:14
 msgid "Choose your photo..."
 msgstr "Escolha a foto"
 
-#: news/templates/news/_form.html:55
+#: news/templates/news/_form.html:28
+msgid "Click or drop the file here"
+msgstr "Clique ou solte o arquivo aqui."
+
+#: news/templates/news/_form.html:30
+msgid "The photo could not exceed 5MB."
+msgstr "A imagem não pode exceder 5MB."
+
+#: news/templates/news/_form.html:81
 msgid "Save"
 msgstr "Salvar"
 
-#: news/templates/news/_form.html:58
+#: news/templates/news/_form.html:84
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -104,7 +112,7 @@ msgid "Search by title, author or date"
 msgstr "Pesquisar por título, autor ou data"
 
 #: news/templates/news/list.html:52 news/templates/news/search.html:45
-#: news/views.py:109
+#: news/views.py:103
 msgid "Create News"
 msgstr "Criar notícia"
 
@@ -120,7 +128,7 @@ msgstr "Nenhuma notícia encontrada"
 msgid "Search News"
 msgstr "Pesquisar Notícia"
 
-#: news/templates/news/update.html:7 news/views.py:137
+#: news/templates/news/update.html:7 news/views.py:147
 msgid "Update News"
 msgstr "Atualizar Notícia"
 
@@ -132,7 +140,7 @@ msgstr "Imprimir Notícia"
 msgid "Visualize News"
 msgstr "Visualizar Notícia"
 
-#: news/views.py:103 news/views.py:131
+#: news/views.py:109 news/views.py:153
 msgid "News successfully created!"
 msgstr "Notícia criada com sucesso"
 
@@ -144,12 +152,3 @@ msgstr "Notícia \"%s\" removida com sucesso"
 #: news/views.py:228
 msgid "Delete News"
 msgstr "Apagar Notícia"
-
-#~ msgid "Create news"
-#~ msgstr "Criar notícia"
-
-#~ msgid "There is already a news with this name"
-#~ msgstr "Já existe uma notícia com esse nome"
-
-#~ msgid "Name"
-#~ msgstr "Nome"

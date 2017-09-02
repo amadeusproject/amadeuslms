@@ -1,14 +1,46 @@
 $(function () {
-
 	/* Script para abrir o modal com a imagem selecionada */
 	$("#id_image").change(function () {
+		var max_size = 2*1024*1024;
+		var submit_btn = $("#news-form").find("input[type='submit']");
+		var mimeTypes = $(this).data('mimetypes');
+		var errors = 0;
+
+		$(".client-file-errors").hide();
+		$(".size").hide();
+		$(".format").hide();
+		$(submit_btn).prop('disable', false);
+		$(submit_btn).prop('disabled', false);
+
 		if (this.files && this.files[0]) {
-			var reader = new FileReader();
-			reader.onload = function (e) {
-				$("#image").attr("src", e.target.result);
-				$("#modalCrop").modal("show");
+			if (this.files[0].size > max_size) {
+				$(submit_btn).prop('disable', true);
+				$(submit_btn).prop('disabled', true);
+
+				$(".client-file-errors").show();
+				$(".size").show();
+
+				errors++;
+			} 
+
+			if (!mimeTypes.includes(this.files[0].type)) {
+				$(submit_btn).prop('disable', true);
+				$(submit_btn).prop('disabled', true);
+
+				$(".client-file-errors").show();
+				$(".format").show();
+
+				errors++;	
+			}			
+
+			if (errors == 0) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					$("#image").attr("src", e.target.result);
+					$("#modalCrop").modal("show");
+				}
+				reader.readAsDataURL(this.files[0]);
 			}
-			reader.readAsDataURL(this.files[0]);
 		}
 	});
 

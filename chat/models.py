@@ -11,9 +11,9 @@ from datetime import timezone
 from subjects.models import Subject
 from users.models import User
 
+valid_formats = ['image/jpeg','image/x-citrix-jpeg','image/png','image/x-citrix-png','image/x-png','image/gif']
+
 def validate_img_extension(value):
-	valid_formats = ['image/jpeg','image/x-citrix-jpeg','image/png','image/x-citrix-png','image/x-png','image/gif']
-	
 	if hasattr(value.file, 'content_type'):
 		if not value.file.content_type in valid_formats:
 			raise ValidationError(_('Select a valid file. The file must posses one of this extensions: .jpg, .png, .gif'))

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 22:41-0300\n"
+"POT-Creation-Date: 2017-09-02 01:44-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: themes/forms.py:15 themes/forms.py:27 themes/forms.py:39
+#: themes/forms.py:17 themes/forms.py:29 themes/forms.py:41
+#: themes/templates/themes/basic_update.html:94
 msgid "The image is too large. It should have less than 2MB."
 msgstr "A imagem é muito grande. Ela deve ter menos de 2MB."
 
-#: themes/models.py:11
+#: themes/models.py:11 themes/templates/themes/basic_update.html:95
 msgid "File not supported."
 msgstr "Arquivo não suportado."
 
@@ -96,12 +97,12 @@ msgstr "Dimensões recomendads"
 msgid "It is recommended to be a white image"
 msgstr "É recomendável ser uma imagem branca"
 
-#: themes/templates/themes/basic_update.html:89
+#: themes/templates/themes/basic_update.html:103
 #: themes/templates/themes/css_update.html:75
 msgid "Save"
 msgstr "Salvar"
 
-#: themes/templates/themes/basic_update.html:94
+#: themes/templates/themes/basic_update.html:108
 #: themes/templates/themes/css_update.html:17
 #: themes/templates/themes/index.html:18 themes/views.py:78
 msgid "CSS Selector"

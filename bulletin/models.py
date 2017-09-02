@@ -6,12 +6,12 @@ from django.core.urlresolvers import reverse_lazy
 
 from topics.models import Resource
 
-def validate_file_extension(value):
-	valid_formats = [
-		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-		'application/vnd.ms-excel','application/vnd.oasis.opendocument.spreadsheet','text/csv'
-	]
+valid_formats = [
+	'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+	'application/vnd.ms-excel','application/vnd.oasis.opendocument.spreadsheet','text/csv'
+]
 
+def validate_file_extension(value):
 	if hasattr(value.file, 'content_type'):
 		if not value.file.content_type in valid_formats:
 			raise ValidationError(_('Please select a valid file. The uploaded file must have one of the following extensions: .csv, .xlx, .xls and .xlsx'))

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 22:41-0300\n"
+"POT-Creation-Date: 2017-09-02 01:44-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,8 @@ msgstr "Pedir ajuda"
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
-#: mural/forms.py:38 mural/forms.py:123
+#: mural/forms.py:38 mural/forms.py:123 mural/templates/mural/_form.html:103
+#: mural/templates/mural/_form_comment.html:68
 msgid "The image is too large. It should have less than 5MB."
 msgstr "A imagem é muito grande. Ela deve possuir 5MB ou menos."
 
@@ -40,7 +41,8 @@ msgstr "A imagem é muito grande. Ela deve possuir 5MB ou menos."
 msgid "Choose an especific resource"
 msgstr "Escolha um recurso específico"
 
-#: mural/models.py:18
+#: mural/models.py:18 mural/templates/mural/_form.html:104
+#: mural/templates/mural/_form_comment.html:69
 msgid "File not supported."
 msgstr "Arquivo não suportado."
 
@@ -97,7 +99,7 @@ msgid "Resource"
 msgstr "Recurso"
 
 #: mural/models.py:105 mural/models.py:119
-#: mural/templates/mural/_form_comment.html:66
+#: mural/templates/mural/_form_comment.html:76
 msgid "Comment"
 msgstr "Comentar"
 
@@ -119,14 +121,14 @@ msgstr "Clique ou solte a imagem aqui"
 msgid "The picture could not exceed 5MB."
 msgstr "A imagem não pode exceder 5MB."
 
-#: mural/templates/mural/_form.html:100
+#: mural/templates/mural/_form.html:111
 msgctxt "button"
 msgid "Post"
 msgstr "Postar"
 
-#: mural/templates/mural/_form.html:101
-#: mural/templates/mural/_form_comment.html:67
-#: mural/templates/mural/_form_comment.html:85
+#: mural/templates/mural/_form.html:112
+#: mural/templates/mural/_form_comment.html:77
+#: mural/templates/mural/_form_comment.html:95
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -134,15 +136,15 @@ msgstr "Cancelar"
 msgid "Choose your photo..."
 msgstr "Escolha sua foto..."
 
-#: mural/templates/mural/_form_comment.html:78
+#: mural/templates/mural/_form_comment.html:88
 msgid "Insert here the name of the user you wish to mark in this comment"
 msgstr "Insira aqui o nome do usuário que você quer marcar nesse comentário"
 
-#: mural/templates/mural/_form_comment.html:84
+#: mural/templates/mural/_form_comment.html:94
 msgid "Mark"
 msgstr "Marcar"
 
-#: mural/templates/mural/_form_comment.html:100
+#: mural/templates/mural/_form_comment.html:110
 msgid "Mark User"
 msgstr "Marcar Usuário"
 

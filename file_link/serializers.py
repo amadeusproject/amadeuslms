@@ -44,7 +44,7 @@ class SimpleFileLinkSerializer(serializers.ModelSerializer):
 
 					path = files.extract(data["file_content"], dst_path)
 
-					new_name = "files/file_" + str(time.time()) + os.path.splitext(data["file_content"])[1]
+					new_name = os.path.join("files","file_" + str(time.time()) + os.path.splitext(data["file_content"])[1])
 
 					os.rename(os.path.join(dst_path, path), os.path.join(settings.MEDIA_ROOT, new_name))
 					
@@ -161,7 +161,7 @@ class CompleteFileLinkSerializer(serializers.ModelSerializer):
 
 					path = files.extract(data["file_content"], dst_path)
 
-					new_name = "files/file_" + str(time.time()) + os.path.splitext(data["file_content"])[1]
+					new_name = os.path.join("files","file_" + str(time.time()) + os.path.splitext(data["file_content"])[1])
 
 					os.rename(os.path.join(dst_path, path), os.path.join(settings.MEDIA_ROOT, new_name))
 					
