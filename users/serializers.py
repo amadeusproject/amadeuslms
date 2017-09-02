@@ -35,7 +35,7 @@ class UserBackupSerializer(serializers.ModelSerializer):
 
 					path = files.extract(data["image"], dst_path)
 
-					new_name = "users/img_" + str(time.time()) + os.path.splitext(data["image"])[1]
+					new_name = os.path.join("users","img_" + str(time.time()) + os.path.splitext(data["image"])[1])
 
 					os.rename(os.path.join(dst_path, path), os.path.join(settings.MEDIA_ROOT, new_name))
 					

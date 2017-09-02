@@ -43,6 +43,8 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 
 from users.serializers import UserBackupSerializer
+from bulletin.serializers import SimpleBulletinSerializer, CompleteBulletinSerializer
+from bulletin.models import Bulletin
 from file_link.serializers import SimpleFileLinkSerializer, CompleteFileLinkSerializer
 from file_link.models import FileLink
 from goals.serializers import SimpleGoalSerializer, CompleteGoalSerializer
@@ -763,6 +765,7 @@ def realize_backup(request, subject):
 
     zf = zipfile.ZipFile(s, "w", compression = zipfile.ZIP_DEFLATED)
 
+    bulletins = Bulletin.objects.filter(id__in = resources_ids)
     webpages = Webpage.objects.filter(id__in = resources_ids)
     ytvideos = YTVideo.objects.filter(id__in = resources_ids)
     filelinks = FileLink.objects.filter(id__in = resources_ids)
@@ -790,6 +793,23 @@ def realize_backup(request, subject):
                 # Add file, at correct path
                 zf.write(pdffile.file.path, zip_path)
 
+    for bulletin in bulletins:
+        if bool(bulletin.file_content):
+            if os.path.exists(bulletin.file_content.path):
+                fdir, fname = os.path.split(bulletin.file_content.path)
+                zip_path = os.path.join(os.path.join("bulletin", "goals"), fname)
+
+                # Add file, at correct path
+                zf.write(bulletin.file_content.path, zip_path)
+
+        if bool(bulletin.indicators):
+            if os.path.exists(bulletin.indicators.path):
+                fdir, fname = os.path.split(bulletin.indicators.path)
+                zip_path = os.path.join(os.path.join("bulletin", "indicators"), fname)
+
+                # Add file, at correct path
+                zf.write(bulletin.indicators.path, zip_path)
+
     file = open("backup.json", "w")
 
     data_list = []
@@ -805,6 +825,7 @@ def realize_backup(request, subject):
 
                     zf.write(user.image.path, zip_path)
 
+        serializer_b = CompleteBulletinSerializer(bulletins, many = True)
         serializer_w = CompleteWebpageSerializer(webpages, many = True)
         serializer_y = CompleteYTVideoSerializer(ytvideos, many = True)
         serializer_f = CompleteFileLinkSerializer(filelinks, many = True)
@@ -813,6 +834,7 @@ def realize_backup(request, subject):
         serializer_g = CompleteGoalSerializer(goals, many = True)
         serializer_c = CompleteWebconferenceSerializer(webconferences, many = True)
     else:
+        serializer_b = SimpleBulletinSerializer(bulletins, many = True)
         serializer_w = SimpleWebpageSerializer(webpages, many = True)
         serializer_y = SimpleYTVideoSerializer(ytvideos, many = True)
         serializer_f = SimpleFileLinkSerializer(filelinks, many = True)
@@ -820,6 +842,9 @@ def realize_backup(request, subject):
         serializer_p = SimplePDFFileSerializer(pdffiles, many = True)
         serializer_g = SimpleGoalSerializer(goals, many = True)
         serializer_c = SimpleWebconferenceSerializer(webconferences, many = True)
+
+    if len(serializer_b.data) > 0:
+        data_list.append(serializer_b.data)
 
     if len(serializer_w.data) > 0:
         data_list.append(serializer_w.data)
@@ -914,6 +939,14 @@ def realize_restore(request, subject):
                                     serial = CompleteWebpageSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
                                 else:
                                     serial = SimpleWebpageSerializer(data = line, many = True, context = {'subject': subject})
+                            elif line[0]["_my_subclass"] == "bulletin":
+                                if "students" in line[0]:
+                                    print(file.namelist())
+                                    print(line[0]["file_content"])
+                                    print(line[0]["file_content"] in file.namelist())
+                                    serial = CompleteBulletinSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                                else:
+                                    serial = SimpleBulletinSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
                             elif line[0]["_my_subclass"] == "filelink":
                                 if "students" in line[0]:
                                     serial = CompleteFileLinkSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
