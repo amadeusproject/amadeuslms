@@ -109,6 +109,8 @@
 			    contents: '<i class="fa fa-user"/>',
 			    tooltip: '{% trans "Mark User" %}',
 			    click: function () {
+			    	context.invoke('saveRange');
+
 			    	var modal_content = $("#add-user-modal").html();
 		      		var modal = document.createElement('div');
 			      	$(modal).addClass('modal');
@@ -129,12 +131,9 @@
 			      		$(node).addClass('marked_user');
 			      		$(node).html(value);
 
-			      		var code = context.invoke('code');
-
-			      		var new_code = $(code).append(node).append("&nbsp;");
-
-			      		context.invoke('code', new_code);
-
+			      		context.invoke('restoreRange');
+			      		context.invoke('pasteHTML', node);
+			      		
 			      		$(modal).modal('hide');
 			      	});
 			    }
@@ -261,7 +260,7 @@
 				$(".client-file-errors").show();
 				$(".format").show();
 			}
-			
+
 			parent.find('.filedrag').html(f.name);
 		}
 	}
