@@ -1,7 +1,7 @@
 $(function () {
 	/* Script para abrir o modal com a imagem selecionada */
 	$("#id_image").change(function () {
-		var max_size = 2*1024*1024;
+		var max_size = 5*1024*1024;
 		var submit_btn = $("#news-form").find("input[type='submit']");
 		var mimeTypes = $(this).data('mimetypes');
 		var errors = 0;
@@ -21,7 +21,7 @@ $(function () {
 				$(".size").show();
 
 				errors++;
-			} 
+			}
 
 			if (!mimeTypes.includes(this.files[0].type)) {
 				$(submit_btn).prop('disable', true);
@@ -30,8 +30,8 @@ $(function () {
 				$(".client-file-errors").show();
 				$(".format").show();
 
-				errors++;	
-			}			
+				errors++;
+			}
 
 			if (errors == 0) {
 				var reader = new FileReader();
@@ -51,7 +51,7 @@ $(function () {
 	$("#modalCrop").on("shown.bs.modal", function () {
 		$image.cropper({
 			viewMode: 1 ,
-			aspectRatio: 24/5,
+			aspectRatio: 3/1,
 			minCropBoxWidth: 200,
 			minCropBoxHeight: 200,
 			dragMode: 'move',

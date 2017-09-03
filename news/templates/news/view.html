@@ -29,8 +29,15 @@
   <div class="row-fluid panel panel-default" >
             <div class="panel-body" id="printArea">
                 <div class="col-md-12" style="display:inline-block">
-                  <h2><b>{{new.title}}</b></h2> <button style="text-transform:none; text-decoration: underline;"   type="button" class="pull-right btn btn-default btn-sm" id="printButton" name="button">{% trans "Print News" %}        <i class="fa fa-print" aria-hidden="true"></i></button><br>
+                  <h2><b>{{new.title}}</b></h2>
+                </div>
+                <div class="col-md-12" style="margin-top: -30px;">
+                  <button style="text-transform:none; text-decoration: underline;"   type="button" class="pull-right btn btn-default btn-sm" id="printButton" name="button">{% trans "Print News" %}
+                    <i class="fa fa-print" aria-hidden="true"></i></button><br>
                   <p>{{new.creator}}, em {{new.create_date}}</p>
+                </div>
+                <div class="col-md-12" style="margin-top: 20px; margin-bottom: 20px;">
+                  <span><img src="{% if new.image %}{{ new.image.url }}{% endif %}" width="100%"></span>
                 </div>
                 <div class="col-md-12">
                   <br>
