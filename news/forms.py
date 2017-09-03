@@ -31,7 +31,7 @@ class NewsForm(forms.ModelForm):
 	        image = Image.open(self.instance.image)
 	        if not x is None:
 		        cropped_image = image.crop((x, y, w+x, h+y))
-		        resized_image = cropped_image.resize((1200, 250), Image.ANTIALIAS)
+		        resized_image = cropped_image.resize((1200, 400), Image.ANTIALIAS)
 
 		        folder_path = join(settings.MEDIA_ROOT, 'news')
 		        #check if the folder already exists
