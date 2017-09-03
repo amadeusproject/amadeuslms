@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^chart/(?P<slug>[\w_-]+)/$', views.StatisticsView.as_view(), name = 'get_chart'),
     url(r'^send-message/(?P<slug>[\w_-]+)/$', views.SendMessage.as_view(), name = 'send_message'),
     url(r'^download_file/(?P<file>[\w_-]+)/$', views.download_excel, name = 'download_file'),
+    url(r'^difficulties_log/(?P<slug>[\w_-]+)/$', views.bulletin_diff_view_log, name = 'difficulties_log')
 ]

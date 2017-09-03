@@ -248,6 +248,17 @@
 
 
 		<script type="text/javascript">
+		$('#bulletin-difficulties-modal').on('shown.bs.modal', function (e) {
+			$.ajax({
+	            url: "{% url 'bulletin:difficulties_log' bulletin.slug %}",
+	            dataType: 'json',
+	            success: function (data) {
+	            },
+	            error: function (data) {
+	                console.log(data);
+	            }
+	        });
+		});
 		// Variável obtidas a partir do número de metas atendidas
 		var percent = "{{ percent }}";
 

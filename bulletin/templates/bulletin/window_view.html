@@ -65,6 +65,16 @@
 
 </head>
 <body style="background: #FFF">
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<p>{{ message }}</p>
+			</div>
+		{% endfor %}
+	{% endif %}
 
 	{% subject_permissions request.user bulletin.topic.subject as has_subject_permissions %}
 	<div class="container-fluid" style="padding-top: 20px;">
@@ -217,40 +227,40 @@
 				</div>
 
 				{% if not has_subject_permissions %}
-				<div class="form-group" style="background-color:#fff; box-shadow: 1px 1px 25px #c0beaf; margin-top: 15px;">
+					<div class="form-group" style="background-color:#fff; box-shadow: 1px 1px 25px #c0beaf; margin-top: 15px;">
 						<div class="row">
-						<div class="col-md-1" align="left" style="padding-left: 25px; padding-top: 10px;">
-									<img src="{% static 'img/warning.png' %}"  height="80" width="95"/>
-						</div>
-						<div class="col-md-11">
-							<div class="row">
+							<div class="col-md-1" align="left" style="padding-left: 25px; padding-top: 10px;">
+								<img src="{% static 'img/warning.png' %}"  height="80" width="95"/>
+							</div>
+							<div class="col-md-11">
+								<div class="row">
 									<div align="left" style="padding-left: 25px; font-size:22px; color: #878787; padding-top: 15px;padding-bottom: 20px;">{% trans 'There are obstructions to your activities?' %}</div>
 									<div align="left" style="padding-left: 25px; padding-right:35px; font-size:16px;"><p><a data-toggle="modal" data-target="#bulletin-difficulties-modal" href=""><b>{% trans 'Click here' %}</b></a> {% trans 'to communicate the difficulties that may decrease your performance.' %}</p></div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</br>
-		<div class="modal fade" tabindex="-1" role="dialog" id="bulletin-difficulties-modal">
-				<div class="modal-dialog" role="document">
-						<div class="modal-content">
+					</br>
+					<div class="modal fade" tabindex="-1" role="dialog" id="bulletin-difficulties-modal">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
 								<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 								</div>
 								<div class="modal-body">
-										<form id="bulletin-difficulties" action="" method="POST" enctype="multipart/form-data">
-												{% csrf_token %}
-												<textarea class="form-control" id="dificulties" name="difficulties" placeholder="{% trans 'Type here the dificulties that may harm your performance' %}"></textarea>
-										</form>
+									<form id="bulletin-difficulties" action="" method="POST" enctype="multipart/form-data">
+										{% csrf_token %}
+										<textarea class="form-control" id="dificulties" name="difficulties" placeholder="{% trans 'Type here the dificulties that may harm your performance' %}"></textarea>
+									</form>
 								</div>
 								<div class="modal-footer">
-										<button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
-										<button type="submit" class="btn btn-success btn-raised erase-button" form="bulletin-difficulties">{% trans "Send" %}</button>
+									<button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+									<button type="submit" class="btn btn-success btn-raised erase-button" form="bulletin-difficulties">{% trans "Send" %}</button>
 								</div>
+							</div>
 						</div>
-				</div>
-		</div>
-		{% endif %}
+					</div>
+				{% endif %}
 
 {% include 'session_security/all.html' %}
 			<script type="text/javascript">
@@ -261,6 +271,19 @@
 		$('[data-toggle="tooltip"]').tooltip({
 			trigger: 'hover'
 		});
+
+		$('#bulletin-difficulties-modal').on('shown.bs.modal', function (e) {
+			$.ajax({
+	            url: "{% url 'bulletin:difficulties_log' bulletin.slug %}",
+	            dataType: 'json',
+	            success: function (data) {
+	            },
+	            error: function (data) {
+	                console.log(data);
+	            }
+	        });
+		});
+
 		// Variável obtidas a partir do número de metas atendidas
 		var percent = "{{ percent }}";
 
