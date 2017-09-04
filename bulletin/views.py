@@ -271,7 +271,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
                 self.log_action = "send_difficulties"
 
-                super(NewWindowView, self).createLog(self.request.user, self.log_component, self.log_action,
+                super(InsideView, self).createLog(self.request.user, self.log_component, self.log_action,
                                              self.log_resource, self.log_context)
 
                 self.log_action = "view"
