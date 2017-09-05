@@ -25,12 +25,14 @@ from log.mixins import LogMixin
 import time
 
 from fcm_django.models import FCMDevice
+from fcm_django.fcm import fcm_send_message
 
 from categories.models import Category
 from subjects.models import Subject
 from users.models import User
 
 from .models import Conversation, TalkMessages, ChatVisualizations, ChatFavorites
+from .serializers import ChatSerializer
 from .forms import ChatMessageForm
 
 class GeneralIndex(LoginRequiredMixin, LogMixin, generic.ListView):
@@ -371,10 +373,44 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		Group("user-%s" % user.id).send({'text': notification})
 
-		device = FCMDevice.objects.filter(user = user).first()
+		device = FCMDevice.objects.filter(user = user, active = True).first()
 
 		if not device is None:
-			device.send_message(title = "Message", body = self.object.text)
+			data = {
+				"user_icon": self.object.user.image_url,
+				"notify_title": str(self.object.user),
+				"text_notify": simple_notify,
+				"image_url": "",
+				"message": strip_tags(self.object.text),
+				"datetime": str(self.object.create_date)
+			}
+
+			if self.object.image:
+				data['image_url'] = self.object.image.url
+
+			data = ChatSerializer(self.object)
+
+			json_r = json.dumps(data.data)
+			json_r = json.loads(json_r)
+			
+			info = {}
+
+			info["data"] = {}
+			info["data"]["messages"] = []
+			info["data"]["message_sent"] = json_r
+
+			info["message"] = ""
+			info["type"] = ""
+			info["title"] = ""
+			info["success"] = True
+			info["number"] = 1
+			info['extra'] = 0
+
+			response = json.dumps(info)
+
+			title = str(self.object.user)
+
+			device.send_message(title = title, body = simple_notify, data = {"response": response})
 
 		ChatVisualizations.objects.create(viewed = False, message = self.object, user = user)
 
