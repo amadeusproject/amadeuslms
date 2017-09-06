@@ -32,11 +32,11 @@ def  sendChatPushNotification(user, message):
 
 		response = json.dumps(info)
 
-		title = str(user).join(_(" sent a message"))
+		title = str(message.user).join(_(" sent a message"))
 
 		simple_notify = textwrap.shorten(strip_tags(message.text), width = 30, placeholder = "...")
 
 		if message.image:
 			simple_notify += " ".join(_("[Photo]"))
 
-		device.send_message(title = title, body = simple_notify, data = {"response": response})
+		device.send_message(data = {"response": response, "title": title, "body": simple_notify, "user_from": message.user.email, "user_name": str(message.user), "user_img": message.user.image_url})
