@@ -35,6 +35,8 @@ from django.http import HttpResponse
 
 from fcm_django.models import FCMDevice
 
+from .utils import  sendChatPushNotification
+
 @csrf_exempt
 def getToken(request):
 	oauth = Application.objects.filter(name = "amadeus-droid")
@@ -349,6 +351,8 @@ class ChatViewset(viewsets.ModelViewSet):
 				info["message"] = _("Message sent successfully!")
 				info["success"] = True
 				info["number"] = 1
+
+				sendChatPushNotification(user_to, message)
 			else:
 				info["message"] = _("Error while sending message!")
 				info["success"] = False
