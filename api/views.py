@@ -35,6 +35,8 @@ from django.http import HttpResponse
 
 from fcm_django.models import FCMDevice
 
+from .utils import  sendChatPushNotification
+
 @csrf_exempt
 def getToken(request):
 	oauth = Application.objects.filter(name = "amadeus-droid")
@@ -303,7 +305,14 @@ class ChatViewset(viewsets.ModelViewSet):
 
 				talk.save()
 
-			subject = Subject.objects.get(slug = subject)
+			if subject != "":
+				subject = Subject.objects.get(slug = subject)
+				space = subject.slug
+				space_type = "subject"
+			else: 
+				subject = None
+				space = 0
+				space_type = "general"
 
 			message = TalkMessages()
 			message.text = "<p>" + msg_text + "</p>"
@@ -318,11 +327,11 @@ class ChatViewset(viewsets.ModelViewSet):
 
 			if not message.pk is None:
 				simple_notify = textwrap.shorten(strip_tags(message.text), width = 30, placeholder = "...")
-				
+
 				notification = {
 					"type": "chat",
-					"subtype": "subject",
-					"space": subject.slug,
+					"subtype": space_type,
+					"space": space,
 					"user_icon": message.user.image_url,
 					"notify_title": str(message.user),
 					"simple_notify": simple_notify,
@@ -349,6 +358,8 @@ class ChatViewset(viewsets.ModelViewSet):
 				info["message"] = _("Message sent successfully!")
 				info["success"] = True
 				info["number"] = 1
+
+				sendChatPushNotification(user_to, message)
 			else:
 				info["message"] = _("Error while sending message!")
 				info["success"] = False

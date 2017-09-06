@@ -11,13 +11,10 @@ from django.utils.translation import ugettext_lazy as _
 
 from channels import Group
 
+from api.utils import  sendChatPushNotification
 
 from chat.models import Conversation, TalkMessages, ChatVisualizations
 from users.models import User
-
-
-
-
 
 def brodcast_dificulties(request, message, subject):
 	msg = TalkMessages()
@@ -53,5 +50,7 @@ def brodcast_dificulties(request, message, subject):
 		notification = json.dumps(notification)
 
 		Group("user-%s" % p.id).send({'text': notification})
+
+		sendChatPushNotification(p, msg)
 
 		ChatVisualizations.objects.create(viewed = False, message = msg, user = p)
