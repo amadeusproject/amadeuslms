@@ -27,7 +27,7 @@ from django.utils import timezone
 from pendencies.forms import PendenciesForm
 
 from .forms import BulletinForm
-from .models import Bulletin
+from .models import Bulletin, valid_formats
 
 from log.models import Log
 from log.decorators import log_decorator
@@ -210,7 +210,7 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context['titulos'] = titulos
         context['student'] = self.request.POST.get('selected_student', students.first().email)
         context['students'] = students
-
+        
         return context
 
 class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
@@ -515,6 +515,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         alunos =  sorted(list(meta_geral.topic.subject.students.all()), key = lambda e: e.id)
         create_excel_file(alunos, itens_da_meta,meta_geral)
         context['goal_file'] = str(meta_geral.slug)
+        context['mimeTypes'] = valid_formats
 
 
         return context
@@ -787,6 +788,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         alunos =  sorted(list(meta_geral.topic.subject.students.all()), key = lambda e: e.id)
         create_excel_file(alunos, itens_da_meta,meta_geral)
         context['goal_file'] = str(meta_geral.slug)
+        context['mimeTypes'] = valid_formats
 
         return context
 

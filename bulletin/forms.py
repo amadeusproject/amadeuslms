@@ -39,6 +39,8 @@ class BulletinForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea,
             'brief_description': forms.Textarea,
+            'file_content': ResubmitFileWidget(attrs={'accept':'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,application/vnd.oasis.opendocument.spreadsheet,text/csv'}),
+            'indicators': ResubmitFileWidget(attrs={'accept':'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,application/vnd.oasis.opendocument.spreadsheet,text/csv'}),
         }
 
     def clean_name(self):

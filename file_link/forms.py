@@ -2,6 +2,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
+from resubmit.widgets import ResubmitFileWidget
 
 from subjects.models import Tag
 
@@ -35,6 +36,7 @@ class FileLinkForm(forms.ModelForm):
 			'brief_description': forms.Textarea,
 			'students': forms.SelectMultiple,
 			'groups': forms.SelectMultiple,
+			'file_content': ResubmitFileWidget(attrs={'accept':'image/jpeg,image/x-citrix-jpeg,image/png,image/x-citrix-png,image/x-png,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.presentationml.slideshow,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-excel,text/html,application/msword,application/vnd.oasis.opendocument.presentation,application/vnd.oasis.opendocument.spreadsheet,application/vnd.oasis.opendocument.text,application/pdf,application/vnd.ms-powerpoint'}),
 		}
 
 	def clean_name(self):

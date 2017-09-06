@@ -215,7 +215,7 @@ CRON_CLASSES = [
 ]
 
 CRONJOBS = [
-    ('0 0 * * *', 'notifications.cron.notification_cron'),
+    ('0 5 * * *', 'notifications.cron.notification_cron'),
     ('0 0 * * *', 'goals.cron.setgoals_cron')
 ]
 
