@@ -286,14 +286,14 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
         initial = super(SubjectCreateView, self).get_initial()
 
         if self.kwargs.get('slug'): #when the user creates a subject
-            initial['category'] = Category.objects.all().filter(slug=self.kwargs['slug'])
+            initial['category'] = Category.objects.filter(slug=self.kwargs['slug'])
             # print (initial)
             # initial['professor'] = User.objects.all()
 
         if self.kwargs.get('subject_slug'): #when the user replicate a subject
             subject = get_object_or_404(Subject, slug = self.kwargs['subject_slug'])
             initial = initial.copy()
-            initial['category'] = subject.category
+            initial['category'] = Category.objects.filter(slug = subject.category.slug)
             initial['description'] = subject.description
             initial['name'] = subject.name
             initial['visible'] = subject.visible
