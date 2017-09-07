@@ -1,10 +1,23 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 import datetime
+
+from users.models import User
+
 from .models import Subject, Tag
+
+
+class ParticipantsMultipleChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        label = str(obj) + " - (" + obj.email + ")"
+
+        return label
 
 class CreateSubjectForm(forms.ModelForm):
     category_id = None
+
+    students = ParticipantsMultipleChoiceField(queryset = User.objects.all())
+    professor = ParticipantsMultipleChoiceField(queryset = User.objects.all())
 
     def __init__(self, *args, **kwargs):
         super(CreateSubjectForm, self).__init__(*args, **kwargs)

@@ -110,7 +110,7 @@ class SimpleBulletinSerializer(serializers.ModelSerializer):
 					if topic_exist.exists():
 						topic = topic_exist[0]
 					else:
-						topic = Topic.objects.create(name = topic['name'], subject = topic['subject'], repository = topic['repository'], visible = topic['visible'], order = topic['order'])
+						topic = Topic.objects.create(name = topic['name'], subject = topic['subject'], repository = topic['repository'], visible = topic['visible'], order = topic['order'], description = topic['description'])
 					
 					data["topic"] = topic
 				else:
@@ -252,7 +252,7 @@ class CompleteBulletinSerializer(serializers.ModelSerializer):
 					if topic_exist.exists():
 						topic = topic_exist[0]
 					else:
-						topic = Topic.objects.create(name = topic['name'], subject = topic['subject'], repository = topic['repository'], visible = topic['visible'], order = topic['order'])
+						topic = Topic.objects.create(name = topic['name'], subject = topic['subject'], repository = topic['repository'], visible = topic['visible'], order = topic['order'], description = topic['description'])
 					
 					data["topic"] = topic
 				else:

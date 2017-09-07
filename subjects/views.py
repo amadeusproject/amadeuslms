@@ -286,14 +286,14 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
         initial = super(SubjectCreateView, self).get_initial()
 
         if self.kwargs.get('slug'): #when the user creates a subject
-            initial['category'] = Category.objects.all().filter(slug=self.kwargs['slug'])
+            initial['category'] = Category.objects.filter(slug=self.kwargs['slug'])
             # print (initial)
             # initial['professor'] = User.objects.all()
 
         if self.kwargs.get('subject_slug'): #when the user replicate a subject
             subject = get_object_or_404(Subject, slug = self.kwargs['subject_slug'])
             initial = initial.copy()
-            initial['category'] = subject.category
+            initial['category'] = Category.objects.filter(slug = subject.category.slug)
             initial['description'] = subject.description
             initial['name'] = subject.name
             initial['visible'] = subject.visible
@@ -549,9 +549,8 @@ class SubjectDetailView(LoginRequiredMixin, LogMixin, DetailView):
         expire_time = settings.SESSION_SECURITY_EXPIRE_AFTER
 
         context['participants'] = User.objects.filter(
-            Q(is_staff = True) | Q(subject_student__slug = sub) |
-            Q(professors__slug = sub) |
-            Q(coordinators__subject_category__slug = sub)
+            Q(subject_student__slug = sub) |
+            Q(professors__slug = sub)
             ).extra(select = {'status': status_query}, select_params=(expire_time, expire_time,),).distinct().order_by('status', 'social_name','username').exclude(email = self.request.user.email)
 
         resources = self.request.session.get('resources', None)
@@ -598,8 +597,6 @@ class SubjectSubscribeView(LoginRequiredMixin, LogMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         subject = get_object_or_404(Subject, slug= kwargs.get('slug'))
-
-        print ("Deu Certo     ",    subject)
 
         if subject.subscribe_end <= datetime.datetime.today().date():
             messages.error(self.request, _('Subscription date is due!'))
