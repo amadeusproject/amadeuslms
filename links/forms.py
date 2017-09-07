@@ -3,7 +3,9 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
 from django.core.exceptions import ValidationError
+
 from subjects.models import Tag
+from subjects.forms import ParticipantsMultipleChoiceField
 
 from pendencies.forms import PendenciesForm
 from .models import Link
@@ -11,6 +13,8 @@ from .models import Link
 class LinkForm(forms.ModelForm):
 	subject = None
 	MAX_UPLOAD_SIZE = 10*1024*1024
+
+	students = ParticipantsMultipleChoiceField(queryset = None)
 	
 	def __init__(self, *args, **kwargs):
 		super(LinkForm, self).__init__(*args, **kwargs)

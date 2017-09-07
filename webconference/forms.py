@@ -6,6 +6,7 @@ from django.forms.models import inlineformset_factory
 import datetime
 
 from subjects.models import Tag
+from subjects.forms import ParticipantsMultipleChoiceField
 
 from .models import Webconference, ConferenceSettings
 
@@ -15,6 +16,7 @@ from pendencies.models import Pendencies
 class WebconferenceForm(forms.ModelForm):
 	subject = None
 	control_subject = forms.CharField(widget = forms.HiddenInput())
+	students = ParticipantsMultipleChoiceField(queryset = None)
 
 	def __init__(self, *args, **kwargs):
 		super(WebconferenceForm, self).__init__(*args, **kwargs)

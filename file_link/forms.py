@@ -5,12 +5,15 @@ from django.utils.html import strip_tags
 from resubmit.widgets import ResubmitFileWidget
 
 from subjects.models import Tag
+from subjects.forms import ParticipantsMultipleChoiceField
 
 from .models import FileLink
 
 class FileLinkForm(forms.ModelForm):
 	subject = None
 	MAX_UPLOAD_SIZE = 10*1024*1024
+
+	students = ParticipantsMultipleChoiceField(queryset = None)
 	
 	def __init__(self, *args, **kwargs):
 		super(FileLinkForm, self).__init__(*args, **kwargs)

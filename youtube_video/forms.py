@@ -8,6 +8,7 @@ import requests
 import re
 
 from subjects.models import Tag
+from subjects.forms import ParticipantsMultipleChoiceField
 
 from pendencies.forms import PendenciesForm
 from pendencies.models import Pendencies
@@ -18,6 +19,7 @@ from .models import YTVideo
 class YTVideoForm(forms.ModelForm):
 	subject = None
 	control_subject = forms.CharField(widget = forms.HiddenInput())
+	students = ParticipantsMultipleChoiceField(queryset = None)
 
 	def __init__(self, *args, **kwargs):
 		super(YTVideoForm, self).__init__(*args, **kwargs)

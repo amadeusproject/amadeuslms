@@ -3,11 +3,13 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from subjects.models import Subject
+from subjects.forms import ParticipantsMultipleChoiceField
 
 from .models import StudentsGroup
 
 class StudentsGroupForm(forms.ModelForm):
 	subject = None
+	participants = ParticipantsMultipleChoiceField(queryset = None)
 
 	def __init__(self, *args, **kwargs):
 		super(StudentsGroupForm, self).__init__(*args, **kwargs)
