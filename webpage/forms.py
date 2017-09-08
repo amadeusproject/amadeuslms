@@ -12,7 +12,7 @@ from resubmit.widgets import ResubmitFileWidget
 
 class WebpageForm(forms.ModelForm):
     subject = None
-    students = ParticipantsMultipleChoiceField(queryset = None)
+    students = ParticipantsMultipleChoiceField(queryset = None, required = False)
     
     def __init__(self, *args, **kwargs):
         super(WebpageForm, self).__init__(*args, **kwargs)

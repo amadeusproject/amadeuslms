@@ -16,7 +16,7 @@ from pendencies.models import Pendencies
 class WebconferenceForm(forms.ModelForm):
 	subject = None
 	control_subject = forms.CharField(widget = forms.HiddenInput())
-	students = ParticipantsMultipleChoiceField(queryset = None)
+	students = ParticipantsMultipleChoiceField(queryset = None, required = False)
 
 	def __init__(self, *args, **kwargs):
 		super(WebconferenceForm, self).__init__(*args, **kwargs)

@@ -72,10 +72,10 @@
                     {% csrf_token %}
 
                     <div class="form-group is-fileinput">
-                    	<input type="file" id="zip_file" name="zip_file" class="form-control" accept=".zip" />
+                    	<input type="file" id="zip_file" name="zip_file" class="form-control" accept=".zip" data-mimetypes="['application/zip', 'application/octet-stream']" required />
 
 	                    <div class="input-group common-file-input">
-					      	<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
+					      	<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}" required>
 					      	<span class="input-group-btn input-group-sm">
 					        	<button type="button" class="btn btn-fab btn-fab-mini">
 					        		<i class="material-icons">attach_file</i>
@@ -88,8 +88,18 @@
 				  		</div>
                     </div>
 
+                    <div class="col-lg-12 col-md-12 col-sm-12 alert alert-danger alert-dismissible client-file-errors" style="display:none" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        <ul>
+                            <li class="format">{% trans 'File not supported.' %}</li>
+                        </ul>
+                    </div>
+
+
 			  		<div class="row text-center">
-                        <input type="submit" value="{% trans 'Restore' %}" class="btn btn-success btn-raised" />
+                        <input type="submit" value="{% trans 'Restore' %}" disabled class="btn btn-success btn-raised" />
                     </div>
                 </form>
             </div>
@@ -127,10 +137,23 @@
 		// file selection
 		function FileSelectHandler(e) {
 			var files = e.target.files || e.dataTransfer.files,
-				parent = $(e.target.offsetParent);
+				parent = $(e.target.offsetParent),
+                mimeTypes = $(e.target).data('mimetypes'),
+                submit_btn = $(e.target).closest("form").find("input[type='submit']");
+
+            $(".client-file-errors").hide();
+            $(submit_btn).prop('disable', false);
+            $(submit_btn).prop('disabled', false);
 
 			// process all File objects
 			for (var i = 0, f; f = files[i]; i++) {
+                if (!mimeTypes.includes(f.type)) {
+                    $(submit_btn).prop('disable', true);
+                    $(submit_btn).prop('disabled', true);
+
+                    $(".client-file-errors").show();
+                }
+
 				parent.find('.filedrag').html(f.name);
 			}
 		}

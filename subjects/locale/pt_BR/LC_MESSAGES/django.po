@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-03 00:15-0300\n"
+"POT-Creation-Date: 2017-09-07 22:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: subjects/forms.py:24 subjects/forms.py:128
+#: subjects/forms.py:37 subjects/forms.py:144
 msgid "Tags"
 msgstr "Tags"
 
-#: subjects/forms.py:78 subjects/forms.py:183
+#: subjects/forms.py:91 subjects/forms.py:199
 msgid "There is another subject with this name, try another one."
 msgstr "Já existe um assunto com esse nome, tente outro."
 
-#: subjects/forms.py:87
+#: subjects/forms.py:100
 msgid "This date must be today or after"
 msgstr "Essa data deve ser hoje ou depois disso"
 
-#: subjects/forms.py:97 subjects/forms.py:201
+#: subjects/forms.py:110 subjects/forms.py:217
 msgid "This date must be equal subscribe begin or after"
 msgstr "Essa data deve ser igual ou depois de começarem as incrições"
 
-#: subjects/forms.py:107 subjects/forms.py:211
+#: subjects/forms.py:120 subjects/forms.py:227
 msgid "This date must be after subscribe end"
 msgstr "Essa data deve ser depois do fim das inscrições"
 
-#: subjects/forms.py:116 subjects/forms.py:220
+#: subjects/forms.py:129 subjects/forms.py:236
 msgid "This date must be equal init date or after"
 msgstr "Essa data deve ser igual ou depois da data de início"
 
@@ -242,12 +242,12 @@ msgid " Any subjects or Resources were not found on the search for "
 msgstr " Nenhum assunto ou recursos foram encontrados na busca por "
 
 #: subjects/templates/subjects/list_search.html:48
-#: subjects/templates/subjects/list_search.html:51 subjects/views.py:679
+#: subjects/templates/subjects/list_search.html:51 subjects/views.py:676
 msgid "Subjects"
 msgstr "Assuntos"
 
 #: subjects/templates/subjects/list_search.html:49
-#: subjects/templates/subjects/list_search.html:52 subjects/views.py:686
+#: subjects/templates/subjects/list_search.html:52 subjects/views.py:683
 msgid "Resources"
 msgstr "Recursos"
 
@@ -415,24 +415,24 @@ msgstr ""
 "Assunto não pode ser removido. Ele ainda possui alunos e objetos de "
 "aprendizado associados"
 
-#: subjects/views.py:605
+#: subjects/views.py:602
 msgid "Subscription date is due!"
 msgstr "O período de inscrição está encerrado!"
 
-#: subjects/views.py:618
+#: subjects/views.py:615
 msgid "Subscription was successfull!"
 msgstr "Inscrição feita com sucesso!"
 
-#: subjects/views.py:751
+#: subjects/views.py:748
 #, python-format
 msgid "%s - Backup"
 msgstr "%s - Backup"
 
-#: subjects/views.py:910
+#: subjects/views.py:907
 #, python-format
 msgid "%s - Restore"
 msgstr "%s - Restaurar"
 
-#: subjects/views.py:984
+#: subjects/views.py:981
 msgid "Backup restored successfully!"
 msgstr "Backup restaurado com sucesso!"

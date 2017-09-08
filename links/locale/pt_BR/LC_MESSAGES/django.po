@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-03 00:15-0300\n"
+"POT-Creation-Date: 2017-09-07 22:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: links/forms.py:27
+#: links/forms.py:31
 msgid "Tags"
 msgstr "Tags"
 
-#: links/forms.py:28
+#: links/forms.py:32
 msgid "Website URL"
 msgstr "URL do site:"
 
-#: links/forms.py:34
+#: links/forms.py:38
 msgid "Link name"
 msgstr "Nome do Link"
 
-#: links/forms.py:35
+#: links/forms.py:39
 msgid "End View"
 msgstr ""
 
-#: links/forms.py:36
+#: links/forms.py:40
 msgid "End View Date"
 msgstr "Data final para visualizar"
 
-#: links/forms.py:64
+#: links/forms.py:68
 msgid "There is already a link with this name on this subject"
 msgstr "Ja existe um link com este nome neste Assunto"
 
