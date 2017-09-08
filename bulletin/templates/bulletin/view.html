@@ -104,29 +104,30 @@
 
 
 											<!-- Cor amarela -->
-											{% if meta.alcancada < meta.desejada and meta.alcancada > meta.estabelecida %}
+											{% if meta.alcancada < meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada < meta.desejada and meta.alcancada == meta.estabelecida %}
 												<th style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
 												data-toggle="tooltip" data-html="true" data-placement="bottom"
 												title="<b>Meta atingida!</b><br><br>Atenção! O seu resultado foi inferior ao recomendado pelo professor." class="grey-tooltip">
 												{{ meta.alcancada }}%</th>
 											{% endif %}
 
-											{% if meta.alcancada > meta.desejada and meta.alcancada < meta.estabelecida %}
+											{% if meta.alcancada > meta.desejada and meta.alcancada < meta.estabelecida or meta.alcancada == meta.desejada and meta.alcancada < meta.estabelecida %}
 												<th style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
 												data-toggle="tooltip" data-html="true" data-placement="bottom"
 												title="<b>Meta atingida!</b><br><br>Atenção! O seu resultado foi inferior a sua meta inicial." class="grey-tooltip">
 												{{ meta.alcancada }}%</th>
-
 											{% endif %}
+
 											<!-- Cor amarela -->
 
 											<!-- Cor verde -->
-											{% if meta.alcancada > meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada == 100 %}
+											{% if meta.alcancada > meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada == meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada > meta.desejada and meta.alcancada == meta.estabelecida or meta.alcancada == 100 or meta.alcancada == meta.desejada and meta.alcancada == meta.estabelecida %}
 												<th style="text-align:center;background-color:#00d337;  text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
 												data-toggle="tooltip" data-html="true" data-placement="bottom"
 												title="<b>Meta atingida!</b>" class="grey-tooltip">
 												{{ meta.alcancada }}%</th>
 											{% endif %}
+
 											<!-- Cor verde -->
 
 											<!-- Cor vermelha -->
@@ -141,7 +142,6 @@
 
 
 										</tr>
-
 										{% endfor %}
 
 
