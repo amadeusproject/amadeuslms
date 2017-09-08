@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-03 00:15-0300\n"
+"POT-Creation-Date: 2017-09-07 22:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,23 +18,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: pdf_file/forms.py:25
+#: pdf_file/forms.py:28
 msgid "Tags"
 msgstr "Tags"
 
-#: pdf_file/forms.py:30
+#: pdf_file/forms.py:33
 msgid "File name"
 msgstr "Nome do arquivo"
 
-#: pdf_file/forms.py:51
+#: pdf_file/forms.py:54
 msgid "This subject already has a pdf file with this name"
 msgstr "Este assunto já possui um arquivo PDF com este nome"
 
-#: pdf_file/forms.py:63 pdf_file/templates/pdf_file/_form.html:75
+#: pdf_file/forms.py:66 pdf_file/templates/pdf_file/_form.html:75
 msgid "The file is too large. It should have less than 10MB."
 msgstr "O arquivo é muito grande. Deve ser menor do que 10MB"
 
-#: pdf_file/forms.py:68
+#: pdf_file/forms.py:71
 msgid "This field is required."
 msgstr "Este campo é requerido."
 

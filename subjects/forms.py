@@ -16,8 +16,8 @@ class ParticipantsMultipleChoiceField(forms.ModelMultipleChoiceField):
 class CreateSubjectForm(forms.ModelForm):
     category_id = None
 
-    students = ParticipantsMultipleChoiceField(queryset = User.objects.all())
-    professor = ParticipantsMultipleChoiceField(queryset = User.objects.all())
+    students = ParticipantsMultipleChoiceField(queryset = User.objects.all(), required = False)
+    professor = ParticipantsMultipleChoiceField(queryset = User.objects.all(), required = False)
 
     def __init__(self, *args, **kwargs):
         super(CreateSubjectForm, self).__init__(*args, **kwargs)
@@ -131,6 +131,9 @@ class CreateSubjectForm(forms.ModelForm):
         return end_date
 
 class UpdateSubjectForm(forms.ModelForm):
+    students = ParticipantsMultipleChoiceField(queryset = User.objects.all(), required = False)
+    professor = ParticipantsMultipleChoiceField(queryset = User.objects.all(), required = False)
+
     def __init__(self, *args, **kwargs):
         super(UpdateSubjectForm, self).__init__(*args, **kwargs)
 

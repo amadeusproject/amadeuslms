@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-03 00:15-0300\n"
+"POT-Creation-Date: 2017-09-07 22:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: webpage/forms.py:27
+#: webpage/forms.py:29
 msgid "Tags"
 msgstr "Tags"
 
-#: webpage/forms.py:33
+#: webpage/forms.py:35
 msgid "Webpage name"
 msgstr "Nome da Página Web"
 
-#: webpage/forms.py:34
+#: webpage/forms.py:36
 msgid "Webpage content"
 msgstr "Conteúdo da Página Web"
 
-#: webpage/forms.py:55
+#: webpage/forms.py:57
 msgid "This subject already has a webpage with this name"
 msgstr "Esse assunto já possui uma Página Web com esse nome"
 
-#: webpage/forms.py:66 webpage/forms.py:112
+#: webpage/forms.py:68 webpage/forms.py:114
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
-#: webpage/forms.py:104
+#: webpage/forms.py:106
 msgid "Message"
 msgstr "Mensagem"
 
-#: webpage/forms.py:124
+#: webpage/forms.py:126
 msgid "The image is too large. It should have less than 5MB."
 msgstr "A imagem é muito grande. Deve ser menor do que 5MB"
 

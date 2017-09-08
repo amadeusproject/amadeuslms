@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-03 00:15-0300\n"
+"POT-Creation-Date: 2017-09-07 22:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,23 +18,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: file_link/forms.py:26
+#: file_link/forms.py:30
 msgid "Tags"
 msgstr "Tags"
 
-#: file_link/forms.py:32
+#: file_link/forms.py:36
 msgid "File name"
 msgstr "Nome do arquivo"
 
-#: file_link/forms.py:52
+#: file_link/forms.py:57
 msgid "This subject already has a file link with this name"
 msgstr "Esse assunto já possui um Link para Arquivo com esse nome"
 
-#: file_link/forms.py:64 file_link/templates/file_links/_form.html:75
+#: file_link/forms.py:69 file_link/templates/file_links/_form.html:75
 msgid "The file is too large. It should have less than 10MB."
 msgstr "Esse arquivo é muito grande. Ele deve conter menos de 10MB."
 
-#: file_link/forms.py:69
+#: file_link/forms.py:74
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 

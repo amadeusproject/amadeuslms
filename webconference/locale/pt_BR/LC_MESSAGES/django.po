@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-03 00:15-0300\n"
+"POT-Creation-Date: 2017-09-07 22:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,35 +18,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: webconference/forms.py:33
+#: webconference/forms.py:35
 msgid "Tags"
 msgstr "Tags"
 
-#: webconference/forms.py:39
+#: webconference/forms.py:41
 msgid "Web Conference Title"
 msgstr "Titulo da Web Conferência"
 
-#: webconference/forms.py:40 webconference/models.py:8
+#: webconference/forms.py:42 webconference/models.py:8
 msgid "Presentation"
 msgstr "Apresentação"
 
-#: webconference/forms.py:61
+#: webconference/forms.py:63
 msgid "This subject already has a web conference with this name"
 msgstr "Este assunto já tem uma web conferência com este nome"
 
-#: webconference/forms.py:71
+#: webconference/forms.py:73
 msgid "This date must be today or after"
 msgstr "Esta data deve ser hoje ou depois"
 
-#: webconference/forms.py:81
+#: webconference/forms.py:83
 msgid "This date must be equal start date/hour or after"
 msgstr "Esta data deve ser igual ou posterior a data/hora de inicio"
 
-#: webconference/forms.py:128 webconference/models.py:35
+#: webconference/forms.py:130 webconference/models.py:35
 msgid "Domain"
 msgstr "Dominio"
 
-#: webconference/forms.py:132
+#: webconference/forms.py:134
 msgid "The domain of the jitsi server, e.g. meet.jit.si"
 msgstr "O dominio do servidor do jitsi, ex: meet.jit.si"
 
