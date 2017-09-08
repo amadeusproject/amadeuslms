@@ -9,7 +9,7 @@ from .models import StudentsGroup
 
 class StudentsGroupForm(forms.ModelForm):
 	subject = None
-	participants = ParticipantsMultipleChoiceField(queryset = None)
+	participants = ParticipantsMultipleChoiceField(queryset = None, required = False)
 
 	def __init__(self, *args, **kwargs):
 		super(StudentsGroupForm, self).__init__(*args, **kwargs)

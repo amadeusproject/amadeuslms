@@ -19,7 +19,7 @@ from .models import YTVideo
 class YTVideoForm(forms.ModelForm):
 	subject = None
 	control_subject = forms.CharField(widget = forms.HiddenInput())
-	students = ParticipantsMultipleChoiceField(queryset = None)
+	students = ParticipantsMultipleChoiceField(queryset = None, required = False)
 
 	def __init__(self, *args, **kwargs):
 		super(YTVideoForm, self).__init__(*args, **kwargs)

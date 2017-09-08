@@ -13,7 +13,7 @@ class FileLinkForm(forms.ModelForm):
 	subject = None
 	MAX_UPLOAD_SIZE = 10*1024*1024
 
-	students = ParticipantsMultipleChoiceField(queryset = None)
+	students = ParticipantsMultipleChoiceField(queryset = None, required = False)
 	
 	def __init__(self, *args, **kwargs):
 		super(FileLinkForm, self).__init__(*args, **kwargs)
