@@ -10,9 +10,9 @@ from django.core.urlresolvers import reverse_lazy
 
 # Create your models here.
 class Link(Resource):
-    link_url = models.URLField(verbose_name = _("Link_URL"))
-    
-   
+    link_url = models.CharField( _("Link_URL"),max_length=250 )
+
+
     class Meta:
         verbose_name = "Link"
         verbose_name_plural = "Links"
@@ -28,6 +28,6 @@ class Link(Resource):
 
     def delete_link(self):
         return 'links:delete'
-    
+
     def delete_message(self):
         return _('Are you sure you want delete the Website link')
