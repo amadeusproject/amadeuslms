@@ -69,11 +69,13 @@ class YTVideoForm(forms.ModelForm):
 
 	def clean_url(self):
 		url = self.cleaned_data.get('url', '')
-		if not 'youtube' in url or re.compile('[htps:/]*w*\.youtube\.com/?').fullmatch(url) or requests.get(url).status_code == 404:
+		if url[0].lower() != "h": url = "https://" + url
+		if  (re.compile("https?://w{3}\.youtube\.com/").match(url) == None
+		and re.compile("https?://youtu\.be/").match(url) == None) or requests.get(url).status_code == 404:
 			self._errors['url'] = [_('Invalid URL. It should be an YouTube link.')]
-
 			return ValueError
-
+		if re.compile("https?://youtu\.be/").match(url) != None:
+			url = url.replace("youtu.be","www.youtube.com/embed")
 		return url
 
 	def save(self, commit = True):

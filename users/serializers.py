@@ -1,12 +1,16 @@
 import os
 import zipfile
 import time
+from django.db.models import Q
 from django.conf import settings
 from django.core.files import File
+
 from rest_framework import serializers
 
 from log.serializers import LogSerializer
 from log.models import Log
+
+from chat.models import Conversation, ChatVisualizations
 
 from .models import User
 
@@ -58,7 +62,22 @@ class UserBackupSerializer(serializers.ModelSerializer):
 		validators = []
 
 class UserSerializer(serializers.ModelSerializer):
+	unseen_msgs = serializers.SerializerMethodField()
+
+	def get_unseen_msgs(self, user_to):
+		user = self.context.get('request_user', None)
+
+		if not user is None:
+			chat = Conversation.objects.filter((Q(user_one__email = user) & Q(user_two = user_to)) | (Q(user_one = user_to) & Q(user_two__email = user)))
+
+			if chat.count() > 0:
+				chat = chat[0]
+				
+				return ChatVisualizations.objects.filter(message__talk = chat, user__email = user, viewed = False).count()
+
+		return 0
+
 	class Meta:
 		model = User
 		fields = ('username','email','image_url','last_update','date_created','last_name','social_name',
-			'is_staff','is_active','description')
+			'is_staff','is_active','description','unseen_msgs')

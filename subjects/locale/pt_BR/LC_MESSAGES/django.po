@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-07 22:29-0300\n"
+"POT-Creation-Date: 2017-09-10 02:55-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,7 +86,7 @@ msgstr "Início de inscrição"
 msgid "End Subscribe"
 msgstr "Encerramento de inscrição"
 
-#: subjects/models.py:42
+#: subjects/models.py:42 subjects/templates/subjects/_form.html:14
 msgid "Students"
 msgstr "Estudantes"
 
@@ -97,6 +97,12 @@ msgstr "Tamanho máximo de upload"
 #: subjects/templates/subjects/_form.html:21
 msgid "Attribute students to subject"
 msgstr "Atribuir estudantes ao assunto"
+
+#: subjects/templates/subjects/_form.html:34
+#, fuzzy
+#| msgid "Professor(s) "
+msgid "Professor"
+msgstr "Professor(es) "
 
 #: subjects/templates/subjects/_form.html:41
 msgid "Attribute professors to subject"
@@ -146,7 +152,7 @@ msgstr "Grupos"
 #: subjects/templates/subjects/restore.html:16
 #: subjects/templates/subjects/restore.html:44
 #: subjects/templates/subjects/restore.html:59
-#: subjects/templates/subjects/restore.html:92
+#: subjects/templates/subjects/restore.html:102
 #: subjects/templates/subjects/subject_card.html:34
 #: subjects/templates/subjects/view.html:56
 msgid "Restore"
@@ -285,6 +291,10 @@ msgstr "Escolha seu arquivo..."
 #: subjects/templates/subjects/restore.html:87
 msgid "Click or drop the file here"
 msgstr "Clique ou solte o arquivo aqui"
+
+#: subjects/templates/subjects/restore.html:96
+msgid "File not supported."
+msgstr ""
 
 #: subjects/templates/subjects/subject_card.html:39
 #: subjects/templates/subjects/view.html:61

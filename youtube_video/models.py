@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse_lazy
 from topics.models import Resource
 
 class YTVideo(Resource):
-	url = models.URLField(_('URL'), max_length = 250)
+	url = models.CharField(_('URL'), max_length = 250)
 
 	class Meta:
 		verbose_name = _('YTVideo')
@@ -37,4 +37,3 @@ class YTVideo(Resource):
 				return "https://www.youtube.com/embed/" + parts[1]
 
 		return self.url
-

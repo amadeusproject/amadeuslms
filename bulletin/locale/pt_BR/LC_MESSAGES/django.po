@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-07 22:29-0300\n"
+"POT-Creation-Date: 2017-09-10 02:55-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -197,13 +197,13 @@ msgstr "A imagem não pode exceder 5MB."
 
 #: bulletin/templates/bulletin/send_message.html:62
 #: bulletin/templates/bulletin/view.html:235
-#: bulletin/templates/bulletin/window_view.html:257
+#: bulletin/templates/bulletin/window_view.html:258
 msgid "Close"
 msgstr "Fechar"
 
 #: bulletin/templates/bulletin/send_message.html:63
 #: bulletin/templates/bulletin/view.html:236
-#: bulletin/templates/bulletin/window_view.html:258
+#: bulletin/templates/bulletin/window_view.html:259
 msgid "Send"
 msgstr "Enviar"
 
@@ -212,22 +212,22 @@ msgid "Edit: "
 msgstr "Editar: "
 
 #: bulletin/templates/bulletin/view.html:215
-#: bulletin/templates/bulletin/window_view.html:237
+#: bulletin/templates/bulletin/window_view.html:238
 msgid "There are obstructions to your activities?"
 msgstr "Existem impedimentos para as suas atividades?"
 
 #: bulletin/templates/bulletin/view.html:216
-#: bulletin/templates/bulletin/window_view.html:238
+#: bulletin/templates/bulletin/window_view.html:239
 msgid "Click here"
 msgstr "Clique aqui"
 
 #: bulletin/templates/bulletin/view.html:216
-#: bulletin/templates/bulletin/window_view.html:238
+#: bulletin/templates/bulletin/window_view.html:239
 msgid "to communicate the difficulties that may decrease your performance."
 msgstr "para informar as dificuldades que podem prejudicar seu desempenho."
 
 #: bulletin/templates/bulletin/view.html:231
-#: bulletin/templates/bulletin/window_view.html:253
+#: bulletin/templates/bulletin/window_view.html:254
 msgid "Type here the dificulties that may harm your performance"
 msgstr "Escreva aqui as dificuldades que podem diminuir sua performance"
 

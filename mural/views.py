@@ -25,6 +25,8 @@ from log.decorators import log_decorator, log_decorator_ajax
 import time
 from datetime import datetime
 
+from api.utils import sendMuralPushNotification
+
 from .models import Mural, GeneralPost, CategoryPost, SubjectPost, MuralVisualizations, MuralFavorites, Comment
 from .forms import GeneralPostForm, CategoryPostForm, SubjectPostForm, ResourcePostForm, CommentForm
 from .utils import getSpaceUsers
@@ -146,12 +148,14 @@ class GeneralCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		paths = [reverse("mural:manage_general")]
 
+		simple_notify = _("%s has made a post in General")%(str(self.object.user))
+
 		notification = {
 			"type": "mural",
 			"subtype": "post",
 			"paths": paths,
 			"user_icon": self.object.user.image_url,
-			"simple_notify": _("%s has made a post in General")%(str(self.object.user)),
+			"simple_notify": simple_notify,
 			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
 			"container": ".post",
 			"accordion": False,
@@ -162,6 +166,7 @@ class GeneralCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		for user in users:
 			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
+			sendMuralPushNotification(user, self.object.user, simple_notify)
 			Group("user-%s" % user.id).send({'text': notification})
 
 		MuralVisualizations.objects.bulk_create(entries)
@@ -403,12 +408,14 @@ class CategoryCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		paths = [reverse("mural:manage_category")]
 
+		simple_notify = _("%s has made a post in %s")%(str(self.object.user), str(self.object.space))
+
 		notification = {
 			"type": "mural",
 			"subtype": "post",
 			"paths": paths,
 			"user_icon": self.object.user.image_url,
-			"simple_notify": _("%s has made a post in %s")%(str(self.object.user), str(self.object.space)),
+			"simple_notify": simple_notify,
 			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
 			"container": "#" + slug,
 			"accordion": True,
@@ -419,6 +426,7 @@ class CategoryCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		for user in users:
 			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
+			sendMuralPushNotification(user, self.object.user, simple_notify)
 			Group("user-%s" % user.id).send({'text': notification})
 
 		MuralVisualizations.objects.bulk_create(entries)
@@ -709,12 +717,14 @@ class SubjectCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		if self.object.resource:
 			paths.append(reverse("mural:resource_view", args = (), kwargs = {'slug': self.object.resource.slug}))
 
+		simple_notify = _("%s has made a post in %s")%(str(self.object.user), str(self.object.space))
+
 		notification = {
 			"type": "mural",
 			"subtype": "post",
 			"paths": paths,
 			"user_icon": self.object.user.image_url,
-			"simple_notify": _("%s has made a post in %s")%(str(self.object.user), str(self.object.space)),
+			"simple_notify": simple_notify,
 			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
 			"container": "#" + slug,
 			"accordion": True,
@@ -725,6 +735,7 @@ class SubjectCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		for user in users:
 			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
+			sendMuralPushNotification(user, self.object.user, simple_notify)
 			Group("user-%s" % user.id).send({'text': notification})
 
 		MuralVisualizations.objects.bulk_create(entries)
@@ -1144,12 +1155,14 @@ class ResourceCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		if self.object.resource:
 			paths.append(reverse("mural:resource_view", args = (), kwargs = {'slug': self.object.resource.slug}))
 
+		simple_notify = _("%s has made a post in %s")%(str(self.object.user), str(self.object.space))
+
 		notification = {
 			"type": "mural",
 			"subtype": "post",
 			"paths": paths,
 			"user_icon": self.object.user.image_url,
-			"simple_notify": _("%s has made a post in %s")%(str(self.object.user), str(self.object.space)),
+			"simple_notify": simple_notify,
 			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
 			"container": "#" + slug,
 			"accordion": True,
@@ -1160,6 +1173,7 @@ class ResourceCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		for user in users:
 			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
+			sendMuralPushNotification(user, self.object.user, simple_notify)
 			Group("user-%s" % user.id).send({'text': notification})
 
 		MuralVisualizations.objects.bulk_create(entries)
@@ -1276,12 +1290,14 @@ class CommentCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 			if post.subjectpost.resource:
 				paths.append(reverse("mural:resource_view", args = (), kwargs = {'slug': post.subjectpost.resource.slug}))
 
+		simple_notify = _("%s has commented in a post")%(str(self.object.user))
+
 		notification = {
 			"type": "mural",
 			"subtype": "comment",
 			"paths": paths,
 			"user_icon": self.object.user.image_url,
-			"simple_notify": _("%s has commented in a post")%(str(self.object.user)),
+			"simple_notify": simple_notify,
 			"complete": render_to_string("mural/_view_comment.html", {"comment": self.object}, self.request),
 			"container": "#post-" + str(post.get_id()),
 			"post_type": post._my_subclass,
@@ -1292,6 +1308,7 @@ class CommentCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		for user in users:
 			entries.append(MuralVisualizations(viewed = False, user = user, comment = self.object))
+			sendMuralPushNotification(user, self.object.user, simple_notify)
 			Group("user-%s" % user.id).send({'text': notification})
 
 		MuralVisualizations.objects.bulk_create(entries)
