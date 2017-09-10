@@ -84,7 +84,16 @@ def getToken(request):
 	return HttpResponse(response)
 
 class LoginViewset(viewsets.ReadOnlyModelViewSet):
+	"""
+	login:
+	Log a user in the system
+
+	register_device:
+	Register a mobile device for the logged user to provide app notifications
+	"""
+
 	queryset = User.objects.all()
+	serializer_class = UserSerializer
 	permissions_classes = (IsAuthenticated,)
 
 	@csrf_exempt
@@ -149,8 +158,15 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet):
 		return HttpResponse(response)
 
 class SubjectViewset(viewsets.ReadOnlyModelViewSet):
+	"""
+	---
+	get_subjects:
+		Get list of subjects of a user.	Require user email as parameter
+	"""
+
 	queryset = Subject.objects.all()
-	permissions_classes = (IsAuthenticated, )
+	serializer_class = SubjectSerializer
+	permissions_classes = (IsAuthenticated,)
 
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
@@ -193,7 +209,13 @@ class SubjectViewset(viewsets.ReadOnlyModelViewSet):
 		return HttpResponse(response)
 
 class ParticipantsViewset(viewsets.ReadOnlyModelViewSet):
+	"""
+	get_participants:
+		Get all users that participates in some subject. Require the logged user email and the subject slug
+	"""
+
 	queryset = User.objects.all()
+	serializer_class = UserSerializer
 	permissions_classes = (IsAuthenticated, )
 
 	@csrf_exempt
@@ -231,7 +253,16 @@ class ParticipantsViewset(viewsets.ReadOnlyModelViewSet):
 		return HttpResponse(response)
 
 class ChatViewset(viewsets.ModelViewSet):
+	"""
+	get_messages:
+		Get messages of a conversation
+
+	send_message:
+		Send a message in a conversation
+	"""
+
 	queryset = TalkMessages.objects.all()
+	serializer_class = ChatSerializer
 	permissions_classes = (IsAuthenticated, )
 
 	@csrf_exempt
