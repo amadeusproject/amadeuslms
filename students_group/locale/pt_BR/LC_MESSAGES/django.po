@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-07 22:29-0300\n"
+"POT-Creation-Date: 2017-09-10 02:55-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,8 @@ msgstr "Descrição"
 msgid "Subject"
 msgstr "Assunto"
 
-#: students_group/models.py:13 students_group/templates/groups/index.html:75
+#: students_group/models.py:13 students_group/templates/groups/_form.html:14
+#: students_group/templates/groups/index.html:75
 msgid "Participants"
 msgstr "Participantes"
 

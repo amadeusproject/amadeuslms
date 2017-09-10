@@ -9,6 +9,9 @@ from log.models import Log
 from pendencies.models import Pendencies
 from users.models import User
 
+from fcm_django.models import FCMDevice
+from fcm_django.fcm import fcm_send_message
+
 from .models import Notification
 
 def get_resource_users(resource):
@@ -16,6 +19,18 @@ def get_resource_users(resource):
 		return resource.topic.subject.students.all()
 
 	return User.objects.filter(Q(resource_students = resource) | Q(group_participants__resource_groups = resource)).distinct()
+
+def notificate():
+	users = User.objects.all()
+
+	for user in users:
+		notifications = Notification.objects.filter(user = user, viewed = False, creation_date = timezone.now()).count()
+
+		if notifications > 0:
+			device = FCMDevice.objects.filter(user = user, active = True).first()
+
+			if not device is None:
+				device.send_message(data = {"body": notifications, "type": "pendency"})
 
 def set_notifications():
 	pendencies = Pendencies.objects.filter(begin_date__date__lte = timezone.now(), resource__visible = True)
@@ -64,6 +79,8 @@ def set_notifications():
 				notification.meta = meta
 
 				notification.save()
+
+	notificate()
 
 def get_order_by(order):
 	if order is None or order == "":

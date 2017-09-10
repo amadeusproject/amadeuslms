@@ -135,6 +135,8 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet):
 			fcm_d.save()
 
 			if not fcm_d.pk is None:
+				FCMDevice.objects.filter(registration_id = device).exclude(pk = fcm_d.pk).update(active = False)
+
 				json_r["message"] = ""
 				json_r["type"] = ""
 				json_r["title"] = ""

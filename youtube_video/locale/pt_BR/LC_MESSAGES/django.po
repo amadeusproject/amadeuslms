@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-07 22:29-0300\n"
+"POT-Creation-Date: 2017-09-10 02:55-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr "Título do Vídeo"
 msgid "This subject already has a resource with this name"
 msgstr "Esse assunto já possui um recurso com esse nome"
 
-#: youtube_video/forms.py:73
+#: youtube_video/forms.py:75
 msgid "Invalid URL. It should be an YouTube link."
 msgstr "URL inválida. Ela deve ser uma URL de um vídeo do YouTube."
 
@@ -65,6 +65,10 @@ msgstr "Ação não realizada pelo usuário"
 #: youtube_video/templates/youtube/_form.html:145
 msgid "Wished period"
 msgstr "Período desejado"
+
+#: youtube_video/templates/youtube/_form.html:212
+msgid "Students"
+msgstr ""
 
 #: youtube_video/templates/youtube/_form.html:242
 msgid "Attribute students to YouTube Video"

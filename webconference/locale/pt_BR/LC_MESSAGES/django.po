@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-07 22:29-0300\n"
+"POT-Creation-Date: 2017-09-10 02:55-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -96,6 +96,10 @@ msgstr "Ação não executada pelo usuário"
 #: webconference/templates/webconference/_form.html:186
 msgid "Wished period"
 msgstr "Período desejado"
+
+#: webconference/templates/webconference/_form.html:253
+msgid "Students"
+msgstr ""
 
 #: webconference/templates/webconference/_form.html:283
 msgid "Attribute students to Web Conference"

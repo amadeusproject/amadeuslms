@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-07 22:29-0300\n"
+"POT-Creation-Date: 2017-09-10 02:55-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -83,6 +83,10 @@ msgstr "Ação não permitida pelo usuário"
 #: pdf_file/templates/pdf_file/_form.html:173
 msgid "Wished period"
 msgstr "Período desejado"
+
+#: pdf_file/templates/pdf_file/_form.html:239
+msgid "Students"
+msgstr ""
 
 #: pdf_file/templates/pdf_file/_form.html:269
 msgid "Attribute students to file link"
