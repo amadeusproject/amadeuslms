@@ -65,7 +65,7 @@ def getToken(request):
 						}
 
 						auth = (oauth.client_id, oauth.client_secret)
-
+						
 						response = requests.post(request.build_absolute_uri(reverse('oauth2_provider:token')), data = data, auth = auth)
 
 						json_r = json.loads(response.content.decode('utf-8'))
@@ -169,7 +169,7 @@ class SubjectViewset(viewsets.ReadOnlyModelViewSet):
 
 				subjects = Subject.objects.filter(Q(students__pk=pk) | Q(professor__pk=pk) | Q(category__coordinators__pk=pk)).distinct()
 
-			serializer = SubjectSerializer(subjects, many = True)
+			serializer = SubjectSerializer(subjects, many = True, context = {"request_user": user})
 
 			json_r = json.dumps(serializer.data)
 			json_r = json.loads(json_r)
@@ -207,7 +207,7 @@ class ParticipantsViewset(viewsets.ReadOnlyModelViewSet):
 		if not subject_slug == "":
 			participants = User.objects.filter(Q(is_staff = True) | Q(subject_student__slug = subject_slug) | Q(professors__slug = subject_slug) | Q(coordinators__subject_category__slug = subject_slug)).exclude(email = username).distinct()
 
-			serializer = UserSerializer(participants, many = True)
+			serializer = UserSerializer(participants, many = True, context = {"request_user": username})
 
 			json_r = json.dumps(serializer.data)
 			json_r = json.loads(json_r)
