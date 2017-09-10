@@ -47,7 +47,7 @@
 		<script type="text/javascript" src="{% static 'js/jscookie.js' %}"></script>
 	    <script type="text/javascript" src="{% static 'js/jPages.js' %}"></script>
 	    <script type="text/javascript" src="{% static 'js/d3.v3.min.js' %}"></script>
-			<script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
+		<script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
 
 	  	<!-- Font awesome -->
 		<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
@@ -55,15 +55,26 @@
 		<!-- Custom styles -->
 	    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus_responsive.css' %}">
 	    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
+		<link rel="stylesheet" href="{% static  'css/estilo.css' %}">
 
     {% with 'css/themes/'|add:theme.css_style|add:'.css' as theme_selected %}
         <link rel="stylesheet" type="text/css" href="{% static theme_selected %}">
     {% endwith %}
 
 
-		<link rel="stylesheet" href="{% static  'css/estilo.css' %}">
+
 </head>
 <body style="background: #FFF">
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<p>{{ message }}</p>
+			</div>
+		{% endfor %}
+	{% endif %}
 
 	{% subject_permissions request.user bulletin.topic.subject as has_subject_permissions %}
 	<div class="container-fluid" style="padding-top: 20px;">
@@ -115,28 +126,41 @@
 
 
 											<!-- Cor amarela -->
-										  {% if meta.alcancada < meta.desejada and meta.alcancada > meta.estabelecida %}
-												<th style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 10px #000; color:#fff; font-weight: normal;">{{ meta.alcancada }}%</th>
-										  {% endif %}
-
-										  {% if meta.alcancada > meta.desejada and meta.alcancada < meta.estabelecida %}
-												<th style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 10px #000; color:#fff; font-weight: normal;">{{ meta.alcancada }}%</th>
-
-										  {% endif %}
-										  <!-- Cor amarela -->
-
-											<!-- Cor verde -->
-											{% if meta.alcancada > meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada == 100 %}
-												<th style="text-align:center;background-color:#00d337;  text-shadow: 1px 1px 10px #000; color:#fff; font-weight: normal;">{{ meta.alcancada }}%</th>
+											{% if meta.alcancada < meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada < meta.desejada and meta.alcancada == meta.estabelecida %}
+												<th style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
+												data-toggle="tooltip" data-html="true" data-placement="bottom"
+												title="<b>Meta atingida!</b><br><br>Atenção! O seu resultado foi inferior ao recomendado pelo professor." class="grey-tooltip">
+												{{ meta.alcancada }}%</th>
 											{% endif %}
+
+											{% if meta.alcancada > meta.desejada and meta.alcancada < meta.estabelecida or meta.alcancada == meta.desejada and meta.alcancada < meta.estabelecida %}
+												<th style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
+												data-toggle="tooltip" data-html="true" data-placement="bottom"
+												title="<b>Meta atingida!</b><br><br>Atenção! O seu resultado foi inferior a sua meta inicial." class="grey-tooltip">
+												{{ meta.alcancada }}%</th>
+											{% endif %}
+
+											<!-- Cor amarela -->
+
+											<!-- Cor verde -->
+											{% if meta.alcancada > meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada == meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada > meta.desejada and meta.alcancada == meta.estabelecida or meta.alcancada == 100 or meta.alcancada == meta.desejada and meta.alcancada == meta.estabelecida %}
+												<th style="text-align:center;background-color:#00d337;  text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
+												data-toggle="tooltip" data-html="true" data-placement="bottom"
+												title="<b>Meta atingida!</b>" class="grey-tooltip">
+												{{ meta.alcancada }}%</th>
+											{% endif %}
+
 											<!-- Cor verde -->
 
-										  <!-- Cor vermelha -->
-										  {% if meta.alcancada < meta.desejada and meta.alcancada < meta.estabelecida %}
-												<th style="text-align:center;background-color:#ff0000; text-shadow: 1px 1px 10px #000; color:#fff; font-weight: normal;">{{ meta.alcancada }}%</th>
+											<!-- Cor vermelha -->
+											{% if meta.alcancada < meta.desejada and meta.alcancada < meta.estabelecida %}
+												<th style="text-align:center;background-color:#ff0000; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
+												data-toggle="tooltip" data-html="true" data-placement="bottom"
+												title="<b>Meta não atingida!</b><br><br>Resultado inferior </br>a sua meta e ao recomendado pelo professor." class="grey-tooltip">
+												{{ meta.alcancada }}%</th>
 
-										  {% endif %}
-										  <!-- Cor vermelha -->
+											{% endif %}
+											<!-- Cor vermelha -->
 
 
 										</tr>
@@ -204,40 +228,40 @@
 				</div>
 
 				{% if not has_subject_permissions %}
-				<div class="form-group" style="background-color:#fff; box-shadow: 1px 1px 25px #c0beaf; margin-top: 15px;">
+					<div class="form-group" style="background-color:#fff; box-shadow: 1px 1px 25px #c0beaf; margin-top: 15px;">
 						<div class="row">
-						<div class="col-md-1" align="left" style="padding-left: 25px; padding-top: 10px;">
-									<img src="{% static 'img/warning.png' %}"  height="80" width="95"/>
-						</div>
-						<div class="col-md-11">
-							<div class="row">
+							<div class="col-md-1" align="left" style="padding-left: 25px; padding-top: 10px;">
+								<img src="{% static 'img/warning.png' %}"  height="80" width="95"/>
+							</div>
+							<div class="col-md-11">
+								<div class="row">
 									<div align="left" style="padding-left: 25px; font-size:22px; color: #878787; padding-top: 15px;padding-bottom: 20px;">{% trans 'There are obstructions to your activities?' %}</div>
 									<div align="left" style="padding-left: 25px; padding-right:35px; font-size:16px;"><p><a data-toggle="modal" data-target="#bulletin-difficulties-modal" href=""><b>{% trans 'Click here' %}</b></a> {% trans 'to communicate the difficulties that may decrease your performance.' %}</p></div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</br>
-		<div class="modal fade" tabindex="-1" role="dialog" id="bulletin-difficulties-modal">
-				<div class="modal-dialog" role="document">
-						<div class="modal-content">
+					</br>
+					<div class="modal fade" tabindex="-1" role="dialog" id="bulletin-difficulties-modal">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
 								<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 								</div>
 								<div class="modal-body">
-										<form id="bulletin-difficulties" action="" method="POST" enctype="multipart/form-data">
-												{% csrf_token %}
-												<textarea class="form-control" id="dificulties" name="difficulties" placeholder="{% trans 'Type here the dificulties that may harm your performance' %}"></textarea>
-										</form>
+									<form id="bulletin-difficulties" action="" method="POST" enctype="multipart/form-data">
+										{% csrf_token %}
+										<textarea class="form-control" id="dificulties" name="difficulties" placeholder="{% trans 'Type here the dificulties that may harm your performance' %}"></textarea>
+									</form>
 								</div>
 								<div class="modal-footer">
-										<button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
-										<button type="submit" class="btn btn-success btn-raised erase-button" form="bulletin-difficulties">{% trans "Send" %}</button>
+									<button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+									<button type="submit" class="btn btn-success btn-raised erase-button" form="bulletin-difficulties">{% trans "Send" %}</button>
 								</div>
+							</div>
 						</div>
-				</div>
-		</div>
-		{% endif %}
+					</div>
+				{% endif %}
 
 {% include 'session_security/all.html' %}
 			<script type="text/javascript">
@@ -245,6 +269,22 @@
 			</script>
 
 		<script type="text/javascript">
+		$('[data-toggle="tooltip"]').tooltip({
+			trigger: 'hover'
+		});
+
+		$('#bulletin-difficulties-modal').on('shown.bs.modal', function (e) {
+			$.ajax({
+	            url: "{% url 'bulletin:difficulties_log' bulletin.slug %}",
+	            dataType: 'json',
+	            success: function (data) {
+	            },
+	            error: function (data) {
+	                console.log(data);
+	            }
+	        });
+		});
+
 		// Variável obtidas a partir do número de metas atendidas
 		var percent = "{{ percent }}";
 

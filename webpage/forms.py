@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
 
 from subjects.models import Tag
+from subjects.forms import ParticipantsMultipleChoiceField
 
 from .models import Webpage
 
@@ -11,6 +12,7 @@ from resubmit.widgets import ResubmitFileWidget
 
 class WebpageForm(forms.ModelForm):
     subject = None
+    students = ParticipantsMultipleChoiceField(queryset = None, required = False)
     
     def __init__(self, *args, **kwargs):
         super(WebpageForm, self).__init__(*args, **kwargs)

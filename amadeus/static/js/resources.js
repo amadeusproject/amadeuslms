@@ -135,16 +135,30 @@ function FileSelectHandler(e) {
 		parent = $(e.target.offsetParent),
 		max_size = parseInt($(e.target).data("max_size")) * 1024 * 1024,
 		submit_btn = $(e.target).closest("form").find("input[type='submit']"),
-		mimeTypes = $(e.target).data('mimetypes');
+		mimeTypes = $(e.target).data('mimetypes'),
+		file_id = parent.data('file_id');
 
-	$(".client-file-errors").hide();
-	$(".size").hide();
-	$(".format").hide();
-	$(submit_btn).prop('disable', false);
-	$(submit_btn).prop('disabled', false);
+	if ($(e.target).closest("form").prop('id') == "bulletin") {
+		parent.removeClass('alert-file');
 
-	console.log($(e.target).data('mimetypes'));
-	console.log(mimeTypes);
+		var alerts_open = $(e.target).closest("form").find(".alert-file").length;
+		
+		if (alerts_open == 0) {
+			$(submit_btn).prop('disable', false);
+			$(submit_btn).prop('disabled', false);
+		}
+
+		$("." + file_id + "-file-errors").hide();
+		$("." + file_id + "-file-errors .size").hide();
+		$("." + file_id + "-file-errors .format").hide();
+	} else {
+		$(".client-file-errors").hide();
+		$(".size").hide();
+		$(".format").hide();
+		$(submit_btn).prop('disable', false);
+		$(submit_btn).prop('disabled', false);
+	}
+
 
 	// process all File objects
 	for (var i = 0, f; f = files[i]; i++) {
@@ -153,16 +167,30 @@ function FileSelectHandler(e) {
 			$(submit_btn).prop('disable', true);
 			$(submit_btn).prop('disabled', true);
 
-			$(".client-file-errors").show();
-			$(".size").show();
+			if ($(e.target).closest("form").prop('id') == "bulletin") {
+				$("." + file_id + "-file-errors").show();
+				$("." + file_id + "-file-errors .size").show();
+
+				parent.addClass('alert-file');
+			} else {
+				$(".client-file-errors").show();
+				$(".size").show();
+			}
 		} 
 
 		if (!mimeTypes.includes(f.type)) {
 			$(submit_btn).prop('disable', true);
 			$(submit_btn).prop('disabled', true);
 
-			$(".client-file-errors").show();
-			$(".format").show();
+			if ($(e.target).closest("form").prop('id') == "bulletin") {
+				$("." + file_id + "-file-errors").show();
+				$("." + file_id + "-file-errors .format").show();
+
+				parent.addClass('alert-file');
+			} else {
+				$(".client-file-errors").show();
+				$(".format").show();
+			}
 		}
 
 		parent.find('.filedrag').html(f.name);

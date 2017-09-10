@@ -44,7 +44,7 @@ class SimpleFileLinkSerializer(serializers.ModelSerializer):
 
 					path = files.extract(data["file_content"], dst_path)
 
-					new_name = "files/file_" + str(time.time()) + os.path.splitext(data["file_content"])[1]
+					new_name = os.path.join("files","file_" + str(time.time()) + os.path.splitext(data["file_content"])[1])
 
 					os.rename(os.path.join(dst_path, path), os.path.join(settings.MEDIA_ROOT, new_name))
 					
@@ -87,7 +87,7 @@ class SimpleFileLinkSerializer(serializers.ModelSerializer):
 					if topic_exist.exists():
 						topic = topic_exist[0]
 					else:
-						topic = Topic.objects.create(name = topic['name'], subject = topic['subject'], repository = topic['repository'], visible = topic['visible'], order = topic['order'])
+						topic = Topic.objects.create(name = topic['name'], subject = topic['subject'], repository = topic['repository'], visible = topic['visible'], order = topic['order'], description = topic['description'])
 					
 					data["topic"] = topic
 				else:
@@ -161,7 +161,7 @@ class CompleteFileLinkSerializer(serializers.ModelSerializer):
 
 					path = files.extract(data["file_content"], dst_path)
 
-					new_name = "files/file_" + str(time.time()) + os.path.splitext(data["file_content"])[1]
+					new_name = os.path.join("files","file_" + str(time.time()) + os.path.splitext(data["file_content"])[1])
 
 					os.rename(os.path.join(dst_path, path), os.path.join(settings.MEDIA_ROOT, new_name))
 					
@@ -197,7 +197,7 @@ class CompleteFileLinkSerializer(serializers.ModelSerializer):
 					if topic_exist.exists():
 						topic = topic_exist[0]
 					else:
-						topic = Topic.objects.create(name = topic['name'], subject = topic['subject'], repository = topic['repository'], visible = topic['visible'], order = topic['order'])
+						topic = Topic.objects.create(name = topic['name'], subject = topic['subject'], repository = topic['repository'], visible = topic['visible'], order = topic['order'], description = topic['description'])
 					
 					data["topic"] = topic
 				else:

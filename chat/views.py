@@ -24,11 +24,11 @@ from log.models import Log
 from log.mixins import LogMixin
 import time
 
-from fcm_django.models import FCMDevice
-
 from categories.models import Category
 from subjects.models import Subject
 from users.models import User
+
+from api.utils import  sendChatPushNotification
 
 from .models import Conversation, TalkMessages, ChatVisualizations, ChatFavorites
 from .forms import ChatMessageForm
@@ -371,10 +371,7 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		Group("user-%s" % user.id).send({'text': notification})
 
-		device = FCMDevice.objects.filter(user = user).first()
-
-		if not device is None:
-			device.send_message(title = "Message", body = self.object.text)
+		sendChatPushNotification(user, self.object)
 
 		ChatVisualizations.objects.create(viewed = False, message = self.object, user = user)
 

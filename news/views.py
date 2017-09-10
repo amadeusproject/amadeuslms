@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Q, Count
 
-from .models import News
+from .models import News, valid_formats
 from .forms import NewsForm
 
 class VisualizeNews(LoginRequiredMixin,LogMixin,generic.ListView):
@@ -96,19 +96,19 @@ class CreateNewsView(LoginRequiredMixin,LogMixin,generic.edit.CreateView):
 
         super(CreateNewsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-
         return super(CreateNewsView, self).form_valid(form)
-
-    def get_success_url(self):
-        messages.success(self.request, _('News successfully created!'))
-
-        return reverse_lazy('news:view', kwargs = {'slug': self.object.slug} )
 
     def get_context_data (self, **kwargs):
         context = super(CreateNewsView, self).get_context_data(**kwargs)
         context['title'] = _("Create News")
+        context['mimeTypes'] = valid_formats
 
         return context
+    
+    def get_success_url(self):
+        messages.success(self.request, _('News successfully created!'))
+
+        return reverse_lazy('news:view', kwargs = {'slug': self.object.slug} )
 
 class UpdateNewsView(LoginRequiredMixin,LogMixin,generic.UpdateView):
     log_action = "update"
@@ -127,17 +127,6 @@ class UpdateNewsView(LoginRequiredMixin,LogMixin,generic.UpdateView):
             return redirect(reverse_lazy('subjects:home'))
         return super(UpdateNewsView, self).dispatch(request, *args, **kwargs)
 
-    def get_success_url(self):
-        messages.success(self.request, _('News successfully created!'))
-
-        return reverse_lazy('news:view', kwargs = {'slug': self.object.slug} )
-
-    def get_context_data (self, **kwargs):
-        context = super(UpdateNewsView, self).get_context_data(**kwargs)
-        context['title'] = _("Update News")
-
-        return context
-
     def form_valid(self, form):
         self.object = form.save(commit = False)
         creator = self.request.user
@@ -151,8 +140,19 @@ class UpdateNewsView(LoginRequiredMixin,LogMixin,generic.UpdateView):
 
         super(UpdateNewsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-
         return super(UpdateNewsView, self).form_valid(form)
+    
+    def get_context_data (self, **kwargs):
+        context = super(UpdateNewsView, self).get_context_data(**kwargs)
+        context['title'] = _("Update News")
+        context['mimeTypes'] = valid_formats
+
+        return context
+
+    def get_success_url(self):
+        messages.success(self.request, _('News successfully created!'))
+
+        return reverse_lazy('news:view', kwargs = {'slug': self.object.slug} )
 
 class SearchNewsView(LoginRequiredMixin, LogMixin, generic.ListView):
     login_url = reverse_lazy("users:login")

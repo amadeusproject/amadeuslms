@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 22:41-0300\n"
+"POT-Creation-Date: 2017-09-07 22:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -403,7 +403,7 @@ msgstr "Submeteu"
 msgid "%s Instance"
 msgstr "Instância de %s"
 
-#: goals/utils.py:59 goals/views.py:1224
+#: goals/utils.py:61 goals/views.py:1224
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"

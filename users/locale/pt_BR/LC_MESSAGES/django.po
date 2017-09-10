@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 22:41-0300\n"
+"POT-Creation-Date: 2017-09-07 22:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,6 +23,7 @@ msgid "You must insert an email address"
 msgstr "Você deve inserir um endereço de email"
 
 #: users/forms.py:43 users/templates/users/_form.html:94
+#: users/templates/users/register.html:107
 msgid "The image is too large. It should have less than 2MB."
 msgstr "A imagem é muito grande. Ela deve conter menos de 2MB."
 
@@ -88,6 +89,7 @@ msgid "You must insert a valid email address"
 msgstr "Você deve inserir um endereço de email válido"
 
 #: users/models.py:18 users/templates/users/_form.html:95
+#: users/templates/users/register.html:108
 msgid "File not supported."
 msgstr "Arquivo não suportado."
 
@@ -173,15 +175,15 @@ msgstr "Sim"
 msgid "Is not an admin"
 msgstr "Não é administrador"
 
-#: users/templates/users/_form.html:18 users/templates/users/register.html:53
+#: users/templates/users/_form.html:18 users/templates/users/register.html:56
 msgid "Choose your photo..."
 msgstr "Escolha sua foto..."
 
-#: users/templates/users/_form.html:32
+#: users/templates/users/_form.html:32 users/templates/users/register.html:70
 msgid "Click or drop the file here"
 msgstr ""
 
-#: users/templates/users/_form.html:34
+#: users/templates/users/_form.html:34 users/templates/users/register.html:72
 msgid "The photo could not exceed 2MB."
 msgstr "A imagem não pode exceder o tamanho de 2MB."
 
@@ -231,7 +233,7 @@ msgstr "Recuperar"
 
 #: users/templates/users/forgot_password.html:75
 #: users/templates/users/new_password.html:80
-#: users/templates/users/register.html:93
+#: users/templates/users/register.html:121
 msgid "Back"
 msgstr "Voltar"
 
@@ -308,7 +310,7 @@ msgstr "Estudante em"
 msgid "User Register"
 msgstr "Cadastro de Usuário"
 
-#: users/templates/users/register.html:90
+#: users/templates/users/register.html:118
 msgid "Register"
 msgstr "Cadastrar"
 

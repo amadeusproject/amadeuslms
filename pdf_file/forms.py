@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
 
 from subjects.models import Tag
+from subjects.forms import ParticipantsMultipleChoiceField
 from resubmit.widgets import ResubmitFileWidget
 
 from .models import PDFFile
@@ -10,6 +11,8 @@ from .models import PDFFile
 class PDFFileForm(forms.ModelForm):
     subject = None
     MAX_UPLOAD_SIZE = 10*1024*1024
+
+    students = ParticipantsMultipleChoiceField(queryset = None, required = False)
 
     def __init__(self, *args, **kwargs):
         super(PDFFileForm, self).__init__(*args, **kwargs)

@@ -27,4 +27,4 @@ class SubjectSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Subject
-		fields = ["name", "slug", "visible"]
+		fields = ["name", "slug", "visible", "description_brief", "description"]

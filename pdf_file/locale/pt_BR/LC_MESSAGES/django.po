@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 22:41-0300\n"
+"POT-Creation-Date: 2017-09-07 22:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,23 +18,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: pdf_file/forms.py:25
+#: pdf_file/forms.py:28
 msgid "Tags"
 msgstr "Tags"
 
-#: pdf_file/forms.py:30
+#: pdf_file/forms.py:33
 msgid "File name"
 msgstr "Nome do arquivo"
 
-#: pdf_file/forms.py:51
+#: pdf_file/forms.py:54
 msgid "This subject already has a pdf file with this name"
 msgstr "Este assunto já possui um arquivo PDF com este nome"
 
-#: pdf_file/forms.py:63
+#: pdf_file/forms.py:66 pdf_file/templates/pdf_file/_form.html:75
 msgid "The file is too large. It should have less than 10MB."
 msgstr "O arquivo é muito grande. Deve ser menor do que 10MB"
 
-#: pdf_file/forms.py:68
+#: pdf_file/forms.py:71
 msgid "This field is required."
 msgstr "Este campo é requerido."
 
@@ -50,43 +50,49 @@ msgstr "Arquivo"
 msgid "Are you sure you want delete the PDF File"
 msgstr "Tem certeza que deseja deletar este arquivo PDF?"
 
-#: pdf_file/templates/pdf_file/_form.html:32
+#: pdf_file/templates/pdf_file/_form.html:33
 msgid "Choose your file..."
 msgstr "Escolha seu arquivo..."
 
-#: pdf_file/templates/pdf_file/_form.html:46
+#: pdf_file/templates/pdf_file/_form.html:47
 msgid "Click or drop the file here"
 msgstr "Clique ou arraste o arquivo aqui."
 
-#: pdf_file/templates/pdf_file/_form.html:48
+#: pdf_file/templates/pdf_file/_form.html:49
 msgid "The file could not exceed 10MB."
 msgstr "O arquivo não pode exceder 10MB."
 
-#: pdf_file/templates/pdf_file/_form.html:68
+#: pdf_file/templates/pdf_file/_form.html:76
+#, fuzzy
+#| msgid "File not supported, use PDF format instead."
+msgid "File not supported."
+msgstr "Este formato não é suportado, use PDF."
+
+#: pdf_file/templates/pdf_file/_form.html:80
 msgid "Common resources settings"
 msgstr "Configurações comuns à todos os recursos"
 
-#: pdf_file/templates/pdf_file/_form.html:119
+#: pdf_file/templates/pdf_file/_form.html:131
 msgid "Pendencies Notifications"
 msgstr "Notificações pendentes"
 
-#: pdf_file/templates/pdf_file/_form.html:135
+#: pdf_file/templates/pdf_file/_form.html:147
 msgid "Action not performed by the user"
 msgstr "Ação não permitida pelo usuário"
 
-#: pdf_file/templates/pdf_file/_form.html:161
+#: pdf_file/templates/pdf_file/_form.html:173
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: pdf_file/templates/pdf_file/_form.html:257
+#: pdf_file/templates/pdf_file/_form.html:269
 msgid "Attribute students to file link"
 msgstr ""
 
-#: pdf_file/templates/pdf_file/_form.html:277
+#: pdf_file/templates/pdf_file/_form.html:289
 msgid "Attribute groups to file link"
 msgstr ""
 
-#: pdf_file/templates/pdf_file/_form.html:346
+#: pdf_file/templates/pdf_file/_form.html:358
 msgid "Save"
 msgstr "Salvar"
 
@@ -170,8 +176,8 @@ msgstr "Editar: "
 msgid "PDF could not be displayed"
 msgstr "PDF não pode ser mostrado"
 
-#: pdf_file/views.py:127 pdf_file/views.py:140 pdf_file/views.py:251
-#: pdf_file/views.py:253 pdf_file/views.py:269 pdf_file/views.py:271
+#: pdf_file/views.py:127 pdf_file/views.py:140 pdf_file/views.py:252
+#: pdf_file/views.py:254 pdf_file/views.py:270 pdf_file/views.py:272
 msgid "Visualize"
 msgstr "Visualizar"
 
@@ -179,7 +185,7 @@ msgstr "Visualizar"
 msgid "Create PDF File"
 msgstr "Criar o arquivo PDF"
 
-#: pdf_file/views.py:211
+#: pdf_file/views.py:212
 #, python-format
 msgid ""
 "The PDF File \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -188,67 +194,67 @@ msgstr ""
 "O arquivo PDF \"%s\"  foi adicionado ao topico \"%s\" do ambiente virtual "
 "\"%s\" com sucesso!"
 
-#: pdf_file/views.py:315
+#: pdf_file/views.py:316
 msgid "Update PDF File"
 msgstr "Atualize arquivo PDF"
 
-#: pdf_file/views.py:326
+#: pdf_file/views.py:328
 #, python-format
 msgid "The PDF File \"%s\" was updated successfully!"
 msgstr "O arquivo PDF \"%s\"  foi atualizado com sucesso!"
 
-#: pdf_file/views.py:353
+#: pdf_file/views.py:355
 #, python-format
 msgid ""
 "The PDF File \"%s\" was removed successfully from virtual environment \"%s\"!"
 msgstr ""
 "O arquivo PDF \"%s\"  foi removido com sucesso do ambiente virtual \"%s\" "
 
-#: pdf_file/views.py:411
+#: pdf_file/views.py:413
 msgid "PDF File Reports"
 msgstr "Relatórios do arquivo de PDF"
 
-#: pdf_file/views.py:431
+#: pdf_file/views.py:433
 msgid "Realized"
 msgstr "Realizada"
 
-#: pdf_file/views.py:431
+#: pdf_file/views.py:433
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: pdf_file/views.py:431
+#: pdf_file/views.py:433
 msgid "Historic"
 msgstr "Histórico"
 
-#: pdf_file/views.py:447 pdf_file/views.py:455
+#: pdf_file/views.py:449 pdf_file/views.py:457
 msgid "View"
 msgstr "Visualizar"
 
-#: pdf_file/views.py:456
+#: pdf_file/views.py:458
 msgid "PDF File"
 msgstr "Criar o arquivo PDF"
 
-#: pdf_file/views.py:461
+#: pdf_file/views.py:463
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: pdf_file/views.py:462
+#: pdf_file/views.py:464
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: pdf_file/views.py:509
+#: pdf_file/views.py:511
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: pdf_file/views.py:521
+#: pdf_file/views.py:523
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: pdf_file/views.py:530
+#: pdf_file/views.py:532
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: pdf_file/views.py:532
+#: pdf_file/views.py:534
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"

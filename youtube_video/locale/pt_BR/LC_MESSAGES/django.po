@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 22:41-0300\n"
+"POT-Creation-Date: 2017-09-07 22:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: youtube_video/forms.py:36
+#: youtube_video/forms.py:38
 msgid "Tags"
 msgstr "Tags"
 
-#: youtube_video/forms.py:42
+#: youtube_video/forms.py:44
 msgid "Video title"
 msgstr "Título do Vídeo"
 
-#: youtube_video/forms.py:62
+#: youtube_video/forms.py:64
 msgid "This subject already has a resource with this name"
 msgstr "Esse assunto já possui um recurso com esse nome"
 
-#: youtube_video/forms.py:71
+#: youtube_video/forms.py:73
 msgid "Invalid URL. It should be an YouTube link."
 msgstr "URL inválida. Ela deve ser uma URL de um vídeo do YouTube."
 

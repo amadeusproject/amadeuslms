@@ -27,9 +27,11 @@ from django.utils import timezone
 from pendencies.forms import PendenciesForm
 
 from .forms import BulletinForm
-from .models import Bulletin
+from .models import Bulletin, valid_formats
 
 from log.models import Log
+from log.decorators import log_decorator
+
 from chat.models import Conversation, TalkMessages, ChatVisualizations
 from users.models import User
 from subjects.models import Subject
@@ -81,11 +83,35 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
                 self.student = user
         else:
             if not difficulties is None and not difficulties == "":
-                message = _("#Dificulty(ies) found in %s")%(str(bulletin)) + ":<p>" + difficulties + "</p>"
+                print(difficulties)
+                message = _("#Difficulty(ies) found in %s")%(str(bulletin)) + ":<p>" + difficulties + "</p>"
 
                 brodcast_dificulties(self.request, message, bulletin.topic.subject)
 
+                self.log_context = {}
+                self.log_context['category_id'] = bulletin.topic.subject.category.id
+                self.log_context['category_name'] = bulletin.topic.subject.category.name
+                self.log_context['category_slug'] = bulletin.topic.subject.category.slug
+                self.log_context['subject_id'] = bulletin.topic.subject.id
+                self.log_context['subject_name'] = bulletin.topic.subject.name
+                self.log_context['subject_slug'] = bulletin.topic.subject.slug
+                self.log_context['topic_id'] = bulletin.topic.id
+                self.log_context['topic_name'] = bulletin.topic.name
+                self.log_context['topic_slug'] = bulletin.topic.slug
+                self.log_context['bulletin_id'] = bulletin.id
+                self.log_context['bulletin_name'] = bulletin.name
+                self.log_context['bulletin_slug'] = bulletin.slug
+
+                self.log_action = "send_difficulties"
+
+                super(NewWindowView, self).createLog(self.request.user, self.log_component, self.log_action,
+                                             self.log_resource, self.log_context)
+
+                self.log_action = "view"
+                self.log_context = {}
+
                 messages.success(self.request, message = _("Difficulties sent to the subject professor(s)"))
+
                 return self.render_to_response(context = self.get_context_data())
             else:
                 messages.error(self.request, message = _("You should inform some difficulty"))
@@ -184,8 +210,9 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context['titulos'] = titulos
         context['student'] = self.request.POST.get('selected_student', students.first().email)
         context['students'] = students
-
+        
         return context
+
 class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view'
@@ -227,6 +254,28 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
                 message = _("#Dificulty(ies) found in %s")%(str(bulletin)) + ":<p>" + difficulties + "</p>"
 
                 brodcast_dificulties(self.request, message, bulletin.topic.subject)
+
+                self.log_context = {}
+                self.log_context['category_id'] = bulletin.topic.subject.category.id
+                self.log_context['category_name'] = bulletin.topic.subject.category.name
+                self.log_context['category_slug'] = bulletin.topic.subject.category.slug
+                self.log_context['subject_id'] = bulletin.topic.subject.id
+                self.log_context['subject_name'] = bulletin.topic.subject.name
+                self.log_context['subject_slug'] = bulletin.topic.subject.slug
+                self.log_context['topic_id'] = bulletin.topic.id
+                self.log_context['topic_name'] = bulletin.topic.name
+                self.log_context['topic_slug'] = bulletin.topic.slug
+                self.log_context['bulletin_id'] = bulletin.id
+                self.log_context['bulletin_name'] = bulletin.name
+                self.log_context['bulletin_slug'] = bulletin.slug
+
+                self.log_action = "send_difficulties"
+
+                super(InsideView, self).createLog(self.request.user, self.log_component, self.log_action,
+                                             self.log_resource, self.log_context)
+
+                self.log_action = "view"
+                self.log_context = {}
 
                 messages.success(self.request, message = _("Difficulties sent to the subject professor(s)"))
                 return self.render_to_response(context = self.get_context_data())
@@ -466,6 +515,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         alunos =  sorted(list(meta_geral.topic.subject.students.all()), key = lambda e: e.id)
         create_excel_file(alunos, itens_da_meta,meta_geral)
         context['goal_file'] = str(meta_geral.slug)
+        context['mimeTypes'] = valid_formats
 
 
         return context
@@ -738,6 +788,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         alunos =  sorted(list(meta_geral.topic.subject.students.all()), key = lambda e: e.id)
         create_excel_file(alunos, itens_da_meta,meta_geral)
         context['goal_file'] = str(meta_geral.slug)
+        context['mimeTypes'] = valid_formats
 
         return context
 
@@ -893,7 +944,27 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context["history_table"] = history
         return context
 
+@log_decorator('resources', 'access_difficulties_modal', 'bulletin')
+def bulletin_diff_view_log(request, slug):
+    bulletin = get_object_or_404(Bulletin, slug = slug)
 
+    log_context = {}
+    log_context['category_id'] = bulletin.topic.subject.category.id
+    log_context['category_name'] = bulletin.topic.subject.category.name
+    log_context['category_slug'] = bulletin.topic.subject.category.slug
+    log_context['subject_id'] = bulletin.topic.subject.id
+    log_context['subject_name'] = bulletin.topic.subject.name
+    log_context['subject_slug'] = bulletin.topic.subject.slug
+    log_context['topic_id'] = bulletin.topic.id
+    log_context['topic_name'] = bulletin.topic.name
+    log_context['topic_slug'] = bulletin.topic.slug
+    log_context['bulletin_id'] = bulletin.id
+    log_context['bulletin_name'] = bulletin.name
+    log_context['bulletin_slug'] = bulletin.slug
+
+    request.log_context = log_context
+
+    return JsonResponse({'message': 'ok'})
 
 from django.http import HttpResponse #used to send HTTP 404 error to ajax
 

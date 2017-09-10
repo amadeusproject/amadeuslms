@@ -1,21 +1,35 @@
 {% load static i18n %}
 {% load widget_tweaks %}
 
-<form method="post" action="" enctype="multipart/form-data">
+<form id="news-form" method="post" action="" enctype="multipart/form-data">
 	{% csrf_token %}
 	{% for field in form %}
 		<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput col-lg-12 col-md-12 col-sm-12">
 			{% if field.auto_id == 'id_image' %}
-					<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
-					{% render_field field class='form-control' %}
-					<div class="input-group">
-											<input type="text" readonly="" class="form-control" id="pic_holder" placeholder="{% trans 'Choose your photo...' %}">
-											<span class="input-group-btn input-group-sm">
-												<button type="button" class="btn btn-fab btn-fab-mini">
-													<i class="material-icons">image</i>
-												</button>
-											</span>
-									</div>
+				<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
+					
+				{% render_field field class='file-selector' data-mimetypes=mimeTypes %}
+					
+				<div class="input-group common-file-input">
+			      	<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your photo...' %}">
+			      	<span class="input-group-btn input-group-sm">
+			        	<button type="button" class="btn btn-fab btn-fab-mini">
+			        		<i class="material-icons">attach_file</i>
+			       		</button>
+			      	</span>
+			    </div>
+
+			    <div class="filedrag">
+			    	{% if news.image %}
+			    		<i class="fa fa-file-archive-o"></i> <br />
+
+			    		<small>{{ news.image.path }}</small>
+			    	{% else %}
+			      		{% trans 'Click or drop the file here' %}<br />
+			      		
+			      		<small>{% trans 'The photo could not exceed 5MB.' %}</small>
+			      	{% endif %}
+		  		</div>
 
 
             {% elif field.auto_id == 'id_content' %}
@@ -35,19 +49,31 @@
 
 			{% endif %}
 				<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-			{% if field.errors %}
-				<div class="alert alert-danger alert-dismissible" role="alert">
-  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-  						<span aria-hidden="true">&times;</span>
-						</button>
-					<ul>
-						{% for error in field.errors %}
-							<li>{{ error }}</li>
-						{% endfor %}
-					</ul>
-				</div>
-			{% endif %}
 		</div>
+		{% if field.errors %}
+			<div class="col-lg-12 col-md-12 col-sm-12 alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in field.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+
+		{% if field.auto_id == 'id_image' %}
+			<div class="col-lg-12 col-md-12 col-sm-12 alert alert-danger alert-dismissible client-file-errors" style="display:none" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					<li class="size" style="display:none">{% trans "The image is too large. It should have less than 5MB." %}</li>
+					<li class="format" style="display:none">{% trans 'File not supported.' %}</li>
+				</ul>
+			</div>
+		{% endif %}
 	{% endfor %}
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12">
@@ -62,5 +88,42 @@
 
 </form>
 <script src="{% static 'js/crop_news.js' %}"></script> <!-- Js for cropper-->
+<script type="text/javascript">
+// check if browser supports drag n drop
+// call initialization file
+if (window.File && window.FileList && window.FileReader) {
+	Init();
+}
+
+// initialize
+function Init() {
+	var small = $(".file-selector"),
+		filedrag = $(".filedrag"),
+		common = $(".common-file-input");
+		
+	// file select
+	small.on("change", FileSelectHandler);
+
+	// is XHR2 available?
+	var xhr = new XMLHttpRequest();
+	if (xhr.upload) {
+		// file drop
+		filedrag.on("drop", FileSelectHandler);
+		filedrag.attr('style', 'display:block');
+		common.attr('style', 'display:none');
+	}
+}
+
+// file selection
+function FileSelectHandler(e) {
+	var files = e.target.files || e.dataTransfer.files,
+		parent = $(e.target.offsetParent);
+	// process all File objects
+	for (var i = 0, f; f = files[i]; i++) {
+		parent.find('.filedrag').html(f.name);
+	}
+}
+</script>
+
 
 {% include 'users/modal_crop.html'  %}

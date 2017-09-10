@@ -1,4 +1,6 @@
 import os
+import zipfile
+import time
 from django.conf import settings
 from django.core.files import File
 from rest_framework import serializers
@@ -17,26 +19,83 @@ from students_group.models import StudentsGroup
 from log.models import Log
 from users.models import User
 
-from .models import Link
+from .models import Bulletin
 
-class SimpleLinkSerializer(serializers.ModelSerializer):
+class SimpleBulletinSerializer(serializers.ModelSerializer):
 	topic = TopicSerializer('get_subject')
 	tags = TagSerializer(many = True)
 	pendencies_resource = PendenciesSerializer(many = True)
+	indicators = serializers.CharField(required = False, allow_blank = True, max_length = 255)
+	file_content = serializers.CharField(required = False, allow_blank = True, max_length = 255)
 
 	def get_subject(self, obj):
 		subject = self.context.get("subject", None)
 
 		return subject
 
+	def validate(self, data):
+		files = self.context.get('files', None)
+
+		if files:
+			if data["file_content"] in files.namelist():
+				file_path = os.path.join(settings.MEDIA_ROOT, data["file_content"])
+
+				if os.path.isfile(file_path):
+					dst_path = os.path.join(settings.MEDIA_ROOT, "tmp")
+
+					path = files.extract(data["file_content"], dst_path)
+
+					new_name = "goal_" + str(time.time()) + os.path.splitext(data["file_content"])[1]
+					
+					new_path = os.path.join("bulletin", os.path.join("goals", new_name))
+
+					os.rename(os.path.join(dst_path, path), os.path.join(settings.MEDIA_ROOT, new_path))
+					
+					data["file_content"] = new_path
+				else:
+					path = files.extract(data["file_content"], settings.MEDIA_ROOT)
+			else:
+				data["file_content"] = None
+
+			if data["indicators"] in files.namelist():
+				file_path = os.path.join(settings.MEDIA_ROOT, data["indicators"])
+
+				if os.path.isfile(file_path):
+					dst_path = os.path.join(settings.MEDIA_ROOT, "tmp")
+
+					path = files.extract(data["indicators"], dst_path)
+
+					new_name = "ind_" + str(time.time()) + os.path.splitext(data["indicators"])[1]
+					
+					new_path = os.path.join("bulletin", os.path.join("indicators", new_name))
+
+					os.rename(os.path.join(dst_path, path), os.path.join(settings.MEDIA_ROOT, new_path))
+					
+					data["indicators"] = new_path
+				else:
+					path = files.extract(data["indicators"], settings.MEDIA_ROOT)
+			else:
+				data["indicators"] = None
+		else:
+			data["file_content"] = None
+			data["indicators"] = None
+
+		return data
+
 	class Meta:
-		model = Link
+		model = Bulletin
+		extra_kwargs = {
+			"tags": {
+				"validators": [],
+			},
+		}
 		exclude = ('students', 'groups',)
+		validators = []
 
 	def create(self, data):
 		topic = data['topic']
 
-		link = None
+		bulletin = None
 
 		if not topic["id"] is None:
 			if "subject" in topic:
@@ -57,23 +116,25 @@ class SimpleLinkSerializer(serializers.ModelSerializer):
 				else:
 					data["topic"] = get_object_or_404(Topic, id = topic["id"])
 
-				link_data = data
+				bulletin_data = data
 				
-				pendencies = link_data["pendencies_resource"]
-				del link_data["pendencies_resource"]
+				pendencies = bulletin_data["pendencies_resource"]
+				del bulletin_data["pendencies_resource"]
 
-				link = Link()
-				link.name = link_data["name"]
-				link.brief_description = link_data["brief_description"]
-				link.show_window = link_data["show_window"]
-				link.all_students = link_data["all_students"]
-				link.visible = link_data["visible"]
-				link.order = link_data["order"]
-				link.topic = link_data["topic"]
-				link.link_url = link_data["link_url"]
+				bulletin = Bulletin()
+				bulletin.name = bulletin_data["name"]
+				bulletin.brief_description = bulletin_data["brief_description"]
+				bulletin.show_window = bulletin_data["show_window"]
+				bulletin.all_students = bulletin_data["all_students"]
+				bulletin.visible = bulletin_data["visible"]
+				bulletin.order = bulletin_data["order"]
+				bulletin.topic = bulletin_data["topic"]
+				bulletin.content = bulletin_data["content"]
+				bulletin.file_content = bulletin_data["file_content"]
+				bulletin.indicators = bulletin_data["indicators"]
 
-				link.save()
-
+				bulletin.save()
+				
 				tags = data["tags"]
 
 				for tag in tags:
@@ -83,24 +144,26 @@ class SimpleLinkSerializer(serializers.ModelSerializer):
 						else:
 							tag = get_object_or_404(Tag, id = tag["id"])
 
-						link.tags.add(tag)
-				
-				resource = get_object_or_404(Resource, id = link.id)
+						bulletin.tags.add(tag)
+
+				resource = get_object_or_404(Resource, id = bulletin.id)
 
 				for pend in pendencies:
 					Pendencies.objects.create(resource = resource, **pend)
 
-		return link
+		return bulletin
 
 	def update(self, instance, data):
 		return instance
 
-class CompleteLinkSerializer(serializers.ModelSerializer):
+class CompleteBulletinSerializer(serializers.ModelSerializer):
 	topic = TopicSerializer('get_subject')
 	tags = TagSerializer(many = True)
 	pendencies_resource = PendenciesSerializer(many = True)
 	groups = StudentsGroupSerializer('get_files', many = True)
 	students = UserBackupSerializer('get_files', many = True)
+	indicators = serializers.CharField(required = False, allow_blank = True, max_length = 255)
+	file_content = serializers.CharField(required = False, allow_blank = True, max_length = 255)
 
 	def get_subject(self, obj):
 		subject = self.context.get("subject", None)
@@ -112,14 +175,69 @@ class CompleteLinkSerializer(serializers.ModelSerializer):
 
 		return files
 
+	def validate(self, data):
+		files = self.context.get('files', None)
+
+		if files:
+			if data["file_content"] in files.namelist():
+				file_path = os.path.join(settings.MEDIA_ROOT, data["file_content"])
+
+				if os.path.isfile(file_path):
+					dst_path = os.path.join(settings.MEDIA_ROOT, "tmp")
+
+					path = files.extract(data["file_content"], dst_path)
+
+					new_name = "goal_" + str(time.time()) + os.path.splitext(data["file_content"])[1]
+					
+					new_path = os.path.join("bulletin", os.path.join("goals", new_name))
+
+					os.rename(os.path.join(dst_path, path), os.path.join(settings.MEDIA_ROOT, new_path))
+					
+					data["file_content"] = new_path
+				else:
+					path = files.extract(data["file_content"], settings.MEDIA_ROOT)
+			else:
+				data["file_content"] = None
+
+			if data["indicators"] in files.namelist():
+				file_path = os.path.join(settings.MEDIA_ROOT, data["indicators"])
+
+				if os.path.isfile(file_path):
+					dst_path = os.path.join(settings.MEDIA_ROOT, "tmp")
+
+					path = files.extract(data["indicators"], dst_path)
+
+					new_name = "ind_" + str(time.time()) + os.path.splitext(data["indicators"])[1]
+					
+					new_path = os.path.join("bulletin", os.path.join("indicators", new_name))
+
+					os.rename(os.path.join(dst_path, path), os.path.join(settings.MEDIA_ROOT, new_path))
+					
+					data["indicators"] = new_path
+				else:
+					path = files.extract(data["indicators"], settings.MEDIA_ROOT)
+			else:
+				data["indicators"] = None
+		else:
+			data["file_content"] = None
+			data["indicators"] = None
+
+		return data
+
 	class Meta:
-		model = Link
+		model = Bulletin
+		extra_kwargs = {
+			"tags": {
+				"validators": [],
+			},
+		}
 		fields = '__all__'
+		validators = []
 
 	def create(self, data):
 		topic = data['topic']
 
-		link = None
+		bulletin = None
 
 		if not topic["id"] is None:
 			if "subject" in topic:
@@ -140,23 +258,25 @@ class CompleteLinkSerializer(serializers.ModelSerializer):
 				else:
 					data["topic"] = get_object_or_404(Topic, id = topic["id"])
 
-				link_data = data
+				bulletin_data = data
 				
-				pendencies = link_data["pendencies_resource"]
-				del link_data["pendencies_resource"]
+				pendencies = bulletin_data["pendencies_resource"]
+				del bulletin_data["pendencies_resource"]
 
-				link = Link()
-				link.name = link_data["name"]
-				link.brief_description = link_data["brief_description"]
-				link.show_window = link_data["show_window"]
-				link.all_students = link_data["all_students"]
-				link.visible = link_data["visible"]
-				link.order = link_data["order"]
-				link.topic = link_data["topic"]
-				link.link_url = link_data["link_url"]
+				bulletin = Bulletin()
+				bulletin.name = bulletin_data["name"]
+				bulletin.brief_description = bulletin_data["brief_description"]
+				bulletin.show_window = bulletin_data["show_window"]
+				bulletin.all_students = bulletin_data["all_students"]
+				bulletin.visible = bulletin_data["visible"]
+				bulletin.order = bulletin_data["order"]
+				bulletin.topic = bulletin_data["topic"]
+				bulletin.content = bulletin_data["content"]
+				bulletin.file_content = bulletin_data["file_content"]
+				bulletin.indicators = bulletin_data["indicators"]
 
-				link.save()
-
+				bulletin.save()
+				
 				tags = data["tags"]
 
 				for tag in tags:
@@ -166,8 +286,10 @@ class CompleteLinkSerializer(serializers.ModelSerializer):
 						else:
 							tag = get_object_or_404(Tag, id = tag["id"])
 
-						link.tags.add(tag)
-				
+						bulletin.tags.add(tag)
+
+				resource = get_object_or_404(Resource, id = bulletin.id)
+
 				students = data["students"]
 				subject = get_object_or_404(Subject, slug = self.context.get("subject", None))
 
@@ -213,7 +335,7 @@ class CompleteLinkSerializer(serializers.ModelSerializer):
 							if not l_exists.exists():
 								Log.objects.create(**log)
 
-					links.students.add(student)
+					bulletin.students.add(student)
 					subject.students.add(student)
 
 				groups = data["groups"]
@@ -236,11 +358,12 @@ class CompleteLinkSerializer(serializers.ModelSerializer):
 
 							group.participants.add(p_user)
 
-					links.groups.add(group)
-
-				resource = get_object_or_404(Resource, id = link.id)
+					bulletin.groups.add(group)
 
 				for pend in pendencies:
 					Pendencies.objects.create(resource = resource, **pend)
 
-		return link
+		return bulletin
+
+	def update(self, instance, data):
+		return instance
