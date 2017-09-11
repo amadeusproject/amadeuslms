@@ -18,6 +18,9 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
+
+from rest_framework.documentation import include_docs_urls
+
 from .views import index
 
 
@@ -48,6 +51,7 @@ urlpatterns = [
     url(r'^analytics/', include('analytics.urls', namespace='analytics')),
     url(r'^dashboards/', include('dashboards.urls', namespace='dashboards')),
     url(r'^bulletin/', include('bulletin.urls', namespace='bulletin')),
+    url(r'^api-docs/', include_docs_urls(title = 'REST Api Documentation')),
     #API
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     #S3Direct

@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'rolepermissions',
     'oauth2_provider',
     'rest_framework',
+    'rest_framework_swagger',
+    'django_filters',
     'django_bootstrap_breadcrumbs',
     's3direct',
     'django_summernote',
@@ -313,10 +315,14 @@ S3DIRECT_DESTINATIONS = {
 #TELL the rest framework to use a different backend
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':(
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',),
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication','rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',),
     'DEFAULT_PERMISSION_CLASSES':(
         'rest_framework.permissions.IsAuthenticated',),
-     'PAGE_SIZE': 10, #pagination purposes
+    'PAGE_SIZE': 10, #pagination purposes
+}
+
+SWAGGER_SETTINGS = {
+    'JSON_EDITOR': True,
 }
 
 OAUTH2_PROVIDER = {
