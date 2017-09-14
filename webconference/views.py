@@ -108,7 +108,10 @@ class Conference(LoginRequiredMixin,LogMixin,generic.TemplateView):
 		context['topic'] = conference.topic
 		context['subject'] = conference.topic.subject
 		context['name_room'] = kwargs.get('slug')
-		context['user_image'] = 'http://localhost:8000'+str(self.request.user.image.url)
+		
+
+		context['user_image'] = self.request.build_absolute_uri(str(self.request.user.image_url))
+
 		try:
 			context['domain'] = Settings.objects.last().domain
 		except AttributeError:
