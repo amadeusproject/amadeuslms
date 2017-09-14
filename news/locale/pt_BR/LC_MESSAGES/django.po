@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-13 23:29-0300\n"
+"POT-Creation-Date: 2017-09-13 23:39-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -132,7 +132,7 @@ msgstr "Pesquisar Notícia"
 msgid "Update News"
 msgstr "Atualizar Notícia"
 
-#: news/templates/news/view.html:35
+#: news/templates/news/view.html:34
 msgid "Print News"
 msgstr "Imprimir Notícia"
 
@@ -140,9 +140,13 @@ msgstr "Imprimir Notícia"
 msgid "Visualize News"
 msgstr "Visualizar Notícia"
 
-#: news/views.py:109 news/views.py:153
+#: news/views.py:109
 msgid "News successfully created!"
 msgstr "Notícia criada com sucesso"
+
+#: news/views.py:153
+msgid "News successfully updated!"
+msgstr "Notícia atualizada com sucesso"
 
 #: news/views.py:221
 #, python-format
