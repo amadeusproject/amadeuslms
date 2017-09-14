@@ -44,52 +44,42 @@
 		padding-right: 10px;	
 	}
 	
-  	.logo-login{
-	    margin-top: 250px;
-	    margin-bottom: 30px;
+
+
+	/* Bottom Menu */
+	.clearfix {
+	    height: 60px;
+	}
+
+	.bottom-menu {
+		position: fixed;	    
+	    bottom: 0px;
+	    width: 100%;
+	    padding: 0px 30px;
+	    z-index: 999;
+	    height: 60px;
+	}
+
+	.mobile-menu {
+	    -webkit-padding-start: 0px;
+	    width: 100%;
+	}
+
+	.mobile-menu, .mobile-menu li {
+	    display: inline-block;
+	    float: left;
+	}
+
+	.mobile-menu .item {
+	    padding-top: 3px;
+	    text-align: center;
+	    height: 100px;
 	    width: 20%;
-	}
-
-	h2{
-		font-size: 32pt;
-	}
-
-	p{
-		font-size: 32pt;
-	}
-
-	a{
-		font-size: 32pt;
-	}
-
-	input[type="text"] {
-		margin-top: 40px;
-	    height: 80px;
-	}
-
-	input[type="password"] {
-		margin-top: 40px;
-	    height: 80px;
-	}
-
-	.form-control {
-		font-size: 40pt;
-	}
-
-	.btn {
-    	font-size: 32pt;
-	}
-
-	span{
-		font-size: 32pt;
-	}
-
-	.contrast-login{
-		text-align:center;
-		margin-top: 100px;
+	    font-size: 35px;
 	}
 
 
+	/* End Bottom Menu */
 }
 
 @media(max-width: 768px) {

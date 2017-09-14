@@ -58,6 +58,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus_responsive.css' %}">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     {% block style %}
 	{% endblock %}
@@ -281,6 +282,44 @@
         <div class="bottom-menu visible-xs visible-sm">
             <div class="row">
                 <div class="col-sm-12 col-xs-12 text-center">
+
+                    <ul class="mobile-menu">
+                        <li class="item {{ subjects_menu_active }}" data-toggle="tooltip" data-placement="top" title="{% trans "Subjects" %}">
+                            <a href="{% url 'subjects:index' %}">
+                                <i class="fa fa-graduation-cap"></i>
+                            </a>
+                        </li>
+
+                        <li class="item {{ mural_menu_active }} action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Mural" %}">
+                            <a href="{% url 'mural:manage_general' %}">
+                                <i class="fa fa-list" aria-hidden="true" ></i>
+                                <span class="badge notify_badge mural_badge" {% if mural_notifications_count == 0 %} style="display:none" {% endif %}>{% if mural_notifications_count > 99 %} +99 {% else %} {{ mural_notifications_count }} {% endif %}</span>
+                            </a>
+                        </li>
+
+                        <li class="item {{ chat_menu_active }} action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Messages" %}">
+                            <a href="{% url 'chat:manage_general' %}">
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                <span class="badge notify_badge chat_badge" {% if chat_notifications_count == 0 %} style="display:none" {% endif %}>{% if chat_notifications_count > 99 %} +99 {% else %} {{ chat_notifications_count }} {% endif %}</span>
+                            </a>
+                        </li>
+
+
+                        <li class="item {{ pendencies_menu_active }} action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Pendencies" %}">
+                            <a href="{% url 'notifications:manage' %}">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                {% if notifications_count > 0 %}
+                                    <span class="badge notify_badge">{% if notifications_count > 99 %} +99 {% else %} {{ notifications_count }} {% endif %}</span>
+                                {% endif %}
+                            </a>
+                        </li>
+
+                        <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Analytics" %}">
+                            <a href="{% url 'dashboards:view_general' %}"><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
+                        </li>
+                    </ul>
+                    <!--
+
                     <ul class="mobile-menu">
                         <li class="item {{ subjects_menu_active }}" data-toggle="tooltip" data-placement="top" title="{% trans "Subjects" %}">
                             <a href="{% url 'subjects:index' %}">
@@ -311,6 +350,7 @@
                             <a href="{% url 'dashboards:view_general' %}"><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
                         </li>
                     </ul>
+                -->
                 </div>
             </div>
         </div>
