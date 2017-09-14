@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-10 02:55-0300\n"
+"POT-Creation-Date: 2017-09-13 23:39-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,23 +30,42 @@ msgstr "Titulo da Web Conferência"
 msgid "Presentation"
 msgstr "Apresentação"
 
-#: webconference/forms.py:63
+#: webconference/forms.py:68
 msgid "This subject already has a web conference with this name"
 msgstr "Este assunto já tem uma web conferência com este nome"
 
 #: webconference/forms.py:73
-msgid "This date must be today or after"
-msgstr "Esta data deve ser hoje ou depois"
+msgid "This input should be filled with a date equal or before the End."
+msgstr "Esse campo deve ser preenchido com uma data igual ou anterior à Final."
 
-#: webconference/forms.py:83
-msgid "This date must be equal start date/hour or after"
-msgstr "Esta data deve ser igual ou posterior a data/hora de inicio"
+#: webconference/forms.py:74
+msgid "This input should be filled with a date equal or after the Start."
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou anterior à de Início."
 
-#: webconference/forms.py:130 webconference/models.py:35
+#: webconference/forms.py:78 webconference/forms.py:88
+msgid "This input should be filled with a date equal or after today's date."
+msgstr ""
+
+#: webconference/forms.py:81 webconference/forms.py:91
+#, python-format
+msgid ""
+"This input should be filled with a date equal or after the subject begin "
+"date.(\"%s\")"
+msgstr ""
+
+#: webconference/forms.py:84 webconference/forms.py:94
+#, python-format
+msgid ""
+"This input should be filled with a date equal or before the subject end date."
+"(\"%s\")"
+msgstr ""
+
+#: webconference/forms.py:140 webconference/models.py:35
 msgid "Domain"
 msgstr "Dominio"
 
-#: webconference/forms.py:134
+#: webconference/forms.py:144
 msgid "The domain of the jitsi server, e.g. meet.jit.si"
 msgstr "O dominio do servidor do jitsi, ex: meet.jit.si"
 
@@ -97,28 +116,28 @@ msgstr "Ação não executada pelo usuário"
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: webconference/templates/webconference/_form.html:253
+#: webconference/templates/webconference/_form.html:279
 msgid "Students"
 msgstr ""
 
-#: webconference/templates/webconference/_form.html:283
+#: webconference/templates/webconference/_form.html:309
 msgid "Attribute students to Web Conference"
 msgstr "Atribuir alunos à web conferência"
 
-#: webconference/templates/webconference/_form.html:303
+#: webconference/templates/webconference/_form.html:329
 msgid "Attribute groups to Web Conference"
 msgstr "Atribuir grupos à web conferência"
 
-#: webconference/templates/webconference/_form.html:372
+#: webconference/templates/webconference/_form.html:398
 #: webconference/templates/webconference/config.html:42
 msgid "Save"
 msgstr "Salvar"
 
-#: webconference/templates/webconference/_form.html:379
+#: webconference/templates/webconference/_form.html:405
 msgid "Add new notification"
 msgstr "Notificações Pendentes"
 
-#: webconference/templates/webconference/_form.html:380
+#: webconference/templates/webconference/_form.html:406
 msgid "Remove this"
 msgstr "Remover isto"
 
@@ -127,7 +146,7 @@ msgid "Settings: Conference"
 msgstr "Configurações: Web Conferência"
 
 #: webconference/templates/webconference/create.html:21
-#: webconference/views.py:340
+#: webconference/views.py:342
 msgid "Create Web Conference"
 msgstr "Criar Web Conferência"
 
@@ -206,25 +225,25 @@ msgstr "Editar: "
 
 #: webconference/templates/webconference/view.html:68
 #: webconference/templates/webconference/window_view.html:43
-#: webconference/views.py:260 webconference/views.py:273
-#: webconference/views.py:294 webconference/views.py:395
-#: webconference/views.py:408 webconference/views.py:417
-#: webconference/views.py:620
+#: webconference/views.py:262 webconference/views.py:275
+#: webconference/views.py:296 webconference/views.py:397
+#: webconference/views.py:410 webconference/views.py:419
+#: webconference/views.py:623
 msgid "Participate"
 msgstr "Participar"
 
-#: webconference/views.py:61 webconference/views.py:106
+#: webconference/views.py:60 webconference/views.py:105
 #, python-format
 msgid "%s - Web Conference"
 msgstr "%s - Web Conferência"
 
-#: webconference/views.py:260 webconference/views.py:273
-#: webconference/views.py:294 webconference/views.py:395
-#: webconference/views.py:408 webconference/views.py:417
+#: webconference/views.py:262 webconference/views.py:275
+#: webconference/views.py:296 webconference/views.py:397
+#: webconference/views.py:410 webconference/views.py:419
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: webconference/views.py:351
+#: webconference/views.py:353
 #, python-format
 msgid ""
 "The Web conference \"%s\" was added to the Topic \"%s\" of the virtual "
@@ -233,16 +252,16 @@ msgstr ""
 "A web conferência '%s' foi adicionada ao tópico '%s' do ambiente virtual "
 "'%s' com sucesso!"
 
-#: webconference/views.py:458
+#: webconference/views.py:460
 msgid "Update Web Conference"
 msgstr "Atualizar a web conferência"
 
-#: webconference/views.py:469
+#: webconference/views.py:472
 #, python-format
 msgid "The Web conference \"%s\" was updated successfully!"
 msgstr "A web conferência '%s' foi atualizada com sucesso!"
 
-#: webconference/views.py:505
+#: webconference/views.py:508
 #, python-format
 msgid ""
 "The web conference \"%s\" was removed successfully from virtual environment "
@@ -250,81 +269,63 @@ msgid ""
 msgstr ""
 "A web conferência '%s' foi removida com sucesso do ambiente virtual '%s'!"
 
-#: webconference/views.py:539
+#: webconference/views.py:542
 msgid "Conference settings updated successfully!"
 msgstr "Configurações de segurança atualizadas com sucesso!"
 
-#: webconference/views.py:546
+#: webconference/views.py:549
 msgid "Web Conference Settings"
 msgstr "Configurações da Web Conferência"
 
-#: webconference/views.py:589
+#: webconference/views.py:592
 msgid "Youtube Video Reports"
 msgstr "Relatórios do Video do Youtube"
 
-#: webconference/views.py:608
+#: webconference/views.py:611
 msgid "Realized"
 msgstr "Realizada"
 
-#: webconference/views.py:608
+#: webconference/views.py:611
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: webconference/views.py:608
+#: webconference/views.py:611
 msgid "Historic"
 msgstr "Histórico"
 
-#: webconference/views.py:620
+#: webconference/views.py:623
 msgid "View"
 msgstr "Visualizar"
 
-#: webconference/views.py:620
+#: webconference/views.py:623
 msgid "Enter"
 msgstr "Entrar"
 
-#: webconference/views.py:646
+#: webconference/views.py:649
 msgid "Webconference"
 msgstr "Web Conferência"
 
-#: webconference/views.py:659
+#: webconference/views.py:662
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: webconference/views.py:660
+#: webconference/views.py:663
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: webconference/views.py:707
+#: webconference/views.py:710
 msgid "[Photo]"
 msgstr "[Foto]"
 
-#: webconference/views.py:719
+#: webconference/views.py:722
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: webconference/views.py:728
+#: webconference/views.py:731
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: webconference/views.py:730
+#: webconference/views.py:733
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
-
-#~ msgid "Conference Settings"
-#~ msgstr "Configurações da web conferência"
-
-#~ msgid "Don't allow users to self-register"
-#~ msgstr "Não permitir que usuários se auto-cadastrem"
-
-#~ msgid "Put system in maintenance mode"
-#~ msgstr "Colocar sistema em modo de manutenção"
-
-#~ msgid "Security configuration"
-#~ msgstr "Configuração de Securação"
-
-#~ msgid "Security configurations"
-#~ msgstr "Configurações de Segurança"
-
-#~ msgid "Security"
-#~ msgstr "Segurança"

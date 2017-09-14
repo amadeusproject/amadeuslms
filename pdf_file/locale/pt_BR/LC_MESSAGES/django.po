@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-10 02:55-0300\n"
+"POT-Creation-Date: 2017-09-13 23:39-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -202,63 +202,63 @@ msgstr ""
 msgid "Update PDF File"
 msgstr "Atualize arquivo PDF"
 
-#: pdf_file/views.py:328
+#: pdf_file/views.py:329
 #, python-format
 msgid "The PDF File \"%s\" was updated successfully!"
 msgstr "O arquivo PDF \"%s\"  foi atualizado com sucesso!"
 
-#: pdf_file/views.py:355
+#: pdf_file/views.py:356
 #, python-format
 msgid ""
 "The PDF File \"%s\" was removed successfully from virtual environment \"%s\"!"
 msgstr ""
 "O arquivo PDF \"%s\"  foi removido com sucesso do ambiente virtual \"%s\" "
 
-#: pdf_file/views.py:413
+#: pdf_file/views.py:414
 msgid "PDF File Reports"
 msgstr "Relatórios do arquivo de PDF"
 
-#: pdf_file/views.py:433
+#: pdf_file/views.py:434
 msgid "Realized"
 msgstr "Realizada"
 
-#: pdf_file/views.py:433
+#: pdf_file/views.py:434
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: pdf_file/views.py:433
+#: pdf_file/views.py:434
 msgid "Historic"
 msgstr "Histórico"
 
-#: pdf_file/views.py:449 pdf_file/views.py:457
+#: pdf_file/views.py:450 pdf_file/views.py:458
 msgid "View"
 msgstr "Visualizar"
 
-#: pdf_file/views.py:458
+#: pdf_file/views.py:459
 msgid "PDF File"
 msgstr "Criar o arquivo PDF"
 
-#: pdf_file/views.py:463
+#: pdf_file/views.py:464
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: pdf_file/views.py:464
+#: pdf_file/views.py:465
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: pdf_file/views.py:511
+#: pdf_file/views.py:512
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: pdf_file/views.py:523
+#: pdf_file/views.py:524
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: pdf_file/views.py:532
+#: pdf_file/views.py:533
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: pdf_file/views.py:534
+#: pdf_file/views.py:535
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"

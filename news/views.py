@@ -150,7 +150,7 @@ class UpdateNewsView(LoginRequiredMixin,LogMixin,generic.UpdateView):
         return context
 
     def get_success_url(self):
-        messages.success(self.request, _('News successfully created!'))
+        messages.success(self.request, _('News successfully updated!'))
 
         return reverse_lazy('news:view', kwargs = {'slug': self.object.slug} )
 

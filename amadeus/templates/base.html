@@ -55,8 +55,9 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
 
 	<!-- Custom styles -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus_responsive.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus_responsive.css' %}">
+
 
     {% block style %}
 	{% endblock %}
@@ -222,6 +223,7 @@
 
     <div class="container-fluid">
         <div class="row">
+
             <div id="sidebar-menu-div" class="col-md-1 col-lg-1 hidden-xs hidden-sm">
                 {% block sidebar %}
                     <ul id="sidebar-menu">
@@ -254,17 +256,17 @@
                             <a href="{% url 'dashboards:view_general' %}"><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
                         </li>
                     </ul>
-                {% endblock %}
+                {% endblock %}           
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11">
+
+            <div id="page_content" class="col-xs-12 col-sm-12 col-md-11 col-lg-11">
                 {% block breadcrumbs %}
                     {% breadcrumb 'Home' 'home' %}
                 {% endblock %}
                 {% block render_breadcrumbs %}
                     {% render_breadcrumbs %}
                 {% endblock %}
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11">
+                
                 {% block content %}
                 {% endblock %}
             </div>

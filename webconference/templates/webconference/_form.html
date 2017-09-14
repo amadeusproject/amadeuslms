@@ -238,6 +238,32 @@
 									</div>
 								{% endif %}
 		            		</div>
+		            		<div class="form-group{% if notify.has_error %} has-error {% endif %} row">
+		            			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 checkbox">
+							        <label>
+				      					{% render_field notify.limit_date_check class="limit_date" %} {{ notify.limit_date.label }}
+				  					</label>
+						        </div>
+						        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						        	{% render_field notify.limit_date class='form-control datetime-picker limit_date_input' %}
+						        </div>
+		            		</div>
+		            		<div class="row">
+		            			<span id="helpBlock" class="help-block">{{ notify.limit_date.help_text }}</span>
+			
+								{% if notify.limit_date.errors %}
+									<div class="alert alert-danger alert-dismissible" role="alert">
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<ul>
+											{% for error in notify.limit_date.errors %}
+												<li>{{ error }}</li>
+											{% endfor %}
+										</ul>
+									</div>
+								{% endif %}
+		            		</div>
 		            	</div>
 	            	</div>
 	            {% endfor %}
@@ -395,6 +421,10 @@
 			    	var checkbox = $(this).parent().parent().find('.end_date');
 			    	$(checkbox).prop('checked', true);
 			    });
+			    $('.limit_date_input').on('click', function () {
+			    	var checkbox = $(this).parent().parent().find('.limit_date');
+			    	$(checkbox).prop('checked', true);
+			    });
 
 			    var subject = $("#id_control_subject").val();
 
@@ -416,6 +446,13 @@
 				$(this).parent().parent().find('.end_date').prop('checked', true);
 			} else {
 				$(this).parent().parent().find('.end_date').prop('checked', false);
+			}
+		});
+		$('.limit_date_input').each(function () {
+			if ($(this).val() != '') {
+				$(this).parent().parent().find('.limit_date').prop('checked', true);
+			} else {
+				$(this).parent().parent().find('.limit_date').prop('checked', false);
 			}
 		});
 

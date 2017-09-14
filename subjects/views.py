@@ -385,9 +385,9 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
     redirect_field_name = 'next'
 
     def dispatch(self, request, *args, **kwargs):
-        subject = get_object_or_404(Subject, slug = kwargs.get('slug', ''))
-        self.subject = subject
-        if not has_subject_permissions(request.user, subject):
+        self.subject = get_object_or_404(Subject, slug = kwargs.get('slug', ''))
+
+        if not has_subject_permissions(request.user, self.subject):
             return redirect(reverse_lazy('subjects:home'))
 
         return super(SubjectUpdateView, self).dispatch(request, *args, **kwargs)
@@ -406,6 +406,7 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
         context['title'] = _('Update Subject')
         context['template_extends'] = 'categories/home.html'
         context['subjects_menu_active'] = 'subjects_menu_active'
+        context['subject_data'] = get_object_or_404(Subject, slug = self.kwargs.get('slug', ''))
 
         return context
 

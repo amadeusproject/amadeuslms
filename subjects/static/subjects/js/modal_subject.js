@@ -2,12 +2,12 @@ var RemoveSubject = {
   remove: function(url,dados,id_li_link){
 	$("#subject").modal('toggle');
 	  $.post(url,dados, function(data){
-		$(id_li_link).remove();
-		$('body').removeClass('modal-open');
-		$("#modal_course").empty();
-		$(".modal-backdrop.in").remove();
+		// $(id_li_link).remove();
+		// $('body').removeClass('modal-open');
+		// $("#modal_course").empty();
+		// $(".modal-backdrop.in").remove();
 		window.location.href = data['url'];
-		alertify.success("Subject removed successfully!");
+		//alertify.success("Subject removed successfully!");
 	  }).fail(function(){
 		$("#modal_course").empty();
 		$("#modal_course").append(data);

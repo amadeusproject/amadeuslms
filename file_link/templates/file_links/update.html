@@ -18,8 +18,8 @@
 	{% breadcrumb topic 'subjects:topic_view' topic.subject.slug topic.slug %}
 	
 	{% trans 'Edit: ' as bread %}
-	{% with bread|add:file_link.name as bread_slug %}
-		{% breadcrumb bread_slug 'file_links:update' topic.slug file_link.slug %}
+	{% with bread|add:resource.name as bread_slug %}
+		{% breadcrumb bread_slug 'file_links:update' topic.slug resource.slug %}
 	{% endwith %}
 {% endblock %}
 

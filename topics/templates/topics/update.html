@@ -3,10 +3,10 @@
 {% load i18n django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
-  	{{ block.super }}
-  	
-  	{% trans 'Update Topic' as bread %}
-    {% breadcrumb bread 'topics:update' subject.slug topic.slug %}
+		{{ block.super }}
+		
+		{% trans 'Update Topic' as bread %}
+		{% breadcrumb bread 'topics:update' subject.slug topic.slug %}
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,7 @@
 				{% include 'topics/_form.html' %}
 			</div>
 		</div>
-  	</div>
-  	<br clear="all" />
-    <br clear="all" />
+		</div>
+		<br clear="all" />
+		<br clear="all" />
 {% endblock %}
