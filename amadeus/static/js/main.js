@@ -1,5 +1,11 @@
 $(function () {
 	var locale = $("body").data('lang');
+
+	if (!$("#sidebar-menu-div").children().length > 0) {
+		//$("#sidebar-menu-div").remove();
+		$("#page_content").switchClass('col-md-11', 'col-md-12', 0);
+		$("#page_content").switchClass('col-lg-11', 'col-lg-12', 0);
+	}
 	
 	$('.datetime-picker').datetimepicker({
 		locale: locale
