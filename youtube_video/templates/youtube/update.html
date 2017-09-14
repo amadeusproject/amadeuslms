@@ -19,8 +19,8 @@
 	{% breadcrumb topic 'subjects:topic_view' topic.subject.slug topic.slug %}
 	
 	{% trans 'Edit: ' as bread %}
-	{% with bread|add:youtube.name as bread_slug %}
-		{% breadcrumb bread_slug 'youtube:update' topic.slug youtube.slug %}
+	{% with bread|add:resource.name as bread_slug %}
+		{% breadcrumb bread_slug 'youtube:update' topic.slug resource.slug %}
 	{% endwith %}
 {% endblock %}
 

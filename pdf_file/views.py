@@ -321,6 +321,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         context['topic'] = topic
         context['subject'] = topic.subject
         context['mimeTypes'] = valid_formats
+        context['resource'] = get_object_or_404(PDFFile, slug = self.kwargs.get('slug', ''))
 
         return context
 

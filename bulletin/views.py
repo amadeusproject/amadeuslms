@@ -789,6 +789,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         create_excel_file(alunos, itens_da_meta,meta_geral)
         context['goal_file'] = str(meta_geral.slug)
         context['mimeTypes'] = valid_formats
+        context['resource'] = get_object_or_404(Bulletin, slug = self.kwargs.get('slug', ''))
 
         return context
 

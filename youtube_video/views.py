@@ -366,6 +366,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
 		context['topic'] = topic
 		context['subject'] = topic.subject
+		context['resource'] = get_object_or_404(YTVideo, slug = self.kwargs.get('slug', ''))
 
 		return context
 
