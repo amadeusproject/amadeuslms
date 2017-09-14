@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-10 02:55-0300\n"
+"POT-Creation-Date: 2017-09-13 23:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -206,12 +206,12 @@ msgstr ""
 msgid "Update File Link"
 msgstr "Atualizar Link para Arquivo"
 
-#: file_link/views.py:321
+#: file_link/views.py:322
 #, python-format
 msgid "The File Link \"%s\" was updated successfully!"
 msgstr "O Link para Arquivo \"%s\" foi atualizado com sucesso!"
 
-#: file_link/views.py:348
+#: file_link/views.py:349
 #, python-format
 msgid ""
 "The File Link \"%s\" was removed successfully from virtual environment \"%s"
@@ -220,52 +220,52 @@ msgstr ""
 "O Link para Arquivo \"%s\" foi removido do ambiente virtual \"%s\" com "
 "sucesso!"
 
-#: file_link/views.py:407
+#: file_link/views.py:408
 msgid "File Link Reports"
 msgstr "Relatŕios de Link para Arquivo"
 
-#: file_link/views.py:426
+#: file_link/views.py:427
 msgid "Realized"
 msgstr "Realizada"
 
-#: file_link/views.py:426
+#: file_link/views.py:427
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: file_link/views.py:426
+#: file_link/views.py:427
 msgid "Historic"
 msgstr "Histórico"
 
-#: file_link/views.py:441 file_link/views.py:449
+#: file_link/views.py:442 file_link/views.py:450
 msgid "View"
 msgstr "Visualizar"
 
-#: file_link/views.py:450
+#: file_link/views.py:451
 msgid "File link"
 msgstr "Link para Arquivo"
 
-#: file_link/views.py:455
+#: file_link/views.py:456
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: file_link/views.py:456
+#: file_link/views.py:457
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: file_link/views.py:503
+#: file_link/views.py:504
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: file_link/views.py:515
+#: file_link/views.py:516
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: file_link/views.py:524
+#: file_link/views.py:525
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: file_link/views.py:526
+#: file_link/views.py:527
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
 

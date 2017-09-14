@@ -28,7 +28,6 @@ from log.decorators import log_decorator
 
 from topics.models import Topic
 
-from pendencies.forms import PendenciesForm
 from braces import views as braces_mixins
 
 from .forms import WebconferenceForm, SettingsForm, InlinePendenciesFormset, WebConferenceUpdateForm
@@ -261,7 +260,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		slug = self.kwargs.get('slug', '')
 		topic = get_object_or_404(Topic, slug = slug)
 		pendencies_form = InlinePendenciesFormset(initial = [{'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize")), ("participate", _("Participate"))]}])
-		print (pendencies_form)
+
 		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form))
 
 	def post(self, request, *args, **kwargs):

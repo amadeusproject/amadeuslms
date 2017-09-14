@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-10 02:55-0300\n"
+"POT-Creation-Date: 2017-09-13 23:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,29 +18,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: links/forms.py:31
+#: links/forms.py:33
 msgid "Tags"
 msgstr "Tags"
 
-#: links/forms.py:32
+#: links/forms.py:34
 msgid "Website URL"
 msgstr "URL do site:"
 
-#: links/forms.py:38
+#: links/forms.py:40
 msgid "Link name"
 msgstr "Nome do Link"
 
-#: links/forms.py:39
+#: links/forms.py:41
 msgid "End View"
 msgstr ""
 
-#: links/forms.py:40
+#: links/forms.py:42
 msgid "End View Date"
 msgstr "Data final para visualizar"
 
-#: links/forms.py:68
+#: links/forms.py:62
 msgid "There is already a link with this name on this subject"
 msgstr "Ja existe um link com este nome neste Assunto"
+
+#: links/forms.py:74
+msgid "Invalid URL. It should be an valid link."
+msgstr ""
 
 #: links/models.py:13
 msgid "Link_URL"
@@ -50,31 +54,31 @@ msgstr "URL do link"
 msgid "Are you sure you want delete the Website link"
 msgstr "Tem certeza que voce deseja remover esse Link para Website"
 
-#: links/templates/links/_form.html:112
+#: links/templates/links/_form.html:99
 msgid "Pendencies Notifications"
 msgstr "Notificações de pendências"
 
-#: links/templates/links/_form.html:130
+#: links/templates/links/_form.html:117
 msgid "Action not performed by the user"
 msgstr "Ação não realizada pelo usuário"
 
-#: links/templates/links/_form.html:156
+#: links/templates/links/_form.html:143
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: links/templates/links/_form.html:222
+#: links/templates/links/_form.html:209
 msgid "Students"
 msgstr ""
 
-#: links/templates/links/_form.html:252
+#: links/templates/links/_form.html:239
 msgid "Attribute students to file link"
 msgstr "Atribuir estudantes para o link de arquivo"
 
-#: links/templates/links/_form.html:272
+#: links/templates/links/_form.html:259
 msgid "Attribute groups to file link"
 msgstr "Atribuir grupos para o link de arquivo"
 
-#: links/templates/links/_form.html:320
+#: links/templates/links/_form.html:307
 msgid "Save"
 msgstr "Salvar"
 
@@ -189,56 +193,56 @@ msgstr ""
 msgid "Update Website Link"
 msgstr "Atualizar Link do website"
 
-#: links/views.py:341
+#: links/views.py:342
 #, python-format
 msgid "The Website Link \"%s\" was updated successfully!"
 msgstr "O link do website  \"%s\" foi atualizado com sucesso! "
 
-#: links/views.py:385
+#: links/views.py:386
 msgid "Links Reports"
 msgstr "Relatórios de links"
 
-#: links/views.py:404
+#: links/views.py:405
 msgid "Realized"
 msgstr "Realizada"
 
-#: links/views.py:404
+#: links/views.py:405
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: links/views.py:404
+#: links/views.py:405
 msgid "Historic"
 msgstr "Histórico"
 
-#: links/views.py:419 links/views.py:427
+#: links/views.py:420 links/views.py:428
 msgid "View"
 msgstr "Visualizar"
 
-#: links/views.py:428
+#: links/views.py:429
 msgid "Links"
 msgstr "Links"
 
-#: links/views.py:433
+#: links/views.py:434
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: links/views.py:434
+#: links/views.py:435
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: links/views.py:481
+#: links/views.py:482
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: links/views.py:493
+#: links/views.py:494
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: links/views.py:502
+#: links/views.py:503
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: links/views.py:504
+#: links/views.py:505
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-10 02:55-0300\n"
+"POT-Creation-Date: 2017-09-13 23:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -248,12 +248,12 @@ msgid " Any subjects or Resources were not found on the search for "
 msgstr " Nenhum assunto ou recursos foram encontrados na busca por "
 
 #: subjects/templates/subjects/list_search.html:48
-#: subjects/templates/subjects/list_search.html:51 subjects/views.py:676
+#: subjects/templates/subjects/list_search.html:51 subjects/views.py:677
 msgid "Subjects"
 msgstr "Assuntos"
 
 #: subjects/templates/subjects/list_search.html:49
-#: subjects/templates/subjects/list_search.html:52 subjects/views.py:683
+#: subjects/templates/subjects/list_search.html:52 subjects/views.py:684
 msgid "Resources"
 msgstr "Recursos"
 
@@ -407,17 +407,17 @@ msgstr "Assunto \"%s\" foi registrado na categoria \"%s\" com sucesso!"
 msgid "Update Subject"
 msgstr "Atualizar Assunto"
 
-#: subjects/views.py:430
+#: subjects/views.py:431
 #, python-format
 msgid "The Subject \"%s\" was updated on \"%s\" Category successfully!"
 msgstr "Assunto \"%s\" foi atualizado na categoria \"%s\" com sucesso!"
 
-#: subjects/views.py:471 subjects/views.py:515
+#: subjects/views.py:472 subjects/views.py:516
 #, python-format
 msgid "Subject \"%s\" removed successfully!"
 msgstr "Assunto \"%s\" removido com sucesso!"
 
-#: subjects/views.py:479 subjects/views.py:483
+#: subjects/views.py:480 subjects/views.py:484
 msgid ""
 "Subject can't be removed. The subject still possess students and learning "
 "objects associated"
@@ -425,24 +425,24 @@ msgstr ""
 "Assunto não pode ser removido. Ele ainda possui alunos e objetos de "
 "aprendizado associados"
 
-#: subjects/views.py:602
+#: subjects/views.py:603
 msgid "Subscription date is due!"
 msgstr "O período de inscrição está encerrado!"
 
-#: subjects/views.py:615
+#: subjects/views.py:616
 msgid "Subscription was successfull!"
 msgstr "Inscrição feita com sucesso!"
 
-#: subjects/views.py:748
+#: subjects/views.py:749
 #, python-format
 msgid "%s - Backup"
 msgstr "%s - Backup"
 
-#: subjects/views.py:907
+#: subjects/views.py:908
 #, python-format
 msgid "%s - Restore"
 msgstr "%s - Restaurar"
 
-#: subjects/views.py:981
+#: subjects/views.py:982
 msgid "Backup restored successfully!"
 msgstr "Backup restaurado com sucesso!"

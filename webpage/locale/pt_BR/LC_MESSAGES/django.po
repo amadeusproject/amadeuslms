@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-10 02:55-0300\n"
+"POT-Creation-Date: 2017-09-13 23:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -188,64 +188,64 @@ msgstr ""
 msgid "Update Webpage"
 msgstr "Atualizar Página Web"
 
-#: webpage/views.py:367
+#: webpage/views.py:368
 #, python-format
 msgid "The Webpage \"%s\" was updated successfully!"
 msgstr "A Página Web \"%s\" foi atualizada com sucesso!"
 
-#: webpage/views.py:403
+#: webpage/views.py:404
 #, python-format
 msgid ""
 "The webpage \"%s\" was removed successfully from virtual environment \"%s\"!"
 msgstr ""
 "A Página Web \"%s\" foi removida do ambiente virtual \"%s\" com sucesso!"
 
-#: webpage/views.py:462
+#: webpage/views.py:463
 msgid "Webpage Reports"
 msgstr "Relatórios da Webpage"
 
-#: webpage/views.py:481
+#: webpage/views.py:482
 msgid "Realized"
 msgstr "Realizado"
 
-#: webpage/views.py:481
+#: webpage/views.py:482
 msgid "Unrealized"
 msgstr "Não Realizado"
 
-#: webpage/views.py:481
+#: webpage/views.py:482
 msgid "Historic"
 msgstr "Histórico"
 
-#: webpage/views.py:496 webpage/views.py:504
+#: webpage/views.py:497 webpage/views.py:505
 msgid "View"
 msgstr "Visualizar"
 
-#: webpage/views.py:505
+#: webpage/views.py:506
 msgid "Webpage"
 msgstr "Nome da Página Web"
 
-#: webpage/views.py:510
+#: webpage/views.py:511
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: webpage/views.py:511
+#: webpage/views.py:512
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: webpage/views.py:560
+#: webpage/views.py:561
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: webpage/views.py:572
+#: webpage/views.py:573
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: webpage/views.py:581
+#: webpage/views.py:582
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: webpage/views.py:583
+#: webpage/views.py:584
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
 

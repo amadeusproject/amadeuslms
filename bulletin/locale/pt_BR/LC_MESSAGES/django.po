@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-10 02:55-0300\n"
+"POT-Creation-Date: 2017-09-13 23:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,7 +72,7 @@ msgstr "Metas"
 msgid "Relevant Indicators"
 msgstr "Indicadores Relevantes"
 
-#: bulletin/models.py:25 bulletin/views.py:934
+#: bulletin/models.py:25 bulletin/views.py:935
 msgid "Bulletin"
 msgstr "Boletim"
 
@@ -231,7 +231,7 @@ msgstr "para informar as dificuldades que podem prejudicar seu desempenho."
 msgid "Type here the dificulties that may harm your performance"
 msgstr "Escreva aqui as dificuldades que podem diminuir sua performance"
 
-#: bulletin/utils.py:47 bulletin/views.py:1021
+#: bulletin/utils.py:47 bulletin/views.py:1022
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
@@ -291,54 +291,54 @@ msgstr ""
 msgid "Update Bulletin"
 msgstr "Atualizar boletim"
 
-#: bulletin/views.py:796
+#: bulletin/views.py:797
 #, python-format
 msgid "The Bulletin \"%s\" was updated successfully!"
 msgstr "O Boletim \"%s\" foi atualizado com sucesso!"
 
-#: bulletin/views.py:832
+#: bulletin/views.py:833
 #, python-format
 msgid ""
 "The bulletin \"%s\" was removed successfully from virtual environment \"%s\"!"
 msgstr "O boletim \"%s\" foi removido com sucesso do ambiente virtual \"%s\"! "
 
-#: bulletin/views.py:891
+#: bulletin/views.py:892
 msgid "Bulletin Reports"
 msgstr "Relatórios do Boletim"
 
-#: bulletin/views.py:910
+#: bulletin/views.py:911
 msgid "Realized"
 msgstr "Realizada"
 
-#: bulletin/views.py:910
+#: bulletin/views.py:911
 msgid "Unrealized"
 msgstr "Não realizada"
 
-#: bulletin/views.py:910
+#: bulletin/views.py:911
 msgid "Historic"
 msgstr "Histórico"
 
-#: bulletin/views.py:925 bulletin/views.py:933
+#: bulletin/views.py:926 bulletin/views.py:934
 msgid "View"
 msgstr "Visualizar"
 
-#: bulletin/views.py:939
+#: bulletin/views.py:940
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: bulletin/views.py:940
+#: bulletin/views.py:941
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: bulletin/views.py:1009
+#: bulletin/views.py:1010
 msgid "[Photo]"
 msgstr "[Foto]"
 
-#: bulletin/views.py:1030
+#: bulletin/views.py:1031
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: bulletin/views.py:1032
+#: bulletin/views.py:1033
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
 
