@@ -44,50 +44,7 @@
 		padding-right: 10px;	
 	}
 	
-  	.logo-login{
-	    margin-top: 150px;
-	    margin-bottom: 30px;
-	    width: 40%;
-	}
 
-	h2{
-		font-size: 32pt;
-	}
-
-	p{
-		font-size: 24pt;
-	}
-
-	a{
-		font-size: 24pt;
-	}
-
-	input[type="text"] {
-		margin-top: 40px;
-	    height: 80px;
-	}
-
-	input[type="password"] {
-		margin-top: 40px;
-	    height: 80px;
-	}
-
-	.form-control {
-		font-size: 40pt;
-	}
-
-	.btn {
-    	font-size: 24pt;
-	}
-
-	span{
-		font-size: 24pt;
-	}
-
-	.contrast-login{
-		text-align:center;
-		margin-top: 100px;
-	}
 
 	/* Bottom Menu */
 	.clearfix {
@@ -121,9 +78,7 @@
 	    font-size: 35px;
 	}
 
-	.mobile-menu a {
-	    font-size: 32pt;
-	}
+
 	/* End Bottom Menu */
 }
 
