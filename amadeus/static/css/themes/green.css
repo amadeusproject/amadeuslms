@@ -135,6 +135,9 @@ body .container-fluid .well-inverse {
 
 /* === End Language Selector */
 /* === Topbar === */
+#btn-search {
+  color: #FFFFFF; }
+
 #btn-search:hover {
   background: #00695C; }
 

@@ -1,57 +1,57 @@
 /* === Variables === */
 
-$primary-color: #D32F2F
-$secondary-color: #9A0007
+$primary-color: #000000
+$secondary-color: #FFF333
 
-$primary-title: #424242
-$secondary-title: #D32F2F
+$primary-title: #FFF333
+$secondary-title: #FFFFFF
 
-$primary-badge: #0277BD
+$primary-badge: #FFFFFF
 
 $primary-menu-bg: #D32F2F
-$primary-menu-color: #333333
+$primary-menu-color: #000000
 
 $primary-white: #F5F5F5
 $secondary-white: #FFFFFF
 $disabled-white: #E0E0E0
 
-$primary-disabled: #BDBDBD
-$secodnary-disabled: #E6E7E8
+$primary-disabled: #FFFFFF
+$secondary-disabled: #000000
 
-$primary-category: #424242
+$primary-category: #000000
 $secondary-category: #656565
 
-$primary-subject: #616161
+$primary-subject: #000000
 $secondary-subject: #777777
 
-$primary-topic: #757575
+$primary-topic: #000000
 $secondary-topic: #919191
 
-$btn-success: #03A9F4
-$btn-success-effect: #0277BD
+$btn-success: #FFF333
+$btn-success-effect: #FFF333
 
 /* === End Variables === */
 
+body
+    background-color: $primary-color
+    color: $secondary-white
+
 a, a:focus, a:hover
-    color: $primary-color
+    color: $secondary-color
 
 body .container .jumbotron-inverse, 
 body .container .well-inverse, 
 body .container-fluid .jumbotron-inverse, 
 body .container-fluid .well-inverse
-    background-color: $secondary-white
-
-.radio input[type=radio]:checked~.check, label.radio-inline input[type=radio]:checked~.check 
     background-color: $primary-color
-
-.radio input[type=radio]:checked~.circle, label.radio-inline input[type=radio]:checked~.circle 
-    border-color: $primary-color
 
 .my-subjects-title
     color: $primary-title
 
 .notify_badge
     background-color: $primary-badge !important
+    color: $primary-color !important
+    border: 1px solid $primary-color
 
 .access-subject 
     background-color: $btn-success !important
@@ -68,11 +68,17 @@ body .container-fluid .well-inverse
     background: $primary-title
 
 .bootstrap-datetimepicker-widget 
-    background-color: $secondary-white !important
+    background-color: $primary-color !important
+    color: $secondary-white
 
 .popover 
-    background: $secondary-white
-    color: #333
+    background: $primary-color
+    border: 1px solid $secondary-white
+    color: $secondary-white
+
+.popover .close, .popover .close:hover, .popover .close:focus
+    color: $secondary-white
+    opacity: 1
 
 .btn:not(.btn-raised):not(.btn-link):focus, 
 .btn:not(.btn-raised):not(.btn-link):hover, 
@@ -84,7 +90,7 @@ body .container-fluid .well-inverse
     background-color: $primary-subject !important
 
 #search-results-title
-    color: #BDBDBD
+    color: $secondary-color
 
 .profile_function 
     border-bottom: 1px solid #D2D2D2
@@ -97,11 +103,11 @@ body .container-fluid .well-inverse
     color: white
 
 .filedrag 
-    color: #555
-    border: 2px dashed #555
+    color: $secondary-white
+    border: 2px dashed $secondary-white
 
 .no-subjects 
-    color: #999999
+    color: $secondary-white
 
 .resource-link
     color: #000000 !important
@@ -116,29 +122,78 @@ body .container-fluid .well-inverse
 .login_subcommands a, .login_subcommands a:hover
     color: $secondary-title
 
+.card
+    background-color: $primary-color
+    color: $secondary-white
+    border: 1px solid $secondary-white
+
+.bootstrap-tagsinput
+    background-color: $primary-color
+    border: 1px solid $secondary-white
 
 /* === Forms === */
 
-.form-group.is-focused label,
-.form-group.is-focused label.control-label
+select option
+    background-color: $primary-color
+
+select option:hover
+    background-color: $secondary-color
     color: $primary-color
 
+.form-control
+    color: $secondary-white
+
+.form-group.is-focused label,
+.form-group.is-focused label.control-label
+    color: $secondary-color
+
 .form-group.is-focused .form-control
-    background-image: -webkit-gradient(linear,left top,left bottom,from($primary-color),to($primary-color)),-webkit-gradient(linear,left top,left bottom,from(#D2D2D2),to(#D2D2D2))
-    background-image: -webkit-linear-gradient($primary-color,$primary-color),-webkit-linear-gradient(#D2D2D2,#D2D2D2)
-    background-image: -o-linear-gradient($primary-color,$primary-color),-o-linear-gradient(#D2D2D2,#D2D2D2)
-    background-image: linear-gradient($primary-color,$primary-color),linear-gradient(#D2D2D2,#D2D2D2)
+    background-image: -webkit-gradient(linear,left top,left bottom,from($secondary-color),to($secondary-color)),-webkit-gradient(linear,left top,left bottom,from(#D2D2D2),to(#D2D2D2))
+    background-image: -webkit-linear-gradient($secondary-color,$secondary-color),-webkit-linear-gradient(#D2D2D2,#D2D2D2)
+    background-image: -o-linear-gradient($secondary-color,$secondary-color),-o-linear-gradient(#D2D2D2,#D2D2D2)
+    background-image: linear-gradient($secondary-color,$secondary-color),linear-gradient(#D2D2D2,#D2D2D2)
+
+.form-group.is-focused .checkbox label:focus, 
+.form-group.is-focused .checkbox label:hover, 
+.form-group.is-focused label.checkbox-inline:focus, 
+.form-group.is-focused label.checkbox-inline:hover
+    color: $secondary-white
+
+.checkbox .checkbox-material .check, label.checkbox-inline .checkbox-material .check
+    border: 2px solid $secondary-color
+
+.checkbox input[type=checkbox]:checked+.checkbox-material .check, 
+label.checkbox-inline input[type=checkbox]:checked+.checkbox-material .check
+    color: $secondary-color
+    border-color: $secondary-color
+
+.checkbox input[type=checkbox]:checked+.checkbox-material .check:before, 
+label.checkbox-inline input[type=checkbox]:checked+.checkbox-material .check:before
+    color: $secondary-color
+
+.radio input[type=radio]:checked~.check, label.radio-inline input[type=radio]:checked~.check 
+    background-color: $secondary-color
+
+.radio input[type=radio]:checked~.circle, label.radio-inline input[type=radio]:checked~.circle 
+    border-color: $secondary-color
 
 /* === End Forms === */
 
 
 /* === Buttons === */
 
+.btn:not(.btn-raised):not(.btn-link):focus, 
+.btn:not(.btn-raised):not(.btn-link):hover, 
+.input-group-btn .btn:not(.btn-raised):not(.btn-link):focus, 
+.input-group-btn .btn:not(.btn-raised):not(.btn-link):hover
+    background-color: $secondary-color
+
 .btn-group-raised .btn.btn-success, 
 .btn-group-raised .input-group-btn .btn.btn-success, 
 .btn.btn-fab.btn-success, .btn.btn-raised.btn-success, 
 .input-group-btn .btn.btn-fab.btn-success, .input-group-btn .btn.btn-raised.btn-success
-    background-color: $btn-success 
+    background-color: $btn-success
+    color: $primary-color 
 
 .btn-group-raised .btn:not(.btn-link).active.btn-success, 
 .btn-group-raised .btn:not(.btn-link):active.btn-success, 
@@ -157,17 +212,46 @@ body .container-fluid .well-inverse
 .input-group-btn .btn.btn-raised:not(.btn-link):focus.btn-success, 
 .input-group-btn .btn.btn-raised:not(.btn-link):hover.btn-success
     background-color: $btn-success-effect
+    color: $primary-color
+
+.btn-group-vertical.disabled, 
+.btn-group-vertical:disabled, 
+.btn-group-vertical[disabled][disabled], 
+.btn-group.disabled, .btn-group:disabled, 
+.btn-group[disabled][disabled], 
+.btn.disabled, .btn:disabled, 
+.btn[disabled][disabled], 
+.input-group-btn .btn.disabled, 
+.input-group-btn .btn:disabled, 
+.input-group-btn .btn[disabled][disabled], 
+fieldset[disabled][disabled] .btn, 
+fieldset[disabled][disabled] .btn-group, 
+fieldset[disabled][disabled] .btn-group-vertical, 
+fieldset[disabled][disabled] .input-group-btn .btn
+    background-color: $secondary-color
+    opacity: .2
 
 /* === End Buttons === */
 
 
 /* === Modal === */
 
+.close, .close:hover
+    color: $secondary-white
+    opacity: 1
+
+.modal-title
+    color: $secondary-white
+
+.modal-content
+    background-color: $primary-color
+    border: 1px solid $secondary-white
+
 .modal-header 
-    border-bottom: 1px solid $secodnary-disabled !important 
+    border-bottom: 1px solid $secondary-disabled !important 
 
 .modal-footer 
-    border-top: 1px solid $secodnary-disabled !important
+    border-top: 1px solid $secondary-disabled !important
 
 /* === End Modal === */
 
@@ -211,7 +295,7 @@ body .container-fluid .well-inverse
 /* === Language Selector */
 
 .language-selector .dropdown-menu > .active > a 
-    background: $primary-menu-bg
+    background: $secondary-color
     color: $primary-color
 
 .language-selector .dropdown-menu > .active > a:hover 
@@ -227,25 +311,29 @@ body .container-fluid .well-inverse
 
 #btn-search:hover 
     background: $secondary-color
+    color: $primary-color !important
 
 .navbar, .navbar.navbar-default 
+    border-bottom: 1px solid $secondary-white
     background-color: $primary-color
     color: rgba(255,255,255,.84)
 
 .top-search 
     color: $primary-white
 
+.navbar-brand
+    color: $secondary-white !important
+
 .navbar-brand:hover 
     background: $secondary-color !important
-
-.navbar .project_name 
-    color: $secondary-white
+    color: $primary-color !important
 
 .navbar-nav li.open 
     background: $secondary-color
 
 .navbar-nav li > a:hover 
     background: $secondary-color !important
+    color: $primary-color !important
 
 .navbar-nav li.settings_menu_active 
     background: $secondary-color
@@ -254,34 +342,36 @@ body .container-fluid .well-inverse
     background-color: $secondary-color  
 
 .dropdown-menu 
-    background: $primary-white
+    background: $primary-color
+    border: 1px solid $secondary-white
 
 .dropdown-menu li > a 
-    background: $primary-white
-    color: $primary-menu-color
+    background: $primary-color
+    color: $secondary-white
 
 .dropdown-menu li > a:hover 
-    background: $primary-menu-bg !important
-    color: $secondary-white !important
+    background: $secondary-color !important
+    color: $primary-color !important
 
 #system_accordion > .panel > .panel-heading 
-    background: $primary-white
+    background: $primary-color
+    color: $secondary-white
 
 #system_accordion > .panel > .panel-heading:hover 
-    background: $primary-menu-bg
-    color: $secondary-white
+    background: $secondary-color
+    color: $primary-color
 
 #system_accordion > .panel > .panel-heading > a > .panel-title 
-    color: $primary-menu-color
+    color: $secondary-white
 
 #system_accordion > .panel > .panel-heading > a > .panel-title:hover 
-    color: $secondary-white
+    color: $primary-color
 
 #system_accordion > .panel > .panel-heading > a:hover 
-    color: $secondary-white
+    color: $primary-color
 
 #system_menu 
-    background: $primary-white
+    background: $primary-color
 
 /* === End Topbar === */
 
@@ -289,11 +379,11 @@ body .container-fluid .well-inverse
 /* === Sidebar === */
 
 #sidebar-menu .item 
-    background-color: $primary-color
-    color: $secondary-white
+    background-color: $secondary-color
+    color: $primary-color
 
 #sidebar-menu .item a
-    color: $secondary-white
+    color: $primary-color
 
 #sidebar-menu > .subjects_menu_active 
     background-color: $secondary-color
@@ -304,14 +394,14 @@ body .container-fluid .well-inverse
 /* --- Minor Screens --- */
 
 .bottom-menu
-    background: $primary-color
+    background: $secondary-color
 
 .mobile-menu .item 
-    color: $secondary-white
-    background: $primary-color
+    color: $primary-color
+    background: $secondary-color
 
 .mobile-menu .item a 
-    color: $secondary-white
+    color: $primary-color
 
 .mobile-menu > .subjects_menu_active 
     background-color: $secondary-color
@@ -326,19 +416,28 @@ body .container-fluid .well-inverse
 
 /* === Breadcrumbs === */
 
+.breadcrumb
+    background: $primary-color
+    border-bottom: 1px solid $secondary-white
+
 .breadcrumb > li > span.divider 
-    color: $primary-color
+    color: $secondary-white
 
 .breadcrumb > li > a
-    color: $primary-color
+    color: $secondary-color
 
 .breadcrumb > li 
-    color: #BDBDBD
+    color: $secondary-white
 
 /* === End Breadcrumbs === */
 
 
 /* === Panel === */
+
+.panel
+    background-color: $primary-color
+    color: $secondary-white
+    border: 1px solid $secondary-white
 
 .category-header i 
     color: $secondary-white
@@ -351,13 +450,17 @@ body .container-fluid .well-inverse
 
 .panel-invisible
     background-color: $primary-disabled !important
-    color: $primary-white !important
+    color: $secondary-disabled !important
 
+.panel-invisible .category-course-link
+    color: $secondary-disabled !important
+
+.panel-invisible .category-header i,,
 .panel-invisible .category-header .category-card-items i 
-    color: $disabled-white
+    color: $secondary-disabled
 
 .panel-invisible .category-header .category-card-items i:hover 
-    color: $secondary-white
+    color: $secondary-disabled
 
 /* === End Panel === */
 
@@ -366,6 +469,7 @@ body .container-fluid .well-inverse
 
 .category-panel > .panel-heading 
     background-color: $primary-category !important
+    border: 1px solid $secondary-white
 
 .category-panel .category-header .category-card-items i 
     color: $secondary-category
@@ -374,7 +478,9 @@ body .container-fluid .well-inverse
     color: $secondary-white
 
 .category-panel-content 
-    background: $primary-white
+    background: $primary-color
+    color: $secondary-white
+    border: 1px solid $secondary-white
 
 .category-header > h4.panel-title span 
     color: $secondary-white
@@ -386,18 +492,19 @@ body .container-fluid .well-inverse
 
 .subject-panel > .panel-heading 
     background-color: $primary-subject !important
+    border: 1px solid $secondary-white
 
 .subject-panel .category-header .category-card-items i 
     color: $secondary-subject
 
 .subject-panel .category-header .category-card-items i:hover,
-.subject-panel-invisible .category-header .category-card-items i:hover 
     color: $secondary-white
 
 /* --- Invisible --- */
-
+.subject-panel-invisible .category-header i,
+.subject-panel-invisible .category-header .category-card-items i:hover,
 .subject-panel-invisible .category-header .category-card-items i
-    color: $disabled-white
+    color: $secondary-disabled
 
 /* --- End Invisible --- */
 
@@ -408,26 +515,36 @@ body .container-fluid .well-inverse
 
 .topic-panel > .panel-heading 
     background-color: $primary-topic !important
+    border: 1px solid $secondary-white
 
 .topic-panel .category-header .category-card-items i, 
 .topic-panel-invisible .category-header .category-card-items i 
     color: $secondary-topic
 
-.topic-panel .category-header .category-card-items i:hover, 
-.topic-panel-invisible .category-header .category-card-items i:hover 
+.topic-panel .category-header .category-card-items i:hover 
     color: $secondary-white
 
+.topic-panel-invisible .category-header .category-card-items i:hover 
+    color: $secondary-disabled
+
 .topic-panel > .category-panel-content, .topic-panel-invisible > .category-panel-content 
-    background: $secondary-white
+    background: $primary-color
+    color: $secondary-white
+    border: 1px solid $secondary-white    
 
 /* --- Invisible --- */
 
 .topic-panel-invisible > .panel-heading 
     background-color: $primary-disabled !important
-    color: $primary-white
+    border: 1px solid $secondary-white
+    color: $secondary-disabled
 
+.topic-panel-invisible > .panel-heading .category-course-link
+    color: $secondary-disabled !important
+
+.topic-panel-invisible .category-header i,
 .topic-panel-invisible .category-header .category-card-items i
-    color: $disabled-white
+    color: $secondary-disabled
 
 /* --- End Invisible --- */
 
@@ -437,14 +554,16 @@ body .container-fluid .well-inverse
 /* === Group Panel === */
 
 .group-panel > .panel-heading 
-    background-color: $secondary-white !important
+    background-color: $primary-color !important
+    border: 1px solid $secondary-white
 
 .group-panel .panel-title, .group-panel .category-header i, .group-panel .category-course-link  
-    color: #000000 !important
+    color: $secondary-white !important
 
 .group-panel-body 
-    background: $secondary-white !important
-    border-top: 1px solid #CCCCCC
+    background: $primary-color !important
+    border: 1px solid $secondary-white
+    color: $secondary-white
 
 /* === End Group Panel === */
 
@@ -452,23 +571,25 @@ body .container-fluid .well-inverse
 /* === Resources List === */
 
 .resource_list > .list-group-item 
-    background-color: #fff
-    border: 1px solid #ddd
+    background-color: $primary-color
+    border: 1px solid $secondary-white
 
 .resource_list > .disabled 
-    background-color: #eee
+    background-color: $secondary-white
+    border: 1px solid $primary-color
 
 .resource_list > .disabled:hover 
-    background-color: #eee !important   
+    background-color: $secondary-white !important   
 
 .resource_list > .disabled a.resource_link 
-    color: $primary-disabled
+    color: $primary-color
 
 .resource_list > .list-group-item:hover 
-    background: $primary-white
+    background: $secondary-color
+    color: $primary-color
 
 .resource_list > .list-group-item:last-child 
-    border-bottom: 1px solid #ddd !important
+    border-bottom: 1px solid $secondary-white !important
 
 .resource_list .category-card-items i 
     color: #e5e5e5
@@ -476,11 +597,20 @@ body .container-fluid .well-inverse
 .resource_list .category-card-items i:hover 
     color: #7f7f7f
 
+.resource_list .category-card-items .dropdown-menu a,
 .resource_list .category-card-items .dropdown-menu i 
-    color: #333
+    color: $secondary-white !important
+
+.resource_list .category-card-items .dropdown-menu a:hover,
+.resource_list .category-card-items .dropdown-menu a:hover i
+    color: $primary-color !important
 
 .resource_list a 
-    color: inherit
+    color: $secondary-white
+
+.resource_list > .list-group-item:hover a, 
+.resource_list > .list-group-item:hover .category-card-items i
+    color: $primary-color    
 
 .resource_list .btn-group button:active, 
 .resource_list .btn-group button:focus, .resource_list .btn-group button:hover 
@@ -491,20 +621,24 @@ body .container-fluid .well-inverse
 
 /* === Participants === */
 
-#participants, .participants-list
-    background-color: $secondary-white
+#participants
+    background-color: $secondary-color
+
+.participants-list
+    background-color: $primary-color
 
 #participants
     box-shadow: -1px 1px 8px $primary-subject
 
 #participants i
-    color: $primary-subject
+    color: $primary-color
 
 .participants-list
-    box-shadow: -1px 2px 1px $primary-subject
+    box-shadow: -1px 2px 1px $secondary-color
 
 .subject-participants .sub-user:hover
-    background-color: $primary-menu-bg
+    background-color: $secondary-color
+    color: $primary-color
 
 /* === End Participants === */
 
@@ -512,7 +646,54 @@ body .container-fluid .well-inverse
 /* === Accordions === */
 
 #coordinators_accordion .panel-heading, #professors_accordion .panel-heading 
-    background: $secondary-white
+    background: $primary-color
+    color: $secondary-white
+    border: 1px solid $secondary-white
+
+#coordinators_accordion .btn:not(.btn-raised), 
+#coordinators_accordion .btn:not(.btn-raised).btn-default, 
+#coordinators_accordion .input-group-btn .btn:not(.btn-raised), 
+#coordinators_accordion .input-group-btn .btn:not(.btn-raised).btn-default,
+#professors_accordion .btn:not(.btn-raised), 
+#professors_accordion .btn:not(.btn-raised).btn-default, 
+#professors_accordion .input-group-btn .btn:not(.btn-raised), 
+#professors_accordion .input-group-btn .btn:not(.btn-raised).btn-default
+    color: $secondary-white
+
+#coordinators_accordion .panel-collapse, #professors_accordion .panel-collapse
+    background-color: $primary-color
+    color: $secondary-white
+    border: 1px solid $secondary-white
+
+#coordinators_accordion .ms-container .ms-selectable, 
+#coordinators_accordion .ms-container .ms-selection,
+#professors_accordion .ms-container .ms-selectable, 
+#professors_accordion .ms-container .ms-selection,
+#students .ms-container .ms-selectable, 
+#students .ms-container .ms-selection
+    background-color: $primary-color
+    color: $secondary-white
+
+#coordinators_accordion .ms-container .ms-selectable li.ms-elem-selectable, 
+#coordinators_accordion .ms-container .ms-selection li.ms-elem-selection,
+#professors_accordion .ms-container .ms-selectable li.ms-elem-selectable, 
+#professors_accordion .ms-container .ms-selection li.ms-elem-selection,
+#students .ms-container .ms-selectable li.ms-elem-selectable, 
+#students .ms-container .ms-selection li.ms-elem-selection
+    color: $secondary-white
+
+#coordinators_accordion .ms-container .ms-selectable li.ms-elem-selectable.ms-hover,
+#coordinators_accordion .ms-container .ms-selection li.ms-elem-selection.ms-hover,
+#professors_accordion .ms-container .ms-selectable li.ms-elem-selectable.ms-hover,
+#professors_accordion .ms-container .ms-selection li.ms-elem-selection.ms-hover
+#students .ms-container .ms-selectable li.ms-elem-selectable.ms-hover,
+#students .ms-container .ms-selection li.ms-elem-selection.ms-hover
+    background-color: $secondary-color
+    color: $primary-color
+
+.category-search-users
+    background-color: $primary-color
+    color: $secondary-white
 
 /* === End Accordions === */
 
@@ -522,10 +703,14 @@ body .container-fluid .well-inverse
 .core-subjects-options  li 
     background-color: $secondary-white
     border-bottom-color: #D2D2D2
-    color: #A0A0A0
+    color: $primary-color
 
 .core-subjects-options  li.active 
-    color: inherit
+    color: $secondary-color
+    background-color: $primary-color
+    border-top: 1px solid $secondary-white
+    border-left: 1px solid $secondary-white
+    border-right: 1px solid $secondary-white
     border-bottom-color: $secondary-color
 
 /* === End Tabs === */
@@ -590,14 +775,19 @@ a.add-row
 
 /* === Pendencies === */
 
+.table-striped > tbody > tr:nth-of-type(odd)
+    background-color: $secondary-white
+    color: $primary-color
+
 .pendencies-content 
-    background: $primary-white
+    background: $primary-color
 
 .pendency 
     border-color: #CCCCCC
 
 .pendency .breadcrumb 
-    background-color: $secondary-white
+    background-color: $primary-color
+    border: none
 
 .pendency .meta 
     color: #FF0000
@@ -621,13 +811,22 @@ a.add-row
 /* === Mural === */
 
 .mural .post_make 
-    background: $secondary-white
+    background: $primary-color
+    border: 1px solid $secondary-white
 
 .mural .post_make .post-field div 
     border-color: #CCCCCC
 
 .mural .post_make .post-field h4 
     color: #CCCCCC
+
+.post .post-user .btn-group .btn_menu i,
+.comment .comment-user .btn-group .btn_menu i
+    color: $secondary-white
+
+.post .post-user .btn-group:hover .btn_menu i,
+.comment .comment-user .btn-group:hover .btn_menu i
+    color: $primary-color
 
 .post_action i, .post .post-user .user-action i, .comment .comment-user .user-action i 
     color: #1d8fe0
@@ -636,28 +835,28 @@ a.add-row
     color: $primary-title
 
 .post .post-user .user-action 
-    color: #BBBBBB
+    color: $secondary-white
 
 .post .time 
-    color: #ABABAB
+    color: $secondary-white
 
 .post .post-comment 
-    border-top-color: #888888
-    background: #e5e5e5
+    border-top-color: $secondary-white
+    background: $primary-color
 
 .post .post-comment .comment-field div 
-    border-color: #888888
-    background: $secondary-white
+    border-color: $secondary-white
+    background: $primary-color
 
 .comment-section 
-    background: $primary-white
-    border-top-color: #AAAAAA
+    background: $primary-color
+    border-top-color: $secondary-white
 
 .comment .comment-user .user-action 
-    color: #999999
+    color: $secondary-white
 
 .comment-time 
-    color: #9A9A9A
+    color: $secondary-white
 
 .btn_unfav 
     color: #FF0000 !important
@@ -666,14 +865,16 @@ a.add-row
     color: #BBBBBB !important
 
 .post-filter, .talk-filter 
-    background: $primary-white
+    background: $primary-color
+    border: 1px solid $secondary-white
+    color: $secondary-white
 
 .post-filter h4, .talk-filter h4
     color: $primary-title
 
 .post-filter, .talk-filter 
     label 
-        color: #333333
+        color: $secondary-white
 
 .post-filter, .talk-filter 
     i 
@@ -710,34 +911,43 @@ a.add-row
     background-color: #DAA520
 
 .messages-container
-    border-top-color: #cacaca
-    background-color: #f5f5f5
+    border-top-color: $secondary-white
+    background-color: $primary-color
 
 .message-sender
-    border-top-color: #888888 !important
+    border-top-color: $secondary-white !important
 
 .message-sender-container
-    background-color: #e5e5e5
+    background-color: $primary-color
 
 .message-sender-container .message-field div
-    background-color: $secondary-white
-    border-color: #888888
+    background-color: $primary-color
+    border-color: $secondary-white
+    color: $secondary-white
 
 .talk-last_msg
     color: #888
 
 .message-view
-    border-top-color: #cacaca
+    border-top-color: $secondary-white
+    color: $secondary-white
 
 .message-view .message-user .message-date
-    color: #888
+    color: $secondary-white
 
 .messages_new
-    color: $secondary-white
-    background-color: #59b75c
+    color: $primary-color
+    background-color: $secondary-color
 
 .chat-panel .chat-collapse
     background: #EEE
+
+.message-view .btn-group .btn_menu:hover i
+    color: $primary-color
+
+.talk_header .close
+    color: $secondary-white
+    opacity: 1
 
 /* === End Chat === */
 
