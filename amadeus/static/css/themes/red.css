@@ -19,10 +19,10 @@ body .container-fluid .well-inverse {
   color: #424242; }
 
 .notify_badge {
-  background-color: #039BE5 !important; }
+  background-color: #0277BD !important; }
 
 .access-subject {
-  background-color: #039BE5 !important;
+  background-color: #03A9F4 !important;
   color: #FFFFFF; }
 
 .outside-title {
@@ -101,7 +101,7 @@ body .container-fluid .well-inverse {
 .btn-group-raised .input-group-btn .btn.btn-success,
 .btn.btn-fab.btn-success, .btn.btn-raised.btn-success,
 .input-group-btn .btn.btn-fab.btn-success, .input-group-btn .btn.btn-raised.btn-success {
-  background-color: #039BE5; }
+  background-color: #03A9F4; }
 
 .btn-group-raised .btn:not(.btn-link).active.btn-success,
 .btn-group-raised .btn:not(.btn-link):active.btn-success,
@@ -174,7 +174,7 @@ body .container-fluid .well-inverse {
 /* === End Language Selector */
 /* === Topbar === */
 #btn-search:hover {
-  background: #A31616; }
+  background: #9A0007; }
 
 .navbar, .navbar.navbar-default {
   background-color: #D32F2F;
@@ -184,22 +184,22 @@ body .container-fluid .well-inverse {
   color: #F5F5F5; }
 
 .navbar-brand:hover {
-  background: #A31616 !important; }
+  background: #9A0007 !important; }
 
 .navbar .project_name {
   color: #FFFFFF; }
 
 .navbar-nav li.open {
-  background: #A31616; }
+  background: #9A0007; }
 
 .navbar-nav li > a:hover {
-  background: #A31616 !important; }
+  background: #9A0007 !important; }
 
 .navbar-nav li.settings_menu_active {
-  background: #A31616; }
+  background: #9A0007; }
 
 .navbar .dropdown-menu .active > a, .navbar.navbar-default .dropdown-menu .active > a {
-  background-color: #A31616; }
+  background-color: #9A0007; }
 
 .dropdown-menu {
   background: #F5F5F5; }
@@ -241,10 +241,10 @@ body .container-fluid .well-inverse {
   color: #FFFFFF; }
 
 #sidebar-menu > .subjects_menu_active {
-  background-color: #A31616; }
+  background-color: #9A0007; }
 
 #sidebar-menu > .item:hover {
-  background-color: #A31616; }
+  background-color: #9A0007; }
 
 /* --- Minor Screens --- */
 .bottom-menu {
@@ -258,10 +258,10 @@ body .container-fluid .well-inverse {
   color: #FFFFFF; }
 
 .mobile-menu > .subjects_menu_active {
-  background-color: #A31616; }
+  background-color: #9A0007; }
 
 .mobile-menu > .item:hover {
-  background-color: #A31616; }
+  background-color: #9A0007; }
 
 /* --- End Minor Screens --- */
 /* === End Sidebar === */
@@ -435,7 +435,7 @@ body .container-fluid .well-inverse {
 
 .core-subjects-options li.active {
   color: inherit;
-  border-bottom-color: #A31616; }
+  border-bottom-color: #9A0007; }
 
 /* === End Tabs === */
 /* === Notifies === */
@@ -451,7 +451,7 @@ body .container-fluid .well-inverse {
 a.add-row {
   -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  background-color: #039BE5;
+  background-color: #03A9F4;
   color: rgba(255, 255, 255, 0.84); }
 
 /* === End Notifies === */
