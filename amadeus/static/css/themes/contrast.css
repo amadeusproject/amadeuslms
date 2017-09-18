@@ -97,8 +97,26 @@ body .container-fluid .well-inverse {
 
 .bootstrap-tagsinput {
   background-color: #000000;
+  color: #FFFFFF;
   border: 1px solid #FFFFFF; }
 
+.alert.alert-success,
+.alertify-notifier .ajs-message.ajs-success {
+  color: #000000;
+  background-color: #FFF333;
+  text-shadow: none; }
+
+/* === Carousel === */
+.carousel-caption {
+  background: #000000;
+  opacity: 0.9;
+  text-shadow: none;
+  bottom: 0px; }
+
+.carousel-caption a {
+  color: #FFFFFF; }
+
+/* === End Carousel === */
 /* === Forms === */
 select option {
   background-color: #000000; }
