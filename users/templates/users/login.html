@@ -80,10 +80,10 @@
                                     <li class="dropdown language-selector pull-right " style="margin-top:1px;margin-right:10px;">
                                         {% get_current_language as LANGUAGE_CODE %}
                                         
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
+                                        <a href="#" class="dropdown-toggle hidden-sm hidden-xs" data-toggle="dropdown" data-close-others="true">
                                             <span >[{{LANGUAGE_CODE}}]  </span>
                                         </a>
-                                        <a href="{% url 'themes:contrast' %}" id = "contrast_button" style="margin-left:10px;"><i class="glyphicon glyphicon-adjust"></i></a>
+                                        <a href="{% url 'themes:contrast' %}" id = "contrast_button" style="margin-left:10px;"><i class="glyphicon glyphicon-adjust hidden-sm hidden-xs"></i></a>
                                         <ul class="dropdown-menu">
                                             {% get_available_languages as LANGUAGES %}
                                             {% get_language_info_list for LANGUAGES as languages %}
@@ -108,12 +108,12 @@
 
                                     <li class="dropdown language-selector pull-right " style="margin-top:1px;margin-right:10px;">
                                         {% get_current_language as LANGUAGE_CODE %}
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
+                                        <a href="#" class="dropdown-toggle hidden-sm hidden-xs" data-toggle="dropdown" data-close-others="true">
 
                                           <span>[{{LANGUAGE_CODE}}]  </span>
 
                                         </a>
-                                        <a href="{% url 'themes:contrast'%}" style="margin-left:10px;"><i class="glyphicon glyphicon-adjust"></i></a>
+                                        <a href="{% url 'themes:contrast'%}" style="margin-left:10px;"><i class="glyphicon glyphicon-adjust hidden-sm hidden-xs"></i></a>
                                         <ul class="dropdown-menu">
                                             {% get_available_languages as LANGUAGES %}
                                             {% get_language_info_list for LANGUAGES as languages %}
@@ -134,8 +134,63 @@
                             </div>
                         {% endif %}
                     </div>
-                </div>
+                </div> 
             </div>
+            <div class="row login_subcommands hidden-lg hidden-md">
+                        {% if not deny_register %}
+                            <div class="col-sm-12 col-xs-12">
+                                <li class="dropdown language-selector ">
+                                    {% get_current_language as LANGUAGE_CODE %}
+                                    
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
+                                        <span >[{{LANGUAGE_CODE}}]  </span>
+                                    </a>
+                                    <a href="{% url 'themes:contrast' %}" id = "contrast_button_mobile" style="margin-left:10px;"><i class="glyphicon glyphicon-adjust"></i></a>
+                                    <ul class="dropdown-menu">
+                                        {% get_available_languages as LANGUAGES %}
+                                        {% get_language_info_list for LANGUAGES as languages %}
+                                        
+                                        {% for language in languages %}
+                                            <li {% if language.code == LANGUAGE_CODE %}
+                                                class="active"
+                                            {% endif %}>
+                                                <a class="language-item" value-lang="{{language.code}}">
+                                                    <span>{{language.code}}</span>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            </div>
+                        {% else %}
+                            <div class="col-sm-12 col-xs-12">
+                                <li class="dropdown language-selector">
+                                    {% get_current_language as LANGUAGE_CODE %}
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
+
+                                      <span>[{{LANGUAGE_CODE}}]  </span>
+
+                                    </a>
+                                    <a href="{% url 'themes:contrast' %}" id = "contrast_button_mobile" style="margin-left:10px;"><i class="glyphicon glyphicon-adjust"></i></a>
+                                    <ul class="dropdown-menu">
+                                        {% get_available_languages as LANGUAGES %}
+                                        {% get_language_info_list for LANGUAGES as languages %}
+                                        {% for language in languages %}
+
+                                            <li {% if language.code == LANGUAGE_CODE %}
+                                                class="active"
+                                            {% endif %}>
+                                                <a class="language-item" value-lang="{{language.code}}">
+                                                    <span>{{language.code}}</span>
+                                                </a>
+                                            </li>
+
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            </div>
+                        {% endif %}
+                    </div>
         </div>
     </div>
 
@@ -152,6 +207,21 @@
 
     });
 </script>
+
+<script type="text/javascript">
+    $("#contrast_button_mobile" ).click(function() {
+      if (Cookies.get('contrast_check')) {
+        Cookies.remove('contrast_check')
+        //location.reload()
+      }
+      else {
+        Cookies.set('contrast_check','contrast')
+        //location.reload()
+      }
+
+    });
+</script>
+
 {% endblock%}
 
 {% block footer %}

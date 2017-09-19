@@ -78,6 +78,11 @@
 	    font-size: 35px;
 	}
 
+	.language-selector{
+		text-align: center;
+		margin: 10px;
+	}
+
 
 	/* End Bottom Menu */
 }
