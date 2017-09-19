@@ -41,9 +41,9 @@
 
 	.comment-section .comment .comment-img {
 		padding-left: 10px;
-		padding-right: 10px;	
+		padding-right: 10px;
 	}
-	
+
 
 
 	/* Bottom Menu */
@@ -52,7 +52,7 @@
 	}
 
 	.bottom-menu {
-		position: fixed;	    
+		position: fixed;
 	    bottom: 0px;
 	    width: 100%;
 	    padding: 0px 30px;
@@ -133,7 +133,7 @@
 		margin-left: -30px;
 		margin-right: -30px;
 	}
-	
+
 	.navbar .navbar-form {
 		margin-top: 0px !important;
 	}
@@ -153,7 +153,7 @@
 	}
 
 	.users-cloud  .small a {
-        
+
         display:none;
     }
 
@@ -172,7 +172,7 @@
 
 	.comment-section .comment .comment-img {
 		padding-left: 5px;
-		padding-right: 5px;	
+		padding-right: 5px;
 	}
 }
 
@@ -206,7 +206,7 @@
 	.language-selector-on-header .title{
 		display:none;
 	}
-	    
+
 	.navbar {
 		height: 50px;
 	}
@@ -252,5 +252,10 @@
 
 	.mural .post_make .post-field h4 {
 		line-height: 1.6em;
+	}
+}
+@media(max-width:610px){
+	.outside-title{
+		font-size:1em;
 	}
 }
