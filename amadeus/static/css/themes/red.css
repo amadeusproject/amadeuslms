@@ -403,6 +403,10 @@ body .container-fluid .well-inverse {
 .resource_list a {
   color: inherit; }
 
+.resource_list .category-card-items .dropdown-menu a:hover,
+.resource_list .category-card-items .dropdown-menu a:hover i {
+  color: #FFFFFF !important; }
+
 .resource_list .btn-group button:active,
 .resource_list .btn-group button:focus, .resource_list .btn-group button:hover {
   background-color: initial !important; }
@@ -422,7 +426,8 @@ body .container-fluid .well-inverse {
   box-shadow: -1px 2px 1px #616161; }
 
 .subject-participants .sub-user:hover {
-  background-color: #D32F2F; }
+  background-color: #D32F2F;
+  color: #FFFFFF; }
 
 /* === End Participants === */
 /* === Accordions === */
