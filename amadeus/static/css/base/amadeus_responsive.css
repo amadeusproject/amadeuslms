@@ -272,6 +272,10 @@
     	padding-left: 10px;
     	padding-right: 10px;
     }
+
+    p{
+    	margin: 10px;
+    }
 }
 @media(max-width:610px){
 	.outside-title{
@@ -281,4 +285,9 @@
 	.container-fluid {
     	padding-left: 10px;
     	padding-right: 10px;
+    }
+
+    p{
+    	margin: 10px;
+    }
 }
