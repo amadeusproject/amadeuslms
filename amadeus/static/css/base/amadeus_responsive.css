@@ -258,9 +258,12 @@
 	.mural .post_make .post-field h4 {
 		line-height: 1.6em;
 	}
+	.outside-title{
+		font-size:1.5em;
+	}
 }
 @media(max-width:610px){
 	.outside-title{
-		font-size:1em;
+		font-size:1.5em;
 	}
 }
