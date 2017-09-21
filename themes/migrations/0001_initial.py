@@ -21,6 +21,7 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(default='Projeto Amadeus', max_length=200, verbose_name='Title')),
                 ('small_logo', models.ImageField(blank=True, default='logo_pequena_amadeus.png', upload_to='themes/', validators=[themes.models.validate_img_extension], verbose_name='Small Logo')),
                 ('large_logo', models.ImageField(blank=True, default='logo_grande_amadeus.png', upload_to='themes/', validators=[themes.models.validate_img_extension], verbose_name='Large Logo')),
+                ('high_contrast_logo', models.ImageField(blank=True, default='alto_contraste_logo_amadeus.png', upload_to='themes/', validators=[themes.models.validate_img_extension], verbose_name='High Contrast Logo')),
                 ('footer_note', models.TextField(blank=True, verbose_name='Footer Note')),
                 ('css_style', models.CharField(default='green', max_length=50, verbose_name='Css Style')),
             ],

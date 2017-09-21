@@ -261,9 +261,33 @@
 	.outside-title{
 		font-size:1.5em;
 	}
+	.logo-register, .logo-login{
+		max-width: 100px;
+		height: auto;
+		text-align: center;
+		width: auto;
+	}
+
+	.container-fluid {
+    	padding-left: 10px;
+    	padding-right: 10px;
+    }
+
+    p{
+    	margin: 10px;
+    }
 }
 @media(max-width:610px){
 	.outside-title{
 		font-size:1.5em;
 	}
+	
+	.container-fluid {
+    	padding-left: 10px;
+    	padding-right: 10px;
+    }
+
+    p{
+    	margin: 10px;
+    }
 }

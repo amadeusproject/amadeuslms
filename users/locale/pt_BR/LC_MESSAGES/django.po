@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-13 23:39-0300\n"
+"POT-Creation-Date: 2017-09-20 21:31-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,7 +23,7 @@ msgid "You must insert an email address"
 msgstr "Você deve inserir um endereço de email"
 
 #: users/forms.py:43 users/templates/users/_form.html:94
-#: users/templates/users/register.html:107
+#: users/templates/users/register.html:111
 msgid "The image is too large. It should have less than 2MB."
 msgstr "A imagem é muito grande. Ela deve conter menos de 2MB."
 
@@ -35,7 +35,7 @@ msgstr "Você deve definir uma senha."
 msgid "The confirmation password is incorrect."
 msgstr "A confirmação de senha está incorreta."
 
-#: users/forms.py:78 users/forms.py:192 users/templates/users/login.html:52
+#: users/forms.py:78 users/forms.py:192 users/templates/users/login.html:56
 msgid "Password"
 msgstr "Senha"
 
@@ -80,7 +80,7 @@ msgid "Actual Password"
 msgstr "Senha Atual"
 
 #: users/forms.py:287 users/templates/users/list.html:56
-#: users/templates/users/login.html:47 users/templates/users/search.html:47
+#: users/templates/users/login.html:51 users/templates/users/search.html:47
 msgid "Email"
 msgstr "Email"
 
@@ -89,7 +89,7 @@ msgid "You must insert a valid email address"
 msgstr "Você deve inserir um endereço de email válido"
 
 #: users/models.py:18 users/templates/users/_form.html:95
-#: users/templates/users/register.html:108
+#: users/templates/users/register.html:112
 msgid "File not supported."
 msgstr "Arquivo não suportado."
 
@@ -175,15 +175,15 @@ msgstr "Sim"
 msgid "Is not an admin"
 msgstr "Não é administrador"
 
-#: users/templates/users/_form.html:18 users/templates/users/register.html:56
+#: users/templates/users/_form.html:18 users/templates/users/register.html:60
 msgid "Choose your photo..."
 msgstr "Escolha sua foto..."
 
-#: users/templates/users/_form.html:32 users/templates/users/register.html:70
+#: users/templates/users/_form.html:32 users/templates/users/register.html:74
 msgid "Click or drop the file here"
 msgstr ""
 
-#: users/templates/users/_form.html:34 users/templates/users/register.html:72
+#: users/templates/users/_form.html:34 users/templates/users/register.html:76
 msgid "The photo could not exceed 2MB."
 msgstr "A imagem não pode exceder o tamanho de 2MB."
 
@@ -215,11 +215,11 @@ msgstr "Deletar"
 msgid "Are you sure you want delete your account?"
 msgstr "Tem certeza que deseja deletar sua conta?"
 
-#: users/templates/users/forgot_password.html:39 users/views.py:399
+#: users/templates/users/forgot_password.html:43 users/views.py:399
 msgid "Forgot Password"
 msgstr "Esqueceu Senha"
 
-#: users/templates/users/forgot_password.html:40
+#: users/templates/users/forgot_password.html:44
 msgid ""
 "Enter your email below (the one used to access the platform) to recover your "
 "password"
@@ -227,13 +227,13 @@ msgstr ""
 "Digite seu endereço de email abaixo (o utilizado para acessar a plataforma) "
 "para recuperar sua senha"
 
-#: users/templates/users/forgot_password.html:72
+#: users/templates/users/forgot_password.html:76
 msgid "Recover"
 msgstr "Recuperar"
 
-#: users/templates/users/forgot_password.html:75
-#: users/templates/users/new_password.html:80
-#: users/templates/users/register.html:121
+#: users/templates/users/forgot_password.html:79
+#: users/templates/users/new_password.html:84
+#: users/templates/users/register.html:125
 msgid "Back"
 msgstr "Voltar"
 
@@ -258,19 +258,22 @@ msgstr "Editar"
 msgid "No users found"
 msgstr "Nenhum usuário encontrado"
 
-#: users/templates/users/login.html:39
-msgid "Sign in with your account to continue"
-msgstr "Entre com a sua conta para continuar"
+#: users/templates/users/login.html:43
+#, fuzzy
+#| msgid "Sign in with your account to continue"
+msgid "Sign in with your account"
+msgstr "Entre com a sua conta"
 
-#: users/templates/users/login.html:63 users/templates/users/login.html:70
+#: users/templates/users/login.html:67 users/templates/users/login.html:74
 msgid "Log in"
 msgstr "Entrar"
 
-#: users/templates/users/login.html:66 users/views.py:373
+#: users/templates/users/login.html:70 users/views.py:373
 msgid "Sign Up"
 msgstr "Cadastrar"
 
-#: users/templates/users/login.html:79 users/templates/users/login.html:107
+#: users/templates/users/login.html:83 users/templates/users/login.html:111
+#: users/templates/users/login.html:143
 msgid "Forgot your password?"
 msgstr "Esqueceu sua senha?"
 
@@ -282,11 +285,11 @@ msgstr "Seleção de Imagem"
 msgid "Save Image"
 msgstr "Salvar Imagem"
 
-#: users/templates/users/new_password.html:39
+#: users/templates/users/new_password.html:43
 msgid "Set new password"
 msgstr "Digite a nova senha"
 
-#: users/templates/users/new_password.html:77
+#: users/templates/users/new_password.html:81
 msgid "Reset"
 msgstr "Restaurar"
 
@@ -306,11 +309,11 @@ msgstr "Professor em"
 msgid "Student in"
 msgstr "Estudante em"
 
-#: users/templates/users/register.html:40
+#: users/templates/users/register.html:44
 msgid "User Register"
 msgstr "Cadastro de Usuário"
 
-#: users/templates/users/register.html:118
+#: users/templates/users/register.html:122
 msgid "Register"
 msgstr "Cadastrar"
 

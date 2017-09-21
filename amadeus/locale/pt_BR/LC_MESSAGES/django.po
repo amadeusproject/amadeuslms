@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-13 23:39-0300\n"
+"POT-Creation-Date: 2017-09-20 21:31-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,91 +26,96 @@ msgstr "Português"
 msgid "English"
 msgstr "Inglês"
 
-#: amadeus/templates/base.html:112
+#: amadeus/templates/base.html:113
 msgid "Search for subjects and resources"
 msgstr "Buscar por assuntos ou recursos"
 
-#: amadeus/templates/base.html:124 amadeus/templates/base.html:127
+#: amadeus/templates/base.html:125 amadeus/templates/base.html:128
 msgid "Language Selector"
 msgstr "Seletor de Línguas"
 
-#: amadeus/templates/base.html:158
+#: amadeus/templates/base.html:159
 msgid "Profile"
 msgstr "Perfil"
 
-#: amadeus/templates/base.html:159
+#: amadeus/templates/base.html:160
 msgid "Edit Profile"
 msgstr "Editar Perfil"
 
-#: amadeus/templates/base.html:160
+#: amadeus/templates/base.html:161
 msgid "Change Password"
 msgstr "Alterar Senha"
 
-#: amadeus/templates/base.html:161
+#: amadeus/templates/base.html:162
 msgid "Delete Account"
 msgstr "Remover Conta"
 
-#: amadeus/templates/base.html:162
+#: amadeus/templates/base.html:163
 msgid "Logout"
 msgstr "Sair"
 
-#: amadeus/templates/base.html:167
+#: amadeus/templates/base.html:168
 msgid "settings"
 msgstr "configurações"
 
-#: amadeus/templates/base.html:170
+#: amadeus/templates/base.html:171
 msgid "Settings"
 msgstr "Configurações"
 
-#: amadeus/templates/base.html:173
+#: amadeus/templates/base.html:174
 msgid "Manage Users"
 msgstr "Gerenciar Usuários"
 
-#: amadeus/templates/base.html:174
+#: amadeus/templates/base.html:175
 msgid "Manage Categories"
 msgstr "Gerenciar Categorias"
 
-#: amadeus/templates/base.html:175
+#: amadeus/templates/base.html:176
 msgid "Manage News"
 msgstr "Gerenciar Notícias"
 
-#: amadeus/templates/base.html:182
+#: amadeus/templates/base.html:183
 msgid "System"
 msgstr "Sistema"
 
-#: amadeus/templates/base.html:189
+#: amadeus/templates/base.html:190
 msgid "Mail Sender"
 msgstr "Remetente de Email"
 
-#: amadeus/templates/base.html:190
+#: amadeus/templates/base.html:191
 msgid "Security"
 msgstr "Segurança"
 
-#: amadeus/templates/base.html:191
+#: amadeus/templates/base.html:192
 msgid "Theme"
 msgstr "Temas"
 
-#: amadeus/templates/base.html:192
+#: amadeus/templates/base.html:193
 msgid "Web Conference"
 msgstr "Web conferência"
 
-#: amadeus/templates/base.html:227 amadeus/templates/base.html:282
+#: amadeus/templates/base.html:228 amadeus/templates/base.html:284
+#: amadeus/templates/base.html:321
 msgid "Subjects"
 msgstr "Assuntos"
 
-#: amadeus/templates/base.html:232 amadeus/templates/base.html:287
+#: amadeus/templates/base.html:233 amadeus/templates/base.html:290
+#: amadeus/templates/base.html:326
 msgid "Mural"
 msgstr "Mural"
 
-#: amadeus/templates/base.html:238 amadeus/templates/base.html:293
+#: amadeus/templates/base.html:239 amadeus/templates/base.html:297
+#: amadeus/templates/base.html:332
 msgid "Messages"
 msgstr "Mensagens"
 
-#: amadeus/templates/base.html:244 amadeus/templates/base.html:299
+#: amadeus/templates/base.html:245 amadeus/templates/base.html:305
+#: amadeus/templates/base.html:338
 msgid "Pendencies"
 msgstr "Pendências"
 
-#: amadeus/templates/base.html:252 amadeus/templates/base.html:307
+#: amadeus/templates/base.html:253 amadeus/templates/base.html:314
+#: amadeus/templates/base.html:346
 msgid "Analytics"
 msgstr "Analytics"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-13 23:39-0300\n"
+"POT-Creation-Date: 2017-09-20 21:31-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: themes/forms.py:17 themes/forms.py:29 themes/forms.py:41
+#: themes/forms.py:17 themes/forms.py:29 themes/forms.py:41 themes/forms.py:53
 #: themes/templates/themes/basic_update.html:94
 msgid "The image is too large. It should have less than 2MB."
 msgstr "A imagem é muito grande. Ela deve ter menos de 2MB."
@@ -44,34 +44,38 @@ msgid "Large Logo"
 msgstr "Logo Grande"
 
 #: themes/models.py:18
+msgid "High Contrast Logo"
+msgstr "Logo de Alto Contraste"
+
+#: themes/models.py:19
 msgid "Footer Note"
 msgstr "Nota de Rodapé"
 
-#: themes/models.py:19
+#: themes/models.py:20
 msgid "Css Style"
 msgstr "Estilo CSS"
 
-#: themes/models.py:19
+#: themes/models.py:20
 msgid "Green"
 msgstr "Verde"
 
-#: themes/models.py:19
+#: themes/models.py:20
 msgid "Contrast"
-msgstr ""
+msgstr "Contraste"
 
-#: themes/models.py:19
+#: themes/models.py:20
 msgid "Red"
 msgstr "Vermelho"
 
-#: themes/models.py:19
+#: themes/models.py:20
 msgid "Black"
 msgstr "Preto"
 
-#: themes/models.py:22
+#: themes/models.py:23
 msgid "Theme"
 msgstr "Tema"
 
-#: themes/models.py:23 themes/views.py:23
+#: themes/models.py:24 themes/views.py:23
 msgid "Themes"
 msgstr "Temas"
 
