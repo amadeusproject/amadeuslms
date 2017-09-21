@@ -279,6 +279,11 @@
 	.slide_toggle{
 		visibility: hidden;
 	}
+	.carousel-caption{
+		position: static;
+		text-align: center;
+		font-size: 1em;
+	}
 }
 @media(max-width:610px){
 	.outside-title{
@@ -293,4 +298,9 @@
     p{
     	margin: 10px;
     }
+		.carousel-caption{
+			position: static;
+			text-align: center;
+			font-size: 1em;
+		}
 }
