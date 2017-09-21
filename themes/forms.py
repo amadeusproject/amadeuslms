@@ -43,14 +43,27 @@ class BasicElemetsForm(forms.ModelForm):
 					return ValueError
 
 		return image
+
+	def clean_high_contrast_logo(self):
+		image = self.cleaned_data.get('high_contrast_logo', False)
+
+		if image:
+			if hasattr(image, '_size'):
+				if image._size > self.MAX_UPLOAD_SIZE:
+					self._errors['high_contrast_logo'] = [_("The image is too large. It should have less than 2MB.")]
+
+					return ValueError
+
+		return image
 	
 	class Meta:
 		model = Themes
-		fields = ['title', 'favicon', 'small_logo', 'large_logo', 'footer_note']
+		fields = ['title', 'favicon', 'small_logo', 'large_logo', 'high_contrast_logo', 'footer_note']
 		widgets = {
 			'favicon': ResubmitFileWidget(attrs={'accept':'image/*'}),
 			'small_logo': ResubmitFileWidget(attrs={'accept':'image/*'}),
-			'larger_logo': ResubmitFileWidget(attrs={'accept':'image/*'}),
+			'large_logo': ResubmitFileWidget(attrs={'accept':'image/*'}),
+			'high_contrast_logo': ResubmitFileWidget(attrs={'accept':'image/*'}),
 		}
 
 class CSSStyleForm(forms.ModelForm):

@@ -9,6 +9,7 @@ function Init() {
 	var small = $("#id_small_logo"),
 		large = $("#id_large_logo"),
 		fav = $("#id_favicon"),
+		contrast = $("#id_high_contrast_logo"),
 		filedrag = $(".filedrag"),
 		common = $(".common-file-input");
 		
@@ -16,6 +17,7 @@ function Init() {
 	fav.on("change", FileSelectHandler);
 	small.on("change", FileSelectHandler);
 	large.on("change", FileSelectHandler);
+	contrast.on("change", FileSelectHandler);
 
 	// is XHR2 available?
 	var xhr = new XMLHttpRequest();
@@ -38,8 +40,6 @@ function FileSelectHandler(e) {
 	parent.removeClass('alert-file');
 
 	var alerts_open = $("#theme-form").find(".alert-file").length;
-
-	console.log(alerts_open);
 
 	if (alerts_open == 0) {
 		$(submit_btn).prop('disable', false);
