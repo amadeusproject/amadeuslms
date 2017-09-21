@@ -259,8 +259,6 @@ msgid "No users found"
 msgstr "Nenhum usuário encontrado"
 
 #: users/templates/users/login.html:43
-#, fuzzy
-#| msgid "Sign in with your account to continue"
 msgid "Sign in with your account"
 msgstr "Entre com a sua conta"
 
