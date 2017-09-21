@@ -15,6 +15,7 @@ class Themes(models.Model):
 	favicon = models.ImageField(verbose_name = _("Favicon"), blank = True, null = True, upload_to = 'themes/', validators = [validate_img_extension])
 	small_logo = models.ImageField(verbose_name = _("Small Logo"), blank = True, null = True, upload_to = 'themes/', validators = [validate_img_extension])
 	large_logo = models.ImageField(verbose_name = _("Large Logo"), blank = True, null = True, upload_to = 'themes/', validators = [validate_img_extension])
+	high_contrast_logo = models.ImageField(verbose_name = _("High Contrast Logo"), blank = True, null = True, upload_to = 'themes/', validators = [validate_img_extension])
 	footer_note = models.TextField(_("Footer Note"), blank = True)
 	css_style = models.CharField(_("Css Style"), max_length = 50, default = "green", choices = (("green", _('Green')),("contrast",_('Contrast')),("red", _('Red')), ("black", _('Black'))))
 
@@ -48,3 +49,11 @@ class Themes(models.Model):
 				return self.large_logo.url
 
 		return static('img/logo_grande_amadeus.png')
+
+	@property
+	def high_contrast_logo_url(self):
+		if self.high_contrast_logo and hasattr(self.high_contrast_logo, 'url'):
+			if path.exists(self.high_contrast_logo.path):
+				return self.high_contrast_logo.url
+
+		return static('img/alto_contraste_logo_amadeus.png')

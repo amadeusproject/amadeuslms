@@ -16,7 +16,11 @@
 {% block content %}
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <img src="{{ theme.large_logo_url }}" class="img-responsive center-block logo-login logo-register" alt="logo amadeus">
+			{% if contrast_cookie %}
+                <img src="{{ theme.high_contrast_logo_url }}" class="img-responsive center-block logo-login logo-register" alt="logo amadeus" />
+            {% else %}
+                <img src="{{ theme.large_logo_url }}" class="img-responsive center-block logo-login logo-register" alt="logo amadeus" />
+            {% endif %}
         </div>
 	</div>
 
