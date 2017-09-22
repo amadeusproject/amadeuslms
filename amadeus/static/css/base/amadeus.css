@@ -1131,6 +1131,11 @@ li.item .notify_badge {
 .carousel-control.left{
     background-image: none !important;
 }
+.carousel-caption{
+  position: static;
+  text-align: right;
+  font-size: 1em;
+}
 
 /* CHART APP */
 .pie-tooltip{
