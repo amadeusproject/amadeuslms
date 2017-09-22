@@ -304,3 +304,9 @@
 			font-size: 1em;
 		}
 }
+
+@media(min-width: 500px) {
+	.dropdown-menu{
+		margin-left: 100px;
+	}
+}
