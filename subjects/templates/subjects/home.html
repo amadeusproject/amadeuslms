@@ -24,10 +24,10 @@
 	<div id="myCarousel" class="carousel slide " data-ride="carousel">
   <!-- Indicators -->
   <ol class="carousel-indicators">
-		<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+		<li class="slide_toggle" data-target="#myCarousel" data-slide-to="0" class="active"></li>
 		{% for new in news %}
 				{% if forloop.counter != news.count %}
-				    <li data-target="#myCarousel" data-slide-to="{{forloop.counter}}"></li>
+				    <li class="slide_toggle" data-target="#myCarousel" data-slide-to="{{forloop.counter}}"></li>
 				{% endif %}
 		{% endfor %}
   </ol>
