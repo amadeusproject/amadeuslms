@@ -126,7 +126,6 @@
 		float: left;
 	}
 	#btn-search {
-		margin-top: -5px;
 		height: 30px;
 	}
 
@@ -217,7 +216,7 @@
 	}
 
 	#btn-search {
-	    margin-top: -10px;
+		margin-top: -10px;
 	    height: 50px;
 	}
 
@@ -284,6 +283,26 @@
 		text-align: center;
 		font-size: 1em;
 	}
+
+	.navbar-toggle{
+		float: left;
+		padding:10px;
+	}
+
+	.btn{
+		padding: 0px 10px;
+    	margin: 10px 1px;
+    	font-size: 1.5em;
+	}
+
+	.navbar .logo{
+		margin: auto;
+		text-align: center;
+		padding: 10px;
+		height: 50px;
+    	width: 50px;
+	}
+
 }
 @media(max-width:610px){
 	.outside-title{
