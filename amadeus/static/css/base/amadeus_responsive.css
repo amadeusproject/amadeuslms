@@ -289,13 +289,11 @@
 		padding:10px;
 	}
 
-	.btn{
-		padding: 0px 10px;
-    	margin: 10px 1px;
-	}
 
 	#btn-search {
 		font-size: 1.5em;
+		padding: 0px 10px;
+    	margin: 10px 1px;
 	}
 	.navbar .logo{
 		margin: auto;
