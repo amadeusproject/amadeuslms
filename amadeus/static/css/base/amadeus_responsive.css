@@ -292,9 +292,11 @@
 	.btn{
 		padding: 0px 10px;
     	margin: 10px 1px;
-    	font-size: 1.5em;
 	}
 
+	#btn-search {
+		font-size: 1.5em;
+	}
 	.navbar .logo{
 		margin: auto;
 		text-align: center;
