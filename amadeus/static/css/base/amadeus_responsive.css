@@ -305,6 +305,11 @@
     	width: 50px;
 	}
 
+	.navbar-collapse{
+		background: #EDEDEE;
+		color: #000000;
+	}
+
 }
 @media(max-width:610px){
 	.outside-title{
