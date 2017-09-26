@@ -122,7 +122,12 @@
 	}
 
 	.navbar-header{
-		width: 100% !important;
+		width: 100%;
+		position: fixed;
+	    top: 0px;
+	    z-index: 999;
+	    height: 50px;
+	    background: #009C8A;
 	}
 
 	.navbar .navbar-brand{
@@ -298,13 +303,11 @@
 		padding:10px;
 	}
 
-	.btn{
-		padding: 0px 10px;
-    	margin: 10px 1px;
-	}
 
 	#btn-search {
 		font-size: 1.5em;
+		padding: 0px 10px;
+    	margin: 10px 1px;
 	}
 	.navbar .logo{
 		margin: auto;

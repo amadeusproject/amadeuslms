@@ -248,45 +248,42 @@
 
             <div class="navbar-collapse collapse navbar-responsive-collapse">
 
-                <ul class="nav navbar-nav navbar-right notifications">
-                    <li>
+                <ul class="nav navbar-nav navbar-right notifications" style="margin-top: 50px;">
+                    <li style="width: auto; text-align: center;">
                         <img src="{{ user.image_url }}" style="width:50px;height:50px; margin:10px;"/>
                     </li>
-                    <li id="profile-menu" class="dropdown" data-toggle="tooltip" data-placement="bottom" title data-original-title="{{ user }}">
-                        <a href="" data-toggle="dropdown" class="dropdown-toggle profile" style="content:none;">
-                            <span class="visible-xs-inline">{{ user }}</span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
-                            <li><a href="{% url 'users:edit_profile' %}">{% trans 'Edit Profile' %}</a></li>
-                            <li><a href="{% url 'users:change_pass' %}">{% trans 'Change Password' %}</a></li>
-                            <li><a href="javascript:delete_subject.get('{% url 'users:remove_acc' %}','#remove_account','#remove_acc')">{% trans 'Delete Account' %}</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
+                    <li><a href="{% url 'users:edit_profile' %}">{% trans 'Edit Profile' %}</a></li>
+                    <li><a href="{% url 'users:change_pass' %}">{% trans 'Change Password' %}</a></li>
+                    <li><a href="javascript:delete_subject.get('{% url 'users:remove_acc' %}','#remove_account','#remove_acc')">{% trans 'Delete Account' %}</a></li>
 
                     {% if user.is_staff %}
                         <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
                         <li><a href="{% url 'categories:index' %}">{% trans 'Manage Categories' %}</a></li>
                         <li><a href="{% url 'news:manage_news' %}">{% trans 'Manage News' %}</a></li>
                                 
+                        <li><a href="{% url 'mailsender:update' %}">{% trans 'Mail Sender' %}</a></li>
+                        <li><a href="{% url 'security:update' %}">{% trans 'Security' %}</a></li>
                         <li><a href="{% url 'themes:manage' %}">{% trans 'Theme' %}</a></li>
+                        <li><a href="{% url 'webconferences:settings' %}">{% trans 'Web Conference' %}</a></li>
                     {% endif %}
                     <li><a href="{% url 'users:logout' %}">{% trans 'Logout' %}</a></li>
 
-                    <li style="width:40px;">
-                        <a href="{% url 'themes:contrast' %}" id="contrast_button">
+                    <li>
+                        <a href="{% url 'themes:contrast' %}" id="top_contrast_button" style="width:40px;">
                             <i style="font-size:15px;right: 150%;" class="glyphicon glyphicon-adjust"></i>
                         </a>
                     </li>
                     <li>
                         {% get_available_languages as LANGUAGES %}
                         {% get_language_info_list for LANGUAGES as languages %}
-                        {% for language in languages %}
-                            <li {% if language.code == LANGUAGE_CODE %}class="active"{% endif %}>
-                                <a class="language-item" value-lang="{{language.code}}">
-                                    <span>{{language.code}}</span>
-                                </a>
-                            </li>
+                        
+                            {% for language in languages %}
+                                <li {% if language.code == LANGUAGE_CODE %}class="active"{% endif %}>
+                                    <a class="language-item" value-lang="{{language.code}}">
+                                        <span>{{language.code}}</span>
+                                    </a>
+                                </li>
                         {% endfor %}
                     </li>
                     
@@ -308,6 +305,20 @@
 
 		    });
 		</script>
+
+        <script type="text/javascript">
+            $("#top_contrast_button" ).click(function() {
+              if (Cookies.get('contrast_check')) {
+                Cookies.remove('contrast_check')
+                //location.reload()
+              }
+              else {
+                Cookies.set('contrast_check','contrast')
+                //location.reload()
+              }
+
+            });
+        </script>
     {% endblock %}
 
     <div class="container-fluid">

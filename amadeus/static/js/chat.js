@@ -208,7 +208,12 @@ function setChatFormSubmit() {
     var frm = $('#chat-form'),
         error_msg = frm.data('error');
 
-    frm.submit(function () {
+    frm.submit(function (e) {
+        var btn = frm.parent().parent().find("button[form='chat-form']");
+
+        btn.prop('disable', true);
+        btn.prop('disabled', true);
+
         var formData = new FormData($(this)[0]),
             file = $("#id_image")[0].files[0],
             max_filesize = 5*1024*1024;
