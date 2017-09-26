@@ -119,7 +119,12 @@
 	}
 
 	.navbar-header{
-		width: 100% !important;
+		width: 100%;
+		position: fixed;
+	    top: 0px;
+	    z-index: 999;
+	    height: 50px;
+	    background: #009C8A;
 	}
 
 	.navbar .navbar-brand{
