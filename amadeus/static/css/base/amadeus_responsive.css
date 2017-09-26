@@ -83,6 +83,9 @@
 		margin: 10px;
 	}
 
+	.help-block span{
+    	position: relative !important;
+    }
 
 	/* End Bottom Menu */
 }
@@ -178,6 +181,9 @@
 		padding-left: 5px;
 		padding-right: 5px;
 	}
+	.help-block span{
+    	position: relative !important;
+    }
 }
 
 @media(min-width: 768px) {
@@ -247,6 +253,9 @@
   		font-size: 25px !important;
   		margin-top: 6px;
   	}
+  	.help-block span{
+    	position: relative !important;
+    }
 }
 
 @media(max-width: 680px) {
@@ -308,7 +317,14 @@
 	.navbar-collapse{
 		background: #EDEDEE;
 		color: #000000;
+		width: 40%!important;
+		position: absolute;
+		z-index: 5;
 	}
+
+	.help-block span{
+    	position: relative !important;
+    }
 
 }
 @media(max-width:610px){
@@ -324,11 +340,11 @@
     p{
     	margin: 10px;
     }
-		.carousel-caption{
-			position: static;
-			text-align: center;
-			font-size: 1em;
-		}
+	.carousel-caption{
+		position: static;
+		text-align: center;
+		font-size: 1em;
+	}
 }
 
 @media(min-width: 500px) {
