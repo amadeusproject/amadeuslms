@@ -83,6 +83,9 @@
 		margin: 10px;
 	}
 
+	.help-block span{
+    	position: relative !important;
+    }
 
 	/* End Bottom Menu */
 }
@@ -119,7 +122,12 @@
 	}
 
 	.navbar-header{
-		width: 100% !important;
+		width: 100%;
+		position: fixed;
+	    top: 0px;
+	    z-index: 999;
+	    height: 50px;
+	    background: #009C8A;
 	}
 
 	.navbar .navbar-brand{
@@ -178,6 +186,9 @@
 		padding-left: 5px;
 		padding-right: 5px;
 	}
+	.help-block span{
+    	position: relative !important;
+    }
 }
 
 @media(min-width: 768px) {
@@ -247,6 +258,9 @@
   		font-size: 25px !important;
   		margin-top: 6px;
   	}
+  	.help-block span{
+    	position: relative !important;
+    }
 }
 
 @media(max-width: 680px) {
@@ -289,12 +303,12 @@
 		padding:10px;
 	}
 
-	.btn{
+
+	#btn-search {
+		font-size: 1.5em;
 		padding: 0px 10px;
     	margin: 10px 1px;
-    	font-size: 1.5em;
 	}
-
 	.navbar .logo{
 		margin: auto;
 		text-align: center;
@@ -302,6 +316,18 @@
 		height: 50px;
     	width: 50px;
 	}
+
+	.navbar-collapse{
+		background: #EDEDEE;
+		color: #000000;
+		width: 100%!important;
+		position: absolute;
+		z-index: 5;
+	}
+
+	.help-block span{
+    	position: relative !important;
+    }
 
 }
 @media(max-width:610px){
@@ -317,11 +343,11 @@
     p{
     	margin: 10px;
     }
-		.carousel-caption{
-			position: static;
-			text-align: center;
-			font-size: 1em;
-		}
+	.carousel-caption{
+		position: static;
+		text-align: center;
+		font-size: 1em;
+	}
 }
 
 @media(min-width: 500px) {

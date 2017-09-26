@@ -305,6 +305,10 @@ fieldset[disabled][disabled] .input-group-btn .btn {
   background: #FFF333 !important;
   color: #000000 !important; }
 
+.navbar-header{
+  background: #FFF333 !important;
+  color: #000000 !important; }
+}
 .navbar-nav li.settings_menu_active {
   background: #FFF333; }
 
