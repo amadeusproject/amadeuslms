@@ -328,6 +328,9 @@
 	.help-block span{
     	position: relative !important;
     }
+		li[data-mural] {
+			font-size: 13px;
+		}
 
 }
 @media(max-width:610px){
