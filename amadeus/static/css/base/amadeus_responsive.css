@@ -320,7 +320,7 @@
 	.navbar-collapse{
 		background: #EDEDEE;
 		color: #000000;
-		width: 40%!important;
+		width: 100%!important;
 		position: absolute;
 		z-index: 5;
 	}
