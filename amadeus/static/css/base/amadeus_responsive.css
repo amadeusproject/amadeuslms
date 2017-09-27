@@ -195,6 +195,8 @@
     }
 
     .search-responsive-collapse{
+    	position: fixed;
+	    z-index: 999;
     	margin-top:50px; 
     	margin-bottom:0px;
     	background:#F5F5F5;
