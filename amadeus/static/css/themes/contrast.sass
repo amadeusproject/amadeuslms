@@ -177,8 +177,16 @@ select option:hover
 .form-group.is-focused .checkbox label:focus, 
 .form-group.is-focused .checkbox label:hover, 
 .form-group.is-focused label.checkbox-inline:focus, 
-.form-group.is-focused label.checkbox-inline:hover
+.form-group.is-focused label.checkbox-inline:hover,
+.form-group.is-focused .radio label:focus, 
+.form-group.is-focused .radio label:hover, 
+.form-group.is-focused label.radio-inline:focus, 
+.form-group.is-focused label.radio-inline:hover,
     color: $secondary-white
+
+.form-group.is-focused .radio label,
+.form-group.is-focused label.radio-inline
+    color: #BDBDBD
 
 .checkbox .checkbox-material .check, label.checkbox-inline .checkbox-material .check
     border: 2px solid $secondary-color
@@ -191,6 +199,13 @@ label.checkbox-inline input[type=checkbox]:checked+.checkbox-material .check
 .checkbox input[type=checkbox]:checked+.checkbox-material .check:before, 
 label.checkbox-inline input[type=checkbox]:checked+.checkbox-material .check:before
     color: $secondary-color
+
+.radio .circle, label.radio-inline .circle
+    border: 2px solid $secondary-white
+
+.radio .check:after, label.radio-inline .check:after,
+.radio .check, label.radio-inline .check, label.radio-inline input[type=radio] .check
+    background-color: $secondary-white
 
 .radio input[type=radio]:checked~.check, label.radio-inline input[type=radio]:checked~.check 
     background-color: $secondary-color
@@ -473,6 +488,7 @@ fieldset[disabled][disabled] .input-group-btn .btn
     background-color: $primary-disabled !important
     color: $secondary-disabled !important
 
+.panel-invisible .category-header > h4.panel-title span,
 .panel-invisible .category-course-link
     color: $secondary-disabled !important
 
