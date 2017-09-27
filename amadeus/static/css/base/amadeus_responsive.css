@@ -206,6 +206,10 @@
     	background:#F5F5F5;
     	margin-bottom: -1px;
     }
+
+    .input-group .input-group-btn{
+    	padding: 0px;
+    }
 }
 
 @media(min-width: 768px) {
