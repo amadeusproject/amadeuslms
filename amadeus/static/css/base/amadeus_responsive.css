@@ -323,6 +323,7 @@
 		width: 100%!important;
 		position: absolute;
 		z-index: 5;
+
 	}
 
 	.help-block span{
@@ -361,6 +362,6 @@
 
 @media(min-width: 500px) {
 	.dropdown-menu{
-		margin-left: 100px;
+		margin-left: 130px;
 	}
 }
