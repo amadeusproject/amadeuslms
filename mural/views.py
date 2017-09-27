@@ -29,7 +29,7 @@ from api.utils import sendMuralPushNotification
 
 from .models import Mural, GeneralPost, CategoryPost, SubjectPost, MuralVisualizations, MuralFavorites, Comment
 from .forms import GeneralPostForm, CategoryPostForm, SubjectPostForm, ResourcePostForm, CommentForm
-from .utils import getSpaceUsers
+from .utils import getSpaceUsers, getSubjectPosts
 
 from amadeus.permissions import has_subject_view_permissions, has_resource_permissions
 
@@ -593,16 +593,7 @@ def load_subject_posts(request, subject):
 	showing = request.GET.get('showing', '')
 	n_views = 0
 
-	if not favorites:
-		if mines:
-			posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space__id = subject, mural_ptr__user = user)
-		else:
-			posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space__id = subject)
-	else:
-		if mines:
-			posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space__id = subject, favorites_post__isnull = False, favorites_post__user = user, mural_ptr__user = user)
-		else:
-			posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space__id = subject, favorites_post__isnull = False, favorites_post__user = user)
+	posts = getSubjectPosts(subject, user, favorites, mines)
 
 	if showing: #Exclude ajax creation posts results
 		showing = showing.split(',')
@@ -937,16 +928,7 @@ class SubjectView(LoginRequiredMixin, LogMixin, generic.ListView):
 		slug = self.kwargs.get('slug')
 		subject = get_object_or_404(Subject, slug = slug)
 
-		if not favorites:
-			if mines:
-				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(mural_ptr__user = user, space = subject)
-			else:
-				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space = subject)
-		else:
-			if mines:
-				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(favorites_post__isnull = False, favorites_post__user = user, mural_ptr__user = user, space = subject)
-			else:
-				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(favorites_post__isnull = False, favorites_post__user = user, space = subject)
+		posts = getSubjectPosts(subject, user, favorites, mines)			
 
 		if showing: #Exclude ajax creation posts results
 			showing = showing.split(',')

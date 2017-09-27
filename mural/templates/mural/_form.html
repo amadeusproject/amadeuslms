@@ -7,19 +7,19 @@
 			<form id="post-form" method="post" action="{{ form_url }}" enctype="multipart/form-data">
 				{% csrf_token %}
 				<div class="row">
-					<div class="form-group{% if form.has_error %} has-error {% endif %} text-center col-md-6">
+					<div class="form-group{% if form.has_error %} has-error {% endif %} text-center col-md-6 col-xs-6 col-sm-6">
 					    <label for="{{ form.action.0.id_for_label }}" class="text-center post_action">
 				        	<span class="radio">
-					        	<i class="fa fa-commenting-o"></i>
+					        	<i class="fa fa-commenting-o post-icon"></i>
 					        	<br clear="all" />
 		    		    		{{ form.action.0 }}
 		    		    	</span>
 					    </label>
 					</div>
-					<div class="form-group{% if form.has_error %} has-error {% endif %} text-center col-md-6">
+					<div class="form-group{% if form.has_error %} has-error {% endif %} text-center col-md-6 col-xs-6 col-sm-6">
 					    <label for="{{ form.action.1.id_for_label }}" class="text-center post_action">
 				        	<span class="radio">
-					        	<i class="fa fa-comments-o"></i>
+					        	<i class="fa fa-comments-o post-icon"></i>
 					        	<br clear="all" />
 		    		    		{{ form.action.1 }}
 		    		    	</span>
@@ -81,7 +81,7 @@
 					<span id="helpBlock" class="help-block">{{ form.image.help_text }}</span>
 
 				</div>
-				
+
 				{% if form.image.errors %}
 					<div class="alert alert-danger alert-dismissible" role="alert">
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -175,7 +175,7 @@
 
 				$(".client-file-errors").show();
 				$(".size").show();
-			} 
+			}
 
 			if (!f.type.match(/^image\//)) {
 				$("#button").prop('disable', true);

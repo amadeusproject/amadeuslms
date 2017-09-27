@@ -328,6 +328,12 @@
 	.help-block span{
     	position: relative !important;
     }
+		li[data-mural] {
+			font-size: 13px;
+		}
+	.post-icon {
+		font-size: 32px !important;
+	}
 
 }
 @media(max-width:610px){
@@ -347,6 +353,9 @@
 		position: static;
 		text-align: center;
 		font-size: 1em;
+	}
+	.post-icon {
+		font-size: 32px !important;
 	}
 }
 
