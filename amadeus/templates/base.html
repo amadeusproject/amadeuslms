@@ -222,22 +222,22 @@
                     </a>
                 </div>
                 <div class="col-sm-4 col-xs-4">
-                    <button type="submit" class="btn btn-primary navbar-toggle pull-right" id="btn-search" data-toggle="collapse" data-target=".search-responsive-collapse">
+                    <button class="btn btn-primary navbar-toggle pull-right" id="btn-search" data-toggle="collapse" data-target=".search-responsive-collapse">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
 
-            <div class="search-responsive-collapse collapse navbar" style="margin-top:60px;">
-                <div class="col-md-7 col-md-offset-1 col-sm-6 col-sm-offset-1 col-lg-7 col-lg-offset-1 text-center">
-                    <form id="SearchForm" action="{% url 'subjects:search' %}" method="get" accept-charset="utf-8" class="navbar-form">
+            <div class="search-responsive-collapse collapse">
+                <div class="col-sm-12 col-xs-12 search text-center">
+                    <form id="SearchForm" action="{% url 'subjects:search' %}" method="get" accept-charset="utf-8">
                         <div class="input-group">
                             <div class="form-group is-empty" >
                                 <input type="text" class="form-control top-search" placeholder="{% trans 'Search for subjects and resources' %}" name="search">
                             </div>
                             <span class="input-group-btn input-group-sm">
                                 <button type="submit" class="btn btn-primary" id="btn-search">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                    <i class="fa fa-search" aria-hidden="true" style="font-size:20px; color: #009C8A;"></i>
                                 </button>
                             </span>
                         </div>

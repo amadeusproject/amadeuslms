@@ -193,6 +193,17 @@
 	.help-block span{
     	position: relative !important;
     }
+
+    .search-responsive-collapse{
+    	margin-top:50px; 
+    	margin-bottom:0px;
+    	background:#F5F5F5;
+    }
+
+    .search{
+    	background:#F5F5F5;
+    	margin-bottom: -1px;
+    }
 }
 
 @media(min-width: 768px) {
