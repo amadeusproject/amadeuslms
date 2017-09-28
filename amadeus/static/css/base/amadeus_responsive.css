@@ -127,7 +127,6 @@
 	    top: 0px;
 	    z-index: 999;
 	    height: 50px;
-	    background: #009C8A;
 	}
 
 	.navbar .navbar-brand{
@@ -164,6 +163,10 @@
 		margin-top: 8px;
 	}
 
+	.card{
+		box-shadow: 0 3px 3px 0 rgba(0,0,0,.2), 0 3px 3px 0 rgba(0,0,0,.19);
+	}
+
 	.users-cloud  .small a {
 
         display:none;
@@ -188,6 +191,23 @@
 	}
 	.help-block span{
     	position: relative !important;
+    }
+
+    .search-responsive-collapse{
+    	position: fixed;
+	    z-index: 999;
+    	margin-top:50px; 
+    	margin-bottom:0px;
+    	background:#F5F5F5;
+    }
+
+    .search{
+    	background:#F5F5F5;
+    	margin-bottom: -1px;
+    }
+
+    .input-group .input-group-btn{
+    	padding: 0px;
     }
 }
 
@@ -323,6 +343,7 @@
 		width: 100%!important;
 		position: absolute;
 		z-index: 5;
+
 	}
 
 	.help-block span{
@@ -361,6 +382,6 @@
 
 @media(min-width: 500px) {
 	.dropdown-menu{
-		margin-left: 100px;
+		margin-left: 130px;
 	}
 }

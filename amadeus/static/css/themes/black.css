@@ -186,6 +186,9 @@ body .container-fluid .well-inverse {
 .top-search {
   color: #F5F5F5; }
 
+.navbar-header {
+  background-color: #212121; }
+
 .navbar-brand:hover {
   background: #424242 !important; }
 

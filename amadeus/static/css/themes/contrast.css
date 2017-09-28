@@ -306,6 +306,9 @@ fieldset[disabled][disabled] .input-group-btn .btn {
 .top-search {
   color: #F5F5F5; }
 
+.navbar-header {
+  background-color: #000000; }
+
 .navbar-brand {
   color: #FFFFFF !important; }
 

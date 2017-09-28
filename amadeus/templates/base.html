@@ -222,22 +222,22 @@
                     </a>
                 </div>
                 <div class="col-sm-4 col-xs-4">
-                    <button type="submit" class="btn btn-primary navbar-toggle pull-right" id="btn-search" data-toggle="collapse" data-target=".search-responsive-collapse">
+                    <button class="btn btn-primary navbar-toggle pull-right" id="btn-search" data-toggle="collapse" data-target=".search-responsive-collapse">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
 
-            <div class="search-responsive-collapse collapse navbar">
-                <div class="col-md-7 col-md-offset-1 col-sm-6 col-sm-offset-1 col-lg-7 col-lg-offset-1 text-center">
-                    <form id="SearchForm" action="{% url 'subjects:search' %}" method="get" accept-charset="utf-8" class="navbar-form">
+            <div class="search-responsive-collapse collapse">
+                <div class="col-sm-12 col-xs-12 search text-center">
+                    <form id="SearchForm" action="{% url 'subjects:search' %}" method="get" accept-charset="utf-8">
                         <div class="input-group">
                             <div class="form-group is-empty" >
-                                <input type="text" class="form-control top-search" placeholder="{% trans 'Search for subjects and resources' %}" name="search">
+                                <input type="text" class="form-control top-search" placeholder="{% trans 'Search for subjects and resources' %}" name="search" style="color:#009C8A;">
                             </div>
                             <span class="input-group-btn input-group-sm">
                                 <button type="submit" class="btn btn-primary" id="btn-search">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                    <i class="fa fa-search" aria-hidden="true" style="font-size:20px; color: #009C8A;"></i>
                                 </button>
                             </span>
                         </div>
@@ -256,35 +256,44 @@
                     <li><a href="{% url 'users:edit_profile' %}">{% trans 'Edit Profile' %}</a></li>
                     <li><a href="{% url 'users:change_pass' %}">{% trans 'Change Password' %}</a></li>
                     <li><a href="javascript:delete_subject.get('{% url 'users:remove_acc' %}','#remove_account','#remove_acc')">{% trans 'Delete Account' %}</a></li>
-
-                    {% if user.is_staff %}
-                        <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
-                        <li><a href="{% url 'categories:index' %}">{% trans 'Manage Categories' %}</a></li>
-                        <li><a href="{% url 'news:manage_news' %}">{% trans 'Manage News' %}</a></li>
-                                
-                        <li><a href="{% url 'mailsender:update' %}">{% trans 'Mail Sender' %}</a></li>
-                        <li><a href="{% url 'security:update' %}">{% trans 'Security' %}</a></li>
-                        <li><a href="{% url 'themes:manage' %}">{% trans 'Theme' %}</a></li>
-                        <li><a href="{% url 'webconferences:settings' %}">{% trans 'Web Conference' %}</a></li>
-                    {% endif %}
                     <li><a href="{% url 'users:logout' %}">{% trans 'Logout' %}</a></li>
 
-                    <li>
-                        <a href="{% url 'themes:contrast' %}" id="top_contrast_button" style="width:40px;">
-                            <i style="font-size:15px;right: 150%;" class="glyphicon glyphicon-adjust"></i>
+                    {% if user.is_staff %}
+                        <li id="staff-menu" class="dropdown {{ settings_menu_active }}" title data-original-title="{% trans 'settings' %}">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                {% trans 'Settings' %}
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
+                                <li><a href="{% url 'categories:index' %}">{% trans 'Manage Categories' %}</a></li>
+                                <li><a href="{% url 'news:manage_news' %}">{% trans 'Manage News' %}</a></li>
+                                <li><a href="{% url 'mailsender:update' %}">{% trans 'Mail Sender' %}</a></li>
+                                <li><a href="{% url 'security:update' %}">{% trans 'Security' %}</a></li>
+                                <li><a href="{% url 'themes:manage' %}">{% trans 'Theme' %}</a></li>
+                                <li><a href="{% url 'webconferences:settings' %}">{% trans 'Web Conference' %}</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+
+                    <li class="dropdown language-selector-on-header" title data-original-title="{% trans 'Language Selector' %}" style="width:auto; text-align:center;">
+                        <a href="{% url 'themes:contrast' %}" id="top_contrast_button" style="width:40px; display:inline-block">
+                            <i style="font-size:15px;" class="glyphicon glyphicon-adjust"></i>
                         </a>
-                    </li>
-                    <li>
-                        {% get_available_languages as LANGUAGES %}
-                        {% get_language_info_list for LANGUAGES as languages %}
-                        
+
+                        <a href="#" class="dropdown no-title" data-toggle="dropdown" data-close-others="true" style="display:inline-block; margin-left:10px;">
+                            [{{LANGUAGE_CODE}}]
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
                             {% for language in languages %}
                                 <li {% if language.code == LANGUAGE_CODE %}class="active"{% endif %}>
                                     <a class="language-item" value-lang="{{language.code}}">
                                         <span>{{language.code}}</span>
                                     </a>
                                 </li>
-                        {% endfor %}
+                            {% endfor %}
+                        </ul>
                     </li>
                     
                 </ul>
