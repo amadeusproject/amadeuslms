@@ -196,7 +196,7 @@
     .search-responsive-collapse{
     	position: fixed;
 	    z-index: 999;
-    	margin-top:50px; 
+    	margin-top:50px;
     	margin-bottom:0px;
     	background:#F5F5F5;
     }
@@ -314,8 +314,9 @@
 	}
 	.carousel-caption{
 		position: static;
-		text-align: center;
+		text-align: right;
 		font-size: 1em;
+		background-color: #F5F5F5;
 	}
 
 	.navbar-toggle{
