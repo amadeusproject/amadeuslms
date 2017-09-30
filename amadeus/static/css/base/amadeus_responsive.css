@@ -209,6 +209,11 @@
     .input-group .input-group-btn{
     	padding: 0px;
     }
+
+    .talks-group {
+    	margin-left: 0px;
+    	margin-right: 0px;
+    }
 }
 
 @media(min-width: 768px) {

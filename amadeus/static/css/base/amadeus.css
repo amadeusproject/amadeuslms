@@ -1302,7 +1302,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 .participant {
     margin-bottom: 10px;
     padding-right: 10px;
-    height: 70px;
+    min-height: 70px;
 }
 
 .participant .user-img {
