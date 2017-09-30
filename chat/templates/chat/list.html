@@ -41,7 +41,7 @@
             		<div class="panel category-panel-content panel-body">
                         <h2 class="my-subjects-title"><b>{% trans 'Conversations' %}</b></h2>
 
-                        <div class="talks-group">
+                        <div class="talks-group row">
                             {% for chat in conversations %}
                                 {% include 'chat/_view.html' with space="0" space_type='general' %}
                             {% endfor %}

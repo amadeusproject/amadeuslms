@@ -209,6 +209,27 @@
     .input-group .input-group-btn{
     	padding: 0px;
     }
+
+    .talks-group, .participants-group {
+    	margin-left: 0px;
+    	margin-right: 0px;
+    }
+
+    #chat-modal-info .modal-dialog {
+    	margin: 0;
+    }
+
+    #chat-modal-info[style] {
+	    padding-left: 0px !important;
+	}
+
+	.talk-filter .checkbox {
+		display: inline;
+	}
+
+	.talk-filter label {
+		font-size: 13.2px;
+	}
 }
 
 @media(min-width: 768px) {
