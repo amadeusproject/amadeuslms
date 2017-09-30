@@ -210,7 +210,7 @@
     	padding: 0px;
     }
 
-    .talks-group {
+    .talks-group, .participants-group {
     	margin-left: 0px;
     	margin-right: 0px;
     }

@@ -43,7 +43,7 @@
             		<div class="panel category-panel-content panel-body">
                         <h2 class="my-subjects-title"><b>{% trans 'Participants' %}</b></h2>
 
-                        <div class="participants-group">
+                        <div class="participants-group row">
                             {% for participant in participants %}
                                 {% include 'chat/_view_participant.html' with space="0" space_type='general' %}
                             {% endfor %}
