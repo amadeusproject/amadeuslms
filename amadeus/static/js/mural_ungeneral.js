@@ -186,6 +186,17 @@ $('.mural-ungeneral').on('shown.bs.collapse', function(e) {
 			return false;
 		});
 
+		var favorite = filters.find("input[name='favorite']"),
+	        mine = filters.find("input[name='mine']");
+
+	    favorite.on('change', function () {
+	        filters.submit();
+	    });
+
+	    mine.on('change', function () {
+	        filters.submit();
+	    });
+
 		clear_filters.click(function () {
 	        var frm = $(this).parent();
 
