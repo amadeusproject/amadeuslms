@@ -81,13 +81,13 @@
             {% if show_buttons %}
 
                 {% if has_subject_view_permissions %}
-                  <div style="text-align:center">
-                    <a href="{% url 'subjects:view' subject.slug %}" class="btn btn-success btn-raised"> {% trans "Access Subject" %}</a>
-                  </div>
+                    <div class="subject_access_btn">
+                        <a href="{% url 'subjects:view' subject.slug %}" class="btn btn-success btn-raised"> {% trans "Access Subject" %}</a>
+                    </div>
                 {% elif subject.subscribe_end|aftertoday %}
-                <div style="text-align:center">
-                    <a href="javascript:subscribe_subject.get('{% url 'subjects:subscribe' subject.slug %}?view=index','#subject-subscribe','#modal_subject')" class="subscribe-subject btn btn-primary btn-raised"> {% trans "Subscribe to Subject" %}</a>
-                </div>
+                    <div class="subject_access_btn">
+                        <a href="javascript:subscribe_subject.get('{% url 'subjects:subscribe' subject.slug %}?view=index','#subject-subscribe','#modal_subject')" class="subscribe-subject btn btn-primary btn-raised"> {% trans "Subscribe to Subject" %}</a>
+                    </div>
                 {% else %}
                     <a  class="no-subscribe-btn btn btn-danger" disabled="disabled"> {% trans "This subject doesn't allow new subscriptions" %}</a>
 

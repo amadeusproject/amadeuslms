@@ -22,7 +22,7 @@ $(function () {
 
         $(this).animate({scrollTop: height}, 0);
     });
-
+    
     postHeightLimits();
     setUserDataPopover();
 

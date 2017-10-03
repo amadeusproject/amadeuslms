@@ -230,6 +230,20 @@
 	.talk-filter label {
 		font-size: 13.2px;
 	}
+
+	.category-course-link {
+	    font-size: 12px;
+	    font-family: Roboto;
+	    font-weight: normal;
+	}
+
+	.subject_access_btn {
+		text-align: center;
+	}
+
+	.participant .user-img img {
+		height: auto;
+	}
 }
 
 @media(min-width: 768px) {
@@ -378,6 +392,11 @@
 		font-size: 32px !important;
 	}
 
+	li.item .notify_badge {
+	    top: 0px;
+	    right: 30px;
+	}
+
 }
 @media(max-width:610px){
 	.outside-title{
@@ -394,8 +413,9 @@
     }
 	.carousel-caption{
 		position: static;
-		text-align: center;
+		text-align: right;
 		font-size: 1em;
+		padding: 0 10px;
 	}
 	.post-icon {
 		font-size: 32px !important;

@@ -469,18 +469,16 @@ function setFiltersSubmitAndPagination() {
         });
     });
 
-    if (isMobile) {
-        var favorite = filters.find("input[name='favorite']"),
-            mine = filters.find("input[name='mine']");
+    var favorite = filters.find("input[name='favorite']"),
+        mine = filters.find("input[name='mine']");
 
-        favorite.on('change', function () {
-            filters.submit();
-        });
+    favorite.on('change', function () {
+        filters.submit();
+    });
 
-        mine.on('change', function () {
-            filters.submit();
-        });
-    }
+    mine.on('change', function () {
+        filters.submit();
+    });
 }
 
 function getParticipants(btn) {

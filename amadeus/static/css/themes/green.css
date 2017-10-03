@@ -84,6 +84,9 @@ body .container-fluid .well-inverse {
 .login_subcommands a, .login_subcommands a:hover {
   color: #43a251; }
 
+.carousel-caption {
+  background: #F5F5F5; }
+
 /* === Modal === */
 .modal-header {
   border-bottom: 1px solid #E6E7E8 !important; }

@@ -49,6 +49,26 @@ var loadPosts = function() {
 $(function () {
     $(window).bind('scroll', loadOnScroll);
 
+    $("input[name='favorite']").on('change', function () {
+        var checked = $(this).is(':checked');
+
+        $("input[name='favorite']").each(function () {
+            $(this).prop('checked', checked);
+        });
+
+        $("#post-filters").submit();
+    });
+
+    $("input[name='mine']").on('change', function () {
+        var checked = $(this).is(':checked');
+
+        $("input[name='mine']").each(function () {
+            $(this).prop('checked', checked);
+        });
+
+        $("#post-filters").submit();
+    });
+
     $(".clear_filter").click(function () {
         var frm = $(this).parent();
 

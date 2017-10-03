@@ -85,8 +85,6 @@
                                                         <input name="mine" type="checkbox"> {% trans 'Only my posts' %}
                                                     </label>
                                                 </div>
-                                                <button type="submit" class="btn btn-success btn-raised">{% trans 'Filter' %}</button>
-                                                <button type="button" class="btn btn-default btn-raised clear_filter">{% trans 'Clean Filters' %}</button>
                                             </form>
                                         </div>
                                     </div>
@@ -136,8 +134,6 @@
                                                     <input name="mine" type="checkbox"> {% trans 'Only my posts' %}
                                                 </label>
                                             </div>
-                                            <button type="submit" class="btn btn-success btn-raised btn-block">{% trans 'Filter' %}</button>
-                                            <button type="button" class="clear_filter btn btn-default btn-raised btn-block">{% trans 'Clean Filters' %}</button>
                                         </form>
                                     </div>
                                 </div>
@@ -163,4 +159,10 @@
     <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/mural.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/mural_ungeneral.js' %}"></script>
+{% endblock %}
+
+{% block addtional_scripts %}
+    <script type="text/javascript">
+        sessionSecurity.confirmFormDiscard = undefined;
+    </script>
 {% endblock %}
