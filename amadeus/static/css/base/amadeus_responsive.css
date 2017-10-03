@@ -240,6 +240,10 @@
 	.subject_access_btn {
 		text-align: center;
 	}
+
+	.participant .user-img img {
+		height: auto;
+	}
 }
 
 @media(min-width: 768px) {
