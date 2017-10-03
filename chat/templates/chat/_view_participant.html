@@ -10,7 +10,7 @@
         <h4><a class="user_{{ participant.id }}_status status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
     </div>
     <div class="col-md-6 col-sm-6 col-xs-12 buttons pull-right text-center">
-        <a href="#" onclick="getModalInfo($(this), '{{ space }}', '{{ space_type }}'); return false;" data-url='{% url "chat:profile" participant.email %}' class="btn btn-raised btn-default">{% trans 'See Profile' %}</a>
+        <a href="#" onclick="getProfile($(this), '{{ space }}', '{{ space_type }}'); return false;" data-url='{% url "chat:profile" participant.email %}' class="btn btn-raised btn-default">{% trans 'See Profile' %}</a>
         <a href="#" onclick="getModalInfo($(this), '{{ space }}', '{{ space_type }}'); return false;" data-url='{% url "chat:talk" participant.email %}' class="btn btn-raised btn-success">{% trans 'Send Message' %}</a>
     </div>
 </div>
