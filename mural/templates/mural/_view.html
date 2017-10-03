@@ -67,7 +67,9 @@
 			</p>
 
 			{% autoescape off %}
-				{{ post.post }}
+				<div style="overflow: hidden; word-wrap:break-word;">
+					{{ post.post }}
+				</div>
 			{% endautoescape %}
 
 			{% if post.image %}
