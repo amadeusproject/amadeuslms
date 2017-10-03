@@ -639,6 +639,10 @@ a.add-row {
 .chat-panel .chat-collapse {
   background: #EEE; }
 
+.fa-search-custom{
+  color: #D32F2F;
+}
+
 /* === End Chat === */
 @media(max-width: 768px) {
   .navbar .navbar-nav .dropdown .dropdown-menu li > a {
