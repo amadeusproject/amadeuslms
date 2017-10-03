@@ -236,6 +236,10 @@
 	    font-family: Roboto;
 	    font-weight: normal;
 	}
+
+	.subject_access_btn {
+		text-align: center;
+	}
 }
 
 @media(min-width: 768px) {
