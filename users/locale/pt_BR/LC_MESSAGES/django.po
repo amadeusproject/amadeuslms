@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-20 21:31-0300\n"
+"POT-Creation-Date: 2017-10-02 21:43-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -175,15 +175,15 @@ msgstr "Sim"
 msgid "Is not an admin"
 msgstr "Não é administrador"
 
-#: users/templates/users/_form.html:18 users/templates/users/register.html:60
+#: users/templates/users/_form.html:18 users/templates/users/register.html:68
 msgid "Choose your photo..."
 msgstr "Escolha sua foto..."
 
-#: users/templates/users/_form.html:32 users/templates/users/register.html:74
+#: users/templates/users/_form.html:32 users/templates/users/register.html:80
 msgid "Click or drop the file here"
 msgstr ""
 
-#: users/templates/users/_form.html:34 users/templates/users/register.html:76
+#: users/templates/users/_form.html:34 users/templates/users/register.html:81
 msgid "The photo could not exceed 2MB."
 msgstr "A imagem não pode exceder o tamanho de 2MB."
 
@@ -233,7 +233,7 @@ msgstr "Recuperar"
 
 #: users/templates/users/forgot_password.html:79
 #: users/templates/users/new_password.html:84
-#: users/templates/users/register.html:125
+#: users/templates/users/register.html:126
 msgid "Back"
 msgstr "Voltar"
 
@@ -311,7 +311,7 @@ msgstr "Estudante em"
 msgid "User Register"
 msgstr "Cadastro de Usuário"
 
-#: users/templates/users/register.html:122
+#: users/templates/users/register.html:123
 msgid "Register"
 msgstr "Cadastrar"
 

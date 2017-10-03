@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-20 21:31-0300\n"
+"POT-Creation-Date: 2017-10-02 21:43-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -210,7 +210,7 @@ msgstr "Remover"
 msgid "Talk with "
 msgstr "Conversa com "
 
-#: chat/templates/chat/talk.html:23 chat/templates/chat/talk.html:36
+#: chat/templates/chat/talk.html:23
 msgid "Filter"
 msgstr "Filtrar"
 
@@ -219,22 +219,18 @@ msgid "Favorite messages"
 msgstr "Mensagens Favoritas"
 
 #: chat/templates/chat/talk.html:33
-msgid "Only my messages"
-msgstr "Apenas minhas mensagens"
+msgid "My messages"
+msgstr "Minhas Mensagens"
 
-#: chat/templates/chat/talk.html:37
-msgid "Clean Filters"
-msgstr "Limpar Filtros"
-
-#: chat/templates/chat/talk.html:44
+#: chat/templates/chat/talk.html:42
 msgid "See old messages"
 msgstr "Ver mensagens antigas"
 
-#: chat/templates/chat/talk.html:53
+#: chat/templates/chat/talk.html:51
 msgid "You have new messages..."
 msgstr "Você possui novas mensagens..."
 
-#: chat/templates/chat/talk.html:73
+#: chat/templates/chat/talk.html:71
 msgid "Type a new message to "
 msgstr "Digite uma nova mensagem para "
 
@@ -280,3 +276,9 @@ msgstr "[Foto]"
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
+
+#~ msgid "Only my messages"
+#~ msgstr "Apenas minhas mensagens"
+
+#~ msgid "Clean Filters"
+#~ msgstr "Limpar Filtros"
