@@ -84,6 +84,9 @@ body .container-fluid .well-inverse {
 .login_subcommands a, .login_subcommands a:hover {
   color: #D32F2F; }
 
+.carousel-caption {
+  background: #F5F5F5; }
+
 /* === Forms === */
 .form-group.is-focused label,
 .form-group.is-focused label.control-label {
