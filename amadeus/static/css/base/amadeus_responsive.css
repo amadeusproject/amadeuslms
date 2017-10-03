@@ -405,8 +405,9 @@
     }
 	.carousel-caption{
 		position: static;
-		text-align: center;
+		text-align: right;
 		font-size: 1em;
+		padding: 0 10px;
 	}
 	.post-icon {
 		font-size: 32px !important;
