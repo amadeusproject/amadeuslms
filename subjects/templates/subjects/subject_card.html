@@ -82,7 +82,7 @@
             {% if show_buttons %}
 
                 {% if has_subject_view_permissions %}
-                    <div class="subject_access_btn">
+                    <div class="col-sm-12 col-xs-12 subject_access_btn" style="text-align:center">
                         <a href="{% url 'subjects:view' subject.slug %}" class="btn btn-success btn-raised"> {% trans "Access Subject" %}</a>
                     </div>
                 {% elif subject.subscribe_end|aftertoday %}
