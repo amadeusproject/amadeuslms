@@ -206,15 +206,66 @@
             </div>
         </div>
 		
-
+        <!-- Mobile Menu -->
         <div class="navbar navbar-default hidden-lg hidden-md">
             <div class="navbar-header">
                 <div class="col-sm-4 col-xs-4">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                    <input id="mobile_menu_btn" type="checkbox" />
+                    <label for="mobile_menu_btn" class="navbar-toggle navbar-menu-btn">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
-                    </button>
+                    </label>
+
+                    <div class="mobile_menu_navbar navbar-collapse navbar-responsive-collapse">
+                        <ul class="nav navbar-nav navbar-right notifications" style="margin-top: 50px;">
+                            <li style="width: auto; text-align: center;">
+                                <img src="{{ user.image_url }}" class="mobile_menu_img" style="margin:10px;"/>
+                            </li>
+                            <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
+                            <li><a href="{% url 'users:edit_profile' %}">{% trans 'Edit Profile' %}</a></li>
+                            <li><a href="{% url 'users:change_pass' %}">{% trans 'Change Password' %}</a></li>
+                            <li><a href="javascript:delete_subject.get('{% url 'users:remove_acc' %}','#remove_account','#remove_acc')">{% trans 'Delete Account' %}</a></li>
+                            <li><a href="{% url 'users:logout' %}">{% trans 'Logout' %}</a></li>
+
+                            {% if user.is_staff %}
+                                <li id="staff-menu" class="dropdown {{ settings_menu_active }}" title data-original-title="{% trans 'settings' %}">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        {% trans 'Settings' %}
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
+                                        <li><a href="{% url 'categories:index' %}">{% trans 'Manage Categories' %}</a></li>
+                                        <li><a href="{% url 'news:manage_news' %}">{% trans 'Manage News' %}</a></li>
+                                        <li><a href="{% url 'mailsender:update' %}">{% trans 'Mail Sender' %}</a></li>
+                                        <li><a href="{% url 'security:update' %}">{% trans 'Security' %}</a></li>
+                                        <li><a href="{% url 'themes:manage' %}">{% trans 'Theme' %}</a></li>
+                                        <li><a href="{% url 'webconferences:settings' %}">{% trans 'Web Conference' %}</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                        </ul>
+                        <div class="dropup language-selector-on-header" title data-original-title="{% trans 'Language Selector' %}">
+                            <a href="{% url 'themes:contrast' %}" id="top_contrast_button" style="width:40px; display:inline-block">
+                                <i style="font-size:15px;" class="glyphicon glyphicon-adjust"></i>
+                            </a>
+
+                            <a href="#" class="dropdown-toggle no-title" data-toggle="dropdown" aria-haspopup="true" data-close-others="true" style="display:inline-block; margin-left:10px;">
+                                [{{LANGUAGE_CODE}}]
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% get_available_languages as LANGUAGES %}
+                                {% get_language_info_list for LANGUAGES as languages %}
+                                {% for language in languages %}
+                                    <li {% if language.code == LANGUAGE_CODE %}class="active"{% endif %}>
+                                        <a class="language-item" value-lang="{{language.code}}">
+                                            <span>{{language.code}}</span>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-sm-4 col-xs-4">
                     <a class="" href="{% url 'subjects:home' %}">
@@ -245,59 +296,7 @@
                 </div>
             </div>
 
-
-            <div class="navbar-collapse collapse navbar-responsive-collapse">
-
-                <ul class="nav navbar-nav navbar-right notifications" style="margin-top: 50px;">
-                    <li style="width: auto; text-align: center;">
-                        <img src="{{ user.image_url }}" style="width:50px;height:50px; margin:10px;"/>
-                    </li>
-                    <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
-                    <li><a href="{% url 'users:edit_profile' %}">{% trans 'Edit Profile' %}</a></li>
-                    <li><a href="{% url 'users:change_pass' %}">{% trans 'Change Password' %}</a></li>
-                    <li><a href="javascript:delete_subject.get('{% url 'users:remove_acc' %}','#remove_account','#remove_acc')">{% trans 'Delete Account' %}</a></li>
-                    <li><a href="{% url 'users:logout' %}">{% trans 'Logout' %}</a></li>
-
-                    {% if user.is_staff %}
-                        <li id="staff-menu" class="dropdown {{ settings_menu_active }}" title data-original-title="{% trans 'settings' %}">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                {% trans 'Settings' %}
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
-                                <li><a href="{% url 'categories:index' %}">{% trans 'Manage Categories' %}</a></li>
-                                <li><a href="{% url 'news:manage_news' %}">{% trans 'Manage News' %}</a></li>
-                                <li><a href="{% url 'mailsender:update' %}">{% trans 'Mail Sender' %}</a></li>
-                                <li><a href="{% url 'security:update' %}">{% trans 'Security' %}</a></li>
-                                <li><a href="{% url 'themes:manage' %}">{% trans 'Theme' %}</a></li>
-                                <li><a href="{% url 'webconferences:settings' %}">{% trans 'Web Conference' %}</a></li>
-                            </ul>
-                        </li>
-                    {% endif %}
-
-                    <li class="dropdown language-selector-on-header" title data-original-title="{% trans 'Language Selector' %}" style="width:auto; text-align:center;">
-                        <a href="{% url 'themes:contrast' %}" id="top_contrast_button" style="width:40px; display:inline-block">
-                            <i style="font-size:15px;" class="glyphicon glyphicon-adjust"></i>
-                        </a>
-
-                        <a href="#" class="dropdown no-title" data-toggle="dropdown" data-close-others="true" style="display:inline-block; margin-left:10px;">
-                            [{{LANGUAGE_CODE}}]
-                        </a>
-                        <ul class="dropdown-menu">
-                            {% get_available_languages as LANGUAGES %}
-                            {% get_language_info_list for LANGUAGES as languages %}
-                            {% for language in languages %}
-                                <li {% if language.code == LANGUAGE_CODE %}class="active"{% endif %}>
-                                    <a class="language-item" value-lang="{{language.code}}">
-                                        <span>{{language.code}}</span>
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    
-                </ul>
-            </div>
+            
         </div>
 
 
