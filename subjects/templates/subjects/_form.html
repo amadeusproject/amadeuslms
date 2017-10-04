@@ -94,8 +94,8 @@
 
 <script type="text/javascript">
 	$('#id_professor').multiSelect({
-	  selectableHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=' '>",
-	  selectionHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=''>",
+	  selectableHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder='{% trans 'Search for professors' %} '>",
+	  selectionHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder='{% trans 'Search for professors' %}'>",
 	  afterInit: function(ms){
 	    var that = this,
 	        $selectableSearch = that.$selectableUl.prev(),
@@ -140,8 +140,8 @@
 	});// Used to create multi-select css style
 
 	$('#id_students').multiSelect({
-	  selectableHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=' '>",
-	  selectionHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=''>",
+	  selectableHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=' {% trans 'Search for students' %} '>",
+	  selectionHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=' {% trans 'Search for students' %} '>",
 	  afterInit: function(ms){
 	    var that = this,
 	        $selectableSearch = that.$selectableUl.prev(),
