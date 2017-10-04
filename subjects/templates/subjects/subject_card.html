@@ -19,7 +19,7 @@
                         </a>
                     </h4>
 
-                    <div class="col-md-5 pull-right category-card-items">
+                    <div class="col-lg-4 col-md-5   col-sm-12 col-xs-12 pull-right category-card-items">
                         {% if has_subject_permissions %}
                             <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -73,11 +73,12 @@
                 <div class="col-xs-6 col-md-3">
                     <p><b>{% trans "End" %}:</b> {{subject.end_date}}</p>
                 </div>
-            </div>
-            {% if subject.description_brief %}
-                <p>{{subject.description_brief|safe}}</p>
-            {% endif %}
-
+                
+                <div class="col-sm-12 col-xs-12">
+                    {% if subject.description_brief %}
+                        <p>{{subject.description_brief|safe}}</p>
+                    {% endif %}
+                </div>
             {% if show_buttons %}
 
                 {% if has_subject_view_permissions %}
@@ -85,15 +86,17 @@
                         <a href="{% url 'subjects:view' subject.slug %}" class="btn btn-success btn-raised"> {% trans "Access Subject" %}</a>
                     </div>
                 {% elif subject.subscribe_end|aftertoday %}
-                    <div class="subject_access_btn">
+                    <div class="col-sm-12 col-xs-12 subject_access_btn">
                         <a href="javascript:subscribe_subject.get('{% url 'subjects:subscribe' subject.slug %}?view=index','#subject-subscribe','#modal_subject')" class="subscribe-subject btn btn-primary btn-raised"> {% trans "Subscribe to Subject" %}</a>
                     </div>
                 {% else %}
-                    <a  class="no-subscribe-btn btn btn-danger" disabled="disabled"> {% trans "This subject doesn't allow new subscriptions" %}</a>
-
+                    <div class="col-sm-12 col-xs-12">
+                        <a  class="no-subscribe-btn btn btn-danger" disabled="disabled" style="white-space:normal"> {% trans "This subject doesn't allow new subscriptions" %}</a>
+                    </div>
                 {% endif %}
 
             {% endif %}
+            </div>
         </div>
     </div>
 {% endif  %}

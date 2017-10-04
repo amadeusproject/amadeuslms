@@ -126,7 +126,7 @@ function getModalInfo(btn, space, space_type) {
                                 $(this).text(actual);
                             }
                         }
-                    });
+                    });                    
 
                     var counter = $(chat_list_item_id).find('.chat_notify_list').text();
 
@@ -192,6 +192,25 @@ function getModalInfo(btn, space, space_type) {
             });
 		}
 	});
+}
+
+function getProfile(btn, space, space_type) {
+    var url = btn.data('url');
+
+    $.ajax({
+        method: 'get',
+        url: url,
+        data: {'space': space, 'space_type': space_type},
+        success: function (response) {
+            var modal_shown = $("#chat-modal-info").is(":visible");
+
+            $("#chat-modal-info").html(response);
+
+            $("#chat-modal-info").modal('show');
+
+            $.material.init();
+        }
+    });
 }
 
 function getForm(field) {

@@ -415,6 +415,27 @@ fieldset[disabled][disabled] .input-group-btn .btn
 /* === End Topbar === */
 
 
+/* === Mobile Menu === */
+.navbar-menu-btn 
+    color: $secondary-white
+
+.mobile_menu_navbar
+    background: $primary-color
+    color: $secondary-white
+
+input#mobile_menu_btn:checked + .navbar-menu-btn 
+    color: $secondary-white
+
+.mobile_menu_navbar .navbar-nav>.open>a, 
+.mobile_menu_navbar .navbar-nav>.open>a:focus, 
+.mobile_menu_navbar .navbar-nav>.open>a:hover,
+.mobile_menu_navbar .navbar-nav>.open>a:active,
+.mobile_menu_navbar .navbar-nav>li>a:focus, 
+.mobile_menu_navbar .navbar-nav>li>a:hover
+    color: $secondary-white
+/* === End Mobile Menu === */
+
+
 /* === Sidebar === */
 
 #sidebar-menu .item 
@@ -998,3 +1019,9 @@ a.add-row
     
     .navbar .navbar-nav .dropdown .dropdown-menu li > a:hover 
         color: $primary-color !important
+
+    .mobile_menu_navbar .navbar-nav .dropdown .dropdown-menu li > a
+        color: $secondary-white !important
+
+    .navbar .dropdown-menu .active > a, .navbar.navbar-default .dropdown-menu .active > a
+        color: $primary-color

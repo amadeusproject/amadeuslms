@@ -198,6 +198,26 @@ body .container-fluid .well-inverse {
   background: #F5F5F5; }
 
 /* === End Topbar === */
+/* === Mobile Menu === */
+.navbar-menu-btn {
+  color: #FFFFFF; }
+
+.mobile_menu_navbar {
+  background: #EDEDEE;
+  color: #000000; }
+
+input#mobile_menu_btn:checked + .navbar-menu-btn {
+  color: #000; }
+
+.mobile_menu_navbar .navbar-nav > .open > a,
+.mobile_menu_navbar .navbar-nav > .open > a:focus,
+.mobile_menu_navbar .navbar-nav > .open > a:hover,
+.mobile_menu_navbar .navbar-nav > .open > a:active,
+.mobile_menu_navbar .navbar-nav > li > a:focus,
+.mobile_menu_navbar .navbar-nav > li > a:hover {
+  color: #FFFFFF; }
+
+/* === End Mobile Menu === */
 /* === Sidebar === */
 #sidebar-menu .item {
   background-color: #009688;
