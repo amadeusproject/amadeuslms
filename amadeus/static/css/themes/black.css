@@ -169,7 +169,7 @@ body .container-fluid .well-inverse {
 /* === Language Selector */
 .language-selector .dropdown-menu > .active > a {
   background: #212121;
-  color: #212121; }
+  color: #F5F5F5; }
 
 .language-selector .dropdown-menu > .active > a:hover {
   color: #212121; }
@@ -240,6 +240,19 @@ body .container-fluid .well-inverse {
 #system_menu {
   background: #F5F5F5; }
 
+/* --- Minor Screens --- */
+.search-responsive-collapse,
+.search-responsive-collapse .search {
+  background: #F5F5F5; }
+
+.search-responsive-collapse #btn-search,
+.search-responsive-collapse .top-search {
+  color: #212121; }
+
+.search-responsive-collapse .search_mask {
+  background: #000000; }
+
+/* --- End Minor Screens --- */
 /* === End Topbar === */
 /* === Mobile Menu === */
 .navbar-menu-btn {
