@@ -497,19 +497,14 @@
 		background-color: #F5F5F5;
 	}
 
-	
-
-
-	
-
-	
-
 	.help-block span{
     	position: relative !important;
     }
-		li[data-mural] {
-			font-size: 10px;
-		}
+	
+	li[data-mural] {
+		font-size: 10px;
+	}
+
 	.post-icon {
 		font-size: 32px !important;
 	}
@@ -540,10 +535,6 @@
 }
 
 @media(min-width: 500px) {
-	.dropdown-menu{
-		margin-left: 130px;
-	}
-
 	li.item .notify_badge {
 	    top: 0px;
 	    right: 30px;

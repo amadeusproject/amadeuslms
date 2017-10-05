@@ -169,7 +169,7 @@ body .container-fluid .well-inverse {
 /* === Language Selector */
 .language-selector .dropdown-menu > .active > a {
   background: #212121;
-  color: #212121; }
+  color: #F5F5F5; }
 
 .language-selector .dropdown-menu > .active > a:hover {
   color: #212121; }

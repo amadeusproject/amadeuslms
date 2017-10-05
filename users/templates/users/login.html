@@ -146,60 +146,34 @@
                 </div>
             </div>
             <div class="row login_subcommands hidden-lg hidden-md">
-                        {% if not deny_register %}
-                            <div class="col-sm-12 col-xs-12">
-                                <li class="dropdown language-selector ">
-                                    {% get_current_language as LANGUAGE_CODE %}
+                <div class="col-sm-12 col-xs-12">
+                    <div class="language-selector ">
+                        <div class="btn-group dropup">
+                            {% get_current_language as LANGUAGE_CODE %}
 
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
-                                        <span >[{{LANGUAGE_CODE}}]  </span>
-                                    </a>
-                                    <a href="{% url 'themes:contrast' %}" id = "contrast_button_mobile" style="margin-left:10px;"><i class="glyphicon glyphicon-adjust"></i></a>
-                                    <ul class="dropdown-menu">
-                                        {% get_available_languages as LANGUAGES %}
-                                        {% get_language_info_list for LANGUAGES as languages %}
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span >[{{LANGUAGE_CODE}}]  </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% get_available_languages as LANGUAGES %}
+                                {% get_language_info_list for LANGUAGES as languages %}
 
-                                        {% for language in languages %}
-                                            <li {% if language.code == LANGUAGE_CODE %}
-                                                class="active"
-                                            {% endif %}>
-                                                <a class="language-item" value-lang="{{language.code}}">
-                                                    <span>{{language.code}}</span>
-                                                </a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </li>
-                            </div>
-                        {% else %}
-                            <div class="col-sm-12 col-xs-12">
-                                <li class="dropdown language-selector">
-                                    {% get_current_language as LANGUAGE_CODE %}
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
-
-                                      <span>[{{LANGUAGE_CODE}}]  </span>
-
-                                    </a>
-                                    <a href="{% url 'themes:contrast' %}" id = "contrast_button_mobile" style="margin-left:10px;"><i class="glyphicon glyphicon-adjust"></i></a>
-                                    <ul class="dropdown-menu">
-                                        {% get_available_languages as LANGUAGES %}
-                                        {% get_language_info_list for LANGUAGES as languages %}
-                                        {% for language in languages %}
-
-                                            <li {% if language.code == LANGUAGE_CODE %}
-                                                class="active"
-                                            {% endif %}>
-                                                <a class="language-item" value-lang="{{language.code}}">
-                                                    <span>{{language.code}}</span>
-                                                </a>
-                                            </li>
-
-                                        {% endfor %}
-                                    </ul>
-                                </li>
-                            </div>
-                        {% endif %}
+                                {% for language in languages %}
+                                    <li {% if language.code == LANGUAGE_CODE %}
+                                        class="active"
+                                    {% endif %}>
+                                        <a class="language-item" value-lang="{{language.code}}">
+                                            <span>{{language.code}}</span>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <a href="{% url 'themes:contrast' %}" id = "contrast_button_mobile" style="margin-left:10px;"><i class="glyphicon glyphicon-adjust"></i></a>
                     </div>
+                </div>
+            </div>
         </div>
     </div>
 
