@@ -361,6 +361,16 @@ fieldset[disabled][disabled] .input-group-btn .btn {
 #system_menu {
   background: #000000; }
 
+/* --- Minor Screens --- */
+.search-responsive-collapse,
+.search-responsive-collapse .search {
+  background: #000000; }
+
+.search-responsive-collapse #btn-search,
+.search-responsive-collapse .top-search {
+  color: #FFFFFF; }
+
+/* --- End Minor Screens --- */
 /* === End Topbar === */
 /* === Mobile Menu === */
 .navbar-menu-btn {
