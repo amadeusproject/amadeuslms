@@ -370,6 +370,9 @@ fieldset[disabled][disabled] .input-group-btn .btn {
 .search-responsive-collapse .top-search {
   color: #FFFFFF; }
 
+.search-responsive-collapse .search_mask {
+  background: #000000; }
+
 /* --- End Minor Screens --- */
 /* === End Topbar === */
 /* === Mobile Menu === */

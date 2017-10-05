@@ -26,6 +26,13 @@ $(function () {
 		trigger: 'hover'
 	});
 
+	$('.navbar-header, .search-responsive-collapse .search_mask').click(function () {
+		if ($('.search-responsive-collapse').hasClass('in')) {
+			$("input#mobile_search_btn").click();
+			$('.search-responsive-collapse').collapse('hide');
+		}
+	});
+
 	//Dropdown menu collapse
 	$('.dropdown-accordion').on('click', 'a[data-toggle="collapse"]', function (event) {
         event.preventDefault();

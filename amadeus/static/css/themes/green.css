@@ -206,6 +206,9 @@ body .container-fluid .well-inverse {
 .search-responsive-collapse .top-search {
   color: #009688; }
 
+.search-responsive-collapse .search_mask {
+  background: #000000; }
+
 /* --- End Minor Screens --- */
 /* === End Topbar === */
 /* === Mobile Menu === */

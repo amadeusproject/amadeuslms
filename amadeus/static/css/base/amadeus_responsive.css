@@ -56,7 +56,7 @@
 	    bottom: 0px;
 	    width: 100%;
 	    padding: 0px 30px;
-	    z-index: 998;
+	    z-index: 900;
 	    height: 60px;
 	}
 
@@ -200,8 +200,9 @@
     	margin-bottom:0px;
     }
 
-    .search{
+    .search-responsive-collapse .search {
     	margin-bottom: -1px;
+    	z-index: 902;
     }
 
     .mobile_search .fa-search, .mobile_search .fa-times {
@@ -222,6 +223,14 @@
 
 	input#mobile_search_btn:checked ~ .mobile_search .fa-times {
 		display: inline-block;
+	}
+
+	.search-responsive-collapse .search_mask {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		z-index: 901;
+		opacity: .7;
 	}
 
     .input-group .input-group-btn{
