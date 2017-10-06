@@ -8,7 +8,7 @@
 				{% csrf_token %}
 				<div class="form-group{% if form.has_error %} has-error {% endif %}">
 					<label for="{{ form.comment.auto_id }}">{{ form.comment.label }} <span>*</span></label>
-					{% render_field form.comment class='form-control text_simple_wysiwyg' %}
+					{% render_field form.comment class='form-control text_simple_wysiwyg' id='main_comment'%}
 
 					<span id="helpBlock" class="help-block">{{ form.post.help_text }}</span>
 
@@ -128,16 +128,22 @@
 			      		var node = document.createElement('span'),
 			      			value = field.val();
 
+			      		var paragraph = document.querySelector("#comment-form > div:nth-child(2) > div > div.note-editing-area > div.note-editable.panel-body > p")
+
 			      		$(node).addClass('marked_user');
 			      		$(node).html(value);
-
 			      		context.invoke('restoreRange');
 			      		context.invoke('pasteHTML', node);
-			      		
+			      		$('#comment-form > div:nth-child(2) > div > div.note-editing-area > div.note-editable.panel-body > p > br').remove();
+			      		paragraph.innerHTML += '&nbsp;'
+			      		//paragraph.focus();
+			      		//paragraph.caretTo(paragraph.length);
 			      		$(modal).modal('hide');
+			      		//&nbsp;
 			      	});
 			    }
 	  		});
+
 
 		  	return button.render();   // return button as jquery object
 		}
@@ -152,6 +158,7 @@
 			    ['style', ['bold', 'italic']],
 			    ['insert', ['link']],
 			    ['mybuttons', ['addUser']],
+			    ['color', ['color']],
 		  	],
 		  	buttons: {
 		  		addUser: AddUserBtn
