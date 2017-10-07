@@ -293,6 +293,7 @@
 		padding:10px;
 	}
 
+
 	#mobile_menu_btn, #mobile_search_btn {
 		clip: rect(0,0,0,0);
     	position: absolute;
@@ -304,11 +305,21 @@
 
 	.mobile_menu_navbar {
 		height: 100%;
-		width: 100%;
+		width: 90%;
 		opacity: .95;
 		position: fixed;
 		z-index: 5;
-		left: -100%;
+		left: -90%;
+	}
+
+	.menu_mask {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		z-index: 4;
+		opacity: .7;
+		left: 0px;
+		display: none;
 	}
 
 	.mobile_menu_navbar .navbar-nav {
@@ -330,6 +341,10 @@
 		-ms-transform: translateX(100%);
 		-o-transform: translateX(100%);
 		transform: translateX(100%);
+	}
+
+	input#mobile_menu_btn:checked ~ .menu_mask {
+		display: inherit;
 	}
 
 	input#mobile_menu_btn:checked ~ .navbar-menu-btn .icon-bar:nth-child(1) {

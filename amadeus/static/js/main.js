@@ -37,6 +37,10 @@ $(function () {
 		}
 	});
 
+	$('.menu_mask').click(function () {
+		$("input#mobile_menu_btn").click();
+	});
+
 	//Dropdown menu collapse
 	$('.dropdown-accordion').on('click', 'a[data-toggle="collapse"]', function (event) {
         event.preventDefault();
