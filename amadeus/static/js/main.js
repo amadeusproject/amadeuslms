@@ -26,7 +26,11 @@ $(function () {
 		trigger: 'hover'
 	});
 
-	$('.navbar-header, .search-responsive-collapse .search_mask').click(function () {
+	$('.navbar-header, .search-responsive-collapse .search_mask').click(function (e) {
+		if ($(e.target).parent().is($(".mobile_search")) || $(e.target).is($("#mobile_search_btn"))) {
+			return;
+		}
+
 		if ($('.search-responsive-collapse').hasClass('in')) {
 			$("input#mobile_search_btn").click();
 			$('.search-responsive-collapse').collapse('hide');
