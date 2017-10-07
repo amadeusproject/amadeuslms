@@ -53,7 +53,9 @@ class ViewPDFFile(LoginRequiredMixin, LogMixin, generic.TemplateView):
         context = super(ViewPDFFile, self).get_context_data(**kwargs)
         slug = self.kwargs.get('slug', '')
         pdf_file = PDFFile.objects.get(slug=slug)
+        
         context['pdf_file'] = pdf_file
+        context['absolute_url'] = self.request.build_absolute_uri(pdf_file.file.url)
         context['subject'] = pdf_file.topic.subject
 
         self.log_context['category_id'] = pdf_file.topic.subject.category.id

@@ -49,7 +49,7 @@
         </div>
     </div>
     <object width="100%" height="800px" type="application/pdf" data="{{pdf_file.file.url}}" id="pdf_content">
-        <iframe id="pdfviewer" src="http://docs.google.com/gview?embedded=true&url={{pdf_file.file.url}}" frameborder="0" width="100%" height="800px"></iframe>
+        <iframe id="pdfviewer" src="https://docs.google.com/gview?embedded=true&url={{ absolute_url }}" frameborder="0" width="100%" height="800px"></iframe>
         {# <p>{% trans "PDF could not be displayed" %}</p> #}
     </object>
 {% endblock content %}
