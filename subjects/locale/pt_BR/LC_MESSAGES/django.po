@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-02 21:43-0300\n"
+"POT-Creation-Date: 2017-10-07 00:08-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,6 +111,20 @@ msgstr "Atribuir professores ao assunto"
 #: subjects/templates/subjects/_form.html:91
 msgid "Save"
 msgstr "Salvar"
+
+#: subjects/templates/subjects/_form.html:97
+#: subjects/templates/subjects/_form.html:98
+#, fuzzy
+#| msgid "Search results"
+msgid "Search for professors"
+msgstr "Resultados da busca"
+
+#: subjects/templates/subjects/_form.html:143
+#: subjects/templates/subjects/_form.html:144
+#, fuzzy
+#| msgid "Search results"
+msgid "Search for students"
+msgstr "Resultados da busca"
 
 #: subjects/templates/subjects/backup.html:16
 #: subjects/templates/subjects/backup.html:44
@@ -324,15 +338,15 @@ msgstr "Início"
 msgid "End"
 msgstr "Fim"
 
-#: subjects/templates/subjects/subject_card.html:85
+#: subjects/templates/subjects/subject_card.html:86
 msgid "Access Subject"
 msgstr "Acessar Assunto"
 
-#: subjects/templates/subjects/subject_card.html:89
+#: subjects/templates/subjects/subject_card.html:90
 msgid "Subscribe to Subject"
 msgstr "Inscrever-se no Assunto"
 
-#: subjects/templates/subjects/subject_card.html:92
+#: subjects/templates/subjects/subject_card.html:94
 msgid "This subject doesn't allow new subscriptions"
 msgstr "Esse assunto não permite novas inscrições"
 

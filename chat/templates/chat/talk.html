@@ -68,7 +68,7 @@
 						<form id="short-chat" class="col-md-11" method="post" action="{{ form_url }}" enctype="multipart/form-data">
 							{% csrf_token %}
 
-							<div class="msg_placeholder">{% trans 'Type a new message to ' %}{{ participant }}</div>
+							<div class="msg_placeholder">{% trans 'Type a new message' %}</div>
 							<div id="msg_editable" contenteditable="true"></div>
 							{% render_field form.text style="display:none" %}
 						</form>
