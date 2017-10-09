@@ -563,7 +563,7 @@
 }
 
 /* Height Media */
-@media(max-height: 740px) {
+@media(max-height: 740px) and (max-width: 740px) {
 	/* Chat Modal */
 	#chat-modal-info .modal-dialog {
     	margin: 0;
