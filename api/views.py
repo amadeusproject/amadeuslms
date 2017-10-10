@@ -312,7 +312,7 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 
 			messages = TalkMessages.objects.filter((Q(talk__user_one__email = username) & Q(talk__user_two__email = user_two)) | (Q(talk__user_one__email = user_two) & Q(talk__user_two__email = username))).order_by('-create_date')
 
-			serializer = ChatSerializer(messages, many = True)
+			serializer = ChatSerializer(messages, many = True, context = {"request_user": user})
 
 			json_r = json.dumps(serializer.data)
 			json_r = json.loads(json_r)
