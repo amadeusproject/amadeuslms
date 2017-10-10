@@ -22,4 +22,4 @@ class ChatSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = TalkMessages
-		fields = ('text', 'user', 'subject', 'image_url', 'create_date', 'favorite')
+		fields = ('text', 'user', 'subject', 'image_url', 'create_date', 'favorite', 'id')
