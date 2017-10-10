@@ -16,7 +16,7 @@ class ChatSerializer(serializers.ModelSerializer):
 		user = self.context.get("request_user", None)
 
 		if not user is None:
-			return ChatFavorites.objects.filter(Q(user__email = user) & Q(message = message)).exists()
+			return ChatFavorites.objects.filter(Q(user = user) & Q(message = message)).exists()
 
 		return False
 
