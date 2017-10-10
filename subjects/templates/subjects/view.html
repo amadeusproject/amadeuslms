@@ -6,8 +6,23 @@
 {% block javascript%}
     {{ block.super }}
     <script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
+    <script type="text/javascript">
+    $(document).ready( function () {
+    	var ul = '';
+    	var div_crumb = $(".dropdown_crumb");
+      var div_change = $(".drop_change");
+    	if(window.innerWidth < 768) {
+    		ul = document.querySelector("ul.breadcrumb");
+    		if (ul) {
+    			ul.classList.remove('breadcrumb');
+    			ul.classList.add('screen_drop');
+    		}
+        div_change.addClass("dropdown-menu");
+        div_crumb.prepend("<button class='btn btn-block dropdown-toggle' type='button' data-toggle='dropdown'>{% trans 'Navigate' %} <span class='caret'></span></button>")
+      }
+    });
+    </script>
 {% endblock%}
-
 {% block breadcrumbs %}
     {{ block.super }}
     {% breadcrumb subject.category 'subjects:cat_view' subject.category.slug %}
@@ -83,7 +98,7 @@
             {% endif %}
 
             {% include 'topics/list.html' with subject=subject %}
-            
+
             <div id="participants" data-toggle="tooltip" data-title="{% trans 'Participants' %}">
                 <i class="fa fa-group"></i>
             </div>
@@ -163,7 +178,7 @@
                     var popover = $(".popover.fade.in"),
                         buttons = popover.parent().find('a'),
                         close = popover.parent().find('.close:visible');
-    
+
                     popover.animate({
                         'max-width': '330px',
                     }, 0);
@@ -178,7 +193,7 @@
 
                     close.on("click", function () {
                         popover.popover('hide');
-                    }); 
+                    });
 
                     buttons.on("click", function () {
                         popover.popover('hide');
@@ -189,7 +204,7 @@
             $('#participants').on('click', function(){
                 var $this = $(this),
                     list = $this.parent().find(".participants-list");
-                
+
                 if ($this.hasClass('open')) {
                     $this.animate({
                         right : '0px'
