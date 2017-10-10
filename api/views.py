@@ -23,6 +23,9 @@ from security.models import Security
 from chat.serializers import ChatSerializer
 from chat.models import TalkMessages, Conversation, ChatVisualizations
 
+from log.models import Log
+from log.mixins import LogMixin
+
 from subjects.serializers import SubjectSerializer
 from subjects.models import Subject
 
@@ -83,7 +86,7 @@ def getToken(request):
 		
 	return HttpResponse(response)
 
-class LoginViewset(viewsets.ReadOnlyModelViewSet):
+class LoginViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
 	"""
 	login:
 	Log a user in the system
@@ -95,6 +98,11 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer
 	permissions_classes = (IsAuthenticated,)
+
+	log_component = 'mobile'
+	log_action = 'access'
+	log_resource = 'system'
+	log_context = {}
 
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
@@ -121,7 +129,9 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet):
 			user_info['extra'] = 0
 
 			response = json.dumps(user_info)
-					
+			
+			super(LoginViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return HttpResponse(response)
 
 	@csrf_exempt
@@ -208,7 +218,7 @@ class SubjectViewset(viewsets.ReadOnlyModelViewSet):
 
 		return HttpResponse(response)
 
-class ParticipantsViewset(viewsets.ReadOnlyModelViewSet):
+class ParticipantsViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
 	"""
 	get_participants:
 		Get all users that participates in some subject. Require the logged user email and the subject slug
@@ -218,17 +228,26 @@ class ParticipantsViewset(viewsets.ReadOnlyModelViewSet):
 	serializer_class = UserSerializer
 	permissions_classes = (IsAuthenticated, )
 
+	log_component = 'mobile'
+	log_action = 'view'
+	log_resource = 'subject_participants'
+	log_context = {}
+
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def get_participants(self, request):
 		username = request.data['email']
 		subject_slug = request.data['subject_slug']
 
+		user = User.objects.get(email = username)
+
 		participants = None
 
 		response = ""
 
 		if not subject_slug == "":
+			subject = Subject.objects.get(slug = subject_slug)
+
 			participants = User.objects.filter(Q(is_staff = True) | Q(subject_student__slug = subject_slug) | Q(professors__slug = subject_slug) | Q(coordinators__subject_category__slug = subject_slug)).exclude(email = username).distinct()
 
 			serializer = UserSerializer(participants, many = True, context = {"request_user": username})
@@ -250,9 +269,15 @@ class ParticipantsViewset(viewsets.ReadOnlyModelViewSet):
 
 			response = json.dumps(info)
 
+			self.log_context['subject_id'] = subject.id
+			self.log_context['subject_slug'] = subject_slug
+			self.log_context['subject_name'] = subject.name
+
+			super(ParticipantsViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return HttpResponse(response)
 
-class ChatViewset(viewsets.ModelViewSet):
+class ChatViewset(viewsets.ModelViewSet, LogMixin):
 	"""
 	get_messages:
 		Get messages of a conversation
@@ -265,17 +290,26 @@ class ChatViewset(viewsets.ModelViewSet):
 	serializer_class = ChatSerializer
 	permissions_classes = (IsAuthenticated, )
 
+	log_component = 'mobile'
+	log_action = 'view'
+	log_resource = 'talk'
+	log_context = {}
+
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def get_messages(self, request):
 		username = request.data['email']
 		user_two = request.data['user_two']
 
+		user = User.objects.get(email = username)
+
 		messages = None
 
 		response = ""
 
 		if not user_two == "":
+			user2 = User.objects.get(email = user_two)
+
 			messages = TalkMessages.objects.filter((Q(talk__user_one__email = username) & Q(talk__user_two__email = user_two)) | (Q(talk__user_one__email = user_two) & Q(talk__user_two__email = username))).order_by('-create_date')
 
 			serializer = ChatSerializer(messages, many = True)
@@ -298,11 +332,27 @@ class ChatViewset(viewsets.ModelViewSet):
 
 			response = json.dumps(info)
 
+			try:
+				talk = Conversation.objects.get((Q(user_one__email = username) & Q(user_two__email = user_two)) | (Q(user_two__email = username) & Q(user_one__email = user_two)))
+				self.log_context['talk_id'] = talk.id
+			except Conversation.DoesNotExist:
+				pass
+			
+			self.log_context['user_id'] = user2.id
+			self.log_context['user_name'] = str(user2)
+			self.log_context['user_email'] = user_two
+
+			super(ChatViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
 		return HttpResponse(response)
 
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def send_message(self, request):
+		self.log_action = 'send'
+		self.log_resource = 'message'
+		self.log_context = {}
+
 		if 'file' in request.data:
 			file = request.FILES['file']
 			
@@ -342,6 +392,10 @@ class ChatViewset(viewsets.ModelViewSet):
 				subject = Subject.objects.get(slug = subject)
 				space = subject.slug
 				space_type = "subject"
+
+				self.log_context['subject_id'] = subject.id
+				self.log_context['subject_slug'] = space
+				self.log_context['subject_name'] = subject.name
 			else: 
 				subject = None
 				space = 0
@@ -357,6 +411,11 @@ class ChatViewset(viewsets.ModelViewSet):
 				message.image = file
 
 			message.save()
+
+			self.log_context['talk_id'] = talk.id
+			self.log_context['user_id'] = user_to.id
+			self.log_context['user_name'] = str(user_to)
+			self.log_context['user_email'] = user_two
 
 			if not message.pk is None:
 				simple_notify = textwrap.shorten(strip_tags(message.text), width = 30, placeholder = "...")
@@ -393,6 +452,8 @@ class ChatViewset(viewsets.ModelViewSet):
 				info["number"] = 1
 
 				sendChatPushNotification(user_to, message)
+
+				super(ChatViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
 			else:
 				info["message"] = _("Error while sending message!")
 				info["success"] = False
