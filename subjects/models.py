@@ -23,7 +23,7 @@ class Subject(models.Model):
     name = models.CharField( _("Name"), unique = False, max_length= 200)
     slug = AutoSlugField(_("Slug"),populate_from='name',unique=True)
 
-    description_brief = models.TextField(_("simpler_description"), blank=True)
+    description_brief = models.TextField(_("simpler description"), blank=True)
     description = models.TextField(_("description"), blank= True)
     visible = models.BooleanField(_("visible"))
 
