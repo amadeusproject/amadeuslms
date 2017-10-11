@@ -399,7 +399,16 @@
 	    box-shadow: none;
 	}
 
+	.notifies, .goalitems {
+	    padding: 5px 0px;
+	    text-align: right;
+	    margin-bottom: 10px;
+	}
 	
+	.card .card-body {
+    	height: 30%;
+    	padding: 10px;
+	}
 }
 
 @media(min-width: 769px) {

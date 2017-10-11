@@ -249,12 +249,12 @@
 	            			</div>
 	            		</div>
 	            		<div class="form-group{% if pendencies_form.has_error %} has-error {% endif %} row">
-	            			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 checkbox">
+	            			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 checkbox">
 						        <label>
 			      					{% render_field pendencies_form.begin_date_check class="begin_date" %} {{ pendencies_form.begin_date.label }}
 			  					</label>
 					        </div>
-					        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 					        	{% render_field pendencies_form.begin_date class='form-control datetime-picker begin_date_input' %}
 					        </div>
 	            		</div>
@@ -275,12 +275,12 @@
 							{% endif %}
 	            		</div>
 	            		<div class="form-group{% if pendencies_form.has_error %} has-error {% endif %} row">
-	            			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 checkbox">
+	            			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 checkbox">
 						        <label>
 			      					{% render_field pendencies_form.end_date_check class="end_date" %} {{ pendencies_form.end_date.label }}
 			  					</label>
 					        </div>
-					        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 					        	{% render_field pendencies_form.end_date class='form-control datetime-picker end_date_input' %}
 					        </div>
 	            		</div>

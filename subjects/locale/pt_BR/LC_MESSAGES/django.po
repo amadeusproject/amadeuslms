@@ -51,7 +51,7 @@ msgid "Slug"
 msgstr "Slug"
 
 #: subjects/models.py:26
-msgid "simpler_description"
+msgid "Simpler description"
 msgstr "Descrição simples"
 
 #: subjects/models.py:27
