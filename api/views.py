@@ -21,7 +21,7 @@ from django.db.models import Q
 from security.models import Security
 
 from chat.serializers import ChatSerializer
-from chat.models import TalkMessages, Conversation, ChatVisualizations
+from chat.models import TalkMessages, Conversation, ChatVisualizations, ChatFavorites
 
 from log.models import Log
 from log.mixins import LogMixin
@@ -472,5 +472,52 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 		info['extra'] = 0
 
 		response = json.dumps(info)
+
+		return HttpResponse(response)
+
+	@csrf_exempt
+	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
+	def favorite_messages(self, request):
+		username = request.data['email']
+		favor = request.data['favor']
+		message_id = int(request.data['id'])
+
+		user = User.objects.get(email = username)
+
+		message = get_object_or_404(TalkMessages, id = message_id)
+
+		response = ""
+
+		if favor == "true":
+			if not ChatFavorites.objects.filter(Q(user = user) & Q(message__id = message_id)).exists():
+				#Insert on table
+				ChatFavorites.objects.create(message = message, user = user)
+
+				info = {}
+
+				info["message"] = ""
+				info["type"] = ""
+				info["title"] = ""
+				info["success"] = True
+				info["number"] = 1
+				info['extra'] = 0
+
+				response = json.dumps(info)
+
+		elif favor == "false":
+			if ChatFavorites.objects.filter(Q(user = user) & Q(message__id = message_id)).exists():
+				#Delete row
+				ChatFavorites.objects.filter(message = message, user = user).delete()
+
+				info = {}
+
+				info["message"] = ""
+				info["type"] = ""
+				info["title"] = ""
+				info["success"] = True
+				info["number"] = 1
+				info['extra'] = 0
+
+				response = json.dumps(info)
 
 		return HttpResponse(response)
