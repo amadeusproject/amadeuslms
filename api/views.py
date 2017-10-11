@@ -480,44 +480,42 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 	def favorite_messages(self, request):
 		username = request.data['email']
 		favor = request.data['favor']
-		message_id = int(request.data['id'])
+		list_size = int(request.data['list_size'])
 
 		user = User.objects.get(email = username)
 
-		message = get_object_or_404(TalkMessages, id = message_id)
+		entries = []
+		array_ids = []
 
-		response = ""
+		for i in range(0, list_size):
+
+			message_id = int(request.data[str(i)])
+
+			message = get_object_or_404(TalkMessages, id = message_id)
+
+			if favor == "true":
+				if not ChatFavorites.objects.filter(Q(user = user) & Q(message__id = message_id)).exists():
+					entries.append(ChatFavorites(message = message, user = user))
+			elif favor == "false":
+				if ChatFavorites.objects.filter(Q(user = user) & Q(message__id = message_id)).exists():
+					array_ids.append(message_id)
 
 		if favor == "true":
-			if not ChatFavorites.objects.filter(Q(user = user) & Q(message__id = message_id)).exists():
-				#Insert on table
-				ChatFavorites.objects.create(message = message, user = user)
-
-				info = {}
-
-				info["message"] = ""
-				info["type"] = ""
-				info["title"] = ""
-				info["success"] = True
-				info["number"] = 1
-				info['extra'] = 0
-
-				response = json.dumps(info)
-
+			ChatFavorites.objects.bulk_create(entries)
 		elif favor == "false":
-			if ChatFavorites.objects.filter(Q(user = user) & Q(message__id = message_id)).exists():
-				#Delete row
-				ChatFavorites.objects.filter(message = message, user = user).delete()
+			ChatFavorites.objects.filter(message__id__in = (array_ids)).delete()
+		
+		response = ""
 
-				info = {}
+		info = {}
 
-				info["message"] = ""
-				info["type"] = ""
-				info["title"] = ""
-				info["success"] = True
-				info["number"] = 1
-				info['extra'] = 0
+		info["message"] = ""
+		info["type"] = ""
+		info["title"] = ""
+		info["success"] = True
+		info["number"] = 1
+		info['extra'] = 0
 
-				response = json.dumps(info)
+		response = json.dumps(info)
 
 		return HttpResponse(response)
