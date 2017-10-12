@@ -172,6 +172,7 @@ $('.category-panel-content').on('shown.bs.collapse', function(e) {
             $.ajax({
                 url: load_sub_url,
                 success: function (data) {
+                    $("#" + panel_id + "_loading").hide();
                     $('#' + panel_id + '-accordion').html(data);
 
                     var items = $('#' + panel_id + '-accordion').children(":visible").length;

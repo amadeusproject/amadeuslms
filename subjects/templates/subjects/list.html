@@ -104,6 +104,11 @@
                                     <a href="{% url 'subjects:create' category.slug %}" class="btn btn-raised btn-success btn-block btn-sm">{% trans "Create new subject" %}</a>
                                 {% endif %}
 
+                                <div id="{{ category.slug }}_category_loading" class="alert alert-success" role="alert" style="display:block" >
+                                    <center>
+                                        <span class="fa fa-spin fa-circle-o-notch"></span>
+                                    </center>
+                                </div>
                                 <div class="panel-group subject-group" id="{{ category.slug }}_category-accordion" role="tablist" aria-multiselectable="true">
 
                                 </div>
