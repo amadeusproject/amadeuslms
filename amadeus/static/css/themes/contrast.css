@@ -445,6 +445,12 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 .breadcrumb > li {
   color: #FFFFFF; }
 
+.breadcrumb > li + li:last-child::before {
+  color: #FFFFFF; }
+
+.bread_mask {
+  background: #000000; }
+
 /* === End Breadcrumbs === */
 /* === Panel === */
 .panel {

@@ -3,26 +3,6 @@
 {% load static i18n pagination permissions_tags subject_counter chat_tags %}
 {% load django_bootstrap_breadcrumbs %}
 
-{% block javascript%}
-    {{ block.super }}
-    <script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
-    <script type="text/javascript">
-    $(document).ready( function () {
-    	var ul = '';
-    	var div_crumb = $(".dropdown_crumb");
-      var div_change = $(".drop_change");
-    	if(window.innerWidth < 768) {
-    		ul = document.querySelector("ul.breadcrumb");
-    		if (ul) {
-    			ul.classList.remove('breadcrumb');
-    			ul.classList.add('screen_drop');
-    		}
-        div_change.addClass("dropdown-menu");
-        div_crumb.prepend("<button class='btn btn-block dropdown-toggle' type='button' data-toggle='dropdown'>{% trans 'Navigate' %} <span class='caret'></span></button>")
-      }
-    });
-    </script>
-{% endblock%}
 {% block breadcrumbs %}
     {{ block.super }}
     {% breadcrumb subject.category 'subjects:cat_view' subject.category.slug %}
