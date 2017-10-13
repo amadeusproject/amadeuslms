@@ -316,9 +316,11 @@
 	.breadcrumb > li + li:last-child::before {
 		display: inline-block;
 		padding: 0 5px;
-	    content: "\232A";
-	    font-size: 15px;
+	    content: "\2039";
+	    font-size: 30px;
 	    font-style: normal;
+        line-height: 15px;
+    	vertical-align: text-top;
 	    -webkit-transition: all 200ms linear;
 		-moz-transition: all 200ms linear;
 		-ms-transition: all 200ms linear;
@@ -346,11 +348,11 @@
 	}
 
 	input#mobile_breadcrumb_btn:checked ~ .bread_label .breadcrumb > li + li:last-child::before {
-		-webkit-transform: rotate(90deg);
-		-moz-transform: rotate(90deg);
-		-ms-transform: rotate(90deg);
-		-o-transform: rotate(90deg);
-		transform: rotate(90deg);
+		-webkit-transform: rotate(-90deg);
+		-moz-transform: rotate(-90deg);
+		-ms-transform: rotate(-90deg);
+		-o-transform: rotate(-90deg);
+		transform: rotate(-90deg);
 	}
 
 	input#mobile_breadcrumb_btn:checked ~ .bread_label .breadcrumb > li:not(:last-child) {
