@@ -320,6 +320,12 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 .breadcrumb > li {
   color: #BDBDBD; }
 
+.breadcrumb > li + li:last-child::before {
+  color: #BDBDBD; }
+
+.bread_mask {
+  background: #000000; }
+
 /* === End Breadcrumbs === */
 /* === Panel === */
 .category-header i {

@@ -422,6 +422,16 @@ a:focus {
     margin-bottom: 0px;
     font-style: italic;
 }
+
+#mobile_breadcrumb_btn {
+    clip: rect(0,0,0,0);
+    position: absolute;
+}
+
+.bread_label {
+    width: 100%;
+    font-weight: inherit;
+}
 /* End Breadcrumbs */
 
 .courseHome{

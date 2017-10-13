@@ -300,6 +300,9 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 	def get_messages(self, request):
 		username = request.data['email']
 		user_two = request.data['user_two']
+		n_page = int(request.data['page'])
+		messages_by_page = int(request.data['page_size'])
+		#messages_by_page = 15
 
 		user = User.objects.get(email = username)
 
@@ -312,7 +315,15 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 
 			messages = TalkMessages.objects.filter((Q(talk__user_one__email = username) & Q(talk__user_two__email = user_two)) | (Q(talk__user_one__email = user_two) & Q(talk__user_two__email = username))).order_by('-create_date')
 
-			serializer = ChatSerializer(messages, many = True, context = {"request_user": user})
+			page = []
+
+			for i in range(messages_by_page*(n_page - 1), (n_page*messages_by_page)):
+				if i >= messages.count():
+					break;
+				else:
+					page.append(messages[i])
+
+			serializer = ChatSerializer(page, many = True, context = {"request_user": user})
 
 			json_r = json.dumps(serializer.data)
 			json_r = json.loads(json_r)
