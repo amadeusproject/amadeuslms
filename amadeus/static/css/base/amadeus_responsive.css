@@ -97,6 +97,9 @@
 	#printButton {
 		top:1.3em;
 	}
+	#core-subjects-options-div{
+		font-size: 10px;
+	}
 	.language-selector-on-header .no-title{
 		display:none;
 	}
