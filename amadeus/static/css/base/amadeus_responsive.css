@@ -94,7 +94,9 @@
 	.navbar .project_name{
 		display: block !important;
 	}
-
+	#printButton {
+		top:1.3em;
+	}
 	.language-selector-on-header .no-title{
 		display:none;
 	}
@@ -242,7 +244,7 @@
     	margin-right: 0px;
     }
 
-    
+
 
 	.talk-filter .checkbox {
 		display: inline;
@@ -345,7 +347,7 @@
 		-moz-transform: rotate(90deg);
 		-ms-transform: rotate(90deg);
 		-o-transform: rotate(90deg);
-		transform: rotate(90deg);	
+		transform: rotate(90deg);
 	}
 
 	input#mobile_breadcrumb_btn:checked ~ .bread_label .breadcrumb > li:not(:last-child) {
@@ -432,7 +434,7 @@
 		-moz-transform: rotate(45deg) scaleX(1.5);
 		-ms-transform: rotate(45deg) scaleX(1.5);
 		-o-transform: rotate(45deg) scaleX(1.5);
-		transform: rotate(45deg) scaleX(1.5) translateY(-8px);	
+		transform: rotate(45deg) scaleX(1.5) translateY(-8px);
 	}
 
 	.mobile_menu_navbar > ul,
@@ -479,7 +481,7 @@
 	    text-align: right;
 	    margin-bottom: 10px;
 	}
-	
+
 	.card .card-body {
     	height: 30%;
     	padding: 10px;
@@ -597,7 +599,7 @@
 	.help-block span{
     	position: relative !important;
     }
-	
+
 	li[data-mural] {
 		font-size: 10px;
 	}
