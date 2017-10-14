@@ -102,6 +102,10 @@
 	}
 	/* End Buttons */
 
+	.subject-period {
+		font-size: 12px;
+	}
+
 	.navbar .project_name{
 		display: block !important;
 	}
