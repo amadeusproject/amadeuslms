@@ -106,6 +106,10 @@
 		font-size: 12px;
 	}
 
+	.mural .mural-list {
+		padding: 0px;
+	}
+
 	.navbar .project_name{
 		display: block !important;
 	}
