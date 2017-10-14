@@ -99,18 +99,18 @@
 
                                     <br clear="all" />
 
-                                    <div class="col-md-3 col-sm-3 user-img">
+                                    <div class="col-md-3 col-sm-3 col-xs-3 user-img">
                                         <img src="{{ participant.image_url }}" class="img-responsive" />
                                     </div>
-                                    <div class="col-md-9 col-sm-9 user-info">
+                                    <div class="col-md-9 col-sm-9 col-xs-9 user-info">
                                         <h4><a class="status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
                                     </div>
                                 </div>
                                 <div class="popover-footer">
-                                    <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:profile" participant.email %}' class="btn btn-default btn-sm btn-raised pull-left">
+                                    <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:profile" participant.email %}' class="btn btn-default btn-raised pull-left btn-popover-mobile">
                                         {% trans 'See Profile' %}
                                     </a>
-                                    <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:talk" participant.email %}' class="btn btn-success btn-sm btn-raised pull-right">
+                                    <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:talk" participant.email %}' class="btn btn-success btn-raised pull-right btn-popover-mobile">
                                         {% trans 'Send Message' %}
                                     </a>
                                 </div>
@@ -148,6 +148,9 @@
 
             $('[data-toggle="popover"]').popover({
                 html: true,
+                placement: function () {
+                    return window.innerWidth <= 768 ? 'bottom' : 'left';
+                },
                 content: function () {
                     return $(this).parent().find(".popover").html();
                 }

@@ -100,6 +100,11 @@
 		padding: 5px 20px;
 		font-size: 12px;
 	}
+
+	.btn-popover-mobile {
+		padding: 4px 15px;
+    	font-size: 10px;
+	}
 	/* End Buttons */
 
 	.subject-period {
@@ -513,6 +518,10 @@
 }
 
 @media(min-width: 769px) {
+	.btn-popover-mobile {
+		padding: 5px 20px;
+		font-size: 12px;
+	}
 
 	#profile-menu{
 		float:right;
