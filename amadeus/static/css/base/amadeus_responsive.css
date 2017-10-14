@@ -91,6 +91,17 @@
 }
 
 @media(max-width: 768px) {
+	/* Buttons */
+	.visible-xs-block {
+		margin: 0 auto;
+	}
+
+	.btn-mobile {
+		padding: 5px 20px;
+		font-size: 12px;
+	}
+	/* End Buttons */
+
 	.navbar .project_name{
 		display: block !important;
 	}
