@@ -39,12 +39,12 @@
 								        	</span>
 								        </div>
 								        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-								        	{% with 'img/themes/'|add:radio.choice_value|add:'.png' as img_presentation %}
+								        	{% with 'img/themes/'|add:radio.choice_value|add:'.jpg' as img_presentation %}
 								        		<img class="radio theme_img" src="{% static img_presentation %}" />
 								        	{% endwith %}
 								        </div>
 								        <div class="col-md-2 col-md-2 col-sm-2 col-xs-12">
-								        	{% with 'css/themes/'|add:radio.choice_value|add:'.css' as doc_presentation %}
+								        	{% with 'docs/themes/'|add:radio.choice_value|add:'_docs.pdf' as doc_presentation %}
 								        		<a class="radio" href="{% static doc_presentation %}" target="blank">{% trans 'Documentation' %}</a>
 								        	{% endwith %}
 								        </div>
