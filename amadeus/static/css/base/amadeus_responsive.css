@@ -93,7 +93,7 @@
 @media(max-width: 768px) {
 	/* Buttons */
 	.visible-xs-block {
-		margin: 0 auto;
+		margin: 10px auto;
 	}
 
 	.btn-mobile {
