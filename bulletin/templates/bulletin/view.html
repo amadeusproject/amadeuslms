@@ -171,9 +171,19 @@
 					</div>
 
 					<div class="row" style="padding-left: 10px;">
-							<div class="col-md-7" >
+							<div class="col-md-2" >
 								<div class="row">
-									<div id="bullet_chart"> </div>
+									<div id="bullet_chart1" > </div>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="row">
+									<div id="bullet_chart2"> </div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="row">
+									<div id="bullet_chart3"> </div>
 								</div>
 							</div>
 							<div class="col-md-5">
@@ -441,11 +451,11 @@
 		var ind06 = [{valor: dataset[5].valor,  mediana: dataset[5].mediana, maximo: dataset[5].maximo}];
 
 		// Variáveis de largura e altura da área de desenho do SVG
-		var w = 110;
-		var h = 350;
+		var w = 100;
+		var h = 3*w;
 
 		// Margens
-		var margin = {top: 40,bottom: 40,left: 40,right: 10};
+		var margin = {top: w/3,bottom: w/3,left: w/3,right: w/12};
 
 		// Definindo a área em que o gráfico será construído dentro da área de desenho
 		var width = w - margin.left - margin.right;
@@ -492,15 +502,17 @@
 
 
 		// Definindo o objeto SVG
-		var svg = d3.select("#bullet_chart").append("svg").attr("id", "bullet_chart1").attr("width", 6*w).attr("height", h);
+		var svg = d3.select("#bullet_chart1").append("svg").attr("id", "bullet_chart").attr("width", 6*w).attr("height", h);
+		var svg2 = d3.select("#bullet_chart2").append("svg").attr("id", "bullet_chart").attr("width", 6*w).attr("height", h);
+		var svg3 = d3.select("#bullet_chart3").append("svg").attr("id", "bullet_chart").attr("width", 6*w).attr("height", h);
 
 		// Definindo um objeto SVG agrupado
 		var bullet_chart = svg.append("g").classed("display", true).attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-		var bullet_chart2 = svg.append("g").classed("display", true).attr("transform", "translate(" + (margin.left+w) + "," + margin.top + ")");
-		var bullet_chart3 = svg.append("g").classed("display", true).attr("transform", "translate(" + (margin.left+2*w) + "," + margin.top + ")");
-		var bullet_chart4 = svg.append("g").classed("display", true).attr("transform", "translate(" + (margin.left+3*w) + "," + margin.top + ")");
-		var bullet_chart5 = svg.append("g").classed("display", true).attr("transform", "translate(" + (margin.left+4*w) + "," + margin.top + ")");
-		var bullet_chart6 = svg.append("g").classed("display", true).attr("transform", "translate(" + (margin.left+5*w) + "," + margin.top + ")");
+		var bullet_chart2 = svg.append("g").classed("display", true).attr("transform", "translate(" + (margin.left + w) + "," + margin.top + ")");
+		var bullet_chart3 = svg2.append("g").classed("display", true).attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		var bullet_chart4 = svg2.append("g").classed("display", true).attr("transform", "translate(" + (margin.left + w) + "," + margin.top + ")");
+		var bullet_chart5 = svg3.append("g").classed("display", true).attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		var bullet_chart6 = svg3.append("g").classed("display", true).attr("transform", "translate(" + (margin.left + w) + "," + margin.top + ")");
 
 		// Definindo o objeto tooltip
 		var tooltip = d3.select("body").append("div").attr("class", "toolTip");
