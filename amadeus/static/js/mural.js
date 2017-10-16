@@ -31,6 +31,9 @@ $(function () {
 function setUserDataPopover() {
     $('[data-toggle="popover"]').popover({
         html: true,
+        placement: function () {
+            return window.innerWidth <= 768 ? 'bottom' : 'right';
+        },
         content: function () {
             return $(this).parent().find(".popover").html();
         }

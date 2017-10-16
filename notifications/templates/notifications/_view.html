@@ -7,7 +7,7 @@
 		<div class="col-md-12">
 			<div class="panel panel-default">
 				<div class="pendency panel-body">
-					<ul class="breadcrumb pend-card">
+					<ul class="breadcrumb pend-card hidden-sm hidden-xs">
 						<li>
 							<a href="{% url 'subjects:home' %}">{% trans 'Home' %}</a>
 						</li>
@@ -48,7 +48,7 @@
 					</div>
 					{% if not has_subject_permissions %}
 						<div class="row text-center">
-							<a href="{{ notification.task.resource.access_link }}" class="btn btn-success btn-raised" {% if notification.task.resource.show_window %}target="_blank"{% endif %}>
+							<a href="{{ notification.task.resource.access_link }}" class="btn btn-success btn-mobile btn-raised" {% if notification.task.resource.show_window %}target="_blank"{% endif %}>
 								{% if notification.level == 4 %}
 									{% trans 'Access the task' %}
 								{% else %}
@@ -57,8 +57,8 @@
 							</a>
 
 							{% if notification.level < 3 %}
-								<button class="btn btn-default no_button">{% trans 'or' %}</button>
-								<button class="btn btn-default btn-raised" data-toggle="popover" data-placement="right">
+								<button class="btn btn-default no_button btn-mobile visible-xs-block visible-sm-block">{% trans 'or' %}</button>
+								<button class="btn btn-default btn-raised btn-mobile" data-toggle="popover" data-placement="right">
 									{% if notification.level == 1 %}
 										{% trans 'Define goal to realization' %}
 									{% else %}

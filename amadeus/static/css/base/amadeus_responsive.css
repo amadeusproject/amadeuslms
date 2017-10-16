@@ -91,6 +91,30 @@
 }
 
 @media(max-width: 768px) {
+	/* Buttons */
+	.visible-xs-block {
+		margin: 10px auto;
+	}
+
+	.btn-mobile {
+		padding: 5px 20px;
+		font-size: 12px;
+	}
+
+	.btn-popover-mobile {
+		padding: 4px 15px;
+    	font-size: 10px;
+	}
+	/* End Buttons */
+
+	.subject-period {
+		font-size: 12px;
+	}
+
+	.mural .mural-list {
+		padding: 0px;
+	}
+
 	.navbar .project_name{
 		display: block !important;
 	}
@@ -494,6 +518,10 @@
 }
 
 @media(min-width: 769px) {
+	.btn-popover-mobile {
+		padding: 5px 20px;
+		font-size: 12px;
+	}
 
 	#profile-menu{
 		float:right;
