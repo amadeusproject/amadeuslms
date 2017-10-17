@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-07 00:08-0300\n"
+"POT-Creation-Date: 2017-10-16 23:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -95,28 +95,23 @@ msgstr "Temas"
 msgid "Web Conference"
 msgstr "Web conferência"
 
-#: amadeus/templates/base.html:340 amadeus/templates/base.html:396
-#: amadeus/templates/base.html:433
+#: amadeus/templates/base.html:340 amadeus/templates/base.html:398
 msgid "Subjects"
 msgstr "Assuntos"
 
-#: amadeus/templates/base.html:345 amadeus/templates/base.html:402
-#: amadeus/templates/base.html:438
+#: amadeus/templates/base.html:345 amadeus/templates/base.html:404
 msgid "Mural"
 msgstr "Mural"
 
-#: amadeus/templates/base.html:351 amadeus/templates/base.html:409
-#: amadeus/templates/base.html:444
+#: amadeus/templates/base.html:351 amadeus/templates/base.html:411
 msgid "Messages"
 msgstr "Mensagens"
 
-#: amadeus/templates/base.html:357 amadeus/templates/base.html:417
-#: amadeus/templates/base.html:450
+#: amadeus/templates/base.html:357 amadeus/templates/base.html:419
 msgid "Pendencies"
 msgstr "Pendências"
 
-#: amadeus/templates/base.html:365 amadeus/templates/base.html:426
-#: amadeus/templates/base.html:458
+#: amadeus/templates/base.html:365 amadeus/templates/base.html:428
 msgid "Analytics"
 msgstr "Analytics"
 

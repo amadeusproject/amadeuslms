@@ -73,27 +73,27 @@
 				{% endautoescape %}
 
 				<div style="padding-left: 0px;padding-right: 0px;">
-					<div align="left" style="font-size:22px; color: #878787; padding-top: 0px;">Confira as suas metas</div>
+					<div align="left" style="font-size:22px; color: #878787; padding-top: 0px;">{% trans 'Check your goals' %}</div>
 					<hr style="height:2px; background-color:#878787; margin-top: 5px;">
 					
 					<div class="row">
 						<div class="col-md-4">
-							<div align="center" style="font-size:16px; color: #000; padding-botom: 10px;"><b>Metas Atingidas</b></div>
+							<div align="center" style="font-size:16px; color: #000; padding-botom: 10px;"><b> {% trans 'Goals Reached' %}</b></div>
 							<div id="donut_chart" align="center"></div>
 						</div>
 
 						<div class="col-md-8">
-							<div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>Detalhamento das metas</b></div>
+							<div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Goals Details' %}</b></div>
 							<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
 							
 							<table class="table table-hover goals_details_table">
 								<thead>
 									<tr>
-										<th style="text-align:center">Descrição</th>
-										<th style="width:150px; text-align:center">Recomendação </br> do(a) professor(a)</th>
-										<th style="text-align:center">Média da turma</th>
-										<th style="text-align:center">Sua meta</th>
-										<th style="text-align:center">Seu resultado</th>
+										<th style="text-align:center">{% trans 'Description' %}</th>
+										<th style="width:150px; text-align:center">{% trans "Professor's recomendation" %}</th>
+										<th style="text-align:center">{% trans 'Class average' %}</th>
+										<th style="text-align:center">{% trans 'Your goal' %}</th>
+										<th style="text-align:center">{% trans 'Your result' %}</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -109,22 +109,22 @@
 											{% if meta.alcancada < meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada < meta.desejada and meta.alcancada == meta.estabelecida %}
 												<td style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
 												data-toggle="tooltip" data-html="true" data-placement="bottom"
-												title="<b>Meta atingida!</b><br><br>Atenção! O seu resultado foi inferior ao recomendado pelo professor." class="grey-tooltip">
+												title="{% trans "<b>Goal reached!</b><br /><br /> Atention! Your result were lower than the professor's recommendation." %}" class="grey-tooltip">
 												{{ meta.alcancada }}%</td>
 											{% elif meta.alcancada > meta.desejada and meta.alcancada < meta.estabelecida or meta.alcancada == meta.desejada and meta.alcancada < meta.estabelecida %}
 												<td style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
 												data-toggle="tooltip" data-html="true" data-placement="bottom"
-												title="<b>Meta atingida!</b><br><br>Atenção! O seu resultado foi inferior a sua meta inicial." class="grey-tooltip">
+												title="{% trans "<b>Goal reached!</b><br /><br /> Atention! Your result were lower than your initial goal." %}" class="grey-tooltip">
 												{{ meta.alcancada }}%</td>
 											{% elif meta.alcancada > meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada == meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada > meta.desejada and meta.alcancada == meta.estabelecida or meta.alcancada == 100 or meta.alcancada == meta.desejada and meta.alcancada == meta.estabelecida %}
 												<td style="text-align:center;background-color:#00d337;  text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
 												data-toggle="tooltip" data-html="true" data-placement="bottom"
-												title="<b>Meta atingida!</b>" class="grey-tooltip">
+												title="{% trans "<b>Goal reached!</b>" %}" class="grey-tooltip">
 												{{ meta.alcancada }}%</td>
 											{% elif meta.alcancada < meta.desejada and meta.alcancada < meta.estabelecida %}
 												<td style="text-align:center;background-color:#ff0000; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
 												data-toggle="tooltip" data-html="true" data-placement="bottom"
-												title="<b>Meta não atingida!</b><br><br>Resultado inferior </br>a sua meta e ao recomendado pelo professor." class="grey-tooltip">
+												title="{% trans "<b>Goal not reached!</b><br /><br /> Result lower than your goal and the professor's recommendation." %}" class="grey-tooltip">
 												{{ meta.alcancada }}%</td>
 											{% endif %}
 										</tr>
@@ -136,19 +136,19 @@
 					</div>
 				</div>
 				<div style="padding-left: 0px;padding-right: 0px;">
-					<div align="left" style="font-size:22px; color: #878787; padding-top: 25px; ">Indicadores relevantes para o seu desempenho</div>
+					<div align="left" style="font-size:22px; color: #878787; padding-top: 25px; ">{% trans 'Relevant indicators to your performance' %}</div>
 					<hr style="height:2px; background-color:#878787; margin-top: 5px;">
 					<div class="row" style="padding-left: 15px;">
 						<table>
 							<tr>
 								<td style="background-color:#002F4B; width: 20px;"></td>
-								<td style="padding-left: 5px;">Seu resultado</td>
+								<td style="padding-left: 5px;">{% trans 'Your result' %}</td>
 								<td style="width: 20px"></td>
 								<td style="background-color:#009688; width: 20px;"></td>
-								<td style="padding-left: 5px;">Nível acima da mediana dos aprovados</td>
+								<td style="padding-left: 5px;">{% trans 'Level above the approved median' %}</td>
 								<td style="width: 20px"></td>
 								<td style="background-color:#d0cebb; width: 20px;"></td>
-								<td style="padding-left: 5px;">Nível abaixo da mediana dos aprovados</td>
+								<td style="padding-left: 5px;">{% trans 'Level below the approved median' %}</td>
 								<td style="width: 30px"></td>
 							</tr>
 						</table>
@@ -159,14 +159,14 @@
 							<div id="bullet_chart1"></div>
 						</div>
 						<div class="graph-area col-md-2 col-xs-12">
-							<div id="bullet_chart2"> </div>
+							<div id="bullet_chart2"></div>
 						</div>
-						<div class="graph-area col-md-3 col-xs-12">
-							<div id="bullet_chart3"> </div>
+						<div class="graph-area col-md-2 col-xs-12">
+							<div id="bullet_chart3"></div>
 						</div>
-						<div class="col-md-5 col-xs-12">
+						<div class="col-md-offset-1 col-md-5 col-xs-12">
 							<div style="font-size:16px; text-align:left; color: #000; padding-left: 20px;padding-top: 30px; ">
-								<b>Descrição dos indicadores</b>
+								<b>{% trans 'Indicators description' %}</b>
 							</div>
 							<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: -1px;">
 							<table class="table table-hover">
@@ -174,7 +174,7 @@
 									{% for titulo in titulos %}
 										<tr>
 											<td style="width:110px;">
-												Indicador 0{{forloop.counter }}:
+												{% trans 'Indicator' %} {{ forloop.counter|stringformat:"02d" }}:
 											</td>
 											<td style="text-align:left; font-weight: normal; padding-left:0px;">
 												{{titulo}}
@@ -433,12 +433,12 @@
 		var height = h - margin.top - margin.bottom;
 
 		// Definindo x1 com escala ordinal
-		var x = d3.scale.ordinal().domain(ind01.map(function(entry){return "Indicador 01";})).rangeBands([0, width]);
-		var x2 = d3.scale.ordinal().domain(ind02.map(function(entry){return "Indicador 02";})).rangeBands([0, width]);
-		var x3 = d3.scale.ordinal().domain(ind03.map(function(entry){return "Indicador 03";})).rangeBands([0, width]);
-		var x4 = d3.scale.ordinal().domain(ind04.map(function(entry){return "Indicador 04";})).rangeBands([0, width]);
-		var x5 = d3.scale.ordinal().domain(ind05.map(function(entry){return "Indicador 05";})).rangeBands([0, width]);
-		var x6 = d3.scale.ordinal().domain(ind06.map(function(entry){return "Indicador 06";})).rangeBands([0, width]);
+		var x = d3.scale.ordinal().domain(ind01.map(function(entry){return "{% trans 'Indicator' %} 01";})).rangeBands([0, width]);
+		var x2 = d3.scale.ordinal().domain(ind02.map(function(entry){return "{% trans 'Indicator' %} 02";})).rangeBands([0, width]);
+		var x3 = d3.scale.ordinal().domain(ind03.map(function(entry){return "{% trans 'Indicator' %} 03";})).rangeBands([0, width]);
+		var x4 = d3.scale.ordinal().domain(ind04.map(function(entry){return "{% trans 'Indicator' %} 04";})).rangeBands([0, width]);
+		var x5 = d3.scale.ordinal().domain(ind05.map(function(entry){return "{% trans 'Indicator' %} 05";})).rangeBands([0, width]);
+		var x6 = d3.scale.ordinal().domain(ind06.map(function(entry){return "{% trans 'Indicator' %} 06";})).rangeBands([0, width]);
 
 		// Definindo y com escala linear
 		var y = d3.scale.linear().domain([0, d3.max(ind01, function(d){return d.maximo;})]).range([height, 0]);
@@ -473,9 +473,9 @@
 
 
 		// Definindo o objeto SVG
-		var svg = d3.select("#bullet_chart1").append("svg").attr("id", "bullet_chart").attr("width", $('.graph-area').width()).attr("height", h);
-		var svg2 = d3.select("#bullet_chart2").append("svg").attr("id", "bullet_chart").attr("width", $('.graph-area').width()).attr("height", h);
-		var svg3 = d3.select("#bullet_chart3").append("svg").attr("id", "bullet_chart").attr("width", $('.graph-area').width()).attr("height", h);
+		var svg = d3.select("#bullet_chart1").append("svg").attr("id", "bullet_chart").attr("width", $('.graph-area').width() + 90).attr("height", h);
+		var svg2 = d3.select("#bullet_chart2").append("svg").attr("id", "bullet_chart").attr("width", $('.graph-area').width() + 90).attr("height", h);
+		var svg3 = d3.select("#bullet_chart3").append("svg").attr("id", "bullet_chart").attr("width", $('.graph-area').width() + 90).attr("height", h);
 
 		// Definindo um objeto SVG agrupado
 		var bullet_chart = svg.append("g").classed("display", true).attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -511,9 +511,9 @@
 									.style("left", d3.event.pageX - 80 + "px")
 									.style("top", d3.event.pageY - 110 + "px")
 									.style("display", "inline-block")
-									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-												+ "Máximo: " + (d.maximo)
-												+ "<br>" +  "Mediana: " + (d.mediana));
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 						})
 						.attr("y", function(d,i){
 							return y(d.maximo);
@@ -539,9 +539,9 @@
 									.style("left", d3.event.pageX - 80 + "px")
 									.style("top", d3.event.pageY - 110 + "px")
 									.style("display", "inline-block")
-									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-												+ "Máximo: " + (d.maximo)
-												+ "<br>" +  "Mediana: " + (d.mediana));
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 						})
 						.attr("y", function(d,i){
 							return y(d.mediana);
@@ -571,9 +571,9 @@
 									.style("left", d3.event.pageX - 80 + "px")
 									.style("top", d3.event.pageY - 110 + "px")
 									.style("display", "inline-block")
-									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-												+ "Máximo: " + (d.maximo)
-												+ "<br>" +  "Mediana: " + (d.mediana));
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 						})
 						.attr("x", 20)
 						.attr("width", function(d){
@@ -626,9 +626,9 @@
 									.style("left", d3.event.pageX - 80 + "px")
 									.style("top", d3.event.pageY - 110 + "px")
 									.style("display", "inline-block")
-									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-												+ "Máximo: " + (d.maximo)
-												+ "<br>" +  "Mediana: " + (d.mediana));
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 						})
 						.attr("y2", function(d,i){
 							return y2(d.maximo);
@@ -654,9 +654,9 @@
 									.style("left", d3.event.pageX - 80 + "px")
 									.style("top", d3.event.pageY - 110 + "px")
 									.style("display", "inline-block")
-									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-												+ "Máximo: " + (d.maximo)
-												+ "<br>" +  "Mediana: " + (d.mediana));
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 						})
 						.attr("y", function(d,i){
 							return y2(d.mediana);
@@ -685,9 +685,9 @@
 										.style("left", d3.event.pageX - 80 + "px")
 										.style("top", d3.event.pageY - 110 + "px")
 										.style("display", "inline-block")
-										.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-													+ "Máximo: " + (d.maximo)
-													+ "<br>" +  "Mediana: " + (d.mediana));
+										.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 							})
 							.attr("x", 20)
 							.attr("width", function(d){
@@ -739,9 +739,9 @@
 									.style("left", d3.event.pageX - 80 + "px")
 									.style("top", d3.event.pageY - 110 + "px")
 									.style("display", "inline-block")
-									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-												+ "Máximo: " + (d.maximo)
-												+ "<br>" +  "Mediana: " + (d.mediana));
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 						})
 						.attr("y", function(d,i){
 							return y3(d.maximo);
@@ -766,9 +766,9 @@
 									.style("left", d3.event.pageX - 80 + "px")
 									.style("top", d3.event.pageY - 110 + "px")
 									.style("display", "inline-block")
-									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-												+ "Máximo: " + (d.maximo)
-												+ "<br>" +  "Mediana: " + (d.mediana));
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 						})
 						.attr("y", function(d,i){
 							return y3(d.mediana);
@@ -797,9 +797,9 @@
 									.style("left", d3.event.pageX - 80 + "px")
 									.style("top", d3.event.pageY - 110 + "px")
 									.style("display", "inline-block")
-									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-												+ "Máximo: " + (d.maximo)
-												+ "<br>" +  "Mediana: " + (d.mediana));
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 						})
 
 						.attr("x", 20)
@@ -852,9 +852,9 @@
 									.style("left", d3.event.pageX - 80 + "px")
 									.style("top", d3.event.pageY - 110 + "px")
 									.style("display", "inline-block")
-									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-												+ "Máximo: " + (d.maximo)
-												+ "<br>" +  "Mediana: " + (d.mediana));
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 						})
 						.attr("y", function(d,i){
 							return y4(d.maximo);
@@ -879,9 +879,9 @@
 									.style("left", d3.event.pageX - 80 + "px")
 									.style("top", d3.event.pageY - 110 + "px")
 									.style("display", "inline-block")
-									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-												+ "Máximo: " + (d.maximo)
-												+ "<br>" +  "Mediana: " + (d.mediana));
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 						})
 						.attr("y", function(d,i){
 							return y4(d.mediana);
@@ -911,9 +911,9 @@
 									.style("left", d3.event.pageX - 80 + "px")
 									.style("top", d3.event.pageY - 110 + "px")
 									.style("display", "inline-block")
-									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-												+ "Máximo: " + (d.maximo)
-												+ "<br>" +  "Mediana: " + (d.mediana));
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 						})
 
 						.attr("x", 20)
@@ -968,9 +968,9 @@
 									.style("left", d3.event.pageX - 80 + "px")
 									.style("top", d3.event.pageY - 110 + "px")
 									.style("display", "inline-block")
-									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-												+ "Máximo: " + (d.maximo)
-												+ "<br>" +  "Mediana: " + (d.mediana));
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 						})
 						.attr("y5", function(d,i){
 							return y5(d.maximo);
@@ -995,9 +995,9 @@
 									.style("left", d3.event.pageX - 80 + "px")
 									.style("top", d3.event.pageY - 110 + "px")
 									.style("display", "inline-block")
-									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-												+ "Máximo: " + (d.maximo)
-												+ "<br>" +  "Mediana: " + (d.mediana));
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 						})
 
 						.attr("y", function(d,i){
@@ -1027,9 +1027,9 @@
 										.style("left", d3.event.pageX - 80 + "px")
 										.style("top", d3.event.pageY - 110 + "px")
 										.style("display", "inline-block")
-										.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-													+ "Máximo: " + (d.maximo)
-													+ "<br>" +  "Mediana: " + (d.mediana));
+										.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 							})
 
 							.attr("x", 20)
@@ -1083,9 +1083,9 @@
 									.style("left", d3.event.pageX - 80 + "px")
 									.style("top", d3.event.pageY - 110 + "px")
 									.style("display", "inline-block")
-									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-												+ "Máximo: " + (d.maximo)
-												+ "<br>" +  "Mediana: " + (d.mediana));
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 						})
 						.attr("y", function(d,i){
 							return y6(d.maximo);
@@ -1110,9 +1110,9 @@
 									.style("left", d3.event.pageX - 80 + "px")
 									.style("top", d3.event.pageY - 110 + "px")
 									.style("display", "inline-block")
-									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-												+ "Máximo: " + (d.maximo)
-												+ "<br>" +  "Mediana: " + (d.mediana));
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 						})
 						.attr("y", function(d,i){
 							return y6(d.mediana);
@@ -1141,9 +1141,9 @@
 									.style("left", d3.event.pageX - 80 + "px")
 									.style("top", d3.event.pageY - 110 + "px")
 									.style("display", "inline-block")
-									.html("<b>Seu resultado: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
-												+ "Máximo: " + (d.maximo)
-												+ "<br>" +  "Mediana: " + (d.mediana));
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
 						})
 
 						.attr("x", 20 )

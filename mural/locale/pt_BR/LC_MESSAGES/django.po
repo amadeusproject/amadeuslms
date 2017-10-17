@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-07 00:08-0300\n"
+"POT-Creation-Date: 2017-10-16 23:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -237,8 +237,10 @@ msgstr "Por Assunto"
 #: mural/templates/mural/list_category.html:124
 #: mural/templates/mural/list_subject.html:74
 #: mural/templates/mural/list_subject.html:123
-#: mural/templates/mural/resource_view.html:66
-#: mural/templates/mural/subject_view.html:81
+#: mural/templates/mural/resource_view.html:38
+#: mural/templates/mural/resource_view.html:84
+#: mural/templates/mural/subject_view.html:53
+#: mural/templates/mural/subject_view.html:99
 msgid "Filter"
 msgstr "Filtrar"
 
@@ -247,8 +249,10 @@ msgstr "Filtrar"
 #: mural/templates/mural/list_category.html:129
 #: mural/templates/mural/list_subject.html:79
 #: mural/templates/mural/list_subject.html:128
-#: mural/templates/mural/resource_view.html:71
-#: mural/templates/mural/subject_view.html:86
+#: mural/templates/mural/resource_view.html:43
+#: mural/templates/mural/resource_view.html:89
+#: mural/templates/mural/subject_view.html:58
+#: mural/templates/mural/subject_view.html:104
 msgid "Favorite posts"
 msgstr "Postagens favoritas"
 
@@ -257,24 +261,26 @@ msgstr "Postagens favoritas"
 #: mural/templates/mural/list_category.html:134
 #: mural/templates/mural/list_subject.html:84
 #: mural/templates/mural/list_subject.html:133
-#: mural/templates/mural/resource_view.html:76
-#: mural/templates/mural/subject_view.html:91
+#: mural/templates/mural/resource_view.html:48
+#: mural/templates/mural/resource_view.html:94
+#: mural/templates/mural/subject_view.html:63
+#: mural/templates/mural/subject_view.html:109
 msgid "Only my posts"
 msgstr "Apenas minhas postagens"
 
 #: mural/templates/mural/list.html:50
 #: mural/templates/mural/list_category.html:99
 #: mural/templates/mural/list_subject.html:98
-#: mural/templates/mural/resource_view.html:44
-#: mural/templates/mural/subject_view.html:59
+#: mural/templates/mural/resource_view.html:62
+#: mural/templates/mural/subject_view.html:77
 msgid "Wish to make a new post?"
 msgstr "Deseja fazer uma nova postagem?"
 
 #: mural/templates/mural/list.html:68
 #: mural/templates/mural/list_category.html:120
 #: mural/templates/mural/list_subject.html:119
-#: mural/templates/mural/resource_view.html:62
-#: mural/templates/mural/subject_view.html:77
+#: mural/templates/mural/resource_view.html:80
+#: mural/templates/mural/subject_view.html:95
 msgid "There are no posts in this mural yet."
 msgstr "Ainda não existe nenhuma postagem nesse mural."
 

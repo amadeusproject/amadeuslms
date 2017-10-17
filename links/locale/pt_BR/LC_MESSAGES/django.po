@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-07 00:08-0300\n"
+"POT-Creation-Date: 2017-10-16 23:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -81,6 +81,10 @@ msgstr "Atribuir grupos para o link de arquivo"
 #: links/templates/links/_form.html:307
 msgid "Save"
 msgstr "Salvar"
+
+#: links/templates/links/_form.html:311
+msgid "Cancel"
+msgstr ""
 
 #: links/templates/links/create.html:20
 msgid "Create Website Link"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-07 00:08-0300\n"
+"POT-Creation-Date: 2017-10-16 23:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,6 +93,10 @@ msgstr "Atribuir grupos de estudo à Página Web"
 #: webpage/templates/webpages/_form.html:325
 msgid "Save"
 msgstr "Salvar"
+
+#: webpage/templates/webpages/_form.html:329
+msgid "Cancel"
+msgstr ""
 
 #: webpage/templates/webpages/create.html:20 webpage/views.py:234
 msgid "Create Webpage"

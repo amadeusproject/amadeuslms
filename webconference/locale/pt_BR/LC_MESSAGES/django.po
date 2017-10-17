@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-07 00:08-0300\n"
+"POT-Creation-Date: 2017-10-16 23:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,11 +133,15 @@ msgstr "Atribuir grupos à web conferência"
 msgid "Save"
 msgstr "Salvar"
 
-#: webconference/templates/webconference/_form.html:405
+#: webconference/templates/webconference/_form.html:402
+msgid "Cancel"
+msgstr ""
+
+#: webconference/templates/webconference/_form.html:409
 msgid "Add new notification"
 msgstr "Notificações Pendentes"
 
-#: webconference/templates/webconference/_form.html:406
+#: webconference/templates/webconference/_form.html:410
 msgid "Remove this"
 msgstr "Remover isto"
 
