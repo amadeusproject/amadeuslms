@@ -69,94 +69,78 @@
 				{% endif %}
 
 				{% autoescape off %}
-				 {{ bulletin.content }}
+					{{ bulletin.content }}
 				{% endautoescape %}
 
 				<div style="padding-left: 0px;padding-right: 0px;">
 					<div align="left" style="font-size:22px; color: #878787; padding-top: 0px;">Confira as suas metas</div>
 					<hr style="height:2px; background-color:#878787; margin-top: 5px;">
+					
 					<div class="row">
-							<div class="col-md-4">
-								<div align="center" style="font-size:16px; color: #000; padding-botom: 10px;"><b>Metas Atingidas</b></div>
-								<div id="donut_chart" align="center"></div>
-							</div>
+						<div class="col-md-4">
+							<div align="center" style="font-size:16px; color: #000; padding-botom: 10px;"><b>Metas Atingidas</b></div>
+							<div id="donut_chart" align="center"></div>
+						</div>
 
-							<div class="col-md-8">
-								<div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>Detalhamento das metas</b></div>
-								<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
-								<table class="table table-hover">
-									<thead>
+						<div class="col-md-8">
+							<div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>Detalhamento das metas</b></div>
+							<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
+							
+							<table class="table table-hover goals_details_table">
+								<thead>
+									<tr>
+										<th style="text-align:center">Descrição</th>
+										<th style="width:150px; text-align:center">Recomendação </br> do(a) professor(a)</th>
+										<th style="text-align:center">Média da turma</th>
+										<th style="text-align:center">Sua meta</th>
+										<th style="text-align:center">Seu resultado</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for meta in metas%}
 										<tr>
-											<th style="text-align:center">Descrição</th>
-											<th style="width:150px; text-align:center">Recomendação </br> do(a) professor(a)</th>
-											<th style="text-align:center">Média da turma</th>
-											<th style="text-align:center">Sua meta</th>
-											<th style="text-align:center">Seu resultado</th>
-										</tr>
-									</thead>
-									<tbody>
-										{% for meta in metas%}
-										<tr>
-											<th style="font-weight: normal;">{{ meta.description }}</th>
-											<th style="text-align:center;font-weight: normal;">{{ meta.desejada }} %</th>
+											<td style="font-weight: normal;">{{ meta.description }}</td>
+											<td style="text-align:center;font-weight: normal;">{{ meta.desejada }} %</td>
 											<td style="text-align:center;font-weight: normal;">{{ meta.media }}%</td>
-											<th style="text-align:center; font-weight: normal;">{{ meta.estabelecida }}%</th>
+											<td style="text-align:center; font-weight: normal;">{{ meta.estabelecida }}%</td>
 
 
 											<!-- Cor amarela -->
 											{% if meta.alcancada < meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada < meta.desejada and meta.alcancada == meta.estabelecida %}
-												<th style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
+												<td style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
 												data-toggle="tooltip" data-html="true" data-placement="bottom"
 												title="<b>Meta atingida!</b><br><br>Atenção! O seu resultado foi inferior ao recomendado pelo professor." class="grey-tooltip">
-												{{ meta.alcancada }}%</th>
-											{% endif %}
-
-											{% if meta.alcancada > meta.desejada and meta.alcancada < meta.estabelecida or meta.alcancada == meta.desejada and meta.alcancada < meta.estabelecida %}
-												<th style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
+												{{ meta.alcancada }}%</td>
+											{% elif meta.alcancada > meta.desejada and meta.alcancada < meta.estabelecida or meta.alcancada == meta.desejada and meta.alcancada < meta.estabelecida %}
+												<td style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
 												data-toggle="tooltip" data-html="true" data-placement="bottom"
 												title="<b>Meta atingida!</b><br><br>Atenção! O seu resultado foi inferior a sua meta inicial." class="grey-tooltip">
-												{{ meta.alcancada }}%</th>
-											{% endif %}
-
-											<!-- Cor amarela -->
-
-											<!-- Cor verde -->
-											{% if meta.alcancada > meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada == meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada > meta.desejada and meta.alcancada == meta.estabelecida or meta.alcancada == 100 or meta.alcancada == meta.desejada and meta.alcancada == meta.estabelecida %}
-												<th style="text-align:center;background-color:#00d337;  text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
+												{{ meta.alcancada }}%</td>
+											{% elif meta.alcancada > meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada == meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada > meta.desejada and meta.alcancada == meta.estabelecida or meta.alcancada == 100 or meta.alcancada == meta.desejada and meta.alcancada == meta.estabelecida %}
+												<td style="text-align:center;background-color:#00d337;  text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
 												data-toggle="tooltip" data-html="true" data-placement="bottom"
 												title="<b>Meta atingida!</b>" class="grey-tooltip">
-												{{ meta.alcancada }}%</th>
-											{% endif %}
-
-											<!-- Cor verde -->
-
-											<!-- Cor vermelha -->
-											{% if meta.alcancada < meta.desejada and meta.alcancada < meta.estabelecida %}
-												<th style="text-align:center;background-color:#ff0000; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
+												{{ meta.alcancada }}%</td>
+											{% elif meta.alcancada < meta.desejada and meta.alcancada < meta.estabelecida %}
+												<td style="text-align:center;background-color:#ff0000; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
 												data-toggle="tooltip" data-html="true" data-placement="bottom"
 												title="<b>Meta não atingida!</b><br><br>Resultado inferior </br>a sua meta e ao recomendado pelo professor." class="grey-tooltip">
-												{{ meta.alcancada }}%</th>
-
+												{{ meta.alcancada }}%</td>
 											{% endif %}
-											<!-- Cor vermelha -->
-
-
 										</tr>
-										{% endfor %}
-
-
-									</tbody>
-								</table>
-								<hr style="height:1px; background-color:#878787;margin-top: -20px;">
-							</div>
+									{% endfor %}
+								</tbody>
+							</table>
+							<hr style="height:1px; background-color:#878787;margin-top: -20px;" />
+						</div>
 					</div>
 				</div>
 				<div style="padding-left: 0px;padding-right: 0px;">
 					<div align="left" style="font-size:22px; color: #878787; padding-top: 25px; ">Indicadores relevantes para o seu desempenho</div>
 					<hr style="height:2px; background-color:#878787; margin-top: 5px;">
-					<div class="row" style="padding-left: 15px;" >
-						<table >
-							<tr >
+					<div class="row" style="padding-left: 15px;">
+						<table>
+							<tr>
 								<td style="background-color:#002F4B; width: 20px;"></td>
 								<td style="padding-left: 5px;">Seu resultado</td>
 								<td style="width: 20px"></td>
@@ -171,93 +155,80 @@
 					</div>
 
 					<div class="row" style="padding-left: 10px;">
-							<div class="col-md-2" >
-								<div class="row">
-									<div id="bullet_chart1" > </div>
-								</div>
+						<div class="graph-area col-md-2 col-xs-12">
+							<div id="bullet_chart1"></div>
+						</div>
+						<div class="graph-area col-md-2 col-xs-12">
+							<div id="bullet_chart2"> </div>
+						</div>
+						<div class="graph-area col-md-3 col-xs-12">
+							<div id="bullet_chart3"> </div>
+						</div>
+						<div class="col-md-5 col-xs-12">
+							<div style="font-size:16px; text-align:left; color: #000; padding-left: 20px;padding-top: 30px; ">
+								<b>Descrição dos indicadores</b>
 							</div>
-							<div class="col-md-2">
-								<div class="row">
-									<div id="bullet_chart2"> </div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="row">
-									<div id="bullet_chart3"> </div>
-								</div>
-							</div>
-							<div class="col-md-5">
-
-								<div style="font-size:16px; text-align:left; color: #000; padding-left: 20px;padding-top: 30px; ">
-									<b>Descrição dos indicadores</b>
-								</div>
-
-								<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: -1px;">
-
-								<table class="table table-hover">
-									<tbody>
-										{% for titulo in titulos %}
-												<tr>
-													<th style="width:110px;">
-														Indicador 0{{forloop.counter }}:
-													</th>
-													<th style="text-align:left; font-weight: normal; padding-left:0px;">
-														{{titulo}}
-													</th>
-												</tr>
-										{% endfor %}
-
-										</tbody>
-									</table>
-									<hr style="height:1px; background-color:#878787;margin-top: -20px;">
-								</div>
+							<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: -1px;">
+							<table class="table table-hover">
+								<tbody>
+									{% for titulo in titulos %}
+										<tr>
+											<td style="width:110px;">
+												Indicador 0{{forloop.counter }}:
+											</td>
+											<td style="text-align:left; font-weight: normal; padding-left:0px;">
+												{{titulo}}
+											</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+							<hr style="height:1px; background-color:#878787;margin-top: -20px;">
+						</div>
 					</div>
 				</div>
 
 				{% if not has_subject_permissions %}
-				<div class="form-group" style="background-color:#fff; box-shadow: 1px 1px 25px #c0beaf; margin-top: 15px;">
+					<div class="form-group" style="background-color:#fff; box-shadow: 1px 1px 25px #c0beaf; margin-top: 15px;">
 						<div class="row">
-						<div class="col-md-1" align="left" style="padding-left: 25px; padding-top: 10px;">
-									<img src="{% static 'img/warning.png' %}"  height="80" width="95"/>
-						</div>
-						<div class="col-md-11">
-							<div class="row">
+							<div class="col-md-1" align="left" style="padding-left: 25px; padding-top: 10px;">
+								<img src="{% static 'img/warning.png' %}"  height="80" width="95"/>
+							</div>
+							<div class="col-md-11">
+								<div class="row">
 									<div align="left" style="padding-left: 25px; font-size:22px; color: #878787; padding-top: 15px;padding-bottom: 20px;">{% trans 'There are obstructions to your activities?' %}</div>
-									<div align="left" style="padding-left: 25px; padding-right:35px; font-size:16px;"><p><a data-toggle="modal" data-target="#bulletin-difficulties-modal" href=""><b>{% trans 'Click here' %}</b></a> {% trans 'to communicate the difficulties that may decrease your performance.' %}</p></div>
+									<div align="left" style="padding-left: 25px; padding-right:35px; font-size:16px;">
+										<p><a data-toggle="modal" data-target="#bulletin-difficulties-modal" href=""><b>{% trans 'Click here' %}</b></a> {% trans 'to communicate the difficulties that may decrease your performance.' %}</p>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</br>
-		<div class="modal fade" tabindex="-1" role="dialog" id="bulletin-difficulties-modal">
-				<div class="modal-dialog" role="document">
-						<div class="modal-content">
+					</br>
+					<div class="modal fade" tabindex="-1" role="dialog" id="bulletin-difficulties-modal">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
 								<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 								</div>
 								<div class="modal-body">
-										<form id="bulletin-difficulties" action="" method="POST" enctype="multipart/form-data">
-												{% csrf_token %}
-												<textarea class="form-control" id="dificulties" name="difficulties" placeholder="{% trans 'Type here the dificulties that may harm your performance' %}"></textarea>
-										</form>
+									<form id="bulletin-difficulties" action="" method="POST" enctype="multipart/form-data">
+										{% csrf_token %}
+										<textarea class="form-control" id="dificulties" name="difficulties" placeholder="{% trans 'Type here the dificulties that may harm your performance' %}"></textarea>
+									</form>
 								</div>
 								<div class="modal-footer">
-										<button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
-										<button type="submit" class="btn btn-success btn-raised erase-button" form="bulletin-difficulties">{% trans "Send" %}</button>
+									<button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+									<button type="submit" class="btn btn-success btn-raised erase-button" form="bulletin-difficulties">{% trans "Send" %}</button>
 								</div>
+							</div>
 						</div>
-				</div>
+					</div>
+				{% endif %}
+			</div>
 		</div>
-		{% endif %}
 
-		{% block addtional_scripts %}
-			<script type="text/javascript">
-				sessionSecurity.confirmFormDiscard = undefined;
-			</script>
-		{% endblock %}
-
-
-		<script type="text/javascript">
+	<script type="text/javascript">
 		$('#bulletin-difficulties-modal').on('shown.bs.modal', function (e) {
 			$.ajax({
 	            url: "{% url 'bulletin:difficulties_log' bulletin.slug %}",
@@ -405,9 +376,9 @@
 		};
 		setTimeout(animate,0);
 
-		</script>
+	</script>
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 		// Script para a geração do gráfico de indicadores relevantes
 		var mediana1 = parseFloat("{{medianas.0}}".replace(",","."))
 		var mediana2 = parseFloat("{{medianas.1}}".replace(",","."))
@@ -502,9 +473,9 @@
 
 
 		// Definindo o objeto SVG
-		var svg = d3.select("#bullet_chart1").append("svg").attr("id", "bullet_chart").attr("width", 6*w).attr("height", h);
-		var svg2 = d3.select("#bullet_chart2").append("svg").attr("id", "bullet_chart").attr("width", 6*w).attr("height", h);
-		var svg3 = d3.select("#bullet_chart3").append("svg").attr("id", "bullet_chart").attr("width", 6*w).attr("height", h);
+		var svg = d3.select("#bullet_chart1").append("svg").attr("id", "bullet_chart").attr("width", $('.graph-area').width()).attr("height", h);
+		var svg2 = d3.select("#bullet_chart2").append("svg").attr("id", "bullet_chart").attr("width", $('.graph-area').width()).attr("height", h);
+		var svg3 = d3.select("#bullet_chart3").append("svg").attr("id", "bullet_chart").attr("width", $('.graph-area').width()).attr("height", h);
 
 		// Definindo um objeto SVG agrupado
 		var bullet_chart = svg.append("g").classed("display", true).attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -1217,6 +1188,7 @@
 		gridlines: yGridlines});
 
 		plot3.call(bullet_chart3, {
+			
 		data: ind03,
 		axis:{x: xAxis3,y: yAxis3},
 		gridlines: yGridlines});
@@ -1236,6 +1208,11 @@
 		axis:{x: xAxis6,y: yAxis6},
 		gridlines: yGridlines});
 
-		</script>
-			</div>
+	</script>
+{% endblock %}
+
+{% block addtional_scripts %}
+	<script type="text/javascript">
+		sessionSecurity.confirmFormDiscard = undefined;
+	</script>
 {% endblock %}
