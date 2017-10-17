@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-07 00:08-0300\n"
+"POT-Creation-Date: 2017-10-16 23:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,11 +82,15 @@ msgstr "Atribuir grupos de estudo ao Vídeo do YouTube"
 msgid "Save"
 msgstr "Salvar"
 
-#: youtube_video/templates/youtube/_form.html:338
+#: youtube_video/templates/youtube/_form.html:335
+msgid "Cancel"
+msgstr ""
+
+#: youtube_video/templates/youtube/_form.html:342
 msgid "Add new notification"
 msgstr "Adicionar nova notificação"
 
-#: youtube_video/templates/youtube/_form.html:339
+#: youtube_video/templates/youtube/_form.html:343
 msgid "Remove this"
 msgstr "Remover essa notificação"
 

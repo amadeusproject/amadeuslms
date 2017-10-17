@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-07 00:08-0300\n"
+"POT-Creation-Date: 2017-10-16 23:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,6 +111,10 @@ msgstr "Atribuir grupos de estudo ao Link para Arquivo"
 #: file_link/templates/file_links/_form.html:333
 msgid "Save"
 msgstr "Salvar"
+
+#: file_link/templates/file_links/_form.html:337
+msgid "Cancel"
+msgstr ""
 
 #: file_link/templates/file_links/create.html:20 file_link/views.py:194
 msgid "Create File Link"

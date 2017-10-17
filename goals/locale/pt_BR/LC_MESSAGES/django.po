@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-07 00:08-0300\n"
+"POT-Creation-Date: 2017-10-16 23:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -173,19 +173,23 @@ msgstr "Período desejado"
 msgid "Save"
 msgstr "Salvar"
 
-#: goals/templates/goals/_form.html:413
+#: goals/templates/goals/_form.html:406
+msgid "Cancel"
+msgstr ""
+
+#: goals/templates/goals/_form.html:417
 msgid "Add new goal"
 msgstr "Adicionar nova meta"
 
-#: goals/templates/goals/_form.html:414
+#: goals/templates/goals/_form.html:418
 msgid "Remove this goal"
 msgstr "Remover essa meta"
 
-#: goals/templates/goals/_form.html:435
+#: goals/templates/goals/_form.html:439
 msgid "Add new notification"
 msgstr "Adicionar nova notificação"
 
-#: goals/templates/goals/_form.html:436
+#: goals/templates/goals/_form.html:440
 msgid "Remove this"
 msgstr "Remover essa notificação"
 

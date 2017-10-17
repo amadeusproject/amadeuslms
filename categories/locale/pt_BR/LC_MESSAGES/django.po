@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-07 00:08-0300\n"
+"POT-Creation-Date: 2017-10-16 23:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,12 +62,16 @@ msgstr "Coordenadores"
 msgid "Atribute coordinator role to users"
 msgstr "Atribua perfil de coordenador aos usuários"
 
-#: categories/templates/categories/_form.html:67
+#: categories/templates/categories/_form.html:68
 msgid "Save"
 msgstr "Salvar"
 
-#: categories/templates/categories/_form.html:73
-#: categories/templates/categories/_form.html:74
+#: categories/templates/categories/_form.html:72
+msgid "Cancel"
+msgstr ""
+
+#: categories/templates/categories/_form.html:79
+#: categories/templates/categories/_form.html:80
 msgid "search for an username"
 msgstr "pesquise por um nome de usuário"
 

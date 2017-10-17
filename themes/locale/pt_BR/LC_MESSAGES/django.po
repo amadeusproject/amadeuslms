@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-07 00:08-0300\n"
+"POT-Creation-Date: 2017-10-16 23:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,7 +102,7 @@ msgid "It is recommended to be a white image"
 msgstr "É recomendável ser uma imagem branca"
 
 #: themes/templates/themes/basic_update.html:103
-#: themes/templates/themes/css_update.html:75
+#: themes/templates/themes/css_update.html:73
 msgid "Save"
 msgstr "Salvar"
 
@@ -112,7 +112,7 @@ msgstr "Salvar"
 msgid "CSS Selector"
 msgstr "Seletor CSS"
 
-#: themes/templates/themes/css_update.html:49
+#: themes/templates/themes/css_update.html:48
 msgid "Documentation"
 msgstr "Documentação"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-07 00:08-0300\n"
+"POT-Creation-Date: 2017-10-16 23:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,7 +105,7 @@ msgstr "O arquivo não pode exceder 1MB."
 #: bulletin/templates/bulletin/_form.html:99
 #: bulletin/templates/bulletin/_form.html:152
 msgid "File not supported."
-msgstr ""
+msgstr "Arquivo não suportado."
 
 #: bulletin/templates/bulletin/_form.html:123
 msgid "Click or drop the .xls file with the indicators data"
@@ -130,6 +130,10 @@ msgstr "Período desejado"
 #: bulletin/templates/bulletin/_form.html:359
 msgid "Save"
 msgstr "Salvar"
+
+#: bulletin/templates/bulletin/_form.html:363
+msgid "Cancel"
+msgstr "Cancelar"
 
 #: bulletin/templates/bulletin/create.html:20 bulletin/views.py:503
 msgid "Create Bulletin"
@@ -196,13 +200,13 @@ msgid "The picture could not exceed 5MB."
 msgstr "A imagem não pode exceder 5MB."
 
 #: bulletin/templates/bulletin/send_message.html:62
-#: bulletin/templates/bulletin/view.html:235
+#: bulletin/templates/bulletin/view.html:221
 #: bulletin/templates/bulletin/window_view.html:258
 msgid "Close"
 msgstr "Fechar"
 
 #: bulletin/templates/bulletin/send_message.html:63
-#: bulletin/templates/bulletin/view.html:236
+#: bulletin/templates/bulletin/view.html:222
 #: bulletin/templates/bulletin/window_view.html:259
 msgid "Send"
 msgstr "Enviar"
@@ -211,25 +215,166 @@ msgstr "Enviar"
 msgid "Edit: "
 msgstr "Editar: "
 
-#: bulletin/templates/bulletin/view.html:215
+#: bulletin/templates/bulletin/view.html:76
+msgid "Check your goals"
+msgstr "Confira suas metas"
+
+#: bulletin/templates/bulletin/view.html:81
+msgid "Goals Reached"
+msgstr "Metas Atingidas"
+
+#: bulletin/templates/bulletin/view.html:86
+msgid "Goals Details"
+msgstr "Detalhamento das metas"
+
+#: bulletin/templates/bulletin/view.html:92
+msgid "Description"
+msgstr "Descrição"
+
+#: bulletin/templates/bulletin/view.html:93
+msgid "Professor's recomendation"
+msgstr "Recomendação do(a) professor(a)"
+
+#: bulletin/templates/bulletin/view.html:94
+msgid "Class average"
+msgstr "Média da turma"
+
+#: bulletin/templates/bulletin/view.html:95
+msgid "Your goal"
+msgstr "Sua meta"
+
+#: bulletin/templates/bulletin/view.html:96
+#: bulletin/templates/bulletin/view.html:145
+#: bulletin/templates/bulletin/view.html:514
+#: bulletin/templates/bulletin/view.html:542
+#: bulletin/templates/bulletin/view.html:574
+#: bulletin/templates/bulletin/view.html:629
+#: bulletin/templates/bulletin/view.html:657
+#: bulletin/templates/bulletin/view.html:688
+#: bulletin/templates/bulletin/view.html:742
+#: bulletin/templates/bulletin/view.html:769
+#: bulletin/templates/bulletin/view.html:800
+#: bulletin/templates/bulletin/view.html:855
+#: bulletin/templates/bulletin/view.html:882
+#: bulletin/templates/bulletin/view.html:914
+#: bulletin/templates/bulletin/view.html:971
+#: bulletin/templates/bulletin/view.html:998
+#: bulletin/templates/bulletin/view.html:1030
+#: bulletin/templates/bulletin/view.html:1086
+#: bulletin/templates/bulletin/view.html:1113
+#: bulletin/templates/bulletin/view.html:1144
+msgid "Your result"
+msgstr "Seu resultado"
+
+#: bulletin/templates/bulletin/view.html:112
+msgid ""
+"<b>Goal reached!</b><br /><br /> Atention! Your result were lower than the "
+"professor's recommendation."
+msgstr "<b>Meta atingida!</b><br /><br /> Atenção! Seu resultado foi inferior ao recomendado pelo professor."
+
+#: bulletin/templates/bulletin/view.html:117
+msgid ""
+"<b>Goal reached!</b><br /><br /> Atention! Your result were lower than your "
+"initial goal."
+msgstr "<b>Meta atingida!</b><br /><br /> Atenção! Seu resultado foi inferior à sua meta inicial."
+
+#: bulletin/templates/bulletin/view.html:122
+msgid "<b>Goal reached!</b>"
+msgstr "<b>Meta atingida!</b>"
+
+#: bulletin/templates/bulletin/view.html:127
+msgid ""
+"<b>Goal not reached!</b><br /><br /> Result lower than your goal and the "
+"professor's recommendation."
+msgstr "<b>Meta não atingida!</b><br /><br /> Resultado inferior à sua meta e ao recomendado pelo professor."
+
+#: bulletin/templates/bulletin/view.html:139
+msgid "Relevant indicators to your performance"
+msgstr "Indicadores relevantes para seu desempenho"
+
+#: bulletin/templates/bulletin/view.html:148
+msgid "Level above the approved median"
+msgstr "Nível acima da mediana dos aprovados"
+
+#: bulletin/templates/bulletin/view.html:151
+msgid "Level below the approved median"
+msgstr "Nível abaixo da mediana dos aprovados"
+
+#: bulletin/templates/bulletin/view.html:169
+msgid "Indicators description"
+msgstr "Descrição dos indicadores"
+
+#: bulletin/templates/bulletin/view.html:177
+#: bulletin/templates/bulletin/view.html:436
+#: bulletin/templates/bulletin/view.html:437
+#: bulletin/templates/bulletin/view.html:438
+#: bulletin/templates/bulletin/view.html:439
+#: bulletin/templates/bulletin/view.html:440
+#: bulletin/templates/bulletin/view.html:441
+msgid "Indicator"
+msgstr "Indicador"
+
+#: bulletin/templates/bulletin/view.html:199
 #: bulletin/templates/bulletin/window_view.html:238
 msgid "There are obstructions to your activities?"
 msgstr "Existem impedimentos para as suas atividades?"
 
-#: bulletin/templates/bulletin/view.html:216
+#: bulletin/templates/bulletin/view.html:201
 #: bulletin/templates/bulletin/window_view.html:239
 msgid "Click here"
 msgstr "Clique aqui"
 
-#: bulletin/templates/bulletin/view.html:216
+#: bulletin/templates/bulletin/view.html:201
 #: bulletin/templates/bulletin/window_view.html:239
 msgid "to communicate the difficulties that may decrease your performance."
 msgstr "para informar as dificuldades que podem prejudicar seu desempenho."
 
-#: bulletin/templates/bulletin/view.html:231
+#: bulletin/templates/bulletin/view.html:217
 #: bulletin/templates/bulletin/window_view.html:254
 msgid "Type here the dificulties that may harm your performance"
 msgstr "Escreva aqui as dificuldades que podem diminuir sua performance"
+
+#: bulletin/templates/bulletin/view.html:515
+#: bulletin/templates/bulletin/view.html:543
+#: bulletin/templates/bulletin/view.html:575
+#: bulletin/templates/bulletin/view.html:630
+#: bulletin/templates/bulletin/view.html:658
+#: bulletin/templates/bulletin/view.html:689
+#: bulletin/templates/bulletin/view.html:743
+#: bulletin/templates/bulletin/view.html:770
+#: bulletin/templates/bulletin/view.html:801
+#: bulletin/templates/bulletin/view.html:856
+#: bulletin/templates/bulletin/view.html:883
+#: bulletin/templates/bulletin/view.html:915
+#: bulletin/templates/bulletin/view.html:972
+#: bulletin/templates/bulletin/view.html:999
+#: bulletin/templates/bulletin/view.html:1031
+#: bulletin/templates/bulletin/view.html:1087
+#: bulletin/templates/bulletin/view.html:1114
+#: bulletin/templates/bulletin/view.html:1145
+msgid "Max"
+msgstr "Máximo"
+
+#: bulletin/templates/bulletin/view.html:516
+#: bulletin/templates/bulletin/view.html:544
+#: bulletin/templates/bulletin/view.html:576
+#: bulletin/templates/bulletin/view.html:631
+#: bulletin/templates/bulletin/view.html:659
+#: bulletin/templates/bulletin/view.html:690
+#: bulletin/templates/bulletin/view.html:744
+#: bulletin/templates/bulletin/view.html:771
+#: bulletin/templates/bulletin/view.html:802
+#: bulletin/templates/bulletin/view.html:857
+#: bulletin/templates/bulletin/view.html:884
+#: bulletin/templates/bulletin/view.html:916
+#: bulletin/templates/bulletin/view.html:973
+#: bulletin/templates/bulletin/view.html:1000
+#: bulletin/templates/bulletin/view.html:1032
+#: bulletin/templates/bulletin/view.html:1088
+#: bulletin/templates/bulletin/view.html:1115
+#: bulletin/templates/bulletin/view.html:1146
+msgid "Median"
+msgstr "Mediana"
 
 #: bulletin/utils.py:47 bulletin/views.py:1022
 #, python-format
@@ -341,12 +486,3 @@ msgstr "A mensagem foi enviada com sucesso!"
 #: bulletin/views.py:1033
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
-
-#~ msgid "Check your goals"
-#~ msgstr "Veja suas metas"
-
-#~ msgid "Inform difficulties"
-#~ msgstr "Informe as dificuldades"
-
-#~ msgid "Bulletin Data (Goals)"
-#~ msgstr "Dados do boletim (Metas)"
