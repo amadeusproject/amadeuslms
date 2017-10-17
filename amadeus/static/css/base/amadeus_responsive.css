@@ -90,6 +90,16 @@
 	/* End Bottom Menu */
 }
 
+@media(min-width: 800px) {
+	.navbar.hidden-sm {
+		display: inherit !important;
+	}
+
+	.navbar.hidden-md {
+		display: none;
+	}
+}
+
 @media(max-width: 768px) {
 	/* Buttons */
 	.visible-xs-block {
