@@ -700,6 +700,10 @@
 		height: 100%;
 	}
 
+	#chat-modal-info .modal-content.user_info {
+		overflow-y: scroll;
+	}
+
 	.talk_header {
 		height: 9%;
 	}
