@@ -116,7 +116,7 @@ function getModalInfo(btn, space, space_type) {
                     $('.chat_badge').each(function () {
                         var actual = $(this).text();
 
-                        if (actual != "+99") {
+                        if (actual != "+99" && !isNaN(viewed)) {
                             actual = parseInt(actual, 10) - viewed;
 
                             if (actual <= 0) {
@@ -141,7 +141,7 @@ function getModalInfo(btn, space, space_type) {
                     var subject_cbadge = $("#subject_" + sub_badge).find('.chat_notify'),
                         actual = subject_cbadge.text();
 
-                    if (actual != "+99") {
+                    if (actual != "+99" && !isNaN(viewed)) {
                         actual = parseInt(actual, 10) - viewed;
 
                         if (actual <= 0) {

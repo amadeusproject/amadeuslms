@@ -90,6 +90,16 @@
 	/* End Bottom Menu */
 }
 
+@media(min-width: 800px) {
+	.navbar.hidden-sm {
+		display: inherit !important;
+	}
+
+	.navbar.hidden-md {
+		display: none;
+	}
+}
+
 @media(max-width: 768px) {
 	/* Buttons */
 	.visible-xs-block {
@@ -698,6 +708,10 @@
 
 	#chat-modal-info .modal-dialog, #chat-modal-info .modal-content {
 		height: 100%;
+	}
+
+	#chat-modal-info .modal-content.user_info {
+		overflow-y: scroll;
 	}
 
 	.talk_header {
