@@ -205,14 +205,14 @@ class PendenciesLimitedForm(forms.ModelForm):
 
 			if not begin_date == ValueError and begin_date:
 				if begin_date.date() > limit_submission_date.date():
-					self.add_error('begin_date', _('This input should be filled with a date equal or before the goals submission limit date.("%s")')%(subject.limit_submission_date.date()))
+					self.add_error('begin_date', _('This input should be filled with a date equal or before the goals submission limit date.("%s")')%(limit_submission_date.date()))
 
 			if not end_date == ValueError and end_date:
 				if end_date.date() > limit_submission_date.date():
-					self.add_error('end_date', _('This input should be filled with a date equal or before the goals submission limit date.("%s")')%(subject.limit_submission_date.date()))
+					self.add_error('end_date', _('This input should be filled with a date equal or before the goals submission limit date.("%s")')%(limit_submission_date.date()))
 
 			if not limit_date == ValueError and limit_date:
 				if limit_date.date() > limit_submission_date.date():
-					self.add_error('limit_date', _('This input should be filled with a date equal or before the goals submission limit date.("%s")')%(subject.limit_submission_date.date()))
+					self.add_error('limit_date', _('This input should be filled with a date equal or before the goals submission limit date.("%s")')%(limit_submission_date.date()))
 
 		return cleaned_data
