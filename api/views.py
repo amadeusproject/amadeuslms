@@ -327,6 +327,8 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 
 			messages = TalkMessages.objects.filter((Q(talk__user_one__email = username) & Q(talk__user_two__email = user_two)) | (Q(talk__user_one__email = user_two) & Q(talk__user_two__email = username))).order_by('-create_date')
 
+			ChatVisualizations.objects.filter(Q(user = user) & Q(message__talk__user_two__email = user_two) & Q(viewed = False)).update(viewed = True)
+
 			page = []
 
 			for i in range(messages_by_page*(n_page - 1), (n_page*messages_by_page)):
