@@ -1,3 +1,15 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
 {% load static i18n util_tags %}
 {% load widget_tweaks %}
 
@@ -11,11 +23,11 @@
 		{% for hidden in form.hidden_fields %}
 	        {{ hidden }}
 	    {% endfor %}
-		
+
 		{{ form.errors }}
-    			
+
 		{% if form.instance.pk %}{{ form.DELETE }}{% endif %}
-		
+
 		<div class="form-group{% if form.has_error %} has-error {% endif %} row goal_item">
 			<div class="col-md-12">
 				<h4>{% trans 'Goal' %} {{ item.order }}: {{ item.description }}</h4>
@@ -46,6 +58,21 @@
 			{% endif %}
 		</div>
 	{% endfor %}
+
+	<hr />
+	<div class="form-group" style="background-color:#fff; box-shadow: 1px 1px 10px #c0beaf; margin-top: 40px;">
+			<div class="row">
+			<div class="col-md-1" style="padding-left: 25px; padding-top: 10px;">
+		    		<img src="{% static 'img/warning.png' %}"  height="80" width="95"/>
+			</div>
+			<div class="col-md-11">
+				<div class="row">
+		    		<div style="padding-left: 30px;"><h4><b>{% trans 'There are obstacles to your activities?' %}</b></h4></div>
+						<div style="padding-left: 30px; padding-right:35px"><textarea class="form-control" id="dificulties" name="dificulties" placeholder="{% trans 'Type here the dificulties that may harm your performance' %}"></textarea></div>
+				</div>
+			</div>
+		</div>
+  </div>
 </form>
 
 <hr />

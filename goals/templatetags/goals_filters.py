@@ -1,4 +1,18 @@
+""" 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+"""
+
+
 from django import template
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from goals.models import MyGoals
@@ -74,3 +88,10 @@ def log_object(log):
 	name = log.context['goals_name']
 
 	return _("%s Instance")%(name)
+
+@register.filter(name = 'is_close')
+def is_close(goal):
+	if goal.limit_submission_date < timezone.now():
+		return True
+
+	return False

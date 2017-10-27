@@ -1,3 +1,15 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
 {% extends 'subjects/view.html' %}
 
 {% load static i18n pagination permissions_tags subject_counter %}
@@ -48,7 +60,25 @@
         </div>
         <div id="{{subject.slug}}" class="panel-collapse panel-body in collapse mural-ungeneral subject-related-panel">
         	<div class="col-md-12 cards-content mural" data-url="{% url 'mural:subject_view' subject.slug %}" data-pages="{{ paginator.num_pages }}" data-page="{{ page_obj.number }}" data-fav="{{ favorites }}" data-mine="{{ mines }}">
-		    	<div class="col-md-9 col-sm-9 col-xs-9 mural-list">
+        		<div class="col-sm-12 col-xs-12 visible-xs visible-sm" style="padding-left: 0px">
+                    <div class="post-filter post-filter-small">
+                        <h4>{% trans 'Filter' %}</h4>
+
+                        <form id="post-filters" action="" method="GET">
+			                <div class="checkbox">
+			                    <label>
+			                        <input name="favorite" type="checkbox" {{ favorites }}> {% trans 'Favorite posts' %} <i class="fa fa-thumb-tack"></i>
+			                    </label>
+			                </div>
+			                <div class="checkbox">
+			                    <label>
+			                        <input name="mine" type="checkbox" {{ mines }}> {% trans 'Only my posts' %}
+			                    </label>
+			                </div>
+			            </form>
+                    </div>
+                </div>
+		    	<div class="col-md-9 col-sm-12 col-xs-12 mural-list">
 		    		<div class="post_make panel panel-default">
 		    			<div class="panel-body">
 			    			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 user-img text-center">
@@ -77,7 +107,7 @@
 		                <h4>{% trans 'There are no posts in this mural yet.' %}</h4>
 		            </div>
 		    	</div>
-		    	<div class="col-md-3 col-sm-3 col-xs-3 post-filter">
+		    	<div class="col-lg-3 col-md-3 hidden-xs hidden-sm post-filter">
 		            <h4>{% trans 'Filter' %}</h4>
 
 		            <form id="post-filters" action="" method="GET">
@@ -91,8 +121,6 @@
 		                        <input name="mine" type="checkbox" {{ mines }}> {% trans 'Only my posts' %}
 		                    </label>
 		                </div>
-		                <button type="submit" class="btn btn-success btn-raised btn-block">{% trans 'Filter' %}</button>
-		                <button type="button" id="clear_filter" class="btn btn-default btn-raised btn-block clear_filter">{% trans 'Clean Filters' %}</button>
 		            </form>
 		    	</div>
 		    </div>
@@ -102,4 +130,10 @@
   
     <script type="text/javascript" src="{% static 'js/mural.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/mural_general.js' %}"></script>
+{% endblock %}
+
+{% block addtional_scripts %}
+    <script type="text/javascript">
+        sessionSecurity.confirmFormDiscard = undefined;
+    </script>
 {% endblock %}

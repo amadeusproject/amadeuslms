@@ -1,3 +1,15 @@
+""" 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+"""
+
 # coding=utf-8
 from django import forms
 from django.utils.translation import ugettext_lazy as _
@@ -6,15 +18,17 @@ from django.forms.models import inlineformset_factory
 import datetime
 
 from subjects.models import Tag
+from subjects.forms import ParticipantsMultipleChoiceField
 
 from .models import Webconference, ConferenceSettings
 
-from pendencies.forms import PendenciesForm
+from pendencies.forms import PendenciesLimitedForm
 from pendencies.models import Pendencies
 
 class WebconferenceForm(forms.ModelForm):
 	subject = None
 	control_subject = forms.CharField(widget = forms.HiddenInput())
+	students = ParticipantsMultipleChoiceField(queryset = None, required = False)
 
 	def __init__(self, *args, **kwargs):
 		super(WebconferenceForm, self).__init__(*args, **kwargs)
@@ -46,9 +60,14 @@ class WebconferenceForm(forms.ModelForm):
 			'groups': forms.SelectMultiple,
 		}
 
-	def clean_name(self):
-		name = self.cleaned_data.get('name', '')
+	def clean(self):
+		cleaned_data = super(WebconferenceForm, self).clean()
 
+		start = cleaned_data.get('start', None)
+		end = cleaned_data.get('end', None)
+
+		name = self.cleaned_data.get('name', '')
+		
 		topics = self.subject.topic_subject.all()
 
 		for topic in topics:
@@ -58,30 +77,35 @@ class WebconferenceForm(forms.ModelForm):
 				same_name = topic.resource_topic.filter(name__unaccent__iexact = name).count()
 
 			if same_name > 0:
-				self._errors['name'] = [_('This subject already has a web conference with this name')]
+				self.add_error('name', _('This subject already has a web conference with this name'))
 
-				return ValueError
+		if start and end:
+			if not start == ValueError and not end == ValueError:
+				if start > end:
+					self.add_error('start', _('This input should be filled with a date equal or before the End.'))
+					self.add_error('end', _('This input should be filled with a date equal or after the Start.'))
 
-		return name
+			if not start == ValueError:
+				if not self.instance.id and start.date() < datetime.datetime.today().date():
+					self.add_error('start', _("This input should be filled with a date equal or after today's date."))
 
+				if start.date() < self.subject.init_date:
+					self.add_error('start', _('This input should be filled with a date equal or after the subject begin date.("%s")')%(self.subject.init_date))
 
-	def clean_start(self):
-		start = self.cleaned_data['start']
-		if start.date() < datetime.datetime.now().date():
-			self._errors['start'] = [_('This date must be today or after')]
-			return ValueError
+				if start.date() > self.subject.end_date:
+					self.add_error('start', _('This input should be filled with a date equal or before the subject end date.("%s")')%(self.subject.end_date))
 
-		return start
+			if not end == ValueError:
+				if not self.instance.id and end.date() < datetime.datetime.today().date():
+					self.add_error('end', _("This input should be filled with a date equal or after today's date."))
 
-	def clean_end(self):
-		end = self.cleaned_data['end']
-		start =  self.cleaned_data['start']
+				if end.date() < self.subject.init_date:
+					self.add_error('end', _('This input should be filled with a date equal or after the subject begin date.("%s")')%(self.subject.init_date))
 
-		if start is ValueError or end < start:
-			self._errors['end'] = [_('This date must be equal start date/hour or after')]
-			return ValueError
+				if end.date() > self.subject.end_date:
+					self.add_error('end', _('This input should be filled with a date equal or before the subject end date.("%s")')%(self.subject.end_date))
 
-		return end
+		return cleaned_data
 
 	def save(self, commit = True):
 		super(WebconferenceForm, self).save(commit = True)
@@ -132,4 +156,4 @@ class SettingsForm(forms.ModelForm):
 			'domain': _('The domain of the jitsi server, e.g. meet.jit.si'),
 		}
 
-InlinePendenciesFormset = inlineformset_factory(Webconference, Pendencies, form = PendenciesForm, extra = 1, max_num = 3, validate_max = True, can_delete = True)
+InlinePendenciesFormset = inlineformset_factory(Webconference, Pendencies, form = PendenciesLimitedForm, extra = 1, max_num = 3, validate_max = True, can_delete = True)

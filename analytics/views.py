@@ -1,3 +1,15 @@
+""" 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+"""
+
 from django.shortcuts import render
 
 from django.views import generic
@@ -18,7 +30,7 @@ import calendar
 from collections import OrderedDict
 
 
-
+from mural.models import Comment
 
 
 def most_used_tags(request):
@@ -64,15 +76,24 @@ def most_active_users_in_a_month(request):
     for day in days:
         built_date = date(int(year), mappings[_(month)],  day)
         days_list.append(built_date)
-    data = activity_in_timestamp(days_list)
+    data = activity_in_timestamp(days_list, params = params)
+    
     data = [{"day": day.day, "count": day_count} for day, day_count in data.items()]
+    data = sorted(data, key =lambda x: x['day'])
+    
     return JsonResponse(data, safe=False)
 
 
-def activity_in_timestamp(days):
-    data = {}
+def activity_in_timestamp(days, **kwargs):
+    data = OrderedDict()
+
+    params = kwargs.get('params')
     for day in days:
-        day_count = Log.objects.filter(datetime__date = day).count()
+        if params.get('category_id'):
+            category_id = params['category_id']
+            day_count = Log.objects.filter(datetime__date = day, context__contains = {"category_id" : int(category_id)}).count()
+        else:
+            day_count = Log.objects.filter(datetime__date = day).count()
         data[day] = day_count
 
     return data
@@ -184,12 +205,16 @@ def most_active_users(request):
 
 
 def get_days_of_the_week_log(request):
-    date = request.GET['date']
-    date = datetime.strptime( date, '%m/%d/%Y',)
+  
+    params = request.GET
+    date = params['date']
+    date = datetime.strptime( date, '%m/%d/%Y')
     days = get_days_of_the_week(date)
-    data = activity_in_timestamp(days)
+    data = activity_in_timestamp(days, params = params)
+    print(data)
     #mapping of number to days
     mapping = {0: _("Mon"), 1: _("Tue"), 2: _("Wed"), 3: _("Thu"), 4: _("Fri"), 5: _("Sat"), 6: _("Sun")}
+    #datas = [{"day": day.weekday(), "count": day_count} for day, day_count in data.items()]
     data = [{"day": mapping[day.weekday()], "count": day_count} for day, day_count in data.items()]
 
     return JsonResponse(data, safe= False)
@@ -233,3 +258,25 @@ def most_tags_inside_category(category_id):
                     data[tag.name] = {'name': tag.name}
                     data[tag.name]['count'] = resources_count
     return data
+
+
+def get_amount_of_comments(request):
+    params = request.GET
+    #init_date = params.get('init_date')
+    #end_date = params.get('end_date')
+    init_date = "04/20/2017"
+    end_date = "06/09/2017"
+    init_date = datetime.strptime( init_date, '%m/%d/%Y')
+    end_date = datetime.strptime(end_time, '%m/%d/%Y')
+    day_count = (end_date - init_date).days + 1
+    data = {}
+    for i in range(day_count):
+        single_day = init_date + timedelta(i)
+        if params.get('category_id'):
+            category_id = int(params['category_id'])
+            data[single_day] = Mural.objects.filter(space__id = category_id, create_date = single_day).count()
+        else:
+            data[single_day] = Comment.objects.filter(create_date = single_day).count()
+
+    data_finished = [{date:key, count:value} for key, value in data.items()]
+    return JsonResponse(data_finished, safe=False)

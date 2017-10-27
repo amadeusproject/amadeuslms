@@ -1,16 +1,28 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
 {% load i18n chat_tags %}
 
 {% is_online participant as status %}
 
-<div class="col-md-12 col-sm-12 participant panel">
-    <div class="col-md-1 col-sm-1 user-img">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 participant panel">
+    <div class="col-md-1 col-sm-1 col-xs-2 user-img">
         <img src="{{ participant.image_url }}" class="img-responsive" />
     </div>
-    <div class="col-md-4 col-sm-4 user-info">
+    <div class="col-md-4 col-sm-4 col-xs-10 user-info">
         <h4><a class="user_{{ participant.id }}_status status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
     </div>
-    <div class="col-md-6 col-sm-6 buttons pull-right text-center">
-        <a href="#" onclick="getModalInfo($(this), '{{ space }}', '{{ space_type }}'); return false;" data-url='{% url "chat:profile" participant.email %}' class="btn btn-raised btn-default">{% trans 'See Profile' %}</a>
+    <div class="col-md-6 col-sm-6 col-xs-12 buttons pull-right text-center">
+        <a href="#" onclick="getProfile($(this), '{{ space }}', '{{ space_type }}'); return false;" data-url='{% url "chat:profile" participant.email %}' class="btn btn-raised btn-default">{% trans 'See Profile' %}</a>
         <a href="#" onclick="getModalInfo($(this), '{{ space }}', '{{ space_type }}'); return false;" data-url='{% url "chat:talk" participant.email %}' class="btn btn-raised btn-success">{% trans 'Send Message' %}</a>
     </div>
 </div>

@@ -1,760 +1,817 @@
-//Primary colors
-$primary-color: #8e1c1c //lighter shade of red
-$primary-hover: #591111
-$secondary-color: #136363 //lighter shade of green
-$secondary-l2-color: #146b6b //subject header and items color
-$third-color: #197f7f
-$default-white: #F5F5F5
-$white: #FFFFFF
-$disabled: #999999 //light shade of gray
-$strong-color: #003333
+/* 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+*/
 
+/* === Variables === */
 
-body .container .jumbotron-inverse, body .container .well-inverse, body .container-fluid .jumbotron-inverse, body .container-fluid .well-inverse 
-    background-color: white
+$primary-color: #D32F2F
+$secondary-color: #9A0007
 
+$primary-title: #424242
+$secondary-title: #D32F2F
 
-a, a:focus, a:hover 
+$primary-badge: #0277BD
+
+$primary-menu-bg: #D32F2F
+$primary-menu-color: #333333
+
+$primary-white: #F5F5F5
+$secondary-white: #FFFFFF
+$disabled-white: #E0E0E0
+
+$primary-disabled: #BDBDBD
+$secodnary-disabled: #E6E7E8
+
+$primary-category: #424242
+$secondary-category: #656565
+
+$primary-subject: #616161
+$secondary-subject: #777777
+
+$primary-topic: #757575
+$secondary-topic: #919191
+
+$btn-success: #03A9F4
+$btn-success-effect: #0277BD
+
+/* === End Variables === */
+
+a, a:focus, a:hover
     color: $primary-color
 
+body .container .jumbotron-inverse, 
+body .container .well-inverse, 
+body .container-fluid .jumbotron-inverse, 
+body .container-fluid .well-inverse
+    background-color: $secondary-white
 
 .radio input[type=radio]:checked~.check, label.radio-inline input[type=radio]:checked~.check 
     background-color: $primary-color
 
-
 .radio input[type=radio]:checked~.circle, label.radio-inline input[type=radio]:checked~.circle 
     border-color: $primary-color
 
-
-.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus 
-    color: #fff
-    background-color: $primary-color
-    border-color: $primary-color
-
-
-.navbar, .navbar.navbar-default 
-    background-color: $primary-color
-    color: rgba(255,255,255,.84)
-
-
-.notify_badge 
-    background-color: #FF0000 !important
-
-
-.bottom-menu
-    background: $primary-color
-
-
-#btn-search:hover 
-    background: $secondary-color
-
-
-.alert.alert-success 
-    background-color: $primary-hover
-    color: $white
-
-/* FORM Fields */
-
-.form-group.is-focused label, .form-group.is-focused label.control-label
-    color: $primary-color
-
-.form-group.is-focused .form-control 
-    outline: 0
-    background-image: -webkit-gradient(linear,left top,left bottom,from($primary-hover),to($primary-hover)),-webkit-gradient(linear,left top,left bottom,from(#D2D2D2),to(#D2D2D2))
-    background-image: -webkit-linear-gradient($primary-hover,$primary-hover),-webkit-linear-gradient(#D2D2D2,#D2D2D2)
-    background-image: -o-linear-gradient($primary-hover,$primary-hover),-o-linear-gradient(#D2D2D2,#D2D2D2)
-    background-image: linear-gradient($primary-hover,$primary-hover),linear-gradient(#D2D2D2,#D2D2D2)
-    -webkit-background-size: 100% 2px,100% 1px
-    background-size: 100% 2px,100% 1px
-    -webkit-box-shadow: none
-    box-shadow: none
-    -webkit-transition-duration: .3s
-    -o-transition-duration: .3s
-    transition-duration: .3s
-
-.form-control, .form-group .form-control 
-    border: 0
-    background-image: -webkit-gradient(linear, left top, left bottom, from($primary-hover), to($primary-hover)), -webkit-gradient(linear, left top, left bottom, from(#D2D2D2), to(#D2D2D2))
-    background-image: -webkit-linear-gradient($primary-hover, $primary-hover), -webkit-linear-gradient(#D2D2D2, #D2D2D2)
-    background-image: -o-linear-gradient($primary-hover, $primary-hover), -o-linear-gradient(#D2D2D2, #D2D2D2)
-    background-image: linear-gradient($primary-hover, $primary-hover), linear-gradient(#D2D2D2, #D2D2D2)
-    -webkit-background-size: 0 2px, 100% 1px
-    background-size: 0 2px, 100% 1px
-    background-repeat: no-repeat
-    background-position: center bottom, center -webkit-calc(100% - 1px)
-    background-position: center bottom, center calc(100% - 1px)
-    background-color: transparent
-    -webkit-transition: background 0s ease-out
-    -o-transition: background 0s ease-out
-    transition: background 0s ease-out
-    float: none
-    -webkit-box-shadow: none
-    box-shadow: none
-    border-radius: 0
-
-
-/**/    
-
-// Card's btns
-
-.btn.btn-sucess.btn-raised
-    color: $white
-    background-color: $primary-color !important 
-
-button.btn.btn-sucess.btn-raised
-    color: $white
-    background-color: $primary-color !important 
-
-
-a.btn.btn-sm.btn-success.btn-raised
-    color: $white
-    background-color: $primary-color !important 
-
-
-.btn-group-raised .btn.btn-success, 
-.btn-group-raised .input-group-btn .btn.btn-success, 
-.btn.btn-fab.btn-success, .btn.btn-raised.btn-success, 
-.input-group-btn .btn.btn-fab.btn-success, 
-.input-group-btn .btn.btn-raised.btn-success
-    color: $white
-    background-color: $primary-color !important 
-
-
-.btn-group-raised .btn.btn-success :hover, 
-.btn-group-raised .input-group-btn .btn.btn-success :hover, 
-.btn.btn-fab.btn-success, .btn.btn-raised.btn-success:hover, 
-.input-group-btn .btn.btn-fab.btn-success:hover , 
-.input-group-btn .btn.btn-raised.btn-success:hover
-    color: $white
-    background-color: $primary-hover !important
-
-
-/* PAGINATION BOTTOM */
-
-.pagination > li > a, .pagination > li > span
-    color: $primary-color
-
-.pagination > li > a:hover, .pagination > li > span:hover
-    color: $primary-hover   
-
-
-/* language selector */
-
-
-.language-selector .dropdown-menu > .active > a 
-    background: #EEEEEE
-    color: $primary-color
-
-
-.language-selector .dropdown-menu > .active > a:hover 
-    color: $primary-color
-
-
-/* Sidebar menu in every page */
-
-#sidebar-menu .item 
-    background-color: $primary-color
-    color: white
-
-
-#sidebar-menu .item a
-    color: white
-
-
-#sidebar-menu > .subjects_menu_active 
-    background-color: $primary-hover
-
-
-#sidebar-menu > .item:hover
-    background-color: $primary-hover
-
-
-/* === SUBJECT APP === */
-
-/* home */
-
-.users-cloud  .small a 
-    color: $secondary-l2-color
-
-
-.users-cloud  .big a 
-    color: $primary-color
-
-
-.users-cloud .medium a 
-    color:  $primary-hover
-
-
-.users-cloud  .tiny a 
-    color: $secondary-color
-
-
-
-.my-subjects-title 
-    color: $strong-color
-
-
-
-.panel-invisible
-    background-color: #BDBDBD !important
-    color: $default-white
-
-
-.category-panel > .panel-heading 
-    background-color: $secondary-color !important
-
-
-.category-panel .category-header .category-card-items i 
-    color: $strong-color
-
-
-.category-panel .category-header .category-card-items i:hover 
-    color: $white
-
-
-.subject-panel > .panel-heading 
-    background-color: $secondary-l2-color !important
-
-
-.subject-panel .category-header .category-card-items i 
-    color: $strong-color
-
-
-.subject-panel .category-header .category-card-items i:hover 
-    color: $white
-
-
-.resource-link
-    color: #000000 !important
-
-
-/* subscribe.html */
-
-.modal-header 
-    border-bottom: 1px solid $disabled !important 
-
-
-.modal-footer 
-    border-top: 1px solid $disabled !important
-
-
-/* subject_card.html */
-
+.my-subjects-title
+    color: $primary-title
+
+.notify_badge
+    background-color: $primary-badge !important
 
 .access-subject 
-    background-color: #2eb82e !important
-    color: white
-
-/* Groups App */
-
-
-.group-panel > .panel-heading 
-    background-color: $white !important
-
-
-.group-panel .panel-title, .group-panel .category-header i, .group-panel .category-course-link  
-    color: #000000 !important
-
-
-.group-panel-body 
-    background: $white !important
-    border-top: 1px solid #CCCCCC
-
-
-/* === Resources Common (ex: PDF, WebPage) App === */
-
-
-
-.topic-panel > .panel-heading 
-    background-color: $third-color !important
-
-
-.topic-panel .category-header .category-card-items i, .topic-panel-invisible .category-header .category-card-items i 
-    color: $strong-color
-
-
-.topic-panel .category-header .category-card-items i:hover, .topic-panel-invisible .category-header .category-card-items i:hover 
-    color: $white
-
-
-.topic-panel > .category-panel-content, .topic-panel-invisible > .category-panel-content 
-    background: $white
-
-
-.topic-panel-invisible > .panel-heading 
-    background-color: #BDBDBD !important
-    color: $default-white
-
-
-.pendencies-content 
-    background: $white
-
-
-.pendencies-content .core-subjects-options li 
-    background: $default-white
-
-
-.category-header i 
-    color: white
-
-
-.category-header i:hover
-    color: #90CAF9
-
-
-.category-header .dropdown-menu i 
-    color: inherit !important
-
-
-#create-category 
-    background-color: $primary-color
-    color: $white
-
-
-.category-panel-content 
-    background: $default-white
-
-
-.core-subjects-options  li 
-    background-color: $white
-    border-bottom-color: $disabled
-    color: $primary-hover
-
-
-.core-subjects-options  li.active 
-    color: inherit
-    border-bottom-color: $primary-color
-
-
-.create-subject-btn 
-    background-color: $strong-color
-    color: white
-
-
-#coordinators_accordion .panel-heading, #professors_accordion .panel-heading 
-    background: $white
-
-
-/* === Amadeus APP === */
-
-
-
-
-.navbar-brand:hover 
-    background: $primary-hover !important
-
-
-.navbar .project_name 
-    color: white
-
-
-.navbar-nav li.open 
-    background: $primary-hover
-
-
-.navbar-nav li > a:hover 
-    background: $primary-hover !important
-
-
-.navbar-nav li.settings_menu_active 
-    background: $primary-hover    
-
-
-.top-search 
-    color: $default-white
-
-
-
-.dropdown-menu 
-    background: $default-white
-
-
-.dropdown-menu li > a 
-    background: $default-white
-    color: #333333
-
-
-.dropdown-menu li > a:hover 
-    background: $primary-color !important
-    color: $white !important
-
-.navbar .dropdown-menu .active>a, .navbar.navbar-default .dropdown-menu .active>a
-    background-color: $primary-color !important
-
-.navbar .dropdown-menu .active>a:hover, .navbar.navbar-default .dropdown-menu .active>a:hover
-    background-color: $primary-hover
-
-#system_accordion > .panel > .panel-heading 
-    background: $default-white
-
-
-#system_accordion > .panel > .panel-heading:hover 
-    background: #EEEEEE
-
-
-#system_accordion > .panel > .panel-heading > a > .panel-title 
-    color: #333333
-
-
-#system_accordion > .panel > .panel-heading > a > .panel-title:hover 
-    color: $primary-color
-
-
-#system_accordion > .panel > .panel-heading > a:hover 
-    color: $primary-color
-
-
-#system_menu 
-    background: $default-white
-
-
-
-#horizontal-line
-    background-color: black
-
-
-.breadcrumb > li > span.divider 
-    color: $strong-color
-
-
-.breadcrumb > li > a
-    color: $strong-color
-
-
-.breadcrumb > li 
-    color: #BDBDBD
-
-/*Because we use an outer a tag*/
-.panel-title 
-    color: rgba(255,255,255,.84)
-
-
-.category-header > h4.panel-title span 
-    color: $white
-
-
-.accordion 
-    background: white
-
-
-.accordion_list 
-    background: $default-white
-
+    background-color: $btn-success !important
+    color: $secondary-white
 
 .outside-title 
-    color: $primary-color
-
-
-.titleTopic a h4, .titleTopic h4 
-    color: white
-
-
-.Topic-detail a h4
-    color: black
-
-
-.cards-detail .panel .panel-heading h4 
-    color: black
-
-.data_register_course p  
-    color: grey 
-
+    color: $secondary-title
 
 .category-course-link 
-    color: $white !important
+    color: $secondary-white !important
 
+.footer 
+    color: $secondary-white
+    background: $primary-title
+
+.bootstrap-datetimepicker-widget 
+    background-color: $secondary-white !important
+
+.popover 
+    background: $secondary-white
+    color: #333
+
+.btn:not(.btn-raised):not(.btn-link):focus, 
+.btn:not(.btn-raised):not(.btn-link):hover, 
+.input-group-btn .btn:not(.btn-raised):not(.btn-link):focus, 
+.input-group-btn .btn:not(.btn-raised):not(.btn-link):hover 
+    background-color: initial
+
+#analytics-panel
+    background-color: $primary-subject !important
+
+#search-results-title
+    color: #BDBDBD
 
 .profile_function 
     border-bottom: 1px solid #D2D2D2
 
-
-
-.mobile-menu .item 
-    color: $white
-    background: $primary-color
-
-
-.mobile-menu .item a 
-    color: white
-
-
-.mobile-menu > .subjects_menu_active 
-    background-color: $primary-color
-
-
-.mobile-menu > .item:hover
-    background-color: $primary-hover
-
-
-
 .page_selector h4 
     border-bottom: 1px solid #e5e5e5
-
 
 .subscribe-subject 
     background-color: #33cc33 !important
     color: white
 
-
 .filedrag 
     color: #555
     border: 2px dashed #555
 
-
-.footer 
-    color: $white
-    background: $strong-color
-
-
 .no-subjects 
     color: #999999
 
+.resource-link
+    color: #000000 !important
+
+.no-subscribe-btn
+    background-color: $primary-disabled !important
+    color: $primary-white !important
+
+.semi-check
+    border-color: $primary-color !important
+
+.login_subcommands a, .login_subcommands a:hover
+    color: $secondary-title
+
+.carousel-caption 
+    background: $primary-white
+
+/* === Forms === */
+
+.form-group.is-focused label,
+.form-group.is-focused label.control-label
+    color: $primary-color
+
+.form-group.is-focused .form-control
+    background-image: -webkit-gradient(linear,left top,left bottom,from($primary-color),to($primary-color)),-webkit-gradient(linear,left top,left bottom,from(#D2D2D2),to(#D2D2D2))
+    background-image: -webkit-linear-gradient($primary-color,$primary-color),-webkit-linear-gradient(#D2D2D2,#D2D2D2)
+    background-image: -o-linear-gradient($primary-color,$primary-color),-o-linear-gradient(#D2D2D2,#D2D2D2)
+    background-image: linear-gradient($primary-color,$primary-color),linear-gradient(#D2D2D2,#D2D2D2)
+
+/* === End Forms === */
+
+
+/* === Buttons === */
+
+.btn-group-raised .btn.btn-success, 
+.btn-group-raised .input-group-btn .btn.btn-success, 
+.btn.btn-fab.btn-success, .btn.btn-raised.btn-success, 
+.input-group-btn .btn.btn-fab.btn-success, .input-group-btn .btn.btn-raised.btn-success
+    background-color: $btn-success 
+
+.btn-group-raised .btn:not(.btn-link).active.btn-success, 
+.btn-group-raised .btn:not(.btn-link):active.btn-success, 
+.btn-group-raised .btn:not(.btn-link):focus.btn-success, 
+.btn-group-raised .btn:not(.btn-link):hover.btn-success, 
+.btn-group-raised .input-group-btn .btn:not(.btn-link).active.btn-success, 
+.btn-group-raised .input-group-btn .btn:not(.btn-link):active.btn-success, 
+.btn-group-raised .input-group-btn .btn:not(.btn-link):focus.btn-success, 
+.btn-group-raised .input-group-btn .btn:not(.btn-link):hover.btn-success, 
+.btn.btn-raised:not(.btn-link).active.btn-success, 
+.btn.btn-raised:not(.btn-link):active.btn-success, 
+.btn.btn-raised:not(.btn-link):focus.btn-success, 
+.btn.btn-raised:not(.btn-link):hover.btn-success, 
+.input-group-btn .btn.btn-raised:not(.btn-link).active.btn-success, 
+.input-group-btn .btn.btn-raised:not(.btn-link):active.btn-success, 
+.input-group-btn .btn.btn-raised:not(.btn-link):focus.btn-success, 
+.input-group-btn .btn.btn-raised:not(.btn-link):hover.btn-success
+    background-color: $btn-success-effect
+
+/* === End Buttons === */
+
+
+/* === Modal === */
+
+.modal-header 
+    border-bottom: 1px solid $secodnary-disabled !important 
+
+.modal-footer 
+    border-top: 1px solid $secodnary-disabled !important
+
+/* === End Modal === */
+
+
+/* === Pagination Controls === */
+
+.pagination > .active > a, 
+.pagination > .active > span, 
+.pagination > .active > a:hover, 
+.pagination > .active > span:hover, 
+.pagination > .active > a:focus, 
+.pagination > .active > span:focus 
+    background-color: $primary-color
+    border-color: $primary-color
+    color: $secondary-white
 
 .holder a.jp-disabled, a.jp-disabled:hover 
     background: none !important
     color: #bbb !important
 
-
 .holder a.jp-current, a.jp-current:hover 
     background: none
-
 
 .holder a, .holder span 
     border: 1px solid #ddd
     color: #337ab7
-
 
 .holder a:hover 
     color: #23527c
     background-color: #eee
     border-color: #ddd
 
-
 .holder a.jp-current, a.jp-current:hover 
-    background: #039BE5
-    color: $white
-    border-color: #039BE5
+    background-color: $primary-color
+    border-color: $primary-color
+    color: $secondary-white
+
+/* === End Pagination Controls === */
 
 
-/* Pendencies Form */
+/* === Language Selector */
+
+.language-selector .dropdown-menu > .active > a 
+    background: $primary-menu-bg
+    color: $primary-color
+
+.language-selector .dropdown-menu > .active > a:hover 
+    color: $primary-color
+
+/* === End Language Selector */
 
 
-.notifies 
-    border: 1px solid #EEEEEE
+/* === Topbar === */
 
+#btn-search
+    color: $secondary-white
 
-.bootstrap-datetimepicker-widget 
-    background-color: #fff
+#btn-search:hover 
+    background: $secondary-color
 
-
-.notifies a.delete-row 
-    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12)
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12)
-    background-color: #EEE
-    color: rgba(0,0,0,.87)
-
-
-a.add-row 
-    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12)
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12)    
-    background-color: #59b75c
+.navbar, .navbar.navbar-default 
+    background-color: $primary-color
     color: rgba(255,255,255,.84)
 
-/* Resource list on topic templates */
+.top-search 
+    color: $primary-white
 
+.navbar-header
+    background-color: $primary-color
+
+.navbar-brand:hover 
+    background: $secondary-color !important
+
+.navbar .project_name 
+    color: $secondary-white
+
+.navbar-nav li.open 
+    background: $secondary-color
+
+.navbar-nav li > a:hover 
+    background: $secondary-color !important
+
+.navbar-nav li.settings_menu_active 
+    background: $secondary-color
+
+.navbar .dropdown-menu .active > a, .navbar.navbar-default .dropdown-menu .active > a
+    background-color: $secondary-color  
+
+.dropdown-menu 
+    background: $primary-white
+
+.dropdown-menu li > a 
+    background: $primary-white
+    color: $primary-menu-color
+
+.dropdown-menu li > a:hover 
+    background: $primary-menu-bg !important
+    color: $secondary-white !important
+
+#system_accordion > .panel > .panel-heading 
+    background: $primary-white
+
+#system_accordion > .panel > .panel-heading:hover 
+    background: $primary-menu-bg
+    color: $secondary-white
+
+#system_accordion > .panel > .panel-heading > a > .panel-title 
+    color: $primary-menu-color
+
+#system_accordion > .panel > .panel-heading > a > .panel-title:hover 
+    color: $secondary-white
+
+#system_accordion > .panel > .panel-heading > a:hover 
+    color: $secondary-white
+
+#system_menu 
+    background: $primary-white
+
+/* --- Minor Screens --- */
+.search-responsive-collapse,
+.search-responsive-collapse .search
+    background: $primary-white
+
+.search-responsive-collapse #btn-search,
+.search-responsive-collapse .top-search
+    color: $primary-color
+
+.search-responsive-collapse .search_mask
+    background: #000000
+/* --- End Minor Screens --- */
+
+/* === End Topbar === */
+
+
+/* === Mobile Menu === */
+.navbar-menu-btn 
+    color: $secondary-white
+
+.mobile_menu_navbar
+    background: #EDEDEE
+    color: #000000
+
+input#mobile_menu_btn:checked + .navbar-menu-btn 
+    color: #000
+
+.mobile_menu_navbar .navbar-nav>.open>a, 
+.mobile_menu_navbar .navbar-nav>.open>a:focus, 
+.mobile_menu_navbar .navbar-nav>.open>a:hover,
+.mobile_menu_navbar .navbar-nav>.open>a:active,
+.mobile_menu_navbar .navbar-nav>li>a:focus, 
+.mobile_menu_navbar .navbar-nav>li>a:hover
+    color: $secondary-white
+
+.menu_mask
+    background: #000000
+/* === End Mobile Menu === */
+
+
+/* === Sidebar === */
+
+#sidebar-menu .item 
+    background-color: $primary-color
+    color: $secondary-white
+
+#sidebar-menu .item a
+    color: $secondary-white
+
+#sidebar-menu > .subjects_menu_active 
+    background-color: $secondary-color
+
+#sidebar-menu > .item:hover
+    background-color: $secondary-color
+
+/* --- Minor Screens --- */
+
+.bottom-menu
+    background: $primary-color
+
+.mobile-menu .item 
+    color: $secondary-white
+    background: $primary-color
+
+.mobile-menu .item a 
+    color: $secondary-white
+
+.mobile-menu > .subjects_menu_active 
+    background-color: $secondary-color
+
+.mobile-menu > .item:hover
+    background-color: $secondary-color
+
+/* --- End Minor Screens --- */
+
+/* === End Sidebar === */
+
+
+/* === Breadcrumbs === */
+
+.breadcrumb > li > span.divider 
+    color: $primary-color
+
+.breadcrumb > li > a
+    color: $primary-color
+
+.breadcrumb > li 
+    color: #BDBDBD
+
+.breadcrumb > li + li:last-child::before 
+    color: #BDBDBD
+
+.bread_mask
+    background: #000000
+/* === End Breadcrumbs === */
+
+
+/* === Panel === */
+
+.category-header i 
+    color: $secondary-white
+
+.category-header .dropdown-menu i 
+    color: inherit !important
+
+.panel-title a:hover 
+    color: $secondary-white
+
+.panel-invisible
+    background-color: $primary-disabled !important
+    color: $primary-white !important
+
+.panel-invisible .category-header .category-card-items i 
+    color: $disabled-white
+
+.panel-invisible .category-header .category-card-items i:hover 
+    color: $secondary-white
+
+/* === End Panel === */
+
+
+/* === Category Panel === */
+
+.category-panel > .panel-heading 
+    background-color: $primary-category !important
+
+.category-panel .category-header .category-card-items i 
+    color: $secondary-category
+
+.category-panel .category-header .category-card-items i:hover 
+    color: $secondary-white
+
+.category-panel-content 
+    background: $primary-white
+
+.category-header > h4.panel-title span 
+    color: $secondary-white
+
+/* === End Category Panel === */
+
+
+/* === Subject Panel === */
+
+.subject-panel > .panel-heading 
+    background-color: $primary-subject !important
+
+.subject-panel .category-header .category-card-items i 
+    color: $secondary-subject
+
+.subject-panel .category-header .category-card-items i:hover,
+.subject-panel-invisible .category-header .category-card-items i:hover 
+    color: $secondary-white
+
+/* --- Invisible --- */
+
+.subject-panel-invisible .category-header .category-card-items i
+    color: $disabled-white
+
+/* --- End Invisible --- */
+
+/* === End Subject Panel === */
+
+
+/* === Topic Panel === */
+
+.topic-panel > .panel-heading 
+    background-color: $primary-topic !important
+
+.topic-panel .category-header .category-card-items i, 
+.topic-panel-invisible .category-header .category-card-items i 
+    color: $secondary-topic
+
+.topic-panel .category-header .category-card-items i:hover, 
+.topic-panel-invisible .category-header .category-card-items i:hover 
+    color: $secondary-white
+
+.topic-panel > .category-panel-content, .topic-panel-invisible > .category-panel-content 
+    background: $secondary-white
+
+/* --- Invisible --- */
+
+.topic-panel-invisible > .panel-heading 
+    background-color: $primary-disabled !important
+    color: $primary-white
+
+.topic-panel-invisible .category-header .category-card-items i
+    color: $disabled-white
+
+/* --- End Invisible --- */
+
+/* === End Topic Panel === */
+
+
+/* === Group Panel === */
+
+.group-panel > .panel-heading 
+    background-color: $secondary-white !important
+
+.group-panel .panel-title, .group-panel .category-header i, .group-panel .category-course-link  
+    color: #000000 !important
+
+.group-panel-body 
+    background: $secondary-white !important
+    border-top: 1px solid #CCCCCC
+
+/* === End Group Panel === */
+
+
+/* === Resources List === */
 
 .resource_list > .list-group-item 
     background-color: #fff
     border: 1px solid #ddd
 
-
 .resource_list > .disabled 
     background-color: #eee
-
 
 .resource_list > .disabled:hover 
     background-color: #eee !important   
 
-
 .resource_list > .disabled a.resource_link 
-    color: #BDBDBD
-
+    color: $primary-disabled
 
 .resource_list > .list-group-item:hover 
-    background: $default-white
-
+    background: $primary-white
 
 .resource_list > .list-group-item:last-child 
     border-bottom: 1px solid #ddd !important
 
-
 .resource_list .category-card-items i 
     color: #e5e5e5
-
 
 .resource_list .category-card-items i:hover 
     color: #7f7f7f
 
-
 .resource_list .category-card-items .dropdown-menu i 
     color: #333
-
 
 .resource_list a 
     color: inherit
 
+.resource_list .category-card-items .dropdown-menu a:hover,
+.resource_list .category-card-items .dropdown-menu a:hover i
+    color: $secondary-white !important
 
-.resource_list .btn-group button:active, .resource_list .btn-group button:focus, .resource_list .btn-group button:hover 
+.resource_list .btn-group button:active, 
+.resource_list .btn-group button:focus, .resource_list .btn-group button:hover 
     background-color: initial !important
 
+/* === End Resources List === */
 
 
+/* === Participants === */
 
-#search-results-title
-    color: #BDBDBD
+#participants, .participants-list
+    background-color: $secondary-white
+
+#participants
+    box-shadow: -1px 1px 8px $primary-subject
+
+#participants i
+    color: $primary-subject
+
+.participants-list
+    box-shadow: -1px 2px 1px $primary-subject
+
+.subject-participants .sub-user:hover
+    background-color: $primary-menu-bg
+    color: $secondary-white
+
+/* === End Participants === */
 
 
+/* === Accordions === */
 
-.no-subscribe-btn
-    background-color: #BDBDBD !important
-    color: $default-white !important
+#coordinators_accordion .panel-heading, #professors_accordion .panel-heading 
+    background: $secondary-white
 
+/* === End Accordions === */
+
+
+/* === Tabs === */
+
+.core-subjects-options  li 
+    background-color: $secondary-white
+    border-bottom-color: #D2D2D2
+    color: #A0A0A0
+
+.core-subjects-options  li.active 
+    color: inherit
+    border-bottom-color: $secondary-color
+
+/* === End Tabs === */
+
+
+/* === Notifies === */
+
+.notifies, .goalitems 
+    border: 1px solid #EEEEEE
+
+.notifies a.delete-row, .goalitems a.delete-row
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12)
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12)
+    background-color: #EEE
+    color: rgba(0,0,0,.87)
+
+a.add-row 
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12)
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12)    
+    background-color: $btn-success
+    color: rgba(255,255,255,.84)
+
+/* === End Notifies === */
+
+
+/* === Goals === */
+
+.goalitems .slider, .goal_item .slider  
+    background-color: initial
+
+.goal_divider
+    border-top-color: #888
+
+/* === End Goals === */
+
+
+/* === Bulletin === */
+
+.bulletin-warning h4 
+    color: #555555
+
+.bulletin-warning p
+    color: #888888
+
+.bulletin-warning a
+    color: #4caf50
+
+/* === End Bulletin === */
+
+
+/* === Backup === */
+
+.backup_container .more_items
+    background: $primary-color
+    color: $secondary-white
+
+.backup_container .backup_item label, .backup_container .resources_list label
+    color: #333333
+
+/* === End Backup === */
+
+
+/* === Pendencies === */
+
+.pendencies-content 
+    background: $primary-white
 
 .pendency 
     border-color: #CCCCCC
 
-
 .pendency .breadcrumb 
-    background-color: $white
-
+    background-color: $secondary-white
 
 .pendency .meta 
     color: #FF0000
 
+.alert-low
+    background-color: #dfbd31 
 
-.alert-low, .alert-medium 
-    background-color: #FFA500
-    color: $white
+.alert-medium
+    background-color: #FF9000
 
+.alert-low, .alert-medium, .alert-danger 
+    color: $secondary-white !important
+    text-shadow: 0px 0px 1px #000000
 
 .no_button:hover, .no_button:focus, .no_button:active 
     background-color: initial !important
 
+/* === End Pendencies === */
 
-.popover 
-    background: #FFF
-    color: #333
 
+/* === Mural === */
 
 .mural .post_make 
-    background: $white
-
-
-.mural .post_make .user-img, .post .post-img, .post .post-comment .user-img div, .comment .comment-img div 
-    background: #CCCCCC
-
+    background: $secondary-white
 
 .mural .post_make .post-field div 
     border-color: #CCCCCC
 
-
 .mural .post_make .post-field h4 
     color: #CCCCCC
 
-
 .post_action i, .post .post-user .user-action i, .comment .comment-user .user-action i 
-    color: $secondary-color
+    color: #1d8fe0
 
-
-.post .post-user, .comment .comment-user, .marked_user 
-    color: $strong-color
-
+.post .post-user, .comment .comment-user, .marked_user, .post_resource 
+    color: $primary-title
 
 .post .post-user .user-action 
     color: #BBBBBB
 
-
 .post .time 
     color: #ABABAB
-
 
 .post .post-comment 
     border-top-color: #888888
     background: #e5e5e5
 
-
 .post .post-comment .comment-field div 
     border-color: #888888
-    background: $white
-
+    background: $secondary-white
 
 .comment-section 
-    background: $default-white
+    background: $primary-white
     border-top-color: #AAAAAA
-
 
 .comment .comment-user .user-action 
     color: #999999
 
-
 .comment-time 
     color: #9A9A9A
-
 
 .btn_unfav 
     color: #FF0000 !important
 
-
 .btn_fav 
     color: #BBBBBB !important
 
+.post-filter, .talk-filter 
+    background: $primary-white
 
-.post-filter 
-    background: $default-white
+.post-filter h4, .talk-filter h4
+    color: $primary-title
 
-
-.post-filter h4 
-    color: $strong-color
-
-
-.post-filter 
+.post-filter, .talk-filter 
     label 
         color: #333333
 
-
-.post-filter 
+.post-filter, .talk-filter 
     i 
         color: #FF0000
 
-
 .suggestions 
-    background: $white
+    background: $secondary-white
 
+.subject-related-panel
+    background: $primary-white !important 
 
-.mural-category 
+.mural-ungeneral
     background: #EEE
 
+/* === End Mural === */
 
-.btn:not(.btn-raised):not(.btn-link):focus, .btn:not(.btn-raised):not(.btn-link):hover, .input-group-btn .btn:not(.btn-raised):not(.btn-link):focus, .input-group-btn .btn:not(.btn-raised):not(.btn-link):hover 
-    background-color: initial
 
-#participants, .participants-list
-    background-color: $white
+/* === Chat === */
 
-#participants
-    box-shadow: -1px 1px 8px $primary-color
+.participant .user-info h4
+    color: $primary-title
 
-#participants i
-    color: $primary-color
+.modal_profile_sidebar h4, .message-view .message-user
+    color: $primary-title
 
-.participants-list
-    box-shadow: -1px 2px 1px $primary-color
+.participant .user-info .status, .modal_profile_sidebar .status, .subject-participants .status
+    border-color: #888
+    background-color: $primary-white
+
+.participant .user-info .status.active, .modal_profile_sidebar .status.active, .subject-participants .status.active
+    background-color: #59b75c
+
+.participant .user-info .status.away, .modal_profile_sidebar .status.away, .subject-participants .status.away
+    background-color: #DAA520
+
+.messages-container
+    border-top-color: #cacaca
+    background-color: #f5f5f5
+
+.message-sender
+    border-top-color: #888888 !important
+
+.message-sender-container
+    background-color: #e5e5e5
+
+.message-sender-container .message-field div
+    background-color: $secondary-white
+    border-color: #888888
+
+.talk-last_msg
+    color: #888
+
+.message-view
+    border-top-color: #cacaca
+
+.message-view .message-user .message-date
+    color: #888
+
+.messages_new
+    color: $secondary-white
+    background-color: #59b75c
+
+.chat-panel .chat-collapse
+    background: #EEE
+
+/* === End Chat === */
+
 
 @media(max-width: 768px) 
     .navbar .navbar-nav .dropdown .dropdown-menu li > a 
-        color: $white !important
-        background-color: $primary-color
+        color: #333333 !important
     
     .navbar .navbar-nav .dropdown .dropdown-menu li > a:hover 
-        backgroun-color: $primary-hover !important
-    
+        color: $primary-color !important
+
+    .mobile_menu_navbar .navbar-nav .dropdown .dropdown-menu li > a:hover
+        color: $secondary-white !important

@@ -1,31 +1,43 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
 {% extends "categories/home.html" %}
 
 {% load static pagination i18n %}
 
 {% block content %}
 	{% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <p>{{ message }}</p>
-            </div>
-        {% endfor %}
-    {% endif %}
+				{% for message in messages %}
+						<div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+								</button>
+								<p>{{ message }}</p>
+						</div>
+				{% endfor %}
+		{% endif %}
 
 
 
 
-  <!-- Wrapper for slides -->
-    <div id="myCarousel" class="carousel slide " data-ride="carousel">
-  <!-- Indicators -->
-  <ol class="carousel-indicators">
-    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-    <li data-target="#myCarousel" data-slide-to="1"></li>
-    <li data-target="#myCarousel" data-slide-to="2"></li>
-    <li data-target="#myCarousel" data-slide-to="3"></li>
-  </ol>
+	<!-- Wrapper for slides -->
+		<div id="myCarousel" class="carousel slide " data-ride="carousel">
+	<!-- Indicators -->
+	<ol class="carousel-indicators">
+		<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+		<li data-target="#myCarousel" data-slide-to="1"></li>
+		<li data-target="#myCarousel" data-slide-to="2"></li>
+		<li data-target="#myCarousel" data-slide-to="3"></li>
+	</ol>
 
 <div class="carousel-inner" role="listbox">
 		{% for new in news %}
@@ -34,38 +46,38 @@
 		</div>
 		{% endfor %}
 
-    <div class="item active">
-      <h2 class=" my-subjects-title"><b><i>{% trans "Most popular keywords" %}</i></b></h2>
-        <div id="" class="col-md-12">
-          <div class="users-cloud div-users-cloud">
-            <ul class=" users-cloud">
-              {% for tag in tags %}
-                {% if tag.1 == 0 %}
-                  <li class="big"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
-                {% elif tag.1 == 1 %}
-                  <li class="medium"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
-                {% else %}
-                  <li class="small"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
-                {% endif %}
+		<div class="item active">
+			<h2 class=" my-subjects-title"><b><i>{% trans "Most popular keywords" %}</i></b></h2>
+				<div id="" class="col-md-12">
+					<div class="users-cloud div-users-cloud">
+						<ul class=" users-cloud">
+							{% for tag in tags %}
+								{% if tag.1 == 0 %}
+									<li class="big"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
+								{% elif tag.1 == 1 %}
+									<li class="medium"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
+								{% else %}
+									<li class="small"><a href="{% url 'subjects:search' %}?search={{tag.0}}">{{tag.0}}</a></li>
+								{% endif %}
 
 
-              {% endfor %}
-            </ul>
-          </div>
-        </div>
-    </div>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+		</div>
 
 </div>
 
-  <!-- Left and right controls -->
-  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
+	<!-- Left and right controls -->
+	<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+		<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+		<span class="sr-only">Previous</span>
+	</a>
+	<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+		<span class="sr-only">Next</span>
+	</a>
 </div>
 
 
@@ -77,7 +89,7 @@
 		<h2 class=" my-subjects-title"><b><i>{% trans "My Subjects" %} ({{ total_subs }})</i></b></h2>
 
 		{% if subjects|length > 0 %}
-	    	<div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
+				<div class="panel-group" id="subject-accordion" role="tablist" aria-multiselectable="true">
 				{% for subject in subjects %}
 					{% include "subjects/subject_card.html" with accordion_id="subject-accordion" %}
 				{% endfor %}
@@ -93,10 +105,10 @@
 	</div>
 
 	<div id="modal_subject"></div>
-  {% if user.is_staff %}
-    <script type="text/javascript" src="{% static 'js/charts/home.js' %}"></script>
-  {% endif %}
+	{% if user.is_staff %}
+		<script type="text/javascript" src="{% static 'js/charts/home.js' %}"></script>
+	{% endif %}
 
 	<script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/category.js' %}"></script>
 {% endblock content %}

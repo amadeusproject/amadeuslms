@@ -1,3 +1,15 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
 {% extends 'base.html' %}
 
 {% load static i18n pagination %}
@@ -32,7 +44,7 @@
                             </form>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
-                            <a href="{% url 'chat:participants_general' %}" class="pull-right btn btn-default btn-raised btn-md">{% trans 'List all participants' %}</a>
+                            <a href="{% url 'chat:participants_general' %}" class="pull-right btn btn-default btn-raised btn-md btn-mobile visible-xs-block visible-sm-block">{% trans 'List all participants' %}</a>
                         </div>
     	    		</div>
         		</div>
@@ -41,7 +53,7 @@
             		<div class="panel category-panel-content panel-body">
                         <h2 class="my-subjects-title"><b>{% trans 'Conversations' %}</b></h2>
 
-                        <div class="talks-group">
+                        <div class="talks-group row">
                             {% for chat in conversations %}
                                 {% include 'chat/_view.html' with space="0" space_type='general' %}
                             {% endfor %}

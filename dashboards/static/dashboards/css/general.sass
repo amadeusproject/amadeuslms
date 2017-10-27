@@ -1,3 +1,15 @@
+/* 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+*/
+
 $title-color: #009688
 
 .report-body
@@ -20,25 +32,28 @@ $title-color: #009688
         width: 50%
         margin-bottom: 0px
 
-        li
-            margin-right: 2%
-            width: 50%
-            color: white
-            font-size: 20px
-            background-color: #0f8a9a
+        a
             width: 100%
-            text-align: center
-            border-radius: 20px
-            height: 30px
+            text-decoration: none
+        
+   
+li.tab-option
+    margin-right: 2%
+    color: white
+    font-size: 20px
+    background-color: #0f8a9a
+    width: 100%
+    text-align: center
+    border-radius: 20px
+    height: 30px
+    &:hover
+        background-color: #bdbdbd
 
-
-        li.selected
-            background-color: #4dcfbd 
-            width: 100%
-            text-align: center
-            border-radius: 20px
-
-         
+li.selected
+    background-color: #4dcfbd 
+    width: 100%
+    text-align: center
+    border-radius: 20px         
                
 
 
@@ -151,3 +166,43 @@ $title-color: #009688
     background: #52b7bd
     color: white
     text-align: center
+
+
+//LOG CLASSES AND ID's
+
+#period-selector
+    display: flex
+
+$colors: gray, white
+
+#log-table
+    width: 100%
+    border: 1px solid #bdbdbd
+    tr
+        height: 25px
+        &:nth-child(odd)
+            background-color: #bdbdbd
+        &:nth-child(even)
+            background-color: white
+
+        td
+            margin-right: 1%
+            padding-right: 1%
+
+#log-count
+    text-align: center
+
+.pagination 
+    display: inline-block
+    a  
+        color: black
+        float: left
+        padding: 8px 16px
+        text-decoration: none
+
+    a.active
+        background-color: #4CAF50
+        color: white
+    
+    a:hover:not(.active) 
+        background-color: #ddd

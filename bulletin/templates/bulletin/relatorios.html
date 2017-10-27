@@ -1,0 +1,447 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% extends "bulletin/view.html" %}
+
+{% load static i18n pagination permissions_tags subject_counter %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block javascript%}
+    {{ block.super }}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    var tabela_atual = true;
+
+    var array_history = [];
+    {%for data_json in json_history.data %}
+        array_history.push(["{{data_json.0}}","{{data_json.1}}","{{view}}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
+    {% endfor%}
+    var json_history = {"data":array_history};
+    var column_history = [{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":'{% trans "Action" %}'},{"date":'{% trans "Date of Action" %}'}];
+
+    var search = [];
+    for (var i in json_history["data"]){
+        search.push([json_history["data"][i][0],json_history["data"][i][1],
+                    json_history["data"][i][2],json_history["data"][i][3]]);
+    }
+
+    var array_n_did = [];
+    var checkbox = {};
+    {%for data_json in json_n_did.data%}
+        var input = '<div class="checkbox">\
+             <label for="{{data_json.0}}_google_table">\
+                <input id="{{data_json.0}}_google_table" name="{{data_json.0}}_google_table" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>\
+            </label>\
+        </div>'
+        checkbox["{{data_json.0}}_google_table"] = "{{data_json.4}}";
+        array_n_did.push([input,"{{data_json.1}}","{{data_json.2}}","{{data_json.3}}"]);
+    {% endfor%}
+    var json_n_did = {"data":array_n_did};
+    var column_n_did = [{"string":'<a href="javascript:void(0);" onclick="return openmodal();"> {% trans "Send message" %}</a>'},{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":"{% trans "Action don't realized" %}"}];
+    </script>
+
+
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart',"table"]});
+      google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(drawTable);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable({{db_data|safe}});
+        var options = {
+          title: '{{title_chart}}',
+        //   legend: {position: 'right', maxLines: 1},
+          bar: { groupWidth: '30%' },
+          chartArea:{width:"50%"},
+          titlePosition: 'out',
+          vAxis: {
+              title: '{{title_vAxis}}',
+              ticks: [0, .20, .40, .60, .80, 1],
+              viewWindow: {
+                  min: 0,
+                  max: 1
+              }
+          },
+          isStacked: "percent",
+        };
+
+        function selectHandler() {
+           var selectedItem = chart.getSelection()[0];
+           if (selectedItem) {
+               var col = data.getColumnLabel(selectedItem.column);
+               if (col == "{{n_did_table}}"){
+                   tabela_atual = false;
+                   search = [];
+                   for (var i in json_n_did["data"]){
+                       search.push([json_n_did["data"][i][0],json_n_did["data"][i][1],
+                                    json_n_did["data"][i][2],json_n_did["data"][i][3]]);
+                   }
+                   searcher(col, tabela_atual,true);
+
+               } else if (col == "{{did_table}}"){
+                   tabela_atual = true;
+                   search = [];
+                   for (var i in json_history["data"]){
+                       search.push([json_history["data"][i][0],json_history["data"][i][1],
+                                   json_history["data"][i][2],json_history["data"][i][3]]);
+                   }
+                   searcher(col, tabela_atual,true);
+               }
+                scroll("#title-table");
+           }
+          chart.setSelection([])
+         }
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        google.visualization.events.addListener(chart, 'select', selectHandler);
+        chart.draw(data, options);
+
+      }
+
+      var sortAscending = {0:false,1:false,2:false,3:false};
+      function drawTable(columns = column_history,rows = pagination(json_history["data"],1),isdate = true,columndate = 3) {
+          var data_table = new google.visualization.DataTable();
+          for (var i in columns){
+              for (var item in columns[i]){
+                 data_table.addColumn(item,columns[i][item]);
+              }
+          }
+
+          data_table.addRows(rows);
+          var formate_date = new google.visualization.DateFormat({pattern: 'dd/MM/yyyy HH:mm'});
+          if (isdate) formate_date.format(data_table, columndate);
+
+        //   var methods = [];
+        //       for (var m in data_table) {
+        //           if (typeof data_table[m] == "function") {
+        //               methods.push(m);
+        //           }
+        //       }
+        //   console.log(methods.join(","));
+            var options = {
+                sort: "event",
+                allowHtml: true,
+                cssClassNames : {
+                    tableRow: 'text-center',
+                    tableCell: 'text-center',
+                    headerCell: 'text-center'
+                },
+                showRowNumber: true,
+                width: '100%',
+                height: '100%',
+            }
+            function ordenar(properties){
+                var columnIndex = properties['column'];
+                if (columnIndex > 0) {
+                    options["sortColumn"] = columnIndex;
+                    options["sortAscending"] = sortAscending[columnIndex];
+                    data_table.sort({column:columnIndex,desc:sortAscending[columnIndex]});
+                    sortAscending = {0:false,1:false,2:false,3:false};
+                    sortAscending[columnIndex] = !sortAscending[columnIndex];
+                    // console.log(sortAscending);
+                    table.draw(data_table, options);
+                }
+            }
+
+          var table = new google.visualization.Table(document.getElementById('table_div'));
+          google.visualization.events.addListener(table, 'sort', function(e) {ordenar(e)});
+          table.draw(data_table, options);
+      }
+    </script>
+{% endblock%}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% trans 'Reports' as bread %}
+	{% breadcrumb bread bulletin%}
+{% endblock %}
+
+{% block content %}
+    <div id="message-top">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="panel panel-info topic-panel">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12 category-header">
+                    <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
+                        <span>{{bulletin}} / {% trans "Reports" %}</span>
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h4 style="margin-top: 15px; margin-bottom: 10px" ><strong>{% trans "Report of the resource " %}{{bulletin}}</strong></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+
+            <ul class="list-inline nav-justified">
+                <div id="general-parameters-div">
+                    <div class="general-parameters-field">
+                        <li class="text-right"><h4>{% trans "Select the period: " %}</h4></li>
+                    </div>
+                    <form id="period-form" action="" method="get">
+                        <div class="general-parameters-field">
+                            <li> <input class="form-control datetime-picker" name="init_date" type="text" required="" value="{% if LANGUAGE_CODE == 'pt-br' %}{{init_date|date:'d/m/Y H:i'}} {% else %} {{init_date|date:'m/d/Y H:i P'}} {% endif %}"></li>
+                        </div>
+                        <div class="general-parameters-field">
+                            <li><input id="inputdate" class="form-control datetime-picker" name="end_date" type="text" required="" value="{% if LANGUAGE_CODE == 'pt-br' %}{{end_date|date:'d/m/Y H:i'}} {% else %} {{end_date|date:'m/d/Y H:i P'}} {% endif %}"></li>
+                        </div>
+                        <li><input type="submit" value="{% trans 'Search' %}" style="margin-left: 15px;" class="btn btn-success btn-raised"></li>
+                    </form>
+                </div>
+            <ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div id="chart_div" style="height: 500px; margin-top: -50px;"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="text-center">
+                    <ul class="list-inline nav-justified">
+                        <li>
+                            <ul id="view-table" class="list-inline text-right">
+                                <li><h3 id="title-table"></h3></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul class="list-inline text-right">
+                                <li><p>{% trans "Filter: " %}</p></li>
+                                <li><input id="search-input" class="form-control" type="text" name="search" value=""></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <form id="google-chart-checkbox" action="" method="get">
+                    <div id="table_div"></div>
+                </form>
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center">
+        		  	<ul class="pagination">
+
+        		  	</ul>
+        		</div>
+            </div>
+        </div>
+        <div id="modal-message"></div>
+        <div class="row">
+            <br><br>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        $("#title-table").text(search.length + " {% trans 'record(s)' %}");
+        function putpagination(data = json_history["data"], load_histoty = true){
+            var len = Math.ceil(data.length / 20);
+            $(".pagination").empty();
+            $(".pagination").append('<li class="disabled"><span>«</span></li>');
+            $(".pagination").append('<li id="1" class="active">\
+                                        <a href="javascript:void(0);" onclick="return clickPagination(1, '+ load_histoty +');">1</a>\
+                                    </li>');
+            for (var i = 2; i <= len;i++){
+                $(".pagination").append('<li id="' + i + '">\
+                                            <a href="javascript:void(0);" onclick="return clickPagination(' + i +', ' + load_histoty + ');">' + i + '</a>\
+                                        </li>');
+            }
+            if (len > 1) $(".pagination").append('<li><a href="javascript:void(0);" onclick="return clickPagination(2, '+ load_histoty +');"><span>»</span></a></li>');
+            else $(".pagination").append('<li class="disabled"><span>»</span></li>');
+        };
+        putpagination();
+
+        $('#period-form').submit(function(event) {
+            $('<input />').attr('type', 'hidden')
+              .attr('name', "language")
+              .attr('value', '{{ LANGUAGE_CODE }}')
+              .appendTo('#period-form');
+        });
+        function add(element,local, first = false){
+            if (first) $(local).prepend(element);
+            else $(local).append(element);
+        }
+        function text(element){
+            return $(element).text();
+        }
+        function length(element) {
+            return $(element).length;
+        }
+
+        $("#search-input").on("keyup",function(){
+            search = [];
+            var text = $("#search-input").val();
+            searcher(text,tabela_atual);
+        });
+
+        function searcher(text, load_histoty = false,apaga=false){
+            if(apaga){
+                $("#search-input").val("");
+            }
+            var data = [];
+            if (!load_histoty){
+                data = $.map(json_n_did["data"], function (obj) {
+                          return $.extend(true, {}, obj);
+                      });
+            } else {
+                data = $.map(json_history["data"], function (obj) {
+                      return $.extend(true, {}, obj);
+                  });
+            }
+            if (load_histoty){
+                for (var i in data){
+                    data[i][3] = moment(data[i][3]).format("DD/MM/YYYY HH:mm");
+                }
+            }
+            if (load_histoty){
+                for (var i in data){
+                    if (data[i][0].toLowerCase().includes(text.toLowerCase())
+                        || data[i][1].toLowerCase().includes(text.toLowerCase())
+                        || data[i][2].toLowerCase().includes(text.toLowerCase())
+                        || data[i][3].toLowerCase().includes(text.toLowerCase())){
+                            search.push(json_history["data"][i]);
+                        }
+                }
+            }
+            else {
+                for (var i in data){
+                    if (data[i][1].toLowerCase().includes(text.toLowerCase())
+                        || data[i][2].toLowerCase().includes(text.toLowerCase())
+                        || data[i][3].toLowerCase().includes(text.toLowerCase())){
+                                search.push(json_n_did["data"][i]);
+                        }
+                }
+            }
+            console.log(search);
+            if (!load_histoty){
+                drawTable(column_n_did,pagination(search,1),false);
+            } else {
+                drawTable(column_history,pagination(search,1),true,3);
+            }
+            $("#title-table").text(search.length + " {% trans 'record(s)' %}");
+            putpagination(search,load_histoty);
+        }
+
+        function pagination(data,pag){
+            var len = data.length;
+            var first = (pag * 20 - 20 < len) ? pag * 20 - 20:len;
+            var end = (pag * 20 < len) ? pag * 20:len;
+            var search = data.slice(first,end);
+            return search;
+        }
+
+        function clickPagination(pag, load_histoty = false){
+            $(".pagination > li").last().remove();
+            $(".pagination > li").first().remove();
+
+            if (!load_histoty){
+                drawTable(column_n_did,pagination(search,pag),false);
+            } else {
+                drawTable(column_history,pagination(search,pag),true,3);
+            }
+
+            if (pag < Math.ceil(search.length / 20))
+                $(".pagination").append('<li><a href="javascript:void(0);" onclick="return clickPagination(' + (pag + 1) + ', '+ load_histoty +');"><span>»</span></a></li>');
+            else $(".pagination").append('<li class="disabled"><span>»</span></li>');
+            if (pag > 1)
+                $(".pagination").prepend('<li><a href="javascript:void(0);" onclick="return clickPagination(' + (pag - 1) + ', '+ load_histoty +');"><span>«</span></a></li>');
+            else $(".pagination").prepend('<li class="disabled"><span>«</span></li>');
+            $(".active").removeClass("active");
+            $("#" + pag).addClass("active");
+        }
+
+        function openmodal(){
+            $( "#modal-message" ).empty();
+           $.get( "{% url 'bulletin:send_message' bulletin.slug %}", function( data ) {
+                $( "#modal-message" ).append( data );
+                $("#send-message-modal").modal("show");
+            });
+        }
+
+        function sendMessage(){
+            $("#send-message-modal").modal("hide");
+            var checked = $("#google-chart-checkbox").serializeArray();
+            var email = [];
+            for (var i in checked){
+                email.push(checkbox[checked[i]["name"]]);
+            }
+            $('<input />').attr('type', 'hidden')
+            .attr('name', "users[]")
+            .attr('value', email)
+            .appendTo('#text_chat_form');
+
+            var formData = new FormData($('#text_chat_form').get(0));
+            $.ajax({
+                url: "{% url 'bulletin:send_message' bulletin.slug %}",
+                type: "POST",
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    if (data["message"]){
+                        console.log("success");
+                        $("body").removeClass("modal-open");
+                        $( "#modal-message" ).empty();
+                        $(".modal-backdrop.fade.in").remove();
+                        $("#message-top").empty();
+                        $("#message-top").append('\
+                            <div class="alert alert-success alert-dismissible" role="alert">\
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">\
+                                    <span aria-hidden="true">&times;</span>\
+                                </button>\
+                                <p>' + data["message"] + '</p>\
+                            </div>\
+                        ');
+                         $("html, body").animate({ scrollTop: 0 }, "slow");
+                         $('#google-chart-checkbox')[0].reset();
+                    } else {
+                        $( "#modal-message" ).empty();
+                        $(".modal-backdrop.fade.in").remove();
+                        $( "#modal-message" ).append( data );
+                        $("#send-message-modal").modal("show");
+                        $("html, body").animate({ scrollTop: 0 }, "slow");
+                    }
+                },
+                error: function(data){
+                    $("#message-top").empty();
+                    $("#message-top").append('\
+                        <div class="alert alert-danger alert-dismissible" role="alert">\
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">\
+                                <span aria-hidden="true">&times;</span>\
+                            </button>\
+                            <p>' + data.responseText + '</p>\
+                        </div>\
+                    ');
+                    $("html, body").animate({ scrollTop: 0 }, "slow");
+                }
+            });
+        }
+        function scroll(to){
+            $("html, body").animate({ scrollTop: $(to).offset().top }, "slow");
+        }
+    </script>
+{% endblock %}

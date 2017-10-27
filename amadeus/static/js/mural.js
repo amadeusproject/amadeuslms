@@ -1,3 +1,15 @@
+/* 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+*/
+
 var new_posts = [];
 var new_comments = {};
 
@@ -22,7 +34,7 @@ $(function () {
 
         $(this).animate({scrollTop: height}, 0);
     });
-
+    
     postHeightLimits();
     setUserDataPopover();
 
@@ -31,6 +43,9 @@ $(function () {
 function setUserDataPopover() {
     $('[data-toggle="popover"]').popover({
         html: true,
+        placement: function () {
+            return window.innerWidth <= 768 ? 'bottom' : 'right';
+        },
         content: function () {
             return $(this).parent().find(".popover").html();
         }
@@ -91,7 +106,12 @@ function seeComplete(btn, post) {
 function setPostFormSubmit(post = "") {
     var frm = $('#post-form');
 
-    frm.submit(function () {
+    frm.submit(function (e) {
+        var btn = frm.parent().parent().parent().find("button[form='post-form']");
+
+        btn.prop('disable', true);
+        btn.prop('disabled', true);
+
         var formData = new FormData($(this)[0]);
 
         $.ajax({
@@ -250,6 +270,11 @@ function setCommentFormSubmit(post, comment = "") {
     var frm = $('#comment-form');
 
     frm.submit(function () {
+        var btn = frm.parent().parent().parent().find("button[form='comment-form']")
+
+        btn.prop('disable', true);
+        btn.prop('disabled', true);
+
         var formData = new FormData($(this)[0]);
 
         $.ajax({

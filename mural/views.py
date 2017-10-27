@@ -1,3 +1,15 @@
+""" 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+"""
+
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.paginator import Paginator, EmptyPage
 from django.http import Http404
@@ -25,9 +37,11 @@ from log.decorators import log_decorator, log_decorator_ajax
 import time
 from datetime import datetime
 
+from api.utils import sendMuralPushNotification
+
 from .models import Mural, GeneralPost, CategoryPost, SubjectPost, MuralVisualizations, MuralFavorites, Comment
 from .forms import GeneralPostForm, CategoryPostForm, SubjectPostForm, ResourcePostForm, CommentForm
-from .utils import getSpaceUsers
+from .utils import getSpaceUsers, getSubjectPosts
 
 from amadeus.permissions import has_subject_view_permissions, has_resource_permissions
 
@@ -146,12 +160,14 @@ class GeneralCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		paths = [reverse("mural:manage_general")]
 
+		simple_notify = _("%s has made a post in General")%(str(self.object.user))
+
 		notification = {
 			"type": "mural",
 			"subtype": "post",
 			"paths": paths,
 			"user_icon": self.object.user.image_url,
-			"simple_notify": _("%s has made a post in General")%(str(self.object.user)),
+			"simple_notify": simple_notify,
 			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
 			"container": ".post",
 			"accordion": False,
@@ -162,6 +178,7 @@ class GeneralCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		for user in users:
 			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
+			sendMuralPushNotification(user, self.object.user, simple_notify)
 			Group("user-%s" % user.id).send({'text': notification})
 
 		MuralVisualizations.objects.bulk_create(entries)
@@ -403,12 +420,14 @@ class CategoryCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		paths = [reverse("mural:manage_category")]
 
+		simple_notify = _("%s has made a post in %s")%(str(self.object.user), str(self.object.space))
+
 		notification = {
 			"type": "mural",
 			"subtype": "post",
 			"paths": paths,
 			"user_icon": self.object.user.image_url,
-			"simple_notify": _("%s has made a post in %s")%(str(self.object.user), str(self.object.space)),
+			"simple_notify": simple_notify,
 			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
 			"container": "#" + slug,
 			"accordion": True,
@@ -419,6 +438,7 @@ class CategoryCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		for user in users:
 			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
+			sendMuralPushNotification(user, self.object.user, simple_notify)
 			Group("user-%s" % user.id).send({'text': notification})
 
 		MuralVisualizations.objects.bulk_create(entries)
@@ -551,25 +571,25 @@ class CategoryDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
 
 @log_decorator_ajax('mural', 'view', 'category')
 def mural_category_log(request, category):
-    action = request.GET.get('action')
+	action = request.GET.get('action')
 
-    if action == 'open':
-        category = get_object_or_404(Category, id = category)
+	if action == 'open':
+		category = get_object_or_404(Category, id = category)
 
-        log_context = {}
-        log_context['category_id'] = category.id
-        log_context['category_name'] = category.name
-        log_context['category_slug'] = category.slug
-        log_context['timestamp_start'] = str(int(time.time()))
-        log_context['timestamp_end'] = '-1'
+		log_context = {}
+		log_context['category_id'] = category.id
+		log_context['category_name'] = category.name
+		log_context['category_slug'] = category.slug
+		log_context['timestamp_start'] = str(int(time.time()))
+		log_context['timestamp_end'] = '-1'
 
-        request.log_context = log_context
+		request.log_context = log_context
 
-        log_id = Log.objects.latest('id').id
+		log_id = Log.objects.latest('id').id
 
-        return JsonResponse({'message': 'ok', 'log_id': log_id})
+		return JsonResponse({'message': 'ok', 'log_id': log_id})
 
-    return JsonResponse({'message': 'ok'})
+	return JsonResponse({'message': 'ok'})
 
 """
 	Section for SubjectPost classes
@@ -585,16 +605,7 @@ def load_subject_posts(request, subject):
 	showing = request.GET.get('showing', '')
 	n_views = 0
 
-	if not favorites:
-		if mines:
-			posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space__id = subject, mural_ptr__user = user)
-		else:
-			posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space__id = subject)
-	else:
-		if mines:
-			posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space__id = subject, favorites_post__isnull = False, favorites_post__user = user, mural_ptr__user = user)
-		else:
-			posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space__id = subject, favorites_post__isnull = False, favorites_post__user = user)
+	posts = getSubjectPosts(subject, user, favorites, mines)
 
 	if showing: #Exclude ajax creation posts results
 		showing = showing.split(',')
@@ -709,12 +720,14 @@ class SubjectCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		if self.object.resource:
 			paths.append(reverse("mural:resource_view", args = (), kwargs = {'slug': self.object.resource.slug}))
 
+		simple_notify = _("%s has made a post in %s")%(str(self.object.user), str(self.object.space))
+
 		notification = {
 			"type": "mural",
 			"subtype": "post",
 			"paths": paths,
 			"user_icon": self.object.user.image_url,
-			"simple_notify": _("%s has made a post in %s")%(str(self.object.user), str(self.object.space)),
+			"simple_notify": simple_notify,
 			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
 			"container": "#" + slug,
 			"accordion": True,
@@ -725,6 +738,7 @@ class SubjectCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		for user in users:
 			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
+			sendMuralPushNotification(user, self.object.user, simple_notify)
 			Group("user-%s" % user.id).send({'text': notification})
 
 		MuralVisualizations.objects.bulk_create(entries)
@@ -926,16 +940,7 @@ class SubjectView(LoginRequiredMixin, LogMixin, generic.ListView):
 		slug = self.kwargs.get('slug')
 		subject = get_object_or_404(Subject, slug = slug)
 
-		if not favorites:
-			if mines:
-				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(mural_ptr__user = user, space = subject)
-			else:
-				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space = subject)
-		else:
-			if mines:
-				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(favorites_post__isnull = False, favorites_post__user = user, mural_ptr__user = user, space = subject)
-			else:
-				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(favorites_post__isnull = False, favorites_post__user = user, space = subject)
+		posts = getSubjectPosts(subject.id, user, favorites, mines)			
 
 		if showing: #Exclude ajax creation posts results
 			showing = showing.split(',')
@@ -985,25 +990,25 @@ class SubjectView(LoginRequiredMixin, LogMixin, generic.ListView):
 
 @log_decorator_ajax('mural', 'view', 'subject')
 def mural_subject_log(request, subject):
-    action = request.GET.get('action')
+	action = request.GET.get('action')
 
-    if action == 'open':
-        subject = get_object_or_404(Subject, id = subject)
+	if action == 'open':
+		subject = get_object_or_404(Subject, id = subject)
 
-        log_context = {}
-        log_context['subject_id'] = subject.id
-        log_context['subject_name'] = subject.name
-        log_context['subject_slug'] = subject.slug
-        log_context['timestamp_start'] = str(int(time.time()))
-        log_context['timestamp_end'] = '-1'
+		log_context = {}
+		log_context['subject_id'] = subject.id
+		log_context['subject_name'] = subject.name
+		log_context['subject_slug'] = subject.slug
+		log_context['timestamp_start'] = str(int(time.time()))
+		log_context['timestamp_end'] = '-1'
 
-        request.log_context = log_context
+		request.log_context = log_context
 
-        log_id = Log.objects.latest('id').id
+		log_id = Log.objects.latest('id').id
 
-        return JsonResponse({'message': 'ok', 'log_id': log_id})
+		return JsonResponse({'message': 'ok', 'log_id': log_id})
 
-    return JsonResponse({'message': 'ok'})
+	return JsonResponse({'message': 'ok'})
 
 """
 	Section for specific resource post classes
@@ -1041,14 +1046,46 @@ class ResourceView(LoginRequiredMixin, LogMixin, generic.ListView):
 
 		if not favorites:
 			if mines:
-				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(mural_ptr__user = user, resource = resource)
+				if not user.is_staff:
+					posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(mural_mural.last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(
+						Q(resource = resource) & Q(mural_ptr__user = user) & (
+						Q(space__category__coordinators = user) | 
+						Q(space__professor = user) | 
+						Q(resource__isnull = True) |
+						(Q(resource__isnull = False) & (Q(resource__all_students = True) | Q(resource__students = user) | Q(resource__groups__participants = user))))).distinct()
+				else:
+					posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(mural_mural.last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(resource = resource, mural_ptr__user = user)
 			else:
-				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(resource = resource)
+				if not user.is_staff:
+					posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(mural_mural.last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(
+						Q(resource = resource) & (
+						Q(space__category__coordinators = user) | 
+						Q(space__professor = user) | 
+						Q(resource__isnull = True) |
+						(Q(resource__isnull = False) & (Q(resource__all_students = True) | Q(resource__students = user) | Q(resource__groups__participants = user))))).distinct()
+				else:
+					posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(mural_mural.last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(resource = resource)
 		else:
 			if mines:
-				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(favorites_post__isnull = False, favorites_post__user = user, mural_ptr__user = user, resource = resource)
+				if not user.is_staff:
+					posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(mural_mural.last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(
+						Q(resource = resource) & Q(favorites_post__isnull = False) & Q(favorites_post__user = user) & Q(mural_ptr__user = user) & (
+						Q(space__category__coordinators = user) | 
+						Q(space__professor = user) | 
+						Q(resource__isnull = True) |
+						(Q(resource__isnull = False) & (Q(resource__all_students = True) | Q(resource__students = user) | Q(resource__groups__participants = user))))).distinct()
+				else:
+					posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(mural_mural.last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(resource = resource, favorites_post__isnull = False, favorites_post__user = user, mural_ptr__user = user)
 			else:
-				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(favorites_post__isnull = False, favorites_post__user = user, resource = resource)
+				if not user.is_staff:
+					posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(mural_mural.last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(
+						Q(resource = resource) & Q(favorites_post__isnull = False) & Q(favorites_post__user = user) & (
+						Q(space__category__coordinators = user) | 
+						Q(space__professor = user) | 
+						Q(resource__isnull = True) |
+						(Q(resource__isnull = False) & (Q(resource__all_students = True) | Q(resource__students = user) | Q(resource__groups__participants = user))))).distinct()
+				else:
+					posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(mural_mural.last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(resource = resource, favorites_post__isnull = False, favorites_post__user = user)
 
 		if showing: #Exclude ajax creation posts results
 			showing = showing.split(',')
@@ -1144,12 +1181,14 @@ class ResourceCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		if self.object.resource:
 			paths.append(reverse("mural:resource_view", args = (), kwargs = {'slug': self.object.resource.slug}))
 
+		simple_notify = _("%s has made a post in %s")%(str(self.object.user), str(self.object.space))
+
 		notification = {
 			"type": "mural",
 			"subtype": "post",
 			"paths": paths,
 			"user_icon": self.object.user.image_url,
-			"simple_notify": _("%s has made a post in %s")%(str(self.object.user), str(self.object.space)),
+			"simple_notify": simple_notify,
 			"complete": render_to_string("mural/_view.html", {"post": self.object}, self.request),
 			"container": "#" + slug,
 			"accordion": True,
@@ -1160,6 +1199,7 @@ class ResourceCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		for user in users:
 			entries.append(MuralVisualizations(viewed = False, user = user, post = self.object))
+			sendMuralPushNotification(user, self.object.user, simple_notify)
 			Group("user-%s" % user.id).send({'text': notification})
 
 		MuralVisualizations.objects.bulk_create(entries)
@@ -1276,12 +1316,14 @@ class CommentCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 			if post.subjectpost.resource:
 				paths.append(reverse("mural:resource_view", args = (), kwargs = {'slug': post.subjectpost.resource.slug}))
 
+		simple_notify = _("%s has commented in a post")%(str(self.object.user))
+
 		notification = {
 			"type": "mural",
 			"subtype": "comment",
 			"paths": paths,
 			"user_icon": self.object.user.image_url,
-			"simple_notify": _("%s has commented in a post")%(str(self.object.user)),
+			"simple_notify": simple_notify,
 			"complete": render_to_string("mural/_view_comment.html", {"comment": self.object}, self.request),
 			"container": "#post-" + str(post.get_id()),
 			"post_type": post._my_subclass,
@@ -1292,6 +1334,7 @@ class CommentCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		for user in users:
 			entries.append(MuralVisualizations(viewed = False, user = user, comment = self.object))
+			sendMuralPushNotification(user, self.object.user, simple_notify)
 			Group("user-%s" % user.id).send({'text': notification})
 
 		MuralVisualizations.objects.bulk_create(entries)

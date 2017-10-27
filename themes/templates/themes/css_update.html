@@ -1,3 +1,15 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
 {% extends 'themes/index.html' %}
 
 {% load static i18n %}
@@ -29,30 +41,28 @@
 							<br clear="all" />
 
 							{% for radio in field %}
-                    {% if radio.choice_value == 'contrast' %}
+                    			{% if radio.choice_value == 'contrast' %}
 
-                    {% else %}
-
-							    <label for="{{ radio.id_for_label }}" class="row text-center">
-						    		<div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-lg-2 col-md-2 col-sm-2 col-xs-3 text-left">
-								        <span class="radio">
-								        	{{ radio }}
-							        	</span>
-							        </div>
-							        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-							        	{% with 'img/themes/'|add:radio.choice_value|add:'.png' as img_presentation %}
-							        		<img class="radio theme_img" src="{% static img_presentation %}" />
-							        	{% endwith %}
-							        </div>
-							        <div class="col-md-2 col-md-2 col-sm-2 col-xs-2">
-							        	{% with 'css/themes/'|add:radio.choice_value|add:'.css' as doc_presentation %}
-							        		<a class="radio" href="{% static doc_presentation %}" target="blank">{% trans 'Documentation' %}</a>
-							        	{% endwith %}
-							        </div>
-							    </label>
-							    <br clear="all" />
-                  {% endif %}
-
+                    			{% else %}
+								    <label for="{{ radio.id_for_label }}" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+							    		<div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-1 col-lg-2 col-md-2 col-sm-3 col-xs-12 text-left">
+									        <span class="radio">
+									        	{{ radio }}
+								        	</span>
+								        </div>
+								        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+								        	{% with 'img/themes/'|add:radio.choice_value|add:'.jpg' as img_presentation %}
+								        		<img class="radio theme_img" src="{% static img_presentation %}" />
+								        	{% endwith %}
+								        </div>
+								        <div class="col-md-2 col-md-2 col-sm-2 col-xs-12">
+								        	{% with 'docs/themes/'|add:radio.choice_value|add:'_docs.pdf' as doc_presentation %}
+								        		<a class="radio" href="{% static doc_presentation %}" target="blank">{% trans 'Documentation' %}</a>
+								        	{% endwith %}
+								        </div>
+								    </label>
+								    <br clear="all" />
+		              			{% endif %}
 							{% endfor %}
 						</div>
 

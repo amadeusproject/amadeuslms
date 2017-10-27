@@ -1,3 +1,15 @@
+/* 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+*/
+
 body {
     overflow-x: hidden;
 }
@@ -37,14 +49,6 @@ a:focus {
     width: 20%;
 }
 
-.bottom-menu {
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-    padding: 0px 30px;
-    z-index: 999;
-    height: 50px;
-}
 
 /* Initial page starts */
 .users-cloud {
@@ -430,6 +434,16 @@ a:focus {
     margin-bottom: 0px;
     font-style: italic;
 }
+
+#mobile_breadcrumb_btn {
+    clip: rect(0,0,0,0);
+    position: absolute;
+}
+
+.bread_label {
+    width: 100%;
+    font-weight: inherit;
+}
 /* End Breadcrumbs */
 
 .courseHome{
@@ -635,28 +649,6 @@ a:focus {
 }
 /* End Profile */
 
-/* Bottom Menu */
-.clearfix {
-    height: 60px;
-}
-
-
-.mobile-menu {
-    -webkit-padding-start: 0px;
-}
-
-.mobile-menu, .mobile-menu li {
-    display: inline-block;
-}
-
-.mobile-menu .item {
-    padding-top: 3px;
-    text-align: center;
-    height: 50px;
-    width: 55px;
-    font-size: 35px;
-}
-/* End Bottom Menu */
 
 /* subjects app starts*/
 .access-subject {
@@ -959,10 +951,6 @@ li.item .notify_badge {
     font-size: 35px;
 }
 
-.alert-low {
-    opacity: 0.5;
-}
-
 .no_button {
     cursor: initial;
 }
@@ -1154,7 +1142,9 @@ li.item .notify_badge {
 
 /*Carrosel change*/
 
-
+.carousel-inner > .item > span > img, .carousel-inner > .item > span > a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    width: 100%;
+}
 
 .carousel-control.right{
     background-image: none !important;
@@ -1162,6 +1152,11 @@ li.item .notify_badge {
 
 .carousel-control.left{
     background-image: none !important;
+}
+.carousel-caption{
+  position: static;
+  text-align: right;
+  font-size: 1.3em;
 }
 
 /* CHART APP */
@@ -1324,12 +1319,13 @@ div.dataTables_wrapper div.dataTables_paginate {
 /* Chat */
 .participants-group, .talks-group {
     margin-left: 40px;
+    margin-right: 5px;
 }
 
 .participant {
     margin-bottom: 10px;
     padding-right: 10px;
-    height: 70px;
+    min-height: 70px;
 }
 
 .participant .user-img {
@@ -1640,6 +1636,24 @@ div.dataTables_wrapper div.dataTables_paginate {
     border-radius: 2px;
     position: relative;
     top: -2px;
+}
+
+.bulletin-warning img {
+    margin: 7px 0px 7px 0px;
+}
+
+.bulletin-warning h4 {
+    margin-top: 10px;
+    line-height: 30px;
+}
+
+.bulletin-warning p {
+    font-size: 15px;
+    margin: 0;
+}
+
+.bulletin-warning h4, .bulletin-warning a {
+    font-weight: bold;
 }
 
 @-moz-document url-prefix() {

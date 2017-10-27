@@ -1,3 +1,15 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
 {% load static i18n chat_tags %}
 {% load widget_tweaks %}
 
@@ -30,11 +42,9 @@
 	                    </div>
 	                    <div class="checkbox">
 	                        <label>
-	                            <input name="mine" type="checkbox"> {% trans 'Only my messages' %}
+	                            <input name="mine" type="checkbox"> {% trans 'My messages' %}
 	                        </label>
 	                    </div>
-	                    <button type="submit" class="btn btn-success btn-sm btn-raised">{% trans 'Filter' %}</button>
-	                    <button type="button" id="clear_filter" class="btn btn-default btn-sm btn-raised clear_filter">{% trans 'Clean Filters' %}</button>
 	                </form>
 	            </div>
 	        </div>
@@ -70,7 +80,7 @@
 						<form id="short-chat" class="col-md-11" method="post" action="{{ form_url }}" enctype="multipart/form-data">
 							{% csrf_token %}
 
-							<div class="msg_placeholder">{% trans 'Type a new message to ' %}{{ participant }}</div>
+							<div class="msg_placeholder">{% trans 'Type a new message' %}</div>
 							<div id="msg_editable" contenteditable="true"></div>
 							{% render_field form.text style="display:none" %}
 						</form>

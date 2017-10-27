@@ -1,3 +1,15 @@
+""" 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+"""
+
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,7 +20,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Q, Count
 
-from .models import News
+from .models import News, valid_formats
 from .forms import NewsForm
 
 class VisualizeNews(LoginRequiredMixin,LogMixin,generic.ListView):
@@ -96,19 +108,19 @@ class CreateNewsView(LoginRequiredMixin,LogMixin,generic.edit.CreateView):
 
         super(CreateNewsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-
         return super(CreateNewsView, self).form_valid(form)
-
-    def get_success_url(self):
-        messages.success(self.request, _('News successfully created!'))
-
-        return reverse_lazy('news:view', kwargs = {'slug': self.object.slug} )
 
     def get_context_data (self, **kwargs):
         context = super(CreateNewsView, self).get_context_data(**kwargs)
         context['title'] = _("Create News")
+        context['mimeTypes'] = valid_formats
 
         return context
+    
+    def get_success_url(self):
+        messages.success(self.request, _('News successfully created!'))
+
+        return reverse_lazy('news:view', kwargs = {'slug': self.object.slug} )
 
 class UpdateNewsView(LoginRequiredMixin,LogMixin,generic.UpdateView):
     log_action = "update"
@@ -127,17 +139,6 @@ class UpdateNewsView(LoginRequiredMixin,LogMixin,generic.UpdateView):
             return redirect(reverse_lazy('subjects:home'))
         return super(UpdateNewsView, self).dispatch(request, *args, **kwargs)
 
-    def get_success_url(self):
-        messages.success(self.request, _('News successfully created!'))
-
-        return reverse_lazy('news:view', kwargs = {'slug': self.object.slug} )
-
-    def get_context_data (self, **kwargs):
-        context = super(UpdateNewsView, self).get_context_data(**kwargs)
-        context['title'] = _("Update News")
-
-        return context
-
     def form_valid(self, form):
         self.object = form.save(commit = False)
         creator = self.request.user
@@ -151,8 +152,19 @@ class UpdateNewsView(LoginRequiredMixin,LogMixin,generic.UpdateView):
 
         super(UpdateNewsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
-
         return super(UpdateNewsView, self).form_valid(form)
+    
+    def get_context_data (self, **kwargs):
+        context = super(UpdateNewsView, self).get_context_data(**kwargs)
+        context['title'] = _("Update News")
+        context['mimeTypes'] = valid_formats
+
+        return context
+
+    def get_success_url(self):
+        messages.success(self.request, _('News successfully updated!'))
+
+        return reverse_lazy('news:view', kwargs = {'slug': self.object.slug} )
 
 class SearchNewsView(LoginRequiredMixin, LogMixin, generic.ListView):
     login_url = reverse_lazy("users:login")

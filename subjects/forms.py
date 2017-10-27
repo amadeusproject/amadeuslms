@@ -1,11 +1,46 @@
+""" 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+"""
+
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 import datetime
+
+from users.models import User
+
 from .models import Subject, Tag
 
+
+class ParticipantsMultipleChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        label = str(obj) + " - (" + obj.email + ")"
+
+        return label
+
 class CreateSubjectForm(forms.ModelForm):
+    category_id = None
+
+    students = ParticipantsMultipleChoiceField(queryset = User.objects.all(), required = False)
+    professor = ParticipantsMultipleChoiceField(queryset = User.objects.all(), required = False)
+
     def __init__(self, *args, **kwargs):
         super(CreateSubjectForm, self).__init__(*args, **kwargs)
+
+        if kwargs['initial']:
+            if kwargs['initial']['category']:
+                categories = kwargs['initial']['category']
+
+                if categories.count() > 0:
+                    self.category_id = categories[0].id
+
 
         if not kwargs['instance'] is None:
             self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
@@ -58,15 +93,16 @@ class CreateSubjectForm(forms.ModelForm):
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
+        
         if self.instance.id:
-            same_name = Subject.objects.filter(name__unaccent__iexact = name).exclude(id = self.instance.id)
+            same_name = Subject.objects.filter(name__unaccent__iexact = name, category = self.category_id).exclude(id = self.instance.id)
         else:
-            same_name = Subject.objects.filter(name__unaccent__iexact = name)
-
+            same_name = Subject.objects.filter(name__unaccent__iexact = name, category = self.category_id)
+        
         if same_name.count() > 0:
             self._errors['name'] = [_('There is another subject with this name, try another one.')]
-
-
+            return ValueError
+        
         return name
 
     def clean_subscribe_begin(self):
@@ -107,6 +143,9 @@ class CreateSubjectForm(forms.ModelForm):
         return end_date
 
 class UpdateSubjectForm(forms.ModelForm):
+    students = ParticipantsMultipleChoiceField(queryset = User.objects.all(), required = False)
+    professor = ParticipantsMultipleChoiceField(queryset = User.objects.all(), required = False)
+
     def __init__(self, *args, **kwargs):
         super(UpdateSubjectForm, self).__init__(*args, **kwargs)
 
@@ -161,14 +200,15 @@ class UpdateSubjectForm(forms.ModelForm):
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
+        categoria = self.instance.category
+        
         if self.instance.id:
-            same_name = Subject.objects.filter(name__unaccent__iexact = name).exclude(id = self.instance.id)
+            same_name = Subject.objects.filter(name__unaccent__iexact = name , category = categoria).exclude(id = self.instance.id)
         else:
-            same_name = Subject.objects.filter(name__unaccent__iexact = name)
-
+            same_name = Subject.objects.filter(name__unaccent__iexact = name, category = categoria)
+        
         if same_name.count() > 0:
             self._errors['name'] = [_('There is another subject with this name, try another one.')]
-
 
         return name
 

@@ -1,3 +1,15 @@
+/* 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+*/
+
 $('#id_groups').multiSelect({
   selectableHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=' '>",
   selectionHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=''>",
@@ -132,10 +144,67 @@ function Init() {
 // file selection
 function FileSelectHandler(e) {
 	var files = e.target.files || e.dataTransfer.files,
-		parent = $(e.target.offsetParent);
+		parent = $(e.target.offsetParent),
+		max_size = parseInt($(e.target).data("max_size")) * 1024 * 1024,
+		submit_btn = $(e.target).closest("form").find("input[type='submit']"),
+		mimeTypes = $(e.target).data('mimetypes'),
+		file_id = parent.data('file_id');
+
+	if ($(e.target).closest("form").prop('id') == "bulletin") {
+		parent.removeClass('alert-file');
+
+		var alerts_open = $(e.target).closest("form").find(".alert-file").length;
+		
+		if (alerts_open == 0) {
+			$(submit_btn).prop('disable', false);
+			$(submit_btn).prop('disabled', false);
+		}
+
+		$("." + file_id + "-file-errors").hide();
+		$("." + file_id + "-file-errors .size").hide();
+		$("." + file_id + "-file-errors .format").hide();
+	} else {
+		$(".client-file-errors").hide();
+		$(".size").hide();
+		$(".format").hide();
+		$(submit_btn).prop('disable', false);
+		$(submit_btn).prop('disabled', false);
+	}
+
 
 	// process all File objects
 	for (var i = 0, f; f = files[i]; i++) {
+
+		if (f.size > max_size) {
+			$(submit_btn).prop('disable', true);
+			$(submit_btn).prop('disabled', true);
+
+			if ($(e.target).closest("form").prop('id') == "bulletin") {
+				$("." + file_id + "-file-errors").show();
+				$("." + file_id + "-file-errors .size").show();
+
+				parent.addClass('alert-file');
+			} else {
+				$(".client-file-errors").show();
+				$(".size").show();
+			}
+		} 
+
+		if (!mimeTypes.includes(f.type)) {
+			$(submit_btn).prop('disable', true);
+			$(submit_btn).prop('disabled', true);
+
+			if ($(e.target).closest("form").prop('id') == "bulletin") {
+				$("." + file_id + "-file-errors").show();
+				$("." + file_id + "-file-errors .format").show();
+
+				parent.addClass('alert-file');
+			} else {
+				$(".client-file-errors").show();
+				$(".format").show();
+			}
+		}
+
 		parent.find('.filedrag').html(f.name);
 	}
 }

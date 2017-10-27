@@ -1,0 +1,90 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n pagination %}
+
+ <header id="general-report-header">
+            <h3>{% trans "Amadeus Report" %}</h3>
+
+            <ul id="report-header-options">
+                <li  class="tab-option selected">
+                    {% trans "Focus" %}
+                </li>
+                <a href="{% url 'dashboards:view_general_log' %}"><li class="tab-option">
+                    {% trans "Log" %}
+                </li></a>
+            </ul>
+        </header> 
+
+        <article class="report-body">
+            {% include "dashboards/tags_body.html" %}
+            <section class="bottom-section">
+                <div class="chart left-chart">
+                 
+                    <h4>{% trans "Most accessed " %}</h4>
+                    <div id="left-data-selector">
+
+                      
+                                <div class="selector" data-url="categories">
+                                    <p>  {% trans "Categories" %} </p>
+                                    <i class="fa fa-2x pull-right fa-angle-right" aria-hidden="true" style=""></i>
+                                </div>
+                          
+                                <div class="selector" data-url="subjects">
+                                   <p> {% trans "Subjects" %} </p>
+                                   <i class="fa fa-2x pull-right fa-angle-right" aria-hidden="true" style=""></i>
+                                </div>
+                           
+                                <div class="selector" data-url="resources">
+                                   <p> {% trans "Resource" %} </p>
+                                   <i class="fa fa-2x pull-right fa-angle-right" aria-hidden="true" style=""></i>
+                                </div>
+                         
+                    </div>
+
+                </div>
+                <div class="chart middle-chart">
+                    <article>
+                        <h4>{% trans "Most active users" %}</h4>
+                    </article>
+                  
+                </div>
+                <div class="chart right-chart">
+                    <div id="month_selector_div">
+                        <h4>{% trans "Amount of access in: " %}
+                        <select id="month_selector">
+                            {% for month in months  %}
+                                <option>{{month}}</option>
+                            {% endfor %}
+
+                        </select>
+                        </h4>
+                    </div>
+
+                    <div id="right-chart-body">
+                        
+                    </div>
+                    
+                    <div class='input-group date'>
+                        <label>{% trans "Select the begin of the week: " %}</label>
+                        <input type='text' class="datepicker form-control"  />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    <div id="bottom-right-chart-body">
+                        
+                    </div>
+                </div>
+            </section>
+
+        </article>

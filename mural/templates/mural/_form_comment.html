@@ -1,3 +1,15 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
 {% load static i18n %}
 {% load widget_tweaks %}
 
@@ -8,7 +20,7 @@
 				{% csrf_token %}
 				<div class="form-group{% if form.has_error %} has-error {% endif %}">
 					<label for="{{ form.comment.auto_id }}">{{ form.comment.label }} <span>*</span></label>
-					{% render_field form.comment class='form-control text_simple_wysiwyg' %}
+					{% render_field form.comment class='form-control text_simple_wysiwyg' id='main_comment'%}
 
 					<span id="helpBlock" class="help-block">{{ form.post.help_text }}</span>
 
@@ -45,19 +57,29 @@
 			  		</div>
 
 					<span id="helpBlock" class="help-block">{{ form.image.help_text }}</span>
+				</div>
 
-					{% if form.image.errors %}
-						<div class="alert alert-danger alert-dismissible" role="alert">
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							<ul>
-								{% for error in form.image.errors %}
-									<li>{{ error }}</li>
-								{% endfor %}
-							</ul>
-						</div>
-					{% endif %}
+				{% if form.image.errors %}
+					<div class="alert alert-danger alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						<ul>
+							{% for error in form.image.errors %}
+								<li>{{ error }}</li>
+							{% endfor %}
+						</ul>
+					</div>
+				{% endif %}
+
+				<div class="alert alert-danger alert-dismissible client-file-errors" style="display:none" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					<ul>
+						<li class="size" style="display:none">{% trans "The image is too large. It should have less than 5MB." %}</li>
+						<li class="format" style="display:none">{% trans 'File not supported.' %}</li>
+					</ul>
 				</div>
 			</form>
 		</div>
@@ -99,6 +121,8 @@
 			    contents: '<i class="fa fa-user"/>',
 			    tooltip: '{% trans "Mark User" %}',
 			    click: function () {
+			    	context.invoke('saveRange');
+
 			    	var modal_content = $("#add-user-modal").html();
 		      		var modal = document.createElement('div');
 			      	$(modal).addClass('modal');
@@ -116,24 +140,28 @@
 			      		var node = document.createElement('span'),
 			      			value = field.val();
 
+			      		var paragraph = document.querySelector("#comment-form > div:nth-child(2) > div > div.note-editing-area > div.note-editable.panel-body > p")
+
 			      		$(node).addClass('marked_user');
 			      		$(node).html(value);
-
-			      		var code = context.invoke('code');
-
-			      		var new_code = $(code).append(node).append("&nbsp;");
-
-			      		context.invoke('code', new_code);
-
+			      		context.invoke('restoreRange');
+			      		context.invoke('pasteHTML', node);
+			      		$('#comment-form > div:nth-child(2) > div > div.note-editing-area > div.note-editable.panel-body > p > br').remove();
+			      		paragraph.innerHTML += '&nbsp;'
+			      		//paragraph.focus();
+			      		//paragraph.caretTo(paragraph.length);
 			      		$(modal).modal('hide');
+			      		//&nbsp;
 			      	});
 			    }
 	  		});
+
 
 		  	return button.render();   // return button as jquery object
 		}
 
 		$('.text_simple_wysiwyg').summernote({
+			lang: new_lang,
 			dialogsInBody: true,
 			disableDragAndDrop: true,
 			height: 150,
@@ -142,6 +170,7 @@
 			    ['style', ['bold', 'italic']],
 			    ['insert', ['link']],
 			    ['mybuttons', ['addUser']],
+			    ['color', ['color']],
 		  	],
 		  	buttons: {
 		  		addUser: AddUserBtn
@@ -224,10 +253,33 @@
 	// file selection
 	function FileSelectHandler(e) {
 		var files = e.target.files || e.dataTransfer.files,
-			parent = $(e.target.offsetParent);
+			parent = $(e.target.offsetParent),
+			max_size = 5*1024*1024;
+
+		$(".client-file-errors").hide();
+		$(".size").hide();
+		$(".format").hide();
+		$("#button").prop('disable', false);
+		$("#button").prop('disabled', false);
 
 		// process all File objects
 		for (var i = 0, f; f = files[i]; i++) {
+			if (f.size > max_size) {
+				$("#button").prop('disable', true);
+				$("#button").prop('disabled', true);
+
+				$(".client-file-errors").show();
+				$(".size").show();
+			} 
+
+			if (!f.type.match(/^image\//)) {
+				$("#button").prop('disable', true);
+				$("#button").prop('disabled', true);
+
+				$(".client-file-errors").show();
+				$(".format").show();
+			}
+
 			parent.find('.filedrag').html(f.name);
 		}
 	}

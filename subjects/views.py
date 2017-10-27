@@ -1,3 +1,15 @@
+""" 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+"""
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView, TemplateView, DetailView
 from categories.models import Category
@@ -43,6 +55,8 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 
 from users.serializers import UserBackupSerializer
+from bulletin.serializers import SimpleBulletinSerializer, CompleteBulletinSerializer
+from bulletin.models import Bulletin
 from file_link.serializers import SimpleFileLinkSerializer, CompleteFileLinkSerializer
 from file_link.models import FileLink
 from goals.serializers import SimpleGoalSerializer, CompleteGoalSerializer
@@ -55,6 +69,8 @@ from youtube_video.serializers import SimpleYTVideoSerializer, CompleteYTVideoSe
 from youtube_video.models import YTVideo
 from webpage.serializers import SimpleWebpageSerializer, CompleteWebpageSerializer
 from webpage.models import Webpage
+from webconference.serializers import SimpleWebconferenceSerializer, CompleteWebconferenceSerializer
+from webconference.models import Webconference
 
 from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions, has_resource_permissions
 
@@ -282,14 +298,14 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
         initial = super(SubjectCreateView, self).get_initial()
 
         if self.kwargs.get('slug'): #when the user creates a subject
-            initial['category'] = Category.objects.all().filter(slug=self.kwargs['slug'])
+            initial['category'] = Category.objects.filter(slug=self.kwargs['slug'])
             # print (initial)
             # initial['professor'] = User.objects.all()
 
         if self.kwargs.get('subject_slug'): #when the user replicate a subject
             subject = get_object_or_404(Subject, slug = self.kwargs['subject_slug'])
             initial = initial.copy()
-            initial['category'] = subject.category
+            initial['category'] = Category.objects.filter(slug = subject.category.slug)
             initial['description'] = subject.description
             initial['name'] = subject.name
             initial['visible'] = subject.visible
@@ -381,9 +397,9 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
     redirect_field_name = 'next'
 
     def dispatch(self, request, *args, **kwargs):
-        subject = get_object_or_404(Subject, slug = kwargs.get('slug', ''))
-        self.subject = subject
-        if not has_subject_permissions(request.user, subject):
+        self.subject = get_object_or_404(Subject, slug = kwargs.get('slug', ''))
+
+        if not has_subject_permissions(request.user, self.subject):
             return redirect(reverse_lazy('subjects:home'))
 
         return super(SubjectUpdateView, self).dispatch(request, *args, **kwargs)
@@ -402,6 +418,7 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
         context['title'] = _('Update Subject')
         context['template_extends'] = 'categories/home.html'
         context['subjects_menu_active'] = 'subjects_menu_active'
+        context['subject_data'] = get_object_or_404(Subject, slug = self.kwargs.get('slug', ''))
 
         return context
 
@@ -545,9 +562,8 @@ class SubjectDetailView(LoginRequiredMixin, LogMixin, DetailView):
         expire_time = settings.SESSION_SECURITY_EXPIRE_AFTER
 
         context['participants'] = User.objects.filter(
-            Q(is_staff = True) | Q(subject_student__slug = sub) |
-            Q(professors__slug = sub) |
-            Q(coordinators__subject_category__slug = sub)
+            Q(subject_student__slug = sub) |
+            Q(professors__slug = sub)
             ).extra(select = {'status': status_query}, select_params=(expire_time, expire_time,),).distinct().order_by('status', 'social_name','username').exclude(email = self.request.user.email)
 
         resources = self.request.session.get('resources', None)
@@ -594,8 +610,6 @@ class SubjectSubscribeView(LoginRequiredMixin, LogMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         subject = get_object_or_404(Subject, slug= kwargs.get('slug'))
-
-        print ("Deu Certo     ",    subject)
 
         if subject.subscribe_end <= datetime.datetime.today().date():
             messages.error(self.request, _('Subscription date is due!'))
@@ -761,29 +775,50 @@ def realize_backup(request, subject):
 
     zf = zipfile.ZipFile(s, "w", compression = zipfile.ZIP_DEFLATED)
 
+    bulletins = Bulletin.objects.filter(id__in = resources_ids)
     webpages = Webpage.objects.filter(id__in = resources_ids)
     ytvideos = YTVideo.objects.filter(id__in = resources_ids)
     filelinks = FileLink.objects.filter(id__in = resources_ids)
     links = Link.objects.filter(id__in = resources_ids)
     pdffiles = PDFFile.objects.filter(id__in = resources_ids)
     goals = Goals.objects.filter(id__in = resources_ids)
+    webconferences = Webconference.objects.filter(id__in = resources_ids)
 
 
     for filelink in filelinks:
-        if os.path.exists(filelink.file_content.path):
-            fdir, fname = os.path.split(filelink.file_content.path)
-            zip_path = os.path.join(resource_files_subdir, fname)
+        if bool(filelink.file_content):
+            if os.path.exists(filelink.file_content.path):
+                fdir, fname = os.path.split(filelink.file_content.path)
+                zip_path = os.path.join(resource_files_subdir, fname)
 
-            # Add file, at correct path
-            zf.write(filelink.file_content.path, zip_path)
+                # Add file, at correct path
+                zf.write(filelink.file_content.path, zip_path)
 
     for pdffile in pdffiles:
-        if os.path.exists(pdffile.file.path):
-            fdir, fname = os.path.split(pdffile.file.path)
-            zip_path = os.path.join(resource_files_subdir, fname)
+        if bool(pdffile.file):
+            if os.path.exists(pdffile.file.path):
+                fdir, fname = os.path.split(pdffile.file.path)
+                zip_path = os.path.join(resource_files_subdir, fname)
 
-            # Add file, at correct path
-            zf.write(pdffile.file.path, zip_path)
+                # Add file, at correct path
+                zf.write(pdffile.file.path, zip_path)
+
+    for bulletin in bulletins:
+        if bool(bulletin.file_content):
+            if os.path.exists(bulletin.file_content.path):
+                fdir, fname = os.path.split(bulletin.file_content.path)
+                zip_path = os.path.join(os.path.join("bulletin", "goals"), fname)
+
+                # Add file, at correct path
+                zf.write(bulletin.file_content.path, zip_path)
+
+        if bool(bulletin.indicators):
+            if os.path.exists(bulletin.indicators.path):
+                fdir, fname = os.path.split(bulletin.indicators.path)
+                zip_path = os.path.join(os.path.join("bulletin", "indicators"), fname)
+
+                # Add file, at correct path
+                zf.write(bulletin.indicators.path, zip_path)
 
     file = open("backup.json", "w")
 
@@ -793,41 +828,56 @@ def realize_backup(request, subject):
         participants = User.objects.filter(subject_student__slug = subject)
 
         for user in participants:
-            if os.path.exists(user.image.path):
-                fdir, fname = os.path.split(user.image.path)
-                zip_path = os.path.join('users', fname)
+            if bool(user.image):
+                if os.path.exists(user.image.path):
+                    fdir, fname = os.path.split(user.image.path)
+                    zip_path = os.path.join('users', fname)
 
-                zf.write(user.image.path, zip_path)
+                    zf.write(user.image.path, zip_path)
 
+        serializer_b = CompleteBulletinSerializer(bulletins, many = True)
         serializer_w = CompleteWebpageSerializer(webpages, many = True)
         serializer_y = CompleteYTVideoSerializer(ytvideos, many = True)
         serializer_f = CompleteFileLinkSerializer(filelinks, many = True)
         serializer_l = CompleteLinkSerializer(links, many = True)
         serializer_p = CompletePDFFileSerializer(pdffiles, many = True)
         serializer_g = CompleteGoalSerializer(goals, many = True)
+        serializer_c = CompleteWebconferenceSerializer(webconferences, many = True)
     else:
+        serializer_b = SimpleBulletinSerializer(bulletins, many = True)
         serializer_w = SimpleWebpageSerializer(webpages, many = True)
         serializer_y = SimpleYTVideoSerializer(ytvideos, many = True)
         serializer_f = SimpleFileLinkSerializer(filelinks, many = True)
         serializer_l = SimpleLinkSerializer(links, many = True)
         serializer_p = SimplePDFFileSerializer(pdffiles, many = True)
         serializer_g = SimpleGoalSerializer(goals, many = True)
+        serializer_c = SimpleWebconferenceSerializer(webconferences, many = True)
 
+    if len(serializer_b.data) > 0:
+        data_list.append(serializer_b.data)
+
+    if len(serializer_w.data) > 0:
+        data_list.append(serializer_w.data)
     
-    data_list.append(serializer_w.data)
-    data_list.append(serializer_y.data)
-    data_list.append(serializer_f.data)
-    data_list.append(serializer_l.data)
-    data_list.append(serializer_p.data)
-    data_list.append(serializer_g.data)
+    if len(serializer_y.data) > 0:
+        data_list.append(serializer_y.data)
+
+    if len(serializer_f.data) > 0:
+        data_list.append(serializer_f.data)
+
+    if len(serializer_l.data) > 0:
+        data_list.append(serializer_l.data)
+
+    if len(serializer_p.data) > 0:
+        data_list.append(serializer_p.data)
+
+    if len(serializer_g.data) > 0:
+        data_list.append(serializer_g.data)
+
+    if len(serializer_c.data) > 0:
+        data_list.append(serializer_c.data)
 
     json.dump(data_list, file)
-    # json.dump(serializer_w.data, file)
-    # json.dump(serializer_y.data, file)
-    # json.dump(serializer_f.data, file)
-    # json.dump(serializer_l.data, file)
-    # json.dump(serializer_p.data, file)
-    # json.dump(serializer_g.data, file)
 
     file.close()
 
@@ -892,24 +942,55 @@ def realize_restore(request, subject):
                 data = json.loads(bkp_file.read())
 
                 for line in data:
-                    if "_my_subclass" in line[0]:
-                        if line[0]["_my_subclass"] == "webpage":
-                            serial = SimpleWebpageSerializer(data = line, many = True, context = {'subject': subject})
-                        elif line[0]["_my_subclass"] == "filelink":
-                            serial = SimpleFileLinkSerializer(data = line, many = True, context = {'subject': subject})
-                        elif line[0]["_my_subclass"] == "link":
-                            serial = SimpleLinkSerializer(data = line, many = True, context = {'subject': subject})
-                        elif line[0]["_my_subclass"] == "pdffile":
-                            serial = SimplePDFFileSerializer(data = line, many = True, context = {'subject': subject})
-                        elif line[0]["_my_subclass"] == "goals":
-                            serial = SimpleGoalSerializer(data = line, many = True, context = {'subject': subject})
-                        elif line[0]["_my_subclass"] == "ytvideo":
-                            serial = SimpleYTVideoSerializer(data = line, many = True, context = {'subject': subject})
-                        
-                        serial.is_valid()
-                        print(serial.errors)
-                        print("\n")
-                        print(serial.validated_data)
-                        print("\n\n\n")
+                    if len(line) > 0:
+                        if "_my_subclass" in line[0]:
+                            if line[0]["_my_subclass"] == "webpage":
+                                if "students" in line[0]:
+                                    serial = CompleteWebpageSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                                else:
+                                    serial = SimpleWebpageSerializer(data = line, many = True, context = {'subject': subject})
+                            elif line[0]["_my_subclass"] == "bulletin":
+                                if "students" in line[0]:
+                                    print(file.namelist())
+                                    print(line[0]["file_content"])
+                                    print(line[0]["file_content"] in file.namelist())
+                                    serial = CompleteBulletinSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                                else:
+                                    serial = SimpleBulletinSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                            elif line[0]["_my_subclass"] == "filelink":
+                                if "students" in line[0]:
+                                    serial = CompleteFileLinkSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                                else:
+                                    serial = SimpleFileLinkSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                            elif line[0]["_my_subclass"] == "link":
+                                if "students" in line[0]:
+                                    serial = CompleteLinkSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                                else:
+                                    serial = SimpleLinkSerializer(data = line, many = True, context = {'subject': subject})
+                            elif line[0]["_my_subclass"] == "pdffile":
+                                if "students" in line[0]:
+                                    serial = CompletePDFFileSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                                else:
+                                    serial = SimplePDFFileSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                            elif line[0]["_my_subclass"] == "goals":
+                                if "students" in line[0]:
+                                    serial = CompleteGoalSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                                else:
+                                    serial = SimpleGoalSerializer(data = line, many = True, context = {'subject': subject})
+                            elif line[0]["_my_subclass"] == "ytvideo":
+                                if "students" in line[0]:
+                                    serial = CompleteYTVideoSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                                else:
+                                    serial = SimpleYTVideoSerializer(data = line, many = True, context = {'subject': subject})
+                            elif line[0]["_my_subclass"] == "webconference":
+                                if "students" in line[0]:
+                                    serial = CompleteWebconferenceSerializer(data = line, many = True, context = {'subject': subject, 'files': file})
+                                else:
+                                    serial = SimpleWebconferenceSerializer(data = line, many = True, context = {'subject': subject})
+                            
+                            serial.is_valid()
+                            serial.save()
 
-    return JsonResponse({'message': 'ok'})
+    messages.success(request, _('Backup restored successfully!'))
+
+    return redirect(reverse_lazy('subjects:restore', kwargs = {"slug": subject}))

@@ -1,3 +1,16 @@
+""" 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+"""
+
+
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 from django.contrib import messages
@@ -17,6 +30,7 @@ from amadeus.permissions import has_subject_permissions, has_resource_permission
 from topics.models import Topic
 from users.models import User
 
+from .utils import brodcast_dificulties
 from .forms import GoalsForm, MyGoalsForm, InlinePendenciesFormset, InlineGoalItemFormset
 from .models import Goals, MyGoals
 
@@ -30,7 +44,7 @@ from webpage.forms import FormModalMessage
 
 from django.db.models import Q
 from django.template.loader import render_to_string
-from django.utils import formats
+from django.utils import formats, timezone
 import textwrap
 from django.utils.html import strip_tags
 import json
@@ -206,15 +220,40 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
 
 	template_name = 'goals/view.html'
 	model = Goals
-	context_object_name = 'itens'	
+	context_object_name = 'itens'
+
+	students = None
 
 	def get_queryset(self):
 		slug = self.kwargs.get('slug', '')
 		goal = get_object_or_404(Goals, slug = slug)
 
-		goals = MyGoals.objects.filter(user = self.request.user, item__goal = goal)
+		if has_subject_permissions(self.request.user, goal.topic.subject):
+			self.students = User.objects.filter(subject_student = goal.topic.subject).order_by('social_name', 'username')
+
+			goals = MyGoals.objects.filter(user = self.students.first(), item__goal = goal)
+		else:
+			goals = MyGoals.objects.filter(user = self.request.user, item__goal = goal)
 
 		return goals
+
+	def post(self, request, *args, **kwargs):
+		slug = self.kwargs.get('slug', '')
+		goal = get_object_or_404(Goals, slug = slug)
+
+		user = request.POST.get('selected_student', None)
+
+		if has_subject_permissions(request.user, goal.topic.subject):
+			self.students = User.objects.filter(subject_student = goal.topic.subject).order_by('social_name', 'username')
+
+			if not user is None:
+				self.object_list = MyGoals.objects.filter(user__email = user, item__goal = goal)
+			else:
+				self.object_list = MyGoals.objects.filter(user = self.request.user, item__goal = goal)	
+		else:
+			self.object_list = MyGoals.objects.filter(user = self.request.user, item__goal = goal)
+
+		return self.render_to_response(self.get_context_data())
 
 	def dispatch(self, request, *args, **kwargs):
 		slug = self.kwargs.get('slug', '')
@@ -236,6 +275,10 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
 		context['goal'] = goals
 		context['topic'] = goals.topic
 		context['subject'] = goals.topic.subject
+
+		if not self.students is None:
+			context['sub_students'] = self.students
+			context['student'] = self.request.POST.get('selected_student', self.students.first().email)
 
 		self.log_context['category_id'] = goals.topic.subject.category.id
 		self.log_context['category_name'] = goals.topic.subject.category.name
@@ -275,6 +318,9 @@ class NewWindowSubmit(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		if not has_resource_permissions(request.user, goals):
 			return redirect(reverse_lazy('subjects:home'))
+
+		if has_subject_permissions(request.user, goals.topic.subject):
+			return redirect(reverse_lazy('goals:view', kwargs = {'slug': goals.slug}))
 
 		if MyGoals.objects.filter(item__goal = goals, user = request.user).exists():
 			return redirect(reverse_lazy('goals:view', args = (), kwargs = {'slug': slug}))
@@ -344,6 +390,16 @@ class NewWindowSubmit(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 			form.save()
 
+		dificulties = self.request.POST.get('dificulties', None)
+
+		if not dificulties is None:
+			slug = self.kwargs.get('slug', '')
+			goals = get_object_or_404(Goals, slug = slug)
+
+			message = _("#Dificulty(ies) found in %s")%(str(goals)) + ":<p>" + dificulties + "</p>"
+
+			brodcast_dificulties(self.request, message, goals.topic.subject)
+
 		return redirect(self.get_success_url())
 
 	def get_context_data(self, **kwargs):
@@ -402,6 +458,9 @@ class SubmitView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		if not has_resource_permissions(request.user, goals):
 			return redirect(reverse_lazy('subjects:home'))
 
+		if has_subject_permissions(request.user, goals.topic.subject):
+			return redirect(reverse_lazy('goals:view', kwargs = {'slug': goals.slug}))
+
 		if MyGoals.objects.filter(item__goal = goals, user = request.user).exists():
 			return redirect(reverse_lazy('goals:view', args = (), kwargs = {'slug': slug}))
 
@@ -445,7 +504,7 @@ class SubmitView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 	def post(self, request, *args, **kwargs):
 		self.object = None
-		
+
 		form_class = self.get_form_class()
 		form = self.get_form(form_class)
 
@@ -469,6 +528,16 @@ class SubmitView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 			form.user = self.request.user
 
 			form.save()
+
+		dificulties = self.request.POST.get('dificulties', None)
+
+		if not dificulties is None:
+			slug = self.kwargs.get('slug', '')
+			goals = get_object_or_404(Goals, slug = slug)
+
+			message = _("#Dificulty(ies) found in %s")%(str(goals)) + ":<p>" + dificulties + "</p>"
+
+			brodcast_dificulties(self.request, message, goals.topic.subject)
 
 		return redirect(self.get_success_url())
 
@@ -536,6 +605,10 @@ class UpdateSubmit(LoginRequiredMixin, LogMixin, generic.UpdateView):
 		if not has_resource_permissions(request.user, goals):
 			return redirect(reverse_lazy('subjects:home'))
 
+		if goals.limit_submission_date < timezone.now():
+			messages.error(self.request, _('The date limit to submit your Goals specification for the topic %s has passed, so you can\'t edit your values!')%(goals.topic.name))
+			return redirect(reverse_lazy('goals:view', kwargs = {'slug': slug}))
+
 		return super(UpdateSubmit, self).dispatch(request, *args, **kwargs)
 
 	def get(self, request, *args, **kwargs):
@@ -577,6 +650,16 @@ class UpdateSubmit(LoginRequiredMixin, LogMixin, generic.UpdateView):
 			form = forms.save(commit = False)
 
 			form.save()
+
+		dificulties = self.request.POST.get('dificulties', None)
+
+		if not dificulties is None:
+			slug = self.kwargs.get('slug', '')
+			goals = get_object_or_404(Goals, slug = slug)
+
+			message = _("#Dificulty(ies) found in %s")%(str(goals)) + ":<p>" + dificulties + "</p>"
+
+			brodcast_dificulties(self.request, message, goals.topic.subject)
 
 		return redirect(self.get_success_url())
 
@@ -764,14 +847,17 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 	def get_success_url(self):
 		messages.success(self.request, _('The Goals specification for the topic %s was realized successfully!')%(self.object.topic.name))
 
-		success_url = reverse_lazy('goals:submit', kwargs = {'slug': self.object.slug})
+		if has_subject_permissions(self.request.user, self.object.topic.subject):
+			success_url = reverse_lazy('goals:view', kwargs = {'slug': self.object.slug})
+		else:
+			success_url = reverse_lazy('goals:submit', kwargs = {'slug': self.object.slug})
 
-		if self.object.show_window:
-			self.request.session['resources'] = {}
-			self.request.session['resources']['new_page'] = True
-			self.request.session['resources']['new_page_url'] = reverse('goals:window_submit', kwargs = {'slug': self.object.slug})
+			if self.object.show_window:
+				self.request.session['resources'] = {}
+				self.request.session['resources']['new_page'] = True
+				self.request.session['resources']['new_page_url'] = reverse('goals:window_submit', kwargs = {'slug': self.object.slug})
 
-			success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+				success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
 		return success_url
 
@@ -899,14 +985,17 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 	def get_success_url(self):
 		messages.success(self.request, _('The Goals specification for the topic %s was updated successfully!')%(self.object.topic.name))
 
-		success_url = reverse_lazy('goals:submit', kwargs = {'slug': self.object.slug})
+		if has_subject_permissions(self.request.user, self.object.topic.subject):
+			success_url = reverse_lazy('goals:view', kwargs = {'slug': self.object.slug})
+		else:
+			success_url = reverse_lazy('goals:submit', kwargs = {'slug': self.object.slug})
 
-		if self.object.show_window:
-			self.request.session['resources'] = {}
-			self.request.session['resources']['new_page'] = True
-			self.request.session['resources']['new_page_url'] = reverse('goals:window_submit', kwargs = {'slug': self.object.slug})
+			if self.object.show_window:
+				self.request.session['resources'] = {}
+				self.request.session['resources']['new_page'] = True
+				self.request.session['resources']['new_page_url'] = reverse('goals:window_submit', kwargs = {'slug': self.object.slug})
 
-			success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+				success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
 		return success_url
 

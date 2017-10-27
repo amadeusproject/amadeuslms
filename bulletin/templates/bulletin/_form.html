@@ -1,0 +1,397 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+{% load widget_tweaks %}
+
+<form id="bulletin" method="post" action="" enctype="multipart/form-data">
+	{% csrf_token %}
+
+	{% render_field form.control_subject %}
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+		<label for="{{ form.name.auto_id }}">{{ form.name.label }} <span>*</span></label>
+		{% render_field form.name class='form-control' %}
+
+		<span id="helpBlock" class="help-block">{{ form.name.help_text }}</span>
+
+		{% if form.name.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.name.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+	</div>
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+		<label for="{{ form.content.auto_id }}">{{ form.content.label }} </label>
+		{% render_field form.content class='form-control text_wysiwyg' %}
+
+		<span id="helpBlock" class="help-block">{{ form.content.help_text }}</span>
+
+		{% if form.content.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.content.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+	</div>
+
+	<label for="{{ form.file_content.auto_id }}">{{ form.file_content.label }} <span>*</span></label>
+	<a href="{% url 'bulletin:download_file' file=goal_file %}"> {% trans "Click to download a xls file with the data of the goals" %}</a>
+	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput" data-file_id="{{ form.file_content.auto_id }}">
+		{% render_field form.file_content class='file-selector' data-max_size="1" data-mimetypes=mimeTypes %}
+
+		<div class="input-group common-file-input">
+					<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
+					<span class="input-group-btn input-group-sm">
+						<button type="button" class="btn btn-fab btn-fab-mini">
+							<i class="material-icons">attach_file</i>
+						</button>
+					</span>
+			</div>
+
+			<div class="filedrag">
+				{% if bulletin %}
+					<i class="fa fa-file-archive-o"></i> <br />
+
+					<small>{{ bulletin.filename }}</small>
+				{% else %}
+						{% trans 'Click or drop the .xls file with the goals data' %}<br />
+
+						<small>{% trans 'The file could not exceed 1MB.' %}</small>
+					{% endif %}
+			</div>
+
+		<span id="helpBlock" class="help-block">{{ form.file_content.help_text }}</span>
+
+
+	</div>
+	
+	{% if form.file_content.errors %}
+		<div class="alert alert-danger alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			<ul>
+				{% for error in form.file_content.errors %}
+					<li>{{ error }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+
+	<div class="col-lg-12 col-md-12 col-sm-12 alert alert-danger alert-dismissible {{ form.file_content.auto_id }}-file-errors" style="display:none" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		<ul>
+			<li class="size" style="display:none">{% trans "The file is too large. It should have less than 1MB." %}</li>
+			<li class="format" style="display:none">{% trans 'File not supported.' %}</li>
+		</ul>
+	</div>
+	<br clear="all" />
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput" data-file_id="{{ form.indicators.auto_id }}">
+		<label for="{{ form.indicators.auto_id }}">{{ form.indicators.label }} <span>*</span></label>
+		{% render_field form.indicators class='file-selector' data-max_size="1" data-mimetypes=mimeTypes %}
+
+		<div class="input-group common-file-input">
+					<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
+					<span class="input-group-btn input-group-sm">
+						<button type="button" class="btn btn-fab btn-fab-mini">
+							<i class="material-icons">attach_file</i>
+						</button>
+					</span>
+			</div>
+
+			<div class="filedrag">
+				{% if bulletin %}
+					<i class="fa fa-file-archive-o"></i> <br />
+
+					<small>{{ bulletin.filename }}</small>
+				{% else %}
+						{% trans 'Click or drop the .xls file with the indicators data' %}<br />
+
+						<small>{% trans 'The file could not exceed 1MB.' %}</small>
+					{% endif %}
+			</div>
+
+		<span id="helpBlock" class="help-block">{{ form.indicators.help_text }}</span>
+
+	</div>
+	
+	{% if form.indicators.errors %}
+		<div class="alert alert-danger alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			<ul>
+				{% for error in form.indicators.errors %}
+					<li>{{ error }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+
+	<div class="col-lg-12 col-md-12 col-sm-12 alert alert-danger alert-dismissible {{ form.indicators.auto_id }}-file-errors" style="display:none" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		<ul>
+			<li class="size" style="display:none">{% trans "The file is too large. It should have less than 1MB." %}</li>
+			<li class="format" style="display:none">{% trans 'File not supported.' %}</li>
+		</ul>
+	</div>
+
+	<legend>{% trans 'Common resources settings' %}</legend>
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+		<label for="{{ form.brief_description.auto_id }}">{{ form.brief_description.label }}</label>
+		{% render_field form.brief_description class='form-control text_wysiwyg' %}
+
+		<span id="helpBlock" class="help-block">{{ form.brief_description.help_text }}</span>
+
+		{% if form.brief_description.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.brief_description.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+	
+				</ul>
+			</div>
+		{% endif %}
+	</div>
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+		<label for="{{ form.tags.auto_id }}">{{ form.tags.label }}</label>
+		{% render_field form.tags class='form-control'  data-role="tagsinput" %}
+
+		<span id="helpBlock" class="help-block">{{ form.tags.help_text }}</span>
+
+		{% if form.tags.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.tags.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+	</div>
+
+	<div class="panel-group" id="professors_accordion" role="tablist" aria-multiselectable="true">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+    			<div class="row">
+        			<div class="col-md-12">
+            			<a data-parent="#professors_accordion" data-toggle="collapse" href="#notifications">
+            				<h4 class="panel-title">
+                    			<button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label>{% trans 'Pendencies Notifications' %}</label>
+            				</h4>
+            			</a>
+            		</div>
+            	</div>
+            </div>
+            <div id="notifications" class="panel-collapse collapse">
+
+        		<div class="notifies">
+        			<div style="text-align:left">
+            			{% render_field pendencies_form.id %}
+            			{% render_field pendencies_form.resource %}
+            			{% render_field pendencies_form.subject class='pend_subj' %}
+
+	            		<div class="form-group{% if pendencies_form.has_error %} has-error {% endif %} row">
+	            			<label for="{{ pendencies_form.action.auto_id }}" class="pull-left action_label contol-label">
+	            				{% trans 'Action not performed by the user' %}:
+	        				</label>
+	        				<div class="col-md-3">
+	        					{% render_field pendencies_form.action class='form-control' %}
+	        				</div>
+
+	        				<br clear="all" />
+
+	        				<span id="helpBlock" class="help-block">{{ pendencies_form.action.help_text }}</span>
+
+							{% if pendencies_form.action.errors %}
+								<div class="alert alert-danger alert-dismissible" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<ul>
+										{% for error in pendencies_form.action.errors %}
+											<li>{{ error }}</li>
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
+	            		</div>
+	            		<br clear="all" />
+	            		<div class="row">
+	            			<div class="col-md-12">
+	            				<p>{% trans 'Wished period' %}: </p>
+	            			</div>
+	            		</div>
+	            		<div class="form-group{% if pendencies_form.has_error %} has-error {% endif %} row">
+	            			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 checkbox">
+						        <label>
+			      					{% render_field pendencies_form.begin_date_check class="begin_date" %} {{ pendencies_form.begin_date.label }}
+			  					</label>
+					        </div>
+					        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+					        	{% render_field pendencies_form.begin_date class='form-control datetime-picker begin_date_input' %}
+					        </div>
+	            		</div>
+	            		<div class="row">
+	            			<span id="helpBlock" class="help-block">{{ pendencies_form.begin_date.help_text }}</span>
+
+							{% if pendencies_form.begin_date.errors %}
+								<div class="alert alert-danger alert-dismissible" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<ul>
+										{% for error in pendencies_form.begin_date.errors %}
+											<li>{{ error }}</li>
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
+	            		</div>
+	            		<div class="form-group{% if pendencies_form.has_error %} has-error {% endif %} row">
+	            			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 checkbox">
+						        <label>
+			      					{% render_field pendencies_form.end_date_check class="end_date" %} {{ pendencies_form.end_date.label }}
+			  					</label>
+					        </div>
+					        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+					        	{% render_field pendencies_form.end_date class='form-control datetime-picker end_date_input' %}
+					        </div>
+	            		</div>
+	            		<div class="row">
+	            			<span id="helpBlock" class="help-block">{{ pendencies_form.end_date.help_text }}</span>
+
+							{% if pendencies_form.end_date.errors %}
+								<div class="alert alert-danger alert-dismissible" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<ul>
+										{% for error in pendencies_form.end_date.errors %}
+											<li>{{ error }}</li>
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
+	            		</div>
+	            	</div>
+            	</div>
+            </div>
+        </div>
+
+
+	</div>
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %}">
+		<div class=" checkbox">
+			<label for="{{ form.show_window.auto_id }}">
+				{% render_field form.show_window %} {{ form.show_window.label }}
+			</label>
+		</div>
+
+		<span id="helpBlock" class="help-block">{{ form.show_window.help_text }}</span>
+
+		{% if form.show_window.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.show_window.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+	</div>
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %}">
+		<div class=" checkbox">
+			<label for="{{ form.visible.auto_id }}">
+				{% render_field form.visible %} {{ form.visible.label }}
+			</label>
+		</div>
+
+		<span id="helpBlock" class="help-block">{{ form.visible.help_text }}</span>
+
+		{% if form.visible.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.visible.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+	</div>
+
+	<div class="row">
+		<div class="col-lg-2 col-md-offset-4 col-md-6 col-sm-12 col-xs-12 text-center">
+			<input type="submit" value="{% trans 'Save' %}" class="btn btn-success btn-raised btn-block" />
+		</div>
+
+		<div class="col-lg-2 col-md-6 col-sm-12 col-xs-12 text-center">
+			<a href="{% url 'subjects:topic_view' slug=subject.slug topic_slug=topic.slug %}" class="btn btn-default btn-raised btn-block">{% trans 'Cancel' %}</a>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+	$(function() {
+		var begin_val = $('.begin_date_input').val(),
+			end_val = $('.end_date_input').val();
+
+		if (begin_val != '') {
+			$(".begin_date").prop('checked', true);
+		}
+
+		if (end_val != '') {
+			$(".end_date").prop('checked', true);
+		}
+
+		{% if not pendencies_form.is_valid and pendencies_form.is_bound %}
+			$("#notifications").collapse('toggle');
+		{% endif %}
+	});
+</script>
+<script type="text/javascript" src="{% static 'js/resources.js' %}"></script>

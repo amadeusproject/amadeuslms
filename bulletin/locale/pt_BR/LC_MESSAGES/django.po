@@ -1,0 +1,488 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-10-16 23:05-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: bulletin/forms.py:30
+msgid "Tags"
+msgstr ""
+
+#: bulletin/forms.py:36
+msgid "Bulletin name"
+msgstr "Nome do boletim"
+
+#: bulletin/forms.py:37
+msgid "Bulletin content"
+msgstr "Apresentação do boletim"
+
+#: bulletin/forms.py:58
+msgid "This subject already has a bulletin with this name"
+msgstr "Este assunto já possui um boletim com este nome"
+
+#: bulletin/forms.py:71 bulletin/forms.py:88
+#: bulletin/templates/bulletin/_form.html:98
+#: bulletin/templates/bulletin/_form.html:151
+msgid "The file is too large. It should have less than 1MB."
+msgstr "O arquivo é muito grande. Ele deve ter menos que 1MB."
+
+#: bulletin/forms.py:76 bulletin/forms.py:93 bulletin/forms.py:139
+msgid "This field is required."
+msgstr "Este campo é obrigatório."
+
+#: bulletin/forms.py:131
+msgid "Message"
+msgstr "Mensagem"
+
+#: bulletin/forms.py:151
+msgid "The image is too large. It should have less than 5MB."
+msgstr "A imagem é muito grande. Ela deve ter menos que 5MB."
+
+#: bulletin/models.py:17
+msgid ""
+"Please select a valid file. The uploaded file must have one of the following "
+"extensions: .csv, .xlx, .xls and .xlsx"
+msgstr ""
+"Por favor selecione um arquivo válido. O arquivo enviado deve possuir uma "
+"das seguintes extensões: .csv, .xlx, .xls and .xlsx"
+
+#: bulletin/models.py:20
+msgid "Bulletin Content"
+msgstr "Apresentação"
+
+#: bulletin/models.py:21
+msgid "Goals"
+msgstr "Metas"
+
+#: bulletin/models.py:22
+msgid "Relevant Indicators"
+msgstr "Indicadores Relevantes"
+
+#: bulletin/models.py:25 bulletin/views.py:935
+msgid "Bulletin"
+msgstr "Boletim"
+
+#: bulletin/models.py:26
+msgid "Bulletins"
+msgstr "Boletins"
+
+#: bulletin/models.py:44
+msgid "Are you sure you want delete the bulletin"
+msgstr "Você tem certeza que deseja apagar o boletim"
+
+#: bulletin/templates/bulletin/_form.html:50
+msgid "Click to download a xls file with the data of the goals"
+msgstr "Clique para baixar um arquivo xls com os dados das metas"
+
+#: bulletin/templates/bulletin/_form.html:55
+#: bulletin/templates/bulletin/_form.html:109
+msgid "Choose your file..."
+msgstr "Escolha seu arquivo..."
+
+#: bulletin/templates/bulletin/_form.html:69
+msgid "Click or drop the .xls file with the goals data"
+msgstr "Selecione ou solte o arquivo .xls com os dados das metas"
+
+#: bulletin/templates/bulletin/_form.html:71
+#: bulletin/templates/bulletin/_form.html:125
+msgid "The file could not exceed 1MB."
+msgstr "O arquivo não pode exceder 1MB."
+
+#: bulletin/templates/bulletin/_form.html:99
+#: bulletin/templates/bulletin/_form.html:152
+msgid "File not supported."
+msgstr "Arquivo não suportado."
+
+#: bulletin/templates/bulletin/_form.html:123
+msgid "Click or drop the .xls file with the indicators data"
+msgstr "Selecione ou solte o arquivo .xls com a informação dos indicadores"
+
+#: bulletin/templates/bulletin/_form.html:156
+msgid "Common resources settings"
+msgstr "Configurações comuns dos recursos"
+
+#: bulletin/templates/bulletin/_form.html:206
+msgid "Pendencies Notifications"
+msgstr "Notificação de pendências"
+
+#: bulletin/templates/bulletin/_form.html:222
+msgid "Action not performed by the user"
+msgstr "Ação não realizada pelo usuário"
+
+#: bulletin/templates/bulletin/_form.html:248
+msgid "Wished period"
+msgstr "Período desejado"
+
+#: bulletin/templates/bulletin/_form.html:359
+msgid "Save"
+msgstr "Salvar"
+
+#: bulletin/templates/bulletin/_form.html:363
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: bulletin/templates/bulletin/create.html:20 bulletin/views.py:503
+msgid "Create Bulletin"
+msgstr "Criar boletim"
+
+#: bulletin/templates/bulletin/relatorios.html:17
+#: bulletin/templates/bulletin/relatorios.html:37
+msgid "User"
+msgstr "Usuário"
+
+#: bulletin/templates/bulletin/relatorios.html:17
+#: bulletin/templates/bulletin/relatorios.html:37
+msgid "Group"
+msgstr "Grupo"
+
+#: bulletin/templates/bulletin/relatorios.html:17
+msgid "Action"
+msgstr "Ação"
+
+#: bulletin/templates/bulletin/relatorios.html:17
+msgid "Date of Action"
+msgstr "Data da ação"
+
+#: bulletin/templates/bulletin/relatorios.html:37
+msgid "Send message"
+msgstr "Enviar mensagem"
+
+#: bulletin/templates/bulletin/relatorios.html:37
+msgid "Action don't realized"
+msgstr "Ação não realizada"
+
+#: bulletin/templates/bulletin/relatorios.html:152
+#: bulletin/templates/bulletin/relatorios.html:174
+msgid "Reports"
+msgstr "Relatórios"
+
+#: bulletin/templates/bulletin/relatorios.html:181
+msgid "Report of the resource "
+msgstr "Relatório do recurso"
+
+#: bulletin/templates/bulletin/relatorios.html:190
+msgid "Select the period: "
+msgstr "Selecione o período: "
+
+#: bulletin/templates/bulletin/relatorios.html:199
+msgid "Search"
+msgstr "Pesquisar"
+
+#: bulletin/templates/bulletin/relatorios.html:223
+msgid "Filter: "
+msgstr "Filtrar: "
+
+#: bulletin/templates/bulletin/relatorios.html:247
+#: bulletin/templates/bulletin/relatorios.html:332
+msgid "record(s)"
+msgstr "registro(s)"
+
+#: bulletin/templates/bulletin/send_message.html:38
+msgid "Click or drop the picture here"
+msgstr "Selecione ou solte a imagem aqui"
+
+#: bulletin/templates/bulletin/send_message.html:40
+msgid "The picture could not exceed 5MB."
+msgstr "A imagem não pode exceder 5MB."
+
+#: bulletin/templates/bulletin/send_message.html:62
+#: bulletin/templates/bulletin/view.html:221
+#: bulletin/templates/bulletin/window_view.html:258
+msgid "Close"
+msgstr "Fechar"
+
+#: bulletin/templates/bulletin/send_message.html:63
+#: bulletin/templates/bulletin/view.html:222
+#: bulletin/templates/bulletin/window_view.html:259
+msgid "Send"
+msgstr "Enviar"
+
+#: bulletin/templates/bulletin/update.html:20
+msgid "Edit: "
+msgstr "Editar: "
+
+#: bulletin/templates/bulletin/view.html:76
+msgid "Check your goals"
+msgstr "Confira suas metas"
+
+#: bulletin/templates/bulletin/view.html:81
+msgid "Goals Reached"
+msgstr "Metas Atingidas"
+
+#: bulletin/templates/bulletin/view.html:86
+msgid "Goals Details"
+msgstr "Detalhamento das metas"
+
+#: bulletin/templates/bulletin/view.html:92
+msgid "Description"
+msgstr "Descrição"
+
+#: bulletin/templates/bulletin/view.html:93
+msgid "Professor's recomendation"
+msgstr "Recomendação do(a) professor(a)"
+
+#: bulletin/templates/bulletin/view.html:94
+msgid "Class average"
+msgstr "Média da turma"
+
+#: bulletin/templates/bulletin/view.html:95
+msgid "Your goal"
+msgstr "Sua meta"
+
+#: bulletin/templates/bulletin/view.html:96
+#: bulletin/templates/bulletin/view.html:145
+#: bulletin/templates/bulletin/view.html:514
+#: bulletin/templates/bulletin/view.html:542
+#: bulletin/templates/bulletin/view.html:574
+#: bulletin/templates/bulletin/view.html:629
+#: bulletin/templates/bulletin/view.html:657
+#: bulletin/templates/bulletin/view.html:688
+#: bulletin/templates/bulletin/view.html:742
+#: bulletin/templates/bulletin/view.html:769
+#: bulletin/templates/bulletin/view.html:800
+#: bulletin/templates/bulletin/view.html:855
+#: bulletin/templates/bulletin/view.html:882
+#: bulletin/templates/bulletin/view.html:914
+#: bulletin/templates/bulletin/view.html:971
+#: bulletin/templates/bulletin/view.html:998
+#: bulletin/templates/bulletin/view.html:1030
+#: bulletin/templates/bulletin/view.html:1086
+#: bulletin/templates/bulletin/view.html:1113
+#: bulletin/templates/bulletin/view.html:1144
+msgid "Your result"
+msgstr "Seu resultado"
+
+#: bulletin/templates/bulletin/view.html:112
+msgid ""
+"<b>Goal reached!</b><br /><br /> Atention! Your result were lower than the "
+"professor's recommendation."
+msgstr "<b>Meta atingida!</b><br /><br /> Atenção! Seu resultado foi inferior ao recomendado pelo professor."
+
+#: bulletin/templates/bulletin/view.html:117
+msgid ""
+"<b>Goal reached!</b><br /><br /> Atention! Your result were lower than your "
+"initial goal."
+msgstr "<b>Meta atingida!</b><br /><br /> Atenção! Seu resultado foi inferior à sua meta inicial."
+
+#: bulletin/templates/bulletin/view.html:122
+msgid "<b>Goal reached!</b>"
+msgstr "<b>Meta atingida!</b>"
+
+#: bulletin/templates/bulletin/view.html:127
+msgid ""
+"<b>Goal not reached!</b><br /><br /> Result lower than your goal and the "
+"professor's recommendation."
+msgstr "<b>Meta não atingida!</b><br /><br /> Resultado inferior à sua meta e ao recomendado pelo professor."
+
+#: bulletin/templates/bulletin/view.html:139
+msgid "Relevant indicators to your performance"
+msgstr "Indicadores relevantes para seu desempenho"
+
+#: bulletin/templates/bulletin/view.html:148
+msgid "Level above the approved median"
+msgstr "Nível acima da mediana dos aprovados"
+
+#: bulletin/templates/bulletin/view.html:151
+msgid "Level below the approved median"
+msgstr "Nível abaixo da mediana dos aprovados"
+
+#: bulletin/templates/bulletin/view.html:169
+msgid "Indicators description"
+msgstr "Descrição dos indicadores"
+
+#: bulletin/templates/bulletin/view.html:177
+#: bulletin/templates/bulletin/view.html:436
+#: bulletin/templates/bulletin/view.html:437
+#: bulletin/templates/bulletin/view.html:438
+#: bulletin/templates/bulletin/view.html:439
+#: bulletin/templates/bulletin/view.html:440
+#: bulletin/templates/bulletin/view.html:441
+msgid "Indicator"
+msgstr "Indicador"
+
+#: bulletin/templates/bulletin/view.html:199
+#: bulletin/templates/bulletin/window_view.html:238
+msgid "There are obstructions to your activities?"
+msgstr "Existem impedimentos para as suas atividades?"
+
+#: bulletin/templates/bulletin/view.html:201
+#: bulletin/templates/bulletin/window_view.html:239
+msgid "Click here"
+msgstr "Clique aqui"
+
+#: bulletin/templates/bulletin/view.html:201
+#: bulletin/templates/bulletin/window_view.html:239
+msgid "to communicate the difficulties that may decrease your performance."
+msgstr "para informar as dificuldades que podem prejudicar seu desempenho."
+
+#: bulletin/templates/bulletin/view.html:217
+#: bulletin/templates/bulletin/window_view.html:254
+msgid "Type here the dificulties that may harm your performance"
+msgstr "Escreva aqui as dificuldades que podem diminuir sua performance"
+
+#: bulletin/templates/bulletin/view.html:515
+#: bulletin/templates/bulletin/view.html:543
+#: bulletin/templates/bulletin/view.html:575
+#: bulletin/templates/bulletin/view.html:630
+#: bulletin/templates/bulletin/view.html:658
+#: bulletin/templates/bulletin/view.html:689
+#: bulletin/templates/bulletin/view.html:743
+#: bulletin/templates/bulletin/view.html:770
+#: bulletin/templates/bulletin/view.html:801
+#: bulletin/templates/bulletin/view.html:856
+#: bulletin/templates/bulletin/view.html:883
+#: bulletin/templates/bulletin/view.html:915
+#: bulletin/templates/bulletin/view.html:972
+#: bulletin/templates/bulletin/view.html:999
+#: bulletin/templates/bulletin/view.html:1031
+#: bulletin/templates/bulletin/view.html:1087
+#: bulletin/templates/bulletin/view.html:1114
+#: bulletin/templates/bulletin/view.html:1145
+msgid "Max"
+msgstr "Máximo"
+
+#: bulletin/templates/bulletin/view.html:516
+#: bulletin/templates/bulletin/view.html:544
+#: bulletin/templates/bulletin/view.html:576
+#: bulletin/templates/bulletin/view.html:631
+#: bulletin/templates/bulletin/view.html:659
+#: bulletin/templates/bulletin/view.html:690
+#: bulletin/templates/bulletin/view.html:744
+#: bulletin/templates/bulletin/view.html:771
+#: bulletin/templates/bulletin/view.html:802
+#: bulletin/templates/bulletin/view.html:857
+#: bulletin/templates/bulletin/view.html:884
+#: bulletin/templates/bulletin/view.html:916
+#: bulletin/templates/bulletin/view.html:973
+#: bulletin/templates/bulletin/view.html:1000
+#: bulletin/templates/bulletin/view.html:1032
+#: bulletin/templates/bulletin/view.html:1088
+#: bulletin/templates/bulletin/view.html:1115
+#: bulletin/templates/bulletin/view.html:1146
+msgid "Median"
+msgstr "Mediana"
+
+#: bulletin/utils.py:47 bulletin/views.py:1022
+#, python-format
+msgid "Last message in %s"
+msgstr "Última mensagem em %s"
+
+#: bulletin/views.py:87
+#, python-format
+msgid "#Difficulty(ies) found in %s"
+msgstr "#Dificuldade(s) encontrada(s) em %s"
+
+#: bulletin/views.py:113 bulletin/views.py:280
+msgid "Difficulties sent to the subject professor(s)"
+msgstr "Dificuldades enviadas para o(s) professor(es) do assunto"
+
+#: bulletin/views.py:117 bulletin/views.py:283
+msgid "You should inform some difficulty"
+msgstr "Você deve informar alguma dificuldade"
+
+#: bulletin/views.py:254
+#, python-format
+msgid "#Dificulty(ies) found in %s"
+msgstr "#Dificuldade(s) encontrada(s) em %s"
+
+#: bulletin/views.py:400
+#, python-format
+msgid "The topic %s has no goals, so you can't create a Bulletin."
+msgstr "O tópico %s não possui metas, então você não pode criar um Boletim."
+
+#: bulletin/views.py:407
+#, python-format
+msgid ""
+"The deadline to submit the goals of the topic %s has not yet closed, so you "
+"can't create a Bulletin."
+msgstr ""
+"O prazo para submeter as metas do tópico %s ainda não foi fechado, então "
+"você não pode criar um Boletim."
+
+#: bulletin/views.py:412
+#, python-format
+msgid "The topic %s already has a Bulletin, so you can't create another."
+msgstr "O tópico %s já possui um Boletim, então você não pode criar outro."
+
+#: bulletin/views.py:430 bulletin/views.py:443 bulletin/views.py:713
+#: bulletin/views.py:715 bulletin/views.py:731 bulletin/views.py:733
+msgid "Visualize"
+msgstr "Visualizar"
+
+#: bulletin/views.py:524
+#, python-format
+msgid ""
+"The Bulletin \"%s\" was added to the Topic \"%s\" of the virtual environment "
+"\"%s\" successfully!"
+msgstr ""
+"O Boletim \"%s\" foi adicionado ao Tópio \"%s\" do ambiente virtual \"%s\" "
+"com sucesso!"
+
+#: bulletin/views.py:777
+msgid "Update Bulletin"
+msgstr "Atualizar boletim"
+
+#: bulletin/views.py:797
+#, python-format
+msgid "The Bulletin \"%s\" was updated successfully!"
+msgstr "O Boletim \"%s\" foi atualizado com sucesso!"
+
+#: bulletin/views.py:833
+#, python-format
+msgid ""
+"The bulletin \"%s\" was removed successfully from virtual environment \"%s\"!"
+msgstr "O boletim \"%s\" foi removido com sucesso do ambiente virtual \"%s\"! "
+
+#: bulletin/views.py:892
+msgid "Bulletin Reports"
+msgstr "Relatórios do Boletim"
+
+#: bulletin/views.py:911
+msgid "Realized"
+msgstr "Realizada"
+
+#: bulletin/views.py:911
+msgid "Unrealized"
+msgstr "Não realizada"
+
+#: bulletin/views.py:911
+msgid "Historic"
+msgstr "Histórico"
+
+#: bulletin/views.py:926 bulletin/views.py:934
+msgid "View"
+msgstr "Visualizar"
+
+#: bulletin/views.py:940
+msgid "Actions about resource"
+msgstr "Ações sobre o recurso"
+
+#: bulletin/views.py:941
+msgid "Quantity"
+msgstr "Quantidade"
+
+#: bulletin/views.py:1010
+msgid "[Photo]"
+msgstr "[Foto]"
+
+#: bulletin/views.py:1031
+msgid "The message was successfull sent!"
+msgstr "A mensagem foi enviada com sucesso!"
+
+#: bulletin/views.py:1033
+msgid "No user selected!"
+msgstr "Nenhum usuário selecionado!"

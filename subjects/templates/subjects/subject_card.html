@@ -1,3 +1,15 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
 {% load static i18n permissions_tags subject_counter %}
 
 {% subject_permissions request.user subject as has_subject_permissions %}
@@ -19,7 +31,7 @@
                         </a>
                     </h4>
 
-                    <div class="col-md-5 pull-right category-card-items">
+                    <div class="col-lg-4 col-md-5   col-sm-12 col-xs-12 pull-right category-card-items">
                         {% if has_subject_permissions %}
                             <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -36,7 +48,7 @@
                             </ul>
                         {% endif %}
 
-                        <a href="{% url 'subjects:reports:create_interaction' %}?subject_id={{subject.id}}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Analytics' %}"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
+                        <a href="" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Analytics' %}"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
                         <a href="{% url 'notifications:view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Pendencies' %}">
                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                             {% notifies_number subject request.user %}
@@ -58,7 +70,7 @@
             <input type="hidden" class="log_id" value="" />
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 col-xs-12">
                     {% if subject.professor.all|length > 0  %}
                         <h4><b>{% trans "Professor(s) " %}: </b>
                             {{ subject.professor.all|join:', ' }}
@@ -67,30 +79,36 @@
                         <h4> {% trans "It doesn't possess professors" %} </h4>
                     {% endif %}
                 </div>
-                <div class="col-xs-6 col-md-3">
-                    <p><b>{% trans "Beginning" %}:</b> {{subject.init_date}}</p>
+                <div class="col-xs-6 col-md-3 subject-period">
+                    <p><b>{% trans "Beginning" %}:</b> {{ subject.init_date|date:"SHORT_DATE_FORMAT" }} </p>
                 </div>
-                <div class="col-xs-6 col-md-3">
-                    <p><b>{% trans "End" %}:</b> {{subject.end_date}}</p>
+                <div class="col-xs-6 col-md-3 subject-period">
+                    <p><b>{% trans "End" %}:</b> {{ subject.end_date|date:"SHORT_DATE_FORMAT" }}</p>
                 </div>
-            </div>
-            {% if subject.description_brief %}
-                <p>{{subject.description_brief|safe}}</p>
-            {% endif %}
-
+                
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    {% if subject.description_brief %}
+                        <p>{{subject.description_brief|safe}}</p>
+                    {% endif %}
+                </div>
             {% if show_buttons %}
 
                 {% if has_subject_view_permissions %}
-                    <a href="{% url 'subjects:view' subject.slug %}" class="btn btn-success btn-raised"> {% trans "Access Subject" %}</a>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 subject_access_btn">
+                        <a href="{% url 'subjects:view' subject.slug %}" class="btn btn-success btn-raised"> {% trans "Access Subject" %}</a>
+                    </div>
                 {% elif subject.subscribe_end|aftertoday %}
-                    <a href="javascript:subscribe_subject.get('{% url 'subjects:subscribe' subject.slug %}?view=index','#subject-subscribe','#modal_subject')" class="subscribe-subject btn btn-primary btn-raised"> {% trans "Subscribe to Subject" %}</a>
-
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 subject_access_btn">
+                        <a href="javascript:subscribe_subject.get('{% url 'subjects:subscribe' subject.slug %}?view=index','#subject-subscribe','#modal_subject')" class="subscribe-subject btn btn-primary btn-raised"> {% trans "Subscribe to Subject" %}</a>
+                    </div>
                 {% else %}
-                    <a  class="no-subscribe-btn btn btn-danger" disabled="disabled"> {% trans "This subject doesn't allow new subscriptions" %}</a>
-
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <a  class="no-subscribe-btn btn btn-danger" disabled="disabled" style="white-space:normal"> {% trans "This subject doesn't allow new subscriptions" %}</a>
+                    </div>
                 {% endif %}
 
             {% endif %}
+            </div>
         </div>
     </div>
 {% endif  %}

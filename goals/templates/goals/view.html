@@ -1,6 +1,18 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
 {% extends 'subjects/view.html' %}
 
-{% load static i18n pagination permissions_tags subject_counter %}
+{% load static i18n pagination permissions_tags subject_counter goals_filters %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% block style %}
@@ -33,6 +45,7 @@
 	{% endif %}
 
 	{% resource_permissions request.user goal as has_resource_permissions %}
+	{% subject_permissions request.user goal.topic.subject as has_subject_permissions %}
 
     {% if goal.visible %}
 		<div class="panel panel-info topic-panel">
@@ -57,6 +70,18 @@
 				</div>
 			</div>
 			<div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
+				{% if has_subject_permissions %}
+					<form id="student_goals" action="" method="POST">
+						{% csrf_token %}
+						<select name="selected_student" onchange="$('#student_goals').submit();">
+							{% for stu in sub_students %}
+								<option value="{{ stu.email }}" {% if stu.email == student %}selected{% endif %}>{{ stu }}</option>
+							{% endfor %}
+						</select>
+					</form>
+					<br clear="all" />
+				{% endif %}
+
 				{% autoescape off %}
 					{{ goal.presentation }}
 				{% endautoescape %}
@@ -77,11 +102,22 @@
 					</div>
 				{% endfor %}
 
-				<hr />
+				{% if not has_subject_permissions %}
+					{% if not goal|is_close %}
+						<hr />
 
-				<div class="text-center">
-					<a href="{% url 'goals:update_submit' goal.slug %}" class="btn btn-success btn-raised">{% trans 'Update Goals' %}</a>
-				</div>
+						<div class="text-center">
+							<a href="{% url 'goals:update_submit' goal.slug %}" class="btn btn-success btn-raised">{% trans 'Update Goals' %}</a>
+						</div>
+					{% endif %}
+				{% endif %}
 			</div>
 		</div>
+{% endblock %}
+
+
+{% block addtional_scripts %}
+	<script type="text/javascript">
+		sessionSecurity.confirmFormDiscard = undefined;
+	</script>
 {% endblock %}

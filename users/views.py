@@ -1,3 +1,15 @@
+""" 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+"""
+
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 from django.contrib import messages
@@ -40,6 +52,8 @@ import os
 from rest_framework import viewsets
 from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from oauth2_provider.contrib.rest_framework.authentication import OAuth2Authentication
+from oauth2_provider.contrib.rest_framework.permissions import IsAuthenticatedOrTokenHasScope
 
 # ================ ADMIN =======================
 class UsersListView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, generic.ListView):
@@ -240,12 +254,20 @@ class DeleteView(braces_mixins.LoginRequiredMixin, LogMixin, generic.DeleteView)
 			redirect_url = redirect(error_url)
 		else:
 			self.log_context['dependencies'] = False
-			image_path_to_delete = user.image.path
+
+			if user.image:
+				image_path_to_delete = user.image.path
+			else:
+				image_path_to_delete = None
+
 			user.delete()
 
 			messages.success(self.request, success_msg)
-			#deleting the user image
-			os.remove(image_path_to_delete)
+			
+			if not image_path_to_delete is None:
+				#deleting the user image
+				os.remove(image_path_to_delete)
+				
 			redirect_url = redirect(success_url)
 
 		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
@@ -572,4 +594,5 @@ def logout(request, next_page = None):
 class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer
-	permissions_classes = (IsAuthenticatedOrReadOnly,)
+	authentication_classes = [OAuth2Authentication]
+	permissions_classes = (IsAuthenticatedOrTokenHasScope,)

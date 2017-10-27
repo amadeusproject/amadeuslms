@@ -1,0 +1,49 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+{% extends 'subjects/view.html' %}
+
+{% load static i18n django_bootstrap_breadcrumbs %}
+
+{% block style %}
+	{{block.super}}
+	<link rel="stylesheet" type="text/css" href="{% static "css/bootstrap-tagsinput.css" %}">
+{% endblock %}
+
+{% block javascript %}
+	{{block.super}}
+	<script type="text/javascript" src="{% static "js/bootstrap-tagsinput.js" %} "></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+	{{ block.super }}
+
+	{% breadcrumb topic 'subjects:topic_view' topic.subject.slug topic.slug %}
+
+	{% trans 'Edit: ' as bread %}
+	{% with bread|add:resource.name as bread_slug %}
+		{% breadcrumb bread_slug 'bulletin:update' topic.slug resource.slug %}
+	{% endwith %}
+{% endblock %}
+
+{% block content %}
+	<div class="card">
+		<div class="card-content">
+			<div class="card-body">
+				{% include 'bulletin/_form.html' %}
+			</div>
+		</div>
+	</div>
+	<br clear="all" />
+	<br clear="all" />
+{% endblock %}

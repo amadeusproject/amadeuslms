@@ -1,3 +1,15 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
 {% extends 'themes/index.html' %}
 
 {% load static i18n %}
@@ -15,11 +27,11 @@
 			<div class="card-body">
 				<a href="{% url 'themes:basic' %}" class="page_selector"><h4><i class="fa fa-angle-down"></i> {% trans 'Basic Elements' %}</h4></a>
 
-				<form method="post" action="" enctype="multipart/form-data">
+				<form id="theme-form" method="post" action="" enctype="multipart/form-data">
 					{% csrf_token %}
 					{% for field in form %}
-						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
-							{% if field.auto_id == 'id_small_logo' or field.auto_id == 'id_large_logo' or field.auto_id == 'id_favicon' %}
+						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput" data-file_id="{{ field.auto_id }}">
+							{% if field.auto_id == 'id_small_logo' or field.auto_id == 'id_large_logo' or field.auto_id == 'id_favicon' or field.auto_id == 'id_high_contrast_logo' %}
 				        		{% if field.field.required %}
 									<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
 								{% else %}
@@ -70,19 +82,33 @@
 							{% endif %}
 							
 							<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-							{% if field.errors %}
-								<div class="alert alert-danger alert-dismissible" role="alert">
-				  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				  						<span aria-hidden="true">&times;</span>
-										</button>
-									<ul>
-										{% for error in field.errors %}
-											<li>{{ error }}</li>
-										{% endfor %}
-									</ul>
-								</div>
-							{% endif %}
 						</div>
+						
+						{% if field.errors %}
+							<div class="alert alert-danger alert-dismissible" role="alert">
+			  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  						<span aria-hidden="true">&times;</span>
+									</button>
+								<ul>
+									{% for error in field.errors %}
+										<li>{{ error }}</li>
+									{% endfor %}
+								</ul>
+							</div>
+						{% endif %}
+
+						{% if field.auto_id == 'id_small_logo' or field.auto_id == 'id_large_logo' or field.auto_id == 'id_favicon' or field.auto_id == 'id_high_contrast_logo' %}
+							<div class="col-lg-12 col-md-12 col-sm-12 alert alert-danger alert-dismissible {{ field.auto_id }}-file-errors" style="display:none" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								<ul>
+									<li class="size" style="display:none">{% trans "The image is too large. It should have less than 2MB." %}</li>
+									<li class="format" style="display:none">{% trans 'File not supported.' %}</li>
+								</ul>
+							</div>
+							<br clear="all" />
+						{% endif %}
 					{% endfor %}
 					<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
 						<div class="text-center">

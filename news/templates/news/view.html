@@ -1,3 +1,15 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
 {% extends 'news/list.html' %}
 
 {% load widget_tweaks static i18n django_bootstrap_breadcrumbs permission_tags pagination %}
@@ -14,23 +26,29 @@
 
 {% block content %}
 
-{% if messages %}
-    {% for message in messages %}
-        <script type="text/javascript">
-            {% if message.tags == "danger" %}
-                alertify.error('{{message}}');
-            {% else %}
-                alertify.success('{{message}}');
-            {% endif %}
-        </script>
-    {% endfor %}
-{% endif %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
 
   <div class="row-fluid panel panel-default" >
             <div class="panel-body" id="printArea">
                 <div class="col-md-12" style="display:inline-block">
-                  <h2><b>{{new.title}}</b></h2> <button style="text-transform:none; text-decoration: underline;"   type="button" class="pull-right btn btn-default btn-sm" id="printButton" name="button">{% trans "Print News" %}        <i class="fa fa-print" aria-hidden="true"></i></button><br>
+                  <h2><b>{{new.title}}</b></h2>
+                </div>
+                <div class="col-md-12" style="margin-top: -30px;">
+                  <button style="text-transform:none; text-decoration: underline;"   type="button" class="pull-right btn btn-default btn-sm" id="printButton" name="button">{% trans "Print News" %}
+                    <i class="fa fa-print" aria-hidden="true"></i></button><br>
                   <p>{{new.creator}}, em {{new.create_date}}</p>
+                </div>
+                <div class="col-md-12" style="margin-top: 20px; margin-bottom: 20px;">
+                  <span><img src="{% if new.image %}{{ new.image.url }}{% endif %}" width="100%"></span>
                 </div>
                 <div class="col-md-12">
                   <br>

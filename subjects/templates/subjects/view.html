@@ -1,12 +1,19 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
 {% extends 'categories/home.html' %}
 
 {% load static i18n pagination permissions_tags subject_counter chat_tags %}
 {% load django_bootstrap_breadcrumbs %}
-
-{% block javascript%}
-    {{ block.super }}
-    <script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
-{% endblock%}
 
 {% block breadcrumbs %}
     {{ block.super }}
@@ -83,7 +90,7 @@
             {% endif %}
 
             {% include 'topics/list.html' with subject=subject %}
-            
+
             <div id="participants" data-toggle="tooltip" data-title="{% trans 'Participants' %}">
                 <i class="fa fa-group"></i>
             </div>
@@ -104,18 +111,18 @@
 
                                     <br clear="all" />
 
-                                    <div class="col-md-3 col-sm-3 user-img">
+                                    <div class="col-md-3 col-sm-3 col-xs-3 user-img">
                                         <img src="{{ participant.image_url }}" class="img-responsive" />
                                     </div>
-                                    <div class="col-md-9 col-sm-9 user-info">
+                                    <div class="col-md-9 col-sm-9 col-xs-9 user-info">
                                         <h4><a class="status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
                                     </div>
                                 </div>
                                 <div class="popover-footer">
-                                    <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:profile" participant.email %}' class="btn btn-default btn-sm btn-raised pull-left">
+                                    <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:profile" participant.email %}' class="btn btn-default btn-raised pull-left btn-popover-mobile">
                                         {% trans 'See Profile' %}
                                     </a>
-                                    <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:talk" participant.email %}' class="btn btn-success btn-sm btn-raised pull-right">
+                                    <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:talk" participant.email %}' class="btn btn-success btn-raised pull-right btn-popover-mobile">
                                         {% trans 'Send Message' %}
                                     </a>
                                 </div>
@@ -153,6 +160,9 @@
 
             $('[data-toggle="popover"]').popover({
                 html: true,
+                placement: function () {
+                    return window.innerWidth <= 768 ? 'bottom' : 'left';
+                },
                 content: function () {
                     return $(this).parent().find(".popover").html();
                 }
@@ -163,7 +173,7 @@
                     var popover = $(".popover.fade.in"),
                         buttons = popover.parent().find('a'),
                         close = popover.parent().find('.close:visible');
-    
+
                     popover.animate({
                         'max-width': '330px',
                     }, 0);
@@ -178,7 +188,7 @@
 
                     close.on("click", function () {
                         popover.popover('hide');
-                    }); 
+                    });
 
                     buttons.on("click", function () {
                         popover.popover('hide');
@@ -189,7 +199,7 @@
             $('#participants').on('click', function(){
                 var $this = $(this),
                     list = $this.parent().find(".participants-list");
-                
+
                 if ($this.hasClass('open')) {
                     $this.animate({
                         right : '0px'

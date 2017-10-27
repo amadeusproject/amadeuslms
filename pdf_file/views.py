@@ -1,3 +1,15 @@
+""" 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+"""
+
 
 # Create your views here.
 from django.views import generic
@@ -16,7 +28,7 @@ from django.http import HttpResponse, Http404
 
 from log.mixins import LogMixin
 from topics.models import Topic, Resource
-from .models import PDFFile
+from .models import PDFFile, valid_formats
 from pendencies.forms import PendenciesForm
 
 from chat.models import Conversation, TalkMessages, ChatVisualizations
@@ -53,9 +65,10 @@ class ViewPDFFile(LoginRequiredMixin, LogMixin, generic.TemplateView):
         context = super(ViewPDFFile, self).get_context_data(**kwargs)
         slug = self.kwargs.get('slug', '')
         pdf_file = PDFFile.objects.get(slug=slug)
+        
         context['pdf_file'] = pdf_file
+        context['absolute_url'] = self.request.build_absolute_uri(pdf_file.file.url)
         context['subject'] = pdf_file.topic.subject
-
 
         self.log_context['category_id'] = pdf_file.topic.subject.category.id
         self.log_context['category_name'] = pdf_file.topic.subject.category.name
@@ -81,6 +94,7 @@ class ViewPDFFile(LoginRequiredMixin, LogMixin, generic.TemplateView):
 
         if not path.exists(pdf_file.file.path):
             raise Http404()
+        
         if pdf_file.show_window:
             response = HttpResponse(open(pdf_file.file.path, 'rb').read(),content_type = 'application/pdf')
             return response
@@ -101,7 +115,10 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
+    log_component = 'resources'
     log_resource = 'pdffile'
+    log_action = 'create'
+    log_context = {}
 
     def dispatch(self, request, *args, **kwargs):
         slug = self.kwargs.get('slug', '')
@@ -201,6 +218,7 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
 
         context['topic'] = topic
         context['subject'] = topic.subject
+        context['mimeTypes'] = valid_formats
 
         return context
 
@@ -316,6 +334,8 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
         context['topic'] = topic
         context['subject'] = topic.subject
+        context['mimeTypes'] = valid_formats
+        context['resource'] = get_object_or_404(PDFFile, slug = self.kwargs.get('slug', ''))
 
         return context
 

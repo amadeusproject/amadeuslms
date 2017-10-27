@@ -1,3 +1,15 @@
+""" 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+"""
+
 from datetime import date
 from django.utils import timezone
 from django.db.models import Q
@@ -9,6 +21,9 @@ from log.models import Log
 from pendencies.models import Pendencies
 from users.models import User
 
+from fcm_django.models import FCMDevice
+from fcm_django.fcm import fcm_send_message
+
 from .models import Notification
 
 def get_resource_users(resource):
@@ -16,6 +31,18 @@ def get_resource_users(resource):
 		return resource.topic.subject.students.all()
 
 	return User.objects.filter(Q(resource_students = resource) | Q(group_participants__resource_groups = resource)).distinct()
+
+def notificate():
+	users = User.objects.all()
+
+	for user in users:
+		notifications = Notification.objects.filter(user = user, viewed = False, creation_date = timezone.now()).count()
+
+		if notifications > 0:
+			device = FCMDevice.objects.filter(user = user, active = True).first()
+
+			if not device is None:
+				device.send_message(data = {"body": notifications, "type": "pendency"})
 
 def set_notifications():
 	pendencies = Pendencies.objects.filter(begin_date__date__lte = timezone.now(), resource__visible = True)
@@ -64,6 +91,8 @@ def set_notifications():
 				notification.meta = meta
 
 				notification.save()
+
+	notificate()
 
 def get_order_by(order):
 	if order is None or order == "":

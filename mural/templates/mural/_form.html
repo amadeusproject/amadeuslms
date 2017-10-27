@@ -1,3 +1,15 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
 {% load static i18n %}
 {% load widget_tweaks %}
 
@@ -7,19 +19,19 @@
 			<form id="post-form" method="post" action="{{ form_url }}" enctype="multipart/form-data">
 				{% csrf_token %}
 				<div class="row">
-					<div class="form-group{% if form.has_error %} has-error {% endif %} text-center col-md-6">
+					<div class="form-group{% if form.has_error %} has-error {% endif %} text-center col-md-6 col-xs-6 col-sm-6">
 					    <label for="{{ form.action.0.id_for_label }}" class="text-center post_action">
 				        	<span class="radio">
-					        	<i class="fa fa-commenting-o"></i>
+					        	<i class="fa fa-commenting-o post-icon"></i>
 					        	<br clear="all" />
 		    		    		{{ form.action.0 }}
 		    		    	</span>
 					    </label>
 					</div>
-					<div class="form-group{% if form.has_error %} has-error {% endif %} text-center col-md-6">
+					<div class="form-group{% if form.has_error %} has-error {% endif %} text-center col-md-6 col-xs-6 col-sm-6">
 					    <label for="{{ form.action.1.id_for_label }}" class="text-center post_action">
 				        	<span class="radio">
-					        	<i class="fa fa-comments-o"></i>
+					        	<i class="fa fa-comments-o post-icon"></i>
 					        	<br clear="all" />
 		    		    		{{ form.action.1 }}
 		    		    	</span>
@@ -80,24 +92,35 @@
 
 					<span id="helpBlock" class="help-block">{{ form.image.help_text }}</span>
 
-					{% if form.image.errors %}
-						<div class="alert alert-danger alert-dismissible" role="alert">
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							<ul>
-								{% for error in form.image.errors %}
-									<li>{{ error }}</li>
-								{% endfor %}
-							</ul>
-						</div>
-					{% endif %}
+				</div>
+
+				{% if form.image.errors %}
+					<div class="alert alert-danger alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						<ul>
+							{% for error in form.image.errors %}
+								<li>{{ error }}</li>
+							{% endfor %}
+						</ul>
+					</div>
+				{% endif %}
+
+				<div class="alert alert-danger alert-dismissible client-file-errors" style="display:none" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					<ul>
+						<li class="size" style="display:none">{% trans "The image is too large. It should have less than 5MB." %}</li>
+						<li class="format" style="display:none">{% trans 'File not supported.' %}</li>
+					</ul>
 				</div>
 			</form>
 		</div>
 		<div class="modal-footer">
 			<div class="col-md-12">
-				<button type="submit" id="button" form="post-form" class="btn btn-success btn-raised post-button pull-left">{% trans "Post" context "button"%}</button>
+				<button type="submit" id="button" form="post-form" class="btn btn-success btn-raised post-button pull-left">{% trans "Post" context "button" %}</button>
 				<button type="button" class="btn btn-raised btn-default pull-right" data-dismiss="modal">{% trans "Cancel" %}</button>
 			</div>
 		</div>
@@ -107,6 +130,7 @@
 <script type="text/javascript">
 	$(function () {
 		$('.text_simple_wysiwyg').summernote({
+			lang: new_lang,
 			dialogsInBody: true,
 			disableDragAndDrop: true,
 			height: 150,
@@ -146,10 +170,33 @@
 	// file selection
 	function FileSelectHandler(e) {
 		var files = e.target.files || e.dataTransfer.files,
-			parent = $(e.target.offsetParent);
+			parent = $(e.target.offsetParent),
+			max_size = 5*1024*1024;
+
+		$(".client-file-errors").hide();
+		$(".size").hide();
+		$(".format").hide();
+		$("#button").prop('disable', false);
+		$("#button").prop('disabled', false);
 
 		// process all File objects
 		for (var i = 0, f; f = files[i]; i++) {
+			if (f.size > max_size) {
+				$("#button").prop('disable', true);
+				$("#button").prop('disabled', true);
+
+				$(".client-file-errors").show();
+				$(".size").show();
+			}
+
+			if (!f.type.match(/^image\//)) {
+				$("#button").prop('disable', true);
+				$("#button").prop('disabled', true);
+
+				$(".client-file-errors").show();
+				$(".format").show();
+			}
+
 			parent.find('.filedrag').html(f.name);
 		}
 	}

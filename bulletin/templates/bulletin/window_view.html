@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n permissions_tags util_tags %}
+{% load widget_tweaks %}
+
+<html>
+<head>
+	<title>{{ title }} | {{ theme.title }}</title>
+
+
+	    <!-- jQuery & jQuery UI -->
+	    <script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
+	    <script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
+
+		<meta http-equiv="Cache-Control" content="no-cache, no-store" />
+		<link href="{{ theme.favicon_url }}" rel="shortcut icon" />
+		<!-- Roboto font -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	  	<!-- Bootstrap and themes (material) -->
+		<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
+
+		<link rel="stylesheet" type="text/css" href="{% static 'material/css/bootstrap-material-design.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'material/css/ripples.min.css' %}">
+
+	    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datetimepicker.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/alertifyjs/alertify.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/alertifyjs/themes/bootstrap.css' %}">
+
+	    <link rel="stylesheet" type="text/css" href="{% static 'css/jPages.css' %}">
+
+	 		<script src="{% static 'js/cropper.min.js' %}"></script> <!-- Js for cropper-->
+			<link href="{% static 'css/cropper.min.css' %}" rel="stylesheet"> <!-- CSS for cropper-->
+
+			<script type="text/javascript" src="{% static 'js/printThis.js' %}"></script> <!-- Print this plugin js-->
+
+
+		<script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
+		<!--<script type="text/javascript" src="{% static 'js/bootstrap-acessibility2.min.js' %}"></script>-->
+		<script type="text/javascript" src="{% static 'material/js/material.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'material/js/ripples.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/moment-with-locales.js' %}"></script>
+	    <script type="text/javascript" src="{% static 'js/bootstrap-datetimepicker.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/alertify.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/jscookie.js' %}"></script>
+	    <script type="text/javascript" src="{% static 'js/jPages.js' %}"></script>
+	    <script type="text/javascript" src="{% static 'js/d3.v3.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
+
+	  	<!-- Font awesome -->
+		<link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
+
+		<!-- Custom styles -->
+	    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus_responsive.css' %}">
+	    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
+		<link rel="stylesheet" href="{% static  'css/estilo.css' %}">
+
+    {% with 'css/themes/'|add:theme.css_style|add:'.css' as theme_selected %}
+        <link rel="stylesheet" type="text/css" href="{% static theme_selected %}">
+    {% endwith %}
+
+
+
+</head>
+<body style="background: #FFF">
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<p>{{ message }}</p>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+	{% subject_permissions request.user bulletin.topic.subject as has_subject_permissions %}
+	<div class="container-fluid" style="padding-top: 20px;">
+		{% if has_subject_permissions %}
+			<form id="student_bulletin" action="" method="POST">
+				{% csrf_token %}
+				<select name="selected_student" onchange="$('#student_bulletin').submit();">
+					{% for stu in students %}
+						<option value="{{ stu.email }}" {% if stu.email == student %}selected{% endif %}>{{ stu }}</option>
+					{% endfor %}
+				</select>
+			</form>
+			<br clear="all" />
+		{% endif %}
+
+				{% autoescape off %}
+					{{ bulletin.content }}
+				{% endautoescape %}
+
+				<div style="padding-left: 0px;padding-right: 0px;">
+					<div align="left" style="font-size:22px; color: #878787; padding-top: 0px;">{% trans 'Check your goals' %}</div>
+					<hr style="height:2px; background-color:#878787; margin-top: 5px;">
+					<div class="row">
+					    <div class="col-md-4">
+								<div align="center" style="font-size:16px; color: #000; padding-botom: 10px;"><b>{% trans 'Goals Reached' %}</b></div>
+								<div id="donut_chart" align="center"></div>
+							</div>
+
+					    <div class="col-md-8">
+							<div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Goals Details' %}</b></div>
+							<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
+							<table class="table table-hover">
+								<thead>
+				    				<tr>
+				      					<th style="text-align:center">{% trans 'Description' %}</th>
+										<th style="width:150px; text-align:center">{% trans "Professor's recomendation" %}</th>
+										<th style="text-align:center">{% trans 'Class average' %}</th>
+										<th style="text-align:center">{% trans 'Your goal' %}</th>
+										<th style="text-align:center">{% trans 'Your result' %}</th>
+				    				</tr>
+				  				</thead>
+				  				<tbody>
+										{% for meta in metas%}
+										<tr>
+											<td style="font-weight: normal;">{{ meta.description }}</td>
+											<td style="text-align:center;font-weight: normal;">{{ meta.desejada }} %</td>
+				      						<td style="text-align:center;font-weight: normal;">{{ meta.media }}%</td>
+											<td style="text-align:center; font-weight: normal;">{{ meta.estabelecida }}%</td>
+
+
+											<!-- Cor amarela -->
+											{% if meta.alcancada < meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada < meta.desejada and meta.alcancada == meta.estabelecida %}
+												<td style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
+												data-toggle="tooltip" data-html="true" data-placement="bottom"
+												title="{% trans "<b>Goal reached!</b><br /><br /> Atention! Your result were lower than the professor's recommendation." %}" class="grey-tooltip">
+												{{ meta.alcancada }}%</td>
+											{% elif meta.alcancada > meta.desejada and meta.alcancada < meta.estabelecida or meta.alcancada == meta.desejada and meta.alcancada < meta.estabelecida %}
+												<td style="text-align:center;background-color:#f8b800 ; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
+												data-toggle="tooltip" data-html="true" data-placement="bottom"
+												title="{% trans "<b>Goal reached!</b><br /><br /> Atention! Your result were lower than your initial goal." %}" class="grey-tooltip">
+												{{ meta.alcancada }}%</td>
+											{% elif meta.alcancada > meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada == meta.desejada and meta.alcancada > meta.estabelecida or meta.alcancada > meta.desejada and meta.alcancada == meta.estabelecida or meta.alcancada == 100 or meta.alcancada == meta.desejada and meta.alcancada == meta.estabelecida %}
+												<td style="text-align:center;background-color:#00d337;  text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
+												data-toggle="tooltip" data-html="true" data-placement="bottom"
+												title="{% trans "<b>Goal reached!</b>" %}" class="grey-tooltip">
+												{{ meta.alcancada }}%</td>
+											{% elif meta.alcancada < meta.desejada and meta.alcancada < meta.estabelecida %}
+												<td style="text-align:center;background-color:#ff0000; text-shadow: 1px 1px 2px #000; color:#fff; font-weight: normal;"
+												data-toggle="tooltip" data-html="true" data-placement="bottom"
+												title="{% trans "<b>Goal not reached!</b><br /><br /> Result lower than your goal and the professor's recommendation." %}" class="grey-tooltip">
+												{{ meta.alcancada }}%</td>
+
+											{% endif %}
+										</tr>
+									{% endfor %}
+				  				</tbody>
+							</table>
+							<hr style="height:1px; background-color:#878787;margin-top: -20px;">
+						</div>
+					</div>
+				</div>
+				<div style="padding-left: 0px;padding-right: 0px;">
+					<div align="left" style="font-size:22px; color: #878787; padding-top: 25px;">{% trans 'Relevant indicators to your performance' %}</div>
+					<hr style="height:2px; background-color:#878787; margin-top: 5px;">
+					<div class="row" style="padding-left: 15px;" >
+						<table >
+							<tr >
+								<td style="background-color:#002F4B; width: 20px;"></td>
+								<td style="padding-left: 5px;">{% trans 'Your result' %}</td>
+								<td style="width: 20px"></td>
+								<td style="background-color:#009688; width: 20px;"></td>
+								<td style="padding-left: 5px;">{% trans 'Level above the approved median' %}</td>
+								<td style="width: 20px"></td>
+								<td style="background-color:#d0cebb; width: 20px;"></td>
+								<td style="padding-left: 5px;">{% trans 'Level below the approved median' %}</td>
+								<td style="width: 30px"></td>
+							</tr>
+						</table>
+					</div>
+
+					<div class="row" style="padding-left: 10px;">
+							<div class="col-md-7" >
+								<div class="row">
+									<div id="bullet_chart"> </div>
+								</div>
+							</div>
+							<div class="col-md-5">
+
+								<div style="font-size:16px; text-align:left; color: #000; padding-left: 20px;padding-top: 30px; ">
+									<b>{% trans 'Indicators description' %}</b>
+								</div>
+
+								<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: -1px;">
+
+								<table class="table table-hover">
+				  				<tbody>
+										{% for titulo in titulos %}
+												<tr>
+													<th style="width:110px;">
+														{% trans 'Indicator' %} {{ forloop.counter|stringformat:"02d" }}:
+													</th>
+													<th style="text-align:left; font-weight: normal; padding-left:0px;">
+														{{titulo}}
+													</th>
+												</tr>
+										{% endfor %}
+
+				  					</tbody>
+									</table>
+									<hr style="height:1px; background-color:#878787;margin-top: -20px;">
+								</div>
+					</div>
+				</div>
+
+				{% if not has_subject_permissions %}
+					<div class="form-group" style="background-color:#fff; box-shadow: 1px 1px 25px #c0beaf; margin-top: 15px;">
+						<div class="row">
+							<div class="col-md-1" align="left" style="padding-left: 25px; padding-top: 10px;">
+								<img src="{% static 'img/warning.png' %}"  height="80" width="95"/>
+							</div>
+							<div class="col-md-11">
+								<div class="row">
+									<div align="left" style="padding-left: 25px; font-size:22px; color: #878787; padding-top: 15px;padding-bottom: 20px;">{% trans 'There are obstructions to your activities?' %}</div>
+									<div align="left" style="padding-left: 25px; padding-right:35px; font-size:16px;"><p><a data-toggle="modal" data-target="#bulletin-difficulties-modal" href=""><b>{% trans 'Click here' %}</b></a> {% trans 'to communicate the difficulties that may decrease your performance.' %}</p></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					</br>
+					<div class="modal fade" tabindex="-1" role="dialog" id="bulletin-difficulties-modal">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								</div>
+								<div class="modal-body">
+									<form id="bulletin-difficulties" action="" method="POST" enctype="multipart/form-data">
+										{% csrf_token %}
+										<textarea class="form-control" id="dificulties" name="difficulties" placeholder="{% trans 'Type here the dificulties that may harm your performance' %}"></textarea>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+									<button type="submit" class="btn btn-success btn-raised erase-button" form="bulletin-difficulties">{% trans "Send" %}</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+
+		{% include 'session_security/all.html' %}
+		<script type="text/javascript">
+			sessionSecurity.confirmFormDiscard = undefined;
+		</script>
+
+		<script type="text/javascript">
+		$('[data-toggle="tooltip"]').tooltip({
+			trigger: 'hover'
+		});
+
+		$('#bulletin-difficulties-modal').on('shown.bs.modal', function (e) {
+			$.ajax({
+	            url: "{% url 'bulletin:difficulties_log' bulletin.slug %}",
+	            dataType: 'json',
+	            success: function (data) {
+	            },
+	            error: function (data) {
+	                console.log(data);
+	            }
+	        });
+		});
+
+		// Variável obtidas a partir do número de metas atendidas
+		var percent = "{{ percent }}";
+
+
+
+		// Script para a geração do gráfico de metas atingidas
+		var ratio=percent/100;
+		var pie = d3.layout.pie()
+		        .value(function(d){return d})
+		        .sort(null);
+		var w=200,h=200;
+		var outerRadius=(w/2)-10;
+		var innerRadius=70;
+		var color = ['#d0cebb','#002F4B'];
+		var arc=d3.svg.arc()
+		        .innerRadius(innerRadius)
+		        .outerRadius(outerRadius)
+		        .startAngle(0)
+		        .endAngle(2*Math.PI);
+		var arcLine=d3.svg.arc()
+		        .innerRadius(innerRadius)
+		        .outerRadius(outerRadius)
+		        .cornerRadius(20)
+		        .startAngle(-0.05);
+		var svg=d3.select("#donut_chart")
+		        .append("svg")
+		        .attr({
+		            width:w,
+		            height:h,
+		            class:'shadow'
+		        }).append('g')
+		        .attr({
+		            transform:'translate('+w/2+','+h/2+')'
+		        });
+		var defs = svg.append("svg:defs");
+		var inset_shadow = defs.append("svg:filter")
+		        .attr("id", "inset-shadow");
+		inset_shadow.append("svg:feOffset")
+		        .attr({
+		            dx:0,
+		            dy:0
+		        });
+		inset_shadow.append("svg:feGaussianBlur")
+		        .attr({
+		            stdDeviation:4,
+		            result:'offset-blur'
+		        });
+		inset_shadow.append("svg:feComposite")
+		        .attr({
+		            operator:'out',
+		            in:'SourceGraphic',
+		            in2:'offset-blur',
+		            result:'inverse'
+		        });
+		inset_shadow.append("svg:feFlood")
+		        .attr({
+		            'flood-color':'black',
+		            'flood-opacity':.6,
+		            result:'color'
+		        });
+		inset_shadow.append("svg:feComposite")
+		        .attr({
+		            operator:'in',
+		            in:'color',
+		            in2:'inverse',
+		            result:'shadow'
+		        });
+		inset_shadow.append("svg:feComposite")
+		        .attr({
+		            operator:'over',
+		            in:'shadow',
+		            in2:'SourceGraphic'
+		        });
+		var pathBackground=svg.append('path')
+		        .attr({
+		            d:arc
+		        })
+		        .style({
+		            fill:color[0],
+		            filter:'url(#inset-shadow)'
+		        });
+		var pathForeground=svg.append('path')
+		        .datum({endAngle:0})
+		        .attr({
+		            d:arcLine
+		        })
+		        .style({
+		            fill:color[1],
+		            filter:'url(#inset-shadow)'
+		        });
+		var circle=svg.append('circle')
+		        .attr({
+		            cx:0,
+		            cy:0,
+		            r:innerRadius
+		        })
+		        .style({
+		            fill:color[0],
+		            'fill-opacity':.1
+		        });
+		var middleCount=svg.append('text')
+		        .datum(0)
+		        .text(function(d){
+		            return d+'%';
+		        })
+		        .attr({
+		            class:'middleText',
+		            'text-anchor':'middle',
+		            dy:12
+		        })
+		        .style({
+		            fill:d3.rgb(color[1]),
+		            'font-size':'50px',
+		            filter:'url(#inset-shadow)'
+		        });
+		var oldValue=0;
+		var arcTween=function(transition, newValue,oldValue) {
+		    transition.attrTween("d", function (d) {
+		        var interpolate = d3.interpolate(d.endAngle, ((2*Math.PI))*(newValue/100));
+		        var interpolateCount = d3.interpolate(oldValue, newValue);
+		        return function (t) {
+		            d.endAngle = interpolate(t);
+		            middleCount.text(Math.floor(interpolateCount(t))+'%');
+		            return arcLine(d);
+		        };
+		    });
+		};
+		var animate=function(){
+		    pathForeground.transition()
+		            .duration(1500)
+		            .ease('cubic')
+		            .call(arcTween,percent,oldValue);
+		    oldValue=percent;
+		};
+		setTimeout(animate,0);
+
+		</script>
+
+		<script type="text/javascript">
+		// Script para a geração do gráfico de indicadores relevantes
+		var mediana1 = parseFloat("{{medianas.0}}".replace(",","."))
+		var mediana2 = parseFloat("{{medianas.1}}".replace(",","."))
+		var mediana3 = parseFloat("{{medianas.2}}".replace(",","."))
+		var mediana4 = parseFloat("{{medianas.3}}".replace(",","."))
+		var mediana5 = parseFloat("{{medianas.4}}".replace(",","."))
+		var mediana6 = parseFloat("{{medianas.5}}".replace(",","."))
+
+		var maximo1 = parseFloat("{{maximos.0}}".replace(",","."))
+		var maximo2 = parseFloat("{{maximos.1}}".replace(",","."))
+		var maximo3 = parseFloat("{{maximos.2}}".replace(",","."))
+		var maximo4 = parseFloat("{{maximos.3}}".replace(",","."))
+		var maximo5 = parseFloat("{{maximos.4}}".replace(",","."))
+		var maximo6 = parseFloat("{{maximos.5}}".replace(",","."))
+
+		var resultado1 = parseFloat("{{resultados.0}}".replace(",","."))
+		var resultado2 = parseFloat("{{resultados.1}}".replace(",","."))
+		var resultado3 = parseFloat("{{resultados.2}}".replace(",","."))
+		var resultado4 = parseFloat("{{resultados.3}}".replace(",","."))
+		var resultado5 = parseFloat("{{resultados.4}}".replace(",","."))
+		var resultado6 = parseFloat("{{resultados.5}}".replace(",","."))
+
+
+		// Variável com os dados obtidos da planilha carregada com os dados dos indicadores
+		var dataset = [
+		{valor: resultado1, 	mediana: mediana1, 	maximo: maximo1},
+		{valor: resultado2, 	mediana: mediana2, 	maximo: maximo2},
+		{valor: resultado3, 	mediana: mediana3, 	maximo: maximo3},
+		{valor: resultado4,		mediana: mediana4, 	maximo: maximo4},
+		{valor: resultado5, 	mediana: mediana5, 	maximo: maximo5},
+		{valor: resultado6, 	mediana: mediana6, 	maximo: maximo6}
+		];
+
+		// Script para a geração do gráfico de indicadores relevantes
+
+		var ind01 = [{valor: dataset[0].valor,  mediana: dataset[0].mediana, maximo: dataset[0].maximo}];
+		var ind02 = [{valor: dataset[1].valor,  mediana: dataset[1].mediana, maximo: dataset[1].maximo}];
+		var ind03 = [{valor: dataset[2].valor,  mediana: dataset[2].mediana, maximo: dataset[2].maximo}];
+		var ind04 = [{valor: dataset[3].valor,  mediana: dataset[3].mediana, maximo: dataset[3].maximo}];
+		var ind05 = [{valor: dataset[4].valor,  mediana: dataset[4].mediana, maximo: dataset[4].maximo}];
+		var ind06 = [{valor: dataset[5].valor,  mediana: dataset[5].mediana, maximo: dataset[5].maximo}];
+
+		// Variáveis de largura e altura da área de desenho do SVG
+		var w = 110;
+		var h = 350;
+
+		// Margens
+		var margin = {top: 40,bottom: 40,left: 40,right: 10};
+
+		// Definindo a área em que o gráfico será construído dentro da área de desenho
+		var width = w - margin.left - margin.right;
+		var height = h - margin.top - margin.bottom;
+
+		// Definindo x1 com escala ordinal
+		var x = d3.scale.ordinal().domain(ind01.map(function(entry){return "{% trans 'Indicator' %} 01";})).rangeBands([0, width]);
+		var x2 = d3.scale.ordinal().domain(ind02.map(function(entry){return "{% trans 'Indicator' %} 02";})).rangeBands([0, width]);
+		var x3 = d3.scale.ordinal().domain(ind03.map(function(entry){return "{% trans 'Indicator' %} 03";})).rangeBands([0, width]);
+		var x4 = d3.scale.ordinal().domain(ind04.map(function(entry){return "{% trans 'Indicator' %} 04";})).rangeBands([0, width]);
+		var x5 = d3.scale.ordinal().domain(ind05.map(function(entry){return "{% trans 'Indicator' %} 05";})).rangeBands([0, width]);
+		var x6 = d3.scale.ordinal().domain(ind06.map(function(entry){return "{% trans 'Indicator' %} 06";})).rangeBands([0, width]);
+
+		// Definindo y com escala linear
+		var y = d3.scale.linear().domain([0, d3.max(ind01, function(d){return d.maximo;})]).range([height, 0]);
+		var y2 = d3.scale.linear().domain([0, d3.max(ind02, function(d){return d.maximo;})]).range([height, 0]);
+		var y3 = d3.scale.linear().domain([0, d3.max(ind03, function(d){return d.maximo;})]).range([height, 0]);
+		var y4 = d3.scale.linear().domain([0, d3.max(ind04, function(d){return d.maximo;})]).range([height, 0]);
+		var y5 = d3.scale.linear().domain([0, d3.max(ind05, function(d){return d.maximo;})]).range([height, 0]);
+		var y6 = d3.scale.linear().domain([0, d3.max(ind06, function(d){return d.maximo;})]).range([height, 0]);
+
+		// Desenhando o eixo x
+		var xAxis = d3.svg.axis().scale(x).orient("bottom");
+		var xAxis2 = d3.svg.axis().scale(x2).orient("bottom");
+		var xAxis3 = d3.svg.axis().scale(x3).orient("bottom");
+		var xAxis4 = d3.svg.axis().scale(x4).orient("bottom");
+		var xAxis5 = d3.svg.axis().scale(x5).orient("bottom");
+		var xAxis6 = d3.svg.axis().scale(x6).orient("bottom");
+
+		// Desenhando o eixo y
+		var yAxis = d3.svg.axis().scale(y).orient("left");
+		var yAxis2 = d3.svg.axis().scale(y2).orient("left");
+		var yAxis3 = d3.svg.axis().scale(y3).orient("left");
+		var yAxis4 = d3.svg.axis().scale(y4).orient("left");
+		var yAxis5 = d3.svg.axis().scale(y5).orient("left");
+		var yAxis6 = d3.svg.axis().scale(y6).orient("left");
+
+		// Definindo linhas de grid
+		var yGridlines = d3.svg.axis()
+					.scale(y)
+					.tickSize(-width,0,0)
+					.tickFormat("")
+					.orient("left");
+
+
+		// Definindo o objeto SVG
+		var svg = d3.select("#bullet_chart").append("svg").attr("id", "bullet_chart1").attr("width", 6*w).attr("height", h);
+
+		// Definindo um objeto SVG agrupado
+		var bullet_chart = svg.append("g").classed("display", true).attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		var bullet_chart2 = svg.append("g").classed("display", true).attr("transform", "translate(" + (margin.left+w) + "," + margin.top + ")");
+		var bullet_chart3 = svg.append("g").classed("display", true).attr("transform", "translate(" + (margin.left+2*w) + "," + margin.top + ")");
+		var bullet_chart4 = svg.append("g").classed("display", true).attr("transform", "translate(" + (margin.left+3*w) + "," + margin.top + ")");
+		var bullet_chart5 = svg.append("g").classed("display", true).attr("transform", "translate(" + (margin.left+4*w) + "," + margin.top + ")");
+		var bullet_chart6 = svg.append("g").classed("display", true).attr("transform", "translate(" + (margin.left+5*w) + "," + margin.top + ")");
+
+		// Definindo o objeto tooltip
+		var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+
+
+		// Função que desenha o gráfico 1
+		function plot1(params){
+		this.append("g")
+			.call(params.gridlines)
+			.classed("gridline", true)
+			.attr("transform", "translate(0,0)")
+
+		// Interartividade ao passar o mouse pelas barras
+		this.selectAll(".maximo")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', '#009688')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y(d.maximo);
+						})
+						.attr("height", function(d,i){
+							return height - y(d.maximo-d.mediana);
+						})
+						.attr("width", function(d){
+							return x.rangeBand();
+						})
+
+		this.selectAll(".mediana")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', '#d0cebb')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y(d.mediana);
+						})
+						.attr("height", function(d,i){
+							return height - y(d.mediana);
+						})
+						.attr("width", function(d){
+							return x.rangeBand();
+						})
+
+		this.selectAll(".valor")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill',  "#002f4b")
+						.on("mouseover", function(d,i){
+							d3.select(this).style("fill", 'rgba(0, 0, 0, 0.5)');
+						})
+						.on("mouseout", function(d,i){
+							d3.select(this).style("fill", "#002f4b");
+							tooltip.style("display", "none");
+						})
+
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+						})
+						.attr("x", 20)
+						.attr("width", function(d){
+							return x.rangeBand()-40;
+						})
+						.attr("height",function(d,i) {return y(d.maximo);})
+						.attr("y", function(d,i) {return height - y(d.maximo);})
+								.transition()
+								.duration(2000)
+						    .attr("height", function(d,i) {return height - y(d.valor);})
+						    .attr("y",function(d,i) {return y(d.valor);})
+
+		// Eixo x
+		this.append("g")
+			.classed("x axis", true)
+			.attr("transform", "translate(" + 0 + "," + height + ")")
+			.call(params.axis.x)
+			.selectAll("text")
+				.style("text-anchor", "end")
+				.attr("dx", 40)
+				.attr("dy", 15)
+				.attr("transform", "translate(0,0) rotate(0)");
+
+		// Eixo y
+		this.append("g")
+			.classed("y axis", true)
+			.attr("transform", "translate(0,0)")
+			.call(params.axis.y);
+		}
+
+		// Função que desenha o gráfico 2
+		function plot2(params){
+		this.append("g")
+			.call(params.gridlines)
+			.classed("gridline", true)
+			.attr("transform", "translate(0,0)")
+
+		// Interartividade ao passar o mouse pelas barras
+		this.selectAll(".maximo")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', '#009688')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+						})
+						.attr("y2", function(d,i){
+							return y2(d.maximo);
+						})
+						.attr("height", function(d,i){
+							return height - y2(d.maximo-d.mediana);
+						})
+						.attr("width", function(d){
+							return x2.rangeBand();
+
+						})
+
+		this.selectAll(".mediana")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', '#d0cebb')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y2(d.mediana);
+						})
+						.attr("height", function(d,i){
+							return height - y2(d.mediana);
+						})
+						.attr("width", function(d){
+							return x2.rangeBand();
+						})
+
+			this.selectAll(".valor")
+				.data(params.data)
+						.enter()
+							.append("rect")
+							.attr('fill',  "#002f4b")
+							.on("mouseover", function(d,i){
+								d3.select(this).style("fill", 'rgba(0, 0, 0, 0.5)');
+							})
+							.on("mouseout", function(d,i){
+								d3.select(this).style("fill", "#002f4b");
+								tooltip.style("display", "none");
+							})
+							.on("mousemove", function(d){
+									tooltip
+										.style("left", d3.event.pageX - 80 + "px")
+										.style("top", d3.event.pageY - 110 + "px")
+										.style("display", "inline-block")
+										.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+							})
+							.attr("x", 20)
+							.attr("width", function(d){
+								return x2.rangeBand()-40;
+							})
+							.attr("height",function(d,i) {return y2(d.maximo);})
+							.attr("y", function(d,i) {return height - y2(d.maximo);})
+									.transition()
+									.duration(2000)
+									.attr("height", function(d,i) {return height - y2(d.valor);})
+									.attr("y",function(d,i) {return y2(d.valor);})
+		// Eixo x
+		this.append("g")
+			.classed("x2 axis", true)
+			.attr("transform", "translate(" + 0 + "," + height + ")")
+			.call(params.axis.x)
+			.selectAll("text")
+				.style("text-anchor", "end")
+				.attr("dx", 40)
+				.attr("dy", 15)
+				.attr("transform", "translate(0,0) rotate(0)");
+
+		// Eixo y
+		this.append("g")
+			.classed("y2 axis", true)
+			.attr("transform", "translate(0,0)")
+			.call(params.axis.y);
+		}
+
+
+		// Função que desenha o gráfico 3
+		function plot3(params){
+		this.append("g")
+			.call(params.gridlines)
+			.classed("gridline", true)
+			.attr("transform", "translate(0,0)")
+
+		// Interartividade ao passar o mouse pelas barras
+		this.selectAll(".bar")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', '#009688')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y3(d.maximo);
+						})
+						.attr("height", function(d,i){
+							return height - y3(d.maximo-d.mediana);
+						})
+						.attr("width", function(d){
+							return x3.rangeBand();
+						})
+
+		this.selectAll(".mediana")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', '#d0cebb')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y3(d.mediana);
+						})
+						.attr("height", function(d,i){
+							return height - y3(d.mediana);
+						})
+						.attr("width", function(d){
+							return x3.rangeBand();
+						})
+
+		this.selectAll(".valor")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill',  "#002f4b")
+						.on("mouseover", function(d,i){
+							d3.select(this).style("fill", 'rgba(0, 0, 0, 0.5)');
+						})
+						.on("mouseout", function(d,i){
+							d3.select(this).style("fill", "#002f4b");
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+						})
+
+						.attr("x", 20)
+						.attr("width", function(d){
+							return x3.rangeBand()-40;
+						})
+						.attr("height",function(d,i) {return y3(d.maximo);})
+						.attr("y", function(d,i) {return height - y3(d.maximo);})
+								.transition()
+								.duration(2000)
+								.attr("height", function(d,i) {return height - y3(d.valor);})
+								.attr("y",function(d,i) {return y3(d.valor);})
+
+		// Eixo x
+		this.append("g")
+			.classed("x3 axis", true)
+			.attr("transform", "translate(" + 0 + "," + height + ")")
+			.call(params.axis.x)
+			.selectAll("text")
+				.style("text-anchor", "end")
+				.attr("dx", 40)
+				.attr("dy", 15)
+				.attr("transform", "translate(0,0) rotate(0)");
+
+		// Eixo y
+		this.append("g")
+			.classed("y3 axis", true)
+			.attr("transform", "translate(0,0)")
+			.call(params.axis.y);
+		}
+
+		// Função que desenha o gráfico 4
+		function plot4(params){
+		this.append("g")
+			.call(params.gridlines)
+			.classed("gridline", true)
+			.attr("transform", "translate(0,0)")
+
+		// Interartividade ao passar o mouse pelas barras
+		this.selectAll(".bar")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', '#009688')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y4(d.maximo);
+						})
+						.attr("height", function(d,i){
+							return height - y4(d.maximo-d.mediana);
+						})
+						.attr("width", function(d){
+							return x4.rangeBand();
+						})
+
+		this.selectAll(".mediana")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', '#d0cebb')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y4(d.mediana);
+						})
+						.attr("height", function(d,i){
+							return height - y4(d.mediana);
+						})
+						.attr("width", function(d){
+							return x4.rangeBand();
+						})
+
+		this.selectAll(".valor")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', "#002f4b")
+						.on("mouseover", function(d,i){
+							d3.select(this).style("fill", 'rgba(0, 0, 0, 0.5)');
+						})
+						.on("mouseout", function(d,i){
+							d3.select(this).style("fill", "#002f4b");
+							tooltip.style("display", "none");
+						})
+
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+						})
+
+						.attr("x", 20)
+						.attr("width", function(d){
+							return x4.rangeBand()-40;
+						})
+						.attr("height",function(d,i) {return y4(d.maximo);})
+						.attr("y", function(d,i) {return height - y4(d.maximo);})
+								.transition()
+								.duration(2000)
+								.attr("height", function(d,i) {return height - y4(d.valor);})
+								.attr("y",function(d,i) {return y4(d.valor);})
+
+		// Eixo x
+		this.append("g")
+			.classed("x4 axis", true)
+			.attr("transform", "translate(" + 0 + "," + height + ")")
+			.call(params.axis.x)
+			.selectAll("text")
+				.style("text-anchor", "end")
+				.attr("dx", 40)
+				.attr("dy", 15)
+				.attr("transform", "translate(0,0) rotate(0)");
+
+		// Eixo y
+		this.append("g")
+			.classed("y4 axis", true)
+			.attr("transform", "translate(0,0)")
+			.call(params.axis.y);
+		}
+
+
+		// Função que desenha o gráfico 5
+		function plot5(params){
+		this.append("g")
+			.call(params.gridlines)
+			.classed("gridline", true)
+			.attr("transform", "translate(0,0)")
+
+		// Interartividade ao passar o mouse pelas barras
+		this.selectAll(".maximo")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', '#009688')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+						})
+						.attr("y5", function(d,i){
+							return y5(d.maximo);
+						})
+						.attr("height", function(d,i){
+							return height - y5(d.maximo-d.mediana);
+						})
+						.attr("width", function(d){
+							return x5.rangeBand();
+						})
+
+		this.selectAll(".mediana")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', '#d0cebb')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+						})
+
+						.attr("y", function(d,i){
+							return y5(d.mediana);
+						})
+						.attr("height", function(d,i){
+							return height - y5(d.mediana);
+						})
+						.attr("width", function(d){
+							return x5.rangeBand();
+						})
+
+			this.selectAll(".valor")
+				.data(params.data)
+						.enter()
+							.append("rect")
+							.attr('fill',  "#002f4b")
+							.on("mouseover", function(d,i){
+								d3.select(this).style("fill", 'rgba(0, 0, 0, 0.5)');
+							})
+							.on("mouseout", function(d,i){
+								d3.select(this).style("fill", "#002f4b");
+								tooltip.style("display", "none");
+							})
+							.on("mousemove", function(d){
+									tooltip
+										.style("left", d3.event.pageX - 80 + "px")
+										.style("top", d3.event.pageY - 110 + "px")
+										.style("display", "inline-block")
+										.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+							})
+
+							.attr("x", 20)
+							.attr("width", function(d){
+								return x5.rangeBand()-40;
+							})
+							.attr("height",function(d,i) {return y5(d.maximo);})
+							.attr("y", function(d,i) {return height - y5(d.maximo);})
+									.transition()
+									.duration(2000)
+									.attr("height", function(d,i) {return height - y5(d.valor);})
+									.attr("y",function(d,i) {return y5(d.valor);})
+
+		// Eixo x
+		this.append("g")
+			.classed("x5 axis", true)
+			.attr("transform", "translate(" + 0 + "," + height + ")")
+			.call(params.axis.x)
+			.selectAll("text")
+				.style("text-anchor", "end")
+				.attr("dx", 40)
+				.attr("dy", 15)
+				.attr("transform", "translate(0,0) rotate(0)");
+
+		// Eixo y
+		this.append("g")
+			.classed("y5 axis", true)
+			.attr("transform", "translate(0,0)")
+			.call(params.axis.y);
+		}
+
+
+		// Função que desenha o gráfico 6
+		function plot6(params){
+		this.append("g")
+			.call(params.gridlines)
+			.classed("gridline", true)
+			.attr("transform", "translate(0,0)")
+
+		// Interartividade ao passar o mouse pelas barras
+		this.selectAll(".bar")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', '#009688')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y6(d.maximo);
+						})
+						.attr("height", function(d,i){
+							return height - y6(d.maximo-d.mediana);
+						})
+						.attr("width", function(d){
+							return x4.rangeBand();
+						})
+
+		this.selectAll(".mediana")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', '#d0cebb')
+						.on("mouseout", function(d,i){
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+						})
+						.attr("y", function(d,i){
+							return y6(d.mediana);
+						})
+						.attr("height", function(d,i){
+							return height - y6(d.mediana);
+						})
+						.attr("width", function(d){
+							return x6.rangeBand();
+						})
+
+		this.selectAll(".valor")
+			.data(params.data)
+					.enter()
+						.append("rect")
+						.attr('fill', "#002f4b")
+						.on("mouseover", function(d,i){
+							d3.select(this).style("fill", 'rgba(0, 0, 0, 0.5)');
+						})
+						.on("mouseout", function(d,i){
+							d3.select(this).style("fill", "#002f4b");
+							tooltip.style("display", "none");
+						})
+						.on("mousemove", function(d){
+								tooltip
+									.style("left", d3.event.pageX - 80 + "px")
+									.style("top", d3.event.pageY - 110 + "px")
+									.style("display", "inline-block")
+									.html("<b>{% trans 'Your result' %}: </b>"+ "<b>" + (d.valor) + "</b>" + "<br>" + "<br>"
+												+ "{% trans 'Max' %}: " + (d.maximo)
+												+ "<br>" +  "{% trans 'Median' %}: " + (d.mediana));
+						})
+
+						.attr("x", 20 )
+						.attr("width", function(d){
+							return x6.rangeBand()-40;
+						})
+						.attr("height",function(d,i) {return y6(d.maximo);})
+						.attr("y", function(d,i) {return height - y6(d.maximo);})
+								.transition()
+								.duration(2000)
+								.attr("height", function(d,i) {return height - y6(d.valor);})
+								.attr("y",function(d,i) {return y6(d.valor);})
+
+		// Eixo x
+		this.append("g")
+			.classed("x6 axis", true)
+			.attr("transform", "translate(" + 0 + "," + height + ")")
+			.call(params.axis.x)
+			.selectAll("text")
+				.style("text-anchor", "end")
+				.attr("dx", 40)
+				.attr("dy", 15)
+				.attr("transform", "translate(0,0) rotate(0)");
+
+		// Eixo y
+		this.append("g")
+			.classed("y6 axis", true)
+			.attr("transform", "translate(0,0)")
+			.call(params.axis.y);
+		}
+
+		// Chamada às funções
+
+		plot1.call(bullet_chart, {
+		data: ind01,
+		axis:{x: xAxis,y: yAxis},
+		gridlines: yGridlines});
+
+		plot2.call(bullet_chart2, {
+		data: ind02,
+		axis:{x: xAxis2,y: yAxis2},
+		gridlines: yGridlines});
+
+		plot3.call(bullet_chart3, {
+		data: ind03,
+		axis:{x: xAxis3,y: yAxis3},
+		gridlines: yGridlines});
+
+		plot4.call(bullet_chart4, {
+		data: ind04,
+		axis:{x: xAxis4,y: yAxis4},
+		gridlines: yGridlines});
+
+		plot5.call(bullet_chart5, {
+		data: ind05,
+		axis:{x: xAxis5,y: yAxis5},
+		gridlines: yGridlines});
+
+		plot6.call(bullet_chart6, {
+		data: ind06,
+		axis:{x: xAxis6,y: yAxis6},
+		gridlines: yGridlines});
+
+		</script>
+
+</body>
+</html>
