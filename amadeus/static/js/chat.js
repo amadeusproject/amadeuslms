@@ -287,6 +287,8 @@ function setChatFormSubmit() {
                     var height = $(this)[0].scrollHeight;
 
                     $(this).animate({scrollTop: height}, 0);
+
+                    $(this).attr('data-url', data.load_msg_url);
                 });
 
                 if (typeof(new_msgs[data.talk_id]) == 'undefined') {
@@ -345,6 +347,8 @@ function setShortChatFormSubmit() {
                         var height = $(this)[0].scrollHeight;
 
                         $(this).animate({scrollTop: height}, 0);
+
+                        $(this).attr('data-url', data.load_msg_url);
                     });
 
                     if (typeof(new_msgs[data.talk_id]) == 'undefined') {
