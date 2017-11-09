@@ -422,10 +422,11 @@ def render_message(request, talk_msg, talk_id, space, space_type, email):
 	context['talk_msg'] = msg
 	
 	form_url = reverse_lazy('chat:create', args = (), kwargs = {'email': email, 'talk_id': talk_id, 'space': space, 'space_type': space_type})
+	loading_msg = reverse_lazy('chat:load_messages', args = (msg.talk.id, ))
 
 	html = render_to_string("chat/_message.html", context, request)
 
-	return JsonResponse({'view': html, 'new_id': msg.id, 'talk_id': msg.talk.id, 'new_form_url': form_url})
+	return JsonResponse({'view': html, 'new_id': msg.id, 'talk_id': msg.talk.id, 'new_form_url': form_url, 'load_msg_url': loading_msg})
 
 @login_required
 def favorite(request, message):
