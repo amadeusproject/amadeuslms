@@ -77,6 +77,7 @@ class ReportView(LoginRequiredMixin, generic.FormView):
         context = super(ReportView, self).get_context_data(**kwargs)
         subject = Subject.objects.get(id=self.request.GET['subject_id'])
 
+        context['title'] = _('Interaction Data')
         context['subject'] = subject   
 
         #set formset
@@ -152,6 +153,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         context = {}
         params_data = self.request.GET
         subject = Subject.objects.get(id=params_data['subject_id'])
+
+        context['title'] = _('Interaction Data')
         context['subject_name'] = subject.name
 
         if params_data['topic'] == _("All"):
