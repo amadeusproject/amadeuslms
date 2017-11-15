@@ -10,12 +10,10 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.utils.translation import ugettext_lazy as _
 
-from django import forms
-from django.core.urlresolvers import reverse_lazy, reverse
+from django.core.urlresolvers import reverse
 from amadeus import settings
 from django.contrib import messages
 from os.path import join
@@ -33,14 +31,13 @@ from django.forms import formset_factory
 from .models import ReportCSV, ReportXLS
 import pandas as pd
 import math
-from io import BytesIO
 import os
 import copy
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import redirect
 
 from chat.models import Conversation, TalkMessages
 
-from amadeus.permissions import has_category_permissions, has_subject_permissions
+from amadeus.permissions import has_subject_permissions
 
 
 class ReportView(LoginRequiredMixin, generic.FormView):
