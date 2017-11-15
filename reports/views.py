@@ -440,11 +440,10 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                                 hours_viewed += time_delta / 3600  # so it's turned this seconds into hours
                     for day_num in day_numbers:
                         count_temp = Log.objects.filter(action="view", resource=resources_types[i].lower(),
-                                                        user_id=student.id, context__contains={'subject_id': subject.id,
-                                                                                               resources_types[
-                                                                                                   i].lower() + '_id': resource.id,
-                                                                                               'topic_id': topics.id},
-                                                        datetime__week_day=day_num + 1,
+                                                        user_id=student.id, context__contains=
+                                                        {'subject_id': subject.id,
+                                                         resources_types[i].lower() + '_id': resource.id,
+                                                         'topic_id': topics.id}, datetime__week_day=day_num + 1,
                                                         datetime__range=(init_date, end_date)).count()
                         if count_temp > 0:
                             distinct_days += 1
@@ -452,16 +451,16 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                     # or the user selected all
 
                     count = Log.objects.filter(action="view", resource=resources_types[i].lower(),
-                                               user_id=student.id, context__contains={'subject_id': subject.id,
-                                                                                      resources_types[
-                                                                                          i].lower() + '_id': resource.id},
+                                               user_id=student.id, context__contains=
+                                               {'subject_id': subject.id,
+                                                resources_types[i].lower() + '_id': resource.id},
                                                datetime__range=(init_date, end_date)).count()
 
                     for daynum in day_numbers:
                         count_temp = Log.objects.filter(action="view", resource=resources_types[i].lower(),
-                                                        user_id=student.id, context__contains={'subject_id': subject.id,
-                                                                                               resources_types[
-                                                                                                   i].lower() + '_id': resource.id},
+                                                        user_id=student.id, context__contains=
+                                                        {'subject_id': subject.id,
+                                                         resources_types[i].lower() + '_id': resource.id},
                                                         datetime__week_day=daynum + 1,
                                                         datetime__range=(init_date, end_date)).count()
                         if count_temp > 0:
