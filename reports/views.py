@@ -368,12 +368,12 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         for i in range(len(resources_types)):
             original_tags = copy.deepcopy(self.used_tags) #effectiving copy
             if isinstance(topics, Topic):
-                if type(tags[i]) == type(list()):
+                if isinstance(tags[i], list()):
                     resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = tags[i], topic=topics)
                 else:
                     resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = [tags[i]], topic=topics)
             else: 
-                if type(tags[i]) == type(list()):
+                if isinstance(tags[i], list()):
                     resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = tags[i], topic__in=topics)
                 else:
                     resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in = [tags[i]], topic__in=topics)
@@ -544,7 +544,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                 data[_("amount of messages received from professors")] = messages_received_from_professors.count() + data.get(_("amount of messages received from professors"))  
             else:
                 data[_("amount of messages received from professors")] = messages_received_from_professors.count() 
-                     
+
         return data
 
 """
