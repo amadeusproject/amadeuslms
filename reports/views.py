@@ -284,10 +284,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                     user=student).count()
 
             # variables from messages
-
-
             if self.from_messages == "True":
-
                 message_data = self.get_messages_data(subject, student)
                 for key, value in message_data.items():
                     interactions[key] = value
@@ -300,51 +297,23 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                     interactions[key] = value
 
             # VAR20 - number of access to mural between 6 a.m to 12a.m.
-            interactions[_('Number of access to mural between 6 a.m to 12a.m. .')] = Log.objects.filter(action="access",
-                                                                                                        resource="subject",
-                                                                                                        user_id=student.id,
-                                                                                                        context__contains={
-                                                                                                            'subject_id': subject.id},
-                                                                                                        datetime__hour__range=(
-                                                                                                        5, 11),
-                                                                                                        datetime__range=(
-                                                                                                        init_date,
-                                                                                                        end_date)).count()
+            interactions[_('Number of access to mural between 6 a.m to 12a.m. .')] = Log.objects\
+                .filter(action="access", resource="subject", user_id=student.id, context__contains=
+            {'subject_id': subject.id}, datetime__hour__range=(5, 11), datetime__range=(init_date,end_date)).count()
 
             # VAR21 - number of access to mural between 0 p.m to 6p.m.
-            interactions[_('Number of access to mural between 0 p.m to 6p.m. .')] = Log.objects.filter(action="access",
-                                                                                                       resource="subject",
-                                                                                                       user_id=student.id,
-                                                                                                       context__contains={
-                                                                                                           'subject_id': subject.id},
-                                                                                                       datetime__hour__range=(
-                                                                                                       11, 17),
-                                                                                                       datetime__range=(
-                                                                                                       init_date,
-                                                                                                       end_date)).count()
+            interactions[_('Number of access to mural between 0 p.m to 6p.m. .')] = Log.objects\
+                .filter(action="access", resource="subject", user_id=student.id, context__contains=
+            {'subject_id': subject.id}, datetime__hour__range=(11, 17), datetime__range=(init_date,end_date)).count()
             # VAR22
-            interactions[_('Number of access to mural between 6 p.m to 12p.m. .')] = Log.objects.filter(action="access",
-                                                                                                        resource="subject",
-                                                                                                        user_id=student.id,
-                                                                                                        context__contains={
-                                                                                                            'subject_id': subject.id},
-                                                                                                        datetime__hour__range=(
-                                                                                                        17, 23),
-                                                                                                        datetime__range=(
-                                                                                                        init_date,
-                                                                                                        end_date)).count()
+            interactions[_('Number of access to mural between 6 p.m to 12p.m. .')] = Log.objects\
+                .filter(action="access", resource="subject", user_id=student.id, context__contains=
+            {'subject_id': subject.id}, datetime__hour__range=(17, 23), datetime__range=(init_date, end_date)).count()
 
             # VAR23
-            interactions[_('Number of access to mural between 0 a.m to 6a.m. .')] = Log.objects.filter(action="access",
-                                                                                                       resource="subject",
-                                                                                                       user_id=student.id,
-                                                                                                       context__contains={
-                                                                                                           'subject_id': subject.id},
-                                                                                                       datetime__hour__range=(
-                                                                                                       23, 5),
-                                                                                                       datetime__range=(
-                                                                                                       init_date,
-                                                                                                       end_date)).count()
+            interactions[_('Number of access to mural between 0 a.m to 6a.m. .')] = Log.objects\
+                .filter(action="access", resource="subject", context__contains={'subject_id': subject.id},
+                        datetime__hour__range=(23, 5), datetime__range=(init_date, end_date)).count()
 
             # VAR24 through 30
             day_numbers = [0, 1, 2, 3, 4, 5, 6]
@@ -625,7 +594,6 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
 """
 Get all possible resource subclasses available for that topic selected
 """
-
 
 def get_resources(request):
     # get all possible resources
