@@ -508,6 +508,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             mapping = {'pdffile': str(_('PDF File')), 'goals': str(_('Topic Goals')), 'link': str(_('Link to Website')),
                        'filelink': str(_('File Link')), 'webconference': str(_('Web Conference')),
                        'ytvideo': str(_('YouTube Video')), 'webpage': str(_('WebPage'))}
+
             if original_tags[i] != "-1":
                 data[str(_("number of visualizations of ")) + mapping[str(resources_types[i])] + str(
                     _(" with tag ")) + Tag.objects.get(id=int(tags[i])).name] = total_count
@@ -612,10 +613,16 @@ def get_resources(request):
 
     # remove duplicates
     resources = set(resources_class_names)
-    mapping = {'pdffile': str(_('PDF File')), 'goals': str(_('Topic Goals')), 'link': str(_('Link to Website')),
-               'filelink': str(_('File Link')), 'webconference': str(_('Web Conference')),
-               'ytvideo': str(_('YouTube Video')), 'webpage': str(_('WebPage'))}
-    data = {'resources': [{'id': resource_type, 'name': mapping[resource_type]} for resource_type in resources]}
+    mapping = {}
+    mapping['pdffile'] = str(_('PDF File'))
+    mapping['goals'] = str(_('Topic Goals'))
+    mapping['link'] = str(_('Link to Website'))
+    mapping['filelink'] = str(_('File Link'))
+    mapping['webconference'] = str(_('Web Conference'))
+    mapping['ytvideo'] = str(_('YouTube Video'))
+    mapping['webpage'] = str(_('WebPage'))
+    data = {}
+    data['resources']= [ {'id':resource_type, 'name':mapping[resource_type]} for resource_type in  resources]
     return JsonResponse(data)
 
 
