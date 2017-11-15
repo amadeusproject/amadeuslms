@@ -119,9 +119,9 @@ class ReportView(LoginRequiredMixin, generic.FormView):
         t = Tag(name=" ")
         t.id = -1  # so I know he choose empyt one
         tags.append(t)
-        classes = Resource.__subclasses__()
+        resouce_subclasses_names = Resource.__subclasses__()
         amount_of_forms = self.request.POST['form-TOTAL_FORMS']
-        initial_datum = {'class_name': classes, 'tag': tags}
+        initial_datum = {'class_name': resouce_subclasses_names, 'tag': tags}
         initial_data = []
         for i in range(int(amount_of_forms)):
             initial_data.append(initial_datum)
@@ -209,8 +209,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         """
         data = {}
         students = subject.students.all()
-        formats = ["%d/%m/%Y", "%m/%d/%Y", "%Y-%m-%d"]  # so it accepts english and portuguese date formats
-        for fmt in formats:
+        date_formats = ["%d/%m/%Y", "%m/%d/%Y", "%Y-%m-%d"]  # so it accepts english and portuguese date formats
+        for fmt in date_formats:
             try:
                 init_date = datetime.strptime(init_date, fmt).date()
                 end_date = datetime.strptime(end_date, fmt).date()
