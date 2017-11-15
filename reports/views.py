@@ -396,8 +396,11 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                     
 
                     if resources_types[i].lower() == "ytvideo":
-                        watch_times = Log.objects.filter(action="watch", resource=resources_types[i].lower(),user_id = student.id, context__contains = {'subject_id': subject.id, 
-                            resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
+                        watch_times = Log.objects.filter(action="watch", resource=resources_types[i].lower(),
+                                                         user_id=student.id, context__contains=
+                                                         {'subject_id': subject.id,
+                                                          resources_types[i].lower()+'_id': resource.id},
+                                                         datetime__range=(init_date, end_date))
                         if watch_times.count() > 0:
                             for watch_time in watch_times:
                                 begin_time = timedelta(microseconds=int(watch_time.context['timestamp_start']))
@@ -406,10 +409,16 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                                 hours_viewed += time_delta.microseconds/3600 #so it's turned this seconds into hours
 
                     if resources_types[i].lower() == "webconference":
-                        init_times = Log.objects.filter(action="initwebconference", resource=resources_types[i].lower(), user_id = student.id, context__contains = {'subject_id': subject.id, 
-                            resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
-                        end_times = Log.objects.filter(action="participate", resource=resources_types[i].lower(), user_id = student.id, context__contains = {'subject_id': subject.id, 
-                            resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
+                        init_times = Log.objects.filter(action="initwebconference", resource=resources_types[i].lower(),
+                                                        user_id=student.id, context__contains=
+                                                        {'subject_id': subject.id,
+                                                         resources_types[i].lower()+'_id': resource.id},
+                                                        datetime__range=(init_date, end_date))
+                        end_times = Log.objects.filter(action="participate", resource=resources_types[i].lower(),
+                                                       user_id=student.id, context__contains=
+                                                       {'subject_id': subject.id,
+                                                        resources_types[i].lower()+'_id': resource.id},
+                                                       datetime__range=(init_date, end_date))
                         if init_times.count() > 0:
                             j = 0
                             for init_time in init_times:
@@ -469,8 +478,6 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                 if count > 0:
                     distinct_resources += 1
                     total_count += count
-
-
             
             #mapping to translate class names
             mapping = {'pdffile': str(_('PDF File')), 'goals': str(_('Topic Goals')), 'link': str(_('Link to Website')),
@@ -574,8 +581,6 @@ def get_resources(request):
                'ytvideo': str(_('YouTube Video')), 'webpage': str(_('WebPage'))}
     data = {'resources': [{'id': resource_type, 'name': mapping[resource_type]} for resource_type in resources]}
     return JsonResponse(data)
-
-
 
 """
 This function returns all the tags associated 
