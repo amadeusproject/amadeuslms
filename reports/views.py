@@ -43,19 +43,17 @@ from chat.models import Conversation, TalkMessages
 
 from amadeus.permissions import has_category_permissions, has_subject_permissions
 
+
 class ReportView(LoginRequiredMixin, generic.FormView):
     template_name = "reports/create.html"
     form_class = CreateInteractionReportForm
-    
 
     def dispatch(self, request, *args, **kwargs):
         params = self.request.GET
         subject = Subject.objects.get(id=params['subject_id'])
-       
+
         if not has_subject_permissions(request.user, subject):
             return redirect(reverse('subjects:home'))
-
-        
 
         return super(ReportView, self).dispatch(request, *args, **kwargs)
 
@@ -78,7 +76,7 @@ class ReportView(LoginRequiredMixin, generic.FormView):
         subject = Subject.objects.get(id=self.request.GET['subject_id'])
 
         context['title'] = _('Interaction Data')
-        context['subject'] = subject   
+        context['subject'] = subject
 
         #set formset
         resourceTagFormSet = formset_factory(ResourceAndTagForm, formset=BaseResourceAndTagFormset)
@@ -91,18 +89,17 @@ class ReportView(LoginRequiredMixin, generic.FormView):
         messages.success(self.request, _("Report created successfully"))
 
         get_params = "?"
-        #passing form data through GET 
+        #passing form data through GET
         for key, value in self.form_data.items():
             get_params += key +  "=" + str(value)  + "&"
 
-        
-        for form_data in self.formset_data:   
+        for form_data in self.formset_data:
             for key, value in form_data.items():
                 get_params += key +  "=" + str(value)  + "&"
 
         #retrieving subject id for data purposes
         for key, value in self.request.GET.items():
-            get_params += key + "=" + str(value) 
+            get_params += key + "=" + str(value)
 
         return reverse('subjects:reports:view_report', kwargs={}) + get_params
 
@@ -112,10 +109,9 @@ class ReportView(LoginRequiredMixin, generic.FormView):
         POST variables and then checked for validity.
         """
         form = self.get_form()
-
         subject = Subject.objects.get(id=self.request.GET['subject_id'])
-
         topics = subject.topic_subject.all()
+
         #get all resources associated with topics
         tags = []
         for topic in topics:
@@ -128,7 +124,7 @@ class ReportView(LoginRequiredMixin, generic.FormView):
         t = Tag(name=" ")
         t.id = -1 #so I know he choose empyt one
         tags.append(t)
-        classes = Resource.__subclasses__()  
+        classes = Resource.__subclasses__()
         amount_of_forms = self.request.POST['form-TOTAL_FORMS']
         initial_datum = {'class_name': classes , 'tag': tags}
         initial_data = []
@@ -148,7 +144,6 @@ class ReportView(LoginRequiredMixin, generic.FormView):
 class ViewReportView(LoginRequiredMixin, generic.TemplateView):
     template_name = "reports/view.html"
 
-
     def get_context_data(self, **kwargs):
         context = {}
         params_data = self.request.GET
@@ -165,7 +160,6 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         context['end_date'] = params_data['end_date']
         context['subject'] = subject
 
-        
         #I used getlist method so it can get more than one tag and one resource class_name
         resources = params_data.getlist('resource')
         tags = params_data.getlist('tag')
@@ -173,24 +167,22 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         self.from_mural = params_data['from_mural']
         self.from_messages = params_data['from_messages']
 
-        context['data'], context['header'] = self.get_mural_data(subject, params_data['topic'], params_data['init_date'], params_data['end_date'],
-            resources, tags )                 
-
+        context['data'], context['header'] = self.get_mural_data(subject, params_data['topic'], params_data['init_date'],
+                                                                 params_data['end_date'], resources, tags)
 
         #this is to save the csv for further download
         df = pd.DataFrame.from_dict(context['data'], orient='index')
         df.columns = context['header']
         #so it does not exist more than one report CSV available for that user to download
-        if ReportCSV.objects.filter(user= self.request.user).count() > 0:
+        if ReportCSV.objects.filter(user=self.request.user).count() > 0:
             report = ReportCSV.objects.get(user=self.request.user)
             report.delete()
-      
-        
-        report = ReportCSV(user= self.request.user, csv_data = df.to_csv())
+
+        report = ReportCSV(user=self.request.user, csv_data=df.to_csv())
         report.save()
 
         #for excel files
-        if ReportXLS.objects.filter(user= self.request.user).count() > 0:
+        if ReportXLS.objects.filter(user=self.request.user).count() > 0:
             report = ReportXLS.objects.get(user=self.request.user)
             report.delete()
         
@@ -202,12 +194,11 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         writer = pd.ExcelWriter(path)
         df.to_excel(writer, sheet_name='first_sheet')
         writer.save()
-        report = ReportXLS(user= self.request.user )
+        report = ReportXLS(user=self.request.user)
         report.xls_data.name = path 
         report.save()
 
         return context
-
   
     def get_mural_data(self, subject, topics_query, init_date, end_date, resources_type_names, tags_id):
         """
@@ -243,60 +234,50 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         #For each student in the subject
         for student in students:
             data[student.id] = []
-
             data[student.id].append(student.social_name)
-
             interactions = OrderedDict()
 
 
-            
-
-            #interactions['username'] = student.social_name
             if self.from_mural == "True":
-                help_posts_made_by_user = SubjectPost.objects.filter(action="help",space__id=subject.id, user=student, 
+                help_posts_made_by_user = SubjectPost.objects.filter(action="help", space__id=subject.id, user=student,
                     create_date__range=(init_date, end_date))
 
                 #number of help posts created by the student
                 interactions[_('Number of help posts created by the user.')] = help_posts_made_by_user.count()
 
-                help_posts = SubjectPost.objects.filter(action="help", create_date__range=(init_date, end_date), 
-                space__id=subject.id)
+                help_posts = SubjectPost.objects.filter(action="help", create_date__range=(init_date, end_date),
+                                                        space__id=subject.id)
 
                 #comments count on help posts created by the student
-                interactions[_('Amount of comments on help posts created by the student.')] = Comment.objects.filter(post__in = help_posts.filter(user=student), 
-                    create_date__range=(init_date, end_date)).count()
-                
+                interactions[_('Amount of comments on help posts created by the student.')] = Comment.objects\
+                    .filter(post__in = help_posts.filter(user=student), create_date__range=(init_date, end_date)).count()
 
                 #count the amount of comments made by the student on posts made by one of the professors
-                interactions[_('Amount of comments made by the student on teachers help posts.')] = Comment.objects.filter(post__in = help_posts.filter(user__in= subject.professor.all()), create_date__range=(init_date, end_date),
-                 user=student).count()
+                interactions[_('Amount of comments made by the student on teachers help posts.')] = Comment.objects\
+                    .filter(post__in = help_posts.filter(user__in= subject.professor.all()),
+                            create_date__range=(init_date, end_date),user=student).count()
 
                  #comments made by the user on other users posts
                 interactions[_('Amount of comments made by the student on other students help posts.')] = Comment.objects.filter(post__in = help_posts.exclude(user=student), 
-                    create_date__range=(init_date, end_date),
-                    user= student).count()
-               
-                
+                    create_date__range=(init_date, end_date), user=student).count()
                 
                 comments_by_teacher = Comment.objects.filter(user__in=subject.professor.all())
                 help_posts_ids = []
-                for comment in  comments_by_teacher:
+                for comment in comments_by_teacher:
                     help_posts_ids.append(comment.post.id)
                  #number of help posts created by the user that the teacher commented on
                 interactions[_('Number of help posts created by the user that the teacher commented on.')] = help_posts.filter(user=student, id__in = help_posts_ids).count()
 
-               
                 comments_by_others = Comment.objects.filter(user__in=subject.students.exclude(id = student.id))
                 help_posts_ids = []
-                for comment in  comments_by_teacher:
+                for comment in comments_by_teacher:
                     help_posts_ids.append(comment.post.id)
                 #number of help posts created by the user others students commented on
-                interactions[_('Number of help posts created by the user others students commented on.')] = help_posts.filter(user=student, id__in = help_posts_ids).count()
+                interactions[_('Number of help posts created by the user others students commented on.')] = help_posts.filter(user=student, id__in=help_posts_ids).count()
 
                 #Number of student visualizations on the mural of the subject
-                interactions[_('Number of student visualizations on the mural of the subject.')] = MuralVisualizations.objects.filter(post__in = SubjectPost.objects.filter(space__id=subject.id, create_date__range=(init_date, end_date)),
+                interactions[_('Number of student visualizations on the mural of the subject.')] = MuralVisualizations.objects.filter(post__in=SubjectPost.objects.filter(space__id=subject.id, create_date__range=(init_date, end_date)),
                     user = student).count()
-            
 
             #variables from messages
           
@@ -315,19 +296,19 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
 
 
             #VAR20 - number of access to mural between 6 a.m to 12a.m.
-            interactions[_('Number of access to mural between 6 a.m to 12a.m. .')] =  Log.objects.filter(action="access", resource="subject", 
-                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (5, 11),  datetime__range=(init_date,end_date)).count()
+            interactions[_('Number of access to mural between 6 a.m to 12a.m. .')] = Log.objects.filter(action="access", resource="subject",
+                user_id=student.id, context__contains = {'subject_id': subject.id}, datetime__hour__range = (5, 11),  datetime__range=(init_date,end_date)).count()
 
             #VAR21 - number of access to mural between 0 p.m to 6p.m.
-            interactions[_('Number of access to mural between 0 p.m to 6p.m. .')] =  Log.objects.filter(action="access", resource="subject", 
-                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (11, 17), datetime__range=(init_date,end_date)).count()
+            interactions[_('Number of access to mural between 0 p.m to 6p.m. .')] = Log.objects.filter(action="access", resource="subject",
+                user_id=student.id, context__contains = {'subject_id': subject.id}, datetime__hour__range = (11, 17), datetime__range=(init_date,end_date)).count()
             #VAR22
-            interactions[_('Number of access to mural between 6 p.m to 12p.m. .')] =  Log.objects.filter(action="access", resource="subject", 
-                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (17, 23),  datetime__range=(init_date,end_date)).count()
+            interactions[_('Number of access to mural between 6 p.m to 12p.m. .')] = Log.objects.filter(action="access", resource="subject",
+                user_id=student.id, context__contains = {'subject_id': subject.id}, datetime__hour__range = (17, 23),  datetime__range=(init_date,end_date)).count()
 
             #VAR23
-            interactions[_('Number of access to mural between 0 a.m to 6a.m. .')] =  Log.objects.filter(action="access", resource="subject", 
-                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__hour__range = (23, 5),  datetime__range=(init_date,end_date)).count()
+            interactions[_('Number of access to mural between 0 a.m to 6a.m. .')] = Log.objects.filter(action="access", resource="subject",
+                user_id=student.id, context__contains={'subject_id': subject.id}, datetime__hour__range = (23, 5),  datetime__range=(init_date,end_date)).count()
 
             #VAR24 through 30
             day_numbers = [0, 1, 2, 3, 4, 5, 6]
@@ -336,10 +317,10 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             distinct_days = 0
             for day_num in day_numbers:
                 #day+1 is because the days are started on 1 instead of the lists, which index starts at 0
-                interactions[_('Number of access to the subject on ')+ day_names[day_num]] =  Log.objects.filter(action="access", resource="subject", 
-                user_id= student.id, context__contains = {'subject_id' : subject.id}, datetime__week_day = day_num+1, datetime__range = (init_date, end_date)).count()
+                interactions[_('Number of access to the subject on ') + day_names[day_num]] = Log.objects.filter(action="access", resource="subject",
+                user_id= student.id, context__contains = {'subject_id': subject.id}, datetime__week_day=day_num+1, datetime__range=(init_date, end_date)).count()
                 #to save the distinct days the user has accessed 
-                if interactions[_('Number of access to the subject on ')+ day_names[day_num]] > 0:
+                if interactions[_('Number of access to the subject on ') + day_names[day_num]] > 0:
                     distinct_days += 1
 
             interactions[_('Number of distinct days the user access the subject. ')] = distinct_days
@@ -347,8 +328,7 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             interactions[_("Performance")] = _("Undefined")
             for value in interactions.values():
                 data[student.id].append(value)
-           
-                
+
         for key in interactions.keys():
             header.append(key)
         return data, header
@@ -381,10 +361,10 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                                 if tag.name != "":
                                     new_tags.add(tag)
                 data = {}
-                
-              
+
                 new_tags = [tag.id for tag in new_tags]
                 tags[i] = new_tags
+
         for i in range(len(resources_types)):
             original_tags = copy.deepcopy(self.used_tags) #effectiving copy
             if isinstance(topics,Topic):
