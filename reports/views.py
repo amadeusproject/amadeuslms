@@ -238,18 +238,14 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
        
         #I use this so the system can gather data up to end_date 11h59 p.m.
         end_date = end_date + timedelta(days=1)
-   
         self.used_tags = copy.deepcopy(tags_id) #so I can check whether we are dealing with multiple or single tags (empty option)
+        interactions = None
+
         #For each student in the subject
         for student in students:
             data[student.id] = []
-
             data[student.id].append(student.social_name)
-
             interactions = OrderedDict()
-
-
-            
 
             #interactions['username'] = student.social_name
             if self.from_mural == "True":
@@ -347,10 +343,11 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             interactions[_("Performance")] = _("Undefined")
             for value in interactions.values():
                 data[student.id].append(value)
-           
-                
-        for key in interactions.keys():
-            header.append(key)
+
+        if interactions is not None:
+            for key in interactions.keys():
+                header.append(key)
+
         return data, header
 
     def get_resources_and_tags_data(self, resources_types, tags, student, subject, topics, init_date, end_date):
