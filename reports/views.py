@@ -130,13 +130,13 @@ class ReportView(LoginRequiredMixin, generic.FormView):
         tags.append(t)
         classes = Resource.__subclasses__()  
         amount_of_forms = self.request.POST['form-TOTAL_FORMS']
-        initial_datum = {'class_name': classes , 'tag': tags}
+        initial_datum = {'class_name': classes, 'tag': tags}
         initial_data = []
         for i in range(int(amount_of_forms)):
             initial_data.append(initial_datum)
 
-        resourceTagFormSet = formset_factory(ResourceAndTagForm, formset=BaseResourceAndTagFormset)
-        resources_formset = resourceTagFormSet(self.request.POST, initial = initial_data)
+        resource_tag_form_set = formset_factory(ResourceAndTagForm, formset=BaseResourceAndTagFormset)
+        resources_formset = resource_tag_form_set(self.request.POST, initial=initial_data)
         if form.is_valid() and resources_formset.is_valid():
             self.form_data = form.cleaned_data
             self.formset_data = resources_formset.cleaned_data
