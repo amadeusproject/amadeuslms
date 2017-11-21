@@ -113,6 +113,8 @@ class ReportView(LoginRequiredMixin, generic.FormView):
 
         subject = Subject.objects.get(id=self.request.GET['subject_id'])
 
+        empty_choice_index = -1
+
         topics = subject.topic_subject.all()
         #get all resources associated with topics
         tags = []
@@ -122,9 +124,8 @@ class ReportView(LoginRequiredMixin, generic.FormView):
                 for tag in resource.tags.all():
                     tags.append(tag)
 
-
         t = Tag(name=" ")
-        t.id = -1 #so I know he choose empyt one
+        t.id = empty_choice_index
         tags.append(t)
         classes = Resource.__subclasses__()  
         amount_of_forms = self.request.POST['form-TOTAL_FORMS']
@@ -425,10 +426,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                                                          datetime__range=(init_date, end_date))
                         if watch_times.count() > 0:
                             for watch_time in watch_times:
-                                begin_time = timedelta(microseconds=int(watch_time.context['timestamp_start']))
-                                end_time = timedelta(microseconds=int(watch_time.context['timestamp_end']))
-                                time_delta = end_time - begin_time
-                                hours_viewed += time_delta.microseconds/3600
+                                hours_viewed = calculateHoursViewedTimeDelta(hours_viewed, watch_time,
+                                                                             'timestamp_start', 'timestamp_end')
 
                     if resources_types[i].lower() == "webconference":
                         init_times = Log.objects.filter(action="initwebconference", resource=resources_types[i].lower(),
@@ -443,11 +442,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                         if init_times.count() > 0:
                             j = 0
                             for init_time in init_times:
-                                begin_time = int(init_time.context['webconference_init'])
-                                end_time = int(end_times[j].context['webconference_finish'])
-                                j += 1
-                                time_delta = math.fabs(end_time - begin_time)
-                                hours_viewed += time_delta/3600
+                                hours_viewed = calculateHoursViewed(hours_viewed, init_time, end_times[j],
+                                                                    'webconference_init', 'webconference_finish')
 
                     for day_num in day_numbers:
                         count_temp = Log.objects.filter(action="view", resource=resources_types[i].lower(),
@@ -481,10 +477,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                                                          datetime__range=(init_date, end_date))
                         if watch_times.count() > 0:
                             for watch_time in watch_times:
-                                begin_time = timedelta(microseconds=int(watch_time.context['timestamp_start']))
-                                end_time = timedelta(microseconds=int(watch_time.context['timestamp_end']))
-                                time_delta = end_time - begin_time
-                                hours_viewed += time_delta.microseconds/3600
+                                hours_viewed = calculateHoursViewedTimeDelta(hours_viewed, watch_time,
+                                                                             'timestamp_start', 'timestamp_end')
 
                     if resources_types[i].lower() == "webconference":
                         init_times = Log.objects.filter(action="initwebconference", resource=resources_types[i].lower(),
@@ -496,11 +490,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                         if init_times.count() > 0:
                             j = 0
                             for init_time in init_times:
-                                begin_time = int(init_time.context['webconference_init'])
-                                end_time = int(end_times[j].context['webconference_finish'])
-                                j += 1
-                                time_delta = math.fabs(end_time - begin_time)
-                                hours_viewed += time_delta/3600
+                                hours_viewed = calculateHoursViewed(hours_viewed, init_time, end_times[j],
+                                                                    'webconference_init', 'webconference_finish')
 
                 if count > 0:
                     distinct_resources += 1
@@ -683,3 +674,19 @@ def download_report_xls(request):
     response['Content-Disposition'] = 'attachment; filename="report.xls"'
 
     return response
+
+def calculateHoursViewed(hours_viewed, init_time, end_time, resource_init_field, resource_end_time_field):
+
+    begin_time = int(init_time.context[resource_init_field])
+    end_time = int(end_time.context[resource_end_time_field])
+    time_delta = math.fabs(end_time - begin_time)
+    hours_viewed += time_delta / 3600
+    return hours_viewed
+
+def calculateHoursViewedTimeDelta(hours_viewed, watch_time, resource_init_field, resource_end_time_field):
+
+    begin_time = timedelta(microseconds=int(watch_time.context[resource_init_field]))
+    end_time = timedelta(microseconds=int(watch_time.context[resource_end_time_field]))
+    time_delta = end_time - begin_time
+    hours_viewed += time_delta.microseconds / 3600
+    return hours_viewed
