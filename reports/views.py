@@ -53,8 +53,6 @@ class ReportView(LoginRequiredMixin, generic.FormView):
         if not has_subject_permissions(request.user, subject):
             return redirect(reverse('subjects:home'))
 
-        
-
         return super(ReportView, self).dispatch(request, *args, **kwargs)
 
     def get_initial(self):
@@ -91,12 +89,11 @@ class ReportView(LoginRequiredMixin, generic.FormView):
         get_params = "?"
         #passing form data through GET 
         for key, value in self.form_data.items():
-            get_params += key +  "=" + str(value)  + "&"
-
+            get_params += key + "=" + str(value) + "&"
         
         for form_data in self.formset_data:   
             for key, value in form_data.items():
-                get_params += key +  "=" + str(value)  + "&"
+                get_params += key + "=" + str(value) + "&"
 
         #retrieving subject id for data purposes
         for key, value in self.request.GET.items():
@@ -146,7 +143,6 @@ class ReportView(LoginRequiredMixin, generic.FormView):
 
 class ViewReportView(LoginRequiredMixin, generic.TemplateView):
     template_name = "reports/view.html"
-
 
     def get_context_data(self, **kwargs):
         context = {}
