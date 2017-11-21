@@ -33,20 +33,18 @@ from django.forms import formset_factory
 from .models import ReportCSV, ReportXLS
 import pandas as pd
 import math
-from io import BytesIO
 import os
 import copy
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import redirect
 
 from chat.models import Conversation, TalkMessages
 
 
-from amadeus.permissions import has_category_permissions, has_subject_permissions
+from amadeus.permissions import has_subject_permissions
 
 class ReportView(LoginRequiredMixin, generic.FormView):
     template_name = "reports/create.html"
     form_class = CreateInteractionReportForm
-    
 
     def dispatch(self, request, *args, **kwargs):
         params = self.request.GET
