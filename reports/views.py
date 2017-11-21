@@ -411,91 +411,103 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             hours_viewed = 0 #youtube video as well as webconference
             for resource in resources:
 
-                if isinstance(topics,Topic):
+                if isinstance(topics, Topic):
                     #if it selected only one topic to work with
-                    count = Log.objects.filter(action="view", resource=resources_types[i].lower(),
-                          user_id = student.id, context__contains = {'subject_id': subject.id, 
-                          resources_types[i].lower()+'_id': resource.id, 'topic_id': topics.id}, datetime__range=(init_date, end_date)).count()
-                    
+                    count = Log.objects.filter(action="view", resource=resources_types[i].lower(), user_id=student.id,
+                                               context__contains={'subject_id': subject.id,
+                                                                  resources_types[i].lower()+'_id': resource.id,
+                                                                  'topic_id': topics.id},
+                                               datetime__range=(init_date, end_date)).count()
 
                     if resources_types[i].lower() == "ytvideo":
-                        watch_times = Log.objects.filter(action="watch", resource=resources_types[i].lower(),user_id = student.id, context__contains = {'subject_id': subject.id, 
-                            resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
+                        watch_times = Log.objects.filter(action="watch", resource=resources_types[i].lower(),
+                                                         user_id=student.id, context__contains=
+                                                         {'subject_id': subject.id,
+                                                          resources_types[i].lower()+'_id': resource.id},
+                                                         datetime__range=(init_date, end_date))
                         if watch_times.count() > 0:
                             for watch_time in watch_times:
-                                begin_time = timedelta(microseconds = int(watch_time.context['timestamp_start']))
-                                end_time = timedelta(microseconds =  int(watch_time.context['timestamp_end']))
+                                begin_time = timedelta(microseconds=int(watch_time.context['timestamp_start']))
+                                end_time = timedelta(microseconds=int(watch_time.context['timestamp_end']))
                                 time_delta = end_time - begin_time
-                                hours_viewed +=  time_delta.microseconds/3600 #so it's turned this seconds into hours
+                                hours_viewed += time_delta.microseconds/3600
 
                     if resources_types[i].lower() == "webconference":
-                        init_times = Log.objects.filter(action="initwebconference", resource=resources_types[i].lower(), user_id = student.id, context__contains = {'subject_id': subject.id, 
+                        init_times = Log.objects.filter(action="initwebconference", resource=resources_types[i].lower(),
+                                                        user_id=student.id, context__contains=
+                                                        {'subject_id': subject.id,
+                                                         resources_types[i].lower()+'_id': resource.id},
+                                                        datetime__range=(init_date, end_date))
+                        end_times = Log.objects.filter(action="participate", resource=resources_types[i].lower(),
+                                                       user_id=student.id, context__contains={'subject_id': subject.id,
                             resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
-                        end_times = Log.objects.filter(action="participate", resource=resources_types[i].lower(), user_id = student.id, context__contains = {'subject_id': subject.id, 
-                            resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
+
                         if init_times.count() > 0:
                             j = 0
                             for init_time in init_times:
                                 begin_time = int(init_time.context['webconference_init'])
-                                end_time =  int(end_times[j].context['webconference_finish'])
+                                end_time = int(end_times[j].context['webconference_finish'])
                                 j += 1
                                 time_delta = math.fabs(end_time - begin_time)
-                              
-                                hours_viewed +=  time_delta/3600 #so it's turned this seconds into hours
+                                hours_viewed += time_delta/3600
+
                     for day_num in day_numbers:
                         count_temp = Log.objects.filter(action="view", resource=resources_types[i].lower(),
-                              user_id = student.id, context__contains = {'subject_id': subject.id, 
-                              resources_types[i].lower()+'_id': resource.id, 'topic_id': topics.id}, datetime__week_day = day_num+1, datetime__range=(init_date, end_date)).count()
+                              user_id=student.id, context__contains={'subject_id': subject.id,
+                              resources_types[i].lower()+'_id': resource.id, 'topic_id': topics.id},
+                                                        datetime__week_day=day_num+1,
+                                                        datetime__range=(init_date, end_date)).count()
                         if count_temp > 0:
                             distinct_days += 1
                 else:
                     #or the user selected all
 
                     count = Log.objects.filter(action="view", resource=resources_types[i].lower(),
-                          user_id = student.id, context__contains = {'subject_id': subject.id, 
+                          user_id=student.id, context__contains={'subject_id': subject.id,
                           resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date)).count()
-                   
 
                     for daynum in day_numbers:
-                        count_temp =  Log.objects.filter(action="view", resource=resources_types[i].lower(),
-                          user_id = student.id, context__contains = {'subject_id': subject.id, 
-                          resources_types[i].lower()+'_id': resource.id}, datetime__week_day = daynum+1,
+                        count_temp = Log.objects.filter(action="view", resource=resources_types[i].lower(),
+                          user_id=student.id, context__contains={'subject_id': subject.id,
+                          resources_types[i].lower()+'_id': resource.id}, datetime__week_day=daynum+1,
                            datetime__range=(init_date, end_date)).count()
+
                         if count_temp > 0:
                             distinct_days += 1
 
                     if resources_types[i].lower() == "ytvideo":
-                        watch_times = Log.objects.filter(action="watch", resource=resources_types[i].lower(),user_id = student.id, context__contains = {'subject_id': subject.id, 
-                            resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
+                        watch_times = Log.objects.filter(action="watch", resource=resources_types[i].lower(),
+                                                         user_i=student.id, context__contains=
+                                                         {'subject_id': subject.id,
+                                                          resources_types[i].lower()+'_id': resource.id},
+                                                         datetime__range=(init_date, end_date))
                         if watch_times.count() > 0:
                             for watch_time in watch_times:
-                                begin_time = timedelta(microseconds = int(watch_time.context['timestamp_start']))
-                                end_time = timedelta(microseconds =  int(watch_time.context['timestamp_end']))
+                                begin_time = timedelta(microseconds=int(watch_time.context['timestamp_start']))
+                                end_time = timedelta(microseconds=int(watch_time.context['timestamp_end']))
                                 time_delta = end_time - begin_time
-                                hours_viewed +=  time_delta.microseconds/3600 #so it's turned this seconds into hours
+                                hours_viewed += time_delta.microseconds/3600
 
                     if resources_types[i].lower() == "webconference":
-                        init_times = Log.objects.filter(action="initwebconference", resource=resources_types[i].lower(), user_id = student.id, context__contains = {'subject_id': subject.id, 
+                        init_times = Log.objects.filter(action="initwebconference", resource=resources_types[i].lower(),
+                                                        user_id=student.id, context__contains={'subject_id': subject.id,
                             resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
-                        end_times = Log.objects.filter(action="participate", resource=resources_types[i].lower(), user_id = student.id, context__contains = {'subject_id': subject.id, 
+                        end_times = Log.objects.filter(action="participate", resource=resources_types[i].lower(),
+                                                       user_id=student.id, context__contains={'subject_id': subject.id,
                             resources_types[i].lower()+'_id': resource.id}, datetime__range=(init_date, end_date))
                         if init_times.count() > 0:
                             j = 0
                             for init_time in init_times:
                                 begin_time = int(init_time.context['webconference_init'])
-                                end_time =  int(end_times[j].context['webconference_finish'])
+                                end_time = int(end_times[j].context['webconference_finish'])
                                 j += 1
                                 time_delta = math.fabs(end_time - begin_time)
-                              
-                                hours_viewed +=  time_delta/3600 #so it's turned this seconds into hours
-
+                                hours_viewed += time_delta/3600
 
                 if count > 0:
                     distinct_resources += 1
                     total_count += count
 
-
-            
             #mapping to translate class names
             mapping = {}
             mapping['pdffile'] = str(_('PDF File'))
@@ -506,51 +518,57 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             mapping['ytvideo'] = str(_('YouTube Video'))
             mapping['webpage'] = str(_('WebPage'))
             if original_tags[i] != "-1":
-                data[str(_("number of visualizations of ")) + mapping[str(resources_types[i])] + str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name] = total_count
-                data[str(_("number of visualizations of distintic ")) +  mapping[str(resources_types[i])] + str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name] = distinct_resources
-                data[str(_("distintic days ")) +  mapping[str(resources_types[i])] + str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name]  = distinct_days
+                data[str(_("number of visualizations of ")) + mapping[str(resources_types[i])] + str(_(" with tag ")) +
+                     Tag.objects.get(id=int(tags[i])).name] = total_count
+                data[str(_("number of visualizations of distintic ")) + mapping[str(resources_types[i])] +
+                     str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name] = distinct_resources
+                data[str(_("distintic days ")) + mapping[str(resources_types[i])] + str(_(" with tag ")) +
+                     Tag.objects.get(id=int(tags[i])).name] = distinct_days
                 
                 if resources_types[i].lower() in ["ytvideo", "webconference"]:
-                    data[str(_("hours viewed of ")) + str(resources_types[i]) + str(_(" with tag ")) + Tag.objects.get(id=int(tags[i])).name] = hours_viewed
+                    data[str(_("hours viewed of ")) + str(resources_types[i]) + str(_(" with tag ")) +
+                         Tag.objects.get(id=int(tags[i])).name] = hours_viewed
             else:
-                data[str(_("number of visualizations of ")) + mapping[str(resources_types[i])] ] = total_count
-                data[str(_("number of visualizations of distintic ")) +  mapping[str(resources_types[i])] ] = distinct_resources
-                data[str(_("distintic days ")) +  mapping[str(resources_types[i])]]  = distinct_days
+                data[str(_("number of visualizations of ")) + mapping[str(resources_types[i])]] = total_count
+                data[str(_("number of visualizations of distintic ")) + mapping[str(resources_types[i])]] = \
+                    distinct_resources
+                data[str(_("distintic days ")) + mapping[str(resources_types[i])]]= distinct_days
                 
                 if resources_types[i].lower() in ["ytvideo", "webconference"]:
-                    data[str(_("hours viewed of ")) + str(resources_types[i]) ] = hours_viewed
+                    data[str(_("hours viewed of ")) + str(resources_types[i])] = hours_viewed
 
         return data
 
     def get_messages_data(self, subject, student):
         data = OrderedDict()
-        
-   
-
         messages_sent_to_other_students = 0
-
         distinct_students = 0
      
         for other_student in subject.students.exclude(id = student.id):
-            conversations_with_other = Conversation.objects.filter(Q(user_one=student) & Q(user_two = other_student) | Q(user_one = other_student) & Q(user_two = student) )
-            messages_sent_other = TalkMessages.objects.filter(talk__in = conversations_with_other, user = student , subject= subject)
-            messages_received_other = TalkMessages.objects.filter(talk__in = conversations_with_other, user = other_student, subject = subject)
-            
-         
-         
+            conversations_with_other = Conversation.objects.filter(Q(user_one=student) & Q(user_two=other_student) |
+                                                                   Q(user_one=other_student) & Q(user_two=student))
+            messages_sent_other = TalkMessages.objects.filter(talk__in=conversations_with_other, user=student,
+                                                              subject=subject)
+            messages_received_other = TalkMessages.objects.filter(talk__in=conversations_with_other, user=other_student,
+                                                                  subject=subject)
+
             if data.get(_(" amount of messages sent to other students")):
-                data[_(" amount of messages sent to other students")] = messages_sent_other.count() + data.get(_(" amount of messages sent to other students"))
+                data[_(" amount of messages sent to other students")] = messages_sent_other.count() \
+                                                                        + data.get(
+                    _(" amount of messages sent to other students"))
             else:
                 data[_(" amount of messages sent to other students")] = messages_sent_other.count()
            
             if data.get(_("amount of messages received from other students")):
-                data[_("amount of messages received from other students")] = messages_received_other.count() + data.get(_("amount of messages received from other students"))
+                data[_("amount of messages received from other students")] = messages_received_other.count()\
+                                                                             + data.get(
+                    _("amount of messages received from other students"))
             else:
 
                 data[_("amount of messages received from other students")] = messages_received_other.count()
 
             #check whether the other started a conversation or not
-            if messages_sent_other.count() >0:
+            if messages_sent_other.count() > 0:
                 distinct_students += 1
         
         data[_("amount of distinct students to whom sent messages")] = distinct_students
@@ -558,23 +576,27 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         messages_sent_professors = 0
         messages_received_professors = 0
         for professor in subject.professor.all():
-            conversations_with_professor = Conversation.objects.filter(Q(user_one = student) & Q(user_two = professor) | Q(user_one = professor) & Q(user_two = student))
-            messages_sent_to_professors = TalkMessages.objects.filter(talk__in = conversations_with_professor, user = student, subject = subject)
+            conversations_with_professor = Conversation.objects.filter(Q(user_one=student) & Q(user_two=professor)
+                                                                       | Q(user_one=professor) & Q(user_two=student))
+            messages_sent_to_professors = TalkMessages.objects.filter(talk__in=conversations_with_professor,
+                                                                      user=student, subject=subject)
 
-            messages_received_from_professors = TalkMessages.objects.filter(talk__in = conversations_with_professor, user = professor, subject = subject)
+            messages_received_from_professors = TalkMessages.objects.filter(talk__in=conversations_with_professor,
+                                                                            user=professor, subject=subject)
             if data.get(_("amount messages sent to professors")):
-                data[_("amount messages sent to professors")] = messages_sent_to_professors.count() + data.get(_("amount messages sent to professors"))
+                data[_("amount messages sent to professors")] = messages_sent_to_professors.count() \
+                                                                + data.get(_("amount messages sent to professors"))
             else:
                 data[_("amount messages sent to professors")] = messages_sent_to_professors.count()
 
             if data.get(_("amount of messages received from professors")):
-                data[_("amount of messages received from professors")] = messages_received_from_professors.count() + data.get(_("amount of messages received from professors"))  
+                data[_("amount of messages received from professors")] = messages_received_from_professors.count() \
+                                                                         + data.get(
+                    _("amount of messages received from professors"))
             else:
                 data[_("amount of messages received from professors")] = messages_received_from_professors.count() 
-                     
 
         return data
-
 
 """
 Get all possible resource subclasses available for that topic selected
@@ -592,7 +614,7 @@ def get_resources(request):
 
     resources_class_names = []
     for topic in topics:
-        resource_set = Resource.objects.filter(topic = topic)
+        resource_set = Resource.objects.filter(topic=topic)
         for resource in resource_set:
             resources_class_names.append(resource._my_subclass)
 
@@ -607,7 +629,7 @@ def get_resources(request):
     mapping['ytvideo'] = str(_('YouTube Video'))
     mapping['webpage'] = str(_('WebPage'))
     data = {}
-    data['resources']= [ {'id':resource_type, 'name':mapping[resource_type]} for resource_type in  resources]
+    data['resources'] = [{'id': resource_type, 'name': mapping[resource_type]} for resource_type in resources]
     return JsonResponse(data)
 
 
@@ -629,7 +651,7 @@ def get_tags(request):
     data = {}
     tags = set()
     for topic in topics:
-        resource_set = Resource.objects.select_related(resource_type.lower()).filter(topic = topic)
+        resource_set = Resource.objects.select_related(resource_type.lower()).filter(topic=topic)
        
         for resource in resource_set:
             if resource._my_subclass == resource_type.lower():
@@ -644,7 +666,7 @@ def get_tags(request):
     t = Tag(name=" ")
     t.id = -1 #so I know he choose empyt one
     tags.append(t)
-    data['tags'] = [ {'id':tag.id, 'name':tag.name} for tag in  tags]
+    data['tags'] = [{'id': tag.id, 'name': tag.name} for tag in tags]
     return JsonResponse(data)
 
 
