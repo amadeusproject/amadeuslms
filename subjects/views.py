@@ -150,14 +150,14 @@ class IndexView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         self.totals['all_subjects'] = count_subjects(self.request.user)
 
-        self.totals['my_subjects'] = self.totals['all_subjects']
+        self.totals['subjects_count'] = self.totals['all_subjects']
 
         if self.request.user.is_staff:
             categories = Category.objects.all().order_by('name')
         else:
             pk = self.request.user.pk
 
-            self.totals['my_subjects'] = count_subjects(self.request.user, False)
+            self.totals['subjects_count'] = count_subjects(self.request.user, False)
 
             if not self.kwargs.get('option'):
                 my_categories = Category.objects.filter(Q(coordinators__pk=pk) | Q(subject_category__professor__pk=pk)
@@ -303,8 +303,6 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
 
         if self.kwargs.get('slug'): #when the user creates a subject
             initial['category'] = Category.objects.filter(slug=self.kwargs['slug'])
-            # print (initial)
-            # initial['professor'] = User.objects.all()
 
         if self.kwargs.get('subject_slug'): #when the user replicate a subject
             subject = get_object_or_404(Subject, slug=self.kwargs['subject_slug'])
@@ -669,6 +667,10 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
     context_object_name = 'subjects'
     paginate_by = 10
 
+    totals = 0
+    resources = []
+    tags = ""
+
     def dispatch(self, request, *args, **kwargs):
         # Try to dispatch to the right method; if a method doesn't exist,
         # defer to the error handler. Also defer to the error handler if the
@@ -701,7 +703,7 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
         self.resources = Resource.objects.select_related('link', 'filelink', 'webpage', 'ytvideo', 'pdffile')\
             .filter(id__in=self.resources)
 
-        self.totals = {'resources': self.resources.count(), 'my_subjects': subjects.count()}
+        self.totals = {'resources_count': self.resources.count(), 'subjects_count': subjects.count()}
 
         option = self.kwargs.get('option')
         if option and option == 'resources':
@@ -711,7 +713,7 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(SubjectSearchView, self).get_context_data(**kwargs)
 
-        if self.totals['resources'] == 0 and self.totals['my_subjects'] == 0:
+        if self.totals['resources_count'] == 0 and self.totals['subjects_count'] == 0:
             context['empty'] = True
         context['tags'] = self.tags
         context['all'] = False
@@ -818,36 +820,32 @@ def realize_backup(request, subject):
     for filelink in filelinks:
         if bool(filelink.file_content):
             if os.path.exists(filelink.file_content.path):
-                fdir, fname = os.path.split(filelink.file_content.path)
-                zip_path = os.path.join(resource_files_subdir, fname)
+                file_directory, file_name = os.path.split(filelink.file_content.path)
+                zip_path = os.path.join(resource_files_subdir, file_name)
 
-                # Add file, at correct path
                 zf.write(filelink.file_content.path, zip_path)
 
     for pdffile in pdffiles:
         if bool(pdffile.file):
             if os.path.exists(pdffile.file.path):
-                fdir, fname = os.path.split(pdffile.file.path)
-                zip_path = os.path.join(resource_files_subdir, fname)
+                file_directory, file_name = os.path.split(pdffile.file.path)
+                zip_path = os.path.join(resource_files_subdir, file_name)
 
-                # Add file, at correct path
                 zf.write(pdffile.file.path, zip_path)
 
     for bulletin in bulletins:
         if bool(bulletin.file_content):
             if os.path.exists(bulletin.file_content.path):
-                fdir, fname = os.path.split(bulletin.file_content.path)
-                zip_path = os.path.join(os.path.join("bulletin", "goals"), fname)
+                file_directory, file_name = os.path.split(bulletin.file_content.path)
+                zip_path = os.path.join(os.path.join("bulletin", "goals"), file_name)
 
-                # Add file, at correct path
                 zf.write(bulletin.file_content.path, zip_path)
 
         if bool(bulletin.indicators):
             if os.path.exists(bulletin.indicators.path):
-                fdir, fname = os.path.split(bulletin.indicators.path)
-                zip_path = os.path.join(os.path.join("bulletin", "indicators"), fname)
+                file_directory, file_name = os.path.split(bulletin.indicators.path)
+                zip_path = os.path.join(os.path.join("bulletin", "indicators"), file_name)
 
-                # Add file, at correct path
                 zf.write(bulletin.indicators.path, zip_path)
 
     file = open("backup.json", "w")
@@ -860,8 +858,8 @@ def realize_backup(request, subject):
         for user in participants:
             if bool(user.image):
                 if os.path.exists(user.image.path):
-                    fdir, fname = os.path.split(user.image.path)
-                    zip_path = os.path.join('users', fname)
+                    file_directory, file_name = os.path.split(user.image.path)
+                    zip_path = os.path.join('users', file_name)
 
                     zf.write(user.image.path, zip_path)
 
@@ -911,8 +909,8 @@ def realize_backup(request, subject):
 
     file.close()
 
-    fdir, fname = os.path.split("backup.json")
-    zip_path = os.path.join("", fname)
+    file_directory, file_name = os.path.split("backup.json")
+    zip_path = os.path.join("", file_name)
 
     # Add file, at correct path
     zf.write("backup.json", zip_path)
@@ -984,9 +982,6 @@ def realize_restore(request, subject):
                                     serial = SimpleWebpageSerializer(data=line, many=True, context={'subject': subject})
                             elif line[0]["_my_subclass"] == "bulletin":
                                 if "students" in line[0]:
-                                    print(file.namelist())
-                                    print(line[0]["file_content"])
-                                    print(line[0]["file_content"] in file.namelist())
                                     serial = CompleteBulletinSerializer(data=line, many=True,
                                                                         context={'subject': subject, 'files': file})
                                 else:
