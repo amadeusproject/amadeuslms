@@ -1,6 +1,6 @@
 # Amadeus 1.0
 
-  Repositório para o back-end do projetos Amadeus, na versão 0.9
+  Repositório para o back-end do projetos Amadeus, na versão 1.0.0
 
 **Linguagem Utilizada no Projeto:**
 * Python 3.5
