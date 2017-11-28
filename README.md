@@ -81,10 +81,10 @@ Para Classes que envolvem formulários:
 * `UpdateCourseForm()`
 
 [PT-BR]
-##API Descrição
+## API Descrição
 Estamos usando em sua maioria viewsets ( http://www.django-rest-framework.org/api-guide/viewsets/) para construir os endpoints da nossa API. Ela tem como função compartilhar os dados da instância do Amadeus com aplicações credenciadas.
 
-##API Setup
+## API Setup
 **Criar aplicação**
 * Vá para "/o/applications/" e clique "new application". Um formulário irá aparecer para preencher.
 * No formulário, preencha somente o "Name" com o nome da aplicação, os campos "client id" e "client secret" são gerados automaticamente e não devem ser modificados.
@@ -103,7 +103,7 @@ curl -H "Authorization: Bearer <your_access_token>" -X POST -d"username=foo&pass
 * model detail(GET) = give the details of the objects and most important fields of the ones objects its has relationships.
 * model create
 
-**API Endpoints **
+## API Endpoints
 
 **Courses (URL: coursesapi)**
 * course list ("/coursesapi/")
@@ -228,7 +228,7 @@ Feito isso o breadcrumbs da página 'Criar disciplina' fica da seguinte forma:
  [Home]() / [Cursos]() / [Nome do Curso]() / Criar disciplina
 
 
-[EN-SU]
+[EN-US]
 
 
 **Breadcrumbs** reduce the number of actions a user needs to take to reach a top-level page and improve the level of reachability of sections and pages.
@@ -344,6 +344,7 @@ Once this is done, the breadcrumbs of the 'Create discipline' page is as follows
 
 ## Sprint WorkFlow
 [PT-BR]
+
 **Dia : Atividade**
 * 01 Segunda: Retrospective/Planning
 * 05 Sexta: Review
