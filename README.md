@@ -228,7 +228,7 @@ Feito isso o breadcrumbs da página 'Criar disciplina' fica da seguinte forma:
  [Home]() / [Cursos]() / [Nome do Curso]() / Criar disciplina
 
 
-[EN-SU]
+[EN-US]
 
 
 **Breadcrumbs** reduce the number of actions a user needs to take to reach a top-level page and improve the level of reachability of sections and pages.
