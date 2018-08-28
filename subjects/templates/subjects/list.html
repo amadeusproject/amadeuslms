@@ -45,10 +45,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     <div id="core-subjects-options-div">
         <ul class="core-subjects-options">
             {% if all %}
-                <a href="{% url 'subjects:index' %}"><li >{% trans "My subjects" %} ({{ totals.my_subjects }})</li></a>
+                <a href="{% url 'subjects:index' %}"><li >{% trans "My subjects" %} ({{ totals.subjects_count }})</li></a>
                 <a href="{% url 'subjects:index' 'all' %}" ><li class="active">{% trans "All subjects" %} ({{ totals.all_subjects }})</li></a>
             {% else %}
-                <a href="{% url 'subjects:index' %}"><li class="active">{% trans "My subjects" %} ({{ totals.my_subjects }})</li></a>
+                <a href="{% url 'subjects:index' %}"><li class="active">{% trans "My subjects" %} ({{ totals.subjects_count }})</li></a>
                 <a href="{% url 'subjects:index' 'all' %}" ><li>{% trans "All subjects" %} ({{ totals.all_subjects }})</li></a>
             {% endif %}
 
