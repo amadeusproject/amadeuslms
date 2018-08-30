@@ -88,6 +88,7 @@ INSTALLED_APPS = [
     'analytics',
     'dashboards',
     'bulletin',
+    'banco_questoes',
 ]
 
 MIDDLEWARE_CLASSES = [
