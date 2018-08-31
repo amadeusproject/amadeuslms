@@ -15,9 +15,9 @@ from django.utils.translation import ugettext_lazy as _
 
 from subjects.models import Subject, Tag
 
-def validate_img_extension(value):
-	valid_formats = ['image/jpeg','image/x-citrix-jpeg','image/png','image/x-citrix-png','image/x-png', 'image/gif']
+valid_formats = ['image/jpeg','image/x-citrix-jpeg','image/png','image/x-citrix-png','image/x-png', 'image/gif']
 
+def validate_img_extension(value):
 	if hasattr(value.file, 'content_type'):
 		if not value.file.content_type in valid_formats:
 			raise ValidationError(_('File not supported.'))

@@ -54,7 +54,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             </form>
         </div>
         <div class="col-md-3">
-            <a href="" class="pull-right btn btn-success btn-raised btn-md"><i class="fa fa-plus"></i> {% trans 'Create Question' %}</a>
+            <a href="{% url 'questions_database:create' subject.slug %}" class="pull-right btn btn-success btn-raised btn-md"><i class="fa fa-plus"></i> {% trans 'Create Question' %}</a>
         </div>
     </div>
 
