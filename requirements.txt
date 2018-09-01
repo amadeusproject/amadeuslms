@@ -3,6 +3,8 @@ asgiref==1.0.0
 channels==1.0.3
 coverage==4.2
 daphne==1.0.2
+decorator==4.0.10
+dj-database-url==0.4.1
 Django==1.10.4
 django-autoslug==1.9.3
 django-bootstrap-breadcrumbs==0.8
