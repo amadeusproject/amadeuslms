@@ -1,14 +1,13 @@
 /* 
-Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
- 
-Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
- 
-O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
- 
-Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
- 
-Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
-*/
+    Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+    
+    Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+    
+    O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+    
+    Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+    
+    Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.*/
 
 /* === Variables === */
 
@@ -193,7 +192,7 @@ select option:hover
 .form-group.is-focused .radio label:focus, 
 .form-group.is-focused .radio label:hover, 
 .form-group.is-focused label.radio-inline:focus, 
-.form-group.is-focused label.radio-inline:hover,
+.form-group.is-focused label.radio-inline:hover
     color: $secondary-white
 
 .form-group.is-focused .radio label,
@@ -591,7 +590,7 @@ input#mobile_menu_btn:checked + .navbar-menu-btn
 .subject-panel .category-header .category-card-items i 
     color: $secondary-subject
 
-.subject-panel .category-header .category-card-items i:hover,
+.subject-panel .category-header .category-card-items i:hover
     color: $secondary-white
 
 /* --- Invisible --- */
@@ -1045,6 +1044,40 @@ a.add-row
 
 /* === End Chat === */
 
+/* === Questions Database === */
+.question-panel.panel-info > .panel-heading
+    background-color: #EEE
+    color: #888
+
+.question-panel .category-header i
+    color: #555
+
+    &:hover
+        color: #999
+
+.alternative-panel.panel-info 
+    box-shadow: none
+
+    > .panel-heading 
+        background-color: #FFF
+        color: #AAA
+        
+        h4
+            &:after
+                background-color: #CCC
+
+            a 
+                &:hover, &:focus, &:active
+                    color: #AAA
+
+                i 
+                    color: #AAA
+
+    .panel-body
+        background-color: #fff
+
+        .correct_answer
+            color: green
 
 @media(max-width: 768px) 
     .navbar .navbar-nav .dropdown .dropdown-menu li > a 
