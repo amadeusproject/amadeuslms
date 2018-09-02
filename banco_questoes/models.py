@@ -23,7 +23,7 @@ def validate_img_extension(value):
 			raise ValidationError(_('File not supported.'))
 
 class Question(models.Model):
-    enunciado = models.TextField(_("Statement"))
+    enunciado = models.TextField(_("Statement"), blank = True)
     question_img = models.ImageField(verbose_name = _("Image"), blank = True, null = True, upload_to = 'questions/', validators = [validate_img_extension])
     categories = models.ManyToManyField(Tag, verbose_name = 'categories', related_name = 'question_categories', blank = False)
     subject = models.ForeignKey(Subject, verbose_name = _('Subject'), related_name = 'question_subject', null = True)

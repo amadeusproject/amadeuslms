@@ -16,4 +16,7 @@ from . import views
 urlpatterns = [
 	url(r'^(?P<slug>[\w_-]+)/$', views.IndexView.as_view(), name='index'),
 	url(r'^create/(?P<slug>[\w_-]+)/$', views.QuestionCreateView.as_view(), name='create'),
+	url(r'^update/(?P<pk>[\w_-]+)/(?P<slug>[\w_-]+)/$', views.QuestionUpdateView.as_view(), name='update'),
+	url(r'^replicate/(?P<question_id>[\w_-]+)/(?P<slug>[\w_-]+)/$', views.QuestionCreateView.as_view(), name='replicate'),
+	url(r'^delete/(?P<pk>[\w_-]+)/$', views.QuestionDeleteView.as_view(), name='delete'),
 ]

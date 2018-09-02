@@ -12,7 +12,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 # coding=utf-8
 from django import forms
-from django.forms.models import modelformset_factory
+from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 
 from resubmit.widgets import ResubmitFileWidget
@@ -43,7 +43,27 @@ class QuestionForm(forms.ModelForm):
 
         return file
 
-    categories = forms.CharField(label = _('Categories *'), required = True)
+    def clean_enunciado(self):
+        enunciado = self.cleaned_data.get('enunciado', False)
+
+        if not enunciado:
+            self._errors['enunciado'] = [_("This field is required")]
+
+            return ValueError
+        
+        return enunciado
+
+    def clean_categories(self):
+        categories = self.cleaned_data.get('categories', False)
+
+        if not categories:
+            self._errors['categories'] = [_("This field is required")]
+
+            return ValueError
+
+        return categories
+
+    categories = forms.CharField(label = _('Categories *'), required = False)
 
     class Meta:
         model = Question
@@ -104,7 +124,7 @@ class AlternativeForm(forms.ModelForm):
             'alt_img': ResubmitFileWidget(attrs={'accept':'image/*'}),
         }
 
-BaseAlternativeFormset = modelformset_factory(Alternative, form = AlternativeForm, extra = 4, max_num = 4, min_num = 4)
+BaseAlternativeFormset = inlineformset_factory(Question, Alternative, form = AlternativeForm, extra = 4, max_num = 4, min_num = 4, validate_max = True, validate_min = True)
 
 class AlternativeFormset(BaseAlternativeFormset):
     def __init__(self, *args, **kwargs):
@@ -139,3 +159,6 @@ class AlternativeFormset(BaseAlternativeFormset):
                 else:
                     if is_correct is True:
                         has_correct = True
+
+        if has_correct is False:
+            raise forms.ValidationError(_("You must provide the correct answer."), code = 'correct_answer')
