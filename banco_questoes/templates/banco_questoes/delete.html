@@ -1,0 +1,35 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n permission_tags %}
+
+<!-- Modal (remember to change the ids!!!) -->
+<div class="modal fade" id="topic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <!-- Put ONLY your content here!!!  -->
+                <form id="delete_form" action="{% url 'questions_database:delete' question.id %}" method="post">
+                    {% csrf_token %}
+                    <h4>{% trans 'Are you sure that you want to delete this question' %}?</h4>
+                </form>
+            </div>
+            <!-- Modal Footer -->
+            <div id="delete-category-footer" class="modal-footer">
+                <!-- Don't remove that!!!  -->
+                <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+                <button type="submit" id="button" form="delete_form" class="btn btn-success btn-raised erase-button">{% trans "Delete" %}</button>
+            </div>
+        </div>
+    </div>
+</div>

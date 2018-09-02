@@ -35,7 +35,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 			</div>
 		{% endif %}
 	</div>
-	
+
 	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
 		{% render_field form.question_img class='file-selector' data-max_size="5" data-mimetypes=mimeTypes %}
 		
@@ -49,15 +49,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 	    </div>
 
 	    <div class="filedrag">
-	    	{% if question %}
-	    		<i class="fa fa-file-archive-o"></i> <br />
-
-	    		<small>{{ question.filename }}</small>
-	    	{% else %}
-	      		{% trans 'Click or drop the file here' %}<br />
-	      		
-	      		<small>{% trans 'The file could not exceed 5MB.' %}</small>
-	      	{% endif %}
+			{% trans 'Click or drop the file here' %}<br />
+			
+			<small>{% trans 'The file could not exceed 5MB.' %}</small>
   		</div>
 
 		<span id="helpBlock" class="help-block">{{ form.question_img.help_text }}</span>
@@ -75,6 +69,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 				{% endfor %}
 			</ul>
 		</div>
+		<br clear="all" />
 	{% endif %}
 
 	<div class="col-lg-12 col-md-12 col-sm-12 alert alert-danger alert-dismissible client-file-errors" style="display:none" role="alert">
@@ -94,6 +89,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 		<span id="helpBlock" class="help-block">{{ form.categories.help_text }}</span>
 			
 		{% if form.categories.errors %}
+			<br clear="all" />
+			<br clear="all" />
 			<div class="alert alert-danger alert-dismissible" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -110,7 +107,19 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     <hr />
 
     {{ formset.management_form }}
+
+	{% if formset.non_form_errors %}
+		<div class="alert alert-danger alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			{{ formset.non_form_errors }}
+		</div>
+	{% endif %}
+
     {% for alternative in formset %}
+		{% render_field alternative.id %}
+
         <h4>
             {% trans 'Alternative' %} {{ forloop.counter }}*
             
@@ -121,7 +130,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             </div>
         </h4>
 
-        <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+        <div class="form-group{% if alternative.has_error %} has-error {% endif %} is-fileinput">
             <label for="{{ alternative.content.auto_id }}">{{ alternative.content.label }} <span>*</span></label>
             {% render_field alternative.content class='form-control text_wysiwyg' %}
 
@@ -141,7 +150,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             {% endif %}
         </div>
 
-        <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+        <div class="form-group{% if alternative.has_error %} has-error {% endif %} is-fileinput">
             {% render_field alternative.alt_img class='file-selector' data-max_size="5" data-mimetypes=mimeTypes %}
             
             <div class="input-group common-file-input">
@@ -154,15 +163,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             </div>
 
             <div class="filedrag">
-                {% if alt %}
-                    <i class="fa fa-file-archive-o"></i> <br />
-
-                    <small>{{ alternative.filename }}</small>
-                {% else %}
-                    {% trans 'Click or drop the file here' %}<br />
-                    
-                    <small>{% trans 'The file could not exceed 5MB.' %}</small>
-                {% endif %}
+				{% trans 'Click or drop the file here' %}<br />
+				
+				<small>{% trans 'The file could not exceed 5MB.' %}</small>
             </div>
 
             <span id="helpBlock" class="help-block">{{ alternative.alt_img.help_text }}</span>

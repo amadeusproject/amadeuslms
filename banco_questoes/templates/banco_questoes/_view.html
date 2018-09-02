@@ -1,0 +1,70 @@
+{% load static i18n pagination %}
+
+<div id="question_{{ question.id }}" class="panel panel-info question-panel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-12 category-header">
+                <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px; margin-left: 10px">
+                    <b>{% trans 'Category(ies)' %}:</b>
+                    {{ question.categories.all|join:', ' }}
+                </h4>
+
+                <div class="col-md-5 pull-right category-card-items">
+                    <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                    </a>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
+                        <li><a href="{% url 'questions_database:replicate' question.id question.subject.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i>{% trans 'Replicate' %}</a></li>
+                        <li><a href="{% url 'questions_database:update' question.id question.subject.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+                        <li><a href="javascript:delete_question('{% url "questions_database:delete" question.id %}','#question_{{ question.id }}')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        {{ question.enunciado|safe }}
+
+        {% if question.question_img %}
+            <img src="{{ question.question_img.url }}" class="img-responsive center-block" />
+        {% endif %}
+
+        <div class="panel-group" id="{{ question.id }}" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-info alternative-panel">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12 category-header">
+                            <h4 class="panel-title">
+                                <a class="pull-left" data-parent="#{{ question.id }}" data-toggle="collapse" href="#{{question.id}}_alternatives">
+                                    <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button>
+                                    {% trans 'Alternatives' %}
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div id="{{question.id}}_alternatives" class="panel-collapse panel-body collapse alternative-panel-content">
+                    {% for alternative in question.alt_question.all %}
+                        <div class="row">
+                            <div class="col-md-2 text-center">
+                                {% if alternative.is_correct %}
+                                    <i class="fa fa-check correct_answer"></i>
+                                {% endif %}
+                                {% trans 'Alternative' %} {{ forloop.counter }}
+                            </div>
+                            <div class="col-md-10">
+                                {{ alternative.content|safe }}
+
+                                {% if alternative.alt_img %}
+                                    <img src="{{ alternative.alt_img.url }}" class="img-responsive center-block" />
+                                {% endif %}
+                            </div>
+                        </div>
+                        <br clear="all" />
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
