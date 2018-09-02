@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-16 23:05-0300\n"
+"POT-Creation-Date: 2018-09-02 20:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,104 +18,104 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: amadeus/settings.py:186
+#: amadeus/settings.py:187
 msgid "Portuguese"
 msgstr "Português"
 
-#: amadeus/settings.py:187
+#: amadeus/settings.py:188
 msgid "English"
 msgstr "Inglês"
 
-#: amadeus/templates/base.html:115 amadeus/templates/base.html:290
+#: amadeus/templates/base.html:127 amadeus/templates/base.html:302
 msgid "Search for subjects and resources"
 msgstr "Buscar por assuntos ou recursos"
 
-#: amadeus/templates/base.html:127 amadeus/templates/base.html:130
-#: amadeus/templates/base.html:248
+#: amadeus/templates/base.html:139 amadeus/templates/base.html:142
+#: amadeus/templates/base.html:260
 msgid "Language Selector"
 msgstr "Seletor de Línguas"
 
-#: amadeus/templates/base.html:161 amadeus/templates/base.html:225
+#: amadeus/templates/base.html:173 amadeus/templates/base.html:237
 msgid "Profile"
 msgstr "Perfil"
 
-#: amadeus/templates/base.html:162 amadeus/templates/base.html:226
+#: amadeus/templates/base.html:174 amadeus/templates/base.html:238
 msgid "Edit Profile"
 msgstr "Editar Perfil"
 
-#: amadeus/templates/base.html:163 amadeus/templates/base.html:227
+#: amadeus/templates/base.html:175 amadeus/templates/base.html:239
 msgid "Change Password"
 msgstr "Alterar Senha"
 
-#: amadeus/templates/base.html:164 amadeus/templates/base.html:228
+#: amadeus/templates/base.html:176 amadeus/templates/base.html:240
 msgid "Delete Account"
 msgstr "Remover Conta"
 
-#: amadeus/templates/base.html:165 amadeus/templates/base.html:229
+#: amadeus/templates/base.html:177 amadeus/templates/base.html:241
 msgid "Logout"
 msgstr "Sair"
 
-#: amadeus/templates/base.html:170 amadeus/templates/base.html:232
+#: amadeus/templates/base.html:182 amadeus/templates/base.html:244
 msgid "settings"
 msgstr "configurações"
 
-#: amadeus/templates/base.html:173 amadeus/templates/base.html:234
+#: amadeus/templates/base.html:185 amadeus/templates/base.html:246
 msgid "Settings"
 msgstr "Configurações"
 
-#: amadeus/templates/base.html:176 amadeus/templates/base.html:237
+#: amadeus/templates/base.html:188 amadeus/templates/base.html:249
 msgid "Manage Users"
 msgstr "Gerenciar Usuários"
 
-#: amadeus/templates/base.html:177 amadeus/templates/base.html:238
+#: amadeus/templates/base.html:189 amadeus/templates/base.html:250
 msgid "Manage Categories"
 msgstr "Gerenciar Categorias"
 
-#: amadeus/templates/base.html:178 amadeus/templates/base.html:239
+#: amadeus/templates/base.html:190 amadeus/templates/base.html:251
 msgid "Manage News"
 msgstr "Gerenciar Notícias"
 
-#: amadeus/templates/base.html:185
+#: amadeus/templates/base.html:197
 msgid "System"
 msgstr "Sistema"
 
-#: amadeus/templates/base.html:192 amadeus/templates/base.html:240
+#: amadeus/templates/base.html:204 amadeus/templates/base.html:252
 msgid "Mail Sender"
 msgstr "Remetente de Email"
 
-#: amadeus/templates/base.html:193 amadeus/templates/base.html:241
+#: amadeus/templates/base.html:205 amadeus/templates/base.html:253
 msgid "Security"
 msgstr "Segurança"
 
-#: amadeus/templates/base.html:194 amadeus/templates/base.html:242
+#: amadeus/templates/base.html:206 amadeus/templates/base.html:254
 msgid "Theme"
 msgstr "Temas"
 
-#: amadeus/templates/base.html:195 amadeus/templates/base.html:243
+#: amadeus/templates/base.html:207 amadeus/templates/base.html:255
 msgid "Web Conference"
 msgstr "Web conferência"
 
-#: amadeus/templates/base.html:340 amadeus/templates/base.html:398
+#: amadeus/templates/base.html:352 amadeus/templates/base.html:410
 msgid "Subjects"
 msgstr "Assuntos"
 
-#: amadeus/templates/base.html:345 amadeus/templates/base.html:404
+#: amadeus/templates/base.html:357 amadeus/templates/base.html:416
 msgid "Mural"
 msgstr "Mural"
 
-#: amadeus/templates/base.html:351 amadeus/templates/base.html:411
+#: amadeus/templates/base.html:363 amadeus/templates/base.html:423
 msgid "Messages"
 msgstr "Mensagens"
 
-#: amadeus/templates/base.html:357 amadeus/templates/base.html:419
+#: amadeus/templates/base.html:369 amadeus/templates/base.html:431
 msgid "Pendencies"
 msgstr "Pendências"
 
-#: amadeus/templates/base.html:365 amadeus/templates/base.html:428
+#: amadeus/templates/base.html:377 amadeus/templates/base.html:440
 msgid "Analytics"
 msgstr "Analytics"
 
-#: amadeus/templates/recover_pass_email_template.html:7
+#: amadeus/templates/recover_pass_email_template.html:18
 #, python-format
 msgid ""
 "You're receiving this email because you requested a password reset for your "
@@ -124,11 +124,11 @@ msgstr ""
 "Você está recebendo esse email porque você solicitou uma alteração de senha "
 "para a sua conta em %(site_name)s."
 
-#: amadeus/templates/recover_pass_email_template.html:9
+#: amadeus/templates/recover_pass_email_template.html:20
 msgid "Please go to the following page and choose a new password:"
 msgstr "Por favor vá até a seguinte página e escolha uma nova senha:"
 
-#: amadeus/templates/recover_pass_email_template.html:15
+#: amadeus/templates/recover_pass_email_template.html:26
 #, python-format
 msgid "The %(site_name)s team"
 msgstr "Time %(site_name)s"

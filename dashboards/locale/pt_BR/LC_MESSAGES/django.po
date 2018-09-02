@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-16 23:05-0300\n"
+"POT-Creation-Date: 2018-09-02 20:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,138 +18,138 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: dashboards/templates/dashboards/category.html:21
+#: dashboards/templates/dashboards/category.html:33
 msgid "Analytics Category"
 msgstr "Análise de Categoria"
 
-#: dashboards/templates/dashboards/category.html:35
-#: dashboards/templates/dashboards/general.html:34
+#: dashboards/templates/dashboards/category.html:47
+#: dashboards/templates/dashboards/general.html:46
 msgid "Platform Report"
 msgstr "Report da Plataforma"
 
-#: dashboards/templates/dashboards/category.html:42
-#: dashboards/templates/dashboards/category.html:55
-#: dashboards/templates/dashboards/general.html:37
+#: dashboards/templates/dashboards/category.html:54
+#: dashboards/templates/dashboards/category.html:67
+#: dashboards/templates/dashboards/general.html:49
 msgid "Category Report"
 msgstr "Report da Categoria"
 
-#: dashboards/templates/dashboards/category.html:46
-#: dashboards/templates/dashboards/general.html:40
+#: dashboards/templates/dashboards/category.html:58
+#: dashboards/templates/dashboards/general.html:52
 msgid "Subject Report"
 msgstr "Report do Assunto"
 
-#: dashboards/templates/dashboards/category.html:63
-#: dashboards/templates/dashboards/general_body.html:8
-#: dashboards/templates/dashboards/log.html:35
+#: dashboards/templates/dashboards/category.html:75
+#: dashboards/templates/dashboards/general_body.html:20
+#: dashboards/templates/dashboards/log.html:47
 msgid "Focus"
 msgstr "Destaques"
 
-#: dashboards/templates/dashboards/category.html:66
-#: dashboards/templates/dashboards/general_body.html:11
-#: dashboards/templates/dashboards/log.html:38
+#: dashboards/templates/dashboards/category.html:78
+#: dashboards/templates/dashboards/general_body.html:23
+#: dashboards/templates/dashboards/log.html:50
 msgid "Log"
 msgstr "Log"
 
-#: dashboards/templates/dashboards/category.html:78
+#: dashboards/templates/dashboards/category.html:90
 msgid "between"
 msgstr ""
 
-#: dashboards/templates/dashboards/category.html:102
+#: dashboards/templates/dashboards/category.html:114
 msgid "by"
 msgstr ""
 
-#: dashboards/templates/dashboards/category.html:116
-#: dashboards/templates/dashboards/general_body.html:51
+#: dashboards/templates/dashboards/category.html:128
+#: dashboards/templates/dashboards/general_body.html:63
 msgid "Amount of access in: "
 msgstr "Quantidade de acessos em: "
 
-#: dashboards/templates/dashboards/category.html:128
-#: dashboards/templates/dashboards/general_body.html:66
+#: dashboards/templates/dashboards/category.html:140
+#: dashboards/templates/dashboards/general_body.html:78
 msgid "Select the begin of the week: "
 msgstr "Selecione o dia da semana: "
 
-#: dashboards/templates/dashboards/general.html:22
+#: dashboards/templates/dashboards/general.html:34
 msgid "Dashboards General"
 msgstr "Dashboards Geral"
 
-#: dashboards/templates/dashboards/general_body.html:4
-#: dashboards/templates/dashboards/log.html:31
+#: dashboards/templates/dashboards/general_body.html:16
+#: dashboards/templates/dashboards/log.html:43
 msgid "Amadeus Report"
 msgstr "Report do Amadeus"
 
-#: dashboards/templates/dashboards/general_body.html:21
+#: dashboards/templates/dashboards/general_body.html:33
 msgid "Most accessed "
 msgstr "Mais acessadas"
 
-#: dashboards/templates/dashboards/general_body.html:26
+#: dashboards/templates/dashboards/general_body.html:38
 msgid "Categories"
 msgstr "Categorias"
 
-#: dashboards/templates/dashboards/general_body.html:31
+#: dashboards/templates/dashboards/general_body.html:43
 msgid "Subjects"
 msgstr "Assuntos"
 
-#: dashboards/templates/dashboards/general_body.html:36
+#: dashboards/templates/dashboards/general_body.html:48
 msgid "Resource"
 msgstr "Recursos"
 
-#: dashboards/templates/dashboards/general_body.html:45
+#: dashboards/templates/dashboards/general_body.html:57
 msgid "Most active users"
 msgstr "Usuários mais ativos"
 
-#: dashboards/templates/dashboards/log.html:28
+#: dashboards/templates/dashboards/log.html:40
 msgid "search"
 msgstr "Pesquisar"
 
-#: dashboards/templates/dashboards/tags_body.html:6
+#: dashboards/templates/dashboards/tags_body.html:18
 msgid "most used tags"
 msgstr "tags mais usadas"
 
-#: dashboards/views.py:58 dashboards/views.py:105
+#: dashboards/views.py:70 dashboards/views.py:117
 msgid "January"
 msgstr "Janeiro"
 
-#: dashboards/views.py:58 dashboards/views.py:105
+#: dashboards/views.py:70 dashboards/views.py:117
 msgid "February"
 msgstr "Fevereiro"
 
-#: dashboards/views.py:58 dashboards/views.py:105
+#: dashboards/views.py:70 dashboards/views.py:117
 msgid "March"
 msgstr "Março"
 
-#: dashboards/views.py:58 dashboards/views.py:105
+#: dashboards/views.py:70 dashboards/views.py:117
 msgid "April"
 msgstr "Abril"
 
-#: dashboards/views.py:58 dashboards/views.py:105
+#: dashboards/views.py:70 dashboards/views.py:117
 msgid "May"
 msgstr "Maio"
 
-#: dashboards/views.py:58 dashboards/views.py:105
+#: dashboards/views.py:70 dashboards/views.py:117
 msgid "June"
 msgstr "Junho"
 
-#: dashboards/views.py:58 dashboards/views.py:105
+#: dashboards/views.py:70 dashboards/views.py:117
 msgid "July"
 msgstr "Julho"
 
-#: dashboards/views.py:59 dashboards/views.py:106
+#: dashboards/views.py:71 dashboards/views.py:118
 msgid "August"
 msgstr "Agosto"
 
-#: dashboards/views.py:59 dashboards/views.py:106
+#: dashboards/views.py:71 dashboards/views.py:118
 msgid "September"
 msgstr "Setembro"
 
-#: dashboards/views.py:59 dashboards/views.py:106
+#: dashboards/views.py:71 dashboards/views.py:118
 msgid "October"
 msgstr "Outubro"
 
-#: dashboards/views.py:59 dashboards/views.py:106
+#: dashboards/views.py:71 dashboards/views.py:118
 msgid "November"
 msgstr "Novembro"
 
-#: dashboards/views.py:59 dashboards/views.py:106
+#: dashboards/views.py:71 dashboards/views.py:118
 msgid "December"
 msgstr "Dezembro"
 

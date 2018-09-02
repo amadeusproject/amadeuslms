@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-16 23:05-0300\n"
+"POT-Creation-Date: 2018-09-02 20:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,154 +18,154 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: categories/forms.py:23
+#: categories/forms.py:35
 msgid "There is another category with this name, try another one."
 msgstr "Existe outra categoria com este nome, tente outro nome."
 
-#: categories/models.py:9
+#: categories/models.py:21
 msgid "Name"
 msgstr "Nome"
 
-#: categories/models.py:10
+#: categories/models.py:22
 msgid "Slug"
 msgstr "Slug"
 
-#: categories/models.py:11
+#: categories/models.py:23
 msgid "description"
 msgstr "Descrição"
 
-#: categories/models.py:12
+#: categories/models.py:24
 msgid "visible"
 msgstr "Visível"
 
-#: categories/models.py:14
+#: categories/models.py:26
 msgid "Creation Date"
 msgstr "Data de criação"
 
-#: categories/models.py:15
+#: categories/models.py:27
 msgid "Modified Date"
 msgstr "Data de modificação"
 
-#: categories/models.py:19
+#: categories/models.py:31
 msgid "Category"
 msgstr "Categoria"
 
-#: categories/models.py:20 categories/views.py:49
+#: categories/models.py:32 categories/views.py:61
 msgid "Categories"
 msgstr "Categorias"
 
-#: categories/templates/categories/_form.html:14
+#: categories/templates/categories/_form.html:26
 msgid "Coordinators"
 msgstr "Coordenadores"
 
-#: categories/templates/categories/_form.html:21
+#: categories/templates/categories/_form.html:33
 msgid "Atribute coordinator role to users"
 msgstr "Atribua perfil de coordenador aos usuários"
 
-#: categories/templates/categories/_form.html:68
+#: categories/templates/categories/_form.html:80
 msgid "Save"
 msgstr "Salvar"
 
-#: categories/templates/categories/_form.html:72
+#: categories/templates/categories/_form.html:84
 msgid "Cancel"
 msgstr ""
 
-#: categories/templates/categories/_form.html:79
-#: categories/templates/categories/_form.html:80
+#: categories/templates/categories/_form.html:91
+#: categories/templates/categories/_form.html:92
 msgid "search for an username"
 msgstr "pesquise por um nome de usuário"
 
-#: categories/templates/categories/category_card.html:18
-#: categories/templates/categories/list.html:69
-#: categories/templates/categories/list.html:114
+#: categories/templates/categories/category_card.html:30
+#: categories/templates/categories/list.html:81
+#: categories/templates/categories/list.html:126
 msgid "Replicate"
 msgstr "Replicar"
 
-#: categories/templates/categories/category_card.html:19
-#: categories/templates/categories/home_admin_content.html:6
-#: categories/templates/categories/list.html:73
-#: categories/templates/categories/list.html:116
+#: categories/templates/categories/category_card.html:31
+#: categories/templates/categories/home_admin_content.html:18
+#: categories/templates/categories/list.html:85
+#: categories/templates/categories/list.html:128
 msgid "Edit"
 msgstr "Editar"
 
-#: categories/templates/categories/category_card.html:20
-#: categories/templates/categories/list.html:74
-#: categories/templates/categories/list.html:117
+#: categories/templates/categories/category_card.html:32
+#: categories/templates/categories/list.html:86
+#: categories/templates/categories/list.html:129
 msgid "Remove"
 msgstr "Remover"
 
-#: categories/templates/categories/category_card.html:26
+#: categories/templates/categories/category_card.html:38
 msgid "Are you sure you want to subscribe to this course?"
 msgstr "Tem certeza que você deseja se inscrever neste curso?"
 
-#: categories/templates/categories/category_card.html:27
+#: categories/templates/categories/category_card.html:39
 msgid "Subscribe"
 msgstr "Inscrever-se"
 
-#: categories/templates/categories/delete.html:12
+#: categories/templates/categories/delete.html:24
 msgid "Are you sure you want to delete the category"
 msgstr "Você tem certeza que deseja deletar a categoria"
 
-#: categories/templates/categories/delete.html:12
+#: categories/templates/categories/delete.html:24
 msgid "All its data will be lost and can't be recovered"
 msgstr "Todos os seus dados serão perdidos e não poderão ser recuperados"
 
-#: categories/templates/categories/delete.html:18
+#: categories/templates/categories/delete.html:30
 msgid "Close"
 msgstr "Cancelar"
 
-#: categories/templates/categories/delete.html:19
+#: categories/templates/categories/delete.html:31
 msgid "Delete"
 msgstr "Deletar"
 
-#: categories/templates/categories/home.html:26
+#: categories/templates/categories/home.html:38
 msgid "categories"
 msgstr "Categorias"
 
-#: categories/templates/categories/list.html:31 categories/views.py:106
+#: categories/templates/categories/list.html:43 categories/views.py:118
 msgid "Create Category"
 msgstr "Criar Categoria"
 
-#: categories/templates/categories/list.html:39
+#: categories/templates/categories/list.html:51
 msgid "My subjects"
 msgstr "Meus assuntos"
 
-#: categories/templates/categories/list.html:40
+#: categories/templates/categories/list.html:52
 msgid "all subjects"
 msgstr "Todos os assuntos"
 
-#: categories/templates/categories/list.html:86
-#: categories/templates/categories/list.html:129
+#: categories/templates/categories/list.html:98
+#: categories/templates/categories/list.html:141
 msgid "Coordinator(s) "
 msgstr "Coordenador(es)"
 
-#: categories/templates/categories/list.html:90
-#: categories/templates/categories/list.html:133
+#: categories/templates/categories/list.html:102
+#: categories/templates/categories/list.html:145
 msgid "It doesn't possess coordinators"
 msgstr "Não possui coordenadores"
 
-#: categories/templates/categories/notifications_timeline.html:14
+#: categories/templates/categories/notifications_timeline.html:26
 msgid "at"
 msgstr "em"
 
-#: categories/templates/categories/notifications_timeline.html:15
+#: categories/templates/categories/notifications_timeline.html:27
 msgid "ago"
 msgstr "atras"
 
-#: categories/templates/categories/update.html:8
+#: categories/templates/categories/update.html:20
 msgid "Update: "
 msgstr "Editar: "
 
-#: categories/views.py:104
+#: categories/views.py:116
 msgid "Replicate Category"
 msgstr "Replicar Categoria"
 
-#: categories/views.py:131
+#: categories/views.py:143
 #, python-format
 msgid "Category \"%s\" register successfully!"
 msgstr "Categoria \"%s\" foi registrada com sucesso!"
 
-#: categories/views.py:167
+#: categories/views.py:179
 msgid ""
 "The category cannot be removed, it contains one or more virtual enviroments "
 "attach."
@@ -173,16 +173,16 @@ msgstr ""
 "A categoria não pode ser removida, ela contém um ou mais ambientes virtuais "
 "vinculados."
 
-#: categories/views.py:180
+#: categories/views.py:192
 #, python-format
 msgid "Category \"%s\" removed successfully!"
 msgstr "Categoria \"%s\" removida com sucesso!"
 
-#: categories/views.py:208
+#: categories/views.py:220
 #, python-format
 msgid "Category \"%s\" updated successfully!"
 msgstr "Categoria \"%s\" atualizada com sucesso!"
 
-#: categories/views.py:224
+#: categories/views.py:236
 msgid "Update Category"
 msgstr "Atualizar Categoria"

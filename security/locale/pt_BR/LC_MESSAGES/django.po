@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-16 23:05-0300\n"
+"POT-Creation-Date: 2018-09-02 20:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,34 +18,34 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: security/models.py:5
+#: security/models.py:17
 msgid "Don't allow users to self-register"
 msgstr "Não permiter usuários a se auto-cadastrem"
 
-#: security/models.py:6
+#: security/models.py:18
 msgid "Put system in maintenance mode"
 msgstr "Colocar sistema em modo de manutenção"
 
-#: security/models.py:9
+#: security/models.py:21
 msgid "Security configuration"
 msgstr "Configuração de Securação"
 
-#: security/models.py:10
+#: security/models.py:22
 msgid "Security configurations"
 msgstr "Configurações de Segurança"
 
-#: security/templates/security/update.html:9
+#: security/templates/security/update.html:21
 msgid "Settings: Security"
 msgstr "Configurações: Segurança"
 
-#: security/templates/security/update.html:43
+#: security/templates/security/update.html:55
 msgid "Save"
 msgstr "Salvar"
 
-#: security/views.py:27
+#: security/views.py:39
 msgid "Security settings updated successfully!"
 msgstr "Configurações de segurança atualizadas com sucesso!"
 
-#: security/views.py:34
+#: security/views.py:46
 msgid "Security"
 msgstr "Segurança"

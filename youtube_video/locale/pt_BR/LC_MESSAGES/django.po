@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-16 23:05-0300\n"
+"POT-Creation-Date: 2018-09-02 20:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,182 +18,182 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: youtube_video/forms.py:38
+#: youtube_video/forms.py:50
 msgid "Tags"
 msgstr "Tags"
 
-#: youtube_video/forms.py:44
+#: youtube_video/forms.py:56
 msgid "Video title"
 msgstr "Título do Vídeo"
 
-#: youtube_video/forms.py:64
+#: youtube_video/forms.py:76
 msgid "This subject already has a resource with this name"
 msgstr "Esse assunto já possui um recurso com esse nome"
 
-#: youtube_video/forms.py:75
+#: youtube_video/forms.py:87
 msgid "Invalid URL. It should be an YouTube link."
 msgstr "URL inválida. Ela deve ser uma URL de um vídeo do YouTube."
 
-#: youtube_video/models.py:8
+#: youtube_video/models.py:20
 msgid "URL"
 msgstr "URL"
 
-#: youtube_video/models.py:11
+#: youtube_video/models.py:23
 msgid "YTVideo"
 msgstr "Vídeo do YouTube"
 
-#: youtube_video/models.py:12
+#: youtube_video/models.py:24
 msgid "YTVideos"
 msgstr "Vídeos do YouTube"
 
-#: youtube_video/models.py:30
+#: youtube_video/models.py:42
 msgid "Are you sure you want delete the YouTube Video"
 msgstr "Você tem certeza que deseja deletar o Vídeo do YouTube"
 
-#: youtube_video/templates/youtube/_form.html:49
+#: youtube_video/templates/youtube/_form.html:61
 msgid "Common resources settings"
 msgstr "Configurações comuns à todos os recursos"
 
-#: youtube_video/templates/youtube/_form.html:98
+#: youtube_video/templates/youtube/_form.html:110
 msgid "Pendencies Notifications"
 msgstr "Notificações de Pendências"
 
-#: youtube_video/templates/youtube/_form.html:119
+#: youtube_video/templates/youtube/_form.html:131
 msgid "Action not performed by the user"
 msgstr "Ação não realizada pelo usuário"
 
-#: youtube_video/templates/youtube/_form.html:145
+#: youtube_video/templates/youtube/_form.html:157
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: youtube_video/templates/youtube/_form.html:212
+#: youtube_video/templates/youtube/_form.html:224
 msgid "Students"
 msgstr ""
 
-#: youtube_video/templates/youtube/_form.html:242
+#: youtube_video/templates/youtube/_form.html:254
 msgid "Attribute students to YouTube Video"
 msgstr "Atribuir estudantes ao Vídeo do YouTube"
 
-#: youtube_video/templates/youtube/_form.html:262
+#: youtube_video/templates/youtube/_form.html:274
 msgid "Attribute groups to YouTube Video"
 msgstr "Atribuir grupos de estudo ao Vídeo do YouTube"
 
-#: youtube_video/templates/youtube/_form.html:331
+#: youtube_video/templates/youtube/_form.html:343
 msgid "Save"
 msgstr "Salvar"
 
-#: youtube_video/templates/youtube/_form.html:335
+#: youtube_video/templates/youtube/_form.html:347
 msgid "Cancel"
 msgstr ""
 
-#: youtube_video/templates/youtube/_form.html:342
+#: youtube_video/templates/youtube/_form.html:354
 msgid "Add new notification"
 msgstr "Adicionar nova notificação"
 
-#: youtube_video/templates/youtube/_form.html:343
+#: youtube_video/templates/youtube/_form.html:355
 msgid "Remove this"
 msgstr "Remover essa notificação"
 
-#: youtube_video/templates/youtube/create.html:21
+#: youtube_video/templates/youtube/create.html:33
 msgid "Create YouTube Video"
 msgstr "Adicionar Vídeo do YouTube"
 
-#: youtube_video/templates/youtube/relatorios.html:17
-#: youtube_video/templates/youtube/relatorios.html:37
+#: youtube_video/templates/youtube/relatorios.html:29
+#: youtube_video/templates/youtube/relatorios.html:49
 msgid "User"
 msgstr "Usuário"
 
-#: youtube_video/templates/youtube/relatorios.html:17
-#: youtube_video/templates/youtube/relatorios.html:37
+#: youtube_video/templates/youtube/relatorios.html:29
+#: youtube_video/templates/youtube/relatorios.html:49
 msgid "Group"
 msgstr "Grupo"
 
-#: youtube_video/templates/youtube/relatorios.html:17
+#: youtube_video/templates/youtube/relatorios.html:29
 msgid "Action"
 msgstr "Ação"
 
-#: youtube_video/templates/youtube/relatorios.html:17
+#: youtube_video/templates/youtube/relatorios.html:29
 msgid "Date of Action"
 msgstr "Data da ação"
 
-#: youtube_video/templates/youtube/relatorios.html:37
+#: youtube_video/templates/youtube/relatorios.html:49
 msgid "Send message"
 msgstr "Enviar Mensagem"
 
-#: youtube_video/templates/youtube/relatorios.html:37
+#: youtube_video/templates/youtube/relatorios.html:49
 msgid "Action don't realized"
 msgstr "Ação não realizada"
 
-#: youtube_video/templates/youtube/relatorios.html:230
-#: youtube_video/templates/youtube/relatorios.html:252
+#: youtube_video/templates/youtube/relatorios.html:242
+#: youtube_video/templates/youtube/relatorios.html:264
 msgid "Reports"
 msgstr "Relatórios"
 
-#: youtube_video/templates/youtube/relatorios.html:259
+#: youtube_video/templates/youtube/relatorios.html:271
 msgid "Report of the resource "
 msgstr "Relatórios do recurso "
 
-#: youtube_video/templates/youtube/relatorios.html:268
+#: youtube_video/templates/youtube/relatorios.html:280
 msgid "Select the period: "
 msgstr "Selecione o período: "
 
-#: youtube_video/templates/youtube/relatorios.html:277
+#: youtube_video/templates/youtube/relatorios.html:289
 msgid "Search"
 msgstr "Pesquisar"
 
-#: youtube_video/templates/youtube/relatorios.html:301
+#: youtube_video/templates/youtube/relatorios.html:313
 msgid "Filter: "
 msgstr "Filtro: "
 
-#: youtube_video/templates/youtube/relatorios.html:325
-#: youtube_video/templates/youtube/relatorios.html:410
-#: youtube_video/templates/youtube/relatorios.html:513
+#: youtube_video/templates/youtube/relatorios.html:337
+#: youtube_video/templates/youtube/relatorios.html:422
+#: youtube_video/templates/youtube/relatorios.html:525
 msgid "record(s)"
 msgstr "Relatório(s)"
 
-#: youtube_video/templates/youtube/send_message.html:38
+#: youtube_video/templates/youtube/send_message.html:50
 msgid "Click or drop the picture here"
 msgstr "Clique ou solte a imagem aqui"
 
-#: youtube_video/templates/youtube/send_message.html:40
+#: youtube_video/templates/youtube/send_message.html:52
 msgid "The picture could not exceed 5MB."
 msgstr "A imagem não pode exceder 5MB."
 
-#: youtube_video/templates/youtube/send_message.html:62
+#: youtube_video/templates/youtube/send_message.html:74
 msgid "Close"
 msgstr "Fechar"
 
-#: youtube_video/templates/youtube/send_message.html:63
+#: youtube_video/templates/youtube/send_message.html:75
 msgid "Send"
 msgstr "Enviar"
 
-#: youtube_video/templates/youtube/update.html:21
+#: youtube_video/templates/youtube/update.html:33
 msgid "Edit: "
 msgstr "Editar: "
 
-#: youtube_video/views.py:62
+#: youtube_video/views.py:74
 #, python-format
 msgid "%s - Video"
 msgstr "%s - Vídeo"
 
-#: youtube_video/views.py:164 youtube_video/views.py:177
-#: youtube_video/views.py:196 youtube_video/views.py:299
-#: youtube_video/views.py:312 youtube_video/views.py:321
+#: youtube_video/views.py:176 youtube_video/views.py:189
+#: youtube_video/views.py:208 youtube_video/views.py:311
+#: youtube_video/views.py:324 youtube_video/views.py:333
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: youtube_video/views.py:164 youtube_video/views.py:177
-#: youtube_video/views.py:196 youtube_video/views.py:299
-#: youtube_video/views.py:312 youtube_video/views.py:321
-#: youtube_video/views.py:553
+#: youtube_video/views.py:176 youtube_video/views.py:189
+#: youtube_video/views.py:208 youtube_video/views.py:311
+#: youtube_video/views.py:324 youtube_video/views.py:333
+#: youtube_video/views.py:565
 msgid "Finish"
 msgstr "Finalizar"
 
-#: youtube_video/views.py:243
+#: youtube_video/views.py:255
 msgid "Create Youtube Video"
 msgstr "Adicionar Vídeo do YouTube"
 
-#: youtube_video/views.py:254
+#: youtube_video/views.py:266
 #, python-format
 msgid ""
 "The Youtube Video \"%s\" was added to the Topic \"%s\" of the virtual "
@@ -202,16 +202,16 @@ msgstr ""
 "O Vídeo do YouTube \"%s\" foi adicionado ao tópico \"%s\" do ambiente "
 "virtual \"%s\" com sucesso!"
 
-#: youtube_video/views.py:362
+#: youtube_video/views.py:374
 msgid "Update YouTube Video"
 msgstr "Atualizar Vídeo do YouTube"
 
-#: youtube_video/views.py:374
+#: youtube_video/views.py:386
 #, python-format
 msgid "The YouTube Video \"%s\" was updated successfully!"
 msgstr "O Vídeo do YouTube \"%s\" foi atualizado com sucesso!"
 
-#: youtube_video/views.py:410
+#: youtube_video/views.py:422
 #, python-format
 msgid ""
 "The YouTube Video \"%s\" was removed successfully from virtual environment "
@@ -220,55 +220,55 @@ msgstr ""
 "O Vídeo do YouTube \"%s\" foi removido do ambiente virtual \"%s\" com "
 "sucesso!"
 
-#: youtube_video/views.py:522
+#: youtube_video/views.py:534
 msgid "Youtube Video Reports"
 msgstr "Relatórios de Vídeo do YouTube"
 
-#: youtube_video/views.py:541
+#: youtube_video/views.py:553
 msgid "Realized"
 msgstr "Realizada"
 
-#: youtube_video/views.py:541
+#: youtube_video/views.py:553
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: youtube_video/views.py:541
+#: youtube_video/views.py:553
 msgid "Historic"
 msgstr "Histórico"
 
-#: youtube_video/views.py:553
+#: youtube_video/views.py:565
 msgid "View"
 msgstr "Visualizar"
 
-#: youtube_video/views.py:553
+#: youtube_video/views.py:565
 msgid "Watch"
 msgstr "Assistir"
 
-#: youtube_video/views.py:579
+#: youtube_video/views.py:591
 msgid "Youtube Video"
 msgstr "Vídeo do YouTube"
 
-#: youtube_video/views.py:592
+#: youtube_video/views.py:604
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: youtube_video/views.py:593
+#: youtube_video/views.py:605
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: youtube_video/views.py:640
+#: youtube_video/views.py:652
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: youtube_video/views.py:652
+#: youtube_video/views.py:664
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: youtube_video/views.py:660
+#: youtube_video/views.py:672
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: youtube_video/views.py:662
+#: youtube_video/views.py:674
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"

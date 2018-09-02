@@ -1,0 +1,170 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-09-02 20:57+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: banco_questoes/forms.py:40 banco_questoes/forms.py:113
+#: banco_questoes/templates/banco_questoes/_form.html:80
+msgid "The file is too large. It should have less than 5MB."
+msgstr ""
+
+#: banco_questoes/forms.py:50 banco_questoes/forms.py:60
+msgid "This field is required"
+msgstr "Este campo é obrigatório"
+
+#: banco_questoes/forms.py:66
+msgid "Categories *"
+msgstr "Categorias *"
+
+#: banco_questoes/forms.py:152
+msgid "The alternatives must not be equals."
+msgstr "As alternativas não podem ser iguais."
+
+#: banco_questoes/forms.py:156
+msgid "Only one alternative must be correct."
+msgstr "Apenas uma alternativa pode ser a correta."
+
+#: banco_questoes/forms.py:164
+msgid "You must provide the correct answer."
+msgstr "Você deve fornecer a resposta correta."
+
+#: banco_questoes/models.py:23
+#: banco_questoes/templates/banco_questoes/_form.html:81
+msgid "File not supported."
+msgstr "Arquivo não suportado."
+
+#: banco_questoes/models.py:26
+msgid "Statement"
+msgstr "Enunciado"
+
+#: banco_questoes/models.py:27 banco_questoes/models.py:41
+msgid "Image"
+msgstr "Imagem"
+
+#: banco_questoes/models.py:29
+msgid "Subject"
+msgstr "Assunto"
+
+#: banco_questoes/models.py:39
+msgid "Content"
+msgstr "Conteúdo"
+
+#: banco_questoes/models.py:40
+msgid "Question"
+msgstr "Questão"
+
+#: banco_questoes/models.py:42
+msgid "Is correct?"
+msgstr "É correta?"
+
+#: banco_questoes/templates/banco_questoes/_form.html:43
+#: banco_questoes/templates/banco_questoes/_form.html:157
+msgid "Choose your file..."
+msgstr "Escolhe seu arquivo..."
+
+#: banco_questoes/templates/banco_questoes/_form.html:52
+#: banco_questoes/templates/banco_questoes/_form.html:166
+msgid "Click or drop the file here"
+msgstr "Clique ou arraste o arquivo aqui"
+
+#: banco_questoes/templates/banco_questoes/_form.html:54
+#: banco_questoes/templates/banco_questoes/_form.html:168
+msgid "The file could not exceed 5MB."
+msgstr "O arquivo não pode exceder 5MB."
+
+#: banco_questoes/templates/banco_questoes/_form.html:124
+#: banco_questoes/templates/banco_questoes/_view.html:54
+msgid "Alternative"
+msgstr "Alternativa"
+
+#: banco_questoes/templates/banco_questoes/_form.html:180
+msgid "Save"
+msgstr "Salvar"
+
+#: banco_questoes/templates/banco_questoes/_form.html:184
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: banco_questoes/templates/banco_questoes/_view.html:8
+msgid "Category(ies)"
+msgstr "Categoria(s)"
+
+#: banco_questoes/templates/banco_questoes/_view.html:17
+msgid "Replicate"
+msgstr "Replicar"
+
+#: banco_questoes/templates/banco_questoes/_view.html:18
+msgid "Edit"
+msgstr "Editar"
+
+#: banco_questoes/templates/banco_questoes/_view.html:19
+msgid "Remove"
+msgstr "Remover"
+
+#: banco_questoes/templates/banco_questoes/_view.html:41
+msgid "Alternatives"
+msgstr "Alternativas"
+
+#: banco_questoes/templates/banco_questoes/create.html:30
+#: banco_questoes/templates/banco_questoes/index.html:25
+#: banco_questoes/views.py:56
+msgid "Questions Database"
+msgstr "Banco de Questões"
+
+#: banco_questoes/templates/banco_questoes/create.html:33
+#: banco_questoes/templates/banco_questoes/index.html:57
+#: banco_questoes/views.py:164
+msgid "Create Question"
+msgstr "Criar Questão"
+
+#: banco_questoes/templates/banco_questoes/delete.html:24
+msgid "Are you sure that you want to delete this question"
+msgstr "Você tem certeza que deseja remover essa questão"
+
+#: banco_questoes/templates/banco_questoes/delete.html:30
+msgid "Close"
+msgstr "Fechar"
+
+#: banco_questoes/templates/banco_questoes/delete.html:31
+msgid "Delete"
+msgstr "Deletar"
+
+#: banco_questoes/templates/banco_questoes/index.html:46
+msgid "Search for category..."
+msgstr "Pesquisar por categoria..."
+
+#: banco_questoes/templates/banco_questoes/index.html:63
+msgid "Number of registered questions: "
+msgstr "Número de questões registradas: "
+
+#: banco_questoes/views.py:171
+#, python-format
+msgid "The Question was added to the virtual environment \"%s\" successfully!"
+msgstr "A Questão foi adicionada ao ambiente virtual \"%s\" com sucesso!"
+
+#: banco_questoes/views.py:259
+msgid "Edit Question"
+msgstr "Editar Questão"
+
+#: banco_questoes/views.py:266
+msgid "The Question was updated successfully!"
+msgstr "A Questão foi atualizada com sucesso!"
+
+#: banco_questoes/views.py:291
+#, python-format
+msgid "The question was removed successfully from virtual environment \"%s\"!"
+msgstr "A Questão foi removida com sucesso do ambiente virtual \"%s\"!"

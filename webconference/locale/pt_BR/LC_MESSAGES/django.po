@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-16 23:05-0300\n"
+"POT-Creation-Date: 2018-09-02 20:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,236 +18,237 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: webconference/forms.py:35
+#: webconference/forms.py:47
 msgid "Tags"
 msgstr "Tags"
 
-#: webconference/forms.py:41
+#: webconference/forms.py:53
 msgid "Web Conference Title"
 msgstr "Titulo da Web Conferência"
 
-#: webconference/forms.py:42 webconference/models.py:8
+#: webconference/forms.py:54 webconference/models.py:20
 msgid "Presentation"
 msgstr "Apresentação"
 
-#: webconference/forms.py:68
+#: webconference/forms.py:80
 msgid "This subject already has a web conference with this name"
 msgstr "Este assunto já tem uma web conferência com este nome"
 
-#: webconference/forms.py:73
+#: webconference/forms.py:85
 msgid "This input should be filled with a date equal or before the End."
 msgstr "Esse campo deve ser preenchido com uma data igual ou anterior à Final."
 
-#: webconference/forms.py:74
+#: webconference/forms.py:86
 msgid "This input should be filled with a date equal or after the Start."
 msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou anterior à de Início."
 
-#: webconference/forms.py:78 webconference/forms.py:88
+#: webconference/forms.py:90 webconference/forms.py:100
 msgid "This input should be filled with a date equal or after today's date."
 msgstr ""
 
-#: webconference/forms.py:81 webconference/forms.py:91
+#: webconference/forms.py:93 webconference/forms.py:103
 #, python-format
 msgid ""
 "This input should be filled with a date equal or after the subject begin "
 "date.(\"%s\")"
 msgstr ""
 
-#: webconference/forms.py:84 webconference/forms.py:94
+#: webconference/forms.py:96 webconference/forms.py:106
 #, python-format
 msgid ""
 "This input should be filled with a date equal or before the subject end date."
 "(\"%s\")"
 msgstr ""
 
-#: webconference/forms.py:140 webconference/models.py:35
+#: webconference/forms.py:152 webconference/models.py:47
 msgid "Domain"
 msgstr "Dominio"
 
-#: webconference/forms.py:144
+#: webconference/forms.py:156
 msgid "The domain of the jitsi server, e.g. meet.jit.si"
 msgstr "O dominio do servidor do jitsi, ex: meet.jit.si"
 
-#: webconference/models.py:9 webconference/templates/webconference/view.html:57
-#: webconference/templates/webconference/window_view.html:32
+#: webconference/models.py:21
+#: webconference/templates/webconference/view.html:69
+#: webconference/templates/webconference/window_view.html:44
 msgid "Start date/hour"
 msgstr "Data/hora de inicio"
 
-#: webconference/models.py:10
-#: webconference/templates/webconference/view.html:60
-#: webconference/templates/webconference/window_view.html:35
+#: webconference/models.py:22
+#: webconference/templates/webconference/view.html:72
+#: webconference/templates/webconference/window_view.html:47
 msgid "End date/hour"
 msgstr "Data/hora de termino"
 
-#: webconference/models.py:13
+#: webconference/models.py:25
 msgid "Web Conference"
 msgstr "Web Conferência"
 
-#: webconference/models.py:14
+#: webconference/models.py:26
 msgid "Web Conferences"
 msgstr "Web Conferências"
 
-#: webconference/models.py:32
+#: webconference/models.py:44
 msgid "Are you sure you want delete the web conference"
 msgstr "Tem certeza que deseja deletar a web conferência"
 
-#: webconference/models.py:38
+#: webconference/models.py:50
 msgid "Web Conference Setting"
 msgstr "Configurações da Web Conferência"
 
-#: webconference/models.py:39
+#: webconference/models.py:51
 msgid "Web Conferences Setting"
 msgstr "Configurações das Web conferências"
 
-#: webconference/templates/webconference/_form.html:90
+#: webconference/templates/webconference/_form.html:102
 msgid "Common resources settings"
 msgstr "Configurações de recursos comuns"
 
-#: webconference/templates/webconference/_form.html:139
+#: webconference/templates/webconference/_form.html:151
 msgid "Pendencies Notifications"
 msgstr "Notificações Pendentes"
 
-#: webconference/templates/webconference/_form.html:160
+#: webconference/templates/webconference/_form.html:172
 msgid "Action not performed by the user"
 msgstr "Ação não executada pelo usuário"
 
-#: webconference/templates/webconference/_form.html:186
+#: webconference/templates/webconference/_form.html:198
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: webconference/templates/webconference/_form.html:279
+#: webconference/templates/webconference/_form.html:291
 msgid "Students"
 msgstr ""
 
-#: webconference/templates/webconference/_form.html:309
+#: webconference/templates/webconference/_form.html:321
 msgid "Attribute students to Web Conference"
 msgstr "Atribuir alunos à web conferência"
 
-#: webconference/templates/webconference/_form.html:329
+#: webconference/templates/webconference/_form.html:341
 msgid "Attribute groups to Web Conference"
 msgstr "Atribuir grupos à web conferência"
 
-#: webconference/templates/webconference/_form.html:398
-#: webconference/templates/webconference/config.html:42
+#: webconference/templates/webconference/_form.html:410
+#: webconference/templates/webconference/config.html:54
 msgid "Save"
 msgstr "Salvar"
 
-#: webconference/templates/webconference/_form.html:402
+#: webconference/templates/webconference/_form.html:414
 msgid "Cancel"
 msgstr ""
 
-#: webconference/templates/webconference/_form.html:409
+#: webconference/templates/webconference/_form.html:421
 msgid "Add new notification"
 msgstr "Notificações Pendentes"
 
-#: webconference/templates/webconference/_form.html:410
+#: webconference/templates/webconference/_form.html:422
 msgid "Remove this"
 msgstr "Remover isto"
 
-#: webconference/templates/webconference/config.html:9
+#: webconference/templates/webconference/config.html:21
 msgid "Settings: Conference"
 msgstr "Configurações: Web Conferência"
 
-#: webconference/templates/webconference/create.html:21
-#: webconference/views.py:342
+#: webconference/templates/webconference/create.html:33
+#: webconference/views.py:354
 msgid "Create Web Conference"
 msgstr "Criar Web Conferência"
 
-#: webconference/templates/webconference/relatorios.html:17
-#: webconference/templates/webconference/relatorios.html:37
+#: webconference/templates/webconference/relatorios.html:29
+#: webconference/templates/webconference/relatorios.html:49
 msgid "User"
 msgstr "Usuário"
 
-#: webconference/templates/webconference/relatorios.html:17
-#: webconference/templates/webconference/relatorios.html:37
+#: webconference/templates/webconference/relatorios.html:29
+#: webconference/templates/webconference/relatorios.html:49
 msgid "Group"
 msgstr "Grupo"
 
-#: webconference/templates/webconference/relatorios.html:17
+#: webconference/templates/webconference/relatorios.html:29
 msgid "Action"
 msgstr "Ação"
 
-#: webconference/templates/webconference/relatorios.html:17
+#: webconference/templates/webconference/relatorios.html:29
 msgid "Date of Action"
 msgstr "Data da Ação"
 
-#: webconference/templates/webconference/relatorios.html:37
+#: webconference/templates/webconference/relatorios.html:49
 msgid "Send message"
 msgstr "Enviar mensagem"
 
-#: webconference/templates/webconference/relatorios.html:37
+#: webconference/templates/webconference/relatorios.html:49
 msgid "Action don't realized"
 msgstr "Ação não realizada"
 
-#: webconference/templates/webconference/relatorios.html:230
-#: webconference/templates/webconference/relatorios.html:252
+#: webconference/templates/webconference/relatorios.html:242
+#: webconference/templates/webconference/relatorios.html:264
 msgid "Reports"
 msgstr "Relatórios"
 
-#: webconference/templates/webconference/relatorios.html:259
+#: webconference/templates/webconference/relatorios.html:271
 msgid "Report of the resource "
 msgstr "Relatório do recurso"
 
-#: webconference/templates/webconference/relatorios.html:268
+#: webconference/templates/webconference/relatorios.html:280
 msgid "Select the period: "
 msgstr "Selecione o período: "
 
-#: webconference/templates/webconference/relatorios.html:277
+#: webconference/templates/webconference/relatorios.html:289
 msgid "Search"
 msgstr "Pesquisar"
 
-#: webconference/templates/webconference/relatorios.html:301
+#: webconference/templates/webconference/relatorios.html:313
 msgid "Filter: "
 msgstr "Filtrar: "
 
-#: webconference/templates/webconference/relatorios.html:325
-#: webconference/templates/webconference/relatorios.html:410
-#: webconference/templates/webconference/relatorios.html:513
+#: webconference/templates/webconference/relatorios.html:337
+#: webconference/templates/webconference/relatorios.html:422
+#: webconference/templates/webconference/relatorios.html:525
 msgid "record(s)"
 msgstr "registro(s)"
 
-#: webconference/templates/webconference/send_message.html:38
+#: webconference/templates/webconference/send_message.html:50
 msgid "Click or drop the picture here"
 msgstr "Clique ou solte a imagem aqui"
 
-#: webconference/templates/webconference/send_message.html:40
+#: webconference/templates/webconference/send_message.html:52
 msgid "The picture could not exceed 5MB."
 msgstr "A imagem não pode exceder 5MB"
 
-#: webconference/templates/webconference/send_message.html:62
+#: webconference/templates/webconference/send_message.html:74
 msgid "Close"
 msgstr "Fechar"
 
-#: webconference/templates/webconference/send_message.html:63
+#: webconference/templates/webconference/send_message.html:75
 msgid "Send"
 msgstr "Enviar"
 
-#: webconference/templates/webconference/update.html:21
+#: webconference/templates/webconference/update.html:33
 msgid "Edit: "
 msgstr "Editar: "
 
-#: webconference/templates/webconference/view.html:68
-#: webconference/templates/webconference/window_view.html:43
-#: webconference/views.py:262 webconference/views.py:275
-#: webconference/views.py:296 webconference/views.py:397
-#: webconference/views.py:410 webconference/views.py:419
-#: webconference/views.py:623
+#: webconference/templates/webconference/view.html:80
+#: webconference/templates/webconference/window_view.html:55
+#: webconference/views.py:274 webconference/views.py:287
+#: webconference/views.py:308 webconference/views.py:409
+#: webconference/views.py:422 webconference/views.py:431
+#: webconference/views.py:635
 msgid "Participate"
 msgstr "Participar"
 
-#: webconference/views.py:60 webconference/views.py:105
+#: webconference/views.py:72 webconference/views.py:117
 #, python-format
 msgid "%s - Web Conference"
 msgstr "%s - Web Conferência"
 
-#: webconference/views.py:262 webconference/views.py:275
-#: webconference/views.py:296 webconference/views.py:397
-#: webconference/views.py:410 webconference/views.py:419
+#: webconference/views.py:274 webconference/views.py:287
+#: webconference/views.py:308 webconference/views.py:409
+#: webconference/views.py:422 webconference/views.py:431
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: webconference/views.py:353
+#: webconference/views.py:365
 #, python-format
 msgid ""
 "The Web conference \"%s\" was added to the Topic \"%s\" of the virtual "
@@ -256,16 +257,16 @@ msgstr ""
 "A web conferência '%s' foi adicionada ao tópico '%s' do ambiente virtual "
 "'%s' com sucesso!"
 
-#: webconference/views.py:460
+#: webconference/views.py:472
 msgid "Update Web Conference"
 msgstr "Atualizar a web conferência"
 
-#: webconference/views.py:472
+#: webconference/views.py:484
 #, python-format
 msgid "The Web conference \"%s\" was updated successfully!"
 msgstr "A web conferência '%s' foi atualizada com sucesso!"
 
-#: webconference/views.py:508
+#: webconference/views.py:520
 #, python-format
 msgid ""
 "The web conference \"%s\" was removed successfully from virtual environment "
@@ -273,63 +274,63 @@ msgid ""
 msgstr ""
 "A web conferência '%s' foi removida com sucesso do ambiente virtual '%s'!"
 
-#: webconference/views.py:542
+#: webconference/views.py:554
 msgid "Conference settings updated successfully!"
 msgstr "Configurações de segurança atualizadas com sucesso!"
 
-#: webconference/views.py:549
+#: webconference/views.py:561
 msgid "Web Conference Settings"
 msgstr "Configurações da Web Conferência"
 
-#: webconference/views.py:592
+#: webconference/views.py:604
 msgid "Youtube Video Reports"
 msgstr "Relatórios do Video do Youtube"
 
-#: webconference/views.py:611
+#: webconference/views.py:623
 msgid "Realized"
 msgstr "Realizada"
 
-#: webconference/views.py:611
+#: webconference/views.py:623
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: webconference/views.py:611
+#: webconference/views.py:623
 msgid "Historic"
 msgstr "Histórico"
 
-#: webconference/views.py:623
+#: webconference/views.py:635
 msgid "View"
 msgstr "Visualizar"
 
-#: webconference/views.py:623
+#: webconference/views.py:635
 msgid "Enter"
 msgstr "Entrar"
 
-#: webconference/views.py:649
+#: webconference/views.py:661
 msgid "Webconference"
 msgstr "Web Conferência"
 
-#: webconference/views.py:662
+#: webconference/views.py:674
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: webconference/views.py:663
+#: webconference/views.py:675
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: webconference/views.py:710
+#: webconference/views.py:722
 msgid "[Photo]"
 msgstr "[Foto]"
 
-#: webconference/views.py:722
+#: webconference/views.py:734
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: webconference/views.py:731
+#: webconference/views.py:743
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: webconference/views.py:733
+#: webconference/views.py:745
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-16 23:05-0300\n"
+"POT-Creation-Date: 2018-09-02 20:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,168 +18,168 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: webpage/forms.py:29
+#: webpage/forms.py:41
 msgid "Tags"
 msgstr "Tags"
 
-#: webpage/forms.py:35
+#: webpage/forms.py:47
 msgid "Webpage name"
 msgstr "Nome da Página Web"
 
-#: webpage/forms.py:36
+#: webpage/forms.py:48
 msgid "Webpage content"
 msgstr "Conteúdo da Página Web"
 
-#: webpage/forms.py:57
+#: webpage/forms.py:69
 msgid "This subject already has a webpage with this name"
 msgstr "Esse assunto já possui uma Página Web com esse nome"
 
-#: webpage/forms.py:68 webpage/forms.py:114
+#: webpage/forms.py:80 webpage/forms.py:126
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
-#: webpage/forms.py:106
+#: webpage/forms.py:118
 msgid "Message"
 msgstr "Mensagem"
 
-#: webpage/forms.py:126
+#: webpage/forms.py:138
 msgid "The image is too large. It should have less than 5MB."
 msgstr "A imagem é muito grande. Deve ser menor do que 5MB"
 
-#: webpage/models.py:8
+#: webpage/models.py:20
 msgid "Webpage Content"
 msgstr "Conteúdo da Página Web"
 
-#: webpage/models.py:11
+#: webpage/models.py:23
 msgid "WebPage"
 msgstr "Página Web"
 
-#: webpage/models.py:12
+#: webpage/models.py:24
 msgid "WebPages"
 msgstr "Páginas Web"
 
-#: webpage/models.py:30
+#: webpage/models.py:42
 msgid "Are you sure you want delete the webpage"
 msgstr "Você tem certeza que deseja remover a Página Web"
 
-#: webpage/templates/webpages/_form.html:49
+#: webpage/templates/webpages/_form.html:61
 msgid "Common resources settings"
 msgstr "Configurações comuns a todos os recursos"
 
-#: webpage/templates/webpages/_form.html:98
+#: webpage/templates/webpages/_form.html:110
 msgid "Pendencies Notifications"
 msgstr "Notificação de Pendências"
 
-#: webpage/templates/webpages/_form.html:114
+#: webpage/templates/webpages/_form.html:126
 msgid "Action not performed by the user"
 msgstr "Ação não realizada pelo usuário"
 
-#: webpage/templates/webpages/_form.html:140
+#: webpage/templates/webpages/_form.html:152
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: webpage/templates/webpages/_form.html:206
+#: webpage/templates/webpages/_form.html:218
 msgid "Students"
 msgstr ""
 
-#: webpage/templates/webpages/_form.html:236
+#: webpage/templates/webpages/_form.html:248
 msgid "Attribute students to webpage"
 msgstr "Atribuir estudantes à Página Web"
 
-#: webpage/templates/webpages/_form.html:256
+#: webpage/templates/webpages/_form.html:268
 msgid "Attribute groups to webpage"
 msgstr "Atribuir grupos de estudo à Página Web"
 
-#: webpage/templates/webpages/_form.html:325
+#: webpage/templates/webpages/_form.html:337
 msgid "Save"
 msgstr "Salvar"
 
-#: webpage/templates/webpages/_form.html:329
+#: webpage/templates/webpages/_form.html:341
 msgid "Cancel"
 msgstr ""
 
-#: webpage/templates/webpages/create.html:20 webpage/views.py:234
+#: webpage/templates/webpages/create.html:32 webpage/views.py:246
 msgid "Create Webpage"
 msgstr "Criar Página Web"
 
-#: webpage/templates/webpages/relatorios.html:17
-#: webpage/templates/webpages/relatorios.html:37
+#: webpage/templates/webpages/relatorios.html:29
+#: webpage/templates/webpages/relatorios.html:49
 msgid "User"
 msgstr "Usuário"
 
-#: webpage/templates/webpages/relatorios.html:17
-#: webpage/templates/webpages/relatorios.html:37
+#: webpage/templates/webpages/relatorios.html:29
+#: webpage/templates/webpages/relatorios.html:49
 msgid "Group"
 msgstr "Grupo"
 
-#: webpage/templates/webpages/relatorios.html:17
+#: webpage/templates/webpages/relatorios.html:29
 msgid "Action"
 msgstr "Ação"
 
-#: webpage/templates/webpages/relatorios.html:17
+#: webpage/templates/webpages/relatorios.html:29
 msgid "Date of Action"
 msgstr "Data da ação"
 
-#: webpage/templates/webpages/relatorios.html:37
+#: webpage/templates/webpages/relatorios.html:49
 msgid "Send message"
 msgstr "Enviar Mensagem"
 
-#: webpage/templates/webpages/relatorios.html:37
+#: webpage/templates/webpages/relatorios.html:49
 msgid "Action don't realized"
 msgstr "Ação não realizada"
 
-#: webpage/templates/webpages/relatorios.html:152
-#: webpage/templates/webpages/relatorios.html:174
+#: webpage/templates/webpages/relatorios.html:164
+#: webpage/templates/webpages/relatorios.html:186
 msgid "Reports"
 msgstr "Relatórios"
 
-#: webpage/templates/webpages/relatorios.html:181
+#: webpage/templates/webpages/relatorios.html:193
 msgid "Report of the resource "
 msgstr "Relatórios do recurso "
 
-#: webpage/templates/webpages/relatorios.html:190
+#: webpage/templates/webpages/relatorios.html:202
 msgid "Select the period: "
 msgstr "Selecione o período: "
 
-#: webpage/templates/webpages/relatorios.html:199
+#: webpage/templates/webpages/relatorios.html:211
 msgid "Search"
 msgstr "Pesquisar"
 
-#: webpage/templates/webpages/relatorios.html:223
+#: webpage/templates/webpages/relatorios.html:235
 msgid "Filter: "
 msgstr "Filtro: "
 
-#: webpage/templates/webpages/relatorios.html:247
-#: webpage/templates/webpages/relatorios.html:332
+#: webpage/templates/webpages/relatorios.html:259
+#: webpage/templates/webpages/relatorios.html:344
 msgid "record(s)"
 msgstr "Relatório(s)"
 
-#: webpage/templates/webpages/send_message.html:38
+#: webpage/templates/webpages/send_message.html:50
 msgid "Click or drop the picture here"
 msgstr "Clique ou solte a imagem aqui"
 
-#: webpage/templates/webpages/send_message.html:40
+#: webpage/templates/webpages/send_message.html:52
 msgid "The picture could not exceed 5MB."
 msgstr "A imagem não pode exceder 5MB."
 
-#: webpage/templates/webpages/send_message.html:62
+#: webpage/templates/webpages/send_message.html:74
 msgid "Close"
 msgstr "Fechar"
 
-#: webpage/templates/webpages/send_message.html:63
+#: webpage/templates/webpages/send_message.html:75
 msgid "Send"
 msgstr "Enviar"
 
-#: webpage/templates/webpages/update.html:20
+#: webpage/templates/webpages/update.html:32
 msgid "Edit: "
 msgstr "Editar: "
 
-#: webpage/views.py:162 webpage/views.py:175 webpage/views.py:292
-#: webpage/views.py:294 webpage/views.py:310 webpage/views.py:312
+#: webpage/views.py:174 webpage/views.py:187 webpage/views.py:304
+#: webpage/views.py:306 webpage/views.py:322 webpage/views.py:324
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: webpage/views.py:245
+#: webpage/views.py:257
 #, python-format
 msgid ""
 "The Webpage \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -188,68 +188,68 @@ msgstr ""
 "A Página Web \"%s\" foi adicionado ao tópico \"%s\" do ambiente virtual \"%s"
 "\" com sucesso!"
 
-#: webpage/views.py:356
+#: webpage/views.py:368
 msgid "Update Webpage"
 msgstr "Atualizar Página Web"
 
-#: webpage/views.py:368
+#: webpage/views.py:380
 #, python-format
 msgid "The Webpage \"%s\" was updated successfully!"
 msgstr "A Página Web \"%s\" foi atualizada com sucesso!"
 
-#: webpage/views.py:404
+#: webpage/views.py:416
 #, python-format
 msgid ""
 "The webpage \"%s\" was removed successfully from virtual environment \"%s\"!"
 msgstr ""
 "A Página Web \"%s\" foi removida do ambiente virtual \"%s\" com sucesso!"
 
-#: webpage/views.py:463
+#: webpage/views.py:475
 msgid "Webpage Reports"
 msgstr "Relatórios da Webpage"
 
-#: webpage/views.py:482
+#: webpage/views.py:494
 msgid "Realized"
 msgstr "Realizado"
 
-#: webpage/views.py:482
+#: webpage/views.py:494
 msgid "Unrealized"
 msgstr "Não Realizado"
 
-#: webpage/views.py:482
+#: webpage/views.py:494
 msgid "Historic"
 msgstr "Histórico"
 
-#: webpage/views.py:497 webpage/views.py:505
+#: webpage/views.py:509 webpage/views.py:517
 msgid "View"
 msgstr "Visualizar"
 
-#: webpage/views.py:506
+#: webpage/views.py:518
 msgid "Webpage"
 msgstr "Nome da Página Web"
 
-#: webpage/views.py:511
+#: webpage/views.py:523
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: webpage/views.py:512
+#: webpage/views.py:524
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: webpage/views.py:561
+#: webpage/views.py:573
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: webpage/views.py:573
+#: webpage/views.py:585
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: webpage/views.py:582
+#: webpage/views.py:594
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: webpage/views.py:584
+#: webpage/views.py:596
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
 

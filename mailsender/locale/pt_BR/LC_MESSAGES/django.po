@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-16 23:05-0300\n"
+"POT-Creation-Date: 2018-09-02 20:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,63 +18,63 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: mailsender/models.py:5
+#: mailsender/models.py:18
 msgid "Description"
 msgstr "Descrição"
 
-#: mailsender/models.py:6
+#: mailsender/models.py:19
 msgid "Host name"
 msgstr "Nome do host"
 
-#: mailsender/models.py:7
+#: mailsender/models.py:20
 msgid "Port Number"
 msgstr "Porta"
 
-#: mailsender/models.py:8
+#: mailsender/models.py:21
 msgid "Username"
 msgstr "Nome de usuário"
 
-#: mailsender/models.py:9
+#: mailsender/models.py:22
 msgid "Password"
 msgstr "Senha"
 
-#: mailsender/models.py:10 mailsender/templates/mailsender/update.html:32
+#: mailsender/models.py:23 mailsender/templates/mailsender/update.html:44
 msgid "Criptografy"
 msgstr "Criptografia"
 
-#: mailsender/models.py:10
+#: mailsender/models.py:23
 msgid "No"
 msgstr "Não"
 
-#: mailsender/models.py:10
+#: mailsender/models.py:23
 msgid "SSL"
 msgstr "SSL"
 
-#: mailsender/models.py:10
+#: mailsender/models.py:23
 msgid "TLS"
 msgstr "TLS"
 
-#: mailsender/models.py:10
+#: mailsender/models.py:23
 msgid "TLS, if possible"
 msgstr "TLS, se possível"
 
-#: mailsender/models.py:13
+#: mailsender/models.py:26
 msgid "Mail sender configuration"
 msgstr "Configuração de remetende de email"
 
-#: mailsender/models.py:14
+#: mailsender/models.py:27
 msgid "Mail sender configurations"
 msgstr "Configurações de remetende de email"
 
-#: mailsender/templates/mailsender/update.html:9
+#: mailsender/templates/mailsender/update.html:21
 msgid "Settings: Mail Sender"
 msgstr "Configurações: Remetente de Email"
 
-#: mailsender/templates/mailsender/update.html:19
+#: mailsender/templates/mailsender/update.html:31
 msgid "General server settings"
 msgstr "Configurações gerais do servidor"
 
-#: mailsender/templates/mailsender/update.html:21
+#: mailsender/templates/mailsender/update.html:33
 msgid ""
 "If your email host is Gmail make sure to turn on the option \"Allow less "
 "secure apps\" in"
@@ -82,18 +82,18 @@ msgstr ""
 "Se o seu host de email é Gmail certifique-se de ativar a opção \"Permitir "
 "aplicativos menos seguros\" em"
 
-#: mailsender/templates/mailsender/update.html:29
+#: mailsender/templates/mailsender/update.html:41
 msgid "Autentication"
 msgstr "Autenticação"
 
-#: mailsender/templates/mailsender/update.html:60
+#: mailsender/templates/mailsender/update.html:72
 msgid "Save"
 msgstr "Salvar"
 
-#: mailsender/views.py:27
+#: mailsender/views.py:40
 msgid "Mail Sender configuration updated successfully!"
 msgstr "Configurações de remetente de email atualizadas com sucesso!"
 
-#: mailsender/views.py:34
+#: mailsender/views.py:47
 msgid "Mail Sender"
 msgstr "Remetente de Email"
