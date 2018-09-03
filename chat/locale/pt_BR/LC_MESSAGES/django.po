@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-16 23:05-0300\n"
+"POT-Creation-Date: 2018-09-02 20:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: chat/forms.py:19
+#: chat/forms.py:31
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
-#: chat/forms.py:31 chat/templates/chat/_form.html:30
+#: chat/forms.py:43 chat/templates/chat/_form.html:42
 msgid "The image is too large. It should have less than 5MB."
 msgstr "A imagem é muito grande. Ela deve possuir 5MB ou menos."
 
-#: chat/models.py:19 chat/templates/chat/_form.html:30
+#: chat/models.py:31 chat/templates/chat/_form.html:42
 msgid ""
 "Select a valid file. The file must posses one of this extensions: .jpg, ."
 "png, .gif"
@@ -34,245 +34,246 @@ msgstr ""
 "Selecione um arquivo válido. O arquivo deve possuir uma das extensões a "
 "seguir: .jpg, .png, .gif"
 
-#: chat/models.py:28
+#: chat/models.py:40
 msgid "User One"
 msgstr "Usuário Um"
 
-#: chat/models.py:29
+#: chat/models.py:41
 msgid "User Two"
 msgstr "Usuário Dois"
 
-#: chat/models.py:32 chat/models.py:52 chat/models.py:57
+#: chat/models.py:44 chat/models.py:64 chat/models.py:69
 msgid "Message"
 msgstr "Mensagem"
 
-#: chat/models.py:33
+#: chat/models.py:45
 msgid "Image"
 msgstr "Imagem"
 
-#: chat/models.py:34
+#: chat/models.py:46
 msgid "Conversation"
 msgstr "Conversa"
 
-#: chat/models.py:35 chat/models.py:53 chat/models.py:58
+#: chat/models.py:47 chat/models.py:65 chat/models.py:70
 msgid "User"
 msgstr "Usuário"
 
-#: chat/models.py:36
+#: chat/models.py:48
 msgid "Subject"
 msgstr "Assunto"
 
-#: chat/models.py:37
+#: chat/models.py:49
 msgid "Create Date"
 msgstr "Data de Criação"
 
-#: chat/models.py:51
+#: chat/models.py:63
 msgid "Viewed"
 msgstr "Visualizado"
 
-#: chat/models.py:54
+#: chat/models.py:66
 msgid "Date/Time Viewed"
 msgstr "Data/Hora da visualização"
 
-#: chat/templates/chat/_form.html:7
+#: chat/templates/chat/_form.html:19
 msgid "Something went wrong. Please try again later."
 msgstr "Algo deu errado. Por favor tente novamente mais tarde."
 
-#: chat/templates/chat/_form.html:34
+#: chat/templates/chat/_form.html:46
 msgid "Click or drop the image here"
 msgstr "Clique ou solte a imagem aqui"
 
-#: chat/templates/chat/_form.html:36
+#: chat/templates/chat/_form.html:48
 msgid "The image could not exceed 5MB."
 msgstr "A imagem não pode exceder 5MB."
 
-#: chat/templates/chat/_form.html:58
+#: chat/templates/chat/_form.html:70
 msgid "Save"
 msgstr "Salvar"
 
-#: chat/templates/chat/_form.html:59
+#: chat/templates/chat/_form.html:71
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: chat/templates/chat/_profile.html:8 chat/templates/chat/talk.html:18
+#: chat/templates/chat/_profile.html:20 chat/templates/chat/talk.html:30
 msgid "Close"
 msgstr "Fechar"
 
-#: chat/templates/chat/_profile.html:20
-#: chat/templates/chat/_view_participant.html:14
+#: chat/templates/chat/_profile.html:32
+#: chat/templates/chat/_view_participant.html:26
 msgid "Send Message"
 msgstr "Enviar Mensagem"
 
-#: chat/templates/chat/_profile.html:24
+#: chat/templates/chat/_profile.html:36
 msgid "System Admin"
 msgstr "Administrador do Sistema"
 
-#: chat/templates/chat/_profile.html:28
+#: chat/templates/chat/_profile.html:40
 msgid "Coordinator in"
 msgstr "Coordenador em"
 
-#: chat/templates/chat/_profile.html:32
+#: chat/templates/chat/_profile.html:44
 msgid "Professor in"
 msgstr "Professor em"
 
-#: chat/templates/chat/_profile.html:36
+#: chat/templates/chat/_profile.html:48
 msgid "Student in"
 msgstr "Aluno em"
 
-#: chat/templates/chat/_profile.html:43
+#: chat/templates/chat/_profile.html:55
 msgid "Description"
 msgstr "Descrição"
 
-#: chat/templates/chat/_profile.html:46
+#: chat/templates/chat/_profile.html:58
 msgid "Not Informed"
 msgstr "Não informado"
 
-#: chat/templates/chat/_view.html:13
+#: chat/templates/chat/_view.html:25
 msgid "Last message in"
 msgstr "Última mensagem em"
 
-#: chat/templates/chat/_view.html:16
+#: chat/templates/chat/_view.html:28
 msgid "Access Talk"
 msgstr "Acessar Conversa"
 
-#: chat/templates/chat/_view_participant.html:13
+#: chat/templates/chat/_view_participant.html:25
 msgid "See Profile"
 msgstr "Ver Perfil"
 
-#: chat/templates/chat/list.html:9 chat/templates/chat/list_participants.html:9
-#: chat/templates/chat/subject_view.html:9
-#: chat/templates/chat/subject_view.html:27
-#: chat/templates/chat/subject_view_participants.html:9
-#: chat/templates/chat/subject_view_participants.html:31 chat/views.py:67
+#: chat/templates/chat/list.html:21
+#: chat/templates/chat/list_participants.html:21
+#: chat/templates/chat/subject_view.html:21
+#: chat/templates/chat/subject_view.html:39
+#: chat/templates/chat/subject_view_participants.html:21
+#: chat/templates/chat/subject_view_participants.html:43 chat/views.py:79
 msgid "Messages"
 msgstr "Mensagens"
 
-#: chat/templates/chat/list.html:24
-#: chat/templates/chat/list_participants.html:26
-#: chat/templates/chat/subject_view.html:58
-#: chat/templates/chat/subject_view_participants.html:62
+#: chat/templates/chat/list.html:36
+#: chat/templates/chat/list_participants.html:38
+#: chat/templates/chat/subject_view.html:70
+#: chat/templates/chat/subject_view_participants.html:74
 msgid "Search..."
 msgstr "Pesquisar..."
 
-#: chat/templates/chat/list.html:35
-#: chat/templates/chat/list_participants.html:37
-#: chat/templates/chat/subject_view.html:69
-#: chat/templates/chat/subject_view_participants.html:73
+#: chat/templates/chat/list.html:47
+#: chat/templates/chat/list_participants.html:49
+#: chat/templates/chat/subject_view.html:81
+#: chat/templates/chat/subject_view_participants.html:85
 msgid "List all participants"
 msgstr "Listar todos os Participantes"
 
-#: chat/templates/chat/list.html:42 chat/templates/chat/subject_view.html:75
+#: chat/templates/chat/list.html:54 chat/templates/chat/subject_view.html:87
 msgid "Conversations"
 msgstr "Conversas"
 
-#: chat/templates/chat/list.html:56 chat/templates/chat/subject_view.html:87
+#: chat/templates/chat/list.html:68 chat/templates/chat/subject_view.html:99
 msgid "You do not posses messages in this space yet."
 msgstr "Você não possui mensagens nesse espaço ainda."
 
-#: chat/templates/chat/list_participants.html:10
-#: chat/templates/chat/list_participants.html:44
-#: chat/templates/chat/subject_view_participants.html:13
-#: chat/templates/chat/subject_view_participants.html:79
+#: chat/templates/chat/list_participants.html:22
+#: chat/templates/chat/list_participants.html:56
+#: chat/templates/chat/subject_view_participants.html:25
+#: chat/templates/chat/subject_view_participants.html:91
 msgid "Participants"
 msgstr "Participantes"
 
-#: chat/templates/chat/list_participants.html:57
-#: chat/templates/chat/subject_view_participants.html:91
+#: chat/templates/chat/list_participants.html:69
+#: chat/templates/chat/subject_view_participants.html:103
 msgid "There is no other participants in this space yet."
 msgstr "Não há outros participantes nesse espaço ainda."
 
-#: chat/templates/chat/subject_view.html:37
-#: chat/templates/chat/subject_view_participants.html:41
+#: chat/templates/chat/subject_view.html:49
+#: chat/templates/chat/subject_view_participants.html:53
 msgid "Replicate"
 msgstr "Replicar"
 
-#: chat/templates/chat/subject_view.html:39
-#: chat/templates/chat/subject_view_participants.html:43
+#: chat/templates/chat/subject_view.html:51
+#: chat/templates/chat/subject_view_participants.html:55
 msgid "Edit"
 msgstr "Editar"
 
-#: chat/templates/chat/subject_view.html:40
-#: chat/templates/chat/subject_view_participants.html:44
+#: chat/templates/chat/subject_view.html:52
+#: chat/templates/chat/subject_view_participants.html:56
 msgid "Groups"
 msgstr "Grupos"
 
-#: chat/templates/chat/subject_view.html:41
-#: chat/templates/chat/subject_view_participants.html:45
+#: chat/templates/chat/subject_view.html:53
+#: chat/templates/chat/subject_view_participants.html:57
 msgid "Backup"
 msgstr ""
 
-#: chat/templates/chat/subject_view.html:42
-#: chat/templates/chat/subject_view_participants.html:46
+#: chat/templates/chat/subject_view.html:54
+#: chat/templates/chat/subject_view_participants.html:58
 msgid "Remove"
 msgstr "Remover"
 
-#: chat/templates/chat/talk.html:13
+#: chat/templates/chat/talk.html:25
 msgid "Talk with "
 msgstr "Conversa com "
 
-#: chat/templates/chat/talk.html:23
+#: chat/templates/chat/talk.html:35
 msgid "Filter"
 msgstr "Filtrar"
 
-#: chat/templates/chat/talk.html:28
+#: chat/templates/chat/talk.html:40
 msgid "Favorite messages"
 msgstr "Mensagens Favoritas"
 
-#: chat/templates/chat/talk.html:33
+#: chat/templates/chat/talk.html:45
 msgid "My messages"
 msgstr "Minhas Mensagens"
 
-#: chat/templates/chat/talk.html:42
+#: chat/templates/chat/talk.html:54
 msgid "See old messages"
 msgstr "Ver mensagens antigas"
 
-#: chat/templates/chat/talk.html:51
+#: chat/templates/chat/talk.html:63
 msgid "You have new messages..."
 msgstr "Você possui novas mensagens..."
 
-#: chat/templates/chat/talk.html:71
+#: chat/templates/chat/talk.html:83
 msgid "Type a new message"
 msgstr "Digite uma nova mensagem"
 
-#: chat/templatetags/chat_tags.py:35
+#: chat/templatetags/chat_tags.py:47
 msgid "Online"
 msgstr "Online"
 
-#: chat/templatetags/chat_tags.py:37
+#: chat/templatetags/chat_tags.py:49
 msgid "Away"
 msgstr "Inativo"
 
-#: chat/templatetags/chat_tags.py:39
+#: chat/templatetags/chat_tags.py:51
 msgid "Offline"
 msgstr "Offline"
 
-#: chat/templatetags/chat_tags.py:63 chat/views.py:426
+#: chat/templatetags/chat_tags.py:75 chat/views.py:439
 msgid "Unfavorite"
 msgstr "Desfavoritar"
 
-#: chat/templatetags/chat_tags.py:65 chat/views.py:430
+#: chat/templatetags/chat_tags.py:77 chat/views.py:443
 msgid "Favorite"
 msgstr "Favoritar"
 
-#: chat/views.py:106
+#: chat/views.py:118
 msgid "Messages - Participants"
 msgstr "Mensagems - Participantes"
 
-#: chat/views.py:161
+#: chat/views.py:173
 #, python-format
 msgid "%s - Participants"
 msgstr "%s - Participantes"
 
-#: chat/views.py:216
+#: chat/views.py:228
 #, python-format
 msgid "%s - Messages"
 msgstr "%s - Mensagens"
 
-#: chat/views.py:355
+#: chat/views.py:367
 msgid "[Photo]"
 msgstr "[Foto]"
 
-#: chat/views.py:367
+#: chat/views.py:379
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"

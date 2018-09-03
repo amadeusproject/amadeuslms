@@ -167,7 +167,8 @@ a:focus {
     text-decoration: none;
 }
 
-.category-panel > .panel-heading, .subject-panel > .panel-heading, .special-panel > .panel-heading, .topic-panel > .panel-heading, .group-panel > .panel-heading {
+.category-panel > .panel-heading, .subject-panel > .panel-heading, .special-panel > .panel-heading, 
+.topic-panel > .panel-heading, .group-panel > .panel-heading, .question-panel > .panel-heading, .alternative-panel > .panel-heading {
     padding: 2px 0px;
 }
 
@@ -1662,3 +1663,22 @@ div.dataTables_wrapper div.dataTables_paginate {
     }
 }
 /* End Chat */
+
+/* Qusestions Databse */
+.alternative-panel h4 {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+.alternative-panel h4:after {
+    content: '';
+    height: 1px;
+    display: block;
+    position: absolute;
+    width: 100%;
+    left: 8.5em;
+    top: 45%;
+}
+.alternative-panel h4 a:hover {
+    text-decoration: none;
+}

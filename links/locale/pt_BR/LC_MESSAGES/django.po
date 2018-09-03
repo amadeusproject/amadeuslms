@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-16 23:05-0300\n"
+"POT-Creation-Date: 2018-09-02 20:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,165 +18,165 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: links/forms.py:33
+#: links/forms.py:46
 msgid "Tags"
 msgstr "Tags"
 
-#: links/forms.py:34
+#: links/forms.py:47
 msgid "Website URL"
 msgstr "URL do site:"
 
-#: links/forms.py:40
+#: links/forms.py:53
 msgid "Link name"
 msgstr "Nome do Link"
 
-#: links/forms.py:41
+#: links/forms.py:54
 msgid "End View"
 msgstr ""
 
-#: links/forms.py:42
+#: links/forms.py:55
 msgid "End View Date"
 msgstr "Data final para visualizar"
 
-#: links/forms.py:62
+#: links/forms.py:75
 msgid "There is already a link with this name on this subject"
 msgstr "Ja existe um link com este nome neste Assunto"
 
-#: links/forms.py:74
+#: links/forms.py:87
 msgid "Invalid URL. It should be an valid link."
 msgstr ""
 
-#: links/models.py:13
+#: links/models.py:26
 msgid "Link_URL"
 msgstr "URL do link"
 
-#: links/models.py:33 links/templates/links/delete.html:12
+#: links/models.py:46 links/templates/links/delete.html:25
 msgid "Are you sure you want delete the Website link"
 msgstr "Tem certeza que voce deseja remover esse Link para Website"
 
-#: links/templates/links/_form.html:99
+#: links/templates/links/_form.html:112
 msgid "Pendencies Notifications"
 msgstr "Notificações de pendências"
 
-#: links/templates/links/_form.html:117
+#: links/templates/links/_form.html:130
 msgid "Action not performed by the user"
 msgstr "Ação não realizada pelo usuário"
 
-#: links/templates/links/_form.html:143
+#: links/templates/links/_form.html:156
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: links/templates/links/_form.html:209
+#: links/templates/links/_form.html:222
 msgid "Students"
 msgstr ""
 
-#: links/templates/links/_form.html:239
+#: links/templates/links/_form.html:252
 msgid "Attribute students to file link"
 msgstr "Atribuir estudantes para o link de arquivo"
 
-#: links/templates/links/_form.html:259
+#: links/templates/links/_form.html:272
 msgid "Attribute groups to file link"
 msgstr "Atribuir grupos para o link de arquivo"
 
-#: links/templates/links/_form.html:307
+#: links/templates/links/_form.html:320
 msgid "Save"
 msgstr "Salvar"
 
-#: links/templates/links/_form.html:311
+#: links/templates/links/_form.html:324
 msgid "Cancel"
 msgstr ""
 
-#: links/templates/links/create.html:20
+#: links/templates/links/create.html:33
 msgid "Create Website Link"
 msgstr "Criar Link do Website"
 
-#: links/templates/links/delete.html:18
-#: links/templates/links/send_message.html:62
+#: links/templates/links/delete.html:31
+#: links/templates/links/send_message.html:75
 msgid "Close"
 msgstr "Fechar"
 
-#: links/templates/links/delete.html:19
+#: links/templates/links/delete.html:32
 msgid "Delete"
 msgstr "Remover"
 
-#: links/templates/links/relatorios.html:17
-#: links/templates/links/relatorios.html:37
+#: links/templates/links/relatorios.html:30
+#: links/templates/links/relatorios.html:50
 msgid "User"
 msgstr "Usuário"
 
-#: links/templates/links/relatorios.html:17
-#: links/templates/links/relatorios.html:37
+#: links/templates/links/relatorios.html:30
+#: links/templates/links/relatorios.html:50
 msgid "Group"
 msgstr "Grupo"
 
-#: links/templates/links/relatorios.html:17
+#: links/templates/links/relatorios.html:30
 msgid "Action"
 msgstr "Ação"
 
-#: links/templates/links/relatorios.html:17
+#: links/templates/links/relatorios.html:30
 msgid "Date of Action"
 msgstr "Data da ação"
 
-#: links/templates/links/relatorios.html:37
+#: links/templates/links/relatorios.html:50
 msgid "Send message"
 msgstr "Enviar Mensagem"
 
-#: links/templates/links/relatorios.html:37
+#: links/templates/links/relatorios.html:50
 msgid "Action don't realized"
 msgstr "Ação não realizada"
 
-#: links/templates/links/relatorios.html:153
-#: links/templates/links/relatorios.html:175
+#: links/templates/links/relatorios.html:166
+#: links/templates/links/relatorios.html:188
 msgid "Reports"
 msgstr "Relatórios"
 
-#: links/templates/links/relatorios.html:182
+#: links/templates/links/relatorios.html:195
 msgid "Report of the resource "
 msgstr "Relatórios do recurso "
 
-#: links/templates/links/relatorios.html:191
+#: links/templates/links/relatorios.html:204
 msgid "Select the period: "
 msgstr "Selecione o período: "
 
-#: links/templates/links/relatorios.html:200
+#: links/templates/links/relatorios.html:213
 msgid "Search"
 msgstr "Pesquisar"
 
-#: links/templates/links/relatorios.html:224
+#: links/templates/links/relatorios.html:237
 msgid "Filter: "
 msgstr "Filtro: "
 
-#: links/templates/links/relatorios.html:248
-#: links/templates/links/relatorios.html:333
+#: links/templates/links/relatorios.html:261
+#: links/templates/links/relatorios.html:346
 msgid "record(s)"
 msgstr "Relatório(s)"
 
-#: links/templates/links/send_message.html:38
+#: links/templates/links/send_message.html:51
 msgid "Click or drop the picture here"
 msgstr "Clique ou solte a imagem aqui"
 
-#: links/templates/links/send_message.html:40
+#: links/templates/links/send_message.html:53
 msgid "The picture could not exceed 5MB."
 msgstr "A imagem não pode exceder 5MB."
 
-#: links/templates/links/send_message.html:63
+#: links/templates/links/send_message.html:76
 msgid "Send"
 msgstr "Enviar"
 
-#: links/templates/links/update.html:20
+#: links/templates/links/update.html:33
 msgid "Edit: "
 msgstr "Editar: "
 
-#: links/views.py:67 links/views.py:80 links/views.py:264 links/views.py:266
-#: links/views.py:282 links/views.py:284
+#: links/views.py:80 links/views.py:93 links/views.py:277 links/views.py:279
+#: links/views.py:295 links/views.py:297
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: links/views.py:142
+#: links/views.py:155
 msgid "Create Webiste Link"
 msgstr "Criar Link de Website"
 
-#: links/views.py:153
+#: links/views.py:166
 #, python-format
 msgid ""
 "The  Link \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -185,7 +185,7 @@ msgstr ""
 "O link \"%s\" foi adicionado com sucesso ao Topico \"%s\"  do ambiente "
 "virtual \"%s\" "
 
-#: links/views.py:181
+#: links/views.py:194
 #, python-format
 msgid ""
 "The Website Link \"%s\" was removed successfully from virtual environment "
@@ -193,60 +193,60 @@ msgid ""
 msgstr ""
 "O Link do site \"%s\" foi removido com sucesso do ambiente virtual \"%s\"  "
 
-#: links/views.py:330
+#: links/views.py:343
 msgid "Update Website Link"
 msgstr "Atualizar Link do website"
 
-#: links/views.py:342
+#: links/views.py:355
 #, python-format
 msgid "The Website Link \"%s\" was updated successfully!"
 msgstr "O link do website  \"%s\" foi atualizado com sucesso! "
 
-#: links/views.py:386
+#: links/views.py:399
 msgid "Links Reports"
 msgstr "Relatórios de links"
 
-#: links/views.py:405
+#: links/views.py:418
 msgid "Realized"
 msgstr "Realizada"
 
-#: links/views.py:405
+#: links/views.py:418
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: links/views.py:405
+#: links/views.py:418
 msgid "Historic"
 msgstr "Histórico"
 
-#: links/views.py:420 links/views.py:428
+#: links/views.py:433 links/views.py:441
 msgid "View"
 msgstr "Visualizar"
 
-#: links/views.py:429
+#: links/views.py:442
 msgid "Links"
 msgstr "Links"
 
-#: links/views.py:434
+#: links/views.py:447
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: links/views.py:435
+#: links/views.py:448
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: links/views.py:482
+#: links/views.py:495
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: links/views.py:494
+#: links/views.py:507
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: links/views.py:503
+#: links/views.py:516
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: links/views.py:505
+#: links/views.py:518
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"

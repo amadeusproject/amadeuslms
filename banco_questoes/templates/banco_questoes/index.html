@@ -1,0 +1,78 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% extends 'subjects/view.html' %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block javascript%}
+    {{ block.super }}
+{% endblock%}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    
+    {% trans "Questions Database" as bread %}
+    {% breadcrumb  bread 'banco_questoes:index' subject.slug %}
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <div class="row">
+        <div class="col-md-9">
+            <form action="{% url 'questions_database:index' subject.slug %}" method="GET" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-11 col-sm-10 col-xs-10">
+                        <input type="text" class="form-control" name="search" placeholder="{% trans 'Search for category...' %}" value="{{ searched }}" />
+                    </div>
+                    <div class="col-md-1 col-sm-2 col-xs-2">
+                        <button type="submit" class="btn btn-fab btn-fab-mini">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'questions_database:create' subject.slug %}" class="pull-right btn btn-success btn-raised btn-md"><i class="fa fa-plus"></i> {% trans 'Create Question' %}</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h5>{% trans "Number of registered questions: " %}{{ totals }}</h5>
+        </div>
+    </div>
+
+    {% if questions %}
+        {% for question in questions %}
+            {% include 'banco_questoes/_view.html' with question=question %}
+        {% endfor %}
+    {% endif %}
+
+     {% pagination request paginator page_obj %}    
+{% endblock %}
+
+{% block addtional_scripts %}
+    <script type="text/javascript" src="{% static 'js/question_database.js' %}"></script>
+{% endblock %}

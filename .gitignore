@@ -48,6 +48,7 @@ coverage.xml
 *.log
 *.pot
 
+.vscode/
 angular_api
 logs/
 amadeus/uploads/

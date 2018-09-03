@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-16 23:05-0300\n"
+"POT-Creation-Date: 2018-09-02 20:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,106 +18,106 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: analytics/views.py:60 analytics/views.py:96
+#: analytics/views.py:72 analytics/views.py:108
 msgid "January"
 msgstr "Janeiro"
 
-#: analytics/views.py:60 analytics/views.py:96
+#: analytics/views.py:72 analytics/views.py:108
 msgid "February"
 msgstr "Fevereiro"
 
-#: analytics/views.py:60 analytics/views.py:96
+#: analytics/views.py:72 analytics/views.py:108
 msgid "March"
 msgstr "Março"
 
-#: analytics/views.py:60 analytics/views.py:96
+#: analytics/views.py:72 analytics/views.py:108
 msgid "April"
 msgstr "Abril"
 
-#: analytics/views.py:60 analytics/views.py:96
+#: analytics/views.py:72 analytics/views.py:108
 msgid "May"
 msgstr "Maio"
 
-#: analytics/views.py:60 analytics/views.py:96
+#: analytics/views.py:72 analytics/views.py:108
 msgid "June"
 msgstr "Junho"
 
-#: analytics/views.py:60 analytics/views.py:96
+#: analytics/views.py:72 analytics/views.py:108
 msgid "July"
 msgstr "Julho"
 
-#: analytics/views.py:61 analytics/views.py:97
+#: analytics/views.py:73 analytics/views.py:109
 msgid "August"
 msgstr "Agosto"
 
-#: analytics/views.py:61 analytics/views.py:97
+#: analytics/views.py:73 analytics/views.py:109
 msgid "September"
 msgstr "Setembro"
 
-#: analytics/views.py:61 analytics/views.py:97
+#: analytics/views.py:73 analytics/views.py:109
 msgid "October"
 msgstr "Outubro"
 
-#: analytics/views.py:61 analytics/views.py:97
+#: analytics/views.py:73 analytics/views.py:109
 msgid "November"
 msgstr "Novembro"
 
-#: analytics/views.py:61 analytics/views.py:97
+#: analytics/views.py:73 analytics/views.py:109
 msgid "December"
 msgstr "Dezembro"
 
-#: analytics/views.py:168
+#: analytics/views.py:180
 msgid "PDF File"
 msgstr "Arquivo"
 
-#: analytics/views.py:169
+#: analytics/views.py:181
 msgid "Topic Goals"
 msgstr "Objetivos"
 
-#: analytics/views.py:170
+#: analytics/views.py:182
 msgid "Link to Website"
 msgstr "Link para Site"
 
-#: analytics/views.py:171
+#: analytics/views.py:183
 msgid "File Link"
 msgstr "Link para Arquivo"
 
-#: analytics/views.py:172
+#: analytics/views.py:184
 msgid "Web Conference"
 msgstr "Conferência Web"
 
-#: analytics/views.py:173
+#: analytics/views.py:185
 msgid "YouTube Video"
 msgstr "Vídeo no Youtube"
 
-#: analytics/views.py:174
+#: analytics/views.py:186
 msgid "WebPage"
 msgstr "Página Web"
 
-#: analytics/views.py:204
+#: analytics/views.py:216
 msgid "Mon"
 msgstr "Seg"
 
-#: analytics/views.py:204
+#: analytics/views.py:216
 msgid "Tue"
 msgstr "Ter"
 
-#: analytics/views.py:204
+#: analytics/views.py:216
 msgid "Wed"
 msgstr "Qua"
 
-#: analytics/views.py:204
+#: analytics/views.py:216
 msgid "Thu"
 msgstr "Qui"
 
-#: analytics/views.py:204
+#: analytics/views.py:216
 msgid "Fri"
 msgstr "Sex"
 
-#: analytics/views.py:204
+#: analytics/views.py:216
 msgid "Sat"
 msgstr "Sab"
 
-#: analytics/views.py:204
+#: analytics/views.py:216
 msgid "Sun"
 msgstr "Dom"

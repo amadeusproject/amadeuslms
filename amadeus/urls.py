@@ -47,6 +47,7 @@ urlpatterns = [
     url(r'^analytics/', include('analytics.urls', namespace='analytics')),
     url(r'^dashboards/', include('dashboards.urls', namespace='dashboards')),
     url(r'^bulletin/', include('bulletin.urls', namespace='bulletin')),
+    url(r'^questions_database/', include('banco_questoes.urls', namespace='questions_database')),
     url(r'^api-docs/', include_docs_urls(title = 'REST Api Documentation')),
     #API
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),

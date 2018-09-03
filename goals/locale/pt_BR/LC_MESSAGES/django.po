@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-16 23:05-0300\n"
+"POT-Creation-Date: 2018-09-02 20:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: goals/forms.py:34
+#: goals/forms.py:47
 msgid "Tags"
 msgstr "Tags"
 
-#: goals/forms.py:40
+#: goals/forms.py:53
 msgid "Name"
 msgstr "Nome"
 
-#: goals/forms.py:62
+#: goals/forms.py:75
 #, python-format
 msgid ""
 "There already is another resource with the goals specification for the Topic "
@@ -34,16 +34,16 @@ msgid ""
 msgstr ""
 "Já existe um outro recurso com a especificação de metas para o tópico %s"
 
-#: goals/forms.py:65 goals/forms.py:126
+#: goals/forms.py:78 goals/forms.py:139
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
-#: goals/forms.py:70
+#: goals/forms.py:83
 msgid "This input should be filled with a date equal or after today's date."
 msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou posterior à data atual."
 
-#: goals/forms.py:73
+#: goals/forms.py:86
 msgid ""
 "This input should be filled with a date equal or after the subject begin "
 "date."
@@ -51,321 +51,321 @@ msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou posterior à data de "
 "início do assunto."
 
-#: goals/forms.py:76
+#: goals/forms.py:89
 msgid ""
 "This input should be filled with a date equal or after the subject end date."
 msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou posterior à data final "
 "do assunto."
 
-#: goals/forms.py:78
+#: goals/forms.py:91
 msgid "This field is required"
 msgstr "Esse campo é obrigatório."
 
-#: goals/forms.py:140
+#: goals/forms.py:153
 msgid "It's necessary to enter at least one goal specification."
 msgstr "Você deve cadastrar ao menos uma especificação de meta."
 
-#: goals/models.py:10
+#: goals/models.py:23
 msgid "Presentation"
 msgstr "Apresentação"
 
-#: goals/models.py:11
+#: goals/models.py:24
 msgid "Submission Limit Date"
 msgstr "Data limite para submissão"
 
-#: goals/models.py:14 goals/models.py:39 goals/models.py:47
-#: goals/templates/goals/_form_submit.html:21
-#: goals/templates/goals/view.html:86
+#: goals/models.py:27 goals/models.py:52 goals/models.py:60
+#: goals/templates/goals/_form_submit.html:33
+#: goals/templates/goals/view.html:98
 msgid "Goal"
 msgstr "Meta"
 
-#: goals/models.py:15 goals/templates/goals/_answered.html:20
-#: goals/views.py:1153
+#: goals/models.py:28 goals/templates/goals/_answered.html:32
+#: goals/views.py:1166
 msgid "Goals"
 msgstr "Metas"
 
-#: goals/models.py:33
+#: goals/models.py:46
 #, python-format
 msgid "Are you sure you want delete the %s topic goals specification"
 msgstr ""
 "Você tem certeza que deseja deleta a especificação de metas do tópico %s"
 
-#: goals/models.py:36
+#: goals/models.py:49
 msgid "Description"
 msgstr "Descrição"
 
-#: goals/models.py:37
+#: goals/models.py:50
 msgid "Referential Value"
 msgstr "Valor de referência"
 
-#: goals/models.py:38
+#: goals/models.py:51
 msgid "Order"
 msgstr "Ordem"
 
-#: goals/models.py:45
+#: goals/models.py:58
 msgid "My Value"
 msgstr "Meu valor"
 
-#: goals/models.py:46 goals/templates/goals/relatorios.html:17
-#: goals/templates/goals/relatorios.html:37
+#: goals/models.py:59 goals/templates/goals/relatorios.html:29
+#: goals/templates/goals/relatorios.html:49
 msgid "User"
 msgstr "Usuário"
 
-#: goals/models.py:48
+#: goals/models.py:61
 msgid "Create Date"
 msgstr "Data de criação"
 
-#: goals/models.py:49
+#: goals/models.py:62
 msgid "Last Update"
 msgstr "Última atualização"
 
-#: goals/templates/goals/_answered.html:8
-#: goals/templates/goals/_history.html:11
-#: goals/templates/goals/_unanswered.html:8
+#: goals/templates/goals/_answered.html:20
+#: goals/templates/goals/_history.html:23
+#: goals/templates/goals/_unanswered.html:20
 msgid "Student"
 msgstr "Estudante"
 
-#: goals/templates/goals/_answered.html:11
-#: goals/templates/goals/_history.html:14
-#: goals/templates/goals/_unanswered.html:11
-#: goals/templates/goals/relatorios.html:17
-#: goals/templates/goals/relatorios.html:37
+#: goals/templates/goals/_answered.html:23
+#: goals/templates/goals/_history.html:26
+#: goals/templates/goals/_unanswered.html:23
+#: goals/templates/goals/relatorios.html:29
+#: goals/templates/goals/relatorios.html:49
 msgid "Group"
 msgstr "Grupo"
 
-#: goals/templates/goals/_answered.html:14
+#: goals/templates/goals/_answered.html:26
 msgid "Definition Date"
 msgstr "Data de definição"
 
-#: goals/templates/goals/_answered.html:17
+#: goals/templates/goals/_answered.html:29
 msgid "Update Date"
 msgstr "Data de atualização"
 
-#: goals/templates/goals/_form.html:56
+#: goals/templates/goals/_form.html:68
 msgid "Goals Specification"
 msgstr "Especificação de Metas"
 
-#: goals/templates/goals/_form.html:109
-#: goals/templates/goals/_form_submit.html:22
-#: goals/templates/goals/view.html:87
+#: goals/templates/goals/_form.html:121
+#: goals/templates/goals/_form_submit.html:34
+#: goals/templates/goals/view.html:99
 msgid "Minimum percentage desired"
 msgstr "Porcentagem mínima desejada"
 
-#: goals/templates/goals/_form.html:164
+#: goals/templates/goals/_form.html:176
 msgid "Common resources settings"
 msgstr "Configurações comuns a todos os recursos"
 
-#: goals/templates/goals/_form.html:212
+#: goals/templates/goals/_form.html:224
 msgid "Pendencies Notifications"
 msgstr "Notificações de Pendências"
 
-#: goals/templates/goals/_form.html:240
+#: goals/templates/goals/_form.html:252
 msgid "Action not performed by the user"
 msgstr "Ação não realizada pelo usuário"
 
-#: goals/templates/goals/_form.html:266
+#: goals/templates/goals/_form.html:278
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: goals/templates/goals/_form.html:402
-#: goals/templates/goals/_form_submit.html:69
+#: goals/templates/goals/_form.html:414
+#: goals/templates/goals/_form_submit.html:81
 msgid "Save"
 msgstr "Salvar"
 
-#: goals/templates/goals/_form.html:406
+#: goals/templates/goals/_form.html:418
 msgid "Cancel"
 msgstr ""
 
-#: goals/templates/goals/_form.html:417
+#: goals/templates/goals/_form.html:429
 msgid "Add new goal"
 msgstr "Adicionar nova meta"
 
-#: goals/templates/goals/_form.html:418
+#: goals/templates/goals/_form.html:430
 msgid "Remove this goal"
 msgstr "Remover essa meta"
 
-#: goals/templates/goals/_form.html:439
+#: goals/templates/goals/_form.html:451
 msgid "Add new notification"
 msgstr "Adicionar nova notificação"
 
-#: goals/templates/goals/_form.html:440
+#: goals/templates/goals/_form.html:452
 msgid "Remove this"
 msgstr "Remover essa notificação"
 
-#: goals/templates/goals/_form_submit.html:58
+#: goals/templates/goals/_form_submit.html:70
 msgid "There are obstacles to your activities?"
 msgstr "Existem impedimentos para as suas atividades?"
 
-#: goals/templates/goals/_form_submit.html:59
+#: goals/templates/goals/_form_submit.html:71
 msgid "Type here the dificulties that may harm your performance"
 msgstr "Digite aqui os obstáculos que podem prejudicar o seu desempenho."
 
-#: goals/templates/goals/_history.html:8
+#: goals/templates/goals/_history.html:20
 msgid "Date/Hour"
 msgstr "Data/Horário"
 
-#: goals/templates/goals/_history.html:17
-#: goals/templates/goals/relatorios.html:17
+#: goals/templates/goals/_history.html:29
+#: goals/templates/goals/relatorios.html:29
 msgid "Action"
 msgstr "Ação"
 
-#: goals/templates/goals/_history.html:20
+#: goals/templates/goals/_history.html:32
 msgid "Object"
 msgstr "Objeto"
 
-#: goals/templates/goals/_history.html:23
+#: goals/templates/goals/_history.html:35
 msgid "Resource"
 msgstr "Recurso"
 
-#: goals/templates/goals/_unanswered.html:14
+#: goals/templates/goals/_unanswered.html:26
 msgid "Select All"
 msgstr "Selecionar todos"
 
-#: goals/templates/goals/create.html:23
+#: goals/templates/goals/create.html:35
 msgid "Add Topic Goals"
 msgstr "Adicionar Metas do Tópico"
 
-#: goals/templates/goals/relatorios.html:17
+#: goals/templates/goals/relatorios.html:29
 msgid "Date of Action"
 msgstr "Data da ação"
 
-#: goals/templates/goals/relatorios.html:37
+#: goals/templates/goals/relatorios.html:49
 msgid "Send message"
 msgstr "Enviar mensagem"
 
-#: goals/templates/goals/relatorios.html:37
+#: goals/templates/goals/relatorios.html:49
 msgid "Action don't realized"
 msgstr "Ação não realizada"
 
-#: goals/templates/goals/relatorios.html:206
-#: goals/templates/goals/relatorios.html:228 goals/views.py:78
+#: goals/templates/goals/relatorios.html:218
+#: goals/templates/goals/relatorios.html:240 goals/views.py:91
 msgid "Reports"
 msgstr "Relatórios"
 
-#: goals/templates/goals/relatorios.html:235
+#: goals/templates/goals/relatorios.html:247
 msgid "Report of the resource "
 msgstr "Relatórios do recurso"
 
-#: goals/templates/goals/relatorios.html:244
+#: goals/templates/goals/relatorios.html:256
 msgid "Select the period: "
 msgstr "Selecione o período: "
 
-#: goals/templates/goals/relatorios.html:253
-#: goals/templates/goals/reports.html:98
+#: goals/templates/goals/relatorios.html:265
+#: goals/templates/goals/reports.html:110
 msgid "Search"
 msgstr "Pesquisar"
 
-#: goals/templates/goals/relatorios.html:277
+#: goals/templates/goals/relatorios.html:289
 msgid "Filter: "
 msgstr "Filtro: "
 
-#: goals/templates/goals/relatorios.html:301
-#: goals/templates/goals/relatorios.html:386
-#: goals/templates/goals/relatorios.html:489
+#: goals/templates/goals/relatorios.html:313
+#: goals/templates/goals/relatorios.html:398
+#: goals/templates/goals/relatorios.html:501
 msgid "record(s)"
 msgstr "Relatório(s)"
 
-#: goals/templates/goals/reports.html:25 goals/templates/goals/reports.html:113
+#: goals/templates/goals/reports.html:37 goals/templates/goals/reports.html:125
 msgid "Reports: Answered"
 msgstr "Relatórios: Respondentes"
 
-#: goals/templates/goals/reports.html:57
+#: goals/templates/goals/reports.html:69
 msgid "Answered"
 msgstr "Respondentes"
 
-#: goals/templates/goals/reports.html:58
+#: goals/templates/goals/reports.html:70
 msgid "Unanswered"
 msgstr "Não Respondentes"
 
-#: goals/templates/goals/reports.html:59
+#: goals/templates/goals/reports.html:71
 msgid "Resource History"
 msgstr "Histórico do Recurso"
 
-#: goals/templates/goals/reports.html:89
+#: goals/templates/goals/reports.html:101
 msgid "No data available in table"
 msgstr "Nenhum registro encontrado"
 
-#: goals/templates/goals/reports.html:90
+#: goals/templates/goals/reports.html:102
 msgid "Showing _START_ to _END_ of _TOTAL_ entries"
 msgstr "Mostrando de _START_ até _END_ de _TOTAL_ de registros"
 
-#: goals/templates/goals/reports.html:91
+#: goals/templates/goals/reports.html:103
 msgid "Showing 0 to 0 of 0 entries"
 msgstr "Mostrado de 0 até 0 de 0 registros"
 
-#: goals/templates/goals/reports.html:92
+#: goals/templates/goals/reports.html:104
 msgid "(filtered from _MAX_ total entries)"
 msgstr "(filtrados de _MAX_ registros)"
 
-#: goals/templates/goals/reports.html:95
+#: goals/templates/goals/reports.html:107
 msgid "Show _MENU_ entries"
 msgstr "_MENU_ resultados por página"
 
-#: goals/templates/goals/reports.html:96
+#: goals/templates/goals/reports.html:108
 msgid "Loading..."
 msgstr "Carregando..."
 
-#: goals/templates/goals/reports.html:97
+#: goals/templates/goals/reports.html:109
 msgid "Processing..."
 msgstr "Processando..."
 
-#: goals/templates/goals/reports.html:99
+#: goals/templates/goals/reports.html:111
 msgid "No matching records found"
 msgstr "Nenhum registro encontrado"
 
-#: goals/templates/goals/reports.html:101
+#: goals/templates/goals/reports.html:113
 msgid "First"
 msgstr "Primeiro"
 
-#: goals/templates/goals/reports.html:102
+#: goals/templates/goals/reports.html:114
 msgid "Last"
 msgstr "Último"
 
-#: goals/templates/goals/reports.html:107
+#: goals/templates/goals/reports.html:119
 msgid ": activate to sort column ascending"
 msgstr ": Ordenar colunas de forma ascendente"
 
-#: goals/templates/goals/reports.html:108
+#: goals/templates/goals/reports.html:120
 msgid ": activate to sort column descending"
 msgstr ": Ordenar colunas de forma descendente"
 
-#: goals/templates/goals/reports.html:112
+#: goals/templates/goals/reports.html:124
 msgid "Download .csv file"
 msgstr "Download de arquivo .csv"
 
-#: goals/templates/goals/reports.html:114
+#: goals/templates/goals/reports.html:126
 msgid "Reports: Unanswered"
 msgstr "Relatórios: Não Respondentes"
 
-#: goals/templates/goals/reports.html:115
+#: goals/templates/goals/reports.html:127
 msgid "Reports: History"
 msgstr "Relatórios: Histórico"
 
-#: goals/templates/goals/send_message.html:38
+#: goals/templates/goals/send_message.html:50
 msgid "Click or drop the picture here"
 msgstr "Clique ou solte a imagem aqui"
 
-#: goals/templates/goals/send_message.html:40
+#: goals/templates/goals/send_message.html:52
 msgid "The picture could not exceed 5MB."
 msgstr "A imagem não pode exceder 5MB."
 
-#: goals/templates/goals/send_message.html:62
+#: goals/templates/goals/send_message.html:74
 msgid "Close"
 msgstr "Fechar"
 
-#: goals/templates/goals/send_message.html:63
+#: goals/templates/goals/send_message.html:75
 msgid "Send"
 msgstr "Enviar"
 
-#: goals/templates/goals/submit.html:66
+#: goals/templates/goals/submit.html:78
 #: goals/templates/goals/update_submit.html:69
-#: goals/templates/goals/view.html:79
-#: goals/templates/goals/window_submit.html:40
+#: goals/templates/goals/view.html:91
+#: goals/templates/goals/window_submit.html:52
 msgid "Limit submission date"
 msgstr "Data limite de submissão"
 
-#: goals/templates/goals/update.html:23
+#: goals/templates/goals/update.html:35
 msgid "Edit: Topic Goals "
 msgstr "Editar: Metas de Tópico"
 
@@ -373,56 +373,56 @@ msgstr "Editar: Metas de Tópico"
 msgid "Update My Goals"
 msgstr "Atualizar Minhas Metas"
 
-#: goals/templates/goals/view.html:19 goals/templatetags/goals_filters.py:73
-#: goals/views.py:260
+#: goals/templates/goals/view.html:31 goals/templatetags/goals_filters.py:86
+#: goals/views.py:273
 msgid "My Goals"
 msgstr "Minhas Metas"
 
-#: goals/templates/goals/view.html:88
+#: goals/templates/goals/view.html:100
 msgid "Goal stabilished"
 msgstr "Meta estabelecida"
 
-#: goals/templates/goals/view.html:98
+#: goals/templates/goals/view.html:110
 msgid "Update Goals"
 msgstr "Atualizar Metas"
 
-#: goals/templatetags/goals_filters.py:60
+#: goals/templatetags/goals_filters.py:73
 msgid "Visualized"
 msgstr "Visualizou"
 
-#: goals/templatetags/goals_filters.py:62
+#: goals/templatetags/goals_filters.py:75
 msgid "Added"
 msgstr "Adicionou"
 
-#: goals/templatetags/goals_filters.py:64
+#: goals/templatetags/goals_filters.py:77
 msgid "Updated"
 msgstr "Atualizou"
 
-#: goals/templatetags/goals_filters.py:66 goals/views.py:1133
+#: goals/templatetags/goals_filters.py:79 goals/views.py:1146
 msgid "Submitted"
 msgstr "Submeteu"
 
-#: goals/templatetags/goals_filters.py:77
+#: goals/templatetags/goals_filters.py:90
 #, python-format
 msgid "%s Instance"
 msgstr "Instância de %s"
 
-#: goals/utils.py:61 goals/views.py:1224
+#: goals/utils.py:74 goals/views.py:1237
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: goals/views.py:386 goals/views.py:525 goals/views.py:647
+#: goals/views.py:399 goals/views.py:538 goals/views.py:660
 #, python-format
 msgid "#Dificulty(ies) found in %s"
 msgstr "#Dificuldade(s) comunicada(s) em %s"
 
-#: goals/views.py:408 goals/views.py:549
+#: goals/views.py:421 goals/views.py:562
 #, python-format
 msgid "Your goals for %s was save successfully!"
 msgstr "Suas metas para %s foram salvas com sucesso!"
 
-#: goals/views.py:596
+#: goals/views.py:609
 #, python-format
 msgid ""
 "The date limit to submit your Goals specification for the topic %s has "
@@ -431,80 +431,80 @@ msgstr ""
 "A data limite para submeter suas Metas para o tópico %s passou, então você "
 "não pode editar seus valores!"
 
-#: goals/views.py:671
+#: goals/views.py:684
 #, python-format
 msgid "Your goals for %s was update successfully!"
 msgstr "Suas metas para %s foram atualizadas com sucesso!"
 
-#: goals/views.py:722 goals/views.py:736 goals/views.py:761 goals/views.py:883
-#: goals/views.py:897 goals/views.py:907
+#: goals/views.py:735 goals/views.py:749 goals/views.py:774 goals/views.py:896
+#: goals/views.py:910 goals/views.py:920
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: goals/views.py:722 goals/views.py:736 goals/views.py:761 goals/views.py:883
-#: goals/views.py:897 goals/views.py:907
+#: goals/views.py:735 goals/views.py:749 goals/views.py:774 goals/views.py:896
+#: goals/views.py:910 goals/views.py:920
 msgid "Submit"
 msgstr "Submeter"
 
-#: goals/views.py:824
+#: goals/views.py:837
 msgid "Create Topic Goals"
 msgstr "Adicionar Metas do Tópico"
 
-#: goals/views.py:835
+#: goals/views.py:848
 #, python-format
 msgid "The Goals specification for the topic %s was realized successfully!"
 msgstr "A Especificação de Metas para o tópico %s foi realizada com sucesso!"
 
-#: goals/views.py:962
+#: goals/views.py:975
 msgid "Update Topic Goals"
 msgstr "Atualizar Metas do Tópico"
 
-#: goals/views.py:973
+#: goals/views.py:986
 #, python-format
 msgid "The Goals specification for the topic %s was updated successfully!"
 msgstr "A Especificação de Metas para o tópico %s foi atualizada com sucesso!"
 
-#: goals/views.py:1012
+#: goals/views.py:1025
 #, python-format
 msgid "The Goals specification of the topic %s was removed successfully!"
 msgstr "A Especificação de Metas para o tópico %s foi removida com sucesso!"
 
-#: goals/views.py:1102
+#: goals/views.py:1115
 msgid "Goals Reports"
 msgstr "Relatórios de metas"
 
-#: goals/views.py:1121
+#: goals/views.py:1134
 msgid "Realized"
 msgstr "Realizada"
 
-#: goals/views.py:1121
+#: goals/views.py:1134
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: goals/views.py:1121
+#: goals/views.py:1134
 msgid "Historic"
 msgstr "Histórico"
 
-#: goals/views.py:1133
+#: goals/views.py:1146
 msgid "View"
 msgstr "Visualizar"
 
-#: goals/views.py:1164
+#: goals/views.py:1177
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: goals/views.py:1165
+#: goals/views.py:1178
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: goals/views.py:1212
+#: goals/views.py:1225
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: goals/views.py:1232
+#: goals/views.py:1245
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: goals/views.py:1234
+#: goals/views.py:1247
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
