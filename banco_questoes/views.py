@@ -20,7 +20,7 @@ class IndexView(LoginRequiredMixin, ListView):
     template_name = 'banco_questoes/index.html'
     context_object_name = 'questions'
     paginate_by = 10
-    totals = 1
+    totals = 0
 
     def dispatch(self, request, *args, **kwargs):
         slug = self.kwargs.get('slug', '')
