@@ -2,9 +2,15 @@ version: '3'
 
 services:
   db:
+    restart: always
     image: postgres
+    ports:
+      - "8010:5432"
   web:
-    build: .
+    build:
+      context: .
+      args:
+        requirements: requirement_files/development_requirement.txt 
     environment:
       DJANGO_MANAGEPY_MIGRATE: 'on'
     volumes:
@@ -13,3 +19,5 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    stdin_open: true
+    tty: true
