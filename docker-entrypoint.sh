@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-python manage.py makemigrations
-#python3 manage.py makemigrations
+python3 manage.py shell
+python3 manage.py makemigrations
 python3 manage.py migrate --noinput
-python3 initadmin.py
+#python3 initadmin.py
 python3 manage.py runserver 0.0.0.0:8000
