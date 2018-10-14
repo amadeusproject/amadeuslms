@@ -1,0 +1,109 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% extends 'subjects/view.html' %}
+
+{% load static i18n pagination permissions_tags subject_counter %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block style %}
+	{{block.super}}
+{% endblock %}
+
+{% block javascript%}
+	{{ block.super }}
+{% endblock%}
+
+{% block breadcrumbs %}
+	{{ block.super }}
+	{% breadcrumb topic 'subjects:topic_view' subject.slug topic.slug %}
+	{% breadcrumb questionary 'questionary:submit' questionary.slug %}
+
+	{% trans 'My Goals' as bread %}
+	{% breadcrumb bread 'questionary:view' questionary.slug %}	
+{% endblock %}
+
+{% block content %}
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<p>{{ message }}</p>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+	{% resource_permissions request.user questionary as has_resource_permissions %}
+	{% subject_permissions request.user questionary.topic.subject as has_subject_permissions %}
+
+    {% if goal.visible %}
+		<div class="panel panel-info topic-panel">
+        	<div class="panel-heading">
+	{% elif has_resource_permissions %}
+		<div class="panel panel-info topic-panel-invisible">
+        	<div class="panel-heading panel-invisible">
+    {% endif %}
+				<div class="row">
+					<div class="col-md-12 category-header">
+						<h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
+							<span>{{ questionary }}</span>
+						</h4>
+
+						<div class="col-md-5 pull-right category-card-items">
+							<a href="{% url 'mural:resource_view' goal.slug %}" class="pull-right action_icon">
+								<i class="fa fa-list" aria-hidden="true"></i>
+								{% resource_mural_number questionary request.user %}
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
+				{% if has_subject_permissions %}
+					<form id="student_goals" action="" method="POST">
+						{% csrf_token %}
+						<select name="selected_student" onchange="$('#student_goals').submit();">
+							{% for stu in sub_students %}
+								<option value="{{ stu.email }}" {% if stu.email == student %}selected{% endif %}>{{ stu }}</option>
+							{% endfor %}
+						</select>
+					</form>
+					<br clear="all" />
+				{% endif %}
+
+				{% autoescape off %}
+					{{ questionary.presentation }}
+				{% endautoescape %}
+
+				<br clear="all" />
+
+				<b>{% trans "Init date" %}:</b> {{ questionary.data_ini }}
+                <b>{% trans "End date" %}:</b> {{ questionary.data_end }}
+
+				<hr class="goal_divider" />
+
+
+				{% if not has_subject_permissions %}
+					
+				{% endif %}
+			</div>
+		</div>
+{% endblock %}
+
+
+{% block addtional_scripts %}
+	<script type="text/javascript">
+		sessionSecurity.confirmFormDiscard = undefined;
+	</script>
+{% endblock %}

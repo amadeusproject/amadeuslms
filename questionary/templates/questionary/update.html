@@ -22,6 +22,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% block javascript %}
 	{{block.super}}
 	<script type="text/javascript" src="{% static "js/bootstrap-tagsinput.js" %} "></script>
+	<script type="text/javascript" src="{% static "js/jquery.formset.js" %} "></script>
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -30,8 +31,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 	{% breadcrumb topic 'subjects:topic_view' topic.subject.slug topic.slug %}
 	
 	{% trans 'Edit: ' as bread %}
-	{% with bread|add:resource.name as bread_slug %}
-		{% breadcrumb bread_slug 'questionary:update' topic.slug resource.slug %}
+	{% with bread|add:questionary.name as bread_slug %}
+		{% breadcrumb bread_slug 'questionary:update' topic.slug questionary.slug %}
 	{% endwith %}
 {% endblock %}
 

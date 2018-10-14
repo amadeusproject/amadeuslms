@@ -129,8 +129,6 @@ class GoalItemForm(forms.ModelForm):
 	def clean(self):
 		cleaned_data = super(GoalItemForm, self).clean()
 
-		print(cleaned_data)
-
 		description = cleaned_data.get('description', None)
 		ref_value = cleaned_data.get('ref_value', None)
 

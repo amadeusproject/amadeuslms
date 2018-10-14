@@ -11,27 +11,37 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 """
 
 from django import forms
+from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
+from django.forms.models import inlineformset_factory, BaseInlineFormSet
 
 from subjects.models import Tag
 from subjects.forms import ParticipantsMultipleChoiceField
 
-from .models import Questionary
+from pendencies.forms import PendenciesLimitedForm
+from pendencies.models import Pendencies
+
+from .models import Questionary, Specification
 
 class QuestionaryForm(forms.ModelForm):
     subject = None
+    topic = None
+    control_subject = forms.CharField(widget = forms.HiddenInput())
 
     students = ParticipantsMultipleChoiceField(queryset = None, required = False)
 
     def __init__(self, *args, **kwargs):
         super(QuestionaryForm, self).__init__(*args, **kwargs)
         self.subject = kwargs.get('initial').get('subject', None)
+        self.topic = kwargs['initial'].get('topic', None)
 
         if self.instance.id:
             self.subject = self.instance.topic.subject
+            self.topic = self.instance.topic
             self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
 
+        self.initial['control_subject'] = self.subject.id
         self.fields['students'].queryset = self.subject.students.all()
         self.fields['groups'].queryset = self.subject.group_subject.all()
 
@@ -50,23 +60,52 @@ class QuestionaryForm(forms.ModelForm):
             'groups': forms.SelectMultiple,
         }
 
-    def clean_name(self):
-        name = self.cleaned_data.get('name', '')
+    def clean(self):
+        cleaned_data = super(QuestionaryForm, self).clean()
 
-        topics = self.subject.topic_subject.all()
-
-        for topic in topics:
+        data_ini = cleaned_data.get('data_ini', None)
+        data_end = cleaned_data.get('data_end', None)
+        name = cleaned_data.get('name', '')
+        
+        if self.topic:
             if self.instance.id:
-                same_name = topic.resource_topic.filter(name__unaccent__iexact = name).exclude(id = self.instance.id).count()
+                same_name = self.topic.resource_topic.filter(name__unaccent__iexact = name).exclude(id = self.instance.id).count()
             else:
-                same_name = topic.resource_topic.filter(name__unaccent__iexact = name).count()
+                same_name = self.topic.resource_topic.filter(name__unaccent__iexact = name).count()
 
             if same_name > 0:
-                self._errors['name'] = [_('This subject already has a questionary with this name')]
+                self.add_error('name', _('This subject already has a questionary with this name'))
+        
+        if data_ini:
+            if not data_ini == ValueError:
+                if not self.instance.id and data_ini.date() < datetime.today().date():
+                    self.add_error('data_ini', _("This input should be filled with a date equal or after today's date."))
 
-                return ValueError
+                if data_ini.date() < self.subject.init_date:
+                    self.add_error('data_ini', _('This input should be filled with a date equal or after the subject begin date.("%s")')%(self.subject.init_date))
 
-        return name
+                if data_ini.date() > self.subject.end_date:
+                    self.add_error('data_ini', _('This input should be filled with a date equal or before the subject end date.("%s")')%(self.subject.end_date))
+        else:
+            self.add_error('data_ini', _('This field is required'))
+
+        if data_end:
+            if not data_end == ValueError:
+                if not self.instance.id and data_end.date() < datetime.today().date():
+                    self.add_error('data_end', _("This input should be filled with a date equal or after today's date."))
+
+                if data_end.date() < self.subject.init_date:
+                    self.add_error('data_end', _('This input should be filled with a date equal or after the subject begin date.("%s")')%(self.subject.init_date))
+
+                if data_end.date() > self.subject.end_date:
+                    self.add_error('data_end', _('This input should be filled with a date equal or before the subject end date.("%s")')%(self.subject.end_date))
+
+                if not data_ini == ValueError and data_ini and data_end < data_ini:
+                    self.add_error('data_end', _("This input should be filled with a date equal or before the date stabilished for thte init."))
+        else:
+            self.add_error('data_end', _('This field is required'))
+
+        return cleaned_data
 
     def save(self, commit = True):
         super(QuestionaryForm, self).save(commit = True)
@@ -96,3 +135,47 @@ class QuestionaryForm(forms.ModelForm):
                 self.instance.tags.add(new_tag)
 
         return self.instance
+
+class SpecificationForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(SpecificationForm, self).__init__(*args, **kwargs)
+
+        if kwargs.get('initial', None):
+            self.subject = kwargs.get('initial').get('subject', None)
+        else:
+            self.subject = self.instance.questionary.topic.subject
+
+        self.fields['categories'].queryset = Tag.objects.filter(question_categories__subject = self.subject).distinct()
+
+    class Meta:
+        model = Specification
+        fields = ['categories', 'n_questions']
+        widgets = {
+            'categories': forms.SelectMultiple,
+            'n_questions': forms.Select,
+        }
+
+    def clean(self):
+        cleaned_data = super(SpecificationForm, self).clean()
+
+        n_questions = cleaned_data.get('n_questions', None)
+
+        if n_questions and n_questions == "0":
+            self.add_error('n_questions', _('There is no questions for this combination of categories. Please try another combination.'))
+
+        return cleaned_data
+
+class SpecificationFormset(BaseInlineFormSet):
+    def __init__(self, *args, **kwargs):
+        super(SpecificationFormset, self).__init__(*args, **kwargs)
+
+        self.forms[0].empty_permitted = False
+
+    def clean(self):
+        n_questions = self.forms[0].cleaned_data.get('n_questions', None)
+
+        if not n_questions:
+            raise forms.ValidationError(_('It\'s necessary to enter at least one question specification.'))
+
+InlinePendenciesFormset = inlineformset_factory(Questionary, Pendencies, form = PendenciesLimitedForm, extra = 1, max_num = 3, validate_max = True, can_delete = True)
+InlineSpecificationFormset = inlineformset_factory(Questionary, Specification, form = SpecificationForm, min_num = 1, validate_min = True, extra = 0, can_delete = True, formset = SpecificationFormset)

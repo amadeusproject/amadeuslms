@@ -12,6 +12,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 import os
 from django.db import models
+from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
 from subjects.models import Tag
@@ -19,8 +20,8 @@ from topics.models import Resource
 
 class Questionary(Resource):
     presentation = models.TextField(_('Presentation'), blank = False)
-    data_ini = models.DateField(_('Init Date'), auto_now_add = False)
-    data_end = models.DateField(_('End Date'), auto_now_add = False)
+    data_ini = models.DateTimeField(_('Init Date'), auto_now_add = False)
+    data_end = models.DateTimeField(_('End Date'), auto_now_add = False)
 
     class Meta:
         verbose_name = "Questionary"

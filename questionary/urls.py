@@ -17,4 +17,9 @@ from . import views
 
 urlpatterns = [
     url(r'^create/(?P<slug>[\w_-]+)/$', views.QuestionaryCreateView.as_view(), name='create'),
+    url(r'^update/(?P<topic_slug>[\w_-]+)/(?P<slug>[\w_-]+)/$', views.UpdateView.as_view(), name='update'),
+    url(r'^delete/(?P<slug>[\w_-]+)/$', views.DeleteView.as_view(), name = 'delete'),
+    url(r'^view/(?P<slug>[\w_-]+)/$', views.InsideView.as_view(), name = 'view'),
+	url(r'^submit/(?P<slug>[\w_-]+)/$', views.SubmitView.as_view(), name = 'submit'),
+    url(r'^count_questions/$', views.countQuestions, name='countQ'),
 ]
