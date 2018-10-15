@@ -103,6 +103,8 @@ class PendenciesLimitedForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(PendenciesLimitedForm, self).__init__(*args, **kwargs)
 
+		print(kwargs.get('initial', None))
+
 		if kwargs.get('initial', None):
 			self.fields['action'].choices = kwargs['initial'].get('actions', [])
 

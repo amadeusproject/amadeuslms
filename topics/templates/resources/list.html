@@ -27,7 +27,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 	  			<h4 class="pull-left list-group-item-heading">
 	  				<a data-href="{{ resource.access_link }}" class="resource_link" {% if resource.show_window %}target="_blank"{% endif %}>
-
 						{{ resource.name }}
 	  				</a>
 				</h4>
@@ -57,9 +56,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 			                    	<li><a href="{% url 'goals:get_chart' resource.slug %}" class="edit"><i class="fa fa-line-chart fa-fw" aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
 			                    {% elif resource|class_name == 'webconference' %}
                                     <li><a href="{% url 'webconferences:get_chart' resource.slug %}" class="edit"><i class="fa fa-line-chart fa-fw" aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
-													{% elif resource|class_name == 'bulletin' %}
-														<li><a href="{% url 'bulletin:get_chart' resource.slug %}" class="edit"><i class="fa fa-line-chart fa-fw" aria-hidden="true"></i>{% trans 'Reports' %}</a></li>													
-                          {% endif %}
+								{% elif resource|class_name == 'bulletin' %}
+									<li><a href="{% url 'bulletin:get_chart' resource.slug %}" class="edit"><i class="fa fa-line-chart fa-fw" aria-hidden="true"></i>{% trans 'Reports' %}</a></li>													
+                          		{% endif %}
 			                    <li><a href="javascript:delete_resource('{% url resource.delete_link resource.slug %}')" class="delete"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remove' %}</a></li>
 			                </ul>
 			            </span>
@@ -69,6 +68,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 				{% autoescape off %}
 					{{ resource.brief_description }}
 				{% endautoescape %}
+				{% if resource.get_data_ini and resource.get_data_ini %}
+					<small>
+						{% trans 'Init date' %}: {{ resource.get_data_ini|date:"SHORT_DATETIME_FORMAT" }}
+					</small>
+					<small style="margin-left: 10px">
+						{% trans 'End date' %}: {{ resource.get_data_end|date:"SHORT_DATETIME_FORMAT" }}
+					</small>
+				{% endif %}
 	  		</div>
 	  	{% endif %}
   	{% endfor %}

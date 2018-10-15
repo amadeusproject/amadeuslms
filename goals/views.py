@@ -770,7 +770,6 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		topic = get_object_or_404(Topic, slug = slug)
 
 		for p_form in pendencies_form.forms:
-			print(p_form.initial['subject'])
 			p_form.fields['action'].choices = [("", "-------"),("view", _("Visualize")), ("submit", _("Submit"))]
 
 		return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form, goalitems_form = goalitems_form))

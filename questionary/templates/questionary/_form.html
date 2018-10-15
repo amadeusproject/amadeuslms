@@ -1,0 +1,737 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+{% load widget_tweaks %}
+
+<form method="post" action="" enctype="multipart/form-data">
+	{% csrf_token %}
+
+	{% render_field form.control_subject %}
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+		<label for="{{ form.name.auto_id }}">{{ form.name.label }} <span>*</span></label>
+		{% render_field form.name class='form-control' %}
+
+		<span id="helpBlock" class="help-block">{{ form.name.help_text }}</span>
+			
+		{% if form.name.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.name.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+	</div>
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+		<label for="{{ form.presentation.auto_id }}">{{ form.presentation.label }}</label>
+		{% render_field form.presentation class='form-control text_wysiwyg' %}
+
+		<span id="helpBlock" class="help-block">{{ form.presentation.help_text }}</span>
+			
+		{% if form.presentation.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.presentation.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+	</div>
+
+	<div class="panel-group" id="professors_accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-info">
+			<div class="panel-heading">
+    			<div class="row">
+        			<div class="col-md-12">
+            			<a data-parent="#professors_accordion" data-toggle="collapse" href="#specs">
+            				<h4 class="panel-title">
+                    			<button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button>
+                                <label>{% trans 'Questions Specification' %}</label>
+            				</h4>
+            			</a>
+            		</div>
+            	</div>
+            </div>
+            <div id="specs" class="panel-collapse collapse">
+                {{ specifications_form.management_form }}
+
+            	{% if specifications_form.non_form_errors %}
+            		<div class="alert alert-danger alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+            			{{ specifications_form.non_form_errors }}
+                	</div>	
+                {% endif %}
+
+				{% for item in specifications_form %}
+	        		<div class="specs">
+	        			<div style="text-align:left">
+	            			{% render_field item.id %}
+
+	            			{% if item.instance.pk %}{{ item.DELETE }}{% endif %}
+
+                            <p><em>{% trans 'Select at least one categorie of the questions database' %}:</em></p>
+                            {% render_field item.categories class='form-control spec_categories' %}
+
+                            <span id="helpBlock" class="help-block">{{ item.categories.help_text }}</span>
+                        
+                            {% if item.categories.errors %}
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    <ul>
+                                        {% for error in item.categories.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+		            	</div>
+
+                        <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput" style="text-align:left">
+                            <label for="{{ item.n_questions.auto_id }}">{{ item.n_questions.label }} <span>*</span></label>
+                            {% render_field item.n_questions class='form-control n_questions' %}
+
+                            <span id="helpBlock" class="help-block">{{ item.n_questions.help_text }}</span>
+                                
+                            {% if item.n_questions.errors %}
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    <ul>
+                                        {% for error in item.n_questions.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+	            	</div>
+	            {% endfor %}
+            </div>
+        </div>
+        
+        <br clear="all" />
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+                    <label for="{{ form.data_ini.auto_id }}">{{ form.data_ini.label }} <span>*</span></label>
+                    {% render_field form.data_ini class='form-control datetime-picker' %}
+
+                    <span id="helpBlock" class="help-block">{{ form.data_ini.help_text }}</span>
+                        
+                    {% if form.data_ini.errors %}
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            <ul>
+                                {% for error in form.data_ini.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+                    <label for="{{ form.data_end.auto_id }}">{{ form.data_end.label }} <span>*</span></label>
+                    {% render_field form.data_end class='form-control datetime-picker' %}
+
+                    <span id="helpBlock" class="help-block">{{ form.data_end.help_text }}</span>
+                        
+                    {% if form.data_end.errors %}
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            <ul>
+                                {% for error in form.data_end.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <legend>{% trans 'Common resources settings' %}</legend>
+
+        <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+            <label for="{{ form.brief_description.auto_id }}">{{ form.brief_description.label }}</label>
+            {% render_field form.brief_description class='form-control text_wysiwyg' %}
+
+            <span id="helpBlock" class="help-block">{{ form.brief_description.help_text }}</span>
+                
+            {% if form.brief_description.errors %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    <ul>
+                        {% for error in form.brief_description.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+            <label for="{{ form.tags.auto_id }}">{{ form.tags.label }}</label>
+            {% render_field form.tags class='form-control'  data-role="tagsinput" %}
+
+            <span id="helpBlock" class="help-block">{{ form.tags.help_text }}</span>
+                
+            {% if form.tags.errors %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    <ul>
+                        {% for error in form.tags.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+
+		<div class="panel panel-info">
+			<div class="panel-heading">
+    			<div class="row">
+        			<div class="col-md-12">
+            			<a data-parent="#professors_accordion" data-toggle="collapse" href="#notifications">
+            				<h4 class="panel-title">
+                    			<button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label>{% trans 'Pendencies Notifications' %}</label>
+            				</h4>
+            			</a>
+            		</div>
+            	</div>
+            </div>
+            <div id="notifications" class="panel-collapse collapse">
+            	{{ pendencies_form.management_form }}
+
+                {% if pendencies_form.non_form_errors %}
+            		<div class="alert alert-danger alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+            			{{ pendencies_form.non_form_errors }}
+                	</div>	
+                {% endif %}
+
+				{% for notify in pendencies_form %}
+	        		<div class="notifies">
+	        			<div style="text-align:left">
+	            			{% render_field notify.id %}
+	            			{% render_field notify.resource %}
+	            			{% render_field notify.subject class='pend_subj' %}
+		            		
+	            			{% if notify.instance.pk %}{{ notify.DELETE }}{% endif %}
+		            		
+		            		<div class="form-group{% if notify.has_error %} has-error {% endif %} row">
+		            			<label for="{{ notify.action.auto_id }}" class="pull-left action_label contol-label">
+		            				{% trans 'Action not performed by the user' %}: 
+		        				</label>
+		        				<div class="col-md-3">
+		        					{% render_field notify.action class='form-control' %}
+		        				</div>
+
+		        				<br clear="all" />
+
+		        				<span id="helpBlock" class="help-block">{{ notify.action.help_text }}</span>
+			
+								{% if notify.action.errors %}
+									<div class="alert alert-danger alert-dismissible" role="alert">
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<ul>
+											{% for error in notify.action.errors %}
+												<li>{{ error }}</li>
+											{% endfor %}
+										</ul>
+									</div>
+								{% endif %}
+		            		</div>
+		            		<br clear="all" />
+		            		<div class="row">
+		            			<div class="col-md-12">
+		            				<p>{% trans 'Wished period' %}: </p>
+		            			</div>
+		            		</div>
+		            		<div class="form-group{% if notify.has_error %} has-error {% endif %} row">
+		            			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 checkbox">
+							        <label>
+				      					{% render_field notify.begin_date_check class="begin_date" %} {{ notify.begin_date.label }}
+				  					</label>
+						        </div>
+						        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+						        	{% render_field notify.begin_date class='form-control datetime-picker begin_date_input' %}
+						        </div>						        
+		            		</div>
+		            		<div class="row">
+		            			<span id="helpBlock" class="help-block">{{ notify.begin_date.help_text }}</span>
+			
+								{% if notify.begin_date.errors %}
+									<div class="alert alert-danger alert-dismissible" role="alert">
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<ul>
+											{% for error in notify.begin_date.errors %}
+												<li>{{ error }}</li>
+											{% endfor %}
+										</ul>
+									</div>
+								{% endif %}
+		            		</div>
+		            		<div class="form-group{% if notify.has_error %} has-error {% endif %} row">
+		            			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 checkbox">
+							        <label>
+				      					{% render_field notify.end_date_check class="end_date" %} {{ notify.end_date.label }}
+				  					</label>
+						        </div>
+						        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+						        	{% render_field notify.end_date class='form-control datetime-picker end_date_input' %}
+						        </div>
+		            		</div>
+		            		<div class="row">
+		            			<span id="helpBlock" class="help-block">{{ notify.end_date.help_text }}</span>
+			
+								{% if notify.end_date.errors %}
+									<div class="alert alert-danger alert-dismissible" role="alert">
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<ul>
+											{% for error in notify.end_date.errors %}
+												<li>{{ error }}</li>
+											{% endfor %}
+										</ul>
+									</div>
+								{% endif %}
+		            		</div>
+		            		<div class="form-group{% if notify.has_error %} has-error {% endif %} row">
+		            			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 checkbox">
+							        <label>
+				      					{% render_field notify.limit_date_check class="limit_date" %} {{ notify.limit_date.label }}
+				  					</label>
+						        </div>
+						        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						        	{% render_field notify.limit_date class='form-control datetime-picker limit_date_input' %}
+						        </div>
+		            		</div>
+		            		<div class="row">
+		            			<span id="helpBlock" class="help-block">{{ notify.limit_date.help_text }}</span>
+			
+								{% if notify.limit_date.errors %}
+									<div class="alert alert-danger alert-dismissible" role="alert">
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<ul>
+											{% for error in notify.limit_date.errors %}
+												<li>{{ error }}</li>
+											{% endfor %}
+										</ul>
+									</div>
+								{% endif %}
+		            		</div>
+		            	</div>
+	            	</div>
+	            {% endfor %}
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+			<div class="panel-heading">
+    			<div class="row">
+        			<div class="col-md-12">
+            			<a data-parent="#professors_accordion" data-toggle="collapse" href="#students">
+            				<h4 class="panel-title">
+                    			<button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label for="{{ form.students.auto_id }}">{% trans 'Students' %}</label>
+            				</h4>
+            			</a>
+            		</div>
+            	</div>
+            </div>
+            <div id="students" class="panel-collapse collapse">
+            	<div class="form-group{% if form.has_error %} has-error {% endif %}">
+            		<div class=" checkbox">
+            			<label for="{{ form.all_students.auto_id }}">
+	      					{% render_field form.all_students %} {{ form.all_students.label }}
+	  					</label>
+	  				</div>
+
+	  				<span id="helpBlock" class="help-block">{{ form.all_students.help_text }}</span>
+			
+					{% if form.all_students.errors %}
+						<div class="alert alert-danger alert-dismissible" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							<ul>
+								{% for error in form.all_students.errors %}
+									<li>{{ error }}</li>
+								{% endfor %}
+							</ul>
+						</div>
+					{% endif %}
+            	</div>
+
+            	<p><em>{% trans 'Attribute students to Questionary' %}:</em></p>
+            	{% render_field form.students class='form-control' %}
+
+            	<span id="helpBlock" class="help-block">{{ form.students.help_text }}</span>
+			
+				{% if form.students.errors %}
+					<div class="alert alert-danger alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						<ul>
+							{% for error in form.students.errors %}
+								<li>{{ error }}</li>
+							{% endfor %}
+						</ul>
+					</div>
+				{% endif %}
+
+            	<br clear="all" />
+
+            	<p><em>{% trans 'Attribute groups to Questionary' %}:</em></p>
+            	{% render_field form.groups class='form-control' %}
+
+            	<span id="helpBlock" class="help-block">{{ form.groups.help_text }}</span>
+			
+				{% if form.groups.errors %}
+					<div class="alert alert-danger alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						<ul>
+							{% for error in form.groups.errors %}
+								<li>{{ error }}</li>
+							{% endfor %}
+						</ul>
+					</div>
+				{% endif %}
+            </div>
+        </div>
+	</div>
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %}">
+		<div class=" checkbox">
+			<label for="{{ form.show_window.auto_id }}">
+				{% render_field form.show_window %} {{ form.show_window.label }}
+			</label>
+		</div>
+
+		<span id="helpBlock" class="help-block">{{ form.show_window.help_text }}</span>
+			
+		{% if form.show_window.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.show_window.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+	</div>
+
+	<div class="form-group{% if form.has_error %} has-error {% endif %}">
+		<div class=" checkbox">
+			<label for="{{ form.visible.auto_id }}">
+				{% render_field form.visible %} {{ form.visible.label }}
+			</label>
+		</div>
+
+		<span id="helpBlock" class="help-block">{{ form.visible.help_text }}</span>
+			
+		{% if form.visible.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				<ul>
+					{% for error in form.visible.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+	</div>
+
+	<div class="row">
+		<div class="col-lg-2 col-md-offset-4 col-md-6 col-sm-12 col-xs-12 text-center">
+			<input type="submit" value="{% trans 'Save' %}" class="btn btn-success btn-raised btn-block" />
+		</div>
+
+		<div class="col-lg-2 col-md-6 col-sm-12 col-xs-12 text-center">
+			<a href="{% url 'subjects:topic_view' slug=subject.slug topic_slug=topic.slug %}" class="btn btn-default btn-raised btn-block">{% trans 'Cancel' %}</a>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+	$(function() {
+        $('.specs').formset({
+			addText: '{% trans "Add specification" %}',
+			deleteText: '{% trans "Remove this specification" %}',
+			prefix: '{{ specifications_form.prefix }}',
+            added: function (row) {
+                row.find('.spec_categories').multiSelect({
+                    selectableHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=' '>",
+                    selectionHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=''>",
+                    afterInit: function (ms) {
+                        var that = this,
+                            $selectableSearch = that.$selectableUl.prev(),
+                            $selectionSearch = that.$selectionUl.prev(),
+                            selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                            selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+
+                        that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+                            .on('keydown', function (e) {
+                                if (e.which === 40) {
+                                    that.$selectableUl.focus();
+                                    return false;
+                                }
+                            });
+
+                        that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+                            .on('keydown', function (e) {
+                                if (e.which == 40) {
+                                    that.$selectionUl.focus();
+                                    return false;
+                                }
+                            });
+                    },
+                    afterSelect: function () {
+                        this.qs1.cache();
+                        this.qs2.cache();
+                    },
+                    afterDeselect: function () {
+                        this.qs1.cache();
+                        this.qs2.cache();
+                    }
+                });
+
+				row.find('.n_questions').on('focus', function () {
+					var $sel   = $(this),
+						values = $sel.parent().parent().find('.spec_categories').val();
+					
+					$sel.empty();
+
+					if (values.length > 0) {
+						$.ajax({
+							method: 'GET',
+							url: "{% url 'questionary:countQ' %}",
+							data: {'values': values.join(',')},
+							success: function (response) {
+								if (response.total > 0) {
+									for (var i = 1; i <= response.total; ++i) {
+										$sel.append($('<option>', {value: i, text: i}));
+									}
+								} else {
+									$sel.append($('<option>', {value: 0, text: '0'}));
+								}
+							}
+						})
+					}
+				});
+            }
+		});
+
+		$('.notifies').formset({
+			addText: '{% trans "Add new notification" %}',
+			deleteText: '{% trans "Remove this" %}',
+			prefix: '{{ pendencies_form.prefix }}',
+			added: function (row) {
+				var locale = navigator.language || navigator.userLanguage;
+				
+				$(row).find('.datetime-picker').each(function () {
+					$(this).datetimepicker({
+						locale: locale
+					});
+				});
+				$('.begin_date_input').on('click', function () {
+			    	var checkbox = $(this).parent().parent().find('.begin_date');
+			    	$(checkbox).prop('checked', true);
+			    });
+			    $('.end_date_input').on('click', function () {
+			    	var checkbox = $(this).parent().parent().find('.end_date');
+			    	$(checkbox).prop('checked', true);
+			    });
+			    $('.limit_date_input').on('click', function () {
+			    	var checkbox = $(this).parent().parent().find('.limit_date');
+			    	$(checkbox).prop('checked', true);
+			    });
+			    
+			    var subject = $("#id_control_subject").val();
+			    
+			    $(row).find('.pend_subj').val(subject);
+			}
+		}); 
+
+		$('.begin_date_input').each(function () {
+			if ($(this).val() != '') {
+				$(this).parent().parent().find('.begin_date').prop('checked', true);
+			} else {
+				$(this).parent().parent().find('.begin_date').prop('checked', false);
+			}
+		});
+
+		$('.end_date_input').each(function () {
+			if ($(this).val() != '') {
+				$(this).parent().parent().find('.end_date').prop('checked', true);
+			} else {
+				$(this).parent().parent().find('.end_date').prop('checked', false);
+			}
+		});
+
+		$('.limit_date_input').each(function () {
+			if ($(this).val() != '') {
+				$(this).parent().parent().find('.limit_date').prop('checked', true);
+			} else {
+				$(this).parent().parent().find('.limit_date').prop('checked', false);
+			}
+		});
+
+		var subject = $("#id_control_subject").val();
+		$('.pend_subj').val(subject);
+
+		{% if not pendencies_form.is_valid and pendencies_form.is_bound %}
+			$("#notifications").collapse('toggle');
+		{% endif %}
+
+		{% if not specifications_form.is_valid and specifications_form.is_bound %}
+			$("#specs").collapse('toggle');
+		{% endif %}
+
+        $('.spec_categories').multiSelect({
+            selectableHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=' '>",
+            selectionHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder=''>",
+            afterInit: function (ms) {
+                var that = this,
+                    $selectableSearch = that.$selectableUl.prev(),
+                    $selectionSearch = that.$selectionUl.prev(),
+                    selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                    selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+
+                that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+                    .on('keydown', function (e) {
+                        if (e.which === 40) {
+                            that.$selectableUl.focus();
+                            return false;
+                        }
+                    });
+
+                that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+                    .on('keydown', function (e) {
+                        if (e.which == 40) {
+                            that.$selectionUl.focus();
+                            return false;
+                        }
+                    });
+
+				that.selected_values = Array();
+            },
+            afterSelect: function (values) {
+                this.qs1.cache();
+                this.qs2.cache();
+
+				this.selected_values.push(values[0]);
+            },
+            afterDeselect: function (values) {
+                this.qs1.cache();
+                this.qs2.cache();
+
+				var index = this.selected_values.indexOf(values[0]);
+
+				if (index !== -1) {
+					this.selected_values.splice(index, 1);
+				}
+            }
+        });
+
+		$('.n_questions').on('focus', function () {
+			var $sel   = $(this),
+				values = $sel.parent().parent().find('.spec_categories').val();
+			
+			$sel.empty();
+
+			if (values.length > 0) {
+				$.ajax({
+					method: 'GET',
+					url: "{% url 'questionary:countQ' %}",
+					data: {'values': values.join(',')},
+					success: function (response) {
+						if (response.total > 0) {
+							for (var i = 1; i <= response.total; ++i) {
+								$sel.append($('<option>', {value: i, text: i}));
+							}
+						} else {
+							$sel.append($('<option>', {value: 0, text: '0'}));
+						}
+					}
+				})
+			}
+		});
+
+		$('.n_questions').each(function () {
+			var $sel   = $(this),
+				values = $sel.parent().parent().find('.spec_categories').val();
+			
+			$sel.empty();
+
+			if (values.length > 0) {
+				$.ajax({
+					method: 'GET',
+					url: "{% url 'questionary:countQ' %}",
+					data: {'values': values.join(',')},
+					success: function (response) {
+						if (response.total > 0) {
+							for (var i = 1; i <= response.total; ++i) {
+								$sel.append($('<option>', {value: i, text: i}));
+							}
+						} else {
+							$sel.append($('<option>', {value: 0, text: '0'}));
+						}
+					}
+				})
+			}
+		});
+	});
+</script>
+<script type="text/javascript" src="{% static 'js/resources.js' %}"></script>

@@ -751,7 +751,7 @@ a:focus {
 }
 /* end jPages */
 
-.notifies, .goalitems {
+.notifies, .goalitems, .specs {
     padding: 5px 20px;
     text-align: right;
     margin-bottom: 10px;
@@ -765,7 +765,7 @@ a:focus {
     font-weight: 700;
 }
 
-.notifies a.delete-row, .goalitems a.delete-row {
+.notifies a.delete-row, .goalitems a.delete-row, .specs a.delete-row {
     padding: 5px 20px;
     font-size: 12px;
     border: none;
@@ -1664,7 +1664,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 }
 /* End Chat */
 
-/* Qusestions Databse */
+/* Questions Databse */
 .alternative-panel h4 {
     width: 100%;
     overflow: hidden;
@@ -1681,4 +1681,9 @@ div.dataTables_wrapper div.dataTables_paginate {
 }
 .alternative-panel h4 a:hover {
     text-decoration: none;
+}
+
+/* Questionary */
+.questionary {
+    margin-top: 20px;
 }

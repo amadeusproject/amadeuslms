@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-02 20:57+0000\n"
+"POT-Creation-Date: 2018-10-15 04:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgid ""
 msgstr ""
 "Já existe um outro recurso com a especificação de metas para o tópico %s"
 
-#: goals/forms.py:78 goals/forms.py:139
+#: goals/forms.py:78 goals/forms.py:137
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
@@ -62,7 +62,7 @@ msgstr ""
 msgid "This field is required"
 msgstr "Esse campo é obrigatório."
 
-#: goals/forms.py:153
+#: goals/forms.py:151
 msgid "It's necessary to enter at least one goal specification."
 msgstr "Você deve cadastrar ao menos uma especificação de meta."
 
@@ -81,7 +81,7 @@ msgid "Goal"
 msgstr "Meta"
 
 #: goals/models.py:28 goals/templates/goals/_answered.html:32
-#: goals/views.py:1166
+#: goals/views.py:1165
 msgid "Goals"
 msgstr "Metas"
 
@@ -398,7 +398,7 @@ msgstr "Adicionou"
 msgid "Updated"
 msgstr "Atualizou"
 
-#: goals/templatetags/goals_filters.py:79 goals/views.py:1146
+#: goals/templatetags/goals_filters.py:79 goals/views.py:1145
 msgid "Submitted"
 msgstr "Submeteu"
 
@@ -407,7 +407,7 @@ msgstr "Submeteu"
 msgid "%s Instance"
 msgstr "Instância de %s"
 
-#: goals/utils.py:74 goals/views.py:1237
+#: goals/utils.py:74 goals/views.py:1236
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
@@ -436,75 +436,75 @@ msgstr ""
 msgid "Your goals for %s was update successfully!"
 msgstr "Suas metas para %s foram atualizadas com sucesso!"
 
-#: goals/views.py:735 goals/views.py:749 goals/views.py:774 goals/views.py:896
-#: goals/views.py:910 goals/views.py:920
+#: goals/views.py:735 goals/views.py:749 goals/views.py:773 goals/views.py:895
+#: goals/views.py:909 goals/views.py:919
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: goals/views.py:735 goals/views.py:749 goals/views.py:774 goals/views.py:896
-#: goals/views.py:910 goals/views.py:920
+#: goals/views.py:735 goals/views.py:749 goals/views.py:773 goals/views.py:895
+#: goals/views.py:909 goals/views.py:919
 msgid "Submit"
 msgstr "Submeter"
 
-#: goals/views.py:837
+#: goals/views.py:836
 msgid "Create Topic Goals"
 msgstr "Adicionar Metas do Tópico"
 
-#: goals/views.py:848
+#: goals/views.py:847
 #, python-format
 msgid "The Goals specification for the topic %s was realized successfully!"
 msgstr "A Especificação de Metas para o tópico %s foi realizada com sucesso!"
 
-#: goals/views.py:975
+#: goals/views.py:974
 msgid "Update Topic Goals"
 msgstr "Atualizar Metas do Tópico"
 
-#: goals/views.py:986
+#: goals/views.py:985
 #, python-format
 msgid "The Goals specification for the topic %s was updated successfully!"
 msgstr "A Especificação de Metas para o tópico %s foi atualizada com sucesso!"
 
-#: goals/views.py:1025
+#: goals/views.py:1024
 #, python-format
 msgid "The Goals specification of the topic %s was removed successfully!"
 msgstr "A Especificação de Metas para o tópico %s foi removida com sucesso!"
 
-#: goals/views.py:1115
+#: goals/views.py:1114
 msgid "Goals Reports"
 msgstr "Relatórios de metas"
 
-#: goals/views.py:1134
+#: goals/views.py:1133
 msgid "Realized"
 msgstr "Realizada"
 
-#: goals/views.py:1134
+#: goals/views.py:1133
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: goals/views.py:1134
+#: goals/views.py:1133
 msgid "Historic"
 msgstr "Histórico"
 
-#: goals/views.py:1146
+#: goals/views.py:1145
 msgid "View"
 msgstr "Visualizar"
 
-#: goals/views.py:1177
+#: goals/views.py:1176
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: goals/views.py:1178
+#: goals/views.py:1177
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: goals/views.py:1225
+#: goals/views.py:1224
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: goals/views.py:1245
+#: goals/views.py:1244
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: goals/views.py:1247
+#: goals/views.py:1246
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
