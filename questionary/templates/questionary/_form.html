@@ -238,9 +238,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             <div id="notifications" class="panel-collapse collapse">
             	{{ pendencies_form.management_form }}
 
-				{{ pendencies_form.errors }}
-  				{{ pendencies_form.non_field_errors }}
-
                 {% if pendencies_form.non_form_errors %}
             		<div class="alert alert-danger alert-dismissible" role="alert">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -632,7 +629,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 		});
 
 		var subject = $("#id_control_subject").val();
-		console.log(subject);
 		$('.pend_subj').val(subject);
 
 		{% if not pendencies_form.is_valid and pendencies_form.is_bound %}

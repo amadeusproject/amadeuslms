@@ -903,6 +903,17 @@ a.add-row {
   color: green;
 }
 
+/* === Questionary === */
+.questionary .header_info {
+  color: #999;
+}
+.questionary .correct_answer {
+  color: green;
+}
+.questionary .wrong_answer {
+  color: red;
+}
+
 @media (max-width: 768px) {
   .navbar .navbar-nav .dropdown .dropdown-menu li > a {
     color: #333333 !important;

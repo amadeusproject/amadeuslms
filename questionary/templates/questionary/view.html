@@ -12,7 +12,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% extends 'subjects/view.html' %}
 
-{% load static i18n pagination permissions_tags subject_counter %}
+{% load static i18n pagination permissions_tags subject_counter alternatives_filter %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% block style %}
@@ -26,10 +26,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% block breadcrumbs %}
 	{{ block.super }}
 	{% breadcrumb topic 'subjects:topic_view' subject.slug topic.slug %}
-	{% breadcrumb questionary 'questionary:submit' questionary.slug %}
-
-	{% trans 'My Goals' as bread %}
-	{% breadcrumb bread 'questionary:view' questionary.slug %}	
+	{% breadcrumb questionary 'questionary:view' questionary.slug %}
 {% endblock %}
 
 {% block content %}
@@ -47,7 +44,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 	{% resource_permissions request.user questionary as has_resource_permissions %}
 	{% subject_permissions request.user questionary.topic.subject as has_subject_permissions %}
 
-    {% if goal.visible %}
+    {% if questionary.visible %}
 		<div class="panel panel-info topic-panel">
         	<div class="panel-heading">
 	{% elif has_resource_permissions %}
@@ -61,7 +58,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 						</h4>
 
 						<div class="col-md-5 pull-right category-card-items">
-							<a href="{% url 'mural:resource_view' goal.slug %}" class="pull-right action_icon">
+							<a href="{% url 'mural:resource_view' questionary.slug %}" class="pull-right action_icon">
 								<i class="fa fa-list" aria-hidden="true"></i>
 								{% resource_mural_number questionary request.user %}
 							</a>
@@ -71,9 +68,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 			</div>
 			<div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
 				{% if has_subject_permissions %}
-					<form id="student_goals" action="" method="POST">
+					<form id="student_quest" action="" method="POST">
 						{% csrf_token %}
-						<select name="selected_student" onchange="$('#student_goals').submit();">
+						<select name="selected_student" onchange="$('#student_quest').submit();">
 							{% for stu in sub_students %}
 								<option value="{{ stu.email }}" {% if stu.email == student %}selected{% endif %}>{{ stu }}</option>
 							{% endfor %}
@@ -88,15 +85,78 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 				<br clear="all" />
 
-				<b>{% trans "Init date" %}:</b> {{ questionary.data_ini }}
-                <b>{% trans "End date" %}:</b> {{ questionary.data_end }}
+				<span><b>{% trans "Init date" %}:</b> {{ questionary.data_ini|date:'SHORT_DATETIME_FORMAT' }}</span>
+                <span style="margin-left: 10px;"><b>{% trans "End date" %}:</b> {{ questionary.data_end|date:'SHORT_DATETIME_FORMAT' }}</span>
 
 				<hr class="goal_divider" />
 
+				<div class="questionary">
+					{% if userquest  %}
+						<div class="header_info">
+							<div class="row">
+								<div class="col-md-6">
+									{% trans 'Initialized in' %}: {{ userquest.data_ini|date:'SHORT_DATETIME_FORMAT' }}
+								</div>
+								<div class="col-md-6">
+									{% trans 'Last update' %}: <span class="last_update">{{ userquest.last_update|date:'SHORT_DATETIME_FORMAT' }}</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									{% trans 'Questions answered' %}: <span class="q_answered">{{ useranswered }}</span> {% trans 'of' %} {{ userquestions|length }}
+								</div>
+								{% if questionary.data_end|view_results:has_subject_permissions %}
+									<div class="col-md-6">
+										{% trans 'Corrected questions' %}: {{ usercorrect }} {% trans 'of' %} {{ userquestions|length }}
+									</div>
+								{% endif %}
+							</div>
+						</div>
+						<div class="questions">
+							{% for question in userquestions %}
+								<div class="question">
+									<h4><b>{% trans 'Question' %} {{ question.order }}</b></h4>
 
-				{% if not has_subject_permissions %}
-					
-				{% endif %}
+									{% autoescape off %}
+										{{ question.question.enunciado }}
+									{% endautoescape %}
+
+									{% if question.question.question_img %}
+										<img src="{{ question.question.question_img.url }}" class="img-responsive center-block" />
+									{% endif %}
+									
+									<div class="alternatives" data-question="{{ question.id }}">
+										{% with question.question.alt_question.all|shuffle as alternatives %}
+											{% for alt in alternatives %}
+												<div>
+													<div style="width: 20px; display: inline-block">
+														{% if questionary.data_end|view_results:has_subject_permissions %}
+															<i class="fa {{ alt|veredict:question.answer }}"></i>
+														{% endif %}
+													</div>
+													<div class="radio" style="display: inline-block">
+														<label>
+															<input type="radio" name="q{{ question.order }}" value="{{ alt.id }}" {{ alt.id|is_answer:question.answer }} {{ questionary.data_end|disabled:has_subject_permissions }}>
+															{{ alt.content|safe }}
+
+															{% if alt.alt_img %}
+																<img src="{{ alt.alt_img.url }}" class="img-responsive center-block" />
+															{% endif %}
+														</label>
+													</div>
+												</div>
+											{% endfor %}
+										{% endwith %}
+									</div>
+
+									<hr />
+								</div>
+							{% endfor %}
+						</div>
+					{% else %}
+						<p class="text-center"><i class="fa fa-question-circle"></i> {% trans "The student did not start the questionary yet." %}</p>
+					{% endif %}
+				</div>
 			</div>
 		</div>
 {% endblock %}
@@ -105,5 +165,29 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% block addtional_scripts %}
 	<script type="text/javascript">
 		sessionSecurity.confirmFormDiscard = undefined;
+
+		$(function () {
+			$('input[type="radio"]').on('change', function () {
+				var $radio = $(this),
+					question = $radio.parent().parent().parent().data('question'),
+					userquest = $radio.parent().parent().parent().data('userquest');
+				
+				$.ajax({
+            		method: 'POST',
+            		url: '{% url "questionary:answer" %}',
+            		data: {'csrfmiddlewaretoken': '{{ csrf_token }}', 'question': question, 'answer': $radio.val()},
+            		success: function (data) {
+						var last_update = data.last_update,
+							answered = data.answered;
+
+						$(".last_update").text(last_update);
+						$(".q_answered").text(answered);
+            		},
+					error: function (data) {
+						alertify.alert('{% trans "Something went wrong. Please try again later" %}');
+					}
+        		});
+			});
+		});
 	</script>
 {% endblock %}

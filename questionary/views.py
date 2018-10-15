@@ -10,9 +10,11 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-import time
+import time, random
+from datetime import datetime
 from django.db import connection
 from django.views import generic
+from django.utils import formats
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -24,12 +26,13 @@ from amadeus.permissions import has_subject_permissions, has_resource_permission
 
 from log.mixins import LogMixin
 
+from banco_questoes.models import Question, Alternative
 from log.models import Log
 from topics.models import Topic, Resource
 from users.models import User
 
 from .forms import QuestionaryForm, InlinePendenciesFormset, InlineSpecificationFormset
-from .models import Questionary
+from .models import Questionary, UserQuest, UserAnswer
 
 class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
     log_component = "resources"
@@ -45,6 +48,8 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
     context_object_name = 'questionary'
 
     students = None
+    userquest = None
+    userquestions = None
 
     def get_queryset(self):
         slug = self.kwargs.get('slug', '')
@@ -53,9 +58,51 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
         if has_subject_permissions(self.request.user, questionary.topic.subject):
             self.students = User.objects.filter(subject_student = questionary.topic.subject).order_by('social_name', 'username')
 
-            #goals = MyGoals.objects.filter(user = self.students.first(), item__goal = goal)
-        #else:
-            #goals = MyGoals.objects.filter(user = self.request.user, item__goal = goal)
+            self.userquest = UserQuest.objects.filter(student = self.students.first(), questionary = questionary)
+            
+            if self.userquest:
+                self.userquest = self.userquest.get()
+                self.userquestions = UserAnswer.objects.filter(user_quest = self.userquest).order_by('order')
+        else:
+            self.userquest = UserQuest.objects.filter(student = self.request.user, questionary = questionary)
+            if self.userquest:
+                self.userquest = self.userquest.get()
+                self.userquestions = UserAnswer.objects.filter(user_quest = self.userquest).order_by('order')
+            else:
+                self.userquest = UserQuest.objects.create(student = self.request.user, questionary = questionary)
+                q_ids = [0]
+                entries = []
+
+                for specs in questionary.spec_questionary.all():
+                    cats = list(specs.categories.values_list('id', flat = True))
+                    n_questions = specs.n_questions
+
+                    with connection.cursor() as cursor:
+                        cursor.execute('SELECT DISTINCT question_id FROM banco_questoes_question_categories AS a WHERE %s <@ (SELECT array_agg(tag_id) FROM public.banco_questoes_question_categories AS c WHERE c.question_id = a.question_id) AND NOT a.question_id = any(%s)', [cats, q_ids])
+                        rows = cursor.fetchall()
+
+                        list_q = []
+
+                        for row in rows:
+                            list_q.append(row[0])
+                        print(list_q)
+                        random.shuffle(list_q)
+                        print(list_q)
+                        q_ids = q_ids + (list_q[0:n_questions])
+                
+                questions = Question.objects.filter(pk__in = q_ids)
+
+                orders = list(range(1, questions.count()+1))
+                random.shuffle(orders)
+
+                for question in questions.all():
+                    entries.append(UserAnswer(user_quest = self.userquest, question = question, order = orders[0]))
+
+                    orders.pop(0)
+
+                UserAnswer.objects.bulk_create(entries)
+
+                self.userquestions = UserAnswer.objects.filter(user_quest = self.userquest).order_by('order')
 
         return questionary
 
@@ -65,16 +112,24 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
 
         user = request.POST.get('selected_student', None)
 
+        self.object_list = questionary
+
         if has_subject_permissions(request.user, questionary.topic.subject):
             self.students = User.objects.filter(subject_student = questionary.topic.subject).order_by('social_name', 'username')
 
-            #if not user is None:
-                #self.object_list = MyGoals.objects.filter(user__email = user, item__goal = goal)
-            #else:
-                #self.object_list = MyGoals.objects.filter(user = self.request.user, item__goal = goal)	
-        #else:
-            #self.object_list = MyGoals.objects.filter(user = self.request.user, item__goal = goal)
+            if not user is None:
+                self.userquest = UserQuest.objects.filter(student__email = user, questionary = questionary)
 
+                if self.userquest:
+                    self.userquest = self.userquest.get()
+                    self.userquestions = UserAnswer.objects.filter(user_quest = self.userquest).order_by('order')
+            else:
+                self.userquest = UserQuest.objects.filter(student = self.students.first(), questionary = questionary)
+                
+                if self.userquest:
+                    self.userquest = self.userquest.get()
+                    self.userquestions = UserAnswer.objects.filter(user_quest = self.userquest).order_by('order')
+        
         return self.render_to_response(self.get_context_data())
 
     def dispatch(self, request, *args, **kwargs):
@@ -86,34 +141,52 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
 
         return super(InsideView, self).dispatch(request, *args, **kwargs)
 
+    def get_template_names(self):
+        window = self.kwargs.get('window', None)
+
+        template_name = 'questionary/view.html'
+
+        if window:
+            template_name = 'questionary/window_view.html'
+
+        print(template_name)
+
+        return template_name
+
     def get_context_data(self, **kwargs):
         context = super(InsideView, self).get_context_data(**kwargs)
 
         slug = self.kwargs.get('slug', '')
-        questioanry = get_object_or_404(Questionary, slug = slug)
+        questionary = get_object_or_404(Questionary, slug = slug)
 
-        context['title'] = _("My Goals")
+        context['title'] = questionary.name
         
-        context['goal'] = questioanry
-        context['topic'] = questioanry.topic
-        context['subject'] = questioanry.topic.subject
+        context['questionary'] = questionary
+        context['topic'] = questionary.topic
+        context['subject'] = questionary.topic.subject
+        context['userquest'] = self.userquest
+        context['userquestions'] = self.userquestions
+
+        if self.userquestions:
+            context['useranswered'] = self.userquestions.filter(answer__isnull = False).count()
+            context['usercorrect'] = self.userquestions.filter(is_correct = True).count()
 
         if not self.students is None:
             context['sub_students'] = self.students
             context['student'] = self.request.POST.get('selected_student', self.students.first().email)
 
-        self.log_context['category_id'] = questioanry.topic.subject.category.id
-        self.log_context['category_name'] = questioanry.topic.subject.category.name
-        self.log_context['category_slug'] = questioanry.topic.subject.category.slug
-        self.log_context['subject_id'] = questioanry.topic.subject.id
-        self.log_context['subject_name'] = questioanry.topic.subject.name
-        self.log_context['subject_slug'] = questioanry.topic.subject.slug
-        self.log_context['topic_id'] = questioanry.topic.id
-        self.log_context['topic_name'] = questioanry.topic.name
-        self.log_context['topic_slug'] = questioanry.topic.slug
-        self.log_context['questionary_id'] = questioanry.id
-        self.log_context['questionary_name'] = questioanry.name
-        self.log_context['questionary_slug'] = questioanry.slug
+        self.log_context['category_id'] = questionary.topic.subject.category.id
+        self.log_context['category_name'] = questionary.topic.subject.category.name
+        self.log_context['category_slug'] = questionary.topic.subject.category.slug
+        self.log_context['subject_id'] = questionary.topic.subject.id
+        self.log_context['subject_name'] = questionary.topic.subject.name
+        self.log_context['subject_slug'] = questionary.topic.subject.slug
+        self.log_context['topic_id'] = questionary.topic.id
+        self.log_context['topic_name'] = questionary.topic.name
+        self.log_context['topic_slug'] = questionary.topic.slug
+        self.log_context['questionary_id'] = questionary.id
+        self.log_context['questionary_name'] = questionary.name
+        self.log_context['questionary_slug'] = questionary.slug
         self.log_context['timestamp_start'] = str(int(time.time()))
 
         super(InsideView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
@@ -140,6 +213,13 @@ class QuestionaryCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
 
         if not has_subject_permissions(request.user, topic.subject):
             return redirect(reverse_lazy('subjects:home'))
+
+        questions = Question.objects.filter(subject = topic.subject)
+
+        if not questions.exists():
+            messages.error(self.request, _('The questions database is empty. Before creating a new questionary you must provide questions to the questions database'))
+
+            return redirect(reverse_lazy('subjects:view', kwargs = {'slug': topic.subject.slug}))
 
         return super(QuestionaryCreateView, self).dispatch(request, *args, **kwargs)
     
@@ -212,8 +292,8 @@ class QuestionaryCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
         for sform in specifications_form.forms:
             spec_form = sform.save(commit = True)
 
-            #if not spec_form.categories == "":
-             #   goal_form.save()
+            if not spec_form.n_questions or spec_form.n_questions == "":
+               spec_form.delete()
         
         self.log_context['category_id'] = self.object.topic.subject.category.id
         self.log_context['category_name'] = self.object.topic.subject.category.name
@@ -259,17 +339,14 @@ class QuestionaryCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
     def get_success_url(self):
         messages.success(self.request, _('The questionary %s was successfully created in the topic %s!')%(self.object.name,self.object.topic.name))
 
-        if has_subject_permissions(self.request.user, self.object.topic.subject):
-            success_url = reverse_lazy('questionary:view', kwargs = {'slug': self.object.slug})
-        else:
-            success_url = reverse_lazy('questionary:submit', kwargs = {'slug': self.object.slug})
+        success_url = reverse_lazy('questionary:view', kwargs = {'slug': self.object.slug})
+        
+        if self.object.show_window:
+            self.request.session['resources'] = {}
+            self.request.session['resources']['new_page'] = True
+            self.request.session['resources']['new_page_url'] = reverse('questionary:window_view', kwargs = {'slug': self.object.slug, 'window': 'window'})
 
-            if self.object.show_window:
-                self.request.session['resources'] = {}
-                self.request.session['resources']['new_page'] = True
-                self.request.session['resources']['new_page_url'] = reverse('questionary:window_submit', kwargs = {'slug': self.object.slug})
-
-                success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+            success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
         return success_url
 
@@ -355,6 +432,9 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
         for sform in specifications_form.forms:
             spec_form = sform.save(commit = True)
+
+            if not spec_form.n_questions or spec_form.n_questions == "":
+               spec_form.delete()
         
         self.log_context['category_id'] = self.object.topic.subject.category.id
         self.log_context['category_name'] = self.object.topic.subject.category.name
@@ -389,17 +469,14 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
     def get_success_url(self):
         messages.success(self.request, _('The questionary %s of the topic %s was updated successfully!')%(self.object.name, self.object.topic.name))
 
-        if has_subject_permissions(self.request.user, self.object.topic.subject):
-            success_url = reverse_lazy('questionary:view', kwargs = {'slug': self.object.slug})
-        else:
-            success_url = reverse_lazy('questionary:submit', kwargs = {'slug': self.object.slug})
+        success_url = reverse_lazy('questionary:view', kwargs = {'slug': self.object.slug})
 
-            if self.object.show_window:
-                self.request.session['resources'] = {}
-                self.request.session['resources']['new_page'] = True
-                self.request.session['resources']['new_page_url'] = reverse('goals:window_submit', kwargs = {'slug': self.object.slug})
+        if self.object.show_window:
+            self.request.session['resources'] = {}
+            self.request.session['resources']['new_page'] = True
+            self.request.session['resources']['new_page_url'] = reverse('questionary:window_view', kwargs = {'slug': self.object.slug, 'window': 'window'})
 
-                success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+            success_url = reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
         return success_url
 
@@ -445,18 +522,6 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
-class SubmitView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
-    log_component = "resources"
-    log_action = "submit"
-    log_resource = "questionary"
-    log_context = {}
-
-    login_url = reverse_lazy("users:login")
-    redirect_field_name = 'next'
-
-    template_name = 'questioanry/view.html'
-    form_class = QuestionaryForm
-
 def countQuestions(request):
     tags = request.GET.get('values', None)
     total = 0
@@ -469,3 +534,23 @@ def countQuestions(request):
             total = total[0]
         
     return JsonResponse({'total': total})
+
+def answer(request):
+    question = request.POST.get('question')
+    answer = request.POST.get('answer')
+
+    question = get_object_or_404(UserAnswer, id = question)
+    answer = get_object_or_404(Alternative, id = answer)
+
+    question.answer = answer
+    question.is_correct = answer.is_correct
+    
+    userquest = question.user_quest
+    
+    question.save()
+
+    userquest.last_update = datetime.now()
+
+    userquest.save()
+
+    return JsonResponse({'last_update': formats.date_format(userquest.last_update, "SHORT_DATETIME_FORMAT"), 'answered': userquest.useranswer_userquest.filter(answer__isnull = False).count()})

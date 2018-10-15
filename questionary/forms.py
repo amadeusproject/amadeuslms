@@ -101,7 +101,7 @@ class QuestionaryForm(forms.ModelForm):
                     self.add_error('data_end', _('This input should be filled with a date equal or before the subject end date.("%s")')%(self.subject.end_date))
 
                 if not data_ini == ValueError and data_ini and data_end < data_ini:
-                    self.add_error('data_end', _("This input should be filled with a date equal or before the date stabilished for thte init."))
+                    self.add_error('data_end', _("This input should be filled with a date equal or before the date stabilished for the init."))
         else:
             self.add_error('data_end', _('This field is required'))
 
@@ -142,10 +142,14 @@ class SpecificationForm(forms.ModelForm):
 
         if kwargs.get('initial', None):
             self.subject = kwargs.get('initial').get('subject', None)
-        else:
+            self.subject = self.subject.id
+        elif self.instance.id:
             self.subject = self.instance.questionary.topic.subject
+            self.subject = self.subject.id
+        else:
+            self.subject = kwargs['data'].get('control_subject')
 
-        self.fields['categories'].queryset = Tag.objects.filter(question_categories__subject = self.subject).distinct()
+        self.fields['categories'].queryset = Tag.objects.filter(question_categories__subject__id = self.subject).distinct()
 
     class Meta:
         model = Specification
@@ -158,7 +162,11 @@ class SpecificationForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(SpecificationForm, self).clean()
 
+        categories = cleaned_data.get('categories', None)
         n_questions = cleaned_data.get('n_questions', None)
+
+        if categories and (not n_questions or n_questions == ''):
+            self.add_error('n_questions', _('You must provide the number of questions for the combination.'))
 
         if n_questions and n_questions == "0":
             self.add_error('n_questions', _('There is no questions for this combination of categories. Please try another combination.'))

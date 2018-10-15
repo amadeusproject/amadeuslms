@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-02 20:57+0000\n"
+"POT-Creation-Date: 2018-10-15 04:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -112,25 +112,35 @@ msgstr "Fechar"
 msgid "Delete"
 msgstr "Deletar"
 
-#: topics/templates/resources/list.html:43 topics/templates/topics/list.html:40
+#: topics/templates/resources/list.html:42 topics/templates/topics/list.html:40
 msgid "Edit"
 msgstr "Editar"
 
-#: topics/templates/resources/list.html:45
-#: topics/templates/resources/list.html:47
-#: topics/templates/resources/list.html:49
-#: topics/templates/resources/list.html:51
-#: topics/templates/resources/list.html:53
-#: topics/templates/resources/list.html:55
-#: topics/templates/resources/list.html:57
-#: topics/templates/resources/list.html:59
-#: topics/templates/resources/list.html:61
+#: topics/templates/resources/list.html:44
+#: topics/templates/resources/list.html:46
+#: topics/templates/resources/list.html:48
+#: topics/templates/resources/list.html:50
+#: topics/templates/resources/list.html:52
+#: topics/templates/resources/list.html:54
+#: topics/templates/resources/list.html:56
+#: topics/templates/resources/list.html:58
+#: topics/templates/resources/list.html:60
 msgid "Reports"
 msgstr "Relatórios"
 
-#: topics/templates/resources/list.html:63 topics/templates/topics/list.html:41
+#: topics/templates/resources/list.html:62 topics/templates/topics/list.html:41
 msgid "Remove"
 msgstr "Remover"
+
+#: topics/templates/resources/list.html:73
+#, fuzzy
+#| msgid "Last Update"
+msgid "Init date"
+msgstr "Última Atualização"
+
+#: topics/templates/resources/list.html:76
+msgid "End date"
+msgstr ""
 
 #: topics/templates/topics/_form.html:33
 msgid "Only one topic per subject can be a repository"
