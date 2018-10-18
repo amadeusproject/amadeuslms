@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-python3 manage.py shell
 python3 manage.py makemigrations
 python3 manage.py migrate --noinput
 #python3 initadmin.py
