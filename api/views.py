@@ -119,7 +119,9 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def login(self, request):
-		username = request.data['email']
+		json_data = json.loads(request.body.decode('utf-8'))
+
+		username = json_data['email']
 		
 		user = self.queryset.get(email = username)
 		response = ""
@@ -149,8 +151,10 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def register_device(self, request):
-		username = request.data['email']
-		device = request.data['device']
+		json_data = json.loads(request.body.decode('utf-8'))
+
+		username = json_data['email']
+		device = json_data['device']
 		
 		user = self.queryset.get(email = username)
 		response = ""
@@ -193,7 +197,9 @@ class SubjectViewset(viewsets.ReadOnlyModelViewSet):
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def get_subjects(self, request):
-		username = request.data['email']
+		json_data = json.loads(request.body.decode('utf-8'))
+
+		username = json_data['email']
 
 		user = User.objects.get(email = username)
 
@@ -248,8 +254,10 @@ class ParticipantsViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def get_participants(self, request):
-		username = request.data['email']
-		subject_slug = request.data['subject_slug']
+		json_data = json.loads(request.body.decode('utf-8'))
+
+		username = json_data['email']
+		subject_slug = json_data['subject_slug']
 
 		user = User.objects.get(email = username)
 
@@ -310,11 +318,12 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def get_messages(self, request):
-		username = request.data['email']
-		user_two = request.data['user_two']
-		n_page = int(request.data['page'])
-		messages_by_page = int(request.data['page_size'])
-		#messages_by_page = 15
+		json_data = json.loads(request.body.decode('utf-8'))
+
+		username = json_data['email']
+		user_two = json_data['user_two']
+		n_page = int(json_data['page'])
+		messages_by_page = int(json_data['page_size'])
 
 		user = User.objects.get(email = username)
 
@@ -327,7 +336,9 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 
 			messages = TalkMessages.objects.filter((Q(talk__user_one__email = username) & Q(talk__user_two__email = user_two)) | (Q(talk__user_one__email = user_two) & Q(talk__user_two__email = username))).order_by('-create_date')
 
-			ChatVisualizations.objects.filter(Q(user = user) & Q(message__talk__user_two__email = user_two) & Q(viewed = False)).update(viewed = True)
+			views = ChatVisualizations.objects.filter(Q(user = user) & (Q(message__talk__user_two__email = user_two) | Q(message__talk__user_one__email = user_two)) & Q(viewed = False))
+
+			views.update(viewed = True, date_viewed = datetime.now())
 
 			page = []
 
@@ -380,9 +391,9 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 
 		if 'file' in request.data:
 			file = request.FILES['file']
-			
-			data = json.loads(request.data['data'])
 
+			data = json.loads(request.data['data'])
+			
 			username = data['email']
 			user_two = data['user_two']
 			subject = data['subject']
@@ -390,11 +401,12 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 			create_date = data['create_date']
 		else:
 			file = None
-			username = request.data['email']
-			user_two = request.data['user_two']
-			subject = request.data['subject']
-			msg_text = request.data['text']
-			create_date = request.data['create_date']
+			data = json.loads(request.body.decode('utf-8'))
+			username = data['email']
+			user_two = data['user_two']
+			subject = data['subject']
+			msg_text = data['text']
+			create_date = data['create_date']
 
 		info = {}
 
@@ -503,9 +515,11 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def favorite_messages(self, request):
-		username = request.data['email']
-		favor = request.data['favor']
-		list_size = int(request.data['list_size'])
+		json_data = json.loads(request.body.decode('utf-8'))
+
+		username = json_data['email']
+		favor = json_data['favor']
+		list_size = int(json_data['list_size'])
 
 		user = User.objects.get(email = username)
 
@@ -514,7 +528,7 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 
 		for i in range(0, list_size):
 
-			message_id = int(request.data[str(i)])
+			message_id = int(json_data[str(i)])
 
 			message = get_object_or_404(TalkMessages, id = message_id)
 

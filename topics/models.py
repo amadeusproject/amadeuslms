@@ -109,3 +109,11 @@ class Resource(KnowsChild):
 	@always_as_child
 	def delete_message(self):
 		pass
+
+	@always_as_child
+	def get_data_ini(self):
+		return None
+	
+	@always_as_child
+	def get_data_end(self):
+		return None
