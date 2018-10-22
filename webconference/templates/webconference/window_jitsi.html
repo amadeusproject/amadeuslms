@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+{% load static i18n access_conference%}
+
+<html>
+<head>
+	<title>{{ title }} | {{ theme.title }}</title>
+
+	<script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
+
+	<meta http-equiv="Cache-Control" content="no-cache, no-store" />
+	<link href="{{ theme.favicon_url }}" rel="shortcut icon" />
+
+    <script src="https://meet.jit.si/external_api.js"></script>
+    <style>
+      #jitsi, iframe{
+          margin-left: -1px;
+          margin-right: 0px;
+          margin-top: -2px;
+          margin-bottom: -1px;
+          padding: 0px;
+          width: 100%;
+          min-height: 100%;
+          height: 100%;
+      }
+      </style>
+</head>
+<body>
+<div id="jitsi">
+
+</div>
+<script>
+// code to start jitsi api
+  var domain = "{{domain}}"; // domain that jitsi will itself connect
+  var room = "{{name_room}}"; // name of the room to be created
+  var height = $(document).height(); // height of the window to be created
+  var html = document.getElementById("jitsi");
+  var options = {
+      roomName: room,
+      height: height,
+      parentNode: html
+  }
+  $('#jitsi').css({'height':height});
+  //var api = new JitsiMeetExternalAPI(domain, room, 0, 0,html);
+  var api = new JitsiMeetExternalAPI(domain, options);
+  // window.onload = initpage;
+  window.onload = initpage;
+  function initpage(){
+    api.executeCommand('displayName', '{{user}}');
+    api.executeCommand('email', '{{user.email}}');
+    api.executeCommand('avatarUrl', '{{user_image}}');
+    api.addEventListener('videoConferenceLeft', function(res){
+      $.ajax({
+        method: "GET",
+        url: "{% url 'webconferences:exit' %}",
+        dataType: 'json',
+        data: res,
+        success: function(response) {
+          window.location.replace(response['url']);
+          console.log(response);
+        },
+        error: function(response) {
+          console.log(response);
+        }
+      });
+    });
+    var repeater = setInterval(function () {
+      $.ajax({
+        method: "GET",
+        url: "{% url 'webconferences:participating'%}",
+        dataType: 'json',
+        data: {'slug':'{{name_room}}'},
+        success: function(response) {
+          console.log(response);
+        },
+        error: function(response) {
+          console.log(response);
+        }
+      });
+    }, 60*1000);
+  }
+</script>
+</body>
+</html>
