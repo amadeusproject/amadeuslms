@@ -52,7 +52,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
           <!--  Button to join in web conference -->
           <div class="row">
             <div class="text-center">
-              <a href="#" class="btn btn-raised btn-success">{% trans "Participate" %}</a>
+              <a href="{% url 'webconferences:window_conference' webconference.slug 'window' %}" class="btn btn-raised btn-success">{% trans "Participate" %}</a>
             </div>
           </div>
           {% endif %}
