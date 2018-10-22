@@ -56,7 +56,10 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
         questionary = get_object_or_404(Questionary, slug = slug)
 
         if has_subject_permissions(self.request.user, questionary.topic.subject):
-            self.students = User.objects.filter(subject_student = questionary.topic.subject).order_by('social_name', 'username')
+            if questionary.all_students:
+                self.students = User.objects.filter(subject_student = questionary.topic.subject).order_by('social_name', 'username')
+            else:
+                self.students = User.objects.filter(resource_students = questionary).order_by('social_name', 'username')
 
             self.userquest = UserQuest.objects.filter(student = self.students.first(), questionary = questionary)
             
@@ -115,7 +118,10 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
         self.object_list = questionary
 
         if has_subject_permissions(request.user, questionary.topic.subject):
-            self.students = User.objects.filter(subject_student = questionary.topic.subject).order_by('social_name', 'username')
+            if questionary.all_students:
+                self.students = User.objects.filter(subject_student = questionary.topic.subject).order_by('social_name', 'username')
+            else:
+                self.students = User.objects.filter(resource_students = questionary).order_by('social_name', 'username')
 
             if not user is None:
                 self.userquest = UserQuest.objects.filter(student__email = user, questionary = questionary)
