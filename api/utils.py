@@ -51,7 +51,7 @@ def sendChatPushNotification(user, message):
 		if message.image:
 			simple_notify += " ".join(_("[Photo]"))
 
-		device.send_message(data = {"response": response, "title": title, "body": simple_notify, "user_from": message.user.email, "user_name": str(message.user), "user_img": message.user.image_url, "type": 'chat'})
+		device.send_message(title = str(message.user), body = simple_notify, data = {"response": response, "title": title, "body": simple_notify, "user_from": message.user.email, "user_name": str(message.user), "user_img": message.user.image_url, "type": 'chat', "click_action": 'FLUTTER_NOTIFICATION_CLICK'})
 
 def sendMuralPushNotification(user, user_action, message):
 	device = FCMDevice.objects.filter(user = user, active = True).first()
