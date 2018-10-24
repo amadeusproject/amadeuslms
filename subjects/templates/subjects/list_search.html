@@ -34,7 +34,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% endblock breadcrumbs %}
 
-
 {% block content %}
 
 	 {% if messages %}
@@ -57,11 +56,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     <div id="core-subjects-options-div">
         <ul class="core-subjects-options">
             {% if all %}
-                <a href="{% url 'subjects:search' 'subjects' %}?search={{tags}} "><li >{% trans "Subjects" %} ({{ totals.my_subjects }})</li></a>
-                <a href="{% url 'subjects:search' 'resources' %}?search={{tags}}" ><li class="active">{% trans "Resources" %} ({{ totals.resources }})</li></a>
+                <a href="{% url 'subjects:search' 'subjects' %}?search={{tags}} "><li >{% trans "Subjects" %} ({{ totals.subjects_count }})</li></a>
+                <a href="{% url 'subjects:search' 'resources' %}?search={{tags}}" ><li class="active">{% trans "Resources" %} ({{ totals.resources_count }})</li></a>
             {% else %}
-                <a href="{% url 'subjects:search' 'subjects' %}?search={{tags}}"><li class="active">{% trans "Subjects" %} ({{ totals.my_subjects }})</li></a>
-                <a href="{% url 'subjects:search' 'resources' %}?search={{tags}}" ><li>{% trans "Resources" %} ({{ totals.resources }})</li></a>
+                <a href="{% url 'subjects:search' 'subjects' %}?search={{tags}}"><li class="active">{% trans "Subjects" %} ({{ totals.subjects_count }})</li></a>
+                <a href="{% url 'subjects:search' 'resources' %}?search={{tags}}" ><li>{% trans "Resources" %} ({{ totals.resources_count }})</li></a>
             {% endif %}
 
         </ul>

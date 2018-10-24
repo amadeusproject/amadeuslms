@@ -715,6 +715,7 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
 
         if self.totals['resources_count'] == 0 and self.totals['subjects_count'] == 0:
             context['empty'] = True
+        
         context['tags'] = self.tags
         context['all'] = False
         context['title'] = _('Subjects')
@@ -722,6 +723,7 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
         context['show_buttons'] = True #So it shows subscribe and access buttons
         context['totals'] = self.totals
         option = self.kwargs.get('option')
+        
         if option and option == 'resources':
             context['all'] = True
             context['title'] = _('Resources')
