@@ -135,6 +135,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 	function sendUpdateResource(data) {
 		$.ajax({
+			method: 'POST',
 			url: $('.url_order_resource').val(),
 			dataType: 'json',
 			data: {'data': data},

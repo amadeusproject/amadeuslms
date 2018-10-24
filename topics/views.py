@@ -17,6 +17,7 @@ from django.http import JsonResponse
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.decorators.csrf import csrf_exempt
 
 import json
 import time
@@ -271,8 +272,9 @@ def update_order(request):
 
 	return JsonResponse({'message': 'No data received'})
 
+@csrf_exempt
 def update_resource_order(request):
-	data = request.GET.get('data', None)
+	data = request.POST.get('data', None)
 
 	if not data is None:
 		data = json.loads(data)
