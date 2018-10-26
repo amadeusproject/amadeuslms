@@ -1,2 +1,3 @@
-from django.contrib.auth.models import User
-User.objects.create_superuser('admin', 'admin@amadeus.com', 'pass')
+from users.models import User
+admin_user = User()
+admin_user.save()
