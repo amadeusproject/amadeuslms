@@ -61,7 +61,7 @@ def getToken(request):
 
 	if request.method == "POST":
 		json_data = json.loads(request.body.decode('utf-8'))
-
+		
 		try:
 			username = json_data['email']
 			password = json_data['password']
@@ -95,7 +95,7 @@ def getToken(request):
 						response = json.dumps(json_r)
 		except KeyError:
 			response = "Error"
-		
+	
 	return HttpResponse(response)
 
 class LoginViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
@@ -119,7 +119,7 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def login(self, request):
-		json_data = json.loads(request.body.decode('utf-8'))
+		json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 
 		username = json_data['email']
 		
@@ -151,7 +151,7 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def register_device(self, request):
-		json_data = json.loads(request.body.decode('utf-8'))
+		json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 
 		username = json_data['email']
 		device = json_data['device']
@@ -183,6 +183,7 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
 					
 		return HttpResponse(response)
 
+
 class SubjectViewset(viewsets.ReadOnlyModelViewSet):
 	"""
 	---
@@ -197,7 +198,7 @@ class SubjectViewset(viewsets.ReadOnlyModelViewSet):
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def get_subjects(self, request):
-		json_data = json.loads(request.body.decode('utf-8'))
+		json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 
 		username = json_data['email']
 
@@ -254,7 +255,7 @@ class ParticipantsViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def get_participants(self, request):
-		json_data = json.loads(request.body.decode('utf-8'))
+		json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 
 		username = json_data['email']
 		subject_slug = json_data['subject_slug']
@@ -318,7 +319,7 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def get_messages(self, request):
-		json_data = json.loads(request.body.decode('utf-8'))
+		json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 
 		username = json_data['email']
 		user_two = json_data['user_two']
@@ -344,7 +345,7 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 
 			for i in range(messages_by_page*(n_page - 1), (n_page*messages_by_page)):
 				if i >= messages.count():
-					break;
+					break
 				else:
 					page.append(messages[i])
 
@@ -401,7 +402,7 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 			create_date = data['create_date']
 		else:
 			file = None
-			data = json.loads(request.body.decode('utf-8'))
+			data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 			username = data['email']
 			user_two = data['user_two']
 			subject = data['subject']
@@ -515,7 +516,7 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 	@csrf_exempt
 	@list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
 	def favorite_messages(self, request):
-		json_data = json.loads(request.body.decode('utf-8'))
+		json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 
 		username = json_data['email']
 		favor = json_data['favor']
