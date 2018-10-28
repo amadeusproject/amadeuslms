@@ -34,6 +34,7 @@ import math
 import os
 import copy
 from django.shortcuts import redirect
+from typing import List
 
 from chat.models import Conversation, TalkMessages
 from amadeus.permissions import has_subject_permissions
@@ -383,14 +384,14 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         for i in range(len(resources_types)):
             original_tags = copy.deepcopy(self.used_tags) #effectiving copy
             if isinstance(topics, Topic):
-                if isinstance(tags[i], list()):
+                if isinstance(tags[i], List):
                     resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in=tags[i],
                                                                                                    topic=topics)
                 else:
                     resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in=[tags[i]],
                                                                                                    topic=topics)
             else: 
-                if isinstance(tags[i], list()):
+                if isinstance(tags[i], List):
                     resources = Resource.objects.select_related(resources_types[i].lower()).filter(tags__in=tags[i],
                                                                                                    topic__in=topics)
                 else:
