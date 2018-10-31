@@ -565,9 +565,15 @@ def answer(request):
     userquest.save()
 
     #add request context to log
+    questionary_data = userquest.questionary
     request.log_context = {}
     request.log_context["question_id"] = userquest.questionary.id
     request.log_context["is_correct"] = question.is_correct
     request.log_context["time_to_answer"] = (question.created_at - question.question.created_at).total_seconds()
+    request.log_context["subject_id"] = questionary_data.topic.subject.id
+    request.log_context["category_id"] = questionary_data.topic.subject.category.id
+    request.log_context["topic_id"] = questionary_data.topic.id
+    request.log_context["topic_slug"] = questionary_data.topic.slug
+    request.log_context["topic_name"] = questionary_data.topic.name
 
     return JsonResponse({'last_update': formats.date_format(userquest.last_update, "SHORT_DATETIME_FORMAT"), 'answered': userquest.useranswer_userquest.filter(answer__isnull = False).count()})
