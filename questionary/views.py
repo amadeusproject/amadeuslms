@@ -568,6 +568,6 @@ def answer(request):
     request.log_context = {}
     request.log_context["question_id"] = userquest.questionary.id
     request.log_context["is_correct"] = question.is_correct
-    request.log_context["time_to_answer"] = str(question.created_at - question.question.created_at)
+    request.log_context["time_to_answer"] = (question.created_at - question.question.created_at).total_seconds()
 
     return JsonResponse({'last_update': formats.date_format(userquest.last_update, "SHORT_DATETIME_FORMAT"), 'answered': userquest.useranswer_userquest.filter(answer__isnull = False).count()})
