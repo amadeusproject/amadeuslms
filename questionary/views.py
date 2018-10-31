@@ -566,7 +566,7 @@ def answer(request):
 
     #add request context to log
     request.log_context = {}
-    request.log_context["question_id"] = question.question.id
+    request.log_context["question_id"] = userquest.questionary.id
     request.log_context["is_correct"] = question.is_correct
     request.log_context["time_to_answer"] = str(question.created_at - question.question.created_at)
 
