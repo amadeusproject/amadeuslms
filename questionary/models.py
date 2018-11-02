@@ -71,3 +71,4 @@ class UserAnswer(models.Model):
     answer = models.ForeignKey(Alternative, verbose_name = _('Answer'), related_name = 'useranswer_alternative', null = True)
     is_correct = models.BooleanField(_('Is correct?'), default = False)
     order = models.PositiveSmallIntegerField(_('Order'), null = True)
+    created_at = models.DateTimeField(_('Created At'), auto_now_add = True)

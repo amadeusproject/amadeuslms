@@ -10,29 +10,32 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-import time, random
+import random
+import time
 from datetime import datetime
-from django.db import connection
-from django.views import generic
-from django.utils import formats
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils.translation import ugettext_lazy as _
-from django.core.urlresolvers import reverse, reverse_lazy
-from django.shortcuts import get_object_or_404, redirect, render
+
+from .forms import InlinePendenciesFormset, InlineSpecificationFormset, \
+    QuestionaryForm
+from .models import Questionary, UserAnswer, UserQuest
+from banco_questoes.models import Alternative, Question
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.db import connection
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import formats
+from django.utils.translation import ugettext_lazy as _
+from django.views import generic
 
-from amadeus.permissions import has_subject_permissions, has_resource_permissions
-
+from amadeus.permissions import has_resource_permissions, \
+    has_subject_permissions
+from log.decorators import log_decorator
 from log.mixins import LogMixin
-
-from banco_questoes.models import Question, Alternative
 from log.models import Log
-from topics.models import Topic, Resource
+from topics.models import Resource, Topic
 from users.models import User
 
-from .forms import QuestionaryForm, InlinePendenciesFormset, InlineSpecificationFormset
-from .models import Questionary, UserQuest, UserAnswer
 
 class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
     log_component = "resources"
@@ -310,9 +313,10 @@ class QuestionaryCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
         self.log_context['topic_id'] = self.object.topic.id
         self.log_context['topic_name'] = self.object.topic.name
         self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['questionary_id'] = self.object.id
+        self.log_context['questionary_id'] = self.object.id 
         self.log_context['questionary_name'] = self.object.name
         self.log_context['questionary_slug'] = self.object.slug
+        self.log_context['created_at'] = self.object.created_at
 
         super(QuestionaryCreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
         
@@ -541,6 +545,7 @@ def countQuestions(request):
         
     return JsonResponse({'total': total})
 
+@log_decorator("resources", "answer", "questionary")
 def answer(request):
     question = request.POST.get('question')
     answer = request.POST.get('answer')
@@ -558,5 +563,17 @@ def answer(request):
     userquest.last_update = datetime.now()
 
     userquest.save()
+
+    #add request context to log
+    questionary_data = userquest.questionary
+    request.log_context = {}
+    request.log_context["question_id"] = userquest.questionary.id
+    request.log_context["is_correct"] = question.is_correct
+    request.log_context["time_to_answer"] = (question.created_at - question.question.created_at).total_seconds()
+    request.log_context["subject_id"] = questionary_data.topic.subject.id
+    request.log_context["category_id"] = questionary_data.topic.subject.category.id
+    request.log_context["topic_id"] = questionary_data.topic.id
+    request.log_context["topic_slug"] = questionary_data.topic.slug
+    request.log_context["topic_name"] = questionary_data.topic.name
 
     return JsonResponse({'last_update': formats.date_format(userquest.last_update, "SHORT_DATETIME_FORMAT"), 'answered': userquest.useranswer_userquest.filter(answer__isnull = False).count()})
