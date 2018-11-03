@@ -10,34 +10,37 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-from django.http import HttpResponse, JsonResponse
-from django.utils.translation import ugettext_lazy as _
-
-from django.core.urlresolvers import reverse
-from amadeus import settings
-from django.contrib import messages
-from os.path import join
-import django.views.generic as generic
-from mural.models import SubjectPost, Comment, MuralVisualizations
-from django.db.models import Q
-from django.contrib.auth.mixins import LoginRequiredMixin
-from datetime import datetime, date, timedelta
-from subjects.models import Subject, Tag
-from .forms import CreateInteractionReportForm, ResourceAndTagForm, BaseResourceAndTagFormset
-from log.models import Log
-from topics.models import Resource, Topic
-from collections import OrderedDict
-from django.forms import formset_factory
-from .models import ReportCSV, ReportXLS
-import pandas as pd
+import copy
 import math
 import os
-import copy
-from django.shortcuts import redirect
+from collections import OrderedDict
+from datetime import date, datetime, timedelta
+from os.path import join
 from typing import List
 
-from chat.models import Conversation, TalkMessages
+import django.views.generic as generic
+import pandas as pd
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.urlresolvers import reverse
+from django.db.models import Q
+from django.forms import formset_factory
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect
+from django.utils.translation import ugettext_lazy as _
+
+from amadeus import settings
 from amadeus.permissions import has_subject_permissions
+from chat.models import Conversation, TalkMessages
+from log.models import Log
+from mural.models import Comment, MuralVisualizations, SubjectPost
+from subjects.models import Subject, Tag
+from topics.models import Resource, Topic
+
+from .forms import (BaseResourceAndTagFormset, CreateInteractionReportForm,
+                    ResourceAndTagForm)
+from .models import ReportCSV, ReportXLS
+
 
 class ReportView(LoginRequiredMixin, generic.FormView):
     template_name = "reports/create.html"
@@ -153,7 +156,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         if params_data['topic'] == _("All"):
             context['topic_name'] = params_data['topic']
         else:
-            context['topic_name'] = Topic.objects.get(id=int(params_data['topic'])).name
+            context['topic_name'] = Topic.objects.get(
+                id=int(params_data['topic'])).name
         context['init_date'] = params_data['init_date']
         context['end_date'] = params_data['end_date']
         context['subject'] = subject
@@ -165,15 +169,23 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
         self.from_mural = params_data['from_mural']
         self.from_messages = params_data['from_messages']
 
-        context['data'], context['header'] = self.get_mural_data(subject, params_data['topic'],
-                                                                 params_data['init_date'], params_data['end_date'],
-                                                                 resources, tags)
+        report_parameters = self.get_report_parameters(subject,
+                                                       params_data['topic'],
+                                                       params_data['init_date'],
+                                                       params_data['end_date'],
+                                                        tags)
+
+        context['data'], context['header'] = self.get_mural_data(
+            subject, report_parameters['topics'], report_parameters['students'],
+            report_parameters['init_date'], report_parameters['end_date'],
+            report_parameters['header'], report_parameters['tags_id'], resources)
 
         # this is to save the csv for further download
         df = pd.DataFrame.from_dict(context['data'], orient='index')
         df.columns = context['header']
 
-        #so it does not exist more than one report CSV available for that user to download
+        # so it does not exist more than one report CSV available 
+        # for that user to download
         if ReportCSV.objects.filter(user=self.request.user).count() > 0:
             report = ReportCSV.objects.get(user=self.request.user)
             report.delete()
@@ -200,9 +212,29 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
 
         return context
 
-    def get_mural_data(self, subject, topics_query, init_date, end_date, resources_type_names, tags_id):
-        """
+    def process_date(self, init_date, end_date):
+        response = {}
+        # so it accepts english and portuguese date formats
+        date_formats = ["%d/%m/%Y", "%m/%d/%Y", "%Y-%m-%d"]
 
+        for fmt in date_formats:
+            try:
+                init_date = datetime.strptime(init_date, fmt).date()
+                end_date = datetime.strptime(end_date, fmt).date()
+
+            except ValueError:
+                pass
+
+        # I use this so the system can gather data up to end_date 11h59 p.m.
+        end_date = end_date + timedelta(days=1)
+        
+        response["init_date"] = init_date
+        response["end_date"] = end_date
+        return response
+
+    def get_report_parameters(self, subject, topics_query, init_date, end_date,
+    tags_id):
+        """
             Process all the data to be brough by the report
             Subject: subject where the report is being created
             topics_query: it's either one of the topics or all of them
@@ -211,32 +243,47 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             resources_type_names: resources subclasses name that were selected
             tags_id = ID of tag objects that were selected
         """
-        data = {}
-        students = subject.students.all()
-        date_formats = ["%d/%m/%Y", "%m/%d/%Y", "%Y-%m-%d"]  # so it accepts english and portuguese date formats
-        for fmt in date_formats:
-            try:
-                init_date = datetime.strptime(init_date, fmt).date()
-                end_date = datetime.strptime(end_date, fmt).date()
 
-            except ValueError:
-                pass
+        parameter_data = {}
+    
+        parameter_data["students"] = subject.students.all()
+
+        date_processed = self.process_date(init_date, end_date)
+        parameter_data["init_date"] = date_processed["init_date"]
+        parameter_data["end_date"] = date_processed["end_date"]
+    
         if topics_query == _("All"):
             topics = subject.topic_subject.all()
         else:
             topics = Topic.objects.get(id=topics_query)
+
+        parameter_data["topics"] = topics
         header = [str(_('User'))]
 
-        # I use this so the system can gather data up to end_date 11h59 p.m.
-        end_date = end_date + timedelta(days=1)
+        parameter_data["header"] = header
 
-        self.used_tags = copy.deepcopy(tags_id) #so I can check whether we are dealing with multiple or single tags (empty option)
+        # so I can check whether we are dealing with multiple or
+        # single tags (empty option)
+        self.used_tags = copy.deepcopy(tags_id)
+
+        parameter_data["tags_id"] = tags_id
+        return parameter_data
+
+    def get_mural_data(self, subject, topics, students, init_date, end_date,
+    header, tags_id, resources_type_names):
+        row_data = {}
+        
         interactions = None
 
         #For each student in the subject
         for student in students:
-            data[student.id] = []
-            data[student.id].append(student.social_name)
+            row_data[student.id] = []
+            
+            if len(student.social_name) > 0:
+                row_data[student.id].append(student.social_name)
+            else:
+                row_data[student.id].append(student.username)
+
             interactions = OrderedDict()
 
             if self.from_mural == "True":
@@ -342,13 +389,13 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
             interactions[_("Class")] = _("Undefined")
             interactions[_("Performance")] = _("Undefined")
             for value in interactions.values():
-                data[student.id].append(value)
+                row_data[student.id].append(value)
 
         if interactions is not None:
             for key in interactions.keys():
                 header.append(key)
 
-        return data, header
+        return row_data, header
 
     def get_resources_and_tags_data(self, resources_types, tags, student, subject, topics, init_date, end_date):
         data = OrderedDict()
@@ -495,9 +542,15 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                     total_count += count
 
             # mapping to translate class names
-            mapping = {'pdffile': str(_('PDF File')), 'goals': str(_('Topic Goals')), 'link': str(_('Link to Website')),
-                       'filelink': str(_('File Link')), 'webconference': str(_('Web Conference')),
-                       'ytvideo': str(_('YouTube Video')), 'webpage': str(_('WebPage'))}
+            mapping = {
+                'pdffile': str(_('PDF File')),
+                'goals': str(_('Topic Goals')),
+                'link': str(_('Link to Website')),
+                'filelink': str(_('File Link')),
+                'webconference': str(_('Web Conference')),
+                'ytvideo': str(_('YouTube Video')),
+                'webpage': str(_('WebPage')),
+                'questionary': str(_('Questionary'))}
 
             if original_tags[i] != "-1":
                 data[str(_("number of visualizations of ")) + mapping[str(resources_types[i])] + str(
@@ -610,6 +663,7 @@ def get_resources(request):
     mapping['webconference'] = str(_('Web Conference'))
     mapping['ytvideo'] = str(_('YouTube Video'))
     mapping['webpage'] = str(_('WebPage'))
+    mapping['questionary'] = str(_('Questionary'))
     data = {}
     data['resources'] = [{'id': resource_type, 'name': mapping[resource_type]} for resource_type in resources]
     return JsonResponse(data)
