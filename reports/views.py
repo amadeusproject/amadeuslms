@@ -10,34 +10,37 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-from django.http import HttpResponse, JsonResponse
-from django.utils.translation import ugettext_lazy as _
-
-from django.core.urlresolvers import reverse
-from amadeus import settings
-from django.contrib import messages
-from os.path import join
-import django.views.generic as generic
-from mural.models import SubjectPost, Comment, MuralVisualizations
-from django.db.models import Q
-from django.contrib.auth.mixins import LoginRequiredMixin
-from datetime import datetime, date, timedelta
-from subjects.models import Subject, Tag
-from .forms import CreateInteractionReportForm, ResourceAndTagForm, BaseResourceAndTagFormset
-from log.models import Log
-from topics.models import Resource, Topic
-from collections import OrderedDict
-from django.forms import formset_factory
-from .models import ReportCSV, ReportXLS
-import pandas as pd
+import copy
 import math
 import os
-import copy
-from django.shortcuts import redirect
+from collections import OrderedDict
+from datetime import date, datetime, timedelta
+from os.path import join
 from typing import List
 
-from chat.models import Conversation, TalkMessages
+import django.views.generic as generic
+import pandas as pd
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.urlresolvers import reverse
+from django.db.models import Q
+from django.forms import formset_factory
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect
+from django.utils.translation import ugettext_lazy as _
+
+from amadeus import settings
 from amadeus.permissions import has_subject_permissions
+from chat.models import Conversation, TalkMessages
+from log.models import Log
+from mural.models import Comment, MuralVisualizations, SubjectPost
+from subjects.models import Subject, Tag
+from topics.models import Resource, Topic
+
+from .forms import (BaseResourceAndTagFormset, CreateInteractionReportForm,
+                    ResourceAndTagForm)
+from .models import ReportCSV, ReportXLS
+
 
 class ReportView(LoginRequiredMixin, generic.FormView):
     template_name = "reports/create.html"
