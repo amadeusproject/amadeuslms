@@ -112,7 +112,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
                         <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput" style="text-align:left">
                             <label for="{{ item.n_questions.auto_id }}">{{ item.n_questions.label }} <span>*</span></label>
-                            {% render_field item.n_questions class='form-control n_questions' %}
+							{% render_field item.n_questions class='form-control n_questions' %}
+							
+							<input type="hidden" class="n_question_val" value="{{item.n_questions.value}}" />
 
                             <span id="helpBlock" class="help-block">{{ item.n_questions.help_text }}</span>
                                 
@@ -687,7 +689,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 		$('.n_questions').on('focus', function () {
 			var $sel   = $(this),
-				values = $sel.parent().parent().find('.spec_categories').val();
+				values = $sel.parent().parent().find('.spec_categories').val(),
+				number = $sel.parent().find('.n_question_val').val();
 			
 			$sel.empty();
 
@@ -700,6 +703,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 						if (response.total > 0) {
 							for (var i = 1; i <= response.total; ++i) {
 								$sel.append($('<option>', {value: i, text: i}));
+								$sel.val(number);
 							}
 						} else {
 							$sel.append($('<option>', {value: 0, text: '0'}));
@@ -711,7 +715,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 		$('.n_questions').each(function () {
 			var $sel   = $(this),
-				values = $sel.parent().parent().find('.spec_categories').val();
+				values = $sel.parent().parent().find('.spec_categories').val(),
+				number = $sel.parent().find('.n_question_val').val();
 			
 			$sel.empty();
 
@@ -724,6 +729,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 						if (response.total > 0) {
 							for (var i = 1; i <= response.total; ++i) {
 								$sel.append($('<option>', {value: i, text: i}));
+								$sel.val(number);
 							}
 						} else {
 							$sel.append($('<option>', {value: 0, text: '0'}));

@@ -36,7 +36,6 @@ from log.models import Log
 from topics.models import Resource, Topic
 from users.models import User
 
-
 class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
     log_component = "resources"
     log_action = "view"
@@ -91,9 +90,9 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
 
                         for row in rows:
                             list_q.append(row[0])
-                        print(list_q)
+
                         random.shuffle(list_q)
-                        print(list_q)
+
                         q_ids = q_ids + (list_q[0:n_questions])
                 
                 questions = Question.objects.filter(pk__in = q_ids)
