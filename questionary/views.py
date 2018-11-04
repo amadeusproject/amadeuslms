@@ -316,7 +316,6 @@ class QuestionaryCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
         self.log_context['questionary_id'] = self.object.id 
         self.log_context['questionary_name'] = self.object.name
         self.log_context['questionary_slug'] = self.object.slug
-        self.log_context['created_at'] = self.object.created_at
 
         super(QuestionaryCreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
         
