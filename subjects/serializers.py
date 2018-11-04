@@ -16,6 +16,7 @@ from django.db.models import Q
 from rest_framework import serializers
 
 from chat.models import ChatVisualizations
+from notifications.models import Notification
 
 from .models import Subject, Tag
 
@@ -44,6 +45,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 class SubjectSerializer(serializers.ModelSerializer):
     notifications = serializers.SerializerMethodField()
+    pendencies = serializers.SerializerMethodField()
 
     def get_notifications(self, subject):
         user = self.context.get("request_user", None)
@@ -57,6 +59,16 @@ class SubjectSerializer(serializers.ModelSerializer):
 
         return 0
 
+    def get_pendencies(self, subject):
+        user = self.context.get("request_user", None)
+
+        if user is not None:
+            return Notification.objects.filter(Q(user = user) & Q(viewed = False) 
+                                            & Q(task__resource__topic__subject = subject)
+                                            & Q(creation_date = datetime.datetime.now())).count()
+
+        return 0
+
     class Meta:
         model = Subject
-        fields = ["name", "slug", "visible", "description_brief", "description", "notifications"]
+        fields = ["name", "slug", "visible", "description_brief", "description", "notifications", "pendencies"]
