@@ -30,7 +30,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
-from django.db.models import Q
+from django.db.models import Q, TextField
+from django.db.models.functions import Cast
 
 from security.models import Security
 
@@ -85,7 +86,10 @@ def getToken(request):
 
                         auth = (oauth.client_id, oauth.client_secret)
                         
-                        response = requests.post(request.build_absolute_uri(reverse('oauth2_provider:token')), data = data, auth = auth)
+                        #response = requests.post(request.build_absolute_uri(reverse('oauth2_provider:token')), data = data, auth = auth)
+
+                        uri = request.build_absolute_uri(reverse('oauth2_provider:token')).replace('http', 'https')
+                        response = requests.post(uri, data = data, auth = auth)
 
                         json_r = json.loads(response.content.decode('utf-8'))
 
@@ -609,11 +613,9 @@ def getPendencies(request):
             subject = json_data['subject_slug']
 
             if username is not None and subject is not None:
-                notifications = Notification.objects.filter(user__email = username, task__resource__topic__subject__slug = subject).values('creation_date').annotate(total = Count('creation_date'))
+                notifications = Notification.objects.filter(user__email = username, task__resource__topic__subject__slug = subject).annotate(str_date = Cast('creation_date', TextField())).values('str_date').order_by('str_date').annotate(total = Count('str_date'))
 
-                data = serializers.serialize('json', notifications)
-
-                json_r["data"] = json.loads(data)
+                json_r["data"] = list(notifications)
 
                 json_r["message"] = ""
                 json_r["type"] = ""
