@@ -204,7 +204,7 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
         json_r = {}
 
         if not user is None:
-            FCMDevice.objects.filter(registration_id = device, user__email = username).exclude()
+            FCMDevice.objects.filter(registration_id = device, user__email = username).delete()
 
             logout_user(request)
 
