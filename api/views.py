@@ -613,7 +613,7 @@ def getPendencies(request):
             subject = json_data['subject_slug']
 
             if username is not None and subject is not None:
-                notifications = Notification.objects.filter(user__email = username, task__resource__topic__subject__slug = subject).annotate(str_date = Cast('creation_date', TextField())).values('str_date').order_by('str_date').annotate(total = Count('str_date'))
+                notifications = Notification.objects.filter(user__email = username, task__resource__topic__subject__slug = subject).annotate(str_date = Cast('creation_date', TextField())).values('str_date').order_by('-str_date').annotate(total = Count('str_date'))
 
                 json_r["data"] = list(notifications)
 
