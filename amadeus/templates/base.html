@@ -362,7 +362,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                         </li>
                         <li class="item {{ chat_menu_active }} action_icon" data-toggle="tooltip" data-placement="right" title="{% trans "Messages" %}">
                             <a href="{% url 'chat:manage_general' %}">
-                                <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                <i class="fa fa-comments-o" aria-hidden="true"></i>
                                 <span class="badge notify_badge chat_badge" {% if chat_notifications_count == 0 %} style="display:none" {% endif %}>{% if chat_notifications_count > 99 %} +99 {% else %} {{ chat_notifications_count }} {% endif %}</span>
                             </a>
                         </li>
@@ -422,7 +422,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
                         <li class="item {{ chat_menu_active }} action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Messages" %}">
                             <a href="{% url 'chat:manage_general' %}">
-                                <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                <i class="fa fa-comments-o" aria-hidden="true"></i>
                                 <span class="badge notify_badge chat_badge" {% if chat_notifications_count == 0 %} style="display:none" {% endif %}>{% if chat_notifications_count > 99 %} +99 {% else %} {{ chat_notifications_count }} {% endif %}</span>
                             </a>
                         </li>

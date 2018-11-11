@@ -56,7 +56,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                             {% notifies_number subject request.user %}
                         </a>
                         <a href="{% url 'chat:subject_view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Messages' %}">
-                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                            <i class="fa fa-comments-o" aria-hidden="true"></i>
                             {% chat_number subject request.user %}
                         </a>
                         <a href="{% url 'mural:subject_view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Mural' %}">
