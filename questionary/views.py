@@ -495,46 +495,46 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return success_url
 
 class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
-	log_component = "resources"
-	log_action = "delete"
-	log_resource = "questionary"
-	log_context = {}
+    log_component = "resources"
+    log_action = "delete"
+    log_resource = "questionary"
+    log_context = {}
 
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
 
-	template_name = 'resources/delete.html'
-	model = Questionary
-	context_object_name = 'resource'
+    template_name = 'resources/delete.html'
+    model = Questionary
+    context_object_name = 'resource'
 
-	def dispatch(self, request, *args, **kwargs):
-		slug = self.kwargs.get('slug', '')
-		questionary = get_object_or_404(Questionary, slug = slug)
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug', '')
+        questionary = get_object_or_404(Questionary, slug = slug)
 
-		if not has_subject_permissions(request.user, questionary.topic.subject):
-			return redirect(reverse_lazy('subjects:home'))
+        if not has_subject_permissions(request.user, questionary.topic.subject):
+            return redirect(reverse_lazy('subjects:home'))
 
-		return super(DeleteView, self).dispatch(request, *args, **kwargs)
+        return super(DeleteView, self).dispatch(request, *args, **kwargs)
 
-	def get_success_url(self):
-		messages.success(self.request, _('The questionary %s of the topic %s was removed successfully!')%(self.object.name, self.object.topic.name))
-		
-		self.log_context['category_id'] = self.object.topic.subject.category.id
-		self.log_context['category_name'] = self.object.topic.subject.category.name
-		self.log_context['category_slug'] = self.object.topic.subject.category.slug
-		self.log_context['subject_id'] = self.object.topic.subject.id
-		self.log_context['subject_name'] = self.object.topic.subject.name
-		self.log_context['subject_slug'] = self.object.topic.subject.slug
-		self.log_context['topic_id'] = self.object.topic.id
-		self.log_context['topic_name'] = self.object.topic.name
-		self.log_context['topic_slug'] = self.object.topic.slug
-		self.log_context['questionary_id'] = self.object.id
-		self.log_context['questionary_name'] = self.object.name
-		self.log_context['questionary_slug'] = self.object.slug
+    def get_success_url(self):
+        messages.success(self.request, _('The questionary %s of the topic %s was removed successfully!')%(self.object.name, self.object.topic.name))
+        
+        self.log_context['category_id'] = self.object.topic.subject.category.id
+        self.log_context['category_name'] = self.object.topic.subject.category.name
+        self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        self.log_context['subject_id'] = self.object.topic.subject.id
+        self.log_context['subject_name'] = self.object.topic.subject.name
+        self.log_context['subject_slug'] = self.object.topic.subject.slug
+        self.log_context['topic_id'] = self.object.topic.id
+        self.log_context['topic_name'] = self.object.topic.name
+        self.log_context['topic_slug'] = self.object.topic.slug
+        self.log_context['questionary_id'] = self.object.id
+        self.log_context['questionary_name'] = self.object.name
+        self.log_context['questionary_slug'] = self.object.slug
 
-		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+        super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
 
-		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+        return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
 def countQuestions(request):
     tags = request.GET.get('values', None)
@@ -618,7 +618,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         questionary = get_object_or_404(Questionary, slug = slug)
 
         if not has_subject_permissions(request.user, questionary.topic.subject):
-        	return redirect(reverse_lazy('subjects:home'))
+            return redirect(reverse_lazy('subjects:home'))
 
         return super(StatisticsView, self).dispatch(request, *args, **kwargs)
 
@@ -660,7 +660,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         alunos = questionary.students.all()
         
         if questionary.all_students :
-        	alunos = questionary.topic.subject.students.all()
+            alunos = questionary.topic.subject.students.all()
 
         vis_ou = Log.objects.filter(context__contains={'questionary_id':questionary.id},resource="questionary",user_email__in=(aluno.email for aluno in alunos), datetime__range=(start_date,end_date + timedelta(minutes = 1))).filter(Q(action="view") | Q(action="finish"))
         

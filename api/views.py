@@ -40,6 +40,7 @@ from chat.models import TalkMessages, Conversation, ChatVisualizations, ChatFavo
 
 from log.models import Log
 from log.mixins import LogMixin
+from log.decorators import log_decorator
 
 from subjects.serializers import SubjectSerializer
 from subjects.models import Subject
@@ -600,6 +601,7 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
         return HttpResponse(response)
 
 @csrf_exempt
+@log_decorator("mobile", "view", "subject_pendencies")
 def getPendencies(request):
     response = ""
 
@@ -625,6 +627,13 @@ def getPendencies(request):
                 json_r['extra'] = 0
 
                 response = json.dumps(json_r)
+
+                subject = Subject.objects.get(slug = subject)
+
+                request.log_context = {}
+                request.log_context["subject_id"] = subject.id
+                request.log_context["subject_slug"] = subject.slug
+                request.log_context["subject_name"] = subject.name
 
         except KeyError:
             response = "Error"
