@@ -572,20 +572,7 @@ class SubjectDetailView(LoginRequiredMixin, LogMixin, DetailView):
         context = super(SubjectDetailView, self).get_context_data(**kwargs)
         context['title'] = self.object.name
 
-        sub = self.kwargs.get('slug', '')
-
-        status_query = "SELECT CASE WHEN action = 'logout' AND EXTRACT(EPOCH FROM(NOW() - datetime::timestamp)) " \
-                       "< 1200 THEN 2 WHEN action = 'logout' AND EXTRACT(EPOCH FROM(NOW() - datetime::timestamp)) " \
-                       ">= 1200 THEN 1 ELSE 0 END FROM log_log WHERE log_log.user_id = users_user.id " \
-                       "ORDER BY datetime DESC LIMIT 1"
-
-        expire_time = settings.SESSION_SECURITY_EXPIRE_AFTER
-
-        context['participants'] = User.objects.filter(
-            Q(subject_student__slug=sub) |
-            Q(professors__slug=sub)
-            ).extra(select={'status': status_query}, select_params=(expire_time, expire_time,),).distinct()\
-            .order_by('status', 'social_name', 'username').exclude(email=self.request.user.email)
+        
 
         resources = self.request.session.get('resources', None)
 
@@ -763,6 +750,26 @@ def subject_view_log(request, subject):
 
     return JsonResponse({'message': 'ok'})
 
+@login_required
+def get_participants(request, subject):
+    sub = subject
+
+    status_query = "SELECT CASE WHEN action = 'logout' AND EXTRACT(EPOCH FROM(NOW() - datetime::timestamp)) " \
+                    "< 1200 THEN 2 WHEN action = 'logout' AND EXTRACT(EPOCH FROM(NOW() - datetime::timestamp)) " \
+                    ">= 1200 THEN 1 ELSE 0 END FROM log_log WHERE log_log.user_id = users_user.id " \
+                    "ORDER BY datetime DESC LIMIT 1"
+
+    expire_time = settings.SESSION_SECURITY_EXPIRE_AFTER
+
+    context = {}
+
+    context['participants'] = User.objects.filter(
+        Q(subject_student__slug=sub) |
+        Q(professors__slug=sub)
+        ).extra(select={'status': status_query}, select_params=(expire_time, expire_time,),).distinct()\
+        .order_by('status', 'social_name', 'username').exclude(email=request.user.email)
+
+    return render(request, 'subjects/_participants.html', context)
 
 class Backup(LoginRequiredMixin, ListView):
     """ BACKUP / RESTORE SECTION  """
