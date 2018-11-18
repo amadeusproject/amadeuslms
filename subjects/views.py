@@ -763,6 +763,8 @@ def get_participants(request, subject):
 
     context = {}
 
+    context['subject'] = get_object_or_404(Subject, slug = sub)
+
     context['participants'] = User.objects.filter(
         Q(subject_student__slug=sub) |
         Q(professors__slug=sub)
