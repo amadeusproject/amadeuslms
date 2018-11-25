@@ -131,6 +131,14 @@ class Comment(models.Model):
     last_update = models.DateTimeField(_('Last Update'), auto_now = True)
     edited = models.BooleanField(_('Edited'), default = False)
 
+    @property
+    def image_url(self):
+        if self.image and hasattr(self.image, 'url'):
+            if path.exists(self.image.path):
+                return self.image.url
+
+        return ''
+
 """
     Model to handle posts visualizations
 """

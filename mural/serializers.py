@@ -20,7 +20,7 @@ from .models import SubjectPost, Comment, MuralFavorites
 
 class MuralSerializer(serializers.ModelSerializer):
     user = UserSerializer()
-    subject = SubjectSerializer()
+    space = SubjectSerializer()
     favorite = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
 
@@ -37,4 +37,12 @@ class MuralSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubjectPost
-        fields = ["action", "post", "image_url", "space", "user", "create_date", "last_update", "edited"]
+        fields = ["id", "action", "post", "image_url", "space", "user", "create_date", "last_update", "edited"]
+
+class CommentsSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    post = MuralSerializer()
+
+    class Meta:
+        model = Comment
+        fields = ["id", "comment", "post", "image_url", "create_date", "last_update", "edited", "user"]

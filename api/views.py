@@ -48,9 +48,9 @@ from subjects.models import Subject
 from users.serializers import UserSerializer
 from users.models import User
 
-from mural.serializers import MuralSerializer
-from mural.models import SubjectPost, MuralVisualizations
-from mural.utils import getSubjectPosts
+from mural.serializers import MuralSerializer, CommentsSerializer
+from mural.models import SubjectPost, MuralVisualizations, Comment, MuralFavorites
+from mural.utils import getSubjectPosts, getSpaceUsers
 
 from notifications.models import Notification
 
@@ -60,7 +60,7 @@ from django.http import HttpResponse
 
 from fcm_django.models import FCMDevice
 
-from .utils import  sendChatPushNotification
+from .utils import  sendChatPushNotification, sendMuralPushNotification
 
 @csrf_exempt
 def getToken(request):
@@ -627,6 +627,7 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
         posts_by_page = int(json_data['page_size'])
 
         user = User.objects.get(email = username)
+        sub = Subject.objects.get(slug = subject)
 
         posts = getSubjectPosts(subject, user, favorites, mines)
         posts = posts.order_by("-most_recent")
@@ -664,9 +665,286 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
 
         response = json.dumps(info)
 
+        self.log_context["subject_id"] = sub.id
         self.log_context["subject_slug"] = subject
+        self.log_context["subject_name"] = sub.name
 
         super(MuralViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+        return HttpResponse(response)
+
+    @csrf_exempt
+    @list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
+    def get_comments(self, request):
+        json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
+
+        post_id = json_data['post_id']
+        n_page = int(json_data['page'])
+        comments_by_page = int(json_data['page_size'])
+
+        mural = SubjectPost.objects.get(id = post_id)
+
+        page = []
+
+        comments = Comment.objects.filter(post__id = post).order_by('-last_update')
+
+        for i in range(comments_by_page * (n_page - 1), (n_page * comments_by_page)):
+            if i >= comments.count():
+                break
+            else:
+                page.append(comments[i])
+
+        serializer = CommentSerializer(page, many = True)
+
+        json_r = json.dumps(serializer.data)
+        json_r = json.loads(json_r)
+
+        info = {}
+
+        info["data"] = {}
+        info["data"]["comments"] = json_r
+
+        info["message"] = ""
+        info["type"] = ""
+        info["title"] = ""
+        info["success"] = True
+        info["number"] = 1
+        info['extra'] = 0
+
+        response = json.dumps(info)
+
+        self.log_resource = "post_comments"
+        self.log_context["post_id"] = mural.id
+        self.log_context["post_space_id"] = mural.space.id
+        self.log_context["post_space_slug"] = mural.space.slug
+        self.log_context["post_space_name"] = mural.space.name
+
+        super(MuralViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+        return HttpResponse(response)
+
+    @csrf_exempt
+    @list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
+    def create_post(self, request):
+        self.log_action = 'send'
+        self.log_resource = 'mural'
+        self.log_context = {}
+
+        if 'file' in request.data:
+            file = request.FILES['file']
+
+            data = json.loads(request.data['data'])
+        else:
+            file = None
+
+            data = request.data if request.data else json.loads(request.body.decode('utf-8'))
+
+        username = data['email']
+        message = data['message']
+        space = data['subject']
+        action = data['action']
+
+        info = {}
+
+        subject = Subject.objects.get(slug = space)
+        user = User.objects.get(email = username)
+
+        post = SubjectPost()
+        post.action = action
+        post.space = subject
+        post.post = message
+        post.user = user
+
+        if not file is None:
+            post.image = file
+
+        post.save()
+
+        if not post.pk is None:
+            users = getSpaceUsers(user.id, post)
+            
+            entries = []
+
+            paths = [
+                reverse("mural:manage_subject"),
+                reverse("mural:subject_view", args = (), kwargs = {'slug': subject.slug})
+            ]
+
+            simple_notify = _("%s has made a post in %s")%(str(post.user), str(post.space))
+
+            notification = {
+                "type": "mural",
+                "subtype": "post",
+                "paths": paths,
+                "user_icon": user.image_url,
+                "simple_notify": simple_notify,
+                "complete": render_to_string("mural/_view.html", {"post": post}, request),
+                "container": "#" + slug,
+                "accordion": True,
+                "post_type": "subjects"
+            }
+
+            notification = json.dumps(notification)
+
+            for user in users:
+                entries.append(MuralVisualizations(viewed = False, user = user, post = post))
+                sendMuralPushNotification(user, post.user, simple_notify)
+                Group("user-%s" % user.id).send({'text': notification})
+
+            MuralVisualizations.objects.bulk_create(entries)
+
+            self.log_context['subject_id'] = post.space.id
+            self.log_context['subject_name'] = post.space.name
+            self.log_context['subject_slug'] = post.space.slug
+
+            serializer = MuralSerializer(post)
+
+            json_r = json.dumps(serializer)
+            json_r = json.loads(json_r)
+
+            info["data"] = {}
+            info["data"]["new_post"] = json_r
+
+            info["message"] = _("Post created successfully!")
+            info["success"] = True
+            info["number"] = 1
+
+            super(MuralViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        else:
+            info["message"] = _("Error while creating post!")
+            info["success"] = False
+            info["number"] = 0
+
+        response = json.dumps(info)
+
+        return HttpResponse(response)
+
+    @csrf_exempt
+    @list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
+    def create_comment(self, request):
+        self.log_action = 'send'
+        self.log_resource = 'post_comment'
+        self.log_context = {}
+
+        if 'file' in request.data:
+            file = request.FILES['file']
+
+            data = json.loads(request.data['data'])
+        else:
+            file = None
+
+            data = request.data if request.data else json.loads(request.body.decode('utf-8'))
+
+        username = data['email']
+        message = data['message']
+        post = data["post_id"]
+
+        info = {}
+
+        mural = SubjectPost.objects.get(id = post)
+        user = User.objects.get(email = username)
+
+        comment = Comment()
+        comment.comment = message
+        comment.post = mural
+        comment.user = user
+
+        if not file is None:
+            comment.image = file
+
+        comment.save()
+
+        if not post.pk is None:
+            users = getSpaceUsers(user.id, mural)
+            
+            entries = []
+
+            paths = [
+                reverse("mural:manage_general"),
+			    reverse("mural:manage_category"),
+                reverse("mural:manage_subject"),
+                reverse("mural:subject_view", args = (), kwargs = {'slug': mural.get_space_slug()})
+            ]
+
+            simple_notify = _("%s has commented in a post")%(str(comment.user))
+
+            notification = {
+                "type": "mural",
+                "subtype": "post",
+                "paths": paths,
+                "user_icon": user.image_url,
+                "simple_notify": simple_notify,
+                "complete": render_to_string("mural/_view_comment.html", {"comment": comment}, request),
+                "container": "#post-" + str(mural.get_id()),
+                "post_type": mural._my_subclass,
+                "type_slug": mural.get_space_slug()
+            }
+
+            notification = json.dumps(notification)
+
+            for user in users:
+                entries.append(MuralVisualizations(viewed = False, user = user, comment = comment))
+                sendMuralPushNotification(user, comment.user, simple_notify)
+                Group("user-%s" % user.id).send({'text': notification})
+
+            MuralVisualizations.objects.bulk_create(entries)
+
+            self.log_context['post_id'] = mural.id
+            self.log_context['subject_id'] = mural.space.id
+            self.log_context['subject_name'] = mural.space.name
+            self.log_context['subject_slug'] = mural.space.slug
+
+            serializer = CommentsSerializer(comment)
+
+            json_r = json.dumps(serializer)
+            json_r = json.loads(json_r)
+
+            info["data"] = {}
+            info["data"]["new_comment"] = json_r
+
+            info["message"] = _("Comment created successfully!")
+            info["success"] = True
+            info["number"] = 1
+
+            super(MuralViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        else:
+            info["message"] = _("Error while creating comment!")
+            info["success"] = False
+            info["number"] = 0
+
+        response = json.dumps(info)
+
+        return HttpResponse(response)
+
+    @csrf_exempt
+    @list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
+    def favorite(self, request):
+        json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
+
+        username = json_data['email']
+        favor = json_data['favor']
+        post = json_data['post_id']
+
+        user = User.objects.get(email = username)
+        mural = SubjectPost.objects.get(id = post)
+
+        if favor == 'true':
+            MuralFavorites.objects.create(post = mural, user = user)
+        else:
+            MuralFavorites.objects.filter(post = mural, user = user).delete()
+
+        response = ""
+
+        info = {}
+
+        info["message"] = ""
+        info["type"] = ""
+        info["title"] = ""
+        info["success"] = True
+        info["number"] = 1
+        info['extra'] = 0
+
+        response = json.dumps(info)
 
         return HttpResponse(response)
 
