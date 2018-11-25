@@ -48,6 +48,10 @@ from subjects.models import Subject
 from users.serializers import UserSerializer
 from users.models import User
 
+from mural.serializers import MuralSerializer
+from mural.models import SubjectPost, MuralVisualizations
+from mural.utils import getSubjectPosts
+
 from notifications.models import Notification
 
 from oauth2_provider.views.generic import ProtectedResourceView
@@ -597,6 +601,72 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
         info['extra'] = 0
 
         response = json.dumps(info)
+
+        return HttpResponse(response)
+
+class MuralViewset(viewsets.ModelViewSet, LogMixin):
+    queryset = SubjectPost.objects.all()
+    serializer_class = MuralSerializer
+    permissions_classes = (IsAuthenticated, )
+
+    log_component = 'mobile'
+    log_action = 'view'
+    log_resource = 'mural'
+    log_context = {}
+
+    @csrf_exempt
+    @list_route(methods = ['POST'], permissions_classes = [IsAuthenticated])
+    def get_posts(self, request):
+        json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
+
+        username = json_data['email']
+        subject = json_data['subject']
+        favorites = json_data['only_fav']
+        mines = json_data['only_mine']
+        n_page = int(json_data['page'])
+        posts_by_page = int(json_data['page_size'])
+
+        user = User.objects.get(email = username)
+
+        posts = getSubjectPosts(subject, user, favorites, mines)
+        posts = posts.order_by("-most_recent")
+
+        page = []
+
+        response = ""
+
+        if n_page is None:
+            views = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(comment__post__subjectpost__space__id = subject) | Q(post__subjectpost__space__id = subject)))
+            views.update(viewed = True, date_viewed = datetime.now())
+
+        for i in range(posts_by_page * (n_page - 1), (n_page * posts_by_page)):
+            if i >= posts.count():
+                break
+            else:
+                page.append(posts[i])
+        
+        serializer = MuralSerializer(page, many = True, context = {"request_user"})
+
+        json_r = json.dumps(serializer.data)
+        json_r = json.loads(json_r)
+
+        info = {}
+
+        info["data"] = {}
+        info["data"]["posts"] = json_r
+
+        info["message"] = ""
+        info["type"] = ""
+        info["title"] = ""
+        info["success"] = True
+        info["number"] = 1
+        info['extra'] = 0
+
+        response = json.dumps(info)
+
+        self.log_context["subject_slug"] = subject
+
+        super(MuralViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return HttpResponse(response)
 
