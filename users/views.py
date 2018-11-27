@@ -563,8 +563,10 @@ def login(request):
 def logout(request, next_page = None):
 	if not request.user.is_anonymous:
 		user_email = request.user.email
+		user_id = request.user.id
 	else:
 		user_email = None
+		user_id = 0
 
 	logout_user(request)
 
@@ -575,7 +577,7 @@ def logout(request, next_page = None):
 
 	notification = {
 		"type": "user_status",
-		"user_id": str(user.id),
+		"user_id": str(user_id),
 		"status": _u("Offline"),
 		"status_class": "",
 		"remove_class": "away"
