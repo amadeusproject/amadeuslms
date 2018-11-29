@@ -637,7 +637,7 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
         response = ""
 
         if n_page is None:
-            views = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(comment__post__subjectpost__space__id = subject) | Q(post__subjectpost__space__id = subject)))
+            views = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(comment__post__subjectpost__space__id = sub.id) | Q(post__subjectpost__space__id = sub.id)))
             views.update(viewed = True, date_viewed = datetime.now())
 
         for i in range(posts_by_page * (n_page - 1), (n_page * posts_by_page)):
