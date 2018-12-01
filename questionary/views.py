@@ -675,7 +675,21 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         json_n_did, json_history = {},{}
 
         for log_al in vis_ou.order_by("datetime"):
-            data_history.append([str(alunos.get(email=log_al.user_email)),
+            if log_al.action == 'view':
+                if any(log_al.user in x for x in data_history):
+                    continue
+            elif log_al.action == 'finish':
+                index = None
+
+                for dh in data_history:
+                    if log_al.user in dh:
+                        index = dh
+                        break
+
+                if not index is None:
+                    data_history.remove(index)
+                    
+            data_history.append([log_al.user,
             ", ".join([str(x) for x in questionary.topic.subject.group_subject.filter(participants__email=log_al.user_email)]),
             log_al.action,log_al.datetime])
         
