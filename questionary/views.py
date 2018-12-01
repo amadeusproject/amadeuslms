@@ -12,6 +12,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 import random
 import time
+import textwrap
+import json
 
 from datetime import datetime, timedelta
 from django.db.models import Q
@@ -28,7 +30,10 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import formats
 from django.utils.translation import ugettext_lazy as _
+from django.utils.html import strip_tags
+from django.template.loader import render_to_string
 from django.views import generic
+from channels import Group
 
 from webpage.forms import FormModalMessage
 
