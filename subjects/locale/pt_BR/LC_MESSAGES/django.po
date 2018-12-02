@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-15 04:26+0000\n"
+"POT-Creation-Date: 2018-12-02 04:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -132,6 +132,18 @@ msgstr "Resultados da busca"
 #| msgid "Search results"
 msgid "Search for students"
 msgstr "Resultados da busca"
+
+#: subjects/templates/subjects/_participants.html:14
+msgid "Close"
+msgstr "Fechar"
+
+#: subjects/templates/subjects/_participants.html:27
+msgid "See Profile"
+msgstr "Ver Perfil"
+
+#: subjects/templates/subjects/_participants.html:30
+msgid "Send Message"
+msgstr "Enviar Mensagem"
 
 #: subjects/templates/subjects/backup.html:28
 #: subjects/templates/subjects/backup.html:56
@@ -259,22 +271,22 @@ msgstr "Criar novo assunto"
 msgid "You Searched for: "
 msgstr "Você pesquisou por: "
 
-#: subjects/templates/subjects/list_search.html:52
-#: subjects/templates/subjects/list_search.html:55
+#: subjects/templates/subjects/list_search.html:51
+#: subjects/templates/subjects/list_search.html:54
 msgid "Search results"
 msgstr "Resultados da busca"
 
-#: subjects/templates/subjects/list_search.html:52
+#: subjects/templates/subjects/list_search.html:51
 msgid " Any subjects or Resources were not found on the search for "
 msgstr " Nenhum assunto ou recursos foram encontrados na busca por "
 
-#: subjects/templates/subjects/list_search.html:60
-#: subjects/templates/subjects/list_search.html:63 subjects/views.py:720
+#: subjects/templates/subjects/list_search.html:59
+#: subjects/templates/subjects/list_search.html:62 subjects/views.py:708
 msgid "Subjects"
 msgstr "Assuntos"
 
-#: subjects/templates/subjects/list_search.html:61
-#: subjects/templates/subjects/list_search.html:64 subjects/views.py:727
+#: subjects/templates/subjects/list_search.html:60
+#: subjects/templates/subjects/list_search.html:63 subjects/views.py:716
 msgid "Resources"
 msgstr "Recursos"
 
@@ -296,7 +308,7 @@ msgstr "Categoria"
 msgid "Subject"
 msgstr "Assunto"
 
-#: subjects/templates/subjects/resource_card.html:73
+#: subjects/templates/subjects/resource_card.html:74
 msgid "Access Resource"
 msgstr "Acessar Recurso"
 
@@ -391,18 +403,6 @@ msgstr "Criar novo tópico"
 msgid "Participants"
 msgstr "Participantes"
 
-#: subjects/templates/subjects/view.html:112
-msgid "Close"
-msgstr "Fechar"
-
-#: subjects/templates/subjects/view.html:125
-msgid "See Profile"
-msgstr "Ver Perfil"
-
-#: subjects/templates/subjects/view.html:128
-msgid "Send Message"
-msgstr "Enviar Mensagem"
-
 #: subjects/views.py:101
 msgid "Home"
 msgstr "Início"
@@ -456,24 +456,24 @@ msgstr ""
 "Assunto não pode ser removido. Ele ainda possui alunos e objetos de "
 "aprendizado associados"
 
-#: subjects/views.py:638
+#: subjects/views.py:625
 msgid "Subscription date is due!"
 msgstr "O período de inscrição está encerrado!"
 
-#: subjects/views.py:652
+#: subjects/views.py:639
 msgid "Subscription was successfull!"
 msgstr "Inscrição feita com sucesso!"
 
-#: subjects/views.py:793
+#: subjects/views.py:804
 #, python-format
 msgid "%s - Backup"
 msgstr "%s - Backup"
 
-#: subjects/views.py:949
+#: subjects/views.py:960
 #, python-format
 msgid "%s - Restore"
 msgstr "%s - Restaurar"
 
-#: subjects/views.py:1033
+#: subjects/views.py:1044
 msgid "Backup restored successfully!"
 msgstr "Backup restaurado com sucesso!"

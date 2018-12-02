@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-15 04:26+0000\n"
+"POT-Creation-Date: 2018-12-02 04:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -247,11 +247,11 @@ msgstr "Inativo"
 msgid "Offline"
 msgstr "Offline"
 
-#: chat/templatetags/chat_tags.py:75 chat/views.py:439
+#: chat/templatetags/chat_tags.py:75 chat/views.py:442
 msgid "Unfavorite"
 msgstr "Desfavoritar"
 
-#: chat/templatetags/chat_tags.py:77 chat/views.py:443
+#: chat/templatetags/chat_tags.py:77 chat/views.py:446
 msgid "Favorite"
 msgstr "Favoritar"
 
@@ -269,11 +269,11 @@ msgstr "%s - Participantes"
 msgid "%s - Messages"
 msgstr "%s - Mensagens"
 
-#: chat/views.py:367
+#: chat/views.py:370
 msgid "[Photo]"
 msgstr "[Foto]"
 
-#: chat/views.py:379
+#: chat/views.py:382
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"

@@ -28,7 +28,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.db import connection
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.utils import formats
+from django.utils import formats, timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
 from django.template.loader import render_to_string
@@ -158,6 +158,12 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
         if not has_resource_permissions(request.user, questionary):
             return redirect(reverse_lazy('subjects:home'))
 
+        if not has_subject_permissions(self.request.user, questionary.topic.subject):
+            if timezone.now() < questionary.data_ini:
+                messages.error(self.request, _('The questionary "%s" from topic "%s" can only be answered after %s'%(str(questionary), str(questionary.topic), (formats.date_format(questionary.data_ini, "SHORT_DATETIME_FORMAT")))))
+
+                return redirect(reverse_lazy('subjects:view', kwargs={"slug": questionary.topic.subject.slug}))
+
         return super(InsideView, self).dispatch(request, *args, **kwargs)
 
     def get_template_names(self):
@@ -251,7 +257,7 @@ class QuestionaryCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
         slug = self.kwargs.get('slug', '')
         topic = get_object_or_404(Topic, slug = slug)
 
-        pendencies_form = InlinePendenciesFormset(initial = [{'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize")), ("finish", _("Finish"))]}])
+        pendencies_form = InlinePendenciesFormset(initial = [{'subject': topic.subject.id, 'actions': [("", "-------"), ("start", _("Start")), ("view", _("Visualize")), ("finish", _("Finish"))]}])
         specifications_form = InlineSpecificationFormset(initial = [{'subject': topic.subject}])
 
         return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form, specifications_form = specifications_form))
@@ -278,7 +284,7 @@ class QuestionaryCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
         topic = get_object_or_404(Topic, slug = slug)
 
         for p_form in pendencies_form.forms:
-            p_form.fields['action'].choices = [("", "-------"),("view", _("Visualize")), ("finish", _("Finish"))]
+            p_form.fields['action'].choices = [("", "-------"),("start", _("Start")), ("view", _("Visualize")), ("finish", _("Finish"))]
 
         return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form, specifications_form = specifications_form))
 
@@ -401,7 +407,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         slug = self.kwargs.get('topic_slug', '')
         topic = get_object_or_404(Topic, slug = slug)
 
-        pendencies_form = InlinePendenciesFormset(instance = self.object, initial = [{'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize")), ("finish", _("Finish"))]}])
+        pendencies_form = InlinePendenciesFormset(instance = self.object, initial = [{'subject': topic.subject.id, 'actions': [("", "-------"), ("start", _("Start")), ("view", _("Visualize")), ("finish", _("Finish"))]}])
         specifications_form = InlineSpecificationFormset(instance = self.object, initial = [{'subject': topic.subject}])
 
         return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form, specifications_form = specifications_form))
@@ -415,7 +421,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         slug = self.kwargs.get('topic_slug', '')
         topic = get_object_or_404(Topic, slug = slug)
 
-        pendencies_form = InlinePendenciesFormset(self.request.POST, instance = self.object, initial = [{'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize")), ("finish", _("Finish"))]}])
+        pendencies_form = InlinePendenciesFormset(self.request.POST, instance = self.object, initial = [{'subject': topic.subject.id, 'actions': [("", "-------"), ("start", _("Start")), ("view", _("Visualize")), ("finish", _("Finish"))]}])
         specifications_form = InlineSpecificationFormset(self.request.POST, instance = self.object, initial = [{'subject': topic.subject}])
 
         if (form.is_valid() and pendencies_form.is_valid() and specifications_form.is_valid()):
@@ -562,10 +568,17 @@ def answer(request):
     question = get_object_or_404(UserAnswer, id = question)
     answer = get_object_or_404(Alternative, id = answer)
 
+    log_action = "finish"
+    insert_log = False
+
+    userquest = question.user_quest
+
+    if not UserAnswer.objects.filter(user_quest = userquest, answer__isnull = False).exists():
+        insert_log = True
+        log_action = "start"
+
     question.answer = answer
     question.is_correct = answer.is_correct
-    
-    userquest = question.user_quest
     
     question.save()
 
@@ -585,13 +598,13 @@ def answer(request):
     request.log_context["topic_slug"] = questionary_data.topic.slug
     request.log_context["topic_name"] = questionary_data.topic.name
 
-    if not UserAnswer.objects.filter(user_quest = userquest, answer__isnull = True).exists():
+    if not UserAnswer.objects.filter(user_quest = userquest, answer__isnull = True).exists() or insert_log:
         log = Log()
         log.user = str(request.user)
         log.user_id = request.user.id
         log.user_email = request.user.email
         log.component = "resources"
-        log.action = "finish"
+        log.action = log_action
         log.resource = "questionary"
 
         log.context = {}
@@ -667,7 +680,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         if questionary.all_students :
             alunos = questionary.topic.subject.students.all()
 
-        vis_ou = Log.objects.filter(context__contains={'questionary_id':questionary.id},resource="questionary",user_email__in=(aluno.email for aluno in alunos), datetime__range=(start_date,end_date + timedelta(minutes = 1))).filter(Q(action="view") | Q(action="finish"))
+        vis_ou = Log.objects.filter(context__contains={'questionary_id':questionary.id},resource="questionary",user_email__in=(aluno.email for aluno in alunos), datetime__range=(start_date,end_date + timedelta(minutes = 1))).filter(Q(action="view") | Q(action="finish") | Q(action="start"))
         
         did,n_did,history = str(_("Realized")),str(_("Unrealized")),str(_("Historic"))
         re = []
@@ -695,10 +708,15 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         
         json_history["data"] = data_history
 
-        not_view = alunos.exclude(email__in=[log.user_email for log in vis_ou.distinct("user_email")])
+        not_view = alunos.exclude(email__in=[log.user_email for log in vis_ou.filter(action="view").distinct("user_email")])
         index = 0
         for alun in not_view:
             data_n_did.append([index,str(alun),", ".join([str(x) for x in questionary.topic.subject.group_subject.filter(participants__email=alun.email)]),str(_('View')), str(alun.email)])
+            index += 1
+
+        not_start = alunos.exclude(email__in=[log.user_email for log in vis_ou.filter(action="start").distinct("user_email")])
+        for alun in not_start:
+            data_n_did.append([index,str(alun),", ".join([str(x) for x in questionary.topic.subject.group_subject.filter(participants__email=alun.email)]),str(_('Start')), str(alun.email)])
             index += 1
 
         not_finish = alunos.exclude(email__in=[log.user_email for log in vis_ou.filter(action="finish").distinct("user_email")])
@@ -711,14 +729,17 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context["json_n_did"] = json_n_did
         context["json_history"] = json_history
         
-        c_visualizou = vis_ou.distinct("user_email").count()
+        c_visualizou = vis_ou.filter(action="view").distinct("user_email").count()
+        c_start = vis_ou.filter(action="start").distinct("user_email").count()
         c_finish = vis_ou.filter(action="finish").distinct("user_email").count()
 
         column_view = str(_('View'))
+        column_start = str(_('Start'))
         column_finish = str(_('Finish'))
         
         re.append([str(_('Questionary')),did,n_did])
         re.append([column_view,c_visualizou, alunos.count() - c_visualizou])
+        re.append([column_start,c_start, alunos.count() - c_start])
         re.append([column_finish,c_finish, alunos.count() - c_finish])
         
         context['topic'] = questionary.topic
@@ -727,6 +748,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context['title_chart'] = _('Actions about resource')
         context['title_vAxis'] = _('Quantity')
         context['view'] = column_view
+        context['start'] = column_start
         context['finish'] = column_finish
         context["n_did_table"] = n_did
         context["did_table"] = did
