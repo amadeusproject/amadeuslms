@@ -23,7 +23,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
     var array_history = [];
     {%for data_json in json_history.data %}
-        array_history.push(["{{data_json.0}}","{{data_json.1}}","{% if data_json.2 == 'view' %} {{view}} {% else %} {{finish}} {% endif %}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
+        array_history.push(["{{data_json.0}}","{{data_json.1}}","{% if data_json.2 == 'view' %}{{view}}{% elif data_json.2 == 'start' %}{{start}}{% else %}{{finish}}{% endif %}",{% if data_json.3 is not None %}new Date('{{data_json.3.isoformat}}'){% else%}null{% endif %}]);
     {% endfor%}
     var json_history = {"data":array_history};
     var column_history = [{"string":'{% trans "User" %}'},{"string":'{% trans "Group" %}'},{"string":'{% trans "Action" %}'},{"date":'{% trans "Date of Action" %}'}];
@@ -75,27 +75,66 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         };
 
         function selectHandler() {
-           var selectedItem = chart.getSelection()[0];
-           if (selectedItem) {
-               var col = data.getColumnLabel(selectedItem.column);
-               if (col == "{{n_did_table}}"){
+            var selectedItem = chart.getSelection()[0];
+            if (selectedItem) {
+                var col = data.getColumnLabel(selectedItem.column);
+
+                if (col == "{{n_did_table}}"){
                    tabela_atual = false;
                    search = [];
-                   for (var i in json_n_did["data"]){
-                       search.push([json_n_did["data"][i][0],json_n_did["data"][i][1],
-                                    json_n_did["data"][i][2],json_n_did["data"][i][3]]);
-                   }
-                   searcher(col, tabela_atual,true);
 
-               } else if (col == "{{did_table}}"){
-                   tabela_atual = true;
-                   search = [];
-                   for (var i in json_history["data"]){
-                       search.push([json_history["data"][i][0],json_history["data"][i][1],
-                                   json_history["data"][i][2],json_history["data"][i][3]]);
-                   }
-                   searcher(col, tabela_atual,true);
-               }
+                    if (data.getValue(selectedItem.row, 0) == "{{view}}") {
+                        for (var i in json_n_did["data"]){
+                            if (json_n_did["data"][i][3] == "{{view}}") {
+                                search.push([json_n_did["data"][i][0],json_n_did["data"][i][1],
+                                                json_n_did["data"][i][2],json_n_did["data"][i][3]]);
+                            }
+                        }
+                    } else if (data.getValue(selectedItem.row, 0) == "{{start}}") {
+                        for (var i in json_n_did["data"]){
+                            if (json_n_did["data"][i][3] == "{{start}}") {
+                                search.push([json_n_did["data"][i][0],json_n_did["data"][i][1],
+                                                json_n_did["data"][i][2],json_n_did["data"][i][3]]);
+                            }
+                        }
+                    } else if (data.getValue(selectedItem.row, 0) == "{{finish}}") {
+                        for (var i in json_n_did["data"]){
+                            if (json_n_did["data"][i][3] == "{{finish}}") {
+                                search.push([json_n_did["data"][i][0],json_n_did["data"][i][1],
+                                                json_n_did["data"][i][2],json_n_did["data"][i][3]]);
+                            }
+                        }
+                    }
+                    searcher(col, tabela_atual,true);
+
+                } else if (col == "{{did_table}}"){
+                    tabela_atual = true;
+                    search = [];
+
+                    if (data.getValue(selectedItem.row, 0) == "{{view}}") {
+                        for (var i in json_history["data"]){
+                            if (json_history["data"][i][2] == "{{view}}") {
+                                search.push([json_history["data"][i][0],json_history["data"][i][1],
+                                            json_history["data"][i][2],json_history["data"][i][3]]);
+                            }
+                        }
+                    } else if (data.getValue(selectedItem.row, 0) == "{{start}}") {
+                        for (var i in json_history["data"]){
+                            if (json_history["data"][i][2] == "{{start}}") {
+                                search.push([json_history["data"][i][0],json_history["data"][i][1],
+                                            json_history["data"][i][2],json_history["data"][i][3]]);
+                            }
+                        }
+                    } else if (data.getValue(selectedItem.row, 0) == "{{finish}}") {
+                        for (var i in json_history["data"]){
+                            if (json_history["data"][i][2] == "{{finish}}") {
+                                search.push([json_history["data"][i][0],json_history["data"][i][1],
+                                            json_history["data"][i][2],json_history["data"][i][3]]);
+                            }
+                        }
+                    }
+                    searcher(col, tabela_atual,true);
+                }
                 scroll("#title-table");
            }
           chart.setSelection([])

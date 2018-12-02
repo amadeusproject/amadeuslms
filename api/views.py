@@ -628,8 +628,8 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
 
         user = User.objects.get(email = username)
         sub = Subject.objects.get(slug = subject)
-
-        posts = getSubjectPosts(subject, user, favorites, mines)
+        
+        posts = getSubjectPosts(sub.id, user, favorites == "True", mines == "True")
         posts = posts.order_by("-most_recent")
 
         page = []
@@ -640,13 +640,13 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
             views = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(comment__post__subjectpost__space__id = sub.id) | Q(post__subjectpost__space__id = sub.id)))
             views.update(viewed = True, date_viewed = datetime.now())
 
-        for i in range(posts_by_page * (n_page - 1), (n_page * posts_by_page)):
+        for i in range(posts_by_page * n_page, ((n_page + 1) * posts_by_page)):
             if i >= posts.count():
                 break
             else:
                 page.append(posts[i])
         
-        serializer = MuralSerializer(page, many = True, context = {"request_user"})
+        serializer = MuralSerializer(page, many = True, context = {"request_user": user, "subject": subject})
 
         json_r = json.dumps(serializer.data)
         json_r = json.loads(json_r)
@@ -694,7 +694,7 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
             else:
                 page.append(comments[i])
 
-        serializer = CommentSerializer(page, many = True)
+        serializer = CommentSerializer(page, many = True, context = {"request_user": mural.user, "subject": mural.space.slug})
 
         json_r = json.dumps(serializer.data)
         json_r = json.loads(json_r)
@@ -797,7 +797,7 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
             self.log_context['subject_name'] = post.space.name
             self.log_context['subject_slug'] = post.space.slug
 
-            serializer = MuralSerializer(post)
+            serializer = MuralSerializer(post, context = {"request_user": user, "subject": space})
 
             json_r = json.dumps(serializer)
             json_r = json.loads(json_r)
@@ -894,7 +894,7 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
             self.log_context['subject_name'] = mural.space.name
             self.log_context['subject_slug'] = mural.space.slug
 
-            serializer = CommentsSerializer(comment)
+            serializer = CommentsSerializer(comment, context = {"request_user": user, "subject": mural.space.slug})
 
             json_r = json.dumps(serializer)
             json_r = json.loads(json_r)

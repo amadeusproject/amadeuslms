@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-15 04:26+0000\n"
+"POT-Creation-Date: 2018-12-02 04:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgstr "Mural da disciplina"
 msgid "Messages"
 msgstr "Mensagens"
 
-#: reports/forms.py:63 reports/views.py:152 reports/views.py:223
+#: reports/forms.py:63 reports/views.py:156 reports/views.py:255
 msgid "All"
 msgstr "Todos"
 
@@ -119,196 +119,200 @@ msgstr "Dados de interação (.csv)"
 msgid "Interactions Data (.xls)"
 msgstr "Dados de interação (.xls)"
 
-#: reports/views.py:72 reports/views.py:149
+#: reports/views.py:76 reports/views.py:153
 msgid "Interaction Data"
 msgstr "Dados de Interação"
 
-#: reports/views.py:83
+#: reports/views.py:87
 msgid "Report created successfully"
 msgstr "Relatório criado com sucesso!"
 
-#: reports/views.py:227
+#: reports/views.py:261
 msgid "User"
 msgstr "Usuário"
 
-#: reports/views.py:246
+#: reports/views.py:294
 msgid "Number of help posts created by the user."
 msgstr "Número de postagens de dúvidas criadas no mural da disciplina."
 
-#: reports/views.py:252
+#: reports/views.py:300
 msgid "Amount of comments on help posts created by the student."
 msgstr ""
 "Número de comentários criados para as próprias postagens de dúvidas no mural "
 "da disciplina."
 
-#: reports/views.py:257
+#: reports/views.py:305
 msgid "Amount of comments made by the student on teachers help posts."
 msgstr ""
 "Número de comentários às postagens de dúvidas no mural da disciplina criadas "
 "pelo professor."
 
-#: reports/views.py:262
+#: reports/views.py:310
 msgid "Amount of comments made by the student on other students help posts."
 msgstr ""
 "Número de comentários às postagens de dúvidas no mural da disciplina criadas "
 "por outros estudantes."
 
-#: reports/views.py:273
+#: reports/views.py:321
 msgid "Number of help posts created by the user that the teacher commented on."
 msgstr ""
 "Número de comentários às postagens de dúvidas no mural da disciplina criadas "
 "por outros estudantes"
 
-#: reports/views.py:282
+#: reports/views.py:330
 msgid "Number of help posts created by the user others students commented on."
 msgstr ""
 "Número de postagens de dúvidas criadas no mural da disciplina que foram "
 "comentadas por outros estudantes."
 
-#: reports/views.py:286
+#: reports/views.py:334
 msgid "Number of student visualizations on the mural of the subject."
 msgstr "Número de visualizações do mural da disciplina."
 
-#: reports/views.py:307
+#: reports/views.py:355
 msgid "Number of access to mural between 6 a.m to 12a.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 06h às 12h."
 
-#: reports/views.py:312
+#: reports/views.py:360
 msgid "Number of access to mural between 0 p.m to 6p.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 12h às 18h."
 
-#: reports/views.py:316
+#: reports/views.py:364
 msgid "Number of access to mural between 6 p.m to 12p.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 18h às 24h."
 
-#: reports/views.py:321
+#: reports/views.py:369
 msgid "Number of access to mural between 0 a.m to 6a.m. ."
 msgstr ""
 "Número de acessos ao ambiente virtual da disciplina no horário de 24h às 06h."
 
-#: reports/views.py:327
+#: reports/views.py:375
 msgid "sunday"
 msgstr "domingo"
 
-#: reports/views.py:327
+#: reports/views.py:375
 msgid "monday"
 msgstr "segunda"
 
-#: reports/views.py:327
+#: reports/views.py:375
 msgid "tuesday"
 msgstr "terça-feira"
 
-#: reports/views.py:327
+#: reports/views.py:375
 msgid "wednesday"
 msgstr "quarta"
 
-#: reports/views.py:327
+#: reports/views.py:375
 msgid "thursday"
 msgstr "quinta-feira"
 
-#: reports/views.py:328
+#: reports/views.py:376
 msgid "friday"
 msgstr "sexta"
 
-#: reports/views.py:328
+#: reports/views.py:376
 msgid "saturday"
 msgstr "sábado"
 
-#: reports/views.py:333 reports/views.py:337
+#: reports/views.py:381 reports/views.py:385
 msgid "Number of access to the subject on "
 msgstr "Número de acessos ao assunto na(o) "
 
-#: reports/views.py:340
+#: reports/views.py:388
 msgid "Number of distinct days the user access the subject. "
 msgstr "Número de dias distintos que acessou o ambiente virtual da disciplina."
 
-#: reports/views.py:341
+#: reports/views.py:389
 msgid "Class"
 msgstr "Classe"
 
-#: reports/views.py:341 reports/views.py:342
+#: reports/views.py:389 reports/views.py:390
 msgid "Undefined"
 msgstr "Indefinido"
 
-#: reports/views.py:342
+#: reports/views.py:390
 msgid "Performance"
 msgstr "Desempenho"
 
-#: reports/views.py:497 reports/views.py:605
+#: reports/views.py:546 reports/views.py:659
 msgid "PDF File"
 msgstr "Arquivo PDF"
 
-#: reports/views.py:497 reports/views.py:606
+#: reports/views.py:547 reports/views.py:660
 #, fuzzy
 #| msgid "Topics"
 msgid "Topic Goals"
 msgstr "Tópicos"
 
-#: reports/views.py:497 reports/views.py:607
+#: reports/views.py:548 reports/views.py:661
 msgid "Link to Website"
 msgstr "Link do Site"
 
-#: reports/views.py:498 reports/views.py:608
+#: reports/views.py:549 reports/views.py:662
 msgid "File Link"
 msgstr "Link para Arquivo"
 
-#: reports/views.py:498 reports/views.py:609
+#: reports/views.py:550 reports/views.py:663
 msgid "Web Conference"
 msgstr "Conferência Web"
 
-#: reports/views.py:499 reports/views.py:610
+#: reports/views.py:551 reports/views.py:664
 msgid "YouTube Video"
 msgstr "Vídeo do Youtube"
 
-#: reports/views.py:499 reports/views.py:611
+#: reports/views.py:552 reports/views.py:665
 msgid "WebPage"
 msgstr "Página na Web"
 
-#: reports/views.py:502 reports/views.py:513
+#: reports/views.py:553 reports/views.py:666
+msgid "Questionary"
+msgstr ""
+
+#: reports/views.py:556 reports/views.py:567
 msgid "number of visualizations of "
 msgstr "Número de visualizações do(e) "
 
-#: reports/views.py:503 reports/views.py:505 reports/views.py:507
-#: reports/views.py:510
+#: reports/views.py:557 reports/views.py:559 reports/views.py:561
+#: reports/views.py:564
 msgid " with tag "
 msgstr " com a tag "
 
-#: reports/views.py:504 reports/views.py:514
+#: reports/views.py:558 reports/views.py:568
 msgid "number of visualizations of distintic "
 msgstr "Número de visualizações dos distintos "
 
-#: reports/views.py:506 reports/views.py:516
+#: reports/views.py:560 reports/views.py:570
 msgid "distintic days "
 msgstr "número de dias distintos "
 
-#: reports/views.py:510 reports/views.py:519
+#: reports/views.py:564 reports/views.py:573
 msgid "hours viewed of "
 msgstr "quantidade de horas vistas "
 
-#: reports/views.py:536 reports/views.py:537 reports/views.py:539
-#: reports/views.py:541
+#: reports/views.py:590 reports/views.py:591 reports/views.py:593
+#: reports/views.py:595
 msgid " amount of messages sent to other students"
 msgstr " Quantidade mensagens enviadas para outros estudantes"
 
-#: reports/views.py:543 reports/views.py:544 reports/views.py:546
-#: reports/views.py:549
+#: reports/views.py:597 reports/views.py:598 reports/views.py:600
+#: reports/views.py:603
 msgid "amount of messages received from other students"
 msgstr "Quantidade de mensagens recebidas de outros estudantes"
 
-#: reports/views.py:555
+#: reports/views.py:609
 msgid "amount of distinct students to whom sent messages"
 msgstr "Quantidade de estudantes distintos para quem enviou mensagem"
 
-#: reports/views.py:567 reports/views.py:568 reports/views.py:569
-#: reports/views.py:571
+#: reports/views.py:621 reports/views.py:622 reports/views.py:623
+#: reports/views.py:625
 msgid "amount messages sent to professors"
 msgstr "Quantidade mensagens enviadas para o(s) professor(es)"
 
-#: reports/views.py:573 reports/views.py:574 reports/views.py:576
-#: reports/views.py:578
+#: reports/views.py:627 reports/views.py:628 reports/views.py:630
+#: reports/views.py:632
 msgid "amount of messages received from professors"
 msgstr "Quantidade de mensagens recebidas do(s) professor(es)"
 

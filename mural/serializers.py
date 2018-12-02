@@ -13,6 +13,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 from django.db.models import Q
 from rest_framework import serializers
 
+from subjects.models import Subject
+from users.models import User
+
 from subjects.serializers import SubjectSerializer
 from users.serializers import UserSerializer
 
@@ -20,7 +23,7 @@ from .models import SubjectPost, Comment, MuralFavorites
 
 class MuralSerializer(serializers.ModelSerializer):
     user = UserSerializer()
-    space = SubjectSerializer()
+    #space = SubjectSerializer()
     favorite = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
 
@@ -37,7 +40,7 @@ class MuralSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubjectPost
-        fields = ["id", "action", "post", "image_url", "space", "user", "create_date", "last_update", "edited"]
+        fields = ["id", "action", "post", "image_url", "user", "create_date", "last_update", "edited", "favorite", "comments"]
 
 class CommentsSerializer(serializers.ModelSerializer):
     user = UserSerializer()
