@@ -1,0 +1,81 @@
+cat ~/.bash_history
+
+sudo gedit /etc/default/grub
+sudo -s
+add-apt-repository ppa:danielrichter2007/grub-customizer
+apt update
+apt-get install grub-customizer
+reboot 
+passwd 
+exit
+sudo -s
+exit
+chmod 777
+chmod --help
+exit
+sudo su
+conda
+cd Documentos/
+ls
+cd teste/
+cd ...
+cd ..
+cd amadeuslms/
+conda create --name amadeus
+conda activate amadeus
+conda list
+conda install -r requirements.txt
+conda install --yes --file requirements.txt 
+pip list
+conda install --yes --file requirements.txt 
+while read requirement; do conda install --yes $requirement || pip install $requirement; done < requirements.txt
+ls
+cd Downloads/
+ls
+sha2    sha256sum Anaconda3-5.2.0-Linux-x86_64.sh
+sha256sun Anaconda3-5.3.0-Linux-x86_64.sh
+apt-get update
+apt -get update
+bash Anaconda3-5.3.0-Linux-x86_64.sh 
+cd Documents
+ls
+sudo su
+ls
+conda
+cd ..
+cd Documentos
+ls
+cd amadeuslms/
+while read requirement; do conda install --yes $requirement || pip install $requirement; done < requirements.txt
+source actvate amadeus
+source activate amadeus
+while read requirement; do conda install --yes $requirement || pip install $requirement; done < requirements.txt
+doskey /history
+git pull
+ssh-keygen -t rsa -b 4096 -C jonatascastropassos@gmail.com
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+sudo apt-get install xclip
+xclip -sel clip < ~/.ssh/id_rsa.pub
+git pull
+
+git clone git@github.com:amadeusproject/amadeuslms.git
+git checkout amadeus-course
+conda install --yes --file requirements.txt
+while read requirement; do conda install --yes $requirement || pip install $requirement; done < requirements.txt
+pip install --upgrade pip		# esse fui eu
+pip install --upgrade setuptools	# esse fui eu
+pip install -r requirements.txt
+pip list
+django-admin startapp jonatas
+
+sudo -i -u postgres
+sudo -u postgres psql
+	CREATE USER jonatas;
+	CREATE DATABASE jonatasdb OWNER jonatas;
+	CREATE USER novojonatas PASSWORD "12345";
+	CREATE DATABASE novodb OWNER novojonatas;
+	ALTER USER novojonatas WITH SUPERUSER;
+
+python manage.py migrate
+python manage.py runserver

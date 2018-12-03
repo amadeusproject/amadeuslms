@@ -60,7 +60,7 @@ class GeneralView(LogMixin, generic.TemplateView):
         self.createLog(actor = self.request.user)
         context['months'] = self.get_last_twelve_months()
         context['child_template'] = "dashboards/general_body.html"
-        context['javascript_files'] = ["analytics/js/charts.js", "dashboards/js/behavior.js"]
+        context['javascript_files'] = ["analytics/js/d3.v5.min.js","analytics/js/JSUtil.js","analytics/js/ToolTip.js","analytics/js/HeatMap.js","analytics/js/charts.js", "dashboards/js/behavior.js"]
         context['style_files'] = ['dashboards/css/general.css']
         return context
 

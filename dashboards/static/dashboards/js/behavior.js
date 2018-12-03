@@ -16,7 +16,7 @@ $(document).ready(function(){
 	charts.most_used_tags('/analytics/most_used_tags');
 	charts.build_bubble_user('/analytics/most_active_users/');
 	
- 
+
  	//first call to month selector
 	var month = new Array();
 	month[0] = "January";
@@ -35,12 +35,18 @@ $(document).ready(function(){
 			charts.month_heatmap(data, '#right-chart-body', 'month-chart');
 	});
 
+	//FELIPE, Essa parte eu ainda estou ajustando, mas a ideia do que eu preciso está nessa requisição.
+	/*$.get('/dashboards/get_log_data',{init_date:"2018-11-03",end_date:"2018-12-03"}).done(function(data){
+		charts.month_heatmap_2(data, '#right-chart-body',"2018-11-03","2018-12-03");
+	})*/
+
+
  	//first call to weekly chart
- 	var today_date = new Date();
+ 	/*var today_date = new Date();
  	var date = (today_date.getMonth() + 1) + '/' + today_date.getDate() + '/' + today_date.getFullYear();
  	$.get('/analytics/get_days_of_the_week_log', {date: date}).done(function(data){
     		charts.month_heatmap(data, '#bottom-right-chart-body', 'weekly-chart');
-    });
+    });*/
 
 
  	//update month heatmap when the month selector is changed
@@ -54,7 +60,7 @@ $(document).ready(function(){
 	});
 
 	//week date selector at the right-chart field
-	$('input.datepicker').datetimepicker({
+	/*$('input.datepicker').datetimepicker({
 		format: 'L',
 		defaultDate: new Date(),
 	}).on('dp.change', function(ev){
@@ -64,7 +70,7 @@ $(document).ready(function(){
 			charts.month_heatmap(data, '#bottom-right-chart-body', 'weekly-chart');
 		});
 
-	});
+	});*/
 
 });
 

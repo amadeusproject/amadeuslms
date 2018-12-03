@@ -263,6 +263,10 @@ var charts = {
 
 	},
 
+	build_bubble_user2:function(data,config){
+		config.data = data;
+	},
+
 	most_accessed_subjects: function(url){
 		$.get(url, function(dataset){
 			var width = 200;
@@ -441,12 +445,48 @@ var charts = {
 
 		});
 	},
-	month_heatmap: function(data, target, div_target){
+	month_heatmap_2: function(data,target,init,end){
+		d3.select(target).text("");
 
-		
-		
-		
-		if($('#'+div_target).lenght != 0 ){
+		var maskdatetime = /(?<day>[0-9]{2})\/(?<month>[0-9]{2})\/(?<year>[0-9]{4}) (?<hour>[0-9]{2}):[0-9]{2}/;
+		data = data.map(function(d){
+			var taked = d.datetime.match(maskdatetime).groups;
+			taked.month--;
+			taked.value = 1;
+			taked.user = data.user;
+			return taked;
+		});
+		console.log(data);
+
+		if(init == undefined){
+			init = ""+data[0].year+"-"+data[0].month+"-"+data[0].day;
+		}
+		if(end == undefined){
+			end = ""+data[data.length-1].year+"-"+data[data.length-1].month+"-"+data[data.length-1].day;
+		}
+		var dateMask = /(?<year>[0-9]{4})-(?<month>[0-9]{2})-(?<day>[0-9]{2})/;
+		var dataConfig = { 
+			init:init.match(dateMask).groups,
+			end:end.match(dateMask).groups
+			};
+		dataConfig.init.month--;
+		dataConfig.end.month--;
+console.log(dataConfig);
+		var chartConfig = {
+			data:data,
+			parent:target,
+			dataConfig:dataConfig,
+			dimensions:{ width: 400, height: 800 },
+			tooltip:{
+				text:"Value: <value>\r\n Day: <this>"
+			},
+			interactions:{click:function(element,data){alert(data);console.log(data);}}
+		}
+		var calendarHeatMap = new CalendarHeatMap(chartConfig);
+	},
+	month_heatmap: function(data, target, div_target){
+		d3.select(target).text("");
+		/*if($('#'+div_target).lenght != 0 ){
 			$('#'+div_target).fadeOut();
 			$('#'+div_target).remove();
 		}
@@ -504,7 +544,32 @@ var charts = {
 
 	    rects.on('mouseout', function(){
 	    	tooltip.remove();
-	    })
+	    })*/
+
+		var dataConfig = { 
+			init:{
+				year: data[0].year,
+				month: data[0].month,
+				day: data[0].day,	
+			},
+			end:{
+				year: data[data.length-1].year,
+				month: data[data.length-1].month,
+				day: data[data.length-1].day,	
+			}
+			};
+
+		var chartConfig = {
+			data:data,
+			parent:target,
+			dataConfig:dataConfig,
+			dimensions:{ width: 400, height: 800 },
+			tooltip:{
+				text:"Value: <value>\r\n Day: <this>"
+			},
+			interactions:{click:function(element,data){alert(data);console.log(data);}}
+		}
+		var calendarHeatMap = new CalendarHeatMap(chartConfig);
 	}
 }
 
