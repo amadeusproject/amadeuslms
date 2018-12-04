@@ -71,6 +71,8 @@ from webpage.serializers import SimpleWebpageSerializer, CompleteWebpageSerializ
 from webpage.models import Webpage
 from webconference.serializers import SimpleWebconferenceSerializer, CompleteWebconferenceSerializer
 from webconference.models import Webconference
+from questionary.serializers import SimpleQuestionarySerializer, CompleteQuestionarySerializer
+from questionary.models import Questionary
 
 from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions, has_resource_permissions
 
@@ -827,6 +829,7 @@ def realize_backup(request, subject):
     pdffiles = PDFFile.objects.filter(id__in=resources_ids)
     goals = Goals.objects.filter(id__in=resources_ids)
     webconferences = Webconference.objects.filter(id__in=resources_ids)
+    questionaries = Questionary.objects.filter(id__in=resources_ids)
 
     for filelink in filelinks:
         if bool(filelink.file_content):
@@ -882,6 +885,7 @@ def realize_backup(request, subject):
         serializer_p = CompletePDFFileSerializer(pdffiles, many=True)
         serializer_g = CompleteGoalSerializer(goals, many=True)
         serializer_c = CompleteWebconferenceSerializer(webconferences, many=True)
+        serializer_q = CompleteQuestionarySerializer(questionaries, many=True)
     else:
         serializer_b = SimpleBulletinSerializer(bulletins, many=True)
         serializer_w = SimpleWebpageSerializer(webpages, many=True)
@@ -891,6 +895,7 @@ def realize_backup(request, subject):
         serializer_p = SimplePDFFileSerializer(pdffiles, many=True)
         serializer_g = SimpleGoalSerializer(goals, many=True)
         serializer_c = SimpleWebconferenceSerializer(webconferences, many=True)
+        serializer_q = SimpleQuestionarySerializer(questionaries, many=True)
 
     if len(serializer_b.data) > 0:
         data_list.append(serializer_b.data)
@@ -915,6 +920,9 @@ def realize_backup(request, subject):
 
     if len(serializer_c.data) > 0:
         data_list.append(serializer_c.data)
+
+    if len(serializer_q.data) > 0:
+        data_list.append(serializer_q.data)
 
     json.dump(data_list, file)
 
@@ -1036,6 +1044,13 @@ def realize_restore(request, subject):
                                                                              context={'subject': subject, 'files': file})
                                 else:
                                     serial = SimpleWebconferenceSerializer(data=line, many=True,
+                                                                           context={'subject': subject})
+                            elif line[0]["_my_subclass"] == "questionary":
+                                if "students" in line[0]:
+                                    serial = CompleteQuestionarySerializer(data=line, many=True,
+                                                                             context={'subject': subject, 'files': file})
+                                else:
+                                    serial = SimpleQuestionarySerializer(data=line, many=True,
                                                                            context={'subject': subject})
                             
                             serial.is_valid()
