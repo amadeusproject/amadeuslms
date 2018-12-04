@@ -821,6 +821,8 @@ def realize_backup(request, subject):
 
     zf = zipfile.ZipFile(s, "w", compression=zipfile.ZIP_DEFLATED)
 
+    questions_db = Question.objects.filter(subject__slug = subject)
+
     bulletins = Bulletin.objects.filter(id__in=resources_ids)
     webpages = Webpage.objects.filter(id__in=resources_ids)
     ytvideos = YTVideo.objects.filter(id__in=resources_ids)
@@ -862,9 +864,29 @@ def realize_backup(request, subject):
 
                 zf.write(bulletin.indicators.path, zip_path)
 
+    for question in questions_db:
+        if bool(question.question_img):
+            if os.path.exists(question.question_img.path):
+                file_directory, file_name = os.path.split(question.question_img.path)
+                zip_path = os.path.join("questions", file_name)
+
+                zf.write(question.question_img.path, zip_path)
+
+        for alt in question.alt_question.all():
+            if bool(alt.alt_img):
+                if os.path.exists(alt.alt_img.path):
+                    file_directory, file_name = os.path.split(alt.alt_img.path)
+                    zip_path = os.path.join(os.path.join("questions", "alternatives"), file_name)
+
+                    zf.write(alt.alt_img.path, zip_path)
+    
     file = open("backup.json", "w")
 
-    data_list = []
+    data_list = {}
+    data_list['questions_db'] = []
+    data_list['resources'] = []
+
+    data_list['questions_db'].append(QuestionDatabaseSerializer(questions_db, many=True))
 
     if participants:
         participants = User.objects.filter(subject_student__slug=subject)
@@ -898,31 +920,31 @@ def realize_backup(request, subject):
         serializer_q = SimpleQuestionarySerializer(questionaries, many=True)
 
     if len(serializer_b.data) > 0:
-        data_list.append(serializer_b.data)
+        data_list['resources'].append(serializer_b.data)
 
     if len(serializer_w.data) > 0:
-        data_list.append(serializer_w.data)
+        data_list['resources'].append(serializer_w.data)
     
     if len(serializer_y.data) > 0:
-        data_list.append(serializer_y.data)
+        data_list['resources'].append(serializer_y.data)
 
     if len(serializer_f.data) > 0:
-        data_list.append(serializer_f.data)
+        data_list['resources'].append(serializer_f.data)
 
     if len(serializer_l.data) > 0:
-        data_list.append(serializer_l.data)
+        data_list['resources'].append(serializer_l.data)
 
     if len(serializer_p.data) > 0:
-        data_list.append(serializer_p.data)
+        data_list['resources'].append(serializer_p.data)
 
     if len(serializer_g.data) > 0:
-        data_list.append(serializer_g.data)
+        data_list['resources'].append(serializer_g.data)
 
     if len(serializer_c.data) > 0:
-        data_list.append(serializer_c.data)
+        data_list['resources'].append(serializer_c.data)
 
     if len(serializer_q.data) > 0:
-        data_list.append(serializer_q.data)
+        data_list['resources'].append(serializer_q.data)
 
     json.dump(data_list, file)
 
@@ -990,7 +1012,11 @@ def realize_restore(request, subject):
             with open(path) as bkp_file:
                 data = json.loads(bkp_file.read())
 
-                for line in data:
+                serial = QuestionDatabaseSerializer(data=data["questions_db"], many=True, context={'subject': subject, 'files': file})
+                serial.is_valid()
+                serial.save()
+
+                for line in data["resources"]:
                     if len(line) > 0:
                         if "_my_subclass" in line[0]:
                             if line[0]["_my_subclass"] == "webpage":
