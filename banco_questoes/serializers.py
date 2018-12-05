@@ -16,6 +16,7 @@ import time
 from django.db.models import Q
 from django.conf import settings
 from django.core.files import File
+from django.shortcuts import get_object_or_404
 
 from rest_framework import serializers
 
@@ -60,7 +61,7 @@ class AlternativeSerializer(serializers.ModelSerializer):
 
 class QuestionDatabaseSerializer(serializers.ModelSerializer):
     categories = TagSerializer(many = True)
-    alternatives = AlternativeSerializer('get_files', many = True)
+    alt_question = AlternativeSerializer('get_files', many = True)
     question_img = serializers.CharField(required = False, allow_blank = True, max_length = 255)
 
     def get_subject(self, obj):
@@ -101,17 +102,18 @@ class QuestionDatabaseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = '__all__'
+        exclude = ('subject', )
 
     def create(self, data):
         question_data = data
 
-        alternatives = question_data["alternatives"]
-        del question_data["alternatives"]
+        alternatives = question_data["alt_question"]
+        del question_data["alt_question"]
 
         question = Question()
         question.enunciado = question_data["enunciado"]
         question.question_img = question_data["question_img"]
+        question.subject = self.context.get("subject", None)
 
         question.save()
 

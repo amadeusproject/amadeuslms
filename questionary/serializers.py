@@ -42,7 +42,7 @@ class SimpleQuestionarySerializer(serializers.ModelSerializer):
     topic = TopicSerializer('get_subject')
     tags = TagSerializer(many = True)
     pendencies_resource = PendenciesSerializer(many = True)
-    specifications = SpecificationSerializer(many = True)
+    spec_questionary = SpecificationSerializer(many = True)
 
     def get_subject(self, obj):
         subject = self.context.get("subject", None)
@@ -82,8 +82,8 @@ class SimpleQuestionarySerializer(serializers.ModelSerializer):
                 pendencies = questionary_data["pendencies_resource"]
                 del questionary_data["pendencies_resource"]
 
-                specifications = questionary_data["specifications"]
-                del questionary_data["specifications"]
+                specifications = questionary_data["spec_questionary"]
+                del questionary_data["spec_questionary"]
 
                 questionary = Questionary()
                 questionary.name = questionary_data["name"]
@@ -113,7 +113,7 @@ class SimpleQuestionarySerializer(serializers.ModelSerializer):
                 for spec in specifications:
                     tags = spec["categories"]
 
-                    spec = Specification.objects.create(questionary = questionary, **spec)
+                    specs = Specification.objects.create(questionary = questionary, n_questions = spec["n_questions"])
 
                     for tag in tags:
                         if not tag["name"] == "":
@@ -122,7 +122,7 @@ class SimpleQuestionarySerializer(serializers.ModelSerializer):
                             else:
                                 tag = get_object_or_404(Tag, id = tag["id"])
 
-                            spec.categories.add(tag)
+                            specs.categories.add(tag)
 
                 resource = get_object_or_404(Resource, id = questionary.id)
 
@@ -138,7 +138,7 @@ class CompleteQuestionarySerializer(serializers.ModelSerializer):
     topic = TopicSerializer('get_subject')
     tags = TagSerializer(many = True)
     pendencies_resource = PendenciesSerializer(many = True)
-    specifications = SpecificationSerializer(many = True)
+    spec_questionary = SpecificationSerializer(many = True)
     groups = StudentsGroupSerializer('get_files', many = True)
     students = UserBackupSerializer('get_files', many = True)
 
@@ -185,8 +185,8 @@ class CompleteQuestionarySerializer(serializers.ModelSerializer):
                 pendencies = questionary_data["pendencies_resource"]
                 del questionary_data["pendencies_resource"]
 
-                specifications = questionary_data["specifications"]
-                del questionary_data["specifications"]
+                specifications = questionary_data["spec_questionary"]
+                del questionary_data["spec_questionary"]
 
                 questionary = Questionary()
                 questionary.name = questionary_data["name"]
@@ -287,7 +287,7 @@ class CompleteQuestionarySerializer(serializers.ModelSerializer):
                 for spec in specifications:
                     tags = spec["categories"]
 
-                    spec = Specification.objects.create(questionary = questionary, **spec)
+                    spec = Specification.objects.create(questionary = questionary, n_questions = spec["n_questions"])
 
                     for tag in tags:
                         if not tag["name"] == "":

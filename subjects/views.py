@@ -55,6 +55,8 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 
 from users.serializers import UserBackupSerializer
+from banco_questoes.serializers import QuestionDatabaseSerializer
+from banco_questoes.models import Question
 from bulletin.serializers import SimpleBulletinSerializer, CompleteBulletinSerializer
 from bulletin.models import Bulletin
 from file_link.serializers import SimpleFileLinkSerializer, CompleteFileLinkSerializer
@@ -886,7 +888,10 @@ def realize_backup(request, subject):
     data_list['questions_db'] = []
     data_list['resources'] = []
 
-    data_list['questions_db'].append(QuestionDatabaseSerializer(questions_db, many=True))
+    serializer_db = QuestionDatabaseSerializer(questions_db, many=True)
+    
+    if len(serializer_db.data) > 0:
+        data_list['questions_db'].append(serializer_db.data)
 
     if participants:
         participants = User.objects.filter(subject_student__slug=subject)
@@ -992,7 +997,6 @@ class Restore(LoginRequiredMixin, TemplateView):
 
         return context
 
-
 @login_required
 def realize_restore(request, subject):
     subject = get_object_or_404(Subject, slug=subject)
@@ -1012,7 +1016,8 @@ def realize_restore(request, subject):
             with open(path) as bkp_file:
                 data = json.loads(bkp_file.read())
 
-                serial = QuestionDatabaseSerializer(data=data["questions_db"], many=True, context={'subject': subject, 'files': file})
+                serial = QuestionDatabaseSerializer(data=data["questions_db"][0], many=True, context={'subject': subject, 'files': file})
+
                 serial.is_valid()
                 serial.save()
 
@@ -1022,66 +1027,66 @@ def realize_restore(request, subject):
                             if line[0]["_my_subclass"] == "webpage":
                                 if "students" in line[0]:
                                     serial = CompleteWebpageSerializer(data=line, many=True,
-                                                                       context={'subject': subject, 'files': file})
+                                                                       context={'subject': subject.slug, 'files': file})
                                 else:
-                                    serial = SimpleWebpageSerializer(data=line, many=True, context={'subject': subject})
+                                    serial = SimpleWebpageSerializer(data=line, many=True, context={'subject': subject.slug})
                             elif line[0]["_my_subclass"] == "bulletin":
                                 if "students" in line[0]:
                                     serial = CompleteBulletinSerializer(data=line, many=True,
-                                                                        context={'subject': subject, 'files': file})
+                                                                        context={'subject': subject.slug, 'files': file})
                                 else:
                                     serial = SimpleBulletinSerializer(data=line, many=True,
-                                                                      context={'subject': subject, 'files': file})
+                                                                      context={'subject': subject.slug, 'files': file})
                             elif line[0]["_my_subclass"] == "filelink":
                                 if "students" in line[0]:
                                     serial = CompleteFileLinkSerializer(data=line, many=True,
-                                                                        context={'subject': subject, 'files': file})
+                                                                        context={'subject': subject.slug, 'files': file})
                                 else:
                                     serial = SimpleFileLinkSerializer(data=line, many=True,
-                                                                      context={'subject': subject, 'files': file})
+                                                                      context={'subject': subject.slug, 'files': file})
                             elif line[0]["_my_subclass"] == "link":
                                 if "students" in line[0]:
                                     serial = CompleteLinkSerializer(data=line, many=True,
-                                                                    context={'subject': subject, 'files': file})
+                                                                    context={'subject': subject.slug, 'files': file})
                                 else:
-                                    serial = SimpleLinkSerializer(data=line, many=True, context={'subject': subject})
+                                    serial = SimpleLinkSerializer(data=line, many=True, context={'subject': subject.slug})
                             elif line[0]["_my_subclass"] == "pdffile":
                                 if "students" in line[0]:
                                     serial = CompletePDFFileSerializer(data=line, many=True,
-                                                                       context={'subject': subject, 'files': file})
+                                                                       context={'subject': subject.slug, 'files': file})
                                 else:
                                     serial = SimplePDFFileSerializer(data=line, many=True,
-                                                                     context={'subject': subject, 'files': file})
+                                                                     context={'subject': subject.slug, 'files': file})
                             elif line[0]["_my_subclass"] == "goals":
                                 if "students" in line[0]:
                                     serial = CompleteGoalSerializer(data=line, many=True,
-                                                                    context={'subject': subject, 'files': file})
+                                                                    context={'subject': subject.slug, 'files': file})
                                 else:
-                                    serial = SimpleGoalSerializer(data=line, many=True, context={'subject': subject})
+                                    serial = SimpleGoalSerializer(data=line, many=True, context={'subject': subject.slug})
                             elif line[0]["_my_subclass"] == "ytvideo":
                                 if "students" in line[0]:
                                     serial = CompleteYTVideoSerializer(data=line, many=True,
-                                                                       context={'subject': subject, 'files': file})
+                                                                       context={'subject': subject.slug, 'files': file})
                                 else:
-                                    serial = SimpleYTVideoSerializer(data=line, many=True, context={'subject': subject})
+                                    serial = SimpleYTVideoSerializer(data=line, many=True, context={'subject': subject.slug})
                             elif line[0]["_my_subclass"] == "webconference":
                                 if "students" in line[0]:
                                     serial = CompleteWebconferenceSerializer(data=line, many=True,
-                                                                             context={'subject': subject, 'files': file})
+                                                                             context={'subject': subject.slug, 'files': file})
                                 else:
                                     serial = SimpleWebconferenceSerializer(data=line, many=True,
-                                                                           context={'subject': subject})
+                                                                           context={'subject': subject.slug})
                             elif line[0]["_my_subclass"] == "questionary":
                                 if "students" in line[0]:
                                     serial = CompleteQuestionarySerializer(data=line, many=True,
-                                                                             context={'subject': subject, 'files': file})
+                                                                             context={'subject': subject.slug, 'files': file})
                                 else:
                                     serial = SimpleQuestionarySerializer(data=line, many=True,
-                                                                           context={'subject': subject})
+                                                                           context={'subject': subject.slug})
                             
                             serial.is_valid()
                             serial.save()
 
     messages.success(request, _('Backup restored successfully!'))
-
-    return redirect(reverse_lazy('subjects:restore', kwargs={"slug": subject}))
+    
+    return redirect(reverse_lazy('subjects:restore', kwargs={"slug": subject.slug}))
