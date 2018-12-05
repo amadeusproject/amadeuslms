@@ -29,6 +29,7 @@ router = routers.DefaultRouter()
 router.register(r'logs', LogViewSet)
 router.register(r'usersapi', UserViewSet)
 router.register(r'users', views.LoginViewset)
+router.register(r'mural', views.MuralViewset)
 router.register(r'subjects', views.SubjectViewset)
 router.register(r'participants', views.ParticipantsViewset)
 router.register(r'chat', views.ChatViewset)
@@ -37,5 +38,6 @@ urlpatterns = [
 	#API REST
     url(r'^', include(router.urls)),
     url(r'^token$', views.getToken),
+    url(r'^pendencies$', views.getPendencies),
     url(r'^docs/', schema_view, name="docs"),
 ]

@@ -307,6 +307,9 @@ class GetTalk(LoginRequiredMixin, LogMixin, generic.ListView):
 		context['form'] = ChatMessageForm()
 		context['form_url'] = reverse_lazy('chat:create', args = (), kwargs = {'email': self.kwargs.get('email', ''), 'talk_id': self.talk_id, 'space': self.request.GET.get('space', '0'), 'space_type': self.request.GET.get('space_type', 'general')})
 
+		if context['space'] == '':
+			context['space'] = 0
+
 		if context['space_type'] == "subject":
 			subject = get_object_or_404(Subject, id = context['space'])
 			context['subject'] = subject.slug

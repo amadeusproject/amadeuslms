@@ -73,7 +73,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                             {% notifies_number subject request.user %}
                         </a>
                         <a href="{% url 'chat:subject_view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Messages' %}">
-                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                            <i class="fa fa-comments-o" aria-hidden="true"></i>
                             {% chat_number subject request.user %}
                         </a>
                         <a href="{% url 'mural:subject_view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Mural' %}">
@@ -93,45 +93,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
             {% include 'topics/list.html' with subject=subject %}
 
-            <div id="participants" data-toggle="tooltip" data-title="{% trans 'Participants' %}">
+            <div id="participants" data-toggle="tooltip" data-title="{% trans 'Participants' %}" data-url="{% url 'subjects:get_participants' subject.slug %}">
                 <i class="fa fa-group"></i>
             </div>
 
             <div class="participants-list">
-                <div class="subject-participants">
-                    {% for participant in participants %}
-                        {% is_online participant as status %}
-
-                        <div class="participants-container">
-                            <div class="col-md-12 sub-user" data-toggle="popover" data-container="body" data-placement="left">
-                                <h4><a class="user_{{ participant.id }}_status status {{ status }}" data-placement="right" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
-                            </div>
-
-                            <div class="popover">
-                                <div class="popover-content participant">
-                                    <button type="button" class="close" aria-label="{% trans 'Close' %}"><span aria-hidden="true">&times;</span></button>
-
-                                    <br clear="all" />
-
-                                    <div class="col-md-3 col-sm-3 col-xs-3 user-img">
-                                        <img src="{{ participant.image_url }}" class="img-responsive" />
-                                    </div>
-                                    <div class="col-md-9 col-sm-9 col-xs-9 user-info">
-                                        <h4><a class="status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ participant }}</h4>
-                                    </div>
-                                </div>
-                                <div class="popover-footer">
-                                    <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:profile" participant.email %}' class="btn btn-default btn-raised pull-left btn-popover-mobile">
-                                        {% trans 'See Profile' %}
-                                    </a>
-                                    <a href="#" onclick="getModalInfo($(this), '{{ subject.id }}', 'subject'); return false;" data-url='{% url "chat:talk" participant.email %}' class="btn btn-success btn-raised pull-right btn-popover-mobile">
-                                        {% trans 'Send Message' %}
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+                
             </div>
         </div>
     </div>
@@ -160,46 +127,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 }, 1000);
             }
 
-            $('[data-toggle="popover"]').popover({
-                html: true,
-                placement: function () {
-                    return window.innerWidth <= 768 ? 'bottom' : 'left';
-                },
-                content: function () {
-                    return $(this).parent().find(".popover").html();
-                }
-            }).on('show.bs.popover', function (e) {
-                $('[data-toggle="popover"]').not(e.target).popover('hide');
-            }).on('shown.bs.popover', function (e) {
-                if($(this).is(e.target)){
-                    var popover = $(".popover.fade.in"),
-                        buttons = popover.parent().find('a'),
-                        close = popover.parent().find('.close:visible');
-
-                    popover.animate({
-                        'max-width': '330px',
-                    }, 0);
-
-                    popover.find('.popover-content').animate({
-                        padding: '9px 5px',
-                    }, 0);
-
-                    popover.find('h4').animate({
-                        'font-size': '16px',
-                    }, 0);
-
-                    close.on("click", function () {
-                        popover.popover('hide');
-                    });
-
-                    buttons.on("click", function () {
-                        popover.popover('hide');
-                    })
-                }
-            });
+            
 
             $('#participants').on('click', function(){
                 var $this = $(this),
+                    url = $this.data('url'),
                     list = $this.parent().find(".participants-list");
 
                 if ($this.hasClass('open')) {
@@ -222,6 +154,15 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                         right : 0,
                         opacity: 1,
                     }, 500).css({visibility: 'visible'});
+
+                    if (list.html().trim() == "") {
+                        list.html('<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"><i class="fa fa-spinner fa-spin fa-2x" style=""></i></div>');
+                        
+                        $.get(url, function(response) {
+                            list.html(response);
+                        });
+                    }
+
 
                     setTimeout(function () {
                         list.fadeIn();

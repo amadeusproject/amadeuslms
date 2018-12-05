@@ -21,6 +21,8 @@ urlpatterns = [
     url(r'^delete/(?P<slug>[\w_-]+)/$', views.DeleteView.as_view(), name = 'delete'),
     url(r'^view/(?P<slug>[\w_-]+)/$', views.InsideView.as_view(), name = 'view'),
     url(r'^window_view/(?P<slug>[\w_-]+)/(?P<window>[\w_-]+)/$', views.InsideView.as_view(), name = 'window_view'),
+    url(r'^chart/(?P<slug>[\w_-]+)/$', views.StatisticsView.as_view(), name = 'get_chart'),
+    url(r'^send-message/(?P<slug>[\w_-]+)/$', views.SendMessage.as_view(), name = 'send_message'),
     url(r'^count_questions/$', views.countQuestions, name='countQ'),
     url(r'^answer/$', views.answer, name='answer'),
 ]

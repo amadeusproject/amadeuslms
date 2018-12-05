@@ -17,7 +17,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% block javascript%}
     {{ block.super }}
-    <script src="{% static 'js/jitsi.js' %}"></script>
+    <!--<script src="{% static 'js/jitsi.js' %}"></script>-->
+    <script src="https://meet.jit.si/external_api.js"></script>
     <style>
       #jitsi, iframe{
           margin-left: -1px;
@@ -46,8 +47,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
   var room = "{{name_room}}"; // name of the room to be created
   var height = $(document).height(); // height of the window to be created
   var html = document.getElementById("jitsi");
+  var options = {
+      roomName: room,
+      height: height,
+      parentNode: html
+  }
   $('#jitsi').css({'height':height});
-  var api = new JitsiMeetExternalAPI(domain, room, 0, 0,html);
+  //var api = new JitsiMeetExternalAPI(domain, room, 0, 0,html);
+  var api = new JitsiMeetExternalAPI(domain, options);
   // window.onload = initpage;
   window.onload = initpage;
   function initpage(){
@@ -57,7 +64,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     api.addEventListener('videoConferenceLeft', function(res){
       $.ajax({
         method: "GET",
-        url: "{% url 'webconferences:exit'%}",
+        url: "{% url 'webconferences:exit' %}",
         dataType: 'json',
         data: res,
         success: function(response) {

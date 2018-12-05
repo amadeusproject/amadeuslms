@@ -23,6 +23,7 @@ urlpatterns = [
 	url(r'^window_view/(?P<slug>[\w_-]+)/$', views.NewWindowView.as_view(), name = 'window_view'),
 	url(r'^view/(?P<slug>[\w_-]+)/$', views.InsideView.as_view(), name = 'view'),
 	url(r'^conference/(?P<slug>[\w_-]+)/$',views.Conference.as_view(), name = 'conference'),
+	url(r'^conference/(?P<slug>[\w_-]+)/(?P<window>[\w_-]+)/$',views.Conference.as_view(), name = 'window_conference'),
 	url(r'^finish/$',views.finish, name = 'exit'),
 	url(r'^participating/$',views.participating, name = 'participating'),
 	url(r'^settings/$', views.ConferenceSettings.as_view(), name = 'settings'),

@@ -10,29 +10,42 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-import time, random
-from datetime import datetime
-from django.db import connection
-from django.views import generic
-from django.utils import formats
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils.translation import ugettext_lazy as _
-from django.core.urlresolvers import reverse, reverse_lazy
-from django.shortcuts import get_object_or_404, redirect, render
+import random
+import time
+import textwrap
+import json
+
+from datetime import datetime, timedelta
+from django.db.models import Q
+
+from .forms import InlinePendenciesFormset, InlineSpecificationFormset, \
+    QuestionaryForm
+from .models import Questionary, UserAnswer, UserQuest
+from banco_questoes.models import Alternative, Question
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.db import connection
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import formats, timezone
+from django.utils.translation import ugettext_lazy as _
+from django.utils.html import strip_tags
+from django.template.loader import render_to_string
+from django.views import generic
+from channels import Group
 
-from amadeus.permissions import has_subject_permissions, has_resource_permissions
+from webpage.forms import FormModalMessage
 
+from chat.models import Conversation, TalkMessages, ChatVisualizations
+
+from amadeus.permissions import has_resource_permissions, \
+    has_subject_permissions
+from log.decorators import log_decorator
 from log.mixins import LogMixin
-
-from banco_questoes.models import Question, Alternative
 from log.models import Log
-from topics.models import Topic, Resource
+from topics.models import Resource, Topic
 from users.models import User
-
-from .forms import QuestionaryForm, InlinePendenciesFormset, InlineSpecificationFormset
-from .models import Questionary, UserQuest, UserAnswer
 
 class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
     log_component = "resources"
@@ -56,7 +69,10 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
         questionary = get_object_or_404(Questionary, slug = slug)
 
         if has_subject_permissions(self.request.user, questionary.topic.subject):
-            self.students = User.objects.filter(subject_student = questionary.topic.subject).order_by('social_name', 'username')
+            if questionary.all_students:
+                self.students = User.objects.filter(subject_student = questionary.topic.subject).order_by('social_name', 'username')
+            else:
+                self.students = User.objects.filter(resource_students = questionary).order_by('social_name', 'username')
 
             self.userquest = UserQuest.objects.filter(student = self.students.first(), questionary = questionary)
             
@@ -85,9 +101,9 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
 
                         for row in rows:
                             list_q.append(row[0])
-                        print(list_q)
+
                         random.shuffle(list_q)
-                        print(list_q)
+
                         q_ids = q_ids + (list_q[0:n_questions])
                 
                 questions = Question.objects.filter(pk__in = q_ids)
@@ -115,7 +131,10 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
         self.object_list = questionary
 
         if has_subject_permissions(request.user, questionary.topic.subject):
-            self.students = User.objects.filter(subject_student = questionary.topic.subject).order_by('social_name', 'username')
+            if questionary.all_students:
+                self.students = User.objects.filter(subject_student = questionary.topic.subject).order_by('social_name', 'username')
+            else:
+                self.students = User.objects.filter(resource_students = questionary).order_by('social_name', 'username')
 
             if not user is None:
                 self.userquest = UserQuest.objects.filter(student__email = user, questionary = questionary)
@@ -138,6 +157,12 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
 
         if not has_resource_permissions(request.user, questionary):
             return redirect(reverse_lazy('subjects:home'))
+
+        if not has_subject_permissions(self.request.user, questionary.topic.subject):
+            if timezone.now() < questionary.data_ini:
+                messages.error(self.request, _('The questionary "%s" from topic "%s" can only be answered after %s'%(str(questionary), str(questionary.topic), (formats.date_format(questionary.data_ini, "SHORT_DATETIME_FORMAT")))))
+
+                return redirect(reverse_lazy('subjects:view', kwargs={"slug": questionary.topic.subject.slug}))
 
         return super(InsideView, self).dispatch(request, *args, **kwargs)
 
@@ -232,7 +257,7 @@ class QuestionaryCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
         slug = self.kwargs.get('slug', '')
         topic = get_object_or_404(Topic, slug = slug)
 
-        pendencies_form = InlinePendenciesFormset(initial = [{'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize")), ("finish", _("Finish"))]}])
+        pendencies_form = InlinePendenciesFormset(initial = [{'subject': topic.subject.id, 'actions': [("", "-------"), ("start", _("Start")), ("view", _("Visualize")), ("finish", _("Finish"))]}])
         specifications_form = InlineSpecificationFormset(initial = [{'subject': topic.subject}])
 
         return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form, specifications_form = specifications_form))
@@ -259,7 +284,7 @@ class QuestionaryCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
         topic = get_object_or_404(Topic, slug = slug)
 
         for p_form in pendencies_form.forms:
-            p_form.fields['action'].choices = [("", "-------"),("view", _("Visualize")), ("finish", _("Finish"))]
+            p_form.fields['action'].choices = [("", "-------"),("start", _("Start")), ("view", _("Visualize")), ("finish", _("Finish"))]
 
         return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form, specifications_form = specifications_form))
 
@@ -304,7 +329,7 @@ class QuestionaryCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
         self.log_context['topic_id'] = self.object.topic.id
         self.log_context['topic_name'] = self.object.topic.name
         self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['questionary_id'] = self.object.id
+        self.log_context['questionary_id'] = self.object.id 
         self.log_context['questionary_name'] = self.object.name
         self.log_context['questionary_slug'] = self.object.slug
 
@@ -382,7 +407,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         slug = self.kwargs.get('topic_slug', '')
         topic = get_object_or_404(Topic, slug = slug)
 
-        pendencies_form = InlinePendenciesFormset(instance = self.object, initial = [{'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize")), ("finish", _("Finish"))]}])
+        pendencies_form = InlinePendenciesFormset(instance = self.object, initial = [{'subject': topic.subject.id, 'actions': [("", "-------"), ("start", _("Start")), ("view", _("Visualize")), ("finish", _("Finish"))]}])
         specifications_form = InlineSpecificationFormset(instance = self.object, initial = [{'subject': topic.subject}])
 
         return self.render_to_response(self.get_context_data(form = form, pendencies_form = pendencies_form, specifications_form = specifications_form))
@@ -396,7 +421,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         slug = self.kwargs.get('topic_slug', '')
         topic = get_object_or_404(Topic, slug = slug)
 
-        pendencies_form = InlinePendenciesFormset(self.request.POST, instance = self.object, initial = [{'subject': topic.subject.id, 'actions': [("", "-------"),("view", _("Visualize")), ("finish", _("Finish"))]}])
+        pendencies_form = InlinePendenciesFormset(self.request.POST, instance = self.object, initial = [{'subject': topic.subject.id, 'actions': [("", "-------"), ("start", _("Start")), ("view", _("Visualize")), ("finish", _("Finish"))]}])
         specifications_form = InlineSpecificationFormset(self.request.POST, instance = self.object, initial = [{'subject': topic.subject}])
 
         if (form.is_valid() and pendencies_form.is_valid() and specifications_form.is_valid()):
@@ -481,46 +506,46 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return success_url
 
 class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
-	log_component = "resources"
-	log_action = "delete"
-	log_resource = "questionary"
-	log_context = {}
+    log_component = "resources"
+    log_action = "delete"
+    log_resource = "questionary"
+    log_context = {}
 
-	login_url = reverse_lazy("users:login")
-	redirect_field_name = 'next'
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
 
-	template_name = 'resources/delete.html'
-	model = Questionary
-	context_object_name = 'resource'
+    template_name = 'resources/delete.html'
+    model = Questionary
+    context_object_name = 'resource'
 
-	def dispatch(self, request, *args, **kwargs):
-		slug = self.kwargs.get('slug', '')
-		questionary = get_object_or_404(Questionary, slug = slug)
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug', '')
+        questionary = get_object_or_404(Questionary, slug = slug)
 
-		if not has_subject_permissions(request.user, questionary.topic.subject):
-			return redirect(reverse_lazy('subjects:home'))
+        if not has_subject_permissions(request.user, questionary.topic.subject):
+            return redirect(reverse_lazy('subjects:home'))
 
-		return super(DeleteView, self).dispatch(request, *args, **kwargs)
+        return super(DeleteView, self).dispatch(request, *args, **kwargs)
 
-	def get_success_url(self):
-		messages.success(self.request, _('The questionary %s of the topic %s was removed successfully!')%(self.object.name, self.object.topic.name))
-		
-		self.log_context['category_id'] = self.object.topic.subject.category.id
-		self.log_context['category_name'] = self.object.topic.subject.category.name
-		self.log_context['category_slug'] = self.object.topic.subject.category.slug
-		self.log_context['subject_id'] = self.object.topic.subject.id
-		self.log_context['subject_name'] = self.object.topic.subject.name
-		self.log_context['subject_slug'] = self.object.topic.subject.slug
-		self.log_context['topic_id'] = self.object.topic.id
-		self.log_context['topic_name'] = self.object.topic.name
-		self.log_context['topic_slug'] = self.object.topic.slug
-		self.log_context['questionary_id'] = self.object.id
-		self.log_context['questionary_name'] = self.object.name
-		self.log_context['questionary_slug'] = self.object.slug
+    def get_success_url(self):
+        messages.success(self.request, _('The questionary %s of the topic %s was removed successfully!')%(self.object.name, self.object.topic.name))
+        
+        self.log_context['category_id'] = self.object.topic.subject.category.id
+        self.log_context['category_name'] = self.object.topic.subject.category.name
+        self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        self.log_context['subject_id'] = self.object.topic.subject.id
+        self.log_context['subject_name'] = self.object.topic.subject.name
+        self.log_context['subject_slug'] = self.object.topic.subject.slug
+        self.log_context['topic_id'] = self.object.topic.id
+        self.log_context['topic_name'] = self.object.topic.name
+        self.log_context['topic_slug'] = self.object.topic.slug
+        self.log_context['questionary_id'] = self.object.id
+        self.log_context['questionary_name'] = self.object.name
+        self.log_context['questionary_slug'] = self.object.slug
 
-		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+        super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
 
-		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
+        return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
 def countQuestions(request):
     tags = request.GET.get('values', None)
@@ -535,6 +560,7 @@ def countQuestions(request):
         
     return JsonResponse({'total': total})
 
+@log_decorator("resources", "answer", "questionary")
 def answer(request):
     question = request.POST.get('question')
     answer = request.POST.get('answer')
@@ -542,10 +568,17 @@ def answer(request):
     question = get_object_or_404(UserAnswer, id = question)
     answer = get_object_or_404(Alternative, id = answer)
 
+    log_action = "finish"
+    insert_log = False
+
+    userquest = question.user_quest
+
+    if not UserAnswer.objects.filter(user_quest = userquest, answer__isnull = False).exists():
+        insert_log = True
+        log_action = "start"
+
     question.answer = answer
     question.is_correct = answer.is_correct
-    
-    userquest = question.user_quest
     
     question.save()
 
@@ -553,4 +586,243 @@ def answer(request):
 
     userquest.save()
 
+    #add request context to log
+    questionary_data = userquest.questionary
+    request.log_context = {}
+    request.log_context["question_id"] = userquest.questionary.id
+    request.log_context["is_correct"] = question.is_correct
+    request.log_context["time_to_answer"] = (question.created_at - question.question.created_at).total_seconds()
+    request.log_context["subject_id"] = questionary_data.topic.subject.id
+    request.log_context["category_id"] = questionary_data.topic.subject.category.id
+    request.log_context["topic_id"] = questionary_data.topic.id
+    request.log_context["topic_slug"] = questionary_data.topic.slug
+    request.log_context["topic_name"] = questionary_data.topic.name
+
+    if not UserAnswer.objects.filter(user_quest = userquest, answer__isnull = True).exists() or insert_log:
+        log = Log()
+        log.user = str(request.user)
+        log.user_id = request.user.id
+        log.user_email = request.user.email
+        log.component = "resources"
+        log.action = log_action
+        log.resource = "questionary"
+
+        log.context = {}
+        log.context["subject_id"] = questionary_data.topic.subject.id
+        log.context["category_id"] = questionary_data.topic.subject.category.id
+        log.context["topic_id"] = questionary_data.topic.id
+        log.context["topic_slug"] = questionary_data.topic.slug
+        log.context["topic_name"] = questionary_data.topic.name
+        log.context['questionary_id'] = questionary_data.id
+        log.context['questionary_name'] = questionary_data.name
+        log.context['questionary_slug'] = questionary_data.slug
+        log.save()
+
     return JsonResponse({'last_update': formats.date_format(userquest.last_update, "SHORT_DATETIME_FORMAT"), 'answered': userquest.useranswer_userquest.filter(answer__isnull = False).count()})
+
+class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
+    log_component = 'resources'
+    log_action = 'view_statistics'
+    log_resource = 'questionary'
+    log_context = {}
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+    model = Questionary
+    template_name = 'questionary/relatorios.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug', '')
+        questionary = get_object_or_404(Questionary, slug = slug)
+
+        if not has_subject_permissions(request.user, questionary.topic.subject):
+            return redirect(reverse_lazy('subjects:home'))
+
+        return super(StatisticsView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(StatisticsView, self).get_context_data(**kwargs)
+
+        self.log_context['category_id'] = self.object.topic.subject.category.id
+        self.log_context['category_name'] = self.object.topic.subject.category.name
+        self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        self.log_context['subject_id'] = self.object.topic.subject.id
+        self.log_context['subject_name'] = self.object.topic.subject.name
+        self.log_context['subject_slug'] = self.object.topic.subject.slug
+        self.log_context['topic_id'] = self.object.topic.id
+        self.log_context['topic_name'] = self.object.topic.name
+        self.log_context['topic_slug'] = self.object.topic.slug
+        self.log_context['questionary_id'] = self.object.id
+        self.log_context['questionary_name'] = self.object.name
+        self.log_context['questionary_slug'] = self.object.slug
+
+        super(StatisticsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+
+        context['title'] = _('Questionary Reports')
+
+        slug = self.kwargs.get('slug')
+        questionary = get_object_or_404(Questionary, slug = slug)
+
+        date_format = "%d/%m/%Y %H:%M" if self.request.GET.get('language','') == 'pt-br' else "%m/%d/%Y %I:%M %p"
+        
+        if self.request.GET.get('language','') == "":
+            start_date = datetime.now() - timedelta(30)
+            end_date = datetime.now()
+        else :
+            start_date = datetime.strptime(self.request.GET.get('init_date',''),date_format)
+            end_date = datetime.strptime(self.request.GET.get('end_date',''),date_format)
+        
+        context["init_date"] = start_date
+        context["end_date"] = end_date
+        
+        alunos = questionary.students.all()
+        
+        if questionary.all_students :
+            alunos = questionary.topic.subject.students.all()
+
+        vis_ou = Log.objects.filter(context__contains={'questionary_id':questionary.id},resource="questionary",user_email__in=(aluno.email for aluno in alunos), datetime__range=(start_date,end_date + timedelta(minutes = 1))).filter(Q(action="view") | Q(action="finish") | Q(action="start"))
+        
+        did,n_did,history = str(_("Realized")),str(_("Unrealized")),str(_("Historic"))
+        re = []
+        data_n_did,data_history = [],[]
+        json_n_did, json_history = {},{}
+
+        for log_al in vis_ou.order_by("datetime"):
+            if log_al.action == 'view':
+                if any(log_al.user in x for x in data_history):
+                    continue
+            elif log_al.action == 'finish':
+                index = None
+
+                for dh in data_history:
+                    if log_al.user in dh:
+                        index = dh
+                        break
+
+                if not index is None:
+                    data_history.remove(index)
+                    
+            data_history.append([log_al.user,
+            ", ".join([str(x) for x in questionary.topic.subject.group_subject.filter(participants__email=log_al.user_email)]),
+            log_al.action,log_al.datetime])
+        
+        json_history["data"] = data_history
+
+        not_view = alunos.exclude(email__in=[log.user_email for log in vis_ou.filter(action="view").distinct("user_email")])
+        index = 0
+        for alun in not_view:
+            data_n_did.append([index,str(alun),", ".join([str(x) for x in questionary.topic.subject.group_subject.filter(participants__email=alun.email)]),str(_('View')), str(alun.email)])
+            index += 1
+
+        not_start = alunos.exclude(email__in=[log.user_email for log in vis_ou.filter(action="start").distinct("user_email")])
+        for alun in not_start:
+            data_n_did.append([index,str(alun),", ".join([str(x) for x in questionary.topic.subject.group_subject.filter(participants__email=alun.email)]),str(_('Start')), str(alun.email)])
+            index += 1
+
+        not_finish = alunos.exclude(email__in=[log.user_email for log in vis_ou.filter(action="finish").distinct("user_email")])
+        for alun in not_finish:
+            data_n_did.append([index,str(alun),", ".join([str(x) for x in questionary.topic.subject.group_subject.filter(participants__email=alun.email)]),str(_('Finish')), str(alun.email)])
+            index += 1
+
+        json_n_did["data"] = data_n_did
+
+        context["json_n_did"] = json_n_did
+        context["json_history"] = json_history
+        
+        c_visualizou = vis_ou.filter(action="view").distinct("user_email").count()
+        c_start = vis_ou.filter(action="start").distinct("user_email").count()
+        c_finish = vis_ou.filter(action="finish").distinct("user_email").count()
+
+        column_view = str(_('View'))
+        column_start = str(_('Start'))
+        column_finish = str(_('Finish'))
+        
+        re.append([str(_('Questionary')),did,n_did])
+        re.append([column_view,c_visualizou, alunos.count() - c_visualizou])
+        re.append([column_start,c_start, alunos.count() - c_start])
+        re.append([column_finish,c_finish, alunos.count() - c_finish])
+        
+        context['topic'] = questionary.topic
+        context['subject'] = questionary.topic.subject
+        context['db_data'] = re
+        context['title_chart'] = _('Actions about resource')
+        context['title_vAxis'] = _('Quantity')
+        context['view'] = column_view
+        context['start'] = column_start
+        context['finish'] = column_finish
+        context["n_did_table"] = n_did
+        context["did_table"] = did
+        context["history_table"] = history
+
+        return context
+
+class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
+    log_component = 'resources'
+    log_action = 'send'
+    log_resource = 'questionary'
+    log_context = {}
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = 'next'
+
+    template_name = 'questionary/send_message.html'
+    form_class = FormModalMessage
+
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug', '')
+        questionary = get_object_or_404(Questionary, slug = slug)
+        self.questionary = questionary
+        
+        if not has_subject_permissions(request.user, questionary.topic.subject):
+            return redirect(reverse_lazy('subjects:home'))
+
+        return super(SendMessage, self).dispatch(request, *args, **kwargs)
+    
+    def form_valid(self, form):
+        message = form.cleaned_data.get('comment')
+        image = form.cleaned_data.get("image",'')
+        users = (self.request.POST.get('users[]','')).split(",")
+        user = self.request.user
+        subject = self.questionary.topic.subject
+
+        if (users[0] is not ''):
+            for u in users:
+                to_user = User.objects.get(email=u)
+                talk, create = Conversation.objects.get_or_create(user_one=user,user_two=to_user)
+                created = TalkMessages.objects.create(text=message,talk=talk,user=user,subject=subject,image=image)
+
+                simple_notify = textwrap.shorten(strip_tags(message), width = 30, placeholder = "...")
+
+                if image is not '':
+                    simple_notify += " ".join(_("[Photo]"))
+                
+                notification = {
+                    "type": "chat",
+                    "subtype": "subject",
+                    "space": subject.slug,
+                    "user_icon": created.user.image_url,
+                    "notify_title": str(created.user),
+                    "simple_notify": simple_notify,
+                    "view_url": reverse("chat:view_message", args = (created.id, ), kwargs = {}),
+                    "complete": render_to_string("chat/_message.html", {"talk_msg": created}, self.request),
+                    "container": "chat-" + str(created.user.id),
+                    "last_date": _("Last message in %s")%(formats.date_format(created.create_date, "SHORT_DATETIME_FORMAT"))
+                }
+
+                notification = json.dumps(notification)
+
+                Group("user-%s" % to_user.id).send({'text': notification})
+
+                ChatVisualizations.objects.create(viewed = False, message = created, user = to_user)
+            
+            success = str(_('The message was successfull sent!'))
+            return JsonResponse({"message":success})
+
+        erro = HttpResponse(str(_("No user selected!")))
+        erro.status_code = 404
+        return erro
+
+    def get_context_data(self, **kwargs):
+        context = super(SendMessage,self).get_context_data()
+        context["questionary"] = get_object_or_404(Questionary, slug=self.kwargs.get('slug', ''))
+        return context

@@ -231,7 +231,7 @@ CHANNEL_LAYERS = {
 }
 
 FCM_DJANGO_SETTINGS = {
-    "FCM_SERVER_KEY": "AAAA9XnDjxo:APA91bF-Cpz-GxeNBwHwWVq17reoCpEtQcX_3okZ0BU5qUdbyQ9QCamQfy0XQTkY74ksdEnQB0xLBiyNo99es0a0U5C-SmZd3oGt75nHpg3iVtXUc_mcqlSq4p9hBhG7BWXvzBVFdGt_",
+    "FCM_SERVER_KEY": "AAAA8UuwSms:APA91bHZyLpw5rnaZtzGT12_yPD0NwVlBX2fD_CJgR_cRvKmxeg9gKd8Y281JkSAFYwMYyruY1O3qjIMEIiByeEAZRxZz9gJKbbxGDR86fMTrv2Yfu83aD6JUZKqBsR-xX5G8CM7LQ5C",
     # true if you want to have only one active device per registered user at a time
     # default: False
     "ONE_DEVICE_PER_USER": False,

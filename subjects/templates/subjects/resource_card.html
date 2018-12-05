@@ -65,10 +65,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     <p><b>{% trans "Subject" %}:</b> {{resource.topic.subject.name}}</p>
                 </div>
             </div>
-            {% if resource.brief_description %}
-                <p>{{resource.brief_description|safe}}</p>
-
-            {% endif %}
+            <div class="col-md-12">
+                {% if resource.brief_description %}
+                    <p>{{resource.brief_description|safe}}</p>
+                {% endif %}
+            </div>
 
             <a href="{{ resource.access_link }}" {% if resource.show_window %}target="_blank"{% endif %} class="btn btn-success btn-raised"> {% trans "Access Resource" %}</a>
 

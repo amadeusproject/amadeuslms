@@ -561,15 +561,23 @@ def login(request):
 
 @log_decorator('user', 'logout', 'system')
 def logout(request, next_page = None):
-	user = request.user
+	if not request.user.is_anonymous:
+		user_email = request.user.email
+		user_id = request.user.id
+	else:
+		user_email = None
+		user_id = 0
 
 	logout_user(request)
 
-	users = User.objects.all().exclude(email = user.email)
+	if not user_email is None:
+		users = User.objects.all().exclude(email = user_email)
+	else:
+		users = User.objects.all()
 
 	notification = {
 		"type": "user_status",
-		"user_id": str(user.id),
+		"user_id": str(user_id),
 		"status": _u("Offline"),
 		"status_class": "",
 		"remove_class": "away"

@@ -139,8 +139,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 		$(function () {
 			$('input[type="radio"]').on('change', function () {
 				var $radio = $(this),
-					question = $radio.parent().parent().parent().data('question'),
-					userquest = $radio.parent().parent().parent().data('userquest');
+					question = $radio.parent().parent().parent().parent().data('question');
 				
 				$.ajax({
             		method: 'POST',
