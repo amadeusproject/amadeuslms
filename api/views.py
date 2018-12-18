@@ -694,7 +694,7 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
             else:
                 page.append(comments[i])
 
-        serializer = CommentSerializer(page, many = True, context = {"request_user": mural.user, "subject": mural.space.slug})
+        serializer = CommentsSerializer(page, many = True, context = {"request_user": mural.user, "subject": mural.space.slug})
 
         json_r = json.dumps(serializer.data)
         json_r = json.loads(json_r)
