@@ -688,7 +688,7 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
 
         comments = Comment.objects.filter(post__id = post_id).order_by('-last_update')
 
-        for i in range(comments_by_page * (n_page - 1), (n_page * comments_by_page)):
+        for i in range(comments_by_page * n_page, ((n_page + 1) * comments_by_page)):
             if i >= comments.count():
                 break
             else:
