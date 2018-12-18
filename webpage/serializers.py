@@ -68,7 +68,7 @@ class SimpleWebpageSerializer(serializers.ModelSerializer):
 					data["topic"] = topic
 				else:
 					data["topic"] = get_object_or_404(Topic, id = topic["id"])
-
+				
 				webpage_data = data
 				
 				pendencies = webpage_data["pendencies_resource"]
