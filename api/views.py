@@ -719,7 +719,7 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
         self.log_context["post_space_slug"] = mural.space.slug
         self.log_context["post_space_name"] = mural.space.name
 
-        super(MuralViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(MuralViewset, self).createLog(mural.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return HttpResponse(response)
 
