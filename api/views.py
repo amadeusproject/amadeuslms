@@ -799,7 +799,7 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
 
             serializer = MuralSerializer(post, context = {"request_user": user, "subject": space})
 
-            json_r = json.dumps(serializer)
+            json_r = json.dumps(serializer.data)
             json_r = json.loads(json_r)
 
             info["data"] = {}
@@ -896,7 +896,7 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
 
             serializer = CommentsSerializer(comment, context = {"request_user": user, "subject": mural.space.slug})
 
-            json_r = json.dumps(serializer)
+            json_r = json.dumps(serializer.data)
             json_r = json.loads(json_r)
 
             info["data"] = {}
