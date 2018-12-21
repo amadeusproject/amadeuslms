@@ -779,7 +779,7 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
                 "user_icon": user.image_url,
                 "simple_notify": simple_notify,
                 "complete": render_to_string("mural/_view.html", {"post": post}, request),
-                "container": "#" + slug,
+                "container": "#" + space.slug,
                 "accordion": True,
                 "post_type": "subjects"
             }
