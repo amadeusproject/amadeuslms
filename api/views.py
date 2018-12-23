@@ -854,7 +854,7 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
 
         comment.save()
 
-        if not post.pk is None:
+        if not comment.pk is None:
             users = getSpaceUsers(user.id, mural)
             
             entries = []
