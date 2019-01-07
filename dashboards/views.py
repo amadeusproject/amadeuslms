@@ -31,13 +31,17 @@ from collections import OrderedDict
 
 from categories.models import Category
 
+from subjects.models import Subject
+
+from notifications.utils import get_pend_graph
 
 from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
 from log.models import Log
 
-from amadeus.permissions import has_category_permissions
+from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions, has_resource_permissions
 
+import json
 
 class GeneralView(LogMixin, generic.TemplateView):
     template_name = "dashboards/general.html"
@@ -185,3 +189,28 @@ def parse_log_queryset_to_JSON(logs):
         datum['component'] = log.component
         data.append(datum)
     return data
+
+class SubjectView(LogMixin, generic.TemplateView):
+    template_name = "dashboards/subjects.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        subject = get_object_or_404(Subject, slug=kwargs.get('slug', ''))
+
+        if not has_subject_view_permissions(request.user, subject):
+            return redirect(reverse_lazy('subjects:home'))
+
+        return super(SubjectView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        subject = get_object_or_404(Subject, slug=kwargs.get('slug', ''))
+
+        context = {}
+        
+        context["graph_data"] = json.dumps(get_pend_graph(self.request.user, subject))
+        
+
+        context["subject"] = subject
+        context['javascript_files'] = []
+        context['style_files'] = ['dashboards/css/general.css', 'dashboards/css/dashboards_category.css']
+        
+        return context

@@ -1,0 +1,83 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% extends 'subjects/view.html' %}
+
+{% load static i18n %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block style %}
+    {% for file in style_files %}
+        <link rel="stylesheet" type="text/css" href="{% static file %}">
+    {% endfor %}
+{% endblock style %}
+
+{% block javascript %}
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="{% static 'js/JSUtil.js' %}"></script>
+    <script src="{% static 'js/Legend.js' %}"></script>
+    <script src="{% static 'js/brush_zoom.js' %}"></script>
+
+    {% for file in javascript_files %}
+         <script type="text/javascript" src="{% static file %}"></script>
+    {% endfor %}
+{% endblock javascript %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    
+    {% trans "Analytics" as bread %}
+    {% breadcrumb  bread 'dashboards:subject' subject.slug %}
+{% endblock %}
+
+{% block content %}
+    {{ graph_data }}
+    <div id="gantt"></div>
+
+    <script type="text/javascript">
+        var chartConfig = {
+            name: "GanttChart",
+            parent: "#gantt",
+            data: {% autoescape off %}{{ graph_data }}{% endautoescape %},
+            dimensions: { width: 1200, height: 500 },
+            margin: {
+                top: 20, right: 10, bottom: 30, left: 10
+            },
+            layout: {
+                maxrow: 5,
+                contextHeight: 0.1,
+                //colors: ["#AD1111", "#FAA916", "#0B4F6C", "#343434", "#00993F"],//0-atrasado 1-dentro_do_prazo 2-pendencia futura 3-não_concluida 4-finalizada
+                colors: ["#F45D0C", "#FFD83F", "#D6D6D6", "#C90808", "#3BA51A"],
+                //backcolors: ["#C43535", "#F9BA43", "#218AB7", "#545454", "#00C150"],
+                backcolors: ["#F47F3F", "#FFE57F", "#EDEDED", "#DB3434", "#6BBF52"],
+
+                texts: ["Atrasada", "Dentro do Prazo", "Tarefa Futura", "Perdida", "Concluída"],
+                texts2: ["Esta tarefa está atrasada", "Você ainda não realizou esta tarefa", "", "Você perdeu esta tarefa", ""],
+            },
+            interactions: {
+                button: function (element, data) {
+                var classelement = d3.select(element).attr("class");
+                if (classelement == "goto")
+                    alert("Indo para a atividade " + data.name + "...");
+                else
+                    alert("Agendando a atividade " + data.name + "...");
+                }
+            },
+            tooltip: {
+                text: ""
+            },
+            cursors: ['{% static "img/cursors/adder.cur" %}', '{% static "img/cursors/subber.cur" %}', '{% static "img/cursors/filter.cur" %}']
+        }
+
+        var ganttChart = new GanttChart(chartConfig);
+    </script>
+{% endblock %}
