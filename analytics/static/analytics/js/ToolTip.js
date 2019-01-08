@@ -41,6 +41,7 @@ class ToolTip{
 	this.instance = this.create();
     }
     create(){
+		var a = this;
 	var tooltipg = d3.select(this.parent).append("g")
         	.attr("font-family", this.font.nsme)
         	.attr("font-size", this.font.size)
@@ -67,6 +68,10 @@ class ToolTip{
 		.text(function(d, i) {
 		    return "";
 		});
+	this.position = document.querySelector(this.parent).getBoundingClientRect();
+	window.addEventListener('scroll', function(e) {
+		a.position = document.querySelector(a.parent).getBoundingClientRect();
+	});
 	
 	return tooltipg;
     }
@@ -116,14 +121,21 @@ class ToolTip{
     }
     move(){//this method should be called inner event mousemove
 	//reposition tooltip
+	var a = this;
 	var generalDimensions = document.getDimensions(this.parent);
 	var rectDimensions = document.getDimensions("#tooltipRect_" + this.name);
 	
 	var xCo,yCo; 
 	d3.select("#tooltip_" + this.name).attr("transform", function(d) {
-            var mouseCoords = d3.mouse(this.parentNode);
-            xCo = mouseCoords[0] + 10;
-            yCo = mouseCoords[1] + 10;            
+			try{
+            	var mouseCoords = d3.mouse(this.parentNode);
+            	xCo = mouseCoords[0] + 10;
+				yCo = mouseCoords[1] + 10;
+			}catch(e){
+				
+				xCo = event.clientX-a.position.x+10;
+				yCo = event.clientY-a.position.y+10;
+			}
             if(xCo + rectDimensions.w > generalDimensions.w){
         	xCo = generalDimensions.w - rectDimensions.w;
             }

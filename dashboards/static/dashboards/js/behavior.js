@@ -18,7 +18,7 @@ $(document).ready(function(){
 	
 
  	//first call to month selector
-	var month = new Array();
+	/*var month = new Array();
 	month[0] = "January";
 	month[1] = "February";
 	month[2] = "March";
@@ -33,12 +33,12 @@ $(document).ready(function(){
 	month[11] = "December";
  	$.get('/analytics/amount_active_users_per_day', { month: month[(new Date()).getMonth()] }).done(function(data){
 			charts.month_heatmap(data, '#right-chart-body', 'month-chart');
-	});
+	});*/
 
 	//FELIPE, Essa parte eu ainda estou ajustando, mas a ideia do que eu preciso está nessa requisição.
-	/*$.get('/dashboards/get_log_data',{init_date:"2018-11-03",end_date:"2018-12-03"}).done(function(data){
-		charts.month_heatmap_2(data, '#right-chart-body',"2018-11-03","2018-12-03");
-	})*/
+	$.get('/dashboards/get_log_data',{init_date:"2018-11-01",end_date:"2018-12-04"}).done(function(data){
+		charts.month_heatmap_2(data, '#right-chart-body',"2018-11-01","2018-12-04");
+	})
 
 
  	//first call to weekly chart

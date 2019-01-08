@@ -160,3 +160,40 @@ def strToDate(string):
 			search_date = datetime.fromtimestamp(0)
 
 	return search_date
+
+def get_pend_graph(user, subject):
+	pendencies = Pendencies.objects.filter(resource__topic__subject = subject, resource__visible = True)
+	graph = []
+
+	for pendency in pendencies:
+		item = {}
+		item["date"] = {}
+		item["date"]["start"] = formats.date_format(pendency.begin_date, "m/d/Y H:i")
+		item["date"]["end"] = formats.date_format(pendency.end_date, "m/d/Y H:i")
+
+		if not pendency.limit_date is None:
+			item["date"]["delay"] = formats.date_format(pendency.limit_date, "m/d/Y H:i")
+		else:
+			item["date"]["delay"] = ""
+
+		item["action"] = pendency.action
+		item["name"] = pendency.resource.name
+
+		users = get_resource_users(pendency.resource)
+		subject_begin_date = pendency.resource.topic.subject.init_date
+		pend_action = pendency.action
+		resource_type = pendency.resource._my_subclass
+		resource_key = resource_type + "_id"
+		resource_id = pendency.resource.id
+
+		if user in users:
+			has_action = Log.objects.filter(user_id = user.id, action = pend_action, resource = resource_type, context__contains = {resource_key: resource_id}, datetime__date__gte = subject_begin_date).exists()
+
+			item["done"] = True
+
+			if not has_action:
+				item["done"] = False
+
+		graph.append(item)
+
+	return graph

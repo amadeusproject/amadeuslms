@@ -48,6 +48,7 @@ class CalendarHeatMap {
         if (a.chartConfig.layout.extrapolation == undefined) a.chartConfig.layout.extrapolation = 5;
         if (a.chartConfig.layout.colors == undefined) a.chartConfig.layout.colors = d3.interpolateGreens;//function(d){return color} - d E [0,1];
         if (a.chartConfig.layout.font_size == undefined) a.chartConfig.layout.font_size = 20;	//font-size will be changed by code
+        if (a.chartConfig.layout.font_size2 == undefined) a.chartConfig.layout.font_size2 = a.chartConfig.layout.font_size;	
 
         a.calendar = {};
         if (!a.chartConfig.chart.calendar) {
@@ -260,7 +261,7 @@ class CalendarHeatMap {
             this.calendar.margin.left = Math.max(a.calendar.margin.left, a.chartConfig.calendar.axis.vertical.all ? 0 :
                 (11 + 3.00 * a.font_size));
             this.calendar.margin.top = Math.max(a.calendar.margin.top, (a.chartConfig.calendar.axis.day.all ? 20 :
-                (11 + 1.05 * a.font_size)) + desloc);
+                (11 + 1.05 * a.chartConfig.layout.font_size2)) + desloc);
             //height of chart
             this.calendar.height = a.chartConfig.calendar.extrapolation;
             if (a.calendar.domain.length < a.calendar.height)
@@ -505,9 +506,9 @@ class CalendarHeatMap {
 
         //Set Days of Week Axis
         if (!chartConfig.axis.day.all) {
-            chart.dayAxis.transition().transition(500).call(d3.axisTop(a.day)).attr("font-size", a.font_size);
+            chart.dayAxis.transition().transition(500).call(d3.axisTop(a.day)).attr("font-size", a.chartConfig.layout.font_size2);
             chart.dayAxis.selectAll("text").transition().text(function (d, i) {
-                return String.adjustLength(MyDate.weekName()[i], a.font_size, chart.vertical.bandwidth());
+                return String.adjustLength(MyDate.weekName()[i], a.chartConfig.layout.font_size2, chart.vertical.bandwidth());
             });
             if (!chartConfig.axis.day.lines) {
                 chart.dayAxis.selectAll("line").transition().remove();
@@ -893,6 +894,7 @@ class CalendarHeatMap {
             if (a.chartConfig.dataConfig.init.year == undefined) a.chartConfig.dataConfig.init.year = a.data[0].year;
             if (a.chartConfig.dataConfig.init.month == undefined) a.chartConfig.dataConfig.init.month = a.data[0].month;
             if (a.chartConfig.dataConfig.init.day == undefined) a.chartConfig.dataConfig.init.day = a.data[0].day;
+            
 
             if (a.chartConfig.dataConfig.end == undefined) a.chartConfig.dataConfig.end = {};
             if (a.chartConfig.dataConfig.end.year == undefined) a.chartConfig.dataConfig.end.year =
@@ -901,6 +903,7 @@ class CalendarHeatMap {
                 a.data[a.data.length - 1].month;
             if (a.chartConfig.dataConfig.end.day == undefined) a.chartConfig.dataConfig.end.day =
                 a.data[a.data.length - 1].day;
+            
 
             a.chartConfig.dataConfig.init = new MyDate(a.chartConfig.dataConfig.init.year,
                 a.chartConfig.dataConfig.init.month,
@@ -913,6 +916,7 @@ class CalendarHeatMap {
             // This is to calculate all the days between the init and end of dataset
             var start = a.chartConfig.dataConfig.init;
             var end = a.chartConfig.dataConfig.end;
+
             var years = end.year - start.year + 1;
             var months = 12 * (years - 1) + end.month - start.month + 1;
             var j = new MyDate(0, 0, 0, 0, 0);
@@ -947,10 +951,11 @@ class CalendarHeatMap {
                         j.value,
                         j.dayOfWeek)
                     );
+                    //console.log(this.calendar.data[this.calendar.data.length-1])
                 }
             }
-            console.log(a.chartConfig.dataConfig.end.month);
-            console.log(a.calendar.data);
+            //console.log(a.chartConfig.dataConfig.end.month);
+            //console.log(a.calendar.data);
         }
         return this;
     }

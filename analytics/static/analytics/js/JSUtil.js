@@ -275,12 +275,13 @@ d3.validEvents = function (events) {
 d3.addEvents = function (obj, func) {
 	if (obj == undefined || func == undefined)
 		return;
-	obj.on("click", function (d) {
+	if(func.click.length!=0)
+	obj.style("cursor","pointer").on("click", function (d) {
 		if (func.click != undefined) {
 			if (typeof func.click == "function")
 				func.click(this, d);
 			else {
-				for (var i = 0; i < func.click.length; i++)
+				for (var i = func.click.length; i >=0 ; i--)
 					if (typeof func.click[i] == "function")
 						func.click[i](this, d);
 			}
@@ -291,7 +292,7 @@ d3.addEvents = function (obj, func) {
 			if (typeof func.mouseover == "function")
 				func.mouseover(this, d);
 			else {
-				for (var i = 0; i < func.mouseover.length; i++)
+				for (var i = func.mouseover.length; i >=0 ; i--)
 					if (typeof func.mouseover[i] == "function")
 						func.mouseover[i](this, d);
 			}
@@ -302,7 +303,7 @@ d3.addEvents = function (obj, func) {
 			if (typeof func.mousemove == "function")
 				func.mousemove(this, d);
 			else {
-				for (var i = 0; i < func.mousemove.length; i++)
+				for (var i = func.mousemove.length; i >=0 ; i--)
 					if (typeof func.mousemove[i] == "function")
 						func.mousemove[i](this, d);
 			}
@@ -313,13 +314,14 @@ d3.addEvents = function (obj, func) {
 			if (typeof func.mouseout == "function")
 				func.mouseout(this, d);
 			else {
-				for (var i = 0; i < func.mouseout.length; i++)
+				for (var i = func.mouseout.length; i >=0 ; i--)
 					if (typeof func.mouseout[i] == "function")
 						func.mouseout[i](this, d);
 			}
 		}
 	});
 }
+
 
 d3.titleValid = function (title) {
 	if (title != undefined) {
@@ -659,3 +661,76 @@ function range(start, stop, step) {
 
     return result;
 };
+
+d3.downloadSVG = function(svg){
+    d3.event.preventDefault(),
+    echoContentType.attr("value","image/svg+xml;charset=utf-8"),
+    echoInput.attr("value",svg.attr("version","1.1").attr("xmlns","http://www.w3.org/2000/svg").node().parentNode.innerHTML),
+    echoForm.node().submit()
+}
+
+d3.scaleCategory = function(pallet){
+	if(pallet == undefined)
+	if(d3.interpolateRainbow)
+		pallet = d3.interpolateRainbow;
+	else
+		return d3.scale.category20b();
+	var categories = [];
+	var values = [];
+	var prescale = 1/2;
+	var current = 0;
+	return function(tag){
+		var temp = categories.indexOf(tag);
+		if(temp >=0)
+			return pallet(values[temp])
+		else{
+			categories.push(tag);
+			values.push(current);
+			temp = current;
+			current += prescale;
+			while(values.indexOf(current)>=0)
+				current += prescale;
+			if(current>1){
+				prescale /=2;
+				current = prescale;
+			
+			}
+			return pallet(temp);
+		}
+	}
+}
+
+String.linebroke = function (str, tam) {
+	var ret = [];
+	if(str == undefined)
+		return ret;
+    var tamtemp, temp;
+    while (str.length > tam) {
+        tamtemp = tam;
+        while (str.charAt(tamtemp--).match(/[ -]/g) == null && tamtemp >= 1);
+        if (tamtemp < 1) tamtemp = tam - 1;
+        temp = str.slice(0, tamtemp + 1);
+        ret.push(temp);
+        str = str.replace(temp, "");
+    }
+    ret.push(str);
+    return ret;
+}
+
+function exclamationGconfig(width,height){
+    if(width == undefined && height == undefined)
+        width = 80,height = 60;
+    if(width == undefined)
+        width = height*1.15;
+    if(height == undefined)
+        height == width/1.13;
+    if(width/height >=1.1436)
+        return "translate("+(-0.3533*height)+","+(1.5567*height)+") scale("+(height/6889.75)+","+(-height/6889.75)+")";
+    else
+        return "translate("+(-0.3089*height)+","+(1.3612*height)+") scale("+(height/7879.17)+","+(-height/7879.17)+")";
+}
+
+function exclamation(target,width,height,fill){
+    target.append("g").attr("transform",exclamationGconfig(width,height)).attr("fill",fill)
+        .append("path").attr("d","M6304 10701 c-22 -10 -55 -36 -73 -57 -18 -22 -310 -520 -650 -1109 -340 -588 -1175 -2035 -1856 -3214 -680 -1180 -1244 -2159 -1251 -2178 -50 -118 34 -274 162 -303 52 -13 7476 -13 7528 0 140 32 215 193 152 325 -47 98 -3715 6441 -3747 6479 -42 50 -99 76 -169 76 -32 0 -72 -8 -96 -19z m266 -2210 c126 -50 234 -157 280 -278 34 -86 35 -188 6 -548 -29 -360 -72 -906 -116 -1465 -32 -405 -39 -441 -94 -507 -150 -174 -469 -124 -541 86 -18 52 -17 45 -50 476 -24 313 -61 779 -110 1403 -14 172 -25 345 -25 386 0 217 142 399 358 462 70 20 223 12 292 -15z m-57 -3251 c76 -29 130 -79 169 -157 28 -57 32 -77 32 -138 -1 -125 -69 -229 -184 -284 -115 -54 -262 -27 -354 65 -21 22 -50 64 -64 93 -73 158 8 357 172 420 68 26 160 27 229 1z");
+}

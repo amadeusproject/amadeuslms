@@ -37,8 +37,8 @@ def most_used_tags(request):
    
 
     data = get_most_used_tags()
-    data = sorted(data.values(), key = lambda x: x['count'], reverse=True )
-    data = data[:15] #get top 15 tags
+    data = sorted(data.values(), key = lambda x: x['value'], reverse=True )
+    data = data[:50] #get top 50 tags
     return JsonResponse(data, safe= False) 
 
 def get_most_used_tags():
@@ -49,16 +49,16 @@ def get_most_used_tags():
     for tag in tags:
         subjects_count =  Subject.objects.filter(tags = tag).count()
         if  subjects_count > 0:
-            data[tag.name] = {'name': tag.name}
-            data[tag.name]['count'] = subjects_count
+            data[tag.name] = {'key': tag.name}
+            data[tag.name]['value'] = subjects_count
 
         resources_count = Resource.objects.filter(tags = tag).count()
         if resources_count > 0:
             if data.get(tag.name):
-                data[tag.name]['count'] = data[tag.name]['count']  + resources_count
+                data[tag.name]['value'] = data[tag.name]['value']  + resources_count
             else:
-                data[tag.name] = {'name': tag.name}
-                data[tag.name]['count'] = resources_count
+                data[tag.name] = {'key': tag.name}
+                data[tag.name]['value'] = resources_count
     return data
 
 
