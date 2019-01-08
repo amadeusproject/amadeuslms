@@ -34,17 +34,24 @@ from categories.models import Category
 from subjects.models import Subject
 
 from notifications.utils import get_pend_graph
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> fc3ab9654d0beff66bf7bc1aad3bd15c194421f0
 
 from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
 from log.models import Log
 
 from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions, has_resource_permissions
+<<<<<<< HEAD
 
 import json
+=======
+>>>>>>> fc3ab9654d0beff66bf7bc1aad3bd15c194421f0
 
+import json
 
 class GeneralView(LogMixin, generic.TemplateView):
     template_name = "dashboards/general.html"
@@ -228,4 +235,8 @@ class SubjectView(LogMixin, generic.TemplateView):
         context['javascript_files'] = []
         context['style_files'] = ['dashboards/css/general.css', 'dashboards/css/dashboards_category.css']
         
+<<<<<<< HEAD
         return context
+=======
+        return context
+>>>>>>> fc3ab9654d0beff66bf7bc1aad3bd15c194421f0
