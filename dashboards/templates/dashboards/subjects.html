@@ -23,15 +23,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% block javascript %}
     <script src="https://d3js.org/d3.v5.min.js"></script>
-<<<<<<< HEAD
+
     <script src="{% static 'analytics/js/JSUtil.js' %}"></script>
     <script src="{% static 'analytics/js/Legend.js' %}"></script>
     <script src="{% static 'analytics/js/brush_zoom.js' %}"></script>
-=======
-    <script src="{% static 'js/JSUtil.js' %}"></script>
-    <script src="{% static 'js/Legend.js' %}"></script>
-    <script src="{% static 'js/brush_zoom.js' %}"></script>
->>>>>>> fc3ab9654d0beff66bf7bc1aad3bd15c194421f0
 
     {% for file in javascript_files %}
          <script type="text/javascript" src="{% static file %}"></script>
@@ -46,11 +41,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% endblock %}
 
 {% block content %}
-<<<<<<< HEAD
+
     <!--{{ graph_data }}-->
-=======
-    {{ graph_data }}
->>>>>>> fc3ab9654d0beff66bf7bc1aad3bd15c194421f0
+
     <div id="gantt"></div>
 
     <script type="text/javascript">
@@ -85,21 +78,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             tooltip: {
                 text: ""
             },
-<<<<<<< HEAD
             cursors: {
 		adder:'{% static "img/cursors/adder.cur" %}',
 		subber:'{% static "img/cursors/subber.cur" %}',
 		filter:'{% static "img/cursors/filter.cur" %}',
 	    }
-=======
-            cursors: ['{% static "img/cursors/adder.cur" %}', '{% static "img/cursors/subber.cur" %}', '{% static "img/cursors/filter.cur" %}']
->>>>>>> fc3ab9654d0beff66bf7bc1aad3bd15c194421f0
         }
 
         var ganttChart = new GanttChart(chartConfig);
     </script>
-<<<<<<< HEAD
 {% endblock %}
-=======
-{% endblock %}
->>>>>>> fc3ab9654d0beff66bf7bc1aad3bd15c194421f0
+

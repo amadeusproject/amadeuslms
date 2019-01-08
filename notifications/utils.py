@@ -161,10 +161,6 @@ def strToDate(string):
 
 	return search_date
 
-<<<<<<< HEAD
-=======
-
->>>>>>> fc3ab9654d0beff66bf7bc1aad3bd15c194421f0
 def get_pend_graph(user, subject):
 	pendencies = Pendencies.objects.filter(resource__topic__subject = subject, resource__visible = True)
 	graph = []
