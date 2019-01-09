@@ -33,7 +33,7 @@ from categories.models import Category
 
 from subjects.models import Subject
 
-from notifications.utils import get_pend_graph
+from .utils import get_pend_graph
 
 
 from log.mixins import LogMixin
@@ -226,8 +226,9 @@ class SubjectView(LogMixin, generic.TemplateView):
 
         context = {}
         
+        context["title"] = _("Analytics")
+
         context["graph_data"] = json.dumps(get_pend_graph(self.request.user, subject))
-        
 
         context["subject"] = subject
         context['javascript_files'] = []
