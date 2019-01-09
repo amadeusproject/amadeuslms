@@ -670,11 +670,12 @@ d3.downloadSVG = function(svg){
 }
 
 d3.scaleCategory = function(pallet){
-	if(pallet == undefined)
-	if(d3.interpolateRainbow)
-		pallet = d3.interpolateRainbow;
-	else
-		return d3.scale.category20b();
+	if(pallet == undefined){
+		if(d3.interpolateRainbow)
+			pallet = d3.interpolateRainbow;
+		else
+			return d3.scale.category20b();
+	}
 	var categories = [];
 	var values = [];
 	var prescale = 1/2;
@@ -699,6 +700,8 @@ d3.scaleCategory = function(pallet){
 		}
 	}
 }
+
+/* ((rgb\((?<r255>[0-9]{1,3}),(?<g255>[0-9]{1,3}),(?<b255>[0-9]{1,3})\))|(#(?<r24>[0-9a-fA-F]{2})(?<g24>[0-9a-fA-F]{2})(?<b24>[0-9a-fA-F]{2}))|(#(?<r12>[0-9a-fA-F]{1})(?<g12>[0-9a-fA-F]{1})(?<b12>[0-9a-fA-F]{1})(?=[^a-fA-F0-9]))) */
 
 String.linebroke = function (str, tam) {
 	var ret = [];

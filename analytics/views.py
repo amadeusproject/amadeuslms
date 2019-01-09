@@ -30,7 +30,7 @@ import calendar
 from collections import OrderedDict
 
 
-from mural.models import Comment
+from mural.models import Comment,Mural
 
 
 def most_used_tags(request):
@@ -251,19 +251,20 @@ def get_amount_of_comments(request):
     params = request.GET
     #init_date = params.get('init_date')
     #end_date = params.get('end_date')
-    init_date = "04/20/2017"
-    end_date = "06/09/2017"
+    init_date = "10/20/2018"
+    end_date = "01/20/2019"
     init_date = datetime.strptime( init_date, '%m/%d/%Y')
-    end_date = datetime.strptime(end_time, '%m/%d/%Y')
+    end_date = datetime.strptime(end_date, '%m/%d/%Y')
     day_count = (end_date - init_date).days + 1
     data = {}
     for i in range(day_count):
         single_day = init_date + timedelta(i)
         if params.get('category_id'):
             category_id = int(params['category_id'])
-            data[single_day] = Mural.objects.filter(space__id = category_id, create_date = single_day).count()
+            #data[single_day] = Mural.objects.filter(space__id = category_id, create_date = single_day).count()
+            data[single_day] = 0
         else:
             data[single_day] = Comment.objects.filter(create_date = single_day).count()
 
-    data_finished = [{date:key, count:value} for key, value in data.items()]
+    data_finished = [{"date":key, "count":value} for key, value in data.items()]
     return JsonResponse(data_finished, safe=False)

@@ -123,8 +123,14 @@ class CategoryView(LogMixin, generic.TemplateView):
         context['months'] = self.get_last_twelve_months()
 
         context['categories'] = self.categories_associated_with_user(self.request.user)
-        context['javascript_files'] = ["analytics/js/charts.js", "dashboards/js/behavior_categories.js",
-        "dashboards/js/charts_category.js"]
+        context['javascript_files'] = ["analytics/js/d3.v5.min.js",
+                                        "analytics/js/d3.v3.min.js",
+                                        "analytics/js/JSUtil.js",
+                                        "analytics/js/ToolTip.js",
+                                        "analytics/js/cloud.min.js",
+                                        "analytics/js/charts.js", 
+                                        "dashboards/js/behavior_categories.js",
+                                        "dashboards/js/charts_category.js"]
         context['style_files'] = ['dashboards/css/general.css', 'dashboards/css/dashboards_category.css']
         return context
 

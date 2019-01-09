@@ -28,63 +28,40 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         <article class="report-body">
             {% include "dashboards/tags_body.html" %}
             <section class="bottom-section">
-                <div class="chart left-chart">
-                 
-                    <h4>{% trans "Most accessed " %}</h4>
-                    <div id="left-data-selector">
-
-                      
-                                <div class="selector" data-url="categories">
-                                    <p>  {% trans "Categories" %} </p>
-                                    <i class="fa fa-2x pull-right fa-angle-right" aria-hidden="true" style=""></i>
-                                </div>
-                          
-                                <div class="selector" data-url="subjects">
-                                   <p> {% trans "Subjects" %} </p>
-                                   <i class="fa fa-2x pull-right fa-angle-right" aria-hidden="true" style=""></i>
-                                </div>
-                           
-                                <div class="selector" data-url="resources">
-                                   <p> {% trans "Resource" %} </p>
-                                   <i class="fa fa-2x pull-right fa-angle-right" aria-hidden="true" style=""></i>
-                                </div>
-                         
-                    </div>
-
-                </div>
-                <div class="chart middle-chart">
-                    <article>
-                        <h4>{% trans "Most active users" %}</h4>
-                    </article>
-                  
-                </div>
-                <div class="chart right-chart">
-                    <div id="month_selector_div">
-                        <h4>{% trans "Amount of access in: " %}
-                        <select id="month_selector">
-                            {% for month in months  %}
-                                <option>{{month}}</option>
-                            {% endfor %}
-
-                        </select>
-                        </h4>
-                    </div>
-
-                    <div id="right-chart-body">
-                        
-                    </div>
-                    
-                    <div class='input-group date'>
-                        <label>{% trans "Select the begin of the week: " %}</label>
-                        <input type='text' class="datepicker form-control"  />
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                    </div>
-                    <div id="bottom-right-chart-body">
-                        
-                    </div>
-                </div>
+                {% include "dashboards/left_chart.html" %}
+                {% include "dashboards/middle_chart.html" %}
+                {% include "dashboards/right_chart.html" %}
             </section>
 
         </article>
+{% block charts %}
+    <script>
+        dataset = dataset.map(function(d){
+				d.value = d.count;
+				return d;
+			});
+
+			var chartConfig = {
+				name:"bubbleChartDashBoars",
+				parent:".middle-chart",
+				data:dataset,
+				dimensions:{
+				  width:490,
+				  height:400,
+				},
+				layout:{
+				  qtd:50,
+				  absForce:0.05,
+				},
+				interactions:{
+					click:function(element,data){console.log(data),alert(d3.textData(data,"<name>: <value> acesso(s)"))}
+				  },
+				  tooltip:{
+					text:"<name>: <value> acesso(s)"
+				  }
+			  };
+			//bubble(dataset,".middle-chart")
+			var bubbleChart = new BubbleChart(chartConfig)
+
+    </script>
+{% endblock %}
