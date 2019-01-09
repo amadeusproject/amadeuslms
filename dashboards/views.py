@@ -25,6 +25,8 @@ import operator
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render, get_object_or_404, redirect
 
+from django.http import HttpResponseForbidden
+
 from datetime import date, timedelta, datetime
 import calendar
 from collections import OrderedDict
@@ -221,14 +223,30 @@ class SubjectView(LogMixin, generic.TemplateView):
 
         return super(SubjectView, self).dispatch(request, *args, **kwargs)
 
+    def post(self, request, *args, **kwargs):
+        subject = get_object_or_404(Subject, slug = self.kwargs.get('slug', ''))
+
+        if has_subject_permissions(self.request.user, subject):
+            print(self.get_context_data())
+
+            return self.render_to_response(self.get_context_data())
+        else:
+            return HttpResponseForbidden()
+
     def get_context_data(self, **kwargs):
-        subject = get_object_or_404(Subject, slug=kwargs.get('slug', ''))
+        subject = get_object_or_404(Subject, slug = self.kwargs.get('slug', ''))
 
         context = {}
         
         context["title"] = _("Analytics")
 
-        context["graph_data"] = json.dumps(get_pend_graph(self.request.user, subject))
+        if has_subject_permissions(self.request.user, subject):
+            context['sub_students'] = subject.students.all()
+            context['student'] = self.request.POST.get('selected_student', subject.students.first().email)
+
+            context["graph_data"] = json.dumps(get_pend_graph(context['student'], subject))
+        else:
+            context["graph_data"] = json.dumps(get_pend_graph(self.request.user, subject))
 
         context["subject"] = subject
         context['javascript_files'] = []

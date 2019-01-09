@@ -12,7 +12,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% extends 'subjects/view.html' %}
 
-{% load static i18n %}
+{% load static i18n permissions_tags %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% block style %}
@@ -41,7 +41,19 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% endblock %}
 
 {% block content %}
+    {% subject_permissions request.user subject as has_subject_permissions %}
 
+    {% if has_subject_permissions %}
+        <form id="student_graph" action="" method="POST">
+            {% csrf_token %}
+            <select name="selected_student" onchange="$('#student_graph').submit();">
+                {% for stu in sub_students %}
+                    <option value="{{ stu.email }}" {% if stu.email == student %}selected{% endif %}>{{ stu }}</option>
+                {% endfor %}
+            </select>
+        </form>
+        <br clear="all" />
+    {% endif %}
     <!--{{ graph_data }}-->
 
     <div id="gantt"></div>
@@ -86,6 +98,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         }
 
         var ganttChart = new GanttChart(chartConfig);
+    </script>
+{% endblock %}
+
+{% block addtional_scripts %}
+	<script type="text/javascript">
+        sessionSecurity.confirmFormDiscard = undefined;
     </script>
 {% endblock %}
 

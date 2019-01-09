@@ -29,7 +29,7 @@ def get_pend_graph(user, subject):
         item["date"]["start"] = formats.date_format(pendency.begin_date, "m/d/Y H:i")
         item["date"]["end"] = formats.date_format(pendency.end_date, "m/d/Y H:i")
 
-        item["action"] = pendency.action
+        item["action"] = pendency.get_action_display()
         item["name"] = pendency.resource.name
         item["percent"] = done_percent(pendency)
 
