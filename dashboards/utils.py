@@ -41,6 +41,8 @@ def get_pend_graph(user, subject):
         resource_key = resource_type + "_id"
         resource_id = pendency.resource.id
 
+        print(user in users)
+
         if user in users:
             has_action = Log.objects.filter(user_id = user.id, action = pend_action, resource = resource_type, context__contains = {resource_key: resource_id}, datetime__date__gte = subject_begin_date).exists()
 

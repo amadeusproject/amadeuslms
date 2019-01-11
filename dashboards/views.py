@@ -241,10 +241,15 @@ class SubjectView(LogMixin, generic.TemplateView):
         context["title"] = _("Analytics")
 
         if has_subject_permissions(self.request.user, subject):
+            student = self.request.POST.get('selected_student', None)
             context['sub_students'] = subject.students.all()
             context['student'] = self.request.POST.get('selected_student', subject.students.first().email)
 
-            context["graph_data"] = json.dumps(get_pend_graph(context['student'], subject))
+            if not student is None:
+                student = User.objects.get(email = student)
+                context["graph_data"] = json.dumps(get_pend_graph(student, subject))
+            else:
+                context["graph_data"] = json.dumps(get_pend_graph(context['student'], subject))
         else:
             context["graph_data"] = json.dumps(get_pend_graph(self.request.user, subject))
 
