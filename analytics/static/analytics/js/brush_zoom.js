@@ -38,7 +38,7 @@ class GanttChart {
         if (chartConfig.layout.texts == undefined || chartConfig.layout.texts.length != 5)
             chartConfig.layout.texts = ["Atrasada", "Dentro do Prazo", "Pendência Futura", "Perdida", "Concluída"];
         if (chartConfig.layout.texts2 == undefined || chartConfig.layout.texts2.length != 5)
-            chartConfig.layout.texts2 = ["Esta tarefa está atrasada","Você ainda não realizou esta tarefa","","Você perdeu esta tarefa",""];
+            chartConfig.layout.texts2 = ["Esta tarefa está atrasada", "Você ainda não realizou esta tarefa", "", "Você perdeu esta tarefa", ""];
 
         chartConfig.now = new Date();
         var now = chartConfig.now.getTime();
@@ -73,13 +73,13 @@ class GanttChart {
 
             if (d.date.delay != undefined) {
                 d.date.delay = new Date(d.date.delay);
-            }else{
+            } else {
                 d.date.delay = d.date.end;
             }
 
             if (d.date.schedule != undefined) {
                 d.date.schedule = new Date(d.date.schedule);
-            }else{
+            } else {
                 d.date.schedule = d.date.start;
             }
 
@@ -171,7 +171,7 @@ class GanttChart {
         this.zoom = d3.zoom().scaleExtent([1, Infinity]).on("zoom", function () { a.zoomed(a) });
 
         this.zoomRect = a.svg.append("rect")
-            .attr("class", "zoom").attr("fill","#FFF").attr("opacity",0);
+            .attr("class", "zoom").attr("fill", "#FFF").attr("opacity", 0);
 
         this.focus = a.svg.append("g")
             .attr("class", "focus");
@@ -180,7 +180,7 @@ class GanttChart {
         this.focusContent = a.focus.append("g").attr("class", "focuscontextContent");
 
         this.notifications = a.focusContent.selectAll(".notifications").data(a.chartConfig.data).enter().append("g")
-            .style("cursor","pointer")
+            .style("cursor", "pointer")
             .attr("class", function (d) { return "notifications status-" + d.status });
         this.notifications.append("rect").attr("class", "backBar")
             .attr("fill", "#ccc")
@@ -207,64 +207,64 @@ class GanttChart {
             //Rects of card
             this.rects = this.all.append("g").attr("class", "cardrects");
             this.rects.append("rect").attr("class", "background")
-                .attr("fill","#fff")
+                .attr("fill", "#fff")
                 .attr("stroke-width", "2");
             this.rects.append("rect").attr("class", "backBar")
                 .attr("stroke-width", 1);
             this.rects.append("rect").attr("class", "progressBar");
-            
+
             //Content of Card
             this.content = this.all.append("g").attr("class", "cardContent").attr("opacity", 0);
             this.content.append("text").attr("class", "id").attr("opacity", 0);
 
             //Status Info(Exclamation)
-            this.content.append("g").attr("class","statusInfo");
+            this.content.append("g").attr("class", "statusInfo");
             this.content.select(".statusInfo").append("rect");
             this.content.select(".statusInfo").append("text").attr("class", "lblstatus")
-                .attr("fill","#FFF")
-            this.content.select(".statusInfo").append("g").attr("class","exclamationContainer");
+                .attr("fill", "#FFF")
+            this.content.select(".statusInfo").append("g").attr("class", "exclamationContainer");
             //exclamation(this.content.select(".statusInfo").select(.exclamationContainer),100,100,"#FFF");
 
             // Tittle of Card
             this.content.append("text").attr("class", "tittle")
-                .style("font-weight","bold");
-                //.attr("text-anchor", "start");
+                .style("font-weight", "bold");
+            //.attr("text-anchor", "start");
 
             // Dates of task (start, end, delay, schedule)
-            this.content.append("g").attr("class","datesInfo");
+            this.content.append("g").attr("class", "datesInfo");
             //Start
             //End or delay
             //Schedule
             this.content.select(".datesInfo").selectAll("text").data([
-                "start","endOrDelay","schedule"
-            ]).enter().append("text").attr("class",function(d){return d})
-            .attr("y",function(d,i){return ""+i+"em"}).text(function(d){return d})
-            
-            
-            
+                "start", "endOrDelay"//,"schedule"
+            ]).enter().append("text").attr("class", function (d) { return d })
+                .attr("y", function (d, i) { return "" + i + "em" }).text(function (d) { return d })
+
+
+
             // Percent of done
-            this.content.append("g").attr("class","percentInfo"); 
+            this.content.append("g").attr("class", "percentInfo");
             this.content.select(".percentInfo").append("text").attr("class", "info")
                 .attr("text-anchor", "start").text("Tarefa já realizada por");
             this.content.select(".percentInfo").append("text").attr("class", "percent")
-                .style("font-weight","bold")
+                .style("font-weight", "bold")
                 .attr("text-anchor", "middle");
             this.content.select(".percentInfo").append("text").attr("class", "info")
                 .attr("text-anchor", "start").text("dos participantes.");
-            
+
             // Description (Optional)
             this.content.append("g").attr("class", "desc")
                 .attr("text-anchor", "start");
-            
+
             // Buttons in Botton
-            this.content.append("g").attr("class","buttons");
-            this.content.select(".buttons").append("text").attr("class","or")
+            this.content.append("g").attr("class", "buttons");
+            this.content.select(".buttons").append("text").attr("class", "or")
                 .attr("text-anchor", "middle")
-                .style("cursor","pointer")
+                .style("cursor", "pointer")
                 .text("ou")
 
             // Button schedule
-            this.content.select(".buttons").append("g").attr("class", "schedule")
+            /*this.content.select(".buttons").append("g").attr("class", "schedule")
                 .style("cursor","pointer")
                 .append("rect")
                 .attr("fill", "#ccc");
@@ -272,24 +272,23 @@ class GanttChart {
                 .attr("text-anchor", "middle")
                 .attr("dy", "1.25em")
                 .attr("fill", "#000")
-                .text("Agendar tarefa");
-            
+                .text("Agendar tarefa");*/
+
             // Button Do task
             this.content.select(".buttons").append("g").attr("class", "goto")
-                .style("cursor","pointer")
+                .style("cursor", "pointer")
                 .append("rect")
                 .attr("fill", "#ccc");
             this.content.select(".buttons").select(".goto").append("text")
                 .attr("text-anchor", "middle")
-                .attr("dy", "1.25em")
                 .attr("fill", "#000")
                 .text("Realizar tarefa");//Acessar Tarefa
-            
+
             this.content.select(".goto").on("click", function () { var data = a.chartConfig.data[a.card.content.select(".id").text()]; chartConfig.interactions.button(this, data) });
 
-            
-            
-            this.content.select(".schedule").on("click", function () { var data = a.chartConfig.data[a.card.content.select(".id").text()]; chartConfig.interactions.button(this, data) });
+
+
+            //this.content.select(".schedule").on("click", function () { var data = a.chartConfig.data[a.card.content.select(".id").text()]; chartConfig.interactions.button(this, data) });
 
             this.active = false;
         }
@@ -297,6 +296,7 @@ class GanttChart {
         this.card.draw = function () {
             this.size = a.height * .7;
             this.width = this.size * 6 / 3;
+            var y = 0;
 
             this.all.attr("transform", "translate(" + (-this.width - a.margin.left) + ",0)");
 
@@ -319,55 +319,61 @@ class GanttChart {
                 .attr("rx", a.y.bandwidth() / 4)
                 .attr("ry", a.y.bandwidth() / 4);
 
+            y += this.size * .15;
+
             //Status Info(Exclamation)
             this.content.select(".statusInfo")
-                .attr("transform","translate("+this.width*.5+","+this.size*.22+")");
+                .attr("transform", "translate(" + this.width * .5 + "," + this.size * .22 + ")");
             this.content.select(".statusInfo").select("rect")
-                .attr("width",this.width*.5)
-                .attr("height",this.size*.1);
+                .attr("width", this.width * .5)
+                .attr("height", this.size * .1);
             this.content.select(".statusInfo").select("text")
-                .attr("transform","translate("+this.width*.06+","+this.size*.075+")")
-                .attr("font-size",this.size*.06)
+                .attr("transform", "translate(" + this.width * .06 + "," + this.size * .075 + ")")
+                .attr("font-size", this.size * .05)
                 .text("Você perdeu esta tarefa");
             this.content.select(".statusInfo").select(".exclamationContainer")
-                .attr("transform","translate("+this.width*.01+","+this.size*.015+")");
-            exclamation(this.content.select(".statusInfo").select(".exclamationContainer"),this.size*.08,this.size*.08,"#FFF");
-            
+                .attr("transform", "translate(" + this.width * .01 + "," + this.size * .015 + ")");
+            exclamation(this.content.select(".statusInfo").select(".exclamationContainer"), this.size * .08, this.size * .08, "#FFF");
+
             // Tittle of Card
             this.content.select(".tittle")
                 .attr("font-size", this.size * .08)
-                .attr("transform", "translate(" + this.width * .02 + "," + this.size * .3 + ")");
+                .attr("transform", "translate(" + this.width * .02 + "," + (y + this.size * .15) + ")");
+
+            y += this.size * .15;
 
             //Dates  of Card
             this.content.select(".datesInfo")
-                .attr("transform","translate("+this.width * .04+","+this.size*.35+")")
+                .attr("transform", "translate(" + this.width * .04 + "," + (y + this.size * .06) + ")")
                 .attr("font-size", this.size * .04)
-
+            y += this.size * .06;
             // Percent of done
             this.content.select(".percentInfo")
                 .attr("font-size", this.size * .05)
-                .attr("transform", "translate(" + this.width * .02 + "," + this.size * .5 + ")");
+                .attr("transform", "translate(" + this.width * .02 + "," + (y + this.size * .14) + ")");
             this.content.select(".percentInfo").selectAll("text")
-                .attr("x",function(d,i){
-                    switch(i){
+                .attr("x", function (d, i) {
+                    switch (i) {
                         case 0: return 0;
-                        case 1: return a.card.width*.26;
-                        case 2: return a.card.width*.295 ;
+                        case 1: return a.card.width * .28;
+                        case 2: return a.card.width * .32;
                     }
                 })
-            
+
+            y += this.size * .14;
+
             // Description (Optional)
             this.content.select(".desc")
                 .attr("font-size", this.size * .04)
-                .attr("transform", "translate(" + this.width * .02 + "," + this.size * .53 + ")");
-            
+                .attr("transform", "translate(" + this.width * .02 + "," + (y + this.size * .03) + ")");
+            y += this.size * .03;
             // Buttons in Botton
             this.content.select(".buttons")
-                .attr("transform","translate(0,"+this.size*.85+")");
+                .attr("transform", "translate(0," + this.size * .85 + ")");
 
             this.content.select(".buttons").select(".or")
                 .attr("font-size", this.size * .08)
-                .attr("dy",".9em")
+                .attr("dy", ".9em")
                 .attr("transform", "translate(" + this.width * .5 + ",0)");
 
             this.content.select(".buttons").select(".goto")
@@ -377,16 +383,17 @@ class GanttChart {
                 .attr("height", this.size * .1)
             this.content.select(".buttons").select(".goto").select("text")
                 .attr("font-size", this.size * .04)
+                .attr("dy", "1.5em")
                 .attr("transform", "translate(" + this.width * .175 + ",0)");
 
-            this.content.select(".buttons").select(".schedule")
+            /*this.content.select(".buttons").select(".schedule")
                 .attr("transform", "translate(" + this.width * .6 + ",0)");
             this.content.select(".buttons").select(".schedule").select("rect")
                 .attr("width", this.width * .35)
                 .attr("height", this.size * .1)
             this.content.select(".buttons").select(".schedule").select("text")
                 .attr("font-size", this.size * .04)
-                .attr("transform", "translate(" + this.width * .175 + ",0)");
+                .attr("transform", "translate(" + this.width * .175 + ",0)");*/
         }
 
         this.card.activate = function (data) {
@@ -488,62 +495,81 @@ class GanttChart {
 
             //Status info
             var temp = a.chartConfig.layout.texts2[data.status];
-            if(temp != undefined && temp != ""){
+            if (temp != undefined && temp != "") {
                 b.content.select(".statusInfo")
-                    .attr("transform","translate("+b.width+","+b.size*.22+")")
+                    .attr("transform", "translate(" + b.width + "," + b.size * .22 + ")")
                     .select("rect")
-                    .attr("width",0)
+                    .attr("width", 0)
                 b.content.select(".statusInfo")
                     .transition().delay(before).duration(transition)
-                    .attr("transform","translate("+b.width*.5+","+b.size*.22+")")
-                    .attr("opacity",1);
+                    .attr("transform", "translate(" + b.width * .5 + "," + b.size * .22 + ")")
+                    .attr("opacity", 1);
 
                 b.content.select(".statusInfo").select("rect")
                     .transition().delay(before).duration(transition)
-                    .attr("width",b.width*.5)
-                    .attr("fill",a.chartConfig.layout.backcolors[data.status])
+                    .attr("width", b.width * .5)
+                    .attr("fill", a.chartConfig.layout.backcolors[data.status])
                 b.content.select(".statusInfo").select("text")
                     .transition().delay(before).duration(transition)
                     .text(temp);
-            }else{
+            } else {
                 b.content.select(".statusInfo")
                     .transition().delay(before).duration(transition)
-                    .attr("opacity",0);
+                    .attr("opacity", 0);
             }
-            
+
             // Tittle of Card
             b.content.select(".tittle")
                 .transition().delay(before).duration(transition)
-                .text(data.action+" "+data.name);
+                .text(data.action + " " + data.name);
+            console.log(document.querySelector(".tittle").getBoundingClientRect().width);
+            if (document.querySelector(".tittle").getBoundingClientRect().width >= this.width * .46) {
+                var y = this.size * .27;
+                // Tittle of Card
+                this.content.select(".tittle")
+                    .attr("transform", "translate(" + this.width * .02 + "," + (y + this.size * .15) + ")");
+
+                y += this.size * .15;
+
+                //Dates  of Card
+                this.content.select(".datesInfo")
+                    .attr("transform", "translate(" + this.width * .04 + "," + (y + this.size * .06) + ")")
+                y += this.size * .06;
+                // Percent of done
+                this.content.select(".percentInfo")
+                    .attr("transform", "translate(" + this.width * .02 + "," + (y + this.size * .14) + ")");
+
+                y += this.size * .14;
+            }
 
             //Dates  of Card
             this.content.select(".datesInfo").selectAll("text")
                 .transition().delay(before).duration(transition)
-                .attr("opacity",function(d,i){
-                    switch(i){
-                        case 0:case 1:return 1;
-                        case 2:return (!data.done) && data.date.schedule.getTime()>data.date.start.getTime()&&a.chartConfig.now.getTime()<data.date.delay.getTime()?1:0;
+                .attr("opacity", function (d, i) {
+                    switch (i) {
+                        case 0: case 1: return 1;
+                        //   case 2:return (!data.done) && data.date.schedule.getTime()>data.date.start.getTime()&&a.chartConfig.now.getTime()<data.date.delay.getTime()?1:0;
                     }
                 })
-                .attr("fill",function(d,i){
-                    switch(i){
-                        case 0:return "#444";
-                        case 1:return data.status==3?"#F00":"#444";
-                        case 2:return (a.chartConfig.now.getTime()>=data.date.schedule.getTime()?"#F22":"#444");
+                .attr("fill", function (d, i) {
+                    switch (i) {
+                        case 0: return "#444";
+                        case 1: return data.status == 3 ? "#F00" : "#444";
+                        //    case 2:return (a.chartConfig.now.getTime()>=data.date.schedule.getTime()?"#F22":"#444");
                     }
                 })
-                .text(function(d,i){
+                .text(function (d, i) {
                     var start = data.date.start.toLocaleString(),
                         end = data.date.end,
-                        now = a.chartConfig.now,
-                        schedule = data.date.schedule.toLocaleString();
-                        if(end.getTime()<now.getTime())end = data.date.delay;
-                        end = end.toLocaleString();
+                        now = a.chartConfig.now;
+                    //  schedule = data.date.schedule.toLocaleString();
+                    if (end.getTime() < now.getTime()) end = data.date.delay;
+                    end = end.toLocaleString();
 
-                    switch(i){
-                        case 0:return "Data/Hora inicial: "+start.substr(0,start.length-3);
-                        case 1:return (data.status==3?"Tarefa encerrada em: ":"Data/Hora final: ")+ end.substr(0,start.length-3);
-                        case 2:return "Sua meta "+(now.getTime()>=data.date.schedule.getTime()?"era":"é")+" realizar em: "+schedule;
+                    switch (i) {
+                        case 0: return "Data/Hora inicial: " + start.substr(0, start.length - 3);
+                        case 1: return (data.status == 3 ? "Tarefa encerrada em: " : "Data/Hora final: ") + end.substr(0, start.length - 3);
+                        // case 2:return "Sua meta "+(now.getTime()>=data.date.schedule.getTime()?"era":"é")+" realizar em: "+schedule;
                     }
                 })
 
@@ -568,29 +594,29 @@ class GanttChart {
                 .transition().delay(before).duration(transition)
                 .text(data.id);
 
-            if(data.status == 3 || data.status == 4){
-                this.content.select(".buttons").select(".schedule")
-                .attr("transform", "translate(" + this.width * .325 + ",0)");
+            if (data.status == 3 || data.status == 4) {
+                //this.content.select(".buttons").select(".schedule")
+                //.attr("transform", "translate(" + this.width * .325 + ",0)");
                 this.content.select(".buttons").select(".goto")
-                .attr("transform", "translate(" + this.width * .325 + ",0)")
-                .select("text").text("ACESSAR TAREFA");
-            }else if(data.status == 0 || data.status == 2){
-                this.content.select(".buttons").select(".schedule")
-                .attr("transform", "translate(" + this.width * .325 + ",0)");
+                    .attr("transform", "translate(" + this.width * .325 + ",0)")
+                    .select("text").text("ACESSAR TAREFA");
+            } else if (data.status == 0 || data.status == 2) {
+                //this.content.select(".buttons").select(".schedule")
+                //.attr("transform", "translate(" + this.width * .325 + ",0)");
                 this.content.select(".buttons").select(".goto")
-                .attr("transform", "translate(" + this.width * .325 + ",0)")
-                .select("text").text("REALIZAR TAREFA");
-            }else{
-                this.content.select(".buttons").select(".schedule")
-                .attr("transform", "translate(" + this.width * .6 + ",0)")
-                .select("text").text(function(){
-                    if(data.date.schedule.getTime()>data.date.start.getTime())
-                        return "DEFINIR NOVA META"
-                    else
-                        return "DEFINIR META PARA A REALIZAÇÂO"});
+                    .attr("transform", "translate(" + this.width * .325 + ",0)")
+                    .select("text").text("REALIZAR TAREFA");
+            } else {
+                //this.content.select(".buttons").select(".schedule")
+                //.attr("transform", "translate(" + this.width * .6 + ",0)")
+                //.select("text").text(function(){
+                //   if(data.date.schedule.getTime()>data.date.start.getTime())
+                //      return "DEFINIR NOVA META"
+                // else
+                //    return "DEFINIR META PARA A REALIZAÇÂO"});
                 this.content.select(".buttons").select(".goto")
-                .attr("transform", "translate(" + this.width * .05 + ",0)")
-                .select("text").text("REALIZAR TAREFA");
+                    .attr("transform", "translate(" + this.width * .325 + ",0)")
+                    .select("text").text("REALIZAR TAREFA");
             }
 
             b.content.transition().delay(before + transition * .7).duration(transition * .3).attr("opacity", 1);
@@ -622,7 +648,7 @@ class GanttChart {
             return null;
         }
         var legendConfig = {
-            data: a.chartConfig.layout.texts.map(function(d,i){return {color:a.chartConfig.layout.colors[i],name:d}}),
+            data: a.chartConfig.layout.texts.map(function (d, i) { return { color: a.chartConfig.layout.colors[i], name: d } }),
             target: a.chartConfig.parent,
             svg: a.chartConfig.svg,
             dimensions: {
@@ -791,7 +817,7 @@ class GanttChart {
             .attr("transform", "translate(" + a.margin.left + "," + a.margin.top + ")")
             .call(a.zoom);
         this.card.draw();
-        
+
         this.filterout();
         this.reset();
 
@@ -804,7 +830,7 @@ class GanttChart {
         a.svg.selectAll(".testRects").transition().duration(500).attr("opacity", 0.05)
         if (a.bottomLegend.marked.indexOf(true) == -1 || a.bottomLegend.marked.indexOf(false) == -1)
             a.filterout();
-        else{
+        else {
             a.bottomLegend.marked.map(function (d, i) {
                 if (d) {
                     a.svg.selectAll(".status-" + i).transition().duration(500).attr("opacity", 1)
@@ -815,11 +841,11 @@ class GanttChart {
                     return 0.5;
                 else   
                     return 1;
-            })*/.attr("style",function(d,i){
-                if(a.bottomLegend.marked[i]==true)
-                    return "cursor:url('"+a.chartConfig.cursors.subber+"'),auto";
-                else   
-                    return "cursor:url('"+a.chartConfig.cursors.adder+"'),auto";
+            })*/.attr("style", function (d, i) {
+                if (a.bottomLegend.marked[i] == true)
+                    return "cursor:url('" + a.chartConfig.cursors.subber + "'),auto";
+                else
+                    return "cursor:url('" + a.chartConfig.cursors.adder + "'),auto";
             });
         }
 
@@ -830,7 +856,7 @@ class GanttChart {
             //a.bottomLegend.marked[status] = false;
             if (a.bottomLegend.marked.indexOf(true) == -1 || a.bottomLegend.marked.indexOf(false) == -1)
                 a.filterout();
-            else{
+            else {
                 a.bottomLegend.marked.map(function (d, i) {
                     if (d == false) {
                         a.svg.selectAll(".notifications.status-" + i).transition().duration(500).attr("opacity", 0.2)
@@ -842,17 +868,17 @@ class GanttChart {
                         return 0.5;
                     else   
                         return 1;
-                })*/.attr("style",function(d,i){
-                    if(a.bottomLegend.marked[i]==true)
-                        return "cursor:url('"+a.chartConfig.cursors.subber+"'),auto";
-                    else   
-                        return "cursor:url('"+a.chartConfig.cursors.adder+"'),auto";
+                })*/.attr("style", function (d, i) {
+                    if (a.bottomLegend.marked[i] == true)
+                        return "cursor:url('" + a.chartConfig.cursors.subber + "'),auto";
+                    else
+                        return "cursor:url('" + a.chartConfig.cursors.adder + "'),auto";
                 });
             }
         } else {
             //a.bottomLegend.marked = a.bottomLegend.marked.map(function () { return false });
             a.bottomLegend.setoption();
-            a.bottomLegend.legend/*.attr("opacity",1)*/.attr("style","cursor:url('"+a.chartConfig.cursors.filter+"'),auto");
+            a.bottomLegend.legend/*.attr("opacity",1)*/.attr("style", "cursor:url('" + a.chartConfig.cursors.filter + "'),auto");
             a.svg.selectAll(".notifications").transition().duration(500).attr("opacity", 1);
             a.svg.selectAll(".testRects").transition().duration(500).attr("opacity", 1);
         }

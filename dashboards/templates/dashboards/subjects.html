@@ -82,7 +82,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 button: function (element, data) {
                 var classelement = d3.select(element).attr("class");
                 if (classelement == "goto")
-                    alert("Indo para a atividade " + data.name + "...");
+                    window.location.assign(data.access_link);
                 else
                     alert("Agendando a atividade " + data.name + "...");
                 }
