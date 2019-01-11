@@ -40,21 +40,6 @@ class GanttChart {
         if (chartConfig.layout.texts2 == undefined || chartConfig.layout.texts2.length != 5)
             chartConfig.layout.texts2 = ["Esta tarefa está atrasada","Você ainda não realizou esta tarefa","","Você perdeu esta tarefa",""];
 
-        if (chartConfig.focus == undefined) chartConfig.focus = {};
-
-        if (chartConfig.focus.margin == undefined) chartConfig.focus.margin = {};
-        if (chartConfig.focus.margin.top == undefined) chartConfig.focus.margin.top = chartConfig.margin.top;
-        if (chartConfig.focus.margin.right == undefined) chartConfig.focus.margin.right = chartConfig.margin.right;
-        if (chartConfig.focus.margin.bottom == undefined) chartConfig.focus.margin.bottom = 30;
-        if (chartConfig.focus.margin.left == undefined) chartConfig.focus.margin.left = chartConfig.margin.left;
-
-        if (chartConfig.context == undefined) chartConfig.context = {};
-
-        if (chartConfig.context.margin == undefined) chartConfig.context.margin = {};
-        if (chartConfig.context.margin.top == undefined) chartConfig.context.margin.top = 20;
-        if (chartConfig.context.margin.right == undefined) chartConfig.context.margin.right = chartConfig.margin.right;
-        if (chartConfig.context.margin.bottom == undefined) chartConfig.context.margin.bottom = chartConfig.margin.bottom;
-        if (chartConfig.context.margin.left == undefined) chartConfig.context.margin.left = chartConfig.margin.left;
         chartConfig.now = new Date();
         var now = chartConfig.now.getTime();
 
@@ -116,9 +101,9 @@ class GanttChart {
                 d.status = 4
             else if (now < start)
                 d.status = 2
-            else if (now < end && now > start)
+            else if (now <= end && now >= start)
                 d.status = 1
-            else if (now > end && now < delay)
+            else if (now >= delay)
                 d.status = 3
             else
                 d.status = 0;
@@ -410,7 +395,7 @@ class GanttChart {
             if (b.active != false) {
                 before += b.disable(before, 200);
             }
-            if (!a.filtered[data.status]) {
+            if (!a.bottomLegend.marked[data.status]) {
                 a.filterout();
             }
             before = b.rect_in_x(data, before);
@@ -537,14 +522,14 @@ class GanttChart {
                 .attr("opacity",function(d,i){
                     switch(i){
                         case 0:case 1:return 1;
-                        case 2:return (!data.done) && data.date.schedule.getTime()>a.chartConfig.now.getTime()&&data.date.schedule.getTime()>data.date.start.getTime()&&a.chartConfig.now.getTime()<data.date.delay.getTime()?1:0;
+                        case 2:return (!data.done) && data.date.schedule.getTime()>data.date.start.getTime()&&a.chartConfig.now.getTime()<data.date.delay.getTime()?1:0;
                     }
                 })
                 .attr("fill",function(d,i){
                     switch(i){
-                        case 0:return "#ccc";
-                        case 1:return data.status==3?"#F00":"#ccc";
-                        case 2:return "#FCC";
+                        case 0:return "#444";
+                        case 1:return data.status==3?"#F00":"#444";
+                        case 2:return (a.chartConfig.now.getTime()>=data.date.schedule.getTime()?"#F22":"#444");
                     }
                 })
                 .text(function(d,i){
@@ -558,7 +543,7 @@ class GanttChart {
                     switch(i){
                         case 0:return "Data/Hora inicial: "+start.substr(0,start.length-3);
                         case 1:return (data.status==3?"Tarefa encerrada em: ":"Data/Hora final: ")+ end.substr(0,start.length-3);
-                        case 2:return "Sua meta era realizar em: "+schedule;
+                        case 2:return "Sua meta "+(now.getTime()>=data.date.schedule.getTime()?"era":"é")+" realizar em: "+schedule;
                     }
                 })
 
@@ -637,6 +622,43 @@ class GanttChart {
             return null;
         }
         var legendConfig = {
+            data: a.chartConfig.layout.texts.map(function(d,i){return {color:a.chartConfig.layout.colors[i],name:d}}),
+            target: a.chartConfig.parent,
+            svg: a.chartConfig.svg,
+            dimensions: {
+                width: a.chartConfig.dimensions.width
+            },
+            layout: {
+                corner: 4,
+                font_size: 16,
+                font: "Roboto",
+                //stroke: "#000",
+                stroke_width: 2,
+                stroke_over: "#a2c",
+                anchor: "middle", // start middle end
+                //enable_mark:true,
+            },
+            interactions: {
+                mouseover: function (element, data) { },
+                mousemove: function (element, data) { },
+                mouseout: function (element, data) { },
+                click: function (element, data) {
+                    var status = a.chartConfig.layout.texts.indexOf(data.name);
+                    a.bottomLegend.setoption(data.name);
+                    if (a.bottomLegend.marked[status])
+                        a.filterout(status, element);
+                    else
+                        a.filter(status, element);
+                    a.card.disable(0, 500);
+                    //a.goto(searchStatus(status));
+                },
+            },
+        }
+
+
+        this.bottomLegend = new BottomLegend(legendConfig);
+
+        /*var legendConfig = {
             name: "legend",
             parent: ".focus",
             svg: true,
@@ -657,7 +679,7 @@ class GanttChart {
             interactions: {
                 click: function (element, data) {
                     var status = a.chartConfig.layout.texts.indexOf(data);
-                    if (a.filtered[status])
+                    if (a.bottomLegend.marked[status])
                         a.filterout(status, element);
                     else
                         a.filter(status, element);
@@ -668,13 +690,13 @@ class GanttChart {
                 mousemove: function (element, data) { },
                 mouseout: function (element, data) {
                     var status = a.chartConfig.layout.texts.indexOf(data);
-                    if (a.filtered[status])
+                    if (a.bottomLegend.marked[status])
                         d3.select(element).attr("opacity", 0.5);
                 }
             }
         }
-        this.legend = new Legend(legendConfig);
-        this.filtered = range(a.chartConfig.layout.texts.length).map(function () { return false });
+        this.legend = new Legend(legendConfig);*/
+        //this.bottomLegend.marked = a.bottomLegend.marked;
 
         this.card.create();
 
@@ -777,24 +799,24 @@ class GanttChart {
     }
     filter(status, element) {
         var a = this;
-        a.filtered[status] = true;
+        //a.bottomLegend.marked[status] = true;
         a.svg.selectAll(".notifications").transition().duration(500).attr("opacity", 0.2)
         a.svg.selectAll(".testRects").transition().duration(500).attr("opacity", 0.05)
-        if (a.filtered.indexOf(true) == -1 || a.filtered.indexOf(false) == -1)
+        if (a.bottomLegend.marked.indexOf(true) == -1 || a.bottomLegend.marked.indexOf(false) == -1)
             a.filterout();
         else{
-            a.filtered.map(function (d, i) {
+            a.bottomLegend.marked.map(function (d, i) {
                 if (d) {
                     a.svg.selectAll(".status-" + i).transition().duration(500).attr("opacity", 1)
                 }
             });
-            a.legend.legend.attr("opacity", function(d,i){
-                if(a.filtered[i]==true)
+            a.legend.legend/*.attr("opacity", function(d,i){
+                if(a.bottomLegend.marked[i]==true)
                     return 0.5;
                 else   
                     return 1;
-            }).attr("style",function(d,i){
-                if(a.filtered[i]==true)
+            })*/.attr("style",function(d,i){
+                if(a.bottomLegend.marked[i]==true)
                     return "cursor:url('"+a.chartConfig.cursors.subber+"'),auto";
                 else   
                     return "cursor:url('"+a.chartConfig.cursors.adder+"'),auto";
@@ -805,31 +827,32 @@ class GanttChart {
     filterout(status, element) {
         var a = this;
         if (status != undefined) {
-            a.filtered[status] = false;
-            if (a.filtered.indexOf(true) == -1 || a.filtered.indexOf(false) == -1)
+            //a.bottomLegend.marked[status] = false;
+            if (a.bottomLegend.marked.indexOf(true) == -1 || a.bottomLegend.marked.indexOf(false) == -1)
                 a.filterout();
             else{
-                a.filtered.map(function (d, i) {
+                a.bottomLegend.marked.map(function (d, i) {
                     if (d == false) {
                         a.svg.selectAll(".notifications.status-" + i).transition().duration(500).attr("opacity", 0.2)
                         a.svg.selectAll(".testRects.status-" + i).transition().duration(500).attr("opacity", 0.05)
                     }
                 });
-                a.legend.legend.attr("opacity", function(d,i){
-                    if(a.filtered[i]==true)
+                a.legend.legend/*.attr("opacity", function(d,i){
+                    if(a.bottomLegend.marked[i]==true)
                         return 0.5;
                     else   
                         return 1;
-                }).attr("style",function(d,i){
-                    if(a.filtered[i]==true)
+                })*/.attr("style",function(d,i){
+                    if(a.bottomLegend.marked[i]==true)
                         return "cursor:url('"+a.chartConfig.cursors.subber+"'),auto";
                     else   
                         return "cursor:url('"+a.chartConfig.cursors.adder+"'),auto";
                 });
             }
         } else {
-            a.filtered = a.filtered.map(function () { return false });
-            a.legend.legend.attr("opacity", 1).attr("style","cursor:url('"+a.chartConfig.cursors.filter+"'),auto");
+            //a.bottomLegend.marked = a.bottomLegend.marked.map(function () { return false });
+            a.bottomLegend.setoption();
+            a.bottomLegend.legend/*.attr("opacity",1)*/.attr("style","cursor:url('"+a.chartConfig.cursors.filter+"'),auto");
             a.svg.selectAll(".notifications").transition().duration(500).attr("opacity", 1);
             a.svg.selectAll(".testRects").transition().duration(500).attr("opacity", 1);
         }

@@ -29,7 +29,7 @@ document.getDimensions = function (id) {
 	var w = 0,
 		h = 0;
 	if (el) {
-		w = $(el).attr("width");
+		w = el["width"];//$(el).attr("width");
 		if (w == undefined) {
 			if (el.getBBox != undefined) {
 				var dimensions = el.getBBox();
@@ -37,7 +37,7 @@ document.getDimensions = function (id) {
 			} else
 				w = 0;
 		}
-		h = $(el).attr("height");
+		h = el["height"];//$(el).attr("height");
 		if (h == undefined) {
 			if (el.getBBox != undefined) {
 				var dimensions = el.getBBox();
@@ -153,7 +153,7 @@ d3.textData = function (data, text) {
 		
 
 		for (var i = 0; i < part.length; i++) {
-			rep = $(rep).attr(part[i]);
+			rep = rep[part[i]];//$(rep).attr(part[i]);
 		}
 
 		if (rep == undefined)
@@ -730,10 +730,73 @@ function exclamationGconfig(width,height){
     if(width/height >=1.1436)
         return "translate("+(-0.3533*height)+","+(1.5567*height)+") scale("+(height/6889.75)+","+(-height/6889.75)+")";
     else
-        return "translate("+(-0.3089*height)+","+(1.3612*height)+") scale("+(height/7879.17)+","+(-height/7879.17)+")";
+        return "translate("+(-0.3089*width)+","+(1.3612*width)+") scale("+(width/7879.17)+","+(-width/7879.17)+")";
 }
 
 function exclamation(target,width,height,fill){
     target.append("g").attr("transform",exclamationGconfig(width,height)).attr("fill",fill)
         .append("path").attr("d","M6304 10701 c-22 -10 -55 -36 -73 -57 -18 -22 -310 -520 -650 -1109 -340 -588 -1175 -2035 -1856 -3214 -680 -1180 -1244 -2159 -1251 -2178 -50 -118 34 -274 162 -303 52 -13 7476 -13 7528 0 140 32 215 193 152 325 -47 98 -3715 6441 -3747 6479 -42 50 -99 76 -169 76 -32 0 -72 -8 -96 -19z m266 -2210 c126 -50 234 -157 280 -278 34 -86 35 -188 6 -548 -29 -360 -72 -906 -116 -1465 -32 -405 -39 -441 -94 -507 -150 -174 -469 -124 -541 86 -18 52 -17 45 -50 476 -24 313 -61 779 -110 1403 -14 172 -25 345 -25 386 0 217 142 399 358 462 70 20 223 12 292 -15z m-57 -3251 c76 -29 130 -79 169 -157 28 -57 32 -77 32 -138 -1 -125 -69 -229 -184 -284 -115 -54 -262 -27 -354 65 -21 22 -50 64 -64 93 -73 158 8 357 172 420 68 26 160 27 229 1z");
 }
+
+/* 
+Alfinete de mural
+<g xmlns="http://www.w3.org/2000/svg" transform="translate(0.000000,1263.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+<path d="M10590 7785 c-107 -31 -178 -85 -272 -209 -101 -133 -159 -289 -158 -423 1 -66 24 -188 48 -249 l19 -52 -351 -404 c-193 -223 -366 -422 -384 -443 l-34 -37 -146 70 c-277 133 -443 181 -658 189 -174 7 -255 -9 -386 -74 -70 -35 -107 -62 -168 -123 -169 -169 -232 -395 -185 -663 55 -315 290 -727 627 -1099 73 -80 78 -89 67 -110 -24 -45 -148 -225 -239 -348 -114 -153 -638 -805 -735 -915 -454 -513 -699 -840 -729 -968 -8 -35 9 -67 35 -67 68 0 313 199 715 581 458 436 1063 1016 1226 1177 102 101 190 183 195 181 4 -2 55 -36 113 -75 348 -235 749 -422 1030 -481 59 -12 127 -17 220 -17 117 1 145 4 212 26 157 52 266 153 348 321 70 144 85 206 85 357 0 278 -87 510 -338 902 -12 18 8 42 268 323 77 83 185 205 240 270 55 66 136 161 179 210 44 50 80 91 80 91 1 1 33 -5 71 -13 99 -21 252 -13 327 16 86 33 172 95 279 201 111 109 152 179 170 289 14 84 1 187 -38 296 -178 494 -836 1090 -1381 1251 -111 33 -271 41 -352 19z"/>
+</g>
+*/
+
+function paperClipGconfig(width,height){
+    if(width == undefined && height == undefined)
+        width = 60,height = 80;
+    if(width == undefined)
+        width = height*0.868;
+    if(height == undefined)
+        height == width/0.848;
+    if(width/height >=0.858)
+        return "translate("+(0.04227*height)+","+(1.05456*height)+") scale("+(height*8.88e-5)+","+(-height*8.88e-5)+")";
+    else
+        return "translate("+(0.04928*width)+","+(1.22947*width)+") scale("+(width*1.035e-4)+","+(-width*1.035e-4)+")";
+}
+
+function paperClip(target,width,height,fill){
+    target.append("g").attr("transform",paperClipGconfig(width,height)).attr("fill",fill)
+        .append("path").attr("d",d="M7835 11870 c-555 -59 -1064 -296 -1524 -710 -160 -144 -371 -399 -492 -595 -61 -98 -2515 -4298 -2621 -4485 -466 -822 -641 -1663 -477 -2295 67 -259 222 -503 409 -644 367 -277 835 -291 1345 -42 249 122 483 292 724 526 249 242 463 509 654 815 141 227 1322 2258 1340 2305 25 65 33 196 17 266 -49 211 -237 359 -455 359 -179 0 -320 -86 -421 -256 -22 -38 -301 -514 -619 -1059 -318 -544 -602 -1030 -633 -1080 -283 -463 -627 -821 -973 -1014 -93 -52 -216 -92 -299 -98 -71 -5 -77 -4 -107 21 -41 34 -68 95 -89 197 -25 122 -15 389 20 559 65 316 185 633 354 935 131 234 2581 4424 2640 4515 296 458 770 777 1250 841 134 18 345 6 467 -25 125 -33 279 -107 383 -186 503 -379 624 -1191 283 -1895 -61 -127 -3739 -6430 -3822 -6550 -464 -673 -1395 -921 -2144 -570 -114 53 -767 425 -900 513 -206 136 -439 401 -554 631 -238 475 -240 1035 -6 1502 34 66 813 1402 2808 4814 341 583 636 1094 656 1135 31 65 36 86 39 167 5 107 -6 160 -52 248 -77 148 -240 245 -411 245 -129 -1 -230 -44 -325 -140 -57 -57 -103 -131 -391 -625 -180 -308 -942 -1613 -1694 -2900 -752 -1287 -1390 -2380 -1418 -2430 -150 -265 -258 -596 -303 -925 -24 -170 -24 -490 0 -660 56 -412 198 -791 420 -1124 111 -165 187 -258 330 -401 220 -220 326 -294 815 -575 620 -356 719 -402 1035 -485 258 -68 358 -79 676 -79 308 0 403 10 650 70 356 88 754 285 1036 514 192 157 394 378 531 585 60 90 3729 6364 3816 6525 146 271 261 622 314 960 22 145 25 576 5 715 -65 432 -208 788 -440 1095 -72 95 -236 265 -327 340 -275 225 -609 374 -975 435 -112 19 -430 27 -545 15z");
+}
+
+function isColor(color){
+	if((color!= undefined) && 
+		(typeof color == "string") &&  
+		color.match(/(rgb\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3}\))|(#[0-9a-fA-F]{2}[0-9a-fA-F]{2}[0-9a-fA-F]{2})|(#[0-9a-fA-F]{1}[0-9a-fA-F]{1}[0-9a-fA-F]{1}(?=[^a-fA-F0-9]*))/))
+		return true;
+	return false
+}
+
+function treatData(data,func){
+	var ret;
+	if(typeof func == "function")
+		ret = data.map(func);
+	else if(func instanceof Array){
+		ret = data;
+		for(var i=0;i<func.length;i++){
+			if(typeof func[0] == "function"){
+				ret = ret.map(func[i]);
+			}else if(typeof func[i] == "object" && typeof func[i].func == "function"){
+				if(func[i].type == "filter")
+					ret = ret.filter(func[i].func);
+				else if(func[i].type == "sort")
+					ret = ret.sort(func[i].func);
+				else
+					ret = ret.map(func[i].func);
+			}
+			
+		}
+	}
+	return ret;
+}
+
+function deltaXY(tag1, tag2){
+	var t1 = document.querySelector(tag1).getBoundingClientRect(),
+		t2 = document.querySelector(tag2).getBoundingClientRect();
+	return {x:t2.x-t1.x,y:t2.y-t1.y};
+}
+
