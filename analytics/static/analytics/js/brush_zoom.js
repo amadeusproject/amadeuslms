@@ -153,10 +153,22 @@ class GanttChart {
         var a = this;
         this.chartConfig = chartConfig;
         this.now = chartConfig.now;
-        this.svg = a.chartConfig.svg ? d3.select(a.chartConfig.parent) : d3.select(a.chartConfig.parent).append("svg").attr("id", chartConfig.name + "-container");
+        this.svg = a.chartConfig.svg ? d3.select(a.chartConfig.parent) : d3.select(a.chartConfig.parent).append("svg").attr("id", chartConfig.name + "-container")
         if (a.chartConfig.svg)
             this.chartConfig.dimensions.width = +svg.attr("width"),
                 this.chartConfig.dimensions.height = +svg.attr("height");
+        this.backcolor = "#F5F5F5";
+        this.svg.style("background-color", this.backcolor);
+        this.pattern = this.svg.append("defs").append("pattern").attr("id", "diagonal-stripe-1")
+            .attr("patternUnits", "userSpaceOnUse")
+            .attr("width", 10).attr("height", 10)
+            .attr("background-color", "#eee");
+
+        this.pattern.append("path")
+            .attr("d", "M 0 10 L 12 -2")
+            .attr("stroke", "#222")
+            .attr("stroke-width", 1);
+
 
         this.x = d3.scaleTime();
         this.x2 = d3.scaleTime();
@@ -171,7 +183,7 @@ class GanttChart {
         this.zoom = d3.zoom().scaleExtent([1, Infinity]).on("zoom", function () { a.zoomed(a) });
 
         this.zoomRect = a.svg.append("rect")
-            .attr("class", "zoom").attr("fill", "#FFF").attr("opacity", 0);
+            .attr("class", "zoom").attr("fill", "#FFF").style("cursor", "move").style("fill", "none").style("pointer-events", "all");
 
         this.focus = a.svg.append("g")
             .attr("class", "focus");
@@ -183,10 +195,7 @@ class GanttChart {
             .style("cursor", "pointer")
             .attr("class", function (d) { return "notifications status-" + d.status });
         this.notifications.append("rect").attr("class", "backBar")
-            .attr("fill", "#ccc")
-            .attr("stroke-width", 1)
-            .attr("stroke", "#000")
-            .attr("fill", function (d) { return a.chartConfig.layout.backcolors[d.status] });
+            .style("fill", "url(#diagonal-stripe-1) none")
 
         this.notifications.append("rect").attr("class", "progressBar")
             .attr("fill", function (d) { return a.chartConfig.layout.colors[d.status] });
@@ -210,7 +219,8 @@ class GanttChart {
                 .attr("fill", "#fff")
                 .attr("stroke-width", "2");
             this.rects.append("rect").attr("class", "backBar")
-                .attr("stroke-width", 1);
+                .style("fill", "url(#diagonal-stripe-1) "+a.backcolor)
+                .attr("stroke-width", 0);
             this.rects.append("rect").attr("class", "progressBar");
 
             //Content of Card
@@ -460,10 +470,29 @@ class GanttChart {
                 .attr("height", a.y.bandwidth());
             b.rects.select(".backBar")
                 .transition().delay(before).duration(transition)
-                .attr("fill", a.chartConfig.layout.backcolors[data.status])
+                //.attr("fill", a.chartConfig.layout.backcolors[data.status])
+                
                 .attr("width", a.x(data.date.end) - a.x(data.date.start))
                 .attr("height", a.y.bandwidth());
             return before + transition + 1;
+        }
+
+        this.card.reposition = function (x) {
+            // Tittle of Card
+            this.content.select(".tittle")
+                .attr("transform", "translate(" + this.width * .02 + "," + (x + this.size * .15) + ")");
+
+            x += this.size * .15;
+
+            //Dates  of Card
+            this.content.select(".datesInfo")
+                .attr("transform", "translate(" + this.width * .04 + "," + (x + this.size * .06) + ")")
+            x += this.size * .06;
+            // Percent of done
+            this.content.select(".percentInfo")
+                .attr("transform", "translate(" + this.width * .02 + "," + (x + this.size * .14) + ")");
+
+            x += this.size * .14;
         }
 
         this.card.extend_card = function (data, before, transition) {
@@ -520,26 +549,14 @@ class GanttChart {
 
             // Tittle of Card
             b.content.select(".tittle")
-                .transition().delay(before).duration(transition)
+                //.transition().delay(before).duration(transition)
                 .text(data.action + " " + data.name);
-            console.log(document.querySelector(".tittle").getBoundingClientRect().width);
-            if (document.querySelector(".tittle").getBoundingClientRect().width >= this.width * .46) {
-                var y = this.size * .27;
-                // Tittle of Card
-                this.content.select(".tittle")
-                    .attr("transform", "translate(" + this.width * .02 + "," + (y + this.size * .15) + ")");
+            //console.log(document.querySelector(".tittle").getBoundingClientRect().width,this.width * .50);
+            if (temp != undefined && temp != "" && document.querySelector(".tittle").getBoundingClientRect().width >= this.width * .50) {
+                this.reposition(this.size * .27);
 
-                y += this.size * .15;
-
-                //Dates  of Card
-                this.content.select(".datesInfo")
-                    .attr("transform", "translate(" + this.width * .04 + "," + (y + this.size * .06) + ")")
-                y += this.size * .06;
-                // Percent of done
-                this.content.select(".percentInfo")
-                    .attr("transform", "translate(" + this.width * .02 + "," + (y + this.size * .14) + ")");
-
-                y += this.size * .14;
+            } else {
+                this.reposition(this.size * .15);
             }
 
             //Dates  of Card
