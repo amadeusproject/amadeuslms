@@ -31,7 +31,8 @@ def get_pend_graph(user, subject):
 
         item["action"] = pendency.get_action_display()
         item["name"] = pendency.resource.name
-        item["percent"] = done_percent(pendency)
+        item["percent"] = done_percent(pendency)/100
+        item["access_link"] = str(pendency.resource.access_link())
 
         users = get_resource_users(pendency.resource)
         subject_begin_date = pendency.resource.topic.subject.init_date
