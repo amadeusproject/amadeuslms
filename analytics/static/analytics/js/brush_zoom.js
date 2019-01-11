@@ -32,8 +32,8 @@ class GanttChart {
         if (chartConfig.layout.colors == undefined || chartConfig.layout.colors.length != 5)
             chartConfig.layout.colors = ["#AD1111", "#FAA916", "#0B4F6C", "#343434", "#00993F"]
         //0-atrasado 1-dentro_do_prazo 2-pendencia futura 3-não_concluida 4-finalizada
-        if (chartConfig.layout.backcolors == undefined || chartConfig.layout.backcolors.length != 5)
-            chartConfig.layout.backcolors = ["#C43535", "#F9BA43", "#218AB7", "#545454", "#00C150"];
+        //if (chartConfig.layout.backcolors == undefined || chartConfig.layout.backcolors.length != 5)
+          //  chartConfig.layout.backcolors = ["#C43535", "#F9BA43", "#218AB7", "#545454", "#00C150"];
         //0-atrasado 1-dentro_do_prazo 2-pendencia futura 3-não_concluida 4-finalizada
         if (chartConfig.layout.texts == undefined || chartConfig.layout.texts.length != 5)
             chartConfig.layout.texts = ["Atrasada", "Dentro do Prazo", "Pendência Futura", "Perdida", "Concluída"];
@@ -462,6 +462,7 @@ class GanttChart {
                 .transition().delay(before).duration(transition)
                 .attr("stroke", a.chartConfig.layout.colors[data.status])
                 .attr("width", a.x(data.date.end) - a.x(data.date.start))
+                .attr("fill",a.backcolor)
                 .attr("height", a.y.bandwidth());
             b.rects.select(".progressBar")
                 .transition().delay(before).duration(transition)
@@ -511,7 +512,8 @@ class GanttChart {
             b.rects.select(".background")
                 .transition().delay(before).duration(transition)
                 .attr("width", b.width)
-                .attr("height", b.size);
+                .attr("height", b.size)
+                .attr("fill","#fff");
             b.rects.select(".progressBar")
                 .transition().delay(before).duration(transition)
                 .attr("width", b.width * data.percent)
@@ -537,7 +539,7 @@ class GanttChart {
                 b.content.select(".statusInfo").select("rect")
                     .transition().delay(before).duration(transition)
                     .attr("width", b.width * .5)
-                    .attr("fill", a.chartConfig.layout.backcolors[data.status])
+                    .attr("fill", a.chartConfig.layout.colors[data.status])
                 b.content.select(".statusInfo").select("text")
                     .transition().delay(before).duration(transition)
                     .text(temp);
