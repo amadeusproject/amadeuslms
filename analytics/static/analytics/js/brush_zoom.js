@@ -13,11 +13,17 @@ class GanttChart {
         if (chartConfig.name == undefined) chartConfig.name = "GanttChart" + (ganttCont++);
         if (chartConfig.parent == undefined) chartConfig.parent = "body";
         if (chartConfig.dimensions == undefined) chartConfig.dimensions = {};
-        if (chartConfig.dimensions.width == undefined){
+        chartConfig.dimensions.vertical = false;
+        if (chartConfig.dimensions.width == undefined) {
             var temp;
-            console.log(document.querySelector(chartConfig.parent).getBoundingClientRect().height)
-            if(temp = document.querySelector(chartConfig.parent).getBoundingClientRect().width)
-            chartConfig.dimensions.width = temp;
+            if (temp = document.querySelector(chartConfig.parent).getBoundingClientRect()) {
+                chartConfig.dimensions.width = temp.width;
+                var prop = window.innerHeight * .6 / window.innerWidth;
+                if (window.innerWidth > 991)
+                    chartConfig.dimensions.height = temp.width / 2 > 500 ? 500 : temp.width / 2
+                else
+                    chartConfig.dimensions.height = temp.width * prop, chartConfig.dimensions.vertical = prop<1;
+            }
             else if (chartConfig.dimensions.height == undefined)
                 chartConfig.dimensions.width = 1200, chartConfig.dimensions.height = 500;
             else
@@ -38,13 +44,13 @@ class GanttChart {
             chartConfig.layout.colors = ["#AD1111", "#FAA916", "#0B4F6C", "#343434", "#00993F"]
         //0-atrasado 1-dentro_do_prazo 2-pendencia futura 3-não_concluida 4-finalizada
         //if (chartConfig.layout.backcolors == undefined || chartConfig.layout.backcolors.length != 5)
-          //  chartConfig.layout.backcolors = ["#C43535", "#F9BA43", "#218AB7", "#545454", "#00C150"];
+        //  chartConfig.layout.backcolors = ["#C43535", "#F9BA43", "#218AB7", "#545454", "#00C150"];
         //0-atrasado 1-dentro_do_prazo 2-pendencia futura 3-não_concluida 4-finalizada
         if (chartConfig.layout.texts == undefined || chartConfig.layout.texts.length != 5)
             chartConfig.layout.texts = ["Atrasada", "Dentro do Prazo", "Pendência Futura", "Perdida", "Concluída"];
         if (chartConfig.layout.texts2 == undefined || chartConfig.layout.texts2.length != 5)
             chartConfig.layout.texts2 = ["Esta tarefa está atrasada", "Você ainda não realizou esta tarefa", "", "Você perdeu esta tarefa", ""];
-        if(chartConfig.layout.min_size_card == undefined)chartConfig.layout.min_size_card =200;
+        if (chartConfig.layout.min_size_card == undefined) chartConfig.layout.min_size_card = 200;
 
         chartConfig.now = new Date();
         var now = chartConfig.now.getTime();
@@ -90,8 +96,8 @@ class GanttChart {
             }
 
             if (!(d.date.start instanceof Date) || !(d.date.end instanceof Date) || d.date.start.getTime() > d.date.end.getTime()) {
-                console.log(d.date.start);
-                console.log(d.date.end);
+                //console.log(d.date.start);
+                //console.log(d.date.end);
                 console.error("invalid dates in row of dataSet \"" + i + "\" ");
                 throw new Exception();
             }
@@ -178,7 +184,7 @@ class GanttChart {
 
         this.x = d3.scaleTime();
         this.x2 = d3.scaleTime();
-        this.y = d3.scaleBand().padding(0.4).domain(range(a.chartConfig.layout.maxrow));
+        this.y = d3.scaleBand().domain(range(a.chartConfig.layout.maxrow));
         var temp = d3.extent(a.chartConfig.data, function (d) { return d.date.start; });
         var temp2 = d3.extent(a.chartConfig.data, function (d) { return d.date.end });
         if (a.now.getTime() - temp[0].getTime() < 0) temp[0] = a.now;
@@ -219,13 +225,13 @@ class GanttChart {
 
         this.card.create = function () {
             this.out_dark = a.svg.append("rect")
-                .attr("fill","#000")
-                .attr("opacity",0)
+                .attr("fill", "#000")
+                .attr("opacity", 0)
                 //.attr("opacity",0.4)
                 //.attr("width",a.chartConfig.dimensions.width)
                 //.attr("height",a.chartConfig.dimensions.height);
-                .attr("width",0)
-                .attr("height",0)
+                .attr("width", 0)
+                .attr("height", 0)
                 .on("click", function () {
                     a.card.disable(0, 500);
                 });
@@ -236,7 +242,7 @@ class GanttChart {
                 .attr("fill", "#fff")
                 .attr("stroke-width", "2");
             this.rects.append("rect").attr("class", "backBar")
-                .style("fill", "url(#diagonal-stripe-1) "+a.backcolor)
+                .style("fill", "url(#diagonal-stripe-1) " + a.backcolor)
                 .attr("stroke-width", 0);
             this.rects.append("rect").attr("class", "progressBar");
 
@@ -321,19 +327,25 @@ class GanttChart {
         }
 
         this.card.draw = function () {
-            console.log(a.height * .7)
-            if((a.height * .7)>300){
-                this.size = 300
-            }else if((a.height * .7)<197){
-                if(197>a.chartConfig.dimensions.height)
-                    this.size = a.chartConfig.dimensions.height
-                else    
-                    this.size = 197;
+            console.log(a.height);
+            if (a.chartConfig.dimensions.vertical) {
+                this.width = a.width;
+                this.size = this.width/2;
                 this.center = true;
-            }else{
-                this.size = a.height * .7;
+            } else {
+                if ((a.height * .7) > 300) {
+                    this.size = 300
+                } else if ((a.height * .7) < 197) {
+                    if (197 > a.chartConfig.dimensions.height)
+                        this.size = a.chartConfig.dimensions.height
+                    else
+                        this.size = 197;
+                    this.center = true;
+                } else {
+                    this.size = a.height * .7;
+                }
+                this.width = this.size * 6 / 3;
             }
-            this.width = this.size * 6 / 3;
             var y = 0;
 
             this.all.attr("transform", "translate(" + (-this.width - a.margin.left) + ",0)");
@@ -482,16 +494,16 @@ class GanttChart {
             if (isNaN(transition)) transition = 0;
             b.all
                 .transition().delay(before).duration(transition)
-                .attr("transform", "translate(" + (a.x(data.date.start)+a.margin.left) + "," + (a.y(data.position)+a.margin.top) + ")");
+                .attr("transform", "translate(" + (a.x(data.date.start) + a.margin.left) + "," + (a.y(data.position) + a.margin.top) + ")");
 
             b.out_dark
                 .transition().delay(before).duration(transition)
-                .attr("opacity",0);
+                .attr("opacity", 0);
 
             b.out_dark
-                .transition().delay(before+transition+10)
-                .attr("width",0)
-                .attr("height",0);
+                .transition().delay(before + transition + 10)
+                .attr("width", 0)
+                .attr("height", 0);
 
             b.content
                 .transition().delay(before).duration(transition * .2)
@@ -501,7 +513,7 @@ class GanttChart {
                 .transition().delay(before).duration(transition)
                 .attr("stroke", a.chartConfig.layout.colors[data.status])
                 .attr("width", a.x(data.date.end) - a.x(data.date.start))
-                .attr("fill",a.backcolor)
+                .attr("fill", a.backcolor)
                 .attr("height", a.y.bandwidth());
             b.rects.select(".progressBar")
                 .transition().delay(before).duration(transition)
@@ -510,9 +522,9 @@ class GanttChart {
                 .attr("height", a.y.bandwidth());
             b.rects.select(".backBar")
                 .transition().delay(before).duration(transition)
-                .attr("fill",a.backcolor)
+                .attr("fill", a.backcolor)
                 //.attr("fill", a.chartConfig.layout.backcolors[data.status])
-                
+
                 .attr("width", a.x(data.date.end) - a.x(data.date.start))
                 .attr("height", a.y.bandwidth());
             return before + transition + 1;
@@ -540,19 +552,19 @@ class GanttChart {
             var b = this;
 
             b.out_dark
-                .attr("width",a.chartConfig.dimensions.width)
-                .attr("height",a.chartConfig.dimensions.height);
+                .attr("width", a.chartConfig.dimensions.width)
+                .attr("height", a.chartConfig.dimensions.height);
 
             b.out_dark
                 .transition().delay(before).duration(transition)
-                .attr("opacity",0.4)
+                .attr("opacity", 0.4)
 
             if (isNaN(before)) before = 0;
             if (isNaN(transition)) transition = 0;
-            var x,y;
-            if(b.center){
-                x = (a.chartConfig.dimensions.width-this.width)/2,y = (a.chartConfig.dimensions.height-this.size)/2
-            }else{
+            var x, y;
+            if (b.center) {
+                x = (a.chartConfig.dimensions.width - this.width) / 2, y = (a.chartConfig.dimensions.height - this.size) / 2
+            } else {
                 x = a.x(data.date.start), y = a.y(data.position);
                 if (x + b.width > a.width)
                     x = a.width - b.width;
@@ -569,7 +581,7 @@ class GanttChart {
                 .transition().delay(before).duration(transition)
                 .attr("width", b.width)
                 .attr("height", b.size)
-                .attr("fill","#fff");
+                .attr("fill", "#fff");
             b.rects.select(".progressBar")
                 .transition().delay(before).duration(transition)
                 .attr("width", b.width * data.percent)
@@ -809,6 +821,16 @@ class GanttChart {
                 a.card.disable(0, 500);
             });
 
+        this.context.append("g")
+            .attr("class", "axis axis--x context-axis");
+        this.focus.append("g")
+            .attr("class", "axis axis--x focus-axis")
+        this.context.append("g")
+            .attr("class", "brush")
+
+        this.contextRects = this.contextContent.selectAll(".testRects").data(a.chartConfig.data).enter().append("rect")
+            .attr("class", function (d) { return "testRects status-" + d.status; });
+
         return this;
     }
     draw() {
@@ -822,10 +844,13 @@ class GanttChart {
         this.svg
             .attr("width", a.chartConfig.dimensions.width)
             .attr("height", a.chartConfig.dimensions.height)
-
+        //console.log(this.margin);
+        //console.log(this.margin2);
+        //console.log("w:",a.width,"h:",a.height);
+        //console.log("w:",a.chartConfig.dimensions.width,"h:",a.chartConfig.dimensions.height);
         this.x.range([0, a.width]),
             this.x2.range([0, a.width]),
-            this.y.rangeRound([0, a.height]);
+            this.y.rangeRound([0, a.height]).padding(a.height > 300 ? 0.4 : 0.1);
 
         this.nowLine.select("line")
             .attr("x1", 0)
@@ -833,8 +858,8 @@ class GanttChart {
             .attr("x2", 0)
             .attr("y2", a.height);
 
-        this.xAxis = d3.axisBottom(this.x);
-        this.xAxis2 = d3.axisBottom(this.x2);
+        this.xAxis = d3.axisBottom(this.x).ticks(Math.floor(a.chartConfig.dimensions.width / 70));
+        this.xAxis2 = d3.axisBottom(this.x2).ticks(Math.floor(a.chartConfig.dimensions.width / 70));
 
         this.brush.extent([[0, 0], [a.width, a.height2]]);
 
@@ -855,34 +880,31 @@ class GanttChart {
 
         this.transformElements();
 
-        this.focus.append("g")
-            .attr("class", "axis axis--x")
+
+
+        this.focus.select(".focus-axis")
             .attr("transform", "translate(0," + a.height + ")")
             .call(a.xAxis);
 
         function widthRect(data) {
-            return a.x(data.date.end) - a.x(data.date.start);
+            return a.x2(data.date.end) - a.x2(data.date.start);
         }
 
-        this.contextContent.selectAll(".testRects").data(a.chartConfig.data).enter().append("rect")
-            .attr("class", function (d) { return "testRects status-" + d.status; })
+        this.contextRects
             .attr("transform", function (d) { return "translate(" + a.x2(d.date.start) + ",0)" })
             .attr("width", widthRect)
             .attr("height", a.height2)
-            .attr("rx", a.height2 / 3)
-            .attr("ry", a.height2 / 3)
+            .attr("rx", a.height2 / 3 > 10 ? 10 : a.height2 / 3)
+            .attr("ry", a.height2 / 3 > 10 ? 10 : a.height2 / 3)
             .attr("stroke", "#ddd")
             .attr("stroke-width", ".5")
             .attr("fill", function (d) { return a.chartConfig.layout.colors[d.status] });;
 
-
-        this.context.append("g")
-            .attr("class", "axis axis--x")
+        this.context.select(".context-axis")
             .attr("transform", "translate(0," + a.height2 + ")")
             .call(a.xAxis2);
 
-        this.context.append("g")
-            .attr("class", "brush")
+        this.context.select(".brush")
             .call(a.brush)
             .call(a.brush.move, a.x.range());
 
@@ -896,6 +918,27 @@ class GanttChart {
         this.filterout();
         this.reset();
 
+        return this;
+    }
+    resize(width, height) {
+        var a = this;
+        a.chartConfig.dimensions.vertical = false;
+        if (width == undefined) {
+            var temp;
+            if (temp = document.querySelector(a.chartConfig.parent).getBoundingClientRect()) {
+                a.chartConfig.dimensions.width = temp.width;
+                var prop = window.innerHeight * .6 / window.innerWidth;
+                if (window.innerWidth > 991)
+                    a.chartConfig.dimensions.height = temp.width / 2 > 500 ? 500 : temp.width / 2
+                else
+                    a.chartConfig.dimensions.height = temp.width * prop, a.chartConfig.dimensions.vertical = prop<1;
+            }
+            else if (height == undefined)
+                a.chartConfig.dimensions.width = 1200, a.chartConfig.dimensions.height = 500;
+            else
+                a.chartConfig.dimensions.width = height * 12 / 5;
+        }
+        this.draw();
         return this;
     }
     filter(status, element) {

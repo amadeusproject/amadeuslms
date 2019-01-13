@@ -104,7 +104,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         var ganttChart = new GanttChart(chartConfig);
 
         window.addEventListener('resize', function(){
-                ganttChart.bottomLegend.resize();
+            ganttChart.resize();
+            ganttChart.bottomLegend.resize();
 	    });
 
     </script>
