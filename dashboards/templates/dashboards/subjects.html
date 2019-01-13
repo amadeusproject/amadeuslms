@@ -58,12 +58,16 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
     <div id="gantt"></div>
 
+    <div class="col-md-2 col-xs-12 col-sm-12 col-lg-2 text-center">
+            <button onclick="ganttChart.reset();" class="btn btn-success btn-raised btn-block" style="position: initial;"> Hoje{% trans "To day" as bread %} </button>
+    </div>
+
     <script type="text/javascript">
         var chartConfig = {
             name: "GanttChart",
             parent: "#gantt",
             data: {% autoescape off %}{{ graph_data }}{% endautoescape %},
-            dimensions: { width: 1200, height: 500 },
+            //dimensions: { width: 1200, height: 500 },
             margin: {
                 top: 20, right: 10, bottom: 30, left: 10
             },
@@ -73,7 +77,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 //colors: ["#AD1111", "#FAA916", "#0B4F6C", "#343434", "#00993F"],//0-atrasado 1-dentro_do_prazo 2-pendencia futura 3-não_concluida 4-finalizada
                 colors: ["#FF9001", "#dfbd31", "#D6D6D6", "#f44336", "#3BA51A"],
                 //backcolors: ["#C43535", "#F9BA43", "#218AB7", "#545454", "#00C150"],
-                backcolors: ["#F47F3F", "#FFE57F", "#EDEDED", "#DB3434", "#6BBF52"],
+                //backcolors: ["#F47F3F", "#FFE57F", "#EDEDED", "#DB3434", "#6BBF52"],
 
                 texts: ["Atrasada", "No prazo", "Planejada", "Perdida", "Concluída"],
                 texts2: ["Esta tarefa está atrasada", "Você ainda não realizou esta tarefa", "", "Você perdeu esta tarefa", ""],
@@ -98,6 +102,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         }
 
         var ganttChart = new GanttChart(chartConfig);
+
+        window.addEventListener('resize', function(){
+                ganttChart.bottomLegend.resize();
+	    });
+
     </script>
 {% endblock %}
 

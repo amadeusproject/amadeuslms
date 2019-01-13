@@ -13,13 +13,18 @@ class GanttChart {
         if (chartConfig.name == undefined) chartConfig.name = "GanttChart" + (ganttCont++);
         if (chartConfig.parent == undefined) chartConfig.parent = "body";
         if (chartConfig.dimensions == undefined) chartConfig.dimensions = {};
-        if (chartConfig.dimensions.width == undefined)
-            if (chartConfig.dimensions.height == undefined)
-                chartConfig.dimensions.width = 800, chartConfig.dimensions.height = 600;
+        if (chartConfig.dimensions.width == undefined){
+            var temp;
+            console.log(document.querySelector(chartConfig.parent).getBoundingClientRect().height)
+            if(temp = document.querySelector(chartConfig.parent).getBoundingClientRect().width)
+            chartConfig.dimensions.width = temp;
+            else if (chartConfig.dimensions.height == undefined)
+                chartConfig.dimensions.width = 1200, chartConfig.dimensions.height = 500;
             else
-                chartConfig.dimensions.width = chartConfig.dimensions.height * 4 / 3;
+                chartConfig.dimensions.width = chartConfig.dimensions.height * 12 / 5;
+        }
         if (chartConfig.dimensions.height == undefined)
-            chartConfig.dimensions.height = chartConfig.dimensions.width * 3 / 4;
+            chartConfig.dimensions.height = chartConfig.dimensions.width * 5 / 12;
         if (chartConfig.margin == undefined) chartConfig.margin = {};
         if (chartConfig.margin.top == undefined) chartConfig.margin.top = 20;
         if (chartConfig.margin.right == undefined) chartConfig.margin.right = 10;
@@ -39,6 +44,7 @@ class GanttChart {
             chartConfig.layout.texts = ["Atrasada", "Dentro do Prazo", "Pendência Futura", "Perdida", "Concluída"];
         if (chartConfig.layout.texts2 == undefined || chartConfig.layout.texts2.length != 5)
             chartConfig.layout.texts2 = ["Esta tarefa está atrasada", "Você ainda não realizou esta tarefa", "", "Você perdeu esta tarefa", ""];
+        if(chartConfig.layout.min_size_card == undefined)chartConfig.layout.min_size_card =200;
 
         chartConfig.now = new Date();
         var now = chartConfig.now.getTime();
@@ -212,7 +218,18 @@ class GanttChart {
         this.card = {}
 
         this.card.create = function () {
-            this.all = a.focus.append("g").attr("class", "card");
+            this.out_dark = a.svg.append("rect")
+                .attr("fill","#000")
+                .attr("opacity",0)
+                //.attr("opacity",0.4)
+                //.attr("width",a.chartConfig.dimensions.width)
+                //.attr("height",a.chartConfig.dimensions.height);
+                .attr("width",0)
+                .attr("height",0)
+                .on("click", function () {
+                    a.card.disable(0, 500);
+                });
+            this.all = a.svg.append("g").attr("class", "card");
             //Rects of card
             this.rects = this.all.append("g").attr("class", "cardrects");
             this.rects.append("rect").attr("class", "background")
@@ -304,11 +321,24 @@ class GanttChart {
         }
 
         this.card.draw = function () {
-            this.size = a.height * .7;
+            console.log(a.height * .7)
+            if((a.height * .7)>300){
+                this.size = 300
+            }else if((a.height * .7)<197){
+                if(197>a.chartConfig.dimensions.height)
+                    this.size = a.chartConfig.dimensions.height
+                else    
+                    this.size = 197;
+                this.center = true;
+            }else{
+                this.size = a.height * .7;
+            }
             this.width = this.size * 6 / 3;
             var y = 0;
 
             this.all.attr("transform", "translate(" + (-this.width - a.margin.left) + ",0)");
+
+
 
             //Rects of Card
             this.rects.select(".background")
@@ -452,7 +482,16 @@ class GanttChart {
             if (isNaN(transition)) transition = 0;
             b.all
                 .transition().delay(before).duration(transition)
-                .attr("transform", "translate(" + a.x(data.date.start) + "," + a.y(data.position) + ")");
+                .attr("transform", "translate(" + (a.x(data.date.start)+a.margin.left) + "," + (a.y(data.position)+a.margin.top) + ")");
+
+            b.out_dark
+                .transition().delay(before).duration(transition)
+                .attr("opacity",0);
+
+            b.out_dark
+                .transition().delay(before+transition+10)
+                .attr("width",0)
+                .attr("height",0);
 
             b.content
                 .transition().delay(before).duration(transition * .2)
@@ -471,6 +510,7 @@ class GanttChart {
                 .attr("height", a.y.bandwidth());
             b.rects.select(".backBar")
                 .transition().delay(before).duration(transition)
+                .attr("fill",a.backcolor)
                 //.attr("fill", a.chartConfig.layout.backcolors[data.status])
                 
                 .attr("width", a.x(data.date.end) - a.x(data.date.start))
@@ -498,13 +538,29 @@ class GanttChart {
 
         this.card.extend_card = function (data, before, transition) {
             var b = this;
+
+            b.out_dark
+                .attr("width",a.chartConfig.dimensions.width)
+                .attr("height",a.chartConfig.dimensions.height);
+
+            b.out_dark
+                .transition().delay(before).duration(transition)
+                .attr("opacity",0.4)
+
             if (isNaN(before)) before = 0;
             if (isNaN(transition)) transition = 0;
-            var x = a.x(data.date.start), y = a.y(data.position);
-            if (x + b.width > a.width) x = a.width - b.width;
-            else if (x < -a.margin.left) x = 0;
-            if (y + b.size > a.height) y = a.height - b.size;
-
+            var x,y;
+            if(b.center){
+                x = (a.chartConfig.dimensions.width-this.width)/2,y = (a.chartConfig.dimensions.height-this.size)/2
+            }else{
+                x = a.x(data.date.start), y = a.y(data.position);
+                if (x + b.width > a.width)
+                    x = a.width - b.width;
+                else if (x < -a.margin.left)
+                    x = 0;
+                if (y + b.size > a.height)
+                    y = a.height - b.size;
+            }
             //Rects of card
             b.all
                 .transition().delay(before).duration(transition)
@@ -855,7 +911,7 @@ class GanttChart {
                     a.svg.selectAll(".status-" + i).transition().duration(500).attr("opacity", 1)
                 }
             });
-            a.legend.legend/*.attr("opacity", function(d,i){
+            a.bottomLegend.legend/*.attr("opacity", function(d,i){
                 if(a.bottomLegend.marked[i]==true)
                     return 0.5;
                 else   
@@ -882,7 +938,7 @@ class GanttChart {
                         a.svg.selectAll(".testRects.status-" + i).transition().duration(500).attr("opacity", 0.05)
                     }
                 });
-                a.legend.legend/*.attr("opacity", function(d,i){
+                a.bottomLegend.legend/*.attr("opacity", function(d,i){
                     if(a.bottomLegend.marked[i]==true)
                         return 0.5;
                     else   

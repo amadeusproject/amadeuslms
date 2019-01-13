@@ -233,17 +233,21 @@ class Legend {
 	target:"body",
 	svg:false,
 	dimensions:{
-		width:800
+		right:false, // true - RightLegend; false - BottomLegend;
+		width:800,
+		height:600,
+		x:0,
+		y:0,
 	},
 	layout:{
 		corner:4,
+		padding: 0.4,
 		font_size:16,
 		rect_size:20,
 		font: "roboto",
 		stroke: "#000",
 		stroke_width: 2,
 		stroke_over: "#ccc",
-		anchor: "middle" // start middle end
 		enable_mark:true,
 	},
 	interactions:{
@@ -259,31 +263,68 @@ class BottomLegend{
 	constructor(chartConfig){
 		this.create(BottomLegend.validData(chartConfig)).draw();
 	}
-	static validData(chartConfig){
-		if(chartConfig==undefined || chartConfig.data == undefined){
+	static validData(chartConfig,preconfig){
+		if(!preconfig&&(chartConfig==undefined || chartConfig.data == undefined)){
 			console.error("DataSet Invalid");
 			throw new Exception();
 		}
-		if(chartConfig.target == undefined)chartConfig.target = "body";
-		if(chartConfig.dimensions == undefined)chartConfig.dimensions = {};
-		if(chartConfig.dimensions.width == undefined){
-			if(chartConfig.svg)
-				chartConfig.dimensions.width = d3.select(chartConfig.target).attr("width");
-			else
-			chartConfig.dimensions.width = 800;
+		if(preconfig && chartConfig==undefined)
+			chartConfig = preconfig;
+
+		if(chartConfig.target == undefined)chartConfig.target = preconfig?preconfig.target:"body";
+		if(chartConfig.dimensions == undefined)chartConfig.dimensions = preconfig?preconfig.dimensions:{};
+
+		if(!chartConfig.dimensions.right==undefined)chartConfig.dimensions.right = preconfig?preconfig.dimensions.right:undefined;
+
+		if(!chartConfig.dimensions.right){
+			if(chartConfig.dimensions.width == undefined || chartConfig.dimensions.width=="auto"){
+				var temp;
+				if(preconfig && !preconfig.dimensions.right && chartConfig.dimensions.width=="auto")
+					chartConfig.dimensions.width = preconfig.dimensions.width;
+				else if(temp = document.querySelector(chartConfig.target).getBoundingClientRect.width)
+					chartConfig.dimensions.width = temp;
+				else
+					chartConfig.dimensions.width = 800;
+			}
+		}else{
+			if(chartConfig.dimensions.height == undefined || chartConfig.dimensions.height=="auto"){
+				var temp;
+				if(preconfig && preconfig.dimensions.right && chartConfig.dimensions.height=="auto")
+					chartConfig.dimensions.height = preconfig.dimensions.height;
+				else if(temp = document.querySelector(chartConfig.target).getBoundingClientRect.height)
+					chartConfig.dimensions.height = temp;
+				else
+					chartConfig.dimensions.height = 600;
+			}
 		}
+		if(chartConfig.dimensions.x == undefined)chartConfig.dimensions.x = preconfig?preconfig.dimensions.x:0;
+		if(chartConfig.dimensions.y == undefined)chartConfig.dimensions.y = preconfig?preconfig.dimensions.y:0;
+
 		
-		if(chartConfig.layout == undefined)chartConfig.layout = {};
-		if(chartConfig.layout.corner == undefined)chartConfig.layout.corner = 4;
-		if(chartConfig.layout.font_size == undefined)chartConfig.layout.font_size = 16;
-		if(chartConfig.layout.rect_size == undefined)chartConfig.layout.rect_size = chartConfig.layout.font_size*1.25
-		if(chartConfig.layout.font == undefined)chartConfig.layout.font = "Roboto";
-		if(chartConfig.layout.stroke_width == undefined)chartConfig.layout.stroke_width = 2;
-		if(!isColor(chartConfig.layout.stroke))chartConfig.layout.stroke = undefined;
-		if(!isColor(chartConfig.layout.stroke_over))chartConfig.layout.stroke_over = undefined;
-		if(chartConfig.layout.anchor!="start" && chartConfig.layout.anchor!= "end")chartConfig.layout.anchor = "middle";
-		
-		chartConfig.interactions = d3.validEvents(chartConfig.interactions);
+		if(chartConfig.layout == undefined)chartConfig.layout = preconfig?preconfig.layout:{};
+		if(chartConfig.layout.corner == undefined)chartConfig.layout.corner = preconfig?preconfig.layout.corner:4;
+		if(chartConfig.layout.padding == undefined)chartConfig.layout.padding = preconfig?preconfig.layout.padding:0.4;
+		if(chartConfig.layout.font_size == undefined)chartConfig.layout.font_size = preconfig?preconfig.layout.font_size: 16;
+		if(chartConfig.layout.rect_size == undefined)chartConfig.layout.rect_size = preconfig?preconfig.layout.rect_size : chartConfig.layout.font_size*1.25
+		if(chartConfig.layout.font == undefined)chartConfig.layout.font = preconfig?preconfig.layout.font: "Roboto";
+		if(chartConfig.layout.stroke_width == undefined)chartConfig.layout.stroke_width = preconfig?preconfig.layout.stroke_width:2;
+		if(!isColor(chartConfig.layout.stroke))chartConfig.layout.stroke = preconfig?preconfig.layout.stroke : undefined;
+		if(!isColor(chartConfig.layout.stroke_over))chartConfig.layout.stroke_over = preconfig?preconfig.layout.stroke_over: undefined;
+		if(preconfig){
+			if(chartConfig.interactions!= undefined){
+				if(chartConfig.interactions.click)
+					preconfig.interactions.click.push(chartConfig.interactions.click);
+				if(chartConfig.interactions.mouseover)
+					preconfig.interactions.mouseover.push(chartConfig.interactions.mouseover);
+				if(chartConfig.interactions.mousemove)
+					preconfig.interactions.mousemove.push(chartConfig.interactions.mousemove);
+				if(chartConfig.interactions.mouseout)
+					preconfig.interactions.mouseout.push(chartConfig.interactions.mouseout);
+				
+			}
+			chartConfig.interactions = preconfig.interactions;
+		}else
+			chartConfig.interactions = d3.validEvents(chartConfig.interactions);
 		var id = undefined;
 		var type = [
 			function(d,i){
@@ -302,41 +343,60 @@ class BottomLegend{
 				return d;
 			}
 		];
-
-		chartConfig.data = treatData(chartConfig.data,type);
+		if(preconfig && chartConfig.data == undefined)
+			chartConfig.data = preconfig.data;
+		else
+			chartConfig.data = treatData(chartConfig.data,type);
 		return chartConfig;
 	}
 	create(chartConfig){
 		var a = this;
 		this.chartConfig = chartConfig;
 		this.name = "bottom-legend-"+bottomLegendCount++;
-		this.svg = a.chartConfig.svg?d3.select(a.chartConfig.target):d3.select(a.chartConfig.target).append("svg");
+		this.svg = a.chartConfig.svg?d3.select(a.chartConfig.target):d3.select(a.chartConfig.target).append("svg").attr("id",this.name);
 		this.g = a.svg.append("g").attr("id",this.name + "-g");
 		
-		this.axis = d3.scaleBand().padding(0.1);
+		this.axis = d3.scaleBand().padding(a.chartConfig.layout.padding);
 
 		this.marked = range(a.chartConfig.data.length).map(function(){return false});
 
+		return this;
+	}
+	redraw(chartConfig){
+		var a = this;
+		this.chartConfig = BottomLegend.validData(chartConfig,this.chartConfig);
+		this.draw();
+		return this;
+	}
+	resize(size){
+		var width,height;
+		if(this.chartConfig.dimensions.right)
+			height = size?size:document.querySelector(this.chartConfig.target).getBoundingClientRect().height;
+		else
+			width = size?size:document.querySelector(this.chartConfig.target).getBoundingClientRect().width;
+		this.chartConfig.dimensions.width = width;
+		this.chartConfig.dimensions.height = height;
+		this.draw();
 		return this;
 	}
 	setoption(data){
 		var a = this;
 		if(data == undefined){
 			this.marked = this.marked.map(function(){return false});
-			a.g.selectAll(".legend").select(".anchor").select(".clips").transition().delay(110).duration(100).attr("opacity",0);
+			a.g.selectAll(".legend").select(".anchor").select(".muralpin").transition().delay(110).duration(100).attr("opacity",0);
 			return;
 		}
 			
 		a.chartConfig.data.map(function(d,i){
 			if(!isNaN(data) && data == i){
 				a.marked[i] = !a.marked[i];
-				a.g.select(".legend-"+i).select(".anchor").select(".clips").transition().duration(100).attr("opacity",a.marked[i]?1:0);
+				a.g.select(".legend-"+i).select(".anchor").select(".muralpin").transition().duration(100).attr("opacity",a.marked[i]?1:0);
 			}else if(isColor(data) && data == d.color){
 				a.marked[i] = !a.marked[i];
-				a.g.select(".legend-"+i).select(".anchor").select(".clips").transition().duration(100).attr("opacity",a.marked[i]?1:0);
+				a.g.select(".legend-"+i).select(".anchor").select(".muralpin").transition().duration(100).attr("opacity",a.marked[i]?1:0);
 			}else if(typeof data == "string" && data == d.name){
 				a.marked[i] = !a.marked[i];
-				a.g.select(".legend-"+i).select(".anchor").select(".clips").transition().duration(100).attr("opacity",a.marked[i]?1:0);
+				a.g.select(".legend-"+i).select(".anchor").select(".muralpin").transition().duration(100).attr("opacity",a.marked[i]?1:0);
 			}
 		})
 
@@ -346,25 +406,22 @@ class BottomLegend{
 	draw(){
 		var a = this;
 		this.define_disposition();
+		var width = a.chartConfig.dimensions.right?(a.disposition[0].length*a.space):a.chartConfig.dimensions.width;
+		this.width = width;
+		var height = a.chartConfig.dimensions.right?a.chartConfig.dimensions.height:(a.chartConfig.layout.rect_size*(1+a.chartConfig.layout.padding)*this.disposition.length)
+		this.svg.attr("width",width)
+				.attr("height",height);
 
-		this.svg.attr("width",a.chartConfig.dimensions.width)
-				.attr("height",a.chartConfig.layout.rect_size*1.1*this.disposition.length+a.chartConfig.layout.rect_size/2);
+		this.axis.domain(range(this.disposition.length)).range([0,height]);
+		if(a.g.selectAll(".row")._groups[0].length != this.disposition.length)
+			this.row = a.g.selectAll(".row").remove();
 
-		this.axis.domain(range(this.disposition.length)).range([0,a.chartConfig.layout.rect_size*1.1*this.disposition.length]);
+		this.row = a.g.selectAll(".row").data(this.disposition).enter().append("g").attr("class","row")
+			.attr("transform",function(d,i){return "translate("+(d.dx?a.space/2:0)+","+(a.axis(i)+(a.axis.bandwidth()-a.chartConfig.layout.rect_size)/2)+")"});
 
-		this.row = a.g.selectAll(".row").data(this.disposition);
+		this.legend = this.row.selectAll(".legend").data(function(d,i){return a.disposition[i]}).exit().remove();
 
-		this.row.exit().transition().duration(500).attr("opacity",0);
-		this.row.exit().transition().delay(510).remove();
-
-		this.row = this.row.enter().append("g").attr("class","row")
-			.attr("transform",function(d,i){return "translate("+(d.dx?a.space/2:0)+","+a.axis(i)+")"});
-
-		this.legend = this.row.selectAll(".legend").data(function(d,i){return a.disposition[i]});
-		this.legend.exit().transition().duration(500).attr("opacity",0);
-		this.legend.exit().transition().delay(510).remove();
-
-		this.legend = this.legend.enter().append("g")
+		this.legend = this.row.selectAll(".legend").data(function(d,i){return a.disposition[i]}).enter().append("g")
 			.attr("class",function(d,i){return "legend legend-"+i;})
 			.attr("transform",function(d,i){return "translate("+i*a.space+",0)"});
 
@@ -381,6 +438,7 @@ class BottomLegend{
 			.style("box-shadow","0px 2px 2px rgba(0, 0, 0, 0.05)");
 
 		this.legend.select(".anchor").append("text")
+			.transition().duration(500)
 			.style("font-family",a.chartConfig.layout.font)
 			.style("font-size",""+a.chartConfig.layout.font_size+"px")
 			.style("font-style","normal")
@@ -390,9 +448,9 @@ class BottomLegend{
 			.attr("y",a.chartConfig.layout.rect_size*.25)
 			.attr("dy",".6em")
 			.text(function(d){return d.name});
-		this.legend.select(".anchor").append("g").attr("class","clips")
+		this.legend.select(".anchor").append("g").attr("class","muralpin")
 			.attr("transform","translate("+a.chartConfig.layout.rect_size*.15+",0)").attr("opacity",0)
-		paperClip(this.legend.select(".anchor").select(".clips"),20,30,a.chartConfig.layout.stroke_over)
+		muralPin(this.legend.select(".anchor").select(".muralpin"),a.chartConfig.layout.rect_size,a.chartConfig.layout.rect_size,a.chartConfig.layout.stroke_over)
 
 		if(a.chartConfig.layout.stroke_over){
 			this.chartConfig.interactions.mouseover.push(function(element,data){
@@ -412,11 +470,28 @@ class BottomLegend{
 		
 		
 
-		this.g.attr("transform","translate("+(a.chartConfig.dimensions.width-document.querySelector("#"+this.name+"-g").getBoundingClientRect().width)/2+",0)");
+		this.g.attr("transform","translate("
+			+(a.chartConfig.dimensions.right?(.25*a.chartConfig.layout.rect_size):
+				((a.chartConfig.dimensions.width-document.querySelector("#"+this.name+"-g").getBoundingClientRect().width)/2+a.chartConfig.dimensions.x))+","
+			+(a.chartConfig.dimensions.y)+")");
 
 			
 
 		return this;
+	}
+	show_legend(){
+		var a = this;
+		if(a.chartConfig.dimensions.right)
+			if(a.hide)
+				a.svg
+					.transition().duration(500)
+					.attr("width",a.width),
+				a.hide = false;
+			else
+				a.svg
+					.transition().duration(500)
+					.attr("width",a.chartConfig.layout.rect_size*1.5),
+				a.hide = true;
 	}
 	define_disposition(){
 		var a = this;
@@ -446,22 +521,21 @@ class BottomLegend{
 			.attr("dy",".6em")
 			.text(function(d){return d.name});
 
-		var max = 0;
+		var max = 0;var max_height = 0;
 		var legends = document.querySelector(a.chartConfig.target).querySelectorAll(".legend");
 		for(var i=0;i<legends.length;i++){
-			a.chartConfig.data[i].width = legends[i].getBoundingClientRect().width;
+			var temp = legends[i].getBoundingClientRect();
+			a.chartConfig.data[i].width = temp.width;
+			a.chartConfig.data[i].height = temp.height;
 		}
 		legends = a.chartConfig.data;
 		
 		for(var i=0;i<legends.length;i++){
 			var temp = legends[i].width;
 			max = max>temp?max:temp;
+			temp = legends[i].height;
+			max_height = max_height>temp?max_height:temp;
 		}
-		legends = [legends];
-		this.space = max*1.4;
-		var limt = max*1.1;
-		var keep = true;
-		var width = this.chartConfig.dimensions.width;
 
 		function partvector(vector){
 			if(vector[0].length<=1){
@@ -477,25 +551,62 @@ class BottomLegend{
 			for(var i=0;i<size;i++){
 				ret.push(vector[0].slice(i*slice+(i>=temp?temp:i),(i+1)*slice+(i>=temp?temp:(i+1))));
 				if(temp!=0 && i>=temp)
-					ret[ret.length].dx = true;
+					ret[ret.length-1].dx = true;
 			}
 			return ret;
-		}		
+		}
 
-		while(keep){
-			if(legends[0].length*this.space>width)
-				if(width/legends[0].length >limit){
-					this.space = width/legends[0].length;
-					keep = false;
-				}else{
-					var temp = legends.length;
-					legends = partvector(legends);
-					if (temp == legends.length)
-						keep = false;
-				}
-			else{
-				keep = false;
+		function joinvector(vector){
+			if(vector.length <=1){
+				return vector;
 			}
+			var size = vector[0].length +1;
+			for(var i=1;i<vector.length;i++){
+				vector[0] = vector[0].concat(vector[i]);
+			}
+			var ret = vector[0].map(function(d){return [d]});
+			var length = Math.floor(ret.length/size);
+			var s = ret.length%size;
+			for(var i=length-1;i>=0;i--){
+				ret[i].concat(ret.pop(size+(i<s?1:0)));
+			}
+			return ret;
+		}
+
+		if(!a.chartConfig.dimensions.right){
+			legends = [legends];
+			this.space = max*1.4;
+			var limit = max*1.1;
+			var keep = true;
+			var width = this.chartConfig.dimensions.width;
+
+			while(keep){
+				if(legends[0].length*this.space>width)
+					if(width/legends[0].length >limit){
+						this.space = width/legends[0].length;
+						keep = false;
+					}else{
+						var temp = legends.length;
+						legends = partvector(legends);
+						if (temp == legends.length)
+							keep = false;
+					}
+				else{
+					keep = false;
+				}
+			}
+		}else{
+			legends = legends.map(function(d){return [d]});
+			this.space = a.chartConfig.dimensions.height/legends.length;
+			var limit = max_height*(1+a.chartConfig.layout.padding);
+			while(this.space< limit){
+				legends = joinvector(legends);
+				this.space = a.chartConfig.dimensions.height/legends.length;
+				if(legends.length <=1)
+					break;
+			}
+
+			this.space = max*1.1;
 		}
 		this.legend.remove();
 		this.disposition = legends;
