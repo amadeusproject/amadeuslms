@@ -91,6 +91,35 @@ var charts = {
 
 	build_bubble_user: function(url){
 		$.get(url, function(dataset){
+			//console.log(dataset);
+			dataset = dataset.map(function(d){
+				d.value = d.count;
+				return d;
+			});
+
+			var chartConfig = {
+				name:"bubbleChartDashBoars",
+				parent:".middle-chart",
+				data:dataset,
+				dimensions:{
+				  width:490,
+				  height:400,
+				},
+				layout:{
+				  qtd:50,
+				  absForce:0.05,
+				},
+				interactions:{
+					click:function(element,data){console.log(data),alert(d3.textData(data,"<name>: <value> acesso(s)"))}
+				  },
+				  tooltip:{
+					text:"<name>: <value> acesso(s)"
+				  }
+			  };
+			//bubble(dataset,".middle-chart")
+			var bubbleChart = new BubbleChart(chartConfig)
+			/*
+			
 			var width = 300;
 	        var height = 300;
 	       
@@ -184,7 +213,7 @@ var charts = {
 	       		.attr("stroke", "url(#svgGradient)") //using id setted by the svg
 	       		.attr("stroke-width", 3);
 
-
+*/
 
 	       	//Add texts to show user names
 	       	/*groups.append("text")
@@ -195,7 +224,7 @@ var charts = {
 	       		return "user_tooltip_"+d['user_id'];
 	       	}).style("display", "none");*/
 
-	       	var tooltip_div = d3.select("body").append("div")
+/*	       	var tooltip_div = d3.select("body").append("div")
 	       		.attr('class','user-tooltip')
 	       		.attr("display", "none")
 	       		.attr("height", 28)
@@ -257,17 +286,21 @@ var charts = {
 	       		groups.attr("transform", function(d){
 	       			return "translate(" + d.x + "," + d.y + ")";
 	       		})
-	       	}
+			   }
+*/
 		});
 
 
+	},
+
+	build_bubble_user2:function(data,config){
+		config.data = data;
 	},
 
 	most_accessed_subjects: function(url){
 		$.get(url, function(dataset){
 			var width = 200;
             var height = 300;
-
             var new_div = d3.select(".carousel-inner").append("div").attr("test","ok");
 
            	var svg = new_div.append("svg").attr("width", "100%").attr("height", height)
@@ -345,12 +378,35 @@ var charts = {
 	most_used_tags: function(url){
 		$.get(url, function(dataset){
 			//get most used tags across all amadeus
-			var width = 800;
+			var width = 1600;
 			var height = 300;
 
-			
+			var dataconfig = {
+				parent:"#most-used-tags-body",
+				data: dataset,
+				max:50,
+				font:"Impact",
+				spiral:"rectangular",// archimedean | rectangular
+				scale:"log",// scaleLinear | scaleSqrt | scaleLog
+				angles:{
+				from:0,
+				to:0,
+				n:1
+			  },
+			  dimensions:{
+				w:width,
+				h:height,
+			  },
+			  interactions:{
+				click:function(element,data){console.log(data),alert(d3.textData(data,"<text>: <value> acesso(s)"))}
+			  },
+			  tooltip:{
+				text:"<text>: <value> acesso(s)"
+			  }
+			  }
+			  cloudWord(dataconfig,"#most-used-tags-body");/**/
 	       	
-
+/*
 			var container_div = d3.select("#most-used-tags-body");
 			if($('#most_used_tag_chart').length > 0){
 				$('#most_used_tag_chart').remove();
@@ -428,7 +484,7 @@ var charts = {
 		    /*
 		      .force("collide", d3.forceCollide(function(d){
 		        	return xScale(d['count'])*0.3;
-		        }))*/
+		        }))
 		    //simulation
 	       	simulation.nodes(dataset)
 	       		.on('tick', ticked); //so all data points are attached to it
@@ -437,16 +493,53 @@ var charts = {
 	       		tag_cloud.attr("transform", function(d){
 	       			return "translate(" + d.x + "," + d.y + ")";
 	       		})
-	       	}
+	       	}*/
 
 		});
 	},
-	month_heatmap: function(data, target, div_target){
+	month_heatmap_2: function(data,target,init,end){
+		d3.select(target).text("");
 
-		
-		
-		
-		if($('#'+div_target).lenght != 0 ){
+		var maskdatetime = /(?<day>[0-9]{2})\/(?<month>[0-9]{2})\/(?<year>[0-9]{4}) (?<hour>[0-9]{2}):[0-9]{2}/;
+		data = data.map(function(d){
+			var taked = d.datetime.match(maskdatetime).groups;
+			taked.day = +taked.day;
+			taked.year = +taked.year;
+			taked.month--;
+			taked.value = 1;
+			taked.hour = +taked.hour;
+			taked.user = data.user;
+			return taked;
+		});
+
+		if(init == undefined){
+			init = ""+data[0].year+"-"+data[0].month+"-"+data[0].day;
+		}
+		if(end == undefined){
+			end = ""+data[data.length-1].year+"-"+data[data.length-1].month+"-"+data[data.length-1].day;
+		}
+		var dateMask = /(?<year>[0-9]{4})-(?<month>[0-9]{2})-(?<day>[0-9]{2})/;
+		var dataConfig = { 
+			init:init.match(dateMask).groups,
+			end:end.match(dateMask).groups
+			};
+		dataConfig.init.month--;
+		dataConfig.end.month--;
+		var chartConfig = {
+			data:data,
+			parent:target,
+			dataConfig:dataConfig,
+			dimensions:{ width: 400, height: 800 },
+			tooltip:{
+				text:"Value: <value>\r\n Day: <this>"
+			},
+			interactions:{click:function(element,data){alert(data);console.log(data);}}
+		}
+		var calendarHeatMap = new CalendarHeatMap(chartConfig);
+	},
+	month_heatmap: function(data, target, div_target){
+		d3.select(target).text("");
+		/*if($('#'+div_target).lenght != 0 ){
 			$('#'+div_target).fadeOut();
 			$('#'+div_target).remove();
 		}
@@ -504,7 +597,32 @@ var charts = {
 
 	    rects.on('mouseout', function(){
 	    	tooltip.remove();
-	    })
+	    })*/
+
+		var dataConfig = { 
+			init:{
+				year: data[0].year,
+				month: data[0].month,
+				day: data[0].day,	
+			},
+			end:{
+				year: data[data.length-1].year,
+				month: data[data.length-1].month,
+				day: data[data.length-1].day,	
+			}
+			};
+
+		var chartConfig = {
+			data:data,
+			parent:target,
+			dataConfig:dataConfig,
+			dimensions:{ width: 400, height: 800 },
+			tooltip:{
+				text:"Value: <value>\r\n Day: <this>"
+			},
+			interactions:{click:function(element,data){alert(data);console.log(data);}}
+		}
+		var calendarHeatMap = new CalendarHeatMap(chartConfig);
 	}
 }
 

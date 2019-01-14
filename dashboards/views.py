@@ -25,19 +25,27 @@ import operator
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render, get_object_or_404, redirect
 
+from django.http import HttpResponseForbidden
+
 from datetime import date, timedelta, datetime
 import calendar
 from collections import OrderedDict
 
 from categories.models import Category
 
+from subjects.models import Subject
+
+from .utils import get_pend_graph
+
 
 from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
 from log.models import Log
 
-from amadeus.permissions import has_category_permissions
+from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions, has_resource_permissions
 
+
+import json
 
 class GeneralView(LogMixin, generic.TemplateView):
     template_name = "dashboards/general.html"
@@ -60,7 +68,19 @@ class GeneralView(LogMixin, generic.TemplateView):
         self.createLog(actor = self.request.user)
         context['months'] = self.get_last_twelve_months()
         context['child_template'] = "dashboards/general_body.html"
-        context['javascript_files'] = ["analytics/js/charts.js", "dashboards/js/behavior.js"]
+        context['javascript_files'] = ["analytics/js/d3.v5.min.js",
+                                        "analytics/js/d3.v3.min.js",
+                                        "analytics/js/JSUtil.js",
+                                        "analytics/js/ToolTip.js",
+                                        "analytics/js/HeatMap.js",
+                                        "analytics/js/d3-collection.v1.min.js",
+                                        "analytics/js/d3-dispatch.v1.min.js",
+                                        "analytics/js/d3-force.v1.min.js",
+                                        "analytics/js/d3-timer.v1.min.js",
+                                        "analytics/js/BubbleChart.js",
+                                        "analytics/js/cloud.min.js",
+                                        "analytics/js/charts.js",
+                                        "dashboards/js/behavior.js"]
         context['style_files'] = ['dashboards/css/general.css']
         return context
 
@@ -105,8 +125,14 @@ class CategoryView(LogMixin, generic.TemplateView):
         context['months'] = self.get_last_twelve_months()
 
         context['categories'] = self.categories_associated_with_user(self.request.user)
-        context['javascript_files'] = ["analytics/js/charts.js", "dashboards/js/behavior_categories.js",
-        "dashboards/js/charts_category.js"]
+        context['javascript_files'] = ["analytics/js/d3.v5.min.js",
+                                        "analytics/js/d3.v3.min.js",
+                                        "analytics/js/JSUtil.js",
+                                        "analytics/js/ToolTip.js",
+                                        "analytics/js/cloud.min.js",
+                                        "analytics/js/charts.js", 
+                                        "dashboards/js/behavior_categories.js",
+                                        "dashboards/js/charts_category.js"]
         context['style_files'] = ['dashboards/css/general.css', 'dashboards/css/dashboards_category.css']
         return context
 
@@ -185,3 +211,51 @@ def parse_log_queryset_to_JSON(logs):
         datum['component'] = log.component
         data.append(datum)
     return data
+
+class SubjectView(LogMixin, generic.TemplateView):
+    template_name = "dashboards/subjects.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        subject = get_object_or_404(Subject, slug=kwargs.get('slug', ''))
+
+        if not has_subject_view_permissions(request.user, subject):
+            return redirect(reverse_lazy('subjects:home'))
+
+        return super(SubjectView, self).dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        subject = get_object_or_404(Subject, slug = self.kwargs.get('slug', ''))
+
+        if has_subject_permissions(self.request.user, subject):
+            print(self.get_context_data())
+
+            return self.render_to_response(self.get_context_data())
+        else:
+            return HttpResponseForbidden()
+
+    def get_context_data(self, **kwargs):
+        subject = get_object_or_404(Subject, slug = self.kwargs.get('slug', ''))
+
+        context = {}
+        
+        context["title"] = _("Analytics")
+
+        if has_subject_permissions(self.request.user, subject):
+            student = self.request.POST.get('selected_student', None)
+            context['sub_students'] = subject.students.all()
+            context['student'] = self.request.POST.get('selected_student', subject.students.first().email)
+
+            if not student is None:
+                student = User.objects.get(email = student)
+                context["graph_data"] = json.dumps(get_pend_graph(student, subject))
+            else:
+                context["graph_data"] = json.dumps(get_pend_graph(context['student'], subject))
+        else:
+            context["graph_data"] = json.dumps(get_pend_graph(self.request.user, subject))
+
+        context["subject"] = subject
+        context['javascript_files'] = []
+        context['style_files'] = ['dashboards/css/general.css', 'dashboards/css/dashboards_category.css']
+        
+        return context
+

@@ -105,9 +105,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 	</div>
 
 	<div id="modal_subject"></div>
-	{% if user.is_staff %}
-		<script type="text/javascript" src="{% static 'js/charts/home.js' %}"></script>
-	{% endif %}
+	{# 
+		{% if user.is_staff %}
+		 <script type="text/javascript" src="{% static 'js/charts/home.js' %}"></script> 
+		{% endif %}
+	#}
 
 	<script type="text/javascript" src="{% static 'subjects/js/modal_subject.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/category.js' %}"></script>

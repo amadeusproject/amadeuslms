@@ -10,7 +10,7 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 */
 
-var charts = {
+var charts2 = {
 	line_chart: function(data, target_id){
 		// 2. Use the margin convention practice 
 

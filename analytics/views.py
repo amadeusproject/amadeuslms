@@ -30,15 +30,15 @@ import calendar
 from collections import OrderedDict
 
 
-from mural.models import Comment
+from mural.models import Comment,Mural
 
 
 def most_used_tags(request):
    
 
     data = get_most_used_tags()
-    data = sorted(data.values(), key = lambda x: x['count'], reverse=True )
-    data = data[:15] #get top 15 tags
+    data = sorted(data.values(), key = lambda x: x['value'], reverse=True )
+    data = data[:50] #get top 50 tags
     return JsonResponse(data, safe= False) 
 
 def get_most_used_tags():
@@ -49,16 +49,16 @@ def get_most_used_tags():
     for tag in tags:
         subjects_count =  Subject.objects.filter(tags = tag).count()
         if  subjects_count > 0:
-            data[tag.name] = {'name': tag.name}
-            data[tag.name]['count'] = subjects_count
+            data[tag.name] = {'key': tag.name}
+            data[tag.name]['value'] = subjects_count
 
         resources_count = Resource.objects.filter(tags = tag).count()
         if resources_count > 0:
             if data.get(tag.name):
-                data[tag.name]['count'] = data[tag.name]['count']  + resources_count
+                data[tag.name]['value'] = data[tag.name]['value']  + resources_count
             else:
-                data[tag.name] = {'name': tag.name}
-                data[tag.name]['count'] = resources_count
+                data[tag.name] = {'key': tag.name}
+                data[tag.name]['value'] = resources_count
     return data
 
 
@@ -78,7 +78,7 @@ def most_active_users_in_a_month(request):
         days_list.append(built_date)
     data = activity_in_timestamp(days_list, params = params)
     
-    data = [{"day": day.day, "count": day_count} for day, day_count in data.items()]
+    data = [{"year":day.year,"month":day.month-1, "day": day.day,"hour":0, "value": day_count,"count": day_count} for day, day_count in data.items()]
     data = sorted(data, key =lambda x: x['day'])
     
     return JsonResponse(data, safe=False)
@@ -120,7 +120,6 @@ def get_days_of_the_month(month, year = date.today().year):
 """
 Subject view that returns a list of the most used subjects     """
 
-
 def most_accessed_subjects(request):
 
     subjects = get_log_count_of_resource(resource='subject')
@@ -143,7 +142,6 @@ def get_log_count_of_resource(resource = ''):
                 items[item_id] = {'name': datum.context[resource+'_name'], 'count': 1}
     return items
 
-
 def most_accessed_categories(request):
 
     categories = get_log_count_of_resource('category')
@@ -153,7 +151,6 @@ def most_accessed_categories(request):
     categories = sorted(categories.values(), key = lambda x: x['count'], reverse = True)
     categories = categories[:5]
     return JsonResponse(categories, safe= False)
-
 
 def get_resource_subclasses_count():
     """
@@ -169,7 +166,6 @@ def get_resource_subclasses_count():
             data[key] = {'name': key, 'count': 1}
 
     return data
-
 
 def most_accessed_resource_kind(request):
 
@@ -189,7 +185,6 @@ def most_accessed_resource_kind(request):
     data =  data[:5]
     return JsonResponse(data, safe=False)
 
-
 def most_active_users(request):
     fifty_users = Log.objects.values('user_id').annotate(count = Count('user_id')).order_by('-count')[:50]
     fifty_users = list(fifty_users)
@@ -198,11 +193,6 @@ def most_active_users(request):
         user['image'] = user_object.image_url
         user['user'] = user_object.social_name
     return JsonResponse(fifty_users, safe=False)
-
-
-
-
-
 
 def get_days_of_the_week_log(request):
   
@@ -226,8 +216,6 @@ def get_days_of_the_week(date):
     for j in range(1, 7):
         days_set.append(date + timedelta(days=j))
     return days_set
-
-
 
 def category_tags(request):
     category_id = request.GET['category_id']
@@ -259,24 +247,24 @@ def most_tags_inside_category(category_id):
                     data[tag.name]['count'] = resources_count
     return data
 
-
 def get_amount_of_comments(request):
     params = request.GET
     #init_date = params.get('init_date')
     #end_date = params.get('end_date')
-    init_date = "04/20/2017"
-    end_date = "06/09/2017"
+    init_date = "10/20/2018"
+    end_date = "01/20/2019"
     init_date = datetime.strptime( init_date, '%m/%d/%Y')
-    end_date = datetime.strptime(end_time, '%m/%d/%Y')
+    end_date = datetime.strptime(end_date, '%m/%d/%Y')
     day_count = (end_date - init_date).days + 1
     data = {}
     for i in range(day_count):
         single_day = init_date + timedelta(i)
         if params.get('category_id'):
             category_id = int(params['category_id'])
-            data[single_day] = Mural.objects.filter(space__id = category_id, create_date = single_day).count()
+            #data[single_day] = Mural.objects.filter(space__id = category_id, create_date = single_day).count()
+            data[single_day] = 0
         else:
             data[single_day] = Comment.objects.filter(create_date = single_day).count()
 
-    data_finished = [{date:key, count:value} for key, value in data.items()]
+    data_finished = [{"date":key, "count":value} for key, value in data.items()]
     return JsonResponse(data_finished, safe=False)
