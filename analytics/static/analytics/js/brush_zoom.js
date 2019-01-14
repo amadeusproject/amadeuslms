@@ -12,25 +12,7 @@ class GanttChart {
 
         if (chartConfig.name == undefined) chartConfig.name = "GanttChart" + (ganttCont++);
         if (chartConfig.parent == undefined) chartConfig.parent = "body";
-        if (chartConfig.dimensions == undefined) chartConfig.dimensions = {};
-        chartConfig.dimensions.vertical = false;
-        if (chartConfig.dimensions.width == undefined) {
-            var temp;
-            if (temp = document.querySelector(chartConfig.parent).getBoundingClientRect()) {
-                chartConfig.dimensions.width = temp.width;
-                var prop = window.innerHeight * .6 / window.innerWidth;
-                if (window.innerWidth > 991)
-                    chartConfig.dimensions.height = temp.width / 2 > 500 ? 500 : temp.width / 2
-                else
-                    chartConfig.dimensions.height = temp.width * prop, chartConfig.dimensions.vertical = prop<1;
-            }
-            else if (chartConfig.dimensions.height == undefined)
-                chartConfig.dimensions.width = 1200, chartConfig.dimensions.height = 500;
-            else
-                chartConfig.dimensions.width = chartConfig.dimensions.height * 12 / 5;
-        }
-        if (chartConfig.dimensions.height == undefined)
-            chartConfig.dimensions.height = chartConfig.dimensions.width * 5 / 12;
+        GanttChart.definewidth(chartConfig);
         if (chartConfig.margin == undefined) chartConfig.margin = {};
         if (chartConfig.margin.top == undefined) chartConfig.margin.top = 20;
         if (chartConfig.margin.right == undefined) chartConfig.margin.right = 10;
@@ -329,7 +311,10 @@ class GanttChart {
         this.card.draw = function () {
             console.log(a.height);
             if (a.chartConfig.dimensions.vertical) {
-                this.width = a.width;
+                if(a.width/2 >300)
+                    this.width = 600
+                else
+                    this.width = a.width;
                 this.size = this.width/2;
                 this.center = true;
             } else {
@@ -385,7 +370,10 @@ class GanttChart {
                 .text("Você perdeu esta tarefa");
             this.content.select(".statusInfo").select(".exclamationContainer")
                 .attr("transform", "translate(" + this.width * .01 + "," + this.size * .015 + ")");
-            exclamation(this.content.select(".statusInfo").select(".exclamationContainer"), this.size * .08, this.size * .08, "#FFF");
+            if(!this.exclamationCreated)
+                exclamation(this.content.select(".statusInfo").select(".exclamationContainer"), this.size * .08, this.size * .08, "#FFF"),this.exclamationCreated = true;
+            else
+                exclamationRefatoring(this.content.select(".statusInfo").select(".exclamationContainer"), this.size * .08, this.size * .08, "#FFF");
 
             // Tittle of Card
             this.content.select(".tittle")
@@ -920,24 +908,33 @@ class GanttChart {
 
         return this;
     }
+    static definewidth(chartConfig){
+        if (chartConfig.dimensions == undefined) chartConfig.dimensions = {};
+        chartConfig.dimensions.vertical = false;
+        if (chartConfig.dimensions.width == undefined) {
+            var temp;
+            if (temp = document.querySelector(chartConfig.parent).getBoundingClientRect()) {
+                chartConfig.dimensions.width = temp.width;
+                var prop = window.innerHeight * .6 / window.innerWidth;
+                console.log(prop);
+                if (window.innerWidth > 991)
+                    chartConfig.dimensions.height = temp.width / 2 > 500 ? 500 : temp.width / 2
+                else
+                    chartConfig.dimensions.height = temp.width * prop, chartConfig.dimensions.vertical = prop/0.6>1;
+            }
+            else if (chartConfig.dimensions.height == undefined)
+                chartConfig.dimensions.width = 1200, chartConfig.dimensions.height = 500;
+            else
+                chartConfig.dimensions.width = chartConfig.dimensions.height * 12 / 5;
+        }
+        if (chartConfig.dimensions.height == undefined)
+            chartConfig.dimensions.height = chartConfig.dimensions.width * 5 / 12;
+    }
     resize(width, height) {
         var a = this;
-        a.chartConfig.dimensions.vertical = false;
-        if (width == undefined) {
-            var temp;
-            if (temp = document.querySelector(a.chartConfig.parent).getBoundingClientRect()) {
-                a.chartConfig.dimensions.width = temp.width;
-                var prop = window.innerHeight * .6 / window.innerWidth;
-                if (window.innerWidth > 991)
-                    a.chartConfig.dimensions.height = temp.width / 2 > 500 ? 500 : temp.width / 2
-                else
-                    a.chartConfig.dimensions.height = temp.width * prop, a.chartConfig.dimensions.vertical = prop<1;
-            }
-            else if (height == undefined)
-                a.chartConfig.dimensions.width = 1200, a.chartConfig.dimensions.height = 500;
-            else
-                a.chartConfig.dimensions.width = height * 12 / 5;
-        }
+        a.chartConfig.dimensions.width = width,
+        a.chartConfig.dimensions.height = height;
+        GanttChart.definewidth(a.chartConfig);
         this.draw();
         return this;
     }

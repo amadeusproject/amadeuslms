@@ -450,7 +450,10 @@ class BottomLegend{
 			.text(function(d){return d.name});
 		this.legend.select(".anchor").append("g").attr("class","muralpin")
 			.attr("transform","translate("+a.chartConfig.layout.rect_size*.15+",0)").attr("opacity",0)
-		muralPin(this.legend.select(".anchor").select(".muralpin"),a.chartConfig.layout.rect_size,a.chartConfig.layout.rect_size,a.chartConfig.layout.stroke_over)
+		if(!this.muralPinCreated)
+			muralPin(this.legend.select(".anchor").select(".muralpin"),a.chartConfig.layout.rect_size,a.chartConfig.layout.rect_size,a.chartConfig.layout.stroke_over),this.muralPinCreated = true;
+		else	
+			muralPinRefatoring(this.legend.select(".anchor").select(".muralpin"),a.chartConfig.layout.rect_size,a.chartConfig.layout.rect_size,a.chartConfig.layout.stroke_over);
 
 		if(a.chartConfig.layout.stroke_over){
 			this.chartConfig.interactions.mouseover.push(function(element,data){
