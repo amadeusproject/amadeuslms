@@ -1,5 +1,5 @@
 from datetime import datetime
-from django.utils import formats
+from django.utils import formats, timezone
 
 from log.models import Log
 
@@ -31,7 +31,12 @@ def get_pend_graph(user, subject):
 
         item["action"] = pendency.get_action_display()
         item["name"] = pendency.resource.name
-        item["percent"] = done_percent(pendency)/100
+        
+        if pendency.begin_date <= timezone.now():
+            item["percent"] = done_percent(pendency)/100
+        else:
+            item["percent"] = 0
+
         item["access_link"] = str(pendency.resource.access_link())
 
         users = get_resource_users(pendency.resource)
@@ -40,8 +45,6 @@ def get_pend_graph(user, subject):
         resource_type = pendency.resource._my_subclass
         resource_key = resource_type + "_id"
         resource_id = pendency.resource.id
-
-        print(user in users)
 
         if user in users:
             has_action = Log.objects.filter(user_id = user.id, action = pend_action, resource = resource_type, context__contains = {resource_key: resource_id}, datetime__date__gte = subject_begin_date).exists()
