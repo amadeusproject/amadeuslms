@@ -78,8 +78,7 @@ class GanttChart {
             }
 
             if (!(d.date.start instanceof Date) || !(d.date.end instanceof Date) || d.date.start.getTime() > d.date.end.getTime()) {
-                //console.log(d.date.start);
-                //console.log(d.date.end);
+                
                 console.error("invalid dates in row of dataSet \"" + i + "\" ");
                 throw new Exception();
             }
@@ -309,13 +308,13 @@ class GanttChart {
         }
 
         this.card.draw = function () {
-            console.log(a.height);
+            
             if (a.chartConfig.dimensions.vertical) {
-                if(a.width/2 >300)
+                if (a.width / 2 > 300)
                     this.width = 600
                 else
                     this.width = a.width;
-                this.size = this.width/2;
+                this.size = this.width / 2;
                 this.center = true;
             } else {
                 if ((a.height * .7) > 300) {
@@ -370,8 +369,8 @@ class GanttChart {
                 .text("Você perdeu esta tarefa");
             this.content.select(".statusInfo").select(".exclamationContainer")
                 .attr("transform", "translate(" + this.width * .01 + "," + this.size * .015 + ")");
-            if(!this.exclamationCreated)
-                exclamation(this.content.select(".statusInfo").select(".exclamationContainer"), this.size * .08, this.size * .08, "#FFF"),this.exclamationCreated = true;
+            if (!this.exclamationCreated)
+                exclamation(this.content.select(".statusInfo").select(".exclamationContainer"), this.size * .08, this.size * .08, "#FFF"), this.exclamationCreated = true;
             else
                 exclamationRefatoring(this.content.select(".statusInfo").select(".exclamationContainer"), this.size * .08, this.size * .08, "#FFF");
 
@@ -443,7 +442,7 @@ class GanttChart {
                 before += b.disable(before, 200);
             }
             if (!a.bottomLegend.marked[data.status]) {
-                a.filterout();
+                a.bottomLegend.setoption();
             }
             before = b.rect_in_x(data, before);
             before = b.extend_card(data, before, 1000);
@@ -609,7 +608,6 @@ class GanttChart {
             b.content.select(".tittle")
                 //.transition().delay(before).duration(transition)
                 .text(data.action + " " + data.name);
-            //console.log(document.querySelector(".tittle").getBoundingClientRect().width,this.width * .50);
             if (temp != undefined && temp != "" && document.querySelector(".tittle").getBoundingClientRect().width >= this.width * .50) {
                 this.reposition(this.size * .27);
 
@@ -737,22 +735,25 @@ class GanttChart {
                 stroke_width: 2,
                 stroke_over: "#a2c",
                 anchor: "middle", // start middle end
-                //enable_mark:true,
+                enable_mark: true,
             },
             interactions: {
                 mouseover: function (element, data) { },
                 mousemove: function (element, data) { },
                 mouseout: function (element, data) { },
                 click: function (element, data) {
-                    var status = a.chartConfig.layout.texts.indexOf(data.name);
-                    a.bottomLegend.setoption(data.name);
-                    if (a.bottomLegend.marked[status])
-                        a.filterout(status, element);
-                    else
-                        a.filter(status, element);
                     a.card.disable(0, 500);
                     //a.goto(searchStatus(status));
                 },
+                filter: function (element, data) {
+                    a.filter(data.id, element);
+                },
+                unfilter: function (element, data) {
+                    a.filterout(data.id, element);
+                },
+                unfilterAll: function () {
+                    a.filterout();
+                }
             },
         }
 
@@ -805,7 +806,7 @@ class GanttChart {
 
         this.zoomRect
             .on("click", function () {
-                a.filterout();
+                a.bottomLegend.setoption();
                 a.card.disable(0, 500);
             });
 
@@ -832,10 +833,7 @@ class GanttChart {
         this.svg
             .attr("width", a.chartConfig.dimensions.width)
             .attr("height", a.chartConfig.dimensions.height)
-        //console.log(this.margin);
-        //console.log(this.margin2);
-        //console.log("w:",a.width,"h:",a.height);
-        //console.log("w:",a.chartConfig.dimensions.width,"h:",a.chartConfig.dimensions.height);
+
         this.x.range([0, a.width]),
             this.x2.range([0, a.width]),
             this.y.rangeRound([0, a.height]).padding(a.height > 300 ? 0.4 : 0.1);
@@ -903,12 +901,12 @@ class GanttChart {
             .call(a.zoom);
         this.card.draw();
 
-        this.filterout();
+        this.bottomLegend.setoption();
         this.reset();
 
         return this;
     }
-    static definewidth(chartConfig){
+    static definewidth(chartConfig) {
         if (chartConfig.dimensions == undefined) chartConfig.dimensions = {};
         chartConfig.dimensions.vertical = false;
         if (chartConfig.dimensions.width == undefined) {
@@ -916,11 +914,11 @@ class GanttChart {
             if (temp = document.querySelector(chartConfig.parent).getBoundingClientRect()) {
                 chartConfig.dimensions.width = temp.width;
                 var prop = window.innerHeight * .6 / window.innerWidth;
-                console.log(prop);
+                
                 if (window.innerWidth > 991)
                     chartConfig.dimensions.height = temp.width / 2 > 500 ? 500 : temp.width / 2
                 else
-                    chartConfig.dimensions.height = temp.width * prop, chartConfig.dimensions.vertical = prop/0.6>1;
+                    chartConfig.dimensions.height = temp.width * prop, chartConfig.dimensions.vertical = prop / 0.6 > 1;
             }
             else if (chartConfig.dimensions.height == undefined)
                 chartConfig.dimensions.width = 1200, chartConfig.dimensions.height = 500;
@@ -933,67 +931,52 @@ class GanttChart {
     resize(width, height) {
         var a = this;
         a.chartConfig.dimensions.width = width,
-        a.chartConfig.dimensions.height = height;
+            a.chartConfig.dimensions.height = height;
         GanttChart.definewidth(a.chartConfig);
         this.draw();
         return this;
     }
     filter(status, element) {
         var a = this;
-        //a.bottomLegend.marked[status] = true;
         a.svg.selectAll(".notifications").transition().duration(500).attr("opacity", 0.2)
         a.svg.selectAll(".testRects").transition().duration(500).attr("opacity", 0.05)
-        if (a.bottomLegend.marked.indexOf(true) == -1 || a.bottomLegend.marked.indexOf(false) == -1)
-            a.filterout();
-        else {
-            a.bottomLegend.marked.map(function (d, i) {
-                if (d) {
-                    a.svg.selectAll(".status-" + i).transition().duration(500).attr("opacity", 1)
-                }
-            });
-            a.bottomLegend.legend/*.attr("opacity", function(d,i){
+
+        a.bottomLegend.marked.map(function (d, i) {
+            if (d) {
+                a.svg.selectAll(".status-" + i).transition().duration(500).attr("opacity", 1)
+            }
+        });
+        a.bottomLegend.legend/*.attr("opacity", function(d,i){
                 if(a.bottomLegend.marked[i]==true)
                     return 0.5;
                 else   
                     return 1;
             })*/.attr("style", function (d, i) {
-                if (a.bottomLegend.marked[i] == true)
-                    return "cursor:url('" + a.chartConfig.cursors.subber + "'),auto";
-                else
-                    return "cursor:url('" + a.chartConfig.cursors.adder + "'),auto";
-            });
-        }
+            if (a.bottomLegend.marked[i] == true)
+                return "cursor:url('" + a.chartConfig.cursors.subber + "'),auto";
+            else
+                return "cursor:url('" + a.chartConfig.cursors.adder + "'),auto";
+        });
 
     }
     filterout(status, element) {
         var a = this;
         if (status != undefined) {
-            //a.bottomLegend.marked[status] = false;
-            if (a.bottomLegend.marked.indexOf(true) == -1 || a.bottomLegend.marked.indexOf(false) == -1)
-                a.filterout();
-            else {
-                a.bottomLegend.marked.map(function (d, i) {
-                    if (d == false) {
-                        a.svg.selectAll(".notifications.status-" + i).transition().duration(500).attr("opacity", 0.2)
-                        a.svg.selectAll(".testRects.status-" + i).transition().duration(500).attr("opacity", 0.05)
-                    }
-                });
-                a.bottomLegend.legend/*.attr("opacity", function(d,i){
-                    if(a.bottomLegend.marked[i]==true)
-                        return 0.5;
-                    else   
-                        return 1;
-                })*/.attr("style", function (d, i) {
+            a.bottomLegend.marked.map(function (d, i) {
+                if (d == false) {
+                    a.svg.selectAll(".notifications.status-" + i).transition().duration(500).attr("opacity", 0.2)
+                    a.svg.selectAll(".testRects.status-" + i).transition().duration(500).attr("opacity", 0.05)
+                }
+            });
+            a.bottomLegend.legend
+                .attr("style", function (d, i) {
                     if (a.bottomLegend.marked[i] == true)
                         return "cursor:url('" + a.chartConfig.cursors.subber + "'),auto";
                     else
                         return "cursor:url('" + a.chartConfig.cursors.adder + "'),auto";
                 });
-            }
         } else {
-            //a.bottomLegend.marked = a.bottomLegend.marked.map(function () { return false });
-            a.bottomLegend.setoption();
-            a.bottomLegend.legend/*.attr("opacity",1)*/.attr("style", "cursor:url('" + a.chartConfig.cursors.filter + "'),auto");
+            a.bottomLegend.legend.attr("style", "cursor:url('" + a.chartConfig.cursors.filter + "'),auto");
             a.svg.selectAll(".notifications").transition().duration(500).attr("opacity", 1);
             a.svg.selectAll(".testRects").transition().duration(500).attr("opacity", 1);
         }

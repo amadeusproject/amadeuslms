@@ -255,6 +255,9 @@ class Legend {
 		mousemove:function(element,data){},
 		mouseout:function(element,data){},
 		click:function(element,data){},
+		filter:function(element, data){},
+		unfilter: function(element, data){},
+		unfilterAll: function(){}
 	},
 }*/
 
@@ -320,7 +323,12 @@ class BottomLegend{
 					preconfig.interactions.mousemove.push(chartConfig.interactions.mousemove);
 				if(chartConfig.interactions.mouseout)
 					preconfig.interactions.mouseout.push(chartConfig.interactions.mouseout);
-				
+				if(chartConfig.interactions.filter)
+					preconfig.interactions.filter = chartConfig.interactions.filter;
+				if(chartConfig.interactions.unfilter)
+					preconfig.interactions.unfilter = chartConfig.interactions.unfilter;
+				if(chartConfig.interactions.unfilterAll)
+					preconfig.interactions.unfilterAll = chartConfig.interactions.unfilterAll;
 			}
 			chartConfig.interactions = preconfig.interactions;
 		}else
@@ -384,23 +392,29 @@ class BottomLegend{
 		if(data == undefined){
 			this.marked = this.marked.map(function(){return false});
 			a.g.selectAll(".legend").select(".anchor").select(".muralpin").transition().delay(110).duration(100).attr("opacity",0);
+			if(a.chartConfig.interactions.unfilterAll)
+				a.chartConfig.interactions.unfilterAll();
 			return;
 		}
 			
 		a.chartConfig.data.map(function(d,i){
-			if(!isNaN(data) && data == i){
+			if(!isNaN(data) && data == i ||
+				isColor(data) && data == d.color ||
+					typeof data == "string" && data == d.name){
 				a.marked[i] = !a.marked[i];
-				a.g.select(".legend-"+i).select(".anchor").select(".muralpin").transition().duration(100).attr("opacity",a.marked[i]?1:0);
-			}else if(isColor(data) && data == d.color){
-				a.marked[i] = !a.marked[i];
-				a.g.select(".legend-"+i).select(".anchor").select(".muralpin").transition().duration(100).attr("opacity",a.marked[i]?1:0);
-			}else if(typeof data == "string" && data == d.name){
-				a.marked[i] = !a.marked[i];
-				a.g.select(".legend-"+i).select(".anchor").select(".muralpin").transition().duration(100).attr("opacity",a.marked[i]?1:0);
+				if(a.marked[i]){
+					if(a.chartConfig.interactions.filter)
+						a.chartConfig.interactions.filter(document.querySelector(".legend-"+i),d);
+					a.g.select(".legend-"+i).select(".anchor").select(".muralpin").transition().duration(100).attr("opacity",1);
+				}else{
+					if(a.chartConfig.interactions.unfilter)
+						a.chartConfig.interactions.unfilter(document.querySelector(".legend-"+i),d);
+					a.g.select(".legend-"+i).select(".anchor").select(".muralpin").transition().duration(100).attr("opacity",0);
+				}
 			}
 		})
 
-		if(a.marked.indexOf(false)== -1)
+		if(a.marked.indexOf(false)== -1 || a.marked.indexOf(true)== -1)
 			this.setoption();
 	}
 	draw(){
