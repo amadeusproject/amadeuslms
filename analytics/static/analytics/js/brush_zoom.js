@@ -518,7 +518,7 @@ class Gantt {
         abrev_init();
         a.notifications.select("text")
             .transition().delay(transition).duration(transition/10)
-            .text(function(d,i){return abreviate_ifneed(d.action,d.name,(a.x(d.date.end) - a.x(d.date.start)))})
+            .text(function(d,i){return abreviate_ifneed(d.action,d.name,(a.x(d.date.end) - a.x(d.date.start)),15)})
         abrev_end();
         this.svg.selectAll(".now-line")
             .transition().duration(transition)
@@ -838,8 +838,8 @@ function abrev_init(){
 function abrev_end(){
     d3.select(".abrev-text").remove();
 }
-function abreviate_ifneed(action,name,width){
-    var abrev = d3.select(".abrev-text");
+function abreviate_ifneed(action,name,width,font_size){
+    var abrev = d3.select(".abrev-text").style("font-size",font_size);
     var textwidth;
     function test(text){
         abrev.text(text);
