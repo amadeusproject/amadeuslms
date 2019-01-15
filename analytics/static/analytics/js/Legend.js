@@ -1,3 +1,15 @@
+/** 
+ * Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ * 
+ * Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ * 
+ * O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ * 
+ * Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ * 
+ * Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+*/ 
+
 var contLegend = 0;
 
 /**
@@ -255,6 +267,9 @@ class Legend {
 		mousemove:function(element,data){},
 		mouseout:function(element,data){},
 		click:function(element,data){},
+		filter:function(element, data){},
+		unfilter: function(element, data){},
+		unfilterAll: function(){}
 	},
 }*/
 
@@ -320,7 +335,12 @@ class BottomLegend{
 					preconfig.interactions.mousemove.push(chartConfig.interactions.mousemove);
 				if(chartConfig.interactions.mouseout)
 					preconfig.interactions.mouseout.push(chartConfig.interactions.mouseout);
-				
+				if(chartConfig.interactions.filter)
+					preconfig.interactions.filter = chartConfig.interactions.filter;
+				if(chartConfig.interactions.unfilter)
+					preconfig.interactions.unfilter = chartConfig.interactions.unfilter;
+				if(chartConfig.interactions.unfilterAll)
+					preconfig.interactions.unfilterAll = chartConfig.interactions.unfilterAll;
 			}
 			chartConfig.interactions = preconfig.interactions;
 		}else
@@ -384,23 +404,29 @@ class BottomLegend{
 		if(data == undefined){
 			this.marked = this.marked.map(function(){return false});
 			a.g.selectAll(".legend").select(".anchor").select(".muralpin").transition().delay(110).duration(100).attr("opacity",0);
+			if(a.chartConfig.interactions.unfilterAll)
+				a.chartConfig.interactions.unfilterAll();
 			return;
 		}
 			
 		a.chartConfig.data.map(function(d,i){
-			if(!isNaN(data) && data == i){
+			if(!isNaN(data) && data == i ||
+				isColor(data) && data == d.color ||
+					typeof data == "string" && data == d.name){
 				a.marked[i] = !a.marked[i];
-				a.g.select(".legend-"+i).select(".anchor").select(".muralpin").transition().duration(100).attr("opacity",a.marked[i]?1:0);
-			}else if(isColor(data) && data == d.color){
-				a.marked[i] = !a.marked[i];
-				a.g.select(".legend-"+i).select(".anchor").select(".muralpin").transition().duration(100).attr("opacity",a.marked[i]?1:0);
-			}else if(typeof data == "string" && data == d.name){
-				a.marked[i] = !a.marked[i];
-				a.g.select(".legend-"+i).select(".anchor").select(".muralpin").transition().duration(100).attr("opacity",a.marked[i]?1:0);
+				if(a.marked[i]){
+					if(a.chartConfig.interactions.filter)
+						a.chartConfig.interactions.filter(document.querySelector(".legend-"+i),d);
+					a.g.select(".legend-"+i).select(".anchor").select(".muralpin").transition().duration(100).attr("opacity",1);
+				}else{
+					if(a.chartConfig.interactions.unfilter)
+						a.chartConfig.interactions.unfilter(document.querySelector(".legend-"+i),d);
+					a.g.select(".legend-"+i).select(".anchor").select(".muralpin").transition().duration(100).attr("opacity",0);
+				}
 			}
 		})
 
-		if(a.marked.indexOf(false)== -1)
+		if(a.marked.indexOf(false)== -1 || a.marked.indexOf(true)== -1)
 			this.setoption();
 	}
 	draw(){
@@ -450,7 +476,10 @@ class BottomLegend{
 			.text(function(d){return d.name});
 		this.legend.select(".anchor").append("g").attr("class","muralpin")
 			.attr("transform","translate("+a.chartConfig.layout.rect_size*.15+",0)").attr("opacity",0)
-		muralPin(this.legend.select(".anchor").select(".muralpin"),a.chartConfig.layout.rect_size,a.chartConfig.layout.rect_size,a.chartConfig.layout.stroke_over)
+		if(!this.muralPinCreated)
+			muralPin(this.legend.select(".anchor").select(".muralpin"),a.chartConfig.layout.rect_size,a.chartConfig.layout.rect_size,a.chartConfig.layout.stroke_over),this.muralPinCreated = true;
+		else	
+			muralPinRefatoring(this.legend.select(".anchor").select(".muralpin"),a.chartConfig.layout.rect_size,a.chartConfig.layout.rect_size,a.chartConfig.layout.stroke_over);
 
 		if(a.chartConfig.layout.stroke_over){
 			this.chartConfig.interactions.mouseover.push(function(element,data){
@@ -471,7 +500,7 @@ class BottomLegend{
 		
 
 		this.g.attr("transform","translate("
-			+(a.chartConfig.dimensions.right?(.25*a.chartConfig.layout.rect_size):
+			+(a.chartConfig.dimensions.right?(.25*a.chartConfig.layout.rect_size+a.chartConfig.dimensions.x):
 				((a.chartConfig.dimensions.width-document.querySelector("#"+this.name+"-g").getBoundingClientRect().width)/2+a.chartConfig.dimensions.x))+","
 			+(a.chartConfig.dimensions.y)+")");
 
@@ -579,9 +608,8 @@ class BottomLegend{
 			var limit = max*1.1;
 			var keep = true;
 			var width = this.chartConfig.dimensions.width;
-
 			while(keep){
-				if(legends[0].length*this.space>width)
+				if(legends[0].length*this.space>width){
 					if(width/legends[0].length >limit){
 						this.space = width/legends[0].length;
 						keep = false;
@@ -591,7 +619,7 @@ class BottomLegend{
 						if (temp == legends.length)
 							keep = false;
 					}
-				else{
+				}else{
 					keep = false;
 				}
 			}

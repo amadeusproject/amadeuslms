@@ -1,3 +1,15 @@
+/** 
+ * Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ * 
+ * Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ * 
+ * O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ * 
+ * Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ * 
+ * Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+*/ 
+
 /**
  * Reserved to codes for general use of aplications
  */
@@ -59,10 +71,10 @@ String.abbreviate = function (string) {
 	var words = string.split(" ");
 	var ret = "";
 	for (var i = 0; i < words.length; i++) {
-		if(isNaN(words[i]))
+		if (isNaN(words[i]))
 			ret += words[i].substr(0, 3) + ((words[i].length <= 3) ? "" : ".") + " ";
 		else
-			ret += Math.abbreviate(words[i],"");
+			ret += Math.abbreviate(words[i], "");
 	}
 	return ret;
 }
@@ -76,7 +88,7 @@ String.initials = function (string) {
 	return ret;
 }
 
-String.adjustLength = function (string, font, space,notinitials) {
+String.adjustLength = function (string, font, space, notinitials) {
 
 	var sizeLabel = string.length * font * 0.6;
 	if (space < sizeLabel)
@@ -84,7 +96,7 @@ String.adjustLength = function (string, font, space,notinitials) {
 
 	sizeLabel = string.length * font * 0.6;
 
-	if (space < sizeLabel && notinitials!= true)
+	if (space < sizeLabel && notinitials != true)
 		string = String.initials(string);
 	return string;
 }
@@ -147,17 +159,17 @@ d3.textData = function (data, text) {
 		//for(var i=0;i<10;i++){index = text.search("<");index2 = text.search(">");
 		var sub = text.substr(index + 1, index2 - index - 1);
 		var rep = data;
-		if(sub != "this"){
+		if (sub != "this") {
 
-		var part = sub.split(".");
-		
+			var part = sub.split(".");
 
-		for (var i = 0; i < part.length; i++) {
-			rep = rep[part[i]];//$(rep).attr(part[i]);
-		}
 
-		if (rep == undefined)
-			rep = "";
+			for (var i = 0; i < part.length; i++) {
+				rep = rep[part[i]];//$(rep).attr(part[i]);
+			}
+
+			if (rep == undefined)
+				rep = "";
 		}
 		if (typeof rep == "object") {
 			rep = rep.toString();
@@ -186,69 +198,69 @@ Math.percent = function (val) {
 	return val.toString() + "%";
 }
 
-Math.roundRole = function(num,decimals,role) {
-	decimals = decimals==undefined?0:decimals;	
-	var n = Math.pow(10,decimals);
-	if(role == "ceil")
-		return Math.ceil(num*n)/n;
-	else if(role == "floor")
-		return Math.floor(num*n)/n;
-	else 
-		return Math.round(num*n)/n;
+Math.roundRole = function (num, decimals, role) {
+	decimals = decimals == undefined ? 0 : decimals;
+	var n = Math.pow(10, decimals);
+	if (role == "ceil")
+		return Math.ceil(num * n) / n;
+	else if (role == "floor")
+		return Math.floor(num * n) / n;
+	else
+		return Math.round(num * n) / n;
 }
 
-Math.abbreviate = function (num, model, unid,round,decimals) {
+Math.abbreviate = function (num, model, unid, round, decimals) {
 	//round = "ceil"||"round"||"floor"
 	//model = "%"||"e"|| /*potencias*/ "a"||"f"||"p"||"n"||"μ||mu"||"m"||"c"||"d"||""||"da"||"h"||"k"||"M"||"G"||"T"||"P"||"E"||"Z"||"Y"
 	//unid = "string"
-	var role = [["y",1e-24],["z",1e-21],["a",1e-18],["f",1e-15],["p",1e-12],["n",1e-9],["μ",1e-6],["m",1e-3],["c",1e-2],["d",1e-1],["", 1],
-				["da",1e1],["h",1e2],["k",1e3],["M",1e6],["G",1e9],["T",1e12],["P",1e15],["E",1e18],["Z",1e21],["Y",1e24],["%", .01],,["mu",1e-6]
+	var role = [["y", 1e-24], ["z", 1e-21], ["a", 1e-18], ["f", 1e-15], ["p", 1e-12], ["n", 1e-9], ["μ", 1e-6], ["m", 1e-3], ["c", 1e-2], ["d", 1e-1], ["", 1],
+	["da", 1e1], ["h", 1e2], ["k", 1e3], ["M", 1e6], ["G", 1e9], ["T", 1e12], ["P", 1e15], ["E", 1e18], ["Z", 1e21], ["Y", 1e24], ["%", .01], , ["mu", 1e-6]
 	];
-	if(typeof num == "string"){
+	if (typeof num == "string") {
 		var temp = parseFloat(num);
-		var temp2 = num.replace(temp,"");
-		for(var i=0;i<role.length;i++){
-			if(temp2.search(role[i][0]) == 0){
-				num = temp*role[i][1];
-				unid = temp2.replace(role[i][0],"");
+		var temp2 = num.replace(temp, "");
+		for (var i = 0; i < role.length; i++) {
+			if (temp2.search(role[i][0]) == 0) {
+				num = temp * role[i][1];
+				unid = temp2.replace(role[i][0], "");
 				break;
 			}
 		}
 	}
-	unid = unid==undefined?"":unid;
+	unid = unid == undefined ? "" : unid;
 	switch (model) {
 		case undefined:
 			break;
 		case "":
 			var temp = Math.log10(num);
-			temp = Math.roundRole(temp,0,round);
-			if(temp>=-3 && temp<=3){
+			temp = Math.roundRole(temp, 0, round);
+			if (temp >= -3 && temp <= 3) {
 				temp += 9;//se zero, encontra no vetor a posição de não fazer nada;
-			}else{
-				temp = temp<-24?-24:(temp>24?24:temp);
-				temp = temp/3;
-				temp = Math.roundRole(temp,0,round);
-				temp += temp>0?12:8;
+			} else {
+				temp = temp < -24 ? -24 : (temp > 24 ? 24 : temp);
+				temp = temp / 3;
+				temp = Math.roundRole(temp, 0, round);
+				temp += temp > 0 ? 12 : 8;
 			}
-			num = num/role[temp][1];
-			num = Math.roundRole(num,decimals,round);
-			return ""+num+role[temp][0]+unid;				
-			
+			num = num / role[temp][1];
+			num = Math.roundRole(num, decimals, round);
+			return "" + num + role[temp][0] + unid;
+
 		case "e":
-			return ""+num.toExpoential()+unid;
+			return "" + num.toExpoential() + unid;
 		default:
-			for(var i=0;i<role.length;i++){
-				if(model == role[i][0]){
-					var temp = num/role[i][1];
-					temp = Math.roundRole(temp,decimals,round);
-					if(role[i][1]=="mu")
-					return ""+temp+"μ"+unid;
-					return ""+temp+role[i][0]+unid;
+			for (var i = 0; i < role.length; i++) {
+				if (model == role[i][0]) {
+					var temp = num / role[i][1];
+					temp = Math.roundRole(temp, decimals, round);
+					if (role[i][1] == "mu")
+						return "" + temp + "μ" + unid;
+					return "" + temp + role[i][0] + unid;
 				}
 			}
-			
+
 	}
-	return ""+num+unid;
+	return "" + num + unid;
 }
 
 /**
@@ -275,24 +287,24 @@ d3.validEvents = function (events) {
 d3.addEvents = function (obj, func) {
 	if (obj == undefined || func == undefined)
 		return;
-	if(func.click.length!=0)
-	obj.style("cursor","pointer").on("click", function (d) {
-		if (func.click != undefined) {
-			if (typeof func.click == "function")
-				func.click(this, d);
-			else {
-				for (var i = func.click.length; i >=0 ; i--)
-					if (typeof func.click[i] == "function")
-						func.click[i](this, d);
+	if (func.click.length != 0)
+		obj.style("cursor", "pointer").on("click", function (d) {
+			if (func.click != undefined) {
+				if (typeof func.click == "function")
+					func.click(this, d);
+				else {
+					for (var i = func.click.length; i >= 0; i--)
+						if (typeof func.click[i] == "function")
+							func.click[i](this, d);
+				}
 			}
-		}
-	});
+		});
 	obj.on("mouseover", function (d) {
 		if (func.mouseover != undefined) {
 			if (typeof func.mouseover == "function")
 				func.mouseover(this, d);
 			else {
-				for (var i = func.mouseover.length; i >=0 ; i--)
+				for (var i = func.mouseover.length; i >= 0; i--)
 					if (typeof func.mouseover[i] == "function")
 						func.mouseover[i](this, d);
 			}
@@ -303,7 +315,7 @@ d3.addEvents = function (obj, func) {
 			if (typeof func.mousemove == "function")
 				func.mousemove(this, d);
 			else {
-				for (var i = func.mousemove.length; i >=0 ; i--)
+				for (var i = func.mousemove.length; i >= 0; i--)
 					if (typeof func.mousemove[i] == "function")
 						func.mousemove[i](this, d);
 			}
@@ -314,7 +326,7 @@ d3.addEvents = function (obj, func) {
 			if (typeof func.mouseout == "function")
 				func.mouseout(this, d);
 			else {
-				for (var i = func.mouseout.length; i >=0 ; i--)
+				for (var i = func.mouseout.length; i >= 0; i--)
 					if (typeof func.mouseout[i] == "function")
 						func.mouseout[i](this, d);
 			}
@@ -345,7 +357,7 @@ class MyDate {
 	constructor(year, month, day, hour, value, dayOfWeek) {
 		if (year == undefined && month == undefined && day == undefined && hour == undefined && dayOfWeek == undefined)
 			year = new Date();
-		if (year == undefined || typeof year == "number"||typeof year == "string") {
+		if (year == undefined || typeof year == "number" || typeof year == "string") {
 			this.year = parseInt(year);
 			this.month = parseInt(month);
 			this.day = parseInt(day);
@@ -405,7 +417,7 @@ class MyDate {
 			MyDate.daysByMonth()[date.month] :
 			MyDate.daysByMonth()[date.month](date.year)
 	}
-	static daysByMonth(month,year) {//retorna retor com quantos dias todos os meses têm
+	static daysByMonth(month, year) {//retorna retor com quantos dias todos os meses têm
 		var nday = [31, function (year) {
 			if (year % 4 != 0)
 				return 28;
@@ -417,10 +429,10 @@ class MyDate {
 			} else
 				return 29;
 		}, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-		if(month==undefined)
+		if (month == undefined)
 			return nday;
-		else if(month==1)
-			if(year==undefined)
+		else if (month == 1)
+			if (year == undefined)
 				return nday[1];
 			else
 				return nday[1](year);
@@ -429,37 +441,37 @@ class MyDate {
 	}
 	static monthName(val, model) {
 		var month = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-		if(val ==undefined || isNaN(val))
-			if(model == "initials")
-				return month.map(function(d){return String.initials(d);});
-			else if(model == "abbreviate")
-				return month.map(function(d){return String.abbreviate(d);});
+		if (val == undefined || isNaN(val))
+			if (model == "initials")
+				return month.map(function (d) { return String.initials(d); });
+			else if (model == "abbreviate")
+				return month.map(function (d) { return String.abbreviate(d); });
 			else
 				return month;
 		else
-			if(model == "initials")
-				return month.map(function(d){return String.initials(d);})[val];
-			if(model == "abbreviate")
-				return month.map(function(d){return String.abbreviate(d).replace(".","");})[val];
-			else
-				return month[val];
+			if (model == "initials")
+				return month.map(function (d) { return String.initials(d); })[val];
+		if (model == "abbreviate")
+			return month.map(function (d) { return String.abbreviate(d).replace(".", ""); })[val];
+		else
+			return month[val];
 	};
 	static weekName(val, model) {
 		var week = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
-		if(val ==undefined || isNaN(val))
-			if(model == "initials")
-				return week.map(function(d){return String.initials(d);});
-			else if(model == "abbreviate")
-				return week.map(function(d){return String.abbreviate(d);});
+		if (val == undefined || isNaN(val))
+			if (model == "initials")
+				return week.map(function (d) { return String.initials(d); });
+			else if (model == "abbreviate")
+				return week.map(function (d) { return String.abbreviate(d); });
 			else
 				return week;
 		else
-			if(model == "initials")
-				return week.map(function(d){return String.initials(d);})[val];
-			if(model == "abbreviate")
-				return week.map(function(d){return String.abbreviate(d).replace(".","");})[val];
-			else
-				return week[val];
+			if (model == "initials")
+				return week.map(function (d) { return String.initials(d); })[val];
+		if (model == "abbreviate")
+			return week.map(function (d) { return String.abbreviate(d).replace(".", ""); })[val];
+		else
+			return week[val];
 	};
 	static sum(d1, d2) {
 		var ret = new MyDate();
@@ -498,11 +510,11 @@ class MyDate {
 
 		return ret.valid();
 	}
-	static greatThan(d1, d2,hour) {
-		if (d1.year 
+	static greatThan(d1, d2, hour) {
+		if (d1.year
 			> d2.year)
 			return 1;
-		else if (d1.year 
+		else if (d1.year
 			< d2.year)
 			return -1;
 		else if (d1.month > d2.month)
@@ -529,15 +541,15 @@ class MyDate {
 			"12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"];
 		var m24 = ["00h", "01h", "02h", "03h", "04h", "05h", "06h", "07h", "08h", "09h", "10h", "11h",
 			"12h", "13h", "14h", "15h", "16h", "17h", "18h", "19h", "20h", "21h", "22h", "23h"];
-		var m4 = ["06h-12h","12h-18h","18h-24h","00h-06h"];
+		var m4 = ["06h-12h", "12h-18h", "18h-24h", "00h-06h"];
 		if (model == 12)
 			if (val != undefined)
 				return m12[val];
 			else
 				return m12;
-		else if(model == 4)
-			if(val != undefined)
-				return m4[val/6];
+		else if (model == 4)
+			if (val != undefined)
+				return m4[val / 6];
 			else
 				return m4;
 		else
@@ -546,155 +558,159 @@ class MyDate {
 			else
 				return m24;
 	}
-	static dayVal(domain,val){
-		if(typeof val == "string")
+	static dayVal(domain, val) {
+		if (typeof val == "string")
 			return val;
-		else if(typeof val == "object"){
+		else if (typeof val == "object") {
 			return val.hour
-		}else{
-			if(domain.length == 4){
-				return domain[parseInt(val.hour/6)];
-			}else{
+		} else {
+			if (domain.length == 4) {
+				return domain[parseInt(val.hour / 6)];
+			} else {
 				return domain[val.hour];
 			}
 		}
 	}
 }
 
-Array.removeRepetitions = function(vector){
-	return vector.filter(function(este, i) {
+Array.removeRepetitions = function (vector) {
+	return vector.filter(function (este, i) {
 		return vector.indexOf(este) == i;
 	});
 }
 //https://pt.stackoverflow.com/questions/16483/remover-elementos-repetido-dentro-de-um-vetor-em-javascript
-d3.path.lineFunction = function(param){
+d3.path.lineFunction = function (param) {
 	return d3.line()
 		.x(function (d) { return d.x; }) // set the x values for the line
 		// generator
 		.y(function (d) { return d.y; }) // set the y values for the line
 		// generator
-		.curve(param?param:d3.curveLinearClosed);
+		.curve(param ? param : d3.curveLinearClosed);
 }
 
 d3.path.icons = {
-	plus:function(size){return [
-		{ "x": size*.0, "y": .3 * size },
-		{ "x": size*.3, "y": .3 * size },
-		{ "x": size*.3, "y": .0 * size },
-		{ "x": size*.7, "y": .0 * size },
-		{ "x": size*.7, "y": .3 * size },
-		{ "x": size*1, "y": .3 * size },
-		{ "x": size*1, "y": .7 * size },
-		{ "x": size*.7, "y": .7 * size },
-		{ "x": size*.7, "y": 1 * size },
-		{ "x": size*.3, "y": 1* size },
-		{ "x": size*.3, "y": .7 * size },
-		{ "x": size*.0, "y": .7 * size },
-	];},
-	minus:function(size){return [
-		{ "x": size*.0, "y": .3 * size },
-		{ "x": size*.3, "y": .3 * size },
-		{ "x": size*.3, "y": .3 * size },
-		{ "x": size*.7, "y": .3 * size },
-		{ "x": size*.7, "y": .3 * size },
-		{ "x": size*1, "y": .3 * size },
-		{ "x": size*1, "y": .7 * size },
-		{ "x": size*.7, "y": .7 * size },
-		{ "x": size*.7, "y": .7 * size },
-		{ "x": size*.3, "y": .7 * size },
-		{ "x": size*.3, "y": .7 * size },
-		{ "x": size*.0, "y": .7 * size },
-	];},
-	arrow_right:function(size){
+	plus: function (size) {
 		return [
-			{"x":size*.5,"y":size*0},
-			{"x":size*.5,"y":size*0},
-			{"x":size*1,"y":size*.35},
-			{"x":size*1,"y":size*.35},
-			{"x":size*1,"y":size*.65},
-			{"x":size*1,"y":size*.65},
-			{"x":size*.5,"y":size*1},
-			{"x":size*.5,"y":size*1},
-			{"x":size*.5,"y":size*2/3},
-			{"x":size*.5,"y":size*2/3},
-			{"x":size*.75,"y":size*0.5},
-			{"x":size*.5,"y":size*1/3},
+			{ "x": size * .0, "y": .3 * size },
+			{ "x": size * .3, "y": .3 * size },
+			{ "x": size * .3, "y": .0 * size },
+			{ "x": size * .7, "y": .0 * size },
+			{ "x": size * .7, "y": .3 * size },
+			{ "x": size * 1, "y": .3 * size },
+			{ "x": size * 1, "y": .7 * size },
+			{ "x": size * .7, "y": .7 * size },
+			{ "x": size * .7, "y": 1 * size },
+			{ "x": size * .3, "y": 1 * size },
+			{ "x": size * .3, "y": .7 * size },
+			{ "x": size * .0, "y": .7 * size },
+		];
+	},
+	minus: function (size) {
+		return [
+			{ "x": size * .0, "y": .3 * size },
+			{ "x": size * .3, "y": .3 * size },
+			{ "x": size * .3, "y": .3 * size },
+			{ "x": size * .7, "y": .3 * size },
+			{ "x": size * .7, "y": .3 * size },
+			{ "x": size * 1, "y": .3 * size },
+			{ "x": size * 1, "y": .7 * size },
+			{ "x": size * .7, "y": .7 * size },
+			{ "x": size * .7, "y": .7 * size },
+			{ "x": size * .3, "y": .7 * size },
+			{ "x": size * .3, "y": .7 * size },
+			{ "x": size * .0, "y": .7 * size },
+		];
+	},
+	arrow_right: function (size) {
+		return [
+			{ "x": size * .5, "y": size * 0 },
+			{ "x": size * .5, "y": size * 0 },
+			{ "x": size * 1, "y": size * .35 },
+			{ "x": size * 1, "y": size * .35 },
+			{ "x": size * 1, "y": size * .65 },
+			{ "x": size * 1, "y": size * .65 },
+			{ "x": size * .5, "y": size * 1 },
+			{ "x": size * .5, "y": size * 1 },
+			{ "x": size * .5, "y": size * 2 / 3 },
+			{ "x": size * .5, "y": size * 2 / 3 },
+			{ "x": size * .75, "y": size * 0.5 },
+			{ "x": size * .5, "y": size * 1 / 3 },
 		]
 	},
-	arrow_down:function(size){
+	arrow_down: function (size) {
 		return [
-			{"x":	size*0	,"y":	size*.5	},
-			{"x":	size*0	,"y":	size*.5	},
-			{"x":	size*.35	,"y":	size*1	},
-			{"x":	size*.35	,"y":	size*1	},
-			{"x":	size*.65	,"y":	size*1	},
-			{"x":	size*.65	,"y":	size*1	},
-			{"x":	size*1	,"y":	size*.5	},
-			{"x":	size*1	,"y":	size*.5	},
-			{"x":	size*2/3	,"y":	size*.5	},
-			{"x":	size*2/3	,"y":	size*.5	},
-			{"x":	size*0.5	,"y":	size*.75	},
-			{"x":	size*1/3	,"y":	size*.5	},
+			{ "x": size * 0, "y": size * .5 },
+			{ "x": size * 0, "y": size * .5 },
+			{ "x": size * .35, "y": size * 1 },
+			{ "x": size * .35, "y": size * 1 },
+			{ "x": size * .65, "y": size * 1 },
+			{ "x": size * .65, "y": size * 1 },
+			{ "x": size * 1, "y": size * .5 },
+			{ "x": size * 1, "y": size * .5 },
+			{ "x": size * 2 / 3, "y": size * .5 },
+			{ "x": size * 2 / 3, "y": size * .5 },
+			{ "x": size * 0.5, "y": size * .75 },
+			{ "x": size * 1 / 3, "y": size * .5 },
 		];
 	},
 }
 
 function range(start, stop, step) {
-    if (typeof stop == 'undefined') {
-        // one param defined
-        stop = start;
-        start = 0;
-    }
+	if (typeof stop == 'undefined') {
+		// one param defined
+		stop = start;
+		start = 0;
+	}
 
-    if (typeof step == 'undefined') {
-        step = 1;
-    }
+	if (typeof step == 'undefined') {
+		step = 1;
+	}
 
-    if ((step > 0 && start >= stop) || (step < 0 && start <= stop)) {
-        return [];
-    }
+	if ((step > 0 && start >= stop) || (step < 0 && start <= stop)) {
+		return [];
+	}
 
-    var result = [];
-    for (var i = start; step > 0 ? i < stop : i > stop; i += step) {
-        result.push(i);
-    }
+	var result = [];
+	for (var i = start; step > 0 ? i < stop : i > stop; i += step) {
+		result.push(i);
+	}
 
-    return result;
+	return result;
 };
 
-d3.downloadSVG = function(svg){
-    d3.event.preventDefault(),
-    echoContentType.attr("value","image/svg+xml;charset=utf-8"),
-    echoInput.attr("value",svg.attr("version","1.1").attr("xmlns","http://www.w3.org/2000/svg").node().parentNode.innerHTML),
-    echoForm.node().submit()
+d3.downloadSVG = function (svg) {
+	d3.event.preventDefault(),
+		echoContentType.attr("value", "image/svg+xml;charset=utf-8"),
+		echoInput.attr("value", svg.attr("version", "1.1").attr("xmlns", "http://www.w3.org/2000/svg").node().parentNode.innerHTML),
+		echoForm.node().submit()
 }
 
-d3.scaleCategory = function(pallet){
-	if(pallet == undefined){
-		if(d3.interpolateRainbow)
+d3.scaleCategory = function (pallet) {
+	if (pallet == undefined) {
+		if (d3.interpolateRainbow)
 			pallet = d3.interpolateRainbow;
 		else
 			return d3.scale.category20b();
 	}
 	var categories = [];
 	var values = [];
-	var prescale = 1/2;
+	var prescale = 1 / 2;
 	var current = 0;
-	return function(tag){
+	return function (tag) {
 		var temp = categories.indexOf(tag);
-		if(temp >=0)
+		if (temp >= 0)
 			return pallet(values[temp])
-		else{
+		else {
 			categories.push(tag);
 			values.push(current);
 			temp = current;
 			current += prescale;
-			while(values.indexOf(current)>=0)
+			while (values.indexOf(current) >= 0)
 				current += prescale;
-			if(current>1){
-				prescale /=2;
+			if (current > 1) {
+				prescale /= 2;
 				current = prescale;
-			
+
 			}
 			return pallet(temp);
 		}
@@ -705,114 +721,146 @@ d3.scaleCategory = function(pallet){
 
 String.linebroke = function (str, tam) {
 	var ret = [];
-	if(str == undefined)
+	if (str == undefined)
 		return ret;
-    var tamtemp, temp;
-    while (str.length > tam) {
-        tamtemp = tam;
-        while (str.charAt(tamtemp--).match(/[ -]/g) == null && tamtemp >= 1);
-        if (tamtemp < 1) tamtemp = tam - 1;
-        temp = str.slice(0, tamtemp + 1);
-        ret.push(temp);
-        str = str.replace(temp, "");
-    }
-    ret.push(str);
-    return ret;
+	var tamtemp, temp;
+	while (str.length > tam) {
+		tamtemp = tam;
+		while (str.charAt(tamtemp--).match(/[ -]/g) == null && tamtemp >= 1);
+		if (tamtemp < 1) tamtemp = tam - 1;
+		temp = str.slice(0, tamtemp + 1);
+		ret.push(temp);
+		str = str.replace(temp, "");
+	}
+	ret.push(str);
+	return ret;
 }
 
-function exclamationGconfig(width,height){
-    if(width == undefined && height == undefined)
-        width = 80,height = 60;
-    if(width == undefined)
-        width = height*1.15;
-    if(height == undefined)
-        height == width/1.13;
-    if(width/height >=1.1436)
-        return "translate("+(-0.3533*height)+","+(1.5567*height)+") scale("+(height/6889.75)+","+(-height/6889.75)+")";
-    else
-        return "translate("+(-0.3089*width)+","+(1.3612*width)+") scale("+(width/7879.17)+","+(-width/7879.17)+")";
+function exclamationGconfig(width, height) {
+	if (width == undefined && height == undefined)
+		width = 80, height = 60;
+	if (width == undefined)
+		width = height * 1.15;
+	if (height == undefined)
+		height == width / 1.13;
+	if (width / height >= 1.1436)
+		return "translate(" + (-0.3533 * height) + "," + (1.5567 * height) + ") scale(" + (height / 6889.75) + "," + (-height / 6889.75) + ")";
+	else
+		return "translate(" + (-0.3089 * width) + "," + (1.3612 * width) + ") scale(" + (width / 7879.17) + "," + (-width / 7879.17) + ")";
 }
 
-function exclamation(target,width,height,fill){
-    target.append("g").attr("transform",exclamationGconfig(width,height)).attr("fill",fill)
-        .append("path").attr("d","M6304 10701 c-22 -10 -55 -36 -73 -57 -18 -22 -310 -520 -650 -1109 -340 -588 -1175 -2035 -1856 -3214 -680 -1180 -1244 -2159 -1251 -2178 -50 -118 34 -274 162 -303 52 -13 7476 -13 7528 0 140 32 215 193 152 325 -47 98 -3715 6441 -3747 6479 -42 50 -99 76 -169 76 -32 0 -72 -8 -96 -19z m266 -2210 c126 -50 234 -157 280 -278 34 -86 35 -188 6 -548 -29 -360 -72 -906 -116 -1465 -32 -405 -39 -441 -94 -507 -150 -174 -469 -124 -541 86 -18 52 -17 45 -50 476 -24 313 -61 779 -110 1403 -14 172 -25 345 -25 386 0 217 142 399 358 462 70 20 223 12 292 -15z m-57 -3251 c76 -29 130 -79 169 -157 28 -57 32 -77 32 -138 -1 -125 -69 -229 -184 -284 -115 -54 -262 -27 -354 65 -21 22 -50 64 -64 93 -73 158 8 357 172 420 68 26 160 27 229 1z");
+function exclamation(target, width, height, fill) {
+	target.append("g").attr("class", "exclamation").attr("transform", exclamationGconfig(width, height)).attr("fill", fill)
+		.append("path").attr("d", "M6304 10701 c-22 -10 -55 -36 -73 -57 -18 -22 -310 -520 -650 -1109 -340 -588 -1175 -2035 -1856 -3214 -680 -1180 -1244 -2159 -1251 -2178 -50 -118 34 -274 162 -303 52 -13 7476 -13 7528 0 140 32 215 193 152 325 -47 98 -3715 6441 -3747 6479 -42 50 -99 76 -169 76 -32 0 -72 -8 -96 -19z m266 -2210 c126 -50 234 -157 280 -278 34 -86 35 -188 6 -548 -29 -360 -72 -906 -116 -1465 -32 -405 -39 -441 -94 -507 -150 -174 -469 -124 -541 86 -18 52 -17 45 -50 476 -24 313 -61 779 -110 1403 -14 172 -25 345 -25 386 0 217 142 399 358 462 70 20 223 12 292 -15z m-57 -3251 c76 -29 130 -79 169 -157 28 -57 32 -77 32 -138 -1 -125 -69 -229 -184 -284 -115 -54 -262 -27 -354 65 -21 22 -50 64 -64 93 -73 158 8 357 172 420 68 26 160 27 229 1z");
+}
+function exclamationRefatoring(target, width, height, fill) {
+	target.select(".exclamation").attr("transform", exclamationGconfig(width, height)).attr("fill", fill);
 }
 
-function muralPinGconfig(width,height){
-    if(width == undefined && height == undefined)
-        width = 80,height = 60;
-    if(width == undefined)
-        width = height*0.93;
-    if(height == undefined)
-        height == width/0.91;
-    if(width/height >=0.92001)
-        return "translate("+(-1.16280782*height)+","+(1.3132706*height)+") scale("+(height*0.00016843)+","+(-height*0.00016843)+")";
-    else
-        return "translate("+(-1.263922*width)+","+(1.427467*width)+") scale("+(width*0.00018306)+","+(-width*0.00018306)+")";
+function muralPinGconfig(width, height) {
+	if (width == undefined && height == undefined)
+		width = 80, height = 60;
+	if (width == undefined)
+		width = height * 0.93;
+	if (height == undefined)
+		height == width / 0.91;
+	if (width / height >= 0.92001)
+		return "translate(" + (-1.16280782 * height) + "," + (1.3132706 * height) + ") scale(" + (height * 0.00016843) + "," + (-height * 0.00016843) + ")";
+	else
+		return "translate(" + (-1.263922 * width) + "," + (1.427467 * width) + ") scale(" + (width * 0.00018306) + "," + (-width * 0.00018306) + ")";
 }
 
-function muralPin(target,width,height,fill,stroke,stroke_width){
-	if(stroke != undefined && stroke_width == undefined)stroke_width = 2;
-    target.append("g").attr("transform",muralPinGconfig(width,height)).attr("fill",fill).attr("stroke",stroke).attr("stroke-width",stroke_width)
-        .append("path").attr("d","M10590 7785 c-107 -31 -178 -85 -272 -209 -101 -133 -159 -289 -158 -423 1 -66 24 -188 48 -249 l19 -52 -351 -404 c-193 -223 -366 -422 -384 -443 l-34 -37 -146 70 c-277 133 -443 181 -658 189 -174 7 -255 -9 -386 -74 -70 -35 -107 -62 -168 -123 -169 -169 -232 -395 -185 -663 55 -315 290 -727 627 -1099 73 -80 78 -89 67 -110 -24 -45 -148 -225 -239 -348 -114 -153 -638 -805 -735 -915 -454 -513 -699 -840 -729 -968 -8 -35 9 -67 35 -67 68 0 313 199 715 581 458 436 1063 1016 1226 1177 102 101 190 183 195 181 4 -2 55 -36 113 -75 348 -235 749 -422 1030 -481 59 -12 127 -17 220 -17 117 1 145 4 212 26 157 52 266 153 348 321 70 144 85 206 85 357 0 278 -87 510 -338 902 -12 18 8 42 268 323 77 83 185 205 240 270 55 66 136 161 179 210 44 50 80 91 80 91 1 1 33 -5 71 -13 99 -21 252 -13 327 16 86 33 172 95 279 201 111 109 152 179 170 289 14 84 1 187 -38 296 -178 494 -836 1090 -1381 1251 -111 33 -271 41 -352 19z");
+function muralPin(target, width, height, fill, stroke, stroke_width) {
+	if (stroke != undefined && stroke_width == undefined) stroke_width = 2;
+	target.append("g").attr("class", "muralpin").attr("transform", muralPinGconfig(width, height)).attr("fill", fill).attr("stroke", stroke).attr("stroke-width", stroke_width)
+		.append("path").attr("d", "M10590 7785 c-107 -31 -178 -85 -272 -209 -101 -133 -159 -289 -158 -423 1 -66 24 -188 48 -249 l19 -52 -351 -404 c-193 -223 -366 -422 -384 -443 l-34 -37 -146 70 c-277 133 -443 181 -658 189 -174 7 -255 -9 -386 -74 -70 -35 -107 -62 -168 -123 -169 -169 -232 -395 -185 -663 55 -315 290 -727 627 -1099 73 -80 78 -89 67 -110 -24 -45 -148 -225 -239 -348 -114 -153 -638 -805 -735 -915 -454 -513 -699 -840 -729 -968 -8 -35 9 -67 35 -67 68 0 313 199 715 581 458 436 1063 1016 1226 1177 102 101 190 183 195 181 4 -2 55 -36 113 -75 348 -235 749 -422 1030 -481 59 -12 127 -17 220 -17 117 1 145 4 212 26 157 52 266 153 348 321 70 144 85 206 85 357 0 278 -87 510 -338 902 -12 18 8 42 268 323 77 83 185 205 240 270 55 66 136 161 179 210 44 50 80 91 80 91 1 1 33 -5 71 -13 99 -21 252 -13 327 16 86 33 172 95 279 201 111 109 152 179 170 289 14 84 1 187 -38 296 -178 494 -836 1090 -1381 1251 -111 33 -271 41 -352 19z");
 }
 
-function paperClipGconfig(width,height){
-    if(width == undefined && height == undefined)
-        width = 60,height = 80;
-    if(width == undefined)
-        width = height*0.868;
-    if(height == undefined)
-        height == width/0.848;
-    if(width/height >=0.858)
-        return "translate("+(0.04227*height)+","+(1.05456*height)+") scale("+(height*8.88e-5)+","+(-height*8.88e-5)+")";
-    else
-        return "translate("+(0.04928*width)+","+(1.22947*width)+") scale("+(width*1.035e-4)+","+(-width*1.035e-4)+")";
+function muralPinRefatoring(target, width, height, fill, stroke, stroke_width) {
+	if (stroke != undefined && stroke_width == undefined) stroke_width = 2;
+	target.select(".muralpin").attr("transform", muralPinGconfig(width, height)).attr("fill", fill).attr("stroke", stroke).attr("stroke-width", stroke_width);
 }
 
-function paperClip(target,width,height,fill){
-    target.append("g").attr("transform",paperClipGconfig(width,height)).attr("fill",fill)
-        .append("path").attr("d",d="M7835 11870 c-555 -59 -1064 -296 -1524 -710 -160 -144 -371 -399 -492 -595 -61 -98 -2515 -4298 -2621 -4485 -466 -822 -641 -1663 -477 -2295 67 -259 222 -503 409 -644 367 -277 835 -291 1345 -42 249 122 483 292 724 526 249 242 463 509 654 815 141 227 1322 2258 1340 2305 25 65 33 196 17 266 -49 211 -237 359 -455 359 -179 0 -320 -86 -421 -256 -22 -38 -301 -514 -619 -1059 -318 -544 -602 -1030 -633 -1080 -283 -463 -627 -821 -973 -1014 -93 -52 -216 -92 -299 -98 -71 -5 -77 -4 -107 21 -41 34 -68 95 -89 197 -25 122 -15 389 20 559 65 316 185 633 354 935 131 234 2581 4424 2640 4515 296 458 770 777 1250 841 134 18 345 6 467 -25 125 -33 279 -107 383 -186 503 -379 624 -1191 283 -1895 -61 -127 -3739 -6430 -3822 -6550 -464 -673 -1395 -921 -2144 -570 -114 53 -767 425 -900 513 -206 136 -439 401 -554 631 -238 475 -240 1035 -6 1502 34 66 813 1402 2808 4814 341 583 636 1094 656 1135 31 65 36 86 39 167 5 107 -6 160 -52 248 -77 148 -240 245 -411 245 -129 -1 -230 -44 -325 -140 -57 -57 -103 -131 -391 -625 -180 -308 -942 -1613 -1694 -2900 -752 -1287 -1390 -2380 -1418 -2430 -150 -265 -258 -596 -303 -925 -24 -170 -24 -490 0 -660 56 -412 198 -791 420 -1124 111 -165 187 -258 330 -401 220 -220 326 -294 815 -575 620 -356 719 -402 1035 -485 258 -68 358 -79 676 -79 308 0 403 10 650 70 356 88 754 285 1036 514 192 157 394 378 531 585 60 90 3729 6364 3816 6525 146 271 261 622 314 960 22 145 25 576 5 715 -65 432 -208 788 -440 1095 -72 95 -236 265 -327 340 -275 225 -609 374 -975 435 -112 19 -430 27 -545 15z");
+function paperClipGconfig(width, height) {
+	if (width == undefined && height == undefined)
+		width = 60, height = 80;
+	if (width == undefined)
+		width = height * 0.868;
+	if (height == undefined)
+		height == width / 0.848;
+	if (width / height >= 0.858)
+		return "translate(" + (0.04227 * height) + "," + (1.05456 * height) + ") scale(" + (height * 8.88e-5) + "," + (-height * 8.88e-5) + ")";
+	else
+		return "translate(" + (0.04928 * width) + "," + (1.22947 * width) + ") scale(" + (width * 1.035e-4) + "," + (-width * 1.035e-4) + ")";
 }
 
-function isColor(color){
-	if((color!= undefined) && 
-		(typeof color == "string") &&  
+function paperClip(target, width, height, fill) {
+	target.append("g").attr("transform", paperClipGconfig(width, height)).attr("fill", fill)
+		.append("path").attr("d", d = "M7835 11870 c-555 -59 -1064 -296 -1524 -710 -160 -144 -371 -399 -492 -595 -61 -98 -2515 -4298 -2621 -4485 -466 -822 -641 -1663 -477 -2295 67 -259 222 -503 409 -644 367 -277 835 -291 1345 -42 249 122 483 292 724 526 249 242 463 509 654 815 141 227 1322 2258 1340 2305 25 65 33 196 17 266 -49 211 -237 359 -455 359 -179 0 -320 -86 -421 -256 -22 -38 -301 -514 -619 -1059 -318 -544 -602 -1030 -633 -1080 -283 -463 -627 -821 -973 -1014 -93 -52 -216 -92 -299 -98 -71 -5 -77 -4 -107 21 -41 34 -68 95 -89 197 -25 122 -15 389 20 559 65 316 185 633 354 935 131 234 2581 4424 2640 4515 296 458 770 777 1250 841 134 18 345 6 467 -25 125 -33 279 -107 383 -186 503 -379 624 -1191 283 -1895 -61 -127 -3739 -6430 -3822 -6550 -464 -673 -1395 -921 -2144 -570 -114 53 -767 425 -900 513 -206 136 -439 401 -554 631 -238 475 -240 1035 -6 1502 34 66 813 1402 2808 4814 341 583 636 1094 656 1135 31 65 36 86 39 167 5 107 -6 160 -52 248 -77 148 -240 245 -411 245 -129 -1 -230 -44 -325 -140 -57 -57 -103 -131 -391 -625 -180 -308 -942 -1613 -1694 -2900 -752 -1287 -1390 -2380 -1418 -2430 -150 -265 -258 -596 -303 -925 -24 -170 -24 -490 0 -660 56 -412 198 -791 420 -1124 111 -165 187 -258 330 -401 220 -220 326 -294 815 -575 620 -356 719 -402 1035 -485 258 -68 358 -79 676 -79 308 0 403 10 650 70 356 88 754 285 1036 514 192 157 394 378 531 585 60 90 3729 6364 3816 6525 146 271 261 622 314 960 22 145 25 576 5 715 -65 432 -208 788 -440 1095 -72 95 -236 265 -327 340 -275 225 -609 374 -975 435 -112 19 -430 27 -545 15z");
+}
+
+function isColor(color) {
+	if ((color != undefined) &&
+		(typeof color == "string") &&
 		color.match(/(rgb\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3}\))|(#[0-9a-fA-F]{2}[0-9a-fA-F]{2}[0-9a-fA-F]{2})|(#[0-9a-fA-F]{1}[0-9a-fA-F]{1}[0-9a-fA-F]{1}(?=[^a-fA-F0-9]*))/))
 		return true;
 	return false
 }
 
-function treatData(data,func){
+function treatData(data, func) {
 	var ret;
-	if(typeof func == "function")
+	if (typeof func == "function")
 		ret = data.map(func);
-	else if(func instanceof Array){
+	else if (func instanceof Array) {
 		ret = data;
-		for(var i=0;i<func.length;i++){
-			if(typeof func[0] == "function"){
+		for (var i = 0; i < func.length; i++) {
+			if (typeof func[0] == "function") {
 				ret = ret.map(func[i]);
-			}else if(typeof func[i] == "object" && typeof func[i].func == "function"){
-				if(func[i].type == "filter")
+			} else if (typeof func[i] == "object" && typeof func[i].func == "function") {
+				if (func[i].type == "filter")
 					ret = ret.filter(func[i].func);
-				else if(func[i].type == "sort")
+				else if (func[i].type == "sort")
 					ret = ret.sort(func[i].func);
 				else
 					ret = ret.map(func[i].func);
 			}
-			
+
 		}
 	}
 	return ret;
 }
 
-function deltaXY(tag1, tag2){
+function deltaXY(tag1, tag2) {
 	var t1 = document.querySelector(tag1).getBoundingClientRect(),
 		t2 = document.querySelector(tag2).getBoundingClientRect();
-	return {x:t2.x-t1.x,y:t2.y-t1.y};
+	return { x: t2.x - t1.x, y: t2.y - t1.y };
 }
 
-Math.first_ord = function(x1,y1,x2,y2){
-	return {a: -x1*(y2-y1)/(x2-x1) +y1, b:(y2-y1)/(x2-x1)}
+Math.first_ord = function (x1, y1, x2, y2) {
+	return { a: -x1 * (y2 - y1) / (x2 - x1) + y1, b: (y2 - y1) / (x2 - x1) }
 }
 
+document.definewidth = function (chartConfig, width, height, propWindow, propChart) {//prop - width/height
+	if (chartConfig.dimensions == undefined) chartConfig.dimensions = {};
+	chartConfig.dimensions.vertical = false;
+	chartConfig.dimensions.mini = false;
+	if (chartConfig.dimensions.width == undefined) {
+		var temp;
+		if (temp = document.querySelector(chartConfig.parent ? chartConfig.parent : chartConfig.target).getBoundingClientRect()) {
+			chartConfig.dimensions.width = temp.width;
+			if (propWindow) {
+				var prop = window.innerWidth * propWindow / window.innerHeight;
+				//console.log(prop);
+				if (window.innerWidth > 991)
+					chartConfig.dimensions.height = temp.width * 1 / propChart > height ? height : temp.width * 1 / propChart
+				else
+					chartConfig.dimensions.height = temp.width / prop, chartConfig.dimensions.vertical = prop / propWindow < 1, chartConfig.dimensions.mini = true;
+			}
+		}else if (chartConfig.dimensions.height == undefined)
+			chartConfig.dimensions.width = width, chartConfig.dimensions.height = height;
+		else
+			chartConfig.dimensions.width = chartConfig.dimensions.height * propChart;
+	}
+	if (chartConfig.dimensions.height == undefined)
+		chartConfig.dimensions.height = !propChart || chartConfig.dimensions.width * 1 / propChart > height ? height : chartConfig.dimensions.width * 1 / propChart;
+}
