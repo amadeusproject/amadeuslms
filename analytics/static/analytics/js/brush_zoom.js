@@ -12,7 +12,7 @@ class GanttChart {
 
         if (chartConfig.name == undefined) chartConfig.name = "GanttChart" + (ganttCont++);
         if (chartConfig.parent == undefined) chartConfig.parent = "body";
-        GanttChart.definewidth(chartConfig);
+        document.definewidth(chartConfig, 1200, 500, 5/3, 12 / 5);
         if (chartConfig.margin == undefined) chartConfig.margin = {};
         if (chartConfig.margin.top == undefined) chartConfig.margin.top = 20;
         if (chartConfig.margin.right == undefined) chartConfig.margin.right = 10;
@@ -22,17 +22,15 @@ class GanttChart {
         if (chartConfig.layout == undefined) chartConfig.layout = {};
         if (chartConfig.layout.maxrow == undefined) chartConfig.layout.maxrow = 5;
         if (chartConfig.layout.contextHeight == undefined) chartConfig.layout.contextHeight = 0.1;
-        if (chartConfig.layout.colors == undefined || chartConfig.layout.colors.length != 5)
+        if (chartConfig.layout.colors == undefined)
             chartConfig.layout.colors = ["#AD1111", "#FAA916", "#0B4F6C", "#343434", "#00993F"]
-        //0-atrasado 1-dentro_do_prazo 2-pendencia futura 3-não_concluida 4-finalizada
-        //if (chartConfig.layout.backcolors == undefined || chartConfig.layout.backcolors.length != 5)
-        //  chartConfig.layout.backcolors = ["#C43535", "#F9BA43", "#218AB7", "#545454", "#00C150"];
-        //0-atrasado 1-dentro_do_prazo 2-pendencia futura 3-não_concluida 4-finalizada
-        if (chartConfig.layout.texts == undefined || chartConfig.layout.texts.length != 5)
+        if (chartConfig.layout.texts == undefined || chartConfig.layout.texts.length != chartConfig.layout.colors.length)
             chartConfig.layout.texts = ["Atrasada", "Dentro do Prazo", "Pendência Futura", "Perdida", "Concluída"];
-        if (chartConfig.layout.texts2 == undefined || chartConfig.layout.texts2.length != 5)
+        if (chartConfig.layout.texts2 == undefined || chartConfig.layout.texts2.length != chartConfig.layout.colors.length)
             chartConfig.layout.texts2 = ["Esta tarefa está atrasada", "Você ainda não realizou esta tarefa", "", "Você perdeu esta tarefa", ""];
         if (chartConfig.layout.min_size_card == undefined) chartConfig.layout.min_size_card = 200;
+        if (chartConfig.layout.backcolor == undefined) chartConfig.layout.backcolor = "#F5F5F5";
+        if (chartConfig.layout.percent_min == undefined) chartConfig.layout.percent_min = 0.3;
 
         chartConfig.now = new Date();
         var now = chartConfig.now.getTime();
@@ -78,7 +76,7 @@ class GanttChart {
             }
 
             if (!(d.date.start instanceof Date) || !(d.date.end instanceof Date) || d.date.start.getTime() > d.date.end.getTime()) {
-                
+
                 console.error("invalid dates in row of dataSet \"" + i + "\" ");
                 throw new Exception();
             }
@@ -308,7 +306,7 @@ class GanttChart {
         }
 
         this.card.draw = function () {
-            
+
             if (a.chartConfig.dimensions.vertical) {
                 if (a.width / 2 > 300)
                     this.width = 600
@@ -358,17 +356,29 @@ class GanttChart {
             y += this.size * .15;
 
             //Status Info(Exclamation)
-            this.content.select(".statusInfo")
-                .attr("transform", "translate(" + this.width * .5 + "," + this.size * .22 + ")");
-            this.content.select(".statusInfo").select("rect")
-                .attr("width", this.width * .5)
-                .attr("height", this.size * .1);
-            this.content.select(".statusInfo").select("text")
-                .attr("transform", "translate(" + this.width * .06 + "," + this.size * .075 + ")")
-                .attr("font-size", this.size * .05)
-                .text("Você perdeu esta tarefa");
-            this.content.select(".statusInfo").select(".exclamationContainer")
-                .attr("transform", "translate(" + this.width * .01 + "," + this.size * .015 + ")");
+            if (a.chartConfig.dimensions.mini) {
+                this.content.select(".statusInfo")
+                    .attr("transform", "translate(" + this.width + "," + this.size * .5 + ")");
+                this.content.select(".statusInfo").select("rect")
+                    //.attr("width", this.width)
+                    .attr("height", this.size * 0.13)
+                this.content.select(".statusInfo").select("text")
+                    .attr("transform", "translate(" + this.width * .06 + "," + this.size * .0975 + ")")
+                    .attr("font-size", this.size * .07)
+                this.content.select(".statusInfo").select(".exclamationContainer")
+                    .attr("transform", "translate(" + this.width * .01 + "," + this.size * .028 + ")");
+            } else {
+                this.content.select(".statusInfo")
+                    .attr("transform", "translate(" + this.width * .5 + "," + this.size * .22 + ")");
+                this.content.select(".statusInfo").select("rect")
+                    //.attr("width", this.width * .5)
+                    .attr("height", this.size * .1);
+                this.content.select(".statusInfo").select("text")
+                    .attr("transform", "translate(" + this.width * .06 + "," + this.size * .075 + ")")
+                    .attr("font-size", this.size * .05)
+                this.content.select(".statusInfo").select(".exclamationContainer")
+                    .attr("transform", "translate(" + this.width * .01 + "," + this.size * .015 + ")");
+            }
             if (!this.exclamationCreated)
                 exclamation(this.content.select(".statusInfo").select(".exclamationContainer"), this.size * .08, this.size * .08, "#FFF"), this.exclamationCreated = true;
             else
@@ -456,20 +466,23 @@ class GanttChart {
             before = b.rect_in_x(b.active, before, transition);
             b.all
                 .transition().delay(before).duration(0)
-                .attr("transform", "translate(" + (-b.width) + ",0)");
+                .attr("transform", function(){return "translate(" + (-document.querySelector(".card").getBoundingClientRect().width) + ",0)"});
 
             b.rects.select(".background")
-                .transition().delay(before + 1).duration(0)
+                .transition().delay(before + 10).duration(0)
                 .attr("width", 0)
                 .attr("height", 0);
             b.rects.select(".progressBar")
-                .transition().delay(before + 1).duration(0)
+                .transition().delay(before + 10).duration(0)
                 .attr("width", 0)
                 .attr("height", 0);
             b.rects.select(".backBar")
-                .transition().delay(before + 1).duration(0)
+                .transition().delay(before + 10).duration(0)
                 .attr("width", 0)
                 .attr("height", 0);
+            b.content.select(".statusInfo").select("rect")
+                .transition().delay(before + 10).duration(0)
+                .attr("width",0);
 
             b.active = false;
             return before + 2;
@@ -532,6 +545,7 @@ class GanttChart {
             this.content.select(".percentInfo")
                 .attr("transform", "translate(" + this.width * .02 + "," + (x + this.size * .14) + ")");
 
+
             x += this.size * .14;
         }
 
@@ -579,22 +593,51 @@ class GanttChart {
                 .attr("height", b.size * .15);
             //Content of Card
 
+            // Tittle of Card
+            b.content.select(".tittle")
+                //.transition().delay(before).duration(transition)
+                .text(data.action + " " + data.name);
+
             //Status info
             var temp = a.chartConfig.layout.texts2[data.status];
             if (temp != undefined && temp != "") {
-                b.content.select(".statusInfo")
-                    .attr("transform", "translate(" + b.width + "," + b.size * .22 + ")")
-                    .select("rect")
-                    .attr("width", 0)
-                b.content.select(".statusInfo")
-                    .transition().delay(before).duration(transition)
-                    .attr("transform", "translate(" + b.width * .5 + "," + b.size * .22 + ")")
-                    .attr("opacity", 1);
+                if (!a.chartConfig.dimensions.mini) {
 
-                b.content.select(".statusInfo").select("rect")
-                    .transition().delay(before).duration(transition)
-                    .attr("width", b.width * .5)
-                    .attr("fill", a.chartConfig.layout.colors[data.status])
+                    if (temp != undefined && temp != "" && document.querySelector(".tittle").getBoundingClientRect().width >= this.width * .50) {
+                        b.content.select(".statusInfo")
+                            .attr("transform", "translate(" + b.width + "," + b.size * .34 + ")")
+                            .select("rect")
+                            .attr("width", 0)
+                        b.content.select(".statusInfo")
+                            .transition().delay(before).duration(transition)
+                            .attr("transform", "translate(" + b.width * .5 + "," + b.size * .34 + ")")
+                            .attr("opacity", 1);
+                    } else {
+                        b.content.select(".statusInfo")
+                            .attr("transform", "translate(" + b.width + "," + b.size * .22 + ")")
+                            .select("rect")
+                            .attr("width", 0)
+                        b.content.select(".statusInfo")
+                            .transition().delay(before).duration(transition)
+                            .attr("transform", "translate(" + b.width * .5 + "," + b.size * .22 + ")")
+                            .attr("opacity", 1);
+                    }
+
+                    b.content.select(".statusInfo").select("rect")
+                        .transition().delay(before).duration(transition)
+                        .attr("width", b.width * .5)
+                        .attr("fill", a.chartConfig.layout.colors[data.status])
+                } else {
+                    b.content.select(".statusInfo")
+                        .attr("transform", "translate(0," + b.size * .6 + ")")
+                        .select("rect")
+                        .attr("width", b.width)
+                        .attr("fill", a.chartConfig.layout.colors[data.status])
+                    b.content.select(".statusInfo")
+                        .transition().delay(before).duration(transition)
+                        .attr("opacity", 1);
+                        
+                }
                 b.content.select(".statusInfo").select("text")
                     .transition().delay(before).duration(transition)
                     .text(temp);
@@ -602,17 +645,6 @@ class GanttChart {
                 b.content.select(".statusInfo")
                     .transition().delay(before).duration(transition)
                     .attr("opacity", 0);
-            }
-
-            // Tittle of Card
-            b.content.select(".tittle")
-                //.transition().delay(before).duration(transition)
-                .text(data.action + " " + data.name);
-            if (temp != undefined && temp != "" && document.querySelector(".tittle").getBoundingClientRect().width >= this.width * .50) {
-                this.reposition(this.size * .27);
-
-            } else {
-                this.reposition(this.size * .15);
             }
 
             //Dates  of Card
@@ -645,7 +677,10 @@ class GanttChart {
                         // case 2:return "Sua meta "+(now.getTime()>=data.date.schedule.getTime()?"era":"é")+" realizar em: "+schedule;
                     }
                 })
-
+            if(data.percent>a.chartConfig.layout.percent_min || data.status == 4)
+                b.content.select(".percentInfo").attr("opacity",1)
+            else
+            b.content.select(".percentInfo").attr("opacity",0)
             b.content.select(".percent")
                 .transition().delay(before).duration(transition)
                 .text(("" + (data.percent * 100)).substr(0, 4) + "%");
@@ -668,28 +703,32 @@ class GanttChart {
                 .text(data.id);
 
             if (data.status == 3 || data.status == 4) {
-                //this.content.select(".buttons").select(".schedule")
-                //.attr("transform", "translate(" + this.width * .325 + ",0)");
                 this.content.select(".buttons").select(".goto")
                     .attr("transform", "translate(" + this.width * .325 + ",0)")
                     .select("text").text("ACESSAR TAREFA");
-            } else if (data.status == 0 || data.status == 2) {
-                //this.content.select(".buttons").select(".schedule")
-                //.attr("transform", "translate(" + this.width * .325 + ",0)");
-                this.content.select(".buttons").select(".goto")
-                    .attr("transform", "translate(" + this.width * .325 + ",0)")
-                    .select("text").text("REALIZAR TAREFA");
             } else {
-                //this.content.select(".buttons").select(".schedule")
-                //.attr("transform", "translate(" + this.width * .6 + ",0)")
-                //.select("text").text(function(){
-                //   if(data.date.schedule.getTime()>data.date.start.getTime())
-                //      return "DEFINIR NOVA META"
-                // else
-                //    return "DEFINIR META PARA A REALIZAÇÂO"});
+                this.content.select(".buttons").select(".goto")
+                    
+                    .select("text").text("REALIZAR TAREFA");
+            }
+            if(a.chartConfig.dimensions.mini){
+                this.content.select(".buttons").select(".goto")
+                    .attr("transform", "translate(" + this.width * .1 + ",0)")
+                    .select("rect")
+                        .attr("width",this.width*.8)
+                this.content.select(".buttons").select(".goto").select("text")
+                    .attr("transform", "translate(" + this.width * .4 + ",0)")
+                    .attr("font-size",this.size*.06)
+                    .attr("dy", "1.2em")
+            }else{
                 this.content.select(".buttons").select(".goto")
                     .attr("transform", "translate(" + this.width * .325 + ",0)")
-                    .select("text").text("REALIZAR TAREFA");
+                    .select("rect")
+                        .attr("width",this.width*.35)
+                this.content.select(".buttons").select(".goto").select("text")
+                        .attr("transform", "translate(" + this.width * .175 + ",0)")
+                        .attr("font-size",this.size*.04)
+                        .attr("dy", "1.6em")
             }
 
             b.content.transition().delay(before + transition * .7).duration(transition * .3).attr("opacity", 1);
@@ -902,37 +941,16 @@ class GanttChart {
         this.card.draw();
 
         this.bottomLegend.setoption();
+        this.card.disable();
         this.reset();
 
         return this;
-    }
-    static definewidth(chartConfig) {
-        if (chartConfig.dimensions == undefined) chartConfig.dimensions = {};
-        chartConfig.dimensions.vertical = false;
-        if (chartConfig.dimensions.width == undefined) {
-            var temp;
-            if (temp = document.querySelector(chartConfig.parent).getBoundingClientRect()) {
-                chartConfig.dimensions.width = temp.width;
-                var prop = window.innerHeight * .6 / window.innerWidth;
-                
-                if (window.innerWidth > 991)
-                    chartConfig.dimensions.height = temp.width / 2 > 500 ? 500 : temp.width / 2
-                else
-                    chartConfig.dimensions.height = temp.width * prop, chartConfig.dimensions.vertical = prop / 0.6 > 1;
-            }
-            else if (chartConfig.dimensions.height == undefined)
-                chartConfig.dimensions.width = 1200, chartConfig.dimensions.height = 500;
-            else
-                chartConfig.dimensions.width = chartConfig.dimensions.height * 12 / 5;
-        }
-        if (chartConfig.dimensions.height == undefined)
-            chartConfig.dimensions.height = chartConfig.dimensions.width * 5 / 12;
     }
     resize(width, height) {
         var a = this;
         a.chartConfig.dimensions.width = width,
             a.chartConfig.dimensions.height = height;
-        GanttChart.definewidth(a.chartConfig);
+        document.definewidth(a.chartConfig, 1200, 500, 5/3, 12 / 5);
         this.draw();
         return this;
     }
@@ -1094,10 +1112,73 @@ class GanttChart {
 
 }
 
+var chartConfig = {
+    name: "multiGanttSubjects",
+    target: "body",
+    data: [
+        { subject: "subject1", link: "" /*Link to Subject's Analytics*/, data: []/* Data of GanttChart w */ },
+    ],
+    dimensions: {
+        width: 1200,
+        height: 600,
+    },
+    margin: {
+        top: 20, bottom: 20, left: 20, right: 20,
+    },
+    layout: {
+        colors: ["#FF9001", "#dfbd31", "#D6D6D6", "#f44336", "#3BA51A"],
+        texts: ["Atrasada", "No prazo", "Planejada", "Perdida", "Concluída"],
+        size: 50,
+        font_size: 16,
+        font_weight: "bold",
+        font: "roboto",
+        background_color: "#F5F5F5",
+        font_color: "#000000",
+
+    },
+    interactions: {
+        mouseover: function (element, data) { },
+        mousemove: function (element, data) { },
+        mouseout: function (element, data) { },
+        click: function (element, data) { },
+    },
+    tooltip: {
+        text: ""
+    },
+}
+
 var multiGanttCont = 0;
 class MultiGanttChart {
     constructor(data) {
         this.create(data).draw();
+    }
+    static validData(chartConfig) {
+        if (chartConfig == undefined || chartConfig.data == undefined) {
+            console.error("DataSet Invalid");
+            throw new Exception();
+        }
+        if (chartConfig.name == undefined) chartConfig.name = "GanttChart" + (ganttCont++);
+        if (chartConfig.target == undefined) chartConfig.target = "body";
+
+        if (chartConfig.margin == undefined) chartConfig.margin = {};
+        if (chartConfig.margin.top == undefined) chartConfig.margin.top = 20;
+        if (chartConfig.margin.right == undefined) chartConfig.margin.right = 10;
+        if (chartConfig.margin.bottom == undefined) chartConfig.margin.bottom = 30;
+        if (chartConfig.margin.left == undefined) chartConfig.margin.left = 10;
+
+        if (chartConfig.layout == undefined) chartConfig.layout = {};
+        if (chartConfig.layout.colors == undefined)
+            chartConfig.layout.colors = ["#AD1111", "#FAA916", "#0B4F6C", "#343434", "#00993F"]
+        if (chartConfig.layout.texts == undefined || chartConfig.layout.texts.length != chartConfig.layout.colors.length)
+            chartConfig.layout.texts = ["Atrasada", "Dentro do Prazo", "Pendência Futura", "Perdida", "Concluída"];
+        if (chartConfig.layout.size == undefined) chartConfig.layout.size = 50;
+        if (chartConfig.layout.font_size == undefined) chartConfig.layout.font_size = 16;
+        if (chartConfig.layout.font == undefined) chartConfig.layout.font = "Roboto";
+        if (chartConfig.layout.background_color == undefined) chartConfig.layout.background_color = "#F5F5F5";
+
+        document.definewidth(chartConfig, 1200, chartConfig.layout.size * 1.2 * chartConfig.data.length);
+
+        chartConfig.interactions = d3.validEvents(interactions);
     }
     create(data) {
         var a = this;
@@ -1117,8 +1198,5 @@ class MultiGanttChart {
         return this;
     }
     draw() {
-
-
-
     }
 }

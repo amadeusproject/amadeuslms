@@ -824,3 +824,26 @@ Math.first_ord = function(x1,y1,x2,y2){
 	return {a: -x1*(y2-y1)/(x2-x1) +y1, b:(y2-y1)/(x2-x1)}
 }
 
+document.definewidth = function(chartConfig,width,height,propWindow,propChart) {//prop - width/height
+	if (chartConfig.dimensions == undefined) chartConfig.dimensions = {};
+	chartConfig.dimensions.vertical = false;
+	chartConfig.dimensions.mini = false;
+	if (chartConfig.dimensions.width == undefined) {
+		var temp;
+		if (temp = document.querySelector(chartConfig.parent).getBoundingClientRect()) {
+			chartConfig.dimensions.width = temp.width;
+			var prop =  window.innerWidth*propWindow/window.innerHeight;
+			//console.log(prop);
+			if (window.innerWidth > 991)
+				chartConfig.dimensions.height = temp.width * 1/propChart > height ? height : temp.width * 1/propChart
+			else
+				chartConfig.dimensions.height = temp.width / prop, chartConfig.dimensions.vertical = prop / propWindow < 1,chartConfig.dimensions.mini = true;
+		}
+		else if (chartConfig.dimensions.height == undefined)
+			chartConfig.dimensions.width = width, chartConfig.dimensions.height = height;
+		else
+			chartConfig.dimensions.width = chartConfig.dimensions.height * propChart;
+	}
+	if (chartConfig.dimensions.height == undefined)
+		chartConfig.dimensions.height = chartConfig.dimensions.width * 1/propChart > height?height:chartConfig.dimensions.width * 1/propChart;
+}

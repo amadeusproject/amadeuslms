@@ -488,7 +488,7 @@ class BottomLegend{
 		
 
 		this.g.attr("transform","translate("
-			+(a.chartConfig.dimensions.right?(.25*a.chartConfig.layout.rect_size):
+			+(a.chartConfig.dimensions.right?(.25*a.chartConfig.layout.rect_size+a.chartConfig.dimensions.x):
 				((a.chartConfig.dimensions.width-document.querySelector("#"+this.name+"-g").getBoundingClientRect().width)/2+a.chartConfig.dimensions.x))+","
 			+(a.chartConfig.dimensions.y)+")");
 
@@ -596,9 +596,8 @@ class BottomLegend{
 			var limit = max*1.1;
 			var keep = true;
 			var width = this.chartConfig.dimensions.width;
-
 			while(keep){
-				if(legends[0].length*this.space>width)
+				if(legends[0].length*this.space>width){
 					if(width/legends[0].length >limit){
 						this.space = width/legends[0].length;
 						keep = false;
@@ -608,7 +607,7 @@ class BottomLegend{
 						if (temp == legends.length)
 							keep = false;
 					}
-				else{
+				}else{
 					keep = false;
 				}
 			}
