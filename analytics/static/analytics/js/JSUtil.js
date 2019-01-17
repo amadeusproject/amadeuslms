@@ -8,7 +8,7 @@
  * Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
  * 
  * Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
-*/ 
+*/
 
 /**
  * Reserved to codes for general use of aplications
@@ -856,7 +856,7 @@ document.definewidth = function (chartConfig, width, height, propWindow, propCha
 				else
 					chartConfig.dimensions.height = temp.width / prop, chartConfig.dimensions.vertical = prop / propWindow < 1, chartConfig.dimensions.mini = true;
 			}
-		}else if (chartConfig.dimensions.height == undefined)
+		} else if (chartConfig.dimensions.height == undefined)
 			chartConfig.dimensions.width = width, chartConfig.dimensions.height = height;
 		else
 			chartConfig.dimensions.width = chartConfig.dimensions.height * propChart;
@@ -864,3 +864,16 @@ document.definewidth = function (chartConfig, width, height, propWindow, propCha
 	if (chartConfig.dimensions.height == undefined)
 		chartConfig.dimensions.height = !propChart || chartConfig.dimensions.width * 1 / propChart > height ? height : chartConfig.dimensions.width * 1 / propChart;
 }
+
+
+
+function muralPin(target, width, height, fill, stroke, stroke_width) {
+	if (stroke != undefined && stroke_width == undefined) stroke_width = 2;
+	target.selectAll(".muralpin").data(range(1)).enter().append("g").attr("class", "muralpin").attr("transform", muralPinGconfig(width, height)).attr("fill", fill).attr("stroke", stroke).attr("stroke-width", stroke_width)
+		.selectAll("path").data(range(1)).enter().append("path").attr("d", "M10590 7785 c-107 -31 -178 -85 -272 -209 -101 -133 -159 -289 -158 -423 1 -66 24 -188 48 -249 l19 -52 -351 -404 c-193 -223 -366 -422 -384 -443 l-34 -37 -146 70 c-277 133 -443 181 -658 189 -174 7 -255 -9 -386 -74 -70 -35 -107 -62 -168 -123 -169 -169 -232 -395 -185 -663 55 -315 290 -727 627 -1099 73 -80 78 -89 67 -110 -24 -45 -148 -225 -239 -348 -114 -153 -638 -805 -735 -915 -454 -513 -699 -840 -729 -968 -8 -35 9 -67 35 -67 68 0 313 199 715 581 458 436 1063 1016 1226 1177 102 101 190 183 195 181 4 -2 55 -36 113 -75 348 -235 749 -422 1030 -481 59 -12 127 -17 220 -17 117 1 145 4 212 26 157 52 266 153 348 321 70 144 85 206 85 357 0 278 -87 510 -338 902 -12 18 8 42 268 323 77 83 185 205 240 270 55 66 136 161 179 210 44 50 80 91 80 91 1 1 33 -5 71 -13 99 -21 252 -13 327 16 86 33 172 95 279 201 111 109 152 179 170 289 14 84 1 187 -38 296 -178 494 -836 1090 -1381 1251 -111 33 -271 41 -352 19z");
+}
+
+/*function muralPinRefatoring(target, width, height, fill, stroke, stroke_width) {
+	if (stroke != undefined && stroke_width == undefined) stroke_width = 2;
+	target.select(".muralpin").attr("transform", muralPinGconfig(width, height)).attr("fill", fill).attr("stroke", stroke).attr("stroke-width", stroke_width);
+}*/

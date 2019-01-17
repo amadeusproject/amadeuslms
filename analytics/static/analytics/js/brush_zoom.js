@@ -95,6 +95,7 @@ class GanttChart {
             }
             return d;
         }
+        
         function type2(d, i) {
             //Settando status
             var start = d.date.start.getTime(),
@@ -102,15 +103,15 @@ class GanttChart {
                 delay = d.date.delay.getTime();
 
             if (d.done == true)
-                d.status = 4
+                d.status = 4,chartConfig.data_legend[4].label++
             else if (now < start)
-                d.status = 2
+                d.status = 2,chartConfig.data_legend[2].label++
             else if (now <= end && now >= start)
-                d.status = 1
+                d.status = 1,chartConfig.data_legend[1].label++
             else if (now >= delay)
-                d.status = 3
+                d.status = 3,chartConfig.data_legend[3].label++
             else
-                d.status = 0;
+                d.status = 0,chartConfig.data_legend[0].label++;
             //Settando Posição - Evitando sobreposição
             var pos = positions.indexOf(null);
             if (pos == -1) {
@@ -140,10 +141,22 @@ class GanttChart {
             return start1 > start2 ? 1 : (start1 < start2 ? -1 : 0);
         }
 
+        function sortbyStatus(d1, d2) { return d1.status > d2.status ? -1 : (d1.status < d2.status ? 1 : sortByDate(d1, d2)); }
+
         chartConfig.data.sort(sortByDate);
 
+        chartConfig.data_legend = chartConfig.layout.texts.map(function(d,i){
+            return {name:d,color:chartConfig.layout.colors[i],label:0}
+        });
+
         chartConfig.data = chartConfig.data.map(type2);
-        function sortbyStatus(d1, d2) { return d1.status > d2.status ? -1 : (d1.status < d2.status ? 1 : sortByDate(d1, d2)); }
+
+        chartConfig.data_legend = chartConfig.data_legend.map(function(d){
+            d.label *= 100/chartConfig.data.length;
+            d.label = "" + Math.round(d.label) + "%"
+            return d;
+        })
+        
         chartConfig.data.sort(sortbyStatus);
 
         chartConfig.data = chartConfig.data.map(function (d, i) { d.id = i; return d; });
@@ -163,16 +176,25 @@ class GanttChart {
                 this.chartConfig.dimensions.height = +svg.attr("height");
         this.backcolor = "#F5F5F5";
         this.svg.style("background-color", this.backcolor);
-        this.pattern = this.svg.append("defs").append("pattern").attr("id", "diagonal-stripe-1")
+        this.pattern = this.svg.append("defs").selectAll("pattern").data(a.chartConfig.layout.colors).enter().append("pattern").attr("id", function(d,i){return "hachura-status-"+i}).attr("class","diagonal-stripe-1")
+            .attr("patternUnits", "userSpaceOnUse")
+            .attr("width", 10).attr("height", 10)
+            .attr("background-color", this.backcolor);
+        this.pattern.append("path")
+            .attr("d", "M 0 10 L 12 -2")
+            .attr("stroke", function(d){return d})
+            .attr("stroke-width", 2);
+
+/*        this.pattern = this.svg.append("defs").append("pattern").attr("id", "diagonal-stripe-1")
             .attr("patternUnits", "userSpaceOnUse")
             .attr("width", 10).attr("height", 10)
             .attr("background-color", this.backcolor);
 
         this.pattern.append("path")
             .attr("d", "M 0 10 L 12 -2")
-            .attr("stroke", "#222")
-            .attr("stroke-width", 1);
-
+            .attr("stroke", a.chartConfig.layout.colors[4])
+            .attr("stroke-width", 2);
+*/
 
         this.x = d3.scaleTime();
         this.x2 = d3.scaleTime();
@@ -199,7 +221,7 @@ class GanttChart {
             .style("cursor", "pointer")
             .attr("class", function (d) { return "notifications status-" + d.status });
         this.notifications.append("rect").attr("class", "backBar")
-            .style("fill", "url(#diagonal-stripe-1) none")
+            .style("fill", function(d){return "url(#hachura-status-"+d.status+") none"})
 
         this.notifications.append("rect").attr("class", "progressBar")
             .attr("fill", function (d) { return a.chartConfig.layout.colors[d.status] });
@@ -234,7 +256,6 @@ class GanttChart {
                 .attr("fill", "#fff")
                 .attr("stroke-width", "2");
             this.rects.append("rect").attr("class", "backBar")
-                .style("fill", "url(#diagonal-stripe-1) " + a.backcolor)
                 .attr("stroke-width", 0);
             this.rects.append("rect").attr("class", "progressBar");
 
@@ -536,7 +557,7 @@ class GanttChart {
             b.rects.select(".backBar")
                 .transition().delay(before).duration(transition)
                 .attr("fill", a.backcolor)
-                //.attr("fill", a.chartConfig.layout.backcolors[data.status])
+                .style("fill", "url(#hachura-status-"+data.status+")"+a.backcolor)
 
                 .attr("width", a.x(data.date.end) - a.x(data.date.start))
                 .attr("height", a.y.bandwidth());
@@ -603,6 +624,7 @@ class GanttChart {
             b.rects.select(".backBar")
                 .transition().delay(before).duration(transition)
                 .attr("width", b.width)
+                .style("fill", "url(#hachura-status-"+data.status+")#fff")
                 .attr("height", b.size * .15);
             //Content of Card
 
@@ -773,7 +795,7 @@ class GanttChart {
             return null;
         }
         var legendConfig = {
-            data: a.chartConfig.layout.texts.map(function (d, i) { return { color: a.chartConfig.layout.colors[i], name: d } }),
+            data: chartConfig.data_legend,
             target: a.chartConfig.parent,
             svg: a.chartConfig.svg,
             dimensions: {
@@ -788,11 +810,12 @@ class GanttChart {
                 stroke_over: "#a2c",
                 anchor: "middle", // start middle end
                 enable_mark: true,
+                label:true,
             },
             interactions: {
-                mouseover: function (element, data) { },
-                mousemove: function (element, data) { },
-                mouseout: function (element, data) { },
+                //mouseover: function (element, data) { },
+                //mousemove: function (element, data) { },
+                //mouseout: function (element, data) { },
                 click: function (element, data) {
                     a.card.disable(0, 500);
                     //a.goto(searchStatus(status));
@@ -929,9 +952,9 @@ class GanttChart {
         }
 
         this.contextRects
-            .attr("transform", function (d) { return "translate(" + a.x2(d.date.start) + ",0)" })
+            .attr("transform", function (d) { return "translate(" + a.x2(d.date.start) + ","+a.height2*.15+")" })
             .attr("width", widthRect)
-            .attr("height", a.height2)
+            .attr("height", a.height2*.7)
             .attr("rx", a.height2 / 3 > 10 ? 10 : a.height2 / 3)
             .attr("ry", a.height2 / 3 > 10 ? 10 : a.height2 / 3)
             .attr("stroke", "#ddd")
