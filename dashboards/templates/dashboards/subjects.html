@@ -56,7 +56,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     {% endif %}
     <!--{{ graph_data }}-->
 
-    <div id="gantt"></div>
+    <div id="gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12"></div>
+    <div id="period" class="col-md-12 col-xs-12 col-sm-12 col-lg-12"></div>
+    <div id="legend-gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12"></div>
 
     <div class="col-md-2 col-xs-12 col-sm-12 col-lg-2 text-center">
             <button onclick="ganttChart.reset();" class="btn btn-success btn-raised btn-block" style="position: initial;"> Hoje{% trans "To day" as bread %} </button>
@@ -65,15 +67,16 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     <script type="text/javascript">
         var chartConfig = {
             name: "GanttChart",
-            parent: "#gantt",
+            parents:{
+                focus:"#gantt",
+                context:"#period",
+                legend:"#legend-gantt",
+            },
             data: {% autoescape off %}{{ graph_data }}{% endautoescape %},
             //dimensions: { width: 1200, height: 500 },
-            margin: {
-                top: 20, right: 10, bottom: 30, left: 10
-            },
+            
             layout: {
                 maxrow: 5,
-                contextHeight: 0.1,
                 colors: ["#FF9001", "#dfbd31", "#D6D6D6", "#f44336", "#3BA51A"],
                 texts: ["Atrasada", "No prazo", "Planejada", "Perdida", "Concluída"],
                 texts2: ["Esta tarefa está atrasada", "Você ainda não realizou esta tarefa", "", "Você perdeu esta tarefa", ""],

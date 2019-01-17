@@ -25,16 +25,24 @@ class GanttChart {
 
         if (chartConfig.name == undefined) chartConfig.name = "GanttChart" + (ganttCont++);
         if (chartConfig.parent == undefined) chartConfig.parent = "body";
+
+        if(chartConfig.parents == undefined)chartConfig.parents ={};
+        if(chartConfig.parents.focus == undefined)chartConfig.parents.focus = chartConfig.parent;
+        if(chartConfig.parents.context == undefined)chartConfig.parents.context = chartConfig.parents.focus;
+        if(chartConfig.parents.legend == undefined)chartConfig.parents.legend = chartConfig.parent;
+
+
+
         document.definewidth(chartConfig, 1200, 500, 5 / 3, 12 / 5);
         if (chartConfig.margin == undefined) chartConfig.margin = {};
         if (chartConfig.margin.top == undefined) chartConfig.margin.top = 20;
         if (chartConfig.margin.right == undefined) chartConfig.margin.right = 10;
-        if (chartConfig.margin.bottom == undefined) chartConfig.margin.bottom = 30;
+        if (chartConfig.margin.bottom == undefined) chartConfig.margin.bottom = 25;
         if (chartConfig.margin.left == undefined) chartConfig.margin.left = 10;
 
         if (chartConfig.layout == undefined) chartConfig.layout = {};
         if (chartConfig.layout.maxrow == undefined) chartConfig.layout.maxrow = 5;
-        if (chartConfig.layout.contextHeight == undefined) chartConfig.layout.contextHeight = 0.1;
+        if (chartConfig.layout.contextHeight == undefined) chartConfig.layout.contextHeight = 0.15;
         if (chartConfig.layout.colors == undefined)
             chartConfig.layout.colors = ["#AD1111", "#FAA916", "#0B4F6C", "#343434", "#00993F"]
         if (chartConfig.layout.texts == undefined || chartConfig.layout.texts.length != chartConfig.layout.colors.length)
@@ -170,12 +178,15 @@ class GanttChart {
         var a = this;
         this.chartConfig = chartConfig;
         this.now = chartConfig.now;
-        this.svg = a.chartConfig.svg ? d3.select(a.chartConfig.parent) : d3.select(a.chartConfig.parent).append("svg").attr("id", chartConfig.name + "-container")
+        this.svg = a.chartConfig.svg ? d3.select(a.chartConfig.parents.focus) : d3.select(a.chartConfig.parents.focus).append("svg").attr("id", chartConfig.name + "-container")
+        console.log(a.chartConfig.parents.context);
+        this.svg2 = d3.select(a.chartConfig.parents.context).append("svg").attr("id", chartConfig.name + "-context");
         if (a.chartConfig.svg)
             this.chartConfig.dimensions.width = +svg.attr("width"),
                 this.chartConfig.dimensions.height = +svg.attr("height");
         this.backcolor = "#F5F5F5";
         this.svg.style("background-color", this.backcolor);
+        this.svg2.style("background-color", this.backcolor);
         this.pattern = this.svg.append("defs").selectAll("pattern").data(a.chartConfig.layout.colors).enter().append("pattern").attr("id", function(d,i){return "hachura-status-"+i}).attr("class","diagonal-stripe-1")
             .attr("patternUnits", "userSpaceOnUse")
             .attr("width", 10).attr("height", 10)
@@ -213,7 +224,7 @@ class GanttChart {
 
         this.focus = a.svg.append("g")
             .attr("class", "focus");
-        this.context = a.svg.append("g")
+        this.context = a.svg2.append("g")
             .attr("class", "context");
         this.focusContent = a.focus.append("g").attr("class", "focuscontextContent");
 
@@ -796,7 +807,7 @@ class GanttChart {
         }
         var legendConfig = {
             data: chartConfig.data_legend,
-            target: a.chartConfig.parent,
+            target: a.chartConfig.parents.legend,
             svg: a.chartConfig.svg,
             dimensions: {
                 width: a.chartConfig.dimensions.width
@@ -899,15 +910,36 @@ class GanttChart {
     }
     draw() {
         var a = this;
-        this.margin = { top: a.chartConfig.margin.top, right: a.chartConfig.margin.right, bottom: a.chartConfig.dimensions.height * a.chartConfig.layout.contextHeight + a.chartConfig.margin.bottom + a.chartConfig.margin.top, left: a.chartConfig.margin.left };
-        this.margin2 = { top: a.chartConfig.dimensions.height * (1 - a.chartConfig.layout.contextHeight) - a.chartConfig.margin.bottom, right: a.chartConfig.margin.right, bottom: a.chartConfig.margin.bottom, left: a.chartConfig.margin.left };
+        this.margin = { top: a.chartConfig.margin.top, 
+                        right: a.chartConfig.margin.right, 
+                        bottom: a.chartConfig.margin.bottom, 
+                        left: a.chartConfig.margin.left 
+                    };
+        this.margin2 = { top: 5, 
+                        right: a.chartConfig.margin.right, 
+                        bottom: a.chartConfig.margin.bottom, 
+                        left: a.chartConfig.margin.left };
+
+        console.log(this.chartConfig.dimensions.height)
+
+        this.chartConfig.dimensions.height2 = a.chartConfig.dimensions.height*a.chartConfig.layout.contextHeight;
+        this.chartConfig.dimensions.height = a.chartConfig.dimensions.height*(1-a.chartConfig.layout.contextHeight);
+
+        console.log(this.chartConfig.dimensions.height)
+        console.log(this.chartConfig.dimensions.height2)
+
         this.width = a.chartConfig.dimensions.width - a.margin.left - a.margin.right;
         this.height = a.chartConfig.dimensions.height - a.margin.top - a.margin.bottom;
-        this.height2 = a.chartConfig.dimensions.height - a.margin2.top - a.margin2.bottom;
+
+        this.height2 = a.chartConfig.dimensions.height2 - a.margin2.top - a.margin2.bottom;
 
         this.svg
             .attr("width", a.chartConfig.dimensions.width)
             .attr("height", a.chartConfig.dimensions.height)
+
+        this.svg2
+            .attr("width", a.chartConfig.dimensions.width)
+            .attr("height", a.chartConfig.dimensions.height2)
 
         this.x.range([0, a.width]),
             this.x2.range([0, a.width]),
