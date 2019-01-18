@@ -55,6 +55,12 @@ class GanttChart {
         if (chartConfig.layout.min_size_card == undefined) chartConfig.layout.min_size_card = 200;
         if (chartConfig.layout.backcolor == undefined) chartConfig.layout.backcolor = "#F5F5F5";
         if (chartConfig.layout.percent_min == undefined) chartConfig.layout.percent_min = 0.3;
+        if(chartConfig.layout.percent_text == undefined) chartConfig.layout.percent_text = "Tarefa já realizada por % dos participantes";
+        if(chartConfig.layout.buttonAccess_text == undefined)chartConfig.layout.buttonAccess_text = "ACESSAR TAREFA";
+        if(chartConfig.layout.buttonDoTask_text == undefined)chartConfig.layout.buttonDoTask_text = "REALIZAR TAREFA";
+        if(chartConfig.layout.initDate_text == undefined)chartConfig.layout.initDate_text = "Data/Hora inicial: ";
+        if(chartConfig.layout.endDate_text == undefined)chartConfig.layout.endDate_text = "Data/Hora final: ";
+        if(chartConfig.layout.closedDate_text == undefined)chartConfig.layout.closedDate_text = "Tarefa encerrada em: ";
 
         chartConfig.now = new Date();
         var now = chartConfig.now.getTime();
@@ -79,25 +85,25 @@ class GanttChart {
             if (d.percent > 1) d.percent = 1;
             if (d.percent < 0) d.percent = 0;
             //Configurando datas
-            if (d.date.start != undefined) {
+            if (d.date.start != undefined && d.date.start!= "") {
                 d.date.start = new Date(d.date.start);
             }
 
-            if (d.date.end != undefined) {
+            if (d.date.end != undefined && d.date.end!= "") {
                 d.date.end = new Date(d.date.end);
             }
 
-            if (d.date.delay != undefined) {
+            if (d.date.delay != undefined && d.date.delay!= "") {
                 d.date.delay = new Date(d.date.delay);
             } else {
                 d.date.delay = d.date.end;
             }
 
-            if (d.date.schedule != undefined) {
+            /*if (d.date.schedule != undefined && d.date.schedule!= "") {
                 d.date.schedule = new Date(d.date.schedule);
             } else {
                 d.date.schedule = d.date.start;
-            }
+            }*/
 
             if (!(d.date.start instanceof Date) || !(d.date.end instanceof Date) || d.date.start.getTime() > d.date.end.getTime()) {
 
@@ -306,12 +312,12 @@ class GanttChart {
             // Percent of done
             this.content.append("g").attr("class", "percentInfo");
             this.content.select(".percentInfo").append("text").attr("class", "info info1")
-                .attr("text-anchor", "start").text("Tarefa já realizada por");
+                .attr("text-anchor", "start").text(a.chartConfig.layout.percent_text.match(/^[^%]{1,}(?=%)/)[0]);
             this.content.select(".percentInfo").append("text").attr("class", "percent")
                 .style("font-weight", "bold")
                 //.attr("text-anchor", "middle");
             this.content.select(".percentInfo").append("text").attr("class", "info info2")
-                .attr("text-anchor", "start").text("dos participantes.");
+                .attr("text-anchor", "start").text(a.chartConfig.layout.percent_text.match(/(?<=%)[^%]{1,}$/)[0]);
 
             // Description (Optional)
             this.content.append("g").attr("class", "desc")
@@ -343,7 +349,7 @@ class GanttChart {
             this.content.select(".buttons").select(".goto").append("text")
                 .attr("text-anchor", "middle")
                 .attr("fill", "#000")
-                .text("Realizar tarefa");//Acessar Tarefa
+                .text(a.chartConfig.layout.buttonDoTask_text);//Acessar Tarefa
             
             this.closer = this.all.append("g").attr("class","closer").style("cursor", "pointer").on("click",function(){b.disable(0,400)}).attr("opacity",0);
 
@@ -732,16 +738,16 @@ class GanttChart {
                     }
                 })
                 .text(function (d, i) {
-                    var start = data.date.start.toLocaleString(),
+                    var start = data.date.start.toLocaleString("pt-br"),
                         end = data.date.end,
                         now = a.chartConfig.now;
                     //  schedule = data.date.schedule.toLocaleString();
                     if (end.getTime() < now.getTime()) end = data.date.delay;
-                    end = end.toLocaleString();
+                    end = end.toLocaleString("pt-br");
 
                     switch (i) {
-                        case 0: return "Data/Hora inicial: " + start.substr(0, start.length - 3);
-                        case 1: return (data.status == 3 ? "Tarefa encerrada em: " : "Data/Hora final: ") + end.substr(0, start.length - 3);
+                        case 0: return a.chartConfig.layout.initDate_text + start.substr(0, start.length - 3);
+                        case 1: return (data.status == 3 ? a.chartConfig.layout.closedDate_text : a.chartConfig.layout.endDate_text) + end.substr(0, start.length - 3);
                         // case 2:return "Sua meta "+(now.getTime()>=data.date.schedule.getTime()?"era":"é")+" realizar em: "+schedule;
                     }
                 })
@@ -776,11 +782,11 @@ class GanttChart {
             if (data.status == 3 || data.status == 4) {
                 this.content.select(".buttons").select(".goto")
                     .attr("transform", "translate(" + this.width * .325 + ",0)")
-                    .select("text").text("ACESSAR TAREFA");
+                    .select("text").text(a.chartConfig.layout.buttonAccess_text);
             } else {
                 this.content.select(".buttons").select(".goto")
 
-                    .select("text").text("REALIZAR TAREFA");
+                    .select("text").text(a.chartConfig.layout.buttonDoTask_text);
             }
             if (a.chartConfig.dimensions.mini) {
                 this.content.select(".buttons").select(".goto")

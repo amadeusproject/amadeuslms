@@ -254,6 +254,7 @@ class SubjectView(LogMixin, generic.TemplateView):
             context["graph_data"] = json.dumps(get_pend_graph(self.request.user, subject))
 
         context["subject"] = subject
+        context["language"] = self.request.GET.get('language','')
         context['javascript_files'] = []
         context['style_files'] = ['dashboards/css/general.css', 'dashboards/css/dashboards_category.css']
         

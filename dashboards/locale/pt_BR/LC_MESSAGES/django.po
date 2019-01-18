@@ -153,6 +153,84 @@ msgstr "Novembro"
 msgid "December"
 msgstr "Dezembro"
 
+msgid "Jan"
+msgstr "Jan"
+
+msgid "Feb"
+msgstr "Fev"
+
+msgid "Mar"
+msgstr "Mar"
+
+msgid "Apr"
+msgstr "Abr"
+
+msgid "May"
+msgstr "Mai"
+
+msgid "Jun"
+msgstr "Jun"
+
+msgid "Jul"
+msgstr "Jul"
+
+msgid "Aug"
+msgstr "Ago"
+
+msgid "Sep"
+msgstr "Set"
+
+msgid "Oct"
+msgstr "Out"
+
+msgid "Nov"
+msgstr "Nov"
+
+msgid "Dec"
+msgstr "Dez"
+
+msgid "Sunday"
+msgstr "Domingo"
+
+msgid "Monday"
+msgstr "Segunda"
+
+msgid "Tuesday"
+msgstr "Terça-feira"
+
+msgid "Wednesday"
+msgstr "Quarta"
+
+msgid "Thursday"
+msgstr "Quinta-feira"
+
+msgid "Friday"
+msgstr "Sexta"
+
+msgid "Saturday"
+msgstr "Sábado"
+
+msgid "Sun"
+msgstr "Dom"
+
+msgid "Mon"
+msgstr "Seg"
+
+msgid "Tue"
+msgstr "Ter"
+
+msgid "Wed"
+msgstr "Qua"
+
+msgid "Thu"
+msgstr "Qui"
+
+msgid "Fri"
+msgstr "Sex"
+
+msgid "Sat"
+msgstr "Sab"
+
 #~ msgid "Most accessed categories"
 #~ msgstr "Categorias mais acessadas"
 
@@ -182,3 +260,45 @@ msgstr "Selecione o que temos para hoje"
 
 msgid "Today"
 msgstr "Hoje"
+
+msgid "Late"
+msgstr "Atrasada"
+
+msgid "On time"
+msgstr "No prazo"
+
+msgid "Planned"
+msgstr "Planejada"
+
+msgid "Lost"
+msgstr "Perdida"
+
+msgid "Completed"
+msgstr "Concluída"
+
+msgid "This task is late"
+msgstr "Esta tarefa está atrasada"
+
+msgid "You have not yet accomplish this task"
+msgstr "Você ainda não realizou esta tarefa"
+
+msgid "You missed this task"
+msgstr "Você perdeu esta tarefa"
+
+msgid "Task already accomplish by % of participants"
+msgstr "Tarefa já realizada por % dos participantes"
+
+msgid "ACCESS TASK"
+msgstr "ACESSAR TAREFA"
+
+msgid "DO THE TASK"
+msgstr "REALIZAR TAREFA"
+
+msgid "Start Date / Time: "
+msgstr "Data/hora inicial: "
+
+msgid "End Date / Time: "
+msgstr "Data/hora final: "
+
+msgid "Task closed on: "
+msgstr "Tarefa encerrada em: "
