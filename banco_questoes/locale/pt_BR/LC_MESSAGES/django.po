@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-15 04:26+0000\n"
+"POT-Creation-Date: 2019-01-18 21:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,7 +52,7 @@ msgstr "Arquivo não suportado."
 msgid "Statement"
 msgstr "Enunciado"
 
-#: banco_questoes/models.py:27 banco_questoes/models.py:41
+#: banco_questoes/models.py:27 banco_questoes/models.py:42
 msgid "Image"
 msgstr "Imagem"
 
@@ -60,15 +60,21 @@ msgstr "Imagem"
 msgid "Subject"
 msgstr "Assunto"
 
-#: banco_questoes/models.py:39
+#: banco_questoes/models.py:30
+#, fuzzy
+#| msgid "Create Question"
+msgid "Created At"
+msgstr "Criar Questão"
+
+#: banco_questoes/models.py:40
 msgid "Content"
 msgstr "Conteúdo"
 
-#: banco_questoes/models.py:40
+#: banco_questoes/models.py:41
 msgid "Question"
 msgstr "Questão"
 
-#: banco_questoes/models.py:42
+#: banco_questoes/models.py:43
 msgid "Is correct?"
 msgstr "É correta?"
 

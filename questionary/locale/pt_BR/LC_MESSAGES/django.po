@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-15 04:26+0000\n"
+"POT-Creation-Date: 2019-01-18 21:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
 #: questionary/forms.py:48
 msgid "Tags"
 msgstr "Tags"
@@ -31,21 +32,26 @@ msgstr "Esse assunto já possui um questionário com esse nome"
 
 #: questionary/forms.py:82 questionary/forms.py:95
 msgid "This input should be filled with a date equal or after today's date."
-msgstr "Esse campo deve ser preenchido com uma data igual ou após a data atual."
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou após a data atual."
 
 #: questionary/forms.py:85 questionary/forms.py:98
 #, python-format
 msgid ""
 "This input should be filled with a date equal or after the subject begin "
 "date.(\"%s\")"
-msgstr "Esse campo deve ser preenchido com uma data igual ou após a data de início do assunto. (\"%s\")"
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou após a data de início "
+"do assunto. (\"%s\")"
 
 #: questionary/forms.py:88 questionary/forms.py:101
 #, python-format
 msgid ""
 "This input should be filled with a date equal or before the subject end date."
 "(\"%s\")"
-msgstr "Esse campo deve ser preenchido com uma data igual ou anterior à data final do assunto.(\"%s\")"
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou anterior à data final "
+"do assunto.(\"%s\")"
 
 #: questionary/forms.py:90 questionary/forms.py:106
 msgid "This field is required"
@@ -55,7 +61,9 @@ msgstr "Esse campo é obrigatório"
 msgid ""
 "This input should be filled with a date equal or before the date stabilished "
 "for the init."
-msgstr "Esse campo deve ser preenchido com uma data igual ou anterior à data estabelecida para o início."
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou anterior à data "
+"estabelecida para o início."
 
 #: questionary/forms.py:169
 msgid "You must provide the number of questions for the combination."
@@ -65,7 +73,9 @@ msgstr "Você deve fornecer o número de questões para a combinação."
 msgid ""
 "There is no questions for this combination of categories. Please try another "
 "combination."
-msgstr "Não há questões para essa combinação de categorias. Por favo tente outra combinação."
+msgstr ""
+"Não há questões para essa combinação de categorias. Por favo tente outra "
+"combinação."
 
 #: questionary/forms.py:186
 msgid "It's necessary to enter at least one question specification."
@@ -87,7 +97,7 @@ msgstr "Data final"
 msgid "Are you sure you want delete the Questionary"
 msgstr "Você tem certeza que deseja deletar o Questionário"
 
-#: questionary/models.py:58 questionary/models.py:63
+#: questionary/models.py:58 questionary/models.py:63 questionary/views.py:701
 msgid "Questionary"
 msgstr "Questionário"
 
@@ -96,6 +106,8 @@ msgid "Number of Questions"
 msgstr "Número de questões"
 
 #: questionary/models.py:64
+#: questionary/templates/questionary/relatorios.html:29
+#: questionary/templates/questionary/relatorios.html:49
 msgid "User"
 msgstr "Usuário"
 
@@ -125,6 +137,10 @@ msgstr "É correta?"
 msgid "Order"
 msgstr "Ordem"
 
+#: questionary/models.py:74
+msgid "Created At"
+msgstr ""
+
 #: questionary/templates/questionary/_form.html:69
 msgid "Questions Specification"
 msgstr "Especificação de questão"
@@ -133,61 +149,124 @@ msgstr "Especificação de questão"
 msgid "Select at least one categorie of the questions database"
 msgstr "Selecione ao menos uma categoria do banco de questões"
 
-#: questionary/templates/questionary/_form.html:184
+#: questionary/templates/questionary/_form.html:186
 msgid "Common resources settings"
 msgstr "Configurações comuns aos recursos"
 
-#: questionary/templates/questionary/_form.html:232
+#: questionary/templates/questionary/_form.html:234
 msgid "Pendencies Notifications"
 msgstr "Notificações de pendências"
 
-#: questionary/templates/questionary/_form.html:261
+#: questionary/templates/questionary/_form.html:263
 msgid "Action not performed by the user"
 msgstr "Ação não realizada pelo usuário"
 
-#: questionary/templates/questionary/_form.html:287
+#: questionary/templates/questionary/_form.html:289
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: questionary/templates/questionary/_form.html:380
+#: questionary/templates/questionary/_form.html:382
 msgid "Students"
 msgstr "Estudantes"
 
-#: questionary/templates/questionary/_form.html:410
+#: questionary/templates/questionary/_form.html:412
 msgid "Attribute students to Questionary"
 msgstr "Atribuir estudantes ao questionário"
 
-#: questionary/templates/questionary/_form.html:430
+#: questionary/templates/questionary/_form.html:432
 msgid "Attribute groups to Questionary"
 msgstr "Atribuir grupos ao questionário"
 
-#: questionary/templates/questionary/_form.html:499
+#: questionary/templates/questionary/_form.html:501
 msgid "Save"
 msgstr "Salvar"
 
-#: questionary/templates/questionary/_form.html:503
+#: questionary/templates/questionary/_form.html:505
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: questionary/templates/questionary/_form.html:510
+#: questionary/templates/questionary/_form.html:512
 msgid "Add specification"
 msgstr "Adicionar especificação"
 
-#: questionary/templates/questionary/_form.html:511
+#: questionary/templates/questionary/_form.html:513
 msgid "Remove this specification"
 msgstr "Remover essa especificação"
 
-#: questionary/templates/questionary/_form.html:577
+#: questionary/templates/questionary/_form.html:579
 msgid "Add new notification"
 msgstr "Adicionar nova notificação"
 
-#: questionary/templates/questionary/_form.html:578
+#: questionary/templates/questionary/_form.html:580
 msgid "Remove this"
 msgstr "Remover essa"
 
-#: questionary/templates/questionary/create.html:33 questionary/views.py:322
+#: questionary/templates/questionary/create.html:33 questionary/views.py:343
 msgid "Create Questionary"
 msgstr "Criar questionário"
+
+#: questionary/templates/questionary/relatorios.html:29
+#: questionary/templates/questionary/relatorios.html:49
+msgid "Group"
+msgstr ""
+
+#: questionary/templates/questionary/relatorios.html:29
+msgid "Action"
+msgstr ""
+
+#: questionary/templates/questionary/relatorios.html:29
+msgid "Date of Action"
+msgstr ""
+
+#: questionary/templates/questionary/relatorios.html:49
+msgid "Send message"
+msgstr ""
+
+#: questionary/templates/questionary/relatorios.html:49
+msgid "Action don't realized"
+msgstr ""
+
+#: questionary/templates/questionary/relatorios.html:164
+#: questionary/templates/questionary/relatorios.html:186
+msgid "Reports"
+msgstr ""
+
+#: questionary/templates/questionary/relatorios.html:193
+msgid "Report of the resource "
+msgstr ""
+
+#: questionary/templates/questionary/relatorios.html:202
+msgid "Select the period: "
+msgstr ""
+
+#: questionary/templates/questionary/relatorios.html:211
+msgid "Search"
+msgstr ""
+
+#: questionary/templates/questionary/relatorios.html:235
+msgid "Filter: "
+msgstr ""
+
+#: questionary/templates/questionary/relatorios.html:259
+#: questionary/templates/questionary/relatorios.html:344
+msgid "record(s)"
+msgstr ""
+
+#: questionary/templates/questionary/send_message.html:50
+msgid "Click or drop the picture here"
+msgstr ""
+
+#: questionary/templates/questionary/send_message.html:52
+msgid "The picture could not exceed 5MB."
+msgstr ""
+
+#: questionary/templates/questionary/send_message.html:74
+msgid "Close"
+msgstr ""
+
+#: questionary/templates/questionary/send_message.html:75
+msgid "Send"
+msgstr ""
 
 #: questionary/templates/questionary/update.html:33
 msgid "Edit: "
@@ -230,42 +309,94 @@ msgstr "Questões corretas"
 msgid "The student did not start the questionary yet."
 msgstr "O estudante ainda não iniciou o questionário."
 
-#: questionary/templates/questionary/view.html:187
-#: questionary/templates/questionary/window_view.html:157
+#: questionary/templates/questionary/view.html:186
+#: questionary/templates/questionary/window_view.html:156
 msgid "Something went wrong. Please try again later"
 msgstr "Algo deu errado. Por favor, tente novamente mais tarde."
 
-#: questionary/views.py:213
+#: questionary/views.py:234
 msgid ""
 "The questions database is empty. Before creating a new questionary you must "
 "provide questions to the questions database"
-msgstr "O banco de questões está vazio. Antes de criar um novo questionário você deve fornecer questões ao banco de questões."
+msgstr ""
+"O banco de questões está vazio. Antes de criar um novo questionário você "
+"deve fornecer questões ao banco de questões."
 
-#: questionary/views.py:228 questionary/views.py:242 questionary/views.py:255
-#: questionary/views.py:378 questionary/views.py:392 questionary/views.py:402
+#: questionary/views.py:249 questionary/views.py:263 questionary/views.py:276
+#: questionary/views.py:399 questionary/views.py:413 questionary/views.py:423
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: questionary/views.py:228 questionary/views.py:242 questionary/views.py:255
-#: questionary/views.py:378 questionary/views.py:392 questionary/views.py:402
+#: questionary/views.py:249 questionary/views.py:263 questionary/views.py:276
+#: questionary/views.py:399 questionary/views.py:413 questionary/views.py:423
+#: questionary/views.py:687 questionary/views.py:699
 msgid "Finish"
 msgstr "Finalizar"
 
-#: questionary/views.py:333
+#: questionary/views.py:354
 #, python-format
 msgid "The questionary %s was successfully created in the topic %s!"
 msgstr "O questionário %s foi criado com sucesso no tópico %s!"
 
-#: questionary/views.py:452
+#: questionary/views.py:473
 msgid "Update Questionary"
 msgstr "Atualizar questionário"
 
-#: questionary/views.py:463
+#: questionary/views.py:484
 #, python-format
 msgid "The questionary %s of the topic %s was updated successfully!"
 msgstr "O questionário %s do tópico %s foi atualizado com sucesso!"
 
-#: questionary/views.py:499
+#: questionary/views.py:520
 #, python-format
 msgid "The questionary %s of the topic %s was removed successfully!"
 msgstr "O questionário %s do tópico %s foi removido com sucesso!"
+
+#: questionary/views.py:643
+#, fuzzy
+#| msgid "Questionary Name"
+msgid "Questionary Reports"
+msgstr "Nome do Questionário"
+
+#: questionary/views.py:667
+msgid "Realized"
+msgstr ""
+
+#: questionary/views.py:667
+msgid "Unrealized"
+msgstr ""
+
+#: questionary/views.py:667
+msgid "Historic"
+msgstr ""
+
+#: questionary/views.py:682 questionary/views.py:698
+msgid "View"
+msgstr ""
+
+#: questionary/views.py:708
+msgid "Actions about resource"
+msgstr ""
+
+#: questionary/views.py:709
+msgid "Quantity"
+msgstr ""
+
+#: questionary/views.py:756
+msgid "[Photo]"
+msgstr ""
+
+#: questionary/views.py:768
+#, python-format
+msgid "Last message in %s"
+msgstr ""
+
+#: questionary/views.py:777
+#, fuzzy
+#| msgid "The questionary %s was successfully created in the topic %s!"
+msgid "The message was successfull sent!"
+msgstr "O questionário %s foi criado com sucesso no tópico %s!"
+
+#: questionary/views.py:780
+msgid "No user selected!"
+msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-15 04:26+0000\n"
+"POT-Creation-Date: 2019-01-18 21:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,23 +26,23 @@ msgstr ""
 msgid "[Photo]"
 msgstr ""
 
-#: api/views.py:470
+#: api/views.py:511
 #, python-format
 msgid "Last message in %s"
 msgstr ""
 
-#: api/views.py:487
+#: api/views.py:528
 msgid "Message sent successfully!"
 msgstr ""
 
-#: api/views.py:495
+#: api/views.py:536
 msgid "Error while sending message!"
 msgstr ""
 
-#: api/views.py:502
+#: api/views.py:543
 msgid "No information received!"
 msgstr ""
 
-#: api/views.py:508
+#: api/views.py:549
 msgid "Amadeus"
 msgstr ""

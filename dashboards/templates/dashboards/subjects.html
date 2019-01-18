@@ -28,10 +28,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 		date: "%-d/%-m/%Y",
 		time: "" + (("%p" == "PM" ? 12 : 0) + ("%-I") % 12) + ":%M:%S",
 		periods: ["AM", "PM"],
-		days: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
-		shortDays: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"],
-		months: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
-		shortMonths: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
+		days: ["{% trans 'Sunday' %}", "{% trans 'Monday' %}", "{% trans 'Tuesday' %}", "{% trans 'Wednesday' %}", "{% trans 'Thursday' %}", "{% trans 'Friday' %}", "{% trans 'Saturday' %}"],
+        shortDays: ["{% trans 'Sun' %}", "{% trans 'Mon' %}", "{% trans 'Tue' %}", "{% trans 'Wed' %}", "{% trans 'Thu' %}", "{% trans 'Fri' %}", "{% trans 'Sat' %}"],
+        months: ["{% trans 'January' %}", "{% trans 'February' %}", "{% trans 'March' %}", "{% trans 'April' %}", "{% trans 'May' %}", "{% trans 'June' %}", "{% trans 'July' %}", "{% trans 'August' %}", "{% trans 'September' %}", "{% trans 'October' %}", "{% trans 'November' %}", "{% trans 'December' %}"],
+        shortMonths: ["{% trans 'Jan' %}", "{% trans 'Feb' %}", "{% trans 'Mar' %}", "{% trans 'Apr' %}", "{% trans 'May' %}", "{% trans 'Jun' %}", "{% trans 'Jul' %}", "{% trans 'Aug' %}", "{% trans 'Sep' %}", "{% trans 'Oct' %}", "{% trans 'Nov' %}", "{% trans 'Dec' %}"]
 	}/*{
             dateTime: "%x, %X",
             date: "%d/%m/%Y",
@@ -79,31 +79,31 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     {% endif %}
     {# {{ graph_data }} #}
 
-    <div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">{#{% trans 'My Essential Tasks' %}#}Minhas tarefas essenciais</div>
+    <div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">{% trans 'My Essential Tasks' %}</div>
     <hr style="height:3px; background-color:#878787; margin-top: 5px;">
     
     <div id="gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-        <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{# {% trans 'Detail of Tasks' %}#}Detalhamento das tarefas</b></div>
+        <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Detail of Tasks' %}</b></div>
 		<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
     </div>
     <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-        <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{# {% trans 'Filters' %} #} Filtros</b></div>
+        <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Filters' %}</b></div>
         <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
     <div id="period" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
         <!--<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">-->
-        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{#{% trans 'Select the period' %}#} Selecione o período</b></div>
+        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the period' %}</b></div>
     </div>
     <div id="legend-gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
             <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
-            <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{#{% trans 'Select the status' %}#} Selecione o status</b></div>
+            <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the status' %}</b></div>
             
     </div>
     <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
             <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
-    <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{#{% trans 'Select what we have for today' %}#} Selecione o que temos para hoje</b></div>
+    <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select what we have for today' %}</b></div>
             
     <div class="col-md-4 col-xs-12 col-sm-12 col-lg-4 text-center">
-            <button onclick="ganttChart.reset();" class="btn btn-default btn-raised btn-block" style="position: initial;background-color: #ddd"> {#{% trans "Today" %}#} Hoje </button>
+            <button onclick="ganttChart.reset();" class="btn btn-default btn-raised btn-block" style="position: initial;background-color: #ddd">{% trans "Today" %}</button>
     </div>
     </div>
     </div>
@@ -125,7 +125,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             layout: {
                 maxrow: 5,
                 colors: ["#FF9001", "#dfbd31", "#D6D6D6", "#f44336", "#3BA51A"],
-                texts: ['{#{% trans "Late"%}#}Atrasada', '{#{% trans "On time"%}#}No prazo', '{#{% trans "Planned"%}#}Planejada', '{#{% trans "Lost"%}#}Perdida', '{#{% trans "Completed"%}#}Concluída'],
+                texts: ['{% trans "Late"%}', '{% trans "On time"%}', '{% trans "Planned"%}', '{% trans "Lost"%}', '{% trans "Completed"%}'],
                 //texts2: ['{% trans "This task is late"%}', '{% trans "You have not yet accomplish this task"%}', "", '{% trans "You missed this task"%}', ""],
                 backcolor: "#F5F5F5",
                 percent_min:0.3,
