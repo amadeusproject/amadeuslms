@@ -840,14 +840,15 @@ Math.first_ord = function (x1, y1, x2, y2) {
 	return { a: -x1 * (y2 - y1) / (x2 - x1) + y1, b: (y2 - y1) / (x2 - x1) }
 }
 
-document.definewidth = function (chartConfig, width, height, propWindow, propChart) {//prop - width/height
+document.definewidth = function (chartConfig, width, height, propWindow, propChart,target) {//prop - width/height
 	if (chartConfig.dimensions == undefined) chartConfig.dimensions = {};
 	chartConfig.dimensions.vertical = false;
 	chartConfig.dimensions.mini = false;
 	if (chartConfig.dimensions.width == undefined) {
 		var temp;
-		if (temp = document.querySelector(chartConfig.parent ? chartConfig.parent : chartConfig.target).getBoundingClientRect()) {
-			chartConfig.dimensions.width = temp.width;
+		target = target?target:(chartConfig.parent ? chartConfig.parent : chartConfig.target);
+		if (temp = document.querySelector(target).getBoundingClientRect()) {
+			chartConfig.dimensions.width = temp.width - $(target).css("padding-left").match(/[0-9]+/)[0] - $(target).css("padding-right").match(/[0-9]+/)[0];
 			if (propWindow) {
 				var prop = window.innerWidth * propWindow / window.innerHeight;
 				//console.log(prop);

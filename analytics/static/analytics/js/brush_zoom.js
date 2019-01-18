@@ -31,9 +31,12 @@ class GanttChart {
         if(chartConfig.parents.context == undefined)chartConfig.parents.context = chartConfig.parents.focus;
         if(chartConfig.parents.legend == undefined)chartConfig.parents.legend = chartConfig.parent;
 
+        document.definewidth(chartConfig, 1200, 500, 5 / 3, 12 / 5,chartConfig.parents.context);
+        chartConfig.dimensions.width2 = chartConfig.dimensions.width;
+        chartConfig.dimensions.width = undefined;
+        chartConfig.dimensions.height= undefined;
+        document.definewidth(chartConfig, 1200, 500, 5 / 3, 12 / 5,chartConfig.parents.focus);
 
-
-        document.definewidth(chartConfig, 1200, 500, 5 / 3, 12 / 5);
         if (chartConfig.margin == undefined) chartConfig.margin = {};
         if (chartConfig.margin.top == undefined) chartConfig.margin.top = 20;
         if (chartConfig.margin.right == undefined) chartConfig.margin.right = 10;
@@ -179,7 +182,7 @@ class GanttChart {
         this.chartConfig = chartConfig;
         this.now = chartConfig.now;
         this.svg = a.chartConfig.svg ? d3.select(a.chartConfig.parents.focus) : d3.select(a.chartConfig.parents.focus).append("svg").attr("id", chartConfig.name + "-container")
-        console.log(a.chartConfig.parents.context);
+        
         this.svg2 = d3.select(a.chartConfig.parents.context).append("svg").attr("id", chartConfig.name + "-context");
         if (a.chartConfig.svg)
             this.chartConfig.dimensions.width = +svg.attr("width"),
@@ -920,29 +923,28 @@ class GanttChart {
                         bottom: a.chartConfig.margin.bottom, 
                         left: a.chartConfig.margin.left };
 
-        console.log(this.chartConfig.dimensions.height)
+        
 
         this.chartConfig.dimensions.height2 = a.chartConfig.dimensions.height*a.chartConfig.layout.contextHeight;
         this.chartConfig.dimensions.height = a.chartConfig.dimensions.height*(1-a.chartConfig.layout.contextHeight);
 
-        console.log(this.chartConfig.dimensions.height)
-        console.log(this.chartConfig.dimensions.height2)
-
+        
         this.width = a.chartConfig.dimensions.width - a.margin.left - a.margin.right;
         this.height = a.chartConfig.dimensions.height - a.margin.top - a.margin.bottom;
 
         this.height2 = a.chartConfig.dimensions.height2 - a.margin2.top - a.margin2.bottom;
+        this.width2 = a.chartConfig.dimensions.width2 - a.margin.left - a.margin.right;
 
         this.svg
             .attr("width", a.chartConfig.dimensions.width)
             .attr("height", a.chartConfig.dimensions.height)
 
         this.svg2
-            .attr("width", a.chartConfig.dimensions.width)
+            .attr("width", a.chartConfig.dimensions.width2)
             .attr("height", a.chartConfig.dimensions.height2)
 
         this.x.range([0, a.width]),
-            this.x2.range([0, a.width]),
+            this.x2.range([0, a.width2]),
             this.y.rangeRound([0, a.height]).padding(a.height > 300 ? 0.4 : 0.1);
 
         this.nowLine.select("line")
@@ -1018,18 +1020,23 @@ class GanttChart {
         var a = this;
         a.chartConfig.dimensions.width = width,
             a.chartConfig.dimensions.height = height;
-        document.definewidth(a.chartConfig, 1200, 500, 5 / 3, 12 / 5);
+        document.definewidth(a.chartConfig, 1200, 500, 5 / 3, 12 / 5,a.chartConfig.parents.context);
+        a.chartConfig.dimensions.width2 = a.chartConfig.dimensions.width;
+        a.chartConfig.dimensions.width = undefined;
+        a.chartConfig.dimensions.height= undefined;
+        document.definewidth(a.chartConfig, 1200, 500, 5 / 3, 12 / 5,a.chartConfig.parents.focus);
         this.draw();
         return this;
     }
     filter(status, element) {
         var a = this;
         a.svg.selectAll(".notifications").transition().duration(500).attr("opacity", 0.2)
-        a.svg.selectAll(".testRects").transition().duration(500).attr("opacity", 0.05)
+        a.svg2.selectAll(".testRects").transition().duration(500).attr("opacity", 0.05)
 
         a.bottomLegend.marked.map(function (d, i) {
             if (d) {
                 a.svg.selectAll(".status-" + i).transition().duration(500).attr("opacity", 1)
+                a.svg2.selectAll(".status-" + i).transition().duration(500).attr("opacity", 1)
             }
         });
         a.bottomLegend.legend/*.attr("opacity", function(d,i){
@@ -1051,7 +1058,7 @@ class GanttChart {
             a.bottomLegend.marked.map(function (d, i) {
                 if (d == false) {
                     a.svg.selectAll(".notifications.status-" + i).transition().duration(500).attr("opacity", 0.2)
-                    a.svg.selectAll(".testRects.status-" + i).transition().duration(500).attr("opacity", 0.05)
+                    a.svg2.selectAll(".testRects.status-" + i).transition().duration(500).attr("opacity", 0.05)
                 }
             });
             a.bottomLegend.legend
@@ -1064,7 +1071,7 @@ class GanttChart {
         } else {
             a.bottomLegend.legend.attr("style", "cursor:url('" + a.chartConfig.cursors.filter + "'),auto");
             a.svg.selectAll(".notifications").transition().duration(500).attr("opacity", 1);
-            a.svg.selectAll(".testRects").transition().duration(500).attr("opacity", 1);
+            a.svg2.selectAll(".testRects").transition().duration(500).attr("opacity", 1);
         }
     }
     goto(data, period) {
