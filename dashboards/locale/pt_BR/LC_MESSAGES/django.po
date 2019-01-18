@@ -161,3 +161,24 @@ msgstr "Dezembro"
 
 #~ msgid "Most accessed resource"
 #~ msgstr "Recursos mais acessados"
+
+msgid "My Essential Tasks"
+msgstr "Minhas Tarefas Essenciais"
+
+msgid "Detail of Tasks"
+msgstr "Detalhamento das Tarefas"
+
+msgid "Filters"
+msgstr "Filtros"
+
+msgid "Select the period"
+msgstr "Selecione o período"
+
+msgid "Select the status"
+msgstr "Selecione o status"
+
+msgid "Select what we have for today"
+msgstr "Selecione o que temos para hoje"
+
+msgid "Today"
+msgstr "Hoje"

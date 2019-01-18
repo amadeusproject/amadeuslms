@@ -54,7 +54,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         </form>
         <br clear="all" />
     {% endif %}
-    <!--{{ graph_data }}-->
+    {#{{ graph_data }}#}
 
     <div align="left" style="font-size:22px; color: #878787; padding-top: 0px;">{% trans 'My Essential Tasks' %}</div>
     <hr style="height:3px; background-color:#878787; margin-top: 5px;">
@@ -79,8 +79,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
     <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select what we have for today' %}</b></div>
             
-    <div class="col-md-2 col-xs-12 col-sm-12 col-lg-2 text-center">
-            <button onclick="ganttChart.reset();" class="btn btn-success btn-raised btn-block" style="position: initial;"> {% trans "Today" %} </button>
+    <div class="col-md-4 col-xs-12 col-sm-12 col-lg-4 text-center">
+            <button onclick="ganttChart.reset();" class="btn btn-default btn-raised btn-block" style="position: initial;"> {% trans "Today" %} </button>
     </div>
     </div>
     </div>

@@ -305,12 +305,12 @@ class GanttChart {
 
             // Percent of done
             this.content.append("g").attr("class", "percentInfo");
-            this.content.select(".percentInfo").append("text").attr("class", "info")
+            this.content.select(".percentInfo").append("text").attr("class", "info info1")
                 .attr("text-anchor", "start").text("Tarefa já realizada por");
             this.content.select(".percentInfo").append("text").attr("class", "percent")
                 .style("font-weight", "bold")
-                .attr("text-anchor", "middle");
-            this.content.select(".percentInfo").append("text").attr("class", "info")
+                //.attr("text-anchor", "middle");
+            this.content.select(".percentInfo").append("text").attr("class", "info info2")
                 .attr("text-anchor", "start").text("dos participantes.");
 
             // Description (Optional)
@@ -361,6 +361,7 @@ class GanttChart {
         }
 
         this.card.draw = function () {
+            var b = this;
 
             if (a.chartConfig.dimensions.vertical) {
                 if (a.width / 2 > 300)
@@ -457,11 +458,16 @@ class GanttChart {
             this.content.select(".percentInfo")
                 .attr("font-size", this.size * .05)
                 .attr("transform", "translate(" + this.width * .02 + "," + (y + this.size * .14) + ")");
+
+            b.percentSpace = {
+                info1:document.querySelector("#"+chartConfig.name + "-container").querySelector(".info1").getBoundingClientRect().width,
+            }
+            
             this.content.select(".percentInfo").selectAll("text")
                 .attr("x", function (d, i) {
                     switch (i) {
                         case 0: return 0;
-                        case 1: return a.card.width * .28;
+                        case 1: return b.percentSpace.info1 + b.size * .005;
                         case 2: return a.card.width * .32;
                     }
                 })
@@ -744,8 +750,11 @@ class GanttChart {
             else
                 b.content.select(".percentInfo").attr("opacity", 0)
             b.content.select(".percent")
-                .transition().delay(before).duration(transition)
                 .text(("" + (data.percent * 100)).substr(0, 4) + "%");
+            
+            this.percentSpace.percent = document.querySelector("#"+chartConfig.name + "-container").querySelector(".percent").getBoundingClientRect().width
+            this.content.select(".percentInfo").select(".info2").attr("x",b.percentSpace.info1+b.percentSpace.percent  + b.size * .01)
+
 
             var font = b.size * .04;
             var nletters = b.width * 1.3 / font;
@@ -841,6 +850,7 @@ class GanttChart {
                 anchor: "middle", // start middle end
                 enable_mark: true,
                 label:true,
+                labelcolor:"#fff"
             },
             interactions: {
                 //mouseover: function (element, data) { },

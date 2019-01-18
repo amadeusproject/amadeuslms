@@ -322,6 +322,8 @@ class BottomLegend{
 		if(chartConfig.layout.label==undefined)chartConfig.layout.label = preconfig?preconfig.layout.label:undefined;
 		if(chartConfig.layout.label && chartConfig.dimensions.right)chartConfig.layout.label = undefined;
 
+		if(chartConfig.layout.label && chartConfig.layout.labelcolor == undefined)chartConfig.layout.labelcolor = "#000"
+
 		if(chartConfig.layout.corner == undefined)chartConfig.layout.corner = preconfig?preconfig.layout.corner:4;
 		if(chartConfig.layout.padding == undefined)chartConfig.layout.padding = preconfig?preconfig.layout.padding:0.4;
 		if(chartConfig.layout.font_size == undefined)chartConfig.layout.font_size = preconfig?preconfig.layout.font_size: 16;
@@ -517,6 +519,7 @@ class BottomLegend{
 				.style("font-size",""+a.chartConfig.layout.rect_size*.7+"px")
 				.style("font-style","normal")
 				.style("font-weight","300")
+				.style("fill",a.chartConfig.layout.labelcolor)
 				.style("line-height","normal")
 				.attr("text-anchor",a.chartConfig.layout.label?"middle":"start")
 				.attr("x",a.max*.55)
