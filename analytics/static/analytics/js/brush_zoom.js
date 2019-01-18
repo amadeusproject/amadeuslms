@@ -252,6 +252,7 @@ class GanttChart {
         this.card = {}
 
         this.card.create = function () {
+            var b = this;
             this.out_dark = a.svg.append("rect")
                 .attr("fill", "#000")
                 .attr("opacity", 0)
@@ -343,6 +344,12 @@ class GanttChart {
                 .attr("text-anchor", "middle")
                 .attr("fill", "#000")
                 .text("Realizar tarefa");//Acessar Tarefa
+            
+            this.closer = this.all.append("g").attr("class","closer").style("cursor", "pointer").on("click",function(){b.disable(0,400)}).attr("opacity",0);
+
+            this.closer.append("rect").attr("fill","none").attr("width",100).attr("height",100);
+            this.closer.append("path").attr("fill","#000").attr("d",closer());
+            
 
             this.content.select(".goto").on("click", function () { var data = a.chartConfig.data[a.card.content.select(".id").text()]; chartConfig.interactions.button(this, data) });
 
@@ -400,6 +407,8 @@ class GanttChart {
                 //.attr("height", this.size*.15)
                 .attr("rx", a.y.bandwidth() / 4)
                 .attr("ry", a.y.bandwidth() / 4);
+
+            this.closer.attr("transform","translate("+(this.width-this.size*.15)+","+this.size*.02+") scale("+this.size*.0011+","+this.size*.0011+")");
 
             y += this.size * .15;
 
@@ -552,6 +561,10 @@ class GanttChart {
                 .transition().delay(before + transition + 10)
                 .attr("width", 0)
                 .attr("height", 0);
+
+            b.closer
+                .transition().delay(before).duration(transition * .2)
+                .attr("opacity", 0);
 
             b.content
                 .transition().delay(before).duration(transition * .2)
@@ -781,6 +794,9 @@ class GanttChart {
             }
 
             b.content.transition().delay(before + transition * .7).duration(transition * .3).attr("opacity", 1);
+            b.closer
+                .transition().delay(before + transition * .7).duration(transition * .3)
+                .attr("opacity", 1);
 
 
 
