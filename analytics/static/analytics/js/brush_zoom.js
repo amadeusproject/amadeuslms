@@ -195,7 +195,8 @@ class GanttChart {
                 this.chartConfig.dimensions.height = +svg.attr("height");
         this.backcolor = "#F5F5F5";
         this.svg.style("background-color", this.backcolor);
-        this.svg2.style("background-color", this.backcolor);
+        //this.svg2.style("background-color", this.backcolor);
+
         this.pattern = this.svg.append("defs").selectAll("pattern").data(a.chartConfig.layout.colors).enter().append("pattern").attr("id", function(d,i){return "hachura-status-"+i}).attr("class","diagonal-stripe-1")
             .attr("patternUnits", "userSpaceOnUse")
             .attr("width", 10).attr("height", 10)
@@ -252,6 +253,8 @@ class GanttChart {
             .attr("stroke", "#222")
             .attr("stroke-width", "2")
             .attr("stroke-dasharray", "5 10");
+
+        this.backgroundContext = a.context.append("rect").attr("class","backgroundContext");
 
         this.contextContent = a.context.append("g").attr("class", "contextContent");
 
@@ -353,8 +356,8 @@ class GanttChart {
             
             this.closer = this.all.append("g").attr("class","closer").style("cursor", "pointer").on("click",function(){b.disable(0,400)}).attr("opacity",0);
 
-            this.closer.append("rect").attr("fill","none").attr("width",100).attr("height",100);
-            this.closer.append("path").attr("fill","#000").attr("d",closer());
+            this.closer.append("path").attr("fill","#FFF").attr("d",closerBack());
+            this.closer.append("path").attr("fill","#777").attr("d",closer());
             
 
             this.content.select(".goto").on("click", function () { var data = a.chartConfig.data[a.card.content.select(".id").text()]; chartConfig.interactions.button(this, data) });
@@ -415,7 +418,7 @@ class GanttChart {
                 .attr("rx", a.y.bandwidth() / 4)
                 .attr("ry", a.y.bandwidth() / 4);
 
-            this.closer.attr("transform","translate("+(this.width-this.size*.15)+","+this.size*.02+") scale("+this.size*.0011+","+this.size*.0011+")");
+            this.closer.attr("transform","translate("+(this.width-this.size*.11)+","+this.size*.04+") scale("+this.size*.0007+","+this.size*.0007+")");
 
             y += this.size * .15;
 
@@ -852,7 +855,7 @@ class GanttChart {
                 font: "Roboto",
                 //stroke: "#000",
                 stroke_width: 2,
-                stroke_over: "#a2c",
+                stroke_over: "#444",
                 anchor: "middle", // start middle end
                 enable_mark: true,
                 label:true,
@@ -967,6 +970,7 @@ class GanttChart {
         this.height2 = a.chartConfig.dimensions.height2 - a.margin2.top - a.margin2.bottom;
         this.width2 = a.chartConfig.dimensions.width2 - a.margin.left - a.margin.right;
 
+        
         this.svg
             .attr("width", a.chartConfig.dimensions.width)
             .attr("height", a.chartConfig.dimensions.height)
@@ -985,8 +989,8 @@ class GanttChart {
             .attr("x2", 0)
             .attr("y2", a.height);
 
-        this.xAxis = d3.axisBottom(this.x).ticks(Math.floor(a.chartConfig.dimensions.width / 70));
-        this.xAxis2 = d3.axisBottom(this.x2).ticks(Math.floor(a.chartConfig.dimensions.width / 70));
+        this.xAxis = d3.axisBottom(this.x).ticks(Math.floor(a.chartConfig.dimensions.width / 110));
+        this.xAxis2 = d3.axisBottom(this.x2).ticks(Math.floor(a.chartConfig.dimensions.width / 110));
 
         this.brush.extent([[0, 0], [a.width, a.height2]]);
 
@@ -1016,6 +1020,12 @@ class GanttChart {
         function widthRect(data) {
             return a.x2(data.date.end) - a.x2(data.date.start);
         }
+
+        this.backgroundContext
+            .attr("width",a.width2)
+            .attr("height",a.height2*.7)
+            .attr("transform","translate(0,"+a.height2*.15+")")
+            .attr("fill",a.backcolor);
 
         this.contextRects
             .attr("transform", function (d) { return "translate(" + a.x2(d.date.start) + ","+a.height2*.15+")" })

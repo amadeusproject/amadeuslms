@@ -231,15 +231,6 @@ msgstr "Sex"
 msgid "Sat"
 msgstr "Sab"
 
-#~ msgid "Most accessed categories"
-#~ msgstr "Categorias mais acessadas"
-
-#~ msgid "Most accessed subjects"
-#~ msgstr "Assuntos mais acessados"
-
-#~ msgid "Most accessed resource"
-#~ msgstr "Recursos mais acessados"
-
 msgid "My Essential Tasks"
 msgstr "Minhas Tarefas Essenciais"
 
@@ -302,3 +293,12 @@ msgstr "Data/hora final: "
 
 msgid "Task closed on: "
 msgstr "Tarefa encerrada em: "
+
+#~ msgid "Most accessed categories"
+#~ msgstr "Categorias mais acessadas"
+
+#~ msgid "Most accessed subjects"
+#~ msgstr "Assuntos mais acessados"
+
+#~ msgid "Most accessed resource"
+#~ msgstr "Recursos mais acessados"

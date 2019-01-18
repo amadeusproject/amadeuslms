@@ -848,7 +848,7 @@ document.definewidth = function (chartConfig, width, height, propWindow, propCha
 		var temp;
 		target = target ? target : (chartConfig.parent ? chartConfig.parent : chartConfig.target);
 		if (temp = document.querySelector(target).getBoundingClientRect()) {
-			chartConfig.dimensions.width = temp.width - $(target).css("padding-left").match(/[0-9]+/)[0] - $(target).css("padding-right").match(/[0-9]+/)[0];
+			chartConfig.dimensions.width = temp.width - 2*$(target).css("padding-left").match(/[0-9]+/)[0] - $(target).css("padding-right").match(/[0-9]+/)[0];
 			if (propWindow) {
 				var prop = window.innerWidth * propWindow / window.innerHeight;
 				//console.log(prop);
@@ -877,6 +877,10 @@ function muralPin(target, width, height, fill, stroke, stroke_width) {
 function closer() {
 	return "M 0 50 q 0 50 50 50 50 0 50 -50 0 -50 -50 -50 -50 0 -50 50 l 10 0 q 0 -40 40 -40 40 0 40 40 0 40 -40 40 -40 0 -40 -40 z " +
 		"M 20 30 l 10 -10 20 20 20 -20 10 10 -20 20 20 20 -10 10 -20 -20 -20 20 -10 -10 20 -20 -20 -20 z"
+}
+
+function closerBack() {
+	return "M 0 50 q 0 50 50 50 50 0 50 -50 0 -50 -50 -50 -50 0 -50 50 z "
 }
 
 /*function muralPinRefatoring(target, width, height, fill, stroke, stroke_width) {
