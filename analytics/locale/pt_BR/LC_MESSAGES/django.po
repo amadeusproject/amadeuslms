@@ -8,7 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+<<<<<<< HEAD
+"POT-Creation-Date: 2019-01-18 21:47+0000\n"
+=======
 "POT-Creation-Date: 2018-12-02 04:40+0000\n"
+>>>>>>> master
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,58 +70,58 @@ msgstr "Novembro"
 msgid "December"
 msgstr "Dezembro"
 
-#: analytics/views.py:180
+#: analytics/views.py:176
 msgid "PDF File"
 msgstr "Arquivo"
 
-#: analytics/views.py:181
+#: analytics/views.py:177
 msgid "Topic Goals"
 msgstr "Objetivos"
 
-#: analytics/views.py:182
+#: analytics/views.py:178
 msgid "Link to Website"
 msgstr "Link para Site"
 
-#: analytics/views.py:183
+#: analytics/views.py:179
 msgid "File Link"
 msgstr "Link para Arquivo"
 
-#: analytics/views.py:184
+#: analytics/views.py:180
 msgid "Web Conference"
 msgstr "Conferência Web"
 
-#: analytics/views.py:185
+#: analytics/views.py:181
 msgid "YouTube Video"
 msgstr "Vídeo no Youtube"
 
-#: analytics/views.py:186
+#: analytics/views.py:182
 msgid "WebPage"
 msgstr "Página Web"
 
-#: analytics/views.py:216
+#: analytics/views.py:206
 msgid "Mon"
 msgstr "Seg"
 
-#: analytics/views.py:216
+#: analytics/views.py:206
 msgid "Tue"
 msgstr "Ter"
 
-#: analytics/views.py:216
+#: analytics/views.py:206
 msgid "Wed"
 msgstr "Qua"
 
-#: analytics/views.py:216
+#: analytics/views.py:206
 msgid "Thu"
 msgstr "Qui"
 
-#: analytics/views.py:216
+#: analytics/views.py:206
 msgid "Fri"
 msgstr "Sex"
 
-#: analytics/views.py:216
+#: analytics/views.py:206
 msgid "Sat"
 msgstr "Sab"
 
-#: analytics/views.py:216
+#: analytics/views.py:206
 msgid "Sun"
 msgstr "Dom"

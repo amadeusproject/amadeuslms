@@ -22,9 +22,32 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% endblock style %}
 
 {% block javascript %}
-    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script>
+        window.labels_date = {
+		dateTime: "%x, %X",
+		date: "%-d/%-m/%Y",
+		time: "" + (("%p" == "PM" ? 12 : 0) + ("%-I") % 12) + ":%M:%S",
+		periods: ["AM", "PM"],
+		days: ["{% trans 'Sunday' %}", "{% trans 'Monday' %}", "{% trans 'Tuesday' %}", "{% trans 'Wednesday' %}", "{% trans 'Thursday' %}", "{% trans 'Friday' %}", "{% trans 'Saturday' %}"],
+        shortDays: ["{% trans 'Sun' %}", "{% trans 'Mon' %}", "{% trans 'Tue' %}", "{% trans 'Wed' %}", "{% trans 'Thu' %}", "{% trans 'Fri' %}", "{% trans 'Sat' %}"],
+        months: ["{% trans 'January' %}", "{% trans 'February' %}", "{% trans 'March' %}", "{% trans 'April' %}", "{% trans 'May' %}", "{% trans 'June' %}", "{% trans 'July' %}", "{% trans 'August' %}", "{% trans 'September' %}", "{% trans 'October' %}", "{% trans 'November' %}", "{% trans 'December' %}"],
+        shortMonths: ["{% trans 'Jan' %}", "{% trans 'Feb' %}", "{% trans 'Mar' %}", "{% trans 'Apr' %}", "{% trans 'May' %}", "{% trans 'Jun' %}", "{% trans 'Jul' %}", "{% trans 'Aug' %}", "{% trans 'Sep' %}", "{% trans 'Oct' %}", "{% trans 'Nov' %}", "{% trans 'Dec' %}"]
+	}/*{
+            dateTime: "%x, %X",
+            date: "%d/%m/%Y",
+            time: "%-I:%M:%S %p",
+            periods: ["AM", "PM"],
+            days: ["{% trans 'Sunday' %}", "{% trans 'Monday' %}", "{% trans 'Tuesday' %}", "{% trans 'Wednesday' %}", "{% trans 'Thursday' %}", "{% trans 'Friday' %}", "{% trans 'Saturday' %}"],
+            shortDays: ["{% trans 'Sun' %}", "{% trans 'Mon' %}", "{% trans 'Tue' %}", "{% trans 'Wed' %}", "{% trans 'Thu' %}", "{% trans 'Fri' %}", "{% trans 'Sat' %}"],
+            months: ["{% trans 'January' %}", "{% trans 'February' %}", "{% trans 'March' %}", "{% trans 'April' %}", "{% trans 'May' %}", "{% trans 'June' %}", "{% trans 'July' %}", "{% trans 'August' %}", "{% trans 'September' %}", "{% trans 'October' %}", "{% trans 'November' %}", "{% trans 'December' %}"],
+            shortMonths: ["{% trans 'Jan' %}", "{% trans 'Feb' %}", "{% trans 'Mar' %}", "{% trans 'Apr' %}", "{% trans 'May' %}", "{% trans 'Jun' %}", "{% trans 'Jul' %}", "{% trans 'Aug' %}", "{% trans 'Sep' %}", "{% trans 'Oct' %}", "{% trans 'Nov' %}", "{% trans 'Dec' %}"]
+        }*/
+	
+    </script>
+    <script src="{% static 'analytics/js/d3.v5.min.js' %}"></script><!--https://d3js.org/d3.v5.min.js-->
 
     <script src="{% static 'analytics/js/JSUtil.js' %}"></script>
+    
     <script src="{% static 'analytics/js/Legend.js' %}"></script>
     <script src="{% static 'analytics/js/brush_zoom.js' %}"></script>
 
@@ -54,39 +77,71 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         </form>
         <br clear="all" />
     {% endif %}
-    <!--{{ graph_data }}-->
+    {# {{ graph_data }} #}
 
-    <div id="gantt"></div>
-
-    <div class="col-md-2 col-xs-12 col-sm-12 col-lg-2 text-center">
-            <button onclick="ganttChart.reset();" class="btn btn-success btn-raised btn-block" style="position: initial;"> Hoje{% trans "To day" as bread %} </button>
+    <div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">{% trans 'My Essential Tasks' %}</div>
+    <hr style="height:3px; background-color:#878787; margin-top: 5px;">
+    
+    <div id="gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+        <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Detail of Tasks' %}</b></div>
+		<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
     </div>
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+        <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Filters' %}</b></div>
+        <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
+    <div id="period" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+        <!--<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">-->
+        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the period' %}</b></div>
+    </div>
+    <div id="legend-gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+            <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
+            <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the status' %}</b></div>
+            
+    </div>
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+            <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
+    <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select what we have for today' %}</b></div>
+            
+    <div class="col-md-4 col-xs-12 col-sm-12 col-lg-4 text-center">
+            <button onclick="ganttChart.reset();" class="btn btn-default btn-raised btn-block" style="position: initial;background-color: #ddd">{% trans "Today" %}</button>
+    </div>
+    </div>
+    </div>
+    <hr style="height:3px; background-color:#878787; margin-top: 5px;">
+
+    
 
     <script type="text/javascript">
         var chartConfig = {
             name: "GanttChart",
-            parent: "#gantt",
+            parents:{
+                focus:"#gantt",
+                context:"#period",
+                legend:"#legend-gantt",
+            },
             data: {% autoescape off %}{{ graph_data }}{% endautoescape %},
             //dimensions: { width: 1200, height: 500 },
-            margin: {
-                top: 20, right: 10, bottom: 30, left: 10
-            },
+            
             layout: {
                 maxrow: 5,
-                contextHeight: 0.1,
                 colors: ["#FF9001", "#dfbd31", "#D6D6D6", "#f44336", "#3BA51A"],
-                texts: ["Atrasada", "No prazo", "Planejada", "Perdida", "Concluída"],
-                texts2: ["Esta tarefa está atrasada", "Você ainda não realizou esta tarefa", "", "Você perdeu esta tarefa", ""],
+                texts: ['{% trans "Late"%}', '{% trans "On time"%}', '{% trans "Planned"%}', '{% trans "Lost"%}', '{% trans "Completed"%}'],
+                //texts2: ['{% trans "This task is late"%}', '{% trans "You have not yet accomplish this task"%}', "", '{% trans "You missed this task"%}', ""],
                 backcolor: "#F5F5F5",
-                percent_min:0.3
+                percent_min:0.3,
+                //percent_text:'{#{% trans "Task already accomplish by % of participants" %}#}',
+                //buttonAccess_text:'{#{% trans "ACCESS TASK" %}#}ACESSAR TAREFA',      
+                //buttonDoTask_text:'{% trans "DO THE TASK" %}',
+                //initDate_text:'{% trans "Start Date / Time: " %}',
+                //endDate_text:'{% trans "End Date / Time: " %}',
+                //closedDate_text:'{% trans "Task closed on: " %}',
+                //language:'{{ language }}'
             },
             interactions: {
                 button: function (element, data) {
                 var classelement = d3.select(element).attr("class");
                 if (classelement == "goto")
                     window.location.assign(data.access_link);
-                else
-                    alert("Agendando a atividade " + data.name + "...");
                 }
             },
             tooltip: {

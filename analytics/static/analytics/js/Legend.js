@@ -238,9 +238,9 @@ class Legend {
 
 /*var chartConfig = {
 	data:[
-		{id:0,color:"#F00",name:"Vermelho"},
-		{id:1,color:"#0F0",name:"Verde"},
-		{id:2,color:"#00F",name:"Azul"},
+		{id:0,color:"#F00",name:"Vermelho",label:"30%"},
+		{id:1,color:"#0F0",name:"Verde",label:"20%"},
+		{id:2,color:"#00F",name:"Azul",label:"50%"},
 	],
 	target:"body",
 	svg:false,
@@ -261,6 +261,7 @@ class Legend {
 		stroke_width: 2,
 		stroke_over: "#ccc",
 		enable_mark:true,
+		label:true
 	},
 	interactions:{
 		mouseover:function(element,data){},
@@ -289,7 +290,7 @@ class BottomLegend{
 		if(chartConfig.target == undefined)chartConfig.target = preconfig?preconfig.target:"body";
 		if(chartConfig.dimensions == undefined)chartConfig.dimensions = preconfig?preconfig.dimensions:{};
 
-		if(!chartConfig.dimensions.right==undefined)chartConfig.dimensions.right = preconfig?preconfig.dimensions.right:undefined;
+		if(chartConfig.dimensions.right==undefined)chartConfig.dimensions.right = preconfig?preconfig.dimensions.right:undefined;
 
 		if(!chartConfig.dimensions.right){
 			if(chartConfig.dimensions.width == undefined || chartConfig.dimensions.width=="auto"){
@@ -317,6 +318,12 @@ class BottomLegend{
 
 		
 		if(chartConfig.layout == undefined)chartConfig.layout = preconfig?preconfig.layout:{};
+		
+		if(chartConfig.layout.label==undefined)chartConfig.layout.label = preconfig?preconfig.layout.label:undefined;
+		if(chartConfig.layout.label && chartConfig.dimensions.right)chartConfig.layout.label = undefined;
+
+		if(chartConfig.layout.label && chartConfig.layout.labelcolor == undefined)chartConfig.layout.labelcolor = "#000"
+
 		if(chartConfig.layout.corner == undefined)chartConfig.layout.corner = preconfig?preconfig.layout.corner:4;
 		if(chartConfig.layout.padding == undefined)chartConfig.layout.padding = preconfig?preconfig.layout.padding:0.4;
 		if(chartConfig.layout.font_size == undefined)chartConfig.layout.font_size = preconfig?preconfig.layout.font_size: 16;
@@ -327,39 +334,21 @@ class BottomLegend{
 		if(!isColor(chartConfig.layout.stroke_over))chartConfig.layout.stroke_over = preconfig?preconfig.layout.stroke_over: undefined;
 		if(preconfig){
 			if(chartConfig.interactions!= undefined){
-				if(chartConfig.interactions.click)
-					preconfig.interactions.click.push(chartConfig.interactions.click);
-				if(chartConfig.interactions.mouseover)
-					preconfig.interactions.mouseover.push(chartConfig.interactions.mouseover);
-				if(chartConfig.interactions.mousemove)
-					preconfig.interactions.mousemove.push(chartConfig.interactions.mousemove);
-				if(chartConfig.interactions.mouseout)
-					preconfig.interactions.mouseout.push(chartConfig.interactions.mouseout);
-				if(chartConfig.interactions.filter)
-					preconfig.interactions.filter = chartConfig.interactions.filter;
-				if(chartConfig.interactions.unfilter)
-					preconfig.interactions.unfilter = chartConfig.interactions.unfilter;
-				if(chartConfig.interactions.unfilterAll)
-					preconfig.interactions.unfilterAll = chartConfig.interactions.unfilterAll;
+				chartConfig.interactions = d3.validEvents(chartConfig.interactions);	
 			}
 			chartConfig.interactions = preconfig.interactions;
-		}else
+		}else{
 			chartConfig.interactions = d3.validEvents(chartConfig.interactions);
-		var id = undefined;
+		}
 		var type = [
 			function(d,i){
 				if(!isColor(d.color) || typeof d.name != "string"){
 					console.error("invalid row \""+i+"\"");
 					throw new Exception();
 				}
-				id = isNaN(d.id)||d.id<=id?id:d.id;
-				if(id == undefined)
-					id = -1;
-				return d;
-			},
-			function(d){
-				if(isNaN(d.id))
-					d.id = ++id;
+				d.id = i;
+				if(chartConfig.layout.label && d.label==undefined)
+					d.label = "";
 				return d;
 			}
 		];
@@ -367,6 +356,10 @@ class BottomLegend{
 			chartConfig.data = preconfig.data;
 		else
 			chartConfig.data = treatData(chartConfig.data,type);
+
+		
+		
+
 		return chartConfig;
 	}
 	create(chartConfig){
@@ -380,11 +373,40 @@ class BottomLegend{
 
 		this.marked = range(a.chartConfig.data.length).map(function(){return false});
 
+		if(a.chartConfig.layout.stroke_over){
+			this.chartConfig.interactions.mouseover.push(function(element,data){
+				d3.select(element).select("rect").attr("stroke",a.chartConfig.layout.stroke_over);
+			});
+			this.chartConfig.interactions.mouseout.push(function(element,data){
+				d3.select(element).select("rect").attr("stroke",a.chartConfig.layout.stroke);
+			});
+		}
+		if(a.chartConfig.layout.enable_mark){
+			this.chartConfig.interactions.click.push(function(element,data){
+				a.setoption(data.name);
+			});
+		}
+
 		return this;
 	}
 	redraw(chartConfig){
 		var a = this;
 		this.chartConfig = BottomLegend.validData(chartConfig,this.chartConfig);
+
+		if(a.chartConfig.layout.stroke_over){
+			this.chartConfig.interactions.mouseover.push(function(element,data){
+				d3.select(element).select("rect").attr("stroke",a.chartConfig.layout.stroke_over);
+			});
+			this.chartConfig.interactions.mouseout.push(function(element,data){
+				d3.select(element).select("rect").attr("stroke",a.chartConfig.layout.stroke);
+			});
+		}
+		if(a.chartConfig.layout.enable_mark){
+			this.chartConfig.interactions.click.push(function(element,data){
+				a.setoption(data.name);
+			});
+		}
+
 		this.draw();
 		return this;
 	}
@@ -434,27 +456,44 @@ class BottomLegend{
 		this.define_disposition();
 		var width = a.chartConfig.dimensions.right?(a.disposition[0].length*a.space):a.chartConfig.dimensions.width;
 		this.width = width;
-		var height = a.chartConfig.dimensions.right?a.chartConfig.dimensions.height:(a.chartConfig.layout.rect_size*(1+a.chartConfig.layout.padding)*this.disposition.length)
+
+		var unit_size = a.chartConfig.layout.rect_size+
+			(a.chartConfig.layout.label?
+				(a.chartConfig.layout.font_size*1.5):
+				0);
+
+		var height = a.chartConfig.dimensions.right?
+						a.chartConfig.dimensions.height:
+						(unit_size*(1+a.chartConfig.layout.padding)*this.disposition.length);
 		this.svg.attr("width",width)
 				.attr("height",height);
 
 		this.axis.domain(range(this.disposition.length)).range([0,height]);
-		if(a.g.selectAll(".row")._groups[0].length != this.disposition.length)
-			this.row = a.g.selectAll(".row").remove();
 
-		this.row = a.g.selectAll(".row").data(this.disposition).enter().append("g").attr("class","row")
-			.attr("transform",function(d,i){return "translate("+(d.dx?a.space/2:0)+","+(a.axis(i)+(a.axis.bandwidth()-a.chartConfig.layout.rect_size)/2)+")"});
+		if(a.g.selectAll(".row")._groups[0].length != this.disposition.length){
+			a.g.selectAll(".row").remove();
+			this.row = a.g.selectAll(".row").data(this.disposition).enter().append("g").attr("class","row")
 
-		this.legend = this.row.selectAll(".legend").data(function(d,i){return a.disposition[i]}).exit().remove();
+			this.row.selectAll(".legend").remove();
+			this.legend = this.row.selectAll(".legend").data(function(d,i){return d}).enter().append("g")
+				.attr("class",function(d){return "legend legend-"+d.id;});
+			this.legend.append("g").attr("class","anchor");
+			this.legend.select(".anchor").append("rect")
+			this.legend.select(".anchor").append("text").attr("class","name")
+			if(this.chartConfig.layout.label)
+				this.legend.select(".anchor").append("text").attr("class","label")
+			this.legend.select(".anchor").append("g").attr("class","muralpin")
+		}
+		this.row
+			.attr("transform",function(d,i){return "translate("+(d.dx?a.space/2:0)+","+(a.axis(i)+(a.axis.bandwidth()-unit_size)/2)+")"});
 
-		this.legend = this.row.selectAll(".legend").data(function(d,i){return a.disposition[i]}).enter().append("g")
-			.attr("class",function(d,i){return "legend legend-"+i;})
-			.attr("transform",function(d,i){return "translate("+i*a.space+",0)"});
+		this.legend
+			.attr("transform",function(d,i){
+				return "translate("+i*a.space+",0)";
+			});
 
-		this.legend.append("g").attr("class","anchor");
-
-		this.legend.select(".anchor").append("rect")
-			.attr("width",a.chartConfig.layout.rect_size)
+		this.legend.select(".anchor").select("rect")
+			.attr("width",a.chartConfig.layout.label?a.max*1.1:a.chartConfig.layout.rect_size)
 			.attr("height",a.chartConfig.layout.rect_size)
 			.attr("rx",a.chartConfig.layout.corner)
 			.attr("ry",a.chartConfig.layout.corner)
@@ -463,44 +502,47 @@ class BottomLegend{
 			.attr("stroke",a.chartConfig.layout.stroke)
 			.style("box-shadow","0px 2px 2px rgba(0, 0, 0, 0.05)");
 
-		this.legend.select(".anchor").append("text")
-			.transition().duration(500)
+		this.legend.select(".anchor").select(".name")
 			.style("font-family",a.chartConfig.layout.font)
 			.style("font-size",""+a.chartConfig.layout.font_size+"px")
 			.style("font-style","normal")
 			.style("font-weight","300")
 			.style("line-height","normal")
-			.attr("x",a.chartConfig.layout.rect_size*1.25)
-			.attr("y",a.chartConfig.layout.rect_size*.25)
-			.attr("dy",".6em")
+			.attr("text-anchor",a.chartConfig.layout.label?"middle":"start")
+			.attr("x",a.chartConfig.layout.label?a.max*.55:a.chartConfig.layout.rect_size*1.25)
+			.attr("y",a.chartConfig.layout.label?(unit_size*.95):a.chartConfig.layout.rect_size*.25)
+			.attr("dy",a.chartConfig.layout.label?0:".6em")
 			.text(function(d){return d.name});
-		this.legend.select(".anchor").append("g").attr("class","muralpin")
-			.attr("transform","translate("+a.chartConfig.layout.rect_size*.15+",0)").attr("opacity",0)
-		if(!this.muralPinCreated)
-			muralPin(this.legend.select(".anchor").select(".muralpin"),a.chartConfig.layout.rect_size,a.chartConfig.layout.rect_size,a.chartConfig.layout.stroke_over),this.muralPinCreated = true;
-		else	
-			muralPinRefatoring(this.legend.select(".anchor").select(".muralpin"),a.chartConfig.layout.rect_size,a.chartConfig.layout.rect_size,a.chartConfig.layout.stroke_over);
+		if(a.chartConfig.layout.label)
+			this.legend.select(".anchor").select(".label")
+				.style("font-family",a.chartConfig.layout.font)
+				.style("font-size",""+a.chartConfig.layout.rect_size*.7+"px")
+				.style("font-style","normal")
+				.style("font-weight","300")
+				.style("fill",a.chartConfig.layout.labelcolor)
+				.style("line-height","normal")
+				.attr("text-anchor",a.chartConfig.layout.label?"middle":"start")
+				.attr("x",a.max*.55)
+				.attr("y",a.chartConfig.layout.rect_size*.75)
+				.attr("dy",a.chartConfig.layout.label?0:".6em")
+				.text(function(d){return d.label});
+		else
+			this.legend.select(".anchor").select(".label")
+				.attr("opacity",0);
 
-		if(a.chartConfig.layout.stroke_over){
-			this.chartConfig.interactions.mouseover.push(function(element,data){
-				d3.select(element).select("rect").attr("stroke",a.chartConfig.layout.stroke_over);
-			});
-			this.chartConfig.interactions.mouseout.push(function(element,data){
-				d3.select(element).select("rect").attr("stroke",a.chartConfig.layout.stroke);
-			});
-		}
-		if(a.chartConfig.layout.enable_mark){
-			this.chartConfig.interactions.click.push(function(element,data){
-				a.setoption(data.name);
-			});
-		}
 
-		d3.addEvents(this.legend,a.chartConfig.interactions);
+		this.legend.select(".anchor").select(".muralpin")
+			.attr("transform","translate("+(a.chartConfig.layout.label?(a.max-a.chartConfig.layout.rect_size)*1.1:a.chartConfig.layout.rect_size*.15)+",-3)").attr("opacity",0)
+
+		muralPin(this.legend.select(".anchor").select(".muralpin"),a.chartConfig.layout.rect_size,a.chartConfig.layout.rect_size,a.chartConfig.layout.stroke_over),this.muralPinCreated = true;
+
+
+		d3.addEvents(this.g.selectAll(".legend"),a.chartConfig.interactions);
 		
 		
 
 		this.g.attr("transform","translate("
-			+(a.chartConfig.dimensions.right?(.25*a.chartConfig.layout.rect_size+a.chartConfig.dimensions.x):
+			+(a.chartConfig.dimensions.right||a.chartConfig.layout?(.25*a.chartConfig.layout.rect_size+a.chartConfig.dimensions.x):
 				((a.chartConfig.dimensions.width-document.querySelector("#"+this.name+"-g").getBoundingClientRect().width)/2+a.chartConfig.dimensions.x))+","
 			+(a.chartConfig.dimensions.y)+")");
 
@@ -525,33 +567,17 @@ class BottomLegend{
 	define_disposition(){
 		var a = this;
 
-		this.legend = a.g.selectAll(".legend").data(this.chartConfig.data).enter().append("g")
-			.attr("class","legend");
+		this.legend = a.g.selectAll(".legendtest").data(this.chartConfig.data).enter().append("g")
+			.attr("class","legendtest")
+			
+		this.legend.append("text").text(function(d){return d.name});
+		this.legend.append("text").text(function(d){return d.label});
+		
 
-		this.legend.append("g").attr("class","anchor");
-		this.legend.select(".anchor").append("rect")
-			.attr("width",a.chartConfig.layout.rect_size)
-			.attr("height",a.chartConfig.layout.rect_size)
-			.attr("rx",a.chartConfig.layout.corner)
-			.attr("ry",a.chartConfig.layout.corner)
-			.attr("fill",function(d){return d.color})
-			.attr("stroke-width",a.chartConfig.layout.stroke_width)
-			.style("box-shadow","0px 2px 2px rgba(0, 0, 0, 0.05)");
-
-
-		this.legend.select(".anchor").append("text")
-			.style("font-family",a.chartConfig.layout.font)
-			.style("font-size",""+a.chartConfig.layout.font_size+"px")
-			.style("font-style","normal")
-			.style("font-weight","300")
-			.style("line-height","normal")
-			.attr("x",a.chartConfig.layout.rect_size*1.25)
-			.attr("y",a.chartConfig.layout.rect_size*.25)
-			.attr("dy",".6em")
-			.text(function(d){return d.name});
+		
 
 		var max = 0;var max_height = 0;
-		var legends = document.querySelector(a.chartConfig.target).querySelectorAll(".legend");
+		var legends = document.querySelector(a.chartConfig.target).querySelectorAll(".legendtest");
 		for(var i=0;i<legends.length;i++){
 			var temp = legends[i].getBoundingClientRect();
 			a.chartConfig.data[i].width = temp.width;
@@ -565,6 +591,10 @@ class BottomLegend{
 			temp = legends[i].height;
 			max_height = max_height>temp?max_height:temp;
 		}
+
+		max += a.chartConfig.layout.label? max*0.1 :a.chartConfig.layout.rect_size*1.25
+
+		this.max = max;
 
 		function partvector(vector){
 			if(vector[0].length<=1){
@@ -580,7 +610,7 @@ class BottomLegend{
 			for(var i=0;i<size;i++){
 				ret.push(vector[0].slice(i*slice+(i>=temp?temp:i),(i+1)*slice+(i>=temp?temp:(i+1))));
 				if(temp!=0 && i>=temp)
-					ret[ret.length-1].dx = true;
+					ret[ret.length-1].dx = !a.chartConfig.layout.label//true;
 			}
 			return ret;
 		}
@@ -605,7 +635,7 @@ class BottomLegend{
 		if(!a.chartConfig.dimensions.right){
 			legends = [legends];
 			this.space = max*1.4;
-			var limit = max*1.1;
+			var limit = max*1.2;
 			var keep = true;
 			var width = this.chartConfig.dimensions.width;
 			while(keep){

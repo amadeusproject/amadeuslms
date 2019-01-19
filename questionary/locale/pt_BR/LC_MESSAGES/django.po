@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-02 04:40+0000\n"
+"POT-Creation-Date: 2019-01-18 21:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -97,7 +97,7 @@ msgstr "Data final"
 msgid "Are you sure you want delete the Questionary"
 msgstr "Você tem certeza que deseja deletar o Questionário"
 
-#: questionary/models.py:58 questionary/models.py:63 questionary/views.py:740
+#: questionary/models.py:58 questionary/models.py:63 questionary/views.py:701
 msgid "Questionary"
 msgstr "Questionário"
 
@@ -201,7 +201,7 @@ msgstr "Adicionar nova notificação"
 msgid "Remove this"
 msgstr "Remover essa"
 
-#: questionary/templates/questionary/create.html:33 questionary/views.py:354
+#: questionary/templates/questionary/create.html:33 questionary/views.py:343
 msgid "Create Questionary"
 msgstr "Criar questionário"
 
@@ -347,6 +347,7 @@ msgstr "Finalizar"
 #, python-format
 msgid "The questionary %s was successfully created in the topic %s!"
 msgstr "O questionário %s foi criado com sucesso no tópico %s!"
+
 
 #: questionary/views.py:484
 msgid "Update Questionary"

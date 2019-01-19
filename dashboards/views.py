@@ -215,6 +215,11 @@ def parse_log_queryset_to_JSON(logs):
 class SubjectView(LogMixin, generic.TemplateView):
     template_name = "dashboards/subjects.html"
 
+    log_component = "subject"
+    log_action = "view"
+    log_resource = "analytics"
+    log_context = {}
+
     def dispatch(self, request, *args, **kwargs):
         subject = get_object_or_404(Subject, slug=kwargs.get('slug', ''))
 
@@ -240,10 +245,19 @@ class SubjectView(LogMixin, generic.TemplateView):
         
         context["title"] = _("Analytics")
 
+        self.log_context['category_id'] = subject.category.id
+        self.log_context['category_name'] = subject.category.name
+        self.log_context['category_slug'] = subject.category.slug
+        self.log_context['subject_id'] = subject.id
+        self.log_context['subject_name'] = subject.name
+        self.log_context['subject_slug'] = subject.slug
+        
         if has_subject_permissions(self.request.user, subject):
             student = self.request.POST.get('selected_student', None)
             context['sub_students'] = subject.students.all()
             context['student'] = self.request.POST.get('selected_student', subject.students.first().email)
+
+            self.log_context['student'] = context['student']
 
             if not student is None:
                 student = User.objects.get(email = student)
@@ -257,5 +271,7 @@ class SubjectView(LogMixin, generic.TemplateView):
         context['javascript_files'] = []
         context['style_files'] = ['dashboards/css/general.css', 'dashboards/css/dashboards_category.css']
         
+        super(SubjectView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+
         return context
 
