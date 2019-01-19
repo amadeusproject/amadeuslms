@@ -1,12 +1,12 @@
-""" 
+"""
 Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
- 
+
 Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
- 
+
 O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
- 
+
 Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
- 
+
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
@@ -203,11 +203,12 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
         qtd_atendida = 0
         qtd_metas = len(itens_da_meta)
         for x in range(len(lista_metas)):
-            #Caso 1: Meta alcançada foi maior que a meta desejada
-            caso1 = lista_metas[x]['alcancada'] > lista_metas[x]['desejada']
 
-            #Caso 2: Meta alcançada foi maior que a meta estabelecida
-            caso2 = lista_metas[x]['alcancada'] > lista_metas[x]['estabelecida']
+            #Caso 1: Meta alcançada foi maior ou igual que a meta desejada
+            caso1 = lista_metas[x]['alcancada'] >= lista_metas[x]['desejada']
+
+            #Caso 2: Meta alcançada foi maior ou igual que a meta estabelecida
+            caso2 = lista_metas[x]['alcancada'] >= lista_metas[x]['estabelecida']
             if caso1 or caso2:
                 qtd_atendida += 1
 
@@ -222,7 +223,7 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
         context['titulos'] = titulos
         context['student'] = self.request.POST.get('selected_student', students.first().email)
         context['students'] = students
-        
+
         return context
 
 class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
@@ -369,10 +370,10 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
         qtd_metas = len(itens_da_meta)
         for x in range(len(lista_metas)):
             #Caso 1: Meta alcançada foi maior que a meta desejada
-            caso1 = lista_metas[x]['alcancada'] > lista_metas[x]['desejada']
+            caso1 = lista_metas[x]['alcancada'] >= lista_metas[x]['desejada']
 
             #Caso 2: Meta alcançada foi maior que a meta estabelecida
-            caso2 = lista_metas[x]['alcancada'] > lista_metas[x]['estabelecida']
+            caso2 = lista_metas[x]['alcancada'] >= lista_metas[x]['estabelecida']
             if caso1 or caso2:
                 qtd_atendida += 1
 
