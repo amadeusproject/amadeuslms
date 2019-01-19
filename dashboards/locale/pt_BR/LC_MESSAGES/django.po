@@ -273,10 +273,6 @@ msgid "Apr"
 msgstr "Abr"
 
 #: dashboards/templates/dashboards/subjects.html:34
-msgid "May"
-msgstr "Mai"
-
-#: dashboards/templates/dashboards/subjects.html:34
 #: dashboards/templates/dashboards/subjects.html:43
 msgid "Jun"
 msgstr "Jun"
