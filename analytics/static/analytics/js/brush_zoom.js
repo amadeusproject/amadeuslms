@@ -31,11 +31,11 @@ class GanttChart {
         if(chartConfig.parents.context == undefined)chartConfig.parents.context = chartConfig.parents.focus;
         if(chartConfig.parents.legend == undefined)chartConfig.parents.legend = chartConfig.parent;
 
-        document.definewidth(chartConfig, 1200, 500, 5 / 3, 12 / 5,chartConfig.parents.context);
+        document.definewidth(chartConfig, 1200, 400, 5 / 3, 12 / 4,chartConfig.parents.context);
         chartConfig.dimensions.width2 = chartConfig.dimensions.width;
         chartConfig.dimensions.width = undefined;
         chartConfig.dimensions.height= undefined;
-        document.definewidth(chartConfig, 1200, 500, 5 / 3, 12 / 5,chartConfig.parents.focus);
+        document.definewidth(chartConfig, 1200, 400, 5 / 3, 12 / 4,chartConfig.parents.focus);
 
         if (chartConfig.margin == undefined) chartConfig.margin = {};
         if (chartConfig.margin.top == undefined) chartConfig.margin.top = 20;
@@ -158,7 +158,9 @@ class GanttChart {
             return start1 > start2 ? 1 : (start1 < start2 ? -1 : 0);
         }
 
-        function sortbyStatus(d1, d2) { return d1.status > d2.status ? -1 : (d1.status < d2.status ? 1 : sortByDate(d1, d2)); }
+        function sortbyStatus(d1, d2) { 
+            return d1.status > d2.status ? -1 : (d1.status < d2.status ? 1 : sortByDate(d1, d2)); 
+        }
 
         chartConfig.data.sort(sortByDate);
 
@@ -884,46 +886,6 @@ class GanttChart {
 
         this.bottomLegend = new BottomLegend(legendConfig);
 
-        /*var legendConfig = {
-            name: "legend",
-            parent: ".focus",
-            svg: true,
-            data: {
-                name: a.chartConfig.layout.texts,
-                color: a.chartConfig.layout.colors
-            },
-            position: {
-                x: a.chartConfig.dimensions.width,
-                y: 0,
-                align: "top-right"//	top/bottom/middle - left/right/center
-            },
-            font: {
-                name: "sans-serif",
-                size: 15,
-                align: "start"
-            },//	start/end
-            interactions: {
-                click: function (element, data) {
-                    var status = a.chartConfig.layout.texts.indexOf(data);
-                    if (a.bottomLegend.marked[status])
-                        a.filterout(status, element);
-                    else
-                        a.filter(status, element);
-                    a.card.disable(0, 500);
-                    //a.goto(searchStatus(status));
-                },
-                mouseover: function (element, data) { },
-                mousemove: function (element, data) { },
-                mouseout: function (element, data) {
-                    var status = a.chartConfig.layout.texts.indexOf(data);
-                    if (a.bottomLegend.marked[status])
-                        d3.select(element).attr("opacity", 0.5);
-                }
-            }
-        }
-        this.legend = new Legend(legendConfig);*/
-        //this.bottomLegend.marked = a.bottomLegend.marked;
-
         this.card.create();
 
         this.notifications.on("click", a.card.activate);
@@ -990,12 +952,12 @@ class GanttChart {
             .attr("y2", a.height);
 
         this.xAxis = d3.axisBottom(this.x).ticks(Math.floor(a.chartConfig.dimensions.width / 110));
-        this.xAxis2 = d3.axisBottom(this.x2).ticks(Math.floor(a.chartConfig.dimensions.width / 110));
+        this.xAxis2 = d3.axisBottom(this.x2).ticks(Math.floor(a.chartConfig.dimensions.width2 / 110));
 
-        this.brush.extent([[0, 0], [a.width, a.height2]]);
+        this.brush.extent([[0, 0], [a.width2, a.height2]]);
 
-        this.zoom.translateExtent([[0, 0], [a.width, a.height]])
-            .extent([[0, 0], [a.width, a.height]]);
+        this.zoom.translateExtent([[0, 0], [a.width2, a.height]])
+            .extent([[0, 0], [a.width2, a.height]]);
 
         this.focus.attr("transform", "translate(" + a.margin.left + "," + a.margin.top + ")");
 

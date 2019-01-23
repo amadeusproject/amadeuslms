@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-18 21:47+0000\n"
+"POT-Creation-Date: 2019-01-20 17:18-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -204,6 +204,7 @@ msgid "April"
 msgstr "Abril"
 
 #: dashboards/templates/dashboards/subjects.html:33
+#: dashboards/templates/dashboards/subjects.html:34
 #: dashboards/templates/dashboards/subjects.html:42
 #: dashboards/templates/dashboards/subjects.html:43 dashboards/views.py:90
 #: dashboards/views.py:143
@@ -272,10 +273,8 @@ msgstr "Mar"
 msgid "Apr"
 msgstr "Abr"
 
-#: dashboards/templates/dashboards/subjects.html:34
-msgid "May"
-msgstr "Mai"
-
+# msgid "May"
+# msgstr "Mai"
 #: dashboards/templates/dashboards/subjects.html:34
 #: dashboards/templates/dashboards/subjects.html:43
 msgid "Jun"
