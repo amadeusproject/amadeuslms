@@ -22,7 +22,12 @@ class GanttChart {
             console.error("Without Dataset");
             throw new Exeption();
         }
-
+        chartConfig.sugest = {
+                width:1200,
+                height:300,
+                windowProp:5 / 2,
+                chartProp:12 / 3,
+        };
         if (chartConfig.name == undefined) chartConfig.name = "GanttChart" + (ganttCont++);
         if (chartConfig.parent == undefined) chartConfig.parent = "body";
 
@@ -31,11 +36,12 @@ class GanttChart {
         if(chartConfig.parents.context == undefined)chartConfig.parents.context = chartConfig.parents.focus;
         if(chartConfig.parents.legend == undefined)chartConfig.parents.legend = chartConfig.parent;
 
-        document.definewidth(chartConfig, 1200, 400, 5 / 3, 12 / 4,chartConfig.parents.context);
-        chartConfig.dimensions.width2 = chartConfig.dimensions.width;
-        chartConfig.dimensions.width = undefined;
-        chartConfig.dimensions.height= undefined;
-        document.definewidth(chartConfig, 1200, 400, 5 / 3, 12 / 4,chartConfig.parents.focus);
+        if (chartConfig.dimensions == undefined) chartConfig.dimensions = {};
+
+        var temp = document.querySelector(chartConfig.parents.context).getBoundingClientRect();
+        chartConfig.dimensions.width2 = temp.width - $(chartConfig.parents.context).css("padding-left").match(/[0-9]+/)[0] - $(chartConfig.parents.context).css("padding-right").match(/[0-9]+/)[0];
+        
+        document.definewidth(chartConfig, chartConfig.sugest.width, chartConfig.sugest.height, chartConfig.sugest.windowProp, chartConfig.sugest.chartProp,chartConfig.parents.focus);
 
         if (chartConfig.margin == undefined) chartConfig.margin = {};
         if (chartConfig.margin.top == undefined) chartConfig.margin.top = 20;
@@ -921,9 +927,9 @@ class GanttChart {
                         left: a.chartConfig.margin.left };
 
         
-
-        this.chartConfig.dimensions.height2 = a.chartConfig.dimensions.height*a.chartConfig.layout.contextHeight;
-        this.chartConfig.dimensions.height = a.chartConfig.dimensions.height*(1-a.chartConfig.layout.contextHeight);
+        var temp = a.chartConfig.dimensions.height*a.chartConfig.layout.contextHeight
+        this.chartConfig.dimensions.height2 = temp<15?15:(temp>30?30:temp) + a.margin2.top + a.margin2.bottom;;
+        //this.chartConfig.dimensions.height = a.chartConfig.dimensions.height*(1-a.chartConfig.layout.contextHeight);
 
         
         this.width = a.chartConfig.dimensions.width - a.margin.left - a.margin.right;
@@ -943,7 +949,7 @@ class GanttChart {
 
         this.x.range([0, a.width]),
             this.x2.range([0, a.width2]),
-            this.y.rangeRound([0, a.height]).padding(a.height > 300 ? 0.4 : 0.1);
+            this.y.rangeRound([0, a.height]).padding(a.height > 200 ? 0.4 : 0.1);
 
         this.nowLine.select("line")
             .attr("x1", 0)
@@ -952,7 +958,7 @@ class GanttChart {
             .attr("y2", a.height);
 
         this.xAxis = d3.axisBottom(this.x).ticks(Math.floor(a.chartConfig.dimensions.width / 110));
-        this.xAxis2 = d3.axisBottom(this.x2).ticks(Math.floor(a.chartConfig.dimensions.width2 / 110));
+        this.xAxis2 = d3.axisBottom(this.x2).ticks(Math.floor(a.chartConfig.dimensions.width2 / 220));
 
         this.brush.extent([[0, 0], [a.width2, a.height2]]);
 
@@ -985,8 +991,8 @@ class GanttChart {
 
         this.backgroundContext
             .attr("width",a.width2)
-            .attr("height",a.height2*.7)
-            .attr("transform","translate(0,"+a.height2*.15+")")
+            .attr("height",a.height2*.5)
+            .attr("transform","translate(0,"+a.height2*.25+")")
             .attr("fill",a.backcolor);
 
         this.contextRects
@@ -1024,11 +1030,11 @@ class GanttChart {
         var a = this;
         a.chartConfig.dimensions.width = width,
             a.chartConfig.dimensions.height = height;
-        document.definewidth(a.chartConfig, 1200, 500, 5 / 3, 12 / 5,a.chartConfig.parents.context);
+        document.definewidth(a.chartConfig, a.chartConfig.sugest.width,a.chartConfig.sugest.height, a.chartConfig.sugest.windowProp, a.chartConfig.sugest.chartProp,a.chartConfig.parents.context);
         a.chartConfig.dimensions.width2 = a.chartConfig.dimensions.width;
         a.chartConfig.dimensions.width = undefined;
         a.chartConfig.dimensions.height= undefined;
-        document.definewidth(a.chartConfig, 1200, 500, 5 / 3, 12 / 5,a.chartConfig.parents.focus);
+        document.definewidth(a.chartConfig, a.chartConfig.sugest.width,a.chartConfig.sugest.height, a.chartConfig.sugest.windowProp, a.chartConfig.sugest.chartProp,a.chartConfig.parents.focus);
         this.draw();
         return this;
     }
@@ -1477,3 +1483,29 @@ class MultiGanttChart {
     }
 }
 //var temp = {date:{start:"",end:"",delay:""},done:true}
+
+document.definewidth = function (chartConfig, width, height, propWindow, propChart, target) {//prop - width/height
+	if (chartConfig.dimensions == undefined) chartConfig.dimensions = {};
+	chartConfig.dimensions.vertical = false;
+	chartConfig.dimensions.mini = false;
+	if (chartConfig.dimensions.width == undefined) {
+		var temp;
+		target = target ? target : (chartConfig.parent ? chartConfig.parent : chartConfig.target);
+		if (temp = document.querySelector(target).getBoundingClientRect()) {
+			chartConfig.dimensions.width = temp.width - $(target).css("padding-left").match(/[0-9]+/)[0] - $(target).css("padding-right").match(/[0-9]+/)[0];
+			if (propWindow) {
+				var prop = window.innerWidth * propWindow / window.innerHeight;
+				//console.log(prop);
+				if (window.innerWidth > 991)
+					chartConfig.dimensions.height = temp.width / propChart > height ? height : temp.width / propChart
+				else
+					chartConfig.dimensions.height = temp.width / prop, chartConfig.dimensions.vertical = prop / propWindow < 1, chartConfig.dimensions.mini = true;
+			}
+		} else if (chartConfig.dimensions.height == undefined)
+			chartConfig.dimensions.width = width, chartConfig.dimensions.height = height;
+		else
+			chartConfig.dimensions.width = chartConfig.dimensions.height * propChart;
+	}
+	if (chartConfig.dimensions.height == undefined)
+		chartConfig.dimensions.height = !propChart || chartConfig.dimensions.width * 1 / propChart > height ? height : chartConfig.dimensions.width * 1 / propChart;
+}
