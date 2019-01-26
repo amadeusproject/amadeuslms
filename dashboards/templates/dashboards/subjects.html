@@ -210,20 +210,24 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 filter: '{% static "img/cursors/filter.cur" %}',
             }
         }
-    document.querySelector("#accordion_button").click()
-    var ganttChart = new GanttChart(chartConfig);
-    document.querySelector("#accordion_button").click()
+    
+    var ganttChart = new GanttChart(chartConfig).draw();
+    
     window.addEventListener('resize', function () {
         Promise.resolve().then(function () {
-            document.querySelector("#accordion_button").click()
             ganttChart.resize();
             ganttChart.bottomLegend.resize();
-            document.querySelector("#accordion_button").click()
+            if($('#filter_accordion_inner').attr('aria-expanded') == "true")
+            ganttChart.draw2();
         });
         /*setTimeout(function() { 
             
          }, 100);*/
     });
+
+    $('#filter_accordion_inner').on('shown.bs.collapse', function () {
+        ganttChart.draw2();
+    })
 
 </script>
 {% endblock %}
