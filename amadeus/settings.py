@@ -203,6 +203,9 @@ FORMAT_MODULE_PATH = 'amadeus.formats'
 
 STATIC_URL = '/static/'
 
+# Static files heroku
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 STATICFILES_DIRS = [
