@@ -18,9 +18,10 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 def validate_img_extension(value):
 	valid_formats = ['image/jpeg','image/x-citrix-jpeg','image/png','image/x-citrix-png','image/x-png']
 
-	if hasattr(value.file, 'content_type'):
-		if not value.file.content_type in valid_formats:
-			raise ValidationError(_('File not supported.'))
+	if path.isfile(value.name):
+		if hasattr(value.file, 'content_type'):
+			if not value.file.content_type in valid_formats:
+				raise ValidationError(_('File not supported.'))
 
 class Themes(models.Model):
 	title = models.CharField(_("Title"), max_length = 200, default = "Projeto Amadeus")

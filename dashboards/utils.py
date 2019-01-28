@@ -1,6 +1,8 @@
 from datetime import datetime
 from django.utils import formats, timezone
 
+from subjects.models import Tag
+from topics.models import Resource
 from log.models import Log
 
 from notifications.models import Notification
@@ -67,3 +69,38 @@ def get_pend_graph(user, subject):
         graph.append(item)
 
     return graph
+
+def getAccessedTags(subject, user):
+    tags = Tag.objects.all()
+
+    data = []
+
+    for tag in tags:
+        resources = Resource.objects.filter(tags = tag, topic__subject = subject)
+        
+        qtd = 0
+        qtd_my = 0
+
+        item = {}
+        
+        item["tag_name"] = tag.name
+        
+        for res in resources:
+            field = res._my_subclass + "_id"
+
+            query = Log.objects.filter(component = 'resources', context__contains = {field: res.id})
+
+            if tag.name == 'avaliação':
+                print(resources)
+                print(query)
+                print(field)
+
+            qtd = qtd + query.count()
+            qtd_my = qtd_my + query.filter(user_id = user.id).count()
+
+        item["qtd_access"] = qtd
+        item["qtd_my_access"] = qtd_my
+        
+        data.append(item)
+
+    return data

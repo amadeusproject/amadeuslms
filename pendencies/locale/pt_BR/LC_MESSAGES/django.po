@@ -113,6 +113,10 @@ msgstr "Finalizar"
 msgid "Submit"
 msgstr "Enviar"
 
+#: pendencies/models.py:20
+msgid "Start"
+msgstr ""
+
 #: pendencies/models.py:21
 msgid "Begin Date"
 msgstr "Data Inicial"

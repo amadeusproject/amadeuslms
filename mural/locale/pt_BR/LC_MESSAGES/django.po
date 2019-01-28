@@ -41,73 +41,73 @@ msgstr "A imagem é muito grande. Ela deve possuir 5MB ou menos."
 msgid "Choose an especific resource"
 msgstr "Escolha um recurso específico"
 
-#: mural/models.py:30 mural/templates/mural/_form.html:116
+#: mural/models.py:31 mural/templates/mural/_form.html:116
 #: mural/templates/mural/_form_comment.html:81
 msgid "File not supported."
 msgstr "Arquivo não suportado."
 
-#: mural/models.py:33
+#: mural/models.py:34
 msgid "Action"
 msgstr "Ação"
 
-#: mural/models.py:33
+#: mural/models.py:34
 msgctxt "modal"
 msgid "Comment"
 msgstr "Comentou"
 
-#: mural/models.py:33
+#: mural/models.py:34
 msgctxt "modal"
 msgid "Ask for Help"
 msgstr "Pediu ajuda"
 
-#: mural/models.py:34 mural/models.py:119 mural/models.py:130
-#: mural/models.py:139
+#: mural/models.py:35 mural/models.py:128 mural/models.py:147
+#: mural/models.py:156
 msgid "Post"
 msgstr "Postagem"
 
-#: mural/models.py:35 mural/models.py:118
+#: mural/models.py:36 mural/models.py:127
 msgid "Image"
 msgstr "Imagem"
 
-#: mural/models.py:36 mural/models.py:120 mural/models.py:132
-#: mural/models.py:140
+#: mural/models.py:37 mural/models.py:129 mural/models.py:149
+#: mural/models.py:157
 msgid "User"
 msgstr "Usuário"
 
-#: mural/models.py:37 mural/models.py:121
+#: mural/models.py:38 mural/models.py:130
 msgid "Create Date"
 msgstr "Data de criação"
 
-#: mural/models.py:38 mural/models.py:122
+#: mural/models.py:39 mural/models.py:131
 msgid "Last Update"
 msgstr "Última atualização"
 
-#: mural/models.py:39 mural/models.py:123
+#: mural/models.py:40 mural/models.py:132
 msgid "Edited"
 msgstr "Editado"
 
-#: mural/models.py:62
+#: mural/models.py:71
 msgid "Space"
 msgstr "Espaço"
 
-#: mural/models.py:98
+#: mural/models.py:107
 msgid "Subject"
 msgstr "Assunto"
 
-#: mural/models.py:99
+#: mural/models.py:108
 msgid "Resource"
 msgstr "Recurso"
 
-#: mural/models.py:117 mural/models.py:131
+#: mural/models.py:126 mural/models.py:148
 #: mural/templates/mural/_form_comment.html:88
 msgid "Comment"
 msgstr "Comentar"
 
-#: mural/models.py:129
+#: mural/models.py:146
 msgid "Viewed"
 msgstr "Visualizado"
 
-#: mural/models.py:133
+#: mural/models.py:150
 msgid "Date/Time Viewed"
 msgstr ""
 
