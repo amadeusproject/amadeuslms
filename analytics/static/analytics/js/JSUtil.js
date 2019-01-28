@@ -840,32 +840,6 @@ Math.first_ord = function (x1, y1, x2, y2) {
 	return { a: -x1 * (y2 - y1) / (x2 - x1) + y1, b: (y2 - y1) / (x2 - x1) }
 }
 
-document.definewidth = function (chartConfig, width, height, propWindow, propChart, target) {//prop - width/height
-	if (chartConfig.dimensions == undefined) chartConfig.dimensions = {};
-	chartConfig.dimensions.vertical = false;
-	chartConfig.dimensions.mini = false;
-	if (chartConfig.dimensions.width == undefined) {
-		var temp;
-		target = target ? target : (chartConfig.parent ? chartConfig.parent : chartConfig.target);
-		if (temp = document.querySelector(target).getBoundingClientRect()) {
-			chartConfig.dimensions.width = temp.width - 2*$(target).css("padding-left").match(/[0-9]+/)[0] - $(target).css("padding-right").match(/[0-9]+/)[0];
-			if (propWindow) {
-				var prop = window.innerWidth * propWindow / window.innerHeight;
-				//console.log(prop);
-				if (window.innerWidth > 991)
-					chartConfig.dimensions.height = temp.width * 1 / propChart > height ? height : temp.width * 1 / propChart
-				else
-					chartConfig.dimensions.height = temp.width / prop, chartConfig.dimensions.vertical = prop / propWindow < 1, chartConfig.dimensions.mini = true;
-			}
-		} else if (chartConfig.dimensions.height == undefined)
-			chartConfig.dimensions.width = width, chartConfig.dimensions.height = height;
-		else
-			chartConfig.dimensions.width = chartConfig.dimensions.height * propChart;
-	}
-	if (chartConfig.dimensions.height == undefined)
-		chartConfig.dimensions.height = !propChart || chartConfig.dimensions.width * 1 / propChart > height ? height : chartConfig.dimensions.width * 1 / propChart;
-}
-
 
 
 function muralPin(target, width, height, fill, stroke, stroke_width) {

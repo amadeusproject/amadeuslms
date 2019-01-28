@@ -8,34 +8,35 @@
  * Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
  * 
  * Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
-*/ 
+*/
 
 
 var ganttCont = 0;
 var temp, temp2;
 class GanttChart {
     constructor(chartConfig) {
-        this.create(GanttChart.validData(chartConfig)).draw();
+        this.create(GanttChart.validData(chartConfig));
     }
     static validData(chartConfig) {
         if (chartConfig.data == undefined) {
             console.error("Without Dataset");
             throw new Exeption();
         }
-
+        chartConfig.sugest = {
+            width: 1200,
+            height: 300,
+            windowProp: 5 / 2,
+            chartProp: 12 / 3,
+        };
         if (chartConfig.name == undefined) chartConfig.name = "GanttChart" + (ganttCont++);
         if (chartConfig.parent == undefined) chartConfig.parent = "body";
 
-        if(chartConfig.parents == undefined)chartConfig.parents ={};
-        if(chartConfig.parents.focus == undefined)chartConfig.parents.focus = chartConfig.parent;
-        if(chartConfig.parents.context == undefined)chartConfig.parents.context = chartConfig.parents.focus;
-        if(chartConfig.parents.legend == undefined)chartConfig.parents.legend = chartConfig.parent;
+        if (chartConfig.parents == undefined) chartConfig.parents = {};
+        if (chartConfig.parents.focus == undefined) chartConfig.parents.focus = chartConfig.parent;
+        if (chartConfig.parents.context == undefined) chartConfig.parents.context = chartConfig.parents.focus;
+        if (chartConfig.parents.legend == undefined) chartConfig.parents.legend = chartConfig.parent;
 
-        document.definewidth(chartConfig, 1200, 500, 5 / 3, 12 / 5,chartConfig.parents.context);
-        chartConfig.dimensions.width2 = chartConfig.dimensions.width;
-        chartConfig.dimensions.width = undefined;
-        chartConfig.dimensions.height= undefined;
-        document.definewidth(chartConfig, 1200, 500, 5 / 3, 12 / 5,chartConfig.parents.focus);
+        if (chartConfig.dimensions == undefined) chartConfig.dimensions = {};
 
         if (chartConfig.margin == undefined) chartConfig.margin = {};
         if (chartConfig.margin.top == undefined) chartConfig.margin.top = 20;
@@ -55,12 +56,12 @@ class GanttChart {
         if (chartConfig.layout.min_size_card == undefined) chartConfig.layout.min_size_card = 200;
         if (chartConfig.layout.backcolor == undefined) chartConfig.layout.backcolor = "#F5F5F5";
         if (chartConfig.layout.percent_min == undefined) chartConfig.layout.percent_min = 0.3;
-        if(chartConfig.layout.percent_text == undefined) chartConfig.layout.percent_text = "Tarefa já realizada por % dos participantes";
-        if(chartConfig.layout.buttonAccess_text == undefined)chartConfig.layout.buttonAccess_text = "ACESSAR TAREFA";
-        if(chartConfig.layout.buttonDoTask_text == undefined)chartConfig.layout.buttonDoTask_text = "REALIZAR TAREFA";
-        if(chartConfig.layout.initDate_text == undefined)chartConfig.layout.initDate_text = "Data/Hora inicial: ";
-        if(chartConfig.layout.endDate_text == undefined)chartConfig.layout.endDate_text = "Data/Hora final: ";
-        if(chartConfig.layout.closedDate_text == undefined)chartConfig.layout.closedDate_text = "Tarefa encerrada em: ";
+        if (chartConfig.layout.percent_text == undefined) chartConfig.layout.percent_text = "Tarefa já realizada por % dos participantes";
+        if (chartConfig.layout.buttonAccess_text == undefined) chartConfig.layout.buttonAccess_text = "ACESSAR TAREFA";
+        if (chartConfig.layout.buttonDoTask_text == undefined) chartConfig.layout.buttonDoTask_text = "REALIZAR TAREFA";
+        if (chartConfig.layout.initDate_text == undefined) chartConfig.layout.initDate_text = "Data/Hora inicial: ";
+        if (chartConfig.layout.endDate_text == undefined) chartConfig.layout.endDate_text = "Data/Hora final: ";
+        if (chartConfig.layout.closedDate_text == undefined) chartConfig.layout.closedDate_text = "Tarefa encerrada em: ";
 
         chartConfig.now = new Date();
         var now = chartConfig.now.getTime();
@@ -85,15 +86,15 @@ class GanttChart {
             if (d.percent > 1) d.percent = 1;
             if (d.percent < 0) d.percent = 0;
             //Configurando datas
-            if (d.date.start != undefined && d.date.start!= "") {
+            if (d.date.start != undefined && d.date.start != "") {
                 d.date.start = new Date(d.date.start);
             }
 
-            if (d.date.end != undefined && d.date.end!= "") {
+            if (d.date.end != undefined && d.date.end != "") {
                 d.date.end = new Date(d.date.end);
             }
 
-            if (d.date.delay != undefined && d.date.delay!= "") {
+            if (d.date.delay != undefined && d.date.delay != "") {
                 d.date.delay = new Date(d.date.delay);
             } else {
                 d.date.delay = d.date.end;
@@ -112,7 +113,7 @@ class GanttChart {
             }
             return d;
         }
-        
+
         function type2(d, i) {
             //Settando status
             var start = d.date.start.getTime(),
@@ -120,15 +121,15 @@ class GanttChart {
                 delay = d.date.delay.getTime();
 
             if (d.done == true)
-                d.status = 4,chartConfig.data_legend[4].label++
+                d.status = 4, chartConfig.data_legend[4].label++
             else if (now < start)
-                d.status = 2,chartConfig.data_legend[2].label++
+                d.status = 2, chartConfig.data_legend[2].label++
             else if (now <= end && now >= start)
-                d.status = 1,chartConfig.data_legend[1].label++
+                d.status = 1, chartConfig.data_legend[1].label++
             else if (now >= delay)
-                d.status = 3,chartConfig.data_legend[3].label++
+                d.status = 3, chartConfig.data_legend[3].label++
             else
-                d.status = 0,chartConfig.data_legend[0].label++;
+                d.status = 0, chartConfig.data_legend[0].label++;
             //Settando Posição - Evitando sobreposição
             var pos = positions.indexOf(null);
             if (pos == -1) {
@@ -158,22 +159,24 @@ class GanttChart {
             return start1 > start2 ? 1 : (start1 < start2 ? -1 : 0);
         }
 
-        function sortbyStatus(d1, d2) { return d1.status > d2.status ? -1 : (d1.status < d2.status ? 1 : sortByDate(d1, d2)); }
+        function sortbyStatus(d1, d2) {
+            return d1.status > d2.status ? -1 : (d1.status < d2.status ? 1 : sortByDate(d1, d2));
+        }
 
         chartConfig.data.sort(sortByDate);
 
-        chartConfig.data_legend = chartConfig.layout.texts.map(function(d,i){
-            return {name:d,color:chartConfig.layout.colors[i],label:0}
+        chartConfig.data_legend = chartConfig.layout.texts.map(function (d, i) {
+            return { name: d, color: chartConfig.layout.colors[i], label: 0 }
         });
 
         chartConfig.data = chartConfig.data.map(type2);
 
-        chartConfig.data_legend = chartConfig.data_legend.map(function(d){
-            d.label *= 100/chartConfig.data.length;
+        chartConfig.data_legend = chartConfig.data_legend.map(function (d) {
+            d.label *= 100 / chartConfig.data.length;
             d.label = "" + Math.round(d.label) + "%"
             return d;
         })
-        
+
         chartConfig.data.sort(sortbyStatus);
 
         chartConfig.data = chartConfig.data.map(function (d, i) { d.id = i; return d; });
@@ -188,7 +191,7 @@ class GanttChart {
         this.chartConfig = chartConfig;
         this.now = chartConfig.now;
         this.svg = a.chartConfig.svg ? d3.select(a.chartConfig.parents.focus) : d3.select(a.chartConfig.parents.focus).append("svg").attr("id", chartConfig.name + "-container")
-        
+
         this.svg2 = d3.select(a.chartConfig.parents.context).append("svg").attr("id", chartConfig.name + "-context");
         if (a.chartConfig.svg)
             this.chartConfig.dimensions.width = +svg.attr("width"),
@@ -197,25 +200,25 @@ class GanttChart {
         this.svg.style("background-color", this.backcolor);
         //this.svg2.style("background-color", this.backcolor);
 
-        this.pattern = this.svg.append("defs").selectAll("pattern").data(a.chartConfig.layout.colors).enter().append("pattern").attr("id", function(d,i){return "hachura-status-"+i}).attr("class","diagonal-stripe-1")
+        this.pattern = this.svg.append("defs").selectAll("pattern").data(a.chartConfig.layout.colors).enter().append("pattern").attr("id", function (d, i) { return "hachura-status-" + i }).attr("class", "diagonal-stripe-1")
             .attr("patternUnits", "userSpaceOnUse")
             .attr("width", 10).attr("height", 10)
             .attr("background-color", this.backcolor);
         this.pattern.append("path")
             .attr("d", "M 0 10 L 12 -2")
-            .attr("stroke", function(d){return d})
+            .attr("stroke", function (d) { return d })
             .attr("stroke-width", 2);
 
-/*        this.pattern = this.svg.append("defs").append("pattern").attr("id", "diagonal-stripe-1")
-            .attr("patternUnits", "userSpaceOnUse")
-            .attr("width", 10).attr("height", 10)
-            .attr("background-color", this.backcolor);
-
-        this.pattern.append("path")
-            .attr("d", "M 0 10 L 12 -2")
-            .attr("stroke", a.chartConfig.layout.colors[4])
-            .attr("stroke-width", 2);
-*/
+        /*        this.pattern = this.svg.append("defs").append("pattern").attr("id", "diagonal-stripe-1")
+                    .attr("patternUnits", "userSpaceOnUse")
+                    .attr("width", 10).attr("height", 10)
+                    .attr("background-color", this.backcolor);
+        
+                this.pattern.append("path")
+                    .attr("d", "M 0 10 L 12 -2")
+                    .attr("stroke", a.chartConfig.layout.colors[4])
+                    .attr("stroke-width", 2);
+        */
 
         this.x = d3.scaleTime();
         this.x2 = d3.scaleTime();
@@ -242,7 +245,7 @@ class GanttChart {
             .style("cursor", "pointer")
             .attr("class", function (d) { return "notifications status-" + d.status });
         this.notifications.append("rect").attr("class", "backBar")
-            .style("fill", function(d){return "url(#hachura-status-"+d.status+") none"})
+            .style("fill", function (d) { return "url(#hachura-status-" + d.status + ") none" })
 
         this.notifications.append("rect").attr("class", "progressBar")
             .attr("fill", function (d) { return a.chartConfig.layout.colors[d.status] });
@@ -254,7 +257,14 @@ class GanttChart {
             .attr("stroke-width", "2")
             .attr("stroke-dasharray", "5 10");
 
-        this.backgroundContext = a.context.append("rect").attr("class","backgroundContext");
+        this.nowLine2 = a.context.append("g");
+        this.nowLine2.append("line")
+            .attr("fill", "none")
+            .attr("stroke", "#222")
+            .attr("stroke-width", "2")
+            .attr("stroke-dasharray", "5 10");
+
+        this.backgroundContext = a.context.append("rect").attr("class", "backgroundContext");
 
         this.contextContent = a.context.append("g").attr("class", "contextContent");
 
@@ -318,7 +328,7 @@ class GanttChart {
                 .attr("text-anchor", "start").text(a.chartConfig.layout.percent_text.match(/^[^%]{1,}(?=%)/)[0]);
             this.content.select(".percentInfo").append("text").attr("class", "percent")
                 .style("font-weight", "bold")
-                //.attr("text-anchor", "middle");
+            //.attr("text-anchor", "middle");
             this.content.select(".percentInfo").append("text").attr("class", "info info2")
                 .attr("text-anchor", "start").text(a.chartConfig.layout.percent_text.match(/(?<=%)[^%]{1,}$/)[0]);
 
@@ -353,12 +363,12 @@ class GanttChart {
                 .attr("text-anchor", "middle")
                 .attr("fill", "#000")
                 .text(a.chartConfig.layout.buttonDoTask_text);//Acessar Tarefa
-            
-            this.closer = this.all.append("g").attr("class","closer").style("cursor", "pointer").on("click",function(){b.disable(0,400)}).attr("opacity",0);
 
-            this.closer.append("path").attr("fill","#FFF").attr("d",closerBack());
-            this.closer.append("path").attr("fill","#777").attr("d",closer());
-            
+            this.closer = this.all.append("g").attr("class", "closer").style("cursor", "pointer").on("click", function () { b.disable(0, 400) }).attr("opacity", 0);
+
+            this.closer.append("path").attr("fill", "#FFF").attr("d", closerBack());
+            this.closer.append("path").attr("fill", "#777").attr("d", closer());
+
 
             this.content.select(".goto").on("click", function () { var data = a.chartConfig.data[a.card.content.select(".id").text()]; chartConfig.interactions.button(this, data) });
 
@@ -418,7 +428,7 @@ class GanttChart {
                 .attr("rx", a.y.bandwidth() / 4)
                 .attr("ry", a.y.bandwidth() / 4);
 
-            this.closer.attr("transform","translate("+(this.width-this.size*.11)+","+this.size*.04+") scale("+this.size*.0007+","+this.size*.0007+")");
+            this.closer.attr("transform", "translate(" + (this.width - this.size * .11) + "," + this.size * .04 + ") scale(" + this.size * .0007 + "," + this.size * .0007 + ")");
 
             y += this.size * .15;
 
@@ -469,9 +479,9 @@ class GanttChart {
                 .attr("transform", "translate(" + this.width * .02 + "," + (y + this.size * .14) + ")");
 
             b.percentSpace = {
-                info1:document.querySelector("#"+chartConfig.name + "-container").querySelector(".info1").getBoundingClientRect().width,
+                info1: document.querySelector("#" + chartConfig.name + "-container").querySelector(".info1").getBoundingClientRect().width,
             }
-            
+
             this.content.select(".percentInfo").selectAll("text")
                 .attr("x", function (d, i) {
                     switch (i) {
@@ -599,7 +609,7 @@ class GanttChart {
             b.rects.select(".backBar")
                 .transition().delay(before).duration(transition)
                 .attr("fill", a.backcolor)
-                .style("fill", "url(#hachura-status-"+data.status+")"+a.backcolor)
+                .style("fill", "url(#hachura-status-" + data.status + ")" + a.backcolor)
 
                 .attr("width", a.x(data.date.end) - a.x(data.date.start))
                 .attr("height", a.y.bandwidth());
@@ -666,7 +676,7 @@ class GanttChart {
             b.rects.select(".backBar")
                 .transition().delay(before).duration(transition)
                 .attr("width", b.width)
-                .style("fill", "url(#hachura-status-"+data.status+")#fff")
+                .style("fill", "url(#hachura-status-" + data.status + ")#fff")
                 .attr("height", b.size * .15);
             //Content of Card
 
@@ -760,9 +770,9 @@ class GanttChart {
                 b.content.select(".percentInfo").attr("opacity", 0)
             b.content.select(".percent")
                 .text(("" + (data.percent * 100)).substr(0, 4) + "%");
-            
-            this.percentSpace.percent = document.querySelector("#"+chartConfig.name + "-container").querySelector(".percent").getBoundingClientRect().width
-            this.content.select(".percentInfo").select(".info2").attr("x",b.percentSpace.info1+b.percentSpace.percent  + b.size * .01)
+
+            this.percentSpace.percent = document.querySelector("#" + chartConfig.name + "-container").querySelector(".percent").getBoundingClientRect().width
+            this.content.select(".percentInfo").select(".info2").attr("x", b.percentSpace.info1 + b.percentSpace.percent + b.size * .01)
 
 
             var font = b.size * .04;
@@ -858,8 +868,8 @@ class GanttChart {
                 stroke_over: "#444",
                 anchor: "middle", // start middle end
                 enable_mark: true,
-                label:true,
-                labelcolor:"#fff"
+                label: true,
+                labelcolor: "#fff"
             },
             interactions: {
                 //mouseover: function (element, data) { },
@@ -884,46 +894,6 @@ class GanttChart {
 
         this.bottomLegend = new BottomLegend(legendConfig);
 
-        /*var legendConfig = {
-            name: "legend",
-            parent: ".focus",
-            svg: true,
-            data: {
-                name: a.chartConfig.layout.texts,
-                color: a.chartConfig.layout.colors
-            },
-            position: {
-                x: a.chartConfig.dimensions.width,
-                y: 0,
-                align: "top-right"//	top/bottom/middle - left/right/center
-            },
-            font: {
-                name: "sans-serif",
-                size: 15,
-                align: "start"
-            },//	start/end
-            interactions: {
-                click: function (element, data) {
-                    var status = a.chartConfig.layout.texts.indexOf(data);
-                    if (a.bottomLegend.marked[status])
-                        a.filterout(status, element);
-                    else
-                        a.filter(status, element);
-                    a.card.disable(0, 500);
-                    //a.goto(searchStatus(status));
-                },
-                mouseover: function (element, data) { },
-                mousemove: function (element, data) { },
-                mouseout: function (element, data) {
-                    var status = a.chartConfig.layout.texts.indexOf(data);
-                    if (a.bottomLegend.marked[status])
-                        d3.select(element).attr("opacity", 0.5);
-                }
-            }
-        }
-        this.legend = new Legend(legendConfig);*/
-        //this.bottomLegend.marked = a.bottomLegend.marked;
-
         this.card.create();
 
         this.notifications.on("click", a.card.activate);
@@ -946,42 +916,125 @@ class GanttChart {
 
         return this;
     }
-    draw() {
+    draw2() {
         var a = this;
-        this.margin = { top: a.chartConfig.margin.top, 
-                        right: a.chartConfig.margin.right, 
-                        bottom: a.chartConfig.margin.bottom, 
-                        left: a.chartConfig.margin.left 
-                    };
-        this.margin2 = { top: 5, 
-                        right: a.chartConfig.margin.right, 
-                        bottom: a.chartConfig.margin.bottom, 
-                        left: a.chartConfig.margin.left };
 
-        
+        var temp = document.querySelector(a.chartConfig.parents.context).getBoundingClientRect();
+        a.chartConfig.dimensions.width2 = temp.width - $(a.chartConfig.parents.context).css("padding-left").match(/[0-9]+/)[0] - $(a.chartConfig.parents.context).css("padding-right").match(/[0-9]+/)[0];
 
-        this.chartConfig.dimensions.height2 = a.chartConfig.dimensions.height*a.chartConfig.layout.contextHeight;
-        this.chartConfig.dimensions.height = a.chartConfig.dimensions.height*(1-a.chartConfig.layout.contextHeight);
-
-        
-        this.width = a.chartConfig.dimensions.width - a.margin.left - a.margin.right;
-        this.height = a.chartConfig.dimensions.height - a.margin.top - a.margin.bottom;
+        this.margin2 = {
+            top: 5,
+            right: a.chartConfig.margin.right,
+            bottom: a.chartConfig.margin.bottom,
+            left: a.chartConfig.margin.left
+        };
+        var temp = a.chartConfig.dimensions.height * a.chartConfig.layout.contextHeight
+        this.chartConfig.dimensions.height2 = temp < 15 ? 15 : (temp > 30 ? 30 : temp) + a.margin2.top + a.margin2.bottom;
 
         this.height2 = a.chartConfig.dimensions.height2 - a.margin2.top - a.margin2.bottom;
-        this.width2 = a.chartConfig.dimensions.width2 - a.margin.left - a.margin.right;
-
-        
-        this.svg
-            .attr("width", a.chartConfig.dimensions.width)
-            .attr("height", a.chartConfig.dimensions.height)
+        this.width2 = a.chartConfig.dimensions.width2 - a.margin2.left - a.margin2.right;
 
         this.svg2
             .attr("width", a.chartConfig.dimensions.width2)
             .attr("height", a.chartConfig.dimensions.height2)
+        this.x2.range([0, a.width2])
+
+        this.nowLine2.select("line")
+            .attr("x1", 0)
+            .attr("y1", 0)
+            .attr("x2", 0)
+            .attr("y2", a.height2);
+
+        this.xAxis2 = d3.axisBottom(this.x2).ticks(Math.floor(a.chartConfig.dimensions.width2 / 220));
+
+        this.brush.extent([[0, 0], [a.width2, a.height2]]);
+
+        this.context.attr("transform", "translate(" + a.margin2.left + "," + a.margin2.top + ")");
+
+        function widthRect(data) {
+            return a.x2(data.date.end) - a.x2(data.date.start);
+        }
+
+        this.backgroundContext
+            .attr("width", a.width2)
+            .attr("height", a.height2 * .5)
+            .attr("transform", "translate(0," + a.height2 * .25 + ")")
+            .attr("fill", a.backcolor);
+
+        this.contextRects
+            .attr("transform", function (d) { return "translate(" + a.x2(d.date.start) + "," + a.height2 * .15 + ")" })
+            .attr("width", widthRect)
+            .attr("height", a.height2 * .7)
+            .attr("rx", a.height2 / 3 > 10 ? 10 : a.height2 / 3)
+            .attr("ry", a.height2 / 3 > 10 ? 10 : a.height2 / 3)
+            .attr("stroke", "#ddd")
+            .attr("stroke-width", ".5")
+            .attr("fill", function (d) { return a.chartConfig.layout.colors[d.status] });;
+
+        this.context.select(".context-axis")
+            .attr("transform", "translate(0," + a.height2 + ")")
+            .call(a.xAxis2);
+
+        this.context.select(".brush")
+            .call(a.brush)
+            .call(a.brush.move, a.x.range());
+
+        this.bottomLegend.draw();
+
+        a.draw2_flag = true;
+
+        return this;
+
+    }
+    draw() {
+        var a = this;
+
+        document.definewidth(chartConfig, chartConfig.sugest.width, chartConfig.sugest.height, chartConfig.sugest.windowProp, chartConfig.sugest.chartProp, chartConfig.parents.focus);
+
+        this.margin = {
+            top: a.chartConfig.margin.top,
+            right: a.chartConfig.margin.right,
+            bottom: a.chartConfig.margin.bottom,
+            left: a.chartConfig.margin.left
+        };
+
+
+
+
+        //this.chartConfig.dimensions.height = a.chartConfig.dimensions.height*(1-a.chartConfig.layout.contextHeight);
+
+
+        this.width = a.chartConfig.dimensions.width - a.margin.left - a.margin.right;
+        this.height = a.chartConfig.dimensions.height - a.margin.top - a.margin.bottom;
+
+        if (!a.draw2_flag) {
+            var temp = document.querySelector(a.chartConfig.parents.context).getBoundingClientRect();
+            a.chartConfig.dimensions.width2 = temp.width - $(a.chartConfig.parents.context).css("padding-left").match(/[0-9]+/)[0] - $(a.chartConfig.parents.context).css("padding-right").match(/[0-9]+/)[0];
+
+            this.margin2 = {
+                top: 5,
+                right: a.chartConfig.margin.right,
+                bottom: a.chartConfig.margin.bottom,
+                left: a.chartConfig.margin.left
+            };
+            var temp = a.chartConfig.dimensions.height * a.chartConfig.layout.contextHeight
+            this.chartConfig.dimensions.height2 = temp < 15 ? 15 : (temp > 30 ? 30 : temp) + a.margin2.top + a.margin2.bottom;
+
+            this.height2 = a.chartConfig.dimensions.height2 - a.margin2.top - a.margin2.bottom;
+            this.width2 = a.chartConfig.dimensions.width2 - a.margin2.left - a.margin2.right;
+
+            this.brush.extent([[0, 0], [this.width2, this.height2]]);
+        }
+        
+
+        this.svg
+            .attr("width", a.chartConfig.dimensions.width)
+            .attr("height", a.chartConfig.dimensions.height)
+
+
 
         this.x.range([0, a.width]),
-            this.x2.range([0, a.width2]),
-            this.y.rangeRound([0, a.height]).padding(a.height > 300 ? 0.4 : 0.1);
+            this.y.rangeRound([0, a.height]).padding(a.height > 200 ? 0.4 : 0.1);
 
         this.nowLine.select("line")
             .attr("x1", 0)
@@ -990,16 +1043,11 @@ class GanttChart {
             .attr("y2", a.height);
 
         this.xAxis = d3.axisBottom(this.x).ticks(Math.floor(a.chartConfig.dimensions.width / 110));
-        this.xAxis2 = d3.axisBottom(this.x2).ticks(Math.floor(a.chartConfig.dimensions.width / 110));
-
-        this.brush.extent([[0, 0], [a.width, a.height2]]);
 
         this.zoom.translateExtent([[0, 0], [a.width, a.height]])
             .extent([[0, 0], [a.width, a.height]]);
 
         this.focus.attr("transform", "translate(" + a.margin.left + "," + a.margin.top + ")");
-
-        this.context.attr("transform", "translate(" + a.margin2.left + "," + a.margin2.top + ")");
 
         this.notifications.select(".backBar")
             .attr("rx", a.y.bandwidth() / 4)
@@ -1017,34 +1065,6 @@ class GanttChart {
             .attr("transform", "translate(0," + a.height + ")")
             .call(a.xAxis);
 
-        function widthRect(data) {
-            return a.x2(data.date.end) - a.x2(data.date.start);
-        }
-
-        this.backgroundContext
-            .attr("width",a.width2)
-            .attr("height",a.height2*.7)
-            .attr("transform","translate(0,"+a.height2*.15+")")
-            .attr("fill",a.backcolor);
-
-        this.contextRects
-            .attr("transform", function (d) { return "translate(" + a.x2(d.date.start) + ","+a.height2*.15+")" })
-            .attr("width", widthRect)
-            .attr("height", a.height2*.7)
-            .attr("rx", a.height2 / 3 > 10 ? 10 : a.height2 / 3)
-            .attr("ry", a.height2 / 3 > 10 ? 10 : a.height2 / 3)
-            .attr("stroke", "#ddd")
-            .attr("stroke-width", ".5")
-            .attr("fill", function (d) { return a.chartConfig.layout.colors[d.status] });;
-
-        this.context.select(".context-axis")
-            .attr("transform", "translate(0," + a.height2 + ")")
-            .call(a.xAxis2);
-
-        this.context.select(".brush")
-            .call(a.brush)
-            .call(a.brush.move, a.x.range());
-
         this.zoomRect
             .attr("width", a.width)
             .attr("height", a.height)
@@ -1054,7 +1074,7 @@ class GanttChart {
 
         this.bottomLegend.setoption();
         this.card.disable();
-        this.reset();
+        //this.reset();
 
         return this;
     }
@@ -1062,11 +1082,11 @@ class GanttChart {
         var a = this;
         a.chartConfig.dimensions.width = width,
             a.chartConfig.dimensions.height = height;
-        document.definewidth(a.chartConfig, 1200, 500, 5 / 3, 12 / 5,a.chartConfig.parents.context);
+        document.definewidth(a.chartConfig, a.chartConfig.sugest.width, a.chartConfig.sugest.height, a.chartConfig.sugest.windowProp, a.chartConfig.sugest.chartProp, a.chartConfig.parents.context);
         a.chartConfig.dimensions.width2 = a.chartConfig.dimensions.width;
         a.chartConfig.dimensions.width = undefined;
-        a.chartConfig.dimensions.height= undefined;
-        document.definewidth(a.chartConfig, 1200, 500, 5 / 3, 12 / 5,a.chartConfig.parents.focus);
+        a.chartConfig.dimensions.height = undefined;
+        document.definewidth(a.chartConfig, a.chartConfig.sugest.width, a.chartConfig.sugest.height, a.chartConfig.sugest.windowProp, a.chartConfig.sugest.chartProp, a.chartConfig.parents.focus);
         this.draw();
         return this;
     }
@@ -1111,7 +1131,8 @@ class GanttChart {
                         return "cursor:url('" + a.chartConfig.cursors.adder + "'),auto";
                 });
         } else {
-            a.bottomLegend.legend.attr("style", "cursor:url('" + a.chartConfig.cursors.filter + "'),auto");
+            if (a.bottomLegend.legend)
+                a.bottomLegend.legend.attr("style", "cursor:url('" + a.chartConfig.cursors.filter + "'),auto");
             a.svg.selectAll(".notifications").transition().duration(500).attr("opacity", 1);
             a.svg2.selectAll(".testRects").transition().duration(500).attr("opacity", 1);
         }
@@ -1178,7 +1199,7 @@ class GanttChart {
         //if(isNaN(a.temptransition))
         //a.temptransition = 200;
         this.transformElements();
-
+        //if(a.draw2_flag)
         a.context.select(".brush").call(a.brush.move, a.x.range().map(t.invertX, t));
     }
     brushed(a) {
@@ -1435,8 +1456,8 @@ class MultiGanttChart {
         var a = this;
         this.sobreposition = false;
         this.width = this.chartConfig.dimensions.width * 0.98 - this.getNameWidth();
-        if(this.width<this.chartConfig.dimensions.width*.5)
-            this.width = this.chartConfig.dimensions.width * 0.98,this.sobreposition = true;
+        if (this.width < this.chartConfig.dimensions.width * .5)
+            this.width = this.chartConfig.dimensions.width * 0.98, this.sobreposition = true;
         this.height = this.chartConfig.dimensions.height;
 
         this.chartConfig.margin.left = this.chartConfig.dimensions.width * 0.01;
@@ -1469,15 +1490,15 @@ class MultiGanttChart {
         this.subjects.attr("transform", function (d, i) { return "translate(0," + (a.y(i) + (a.y.bandwidth() - a.chartConfig.layout.size) / 2) + ")" })
 
         this.subjects.select(".backGround")
-            .attr("width", a.width + this.sobreposition?0:this.getNameWidth())
+            .attr("width", a.width + this.sobreposition ? 0 : this.getNameWidth())
             .attr("height", a.chartConfig.layout.size);
 
         this.subjects.select(".subject-name")
-            .attr("x",10)
+            .attr("x", 10)
             .attr("y", this.chartConfig.layout.size / 2).attr("dy", ".2em");
 
         this.subjects.select(".subject-tasks-g")
-            .attr("transform", "translate("+(a.sobreposition?0:a.getNameWidth())+",0)")
+            .attr("transform", "translate(" + (a.sobreposition ? 0 : a.getNameWidth()) + ",0)")
 
         this.tasks.attr("transform", function (d) { return "translate(" + a.x(d.date.start) + ",0)" })
             .attr("width", function (d) { return a.x(d.date.end) - a.x(d.date.start) })
@@ -1509,9 +1530,35 @@ class MultiGanttChart {
         var a = this;
         a.chartConfig.dimensions.width = width,
             a.chartConfig.dimensions.height = height;
-        document.definewidth(a.chartConfig,  1200, a.chartConfig.layout.size * 1.1 * a.chartConfig.data.length);
+        document.definewidth(a.chartConfig, 1200, a.chartConfig.layout.size * 1.1 * a.chartConfig.data.length);
         this.draw();
         return this;
     }
 }
 //var temp = {date:{start:"",end:"",delay:""},done:true}
+
+document.definewidth = function (chartConfig, width, height, propWindow, propChart, target) {//prop - width/height
+    if (chartConfig.dimensions == undefined) chartConfig.dimensions = {};
+    chartConfig.dimensions.vertical = false;
+    chartConfig.dimensions.mini = false;
+
+    var temp;
+    target = target ? target : (chartConfig.parent ? chartConfig.parent : chartConfig.target);
+    if (temp = document.querySelector(target).getBoundingClientRect()) {
+        chartConfig.dimensions.width = temp.width - $(target).css("padding-left").match(/[0-9]+/)[0] - $(target).css("padding-right").match(/[0-9]+/)[0];
+        if (propWindow) {
+            var prop = window.innerWidth * propWindow / window.innerHeight;
+            //console.log(prop);
+            if (window.innerWidth > 991)
+                chartConfig.dimensions.height = temp.width / propChart > height ? height : temp.width / propChart
+            else
+                chartConfig.dimensions.height = temp.width / prop, chartConfig.dimensions.vertical = prop / propWindow < 1, chartConfig.dimensions.mini = true;
+        }
+    } else if (chartConfig.dimensions.height == undefined)
+        chartConfig.dimensions.width = width, chartConfig.dimensions.height = height;
+    else
+        chartConfig.dimensions.width = chartConfig.dimensions.height * propChart;
+
+    if (chartConfig.dimensions.height == undefined)
+        chartConfig.dimensions.height = !propChart || chartConfig.dimensions.width * 1 / propChart > height ? height : chartConfig.dimensions.width * 1 / propChart;
+}

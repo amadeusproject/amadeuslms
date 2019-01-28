@@ -16,23 +16,23 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% load django_bootstrap_breadcrumbs %}
 
 {% block style %}
-    {% for file in style_files %}
-        <link rel="stylesheet" type="text/css" href="{% static file %}">
-    {% endfor %}
+{% for file in style_files %}
+<link rel="stylesheet" type="text/css" href="{% static file %}">
+{% endfor %}
 {% endblock style %}
 
 {% block javascript %}
-    <script>
-        window.labels_date = {
-		dateTime: "%x, %X",
-		date: "%-d/%-m/%Y",
-		time: "" + (("%p" == "PM" ? 12 : 0) + ("%-I") % 12) + ":%M:%S",
-		periods: ["AM", "PM"],
-		days: ["{% trans 'Sunday' %}", "{% trans 'Monday' %}", "{% trans 'Tuesday' %}", "{% trans 'Wednesday' %}", "{% trans 'Thursday' %}", "{% trans 'Friday' %}", "{% trans 'Saturday' %}"],
+<script>
+    window.labels_date = {
+        dateTime: "%x, %X",
+        date: "%-d/%-m/%Y",
+        time: "" + (("%p" == "PM" ? 12 : 0) + ("%-I") % 12) + ":%M:%S",
+        periods: ["AM", "PM"],
+        days: ["{% trans 'Sunday' %}", "{% trans 'Monday' %}", "{% trans 'Tuesday' %}", "{% trans 'Wednesday' %}", "{% trans 'Thursday' %}", "{% trans 'Friday' %}", "{% trans 'Saturday' %}"],
         shortDays: ["{% trans 'Sun' %}", "{% trans 'Mon' %}", "{% trans 'Tue' %}", "{% trans 'Wed' %}", "{% trans 'Thu' %}", "{% trans 'Fri' %}", "{% trans 'Sat' %}"],
         months: ["{% trans 'January' %}", "{% trans 'February' %}", "{% trans 'March' %}", "{% trans 'April' %}", "{% trans 'May' %}", "{% trans 'June' %}", "{% trans 'July' %}", "{% trans 'August' %}", "{% trans 'September' %}", "{% trans 'October' %}", "{% trans 'November' %}", "{% trans 'December' %}"],
         shortMonths: ["{% trans 'Jan' %}", "{% trans 'Feb' %}", "{% trans 'Mar' %}", "{% trans 'Apr' %}", "{% trans 'May' %}", "{% trans 'Jun' %}", "{% trans 'Jul' %}", "{% trans 'Aug' %}", "{% trans 'Sep' %}", "{% trans 'Oct' %}", "{% trans 'Nov' %}", "{% trans 'Dec' %}"]
-	}/*{
+    }/*{
             dateTime: "%x, %X",
             date: "%d/%m/%Y",
             time: "%-I:%M:%S %p",
@@ -42,93 +42,150 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             months: ["{% trans 'January' %}", "{% trans 'February' %}", "{% trans 'March' %}", "{% trans 'April' %}", "{% trans 'May' %}", "{% trans 'June' %}", "{% trans 'July' %}", "{% trans 'August' %}", "{% trans 'September' %}", "{% trans 'October' %}", "{% trans 'November' %}", "{% trans 'December' %}"],
             shortMonths: ["{% trans 'Jan' %}", "{% trans 'Feb' %}", "{% trans 'Mar' %}", "{% trans 'Apr' %}", "{% trans 'May' %}", "{% trans 'Jun' %}", "{% trans 'Jul' %}", "{% trans 'Aug' %}", "{% trans 'Sep' %}", "{% trans 'Oct' %}", "{% trans 'Nov' %}", "{% trans 'Dec' %}"]
         }*/
-	
-    </script>
-    <script src="{% static 'analytics/js/d3.v5.min.js' %}"></script><!--https://d3js.org/d3.v5.min.js-->
 
-    <script src="{% static 'analytics/js/JSUtil.js' %}"></script>
-    
-    <script src="{% static 'analytics/js/Legend.js' %}"></script>
-    <script src="{% static 'analytics/js/brush_zoom.js' %}"></script>
+</script>
+<script src="{% static 'analytics/js/d3.v5.min.js' %}"></script>
+<!--https://d3js.org/d3.v5.min.js-->
 
-    {% for file in javascript_files %}
-         <script type="text/javascript" src="{% static file %}"></script>
-    {% endfor %}
+<script src="{% static 'analytics/js/JSUtil.js' %}"></script>
+
+<script src="{% static 'analytics/js/Legend.js' %}"></script>
+<script src="{% static 'analytics/js/brush_zoom.js' %}"></script>
+
+{% for file in javascript_files %}
+<script type="text/javascript" src="{% static file %}"></script>
+{% endfor %}
 {% endblock javascript %}
 
 {% block breadcrumbs %}
-    {{ block.super }}
-    
-    {% trans "Analytics" as bread %}
-    {% breadcrumb  bread 'dashboards:subject' subject.slug %}
+{{ block.super }}
+
+{% trans "Analytics" as bread %}
+{% breadcrumb bread 'dashboards:subject' subject.slug %}
 {% endblock %}
 
 {% block content %}
-    {% subject_permissions request.user subject as has_subject_permissions %}
+{% subject_permissions request.user subject as has_subject_permissions %}
 
-    {% if has_subject_permissions %}
-        <form id="student_graph" action="" method="POST">
-            {% csrf_token %}
-            <select name="selected_student" onchange="$('#student_graph').submit();">
-                {% for stu in sub_students %}
-                    <option value="{{ stu.email }}" {% if stu.email == student %}selected{% endif %}>{{ stu }}</option>
-                {% endfor %}
-            </select>
-        </form>
-        <br clear="all" />
-    {% endif %}
-    {# {{ graph_data }} #}
+{% if has_subject_permissions %}
+<form id="student_graph" action="" method="POST">
+    {% csrf_token %}
+    <select name="selected_student" onchange="$('#student_graph').submit();">
+        {% for stu in sub_students %}
+        <option value="{{ stu.email }}" {% if stu.email == student %} selected {% endif %}>{{ stu }}</option>
+        {% endfor %}
+    </select>
+</form>
+<br clear="all" />
+{% endif %}
+{# {{ graph_data }} #}
 
-    <div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">{% trans 'My Essential Tasks' %}</div>
-    <hr style="height:3px; background-color:#878787; margin-top: 5px;">
+<div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">{% trans 'My Essential Tasks' %}</div>
+<hr style="height:3px; background-color:#878787; margin-top: 5px;">
+<div id="gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+    <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Detail of Tasks' %}</b></div>
+    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
+</div>
+
+<div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+<div class="panel-group" id="subject-accordion" aria-multiselectable="true">
+    <div class="panel panel-info subject-panel" id="filter_accordion_outer">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12 category-header">
+                    <h4 class="panel-title">
+                        <a class="category-course-link pull-left" data-parent="#subject-accordion" data-toggle="collapse"
+                            href="#filter_accordion_inner">
+                            <button id="accordion_button" class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {% trans 'Filters' %}
+                        </a>
+                    </h4>
+                    <!-- <div class="col-lg-4 col-md-5   col-sm-12 col-xs-12 pull-right category-card-items">
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        <div id="filter_accordion_inner" class="panel-collapse collapse category-panel-content">
+            <input type="hidden" class="log_url" value="{% url 'subjects:view_log' subject.id %}" />
+            <input type="hidden" class="log_id" value="" />
     
-    <div id="gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-        <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Detail of Tasks' %}</b></div>
-		<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
+            <div class="row">
+                <div id="period" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                    <!--<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">-->
+                    <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the
+                            period'
+                            %}</b></div>
+                </div>
+                <div id="legend-gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                    <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
+                    <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the
+                            status'
+                            %}</b></div>
+    
+                </div>
+                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                    <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
+                    <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select
+                            what we
+                            have for today' %}</b></div>
+    
+                    <div class="col-md-4 col-xs-12 col-sm-12 col-lg-4 text-center">
+                        <button onclick="ganttChart.reset();" class="btn btn-default btn-raised btn-block" style="position: initial;background-color: #ddd">{%
+                            trans "Today" %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-        <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Filters' %}</b></div>
-        <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
+</div>
+</div>
+
+<!--<div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+    <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Filters' %}</b></div>
+    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
     <div id="period" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-        <!--<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">-->
-        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the period' %}</b></div>
+        {# <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;"> #}
+        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the period'
+                %}</b></div>
     </div>
     <div id="legend-gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-            <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
-            <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the status' %}</b></div>
-            
+        <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
+        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the status'
+                %}</b></div>
+
     </div>
     <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-            <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
-    <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select what we have for today' %}</b></div>
-            
-    <div class="col-md-4 col-xs-12 col-sm-12 col-lg-4 text-center">
-            <button onclick="ganttChart.reset();" class="btn btn-default btn-raised btn-block" style="position: initial;background-color: #ddd">{% trans "Today" %}</button>
-    </div>
-    </div>
-    </div>
-    <hr style="height:3px; background-color:#878787; margin-top: 5px;">
+        <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
+        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select what we
+                have for today' %}</b></div>
 
-    
+        <div class="col-md-4 col-xs-12 col-sm-12 col-lg-4 text-center">
+            <button onclick="ganttChart.reset();" class="btn btn-default btn-raised btn-block" style="position: initial;background-color: #ddd">{%
+                trans "Today" %}</button>
+        </div>
+    </div>
+</div>
+<hr style="height:3px; background-color:#878787; margin-top: 5px;">
+-->
 
-    <script type="text/javascript">
-        var chartConfig = {
-            name: "GanttChart",
-            parents:{
-                focus:"#gantt",
-                context:"#period",
-                legend:"#legend-gantt",
-            },
-            data: {% autoescape off %}{{ graph_data }}{% endautoescape %},
-            //dimensions: { width: 1200, height: 500 },
-            
-            layout: {
-                maxrow: 5,
-                colors: ["#FF9001", "#dfbd31", "#D6D6D6", "#f44336", "#3BA51A"],
+
+<script type="text/javascript">
+    var chartConfig = {
+        name: "GanttChart",
+        parents: {
+            focus: "#gantt",
+            context: "#period",
+            legend: "#legend-gantt",
+        },
+        data: {% autoescape off %} {{ graph_data }} {% endautoescape %},
+    //dimensions: { width: 1200, height: 500 },
+
+    layout: {
+        maxrow: 5,
+            colors: ["#FF9001", "#dfbd31", "#868686", "#f44336", "#3BA51A"],
                 texts: ['{% trans "Late"%}', '{% trans "On time"%}', '{% trans "Planned"%}', '{% trans "Lost"%}', '{% trans "Completed"%}'],
-                //texts2: ['{% trans "This task is late"%}', '{% trans "You have not yet accomplish this task"%}', "", '{% trans "You missed this task"%}', ""],
-                backcolor: "#F5F5F5",
-                percent_min:0.3,
+                    //texts2: ['{% trans "This task is late"%}', '{% trans "You have not yet accomplish this task"%}', "", '{% trans "You missed this task"%}', ""],
+                    backcolor: "#F5F5F5",
+                        percent_min: 0.3,
                 //percent_text:'{#{% trans "Task already accomplish by % of participants" %}#}',
                 //buttonAccess_text:'{#{% trans "ACCESS TASK" %}#}ACESSAR TAREFA',      
                 //buttonDoTask_text:'{% trans "DO THE TASK" %}',
@@ -137,41 +194,46 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 //closedDate_text:'{% trans "Task closed on: " %}',
                 //language:'{{ language }}'
             },
-            interactions: {
-                button: function (element, data) {
-                var classelement = d3.select(element).attr("class");
-                if (classelement == "goto")
-                    window.location.assign(data.access_link);
-                }
-            },
-            tooltip: {
-                text: ""
-            },
-            cursors: {
-                adder:'{% static "img/cursors/adder.cur" %}',
-                subber:'{% static "img/cursors/subber.cur" %}',
-                filter:'{% static "img/cursors/filter.cur" %}',
+    interactions: {
+        button: function (element, data) {
+            var classelement = d3.select(element).attr("class");
+            if (classelement == "goto")
+                window.location.assign(data.access_link);
+        }
+    },
+    tooltip: {
+        text: ""
+    },
+    cursors: {
+        adder: '{% static "img/cursors/adder.cur" %}',
+            subber: '{% static "img/cursors/subber.cur" %}',
+                filter: '{% static "img/cursors/filter.cur" %}',
             }
         }
-
-        var ganttChart = new GanttChart(chartConfig);
-
-        window.addEventListener('resize', function(){
-            Promise.resolve().then(function(){
-                ganttChart.resize();
-                ganttChart.bottomLegend.resize();
-            });
-            /*setTimeout(function() { 
-                
-             }, 100);*/
+    
+    var ganttChart = new GanttChart(chartConfig).draw();
+    
+    window.addEventListener('resize', function () {
+        Promise.resolve().then(function () {
+            ganttChart.resize();
+            ganttChart.bottomLegend.resize();
+            if($('#filter_accordion_inner').attr('aria-expanded') == "true")
+            ganttChart.draw2();
         });
+        /*setTimeout(function() { 
+            
+         }, 100);*/
+    });
 
-    </script>
+    $('#filter_accordion_inner').on('shown.bs.collapse', function () {
+        ganttChart.draw2();
+    })
+
+</script>
 {% endblock %}
 
 {% block addtional_scripts %}
-	<script type="text/javascript">
-        sessionSecurity.confirmFormDiscard = undefined;
-    </script>
+<script type="text/javascript">
+    sessionSecurity.confirmFormDiscard = undefined;
+</script>
 {% endblock %}
-
