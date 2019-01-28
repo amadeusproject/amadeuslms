@@ -35,7 +35,7 @@ from categories.models import Category
 
 from subjects.models import Subject
 
-from .utils import get_pend_graph
+from .utils import get_pend_graph, getAccessedTags
 
 
 from log.mixins import LogMixin
@@ -262,9 +262,13 @@ class SubjectView(LogMixin, generic.TemplateView):
             if not student is None:
                 student = User.objects.get(email = student)
                 context["graph_data"] = json.dumps(get_pend_graph(student, subject))
+                context["tags_cloud"] = getAccessedTags(subject, student)
             else:
-                context["graph_data"] = json.dumps(get_pend_graph(context['student'], subject))
+                student = User.objects.get(email = context['student'])
+                context["graph_data"] = json.dumps(get_pend_graph(student, subject))
+                context["tags_cloud"] = getAccessedTags(subject, student)
         else:
+            context["tags_cloud"] = getAccessedTags(subject, self.request.user)
             context["graph_data"] = json.dumps(get_pend_graph(self.request.user, subject))
 
         context["subject"] = subject
