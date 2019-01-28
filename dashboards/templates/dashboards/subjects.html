@@ -45,12 +45,15 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 </script>
 <script src="{% static 'analytics/js/d3.v5.min.js' %}"></script>
+<script src="{% static 'analytics/js/d3.v3.min.js' %}"></script>
 <!--https://d3js.org/d3.v5.min.js-->
 
 <script src="{% static 'analytics/js/JSUtil.js' %}"></script>
 
 <script src="{% static 'analytics/js/Legend.js' %}"></script>
 <script src="{% static 'analytics/js/brush_zoom.js' %}"></script>
+<script src="{% static 'analytics/js/ToolTip.js' %}"></script>
+<script src="{% static 'analytics/js/cloud.min.js' %}"></script>
 
 {% for file in javascript_files %}
 <script type="text/javascript" src="{% static file %}"></script>
@@ -82,62 +85,73 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 <div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">{% trans 'My Essential Tasks' %}</div>
 <hr style="height:3px; background-color:#878787; margin-top: 5px;">
+
 <div id="gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
     <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Detail of Tasks' %}</b></div>
     <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
 </div>
 
 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-<div class="panel-group" id="subject-accordion" aria-multiselectable="true">
-    <div class="panel panel-info subject-panel" id="filter_accordion_outer">
-        <div class="panel-heading">
-            <div class="row">
-                <div class="col-md-12 category-header">
-                    <h4 class="panel-title">
-                        <a class="category-course-link pull-left" data-parent="#subject-accordion" data-toggle="collapse"
-                            href="#filter_accordion_inner">
-                            <button id="accordion_button" class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {% trans 'Filters' %}
-                        </a>
-                    </h4>
-                    <!-- <div class="col-lg-4 col-md-5   col-sm-12 col-xs-12 pull-right category-card-items">
-                    </div>-->
+    <div class="panel-group" id="subject-accordion" aria-multiselectable="true">
+        <div class="panel panel-info subject-panel" id="filter_accordion_outer">
+            <div class="panel-heading">
+                <div class="row">
+                    <div id="accordion_bar" class="col-md-12 category-header">
+                        <h4 class="panel-title">
+                            <a class="category-course-link pull-left" data-parent="#subject-accordion" data-toggle="collapse"
+                                href="#filter_accordion_inner">
+                                <button id="accordion_button" class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {% trans 'Filters' %}
+                            </a>
+                        </h4>
+                        <!-- <div class="col-lg-4 col-md-5   col-sm-12 col-xs-12 pull-right category-card-items">
+                        </div>-->
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="filter_accordion_inner" class="panel-collapse collapse category-panel-content">
-            <input type="hidden" class="log_url" value="{% url 'subjects:view_log' subject.id %}" />
-            <input type="hidden" class="log_id" value="" />
-    
-            <div class="row">
-                <div id="period" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                    <!--<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">-->
-                    <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the
-                            period'
-                            %}</b></div>
-                </div>
-                <div id="legend-gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                    <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
-                    <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the
-                            status'
-                            %}</b></div>
-    
-                </div>
-                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                    <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
-                    <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select
-                            what we
-                            have for today' %}</b></div>
-    
-                    <div class="col-md-4 col-xs-12 col-sm-12 col-lg-4 text-center">
-                        <button onclick="ganttChart.reset();" class="btn btn-default btn-raised btn-block" style="position: initial;background-color: #ddd">{%
-                            trans "Today" %}</button>
+            <div id="filter_accordion_inner" class="panel-collapse collapse category-panel-content">
+                <input type="hidden" class="log_url" value="{% url 'subjects:view_log' subject.id %}" />
+                <input type="hidden" class="log_id" value="" />
+        
+                <div class="row">
+                    <div id="period" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                        <!--<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">-->
+                        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the
+                                period'
+                                %}</b></div>
+                    </div>
+                    <div id="legend-gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                        <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
+                        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the
+                                status'
+                                %}</b></div>
+        
+                    </div>
+                    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                        <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
+                        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select
+                                what we
+                                have for today' %}</b></div>
+        
+                        <div class="col-md-4 col-xs-12 col-sm-12 col-lg-4 text-center">
+                            <button onclick="ganttChart.reset();" class="btn btn-default btn-raised btn-block" style="position: initial;background-color: #ddd">{%
+                                trans "Today" %}</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">{% trans 'Auxiliary indicators' %}</div>
+<hr style="height:3px; background-color:#878787; margin-top: 5px;">
+
+<div id="cloudy" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+    <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Suggested researches' %}</b></div>
+    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
 </div>
+
+
 
 <!--<div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
     <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Filters' %}</b></div>
@@ -212,6 +226,113 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         }
     
     var ganttChart = new GanttChart(chartConfig).draw();
+
+    $('#filter_accordion_inner').on('shown.bs.collapse', function () {
+        ganttChart.draw2();
+        //setTimeout(function,delay_ms);
+    })
+
+    document.querySelector("#accordion_button").click();
+    //document.querySelector("#accordion_button").click();
+
+    window.setTimeout(function(){
+        document.querySelector("#accordion_button").click();
+    },100);
+        
+    temp = document.getDimensions("#cloudy")
+    var width = temp.w - $("#cloudy").css("padding-left").match(/[0-9]+/)[0] - $("#cloudy").css("padding-right").match(/[0-9]+/)[0];;
+    var height = 300;
+
+    var dataset = [
+        { value: 2000,myvalue:2000, key: "prova" },
+        { value: 76,myvalue:10, key: "prova anterior" },
+        { value: 54,myvalue:10, key: "carga axial" },
+        { value: 53,myvalue:10, key: "conceito de tensões" },
+        { value: 46,myvalue:10, key: "diagrama de esforço cortante" },
+        { value: 43,myvalue:10, key: "torção" },
+        { value: 39,myvalue:10, key: "aula" },
+        { value: 36,myvalue:10, key: "treliças" },
+        { value: 34,myvalue:10, key: "etapa 01" },
+        { value: 31,myvalue:10, key: "prova 01" },
+        { value: 31,myvalue:10, key: "flexão" },
+        { value: 30,myvalue:10, key: "força normal" },
+        { value: 30,myvalue:10, key: "fator de segurança" },
+        { value: 29,myvalue:10, key: "análise de tensões" },
+        { value: 29,myvalue:10, key: "exercícios" },
+        { value: 28,myvalue:10, key: "prova 02" },
+        { value: 27,myvalue:10, key: "torque" },
+        { value: 27,myvalue:10, key: "momento fletor" },
+        { value: 27,myvalue:10, key: "diagrama de momento fletor" },
+        { value: 27,myvalue:10, key: "momento torçor" },
+        { value: 24,myvalue:10, key: "resumo" },
+        { value: 24,myvalue:10, key: "cargas combinadas" },
+        { value: 23,myvalue:10, key: "estado de tensões" },
+        { value: 22,myvalue:10, key: "cisalhamento" },
+        { value: 21,myvalue:10, key: "etapa 02" },
+        { value: 20,myvalue:10, key: "prova 03" },
+        { value: 19,myvalue:10, key: "círculo de mohr" },
+        { value: 18,myvalue:10, key: "análise de deformações" },
+        { value: 18,myvalue:10, key: "vídeo" },
+        { value: 15,myvalue:10, key: "" },
+        { value: 13,myvalue:10, key: "revisão" },
+        { value: 10,myvalue:10, key: "etapa 03" },
+        { value: 08,myvalue:00, key: "esforços" },
+        { value: 04,myvalue:00, key: "apresentação" },
+        { value: 04,myvalue:00, key: "informações" },
+        { value: 03,myvalue:00, key: "metas" },
+        { value: 03,myvalue:00, key: "provas" },
+        { value: 03,myvalue:00, key: "carregamento transversal" },
+        { value: 02,myvalue:00, key: "simulado" },
+        { value: 02,myvalue:00, key: "normas" },
+        { value: 02,myvalue:00, key: "avaliação" },
+        { value: 02,myvalue:00, key: "resolução" },
+        { value: 01,myvalue:00, key: "Resistencia dos Materiais" },
+        { value: 01,myvalue:00, key: "exercício de fixação 29" },
+        { value: 01,myvalue:00, key: "exercício de fixação 15" },
+        { value: 01,myvalue:00, key: "pd" },
+        { value: 01,myvalue:00, key: "exercício de fixação 05" },
+        { value: 01,myvalue:00, key: "revisão de provas" },
+        { value: 01,myvalue:00, key: "guia de estudos" },
+        { value: 01,myvalue:00, key: "simulado 02" },
+    ];
+
+    var dataconfig = {
+        parent: "#cloudy",
+        data: dataset,
+        max: 50,
+        font: "Impact",
+        spiral: "rectangular",// archimedean | rectangular
+        scale: "log",// scaleLinear | scaleSqrt | scaleLog
+        angles: {
+            from: 0,
+            to: 0,
+            n: 1
+        },
+        dimensions: {
+            w: width,
+            h: height,
+        },
+        interactions: {
+            click: function (element, data) { console.log(data), alert(d3.textData(data, "<text>: <value> acesso(s) \nMeus acessos: <myvalue>")) }
+        },
+        tooltip: {
+            text: "<text>: <value> acesso(s) \n Meus acessos: <myvalue>"
+        },
+        filltext:function(a){
+            var fill = d3.interpolateGreens;
+            var prop = a.chartConfig.mymax/a.chartConfig.max;
+            function scalePercent(x,y){
+                if(x>y)
+                    return y*0.2/(x*prop);
+                else
+                    return 1- x*.8*prop/y;
+            }
+            a.words.attr("fill",function(d,i){
+                return fill(scalePercent(d.myvalue,d.value));
+            });
+        }
+    }
+    var cloudWord = new CloudWord(dataconfig);
     
     window.addEventListener('resize', function () {
         Promise.resolve().then(function () {
@@ -225,9 +346,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
          }, 100);*/
     });
 
-    $('#filter_accordion_inner').on('shown.bs.collapse', function () {
-        ganttChart.draw2();
-    })
+    
 
 </script>
 {% endblock %}

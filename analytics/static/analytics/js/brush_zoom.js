@@ -257,16 +257,20 @@ class GanttChart {
             .attr("stroke-width", "2")
             .attr("stroke-dasharray", "5 10");
 
-        this.nowLine2 = a.context.append("g");
-        this.nowLine2.append("line")
-            .attr("fill", "none")
-            .attr("stroke", "#222")
-            .attr("stroke-width", "2")
-            .attr("stroke-dasharray", "5 10");
-
         this.backgroundContext = a.context.append("rect").attr("class", "backgroundContext");
 
         this.contextContent = a.context.append("g").attr("class", "contextContent");
+
+            this.nowLine2 = a.context.append("g");
+            this.nowLine2.append("line")
+                .attr("fill", "none")
+                .attr("stroke", "#222")
+                .attr("stroke-width", "2")
+                .attr("stroke-dasharray", "2 5");
+
+        
+
+        
 
         this.card = {}
 
@@ -852,7 +856,7 @@ class GanttChart {
             }
             return null;
         }
-        var legendConfig = {
+        this.legendConfig = {
             data: chartConfig.data_legend,
             target: a.chartConfig.parents.legend,
             svg: a.chartConfig.svg,
@@ -892,7 +896,7 @@ class GanttChart {
         }
 
 
-        this.bottomLegend = new BottomLegend(legendConfig);
+        this.bottomLegend = new BottomLegend(this.legendConfig);
 
         this.card.create();
 
@@ -947,6 +951,10 @@ class GanttChart {
 
         this.xAxis2 = d3.axisBottom(this.x2).ticks(Math.floor(a.chartConfig.dimensions.width2 / 220));
 
+        a.nowLine2
+        //    .transition().duration(transition)
+            .attr("transform", "translate(" + a.x2(a.now) + ",0)");
+
         this.brush.extent([[0, 0], [a.width2, a.height2]]);
 
         this.context.attr("transform", "translate(" + a.margin2.left + "," + a.margin2.top + ")");
@@ -978,9 +986,11 @@ class GanttChart {
         this.context.select(".brush")
             .call(a.brush)
             .call(a.brush.move, a.x.range());
+        
+        this.legendConfig.dimensions.width = this.width2
 
         this.bottomLegend.draw();
-
+        
         a.draw2_flag = true;
 
         return this;
@@ -1008,8 +1018,8 @@ class GanttChart {
         this.height = a.chartConfig.dimensions.height - a.margin.top - a.margin.bottom;
 
         if (!a.draw2_flag) {
-            var temp = document.querySelector(a.chartConfig.parents.context).getBoundingClientRect();
-            a.chartConfig.dimensions.width2 = temp.width - $(a.chartConfig.parents.context).css("padding-left").match(/[0-9]+/)[0] - $(a.chartConfig.parents.context).css("padding-right").match(/[0-9]+/)[0];
+            var temp = document.querySelector("#accordion_bar").getBoundingClientRect();
+            a.chartConfig.dimensions.width2 = temp.width - 2*$("#accordion_bar").css("padding-left").match(/[0-9]+/)[0] - 2*$("#accordion_bar").css("padding-right").match(/[0-9]+/)[0];
 
             this.margin2 = {
                 top: 5,
@@ -1244,7 +1254,9 @@ class GanttChart {
             .attr("width", function (d) { return widthRect(d) * d.percent })
             .attr("height", a.y.bandwidth());
 
-        a.nowLine.transition().duration(transition).attr("transform", "translate(" + a.x(a.now) + ",0)");
+        a.nowLine
+        //    .transition().duration(transition)
+            .attr("transform", "translate(" + a.x(a.now) + ",0)");
 
     }
 

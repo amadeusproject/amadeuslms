@@ -38,24 +38,20 @@ window.mobilecheck = function () {
 // Return dimensions of a element whith ID sent by parameter
 document.getDimensions = function (id) {
 	var el = document.querySelector(id);
+	var temp;
 	var w = 0,
 		h = 0;
 	if (el) {
 		w = el["width"];//$(el).attr("width");
-		if (w == undefined) {
-			if (el.getBBox != undefined) {
-				var dimensions = el.getBBox();
-				w = dimensions.width;
-			} else
-				w = 0;
+		if (isNaN(w)) {
+			temp = el.getBoundingClientRect();
+			w = temp.width;
 		}
 		h = el["height"];//$(el).attr("height");
-		if (h == undefined) {
-			if (el.getBBox != undefined) {
-				var dimensions = el.getBBox();
-				h = dimensions.height;
-			} else
-				h = 0;
+		if (isNaN(h)) {
+			if(!temp)
+			temp = el.getBoundingClientRect();
+			h = temp.height;
 		}
 	} else {
 		console.error("getDimensions() " + id + " not found.");
