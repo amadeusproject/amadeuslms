@@ -20,7 +20,6 @@ django-oauth-toolkit==1.0.0
 django-oauth2-provider==0.2.6.1
 django-rest-swagger==2.1.2
 django-role-permissions==1.2.1
-django-s3direct==0.4.2
 django-session-security==2.4.0
 django-summernote==0.8.6
 django-tracking2==0.3.3
