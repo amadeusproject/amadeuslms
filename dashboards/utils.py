@@ -11,6 +11,8 @@ from pendencies.models import Pendencies
 
 from notifications.utils import get_resource_users
 
+from django.db.models import Q
+
 def done_percent(pendency):
     users = get_resource_users(pendency.resource)
     notified = Notification.objects.filter(user__in = users.values_list('id', flat = True), creation_date = datetime.now(), task = pendency).count()
@@ -85,22 +87,20 @@ def getAccessedTags(subject, user):
         
         item["tag_name"] = tag.name
         
-        for res in resources:
-            field = res._my_subclass + "_id"
+        if resources.count() > 0:
+            conds = Q()
+        
+            for res in resources:
+                conds.add(Q(context__contains = {res._my_subclass+'_id': res.id}), Q.OR)
 
-            query = Log.objects.filter(component = 'resources', context__contains = {field: res.id})
-
-            if tag.name == 'avaliação':
-                print(resources)
-                print(query)
-                print(field)
+            query = Log.objects.filter(Q(component = 'resources') & conds)
 
             qtd = qtd + query.count()
             qtd_my = qtd_my + query.filter(user_id = user.id).count()
 
-        item["qtd_access"] = qtd
-        item["qtd_my_access"] = qtd_my
+            item["qtd_access"] = qtd
+            item["qtd_my_access"] = qtd_my
         
-        data.append(item)
+            data.append(item)
 
     return data
