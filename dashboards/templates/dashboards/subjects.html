@@ -140,7 +140,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 </div>
             </div>
         </div>
-        {{ tags_cloud }}
+        {# {{ tags_cloud }} #}
     </div>
 </div>
 
@@ -151,36 +151,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Suggested researches' %}</b></div>
     <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
 </div>
-
-
-
-<!--<div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-    <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Filters' %}</b></div>
-    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
-    <div id="period" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-        {# <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;"> #}
-        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the period'
-                %}</b></div>
-    </div>
-    <div id="legend-gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-        <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
-        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the status'
-                %}</b></div>
-
-    </div>
-    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-        <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
-        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select what we
-                have for today' %}</b></div>
-
-        <div class="col-md-4 col-xs-12 col-sm-12 col-lg-4 text-center">
-            <button onclick="ganttChart.reset();" class="btn btn-default btn-raised btn-block" style="position: initial;background-color: #ddd">{%
-                trans "Today" %}</button>
-        </div>
-    </div>
-</div>
-<hr style="height:3px; background-color:#878787; margin-top: 5px;">
--->
 
 
 <script type="text/javascript">
@@ -230,6 +200,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
     $('#filter_accordion_inner').on('shown.bs.collapse', function () {
         ganttChart.draw2();
+        if($('#filter_accordion_inner').attr('aria-expanded') == "true")
+            document.querySelector("#accordion_button").querySelector("i").setAttribute("class","fa fa-angle-down fa-2x");
+        else
+            document.querySelector("#accordion_button").querySelector("i").setAttribute("class","fa fa-angle-right fa-2x");
         //setTimeout(function,delay_ms);
     })
 
@@ -244,62 +218,25 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     var width = temp.w - $("#cloudy").css("padding-left").match(/[0-9]+/)[0] - $("#cloudy").css("padding-right").match(/[0-9]+/)[0];;
     var height = 300;
 
-    var dataset = [
-        { value: 2000,myvalue:2000, key: "prova" },
-        { value: 76,myvalue:10, key: "prova anterior" },
-        { value: 54,myvalue:10, key: "carga axial" },
-        { value: 53,myvalue:10, key: "conceito de tensões" },
-        { value: 46,myvalue:10, key: "diagrama de esforço cortante" },
-        { value: 43,myvalue:10, key: "torção" },
-        { value: 39,myvalue:10, key: "aula" },
-        { value: 36,myvalue:10, key: "treliças" },
-        { value: 34,myvalue:10, key: "etapa 01" },
-        { value: 31,myvalue:10, key: "prova 01" },
-        { value: 31,myvalue:10, key: "flexão" },
-        { value: 30,myvalue:10, key: "força normal" },
-        { value: 30,myvalue:10, key: "fator de segurança" },
-        { value: 29,myvalue:10, key: "análise de tensões" },
-        { value: 29,myvalue:10, key: "exercícios" },
-        { value: 28,myvalue:10, key: "prova 02" },
-        { value: 27,myvalue:10, key: "torque" },
-        { value: 27,myvalue:10, key: "momento fletor" },
-        { value: 27,myvalue:10, key: "diagrama de momento fletor" },
-        { value: 27,myvalue:10, key: "momento torçor" },
-        { value: 24,myvalue:10, key: "resumo" },
-        { value: 24,myvalue:10, key: "cargas combinadas" },
-        { value: 23,myvalue:10, key: "estado de tensões" },
-        { value: 22,myvalue:10, key: "cisalhamento" },
-        { value: 21,myvalue:10, key: "etapa 02" },
-        { value: 20,myvalue:10, key: "prova 03" },
-        { value: 19,myvalue:10, key: "círculo de mohr" },
-        { value: 18,myvalue:10, key: "análise de deformações" },
-        { value: 18,myvalue:10, key: "vídeo" },
-        { value: 15,myvalue:10, key: "" },
-        { value: 13,myvalue:10, key: "revisão" },
-        { value: 10,myvalue:10, key: "etapa 03" },
-        { value: 08,myvalue:00, key: "esforços" },
-        { value: 04,myvalue:00, key: "apresentação" },
-        { value: 04,myvalue:00, key: "informações" },
-        { value: 03,myvalue:00, key: "metas" },
-        { value: 03,myvalue:00, key: "provas" },
-        { value: 03,myvalue:00, key: "carregamento transversal" },
-        { value: 02,myvalue:00, key: "simulado" },
-        { value: 02,myvalue:00, key: "normas" },
-        { value: 02,myvalue:00, key: "avaliação" },
-        { value: 02,myvalue:00, key: "resolução" },
-        { value: 01,myvalue:00, key: "Resistencia dos Materiais" },
-        { value: 01,myvalue:00, key: "exercício de fixação 29" },
-        { value: 01,myvalue:00, key: "exercício de fixação 15" },
-        { value: 01,myvalue:00, key: "pd" },
-        { value: 01,myvalue:00, key: "exercício de fixação 05" },
-        { value: 01,myvalue:00, key: "revisão de provas" },
-        { value: 01,myvalue:00, key: "guia de estudos" },
-        { value: 01,myvalue:00, key: "simulado 02" },
-    ];
+/*Cloudy Word*/
 
+    var data = {% autoescape off %} {{ tags_cloud }} {% endautoescape %};
+
+    data = data.map(function(d){return {
+        key:d.tag_name,
+        value:d.qtd_access,
+        myvalue:d.qtd_my_access,
+    }});
+
+    data.sort(function(d1,d2){
+        return d1.value>d2.value?-1:(d1.value<d2.value?1:0);
+    })
+
+    data = data.slice(0,30);
+    
     var dataconfig = {
         parent: "#cloudy",
-        data: dataset,
+        data: data,
         max: 50,
         font: "Impact",
         spiral: "rectangular",// archimedean | rectangular
@@ -324,11 +261,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             var prop = a.chartConfig.mymax/a.chartConfig.max;
             function scalePercent(x,y){
                 if(x>y)
-                    return y*0.2/(x*prop);
+                    return y*0.2*prop/x;
                 else
-                    return 1- x*.8*prop/y;
+                    return 1- x*.8/(y*prop);
             }
+            console.log(prop);
             a.words.attr("fill",function(d,i){
+                console.log(scalePercent(d.myvalue,d.value));
                 return fill(scalePercent(d.myvalue,d.value));
             });
         }
