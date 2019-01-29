@@ -4,8 +4,8 @@ services:
   db:
     restart: always
     image: postgres:latest
-    ports:
-      - "8010:5432"
+    networks:
+      - database_network
   web:
     image: amadeus:latest
     build:
@@ -16,9 +16,26 @@ services:
       DJANGO_MANAGEPY_MIGRATE: 'on'
     volumes:
       - .:/code
-    ports:
-      - "8000:8000"
     depends_on:
       - db
     stdin_open: true
     tty: true
+    networks:
+      - nginx_network
+      - database_network
+  nginx:
+    image: nginx:1.13
+    ports:
+      - 8000:80
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - web
+    networks:
+      - nginx_network
+
+networks:
+  nginx_network:
+    driver: bridge
+  database_network:
+    driver: bridge
