@@ -1557,7 +1557,10 @@ document.definewidth = function (chartConfig, width, height, propWindow, propCha
     var temp;
     target = target ? target : (chartConfig.parent ? chartConfig.parent : chartConfig.target);
     if (temp = document.querySelector(target).getBoundingClientRect()) {
-        chartConfig.dimensions.width = temp.width - $(target).css("padding-left").match(/[0-9]+/)[0] - $(target).css("padding-right").match(/[0-9]+/)[0];
+        chartConfig.dimensions.width = temp.width - $(target).css("padding-left").match(/[0-9]+/)[0] - $(target).css("padding-right").match(/[0-9]+/)[0] -((!chartConfig.dimensions.height && !window.mobilecheck())?13.74:0);
+        console.log($(target).css("padding-right").match(/[0-9]+/)[0]);
+        console.log($(target).css("padding-left").match(/[0-9]+/)[0]);
+        console.log(chartConfig.dimensions.width,temp.width);
         if (propWindow) {
             var prop = window.innerWidth * propWindow / window.innerHeight;
             //console.log(prop);

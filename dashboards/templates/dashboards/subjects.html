@@ -22,6 +22,15 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% endblock style %}
 
 {% block javascript %}
+
+<style>
+    .filter-panel > .panel-heading {
+  background-color: #eeeeee !important;
+  padding:0px;
+  color:#000 !important;
+}
+</style>
+
 <script>
     window.labels_date = {
         dateTime: "%x, %X",
@@ -92,15 +101,15 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 </div>
 
 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-    <div class="panel-group" id="subject-accordion" aria-multiselectable="true">
-        <div class="panel panel-info subject-panel" id="filter_accordion_outer">
+    <div class="panel-group" id="filter-accordion" aria-multiselectable="true">
+        <div class="panel panel-info filter-panel" id="filter_accordion_outer" >
             <div class="panel-heading">
                 <div class="row">
                     <div id="accordion_bar" class="col-md-12 category-header">
                         <h4 class="panel-title">
-                            <a class="category-course-link pull-left" data-parent="#subject-accordion" data-toggle="collapse"
+                            <a data-parent="#filter-accordion" data-toggle="collapse"
                                 href="#filter_accordion_inner">
-                                <button id="accordion_button" class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {% trans 'Filters' %}
+                                <button id="accordion_button" class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true" style="color:#000"></i></button> {% trans 'Filters' %}
                             </a>
                         </h4>
                         <!-- <div class="col-lg-4 col-md-5   col-sm-12 col-xs-12 pull-right category-card-items">
@@ -115,26 +124,26 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 <div class="row">
                     <div id="period" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                         <!--<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">-->
-                        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the
-                                period'
-                                %}</b></div>
+                        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; ">
+                            <b>{% trans 'Select the period' %}</b></div>
                     </div>
                     <div id="legend-gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                         <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
-                        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select the
-                                status'
-                                %}</b></div>
+                        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; ">
+                            <b>{% trans 'Select the status' %}</b></div>
         
                     </div>
                     <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                         <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
-                        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; "><b>{% trans 'Select
-                                what we
-                                have for today' %}</b></div>
+                        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; ">
+                            <b>{% trans 'Select what we have for today' %}</b>
+                        </div>
         
                         <div class="col-md-4 col-xs-12 col-sm-12 col-lg-4 text-center">
-                            <button onclick="ganttChart.reset();" class="btn btn-default btn-raised btn-block" style="position: initial;background-color: #ddd">{%
-                                trans "Today" %}</button>
+                            <button onclick="ganttChart.reset();" class="btn btn-default btn-raised btn-block" 
+                                style="position: initial;background-color: #ddd">
+                                    {% trans "Today" %}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -151,6 +160,33 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Suggested researches' %}</b></div>
     <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
 </div>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tagModal">
+        Launch demo modal
+      </button>
+
+<div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="modalTittle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header" >
+            <h3 class="modal-title" id="modalTittle" >Modal title</h3>
+            <div >
+                <h5>Acessos:</h5>
+                <svg width="100%" height="20px"></svg>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div id="resouces-list">
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <!--button type="button" class="btn btn-primary">Save changes</button>-->
+        </div>
+        </div>
+    </div>
+    </div>
 
 
 <script type="text/javascript">
@@ -200,13 +236,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
     $('#filter_accordion_inner').on('shown.bs.collapse', function () {
         ganttChart.draw2();
-        if($('#filter_accordion_inner').attr('aria-expanded') == "true")
-            document.querySelector("#accordion_button").querySelector("i").setAttribute("class","fa fa-angle-down fa-2x");
-        else
-            document.querySelector("#accordion_button").querySelector("i").setAttribute("class","fa fa-angle-right fa-2x");
+        document.querySelector("#accordion_button").querySelector("i").setAttribute("class","fa fa-angle-down fa-2x");
         //setTimeout(function,delay_ms);
     })
 
+    $('#filter_accordion_inner').on('hidden.bs.collapse', function () {
+        document.querySelector("#accordion_button").querySelector("i").setAttribute("class","fa fa-angle-right fa-2x");
+    })
     document.querySelector("#accordion_button").click();
     //document.querySelector("#accordion_button").click();
 
@@ -251,7 +287,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             h: height,
         },
         interactions: {
-            click: function (element, data) { console.log(data), alert(d3.textData(data, "<text>: <value> acesso(s) \nMeus acessos: <myvalue>")) }
+            click: function (element, data) { 
+                //console.log(data);
+                //alert(d3.textData(data, "<text>: <value> acesso(s) \nMeus acessos: <myvalue>")) 
+                document.querySelector('#tagModal').querySelector("#modalTittle").innerText = "Tag: "+data.text;
+                
+                $('#tagModal').modal('show');
+            }
         },
         tooltip: {
             text: "<text>: <value> acesso(s) \n Meus acessos: <myvalue>"
@@ -267,12 +309,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             }
             console.log(prop);
             a.words.attr("fill",function(d,i){
-                console.log(scalePercent(d.myvalue,d.value));
+                //console.log(scalePercent(d.myvalue,d.value));
                 return fill(scalePercent(d.myvalue,d.value));
             });
         }
     }
     var cloudWord = new CloudWord(dataconfig);
+
+    
     
     window.addEventListener('resize', function () {
         Promise.resolve().then(function () {
@@ -296,3 +340,4 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     sessionSecurity.confirmFormDiscard = undefined;
 </script>
 {% endblock %}
+
