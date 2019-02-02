@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils import formats, timezone
 
 from subjects.models import Tag
@@ -77,6 +77,8 @@ def getAccessedTags(subject, user):
 
     data = []
 
+    logs = Log.objects.filter(datetime__date__gte = datetime.now() - timedelta(days = 7))
+
     for tag in tags:
         resources = Resource.objects.filter(tags = tag, topic__subject = subject)
         
@@ -93,7 +95,7 @@ def getAccessedTags(subject, user):
             for res in resources:
                 conds.add(Q(context__contains = {res._my_subclass+'_id': res.id}), Q.OR)
 
-            query = Log.objects.filter(Q(component = 'resources') & conds)
+            query = logs.filter(Q(component = 'resources') & conds)
 
             qtd = qtd + query.count()
             qtd_my = qtd_my + query.filter(user_id = user.id).count()
