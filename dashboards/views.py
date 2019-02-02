@@ -33,9 +33,9 @@ from collections import OrderedDict
 
 from categories.models import Category
 
-from subjects.models import Subject
+from subjects.models import Subject, Tag
 
-from .utils import get_pend_graph, getAccessedTags
+from .utils import get_pend_graph, getAccessedTags, getTagAccessess
 
 
 from log.mixins import LogMixin
@@ -272,6 +272,7 @@ class SubjectView(LogMixin, generic.TemplateView):
             context["graph_data"] = json.dumps(get_pend_graph(self.request.user, subject))
 
         context["subject"] = subject
+        context["qtd_students"] = subject.students.count()
         context['javascript_files'] = []
         context['style_files'] = ['dashboards/css/general.css', 'dashboards/css/dashboards_category.css']
         
@@ -279,3 +280,9 @@ class SubjectView(LogMixin, generic.TemplateView):
 
         return context
 
+def tag_accessess(request, tag, subject, email):
+    sub = Subject.objects.get(slug = subject)
+    user = User.objects.get(email = email)
+    tag = Tag.objects.get(id = tag)
+
+    return JsonResponse(getTagAccessess(sub, tag, user), safe = False)

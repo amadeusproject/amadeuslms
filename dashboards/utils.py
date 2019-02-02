@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from django.utils import formats, timezone
+from django.core.urlresolvers import reverse
 
 from subjects.models import Tag
 from topics.models import Resource
@@ -80,29 +81,52 @@ def getAccessedTags(subject, user):
     logs = Log.objects.filter(datetime__date__gte = datetime.now() - timedelta(days = 7))
 
     for tag in tags:
-        resources = Resource.objects.filter(tags = tag, topic__subject = subject)
-        
-        qtd = 0
-        qtd_my = 0
+        if not tag.name == '':
+            resources = Resource.objects.filter(tags = tag, topic__subject = subject)
+            
+            qtd = 0
+            qtd_my = 0
 
+            item = {}
+            
+            item["tag_name"] = tag.name
+            item["details_url"] = reverse('dashboards:tag_accessess', args = (tag.id, subject.slug, user.email,), kwargs = {})
+            
+            if resources.count() > 0:
+                conds = Q()
+            
+                for res in resources:
+                    conds.add(Q(context__contains = {res._my_subclass+'_id': res.id}), Q.OR)
+
+                query = logs.filter(Q(component = 'resources') & conds)
+
+                qtd = qtd + query.count()
+                qtd_my = qtd_my + query.filter(user_id = user.id).count()
+
+                item["qtd_access"] = qtd
+                item["qtd_my_access"] = qtd_my
+            
+                data.append(item)
+
+    return data
+
+def getTagAccessess(subject, tag, user):
+    resources = Resource.objects.filter(tags = tag, topic__subject = subject)
+
+    logs = Log.objects.filter(datetime__date__gte = datetime.now() - timedelta(days = 7))
+
+    data = []
+
+    for resource in resources:
         item = {}
         
-        item["tag_name"] = tag.name
-        
-        if resources.count() > 0:
-            conds = Q()
-        
-            for res in resources:
-                conds.add(Q(context__contains = {res._my_subclass+'_id': res.id}), Q.OR)
+        item["resource_name"] = resource.name
 
-            query = logs.filter(Q(component = 'resources') & conds)
+        history = logs.filter(component = 'resource', context__contains = {resource._my_subclass + '_id': resource.id})
 
-            qtd = qtd + query.count()
-            qtd_my = qtd_my + query.filter(user_id = user.id).count()
-
-            item["qtd_access"] = qtd
-            item["qtd_my_access"] = qtd_my
-        
-            data.append(item)
+        item["qtd_access"] = history.count()
+        item["qtd_my_access"] = history.filter(user_id = user.id).count()
+    
+        data.append(item)
 
     return data
