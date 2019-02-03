@@ -122,10 +122,11 @@ def getTagAccessess(subject, tag, user):
         
         item["resource_name"] = resource.name
 
-        history = logs.filter(component = 'resource', context__contains = {resource._my_subclass + '_id': resource.id})
+        history = logs.filter(component = 'resources', context__contains = {resource._my_subclass + '_id': resource.id})
 
         item["qtd_access"] = history.count()
         item["qtd_my_access"] = history.filter(user_id = user.id).count()
+        item["access_url"] = resource.access_link()
     
         data.append(item)
 
