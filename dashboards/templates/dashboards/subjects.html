@@ -149,11 +149,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 </div>
             </div>
         </div>
-        {# {{ tags_cloud }} #}
+        {#{{ tags_cloud }}#}
     </div>
 </div>
-
-qtd_students: {{ qtd_students }}
 
 <div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">{% trans 'Auxiliary indicators' %}</div>
 <hr style="height:3px; background-color:#878787; margin-top: 5px;">
@@ -172,19 +170,39 @@ qtd_students: {{ qtd_students }}
         <div class="modal-content">
         <div class="modal-header" >
             <h3 class="modal-title" id="modalTittle" >Modal title</h3>
-            <div >
-                <h5>Acessos:</h5>
-                <svg width="100%" height="20px"></svg>
+            <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
+            <div style="margin-top: 15px">
+                <!--<svg id="bullet-tag" width="100%" height="20px">
+                    <text x="5" y="10" font-size="15" dy="0.4em">Acessos:</text>
+                    <g transform="translate(70,10)">
+                        <rect y="-9" height="18px" width="200px" fill="#f00"></rect>
+                        <rect y="-4" height="8px" width="200px" fill="#0f0"></rect>
+                    </g>
+                </svg>-->
+                <!--<h4>Acessos:</h4>
+                <p>Meus acessos: <a id="my-access-modal2">0</a></br>
+                   Média de acessos: <a id="total-access-modal2">0</a></p>-->
+                <h4>Frequencias de acessos:</h4>
+                   <p>Minha frequência: <a id="my-access-modal">0</a></br>
+                      Frequencia na turma: <a id="total-access-modal">0</a></p>
+            </div>
+            <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
+            <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                    <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6" style="padding-left: 0;padding-right: 0"><h5>Recurso</h5></div>
+                    <div class="col-md-3 col-xs-3 col-sm-3 col-lg-3" style="padding-left: 0;padding-right: 0"><h5>Minha frequencia</h5></div>
+                    <div class="col-md-3 col-xs-3 col-sm-3 col-lg-3" style="padding-left: 0;padding-right: 0"><h5>Frequencia da turma</h5></div>
+            </div>
+            <hr style="height:2px; background-color:#959595;margin-top: 0px;margin-bottom: 5px;">
+            <div id="resources-list" style="overflow-y: auto; height:200px; " class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+    
             </div>
         </div>
-        <div class="modal-body">
-            <div id="resouces-list">
-
-            </div>
-        </div>
-        <div class="modal-footer">
+        <!--<div class="modal-body" style="padding-top:5px" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+            
+        </div> -->
+        <div class="modal-footer" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <!--button type="button" class="btn btn-primary">Save changes</button>-->
+            <!--<button type="button" class="btn btn-primary">Save changes</button>-->
         </div>
         </div>
     </div>
@@ -258,12 +276,15 @@ qtd_students: {{ qtd_students }}
 
 /*Cloudy Word*/
 
+    var qtd_students = {{ qtd_students }};
+
     var data = {% autoescape off %} {{ tags_cloud }} {% endautoescape %};
 
     data = data.map(function(d){return {
         key:d.tag_name,
         value:d.qtd_access,
         myvalue:d.qtd_my_access,
+        link:d.details_url
     }});
 
     data.sort(function(d1,d2){
@@ -291,14 +312,49 @@ qtd_students: {{ qtd_students }}
         interactions: {
             click: function (element, data) { 
                 //console.log(data);
-                //alert(d3.textData(data, "<text>: <value> acesso(s) \nMeus acessos: <myvalue>")) 
-                document.querySelector('#tagModal').querySelector("#modalTittle").innerText = "Tag: "+data.text;
+                //alert(d3.textData(data, "<text>: <value> acesso(s) \nMeus acessos: <myvalue>"))
+                var modal = document.querySelector('#tagModal');
+                modal.querySelector("#modalTittle").innerText = "Tag: "+data.text;
+                modal.querySelector("#my-access-modal").innerText = ""+parseInt(data.myvalue*100/cloudWord.chartConfig.mymax)+"%";
+                modal.querySelector("#total-access-modal").innerText = ""+parseInt(data.value*100/cloudWord.chartConfig.max)+"%";
+
+                //modal.querySelector("#my-access-modal2").innerText = data.myvalue;
+                //modal.querySelector("#total-access-modal2").innerText = data.value/qtd_students;
+                var container = d3.select("#resources-list");
+                container.selectAll(".resource").remove();
+
+                $.get(data.link, function(dataset){
+                    dataset.sort(function(d1,d2){
+                        var p1 = d1.qtd_my_access/(d1.qtd_access||1), p2 = d2.qtd_my_access/(d2.qtd_access||1);
+
+                        return p1<p2?1:(p1>p2?-1:0);
+                    });
+                    
+                    var resources = container.selectAll(".resource").data(dataset).enter().append("div")
+                        .attr("class",function(d,i){return "resource recource-"+i + " col-md-12 col-xs-12 col-sm-12 col-lg-12"})
+                        .style("padding-left",0)
+                        .append("a").attr("href",function(d){return d.link});
+                    resources.append("div").attr("class","resource-name col-md-6 col-xs-6 col-sm-6 col-lg-6")
+                        .append("p").text(function(d){return d.resource_name});
+                    resources.append("div").attr("class","myfreq col-md-3 col-xs-3 col-sm-3 col-lg-3")
+                        .append("p").text(function(d){return ""+parseInt(d.qtd_my_access*100/(data.myvalue||1))+"%"});
+                    resources.append("div").attr("class","totalfreq col-md-3 col-xs-3 col-sm-3 col-lg-3")
+                        .append("p").text(function(d){return ""+parseInt(d.qtd_access*100/(data.value||1))+"%"});
+                    
+                    console.log(dataset);
+/*
+                <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6"><h5>Recurso</h5></div>
+                <div class="col-md-3 col-xs-3 col-sm-3 col-lg-3"><h5>Minha frequencia</h5></div>
+                <div class="col-md-3 col-xs-3 col-sm-3 col-lg-3"><h5>Frequencia da turma</h5></div>
+*/
+
+                });
                 
                 $('#tagModal').modal('show');
             }
         },
         tooltip: {
-            text: "<text>: <value> acesso(s) \n Meus acessos: <myvalue>"
+            text: "Tag: <key>\nMédia de acessos: [<value>/{{ qtd_students }}] \nMeus acessos: <myvalue>",
         },
         filltext:function(a){
             var fill = d3.interpolateGreens;
@@ -314,7 +370,12 @@ qtd_students: {{ qtd_students }}
                 //console.log(scalePercent(d.myvalue,d.value));
                 return fill(scalePercent(d.myvalue,d.value));
             });
-        }
+        },
+        /*default:function(){
+            var temp = document.querySelector("#bullet-tag").getBoundingClientRect();
+            this.bullet_tag = d3.scaleLinear().range[0,(temp.width-75)<0?0:temp.width-75];
+
+        }*/
     }
     var cloudWord = new CloudWord(dataconfig);
 

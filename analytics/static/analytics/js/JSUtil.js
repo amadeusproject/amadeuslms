@@ -176,6 +176,36 @@ d3.textData = function (data, text) {
 		//text = text.replace(/<.*>/,rep);//tudo entre caracteres < >
 	}
 
+	while ((index = text.search("\\[")) != -1 && (index2 = text.search("\\]")) != -1) {//search for tags to calculate
+		var sub = text.substr(index + 1, index2 - index - 1);
+		var op1 = sub.match(/([0-9]+)|([0-9]+,[0-9]+)|([0-9]+.[0-9]+)/g);
+		o = sub.match(/[\+\-\*\/\%\^r]/)[0];
+		var op2 = op1[1];
+		op1 = op1[0]
+		op1 = parseFloat(op1);
+		op2 = parseFloat(op2);
+		if(isNaN(op1))
+			op1 = op2;
+		if(isNaN(op1))
+			o = "";
+
+		var rep;
+		switch(o){
+			case '+': rep = op1+op2;break;
+			case '-': rep = op1-op2;break;
+			case '*': rep = op1*op2;break;
+			case '/': rep = op2==0?"NaN":op1/op2;break;
+			case '%': rep = op2==0?"NaN":op1*100/op2;break;
+			case '^': rep = Math.pow(op1,op2);break;
+			case 'r': rep = Math.pow(op1,1/op2);break;
+			default: rep = op1;
+		}
+
+		
+		var n = text.search(sub);
+		text = text.replace(text.substring(n - 1, n + sub.length + 1), rep);
+	}
+
 	return text;
 }
 
