@@ -161,9 +161,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
 </div>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tagModal">
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tagModal">
         Launch demo modal
-      </button>
+      </button>-->
 
 <div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="modalTittle" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -182,15 +182,17 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 <!--<h4>Acessos:</h4>
                 <p>Meus acessos: <a id="my-access-modal2">0</a></br>
                    Média de acessos: <a id="total-access-modal2">0</a></p>-->
-                <h4>Frequencias de acessos:</h4>
-                   <p>Minha frequência: <a id="my-access-modal">0</a></br>
-                      Frequencia na turma: <a id="total-access-modal">0</a></p>
+                <h4>{% trans 'Access frequency' %}:</h4>
+                   <p>{% trans 'My frequency' %}: <a id="my-access-modal">0</a></br>
+                      {% trans 'Frequency of the class' %}: <a id="total-access-modal">0</a></p>
             </div>
             <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
             <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                    <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6" style="padding-left: 0;padding-right: 0"><h5>Recurso</h5></div>
-                    <div class="col-md-3 col-xs-3 col-sm-3 col-lg-3" style="padding-left: 0;padding-right: 0"><h5>Minha frequencia</h5></div>
-                    <div class="col-md-3 col-xs-3 col-sm-3 col-lg-3" style="padding-left: 0;padding-right: 0"><h5>Frequencia da turma</h5></div>
+                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                    <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6" ><h5>{% trans 'Resource' %}</h5></div>
+                    <div class="col-md-3 col-xs-3 col-sm-3 col-lg-3" ><h5>{% trans 'My frequency' %}</h5></div>
+                    <div class="col-md-3 col-xs-3 col-sm-3 col-lg-3" ><h5>{% trans 'Frequency of the class' %}</h5></div>
+                </div>
             </div>
             <hr style="height:2px; background-color:#959595;margin-top: 0px;margin-bottom: 5px;">
             <div id="resources-list" style="overflow-y: auto; height:200px; " class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
@@ -201,7 +203,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             
         </div> -->
         <div class="modal-footer" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'CLOSE' %}</button>
             <!--<button type="button" class="btn btn-primary">Save changes</button>-->
         </div>
         </div>
@@ -314,7 +316,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 //console.log(data);
                 //alert(d3.textData(data, "<text>: <value> acesso(s) \nMeus acessos: <myvalue>"))
                 var modal = document.querySelector('#tagModal');
-                modal.querySelector("#modalTittle").innerText = "Tag: "+data.text;
+                modal.querySelector("#modalTittle").innerText = data.text.toUpperCase();
                 modal.querySelector("#my-access-modal").innerText = ""+parseInt(data.myvalue*100/cloudWord.chartConfig.mymax)+"%";
                 modal.querySelector("#total-access-modal").innerText = ""+parseInt(data.value*100/cloudWord.chartConfig.max)+"%";
 
@@ -324,29 +326,43 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 container.selectAll(".resource").remove();
 
                 $.get(data.link, function(dataset){
-                    dataset.sort(function(d1,d2){
-                        var p1 = d1.qtd_my_access/(d1.qtd_access||1), p2 = d2.qtd_my_access/(d2.qtd_access||1);
+                    dataset = dataset.sort(function(d1,d2){
+                        if(isNaN(d1.qtd_access)||(+d1.qtd_access)==0)
+                        d1.qtd_access = 1;
+                        if(isNaN(d2.qtd_access)||(+d2.qtd_access)==0)
+                        d2.qtd_access = 1;
 
-                        return p1<p2?1:(p1>p2?-1:0);
+                        if(isNaN(d1.qtd_my_access)||(+d1.qtd_my_access)==0)
+                        d1.qtd_access = 0;
+                        if(isNaN(d2.qtd_my_access)||(+d2.qtd_my_access)==0)
+                        d2.qtd_access = 0;
+
+                        var p1 = d1.qtd_my_access/d1.qtd_access, p2 = d2.qtd_my_access/d2.qtd_access;
+                        return p1>p2?1:(p1<p2?-1:(d1.qtd_access<d2.qtd_access?1:(d1.qtd_access>d2.qtd_access?-1:0)));
                     });
                     
                     var resources = container.selectAll(".resource").data(dataset).enter().append("div")
-                        .attr("class",function(d,i){return "resource recource-"+i + " col-md-12 col-xs-12 col-sm-12 col-lg-12"})
-                        .style("padding-left",0)
-                        .append("a").attr("href",function(d){return d.link});
+                        .attr("class",function(d,i){return "resource recource-"+i + " col-md-12 col-xs-12 col-sm-12 col-lg-12"});
+                        //.style("padding-left",0);
+
                     resources.append("div").attr("class","resource-name col-md-6 col-xs-6 col-sm-6 col-lg-6")
-                        .append("p").text(function(d){return d.resource_name});
+                        .append("p")
+                        .append("a").attr("href",function(d){return d.access_url})
+                        .text(function(d){
+                            return d.resource_name
+                        });
+
                     resources.append("div").attr("class","myfreq col-md-3 col-xs-3 col-sm-3 col-lg-3")
-                        .append("p").text(function(d){return ""+parseInt(d.qtd_my_access*100/(data.myvalue||1))+"%"});
+                        .append("p").text(function(d){
+                            console.log("qtd_my_access: "+d.qtd_my_access,"my_access_tag: "+data.myvalue);
+                            return ""+parseInt(d.qtd_my_access*100/(data.myvalue||1))+"%";
+                        });
+                        
                     resources.append("div").attr("class","totalfreq col-md-3 col-xs-3 col-sm-3 col-lg-3")
-                        .append("p").text(function(d){return ""+parseInt(d.qtd_access*100/(data.value||1))+"%"});
-                    
-                    console.log(dataset);
-/*
-                <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6"><h5>Recurso</h5></div>
-                <div class="col-md-3 col-xs-3 col-sm-3 col-lg-3"><h5>Minha frequencia</h5></div>
-                <div class="col-md-3 col-xs-3 col-sm-3 col-lg-3"><h5>Frequencia da turma</h5></div>
-*/
+                        .append("p").text(function(d){
+                            console.log("qtd_access: "+d.qtd_access,"access_tag: "+data.value);
+                            return ""+parseInt(d.qtd_access*100/(data.value||1))+"%";
+                        });
 
                 });
                 
@@ -365,7 +381,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 else
                     return 1- x*.8/(y*prop);
             }
-            console.log(prop);
+            //console.log(prop);
             a.words.attr("fill",function(d,i){
                 //console.log(scalePercent(d.myvalue,d.value));
                 return fill(scalePercent(d.myvalue,d.value));

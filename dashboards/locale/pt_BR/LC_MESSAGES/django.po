@@ -393,3 +393,24 @@ msgstr "Tarefa encerrada em: "
 #: dashboards/templates/dashboards/tags_body.html:18
 msgid "most used tags"
 msgstr "tags mais usadas"
+
+msgid "Auxiliary indicators"
+msgstr "Indicadores auxiliares"
+
+msgid "Suggested researches"
+msgstr "Pesquisas Sugeridas"
+
+msgid "Access frequency"
+msgstr "Frequencia de acesso"
+
+msgid "My frequency"
+msgstr "Minha frequência"
+
+msgid "Frequency of the class"
+msgstr "Frequência da turma"
+
+msgid "Resource"
+msgstr "Recurso"
+
+msgid "CLOSE"
+msgstr "FECHAR"
