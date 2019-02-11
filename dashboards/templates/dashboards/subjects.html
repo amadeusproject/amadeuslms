@@ -23,50 +23,15 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% block javascript %}
 
-<style>
-    .filter-panel > .panel-heading {
-  background-color: #eeeeee !important;
-  padding:0px;
-  color:#000 !important;
-}
-</style>
-
-<script>
-    window.labels_date = {
-        dateTime: "%x, %X",
-        date: "%-d/%-m/%Y",
-        time: "" + (("%p" == "PM" ? 12 : 0) + ("%-I") % 12) + ":%M:%S",
-        periods: ["AM", "PM"],
-        days: ["{% trans 'Sunday' %}", "{% trans 'Monday' %}", "{% trans 'Tuesday' %}", "{% trans 'Wednesday' %}", "{% trans 'Thursday' %}", "{% trans 'Friday' %}", "{% trans 'Saturday' %}"],
-        shortDays: ["{% trans 'Sun' %}", "{% trans 'Mon' %}", "{% trans 'Tue' %}", "{% trans 'Wed' %}", "{% trans 'Thu' %}", "{% trans 'Fri' %}", "{% trans 'Sat' %}"],
-        months: ["{% trans 'January' %}", "{% trans 'February' %}", "{% trans 'March' %}", "{% trans 'April' %}", "{% trans 'May' %}", "{% trans 'June' %}", "{% trans 'July' %}", "{% trans 'August' %}", "{% trans 'September' %}", "{% trans 'October' %}", "{% trans 'November' %}", "{% trans 'December' %}"],
-        shortMonths: ["{% trans 'Jan' %}", "{% trans 'Feb' %}", "{% trans 'Mar' %}", "{% trans 'Apr' %}", "{% trans 'May' %}", "{% trans 'Jun' %}", "{% trans 'Jul' %}", "{% trans 'Aug' %}", "{% trans 'Sep' %}", "{% trans 'Oct' %}", "{% trans 'Nov' %}", "{% trans 'Dec' %}"]
-    }/*{
-            dateTime: "%x, %X",
-            date: "%d/%m/%Y",
-            time: "%-I:%M:%S %p",
-            periods: ["AM", "PM"],
-            days: ["{% trans 'Sunday' %}", "{% trans 'Monday' %}", "{% trans 'Tuesday' %}", "{% trans 'Wednesday' %}", "{% trans 'Thursday' %}", "{% trans 'Friday' %}", "{% trans 'Saturday' %}"],
-            shortDays: ["{% trans 'Sun' %}", "{% trans 'Mon' %}", "{% trans 'Tue' %}", "{% trans 'Wed' %}", "{% trans 'Thu' %}", "{% trans 'Fri' %}", "{% trans 'Sat' %}"],
-            months: ["{% trans 'January' %}", "{% trans 'February' %}", "{% trans 'March' %}", "{% trans 'April' %}", "{% trans 'May' %}", "{% trans 'June' %}", "{% trans 'July' %}", "{% trans 'August' %}", "{% trans 'September' %}", "{% trans 'October' %}", "{% trans 'November' %}", "{% trans 'December' %}"],
-            shortMonths: ["{% trans 'Jan' %}", "{% trans 'Feb' %}", "{% trans 'Mar' %}", "{% trans 'Apr' %}", "{% trans 'May' %}", "{% trans 'Jun' %}", "{% trans 'Jul' %}", "{% trans 'Aug' %}", "{% trans 'Sep' %}", "{% trans 'Oct' %}", "{% trans 'Nov' %}", "{% trans 'Dec' %}"]
-        }*/
-
-</script>
-<script src="{% static 'analytics/js/d3.v5.min.js' %}"></script>
-<script src="{% static 'analytics/js/d3.v3.min.js' %}"></script>
 <!--https://d3js.org/d3.v5.min.js-->
+{% include "dashboards/d3_translate.html" %}
 
 <script src="{% static 'analytics/js/JSUtil.js' %}"></script>
-
-<script src="{% static 'analytics/js/Legend.js' %}"></script>
-<script src="{% static 'analytics/js/brush_zoom.js' %}"></script>
-<script src="{% static 'analytics/js/ToolTip.js' %}"></script>
-<script src="{% static 'analytics/js/cloud.min.js' %}"></script>
 
 {% for file in javascript_files %}
 <script type="text/javascript" src="{% static file %}"></script>
 {% endfor %}
+
 {% endblock javascript %}
 
 {% block breadcrumbs %}
@@ -90,318 +55,28 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 </form>
 <br clear="all" />
 {% endif %}
-{# {{ graph_data }} #}
 
+<!-- Dasboard -->
 <div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">{% trans 'My Essential Tasks' %}</div>
 <hr style="height:3px; background-color:#878787; margin-top: 5px;">
 
-<div id="gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-    <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Detail of Tasks' %}</b></div>
-    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
-</div>
+{% include "dashboards/subjects_gantt.html" %}
 
-<div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-    <div class="panel-group" id="filter-accordion" aria-multiselectable="true">
-        <div class="panel panel-info filter-panel" id="filter_accordion_outer" >
-            <div class="panel-heading">
-                <div class="row">
-                    <div id="accordion_bar" class="col-md-12 category-header">
-                        <h4 class="panel-title">
-                            <a data-parent="#filter-accordion" data-toggle="collapse"
-                                href="#filter_accordion_inner">
-                                <button id="accordion_button" class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true" style="color:#000"></i></button> {% trans 'Filters' %}
-                            </a>
-                        </h4>
-                        <!-- <div class="col-lg-4 col-md-5   col-sm-12 col-xs-12 pull-right category-card-items">
-                        </div>-->
-                    </div>
-                </div>
-            </div>
-            <div id="filter_accordion_inner" class="panel-collapse collapse category-panel-content">
-                <input type="hidden" class="log_url" value="{% url 'subjects:view_log' subject.id %}" />
-                <input type="hidden" class="log_id" value="" />
-        
-                <div class="row">
-                    <div id="period" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                        <!--<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">-->
-                        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; ">
-                            <b>{% trans 'Select the period' %}</b></div>
-                    </div>
-                    <div id="legend-gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                        <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
-                        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; ">
-                            <b>{% trans 'Select the status' %}</b></div>
-        
-                    </div>
-                    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                        <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
-                        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; ">
-                            <b>{% trans 'Select what we have for today' %}</b>
-                        </div>
-        
-                        <div class="col-md-4 col-xs-12 col-sm-12 col-lg-4 text-center">
-                            <button onclick="ganttChart.reset();" class="btn btn-default btn-raised btn-block" 
-                                style="position: initial;background-color: #ddd">
-                                    {% trans "Today" %}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {#{{ tags_cloud }}#}
-    </div>
-</div>
-
-<div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">{% trans 'Auxiliary indicators' %}</div>
+<div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">{% trans 'In the last 7 days...' %}</div>
 <hr style="height:3px; background-color:#878787; margin-top: 5px;">
 
-<div id="cloudy" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-    <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Suggested researches' %}</b></div>
-    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
-</div>
-
 Metrics url: {{ metrics_url }}
-<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tagModal">
-        Launch demo modal
-      </button>-->
 
-<div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="modalTittle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        <div class="modal-header" >
-            <h3 class="modal-title" id="modalTittle" >Modal title</h3>
-            <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
-            <div style="margin-top: 15px">
-                <!--<svg id="bullet-tag" width="100%" height="20px">
-                    <text x="5" y="10" font-size="15" dy="0.4em">Acessos:</text>
-                    <g transform="translate(70,10)">
-                        <rect y="-9" height="18px" width="200px" fill="#f00"></rect>
-                        <rect y="-4" height="8px" width="200px" fill="#0f0"></rect>
-                    </g>
-                </svg>-->
-                <!--<h4>Acessos:</h4>
-                <p>Meus acessos: <a id="my-access-modal2">0</a></br>
-                   Média de acessos: <a id="total-access-modal2">0</a></p>-->
-                <h4>{% trans 'Access frequency' %}:</h4>
-                   <p>{% trans 'My frequency' %}: <a id="my-access-modal">0</a></br>
-                      {% trans 'Frequency of the class' %}: <a id="total-access-modal">0</a></p>
-            </div>
-            <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
-            <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                    <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6" ><h5>{% trans 'Resource' %}</h5></div>
-                    <div class="col-md-3 col-xs-3 col-sm-3 col-lg-3" ><h5>{% trans 'My frequency' %}</h5></div>
-                    <div class="col-md-3 col-xs-3 col-sm-3 col-lg-3" ><h5>{% trans 'Frequency of the class' %}</h5></div>
-                </div>
-            </div>
-            <hr style="height:2px; background-color:#959595;margin-top: 0px;margin-bottom: 5px;">
-            <div id="resources-list" style="overflow-y: auto; height:200px; " class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-    
-            </div>
-        </div>
-        <!--<div class="modal-body" style="padding-top:5px" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-            
-        </div> -->
-        <div class="modal-footer" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'CLOSE' %}</button>
-            <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-        </div>
-        </div>
-    </div>
-    </div>
+{% include "dashboards/subjects_cloudy.html" %}
 
+{% include "dashboards/subjects_other_indicators.html" %}
 
+<!--Responsibilities-->
 <script type="text/javascript">
-    var chartConfig = {
-        name: "GanttChart",
-        parents: {
-            focus: "#gantt",
-            context: "#period",
-            legend: "#legend-gantt",
-        },
-        data: {% autoescape off %} {{ graph_data }} {% endautoescape %},
-    //dimensions: { width: 1200, height: 500 },
-
-    layout: {
-        maxrow: 5,
-            colors: ["#FF9001", "#dfbd31", "#868686", "#f44336", "#3BA51A"],
-                texts: ['{% trans "Late"%}', '{% trans "On time"%}', '{% trans "Planned"%}', '{% trans "Lost"%}', '{% trans "Completed"%}'],
-                    //texts2: ['{% trans "This task is late"%}', '{% trans "You have not yet accomplish this task"%}', "", '{% trans "You missed this task"%}', ""],
-                    backcolor: "#F5F5F5",
-                        percent_min: 0.3,
-                //percent_text:'{#{% trans "Task already accomplish by % of participants" %}#}',
-                //buttonAccess_text:'{#{% trans "ACCESS TASK" %}#}ACESSAR TAREFA',      
-                //buttonDoTask_text:'{% trans "DO THE TASK" %}',
-                //initDate_text:'{% trans "Start Date / Time: " %}',
-                //endDate_text:'{% trans "End Date / Time: " %}',
-                //closedDate_text:'{% trans "Task closed on: " %}',
-                //language:'{{ language }}'
-            },
-    interactions: {
-        button: function (element, data) {
-            var classelement = d3.select(element).attr("class");
-            if (classelement == "goto")
-                window.location.assign(data.access_link);
-        }
-    },
-    tooltip: {
-        text: ""
-    },
-    cursors: {
-        adder: '{% static "img/cursors/adder.cur" %}',
-            subber: '{% static "img/cursors/subber.cur" %}',
-                filter: '{% static "img/cursors/filter.cur" %}',
-            }
-        }
-    
-    var ganttChart = new GanttChart(chartConfig).draw();
-
-    $('#filter_accordion_inner').on('shown.bs.collapse', function () {
-        ganttChart.draw2();
-        document.querySelector("#accordion_button").querySelector("i").setAttribute("class","fa fa-angle-down fa-2x");
-        //setTimeout(function,delay_ms);
-    })
-
-    $('#filter_accordion_inner').on('hidden.bs.collapse', function () {
-        document.querySelector("#accordion_button").querySelector("i").setAttribute("class","fa fa-angle-right fa-2x");
-    })
-    document.querySelector("#accordion_button").click();
-    //document.querySelector("#accordion_button").click();
-
-    window.setTimeout(function(){
-        document.querySelector("#accordion_button").click();
-    },100);
-        
-    temp = document.getDimensions("#cloudy")
-    var width = temp.w - $("#cloudy").css("padding-left").match(/[0-9]+/)[0] - $("#cloudy").css("padding-right").match(/[0-9]+/)[0];;
-    var height = 300;
-
-/*Cloudy Word*/
-
-    var qtd_students = {{ qtd_students }};
-
-    var data = {% autoescape off %} {{ tags_cloud }} {% endautoescape %};
-
-    data = data.map(function(d){return {
-        key:d.tag_name,
-        value:d.qtd_access,
-        myvalue:d.qtd_my_access,
-        link:d.details_url
-    }});
-
-    data.sort(function(d1,d2){
-        return d1.value>d2.value?-1:(d1.value<d2.value?1:0);
-    })
-
-    data = data.slice(0,30);
-    
-    var dataconfig = {
-        parent: "#cloudy",
-        data: data,
-        max: 50,
-        font: "Impact",
-        spiral: "rectangular",// archimedean | rectangular
-        scale: "log",// scaleLinear | scaleSqrt | scaleLog
-        angles: {
-            from: 0,
-            to: 0,
-            n: 1
-        },
-        dimensions: {
-            w: width,
-            h: height,
-        },
-        interactions: {
-            click: function (element, data) { 
-                //console.log(data);
-                //alert(d3.textData(data, "<text>: <value> acesso(s) \nMeus acessos: <myvalue>"))
-                var modal = document.querySelector('#tagModal');
-                modal.querySelector("#modalTittle").innerText = data.text.toUpperCase();
-                modal.querySelector("#my-access-modal").innerText = ""+parseInt(data.myvalue*100/cloudWord.chartConfig.mymax)+"%";
-                modal.querySelector("#total-access-modal").innerText = ""+parseInt(data.value*100/cloudWord.chartConfig.max)+"%";
-
-                //modal.querySelector("#my-access-modal2").innerText = data.myvalue;
-                //modal.querySelector("#total-access-modal2").innerText = data.value/qtd_students;
-                var container = d3.select("#resources-list");
-                container.selectAll(".resource").remove();
-
-                $.get(data.link, function(dataset){
-                    dataset = dataset.sort(function(d1,d2){
-                        if(isNaN(d1.qtd_access)||(+d1.qtd_access)==0)
-                        d1.qtd_access = 1;
-                        if(isNaN(d2.qtd_access)||(+d2.qtd_access)==0)
-                        d2.qtd_access = 1;
-
-                        if(isNaN(d1.qtd_my_access)||(+d1.qtd_my_access)==0)
-                        d1.qtd_access = 0;
-                        if(isNaN(d2.qtd_my_access)||(+d2.qtd_my_access)==0)
-                        d2.qtd_access = 0;
-
-                        var p1 = d1.qtd_my_access/d1.qtd_access, p2 = d2.qtd_my_access/d2.qtd_access;
-                        return p1>p2?1:(p1<p2?-1:(d1.qtd_access<d2.qtd_access?1:(d1.qtd_access>d2.qtd_access?-1:0)));
-                    });
-                    
-                    var resources = container.selectAll(".resource").data(dataset).enter().append("div")
-                        .attr("class",function(d,i){return "resource recource-"+i + " col-md-12 col-xs-12 col-sm-12 col-lg-12"});
-                        //.style("padding-left",0);
-
-                    resources.append("div").attr("class","resource-name col-md-6 col-xs-6 col-sm-6 col-lg-6")
-                        .append("p")
-                        .append("a").attr("href",function(d){return d.access_url})
-                        .text(function(d){
-                            return d.resource_name
-                        });
-
-                    resources.append("div").attr("class","myfreq col-md-3 col-xs-3 col-sm-3 col-lg-3")
-                        .append("p").text(function(d){
-                            console.log("qtd_my_access: "+d.qtd_my_access,"my_access_tag: "+data.myvalue);
-                            return ""+parseInt(d.qtd_my_access*100/(data.myvalue||1))+"%";
-                        });
-                        
-                    resources.append("div").attr("class","totalfreq col-md-3 col-xs-3 col-sm-3 col-lg-3")
-                        .append("p").text(function(d){
-                            console.log("qtd_access: "+d.qtd_access,"access_tag: "+data.value);
-                            return ""+parseInt(d.qtd_access*100/(data.value||1))+"%";
-                        });
-
-                });
-                
-                $('#tagModal').modal('show');
-            }
-        },
-        tooltip: {
-            text: "Tag: <key>\nMédia de acessos: [<value>/{{ qtd_students }}] \nMeus acessos: <myvalue>",
-        },
-        filltext:function(a){
-            var fill = d3.interpolateGreens;
-            var prop = a.chartConfig.mymax/a.chartConfig.max;
-            function scalePercent(x,y){
-                if(x>y)
-                    return y*0.2*prop/x;
-                else
-                    return 1- x*.8/(y*prop);
-            }
-            //console.log(prop);
-            a.words.attr("fill",function(d,i){
-                //console.log(scalePercent(d.myvalue,d.value));
-                return fill(scalePercent(d.myvalue,d.value));
-            });
-        },
-        /*default:function(){
-            var temp = document.querySelector("#bullet-tag").getBoundingClientRect();
-            this.bullet_tag = d3.scaleLinear().range[0,(temp.width-75)<0?0:temp.width-75];
-
-        }*/
-    }
-    var cloudWord = new CloudWord(dataconfig);
-
-    
-    
     window.addEventListener('resize', function () {
         Promise.resolve().then(function () {
             ganttChart.resize();
-            ganttChart.bottomLegend.resize();
+            //ganttChart.bottomLegend.resize();
             if($('#filter_accordion_inner').attr('aria-expanded') == "true")
             ganttChart.draw2();
         });
@@ -409,9 +84,6 @@ Metrics url: {{ metrics_url }}
             
          }, 100);*/
     });
-
-    
-
 </script>
 {% endblock %}
 

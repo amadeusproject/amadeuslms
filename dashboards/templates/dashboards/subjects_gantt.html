@@ -1,0 +1,151 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+
+{# {{ graph_data }} #}
+
+<style>
+        .filter-panel > .panel-heading {
+      background-color: #eeeeee !important;
+      padding:0px;
+      color:#000 !important;
+    }
+</style>
+
+<script src="{% static 'analytics/js/Legend.js' %}"></script>
+<script src="{% static 'analytics/js/brush_zoom.js' %}"></script>
+
+<div id="gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+    <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Detail of Tasks' %}</b></div>
+    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
+</div>
+
+<div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+    <div class="panel-group" id="filter-accordion" aria-multiselectable="true">
+        <div class="panel panel-info filter-panel" id="filter_accordion_outer" >
+            <div class="panel-heading">
+                <div class="row">
+                    <div id="accordion_bar" class="col-md-12 category-header">
+                        <h4 class="panel-title">
+                            <a data-parent="#filter-accordion" data-toggle="collapse"
+                                href="#filter_accordion_inner">
+                                <button id="accordion_button" class="btn btn-default btn-xs text-center cat-selector">
+                                    <i class="fa fa-angle-right fa-2x" aria-hidden="true" style="color:#000"></i>
+                                </button> {% trans 'Filters' %}
+                            </a>
+                        </h4>
+                        <!-- <div class="col-lg-4 col-md-5   col-sm-12 col-xs-12 pull-right category-card-items">
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+            <div id="filter_accordion_inner" class="panel-collapse collapse category-panel-content">
+                <input type="hidden" class="log_url" value="{% url 'subjects:view_log' subject.id %}" />
+                <input type="hidden" class="log_id" value="" />
+        
+                <div class="row">
+                    <div id="period" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                        <!--<hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">-->
+                        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; ">
+                            <b>{% trans 'Select the period' %}</b></div>
+                    </div>
+                    <div id="legend-gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                        <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
+                        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; ">
+                            <b>{% trans 'Select the status' %}</b></div>
+        
+                    </div>
+                    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                        <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
+                        <div style="font-size:16px; text-align:left; color: #bbb; padding-left: 10px; ">
+                            <b>{% trans 'Select what we have for today' %}</b>
+                        </div>
+        
+                        <div class="col-md-4 col-xs-12 col-sm-12 col-lg-4 text-center">
+                            <button onclick="ganttChart.reset();" class="btn btn-default btn-raised btn-block" 
+                                style="position: initial;background-color: #ddd">
+                                    {% trans "Today" %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var chartConfig = {
+        name: "GanttChart",
+        parents: {
+            focus: "#gantt",
+            context: "#period",
+            legend: "#legend-gantt",
+        },
+        data: {% autoescape off %} {{ graph_data }} {% endautoescape %},
+    //dimensions: { width: 1200, height: 500 },
+
+    layout: {
+        maxrow: 5,
+            colors: ["#FF9001", "#dfbd31", "#868686", "#f44336", "#3BA51A"],
+                texts: ['{% trans "Late"%}', '{% trans "On time"%}', 
+                        '{% trans "Planned"%}', '{% trans "Lost"%}', 
+                        '{% trans "Completed"%}'],
+                    //texts2: ['{% trans "This task is late"%}', '{% trans "You have not yet accomplish this task"%}', 
+                                //"", '{% trans "You missed this task"%}', ""],
+                    backcolor: "#F5F5F5",
+                        percent_min: 0.3,
+                //percent_text:'{#{% trans "Task already accomplish by % of participants" %}#}',
+                //buttonAccess_text:'{#{% trans "ACCESS TASK" %}#}ACESSAR TAREFA',      
+                //buttonDoTask_text:'{% trans "DO THE TASK" %}',
+                //initDate_text:'{% trans "Start Date / Time: " %}',
+                //endDate_text:'{% trans "End Date / Time: " %}',
+                //closedDate_text:'{% trans "Task closed on: " %}',
+                //language:'{{ language }}'
+            },
+    interactions: {
+        button: function (element, data) {
+            var classelement = d3.select(element).attr("class");
+            if (classelement == "goto")
+                window.location.assign(data.access_link);
+        }
+    },
+    tooltip: {
+        text: ""
+    },
+    cursors: {
+        adder: '{% static "img/cursors/adder.cur" %}',
+            subber: '{% static "img/cursors/subber.cur" %}',
+                filter: '{% static "img/cursors/filter.cur" %}',
+            }
+        }
+    
+    var ganttChart = new GanttChart(chartConfig).draw();
+
+    $('#filter_accordion_inner').on('shown.bs.collapse', function () {
+        ganttChart.draw2();
+        document.querySelector("#accordion_button").querySelector("i").setAttribute("class","fa fa-angle-down fa-2x");
+        //setTimeout(function,delay_ms);
+    })
+
+    $('#filter_accordion_inner').on('hidden.bs.collapse', function () {
+        document.querySelector("#accordion_button").querySelector("i").setAttribute("class","fa fa-angle-right fa-2x");
+    })
+    document.querySelector("#accordion_button").click();
+    //document.querySelector("#accordion_button").click();
+
+    window.setTimeout(function(){
+        document.querySelector("#accordion_button").click();
+    },100);
+
+</script>
