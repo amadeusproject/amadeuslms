@@ -14,7 +14,7 @@ from django.shortcuts import render
 
 from django.views import generic
 from django.db.models import Count
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 
 from subjects.models import Tag, Subject
 from topics.models import Resource
@@ -35,7 +35,7 @@ from categories.models import Category
 
 from subjects.models import Subject, Tag
 
-from .utils import get_pend_graph, getAccessedTags, getTagAccessess
+from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators
 
 
 from log.mixins import LogMixin
@@ -263,13 +263,16 @@ class SubjectView(LogMixin, generic.TemplateView):
                 student = User.objects.get(email = student)
                 context["graph_data"] = json.dumps(get_pend_graph(student, subject))
                 context["tags_cloud"] = getAccessedTags(subject, student)
+                context["metrics_url"] = reverse('dashboards:other_metrics', args = (subject.slug, student.email,), kwargs = {})
             else:
                 student = User.objects.get(email = context['student'])
                 context["graph_data"] = json.dumps(get_pend_graph(student, subject))
                 context["tags_cloud"] = getAccessedTags(subject, student)
+                context["metrics_url"] = reverse('dashboards:other_metrics', args = (subject.slug, student.email,), kwargs = {})
         else:
             context["tags_cloud"] = getAccessedTags(subject, self.request.user)
             context["graph_data"] = json.dumps(get_pend_graph(self.request.user, subject))
+            context["metrics_url"] = reverse('dashboards:other_metrics', args = (subject.slug, self.request.user.email,), kwargs = {})
 
         context["subject"] = subject
         context["qtd_students"] = subject.students.count()
@@ -286,3 +289,9 @@ def tag_accessess(request, tag, subject, email):
     tag = Tag.objects.get(id = tag)
 
     return JsonResponse(getTagAccessess(sub, tag, user), safe = False)
+
+def other_metrics(request, subject, email):
+    sub = Subject.objects.get(slug = subject)
+    user = User.objects.get(email = email)
+
+    return JsonResponse(getOtherIndicators(sub, user), safe = False)

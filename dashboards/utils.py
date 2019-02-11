@@ -12,7 +12,10 @@ from pendencies.models import Pendencies
 
 from notifications.utils import get_resource_users
 
-from django.db.models import Q
+from django.db.models import Q, Max, Count
+from django.db.models.functions import TruncDate
+
+import operator
 
 def done_percent(pendency):
     users = get_resource_users(pendency.resource)
@@ -129,5 +132,105 @@ def getTagAccessess(subject, tag, user):
         item["access_url"] = resource.access_link()
     
         data.append(item)
+
+    return data
+
+def getOtherIndicators(subject, user):
+    logs = Log.objects.filter(datetime__date__gte = datetime.now() - timedelta(days = 7))
+
+    data = []
+
+    sub_access = logs.filter(Q(component = 'subject') & Q(resource = 'subject') & Q(context__contains = {'subject_id': subject.id}) & (Q(action = 'access') | Q(action = 'view')))
+    
+    #Subject access
+    item = {}
+    item["max_access"] = sub_access.values('user_id').annotate(c_user = Count('user_id')).aggregate(Max('c_user'))['c_user__max']
+    item["my_access"] = sub_access.filter(user_id = user.id).count()
+    
+    data.append(item)
+
+    #Subject access distinct days
+    item = {}
+    item['max_access'] = sub_access.extra({'date': 'DATE(datetime)'}).values('user_id', 'date').annotate(c_user = Count('user_id')).aggregate(Max('c_user'))['c_user__max']
+    item['my_access'] = sub_access.filter(user_id = user.id).annotate(date = TruncDate('datetime')).values('date').annotate(Count('date')).count()
+
+    data.append(item)
+
+    #Resources access
+    resources_access = logs.filter(component = 'resources', context__contains = {'subject_id': subject.id})
+
+    item = {}
+    item["max_access"] = resources_access.values('user_id').annotate(c_user = Count('user_id')).aggregate(Max('c_user'))['c_user__max']
+    item["my_access"] = resources_access.filter(user_id = user.id).count()
+
+    data.append(item)
+    
+    #Resources distincts access
+    query = resources_access.extra({ \
+            'bulletins': "context->>'bulletin_id'", \
+            'filelinks': "context->>'filelink_id'", \
+            'goals': "context->>'goals_id'", \
+            'links': "context->>'link_id'", \
+            'pdffiles': "context->>'pdffile_id'", \
+            'questionarys': "context->>'questionary_id'", \
+            'ytvideos': "context->>'ytvideo_id'", \
+            'webconferences': "context->>'webconference_id'", \
+            'webpages': "context->>'webpage_id'", \
+        }).values('bulletins', 'filelinks', 'goals', 'links', 'pdffiles', 'questionarys', 'ytvideos', 'webconferences', 'webpages', 'user_id') \
+        .annotate(id_count = Count('id', distinct = True)).order_by()
+
+    result = {}
+
+    for q in query:
+        if q['user_id'] in result:
+            result[q['user_id']] = result[q['user_id']] + 1
+        else:
+            result[q['user_id']] = 1
+
+    item = {}
+
+    if len(result) > 0:
+        item["max_access"] = max(result.items(), key=operator.itemgetter(1))[1]
+    else:
+        item["max_access"] = 0
+
+    item["my_access"] = resources_access.filter(user_id = user.id).extra({ \
+            'bulletins': "context->>'bulletin_id'", \
+            'filelinks': "context->>'filelink_id'", \
+            'goals': "context->>'goals_id'", \
+            'links': "context->>'link_id'", \
+            'pdffiles': "context->>'pdffile_id'", \
+            'questionarys': "context->>'questionary_id'", \
+            'ytvideos': "context->>'ytvideo_id'", \
+            'webconferences': "context->>'webconference_id'", \
+            'webpages': "context->>'webpage_id'", \
+        }).values('bulletins', 'filelinks', 'goals', 'links', 'pdffiles', 'questionarys', 'ytvideos', 'webconferences', 'webpages') \
+        .annotate(id_count = Count('id', distinct = True)).order_by().count()
+
+    data.append(item)
+    
+    #Resources in time
+    pend = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, end_date__date__lte = timezone.now(), end_date__date__gte = datetime.now() - timedelta(days = 7)).values_list('id', flat = True)
+
+    query = Notification.objects.filter(task__id__in = pend, level__gte = 3).values('user_id', 'task_id').distinct()
+
+    result = {}
+
+    for q in query:
+        if q['user_id'] in result:
+            result[q['user_id']] = result[q['user_id']] + 1
+        else:
+            result[q['user_id']] = 1
+
+    item = {}
+
+    if len(result) > 0:
+        item["max_access"] = pend.count() - min(result.items(), key=operator.itemgetter(1))[1]
+    else:
+        item["max_access"] = 0
+
+    item["my_access"] = pend.count() - query.filter(user__id = user.id).count()
+
+    data.append(item)
 
     return data
