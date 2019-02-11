@@ -1,0 +1,44 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+
+<style>
+    .indicator-panel>.panel-heading {
+        background-color: #eeeeee !important;
+        padding: 0px;
+        color: #000 !important;
+    }
+    .card-tittle{
+        margin-top: 5px;
+    }
+    .card-text{
+        margin-bottom: 2px;
+    }
+</style>
+
+<div class="col-md-4 col-xs-10 col-sm-6 col-lg-4">
+    <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; ">
+        <b>{% trans 'Other indicators' %}</b>
+    </div>
+    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
+
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+        <div class="panel-group" id="indicators-accordion" aria-multiselectable="false">
+            {% include 'dashboards/subjects_other_indicators_card.html' with tittle="access_enviromment" %}
+            {% include 'dashboards/subjects_other_indicators_card.html' with tittle="distincts_days" %}
+            {% include 'dashboards/subjects_other_indicators_card.html' with tittle="access_resource" %}
+            {% include 'dashboards/subjects_other_indicators_card.html' with tittle="distincts_resource" %}
+            {% include 'dashboards/subjects_other_indicators_card.html' with tittle="tasks_on_time" %}
+        </div>
+    </div>
+</div>

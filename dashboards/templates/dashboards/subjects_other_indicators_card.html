@@ -1,0 +1,104 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+
+<div class="panel panel-info indicator-panel " id="{{ tittle }}_accordion_outer">
+    <div class="panel-heading  accordion-toggle collapsed">
+        <div class="row">
+            <div id="accordion_bar" class="col-md-12 category-header">
+                <h4 class="panel-title">
+                    <a data-parent="#indicators-accordion" data-toggle="collapse" href="#{{ tittle }}_accordion_inner">
+                        <button id="accordion_button" class="btn btn-default btn-xs text-center cat-selector">
+                            <i class="fa fa-angle-right fa-2x" aria-hidden="true" style="color:#000"></i>
+                        </button>
+                    </a>
+                </h4>
+                <svg id="{{ tittle }}_graph" width="65%" height="25px" style="margin-top: 5px;">
+                    <rect width="19%" height="100%" x="20%"></rect>
+                    <rect width="19%" height="100%" x="20%"></rect>
+                    <rect width="19%" height="100%" x="40%"></rect>
+                    <rect width="19%" height="100%" x="40%"></rect>
+                    <rect width="19%" height="100%" x="0%"></rect>
+                    <rect width="19%" height="100%" x="0%"></rect>
+                    <rect width="19%" height="100%" x="60%"></rect>
+                    <rect width="19%" height="100%" x="60%"></rect>
+                    <rect width="19%" height="100%" x="80%"></rect>
+                    <rect width="19%" height="100%" x="80%"></rect>
+                </svg>
+                <svg id="{{ tittle }}_star" width="25px" height="25px" style="margin-top: 5px;">
+                    <!--<g transform="translate(12.5,12.5)scale(11,11)rotate(18)">
+                        <path fill="#F9DD6B" d="M 0 0 L -0.850646 0 L -0.425323 -0.309011 z"></path>
+                        <path fill="#F4D558" d="M 0 0 L -0.425323 -0.309011 L -0.262867 -0.809012 z"></path>
+                        <path fill="#E5C547" d="M 0 0 L -0.262867 -0.809012 L 0.162456 -0.499995 z"></path>
+                        <path fill="#F9DD6B" d="M 0 0 L 0.162456 -0.499995 L 0.688191 -0.499997 z"></path>
+                        <path fill="#BFA53F" d="M 0 0 L 0.688191 -0.499997 L 0.52573 0 z"></path>
+                        <path fill="#D6BB4F" d="M 0 0 L 0.52573 0 L 0.688191 0.499997 z"></path>
+                        <path fill="#A88E25" d="M 0 0 L 0.688191 0.499997 L 0.162456 0.499995 z"></path>
+                        <path fill="#A88E25" d="M 0 0 L 0.162456 0.499995 L -0.262867 0.809012 z"></path>
+                        <path fill="#D6BB4F" d="M 0 0 L -0.262867 0.809012 L -0.425323 0.309011 z"></path>
+                        <path fill="#BFA53F" d="M 0 0 L -0.425323 0.309011 L -0.850646 0 z"></path>
+                    </g>-->
+                    <g transform="translate(12.5,12.5)scale(11,11)rotate(18)">
+                        <path fill="#DDDDDD" d="M 0 0 L -0.850646 0 L -0.425323 -0.309011 z"></path>
+                        <path fill="#E5E5E5" d="M 0 0 L -0.425323 -0.309011 L -0.262867 -0.809012 z"></path>
+                        <path fill="#FFFFFF" d="M 0 0 L -0.262867 -0.809012 L 0.162456 -0.499995 z"></path>
+                        <path fill="#DDDDDD" d="M 0 0 L 0.162456 -0.499995 L 0.688191 -0.499997 z"></path>
+                        <path fill="#BBBBBB" d="M 0 0 L 0.688191 -0.499997 L 0.52573 0 z"></path>
+                        <path fill="#D1D1D1" d="M 0 0 L 0.52573 0 L 0.688191 0.499997 z"></path>
+                        <path fill="#AAAAAA" d="M 0 0 L 0.688191 0.499997 L 0.162456 0.499995 z"></path>
+                        <path fill="#AAAAAA" d="M 0 0 L 0.162456 0.499995 L -0.262867 0.809012 z"></path>
+                        <path fill="#D1D1D1" d="M 0 0 L -0.262867 0.809012 L -0.425323 0.309011 z"></path>
+                        <path fill="#BBBBBB" d="M 0 0 L -0.425323 0.309011 L -0.850646 0 z"></path>
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div id="{{ tittle }}_accordion_inner" class="panel-collapse collapse category-panel-content">
+        <div class="row">
+            <div id="period" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                <h5 class="card-tittle">
+                    <b>{% if tittle == "access_enviromment" %}
+                        {% trans 'Access to the discipline environment' %}
+                        {% elif tittle == "distincts_days" %}
+                        {% trans 'Different days that accessed the discipline' %}
+                        {% elif tittle == "access_resource" %}
+                        {% trans 'Resource access' %}
+                        {% elif tittle == "distincts_resource" %}
+                        {% trans 'Distinct resources accessed' %}
+                        {% elif tittle == "tasks_on_time" %}
+                        {% trans 'Tasks performed on time' %}
+                        {% else %}
+                        {% trans 'Other indicator' %}
+                        {% endif %}
+                    </b>
+                </h5>
+                <p id="{{ tittle }}_my_result" class="card-text">{% trans 'Your result:'%}</p>
+                <p id="{{ tittle }}_max_class" class="card-text">{% trans 'Top of the class:'%}</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#{{ tittle }}_accordion_inner').on('shown.bs.collapse', function () {
+        document.querySelector("#{{ tittle }}_accordion_outer")
+            .querySelector("#accordion_button").querySelector("i").setAttribute("class","fa fa-angle-down fa-2x");
+    })
+
+    $('#{{ tittle }}_accordion_inner').on('hidden.bs.collapse', function () {
+        document.querySelector("#{{ tittle }}_accordion_outer")
+            .querySelector("#accordion_button").querySelector("i").setAttribute("class","fa fa-angle-right fa-2x");
+    })
+</script>

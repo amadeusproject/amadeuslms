@@ -394,23 +394,51 @@ msgstr "Tarefa encerrada em: "
 msgid "most used tags"
 msgstr "tags mais usadas"
 
-msgid "Auxiliary indicators"
-msgstr "Indicadores auxiliares"
+msgid "In the last 7 days..."
+msgstr "Nos últimos 7 dias..."
 
-msgid "Suggested researches"
-msgstr "Pesquisas Sugeridas"
+msgid "Most searched terms"
+msgstr "Termos mais buscados"
+
+msgid "Other indicators"
+msgstr "Outros indicadores"
+
+msgid "Other indicator"
+msgstr "Outro indicador"
 
 msgid "Access frequency"
 msgstr "Frequencia de acesso"
 
-msgid "My frequency"
-msgstr "Minha frequência"
+msgid "Your percent"
+msgstr "Sua porcentagem"
 
-msgid "Frequency of the class"
-msgstr "Frequência da turma"
+msgid "Percent of the class"
+msgstr "Porgentagem da turma"
+
+msgid "Your result"
+msgstr "Seu resultado"
+
+msgid "Top of the class"
+msgstr "Máximo da turma"
 
 msgid "Resource"
 msgstr "Recurso"
 
 msgid "CLOSE"
 msgstr "FECHAR"
+
+msgid "Access to the discipline environment"
+msgstr "Acessos ao ambiente da disciplina"
+
+msgid "Different days that accessed the discipline"
+msgstr "Dias distintos que acessou a disciplina"
+
+msgid "Resource access"
+msgstr "Acessos a recursos"
+
+msgid "Distinct resources accessed"
+msgstr "Recursos distintos acessados"
+
+
+msgid "Tasks performed on time"
+msgstr "Tarefas realizadas com pontualidade"
