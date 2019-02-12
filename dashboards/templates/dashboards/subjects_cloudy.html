@@ -37,30 +37,15 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 </button>
             </div>
             <div class="modal-body" style="padding-top:5px" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                <!--<div style="margin-top: 15px">
-                    <h4>{% trans 'Access frequency' %}:</h4>
-                    <p>{% trans 'My frequency' %}: <a id="my-access-modal">0</a></br>
-                        {% trans 'Frequency of the class' %}: <a id="total-access-modal">0</a></p>
+                <div id="modal_cloudy_loading_ball" style="height:150px;">
+                    {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
                 </div>
-                <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
-                    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                            <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6" ><h5>{% trans 'Resource' %}</h5></div>
-                            <div class="col-md-3 col-xs-3 col-sm-3 col-lg-3" ><h5>{% trans 'My frequency' %}</h5></div>
-                            <div class="col-md-3 col-xs-3 col-sm-3 col-lg-3" ><h5>{% trans 'Frequency of the class' %}</h5></div>
-                        </div>
-                    </div>
-                    <hr style="height:2px; background-color:#959595;margin-top: 0px;margin-bottom: 5px;">
-                    <div id="resources-list" style="overflow-y: auto; height:200px; " class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-            
-                    </div>
-                    -->
-                <div>
-                    <div class="table-responsive-sm">
+                <div id="modal-table" style="display: none;">
+                    <div id="table-container" class="table-responsive-sm">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th colspan="2" scope="col">Acessos(%)</th>
+                                    <th colspan="2" scope="col">Acessos</th>
                                 </tr>
                                 <tr>
                                     <th scope="col">Seu</th>
@@ -84,38 +69,114 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                     <td>14%</td>
                                     <td>Aulas Expositivas/ Exercicios(1ª Etapa)</td>
                                 </tr>
-
                             </tbody>
                         </table>
                     </div>
+                    <nav aria-label="Table Navigation">
+                        <ul class="pagination">
+
+                        </ul>
+                    </nav>
                 </div>
-                <nav aria-label="Table Navigation">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                        </li>
-                        <li class="page-item page-item-number"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
         </div>
-        <!--<div class="modal-footer" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'CLOSE' %}</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>-->
+
     </div>
 </div>
 
 <script type="text/javascript">
+
+    function makeTable(data, metadata, table_container, pagination, nrows) {
+        if (!data || !metadata)
+            return;
+        if (!table_container)
+        table_container = d3.select("body").append("table");
+        if (!pagination) {
+            pagination = d3.select("body").append("nav").append(".pagination");
+        }
+        nrows = isNaN(nrows) ? 10 : nrows;
+
+        //nrows = data.length;
+
+
+        var pages = Math.ceil(data.length / nrows);
+
+        //Table
+
+        table_container.selectAll("table").remove();
+        var pageIndex = 0;
+
+        var DOM_pages = table_container.selectAll("table").data(range(pages)).enter().append("table")
+            .attr("id", function (d, i) { return "page-table-" + i; })
+            .attr("class","table table-hover page-table")
+            .style("display", function (d, i) { return i != pageIndex ? "none" : "inherit" });
+
+        var thead = DOM_pages.append("thead");
+        thead.append("tr").append("th").attr("colspan","2").attr("scope","col").text("Acessos");
+        var secondLine = thead.append("tr");
+        secondLine.append("th").attr("scope","col").text("Seu");
+        secondLine.append("th").attr("scope","col").text("Turma");
+        secondLine.append("th").attr("scope","col").text("Recurso");
+
+        var body = DOM_pages.append("tbody")
+            
+
+        var rows = body.selectAll("tr").data(function (d, i) { return data.slice(i * nrows, (i + 1) * nrows) }).enter().append("tr");
+
+
+        for (var i = 0; i < metadata.length; i++) {
+            if (i < metadata.length - 1)
+                rows.append("td").text(function (d) { return d[metadata[i]] });
+            else
+                rows.append("td")
+                    .append("a").attr("href", function (d) { return d.access_url })
+                    .text(function (d) { return d[metadata[i]] });
+        }
+
+        //Pagination
+        function goPage(n) {
+            if (n >= pages || n < 0 || pageIndex == n)
+                return;
+            pageIndex = n;
+            DOM_pages.transition().duration(200)
+                .style("opacity", 0);
+            DOM_pages.transition().delay(200)
+                .style("display", function (d, i) { return i != pageIndex ? "none" : "inherit" });
+            DOM_pages.transition().delay(200).duration(200)
+                .style("opacity", function (d, i) { return i != pageIndex ? 0 : 1 });
+
+        }
+        function nextPage() {
+            goPage(pageIndex + 1);
+        }
+        function previousPage() {
+            goPage(pageIndex - 1);
+        }
+        pagination.selectAll("li").remove();
+
+        pagination.append("li").attr("class", "page-item previous-link")
+            .append("a").attr("class", "page-link").attr("aria-label", "Previous")
+            .on("click", previousPage)
+            .append("span").attr("aria-hidden", "true").text("Previous");
+        pagination.select(".previous-link").select("a")
+            .append("span").attr("class", "sr-only").text("Previous")
+
+        pagination.selectAll(".page-item-number").data(range(pages)).enter().append("li")
+            .attr("class", function (d, i) { return "page-item page-item-number page-link-" + i })
+            .append("a").attr("class", "page-link")
+            .on("click", goPage)
+            .text(function (d, i) { return i + 1 });
+
+        pagination.append("li").attr("class", "page-item next-link")
+            .append("a").attr("class", "page-link").attr("aria-label", "Next")
+            .on("click", nextPage)
+            .append("span").attr("aria-hidden", "true").text("Next");
+        pagination.select(".next-link").select("a")
+            .append("span").attr("class", "sr-only").text("Next")
+
+
+    }
+
     /*Cloudy Word*/
 
     temp = document.getDimensions("#cloudy")
@@ -147,7 +208,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         max: 50,
         font: "Impact",
         spiral: "rectangular",// archimedean | rectangular
-        scale: "log",// scaleLinear | scaleSqrt | scaleLog
+        scale: "linear",// scaleLinear | scaleSqrt | scaleLog
         angles: {
             from: 0,
             to: 0,
@@ -159,17 +220,16 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         },
         interactions: {
             click: function (element, data) {
-                //console.log(data);
-                //alert(d3.textData(data, "<text>: <value> acesso(s) \nMeus acessos: <myvalue>"))
+
+                d3.select("#modal_cloudy_loading_ball").style("display", "inherit");
+                d3.select("#modal-table").style("display", "none");
+
                 var modal = document.querySelector('#tagModal');
                 modal.querySelector("#modalTittle").innerText = data.text.toUpperCase();
-                //modal.querySelector("#my-access-modal").innerText = "" + parseInt(data.myvalue * 100 / cloudWord.chartConfig.mymax) + "%";
-                //modal.querySelector("#total-access-modal").innerText = "" + parseInt(data.value * 100 / cloudWord.chartConfig.max) + "%";
-
-                //modal.querySelector("#my-access-modal2").innerText = data.myvalue;
-                //modal.querySelector("#total-access-modal2").innerText = data.value/qtd_students;
                 var container = d3.select("#resources-list");
                 container.selectAll(".resource").remove();
+
+
 
                 $.get(data.link, function (dataset) {
                     dataset = dataset.sort(function (d1, d2) {
@@ -189,26 +249,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
                     var resources = container.selectAll(".resource").data(dataset).enter().append("div")
                         .attr("class", function (d, i) { return "resource recource-" + i + " col-md-12 col-xs-12 col-sm-12 col-lg-12" });
-                    //.style("padding-left",0);
 
-                    /*resources.append("div").attr("class", "resource-name col-md-6 col-xs-6 col-sm-6 col-lg-6")
-                        .append("p")
-                        .append("a").attr("href", function (d) { return d.access_url })
-                        .text(function (d) {
-                            return d.resource_name
-                        });
+                    makeTable(dataset, ["qtd_my_access", "qtd_access", "resource_name"], d3.select("#table-container"), d3.select(".pagination"), 10);
 
-                    resources.append("div").attr("class", "myfreq col-md-3 col-xs-3 col-sm-3 col-lg-3")
-                        .append("p").text(function (d) {
-                            console.log("qtd_my_access: " + d.qtd_my_access, "my_access_tag: " + data.myvalue);
-                            return "" + parseInt(d.qtd_my_access * 100 / (data.myvalue || 1)) + "%";
-                        });
-
-                    resources.append("div").attr("class", "totalfreq col-md-3 col-xs-3 col-sm-3 col-lg-3")
-                        .append("p").text(function (d) {
-                            console.log("qtd_access: " + d.qtd_access, "access_tag: " + data.value);
-                            return "" + parseInt(d.qtd_access * 100 / (data.value || 1)) + "%";
-                        });*/
+                    d3.select("#modal_cloudy_loading_ball").style("display", "none");
+                    d3.select("#modal-table").style("display", "inherit");
 
                 });
 

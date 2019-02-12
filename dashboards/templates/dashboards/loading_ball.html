@@ -1,0 +1,151 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+<div id="{% if tittle %}{{ tittle }}{% else %}loading_ball{% endif %}"><style>
+        /*Loading ball*/
+        .load-wrapp {
+            float: left;
+            width: 100%;
+            height: 100px;
+            margin: 20px 20px 20px 20px;
+            padding: 20px 20px 20px;
+        }
+    
+        .load-5 .ball-holder {
+            animation: loadingE 1.3s linear infinite;
+        }
+    
+        .ball-holder1 {
+            animation: loadingE 0.8s linear infinite;
+        }
+    
+        .ball-holder2 {
+            animation: loadingE 2.3s linear infinite;
+        }
+    
+        .l-5 {
+            animation-delay: .96s;
+        }
+    
+        .ring-2 {
+            position: relative;
+            width: 45px;
+            height: 45px;
+            margin: 0 auto;
+            /*border: 4px solid #4b9cdb;
+            border-radius: 100%;*/
+        }
+    
+        .ball {
+            position: absolute;
+            border-radius: 100%;
+            background: #009688;
+        }
+    
+        .ball_1 {
+            top: -11px;
+            left: 0;
+            width: 8px;
+            height: 8px;
+        }
+    
+        .ball_2 {
+            top: 0px;
+            left: 0;
+            width: 10px;
+            height: 10px;
+        }
+    
+        .ball_3 {
+            top: 11px;
+            left: 0;
+            width: 16px;
+            height: 16px;
+        }
+    
+        @keyframes loadingE {
+            0 {
+                transform: rotate(0deg);
+            }
+    
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+<div class="load-wrapp">
+    <div class="load-5">
+        <div class="ring-2">
+            <div class="ball-holder">
+                <div class="ball ball_1"></div>
+            </div>
+            <div class="ball-holder1">
+                <div class="ball ball_2"></div>
+            </div>
+            <div class="ball-holder2">
+                <div class="ball ball_3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!--
+
+<script>
+    $.get("url",function(data){
+        d3.select("{{tittle}}").transition().duration(300).style("opacity","0");
+        d3.select("{{tittle}}").transition().delay(300).remove();
+        
+        console.log(data);
+        var target = d3.select("#target").transition().delay(300).style("display","inherit");
+        target.transition().delay(400).duration(400).style("opacity",1);
+    });
+
+</script>
+
+-->
+
+<!-- To progress Bar 
+$.ajax({
+    url:"{{ metrics_url }}",
+    type:"GET",
+    xhr: function () {
+        var xhr = new window.XMLHttpRequest();
+        // Handle progress
+        //Upload progress
+        xhr.upload.addEventListener("progress", function (evt) {
+            if (evt.lengthComputable) {
+                var percentComplete = evt.loaded / evt.total;
+                //Do something with upload progress
+                console.log(percentComplete);
+            }
+        }, false);
+        //Download progress
+        console.log(xhr);
+        xhr.onprogress = function (evt) {
+            console.log(evt);
+            if (evt.lengthComputable) {
+                var percentComplete = evt.loaded / evt.total;
+                //Do something with download progress
+                console.log(percentComplete);
+            }
+        };
+
+        return xhr;
+    },
+    complete: function () {
+        console.log("Request finished.");
+    }
+});
+-->

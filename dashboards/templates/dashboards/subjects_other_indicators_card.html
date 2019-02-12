@@ -12,10 +12,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% load static i18n %}
 
-<div class="panel panel-info indicator-panel " id="{{ tittle }}_accordion_outer">
+<div class="panel panel-info indicator-panel" id="{{ tittle }}_accordion_outer">
     <div class="panel-heading  accordion-toggle collapsed">
         <div class="row">
-            <div id="accordion_bar" class="col-md-12 category-header">
+            <div id="accordion_bar" class="col-md-12 category-header card-indicator">
                 <h4 class="panel-title">
                     <a data-parent="#indicators-accordion" data-toggle="collapse" href="#{{ tittle }}_accordion_inner">
                         <button id="accordion_button" class="btn btn-default btn-xs text-center cat-selector">
@@ -23,20 +23,20 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                         </button>
                     </a>
                 </h4>
-                <svg id="{{ tittle }}_graph" width="65%" height="25px" style="margin-top: 5px;">
-                    <rect width="19%" height="100%" x="20%"></rect>
-                    <rect width="19%" height="100%" x="20%"></rect>
-                    <rect width="19%" height="100%" x="40%"></rect>
-                    <rect width="19%" height="100%" x="40%"></rect>
-                    <rect width="19%" height="100%" x="0%"></rect>
-                    <rect width="19%" height="100%" x="0%"></rect>
-                    <rect width="19%" height="100%" x="60%"></rect>
-                    <rect width="19%" height="100%" x="60%"></rect>
-                    <rect width="19%" height="100%" x="80%"></rect>
-                    <rect width="19%" height="100%" x="80%"></rect>
+                <svg class="graph-indicator">
+                    <rect fill="#00ffea" class="rect-other-indicator" width="00%" x="0%"></rect>
+                    <rect fill="#00e6d1" class="rect-other-indicator" width="00%" x="20%"></rect>
+                    <rect fill="#00ccb7" class="rect-other-indicator" width="00%" x="40%"></rect>
+                    <rect fill="#00b29e" class="rect-other-indicator" width="00%" x="60%"></rect>
+                    <rect fill="#009886" class="rect-other-indicator" width="00%" x="80%"></rect>
+                    <rect class="back-other-indicator" x="0%"></rect>
+                    <rect class="back-other-indicator" x="20%"></rect>
+                    <rect class="back-other-indicator" x="40%"></rect>
+                    <rect class="back-other-indicator" x="60%"></rect>
+                    <rect class="back-other-indicator" x="80%"></rect>
                 </svg>
-                <svg id="{{ tittle }}_star" width="25px" height="25px" style="margin-top: 5px;">
-                    <!--<g transform="translate(12.5,12.5)scale(11,11)rotate(18)">
+                <svg id="{{ tittle }}_star" width="45px" height="25px" style="margin-top: 5px;">
+                    <g class="golden_star" transform="translate(12.5,12.5)scale(11,11)rotate(18)" opacity="0">
                         <path fill="#F9DD6B" d="M 0 0 L -0.850646 0 L -0.425323 -0.309011 z"></path>
                         <path fill="#F4D558" d="M 0 0 L -0.425323 -0.309011 L -0.262867 -0.809012 z"></path>
                         <path fill="#E5C547" d="M 0 0 L -0.262867 -0.809012 L 0.162456 -0.499995 z"></path>
@@ -47,8 +47,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                         <path fill="#A88E25" d="M 0 0 L 0.162456 0.499995 L -0.262867 0.809012 z"></path>
                         <path fill="#D6BB4F" d="M 0 0 L -0.262867 0.809012 L -0.425323 0.309011 z"></path>
                         <path fill="#BFA53F" d="M 0 0 L -0.425323 0.309011 L -0.850646 0 z"></path>
-                    </g>-->
-                    <g transform="translate(12.5,12.5)scale(11,11)rotate(18)">
+                    </g>
+                    <g class="silver_star" transform="translate(12.5,12.5)scale(11,11)rotate(18)" opacity="0">
                         <path fill="#DDDDDD" d="M 0 0 L -0.850646 0 L -0.425323 -0.309011 z"></path>
                         <path fill="#E5E5E5" d="M 0 0 L -0.425323 -0.309011 L -0.262867 -0.809012 z"></path>
                         <path fill="#FFFFFF" d="M 0 0 L -0.262867 -0.809012 L 0.162456 -0.499995 z"></path>
@@ -83,8 +83,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                         {% endif %}
                     </b>
                 </h5>
-                <p id="{{ tittle }}_my_result" class="card-text">{% trans 'Your result:'%}</p>
-                <p id="{{ tittle }}_max_class" class="card-text">{% trans 'Top of the class:'%}</p>
+                <p id="{{ tittle }}_my_result" class="card-text you-result">{% trans 'Your result:'%}</p>
+                <p id="{{ tittle }}_max_class" class="card-text max-result">{% trans 'Top of the class:'%}</p>
 
             </div>
         </div>
