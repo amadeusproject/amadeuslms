@@ -14,7 +14,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 <style>
     .indicator-panel>.panel-heading {
-        background-color: #eeeeee !important;
+        background-color: #f9f9f9 !important;
         padding: 0px;
         color: #000 !important;
     }
@@ -49,6 +49,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         margin-top: 5px;
         flex-grow: 1;
     }
+    .indicator-panel-content {
+        background: #FFF;
+        padding:10px;
+    }
 </style>
 
 <div class="col-md-4 col-xs-12 col-sm-8 col-lg-4">
@@ -81,6 +85,21 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
         var indicators = d3.selectAll(".indicator-panel").data(data);
 
+        data[0].my_access = 10;
+        data[0].max_access = 10;
+
+        data[1].my_access = 9;
+        data[1].max_access = 10;
+
+        data[2].my_access = 8;
+        data[2].max_access = 10;
+
+        data[3].my_access = 4;
+        data[3].max_access = 10;
+
+        data[4].my_access = 1;
+        data[4].max_access = 10;
+
         indicators.selectAll(".rect-other-indicator").data(function (d, i) { return range(5).map(function () { return d; }) })
             //.transition().delay(function(d,i){return i*500}).duration(500)
             .attr("width", function (d, i) {
@@ -105,8 +124,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
         indicators.select(".golden_star")
             //.transition().delay(2500).duration(100)
-            .attr("opacity", function (d) {
+            .attr("opacity", function (d,i) {
                 if (d.my_access >= d.max_access && d.my_access>0)//==
+                //if(i<3)
                     return 1;
                 else
                     return 0;
@@ -114,8 +134,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
         indicators.select(".silver_star")
             //.transition().delay(2500).duration(100)
-            .attr("opacity", function (d) {
+            .attr("opacity", function (d,i) {
                 if (d.my_access >= d.max_access * 3 / 4 && d.my_access < d.max_access && d.my_access>0)
+                //if(i>=3)
                     return 1;
                 else
                     return 0;

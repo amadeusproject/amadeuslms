@@ -108,7 +108,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
         var DOM_pages = table_container.selectAll("table").data(range(pages)).enter().append("table")
             .attr("id", function (d, i) { return "page-table-" + i; })
-            .attr("class","table table-hover page-table")
+            .attr("class","table table-hover page-table col-md-12 col-xs-12 col-sm-12 col-lg-12")
             .style("display", function (d, i) { return i != pageIndex ? "none" : "inherit" });
 
         var thead = DOM_pages.append("thead");
@@ -246,9 +246,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                         var p1 = d1.qtd_my_access / d1.qtd_access, p2 = d2.qtd_my_access / d2.qtd_access;
                         return p1 > p2 ? 1 : (p1 < p2 ? -1 : (d1.qtd_access < d2.qtd_access ? 1 : (d1.qtd_access > d2.qtd_access ? -1 : 0)));
                     });
-
-                    var resources = container.selectAll(".resource").data(dataset).enter().append("div")
-                        .attr("class", function (d, i) { return "resource recource-" + i + " col-md-12 col-xs-12 col-sm-12 col-lg-12" });
 
                     makeTable(dataset, ["qtd_my_access", "qtd_access", "resource_name"], d3.select("#table-container"), d3.select(".pagination"), 10);
 

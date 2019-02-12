@@ -56,38 +56,64 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 <br clear="all" />
 {% endif %}
 
-<!-- Dasboard -->
-<div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">{% trans 'My Essential Tasks' %}</div>
-<hr style="height:3px; background-color:#878787; margin-top: 5px;">
+<style>
+    .analytics-ungeneral {
+        background: #FFFFFF;
+        margin-bottom: 10px;
+    }
+    
+</style>
 
-{% include "dashboards/subjects_gantt.html" %}
+<div class="panel panel-info subject-panel" id="subject_{{subject.slug}}">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-12 category-header">
+                <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
+                    <span>{{subject.name}} / {% trans 'Analytics' %}</span>
+                </h4>
 
-<div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">{% trans 'In the last 7 days...' %}</div>
-<hr style="height:3px; background-color:#878787; margin-top: 5px;">
+                <div class="col-md-5 pull-right category-card-items">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="{{subject.slug}}" class="panel-collapse panel-body in collapse analytics-ungeneral">
 
-{% include "dashboards/subjects_cloudy.html" %}
+        <!-- Dashboard -->
 
-{% include "dashboards/subjects_other_indicators.html" %}
+        <div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">{% trans 'My Essential Tasks' %}</div>
+        <hr style="height:3px; background-color:#878787; margin-top: 5px;">
 
-<!--Responsibilities-->
-<script type="text/javascript">
-    window.addEventListener('resize', function () {
-        Promise.resolve().then(function () {
-            ganttChart.resize();
-            //ganttChart.bottomLegend.resize();
-            if($('#filter_accordion_inner').attr('aria-expanded') == "true")
-            ganttChart.draw2();
+        {% include "dashboards/subjects_gantt.html" %}
+
+        <div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">
+            {% trans 'In the last 7 days...'%}
+        </div>
+        <hr style="height:3px; background-color:#878787; margin-top: 5px;">
+
+        {% include "dashboards/subjects_cloudy.html" %}
+
+        {% include "dashboards/subjects_other_indicators.html" %}
+    </div>
+
+    <!--Responsibilities-->
+    <script type="text/javascript">
+        window.addEventListener('resize', function () {
+            Promise.resolve().then(function () {
+                ganttChart.resize();
+                //ganttChart.bottomLegend.resize();
+                if ($('#filter_accordion_inner').attr('aria-expanded') == "true")
+                    ganttChart.draw2();
+            });
+            /*setTimeout(function() { 
+                
+             }, 100);*/
         });
-        /*setTimeout(function() { 
-            
-         }, 100);*/
-    });
-</script>
-{% endblock %}
+    </script>
+    {% endblock %}
 
-{% block addtional_scripts %}
-<script type="text/javascript">
-    sessionSecurity.confirmFormDiscard = undefined;
-</script>
-{% endblock %}
-
+    {% block addtional_scripts %}
+    <script type="text/javascript">
+        sessionSecurity.confirmFormDiscard = undefined;
+    </script>
+    {% endblock %}

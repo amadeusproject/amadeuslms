@@ -196,7 +196,7 @@ class GanttChart {
         if (a.chartConfig.svg)
             this.chartConfig.dimensions.width = +svg.attr("width"),
                 this.chartConfig.dimensions.height = +svg.attr("height");
-        this.backcolor = "#F5F5F5";
+        this.backcolor = this.chartConfig.layout.backcolor;
         this.svg.style("background-color", this.backcolor);
         //this.svg2.style("background-color", this.backcolor);
 
