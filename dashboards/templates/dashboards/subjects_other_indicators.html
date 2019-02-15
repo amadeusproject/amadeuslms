@@ -15,12 +15,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 <style>
     .indicator-panel>.panel-heading {
         background-color: #f9f9f9 !important;
-        padding: 0px;
+        padding-right: 5px;
         color: #000 !important;
     }
 
     .card-tittle {
-        margin-top: 5px;
+        margin-top: 15px;
+        margin-bottom: 4px;
     }
 
     .card-text {
@@ -28,30 +29,72 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     }
 
     .back-other-indicator {
-        stroke-width: 3px;
-        stroke: #009886;
-        fill: none;
-        width: 20%;
+        fill: #FFFFFF;
+        width: 3px;
         height: 100%;
     }
 
     .rect-other-indicator {
         height: 100%;
+        fill: #C8E6C9;
     }
 
-    .card-indicator {
+    .rect-other-comp-indicator {
+        fill: #EEEEEE;
+        padding-right: 5px;
+    }
+
+    .container-graph-indicator {
         display: flex;
     }
 
     .graph-indicator {
         /*width:65%;*/
+
         height: 25px;
-        margin-top: 5px;
         flex-grow: 1;
+        padding-right: 12px;
     }
+
     .indicator-panel-content {
         background: #FFF;
-        padding:10px;
+        padding: 10px;
+    }
+
+    .back-max-indicator {
+        width: 42px;
+        height: 25px;
+        background-color: #009688;
+    }
+
+    .text-max-indicator {
+        margin: 5px auto;
+        left: 50%;
+        font-weight: bold;
+        line-height: normal;
+        font-size: 12px;
+        text-align: center;
+        color: #FFFFFF;
+    }
+
+    .text-your-indicator {
+        text-anchor: end;
+        font-size: 13px;
+        color: #000;
+    }
+    .indicators-legend{
+        display: flex;
+    }
+    .rect-indicators-legend{
+        width: 20px;
+        height: 16px;
+        margin-top:10px;
+        margin-bottom:10px;
+        
+    }
+    .text-indicators-legend{
+        margin: 10px;
+        
     }
 </style>
 
@@ -64,26 +107,37 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     <!--Metrics url: {{ metrics_url }}-->
 
     <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-        <div id="indicators-accordion" class="panel-group"  aria-multiselectable="false" style="display: none;opacity: 0">
+        <div id="indicators-accordion" class="" aria-multiselectable="false" style="display: none;opacity: 0">
             {% include 'dashboards/subjects_other_indicators_card.html' with tittle="access_enviromment" %}
             {% include 'dashboards/subjects_other_indicators_card.html' with tittle="distincts_days" %}
             {% include 'dashboards/subjects_other_indicators_card.html' with tittle="access_resource" %}
             {% include 'dashboards/subjects_other_indicators_card.html' with tittle="distincts_resource" %}
             {% include 'dashboards/subjects_other_indicators_card.html' with tittle="tasks_on_time" %}
+            <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 indicators-legend">
+                <p class="text-indicators-legend">{% trans 'You' %}</p> <div class="rect-indicators-legend" style="background: #C8E6C9"></div>
+                <p class="text-indicators-legend">{% trans 'Best of the class' %}</p> <div class="rect-indicators-legend" style="background: #009688"></div>
+            </div>
         </div>
-        
+
         {% include 'dashboards/loading_ball.html' with tittle="indicators_loading_ball" %}
     </div>
 </div>
 <script>
+    var indicators;
     $.get("{{ metrics_url }}", function (data) {
-        d3.select("#indicators_loading_ball").transition().duration(300).style("opacity", "0");
-        d3.select("#indicators_loading_ball").transition().delay(300).remove();
+        //d3.select("#indicators_loading_ball").transition().duration(300).style("opacity", "0");
+        d3.select("#indicators_loading_ball")
+            //.transition().delay(300)
+            .remove();
 
-        var indicators_container = d3.select("#indicators-accordion").transition().delay(300).style("display", "inherit");
-        indicators_container.transition().delay(400).duration(400).style("opacity", 1);
+        var indicators_container = d3.select("#indicators-accordion")
+            //.transition().delay(300)
+            .style("display", "inherit");
+        indicators_container
+            .transition().delay(0).duration(400)
+            .style("opacity", 1);
 
-        var indicators = d3.selectAll(".indicator-panel").data(data);
+        indicators = d3.selectAll(".indicator-panel").data(data);
 
         data[0].my_access = 10;
         data[0].max_access = 10;
@@ -94,45 +148,65 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         data[2].my_access = 8;
         data[2].max_access = 10;
 
-        data[3].my_access = 4;
+        data[3].my_access = 0.5;
         data[3].max_access = 10;
 
-        data[4].my_access = 1;
+        data[4].my_access = 7.7;
         data[4].max_access = 10;
 
-        indicators.selectAll(".rect-other-indicator").data(function (d, i) { return range(5).map(function () { return d; }) })
+        indicators.selectAll(".rect-other-indicator").data(function (d, i) { return [d] })
             //.transition().delay(function(d,i){return i*500}).duration(500)
             .attr("width", function (d, i) {
-                var my_local = d.my_access - d.max_access * i / 5,
-                    max_local = d.max_access / 5;
-
-                if (my_local < max_local / 4 || my_local <= 0)
-                    return "0%";
-                else if (my_local < max_local * 3 / 4)
-                    return "10%"
-                else
-                    return "20%";
+                d.my_access = d.my_access > d.max_access ? d.max_access : d.my_access;
+                d.my_access = parseInt(d.my_access);
+                d.percent = (d.my_access * 100 / d.max_access)
+                return "" + d.percent + "%"
             })
 
-        indicators.select(".you-result").text(function (d) {
-            return "{% trans 'Your result:'%} " + d.my_access;
-        })
+        indicators.select(".text-your-indicator")
+            .attr("x", function (d) {
+                return "" + d.percent + "%"
+            })
+            .attr("dx", function (d) {
+                return d.percent > 20 ? "-5px" : "5px"
+            })
+            .attr("opacity",function(d){
+                if (d.my_access >= d.max_access && d.my_access > 0)//==
+                    return 0;
+                else
+                    return 1;
+            })
+            .style("text-anchor", function (d) { 
+                return d.percent > 20 ? "end" : "start" 
+            })
+            .text(function (d) {
+                return d.my_access;
+            })
 
-        indicators.select(".max-result").text(function (d) {
-            return "{% trans 'Top of the class:'%} " + d.max_access;
-        })
+        indicators.select(".text-max-indicator")
+            .text(function (d) {
+                return d.max_access;
+            })
 
-        indicators.select(".golden_star")
-            //.transition().delay(2500).duration(100)
-            .attr("opacity", function (d,i) {
-                if (d.my_access >= d.max_access && d.my_access>0)//==
-                //if(i<3)
+        indicators.select(".star-container")
+            //.transition().delay(900)
+            .attr("transform",function(){ 
+                var width = document.querySelector(".rect-other-comp-indicator").getBoundingClientRect().width;
+                return "translate(" + width + ",0)";
+            });
+
+        indicators.select(".golden-star")
+            .transition().delay(300).duration(500)
+            .attr("opacity", function (d, i) {
+                console.log(d.my_access,d.max_access);
+                if (d.my_access >= d.max_access && d.my_access > 0)//==
+                    //if(i<3)
                     return 1;
                 else
                     return 0;
             });
 
-        indicators.select(".silver_star")
+        /*indicators.select(".silver_star")
             //.transition().delay(2500).duration(100)
             .attr("opacity", function (d,i) {
                 if (d.my_access >= d.max_access * 3 / 4 && d.my_access < d.max_access && d.my_access>0)
@@ -140,7 +214,15 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     return 1;
                 else
                     return 0;
-            });
+            });*/
 
     });
+    function indicators_responsibilities(){
+        indicators.select(".star-container")
+            //.transition().delay(900)
+            .attr("transform",function(){ 
+                var width = document.querySelector(".rect-other-comp-indicator").getBoundingClientRect().width;
+                return "translate(" + width + ",0)";
+            });
+    }
 </script>

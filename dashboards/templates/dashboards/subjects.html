@@ -100,10 +100,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     <script type="text/javascript">
         window.addEventListener('resize', function () {
             Promise.resolve().then(function () {
-                ganttChart.resize();
-                //ganttChart.bottomLegend.resize();
-                if ($('#filter_accordion_inner').attr('aria-expanded') == "true")
-                    ganttChart.draw2();
+                gantt_responsibilities();
+                cloudy_responsibilities();
+                indicators_responsibilities();
             });
             /*setTimeout(function() { 
                 
