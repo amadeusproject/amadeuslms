@@ -18,9 +18,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 <script src="{% static 'analytics/js/d3.v3.min.js' %}"></script>
 <script src="{% static 'analytics/js/cloud.min.js' %}"></script>
 
+<style>
+</style>
+
 <div id="cloudy" class="col-md-8 col-xs-12 col-sm-12 col-lg-8">
     <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; ">
-        <b>{% trans 'Most searched terms' %}</b>
+        <b>{% trans 'Most Popular Tags' %}</b>
+        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" 
+            title="{% trans 'Compare your number of hits with the number of hits in each class tag in this subject' %}"></i>
     </div>
     <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
 </div>
@@ -108,7 +113,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
         var DOM_pages = table_container.selectAll("table").data(range(pages)).enter().append("table")
             .attr("id", function (d, i) { return "page-table-" + i; })
-            .attr("class","table table-hover page-table col-md-12 col-xs-12 col-sm-12 col-lg-12")
+            .attr("class","table table-hover page-table table-resources")
             .style("display", function (d, i) { return i != pageIndex ? "none" : "inherit" });
 
         var thead = DOM_pages.append("thead");
@@ -225,7 +230,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 d3.select("#modal-table").style("display", "none");
 
                 var modal = document.querySelector('#tagModal');
-                modal.querySelector("#modalTittle").innerText = data.text.toUpperCase();
+                modal.querySelector("#modalTittle").innerText = "Tag: "+data.text.toUpperCase();
                 var container = d3.select("#resources-list");
                 container.selectAll(".resource").remove();
 

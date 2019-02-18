@@ -61,6 +61,16 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         background: #FFFFFF;
         margin-bottom: 10px;
     }
+    .graph-container{
+        padding: 0px;
+    }
+    .fa-info-circle{
+        padding-left:10px
+    }
+    .info-button{
+        padding:0px;
+        margin:0;
+    }
     
 </style>
 
@@ -80,12 +90,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     <div id="{{subject.slug}}" class="panel-collapse panel-body in collapse analytics-ungeneral">
 
         <!-- Dashboard -->
-
-        <div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">{% trans 'My Essential Tasks' %}</div>
-        <hr style="height:3px; background-color:#878787; margin-top: 5px;">
-
-        {% include "dashboards/subjects_gantt.html" %}
-
+        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 graph-container">
         <div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">
             {% trans 'In the last 7 days...'%}
         </div>
@@ -94,6 +99,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         {% include "dashboards/subjects_cloudy.html" %}
 
         {% include "dashboards/subjects_other_indicators.html" %}
+        </div>
+        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 graph-container">
+            <div align="left" style="font-size:22px; color: #878787; padding-top: 0px; ">{% trans 'My Essential Tasks'%}</div>
+            <hr style="height:3px; background-color:#878787; margin-top: 5px;">
+
+            {% include "dashboards/subjects_gantt.html" %}
+        </div>
+
     </div>
 
     <!--Responsibilities-->

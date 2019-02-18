@@ -26,7 +26,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 <script src="{% static 'analytics/js/brush_zoom.js' %}"></script>
 
 <div id="gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-    <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; "><b>{% trans 'Detail of Tasks' %}</b></div>
+    <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; ">
+        <b>{% trans 'Detail of Tasks' %}</b>
+        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" 
+        title="{% trans 'Positions all activities suggested by the teacher on the current subject in a timeline' %}"></i>
+    </div>
     <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
 </div>
 
@@ -87,7 +91,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         name: "GanttChart",
         parents: {
             focus: "#gantt",
-            context: "#period",
+            context: "#gantt",
             legend: "#legend-gantt",
         },
         data: {% autoescape off %} {{ graph_data }} {% endautoescape %},

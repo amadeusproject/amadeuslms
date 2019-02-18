@@ -397,11 +397,11 @@ msgstr "tags mais usadas"
 msgid "In the last 7 days..."
 msgstr "Nos últimos 7 dias..."
 
-msgid "Most searched terms"
-msgstr "Termos mais buscados"
+msgid "Most Popular Tags"
+msgstr "Tags mais acessadas"
 
-msgid "Other indicators"
-msgstr "Outros indicadores"
+msgid "Important indicators"
+msgstr "Indicadores importantes"
 
 msgid "Other indicator"
 msgstr "Outro indicador"
@@ -442,3 +442,19 @@ msgstr "Recursos distintos acessados"
 
 msgid "Tasks performed on time"
 msgstr "Tarefas realizadas com pontualidade"
+
+
+msgid "Shows indicators comparing your situation to the class"
+msgstr "Mostra indicadores que comparam sua situação em relação à turma"
+
+msgid "Positions all activities suggested by the teacher on the current subject in a timeline"
+msgstr "Posiciona todas as atividades sugeridas pelo professor no assunto corrente em uma linha do tempo"
+
+msgid "Compare your number of hits with the number of hits in each class tag in this subject"
+msgstr "Compara sua quantidade de acessos com a quantidade de acessos da turma em cada tag deste assunto"
+
+msgid "You"
+msgstr "Você"
+
+msgid "Best of the class"
+msgstr "Melhor da turma"

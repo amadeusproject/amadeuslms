@@ -39,9 +39,9 @@ class GanttChart {
         if (chartConfig.dimensions == undefined) chartConfig.dimensions = {};
 
         if (chartConfig.margin == undefined) chartConfig.margin = {};
-        if (chartConfig.margin.top == undefined) chartConfig.margin.top = 20;
+        if (chartConfig.margin.top == undefined) chartConfig.margin.top = 25;
         if (chartConfig.margin.right == undefined) chartConfig.margin.right = 10;
-        if (chartConfig.margin.bottom == undefined) chartConfig.margin.bottom = 25;
+        if (chartConfig.margin.bottom == undefined) chartConfig.margin.bottom = 0;
         if (chartConfig.margin.left == undefined) chartConfig.margin.left = 10;
 
         if (chartConfig.layout == undefined) chartConfig.layout = {};
@@ -239,7 +239,14 @@ class GanttChart {
             .attr("class", "focus");
         this.context = a.svg2.append("g")
             .attr("class", "context");
+
+        this.focus.append("g")
+            .attr("class", "axis axis--x focus-ticks")
+        this.focus.append("g")
+            .attr("class", "axis axis--x focus-axis")
+
         this.focusContent = a.focus.append("g").attr("class", "focuscontextContent");
+
 
         this.notifications = a.focusContent.selectAll(".notifications").data(a.chartConfig.data).enter().append("g")
             .style("cursor", "pointer")
@@ -908,10 +915,8 @@ class GanttChart {
                 a.card.disable(0, 500);
             });
 
-        this.context.append("g")
-            .attr("class", "axis axis--x context-axis");
-        this.focus.append("g")
-            .attr("class", "axis axis--x focus-axis")
+        //this.context.append("g")
+          //  .attr("class", "axis axis--x context-axis");
         this.context.append("g")
             .attr("class", "brush")
 
@@ -926,66 +931,7 @@ class GanttChart {
         var temp = document.querySelector(a.chartConfig.parents.context).getBoundingClientRect();
         a.chartConfig.dimensions.width2 = temp.width - $(a.chartConfig.parents.context).css("padding-left").match(/[0-9]+/)[0] - $(a.chartConfig.parents.context).css("padding-right").match(/[0-9]+/)[0];
 
-        this.margin2 = {
-            top: 5,
-            right: a.chartConfig.margin.right,
-            bottom: a.chartConfig.margin.bottom,
-            left: a.chartConfig.margin.left
-        };
-        var temp = a.chartConfig.dimensions.height * a.chartConfig.layout.contextHeight
-        this.chartConfig.dimensions.height2 = temp < 15 ? 15 : (temp > 30 ? 30 : temp) + a.margin2.top + a.margin2.bottom;
-
-        this.height2 = a.chartConfig.dimensions.height2 - a.margin2.top - a.margin2.bottom;
-        this.width2 = a.chartConfig.dimensions.width2 - a.margin2.left - a.margin2.right;
-
-        this.svg2
-            .attr("width", a.chartConfig.dimensions.width2)
-            .attr("height", a.chartConfig.dimensions.height2)
-        this.x2.range([0, a.width2])
-
-        this.nowLine2.select("line")
-            .attr("x1", 0)
-            .attr("y1", 0)
-            .attr("x2", 0)
-            .attr("y2", a.height2);
-
-        this.xAxis2 = d3.axisBottom(this.x2).ticks(Math.floor(a.chartConfig.dimensions.width2 / 220));
-
-        a.nowLine2
-        //    .transition().duration(transition)
-            .attr("transform", "translate(" + a.x2(a.now) + ",0)");
-
-        this.brush.extent([[0, 0], [a.width2, a.height2]]);
-
-        this.context.attr("transform", "translate(" + a.margin2.left + "," + a.margin2.top + ")");
-
-        function widthRect(data) {
-            return a.x2(data.date.end) - a.x2(data.date.start);
-        }
-
-        this.backgroundContext
-            .attr("width", a.width2)
-            .attr("height", a.height2 * .5)
-            .attr("transform", "translate(0," + a.height2 * .25 + ")")
-            .attr("fill", a.backcolor);
-
-        this.contextRects
-            .attr("transform", function (d) { return "translate(" + a.x2(d.date.start) + "," + a.height2 * .15 + ")" })
-            .attr("width", widthRect)
-            .attr("height", a.height2 * .7)
-            .attr("rx", a.height2 / 3 > 10 ? 10 : a.height2 / 3)
-            .attr("ry", a.height2 / 3 > 10 ? 10 : a.height2 / 3)
-            .attr("stroke", "#ddd")
-            .attr("stroke-width", ".5")
-            .attr("fill", function (d) { return a.chartConfig.layout.colors[d.status] });;
-
-        this.context.select(".context-axis")
-            .attr("transform", "translate(0," + a.height2 + ")")
-            .call(a.xAxis2);
-
-        this.context.select(".brush")
-            .call(a.brush)
-            .call(a.brush.move, a.x.range());
+        
         
         this.legendConfig.dimensions.width = this.width2
 
@@ -1053,6 +999,7 @@ class GanttChart {
             .attr("y2", a.height);
 
         this.xAxis = d3.axisBottom(this.x).ticks(Math.floor(a.chartConfig.dimensions.width / 110));
+        this.xTicks = d3.axisBottom(this.x).ticks(Math.floor(a.chartConfig.dimensions.width / 110)).tickSize(a.height + a.margin.top/2);
 
         this.zoom.translateExtent([[0, 0], [a.width, a.height]])
             .extent([[0, 0], [a.width, a.height]]);
@@ -1072,8 +1019,10 @@ class GanttChart {
 
 
         this.focus.select(".focus-axis")
-            .attr("transform", "translate(0," + a.height + ")")
-            .call(a.xAxis);
+            .attr("transform", "translate(0,"+(-a.margin.top/2)+")")
+        this.focus.select(".focus-ticks")
+            .attr("opacity",0.3)
+            .attr("transform", "translate(0,"+(-a.margin.top/2)+")");
 
         this.zoomRect
             .attr("width", a.width)
@@ -1081,10 +1030,79 @@ class GanttChart {
             .attr("transform", "translate(" + a.margin.left + "," + a.margin.top + ")")
             .call(a.zoom);
         this.card.draw();
+        this.context_draw();
+
+
 
         this.bottomLegend.setoption();
         this.card.disable();
-        //this.reset();
+        this.reset();
+
+        return this;
+    }
+    context_draw(){
+        var a = this;
+
+        this.margin2 = {
+            top: 0,
+            right: a.chartConfig.margin.right,
+            bottom: 0,//a.chartConfig.margin.bottom,
+            left: a.chartConfig.margin.left
+        };
+        var temp = 15;//a.chartConfig.dimensions.height * a.chartConfig.layout.contextHeight
+        this.chartConfig.dimensions.height2 = temp < 15 ? 15 : (temp > 30 ? 30 : temp) + a.margin2.top + a.margin2.bottom;
+
+        this.height2 = a.chartConfig.dimensions.height2 - a.margin2.top - a.margin2.bottom;
+        this.width2 = a.chartConfig.dimensions.width2 - a.margin2.left - a.margin2.right;
+
+        this.svg2
+            .attr("width", a.chartConfig.dimensions.width2)
+            .attr("height", a.chartConfig.dimensions.height2)
+        this.x2.range([0, a.width2])
+
+        this.nowLine2.select("line")
+            .attr("x1", 0)
+            .attr("y1", 0)
+            .attr("x2", 0)
+            .attr("y2", a.height2);
+
+        this.xAxis2 = d3.axisBottom(this.x2).ticks(Math.floor(a.chartConfig.dimensions.width2 / 220));
+
+        a.nowLine2
+        //    .transition().duration(transition)
+            .attr("transform", "translate(" + a.x2(a.now) + ",0)");
+
+        this.brush.extent([[0, 0], [a.width2, a.height2]]);
+
+        this.context.attr("transform", "translate(" + a.margin2.left + "," + a.margin2.top + ")");
+
+        function widthRect(data) {
+            return a.x2(data.date.end) - a.x2(data.date.start);
+        }
+
+        this.backgroundContext
+            .attr("width", a.width2)
+            .attr("height", a.height2 * .5)
+            .attr("transform", "translate(0," + a.height2 * .25 + ")")
+            .attr("fill", a.backcolor);
+
+        this.contextRects
+            .attr("transform", function (d) { return "translate(" + a.x2(d.date.start) + "," + a.height2 * .15 + ")" })
+            .attr("width", widthRect)
+            .attr("height", a.height2 * .7)
+            .attr("rx", a.height2 / 3 > 10 ? 10 : a.height2 / 3)
+            .attr("ry", a.height2 / 3 > 10 ? 10 : a.height2 / 3)
+            .attr("stroke", "#ddd")
+            .attr("stroke-width", ".5")
+            .attr("fill", function (d) { return a.chartConfig.layout.colors[d.status] });;
+
+        /*this.context.select(".context-axis")
+            .attr("transform", "translate(0," + a.height2 + ")")
+            .call(a.xAxis2);*/
+
+        this.context.select(".brush")
+            .call(a.brush)
+            .call(a.brush.move, a.x.range());
 
         return this;
     }
@@ -1168,7 +1186,7 @@ class GanttChart {
         });
         a.x.domain(s.map(a.x2.invert, a.x2));
 
-        a.focus.select(".axis--x").call(a.xAxis);
+        //a.focus.select(".axis--x").call(a.xAxis);
 
         a.svg.select(".zoom").call(a.zoom.transform, d3.zoomIdentity
             .scale(a.width / (s[1] - s[0]))
@@ -1188,7 +1206,7 @@ class GanttChart {
 
         a.x.domain(s.map(a.x2.invert, a.x2));
 
-        a.focus.select(".axis--x").call(a.xAxis);
+        //a.focus.select(".axis--x").call(a.xAxis);
 
         a.transformElements(500);
 
@@ -1205,7 +1223,6 @@ class GanttChart {
         temp = t;
         a.x.domain(t.rescaleX(a.x2).domain());
 
-        a.focus.select(".axis--x").call(a.xAxis);
         //if(isNaN(a.temptransition))
         //a.temptransition = 200;
         this.transformElements();
@@ -1220,8 +1237,6 @@ class GanttChart {
         var s = d3.event.selection || a.x2.range();
         temp2 = s;
         a.x.domain(s.map(a.x2.invert, a.x2));
-
-        a.focus.select(".axis--x").call(a.xAxis);
         //var transition = a.temptransition;
         //a.temptransition = 0;
         a.transformElements();
@@ -1235,6 +1250,12 @@ class GanttChart {
         if (isNaN(transition))
             transition = 0;
         var a = this;
+
+        a.focus.select(".focus-axis").call(a.xAxis)
+            .selectAll("text").style("background","#FFFFFF");
+
+        a.focus.select(".focus-ticks").call(a.xTicks);
+
         function widthRect(data) {
             return a.x(data.date.end) - a.x(data.date.start);
         }

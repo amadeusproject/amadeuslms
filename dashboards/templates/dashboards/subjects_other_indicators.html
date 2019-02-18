@@ -100,7 +100,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 <div class="col-md-4 col-xs-12 col-sm-8 col-lg-4">
     <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; ">
-        <b>{% trans 'Other indicators' %}</b>
+        <b>{% trans 'Important indicators' %}</b>
+        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" 
+            title="{% trans 'Shows indicators comparing your situation to the class' %}"></i>
     </div>
     <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
 
@@ -126,9 +128,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     var indicators;
     $.get("{{ metrics_url }}", function (data) {
         //d3.select("#indicators_loading_ball").transition().duration(300).style("opacity", "0");
-        d3.select("#indicators_loading_ball")
+        d3.select("#indicators_loading_ball").style("opacity", "0")
             //.transition().delay(300)
-            .remove();
+            //.remove();
 
         var indicators_container = d3.select("#indicators-accordion")
             //.transition().delay(300)
@@ -198,7 +200,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         indicators.select(".golden-star")
             .transition().delay(300).duration(500)
             .attr("opacity", function (d, i) {
-                console.log(d.my_access,d.max_access);
                 if (d.my_access >= d.max_access && d.my_access > 0)//==
                     //if(i<3)
                     return 1;
