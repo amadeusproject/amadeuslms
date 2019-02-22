@@ -128,7 +128,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     var indicators;
     $.get("{{ metrics_url }}", function (data) {
         //d3.select("#indicators_loading_ball").transition().duration(300).style("opacity", "0");
-        d3.select("#indicators_loading_ball").style("opacity", "0")
+        d3.select("#indicators_loading_ball").style("display", "none")
             //.transition().delay(300)
             //.remove();
 
@@ -141,27 +141,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
         indicators = d3.selectAll(".indicator-panel").data(data);
 
-        data[0].my_access = 10;
-        data[0].max_access = 10;
-
-        data[1].my_access = 9;
-        data[1].max_access = 10;
-
-        data[2].my_access = 8;
-        data[2].max_access = 10;
-
-        data[3].my_access = 0.5;
-        data[3].max_access = 10;
-
-        data[4].my_access = 7.7;
-        data[4].max_access = 10;
-
         indicators.selectAll(".rect-other-indicator").data(function (d, i) { return [d] })
             //.transition().delay(function(d,i){return i*500}).duration(500)
             .attr("width", function (d, i) {
-                d.my_access = d.my_access > d.max_access ? d.max_access : d.my_access;
+                d.my_access = isNaN(d.my_access)?0:d.my_access;
                 d.my_access = parseInt(d.my_access);
-                d.percent = (d.my_access * 100 / d.max_access)
+                d.max_access = isNaN(d.max_access)?0:d.max_access;
+                d.my_access = d.my_access > d.max_access ? d.max_access : d.my_access;
+                d.percent = (d.my_access * 100 / (d.max_access>1?d.max_access:1))
                 return "" + d.percent + "%"
             })
 
@@ -187,6 +174,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
         indicators.select(".text-max-indicator")
             .text(function (d) {
+                //console.log(d.max_access);
                 return d.max_access;
             })
 

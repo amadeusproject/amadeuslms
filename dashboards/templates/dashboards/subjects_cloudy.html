@@ -19,15 +19,36 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 <script src="{% static 'analytics/js/cloud.min.js' %}"></script>
 
 <style>
-</style>
+        .cloudy-legend{
+            display: flex;
+        }
+        .icon-cloudy-legend{
+            width: 20px;
+            height: 16px;
+            margin-top:10px;
+            margin-bottom:10px;
+        }
+        .text-cloudy-legend{
+           
+            margin-left:10px;
+            margin-right:10px;
+        }
+    </style>
 
-<div id="cloudy" class="col-md-8 col-xs-12 col-sm-12 col-lg-8">
+<div class="col-md-8 col-xs-12 col-sm-12 col-lg-8">
     <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; ">
         <b>{% trans 'Most Popular Tags' %}</b>
         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" 
             title="{% trans 'Compare your number of hits with the number of hits in each class tag in this subject' %}"></i>
     </div>
     <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
+    <div id="cloudy" style="padding: 0px">
+
+    </div>
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 cloudy-legend">
+        <i class="fa fa-text-height icon-cloudy-legend" aria-hidden="true"></i><p class="text-indicators-legend">{% trans 'Class accesses' %}</p>
+        <div class="icon-cloudy-legend" style="background-image: linear-gradient(to right, #00441B , rgb(183, 226, 177)); "></div><p class="text-indicators-legend">{% trans 'Your accesses' %}</p>
+    </div>
 </div>
 
 <div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="modalTittle" aria-hidden="true">

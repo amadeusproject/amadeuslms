@@ -63,7 +63,7 @@ class GanttChart {
         if (chartConfig.layout.endDate_text == undefined) chartConfig.layout.endDate_text = "Data/Hora final: ";
         if (chartConfig.layout.closedDate_text == undefined) chartConfig.layout.closedDate_text = "Tarefa encerrada em: ";
 
-        chartConfig.now = new Date();
+        chartConfig.now = new Date(2019, 1, 15);
         var now = chartConfig.now.getTime();
 
         var positions = [];
@@ -189,10 +189,11 @@ class GanttChart {
     create(chartConfig) {
         var a = this;
         this.chartConfig = chartConfig;
+        this.percentOn = this.chartConfig.layout.percentOn;
         this.now = chartConfig.now;
         this.svg = a.chartConfig.svg ? d3.select(a.chartConfig.parents.focus) : d3.select(a.chartConfig.parents.focus).append("svg").attr("id", chartConfig.name + "-container")
 
-        this.svg2 = d3.select(a.chartConfig.parents.context).append("svg").attr("id", chartConfig.name + "-context");
+        //this.svg2 = d3.select(a.chartConfig.parents.context).append("svg").attr("id", chartConfig.name + "-context");
         if (a.chartConfig.svg)
             this.chartConfig.dimensions.width = +svg.attr("width"),
                 this.chartConfig.dimensions.height = +svg.attr("height");
@@ -202,12 +203,12 @@ class GanttChart {
 
         this.pattern = this.svg.append("defs").selectAll("pattern").data(a.chartConfig.layout.colors).enter().append("pattern").attr("id", function (d, i) { return "hachura-status-" + i }).attr("class", "diagonal-stripe-1")
             .attr("patternUnits", "userSpaceOnUse")
-            .attr("width", 10).attr("height", 10)
+            .attr("width", 5).attr("height", 5)
             .attr("background-color", this.backcolor);
         this.pattern.append("path")
-            .attr("d", "M 0 10 L 12 -2")
+            .attr("d", "M 0 5 L 5 0")
             .attr("stroke", function (d) { return d })
-            .attr("stroke-width", 2);
+            .attr("stroke-width", 1);
 
         /*        this.pattern = this.svg.append("defs").append("pattern").attr("id", "diagonal-stripe-1")
                     .attr("patternUnits", "userSpaceOnUse")
@@ -223,6 +224,12 @@ class GanttChart {
         this.x = d3.scaleTime();
         this.x2 = d3.scaleTime();
         this.y = d3.scaleBand().domain(range(a.chartConfig.layout.maxrow));
+        this.y2 = d3.scaleBand().domain(range(a.chartConfig.layout.colors.length))
+        
+        this.marked = range(a.chartConfig.layout.texts.length).map(function(){return false});
+
+        console.log(this.marked);
+
         var temp = d3.extent(a.chartConfig.data, function (d) { return d.date.start; });
         var temp2 = d3.extent(a.chartConfig.data, function (d) { return d.date.end });
         if (a.now.getTime() - temp[0].getTime() < 0) temp[0] = a.now;
@@ -237,15 +244,16 @@ class GanttChart {
 
         this.focus = a.svg.append("g")
             .attr("class", "focus");
-        this.context = a.svg2.append("g")
+        this.context = a.svg.append("g")
             .attr("class", "context");
 
         this.focus.append("g")
             .attr("class", "axis axis--x focus-ticks")
+            .style("font-size", 0);
         this.focus.append("g")
             .attr("class", "axis axis--x focus-axis")
 
-        this.focusContent = a.focus.append("g").attr("class", "focuscontextContent");
+        this.focusContent = a.focus.append("g").attr("class", "focusContent");
 
 
         this.notifications = a.focusContent.selectAll(".notifications").data(a.chartConfig.data).enter().append("g")
@@ -264,20 +272,20 @@ class GanttChart {
             .attr("stroke-width", "2")
             .attr("stroke-dasharray", "5 10");
 
-        this.backgroundContext = a.context.append("rect").attr("class", "backgroundContext");
-
         this.contextContent = a.context.append("g").attr("class", "contextContent");
 
-            this.nowLine2 = a.context.append("g");
-            this.nowLine2.append("line")
-                .attr("fill", "none")
-                .attr("stroke", "#222")
-                .attr("stroke-width", "2")
-                .attr("stroke-dasharray", "2 5");
+        this.backgroundContext = a.contextContent.append("rect").attr("class", "backgroundContext");
 
-        
+        this.nowLine2 = a.context.append("g");
+        this.nowLine2.append("line")
+            .attr("fill", "none")
+            .attr("stroke", "#222")
+            .attr("stroke-width", "2")
+            .attr("stroke-dasharray", "2 5");
 
-        
+
+
+
 
         this.card = {}
 
@@ -381,7 +389,10 @@ class GanttChart {
             this.closer.append("path").attr("fill", "#777").attr("d", closer());
 
 
-            this.content.select(".goto").on("click", function () { var data = a.chartConfig.data[a.card.content.select(".id").text()]; chartConfig.interactions.button(this, data) });
+            this.content.select(".goto").on("click", function () {
+                var data = a.chartConfig.data[a.card.content.select(".id").text()];
+                chartConfig.interactions.button(this, b.data)
+            });
 
 
 
@@ -425,19 +436,19 @@ class GanttChart {
                 //.attr("width", this.width)
                 //.attr("height", this.size)
                 .attr("stroke", "#000")
-                .attr("rx", a.y.bandwidth() / 4)
-                .attr("ry", a.y.bandwidth() / 4);
+            //.attr("rx", a.y.bandwidth() / 4)
+            //.attr("ry", a.y.bandwidth() / 4);
             this.rects.select(".backBar")
                 //.attr("width", this.width)
                 //.attr("height", this.size*.15)
                 .attr("stroke", "#000")
-                .attr("rx", a.y.bandwidth() / 4)
-                .attr("ry", a.y.bandwidth() / 4);
+            //.attr("rx", a.y.bandwidth() / 4)
+            //.attr("ry", a.y.bandwidth() / 4);
             this.rects.select(".progressBar")
-                //.attr("width", this.width*.75)
-                //.attr("height", this.size*.15)
-                .attr("rx", a.y.bandwidth() / 4)
-                .attr("ry", a.y.bandwidth() / 4);
+            //.attr("width", this.width*.75)
+            //.attr("height", this.size*.15)
+            //.attr("rx", a.y.bandwidth() / 4)
+            //.attr("ry", a.y.bandwidth() / 4);
 
             this.closer.attr("transform", "translate(" + (this.width - this.size * .11) + "," + this.size * .04 + ") scale(" + this.size * .0007 + "," + this.size * .0007 + ")");
 
@@ -544,9 +555,15 @@ class GanttChart {
             if (b.active != false) {
                 before += b.disable(before, 200);
             }
-            if (!a.bottomLegend.marked[data.status]) {
-                a.bottomLegend.setoption();
-            }
+             if (!a.marked[data.status]) {
+                 a.filterout();
+             }
+
+            b.data = data;
+
+            b.content.select(".id")
+                .text(data.id);
+
             before = b.rect_in_x(data, before);
             before = b.extend_card(data, before, 1000);
             b.active = data;
@@ -615,7 +632,7 @@ class GanttChart {
             b.rects.select(".progressBar")
                 .transition().delay(before).duration(transition)
                 .attr("fill", a.chartConfig.layout.colors[data.status])
-                .attr("width", (a.x(data.date.end) - a.x(data.date.start)) * data.percent)
+                .attr("width", (a.x(data.date.end) - a.x(data.date.start)) * a.percentProgressBar(data))
                 .attr("height", a.y.bandwidth());
             b.rects.select(".backBar")
                 .transition().delay(before).duration(transition)
@@ -682,7 +699,7 @@ class GanttChart {
                 .attr("fill", "#fff");
             b.rects.select(".progressBar")
                 .transition().delay(before).duration(transition)
-                .attr("width", b.width * data.percent)
+                .attr("width", b.width * a.percentProgressBar(data))
                 .attr("height", b.size * .15);
             b.rects.select(".backBar")
                 .transition().delay(before).duration(transition)
@@ -697,53 +714,56 @@ class GanttChart {
                 .text(data.action + " " + data.name);
 
             //Status info
-            var temp = a.chartConfig.layout.texts2[data.status];
-            if (temp != undefined && temp != "") {
-                if (!a.chartConfig.dimensions.mini) {
+            if (!b.active)
+                (function () {
+                    var temp = a.chartConfig.layout.texts2[data.status];
+                    if (temp != undefined && temp != "") {
+                        if (!a.chartConfig.dimensions.mini) {
 
-                    if (temp != undefined && temp != "" && document.querySelector(".tittle").getBoundingClientRect().width >= this.width * .50) {
-                        b.content.select(".statusInfo")
-                            .attr("transform", "translate(" + b.width + "," + b.size * .34 + ")")
-                            .select("rect")
-                            .attr("width", 0)
-                        b.content.select(".statusInfo")
+                            if (temp != undefined && temp != "" && document.querySelector(".tittle").getBoundingClientRect().width >= b.width * .50) {
+                                b.content.select(".statusInfo")
+                                    .attr("transform", "translate(" + b.width + "," + b.size * .34 + ")")
+                                    .select("rect")
+                                    .attr("width", 0)
+                                b.content.select(".statusInfo")
+                                    .transition().delay(before).duration(transition)
+                                    .attr("transform", "translate(" + b.width * .5 + "," + b.size * .34 + ")")
+                                    .attr("opacity", 1);
+                            } else {
+                                b.content.select(".statusInfo")
+                                    .attr("transform", "translate(" + b.width + "," + b.size * .22 + ")")
+                                    .select("rect")
+                                    .attr("width", 0)
+                                b.content.select(".statusInfo")
+                                    .transition().delay(before).duration(transition)
+                                    .attr("transform", "translate(" + b.width * .5 + "," + b.size * .22 + ")")
+                                    .attr("opacity", 1);
+                            }
+
+                            b.content.select(".statusInfo").select("rect")
+                                .transition().delay(before).duration(transition)
+                                .attr("width", b.width * .5)
+                                .attr("fill", a.chartConfig.layout.colors[data.status])
+                        } else {
+                            b.content.select(".statusInfo")
+                                .attr("transform", "translate(0," + b.size * .6 + ")")
+                                .select("rect")
+                                .attr("width", b.width)
+                                .attr("fill", a.chartConfig.layout.colors[data.status])
+                            b.content.select(".statusInfo")
+                                .transition().delay(before).duration(transition)
+                                .attr("opacity", 1);
+
+                        }
+                        b.content.select(".statusInfo").select("text")
                             .transition().delay(before).duration(transition)
-                            .attr("transform", "translate(" + b.width * .5 + "," + b.size * .34 + ")")
-                            .attr("opacity", 1);
+                            .text(temp);
                     } else {
                         b.content.select(".statusInfo")
-                            .attr("transform", "translate(" + b.width + "," + b.size * .22 + ")")
-                            .select("rect")
-                            .attr("width", 0)
-                        b.content.select(".statusInfo")
                             .transition().delay(before).duration(transition)
-                            .attr("transform", "translate(" + b.width * .5 + "," + b.size * .22 + ")")
-                            .attr("opacity", 1);
+                            .attr("opacity", 0);
                     }
-
-                    b.content.select(".statusInfo").select("rect")
-                        .transition().delay(before).duration(transition)
-                        .attr("width", b.width * .5)
-                        .attr("fill", a.chartConfig.layout.colors[data.status])
-                } else {
-                    b.content.select(".statusInfo")
-                        .attr("transform", "translate(0," + b.size * .6 + ")")
-                        .select("rect")
-                        .attr("width", b.width)
-                        .attr("fill", a.chartConfig.layout.colors[data.status])
-                    b.content.select(".statusInfo")
-                        .transition().delay(before).duration(transition)
-                        .attr("opacity", 1);
-
-                }
-                b.content.select(".statusInfo").select("text")
-                    .transition().delay(before).duration(transition)
-                    .text(temp);
-            } else {
-                b.content.select(".statusInfo")
-                    .transition().delay(before).duration(transition)
-                    .attr("opacity", 0);
-            }
+                })();
 
             //Dates  of Card
             this.content.select(".datesInfo").selectAll("text")
@@ -799,9 +819,7 @@ class GanttChart {
                 .attr("dy", function (d, i) { return "" + (i * 1.3 + 1) + "em" })
                 .text(function (d) { return d });
 
-            b.content.select(".id")
-                .transition().delay(before).duration(transition)
-                .text(data.id);
+
 
             if (data.status == 3 || data.status == 4) {
                 this.content.select(".buttons").select(".goto")
@@ -843,67 +861,9 @@ class GanttChart {
             return before + transition + 1;
         }
 
-        var last = 0, laststatus = 0;
-        function searchStatus(status) {
-            var data = a.chartConfig.data;
-            if (status != laststatus) {
-                laststatus = status;
-                last = 0;
-            }
-            var back = false;
-            for (var i = last % data.length; true; i = (i + 1) % data.length) {
-                if (data[i].status == status) {
-                    last = i + 1;
-                    return data[i];
-                }
-                if (back && last == i)
-                    return;
-                if (last == i)
-                    back = true;
-            }
-            return null;
-        }
-        this.legendConfig = {
-            data: chartConfig.data_legend,
-            target: a.chartConfig.parents.legend,
-            svg: a.chartConfig.svg,
-            dimensions: {
-                width: a.chartConfig.dimensions.width
-            },
-            layout: {
-                corner: 4,
-                font_size: 16,
-                font: "Roboto",
-                //stroke: "#000",
-                stroke_width: 2,
-                stroke_over: "#444",
-                anchor: "middle", // start middle end
-                enable_mark: true,
-                label: true,
-                labelcolor: "#fff"
-            },
-            interactions: {
-                //mouseover: function (element, data) { },
-                //mousemove: function (element, data) { },
-                //mouseout: function (element, data) { },
-                click: function (element, data) {
-                    a.card.disable(0, 500);
-                    //a.goto(searchStatus(status));
-                },
-                filter: function (element, data) {
-                    a.filter(data.id, element);
-                },
-                unfilter: function (element, data) {
-                    a.filterout(data.id, element);
-                },
-                unfilterAll: function () {
-                    a.filterout();
-                }
-            },
-        }
-
-
-        this.bottomLegend = new BottomLegend(this.legendConfig);
+        d3.selectAll(".gantt-legend-status").select(".status-percent").text(function(d,i){
+            return a.chartConfig.data_legend[i].label;
+        })
 
         this.card.create();
 
@@ -911,12 +871,12 @@ class GanttChart {
 
         this.zoomRect
             .on("click", function () {
-                a.bottomLegend.setoption();
+                //a.bottomLegend.setoption();
                 a.card.disable(0, 500);
             });
 
         //this.context.append("g")
-          //  .attr("class", "axis axis--x context-axis");
+        //  .attr("class", "axis axis--x context-axis");
         this.context.append("g")
             .attr("class", "brush")
 
@@ -925,72 +885,27 @@ class GanttChart {
 
         return this;
     }
-    draw2() {
-        var a = this;
-
-        var temp = document.querySelector(a.chartConfig.parents.context).getBoundingClientRect();
-        a.chartConfig.dimensions.width2 = temp.width - $(a.chartConfig.parents.context).css("padding-left").match(/[0-9]+/)[0] - $(a.chartConfig.parents.context).css("padding-right").match(/[0-9]+/)[0];
-
-        
-        
-        this.legendConfig.dimensions.width = this.width2
-
-        this.bottomLegend.draw();
-        
-        a.draw2_flag = true;
-
-        return this;
-
-    }
     draw() {
         var a = this;
 
-        document.definewidth(chartConfig, chartConfig.sugest.width, chartConfig.sugest.height, chartConfig.sugest.windowProp, chartConfig.sugest.chartProp, chartConfig.parents.focus);
+        //document.definewidth(chartConfig, chartConfig.sugest.width, chartConfig.sugest.height, chartConfig.sugest.windowProp, chartConfig.sugest.chartProp, chartConfig.parents.focus);
+        var temp = document.querySelector(a.chartConfig.parents.focus).getBoundingClientRect()
+        this.chartConfig.dimensions.width = temp.width - $(a.chartConfig.parents.focus).css("padding-left").match(/[0-9]+/)[0] - $(a.chartConfig.parents.focus).css("padding-right").match(/[0-9]+/)[0] - ((!a.chartConfig.dimensions.height && !window.mobilecheck()) ? 13.74 : 0);
+        this.chartConfig.dimensions.height = 40 * this.chartConfig.layout.maxrow + 19 + 30;// (Tasks+padding) + axisTop + scrollBottom;
 
         this.margin = {
-            top: a.chartConfig.margin.top,
-            right: a.chartConfig.margin.right,
-            bottom: a.chartConfig.margin.bottom,
-            left: a.chartConfig.margin.left
+            top: 19,
+            right: 10,
+            bottom: 30,
+            left: 10
         };
-
-
-
-
         //this.chartConfig.dimensions.height = a.chartConfig.dimensions.height*(1-a.chartConfig.layout.contextHeight);
-
 
         this.width = a.chartConfig.dimensions.width - a.margin.left - a.margin.right;
         this.height = a.chartConfig.dimensions.height - a.margin.top - a.margin.bottom;
 
-        if (!a.draw2_flag) {
-            var temp = document.querySelector("#accordion_bar").getBoundingClientRect();
-            a.chartConfig.dimensions.width2 = temp.width - 2*$("#accordion_bar").css("padding-left").match(/[0-9]+/)[0] - 2*$("#accordion_bar").css("padding-right").match(/[0-9]+/)[0];
-
-            this.margin2 = {
-                top: 5,
-                right: a.chartConfig.margin.right,
-                bottom: a.chartConfig.margin.bottom,
-                left: a.chartConfig.margin.left
-            };
-            var temp = a.chartConfig.dimensions.height * a.chartConfig.layout.contextHeight
-            this.chartConfig.dimensions.height2 = temp < 15 ? 15 : (temp > 30 ? 30 : temp) + a.margin2.top + a.margin2.bottom;
-
-            this.height2 = a.chartConfig.dimensions.height2 - a.margin2.top - a.margin2.bottom;
-            this.width2 = a.chartConfig.dimensions.width2 - a.margin2.left - a.margin2.right;
-
-            this.brush.extent([[0, 0], [this.width2, this.height2]]);
-        }
-        
-
-        this.svg
-            .attr("width", a.chartConfig.dimensions.width)
-            .attr("height", a.chartConfig.dimensions.height)
-
-
-
         this.x.range([0, a.width]),
-            this.y.rangeRound([0, a.height]).padding(a.height > 200 ? 0.4 : 0.1);
+        this.y.rangeRound([0, a.height]).padding(0.4);
 
         this.nowLine.select("line")
             .attr("x1", 0)
@@ -999,7 +914,7 @@ class GanttChart {
             .attr("y2", a.height);
 
         this.xAxis = d3.axisBottom(this.x).ticks(Math.floor(a.chartConfig.dimensions.width / 110));
-        this.xTicks = d3.axisBottom(this.x).ticks(Math.floor(a.chartConfig.dimensions.width / 110)).tickSize(a.height + a.margin.top/2);
+        this.xTicks = d3.axisBottom(this.x).ticks(Math.floor(a.chartConfig.dimensions.width / 110)).tickSize(a.height + a.margin.top / 2);
 
         this.zoom.translateExtent([[0, 0], [a.width, a.height]])
             .extent([[0, 0], [a.width, a.height]]);
@@ -1007,22 +922,22 @@ class GanttChart {
         this.focus.attr("transform", "translate(" + a.margin.left + "," + a.margin.top + ")");
 
         this.notifications.select(".backBar")
-            .attr("rx", a.y.bandwidth() / 4)
-            .attr("ry", a.y.bandwidth() / 4);
+        //.attr("rx", a.y.bandwidth() / 4)
+        //.attr("ry", a.y.bandwidth() / 4);
 
         this.notifications.select(".progressBar")
-            .attr("rx", a.y.bandwidth() / 4)
-            .attr("ry", a.y.bandwidth() / 4);
+        //.attr("rx", a.y.bandwidth() / 4)
+        //.attr("ry", a.y.bandwidth() / 4);
 
         this.transformElements();
 
 
 
         this.focus.select(".focus-axis")
-            .attr("transform", "translate(0,"+(-a.margin.top/2)+")")
+            .attr("transform", "translate(0," + (-a.margin.top / 2) + ")")
         this.focus.select(".focus-ticks")
-            .attr("opacity",0.3)
-            .attr("transform", "translate(0,"+(-a.margin.top/2)+")");
+            .attr("opacity", 0.3)
+            .attr("transform", "translate(0," + (-a.margin.top / 2) + ")");
 
         this.zoomRect
             .attr("width", a.width)
@@ -1030,71 +945,85 @@ class GanttChart {
             .attr("transform", "translate(" + a.margin.left + "," + a.margin.top + ")")
             .call(a.zoom);
         this.card.draw();
+        a.opened = false;
         this.context_draw();
 
+        this.svg
+            .attr("width", a.chartConfig.dimensions.width)
+            .attr("height", a.chartConfig.dimensions.height)
 
-
-        this.bottomLegend.setoption();
+        this.filterout();
         this.card.disable();
-        this.reset();
+
+        // this.svg.on("mouseover",function(){
+        //     a.open_context();
+        // })
+        // this.svg.on("mouseout",function(){
+        //     a.close_context();
+        // })
 
         return this;
     }
-    context_draw(){
+    context_draw() {
         var a = this;
 
         this.margin2 = {
-            top: 0,
+            top: a.height + a.margin.top + a.margin.bottom,
             right: a.chartConfig.margin.right,
             bottom: 0,//a.chartConfig.margin.bottom,
             left: a.chartConfig.margin.left
         };
-        var temp = 15;//a.chartConfig.dimensions.height * a.chartConfig.layout.contextHeight
-        this.chartConfig.dimensions.height2 = temp < 15 ? 15 : (temp > 30 ? 30 : temp) + a.margin2.top + a.margin2.bottom;
+        //var temp = 17;//a.chartConfig.dimensions.height * a.chartConfig.layout.contextHeight
+        this.chartConfig.dimensions.height2 = 30;//(temp < 15 ? 15 : (temp > 30 ? 30 : temp))+ temp;
 
-        this.height2 = a.chartConfig.dimensions.height2 - a.margin2.top - a.margin2.bottom;
-        this.width2 = a.chartConfig.dimensions.width2 - a.margin2.left - a.margin2.right;
+        this.height2 = a.chartConfig.dimensions.height2 - 15;
+        this.width2 = this.width;//a.chartConfig.dimensions.width2 - a.margin2.left - a.margin2.right;
 
-        this.svg2
-            .attr("width", a.chartConfig.dimensions.width2)
-            .attr("height", a.chartConfig.dimensions.height2)
+        /*this.svg2
+            .attr("width", a.chartConfig.dimensions.width)
+            .attr("height", a.chartConfig.dimensions.height2)*/
         this.x2.range([0, a.width2])
+        this.y2.rangeRound([0, this.chartConfig.dimensions.height2 - a.height2 * .7 - 2 * a.height2 * .15]);
 
         this.nowLine2.select("line")
             .attr("x1", 0)
             .attr("y1", 0)
             .attr("x2", 0)
-            .attr("y2", a.height2);
+            .attr("y2", a.height2 * (a.opened ? 2 : 1));
 
         this.xAxis2 = d3.axisBottom(this.x2).ticks(Math.floor(a.chartConfig.dimensions.width2 / 220));
 
         a.nowLine2
-        //    .transition().duration(transition)
+            //    .transition().duration(transition)
             .attr("transform", "translate(" + a.x2(a.now) + ",0)");
 
-        this.brush.extent([[0, 0], [a.width2, a.height2]]);
+        this.brush.extent([[0, 0], [a.width2, a.height2 * (a.opened ? 2 : 1)]]);
 
-        this.context.attr("transform", "translate(" + a.margin2.left + "," + a.margin2.top + ")");
+        this.context.attr("transform", "translate(" + a.margin2.left + "," + a.margin2.top + ")scale(1,-1)");
 
         function widthRect(data) {
             return a.x2(data.date.end) - a.x2(data.date.start);
         }
 
+        this.contextContent.attr("transform", "translate(0," + a.height2 * .15 + ")")
+
         this.backgroundContext
+            //.transition().duration(300)
             .attr("width", a.width2)
-            .attr("height", a.height2 * .5)
-            .attr("transform", "translate(0," + a.height2 * .25 + ")")
+            .attr("height", a.opened ? (this.chartConfig.dimensions.height2 - 2 * a.height2 * .15) : a.height2 * .7)
             .attr("fill", a.backcolor);
 
         this.contextRects
-            .attr("transform", function (d) { return "translate(" + a.x2(d.date.start) + "," + a.height2 * .15 + ")" })
+            //.transition().duration(300)
+            .attr("x", function (d) { return a.x2(d.date.start) })
+            .attr("y", function (d) { return a.opened ? a.y2(d.status) : 0 })
             .attr("width", widthRect)
             .attr("height", a.height2 * .7)
             .attr("rx", a.height2 / 3 > 10 ? 10 : a.height2 / 3)
             .attr("ry", a.height2 / 3 > 10 ? 10 : a.height2 / 3)
             .attr("stroke", "#ddd")
             .attr("stroke-width", ".5")
-            .attr("fill", function (d) { return a.chartConfig.layout.colors[d.status] });;
+            .attr("fill", function (d) { return a.chartConfig.layout.colors[d.status] });
 
         /*this.context.select(".context-axis")
             .attr("transform", "translate(0," + a.height2 + ")")
@@ -1104,66 +1033,64 @@ class GanttChart {
             .call(a.brush)
             .call(a.brush.move, a.x.range());
 
-        return this;
-    }
-    resize(width, height) {
-        var a = this;
-        a.chartConfig.dimensions.width = width,
-            a.chartConfig.dimensions.height = height;
-        document.definewidth(a.chartConfig, a.chartConfig.sugest.width, a.chartConfig.sugest.height, a.chartConfig.sugest.windowProp, a.chartConfig.sugest.chartProp, a.chartConfig.parents.context);
-        a.chartConfig.dimensions.width2 = a.chartConfig.dimensions.width;
-        a.chartConfig.dimensions.width = undefined;
-        a.chartConfig.dimensions.height = undefined;
-        document.definewidth(a.chartConfig, a.chartConfig.sugest.width, a.chartConfig.sugest.height, a.chartConfig.sugest.windowProp, a.chartConfig.sugest.chartProp, a.chartConfig.parents.focus);
-        this.draw();
-        return this;
-    }
-    filter(status, element) {
-        var a = this;
-        a.svg.selectAll(".notifications").transition().duration(500).attr("opacity", 0.2)
-        a.svg2.selectAll(".testRects").transition().duration(500).attr("opacity", 0.05)
 
-        a.bottomLegend.marked.map(function (d, i) {
-            if (d) {
-                a.svg.selectAll(".status-" + i).transition().duration(500).attr("opacity", 1)
-                a.svg2.selectAll(".status-" + i).transition().duration(500).attr("opacity", 1)
+        this.context.select(".selection").attr("fill", "#444").attr("fill-opacity", 0.6);
+
+        return this;
+    }
+    filter(status) {
+        var a = this;
+
+        if(status == undefined){
+            a.filterout();
+        }else{
+            if(isNaN(status)){
+                status = a.chartConfig.layout.texts.indexOf(status);
+            }else if(status<0 || status>=a.chartConfig.layout.text.length){
+                status = -1;
             }
-        });
-        a.bottomLegend.legend/*.attr("opacity", function(d,i){
-                if(a.bottomLegend.marked[i]==true)
-                    return 0.5;
-                else   
-                    return 1;
-            })*/.attr("style", function (d, i) {
-            if (a.bottomLegend.marked[i] == true)
-                return "cursor:url('" + a.chartConfig.cursors.subber + "'),auto";
-            else
-                return "cursor:url('" + a.chartConfig.cursors.adder + "'),auto";
-        });
 
-    }
-    filterout(status, element) {
-        var a = this;
-        if (status != undefined) {
-            a.bottomLegend.marked.map(function (d, i) {
-                if (d == false) {
-                    a.svg.selectAll(".notifications.status-" + i).transition().duration(500).attr("opacity", 0.2)
-                    a.svg2.selectAll(".testRects.status-" + i).transition().duration(500).attr("opacity", 0.05)
+            if(status == -1){
+                a.filterout();
+            }else{
+                a.svg.selectAll(".notifications").transition().duration(500).attr("opacity", 0.2)
+                a.svg.selectAll(".testRects").transition().duration(500).attr("opacity", 0.05)
+                a.marked[status] = !a.marked[status];
+
+                a.chartConfig.filters.filter(a.marked);
+                    a.marked.map(function (d, i) {
+                        if (d) {
+                            a.svg.selectAll(".status-" + i).transition().duration(500).attr("opacity", 1)
+                        }
+                    });
+                if(a.marked.indexOf(true)==-1 || a.marked.indexOf(false)==-1){
+                    a.filterout(500);
                 }
-            });
-            a.bottomLegend.legend
-                .attr("style", function (d, i) {
-                    if (a.bottomLegend.marked[i] == true)
-                        return "cursor:url('" + a.chartConfig.cursors.subber + "'),auto";
-                    else
-                        return "cursor:url('" + a.chartConfig.cursors.adder + "'),auto";
-                });
-        } else {
-            if (a.bottomLegend.legend)
-                a.bottomLegend.legend.attr("style", "cursor:url('" + a.chartConfig.cursors.filter + "'),auto");
-            a.svg.selectAll(".notifications").transition().duration(500).attr("opacity", 1);
-            a.svg2.selectAll(".testRects").transition().duration(500).attr("opacity", 1);
+
+            }
         }
+
+        setTimeout(function(){
+            a.open_context();
+        },500);
+
+        return this;
+    }
+    filterout(delay) {
+        var a = this;
+
+        if(delay== undefined){
+            delay = 0;
+        }
+
+        a.svg.selectAll(".notifications").transition().delay(delay).duration(500).attr("opacity", 1);
+        a.svg.selectAll(".testRects").transition().delay(delay).duration(500).attr("opacity", 1);
+        a.marked = a.marked.map(function(){return false});
+        setTimeout(function(){
+            a.chartConfig.filters.filter_out(a.marked);
+        },delay);
+
+        return this;
     }
     goto(data, period) {
         if (!data)
@@ -1171,6 +1098,8 @@ class GanttChart {
         var a = this;
         this.gotoperiod(data.date.start, data.date.end, period);
         a.card.activate(data);
+
+        return this;
     }
     gotoperiod(init, end, period) {
         var a = this;
@@ -1191,7 +1120,7 @@ class GanttChart {
         a.svg.select(".zoom").call(a.zoom.transform, d3.zoomIdentity
             .scale(a.width / (s[1] - s[0]))
             .translate(-s[0], 0));
-
+        return this;
     }
     reset(period) {
         var a = this;
@@ -1208,11 +1137,12 @@ class GanttChart {
 
         //a.focus.select(".axis--x").call(a.xAxis);
 
-        a.transformElements(500);
+        //a.transformElements(500);
 
         a.svg.select(".zoom").call(a.zoom.transform, d3.zoomIdentity
             .scale(a.width / (s[1] - s[0]))
             .translate(-s[0], 0));
+        return this;
     }
     zoomed(a, transition) {
         if (a.card.active) {
@@ -1222,12 +1152,12 @@ class GanttChart {
         var t = d3.event.transform;
         temp = t;
         a.x.domain(t.rescaleX(a.x2).domain());
-
         //if(isNaN(a.temptransition))
         //a.temptransition = 200;
         this.transformElements();
-        //if(a.draw2_flag)
+
         a.context.select(".brush").call(a.brush.move, a.x.range().map(t.invertX, t));
+        return this;
     }
     brushed(a) {
         if (a.card.active) {
@@ -1239,6 +1169,7 @@ class GanttChart {
         a.x.domain(s.map(a.x2.invert, a.x2));
         //var transition = a.temptransition;
         //a.temptransition = 0;
+
         a.transformElements();
 
         a.svg.select(".zoom").call(a.zoom.transform, d3.zoomIdentity
@@ -1252,7 +1183,7 @@ class GanttChart {
         var a = this;
 
         a.focus.select(".focus-axis").call(a.xAxis)
-            .selectAll("text").style("background","#FFFFFF");
+            .selectAll("text").style("background", "#FFFFFF");
 
         a.focus.select(".focus-ticks").call(a.xTicks);
 
@@ -1264,23 +1195,90 @@ class GanttChart {
         }
 
         a.notifications
-            //.transition().duration(transition)
+            .transition().duration(transition)
             .attr("transform", transformRect)
         a.notifications.select(".backBar")
-            //.transition().duration(transition)
+            .transition().duration(transition)
             .attr("width", widthRect)
             .attr("height", a.y.bandwidth());
         a.notifications.select(".progressBar")
-            //.transition().duration(transition)
-            .attr("width", function (d) { return widthRect(d) * d.percent })
+            .transition().duration(transition)
+            .attr("width", function (d) { return widthRect(d) * a.percentProgressBar(d) })
             .attr("height", a.y.bandwidth());
 
         a.nowLine
-        //    .transition().duration(transition)
+            //    .transition().duration(transition)
             .attr("transform", "translate(" + a.x(a.now) + ",0)");
 
-    }
+        a.open_context();
 
+    }
+    percentProgressBar(data) {
+        return this.percentOn ? data.percent : 1;
+    }
+    percentOnOff(bol) {
+        if (bol)
+            this.percentOn = true;
+        else
+            this.percentOn = false;
+        this.transformElements(500);
+
+        if (this.card.active) {
+            this.card.extend_card(this.card.data, 0, 500);
+        }
+    }
+    open_context() {
+        var a = this;
+        clearTimeout(this.openedBar);
+
+        if (!a.opened) {
+            a.opened = true;
+            a.shake_context()
+        }
+
+        this.openedBar = setTimeout(function () {
+            a.close_context();
+        }, 3000);
+        return this;
+    }
+    close_context() {
+        var a = this;
+
+        a.opened = false;
+        a.shake_context()
+
+        return this;
+    }
+    shake_context(){
+        var a = this;
+
+        this.nowLine2.select("line")
+            .transition().duration(300)
+            .attr("x1", 0)
+            .attr("y1", 0)
+            .attr("x2", 0)
+            .attr("y2", a.height2 * (a.opened ? 2 : 1));
+        
+        this.brush.extent([[0, 0], [a.width2, a.height2 * (a.opened ? 2 : 1)]]);
+
+        this.backgroundContext
+            .transition().duration(300)
+            .attr("height", a.opened ? (this.chartConfig.dimensions.height2 - 2 * a.height2 * .15) : a.height2 * .7);
+
+        this.contextRects
+            .transition().duration(300)
+            .attr("y", function (d) { return a.opened ? a.y2(d.status) : 0 });
+
+        this.context.select(".selection")
+            .transition().duration(300)
+            .attr("height",a.opened ? (this.chartConfig.dimensions.height2) : a.height2)
+
+        this.context.select(".brush")
+            .call(a.brush)
+
+
+        return this;
+    }
 }
 /*
 var chartConfig = {
@@ -1578,8 +1576,8 @@ document.definewidth = function (chartConfig, width, height, propWindow, propCha
     var temp;
     target = target ? target : (chartConfig.parent ? chartConfig.parent : chartConfig.target);
     if (temp = document.querySelector(target).getBoundingClientRect()) {
-        chartConfig.dimensions.width = temp.width - $(target).css("padding-left").match(/[0-9]+/)[0] - $(target).css("padding-right").match(/[0-9]+/)[0] -((!chartConfig.dimensions.height && !window.mobilecheck())?13.74:0);
-        
+        chartConfig.dimensions.width = temp.width - $(target).css("padding-left").match(/[0-9]+/)[0] - $(target).css("padding-right").match(/[0-9]+/)[0] - ((!chartConfig.dimensions.height && !window.mobilecheck()) ? 13.74 : 0);
+
         if (propWindow) {
             var prop = window.innerWidth * propWindow / window.innerHeight;
             //console.log(prop);

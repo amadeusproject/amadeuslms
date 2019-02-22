@@ -339,8 +339,8 @@ msgid "Select what we have for today"
 msgstr "Selecione o que temos para hoje"
 
 #: dashboards/templates/dashboards/subjects.html:106
-msgid "Today"
-msgstr "Hoje"
+msgid "Now"
+msgstr "Agora"
 
 #: dashboards/templates/dashboards/subjects.html:128
 msgid "Late"
@@ -379,16 +379,16 @@ msgid "DO THE TASK"
 msgstr "REALIZAR TAREFA"
 
 #: dashboards/templates/dashboards/subjects.html:135
-msgid "Start Date / Time: "
-msgstr "Data/hora inicial: "
+msgid "Start: "
+msgstr "Inicio: "
 
 #: dashboards/templates/dashboards/subjects.html:136
-msgid "End Date / Time: "
-msgstr "Data/hora final: "
+msgid "End: "
+msgstr "Fim: "
 
 #: dashboards/templates/dashboards/subjects.html:137
 msgid "Task closed on: "
-msgstr "Tarefa encerrada em: "
+msgstr "Encerrado em: "
 
 #: dashboards/templates/dashboards/tags_body.html:18
 msgid "most used tags"
@@ -458,3 +458,16 @@ msgstr "Você"
 
 msgid "Best of the class"
 msgstr "Melhor da turma"
+
+msgid " % already accomplish"
+msgstr " % já realizaram"
+
+
+msgid "Class accesses"
+msgstr "Acessos da turma"
+
+msgid "Your accesses"
+msgstr "Seus acessos"
+
+msgid "(%)Class"
+msgstr "(%)Turma"
