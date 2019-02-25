@@ -315,8 +315,8 @@ msgid "Analytics"
 msgstr "Analytics"
 
 #: dashboards/templates/dashboards/subjects.html:82
-msgid "My Essential Tasks"
-msgstr "Minhas Tarefas Essenciais"
+msgid "Your Essential Tasks"
+msgstr "Suas Tarefas Essenciais"
 
 #: dashboards/templates/dashboards/subjects.html:86
 msgid "Detail of Tasks"
@@ -375,8 +375,11 @@ msgid "You missed this task"
 msgstr "Você perdeu esta tarefa"
 
 #: dashboards/templates/dashboards/subjects.html:134
-msgid "DO THE TASK"
+msgid "DO TASK"
 msgstr "REALIZAR TAREFA"
+
+msgid "ACCESS TASK"
+msgstr "ACESSAR TAREFA"
 
 #: dashboards/templates/dashboards/subjects.html:135
 msgid "Start: "
@@ -469,5 +472,5 @@ msgstr "Acessos da turma"
 msgid "Your accesses"
 msgstr "Seus acessos"
 
-msgid "(%)Class"
-msgstr "(%)Turma"
+msgid "(%) Class"
+msgstr "(%) Turma"

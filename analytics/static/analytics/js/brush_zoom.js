@@ -63,7 +63,7 @@ class GanttChart {
         if (chartConfig.layout.endDate_text == undefined) chartConfig.layout.endDate_text = "Data/Hora final: ";
         if (chartConfig.layout.closedDate_text == undefined) chartConfig.layout.closedDate_text = "Tarefa encerrada em: ";
 
-        chartConfig.now = new Date(2019, 1, 15);
+        chartConfig.now = new Date();
         var now = chartConfig.now.getTime();
 
         var positions = [];
@@ -289,6 +289,35 @@ class GanttChart {
 
         this.card = {}
 
+        this.card.elements = {
+            tittle:{
+                text_size:16,
+                position:[[5,24],[5,24]],
+                text_anchor:"start",
+            },
+            dates:{
+                text_size:8,
+                position:[[5,46],[5,46]],
+                text_anchor:"start",
+            },
+            status:{
+                text_size:12,
+                position:[[105,46],[0,85]],
+                text_anchor:"start",
+            },
+            percent:{
+                text_size:8,
+                position:[[5,68],[5,68]],
+                text_anchor:"start",
+            },
+            button:{
+                text_size:12,
+                position:[[5,85],[5,108]],
+                text_anchor:"middle",
+                size:[1/3,1/2],
+            }
+        }
+
         this.card.create = function () {
             var b = this;
             this.out_dark = a.svg.append("rect")
@@ -321,12 +350,18 @@ class GanttChart {
             this.content.select(".statusInfo").append("rect");
             this.content.select(".statusInfo").append("text").attr("class", "lblstatus")
                 .attr("fill", "#FFF")
+                .style("font-size",this.elements.status.text_size)
+                .attr("text-anchor",this.elements.status.text_anchor)
             this.content.select(".statusInfo").append("g").attr("class", "exclamationContainer");
+            this.exclamation_size = this.elements.status.text_size*1.2;
+            exclamation(this.content.select(".statusInfo").select(".exclamationContainer"), this.exclamation_size, this.exclamation_size, "#FFF")
             //exclamation(this.content.select(".statusInfo").select(.exclamationContainer),100,100,"#FFF");
 
             // Tittle of Card
             this.content.append("text").attr("class", "tittle")
-                .style("font-weight", "bold");
+                .style("font-weight", "bold")
+                .style("font-size",this.elements.tittle.text_size)
+                .attr("text-anchor",this.elements.tittle.text_anchor);
             //.attr("text-anchor", "start");
 
             // Dates of task (start, end, delay, schedule)
@@ -337,30 +372,36 @@ class GanttChart {
             this.content.select(".datesInfo").selectAll("text").data([
                 "start", "endOrDelay"//,"schedule"
             ]).enter().append("text").attr("class", function (d) { return d })
-                .attr("y", function (d, i) { return "" + i + "em" }).text(function (d) { return d })
+                .attr("y", function (d, i) { return "" + (i*1.1+1) + "em" }).text(function (d) { return d })
+                .style("font-size",this.elements.dates.text_size)
+                .attr("text-anchor",this.elements.dates.text_anchor)
 
 
 
             // Percent of done
-            this.content.append("g").attr("class", "percentInfo");
+            this.content.append("g").attr("class", "percentInfo")
+                .style("font-size",this.elements.percent.text_size);
             this.content.select(".percentInfo").append("text").attr("class", "info info1")
+                .attr("dy","1em")
                 .attr("text-anchor", "start").text(a.chartConfig.layout.percent_text.match(/^[^%]{1,}(?=%)/)[0]);
             this.content.select(".percentInfo").append("text").attr("class", "percent")
+                .attr("dy","1em")
                 .style("font-weight", "bold")
             //.attr("text-anchor", "middle");
             this.content.select(".percentInfo").append("text").attr("class", "info info2")
+                .attr("dy","1em")
                 .attr("text-anchor", "start").text(a.chartConfig.layout.percent_text.match(/(?<=%)[^%]{1,}$/)[0]);
-
+/*
             // Description (Optional)
             this.content.append("g").attr("class", "desc")
                 .attr("text-anchor", "start");
-
+*/
             // Buttons in Botton
             this.content.append("g").attr("class", "buttons");
-            this.content.select(".buttons").append("text").attr("class", "or")
+  /*          this.content.select(".buttons").append("text").attr("class", "or")
                 .attr("text-anchor", "middle")
                 .style("cursor", "pointer")
-                .text("ou")
+                .text("ou")*/
 
             // Button schedule
             /*this.content.select(".buttons").append("g").attr("class", "schedule")
@@ -381,6 +422,7 @@ class GanttChart {
             this.content.select(".buttons").select(".goto").append("text")
                 .attr("text-anchor", "middle")
                 .attr("fill", "#000")
+                .style("font-size",this.elements.button.font_size)
                 .text(a.chartConfig.layout.buttonDoTask_text);//Acessar Tarefa
 
             this.closer = this.all.append("g").attr("class", "closer").style("cursor", "pointer").on("click", function () { b.disable(0, 400) }).attr("opacity", 0);
@@ -404,37 +446,25 @@ class GanttChart {
         this.card.draw = function () {
             var b = this;
 
-            if (a.chartConfig.dimensions.vertical) {
-                if (a.width / 2 > 300)
-                    this.width = 600
-                else
-                    this.width = a.width;
-                this.size = this.width / 2;
-                this.center = true;
-            } else {
-                if ((a.height * .7) > 300) {
-                    this.size = 300
-                } else if ((a.height * .7) < 197) {
-                    if (197 > a.chartConfig.dimensions.height)
-                        this.size = a.chartConfig.dimensions.height
-                    else
-                        this.size = 197;
-                    this.center = true;
-                } else {
-                    this.size = a.height * .7;
-                }
-                this.width = this.size * 6 / 3;
+            var width = a.chartConfig.dimensions.width;
+
+            if(width>=308){
+                this.width = width>420?420:width;
+                this.type = 0;
+                this.size = 110;
+            }else{
+                this.width = width;
+                this.type = 1;
+                this.size = 135;
             }
-            var y = 0;
 
             this.all.attr("transform", "translate(" + (-this.width - a.margin.left) + ",0)");
-
 
 
             //Rects of Card
             this.rects.select(".background")
                 //.attr("width", this.width)
-                //.attr("height", this.size)
+                //.attr("height", this.bar_size)
                 .attr("stroke", "#000")
             //.attr("rx", a.y.bandwidth() / 4)
             //.attr("ry", a.y.bandwidth() / 4);
@@ -450,55 +480,53 @@ class GanttChart {
             //.attr("rx", a.y.bandwidth() / 4)
             //.attr("ry", a.y.bandwidth() / 4);
 
-            this.closer.attr("transform", "translate(" + (this.width - this.size * .11) + "," + this.size * .04 + ") scale(" + this.size * .0007 + "," + this.size * .0007 + ")");
+            this.bar_size = 22;
+            this.closer_size = 15;
 
-            y += this.size * .15;
+            var space = (this.bar_size-this.closer_size)/2
+
+            this.closer.attr("transform", "translate(" + (this.width - this.bar_size - space) + "," + space + ") scale(" + this.closer_size/100 + "," + this.closer_size/100 + ")");
+
 
             //Status Info(Exclamation)
-            if (a.chartConfig.dimensions.mini) {
-                this.content.select(".statusInfo")
-                    .attr("transform", "translate(" + this.width + "," + this.size * .5 + ")");
-                this.content.select(".statusInfo").select("rect")
-                    //.attr("width", this.width)
-                    .attr("height", this.size * 0.13)
-                this.content.select(".statusInfo").select("text")
-                    .attr("transform", "translate(" + this.width * .06 + "," + this.size * .0975 + ")")
-                    .attr("font-size", this.size * .07)
-                this.content.select(".statusInfo").select(".exclamationContainer")
-                    .attr("transform", "translate(" + this.width * .01 + "," + this.size * .028 + ")");
-            } else {
-                this.content.select(".statusInfo")
-                    .attr("transform", "translate(" + this.width * .5 + "," + this.size * .22 + ")");
-                this.content.select(".statusInfo").select("rect")
-                    //.attr("width", this.width * .5)
-                    .attr("height", this.size * .1);
-                this.content.select(".statusInfo").select("text")
-                    .attr("transform", "translate(" + this.width * .06 + "," + this.size * .075 + ")")
-                    .attr("font-size", this.size * .05)
-                this.content.select(".statusInfo").select(".exclamationContainer")
-                    .attr("transform", "translate(" + this.width * .01 + "," + this.size * .015 + ")");
-            }
-            if (!this.exclamationCreated)
-                exclamation(this.content.select(".statusInfo").select(".exclamationContainer"), this.size * .08, this.size * .08, "#FFF"), this.exclamationCreated = true;
+            this.content.select(".statusInfo")
+                .attr("transform", "translate(" + this.elements.status.position[this.type][0] + "," + this.elements.status.position[this.type][1] + ")");
+            this.content.select(".statusInfo").select("rect")
+                .attr("width", this.width-this.elements.status.position[this.type][0])
+                .attr("height", this.bar_size)
+            this.content.select(".statusInfo").select("text")
+                .attr("transform", "translate(" + (this.exclamation_size+10) + "," + this.bar_size/2 + ")")
+                .attr("dy","0.5em")
+                //.attr("font-size", this.size * .07)
+            this.content.select(".statusInfo").select(".exclamationContainer")
+                .attr("transform", "translate(" + 5 + "," + (this.bar_size-this.exclamation_size+2)/2 + ")");
+            
+            /*if (!this.exclamationCreated)
+                , this.exclamationCreated = true;
             else
-                exclamationRefatoring(this.content.select(".statusInfo").select(".exclamationContainer"), this.size * .08, this.size * .08, "#FFF");
+                exclamationRefatoring(this.content.select(".statusInfo").select(".exclamationContainer"), this.size * .08, this.size * .08, "#FFF");*/
 
             // Tittle of Card
             this.content.select(".tittle")
-                .attr("font-size", this.size * .08)
-                .attr("transform", "translate(" + this.width * .02 + "," + (y + this.size * .15) + ")");
+                //.attr("font-size", this.size * .08)
+                .attr("x",this.elements.tittle.position[this.type][0])
+                .attr("y",this.elements.tittle.position[this.type][1])
+                .attr("dy","1em")
+                .attr("text-anchor",this.elements.tittle.text_anchor);
 
-            y += this.size * .15;
 
             //Dates  of Card
             this.content.select(".datesInfo")
-                .attr("transform", "translate(" + this.width * .04 + "," + (y + this.size * .06) + ")")
-                .attr("font-size", this.size * .04)
-            y += this.size * .06;
+                .attr("transform","translate("+this.elements.dates.position[this.type][0]+","+this.elements.dates.position[this.type][1]+")")
+                .attr("text-anchor",this.elements.dates.text_anchor)
+                .style("font-size",this.elements.dates.text_size)
+                
             // Percent of done
             this.content.select(".percentInfo")
-                .attr("font-size", this.size * .05)
-                .attr("transform", "translate(" + this.width * .02 + "," + (y + this.size * .14) + ")");
+                .attr("transform","translate("+this.elements.percent.position[this.type][0]+","+this.elements.percent.position[this.type][1]+")")
+                .attr("text-anchor",this.elements.percent.text_anchor)
+                .style("font-size",this.elements.percent.text_size)
+                
 
             b.percentSpace = {
                 info1: document.querySelector("#" + chartConfig.name + "-container").querySelector(".info1").getBoundingClientRect().width,
@@ -508,36 +536,35 @@ class GanttChart {
                 .attr("x", function (d, i) {
                     switch (i) {
                         case 0: return 0;
-                        case 1: return b.percentSpace.info1 + b.size * .005;
+                        case 1: return b.percentSpace.info1 + b.elements.percent.font_size;
                         case 2: return a.card.width * .32;
                     }
                 })
 
-            y += this.size * .14;
-
             // Description (Optional)
-            this.content.select(".desc")
+          /*  this.content.select(".desc")
                 .attr("font-size", this.size * .04)
                 .attr("transform", "translate(" + this.width * .02 + "," + (y + this.size * .03) + ")");
-            y += this.size * .03;
+            y += this.size * .03;*/
             // Buttons in Botton
             this.content.select(".buttons")
-                .attr("transform", "translate(0," + this.size * .85 + ")");
+                .attr("transform", "translate(0," + this.elements.button.position[this.type][1] + ")");
 
-            this.content.select(".buttons").select(".or")
-                .attr("font-size", this.size * .08)
+            /*this.content.select(".buttons").select(".or")
+               // .attr("font-size", this.size * .08)
                 .attr("dy", ".9em")
-                .attr("transform", "translate(" + this.width * .5 + ",0)");
+                .attr("transform", "translate(" + this.width * .5 + ",0)");*/
 
             this.content.select(".buttons").select(".goto")
-                .attr("transform", "translate(" + this.width * .05 + ",0)");
+                .attr("transform", "translate(" + (this.width-this.width*this.elements.button.size[this.type])/2 + ",0)");
             this.content.select(".buttons").select(".goto").select("rect")
-                .attr("width", this.width * .35)
-                .attr("height", this.size * .1)
+                .attr("width", this.elements.button.size[this.type] * this.width)
+                .attr("height", this.bar_size)
             this.content.select(".buttons").select(".goto").select("text")
-                .attr("font-size", this.size * .04)
-                .attr("dy", "1.5em")
-                .attr("transform", "translate(" + this.width * .175 + ",0)");
+                //.attr("font-size", this.size * .04)
+                .attr("dy", "0.4em")
+                .attr("x", (this.elements.button.size[this.type]*this.width)/2)
+                .attr("y",this.bar_size/2);
 
             /*this.content.select(".buttons").select(".schedule")
                 .attr("transform", "translate(" + this.width * .6 + ",0)");
@@ -676,18 +703,8 @@ class GanttChart {
 
             if (isNaN(before)) before = 0;
             if (isNaN(transition)) transition = 0;
-            var x, y;
-            if (b.center) {
-                x = (a.chartConfig.dimensions.width - this.width) / 2, y = (a.chartConfig.dimensions.height - this.size) / 2
-            } else {
-                x = a.x(data.date.start), y = a.y(data.position);
-                if (x + b.width > a.width)
-                    x = a.width - b.width;
-                else if (x < -a.margin.left)
-                    x = 0;
-                if (y + b.size > a.height)
-                    y = a.height - b.size;
-            }
+            var x = (a.chartConfig.dimensions.width - this.width) / 2, y = (a.chartConfig.dimensions.height - this.size) / 2;
+            
             //Rects of card
             b.all
                 .transition().delay(before).duration(transition)
@@ -700,12 +717,12 @@ class GanttChart {
             b.rects.select(".progressBar")
                 .transition().delay(before).duration(transition)
                 .attr("width", b.width * a.percentProgressBar(data))
-                .attr("height", b.size * .15);
+                .attr("height", b.bar_size);
             b.rects.select(".backBar")
                 .transition().delay(before).duration(transition)
                 .attr("width", b.width)
                 .style("fill", "url(#hachura-status-" + data.status + ")#fff")
-                .attr("height", b.size * .15);
+                .attr("height", b.bar_size);
             //Content of Card
 
             // Tittle of Card
@@ -718,49 +735,24 @@ class GanttChart {
                 (function () {
                     var temp = a.chartConfig.layout.texts2[data.status];
                     if (temp != undefined && temp != "") {
-                        if (!a.chartConfig.dimensions.mini) {
-
-                            if (temp != undefined && temp != "" && document.querySelector(".tittle").getBoundingClientRect().width >= b.width * .50) {
-                                b.content.select(".statusInfo")
-                                    .attr("transform", "translate(" + b.width + "," + b.size * .34 + ")")
-                                    .select("rect")
-                                    .attr("width", 0)
-                                b.content.select(".statusInfo")
-                                    .transition().delay(before).duration(transition)
-                                    .attr("transform", "translate(" + b.width * .5 + "," + b.size * .34 + ")")
-                                    .attr("opacity", 1);
-                            } else {
-                                b.content.select(".statusInfo")
-                                    .attr("transform", "translate(" + b.width + "," + b.size * .22 + ")")
-                                    .select("rect")
-                                    .attr("width", 0)
-                                b.content.select(".statusInfo")
-                                    .transition().delay(before).duration(transition)
-                                    .attr("transform", "translate(" + b.width * .5 + "," + b.size * .22 + ")")
-                                    .attr("opacity", 1);
-                            }
-
-                            b.content.select(".statusInfo").select("rect")
-                                .transition().delay(before).duration(transition)
-                                .attr("width", b.width * .5)
-                                .attr("fill", a.chartConfig.layout.colors[data.status])
-                        } else {
+                        
                             b.content.select(".statusInfo")
-                                .attr("transform", "translate(0," + b.size * .6 + ")")
+                                .attr("transform", "translate(" + b.width + "," + b.elements.status.position[b.type][1] + ")")
                                 .select("rect")
-                                .attr("width", b.width)
-                                .attr("fill", a.chartConfig.layout.colors[data.status])
+                                .attr("width", 0);
                             b.content.select(".statusInfo")
                                 .transition().delay(before).duration(transition)
-                                .attr("opacity", 1);
-
-                        }
-                        b.content.select(".statusInfo").select("text")
-                            .transition().delay(before).duration(transition)
-                            .text(temp);
+                                .attr("transform", "translate(" + b.elements.status.position[b.type][0] + "," + b.elements.status.position[b.type][1] + ")")
+                                .attr("opacity", 1)
+                                .select("rect")
+                                    .attr("width", b.width-b.elements.status.position[b.type][0])
+                                    .attr("fill", a.chartConfig.layout.colors[data.status]);
+                            b.content.select(".statusInfo").select("text")
+                                    .text(temp);
+                        
+                        
                     } else {
                         b.content.select(".statusInfo")
-                            .transition().delay(before).duration(transition)
                             .attr("opacity", 0);
                     }
                 })();
@@ -789,6 +781,9 @@ class GanttChart {
                     if (end.getTime() < now.getTime()) end = data.date.delay;
                     end = end.toLocaleString("pt-br");
 
+                    start = start.replace(/(?<=[0-9]{2}\/[0-9]{2}\/)[0-9]{2}/,"");
+                    end = end.replace(/(?<=[0-9]{2}\/[0-9]{2}\/)[0-9]{2}/,"");
+
                     switch (i) {
                         case 0: return a.chartConfig.layout.initDate_text + start.substr(0, start.length - 3);
                         case 1: return (data.status == 3 ? a.chartConfig.layout.closedDate_text : a.chartConfig.layout.endDate_text) + end.substr(0, start.length - 3);
@@ -809,7 +804,7 @@ class GanttChart {
             var font = b.size * .04;
             var nletters = b.width * 1.3 / font;
             var textvector = String.linebroke(data.desc, nletters);
-
+/*
             b.content.select(".desc")
                 .selectAll("text").remove();
 
@@ -817,38 +812,19 @@ class GanttChart {
                 .selectAll("text").data(textvector).enter().append("text")
                 .transition().delay(before).duration(transition)
                 .attr("dy", function (d, i) { return "" + (i * 1.3 + 1) + "em" })
-                .text(function (d) { return d });
+                .text(function (d) { return d });*/
 
 
 
             if (data.status == 3 || data.status == 4) {
                 this.content.select(".buttons").select(".goto")
-                    .attr("transform", "translate(" + this.width * .325 + ",0)")
+                    //.attr("transform", "translate(" + this.width * .325 + ",0)")
                     .select("text").text(a.chartConfig.layout.buttonAccess_text);
             } else {
                 this.content.select(".buttons").select(".goto")
-
                     .select("text").text(a.chartConfig.layout.buttonDoTask_text);
             }
-            if (a.chartConfig.dimensions.mini) {
-                this.content.select(".buttons").select(".goto")
-                    .attr("transform", "translate(" + this.width * .1 + ",0)")
-                    .select("rect")
-                    .attr("width", this.width * .8)
-                this.content.select(".buttons").select(".goto").select("text")
-                    .attr("transform", "translate(" + this.width * .4 + ",0)")
-                    .attr("font-size", this.size * .06)
-                    .attr("dy", "1.2em")
-            } else {
-                this.content.select(".buttons").select(".goto")
-                    .attr("transform", "translate(" + this.width * .325 + ",0)")
-                    .select("rect")
-                    .attr("width", this.width * .35)
-                this.content.select(".buttons").select(".goto").select("text")
-                    .attr("transform", "translate(" + this.width * .175 + ",0)")
-                    .attr("font-size", this.size * .04)
-                    .attr("dy", "1.6em")
-            }
+            
 
             b.content.transition().delay(before + transition * .7).duration(transition * .3).attr("opacity", 1);
             b.closer
