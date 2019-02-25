@@ -70,7 +70,7 @@ def get_pend_graph(user, subject):
                 if not last.meta is None:
                     item["date"]["delay"] = formats.date_format(last.meta, "m/d/Y H:i")
                 else:
-                    item["date"]["delay"] = ""
+                    item["date"]["delay"] = "infinity"
 
         graph.append(item)
 
@@ -81,7 +81,7 @@ def getAccessedTags(subject, user):
 
     data = []
 
-    logs = Log.objects.filter(datetime__date__gte = datetime.now() - timedelta(days = 7))
+    logs = Log.objects.filter(datetime__date__gte = datetime.now() - timedelta(days = 8), datetime__date__lt = datetime.now())
 
     for tag in tags:
         if not tag.name == '':
@@ -116,7 +116,7 @@ def getAccessedTags(subject, user):
 def getTagAccessess(subject, tag, user):
     resources = Resource.objects.filter(tags = tag, topic__subject = subject)
 
-    logs = Log.objects.filter(datetime__date__gte = datetime.now() - timedelta(days = 7))
+    logs = Log.objects.filter(datetime__date__gte = datetime.now() - timedelta(days = 8), datetime__date__lt = datetime.now())
 
     data = []
 
@@ -136,32 +136,45 @@ def getTagAccessess(subject, tag, user):
     return data
 
 def getOtherIndicators(subject, user):
-    logs = Log.objects.filter(datetime__date__gte = datetime.now() - timedelta(days = 7))
+    logs = Log.objects.filter(datetime__date__gte = datetime.now() - timedelta(days = 8), datetime__date__lt = datetime.now())
 
     data = []
 
     sub_access = logs.filter(Q(component = 'subject') & Q(resource = 'subject') & Q(context__contains = {'subject_id': subject.id}) & (Q(action = 'access') | Q(action = 'view')))
     
-    #Subject access
-    item = {}
-    item["max_access"] = sub_access.values('user_id').annotate(c_user = Count('user_id')).aggregate(Max('c_user'))['c_user__max']
-    item["my_access"] = sub_access.filter(user_id = user.id).count()
-    
-    data.append(item)
+    if sub_access:
+        #Subject access
+        item = {}
+        item["max_access"] = sub_access.values('user_id').annotate(c_user = Count('user_id')).aggregate(Max('c_user'))['c_user__max']
+        item["my_access"] = sub_access.filter(user_id = user.id).count()
+        
+        data.append(item)
 
-    #Subject access distinct days
-    item = {}
-    item['max_access'] = sub_access.extra({'date': 'DATE(datetime)'}).values('user_id', 'date').annotate(c_user = Count('user_id')).aggregate(Max('c_user'))['c_user__max']
-    item['my_access'] = sub_access.filter(user_id = user.id).annotate(date = TruncDate('datetime')).values('date').annotate(Count('date')).count()
+        #Subject access distinct days
+        item = {}
+        item['max_access'] = sub_access.extra({'date': 'DATE(datetime)'}).values('user_id', 'date').annotate(c_user = Count('user_id')).aggregate(Max('c_user'))['c_user__max']
+        item['my_access'] = sub_access.filter(user_id = user.id).annotate(date = TruncDate('datetime')).values('date').annotate(Count('date')).count()
 
-    data.append(item)
+        data.append(item)
+    else:
+        item = {}
+        item['max_access'] = 0
+        item['my_access'] = 0
+
+        data.append(item)
+        data.append(item)
 
     #Resources access
     resources_access = logs.filter(component = 'resources', context__contains = {'subject_id': subject.id})
 
-    item = {}
-    item["max_access"] = resources_access.values('user_id').annotate(c_user = Count('user_id')).aggregate(Max('c_user'))['c_user__max']
-    item["my_access"] = resources_access.filter(user_id = user.id).count()
+    if resources_access:
+        item = {}
+        item["max_access"] = resources_access.values('user_id').annotate(c_user = Count('user_id')).aggregate(Max('c_user'))['c_user__max']
+        item["my_access"] = resources_access.filter(user_id = user.id).count()
+    else:
+        item = {}
+        item['max_access'] = 0
+        item['my_access'] = 0
 
     data.append(item)
     
@@ -210,7 +223,7 @@ def getOtherIndicators(subject, user):
     data.append(item)
     
     #Resources in time
-    pend = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, end_date__date__lte = timezone.now(), end_date__date__gte = datetime.now() - timedelta(days = 7)).values_list('id', flat = True)
+    pend = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, end_date__date__lt = timezone.now(), end_date__date__gte = datetime.now() - timedelta(days = 8)).values_list('id', flat = True)
 
     query = Notification.objects.filter(task__id__in = pend, level__gte = 3).values('user_id', 'task_id').distinct()
 
@@ -224,12 +237,14 @@ def getOtherIndicators(subject, user):
 
     item = {}
 
+    my_result = pend.count() - query.filter(user__id = user.id).count()
+
     if len(result) > 0:
-        item["max_access"] = pend.count() - min(result.items(), key=operator.itemgetter(1))[1]
+        item["max_access"] = max(my_result, (pend.count() - min(result.items(), key=operator.itemgetter(1))[1]))
     else:
         item["max_access"] = 0
-
-    item["my_access"] = pend.count() - query.filter(user__id = user.id).count()
+    
+    item["my_access"] = my_result
 
     data.append(item)
 
