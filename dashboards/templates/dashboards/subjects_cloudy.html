@@ -259,6 +259,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
                 $.get(data.link, function (dataset) {
                     dataset = dataset.sort(function (d1, d2) {
+                        console.log(d1.qtd_access, d2.qtd_access);
                         if (isNaN(d1.qtd_access) || (+d1.qtd_access) == 0)
                             d1.qtd_access = 0;
                         if (isNaN(d2.qtd_access) || (+d2.qtd_access) == 0)

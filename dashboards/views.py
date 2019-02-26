@@ -232,8 +232,6 @@ class SubjectView(LogMixin, generic.TemplateView):
         subject = get_object_or_404(Subject, slug = self.kwargs.get('slug', ''))
 
         if has_subject_permissions(self.request.user, subject):
-            print(self.get_context_data())
-
             return self.render_to_response(self.get_context_data())
         else:
             return HttpResponseForbidden()
