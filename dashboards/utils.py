@@ -81,7 +81,7 @@ def getAccessedTags(subject, user):
 
     data = []
 
-    logs = Log.objects.filter(datetime__date__gte = datetime.now() - timedelta(days = 8), datetime__date__lt = datetime.now())
+    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 8), datetime__date__lt = timezone.now())
 
     for tag in tags:
         if not tag.name == '':
@@ -101,7 +101,10 @@ def getAccessedTags(subject, user):
                 for res in resources:
                     conds.add(Q(context__contains = {res._my_subclass+'_id': res.id}), Q.OR)
 
-                query = logs.filter(Q(component = 'resources') & conds)
+                query = logs.filter(Q(component = 'resources') & conds).distinct()
+
+                if tag.name == 'metas':
+                    print(query.query)
 
                 qtd = qtd + query.count()
                 qtd_my = qtd_my + query.filter(user_id = user.id).count()
@@ -116,7 +119,7 @@ def getAccessedTags(subject, user):
 def getTagAccessess(subject, tag, user):
     resources = Resource.objects.filter(tags = tag, topic__subject = subject)
 
-    logs = Log.objects.filter(datetime__date__gte = datetime.now() - timedelta(days = 8), datetime__date__lt = datetime.now())
+    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 8), datetime__date__lt = timezone.now())
 
     data = []
 
@@ -127,6 +130,8 @@ def getTagAccessess(subject, tag, user):
 
         history = logs.filter(component = 'resources', context__contains = {resource._my_subclass + '_id': resource.id})
 
+        print(history.query)
+
         item["qtd_access"] = history.count()
         item["qtd_my_access"] = history.filter(user_id = user.id).count()
         item["access_url"] = resource.access_link()
@@ -136,7 +141,7 @@ def getTagAccessess(subject, tag, user):
     return data
 
 def getOtherIndicators(subject, user):
-    logs = Log.objects.filter(datetime__date__gte = datetime.now() - timedelta(days = 8), datetime__date__lt = datetime.now())
+    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 8), datetime__date__lt = timezone.now())
 
     data = []
 
