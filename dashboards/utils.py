@@ -36,6 +36,7 @@ def get_pend_graph(user, subject):
         item["date"] = {}
         item["date"]["start"] = formats.date_format(pendency.begin_date, "m/d/Y H:i")
         item["date"]["end"] = formats.date_format(pendency.end_date, "m/d/Y H:i")
+        item["date"]["delay"] = "infinity"
 
         item["action"] = pendency.get_action_display()
         item["name"] = pendency.resource.name
@@ -69,8 +70,6 @@ def get_pend_graph(user, subject):
 
                 if not last.meta is None:
                     item["date"]["delay"] = formats.date_format(last.meta, "m/d/Y H:i")
-                else:
-                    item["date"]["delay"] = "infinity"
 
         graph.append(item)
 
@@ -245,7 +244,7 @@ def getOtherIndicators(subject, user):
 
         res_access = logs.filter(conds)
 
-        item["max_access"] = res_access.values('user_id').annotate(c_user = Count('user_id')).aggregate(Max('c_user'))['c_user__max']
+        item["max_access"] = res_access.values('user_id').annotate(c_user = Count('user_id')).aggregate(Max('c_user'))['c_user__max'] if res_access else 0
         item["my_access"] = res_access.filter(user_id = user.id).count()
     else:
         item["max_access"] = 0
