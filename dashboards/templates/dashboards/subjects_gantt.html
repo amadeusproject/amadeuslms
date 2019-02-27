@@ -146,7 +146,23 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     </div>
 </div>
 
+<!--Subject inicio: {{ subject.init_date }}-->
+<!--Subject fim: {{ subject.end_date }}-->
+
 <script type="text/javascript">
+var months=["{% trans 'January' %}", "{% trans 'February' %}", "{% trans 'March' %}", "{% trans 'April' %}", 
+                    "{% trans 'May' %}", "{% trans 'June' %}", "{% trans 'July' %}", "{% trans 'August' %}", 
+                    "{% trans 'September' %}", "{% trans 'October' %}", "{% trans 'November' %}", "{% trans 'December' %}"];
+
+function dateConverter(date){
+    var reg = /(?<day>[0-9]{1,2}) de (?<month>[^0-9]{1,}) de (?<year>[0-9]{1,})/;
+    var dateC = date.match(reg);
+    dateC = ""+(months.indexOf(dateC.groups.month)+1) + "/" + dateC.groups.day + "/" + dateC.groups.year;
+    return dateC;
+}
+    var init_date = dateConverter('{{ subject.init_date }}');
+    var end_date = dateConverter('{{ subject.end_date }}');
+    
 
     var percentOn = true;
     var chartConfig = {
@@ -155,6 +171,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             focus: "#gantt",
             context: "#gantt",
             legend: "#legend-gantt",
+        },
+        period:{
+            start:init_date,
+            end:end_date,
         },
         data: {% autoescape off %} {{ graph_data }} {% endautoescape %},
     //dimensions: { width: 1200, height: 500 },

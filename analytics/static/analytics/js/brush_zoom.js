@@ -66,6 +66,16 @@ class GanttChart {
         chartConfig.now = new Date();
         var now = chartConfig.now.getTime();
 
+        if(chartConfig.period == undefined)chartConfig.period = {}
+        if(chartConfig.period.start){
+            chartConfig.period.start = new Date(chartConfig.period.start)
+        }
+        if(chartConfig.period.end){
+            chartConfig.period.end = new Date(chartConfig.period.end)
+        }
+        if (now - chartConfig.period.start.getTime() < 0) chartConfig.period.start = chartConfig.now;
+        if (now - chartConfig.period.end.getTime() > 0) chartConfig.period.end = chartConfig.now;
+
         var positions = [];
         for (var i = 0; i < chartConfig.layout.maxrow; i++)
             positions.push(null);
@@ -95,7 +105,10 @@ class GanttChart {
             }
 
             if (d.date.delay != undefined && d.date.delay != "") {
-                d.date.delay = new Date(d.date.delay);
+                if(d.date.delay == "infinity")
+                    d.date.delay = chartConfig.period.end;
+                else
+                    d.date.delay = new Date(d.date.delay);
             } else {
                 d.date.delay = d.date.end;
             }
@@ -201,7 +214,7 @@ class GanttChart {
         this.svg.style("background-color", this.backcolor);
         //this.svg2.style("background-color", this.backcolor);
 
-        this.pattern = this.svg.append("defs").selectAll("pattern").data(a.chartConfig.layout.colors).enter().append("pattern").attr("id", function (d, i) { return "hachura-status-" + i }).attr("class", "diagonal-stripe-1")
+        this.pattern = this.svg.append("defs").selectAll("pattern").data(a.chartConfig.layout.colors).enter().append("pattern").attr("id", function (d, i) { return "hachura-status-" + (i+1) }).attr("class", "diagonal-stripe-1")
             .attr("patternUnits", "userSpaceOnUse")
             .attr("width", 5).attr("height", 5)
             .attr("background-color", this.backcolor);
@@ -228,13 +241,9 @@ class GanttChart {
         
         this.marked = range(a.chartConfig.layout.texts.length).map(function(){return false});
 
-        console.log(this.marked);
-
-        var temp = d3.extent(a.chartConfig.data, function (d) { return d.date.start; });
-        var temp2 = d3.extent(a.chartConfig.data, function (d) { return d.date.end });
-        if (a.now.getTime() - temp[0].getTime() < 0) temp[0] = a.now;
-        if (a.now.getTime() - temp2[1].getTime() > 0) temp2[1] = a.now;
-        this.x.domain([temp[0], temp2[1]]);
+        //console.log(this.marked);
+        
+        this.x.domain([a.chartConfig.period.start, a.chartConfig.period.end]);
         this.x2.domain(this.x.domain());
         this.brush = d3.brushX().on("brush end", function () { a.brushed(a) });
         this.zoom = d3.zoom().scaleExtent([1, Infinity]).on("zoom", function () { a.zoomed(a) });
@@ -260,7 +269,7 @@ class GanttChart {
             .style("cursor", "pointer")
             .attr("class", function (d) { return "notifications status-" + d.status });
         this.notifications.append("rect").attr("class", "backBar")
-            .style("fill", function (d) { return "url(#hachura-status-" + d.status + ") none" })
+            .style("fill", function (d) { return "url(#hachura-status-" + (d.status+1) + ") none" })
 
         this.notifications.append("rect").attr("class", "progressBar")
             .attr("fill", function (d) { return a.chartConfig.layout.colors[d.status] });
@@ -664,7 +673,7 @@ class GanttChart {
             b.rects.select(".backBar")
                 .transition().delay(before).duration(transition)
                 .attr("fill", a.backcolor)
-                .style("fill", "url(#hachura-status-" + data.status + ")" + a.backcolor)
+                .style("fill", "url(#hachura-status-" + (data.status+1) + ")" + a.backcolor)
 
                 .attr("width", a.x(data.date.end) - a.x(data.date.start))
                 .attr("height", a.y.bandwidth());
@@ -721,7 +730,7 @@ class GanttChart {
             b.rects.select(".backBar")
                 .transition().delay(before).duration(transition)
                 .attr("width", b.width)
-                .style("fill", "url(#hachura-status-" + data.status + ")#fff")
+                .style("fill", "url(#hachura-status-" + (data.status+1) + ")#fff")
                 .attr("height", b.bar_size);
             //Content of Card
 
