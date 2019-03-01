@@ -213,8 +213,10 @@ msgstr "Mar"
 msgid "Apr"
 msgstr "Abr"
 
+#: dashboards/templates/dashboards/d3_translate.html:29
 # msgid "May"
 # msgstr "Mai"
+
 #: dashboards/templates/dashboards/d3_translate.html:29
 msgid "Jun"
 msgstr "Jun"
