@@ -144,7 +144,6 @@ class ToolTip{
             	xCo = mouseCoords[0] + 10;
 				yCo = mouseCoords[1] + 10;
 			}catch(e){
-				
 				xCo = event.clientX-a.position.x+10;
 				yCo = event.clientY-a.position.y+10;
 			}

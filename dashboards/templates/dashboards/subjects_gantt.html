@@ -1,0 +1,261 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+
+{# {{ graph_data }} #}
+
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+<style>
+    .filter-panel > .panel-heading {
+      background-color: #f9f9f9 !important;
+      padding:0px;
+      color:#000 !important;
+    }
+</style>
+<style>
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 38px;
+      height: 22px;
+    }
+    
+    .switch input { 
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 17px;
+      width: 17px;
+      left: 2px;
+      bottom: 2.6px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    
+    input:checked + .slider {
+      background-color: #009688;
+    }
+    
+    input:focus + .slider {
+      box-shadow: 0 0 1px #009688;
+    }
+    
+    input:checked + .slider:before {
+      -webkit-transform: translateX(17px);
+      -ms-transform: translateX(17px);
+      transform: translateX(17px);
+    }
+    
+    /* Rounded sliders */
+    .slider.round {
+      border-radius: 22px;
+    }
+    
+    .slider.round:before {
+      border-radius: 50%;
+    }
+
+    .gantt-legend{
+        width: 140px;
+        height: 30px;
+        padding: 4px;
+        margin:5px;
+        background: #009688;
+        cursor: pointer;
+    }
+    .gantt-legend-text{
+        color: #EEEEEE; 
+        margin:4px;
+        font-size: 12px;
+    }
+</style>
+
+<!--<script src="{% static 'analytics/js/Legend.js' %}"></script>-->
+<script src="{% static 'analytics/js/brush_zoom.js' %}"></script>
+
+<div id="gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style=" padding-left: 10px; ">
+        <div style="float:left;font-size:16px; text-align:left; color: #000;">
+            <b>{% trans 'Detail of Tasks' %}</b>
+            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="{% trans 'Positions all activities suggested by the teacher on the current subject in a timeline' %}"></i>
+        </div>
+        <div style="float:right">
+            {% trans '(%) Class' %}
+            <label class="switch">
+                <input id="ganttPercent" type="checkbox" name="percentOn" checked onclick="invertPercent()">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style="padding: 0px">
+        <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
+    </div>
+</div>
+
+<div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+    <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
+    <div id="legend-gantt" class="col-md-8 col-xs-12 col-sm-12 col-lg-10" style="padding: 0px">
+            {% with color="#FF9001" %}
+            {% include 'dashboards/subjects_gantt_legend.html' with tittle="late" %}
+            {% endwith %}
+            {% with color="#dfbd31" %}
+            {% include 'dashboards/subjects_gantt_legend.html' with tittle="on_time" %}
+            {% endwith %}
+            {% with color="#868686" %}
+            {% include 'dashboards/subjects_gantt_legend.html' with tittle="planned" %}
+            {% endwith %}
+            {% with color="#f44336" %}
+            {% include 'dashboards/subjects_gantt_legend.html' with tittle="lost" %}
+            {% endwith %}
+            {% with color="#3BA51A" %}
+            {% include 'dashboards/subjects_gantt_legend.html' with tittle="completed" %}
+            {% endwith %}
+    </div>
+    <div class="col-md-4 col-xs-8 col-sm-5 col-lg-2 text-center gantt-legend" onclick="ganttChart.reset();" style="background: #ddd">
+            <b>{% trans "Now" %}</b>
+    </div>
+</div>
+
+<!--Subject inicio: {{ subject.init_date }}-->
+<!--Subject fim: {{ subject.end_date }}-->
+
+<script type="text/javascript">
+var months=["{% trans 'January' %}", "{% trans 'February' %}", "{% trans 'March' %}", "{% trans 'April' %}", 
+                    "{% trans 'May' %}", "{% trans 'June' %}", "{% trans 'July' %}", "{% trans 'August' %}", 
+                    "{% trans 'September' %}", "{% trans 'October' %}", "{% trans 'November' %}", "{% trans 'December' %}"];
+
+function dateConverter(date){
+    var reg = /(?<day>[0-9]{1,2}) de (?<month>[^0-9]{1,}) de (?<year>[0-9]{1,})/;
+    var dateC = date.match(reg);
+    dateC = ""+(months.indexOf(dateC.groups.month)+1) + "/" + dateC.groups.day + "/" + dateC.groups.year;
+    return dateC;
+}
+    var init_date = dateConverter('{{ subject.init_date }}');
+    var end_date = dateConverter('{{ subject.end_date }}');
+    
+
+    var percentOn = true;
+    var chartConfig = {
+        name: "GanttChart",
+        parents: {
+            focus: "#gantt",
+            context: "#gantt",
+            legend: "#legend-gantt",
+        },
+        period:{
+            start:init_date,
+            end:end_date,
+        },
+        data: {% autoescape off %} {{ graph_data }} {% endautoescape %},
+    //dimensions: { width: 1200, height: 500 },
+
+    layout: {
+        percentOn: percentOn,
+        maxrow: 5,
+            colors: ["#FF9001", "#dfbd31", "#868686", "#f44336", "#3BA51A"],//#009886
+                texts: ["late","on_time","planned","lost","completed"],
+                texts2: ['{% trans "This task is late"%}', '{% trans "You have not yet accomplish this task"%}', 
+                                "", '{% trans "You missed this task"%}', ""],
+                backcolor: "#F9F9F9",
+                percent_min: 0.3,
+                percent_text:'{% trans " % already accomplish" %}',
+                buttonAccess_text:'{% trans "ACCESS TASK" %}',      
+                buttonDoTask_text:'{% trans "DO TASK" %}',
+                initDate_text:'{% trans "Start: " %}',
+                endDate_text:'{% trans "End: " %}',
+                closedDate_text:'{% trans "Closed on: " %}',
+                //language:'{{ language }}'
+            },
+    interactions: {
+        button: function (element, data) {
+            var classelement = d3.select(element).attr("class");
+            if (classelement == "goto")
+                window.location.assign(data.access_link);
+        }
+    },
+    tooltip: {
+        text: ""
+    },
+    filters:{
+        filter:function(marked){
+            d3.selectAll(".gantt-legend-status")
+                .style("cursor",function(d,i){
+                    return "url("+(marked[i]?'{% static "img/cursors/subber.cur" %}':'{% static "img/cursors/adder.cur" %}')+"),auto";
+                })
+                .select(".fa").attr("class",function(d,i){
+                    return "gantt-legend-text fa fa-toggle-"+ (marked[i]?"on":"off");
+                });
+        },
+        filter_out:function(marked){
+            d3.selectAll(".gantt-legend-status")
+                .style("cursor",function(d){
+                    return "url({% static 'img/cursors/filter.cur' %}),auto";
+                })
+                .select(".fa").attr("class",function(d){
+                    return "gantt-legend-text fa fa-toggle-off";
+                });
+        }
+    }
+        }
+
+    var ganttChart = new GanttChart(chartConfig).draw().reset()//.draw2();
+
+    function invertPercent(){
+        percentOn = !percentOn;
+        ganttChart.percentOnOff(percentOn);
+    }
+
+    /*$('#filter_accordion_inner').on('shown.bs.collapse', function () {
+        ganttChart.draw2();
+        document.querySelector("#accordion_button").querySelector("i").setAttribute("class", "fa fa-angle-down fa-2x");
+        //setTimeout(function,delay_ms);
+    })
+
+    $('#filter_accordion_inner').on('hidden.bs.collapse', function () {
+        document.querySelector("#accordion_button").querySelector("i").setAttribute("class", "fa fa-angle-right fa-2x");
+    })
+    document.querySelector("#accordion_button").click();
+    //document.querySelector("#accordion_button").click();
+
+    window.setTimeout(function () {
+        document.querySelector("#accordion_button").click();
+    }, 100);
+    */
+    function gantt_responsibilities() {
+        ganttChart.draw()//.draw2();
+        //ganttChart.bottomLegend.resize();
+        //if ($('#filter_accordion_inner').attr('aria-expanded') == "true")
+        //ganttChart.draw2();
+    }
+
+</script>

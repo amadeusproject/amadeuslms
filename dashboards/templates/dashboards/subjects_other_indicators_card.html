@@ -1,0 +1,68 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+
+<div class="indicator-panel" id="{{ tittle }}_accordion_outer">
+
+    <h5 class="card-tittle">
+        <b>{% if tittle == "access_enviromment" %}
+            {% trans 'Access to the discipline environment' %}
+            {% elif tittle == "distincts_days" %}
+            {% trans 'Different days that accessed the discipline' %}
+            {% elif tittle == "access_resource" %}
+            {% trans 'Resource access' %}
+            {% elif tittle == "distincts_resource" %}
+            {% trans 'Distinct resources accessed' %}
+            {% elif tittle == "tasks_on_time" %}
+            {% trans 'Tasks performed on time' %}
+            {% else %}
+            {% trans 'Other indicator' %}
+            {% endif %}
+        </b>
+    </h5>
+    <div class="container-graph-indicator">
+    <svg class="graph-indicator">
+
+        <rect class="rect-other-comp-indicator" width="100%"></rect>
+        <rect class="rect-other-indicator" width="00%" x="0%"></rect>
+        <rect class="back-other-indicator" x="20%"></rect>
+        <rect class="back-other-indicator" x="40%"></rect>
+        <rect class="back-other-indicator" x="60%"></rect>
+        <rect class="back-other-indicator" x="80%"></rect>
+        <text class="text-your-indicator"  dx = "-5px" dy="0.4em" y="50%"></text>
+        <g class="star-container">
+            <g class="golden-star" transform="translate(-12.5,12.5)scale(11,11)rotate(18)" opacity="0">
+                <path fill="#FF8E01" d="M -0.850646,0 L -0.262491,-0.190708 -0.262867,-0.809012 0.10026,-0.308574 0.688191,-0.499997 0.324457,0 0.688191,0.499997 0.10026,0.308574 -0.262867,0.809012 -0.262491,0.190708 z"></path>
+            </g>
+        </g>
+    </svg>
+    
+    <div class="back-max-indicator">
+        <p class="text-max-indicator">
+            20
+        </p>
+    </div>
+    </div>
+</div>
+
+<script>
+    $('#{{ tittle }}_accordion_inner').on('shown.bs.collapse', function () {
+        document.querySelector("#{{ tittle }}_accordion_outer")
+            .querySelector("#accordion_button").querySelector("i").setAttribute("class", "fa fa-angle-down fa-2x");
+    })
+
+    $('#{{ tittle }}_accordion_inner').on('hidden.bs.collapse', function () {
+        document.querySelector("#{{ tittle }}_accordion_outer")
+            .querySelector("#accordion_button").querySelector("i").setAttribute("class", "fa fa-angle-right fa-2x");
+    })
+</script>

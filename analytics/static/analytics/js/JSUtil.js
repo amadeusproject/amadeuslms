@@ -38,24 +38,20 @@ window.mobilecheck = function () {
 // Return dimensions of a element whith ID sent by parameter
 document.getDimensions = function (id) {
 	var el = document.querySelector(id);
+	var temp;
 	var w = 0,
 		h = 0;
 	if (el) {
 		w = el["width"];//$(el).attr("width");
-		if (w == undefined) {
-			if (el.getBBox != undefined) {
-				var dimensions = el.getBBox();
-				w = dimensions.width;
-			} else
-				w = 0;
+		if (isNaN(w)) {
+			temp = el.getBoundingClientRect();
+			w = temp.width;
 		}
 		h = el["height"];//$(el).attr("height");
-		if (h == undefined) {
-			if (el.getBBox != undefined) {
-				var dimensions = el.getBBox();
-				h = dimensions.height;
-			} else
-				h = 0;
+		if (isNaN(h)) {
+			if(!temp)
+			temp = el.getBoundingClientRect();
+			h = temp.height;
 		}
 	} else {
 		console.error("getDimensions() " + id + " not found.");
@@ -178,6 +174,36 @@ d3.textData = function (data, text) {
 		var n = text.search(sub);
 		text = text.replace(text.substring(n - 1, n + sub.length + 1), rep);
 		//text = text.replace(/<.*>/,rep);//tudo entre caracteres < >
+	}
+
+	while ((index = text.search("\\[")) != -1 && (index2 = text.search("\\]")) != -1) {//search for tags to calculate
+		var sub = text.substr(index + 1, index2 - index - 1);
+		var op1 = sub.match(/([0-9]+)|([0-9]+,[0-9]+)|([0-9]+.[0-9]+)/g);
+		o = sub.match(/[\+\-\*\/\%\^r]/)[0];
+		var op2 = op1[1];
+		op1 = op1[0]
+		op1 = parseFloat(op1);
+		op2 = parseFloat(op2);
+		if(isNaN(op1))
+			op1 = op2;
+		if(isNaN(op1))
+			o = "";
+
+		var rep;
+		switch(o){
+			case '+': rep = op1+op2;break;
+			case '-': rep = op1-op2;break;
+			case '*': rep = op1*op2;break;
+			case '/': rep = op2==0?"NaN":op1/op2;break;
+			case '%': rep = op2==0?"NaN":op1*100/op2;break;
+			case '^': rep = Math.pow(op1,op2);break;
+			case 'r': rep = Math.pow(op1,1/op2);break;
+			default: rep = op1;
+		}
+
+		
+		var n = text.search(sub);
+		text = text.replace(text.substring(n - 1, n + sub.length + 1), rep);
 	}
 
 	return text;
@@ -838,32 +864,6 @@ function deltaXY(tag1, tag2) {
 
 Math.first_ord = function (x1, y1, x2, y2) {
 	return { a: -x1 * (y2 - y1) / (x2 - x1) + y1, b: (y2 - y1) / (x2 - x1) }
-}
-
-document.definewidth = function (chartConfig, width, height, propWindow, propChart, target) {//prop - width/height
-	if (chartConfig.dimensions == undefined) chartConfig.dimensions = {};
-	chartConfig.dimensions.vertical = false;
-	chartConfig.dimensions.mini = false;
-	if (chartConfig.dimensions.width == undefined) {
-		var temp;
-		target = target ? target : (chartConfig.parent ? chartConfig.parent : chartConfig.target);
-		if (temp = document.querySelector(target).getBoundingClientRect()) {
-			chartConfig.dimensions.width = temp.width - 2*$(target).css("padding-left").match(/[0-9]+/)[0] - $(target).css("padding-right").match(/[0-9]+/)[0];
-			if (propWindow) {
-				var prop = window.innerWidth * propWindow / window.innerHeight;
-				//console.log(prop);
-				if (window.innerWidth > 991)
-					chartConfig.dimensions.height = temp.width * 1 / propChart > height ? height : temp.width * 1 / propChart
-				else
-					chartConfig.dimensions.height = temp.width / prop, chartConfig.dimensions.vertical = prop / propWindow < 1, chartConfig.dimensions.mini = true;
-			}
-		} else if (chartConfig.dimensions.height == undefined)
-			chartConfig.dimensions.width = width, chartConfig.dimensions.height = height;
-		else
-			chartConfig.dimensions.width = chartConfig.dimensions.height * propChart;
-	}
-	if (chartConfig.dimensions.height == undefined)
-		chartConfig.dimensions.height = !propChart || chartConfig.dimensions.width * 1 / propChart > height ? height : chartConfig.dimensions.width * 1 / propChart;
 }
 
 

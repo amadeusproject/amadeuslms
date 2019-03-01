@@ -277,7 +277,7 @@ class Legend {
 var bottomLegendCount = 0;
 class BottomLegend{
 	constructor(chartConfig){
-		this.create(BottomLegend.validData(chartConfig)).draw();
+		this.create(BottomLegend.validData(chartConfig));
 	}
 	static validData(chartConfig,preconfig){
 		if(!preconfig&&(chartConfig==undefined || chartConfig.data == undefined)){

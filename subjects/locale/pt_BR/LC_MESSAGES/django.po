@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-18 21:47+0000\n"
+"POT-Creation-Date: 2019-03-01 21:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -228,7 +228,7 @@ msgid "DELETE"
 msgstr "Deletar"
 
 #: subjects/templates/subjects/home.html:79
-#: subjects/templates/subjects/initial.html:89 subjects/views.py:230
+#: subjects/templates/subjects/initial.html:89 subjects/views.py:234
 msgid "My Subjects"
 msgstr "Meus assuntos"
 
@@ -281,12 +281,12 @@ msgid " Any subjects or Resources were not found on the search for "
 msgstr " Nenhum assunto ou recursos foram encontrados na busca por "
 
 #: subjects/templates/subjects/list_search.html:59
-#: subjects/templates/subjects/list_search.html:62 subjects/views.py:708
+#: subjects/templates/subjects/list_search.html:62 subjects/views.py:712
 msgid "Subjects"
 msgstr "Assuntos"
 
 #: subjects/templates/subjects/list_search.html:60
-#: subjects/templates/subjects/list_search.html:63 subjects/views.py:716
+#: subjects/templates/subjects/list_search.html:63 subjects/views.py:720
 msgid "Resources"
 msgstr "Recursos"
 
@@ -403,52 +403,52 @@ msgstr "Criar novo tópico"
 msgid "Participants"
 msgstr "Participantes"
 
-#: subjects/views.py:101
+#: subjects/views.py:105
 msgid "Home"
 msgstr "Início"
 
-#: subjects/views.py:202
+#: subjects/views.py:206
 msgid "Page is not 'last', nor can it be converted to an int."
 msgstr ""
 "Página não é a 'última', e também não pode ser convertido para um inteiro"
 
-#: subjects/views.py:208
+#: subjects/views.py:212
 #, python-format
 msgid "Invalid page (%(page_number)s): %(message)s"
 msgstr "Página inválida (%(page_number)s): %(message)s"
 
-#: subjects/views.py:237
+#: subjects/views.py:241
 msgid "All Subjects"
 msgstr "Todos os assuntos"
 
-#: subjects/views.py:331
+#: subjects/views.py:335
 msgid "Create Subject"
 msgstr "Criar Assunto"
 
-#: subjects/views.py:347
+#: subjects/views.py:351
 msgid "Replicate Subject"
 msgstr "Replicar Assunto"
 
-#: subjects/views.py:390
+#: subjects/views.py:394
 #, python-format
 msgid "The Subject \"%s\" was registered on \"%s\" Category successfully!"
 msgstr "Assunto \"%s\" foi registrado na categoria \"%s\" com sucesso!"
 
-#: subjects/views.py:429
+#: subjects/views.py:433
 msgid "Update Subject"
 msgstr "Atualizar Assunto"
 
-#: subjects/views.py:455
+#: subjects/views.py:459
 #, python-format
 msgid "The Subject \"%s\" was updated on \"%s\" Category successfully!"
 msgstr "Assunto \"%s\" foi atualizado na categoria \"%s\" com sucesso!"
 
-#: subjects/views.py:498 subjects/views.py:545
+#: subjects/views.py:502 subjects/views.py:549
 #, python-format
 msgid "Subject \"%s\" removed successfully!"
 msgstr "Assunto \"%s\" removido com sucesso!"
 
-#: subjects/views.py:506 subjects/views.py:512
+#: subjects/views.py:510 subjects/views.py:516
 msgid ""
 "Subject can't be removed. The subject still possess students and learning "
 "objects associated"
@@ -456,24 +456,24 @@ msgstr ""
 "Assunto não pode ser removido. Ele ainda possui alunos e objetos de "
 "aprendizado associados"
 
-#: subjects/views.py:625
+#: subjects/views.py:629
 msgid "Subscription date is due!"
 msgstr "O período de inscrição está encerrado!"
 
-#: subjects/views.py:639
+#: subjects/views.py:643
 msgid "Subscription was successfull!"
 msgstr "Inscrição feita com sucesso!"
 
-#: subjects/views.py:804
+#: subjects/views.py:808
 #, python-format
 msgid "%s - Backup"
 msgstr "%s - Backup"
 
-#: subjects/views.py:960
+#: subjects/views.py:995
 #, python-format
 msgid "%s - Restore"
 msgstr "%s - Restaurar"
 
-#: subjects/views.py:1044
+#: subjects/views.py:1090
 msgid "Backup restored successfully!"
 msgstr "Backup restaurado com sucesso!"

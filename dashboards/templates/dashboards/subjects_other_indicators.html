@@ -1,0 +1,217 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+
+<style>
+    .indicator-panel>.panel-heading {
+        background-color: #f9f9f9 !important;
+        padding-right: 5px;
+        color: #000 !important;
+    }
+
+    .card-tittle {
+        margin-top: 15px;
+        margin-bottom: 4px;
+    }
+
+    .card-text {
+        margin-bottom: 2px;
+    }
+
+    .back-other-indicator {
+        fill: #FFFFFF;
+        width: 3px;
+        height: 100%;
+    }
+
+    .rect-other-indicator {
+        height: 100%;
+        fill: #C8E6C9;
+    }
+
+    .rect-other-comp-indicator {
+        fill: #EEEEEE;
+        padding-right: 5px;
+    }
+
+    .container-graph-indicator {
+        display: flex;
+    }
+
+    .graph-indicator {
+        /*width:65%;*/
+
+        height: 25px;
+        flex-grow: 1;
+        padding-right: 12px;
+    }
+
+    .indicator-panel-content {
+        background: #FFF;
+        padding: 10px;
+    }
+
+    .back-max-indicator {
+        width: 42px;
+        height: 25px;
+        background-color: #009688;
+    }
+
+    .text-max-indicator {
+        margin: 5px auto;
+        left: 50%;
+        font-weight: bold;
+        line-height: normal;
+        font-size: 12px;
+        text-align: center;
+        color: #FFFFFF;
+    }
+
+    .text-your-indicator {
+        text-anchor: end;
+        font-size: 13px;
+        color: #000;
+    }
+    .indicators-legend{
+        display: flex;
+    }
+    .rect-indicators-legend{
+        width: 20px;
+        height: 16px;
+        margin-top:10px;
+        margin-bottom:10px;
+        
+    }
+    .text-indicators-legend{
+        margin: 10px;
+        
+    }
+</style>
+
+<div class="col-md-4 col-xs-12 col-sm-8 col-lg-4">
+    <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; ">
+        <b>{% trans 'Important indicators' %}</b>
+        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" 
+            title="{% trans 'Shows indicators comparing your situation to the class' %}"></i>
+    </div>
+    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
+
+    <!--Metrics url: {{ metrics_url }}-->
+
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+        <div id="indicators-accordion" class="" aria-multiselectable="false" style="display: none;opacity: 0">
+            {% include 'dashboards/subjects_other_indicators_card.html' with tittle="access_enviromment" %}
+            {% include 'dashboards/subjects_other_indicators_card.html' with tittle="distincts_days" %}
+            {% include 'dashboards/subjects_other_indicators_card.html' with tittle="access_resource" %}
+            {% include 'dashboards/subjects_other_indicators_card.html' with tittle="distincts_resource" %}
+            {% include 'dashboards/subjects_other_indicators_card.html' with tittle="tasks_on_time" %}
+            <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 indicators-legend">
+                <p class="text-indicators-legend">{% trans 'You' %}</p> <div class="rect-indicators-legend" style="background: #C8E6C9"></div>
+                <p class="text-indicators-legend">{% trans 'Best of the class' %}</p> <div class="rect-indicators-legend" style="background: #009688"></div>
+            </div>
+        </div>
+
+        {% include 'dashboards/loading_ball.html' with tittle="indicators_loading_ball" %}
+    </div>
+</div>
+<script>
+    var indicators;
+    $.get("{{ metrics_url }}", function (data) {
+        //d3.select("#indicators_loading_ball").transition().duration(300).style("opacity", "0");
+        d3.select("#indicators_loading_ball").style("display", "none")
+            //.transition().delay(300)
+            //.remove();
+
+        var indicators_container = d3.select("#indicators-accordion")
+            //.transition().delay(300)
+            .style("display", "inherit");
+        indicators_container
+            .transition().delay(0).duration(400)
+            .style("opacity", 1);
+
+        indicators = d3.selectAll(".indicator-panel").data(data);
+
+        indicators.selectAll(".rect-other-indicator").data(function (d, i) { return [d] })
+            //.transition().delay(function(d,i){return i*500}).duration(500)
+            .attr("width", function (d, i) {
+                d.my_access = isNaN(d.my_access)?0:d.my_access;
+                d.my_access = parseInt(d.my_access);
+                d.max_access = isNaN(d.max_access)?0:d.max_access;
+                d.my_access = d.my_access > d.max_access ? d.max_access : d.my_access;
+                d.percent = (d.my_access * 100 / (d.max_access>1?d.max_access:1))
+                return "" + d.percent + "%"
+            })
+
+        indicators.select(".text-your-indicator")
+            .attr("x", function (d) {
+                return "" + d.percent + "%"
+            })
+            .attr("dx", function (d) {
+                return d.percent > 20 ? "-5px" : "5px"
+            })
+            .attr("opacity",function(d){
+                if (d.my_access >= d.max_access && d.my_access > 0)//==
+                    return 0;
+                else
+                    return 1;
+            })
+            .style("text-anchor", function (d) { 
+                return d.percent > 20 ? "end" : "start" 
+            })
+            .text(function (d) {
+                return d.my_access;
+            })
+
+        indicators.select(".text-max-indicator")
+            .text(function (d) {
+                //console.log(d.max_access);
+                return d.max_access;
+            })
+
+        indicators.select(".star-container")
+            //.transition().delay(900)
+            .attr("transform",function(){ 
+                var width = document.querySelector(".rect-other-comp-indicator").getBoundingClientRect().width;
+                return "translate(" + width + ",0)";
+            });
+
+        indicators.select(".golden-star")
+            .transition().delay(300).duration(500)
+            .attr("opacity", function (d, i) {
+                if (d.my_access >= d.max_access && d.my_access > 0)//==
+                    //if(i<3)
+                    return 1;
+                else
+                    return 0;
+            });
+
+        /*indicators.select(".silver_star")
+            //.transition().delay(2500).duration(100)
+            .attr("opacity", function (d,i) {
+                if (d.my_access >= d.max_access * 3 / 4 && d.my_access < d.max_access && d.my_access>0)
+                //if(i>=3)
+                    return 1;
+                else
+                    return 0;
+            });*/
+
+    });
+    function indicators_responsibilities(){
+        indicators.select(".star-container")
+            //.transition().delay(900)
+            .attr("transform",function(){ 
+                var width = document.querySelector(".rect-other-comp-indicator").getBoundingClientRect().width;
+                return "translate(" + width + ",0)";
+            });
+    }
+</script>

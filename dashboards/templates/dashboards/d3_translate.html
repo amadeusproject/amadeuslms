@@ -1,0 +1,34 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+
+<script>
+        window.labels_date = {
+            dateTime: "%x, %X",
+            date: "%-d/%-m/%Y",
+            time: "" + (("%p" == "PM" ? 12 : 0) + ("%-I") % 12) + ":%M:%S",
+            periods: ["AM", "PM"],
+            days: ["{% trans 'Sunday' %}", "{% trans 'Monday' %}", "{% trans 'Tuesday' %}","{% trans 'Wednesday' %}",
+                    "{% trans 'Thursday' %}", "{% trans 'Friday' %}", "{% trans 'Saturday' %}"],
+            shortDays: ["{% trans 'Sun' %}", "{% trans 'Mon' %}", "{% trans 'Tue' %}", "{% trans 'Wed' %}", 
+                        "{% trans 'Thu' %}", "{% trans 'Fri' %}", "{% trans 'Sat' %}"],
+            months: ["{% trans 'January' %}", "{% trans 'February' %}", "{% trans 'March' %}", "{% trans 'April' %}", 
+                    "{% trans 'May' %}", "{% trans 'June' %}", "{% trans 'July' %}", "{% trans 'August' %}", 
+                    "{% trans 'September' %}", "{% trans 'October' %}", "{% trans 'November' %}", "{% trans 'December' %}"],
+            shortMonths: ["{% trans 'Jan' %}", "{% trans 'Feb' %}", "{% trans 'Mar' %}", "{% trans 'Apr' %}", 
+                        "{% trans 'May' %}", "{% trans 'Jun' %}", "{% trans 'Jul' %}", "{% trans 'Aug' %}", "{% trans 'Sep' %}", 
+                        "{% trans 'Oct' %}", "{% trans 'Nov' %}", "{% trans 'Dec' %}"]
+        }
+    
+    </script>
+    <script src="{% static 'analytics/js/d3.v5.min.js' %}"></script>
