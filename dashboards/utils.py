@@ -36,7 +36,7 @@ def get_pend_graph(user, subject):
         item["date"] = {}
         item["date"]["start"] = formats.date_format(pendency.begin_date, "m/d/Y H:i")
         item["date"]["end"] = formats.date_format(pendency.end_date, "m/d/Y H:i")
-        item["date"]["delay"] = "infinity"
+        item["date"]["delay"] = formats.date_format(pendency.limit_date, "m/d/Y H:i") if pendency.limit_date else "infinity"
 
         item["action"] = pendency.get_action_display()
         item["name"] = pendency.resource.name
@@ -63,13 +63,13 @@ def get_pend_graph(user, subject):
             if not has_action:
                 item["done"] = False
 
-            notifies = Notification.objects.filter(user = user, task = pendency).order_by("-creation_date")
+            """notifies = Notification.objects.filter(user = user, task = pendency).order_by("-creation_date")
 
             if notifies.count() > 0:
                 last = notifies[0]
 
                 if not last.meta is None:
-                    item["date"]["delay"] = formats.date_format(last.meta, "m/d/Y H:i")
+                    item["date"]["delay"] = formats.date_format(last.meta, "m/d/Y H:i")"""
 
         graph.append(item)
 
