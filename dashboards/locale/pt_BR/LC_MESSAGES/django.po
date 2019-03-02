@@ -417,7 +417,7 @@ msgstr "Melhor da classe"
 
 #: dashboards/templates/dashboards/subjects_other_indicators_card.html:19
 msgid "Access to the discipline environment"
-msgstr "Acessar o ambiente da disciplina"
+msgstr "Acesso o ambiente da disciplina"
 
 #: dashboards/templates/dashboards/subjects_other_indicators_card.html:21
 msgid "Different days that accessed the discipline"
@@ -425,7 +425,7 @@ msgstr "Dias diferentes que acessou a disciplina"
 
 #: dashboards/templates/dashboards/subjects_other_indicators_card.html:23
 msgid "Resource access"
-msgstr "Recursos acessados"
+msgstr "Acessos aos recursos da disciplina"
 
 #: dashboards/templates/dashboards/subjects_other_indicators_card.html:25
 msgid "Distinct resources accessed"
@@ -433,7 +433,7 @@ msgstr "Recursos distintos acessados"
 
 #: dashboards/templates/dashboards/subjects_other_indicators_card.html:27
 msgid "Tasks performed on time"
-msgstr "Tarefas realizadas em tempo"
+msgstr "Tarefas realizadas pontualmente"
 
 #: dashboards/templates/dashboards/subjects_other_indicators_card.html:29
 msgid "Other indicator"
