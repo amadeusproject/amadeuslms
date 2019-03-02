@@ -1016,10 +1016,11 @@ def realize_restore(request, subject):
             with open(path) as bkp_file:
                 data = json.loads(bkp_file.read())
 
-                serial = QuestionDatabaseSerializer(data=data["questions_db"][0], many=True, context={'subject': subject, 'files': file})
+                if "questions_db" in data and len(data["questions_db"]) > 0:
+                    serial = QuestionDatabaseSerializer(data=data["questions_db"][0], many=True, context={'subject': subject, 'files': file})
 
-                serial.is_valid()
-                serial.save()
+                    serial.is_valid()
+                    serial.save()
 
                 for line in data["resources"]:
                     if len(line) > 0:

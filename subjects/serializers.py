@@ -16,6 +16,7 @@ from django.db.models import Q
 from rest_framework import serializers
 
 from chat.models import ChatVisualizations
+from mural.models import MuralVisualizations
 from notifications.models import Notification
 
 from .models import Subject, Tag
@@ -44,8 +45,17 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class SubjectSerializer(serializers.ModelSerializer):
+    mural = serializers.SerializerMethodField()
     notifications = serializers.SerializerMethodField()
     pendencies = serializers.SerializerMethodField()
+
+    def get_mural(self, subject):
+        user = self.context.get("request_user", None)
+
+        if user is not None:
+            return MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space = subject) | Q(comment__post__subjectpost__space = subject))).count()
+
+        return 0
 
     def get_notifications(self, subject):
         user = self.context.get("request_user", None)
@@ -71,4 +81,4 @@ class SubjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subject
-        fields = ["name", "slug", "visible", "description_brief", "description", "notifications", "pendencies"]
+        fields = ["name", "slug", "visible", "description_brief", "description", "notifications", "pendencies", "mural"]
