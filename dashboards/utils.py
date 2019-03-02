@@ -80,7 +80,7 @@ def getAccessedTags(subject, user):
 
     data = []
 
-    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 8), datetime__date__lt = timezone.now())
+    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 7), datetime__date__lt = timezone.now())
 
     for tag in tags:
         if not tag.name == '':
@@ -115,7 +115,7 @@ def getAccessedTags(subject, user):
 def getTagAccessess(subject, tag, user):
     resources = Resource.objects.filter(tags = tag, topic__subject = subject)
 
-    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 8), datetime__date__lt = timezone.now())
+    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 7), datetime__date__lt = timezone.now())
 
     data = []
 
@@ -135,7 +135,7 @@ def getTagAccessess(subject, tag, user):
     return data
 
 def getOtherIndicators(subject, user):
-    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 8), datetime__date__lt = timezone.now())
+    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 7), datetime__date__lt = timezone.now())
 
     data = []
 
@@ -152,7 +152,7 @@ def getOtherIndicators(subject, user):
         #Subject access distinct days
         result = {}
 
-        for q in sub_access.extra({'date': 'DATE(datetime)'}):
+        for q in sub_access.extra({'date': "((datetime AT TIME ZONE 'America/Recife')::date)"}):
             if q.user_id in result:
                 if not q.date in result[q.user_id]:
                     result[q.user_id].append(q.date)
@@ -231,7 +231,7 @@ def getOtherIndicators(subject, user):
     data.append(item)
     
     #Resources in time
-    pend = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, end_date__date__lt = timezone.now(), end_date__date__gte = timezone.now() - timedelta(days = 8))
+    pend = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, end_date__date__lt = timezone.now(), end_date__date__gte = timezone.now() - timedelta(days = 7))
 
     #query = Notification.objects.filter(task__id__in = pend, level__gte = 3).values('user_id', 'task_id').distinct()
     item = {}
