@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-20 17:18-0300\n"
+"POT-Creation-Date: 2019-03-01 21:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,7 +72,7 @@ msgstr "Metas"
 msgid "Relevant Indicators"
 msgstr "Indicadores Relevantes"
 
-#: bulletin/models.py:37 bulletin/views.py:947
+#: bulletin/models.py:37 bulletin/views.py:948
 msgid "Bulletin"
 msgstr "Boletim"
 
@@ -135,7 +135,7 @@ msgstr "Salvar"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: bulletin/templates/bulletin/create.html:33 bulletin/views.py:515
+#: bulletin/templates/bulletin/create.html:33 bulletin/views.py:516
 msgid "Create Bulletin"
 msgstr "Criar boletim"
 
@@ -460,7 +460,7 @@ msgstr "Máximo"
 msgid "Median"
 msgstr "Mediana"
 
-#: bulletin/utils.py:59 bulletin/views.py:1034
+#: bulletin/utils.py:59 bulletin/views.py:1035
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
@@ -470,25 +470,25 @@ msgstr "Última mensagem em %s"
 msgid "#Difficulty(ies) found in %s"
 msgstr "#Dificuldade(s) encontrada(s) em %s"
 
-#: bulletin/views.py:125 bulletin/views.py:292
+#: bulletin/views.py:125 bulletin/views.py:293
 msgid "Difficulties sent to the subject professor(s)"
 msgstr "Dificuldades enviadas para o(s) professor(es) do assunto"
 
-#: bulletin/views.py:129 bulletin/views.py:295
+#: bulletin/views.py:129 bulletin/views.py:296
 msgid "You should inform some difficulty"
 msgstr "Você deve informar alguma dificuldade"
 
-#: bulletin/views.py:266
+#: bulletin/views.py:267
 #, python-format
 msgid "#Dificulty(ies) found in %s"
 msgstr "#Dificuldade(s) encontrada(s) em %s"
 
-#: bulletin/views.py:412
+#: bulletin/views.py:413
 #, python-format
 msgid "The topic %s has no goals, so you can't create a Bulletin."
 msgstr "O tópico %s não possui metas, então você não pode criar um Boletim."
 
-#: bulletin/views.py:419
+#: bulletin/views.py:420
 #, python-format
 msgid ""
 "The deadline to submit the goals of the topic %s has not yet closed, so you "
@@ -497,17 +497,17 @@ msgstr ""
 "O prazo para submeter as metas do tópico %s ainda não foi fechado, então "
 "você não pode criar um Boletim."
 
-#: bulletin/views.py:424
+#: bulletin/views.py:425
 #, python-format
 msgid "The topic %s already has a Bulletin, so you can't create another."
 msgstr "O tópico %s já possui um Boletim, então você não pode criar outro."
 
-#: bulletin/views.py:442 bulletin/views.py:455 bulletin/views.py:725
-#: bulletin/views.py:727 bulletin/views.py:743 bulletin/views.py:745
+#: bulletin/views.py:443 bulletin/views.py:456 bulletin/views.py:726
+#: bulletin/views.py:728 bulletin/views.py:744 bulletin/views.py:746
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: bulletin/views.py:536
+#: bulletin/views.py:537
 #, python-format
 msgid ""
 "The Bulletin \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -516,57 +516,57 @@ msgstr ""
 "O Boletim \"%s\" foi adicionado ao Tópio \"%s\" do ambiente virtual \"%s\" "
 "com sucesso!"
 
-#: bulletin/views.py:789
+#: bulletin/views.py:790
 msgid "Update Bulletin"
 msgstr "Atualizar boletim"
 
-#: bulletin/views.py:809
+#: bulletin/views.py:810
 #, python-format
 msgid "The Bulletin \"%s\" was updated successfully!"
 msgstr "O Boletim \"%s\" foi atualizado com sucesso!"
 
-#: bulletin/views.py:845
+#: bulletin/views.py:846
 #, python-format
 msgid ""
 "The bulletin \"%s\" was removed successfully from virtual environment \"%s\"!"
 msgstr "O boletim \"%s\" foi removido com sucesso do ambiente virtual \"%s\"! "
 
-#: bulletin/views.py:904
+#: bulletin/views.py:905
 msgid "Bulletin Reports"
 msgstr "Relatórios do Boletim"
 
-#: bulletin/views.py:923
+#: bulletin/views.py:924
 msgid "Realized"
 msgstr "Realizada"
 
-#: bulletin/views.py:923
+#: bulletin/views.py:924
 msgid "Unrealized"
 msgstr "Não realizada"
 
-#: bulletin/views.py:923
+#: bulletin/views.py:924
 msgid "Historic"
 msgstr "Histórico"
 
-#: bulletin/views.py:938 bulletin/views.py:946
+#: bulletin/views.py:939 bulletin/views.py:947
 msgid "View"
 msgstr "Visualizar"
 
-#: bulletin/views.py:952
+#: bulletin/views.py:953
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: bulletin/views.py:953
+#: bulletin/views.py:954
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: bulletin/views.py:1022
+#: bulletin/views.py:1023
 msgid "[Photo]"
 msgstr "[Foto]"
 
-#: bulletin/views.py:1043
+#: bulletin/views.py:1044
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: bulletin/views.py:1045
+#: bulletin/views.py:1046
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"

@@ -36,7 +36,7 @@ def get_pend_graph(user, subject):
         item["date"] = {}
         item["date"]["start"] = formats.date_format(pendency.begin_date, "m/d/Y H:i")
         item["date"]["end"] = formats.date_format(pendency.end_date, "m/d/Y H:i")
-        item["date"]["delay"] = "infinity"
+        item["date"]["delay"] = formats.date_format(pendency.limit_date, "m/d/Y H:i") if pendency.limit_date else "infinity"
 
         item["action"] = pendency.get_action_display()
         item["name"] = pendency.resource.name
@@ -63,13 +63,13 @@ def get_pend_graph(user, subject):
             if not has_action:
                 item["done"] = False
 
-            notifies = Notification.objects.filter(user = user, task = pendency).order_by("-creation_date")
+            """notifies = Notification.objects.filter(user = user, task = pendency).order_by("-creation_date")
 
             if notifies.count() > 0:
                 last = notifies[0]
 
                 if not last.meta is None:
-                    item["date"]["delay"] = formats.date_format(last.meta, "m/d/Y H:i")
+                    item["date"]["delay"] = formats.date_format(last.meta, "m/d/Y H:i")"""
 
         graph.append(item)
 
@@ -80,7 +80,7 @@ def getAccessedTags(subject, user):
 
     data = []
 
-    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 8), datetime__date__lt = timezone.now())
+    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 7), datetime__date__lt = timezone.now())
 
     for tag in tags:
         if not tag.name == '':
@@ -115,7 +115,7 @@ def getAccessedTags(subject, user):
 def getTagAccessess(subject, tag, user):
     resources = Resource.objects.filter(tags = tag, topic__subject = subject)
 
-    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 8), datetime__date__lt = timezone.now())
+    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 7), datetime__date__lt = timezone.now())
 
     data = []
 
@@ -135,7 +135,7 @@ def getTagAccessess(subject, tag, user):
     return data
 
 def getOtherIndicators(subject, user):
-    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 8), datetime__date__lt = timezone.now())
+    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 7), datetime__date__lt = timezone.now())
 
     data = []
 
@@ -152,7 +152,7 @@ def getOtherIndicators(subject, user):
         #Subject access distinct days
         result = {}
 
-        for q in sub_access.extra({'date': 'DATE(datetime)'}):
+        for q in sub_access.extra({'date': "((datetime AT TIME ZONE 'America/Recife')::date)"}):
             if q.user_id in result:
                 if not q.date in result[q.user_id]:
                     result[q.user_id].append(q.date)
@@ -231,7 +231,7 @@ def getOtherIndicators(subject, user):
     data.append(item)
     
     #Resources in time
-    pend = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, end_date__date__lt = timezone.now(), end_date__date__gte = timezone.now() - timedelta(days = 8))
+    pend = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, end_date__date__lt = timezone.now(), end_date__date__gte = timezone.now() - timedelta(days = 7))
 
     #query = Notification.objects.filter(task__id__in = pend, level__gte = 3).values('user_id', 'task_id').distinct()
     item = {}
