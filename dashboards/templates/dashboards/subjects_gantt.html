@@ -157,7 +157,21 @@ var months=["{% trans 'January' %}", "{% trans 'February' %}", "{% trans 'March'
 function dateConverter(date){
     var reg = /(?<day>[0-9]{1,2}) de (?<month>[^0-9]{1,}) de (?<year>[0-9]{1,})/;
     var dateC = date.match(reg);
-    dateC = ""+(months.indexOf(dateC.groups.month)+1) + "/" + dateC.groups.day + "/" + dateC.groups.year;
+    if(!dateC){
+        reg = /(?<month>[^0-9]{1,}) (?<day>[0-9]{1,}). (?<year>[0-9]{1,})/
+        var dateC = date.match(reg);
+        if(dateC){
+            if(months.indexOf(dateC.groups.month)==-1){
+                dateC.groups.month = months.filter(function(d){
+                    return d.slice(0,3) == dateC.groups.month.slice(0,3);
+                })[0]
+            }
+        }
+    }
+    if(dateC)
+        dateC = ""+(months.indexOf(dateC.groups.month)+1) + "/" + dateC.groups.day + "/" + dateC.groups.year;
+    else    
+        dateC = date;
     return dateC;
 }
     var init_date = dateConverter('{{ subject.init_date }}');

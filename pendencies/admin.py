@@ -13,3 +13,15 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 from django.contrib import admin
 
 # Register your models here.
+
+from .models import Pendencies
+from .forms import PendenciesForm
+
+class PendencyAdmin(admin.ModelAdmin):
+	list_display = ['action','begin_date','end_date','limit_date','resource']
+	search_fields = ['resource', 'action']
+	form = PendenciesForm
+
+
+
+admin.site.register(Pendencies, PendencyAdmin)
