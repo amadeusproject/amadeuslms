@@ -1,0 +1,12 @@
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=amadeus
+Group=www-data
+WorkingDirectory=/home/amadeus/Amadeus/amadeuslms
+ExecStart=/home/amadeus/Amadeus/env/bin/gunicorn --error-logfile /home/amadeus/server_error.log --access-logfile /home/amadeus/server.log --capture-output --log-level debug --limit-request-line 8190 --work$
+
+[Install]
+WantedBy=multi.user.target
