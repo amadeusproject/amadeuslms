@@ -6,6 +6,8 @@ services:
     image: postgres:latest
     networks:
       - database_network
+    ports:
+      - 5432:5432
   web:
     image: amadeus:latest
     build:
