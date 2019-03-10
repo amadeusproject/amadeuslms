@@ -1,0 +1,12 @@
+[Unit]
+Description=daphne daemon
+After=network.target
+
+[Service]
+User=amadeus
+Group=www-data
+WorkingDirectory=/home/amadeus/Amadeus/amadeuslms
+ExecStart=/home/amadeus/Amadeus/env/bin/daphne --access-log /home/amadeus/access.log -u /home/amadeus/Amadeus/amadeuslms/daphne.sock -p 8001 amadeus.asgi:channel_layer
+
+[Install]
+WantedBy=multi-user.target
