@@ -7,7 +7,7 @@
 **Linguagem utilizada no projeto:**
 * Python 3.5
 
-** Frameworks utilizados no projeto:**
+**Frameworks utilizados no projeto:**
 * Django 1.9
 * Material Design Bootstrap
 
