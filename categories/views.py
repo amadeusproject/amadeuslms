@@ -133,7 +133,7 @@ class CreateCategory(LoginRequiredMixin, views.StaffuserRequiredMixin, LogMixin,
         self.log_context['category_name'] = self.object.name
         self.log_context['category_slug'] = self.object.slug
 
-        super(CreateCategory, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(CreateCategory, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return super(CreateCategory, self).form_valid(form)
 
@@ -187,7 +187,7 @@ class DeleteCategory(LoginRequiredMixin, LogMixin, DeleteView):
         self.log_context['category_name'] = self.object.name
         self.log_context['category_slug'] = self.object.slug
 
-        super(DeleteCategory, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(DeleteCategory, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         messages.success(self.request, _('Category "%s" removed successfully!')%(self.object.name))
         
@@ -215,7 +215,7 @@ class UpdateCategory(LogMixin, UpdateView):
         return_url = self.log_context['return_url']
         self.log_context.pop('return_url', None)
 
-        super(UpdateCategory, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(UpdateCategory, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         messages.success(self.request, _('Category "%s" updated successfully!')%(self.object.name))
 

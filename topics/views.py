@@ -89,7 +89,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		self.log_context['topic_name'] = self.object.name
 		self.log_context['topic_slug'] = self.object.slug
 
-		super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(CreateView, self).form_valid(form)
 
@@ -174,7 +174,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 		self.log_context['topic_name'] = self.object.name
 		self.log_context['topic_slug'] = self.object.slug
 
-		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.subject.slug})
 
@@ -225,7 +225,7 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
 		self.log_context['topic_name'] = self.object.name
 		self.log_context['topic_slug'] = self.object.slug
 
-		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.subject.slug})
 

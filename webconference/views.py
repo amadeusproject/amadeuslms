@@ -84,7 +84,7 @@ class NewWindowView(LoginRequiredMixin,LogMixin, generic.DetailView):
         self.log_context['webconference_slug'] = self.object.slug
         self.log_context['webconference_view'] = str(int(time.time()))
 
-        super(NewWindowView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(NewWindowView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -153,7 +153,7 @@ class Conference(LoginRequiredMixin,LogMixin,generic.TemplateView):
         self.log_context['webconference_slug'] = conference.slug
         self.log_context['webconference_init'] = str(int(time.time()))
 
-        super(Conference, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(Conference, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return context
 
@@ -248,7 +248,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
         self.log_context['webconference_slug'] = self.object.slug
         self.log_context['webconference_view'] = str(int(time.time()))
 
-        super(InsideView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(InsideView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -354,7 +354,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         self.log_context['webconference_name'] = self.object.name
         self.log_context['webconference_slug'] = self.object.slug
 
-        super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return redirect(self.get_success_url())
 
@@ -472,7 +472,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         self.log_context['webconference_name'] = self.object.name
         self.log_context['webconference_slug'] = self.object.slug
 
-        super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return redirect(self.get_success_url())
 
@@ -542,7 +542,7 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
         self.log_context['webconference_name'] = self.object.name
         self.log_context['webconference_slug'] = self.object.slug
 
-        super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
@@ -608,7 +608,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         self.log_context['webconference_name'] = self.object.name
         self.log_context['webconference_slug'] = self.object.slug
 
-        super(StatisticsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(StatisticsView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 
         context['title'] = _('Youtube Video Reports')

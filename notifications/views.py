@@ -128,7 +128,7 @@ class SubjectNotifications(LoginRequiredMixin, LogMixin, generic.ListView):
         self.log_context['view_page'] = self.request.GET.get("page", 1)
         self.log_context['timestamp_start'] = str(int(time.time()))
 
-        super(SubjectNotifications, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(SubjectNotifications, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -252,7 +252,7 @@ class SubjectHistory(LoginRequiredMixin, LogMixin, generic.ListView):
         self.log_context['searched'] = self.request.GET.get("search", "")
         self.log_context['timestamp_start'] = str(int(time.time()))
 
-        super(SubjectHistory, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(SubjectHistory, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 

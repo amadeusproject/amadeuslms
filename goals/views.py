@@ -294,7 +294,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
         self.log_context['goals_slug'] = goals.slug
         self.log_context['timestamp_start'] = str(int(time.time()))
 
-        super(InsideView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+        super(InsideView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -355,7 +355,7 @@ class NewWindowSubmit(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         self.log_context['goals_slug'] = goals.slug
         self.log_context['timestamp_start'] = str(int(time.time()))
 
-        super(NewWindowSubmit, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+        super(NewWindowSubmit, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -435,7 +435,7 @@ class NewWindowSubmit(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         self.log_context['goals_name'] = goals.name
         self.log_context['goals_slug'] = goals.slug
 
-        super(NewWindowSubmit, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+        super(NewWindowSubmit, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return success_url
 
@@ -494,7 +494,7 @@ class SubmitView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         self.log_context['goals_slug'] = goals.slug
         self.log_context['timestamp_start'] = str(int(time.time()))
 
-        super(SubmitView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+        super(SubmitView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -576,7 +576,7 @@ class SubmitView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         self.log_context['goals_name'] = goals.name
         self.log_context['goals_slug'] = goals.slug
 
-        super(SubmitView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+        super(SubmitView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return success_url
 
@@ -698,7 +698,7 @@ class UpdateSubmit(LoginRequiredMixin, LogMixin, generic.UpdateView):
         self.log_context['goals_name'] = goals.name
         self.log_context['goals_slug'] = goals.slug
 
-        super(UpdateSubmit, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+        super(UpdateSubmit, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return success_url
 
@@ -826,7 +826,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         self.log_context['goals_name'] = self.object.name
         self.log_context['goals_slug'] = self.object.slug
 
-        super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+        super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
         
         return redirect(self.get_success_url())
 
@@ -964,7 +964,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         self.log_context['goals_name'] = self.object.name
         self.log_context['goals_slug'] = self.object.slug
 
-        super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+        super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
         
         return redirect(self.get_success_url())
 
@@ -1036,7 +1036,7 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
         self.log_context['goals_name'] = self.object.name
         self.log_context['goals_slug'] = self.object.slug
 
-        super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+        super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
@@ -1108,7 +1108,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         self.log_context['goals_name'] = self.object.name
         self.log_context['goals_slug'] = self.object.slug
 
-        super(StatisticsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(StatisticsView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 
         context['title'] = _('Goals Reports')

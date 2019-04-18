@@ -47,7 +47,7 @@ class VisualizeNews(LoginRequiredMixin,LogMixin,generic.ListView):
         self.log_context['new_title'] = new.title
         self.log_context['new_slug'] = new.slug
 
-        super(VisualizeNews, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(VisualizeNews, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return new
 
@@ -74,7 +74,7 @@ class ListNewsView(LoginRequiredMixin,LogMixin,generic.ListView):
         context = super(ListNewsView, self).get_context_data(**kwargs)
         context['title'] = _('Manage News')
 
-        super(ListNewsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(ListNewsView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return context
 
@@ -106,7 +106,7 @@ class CreateNewsView(LoginRequiredMixin,LogMixin,generic.edit.CreateView):
         self.log_context['new_title'] = self.object.title
         self.log_context['new_slug'] = self.object.slug
 
-        super(CreateNewsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(CreateNewsView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return super(CreateNewsView, self).form_valid(form)
 
@@ -150,7 +150,7 @@ class UpdateNewsView(LoginRequiredMixin,LogMixin,generic.UpdateView):
         self.log_context['new_title'] = self.object.title
         self.log_context['new_slug'] = self.object.slug
 
-        super(UpdateNewsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(UpdateNewsView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return super(UpdateNewsView, self).form_valid(form)
     
@@ -245,6 +245,6 @@ class DeleteNewsView(LoginRequiredMixin,LogMixin,generic.DeleteView):
         self.log_context['new_title'] = news.title
         self.log_context['new_slug'] = news.slug
 
-        super(DeleteNewsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(DeleteNewsView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return context

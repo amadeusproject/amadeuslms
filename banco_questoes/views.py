@@ -151,7 +151,7 @@ class QuestionCreateView(LoginRequiredMixin, LogMixin, CreateView):
         self.log_context['question_id'] = self.object.id
         self.log_context['question_content'] = self.object.enunciado
 
-        super(QuestionCreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(QuestionCreateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return redirect(self.get_success_url())
 
@@ -246,7 +246,7 @@ class QuestionUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
         self.log_context['question_id'] = self.object.id
         self.log_context['question_content'] = self.object.enunciado
 
-        super(QuestionUpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(QuestionUpdateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return redirect(self.get_success_url())
 
@@ -299,6 +299,6 @@ class QuestionDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
         self.log_context['question_id'] = self.object.id
         self.log_context['question_content'] = self.object.enunciado
 
-        super(QuestionDeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+        super(QuestionDeleteView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return reverse_lazy('questions_database:index', kwargs = {'slug': self.object.subject.slug})

@@ -145,7 +145,7 @@ class CreateLinkView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         self.log_context['link_name'] = self.object.name
         self.log_context['link_slug'] = self.object.slug
 
-        super(CreateLinkView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(CreateLinkView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return redirect(self.get_success_url())
 
@@ -206,7 +206,7 @@ class DeleteLinkView(LoginRequiredMixin, LogMixin, generic.edit.DeleteView):
         self.log_context['link_name'] = self.object.name
         self.log_context['link_slug'] = self.object.slug
        
-        super(DeleteLinkView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(DeleteLinkView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
@@ -233,7 +233,7 @@ class RedirectUrl(LogMixin, RedirectView):
         self.log_context['link_name'] = link.name
         self.log_context['link_slug'] = link.slug
 
-        super(RedirectUrl, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(RedirectUrl, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return link.link_url
 
@@ -333,7 +333,7 @@ class UpdateLinkView(LoginRequiredMixin, LogMixin, generic.edit.UpdateView):
         self.log_context['link_name'] = self.object.name
         self.log_context['link_slug'] = self.object.slug
 
-        super(UpdateLinkView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(UpdateLinkView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return redirect(self.get_success_url())
 
@@ -393,7 +393,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         self.log_context['link_name'] = self.object.name
         self.log_context['link_slug'] = self.object.slug
 
-        super(StatisticsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(StatisticsView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 
         context['title'] = _('Links Reports')

@@ -157,7 +157,7 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
 
             response = json.dumps(user_info)
             
-            super(LoginViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
+            super(LoginViewset, self).create_log(user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return HttpResponse(response)
 
@@ -224,7 +224,7 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
 
             self.log_action = 'logout'
 
-            super(LoginViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
+            super(LoginViewset, self).create_log(user, self.log_component, self.log_action, self.log_resource, self.log_context)
                     
         return HttpResponse(response)
 
@@ -338,7 +338,7 @@ class ParticipantsViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
             self.log_context['subject_slug'] = subject_slug
             self.log_context['subject_name'] = subject.name
 
-            super(ParticipantsViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
+            super(ParticipantsViewset, self).create_log(user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return HttpResponse(response)
 
@@ -423,7 +423,7 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
             self.log_context['user_name'] = str(user2)
             self.log_context['user_email'] = user_two
 
-            super(ChatViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
+            super(ChatViewset, self).create_log(user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return HttpResponse(response)
 
@@ -535,7 +535,7 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
 
                 sendChatPushNotification(user_to, message)
 
-                super(ChatViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
+                super(ChatViewset, self).create_log(user, self.log_component, self.log_action, self.log_resource, self.log_context)
             else:
                 info["message"] = _("Error while sending message!")
                 info["success"] = False
@@ -669,7 +669,7 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
         self.log_context["subject_slug"] = subject
         self.log_context["subject_name"] = sub.name
 
-        super(MuralViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(MuralViewset, self).create_log(user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return HttpResponse(response)
 
@@ -719,7 +719,7 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
         self.log_context["post_space_slug"] = mural.space.slug
         self.log_context["post_space_name"] = mural.space.name
 
-        super(MuralViewset, self).createLog(mural.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(MuralViewset, self).create_log(mural.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return HttpResponse(response)
 
@@ -809,7 +809,7 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
             info["success"] = True
             info["number"] = 1
 
-            super(MuralViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
+            super(MuralViewset, self).create_log(user, self.log_component, self.log_action, self.log_resource, self.log_context)
         else:
             info["message"] = _("Error while creating post!")
             info["success"] = False
@@ -906,7 +906,7 @@ class MuralViewset(viewsets.ModelViewSet, LogMixin):
             info["success"] = True
             info["number"] = 1
 
-            super(MuralViewset, self).createLog(user, self.log_component, self.log_action, self.log_resource, self.log_context)
+            super(MuralViewset, self).create_log(user, self.log_component, self.log_action, self.log_resource, self.log_context)
         else:
             info["message"] = _("Error while creating comment!")
             info["success"] = False

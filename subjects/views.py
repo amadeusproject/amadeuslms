@@ -381,8 +381,8 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
         self.log_context['subject_name'] = self.object.name
         self.log_context['subject_slug'] = self.object.slug
 
-        super(SubjectCreateView, self).createLog(self.request.user, self.log_component, self.log_action,
-                                                 self.log_resource, self.log_context)
+        super(SubjectCreateView, self).create_log(self.request.user, self.log_component, self.log_action,
+                                                  self.log_resource, self.log_context)
 
         return super(SubjectCreateView, self).form_valid(form)
 
@@ -453,8 +453,8 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
         self.log_context['subject_name'] = self.object.name
         self.log_context['subject_slug'] = self.object.slug
 
-        super(SubjectUpdateView, self).createLog(self.request.user, self.log_component, self.log_action,
-                                                 self.log_resource, self.log_context)
+        super(SubjectUpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
+                                                  self.log_resource, self.log_context)
 
         messages.success(self.request, _('The Subject "%s" was updated on "%s" Category successfully!')
                          % (self.object.name, self.object.category.name))
@@ -496,8 +496,8 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
         self.log_context['subject_name'] = self.object.name
         self.log_context['subject_slug'] = self.object.slug
 
-        super(SubjectDeleteView, self).createLog(self.request.user, self.log_component, self.log_action,
-                                                 self.log_resource, self.log_context)
+        super(SubjectDeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
+                                                  self.log_resource, self.log_context)
 
         messages.success(self.request, _('Subject "%s" removed successfully!') % (self.object.name))
 
@@ -543,8 +543,8 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
         self.log_context['subject_name'] = self.object.name
         self.log_context['subject_slug'] = self.object.slug
 
-        super(SubjectDeleteView, self).createLog(self.request.user, self.log_component, self.log_action,
-                                                 self.log_resource, self.log_context)
+        super(SubjectDeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
+                                                  self.log_resource, self.log_context)
 
         messages.success(self.request, _('Subject "%s" removed successfully!') % (self.object.name))
 
@@ -597,8 +597,8 @@ class SubjectDetailView(LoginRequiredMixin, LogMixin, DetailView):
         self.log_context['subject_slug'] = self.object.slug
         self.log_context['timestamp_start'] = str(int(time.time()))
 
-        super(SubjectDetailView, self).createLog(self.request.user, self.log_component, self.log_action,
-                                                 self.log_resource, self.log_context)
+        super(SubjectDetailView, self).create_log(self.request.user, self.log_component, self.log_action,
+                                                  self.log_resource, self.log_context)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -635,8 +635,8 @@ class SubjectSubscribeView(LoginRequiredMixin, LogMixin, TemplateView):
             self.log_context['subject_name'] = subject.name
             self.log_context['subject_slug'] = subject.slug
 
-            super(SubjectSubscribeView, self).createLog(self.request.user, self.log_component, self.log_action,
-                                                        self.log_resource, self.log_context)
+            super(SubjectSubscribeView, self).create_log(self.request.user, self.log_component, self.log_action,
+                                                         self.log_resource, self.log_context)
 
             subject.students.add(request.user)
             subject.save()
@@ -723,8 +723,8 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
         context['subjects_menu_active'] = ''
 
         self.log_context['search_for'] = self.tags
-        super(SubjectSearchView, self).createLog(self.request.user, self.log_component, self.log_action,
-                                                 self.log_resource, self.log_context)
+        super(SubjectSearchView, self).create_log(self.request.user, self.log_component, self.log_action,
+                                                  self.log_resource, self.log_context)
 
         return context
 

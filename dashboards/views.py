@@ -65,7 +65,7 @@ class GeneralView(LogMixin, generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = {}
         
-        self.createLog(actor = self.request.user)
+        self.create_log(actor = self.request.user)
         context['months'] = self.get_last_twelve_months()
         context['child_template'] = "dashboards/general_body.html"
         context['javascript_files'] = ["analytics/js/d3.v5.min.js",
@@ -120,7 +120,7 @@ class CategoryView(LogMixin, generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = {}
-        self.createLog(actor = self.request.user)
+        self.create_log(actor = self.request.user)
         
         context['months'] = self.get_last_twelve_months()
 
@@ -175,7 +175,7 @@ class LogView(LogMixin, generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = {}
-        self.createLog(actor = self.request.user)
+        self.create_log(actor = self.request.user)
         
         context['javascript_files'] = ['dashboards/js/logbehavior.js',
         'dashboards/js/dataTables.bootstrap.min.js', 'dashboards/js/jquery.dataTables.min.js']
@@ -277,7 +277,7 @@ class SubjectView(LogMixin, generic.TemplateView):
         context['javascript_files'] = []
         context['style_files'] = ['dashboards/css/general.css', 'dashboards/css/dashboards_category.css']
         
-        super(SubjectView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+        super(SubjectView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return context
 

@@ -108,7 +108,7 @@ class GeneralIndex(LoginRequiredMixin, LogMixin, generic.ListView):
 		else:
 			self.log_context['timestamp_start'] = str(int(time.time()))
 
-			super(GeneralIndex, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+			super(GeneralIndex, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 			self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -183,7 +183,7 @@ class GeneralCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
 		MuralVisualizations.objects.bulk_create(entries)
 
-		super(GeneralCreate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(GeneralCreate, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(GeneralCreate, self).form_valid(form)
 
@@ -242,7 +242,7 @@ class GeneralUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
 		self.log_context['post_id'] = str(self.object.id)
 
-		super(GeneralUpdate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(GeneralUpdate, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(GeneralUpdate, self).form_valid(form)
 
@@ -295,7 +295,7 @@ class GeneralDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
 
 		self.log_context['post_id'] = str(self.object.id)
 
-		super(GeneralDelete, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(GeneralDelete, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return reverse_lazy('mural:deleted_post')
 
@@ -447,7 +447,7 @@ class CategoryCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		self.log_context['category_name'] = self.object.space.name
 		self.log_context['category_slug'] = self.object.space.slug
 
-		super(CategoryCreate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(CategoryCreate, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(CategoryCreate, self).form_valid(form)
 
@@ -509,7 +509,7 @@ class CategoryUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
 		self.log_context['category_name'] = self.object.space.name
 		self.log_context['category_slug'] = self.object.space.slug
 
-		super(CategoryUpdate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(CategoryUpdate, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(CategoryUpdate, self).form_valid(form)
 
@@ -565,7 +565,7 @@ class CategoryDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
 		self.log_context['category_name'] = self.object.space.name
 		self.log_context['category_slug'] = self.object.space.slug
 
-		super(CategoryDelete, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(CategoryDelete, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return reverse_lazy('mural:deleted_post')
 
@@ -752,7 +752,7 @@ class SubjectCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 			self.log_context['resource_name'] = self.object.resource.name
 			self.log_context['resource_slug'] = self.object.resource.slug
 
-		super(SubjectCreate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(SubjectCreate, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(SubjectCreate, self).form_valid(form)
 
@@ -839,7 +839,7 @@ class SubjectUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
 			self.log_context['resource_name'] = self.object.resource.name
 			self.log_context['resource_slug'] = self.object.resource.slug
 
-		super(SubjectUpdate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(SubjectUpdate, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(SubjectUpdate, self).form_valid(form)
 
@@ -906,7 +906,7 @@ class SubjectDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
 			self.log_context['resource_name'] = self.object.resource.name
 			self.log_context['resource_slug'] = self.object.resource.slug
 
-		super(SubjectDelete, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(SubjectDelete, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return reverse_lazy('mural:deleted_post')
 
@@ -967,7 +967,7 @@ class SubjectView(LoginRequiredMixin, LogMixin, generic.ListView):
 			self.log_context['subject_slug'] = subject.slug
 			self.log_context['timestamp_start'] = str(int(time.time()))
 
-			super(SubjectView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+			super(SubjectView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 			self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -1115,7 +1115,7 @@ class ResourceView(LoginRequiredMixin, LogMixin, generic.ListView):
 			self.log_context['resource_slug'] = resource.slug
 			self.log_context['timestamp_start'] = str(int(time.time()))
 
-			super(ResourceView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+			super(ResourceView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 			self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -1213,7 +1213,7 @@ class ResourceCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 			self.log_context['resource_name'] = self.object.resource.name
 			self.log_context['resource_slug'] = self.object.resource.slug
 
-		super(ResourceCreate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(ResourceCreate, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(ResourceCreate, self).form_valid(form)
 
@@ -1361,7 +1361,7 @@ class CommentCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 				self.log_context['resource_name'] = post.subjectpost.resource.name
 				self.log_context['resource_slug'] = post.subjectpost.resource.slug
 
-		super(CommentCreate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(CommentCreate, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(CommentCreate, self).form_valid(form)
 
@@ -1453,7 +1453,7 @@ class CommentUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
 				self.log_context['resource_name'] = self.object.post.subjectpost.resource.name
 				self.log_context['resource_slug'] = self.object.post.subjectpost.resource.slug
 
-		super(CommentUpdate, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(CommentUpdate, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return super(CommentUpdate, self).form_valid(form)
 
@@ -1537,7 +1537,7 @@ class CommentDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
 				self.log_context['resource_name'] = self.object.post.subjectpost.resource.name
 				self.log_context['resource_slug'] = self.object.post.subjectpost.resource.slug
 
-		super(CommentDelete, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(CommentDelete, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return reverse_lazy('mural:deleted_comment')
 

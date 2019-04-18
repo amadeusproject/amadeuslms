@@ -83,7 +83,7 @@ class ViewPDFFile(LoginRequiredMixin, LogMixin, generic.TemplateView):
         self.log_context['pdffile_name'] = pdf_file.name
         self.log_context['pdffile_slug'] = pdf_file.slug
 
-        super(ViewPDFFile, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(ViewPDFFile, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return context
 
@@ -204,7 +204,7 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
         self.log_context['pdffile_name'] = self.object.name
         self.log_context['pdffile_slug'] = self.object.slug
 
-        super(PDFFileCreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(PDFFileCreateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return redirect(self.get_success_url())
 
@@ -320,7 +320,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         self.log_context['pdffile_name'] = self.object.name
         self.log_context['pdffile_slug'] = self.object.slug
 
-        super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return redirect(self.get_success_url())
 
@@ -382,7 +382,7 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
         self.log_context['pdffile_name'] = self.object.name
         self.log_context['pdffile_slug'] = self.object.slug
 
-        super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
         return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
@@ -422,7 +422,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         self.log_context['pdffile_name'] = self.object.name
         self.log_context['pdffile_slug'] = self.object.slug
 
-        super(StatisticsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(StatisticsView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 
         context['title'] = _('PDF File Reports')

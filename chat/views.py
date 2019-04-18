@@ -72,7 +72,7 @@ class GeneralIndex(LoginRequiredMixin, LogMixin, generic.ListView):
 
 		self.log_context['timestamp_start'] = str(int(time.time()))
 
-		super(GeneralIndex, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(GeneralIndex, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -111,7 +111,7 @@ class GeneralParticipants(LoginRequiredMixin, LogMixin, generic.ListView):
 		self.log_context['search_by'] = self.request.GET.get('search', '')
 		self.log_context['timestamp_start'] = str(int(time.time()))
 
-		super(GeneralParticipants, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(GeneralParticipants, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -164,7 +164,7 @@ class SubjectParticipants(LoginRequiredMixin, LogMixin, generic.ListView):
 		self.log_context['search_by'] = self.request.GET.get('search', '')
 		self.log_context['timestamp_start'] = str(int(time.time()))
 
-		super(SubjectParticipants, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(SubjectParticipants, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -221,7 +221,7 @@ class SubjectView(LoginRequiredMixin, LogMixin, generic.ListView):
 		self.log_context['subject_slug'] = subject.slug
 		self.log_context['timestamp_start'] = str(int(time.time()))
 
-		super(SubjectView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(SubjectView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -252,7 +252,7 @@ class ParticipantProfile(LoginRequiredMixin, LogMixin, generic.DetailView):
 		self.log_context['user_name'] = str(self.object)
 		self.log_context['user_email'] = self.object.email
 
-		super(ParticipantProfile, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(ParticipantProfile, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		context['space'] = self.request.GET.get('space', '0')
 		context['space_type'] = self.request.GET.get('space_type', 'general')
@@ -319,7 +319,7 @@ class GetTalk(LoginRequiredMixin, LogMixin, generic.ListView):
 		self.log_context['user_name'] = str(context['participant'])
 		self.log_context['user_email'] = context['participant'].email
 
-		super(GetTalk, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(GetTalk, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return context
 
@@ -414,7 +414,7 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 			self.log_context['subject_name'] = self.object.subject.name
 			self.log_context['subject_slug'] = self.object.subject.slug
 
-		super(SendMessage, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(SendMessage, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return reverse_lazy('chat:render_message', args = (self.object.id, self.object.talk.id, self.kwargs.get('space', '0'), self.kwargs.get('space_type', 'general'), self.kwargs.get('email', ''),))
 

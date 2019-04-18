@@ -130,7 +130,7 @@ class CreateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 		self.log_context['user_name'] = self.object.get_short_name()
 		self.log_context['user_email'] = self.object.email
 
-		super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		messages.success(self.request, msg)
 
@@ -178,7 +178,7 @@ class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 		self.log_context['user_name'] = self.object.get_short_name()
 		self.log_context['user_email'] = self.object.email
 
-		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		messages.success(self.request, msg)
 
@@ -270,7 +270,7 @@ class DeleteView(braces_mixins.LoginRequiredMixin, LogMixin, generic.DeleteView)
 				
 			redirect_url = redirect(success_url)
 
-		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return redirect_url
 

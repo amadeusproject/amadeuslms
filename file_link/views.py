@@ -96,7 +96,7 @@ class DownloadFile(LoginRequiredMixin, LogMixin, generic.DetailView):
 		self.log_context['filelink_name'] = file_link.name
 		self.log_context['filelink_slug'] = file_link.slug
 
-		super(DownloadFile, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+		super(DownloadFile, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 		
 		return response
 
@@ -196,7 +196,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 		self.log_context['filelink_name'] = self.object.name
 		self.log_context['filelink_slug'] = self.object.slug
 
-		super(CreateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return redirect(self.get_success_url())
 
@@ -311,7 +311,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 		self.log_context['filelink_name'] = self.object.name
 		self.log_context['filelink_slug'] = self.object.slug
 
-		super(UpdateView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return redirect(self.get_success_url())
 
@@ -373,7 +373,7 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
 		self.log_context['filelink_name'] = self.object.name
 		self.log_context['filelink_slug'] = self.object.slug
 
-		super(DeleteView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+		super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 		return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
@@ -414,7 +414,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         self.log_context['filelink_name'] = self.object.name
         self.log_context['filelink_slug'] = self.object.slug
 
-        super(StatisticsView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(StatisticsView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
 
 
         context['title'] = _('File Link Reports')
