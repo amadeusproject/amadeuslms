@@ -50,7 +50,7 @@ class Subject(models.Model):
                                       related_name='subject_student', blank=True)
 
     category = models.ForeignKey(Category, related_name="subject_category", null=True,
-                                 on_delete="CASCADE")
+                                 on_delete=models.CASCADE)
 
     max_upload_size = models.IntegerField(_("Maximum upload size"), default=1024, null=True)
 
