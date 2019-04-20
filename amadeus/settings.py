@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
-
     'widget_tweaks',
     'rolepermissions',
     'oauth2_provider',
@@ -57,9 +56,8 @@ INSTALLED_APPS = [
     'django_crontab',
     'django_cron',
     'channels',
-    'resubmit', # Utilizado para salvar arquivos na cache, para caso o formulario não seja preenchido corretamente o usuário não precise fazer o upload outra vez dos arquivos
+    #'resubmit', # Utilizado para salvar arquivos na cache, para caso o formulario não seja preenchido corretamente o usuário não precise fazer o upload outra vez dos arquivos
     'fcm_django',
-
     'amadeus',
     'users',
     'notifications',
