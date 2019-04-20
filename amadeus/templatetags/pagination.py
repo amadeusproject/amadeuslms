@@ -43,7 +43,7 @@ def pagination(request, paginator, page_obj):
                 init -= (6 - (end - init))
 
         for n in range(init, end):
-            if n > 0 and n <= paginator.num_pages:
+            if 0 < n <= paginator.num_pages:
                 page_numbers.append(n)
 
     context['page_numbers'] = page_numbers
