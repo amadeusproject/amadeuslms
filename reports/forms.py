@@ -18,17 +18,17 @@ from django.forms.formsets import BaseFormSet
 
 
 class BaseResourceAndTagFormset(BaseFormSet):
-    def clean(self):
-        """
-        Adds validation to check that no two links have the same anchor or URL
-        and that all links have both an anchor and URL.
-        """
-        print(self.errors)
-        if any(self.errors):
-            return
+	def clean(self):
+		"""
+		Adds validation to check that no two links have the same anchor or URL
+		and that all links have both an anchor and URL.
+		"""
+		print(self.errors)
+		if any(self.errors):
+			return
 
-        for form in self.forms:
-        	pass
+		for form in self.forms:
+			pass
 
 class ResourceAndTagForm(forms.Form):
 
