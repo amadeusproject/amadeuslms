@@ -10,17 +10,18 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-
-from django.shortcuts import render
-#API IMPORTS
+# API IMPORTS
 from rest_framework import viewsets
-from .serializers import LogSerializer
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
+
 from .models import Log
+from .serializers import LogSerializer
+
+
 # Create your views here.
 
-#REST API VIEWS
+# REST API VIEWS
 class LogViewSet(viewsets.ModelViewSet):
-	permission_classes = [IsAuthenticated]
-	queryset = Log.objects.all()
-	serializer_class = LogSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Log.objects.all()
+    serializer_class = LogSerializer
