@@ -214,7 +214,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
         self.log_context['questionary_slug'] = questionary.slug
         self.log_context['timestamp_start'] = str(int(time.time()))
 
-        super(InsideView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(InsideView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -333,7 +333,7 @@ class QuestionaryCreateView(LoginRequiredMixin, LogMixin , generic.CreateView):
         self.log_context['questionary_name'] = self.object.name
         self.log_context['questionary_slug'] = self.object.slug
 
-        super(QuestionaryCreateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(QuestionaryCreateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource)
         
         return redirect(self.get_success_url())
 
@@ -474,7 +474,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         self.log_context['questionary_name'] = self.object.name
         self.log_context['questionary_slug'] = self.object.slug
 
-        super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource)
         
         return redirect(self.get_success_url())
 
@@ -543,7 +543,7 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
         self.log_context['questionary_name'] = self.object.name
         self.log_context['questionary_slug'] = self.object.slug
 
-        super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource)
 
         return reverse_lazy('subjects:view', kwargs = {'slug': self.object.topic.subject.slug})
 
@@ -588,15 +588,14 @@ def answer(request):
 
     #add request context to log
     questionary_data = userquest.questionary
-    request.log_context = {}
-    request.log_context["question_id"] = userquest.questionary.id
-    request.log_context["is_correct"] = question.is_correct
-    request.log_context["time_to_answer"] = (question.created_at - question.question.created_at).total_seconds()
-    request.log_context["subject_id"] = questionary_data.topic.subject.id
-    request.log_context["category_id"] = questionary_data.topic.subject.category.id
-    request.log_context["topic_id"] = questionary_data.topic.id
-    request.log_context["topic_slug"] = questionary_data.topic.slug
-    request.log_context["topic_name"] = questionary_data.topic.name
+    request.log_context = {"question_id": userquest.questionary.id,
+                           "is_correct": question.is_correct, "time_to_answer": (
+                    question.created_at - question.question.created_at).total_seconds(),
+                           "subject_id": questionary_data.topic.subject.id,
+                           "category_id": questionary_data.topic.subject.category.id,
+                           "topic_id": questionary_data.topic.id,
+                           "topic_slug": questionary_data.topic.slug,
+                           "topic_name": questionary_data.topic.name}
 
     if not UserAnswer.objects.filter(user_quest = userquest, answer__isnull = True).exists() or insert_log:
         log = Log()
@@ -607,15 +606,14 @@ def answer(request):
         log.action = log_action
         log.resource = "questionary"
 
-        log.context = {}
-        log.context["subject_id"] = questionary_data.topic.subject.id
-        log.context["category_id"] = questionary_data.topic.subject.category.id
-        log.context["topic_id"] = questionary_data.topic.id
-        log.context["topic_slug"] = questionary_data.topic.slug
-        log.context["topic_name"] = questionary_data.topic.name
-        log.context['questionary_id'] = questionary_data.id
-        log.context['questionary_name'] = questionary_data.name
-        log.context['questionary_slug'] = questionary_data.slug
+        log.context = {"subject_id": questionary_data.topic.subject.id,
+                       "category_id": questionary_data.topic.subject.category.id,
+                       "topic_id": questionary_data.topic.id,
+                       "topic_slug": questionary_data.topic.slug,
+                       "topic_name": questionary_data.topic.name,
+                       'questionary_id': questionary_data.id,
+                       'questionary_name': questionary_data.name,
+                       'questionary_slug': questionary_data.slug}
         log.save()
 
     return JsonResponse({'last_update': formats.date_format(userquest.last_update, "SHORT_DATETIME_FORMAT"), 'answered': userquest.useranswer_userquest.filter(answer__isnull = False).count()})
@@ -656,7 +654,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         self.log_context['questionary_name'] = self.object.name
         self.log_context['questionary_slug'] = self.object.slug
 
-        super(StatisticsView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(StatisticsView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource)
 
         context['title'] = _('Questionary Reports')
 
