@@ -15,54 +15,58 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 	Called before session_security package clears the session and log out the user
 """
 
+import json
 from datetime import datetime, timedelta
+
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+from django.utils.deprecation import MiddlewareMixin
+from django.utils.translation import ugettext as _u
 from session_security.settings import EXPIRE_AFTER
-from session_security.utils import get_last_activity, set_last_activity
+from session_security.utils import get_last_activity
 
 from log.models import Log
-
 from .models import User
-from django.utils.translation import ugettext as _u
-from channels import Group
-import json
 
-class SessionExpireMiddleware(object):
 
-	def process_request(self, request):
-		if not request.user.is_authenticated():
-			return
+class SessionExpireMiddleware(MiddlewareMixin):
 
-		now = datetime.now()
+    def process_request(self, request):
+        if not request.user.is_authenticated():
+            return
 
-		if '_session_security' not in request.session:
-			return
-		
-		delta = now - get_last_activity(request.session)
-		expire_seconds = EXPIRE_AFTER
+        now = datetime.now()
 
-		if delta >= timedelta(seconds = expire_seconds):
-			log = Log()
-			log.user = str(request.user)
-			log.user_id = request.user.id
-			log.user_email = request.user.email
-			log.context = {'condition': 'session_expire'}
-			log.component = "user"
-			log.action = "logout"
-			log.resource = "system"
+        if '_session_security' not in request.session:
+            return
 
-			log.save()
+        delta = now - get_last_activity(request.session)
+        expire_seconds = EXPIRE_AFTER
 
-			users = User.objects.all().exclude(email = request.user.email)
+        if delta >= timedelta(seconds=expire_seconds):
+            log = Log()
+            log.user = str(request.user)
+            log.user_id = request.user.id
+            log.user_email = request.user.email
+            log.context = {'condition': 'session_expire'}
+            log.component = "user"
+            log.action = "logout"
+            log.resource = "system"
 
-			notification = {
-				"type": "user_status",
-				"user_id": str(request.user.id),
-				"status": _u("Offline"),
-				"status_class": "",
-				"remove_class": "away"
-			}
+            log.save()
 
-			notification = json.dumps(notification)
+            users = User.objects.all().exclude(email=request.user.email)
 
-			for u in users:
-				Group("user-%s" % u.id).send({'text': notification})
+            notification = {
+                "type": "user_status",
+                "user_id": str(request.user.id),
+                "status": _u("Offline"),
+                "status_class": "",
+                "remove_class": "away"
+            }
+
+            notification = json.dumps(notification)
+            channel_layer = get_channel_layer()
+
+            for u in users:
+                async_to_sync(channel_layer.send)("user-%s" % u.id, {'text': notification})
