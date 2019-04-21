@@ -14,7 +14,6 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
-
 from rest_framework.documentation import include_docs_urls
 
 from .views import index
@@ -33,11 +32,12 @@ urlpatterns = [
     url(r'^webpages/', include(('webpage.urls', 'webpage'), namespace='webpages')),
     url(r'^ytvideo/', include(('youtube_video.urls', 'youtube_video'), namespace='youtube')),
     url(r'^file_links/', include(('file_link.urls', 'file_link'), namespace='file_links')),
-    url(r'^goals/', include('goals.urls', namespace='goals')),
-    url(r'^mailsender/', include('mailsender.urls', namespace='mailsender')),
-    url(r'^security/', include('security.urls', namespace='security')),
-    url(r'^themes/', include('themes.urls', namespace='themes')),
-    url(r'^pendencies/', include('notifications.urls', namespace='notifications')),
+    url(r'^goals/', include(('goals.urls', "goals"), namespace='goals')),
+    url(r'^mailsender/', include(('mailsender.urls', "mailsender"), namespace='mailsender')),
+    url(r'^security/', include(('security.urls', "security"), namespace='security')),
+    url(r'^themes/', include(('themes.urls', "themes"), namespace='themes')),
+    url(r'^pendencies/',
+        include(('notifications.urls', "notifications"), namespace='notifications')),
     url(r'^links/', include('links.urls', namespace='links')),
     url(r'^pdf_files/', include('pdf_file.urls', namespace='pdf_files')),
     url(r'^questionary/', include('questionary.urls', namespace='questionary')),
