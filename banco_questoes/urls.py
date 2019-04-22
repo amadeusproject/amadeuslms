@@ -10,13 +10,16 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-from django.conf.urls import url, include
+from django.conf.urls import url
+
 from . import views
 
 urlpatterns = [
-	url(r'^(?P<slug>[\w_-]+)/$', views.IndexView.as_view(), name='index'),
-	url(r'^create/(?P<slug>[\w_-]+)/$', views.QuestionCreateView.as_view(), name='create'),
-	url(r'^update/(?P<pk>[\w_-]+)/(?P<slug>[\w_-]+)/$', views.QuestionUpdateView.as_view(), name='update'),
-	url(r'^replicate/(?P<question_id>[\w_-]+)/(?P<slug>[\w_-]+)/$', views.QuestionCreateView.as_view(), name='replicate'),
-	url(r'^delete/(?P<pk>[\w_-]+)/$', views.QuestionDeleteView.as_view(), name='delete'),
+    url(r'^(?P<slug>[\w_-]+)/$', views.IndexView.as_view(), name='index'),
+    url(r'^create/(?P<slug>[\w_-]+)/$', views.QuestionCreateView.as_view(), name='create'),
+    url(r'^update/(?P<pk>[\w_-]+)/(?P<slug>[\w_-]+)/$', views.QuestionUpdateView.as_view(),
+        name='update'),
+    url(r'^replicate/(?P<question_id>[\w_-]+)/(?P<slug>[\w_-]+)/$',
+        views.QuestionCreateView.as_view(), name='replicate'),
+    url(r'^delete/(?P<pk>[\w_-]+)/$', views.QuestionDeleteView.as_view(), name='delete'),
 ]
