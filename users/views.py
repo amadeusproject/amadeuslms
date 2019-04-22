@@ -12,7 +12,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 import json
 import os
+
+from asgiref.sync import async_to_sync
 from braces import views as braces_mixins
+from channels.layers import get_channel_layer
 # USER STATUS NOTIFICATION
 from django.conf import settings
 from django.contrib import messages
@@ -23,10 +26,10 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from django.core.mail import send_mail
 from django.core.mail.backends.smtp import EmailBackend
-from django.urls import reverse, reverse_lazy
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
+from django.urls import reverse, reverse_lazy
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.translation import ugettext as _u
@@ -560,9 +563,10 @@ def login(request):
                 }
 
                 notification = json.dumps(notification)
+                channel_layer = get_channel_layer()
 
                 for u in users:
-                    Group("user-%s" % u.id).send({'text': notification})
+                    async_to_sync(channel_layer.send)("user-%s" % u.id, {'text': notification})
 
                 next_url = request.GET.get('next', None)
 
@@ -592,7 +596,7 @@ def logout(request, next_page=None):
 
     logout_user(request)
 
-    if not user_email is None:
+    if user_email is not None:
         users = User.objects.all().exclude(email=user_email)
     else:
         users = User.objects.all()
@@ -606,9 +610,10 @@ def logout(request, next_page=None):
     }
 
     notification = json.dumps(notification)
+    channel_layer = get_channel_layer()
 
     for u in users:
-        Group("user-%s" % u.id).send({'text': notification})
+        async_to_sync(channel_layer.send)("user-%s" % u.id, {'text': notification})
 
     if next_page:
         return redirect(next_page)
