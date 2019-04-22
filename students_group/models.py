@@ -23,6 +23,7 @@ class StudentsGroup(models.Model):
     slug = AutoSlugField(_("Slug"), populate_from='name', unique=True)
     description = models.TextField(_('Description'), blank=True)
     subject = models.ForeignKey(Subject, verbose_name=_('Subject'), related_name='group_subject',
+
                                 null=True, on_delete=models.CASCADE)
     participants = models.ManyToManyField(User, verbose_name=_('Participants'),
                                           related_name='group_participants', blank=True)
