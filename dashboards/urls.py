@@ -10,16 +10,18 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-from django.conf.urls import url, include
+from django.conf.urls import url
+
 from . import views
 
-
 urlpatterns = [
-	url(r'^general/$', views.GeneralView.as_view(), name='view_general'),
-	url(r'^general/log/$', views.LogView.as_view(), name='view_general_log'),
-	url(r'^categories/$', views.CategoryView.as_view(), name='view_categories'),
-	url(r'^get_log_data/$', views.load_log_data, name='load_log_data'),
-	url(r'^metrics/([\w_-]+)/([\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.other_metrics, name='other_metrics'),
-	url(r'^tag/accessess/([\w_-]+)/([\w_-]+)/([\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.tag_accessess, name='tag_accessess'),
-	url(r'^subjects/(?P<slug>[\w_-]+)/$', views.SubjectView.as_view(), name='view_subject')
+    url(r'^general/$', views.GeneralView.as_view(), name='view_general'),
+    url(r'^general/log/$', views.LogView.as_view(), name='view_general_log'),
+    url(r'^categories/$', views.CategoryView.as_view(), name='view_categories'),
+    url(r'^get_log_data/$', views.load_log_data, name='load_log_data'),
+    url(r'^metrics/([\w_-]+)/([\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.other_metrics,
+        name='other_metrics'),
+    url(r'^tag/accessess/([\w_-]+)/([\w_-]+)/([\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$',
+        views.tag_accessess, name='tag_accessess'),
+    url(r'^subjects/(?P<slug>[\w_-]+)/$', views.SubjectView.as_view(), name='view_subject')
 ]
