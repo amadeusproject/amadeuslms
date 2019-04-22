@@ -10,35 +10,29 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, CreateView, DeleteView, UpdateView
-from .models import Category
-from django.core.urlresolvers import reverse_lazy
-from rolepermissions.verifications import has_role
-from django.db.models import Q
-from django.contrib import messages
-from django.http import HttpResponse, JsonResponse
-from django.utils.translation import ugettext_lazy as _
-
-from django.contrib.auth.mixins import LoginRequiredMixin
-
-from rolepermissions.mixins import HasRoleMixin
-from .forms import CategoryForm
-
-from braces import views
-from subjects.models import Subject
-
-from log.mixins import LogMixin
-from log.decorators import log_decorator_ajax
-from log.models import Log
-
 import time
 
+from braces import views
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.db.models import Q
+from django.http import JsonResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView
+
+from log.decorators import log_decorator_ajax
+from log.mixins import LogMixin
+from log.models import Log
+from subjects.models import Subject
 from topics.models import Topic, Resource
 from users.models import User
+from .forms import CategoryForm
+from .models import Category
+
 
 class IndexView(LoginRequiredMixin, views.StaffuserRequiredMixin, ListView):
-
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
     model = Category
@@ -63,16 +57,17 @@ class IndexView(LoginRequiredMixin, views.StaffuserRequiredMixin, ListView):
         if self.request.is_ajax():
             if self.request.user.is_staff:
                 self.template_name = "categories/home_admin_content.html"
-           
 
-        return self.response_class(request = self.request, template = self.template_name, context = context, using = self.template_engine, **response_kwargs)
+        return self.response_class(request=self.request, template=self.template_name,
+                                   context=context, using=self.template_engine, **response_kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        
+
         context['settings_menu_active'] = "settings_menu_active"
 
         return context
+
 
 class CreateCategory(LoginRequiredMixin, views.StaffuserRequiredMixin, LogMixin, CreateView):
     log_component = 'category'
@@ -82,7 +77,7 @@ class CreateCategory(LoginRequiredMixin, views.StaffuserRequiredMixin, LogMixin,
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
-    
+
     form_class = CategoryForm
     template_name = 'categories/create.html'
     success_url = reverse_lazy('categories:index')
@@ -91,7 +86,7 @@ class CreateCategory(LoginRequiredMixin, views.StaffuserRequiredMixin, LogMixin,
         initial = super(CreateCategory, self).get_initial()
 
         if self.kwargs.get('slug'):
-            category = get_object_or_404(Category, slug = self.kwargs['slug'])
+            category = get_object_or_404(Category, slug=self.kwargs['slug'])
             initial = initial.copy()
 
             initial['description'] = category.description
@@ -128,20 +123,22 @@ class CreateCategory(LoginRequiredMixin, views.StaffuserRequiredMixin, LogMixin,
 
     def form_valid(self, form):
         self.object = form.save()
-        
+
         self.log_context['category_id'] = self.object.id
         self.log_context['category_name'] = self.object.name
         self.log_context['category_slug'] = self.object.slug
 
-        super(CreateCategory, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(CreateCategory, self).create_log(self.request.user, self.log_component,
+                                               self.log_action, self.log_resource)
 
         return super(CreateCategory, self).form_valid(form)
 
     def get_success_url(self):
-    
+
         objeto = self.object.name
-        messages.success(self.request, _('Category "%s" register successfully!')%(objeto))
+        messages.success(self.request, _('Category "%s" register successfully!') % objeto)
         return reverse_lazy('categories:index')
+
 
 class DeleteCategory(LoginRequiredMixin, LogMixin, DeleteView):
     log_component = 'category'
@@ -159,7 +156,7 @@ class DeleteCategory(LoginRequiredMixin, LogMixin, DeleteView):
         pk = request.user.pk
 
         if not request.user.is_staff:
-            category = Category.objects.filter(Q(coordinators__pk = pk) & Q(slug = kwargs['slug']))
+            category = Category.objects.filter(Q(coordinators__pk=pk) & Q(slug=kwargs['slug']))
             if category.count() == 0:
                 if request.META.get('HTTP_REFERER'):
                     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -172,14 +169,15 @@ class DeleteCategory(LoginRequiredMixin, LogMixin, DeleteView):
         return handler(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        category = get_object_or_404(Category, slug = self.kwargs.get('slug'))
-        subjects = Subject.objects.filter(category = category)
-        
+        category = get_object_or_404(Category, slug=self.kwargs.get('slug'))
+        subjects = Subject.objects.filter(category=category)
+
         if subjects.count() > 0:
-            messages.error(self.request, _('The category cannot be removed, it contains one or more virtual enviroments attach.'))
-            
+            messages.error(self.request, _(
+                'The category cannot be removed, it contains one or more virtual enviroments attach.'))
+
             return redirect(self.request.META.get('HTTP_REFERER'))
-       
+
         return super(DeleteCategory, self).delete(self, request, *args, **kwargs)
 
     def get_success_url(self):
@@ -187,11 +185,14 @@ class DeleteCategory(LoginRequiredMixin, LogMixin, DeleteView):
         self.log_context['category_name'] = self.object.name
         self.log_context['category_slug'] = self.object.slug
 
-        super(DeleteCategory, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(DeleteCategory, self).create_log(self.request.user, self.log_component,
+                                               self.log_action, self.log_resource)
 
-        messages.success(self.request, _('Category "%s" removed successfully!')%(self.object.name))
-        
+        messages.success(self.request,
+                         _('Category "%s" removed successfully!') % self.object.name)
+
         return self.request.META.get('HTTP_REFERER')
+
 
 class UpdateCategory(LogMixin, UpdateView):
     log_component = 'category'
@@ -211,13 +212,15 @@ class UpdateCategory(LogMixin, UpdateView):
         self.log_context['category_name'] = self.object.name
         self.log_context['category_slug'] = self.object.slug
 
-        #url to return
+        # url to return
         return_url = self.log_context['return_url']
         self.log_context.pop('return_url', None)
 
-        super(UpdateCategory, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(UpdateCategory, self).create_log(self.request.user, self.log_component,
+                                               self.log_action, self.log_resource)
 
-        messages.success(self.request, _('Category "%s" updated successfully!')%(self.object.name))
+        messages.success(self.request,
+                         _('Category "%s" updated successfully!') % (self.object.name))
 
         return return_url
 
@@ -225,9 +228,10 @@ class UpdateCategory(LogMixin, UpdateView):
         category = form.save()
 
         if not category.visible:
-            category.subject_category.all().update(visible = False)
-            Topic.objects.filter(subject__category = category, repository = False).update(visible = False)
-            Resource.objects.filter(topic__subject__category = category, topic__repository = False).update(visible = False)
+            category.subject_category.all().update(visible=False)
+            Topic.objects.filter(subject__category=category, repository=False).update(visible=False)
+            Resource.objects.filter(topic__subject__category=category,
+                                    topic__repository=False).update(visible=False)
 
         return super(UpdateCategory, self).form_valid(form)
 
@@ -247,19 +251,17 @@ class UpdateCategory(LogMixin, UpdateView):
 
         return context
 
+
 @log_decorator_ajax('category', 'view', 'category')
 def category_view_log(request, category):
     action = request.GET.get('action')
 
     if action == 'open':
-        category = get_object_or_404(Category, id = category)
+        category = get_object_or_404(Category, id=category)
 
-        log_context = {}
-        log_context['category_id'] = category.id
-        log_context['category_name'] = category.name
-        log_context['category_slug'] = category.slug
-        log_context['timestamp_start'] = str(int(time.time()))
-        log_context['timestamp_end'] = '-1'
+        log_context = {'category_id': category.id, 'category_name': category.name,
+                       'category_slug': category.slug, 'timestamp_start': str(int(time.time())),
+                       'timestamp_end': '-1'}
 
         request.log_context = log_context
 
