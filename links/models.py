@@ -10,21 +10,16 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-
+from django.urls import reverse_lazy
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from autoslug.fields import AutoSlugField
 
-import datetime
-from topics.models import Topic, Resource
-from users.models import User
-from django.utils import timezone
-from django.core.urlresolvers import reverse_lazy
+from topics.models import Resource
+
 
 # Create your models here.
 class Link(Resource):
-    link_url = models.CharField( _("Link_URL"),max_length=250 )
-
+    link_url = models.CharField(_("Link_URL"), max_length=250)
 
     class Meta:
         verbose_name = "Link"
@@ -34,7 +29,7 @@ class Link(Resource):
         return self.name
 
     def access_link(self):
-        return reverse_lazy('links:view', kwargs = {'slug': self.slug})
+        return reverse_lazy('links:view', kwargs={'slug': self.slug})
 
     def update_link(self):
         return 'links:update'
