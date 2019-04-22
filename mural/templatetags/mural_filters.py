@@ -12,155 +12,172 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 from django import template
 from django.conf import settings
-from django.utils import timezone
 from django.db.models import Q
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.sessions.models import Session
 
 from log.models import Log
-
 from mural.models import MuralFavorites, MuralVisualizations
 
 register = template.Library()
 
-@register.filter(name = 'is_edited')
+
+@register.filter(name='is_edited')
 def is_edited(post):
-	if post.edited:
-		return _("(Edited)")
+    if post.edited:
+        return _("(Edited)")
 
-	return ""
+    return ""
 
-@register.filter(name = 'action_icon')
+
+@register.filter(name='action_icon')
 def action_icon(action):
-	icon = ""
+    icon = ""
 
-	if action == "comment":
-		icon = "fa-commenting-o"
-	elif action == "help":
-		icon = "fa-comments-o"
+    if action == "comment":
+        icon = "fa-commenting-o"
+    elif action == "help":
+        icon = "fa-comments-o"
 
-	return icon
+    return icon
 
-@register.filter(name = 'fav_label')
+
+@register.filter(name='fav_label')
 def fav_label(post, user):
-	if MuralFavorites.objects.filter(post = post, user = user).exists():
-		return _('Unfavorite')
+    if MuralFavorites.objects.filter(post=post, user=user).exists():
+        return _('Unfavorite')
 
-	return _('Favorite')
+    return _('Favorite')
 
-@register.filter(name = 'fav_action')
+
+@register.filter(name='fav_action')
 def fav_action(post, user):
-	if MuralFavorites.objects.filter(post = post, user = user).exists():
-		return "unfavorite"
+    if MuralFavorites.objects.filter(post=post, user=user).exists():
+        return "unfavorite"
 
-	return "favorite"
+    return "favorite"
 
-@register.filter(name = 'fav_class')
+
+@register.filter(name='fav_class')
 def fav_class(post, user):
-	if MuralFavorites.objects.filter(post = post, user = user).exists():
-		return "btn_unfav"
+    if MuralFavorites.objects.filter(post=post, user=user).exists():
+        return "btn_unfav"
 
-	return "btn_fav"
+    return "btn_fav"
 
-@register.filter(name = 'unviewed')
+
+@register.filter(name='unviewed')
 def unviewed(category, user):
-	count = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__categorypost__space = category) | Q(comment__post__categorypost__space = category))).count()
+    count = MuralVisualizations.objects.filter(Q(user=user) & Q(viewed=False) & (
+                Q(post__categorypost__space=category) | Q(
+            comment__post__categorypost__space=category))).count()
 
-	return count
+    return count
 
-@register.filter(name = 'sub_unviewed')
+
+@register.filter(name='sub_unviewed')
 def sub_unviewed(subject, user):
-	count = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space = subject) | Q(comment__post__subjectpost__space = subject))).count()
+    count = MuralVisualizations.objects.filter(Q(user=user) & Q(viewed=False) & (
+                Q(post__subjectpost__space=subject) | Q(
+            comment__post__subjectpost__space=subject))).count()
 
-	return count
+    return count
 
-@register.filter(name = 'show_settings')
+
+@register.filter(name='show_settings')
 def show_settings(post, user):
-	if user.is_staff:
-		return True
+    if user.is_staff:
+        return True
 
-	if post.user == user:
-		return True
+    if post.user == user:
+        return True
 
-	if post._my_subclass == "categorypost":
-		if user in post.categorypost.space.coordinators.all():
-			return True
+    if post._my_subclass == "categorypost":
+        if user in post.categorypost.space.coordinators.all():
+            return True
 
-	if post._my_subclass == "subjectpost":
-		if user in post.subjectpost.space.professor.all():
-			return True
+    if post._my_subclass == "subjectpost":
+        if user in post.subjectpost.space.professor.all():
+            return True
 
-		if user in post.subjectpost.space.category.coordinators.all():
-			return True
+        if user in post.subjectpost.space.category.coordinators.all():
+            return True
 
-	return False
+    return False
 
-@register.filter(name = 'show_settings_comment')
+
+@register.filter(name='show_settings_comment')
 def show_settings_comment(comment, user):
-	if user.is_staff:
-		return True
+    if user.is_staff:
+        return True
 
-	if comment.user == user:
-		return True
+    if comment.user == user:
+        return True
 
-	if comment.post._my_subclass == "categorypost":
-		if user in comment.post.categorypost.space.coordinators.all():
-			return True
+    if comment.post._my_subclass == "categorypost":
+        if user in comment.post.categorypost.space.coordinators.all():
+            return True
 
-	if comment.post._my_subclass == "subjectpost":
-		if user in comment.post.subjectpost.space.professor.all():
-			return True
+    if comment.post._my_subclass == "subjectpost":
+        if user in comment.post.subjectpost.space.professor.all():
+            return True
 
-		if user in comment.post.subjectpost.space.category.coordinators.all():
-			return True
+        if user in comment.post.subjectpost.space.category.coordinators.all():
+            return True
 
-	return False
+    return False
 
-@register.filter(name = 'has_resource')
+
+@register.filter(name='has_resource')
 def has_resource(post):
-	if post._my_subclass == 'subjectpost':
-		if post.subjectpost.resource:
-			return _("about") + " <span class='post_resource'>" + str(post.subjectpost.resource) + "</span>"
+    if post._my_subclass == 'subjectpost':
+        if post.subjectpost.resource:
+            return _("about") + " <span class='post_resource'>" + str(
+                post.subjectpost.resource) + "</span>"
 
-	return ""
+    return ""
 
-@register.assignment_tag(name = 'is_online')
+
+@register.simple_tag(name='is_online')
 def is_online(user):
-	expire_time = settings.SESSION_SECURITY_EXPIRE_AFTER
-	now = timezone.now()
-	
-	activities = Log.objects.filter(user_id = user.id).order_by('-datetime')
+    expire_time = settings.SESSION_SECURITY_EXPIRE_AFTER
+    now = timezone.now()
 
-	if activities.count() > 0:
-		last_activity = activities[0]
+    activities = Log.objects.filter(user_id=user.id).order_by('-datetime')
 
-		if last_activity.action != 'logout':
-			if (now - last_activity.datetime).total_seconds() < expire_time:
-				return "active"
-			else:
-				return "away"
-	
-	return ""
+    if activities.count() > 0:
+        last_activity = activities[0]
 
-@register.filter(name = 'status_text')
+        if last_activity.action != 'logout':
+            if (now - last_activity.datetime).total_seconds() < expire_time:
+                return "active"
+            else:
+                return "away"
+
+    return ""
+
+
+@register.filter(name='status_text')
 def status_text(status):
-	if status == "active":
-		return _("Online")
-	elif status == "away":
-		return _('Away')
-	else:
-		return _("Offline")
+    if status == "active":
+        return _("Online")
+    elif status == "away":
+        return _('Away')
+    else:
+        return _("Offline")
 
-@register.filter(name = 'chat_space')
+
+@register.filter(name='chat_space')
 def chat_space(post):
-	if post._my_subclass == "subjectpost":
-		return post.subjectpost.space.id
+    if post._my_subclass == "subjectpost":
+        return post.subjectpost.space.id
 
-	return 0
+    return 0
 
-@register.filter(name = 'chat_space_type')
+
+@register.filter(name='chat_space_type')
 def chat_space_type(post):
-	if post._my_subclass == "subjectpost":
-		return "subject"
+    if post._my_subclass == "subjectpost":
+        return "subject"
 
-	return "general"
+    return "general"
