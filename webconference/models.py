@@ -10,14 +10,15 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
+from django.urls import reverse_lazy
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.core.urlresolvers import reverse_lazy
 
 from topics.models import Resource
 
+
 class Webconference(Resource):
-    presentation = models.TextField(_('Presentation'), blank = True)
+    presentation = models.TextField(_('Presentation'), blank=True)
     start = models.DateTimeField(_('Start date/hour'))
     end = models.DateTimeField(_('End date/hour'))
 
@@ -30,9 +31,9 @@ class Webconference(Resource):
 
     def access_link(self):
         if self.show_window:
-            return reverse_lazy('webconferences:window_view', args = (), kwargs = {'slug': self.slug})
+            return reverse_lazy('webconferences:window_view', args=(), kwargs={'slug': self.slug})
 
-        return reverse_lazy('webconferences:view', args = (), kwargs = {'slug': self.slug})
+        return reverse_lazy('webconferences:view', args=(), kwargs={'slug': self.slug})
 
     def update_link(self):
         return 'webconferences:update'
@@ -43,12 +44,13 @@ class Webconference(Resource):
     def delete_message(self):
         return _('Are you sure you want delete the web conference')
 
+
 class ConferenceSettings(models.Model):
-	domain = models.CharField(_("Domain"), max_length = 100, blank=False, null = False)
+    domain = models.CharField(_("Domain"), max_length=100, blank=False, null=False)
 
-	class Meta:
-		verbose_name = _("Web Conference Setting")
-		verbose_name_plural = _("Web Conferences Setting")
+    class Meta:
+        verbose_name = _("Web Conference Setting")
+        verbose_name_plural = _("Web Conferences Setting")
 
-	def __str__(self):
-		return self.domain
+    def __str__(self):
+        return self.domain
