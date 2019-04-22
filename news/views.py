@@ -10,20 +10,20 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-from django.shortcuts import get_object_or_404, redirect, render
-from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
-from log.models import Log
-from log.mixins import LogMixin
-from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext_lazy as _
-from django.db.models import Q, Count
+from django.views import generic
 
-from .models import News, valid_formats
+from log.mixins import LogMixin
 from .forms import NewsForm
+from .models import News, valid_formats
 
-class VisualizeNews(LoginRequiredMixin,LogMixin,generic.ListView):
+
+class VisualizeNews(LoginRequiredMixin, LogMixin, generic.ListView):
     log_action = "view_new"
     log_resource = "news"
     log_component = "news"
@@ -47,16 +47,17 @@ class VisualizeNews(LoginRequiredMixin,LogMixin,generic.ListView):
         self.log_context['new_title'] = new.title
         self.log_context['new_slug'] = new.slug
 
-        super(VisualizeNews, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(VisualizeNews, self).create_log(self.request.user, self.log_component,
+                                              self.log_action, self.log_resource)
 
         return new
 
-class ListNewsView(LoginRequiredMixin,LogMixin,generic.ListView):
+
+class ListNewsView(LoginRequiredMixin, LogMixin, generic.ListView):
     log_action = "view_list_of_news"
     log_resource = "news"
     log_component = "news"
     log_context = {}
-
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
@@ -74,12 +75,13 @@ class ListNewsView(LoginRequiredMixin,LogMixin,generic.ListView):
         context = super(ListNewsView, self).get_context_data(**kwargs)
         context['title'] = _('Manage News')
 
-        super(ListNewsView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(ListNewsView, self).create_log(self.request.user, self.log_component, self.log_action,
+                                             self.log_resource)
 
         return context
 
 
-class CreateNewsView(LoginRequiredMixin,LogMixin,generic.edit.CreateView):
+class CreateNewsView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
     log_action = "create"
     log_resource = "news"
     log_component = "news"
@@ -96,7 +98,7 @@ class CreateNewsView(LoginRequiredMixin,LogMixin,generic.edit.CreateView):
         return super(CreateNewsView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        self.object = form.save(commit = False)
+        self.object = form.save(commit=False)
         creator = self.request.user
         self.object.creator = creator
 
@@ -106,23 +108,25 @@ class CreateNewsView(LoginRequiredMixin,LogMixin,generic.edit.CreateView):
         self.log_context['new_title'] = self.object.title
         self.log_context['new_slug'] = self.object.slug
 
-        super(CreateNewsView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(CreateNewsView, self).create_log(self.request.user, self.log_component,
+                                               self.log_action, self.log_resource)
 
         return super(CreateNewsView, self).form_valid(form)
 
-    def get_context_data (self, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super(CreateNewsView, self).get_context_data(**kwargs)
         context['title'] = _("Create News")
         context['mimeTypes'] = valid_formats
 
         return context
-    
+
     def get_success_url(self):
         messages.success(self.request, _('News successfully created!'))
 
-        return reverse_lazy('news:view', kwargs = {'slug': self.object.slug} )
+        return reverse_lazy('news:view', kwargs={'slug': self.object.slug})
 
-class UpdateNewsView(LoginRequiredMixin,LogMixin,generic.UpdateView):
+
+class UpdateNewsView(LoginRequiredMixin, LogMixin, generic.UpdateView):
     log_action = "update"
     log_resource = "news"
     log_component = "news"
@@ -140,7 +144,7 @@ class UpdateNewsView(LoginRequiredMixin,LogMixin,generic.UpdateView):
         return super(UpdateNewsView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        self.object = form.save(commit = False)
+        self.object = form.save(commit=False)
         creator = self.request.user
         self.object.creator = creator
 
@@ -150,11 +154,12 @@ class UpdateNewsView(LoginRequiredMixin,LogMixin,generic.UpdateView):
         self.log_context['new_title'] = self.object.title
         self.log_context['new_slug'] = self.object.slug
 
-        super(UpdateNewsView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(UpdateNewsView, self).create_log(self.request.user, self.log_component,
+                                               self.log_action, self.log_resource)
 
         return super(UpdateNewsView, self).form_valid(form)
-    
-    def get_context_data (self, **kwargs):
+
+    def get_context_data(self, **kwargs):
         context = super(UpdateNewsView, self).get_context_data(**kwargs)
         context['title'] = _("Update News")
         context['mimeTypes'] = valid_formats
@@ -164,7 +169,8 @@ class UpdateNewsView(LoginRequiredMixin,LogMixin,generic.UpdateView):
     def get_success_url(self):
         messages.success(self.request, _('News successfully updated!'))
 
-        return reverse_lazy('news:view', kwargs = {'slug': self.object.slug} )
+        return reverse_lazy('news:view', kwargs={'slug': self.object.slug})
+
 
 class SearchNewsView(LoginRequiredMixin, LogMixin, generic.ListView):
     login_url = reverse_lazy("users:login")
@@ -175,12 +181,12 @@ class SearchNewsView(LoginRequiredMixin, LogMixin, generic.ListView):
     paginate_by = 10
 
     def dispatch(self, request, *args, **kwargs):
-    	search = self.request.GET.get('search', '')
+        search = self.request.GET.get('search', '')
 
-    	if search == '':
-    		return redirect(reverse_lazy('news:manage_news'))
+        if search == '':
+            return redirect(reverse_lazy('news:manage_news'))
 
-    	return super(SearchNewsView, self).dispatch(request, *args, **kwargs)
+        return super(SearchNewsView, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         inteiro = False
@@ -194,21 +200,27 @@ class SearchNewsView(LoginRequiredMixin, LogMixin, generic.ListView):
             inteiro = False
 
         if inteiro:
-            news = News.objects.filter(Q(title__icontains = search) | Q(creator__username__icontains = search) | Q(create_date__icontains = search)  | Q(create_date__year = search) | Q(create_date__month = search)  | Q(create_date__day = search) ).distinct().order_by('create_date')
+            news = News.objects.filter(
+                Q(title__icontains=search) | Q(creator__username__icontains=search) | Q(
+                    create_date__icontains=search) | Q(create_date__year=search) | Q(
+                    create_date__month=search) | Q(create_date__day=search)).distinct().order_by(
+                'create_date')
         else:
-            news = News.objects.filter(Q(title__icontains = search) | Q(creator__username__icontains = search) | Q(create_date__icontains = search) ).distinct().order_by('create_date')
-
+            news = News.objects.filter(
+                Q(title__icontains=search) | Q(creator__username__icontains=search) | Q(
+                    create_date__icontains=search)).distinct().order_by('create_date')
 
         return news
 
-    def get_context_data (self, **kwargs):
-    	context = super(SearchNewsView, self).get_context_data(**kwargs)
-    	context['title'] = _('Search News')
-    	context['search'] = self.request.GET.get('search')
+    def get_context_data(self, **kwargs):
+        context = super(SearchNewsView, self).get_context_data(**kwargs)
+        context['title'] = _('Search News')
+        context['search'] = self.request.GET.get('search')
 
-    	return context
+        return context
 
-class DeleteNewsView(LoginRequiredMixin,LogMixin,generic.DeleteView):
+
+class DeleteNewsView(LoginRequiredMixin, LogMixin, generic.DeleteView):
     log_component = 'news'
     log_action = 'delete'
     log_resource = 'news'
@@ -226,11 +238,11 @@ class DeleteNewsView(LoginRequiredMixin,LogMixin,generic.DeleteView):
         return super(DeleteNewsView, self).dispatch(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        news = get_object_or_404(News, slug = self.kwargs.get('slug'))
+        news = get_object_or_404(News, slug=self.kwargs.get('slug'))
         return super(DeleteNewsView, self).delete(self, request, *args, **kwargs)
 
     def get_success_url(self):
-        messages.success(self.request, _('News "%s" removed successfully!')%(self.object.title))
+        messages.success(self.request, _('News "%s" removed successfully!') % (self.object.title))
         success_url = reverse_lazy('news:manage_news')
 
         return success_url
@@ -238,13 +250,14 @@ class DeleteNewsView(LoginRequiredMixin,LogMixin,generic.DeleteView):
     def get_context_data(self, **kwargs):
         context = super(DeleteNewsView, self).get_context_data(**kwargs)
         context['title'] = _('Delete News')
-        news = get_object_or_404(News, slug = self.kwargs.get('slug'))
+        news = get_object_or_404(News, slug=self.kwargs.get('slug'))
         context['new'] = news
 
         self.log_context['new_creator'] = news.creator.get_short_name()
         self.log_context['new_title'] = news.title
         self.log_context['new_slug'] = news.slug
 
-        super(DeleteNewsView, self).create_log(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context)
+        super(DeleteNewsView, self).create_log(self.request.user, self.log_component,
+                                               self.log_action, self.log_resource)
 
         return context
