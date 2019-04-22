@@ -10,13 +10,14 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-
 from django.contrib import admin
 
 from .models import Log
 
+
 class LogAdmin(admin.ModelAdmin):
-	list_display = ['datetime', 'user', 'user_email', 'component', 'action', 'resource', 'context']
-	search_fields = ['user', 'component', 'action', 'resource']
+    list_display = ['datetime', 'user', 'user_email', 'component', 'action', 'resource']
+    search_fields = ['user', 'component', 'action', 'resource']
+
 
 admin.site.register(Log, LogAdmin)
