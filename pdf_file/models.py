@@ -10,26 +10,30 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
 import os
+
 from django.core.exceptions import ValidationError
-from django.core.urlresolvers import reverse_lazy
+from django.db import models
+from django.urls import reverse_lazy
+from django.utils.translation import ugettext_lazy as _
 
 from topics.models import Resource
+
 # Create your models here.
 valid_formats = [
     'application/pdf'
 ]
+
 
 def validate_file_extension(value):
     if hasattr(value.file, 'content_type'):
         if not value.file.content_type in valid_formats:
             raise ValidationError(_('File not supported, use PDF format instead.'))
 
+
 class PDFFile(Resource):
-    file = models.FileField(_('File'), upload_to='files/', validators = [validate_file_extension])
-   
+    file = models.FileField(_('File'), upload_to='files/', validators=[validate_file_extension])
+
     class Meta:
         verbose_name = "PDFFile"
         verbose_name_plural = "PDFFiles"
@@ -42,7 +46,7 @@ class PDFFile(Resource):
         return self.name
 
     def access_link(self):
-        return reverse_lazy('pdf_files:view', args = (), kwargs = {'slug': self.slug})
+        return reverse_lazy('pdf_files:view', args=(), kwargs={'slug': self.slug})
 
     def update_link(self):
         return 'pdf_files:update'
