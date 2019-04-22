@@ -15,21 +15,20 @@ from django import forms
 from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 
-from resubmit.widgets import ResubmitFileWidget
-
 from subjects.models import Tag
-
 from .models import Question, Alternative
+
 
 class QuestionForm(forms.ModelForm):
     subject = None
-    MAX_UPLOAD_SIZE = 5*1024*1024
+    MAX_UPLOAD_SIZE = 5 * 1024 * 1024
 
     def __init__(self, *args, **kwargs):
         super(QuestionForm, self).__init__(*args, **kwargs)
-        
+
         if not kwargs['instance'] is None:
-            self.initial['categories'] = ", ".join(self.instance.categories.all().values_list("name", flat = True))
+            self.initial['categories'] = ", ".join(
+                self.instance.categories.all().values_list("name", flat=True))
 
     def clean_file(self):
         file = self.cleaned_data.get('question_img', False)
@@ -37,7 +36,8 @@ class QuestionForm(forms.ModelForm):
         if file:
             if hasattr(file, '_size'):
                 if file._size > self.MAX_UPLOAD_SIZE:
-                    self._errors['file'] = [_("The file is too large. It should have less than 5MB.")]
+                    self._errors['file'] = [
+                        _("The file is too large. It should have less than 5MB.")]
 
                     return ValueError
 
@@ -50,7 +50,7 @@ class QuestionForm(forms.ModelForm):
             self._errors['enunciado'] = [_("This field is required")]
 
             return ValueError
-        
+
         return enunciado
 
     def clean_categories(self):
@@ -63,18 +63,18 @@ class QuestionForm(forms.ModelForm):
 
         return categories
 
-    categories = forms.CharField(label = _('Categories *'), required = False)
+    categories = forms.CharField(label=_('Categories *'), required=False)
 
     class Meta:
         model = Question
         fields = ['enunciado', 'question_img']
         widgets = {
             'enunciado': forms.Textarea,
-            'question_img': ResubmitFileWidget(attrs={'accept':'image/*'}),
+            'question_img': forms.FileInput(attrs={'accept': 'image/*'}),
         }
 
     def save(self, commit=True):
-        super(QuestionForm, self).save(commit = True)
+        super(QuestionForm, self).save(commit=True)
 
         self.instance.save()
 
@@ -89,20 +89,21 @@ class QuestionForm(forms.ModelForm):
         for cat in categories:
             cat = cat.strip()
 
-            exist = Tag.objects.filter(name = cat).exists()
+            exist = Tag.objects.filter(name=cat).exists()
 
             if exist:
-                new_cat = Tag.objects.get(name = cat)
+                new_cat = Tag.objects.get(name=cat)
             else:
-                new_cat = Tag.objects.create(name = cat)
+                new_cat = Tag.objects.create(name=cat)
 
             if not new_cat in self.instance.categories.all():
                 self.instance.categories.add(new_cat)
 
         return self.instance
 
+
 class AlternativeForm(forms.ModelForm):
-    MAX_UPLOAD_SIZE = 10*1024*1024
+    MAX_UPLOAD_SIZE = 10 * 1024 * 1024
 
     def clean_file(self):
         file = self.cleaned_data.get('alt_img', False)
@@ -110,7 +111,8 @@ class AlternativeForm(forms.ModelForm):
         if file:
             if hasattr(file, '_size'):
                 if file._size > self.MAX_UPLOAD_SIZE:
-                    self._errors['file'] = [_("The file is too large. It should have less than 5MB.")]
+                    self._errors['file'] = [
+                        _("The file is too large. It should have less than 5MB.")]
 
                     return ValueError
 
@@ -121,10 +123,14 @@ class AlternativeForm(forms.ModelForm):
         fields = ['content', 'alt_img', 'is_correct']
         widgets = {
             'content': forms.Textarea,
-            'alt_img': ResubmitFileWidget(attrs={'accept':'image/*'}),
+            'alt_img': forms.FileInput(attrs={'accept': 'image/*'}),
         }
 
-BaseAlternativeFormset = inlineformset_factory(Question, Alternative, form = AlternativeForm, extra = 4, max_num = 4, min_num = 4, validate_max = True, validate_min = True)
+
+BaseAlternativeFormset = inlineformset_factory(Question, Alternative, form=AlternativeForm, extra=4,
+                                               max_num=4, min_num=4, validate_max=True,
+                                               validate_min=True)
+
 
 class AlternativeFormset(BaseAlternativeFormset):
     def __init__(self, *args, **kwargs):
@@ -149,11 +155,13 @@ class AlternativeFormset(BaseAlternativeFormset):
                 contents.append(content)
 
                 if duplicates:
-                    raise forms.ValidationError(_("The alternatives must not be equals."), code = 'duplicate_alternatives')
+                    raise forms.ValidationError(_("The alternatives must not be equals."),
+                                                code='duplicate_alternatives')
 
                 if has_correct:
                     if is_correct is True:
-                        raise forms.ValidationError(_("Only one alternative must be correct."), code = 'multiple_correct')
+                        raise forms.ValidationError(_("Only one alternative must be correct."),
+                                                    code='multiple_correct')
                     else:
                         has_correct = True
                 else:
@@ -161,4 +169,5 @@ class AlternativeFormset(BaseAlternativeFormset):
                         has_correct = True
 
         if has_correct is False:
-            raise forms.ValidationError(_("You must provide the correct answer."), code = 'correct_answer')
+            raise forms.ValidationError(_("You must provide the correct answer."),
+                                        code='correct_answer')
