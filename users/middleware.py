@@ -32,7 +32,8 @@ from .models import User
 class SessionExpireMiddleware(MiddlewareMixin):
 
     def process_request(self, request):
-        if not request.user.is_authenticated():
+        print(request.user)
+        if not request.user.is_authenticated:
             return
 
         now = datetime.now()
