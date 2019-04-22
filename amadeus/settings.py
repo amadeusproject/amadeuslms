@@ -19,7 +19,6 @@ from django.utils.translation import ugettext_lazy as _
 
 db_from_ev = dj_database_url.config(conn_max_age=500)
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -31,8 +30,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = '$=8)c!5)iha85a&8q4+kv1pyg0yl7_xe_x^z=2cn_1d7r0hny4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
+DEBUG = True
 
 # Application definition
 
@@ -56,7 +54,6 @@ INSTALLED_APPS = [
     'django_crontab',
     'django_cron',
     'channels',
-    #'resubmit', # Utilizado para salvar arquivos na cache, para caso o formulario não seja preenchido corretamente o usuário não precise fazer o upload outra vez dos arquivos
     'fcm_django',
     'amadeus',
     'users',
@@ -89,23 +86,24 @@ INSTALLED_APPS = [
     'questionary',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'users.middleware.SessionExpireMiddleware',
     'session_security.middleware.SessionSecurityMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
 
-    'log.middleware.TimeSpentMiddleware',
-    #libs-middleware
+    # libs-middleware
+]
 
+MIDDLEWARE_CLASSES = [
+    'log.middleware.TimeSpentMiddleware',
 ]
 
 ROOT_URLCONF = 'amadeus.urls'
@@ -131,7 +129,6 @@ TEMPLATES = [
     },
 ]
 
-
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -150,12 +147,9 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Database
 # https://docs.djangopr/*oject.com/en/1.9/ref/settings/#databases
 
-DATABASES = { 'default': db_from_ev,
-            }
+DATABASES = {'default': db_from_ev, }
 
-
-
-#superuser: admin pass: amadeus2358
+# superuser: admin pass: amadeus2358
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -175,15 +169,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
 LANGUAGE_CODE = 'pt-br'
 
 LANGUAGES = [
- ('pt-br', _('Portuguese')),
- ('en', _('English')),
+    ('pt-br', _('Portuguese')),
+    ('en', _('English')),
 ]
 
 TIME_ZONE = 'America/Recife'
@@ -203,7 +196,7 @@ STATIC_URL = '/static/'
 # Static files heroku
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "amadeus/static"),
@@ -238,16 +231,15 @@ FCM_DJANGO_SETTINGS = {
     "DELETE_INACTIVE_DEVICES": False,
 }
 
-#SECURITY
+# SECURITY
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-#Allow all host headers
+# Allow all host headers
 ALLOWED_HOSTS = ['*']
 
 # Files
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'uploads')
 MEDIA_URL = '/uploads/'
-
 
 # Users
 LOGIN_REDIRECT_URL = 'subjects:home'
@@ -260,7 +252,7 @@ AUTHENTICATION_BACKENDS = [
 ROLEPERMISSIONS_MODULE = 'amadeus.roles'
 
 LOGS_URL = 'logs/'
-#https://github.com/squ1b3r/Djaneiro
+# https://github.com/squ1b3r/Djaneiro
 
 
 # E-mail
@@ -269,6 +261,7 @@ LOGS_URL = 'logs/'
 
 # Messages
 from django.contrib.messages import constants as messages_constants
+
 MESSAGE_TAGS = {
     messages_constants.DEBUG: 'debug',
     messages_constants.INFO: 'info',
@@ -277,7 +270,7 @@ MESSAGE_TAGS = {
     messages_constants.ERROR: 'danger',
 }
 
-#Send email for forgot Password
+# Send email for forgot Password
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'amadeusteste@gmail.com'
@@ -289,18 +282,19 @@ EMAIL_HOST_PASSWORD = 'amadeusteste'
 # SMTP CONFIG
 # EMAIL_BACKEND = 'core.smtp.AmadeusEmailBackend'
 
-#For date purposes
+# For date purposes
 DATE_INPUT_FORMATS.append('%d/%m/%y')
 DATE_INPUT_FORMATS.append('%m/%d/%y')
 
-#API CONFIG STARTS
-#TELL the rest framework to use a different backend
+# API CONFIG STARTS
+# TELL the rest framework to use a different backend
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES':(
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication','rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',),
-    'DEFAULT_PERMISSION_CLASSES':(
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',),
+    'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',),
-    'PAGE_SIZE': 10, #pagination purposes
+    'PAGE_SIZE': 10,  # pagination purposes
 }
 
 SWAGGER_SETTINGS = {
@@ -308,9 +302,9 @@ SWAGGER_SETTINGS = {
 }
 
 OAUTH2_PROVIDER = {
-    'SCOPES':{'read':'Read scope', 'write': 'Write scope'}
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope'}
 }
-#API CONFIG ENDS
+# API CONFIG ENDS
 
 # FILE UPLOAD
 MAX_UPLOAD_SIZE = 10485760
@@ -339,10 +333,10 @@ SUMMERNOTE_CONFIG = {
     # Or, set editor language/locale forcely
     'lang_matches': {
         'pt': 'pt-BR',
-        },
+    },
 
     # Customize toolbar buttons
-        'toolbar': [
+    'toolbar': [
         ['style', ['style']],
         ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript',
                   'strikethrough', 'clear']],
@@ -361,9 +355,7 @@ SUMMERNOTE_CONFIG = {
     'attachment_require_authentication': True,
 
     # Set `upload_to` function for attachments.
-    #'attachment_upload_to': my_custom_upload_to_func(),
-
-
+    # 'attachment_upload_to': my_custom_upload_to_func(),
 
 }
 

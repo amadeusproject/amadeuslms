@@ -10,12 +10,12 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
+
 def index(request):
-	if request.user.is_authenticated:
-		return redirect(reverse_lazy("subjects:home"))
-	else:
-		return redirect('users:login')
+    if request.user.is_authenticated:
+        return redirect(reverse_lazy("subjects:home"))
+    else:
+        return redirect('users:login')

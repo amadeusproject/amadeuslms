@@ -12,56 +12,61 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 from datetime import datetime
 
-from themes.models import Themes
-from notifications.models import Notification
-from mural.models import MuralVisualizations
 from chat.models import ChatVisualizations
+from mural.models import MuralVisualizations
+from notifications.models import Notification
+from themes.models import Themes
+
 
 def theme(request):
-	context = {}
+    context = {}
 
-	theme = Themes.objects.get(id = 1)
+    theme = Themes.objects.get(id=1)
 
-	context['theme'] = theme
-	if ("contrast_check" in request.COOKIES.keys()):
-		context ['contrast_cookie'] = True
-	else:
-		context ['contrast_cookie'] = False
-	
-	return context
+    context['theme'] = theme
+    if "contrast_check" in request.COOKIES.keys():
+        context['contrast_cookie'] = True
+    else:
+        context['contrast_cookie'] = False
+
+    return context
+
 
 def notifies(request):
-	context = {}
+    context = {}
 
-	notifications = 0
+    notifications = 0
 
-	if request.user.is_authenticated:
-		notifications = Notification.objects.filter(creation_date = datetime.now(), viewed = False, user = request.user).count()
+    if request.user.is_authenticated:
+        notifications = Notification.objects.filter(creation_date=datetime.now(), viewed=False,
+                                                    user=request.user).count()
 
-	context['notifications_count'] = notifications
+    context['notifications_count'] = notifications
 
-	return context
+    return context
+
 
 def mural_notifies(request):
-	context = {}
+    context = {}
 
-	notifications = 0
+    notifications = 0
 
-	if request.user.is_authenticated:
-		notifications = MuralVisualizations.objects.filter(viewed = False, user = request.user).count()
+    if request.user.is_authenticated:
+        notifications = MuralVisualizations.objects.filter(viewed=False, user=request.user).count()
 
-	context['mural_notifications_count'] = notifications
+    context['mural_notifications_count'] = notifications
 
-	return context
+    return context
+
 
 def chat_notifies(request):
-	context = {}
+    context = {}
 
-	notifications = 0
+    notifications = 0
 
-	if request.user.is_authenticated:
-		notifications = ChatVisualizations.objects.filter(viewed = False, user = request.user).count()
+    if request.user.is_authenticated:
+        notifications = ChatVisualizations.objects.filter(viewed=False, user=request.user).count()
 
-	context['chat_notifications_count'] = notifications
+    context['chat_notifications_count'] = notifications
 
-	return context
+    return context

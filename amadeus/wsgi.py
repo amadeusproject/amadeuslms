@@ -13,9 +13,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 import os
 
 from django.core.wsgi import get_wsgi_application
-from whitenoise.django  import DjangoWhiteNoise
+from whitenoise import WhiteNoise
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "amadeus.settings")
 
 application = get_wsgi_application()
-application = DjangoWhiteNoise(application)
+application = WhiteNoise(application)

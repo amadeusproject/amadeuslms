@@ -12,17 +12,21 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 from rolepermissions.roles import AbstractUserRole
 
+
 class Student(AbstractUserRole):
-	available_permissions = {
-	}
+    available_permissions = {
+    }
+
 
 class Professor(AbstractUserRole):
-	available_permissions = {
-	}
+    available_permissions = {
+    }
+
 
 class Coordinator(AbstractUserRole):
-	available_permissions = {
-	}
+    available_permissions = {
+    }
+
 
 class SystemAdmin(AbstractUserRole):
-	pass
+    pass
