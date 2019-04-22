@@ -10,110 +10,108 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-
 # coding=utf-8
 from django import forms
+from django.core.validators import URLValidator
 from django.utils.translation import ugettext_lazy as _
-from django.utils.html import strip_tags
-from django.core.exceptions import ValidationError
 
-import validators
-
-from subjects.models import Tag
 from subjects.forms import ParticipantsMultipleChoiceField
-
-from pendencies.forms import PendenciesForm
+from subjects.models import Tag
 from .models import Link
 
+
 class LinkForm(forms.ModelForm):
-	subject = None
-	MAX_UPLOAD_SIZE = 10*1024*1024
+    subject = None
+    MAX_UPLOAD_SIZE = 10 * 1024 * 1024
 
-	students = ParticipantsMultipleChoiceField(queryset = None, required = False)
+    students = ParticipantsMultipleChoiceField(queryset=None, required=False)
 
-	def __init__(self, *args, **kwargs):
-		super(LinkForm, self).__init__(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super(LinkForm, self).__init__(*args, **kwargs)
 
-		self.subject = kwargs['initial'].get('subject', None)
+        self.subject = kwargs['initial'].get('subject', None)
 
-		if self.instance.id:
-			self.subject = self.instance.topic.subject
-			self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
+        if self.instance.id:
+            self.subject = self.instance.topic.subject
+            self.initial['tags'] = ", ".join(
+                self.instance.tags.all().values_list("name", flat=True))
 
-		self.fields['students'].queryset = self.subject.students.all()
-		self.fields['groups'].queryset = self.subject.group_subject.all()
+        self.fields['students'].queryset = self.subject.students.all()
+        self.fields['groups'].queryset = self.subject.group_subject.all()
 
-	tags = forms.CharField(label = _('Tags'), required = False)
-	link_url = forms.CharField(label = _('Website URL'),required=True)
+    tags = forms.CharField(label=_('Tags'), required=False)
+    link_url = forms.CharField(label=_('Website URL'), required=True)
 
-	class Meta:
-		model = Link
-		fields = ['name','link_url', 'brief_description', 'all_students', 'students', 'groups', 'visible']
-		labels = {
-			'name': _('Link name'),
-			'end_view' : _('End View'),
-			'end_view_date': _('End View Date')
-		}
-		widgets = {
-			'brief_description': forms.Textarea,
-			'students': forms.SelectMultiple,
-			'groups': forms.SelectMultiple,
-		}
-	
-	def clean_name(self):
-		name = self.cleaned_data.get('name', '')
+    class Meta:
+        model = Link
+        fields = ['name', 'link_url', 'brief_description', 'all_students', 'students', 'groups',
+                  'visible']
+        labels = {
+            'name': _('Link name'),
+            'end_view': _('End View'),
+            'end_view_date': _('End View Date')
+        }
+        widgets = {
+            'brief_description': forms.Textarea,
+            'students': forms.SelectMultiple,
+            'groups': forms.SelectMultiple,
+        }
 
-		topics = self.subject.topic_subject.all()
+    def clean_name(self):
+        name = self.cleaned_data.get('name', '')
 
-		for topic in topics:
-			if self.instance.id:
-				same_name = topic.resource_topic.filter(name__unaccent__iexact = name).exclude(id = self.instance.id).count()
-			else:
-				same_name = topic.resource_topic.filter(name__unaccent__iexact = name).count()
+        topics = self.subject.topic_subject.all()
 
-			if same_name > 0:
-				self._errors['name'] = [_('There is already a link with this name on this subject')]
+        for topic in topics:
+            if self.instance.id:
+                same_name = topic.resource_topic.filter(name__unaccent__iexact=name).exclude(
+                    id=self.instance.id).count()
+            else:
+                same_name = topic.resource_topic.filter(name__unaccent__iexact=name).count()
 
-				return ValueError
+            if same_name > 0:
+                self._errors['name'] = [_('There is already a link with this name on this subject')]
 
-		return name
+                return ValueError
 
+        return name
 
+    def clean_link_url(self):
+        link_url = self.cleaned_data.get('link_url', '')
+        validate = URLValidator(schemes=('http', 'https', 'ftp', 'ftps', 'rtsp', 'rtmp'))
+        if link_url[0].lower() != "h":
+            link_url = "https://" + link_url
+        if not validate(link_url):
+            self._errors['link_url'] = [_('Invalid URL. It should be an valid link.')]
+            return ValueError
 
-	def clean_link_url(self):
-		link_url = self.cleaned_data.get('link_url','')
-		if link_url[0].lower() != "h": link_url = "https://" + link_url
-		if  validators.url(link_url) != True:
-			self._errors['link_url'] = [_('Invalid URL. It should be an valid link.')]
-			return ValueError
+        return link_url
 
-		return link_url
+    def save(self, commit=True):
+        super(LinkForm, self).save(commit=True)
 
-	def save(self, commit = True):
-		super(LinkForm, self).save(commit = True)
+        self.instance.save()
 
-		self.instance.save()
+        previous_tags = self.instance.tags.all()
 
-		previous_tags = self.instance.tags.all()
+        tags = self.cleaned_data['tags'].split(",")
 
-		tags = self.cleaned_data['tags'].split(",")
+        # Excluding unwanted tags
+        for prev in previous_tags:
+            if not prev.name in tags:
+                self.instance.tags.remove(prev)
 
-        #Excluding unwanted tags
-		for prev in previous_tags:
-			if not prev.name in tags:
-				self.instance.tags.remove(prev)
+        for tag in tags:
+            tag = tag.strip()
 
-		for tag in tags:
-			tag = tag.strip()
+            exist = Tag.objects.filter(name=tag).exists()
 
-			exist = Tag.objects.filter(name = tag).exists()
+            if exist:
+                new_tag = Tag.objects.get(name=tag)
+            else:
+                new_tag = Tag.objects.create(name=tag)
 
-			if exist:
-				new_tag = Tag.objects.get(name = tag)
-			else:
-				new_tag = Tag.objects.create(name = tag)
+            if not new_tag in self.instance.tags.all():
+                self.instance.tags.add(new_tag)
 
-			if not new_tag in self.instance.tags.all():
-				self.instance.tags.add(new_tag)
-
-		return self.instance
+        return self.instance
