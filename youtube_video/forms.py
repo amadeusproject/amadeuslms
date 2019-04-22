@@ -82,11 +82,11 @@ class YTVideoForm(forms.ModelForm):
 	def clean_url(self):
 		url = self.cleaned_data.get('url', '')
 		if url[0].lower() != "h": url = "https://" + url
-		if  (re.compile("https?://w{3}\.youtube\.com/").match(url) == None
-		and re.compile("https?://youtu\.be/").match(url) == None) or requests.get(url).status_code == 404:
+		if  (re.compile("https?://w{3}\.youtube\.com/").match(url) is None
+			 and re.compile("https?://youtu\.be/").match(url) is None) or requests.get(url).status_code == 404:
 			self._errors['url'] = [_('Invalid URL. It should be an YouTube link.')]
 			return ValueError
-		if re.compile("https?://youtu\.be/").match(url) != None:
+		if re.compile("https?://youtu\.be/").match(url) is not None:
 			url = url.replace("youtu.be","www.youtube.com/embed")
 		return url
 
@@ -99,7 +99,7 @@ class YTVideoForm(forms.ModelForm):
 
 		tags = self.cleaned_data['tags'].split(",")
 
-        #Excluding unwanted tags
+		#Excluding unwanted tags
 		for prev in previous_tags:
 			if not prev.name in tags:
 				self.instance.tags.remove(prev)
