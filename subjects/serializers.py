@@ -11,14 +11,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 """
 
 import datetime
-from django.db.models import Q
 
+from django.db.models import Q
 from rest_framework import serializers
 
 from chat.models import ChatVisualizations
 from mural.models import MuralVisualizations
 from notifications.models import Notification
-
 from .models import Subject, Tag
 
 
@@ -53,7 +52,9 @@ class SubjectSerializer(serializers.ModelSerializer):
         user = self.context.get("request_user", None)
 
         if user is not None:
-            return MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space = subject) | Q(comment__post__subjectpost__space = subject))).count()
+            return MuralVisualizations.objects.filter(Q(user=user) & Q(viewed=False) & (
+                        Q(post__subjectpost__space=subject) | Q(
+                    comment__post__subjectpost__space=subject))).count()
 
         return 0
 
@@ -61,10 +62,11 @@ class SubjectSerializer(serializers.ModelSerializer):
         user = self.context.get("request_user", None)
 
         if user is not None:
-            return ChatVisualizations.objects.filter(Q(user=user) & Q(viewed=False) & Q(message__subject=subject)
-                                                     & (Q(user__is_staff=True) | Q(message__subject__students=user)
-                                                        | Q(message__subject__professor=user)
-                                                        | Q(message__subject__category__coordinators=user)))\
+            return ChatVisualizations.objects.filter(
+                Q(user=user) & Q(viewed=False) & Q(message__subject=subject)
+                & (Q(user__is_staff=True) | Q(message__subject__students=user)
+                   | Q(message__subject__professor=user)
+                   | Q(message__subject__category__coordinators=user))) \
                 .distinct().count()
 
         return 0
@@ -73,12 +75,13 @@ class SubjectSerializer(serializers.ModelSerializer):
         user = self.context.get("request_user", None)
 
         if user is not None:
-            return Notification.objects.filter(Q(user = user) & Q(viewed = False) 
-                                            & Q(task__resource__topic__subject = subject)
-                                            & Q(creation_date = datetime.datetime.now())).count()
+            return Notification.objects.filter(Q(user=user) & Q(viewed=False)
+                                               & Q(task__resource__topic__subject=subject)
+                                               & Q(creation_date=datetime.datetime.now())).count()
 
         return 0
 
     class Meta:
         model = Subject
-        fields = ["name", "slug", "visible", "description_brief", "description", "notifications", "pendencies", "mural"]
+        fields = ["name", "slug", "visible", "description_brief", "description", "notifications",
+                  "pendencies", "mural"]

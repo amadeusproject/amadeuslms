@@ -10,73 +10,61 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, CreateView, DeleteView, UpdateView, TemplateView, DetailView
-from categories.models import Category
-from django.core.urlresolvers import reverse_lazy
-from rolepermissions.verifications import has_role
-from django.db.models import Q
+import datetime
+import json
+import os
+import time
+import zipfile
+from io import BytesIO
+from random import shuffle
+
 from django.conf import settings
 from django.contrib import messages
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from django.utils.translation import ugettext_lazy as _
-
-from django.contrib.auth.mixins import LoginRequiredMixin
-from random import shuffle
-from rolepermissions.mixins import HasRoleMixin
-from categories.forms import CategoryForm
-import operator
-from braces import views
-from subjects.models import Subject
 from django.contrib.auth.decorators import login_required
-from collections import namedtuple
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import InvalidPage
+from django.core.paginator import Paginator
+from django.db.models import Q
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, Http404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView, TemplateView, \
+    DetailView
 
-from log.mixins import LogMixin
-from log.decorators import log_decorator_ajax
-from log.models import Log
-from itertools import chain
-from .models import Tag
-import time
-import datetime
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .forms import CreateSubjectForm, UpdateSubjectForm
-from .utils import has_student_profile, has_professor_profile, count_subjects, get_category_page
-from users.models import User
-from topics.models import Topic, Resource
-from news.models import News
-
-import os
-import zipfile
-import json
-from io import BytesIO
-from itertools import chain
-from django.core import serializers
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
-
-from users.serializers import UserBackupSerializer
-from banco_questoes.serializers import QuestionDatabaseSerializer
+from amadeus.permissions import has_category_permissions, has_subject_permissions, \
+    has_subject_view_permissions, has_resource_permissions
 from banco_questoes.models import Question
-from bulletin.serializers import SimpleBulletinSerializer, CompleteBulletinSerializer
+from banco_questoes.serializers import QuestionDatabaseSerializer
 from bulletin.models import Bulletin
-from file_link.serializers import SimpleFileLinkSerializer, CompleteFileLinkSerializer
+from bulletin.serializers import SimpleBulletinSerializer, CompleteBulletinSerializer
+from categories.models import Category
 from file_link.models import FileLink
-from goals.serializers import SimpleGoalSerializer, CompleteGoalSerializer
+from file_link.serializers import SimpleFileLinkSerializer, CompleteFileLinkSerializer
 from goals.models import Goals
-from links.serializers import SimpleLinkSerializer, CompleteLinkSerializer
+from goals.serializers import SimpleGoalSerializer, CompleteGoalSerializer
 from links.models import Link
-from pdf_file.serializers import SimplePDFFileSerializer, CompletePDFFileSerializer
+from links.serializers import SimpleLinkSerializer, CompleteLinkSerializer
+from log.decorators import log_decorator_ajax
+from log.mixins import LogMixin
+from log.models import Log
+from news.models import News
 from pdf_file.models import PDFFile
-from youtube_video.serializers import SimpleYTVideoSerializer, CompleteYTVideoSerializer
-from youtube_video.models import YTVideo
-from webpage.serializers import SimpleWebpageSerializer, CompleteWebpageSerializer
-from webpage.models import Webpage
-from webconference.serializers import SimpleWebconferenceSerializer, CompleteWebconferenceSerializer
-from webconference.models import Webconference
-from questionary.serializers import SimpleQuestionarySerializer, CompleteQuestionarySerializer
+from pdf_file.serializers import SimplePDFFileSerializer, CompletePDFFileSerializer
 from questionary.models import Questionary
-
-from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions, has_resource_permissions
+from questionary.serializers import SimpleQuestionarySerializer, CompleteQuestionarySerializer
+from subjects.models import Subject
+from topics.models import Topic, Resource
+from users.models import User
+from webconference.models import Webconference
+from webconference.serializers import SimpleWebconferenceSerializer, CompleteWebconferenceSerializer
+from webpage.models import Webpage
+from webpage.serializers import SimpleWebpageSerializer, CompleteWebpageSerializer
+from youtube_video.models import YTVideo
+from youtube_video.serializers import SimpleYTVideoSerializer, CompleteYTVideoSerializer
+from .forms import CreateSubjectForm, UpdateSubjectForm
+from .models import Tag
+from .utils import count_subjects, get_category_page
 
 
 class HomeView(LoginRequiredMixin, ListView):
@@ -103,19 +91,20 @@ class HomeView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['title'] = _('Home')
-        context['show_buttons'] = True #So it shows subscribe and access buttons
+        context['show_buttons'] = True  # So it shows subscribe and access buttons
         context['news'] = News.objects.all()
 
-        #bringing users
+        # bringing users
         tag_amount = 50
         tags = Tag.objects.all()
         tags_list = []
         for tag in tags:
             if len(tags_list) <= tag_amount:
-                if Resource.objects.filter(tags__pk=tag.pk, students__pk=self.request.user.pk).count() > 0 \
+                if Resource.objects.filter(tags__pk=tag.pk,
+                                           students__pk=self.request.user.pk).count() > 0 \
                         or Subject.objects.filter(tags__pk=tag.pk).count() > 0:
                     tags_list.append((tag.name, Subject.objects.filter(tags__pk=tag.pk).count()))
-                    tags_list.sort(key=lambda x: x[1], reverse=True) #sort by value
+                    tags_list.sort(key=lambda x: x[1], reverse=True)  # sort by value
 
             elif len(tags_list) > tag_amount:
                 count = Subject.objects.filter(tags__pk=tag.pk).count()
@@ -127,9 +116,9 @@ class HomeView(LoginRequiredMixin, ListView):
         tags = []
 
         for item in tags_list:
-            if i < tag_amount/10:
+            if i < tag_amount / 10:
                 tags.append((item[0], 0))
-            elif i < tag_amount/2:
+            elif i < tag_amount / 2:
                 tags.append((item[0], 1))
             else:
                 tags.append((item[0], 2))
@@ -164,20 +153,22 @@ class IndexView(LoginRequiredMixin, ListView):
             self.totals['subjects_count'] = count_subjects(self.request.user, False)
 
             if not self.kwargs.get('option'):
-                my_categories = Category.objects.filter(Q(coordinators__pk=pk) | Q(subject_category__professor__pk=pk)
-                                                        | Q(subject_category__students__pk=pk, visible=True))\
+                my_categories = Category.objects.filter(
+                    Q(coordinators__pk=pk) | Q(subject_category__professor__pk=pk)
+                    | Q(subject_category__students__pk=pk, visible=True)) \
                     .distinct().order_by('name')
 
                 categories = my_categories
             else:
-                categories = Category.objects.filter(Q(coordinators__pk=pk) | Q(visible=True)).distinct()\
+                categories = Category.objects.filter(
+                    Q(coordinators__pk=pk) | Q(visible=True)).distinct() \
                     .order_by('name')
 
-        #if not self.request.user.is_staff:
+        # if not self.request.user.is_staff:
 
-                #my_categories = [category for category in categories if self.request.user in category.coordinators.all() \
-                        #or has_professor_profile(self.request.user, category) or has_student_profile(self.request.user, category)]
-                        #So I remove all categories that doesn't have the possibility for the user to be on
+        # my_categories = [category for category in categories if self.request.user in category.coordinators.all() \
+        # or has_professor_profile(self.request.user, category) or has_student_profile(self.request.user, category)]
+        # So I remove all categories that doesn't have the possibility for the user to be on
 
         return categories
 
@@ -233,7 +224,7 @@ class IndexView(LoginRequiredMixin, ListView):
         context['all'] = False
         context['title'] = _('My Subjects')
 
-        context['show_buttons'] = True #So it shows subscribe and access buttons
+        context['show_buttons'] = True  # So it shows subscribe and access buttons
         context['totals'] = self.totals
 
         if self.kwargs.get('option'):
@@ -247,6 +238,7 @@ class IndexView(LoginRequiredMixin, ListView):
 
         return context
 
+
 class GetSubjectList(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
@@ -257,19 +249,20 @@ class GetSubjectList(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         slug = self.kwargs.get('slug')
-        category = get_object_or_404(Category, slug = slug)
+        category = get_object_or_404(Category, slug=slug)
 
         return category.subject_category.all()
 
     def get_context_data(self, **kwargs):
         context = super(GetSubjectList, self).get_context_data(**kwargs)
 
-        context['show_buttons'] = True #So it shows subscribe and access buttons
+        context['show_buttons'] = True  # So it shows subscribe and access buttons
 
         if 'all' in self.request.META.get('HTTP_REFERER'):
             context['all'] = True
 
         return context
+
 
 class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
     log_component = 'subject'
@@ -301,14 +294,13 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
 
         return super(SubjectCreateView, self).dispatch(request, *args, **kwargs)
 
-
     def get_initial(self):
         initial = super(SubjectCreateView, self).get_initial()
 
-        if self.kwargs.get('slug'): #when the user creates a subject
+        if self.kwargs.get('slug'):  # when the user creates a subject
             initial['category'] = Category.objects.filter(slug=self.kwargs['slug'])
 
-        if self.kwargs.get('subject_slug'): #when the user replicate a subject
+        if self.kwargs.get('subject_slug'):  # when the user replicate a subject
             subject = get_object_or_404(Subject, slug=self.kwargs['subject_slug'])
             initial = initial.copy()
             initial['category'] = Category.objects.filter(slug=subject.category.slug)
@@ -316,7 +308,7 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
             initial['name'] = subject.name
             initial['visible'] = subject.visible
             initial['professor'] = subject.professor.all()
-            initial['tags'] = ", ".join(subject.tags.all().values_list("name", flat = True))
+            initial['tags'] = ", ".join(subject.tags.all().values_list("name", flat=True))
             initial['init_date'] = subject.init_date
             initial['end_date'] = subject.end_date
             initial['students'] = subject.students.all()
@@ -334,11 +326,15 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
         context = super(SubjectCreateView, self).get_context_data(**kwargs)
         context['title'] = _('Create Subject')
         try:
-            students_selected = context['form'].cleaned_data['students'].values_list('id', flat=True)
-            professors_selected = context['form'].cleaned_data['professor'].values_list('id', flat=True)
-            context['form'].fields['professor'].queryset = context['form'].fields['professor'].queryset\
+            students_selected = context['form'].cleaned_data['students'].values_list('id',
+                                                                                     flat=True)
+            professors_selected = context['form'].cleaned_data['professor'].values_list('id',
+                                                                                        flat=True)
+            context['form'].fields['professor'].queryset = context['form'].fields[
+                'professor'].queryset \
                 .exclude(id__in=students_selected)
-            context['form'].fields['students'].queryset = context['form'].fields['students'].queryset\
+            context['form'].fields['students'].queryset = context['form'].fields[
+                'students'].queryset \
                 .exclude(id__in=professors_selected)
 
         except AttributeError:
@@ -381,8 +377,9 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
         self.log_context['subject_name'] = self.object.name
         self.log_context['subject_slug'] = self.object.slug
 
-        super(SubjectCreateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                                  self.log_resource, self.log_context)
+        super(SubjectCreateView, self).create_log(self.request.user, self.log_component,
+                                                  self.log_action,
+                                                  self.log_resource)
 
         return super(SubjectCreateView, self).form_valid(form)
 
@@ -391,7 +388,8 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
             self.object.visible = False
             self.object.save()
 
-        messages.success(self.request, _('The Subject "%s" was registered on "%s" Category successfully!')
+        messages.success(self.request,
+                         _('The Subject "%s" was registered on "%s" Category successfully!')
                          % (self.object.name, self.object.category.name))
         return reverse_lazy('subjects:index')
 
@@ -420,15 +418,17 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(SubjectUpdateView, self).get_context_data(**kwargs)
         try:
-            students_selected = context['form'].cleaned_data['students'].values_list('id', flat=True)
-            professors_selected = context['form'].cleaned_data['professor'].values_list('id', flat=True)
+            students_selected = context['form'].cleaned_data['students'].values_list('id',
+                                                                                     flat=True)
+            professors_selected = context['form'].cleaned_data['professor'].values_list('id',
+                                                                                        flat=True)
         except AttributeError:
-            students_selected = self.subject.students.all().values_list('id',flat=True)
-            professors_selected = self.subject.professor.all().values_list('id',flat=True)
+            students_selected = self.subject.students.all().values_list('id', flat=True)
+            professors_selected = self.subject.professor.all().values_list('id', flat=True)
 
-        context['form'].fields['professor'].queryset = context['form'].fields['professor'].queryset\
+        context['form'].fields['professor'].queryset = context['form'].fields['professor'].queryset \
             .exclude(id__in=students_selected)
-        context['form'].fields['students'].queryset = context['form'].fields['students'].queryset\
+        context['form'].fields['students'].queryset = context['form'].fields['students'].queryset \
             .exclude(id__in=professors_selected)
         context['title'] = _('Update Subject')
         context['template_extends'] = 'categories/home.html'
@@ -444,7 +444,8 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
 
         if not self.object.visible:
             Topic.objects.filter(subject=self.object, repository=False).update(visible=False)
-            Resource.objects.filter(topic__subject=self.object, topic__repository=False).update(visible=False)
+            Resource.objects.filter(topic__subject=self.object, topic__repository=False).update(
+                visible=False)
 
         self.log_context['category_id'] = self.object.category.id
         self.log_context['category_name'] = self.object.category.name
@@ -453,10 +454,12 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
         self.log_context['subject_name'] = self.object.name
         self.log_context['subject_slug'] = self.object.slug
 
-        super(SubjectUpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                                  self.log_resource, self.log_context)
+        super(SubjectUpdateView, self).create_log(self.request.user, self.log_component,
+                                                  self.log_action,
+                                                  self.log_resource)
 
-        messages.success(self.request, _('The Subject "%s" was updated on "%s" Category successfully!')
+        messages.success(self.request,
+                         _('The Subject "%s" was updated on "%s" Category successfully!')
                          % (self.object.name, self.object.category.name))
 
         return reverse_lazy('subjects:index')
@@ -484,7 +487,8 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.delete()
-        if not (self.request.GET.get('view') == 'index'): #It still falling all the time into this if, I need to fix this
+        if not (self.request.GET.get(
+                'view') == 'index'):  # It still falling all the time into this if, I need to fix this
             return self.ajax_success()
         return HttpResponseRedirect(self.get_success_url())
 
@@ -496,8 +500,9 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
         self.log_context['subject_name'] = self.object.name
         self.log_context['subject_slug'] = self.object.slug
 
-        super(SubjectDeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                                  self.log_resource, self.log_context)
+        super(SubjectDeleteView, self).create_log(self.request.user, self.log_component,
+                                                  self.log_action,
+                                                  self.log_resource)
 
         messages.success(self.request, _('Subject "%s" removed successfully!') % (self.object.name))
 
@@ -507,14 +512,16 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
         self.object = self.get_object()
 
         if self.object.students.count() > 0:
-            messages.error(self.request, _("Subject can't be removed. The subject still possess students and learning"
-                                           " objects associated"))
+            messages.error(self.request, _(
+                "Subject can't be removed. The subject still possess students and learning"
+                " objects associated"))
             return JsonResponse({'error': True, 'url': reverse_lazy('subjects:index')})
 
         for topic in self.object.topic_subject.all():
             if topic.resource_topic.count() > 0:
-                messages.error(self.request, _("Subject can't be removed. The subject still possess students and "
-                                               "learning objects associated"))
+                messages.error(self.request,
+                               _("Subject can't be removed. The subject still possess students and "
+                                 "learning objects associated"))
                 return JsonResponse({'error': True, 'url': reverse_lazy('subjects:index')})
 
         context = self.get_context_data(object=self.object)
@@ -543,8 +550,9 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
         self.log_context['subject_name'] = self.object.name
         self.log_context['subject_slug'] = self.object.slug
 
-        super(SubjectDeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                                  self.log_resource, self.log_context)
+        super(SubjectDeleteView, self).create_log(self.request.user, self.log_component,
+                                                  self.log_action,
+                                                  self.log_resource)
 
         messages.success(self.request, _('Subject "%s" removed successfully!') % (self.object.name))
 
@@ -576,8 +584,6 @@ class SubjectDetailView(LoginRequiredMixin, LogMixin, DetailView):
         context = super(SubjectDetailView, self).get_context_data(**kwargs)
         context['title'] = self.object.name
 
-        
-
         resources = self.request.session.get('resources', None)
 
         if resources:
@@ -597,8 +603,9 @@ class SubjectDetailView(LoginRequiredMixin, LogMixin, DetailView):
         self.log_context['subject_slug'] = self.object.slug
         self.log_context['timestamp_start'] = str(int(time.time()))
 
-        super(SubjectDetailView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                                  self.log_resource, self.log_context)
+        super(SubjectDetailView, self).create_log(self.request.user, self.log_component,
+                                                  self.log_action,
+                                                  self.log_resource)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -635,8 +642,9 @@ class SubjectSubscribeView(LoginRequiredMixin, LogMixin, TemplateView):
             self.log_context['subject_name'] = subject.name
             self.log_context['subject_slug'] = subject.slug
 
-            super(SubjectSubscribeView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                                         self.log_resource, self.log_context)
+            super(SubjectSubscribeView, self).create_log(self.request.user, self.log_component,
+                                                         self.log_action,
+                                                         self.log_resource)
 
             subject.students.add(request.user)
             subject.save()
@@ -687,14 +695,18 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
 
         subjects = Subject.objects.filter(q).distinct()
 
-        self.resources = Resource.objects.select_related('link', 'filelink', 'webpage', 'ytvideo', 'pdffile')\
+        self.resources = Resource.objects.select_related('link', 'filelink', 'webpage', 'ytvideo',
+                                                         'pdffile') \
             .filter(q).distinct()
-        self.resources = [resource.id for resource in self.resources if has_resource_permissions(self.request.user,
-                                                                                                 resource)]
-        self.resources = Resource.objects.select_related('link', 'filelink', 'webpage', 'ytvideo', 'pdffile')\
+        self.resources = [resource.id for resource in self.resources if
+                          has_resource_permissions(self.request.user,
+                                                   resource)]
+        self.resources = Resource.objects.select_related('link', 'filelink', 'webpage', 'ytvideo',
+                                                         'pdffile') \
             .filter(id__in=self.resources)
 
-        self.totals = {'resources_count': self.resources.count(), 'subjects_count': subjects.count()}
+        self.totals = {'resources_count': self.resources.count(),
+                       'subjects_count': subjects.count()}
 
         option = self.kwargs.get('option')
         if option and option == 'resources':
@@ -706,15 +718,15 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
 
         if self.totals['resources_count'] == 0 and self.totals['subjects_count'] == 0:
             context['empty'] = True
-        
+
         context['tags'] = self.tags
         context['all'] = False
         context['title'] = _('Subjects')
 
-        context['show_buttons'] = True #So it shows subscribe and access buttons
+        context['show_buttons'] = True  # So it shows subscribe and access buttons
         context['totals'] = self.totals
         option = self.kwargs.get('option')
-        
+
         if option and option == 'resources':
             context['all'] = True
             context['title'] = _('Resources')
@@ -723,8 +735,9 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
         context['subjects_menu_active'] = ''
 
         self.log_context['search_for'] = self.tags
-        super(SubjectSearchView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                                  self.log_resource, self.log_context)
+        super(SubjectSearchView, self).create_log(self.request.user, self.log_component,
+                                                  self.log_action,
+                                                  self.log_resource)
 
         return context
 
@@ -734,17 +747,12 @@ def subject_view_log(request, subject):
     action = request.GET.get('action')
 
     if action == 'open':
-        subject = get_object_or_404(Subject, id = subject)
+        subject = get_object_or_404(Subject, id=subject)
 
-        log_context = {}
-        log_context['category_id'] = subject.category.id
-        log_context['category_name'] = subject.category.name
-        log_context['category_slug'] = subject.category.slug
-        log_context['subject_id'] = subject.id
-        log_context['subject_name'] = subject.name
-        log_context['subject_slug'] = subject.slug
-        log_context['timestamp_start'] = str(int(time.time()))
-        log_context['timestamp_end'] = '-1'
+        log_context = {'category_id': subject.category.id, 'category_name': subject.category.name,
+                       'category_slug': subject.category.slug, 'subject_id': subject.id,
+                       'subject_name': subject.name, 'subject_slug': subject.slug,
+                       'timestamp_start': str(int(time.time())), 'timestamp_end': '-1'}
 
         request.log_context = log_context
 
@@ -754,28 +762,26 @@ def subject_view_log(request, subject):
 
     return JsonResponse({'message': 'ok'})
 
+
 @login_required
 def get_participants(request, subject):
     sub = subject
 
     status_query = "SELECT CASE WHEN action = 'logout' AND EXTRACT(EPOCH FROM(NOW() - datetime::timestamp)) " \
-                    "< 1200 THEN 2 WHEN action = 'logout' AND EXTRACT(EPOCH FROM(NOW() - datetime::timestamp)) " \
-                    ">= 1200 THEN 1 ELSE 0 END FROM log_log WHERE log_log.user_id = users_user.id " \
-                    "ORDER BY datetime DESC LIMIT 1"
+                   "< 1200 THEN 2 WHEN action = 'logout' AND EXTRACT(EPOCH FROM(NOW() - datetime::timestamp)) " \
+                   ">= 1200 THEN 1 ELSE 0 END FROM log_log WHERE log_log.user_id = users_user.id " \
+                   "ORDER BY datetime DESC LIMIT 1"
 
     expire_time = settings.SESSION_SECURITY_EXPIRE_AFTER
 
-    context = {}
-
-    context['subject'] = get_object_or_404(Subject, slug = sub)
-
-    context['participants'] = User.objects.filter(
+    context = {'subject': get_object_or_404(Subject, slug=sub), 'participants': User.objects.filter(
         Q(subject_student__slug=sub) |
         Q(professors__slug=sub)
-        ).extra(select={'status': status_query}, select_params=(expire_time, expire_time,),).distinct()\
-        .order_by('status', 'social_name', 'username').exclude(email=request.user.email)
+    ).extra(select={'status': status_query}, select_params=(expire_time, expire_time,), ).distinct() \
+        .order_by('status', 'social_name', 'username').exclude(email=request.user.email)}
 
     return render(request, 'subjects/_participants.html', context)
+
 
 class Backup(LoginRequiredMixin, ListView):
     """ BACKUP / RESTORE SECTION  """
@@ -804,7 +810,7 @@ class Backup(LoginRequiredMixin, ListView):
         context = super(Backup, self).get_context_data(**kwargs)
 
         subject = get_object_or_404(Subject, slug=self.kwargs.get('slug', ''))
-        
+
         context['title'] = _('%s - Backup') % (str(subject))
         context['subject'] = subject
 
@@ -823,7 +829,7 @@ def realize_backup(request, subject):
 
     zf = zipfile.ZipFile(s, "w", compression=zipfile.ZIP_DEFLATED)
 
-    questions_db = Question.objects.filter(subject__slug = subject)
+    questions_db = Question.objects.filter(subject__slug=subject)
 
     bulletins = Bulletin.objects.filter(id__in=resources_ids)
     webpages = Webpage.objects.filter(id__in=resources_ids)
@@ -881,15 +887,13 @@ def realize_backup(request, subject):
                     zip_path = os.path.join(os.path.join("questions", "alternatives"), file_name)
 
                     zf.write(alt.alt_img.path, zip_path)
-    
+
     file = open("backup.json", "w")
 
-    data_list = {}
-    data_list['questions_db'] = []
-    data_list['resources'] = []
+    data_list = {'questions_db': [], 'resources': []}
 
     serializer_db = QuestionDatabaseSerializer(questions_db, many=True)
-    
+
     if len(serializer_db.data) > 0:
         data_list['questions_db'].append(serializer_db.data)
 
@@ -929,7 +933,7 @@ def realize_backup(request, subject):
 
     if len(serializer_w.data) > 0:
         data_list['resources'].append(serializer_w.data)
-    
+
     if len(serializer_y.data) > 0:
         data_list['resources'].append(serializer_y.data)
 
@@ -991,11 +995,12 @@ class Restore(LoginRequiredMixin, TemplateView):
         context = super(Restore, self).get_context_data(**kwargs)
 
         subject = get_object_or_404(Subject, slug=self.kwargs.get('slug', ''))
-        
+
         context['title'] = _('%s - Restore') % (str(subject))
         context['subject'] = subject
 
         return context
+
 
 @login_required
 def realize_restore(request, subject):
@@ -1007,17 +1012,18 @@ def realize_restore(request, subject):
             file = zipfile.ZipFile(zip_file)
             total_files = len(file.namelist())
 
-            json_file = file.namelist()[total_files-1]
+            json_file = file.namelist()[total_files - 1]
 
             dst_path = os.path.join(settings.MEDIA_ROOT, "tmp")
-            
+
             path = file.extract(json_file, dst_path)
 
             with open(path) as bkp_file:
                 data = json.loads(bkp_file.read())
 
                 if "questions_db" in data and len(data["questions_db"]) > 0:
-                    serial = QuestionDatabaseSerializer(data=data["questions_db"][0], many=True, context={'subject': subject, 'files': file})
+                    serial = QuestionDatabaseSerializer(data=data["questions_db"][0], many=True,
+                                                        context={'subject': subject, 'files': file})
 
                     serial.is_valid()
                     serial.save()
@@ -1028,66 +1034,96 @@ def realize_restore(request, subject):
                             if line[0]["_my_subclass"] == "webpage":
                                 if "students" in line[0]:
                                     serial = CompleteWebpageSerializer(data=line, many=True,
-                                                                       context={'subject': subject.slug, 'files': file})
+                                                                       context={
+                                                                           'subject': subject.slug,
+                                                                           'files': file})
                                 else:
-                                    serial = SimpleWebpageSerializer(data=line, many=True, context={'subject': subject.slug})
+                                    serial = SimpleWebpageSerializer(data=line, many=True, context={
+                                        'subject': subject.slug})
                             elif line[0]["_my_subclass"] == "bulletin":
                                 if "students" in line[0]:
                                     serial = CompleteBulletinSerializer(data=line, many=True,
-                                                                        context={'subject': subject.slug, 'files': file})
+                                                                        context={
+                                                                            'subject': subject.slug,
+                                                                            'files': file})
                                 else:
                                     serial = SimpleBulletinSerializer(data=line, many=True,
-                                                                      context={'subject': subject.slug, 'files': file})
+                                                                      context={
+                                                                          'subject': subject.slug,
+                                                                          'files': file})
                             elif line[0]["_my_subclass"] == "filelink":
                                 if "students" in line[0]:
                                     serial = CompleteFileLinkSerializer(data=line, many=True,
-                                                                        context={'subject': subject.slug, 'files': file})
+                                                                        context={
+                                                                            'subject': subject.slug,
+                                                                            'files': file})
                                 else:
                                     serial = SimpleFileLinkSerializer(data=line, many=True,
-                                                                      context={'subject': subject.slug, 'files': file})
+                                                                      context={
+                                                                          'subject': subject.slug,
+                                                                          'files': file})
                             elif line[0]["_my_subclass"] == "link":
                                 if "students" in line[0]:
                                     serial = CompleteLinkSerializer(data=line, many=True,
-                                                                    context={'subject': subject.slug, 'files': file})
+                                                                    context={
+                                                                        'subject': subject.slug,
+                                                                        'files': file})
                                 else:
-                                    serial = SimpleLinkSerializer(data=line, many=True, context={'subject': subject.slug})
+                                    serial = SimpleLinkSerializer(data=line, many=True,
+                                                                  context={'subject': subject.slug})
                             elif line[0]["_my_subclass"] == "pdffile":
                                 if "students" in line[0]:
                                     serial = CompletePDFFileSerializer(data=line, many=True,
-                                                                       context={'subject': subject.slug, 'files': file})
+                                                                       context={
+                                                                           'subject': subject.slug,
+                                                                           'files': file})
                                 else:
                                     serial = SimplePDFFileSerializer(data=line, many=True,
-                                                                     context={'subject': subject.slug, 'files': file})
+                                                                     context={
+                                                                         'subject': subject.slug,
+                                                                         'files': file})
                             elif line[0]["_my_subclass"] == "goals":
                                 if "students" in line[0]:
                                     serial = CompleteGoalSerializer(data=line, many=True,
-                                                                    context={'subject': subject.slug, 'files': file})
+                                                                    context={
+                                                                        'subject': subject.slug,
+                                                                        'files': file})
                                 else:
-                                    serial = SimpleGoalSerializer(data=line, many=True, context={'subject': subject.slug})
+                                    serial = SimpleGoalSerializer(data=line, many=True,
+                                                                  context={'subject': subject.slug})
                             elif line[0]["_my_subclass"] == "ytvideo":
                                 if "students" in line[0]:
                                     serial = CompleteYTVideoSerializer(data=line, many=True,
-                                                                       context={'subject': subject.slug, 'files': file})
+                                                                       context={
+                                                                           'subject': subject.slug,
+                                                                           'files': file})
                                 else:
-                                    serial = SimpleYTVideoSerializer(data=line, many=True, context={'subject': subject.slug})
+                                    serial = SimpleYTVideoSerializer(data=line, many=True, context={
+                                        'subject': subject.slug})
                             elif line[0]["_my_subclass"] == "webconference":
                                 if "students" in line[0]:
                                     serial = CompleteWebconferenceSerializer(data=line, many=True,
-                                                                             context={'subject': subject.slug, 'files': file})
+                                                                             context={
+                                                                                 'subject': subject.slug,
+                                                                                 'files': file})
                                 else:
                                     serial = SimpleWebconferenceSerializer(data=line, many=True,
-                                                                           context={'subject': subject.slug})
+                                                                           context={
+                                                                               'subject': subject.slug})
                             elif line[0]["_my_subclass"] == "questionary":
                                 if "students" in line[0]:
                                     serial = CompleteQuestionarySerializer(data=line, many=True,
-                                                                             context={'subject': subject.slug, 'files': file})
+                                                                           context={
+                                                                               'subject': subject.slug,
+                                                                               'files': file})
                                 else:
                                     serial = SimpleQuestionarySerializer(data=line, many=True,
-                                                                           context={'subject': subject.slug})
-                            
+                                                                         context={
+                                                                             'subject': subject.slug})
+
                             serial.is_valid()
                             serial.save()
 
     messages.success(request, _('Backup restored successfully!'))
-    
+
     return redirect(reverse_lazy('subjects:restore', kwargs={"slug": subject.slug}))

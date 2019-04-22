@@ -35,38 +35,39 @@ def subject_count(category, user):
 
 @register.inclusion_tag('subjects/badge.html')
 def notifies_number(subject, user):
-	context = {}
+	context = {'number': Notification.objects.filter(task__resource__topic__subject=subject,
+													 creation_date=datetime.datetime.now(),
+													 viewed=False, user=user).count(),
+			   'custom_class': 'pendencies_notify'}
 
-	context['number'] = Notification.objects.filter(task__resource__topic__subject = subject, creation_date = datetime.datetime.now(), viewed = False, user = user).count()
-	context['custom_class'] = 'pendencies_notify'
-	
 	return context
 
 @register.inclusion_tag('subjects/badge.html')
 def mural_number(subject, user):
-	context = {}
+	context = {'number': MuralVisualizations.objects.filter(Q(user=user) & Q(viewed=False) & (
+				Q(post__subjectpost__space=subject) | Q(
+			comment__post__subjectpost__space=subject))).count(), 'custom_class': 'mural_notify'}
 
-	context['number'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__space = subject) | Q(comment__post__subjectpost__space = subject))).count()
-	context['custom_class'] = 'mural_notify'
-	
 	return context
 
 @register.inclusion_tag('subjects/badge.html')
 def chat_number(subject, user):
-	context = {}
+	context = {'number': ChatVisualizations.objects.filter(
+		Q(user=user) & Q(viewed=False) & Q(message__subject=subject) & (
+					Q(user__is_staff=True) | Q(message__subject__students=user) | Q(
+				message__subject__professor=user) | Q(
+				message__subject__category__coordinators=user))).distinct().count(),
+			   'custom_class': 'chat_notify'}
 
-	context['number'] = ChatVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & Q(message__subject = subject) & (Q(user__is_staff = True) | Q(message__subject__students = user) | Q(message__subject__professor = user) | Q(message__subject__category__coordinators = user))).distinct().count()
-	context['custom_class'] = 'chat_notify'
-	
 	return context
 
 @register.inclusion_tag('subjects/badge.html')
 def resource_mural_number(resource, user):
-	context = {}
+	context = {'number': MuralVisualizations.objects.filter(Q(user=user) & Q(viewed=False) & (
+				Q(post__subjectpost__resource=resource) | Q(
+			comment__post__subjectpost__resource=resource))).count(),
+			   'custom_class': 'mural_resource_notify'}
 
-	context['number'] = MuralVisualizations.objects.filter(Q(user = user) & Q(viewed = False) & (Q(post__subjectpost__resource = resource) | Q(comment__post__subjectpost__resource = resource))).count()
-	context['custom_class'] = 'mural_resource_notify'
-	
 	return context
 
 @register.filter(name = 'aftertoday')
