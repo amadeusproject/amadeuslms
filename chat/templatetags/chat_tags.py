@@ -12,89 +12,100 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 from django import template
 from django.conf import settings
+from django.db.models import Q
 from django.utils import timezone
-from django.db.models import Count, F, Q
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.sessions.models import Session
-
-from log.models import Log
 
 from chat.models import TalkMessages, ChatVisualizations, ChatFavorites
+from log.models import Log
 
 register = template.Library()
 
-@register.assignment_tag(name = 'is_online')
+
+@register.simple_tag(name='is_online')
 def is_online(user):
-	expire_time = settings.SESSION_SECURITY_EXPIRE_AFTER
-	now = timezone.now()
-	
-	activities = Log.objects.filter(user_id = user.id).order_by('-datetime')
+    expire_time = settings.SESSION_SECURITY_EXPIRE_AFTER
+    now = timezone.now()
 
-	if activities.count() > 0:
-		last_activity = activities[0]
+    activities = Log.objects.filter(user_id=user.id).order_by('-datetime')
 
-		if last_activity.action != 'logout':
-			if (now - last_activity.datetime).total_seconds() < expire_time:
-				return "active"
-			else:
-				return "away"
-	
-	return ""
+    if activities.count() > 0:
+        last_activity = activities[0]
 
-@register.filter(name = 'status_text')
+        if last_activity.action != 'logout':
+            if (now - last_activity.datetime).total_seconds() < expire_time:
+                return "active"
+            else:
+                return "away"
+
+    return ""
+
+
+@register.filter(name='status_text')
 def status_text(status):
-	if status == "active":
-		return _("Online")
-	elif status == "away":
-		return _('Away')
-	else:
-		return _("Offline")
+    if status == "active":
+        return _("Online")
+    elif status == "away":
+        return _('Away')
+    else:
+        return _("Offline")
 
-@register.assignment_tag(name = 'chat_user')
+
+@register.simple_tag(name='chat_user')
 def chat_user(user, chat):
-	if chat.user_one == user:
-		return chat.user_two
+    if chat.user_one == user:
+        return chat.user_two
 
-	return chat.user_one
+    return chat.user_one
 
-@register.filter(name = 'last_message')
+
+@register.filter(name='last_message')
 def last_message(chat):
-	last_message = TalkMessages.objects.filter(talk = chat).order_by('-create_date')
-	
-	if len(last_message) > 0:
-		return last_message[0].create_date
+    last_message = TalkMessages.objects.filter(talk=chat).order_by('-create_date')
 
-	return ''
+    if len(last_message) > 0:
+        return last_message[0].create_date
 
-@register.filter(name = 'notifies')
+    return ''
+
+
+@register.filter(name='notifies')
 def notifies(chat, user):
-	total = ChatVisualizations.objects.filter(message__talk = chat, user = user, viewed = False).count()
+    total = ChatVisualizations.objects.filter(message__talk=chat, user=user, viewed=False).count()
 
-	return total
+    return total
 
-@register.filter(name = 'fav_label')
+
+@register.filter(name='fav_label')
 def fav_label(message, user):
-	if ChatFavorites.objects.filter(message = message, user = user).exists():
-		return _('Unfavorite')
+    if ChatFavorites.objects.filter(message=message, user=user).exists():
+        return _('Unfavorite')
 
-	return _('Favorite')
+    return _('Favorite')
 
-@register.filter(name = 'fav_action')
+
+@register.filter(name='fav_action')
 def fav_action(message, user):
-	if ChatFavorites.objects.filter(message = message, user = user).exists():
-		return "unfavorite"
+    if ChatFavorites.objects.filter(message=message, user=user).exists():
+        return "unfavorite"
 
-	return "favorite"
+    return "favorite"
 
-@register.filter(name = 'fav_class')
+
+@register.filter(name='fav_class')
 def fav_class(message, user):
-	if ChatFavorites.objects.filter(message = message, user = user).exists():
-		return "btn_unfav"
+    if ChatFavorites.objects.filter(message=message, user=user).exists():
+        return "btn_unfav"
 
-	return "btn_fav"
+    return "btn_fav"
 
-@register.filter(name = 'notifies_subject')
+
+@register.filter(name='notifies_subject')
 def notifies_subject(subject, user):
-	total = ChatVisualizations.objects.filter(Q(message__subject = subject, user = user, viewed = False)  & (Q(user__is_staff = True) | Q(message__subject__students = user) | Q(message__subject__professor = user) | Q(message__subject__category__coordinators = user))).distinct().count()
+    total = ChatVisualizations.objects.filter(
+        Q(message__subject=subject, user=user, viewed=False) & (
+                    Q(user__is_staff=True) | Q(message__subject__students=user) | Q(
+                message__subject__professor=user) | Q(
+                message__subject__category__coordinators=user))).distinct().count()
 
-	return total
+    return total
