@@ -10,20 +10,20 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-
-import datetime
 from django_cron import CronJobBase, Schedule
 
 from .utils import set_goals
 
+
 class SetGoals(CronJobBase):
-	RUN_EVERY_MINS = 1440 # every day
+    RUN_EVERY_MINS = 1440  # every day
 
-	schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
-	code = 'amadeus.goals_cron'    # a unique code
+    schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
+    code = 'amadeus.goals_cron'  # a unique code
 
-	def do(self):
-		set_goals()
+    def do(self):
+        set_goals()
+
 
 def setgoals_cron():
-	set_goals()
+    set_goals()

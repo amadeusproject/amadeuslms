@@ -10,277 +10,298 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-
-import os
-from django.conf import settings
-from django.core.files import File
-from rest_framework import serializers
 from django.shortcuts import get_object_or_404
+from rest_framework import serializers
 
-from subjects.serializers import TagSerializer
-from topics.serializers import TopicSerializer
-from pendencies.serializers import PendenciesSerializer
-from students_group.serializers import StudentsGroupSerializer
-from users.serializers import UserBackupSerializer
-
-from subjects.models import Tag, Subject
-from topics.models import Topic, Resource
-from pendencies.models import Pendencies
-from students_group.models import StudentsGroup
 from log.models import Log
+from pendencies.models import Pendencies
+from pendencies.serializers import PendenciesSerializer
+from students_group.models import StudentsGroup
+from students_group.serializers import StudentsGroupSerializer
+from subjects.models import Tag, Subject
+from subjects.serializers import TagSerializer
+from topics.models import Topic, Resource
+from topics.serializers import TopicSerializer
 from users.models import User
-
+from users.serializers import UserBackupSerializer
 from .models import Goals, GoalItem
 
+
 class GoalItemSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = GoalItem
-		exclude = ('goal',)
+    class Meta:
+        model = GoalItem
+        exclude = ('goal',)
+
 
 class SimpleGoalSerializer(serializers.ModelSerializer):
-	topic = TopicSerializer('get_subject')
-	tags = TagSerializer(many = True)
-	item_goal = GoalItemSerializer(many = True)
-	pendencies_resource = PendenciesSerializer(many = True)
+    topic = TopicSerializer('get_subject')
+    tags = TagSerializer(many=True)
+    item_goal = GoalItemSerializer(many=True)
+    pendencies_resource = PendenciesSerializer(many=True)
 
-	def get_subject(self, obj):
-		subject = self.context.get("subject", None)
+    def get_subject(self, obj):
+        subject = self.context.get("subject", None)
 
-		return subject
+        return subject
 
-	class Meta:
-		model = Goals
-		extra_kwargs = {
-			"tags": {
-				"validators": [],
-			},
-		}
-		exclude = ('students', 'groups',)
-		validators = []
+    class Meta:
+        model = Goals
+        extra_kwargs = {
+            "tags": {
+                "validators": [],
+            },
+        }
+        exclude = ('students', 'groups',)
+        validators = []
 
-	def create(self, data):
-		topic = data['topic']
+    def create(self, data):
+        topic = data['topic']
 
-		goals = None
+        goals = None
 
-		if not topic["id"] is None:
-			if "subject" in topic:
-				r_exits = Resource.objects.filter(topic__subject = topic["subject"], name__unaccent__iexact = data["name"])
-			else:
-				r_exits = Resource.objects.filter(topic__subject__id = topic["subject_id"], name__unaccent__iexact = data["name"])
+        if not topic["id"] is None:
+            if "subject" in topic:
+                r_exits = Resource.objects.filter(topic__subject=topic["subject"],
+                                                  name__unaccent__iexact=data["name"])
+            else:
+                r_exits = Resource.objects.filter(topic__subject__id=topic["subject_id"],
+                                                  name__unaccent__iexact=data["name"])
 
-			if not r_exits.exists():
-				if topic['id'] == "":
-					topic_exist = Topic.objects.filter(subject = topic['subject'], name__unaccent__iexact = topic["name"])
+            if not r_exits.exists():
+                if topic['id'] == "":
+                    topic_exist = Topic.objects.filter(subject=topic['subject'],
+                                                       name__unaccent__iexact=topic["name"])
 
-					if topic_exist.exists():
-						topic = topic_exist[0]
-					else:
-						topic = Topic.objects.create(name = topic['name'], subject = topic['subject'], repository = topic['repository'], visible = topic['visible'], order = topic['order'], description = topic['description'])
-					
-					data["topic"] = topic
-				else:
-					data["topic"] = get_object_or_404(Topic, id = topic["id"])
+                    if topic_exist.exists():
+                        topic = topic_exist[0]
+                    else:
+                        topic = Topic.objects.create(name=topic['name'], subject=topic['subject'],
+                                                     repository=topic['repository'],
+                                                     visible=topic['visible'], order=topic['order'],
+                                                     description=topic['description'])
 
-				goals_data = data
-				
-				pendencies = goals_data["pendencies_resource"]
-				del goals_data["pendencies_resource"]
+                    data["topic"] = topic
+                else:
+                    data["topic"] = get_object_or_404(Topic, id=topic["id"])
 
-				goal_items = goals_data["item_goal"]
-				del goals_data["item_goal"]
+                goals_data = data
 
-				goals = Goals()
-				goals.name = goals_data["name"]
-				goals.brief_description = goals_data["brief_description"]
-				goals.show_window = goals_data["show_window"]
-				goals.all_students = goals_data["all_students"]
-				goals.visible = goals_data["visible"]
-				goals.order = goals_data["order"]
-				goals.topic = goals_data["topic"]
-				goals.presentation = goals_data["presentation"]
-				goals.limit_submission_date = goals_data["limit_submission_date"]
+                pendencies = goals_data["pendencies_resource"]
+                del goals_data["pendencies_resource"]
 
-				goals.save()
-				
-				tags = data["tags"]
+                goal_items = goals_data["item_goal"]
+                del goals_data["item_goal"]
 
-				for tag in tags:
-					if not tag["name"] == "":
-						if tag["id"] == "":
-							tag = Tag.objects.create(name = tag["name"])
-						else:
-							tag = get_object_or_404(Tag, id = tag["id"])
+                goals = Goals()
+                goals.name = goals_data["name"]
+                goals.brief_description = goals_data["brief_description"]
+                goals.show_window = goals_data["show_window"]
+                goals.all_students = goals_data["all_students"]
+                goals.visible = goals_data["visible"]
+                goals.order = goals_data["order"]
+                goals.topic = goals_data["topic"]
+                goals.presentation = goals_data["presentation"]
+                goals.limit_submission_date = goals_data["limit_submission_date"]
 
-						goals.tags.add(tag)
+                goals.save()
 
-				resource = get_object_or_404(Resource, id = goals.id)
+                tags = data["tags"]
 
-				for item in goal_items:
-					GoalItem.objects.create(goal = goals, **item)
+                for tag in tags:
+                    if not tag["name"] == "":
+                        if tag["id"] == "":
+                            tag = Tag.objects.create(name=tag["name"])
+                        else:
+                            tag = get_object_or_404(Tag, id=tag["id"])
 
-				for pend in pendencies:
-					Pendencies.objects.create(resource = resource, **pend)
+                        goals.tags.add(tag)
 
-		return goals
+                resource = get_object_or_404(Resource, id=goals.id)
 
-	def update(self, instance, data):
-		return instance
+                for item in goal_items:
+                    GoalItem.objects.create(goal=goals, **item)
+
+                for pend in pendencies:
+                    Pendencies.objects.create(resource=resource, **pend)
+
+        return goals
+
+    def update(self, instance, data):
+        return instance
+
 
 class CompleteGoalSerializer(serializers.ModelSerializer):
-	topic = TopicSerializer('get_subject')
-	tags = TagSerializer(many = True)
-	item_goal = GoalItemSerializer(many = True)
-	pendencies_resource = PendenciesSerializer(many = True)
-	groups = StudentsGroupSerializer('get_files', many = True)
-	students = UserBackupSerializer('get_files', many = True)
+    topic = TopicSerializer('get_subject')
+    tags = TagSerializer(many=True)
+    item_goal = GoalItemSerializer(many=True)
+    pendencies_resource = PendenciesSerializer(many=True)
+    groups = StudentsGroupSerializer('get_files', many=True)
+    students = UserBackupSerializer('get_files', many=True)
 
-	def get_subject(self, obj):
-		subject = self.context.get("subject", None)
+    def get_subject(self, obj):
+        subject = self.context.get("subject", None)
 
-		return subject
+        return subject
 
-	def get_files(self, obj):
-		files = self.context.get("files", None)
+    def get_files(self, obj):
+        files = self.context.get("files", None)
 
-		return files
+        return files
 
-	class Meta:
-		model = Goals
-		fields = '__all__'
+    class Meta:
+        model = Goals
+        fields = '__all__'
 
-	def create(self, data):
-		topic = data['topic']
+    def create(self, data):
+        topic = data['topic']
 
-		goals = None
+        goals = None
 
-		if not topic["id"] is None:
-			if "subject" in topic:
-				r_exits = Resource.objects.filter(topic__subject = topic["subject"], name__unaccent__iexact = data["name"])
-			else:
-				r_exits = Resource.objects.filter(topic__subject__id = topic["subject_id"], name__unaccent__iexact = data["name"])
+        if not topic["id"] is None:
+            if "subject" in topic:
+                r_exits = Resource.objects.filter(topic__subject=topic["subject"],
+                                                  name__unaccent__iexact=data["name"])
+            else:
+                r_exits = Resource.objects.filter(topic__subject__id=topic["subject_id"],
+                                                  name__unaccent__iexact=data["name"])
 
-			if not r_exits.exists():
-				if topic['id'] == "":
-					topic_exist = Topic.objects.filter(subject = topic['subject'], name__unaccent__iexact = topic["name"])
+            if not r_exits.exists():
+                if topic['id'] == "":
+                    topic_exist = Topic.objects.filter(subject=topic['subject'],
+                                                       name__unaccent__iexact=topic["name"])
 
-					if topic_exist.exists():
-						topic = topic_exist[0]
-					else:
-						topic = Topic.objects.create(name = topic['name'], subject = topic['subject'], repository = topic['repository'], visible = topic['visible'], order = topic['order'], description = topic['description'])
-					
-					data["topic"] = topic
-				else:
-					data["topic"] = get_object_or_404(Topic, id = topic["id"])
+                    if topic_exist.exists():
+                        topic = topic_exist[0]
+                    else:
+                        topic = Topic.objects.create(name=topic['name'], subject=topic['subject'],
+                                                     repository=topic['repository'],
+                                                     visible=topic['visible'], order=topic['order'],
+                                                     description=topic['description'])
 
-				goals_data = data
-				
-				pendencies = goals_data["pendencies_resource"]
-				del goals_data["pendencies_resource"]
+                    data["topic"] = topic
+                else:
+                    data["topic"] = get_object_or_404(Topic, id=topic["id"])
 
-				goal_items = goals_data["item_goal"]
-				del goals_data["item_goal"]
+                goals_data = data
 
-				goals = Goals()
-				goals.name = goals_data["name"]
-				goals.brief_description = goals_data["brief_description"]
-				goals.show_window = goals_data["show_window"]
-				goals.all_students = goals_data["all_students"]
-				goals.visible = goals_data["visible"]
-				goals.order = goals_data["order"]
-				goals.topic = goals_data["topic"]
-				goals.presentation = goals_data["presentation"]
-				goals.limit_submission_date = goals_data["limit_submission_date"]
+                pendencies = goals_data["pendencies_resource"]
+                del goals_data["pendencies_resource"]
 
-				goals.save()
-				
-				tags = data["tags"]
+                goal_items = goals_data["item_goal"]
+                del goals_data["item_goal"]
 
-				for tag in tags:
-					if not tag["name"] == "":
-						if tag["id"] == "":
-							tag = Tag.objects.create(name = tag["name"])
-						else:
-							tag = get_object_or_404(Tag, id = tag["id"])
+                goals = Goals()
+                goals.name = goals_data["name"]
+                goals.brief_description = goals_data["brief_description"]
+                goals.show_window = goals_data["show_window"]
+                goals.all_students = goals_data["all_students"]
+                goals.visible = goals_data["visible"]
+                goals.order = goals_data["order"]
+                goals.topic = goals_data["topic"]
+                goals.presentation = goals_data["presentation"]
+                goals.limit_submission_date = goals_data["limit_submission_date"]
 
-						goals.tags.add(tag)
+                goals.save()
 
-				students = data["students"]
-				subject = get_object_or_404(Subject, slug = self.context.get("subject", None))
+                tags = data["tags"]
 
-				for student_data in students:
-					logs = student_data["get_items"]
-					
-					if student_data["id"] == "":
-						u_exist = User.objects.filter(email = student_data["email"])
+                for tag in tags:
+                    if not tag["name"] == "":
+                        if tag["id"] == "":
+                            tag = Tag.objects.create(name=tag["name"])
+                        else:
+                            tag = get_object_or_404(Tag, id=tag["id"])
 
-						if not u_exist.exists():
-							student = u_exist[0]
+                        goals.tags.add(tag)
 
-							for log in logs:
-								log["user_id"] = student.id
+                students = data["students"]
+                subject = get_object_or_404(Subject, slug=self.context.get("subject", None))
 
-								l_exists = Log.objects.filter(user_id = log["user_id"], user = log["user"], user_email = log["user_email"], action = log["action"], resource = log["resource"], component = log["component"], context = log["context"])
+                for student_data in students:
+                    logs = student_data["get_items"]
 
-								if not l_exists.exists():
-									Log.objects.create(**log)
-						else:
-							student = User()
-							student.email = student_data["email"]
-							student.username = student_data["username"]
-							student.last_name = student_data["last_name"] 
-							student.social_name = student_data["social_name"] 
-							student.show_email = student_data["show_email"] 
-							student.is_staff = student_data["is_staff"] 
-							student.is_active = student_data["is_active"]
-							student.image = student_data["image"]
+                    if student_data["id"] == "":
+                        u_exist = User.objects.filter(email=student_data["email"])
 
-							student.save()
+                        if not u_exist.exists():
+                            student = u_exist[0]
 
-							for log in logs:
-								log["user_id"] = student.id
+                            for log in logs:
+                                log["user_id"] = student.id
 
-								Log.objects.create(**log)
-					else:
-						student = get_object_or_404(User, id = student_data["id"])
+                                l_exists = Log.objects.filter(user_id=log["user_id"],
+                                                              user=log["user"],
+                                                              user_email=log["user_email"],
+                                                              action=log["action"],
+                                                              resource=log["resource"],
+                                                              component=log["component"],
+                                                              context=log["context"])
 
-						for log in logs:
-							l_exists = Log.objects.filter(user_id = log["user_id"], user = log["user"], user_email = log["user_email"], action = log["action"], resource = log["resource"], component = log["component"], context = log["context"])
+                                if not l_exists.exists():
+                                    Log.objects.create(**log)
+                        else:
+                            student = User()
+                            student.email = student_data["email"]
+                            student.username = student_data["username"]
+                            student.last_name = student_data["last_name"]
+                            student.social_name = student_data["social_name"]
+                            student.show_email = student_data["show_email"]
+                            student.is_staff = student_data["is_staff"]
+                            student.is_active = student_data["is_active"]
+                            student.image = student_data["image"]
 
-							if not l_exists.exists():
-								Log.objects.create(**log)
+                            student.save()
 
-					goals.students.add(student)
-					subject.students.add(student)
+                            for log in logs:
+                                log["user_id"] = student.id
 
-				groups = data["groups"]
+                                Log.objects.create(**log)
+                    else:
+                        student = get_object_or_404(User, id=student_data["id"])
 
-				for group_data in groups:
-					g_exists = StudentsGroup.objects.filter(subject = subject, slug = group_data["slug"])
+                        for log in logs:
+                            l_exists = Log.objects.filter(user_id=log["user_id"], user=log["user"],
+                                                          user_email=log["user_email"],
+                                                          action=log["action"],
+                                                          resource=log["resource"],
+                                                          component=log["component"],
+                                                          context=log["context"])
 
-					if g_exists.exists():
-						group = g_exists[0]
-					else:
-						group = StudentsGroup()
-						group.name = group_data["name"]
-						group.description = group_data["description"]
-						group.subject = subject
+                            if not l_exists.exists():
+                                Log.objects.create(**log)
 
-						group.save()
+                    goals.students.add(student)
+                    subject.students.add(student)
 
-						for participant in group_data["participants"]:
-							p_user = get_object_or_404(User, email = participant["email"])
+                groups = data["groups"]
 
-							group.participants.add(p_user)
+                for group_data in groups:
+                    g_exists = StudentsGroup.objects.filter(subject=subject,
+                                                            slug=group_data["slug"])
 
-					goals.groups.add(group)
+                    if g_exists.exists():
+                        group = g_exists[0]
+                    else:
+                        group = StudentsGroup()
+                        group.name = group_data["name"]
+                        group.description = group_data["description"]
+                        group.subject = subject
 
-				resource = get_object_or_404(Resource, id = goals.id)
+                        group.save()
 
-				for item in goal_items:
-					GoalItem.objects.create(goal = goals, **item)
+                        for participant in group_data["participants"]:
+                            p_user = get_object_or_404(User, email=participant["email"])
 
-				for pend in pendencies:
-					Pendencies.objects.create(resource = resource, **pend)
+                            group.participants.add(p_user)
 
-		return goals
+                    goals.groups.add(group)
+
+                resource = get_object_or_404(Resource, id=goals.id)
+
+                for item in goal_items:
+                    GoalItem.objects.create(goal=goals, **item)
+
+                for pend in pendencies:
+                    Pendencies.objects.create(resource=resource, **pend)
+
+        return goals

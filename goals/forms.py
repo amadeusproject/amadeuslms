@@ -101,11 +101,11 @@ class GoalsForm(forms.ModelForm):
 
 		tags = self.cleaned_data['tags'].split(",")
 
-        #Excluding unwanted tags
+		#Excluding unwanted tags
 		for prev in previous_tags:
 			if not prev.name in tags:
 				self.instance.tags.remove(prev)
-        
+
 		for tag in tags:
 			tag = tag.strip()
 
@@ -139,16 +139,16 @@ class GoalItemForm(forms.ModelForm):
 		return cleaned_data
 
 class GoalItemFormset(BaseInlineFormSet):
-    def __init__(self, *args, **kwargs):
-        super(GoalItemFormset, self).__init__(*args, **kwargs)
-        
-        self.forms[0].empty_permitted = False
+	def __init__(self, *args, **kwargs):
+		super(GoalItemFormset, self).__init__(*args, **kwargs)
 
-    def clean(self):
-    	description = self.forms[0].cleaned_data.get('description', None)
+		self.forms[0].empty_permitted = False
 
-    	if not description:
-    		raise forms.ValidationError(_('It\'s necessary to enter at least one goal specification.'))
+	def clean(self):
+		description = self.forms[0].cleaned_data.get('description', None)
+
+		if not description:
+			raise forms.ValidationError(_('It\'s necessary to enter at least one goal specification.'))
 
 class MyGoalsForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
