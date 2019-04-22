@@ -11,6 +11,7 @@ RUN apk --no-cache --update-cache add gfortran python python-dev gettext
 RUN ln -s /usr/include/locale.h /usr/include/xlocale.h
 RUN apk add libjpeg-turbo-dev zlib-dev
 RUN apk add postgresql-libs libxslt-dev
+ENV PIP_DEFAULT_TIMEOUT=100
 ADD /${requirements} /code/${requirements}
 RUN pip install -r /code/${requirements}
 ADD . /code/
