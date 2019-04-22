@@ -10,53 +10,54 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-
-import time
 import json
-from django.core.urlresolvers import resolve
+import time
+
 from django.shortcuts import get_object_or_404
+from django.urls import resolve
+from django.utils.deprecation import MiddlewareMixin
 
 from .models import Log
 
-class TimeSpentMiddleware(object):
-	def __init__(self, get_response = None):
-		self.get_response = get_response
 
-	def process_request(self, request):
-		app_names = resolve(request.path).app_names
+class TimeSpentMiddleware(MiddlewareMixin):
 
-		if not 'admin' in app_names:
-			if not request.is_ajax():
-				if not request.path.startswith('/uploads/'):
-					log_id = request.session.get('log_id', None)
+    def process_request(self, request):
+        app_names = resolve(request.path).app_names
 
-					if not log_id is None:
-						log = get_object_or_404(Log, id = log_id)
+        if not 'admin' in app_names:
+            if not request.is_ajax():
+                if not request.path.startswith('/uploads/'):
+                    log_id = request.session.get('log_id', None)
 
-						if type(log.context) == dict:
-							log_context = log.context
-						else:
-							log_context = json.loads(log.context)
+                    if not log_id is None:
+                        log = get_object_or_404(Log, id=log_id)
 
-						log_context['timestamp_end'] = str(int(time.time()))
+                        if type(log.context) == dict:
+                            log_context = log.context
+                        else:
+                            log_context = json.loads(log.context)
 
-						log.context = log_context
+                        log_context['timestamp_end'] = str(int(time.time()))
 
-						log.save()
+                        log.context = log_context
 
-						request.session['log_id'] = None
+                        log.save()
 
-					if request.user.is_authenticated:
-						oppened_logs = Log.objects.filter(user = request.user, context__contains={'timestamp_end': '-1'})
+                        request.session['log_id'] = None
 
-						for op_log in oppened_logs:
-							if type(op_log.context) == dict:
-								log_context = op_log.context
-							else:
-								log_context = json.loads(op_log.context)
+                    if request.user.is_authenticated:
+                        oppened_logs = Log.objects.filter(user=request.user,
+                                                          context__contains={'timestamp_end': '-1'})
 
-							log_context['timestamp_end'] = str(int(time.time()))
+                        for op_log in oppened_logs:
+                            if type(op_log.context) == dict:
+                                log_context = op_log.context
+                            else:
+                                log_context = json.loads(op_log.context)
 
-							op_log.context = log_context
+                            log_context['timestamp_end'] = str(int(time.time()))
 
-							op_log.save()
+                            op_log.context = log_context
+
+                            op_log.save()
