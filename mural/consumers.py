@@ -10,17 +10,16 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-from channels import Group
-from channels.sessions import channel_session
-from channels.auth import channel_session_user, channel_session_user_from_http
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 
-# Connected to websocket.connect
-@channel_session_user_from_http
+
 def ws_add(message):
     # Accept connection
     message.reply_channel.send({"accept": True})
     # Add them to the right group
-    Group("user-%s" % message.user.id).add(message.reply_channel)
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.add)("user-%s" % message.user.id, message.reply_channel)
 
 
 def ws_message(message):
