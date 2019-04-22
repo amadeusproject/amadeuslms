@@ -38,6 +38,6 @@ urlpatterns = [
 	#API REST
     url(r'^', include(router.urls)),
     url(r'^token$', views.getToken),
-    url(r'^pendencies$', views.getPendencies),
+    url(r'^pendencies$', views.get_pendencies),
     url(r'^docs/', schema_view, name="docs"),
 ]
