@@ -32,7 +32,7 @@ class TopicSerializer(serializers.ModelSerializer):
 				data["subject"] = subject
 				data["order"] = Topic.objects.filter(subject = subject).count() + 1
 
-				if data["repository"] == True:
+				if data["repository"]:
 					topic = Topic.objects.filter(subject = subject, repository = True)
 
 					if topic.exists():
