@@ -12,19 +12,17 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from django.utils.html import strip_tags
 
-from subjects.models import Tag
 from subjects.forms import ParticipantsMultipleChoiceField
-from resubmit.widgets import ResubmitFileWidget
-
+from subjects.models import Tag
 from .models import PDFFile
+
 
 class PDFFileForm(forms.ModelForm):
     subject = None
-    MAX_UPLOAD_SIZE = 10*1024*1024
+    MAX_UPLOAD_SIZE = 10 * 1024 * 1024
 
-    students = ParticipantsMultipleChoiceField(queryset = None, required = False)
+    students = ParticipantsMultipleChoiceField(queryset=None, required=False)
 
     def __init__(self, *args, **kwargs):
         super(PDFFileForm, self).__init__(*args, **kwargs)
@@ -32,15 +30,18 @@ class PDFFileForm(forms.ModelForm):
 
         if self.instance.id:
             self.subject = self.instance.topic.subject
-            self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
+            self.initial['tags'] = ", ".join(
+                self.instance.tags.all().values_list("name", flat=True))
 
         self.fields['students'].queryset = self.subject.students.all()
         self.fields['groups'].queryset = self.subject.group_subject.all()
 
-    tags = forms.CharField(label = _('Tags'), required = False)
+    tags = forms.CharField(label=_('Tags'), required=False)
+
     class Meta:
         model = PDFFile
-        fields = ['name', 'file', 'brief_description','show_window', 'all_students', 'students', 'groups', 'visible']
+        fields = ['name', 'file', 'brief_description', 'show_window', 'all_students', 'students',
+                  'groups', 'visible']
         labels = {
             'name': _('File name'),
         }
@@ -48,7 +49,8 @@ class PDFFileForm(forms.ModelForm):
             'brief_description': forms.Textarea,
             'students': forms.SelectMultiple,
             'groups': forms.SelectMultiple,
-            'file': ResubmitFileWidget(attrs={'accept':'application/pdf, application/x-pdf, application/x-bzpdf, application/x-gzpdf'}),
+            'file': forms.FileInput(attrs={
+                'accept': 'application/pdf, application/x-pdf, application/x-bzpdf, application/x-gzpdf'}),
         }
 
     def clean_name(self):
@@ -58,9 +60,10 @@ class PDFFileForm(forms.ModelForm):
 
         for topic in topics:
             if self.instance.id:
-                same_name = topic.resource_topic.filter(name__unaccent__iexact = name).exclude(id = self.instance.id).count()
+                same_name = topic.resource_topic.filter(name__unaccent__iexact=name) \
+                    .exclude(id=self.instance.id).count()
             else:
-                same_name = topic.resource_topic.filter(name__unaccent__iexact = name).count()
+                same_name = topic.resource_topic.filter(name__unaccent__iexact=name).count()
 
             if same_name > 0:
                 self._errors['name'] = [_('This subject already has a pdf file with this name')]
@@ -75,7 +78,8 @@ class PDFFileForm(forms.ModelForm):
         if file:
             if hasattr(file, '_size'):
                 if file._size > self.MAX_UPLOAD_SIZE:
-                    self._errors['file'] = [_("The file is too large. It should have less than 10MB.")]
+                    self._errors['file'] = [
+                        _("The file is too large. It should have less than 10MB.")]
 
                     return ValueError
 
@@ -86,8 +90,8 @@ class PDFFileForm(forms.ModelForm):
 
         return file
 
-    def save(self, commit = True):
-        super(PDFFileForm, self).save(commit = True)
+    def save(self, commit=True):
+        super(PDFFileForm, self).save(commit=True)
 
         self.instance.save()
 
@@ -95,22 +99,22 @@ class PDFFileForm(forms.ModelForm):
 
         tags = self.cleaned_data['tags'].split(",")
 
-        #Excluding unwanted tags
+        # Excluding unwanted tags
         for prev in previous_tags:
-            if not prev.name in tags:
+            if prev.name not in tags:
                 self.instance.tags.remove(prev)
 
         for tag in tags:
             tag = tag.strip()
 
-            exist = Tag.objects.filter(name = tag).exists()
+            exist = Tag.objects.filter(name=tag).exists()
 
             if exist:
-                new_tag = Tag.objects.get(name = tag)
+                new_tag = Tag.objects.get(name=tag)
             else:
-                new_tag = Tag.objects.create(name = tag)
+                new_tag = Tag.objects.create(name=tag)
 
-            if not new_tag in self.instance.tags.all():
+            if new_tag not in self.instance.tags.all():
                 self.instance.tags.add(new_tag)
 
         return self.instance
