@@ -13,17 +13,20 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 import os
 # coding=utf-8
 import re
+from os.path import join
+
 from PIL import Image
 from django import forms
 from django.contrib.auth import update_session_auth_hash
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.utils.translation import ugettext_lazy as _
-from os.path import join
-#from resubmit.widgets import ResubmitFileWidget
 
 from amadeus import settings
 from .models import User
+
+
+# from resubmit.widgets import ResubmitFileWidget
 
 
 class Validation(forms.ModelForm):
@@ -124,7 +127,7 @@ class RegisterUserForm(Validation):
                 if not os.path.isdir(folder_path):
                     os.makedirs(folder_path)
 
-                if ("users" not in self.instance.image.path):
+                if "users" not in self.instance.image.path:
                     self.deletepath = self.instance.image.path
 
                 resized_image.save(self.instance.image.path)
@@ -145,7 +148,7 @@ class RegisterUserForm(Validation):
             'username': forms.TextInput(attrs={'placeholder': _('Name *')}),
             'last_name': forms.TextInput(attrs={'placeholder': _('Last Name *')}),
             'social_name': forms.TextInput(attrs={'placeholder': _('Social Name')}),
-            'image': forms.ImageField,
+            'image': forms.FileInput(attrs={'accept':'image/*'}),
         }
 
 
@@ -176,13 +179,13 @@ class ProfileForm(Validation):
                 if not os.path.isdir(folder_path):
                     os.makedirs(folder_path)
 
-                if ("users" not in self.instance.image.path):
+                if "users" not in self.instance.image.path:
                     self.deletepath = self.instance.image.path
 
                 resized_image.save(self.instance.image.path)
 
         self.instance.save()
-        if (self.deletepath):
+        if self.deletepath:
             os.remove(self.deletepath)
         return self.instance
 
@@ -195,7 +198,7 @@ class ProfileForm(Validation):
             'description': forms.Textarea,
             'username': forms.TextInput(attrs={'readonly': 'readonly'}),
             'last_name': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'image': forms.ImageField,
+            'image': forms.FileInput(attrs={'accept':'image/*'}),
         }
 
 
@@ -231,7 +234,7 @@ class UserForm(Validation):
 
         if self.instance.image:
             image = Image.open(self.instance.image)
-            if not x is None:
+            if x is not None:
                 cropped_image = image.crop((x, y, w + x, h + y))
                 resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
 
@@ -240,7 +243,7 @@ class UserForm(Validation):
                 if not os.path.isdir(folder_path):
                     os.makedirs(folder_path)
 
-                if ("users" not in self.instance.image.path):
+                if "users" not in self.instance.image.path:
                     self.deletepath = self.instance.image.path
 
                 resized_image.save(self.instance.image.path)
@@ -249,7 +252,7 @@ class UserForm(Validation):
             self.instance.set_password(self.cleaned_data['new_password'])
 
         self.instance.save()
-        if (self.deletepath):
+        if self.deletepath:
             os.remove(self.deletepath)
         return self.instance
 
@@ -260,7 +263,7 @@ class UserForm(Validation):
         widgets = {
             'email': forms.EmailInput,
             'description': forms.Textarea,
-            'image': forms.ImageField,
+            'image': forms.FileInput(attrs={'accept':'image/*'}),
         }
 
 
