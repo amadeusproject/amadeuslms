@@ -215,7 +215,8 @@ CRONJOBS = [
 
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+
     },
 }
 
