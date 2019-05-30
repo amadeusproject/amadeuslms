@@ -8,7 +8,7 @@
 * Python 3.5
 
 **Frameworks utilizados no projeto:**
-* Django 1.9
+* Django 1.11
 * Material Design Bootstrap
 
 **Guia de instalação**
