@@ -252,7 +252,9 @@ class SubjectView(LogMixin, generic.TemplateView):
         
         if has_subject_permissions(self.request.user, subject):
             student = self.request.POST.get('selected_student', None)
-            context['sub_students'] = subject.students.all()
+            students = subject.students.all()
+            students = sorted(students,key=lambda student: student.username) # Ordem Alfabética
+            context['sub_students'] = students
             context['student'] = self.request.POST.get('selected_student', subject.students.first().email)
 
             self.log_context['student'] = context['student']
