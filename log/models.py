@@ -12,15 +12,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from topics.models import Resource
+from users.models import User
 
 
 class Log(models.Model):
-    component = models.TextField(_('Component (Module / App)'))
-    action = models.TextField(_('Action'))
-    resource = models.TextField(_('Resource'))
-    user = models.CharField(_('Actor'), max_length=100)
-    user_id = models.IntegerField(_('Actor id'))
-    user_email = models.EmailField(_('Actor Mail'))
+    resource = models.ForeignKey(Resource, on_delete=models.SET_NULL)
+    user = models.ForeignKey(_('Actor'), User, on_delete=models.SET_NULL)
     datetime = models.DateTimeField(_("Date and Time of action"), auto_now_add=True)
 
     class Meta:
@@ -28,4 +26,4 @@ class Log(models.Model):
         verbose_name_plural = _('Logs')
 
     def __str__(self):
-        return str(self.user) + ' / ' + str(self.component)
+        return str(self.user) + ' / ' + str(self.resource)
