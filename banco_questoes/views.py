@@ -8,7 +8,8 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from amadeus.permissions import has_subject_permissions
 from subjects.models import Subject
 from .forms import QuestionForm, AlternativeFormset
-from .models import Question, valid_formats
+from .models import Question, valid_formats, CreateQuestionInDBLog, UpdateQuestionInDBLog, \
+    ReplicateQuestionInDBLog, DeleteQuestionInDBLog
 
 
 class IndexView(LoginRequiredMixin, ListView):
@@ -66,11 +67,6 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
-    log_component = 'questions_database'
-    log_resource = 'questions_database'
-    log_action = 'create'
-    log_context = {}
-
     def dispatch(self, request, *args, **kwargs):
         slug = self.kwargs.get('slug', '')
         subject = get_object_or_404(Subject, slug=slug)
@@ -91,10 +87,12 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
             initial['categories'] = ", ".join(
                 question.categories.all().values_list("name", flat=True))
 
-            self.log_action = 'replicate'
-
-            self.log_context['replicated_question_id'] = question.id
-            self.log_context['replicated_question_content'] = question.enunciado
+            replicate_log = ReplicateQuestionInDBLog()
+            replicate_log.subject = self.object.subject
+            replicate_log.user = self.request.user
+            replicate_log.category = self.object.subject.category
+            replicate_log.question = self.object
+            replicate_log.save()
 
         return initial
 
@@ -118,7 +116,7 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
 
         alternatives = AlternativeFormset(self.request.POST, self.request.FILES)
 
-        if (form.is_valid() and alternatives.is_valid()):
+        if form.is_valid() and alternatives.is_valid():
             return self.form_valid(form, alternatives)
         else:
             return self.form_invalid(form, alternatives)
@@ -143,17 +141,12 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
 
             alt.save()
 
-        self.log_context['category_id'] = self.object.subject.category.id
-        self.log_context['category_name'] = self.object.subject.category.name
-        self.log_context['category_slug'] = self.object.subject.category.slug
-        self.log_context['subject_id'] = self.object.subject.id
-        self.log_context['subject_name'] = self.object.subject.name
-        self.log_context['subject_slug'] = self.object.subject.slug
-        self.log_context['question_id'] = self.object.id
-        self.log_context['question_content'] = self.object.enunciado
-
-        super(QuestionCreateView, self).create_log(self.request.user, self.log_component,
-                                                   self.log_action, self.log_resource)
+        create_question_in_db_log = CreateQuestionInDBLog()
+        create_question_in_db_log.subject = self.object.subject
+        create_question_in_db_log.user = self.request.user
+        create_question_in_db_log.category = self.object.subject.category
+        create_question_in_db_log.question = self.object
+        create_question_in_db_log.save()
 
         return redirect(self.get_success_url())
 
@@ -185,11 +178,6 @@ class QuestionUpdateView(LoginRequiredMixin, UpdateView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
-    log_component = 'questions_database'
-    log_resource = 'questions_database'
-    log_action = 'update'
-    log_context = {}
-
     context_object_name = 'question'
 
     def dispatch(self, request, *args, **kwargs):
@@ -203,22 +191,18 @@ class QuestionUpdateView(LoginRequiredMixin, UpdateView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-
         form = self.get_form(self.get_form_class())
-
         alternatives = AlternativeFormset(instance=self.object)
 
         return self.render_to_response(self.get_context_data(form=form, formset=alternatives))
 
     def post(self, *args, **kwargs):
         self.object = self.get_object()
-
         form = self.get_form(self.get_form_class())
-
         alternatives = AlternativeFormset(self.request.POST, self.request.FILES,
                                           instance=self.object)
 
-        if (form.is_valid() and alternatives.is_valid()):
+        if form.is_valid() and alternatives.is_valid():
             return self.form_valid(form, alternatives)
         else:
             return self.form_invalid(form, alternatives)
@@ -233,28 +217,19 @@ class QuestionUpdateView(LoginRequiredMixin, UpdateView):
         subject = get_object_or_404(Subject, slug=slug)
 
         self.object.subject = subject
-
         self.object.save()
 
         alternatives = formset.save(commit=False)
 
         for alt in alternatives:
             alt.question = self.object
-
             alt.save()
 
-        self.log_context['category_id'] = self.object.subject.category.id
-        self.log_context['category_name'] = self.object.subject.category.name
-        self.log_context['category_slug'] = self.object.subject.category.slug
-        self.log_context['subject_id'] = self.object.subject.id
-        self.log_context['subject_name'] = self.object.subject.name
-        self.log_context['subject_slug'] = self.object.subject.slug
-        self.log_context['question_id'] = self.object.id
-        self.log_context['question_content'] = self.object.enunciado
-
-        super(QuestionUpdateView, self).create_log(self.request.user, self.log_component,
-                                                   self.log_action, self.log_resource)
-
+        update_log = UpdateQuestionInDBLog(category=self.object.subject.category,
+                                           subject=self.object.subject,
+                                           question=self.object,
+                                           user=self.request.user)
+        update_log.save()
         return redirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
@@ -276,10 +251,6 @@ class QuestionUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class QuestionDeleteView(LoginRequiredMixin, DeleteView):
-    log_component = 'questions_database'
-    log_action = 'delete'
-    log_resource = 'questions_database'
-    log_context = {}
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
     template_name = 'banco_questoes/delete.html'
@@ -300,16 +271,9 @@ class QuestionDeleteView(LoginRequiredMixin, DeleteView):
             'The question was removed successfully from virtual environment "%s"!') % (
                              self.object.subject.name))
 
-        self.log_context['category_id'] = self.object.subject.category.id
-        self.log_context['category_name'] = self.object.subject.category.name
-        self.log_context['category_slug'] = self.object.subject.category.slug
-        self.log_context['subject_id'] = self.object.subject.id
-        self.log_context['subject_name'] = self.object.subject.name
-        self.log_context['subject_slug'] = self.object.subject.slug
-        self.log_context['question_id'] = self.object.id
-        self.log_context['question_content'] = self.object.enunciado
-
-        super(QuestionDeleteView, self).create_log(self.request.user, self.log_component,
-                                                   self.log_action, self.log_resource)
-
+        delete_log = DeleteQuestionInDBLog(category=self.object.subject.category,
+                                           subject=self.object.subject,
+                                           user=self.request.user,
+                                           question=self.object)
+        delete_log.save()
         return reverse_lazy('questions_database:index', kwargs={'slug': self.object.subject.slug})

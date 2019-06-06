@@ -14,6 +14,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from categories.models import Category
+from log.models import Log
 from subjects.models import Subject, Tag
 
 valid_formats = ['image/jpeg', 'image/x-citrix-jpeg', 'image/png', 'image/x-citrix-png',
@@ -59,3 +61,27 @@ class Alternative(models.Model):
 
     def __str__(self):
         return self.content
+
+
+class CreateQuestionInDBLog(Log):
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    question = models.ForeignKey(Question, on_delete=models.SET_NULL)
+
+
+class ReplicateQuestionInDBLog(Log):
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    question = models.ForeignKey(Question, on_delete=models.SET_NULL)
+
+
+class UpdateQuestionInDBLog(Log):
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    question = models.ForeignKey(Question, on_delete=models.SET_NULL)
+
+
+class DeleteQuestionInDBLog(Log):
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    question = models.ForeignKey(Question, on_delete=models.SET_NULL)
