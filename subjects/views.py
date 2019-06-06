@@ -46,7 +46,6 @@ from goals.serializers import SimpleGoalSerializer, CompleteGoalSerializer
 from links.models import Link
 from links.serializers import SimpleLinkSerializer, CompleteLinkSerializer
 from log.decorators import log_decorator_ajax
-from log.mixins import LogMixin
 from log.models import Log
 from news.models import News
 from pdf_file.models import PDFFile
@@ -264,7 +263,7 @@ class GetSubjectList(LoginRequiredMixin, ListView):
         return context
 
 
-class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
+class SubjectCreateView(LoginRequiredMixin, CreateView):
     log_component = 'subject'
     log_action = 'create'
     log_resource = 'subject'
@@ -394,7 +393,7 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
         return reverse_lazy('subjects:index')
 
 
-class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
+class SubjectUpdateView(LoginRequiredMixin, UpdateView):
     log_component = 'subject'
     log_action = 'update'
     log_resource = 'subject'
@@ -465,7 +464,7 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
         return reverse_lazy('subjects:index')
 
 
-class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
+class SubjectDeleteView(LoginRequiredMixin, DeleteView):
     log_component = 'subject'
     log_action = 'delete'
     log_resource = 'subject'
@@ -559,7 +558,7 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
         return reverse_lazy('subjects:index')
 
 
-class SubjectDetailView(LoginRequiredMixin, LogMixin, DetailView):
+class SubjectDetailView(LoginRequiredMixin, DetailView):
     log_component = 'subject'
     log_action = 'access'
     log_resource = 'subject'
@@ -612,7 +611,7 @@ class SubjectDetailView(LoginRequiredMixin, LogMixin, DetailView):
         return context
 
 
-class SubjectSubscribeView(LoginRequiredMixin, LogMixin, TemplateView):
+class SubjectSubscribeView(LoginRequiredMixin, TemplateView):
     log_component = 'subject'
     log_action = 'subscribe'
     log_resource = 'subject'
@@ -653,7 +652,7 @@ class SubjectSubscribeView(LoginRequiredMixin, LogMixin, TemplateView):
         return redirect(reverse_lazy('subjects:view', kwargs={"slug": subject.slug}))
 
 
-class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
+class SubjectSearchView(LoginRequiredMixin, ListView):
     log_component = 'subject'
     log_action = 'search'
     log_resource = 'subject/resources'

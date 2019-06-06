@@ -28,7 +28,6 @@ from amadeus.permissions import has_subject_view_permissions, has_category_permi
     has_subject_permissions
 from categories.models import Category
 from log.decorators import log_decorator, log_decorator_ajax
-from log.mixins import LogMixin
 from log.models import Log
 from subjects.models import Subject
 from users.models import User
@@ -36,7 +35,7 @@ from .models import Notification
 from .utils import get_order_by, is_date, strToDate
 
 
-class SubjectNotifications(LoginRequiredMixin, LogMixin, generic.ListView):
+class SubjectNotifications(LoginRequiredMixin, generic.ListView):
     log_component = 'pendencies'
     log_action = 'view'
     log_resource = 'pendencies'
@@ -153,7 +152,7 @@ class SubjectNotifications(LoginRequiredMixin, LogMixin, generic.ListView):
         return context
 
 
-class SubjectHistory(LoginRequiredMixin, LogMixin, generic.ListView):
+class SubjectHistory(LoginRequiredMixin, generic.ListView):
     log_component = 'pendencies'
     log_action = 'view_history'
     log_resource = 'pendencies'

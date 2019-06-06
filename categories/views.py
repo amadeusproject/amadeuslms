@@ -23,7 +23,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 
 from log.decorators import log_decorator_ajax
-from log.mixins import LogMixin
 from log.models import Log
 from subjects.models import Subject
 from topics.models import Topic, Resource
@@ -69,7 +68,7 @@ class IndexView(LoginRequiredMixin, views.StaffuserRequiredMixin, ListView):
         return context
 
 
-class CreateCategory(LoginRequiredMixin, views.StaffuserRequiredMixin, LogMixin, CreateView):
+class CreateCategory(LoginRequiredMixin, views.StaffuserRequiredMixin, CreateView):
     log_component = 'category'
     log_action = 'create'
     log_resource = 'category'
@@ -140,7 +139,7 @@ class CreateCategory(LoginRequiredMixin, views.StaffuserRequiredMixin, LogMixin,
         return reverse_lazy('categories:index')
 
 
-class DeleteCategory(LoginRequiredMixin, LogMixin, DeleteView):
+class DeleteCategory(LoginRequiredMixin, DeleteView):
     log_component = 'category'
     log_action = 'delete'
     log_resource = 'category'
@@ -194,7 +193,7 @@ class DeleteCategory(LoginRequiredMixin, LogMixin, DeleteView):
         return self.request.META.get('HTTP_REFERER')
 
 
-class UpdateCategory(LogMixin, UpdateView):
+class UpdateCategory(UpdateView):
     log_component = 'category'
     log_action = 'update'
     log_resource = 'category'

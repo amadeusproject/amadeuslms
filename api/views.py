@@ -37,7 +37,6 @@ from rest_framework.permissions import IsAuthenticated
 from chat.models import TalkMessages, Conversation, ChatVisualizations, ChatFavorites
 from chat.serializers import ChatSerializer
 from log.decorators import log_decorator
-from log.mixins import LogMixin
 from mural.models import SubjectPost, MuralVisualizations, Comment, MuralFavorites
 from mural.serializers import MuralSerializer, CommentsSerializer
 from mural.utils import getSubjectPosts, getSpaceUsers
@@ -101,7 +100,7 @@ def getToken(request):
     return HttpResponse(response)
 
 
-class LoginViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
+class LoginViewset(viewsets.ReadOnlyModelViewSet, ):
     """
     login:
     Log a user in the system
@@ -269,7 +268,7 @@ class SubjectViewset(viewsets.ReadOnlyModelViewSet):
         return HttpResponse(response)
 
 
-class ParticipantsViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
+class ParticipantsViewset(viewsets.ReadOnlyModelViewSet, ):
     """
     get_participants:
         Get all users that participates in some subject. Require the logged user email and the subject slug
@@ -335,7 +334,7 @@ class ParticipantsViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
         return HttpResponse(response)
 
 
-class ChatViewset(viewsets.ModelViewSet, LogMixin):
+class ChatViewset(viewsets.ModelViewSet, ):
     """
     get_messages:
         Get messages of a conversation
@@ -602,7 +601,7 @@ class ChatViewset(viewsets.ModelViewSet, LogMixin):
         return HttpResponse(response)
 
 
-class MuralViewset(viewsets.ModelViewSet, LogMixin):
+class MuralViewset(viewsets.ModelViewSet, ):
     queryset = SubjectPost.objects.all()
     serializer_class = MuralSerializer
     permissions_classes = (IsAuthenticated,)

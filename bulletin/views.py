@@ -39,7 +39,6 @@ from amadeus.permissions import has_subject_permissions, has_resource_permission
 from chat.models import Conversation, TalkMessages, ChatVisualizations
 from goals.models import Goals, GoalItem, MyGoals
 from log.decorators import log_decorator
-from log.mixins import LogMixin
 from log.models import Log
 from pendencies.forms import PendenciesForm
 from topics.models import Topic
@@ -50,7 +49,7 @@ from .models import Bulletin, valid_formats
 from .utils import brodcast_dificulties
 
 
-class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class NewWindowView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view'
     log_resource = 'bulletin'
@@ -222,7 +221,7 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
         return context
 
 
-class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class InsideView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view'
     log_resource = 'bulletin'
@@ -388,7 +387,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
         return context
 
 
-class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, generic.edit.CreateView):
     log_component = 'resources'
     log_action = 'create'
     log_resource = 'bulletin'
@@ -712,7 +711,7 @@ def calcula_porcentagem(parte, todo):
     return int(100 * int(parte) / int(todo))
 
 
-class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, generic.UpdateView):
     log_component = 'resources'
     log_action = 'update'
     log_resource = 'bulletin'
@@ -862,7 +861,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return success_url
 
 
-class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, generic.DeleteView):
     log_component = 'resources'
     log_action = 'delete'
     log_resource = 'bulletin'
@@ -908,7 +907,7 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.topic.subject.slug})
 
 
-class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class StatisticsView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view_statistics'
     log_resource = 'bulletin'
@@ -1034,7 +1033,7 @@ def bulletin_diff_view_log(request, slug):
     return JsonResponse({'message': 'ok'})
 
 
-class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
+class SendMessage(LoginRequiredMixin, generic.edit.FormView):
     log_component = 'resources'
     log_action = 'send'
     log_resource = 'bulletin'

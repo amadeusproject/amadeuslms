@@ -33,7 +33,6 @@ from django.views import generic
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 from chat.models import Conversation, TalkMessages, ChatVisualizations
 from log.decorators import log_decorator
-from log.mixins import LogMixin
 from log.models import Log
 from topics.models import Topic
 from users.models import User
@@ -42,7 +41,7 @@ from .forms import WebconferenceForm, SettingsForm, InlinePendenciesFormset, Web
 from .models import Webconference, ConferenceSettings as Settings
 
 
-class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class NewWindowView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view'
     log_resource = 'webconference'
@@ -89,7 +88,7 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
         return context
 
 
-class Conference(LoginRequiredMixin, LogMixin, generic.TemplateView):
+class Conference(LoginRequiredMixin, generic.TemplateView):
     log_component = 'resources'
     log_action = 'initwebconference'
     log_resource = 'webconference'
@@ -197,7 +196,7 @@ def finish(request):
     return JsonResponse(url, safe=False)
 
 
-class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class InsideView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view'
     log_resource = 'webconference'
@@ -249,7 +248,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
         return context
 
 
-class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, generic.edit.CreateView):
     log_component = 'resources'
     log_action = 'create'
     log_resource = 'webconference'
@@ -395,7 +394,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return success_url
 
 
-class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, generic.UpdateView):
     log_component = 'resources'
     log_action = 'update'
     log_resource = 'webconference'
@@ -526,7 +525,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return success_url
 
 
-class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, generic.DeleteView):
     log_component = 'resources'
     log_action = 'delete'
     log_resource = 'webconference'
@@ -600,7 +599,7 @@ class ConferenceSettings(braces_mixins.LoginRequiredMixin, braces_mixins.Staffus
         return context
 
 
-class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class StatisticsView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view_statistics'
     log_resource = 'webconference'
@@ -745,7 +744,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
 from django.http import HttpResponse  # used to send HTTP 404 error to ajax
 
 
-class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
+class SendMessage(LoginRequiredMixin, generic.edit.FormView):
     log_component = 'resources'
     log_action = 'send'
     log_resource = 'webconference'

@@ -6,7 +6,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from amadeus.permissions import has_subject_permissions
-from log.mixins import LogMixin
 from subjects.models import Subject
 from .forms import QuestionForm, AlternativeFormset
 from .models import Question, valid_formats
@@ -60,7 +59,7 @@ class IndexView(LoginRequiredMixin, ListView):
         return context
 
 
-class QuestionCreateView(LoginRequiredMixin, LogMixin, CreateView):
+class QuestionCreateView(LoginRequiredMixin, CreateView):
     form_class = QuestionForm
     template_name = 'banco_questoes/create.html'
 
@@ -178,7 +177,7 @@ class QuestionCreateView(LoginRequiredMixin, LogMixin, CreateView):
         return reverse_lazy('questions_database:index', kwargs={'slug': self.object.subject.slug})
 
 
-class QuestionUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
+class QuestionUpdateView(LoginRequiredMixin, UpdateView):
     model = Question
     form_class = QuestionForm
     template_name = 'banco_questoes/create.html'
@@ -276,7 +275,7 @@ class QuestionUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
         return reverse_lazy('questions_database:index', kwargs={'slug': self.object.subject.slug})
 
 
-class QuestionDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
+class QuestionDeleteView(LoginRequiredMixin, DeleteView):
     log_component = 'questions_database'
     log_action = 'delete'
     log_resource = 'questions_database'

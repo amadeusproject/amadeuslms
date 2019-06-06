@@ -30,7 +30,6 @@ from django.views import generic
 
 from amadeus.permissions import has_subject_permissions
 from chat.models import Conversation, TalkMessages, ChatVisualizations
-from log.mixins import LogMixin
 from log.models import Log
 from pendencies.forms import PendenciesForm
 from topics.models import Topic
@@ -41,7 +40,7 @@ from .models import Link
 
 
 # Create your views here.
-class CreateLinkView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class CreateLinkView(LoginRequiredMixin, generic.edit.CreateView):
     log_component = 'resources'
     log_action = 'create'
     log_resource = 'link'
@@ -173,7 +172,7 @@ class CreateLinkView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
                                                            'topic_slug': self.object.topic.slug})
 
 
-class DeleteLinkView(LoginRequiredMixin, LogMixin, generic.edit.DeleteView):
+class DeleteLinkView(LoginRequiredMixin, generic.edit.DeleteView):
     log_component = 'resources'
     log_action = 'delete'
     log_resource = 'link'
@@ -218,7 +217,7 @@ class DeleteLinkView(LoginRequiredMixin, LogMixin, generic.edit.DeleteView):
 from django.views.generic.base import RedirectView
 
 
-class RedirectUrl(LogMixin, RedirectView):
+class RedirectUrl(RedirectView):
     log_component = 'resources'
     log_action = 'view'
     log_resource = 'link'
@@ -245,7 +244,7 @@ class RedirectUrl(LogMixin, RedirectView):
         return link.link_url
 
 
-class UpdateLinkView(LoginRequiredMixin, LogMixin, generic.edit.UpdateView):
+class UpdateLinkView(LoginRequiredMixin, generic.edit.UpdateView):
     log_component = 'resources'
     log_action = 'update'
     log_resource = 'links'
@@ -377,7 +376,7 @@ class UpdateLinkView(LoginRequiredMixin, LogMixin, generic.edit.UpdateView):
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.topic.subject.slug})
 
 
-class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class StatisticsView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view_statistics'
     log_resource = 'link'
@@ -482,7 +481,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         return context
 
 
-class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
+class SendMessage(LoginRequiredMixin, generic.edit.FormView):
     log_component = 'resources'
     log_action = 'send'
     log_resource = 'link'

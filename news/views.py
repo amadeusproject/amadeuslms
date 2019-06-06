@@ -18,12 +18,11 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 
-from log.mixins import LogMixin
 from .forms import NewsForm
 from .models import News, valid_formats
 
 
-class VisualizeNews(LoginRequiredMixin, LogMixin, generic.ListView):
+class VisualizeNews(LoginRequiredMixin, generic.ListView):
     log_action = "view_new"
     log_resource = "news"
     log_component = "news"
@@ -53,7 +52,7 @@ class VisualizeNews(LoginRequiredMixin, LogMixin, generic.ListView):
         return new
 
 
-class ListNewsView(LoginRequiredMixin, LogMixin, generic.ListView):
+class ListNewsView(LoginRequiredMixin, generic.ListView):
     log_action = "view_list_of_news"
     log_resource = "news"
     log_component = "news"
@@ -81,7 +80,7 @@ class ListNewsView(LoginRequiredMixin, LogMixin, generic.ListView):
         return context
 
 
-class CreateNewsView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class CreateNewsView(LoginRequiredMixin, generic.edit.CreateView):
     log_action = "create"
     log_resource = "news"
     log_component = "news"
@@ -126,7 +125,7 @@ class CreateNewsView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return reverse_lazy('news:view', kwargs={'slug': self.object.slug})
 
 
-class UpdateNewsView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+class UpdateNewsView(LoginRequiredMixin, generic.UpdateView):
     log_action = "update"
     log_resource = "news"
     log_component = "news"
@@ -172,7 +171,7 @@ class UpdateNewsView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return reverse_lazy('news:view', kwargs={'slug': self.object.slug})
 
 
-class SearchNewsView(LoginRequiredMixin, LogMixin, generic.ListView):
+class SearchNewsView(LoginRequiredMixin, generic.ListView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
@@ -220,7 +219,7 @@ class SearchNewsView(LoginRequiredMixin, LogMixin, generic.ListView):
         return context
 
 
-class DeleteNewsView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+class DeleteNewsView(LoginRequiredMixin, generic.DeleteView):
     log_component = 'news'
     log_action = 'delete'
     log_resource = 'news'

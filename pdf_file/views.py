@@ -32,7 +32,6 @@ from django.views import generic
 
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 from chat.models import Conversation, TalkMessages, ChatVisualizations
-from log.mixins import LogMixin
 from log.models import Log
 from pendencies.forms import PendenciesForm
 from topics.models import Topic, Resource
@@ -42,7 +41,7 @@ from .forms import PDFFileForm
 from .models import PDFFile, valid_formats
 
 
-class ViewPDFFile(LoginRequiredMixin, LogMixin, generic.TemplateView):
+class ViewPDFFile(LoginRequiredMixin, generic.TemplateView):
     template_name = 'pdf_file/view.html'
     log_component = 'resources'
     log_action = 'view'
@@ -109,7 +108,7 @@ class ViewPDFFile(LoginRequiredMixin, LogMixin, generic.TemplateView):
         )
 
 
-class PDFFileCreateView(LoginRequiredMixin, LogMixin, generic.CreateView):
+class PDFFileCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = PDFFileForm
     template_name = 'pdf_file/create.html'
 
@@ -240,7 +239,7 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin, generic.CreateView):
                                                            'topic_slug': self.object.topic.slug})
 
 
-class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, generic.UpdateView):
     log_component = 'resources'
     log_action = 'update'
     log_resource = 'pdffile'
@@ -372,7 +371,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.topic.subject.slug})
 
 
-class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, generic.DeleteView):
     log_component = 'resources'
     log_action = 'delete'
     log_resource = 'pdf_file'
@@ -418,7 +417,7 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.topic.subject.slug})
 
 
-class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class StatisticsView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view_statistics'
     log_resource = 'pdf_file'
@@ -526,7 +525,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         return context
 
 
-class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
+class SendMessage(LoginRequiredMixin, generic.edit.FormView):
     log_component = 'resources'
     log_action = 'send'
     log_resource = 'pdffile'

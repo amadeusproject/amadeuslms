@@ -30,7 +30,6 @@ from django.views import generic
 
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 from chat.models import Conversation, TalkMessages, ChatVisualizations
-from log.mixins import LogMixin
 from log.models import Log
 from pendencies.forms import PendenciesForm
 from topics.models import Topic
@@ -40,7 +39,7 @@ from .forms import WebpageForm
 from .models import Webpage
 
 
-class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class NewWindowView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view'
     log_resource = 'webpage'
@@ -88,7 +87,7 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
         return context
 
 
-class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class InsideView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view'
     log_resource = 'webpage'
@@ -140,7 +139,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
         return context
 
 
-class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, generic.edit.CreateView):
     log_component = 'resources'
     log_action = 'create'
     log_resource = 'webpage'
@@ -280,7 +279,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return success_url
 
 
-class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, generic.UpdateView):
     log_component = 'resources'
     log_action = 'update'
     log_resource = 'webpage'
@@ -422,7 +421,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return success_url
 
 
-class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, generic.DeleteView):
     log_component = 'resources'
     log_action = 'delete'
     log_resource = 'webpage'
@@ -468,7 +467,7 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.topic.subject.slug})
 
 
-class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class StatisticsView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view_statistics'
     log_resource = 'webpage'
@@ -578,7 +577,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
 from django.http import HttpResponse  # used to send HTTP 404 error to ajax
 
 
-class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
+class SendMessage(LoginRequiredMixin, generic.edit.FormView):
     log_component = 'resources'
     log_action = 'send'
     log_resource = 'webpage'

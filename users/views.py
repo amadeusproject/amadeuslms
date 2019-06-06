@@ -41,7 +41,6 @@ from oauth2_provider.contrib.rest_framework.permissions import IsAuthenticatedOr
 from rest_framework import viewsets
 
 from log.decorators import log_decorator
-from log.mixins import LogMixin
 from mailsender.models import MailSender
 from security.models import Security
 from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm, PassResetRequest, \
@@ -111,7 +110,7 @@ class SearchView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
         return context
 
 
-class CreateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, LogMixin,
+class CreateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin,
                  generic.edit.CreateView):
     log_component = 'user'
     log_action = 'create'
@@ -150,7 +149,7 @@ class CreateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
         return context
 
 
-class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin, LogMixin,
+class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin,
                  generic.UpdateView):
     log_component = 'user'
     log_action = 'update'
@@ -201,7 +200,7 @@ class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
         return context
 
 
-class DeleteView(braces_mixins.LoginRequiredMixin, LogMixin, generic.DeleteView):
+class DeleteView(braces_mixins.LoginRequiredMixin, generic.DeleteView):
     log_component = 'user'
     log_action = 'delete'
     log_resource = 'user'

@@ -32,7 +32,6 @@ from django.views import generic
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 from chat.models import Conversation, TalkMessages, ChatVisualizations
 from log.decorators import log_decorator_ajax, log_decorator
-from log.mixins import LogMixin
 from log.models import Log
 from topics.models import Topic
 from users.models import User
@@ -41,7 +40,7 @@ from .forms import YTVideoForm, InlinePendenciesFormset
 from .models import YTVideo
 
 
-class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class NewWindowView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view'
     log_resource = 'ytvideo'
@@ -90,7 +89,7 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
         return context
 
 
-class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class InsideView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view'
     log_resource = 'ytvideo'
@@ -142,7 +141,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
         return context
 
 
-class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, generic.edit.CreateView):
     log_component = 'resources'
     log_action = 'create'
     log_resource = 'ytvideo'
@@ -291,7 +290,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return success_url
 
 
-class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, generic.UpdateView):
     log_component = 'resources'
     log_action = 'update'
     log_resource = 'ytvideo'
@@ -424,7 +423,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return success_url
 
 
-class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, generic.DeleteView):
     log_component = 'resources'
     log_action = 'delete'
     log_resource = 'ytvideo'
@@ -516,7 +515,7 @@ def ytvideo_finish_log(request, ytvideo):
     return JsonResponse({'message': 'ok'})
 
 
-class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class StatisticsView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view_statistics'
     log_resource = 'ytvideo'
@@ -659,7 +658,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
 from django.http import HttpResponse  # used to send HTTP 404 error to ajax
 
 
-class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
+class SendMessage(LoginRequiredMixin, generic.edit.FormView):
     log_component = 'resources'
     log_action = 'send'
     log_resource = 'ytvideo'

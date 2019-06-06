@@ -22,14 +22,13 @@ from django.views import generic
 
 from amadeus.permissions import has_subject_permissions, has_subject_view_permissions
 from categories.models import Category
-from log.mixins import LogMixin
 from log.models import Log
 from subjects.models import Subject, Tag
 from users.models import User
 from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators
 
 
-class GeneralView(LogMixin, generic.TemplateView):
+class GeneralView(generic.TemplateView):
     template_name = "dashboards/general.html"
 
     log_component = "General_Dashboard"
@@ -86,7 +85,7 @@ class GeneralView(LogMixin, generic.TemplateView):
         return months
 
 
-class CategoryView(LogMixin, generic.TemplateView):
+class CategoryView(generic.TemplateView):
     template_name = "dashboards/category.html"
 
     log_component = "Category_Dashboard"
@@ -148,7 +147,7 @@ class CategoryView(LogMixin, generic.TemplateView):
         return categories
 
 
-class LogView(LogMixin, generic.TemplateView):
+class LogView(generic.TemplateView):
     template_name = "dashboards/general.html"
 
     log_component = "admin_log"
@@ -196,7 +195,7 @@ def parse_log_queryset_to_JSON(logs):
     return data
 
 
-class SubjectView(LogMixin, generic.TemplateView):
+class SubjectView(generic.TemplateView):
     template_name = "dashboards/subjects.html"
 
     log_component = "subject"

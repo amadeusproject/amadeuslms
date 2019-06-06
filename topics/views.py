@@ -24,14 +24,13 @@ from django.views.decorators.csrf import csrf_exempt
 
 from amadeus.permissions import has_subject_permissions
 from log.decorators import log_decorator_ajax
-from log.mixins import LogMixin
 from log.models import Log
 from subjects.models import Subject
 from .forms import TopicForm
 from .models import Topic, Resource
 
 
-class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, generic.edit.CreateView):
     log_component = 'topic'
     log_action = 'create'
     log_resource = 'topic'
@@ -111,7 +110,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.subject.slug})
 
 
-class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, generic.UpdateView):
     log_component = 'topic'
     log_action = 'update'
     log_resource = 'topic'
@@ -183,7 +182,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.subject.slug})
 
 
-class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, generic.DeleteView):
     log_component = 'topic'
     log_action = 'delete'
     log_resource = 'topic'

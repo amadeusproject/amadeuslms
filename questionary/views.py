@@ -36,7 +36,6 @@ from amadeus.permissions import has_resource_permissions, \
 from banco_questoes.models import Alternative, Question
 from chat.models import Conversation, TalkMessages, ChatVisualizations
 from log.decorators import log_decorator
-from log.mixins import LogMixin
 from log.models import Log
 from topics.models import Topic
 from users.models import User
@@ -46,7 +45,7 @@ from .forms import InlinePendenciesFormset, InlineSpecificationFormset, \
 from .models import Questionary, UserAnswer, UserQuest
 
 
-class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
+class InsideView(LoginRequiredMixin, generic.ListView):
     log_component = "resources"
     log_action = "view"
     log_resource = "questionary"
@@ -243,7 +242,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
         return context
 
 
-class QuestionaryCreateView(LoginRequiredMixin, LogMixin, generic.CreateView):
+class QuestionaryCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = QuestionaryForm
     template_name = 'questionary/create.html'
 
@@ -419,7 +418,7 @@ class QuestionaryCreateView(LoginRequiredMixin, LogMixin, generic.CreateView):
         return success_url
 
 
-class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, generic.UpdateView):
     log_component = "resources"
     log_action = "update"
     log_resource = "questionary"
@@ -570,7 +569,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return success_url
 
 
-class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, generic.DeleteView):
     log_component = "resources"
     log_action = "delete"
     log_resource = "questionary"
@@ -694,7 +693,7 @@ def answer(request):
          'answered': userquest.useranswer_userquest.filter(answer__isnull=False).count()})
 
 
-class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class StatisticsView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view_statistics'
     log_resource = 'questionary'
@@ -853,7 +852,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         return context
 
 
-class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
+class SendMessage(LoginRequiredMixin, generic.edit.FormView):
     log_component = 'resources'
     log_action = 'send'
     log_resource = 'questionary'

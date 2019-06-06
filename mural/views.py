@@ -32,7 +32,6 @@ from amadeus.permissions import has_subject_view_permissions, has_resource_permi
 from api.utils import sendMuralPushNotification
 from categories.models import Category
 from log.decorators import log_decorator_ajax
-from log.mixins import LogMixin
 from log.models import Log
 from subjects.models import Subject
 from topics.models import Resource
@@ -47,7 +46,7 @@ from .utils import getSpaceUsers, getSubjectPosts
 """
 
 
-class GeneralIndex(LoginRequiredMixin, LogMixin, generic.ListView):
+class GeneralIndex(LoginRequiredMixin, generic.ListView):
     log_component = "mural"
     log_action = "view"
     log_resource = "general"
@@ -158,7 +157,7 @@ class GeneralIndex(LoginRequiredMixin, LogMixin, generic.ListView):
         return context
 
 
-class GeneralCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class GeneralCreate(LoginRequiredMixin, generic.edit.CreateView):
     log_component = "mural"
     log_action = "create_post"
     log_resource = "general"
@@ -229,7 +228,7 @@ class GeneralCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return reverse_lazy('mural:render_post', args=(self.object.id, 'create', 'gen',))
 
 
-class GeneralUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
+class GeneralUpdate(LoginRequiredMixin, generic.UpdateView):
     log_component = "mural"
     log_action = "edit_post"
     log_resource = "general"
@@ -292,7 +291,7 @@ class GeneralUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return reverse_lazy('mural:render_post', args=(self.object.id, 'update', 'gen',))
 
 
-class GeneralDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
+class GeneralDelete(LoginRequiredMixin, generic.DeleteView):
     log_component = "mural"
     log_action = "delete_post"
     log_resource = "general"
@@ -468,7 +467,7 @@ class CategoryIndex(LoginRequiredMixin, generic.ListView):
         return context
 
 
-class CategoryCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class CategoryCreate(LoginRequiredMixin, generic.edit.CreateView):
     log_component = "mural"
     log_action = "create_post"
     log_resource = "category"
@@ -548,7 +547,7 @@ class CategoryCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return reverse_lazy('mural:render_post', args=(self.object.id, 'create', 'cat',))
 
 
-class CategoryUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
+class CategoryUpdate(LoginRequiredMixin, generic.UpdateView):
     log_component = "mural"
     log_action = "edit_post"
     log_resource = "category"
@@ -614,7 +613,7 @@ class CategoryUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return reverse_lazy('mural:render_post', args=(self.object.id, 'update', 'cat',))
 
 
-class CategoryDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
+class CategoryDelete(LoginRequiredMixin, generic.DeleteView):
     log_component = "mural"
     log_action = "delete_post"
     log_resource = "category"
@@ -793,7 +792,7 @@ class SubjectIndex(LoginRequiredMixin, generic.ListView):
         return context
 
 
-class SubjectCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class SubjectCreate(LoginRequiredMixin, generic.edit.CreateView):
     log_component = "mural"
     log_action = "create_post"
     log_resource = "subject"
@@ -896,7 +895,7 @@ class SubjectCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return reverse_lazy('mural:render_post', args=(self.object.id, 'create', 'sub',))
 
 
-class SubjectUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
+class SubjectUpdate(LoginRequiredMixin, generic.UpdateView):
     log_component = "mural"
     log_action = "edit_post"
     log_resource = "subject"
@@ -988,7 +987,7 @@ class SubjectUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return reverse_lazy('mural:render_post', args=(self.object.id, 'update', 'sub',))
 
 
-class SubjectDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
+class SubjectDelete(LoginRequiredMixin, generic.DeleteView):
     log_component = "mural"
     log_action = "delete_post"
     log_resource = "subject"
@@ -1050,7 +1049,7 @@ class SubjectDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
         return reverse_lazy('mural:deleted_post')
 
 
-class SubjectView(LoginRequiredMixin, LogMixin, generic.ListView):
+class SubjectView(LoginRequiredMixin, generic.ListView):
     log_component = "mural"
     log_action = "view"
     log_resource = "subject"
@@ -1157,7 +1156,7 @@ def mural_subject_log(request, subject):
 """
 
 
-class ResourceView(LoginRequiredMixin, LogMixin, generic.ListView):
+class ResourceView(LoginRequiredMixin, generic.ListView):
     log_component = "mural"
     log_action = "view"
     log_resource = "subject"
@@ -1309,7 +1308,7 @@ class ResourceView(LoginRequiredMixin, LogMixin, generic.ListView):
         return context
 
 
-class ResourceCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class ResourceCreate(LoginRequiredMixin, generic.edit.CreateView):
     log_component = "mural"
     log_action = "create_post"
     log_resource = "subject"
@@ -1455,7 +1454,7 @@ def favorite(request, post):
 """
 
 
-class CommentCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
     log_component = "mural"
     log_action = "create_comment"
     log_resource = "general"
@@ -1564,7 +1563,7 @@ class CommentCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return reverse_lazy('mural:render_comment', args=(self.object.id, 'create',))
 
 
-class CommentUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
+class CommentUpdate(LoginRequiredMixin, generic.UpdateView):
     log_component = "mural"
     log_action = "edit_comment"
     log_resource = "general"
@@ -1661,7 +1660,7 @@ def get_success_url(self):
     return reverse_lazy('mural:render_comment', args=(self.object.id, 'update',))
 
 
-class CommentDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
+class CommentDelete(LoginRequiredMixin, generic.DeleteView):
     log_component = "mural"
     log_action = "delete_comment"
     log_resource = "general"

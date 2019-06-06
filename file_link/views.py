@@ -33,7 +33,6 @@ from django.views import generic
 
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 from chat.models import Conversation, TalkMessages, ChatVisualizations
-from log.mixins import LogMixin
 from log.models import Log
 from pendencies.forms import PendenciesForm
 from topics.models import Topic
@@ -43,7 +42,7 @@ from .forms import FileLinkForm
 from .models import FileLink, valid_formats
 
 
-class DownloadFile(LoginRequiredMixin, LogMixin, generic.DetailView):
+class DownloadFile(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view'
     log_resource = 'filelink'
@@ -98,7 +97,7 @@ class DownloadFile(LoginRequiredMixin, LogMixin, generic.DetailView):
         return response
 
 
-class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, generic.edit.CreateView):
     log_component = 'resources'
     log_action = 'create'
     log_resource = 'filelink'
@@ -228,7 +227,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.topic.subject.slug})
 
 
-class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, generic.UpdateView):
     log_component = 'resources'
     log_action = 'update'
     log_resource = 'filelink'
@@ -360,7 +359,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.topic.subject.slug})
 
 
-class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, generic.DeleteView):
     log_component = 'resources'
     log_action = 'delete'
     log_resource = 'filelink'
@@ -406,7 +405,7 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.topic.subject.slug})
 
 
-class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class StatisticsView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view_statistics'
     log_resource = 'filelink'
@@ -513,7 +512,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
         return context
 
 
-class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
+class SendMessage(LoginRequiredMixin, generic.edit.FormView):
     log_component = 'resources'
     log_action = 'send'
     log_resource = 'filelink'

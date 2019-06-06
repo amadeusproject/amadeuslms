@@ -18,7 +18,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 
 from amadeus.permissions import has_subject_permissions
-from log.mixins import LogMixin
 from subjects.models import Subject
 from .forms import StudentsGroupForm
 from .models import StudentsGroup
@@ -60,7 +59,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
         return context
 
 
-class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, generic.edit.CreateView):
     log_component = 'students_group'
     log_action = 'create'
     log_resource = 'students_group'
@@ -154,7 +153,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return reverse_lazy('groups:index', kwargs={'slug': self.object.subject.slug})
 
 
-class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, generic.UpdateView):
     log_component = 'students_group'
     log_action = 'update'
     log_resource = 'students_group'
@@ -209,7 +208,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return reverse_lazy('groups:index', kwargs={'slug': self.object.subject.slug})
 
 
-class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, generic.DeleteView):
     log_component = 'students_group'
     log_action = 'delete'
     log_resource = 'students_group'

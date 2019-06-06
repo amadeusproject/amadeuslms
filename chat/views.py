@@ -31,7 +31,6 @@ from django.views import generic
 
 from amadeus.permissions import has_subject_view_permissions
 from api.utils import send_chat_push_notification
-from log.mixins import LogMixin
 from log.models import Log
 from subjects.models import Subject
 from users.models import User
@@ -39,7 +38,7 @@ from .forms import ChatMessageForm
 from .models import Conversation, TalkMessages, ChatVisualizations, ChatFavorites
 
 
-class GeneralIndex(LoginRequiredMixin, LogMixin, generic.ListView):
+class GeneralIndex(LoginRequiredMixin, generic.ListView):
     log_component = "chat"
     log_action = "view"
     log_resource = "general"
@@ -83,7 +82,7 @@ class GeneralIndex(LoginRequiredMixin, LogMixin, generic.ListView):
         return context
 
 
-class GeneralParticipants(LoginRequiredMixin, LogMixin, generic.ListView):
+class GeneralParticipants(LoginRequiredMixin, generic.ListView):
     log_component = "chat"
     log_action = "view"
     log_resource = "general_participants"
@@ -128,7 +127,7 @@ class GeneralParticipants(LoginRequiredMixin, LogMixin, generic.ListView):
         return context
 
 
-class SubjectParticipants(LoginRequiredMixin, LogMixin, generic.ListView):
+class SubjectParticipants(LoginRequiredMixin, generic.ListView):
     log_component = "chat"
     log_action = "view"
     log_resource = "subject_participants"
@@ -189,7 +188,7 @@ class SubjectParticipants(LoginRequiredMixin, LogMixin, generic.ListView):
         return context
 
 
-class SubjectView(LoginRequiredMixin, LogMixin, generic.ListView):
+class SubjectView(LoginRequiredMixin, generic.ListView):
     log_component = "chat"
     log_action = "view"
     log_resource = "subject"
@@ -250,7 +249,7 @@ class SubjectView(LoginRequiredMixin, LogMixin, generic.ListView):
         return context
 
 
-class ParticipantProfile(LoginRequiredMixin, LogMixin, generic.DetailView):
+class ParticipantProfile(LoginRequiredMixin, generic.DetailView):
     log_component = "chat"
     log_action = "view"
     log_resource = "profile"
@@ -281,7 +280,7 @@ class ParticipantProfile(LoginRequiredMixin, LogMixin, generic.DetailView):
         return context
 
 
-class GetTalk(LoginRequiredMixin, LogMixin, generic.ListView):
+class GetTalk(LoginRequiredMixin, generic.ListView):
     log_component = "chat"
     log_action = "view"
     log_resource = "talk"
@@ -354,7 +353,7 @@ class GetTalk(LoginRequiredMixin, LogMixin, generic.ListView):
         return context
 
 
-class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class SendMessage(LoginRequiredMixin, generic.edit.CreateView):
     log_component = "chat"
     log_action = "send"
     log_resource = "message"

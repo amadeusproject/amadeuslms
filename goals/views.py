@@ -33,7 +33,6 @@ from django.views import generic
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 from chat.models import Conversation, TalkMessages, ChatVisualizations
 from log.decorators import log_decorator_ajax
-from log.mixins import LogMixin
 from log.models import Log
 from topics.models import Topic
 from users.models import User
@@ -214,7 +213,7 @@ class HistoryReport(LoginRequiredMixin, generic.ListView):
         return context
 
 
-class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
+class InsideView(LoginRequiredMixin, generic.ListView):
     log_component = "resources"
     log_action = "view"
     log_resource = "my_goals"
@@ -310,7 +309,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
         return context
 
 
-class NewWindowSubmit(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class NewWindowSubmit(LoginRequiredMixin, generic.edit.CreateView):
     log_component = "resources"
     log_action = "submit"
     log_resource = "goals"
@@ -454,7 +453,7 @@ class NewWindowSubmit(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return success_url
 
 
-class SubmitView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class SubmitView(LoginRequiredMixin, generic.edit.CreateView):
     log_component = "resources"
     log_action = "submit"
     log_resource = "goals"
@@ -602,7 +601,7 @@ class SubmitView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return success_url
 
 
-class UpdateSubmit(LoginRequiredMixin, LogMixin, generic.UpdateView):
+class UpdateSubmit(LoginRequiredMixin, generic.UpdateView):
     log_component = "resources"
     log_action = "update"
     log_resource = "my_goals"
@@ -733,7 +732,7 @@ class UpdateSubmit(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return success_url
 
 
-class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, generic.edit.CreateView):
     log_component = "resources"
     log_action = "create"
     log_resource = "goals"
@@ -910,7 +909,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return success_url
 
 
-class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+class UpdateView(LoginRequiredMixin, generic.UpdateView):
     log_component = "resources"
     log_action = "update"
     log_resource = "goals"
@@ -1064,7 +1063,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         return success_url
 
 
-class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+class DeleteView(LoginRequiredMixin, generic.DeleteView):
     log_component = "resources"
     log_action = "delete"
     log_resource = "goals"
@@ -1137,7 +1136,7 @@ def reports_log(request, goal, report):
     return JsonResponse({'message': 'ok'})
 
 
-class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
+class StatisticsView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view_statistics'
     log_resource = 'goals'
@@ -1270,7 +1269,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
 from django.http import HttpResponse  # used to send HTTP 404 error to ajax
 
 
-class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
+class SendMessage(LoginRequiredMixin, generic.edit.FormView):
     log_component = 'resources'
     log_action = 'send'
     log_resource = 'goals'
