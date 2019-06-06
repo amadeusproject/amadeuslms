@@ -25,13 +25,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         .icon-cloudy-legend{
             width: 20px;
             height: 16px;
-            margin-top:10px;
-            margin-bottom:10px;
+            margin-top:5px;
+            margin-bottom:4px;
         }
         .text-cloudy-legend{
-           
-            margin-left:10px;
-            margin-right:10px;
+            height: 20px;
+            margin:3px;
+            margin-bottom: 2px;
         }
     </style>
 
@@ -41,14 +41,19 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" 
             title="{% trans 'Compare your number of hits with the number of hits in each class tag in this subject' %}"></i>
     </div>
-    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
+    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 0px;">
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 cloudy-legend">
+        <i class="fa fa-text-height icon-cloudy-legend" aria-hidden="true"></i><p class="text-cloudy-legend">{% trans 'Class accesses' %}</p>
+        <div style="width:20px; height: 10px;"></div>
+        <div class="icon-cloudy-legend" style="background-image: linear-gradient(to right, #162318 , #8EC99A); "></div><p class="text-cloudy-legend">{% trans 'Your accesses' %}</p>
+    </div>
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style="padding: 0px;">
+        <hr style="height:2px; background-color:#bbb;margin-top: 0px;margin-bottom: 5px;">
+    </div>
+
     <div id="cloudy" style="padding: 0px">
 
     </div>
-    <!--<div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 cloudy-legend">
-        <i class="fa fa-text-height icon-cloudy-legend" aria-hidden="true"></i><p class="text-indicators-legend">{% trans 'Class accesses' %}</p>
-        <div class="icon-cloudy-legend" style="background-image: linear-gradient(to right, #00441B , rgb(183, 226, 177)); "></div><p class="text-indicators-legend">{% trans 'Your accesses' %}</p>
-    </div>-->
 </div>
 
 <div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="modalTittle" aria-hidden="true">
@@ -205,8 +210,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
     /*Cloudy Word*/
 
-    temp = document.getDimensions("#cloudy")
-    var width = temp.w - $("#cloudy").css("padding-left").match(/[0-9]+/)[0] - $("#cloudy").css("padding-right").match(/[0-9]+/)[0];;
+    temp = document.getDimensions("#cloudy");
+    var width = temp.w - $("#cloudy").css("padding-left").match(/[0-9]+/)[0] - $("#cloudy").css("padding-right").match(/[0-9]+/)[0];
     var height = width * 1 / 2 > 360 ? 360 : (width / 2 < 50 ? 50 : width / 2);
 
     var qtd_students = {{ qtd_students }};
@@ -287,11 +292,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             text: "Tag: <key>\nTotal de acessos: <value> \nMeus acessos: <myvalue>",
         },
         filltext: function (a) {
-            var fill = d3.interpolateGreens;
+            var fill = d3.scaleLinear().domain([0,1])
+                .interpolate(d3.interpolateHcl)
+                .range([d3.rgb("#8EC99A"), d3.rgb('#162318')]);
+            //var fill = d3.interpolateGreens;
             var prop = a.chartConfig.mymax / a.chartConfig.max;
             function scalePercent(x, y) {
                 if (x > y)
-                    return y * 0.3 * prop / x;
+                    return y * 0.1 * prop / x + 0.2;
                 else
                     return 1 - x * .7 / (y * prop);
             }

@@ -30,12 +30,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
     .back-other-indicator {
         fill: #FFFFFF;
-        width: 3px;
-        height: 100%;
     }
 
     .rect-other-indicator {
-        height: 100%;
         fill: #C8E6C9;
     }
 
@@ -88,12 +85,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     .rect-indicators-legend{
         width: 20px;
         height: 16px;
-        margin-top:10px;
-        margin-bottom:10px;
+        margin-top:5px;
+        margin-bottom:0px;
         
     }
     .text-indicators-legend{
-        margin: 10px;
+        margin:5px;
+        margin-bottom: 0px;
+        
         
     }
 </style>
@@ -104,9 +103,19 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" 
             title="{% trans 'Shows indicators comparing your situation to the class' %}"></i>
     </div>
-    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
+    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 0px;">
 
     <!--Metrics url: {{ metrics_url }}-->
+
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 indicators-legend">
+        <div class="rect-indicators-legend" style="background: #C8E6C9"></div><p class="text-indicators-legend">{% trans 'You' %}</p> 
+        <div style="width:20px; height: 10px;"></div>
+        <div class="rect-indicators-legend" style="background: #009688"></div><p class="text-indicators-legend">{% trans 'Best of the class' %}</p> 
+    </div>
+
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style="padding: 0px;">
+        <hr style="height:2px; background-color:#bbb;margin-top: 0px;margin-bottom: 5px;">
+    </div>
 
     <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
         <div id="indicators-accordion" class="" aria-multiselectable="false" style="display: none;opacity: 0">
@@ -115,10 +124,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             {% include 'dashboards/subjects_other_indicators_card.html' with tittle="access_resource" %}
             {% include 'dashboards/subjects_other_indicators_card.html' with tittle="distincts_resource" %}
             {% include 'dashboards/subjects_other_indicators_card.html' with tittle="tasks_on_time" %}
-            <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 indicators-legend">
-                <p class="text-indicators-legend">{% trans 'You' %}</p> <div class="rect-indicators-legend" style="background: #C8E6C9"></div>
-                <p class="text-indicators-legend">{% trans 'Best of the class' %}</p> <div class="rect-indicators-legend" style="background: #009688"></div>
-            </div>
+            
+            
         </div>
 
         {% include 'dashboards/loading_ball.html' with tittle="indicators_loading_ball" %}
@@ -181,7 +188,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         indicators.select(".star-container")
             //.transition().delay(900)
             .attr("transform",function(){ 
-                var width = document.querySelector(".rect-other-comp-indicator").getBoundingClientRect().width;
+                var width = document.querySelector(".graph-indicator").getBoundingClientRect().width;
+                console.log(width);
                 return "translate(" + width + ",0)";
             });
 

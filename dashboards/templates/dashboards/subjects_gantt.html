@@ -17,90 +17,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
-<style>
-    .filter-panel > .panel-heading {
-      background-color: #f9f9f9 !important;
-      padding:0px;
-      color:#000 !important;
-    }
-</style>
-<style>
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 38px;
-      height: 22px;
-    }
-    
-    .switch input { 
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      -webkit-transition: .4s;
-      transition: .4s;
-    }
-    
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 17px;
-      width: 17px;
-      left: 2px;
-      bottom: 2.6px;
-      background-color: white;
-      -webkit-transition: .4s;
-      transition: .4s;
-    }
-    
-    input:checked + .slider {
-      background-color: #009688;
-    }
-    
-    input:focus + .slider {
-      box-shadow: 0 0 1px #009688;
-    }
-    
-    input:checked + .slider:before {
-      -webkit-transform: translateX(17px);
-      -ms-transform: translateX(17px);
-      transform: translateX(17px);
-    }
-    
-    /* Rounded sliders */
-    .slider.round {
-      border-radius: 22px;
-    }
-    
-    .slider.round:before {
-      border-radius: 50%;
-    }
-
-    .gantt-legend{
-        width: 140px;
-        height: 30px;
-        padding: 4px;
-        margin:5px;
-        background: #009688;
-        cursor: pointer;
-    }
-    .gantt-legend-text{
-        color: #EEEEEE; 
-        margin:4px;
-        font-size: 12px;
-    }
-</style>
-
-<!--<script src="{% static 'analytics/js/Legend.js' %}"></script>-->
+<!--<script src="{% static 'analytics/js/brush_zoom.js' %}"></script>-->
+<link rel="stylesheet" type="text/css" href="{% static 'analytics/css/brush_zoom.css' %}"></link>
 <script src="{% static 'analytics/js/brush_zoom.js' %}"></script>
 
 <div id="gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
@@ -112,39 +30,82 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         <div style="float:right">
             {% trans '(%) Class' %}
             <label class="switch">
-                <input id="ganttPercent" type="checkbox" name="percentOn" checked onclick="invertPercent()">
+                <input id="ganttPercent" type="checkbox" name="percentOn" checked onclick="ganttChart.percent_toogle()">
                 <span class="slider round"></span>
             </label>
         </div>
     </div>
     <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style="padding: 0px">
-        <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
-    </div>
-</div>
+        <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 1px;">
+        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+    
+            <div id="legend-gantt" class="col-md-8 col-xs-12 col-sm-12 col-lg-10" style="padding: 0px">
+                    {% include 'dashboards/subjects_gantt_legend.html' with tittle="late" %}
+                    {% include 'dashboards/subjects_gantt_legend.html' with tittle="on_time" %}
+                    {% include 'dashboards/subjects_gantt_legend.html' with tittle="planned" %}
+                    {% include 'dashboards/subjects_gantt_legend.html' with tittle="lost" %}
+                    {% include 'dashboards/subjects_gantt_legend.html' with tittle="complete_late" %}
+                    {% include 'dashboards/subjects_gantt_legend.html' with tittle="completed" %}
+            </div>
+            <div class="col-md-4 col-xs-8 col-sm-5 col-lg-2 text-center now-button" onclick="ganttChart.reset();" style="background: #ddd">
+                    <p><b>{% trans "Now" %}</b></p>
+            </div>
 
-<div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-    <hr style="height:2px; background-color:#bbb;margin-top: 5px;margin-bottom: 5px;">
-    <div id="legend-gantt" class="col-md-8 col-xs-12 col-sm-12 col-lg-10" style="padding: 0px">
-            {% with color="#FF9001" %}
-            {% include 'dashboards/subjects_gantt_legend.html' with tittle="late" %}
-            {% endwith %}
-            {% with color="#dfbd31" %}
-            {% include 'dashboards/subjects_gantt_legend.html' with tittle="on_time" %}
-            {% endwith %}
-            {% with color="#868686" %}
-            {% include 'dashboards/subjects_gantt_legend.html' with tittle="planned" %}
-            {% endwith %}
-            {% with color="#f44336" %}
-            {% include 'dashboards/subjects_gantt_legend.html' with tittle="lost" %}
-            {% endwith %}
-            {% with color="#3BA51A" %}
-            {% include 'dashboards/subjects_gantt_legend.html' with tittle="completed" %}
-            {% endwith %}
+        </div>
+        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style="padding: 0px;">
+            <hr style="height:2px; background-color:#bbb;margin-top: 1px;margin-bottom: 5px;">
+        </div>
+        
+        
     </div>
-    <div class="col-md-4 col-xs-8 col-sm-5 col-lg-2 text-center gantt-legend" onclick="ganttChart.reset();" style="background: #ddd">
-            <b>{% trans "Now" %}</b>
-    </div>
+
+
 </div>
+    <div class="gantt-card" style="display: none;">
+        <svg>
+        </svg>
+        <div class="card-body col-md-8 col-xs-12 col-sm-12 col-lg-8" style="opacity: 0;display: none">
+            <div id="background-card" class="panel panel-default">
+                <div class="pendency panel-body">
+                    <div class="row">
+                        <svg id="bar-card"></svg>
+                        <button type="button" class="close gantt-card-close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                        </button>
+                        <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6">
+                            <h4 class="tittle">Tittle of Task</h4>
+
+                            <p class="start-date">{% trans 'Initial Date/Time' %}: <text>Not Informed</text></p>
+                            <p class="end-date">{% trans 'Final Date/Time' %}: <text>Not Informed</text></p>
+                            <p class="delay-date meta">{% trans 'Task finished in' %}: <text>Not Informed</text></p>
+
+                            <p class="percent">
+                                <b></b> {% trans 'of the participants already realized this task.' %}
+                            </p>
+
+                        </div>
+                        <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6">
+                            <div class="alert late">
+                                <i class="fa fa-exclamation-triangle"></i>
+                                <span>
+                                    <text class="text-status text-status-0" style="display: none;">{% trans "This task is late"%}</text>
+                                    <text class="text-status text-status-1" style="display: inherit;">{% trans "You have not yet accomplish this task"%}</text>
+                                    <text class="text-status text-status-3" style="display: none;">{% trans "You missed this task"%}</text>
+                                    <text class="text-status text-status-4" style="display: none;">{% trans "You performed this task late" %}</text>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center button-goto">
+                        <a href="link to task" class="btn btn-success btn-mobile btn-raised" target="_blank">
+                            <text class="lost-complete" style="display: none;">{% trans 'Access the task' %}</text>
+                            <text class="other" style="display: inherit;">{% trans 'Realize the task' %}</text>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <!--Subject inicio: {{ subject.init_date }}-->
 <!--Subject fim: {{ subject.end_date }}-->
@@ -153,23 +114,26 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 var months=["{% trans 'January' %}", "{% trans 'February' %}", "{% trans 'March' %}", "{% trans 'April' %}", 
                     "{% trans 'May' %}", "{% trans 'June' %}", "{% trans 'July' %}", "{% trans 'August' %}", 
                     "{% trans 'September' %}", "{% trans 'October' %}", "{% trans 'November' %}", "{% trans 'December' %}"];
+var of = "{% trans 'of' %}";
+
 
 function dateConverter(date){
-    var reg = /(?<day>[0-9]{1,2}) de (?<month>[^0-9]{1,}) de (?<year>[0-9]{1,})/;
+    var reg = /([0-9]{1,2}) de ([^0-9]{1,}) de ([0-9]{1,})/;
     var dateC = date.match(reg);
     if(!dateC){
-        reg = /(?<month>[^0-9]{1,}) (?<day>[0-9]{1,}). (?<year>[0-9]{1,})/
+        reg = /([^0-9]{1,}) ([0-9]{1,}). ([0-9]{1,})/
         var dateC = date.match(reg);
         if(dateC){
-            if(months.indexOf(dateC.groups.month)==-1){
-                dateC.groups.month = months.filter(function(d){
-                    return d.slice(0,3) == dateC.groups.month.slice(0,3);
+            dateC[1] = dateC[2],dateC[2] = dateC[1];
+            if(months.indexOf(dateC[2])==-1){
+                dateC[2] = months.filter(function(d){
+                    return d.slice(0,3) == dateC[2].slice(0,3);
                 })[0]
             }
         }
     }
     if(dateC)
-        dateC = ""+(months.indexOf(dateC.groups.month)+1) + "/" + dateC.groups.day + "/" + dateC.groups.year;
+        dateC = ""+(months.indexOf(dateC[2])+1) + "/" + dateC[1] + "/" + dateC[3];
     else    
         dateC = date;
     return dateC;
@@ -179,12 +143,56 @@ function dateConverter(date){
     
 
     var percentOn = true;
+
+    var chartConfig = {
+        name: "tasksGantt",
+        target: "#gantt",
+        data: {% autoescape off %} {{ graph_data }} {% endautoescape %},//[{ date: { start: "", end: "", delay: "" }, percent: 0.0, action: "", name: "", done: false }],
+        metadata: {
+            maxrow: 5,
+            date: { start: init_date, end: end_date },// (([0-9]{1,2})[ ]+de[ ]+([^0-9 ]+)[ ]+de+[ ]+([0-9]{2,4}))|(([^0-9 \)\n\t]+)[ ]+([0-9]{1,2}),[ ]+([0-9]{2,4})) 
+            min_period: "",
+            now: "",
+        },
+        status: ["late", "on_time", "planned", "lost", "complete_late", "completed"],
+        tooltip: {
+            text: "",
+        },
+        interactions: {
+            filters:{
+                filter:function(marked){//Marked é um vetor de booleanos, cada indice representa uma legenda
+                    d3.selectAll(".gantt-legend-status")
+                        .style("cursor",function(d,i){
+                            return "url("+(marked[i]?'{% static "img/cursors/subber.cur" %}':'{% static "img/cursors/adder.cur" %}')+"),auto";
+                        })
+                        .select(".fa").attr("class",function(d,i){
+                            return "gantt-legend-icon fa fa-toggle-"+ (marked[i]?"on":"off");
+                        });
+                },
+                filter_out:function(){
+                    d3.selectAll(".gantt-legend-status")
+                        .style("cursor",function(d){
+                            return "url({% static 'img/cursors/filter.cur' %}),auto";
+                        })
+                        .select(".fa").attr("class",function(d){
+                            return "gantt-legend-icon fa fa-toggle-off";
+                        });
+                }
+    }
+        }
+    }
+    var ganttChart = new Gantt(chartConfig)._draw().reset();
+/*
     var chartConfig = {
         name: "GanttChart",
         parents: {
             focus: "#gantt",
             context: "#gantt",
             legend: "#legend-gantt",
+        },
+        dimensions:{
+            width:document.getDimensions("#gantt").w,
+            height:200
         },
         period:{
             start:init_date,
@@ -242,34 +250,15 @@ function dateConverter(date){
     }
         }
 
-    var ganttChart = new GanttChart(chartConfig).draw().reset()//.draw2();
+    var ganttChart = new GanttChart(chartConfig).draw().reset()//.draw2();*/
 
     function invertPercent(){
         percentOn = !percentOn;
         ganttChart.percentOnOff(percentOn);
     }
 
-    /*$('#filter_accordion_inner').on('shown.bs.collapse', function () {
-        ganttChart.draw2();
-        document.querySelector("#accordion_button").querySelector("i").setAttribute("class", "fa fa-angle-down fa-2x");
-        //setTimeout(function,delay_ms);
-    })
-
-    $('#filter_accordion_inner').on('hidden.bs.collapse', function () {
-        document.querySelector("#accordion_button").querySelector("i").setAttribute("class", "fa fa-angle-right fa-2x");
-    })
-    document.querySelector("#accordion_button").click();
-    //document.querySelector("#accordion_button").click();
-
-    window.setTimeout(function () {
-        document.querySelector("#accordion_button").click();
-    }, 100);
-    */
     function gantt_responsibilities() {
-        ganttChart.draw()//.draw2();
-        //ganttChart.bottomLegend.resize();
-        //if ($('#filter_accordion_inner').attr('aria-expanded') == "true")
-        //ganttChart.draw2();
+        ganttChart._draw();
     }
 
 </script>
