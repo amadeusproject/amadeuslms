@@ -17,8 +17,8 @@ from users.models import User
 
 
 class Log(models.Model):
-    resource = models.ForeignKey(Resource, on_delete=models.SET_NULL)
-    user = models.ForeignKey(_('Actor'), User, on_delete=models.SET_NULL)
+    resource = models.ForeignKey(Resource, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(_('Actor'), User, on_delete=models.SET_NULL, null=True)
     datetime = models.DateTimeField(_("Date and Time of action"), auto_now_add=True)
 
     class Meta:
