@@ -40,12 +40,12 @@ from oauth2_provider.contrib.rest_framework.permissions import IsAuthenticatedOr
 # API IMPORTS
 from rest_framework import viewsets
 
-from log.decorators import log_decorator
 from mailsender.models import MailSender
 from security.models import Security
 from .forms import RegisterUserForm, ProfileForm, UserForm, ChangePassForm, PassResetRequest, \
     SetPasswordForm
-from .models import User
+from .models import User, UserWasCreatedLog, UpdateUserLog, DeleteUserLog, RemoveAccountLog, \
+    UserAccessLog, UserLogoutLog
 from .serializers import UserSerializer
 from .utils import has_dependencies
 
@@ -112,11 +112,6 @@ class SearchView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 
 class CreateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin,
                  generic.edit.CreateView):
-    log_component = 'user'
-    log_action = 'create'
-    log_resource = 'user'
-    log_context = {}
-
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
@@ -130,12 +125,8 @@ class CreateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 
         msg = _('User "%s" created successfully') % (self.object.get_short_name())
 
-        self.log_context['user_id'] = self.object.id
-        self.log_context['user_name'] = self.object.get_short_name()
-        self.log_context['user_email'] = self.object.email
-
-        super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        user_created_log = UserWasCreatedLog(user=self.object)
+        user_created_log.save()
 
         messages.success(self.request, msg)
 
@@ -151,11 +142,6 @@ class CreateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 
 class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequiredMixin,
                  generic.UpdateView):
-    log_component = 'user'
-    log_action = 'update'
-    log_resource = 'user'
-    log_context = {}
-
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
@@ -181,13 +167,8 @@ class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 
         msg = _('User "%s" updated successfully') % (self.object.get_short_name())
 
-        self.log_context['user_id'] = self.object.id
-        self.log_context['user_name'] = self.object.get_short_name()
-        self.log_context['user_email'] = self.object.email
-
-        super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
-
+        update_user_info_log = UpdateUserLog(user=self.object)
+        update_user_info_log.save()
         messages.success(self.request, msg)
 
         return super(UpdateView, self).form_valid(form)
@@ -201,11 +182,6 @@ class UpdateView(braces_mixins.LoginRequiredMixin, braces_mixins.StaffuserRequir
 
 
 class DeleteView(braces_mixins.LoginRequiredMixin, generic.DeleteView):
-    log_component = 'user'
-    log_action = 'delete'
-    log_resource = 'user'
-    log_context = {}
-
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
@@ -238,14 +214,14 @@ class DeleteView(braces_mixins.LoginRequiredMixin, generic.DeleteView):
         user = self.get_object()
 
         if email is None:
-            self.log_action = 'remove_account'
+            remove_account_log = RemoveAccountLog(user=user)
+            remove_account_log.save()
 
             success_url = reverse_lazy('users:login')
             error_url = reverse_lazy('users:profile')
         else:
-            self.log_context['user_id'] = user.id
-            self.log_context['user_name'] = user.get_short_name()
-            self.log_context['user_email'] = user.email
+            delete_log = DeleteUserLog(user=user)
+            delete_log.save()
 
             success_url = reverse_lazy('users:manage')
             error_url = reverse_lazy('users:manage')
@@ -255,14 +231,10 @@ class DeleteView(braces_mixins.LoginRequiredMixin, generic.DeleteView):
             'Could not remove the account. The user is attach to one or more functions (administrator, coordinator, professor ou student) in the system.')
 
         if has_dependencies(user):
-            self.log_context['dependencies'] = True
-
             messages.error(self.request, error_msg)
 
             redirect_url = redirect(error_url)
         else:
-            self.log_context['dependencies'] = False
-
             if user.image:
                 image_path_to_delete = user.image.path
             else:
@@ -277,9 +249,6 @@ class DeleteView(braces_mixins.LoginRequiredMixin, generic.DeleteView):
                 os.remove(image_path_to_delete)
 
             redirect_url = redirect(success_url)
-
-        super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
 
         return redirect_url
 
@@ -535,7 +504,6 @@ class PasswordResetConfirmView(generic.FormView):
             return self.form_invalid(form)
 
 
-@log_decorator('user', 'access', 'system')
 def login(request):
     context = {'title': _('Log In')}
     security = Security.objects.get(id=1)
@@ -550,6 +518,10 @@ def login(request):
         if user is not None:
             if not security.maintence or user.is_staff:
                 login_user(request, user)
+
+                # if login was sucessfull
+                user_login_log = UserAccessLog(user=user)
+                user_login_log.save()
 
                 users = User.objects.all().exclude(email=username)
 
@@ -584,7 +556,6 @@ def login(request):
     return render(request, "users/login.html", context)
 
 
-@log_decorator('user', 'logout', 'system')
 def logout(request, next_page=None):
     if not request.user.is_anonymous:
         user_email = request.user.email
@@ -594,6 +565,10 @@ def logout(request, next_page=None):
         user_id = 0
 
     logout_user(request)
+
+    # log user logout
+    user_logout_log = UserLogoutLog(user=request.user)
+    user_logout_log.save()
 
     if user_email is not None:
         users = User.objects.all().exclude(email=user_email)
