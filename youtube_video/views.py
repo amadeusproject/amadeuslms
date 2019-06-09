@@ -20,6 +20,7 @@ from channels.layers import get_channel_layer
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.http import HttpResponse  # used to send HTTP 404 error to ajax
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
@@ -37,15 +38,10 @@ from topics.models import Topic
 from users.models import User
 from webpage.forms import FormModalMessage
 from .forms import YTVideoForm, InlinePendenciesFormset
-from .models import YTVideo
+from .models import YTVideo, StartYoutubeVideoLog, CreateVideoLog, UpdateVideoInfoLog
 
 
 class NewWindowView(LoginRequiredMixin, generic.DetailView):
-    log_component = 'resources'
-    log_action = 'view'
-    log_resource = 'ytvideo'
-    log_context = {}
-
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
@@ -67,22 +63,13 @@ class NewWindowView(LoginRequiredMixin, generic.DetailView):
 
         context['title'] = _("%s - Video") % (self.object.name)
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['ytvideo_id'] = self.object.id
-        self.log_context['ytvideo_name'] = self.object.name
-        self.log_context['ytvideo_slug'] = self.object.slug
-        self.log_context['timestamp_start'] = str(int(time.time()))
-
-        super(NewWindowView, self).create_log(self.request.user, self.log_component,
-                                              self.log_action, self.log_resource)
+        start_youtube_video_log = StartYoutubeVideoLog(
+            user=self.request.user,
+            topic=self.object.topic,
+            category=self.object.topic.subject.category,
+            subject=self.object.topic.subject
+        )
+        start_youtube_video_log.save()
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -90,11 +77,6 @@ class NewWindowView(LoginRequiredMixin, generic.DetailView):
 
 
 class InsideView(LoginRequiredMixin, generic.DetailView):
-    log_component = 'resources'
-    log_action = 'view'
-    log_resource = 'ytvideo'
-    log_context = {}
-
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
@@ -119,22 +101,13 @@ class InsideView(LoginRequiredMixin, generic.DetailView):
         context['topic'] = self.object.topic
         context['subject'] = self.object.topic.subject
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['ytvideo_id'] = self.object.id
-        self.log_context['ytvideo_name'] = self.object.name
-        self.log_context['ytvideo_slug'] = self.object.slug
-        self.log_context['timestamp_start'] = str(int(time.time()))
-
-        super(InsideView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        start_youtube_video_log = StartYoutubeVideoLog(
+            user=self.request.user,
+            topic=self.object.topic,
+            category=self.object.topic.subject.category,
+            subject=self.object.topic.subject
+        )
+        start_youtube_video_log.save()
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -142,11 +115,6 @@ class InsideView(LoginRequiredMixin, generic.DetailView):
 
 
 class CreateView(LoginRequiredMixin, generic.edit.CreateView):
-    log_component = 'resources'
-    log_action = 'create'
-    log_resource = 'ytvideo'
-    log_context = {}
-
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
@@ -192,7 +160,7 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
             {'subject': topic.subject.id,
              'actions': [("", "-------"), ("view", _("Visualize")), ("finish", _("Finish"))]}])
 
-        if (form.is_valid() and pendencies_form.is_valid()):
+        if form.is_valid() and pendencies_form.is_valid():
             return self.form_valid(form, pendencies_form)
         else:
             return self.form_invalid(form, pendencies_form)
@@ -238,22 +206,12 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
             if not pend_form.action == "":
                 pend_form.save()
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['ytvideo_id'] = self.object.id
-        self.log_context['ytvideo_name'] = self.object.name
-        self.log_context['ytvideo_slug'] = self.object.slug
-
-        super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
-
+        create_video_log = CreateVideoLog(user=self.request.user,
+                                          category=self.object.subject.category,
+                                          subject=self.object.subject,
+                                          topic=self.object.topic,
+                                          video=self.object)
+        create_video_log.save()
         return redirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
@@ -291,11 +249,6 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
 
 class UpdateView(LoginRequiredMixin, generic.UpdateView):
-    log_component = 'resources'
-    log_action = 'update'
-    log_resource = 'ytvideo'
-    log_context = {}
-
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
@@ -342,7 +295,7 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
             {'subject': topic.subject.id,
              'actions': [("", "-------"), ("view", _("Visualize")), ("finish", _("Finish"))]}])
 
-        if (form.is_valid() and pendencies_form.is_valid()):
+        if form.is_valid() and pendencies_form.is_valid():
             return self.form_valid(form, pendencies_form)
         else:
             return self.form_invalid(form, pendencies_form)
@@ -372,22 +325,13 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
             if not pend_form.action == "":
                 pend_form.save()
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['ytvideo_id'] = self.object.id
-        self.log_context['ytvideo_name'] = self.object.name
-        self.log_context['ytvideo_slug'] = self.object.slug
-
-        super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
-
+        update_video_info_log = UpdateVideoInfoLog(user=self.request.user,
+                                                   category=self.object.subject.category,
+                                                   subject=self.object.subject,
+                                                   topic=self.object.topic,
+                                                   video=self.object
+                                                   )
+        update_video_info_log.save()
         return redirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
@@ -424,11 +368,6 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 
 
 class DeleteView(LoginRequiredMixin, generic.DeleteView):
-    log_component = 'resources'
-    log_action = 'delete'
-    log_resource = 'ytvideo'
-    log_context = {}
-
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
@@ -449,22 +388,6 @@ class DeleteView(LoginRequiredMixin, generic.DeleteView):
         messages.success(self.request, _(
             'The YouTube Video "%s" was removed successfully from virtual environment "%s"!') % (
                              self.object.name, self.object.topic.subject.name))
-
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['ytvideo_id'] = self.object.id
-        self.log_context['ytvideo_name'] = self.object.name
-        self.log_context['ytvideo_slug'] = self.object.slug
-
-        super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
 
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.topic.subject.slug})
 
@@ -655,7 +578,6 @@ class StatisticsView(LoginRequiredMixin, generic.DetailView):
         return context
 
 
-from django.http import HttpResponse  # used to send HTTP 404 error to ajax
 
 
 class SendMessage(LoginRequiredMixin, generic.edit.FormView):
@@ -687,7 +609,7 @@ class SendMessage(LoginRequiredMixin, generic.edit.FormView):
         user = self.request.user
         subject = self.ytvideo.topic.subject
 
-        if (users[0] is not ''):
+        if users[0] is not '':
             for u in users:
                 to_user = User.objects.get(email=u)
                 talk, create = Conversation.objects.get_or_create(user_one=user, user_two=to_user)

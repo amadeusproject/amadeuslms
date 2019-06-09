@@ -10,11 +10,14 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-from django.urls import reverse_lazy
 from django.db import models
+from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
-from topics.models import Resource
+from categories.models import Category
+from log.models import Log
+from subjects.models import Subject
+from topics.models import Resource, Topic
 
 
 class YTVideo(Resource):
@@ -50,3 +53,25 @@ class YTVideo(Resource):
                 return "https://www.youtube.com/embed/" + parts[1]
 
         return self.url
+
+
+class StartYoutubeVideoLog(Log):
+    youtube_video = models.ForeignKey(YTVideo, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+
+
+class CreateVideoLog(Log):
+    video = models.ForeignKey(YTVideo, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+
+
+class UpdateVideoInfoLog(Log):
+    video = models.ForeignKey(YTVideo, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+
