@@ -10,11 +10,14 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-from django.urls import reverse_lazy
 from django.db import models
+from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
-from topics.models import Resource
+from categories.models import Category
+from log.models import Log
+from subjects.models import Subject
+from topics.models import Resource, Topic
 
 
 class Webconference(Resource):
@@ -54,3 +57,74 @@ class ConferenceSettings(models.Model):
 
     def __str__(self):
         return self.domain
+
+
+class ViewWebConferenceLog(Log):
+    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+
+
+class InitWebConferenceLog(Log):
+    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+
+
+class CreateWebConferenceLog(Log):
+    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+
+
+class UpdateWebConferenceLog(Log):
+    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+
+
+class DeleteWebConferenceLog(Log):
+    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+
+
+class ViewStatisticsConferenceLog(Log):
+    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+
+
+class SendMessageInWebConferenceLog(Log):
+    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+    message = models.TextField()
+
+
+class InsideViewWebConferenceLog(Log):
+    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+
+
+class ParticipatingInWebConferenceLog(Log):
+    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+
+
+class EndParticipationInConferenceLog(Log):
+    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
