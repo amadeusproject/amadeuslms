@@ -25,7 +25,7 @@
     }
     var ganttChart = new Gantt(chartConfig)._draw();
 */
-
+/*
 var chartConfig = {
     name: "tasksGantt",
     target: "#gantt",
@@ -33,7 +33,7 @@ var chartConfig = {
     dimensions: { width: 0, height: 250 },
     metadata: {
         maxrow: 5,
-        date: { start: "", end: "" },/** (([0-9]{1,2})[ ]+de[ ]+([^0-9 ]+)[ ]+de+[ ]+([0-9]{2,4}))|(([^0-9 \)\n\t]+)[ ]+([0-9]{1,2}),[ ]+([0-9]{2,4})) */
+        date: { start: "", end: "" },// (([0-9]{1,2})[ ]+de[ ]+([^0-9 ]+)[ ]+de+[ ]+([0-9]{2,4}))|(([^0-9 \)\n\t]+)[ ]+([0-9]{1,2}),[ ]+([0-9]{2,4}))
         min_period: "",
         now: "",
     },
@@ -52,6 +52,7 @@ var chartConfig = {
         }
     }
 }
+*/
 class Gantt {
     constructor(chartConfig) {
         var a = this;
@@ -342,6 +343,14 @@ class Gantt {
             .attr("height", a.y.bandwidth())
             .style("fill", function (d, i) { if (i == 0) return "url(#hachura-status-" + (d.status + 1) + ")none" })
             .style("stroke-width", 0);
+        this.notifications.selectAll("text").data(function (d) { return [d]; })
+            .enter().append("text").attr("class","notification-text")
+            .attr("x","5px")
+            .attr("y",a.y.bandwidth()/2)
+            .attr("dy","0.4em")
+            //.text(function(d){return d.action +" "+ d.name})
+
+
 
         this.notifications.on("click", function (d) {
             a.ganttCard.show(d)
@@ -506,6 +515,11 @@ class Gantt {
             .selectAll("rect").data(function (d) { return [d, d] })
             .transition().duration(transition)
             .attr("width", widthRect);
+        abrev_init();
+        a.notifications.select("text")
+            .transition().delay(transition).duration(transition/10)
+            .text(function(d,i){return abreviate_ifneed(d.action,d.name,(a.x(d.date.end) - a.x(d.date.start)))})
+        abrev_end();
         this.svg.selectAll(".now-line")
             .transition().duration(transition)
             .attr("transform", function (d, i) { return "translate(" + a[i == 0 ? "x" : "x2"](a.chartConfig.metadata.now) + ",0)" })
@@ -817,4 +831,49 @@ Date.prototype.toStringFormat = function () {
 }
 JSON.copyObject = function (object) {
     return JSON.parse(JSON.stringify(object));
+}
+function abrev_init(){
+    d3.select("svg").append("text").attr("class","abrev-text notification-text").attr("opacity",0);
+}
+function abrev_end(){
+    d3.select(".abrev-text").remove();
+}
+function abreviate_ifneed(action,name,width){
+    var abrev = d3.select(".abrev-text");
+    var textwidth;
+    function test(text){
+        abrev.text(text);
+        textwidth = document.getDimensions(".abrev-text").w;
+        return textwidth<(width-10);
+    }
+    var text = action+" "+name;
+    if(test(text))
+        return text;
+
+    text = action.slice(0,3) +". "+name;
+    if(test(text))
+        return text;
+    
+    var n = Math.floor((width-30)*name.length/(textwidth-30));
+    if(n>10){
+        n = name.slice(0,n);
+        text = action.slice(0,3) +". "+ n+"...";
+        if(test(text))
+            return text;
+    }
+    n = Math.floor((width-13)*name.length/(textwidth-13));
+    if(n>3){
+        n = name.slice(0,n);
+        text = action.slice(0,1) +". "+ n+"...";
+        if(test(text))
+            return text;
+    }
+    n = Math.floor((width)*name.length/(textwidth));
+    if(n>3){
+ //       console.log(n);
+        text = name.slice(0,n)+"...";
+        if(test(text))
+            return text;
+    }
+    return "";
 }

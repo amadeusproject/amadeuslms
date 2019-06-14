@@ -74,6 +74,13 @@
 .notification{
     cursor: pointer;
 }
+.notification-text{
+    font-size: 15px;
+    /*font-weight: bold;*/
+    /*fill: #f9f9f9;*/
+    /*stroke: #000;*/
+    /*stroke-width: 0.25px;*/
+}
 /* Elementos Externos */
 .gantt-card{
     z-index: 100;
