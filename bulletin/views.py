@@ -53,7 +53,7 @@ class NewWindowView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view'
     log_resource = 'bulletin'
-    log_context = {}
+    # log_context = {}
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
@@ -93,25 +93,25 @@ class NewWindowView(LoginRequiredMixin, generic.DetailView):
 
                 brodcast_dificulties(self.request, message, bulletin.topic.subject)
 
-                self.log_context = {'category_id': bulletin.topic.subject.category.id,
-                                    'category_name': bulletin.topic.subject.category.name,
-                                    'category_slug': bulletin.topic.subject.category.slug,
-                                    'subject_id': bulletin.topic.subject.id,
-                                    'subject_name': bulletin.topic.subject.name,
-                                    'subject_slug': bulletin.topic.subject.slug,
-                                    'topic_id': bulletin.topic.id,
-                                    'topic_name': bulletin.topic.name,
-                                    'topic_slug': bulletin.topic.slug, 'bulletin_id': bulletin.id,
-                                    'bulletin_name': bulletin.name, 'bulletin_slug': bulletin.slug}
+                # self.log_context = {'category_id': bulletin.topic.subject.category.id,
+                #                     'category_name': bulletin.topic.subject.category.name,
+                #                     'category_slug': bulletin.topic.subject.category.slug,
+                #                     'subject_id': bulletin.topic.subject.id,
+                #                     'subject_name': bulletin.topic.subject.name,
+                #                     'subject_slug': bulletin.topic.subject.slug,
+                #                     'topic_id': bulletin.topic.id,
+                #                     'topic_name': bulletin.topic.name,
+                #                     'topic_slug': bulletin.topic.slug, 'bulletin_id': bulletin.id,
+                #                     'bulletin_name': bulletin.name, 'bulletin_slug': bulletin.slug}
 
-                self.log_action = "send_difficulties"
+                # self.log_action = "send_difficulties"
+                #
+                # super(NewWindowView, self).create_log(self.request.user, self.log_component,
+                #                                       self.log_action,
+                #                                       self.log_resource)
 
-                super(NewWindowView, self).create_log(self.request.user, self.log_component,
-                                                      self.log_action,
-                                                      self.log_resource)
-
-                self.log_action = "view"
-                self.log_context = {}
+                # self.log_action = "view"
+                # self.log_context = {}
 
                 messages.success(self.request,
                                  message=_("Difficulties sent to the subject professor(s)"))
@@ -130,23 +130,23 @@ class NewWindowView(LoginRequiredMixin, generic.DetailView):
         context['topic'] = self.object.topic
         context['subject'] = self.object.topic.subject
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['bulletin_id'] = self.object.id
-        self.log_context['bulletin_name'] = self.object.name
-        self.log_context['bulletin_slug'] = self.object.slug
-        self.log_context['timestamp_start'] = str(int(time.time()))
-
-        super(NewWindowView, self).create_log(self.request.user, self.log_component,
-                                              self.log_action,
-                                              self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['bulletin_id'] = self.object.id
+        # self.log_context['bulletin_name'] = self.object.name
+        # self.log_context['bulletin_slug'] = self.object.slug
+        # self.log_context['timestamp_start'] = str(int(time.time()))
+        #
+        # super(NewWindowView, self).create_log(self.request.user, self.log_component,
+        #                                       self.log_action,
+        #                                       self.log_resource)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -264,25 +264,25 @@ class InsideView(LoginRequiredMixin, generic.DetailView):
 
                 brodcast_dificulties(self.request, message, bulletin.topic.subject)
 
-                self.log_context = {'category_id': bulletin.topic.subject.category.id,
-                                    'category_name': bulletin.topic.subject.category.name,
-                                    'category_slug': bulletin.topic.subject.category.slug,
-                                    'subject_id': bulletin.topic.subject.id,
-                                    'subject_name': bulletin.topic.subject.name,
-                                    'subject_slug': bulletin.topic.subject.slug,
-                                    'topic_id': bulletin.topic.id,
-                                    'topic_name': bulletin.topic.name,
-                                    'topic_slug': bulletin.topic.slug, 'bulletin_id': bulletin.id,
-                                    'bulletin_name': bulletin.name, 'bulletin_slug': bulletin.slug}
+                # self.log_context = {'category_id': bulletin.topic.subject.category.id,
+                #                     'category_name': bulletin.topic.subject.category.name,
+                #                     'category_slug': bulletin.topic.subject.category.slug,
+                #                     'subject_id': bulletin.topic.subject.id,
+                #                     'subject_name': bulletin.topic.subject.name,
+                #                     'subject_slug': bulletin.topic.subject.slug,
+                #                     'topic_id': bulletin.topic.id,
+                #                     'topic_name': bulletin.topic.name,
+                #                     'topic_slug': bulletin.topic.slug, 'bulletin_id': bulletin.id,
+                #                     'bulletin_name': bulletin.name, 'bulletin_slug': bulletin.slug}
+                #
+                # self.log_action = "send_difficulties"
+                #
+                # super(InsideView, self).create_log(self.request.user, self.log_component,
+                #                                    self.log_action,
+                #                                    self.log_resource)
 
-                self.log_action = "send_difficulties"
-
-                super(InsideView, self).create_log(self.request.user, self.log_component,
-                                                   self.log_action,
-                                                   self.log_resource)
-
-                self.log_action = "view"
-                self.log_context = {}
+                # self.log_action = "view"
+                # self.log_context = {}
 
                 messages.success(self.request,
                                  message=_("Difficulties sent to the subject professor(s)"))
@@ -301,22 +301,22 @@ class InsideView(LoginRequiredMixin, generic.DetailView):
         context['topic'] = self.object.topic
         context['subject'] = self.object.topic.subject
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['bulletin_id'] = self.object.id
-        self.log_context['bulletin_name'] = self.object.name
-        self.log_context['bulletin_slug'] = self.object.slug
-        self.log_context['timestamp_start'] = str(int(time.time()))
-
-        super(InsideView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['bulletin_id'] = self.object.id
+        # self.log_context['bulletin_name'] = self.object.name
+        # self.log_context['bulletin_slug'] = self.object.slug
+        # self.log_context['timestamp_start'] = str(int(time.time()))
+        #
+        # super(InsideView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -391,7 +391,7 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
     log_component = 'resources'
     log_action = 'create'
     log_resource = 'bulletin'
-    log_context = {}
+    # log_context = {}
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
@@ -501,21 +501,21 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
         if not pend_form.action == "":
             pend_form.save()
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['bulletin_id'] = self.object.id
-        self.log_context['bulletin_name'] = self.object.name
-        self.log_context['bulletin_slug'] = self.object.slug
-
-        super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['bulletin_id'] = self.object.id
+        # self.log_context['bulletin_name'] = self.object.name
+        # self.log_context['bulletin_slug'] = self.object.slug
+        #
+        # super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return redirect(self.get_success_url())
 
@@ -802,21 +802,21 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
         if not pend_form.action == "":
             pend_form.save()
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['bulletin_id'] = self.object.id
-        self.log_context['bulletin_name'] = self.object.name
-        self.log_context['bulletin_slug'] = self.object.slug
-
-        super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['bulletin_id'] = self.object.id
+        # self.log_context['bulletin_name'] = self.object.name
+        # self.log_context['bulletin_slug'] = self.object.slug
+        #
+        # super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return redirect(self.get_success_url())
 
@@ -888,21 +888,21 @@ class DeleteView(LoginRequiredMixin, generic.DeleteView):
             'The bulletin "%s" was removed successfully from virtual environment "%s"!') % (
                              self.object.name, self.object.topic.subject.name))
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['bulletin_id'] = self.object.id
-        self.log_context['bulletin_name'] = self.object.name
-        self.log_context['bulletin_slug'] = self.object.slug
-
-        super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['bulletin_id'] = self.object.id
+        # self.log_context['bulletin_name'] = self.object.name
+        # self.log_context['bulletin_slug'] = self.object.slug
+        #
+        # super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.topic.subject.slug})
 
@@ -930,21 +930,21 @@ class StatisticsView(LoginRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(StatisticsView, self).get_context_data(**kwargs)
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['bulletin_id'] = self.object.id
-        self.log_context['bulletin_name'] = self.object.name
-        self.log_context['bulletin_slug'] = self.object.slug
-
-        super(StatisticsView, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['bulletin_id'] = self.object.id
+        # self.log_context['bulletin_name'] = self.object.name
+        # self.log_context['bulletin_slug'] = self.object.slug
+        #
+        # super(StatisticsView, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         context['title'] = _('Bulletin Reports')
 
@@ -1014,21 +1014,21 @@ class StatisticsView(LoginRequiredMixin, generic.DetailView):
         return context
 
 
-@log_decorator('resources', 'access_difficulties_modal', 'bulletin')
+# @log_decorator('resources', 'access_difficulties_modal', 'bulletin')
 def bulletin_diff_view_log(request, slug):
     bulletin = get_object_or_404(Bulletin, slug=slug)
 
-    log_context = {'category_id': bulletin.topic.subject.category.id,
-                   'category_name': bulletin.topic.subject.category.name,
-                   'category_slug': bulletin.topic.subject.category.slug,
-                   'subject_id': bulletin.topic.subject.id,
-                   'subject_name': bulletin.topic.subject.name,
-                   'subject_slug': bulletin.topic.subject.slug, 'topic_id': bulletin.topic.id,
-                   'topic_name': bulletin.topic.name, 'topic_slug': bulletin.topic.slug,
-                   'bulletin_id': bulletin.id, 'bulletin_name': bulletin.name,
-                   'bulletin_slug': bulletin.slug}
-
-    request.log_context = log_context
+    # log_context = {'category_id': bulletin.topic.subject.category.id,
+    #                'category_name': bulletin.topic.subject.category.name,
+    #                'category_slug': bulletin.topic.subject.category.slug,
+    #                'subject_id': bulletin.topic.subject.id,
+    #                'subject_name': bulletin.topic.subject.name,
+    #                'subject_slug': bulletin.topic.subject.slug, 'topic_id': bulletin.topic.id,
+    #                'topic_name': bulletin.topic.name, 'topic_slug': bulletin.topic.slug,
+    #                'bulletin_id': bulletin.id, 'bulletin_name': bulletin.name,
+    #                'bulletin_slug': bulletin.slug}
+    #
+    # request.log_context = log_context
 
     return JsonResponse({'message': 'ok'})
 
