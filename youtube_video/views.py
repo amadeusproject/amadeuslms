@@ -392,25 +392,25 @@ class DeleteView(LoginRequiredMixin, generic.DeleteView):
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.topic.subject.slug})
 
 
-@log_decorator_ajax('resources', 'watch', 'ytvideo')
+# @log_decorator_ajax('resources', 'watch', 'ytvideo')
 def ytvideo_watch_log(request, ytvideo):
     action = request.GET.get('action')
 
     if action == 'open':
         ytvideo = get_object_or_404(YTVideo, slug=ytvideo)
 
-        log_context = {'category_id': ytvideo.topic.subject.category.id,
-                       'category_name': ytvideo.topic.subject.category.name,
-                       'category_slug': ytvideo.topic.subject.category.slug,
-                       'subject_id': ytvideo.topic.subject.id,
-                       'subject_name': ytvideo.topic.subject.name,
-                       'subject_slug': ytvideo.topic.subject.slug, 'topic_id': ytvideo.topic.id,
-                       'topic_name': ytvideo.topic.name, 'topic_slug': ytvideo.topic.slug,
-                       'ytvideo_id': ytvideo.id, 'ytvideo_name': ytvideo.name,
-                       'ytvideo_slug': ytvideo.slug, 'timestamp_start': str(int(time.time())),
-                       'timestamp_end': '-1'}
-
-        request.log_context = log_context
+        # log_context = {'category_id': ytvideo.topic.subject.category.id,
+        #                'category_name': ytvideo.topic.subject.category.name,
+        #                'category_slug': ytvideo.topic.subject.category.slug,
+        #                'subject_id': ytvideo.topic.subject.id,
+        #                'subject_name': ytvideo.topic.subject.name,
+        #                'subject_slug': ytvideo.topic.subject.slug, 'topic_id': ytvideo.topic.id,
+        #                'topic_name': ytvideo.topic.name, 'topic_slug': ytvideo.topic.slug,
+        #                'ytvideo_id': ytvideo.id, 'ytvideo_name': ytvideo.name,
+        #                'ytvideo_slug': ytvideo.slug, 'timestamp_start': str(int(time.time())),
+        #                'timestamp_end': '-1'}
+        #
+        # request.log_context = log_context
 
         log_id = Log.objects.latest('id').id
 
@@ -419,21 +419,21 @@ def ytvideo_watch_log(request, ytvideo):
     return JsonResponse({'message': 'ok'})
 
 
-@log_decorator('resources', 'finish', 'ytvideo')
+# @log_decorator('resources', 'finish', 'ytvideo')
 def ytvideo_finish_log(request, ytvideo):
     ytvideo = get_object_or_404(YTVideo, slug=ytvideo)
 
-    log_context = {'category_id': ytvideo.topic.subject.category.id,
-                   'category_name': ytvideo.topic.subject.category.name,
-                   'category_slug': ytvideo.topic.subject.category.slug,
-                   'subject_id': ytvideo.topic.subject.id,
-                   'subject_name': ytvideo.topic.subject.name,
-                   'subject_slug': ytvideo.topic.subject.slug, 'topic_id': ytvideo.topic.id,
-                   'topic_name': ytvideo.topic.name, 'topic_slug': ytvideo.topic.slug,
-                   'ytvideo_id': ytvideo.id, 'ytvideo_name': ytvideo.name,
-                   'ytvideo_slug': ytvideo.slug}
-
-    request.log_context = log_context
+    # log_context = {'category_id': ytvideo.topic.subject.category.id,
+    #                'category_name': ytvideo.topic.subject.category.name,
+    #                'category_slug': ytvideo.topic.subject.category.slug,
+    #                'subject_id': ytvideo.topic.subject.id,
+    #                'subject_name': ytvideo.topic.subject.name,
+    #                'subject_slug': ytvideo.topic.subject.slug, 'topic_id': ytvideo.topic.id,
+    #                'topic_name': ytvideo.topic.name, 'topic_slug': ytvideo.topic.slug,
+    #                'ytvideo_id': ytvideo.id, 'ytvideo_name': ytvideo.name,
+    #                'ytvideo_slug': ytvideo.slug}
+    #
+    # request.log_context = log_context
 
     return JsonResponse({'message': 'ok'})
 
@@ -442,7 +442,7 @@ class StatisticsView(LoginRequiredMixin, generic.DetailView):
     log_component = 'resources'
     log_action = 'view_statistics'
     log_resource = 'ytvideo'
-    log_context = {}
+    # log_context = {}
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
@@ -461,21 +461,21 @@ class StatisticsView(LoginRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(StatisticsView, self).get_context_data(**kwargs)
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['ytvideo_id'] = self.object.id
-        self.log_context['ytvideo_name'] = self.object.name
-        self.log_context['ytvideo_slug'] = self.object.slug
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['ytvideo_id'] = self.object.id
+        # self.log_context['ytvideo_name'] = self.object.name
+        # self.log_context['ytvideo_slug'] = self.object.slug
 
-        super(StatisticsView, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # super(StatisticsView, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         context['title'] = _('Youtube Video Reports')
 
@@ -576,8 +576,6 @@ class StatisticsView(LoginRequiredMixin, generic.DetailView):
         context["did_table"] = did
         context["history_table"] = history
         return context
-
-
 
 
 class SendMessage(LoginRequiredMixin, generic.edit.FormView):
