@@ -100,7 +100,7 @@ def getToken(request):
     return HttpResponse(response)
 
 
-class LoginViewset(viewsets.ReadOnlyModelViewSet, ):
+class LoginViewset(viewsets.ReadOnlyModelViewSet):
     """
     login:
     Log a user in the system
@@ -116,7 +116,7 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet, ):
     log_component = 'mobile'
     log_action = 'access'
     log_resource = 'system'
-    log_context = {}
+    # log_context = {}
 
     @csrf_exempt
     @list_route(methods=['POST'], permissions_classes=[IsAuthenticated])
@@ -139,8 +139,8 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet, ):
 
             response = json.dumps(user_info)
 
-            super(LoginViewset, self).create_log(user, self.log_component, self.log_action,
-                                                 self.log_resource)
+            # super(LoginViewset, self).create_log(user, self.log_component, self.log_action,
+            #                                      self.log_resource)
 
         return HttpResponse(response)
 
@@ -324,12 +324,12 @@ class ParticipantsViewset(viewsets.ReadOnlyModelViewSet, ):
 
             response = json.dumps(info)
 
-            self.log_context['subject_id'] = subject.id
-            self.log_context['subject_slug'] = subject_slug
-            self.log_context['subject_name'] = subject.name
-
-            super(ParticipantsViewset, self).create_log(user, self.log_component, self.log_action,
-                                                        self.log_resource)
+            # self.log_context['subject_id'] = subject.id
+            # self.log_context['subject_slug'] = subject_slug
+            # self.log_context['subject_name'] = subject.name
+            #
+            # super(ParticipantsViewset, self).create_log(user, self.log_component, self.log_action,
+            #                                             self.log_resource)
 
         return HttpResponse(response)
 
@@ -413,16 +413,16 @@ class ChatViewset(viewsets.ModelViewSet, ):
                 talk = Conversation.objects.get(
                     (Q(user_one__email=username) & Q(user_two__email=user_two)) | (
                             Q(user_two__email=username) & Q(user_one__email=user_two)))
-                self.log_context['talk_id'] = talk.id
+                # self.log_context['talk_id'] = talk.id
             except Conversation.DoesNotExist:
                 pass
 
-            self.log_context['user_id'] = user2.id
-            self.log_context['user_name'] = str(user2)
-            self.log_context['user_email'] = user_two
-
-            super(ChatViewset, self).create_log(user, self.log_component, self.log_action,
-                                                self.log_resource)
+            # self.log_context['user_id'] = user2.id
+            # self.log_context['user_name'] = str(user2)
+            # self.log_context['user_email'] = user_two
+            #
+            # super(ChatViewset, self).create_log(user, self.log_component, self.log_action,
+            #                                     self.log_resource)
 
         return HttpResponse(response)
 
@@ -431,7 +431,7 @@ class ChatViewset(viewsets.ModelViewSet, ):
     def send_message(self, request):
         self.log_action = 'send'
         self.log_resource = 'message'
-        self.log_context = {}
+        # self.log_context = {}
 
         if 'file' in request.data:
             file = request.FILES['file']
@@ -474,9 +474,9 @@ class ChatViewset(viewsets.ModelViewSet, ):
                 space = subject.slug
                 space_type = "subject"
 
-                self.log_context['subject_id'] = subject.id
-                self.log_context['subject_slug'] = space
-                self.log_context['subject_name'] = subject.name
+                # self.log_context['subject_id'] = subject.id
+                # self.log_context['subject_slug'] = space
+                # self.log_context['subject_name'] = subject.name
             else:
                 subject = None
                 space = 0
@@ -493,10 +493,10 @@ class ChatViewset(viewsets.ModelViewSet, ):
 
             message.save()
 
-            self.log_context['talk_id'] = talk.id
-            self.log_context['user_id'] = user_to.id
-            self.log_context['user_name'] = str(user_to)
-            self.log_context['user_email'] = user_two
+            # self.log_context['talk_id'] = talk.id
+            # self.log_context['user_id'] = user_to.id
+            # self.log_context['user_name'] = str(user_to)
+            # self.log_context['user_email'] = user_two
 
             if not message.pk is None:
                 simple_notify = textwrap.shorten(strip_tags(message.text), width=30,
@@ -662,12 +662,12 @@ class MuralViewset(viewsets.ModelViewSet, ):
 
         response = json.dumps(info)
 
-        self.log_context["subject_id"] = sub.id
-        self.log_context["subject_slug"] = subject
-        self.log_context["subject_name"] = sub.name
-
-        super(MuralViewset, self).create_log(user, self.log_component, self.log_action,
-                                             self.log_resource)
+        # self.log_context["subject_id"] = sub.id
+        # self.log_context["subject_slug"] = subject
+        # self.log_context["subject_name"] = sub.name
+        #
+        # super(MuralViewset, self).create_log(user, self.log_component, self.log_action,
+        #                                      self.log_resource)
 
         return HttpResponse(response)
 
@@ -712,13 +712,13 @@ class MuralViewset(viewsets.ModelViewSet, ):
         response = json.dumps(info)
 
         self.log_resource = "post_comments"
-        self.log_context["post_id"] = mural.id
-        self.log_context["post_space_id"] = mural.space.id
-        self.log_context["post_space_slug"] = mural.space.slug
-        self.log_context["post_space_name"] = mural.space.name
-
-        super(MuralViewset, self).create_log(mural.user, self.log_component, self.log_action,
-                                             self.log_resource)
+        # self.log_context["post_id"] = mural.id
+        # self.log_context["post_space_id"] = mural.space.id
+        # self.log_context["post_space_slug"] = mural.space.slug
+        # self.log_context["post_space_name"] = mural.space.name
+        #
+        # super(MuralViewset, self).create_log(mural.user, self.log_component, self.log_action,
+        #                                      self.log_resource)
 
         return HttpResponse(response)
 
@@ -793,9 +793,9 @@ class MuralViewset(viewsets.ModelViewSet, ):
 
             MuralVisualizations.objects.bulk_create(entries)
 
-            self.log_context['subject_id'] = post.space.id
-            self.log_context['subject_name'] = post.space.name
-            self.log_context['subject_slug'] = post.space.slug
+            # self.log_context['subject_id'] = post.space.id
+            # self.log_context['subject_name'] = post.space.name
+            # self.log_context['subject_slug'] = post.space.slug
 
             serializer = MuralSerializer(post, context={"request_user": user, "subject": space})
 
@@ -809,8 +809,8 @@ class MuralViewset(viewsets.ModelViewSet, ):
             info["success"] = True
             info["number"] = 1
 
-            super(MuralViewset, self).create_log(user, self.log_component, self.log_action,
-                                                 self.log_resource)
+            # super(MuralViewset, self).create_log(user, self.log_component, self.log_action,
+            #                                      self.log_resource)
         else:
             info["message"] = _("Error while creating post!")
             info["success"] = False
@@ -892,10 +892,10 @@ class MuralViewset(viewsets.ModelViewSet, ):
 
             MuralVisualizations.objects.bulk_create(entries)
 
-            self.log_context['post_id'] = mural.id
-            self.log_context['subject_id'] = mural.space.id
-            self.log_context['subject_name'] = mural.space.name
-            self.log_context['subject_slug'] = mural.space.slug
+            # self.log_context['post_id'] = mural.id
+            # self.log_context['subject_id'] = mural.space.id
+            # self.log_context['subject_name'] = mural.space.name
+            # self.log_context['subject_slug'] = mural.space.slug
 
             serializer = CommentsSerializer(comment, context={"request_user": user,
                                                               "subject": mural.space.slug})
@@ -910,8 +910,8 @@ class MuralViewset(viewsets.ModelViewSet, ):
             info["success"] = True
             info["number"] = 1
 
-            super(MuralViewset, self).create_log(user, self.log_component, self.log_action,
-                                                 self.log_resource)
+            # super(MuralViewset, self).create_log(user, self.log_component, self.log_action,
+            #                                      self.log_resource)
         else:
             info["message"] = _("Error while creating comment!")
             info["success"] = False
@@ -946,7 +946,7 @@ class MuralViewset(viewsets.ModelViewSet, ):
 
 
 @csrf_exempt
-@log_decorator("mobile", "view", "subject_pendencies")
+# @log_decorator("mobile", "view", "subject_pendencies")
 def get_pendencies(request):
     response = ""
 
@@ -978,8 +978,8 @@ def get_pendencies(request):
 
                 subject = Subject.objects.get(slug=subject)
 
-                request.log_context = {"subject_id": subject.id, "subject_slug": subject.slug,
-                                       "subject_name": subject.name}
+                # request.log_context = {"subject_id": subject.id, "subject_slug": subject.slug,
+                #                        "subject_name": subject.name}
 
         except KeyError:
             response = "Error"
