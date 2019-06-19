@@ -315,9 +315,9 @@ class SubjectCreateView(LoginRequiredMixin, CreateView):
 
             self.log_action = 'replicate'
 
-            self.log_context['replicated_subject_id'] = subject.id
-            self.log_context['replicated_subject_name'] = subject.name
-            self.log_context['replicated_subject_slug'] = subject.slug
+            # self.log_context['replicated_subject_id'] = subject.id
+            # self.log_context['replicated_subject_name'] = subject.name
+            # self.log_context['replicated_subject_slug'] = subject.slug
 
         return initial
 
@@ -369,16 +369,16 @@ class SubjectCreateView(LoginRequiredMixin, CreateView):
 
         self.object.save()
 
-        self.log_context['category_id'] = self.object.category.id
-        self.log_context['category_name'] = self.object.category.name
-        self.log_context['category_slug'] = self.object.category.slug
-        self.log_context['subject_id'] = self.object.id
-        self.log_context['subject_name'] = self.object.name
-        self.log_context['subject_slug'] = self.object.slug
-
-        super(SubjectCreateView, self).create_log(self.request.user, self.log_component,
-                                                  self.log_action,
-                                                  self.log_resource)
+        # self.log_context['category_id'] = self.object.category.id
+        # self.log_context['category_name'] = self.object.category.name
+        # self.log_context['category_slug'] = self.object.category.slug
+        # self.log_context['subject_id'] = self.object.id
+        # self.log_context['subject_name'] = self.object.name
+        # self.log_context['subject_slug'] = self.object.slug
+        #
+        # super(SubjectCreateView, self).create_log(self.request.user, self.log_component,
+        #                                           self.log_action,
+        #                                           self.log_resource)
 
         return super(SubjectCreateView, self).form_valid(form)
 
@@ -446,16 +446,16 @@ class SubjectUpdateView(LoginRequiredMixin, UpdateView):
             Resource.objects.filter(topic__subject=self.object, topic__repository=False).update(
                 visible=False)
 
-        self.log_context['category_id'] = self.object.category.id
-        self.log_context['category_name'] = self.object.category.name
-        self.log_context['category_slug'] = self.object.category.slug
-        self.log_context['subject_id'] = self.object.id
-        self.log_context['subject_name'] = self.object.name
-        self.log_context['subject_slug'] = self.object.slug
-
-        super(SubjectUpdateView, self).create_log(self.request.user, self.log_component,
-                                                  self.log_action,
-                                                  self.log_resource)
+        # self.log_context['category_id'] = self.object.category.id
+        # self.log_context['category_name'] = self.object.category.name
+        # self.log_context['category_slug'] = self.object.category.slug
+        # self.log_context['subject_id'] = self.object.id
+        # self.log_context['subject_name'] = self.object.name
+        # self.log_context['subject_slug'] = self.object.slug
+        #
+        # super(SubjectUpdateView, self).create_log(self.request.user, self.log_component,
+        #                                           self.log_action,
+        #                                           self.log_resource)
 
         messages.success(self.request,
                          _('The Subject "%s" was updated on "%s" Category successfully!')
@@ -492,16 +492,16 @@ class SubjectDeleteView(LoginRequiredMixin, DeleteView):
         return HttpResponseRedirect(self.get_success_url())
 
     def ajax_success(self):
-        self.log_context['category_id'] = self.object.category.id
-        self.log_context['category_name'] = self.object.category.name
-        self.log_context['category_slug'] = self.object.category.slug
-        self.log_context['subject_id'] = self.object.id
-        self.log_context['subject_name'] = self.object.name
-        self.log_context['subject_slug'] = self.object.slug
-
-        super(SubjectDeleteView, self).create_log(self.request.user, self.log_component,
-                                                  self.log_action,
-                                                  self.log_resource)
+        # self.log_context['category_id'] = self.object.category.id
+        # self.log_context['category_name'] = self.object.category.name
+        # self.log_context['category_slug'] = self.object.category.slug
+        # self.log_context['subject_id'] = self.object.id
+        # self.log_context['subject_name'] = self.object.name
+        # self.log_context['subject_slug'] = self.object.slug
+        #
+        # super(SubjectDeleteView, self).create_log(self.request.user, self.log_component,
+        #                                           self.log_action,
+        #                                           self.log_resource)
 
         messages.success(self.request, _('Subject "%s" removed successfully!') % (self.object.name))
 
@@ -542,16 +542,16 @@ class SubjectDeleteView(LoginRequiredMixin, DeleteView):
         return context
 
     def get_success_url(self):
-        self.log_context['category_id'] = self.object.category.id
-        self.log_context['category_name'] = self.object.category.name
-        self.log_context['category_slug'] = self.object.category.slug
-        self.log_context['subject_id'] = self.object.id
-        self.log_context['subject_name'] = self.object.name
-        self.log_context['subject_slug'] = self.object.slug
-
-        super(SubjectDeleteView, self).create_log(self.request.user, self.log_component,
-                                                  self.log_action,
-                                                  self.log_resource)
+        # self.log_context['category_id'] = self.object.category.id
+        # self.log_context['category_name'] = self.object.category.name
+        # self.log_context['category_slug'] = self.object.category.slug
+        # self.log_context['subject_id'] = self.object.id
+        # self.log_context['subject_name'] = self.object.name
+        # self.log_context['subject_slug'] = self.object.slug
+        #
+        # super(SubjectDeleteView, self).create_log(self.request.user, self.log_component,
+        #                                           self.log_action,
+        #                                           self.log_resource)
 
         messages.success(self.request, _('Subject "%s" removed successfully!') % (self.object.name))
 
@@ -594,17 +594,17 @@ class SubjectDetailView(LoginRequiredMixin, DetailView):
         if self.kwargs.get('topic_slug'):
             context['topic_slug'] = self.kwargs.get('topic_slug')
 
-        self.log_context['category_id'] = self.object.category.id
-        self.log_context['category_name'] = self.object.category.name
-        self.log_context['category_slug'] = self.object.category.slug
-        self.log_context['subject_id'] = self.object.id
-        self.log_context['subject_name'] = self.object.name
-        self.log_context['subject_slug'] = self.object.slug
-        self.log_context['timestamp_start'] = str(int(time.time()))
-
-        super(SubjectDetailView, self).create_log(self.request.user, self.log_component,
-                                                  self.log_action,
-                                                  self.log_resource)
+        # self.log_context['category_id'] = self.object.category.id
+        # self.log_context['category_name'] = self.object.category.name
+        # self.log_context['category_slug'] = self.object.category.slug
+        # self.log_context['subject_id'] = self.object.id
+        # self.log_context['subject_name'] = self.object.name
+        # self.log_context['subject_slug'] = self.object.slug
+        # self.log_context['timestamp_start'] = str(int(time.time()))
+        #
+        # super(SubjectDetailView, self).create_log(self.request.user, self.log_component,
+        #                                           self.log_action,
+        #                                           self.log_resource)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -634,16 +634,16 @@ class SubjectSubscribeView(LoginRequiredMixin, TemplateView):
         if subject.subscribe_end <= datetime.datetime.today().date():
             messages.error(self.request, _('Subscription date is due!'))
         else:
-            self.log_context['category_id'] = subject.category.id
-            self.log_context['category_name'] = subject.category.name
-            self.log_context['category_slug'] = subject.category.slug
-            self.log_context['subject_id'] = subject.id
-            self.log_context['subject_name'] = subject.name
-            self.log_context['subject_slug'] = subject.slug
-
-            super(SubjectSubscribeView, self).create_log(self.request.user, self.log_component,
-                                                         self.log_action,
-                                                         self.log_resource)
+            # self.log_context['category_id'] = subject.category.id
+            # self.log_context['category_name'] = subject.category.name
+            # self.log_context['category_slug'] = subject.category.slug
+            # self.log_context['subject_id'] = subject.id
+            # self.log_context['subject_name'] = subject.name
+            # self.log_context['subject_slug'] = subject.slug
+            #
+            # super(SubjectSubscribeView, self).create_log(self.request.user, self.log_component,
+            #                                              self.log_action,
+            #                                              self.log_resource)
 
             subject.students.add(request.user)
             subject.save()
@@ -733,27 +733,27 @@ class SubjectSearchView(LoginRequiredMixin, ListView):
 
         context['subjects_menu_active'] = ''
 
-        self.log_context['search_for'] = self.tags
-        super(SubjectSearchView, self).create_log(self.request.user, self.log_component,
-                                                  self.log_action,
-                                                  self.log_resource)
+        # self.log_context['search_for'] = self.tags
+        # super(SubjectSearchView, self).create_log(self.request.user, self.log_component,
+        #                                           self.log_action,
+        #                                           self.log_resource)
 
         return context
 
 
-@log_decorator_ajax('subject', 'view', 'subject')
+# @log_decorator_ajax('subject', 'view', 'subject')
 def subject_view_log(request, subject):
     action = request.GET.get('action')
 
     if action == 'open':
         subject = get_object_or_404(Subject, id=subject)
 
-        log_context = {'category_id': subject.category.id, 'category_name': subject.category.name,
-                       'category_slug': subject.category.slug, 'subject_id': subject.id,
-                       'subject_name': subject.name, 'subject_slug': subject.slug,
-                       'timestamp_start': str(int(time.time())), 'timestamp_end': '-1'}
-
-        request.log_context = log_context
+        # log_context = {'category_id': subject.category.id, 'category_name': subject.category.name,
+        #                'category_slug': subject.category.slug, 'subject_id': subject.id,
+        #                'subject_name': subject.name, 'subject_slug': subject.slug,
+        #                'timestamp_start': str(int(time.time())), 'timestamp_end': '-1'}
+        #
+        # request.log_context = log_context
 
         log_id = Log.objects.latest('id').id
 

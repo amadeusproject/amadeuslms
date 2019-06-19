@@ -208,8 +208,8 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet):
 
             self.log_action = 'logout'
 
-            super(LoginViewset, self).create_log(user, self.log_component, self.log_action,
-                                                 self.log_resource)
+            # super(LoginViewset, self).create_log(user, self.log_component, self.log_action,
+            #                                      self.log_resource)
 
         return HttpResponse(response)
 
@@ -538,8 +538,8 @@ class ChatViewset(viewsets.ModelViewSet, ):
 
                 send_chat_push_notification(user_to, message)
 
-                super(ChatViewset, self).create_log(user, self.log_component, self.log_action,
-                                                    self.log_resource)
+                # super(ChatViewset, self).create_log(user, self.log_component, self.log_action,
+                #                                     self.log_resource)
             else:
                 info["message"] = _("Error while sending message!")
                 info["success"] = False

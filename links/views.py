@@ -131,21 +131,21 @@ class CreateLinkView(LoginRequiredMixin, generic.edit.CreateView):
         if not pend_form.action == "":
             pend_form.save()
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['link_id'] = self.object.id
-        self.log_context['link_name'] = self.object.name
-        self.log_context['link_slug'] = self.object.slug
-
-        super(CreateLinkView, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['link_id'] = self.object.id
+        # self.log_context['link_name'] = self.object.name
+        # self.log_context['link_slug'] = self.object.slug
+        #
+        # super(CreateLinkView, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         return redirect(self.get_success_url())
 
@@ -195,21 +195,21 @@ class DeleteLinkView(LoginRequiredMixin, generic.edit.DeleteView):
             'The Website Link "%s" was removed successfully from virtual environment "%s"!') % (
                              self.object.name, self.object.topic.subject.name))
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['link_id'] = self.object.id
-        self.log_context['link_name'] = self.object.name
-        self.log_context['link_slug'] = self.object.slug
-
-        super(DeleteLinkView, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['link_id'] = self.object.id
+        # self.log_context['link_name'] = self.object.name
+        # self.log_context['link_slug'] = self.object.slug
+        #
+        # super(DeleteLinkView, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.topic.subject.slug})
 
@@ -225,21 +225,21 @@ class RedirectUrl(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         link = get_object_or_404(Link, slug=self.kwargs.get("slug", ""))
-        self.log_context['category_id'] = link.topic.subject.category.id
-        self.log_context['category_name'] = link.topic.subject.category.name
-        self.log_context['category_slug'] = link.topic.subject.category.slug
-        self.log_context['subject_id'] = link.topic.subject.id
-        self.log_context['subject_name'] = link.topic.subject.name
-        self.log_context['subject_slug'] = link.topic.subject.slug
-        self.log_context['topic_id'] = link.topic.id
-        self.log_context['topic_name'] = link.topic.name
-        self.log_context['topic_slug'] = link.topic.slug
-        self.log_context['link_id'] = link.id
-        self.log_context['link_name'] = link.name
-        self.log_context['link_slug'] = link.slug
-
-        super(RedirectUrl, self).create_log(self.request.user, self.log_component, self.log_action,
-                                            self.log_resource)
+        # self.log_context['category_id'] = link.topic.subject.category.id
+        # self.log_context['category_name'] = link.topic.subject.category.name
+        # self.log_context['category_slug'] = link.topic.subject.category.slug
+        # self.log_context['subject_id'] = link.topic.subject.id
+        # self.log_context['subject_name'] = link.topic.subject.name
+        # self.log_context['subject_slug'] = link.topic.subject.slug
+        # self.log_context['topic_id'] = link.topic.id
+        # self.log_context['topic_name'] = link.topic.name
+        # self.log_context['topic_slug'] = link.topic.slug
+        # self.log_context['link_id'] = link.id
+        # self.log_context['link_name'] = link.name
+        # self.log_context['link_slug'] = link.slug
+        #
+        # super(RedirectUrl, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                     self.log_resource)
 
         return link.link_url
 
@@ -337,21 +337,21 @@ class UpdateLinkView(LoginRequiredMixin, generic.edit.UpdateView):
         if not pend_form.action == "":
             pend_form.save()
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['link_id'] = self.object.id
-        self.log_context['link_name'] = self.object.name
-        self.log_context['link_slug'] = self.object.slug
-
-        super(UpdateLinkView, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['link_id'] = self.object.id
+        # self.log_context['link_name'] = self.object.name
+        # self.log_context['link_slug'] = self.object.slug
+        #
+        # super(UpdateLinkView, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         return redirect(self.get_success_url())
 
@@ -399,21 +399,21 @@ class StatisticsView(LoginRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(StatisticsView, self).get_context_data(**kwargs)
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['link_id'] = self.object.id
-        self.log_context['link_name'] = self.object.name
-        self.log_context['link_slug'] = self.object.slug
-
-        super(StatisticsView, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['link_id'] = self.object.id
+        # self.log_context['link_name'] = self.object.name
+        # self.log_context['link_slug'] = self.object.slug
+        #
+        # super(StatisticsView, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         context['title'] = _('Links Reports')
 

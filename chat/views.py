@@ -68,10 +68,10 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(GeneralIndex, self).get_context_data(**kwargs)
 
-        self.log_context['timestamp_start'] = str(int(time.time()))
-
-        super(GeneralIndex, self).create_log(self.request.user, self.log_component, self.log_action,
-                                             self.log_resource)
+        # self.log_context['timestamp_start'] = str(int(time.time()))
+        #
+        # super(GeneralIndex, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                      self.log_resource)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -111,11 +111,11 @@ class GeneralParticipants(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(GeneralParticipants, self).get_context_data(**kwargs)
 
-        self.log_context['search_by'] = self.request.GET.get('search', '')
-        self.log_context['timestamp_start'] = str(int(time.time()))
-
-        super(GeneralParticipants, self).create_log(self.request.user, self.log_component,
-                                                    self.log_action, self.log_resource)
+        # self.log_context['search_by'] = self.request.GET.get('search', '')
+        # self.log_context['timestamp_start'] = str(int(time.time()))
+        #
+        # super(GeneralParticipants, self).create_log(self.request.user, self.log_component,
+        #                                             self.log_action, self.log_resource)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -167,14 +167,14 @@ class SubjectParticipants(LoginRequiredMixin, generic.ListView):
         sub = self.kwargs.get('subject', 0)
         subject = get_object_or_404(Subject, id=sub)
 
-        self.log_context['subject_id'] = subject.id
-        self.log_context['subject_name'] = subject.name
-        self.log_context['subject_slug'] = subject.slug
-        self.log_context['search_by'] = self.request.GET.get('search', '')
-        self.log_context['timestamp_start'] = str(int(time.time()))
-
-        super(SubjectParticipants, self).create_log(self.request.user, self.log_component,
-                                                    self.log_action, self.log_resource)
+        # self.log_context['subject_id'] = subject.id
+        # self.log_context['subject_name'] = subject.name
+        # self.log_context['subject_slug'] = subject.slug
+        # self.log_context['search_by'] = self.request.GET.get('search', '')
+        # self.log_context['timestamp_start'] = str(int(time.time()))
+        #
+        # super(SubjectParticipants, self).create_log(self.request.user, self.log_component,
+        #                                             self.log_action, self.log_resource)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -233,13 +233,13 @@ class SubjectView(LoginRequiredMixin, generic.ListView):
         slug = self.kwargs.get('slug', None)
         subject = get_object_or_404(Subject, slug=slug)
 
-        self.log_context['subject_id'] = subject.id
-        self.log_context['subject_name'] = subject.name
-        self.log_context['subject_slug'] = subject.slug
-        self.log_context['timestamp_start'] = str(int(time.time()))
-
-        super(SubjectView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                            self.log_resource)
+        # self.log_context['subject_id'] = subject.id
+        # self.log_context['subject_name'] = subject.name
+        # self.log_context['subject_slug'] = subject.slug
+        # self.log_context['timestamp_start'] = str(int(time.time()))
+        #
+        # super(SubjectView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                     self.log_resource)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -267,12 +267,12 @@ class ParticipantProfile(LoginRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(ParticipantProfile, self).get_context_data(**kwargs)
 
-        self.log_context['user_id'] = self.object.id
-        self.log_context['user_name'] = str(self.object)
-        self.log_context['user_email'] = self.object.email
-
-        super(ParticipantProfile, self).create_log(self.request.user, self.log_component,
-                                                   self.log_action, self.log_resource)
+        # self.log_context['user_id'] = self.object.id
+        # self.log_context['user_name'] = str(self.object)
+        # self.log_context['user_email'] = self.object.email
+        #
+        # super(ParticipantProfile, self).create_log(self.request.user, self.log_component,
+        #                                            self.log_action, self.log_resource)
 
         context['space'] = self.request.GET.get('space', '0')
         context['space_type'] = self.request.GET.get('space_type', 'general')
@@ -342,13 +342,13 @@ class GetTalk(LoginRequiredMixin, generic.ListView):
             subject = get_object_or_404(Subject, id=context['space'])
             context['subject'] = subject.slug
 
-        self.log_context['talk_id'] = self.talk_id
-        self.log_context['user_id'] = context['participant'].id
-        self.log_context['user_name'] = str(context['participant'])
-        self.log_context['user_email'] = context['participant'].email
-
-        super(GetTalk, self).create_log(self.request.user, self.log_component, self.log_action,
-                                        self.log_resource)
+        # self.log_context['talk_id'] = self.talk_id
+        # self.log_context['user_id'] = context['participant'].id
+        # self.log_context['user_name'] = str(context['participant'])
+        # self.log_context['user_email'] = context['participant'].email
+        #
+        # super(GetTalk, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                 self.log_resource)
 
         return context
 
@@ -439,15 +439,15 @@ class SendMessage(LoginRequiredMixin, generic.edit.CreateView):
     def get_success_url(self):
         user = get_object_or_404(User, email=self.kwargs.get('email', ''))
 
-        self.log_context = {'talk_id': self.object.talk.id, 'user_id': user.id,
-                            'user_name': str(user), 'user_email': user.email}
-        if self.object.subject:
-            self.log_context['subject_id'] = self.object.subject.id
-            self.log_context['subject_name'] = self.object.subject.name
-            self.log_context['subject_slug'] = self.object.subject.slug
-
-        super(SendMessage, self).create_log(self.request.user, self.log_component, self.log_action,
-                                            self.log_resource)
+        # self.log_context = {'talk_id': self.object.talk.id, 'user_id': user.id,
+        #                     'user_name': str(user), 'user_email': user.email}
+        # if self.object.subject:
+        #     self.log_context['subject_id'] = self.object.subject.id
+        #     self.log_context['subject_name'] = self.object.subject.name
+        #     self.log_context['subject_slug'] = self.object.subject.slug
+        #
+        # super(SendMessage, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                     self.log_resource)
 
         return reverse_lazy('chat:render_message', args=(
         self.object.id, self.object.talk.id, self.kwargs.get('space', '0'),

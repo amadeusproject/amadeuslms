@@ -69,21 +69,21 @@ class ViewPDFFile(LoginRequiredMixin, generic.TemplateView):
         context['absolute_url'] = self.request.build_absolute_uri(pdf_file.file.url)
         context['subject'] = pdf_file.topic.subject
 
-        self.log_context['category_id'] = pdf_file.topic.subject.category.id
-        self.log_context['category_name'] = pdf_file.topic.subject.category.name
-        self.log_context['category_slug'] = pdf_file.topic.subject.category.slug
-        self.log_context['subject_id'] = pdf_file.topic.subject.id
-        self.log_context['subject_name'] = pdf_file.topic.subject.name
-        self.log_context['subject_slug'] = pdf_file.topic.subject.slug
-        self.log_context['topic_id'] = pdf_file.topic.id
-        self.log_context['topic_name'] = pdf_file.topic.name
-        self.log_context['topic_slug'] = pdf_file.topic.slug
-        self.log_context['pdffile_id'] = pdf_file.id
-        self.log_context['pdffile_name'] = pdf_file.name
-        self.log_context['pdffile_slug'] = pdf_file.slug
-
-        super(ViewPDFFile, self).create_log(self.request.user, self.log_component, self.log_action,
-                                            self.log_resource)
+        # self.log_context['category_id'] = pdf_file.topic.subject.category.id
+        # self.log_context['category_name'] = pdf_file.topic.subject.category.name
+        # self.log_context['category_slug'] = pdf_file.topic.subject.category.slug
+        # self.log_context['subject_id'] = pdf_file.topic.subject.id
+        # self.log_context['subject_name'] = pdf_file.topic.subject.name
+        # self.log_context['subject_slug'] = pdf_file.topic.subject.slug
+        # self.log_context['topic_id'] = pdf_file.topic.id
+        # self.log_context['topic_name'] = pdf_file.topic.name
+        # self.log_context['topic_slug'] = pdf_file.topic.slug
+        # self.log_context['pdffile_id'] = pdf_file.id
+        # self.log_context['pdffile_name'] = pdf_file.name
+        # self.log_context['pdffile_slug'] = pdf_file.slug
+        #
+        # super(ViewPDFFile, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                     self.log_resource)
 
         return context
 
@@ -197,21 +197,21 @@ class PDFFileCreateView(LoginRequiredMixin, generic.CreateView):
         if not pend_form.action == "":
             pend_form.save()
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['pdffile_id'] = self.object.id
-        self.log_context['pdffile_name'] = self.object.name
-        self.log_context['pdffile_slug'] = self.object.slug
-
-        super(PDFFileCreateView, self).create_log(self.request.user, self.log_component,
-                                                  self.log_action, self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['pdffile_id'] = self.object.id
+        # self.log_context['pdffile_name'] = self.object.name
+        # self.log_context['pdffile_slug'] = self.object.slug
+        #
+        # super(PDFFileCreateView, self).create_log(self.request.user, self.log_component,
+        #                                           self.log_action, self.log_resource)
 
         return redirect(self.get_success_url())
 
@@ -331,21 +331,21 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
         if not pend_form.action == "":
             pend_form.save()
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['pdffile_id'] = self.object.id
-        self.log_context['pdffile_name'] = self.object.name
-        self.log_context['pdffile_slug'] = self.object.slug
-
-        super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['pdffile_id'] = self.object.id
+        # self.log_context['pdffile_name'] = self.object.name
+        # self.log_context['pdffile_slug'] = self.object.slug
+        #
+        # super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return redirect(self.get_success_url())
 
@@ -398,21 +398,21 @@ class DeleteView(LoginRequiredMixin, generic.DeleteView):
             'The PDF File "%s" was removed successfully from virtual environment "%s"!') % (
                              self.object.name, self.object.topic.subject.name))
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['pdffile_id'] = self.object.id
-        self.log_context['pdffile_name'] = self.object.name
-        self.log_context['pdffile_slug'] = self.object.slug
-
-        super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['pdffile_id'] = self.object.id
+        # self.log_context['pdffile_name'] = self.object.name
+        # self.log_context['pdffile_slug'] = self.object.slug
+        #
+        # super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.topic.subject.slug})
 
@@ -440,21 +440,21 @@ class StatisticsView(LoginRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(StatisticsView, self).get_context_data(**kwargs)
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['pdffile_id'] = self.object.id
-        self.log_context['pdffile_name'] = self.object.name
-        self.log_context['pdffile_slug'] = self.object.slug
-
-        super(StatisticsView, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['pdffile_id'] = self.object.id
+        # self.log_context['pdffile_name'] = self.object.name
+        # self.log_context['pdffile_slug'] = self.object.slug
+        #
+        # super(StatisticsView, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         context['title'] = _('PDF File Reports')
 

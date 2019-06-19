@@ -131,10 +131,10 @@ class GeneralIndex(LoginRequiredMixin, generic.ListView):
         if page:
             self.template_name = "mural/_list_view.html"
         else:
-            self.log_context['timestamp_start'] = str(int(time.time()))
+            # self.log_context['timestamp_start'] = str(int(time.time()))
 
-            super(GeneralIndex, self).create_log(self.request.user, self.log_component,
-                                                 self.log_action, self.log_resource)
+            # super(GeneralIndex, self).create_log(self.request.user, self.log_component,
+            #                                      self.log_action, self.log_resource)
 
             self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -212,8 +212,8 @@ class GeneralCreate(LoginRequiredMixin, generic.edit.CreateView):
 
         MuralVisualizations.objects.bulk_create(entries)
 
-        super(GeneralCreate, self).create_log(self.request.user, self.log_component,
-                                              self.log_action, self.log_resource)
+        # super(GeneralCreate, self).create_log(self.request.user, self.log_component,
+        #                                       self.log_action, self.log_resource)
 
         return super(GeneralCreate, self).form_valid(form)
 
@@ -272,10 +272,10 @@ class GeneralUpdate(LoginRequiredMixin, generic.UpdateView):
         for user in users:
             async_to_sync(channel_layer.send)("user-%s" % user.id, {'text': notification})
 
-        self.log_context['post_id'] = str(self.object.id)
+        # self.log_context['post_id'] = str(self.object.id)
 
-        super(GeneralUpdate, self).create_log(self.request.user, self.log_component,
-                                              self.log_action, self.log_resource)
+        # super(GeneralUpdate, self).create_log(self.request.user, self.log_component,
+        #                                       self.log_action, self.log_resource)
 
         return super(GeneralUpdate, self).form_valid(form)
 
@@ -330,10 +330,10 @@ class GeneralDelete(LoginRequiredMixin, generic.DeleteView):
         for user in users:
             async_to_sync(channel_layer.send)("user-%s" % user.id, {'text': notification})
 
-        self.log_context['post_id'] = str(self.object.id)
+        # self.log_context['post_id'] = str(self.object.id)
 
-        super(GeneralDelete, self).create_log(self.request.user, self.log_component,
-                                              self.log_action, self.log_resource)
+        # super(GeneralDelete, self).create_log(self.request.user, self.log_component,
+        #                                       self.log_action, self.log_resource)
 
         return reverse_lazy('mural:deleted_post')
 
@@ -530,8 +530,8 @@ class CategoryCreate(LoginRequiredMixin, generic.edit.CreateView):
         self.log_context['category_name'] = self.object.space.name
         self.log_context['category_slug'] = self.object.space.slug
 
-        super(CategoryCreate, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # super(CategoryCreate, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         return super(CategoryCreate, self).form_valid(form)
 
@@ -591,13 +591,13 @@ class CategoryUpdate(LoginRequiredMixin, generic.UpdateView):
         for user in users:
             async_to_sync(channel_layer.send)("user-%s" % user.id, {'text': notification})
 
-        self.log_context['post_id'] = self.object.id
-        self.log_context['category_id'] = self.object.space.id
-        self.log_context['category_name'] = self.object.space.name
-        self.log_context['category_slug'] = self.object.space.slug
+        # self.log_context['post_id'] = self.object.id
+        # self.log_context['category_id'] = self.object.space.id
+        # self.log_context['category_name'] = self.object.space.name
+        # self.log_context['category_slug'] = self.object.space.slug
 
-        super(CategoryUpdate, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # super(CategoryUpdate, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         return super(CategoryUpdate, self).form_valid(form)
 
@@ -651,13 +651,13 @@ class CategoryDelete(LoginRequiredMixin, generic.DeleteView):
         for user in users:
             async_to_sync(channel_layer.send)("user-%s" % user.id, {'text': notification})
 
-        self.log_context['post_id'] = self.object.id
-        self.log_context['category_id'] = self.object.space.id
-        self.log_context['category_name'] = self.object.space.name
-        self.log_context['category_slug'] = self.object.space.slug
-
-        super(CategoryDelete, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # self.log_context['post_id'] = self.object.id
+        # self.log_context['category_id'] = self.object.space.id
+        # self.log_context['category_name'] = self.object.space.name
+        # self.log_context['category_slug'] = self.object.space.slug
+        #
+        # super(CategoryDelete, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         return reverse_lazy('mural:deleted_post')
 
@@ -869,17 +869,17 @@ class SubjectCreate(LoginRequiredMixin, generic.edit.CreateView):
 
         MuralVisualizations.objects.bulk_create(entries)
 
-        self.log_context['subject_id'] = self.object.space.id
-        self.log_context['subject_name'] = self.object.space.name
-        self.log_context['subject_slug'] = self.object.space.slug
+        # self.log_context['subject_id'] = self.object.space.id
+        # self.log_context['subject_name'] = self.object.space.name
+        # self.log_context['subject_slug'] = self.object.space.slug
 
-        if self.object.resource:
-            self.log_context['resource_id'] = self.object.resource.id
-            self.log_context['resource_name'] = self.object.resource.name
-            self.log_context['resource_slug'] = self.object.resource.slug
-
-        super(SubjectCreate, self).create_log(self.request.user, self.log_component,
-                                              self.log_action, self.log_resource)
+        # if self.object.resource:
+        #     self.log_context['resource_id'] = self.object.resource.id
+        #     self.log_context['resource_name'] = self.object.resource.name
+        #     self.log_context['resource_slug'] = self.object.resource.slug
+        #
+        # super(SubjectCreate, self).create_log(self.request.user, self.log_component,
+        #                                       self.log_action, self.log_resource)
 
         return super(SubjectCreate, self).form_valid(form)
 
@@ -960,18 +960,18 @@ class SubjectUpdate(LoginRequiredMixin, generic.UpdateView):
         for user in users:
             async_to_sync(channel_layer.send)("user-%s" % user.id, {'text': notification})
 
-        self.log_context['post_id'] = self.object.id
-        self.log_context['subject_id'] = self.object.space.id
-        self.log_context['subject_name'] = self.object.space.name
-        self.log_context['subject_slug'] = self.object.space.slug
-
-        if self.object.resource:
-            self.log_context['resource_id'] = self.object.resource.id
-            self.log_context['resource_name'] = self.object.resource.name
-            self.log_context['resource_slug'] = self.object.resource.slug
-
-        super(SubjectUpdate, self).create_log(self.request.user, self.log_component,
-                                              self.log_action, self.log_resource)
+        # self.log_context['post_id'] = self.object.id
+        # self.log_context['subject_id'] = self.object.space.id
+        # self.log_context['subject_name'] = self.object.space.name
+        # self.log_context['subject_slug'] = self.object.space.slug
+        #
+        # if self.object.resource:
+        #     self.log_context['resource_id'] = self.object.resource.id
+        #     self.log_context['resource_name'] = self.object.resource.name
+        #     self.log_context['resource_slug'] = self.object.resource.slug
+        #
+        # super(SubjectUpdate, self).create_log(self.request.user, self.log_component,
+        #                                       self.log_action, self.log_resource)
 
         return super(SubjectUpdate, self).form_valid(form)
 
@@ -1033,18 +1033,18 @@ class SubjectDelete(LoginRequiredMixin, generic.DeleteView):
         for user in users:
             async_to_sync(channel_layer.send)("user-%s" % user.id, {'text': notification})
 
-        self.log_context['post_id'] = self.object.id
-        self.log_context['subject_id'] = self.object.space.id
-        self.log_context['subject_name'] = self.object.space.name
-        self.log_context['subject_slug'] = self.object.space.slug
-
-        if self.object.resource:
-            self.log_context['resource_id'] = self.object.resource.id
-            self.log_context['resource_name'] = self.object.resource.name
-            self.log_context['resource_slug'] = self.object.resource.slug
-
-        super(SubjectDelete, self).create_log(self.request.user, self.log_component,
-                                              self.log_action, self.log_resource)
+        # self.log_context['post_id'] = self.object.id
+        # self.log_context['subject_id'] = self.object.space.id
+        # self.log_context['subject_name'] = self.object.space.name
+        # self.log_context['subject_slug'] = self.object.space.slug
+        #
+        # if self.object.resource:
+        #     self.log_context['resource_id'] = self.object.resource.id
+        #     self.log_context['resource_name'] = self.object.resource.name
+        #     self.log_context['resource_slug'] = self.object.resource.slug
+        #
+        # super(SubjectDelete, self).create_log(self.request.user, self.log_component,
+        #                                       self.log_action, self.log_resource)
 
         return reverse_lazy('mural:deleted_post')
 
@@ -1104,13 +1104,13 @@ class SubjectView(LoginRequiredMixin, generic.ListView):
         if page:
             self.template_name = "mural/_list_view.html"
         else:
-            self.log_context['subject_id'] = subject.id
-            self.log_context['subject_name'] = subject.name
-            self.log_context['subject_slug'] = subject.slug
-            self.log_context['timestamp_start'] = str(int(time.time()))
-
-            super(SubjectView, self).create_log(self.request.user, self.log_component,
-                                                self.log_action, self.log_resource)
+            # self.log_context['subject_id'] = subject.id
+            # self.log_context['subject_name'] = subject.name
+            # self.log_context['subject_slug'] = subject.slug
+            # self.log_context['timestamp_start'] = str(int(time.time()))
+            #
+            # super(SubjectView, self).create_log(self.request.user, self.log_component,
+            #                                     self.log_action, self.log_resource)
 
             self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -1132,17 +1132,17 @@ class SubjectView(LoginRequiredMixin, generic.ListView):
         return context
 
 
-@log_decorator_ajax('mural', 'view', 'subject')
+# @log_decorator_ajax('mural', 'view', 'subject')
 def mural_subject_log(request, subject):
     action = request.GET.get('action')
 
     if action == 'open':
         subject = get_object_or_404(Subject, id=subject)
 
-        log_context = {'subject_id': subject.id, 'subject_name': subject.name,
-                       'subject_slug': subject.slug, 'timestamp_start': str(int(time.time())),
-                       'timestamp_end': '-1'}
-        request.log_context = log_context
+        # log_context = {'subject_id': subject.id, 'subject_name': subject.name,
+        #                'subject_slug': subject.slug, 'timestamp_start': str(int(time.time())),
+        #                'timestamp_end': '-1'}
+        # request.log_context = log_context
 
         log_id = Log.objects.latest('id').id
 
@@ -1276,16 +1276,16 @@ class ResourceView(LoginRequiredMixin, generic.ListView):
         if page:
             self.template_name = "mural/_list_view.html"
         else:
-            self.log_context['subject_id'] = resource.topic.subject.id
-            self.log_context['subject_name'] = resource.topic.subject.name
-            self.log_context['subject_slug'] = resource.topic.subject.slug
-            self.log_context['resource_id'] = resource.id
-            self.log_context['resource_name'] = resource.name
-            self.log_context['resource_slug'] = resource.slug
-            self.log_context['timestamp_start'] = str(int(time.time()))
-
-            super(ResourceView, self).create_log(self.request.user, self.log_component,
-                                                 self.log_action, self.log_resource)
+            # self.log_context['subject_id'] = resource.topic.subject.id
+            # self.log_context['subject_name'] = resource.topic.subject.name
+            # self.log_context['subject_slug'] = resource.topic.subject.slug
+            # self.log_context['resource_id'] = resource.id
+            # self.log_context['resource_name'] = resource.name
+            # self.log_context['resource_slug'] = resource.slug
+            # self.log_context['timestamp_start'] = str(int(time.time()))
+            #
+            # super(ResourceView, self).create_log(self.request.user, self.log_component,
+            #                                      self.log_action, self.log_resource)
 
             self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -1377,17 +1377,17 @@ class ResourceCreate(LoginRequiredMixin, generic.edit.CreateView):
 
         MuralVisualizations.objects.bulk_create(entries)
 
-        self.log_context['subject_id'] = self.object.space.id
-        self.log_context['subject_name'] = self.object.space.name
-        self.log_context['subject_slug'] = self.object.space.slug
-
-        if self.object.resource:
-            self.log_context['resource_id'] = self.object.resource.id
-            self.log_context['resource_name'] = self.object.resource.name
-            self.log_context['resource_slug'] = self.object.resource.slug
-
-        super(ResourceCreate, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # self.log_context['subject_id'] = self.object.space.id
+        # self.log_context['subject_name'] = self.object.space.name
+        # self.log_context['subject_slug'] = self.object.space.slug
+        #
+        # if self.object.resource:
+        #     self.log_context['resource_id'] = self.object.resource.id
+        #     self.log_context['resource_name'] = self.object.resource.name
+        #     self.log_context['resource_slug'] = self.object.resource.slug
+        #
+        # super(ResourceCreate, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         return super(ResourceCreate, self).form_valid(form)
 
@@ -1524,29 +1524,29 @@ class CommentCreate(LoginRequiredMixin, generic.edit.CreateView):
 
         MuralVisualizations.objects.bulk_create(entries)
 
-        self.log_context = {'post_id': str(post.id)}
+        # self.log_context = {'post_id': str(post.id)}
 
         if post._my_subclass == "categorypost":
             self.log_resource = "category"
 
-            self.log_context['category_id'] = post.categorypost.space.id
-            self.log_context['category_name'] = post.categorypost.space.name
-            self.log_context['category_slug'] = post.categorypost.space.slug
+            # self.log_context['category_id'] = post.categorypost.space.id
+            # self.log_context['category_name'] = post.categorypost.space.name
+            # self.log_context['category_slug'] = post.categorypost.space.slug
 
         elif post._my_subclass == "subjectpost":
             self.log_resource = "subject"
 
-            self.log_context['subject_id'] = post.subjectpost.space.id
-            self.log_context['subject_name'] = post.subjectpost.space.name
-            self.log_context['subject_slug'] = post.subjectpost.space.slug
-
-            if post.subjectpost.resource:
-                self.log_context['resource_id'] = post.subjectpost.resource.id
-                self.log_context['resource_name'] = post.subjectpost.resource.name
-                self.log_context['resource_slug'] = post.subjectpost.resource.slug
-
-        super(CommentCreate, self).create_log(self.request.user, self.log_component,
-                                              self.log_action, self.log_resource)
+        #     self.log_context['subject_id'] = post.subjectpost.space.id
+        #     self.log_context['subject_name'] = post.subjectpost.space.name
+        #     self.log_context['subject_slug'] = post.subjectpost.space.slug
+        #
+        #     if post.subjectpost.resource:
+        #         self.log_context['resource_id'] = post.subjectpost.resource.id
+        #         self.log_context['resource_name'] = post.subjectpost.resource.name
+        #         self.log_context['resource_slug'] = post.subjectpost.resource.slug
+        #
+        # super(CommentCreate, self).create_log(self.request.user, self.log_component,
+        #                                       self.log_action, self.log_resource)
 
         return super(CommentCreate, self).form_valid(form)
 
@@ -1619,30 +1619,30 @@ class CommentUpdate(LoginRequiredMixin, generic.UpdateView):
         for user in users:
             async_to_sync(channel_layer.send)("user-%s" % user.id, {'text': notification})
 
-        self.log_context = {'post_id': str(self.object.post.id), 'comment_id': str(self.object.id)}
+        # self.log_context = {'post_id': str(self.object.post.id), 'comment_id': str(self.object.id)}
 
         if self.object.post._my_subclass == "categorypost":
             self.log_resource = "category"
 
-            self.log_context['category_id'] = self.object.post.categorypost.space.id
-            self.log_context['category_name'] = self.object.post.categorypost.space.name
-            self.log_context['category_slug'] = self.object.post.categorypost.space.slug
+            # self.log_context['category_id'] = self.object.post.categorypost.space.id
+            # self.log_context['category_name'] = self.object.post.categorypost.space.name
+            # self.log_context['category_slug'] = self.object.post.categorypost.space.slug
 
         elif self.object.post._my_subclass == "subjectpost":
             self.log_resource = "subject"
 
-            self.log_context['subject_id'] = self.object.post.subjectpost.space.id
-            self.log_context['subject_name'] = self.object.post.subjectpost.space.name
-            self.log_context['subject_slug'] = self.object.post.subjectpost.space.slug
-
-            if self.object.post.subjectpost.resource:
-                self.log_context['resource_id'] = self.object.post.subjectpost.resource.id
-                self.log_context['resource_name'] = self.object.post.subjectpost.resource.name
-                self.log_context['resource_slug'] = self.object.post.subjectpost.resource.slug
-
-        super(CommentUpdate, self).create_log(self.request.user, self.log_component,
-                                              self.log_action,
-                                              self.log_resource)
+        #     self.log_context['subject_id'] = self.object.post.subjectpost.space.id
+        #     self.log_context['subject_name'] = self.object.post.subjectpost.space.name
+        #     self.log_context['subject_slug'] = self.object.post.subjectpost.space.slug
+        #
+        #     if self.object.post.subjectpost.resource:
+        #         self.log_context['resource_id'] = self.object.post.subjectpost.resource.id
+        #         self.log_context['resource_name'] = self.object.post.subjectpost.resource.name
+        #         self.log_context['resource_slug'] = self.object.post.subjectpost.resource.slug
+        #
+        # super(CommentUpdate, self).create_log(self.request.user, self.log_component,
+        #                                       self.log_action,
+        #                                       self.log_resource)
 
         return super(CommentUpdate, self).form_valid(form)
 
@@ -1710,30 +1710,30 @@ class CommentDelete(LoginRequiredMixin, generic.DeleteView):
         for user in users:
             async_to_sync(channel_layer.send)("user-%s" % user.id, {'text': notification})
 
-        self.log_context = {'post_id': str(self.object.post.id), 'comment_id': str(self.object.id)}
+        # self.log_context = {'post_id': str(self.object.post.id), 'comment_id': str(self.object.id)}
 
         if self.object.post._my_subclass == "categorypost":
             self.log_resource = "category"
 
-            self.log_context['category_id'] = self.object.post.categorypost.space.id
-            self.log_context['category_name'] = self.object.post.categorypost.space.name
-            self.log_context['category_slug'] = self.object.post.categorypost.space.slug
+            # self.log_context['category_id'] = self.object.post.categorypost.space.id
+            # self.log_context['category_name'] = self.object.post.categorypost.space.name
+            # self.log_context['category_slug'] = self.object.post.categorypost.space.slug
 
         elif self.object.post._my_subclass == "subjectpost":
             self.log_resource = "subject"
 
-            self.log_context['subject_id'] = self.object.post.subjectpost.space.id
-            self.log_context['subject_name'] = self.object.post.subjectpost.space.name
-            self.log_context['subject_slug'] = self.object.post.subjectpost.space.slug
-
-            if self.object.post.subjectpost.resource:
-                self.log_context['resource_id'] = self.object.post.subjectpost.resource.id
-                self.log_context['resource_name'] = self.object.post.subjectpost.resource.name
-                self.log_context['resource_slug'] = self.object.post.subjectpost.resource.slug
-
-        super(CommentDelete, self).create_log(self.request.user, self.log_component,
-                                              self.log_action,
-                                              self.log_resource)
+        #     self.log_context['subject_id'] = self.object.post.subjectpost.space.id
+        #     self.log_context['subject_name'] = self.object.post.subjectpost.space.name
+        #     self.log_context['subject_slug'] = self.object.post.subjectpost.space.slug
+        #
+        #     if self.object.post.subjectpost.resource:
+        #         self.log_context['resource_id'] = self.object.post.subjectpost.resource.id
+        #         self.log_context['resource_name'] = self.object.post.subjectpost.resource.name
+        #         self.log_context['resource_slug'] = self.object.post.subjectpost.resource.slug
+        #
+        # super(CommentDelete, self).create_log(self.request.user, self.log_component,
+        #                                       self.log_action,
+        #                                       self.log_resource)
 
         return reverse_lazy('mural:deleted_comment')
 

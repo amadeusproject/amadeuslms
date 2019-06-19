@@ -45,7 +45,7 @@ class GeneralView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = {}
 
-        self.create_log(actor=self.request.user)
+        # self.create_log(actor=self.request.user)
         context['months'] = self.get_last_twelve_months()
         context['child_template'] = "dashboards/general_body.html"
         context['javascript_files'] = ["analytics/js/d3.v5.min.js",
@@ -102,7 +102,7 @@ class CategoryView(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = {}
-        self.create_log(actor=self.request.user)
+        # self.create_log(actor=self.request.user)
 
         context['months'] = self.get_last_twelve_months()
 
@@ -160,7 +160,7 @@ class LogView(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = {}
-        self.create_log(actor=self.request.user)
+        # self.create_log(actor=self.request.user)
 
         context['javascript_files'] = ['dashboards/js/logbehavior.js',
                                        'dashboards/js/dataTables.bootstrap.min.js',
@@ -224,12 +224,12 @@ class SubjectView(generic.TemplateView):
 
         context = {"title": _("Analytics")}
 
-        self.log_context['category_id'] = subject.category.id
-        self.log_context['category_name'] = subject.category.name
-        self.log_context['category_slug'] = subject.category.slug
-        self.log_context['subject_id'] = subject.id
-        self.log_context['subject_name'] = subject.name
-        self.log_context['subject_slug'] = subject.slug
+        # self.log_context['category_id'] = subject.category.id
+        # self.log_context['category_name'] = subject.category.name
+        # self.log_context['category_slug'] = subject.category.slug
+        # self.log_context['subject_id'] = subject.id
+        # self.log_context['subject_name'] = subject.name
+        # self.log_context['subject_slug'] = subject.slug
 
         if has_subject_permissions(self.request.user, subject):
             student = self.request.POST.get('selected_student', None)
@@ -237,7 +237,7 @@ class SubjectView(generic.TemplateView):
             context['student'] = self.request.POST.get('selected_student',
                                                        subject.students.first().email)
 
-            self.log_context['student'] = context['student']
+            # self.log_context['student'] = context['student']
 
             if student is not None:
                 student = User.objects.get(email=student)
@@ -264,8 +264,8 @@ class SubjectView(generic.TemplateView):
         context['style_files'] = ['dashboards/css/general.css',
                                   'dashboards/css/dashboards_category.css']
 
-        super(SubjectView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                            self.log_resource)
+        # super(SubjectView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                     self.log_resource)
 
         return context
 

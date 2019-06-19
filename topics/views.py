@@ -75,18 +75,18 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
             self.object.visible = False
             self.object.save()
 
-        self.log_context['category_id'] = self.object.subject.category.id
-        self.log_context['category_name'] = self.object.subject.category.name
-        self.log_context['category_slug'] = self.object.subject.category.slug
-        self.log_context['subject_id'] = self.object.subject.id
-        self.log_context['subject_name'] = self.object.subject.name
-        self.log_context['subject_slug'] = self.object.subject.slug
-        self.log_context['topic_id'] = self.object.id
-        self.log_context['topic_name'] = self.object.name
-        self.log_context['topic_slug'] = self.object.slug
-
-        super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.subject.category.id
+        # self.log_context['category_name'] = self.object.subject.category.name
+        # self.log_context['category_slug'] = self.object.subject.category.slug
+        # self.log_context['subject_id'] = self.object.subject.id
+        # self.log_context['subject_name'] = self.object.subject.name
+        # self.log_context['subject_slug'] = self.object.subject.slug
+        # self.log_context['topic_id'] = self.object.id
+        # self.log_context['topic_name'] = self.object.name
+        # self.log_context['topic_slug'] = self.object.slug
+        #
+        # super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return super(CreateView, self).form_valid(form)
 
@@ -105,7 +105,7 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
     def get_success_url(self):
         messages.success(self.request,
                          _('Topic "%s" was created on virtual enviroment "%s" successfully!') % (
-                         self.object.name, self.object.subject.name))
+                             self.object.name, self.object.subject.name))
 
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.subject.slug})
 
@@ -164,20 +164,20 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 
         messages.success(self.request,
                          _('Topic "%s" was updated on virtual enviroment "%s" successfully!') % (
-                         self.object.name, self.object.subject.name))
+                             self.object.name, self.object.subject.name))
 
-        self.log_context['category_id'] = self.object.subject.category.id
-        self.log_context['category_name'] = self.object.subject.category.name
-        self.log_context['category_slug'] = self.object.subject.category.slug
-        self.log_context['subject_id'] = self.object.subject.id
-        self.log_context['subject_name'] = self.object.subject.name
-        self.log_context['subject_slug'] = self.object.subject.slug
-        self.log_context['topic_id'] = self.object.id
-        self.log_context['topic_name'] = self.object.name
-        self.log_context['topic_slug'] = self.object.slug
-
-        super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.subject.category.id
+        # self.log_context['category_name'] = self.object.subject.category.name
+        # self.log_context['category_slug'] = self.object.subject.category.slug
+        # self.log_context['subject_id'] = self.object.subject.id
+        # self.log_context['subject_name'] = self.object.subject.name
+        # self.log_context['subject_slug'] = self.object.subject.slug
+        # self.log_context['topic_id'] = self.object.id
+        # self.log_context['topic_name'] = self.object.name
+        # self.log_context['topic_slug'] = self.object.slug
+        #
+        # super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.subject.slug})
 
@@ -221,37 +221,37 @@ class DeleteView(LoginRequiredMixin, generic.DeleteView):
     def get_success_url(self):
         messages.success(self.request,
                          _('Topic "%s" was removed from virtual enviroment "%s" successfully!') % (
-                         self.object.name, self.object.subject.name))
+                             self.object.name, self.object.subject.name))
 
-        self.log_context['category_id'] = self.object.subject.category.id
-        self.log_context['category_name'] = self.object.subject.category.name
-        self.log_context['category_slug'] = self.object.subject.category.slug
-        self.log_context['subject_id'] = self.object.subject.id
-        self.log_context['subject_name'] = self.object.subject.name
-        self.log_context['subject_slug'] = self.object.subject.slug
-        self.log_context['topic_id'] = self.object.id
-        self.log_context['topic_name'] = self.object.name
-        self.log_context['topic_slug'] = self.object.slug
-
-        super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.subject.category.id
+        # self.log_context['category_name'] = self.object.subject.category.name
+        # self.log_context['category_slug'] = self.object.subject.category.slug
+        # self.log_context['subject_id'] = self.object.subject.id
+        # self.log_context['subject_name'] = self.object.subject.name
+        # self.log_context['subject_slug'] = self.object.subject.slug
+        # self.log_context['topic_id'] = self.object.id
+        # self.log_context['topic_name'] = self.object.name
+        # self.log_context['topic_slug'] = self.object.slug
+        #
+        # super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.subject.slug})
 
 
-@log_decorator_ajax('topic', 'view', 'topic')
+# @log_decorator_ajax('topic', 'view', 'topic')
 def topic_view_log(request, topic):
     action = request.GET.get('action')
     if action == 'open':
         topic = get_object_or_404(Topic, id=topic)
-        log_context = {'category_id': topic.subject.category.id,
-                       'category_name': topic.subject.category.name,
-                       'category_slug': topic.subject.category.slug, 'subject_id': topic.subject.id,
-                       'subject_name': topic.subject.name, 'subject_slug': topic.subject.slug,
-                       'topic_id': topic.id, 'topic_name': topic.name, 'topic_slug': topic.slug,
-                       'timestamp_start': str(int(time.time())), 'timestamp_end': '-1'}
-
-        request.log_context = log_context
+        # log_context = {'category_id': topic.subject.category.id,
+        #                'category_name': topic.subject.category.name,
+        #                'category_slug': topic.subject.category.slug, 'subject_id': topic.subject.id,
+        #                'subject_name': topic.subject.name, 'subject_slug': topic.subject.slug,
+        #                'topic_id': topic.id, 'topic_name': topic.name, 'topic_slug': topic.slug,
+        #                'timestamp_start': str(int(time.time())), 'timestamp_end': '-1'}
+        #
+        # request.log_context = log_context
         log_id = Log.objects.latest('id').id
         return JsonResponse({'message': 'ok', 'log_id': log_id})
 

@@ -43,11 +43,11 @@ class VisualizeNews(LoginRequiredMixin, generic.ListView):
         slug = self.kwargs.get('slug', '')
         new = News.objects.get(slug=slug)
 
-        self.log_context['new_title'] = new.title
-        self.log_context['new_slug'] = new.slug
-
-        super(VisualizeNews, self).create_log(self.request.user, self.log_component,
-                                              self.log_action, self.log_resource)
+        # self.log_context['new_title'] = new.title
+        # self.log_context['new_slug'] = new.slug
+        #
+        # super(VisualizeNews, self).create_log(self.request.user, self.log_component,
+        #                                       self.log_action, self.log_resource)
 
         return new
 
@@ -74,8 +74,8 @@ class ListNewsView(LoginRequiredMixin, generic.ListView):
         context = super(ListNewsView, self).get_context_data(**kwargs)
         context['title'] = _('Manage News')
 
-        super(ListNewsView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                             self.log_resource)
+        # super(ListNewsView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                      self.log_resource)
 
         return context
 
@@ -103,12 +103,12 @@ class CreateNewsView(LoginRequiredMixin, generic.edit.CreateView):
 
         self.object.save()
 
-        self.log_context['new_creator_user'] = self.object.creator.get_short_name()
-        self.log_context['new_title'] = self.object.title
-        self.log_context['new_slug'] = self.object.slug
-
-        super(CreateNewsView, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # self.log_context['new_creator_user'] = self.object.creator.get_short_name()
+        # self.log_context['new_title'] = self.object.title
+        # self.log_context['new_slug'] = self.object.slug
+        #
+        # super(CreateNewsView, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         return super(CreateNewsView, self).form_valid(form)
 
@@ -149,12 +149,12 @@ class UpdateNewsView(LoginRequiredMixin, generic.UpdateView):
 
         self.object.save()
 
-        self.log_context['new_update_user'] = self.object.creator.get_short_name()
-        self.log_context['new_title'] = self.object.title
-        self.log_context['new_slug'] = self.object.slug
-
-        super(UpdateNewsView, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # self.log_context['new_update_user'] = self.object.creator.get_short_name()
+        # self.log_context['new_title'] = self.object.title
+        # self.log_context['new_slug'] = self.object.slug
+        #
+        # super(UpdateNewsView, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         return super(UpdateNewsView, self).form_valid(form)
 
@@ -252,11 +252,11 @@ class DeleteNewsView(LoginRequiredMixin, generic.DeleteView):
         news = get_object_or_404(News, slug=self.kwargs.get('slug'))
         context['new'] = news
 
-        self.log_context['new_creator'] = news.creator.get_short_name()
-        self.log_context['new_title'] = news.title
-        self.log_context['new_slug'] = news.slug
-
-        super(DeleteNewsView, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # self.log_context['new_creator'] = news.creator.get_short_name()
+        # self.log_context['new_title'] = news.title
+        # self.log_context['new_slug'] = news.slug
+        #
+        # super(DeleteNewsView, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         return context

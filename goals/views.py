@@ -287,22 +287,22 @@ class InsideView(LoginRequiredMixin, generic.ListView):
             context['student'] = self.request.POST.get('selected_student',
                                                        self.students.first().email)
 
-        self.log_context['category_id'] = goals.topic.subject.category.id
-        self.log_context['category_name'] = goals.topic.subject.category.name
-        self.log_context['category_slug'] = goals.topic.subject.category.slug
-        self.log_context['subject_id'] = goals.topic.subject.id
-        self.log_context['subject_name'] = goals.topic.subject.name
-        self.log_context['subject_slug'] = goals.topic.subject.slug
-        self.log_context['topic_id'] = goals.topic.id
-        self.log_context['topic_name'] = goals.topic.name
-        self.log_context['topic_slug'] = goals.topic.slug
-        self.log_context['goals_id'] = goals.id
-        self.log_context['goals_name'] = goals.name
-        self.log_context['goals_slug'] = goals.slug
-        self.log_context['timestamp_start'] = str(int(time.time()))
-
-        super(InsideView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = goals.topic.subject.category.id
+        # self.log_context['category_name'] = goals.topic.subject.category.name
+        # self.log_context['category_slug'] = goals.topic.subject.category.slug
+        # self.log_context['subject_id'] = goals.topic.subject.id
+        # self.log_context['subject_name'] = goals.topic.subject.name
+        # self.log_context['subject_slug'] = goals.topic.subject.slug
+        # self.log_context['topic_id'] = goals.topic.id
+        # self.log_context['topic_name'] = goals.topic.name
+        # self.log_context['topic_slug'] = goals.topic.slug
+        # self.log_context['goals_id'] = goals.id
+        # self.log_context['goals_name'] = goals.name
+        # self.log_context['goals_slug'] = goals.slug
+        # self.log_context['timestamp_start'] = str(int(time.time()))
+        #
+        # super(InsideView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -351,22 +351,22 @@ class NewWindowSubmit(LoginRequiredMixin, generic.edit.CreateView):
 
         self.log_action = "view"
 
-        self.log_context['category_id'] = goals.topic.subject.category.id
-        self.log_context['category_name'] = goals.topic.subject.category.name
-        self.log_context['category_slug'] = goals.topic.subject.category.slug
-        self.log_context['subject_id'] = goals.topic.subject.id
-        self.log_context['subject_name'] = goals.topic.subject.name
-        self.log_context['subject_slug'] = goals.topic.subject.slug
-        self.log_context['topic_id'] = goals.topic.id
-        self.log_context['topic_name'] = goals.topic.name
-        self.log_context['topic_slug'] = goals.topic.slug
-        self.log_context['goals_id'] = goals.id
-        self.log_context['goals_name'] = goals.name
-        self.log_context['goals_slug'] = goals.slug
-        self.log_context['timestamp_start'] = str(int(time.time()))
-
-        super(NewWindowSubmit, self).create_log(self.request.user, self.log_component,
-                                                self.log_action, self.log_resource)
+        # self.log_context['category_id'] = goals.topic.subject.category.id
+        # self.log_context['category_name'] = goals.topic.subject.category.name
+        # self.log_context['category_slug'] = goals.topic.subject.category.slug
+        # self.log_context['subject_id'] = goals.topic.subject.id
+        # self.log_context['subject_name'] = goals.topic.subject.name
+        # self.log_context['subject_slug'] = goals.topic.subject.slug
+        # self.log_context['topic_id'] = goals.topic.id
+        # self.log_context['topic_name'] = goals.topic.name
+        # self.log_context['topic_slug'] = goals.topic.slug
+        # self.log_context['goals_id'] = goals.id
+        # self.log_context['goals_name'] = goals.name
+        # self.log_context['goals_slug'] = goals.slug
+        # self.log_context['timestamp_start'] = str(int(time.time()))
+        #
+        # super(NewWindowSubmit, self).create_log(self.request.user, self.log_component,
+        #                                         self.log_action, self.log_resource)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -434,21 +434,21 @@ class NewWindowSubmit(LoginRequiredMixin, generic.edit.CreateView):
 
         success_url = reverse_lazy('goals:view', kwargs={'slug': slug})
 
-        self.log_context['category_id'] = goals.topic.subject.category.id
-        self.log_context['category_name'] = goals.topic.subject.category.name
-        self.log_context['category_slug'] = goals.topic.subject.category.slug
-        self.log_context['subject_id'] = goals.topic.subject.id
-        self.log_context['subject_name'] = goals.topic.subject.name
-        self.log_context['subject_slug'] = goals.topic.subject.slug
-        self.log_context['topic_id'] = goals.topic.id
-        self.log_context['topic_name'] = goals.topic.name
-        self.log_context['topic_slug'] = goals.topic.slug
-        self.log_context['goals_id'] = goals.id
-        self.log_context['goals_name'] = goals.name
-        self.log_context['goals_slug'] = goals.slug
-
-        super(NewWindowSubmit, self).create_log(self.request.user, self.log_component,
-                                                self.log_action, self.log_resource)
+        # self.log_context['category_id'] = goals.topic.subject.category.id
+        # self.log_context['category_name'] = goals.topic.subject.category.name
+        # self.log_context['category_slug'] = goals.topic.subject.category.slug
+        # self.log_context['subject_id'] = goals.topic.subject.id
+        # self.log_context['subject_name'] = goals.topic.subject.name
+        # self.log_context['subject_slug'] = goals.topic.subject.slug
+        # self.log_context['topic_id'] = goals.topic.id
+        # self.log_context['topic_name'] = goals.topic.name
+        # self.log_context['topic_slug'] = goals.topic.slug
+        # self.log_context['goals_id'] = goals.id
+        # self.log_context['goals_name'] = goals.name
+        # self.log_context['goals_slug'] = goals.slug
+        #
+        # super(NewWindowSubmit, self).create_log(self.request.user, self.log_component,
+        #                                         self.log_action, self.log_resource)
 
         return success_url
 
@@ -494,22 +494,22 @@ class SubmitView(LoginRequiredMixin, generic.edit.CreateView):
 
         self.log_action = "view"
 
-        self.log_context['category_id'] = goals.topic.subject.category.id
-        self.log_context['category_name'] = goals.topic.subject.category.name
-        self.log_context['category_slug'] = goals.topic.subject.category.slug
-        self.log_context['subject_id'] = goals.topic.subject.id
-        self.log_context['subject_name'] = goals.topic.subject.name
-        self.log_context['subject_slug'] = goals.topic.subject.slug
-        self.log_context['topic_id'] = goals.topic.id
-        self.log_context['topic_name'] = goals.topic.name
-        self.log_context['topic_slug'] = goals.topic.slug
-        self.log_context['goals_id'] = goals.id
-        self.log_context['goals_name'] = goals.name
-        self.log_context['goals_slug'] = goals.slug
-        self.log_context['timestamp_start'] = str(int(time.time()))
-
-        super(SubmitView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = goals.topic.subject.category.id
+        # self.log_context['category_name'] = goals.topic.subject.category.name
+        # self.log_context['category_slug'] = goals.topic.subject.category.slug
+        # self.log_context['subject_id'] = goals.topic.subject.id
+        # self.log_context['subject_name'] = goals.topic.subject.name
+        # self.log_context['subject_slug'] = goals.topic.subject.slug
+        # self.log_context['topic_id'] = goals.topic.id
+        # self.log_context['topic_name'] = goals.topic.name
+        # self.log_context['topic_slug'] = goals.topic.slug
+        # self.log_context['goals_id'] = goals.id
+        # self.log_context['goals_name'] = goals.name
+        # self.log_context['goals_slug'] = goals.slug
+        # self.log_context['timestamp_start'] = str(int(time.time()))
+        #
+        # super(SubmitView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -582,21 +582,21 @@ class SubmitView(LoginRequiredMixin, generic.edit.CreateView):
 
         success_url = reverse_lazy('goals:view', kwargs={'slug': slug})
 
-        self.log_context['category_id'] = goals.topic.subject.category.id
-        self.log_context['category_name'] = goals.topic.subject.category.name
-        self.log_context['category_slug'] = goals.topic.subject.category.slug
-        self.log_context['subject_id'] = goals.topic.subject.id
-        self.log_context['subject_name'] = goals.topic.subject.name
-        self.log_context['subject_slug'] = goals.topic.subject.slug
-        self.log_context['topic_id'] = goals.topic.id
-        self.log_context['topic_name'] = goals.topic.name
-        self.log_context['topic_slug'] = goals.topic.slug
-        self.log_context['goals_id'] = goals.id
-        self.log_context['goals_name'] = goals.name
-        self.log_context['goals_slug'] = goals.slug
-
-        super(SubmitView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = goals.topic.subject.category.id
+        # self.log_context['category_name'] = goals.topic.subject.category.name
+        # self.log_context['category_slug'] = goals.topic.subject.category.slug
+        # self.log_context['subject_id'] = goals.topic.subject.id
+        # self.log_context['subject_name'] = goals.topic.subject.name
+        # self.log_context['subject_slug'] = goals.topic.subject.slug
+        # self.log_context['topic_id'] = goals.topic.id
+        # self.log_context['topic_name'] = goals.topic.name
+        # self.log_context['topic_slug'] = goals.topic.slug
+        # self.log_context['goals_id'] = goals.id
+        # self.log_context['goals_name'] = goals.name
+        # self.log_context['goals_slug'] = goals.slug
+        #
+        # super(SubmitView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return success_url
 
@@ -713,21 +713,21 @@ class UpdateSubmit(LoginRequiredMixin, generic.UpdateView):
 
         success_url = reverse_lazy('goals:view', kwargs={'slug': slug})
 
-        self.log_context['category_id'] = goals.topic.subject.category.id
-        self.log_context['category_name'] = goals.topic.subject.category.name
-        self.log_context['category_slug'] = goals.topic.subject.category.slug
-        self.log_context['subject_id'] = goals.topic.subject.id
-        self.log_context['subject_name'] = goals.topic.subject.name
-        self.log_context['subject_slug'] = goals.topic.subject.slug
-        self.log_context['topic_id'] = goals.topic.id
-        self.log_context['topic_name'] = goals.topic.name
-        self.log_context['topic_slug'] = goals.topic.slug
-        self.log_context['goals_id'] = goals.id
-        self.log_context['goals_name'] = goals.name
-        self.log_context['goals_slug'] = goals.slug
-
-        super(UpdateSubmit, self).create_log(self.request.user, self.log_component, self.log_action,
-                                             self.log_resource)
+        # self.log_context['category_id'] = goals.topic.subject.category.id
+        # self.log_context['category_name'] = goals.topic.subject.category.name
+        # self.log_context['category_slug'] = goals.topic.subject.category.slug
+        # self.log_context['subject_id'] = goals.topic.subject.id
+        # self.log_context['subject_name'] = goals.topic.subject.name
+        # self.log_context['subject_slug'] = goals.topic.subject.slug
+        # self.log_context['topic_id'] = goals.topic.id
+        # self.log_context['topic_name'] = goals.topic.name
+        # self.log_context['topic_slug'] = goals.topic.slug
+        # self.log_context['goals_id'] = goals.id
+        # self.log_context['goals_name'] = goals.name
+        # self.log_context['goals_slug'] = goals.slug
+        #
+        # super(UpdateSubmit, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                      self.log_resource)
 
         return success_url
 
@@ -855,21 +855,21 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
                 g_order += 1
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['goals_id'] = self.object.id
-        self.log_context['goals_name'] = self.object.name
-        self.log_context['goals_slug'] = self.object.slug
-
-        super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['goals_id'] = self.object.id
+        # self.log_context['goals_name'] = self.object.name
+        # self.log_context['goals_slug'] = self.object.slug
+        #
+        # super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return redirect(self.get_success_url())
 
@@ -1009,21 +1009,21 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
 
                 g_order += 1
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['goals_id'] = self.object.id
-        self.log_context['goals_name'] = self.object.name
-        self.log_context['goals_slug'] = self.object.slug
-
-        super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['goals_id'] = self.object.id
+        # self.log_context['goals_name'] = self.object.name
+        # self.log_context['goals_slug'] = self.object.slug
+        #
+        # super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return redirect(self.get_success_url())
 
@@ -1090,45 +1090,45 @@ class DeleteView(LoginRequiredMixin, generic.DeleteView):
                          _('The Goals specification of the topic %s was removed successfully!') % (
                              self.object.topic.name))
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['goals_id'] = self.object.id
-        self.log_context['goals_name'] = self.object.name
-        self.log_context['goals_slug'] = self.object.slug
-
-        super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['goals_id'] = self.object.id
+        # self.log_context['goals_name'] = self.object.name
+        # self.log_context['goals_slug'] = self.object.slug
+        #
+        # super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.topic.subject.slug})
 
 
-@log_decorator_ajax('resources', 'view_reports', 'goals')
+# @log_decorator_ajax('resources', 'view_reports', 'goals')
 def reports_log(request, goal, report):
     action = request.GET.get('action')
 
     if action == 'open':
         goals = get_object_or_404(Goals, slug=goal)
 
-        log_context = {'category_id': goals.topic.subject.category.id,
-                       'category_name': goals.topic.subject.category.name,
-                       'category_slug': goals.topic.subject.category.slug,
-                       'subject_id': goals.topic.subject.id,
-                       'subject_name': goals.topic.subject.name,
-                       'subject_slug': goals.topic.subject.slug, 'topic_id': goals.topic.id,
-                       'topic_name': goals.topic.name, 'topic_slug': goals.topic.slug,
-                       'goals_id': goals.id, 'goals_name': goals.name, 'goals_slug': goals.slug,
-                       'goals_report': report, 'timestamp_start': str(int(time.time())),
-                       'timestamp_end': '-1'}
-
-        request.log_context = log_context
-
+        # log_context = {'category_id': goals.topic.subject.category.id,
+        #                'category_name': goals.topic.subject.category.name,
+        #                'category_slug': goals.topic.subject.category.slug,
+        #                'subject_id': goals.topic.subject.id,
+        #                'subject_name': goals.topic.subject.name,
+        #                'subject_slug': goals.topic.subject.slug, 'topic_id': goals.topic.id,
+        #                'topic_name': goals.topic.name, 'topic_slug': goals.topic.slug,
+        #                'goals_id': goals.id, 'goals_name': goals.name, 'goals_slug': goals.slug,
+        #                'goals_report': report, 'timestamp_start': str(int(time.time())),
+        #                'timestamp_end': '-1'}
+        #
+        # request.log_context = log_context
+        #
         log_id = Log.objects.latest('id').id
 
         return JsonResponse({'message': 'ok', 'log_id': log_id})
@@ -1159,21 +1159,21 @@ class StatisticsView(LoginRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(StatisticsView, self).get_context_data(**kwargs)
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['goals_id'] = self.object.id
-        self.log_context['goals_name'] = self.object.name
-        self.log_context['goals_slug'] = self.object.slug
-
-        super(StatisticsView, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['goals_id'] = self.object.id
+        # self.log_context['goals_name'] = self.object.name
+        # self.log_context['goals_slug'] = self.object.slug
+        #
+        # super(StatisticsView, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         context['title'] = _('Goals Reports')
 
