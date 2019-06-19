@@ -12,13 +12,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from topics.models import Resource
-from users.models import User
 
 
 class Log(models.Model):
-    resource = models.ForeignKey(Resource, on_delete=models.SET_NULL, null=True)
-    user = models.ForeignKey(_('Actor'), User, on_delete=models.SET_NULL, null=True)
+    resource = models.ForeignKey("topics.Resource", on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey("users.User", related_name=_('Actor'), on_delete=models.CASCADE, null=True)
     datetime = models.DateTimeField(_("Date and Time of action"), auto_now_add=True)
 
     class Meta:

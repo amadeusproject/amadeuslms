@@ -40,7 +40,7 @@ class Mural(KnowsChild):
     image = models.ImageField(verbose_name=_('Image'), null=True, blank=True, upload_to='posts/',
                               validators=[validate_img_extension])
     user = models.ForeignKey(User, verbose_name=_('User'), related_name="post_user", null=True,
-                             on_delete=models.SET_NULL)
+                             on_delete=models.CASCADE)
     create_date = models.DateTimeField(_('Create Date'), auto_now_add=True)
     last_update = models.DateTimeField(_('Last Update'), auto_now=True)
     edited = models.BooleanField(_('Edited'), default=False)
@@ -95,7 +95,7 @@ class GeneralPost(Mural):
 
 class CategoryPost(Mural):
     space = models.ForeignKey(Category, verbose_name=('Category'), related_name='post_category',
-                              null=True, on_delete=models.SET_NULL)
+                              null=True, on_delete=models.CASCADE)
 
     def get_id(self):
         return self.id
@@ -117,7 +117,7 @@ class SubjectPost(Mural):
     space = models.ForeignKey(Subject, verbose_name=_('Subject'), related_name='post_subject',
                               on_delete=models.CASCADE)
     resource = models.ForeignKey(Resource, verbose_name=_('Resource'), related_name='post_resource',
-                                 null=True, blank=True, on_delete=models.SET_NULL)
+                                 null=True, blank=True, on_delete=models.CASCADE)
 
     def get_id(self):
         return self.id
@@ -140,9 +140,9 @@ class Comment(models.Model):
     image = models.ImageField(verbose_name=_('Image'), null=True, blank=True,
                               upload_to='posts/comments/', validators=[validate_img_extension])
     post = models.ForeignKey(Mural, verbose_name=_('Post'), related_name='comment_post', null=True,
-                             on_delete=models.SET_NULL)
+                             on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name=_('User'), related_name="comment_user", null=True,
-                             on_delete=models.SET_NULL)
+                             on_delete=models.CASCADE)
     create_date = models.DateTimeField(_('Create Date'), auto_now_add=True)
     last_update = models.DateTimeField(_('Last Update'), auto_now=True)
     edited = models.BooleanField(_('Edited'), default=False)
@@ -164,12 +164,12 @@ class Comment(models.Model):
 class MuralVisualizations(models.Model):
     viewed = models.BooleanField(_('Viewed'), default=False)
     post = models.ForeignKey(Mural, verbose_name=_('Post'), related_name='visualization_post',
-                             null=True, on_delete=models.SET_NULL)
+                             null=True, on_delete=models.CASCADE)
     comment = models.ForeignKey(Comment, verbose_name=_('Comment'),
                                 related_name='visualization_comment', null=True,
-                                on_delete=models.SET_NULL)
+                                on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name=_('User'), related_name="visualization_user",
-                             null=True, on_delete=models.SET_NULL)
+                             null=True, on_delete=models.CASCADE)
     date_viewed = models.DateTimeField(_('Date/Time Viewed'), null=True, blank=True)
 
 
@@ -180,6 +180,6 @@ class MuralVisualizations(models.Model):
 
 class MuralFavorites(models.Model):
     post = models.ForeignKey(Mural, verbose_name=_('Post'), related_name='favorites_post',
-                             null=True, on_delete=models.SET_NULL)
+                             null=True, on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name=_('User'), related_name="favorites_user",
-                             on_delete=models.SET_NULL, null=True)
+                             on_delete=models.CASCADE, null=True)

@@ -60,7 +60,7 @@ class Questionary(Resource):
 class Specification(models.Model):
     questionary = models.ForeignKey(Questionary, verbose_name=_('Questionary'),
                                     related_name='spec_questionary', null=True,
-                                    on_delete=models.SET_NULL)
+                                    on_delete=models.CASCADE)
     categories = models.ManyToManyField(Tag, verbose_name='categories',
                                         related_name='questionary_categories', blank=False)
     n_questions = models.PositiveSmallIntegerField(_('Number of Questions'), null=True)
@@ -69,9 +69,9 @@ class Specification(models.Model):
 class UserQuest(models.Model):
     questionary = models.ForeignKey(Questionary, verbose_name=_('Questionary'),
                                     related_name='userquest_questionary', null=True,
-                                    on_delete=models.SET_NULL)
+                                    on_delete=models.CASCADE)
     student = models.ForeignKey(User, verbose_name=_('User'), related_name='userquest_user',
-                                null=True, on_delete=models.SET_NULL)
+                                null=True, on_delete=models.CASCADE)
     data_ini = models.DateTimeField(_('Init Date'), auto_now_add=True)
     last_update = models.DateTimeField(_('Last update'), auto_now_add=True)
 
@@ -79,13 +79,13 @@ class UserQuest(models.Model):
 class UserAnswer(models.Model):
     user_quest = models.ForeignKey(UserQuest, verbose_name=_('User Questionary'),
                                    related_name='useranswer_userquest', null=True,
-                                   on_delete=models.SET_NULL)
+                                   on_delete=models.CASCADE)
     question = models.ForeignKey(Question, verbose_name=_('Question'),
                                  related_name='useranswer_question', null=True,
-                                 on_delete=models.SET_NULL)
+                                 on_delete=models.CASCADE)
     answer = models.ForeignKey(Alternative, verbose_name=_('Answer'),
                                related_name='useranswer_alternative', null=True,
-                               on_delete=models.SET_NULL)
+                               on_delete=models.CASCADE)
     is_correct = models.BooleanField(_('Is correct?'), default=False)
     order = models.PositiveSmallIntegerField(_('Order'), null=True)
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)

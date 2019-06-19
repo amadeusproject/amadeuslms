@@ -52,11 +52,11 @@ class TalkMessages(models.Model):
     image = models.ImageField(verbose_name=_('Image'), null=True, blank=True,
                               upload_to=upload_filename, validators=[validate_img_extension])
     talk = models.ForeignKey(Conversation, verbose_name=_('Conversation'),
-                             related_name='message_talk', null=True, on_delete=models.SET_NULL)
+                             related_name='message_talk', null=True, on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name=_('User'), related_name='message_user', null=True,
-                             on_delete=models.SET_NULL)
+                             on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, verbose_name=_('Subject'), related_name='message_subject',
-                                null=True, on_delete=models.SET_NULL)
+                                null=True, on_delete=models.CASCADE)
     create_date = models.DateTimeField(_('Create Date'), auto_now_add=True)
 
     def get_timestamp(self):
@@ -75,15 +75,15 @@ class ChatVisualizations(models.Model):
     viewed = models.BooleanField(_('Viewed'), default=False)
     message = models.ForeignKey(TalkMessages, verbose_name=_('Message'),
                                 related_name='chat_visualization_message', null=True,
-                                on_delete=models.SET_NULL)
+                                on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name=_('User'), related_name="chat_visualization_user",
-                             null=True, on_delete=models.SET_NULL)
+                             null=True, on_delete=models.CASCADE)
     date_viewed = models.DateTimeField(_('Date/Time Viewed'), null=True, blank=True)
 
 
 class ChatFavorites(models.Model):
     message = models.ForeignKey(TalkMessages, verbose_name=_('Message'),
                                 related_name='chat_favorites_message', null=True,
-                                on_delete=models.SET_NULL)
+                                on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name=_('User'), related_name="chat_favorites_user",
-                             null=True, on_delete=models.SET_NULL)
+                             null=True, on_delete=models.CASCADE)

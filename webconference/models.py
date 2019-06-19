@@ -60,71 +60,71 @@ class ConferenceSettings(models.Model):
 
 
 class ViewWebConferenceLog(Log):
-    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+    webconference = models.ForeignKey(Webconference, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
 
 class InitWebConferenceLog(Log):
-    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+    webconference = models.ForeignKey(Webconference, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
 
 class CreateWebConferenceLog(Log):
-    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+    webconference = models.ForeignKey(Webconference, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
 
 class UpdateWebConferenceLog(Log):
-    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+    webconference = models.ForeignKey(Webconference, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
 
 class DeleteWebConferenceLog(Log):
-    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+    webconference = models.ForeignKey(Webconference, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
 
 class ViewStatisticsConferenceLog(Log):
-    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+    webconference = models.ForeignKey(Webconference, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
 
 class SendMessageInWebConferenceLog(Log):
-    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+    webconference = models.ForeignKey(Webconference, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     message = models.TextField()
 
 
 class InsideViewWebConferenceLog(Log):
-    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+    webconference = models.ForeignKey(Webconference, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
 
 class ParticipatingInWebConferenceLog(Log):
-    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+    webconference = models.ForeignKey(Webconference, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
 
 class EndParticipationInConferenceLog(Log):
-    webconference = models.ForeignKey(Webconference, on_delete=models.SET_NULL)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+    webconference = models.ForeignKey(Webconference, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)

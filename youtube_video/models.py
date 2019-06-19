@@ -56,22 +56,22 @@ class YTVideo(Resource):
 
 
 class StartYoutubeVideoLog(Log):
-    youtube_video = models.ForeignKey(YTVideo, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+    youtube_video = models.ForeignKey(YTVideo, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
 
 class CreateVideoLog(Log):
-    video = models.ForeignKey(YTVideo, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+    video = models.ForeignKey(YTVideo, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
 
 class UpdateVideoInfoLog(Log):
-    video = models.ForeignKey(YTVideo, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL)
+    video = models.ForeignKey(YTVideo, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
 

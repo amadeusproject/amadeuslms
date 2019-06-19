@@ -35,7 +35,7 @@ class Question(models.Model):
     categories = models.ManyToManyField(Tag, verbose_name='categories',
                                         related_name='question_categories', blank=False)
     subject = models.ForeignKey(Subject, verbose_name=_('Subject'), related_name='question_subject',
-                                null=True, on_delete=models.SET_NULL)
+                                null=True, on_delete=models.CASCADE)
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
 
     class Meta:
@@ -49,7 +49,7 @@ class Question(models.Model):
 class Alternative(models.Model):
     content = models.TextField(_("Content"))
     question = models.ForeignKey(Question, verbose_name=_('Question'), related_name='alt_question',
-                                 null=True, on_delete=models.SET_NULL)
+                                 null=True, on_delete=models.CASCADE)
     alt_img = models.ImageField(verbose_name=_("Image"), blank=True, null=True,
                                 upload_to='questions/alternatives',
                                 validators=[validate_img_extension])
@@ -64,24 +64,24 @@ class Alternative(models.Model):
 
 
 class CreateQuestionInDBLog(Log):
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    question = models.ForeignKey(Question, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
 
 class ReplicateQuestionInDBLog(Log):
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    question = models.ForeignKey(Question, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
 
 class UpdateQuestionInDBLog(Log):
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    question = models.ForeignKey(Question, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
 
 class DeleteQuestionInDBLog(Log):
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL)
-    question = models.ForeignKey(Question, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)

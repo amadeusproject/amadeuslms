@@ -36,7 +36,7 @@ class News(models.Model):
     content = models.TextField(_('News Content'), blank=True)
     create_date = models.DateTimeField(_('Create Date'), auto_now_add=True)
     creator = models.ForeignKey(User, verbose_name=_('Creator'), related_name="news_creator_user",
-                                null=True, on_delete=models.SET_NULL)
+                                null=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _('News')
