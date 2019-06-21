@@ -10,7 +10,6 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-import time
 from datetime import datetime
 
 from dateutil import parser
@@ -27,7 +26,6 @@ from django.views import generic
 from amadeus.permissions import has_subject_view_permissions, has_category_permission, \
     has_subject_permissions
 from categories.models import Category
-from log.decorators import log_decorator, log_decorator_ajax
 from log.models import Log
 from subjects.models import Subject
 from users.models import User
