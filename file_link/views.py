@@ -78,21 +78,21 @@ class DownloadFile(LoginRequiredMixin, generic.DetailView):
         response['Content-Transfer-Encoding'] = 'binary'
         response['Content-Length'] = str(path.getsize(file_link.file_content.path))
 
-        self.log_context['category_id'] = file_link.topic.subject.category.id
-        self.log_context['category_name'] = file_link.topic.subject.category.name
-        self.log_context['category_slug'] = file_link.topic.subject.category.slug
-        self.log_context['subject_id'] = file_link.topic.subject.id
-        self.log_context['subject_name'] = file_link.topic.subject.name
-        self.log_context['subject_slug'] = file_link.topic.subject.slug
-        self.log_context['topic_id'] = file_link.topic.id
-        self.log_context['topic_name'] = file_link.topic.name
-        self.log_context['topic_slug'] = file_link.topic.slug
-        self.log_context['filelink_id'] = file_link.id
-        self.log_context['filelink_name'] = file_link.name
-        self.log_context['filelink_slug'] = file_link.slug
-
-        super(DownloadFile, self).create_log(self.request.user, self.log_component, self.log_action,
-                                             self.log_resource)
+        # self.log_context['category_id'] = file_link.topic.subject.category.id
+        # self.log_context['category_name'] = file_link.topic.subject.category.name
+        # self.log_context['category_slug'] = file_link.topic.subject.category.slug
+        # self.log_context['subject_id'] = file_link.topic.subject.id
+        # self.log_context['subject_name'] = file_link.topic.subject.name
+        # self.log_context['subject_slug'] = file_link.topic.subject.slug
+        # self.log_context['topic_id'] = file_link.topic.id
+        # self.log_context['topic_name'] = file_link.topic.name
+        # self.log_context['topic_slug'] = file_link.topic.slug
+        # self.log_context['filelink_id'] = file_link.id
+        # self.log_context['filelink_name'] = file_link.name
+        # self.log_context['filelink_slug'] = file_link.slug
+        #
+        # super(DownloadFile, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                      self.log_resource)
 
         return response
 
@@ -147,7 +147,7 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
                                                                      'actions': [("", "-------"), (
                                                                          "view", _("Visualize"))]})
 
-        if (form.is_valid() and pendencies_form.is_valid()):
+        if form.is_valid() and pendencies_form.is_valid():
             return self.form_valid(form, pendencies_form)
         else:
             return self.form_invalid(form, pendencies_form)
@@ -186,21 +186,21 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
         if not pend_form.action == "":
             pend_form.save()
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['filelink_id'] = self.object.id
-        self.log_context['filelink_name'] = self.object.name
-        self.log_context['filelink_slug'] = self.object.slug
-
-        super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['filelink_id'] = self.object.id
+        # self.log_context['filelink_name'] = self.object.name
+        # self.log_context['filelink_slug'] = self.object.slug
+        #
+        # super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return redirect(self.get_success_url())
 
@@ -296,7 +296,7 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
                                                       'actions': [("", "-------"),
                                                                   ("view", _("Visualize"))]})
 
-        if (form.is_valid() and pendencies_form.is_valid()):
+        if form.is_valid() and pendencies_form.is_valid():
             return self.form_valid(form, pendencies_form)
         else:
             return self.form_invalid(form, pendencies_form)
@@ -319,21 +319,21 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
         if not pend_form.action == "":
             pend_form.save()
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['filelink_id'] = self.object.id
-        self.log_context['filelink_name'] = self.object.name
-        self.log_context['filelink_slug'] = self.object.slug
-
-        super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['filelink_id'] = self.object.id
+        # self.log_context['filelink_name'] = self.object.name
+        # self.log_context['filelink_slug'] = self.object.slug
+        #
+        # super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return redirect(self.get_success_url())
 
@@ -386,21 +386,21 @@ class DeleteView(LoginRequiredMixin, generic.DeleteView):
             'The File Link "%s" was removed successfully from virtual environment "%s"!') % (
                              self.object.name, self.object.topic.subject.name))
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['filelink_id'] = self.object.id
-        self.log_context['filelink_name'] = self.object.name
-        self.log_context['filelink_slug'] = self.object.slug
-
-        super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['filelink_id'] = self.object.id
+        # self.log_context['filelink_name'] = self.object.name
+        # self.log_context['filelink_slug'] = self.object.slug
+        #
+        # super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.topic.subject.slug})
 
@@ -428,21 +428,21 @@ class StatisticsView(LoginRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(StatisticsView, self).get_context_data(**kwargs)
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['filelink_id'] = self.object.id
-        self.log_context['filelink_name'] = self.object.name
-        self.log_context['filelink_slug'] = self.object.slug
-
-        super(StatisticsView, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['filelink_id'] = self.object.id
+        # self.log_context['filelink_name'] = self.object.name
+        # self.log_context['filelink_slug'] = self.object.slug
+        #
+        # super(StatisticsView, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         context['title'] = _('File Link Reports')
 
