@@ -9,14 +9,14 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        ('log', '0001_initial'),
         ('topics', '0001_initial'),
-        ('pendencies', '0001_initial'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='pendencies',
+            model_name='log',
             name='resource',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='pendencies_resource', to='topics.Resource', verbose_name='Resource'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='topics.Resource'),
         ),
     ]
