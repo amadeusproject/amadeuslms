@@ -22,11 +22,11 @@ import django.views.generic as generic
 import pandas as pd
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
 from django.db.models import Q
 from django.forms import formset_factory
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from amadeus import settings
@@ -500,8 +500,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                             for watch_time in watch_times:
                                 hours_viewed = calculate_hours_viewed_time_delta(hours_viewed,
                                                                                  watch_time,
-                                                                             'timestamp_start',
-                                                                             'timestamp_end')
+                                                                                 'timestamp_start',
+                                                                                 'timestamp_end')
 
                     if resources_types[i].lower() == "webconference":
                         init_times = Log.objects.filter(action="initwebconference",
@@ -524,8 +524,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                             for init_time in init_times:
                                 hours_viewed = calculate_hours_viewed(hours_viewed, init_time,
                                                                       end_times[j],
-                                                                    'webconference_init',
-                                                                    'webconference_finish')
+                                                                      'webconference_init',
+                                                                      'webconference_finish')
 
                     for day_num in day_numbers:
                         count_temp = Log.objects.filter(action="view",
@@ -576,8 +576,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                             for watch_time in watch_times:
                                 hours_viewed = calculate_hours_viewed_time_delta(hours_viewed,
                                                                                  watch_time,
-                                                                             'timestamp_start',
-                                                                             'timestamp_end')
+                                                                                 'timestamp_start',
+                                                                                 'timestamp_end')
 
                     if resources_types[i].lower() == "webconference":
                         init_times = Log.objects.filter(action="initwebconference",
@@ -599,8 +599,8 @@ class ViewReportView(LoginRequiredMixin, generic.TemplateView):
                             for init_time in init_times:
                                 hours_viewed = calculate_hours_viewed(hours_viewed, init_time,
                                                                       end_times[j],
-                                                                    'webconference_init',
-                                                                    'webconference_finish')
+                                                                      'webconference_init',
+                                                                      'webconference_finish')
 
                 if count > 0:
                     distinct_resources += 1
