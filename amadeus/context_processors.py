@@ -19,16 +19,23 @@ from themes.models import Themes
 
 
 def theme(request):
+    def setup_context(context_dict, theme_obj, request_obj):
+        context_dict['theme'] = theme_obj
+        if "contrast_check" in request_obj.COOKIES.keys():
+            context_dict['contrast_cookie'] = True
+        else:
+            context_dict['contrast_cookie'] = False
+        return context_dict
+
     context = {}
 
-    theme = Themes.objects.get(id=1)
-
-    context['theme'] = theme
-    if "contrast_check" in request.COOKIES.keys():
-        context['contrast_cookie'] = True
+    if Themes.objects.filter(id=1).exists():
+        theme = Themes.objects.get(id=1)
+        return setup_context(context, theme, request)
     else:
-        context['contrast_cookie'] = False
-
+        default_theme = Themes(title="Projeto Amadeus", css_style="green")
+        default_theme.save()
+        return setup_context(context, default_theme, request)
     return context
 
 
