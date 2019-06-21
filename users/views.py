@@ -506,9 +506,6 @@ class PasswordResetConfirmView(generic.FormView):
 
 def login(request):
     context = {'title': _('Log In')}
-    security = Security.objects.get(id=1)
-
-    context['deny_register'] = security.allow_register
 
     if request.POST:
         username = request.POST['email']
@@ -516,37 +513,35 @@ def login(request):
         user = authenticate(username=username, password=password)
 
         if user is not None:
-            if not security.maintence or user.is_staff:
-                login_user(request, user)
+            login_user(request, user)
 
-                # if login was sucessfull
-                user_login_log = UserAccessLog(user=user)
-                user_login_log.save()
+            # if login was sucessfull
+            user_login_log = UserAccessLog(user=user)
+            user_login_log.save()
 
-                users = User.objects.all().exclude(email=username)
+            users = User.objects.all().exclude(email=username)
 
-                notification = {
-                    "type": "user_status",
-                    "user_id": str(user.id),
-                    "status": _u("Online"),
-                    "status_class": "active",
-                    "remove_class": "away"
-                }
+            notification = {
+                "type": "user_status",
+                "user_id": str(user.id),
+                "status": _u("Online"),
+                "status_class": "active",
+                "remove_class": "away"
+            }
 
-                notification = json.dumps(notification)
-                channel_layer = get_channel_layer()
+            notification = json.dumps(notification)
+            channel_layer = get_channel_layer()
 
-                for u in users:
-                    async_to_sync(channel_layer.send)("user-%s" % u.id, {'text': notification})
+            for u in users:
+                async_to_sync(channel_layer.send)("user-%s" % u.id, {'text': notification})
 
-                next_url = request.GET.get('next', None)
+            next_url = request.GET.get('next', None)
 
-                if next_url:
-                    return redirect(next_url)
+            if next_url:
+                return redirect(next_url)
 
-                return redirect(reverse("home"))
-            else:
-                messages.error(request, _('System under maintenance. Try again later'))
+            return redirect(reverse("home"))
+
         else:
             messages.error(request, _('E-mail or password are incorrect.'))
             context["username"] = username
