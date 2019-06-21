@@ -16,8 +16,8 @@ from .models import Log
 
 
 class LogAdmin(admin.ModelAdmin):
-    list_display = ['datetime', 'user', 'user_email', 'component', 'action', 'resource']
-    search_fields = ['user', 'component', 'action', 'resource']
+    list_display = ['datetime', 'user', 'resource']
+    search_fields = ['user', 'datetime', 'resource']
 
 
 admin.site.register(Log, LogAdmin)
