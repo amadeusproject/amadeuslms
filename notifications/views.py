@@ -93,7 +93,7 @@ class SubjectNotifications(LoginRequiredMixin, generic.ListView):
             self.students = User.objects.filter(subject_student=subject).order_by('social_name',
                                                                                   'username')
 
-            if not user is None:
+            if user is not None:
                 self.object_list = Notification.objects.filter(user__email=user,
                                                                task__resource__topic__subject=subject,
                                                                creation_date=datetime.now()).order_by(
@@ -138,14 +138,14 @@ class SubjectNotifications(LoginRequiredMixin, generic.ListView):
 
             context['last_update'] = last_update.datetime
 
-        self.log_context['subject_id'] = subject.id
-        self.log_context['subject_name'] = subject.name
-        self.log_context['subject_slug'] = subject.slug
-        self.log_context['view_page'] = self.request.GET.get("page", 1)
-        self.log_context['timestamp_start'] = str(int(time.time()))
-
-        super(SubjectNotifications, self).create_log(self.request.user, self.log_component,
-                                                     self.log_action, self.log_resource)
+        # self.log_context['subject_id'] = subject.id
+        # self.log_context['subject_name'] = subject.name
+        # self.log_context['subject_slug'] = subject.slug
+        # self.log_context['view_page'] = self.request.GET.get("page", 1)
+        # self.log_context['timestamp_start'] = str(int(time.time()))
+        #
+        # super(SubjectNotifications, self).create_log(self.request.user, self.log_component,
+        #                                              self.log_action, self.log_resource)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -191,7 +191,7 @@ class SubjectHistory(LoginRequiredMixin, generic.ListView):
             self.students = User.objects.filter(subject_student=subject).order_by('social_name',
                                                                                   'username')
 
-            if not user is None:
+            if user is not None:
                 notifications = Notification.objects.filter(user__email=user,
                                                             task__resource__topic__subject=subject).order_by(
                     *order)
@@ -279,15 +279,15 @@ class SubjectHistory(LoginRequiredMixin, generic.ListView):
         else:
             context['student'] = None
 
-        self.log_context['subject_id'] = subject.id
-        self.log_context['subject_name'] = subject.name
-        self.log_context['subject_slug'] = subject.slug
-        self.log_context['history_page'] = self.request.GET.get("page", 1)
-        self.log_context['searched'] = self.request.GET.get("search", "")
-        self.log_context['timestamp_start'] = str(int(time.time()))
-
-        super(SubjectHistory, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # self.log_context['subject_id'] = subject.id
+        # self.log_context['subject_name'] = subject.name
+        # self.log_context['subject_slug'] = subject.slug
+        # self.log_context['history_page'] = self.request.GET.get("page", 1)
+        # self.log_context['searched'] = self.request.GET.get("search", "")
+        # self.log_context['timestamp_start'] = str(int(time.time()))
+        #
+        # super(SubjectHistory, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -436,7 +436,7 @@ class AjaxHistory(LoginRequiredMixin, generic.ListView):
 
 
 @login_required
-@log_decorator('pendencies', 'set_goal', 'pendencies')
+# @log_decorator('pendencies', 'set_goal', 'pendencies')
 def set_goal(request):
     if request.method == "POST" and request.is_ajax():
         meta = request.POST.get('meta', None)
@@ -467,9 +467,9 @@ def set_goal(request):
         notification.meta = meta
         notification.save()
 
-        log_context = {'notification_id': notification.id, 'notification': str(notification)}
-
-        request.log_context = log_context
+        # log_context = {'notification_id': notification.id, 'notification': str(notification)}
+        #
+        # request.log_context = log_context
 
         if notification.level == 2:
             message = _('Your new goal to realize the task %s is %s') % (
@@ -481,18 +481,18 @@ def set_goal(request):
     return JsonResponse({'error': False, 'message': message})
 
 
-@log_decorator_ajax('pendencies', 'view', 'pendencies')
+# @log_decorator_ajax('pendencies', 'view', 'pendencies')
 def pendencies_view_log(request, subject):
     action = request.GET.get('action')
 
     if action == 'open':
         subject = get_object_or_404(Subject, id=subject)
 
-        log_context = {'subject_id': subject.id, 'subject_name': subject.name,
-                       'subject_slug': subject.slug, 'timestamp_start': str(int(time.time())),
-                       'timestamp_end': '-1'}
-
-        request.log_context = log_context
+        # log_context = {'subject_id': subject.id, 'subject_name': subject.name,
+        #                'subject_slug': subject.slug, 'timestamp_start': str(int(time.time())),
+        #                'timestamp_end': '-1'}
+        #
+        # request.log_context = log_context
 
         log_id = Log.objects.latest('id').id
 
@@ -501,18 +501,18 @@ def pendencies_view_log(request, subject):
     return JsonResponse({'message': 'ok'})
 
 
-@log_decorator_ajax('pendencies', 'view_history', 'pendencies')
+# @log_decorator_ajax('pendencies', 'view_history', 'pendencies')
 def pendencies_hist_log(request, subject):
     action = request.GET.get('action')
 
     if action == 'open':
         subject = get_object_or_404(Subject, id=subject)
 
-        log_context = {'subject_id': subject.id, 'subject_name': subject.name,
-                       'subject_slug': subject.slug, 'timestamp_start': str(int(time.time())),
-                       'timestamp_end': '-1'}
-
-        request.log_context = log_context
+        # log_context = {'subject_id': subject.id, 'subject_name': subject.name,
+        #                'subject_slug': subject.slug, 'timestamp_start': str(int(time.time())),
+        #                'timestamp_end': '-1'}
+        #
+        # request.log_context = log_context
 
         log_id = Log.objects.latest('id').id
 
