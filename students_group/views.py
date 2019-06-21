@@ -96,9 +96,9 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
             self.log_action = 'replicate'
 
-            self.log_context['replicated_group_id'] = group.id
-            self.log_context['replicated_group_name'] = group.name
-            self.log_context['replicated_group_slug'] = group.slug
+            # self.log_context['replicated_group_id'] = group.id
+            # self.log_context['replicated_group_name'] = group.name
+            # self.log_context['replicated_group_slug'] = group.slug
 
         return initial
 
@@ -112,18 +112,18 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
 
         self.object.save()
 
-        self.log_context['category_id'] = self.object.subject.category.id
-        self.log_context['category_name'] = self.object.subject.category.name
-        self.log_context['category_slug'] = self.object.subject.category.slug
-        self.log_context['subject_id'] = self.object.subject.id
-        self.log_context['subject_name'] = self.object.subject.name
-        self.log_context['subject_slug'] = self.object.subject.slug
-        self.log_context['group_id'] = self.object.id
-        self.log_context['group_name'] = self.object.name
-        self.log_context['group_slug'] = self.object.slug
-
-        super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.subject.category.id
+        # self.log_context['category_name'] = self.object.subject.category.name
+        # self.log_context['category_slug'] = self.object.subject.category.slug
+        # self.log_context['subject_id'] = self.object.subject.id
+        # self.log_context['subject_name'] = self.object.subject.name
+        # self.log_context['subject_slug'] = self.object.subject.slug
+        # self.log_context['group_id'] = self.object.id
+        # self.log_context['group_name'] = self.object.name
+        # self.log_context['group_slug'] = self.object.slug
+        #
+        # super(CreateView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return super(CreateView, self).form_valid(form)
 
@@ -192,18 +192,18 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
         messages.success(self.request,
                          _('The group "%s" was updated successfully!') % (self.object.name))
 
-        self.log_context['category_id'] = self.object.subject.category.id
-        self.log_context['category_name'] = self.object.subject.category.name
-        self.log_context['category_slug'] = self.object.subject.category.slug
-        self.log_context['subject_id'] = self.object.subject.id
-        self.log_context['subject_name'] = self.object.subject.name
-        self.log_context['subject_slug'] = self.object.subject.slug
-        self.log_context['group_id'] = self.object.id
-        self.log_context['group_name'] = self.object.name
-        self.log_context['group_slug'] = self.object.slug
-
-        super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.subject.category.id
+        # self.log_context['category_name'] = self.object.subject.category.name
+        # self.log_context['category_slug'] = self.object.subject.category.slug
+        # self.log_context['subject_id'] = self.object.subject.id
+        # self.log_context['subject_name'] = self.object.subject.name
+        # self.log_context['subject_slug'] = self.object.subject.slug
+        # self.log_context['group_id'] = self.object.id
+        # self.log_context['group_name'] = self.object.name
+        # self.log_context['group_slug'] = self.object.slug
+        #
+        # super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return reverse_lazy('groups:index', kwargs={'slug': self.object.subject.slug})
 
@@ -234,17 +234,17 @@ class DeleteView(LoginRequiredMixin, generic.DeleteView):
         messages.success(self.request,
                          _('The group "%s" was removed successfully!') % self.object.name)
 
-        self.log_context['category_id'] = self.object.subject.category.id
-        self.log_context['category_name'] = self.object.subject.category.name
-        self.log_context['category_slug'] = self.object.subject.category.slug
-        self.log_context['subject_id'] = self.object.subject.id
-        self.log_context['subject_name'] = self.object.subject.name
-        self.log_context['subject_slug'] = self.object.subject.slug
-        self.log_context['group_id'] = self.object.id
-        self.log_context['group_name'] = self.object.name
-        self.log_context['group_slug'] = self.object.slug
-
-        super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.subject.category.id
+        # self.log_context['category_name'] = self.object.subject.category.name
+        # self.log_context['category_slug'] = self.object.subject.category.slug
+        # self.log_context['subject_id'] = self.object.subject.id
+        # self.log_context['subject_name'] = self.object.subject.name
+        # self.log_context['subject_slug'] = self.object.subject.slug
+        # self.log_context['group_id'] = self.object.id
+        # self.log_context['group_name'] = self.object.name
+        # self.log_context['group_slug'] = self.object.slug
+        #
+        # super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return reverse_lazy('groups:index', kwargs={'slug': self.object.subject.slug})
