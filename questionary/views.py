@@ -13,7 +13,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 import json
 import random
 import textwrap
-import time
 from datetime import datetime, timedelta
 
 from asgiref.sync import async_to_sync
@@ -35,7 +34,6 @@ from amadeus.permissions import has_resource_permissions, \
     has_subject_permissions
 from banco_questoes.models import Alternative, Question
 from chat.models import Conversation, TalkMessages, ChatVisualizations
-from log.decorators import log_decorator
 from log.models import Log
 from topics.models import Topic
 from users.models import User
@@ -220,22 +218,22 @@ class InsideView(LoginRequiredMixin, generic.ListView):
             context['student'] = self.request.POST.get('selected_student',
                                                        self.students.first().email)
 
-        self.log_context['category_id'] = questionary.topic.subject.category.id
-        self.log_context['category_name'] = questionary.topic.subject.category.name
-        self.log_context['category_slug'] = questionary.topic.subject.category.slug
-        self.log_context['subject_id'] = questionary.topic.subject.id
-        self.log_context['subject_name'] = questionary.topic.subject.name
-        self.log_context['subject_slug'] = questionary.topic.subject.slug
-        self.log_context['topic_id'] = questionary.topic.id
-        self.log_context['topic_name'] = questionary.topic.name
-        self.log_context['topic_slug'] = questionary.topic.slug
-        self.log_context['questionary_id'] = questionary.id
-        self.log_context['questionary_name'] = questionary.name
-        self.log_context['questionary_slug'] = questionary.slug
-        self.log_context['timestamp_start'] = str(int(time.time()))
-
-        super(InsideView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = questionary.topic.subject.category.id
+        # self.log_context['category_name'] = questionary.topic.subject.category.name
+        # self.log_context['category_slug'] = questionary.topic.subject.category.slug
+        # self.log_context['subject_id'] = questionary.topic.subject.id
+        # self.log_context['subject_name'] = questionary.topic.subject.name
+        # self.log_context['subject_slug'] = questionary.topic.subject.slug
+        # self.log_context['topic_id'] = questionary.topic.id
+        # self.log_context['topic_name'] = questionary.topic.name
+        # self.log_context['topic_slug'] = questionary.topic.slug
+        # self.log_context['questionary_id'] = questionary.id
+        # self.log_context['questionary_name'] = questionary.name
+        # self.log_context['questionary_slug'] = questionary.slug
+        # self.log_context['timestamp_start'] = str(int(time.time()))
+        #
+        # super(InsideView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         self.request.session['log_id'] = Log.objects.latest('id').id
 
@@ -355,21 +353,21 @@ class QuestionaryCreateView(LoginRequiredMixin, generic.CreateView):
             if not spec_form.n_questions or spec_form.n_questions == "":
                 spec_form.delete()
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['questionary_id'] = self.object.id
-        self.log_context['questionary_name'] = self.object.name
-        self.log_context['questionary_slug'] = self.object.slug
-
-        super(QuestionaryCreateView, self).create_log(self.request.user, self.log_component,
-                                                      self.log_action, self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['questionary_id'] = self.object.id
+        # self.log_context['questionary_name'] = self.object.name
+        # self.log_context['questionary_slug'] = self.object.slug
+        #
+        # super(QuestionaryCreateView, self).create_log(self.request.user, self.log_component,
+        #                                               self.log_action, self.log_resource)
 
         return redirect(self.get_success_url())
 
@@ -517,21 +515,21 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
             if not spec_form.n_questions or spec_form.n_questions == "":
                 spec_form.delete()
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['questionary_id'] = self.object.id
-        self.log_context['questionary_name'] = self.object.name
-        self.log_context['questionary_slug'] = self.object.slug
-
-        super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['questionary_id'] = self.object.id
+        # self.log_context['questionary_name'] = self.object.name
+        # self.log_context['questionary_slug'] = self.object.slug
+        #
+        # super(UpdateView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return redirect(self.get_success_url())
 
@@ -596,21 +594,21 @@ class DeleteView(LoginRequiredMixin, generic.DeleteView):
                          _('The questionary %s of the topic %s was removed successfully!') % (
                              self.object.name, self.object.topic.name))
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['questionary_id'] = self.object.id
-        self.log_context['questionary_name'] = self.object.name
-        self.log_context['questionary_slug'] = self.object.slug
-
-        super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
-                                           self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['questionary_id'] = self.object.id
+        # self.log_context['questionary_name'] = self.object.name
+        # self.log_context['questionary_slug'] = self.object.slug
+        #
+        # super(DeleteView, self).create_log(self.request.user, self.log_component, self.log_action,
+        #                                    self.log_resource)
 
         return reverse_lazy('subjects:view', kwargs={'slug': self.object.topic.subject.slug})
 
@@ -631,7 +629,7 @@ def countQuestions(request):
     return JsonResponse({'total': total})
 
 
-@log_decorator("resources", "answer", "questionary")
+# @log_decorator("resources", "answer", "questionary")
 def answer(request):
     question = request.POST.get('question')
     answer = request.POST.get('answer')
@@ -659,14 +657,14 @@ def answer(request):
 
     # add request context to log
     questionary_data = userquest.questionary
-    request.log_context = {"question_id": userquest.questionary.id,
-                           "is_correct": question.is_correct, "time_to_answer": (
-                question.created_at - question.question.created_at).total_seconds(),
-                           "subject_id": questionary_data.topic.subject.id,
-                           "category_id": questionary_data.topic.subject.category.id,
-                           "topic_id": questionary_data.topic.id,
-                           "topic_slug": questionary_data.topic.slug,
-                           "topic_name": questionary_data.topic.name}
+    # request.log_context = {"question_id": userquest.questionary.id,
+    #                        "is_correct": question.is_correct, "time_to_answer": (
+    #             question.created_at - question.question.created_at).total_seconds(),
+    #                        "subject_id": questionary_data.topic.subject.id,
+    #                        "category_id": questionary_data.topic.subject.category.id,
+    #                        "topic_id": questionary_data.topic.id,
+    #                        "topic_slug": questionary_data.topic.slug,
+    #                        "topic_name": questionary_data.topic.name}
 
     if not UserAnswer.objects.filter(user_quest=userquest,
                                      answer__isnull=True).exists() or insert_log:
@@ -716,21 +714,21 @@ class StatisticsView(LoginRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(StatisticsView, self).get_context_data(**kwargs)
 
-        self.log_context['category_id'] = self.object.topic.subject.category.id
-        self.log_context['category_name'] = self.object.topic.subject.category.name
-        self.log_context['category_slug'] = self.object.topic.subject.category.slug
-        self.log_context['subject_id'] = self.object.topic.subject.id
-        self.log_context['subject_name'] = self.object.topic.subject.name
-        self.log_context['subject_slug'] = self.object.topic.subject.slug
-        self.log_context['topic_id'] = self.object.topic.id
-        self.log_context['topic_name'] = self.object.topic.name
-        self.log_context['topic_slug'] = self.object.topic.slug
-        self.log_context['questionary_id'] = self.object.id
-        self.log_context['questionary_name'] = self.object.name
-        self.log_context['questionary_slug'] = self.object.slug
-
-        super(StatisticsView, self).create_log(self.request.user, self.log_component,
-                                               self.log_action, self.log_resource)
+        # self.log_context['category_id'] = self.object.topic.subject.category.id
+        # self.log_context['category_name'] = self.object.topic.subject.category.name
+        # self.log_context['category_slug'] = self.object.topic.subject.category.slug
+        # self.log_context['subject_id'] = self.object.topic.subject.id
+        # self.log_context['subject_name'] = self.object.topic.subject.name
+        # self.log_context['subject_slug'] = self.object.topic.subject.slug
+        # self.log_context['topic_id'] = self.object.topic.id
+        # self.log_context['topic_name'] = self.object.topic.name
+        # self.log_context['topic_slug'] = self.object.topic.slug
+        # self.log_context['questionary_id'] = self.object.id
+        # self.log_context['questionary_name'] = self.object.name
+        # self.log_context['questionary_slug'] = self.object.slug
+        #
+        # super(StatisticsView, self).create_log(self.request.user, self.log_component,
+        #                                        self.log_action, self.log_resource)
 
         context['title'] = _('Questionary Reports')
 
