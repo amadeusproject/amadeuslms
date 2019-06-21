@@ -12,8 +12,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 from braces import views as braces_mixins
 from django.contrib import messages
-from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 
