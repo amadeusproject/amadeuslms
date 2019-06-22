@@ -25,13 +25,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         .icon-cloudy-legend{
             width: 20px;
             height: 16px;
-            margin-top:10px;
-            margin-bottom:10px;
+            margin-top:5px;
+            margin-bottom:4px;
         }
         .text-cloudy-legend{
-           
-            margin-left:10px;
-            margin-right:10px;
+            height: 20px;
+            margin:3px;
+            margin-bottom: 2px;
         }
     </style>
 
@@ -41,14 +41,19 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" 
             title="{% trans 'Compare your number of hits with the number of hits in each class tag in this subject' %}"></i>
     </div>
-    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 5px;">
-    <div id="cloudy" style="padding: 0px">
-
+    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 0px;">
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 cloudy-legend">
+        <i class="fa fa-text-height icon-cloudy-legend" aria-hidden="true"></i><p class="text-cloudy-legend">{% trans 'Class accesses' %}</p>
+        <div style="width:20px; height: 10px;"></div>
+        <div class="icon-cloudy-legend" style="background-image: linear-gradient(to right, #162318 , #8EC99A); "></div><p class="text-cloudy-legend">{% trans 'Your accesses' %}</p>
     </div>
-    <!--<div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 cloudy-legend">
-        <i class="fa fa-text-height icon-cloudy-legend" aria-hidden="true"></i><p class="text-indicators-legend">{% trans 'Class accesses' %}</p>
-        <div class="icon-cloudy-legend" style="background-image: linear-gradient(to right, #00441B , rgb(183, 226, 177)); "></div><p class="text-indicators-legend">{% trans 'Your accesses' %}</p>
-    </div>-->
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style="padding: 0px;">
+        <hr style="height:2px; background-color:#bbb;margin-top: 0px;margin-bottom: 5px;">
+    </div>
+
+    <div id="cloudy" style="padding: 0px">
+        {% include 'dashboards/loading_ball.html' with tittle="cloudy_loading_ball" %}
+    </div>
 </div>
 
 <div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="modalTittle" aria-hidden="true">
@@ -205,110 +210,118 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
     /*Cloudy Word*/
 
-    temp = document.getDimensions("#cloudy")
-    var width = temp.w - $("#cloudy").css("padding-left").match(/[0-9]+/)[0] - $("#cloudy").css("padding-right").match(/[0-9]+/)[0];;
+    temp = document.getDimensions("#cloudy");
+    var width = temp.w - $("#cloudy").css("padding-left").match(/[0-9]+/)[0] - $("#cloudy").css("padding-right").match(/[0-9]+/)[0];
     var height = width * 1 / 2 > 360 ? 360 : (width / 2 < 50 ? 50 : width / 2);
 
     var qtd_students = {{ qtd_students }};
 
-    var data = {% autoescape off %} {{ tags_cloud }} {% endautoescape %};
+    var cloudWord;
 
-    data = data.map(function (d) {
-        return {
-            key: d.tag_name,
-            value: d.qtd_access,
-            myvalue: d.qtd_my_access,
-            link: d.details_url
-        }
-    });
+    //var data = {% autoescape off %} {{ tags_cloud }} {% endautoescape %};
+    $.get("{{ tags_cloud }}", function (data) {
+        d3.select("#cloudy_loading_ball").style("display", "none")
+            //.transition().delay(300)
+            .remove();
+        data = data.map(function (d) {
+            return {
+                key: d.tag_name,
+                value: d.qtd_access,
+                myvalue: d.qtd_my_access,
+                link: d.details_url
+            }
+        });
 
-    data.sort(function (d1, d2) {
-        return d1.value > d2.value ? -1 : (d1.value < d2.value ? 1 : 0);
-    })
+        data.sort(function (d1, d2) {
+            return d1.value > d2.value ? -1 : (d1.value < d2.value ? 1 : 0);
+        })
 
-    data = data.slice(0, 30);
+        data = data.slice(0, 30);
 
-    var dataconfig = {
-        parent: "#cloudy",
-        data: data,
-        max: 50,
-        font: "Impact",
-        spiral: "rectangular",// archimedean | rectangular
-        scale: "linear",// scaleLinear | scaleSqrt | scaleLog
-        angles: {
-            from: 0,
-            to: 0,
-            n: 1
-        },
-        dimensions: {
-            w: width,
-            h: height,
-        },
-        interactions: {
-            click: function (element, data) {
+        var dataconfig = {
+            parent: "#cloudy",
+            data: data,
+            max: 50,
+            font: "Impact",
+            spiral: "rectangular",// archimedean | rectangular
+            scale: "linear",// scaleLinear | scaleSqrt | scaleLog
+            angles: {
+                from: 0,
+                to: 0,
+                n: 1
+            },
+            dimensions: {
+                w: width,
+                h: height,
+            },
+            interactions: {
+                click: function (element, data) {
 
-                d3.select("#modal_cloudy_loading_ball").style("display", "inherit");
-                d3.select("#modal-table").style("display", "none");
+                    d3.select("#modal_cloudy_loading_ball").style("display", "inherit");
+                    d3.select("#modal-table").style("display", "none");
 
-                var modal = document.querySelector('#tagModal');
-                modal.querySelector("#modalTittle").innerText = "Tag: "+data.text.toUpperCase();
-                var container = d3.select("#resources-list");
-                container.selectAll(".resource").remove();
+                    var modal = document.querySelector('#tagModal');
+                    modal.querySelector("#modalTittle").innerText = "Tag: "+data.text.toUpperCase();
+                    var container = d3.select("#resources-list");
+                    container.selectAll(".resource").remove();
 
 
 
-                $.get(data.link, function (dataset) {
-                    dataset = dataset.sort(function (d1, d2) {
-                        if (isNaN(d1.qtd_access) || (+d1.qtd_access) == 0)
-                            d1.qtd_access = 0;
-                        if (isNaN(d2.qtd_access) || (+d2.qtd_access) == 0)
-                            d2.qtd_access = 0;
+                    $.get(data.link, function (dataset) {
+                        dataset = dataset.sort(function (d1, d2) {
+                            if (isNaN(d1.qtd_access) || (+d1.qtd_access) == 0)
+                                d1.qtd_access = 0;
+                            if (isNaN(d2.qtd_access) || (+d2.qtd_access) == 0)
+                                d2.qtd_access = 0;
 
-                        if (isNaN(d1.qtd_my_access) || (+d1.qtd_my_access) == 0)
-                            d1.qtd_my_access = 0;
-                        if (isNaN(d2.qtd_my_access) || (+d2.qtd_my_access) == 0)
-                            d2.qtd_my_access = 0;
+                            if (isNaN(d1.qtd_my_access) || (+d1.qtd_my_access) == 0)
+                                d1.qtd_my_access = 0;
+                            if (isNaN(d2.qtd_my_access) || (+d2.qtd_my_access) == 0)
+                                d2.qtd_my_access = 0;
 
-                        var p1 = d1.qtd_my_access / d1.qtd_access, p2 = d2.qtd_my_access / d2.qtd_access;
-                        return p1 > p2 ? 1 : (p1 < p2 ? -1 : (d1.qtd_access < d2.qtd_access ? 1 : (d1.qtd_access > d2.qtd_access ? -1 : 0)));
+                            var p1 = d1.qtd_my_access / d1.qtd_access, p2 = d2.qtd_my_access / d2.qtd_access;
+                            return p1 > p2 ? 1 : (p1 < p2 ? -1 : (d1.qtd_access < d2.qtd_access ? 1 : (d1.qtd_access > d2.qtd_access ? -1 : 0)));
+                        });
+
+                        makeTable(dataset, ["qtd_my_access", "qtd_access", "resource_name"], d3.select("#table-container"), d3.select(".pagination"), 10);
+
+                        d3.select("#modal_cloudy_loading_ball").style("display", "none");
+                        d3.select("#modal-table").style("display", "inherit");
+
                     });
 
-                    makeTable(dataset, ["qtd_my_access", "qtd_access", "resource_name"], d3.select("#table-container"), d3.select(".pagination"), 10);
-
-                    d3.select("#modal_cloudy_loading_ball").style("display", "none");
-                    d3.select("#modal-table").style("display", "inherit");
-
+                    $('#tagModal').modal('show');
+                }
+            },
+            tooltip: {
+                text: "Tag: <key>\nTotal de acessos: <value> \nMeus acessos: <myvalue>",
+            },
+            filltext: function (a) {
+                var fill = d3.scaleLinear().domain([0,1])
+                    .interpolate(d3.interpolateHcl)
+                    .range([d3.rgb("#8EC99A"), d3.rgb('#162318')]);
+                //var fill = d3.interpolateGreens;
+                var prop = a.chartConfig.mymax / a.chartConfig.max;
+                function scalePercent(x, y) {
+                    if (x > y)
+                        return y * 0.1 * prop / x + 0.2;
+                    else
+                        return 1 - x * .7 / (y * prop);
+                }
+                //console.log(prop);
+                a.words.attr("fill", function (d, i) {
+                    //console.log(scalePercent(d.myvalue,d.value));
+                    return fill(scalePercent(d.myvalue, d.value));
                 });
+            },
+            /*default:function(){
+                var temp = document.querySelector("#bullet-tag").getBoundingClientRect();
+                this.bullet_tag = d3.scaleLinear().range[0,(temp.width-75)<0?0:temp.width-75];
 
-                $('#tagModal').modal('show');
-            }
-        },
-        tooltip: {
-            text: "Tag: <key>\nTotal de acessos: <value> \nMeus acessos: <myvalue>",
-        },
-        filltext: function (a) {
-            var fill = d3.interpolateGreens;
-            var prop = a.chartConfig.mymax / a.chartConfig.max;
-            function scalePercent(x, y) {
-                if (x > y)
-                    return y * 0.3 * prop / x;
-                else
-                    return 1 - x * .7 / (y * prop);
-            }
-            //console.log(prop);
-            a.words.attr("fill", function (d, i) {
-                //console.log(scalePercent(d.myvalue,d.value));
-                return fill(scalePercent(d.myvalue, d.value));
-            });
-        },
-        /*default:function(){
-            var temp = document.querySelector("#bullet-tag").getBoundingClientRect();
-            this.bullet_tag = d3.scaleLinear().range[0,(temp.width-75)<0?0:temp.width-75];
-
-        }*/
-    }
-    var cloudWord = new CloudWord(dataconfig);
-
+            }*/
+        }
+        cloudWord = new CloudWord(dataconfig);
+    });
     function cloudy_responsibilities(){
 
     }

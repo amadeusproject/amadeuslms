@@ -12,9 +12,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% load static i18n %}
 
-<div id="legend-{{ tittle }}" style="background: {{ color }}" class="gantt-legend gantt-legend-status col-md-2 col-xs-6 col-sm-8 col-lg-4" onclick="ganttChart.filter('{{ tittle }}')">
-    <div style="float:left;">
-        <b class="gantt-legend-text" >
+<div id="legend-{{ tittle }}" class="gantt-legend-status" onclick="ganttChart.filter('{{ tittle }}')">
+    <div class="gantt-legend {{tittle}}" style="float:left">
+        <i class="gantt-legend-icon fa fa-toggle-off" aria-hidden="true"></i>
+    </div>
+    <div style="float:left;
+      margin: auto;">
+        <p class="gantt-legend-text" >
                 {% if tittle == "late" %}
                 {% trans 'Late' %}
                 {% elif tittle == "on_time" %}
@@ -23,15 +27,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 {% trans 'Planned' %}
                 {% elif tittle == "lost" %}
                 {% trans 'Lost' %}
+                {% elif tittle == "complete_late" %}
+                {% trans 'Complete Late' %}
                 {% elif tittle == "completed" %}
                 {% trans 'Completed' %}
                 {% else %}
                 {% trans 'Other Status' %}
-                {% endif %}
-        </b>
+                {% endif %}(<text class="status-percent">100%</text>)
+        </p>
     </div>
-    <div style="float:right">
-        <b class="status-percent gantt-legend-text">100%</b>
-        <i class="gantt-legend-text fa fa-toggle-off" aria-hidden="true"></i>
-    </div>
+    <div style="float:left;margin: auto;width:10px;height: 5px;"></div>
 </div>

@@ -252,7 +252,9 @@ class SubjectView(LogMixin, generic.TemplateView):
         
         if has_subject_permissions(self.request.user, subject):
             student = self.request.POST.get('selected_student', None)
-            context['sub_students'] = subject.students.all()
+            students = subject.students.all()
+            students = sorted(students,key=lambda student: student.username) # Ordem Alfabética
+            context['sub_students'] = students
             context['student'] = self.request.POST.get('selected_student', subject.students.first().email)
 
             self.log_context['student'] = context['student']
@@ -260,15 +262,15 @@ class SubjectView(LogMixin, generic.TemplateView):
             if not student is None:
                 student = User.objects.get(email = student)
                 context["graph_data"] = json.dumps(get_pend_graph(student, subject))
-                context["tags_cloud"] = getAccessedTags(subject, student)
+                context["tags_cloud"] = reverse('dashboards:cloudy_data', args = (subject.slug, student.email,), kwargs = {})
                 context["metrics_url"] = reverse('dashboards:other_metrics', args = (subject.slug, student.email,), kwargs = {})
             else:
                 student = User.objects.get(email = context['student'])
                 context["graph_data"] = json.dumps(get_pend_graph(student, subject))
-                context["tags_cloud"] = getAccessedTags(subject, student)
+                context["tags_cloud"] = reverse('dashboards:cloudy_data', args = (subject.slug, student.email,), kwargs = {})
                 context["metrics_url"] = reverse('dashboards:other_metrics', args = (subject.slug, student.email,), kwargs = {})
         else:
-            context["tags_cloud"] = getAccessedTags(subject, self.request.user)
+            context["tags_cloud"] = reverse('dashboards:cloudy_data', args = (subject.slug, self.request.user.email,), kwargs = {})
             context["graph_data"] = json.dumps(get_pend_graph(self.request.user, subject))
             context["metrics_url"] = reverse('dashboards:other_metrics', args = (subject.slug, self.request.user.email,), kwargs = {})
 
@@ -293,3 +295,8 @@ def other_metrics(request, subject, email):
     user = User.objects.get(email = email)
 
     return JsonResponse(getOtherIndicators(sub, user), safe = False)
+
+def cloudy_data(request, subject, email):
+    sub = Subject.objects.get(slug = subject)
+    user = User.objects.get(email = email)
+    return JsonResponse(getAccessedTags(sub, user), safe = False)
