@@ -13,6 +13,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from log.models import Log
 from pendencies.models import Pendencies
 from users.models import User
 
@@ -30,3 +31,7 @@ class Notification(models.Model):
 
     def __str__(self):
         return self.task.get_action_display() + " " + str(self.task.resource)
+
+
+class CronNotification(Log):
+    pass

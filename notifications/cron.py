@@ -10,38 +10,38 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-import datetime
 from django_cron import CronJobBase, Schedule
-
-from .utils import set_notifications
 
 from log.models import Log
 from users.models import User
+from .utils import set_notifications
+from .models import CronNotification
+
 
 class Notify(CronJobBase):
-	RUN_EVERY_MINS = 1440 # every day
+    RUN_EVERY_MINS = 1440  # every day
 
-	schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
-	code = 'amadeus.notification_cron'    # a unique code
+    schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
+    code = 'amadeus.notification_cron'  # a unique code
 
-	def do(self):
-		set_notifications()
-		
-		admins = User.objects.filter(is_staff = True)
-		
-		if admins.count() > 0:
-			admin = admins[0]
+    def do(self):
+        set_notifications()
 
-			log = Log(component = "notifications", action = "cron", resource = "notifications", user = str(admin), user_id = admin.id, user_email = admin.email, context = {})
-			log.save()
+        admins = User.objects.filter(is_staff=True)
+
+        if admins.count() > 0:
+            admin = admins[0]
+            cron_notification = CronNotification(user=admin)
+            cron_notification.save()
 
 
 def notification_cron():
-	set_notifications()
+    set_notifications()
 
-	admins = User.objects.filter(is_staff = True)
+    admins = User.objects.filter(is_staff=True)
 
-	if admins.count() > 0:
-		admin = admins[0]
+    if admins.count() > 0:
+        admin = admins[0]
 
-		Log.objects.create(component = "notifications", action = "cron", resource = "notifications", user = str(admin), user_id = admin.id, user_email = admin.email, context = {})
+        cron_notification = CronNotification(user=admin)
+        cron_notification.save()
