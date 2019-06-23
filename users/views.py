@@ -377,10 +377,10 @@ class RegisterUser(generic.edit.CreateView):
         return super(RegisterUser, self).form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):
-        security = Security.objects.get(id=1)
-
-        if security.allow_register:
-            return redirect(reverse_lazy('users:login'))
+        # security = Security.objects.get(id=1)
+        #
+        # if security.allow_register:
+        #     return redirect(reverse_lazy('users:login'))
 
         return super(RegisterUser, self).dispatch(request, *args, **kwargs)
 
