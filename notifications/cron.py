@@ -12,10 +12,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 from django_cron import CronJobBase, Schedule
 
-from log.models import Log
 from users.models import User
-from .utils import set_notifications
 from .models import CronNotification
+from .utils import set_notifications
 
 
 class Notify(CronJobBase):
