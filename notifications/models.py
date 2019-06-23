@@ -15,6 +15,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from log.models import Log
 from pendencies.models import Pendencies
+from subjects.models import Subject
 from users.models import User
 
 
@@ -35,3 +36,14 @@ class Notification(models.Model):
 
 class CronNotification(Log):
     pass
+
+
+class ViewPendenciesLog(Log):
+    view_page = models.IntegerField(null=False)
+    subject = models.ForeignKey(Subject, null=False)
+
+
+class ViewSubjectHistoryLog(Log):
+    subject = models.ForeignKey(Subject)
+    history_page = models.IntegerField()
+    searched_term = models.CharField(max_length=200)

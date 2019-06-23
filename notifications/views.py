@@ -29,7 +29,7 @@ from categories.models import Category
 from log.models import Log
 from subjects.models import Subject
 from users.models import User
-from .models import Notification
+from .models import Notification, CronNotification, ViewPendenciesLog, ViewSubjectHistoryLog
 from .utils import get_order_by, is_date, strToDate
 
 
@@ -128,24 +128,18 @@ class SubjectNotifications(LoginRequiredMixin, generic.ListView):
         else:
             context['student'] = None
 
-        update_pendencies = Log.objects.filter(action="cron", component="notifications").order_by(
-            '-datetime')
+        update_pendencies = CronNotification.order_by('-datetime')
 
         if update_pendencies.count() > 0:
             last_update = update_pendencies[0]
 
             context['last_update'] = last_update.datetime
 
-        # self.log_context['subject_id'] = subject.id
-        # self.log_context['subject_name'] = subject.name
-        # self.log_context['subject_slug'] = subject.slug
-        # self.log_context['view_page'] = self.request.GET.get("page", 1)
-        # self.log_context['timestamp_start'] = str(int(time.time()))
-        #
-        # super(SubjectNotifications, self).create_log(self.request.user, self.log_component,
-        #                                              self.log_action, self.log_resource)
-
-        self.request.session['log_id'] = Log.objects.latest('id').id
+        view_page_notification = ViewPendenciesLog(subject=subject,
+                                                   view_page=self.request.GET.get("page", 1),
+                                                   user=self.request.user)
+        view_page_notification.save()
+        self.request.session['log_id'] = view_page_notification.id
 
         return context
 
@@ -237,7 +231,7 @@ class SubjectHistory(LoginRequiredMixin, generic.ListView):
             self.students = User.objects.filter(subject_student=subject).order_by('social_name',
                                                                                   'username')
 
-            if not user is None:
+            if user is not None:
                 self.object_list = Notification.objects.filter(user__email=user,
                                                                task__resource__topic__subject=subject).order_by(
                     *order)
@@ -269,25 +263,22 @@ class SubjectHistory(LoginRequiredMixin, generic.ListView):
         context['rows'] = self.num_rows
         context['searched'] = self.request.GET.get("search", "")
 
-        if not self.students is None:
+        if self.students is not None:
             context['sub_students'] = self.students
-            context['student'] = self.request.POST.get('selected_student',
-                                                       self.request.GET.get('selected_student',
-                                                                            self.students.first().email))
+            context['student'] = self.request.POST \
+                .get('selected_student',
+                     self.request.GET.get('selected_student', self.students.first().email))
         else:
             context['student'] = None
 
-        # self.log_context['subject_id'] = subject.id
-        # self.log_context['subject_name'] = subject.name
-        # self.log_context['subject_slug'] = subject.slug
-        # self.log_context['history_page'] = self.request.GET.get("page", 1)
-        # self.log_context['searched'] = self.request.GET.get("search", "")
-        # self.log_context['timestamp_start'] = str(int(time.time()))
-        #
-        # super(SubjectHistory, self).create_log(self.request.user, self.log_component,
-        #                                        self.log_action, self.log_resource)
+        view_subject_history = ViewSubjectHistoryLog(
+            subject=subject,
+            history_page=self.request.GET.get("page", 1),
+            user=self.request.user,
+            searched_term=self.request.GET.get("search", ""))
+        view_subject_history.save()
 
-        self.request.session['log_id'] = Log.objects.latest('id').id
+        self.request.session['log_id'] = view_subject_history.id
 
         return context
 
