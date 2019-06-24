@@ -40,10 +40,10 @@ class CronNotification(Log):
 
 class ViewPendenciesLog(Log):
     view_page = models.IntegerField(null=False)
-    subject = models.ForeignKey(Subject, null=False)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=False)
 
 
 class ViewSubjectHistoryLog(Log):
-    subject = models.ForeignKey(Subject)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=False)
     history_page = models.IntegerField()
     searched_term = models.CharField(max_length=200)
