@@ -25,8 +25,7 @@ from django.utils.translation import ugettext as _u
 from session_security.settings import EXPIRE_AFTER
 from session_security.utils import get_last_activity
 
-from log.models import Log
-from .models import User
+from .models import User, UserLogoutLog
 
 
 class SessionExpireMiddleware(MiddlewareMixin):
@@ -45,14 +44,8 @@ class SessionExpireMiddleware(MiddlewareMixin):
         expire_seconds = EXPIRE_AFTER
 
         if delta >= timedelta(seconds=expire_seconds):
-            log = Log()
-            log.user = str(request.user)
-            log.user_id = request.user.id
-            log.user_email = request.user.email
-            log.context = {'condition': 'session_expire'}
-            log.component = "user"
-            log.action = "logout"
-            log.resource = "system"
+            log = UserLogoutLog()
+            log.user = request.user
 
             log.save()
 
