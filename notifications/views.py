@@ -29,7 +29,8 @@ from categories.models import Category
 from log.models import Log
 from subjects.models import Subject
 from users.models import User
-from .models import Notification, CronNotification, ViewPendenciesLog, ViewSubjectHistoryLog
+from .models import Notification, CronNotification, ViewPendenciesLog, ViewPendenciesHistoryLog, \
+    SetGoalLog
 from .utils import get_order_by, is_date, strToDate
 
 
@@ -271,7 +272,7 @@ class SubjectHistory(LoginRequiredMixin, generic.ListView):
         else:
             context['student'] = None
 
-        view_subject_history = ViewSubjectHistoryLog(
+        view_subject_history = ViewPendenciesHistoryLog(
             subject=subject,
             history_page=self.request.GET.get("page", 1),
             user=self.request.user,
@@ -321,9 +322,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
         context = super(IndexView, self).get_context_data(**kwargs)
 
         context['title'] = _('Pendencies')
-
-        update_pendencies = Log.objects.filter(action="cron", component="notifications").order_by(
-            '-datetime')
+        update_pendencies = CronNotification.order_by('-datetime')
 
         if update_pendencies.count() > 0:
             last_update = update_pendencies[0]
@@ -425,7 +424,6 @@ class AjaxHistory(LoginRequiredMixin, generic.ListView):
 
 
 @login_required
-# @log_decorator('pendencies', 'set_goal', 'pendencies')
 def set_goal(request):
     if request.method == "POST" and request.is_ajax():
         meta = request.POST.get('meta', None)
@@ -456,9 +454,8 @@ def set_goal(request):
         notification.meta = meta
         notification.save()
 
-        # log_context = {'notification_id': notification.id, 'notification': str(notification)}
-        #
-        # request.log_context = log_context
+        set_goal_log = SetGoalLog(notification=notification)
+        set_goal_log.save()
 
         if notification.level == 2:
             message = _('Your new goal to realize the task %s is %s') % (
@@ -470,41 +467,28 @@ def set_goal(request):
     return JsonResponse({'error': False, 'message': message})
 
 
-# @log_decorator_ajax('pendencies', 'view', 'pendencies')
 def pendencies_view_log(request, subject):
     action = request.GET.get('action')
 
     if action == 'open':
         subject = get_object_or_404(Subject, id=subject)
+        view_pendencies_log = ViewPendenciesLog(subject=subject)
+        view_pendencies_log.save()
 
-        # log_context = {'subject_id': subject.id, 'subject_name': subject.name,
-        #                'subject_slug': subject.slug, 'timestamp_start': str(int(time.time())),
-        #                'timestamp_end': '-1'}
-        #
-        # request.log_context = log_context
-
-        log_id = Log.objects.latest('id').id
-
-        return JsonResponse({'message': 'ok', 'log_id': log_id})
+        return JsonResponse({'message': 'ok', 'log_id': view_pendencies_log.id})
 
     return JsonResponse({'message': 'ok'})
 
 
-# @log_decorator_ajax('pendencies', 'view_history', 'pendencies')
 def pendencies_hist_log(request, subject):
     action = request.GET.get('action')
 
     if action == 'open':
         subject = get_object_or_404(Subject, id=subject)
 
-        # log_context = {'subject_id': subject.id, 'subject_name': subject.name,
-        #                'subject_slug': subject.slug, 'timestamp_start': str(int(time.time())),
-        #                'timestamp_end': '-1'}
-        #
-        # request.log_context = log_context
+        view_pendecies_history_log = ViewPendenciesHistoryLog(subject=subject)
+        view_pendecies_history_log.save()
 
-        log_id = Log.objects.latest('id').id
-
-        return JsonResponse({'message': 'ok', 'log_id': log_id})
+        return JsonResponse({'message': 'ok', 'log_id': view_pendecies_history_log.id})
 
     return JsonResponse({'message': 'ok'})

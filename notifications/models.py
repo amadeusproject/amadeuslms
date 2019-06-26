@@ -39,11 +39,15 @@ class CronNotification(Log):
 
 
 class ViewPendenciesLog(Log):
-    view_page = models.IntegerField(null=False)
+    view_page = models.IntegerField(null=True)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=False)
 
 
-class ViewSubjectHistoryLog(Log):
+class ViewPendenciesHistoryLog(Log):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=False)
-    history_page = models.IntegerField()
-    searched_term = models.CharField(max_length=200)
+    history_page = models.IntegerField(null=True)
+    searched_term = models.CharField(max_length=200, null=True)
+
+
+class SetGoalLog(Log):
+    notification = models.ForeignKey(Notification, on_delete=models.CASCADE, null=False)
