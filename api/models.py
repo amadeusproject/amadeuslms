@@ -12,4 +12,27 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 from django.db import models
 
-# Create your models here.
+from chat.models import Conversation, TalkMessages
+from log.models import Log
+from subjects.models import Subject
+from users.models import User
+
+
+class MobileAccessLog(Log):
+    pass
+
+
+class MobileViewParticipants(Log):
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+
+
+class MobileConversationLog(Log):
+    receiver_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    talk = models.ForeignKey(Conversation, on_delete=models.CASCACE)
+
+
+class SendMessageLog(Log):
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    talk = models.ForeignKey(Conversation, on_delete=models.CASCADE)
+    receive_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.ForeignKey(TalkMessages, on_delete=models.CASCADE)

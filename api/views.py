@@ -10,14 +10,14 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
+import json
 import textwrap
 from datetime import datetime
 
-import json
 import requests
 from asgiref.sync import async_to_sync
-from django.contrib.auth import authenticate, logout as logout_user
 from channels.layers import get_channel_layer
+from django.contrib.auth import authenticate, logout as logout_user
 from django.db.models import Count
 from django.db.models import Q, TextField
 from django.db.models.functions import Cast
@@ -36,7 +36,6 @@ from rest_framework.permissions import IsAuthenticated
 
 from chat.models import TalkMessages, Conversation, ChatVisualizations, ChatFavorites
 from chat.serializers import ChatSerializer
-from log.decorators import log_decorator
 from mural.models import SubjectPost, MuralVisualizations, Comment, MuralFavorites
 from mural.serializers import MuralSerializer, CommentsSerializer
 from mural.utils import getSubjectPosts, getSpaceUsers
@@ -47,6 +46,7 @@ from subjects.serializers import SubjectSerializer
 from users.models import User
 from users.serializers import UserSerializer
 from .utils import send_chat_push_notification, sendMuralPushNotification
+from .models import MobileAccessLog, MobileViewParticipants, MobileConversationLog, SendMessageLog
 
 
 @csrf_exempt
@@ -116,6 +116,7 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet):
     log_component = 'mobile'
     log_action = 'access'
     log_resource = 'system'
+
     # log_context = {}
 
     @csrf_exempt
@@ -128,7 +129,7 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet):
         user = self.queryset.get(email=username)
         response = ""
 
-        if not user is None:
+        if user is not None:
             serializer = UserSerializer(user)
 
             json_r = json.dumps(serializer.data)
@@ -139,8 +140,8 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet):
 
             response = json.dumps(user_info)
 
-            # super(LoginViewset, self).create_log(user, self.log_component, self.log_action,
-            #                                      self.log_resource)
+            mobile_access_log = MobileAccessLog(user=user)
+            mobile_access_log.save()
 
         return HttpResponse(response)
 
@@ -156,7 +157,7 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet):
         response = ""
         json_r = {}
 
-        if not user is None:
+        if user is not None:
             fcm_d = FCMDevice()
             fcm_d.name = "phone"
             fcm_d.registration_id = device
@@ -234,11 +235,9 @@ class SubjectViewset(viewsets.ReadOnlyModelViewSet):
 
         user = User.objects.get(email=username)
 
-        subjects = None
-
         response = ""
 
-        if not user is None:
+        if user is not None:
             if user.is_staff:
                 subjects = Subject.objects.all().order_by("name")
             else:
@@ -291,13 +290,11 @@ class ParticipantsViewset(viewsets.ReadOnlyModelViewSet, ):
         username = json_data['email']
         subject_slug = json_data['subject_slug']
 
-        user = User.objects.get(email=username)
-
-        participants = None
-
         response = ""
 
         if not subject_slug == "":
+            user = User.objects.get(email=username)
+
             subject = Subject.objects.get(slug=subject_slug)
 
             participants = User.objects.filter(
@@ -324,12 +321,8 @@ class ParticipantsViewset(viewsets.ReadOnlyModelViewSet, ):
 
             response = json.dumps(info)
 
-            # self.log_context['subject_id'] = subject.id
-            # self.log_context['subject_slug'] = subject_slug
-            # self.log_context['subject_name'] = subject.name
-            #
-            # super(ParticipantsViewset, self).create_log(user, self.log_component, self.log_action,
-            #                                             self.log_resource)
+            view_participants_log = MobileViewParticipants(user=user, subject=subject)
+            view_participants_log.save()
 
         return HttpResponse(response)
 
@@ -346,11 +339,6 @@ class ChatViewset(viewsets.ModelViewSet, ):
     queryset = TalkMessages.objects.all()
     serializer_class = ChatSerializer
     permissions_classes = (IsAuthenticated,)
-
-    log_component = 'mobile'
-    log_action = 'view'
-    log_resource = 'talk'
-    log_context = {}
 
     @csrf_exempt
     @list_route(methods=['POST'], permissions_classes=[IsAuthenticated])
@@ -408,30 +396,22 @@ class ChatViewset(viewsets.ModelViewSet, ):
             info['extra'] = 0
 
             response = json.dumps(info)
-
+            talk = None
             try:
                 talk = Conversation.objects.get(
                     (Q(user_one__email=username) & Q(user_two__email=user_two)) | (
                             Q(user_two__email=username) & Q(user_one__email=user_two)))
-                # self.log_context['talk_id'] = talk.id
             except Conversation.DoesNotExist:
                 pass
 
-            # self.log_context['user_id'] = user2.id
-            # self.log_context['user_name'] = str(user2)
-            # self.log_context['user_email'] = user_two
-            #
-            # super(ChatViewset, self).create_log(user, self.log_component, self.log_action,
-            #                                     self.log_resource)
+            conversation_log = MobileConversationLog(receiver_user=user2, talk=talk)
+            conversation_log.save()
 
         return HttpResponse(response)
 
     @csrf_exempt
     @list_route(methods=['POST'], permissions_classes=[IsAuthenticated])
     def send_message(self, request):
-        self.log_action = 'send'
-        self.log_resource = 'message'
-        # self.log_context = {}
 
         if 'file' in request.data:
             file = request.FILES['file']
@@ -474,9 +454,6 @@ class ChatViewset(viewsets.ModelViewSet, ):
                 space = subject.slug
                 space_type = "subject"
 
-                # self.log_context['subject_id'] = subject.id
-                # self.log_context['subject_slug'] = space
-                # self.log_context['subject_name'] = subject.name
             else:
                 subject = None
                 space = 0
@@ -493,12 +470,8 @@ class ChatViewset(viewsets.ModelViewSet, ):
 
             message.save()
 
-            # self.log_context['talk_id'] = talk.id
-            # self.log_context['user_id'] = user_to.id
-            # self.log_context['user_name'] = str(user_to)
-            # self.log_context['user_email'] = user_two
 
-            if not message.pk is None:
+            if message.pk is not None:
                 simple_notify = textwrap.shorten(strip_tags(message.text), width=30,
                                                  placeholder="...")
 
@@ -537,9 +510,9 @@ class ChatViewset(viewsets.ModelViewSet, ):
                 info["number"] = 1
 
                 send_chat_push_notification(user_to, message)
-
-                # super(ChatViewset, self).create_log(user, self.log_component, self.log_action,
-                #                                     self.log_resource)
+                send_message_log = SendMessageLog(user=user, receive_user=user_to, subject=subject,
+                                                  talk=talk, message=message)
+                send_message_log.save()
             else:
                 info["message"] = _("Error while sending message!")
                 info["success"] = False
