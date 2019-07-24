@@ -2,4 +2,8 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: python manage.py runserver
+  web: gunicorn amadeus.wsgi:application --bind 0.0.0.0:$PORT
+release:
+  image: web
+  command:
+    - python manage.py collectstatic --noinput
