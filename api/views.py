@@ -31,7 +31,7 @@ from django.views.decorators.csrf import csrf_exempt
 from fcm_django.models import FCMDevice
 from oauth2_provider.models import Application
 from rest_framework import viewsets
-from rest_framework.decorators import list_route
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 
 from chat.models import TalkMessages, Conversation, ChatVisualizations, ChatFavorites
@@ -45,8 +45,8 @@ from subjects.models import Subject
 from subjects.serializers import SubjectSerializer
 from users.models import User
 from users.serializers import UserSerializer
-from .utils import send_chat_push_notification, sendMuralPushNotification
 from .models import MobileAccessLog, MobileViewParticipants, MobileConversationLog, SendMessageLog
+from .utils import send_chat_push_notification, sendMuralPushNotification
 
 
 @csrf_exempt
@@ -120,7 +120,7 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet):
     # log_context = {}
 
     @csrf_exempt
-    @list_route(methods=['POST'], permissions_classes=[IsAuthenticated])
+    @action(detail=False, methods=['POST'], permissions_classes=[IsAuthenticated])
     def login(self, request):
         json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 
@@ -146,7 +146,7 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet):
         return HttpResponse(response)
 
     @csrf_exempt
-    @list_route(methods=['POST'], permissions_classes=[IsAuthenticated])
+    @action(detail=False, methods=['POST'], permissions_classes=[IsAuthenticated])
     def register_device(self, request):
         json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 
@@ -182,7 +182,7 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet):
         return HttpResponse(response)
 
     @csrf_exempt
-    @list_route(methods=['POST'], permissions_classes=[IsAuthenticated])
+    @action(detail=False, methods=['POST'], permissions_classes=[IsAuthenticated])
     def logout(self, request):
         json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 
@@ -227,7 +227,7 @@ class SubjectViewset(viewsets.ReadOnlyModelViewSet):
     permissions_classes = (IsAuthenticated,)
 
     @csrf_exempt
-    @list_route(methods=['POST'], permissions_classes=[IsAuthenticated])
+    @action(detail=False, methods=['POST'], permissions_classes=[IsAuthenticated])
     def get_subjects(self, request):
         json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 
@@ -283,7 +283,7 @@ class ParticipantsViewset(viewsets.ReadOnlyModelViewSet, ):
     log_context = {}
 
     @csrf_exempt
-    @list_route(methods=['POST'], permissions_classes=[IsAuthenticated])
+    @action(detail=False, methods=['POST'], permissions_classes=[IsAuthenticated])
     def get_participants(self, request):
         json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 
@@ -341,7 +341,7 @@ class ChatViewset(viewsets.ModelViewSet, ):
     permissions_classes = (IsAuthenticated,)
 
     @csrf_exempt
-    @list_route(methods=['POST'], permissions_classes=[IsAuthenticated])
+    @action(detail=False, methods=['POST'], permissions_classes=[IsAuthenticated])
     def get_messages(self, request):
         json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 
@@ -410,7 +410,7 @@ class ChatViewset(viewsets.ModelViewSet, ):
         return HttpResponse(response)
 
     @csrf_exempt
-    @list_route(methods=['POST'], permissions_classes=[IsAuthenticated])
+    @action(detail=False, methods=['POST'], permissions_classes=[IsAuthenticated])
     def send_message(self, request):
 
         if 'file' in request.data:
@@ -535,7 +535,7 @@ class ChatViewset(viewsets.ModelViewSet, ):
         return HttpResponse(response)
 
     @csrf_exempt
-    @list_route(methods=['POST'], permissions_classes=[IsAuthenticated])
+    @action(detail=False, methods=['POST'], permissions_classes=[IsAuthenticated])
     def favorite_messages(self, request):
         json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 
@@ -585,7 +585,7 @@ class MuralViewset(viewsets.ModelViewSet, ):
     log_context = {}
 
     @csrf_exempt
-    @list_route(methods=['POST'], permissions_classes=[IsAuthenticated])
+    @action(detail=False, methods=['POST'], permissions_classes=[IsAuthenticated])
     def get_posts(self, request):
         json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 
@@ -645,7 +645,7 @@ class MuralViewset(viewsets.ModelViewSet, ):
         return HttpResponse(response)
 
     @csrf_exempt
-    @list_route(methods=['POST'], permissions_classes=[IsAuthenticated])
+    @action(detail=False, methods=['POST'], permissions_classes=[IsAuthenticated])
     def get_comments(self, request):
         json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 
@@ -696,7 +696,7 @@ class MuralViewset(viewsets.ModelViewSet, ):
         return HttpResponse(response)
 
     @csrf_exempt
-    @list_route(methods=['POST'], permissions_classes=[IsAuthenticated])
+    @action(detail=False, methods=['POST'], permissions_classes=[IsAuthenticated])
     def create_post(self, request):
         self.log_action = 'send'
         self.log_resource = 'mural'
@@ -794,7 +794,7 @@ class MuralViewset(viewsets.ModelViewSet, ):
         return HttpResponse(response)
 
     @csrf_exempt
-    @list_route(methods=['POST'], permissions_classes=[IsAuthenticated])
+    @action(detail=False, methods=['POST'], permissions_classes=[IsAuthenticated])
     def create_comment(self, request):
         self.log_action = 'send'
         self.log_resource = 'post_comment'
@@ -895,7 +895,7 @@ class MuralViewset(viewsets.ModelViewSet, ):
         return HttpResponse(response)
 
     @csrf_exempt
-    @list_route(methods=['POST'], permissions_classes=[IsAuthenticated])
+    @action(detail=False, methods=['POST'], permissions_classes=[IsAuthenticated])
     def favorite(self, request):
         json_data = request.data if request.data else json.loads(request.body.decode('utf-8'))
 

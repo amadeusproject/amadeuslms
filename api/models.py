@@ -28,7 +28,7 @@ class MobileViewParticipants(Log):
 
 class MobileConversationLog(Log):
     receiver_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    talk = models.ForeignKey(Conversation, on_delete=models.CASCACE)
+    talk = models.ForeignKey(Conversation, on_delete=models.CASCADE)
 
 
 class SendMessageLog(Log):
