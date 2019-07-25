@@ -555,15 +555,15 @@ def logout(request, next_page=None):
     if not request.user.is_anonymous:
         user_email = request.user.email
         user_id = request.user.id
+
+        # log user logout
+        user_logout_log = UserLogoutLog(user=User.objects.get(id=user_id))
+        user_logout_log.save()
     else:
         user_email = None
         user_id = 0
 
     logout_user(request)
-
-    # log user logout
-    user_logout_log = UserLogoutLog(user=request.user)
-    user_logout_log.save()
 
     if user_email is not None:
         users = User.objects.all().exclude(email=user_email)
