@@ -13,6 +13,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 import os
 
 import dj_database_url
+import django_heroku
 
 from django.conf.global_settings import DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS
 from django.utils.translation import ugettext_lazy as _
@@ -23,14 +24,11 @@ db_from_ev = dj_database_url.config(conn_max_age=500)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$=8)c!5)iha85a&8q4+kv1pyg0yl7_xe_x^z=2cn_1d7r0hny4'
+SECRET_KEY = os.environ.get("SECRET_KEY", default="foo")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = int(os.environ.get("DEBUG", default=0))
 
 # Application definition
 
@@ -216,12 +214,15 @@ CRONJOBS = [
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)]
+        }
 
     },
 }
 
 FCM_DJANGO_SETTINGS = {
-    "FCM_SERVER_KEY": "AAAA8UuwSms:APA91bHZyLpw5rnaZtzGT12_yPD0NwVlBX2fD_CJgR_cRvKmxeg9gKd8Y281JkSAFYwMYyruY1O3qjIMEIiByeEAZRxZz9gJKbbxGDR86fMTrv2Yfu83aD6JUZKqBsR-xX5G8CM7LQ5C",
+    "FCM_SERVER_KEY": os.environ["FCM_SERVER_KEY"],
     # true if you want to have only one active device per registered user at a time
     # default: False
     "ONE_DEVICE_PER_USER": False,
@@ -235,7 +236,7 @@ FCM_DJANGO_SETTINGS = {
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allow all host headers
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [os.environ.get("PRODUCTION_HOST", default="*")]
 
 # Files
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'uploads')
@@ -252,12 +253,6 @@ AUTHENTICATION_BACKENDS = [
 ROLEPERMISSIONS_MODULE = 'amadeus.roles'
 
 LOGS_URL = 'logs/'
-# https://github.com/squ1b3r/Djaneiro
-
-
-# E-mail
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# DEFAULT_FROM_EMAIL = 'admin@amadeus.com.br'
 
 # Messages
 from django.contrib.messages import constants as messages_constants
@@ -358,6 +353,10 @@ SUMMERNOTE_CONFIG = {
     # 'attachment_upload_to': my_custom_upload_to_func(),
 
 }
+
+
+# Activate Django-heroku
+django_heroku.settings(locals())
 
 try:
     from .local_settings import *
