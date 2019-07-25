@@ -26,7 +26,6 @@ from django.views import generic
 from amadeus.permissions import has_subject_view_permissions, has_category_permission, \
     has_subject_permissions
 from categories.models import Category
-from log.models import Log
 from subjects.models import Subject
 from users.models import User
 from .models import Notification, CronNotification, ViewPendenciesLog, ViewPendenciesHistoryLog, \
@@ -129,7 +128,7 @@ class SubjectNotifications(LoginRequiredMixin, generic.ListView):
         else:
             context['student'] = None
 
-        update_pendencies = CronNotification.order_by('-datetime')
+        update_pendencies = CronNotification.objects.order_by('-datetime')
 
         if update_pendencies.count() > 0:
             last_update = update_pendencies[0]
@@ -322,7 +321,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
         context = super(IndexView, self).get_context_data(**kwargs)
 
         context['title'] = _('Pendencies')
-        update_pendencies = CronNotification.order_by('-datetime')
+        update_pendencies = CronNotification.objects.order_by('-datetime')
 
         if update_pendencies.count() > 0:
             last_update = update_pendencies[0]
