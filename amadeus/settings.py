@@ -359,6 +359,7 @@ SUMMERNOTE_CONFIG = {
 django_heroku.settings(locals())
 
 try:
-    from .local_settings import *
+    if DEBUG:
+        from .local_settings import *
 except ImportError:
     pass
