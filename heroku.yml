@@ -6,4 +6,4 @@ run:
 release:
   image: web
   command:
-    - python manage.py collectstatic --noinput
+    - ./docker-entrypoint.sh
