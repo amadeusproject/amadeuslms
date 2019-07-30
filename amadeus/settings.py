@@ -222,6 +222,7 @@ CHANNEL_LAYERS = {
             "hosts": [(redis_url.hostname, redis_url.port)]
         },
         "OPTIONS": {
+            "DB": 0,
             "PASSWORD": redis_url.password
         }
     },
