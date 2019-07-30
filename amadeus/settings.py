@@ -220,6 +220,9 @@ CHANNEL_LAYERS = {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
             "hosts": [(redis_url.hostname, redis_url.port)]
+        },
+        "OPTIONS": {
+            "PASSWORD": redis_url.password
         }
     },
 }
