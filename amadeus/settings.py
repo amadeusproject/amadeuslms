@@ -212,13 +212,15 @@ CRONJOBS = [
     ('0 0 * * *', 'goals.cron.setgoals_cron')
 ]
 
+from urllib import parse
+redis_url = parse.urlparse(os.getenv("REDISTOGO_URL"))
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(os.getenv("REDISTOGO_URL"), 6379)]
+            "hosts": [(redis_url.hostname, redis_url.port)]
         }
-
     },
 }
 
