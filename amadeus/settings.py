@@ -29,6 +29,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", default="foo")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
+DEVELOPMENT = int(os.environ.get("DEVELOPMENT", default=0))
 
 # Application definition
 
@@ -359,7 +360,7 @@ SUMMERNOTE_CONFIG = {
 django_heroku.settings(locals())
 
 try:
-    if DEBUG:
+    if DEBUG and DEVELOPMENT:
         from .local_settings import *
 except ImportError:
     pass
