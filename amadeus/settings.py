@@ -213,24 +213,25 @@ CRONJOBS = [
 ]
 
 from urllib import parse
+
 redis_url = parse.urlparse(os.getenv("REDISTOGO_URL"))
 
-print("hostname: " + redis_url.hostname)
-print("password: " + redis_url.password)
-print("port: " + str(redis_url.port))
-
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {"hosts": [(redis_url.hostname, redis_url.port)]},
+#         "OPTIONS": {
+#             "DB": 0,
+#             "PASSWORD": redis_url.password
+#         },
+#         "LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
+#     },
+# }
 
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [(redis_url.hostname, redis_url.port)]
-        },
-        "OPTIONS": {
-            "DB": 0,
-            "PASSWORD": redis_url.password
-        },
-        "LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
+        "CONFIG": {"hosts": [os.environ.get('REDISTOGO_URL', 'redis://localhost:6379')]},
     },
 }
 
@@ -366,7 +367,6 @@ SUMMERNOTE_CONFIG = {
     # 'attachment_upload_to': my_custom_upload_to_func(),
 
 }
-
 
 # Activate Django-heroku
 django_heroku.settings(locals())
