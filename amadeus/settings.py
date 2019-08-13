@@ -215,6 +215,11 @@ CRONJOBS = [
 from urllib import parse
 redis_url = parse.urlparse(os.getenv("REDISTOGO_URL"))
 
+print("hostname: " + redis_url.hostname)
+print("password: " + redis_url.password)
+print("port: " + redis_url.port)
+
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
