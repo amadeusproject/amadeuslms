@@ -217,7 +217,7 @@ redis_url = parse.urlparse(os.getenv("REDISTOGO_URL"))
 
 print("hostname: " + redis_url.hostname)
 print("password: " + redis_url.password)
-print("port: " + redis_url.port)
+print("port: " + str(redis_url.port))
 
 
 CHANNEL_LAYERS = {
