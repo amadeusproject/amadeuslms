@@ -662,7 +662,7 @@ class CategoryDelete(LoginRequiredMixin, generic.DeleteView):
         return reverse_lazy('mural:deleted_post')
 
 
-@log_decorator_ajax('mural', 'view', 'category')
+# @log_decorator_ajax('mural', 'view', 'category')
 def mural_category_log(request, category):
     action = request.GET.get('action')
 

@@ -251,7 +251,7 @@ class UpdateCategory(UpdateView):
         return context
 
 
-@log_decorator_ajax('category', 'view', 'category')
+# @log_decorator_ajax('category', 'view', 'category')
 def category_view_log(request, category):
     action = request.GET.get('action')
 

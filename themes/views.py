@@ -96,7 +96,7 @@ class CSSStyleSettings(braces_mixins.LoginRequiredMixin, braces_mixins.Staffuser
         return context
 
 
-@log_decorator("contrast", "click", "contrast")
+# @log_decorator("contrast", "click", "contrast")
 def Contrast(request):
     caminho = request.META.get('HTTP_REFERER')
     return HttpResponseRedirect(caminho)
