@@ -216,18 +216,6 @@ from urllib import parse
 
 redis_url = parse.urlparse(os.getenv("REDISTOGO_URL"))
 
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {"hosts": [(redis_url.hostname, redis_url.port)]},
-#         "OPTIONS": {
-#             "DB": 0,
-#             "PASSWORD": redis_url.password
-#         },
-#         "LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
-#     },
-# }
-
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
