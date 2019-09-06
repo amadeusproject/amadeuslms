@@ -78,6 +78,7 @@ from questionary.models import Questionary
 
 from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions, has_resource_permissions
 
+from log.search import user_last_interaction, multi_search
 
 class HomeView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("users:login")
@@ -754,14 +755,10 @@ def subject_view_log(request, subject):
 
     return JsonResponse({'message': 'ok'})
 
+
 @login_required
 def get_participants(request, subject):
     sub = subject
-
-    status_query = "SELECT CASE WHEN action = 'logout' AND EXTRACT(EPOCH FROM(NOW() - datetime::timestamp)) " \
-                    "< 1200 THEN 2 WHEN action = 'logout' AND EXTRACT(EPOCH FROM(NOW() - datetime::timestamp)) " \
-                    ">= 1200 THEN 1 ELSE 0 END FROM log_log WHERE log_log.user_id = users_user.id " \
-                    "ORDER BY datetime DESC LIMIT 1"
 
     expire_time = settings.SESSION_SECURITY_EXPIRE_AFTER
 
@@ -769,11 +766,39 @@ def get_participants(request, subject):
 
     context['subject'] = get_object_or_404(Subject, slug = sub)
 
-    context['participants'] = User.objects.filter(
+    users = User.objects.filter(
         Q(subject_student__slug=sub) |
         Q(professors__slug=sub)
-        ).extra(select={'status': status_query}, select_params=(expire_time, expire_time,),).distinct()\
-        .order_by('status', 'social_name', 'username').exclude(email=request.user.email)
+        ).order_by('social_name', 'username').exclude(email=request.user.email)
+
+    logs = []
+
+    for user in users:
+        logs.append(user_last_interaction(user.id))
+
+    res = multi_search(logs)
+
+    for i, user in enumerate(users):
+        entry = res[i]
+
+        if entry:
+            timedelta = datetime.datetime.now() - datetime.datetime.strptime(entry.hits[0].datetime[:-6], "%Y-%m-%dT%H:%M:%S.%f")
+
+            if entry.hits[0].action != 'logout' and timedelta.total_seconds() < expire_time:
+                user.status = "active"
+                user.statuscode = 2
+            elif entry.hits[0].action != 'logout' and timedelta.total_seconds() >= expire_time:
+                user.status = "away"
+                user.statuscode = 1
+            else:
+                user.status = ''
+                user.statuscode = 0
+        else:
+            user.status = ''
+            user.statuscode = 0
+
+    users._result_cache.sort(key=lambda x: x.statuscode, reverse = True)
+    context['participants'] = users
 
     return render(request, 'subjects/_participants.html', context)
 

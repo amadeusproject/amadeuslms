@@ -18,7 +18,10 @@ from subjects.models import Subject, Tag
 from students_group.models import StudentsGroup
 from users.models import User
 
+from subjects.search import ResourceTagIndex
+
 from .decorators import always_as_child
+from .search import ResourceIndex
 
 class Topic(models.Model):
 	name = models.CharField(_('Name'), max_length = 200)
@@ -117,3 +120,15 @@ class Resource(KnowsChild):
 	@always_as_child
 	def get_data_end(self):
 		return None
+
+	def indexing(self):
+		obj = ResourceIndex(meta={'id': self.id}, id=self.id, name=self.name, slug=self.slug, brief_description=self.brief_description, show_window=self.show_window, visible=self.visible, order=self.order, topic_id=self.topic.id, subject_id=self.topic.subject.id, tags=[], create_date=self.create_date, last_update=self.last_update, subclass=self._my_subclass)
+		
+		for t in self.tags.all():
+			tag = ResourceTagIndex(id=t.id, name=t.name)
+
+			obj.nested_tags.append(tag.to_dict())
+
+		obj.save()
+
+		return obj.to_dict(include_meta=True)

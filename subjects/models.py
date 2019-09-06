@@ -24,11 +24,20 @@ from django.core.exceptions import ValidationError
 from categories.models import Category
 import datetime
 
+from .search import TagIndex
+
 class Tag(models.Model):
     name = models.CharField( _("Name"), unique = True,max_length= 200, blank = True)
     
     def __str__(self):
         return self.name
+
+    def indexing(self):
+        obj = TagIndex(meta={'id': self.id}, id=self.id, name=self.name)
+
+        obj.save()
+
+        return obj.to_dict(include_meta=True)
 
 class Subject(models.Model):
 

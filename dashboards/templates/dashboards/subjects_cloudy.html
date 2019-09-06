@@ -36,14 +36,28 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     </style>
 
 <div class="col-md-8 col-xs-12 col-sm-12 col-lg-8">
-    <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; ">
-        <b>{% trans 'Most Popular Tags' %}</b>
-        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" 
-            title="{% trans 'Compare your number of hits with the number of hits in each class tag in this subject' %}"></i>
+    <div style="padding-left: 10px; ">
+        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style=" padding-left: 10px; ">
+            <div style="float:left; font-size:16px; text-align:left; color: #000;">
+                <b>{% trans 'Most Popular Tags' %}</b>
+                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" 
+                    title="{% trans 'Compare your number of hits with the number of hits in each class tag in this subject' %}"></i>
+            </div>
+            <div style="float:right">
+                {% trans 'Cloudy View' %}
+                <label class="switch">
+                    <input id="ganttPercent" type="checkbox" name="percentOn" checked onclick="view_toogle()">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+        
     </div>
-    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 0px;">
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style="padding: 0px;">
+        <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 0px;">
+    </div>
     <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 cloudy-legend">
-        <i class="fa fa-text-height icon-cloudy-legend" aria-hidden="true"></i><p class="text-cloudy-legend">{% trans 'Class accesses' %}</p>
+        <i id="cloudy-icon" class="fa fa-text-height icon-cloudy-legend" aria-hidden="true"></i><p class="text-cloudy-legend">{% trans 'Class accesses' %}</p>
         <div style="width:20px; height: 10px;"></div>
         <div class="icon-cloudy-legend" style="background-image: linear-gradient(to right, #162318 , #8EC99A); "></div><p class="text-cloudy-legend">{% trans 'Your accesses' %}</p>
     </div>
@@ -216,7 +230,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
     var qtd_students = {{ qtd_students }};
 
-    var cloudWord;
+    var cloudWord = undefined;
 
     //var data = {% autoescape off %} {{ tags_cloud }} {% endautoescape %};
     $.get("{{ tags_cloud }}", function (data) {
@@ -236,7 +250,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             return d1.value > d2.value ? -1 : (d1.value < d2.value ? 1 : 0);
         })
 
-        data = data.slice(0, 30);
+        data = data.slice(0, Math.floor((30/1000)*width));
 
         var dataconfig = {
             parent: "#cloudy",
@@ -296,22 +310,25 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             tooltip: {
                 text: "Tag: <key>\nTotal de acessos: <value> \nMeus acessos: <myvalue>",
             },
-            filltext: function (a) {
-                var fill = d3.scaleLinear().domain([0,1])
+            filltext: function (a,transition) {
+                transition = transition || 0;
+                a.fillpattern = d3.scaleLinear().domain([0,1])
                     .interpolate(d3.interpolateHcl)
                     .range([d3.rgb("#8EC99A"), d3.rgb('#162318')]);
                 //var fill = d3.interpolateGreens;
                 var prop = a.chartConfig.mymax / a.chartConfig.max;
-                function scalePercent(x, y) {
+                 a.scalePercent = function(x, y) {
                     if (x > y)
                         return y * 0.1 * prop / x + 0.2;
                     else
                         return 1 - x * .7 / (y * prop);
                 }
                 //console.log(prop);
-                a.words.attr("fill", function (d, i) {
+                a.wordsv5
+                    .transition().duration(transition)
+                    .attr("fill", function (d, i) {
                     //console.log(scalePercent(d.myvalue,d.value));
-                    return fill(scalePercent(d.myvalue, d.value));
+                    return a.fillpattern(a.scalePercent(d.myvalue, d.value));
                 });
             },
             /*default:function(){
@@ -322,6 +339,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         }
         cloudWord = new CloudWord(dataconfig);
     });
+    function view_toogle(){
+        if(cloudWord)
+            cloudWord.view_toogle();
+    }
     function cloudy_responsibilities(){
 
     }

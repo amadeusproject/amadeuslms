@@ -73,7 +73,7 @@ def log_decorator_ajax(log_component = '', log_action = '', log_resource = ''):
 					log.user_id = request.user.id
 					log.user_email = request.user.email
 					log.component = log_component
-					log.context = ""
+					log.context = {}
 					log.action = log_action
 					log.resource = log_resource
 
