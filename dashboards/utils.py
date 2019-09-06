@@ -17,6 +17,10 @@ from django.db.models.functions import TruncDate
 
 import operator
 
+from log.search import count_logs, multi_search, resource_accessess
+from subjects.search import tags_all
+from topics.search import resources_by_tag
+
 def done_percent(pendency):
     users = get_resource_users(pendency.resource)
     notified = Notification.objects.filter(user__in = users.values_list('id', flat = True), creation_date = datetime.now(), task = pendency).count()
@@ -79,40 +83,72 @@ def getAccessedTags(subject, user):
     tags = Tag.objects.all()
 
     data = []
-
-    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 7), datetime__date__lt = timezone.now())
-
+    searchs = []
+       
     for tag in tags:
         if not tag.name == '':
-            resources = Resource.objects.filter(tags = tag, topic__subject = subject)
-            
-            qtd = 0
-            qtd_my = 0
+            resources = Resource.objects.filter(tags__id = tag.id, topic__subject = subject)
 
+            if resources.count() > 0:
+                searchs.append(count_logs(resources))
+                searchs.append(count_logs(resources, user.id))
+                tag.access = 1
+            else:
+                tag.access = 0
+
+    res = multi_search(searchs)
+
+    counter = 0
+    
+    for tag in tags:
+        if not tag.name == '':
             item = {}
             
             item["tag_name"] = tag.name
             item["details_url"] = reverse('dashboards:tag_accessess', args = (tag.id, subject.slug, user.email,), kwargs = {})
+
+            if tag.access == 1:
+                item["qtd_access"] = res[counter].to_dict()['hits']['total']['value']
+                item["qtd_my_access"] = res[counter + 1].to_dict()['hits']['total']['value']
+                
+                counter = counter + 2
+            else:
+                item["qtd_access"] = 0
+                item["qtd_my_access"] = 0
+
+            data.append(item)
             
-            if resources.count() > 0:
-                conds = Q()
-            
-                for res in resources:
-                    conds.add(Q(context__contains = {res._my_subclass+'_id': res.id}), Q.OR)
-
-                query = logs.filter(Q(component = 'resources') & conds).distinct()
-
-                qtd = qtd + query.count()
-                qtd_my = qtd_my + query.filter(user_id = user.id).count()
-
-                item["qtd_access"] = qtd
-                item["qtd_my_access"] = qtd_my
-            
-                data.append(item)
-
     return data
 
 def getTagAccessess(subject, tag, user):
+    resources = Resource.objects.filter(tags = tag, topic__subject = subject)
+
+    data = []
+    searchs = []
+
+    for resource in resources:
+        searchs.append(resource_accessess(resource))
+        searchs.append(resource_accessess(resource, user.id))
+        
+    res = multi_search(searchs)
+
+    counter = 0
+
+    for resource in resources:
+        item = {}
+        
+        item["resource_name"] = resource.name
+        item["qtd_access"] = res[counter].to_dict()['hits']['total']['value']
+        item["qtd_my_access"] = res[counter + 1].to_dict()['hits']['total']['value']
+        item["access_url"] = resource.access_link()
+
+        counter = counter + 2
+    
+        data.append(item)
+
+    return data
+
+def getTagAccessessOld(subject, tag, user):
     resources = Resource.objects.filter(tags = tag, topic__subject = subject)
 
     logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 7), datetime__date__lt = timezone.now())

@@ -299,4 +299,5 @@ def other_metrics(request, subject, email):
 def cloudy_data(request, subject, email):
     sub = Subject.objects.get(slug = subject)
     user = User.objects.get(email = email)
+
     return JsonResponse(getAccessedTags(sub, user), safe = False)
