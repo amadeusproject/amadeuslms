@@ -21,6 +21,7 @@ from subjects.models import Subject
 from topics.decorators import always_as_child
 from topics.models import KnowsChild, Resource
 from users.models import User
+from log.models import Log
 
 valid_formats = ['image/jpeg', 'image/x-citrix-jpeg', 'image/png', 'image/x-citrix-png',
                  'image/x-png', 'image/gif']
@@ -183,3 +184,8 @@ class MuralFavorites(models.Model):
                              null=True, on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name=_('User'), related_name="favorites_user",
                              on_delete=models.CASCADE, null=True)
+
+
+class DeletePost(Log):
+    post = models.ForeignKey(CategoryPost, on_delete=models.CASCADE, null=False)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)

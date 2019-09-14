@@ -38,7 +38,7 @@ from topics.models import Resource
 from users.models import User
 from .forms import GeneralPostForm, CategoryPostForm, ResourcePostForm, SubjectPostForm, CommentForm
 from .models import Mural, GeneralPost, CategoryPost, SubjectPost, MuralVisualizations, \
-    MuralFavorites, Comment
+    MuralFavorites, Comment, DeletePost
 from .utils import getSpaceUsers, getSubjectPosts
 
 """
@@ -614,11 +614,6 @@ class CategoryUpdate(LoginRequiredMixin, generic.UpdateView):
 
 
 class CategoryDelete(LoginRequiredMixin, generic.DeleteView):
-    log_component = "mural"
-    log_action = "delete_post"
-    log_resource = "category"
-    log_context = {}
-
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
@@ -651,13 +646,9 @@ class CategoryDelete(LoginRequiredMixin, generic.DeleteView):
         for user in users:
             async_to_sync(channel_layer.send)("user-%s" % user.id, {'text': notification})
 
-        # self.log_context['post_id'] = self.object.id
-        # self.log_context['category_id'] = self.object.space.id
-        # self.log_context['category_name'] = self.object.space.name
-        # self.log_context['category_slug'] = self.object.space.slug
-        #
-        # super(CategoryDelete, self).create_log(self.request.user, self.log_component,
-        #                                        self.log_action, self.log_resource)
+        delete_category_post_log = DeletePost(user=self.request.user, category=self.object.space,
+                                              post=self.object)
+        delete_category_post_log.save()
 
         return reverse_lazy('mural:deleted_post')
 
