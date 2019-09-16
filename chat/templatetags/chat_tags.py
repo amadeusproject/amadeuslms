@@ -18,6 +18,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from chat.models import TalkMessages, ChatVisualizations, ChatFavorites
 from log.models import Log
+from users.models import UserLogoutLog
 
 register = template.Library()
 
@@ -32,7 +33,7 @@ def is_online(user):
     if activities.count() > 0:
         last_activity = activities[0]
 
-        if last_activity.action != 'logout':
+        if type(last_activity) != UserLogoutLog:
             if (now - last_activity.datetime).total_seconds() < expire_time:
                 return "active"
             else:
@@ -104,8 +105,8 @@ def fav_class(message, user):
 def notifies_subject(subject, user):
     total = ChatVisualizations.objects.filter(
         Q(message__subject=subject, user=user, viewed=False) & (
-                    Q(user__is_staff=True) | Q(message__subject__students=user) | Q(
-                message__subject__professor=user) | Q(
-                message__subject__category__coordinators=user))).distinct().count()
+                Q(user__is_staff=True) | Q(message__subject__students=user) | Q(
+            message__subject__professor=user) | Q(
+            message__subject__category__coordinators=user))).distinct().count()
 
     return total
