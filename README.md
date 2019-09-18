@@ -3,9 +3,6 @@
 Amadeus is a LMS (Learning Management System) with a focus on analytics, usability and performance. The main is to provide a focused environment where students and teacher can self assess their performance.
   
 
-Repositório do projeto Amadeus, versão 1.0.0
-  https://softwarepublico.gov.br/social/amadeus
-
 1. Architecture Overview
 2. Configuration
     - How to develop locally using Docker [en-us]() / [pt-br](https://github.com/amadeusproject/amadeuslms/wiki/Guia-Docker-Desenvolvimento)
@@ -21,3 +18,5 @@ Repositório do projeto Amadeus, versão 1.0.0
 # TODO
 
 
+** Sources of information **
+pt-br: https://softwarepublico.gov.br/social/amadeus
