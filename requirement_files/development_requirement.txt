@@ -1,5 +1,6 @@
 asgi-redis==1.0.0
 asgiref==1.0.0
+certifi==2019.6.16
 channels==1.0.3
 coverage==4.2
 daphne==1.0.2
@@ -27,6 +28,8 @@ django-widget-tweaks==1.4.1
 django-wysiwyg==0.8.0
 djangoajax==2.3.6
 djangorestframework==3.6.4
+elasticsearch==7.0.4
+elasticsearch-dsl==7.0.0
 entrypoints==0.2.2
 fcm-django==0.2.11
 file-resubmit==0.1.0

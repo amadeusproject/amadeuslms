@@ -129,22 +129,23 @@ def getTagAccessess(subject, tag, user):
     for resource in resources:
         searchs.append(resource_accessess(resource))
         searchs.append(resource_accessess(resource, user.id))
+
+    if searchs:
+        res = multi_search(searchs)
+
+        counter = 0
+
+        for resource in resources:
+            item = {}
+            
+            item["resource_name"] = resource.name
+            item["qtd_access"] = res[counter].to_dict()['hits']['total']['value']
+            item["qtd_my_access"] = res[counter + 1].to_dict()['hits']['total']['value']
+            item["access_url"] = resource.access_link()
+
+            counter = counter + 2
         
-    res = multi_search(searchs)
-
-    counter = 0
-
-    for resource in resources:
-        item = {}
-        
-        item["resource_name"] = resource.name
-        item["qtd_access"] = res[counter].to_dict()['hits']['total']['value']
-        item["qtd_my_access"] = res[counter + 1].to_dict()['hits']['total']['value']
-        item["access_url"] = resource.access_link()
-
-        counter = counter + 2
-    
-        data.append(item)
+            data.append(item)
 
     return data
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-01 21:40+0000\n"
+"POT-Creation-Date: 2019-09-19 08:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,42 +18,42 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: log/models.py:19
+#: log/models.py:21
 msgid "Component (Module / App)"
 msgstr ""
 
-#: log/models.py:20
+#: log/models.py:22
 msgid "Context"
 msgstr ""
 
-#: log/models.py:21
+#: log/models.py:23
 msgid "Action"
 msgstr ""
 
-#: log/models.py:22
+#: log/models.py:24
 msgid "Resource"
 msgstr ""
 
-#: log/models.py:23
+#: log/models.py:25
 msgid "Actor"
 msgstr ""
 
-#: log/models.py:24
+#: log/models.py:26
 msgid "Actor id"
 msgstr ""
 
-#: log/models.py:25
+#: log/models.py:27
 msgid "Actor Mail"
 msgstr ""
 
-#: log/models.py:26
+#: log/models.py:28
 msgid "Date and Time of action"
 msgstr ""
 
-#: log/models.py:29
+#: log/models.py:31
 msgid "Log"
 msgstr ""
 
-#: log/models.py:30
+#: log/models.py:32
 msgid "Logs"
 msgstr ""
