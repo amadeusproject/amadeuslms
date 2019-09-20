@@ -80,7 +80,7 @@ def get_pend_graph(user, subject):
     return graph
 
 def getAccessedTags(subject, user):
-    tags = Tag.objects.all()
+    tags = Tag.objects.filter(resource_tags__topic__subject = subject).distinct().all() 
 
     data = []
     searchs = []
