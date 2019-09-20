@@ -877,3 +877,32 @@ function abreviate_ifneed(action,name,width,font_size){
     }
     return "";
 }
+
+function abreviate(word, width, fontSize) {
+  const wrapper = d3.select(".abrev-text").style("font-size", fontSize);
+  let textWidth;
+
+  function fit(text) {
+    wrapper.text(text);
+    textWidth = document.getDimensions(".abrev-text").w;
+
+    return textWidth < (width - 10);
+  }
+  
+  if (!fit(word)) {
+    let length = Math.floor((width - 13) * word.length / (textWidth - 13));
+    let text = `${word.slice(0, length - 3)}...`;
+
+    if (fit(text)) {
+      return text;
+    }
+
+    text = `${word.slice(0, length - 10)}...`;
+
+    if (fit(text)) {
+      return text;
+    }
+  }
+  
+  return word;
+}

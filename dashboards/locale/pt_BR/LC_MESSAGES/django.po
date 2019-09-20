@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-01 21:40+0000\n"
+"POT-Creation-Date: 2019-09-19 08:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -125,74 +125,74 @@ msgid "Sat"
 msgstr "Sab"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
-#: dashboards/templates/dashboards/subjects_gantt.html:153
+#: dashboards/templates/dashboards/subjects_gantt.html:114
 #: dashboards/views.py:90 dashboards/views.py:143
 msgid "January"
 msgstr "Janeiro"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
-#: dashboards/templates/dashboards/subjects_gantt.html:153
+#: dashboards/templates/dashboards/subjects_gantt.html:114
 #: dashboards/views.py:90 dashboards/views.py:143
 msgid "February"
 msgstr "Fevereiro"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
-#: dashboards/templates/dashboards/subjects_gantt.html:153
+#: dashboards/templates/dashboards/subjects_gantt.html:114
 #: dashboards/views.py:90 dashboards/views.py:143
 msgid "March"
 msgstr "Março"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
-#: dashboards/templates/dashboards/subjects_gantt.html:153
+#: dashboards/templates/dashboards/subjects_gantt.html:114
 #: dashboards/views.py:90 dashboards/views.py:143
 msgid "April"
 msgstr "Abril"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
 #: dashboards/templates/dashboards/d3_translate.html:29
-#: dashboards/templates/dashboards/subjects_gantt.html:154
+#: dashboards/templates/dashboards/subjects_gantt.html:115
 #: dashboards/views.py:90 dashboards/views.py:143
 msgid "May"
 msgstr "Maio"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
-#: dashboards/templates/dashboards/subjects_gantt.html:154
+#: dashboards/templates/dashboards/subjects_gantt.html:115
 #: dashboards/views.py:90 dashboards/views.py:143
 msgid "June"
 msgstr "Junho"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
-#: dashboards/templates/dashboards/subjects_gantt.html:154
+#: dashboards/templates/dashboards/subjects_gantt.html:115
 #: dashboards/views.py:90 dashboards/views.py:143
 msgid "July"
 msgstr "Julho"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
-#: dashboards/templates/dashboards/subjects_gantt.html:154
+#: dashboards/templates/dashboards/subjects_gantt.html:115
 #: dashboards/views.py:91 dashboards/views.py:144
 msgid "August"
 msgstr "Agosto"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
-#: dashboards/templates/dashboards/subjects_gantt.html:155
+#: dashboards/templates/dashboards/subjects_gantt.html:116
 #: dashboards/views.py:91 dashboards/views.py:144
 msgid "September"
 msgstr "Setembro"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
-#: dashboards/templates/dashboards/subjects_gantt.html:155
+#: dashboards/templates/dashboards/subjects_gantt.html:116
 #: dashboards/views.py:91 dashboards/views.py:144
 msgid "October"
 msgstr "Outubro"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
-#: dashboards/templates/dashboards/subjects_gantt.html:155
+#: dashboards/templates/dashboards/subjects_gantt.html:116
 #: dashboards/views.py:91 dashboards/views.py:144
 msgid "November"
 msgstr "Novembro"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
-#: dashboards/templates/dashboards/subjects_gantt.html:155
+#: dashboards/templates/dashboards/subjects_gantt.html:116
 #: dashboards/views.py:91 dashboards/views.py:144
 msgid "December"
 msgstr "Dezembro"
@@ -212,10 +212,6 @@ msgstr "Mar"
 #: dashboards/templates/dashboards/d3_translate.html:28
 msgid "Apr"
 msgstr "Abr"
-
-#: dashboards/templates/dashboards/d3_translate.html:29
-# msgid "May"
-# msgstr "Mai"
 
 #: dashboards/templates/dashboards/d3_translate.html:29
 msgid "Jun"
@@ -303,115 +299,166 @@ msgstr "Suas Tarefas Essenciais"
 msgid "Most Popular Tags"
 msgstr "Tag mais populares"
 
-#: dashboards/templates/dashboards/subjects_cloudy.html:42
+#: dashboards/templates/dashboards/subjects_cloudy.html:45
 msgid ""
 "Compare your number of hits with the number of hits in each class tag in "
 "this subject"
-msgstr "Compare seu número de acessos com o número de acessos em cada tag da classe nesse assunto"
+msgstr ""
+"Compare seu número de acessos com o número de acessos em cada tag da classe "
+"nesse assunto"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:49
+msgid "Cloudy View"
+msgstr "Visão em Nuvem"
+
+#: dashboards/templates/dashboards/subjects_cloudy.html:62
 msgid "Class accesses"
 msgstr "Acessos da classe"
 
-#: dashboards/templates/dashboards/subjects_cloudy.html:50
+#: dashboards/templates/dashboards/subjects_cloudy.html:65
 msgid "Your accesses"
 msgstr "Seus acessos"
 
-#: dashboards/templates/dashboards/subjects_gantt.html:109
+#: dashboards/templates/dashboards/subjects_gantt.html:27
 msgid "Detail of Tasks"
 msgstr "Detalhamento das Tarefas"
 
-#: dashboards/templates/dashboards/subjects_gantt.html:110
+#: dashboards/templates/dashboards/subjects_gantt.html:28
 msgid ""
 "Positions all activities suggested by the teacher on the current subject in "
 "a timeline"
-msgstr "Posiciona todas as atividades sugeridas pelo professor do assunto atual em uma linha do tempo"
+msgstr ""
+"Posiciona todas as atividades sugeridas pelo professor do assunto atual em "
+"uma linha do tempo"
 
-#: dashboards/templates/dashboards/subjects_gantt.html:113
+#: dashboards/templates/dashboards/subjects_gantt.html:31
 #, python-format
 msgid "(%%) Class"
 msgstr "(%%) Classe"
 
-#: dashboards/templates/dashboards/subjects_gantt.html:145
+#: dashboards/templates/dashboards/subjects_gantt.html:51
 msgid "Now"
 msgstr "Agora"
 
-#: dashboards/templates/dashboards/subjects_gantt.html:187
+#: dashboards/templates/dashboards/subjects_gantt.html:78
+msgid "Initial Date/Time"
+msgstr "Data/Hora Inicial"
+
+#: dashboards/templates/dashboards/subjects_gantt.html:79
+msgid "Final Date/Time"
+msgstr "Data/Hora Final"
+
+#: dashboards/templates/dashboards/subjects_gantt.html:80
+msgid "Task finished in"
+msgstr "Tarefa finalizada em"
+
+#: dashboards/templates/dashboards/subjects_gantt.html:83
+msgid "of the participants already realized this task."
+msgstr "dos participantes já realizou essa tarefa."
+
+#: dashboards/templates/dashboards/subjects_gantt.html:91
+#: dashboards/templates/dashboards/subjects_gantt.html:209
 msgid "This task is late"
 msgstr "Esta tarefa está atrasada"
 
-#: dashboards/templates/dashboards/subjects_gantt.html:187
+#: dashboards/templates/dashboards/subjects_gantt.html:92
+#: dashboards/templates/dashboards/subjects_gantt.html:209
 msgid "You have not yet accomplish this task"
 msgstr "Você ainda não realizou esta tarefa"
 
-#: dashboards/templates/dashboards/subjects_gantt.html:188
+#: dashboards/templates/dashboards/subjects_gantt.html:93
+#: dashboards/templates/dashboards/subjects_gantt.html:210
 msgid "You missed this task"
 msgstr "Você perdeu esta tarefa"
 
-#: dashboards/templates/dashboards/subjects_gantt.html:191
+#: dashboards/templates/dashboards/subjects_gantt.html:94
+#, fuzzy
+#| msgid "You missed this task"
+msgid "You performed this task late"
+msgstr "Você perdeu esta tarefa"
+
+#: dashboards/templates/dashboards/subjects_gantt.html:101
+msgid "Access the task"
+msgstr "Acessar tarfea"
+
+#: dashboards/templates/dashboards/subjects_gantt.html:102
+msgid "Realize the task"
+msgstr "Realizar tarefa"
+
+#: dashboards/templates/dashboards/subjects_gantt.html:117
+msgid "of"
+msgstr "de"
+
+#: dashboards/templates/dashboards/subjects_gantt.html:213
 #, python-format
 msgid " %% already accomplish"
 msgstr " %% já completada"
 
-#: dashboards/templates/dashboards/subjects_gantt.html:192
+#: dashboards/templates/dashboards/subjects_gantt.html:214
 msgid "ACCESS TASK"
 msgstr "ACESSAR TAREFA"
 
-#: dashboards/templates/dashboards/subjects_gantt.html:193
+#: dashboards/templates/dashboards/subjects_gantt.html:215
 msgid "DO TASK"
 msgstr "REALIZAR TAREFA"
 
-#: dashboards/templates/dashboards/subjects_gantt.html:194
+#: dashboards/templates/dashboards/subjects_gantt.html:216
 msgid "Start: "
 msgstr "Inicio: "
 
-#: dashboards/templates/dashboards/subjects_gantt.html:195
+#: dashboards/templates/dashboards/subjects_gantt.html:217
 msgid "End: "
 msgstr "Fim: "
 
-#: dashboards/templates/dashboards/subjects_gantt.html:196
+#: dashboards/templates/dashboards/subjects_gantt.html:218
 #, fuzzy
 #| msgid "Task closed on: "
 msgid "Closed on: "
 msgstr "Encerrado em: "
 
-#: dashboards/templates/dashboards/subjects_gantt_legend.html:19
+#: dashboards/templates/dashboards/subjects_gantt_legend.html:23
 msgid "Late"
 msgstr "Atrasada"
 
-#: dashboards/templates/dashboards/subjects_gantt_legend.html:21
+#: dashboards/templates/dashboards/subjects_gantt_legend.html:25
 msgid "On time"
 msgstr "No prazo"
 
-#: dashboards/templates/dashboards/subjects_gantt_legend.html:23
+#: dashboards/templates/dashboards/subjects_gantt_legend.html:27
 msgid "Planned"
 msgstr "Planejada"
 
-#: dashboards/templates/dashboards/subjects_gantt_legend.html:25
+#: dashboards/templates/dashboards/subjects_gantt_legend.html:29
 msgid "Lost"
 msgstr "Perdida"
 
-#: dashboards/templates/dashboards/subjects_gantt_legend.html:27
+#: dashboards/templates/dashboards/subjects_gantt_legend.html:31
+#, fuzzy
+#| msgid "Completed"
+msgid "Complete Late"
+msgstr "Concluída"
+
+#: dashboards/templates/dashboards/subjects_gantt_legend.html:33
 msgid "Completed"
 msgstr "Concluída"
 
-#: dashboards/templates/dashboards/subjects_gantt_legend.html:29
+#: dashboards/templates/dashboards/subjects_gantt_legend.html:35
 msgid "Other Status"
 msgstr "Outros status"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:103
+#: dashboards/templates/dashboards/subjects_other_indicators.html:102
 msgid "Important indicators"
 msgstr "Indicadores importantes"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:105
+#: dashboards/templates/dashboards/subjects_other_indicators.html:104
 msgid "Shows indicators comparing your situation to the class"
 msgstr "Mostrar indicadores comparando sua situação com a classe"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:119
+#: dashboards/templates/dashboards/subjects_other_indicators.html:111
 msgid "You"
 msgstr "Você"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:120
+#: dashboards/templates/dashboards/subjects_other_indicators.html:113
 msgid "Best of the class"
 msgstr "Melhor da classe"
 

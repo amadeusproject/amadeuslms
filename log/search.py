@@ -61,6 +61,31 @@ def user_last_interaction(userid):
 
     return s
 
+def count_access_subject(subject, userid):
+    s = Search().extra(size=0)
+
+    s = s.query('bool', must=[Q("range", datetime={'gte': 'now-7d', 'lte': 'now-1d'}), Q("match", component="subject"), \
+        Q('match', resource='subject'), Q('match', **{'context__subject_id': subject}), Q('match', user_id=userid), \
+        Q('bool', should=[Q('match', action='access'), Q('match', action='view')])])
+
+    return s
+
+def count_diff_days(subject, userid):
+    s = Search().extra(size=0)
+
+    s = s.query('bool', must=[Q("range", datetime={'gte': 'now-7d', 'lte': 'now-1d'}), Q("match", component="subject"), Q('match', resource='subject'), Q('match', **{'context__subject_id': subject}), Q('match', user_id=userid), Q('bool', should=[Q('match', action='access'), Q('match', action='view')])])
+
+    s.aggs.bucket('dt', 'date_histogram', field="datetime", interval="day")
+
+    return s
+
+def count_access_resources(subject, userid):
+    s = Search().extra(size=0)
+
+    s = s.query('bool', must=[Q("range", datetime={'gte': 'now-7d', 'lte': 'now-1d'}), Q("match", component="resources"), Q('match', **{'context__subject_id': subject}), Q('match', user_id=userid)])
+
+    return s
+
 def multi_search(searchs):
     ms = MultiSearch(using=conn, index='log-index')
 

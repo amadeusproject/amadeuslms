@@ -13,197 +13,246 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% load static i18n %}
 
 <style>
-    .indicator-panel>.panel-heading {
-        background-color: #f9f9f9 !important;
-        padding-right: 5px;
-        color: #000 !important;
-    }
+  .indicator-panel > .panel-heading {
+    background-color: #f9f9f9 !important;
+    padding-right: 5px;
+    color: #000 !important;
+  }
 
-    .card-tittle {
-        margin-top: 15px;
-        margin-bottom: 4px;
-    }
+  .card-tittle {
+    margin-top: 15px;
+    margin-bottom: 4px;
+  }
 
-    .card-text {
-        margin-bottom: 2px;
-    }
+  .card-text {
+    margin-bottom: 2px;
+  }
 
-    .back-other-indicator {
-        fill: #FFFFFF;
-    }
+  .back-other-indicator {
+    fill: #ffffff;
+  }
 
-    .rect-other-indicator {
-        fill: #C8E6C9;
-    }
+  .rect-other-indicator {
+    fill: #c8e6c9;
+  }
 
-    .rect-other-comp-indicator {
-        fill: #EEEEEE;
-        padding-right: 5px;
-    }
+  .rect-other-comp-indicator {
+    fill: #eeeeee;
+    padding-right: 5px;
+  }
 
-    .container-graph-indicator {
-        display: flex;
-    }
+  .container-graph-indicator {
+    display: flex;
+  }
 
-    .graph-indicator {
-        /*width:65%;*/
+  .graph-indicator {
+    /*width:65%;*/
 
-        height: 25px;
-        flex-grow: 1;
-        padding-right: 12px;
-    }
+    height: 25px;
+    flex-grow: 1;
+    padding-right: 12px;
+  }
 
-    .indicator-panel-content {
-        background: #FFF;
-        padding: 10px;
-    }
+  .indicator-panel-content {
+    background: #fff;
+    padding: 10px;
+  }
 
-    .back-max-indicator {
-        width: 42px;
-        height: 25px;
-        background-color: #009688;
-    }
+  .back-max-indicator {
+    width: 42px;
+    height: 25px;
+    background-color: #009688;
+  }
 
-    .text-max-indicator {
-        margin: 5px auto;
-        left: 50%;
-        font-weight: bold;
-        line-height: normal;
-        font-size: 12px;
-        text-align: center;
-        color: #FFFFFF;
-    }
+  .text-max-indicator {
+    margin: 5px auto;
+    left: 50%;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 12px;
+    text-align: center;
+    color: #ffffff;
+  }
 
-    .text-your-indicator {
-        text-anchor: end;
-        font-size: 13px;
-        color: #000;
-    }
-    .indicators-legend{
-        display: flex;
-    }
-    .rect-indicators-legend{
-        width: 20px;
-        height: 16px;
-        margin-top:5px;
-        margin-bottom:0px;
-        
-    }
-    .text-indicators-legend{
-        margin:5px;
-        margin-bottom: 0px;
-        
-        
-    }
+  .text-your-indicator {
+    text-anchor: end;
+    font-size: 13px;
+    color: #000;
+  }
+  .indicators-legend {
+    display: flex;
+  }
+  .rect-indicators-legend {
+    width: 20px;
+    height: 16px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+  }
+  .text-indicators-legend {
+    margin: 5px;
+    margin-bottom: 0px;
+  }
 </style>
 
 <div class="col-md-4 col-xs-12 col-sm-8 col-lg-4">
-    <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; padding-bottom: 5 px;">
-        <b>{% trans 'Important indicators' %}</b>
-        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" 
-            title="{% trans 'Shows indicators comparing your situation to the class' %}"></i>
+  <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; padding-bottom: 5 px;">
+    <b>{% trans 'Important indicators' %}</b>
+    <i
+      class="fa fa-info-circle"
+      aria-hidden="true"
+      data-toggle="tooltip"
+      title="{% trans 'Shows indicators comparing your situation to the class' %}"
+    ></i>
+  </div>
+  <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 0px;" />
+
+  <!--Metrics url: {{ metrics_url }}-->
+
+  <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 indicators-legend">
+    <div class="rect-indicators-legend" style="background: #C8E6C9"></div>
+    <p class="text-indicators-legend">{% trans 'You' %}</p>
+    <div style="width:20px; height: 10px;"></div>
+    <div class="rect-indicators-legend" style="background: #009688"></div>
+    <p class="text-indicators-legend">{% trans 'Best of the class' %}</p>
+  </div>
+
+  <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style="padding: 0px;">
+    <hr style="height:2px; background-color:#bbb;margin-top: 0px;margin-bottom: 5px;" />
+  </div>
+
+  <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+    <div id="indicators-accordion" class="" aria-multiselectable="false" style="display: none;opacity: 0">
+      {% include 'dashboards/subjects_other_indicators_card.html' with tittle="access_enviromment" %}
+      <br />
+      {% include 'dashboards/subjects_other_indicators_card.html' with tittle="distincts_days" %}
+      <br />
+      {% include 'dashboards/subjects_other_indicators_card.html' with tittle="access_resource" %}
+      <br />
+      {% include 'dashboards/subjects_other_indicators_card.html' with tittle="distincts_resource" %}
+      <br />
+      {% include 'dashboards/subjects_other_indicators_card.html' with tittle="tasks_on_time" %}
     </div>
-    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 0px;">
 
-    <!--Metrics url: {{ metrics_url }}-->
-
-    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 indicators-legend">
-        <div class="rect-indicators-legend" style="background: #C8E6C9"></div><p class="text-indicators-legend">{% trans 'You' %}</p> 
-        <div style="width:20px; height: 10px;"></div>
-        <div class="rect-indicators-legend" style="background: #009688"></div><p class="text-indicators-legend">{% trans 'Best of the class' %}</p> 
-    </div>
-
-    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style="padding: 0px;">
-        <hr style="height:2px; background-color:#bbb;margin-top: 0px;margin-bottom: 5px;">
-    </div>
-
-    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-        <div id="indicators-accordion" class="" aria-multiselectable="false" style="display: none;opacity: 0">
-            {% include 'dashboards/subjects_other_indicators_card.html' with tittle="access_enviromment" %}
-            {% include 'dashboards/subjects_other_indicators_card.html' with tittle="distincts_days" %}
-            {% include 'dashboards/subjects_other_indicators_card.html' with tittle="access_resource" %}
-            {% include 'dashboards/subjects_other_indicators_card.html' with tittle="distincts_resource" %}
-            {% include 'dashboards/subjects_other_indicators_card.html' with tittle="tasks_on_time" %}
-            
-            
-        </div>
-
-        {% include 'dashboards/loading_ball.html' with tittle="indicators_loading_ball" %}
-    </div>
+    {% include 'dashboards/loading_ball.html' with tittle="indicators_loading_ball" %}
+  </div>
 </div>
 <script>
-    var indicators;
-    $.get("{{ metrics_url }}", function (data) {
-        //d3.select("#indicators_loading_ball").transition().duration(300).style("opacity", "0");
-        d3.select("#indicators_loading_ball").style("display", "none")
-            //.transition().delay(300)
-            .remove();
+  var indicators;
+  $.get("{{ metrics_url }}", function(data) {
+    //d3.select("#indicators_loading_ball").transition().duration(300).style("opacity", "0");
+    d3.select("#indicators_loading_ball")
+      .style("display", "none")
+      //.transition().delay(300)
+      .remove();
 
-        var indicators_container = d3.select("#indicators-accordion")
-            //.transition().delay(300)
-            .style("display", "inherit");
-        indicators_container
-            .transition().delay(0).duration(400)
-            .style("opacity", 1);
+    var indicators_container = d3
+      .select("#indicators-accordion")
+      //.transition().delay(300)
+      .style("display", "inherit");
+    indicators_container
+      .transition()
+      .delay(0)
+      .duration(400)
+      .style("opacity", 1);
 
-        indicators = d3.selectAll(".indicator-panel").data(data);
+    indicators = d3.selectAll(".indicator-panel").data(data);
 
-        indicators.selectAll(".rect-other-indicator").data(function (d, i) { return [d] })
-            //.transition().delay(function(d,i){return i*500}).duration(500)
-            .attr("width", function (d, i) {
-                d.my_access = isNaN(d.my_access)?0:d.my_access;
-                d.my_access = parseInt(d.my_access);
-                d.max_access = isNaN(d.max_access)?0:d.max_access;
-                d.my_access = d.my_access > d.max_access ? d.max_access : d.my_access;
-                d.percent = (d.my_access * 100 / (d.max_access>1?d.max_access:1))
-                return "" + d.percent + "%"
-            })
+    indicators
+      .selectAll(".rect-other-indicator")
+      .data(function(d, i) {
+        return [d];
+      })
+      //.transition().delay(function(d,i){return i*500}).duration(500)
+      .attr("width", function(d, i) {
+        d.my_access = isNaN(d.my_access) ? 0 : d.my_access;
+        d.max_access = isNaN(d.max_access) ? 0 : d.max_access;
+        d.percentil_1 = isNaN(d.percentil_1) ? 0 : d.percentil_1;
+        d.percentil_2 = isNaN(d.percentil_2) ? 0 : d.percentil_2;
+        d.percentil_3 = isNaN(d.percentil_3) ? 0 : d.percentil_3;
+        d.percentil_4 = isNaN(d.percentil_4) ? 0 : d.percentil_4;
 
-        indicators.select(".text-your-indicator")
-            .attr("x", function (d) {
-                return "" + d.percent + "%"
-            })
-            .attr("dx", function (d) {
-                return d.percent > 20 ? "-5px" : "5px"
-            })
-            .attr("opacity",function(d){
-                if (d.my_access >= d.max_access && d.my_access > 0)//==
-                    return 0;
-                else
-                    return 1;
-            })
-            .style("text-anchor", function (d) { 
-                return d.percent > 20 ? "end" : "start" 
-            })
-            .text(function (d) {
-                return d.my_access;
-            })
+        d.percent = 0;
 
-        indicators.select(".text-max-indicator")
-            .text(function (d) {
-                //console.log(d.max_access);
-                return d.max_access;
-            })
+        if (d.my_access == 0) {
+          return "0%";
+        }
 
-        indicators.select(".star-container")
-            //.transition().delay(900)
-            .attr("transform",function(){ 
-                var width = document.querySelector(".graph-indicator").getBoundingClientRect().width;
-                console.log(width);
-                return "translate(" + width + ",0)";
-            });
+        let barsize = 0;
 
-        indicators.select(".golden-star")
-            .transition().delay(300).duration(500)
-            .attr("opacity", function (d, i) {
-                if (d.my_access >= d.max_access && d.my_access > 0)//==
-                    //if(i<3)
-                    return 1;
-                else
-                    return 0;
-            });
+        if (d.my_access <= d.percentil_1) {
+          barsize = (d.my_access * 100) / (d.percentil_1 > 0 ? d.percentil_1 : 1);
 
-        /*indicators.select(".silver_star")
+          d.percent = barsize * 0.2;
+        } else if (d.my_access <= d.percentil_2) {
+          barsize = (d.my_access * 100) / (d.percentil_2 > 0 ? d.percentil_2 : 1);
+
+          d.percent = barsize * 0.2 + 20;
+        } else if (d.my_access <= d.percentil_3) {
+          barsize = (d.my_access * 100) / (d.percentil_3 > 0 ? d.percentil_3 : 1);
+
+          d.percent = barsize * 0.2 + 40;
+        } else if (d.my_access < d.percentil_4) {
+          barsize = (d.my_access * 100) / (d.percentil_4 > 0 ? d.percentil_4 : 1);
+
+          d.percent = barsize * 0.2 + 60;
+        } else {
+          barsize = (d.my_access * 100) / (d.max_access > 0 ? d.max_access : 1);
+
+          d.percent = barsize * 0.2 + 80;
+        }
+
+        return `${d.percent}%`;
+      });
+
+    indicators
+      .select(".text-your-indicator")
+      .attr("x", function(d) {
+        return "" + d.percent + "%";
+      })
+      .attr("dx", function(d) {
+        return d.percent > 20 ? "-5px" : "5px";
+      })
+      .attr("opacity", function(d) {
+        if (d.my_access >= d.max_access && d.my_access > 0)
+          //==
+          return 0;
+        else return 1;
+      })
+      .style("text-anchor", function(d) {
+        return d.percent > 20 ? "end" : "start";
+      })
+      .text(function(d) {
+        return d.my_access;
+      });
+
+    indicators.select(".text-max-indicator").text(function(d) {
+      //console.log(d.max_access);
+      return d.max_access;
+    });
+
+    indicators
+      .select(".star-container")
+      //.transition().delay(900)
+      .attr("transform", function() {
+        var width = document.querySelector(".graph-indicator").getBoundingClientRect().width;
+        console.log(width);
+        return "translate(" + width + ",0)";
+      });
+
+    indicators
+      .select(".golden-star")
+      .transition()
+      .delay(300)
+      .duration(500)
+      .attr("opacity", function(d, i) {
+        if (d.my_access >= d.max_access && d.my_access > 0)
+          //==
+          //if(i<3)
+          return 1;
+        else return 0;
+      });
+
+    /*indicators.select(".silver_star")
             //.transition().delay(2500).duration(100)
             .attr("opacity", function (d,i) {
                 if (d.my_access >= d.max_access * 3 / 4 && d.my_access < d.max_access && d.my_access>0)
@@ -212,14 +261,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 else
                     return 0;
             });*/
-
-    });
-    function indicators_responsibilities(){
-        indicators.select(".star-container")
-            //.transition().delay(900)
-            .attr("transform",function(){ 
-                var width = document.querySelector(".rect-other-comp-indicator").getBoundingClientRect().width;
-                return "translate(" + width + ",0)";
-            });
-    }
+  });
+  function indicators_responsibilities() {
+    indicators
+      .select(".star-container")
+      //.transition().delay(900)
+      .attr("transform", function() {
+        var width = document.querySelector(".rect-other-comp-indicator").getBoundingClientRect().width;
+        return "translate(" + width + ",0)";
+      });
+  }
 </script>

@@ -17,7 +17,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 <html>
 <head>
-	<title>{{ title }} | {{ theme.title }}</title>
+    <title>{{ title }} | {{ theme.title }}</title>
+    
+    <!-- Mathjax -->
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({text2jax: {inlineMath: [['$', '$'], ['\\(','\\)']]}});</script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
     <!-- jQuery & jQuery UI -->
     <script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
