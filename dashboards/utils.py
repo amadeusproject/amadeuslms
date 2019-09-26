@@ -351,6 +351,13 @@ def getOtherIndicators(subject, user):
 
             item['max_access'] = accessess[-1]
             item['my_access'] = my_access
+    else:
+        item['percentil_1'] = 0
+        item['percentil_2'] = 0
+        item['percentil_3'] = 0
+        item['percentil_4'] = 0 
+        item['max_access'] = 0
+        item['my_access'] = 0
 
     data.append(item)
 
