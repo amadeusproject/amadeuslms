@@ -190,8 +190,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
   var indicators;
 
   $.get("{{ metrics_url }}", function(data) {
-    console.log(data[3]);
-
     $("#indicators-table table tbody tr").each(function(index) {
       $(this)
         .find(".yours_ind")

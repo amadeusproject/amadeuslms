@@ -12,7 +12,7 @@ from pendencies.models import Pendencies
 
 from notifications.utils import get_resource_users
 
-from django.db.models import Q, Max, Count
+from django.db.models import Q as Cond, Max, Count
 from django.db.models.functions import TruncDate
 
 import operator, math
@@ -164,6 +164,8 @@ def getOtherIndicators(subject, user):
 
     searchs.append(count_access_subject(subject.id, user.id))
 
+    item = {}
+
     if searchs:
         res = multi_search(searchs)
 
@@ -174,8 +176,6 @@ def getOtherIndicators(subject, user):
         accessess = list(dict.fromkeys(accessess))
         
         accessess.sort()
-
-        item = {}
         
         qtd_results = len(accessess)
 
@@ -192,8 +192,15 @@ def getOtherIndicators(subject, user):
 
         item['max_access'] = accessess[-1]
         item['my_access'] = my_access
-
-        data.append(item)
+    else:
+        item['percentil_1'] = 0
+        item['percentil_2'] = 0
+        item['percentil_3'] = 0
+        item['percentil_4'] = 0 
+        item['max_access'] = 0
+        item['my_access'] = 0
+    
+    data.append(item)
     
     searchs = []
 
@@ -204,6 +211,8 @@ def getOtherIndicators(subject, user):
 
     searchs.append(count_diff_days(subject.id, user.id))
 
+    item = {}
+    
     if searchs:
         res = multi_search(searchs)
             
@@ -215,8 +224,6 @@ def getOtherIndicators(subject, user):
         
         accessess.sort()
 
-        item = {}
-        
         qtd_results = len(accessess)
 
         if qtd_results > 5:
@@ -232,8 +239,15 @@ def getOtherIndicators(subject, user):
 
         item['max_access'] = accessess[-1]
         item['my_access'] = my_access
+    else:
+        item['percentil_1'] = 0
+        item['percentil_2'] = 0
+        item['percentil_3'] = 0
+        item['percentil_4'] = 0 
+        item['max_access'] = 0
+        item['my_access'] = 0
 
-        data.append(item)
+    data.append(item)
 
     searchs = []
 
@@ -243,6 +257,8 @@ def getOtherIndicators(subject, user):
             searchs.append(count_access_resources(subject.id, student.id))
 
     searchs.append(count_access_resources(subject.id, user.id))
+    
+    item = {}
 
     if searchs:
         res = multi_search(searchs)
@@ -254,8 +270,6 @@ def getOtherIndicators(subject, user):
         accessess = list(dict.fromkeys(accessess))
         
         accessess.sort()
-
-        item = {}
         
         qtd_results = len(accessess)
 
@@ -272,8 +286,15 @@ def getOtherIndicators(subject, user):
 
         item['max_access'] = accessess[-1]
         item['my_access'] = my_access
+    else:
+        item['percentil_1'] = 0
+        item['percentil_2'] = 0
+        item['percentil_3'] = 0
+        item['percentil_4'] = 0 
+        item['max_access'] = 0
+        item['my_access'] = 0
 
-        data.append(item)
+    data.append(item)
 
     #Fourth indicator
     resources_access = logs.filter(component = 'resources', context__contains = {'subject_id': subject.id})
@@ -290,7 +311,6 @@ def getOtherIndicators(subject, user):
 
         accessess = list(dict.fromkeys(accessess))
 
-        
         qtd_results = len(accessess)
 
         if qtd_results > 5:
@@ -306,6 +326,13 @@ def getOtherIndicators(subject, user):
 
         item['max_access'] = accessess[-1]
         item['my_access'] = my_access
+    else:
+        item['percentil_1'] = 0
+        item['percentil_2'] = 0
+        item['percentil_3'] = 0
+        item['percentil_4'] = 0 
+        item['max_access'] = 0
+        item['my_access'] = 0
 
     data.append(item)
         
@@ -316,10 +343,10 @@ def getOtherIndicators(subject, user):
     item = {}
 
     if pend.count() > 0:
-        conds = Q()
+        conds = Cond()
 
         for p in pend:
-            conds.add((Q(context__contains = {p.resource._my_subclass+'_id': p.resource.id}) & Q(action = p.action)), Q.OR)
+            conds.add((Cond(context__contains = {p.resource._my_subclass+'_id': p.resource.id}) & Cond(action = p.action)), Cond.OR)
 
         res_access = logs.filter(conds)
 
