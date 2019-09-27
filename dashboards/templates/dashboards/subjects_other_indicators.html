@@ -103,6 +103,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
       data-toggle="tooltip"
       title="{% trans 'Shows indicators comparing your situation to the class' %}"
     ></i>
+    <div style="float:right">
+      {% trans 'Bars' %}
+      <label class="switch">
+        <input id="ganttPercent" type="checkbox" name="percentOn" checked onclick="view_toggle($(this))" />
+        <span class="slider round"></span>
+      </label>
+    </div>
   </div>
   <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 0px;" />
 
@@ -133,22 +140,71 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
       {% include 'dashboards/subjects_other_indicators_card.html' with tittle="tasks_on_time" %}
     </div>
 
+    <div id="indicators-table" class="table-responsive" style="display: none">
+      <table class="table table-stripped">
+        <thead>
+          <tr>
+            <th></th>
+            <th colspan="2">{% trans 'Values reached' %}</th>
+          </tr>
+          <tr>
+            <th></th>
+            <th style="vertical-align: middle">{% trans 'Yours' %}</th>
+            <th style="vertical-align: middle">{% trans 'Best of class' %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="vertical-align: middle">{% trans 'Access to the discipline environment' %}</td>
+            <td style="vertical-align: middle; text-align: center" class="yours_ind"></td>
+            <td style="vertical-align: middle; text-align: center" class="best_ind"></td>
+          </tr>
+          <tr>
+            <td style="vertical-align: middle">{% trans 'Different days that accessed the discipline' %}</td>
+            <td style="vertical-align: middle; text-align: center" class="yours_ind"></td>
+            <td style="vertical-align: middle; text-align: center" class="best_ind"></td>
+          </tr>
+          <tr>
+            <td style="vertical-align: middle">{% trans 'Resource access' %}</td>
+            <td style="vertical-align: middle; text-align: center" class="yours_ind"></td>
+            <td style="vertical-align: middle; text-align: center" class="best_ind"></td>
+          </tr>
+          <tr>
+            <td style="vertical-align: middle">{% trans 'Distinct resources accessed' %}</td>
+            <td style="vertical-align: middle; text-align: center" class="yours_ind"></td>
+            <td style="vertical-align: middle; text-align: center" class="best_ind"></td>
+          </tr>
+          <tr>
+            <td style="vertical-align: middle">{% trans 'Tasks performed on time' %}</td>
+            <td style="vertical-align: middle; text-align: center" class="yours_ind"></td>
+            <td style="vertical-align: middle; text-align: center" class="best_ind"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     {% include 'dashboards/loading_ball.html' with tittle="indicators_loading_ball" %}
   </div>
 </div>
 <script>
   var indicators;
+
   $.get("{{ metrics_url }}", function(data) {
-    //d3.select("#indicators_loading_ball").transition().duration(300).style("opacity", "0");
+    $("#indicators-table table tbody tr").each(function(index) {
+      $(this)
+        .find(".yours_ind")
+        .html(data[index].my_access);
+      $(this)
+        .find(".best_ind")
+        .html(data[index].max_access);
+    });
+
     d3.select("#indicators_loading_ball")
       .style("display", "none")
-      //.transition().delay(300)
       .remove();
 
-    var indicators_container = d3
-      .select("#indicators-accordion")
-      //.transition().delay(300)
-      .style("display", "inherit");
+    var indicators_container = d3.select("#indicators-accordion").style("display", "inherit");
+
     indicators_container
       .transition()
       .delay(0)
@@ -162,7 +218,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
       .data(function(d, i) {
         return [d];
       })
-      //.transition().delay(function(d,i){return i*500}).duration(500)
       .attr("width", function(d, i) {
         d.my_access = isNaN(d.my_access) ? 0 : d.my_access;
         d.max_access = isNaN(d.max_access) ? 0 : d.max_access;
@@ -205,70 +260,31 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
       });
 
     indicators
-      .select(".text-your-indicator")
-      .attr("x", function(d) {
-        return "" + d.percent + "%";
-      })
-      .attr("dx", function(d) {
-        return d.percent > 20 ? "-5px" : "5px";
-      })
-      .attr("opacity", function(d) {
-        if (d.my_access >= d.max_access && d.my_access > 0)
-          //==
-          return 0;
-        else return 1;
-      })
-      .style("text-anchor", function(d) {
-        return d.percent > 20 ? "end" : "start";
-      })
-      .text(function(d) {
-        return d.my_access;
-      });
-
-    indicators.select(".text-max-indicator").text(function(d) {
-      //console.log(d.max_access);
-      return d.max_access;
-    });
-
-    indicators
-      .select(".star-container")
-      //.transition().delay(900)
-      .attr("transform", function() {
-        var width = document.querySelector(".graph-indicator").getBoundingClientRect().width;
-        console.log(width);
-        return "translate(" + width + ",0)";
-      });
-
-    indicators
       .select(".golden-star")
       .transition()
       .delay(300)
       .duration(500)
       .attr("opacity", function(d, i) {
-        if (d.my_access >= d.max_access && d.my_access > 0)
-          //==
-          //if(i<3)
-          return 1;
+        if (d.my_access >= d.percentil_4 && d.my_access > 0) return 1;
         else return 0;
       });
-
-    /*indicators.select(".silver_star")
-            //.transition().delay(2500).duration(100)
-            .attr("opacity", function (d,i) {
-                if (d.my_access >= d.max_access * 3 / 4 && d.my_access < d.max_access && d.my_access>0)
-                //if(i>=3)
-                    return 1;
-                else
-                    return 0;
-            });*/
   });
+
   function indicators_responsibilities() {
-    indicators
-      .select(".star-container")
-      //.transition().delay(900)
-      .attr("transform", function() {
-        var width = document.querySelector(".rect-other-comp-indicator").getBoundingClientRect().width;
-        return "translate(" + width + ",0)";
-      });
+    indicators.select(".star-container").attr("transform", function() {
+      var width = document.querySelector(".rect-other-comp-indicator").getBoundingClientRect().width;
+
+      return "translate(" + width + ",0)";
+    });
+  }
+
+  function view_toggle($selector) {
+    if (!$selector.is(":checked")) {
+      $("#indicators-accordion").fadeOut("slow");
+      $("#indicators-table").fadeIn("slow");
+    } else {
+      $("#indicators-table").fadeOut("slow");
+      $("#indicators-accordion").fadeIn("slow");
+    }
   }
 </script>
