@@ -98,11 +98,11 @@ class CreateSubjectForm(forms.ModelForm):
         name = self.cleaned_data.get('name')
 
         if self.instance.id:
-            same_name = Subject.objects.filter(name__unaccent__iexact=name,
+            same_name = Subject.objects.filter(name__iexact=name,
                                                category=self.category_id).exclude(
                 id=self.instance.id)
         else:
-            same_name = Subject.objects.filter(name__unaccent__iexact=name,
+            same_name = Subject.objects.filter(name__iexact=name,
                                                category=self.category_id)
 
         if same_name.count() > 0:
@@ -209,10 +209,10 @@ class UpdateSubjectForm(forms.ModelForm):
         categoria = self.instance.category
 
         if self.instance.id:
-            same_name = Subject.objects.filter(name__unaccent__iexact=name,
+            same_name = Subject.objects.filter(name__iexact=name,
                                                category=categoria).exclude(id=self.instance.id)
         else:
-            same_name = Subject.objects.filter(name__unaccent__iexact=name, category=categoria)
+            same_name = Subject.objects.filter(name__iexact=name, category=categoria)
 
         if same_name.count() > 0:
             self._errors['name'] = [_('There is another subject with this name, try another one.')]

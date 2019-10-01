@@ -62,15 +62,15 @@ class SimpleGoalSerializer(serializers.ModelSerializer):
         if not topic["id"] is None:
             if "subject" in topic:
                 r_exits = Resource.objects.filter(topic__subject=topic["subject"],
-                                                  name__unaccent__iexact=data["name"])
+                                                  name__iexact=data["name"])
             else:
                 r_exits = Resource.objects.filter(topic__subject__id=topic["subject_id"],
-                                                  name__unaccent__iexact=data["name"])
+                                                  name__iexact=data["name"])
 
             if not r_exits.exists():
                 if topic['id'] == "":
                     topic_exist = Topic.objects.filter(subject=topic['subject'],
-                                                       name__unaccent__iexact=topic["name"])
+                                                       name__iexact=topic["name"])
 
                     if topic_exist.exists():
                         topic = topic_exist[0]
@@ -160,15 +160,15 @@ class CompleteGoalSerializer(serializers.ModelSerializer):
         if not topic["id"] is None:
             if "subject" in topic:
                 r_exits = Resource.objects.filter(topic__subject=topic["subject"],
-                                                  name__unaccent__iexact=data["name"])
+                                                  name__iexact=data["name"])
             else:
                 r_exits = Resource.objects.filter(topic__subject__id=topic["subject_id"],
-                                                  name__unaccent__iexact=data["name"])
+                                                  name__iexact=data["name"])
 
             if not r_exits.exists():
                 if topic['id'] == "":
                     topic_exist = Topic.objects.filter(subject=topic['subject'],
-                                                       name__unaccent__iexact=topic["name"])
+                                                       name__iexact=topic["name"])
 
                     if topic_exist.exists():
                         topic = topic_exist[0]

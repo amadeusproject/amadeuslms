@@ -50,9 +50,9 @@ class TopicForm(forms.ModelForm):
 		repo = self.cleaned_data.get('repository', False)
 
 		if self.instance.id:
-			same_name = self.subject.topic_subject.filter(name__unaccent__iexact = name).exclude(id = self.instance.id).count()
+			same_name = self.subject.topic_subject.filter(name__iexact = name).exclude(id = self.instance.id).count()
 		else:
-			same_name = self.subject.topic_subject.filter(name__unaccent__iexact = name).count()
+			same_name = self.subject.topic_subject.filter(name__iexact = name).count()
 
 		if same_name > 0:
 			if repo:

@@ -23,7 +23,7 @@ class TopicSerializer(serializers.ModelSerializer):
 
 		if subject:
 			subject = get_object_or_404(Subject, slug = subject)
-			topic = Topic.objects.filter(subject = subject, name__unaccent__iexact = data["name"])
+			topic = Topic.objects.filter(subject = subject, name__iexact = data["name"])
 			
 			if topic.exists():
 				data = topic[0].__dict__

@@ -690,7 +690,7 @@ class SubjectSearchView(LoginRequiredMixin, ListView):
         q = Q()
         for tag in tags:
             for word in tag.split(' '):
-                q = q | Q(tags__name__unaccent__iexact=word)
+                q = q | Q(tags__name__iexact=word)
 
         subjects = Subject.objects.filter(q).distinct()
 

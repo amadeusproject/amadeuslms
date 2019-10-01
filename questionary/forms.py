@@ -69,9 +69,9 @@ class QuestionaryForm(forms.ModelForm):
         
         if self.topic:
             if self.instance.id:
-                same_name = self.topic.resource_topic.filter(name__unaccent__iexact = name).exclude(id = self.instance.id).count()
+                same_name = self.topic.resource_topic.filter(name__iexact = name).exclude(id = self.instance.id).count()
             else:
-                same_name = self.topic.resource_topic.filter(name__unaccent__iexact = name).count()
+                same_name = self.topic.resource_topic.filter(name__iexact = name).count()
 
             if same_name > 0:
                 self.add_error('name', _('This subject already has a questionary with this name'))

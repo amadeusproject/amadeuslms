@@ -73,10 +73,10 @@ class WebconferenceForm(forms.ModelForm):
 
         for topic in topics:
             if self.instance.id:
-                same_name = topic.resource_topic.filter(name__unaccent__iexact=name).exclude(
+                same_name = topic.resource_topic.filter(name__iexact=name).exclude(
                     id=self.instance.id).count()
             else:
-                same_name = topic.resource_topic.filter(name__unaccent__iexact=name).count()
+                same_name = topic.resource_topic.filter(name__iexact=name).count()
 
             if same_name > 0:
                 self.add_error('name',

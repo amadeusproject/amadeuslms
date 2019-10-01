@@ -37,9 +37,9 @@ class StudentsGroupForm(forms.ModelForm):
 		name = self.cleaned_data.get('name', '')
 		
 		if self.instance.id:
-			same_name = self.subject.group_subject.filter(name__unaccent__iexact = name).exclude(id = self.instance.id).count()
+			same_name = self.subject.group_subject.filter(name__iexact = name).exclude(id = self.instance.id).count()
 		else:
-			same_name = self.subject.group_subject.filter(name__unaccent__iexact = name).count()
+			same_name = self.subject.group_subject.filter(name__iexact = name).count()
 		
 		if same_name > 0:
 			self._errors['name'] = [_('This subject already has a group with this name')]
