@@ -12,6 +12,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 # coding=utf-8
 from django import forms
+from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.utils.translation import ugettext_lazy as _
 
@@ -81,7 +82,9 @@ class LinkForm(forms.ModelForm):
         validate = URLValidator(schemes=('http', 'https', 'ftp', 'ftps', 'rtsp', 'rtmp'))
         if link_url[0].lower() != "h":
             link_url = "https://" + link_url
-        if not validate(link_url):
+        try:
+            validate(link_url)
+        except ValidationError:
             self._errors['link_url'] = [_('Invalid URL. It should be an valid link.')]
             return ValueError
 

@@ -41,11 +41,6 @@ from .models import Link
 
 # Create your views here.
 class CreateLinkView(LoginRequiredMixin, generic.edit.CreateView):
-    log_component = 'resources'
-    log_action = 'create'
-    log_resource = 'link'
-    log_context = {}
-
     login_url = reverse_lazy("users:login")
     redirect_field_name = 'next'
 
@@ -90,7 +85,7 @@ class CreateLinkView(LoginRequiredMixin, generic.edit.CreateView):
                                                                      'actions': [("", "-------"), (
                                                                          "view", _("Visualize"))]})
 
-        if (form.is_valid() and pendencies_form.is_valid()):
+        if form.is_valid() and pendencies_form.is_valid():
             return self.form_valid(form, pendencies_form)
         else:
             return self.form_invalid(form, pendencies_form)
