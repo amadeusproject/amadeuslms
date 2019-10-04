@@ -32,6 +32,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     fill: #ffffff;
   }
 
+  .best-other-indicator {
+    fill: #009688;
+  }
+
   .rect-other-indicator {
     fill: #c8e6c9;
   }
@@ -59,9 +63,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
   }
 
   .back-max-indicator {
-    width: 42px;
+    width: 10px;
     height: 25px;
-    background-color: #009688;
   }
 
   .text-max-indicator {
@@ -91,6 +94,21 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
   .text-indicators-legend {
     margin: 5px;
     margin-bottom: 0px;
+  }
+  .page-item {
+    border: 1px solid #ccc;
+    padding: 3px 7px;
+    cursor: pointer;
+  }
+  .page-item:hover {
+    color: #fff;
+    background: #009688;
+    border-color: #009688;
+  }
+  .page-item.active {
+    background: #009688;
+    color: #fff;
+    border-color: #009688;
   }
 </style>
 
@@ -145,7 +163,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         <thead>
           <tr>
             <th></th>
-            <th colspan="2">{% trans 'Values reached' %}</th>
+            <th colspan="2" style="text-align: center">{% trans 'Values reached' %}</th>
           </tr>
           <tr>
             <th></th>
@@ -280,11 +298,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
   function view_toggle($selector) {
     if (!$selector.is(":checked")) {
-      $("#indicators-accordion").fadeOut("slow");
-      $("#indicators-table").fadeIn("slow");
+      $("#indicators-accordion").hide();
+      $(".indicators-legend").hide();
+      $("#indicators-table").show();
     } else {
-      $("#indicators-table").fadeOut("slow");
-      $("#indicators-accordion").fadeIn("slow");
+      $("#indicators-table").hide();
+      $(".indicators-legend").show();
+      $("#indicators-accordion").show();
     }
   }
 </script>

@@ -81,7 +81,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
       <h3 style="margin-top: 5px; margin-bottom: 2px;">{% trans 'Access' %}</h3>
       <div style="display: flex; width: 100%; justify-content: space-around; border-top: 1px solid #333">
         <span style="font-weight: bold">{% trans 'Yours' %}</span>
-        <span style="margin-right: 15px; font-weight: bold">{% trans 'Class' }</span>
+        <span style="margin-right: 15px; font-weight: bold">{% trans 'Class' %}</span>
       </div>
     </div>
   </div>
@@ -120,21 +120,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Aulas Expositivas/ Exercicios(3ª Etapa)</td>
-                  <td>28%</td>
-                  <td>28%</td>
-                </tr>
-                <tr>
-                  <td>Aula 12</td>
-                  <td>28%</td>
-                  <td>28%</td>
-                </tr>
-                <tr>
-                  <td>Aulas Expositivas/ Exercicios(1ª Etapa)</td>
-                  <td>14%</td>
-                  <td>14%</td>
-                </tr>
+                
               </tbody>
             </table>
           </div>
@@ -148,164 +134,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 </div>
 
 <script type="text/javascript">
-  function makeTable(data, metadata, table_container, pagination, nrows) {
-    if (!data || !metadata) return;
-    if (!table_container) table_container = d3.select("body").append("table");
-    if (!pagination) {
-      pagination = d3
-        .select("body")
-        .append("nav")
-        .append(".pagination");
-    }
-    nrows = isNaN(nrows) ? 10 : nrows;
-
-    //nrows = data.length;
-
-    var pages = Math.ceil(data.length / nrows);
-
-    //Table
-
-    table_container.selectAll("table").remove();
-    var pageIndex = 0;
-
-    var DOM_pages = table_container
-      .selectAll("table")
-      .data(range(pages))
-      .enter()
-      .append("table")
-      .attr("id", function(d, i) {
-        return "page-table-" + i;
-      })
-      .attr("class", "table table-resources")
-      .style("display", function(d, i) {
-        return i != pageIndex ? "none" : "inherit";
-      });
-
-    var thead = DOM_pages.append("thead");
-    thead
-      .append("tr")
-      .append("th")
-      .attr("colspan", "2")
-      .attr("scope", "col")
-      .text("Acessos");
-    var secondLine = thead.append("tr");
-    secondLine
-      .append("th")
-      .attr("scope", "col")
-      .text("Seu");
-    secondLine
-      .append("th")
-      .attr("scope", "col")
-      .text("Turma");
-    secondLine
-      .append("th")
-      .attr("scope", "col")
-      .text("Recurso");
-
-    var body = DOM_pages.append("tbody");
-
-    var rows = body
-      .selectAll("tr")
-      .data(function(d, i) {
-        return data.slice(i * nrows, (i + 1) * nrows);
-      })
-      .enter()
-      .append("tr");
-
-    for (var i = 0; i < metadata.length; i++) {
-      if (i < metadata.length - 1)
-        rows.append("td").text(function(d) {
-          return d[metadata[i]];
-        });
-      else
-        rows
-          .append("td")
-          .append("a")
-          .attr("href", function(d) {
-            return d.access_url;
-          })
-          .text(function(d) {
-            return d[metadata[i]];
-          });
-    }
-
-    //Pagination
-    function goPage(n) {
-      if (n >= pages || n < 0 || pageIndex == n) return;
-      pageIndex = n;
-      DOM_pages.transition()
-        .duration(200)
-        .style("opacity", 0);
-      DOM_pages.transition()
-        .delay(200)
-        .style("display", function(d, i) {
-          return i != pageIndex ? "none" : "inherit";
-        });
-      DOM_pages.transition()
-        .delay(200)
-        .duration(200)
-        .style("opacity", function(d, i) {
-          return i != pageIndex ? 0 : 1;
-        });
-    }
-    function nextPage() {
-      goPage(pageIndex + 1);
-    }
-    function previousPage() {
-      goPage(pageIndex - 1);
-    }
-    pagination.selectAll("li").remove();
-
-    pagination
-      .append("li")
-      .attr("class", "page-item previous-link")
-      .append("a")
-      .attr("class", "page-link")
-      .attr("aria-label", "Previous")
-      .on("click", previousPage)
-      .append("span")
-      .attr("aria-hidden", "true")
-      .text("Previous");
-    pagination
-      .select(".previous-link")
-      .select("a")
-      .append("span")
-      .attr("class", "sr-only")
-      .text("Previous");
-
-    pagination
-      .selectAll(".page-item-number")
-      .data(range(pages))
-      .enter()
-      .append("li")
-      .attr("class", function(d, i) {
-        return "page-item page-item-number page-link-" + i;
-      })
-      .append("a")
-      .attr("class", "page-link")
-      .on("click", goPage)
-      .text(function(d, i) {
-        return i + 1;
-      });
-
-    pagination
-      .append("li")
-      .attr("class", "page-item next-link")
-      .append("a")
-      .attr("class", "page-link")
-      .attr("aria-label", "Next")
-      .on("click", nextPage)
-      .append("span")
-      .attr("aria-hidden", "true")
-      .text("Next");
-    pagination
-      .select(".next-link")
-      .select("a")
-      .append("span")
-      .attr("class", "sr-only")
-      .text("Next");
-  }
-
   function cloudy_responsibilities() {}
 </script>
 <script src="{% static 'dashboards/js/tag_clouds.js' %}"></script>
