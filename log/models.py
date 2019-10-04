@@ -33,7 +33,7 @@ class Log(models.Model):
 
 	def __str__(self):
 		return str(self.user) + ' / ' + self.component
-
+	
 	def indexing(self):
 		if self.context == '':
 			self.context = {}

@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     'bulletin',
     'banco_questoes',
     'questionary',
+    'elastic',
 ]
 
 MIDDLEWARE_CLASSES = [
