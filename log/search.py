@@ -12,7 +12,7 @@ from . import models
 config = ElasticSearchSettings.objects.get()
 
 if config:
-    conn = connections.create_connection(hosts=[config.host])
+    conn = connections.create_connection(hosts=[config.host], timeout = 60)
 else:
     conn = ''
 
