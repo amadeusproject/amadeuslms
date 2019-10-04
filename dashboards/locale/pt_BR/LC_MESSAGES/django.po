@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-27 04:49+0000\n"
+"POT-Creation-Date: 2019-10-04 06:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -308,8 +308,6 @@ msgstr ""
 "nesse assunto"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:49
-#, fuzzy
-#| msgid "Cloudy View"
 msgid "Cloudy"
 msgstr "Nuvem"
 
@@ -330,9 +328,13 @@ msgid "Access"
 msgstr "Acesso"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:83
-#: dashboards/templates/dashboards/subjects_other_indicators.html:152
+#: dashboards/templates/dashboards/subjects_other_indicators.html:170
 msgid "Yours"
 msgstr "Seu"
+
+#: dashboards/templates/dashboards/subjects_cloudy.html:84
+msgid "Class"
+msgstr "Turma"
 
 #: dashboards/templates/dashboards/subjects_gantt.html:27
 msgid "Detail of Tasks"
@@ -387,10 +389,8 @@ msgid "You missed this task"
 msgstr "Você perdeu esta tarefa"
 
 #: dashboards/templates/dashboards/subjects_gantt.html:94
-#, fuzzy
-#| msgid "You missed this task"
 msgid "You performed this task late"
-msgstr "Você perdeu esta tarefa"
+msgstr "Você realizou essa tarefa com atraso"
 
 #: dashboards/templates/dashboards/subjects_gantt.html:101
 msgid "Access the task"
@@ -426,8 +426,6 @@ msgid "End: "
 msgstr "Fim: "
 
 #: dashboards/templates/dashboards/subjects_gantt.html:218
-#, fuzzy
-#| msgid "Task closed on: "
 msgid "Closed on: "
 msgstr "Encerrado em: "
 
@@ -448,10 +446,8 @@ msgid "Lost"
 msgstr "Perdida"
 
 #: dashboards/templates/dashboards/subjects_gantt_legend.html:31
-#, fuzzy
-#| msgid "Completed"
 msgid "Complete Late"
-msgstr "Concluída"
+msgstr "Concluída com atraso"
 
 #: dashboards/templates/dashboards/subjects_gantt_legend.html:33
 msgid "Completed"
@@ -461,57 +457,55 @@ msgstr "Concluída"
 msgid "Other Status"
 msgstr "Outros status"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:99
+#: dashboards/templates/dashboards/subjects_other_indicators.html:117
 msgid "Important indicators"
 msgstr "Indicadores importantes"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:104
+#: dashboards/templates/dashboards/subjects_other_indicators.html:122
 msgid "Shows indicators comparing your situation to the class"
 msgstr "Mostrar indicadores comparando sua situação com a classe"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:107
+#: dashboards/templates/dashboards/subjects_other_indicators.html:125
 msgid "Bars"
 msgstr "Barra"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:120
+#: dashboards/templates/dashboards/subjects_other_indicators.html:138
 msgid "You"
 msgstr "Você"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:123
+#: dashboards/templates/dashboards/subjects_other_indicators.html:141
 msgid "Best of the class"
-msgstr "Melhor da classe"
+msgstr "Maior da classe"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:148
+#: dashboards/templates/dashboards/subjects_other_indicators.html:166
 msgid "Values reached"
 msgstr "Valores alcançados"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:153
-#, fuzzy
-#| msgid "Best of the class"
+#: dashboards/templates/dashboards/subjects_other_indicators.html:171
 msgid "Best of class"
-msgstr "Melhor da classe"
+msgstr "Maior da classe"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:158
+#: dashboards/templates/dashboards/subjects_other_indicators.html:176
 #: dashboards/templatetags/analytics_tag.py:21
 msgid "Access to the discipline environment"
 msgstr "Acesso o ambiente da disciplina"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:163
+#: dashboards/templates/dashboards/subjects_other_indicators.html:181
 #: dashboards/templatetags/analytics_tag.py:23
 msgid "Different days that accessed the discipline"
 msgstr "Dias diferentes que acessou a disciplina"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:168
+#: dashboards/templates/dashboards/subjects_other_indicators.html:186
 #: dashboards/templatetags/analytics_tag.py:25
 msgid "Resource access"
 msgstr "Acessos aos recursos da disciplina"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:173
+#: dashboards/templates/dashboards/subjects_other_indicators.html:191
 #: dashboards/templatetags/analytics_tag.py:27
 msgid "Distinct resources accessed"
 msgstr "Recursos distintos acessados"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:178
+#: dashboards/templates/dashboards/subjects_other_indicators.html:196
 #: dashboards/templatetags/analytics_tag.py:29
 msgid "Tasks performed on time"
 msgstr "Tarefas realizadas pontualmente"
