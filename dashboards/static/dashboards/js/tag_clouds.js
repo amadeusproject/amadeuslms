@@ -1,5 +1,100 @@
 let cloudWord = undefined;
 
+function makeTable(data, tableId, paginationId, nrows) {
+  const $table = $(tableId);
+  const $pagiantion = $(paginationId);
+
+  const pages = Math.ceil(data.length / nrows);
+
+  const $tbody = $table.find("tbody");
+
+  $tbody.html("");
+  $pagiantion.html("");
+
+  data.forEach((item, index) => {
+    const display = index >= nrows ? 'style="display: none"' : "";
+
+    let line = `<tr id='resource_${index}' class='tag_resource' ${display}>`;
+
+    line = `${line}<td><a href='${item.access_url}'>${item.resource_name}</a></td>`;
+    line = `${line}<td>${item.qtd_my_access}</td>`;
+    line = `${line}<td>${item.qtd_access}</td>`;
+
+    line = `${line}</tr>`;
+
+    $tbody.append(line);
+  });
+
+  $pagiantion.append("<li class='page-item previous'>&lt;</li>");
+
+  [...Array(pages).keys()].forEach(i => {
+    const page = `<li class='page-item page-item-number' data-page=${i + 1}>${i + 1}</li>`;
+
+    $pagiantion.append(page);
+  });
+
+  $(".page-item-number[data-page=1]").addClass("active");
+
+  $pagiantion.append("<li class='page-item next'>&gt;</li>");
+
+  $(".page-item-number").click(e => {
+    const page = $(e.target).data("page");
+    const init = page * nrows - nrows;
+    const end = page * nrows;
+
+    $(".page-item-number").removeClass("active");
+    $(e.target).addClass("active");
+
+    $(".tag_resource").each((i, el) => {
+      if (i >= init && i < end) {
+        $(el).show();
+      } else {
+        $(el).hide();
+      }
+    });
+  });
+
+  $(".previous").click(() => {
+    let page = $(".page-item-number.active").data("page");
+
+    page = page === 1 ? 1 : page - 1;
+
+    const init = page * nrows - nrows;
+    const end = page * nrows;
+
+    $(".page-item-number").removeClass("active");
+    $(`.page-item-number[data-page=${page}]`).addClass("active");
+
+    $(".tag_resource").each((i, el) => {
+      if (i >= init && i < end) {
+        $(el).show();
+      } else {
+        $(el).hide();
+      }
+    });
+  });
+
+  $(".next").click(() => {
+    let page = $(".page-item-number.active").data("page");
+
+    page = page === pages ? pages : page + 1;
+
+    const init = page * nrows - nrows;
+    const end = page * nrows;
+
+    $(".page-item-number").removeClass("active");
+    $(`.page-item-number[data-page=${page}]`).addClass("active");
+
+    $(".tag_resource").each((i, el) => {
+      if (i >= init && i < end) {
+        $(el).show();
+      } else {
+        $(el).hide();
+      }
+    });
+  });
+}
+
 function cloud() {
   const dimensions = document.getDimensions("#cloudy");
   const width =
@@ -88,13 +183,7 @@ function cloud() {
                 : 0;
             });
 
-            makeTable(
-              dataset,
-              ["qtd_my_access", "qtd_access", "resource_name"],
-              d3.select("#table-container"),
-              d3.select(".pagination"),
-              10,
-            );
+            makeTable(dataset, "#table-container", ".pagination", 10);
 
             d3.select("#modal_cloudy_loading_ball").style("display", "none");
             d3.select("#modal-table").style("display", "inherit");
