@@ -2,10 +2,15 @@ from elasticsearch_dsl.connections import connections
 from elasticsearch.helpers import bulk
 from elasticsearch_dsl import DocType, InnerDoc, Text, Keyword, Search
 from elasticsearch import Elasticsearch
-
+from elastic.models import ElasticSearchSettings
 from . import models
 
-connections.create_connection(hosts=['https://32ee85x1wy:p44kph0n9k@amadeus-elastic-6982239049.us-east-1.bonsaisearch.net'])
+config = ElasticSearchSettings.objects.get()
+
+if config:
+    conn = connections.create_connection(hosts=[config.host], timeout = 60)
+else:
+    conn = ''
 
 class TagIndex(DocType):
     name = Text()

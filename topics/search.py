@@ -4,10 +4,15 @@ from elasticsearch.helpers import bulk
 from elasticsearch import Elasticsearch
 
 from subjects.search import ResourceTagIndex
-
+from elastic.models import ElasticSearchSettings
 from . import models
 
-connections.create_connection(hosts=['https://32ee85x1wy:p44kph0n9k@amadeus-elastic-6982239049.us-east-1.bonsaisearch.net'])
+config = ElasticSearchSettings.objects.get()
+
+if config:
+    conn = connections.create_connection(hosts=[config.host], timeout = 60)
+else:
+    conn = ''
 
 class ResourceIndex(DocType):
     name = Text()
