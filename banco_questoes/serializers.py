@@ -122,7 +122,10 @@ class QuestionDatabaseSerializer(serializers.ModelSerializer):
         for tag in tags:
             if not tag["name"] == "":
                 if tag["id"] == "":
-                    tag = Tag.objects.create(name = tag["name"])
+                    if Tag.objects.filter(name = tag["name"]).exists():
+                        tag = get_object_or_404(Tag, name = tag["name"])
+                    else:
+                        tag = Tag.objects.create(name = tag["name"])
                 else:
                     tag = get_object_or_404(Tag, id = tag["id"])
 
