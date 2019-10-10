@@ -18,8 +18,6 @@ from django.db.models.functions import TruncDate
 import operator, math
 
 from log.search import *
-from subjects.search import tags_all
-from topics.search import resources_by_tag
 
 def done_percent(pendency):
     users = get_resource_users(pendency.resource)
