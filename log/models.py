@@ -15,6 +15,8 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django.utils.translation import ugettext_lazy as _
 
+from .search import LogIndex
+
 class Log(models.Model):
 	component = models.TextField(_('Component (Module / App)'))
 	context = JSONField(_('Context'), blank = True)
@@ -31,3 +33,13 @@ class Log(models.Model):
 
 	def __str__(self):
 		return str(self.user) + ' / ' + self.component
+	
+	def indexing(self):
+		if self.context == '':
+			self.context = {}
+			
+		obj = LogIndex(meta={'id': self.id}, id=self.id, component=self.component, action=self.action, resource=self.resource, user=self.user, user_id=self.user_id, datetime=self.datetime, context=self.context)
+
+		obj.save()
+
+		return obj.to_dict(include_meta=True)

@@ -31,7 +31,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = '$=8)c!5)iha85a&8q4+kv1pyg0yl7_xe_x^z=2cn_1d7r0hny4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 # Application definition
@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'django_filters',
     'django_bootstrap_breadcrumbs',
-    's3direct',
     'django_summernote',
     'session_security',
     'django_crontab',
@@ -90,6 +89,7 @@ INSTALLED_APPS = [
     'bulletin',
     'banco_questoes',
     'questionary',
+    'elastic',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -203,7 +203,7 @@ FORMAT_MODULE_PATH = 'amadeus.formats'
 
 STATIC_URL = '/static/'
 
-#Static files heroku
+# Static files heroku
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
@@ -242,7 +242,7 @@ FCM_DJANGO_SETTINGS = {
 }
 
 #SECURITY
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO','https')
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 #Allow all host headers
 ALLOWED_HOSTS = ['*']
@@ -295,23 +295,6 @@ EMAIL_HOST_PASSWORD = 'amadeusteste'
 #For date purposes
 DATE_INPUT_FORMATS.append('%d/%m/%y')
 DATE_INPUT_FORMATS.append('%m/%d/%y')
-
-#s3direct
-
-# AWS keys
-AWS_SECRET_ACCESS_KEY = ''
-AWS_ACCESS_KEY_ID = ''
-AWS_STORAGE_BUCKET_NAME = ''
-
-S3DIRECT_REGION = 'sa-east-1'
-
-from uuid import uuid4
-
-S3DIRECT_DESTINATIONS = {
-    # Specify a non-default bucket for PDFs
-    'material': (lambda original_filename: 'uploads/material/'+str(uuid4())+'.pdf', lambda u: True, ['application/pdf']),
-
-}
 
 #API CONFIG STARTS
 #TELL the rest framework to use a different backend

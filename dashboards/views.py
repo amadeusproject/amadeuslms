@@ -14,7 +14,7 @@ from django.shortcuts import render
 
 from django.views import generic
 from django.db.models import Count
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 
 from subjects.models import Tag, Subject
 from topics.models import Resource
@@ -33,9 +33,9 @@ from collections import OrderedDict
 
 from categories.models import Category
 
-from subjects.models import Subject
+from subjects.models import Subject, Tag
 
-from .utils import get_pend_graph
+from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators
 
 
 from log.mixins import LogMixin
@@ -232,8 +232,6 @@ class SubjectView(LogMixin, generic.TemplateView):
         subject = get_object_or_404(Subject, slug = self.kwargs.get('slug', ''))
 
         if has_subject_permissions(self.request.user, subject):
-            print(self.get_context_data())
-
             return self.render_to_response(self.get_context_data())
         else:
             return HttpResponseForbidden()
@@ -254,7 +252,9 @@ class SubjectView(LogMixin, generic.TemplateView):
         
         if has_subject_permissions(self.request.user, subject):
             student = self.request.POST.get('selected_student', None)
-            context['sub_students'] = subject.students.all()
+            students = subject.students.all()
+            students = sorted(students,key=lambda student: student.username) # Ordem Alfabética
+            context['sub_students'] = students
             context['student'] = self.request.POST.get('selected_student', subject.students.first().email)
 
             self.log_context['student'] = context['student']
@@ -262,12 +262,20 @@ class SubjectView(LogMixin, generic.TemplateView):
             if not student is None:
                 student = User.objects.get(email = student)
                 context["graph_data"] = json.dumps(get_pend_graph(student, subject))
+                context["tags_cloud"] = reverse('dashboards:cloudy_data', args = (subject.slug, student.email,), kwargs = {})
+                context["metrics_url"] = reverse('dashboards:other_metrics', args = (subject.slug, student.email,), kwargs = {})
             else:
-                context["graph_data"] = json.dumps(get_pend_graph(context['student'], subject))
+                student = User.objects.get(email = context['student'])
+                context["graph_data"] = json.dumps(get_pend_graph(student, subject))
+                context["tags_cloud"] = reverse('dashboards:cloudy_data', args = (subject.slug, student.email,), kwargs = {})
+                context["metrics_url"] = reverse('dashboards:other_metrics', args = (subject.slug, student.email,), kwargs = {})
         else:
+            context["tags_cloud"] = reverse('dashboards:cloudy_data', args = (subject.slug, self.request.user.email,), kwargs = {})
             context["graph_data"] = json.dumps(get_pend_graph(self.request.user, subject))
+            context["metrics_url"] = reverse('dashboards:other_metrics', args = (subject.slug, self.request.user.email,), kwargs = {})
 
         context["subject"] = subject
+        context["qtd_students"] = subject.students.count()
         context['javascript_files'] = []
         context['style_files'] = ['dashboards/css/general.css', 'dashboards/css/dashboards_category.css']
         
@@ -275,3 +283,21 @@ class SubjectView(LogMixin, generic.TemplateView):
 
         return context
 
+def tag_accessess(request, tag, subject, email):
+    sub = Subject.objects.get(slug = subject)
+    user = User.objects.get(email = email)
+    tag = Tag.objects.get(id = tag)
+
+    return JsonResponse(getTagAccessess(sub, tag, user), safe = False)
+
+def other_metrics(request, subject, email):
+    sub = Subject.objects.get(slug = subject)
+    user = User.objects.get(email = email)
+
+    return JsonResponse(getOtherIndicators(sub, user), safe = False)
+
+def cloudy_data(request, subject, email):
+    sub = Subject.objects.get(slug = subject)
+    user = User.objects.get(email = email)
+
+    return JsonResponse(getAccessedTags(sub, user), safe = False)

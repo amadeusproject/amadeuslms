@@ -59,9 +59,12 @@ def chat_user(user, chat):
 
 @register.filter(name = 'last_message')
 def last_message(chat):
-	last_message = TalkMessages.objects.filter(talk = chat).order_by('-create_date')[0]
+	last_message = TalkMessages.objects.filter(talk = chat).order_by('-create_date')
+	
+	if len(last_message) > 0:
+		return last_message[0].create_date
 
-	return last_message.create_date
+	return ''
 
 @register.filter(name = 'notifies')
 def notifies(chat, user):

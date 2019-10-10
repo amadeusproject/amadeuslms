@@ -17,6 +17,7 @@ from django.db.models import Q
 from chat.models import ChatVisualizations
 from mural.models import MuralVisualizations
 from notifications.models import Notification
+from log.models import Log
 
 register = template.Library()
 
@@ -74,3 +75,12 @@ def after_today(date):
 	if date > datetime.datetime.today().date():
 		return True
 	return False
+
+@register.inclusion_tag('subjects/badge.html')
+def dashboard_view(subject, user):
+	context = {}
+
+	context['number'] = 0 if Log.objects.filter(user_id = user.id, resource = 'analytics', context__contains = {'subject_slug': subject.slug}, datetime__date = datetime.datetime.now()).exists() else 1
+	context['custom_class'] = 'mural_notify'
+	
+	return context

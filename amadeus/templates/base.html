@@ -17,8 +17,19 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 <html>
 <head>
-	<title>{{ title }} | {{ theme.title }}</title>
-
+    <title>{{ title }} | {{ theme.title }}</title>
+    
+    <!-- Mathjax -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
     <!-- jQuery & jQuery UI -->
     <script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
@@ -205,6 +216,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                                         <li><a href="{% url 'security:update' %}">{% trans 'Security' %}</a></li>
                                                         <li><a href="{% url 'themes:manage' %}">{% trans 'Theme' %}</a></li>
 														<li><a href="{% url 'webconferences:settings' %}">{% trans 'Web Conference' %}</a></li>
+														<li><a href="{% url 'elastic:settings' %}">{% trans 'Elastic Search' %}</a></li>
                                                     </ul>
                                                 </div>
                                             </div>

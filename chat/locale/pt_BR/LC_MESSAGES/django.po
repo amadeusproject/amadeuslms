@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-18 21:47+0000\n"
+"POT-Creation-Date: 2019-10-04 06:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -247,11 +247,11 @@ msgstr "Inativo"
 msgid "Offline"
 msgstr "Offline"
 
-#: chat/templatetags/chat_tags.py:75 chat/views.py:442
+#: chat/templatetags/chat_tags.py:78 chat/views.py:442
 msgid "Unfavorite"
 msgstr "Desfavoritar"
 
-#: chat/templatetags/chat_tags.py:77 chat/views.py:446
+#: chat/templatetags/chat_tags.py:80 chat/views.py:446
 msgid "Favorite"
 msgstr "Favoritar"
 

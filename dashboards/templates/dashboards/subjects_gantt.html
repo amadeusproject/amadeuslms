@@ -1,0 +1,264 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+
+{# {{ graph_data }} #}
+
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+<!--<script src="{% static 'analytics/js/brush_zoom.js' %}"></script>-->
+<link rel="stylesheet" type="text/css" href="{% static 'analytics/css/brush_zoom.css' %}"></link>
+<script src="{% static 'analytics/js/brush_zoom.js' %}"></script>
+
+<div id="gantt" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style=" padding-left: 10px; ">
+        <div style="float:left;font-size:16px; text-align:left; color: #000;">
+            <b>{% trans 'Detail of Tasks' %}</b>
+            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="{% trans 'Positions all activities suggested by the teacher on the current subject in a timeline' %}"></i>
+        </div>
+        <div style="float:right">
+            {% trans '(%) Class' %}
+            <label class="switch">
+                <input id="ganttPercent" type="checkbox" name="percentOn" checked onclick="ganttChart.percent_toogle()">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style="padding: 0px">
+        <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 1px;">
+        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+    
+            <div id="legend-gantt" class="col-md-8 col-xs-12 col-sm-12 col-lg-10" style="padding: 0px">
+                    {% include 'dashboards/subjects_gantt_legend.html' with tittle="late" %}
+                    {% include 'dashboards/subjects_gantt_legend.html' with tittle="on_time" %}
+                    {% include 'dashboards/subjects_gantt_legend.html' with tittle="planned" %}
+                    {% include 'dashboards/subjects_gantt_legend.html' with tittle="lost" %}
+                    {% include 'dashboards/subjects_gantt_legend.html' with tittle="complete_late" %}
+                    {% include 'dashboards/subjects_gantt_legend.html' with tittle="completed" %}
+            </div>
+            <div class="col-md-4 col-xs-8 col-sm-5 col-lg-2 text-center now-button" onclick="ganttChart.reset();" style="background: #ddd">
+                    <p><b>{% trans "Now" %}</b></p>
+            </div>
+
+        </div>
+        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style="padding: 0px;">
+            <hr style="height:2px; background-color:#bbb;margin-top: 1px;margin-bottom: 5px;">
+        </div>
+        
+        
+    </div>
+
+
+</div>
+    <div class="gantt-card" style="display: none;">
+        <svg>
+        </svg>
+        <div class="card-body col-md-8 col-xs-12 col-sm-12 col-lg-8" style="opacity: 0;display: none">
+            <div id="background-card" class="panel panel-default">
+                <div class="pendency panel-body">
+                    <div class="row">
+                        <svg id="bar-card"></svg>
+                        <button type="button" class="close gantt-card-close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                        </button>
+                        <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6">
+                            <h4 class="tittle">Tittle of Task</h4>
+
+                            <p class="start-date">{% trans 'Initial Date/Time' %}: <text>Not Informed</text></p>
+                            <p class="end-date">{% trans 'Final Date/Time' %}: <text>Not Informed</text></p>
+                            <p class="delay-date meta">{% trans 'Task finished in' %}: <text>Not Informed</text></p>
+
+                            <p class="percent">
+                                <b></b> {% trans 'of the participants already realized this task.' %}
+                            </p>
+
+                        </div>
+                        <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6">
+                            <div class="alert late">
+                                <i class="fa fa-exclamation-triangle"></i>
+                                <span>
+                                    <text class="text-status text-status-0" style="display: none;">{% trans "This task is late"%}</text>
+                                    <text class="text-status text-status-1" style="display: inherit;">{% trans "You have not yet accomplish this task"%}</text>
+                                    <text class="text-status text-status-3" style="display: none;">{% trans "You missed this task"%}</text>
+                                    <text class="text-status text-status-4" style="display: none;">{% trans "You performed this task late" %}</text>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center button-goto">
+                        <a href="link to task" class="btn btn-success btn-mobile btn-raised" target="_blank">
+                            <text class="lost-complete" style="display: none;">{% trans 'Access the task' %}</text>
+                            <text class="other" style="display: inherit;">{% trans 'Realize the task' %}</text>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--Subject inicio: {{ subject.init_date }}-->
+<!--Subject fim: {{ subject.end_date }}-->
+
+<script type="text/javascript">
+var months=["{% trans 'January' %}", "{% trans 'February' %}", "{% trans 'March' %}", "{% trans 'April' %}", 
+                    "{% trans 'May' %}", "{% trans 'June' %}", "{% trans 'July' %}", "{% trans 'August' %}", 
+                    "{% trans 'September' %}", "{% trans 'October' %}", "{% trans 'November' %}", "{% trans 'December' %}"];
+var of = "{% trans 'of' %}";
+
+
+function dateConverter(date){
+    var reg = /([0-9]{1,2}) de ([^0-9]{1,}) de ([0-9]{1,})/;
+    var dateC = date.match(reg);
+    if(!dateC){
+        reg = /([^0-9]{1,}) ([0-9]{1,}). ([0-9]{1,})/
+        var dateC = date.match(reg);
+        if(dateC){
+            dateC[1] = dateC[2],dateC[2] = dateC[1];
+            if(months.indexOf(dateC[2])==-1){
+                dateC[2] = months.filter(function(d){
+                    return d.slice(0,3) == dateC[2].slice(0,3);
+                })[0]
+            }
+        }
+    }
+    if(dateC)
+        dateC = ""+(months.indexOf(dateC[2])+1) + "/" + dateC[1] + "/" + dateC[3];
+    else    
+        dateC = date;
+    return dateC;
+}
+    var init_date = dateConverter('{{ subject.init_date }}');
+    var end_date = dateConverter('{{ subject.end_date }}');
+    
+
+    var percentOn = true;
+
+    var chartConfig = {
+        name: "tasksGantt",
+        target: "#gantt",
+        data: {% autoescape off %} {{ graph_data }} {% endautoescape %},//[{ date: { start: "", end: "", delay: "" }, percent: 0.0, action: "", name: "", done: false }],
+        metadata: {
+            maxrow: 5,
+            date: { start: init_date, end: end_date },// (([0-9]{1,2})[ ]+de[ ]+([^0-9 ]+)[ ]+de+[ ]+([0-9]{2,4}))|(([^0-9 \)\n\t]+)[ ]+([0-9]{1,2}),[ ]+([0-9]{2,4})) 
+            min_period: "",
+            now: "",
+        },
+        status: ["late", "on_time", "planned", "lost", "complete_late", "completed"],
+        tooltip: {
+            text: "",
+        },
+        interactions: {
+            filters:{
+                filter:function(marked){//Marked é um vetor de booleanos, cada indice representa uma legenda
+                    d3.selectAll(".gantt-legend-status")
+                        .style("cursor",function(d,i){
+                            return "url("+(marked[i]?'{% static "img/cursors/subber.cur" %}':'{% static "img/cursors/adder.cur" %}')+"),auto";
+                        })
+                        .select(".fa").attr("class",function(d,i){
+                            return "gantt-legend-icon fa fa-toggle-"+ (marked[i]?"on":"off");
+                        });
+                },
+                filter_out:function(){
+                    d3.selectAll(".gantt-legend-status")
+                        .style("cursor",function(d){
+                            return "url({% static 'img/cursors/filter.cur' %}),auto";
+                        })
+                        .select(".fa").attr("class",function(d){
+                            return "gantt-legend-icon fa fa-toggle-off";
+                        });
+                }
+    }
+        }
+    }
+    var ganttChart = new Gantt(chartConfig)._draw().reset();
+/*
+    var chartConfig = {
+        name: "GanttChart",
+        parents: {
+            focus: "#gantt",
+            context: "#gantt",
+            legend: "#legend-gantt",
+        },
+        dimensions:{
+            width:document.getDimensions("#gantt").w,
+            height:200
+        },
+        period:{
+            start:init_date,
+            end:end_date,
+        },
+        data: {% autoescape off %} {{ graph_data }} {% endautoescape %},
+    //dimensions: { width: 1200, height: 500 },
+
+    layout: {
+        percentOn: percentOn,
+        maxrow: 5,
+            colors: ["#FF9001", "#dfbd31", "#868686", "#f44336", "#3BA51A"],//#009886
+                texts: ["late","on_time","planned","lost","completed"],
+                texts2: ['{% trans "This task is late"%}', '{% trans "You have not yet accomplish this task"%}', 
+                                "", '{% trans "You missed this task"%}', ""],
+                backcolor: "#F9F9F9",
+                percent_min: 0.3,
+                percent_text:'{% trans " % already accomplish" %}',
+                buttonAccess_text:'{% trans "ACCESS TASK" %}',      
+                buttonDoTask_text:'{% trans "DO TASK" %}',
+                initDate_text:'{% trans "Start: " %}',
+                endDate_text:'{% trans "End: " %}',
+                closedDate_text:'{% trans "Closed on: " %}',
+                //language:'{{ language }}'
+            },
+    interactions: {
+        button: function (element, data) {
+            var classelement = d3.select(element).attr("class");
+            if (classelement == "goto")
+                window.location.assign(data.access_link);
+        }
+    },
+    tooltip: {
+        text: ""
+    },
+    filters:{
+        filter:function(marked){
+            d3.selectAll(".gantt-legend-status")
+                .style("cursor",function(d,i){
+                    return "url("+(marked[i]?'{% static "img/cursors/subber.cur" %}':'{% static "img/cursors/adder.cur" %}')+"),auto";
+                })
+                .select(".fa").attr("class",function(d,i){
+                    return "gantt-legend-text fa fa-toggle-"+ (marked[i]?"on":"off");
+                });
+        },
+        filter_out:function(marked){
+            d3.selectAll(".gantt-legend-status")
+                .style("cursor",function(d){
+                    return "url({% static 'img/cursors/filter.cur' %}),auto";
+                })
+                .select(".fa").attr("class",function(d){
+                    return "gantt-legend-text fa fa-toggle-off";
+                });
+        }
+    }
+        }
+
+    var ganttChart = new GanttChart(chartConfig).draw().reset()//.draw2();*/
+
+    function invertPercent(){
+        percentOn = !percentOn;
+        ganttChart.percentOnOff(percentOn);
+    }
+
+    function gantt_responsibilities() {
+        ganttChart._draw();
+    }
+
+</script>

@@ -416,7 +416,7 @@ var charts = {
 				text:"<text>: <value> acesso(s)"
 			  }
 			  }
-			  cloudWord(dataconfig,"#most-used-tags-body");/**/
+			  var cloudWord = new CloudWord(dataconfig);/**/
 	       	
 /*
 			var container_div = d3.select("#most-used-tags-body");

@@ -1,0 +1,13 @@
+[Unit]
+Description=daphne workers
+After=networl.target
+
+[Service]
+User=amadeus
+Group=www-data
+WorkingDirectory=/home/amadeus/Amadeus/amadeuslms
+ExecStart=/home/amadeus/Amadeus/env/bin/python /home/amadeus/Amadeus/amadeuslms/manage.py runworker --thread 4
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

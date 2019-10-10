@@ -1,0 +1,139 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+
+<script src="{% static 'analytics/js/ToolTip.js' %}"></script>
+<script src="{% static 'analytics/js/d3.v3.min.js' %}"></script>
+<script src="{% static 'analytics/js/cloud.min.js' %}"></script>
+
+<style>
+  .cloudy-legend {
+    display: flex;
+  }
+  .icon-cloudy-legend {
+    width: 20px;
+    height: 16px;
+    margin-top: 5px;
+    margin-bottom: 4px;
+  }
+  .text-cloudy-legend {
+    height: 20px;
+    margin: 3px;
+    margin-bottom: 2px;
+  }
+</style>
+
+<div class="col-md-8 col-xs-12 col-sm-12 col-lg-8">
+  <div style="padding-left: 10px; ">
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style=" padding-left: 10px; ">
+      <div style="float:left; font-size:16px; text-align:left; color: #000;">
+        <b>{% trans 'Most Popular Tags' %}</b>
+        <i
+          class="fa fa-info-circle"
+          aria-hidden="true"
+          data-toggle="tooltip"
+          title="{% trans 'Compare your number of hits with the number of hits in each class tag in this subject' %}"
+        ></i>
+      </div>
+      <div style="float:right">
+        {% trans 'Cloudy' %}
+        <label class="switch">
+          <input id="ganttPercent" type="checkbox" name="percentOn" checked onclick="view_toogle()" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style="padding: 0px;">
+    <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 0px;" />
+  </div>
+  <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 cloudy-legend">
+    <i id="cloudy-icon" class="fa fa-text-height icon-cloudy-legend" aria-hidden="true"></i>
+    <p class="text-cloudy-legend">{% trans 'Class accesses' %}</p>
+    <div style="width:20px; height: 10px;"></div>
+    <div class="icon-cloudy-legend" style="background-image: linear-gradient(to right, #162318 , #8EC99A); "></div>
+    <p class="text-cloudy-legend">{% trans 'Your accesses' %}</p>
+  </div>
+  <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style="padding: 0px;">
+    <hr style="height:2px; background-color:#bbb;margin-top: 0px;margin-bottom: 5px;" />
+  </div>
+  <br clear="all" />
+  <div
+    id="tableHeader"
+    style="height: 60px; display: flex; justify-content: space-between; align-items: center; background: #eee; display: none"
+  >
+    <div style="height: 60px; display: flex; justify-content: center; align-items: center; width: 65%;">
+      <h3 style="margin-top: 10px">{% trans 'Tag' %}</h3>
+    </div>
+    <div
+      style="height: 60px; display: flex; width: 30%; flex-direction: column; align-items: center; justify-content: center; margin-right: 10px"
+    >
+      <h3 style="margin-top: 5px; margin-bottom: 2px;">{% trans 'Access' %}</h3>
+      <div style="display: flex; width: 100%; justify-content: space-around; border-top: 1px solid #333">
+        <span style="font-weight: bold">{% trans 'Yours' %}</span>
+        <span style="margin-right: 15px; font-weight: bold">{% trans 'Class' %}</span>
+      </div>
+    </div>
+  </div>
+  <div id="cloudy" style="padding: 0px" data-url="{{ tags_cloud }}">
+    {% include 'dashboards/loading_ball.html' with tittle="cloudy_loading_ball" %}
+  </div>
+</div>
+
+<div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="modalTittle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div style="float: left;">
+          <h3 class="modal-title" id="modalTittle">Modal title</h3>
+        </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding-top:5px" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+        <div id="modal_cloudy_loading_ball" style="height:150px;">
+          {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
+        </div>
+        <div id="modal-table" style="display: none;">
+          <div id="table-container" class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th colspan="2" scope="col">Acessos</th>
+                </tr>
+                <tr>
+                  <th scope="col">Recurso</th>
+                  <th scope="col">Seu</th>
+                  <th scope="col">Turma</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+            </table>
+          </div>
+          <nav aria-label="Table Navigation">
+            <ul class="pagination"></ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function cloudy_responsibilities() {}
+</script>
+<script src="{% static 'dashboards/js/tag_clouds.js' %}"></script>
