@@ -12,196 +12,95 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% load static i18n %}
 
-<style>
-  .indicator-panel > .panel-heading {
-    background-color: #f9f9f9 !important;
-    padding-right: 5px;
-    color: #000 !important;
-  }
-
-  .card-tittle {
-    margin-top: 15px;
-    margin-bottom: 4px;
-  }
-
-  .card-text {
-    margin-bottom: 2px;
-  }
-
-  .back-other-indicator {
-    fill: #ffffff;
-  }
-
-  .best-other-indicator {
-    fill: #009688;
-  }
-
-  .rect-other-indicator {
-    fill: #c8e6c9;
-  }
-
-  .rect-other-comp-indicator {
-    fill: #eeeeee;
-    padding-right: 5px;
-  }
-
-  .container-graph-indicator {
-    display: flex;
-  }
-
-  .graph-indicator {
-    /*width:65%;*/
-
-    height: 25px;
-    flex-grow: 1;
-    padding-right: 12px;
-  }
-
-  .indicator-panel-content {
-    background: #fff;
-    padding: 10px;
-  }
-
-  .back-max-indicator {
-    width: 10px;
-    height: 25px;
-  }
-
-  .text-max-indicator {
-    margin: 5px auto;
-    left: 50%;
-    font-weight: bold;
-    line-height: normal;
-    font-size: 12px;
-    text-align: center;
-    color: #ffffff;
-  }
-
-  .text-your-indicator {
-    text-anchor: end;
-    font-size: 13px;
-    color: #000;
-  }
-  .indicators-legend {
-    display: flex;
-  }
-  .rect-indicators-legend {
-    width: 20px;
-    height: 16px;
-    margin-top: 5px;
-    margin-bottom: 0px;
-  }
-  .text-indicators-legend {
-    margin: 5px;
-    margin-bottom: 0px;
-  }
-  .page-item {
-    border: 1px solid #ccc;
-    padding: 3px 7px;
-    cursor: pointer;
-  }
-  .page-item:hover {
-    color: #fff;
-    background: #009688;
-    border-color: #009688;
-  }
-  .page-item.active {
-    background: #009688;
-    color: #fff;
-    border-color: #009688;
-  }
-</style>
-
-<div class="col-md-4 col-xs-12 col-sm-8 col-lg-4">
-  <div style="font-size:16px; text-align:left; color: #000; padding-left: 10px; padding-bottom: 5 px;">
-    <b>{% trans 'Important indicators' %}</b>
-    <i
-      class="fa fa-info-circle"
-      aria-hidden="true"
-      data-toggle="tooltip"
-      title="{% trans 'Shows indicators comparing your situation to the class' %}"
-    ></i>
-    <div style="float:right">
-      {% trans 'Bars' %}
-      <label class="switch">
-        <input id="ganttPercent" type="checkbox" name="percentOn" checked onclick="view_toggle($(this))" />
-        <span class="slider round"></span>
-      </label>
+<div class="col-md-4 col-xs-12 col-sm-12 col-lg-4">
+  <div class="row cloudy-header">
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 cloudy-title-bar indicators-bar">
+      <div class="cloudy-title">
+        <b>{% trans 'Important indicators' %}</b>
+        <i
+          class="fa fa-info-circle"
+          aria-hidden="true"
+          data-toggle="tooltip"
+          title="{% trans 'Shows indicators comparing your situation to the class' %}"
+        ></i>
+      </div>
+      <div>
+        {% trans 'Bars' %}
+        <label class="switch">
+          <input id="ganttPercent" type="checkbox" name="percentOn" checked onclick="view_toggle($(this))" />
+          <span class="slider round"></span>
+        </label>
+      </div>
     </div>
   </div>
-  <hr style="height:2px; background-color:#878787;margin-top: 5px;margin-bottom: 0px;" />
-
-  <!--Metrics url: {{ metrics_url }}-->
-
-  <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 indicators-legend">
-    <div class="rect-indicators-legend" style="background: #C8E6C9"></div>
-    <p class="text-indicators-legend">{% trans 'You' %}</p>
-    <div style="width:20px; height: 10px;"></div>
-    <div class="rect-indicators-legend" style="background: #009688"></div>
-    <p class="text-indicators-legend">{% trans 'Best of the class' %}</p>
+  <div class="row cloudy-header">
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 indicators-legend">
+      <div class="rect-indicators-legend" style="background: #C8E6C9"></div>
+      <p class="text-indicators-legend">{% trans 'You' %}</p>
+      <div class="rect-indicators-legend" style="background: #009688"></div>
+      <p class="text-indicators-legend">{% trans 'Best of the class' %}</p>
+    </div>
   </div>
 
-  <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style="padding: 0px;">
-    <hr style="height:2px; background-color:#bbb;margin-top: 0px;margin-bottom: 5px;" />
-  </div>
+  <div class="row" style="padding: 0px 15px">
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+      <div id="indicators-accordion" class="" aria-multiselectable="false" style="display: none;opacity: 0">
+        {% include 'dashboards/subjects_other_indicators_card.html' with tittle="access_enviromment" %}
+        <br />
+        {% include 'dashboards/subjects_other_indicators_card.html' with tittle="distincts_days" %}
+        <br />
+        {% include 'dashboards/subjects_other_indicators_card.html' with tittle="access_resource" %}
+        <br />
+        {% include 'dashboards/subjects_other_indicators_card.html' with tittle="distincts_resource" %}
+        <br />
+        {% include 'dashboards/subjects_other_indicators_card.html' with tittle="tasks_on_time" %}
+      </div>
 
-  <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-    <div id="indicators-accordion" class="" aria-multiselectable="false" style="display: none;opacity: 0">
-      {% include 'dashboards/subjects_other_indicators_card.html' with tittle="access_enviromment" %}
-      <br />
-      {% include 'dashboards/subjects_other_indicators_card.html' with tittle="distincts_days" %}
-      <br />
-      {% include 'dashboards/subjects_other_indicators_card.html' with tittle="access_resource" %}
-      <br />
-      {% include 'dashboards/subjects_other_indicators_card.html' with tittle="distincts_resource" %}
-      <br />
-      {% include 'dashboards/subjects_other_indicators_card.html' with tittle="tasks_on_time" %}
+      <div id="indicators-table" class="table-responsive" style="display: none">
+        <table class="table table-stripped">
+          <thead>
+            <tr>
+              <th></th>
+              <th colspan="2" style="text-align: center">{% trans 'Values reached' %}</th>
+            </tr>
+            <tr>
+              <th></th>
+              <th style="vertical-align: middle">{% trans 'Yours' %}</th>
+              <th style="vertical-align: middle">{% trans 'Best of class' %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="vertical-align: middle; white-space: inherit">{% trans 'Access to the discipline environment' %}</td>
+              <td style="vertical-align: middle; text-align: center" class="yours_ind"></td>
+              <td style="vertical-align: middle; text-align: center" class="best_ind"></td>
+            </tr>
+            <tr>
+              <td style="vertical-align: middle; white-space: inherit">{% trans 'Different days that accessed the discipline' %}</td>
+              <td style="vertical-align: middle; text-align: center" class="yours_ind"></td>
+              <td style="vertical-align: middle; text-align: center" class="best_ind"></td>
+            </tr>
+            <tr>
+              <td style="vertical-align: middle; white-space: inherit">{% trans 'Resource access' %}</td>
+              <td style="vertical-align: middle; text-align: center" class="yours_ind"></td>
+              <td style="vertical-align: middle; text-align: center" class="best_ind"></td>
+            </tr>
+            <tr>
+              <td style="vertical-align: middle; white-space: inherit">{% trans 'Distinct resources accessed' %}</td>
+              <td style="vertical-align: middle; text-align: center" class="yours_ind"></td>
+              <td style="vertical-align: middle; text-align: center" class="best_ind"></td>
+            </tr>
+            <tr>
+              <td style="vertical-align: middle; white-space: inherit">{% trans 'Tasks performed on time' %}</td>
+              <td style="vertical-align: middle; text-align: center" class="yours_ind"></td>
+              <td style="vertical-align: middle; text-align: center" class="best_ind"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {% include 'dashboards/loading_ball.html' with tittle="indicators_loading_ball" %}
     </div>
-
-    <div id="indicators-table" class="table-responsive" style="display: none">
-      <table class="table table-stripped">
-        <thead>
-          <tr>
-            <th></th>
-            <th colspan="2" style="text-align: center">{% trans 'Values reached' %}</th>
-          </tr>
-          <tr>
-            <th></th>
-            <th style="vertical-align: middle">{% trans 'Yours' %}</th>
-            <th style="vertical-align: middle">{% trans 'Best of class' %}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="vertical-align: middle">{% trans 'Access to the discipline environment' %}</td>
-            <td style="vertical-align: middle; text-align: center" class="yours_ind"></td>
-            <td style="vertical-align: middle; text-align: center" class="best_ind"></td>
-          </tr>
-          <tr>
-            <td style="vertical-align: middle">{% trans 'Different days that accessed the discipline' %}</td>
-            <td style="vertical-align: middle; text-align: center" class="yours_ind"></td>
-            <td style="vertical-align: middle; text-align: center" class="best_ind"></td>
-          </tr>
-          <tr>
-            <td style="vertical-align: middle">{% trans 'Resource access' %}</td>
-            <td style="vertical-align: middle; text-align: center" class="yours_ind"></td>
-            <td style="vertical-align: middle; text-align: center" class="best_ind"></td>
-          </tr>
-          <tr>
-            <td style="vertical-align: middle">{% trans 'Distinct resources accessed' %}</td>
-            <td style="vertical-align: middle; text-align: center" class="yours_ind"></td>
-            <td style="vertical-align: middle; text-align: center" class="best_ind"></td>
-          </tr>
-          <tr>
-            <td style="vertical-align: middle">{% trans 'Tasks performed on time' %}</td>
-            <td style="vertical-align: middle; text-align: center" class="yours_ind"></td>
-            <td style="vertical-align: middle; text-align: center" class="best_ind"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    {% include 'dashboards/loading_ball.html' with tittle="indicators_loading_ball" %}
   </div>
 </div>
 <script>
