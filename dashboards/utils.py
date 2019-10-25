@@ -150,17 +150,18 @@ def getTagAccessess(subject, tag, user):
     return data
 
 def getOtherIndicators(subject, user):
-    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 7), datetime__date__lt = timezone.now())
+    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(hours = 7*24+3), datetime__date__lt = timezone.now() - timedelta(hours = 3))
 
     data = []
     searchs = []
 
     students = subject.students.all()
-
+    
     #First indicator
     for student in students:
         if student.id != user.id:
             searchs.append(count_access_subject(subject.id, student.id))
+            
 
     searchs.append(count_access_subject(subject.id, user.id))
 
@@ -178,6 +179,7 @@ def getOtherIndicators(subject, user):
         accessess.sort()
         
         qtd_results = len(accessess)
+        
 
         if qtd_results > 5:
             item['percentil_1'] = accessess[math.floor(qtd_results * 0.25)]
@@ -215,7 +217,10 @@ def getOtherIndicators(subject, user):
     
     if searchs:
         res = multi_search(searchs)
-            
+        # for a in res:
+        #     print(a.to_dict())    
+        #     print('')
+        #     print('')
         accessess = [len(x.to_dict()['aggregations']['dt']['buckets']) if 'aggregations' in x.to_dict() else 0 for x in res]
 
         my_access = accessess[-1]
@@ -255,14 +260,16 @@ def getOtherIndicators(subject, user):
     for student in students:
         if student.id != user.id:
             searchs.append(count_access_resources(subject.id, student.id))
-
+            
+    
     searchs.append(count_access_resources(subject.id, user.id))
     
     item = {}
 
     if searchs:
         res = multi_search(searchs)
-
+       
+        
         accessess = [x.to_dict()['hits']['total']['value'] for x in res]
 
         my_access = accessess[-1]
@@ -272,6 +279,7 @@ def getOtherIndicators(subject, user):
         accessess.sort()
         
         qtd_results = len(accessess)
+         
 
         if qtd_results > 5:
             item['percentil_1'] = accessess[math.floor(qtd_results * 0.25)]
@@ -297,12 +305,12 @@ def getOtherIndicators(subject, user):
     data.append(item)
 
     #Fourth indicator
-    resources_access = logs.filter(component = 'resources', context__contains = {'subject_id': subject.id})
-
+    resources_access = logs.filter(component = 'resources', action='view', context__contains = {'subject_id': subject.id})
+    
     s = [student.id for student in students]
+    accessess=[]
 
-    accessess = resources_access.filter(user_id__in = s).values('resource', 'user_id').annotate(total = Count('resource')) \
-        .values('user_id').annotate(total = Count('user_id')).order_by('total').values_list('total', flat = True)
+    accessess.append(resources_access.filter(user_id__in = s).values('resource').distinct().count())
     
     item = {}
     
@@ -337,9 +345,10 @@ def getOtherIndicators(subject, user):
     data.append(item)
         
     #Fifth indicator
-    pend = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, end_date__date__lt = timezone.now(), end_date__date__gte = timezone.now() - timedelta(days = 7))
+    
+    pend = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, begin_date__date__lt=timezone.now() - timedelta(hours = 3), end_date__date__gte = timezone.now() - timedelta(hours = 7*24+3))
     accessess = []
-
+    
     item = {}
 
     if pend.count() > 0:
@@ -347,21 +356,23 @@ def getOtherIndicators(subject, user):
 
         for p in pend:
             conds.add((Cond(context__contains = {p.resource._my_subclass+'_id': p.resource.id}) & Cond(action = p.action)), Cond.OR)
+          
 
         res_access = logs.filter(conds)
-
+    
         for student in students:
             if student.id != user.id:
-                accessess.append(res_access.filter(user_id = student.id).count())
+                accessess.append(res_access.filter(user_id = student.id).distinct().count())
 
-        accessess.append(res_access.filter(user_id = user.id).count())
+        accessess.append(res_access.filter(user_id = user.id).distinct().count())
 
         if accessess:
             my_access = accessess[-1]
 
             accessess = list(dict.fromkeys(accessess))
-            
+            print('dict')
             accessess.sort()
+            print('sort')
 
             qtd_results = len(accessess)
 
@@ -387,5 +398,72 @@ def getOtherIndicators(subject, user):
         item['my_access'] = 0
 
     data.append(item)
-
+    
     return data
+    
+    
+    # pend = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, begin_date__date__lt = timezone.now() - timedelta(hours = 24+3), end_date__date__gte = timezone.now() - timedelta(hours = 7*24+3))
+    # accessess = []
+    # actions = ['view' , 'create', 'answer', 'access', 'participate', 'finish', 'submit', 'start']
+    # item = {}
+    
+    # if pend.count() > 0:
+    #     conds = Cond()
+
+    #     for p in pend:
+    #         conds.add((Cond(context__contains = {p.resource._my_subclass+'_id': p.resource.id}) & Cond(action = p.action)), Cond.OR)
+
+    #     res_access = logs.filter(conds)
+
+    #     for student in students:
+    #         n=0
+    #         if student.id != user.id:
+    #             n+=res_access.filter(user_id = student.id, resource = 'goals', action = 'submit').distinct().count()
+    #             n+=res_access.filter(user_id = student.id, resource = 'questionary', action = 'answer').distinct().count()
+    #             n+=res_access.filter(user_id = student.id, resource = 'webpages', action = 'view').distinct().count()
+    #             n+=res_access.filter(user_id = student.id, resource = 'pdf_files', action = 'view').distinct().count()
+    #             accessess.append(n)
+    #             #accessess.append(res_access.filter(user_id = student.id, resource = 'goals', action = 'submit').distinct().count())
+
+
+    #     n=0
+    #     n+=res_access.filter(user_id = user.id, resource = 'goals', action = 'submit').distinct().count()
+    #     n+=res_access.filter(user_id = user.id, resource = 'questionary', action = 'answer').distinct().count()
+    #     n+=res_access.filter(user_id = user.id, resource = 'webpages', action = 'view').distinct().count()
+    #     n+=res_access.filter(user_id = user.id, resource = 'pdf_files', action = 'view').distinct().count()
+    #     accessess.append(n)
+    #     # accessess.append(res_access.filter(user_id = user.id).distinct().count())
+
+    #     if accessess:
+    #         my_access = accessess[-1]
+
+    #         accessess = list(dict.fromkeys(accessess))
+            
+    #         accessess.sort()
+
+    #         qtd_results = len(accessess)
+
+    #         if qtd_results > 5:
+    #             item['percentil_1'] = accessess[math.floor(qtd_results * 0.25)]
+    #             item['percentil_2'] = accessess[math.floor(qtd_results * 0.5)]
+    #             item['percentil_3'] = accessess[math.floor(qtd_results * 0.75)]
+    #             item['percentil_4'] = accessess[math.floor(qtd_results * 0.9)]
+    #         else:
+    #             item['percentil_1'] = accessess[-5] if len(accessess) == 5 else 0
+    #             item['percentil_2'] = accessess[-4] if len(accessess) > 3 else 0
+    #             item['percentil_3'] = accessess[-3] if len(accessess) > 2 else 0
+    #             item['percentil_4'] = accessess[-2] if len(accessess) > 1 else 0 
+
+    #         item['max_access'] = accessess[-1]
+    #         item['my_access'] = my_access
+    # else:
+    #     item['percentil_1'] = 0
+    #     item['percentil_2'] = 0
+    #     item['percentil_3'] = 0
+    #     item['percentil_4'] = 0 
+    #     item['max_access'] = 0
+    #     item['my_access'] = 0
+
+    # data.append(item)
+
+    # return data

@@ -630,7 +630,7 @@ class Gantt {
                 });
                 var pos = positions.indexOf(null);
                 if (pos == -1) {
-                    chartConfig.layout.maxrow++;
+                    chartConfig.metadata.maxrow++;
                     pos = positions.push(null) - 1;//Captura ultimo indice do vetor após a inserção.
                 }
             }
