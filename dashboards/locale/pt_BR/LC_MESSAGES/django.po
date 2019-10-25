@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-04 06:25+0000\n"
+"POT-Creation-Date: 2019-10-23 19:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -282,24 +282,24 @@ msgstr "Pesquisar"
 msgid "Most active users"
 msgstr "Usuários mais ativos"
 
-#: dashboards/templates/dashboards/subjects.html:40
-#: dashboards/templates/dashboards/subjects.html:82 dashboards/views.py:244
+#: dashboards/templates/dashboards/subjects.html:37
+#: dashboards/templates/dashboards/subjects.html:61 dashboards/views.py:244
 msgid "Analytics"
 msgstr "Analytics"
 
-#: dashboards/templates/dashboards/subjects.html:94
+#: dashboards/templates/dashboards/subjects.html:74
 msgid "In the last 7 days..."
 msgstr "Nos últimos 7 dias..."
 
-#: dashboards/templates/dashboards/subjects.html:103
+#: dashboards/templates/dashboards/subjects.html:89
 msgid "Your Essential Tasks"
 msgstr "Suas Tarefas Essenciais"
 
-#: dashboards/templates/dashboards/subjects_cloudy.html:40
+#: dashboards/templates/dashboards/subjects_cloudy.html:23
 msgid "Most Popular Tags"
 msgstr "Tag mais populares"
 
-#: dashboards/templates/dashboards/subjects_cloudy.html:45
+#: dashboards/templates/dashboards/subjects_cloudy.html:28
 msgid ""
 "Compare your number of hits with the number of hits in each class tag in "
 "this subject"
@@ -307,32 +307,32 @@ msgstr ""
 "Compare seu número de acessos com o número de acessos em cada tag da classe "
 "nesse assunto"
 
-#: dashboards/templates/dashboards/subjects_cloudy.html:49
+#: dashboards/templates/dashboards/subjects_cloudy.html:32
 msgid "Cloudy"
 msgstr "Nuvem"
 
-#: dashboards/templates/dashboards/subjects_cloudy.html:62
+#: dashboards/templates/dashboards/subjects_cloudy.html:43
 msgid "Class accesses"
 msgstr "Acessos da classe"
 
-#: dashboards/templates/dashboards/subjects_cloudy.html:65
+#: dashboards/templates/dashboards/subjects_cloudy.html:45
 msgid "Your accesses"
 msgstr "Seus acessos"
 
-#: dashboards/templates/dashboards/subjects_cloudy.html:76
+#: dashboards/templates/dashboards/subjects_cloudy.html:53
 msgid "Tag"
 msgstr "Tag"
 
-#: dashboards/templates/dashboards/subjects_cloudy.html:81
-msgid "Access"
-msgstr "Acesso"
+#: dashboards/templates/dashboards/subjects_cloudy.html:58
+msgid "Accessess"
+msgstr "Acessos"
 
-#: dashboards/templates/dashboards/subjects_cloudy.html:83
-#: dashboards/templates/dashboards/subjects_other_indicators.html:170
+#: dashboards/templates/dashboards/subjects_cloudy.html:60
+#: dashboards/templates/dashboards/subjects_other_indicators.html:68
 msgid "Yours"
 msgstr "Seu"
 
-#: dashboards/templates/dashboards/subjects_cloudy.html:84
+#: dashboards/templates/dashboards/subjects_cloudy.html:61
 msgid "Class"
 msgstr "Turma"
 
@@ -457,55 +457,55 @@ msgstr "Concluída"
 msgid "Other Status"
 msgstr "Outros status"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:117
+#: dashboards/templates/dashboards/subjects_other_indicators.html:19
 msgid "Important indicators"
 msgstr "Indicadores importantes"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:122
+#: dashboards/templates/dashboards/subjects_other_indicators.html:24
 msgid "Shows indicators comparing your situation to the class"
 msgstr "Mostrar indicadores comparando sua situação com a classe"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:125
+#: dashboards/templates/dashboards/subjects_other_indicators.html:28
 msgid "Bars"
 msgstr "Barra"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:138
+#: dashboards/templates/dashboards/subjects_other_indicators.html:39
 msgid "You"
 msgstr "Você"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:141
+#: dashboards/templates/dashboards/subjects_other_indicators.html:41
 msgid "Best of the class"
 msgstr "Maior da classe"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:166
+#: dashboards/templates/dashboards/subjects_other_indicators.html:64
 msgid "Values reached"
 msgstr "Valores alcançados"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:171
+#: dashboards/templates/dashboards/subjects_other_indicators.html:69
 msgid "Best of class"
 msgstr "Maior da classe"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:176
+#: dashboards/templates/dashboards/subjects_other_indicators.html:74
 #: dashboards/templatetags/analytics_tag.py:21
 msgid "Access to the discipline environment"
 msgstr "Acesso o ambiente da disciplina"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:181
+#: dashboards/templates/dashboards/subjects_other_indicators.html:79
 #: dashboards/templatetags/analytics_tag.py:23
 msgid "Different days that accessed the discipline"
 msgstr "Dias diferentes que acessou a disciplina"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:186
+#: dashboards/templates/dashboards/subjects_other_indicators.html:84
 #: dashboards/templatetags/analytics_tag.py:25
 msgid "Resource access"
 msgstr "Acessos aos recursos da disciplina"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:191
+#: dashboards/templates/dashboards/subjects_other_indicators.html:89
 #: dashboards/templatetags/analytics_tag.py:27
 msgid "Distinct resources accessed"
 msgstr "Recursos distintos acessados"
 
-#: dashboards/templates/dashboards/subjects_other_indicators.html:196
+#: dashboards/templates/dashboards/subjects_other_indicators.html:94
 #: dashboards/templatetags/analytics_tag.py:29
 msgid "Tasks performed on time"
 msgstr "Tarefas realizadas pontualmente"

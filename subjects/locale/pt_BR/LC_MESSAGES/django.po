@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-04 06:25+0000\n"
+"POT-Creation-Date: 2019-10-23 19:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,57 +42,57 @@ msgstr "Essa data deve ser depois do fim das inscrições"
 msgid "This date must be equal init date or after"
 msgstr "Essa data deve ser igual ou depois da data de início"
 
-#: subjects/models.py:30 subjects/models.py:44
+#: subjects/models.py:28 subjects/models.py:35
 msgid "Name"
 msgstr "Nome"
 
-#: subjects/models.py:45
+#: subjects/models.py:36
 msgid "Slug"
 msgstr "Slug"
 
-#: subjects/models.py:47
+#: subjects/models.py:38
 #, fuzzy
 #| msgid "Simpler description"
 msgid "simpler description"
 msgstr "Descrição simples"
 
-#: subjects/models.py:48
+#: subjects/models.py:39
 msgid "description"
 msgstr "Descrição"
 
-#: subjects/models.py:49
+#: subjects/models.py:40
 msgid "visible"
 msgstr "Visível"
 
-#: subjects/models.py:51
+#: subjects/models.py:42
 msgid "Begin of Subject Date"
 msgstr "Data de início"
 
-#: subjects/models.py:52
+#: subjects/models.py:43
 msgid "End of Subject Date"
 msgstr "Data de encerramento"
 
-#: subjects/models.py:56
+#: subjects/models.py:47
 msgid "Creation Date"
 msgstr "Data de criação"
 
-#: subjects/models.py:57
+#: subjects/models.py:48
 msgid "Date of last update"
 msgstr "Última Atualização"
 
-#: subjects/models.py:59
+#: subjects/models.py:50
 msgid "Begin Subscribe"
 msgstr "Início de inscrição"
 
-#: subjects/models.py:60
+#: subjects/models.py:51
 msgid "End Subscribe"
 msgstr "Encerramento de inscrição"
 
-#: subjects/models.py:63 subjects/templates/subjects/_form.html:26
+#: subjects/models.py:54 subjects/templates/subjects/_form.html:26
 msgid "Students"
 msgstr "Estudantes"
 
-#: subjects/models.py:67
+#: subjects/models.py:58
 msgid "Maximum upload size"
 msgstr "Tamanho máximo de upload"
 
