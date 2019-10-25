@@ -277,7 +277,7 @@ class SubjectView(LogMixin, generic.TemplateView):
         context["subject"] = subject
         context["qtd_students"] = subject.students.count()
         context['javascript_files'] = []
-        context['style_files'] = ['dashboards/css/general.css', 'dashboards/css/dashboards_category.css']
+        context['style_files'] = ['dashboards/css/style.css','dashboards/css/general.css', 'dashboards/css/dashboards_category.css']
         
         super(SubjectView, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
 

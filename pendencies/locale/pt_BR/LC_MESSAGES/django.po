@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-04 06:25+0000\n"
+"POT-Creation-Date: 2019-10-23 19:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -81,54 +81,72 @@ msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou anterior à data final "
 "do assunto.(\"%s\")"
 
-#: pendencies/models.py:20
+#: pendencies/models.py:21
 msgid "Action"
 msgstr "Ação"
 
-#: pendencies/models.py:20
+#: pendencies/models.py:21
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: pendencies/models.py:20
+#: pendencies/models.py:21
 msgid "Create"
 msgstr "Criar"
 
-#: pendencies/models.py:20
+#: pendencies/models.py:21
 msgid "Answer"
 msgstr "Responder"
 
-#: pendencies/models.py:20
+#: pendencies/models.py:21
 msgid "Access"
 msgstr "Acessar"
 
-#: pendencies/models.py:20
+#: pendencies/models.py:21
 msgid "Participate"
 msgstr "Participar"
 
-#: pendencies/models.py:20
+#: pendencies/models.py:21
 msgid "Finish"
 msgstr "Finalizar"
 
-#: pendencies/models.py:20
+#: pendencies/models.py:21
 msgid "Submit"
 msgstr "Enviar"
 
-#: pendencies/models.py:20
+#: pendencies/models.py:21
 msgid "Start"
 msgstr ""
 
-#: pendencies/models.py:21
+#: pendencies/models.py:22
 msgid "Begin Date"
 msgstr "Data Inicial"
 
-#: pendencies/models.py:22
+#: pendencies/models.py:23
 msgid "End Date"
 msgstr "Data Final"
 
-#: pendencies/models.py:23
+#: pendencies/models.py:24
 msgid "Limit Date"
 msgstr "Data Limite"
 
-#: pendencies/models.py:24
+#: pendencies/models.py:25
 msgid "Resource"
 msgstr "Recurso"
+
+#: pendencies/models.py:28
+msgid "Pendency"
+msgstr ""
+
+#: pendencies/models.py:29
+msgid "Student"
+msgstr ""
+
+#: pendencies/models.py:30
+#, fuzzy
+#| msgid "End Date"
+msgid "Done Date"
+msgstr "Data Final"
+
+#: pendencies/models.py:31
+msgid "Done late"
+msgstr ""

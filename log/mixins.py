@@ -12,10 +12,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 
 import json
+from django.utils import timezone
 
 from .models import Log
 
 from users.models import User
+from pendencies.models import Pendencies, PendencyDone
 
 class LogMixin(object):
 	log_component = None
@@ -29,6 +31,7 @@ class LogMixin(object):
 			log.user = str(actor)
 			log.user_id = actor.id
 			log.user_email = actor.email
+			
 			if self.log_context is not None:
 				log.context = self.log_context
 			else:
@@ -48,6 +51,30 @@ class LogMixin(object):
 				log.resource = log_resource
 
 			log.save()
+
+			if log.component == 'resources' and not actor.is_staff:
+				resource = log.context[log.resource + '_id'] if log.resource + '_id' in log.context else 0
+
+				if not resource == 0:
+					pendency = Pendencies.objects.filter(action = log.action, resource__id = resource, begin_date__date__lte = timezone.now(), resource__visible = True).order_by('-id')
+
+					if pendency.exists():
+						pendency = pendency.get()
+
+						if pendency.begin_date <= timezone.now() and (timezone.now() <= pendency.end_date or (pendency.limit_date and timezone.now() <= pendency.limit_date)):
+							if actor in pendency.resource.students.all() or (pendency.resource.all_students and actor in pendency.resource.topic.subject.students.all()):
+								if not PendencyDone.objects.filter(pendency = pendency, student = actor).exists():
+									pendencyDone = PendencyDone()
+									pendencyDone.pendency = pendency
+									pendencyDone.student = actor
+									pendencyDone.done_date = timezone.now()
+
+									if pendency.begin_date <= timezone.now() <= pendency.end_date:
+										pendencyDone.late = False
+									elif pendency.limit_date and pendency.end_date < timezone.now() <= pendency.limit_date:
+										pendencyDone.late = True
+
+									pendencyDone.save()
 
 	def dispatch(self, request, *args, **kwargs):
 		return super(LogMixin, self).dispatch(request, *args, **kwargs)
