@@ -14,11 +14,11 @@ from datetime import date
 from django.utils import timezone
 from django.db.models import Q
 from dateutil.parser import parse
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils import formats
 
 from log.models import Log
-from pendencies.models import Pendencies
+from pendencies.models import Pendencies, PendencyDone
 from users.models import User
 
 from fcm_django.models import FCMDevice
@@ -45,7 +45,7 @@ def notificate():
 				device.send_message(data = {"body": notifications, "type": "pendency"})
 
 def set_notifications():
-	pendencies = Pendencies.objects.filter(begin_date__date__lte = timezone.now(), resource__visible = True)
+	pendencies = Pendencies.objects.filter(Q(begin_date__date__lte = timezone.now()) & Q(resource__visible = True) & (Q(end_date__date__gte = timezone.now()) | (Q(limit_date__isnull = False) & Q(limit_date__date__gte = timezone.now()))))
 
 	for pendency in pendencies:
 		users = get_resource_users(pendency.resource)
@@ -72,25 +72,41 @@ def set_notifications():
 
 					meta = last_notify.meta
 					notify_type = 2
+			
+			if not PendencyDone.objects.filter(pendency = pendency, student = user).exists():
+				has_action = Log.objects.filter(user_id = user.id, action = pend_action, resource = resource_type, context__contains = {resource_key: resource_id}, datetime__date__gte = subject_begin_date)
 
-			has_action = Log.objects.filter(user_id = user.id, action = pend_action, resource = resource_type, context__contains = {resource_key: resource_id}, datetime__date__gte = subject_begin_date).exists()
+				if not has_action.exists():
+					if pendency.end_date:
+						if timezone.now() > pendency.end_date:
+							notify_type = 3
 
-			if not has_action:
-				if pendency.end_date:
-					if timezone.now() > pendency.end_date:
-						notify_type = 3
+					if pendency.limit_date:
+						if timezone.now() > pendency.limit_date:
+							notify_type = 4
+					
+					notification = Notification()
+					notification.user = user
+					notification.level = notify_type
+					notification.task = pendency
+					notification.meta = meta
 
-				if pendency.limit_date:
-					if timezone.now() > pendency.limit_date:
-						notify_type = 4
-				
-				notification = Notification()
-				notification.user = user
-				notification.level = notify_type
-				notification.task = pendency
-				notification.meta = meta
+					notification.save()
+				else:
+					has_action = has_action.order_by('datetime').first()
+					done = PendencyDone()
 
-				notification.save()
+					if pendency.begin_date <= has_action.datetime and (has_action.datetime <= pendency.end_date or (pendency.limit_date and has_action.datetime <= pendency.limit_date)):
+						done.pendency = pendency
+						done.student = user
+						done.done_date = has_action.datetime
+
+						if pendency.limit_date and pendency.end_date < has_action.datetime <= pendency.limit_date:
+							done.late = True
+						else:
+							done.late = False
+
+						done.save()
 
 	notificate()
 

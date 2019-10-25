@@ -46,6 +46,7 @@ from log.mixins import LogMixin
 from log.models import Log
 from topics.models import Resource, Topic
 from users.models import User
+from pendencies.models import Pendencies, PendencyDone
 
 class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
     log_component = "resources"
@@ -173,8 +174,6 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
 
         if window:
             template_name = 'questionary/window_view.html'
-
-        print(template_name)
 
         return template_name
 
@@ -617,6 +616,26 @@ def answer(request):
         log.context['questionary_name'] = questionary_data.name
         log.context['questionary_slug'] = questionary_data.slug
         log.save()
+
+        pendency = Pendencies.objects.filter(action = log.action, resource__id = questionary_data.id, begin_date__date__lte = timezone.now(), resource__visible = True).order_by('-id')
+
+        if pendency.exists():
+            pendency = pendency.get()
+
+            if pendency.begin_date <= timezone.now() and (timezone.now() <= pendency.end_date or (pendency.limit_date and timezone.now() <= pendency.limit_date)):
+                if request.user in pendency.resource.students.all() or (pendency.resource.all_students and request.user in pendency.resource.topic.subject.students.all()):
+                    if not PendencyDone.objects.filter(pendency = pendency, student = request.user).exists():
+                        pendencyDone = PendencyDone()
+                        pendencyDone.pendency = pendency
+                        pendencyDone.student = request.user
+                        pendencyDone.done_date = timezone.now()
+
+                        if pendency.begin_date <= timezone.now() <= pendency.end_date:
+                            pendencyDone.late = False
+                        elif pendency.limit_date and pendency.end_date < timezone.now() <= pendency.limit_date:
+                            pendencyDone.late = True
+
+                        pendencyDone.save()
 
     return JsonResponse({'last_update': formats.date_format(userquest.last_update, "SHORT_DATETIME_FORMAT"), 'answered': userquest.useranswer_userquest.filter(answer__isnull = False).count()})
 

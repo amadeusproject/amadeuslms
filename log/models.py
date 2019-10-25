@@ -37,7 +37,7 @@ class Log(models.Model):
 	def indexing(self):
 		if self.context == '':
 			self.context = {}
-			
+		
 		obj = LogIndex(meta={'id': self.id}, id=self.id, component=self.component, action=self.action, resource=self.resource, user=self.user, user_id=self.user_id, datetime=self.datetime, context=self.context)
 
 		obj.save()

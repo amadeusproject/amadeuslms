@@ -15,6 +15,7 @@ from autoslug.fields import AutoSlugField
 from django.utils.translation import ugettext_lazy as _
 
 from topics.models import Resource
+from users.models import User
 
 class Pendencies(models.Model):
 	action = models.CharField(_('Action'), max_length = 100, choices = (("view", _("Visualize")), ("create", _("Create")), ("answer", _("Answer")), ("access", _("Access")), ("participate", _("Participate")), ("finish", _("Finish")), ("submit", _("Submit")), ("start", _("Start"))), blank = True)
@@ -22,3 +23,9 @@ class Pendencies(models.Model):
 	end_date = models.DateTimeField(_('End Date'), null = True, blank = True)
 	limit_date = models.DateTimeField(_('Limit Date'), null = True, blank = True)
 	resource = models.ForeignKey(Resource, verbose_name = _('Resource'), related_name = 'pendencies_resource', null = True)
+
+class PendencyDone(models.Model):
+	pendency = models.ForeignKey(Pendencies, verbose_name = _('Pendency'), related_name = 'pendencies_done')
+	student = models.ForeignKey(User, verbose_name = _('Student'), related_name = 'pendency_user')
+	done_date = models.DateTimeField(_('Done Date'), null = True, blank = True)
+	late = models.BooleanField(_('Done late'), default = False)
