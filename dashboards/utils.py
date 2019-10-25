@@ -217,10 +217,7 @@ def getOtherIndicators(subject, user):
     
     if searchs:
         res = multi_search(searchs)
-        # for a in res:
-        #     print(a.to_dict())    
-        #     print('')
-        #     print('')
+       
         accessess = [len(x.to_dict()['aggregations']['dt']['buckets']) if 'aggregations' in x.to_dict() else 0 for x in res]
 
         my_access = accessess[-1]
@@ -370,9 +367,8 @@ def getOtherIndicators(subject, user):
             my_access = accessess[-1]
 
             accessess = list(dict.fromkeys(accessess))
-            print('dict')
             accessess.sort()
-            print('sort')
+         
 
             qtd_results = len(accessess)
 
