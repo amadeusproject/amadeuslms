@@ -11,7 +11,7 @@ Amadeus is a LMS (Learning Management System) with a focus on analytics, usabili
 3. How to contribute
     - There is a contribution guide for developers [en-us]() / [pt-br](https://github.com/amadeusproject/amadeuslms/wiki/Guia-de-colabora%C3%A7%C3%A3o)
     - The contribution guide for designers [en-us]() / [pt-br](https://github.com/amadeusproject/amadeuslms/wiki/Guia-de-Design)
-    - A documentation of the API [pt-br]()
+    - A documentation of the API [en-us](https://github.com/amadeusproject/amadeuslms/wiki/Guia-de-colabora%C3%A7%C3%A3o) / [pt-br]()
 
 ** Architecture Overview ** 
 
