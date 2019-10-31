@@ -336,18 +336,11 @@ def getOtherIndicators(subject, user):
     item = {}
 
     if pend.count() > 0:
-        conds = Cond()
-
-        for p in pend:
-            conds.add((Cond(context__contains = {p.resource._my_subclass+'_id': p.resource.id}) & Cond(action = p.action)), Cond.OR)
-
-        res_access = logs.filter(conds)
-
         for student in students:
             if student.id != user.id:
-                accessess.append(res_access.filter(user_id = student.id).count())
+                accessess.append(PendencyDone.objects.filter(pendency__id__in = pend.values_list('id', flat = True), late = False, student = student).count())
 
-        accessess.append(res_access.filter(user_id = user.id).count())
+        accessess.append(PendencyDone.objects.filter(pendency__id__in = pend.values_list('id', flat = True), late = False, student = user).count())
 
         if accessess:
             my_access = accessess[-1]
