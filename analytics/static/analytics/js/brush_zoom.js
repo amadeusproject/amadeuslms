@@ -518,7 +518,7 @@ class Gantt {
         abrev_init();
         a.notifications.select("text")
             .transition().delay(transition).duration(transition/10)
-            .text(function(d,i){return abreviate_ifneed(d.action,d.name,(a.x(d.date.end) - a.x(d.date.start)),15)})
+            .text(function(d,i){return abreviate(`${d.action} ${d.name}`,(a.x(d.date.end) - a.x(d.date.start)),15)})
         abrev_end();
         this.svg.selectAll(".now-line")
             .transition().duration(transition)
@@ -593,7 +593,7 @@ class Gantt {
                 d.date.delay = d.date.end;
             } else {
                 if (d.date.delay == "infinity")
-                    d.date.delay = chartConfig.metadata.date.end;
+                    d.date.delay = d.date.end;
                 else
                     d.date.delay = new Date(d.date.delay);
             }
@@ -610,7 +610,10 @@ class Gantt {
                 delay = d.date.delay.getTime();
 
             if (d.done == true)
-                d.status = 5, statuscounter[5]++
+                if (d.doneLate)
+                    d.status = 4, statuscounter[4]++    
+                else
+                    d.status = 5, statuscounter[5]++
             else if (now < start)
                 d.status = 2, statuscounter[2]++
             else if (now <= end && now >= start)
