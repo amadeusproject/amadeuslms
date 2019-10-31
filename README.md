@@ -1,6 +1,6 @@
 # Amadeus
 
-Amadeus is a LMS (Learning Management System) with a focus on analytics, usability and performance. The main is to provide a focused environment where students and teacher can self assess their performance.
+Amadeus is a LMS (Learning Management System) with a focus on analytics, usability and performance. The main goal is to provide a focused environment where students and teacher can self assess their performance.
   
 
 1. Architecture Overview
