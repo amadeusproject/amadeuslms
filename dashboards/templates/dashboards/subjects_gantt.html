@@ -107,9 +107,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         </div>
     </div>
 
-<!--Subject inicio: {{ subject.init_date }}-->
-<!--Subject fim: {{ subject.end_date }}-->
-
 <script type="text/javascript">
 var months=["{% trans 'January' %}", "{% trans 'February' %}", "{% trans 'March' %}", "{% trans 'April' %}", 
                     "{% trans 'May' %}", "{% trans 'June' %}", "{% trans 'July' %}", "{% trans 'August' %}", 
@@ -140,7 +137,6 @@ function dateConverter(date){
 }
     var init_date = dateConverter('{{ subject.init_date }}');
     var end_date = dateConverter('{{ subject.end_date }}');
-    
 
     var percentOn = true;
 
@@ -178,7 +174,7 @@ function dateConverter(date){
                             return "gantt-legend-icon fa fa-toggle-off";
                         });
                 }
-    }
+            }
         }
     }
     var ganttChart = new Gantt(chartConfig)._draw().reset();
