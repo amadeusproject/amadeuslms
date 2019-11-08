@@ -67,7 +67,18 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                             </ul>
                         {% endif %}
 
-                        <a href="{% url 'dashboards:view_subject' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Analytics' %}"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
+                        {% if has_subject_permissions %}
+                            <a href="{% url 'dashboards:view_teacher' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Analytics' %}">
+                                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                                {% dashboard_view subject request.user %}
+                            </a>
+                        {% else %}
+                            <a href="{% url 'dashboards:view_subject' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Analytics' %}">
+                                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                                {% dashboard_view subject request.user %}
+                            </a>
+                        {% endif %}
+
                         <a href="{% url 'notifications:view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Pendencies' %}">
                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                             {% notifies_number subject request.user %}

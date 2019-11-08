@@ -96,6 +96,15 @@ def count_access_resources(subject, userid):
     
     return s
 
+def count_access_subject_period(subject, userid, data_ini, data_end):
+    s = Search().extra(size=0)
+
+    s = s.query('bool', must=[Q("range", datetime={'time_zone': '-03:00', 'gte': data_ini, 'lte': data_end}), Q("match", component="subject"), \
+        Q('match', resource='subject'), Q('match', **{'context__subject_id': subject}), Q('match', user_id=userid), \
+        Q('bool', should=[Q('match', action='access'), Q('match', action='view')])])
+
+    return s
+
 def multi_search(searchs):
     ms = MultiSearch(using=conn, index='log-index')
 
