@@ -42,7 +42,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     {% subject_permissions request.user subject as has_subject_permissions %}
 
     {% if has_subject_permissions %}
-        <form id="student_graph" action="" method="POST">
+        <form id="student_graph" action="{% url 'dashboards:view_subject' subject.slug %}" method="POST">
             {% csrf_token %}
             
             <select name="selected_student" class="form-control" onchange="$('#student_graph').submit();">

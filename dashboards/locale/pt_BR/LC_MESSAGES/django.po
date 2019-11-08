@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-23 19:35+0000\n"
+"POT-Creation-Date: 2019-11-08 06:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -125,74 +125,74 @@ msgid "Sat"
 msgstr "Sab"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
-#: dashboards/templates/dashboards/subjects_gantt.html:114
+#: dashboards/templates/dashboards/subjects_gantt.html:111
 #: dashboards/views.py:90 dashboards/views.py:143
 msgid "January"
 msgstr "Janeiro"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
-#: dashboards/templates/dashboards/subjects_gantt.html:114
+#: dashboards/templates/dashboards/subjects_gantt.html:111
 #: dashboards/views.py:90 dashboards/views.py:143
 msgid "February"
 msgstr "Fevereiro"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
-#: dashboards/templates/dashboards/subjects_gantt.html:114
+#: dashboards/templates/dashboards/subjects_gantt.html:111
 #: dashboards/views.py:90 dashboards/views.py:143
 msgid "March"
 msgstr "Março"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
-#: dashboards/templates/dashboards/subjects_gantt.html:114
+#: dashboards/templates/dashboards/subjects_gantt.html:111
 #: dashboards/views.py:90 dashboards/views.py:143
 msgid "April"
 msgstr "Abril"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
 #: dashboards/templates/dashboards/d3_translate.html:29
-#: dashboards/templates/dashboards/subjects_gantt.html:115
+#: dashboards/templates/dashboards/subjects_gantt.html:112
 #: dashboards/views.py:90 dashboards/views.py:143
 msgid "May"
 msgstr "Maio"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
-#: dashboards/templates/dashboards/subjects_gantt.html:115
+#: dashboards/templates/dashboards/subjects_gantt.html:112
 #: dashboards/views.py:90 dashboards/views.py:143
 msgid "June"
 msgstr "Junho"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
-#: dashboards/templates/dashboards/subjects_gantt.html:115
+#: dashboards/templates/dashboards/subjects_gantt.html:112
 #: dashboards/views.py:90 dashboards/views.py:143
 msgid "July"
 msgstr "Julho"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
-#: dashboards/templates/dashboards/subjects_gantt.html:115
+#: dashboards/templates/dashboards/subjects_gantt.html:112
 #: dashboards/views.py:91 dashboards/views.py:144
 msgid "August"
 msgstr "Agosto"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
-#: dashboards/templates/dashboards/subjects_gantt.html:116
+#: dashboards/templates/dashboards/subjects_gantt.html:113
 #: dashboards/views.py:91 dashboards/views.py:144
 msgid "September"
 msgstr "Setembro"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
-#: dashboards/templates/dashboards/subjects_gantt.html:116
+#: dashboards/templates/dashboards/subjects_gantt.html:113
 #: dashboards/views.py:91 dashboards/views.py:144
 msgid "October"
 msgstr "Outubro"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
-#: dashboards/templates/dashboards/subjects_gantt.html:116
+#: dashboards/templates/dashboards/subjects_gantt.html:113
 #: dashboards/views.py:91 dashboards/views.py:144
 msgid "November"
 msgstr "Novembro"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
-#: dashboards/templates/dashboards/subjects_gantt.html:116
+#: dashboards/templates/dashboards/subjects_gantt.html:113
 #: dashboards/views.py:91 dashboards/views.py:144
 msgid "December"
 msgstr "Dezembro"
@@ -284,6 +284,7 @@ msgstr "Usuários mais ativos"
 
 #: dashboards/templates/dashboards/subjects.html:37
 #: dashboards/templates/dashboards/subjects.html:61 dashboards/views.py:244
+#: dashboards/views.py:332
 msgid "Analytics"
 msgstr "Analytics"
 
@@ -324,6 +325,7 @@ msgid "Tag"
 msgstr "Tag"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:58
+#: dashboards/templates/dashboards/teacher/_users_bubble.html:31
 msgid "Accessess"
 msgstr "Acessos"
 
@@ -374,17 +376,17 @@ msgid "of the participants already realized this task."
 msgstr "dos participantes já realizou essa tarefa."
 
 #: dashboards/templates/dashboards/subjects_gantt.html:91
-#: dashboards/templates/dashboards/subjects_gantt.html:209
+#: dashboards/templates/dashboards/subjects_gantt.html:205
 msgid "This task is late"
 msgstr "Esta tarefa está atrasada"
 
 #: dashboards/templates/dashboards/subjects_gantt.html:92
-#: dashboards/templates/dashboards/subjects_gantt.html:209
+#: dashboards/templates/dashboards/subjects_gantt.html:205
 msgid "You have not yet accomplish this task"
 msgstr "Você ainda não realizou esta tarefa"
 
 #: dashboards/templates/dashboards/subjects_gantt.html:93
-#: dashboards/templates/dashboards/subjects_gantt.html:210
+#: dashboards/templates/dashboards/subjects_gantt.html:206
 msgid "You missed this task"
 msgstr "Você perdeu esta tarefa"
 
@@ -400,32 +402,32 @@ msgstr "Acessar tarfea"
 msgid "Realize the task"
 msgstr "Realizar tarefa"
 
-#: dashboards/templates/dashboards/subjects_gantt.html:117
+#: dashboards/templates/dashboards/subjects_gantt.html:114
 msgid "of"
 msgstr "de"
 
-#: dashboards/templates/dashboards/subjects_gantt.html:213
+#: dashboards/templates/dashboards/subjects_gantt.html:209
 #, python-format
 msgid " %% already accomplish"
 msgstr " %% já completada"
 
-#: dashboards/templates/dashboards/subjects_gantt.html:214
+#: dashboards/templates/dashboards/subjects_gantt.html:210
 msgid "ACCESS TASK"
 msgstr "ACESSAR TAREFA"
 
-#: dashboards/templates/dashboards/subjects_gantt.html:215
+#: dashboards/templates/dashboards/subjects_gantt.html:211
 msgid "DO TASK"
 msgstr "REALIZAR TAREFA"
 
-#: dashboards/templates/dashboards/subjects_gantt.html:216
+#: dashboards/templates/dashboards/subjects_gantt.html:212
 msgid "Start: "
 msgstr "Inicio: "
 
-#: dashboards/templates/dashboards/subjects_gantt.html:217
+#: dashboards/templates/dashboards/subjects_gantt.html:213
 msgid "End: "
 msgstr "Fim: "
 
-#: dashboards/templates/dashboards/subjects_gantt.html:218
+#: dashboards/templates/dashboards/subjects_gantt.html:214
 msgid "Closed on: "
 msgstr "Encerrado em: "
 
@@ -513,6 +515,23 @@ msgstr "Tarefas realizadas pontualmente"
 #: dashboards/templates/dashboards/tags_body.html:18
 msgid "most used tags"
 msgstr "tags mais usadas"
+
+#: dashboards/templates/dashboards/teacher/_users_bubble.html:30
+msgid "Student"
+msgstr "Aluno"
+
+#: dashboards/templates/dashboards/teacher/index.html:33
+#: dashboards/templates/dashboards/teacher/index.html:43
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: dashboards/templates/dashboards/teacher/index.html:58
+msgid "From"
+msgstr "De"
+
+#: dashboards/templates/dashboards/teacher/index.html:67
+msgid "Until"
+msgstr "Até"
 
 #: dashboards/templatetags/analytics_tag.py:31
 msgid "Other indicator"
