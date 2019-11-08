@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-23 19:35+0000\n"
+"POT-Creation-Date: 2019-11-08 06:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -291,12 +291,12 @@ msgid "Resources"
 msgstr "Recursos"
 
 #: subjects/templates/subjects/resource_card.html:54
-#: subjects/templates/subjects/subject_card.html:80
+#: subjects/templates/subjects/subject_card.html:88
 msgid "Professor(s) "
 msgstr "Professor(es) "
 
 #: subjects/templates/subjects/resource_card.html:58
-#: subjects/templates/subjects/subject_card.html:84
+#: subjects/templates/subjects/subject_card.html:92
 msgid "It doesn't possess professors"
 msgstr "Não possui professores"
 
@@ -343,43 +343,45 @@ msgstr "Data de criação"
 msgid "Interaction Data"
 msgstr "Data de criação"
 
-#: subjects/templates/subjects/subject_card.html:53
-#: subjects/templates/subjects/view.html:70
+#: subjects/templates/subjects/subject_card.html:54
+#: subjects/templates/subjects/subject_card.html:59
+#: subjects/templates/subjects/view.html:71
+#: subjects/templates/subjects/view.html:76
 msgid "Analytics"
 msgstr "Analytics"
 
-#: subjects/templates/subjects/subject_card.html:57
-#: subjects/templates/subjects/view.html:71
+#: subjects/templates/subjects/subject_card.html:65
+#: subjects/templates/subjects/view.html:82
 msgid "Pendencies"
 msgstr "Pendências"
 
-#: subjects/templates/subjects/subject_card.html:61
-#: subjects/templates/subjects/view.html:75
+#: subjects/templates/subjects/subject_card.html:69
+#: subjects/templates/subjects/view.html:86
 msgid "Messages"
 msgstr "Mensagens"
 
-#: subjects/templates/subjects/subject_card.html:65
-#: subjects/templates/subjects/view.html:79
+#: subjects/templates/subjects/subject_card.html:73
+#: subjects/templates/subjects/view.html:90
 msgid "Mural"
 msgstr "Mural"
 
-#: subjects/templates/subjects/subject_card.html:88
+#: subjects/templates/subjects/subject_card.html:96
 msgid "Beginning"
 msgstr "Início"
 
-#: subjects/templates/subjects/subject_card.html:91
+#: subjects/templates/subjects/subject_card.html:99
 msgid "End"
 msgstr "Fim"
 
-#: subjects/templates/subjects/subject_card.html:103
+#: subjects/templates/subjects/subject_card.html:111
 msgid "Access Subject"
 msgstr "Acessar Assunto"
 
-#: subjects/templates/subjects/subject_card.html:107
+#: subjects/templates/subjects/subject_card.html:115
 msgid "Subscribe to Subject"
 msgstr "Inscrever-se no Assunto"
 
-#: subjects/templates/subjects/subject_card.html:111
+#: subjects/templates/subjects/subject_card.html:119
 msgid "This subject doesn't allow new subscriptions"
 msgstr "Esse assunto não permite novas inscrições"
 
@@ -395,11 +397,11 @@ msgstr "Ok"
 msgid "Update: "
 msgstr "Editar: "
 
-#: subjects/templates/subjects/view.html:91
+#: subjects/templates/subjects/view.html:102
 msgid "Create new topic"
 msgstr "Criar novo tópico"
 
-#: subjects/templates/subjects/view.html:96
+#: subjects/templates/subjects/view.html:107
 msgid "Participants"
 msgstr "Participantes"
 
