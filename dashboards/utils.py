@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from django.utils import formats, timezone
 from django.core.urlresolvers import reverse
+from django.utils.formats import get_format
 
 from subjects.models import Tag
 from topics.models import Resource
@@ -382,69 +383,50 @@ def getOtherIndicators(subject, user):
     
     return data
     
+def studentsAccess(subject, dataIni, dataEnd):
+    students = subject.students.all()
+
+    if dataIni == '':
+        dataIni = 'now-30d'
+
+    if dataEnd == '':
+        dataEnd = 'now'
+
+    data = []
+    searchs = []
     
-    # pend = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, begin_date__date__lt = timezone.now() - timedelta(hours = 24+3), end_date__date__gte = timezone.now() - timedelta(hours = 7*24+3))
-    # accessess = []
-    # actions = ['view' , 'create', 'answer', 'access', 'participate', 'finish', 'submit', 'start']
-    # item = {}
-    
-    # if pend.count() > 0:
-    #     conds = Cond()
+    for student in students:
+        searchs.append(count_access_subject_period(subject.id, student.id, dataIni, dataEnd))
 
-    #     for p in pend:
-    #         conds.add((Cond(context__contains = {p.resource._my_subclass+'_id': p.resource.id}) & Cond(action = p.action)), Cond.OR)
+    if searchs:
+        res = multi_search(searchs)
 
-    #     res_access = logs.filter(conds)
+        accessess = [x.to_dict()['hits']['total']['value'] for x in res]
+        
 
-    #     for student in students:
-    #         n=0
-    #         if student.id != user.id:
-    #             n+=res_access.filter(user_id = student.id, resource = 'goals', action = 'submit').distinct().count()
-    #             n+=res_access.filter(user_id = student.id, resource = 'questionary', action = 'answer').distinct().count()
-    #             n+=res_access.filter(user_id = student.id, resource = 'webpages', action = 'view').distinct().count()
-    #             n+=res_access.filter(user_id = student.id, resource = 'pdf_files', action = 'view').distinct().count()
-    #             accessess.append(n)
-    #             #accessess.append(res_access.filter(user_id = student.id, resource = 'goals', action = 'submit').distinct().count())
-
-
-    #     n=0
-    #     n+=res_access.filter(user_id = user.id, resource = 'goals', action = 'submit').distinct().count()
-    #     n+=res_access.filter(user_id = user.id, resource = 'questionary', action = 'answer').distinct().count()
-    #     n+=res_access.filter(user_id = user.id, resource = 'webpages', action = 'view').distinct().count()
-    #     n+=res_access.filter(user_id = user.id, resource = 'pdf_files', action = 'view').distinct().count()
-    #     accessess.append(n)
-    #     # accessess.append(res_access.filter(user_id = user.id).distinct().count())
-
-    #     if accessess:
-    #         my_access = accessess[-1]
-
-    #         accessess = list(dict.fromkeys(accessess))
+        for i, access in enumerate(accessess):
+            item = {}
             
-    #         accessess.sort()
+            obj = students[i]
 
-    #         qtd_results = len(accessess)
+            item['count'] = access
+            item['image'] = obj.image_url
+            item['user'] = str(obj)
+            item['user_id'] = obj.id
+            item['link'] = reverse('dashboards:view_subject_student', args = (), kwargs = {"slug": subject.slug, "email": obj.email})
 
-    #         if qtd_results > 5:
-    #             item['percentil_1'] = accessess[math.floor(qtd_results * 0.25)]
-    #             item['percentil_2'] = accessess[math.floor(qtd_results * 0.5)]
-    #             item['percentil_3'] = accessess[math.floor(qtd_results * 0.75)]
-    #             item['percentil_4'] = accessess[math.floor(qtd_results * 0.9)]
-    #         else:
-    #             item['percentil_1'] = accessess[-5] if len(accessess) == 5 else 0
-    #             item['percentil_2'] = accessess[-4] if len(accessess) > 3 else 0
-    #             item['percentil_3'] = accessess[-3] if len(accessess) > 2 else 0
-    #             item['percentil_4'] = accessess[-2] if len(accessess) > 1 else 0 
+            data.append(item)
 
-    #         item['max_access'] = accessess[-1]
-    #         item['my_access'] = my_access
-    # else:
-    #     item['percentil_1'] = 0
-    #     item['percentil_2'] = 0
-    #     item['percentil_3'] = 0
-    #     item['percentil_4'] = 0 
-    #     item['max_access'] = 0
-    #     item['my_access'] = 0
+        data.sort(key=lambda x: x['count'], reverse=True)
 
-    # data.append(item)
+    return data
 
-    # return data
+def parse_date(date_str):
+    """Parse date from string by DATE_INPUT_FORMATS of current language"""
+    for item in get_format('DATE_INPUT_FORMATS'):
+        try:
+            return datetime.strptime(date_str, item).date()
+        except (ValueError, TypeError):
+            continue
+
+    return None

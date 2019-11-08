@@ -21,6 +21,9 @@ urlpatterns = [
 	url(r'^get_log_data/$', views.load_log_data, name='load_log_data'),
 	url(r'^metrics/([\w_-]+)/([\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.other_metrics, name='other_metrics'),
 	url(r'^tag/accessess/([\w_-]+)/([\w_-]+)/([\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.tag_accessess, name='tag_accessess'),
+	url(r'^subjects/teacher/(?P<slug>[\w_-]+)/$', views.SubjectTeacher.as_view(), name='view_teacher'),
 	url(r'^subjects/(?P<slug>[\w_-]+)/$', views.SubjectView.as_view(), name='view_subject'),
+	url(r'^subjects/(?P<slug>[\w_-]+)/(?P<email>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})$', views.SubjectView.as_view(), name='view_subject_student'),
+	url(r'^bubble_chart/(?P<slug>[\w_-]+)/$', views.most_active_users, name='bubble_chart'),
 	url(r'^cloudydata/([\w_-]+)/([\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.cloudy_data, name='cloudy_data')
 ]

@@ -1,0 +1,30 @@
+.bubble_users .header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.bubble_users .users_cloud {
+  width: 100%;
+  min-height: 300px;
+}
+
+.bubble_users .users_table {
+  display: none;
+}
+
+.bubble_users .users_table .page-item {
+  border: 1px solid #ccc;
+  padding: 3px 7px;
+  cursor: pointer;
+}
+.bubble_users .users_table .page-item:hover {
+  color: #fff;
+  background: #009688;
+  border-color: #009688;
+}
+.bubble_users .users_table .page-item.active {
+  background: #009688;
+  color: #fff;
+  border-color: #009688;
+}
