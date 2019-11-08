@@ -35,7 +35,7 @@ from categories.models import Category
 
 from subjects.models import Subject, Tag
 
-from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators
+from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators, studentsAccess, parse_date
 
 
 from log.mixins import LogMixin
@@ -252,10 +252,14 @@ class SubjectView(LogMixin, generic.TemplateView):
         
         if has_subject_permissions(self.request.user, subject):
             student = self.request.POST.get('selected_student', None)
+
+            if student is None:
+                student = self.kwargs.get('email', None)
+
             students = subject.students.all()
             students = sorted(students,key=lambda student: student.username) # Ordem Alfabética
             context['sub_students'] = students
-            context['student'] = self.request.POST.get('selected_student', subject.students.first().email)
+            context['student'] = student if not student is None else subject.students.first().email
 
             self.log_context['student'] = context['student']
 
@@ -301,3 +305,59 @@ def cloudy_data(request, subject, email):
     user = User.objects.get(email = email)
 
     return JsonResponse(getAccessedTags(sub, user), safe = False)
+
+###### Subjects Teacher Dashboard #######
+
+class SubjectTeacher(LogMixin, generic.TemplateView):
+    template_name = "dashboards/teacher/index.html"
+
+    log_component = "subject"
+    log_action = "view"
+    log_resource = "analytics"
+    log_context = {}
+
+    def dispatch(self, request, *args, **kwargs):
+        subject = get_object_or_404(Subject, slug=kwargs.get('slug', ''))
+
+        if not has_subject_permissions(request.user, subject):
+            return redirect(reverse_lazy('subjects:home'))
+
+        return super(SubjectTeacher, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        subject = get_object_or_404(Subject, slug = self.kwargs.get('slug', ''))
+
+        context = {}
+        
+        context["title"] = _("Analytics")
+
+        context["subject"] = subject
+        context["data_ini"] = datetime.now() - timedelta(days = 30)
+        context["data_end"] = datetime.now()
+
+        self.log_context['category_id'] = subject.category.id
+        self.log_context['category_name'] = subject.category.name
+        self.log_context['category_slug'] = subject.category.slug
+        self.log_context['subject_id'] = subject.id
+        self.log_context['subject_name'] = subject.name
+        self.log_context['subject_slug'] = subject.slug
+
+        super(SubjectTeacher, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
+
+        return context
+
+def most_active_users(request, slug):
+    subject = get_object_or_404(Subject, slug = slug)
+
+    data_ini = request.GET.get('data_ini', '')
+    data_end = request.GET.get('data_end', '')
+
+    if not data_ini == '':
+     data_ini = parse_date(data_ini)
+    
+    if not data_end == '':
+     data_end = parse_date(data_end)
+
+    data = studentsAccess(subject, data_ini, data_end)
+
+    return JsonResponse(data, safe = False)
