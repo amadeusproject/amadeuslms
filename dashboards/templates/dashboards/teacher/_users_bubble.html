@@ -14,10 +14,16 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 <div class="row">
     <div class="col-md-12 bubble_users" data-url="{% url 'dashboards:bubble_chart' subject.slug %}">
         <div class="header">
-            <label class="switch">
-                <input id="ganttPercent" type="checkbox" name="percentOn" checked onclick="view_toggle($(this))" />
-                <span class="slider round"></span>
-            </label>
+            <div class="identifier">
+                <b>{% trans 'Students accessess' %}</b>
+            </div>
+            <div class="selector">
+                <span>{% trans 'Cloudy' %}</span>
+                <label class="switch">
+                    <input id="ganttPercent" type="checkbox" name="percentOn" checked onclick="view_toggle($(this))" />
+                    <span class="slider round"></span>
+                </label>
+            </div>
         </div>
         <div class="users_cloud">
         </div>
@@ -27,8 +33,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">{% trans 'Student' %}</th>
-                            <th scope="col">{% trans 'Accessess' %}</th>
+                            <th class="sort" scope="col" data-sort="name">
+                                {% trans 'Student' %}
+                                <i class="fa fa-sort"></i>
+                            </th>
+                            <th class="sort" scope="col" data-sort="access">
+                                {% trans 'Accessess' %}
+                                <i class="fa fa-sort"></i>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>

@@ -1,7 +1,12 @@
 .bubble_users .header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
+  border-bottom: 2px solid #666;
+}
+
+.bubble_users .header .selector span {
+  padding-right: 10px;
 }
 
 .bubble_users .users_cloud {
@@ -11,6 +16,14 @@
 
 .bubble_users .users_table {
   display: none;
+}
+
+.bubble_users .users_table th:not(:first-of-type) {
+  cursor: pointer;
+}
+
+.bubble_users .users_table th:last-of-type {
+  min-width: 85px;
 }
 
 .bubble_users .users_table .page-item {

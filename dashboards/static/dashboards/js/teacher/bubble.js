@@ -106,6 +106,8 @@ class BubbleChart {
     a.nodes = a.nodes.map(d => {
       d.r = Math.round(Math.sqrt(d.value) * a.prop);
 
+      d.r = isNaN(d.r) || !isFinite(d.r) ? 0 : d.r;
+
       return d;
     });
 
@@ -195,7 +197,10 @@ class BubbleChart {
     }
 
     this.boxForce = boundedBox()
-      .bounds([[0, 0], [a.chartConfig.dimensions.width, a.chartConfig.dimensions.height]])
+      .bounds([
+        [0, 0],
+        [a.chartConfig.dimensions.width, a.chartConfig.dimensions.height],
+      ])
       .size(d => {
         return [d.r * 2, d.r * 2];
       });
@@ -291,6 +296,25 @@ class BubbleChart {
       .transition()
       .delay((d, i) => 910 * Math.sqrt(i) + 510)
       .remove();
+
+    if (isNaN(this.prop) || !isFinite(this.prop)) {
+      this.svg
+        .append("rect")
+        .attr("width", "100%")
+        .attr("fill", "#fff");
+      this.svg
+        .append("text")
+        .attr("x", "20%")
+        .attr("y", "50%")
+        .attr("dy", "0em")
+        .text("Para período selecionado não houve");
+      this.svg
+        .append("text")
+        .attr("x", "20%")
+        .attr("y", "50%")
+        .attr("dy", "1em")
+        .text("registro de acesso dos participantes");
+    }
 
     this.tooltipConstruct();
     this.addInteractions();
@@ -436,6 +460,55 @@ function makeTable(data, nrows) {
         $(el).hide();
       }
     });
+  });
+
+  $("#students_table th.sort").off("click");
+  $("#students_table th.sort").on("click", el => {
+    el.preventDefault();
+    el.stopPropagation();
+
+    const $el = $(el.target);
+    const sort = $el.data("sort");
+    const $icon = $($el.find("i"));
+    const isAscending = $icon.hasClass("fa-sort-up");
+
+    if (isAscending) {
+      $("#students_table th.sort i")
+        .removeClass("fa-sort-up")
+        .removeClass("fa-sort-down")
+        .removeClass("fa-sort")
+        .addClass("fa-sort");
+
+      $icon.removeClass("fa-sort").addClass("fa-sort-down");
+
+      if (sort === "name") {
+        data.sort((a, b) => a.user.localeCompare(b.user)).reverse();
+
+        makeTable(data, nrows);
+      } else {
+        data.sort((a, b) => (a.coun > b.count ? 1 : a.count < b.count ? -1 : 0)).reverse();
+
+        makeTable(data, nrows);
+      }
+    } else {
+      $("#students_table th.sort i")
+        .removeClass("fa-sort-up")
+        .removeClass("fa-sort-down")
+        .removeClass("fa-sort")
+        .addClass("fa-sort");
+
+      $icon.removeClass("fa-sort").addClass("fa-sort-up");
+
+      if (sort === "name") {
+        data.sort((a, b) => a.user.localeCompare(b.user));
+
+        makeTable(data, nrows);
+      } else {
+        data.sort((a, b) => (a.coun > b.count ? 1 : a.count < b.count ? -1 : 0));
+
+        makeTable(data, nrows);
+      }
+    }
   });
 }
 
