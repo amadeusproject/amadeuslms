@@ -1,0 +1,121 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+
+<script src="{% static 'analytics/js/ToolTip.js' %}"></script>
+<script src="{% static 'analytics/js/d3.v3.min.js' %}"></script>
+<script src="{% static 'analytics/js/teacher/cloud.min.js' %}"></script>
+
+                                        
+
+<div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 graph-container ">
+  <div class="row cloudy-header">
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 cloudy-title-bar">
+      <div class="cloudy-title">
+        <b>{% trans 'Most Popular Tags' %}</b>
+        <i
+          class="fa fa-info-circle"
+          aria-hidden="true"
+          data-toggle="tooltip"
+          title="{% trans 'Compare access number in each class tag in this subject' %}"
+        ></i>
+      </div>
+      <div class="hidden-xs hidden-sm">
+        {% trans 'Cloudy' %}
+        <label class="switch">
+          <input id="ganttPercent" type="checkbox" name="percentOn" checked onclick="view_toogle()" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div
+    id="tableHeader" class="hidden-xs hidden-sm"
+    style="height: 60px; display: flex; justify-content: space-between; align-items: center; background: #eee; display: none"
+  >
+    <div style="height: 60px; display: flex; justify-content: center; align-items: center; width: 65%;">
+      <h3 style="margin-top: 10px">{% trans 'Tag' %}</h3>
+    </div>
+    <div
+      style="height: 60px; display: flex; width: 30%; flex-direction: column; align-items: center; justify-content: center; margin-right: 10px"
+    >
+      <h3>{% trans 'Accessess' %}</h3>
+    </div>
+  </div>
+
+  <div id="cloudy" class="hidden-xs hidden-sm cloudy" style="padding: 0px" data-url="{{ tags_cloud }}">
+    {% include 'dashboards/loading_ball.html' with tittle="cloudy_loading_ball" %}
+  
+  <div class="visible-xs visible-sm table-responsive">
+    <table id="tag-access" class="table">
+      <thead>
+        <tr>
+        </tr>
+        <tr>
+          
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+    <nav aria-label="Table Navigation">
+      <ul id="tag-pagination" class="pagination"></ul>
+    </nav>
+  </div>
+</div>
+
+<div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="modalTittle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div style="float: left;">
+          <h3 class="modal-title" id="modalTittle">Modal title</h3>
+        </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding-top:5px" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+        <div id="modal_cloudy_loading_ball" style="height:150px;">
+          {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
+        </div>
+      <div id="modal-table" style="display: none;">
+        <div id="table-container" class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Recurso</th>
+                <th scope="col">Acessos</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+        </div>    
+        <nav aria-label="Table Navigation">
+          <ul id="resources_pag" class="pagination"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+<script type="text/javascript">
+  function cloudy_responsibilities() {}
+</script>
+<script src="{% static 'dashboards/js/teacher/tag_clouds.js' %}"></script>
