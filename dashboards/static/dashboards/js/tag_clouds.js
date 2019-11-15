@@ -112,7 +112,6 @@ function makeTagTable(data, nrows) {
 
     line = `${line}<td>${index + 1}</td>`;
     line = `${line}<td><a class='tag_table_resources' data-link='${item.link}'>${item.key}</a></td>`;
-    line = `${line}<td>${item.myvalue}</td>`;
     line = `${line}<td>${item.value}</td>`;
     line = `${line}</tr>`;
 
@@ -300,6 +299,7 @@ function cloud() {
 
           $.get(data.link, dataset => {
             dataset = dataset.sort((d1, d2) => {
+              
               if (isNaN(d1.qtd_access) || +d1.qtd_access == 0) {
                 d1.qtd_access = 0;
               }

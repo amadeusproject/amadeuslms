@@ -25,5 +25,9 @@ urlpatterns = [
 	url(r'^subjects/(?P<slug>[\w_-]+)/$', views.SubjectView.as_view(), name='view_subject'),
 	url(r'^subjects/(?P<slug>[\w_-]+)/(?P<email>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})$', views.SubjectView.as_view(), name='view_subject_student'),
 	url(r'^bubble_chart/(?P<slug>[\w_-]+)/$', views.most_active_users, name='bubble_chart'),
-	url(r'^cloudydata/([\w_-]+)/([\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.cloudy_data, name='cloudy_data')
+	url(r'^cloudydata/([\w_-]+)/([\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.cloudy_data, name='cloudy_data'),
+	url(r'^cloudydata-period/([\w_-]+)/([\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.cloudy_data_period, name='cloudy_data_period'),
+	url(r'^resources/(?P<slug>[\w_-]+)/$', views.resources_accesses_general, name='resources_chart'),
+	url(r'^tag/accessess/([\w_-]+)/([\w_-]+)/([\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/([\w_-]+)/([\w_-]+)/$', views.tag_accessess_period, name='tag_accessess_period'),
+	
 ]

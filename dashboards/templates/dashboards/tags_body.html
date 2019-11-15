@@ -19,6 +19,48 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     </h4>
                 </header>
                 <div id="most-used-tags-body">
-                    
+                    {% include 'dashboards/loading_ball.html' with tittle="cloudy_loading_ball" %}
                 </div>
+                <div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="modalTittle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <div style="float: left;">
+                            <h3 class="modal-title" id="modalTittle">Modal title</h3>
+                            </div>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="padding-top:5px" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                            <div id="modal_cloudy_loading_ball" style="height:150px;">
+                            {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
+                            </div>
+                            <div id="modal-table" style="display: none;">
+                            <div id="table-container" class="table-responsive">
+                                <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                    <th></th>
+                                    <th colspan="2" scope="col">Acessos</th>
+                                    </tr>
+                                    <tr>
+                                    <th scope="col">Recurso</th>
+                                    <th scope="col">Seu</th>
+                                    <th scope="col">Turma</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                                </table>
+                            </div>
+                            <nav aria-label="Table Navigation">
+                                <ul class="pagination"></ul>
+                            </nav>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+</div>
   </section>
