@@ -16,15 +16,20 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% load django_bootstrap_breadcrumbs %}
 
 {% block style %}
+
     <link rel="stylesheet" type="text/css" href="{% static 'analytics/css/brush_zoom.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'dashboards/css/teacher_dash.css' %}" />
 {% endblock %}
 
 {% block javascript %}
+     {% include "dashboards/d3_translate.html" %}
     <script type="text/javascript" src="{% static 'analytics/js/d3.v5.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'analytics/js/ToolTip.js' %}"></script>
     <script type="text/javascript" src="{% static 'analytics/js/d3.v3.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'analytics/js/JSUtil.js' %}"></script>
+    <script type="text/javascript" src="{% static 'analytics/js/brush_zoom.js' %}"></script>
+    
+    
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -79,13 +84,15 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             <hr />
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12">
-                        <!-- Tag cloud -->
+                    {% include "dashboards/teacher/_cloud_tags.html" %}
+                    </br>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
-                        <!-- Resource Table -->
+                    <div class="col-md-4" style="margin-top: 7px;">
+                        <!-- Tabela de recursos -->
+                        </br>
+                        {% include "dashboards/teacher/_resources_table.html" %}
                     </div>
                     <div class="col-md-4">
                         <!-- Users cloud -->
@@ -98,9 +105,20 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             </div>
         </div>
     </div>
+
+    <!--Responsibilities-->
+    <script type="text/javascript">
+        window.addEventListener('resize', function () {
+            Promise.resolve().then(function () {
+                cloudy_responsibilities();
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block addtional_scripts %}
+    
+
     <script type="text/javascript">
         sessionSecurity.confirmFormDiscard = undefined;
 
@@ -108,11 +126,22 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             const dataIni = $("#from").val()
             const dataEnd = $("#until").val()
 
+            {% comment %} const dataRecourseUrl = $(".cloudy").data("url"); // ATUALIZA OS DADOS DA NUVEM DE ACORDO COM O RANGE DE DATA SELECIONADO {% endcomment %}
+            
+            
+            const dataRecourseUrl = $(".table_resources").data("url"); // ATUALIZA OS DADOS DA TABELA DE RECURSOS DE ACORDO COM O RANGE DE DATA SELECIONADO
+            loadDataResources(dataRecourseUrl, dataIni, dataEnd);
+
+
             const dataUrl = $(".bubble_users").data("url");
+            
 
             $(".bubble_users .users_cloud").html("");
 
             loadData(dataUrl, dataIni, dataEnd);
+            
+
         })
     </script>
+    
 {% endblock %}

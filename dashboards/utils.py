@@ -74,11 +74,11 @@ def get_pend_graph(user, subject):
     return graph
 
 def getAccessedTags(subject, user):
+     
     tags = Tag.objects.filter(resource_tags__topic__subject = subject).distinct().all() 
 
     data = []
     searchs = []
-       
     for tag in tags:
         if not tag.name == '':
             resources = Resource.objects.filter(tags__id = tag.id, topic__subject = subject)
@@ -97,9 +97,9 @@ def getAccessedTags(subject, user):
     for tag in tags:
         if not tag.name == '':
             item = {}
-            
             item["tag_name"] = tag.name
-            item["details_url"] = reverse('dashboards:tag_accessess', args = (tag.id, subject.slug, user.email,), kwargs = {})
+            item["details_url"] = reverse('dashboards:tag_accessess', args = (tag.id, subject.slug,user.email), kwargs = {})
+            
 
             if tag.access == 1:
                 item["qtd_access"] = res[counter].to_dict()['hits']['total']['value']
@@ -109,17 +109,63 @@ def getAccessedTags(subject, user):
             else:
                 item["qtd_access"] = 0
                 item["qtd_my_access"] = 0
-
             data.append(item)
-            
+                
     return data
+
+def getAccessedTagsPeriod(subject, user, data_ini='',data_end=''):
+    
+    tags = Tag.objects.filter(resource_tags__topic__subject = subject).distinct().all() 
+    if(data_ini == ""):
+        data_ini='now-30d'
+    if(data_end== ""):
+        data_end='now'
+    
+    data = []
+    searchs = []
+    for tag in tags:
+        if not tag.name == '':
+            resources = Resource.objects.filter(tags__id = tag.id, topic__subject = subject)
+
+            if resources.count() > 0:
+                searchs.append(count_logs_period(resources, data_ini, data_end))
+                searchs.append(count_logs_period(resources, data_ini, data_end, user.id))
+                tag.access = 1
+                
+            else:
+                tag.access = 0
+
+    res = multi_search(searchs)
+
+    counter = 0
+    
+    for tag in tags:
+        if not tag.name == '':
+            item = {}
+            item["tag_name"] = tag.name
+            item["details_url"] = reverse('dashboards:tag_accessess_period', args = (tag.id, subject.slug,user.email, data_ini, data_end), kwargs = {})
+            
+            
+
+            if tag.access == 1:
+                item["qtd_access"] = res[counter].to_dict()['hits']['total']['value']
+                item["qtd_my_access"] = res[counter + 1].to_dict()['hits']['total']['value']
+                
+                counter = counter + 2
+            else:
+                item["qtd_access"] = 0
+                item["qtd_my_access"] = 0
+            data.append(item)
+                
+    return data
+
+
 
 def getTagAccessess(subject, tag, user):
     resources = Resource.objects.filter(tags = tag, topic__subject = subject)
 
     data = []
     searchs = []
-
     for resource in resources:
         searchs.append(resource_accessess(resource))
         searchs.append(resource_accessess(resource, user.id))
@@ -140,8 +186,42 @@ def getTagAccessess(subject, tag, user):
             counter = counter + 2
         
             data.append(item)
+                
+    return data
+
+
+def getTagAccessessPeriod(subject, tag, user,data_ini,data_end):
+    resources = Resource.objects.filter(tags = tag, topic__subject = subject)
+    if(data_ini == ""):
+        data_ini='now-30d'
+    if(data_end== ""):
+        data_end='now'
+    
+    data = []
+    searchs = []
+    for resource in resources:
+        searchs.append(resource_accessess_period(resource,data_ini,data_end))
+        searchs.append(resource_accessess_period(resource,data_ini,data_end,user.id))
+
+    if searchs:
+        res = multi_search(searchs)
+
+        counter = 0
+
+        for resource in resources:
+            item = {}
+            
+            item["resource_name"] = resource.name
+            item["qtd_access"] = res[counter].to_dict()['hits']['total']['value']
+            item["qtd_my_access"] = res[counter + 1].to_dict()['hits']['total']['value']
+            item["access_url"] = resource.access_link()
+
+            counter = counter + 2
+            data.append(item)
+            
 
     return data
+
 
 def getOtherIndicators(subject, user):
     logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(hours = 7*24+3), datetime__date__lt = timezone.now() - timedelta(hours = 3))
@@ -382,7 +462,35 @@ def getOtherIndicators(subject, user):
     data.append(item)
     
     return data
-    
+
+def accessResourceCount(subject, dataIni, dataEnd):
+    resources = Resource.objects.filter(topic__subject = subject)
+    if dataIni == '':
+        dataIni = 'now-30d'
+    if dataEnd == '':
+        dataEnd = 'now'
+    data = []
+    searchs = []
+    searchs = []
+    for resource in resources:
+        searchs.append(resource_accessess_period(resource, dataIni, dataEnd))
+        
+    if searchs:
+        res = multi_search(searchs)
+        counter = 0
+
+        for resource in resources:
+            item = {}
+            item["resource_name"] = resource.name
+            item["qtd_access"] = res[counter].to_dict()['hits']['total']['value']
+            item["access_url"] = resource.access_link()
+            counter = counter + 1
+            data.append(item)
+        data.sort(key=lambda x: x['qtd_access'], reverse=True)
+    return data
+
+
+
 def studentsAccess(subject, dataIni, dataEnd):
     students = subject.students.all()
 
@@ -420,6 +528,7 @@ def studentsAccess(subject, dataIni, dataEnd):
         data.sort(key=lambda x: x['count'], reverse=True)
 
     return data
+
 
 def parse_date(date_str):
     """Parse date from string by DATE_INPUT_FORMATS of current language"""

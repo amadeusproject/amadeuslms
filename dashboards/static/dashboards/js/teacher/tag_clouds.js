@@ -1,9 +1,10 @@
 let cloudWord = undefined;
 
-function makeTable(data, tableId, paginationId, nrows) {
-  const $table = $(tableId);
-  const $pagination = $(paginationId);
-  const pages = Math.ceil(data.length / nrows);
+function makeTableResources(data, nrows) {
+  
+  const $table = $("#table-container");
+  const $pagination = $("#resources_pag");
+  const pages_tags_resources = Math.ceil(data.length / nrows);
 
   const $tbody = $table.find("tbody");
 
@@ -16,7 +17,6 @@ function makeTable(data, tableId, paginationId, nrows) {
     let line = `<tr id='resource_${index}' class='tag_resource' ${display}>`;
 
     line = `${line}<td style="white-space: inherit"><a href='${item.access_url}'>${item.resource_name}</a></td>`;
-    line = `${line}<td>${item.qtd_my_access}</td>`;
     line = `${line}<td>${item.qtd_access}</td>`;
 
     line = `${line}</tr>`;
@@ -26,10 +26,113 @@ function makeTable(data, tableId, paginationId, nrows) {
 
   $pagination.append("<li class='page-item previous'>&lt;</li>");
 
-  [...Array(pages).keys()].forEach(i => {
+  [...Array(pages_tags_resources).keys()].forEach(i => {
     const page = `<li class='page-item page-item-number' data-page=${i + 1}>${i + 1}</li>`;
 
     $pagination.append(page);
+  });
+
+  $("#resources_pag .page-item-number[data-page=1]").addClass("active");
+
+  $pagination.append("<li class='page-item next'>&gt;</li>");
+
+  $("#resources_pag .page-item-number").click(e => {
+    const page = $(e.target).data("page");
+    const init = page * nrows - nrows;
+    const end = page * nrows;
+
+    $("#resources_pag .page-item-number").removeClass("active");
+    $(e.target).addClass("active");
+
+    $("#table-container .tag_resource").each((i, el) => {
+      if (i >= init && i < end) {
+        $(el).show();
+      } else {
+        $(el).hide();
+      }
+    });
+  });
+
+  $("#resources_pag .previous").click(() => {
+    let page = $("#resources_pag .page-item-number.active").data("page");
+
+    page = page === 1 ? 1 : page - 1;
+    if(page>=10){
+      [...Array(pages_resources_table).keys()].forEach(i => {
+        const page = `<li class='page-item page-item-number' data-page=${i + 1}>${i + 1}</li>`;
+        if(i>page-4 || i<page+4)
+          $pagination.append(page);
+      });}
+    const init = page * nrows - nrows;
+    const end = page * nrows;
+
+    $("#resources_pag .page-item-number").removeClass("active");
+    $(`#resources_pag .page-item-number[data-page=${page}]`).addClass("active");
+
+    $("#table-container .tag_resource").each((i, el) => {
+      if (i >= init && i < end) {
+        $(el).show();
+      } else {
+        $(el).hide();
+      }
+    });
+  });
+
+  $("#resources_pag .next").click(() => {
+    
+    let page = $("#resources_pag .page-item-number.active").data("page");
+    page = page === pages_tags_resources ? pages_tags_resources : page + 1;
+    if(page>=10){
+      [...Array(pages_resources_table).keys()].forEach(i => {
+        const page = `<li class='page-item page-item-number' data-page=${i + 1}>${i + 1}</li>`;
+        if(i>page-4 || i<page+4)
+          $pagination.append(page);
+      });}
+    const init = page * nrows - nrows;
+    const end = page * nrows;
+
+    $("#resources_pag .page-item-number").removeClass("active");
+    $(`#resources_pag .page-item-number[data-page=${page}]`).addClass("active");
+
+    $("#table-container .tag_resource").each((i, el) => {
+      if (i >= init && i < end) {
+        $(el).show();
+      } else {
+        $(el).hide();
+      }
+    });
+  });
+}
+function makeTable(data, tableId, paginationId, nrows) {
+  
+  const $table = $(tableId);
+  const $pagination = $(paginationId);
+  const pages_tags = Math.ceil(data.length / nrows);
+
+  const $tbody = $table.find("tbody");
+
+  $tbody.html("");
+  $pagination.html("");
+
+  data.forEach((item, index) => {
+    const display = index >= nrows ? 'style="display: none"' : "";
+
+    let line = `<tr id='resource_${index}' class='tag_resource' ${display}>`;
+
+    line = `${line}<td style="white-space: inherit"><a href='${item.access_url}'>${item.resource_name}</a></td>`;
+    line = `${line}<td>${item.qtd_access}</td>`;
+
+    line = `${line}</tr>`;
+
+    $tbody.append(line);
+  });
+
+  $pagination.append("<li class='page-item previous'>&lt;</li>");
+
+  [...Array(pages_tags).keys()].forEach(i => {
+    const page_tag = `<li class='page-item page-item-number' data-page=${i + 1}>${i + 1}</li>`;
+
+    $pagination.append(page_tag);
   });
 
   $(".page-item-number[data-page=1]").addClass("active");
@@ -212,18 +315,7 @@ function makeTagTable(data, nrows) {
           d2.qtd_access = 0;
         }
 
-        if (isNaN(d1.qtd_my_access) || +d1.qtd_my_access == 0) {
-          d1.qtd_my_access = 0;
-        }
-
-        if (isNaN(d2.qtd_my_access) || +d2.qtd_my_access == 0) {
-          d2.qtd_my_access = 0;
-        }
-
-        const p1 = d1.qtd_my_access / d1.qtd_access,
-          p2 = d2.qtd_my_access / d2.qtd_access;
-
-        return p1 > p2 ? 1 : p1 < p2 ? -1 : d1.qtd_access < d2.qtd_access ? 1 : d1.qtd_access > d2.qtd_access ? -1 : 0;
+        return d1.qtd_access < d2.qtd_access ? 1 : d1.qtd_access > d2.qtd_access ? -1 : 0;
       });
 
       makeTable(dataset, "#table-container", "#resources_pag", 10);
@@ -236,22 +328,16 @@ function makeTagTable(data, nrows) {
   });
 }
 
-function cloud() {
+function cloud(url, dataIn, DataEnd) {
   const dimensions = document.getDimensions("#cloudy");
   let width =
-    dimensions.w -
-    $("#cloudy")
-      .css("padding-left")
-      .match(/[0-9]+/)[0] -
-    $("#cloudy")
-      .css("padding-right")
-      .match(/[0-9]+/)[0];
-
+    dimensions.w - 110;
   width = width === 0 ? 775 : width;
 
-  const height = (width * 1) / 2 > 360 ? 360 : width / 2 < 50 ? 50 : width / 2;
+  const height = (width * 1.1) / 2 > 360 ? 360 : width / 2 < 50 ? 50 : width / 2;
 
-  $.get($("#cloudy").data("url"), data => {
+  
+  $.get(url,  data => {
     d3.select("#cloudy_loading_ball").style("display", "none");
 
     data = data.map(item => ({
@@ -260,14 +346,14 @@ function cloud() {
       myvalue: item.qtd_my_access,
       link: item.details_url,
       text: item.tag_name,
+      
     }));
 
     data.sort((d1, d2) => (d1.value > d2.value ? -1 : d1.value < d2.value ? 1 : 0));
-
+    
     makeTagTable(data, 10);
 
     const tags = data.slice(0, Math.floor((30 / 1000) * width));
-
     const dataconfig = {
       parent: "#cloudy",
       data: tags,
@@ -298,8 +384,7 @@ function cloud() {
           container.selectAll(".resource").remove();
 
           $.get(data.link, dataset => {
-            dataset = dataset.sort((d1, d2) => {
-              
+              dataset = dataset.sort((d1, d2) => {
               if (isNaN(d1.qtd_access) || +d1.qtd_access == 0) {
                 d1.qtd_access = 0;
               }
@@ -307,31 +392,9 @@ function cloud() {
               if (isNaN(d2.qtd_access) || +d2.qtd_access == 0) {
                 d2.qtd_access = 0;
               }
-
-              if (isNaN(d1.qtd_my_access) || +d1.qtd_my_access == 0) {
-                d1.qtd_my_access = 0;
-              }
-
-              if (isNaN(d2.qtd_my_access) || +d2.qtd_my_access == 0) {
-                d2.qtd_my_access = 0;
-              }
-
-              const p1 = d1.qtd_my_access / d1.qtd_access,
-                p2 = d2.qtd_my_access / d2.qtd_access;
-
-              return p1 > p2
-                ? 1
-                : p1 < p2
-                ? -1
-                : d1.qtd_access < d2.qtd_access
-                ? 1
-                : d1.qtd_access > d2.qtd_access
-                ? -1
-                : 0;
+              return d1.qtd_access < d2.qtd_access ? 1 : d1.qtd_access > d2.qtd_access ? -1 : 0;
             });
-
-            makeTable(dataset, "#table-container", "#resources_pag", 10);
-
+            makeTableResources(dataset, 10);
             d3.select("#modal_cloudy_loading_ball").style("display", "none");
             d3.select("#modal-table").style("display", "inherit");
           });
@@ -340,7 +403,7 @@ function cloud() {
         },
       },
       tooltip: {
-        text: "Tag: <key>\nTotal de acessos: <value> \nMeus acessos: <myvalue>",
+        text: "Tag: <key>\nTotal de acessos: <value>",
       },
       filltext: (a, transition) => {
         transition = transition || 0;
@@ -349,7 +412,7 @@ function cloud() {
           .scaleLinear()
           .domain([0, 1])
           .interpolate(d3.interpolateHcl)
-          .range([d3.rgb("#8EC99A"), d3.rgb("#162318")]);
+          .range([d3.rgb("#237455"), d3.rgb("#237455")]);
 
         const prop = a.chartConfig.mymax / a.chartConfig.max;
 
@@ -364,7 +427,7 @@ function cloud() {
         a.wordsv5
           .transition()
           .duration(transition)
-          .attr("fill", (d, i) => a.fillpattern(a.scalePercent(d.myvalue, d.value)));
+          .attr("fill", (d, i) => a.fillpattern(a.scalePercent(d.value, d.value)));
       },
     };
 
@@ -377,5 +440,7 @@ function view_toogle() {
 }
 
 $(function() {
-  cloud();
+  const dataCloudUrl = $("#cloudy").data("url");
+  
+  cloud(dataCloudUrl, "", "");
 });

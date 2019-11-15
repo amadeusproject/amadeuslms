@@ -35,7 +35,7 @@ from categories.models import Category
 
 from subjects.models import Subject, Tag
 
-from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators, studentsAccess, parse_date
+from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators, studentsAccess, parse_date,accessResourceCount, getAccessedTagsPeriod, getTagAccessessPeriod
 
 
 from log.mixins import LogMixin
@@ -289,10 +289,20 @@ class SubjectView(LogMixin, generic.TemplateView):
 
 def tag_accessess(request, tag, subject, email):
     sub = Subject.objects.get(slug = subject)
-    user = User.objects.get(email = email)
     tag = Tag.objects.get(id = tag)
-
+    user = User.objects.get(email = email)
     return JsonResponse(getTagAccessess(sub, tag, user), safe = False)
+
+def tag_accessess_period(request, tag, subject, email, data_ini, data_end):
+    data_ini = request.GET.get('data_ini', '')
+    data_end = request.GET.get('data_end', '')
+    sub = Subject.objects.get(slug = subject)
+    tag = Tag.objects.get(id = tag)
+    user = User.objects.get(email = email)
+    return JsonResponse(getTagAccessessPeriod(sub, tag, user, data_ini,data_end), safe = False)
+    
+    
+  
 
 def other_metrics(request, subject, email):
     sub = Subject.objects.get(slug = subject)
@@ -300,12 +310,28 @@ def other_metrics(request, subject, email):
 
     return JsonResponse(getOtherIndicators(sub, user), safe = False)
 
-def cloudy_data(request, subject, email):
+def cloudy_data(request, subject, email=None):
+    
     sub = Subject.objects.get(slug = subject)
+    
     user = User.objects.get(email = email)
-
     return JsonResponse(getAccessedTags(sub, user), safe = False)
 
+def cloudy_data_period(request, subject, email=None):
+    data_end = request.GET.get('data_end', '')
+    data_ini = request.GET.get('data_ini', '')
+    
+    if not data_ini == '':
+        data_ini = parse_date(data_ini)
+    
+    if not data_end == '':
+        data_end = parse_date(data_end) 
+    sub = Subject.objects.get(slug = subject)
+    
+    user = User.objects.get(email = email)
+    return JsonResponse(getAccessedTagsPeriod(sub, user, data_ini,data_end), safe = False)
+
+   
 ###### Subjects Teacher Dashboard #######
 
 class SubjectTeacher(LogMixin, generic.TemplateView):
@@ -323,10 +349,16 @@ class SubjectTeacher(LogMixin, generic.TemplateView):
             return redirect(reverse_lazy('subjects:home'))
 
         return super(SubjectTeacher, self).dispatch(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        subject = get_object_or_404(Subject, slug = self.kwargs.get('slug', ''))
+
+        if has_subject_permissions(self.request.user, subject):
+            return self.render_to_response(self.get_context_data())
+        else:
+            return HttpResponseForbidden()
 
     def get_context_data(self, **kwargs):
         subject = get_object_or_404(Subject, slug = self.kwargs.get('slug', ''))
-
         context = {}
         
         context["title"] = _("Analytics")
@@ -341,10 +373,28 @@ class SubjectTeacher(LogMixin, generic.TemplateView):
         self.log_context['subject_id'] = subject.id
         self.log_context['subject_name'] = subject.name
         self.log_context['subject_slug'] = subject.slug
+        
+        context["tags_cloud"] = reverse('dashboards:cloudy_data_period', args = (subject.slug, self.request.user.email,), kwargs = {})
 
+        context['style_files'] = ['dashboards/css/style.css','dashboards/css/general.css', 'dashboards/css/dashboards_category.css']
         super(SubjectTeacher, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
 
         return context
+
+def resources_accesses_general(request, slug):
+    subject = get_object_or_404(Subject, slug = slug)
+
+    data_end = request.GET.get('data_end', '')
+    data_ini = request.GET.get('data_ini', '')
+
+    if not data_ini == '':
+        data_ini = parse_date(data_ini)
+    
+    if not data_end == '':
+        data_end = parse_date(data_end)
+    
+    data = accessResourceCount(subject, data_ini, data_end)
+    return JsonResponse(data, safe = False)
 
 def most_active_users(request, slug):
     subject = get_object_or_404(Subject, slug = slug)
@@ -361,3 +411,9 @@ def most_active_users(request, slug):
     data = studentsAccess(subject, data_ini, data_end)
 
     return JsonResponse(data, safe = False)
+
+
+
+
+
+

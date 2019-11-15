@@ -1,8 +1,8 @@
-let BubbleChartCounter = 0;
+let ResourcesChartCounter = 0;
 
-class BubbleChart {
+class ResourcesChart {
   constructor(chartConfig) {
-    this.create(BubbleChart.validData(chartConfig)).draw();
+    this.create(ResourcesChart.validData(chartConfig)).draw();
   }
 
   static validData(chartConfig) {
@@ -11,7 +11,7 @@ class BubbleChart {
       throw new Exception();
     }
 
-    if (chartConfig.name === undefined) chartConfig.name = `bubbleChart ${BubbleChartCounter++}`;
+    if (chartConfig.name === undefined) chartConfig.name = `resourcesChart ${ResourcesChartCounter++}`;
 
     if (chartConfig.target === undefined) chartConfig.target = "body";
 
@@ -43,20 +43,17 @@ class BubbleChart {
     const a = this;
     this.chartConfig = chartConfig;
 
-    a.names = Array.removeRepetitions(a.chartConfig.data.map(d => d.user_id));
+    a.names = Array.removeRepetitions(a.chartConfig.data.map(d => d.resource_name));
     a.names = a.names.sort();
 
     a.data = a.names.map(d => {
-      return { user: d, value: 0 };
+      return { resource: d, value: 0 };
     });
 
     for (let i = 0; i < a.chartConfig.data.length; i++) {
-      const index = a.names.indexOf(a.chartConfig.data[i].user_id);
+      const index = a.names.indexOf(a.chartConfig.data[i].resource_name);
 
-      if (a.data[index].link === undefined) a.data[index].link = a.chartConfig.data[i].link;
-      if (a.data[index].image === undefined) a.data[index].image = a.chartConfig.data[i].image;
-      if (a.data[index].name === undefined) a.data[index].name = a.chartConfig.data[i].user;
-
+      if (a.data[index].access_url === undefined) a.data[index].access_url = a.chartConfig.data[i].access_url;
       a.data[index].value += a.chartConfig.data[i].value;
     }
 
@@ -105,8 +102,6 @@ class BubbleChart {
 
     a.nodes = a.nodes.map(d => {
       d.r = Math.round(Math.sqrt(d.value) * a.prop);
-
-      d.r = isNaN(d.r) || !isFinite(d.r) ? 0 : d.r;
 
       return d;
     });
@@ -197,10 +192,7 @@ class BubbleChart {
     }
 
     this.boxForce = boundedBox()
-      .bounds([
-        [0, 0],
-        [a.chartConfig.dimensions.width, a.chartConfig.dimensions.height],
-      ])
+      .bounds([[0, 0], [a.chartConfig.dimensions.width, a.chartConfig.dimensions.height]])
       .size(d => {
         return [d.r * 2, d.r * 2];
       });
@@ -297,25 +289,6 @@ class BubbleChart {
       .delay((d, i) => 910 * Math.sqrt(i) + 510)
       .remove();
 
-    if (isNaN(this.prop) || !isFinite(this.prop)) {
-      this.svg
-        .append("rect")
-        .attr("width", "100%")
-        .attr("fill", "#fff");
-      this.svg
-        .append("text")
-        .attr("x", "20%")
-        .attr("y", "50%")
-        .attr("dy", "0em")
-        .text("Para período selecionado não houve");
-      this.svg
-        .append("text")
-        .attr("x", "20%")
-        .attr("y", "50%")
-        .attr("dy", "1em")
-        .text("registro de acesso dos participantes");
-    }
-
     this.tooltipConstruct();
     this.addInteractions();
 
@@ -361,19 +334,20 @@ class BubbleChart {
 
     return this;
   }
-}
+ }
 
 $(function() {
-  const dataUrl = $(".bubble_users").data("url");
-
-  loadData(dataUrl, "", "");
+  const dataRecourseUrl = $(".table_resources").data("url");
+  $(".resources_access_table").show();
+  loadDataResources(dataRecourseUrl, "", "");
+  
 });
 
-function makeTable(data, nrows) {
-  const $table = $("#students_table");
-  const $pagination = $("#students_pag");
+function makeRecouresTable(data, nrows) {
+  const $table = $("#resources_table");
+  const $pagination = $("#resources_table_pag");
 
-  const pages = Math.ceil(data.length / nrows);
+  const pages_resources_table = Math.ceil(data.length / nrows);
 
   const $tbody = $table.find("tbody");
 
@@ -381,39 +355,42 @@ function makeTable(data, nrows) {
   $pagination.html("");
 
   data.forEach((item, index) => {
+    
     const display = index >= nrows ? 'style="display: none"' : "";
 
-    let line = `<tr id='user_${index}' class='user_access' ${display}>`;
+    let line = `<tr id='resources_access_${index}' class='resource_access' ${display}>`;
 
     line = `${line}<td>${index + 1}</td>`;
-    line = `${line}<td><a href='${item.link}'>${item.user}</a></td>`;
-    line = `${line}<td>${item.count}</td>`;
+    line = `${line}<td><a href='${item.access_url}'>${item.resource_name}</a></td>`;
+    line = `${line}<td>${item.qtd_access}</td>`;
     line = `${line}</tr>`;
-
+    
     $tbody.append(line);
   });
 
   $pagination.append("<li class='page-item previous'>&lt;</li>");
 
-  [...Array(pages).keys()].forEach(i => {
+  [...Array(pages_resources_table).keys()].forEach(i => {
     const page = `<li class='page-item page-item-number' data-page=${i + 1}>${i + 1}</li>`;
-
-    $pagination.append(page);
+    
+      $pagination.append(page);
+      if(i>9)
+        $(`#resources_table_pag .page-item-number[data-page=${i+1}]`).hide();
   });
 
-  $("#students_pag .page-item-number[data-page=1]").addClass("active");
+  $("#resources_table_pag .page-item-number[data-page=1]").addClass("active");
 
   $pagination.append("<li class='page-item next'>&gt;</li>");
 
-  $("#students_pag .page-item-number").click(e => {
+  $("#resources_table_pag .page-item-number").click(e => {
     const page = $(e.target).data("page");
     const init = page * nrows - nrows;
     const end = page * nrows;
 
-    $("#students_pag .page-item-number").removeClass("active");
+    $("#resources_table_pag .page-item-number").removeClass("active");
     $(e.target).addClass("active");
 
-    $("#students_table .user_access").each((i, el) => {
+    $("#resources_table .resource_access").each((i, el) => {
       if (i >= init && i < end) {
         $(el).show();
       } else {
@@ -422,138 +399,86 @@ function makeTable(data, nrows) {
     });
   });
 
-  $("#students_pag .previous").click(() => {
-    let page = $("#students_pag .page-item-number.active").data("page");
-
+  $("#resources_table_pag .previous").click(() => {
+    let page = $("#resources_table_pag .page-item-number.active").data("page");
+    
     page = page === 1 ? 1 : page - 1;
-
-    const init = page * nrows - nrows;
-    const end = page * nrows;
-
-    $("#students_pag .page-item-number").removeClass("active");
-    $(`#students_pag .page-item-number[data-page=${page}]`).addClass("active");
-
-    $("#students_table .user_access").each((i, el) => {
-      if (i >= init && i < end) {
-        $(el).show();
-      } else {
-        $(el).hide();
-      }
-    });
-  });
-
-  $("#students_pag .next").click(() => {
-    let page = $("#students_pag .page-item-number.active").data("page");
-
-    page = page === pages ? pages : page + 1;
-
-    const init = page * nrows - nrows;
-    const end = page * nrows;
-
-    $("#students_pag .page-item-number").removeClass("active");
-    $(`#students_pag .page-item-number[data-page=${page}]`).addClass("active");
-
-    $("#students_table .user_access").each((i, el) => {
-      if (i >= init && i < end) {
-        $(el).show();
-      } else {
-        $(el).hide();
-      }
-    });
-  });
-
-  $("#students_table th.sort").off("click");
-  $("#students_table th.sort").on("click", el => {
-    el.preventDefault();
-    el.stopPropagation();
-
-    const $el = $(el.target);
-    const sort = $el.data("sort");
-    const $icon = $($el.find("i"));
-    const isAscending = $icon.hasClass("fa-sort-up");
-
-    if (isAscending) {
-      $("#students_table th.sort i")
-        .removeClass("fa-sort-up")
-        .removeClass("fa-sort-down")
-        .removeClass("fa-sort")
-        .addClass("fa-sort");
-
-      $icon.removeClass("fa-sort").addClass("fa-sort-down");
-
-      if (sort === "name") {
-        data.sort((a, b) => a.user.localeCompare(b.user)).reverse();
-
-        makeTable(data, nrows);
-      } else {
-        data.sort((a, b) => (a.coun > b.count ? 1 : a.count < b.count ? -1 : 0)).reverse();
-
-        makeTable(data, nrows);
-      }
-    } else {
-      $("#students_table th.sort i")
-        .removeClass("fa-sort-up")
-        .removeClass("fa-sort-down")
-        .removeClass("fa-sort")
-        .addClass("fa-sort");
-
-      $icon.removeClass("fa-sort").addClass("fa-sort-up");
-
-      if (sort === "name") {
-        data.sort((a, b) => a.user.localeCompare(b.user));
-
-        makeTable(data, nrows);
-      } else {
-        data.sort((a, b) => (a.coun > b.count ? 1 : a.count < b.count ? -1 : 0));
-
-        makeTable(data, nrows);
-      }
+    if(page>10){
+      
+      [...Array(pages_resources_table).keys()].forEach(i => {
+        
+        if(i<page+5 && i> page-5)
+          $(`#resources_table_pag .page-item-number[data-page=${i+1}]`).show();
+        });
     }
+    else { 
+      [...Array(pages_resources_table).keys()].forEach(i => {
+        if(i>9)
+            $(`#resources_table_pag .page-item-number[data-page=${i+1}]`).hide();
+        else
+        $(`#resources_table_pag .page-item-number[data-page=${i+1}]`).show();
+      });
+
+    }
+    const init = page * nrows - nrows;
+    const end = page * nrows;
+
+    $("#resources_table_pag .page-item-number").removeClass("active");
+    $(`#resources_table_pag .page-item-number[data-page=${page}]`).addClass("active");
+
+    $("#resources_table .resource_access").each((i, el) => {
+      if (i >= init && i < end) {
+        $(el).show();
+      } else {
+        $(el).hide();
+      }
+    });
+  });
+
+  $("#resources_table_pag .next").click(() => {
+    let page = $("#resources_table_pag .page-item-number.active").data("page");
+    
+    page = page === pages_resources_table ? pages_resources_table : page + 1;
+    if(page>10){
+      
+      [...Array(pages_resources_table).keys()].forEach(i => {
+        
+        if(i<page+5 && i> page-5)
+          $(`#resources_table_pag .page-item-number[data-page=${i+1}]`).show();
+        else if(i<pages_resources_table-9)
+          $(`#resources_table_pag .page-item-number[data-page=${i+1}]`).hide();
+      });
+
+    }
+    const init = page * nrows - nrows;
+    const end = page * nrows;
+
+    $("#resources_table_pag .page-item-number").removeClass("active");
+    $(`#resources_table_pag .page-item-number[data-page=${page}]`).addClass("active");
+
+    $("#resources_table .resource_access").each((i, el) => {
+      if (i >= init && i < end) {
+        $(el).show();
+      } else {
+        $(el).hide();
+      }
+    });
   });
 }
 
-function loadData(url, dataIni, dataEnd) {
+function loadDataResources(url, dataIni, dataEnd) {
+  $(".resources_access_table").show();
   $.get(url, { data_ini: dataIni, data_end: dataEnd }, dataset => {
+    
     dataset = dataset.map(d => {
-      d.value = d.count;
+    d.value = d.qtd_access;
+      
 
       return d;
     });
+    
 
-    const chartConfig = {
-      name: "bubbleChartDashboard",
-      parent: ".users_cloud",
-      data: dataset,
-      dimensions: {
-        width: 360,
-        height: 300,
-      },
-      layout: {
-        qtd: 50,
-        absForce: 0.05,
-      },
-      interactions: {
-        click: (element, data) => {
-          window.location = data.link;
-        },
-      },
-      tooltip: {
-        text: "<name>: <value> acesso(s)",
-      },
-    };
-
-    const bubbleChart = new BubbleChart(chartConfig);
-
-    makeTable(dataset, 10);
+    makeRecouresTable(dataset, 10);
   });
-}
-
-function view_toggle($selector) {
-  if (!$selector.is(":checked")) {
-    $(".users_cloud").hide();
-    $(".users_table").show();
-  } else {
-    $(".users_table").hide();
-    $(".users_cloud").show();
-  }
+  
 }

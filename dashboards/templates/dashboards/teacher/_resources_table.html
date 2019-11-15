@@ -12,46 +12,30 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% load static i18n %}
 
 <div class="row">
-    <div class="col-md-12 bubble_users" data-url="{% url 'dashboards:bubble_chart' subject.slug %}">
+    <div class="col-md-12 table_resources" data-url="{% url 'dashboards:resources_chart' subject.slug %}">
         <div class="header">
-            <div class="identifier">
-                <b>{% trans 'Students accessess' %}</b>
-            </div>
-            <div class="selector">
-                <span>{% trans 'Cloudy' %}</span>
-                <label class="switch">
-                    <input id="ganttPercent" type="checkbox" name="percentOn" checked onclick="view_toggle($(this))" />
-                    <span class="slider round"></span>
-                </label>
-            </div>
+              
         </div>
-        <div class="users_cloud">
-        </div>
-        <div class="users_table">
+        <div class="resources_access_table">
             <div id="table-container" class="table-responsive">
-                <table id="students_table" class="table table-hover">
+                <table id="resources_table" class="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th class="sort" scope="col" data-sort="name">
-                                {% trans 'Student' %}
-                                <i class="fa fa-sort"></i>
-                            </th>
-                            <th class="sort" scope="col" data-sort="access">
-                                {% trans 'Accessess' %}
-                                <i class="fa fa-sort"></i>
-                            </th>
+                            <th scope="col">{% trans 'Resource' %}</th>
+                            <th scope="col">{% trans 'Accessess' %}</th>
                         </tr>
                     </thead>
                     <tbody>
+
                     </tbody>
                 </table>
             </div>
             <nav aria-label="Table Navigation">
-                <ul id="students_pag" class="pagination"></ul>
+                <ul id="resources_table_pag" class="pagination"></ul>
             </nav>
         </div>
     </div>
 </div>
 
-<script type="text/javascript" src="{% static 'dashboards/js/teacher/bubble.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboards/js/teacher/resources_table.js' %}"></script>

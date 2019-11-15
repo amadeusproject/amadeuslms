@@ -53,6 +53,22 @@ def count_logs(resources, userid = 0):
 
     return s
 
+def count_logs_period(resources, data_ini, data_end, userid = 0):
+    s = Search().extra(size=0)
+    
+    conds = []
+
+    for res in resources:
+        conds.append(Q('match', **{'context__' + res._my_subclass + '_id': res.id}))
+
+    if userid != 0:
+        s = s.query('bool', must=[Q("range", datetime={'time_zone': '-03:00', 'gte': data_ini, 'lte': data_end}), Q("match", component="resources"), Q('bool', should=[Q('match', action='access'), Q('match', action='view')]), Q('bool', should=conds), Q('match', user_id=userid)])
+        
+    else:
+        s = s.query('bool', must=[Q("range", datetime={'time_zone': '-03:00', 'gte': data_ini, 'lte': data_end}), Q("match", component="resources"), Q('bool', should=[Q('match', action='access'), Q('match', action='view')]), Q('bool', should=conds)])
+
+    return s
+
 def resource_accessess(resource, userid = 0):
     s = Search().extra(size=0)
 
@@ -60,6 +76,15 @@ def resource_accessess(resource, userid = 0):
         s = s.query('bool', must=[Q("range", datetime={'gte': 'now-147h', 'lte': 'now-3h'}), Q("match", component="resources"), Q('bool', should=[Q('match', action='access'), Q('match', action='view')]), Q('match', **{'context__' + resource._my_subclass + '_id': resource.id}), Q('match', user_id=userid)])
     else:
         s = s.query('bool', must=[Q("range", datetime={'gte': 'now-147h', 'lte': 'now-3h'}), Q("match", component="resources"), Q('bool', should=[Q('match', action='access'), Q('match', action='view')]), Q('match', **{'context__' + resource._my_subclass + '_id': resource.id})])
+
+    return s
+
+def resource_accessess_period(resource, dataIni, dataEnd, userid = 0 ):
+    s = Search().extra(size=0)
+    if userid != 0:
+        s = s.query('bool', must=[Q("range", datetime={'time_zone': '-03:00', 'gte': dataIni, 'lte': dataEnd}), Q("match", component="resources"), Q('bool', should=[Q('match', action='access'), Q('match', action='view')]), Q('match', **{'context__' + resource._my_subclass + '_id': resource.id}), Q('match', user_id=userid)])
+    else:
+        s = s.query('bool', must=[Q("range", datetime={'time_zone': '-03:00', 'gte': dataIni, 'lte': dataEnd}), Q("match", component="resources"), Q('bool', should=[Q('match', action='access'), Q('match', action='view')]), Q('match', **{'context__' + resource._my_subclass + '_id': resource.id})])
 
     return s
 

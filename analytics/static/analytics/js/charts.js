@@ -390,9 +390,19 @@ var charts = {
 	most_used_tags: function(url){
 		$.get(url, function(dataset){
 			//get most used tags across all amadeus
-			var width = 1600;
-			var height = 300;
+			const dimensions = document.getDimensions("#most-used-tags-body");
+			const width =
+				dimensions.w -
+				$("#most-used-tags-body")
+				.css("padding-left")
+				.match(/[0-9]+/)[0] -
+				$("#most-used-tags-body")
+				.css("padding-right")
+				.match(/[0-9]+/)[0];
+			const height = (width * 1) / 2 > 360 ? 360 : width / 2 < 50 ? 50 : width / 2;
 
+ 
+			d3.select("#cloudy_loading_ball").style("display", "none");
 			var dataconfig = {
 				parent:"#most-used-tags-body",
 				data: dataset,
@@ -410,8 +420,58 @@ var charts = {
 				h:height,
 			  },
 			  interactions:{
-				click:function(element,data){console.log(data),alert(d3.textData(data,"<text>: <value> acesso(s)"))}
-			  },
+				click: (element, data) => {
+					d3.select("#modal_cloudy_loading_ball").style("display", "inherit");
+					d3.select("#modal-table").style("display", "none");
+		  
+					const modal = document.querySelector("#tagModal");
+					const container = d3.select("#resources-list");
+		  
+					modal.querySelector("#modalTittle").innerText = `Tag: ${data.text.toUpperCase()}`;
+		  
+					container.selectAll(".resource").remove();
+		  
+					$.get(data.link, dataset => {
+					  dataset = dataset.sort((d1, d2) => {
+						if (isNaN(d1.qtd_access) || +d1.qtd_access == 0) {
+						  d1.qtd_access = 0;
+						}
+		  
+						if (isNaN(d2.qtd_access) || +d2.qtd_access == 0) {
+						  d2.qtd_access = 0;
+						}
+		  
+						if (isNaN(d1.qtd_my_access) || +d1.qtd_my_access == 0) {
+						  d1.qtd_my_access = 0;
+						}
+		  
+						if (isNaN(d2.qtd_my_access) || +d2.qtd_my_access == 0) {
+						  d2.qtd_my_access = 0;
+						}
+		  
+						const p1 = d1.qtd_my_access / d1.qtd_access,
+						  p2 = d2.qtd_my_access / d2.qtd_access;
+		  
+						return p1 > p2
+						  ? 1
+						  : p1 < p2
+						  ? -1
+						  : d1.qtd_access < d2.qtd_access
+						  ? 1
+						  : d1.qtd_access > d2.qtd_access
+						  ? -1
+						  : 0;
+					  });
+		  
+					  makeTable(dataset, "#table-container", ".pagination", 10);
+		  
+					  d3.select("#modal_cloudy_loading_ball").style("display", "none");
+					  d3.select("#modal-table").style("display", "inherit");
+					});
+		  
+					$("#tagModal").modal("show");
+				  },
+				},
 			  tooltip:{
 				text:"<text>: <value> acesso(s)"
 			  }
