@@ -28,3 +28,23 @@
   color: #fff;
   border-color: #009688;
 }
+
+
+
+
+
+.page-item {
+  border: 1px solid #ccc;
+  padding: 3px 7px;
+  cursor: pointer;
+}
+.page-item:hover {
+  color: #fff;
+  background: #009688;
+  border-color: #009688;
+}
+ .page-item.active {
+  background: #009688;
+  color: #fff;
+  border-color: #009688;
+}
