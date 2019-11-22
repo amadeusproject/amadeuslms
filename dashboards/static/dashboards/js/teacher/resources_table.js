@@ -289,6 +289,26 @@ class ResourcesChart {
       .delay((d, i) => 910 * Math.sqrt(i) + 510)
       .remove();
 
+      if (isNaN(this.prop) || !isFinite(this.prop)) {
+        this.svg
+          .append("rect")
+          .attr("width", "100%")
+          .attr("fill", "#fff");
+        this.svg
+          .append("text")
+          .attr("x", "20%")
+          .attr("y", "50%")
+          .attr("dy", "0em")
+          .text("Para período selecionado não houve");
+        this.svg
+          .append("text")
+          .attr("x", "20%")
+          .attr("y", "50%")
+          .attr("dy", "1em")
+          .text("registro de acesso dos participantes");
+      }
+
+
     this.tooltipConstruct();
     this.addInteractions();
 
@@ -463,6 +483,54 @@ function makeRecouresTable(data, nrows) {
         $(el).hide();
       }
     });
+  });
+  $("#resources_table th.sort").off("click");
+  $("#resources_table th.sort").on("click", el => {
+    el.preventDefault();
+    el.stopPropagation();
+
+    const $el = $(el.target);
+    const sort = $el.data("sort");
+    const $icon = $($el.find("i"));
+    const isAscending = $icon.hasClass("fa-sort-up");
+
+    if (isAscending) {
+      $("#resources_table th.sort i")
+        .removeClass("fa-sort-up")
+        .removeClass("fa-sort-down")
+        .removeClass("fa-sort")
+        .addClass("fa-sort");
+
+      $icon.removeClass("fa-sort").addClass("fa-sort-down");
+
+      if (sort === "resource_name") {
+        data.sort((a, b) => a.resource_name.localeCompare(b.resource_name)).reverse();
+
+        makeRecouresTable(data, 10);
+      } else {
+        data.sort((a, b) => (a.qtd_access > b.qtd_access ? 1 : a.qtd_access < b.qtd_access ? -1 : 0)).reverse();
+
+        makeRecouresTable(data, 10);
+      }
+    } else {
+      $("#students_table th.sort i")
+        .removeClass("fa-sort-up")
+        .removeClass("fa-sort-down")
+        .removeClass("fa-sort")
+        .addClass("fa-sort");
+
+      $icon.removeClass("fa-sort").addClass("fa-sort-up");
+
+      if (sort === "resource_name") {
+        data.sort((a, b) => a.resource_name.localeCompare(b.resource_name));
+
+        makeRecouresTable(data, 10);
+      } else {
+        data.sort((a, b) => (a.qtd_access > b.qtd_access ? 1 : a.qtd_access < b.qtd_access ? -1 : 0));
+
+        makeRecouresTable(data, 10);
+      }
+    }
   });
 }
 

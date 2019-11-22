@@ -14,7 +14,15 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 <div class="row">
     <div class="col-md-12 table_resources" data-url="{% url 'dashboards:resources_chart' subject.slug %}">
         <div class="header">
-              
+                <div class="identifier">
+                <b>{% trans 'Resources accessess' %}</b>
+                <i
+                class="fa fa-info-circle"
+                aria-hidden="true"
+                data-toggle="tooltip"
+                title="{% trans 'Access number in each class recourse in this subject' %}"
+                ></i>
+            </div>
         </div>
         <div class="resources_access_table">
             <div id="table-container" class="table-responsive">
@@ -22,8 +30,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">{% trans 'Resource' %}</th>
-                            <th scope="col">{% trans 'Accessess' %}</th>
+                            <th class="sort" scope="col" data-sort="resource_name">{% trans 'Resource' %} <i class="fa fa-sort"></i</th>
+                            <th class="sort" scope="col" data-sort="qtd_acess">{% trans 'Accessess' %} <i class="fa fa-sort"></i</th>
                         </tr>
                     </thead>
                     <tbody>

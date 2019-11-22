@@ -120,7 +120,8 @@ def getAccessedTagsPeriod(subject, user, data_ini='',data_end=''):
         data_ini='now-30d'
     if(data_end== ""):
         data_end='now'
-    
+    print(data_ini)
+    print(data_end)
     data = []
     searchs = []
     for tag in tags:
@@ -192,6 +193,8 @@ def getTagAccessess(subject, tag, user):
 
 def getTagAccessessPeriod(subject, tag, user,data_ini,data_end):
     resources = Resource.objects.filter(tags = tag, topic__subject = subject)
+    print(data_ini)
+    print(data_end)
     if(data_ini == ""):
         data_ini='now-30d'
     if(data_end== ""):

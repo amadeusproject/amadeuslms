@@ -328,7 +328,8 @@ function makeTagTable(data, nrows) {
   });
 }
 
-function cloud(url, dataIn, DataEnd) {
+function cloud(url, dataIn, dataEnd) {
+  d3.select("#cloudy_loading_ball").style("display", "show");
   const dimensions = document.getDimensions("#cloudy");
   let width =
     dimensions.w - 110;
@@ -337,7 +338,7 @@ function cloud(url, dataIn, DataEnd) {
   const height = (width * 1.1) / 2 > 360 ? 360 : width / 2 < 50 ? 50 : width / 2;
 
   
-  $.get(url,  data => {
+  $.get(url, { data_ini: dataIn, data_end: dataEnd }, data => {
     d3.select("#cloudy_loading_ball").style("display", "none");
 
     data = data.map(item => ({
@@ -435,8 +436,10 @@ function cloud(url, dataIn, DataEnd) {
   });
 }
 
-function view_toogle() {
-  if (cloudWord) cloudWord.view_toogle();
+function view_toogle($selector) {
+  
+  if (cloudWord)
+    cloudWord.view_toogle();
 }
 
 $(function() {

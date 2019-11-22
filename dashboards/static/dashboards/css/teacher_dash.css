@@ -44,6 +44,46 @@
 
 
 
+.table_resources .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 7px;
+  border-bottom: 2px solid #666;
+}
+
+
+.cloudy-title .selector{
+  float: center;
+  
+  
+  
+}
+
+
+.table_resources .resources_access_table th:not(:first-of-type) {
+  cursor: pointer;
+}
+
+.table_resources .resources_access_table th:last-of-type {
+  min-width: 85px;
+}
+
+.table_resources .resources_access_table .page-item {
+  border: 1px solid #ccc;
+  padding: 3px 7px;
+  cursor: pointer;
+}
+.table_resources .resources_access_table .page-item:hover {
+  color: #fff;
+  background: #009688;
+  border-color: #009688;
+}
+.table_resources .resources_access_table .page-item.active {
+  background: #009688;
+  color: #fff;
+  border-color: #009688;
+}
 
 
 .page-item {
