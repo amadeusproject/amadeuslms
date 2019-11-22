@@ -294,8 +294,10 @@ def tag_accessess(request, tag, subject, email):
     return JsonResponse(getTagAccessess(sub, tag, user), safe = False)
 
 def tag_accessess_period(request, tag, subject, email, data_ini, data_end):
-    data_ini = request.GET.get('data_ini', '')
-    data_end = request.GET.get('data_end', '')
+    if(data_ini==""):
+        data_ini = request.GET.get('data_ini', '')
+    if(data_end==""):
+        data_end = request.GET.get('data_end', '')
     sub = Subject.objects.get(slug = subject)
     tag = Tag.objects.get(id = tag)
     user = User.objects.get(email = email)
@@ -327,8 +329,10 @@ def cloudy_data_period(request, subject, email=None):
     if not data_end == '':
         data_end = parse_date(data_end) 
     sub = Subject.objects.get(slug = subject)
-    
-    user = User.objects.get(email = email)
+    if(email==None):
+        user=request.user
+    else:
+        user = User.objects.get(email = email)
     return JsonResponse(getAccessedTagsPeriod(sub, user, data_ini,data_end), safe = False)
 
    
@@ -336,7 +340,7 @@ def cloudy_data_period(request, subject, email=None):
 
 class SubjectTeacher(LogMixin, generic.TemplateView):
     template_name = "dashboards/teacher/index.html"
-
+    
     log_component = "subject"
     log_action = "view"
     log_resource = "analytics"
@@ -374,7 +378,7 @@ class SubjectTeacher(LogMixin, generic.TemplateView):
         self.log_context['subject_name'] = subject.name
         self.log_context['subject_slug'] = subject.slug
         
-        context["tags_cloud"] = reverse('dashboards:cloudy_data_period', args = (subject.slug, self.request.user.email,), kwargs = {})
+        
 
         context['style_files'] = ['dashboards/css/style.css','dashboards/css/general.css', 'dashboards/css/dashboards_category.css']
         super(SubjectTeacher, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
