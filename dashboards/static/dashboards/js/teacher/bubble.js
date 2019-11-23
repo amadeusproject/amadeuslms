@@ -486,7 +486,7 @@ function makeTable(data, nrows) {
 
         makeTable(data, nrows);
       } else {
-        data.sort((a, b) => (a.coun > b.count ? 1 : a.count < b.count ? -1 : 0)).reverse();
+        data.sort((a, b) => (a.count > b.count ? 1 : a.count < b.count ? -1 : 0)).reverse();
 
         makeTable(data, nrows);
       }
@@ -504,7 +504,7 @@ function makeTable(data, nrows) {
 
         makeTable(data, nrows);
       } else {
-        data.sort((a, b) => (a.coun > b.count ? 1 : a.count < b.count ? -1 : 0));
+        data.sort((a, b) => (a.count > b.count ? 1 : a.count < b.count ? -1 : 0));
 
         makeTable(data, nrows);
       }
