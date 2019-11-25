@@ -192,4 +192,645 @@ class HeatMap {
     a.chartConfig.interactions = d3.validEvents(a.chartConfig.interactions);
     return this;
   }
+
+  create() {
+    const a = this;
+
+    this.dataSetter();
+
+    this.svg = a.chartConfig.svg
+      ? d3.select(a.chartConfig.parent)
+      : d3
+          .select(a.chartConfig.parent)
+          .append("svg")
+          .attr("id", `${a.chartConfig.name}-container`);
+
+    if (!a.chartConfig.chart.calendar) {
+      this.calendar.svg =
+        a.chartConfig.calendar.svg && a.chartConfig.calendar.parent === undefined
+          ? this.svg
+          : a.chartConfig.calendar.parent !== undefined
+          ? d3.select(a.chartConfig.calendar.parent)
+          : d3
+              .select(a.chartConfig.calendar.parent)
+              .append("svg")
+              .attr("id", `${a.chartConfig.name}-calendar`);
+
+      this.createChart(this.calendar, this.chartConfig.calendar);
+    }
+
+    if (!a.chartConfig.chart.hour) {
+      this.hour.svg =
+        a.chartConfig.hour.svg && a.chartConfig.hour.parent === undefined
+          ? this.svg
+          : a.chartConfig.hour.parent !== undefined
+          ? d3.select(a.chartConfig.hour.parent)
+          : d3
+              .select(a.chartConfig.hour.parent)
+              .append("svg")
+              .attr("id", `${a.chartConfig.name}-hour`);
+
+      this.createChart(this.hour, this.chartConfig.hour);
+
+      this.hour.collapse = this.hour.rectsContent.append("g").attr("id", "collapse");
+      this.hour.collapse.append("path");
+      this.hour.collapse.append("rect").attr("opacity", 0);
+      this.hour.totalRects = this.hour.rectsContent
+        .selectAll(".week")
+        .data(a.hour.totalData)
+        .enter()
+        .append("g")
+        .attr("class", "week");
+      this.hour.totalRects.append("rect");
+
+      if (a.chartConfig.centerLabel !== undefined) {
+        this.hour.totalRects
+          .append("text")
+          .attr("class", "center")
+          .attr("text-anchor", "middle");
+      }
+
+      if (a.chartConfig.cornerLabel !== undefined) {
+        this.hour.totalRects
+          .append("text")
+          .attr("class", "corner")
+          .attr("dy", "1.1em")
+          .attr("dx", "0.2em");
+      }
+    }
+
+    this.toolTipConstruct();
+
+    return this;
+  }
+
+  createChart(chart, chartConfig) {
+    chart.g = chart.svg.append("g");
+
+    if (!chartConfig.axis.day.all) {
+      chart.dayAxis = chart.g.append("g");
+    }
+
+    chart.scrol = chart.g.append("g");
+    chart.backscrol = chart.scrol.append("rect");
+
+    if (!chartConfig.axis.vertical.all) {
+      chart.verticalAxis = chart.scrol.append("g");
+    }
+
+    chart.rectsContent = chart.scrol.append("g").attr("id", "rects");
+    chart.rects = chart.rectsContent
+      .selectAll(".month")
+      .data(chart.data)
+      .enter()
+      .append("g")
+      .attr("class", "month");
+    chart.rects.append("rect");
+
+    if (chartConfig.texts.center !== undefined) {
+      chart.rects
+        .append("text")
+        .attr("class", "center")
+        .attr("text-anchor", "middle");
+    }
+
+    if (chartConfig.texts.corner !== undefined) {
+      chart.rects
+        .append("text")
+        .attr("class", "corner")
+        .attr("dy", "1.1em")
+        .attr("dx", "0.2em");
+    }
+
+    chart.extTriangles = chart.g.append("g");
+    chart.extTriangles.append("path").attr("class", "up");
+    chart.extTriangles.append("path").attr("class", "down");
+  }
+
+  draw() {
+    const a = this;
+
+    this.titleConstruct();
+
+    this.width = a.chartConfig.dimensions.width;
+    this.height = a.chartConfig.dimensions.height;
+    this.calendar.margin = { top: 0, bottom: 0, left: 0, right: 0 };
+    this.hour.margin = JSON.copyObject(a.calendar.margin);
+    this.calendar.height = 0;
+    this.hour.height = 0;
+
+    if (!a.chartConfig.chart.calendar) {
+      this.calendar.domain = a.weekDomain();
+      this.calendar.margin = JSON.copyObject(a.chartConfig.calendar.margin);
+
+      const temp = String.adjustWidth("00/XXX", a.chartConfig.layout.font_size, a.width * 0.1);
+      this.font_size = Math.min(this.chartConfig.layout.font_size, temp);
+    }
+
+    if (!a.chartConfig.chart.hour) {
+      this.hour.domain = a.weekDomain(this.chartConfig.hour.model);
+      this.hour.margin = JSON.copyObject(a.chartConfig.hour.margin);
+
+      const temp = String.adjustWidth(
+        a.chartConfig.hour.model === 4 ? "00h-00h" : "00XX",
+        a.chartConfig.layout.font_size,
+        a.width * 0.1,
+      );
+      this.font_size = Math.min(this.chartConfig.layout.font_size, temp);
+    }
+
+    const desloc = a.chartConfig.title === undefined ? 0 : a.chartConfig.title.desloc;
+
+    if (!a.chartConfig.chart.calendar) {
+      this.calendar.margin.left = Math.max(
+        a.calendar.margin.left,
+        a.chartConfig.calendar.axis.vertical.all ? 0 : 11 + 3.0 * a.font_size,
+      );
+      this.calendar.margin.top = Math.max(
+        a.calendar.margin.top,
+        (a.chartConfig.calendar.axis.day.all ? 20 : 11 + 1.05 * a.font_size2) + desloc,
+      );
+      this.calendar.height = a.chartConfig.calendar.extrapolation;
+
+      if (a.calendar.domain.length < a.calendar.height) {
+        a.calendar.height = a.calendar.domain.length;
+      }
+    }
+
+    if (!a.chartConfig.chart.hour) {
+      this.hour.margin.left = Math.max(
+        a.hour.margin.left,
+        a.chartConfig.hour.axis.vertical.all ? 0 : 11 + 3.0 * a.font_size,
+      );
+      this.hour.margin.top = Math.max(
+        a.hour.margin.top,
+        a.chartConfig.hour.axis.day.all ? 20 : 11 + 1.05 * a.font_size + (a.chartConfig.chart.calendar ? desloc : 0),
+      );
+      this.hour.height = a.chartConfig.hour.extrapolation;
+
+      if (a.chartConfig.hour.model < a.hour.height) {
+        a.hour.height = a.chartConfig.hour.model;
+      }
+
+      this.hour.height++;
+    }
+
+    this.nVerticalRects = a.calendar.height + (a.calendar.height === 0 ? a.hour.height : a.hour.height / 1.5);
+    this.size =
+      a.chartConfig.dimensions.height -
+      a.calendar.margin.top -
+      a.calendar.margin.bottom -
+      a.hour.margin.top -
+      a.hour.margin.bottom;
+    this.size = a.size / a.nVerticalRects;
+
+    const tempSize =
+      (a.chartConfig.dimensions.width -
+        Math.max(a.calendar.margin.left, a.hour.margin.left) -
+        Math.max(a.calendar.margin.right, a.hour.margin.right)) /
+      7;
+    this.size = Math.min(this.size, tempSize);
+
+    a.width =
+      a.size * 7 +
+      Math.max(a.calendar.margin.left, a.hour.margin.left) +
+      Math.max(a.calendar.margin.right, a.hour.margin.right);
+    a.height =
+      a.size * this.nVerticalRects +
+      a.calendar.margin.top +
+      a.calendar.margin.bottom +
+      a.hour.margin.top +
+      a.hour.margin.bottom;
+
+    this.titleConstruct();
+
+    if (!a.chartConfig.chart.calendar) {
+      const temp = String.adjustWidth("00/XXX", a.chartConfig.layout.font_size, a.calendar.margin.left * 0.8);
+      this.font_size = Math.min(this.chartConfig.layout.font_size, temp);
+    }
+
+    if (!a.chartConfig.chart.hour) {
+      const temp = String.adjustWidth(
+        a.chartConfig.hour.model === 4 ? "00h-00h" : "00XX",
+        a.chartConfig.layout.font_size,
+        a.hour.margin.left * 0.8,
+      );
+      this.font_size = Math.min(this.chartConfig.layout.font_size, temp);
+    }
+
+    if (!a.chartConfig.chart.hour) {
+      this.calendar.size = this.size;
+      this.calendar.margin.top += -desloc + (a.chartConfig.title === undefined ? 0 : a.chartConfig.title.desloc);
+      this.calendar.verticalFunction = MyDate.weekVal;
+    }
+
+    if (!a.chartConfig.chart.hour) {
+      this.hour.size = this.size;
+
+      let temp = 0;
+
+      if (!a.chartConfig.chart.calendar) {
+        this.hour.size /= 1.5;
+        temp += this.calendar.margin.top + this.calendar.margin.bottom + this.size * a.calendar.height;
+      }
+
+      this.hour.margin.top +=
+        -(a.chartConfig.chart.calendar
+          ? desloc - (a.chartConfig.title === undefined ? 0 : a.chartConfig.title.desloc)
+          : 0) + temp;
+      this.hour.verticalFunction = MyDate.dayVal;
+    }
+
+    this.day = d3
+      .scaleBand()
+      .rangeRound([0, 7 * a.size])
+      .domain(MyDate.weekName())
+      .padding(a.chartConfig.layout.padding);
+    this.rCorner = (this.day.bandwidth() * a.chartConfig.layout.corner) / 2;
+
+    if (!a.chartConfig.chart.calendar) {
+      this.drawChart(a.calendar, a.chartConfig.calendar);
+    }
+
+    if (!a.chartConfig.chart.hour) {
+      this.drawChart(a.hour, a.chartConfig.hour);
+
+      const translatebefore = a.hour.g
+        .attr("transform")
+        .replace("translate(", "")
+        .replace(")", "")
+        .split(",");
+      a.hour.g.attr("transform", `translate(${translatebefore[0]}, ${parseFloat(translatebefore[1]) + a.size})`);
+
+      if (!a.chartConfig.hour.axis.day.all) {
+        a.hour.dayAxis.attr("transform", `translate(0, ${-a.size})`);
+      }
+
+      const max = d3.max(a.hour.totalData, d => d.value);
+      const min = d3.min(a.hour.totalData, d => d.value);
+      const den = max - min;
+
+      const color = value => (value === 0 ? 0 : 0.1 + (value - min) / den);
+
+      this.hour.totalRects
+        .attr("fill", d => ((d.value - min) / den > 0.8 ? "#fff" : "#000"))
+        .attr(
+          "transform",
+          (d, i) =>
+            `translate(${a.day(MyDate.weekName()[i])}, ${a.hour.vertical(a.hour.vertical.domain()[0]) - a.size})`,
+        );
+
+      this.hour.totalRects
+        .select("rect")
+        .attr("rx", a.rCorner)
+        .attr("ry", a.rCorner)
+        .attr("width", a.day.bandwidth())
+        .attr("height", a.day.bandwidth())
+        .attr("fill", d => a.chartConfig.layout.colors(color(d.value) + 0.1));
+
+      if (a.chartConfig.hour.texts.corner !== undefined) {
+        this.hour.totalRects
+          .select(".corner")
+          .attr("font-size", a.font_size * 0.5)
+          .text((d, i) => d3.textData(d, a.chartConfig.hour.texts.center));
+      }
+
+      if (a.chartConfig.hour.texts.center !== undefined) {
+        this.hour.totalRects
+          .select(".center")
+          .attr("font-size", a.font_size * 0.9)
+          .attr("dy", a.font_size * 0.2 + a.hour.vertical.bandwidth() / 2)
+          .attr("dx", a.hour.vertical.bandwidth() / 2)
+          .text((d, i) =>
+            String.adjustLength(
+              d3.textData(d, a.chartConfig.hour.texts.center),
+              a.font_size * 0.9,
+              a.hour.vertical.bandwidth(),
+              true,
+            ),
+          );
+      }
+
+      a.hour.hourShow = true;
+
+      const temp = a.hour.vertical(a.hour.domain[0]);
+
+      a.hour.collapse
+        .attr("transform", `translate(${-a.size}, ${-a.size + temp / 2})`)
+        .on("mouseover", d =>
+          d3
+            .select(this)
+            .select("path")
+            .attr("stroke-width", 2),
+        )
+        .on("mouseout", d =>
+          d3
+            .select(this)
+            .select("path")
+            .attr("stroke-width", 0),
+        )
+        .on("click", d => a.hourView())
+        .select("rect")
+        .attr("width", a.size * 8)
+        .attr("height", a.size);
+
+      this.hourView();
+
+      d3.select("body").on("keydown", event => {
+        if (a.calendar.on) {
+          if (d3.event.keyCode == 38) {
+            if (a.scrolMove(a.calendar.scrolposition - 1, a.calendar, a.chartConfig.calendar))
+              d3.event.preventDefault();
+          } else if (d3.event.keyCode == 40) {
+            if (a.scrolMove(a.calendar.scrolposition + 1, a.calendar, a.chartConfig.calendar))
+              d3.event.preventDefault();
+          } else if (d3.event.keyCode == 34 || d3.event.keyCode == 32) {
+            if (
+              a.scrolMove(
+                a.calendar.scrolposition + a.chartConfig.calendar.extrapolation,
+                a.calendar,
+                a.chartConfig.calendar,
+              )
+            )
+              d3.event.preventDefault();
+          } else if (d3.event.keyCode == 33) {
+            if (
+              a.scrolMove(
+                a.calendar.scrolposition - a.chartConfig.calendar.extrapolation,
+                a.calendar,
+                a.chartConfig.calendar,
+              )
+            )
+              d3.event.preventDefault();
+          } else if (d3.event.keyCode == 35) {
+            if (a.scrolMove(a.calendar.scrolMax, a.calendar, a.chartConfig.calendar)) d3.event.preventDefault();
+          } else if (d3.event.keyCode == 36) {
+            if (a.scrolMove(0, a.calendar, a.chartConfig.calendar)) d3.event.preventDefault();
+          }
+        }
+
+        if (a.hour.on) {
+          if (d3.event.keyCode == 38) {
+            if (a.scrolMove(a.hour.scrolposition - 1, a.hour, a.chartConfig.hour)) d3.event.preventDefault();
+          } else if (d3.event.keyCode == 40) {
+            if (a.scrolMove(a.hour.scrolposition + 1, a.hour, a.chartConfig.hour)) d3.event.preventDefault();
+          } else if (d3.event.keyCode == 34 || d3.event.keyCode == 32) {
+            if (a.scrolMove(a.hour.scrolposition + a.chartConfig.hour.extrapolation, a.hour, a.chartConfig.hour))
+              d3.event.preventDefault();
+          } else if (d3.event.keyCode == 33) {
+            if (a.scrolMove(a.hour.scrolposition - a.chartConfig.hour.extrapolation, a.hour, a.chartConfig.hour))
+              d3.event.preventDefault();
+          } else if (d3.event.keyCode == 35) {
+            if (a.scrolMove(a.hour.scrolMax, a.hour, a.chartConfig.hour)) d3.event.preventDefault();
+          } else if (d3.event.keyCode == 36) {
+            if (a.scrolMove(0, a.hour, a.chartConfig.hour)) d3.event.preventDefault();
+          }
+        }
+      });
+
+      return this;
+    }
+  }
+  drawChart(chart, chartConfig) {
+    const a = this;
+
+    chart.backscrol
+      .attr("fill", "#fff")
+      .attr("width", this.size * 7)
+      .attr("height", this.size * chart.height);
+
+    chart.verticalRange = [0, chart.domain.length * chart.size];
+    chart.vertical = d3
+      .scaleBand()
+      .rangeRound(chart.verticalRange)
+      .domain(chart.domain)
+      .padding(a.chartConfig.layout.padding);
+    chart.size2 = chart.vertical(chart.vertical.domain()[1]) - chart.vertical(chart.vertical.domain()[0]);
+
+    const max = d3.max(chart.data, d => d.value);
+    const min = d3.min(chart.data, d => d.value);
+    const den = max - min;
+    const color = value => (value === 0 ? 0 : 0.1 + (value - min) / den);
+
+    chart.rects
+      .transition()
+      .duration(200)
+      .attr("opacity", 0);
+
+    if (!this.chartConfig.svg) {
+      chart.svg.attr("width", a.width).attr("height", a.height);
+    }
+
+    chart.g.attr("transform", `translate(${chart.margin.left}, ${chart.margin.top})`);
+
+    if (!chartConfig.axis.vertical.all) {
+      chart.verticalAxis
+        .transition()
+        .transition(500)
+        .call(d3.axisLeft(chart.vertical))
+        .attr("font-size", a.font_size);
+
+      if (!chartConfig.axis.vertical.lines) {
+        chart.verticalAxis
+          .selectAll("line")
+          .transition()
+          .remove();
+        chart.verticalAxis
+          .select("path")
+          .transition()
+          .remove();
+      }
+    }
+
+    chart.rects.attr(
+      "transform",
+      (d, i) =>
+        `translate(${a.day(MyDate.weekName()[d.dayOfWeek])}, ${chart.vertical(
+          chart.verticalFunction(chart.domain, d),
+        )})`,
+    );
+
+    chart.rects
+      .attr("fill", d => ((d.value - min) / den > 0.8 ? "#fff" : "#000"))
+      .select("rect")
+      .attr("rx", a.rCorner)
+      .attr("ry", a.rCorner)
+      .attr("width", a.day.bandwidth())
+      .attr("height", chart.vertical.bandwidth())
+      .attr("fill", d => chartConfig.colors(color(d.value) + 0.1));
+
+    if (a.chartConfig.cornerLabel !== undefined) {
+      chart.rects
+        .select(".corner")
+        .attr("font-size", a.font_size * 0.5)
+        .text((d, i) => d3.textData(d, a.chartConfig.cornerLabel.text));
+    }
+
+    if (a.chartConfig.centerLabel !== undefined) {
+      chart.rects
+        .select(".center")
+        .attr("font-size", a.font_size * 0.9)
+        .attr("dy", a.font_size * 0.3 + chart.vertical.bandwidth() / 2)
+        .attr("dx", chart.vertical.bandwidth() / 2)
+        .text((d, i) =>
+          String.adjustLength(
+            d3.textData(d, a.chartConfig.centerLabel.text),
+            a.font_size * 0.9,
+            chart.vertical.bandwidth(),
+            true,
+          ),
+        );
+    }
+
+    if (chart.domain.length > chartConfig.extrapolation) {
+      chart.extrapolation = true;
+
+      const location = chartConfig.extrapolation * chart.size2;
+      const location2 = (chartConfig.extrapolation + 1) * chart.size;
+
+      chart.rects
+        .transition()
+        .delay(500)
+        .duration(500)
+        .attr("opacity", d => {
+          if (chart.vertical(chart.verticalFunction(chart.domain, d)) > location) {
+            return 0;
+          }
+
+          return 1;
+        })
+        .attr("transform", d => {
+          const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
+
+          if (temp > location2 || temp < -2 * chart.vertical.bandwidth()) {
+            return `translate(${-3 * a.day.bandwidth()}, ${chart.vertical(chart.verticalFunction(chart.domain, d))})`;
+          }
+
+          return `translate(${a.day(MyDate.weekName()[d.dayOfWeek])}, ${chart.vertical(
+            chart.verticalFunction(chart.domain, d),
+          )})`;
+        });
+
+      if (!chartConfig.axis.vertical.all) {
+        chart.verticalTiks = chart.verticalAxis.selectAll(".tick");
+        chart.verticalTiks
+          .transition()
+          .delay(500)
+          .duration(500)
+          .attr("opacity", d => {
+            if (chart.vertical(chart.verticalFunction(chart.domain, d)) > location) {
+              return 0;
+            }
+
+            return 1;
+          })
+          .attr("transform", d => {
+            const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
+
+            if (temp > location2 || temp < -2 * chart.vertical.bandwidth()) {
+              return `translate(${-2 * a.day.bandwidth()}, ${chart.vertical(chart.verticalFunction(chart.domain, d)) +
+                chart.vertical.bandwidth() / 2})`;
+            }
+
+            return `translate(0, ${chart.vertical(chart.verticalFunction(chart.domain, d)) +
+              chart.vertical.bandwidth() / 2})`;
+          });
+      }
+
+      this.scrolEvents(chart, chartConfig);
+    } else {
+      chart.rects
+        .transition()
+        .delay(500)
+        .duration(500)
+        .attr("opacity", 1);
+    }
+  }
+
+  scrolEvents(chart, chartConfig) {
+    const a = this;
+
+    chart.extTriangles.attr(
+      "transform",
+      `translate(${-chart.margin.left / 2}, ${chart.vertical(chart.vertical.domain()[0])})`,
+    );
+
+    const y = chart.vertical(chart.domain[0]) + chartConfig.extrapolation * chart.size2 - 0.25 * chart.size2;
+    const yu = chart.vertical(chart.vertical.domain()[0]) - chart.size2 * 0.25;
+
+    const seta = position => {
+      let ret = [];
+
+      if (position === 1) {
+        ret = [
+          { x: 0, y: y + 0.25 * chart.size2 },
+          { x: -a.size / 3, y: y },
+          { x: a.size / 3, y: y },
+        ];
+      } else {
+        ret = [
+          { x: 0, y: yu - 0.25 * chart.size2 },
+          { x: -a.size / 3, y: yu },
+          { x: a.size / 3, y: yu },
+        ];
+      }
+    };
+
+    const lineFunction = d3
+      .line()
+      .x(d => d.x)
+      .y(d => d.y)
+      .curve(d3.curveLinearClosed);
+
+    chart.extTriangles
+      .select(".up")
+      .attr("opacity", 0)
+      .attr("d", lineFunction(seta(0)))
+      .attr("stroke", chartConfig.colors(0.5))
+      .attr("stroke-width", 2)
+      .attr("fill", chartConfig.colors(0.5));
+
+    chart.extTriangles
+      .select(".down")
+      .attr("opacity", 0)
+      .attr("d", lineFunction(seta(1)))
+      .attr("stroke", chartConfig.colors(0.5))
+      .attr("stroke-width", 2)
+      .attr("fill", chartConfig.colors(0.5));
+
+    char.extTriangles
+      .select(".down")
+      .transition()
+      .duration(500)
+      .attr("opacity", 1);
+
+    chart.scrolposition = 0;
+    chart.scrolMax = chart.domain.length - chartConfig.extrapolation;
+
+    const build = d => {
+      if (d3.event.sourceEvent === undefined || d3.event.sourceEvent.deltaY === undefined) return;
+
+      const param = d3.event.sourceEvent.deltaY > 0 ? 1 : -1;
+
+      a.scrolMove(chart.scrolposition + param, chart, chartConfig);
+    };
+
+    const zoom = d3.zoom().on("zoom", build);
+
+    chart.scrol.call(zoom);
+
+    chart.on = false;
+    chart.g.on("mouseover", d => (chart.on = true));
+    chart.g.on("mouseout", d => (chart.on = false));
+
+    chart.extTriangles.selectAll("path").on("click", d => {
+      const element = d3.select(this);
+
+      if (element.attr("class") === "up") {
+        a.scrolMove(chart.scrolposition - 1, chart, chartConfig);
+      } else if (element.attr("class") === "down") {
+        a.scrolMove(chart.scrolposition + 1, chart, chartConfig);
+      }
+    });
+  }
 }
