@@ -366,7 +366,7 @@ class BubbleChart {
 $(function() {
   const dataUrl = $(".bubble_users").data("url");
 
-  loadData(dataUrl, "", "");
+  bubbleData(dataUrl, "", "");
 });
 
 function makeTable(data, nrows) {
@@ -512,7 +512,7 @@ function makeTable(data, nrows) {
   });
 }
 
-function loadData(url, dataIni, dataEnd) {
+function bubbleData(url, dataIni, dataEnd) {
   $.get(url, { data_ini: dataIni, data_end: dataEnd }, dataset => {
     dataset = dataset.map(d => {
       d.value = d.count;

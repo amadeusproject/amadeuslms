@@ -41,3 +41,8 @@
   color: #fff;
   border-color: #009688;
 }
+
+.heatmap .header {
+  border-bottom: 2px solid #666;
+  margin-bottom: 10px;
+}

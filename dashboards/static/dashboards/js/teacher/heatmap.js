@@ -14,10 +14,14 @@ let calendarCount = 0;
 
 class HeatMap {
   constructor(chartConfig) {
-    this.validData(chartConfig)
-      .create()
-      .draw()
-      .addInteractions();
+    if (chartConfig.data === undefined || chartConfig.data.length === 0) {
+      this.validData(chartConfig).empty();
+    } else {
+      this.validData(chartConfig)
+        .create()
+        .draw()
+        .addInteractions();
+    }
   }
 
   validData(chartConfig) {
@@ -87,7 +91,7 @@ class HeatMap {
       if (a.chartConfig.calendar.extrapolation === undefined)
         a.chartConfig.calendar.extrapolation = a.chartConfig.layout.extrapolation;
       if (a.chartConfig.calendar.extrapolation < 1) a.chartConfig.calendar.extrapolation = 1;
-      if (a.chartConfig.calendar.axis === undefined) a.chartConfig.axis = {};
+      if (a.chartConfig.calendar.axis === undefined) a.chartConfig.calendar.axis = {};
       if (a.chartConfig.calendar.axis.vertical === undefined) a.chartConfig.calendar.axis.vertical = {};
       if (a.chartConfig.calendar.axis.day === undefined) a.chartConfig.calendar.axis.day = {};
       if (a.chartConfig.calendar.colors === undefined) a.chartConfig.calendar.colors = a.chartConfig.layout.colors;
@@ -122,13 +126,13 @@ class HeatMap {
         a.chartConfig.hour.margin.left = a.chartConfig.layout.margin.left;
 
       if (a.chartConfig.hour.extrapolation === undefined)
-        a.chartConfig.hour.extrapolation = a.chartConfig.hour.extrapolation;
+        a.chartConfig.hour.extrapolation = a.chartConfig.layout.extrapolation;
 
       a.chartConfig.hour.extrapolation--;
 
       if (a.chartConfig.hour.extrapolation < 1) a.chartConfig.hour.extrapolation = 1;
       if (a.chartConfig.hour.axis === undefined) a.chartConfig.hour.axis = {};
-      if (a.chartConfig.hour.axis.vertical === undefined) a.chartConfig.hour.vertical = {};
+      if (a.chartConfig.hour.axis.vertical === undefined) a.chartConfig.hour.axis.vertical = {};
       if (a.chartConfig.hour.axis.day === undefined) a.chartConfig.hour.axis.day = {};
       if (a.chartConfig.hour.colors === undefined) a.chartConfig.hour.colors = d3.interpolateGreys;
       if (a.chartConfig.hour.texts === undefined) a.chartConfig.hour.texts = {};
@@ -191,6 +195,34 @@ class HeatMap {
 
     a.chartConfig.interactions = d3.validEvents(a.chartConfig.interactions);
     return this;
+  }
+
+  empty() {
+    const a = this;
+
+    this.svg = a.chartConfig.svg
+      ? d3.select(a.chartConfig.parent)
+      : d3
+          .select(a.chartConfig.parent)
+          .append("svg")
+          .attr("id", `${a.chartConfig.name}-container`);
+
+    this.svg
+      .append("rect")
+      .attr("width", "100%")
+      .attr("fill", "#fff");
+    this.svg
+      .append("text")
+      .attr("x", "20%")
+      .attr("y", "50%")
+      .attr("dy", "0em")
+      .text("Para período selecionado não houve");
+    this.svg
+      .append("text")
+      .attr("x", "20%")
+      .attr("y", "50%")
+      .attr("dy", "1em")
+      .text("registro de acesso dos participantes");
   }
 
   create() {
@@ -348,8 +380,9 @@ class HeatMap {
       );
       this.calendar.margin.top = Math.max(
         a.calendar.margin.top,
-        (a.chartConfig.calendar.axis.day.all ? 20 : 11 + 1.05 * a.font_size2) + desloc,
+        (a.chartConfig.calendar.axis.day.all ? 20 : 11 + 1.05 * a.font_size) + desloc,
       );
+
       this.calendar.height = a.chartConfig.calendar.extrapolation;
 
       if (a.calendar.domain.length < a.calendar.height) {
@@ -366,6 +399,7 @@ class HeatMap {
         a.hour.margin.top,
         a.chartConfig.hour.axis.day.all ? 20 : 11 + 1.05 * a.font_size + (a.chartConfig.chart.calendar ? desloc : 0),
       );
+
       this.hour.height = a.chartConfig.hour.extrapolation;
 
       if (a.chartConfig.hour.model < a.hour.height) {
@@ -376,12 +410,14 @@ class HeatMap {
     }
 
     this.nVerticalRects = a.calendar.height + (a.calendar.height === 0 ? a.hour.height : a.hour.height / 1.5);
+
     this.size =
       a.chartConfig.dimensions.height -
       a.calendar.margin.top -
       a.calendar.margin.bottom -
       a.hour.margin.top -
       a.hour.margin.bottom;
+
     this.size = a.size / a.nVerticalRects;
 
     const tempSize =
@@ -389,12 +425,14 @@ class HeatMap {
         Math.max(a.calendar.margin.left, a.hour.margin.left) -
         Math.max(a.calendar.margin.right, a.hour.margin.right)) /
       7;
+
     this.size = Math.min(this.size, tempSize);
 
     a.width =
       a.size * 7 +
       Math.max(a.calendar.margin.left, a.hour.margin.left) +
       Math.max(a.calendar.margin.right, a.hour.margin.right);
+
     a.height =
       a.size * this.nVerticalRects +
       a.calendar.margin.top +
@@ -517,19 +555,19 @@ class HeatMap {
 
       a.hour.collapse
         .attr("transform", `translate(${-a.size}, ${-a.size + temp / 2})`)
-        .on("mouseover", d =>
-          d3
-            .select(this)
+        .on("mouseover", function(d) {
+          d3.select(this)
             .select("path")
-            .attr("stroke-width", 2),
-        )
-        .on("mouseout", d =>
-          d3
-            .select(this)
+            .attr("stroke-width", 2);
+        })
+        .on("mouseout", function(d) {
+          d3.select(this)
             .select("path")
-            .attr("stroke-width", 0),
-        )
-        .on("click", d => a.hourView())
+            .attr("stroke-width", 0);
+        })
+        .on("click", function(d) {
+          a.hourView();
+        })
         .select("rect")
         .attr("width", a.size * 8)
         .attr("height", a.size);
@@ -591,6 +629,7 @@ class HeatMap {
       return this;
     }
   }
+
   drawChart(chart, chartConfig) {
     const a = this;
 
@@ -636,6 +675,32 @@ class HeatMap {
           .transition()
           .remove();
         chart.verticalAxis
+          .select("path")
+          .transition()
+          .remove();
+      }
+    }
+
+    if (!chartConfig.axis.day.all) {
+      chart.dayAxis
+        .transition()
+        .transition(500)
+        .call(d3.axisTop(a.day))
+        .attr("font-size", a.chartConfig.layout.font_size2);
+      chart.dayAxis
+        .selectAll("text")
+        .attr("y", 0)
+        .transition()
+        .text((d, i) =>
+          String.adjustLength(MyDate.weekName()[i], a.chartConfig.layout.font_size2, chart.vertical.bandwidth()),
+        );
+
+      if (!chartConfig.axis.day.lines) {
+        chart.dayAxis
+          .selectAll("line")
+          .transition()
+          .remove();
+        chart.dayAxis
           .select("path")
           .transition()
           .remove();
@@ -758,7 +823,7 @@ class HeatMap {
     const y = chart.vertical(chart.domain[0]) + chartConfig.extrapolation * chart.size2 - 0.25 * chart.size2;
     const yu = chart.vertical(chart.vertical.domain()[0]) - chart.size2 * 0.25;
 
-    const seta = position => {
+    const seta = function(position) {
       let ret = [];
 
       if (position === 1) {
@@ -774,6 +839,8 @@ class HeatMap {
           { x: a.size / 3, y: yu },
         ];
       }
+
+      return ret;
     };
 
     const lineFunction = d3
@@ -798,7 +865,7 @@ class HeatMap {
       .attr("stroke-width", 2)
       .attr("fill", chartConfig.colors(0.5));
 
-    char.extTriangles
+    chart.extTriangles
       .select(".down")
       .transition()
       .duration(500)
@@ -807,7 +874,7 @@ class HeatMap {
     chart.scrolposition = 0;
     chart.scrolMax = chart.domain.length - chartConfig.extrapolation;
 
-    const build = d => {
+    const build = function(d) {
       if (d3.event.sourceEvent === undefined || d3.event.sourceEvent.deltaY === undefined) return;
 
       const param = d3.event.sourceEvent.deltaY > 0 ? 1 : -1;
@@ -833,4 +900,565 @@ class HeatMap {
       }
     });
   }
+
+  scrolMove(position, chart, chartConfig) {
+    const a = this;
+
+    if (chart.extrapolation) {
+      if (chart.scrolposition === position) {
+        return false;
+      }
+
+      chart.scrolposition = position;
+      chart.scrolposition = chart.scrolposition > chart.scrolMax ? chart.scrolMax : chart.scrolposition;
+      chart.scrolposition = chart.scrolposition < 0 ? 0 : chart.scrolposition;
+
+      const location = chartConfig.extrapolation * chart.size2;
+      const location2 = (chartConfig.extrapolation + 1) * chart.size;
+
+      chart.extTriangles.select(".up").attr("opacity", chart.scrolposition === 0 ? 0 : 1);
+      chart.extTriangles.select(".down").attr("opacity", chart.scrolposition === chart.scrolMax ? 0 : 1);
+
+      chart.rects.attr(
+        "transform",
+        d =>
+          `translate(${a.day(MyDate.weekName()[d.dayOfWeek])}, ${chart.vertical(
+            chart.verticalFunction(chart.domain, d),
+          )})`,
+      );
+
+      if (!chartConfig.axis.vertical.all) {
+        chart.verticalAxis.selectAll(".tick").attr("transform", d => {
+          const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
+
+          if (temp > location2 || temp < -2 * chart.vertical.bandwidth()) {
+            return `translate(${-2 * a.day.bandwidth()}, ${chart.vertical(chart.verticalFunction(chart.domain, d)) +
+              chart.vertical.bandwidth() / 2})`;
+          }
+
+          return `translate(0, ${chart.vertical(chart.verticalFunction(chart.domain, d)) +
+            chart.vertical.bandwidth() / 2})`;
+        });
+      }
+
+      chart.vertical.rangeRound(chart.verticalRange.map(d => d - chart.scrolposition * chart.size2));
+
+      if (!chartConfig.axis.vertical.all) {
+        chart.verticalAxis
+          .transition()
+          .duration(500)
+          .call(d3.axisLeft(chart.vertical))
+          .attr("font-size", a.font_size)
+          .selectAll(".tick")
+          .attr("opacity", d => {
+            const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
+
+            if (temp > location || temp < 0) {
+              return 0;
+            }
+
+            return 1;
+          })
+          .attr("transform", d => {
+            const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
+
+            if (temp > location2 || temp < -2 * chart.vertical.bandwidth()) {
+              return `translate(${-2 * a.ay.bandwidth()}, ${chart.vertical(chart.verticalFunction(chart.domain, d)) +
+                chart.vertical.bandwidth() / 2})`;
+            }
+
+            return `translate(0, ${chart.vertical(chart.verticalFunction(chart.domain, d)) +
+              chart.vertical.bandwidth() / 2})`;
+          });
+
+        if (!chartConfig.axis.vertical.lines) {
+          chart.verticalAxis.selectAll("line").remove();
+          chart.verticalAxis.select("path").remove();
+        }
+      }
+
+      chart.rects
+        .transition()
+        .duration(500)
+        .attr(
+          "transform",
+          (d, i) =>
+            `translate(${a.day(MyDate.weekName()[d.dayOfWeek])}, ${chart.vertical(
+              chart.verticalFunction(chart.domain, d),
+            )}`,
+        )
+        .attr("opacity", d => {
+          const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
+
+          if (temp > location || temp < 0) {
+            return 0;
+          }
+
+          return 1;
+        });
+
+      chart.rects
+        .transition()
+        .delay(550)
+        .attr("transform", d => {
+          const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
+
+          if (temp > location2 || temp < -2 * chart.vertical.bandwidth()) {
+            return `translate(${-3 * a.day.bandwidth()}, ${chart.vertical(chart.verticalFunction(chart.domain, d))})`;
+          }
+
+          return `translate(${a.day(MyDate.weekName()[d.dayOfWeek])}, ${chart.vertical(
+            chart.verticalFunction(chart.domain, d),
+          )})`;
+        });
+
+      return true;
+    }
+
+    return false;
+  }
+
+  hourView() {
+    const a = this;
+
+    if (!a.chartConfig.chart.hour) {
+      const icon = function(position) {
+        let ret = [];
+
+        if (position) {
+          ret = d3.path.icons.arrow_down(a.size * 0.4);
+        } else {
+          ret = d3.path.icons.arrow_right(a.size * 0.4);
+        }
+
+        return ret;
+      };
+
+      const lineFunction = d3.path.lineFunction(d3.curveLinearClosed);
+
+      if (a.hour.hourShow) {
+        a.hour.rects
+          .transition()
+          .delay(0)
+          .duration(500)
+          .attr(
+            "transform",
+            d =>
+              `translate(${a.day(MyDate.weekName()[d.dayOfWeek])}, ${a.hour.vertical(
+                a.hour.vertical.domain()[a.hour.scrolposition ? a.hour.scrolposition : 0],
+              ) - a.hour.size2})`,
+          )
+          .attr("opacity", 0);
+
+        if (!a.chartConfig.hour.axis.vertical.all) {
+          a.hour.verticalAxis
+            .selectAll(".tick")
+            .transition()
+            .delay(0)
+            .duration(500)
+            .attr(
+              "transform",
+              d =>
+                `translate(0, ${a.hour.vertical(
+                  a.hour.vertical.domain()[a.hour.scrolposition ? a.hour.scrolposition : 0],
+                ) -
+                  a.hour.size2 / 2})`,
+            )
+            .attr("opacity", 0);
+        }
+
+        if (a.hour.extrapolation) {
+          a.hour.extTriangles
+            .selectAll("path")
+            .transition()
+            .delay(0)
+            .duration(500)
+            .attr("opacity", 0);
+        }
+      } else {
+        const location = a.chartConfig.hour.extrapolation * a.hour.size2;
+        const location2 = (a.chartConfig.hour.extrapolation + 1) * a.hour.size;
+
+        a.hour.rects
+          .transition()
+          .transition(500)
+          .attr(
+            "transform",
+            (d, i) =>
+              `translate(${a.day(MyDate.weekName()[d.dayOfWeek])}, ${a.hour.vertical(
+                a.hour.verticalFunction(a.hour.domain, d),
+              )})`,
+          )
+          .attr("opacity", d => {
+            const temp = a.hour.vertical(a.hour.verticalFunction(a.hour.domain, d));
+
+            if (temp > location || temp < 0) {
+              return 0;
+            }
+
+            return 1;
+          });
+
+        if (!a.chartConfig.hour.axis.vertical.all) {
+          a.hour.verticalAxis
+            .selectAll(".tick")
+            .transition()
+            .duration(500)
+            .attr("opacity", d => {
+              const temp = a.hour.vertical(a.hour.verticalFunction(a.hour.domain, d));
+
+              if (temp > location || temp < 0) {
+                return 0;
+              }
+
+              return 1;
+            })
+            .attr("transform", d => {
+              const temp = a.hour.vertical(a.hour.verticalFunction(a.hour.domain, d));
+
+              if (temp > location2 || temp < -2 * a.hour.vertical.bandwidth()) {
+                return `translate(${-2 * a.day.bandwidth()}, ${a.hour.vertical(
+                  a.hour.verticalFunction(a.hour.domain, d),
+                ) +
+                  a.hour.vertical.bandwidth() / 2})`;
+              }
+
+              return `translate(0, ${a.hour.vertical(a.hour.verticalFunction(a.hour.domain, d)) +
+                a.hour.vertical.bandwidth() / 2})`;
+            });
+        }
+
+        if (a.hour.extrapolation) {
+          a.hour.extTriangles.select(".down").attr("opacity", a.hour.scrolposition === a.hour.scrolMax ? 0 : 1);
+        }
+      }
+
+      a.hour.hourShow = !a.hour.hourShow;
+      a.hour.collapse
+        .select("path")
+        .transition()
+        .duration(500)
+        .attr("d", lineFunction(icon(a.hour.hourShow)))
+        .attr("transform", `translate(${a.day(a.day.domain()[0]) + a.day.bandwidth() * 0.5}, ${a.size * 0.3})`);
+    }
+  }
+
+  dataSetter() {
+    const a = this;
+
+    a.data = a.chartConfig.data;
+    a.data = a.data.map(d => {
+      d.year = $(d).attr(a.chartConfig.dataConfig.year);
+      d.month = $(d).attr(a.chartConfig.dataConfig.month);
+      d.day = $(d).attr(a.chartConfig.dataConfig.day);
+      d.hour = $(d).attr(a.chartConfig.dataConfig.hour);
+      d.value = $(d).attr(a.chartConfig.dataConfig.value);
+      d.dayOfWeek = MyDate.dayOfWeek(d);
+
+      return d;
+    });
+
+    this.chartConfig.data = a.data.sort(MyDate.greatThan);
+
+    if (!a.chartConfig.chart.hour) {
+      a.hour.totalData = [];
+
+      for (let i = 0; i < 7; i++) {
+        a.hour.totalData[i] = {};
+        a.hour.totalData[i].value = 0;
+        a.hour.totalData[i].dayOfWeek = i;
+
+        this.hour.totalData[i].toString = function() {
+          return MyDate.weekName(this.dayOfWeek);
+        };
+      }
+
+      this.hour.data = [];
+      const model = a.chartConfig.hour.model === 4 ? 4 : 24;
+
+      for (let i = 0; i < 7 * model; i++) {
+        this.hour.data[i] = {};
+        this.hour.data[i].value = 0;
+        this.hour.data[i].dayOfWeek = parseInt(i / model);
+
+        if (model === 4) {
+          this.hour.data[i].hour = (i % 4) * 6;
+          this.hour.data[i].hour = `${this.hour.data[i].hour < 10 ? "0" : ""}${this.hour.data[i].hour}h-${
+            this.hour.data[i].hour + 6 < 10 ? "0" : ""
+          }${this.hour.data[i].hour + 6}h`;
+        } else {
+          this.hour.data[i].hour = i % model;
+        }
+
+        this.hour.data[i].toString = function() {
+          return `${MyDate.weekName(this.dayOfWeek)},${MyDate.dayVal(MyDate.hourNames(undefined, model), this)}`;
+        };
+      }
+
+      for (let i = 0; i < a.data.length; i++) {
+        a.hour.totalData[a.data[i].dayOfWeek].value += a.data[i].value;
+
+        if (a.chartConfig.hour.model === 4) {
+          this.hour.data[a.data[i].dayOfWeek * 4 + parseInt(a.data[i].hour / 6)].value += a.data[i].value;
+        } else {
+          this.hour.data[a.data[i].dayOfWeek * 24 + a.data[i].hour].value += a.data[i].value;
+        }
+      }
+    }
+
+    if (!a.chartConfig.chart.calendar) {
+      if (a.chartConfig.dataConfig.init === undefined) {
+        a.chartConfig.dataConfig.init = {};
+      }
+      if (a.chartConfig.dataConfig.init.year === undefined) {
+        a.chartConfig.dataConfig.init.year = a.data[0].year;
+      }
+      if (a.chartConfig.dataConfig.init.month === undefined) {
+        a.chartConfig.dataConfig.init.month = a.data[0].month;
+      }
+      if (a.chartConfig.dataConfig.init.day === undefined) {
+        a.chartConfig.dataConfig.init.day = a.data[0].day;
+      }
+
+      if (a.chartConfig.dataConfig.end === undefined) {
+        a.chartConfig.dataConfig.end = {};
+      }
+      if (a.chartConfig.dataConfig.end.year === undefined) {
+        a.chartConfig.dataConfig.end.year = a.data[a.data.length - 1].year;
+      }
+      if (a.chartConfig.dataConfig.end.month === undefined) {
+        a.chartConfig.dataConfig.end.month = a.data[a.data.length - 1].month;
+      }
+      if (a.chartConfig.dataConfig.end.day === undefined) {
+        a.chartConfig.dataConfig.end.day = a.data[a.data.length - 1].day;
+      }
+
+      a.chartConfig.dataConfig.init = new MyDate(
+        a.chartConfig.dataConfig.init.year,
+        a.chartConfig.dataConfig.init.month,
+        a.chartConfig.dataConfig.init.day,
+      );
+
+      a.chartConfig.dataConfig.end = new MyDate(
+        a.chartConfig.dataConfig.end.year,
+        a.chartConfig.dataConfig.end.month,
+        a.chartConfig.dataConfig.end.day,
+      );
+
+      this.calendar.data = [];
+
+      const start = a.chartConfig.dataConfig.init;
+      const end = a.chartConfig.dataConfig.end;
+
+      const years = end.year - start.year + 1;
+      const months = 12 * (years - 1) + end.month - start.month + 1;
+      let j = new MyDate(0, 0, 0, 0, 0);
+      let offset = new MyDate(0, 1, 0, 0, 0);
+      let days = [];
+      let indexData = 0;
+      let i = 0;
+
+      for (i, j = MyDate.sum(j, start); i < months; i++, j = MyDate.sum(j, offset)) {
+        if (i === 0) {
+          days[i] = MyDate.nDays(j) - start.day + 1;
+          j.day = start.day;
+        } else if (i === months - 1) {
+          days[i] = end.day;
+          j.day = 1;
+        } else {
+          days[i] = MyDate.nDays(j);
+          j.day = 1;
+        }
+
+        let ofset = new MyDate(0, 0, 1, 0, 0);
+        let k = 0;
+
+        for (j.value = 0; k < days[i]; k++) {
+          j.dayOfWeek = MyDate.dayOfWeek(j);
+
+          while (a.data[indexData] && MyDate.greatThan(a.data[indexData], j, true) === 0) {
+            j.value += a.data[indexData].value;
+            indexData++;
+          }
+
+          this.calendar.data.push(new MyDate(j.year, j.month, j.day, undefined, j.value, j.dayOfWeek));
+
+          if (k !== days[i] - 1) {
+            j = MyDate.sum(j, ofset);
+          } else {
+            j.day = 1;
+          }
+        }
+      }
+    }
+
+    return this;
+  }
+
+  resize(width, height) {
+    if (width !== undefined) {
+      this.chartConfig.dimensions.width = width;
+    }
+
+    if (height !== undefined) {
+      this.chartConfig.dimensions.height = height;
+    }
+
+    return this.draw();
+  }
+
+  weekDomain(model) {
+    switch (model) {
+      case 4:
+      case 12:
+      case 24:
+        return MyDate.hourNames(undefined, model);
+      default:
+        const a = this;
+
+        const start = a.calendar.data[0];
+        const end = a.calendar.data[a.calendar.data.length - 1];
+        const domain = [new MyDate(start.year, start.month, start.day - start.dayOfWeek)];
+
+        while (MyDate.greatThan(domain[domain.length - 1], end) === -1) {
+          domain.push(MyDate.sum(domain[domain.length - 1], { day: 7 }));
+        }
+
+        domain.pop();
+
+        return domain;
+    }
+  }
+
+  titleConstruct() {
+    const a = this;
+    const b = JSON.copyObject(a.chartConfig.dataConfig);
+
+    b.init.month = MyDate.monthName(b.init.month);
+    b.end.month = MyDate.monthName(b.end.month);
+
+    if (a.chartConfig.title !== undefined) {
+      if (this.titleElement === undefined) {
+        this.titleElement = this.svg
+          .append("text")
+          .attr("id", `titleElement_${this.chartConfig.name}`)
+          .style("font-size", a.chartConfig.title.font.size)
+          .style("font-family", a.chartConfig.title.font.name)
+          .attr("fill", "#fff")
+          .text(() => d3.textData(a.chartConfig.dataConfig, a.chartConfig.title.text));
+      }
+
+      this.titleElement.style(
+        "font-size",
+        String.adjustWidth(this.titleElement.text(), a.chartConfig.title.font.size, a.width),
+      );
+
+      a.chartConfig.title.position.dy = parseInt(this.titleElement.style("font-size").replace("px", "")) / 3;
+
+      const labelDim = document.getDimensions(`#titleElement_${this.chartConfig.name}`);
+
+      this.titleElement.attr("transform", () => {
+        if (a.chartConfig.title.position.align === "middle") {
+          return `translate(${a.width / 2 - labelDim.w / 2}, ${(2 * labelDim.h) / 3})`;
+        } else if (a.chartConfig.title.position.align === "end") {
+          return `translate(${a.width - labelDim.w}, ${(2 * labelDim.h) / 3})`;
+        } else {
+          return `translate(4, ${(2 * labelDim.h) / 3})`;
+        }
+      });
+
+      const titleD = document.getDimensions(`#titleElement_${this.chartConfig.name}`);
+
+      a.chartConfig.title.desloc = titleD.h;
+    }
+
+    return this;
+  }
+
+  toolTipConstruct() {
+    const a = this;
+
+    if (this.chartConfig.tooltip !== undefined) {
+      this.toolTip = new ToolTip(this.chartConfig.tooltip);
+
+      a.chartConfig.interactions.mouseover.push((element, data) => {
+        element = d3.select(element);
+
+        if (element.attr("opacity") !== 0) {
+          a.toolTip.show(data);
+        }
+      });
+
+      a.chartConfig.interactions.mousemove.push((element, data) => a.toolTip.move());
+      a.chartConfig.interactions.mouseout.push((element, data) => a.toolTip.hide());
+    }
+
+    return this;
+  }
+
+  addInteractions() {
+    const a = this;
+
+    a.chartConfig.interactions.mouseover.push((element, data) => {
+      const currentEl = d3.select(element).select("rect");
+
+      currentEl.attr("opacity", 0.8);
+      currentEl.attr("stroke-width", "3").attr("stroke", a.chartConfig.layout.colors(0.5));
+    });
+
+    a.chartConfig.interactions.mouseout.push((element, data) => {
+      const currentEl = d3.select(element).select("rect");
+
+      currentEl.attr("opacity", 1);
+      currentEl.attr("stroke-width", "0").attr("stroke", a.chartConfig.layout.colors(0));
+    });
+
+    d3.addEvents(a.calendar.rects, a.chartConfig.interactions);
+    d3.addEvents(a.hour.rects, a.chartConfig.interactions);
+    d3.addEvents(a.hour.totalRects, a.chartConfig.interactions);
+
+    return this;
+  }
+}
+
+$(function() {
+  const dataUrl = $(".heatmap").data("url");
+
+  heatmapData(dataUrl, "", "");
+});
+
+function heatmapData(url, dataIni, dataEnd) {
+  $.get(url, { data_ini: dataIni, data_end: dataEnd }, dataset => {
+    let dataConfig = {};
+
+    if (dataset.length > 0) {
+      dataConfig = {
+        init: {
+          year: dataset[0].year,
+          month: dataset[0].month,
+          day: dataset[0].day,
+        },
+        end: {
+          year: dataset[dataset.length - 1].year,
+          month: dataset[dataset.length - 1].month,
+          day: dataset[dataset.length - 1].day,
+        },
+      };
+    }
+
+    const chartConfig = {
+      parent: ".heatmap_chart",
+      data: dataset,
+      dataConfig: dataConfig,
+      dimensions: {
+        width: 360,
+        height: 500,
+      },
+      tooltip: {
+        text: "Valor: <value>\r\n Dia: <this>",
+      },
+    };
+
+    const heatmap = new HeatMap(chartConfig);
+  });
 }
