@@ -130,6 +130,15 @@ def count_access_subject_period(subject, userid, data_ini, data_end):
 
     return s
 
+def count_daily_access(subject, students, day):
+    s = Search()
+
+    s = s.query('bool', must=[Q("range", datetime={'time_zone': '-03:00', 'gte': day, 'lte': day}), Q("match", component="subject"), \
+        Q('match', resource='subject'), Q('match', **{'context__subject_id': subject}), Q('terms', user_id=students), \
+        Q('bool', should=[Q('match', action='access'), Q('match', action='view')])])
+
+    return s
+
 def multi_search(searchs):
     ms = MultiSearch(using=conn, index='log-index')
 

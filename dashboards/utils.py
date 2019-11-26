@@ -1,5 +1,7 @@
-from datetime import datetime, timedelta
+import calendar
+from datetime import date, datetime, timedelta
 from django.utils import formats, timezone
+from django.utils.dateparse import parse_datetime
 from django.core.urlresolvers import reverse
 from django.utils.formats import get_format
 
@@ -15,6 +17,8 @@ from notifications.utils import get_resource_users
 
 from django.db.models import Q as Cond, Max, Count
 from django.db.models.functions import TruncDate
+
+from collections import OrderedDict
 
 import operator, math
 
@@ -542,3 +546,55 @@ def parse_date(date_str):
             continue
 
     return None
+
+def get_days_in_period(data_ini, data_end):
+    c = calendar.Calendar()
+
+    days_set = set()
+
+    dates_start = c.itermonthdates(data_ini.year, data_ini.month)
+
+    for day in dates_start:
+        if (data_ini <= day <= data_end):
+            days_set.add(day)
+
+    dates_end = c.itermonthdates(data_end.year, data_end.month)
+
+    for day in dates_end:
+        if (data_ini <= day <= data_end):
+            days_set.add(day)
+
+    return days_set
+
+
+
+def monthly_users_activity(subject, data_ini, data_end):
+    period = get_days_in_period(data_ini, data_end)
+
+    students = subject.students.all().values_list('id', flat = True)
+
+    data = list()
+
+    searchs = []
+    days = []
+    
+    for day in period:
+        searchs.append(count_daily_access(subject.id, list(students), day))
+        days.append(day)
+
+    if searchs:
+        res = multi_search(searchs)
+
+        accessess = [x.to_dict()['hits'] for x in res]
+
+        for access in accessess:
+            for hits in access['hits']:
+                log = hits['_source']
+
+                accessDate = parse_datetime(log['datetime'])
+
+                data.append({'year': accessDate.year, 'month': accessDate.month - 1, 'day': accessDate.day, 'hour': accessDate.hour, 'value': 1, 'count': 1})
+
+        data = sorted(data, key = lambda x: (x['month'], x['day']))
+
+    return data
