@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-08 06:20+0000\n"
+"POT-Creation-Date: 2019-11-26 17:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -309,6 +309,7 @@ msgstr ""
 "nesse assunto"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:32
+#: dashboards/templates/dashboards/teacher/_users_bubble.html:21
 msgid "Cloudy"
 msgstr "Nuvem"
 
@@ -325,7 +326,7 @@ msgid "Tag"
 msgstr "Tag"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:58
-#: dashboards/templates/dashboards/teacher/_users_bubble.html:31
+#: dashboards/templates/dashboards/teacher/_users_bubble.html:41
 msgid "Accessess"
 msgstr "Acessos"
 
@@ -516,7 +517,15 @@ msgstr "Tarefas realizadas pontualmente"
 msgid "most used tags"
 msgstr "tags mais usadas"
 
-#: dashboards/templates/dashboards/teacher/_users_bubble.html:30
+#: dashboards/templates/dashboards/teacher/_heatmap.html:18
+msgid "Daily access"
+msgstr "Acessos Diários"
+
+#: dashboards/templates/dashboards/teacher/_users_bubble.html:18
+msgid "Students accessess"
+msgstr "Acessos dos Estudantes"
+
+#: dashboards/templates/dashboards/teacher/_users_bubble.html:37
 msgid "Student"
 msgstr "Aluno"
 

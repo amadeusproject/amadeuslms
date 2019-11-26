@@ -42,8 +42,6 @@
   border-color: #009688;
 }
 
-
-
 .table_resources .header {
   display: flex;
   justify-content: space-between;
@@ -52,14 +50,9 @@
   border-bottom: 2px solid #666;
 }
 
-
-.cloudy-title .selector{
+.cloudy-title .selector {
   float: center;
-  
-  
-  
 }
-
 
 .table_resources .resources_access_table th:not(:first-of-type) {
   cursor: pointer;
@@ -85,7 +78,6 @@
   border-color: #009688;
 }
 
-
 .page-item {
   border: 1px solid #ccc;
   padding: 3px 7px;
@@ -96,8 +88,14 @@
   background: #009688;
   border-color: #009688;
 }
- .page-item.active {
+
+.page-item.active {
   background: #009688;
   color: #fff;
   border-color: #009688;
+}
+
+.heatmap .header {
+  border-bottom: 2px solid #666;
+  margin-bottom: 10px;
 }

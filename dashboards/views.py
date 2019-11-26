@@ -35,8 +35,7 @@ from categories.models import Category
 
 from subjects.models import Subject, Tag
 
-from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators, studentsAccess, parse_date,accessResourceCount, getAccessedTagsPeriod, getTagAccessessPeriod
-
+from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators, studentsAccess, parse_date, accessResourceCount, getAccessedTagsPeriod, getTagAccessessPeriod, monthly_users_activity
 
 from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
@@ -377,10 +376,7 @@ class SubjectTeacher(LogMixin, generic.TemplateView):
         self.log_context['subject_id'] = subject.id
         self.log_context['subject_name'] = subject.name
         self.log_context['subject_slug'] = subject.slug
-        
-        
 
-        context['style_files'] = ['dashboards/css/style.css','dashboards/css/general.css', 'dashboards/css/dashboards_category.css']
         super(SubjectTeacher, self).createLog(self.request.user, self.log_component, self.log_action, self.log_resource, self.log_context) 
 
         return context
@@ -407,17 +403,31 @@ def most_active_users(request, slug):
     data_end = request.GET.get('data_end', '')
 
     if not data_ini == '':
-     data_ini = parse_date(data_ini)
+        data_ini = parse_date(data_ini)
     
     if not data_end == '':
-     data_end = parse_date(data_end)
+        data_end = parse_date(data_end)
 
     data = studentsAccess(subject, data_ini, data_end)
 
     return JsonResponse(data, safe = False)
 
+def heatmap_graph(request, slug):
+    subject = get_object_or_404(Subject, slug = slug)
 
+    data_ini = request.GET.get('data_ini', '')
+    data_end = request.GET.get('data_end', '')
 
+    if not data_ini == '':
+        data_ini = parse_date(data_ini)
+    else:
+        data_ini = date.today() - timedelta(days = 30)
+    
+    if not data_end == '':
+        data_end = parse_date(data_end)
+    else:
+        data_end = date.today()
 
+    data = monthly_users_activity(subject, data_ini, data_end)
 
-
+    return JsonResponse(data, safe = False)
