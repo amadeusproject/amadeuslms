@@ -300,7 +300,7 @@ msgstr "Suas Tarefas Essenciais"
 #: dashboards/templates/dashboards/subjects_cloudy.html:23
 #: dashboards/templates/dashboards/teacher/_cloud_tags.html:24
 msgid "Most Popular Tags"
-msgstr "Tag mais populares"
+msgstr "Tags mais populares"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:28
 msgid ""
@@ -317,6 +317,7 @@ msgid "Cloudy"
 msgstr "Nuvem"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:43
+#: dashboards/templates/dashboards/teacher/_cloud_tags.html:41
 msgid "Class accesses"
 msgstr "Acessos da classe"
 
@@ -497,7 +498,7 @@ msgstr "Maior da classe"
 #: dashboards/templates/dashboards/subjects_other_indicators.html:74
 #: dashboards/templatetags/analytics_tag.py:21
 msgid "Access to the discipline environment"
-msgstr "Acesso o ambiente da disciplina"
+msgstr "Acesso ao ambiente da disciplina"
 
 #: dashboards/templates/dashboards/subjects_other_indicators.html:79
 #: dashboards/templatetags/analytics_tag.py:23
@@ -524,10 +525,6 @@ msgid "most used tags"
 msgstr "tags mais usadas"
 
 #: dashboards/templates/dashboards/teacher/_cloud_tags.html:29
-#, fuzzy
-#| msgid ""
-#| "Compare your number of hits with the number of hits in each class tag in "
-#| "this subject"
 msgid "Compare access number in each class tag in this subject"
 msgstr ""
 "Compare seu número de acessos com o número de acessos em cada tag da classe "
@@ -546,8 +543,6 @@ msgid "Students accesses"
 msgstr "Acessos dos alunos"
 
 #: dashboards/templates/dashboards/teacher/_resources_table.html:18
-#, fuzzy
-#| msgid "Resource access"
 msgid "Resources accessess"
 msgstr "Acessos aos recursos da disciplina"
 
@@ -588,3 +583,29 @@ msgstr "Até"
 #: dashboards/templatetags/analytics_tag.py:31
 msgid "Other indicator"
 msgstr "Outro indicador"
+
+
+
+
+#: dashboards/templates/dashboards/teacher/_cloud_tags.html:25
+msgid "Compare access number in each class tag in this subject"
+msgstr "Compara o número de acessos em cada Tag da classe nesta disciplina."
+
+
+
+
+
+#: dashboards/templates/dashboards/teacher/_cloud_tags.html:29
+msgid "Cloud"
+msgstr "Nuvem"
+
+
+#: dashboards/templates/dashboards/teacher/_resources_table.html:18
+msgid "Resources accessess"
+msgstr "Recursos acessados"
+
+
+msgid "Access number in each class recourse in this subject."
+msgstr "Número de acessos em cada recurso da classe nesta disciplina."
+
+
