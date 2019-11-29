@@ -15,8 +15,15 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     <div class="col-md-12 heatmap" data-url="{% url 'dashboards:heatmap_chart' subject.slug %}">
         <div class="header">
             <div class="identifier">
-                <b>{% trans 'Daily access' %}</b>
+                <b>
+                    {% trans 'Daily access' %}
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="{% trans 'Compares the access number by month and week day' %}"></i>
+                </b>
             </div>
+        </div>
+        <div class="info">
+            <div class="info_icon" style="background-image: linear-gradient(to right, #8EC99A, #162318); "></div>
+            <p class="text-cloudy-legend">{% trans 'Students accesses' %}</p>
         </div>
         <div class="heatmap_chart">
         </div>
