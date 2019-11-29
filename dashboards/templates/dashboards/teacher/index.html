@@ -127,14 +127,15 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         $("#filter").click(() => {
             const dataIni = $("#from").val()
             const dataEnd = $("#until").val()
-            d1= dataIni.split("/");
-            data_in= new Date(d1[2], d1[1], d1[0]-1);
-            d2= dataEnd.split("/");
-            data_end= new Date(d2[2], d2[1], d2[0]-1);
+            
+            const d1 = dataIni.split("/");
+            const data_in = new Date(d1[2], d1[1], d1[0]-1);
+            const d2 = dataEnd.split("/");
+            const data_end = new Date(d2[2], d2[1], d2[0]-1);
            
-            if(data_in > data_end)
+            if (data_in > data_end) {
                 $(".data-error").css("display", "block");
-            else{ 
+            } else { 
                 $(".data-error").css("display", "none");
                 const dataCloudUrl = $("#cloudy").data("url"); // ATUALIZA OS DADOS DA NUVEM DE ACORDO COM O RANGE DE DATA SELECIONADO 
                 $(".cloudy").html("");

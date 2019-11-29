@@ -15,7 +15,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     <div class="col-md-12 bubble_users" data-url="{% url 'dashboards:bubble_chart' subject.slug %}">
         <div class="header">
             <div class="identifier">
-                <b>{% trans 'Students accessess' %}</b>
+                <b>
+                    {% trans 'Students accessess' %}
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="{% trans 'Compares the access number realized by the students subscribed in the subject' %}"></i>
+                </b>
             </div>
             <div class="selector">
                 <span>{% trans 'Cloudy' %}</span>
@@ -24,6 +27,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     <span class="slider round"></span>
                 </label>
             </div>
+        </div>
+        <div class="info">
+            <div class="info_icon">
+                <i class="fa fa-smile-o"></i>
+                <i class="fa fa-arrows-v"></i>
+            </div>
+            <p class="text-cloudy-legend">{% trans 'Student accesses' %}</p>
         </div>
         <div class="users_cloud">
         </div>
