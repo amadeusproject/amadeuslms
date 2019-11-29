@@ -21,21 +21,25 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
   <div class="row cloudy-header">
     <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 cloudy-title-bar">
       <div class="cloudy-title">
-        <b>{% trans 'Most Popular Tags' %}</b>
-        <i
-          class="fa fa-info-circle"
-          aria-hidden="true"
-          data-toggle="tooltip"
+        <b>{% trans 'Most Popular Tags' %} <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip"
           title="{% trans 'Compare access number in each class tag in this subject' %}"
-        ></i>
+        ></i></b>
+        
         <div class="select-cloud">
-          <span>{% trans 'Cloudy' %}</span>
+          <span>{% trans 'Cloud' %}</span>
           <label class="switch" >
             <input id="cloudBtn" type="checkbox" name="percentOn" checked onclick="view_toogle($(this))" />
             <span class="slider round"></span>
           </label>
       </div>
       </div>
+    </div>
+  </div>
+  <div class="row cloudy-header-2">
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 cloudy-legend">
+      <i id="cloudy-icon" class="fa fa-text-height icon-cloudy-legend" aria-hidden="true"></i>
+      <p class="text-cloudy-legend">{% trans 'Class accesses' %}</p>
+      
     </div>
   </div>
   <div
@@ -110,9 +114,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     </div>
   </div>
 </div>
-
-  
-
 
 <script type="text/javascript">
   function cloudy_responsibilities() {}
