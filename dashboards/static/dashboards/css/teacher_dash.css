@@ -50,8 +50,15 @@
   border-bottom: 2px solid #666;
 }
 
-.cloudy-title .selector {
-  float: center;
+.cloudy-title .select-cloud {
+  align-items: right;
+}
+
+.cloudy-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: left;
+  border-bottom: 2px solid #666;
 }
 
 .table_resources .resources_access_table th:not(:first-of-type) {

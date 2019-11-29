@@ -78,6 +78,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                             </div>
                         </div>
                         <button id="filter" type="button" class="btn btn-success btn-raised btn-sm">Filtrar</button>
+                        <div class="alert alert-danger data-error" style="display: none;" role="alert">
+                            Data/Período inválido. Por favor, selecione um período válido.
+                        </div>
                     </form>
                 </div>
             </div>
@@ -124,9 +127,16 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         $("#filter").click(() => {
             const dataIni = $("#from").val()
             const dataEnd = $("#until").val()
-            {% comment %} if(dataIni > dataEnd)
-                alert(" Periodo inválido");
-            else{ {% endcomment %}
+            
+            const d1 = dataIni.split("/");
+            const data_in = new Date(d1[2], d1[1], d1[0]-1);
+            const d2 = dataEnd.split("/");
+            const data_end = new Date(d2[2], d2[1], d2[0]-1);
+           
+            if (data_in > data_end) {
+                $(".data-error").css("display", "block");
+            } else { 
+                $(".data-error").css("display", "none");
                 const dataCloudUrl = $("#cloudy").data("url"); // ATUALIZA OS DADOS DA NUVEM DE ACORDO COM O RANGE DE DATA SELECIONADO 
                 $(".cloudy").html("");
                 $("#tableHeader").css("display", "none");
@@ -148,7 +158,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
                 bubbleData(bubbleUrl, dataIni, dataEnd);
                 heatmapData(heatmapUrl, dataIni, dataEnd);
-            {% comment %} } {% endcomment %}
+            }
         })
     </script>
     
