@@ -9,6 +9,19 @@
   padding-right: 10px;
 }
 
+.bubble_users .info {
+  border-bottom: 2px solid #999;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding: 5px 0px;
+}
+
+.bubble_users .info p {
+  margin-bottom: 0px;
+  margin-left: 5px;
+}
+
 .bubble_users .users_cloud {
   width: 100%;
   min-height: 300px;
@@ -50,8 +63,15 @@
   border-bottom: 2px solid #666;
 }
 
-.cloudy-title .selector {
-  float: center;
+.cloudy-title .select-cloud {
+  align-items: right;
+}
+
+.cloudy-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: left;
+  border-bottom: 2px solid #666;
 }
 
 .table_resources .resources_access_table th:not(:first-of-type) {
@@ -97,5 +117,24 @@
 
 .heatmap .header {
   border-bottom: 2px solid #666;
+  margin-bottom: 5px;
+}
+
+.heatmap .info {
+  border-bottom: 2px solid #999;
   margin-bottom: 10px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-bottom: 5px;
+}
+
+.heatmap .info .info_icon {
+  width: 40px;
+  height: 20px;
+}
+
+.heatmap .info p {
+  margin-bottom: 0px;
+  margin-left: 5px;
 }
