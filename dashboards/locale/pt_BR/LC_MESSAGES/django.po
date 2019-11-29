@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-29 03:40+0000\n"
+"POT-Creation-Date: 2019-11-29 03:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -311,13 +311,12 @@ msgstr ""
 "nesse assunto"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:32
-#: dashboards/templates/dashboards/teacher/_cloud_tags.html:32
 #: dashboards/templates/dashboards/teacher/_users_bubble.html:24
 msgid "Cloudy"
 msgstr "Nuvem"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:43
-#: dashboards/templates/dashboards/teacher/_cloud_tags.html:41
+#: dashboards/templates/dashboards/teacher/_cloud_tags.html:40
 msgid "Class accesses"
 msgstr "Acessos da classe"
 
@@ -326,12 +325,12 @@ msgid "Your accesses"
 msgstr "Seus acessos"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:53
-#: dashboards/templates/dashboards/teacher/_cloud_tags.html:46
+#: dashboards/templates/dashboards/teacher/_cloud_tags.html:49
 msgid "Tag"
 msgstr "Tag"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:58
-#: dashboards/templates/dashboards/teacher/_cloud_tags.html:51
+#: dashboards/templates/dashboards/teacher/_cloud_tags.html:54
 #: dashboards/templates/dashboards/teacher/_resources_table.html:34
 #: dashboards/templates/dashboards/teacher/_users_bubble.html:51
 msgid "Accessess"
@@ -524,11 +523,15 @@ msgstr "Tarefas realizadas pontualmente"
 msgid "most used tags"
 msgstr "tags mais usadas"
 
-#: dashboards/templates/dashboards/teacher/_cloud_tags.html:29
+#: dashboards/templates/dashboards/teacher/_cloud_tags.html:25
 msgid "Compare access number in each class tag in this subject"
 msgstr ""
 "Compare seu número de acessos com o número de acessos em cada tag da classe "
 "nesse assunto"
+
+#: dashboards/templates/dashboards/teacher/_cloud_tags.html:28
+msgid "Cloud"
+msgstr "Nuvem"
 
 #: dashboards/templates/dashboards/teacher/_heatmap.html:19
 msgid "Daily access"
@@ -548,7 +551,7 @@ msgstr "Acessos aos recursos da disciplina"
 
 #: dashboards/templates/dashboards/teacher/_resources_table.html:23
 msgid "Access number in each class recourse in this subject"
-msgstr ""
+msgstr "Número de acessos em cada recurso da classe nesta disciplina."
 
 #: dashboards/templates/dashboards/teacher/_users_bubble.html:19
 msgid "Students accessess"
@@ -557,7 +560,9 @@ msgstr "Acessos dos Estudantes"
 #: dashboards/templates/dashboards/teacher/_users_bubble.html:20
 msgid ""
 "Compares the access number realized by the students subscribed in the subject"
-msgstr "Compara o número de acessos realizados pelos alunos matriculados na disciplina."
+msgstr ""
+"Compara o número de acessos realizados pelos alunos matriculados na "
+"disciplina."
 
 #: dashboards/templates/dashboards/teacher/_users_bubble.html:36
 msgid "Student accesses"
@@ -583,29 +588,3 @@ msgstr "Até"
 #: dashboards/templatetags/analytics_tag.py:31
 msgid "Other indicator"
 msgstr "Outro indicador"
-
-
-
-
-#: dashboards/templates/dashboards/teacher/_cloud_tags.html:25
-msgid "Compare access number in each class tag in this subject"
-msgstr "Compara o número de acessos em cada Tag da classe nesta disciplina."
-
-
-
-
-
-#: dashboards/templates/dashboards/teacher/_cloud_tags.html:29
-msgid "Cloud"
-msgstr "Nuvem"
-
-
-#: dashboards/templates/dashboards/teacher/_resources_table.html:18
-msgid "Resources accessess"
-msgstr "Recursos acessados"
-
-
-msgid "Access number in each class recourse in this subject."
-msgstr "Número de acessos em cada recurso da classe nesta disciplina."
-
-
