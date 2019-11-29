@@ -271,6 +271,7 @@ msgid "Subjects"
 msgstr "Assuntos"
 
 #: dashboards/templates/dashboards/left_chart.html:32
+#: dashboards/templates/dashboards/teacher/_resources_table.html:33
 msgid "Resource"
 msgstr "Recursos"
 
@@ -297,8 +298,9 @@ msgid "Your Essential Tasks"
 msgstr "Suas Tarefas Essenciais"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:23
+#: dashboards/templates/dashboards/teacher/_cloud_tags.html:24
 msgid "Most Popular Tags"
-msgstr "Tag mais populares"
+msgstr "Tags mais populares"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:28
 msgid ""
@@ -314,6 +316,7 @@ msgid "Cloudy"
 msgstr "Nuvem"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:43
+#: dashboards/templates/dashboards/teacher/_cloud_tags.html:41
 msgid "Class accesses"
 msgstr "Acessos da classe"
 
@@ -327,6 +330,8 @@ msgstr "Tag"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:58
 #: dashboards/templates/dashboards/teacher/_users_bubble.html:41
+#: dashboards/templates/dashboards/teacher/_resources_table.html:34
+#: dashboards/templates/dashboards/teacher/_cloud_tags.html:55
 msgid "Accessess"
 msgstr "Acessos"
 
@@ -491,7 +496,7 @@ msgstr "Maior da classe"
 #: dashboards/templates/dashboards/subjects_other_indicators.html:74
 #: dashboards/templatetags/analytics_tag.py:21
 msgid "Access to the discipline environment"
-msgstr "Acesso o ambiente da disciplina"
+msgstr "Acesso ao ambiente da disciplina"
 
 #: dashboards/templates/dashboards/subjects_other_indicators.html:79
 #: dashboards/templatetags/analytics_tag.py:23
@@ -545,3 +550,29 @@ msgstr "Até"
 #: dashboards/templatetags/analytics_tag.py:31
 msgid "Other indicator"
 msgstr "Outro indicador"
+
+
+
+
+#: dashboards/templates/dashboards/teacher/_cloud_tags.html:25
+msgid "Compare access number in each class tag in this subject"
+msgstr "Compara o número de acessos em cada Tag da classe nesta disciplina."
+
+
+
+
+
+#: dashboards/templates/dashboards/teacher/_cloud_tags.html:29
+msgid "Cloud"
+msgstr "Nuvem"
+
+
+#: dashboards/templates/dashboards/teacher/_resources_table.html:18
+msgid "Resources accessess"
+msgstr "Recursos acessados"
+
+
+msgid "Access number in each class recourse in this subject."
+msgstr "Número de acessos em cada recurso da classe nesta disciplina."
+
+

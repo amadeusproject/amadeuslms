@@ -61,6 +61,27 @@
   border-bottom: 2px solid #666;
 }
 
+.cloudy-legend {
+  display: flex;
+  justify-content: flex-start;
+  
+  border-bottom: 2px solid #bbb;
+}
+.icon-cloudy-legend {
+  width: 20px;
+  height: 16px;
+  margin-top: 5px;
+  margin-bottom: 4px;
+  margin-left:-15px;
+}
+.text-cloudy-legend {
+  height: 20px;
+  margin-bottom: 2px;
+  padding-right:  5px;
+}
+.cloudy-header-2 {
+  padding: 0px 15px;
+}
 
 
 .table_resources .resources_access_table th:not(:first-of-type) {
