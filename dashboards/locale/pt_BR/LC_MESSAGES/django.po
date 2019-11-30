@@ -574,5 +574,3 @@ msgstr "Recursos acessados"
 #: dashboards/templates/dashboards/teacher/_resources_table.html:23
 msgid "Access number in each class recourse in this subject"
 msgstr "Número de acessos em cada recurso da classe nesta disciplina."
-
-
