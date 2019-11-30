@@ -525,9 +525,7 @@ msgstr "tags mais usadas"
 
 #: dashboards/templates/dashboards/teacher/_cloud_tags.html:25
 msgid "Compare access number in each class tag in this subject"
-msgstr ""
-"Compare seu número de acessos com o número de acessos em cada tag da classe "
-"nesse assunto"
+msgstr "Compara o número de acessos em cada Tag da classe nesta disciplina."
 
 #: dashboards/templates/dashboards/teacher/_cloud_tags.html:28
 msgid "Cloud"
