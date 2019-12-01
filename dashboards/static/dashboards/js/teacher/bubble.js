@@ -538,7 +538,7 @@ function bubbleData(url, dataIni, dataEnd) {
         },
       },
       tooltip: {
-        text: "<name>: <value> acesso(s)",
+        text: "<name>: <value> interações",
       },
     };
 
@@ -551,9 +551,11 @@ function bubbleData(url, dataIni, dataEnd) {
 function view_toggle($selector) {
   if (!$selector.is(":checked")) {
     $(".users_cloud").hide();
+    $(".bubble_users .info").hide();
     $(".users_table").show();
   } else {
     $(".users_table").hide();
+    $(".bubble_users .info").show();
     $(".users_cloud").show();
   }
 }
