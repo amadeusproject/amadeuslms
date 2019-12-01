@@ -54,16 +54,23 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             </div>
         </div>
         <div id="{{subject.slug}}" class="panel-collapse panel-body in collapse analytics-ungeneral">
+            <div id="panel_loading_mask">
+                <div class="loading">
+                    {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-12">
                     <form id="period" class="form-inline" action="" method="POST">
                         {% csrf_token %}
-
+                        <div class="period-title">
+                            <span> {% trans 'Select the required period' %}:</span>
+                        </div>
                         <div class="form-group">
                             <label for="from">{% trans 'From' %}:</label>
                             <div class="input-group">
                                 <input type="text" class="form-control date-picker" id="from" name="from" value="{{ data_ini|date:'SHORT_DATE_FORMAT' }}" />
-                                <div class="input-group-addon">
+                                <div class="input-group-addon" onclick="$('#from').focus()">
                                     <i class="fa fa-calendar"></i>
                                 </div>
                             </div>
@@ -72,22 +79,21 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                             <label for="until">{% trans 'Until' %}:</label>
                             <div class="input-group">
                                 <input type="text" class="form-control date-picker" id="until" name="until" value="{{ data_end|date:'SHORT_DATE_FORMAT' }}" />
-                                <div class="input-group-addon">
+                                <div class="input-group-addon" onclick="$('#until').focus()">
                                     <i class="fa fa-calendar"></i>
                                 </div>
                             </div>
                         </div>
-                        <button id="filter" type="button" class="btn btn-success btn-raised btn-sm">Filtrar</button>
                         <div class="alert alert-danger data-error" style="display: none;" role="alert">
-                            Data/Período inválido. Por favor, selecione um período válido.
+                            Data/Período inválido. Por favor, selecione uma data inicial igual ou anterior à data do final.
                         </div>
                     </form>
                 </div>
             </div>
             <hr />
             <div class="container" style="max-width: 100%">
-                <div class="row">
-                    <div class="col-md-12">
+                <div class="row nopadding">
+                    <div class="col-md-12 nopadding">
                         {% include "dashboards/teacher/_cloud_tags.html" %}
                         <br />
                     </div>
@@ -124,41 +130,45 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     <script type="text/javascript">
         sessionSecurity.confirmFormDiscard = undefined;
 
-        $("#filter").click(() => {
-            const dataIni = $("#from").val()
-            const dataEnd = $("#until").val()
-            
-            const d1 = dataIni.split("/");
-            const data_in = new Date(d1[2], d1[1], d1[0]-1);
-            const d2 = dataEnd.split("/");
-            const data_end = new Date(d2[2], d2[1], d2[0]-1);
-           
-            if (data_in > data_end) {
-                $(".data-error").css("display", "block");
-            } else { 
-                $(".data-error").css("display", "none");
-                const dataCloudUrl = $("#cloudy").data("url"); // ATUALIZA OS DADOS DA NUVEM DE ACORDO COM O RANGE DE DATA SELECIONADO 
-                $(".cloudy").html("");
-                $("#tableHeader").css("display", "none");
-                $(".table table-hover").html("");
-                if (!$("#cloudBtn").is(':checked')){
-                    $("#cloudBtn").attr('value', 'true');
-                    $("#cloudBtn").click();
-                }
-                cloud(dataCloudUrl, dataIni, dataEnd);
+        $(function () {
+            $(".date-picker").on('dp.change', () => {
+                $("#panel_loading_mask").show();
+
+                const dataIni = $("#from").val()
+                const dataEnd = $("#until").val()
                 
-                const dataRecourseUrl = $(".table_resources").data("url"); // ATUALIZA OS DADOS DA TABELA DE RECURSOS DE ACORDO COM O RANGE DE DATA SELECIONADO
-                loadDataResources(dataRecourseUrl, dataIni, dataEnd);
+                const d1 = dataIni.split("/");
+                const data_in = new Date(d1[2], d1[1], d1[0]-1);
+                const d2 = dataEnd.split("/");
+                const data_end = new Date(d2[2], d2[1], d2[0]-1);
+            
+                if (data_in > data_end) {
+                    $(".data-error").css("display", "block");
+                } else { 
+                    $(".data-error").css("display", "none");
+                    const dataCloudUrl = $("#cloudy").data("url"); // ATUALIZA OS DADOS DA NUVEM DE ACORDO COM O RANGE DE DATA SELECIONADO 
+                    $(".cloudy").html("");
+                    $("#tableHeader").css("display", "none");
+                    $(".table table-hover").html("");
+                    if (!$("#cloudBtn").is(':checked')){
+                        $("#cloudBtn").attr('value', 'true');
+                        $("#cloudBtn").click();
+                    }
+                    cloud(dataCloudUrl, dataIni, dataEnd);
+                    
+                    const dataRecourseUrl = $(".table_resources").data("url"); // ATUALIZA OS DADOS DA TABELA DE RECURSOS DE ACORDO COM O RANGE DE DATA SELECIONADO
+                    loadDataResources(dataRecourseUrl, dataIni, dataEnd);
 
-                const bubbleUrl = $(".bubble_users").data("url");
-                const heatmapUrl = $(".heatmap").data("url");
+                    const bubbleUrl = $(".bubble_users").data("url");
+                    const heatmapUrl = $(".heatmap").data("url");
 
-                $(".bubble_users .users_cloud").html("");
-                $(".heatmap .heatmap_chart").html("");
+                    $(".bubble_users .users_cloud").html("");
+                    $(".heatmap .heatmap_chart").html("");
 
-                bubbleData(bubbleUrl, dataIni, dataEnd);
-                heatmapData(heatmapUrl, dataIni, dataEnd);
-            }
+                    bubbleData(bubbleUrl, dataIni, dataEnd);
+                    heatmapData(heatmapUrl, dataIni, dataEnd);
+                }
+            })
         })
     </script>
     

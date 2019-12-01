@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-29 03:49+0000\n"
+"POT-Creation-Date: 2019-12-01 20:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -316,7 +316,6 @@ msgid "Cloudy"
 msgstr "Nuvem"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:43
-#: dashboards/templates/dashboards/teacher/_cloud_tags.html:40
 msgid "Class accesses"
 msgstr "Acessos da classe"
 
@@ -531,17 +530,21 @@ msgstr "Compara o número de acessos em cada Tag da classe nesta disciplina."
 msgid "Cloud"
 msgstr "Nuvem"
 
+#: dashboards/templates/dashboards/teacher/_cloud_tags.html:40
+msgid "Tagged resource accesses"
+msgstr "Acessos a recursos com a tag"
+
 #: dashboards/templates/dashboards/teacher/_heatmap.html:19
-msgid "Daily access"
-msgstr "Acessos Diários"
+msgid "Days with more students"
+msgstr "Dias com mais estudantes"
 
 #: dashboards/templates/dashboards/teacher/_heatmap.html:20
 msgid "Compares the access number by month and week day"
 msgstr "Compara o número de acessos por dia do mês e dia da semana."
 
 #: dashboards/templates/dashboards/teacher/_heatmap.html:26
-msgid "Students accesses"
-msgstr "Acessos dos alunos"
+msgid "Distinct students"
+msgstr "Estudantes distintos"
 
 #: dashboards/templates/dashboards/teacher/_resources_table.html:18
 msgid "Resources accessess"
@@ -552,8 +555,8 @@ msgid "Access number in each class recourse in this subject"
 msgstr "Número de acessos em cada recurso da classe nesta disciplina."
 
 #: dashboards/templates/dashboards/teacher/_users_bubble.html:19
-msgid "Students accessess"
-msgstr "Acessos dos Estudantes"
+msgid "Students that interacts the most"
+msgstr "Estudantes que mais interagem"
 
 #: dashboards/templates/dashboards/teacher/_users_bubble.html:20
 msgid ""
@@ -563,8 +566,8 @@ msgstr ""
 "disciplina."
 
 #: dashboards/templates/dashboards/teacher/_users_bubble.html:36
-msgid "Student accesses"
-msgstr "Acessos do aluno"
+msgid "Student interactions"
+msgstr "Interações do estudante"
 
 #: dashboards/templates/dashboards/teacher/_users_bubble.html:47
 msgid "Student"
@@ -575,14 +578,19 @@ msgstr "Aluno"
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: dashboards/templates/dashboards/teacher/index.html:63
+#: dashboards/templates/dashboards/teacher/index.html:67
+msgid "Select the required period"
+msgstr "Selecione o período desejado"
+
+#: dashboards/templates/dashboards/teacher/index.html:70
 msgid "From"
 msgstr "De"
 
-#: dashboards/templates/dashboards/teacher/index.html:72
+#: dashboards/templates/dashboards/teacher/index.html:79
 msgid "Until"
 msgstr "Até"
 
 #: dashboards/templatetags/analytics_tag.py:31
 msgid "Other indicator"
 msgstr "Outro indicador"
+
