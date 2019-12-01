@@ -587,13 +587,20 @@ def monthly_users_activity(subject, data_ini, data_end):
 
         accessess = [x.to_dict()['hits'] for x in res]
 
+        users = set()
+        
         for access in accessess:
             for hits in access['hits']:
                 log = hits['_source']
 
                 accessDate = parse_datetime(log['datetime'])
 
-                data.append({'year': accessDate.year, 'month': accessDate.month - 1, 'day': accessDate.day, 'hour': accessDate.hour, 'value': 1, 'count': 1})
+                utuple = (str(accessDate.day) + '-' + str(accessDate.month) + '-' + str(accessDate.year), log['user_id'])
+
+                if not utuple in users:
+                    users.add(utuple)
+                    
+                    data.append({'year': accessDate.year, 'month': accessDate.month - 1, 'day': accessDate.day, 'hour': accessDate.hour, 'user_id': log['user_id'], 'value': 1, 'count': 1})
 
         data = sorted(data, key = lambda x: (x['month'], x['day']))
 
