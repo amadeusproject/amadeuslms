@@ -1,7 +1,6 @@
 let cloudWord = undefined;
 
 function makeTableResources(data, nrows) {
-  
   const $table = $("#table-container");
   const $pagination = $("#resources_pag");
   const pages_tags_resources = Math.ceil(data.length / nrows);
@@ -57,12 +56,12 @@ function makeTableResources(data, nrows) {
     let page = $("#resources_pag .page-item-number.active").data("page");
 
     page = page === 1 ? 1 : page - 1;
-    if(page>=10){
+    if (page >= 10) {
       [...Array(pages_resources_table).keys()].forEach(i => {
         const page = `<li class='page-item page-item-number' data-page=${i + 1}>${i + 1}</li>`;
-        if(i>page-4 || i<page+4)
-          $pagination.append(page);
-      });}
+        if (i > page - 4 || i < page + 4) $pagination.append(page);
+      });
+    }
     const init = page * nrows - nrows;
     const end = page * nrows;
 
@@ -79,15 +78,14 @@ function makeTableResources(data, nrows) {
   });
 
   $("#resources_pag .next").click(() => {
-    
     let page = $("#resources_pag .page-item-number.active").data("page");
     page = page === pages_tags_resources ? pages_tags_resources : page + 1;
-    if(page>=10){
+    if (page >= 10) {
       [...Array(pages_resources_table).keys()].forEach(i => {
         const page = `<li class='page-item page-item-number' data-page=${i + 1}>${i + 1}</li>`;
-        if(i>page-4 || i<page+4)
-          $pagination.append(page);
-      });}
+        if (i > page - 4 || i < page + 4) $pagination.append(page);
+      });
+    }
     const init = page * nrows - nrows;
     const end = page * nrows;
 
@@ -104,7 +102,6 @@ function makeTableResources(data, nrows) {
   });
 }
 function makeTable(data, tableId, paginationId, nrows) {
-  
   const $table = $(tableId);
   const $pagination = $(paginationId);
   const pages_tags = Math.ceil(data.length / nrows);
@@ -331,13 +328,11 @@ function makeTagTable(data, nrows) {
 function cloud(url, dataIn, dataEnd) {
   d3.select("#cloudy_loading_ball").style("display", "show");
   const dimensions = document.getDimensions("#cloudy");
-  let width =
-    dimensions.w - 110;
+  let width = dimensions.w - 110;
   width = width === 0 ? 775 : width;
 
   const height = (width * 1.1) / 2 > 360 ? 360 : width / 2 < 50 ? 50 : width / 2;
 
-  
   $.get(url, { data_ini: dataIn, data_end: dataEnd }, data => {
     d3.select("#cloudy_loading_ball").style("display", "none");
 
@@ -347,11 +342,10 @@ function cloud(url, dataIn, dataEnd) {
       myvalue: item.qtd_my_access,
       link: item.details_url,
       text: item.tag_name,
-      
     }));
 
     data.sort((d1, d2) => (d1.value > d2.value ? -1 : d1.value < d2.value ? 1 : 0));
-    
+
     makeTagTable(data, 10);
 
     const tags = data.slice(0, Math.floor((30 / 1000) * width));
@@ -374,7 +368,7 @@ function cloud(url, dataIn, dataEnd) {
       },
       interactions: {
         click: (element, data) => {
-          d3.select("#modal_cloudy_loading_ball").style("display", "inherit");
+          $("#cloudy_loading_wrapper").show();
           d3.select("#modal-table").style("display", "none");
 
           const modal = document.querySelector("#tagModal");
@@ -385,7 +379,7 @@ function cloud(url, dataIn, dataEnd) {
           container.selectAll(".resource").remove();
 
           $.get(data.link, dataset => {
-              dataset = dataset.sort((d1, d2) => {
+            dataset = dataset.sort((d1, d2) => {
               if (isNaN(d1.qtd_access) || +d1.qtd_access == 0) {
                 d1.qtd_access = 0;
               }
@@ -396,7 +390,7 @@ function cloud(url, dataIn, dataEnd) {
               return d1.qtd_access < d2.qtd_access ? 1 : d1.qtd_access > d2.qtd_access ? -1 : 0;
             });
             makeTableResources(dataset, 10);
-            d3.select("#modal_cloudy_loading_ball").style("display", "none");
+            $("#cloudy_loading_wrapper").hide();
             d3.select("#modal-table").style("display", "inherit");
           });
 
@@ -439,13 +433,11 @@ function cloud(url, dataIn, dataEnd) {
 }
 
 function view_toogle($selector) {
-  
-  if (cloudWord)
-    cloudWord.view_toogle();
+  if (cloudWord) cloudWord.view_toogle();
 }
 
 $(function() {
   const dataCloudUrl = $("#cloudy").data("url");
-  
+
   cloud(dataCloudUrl, "", "");
 });
