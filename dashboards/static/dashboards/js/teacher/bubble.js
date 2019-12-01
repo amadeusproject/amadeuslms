@@ -366,7 +366,7 @@ class BubbleChart {
 $(function() {
   const dataUrl = $(".bubble_users").data("url");
 
-  bubbleData(dataUrl, "", "");
+  bubbleData(dataUrl, $("#from").val(), $("#until").val());
 });
 
 function makeTable(data, nrows) {

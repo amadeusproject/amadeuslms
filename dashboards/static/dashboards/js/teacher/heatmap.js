@@ -887,10 +887,14 @@ class HeatMap {
     chart.scrol.call(zoom);
 
     chart.on = false;
-    chart.g.on("mouseover", d => (chart.on = true));
-    chart.g.on("mouseout", d => (chart.on = false));
+    chart.g.on("mouseover", function(d) {
+      chart.on = true;
+    });
+    chart.g.on("mouseout", function(d) {
+      chart.on = false;
+    });
 
-    chart.extTriangles.selectAll("path").on("click", d => {
+    chart.extTriangles.selectAll("path").on("click", function(d) {
       const element = d3.select(this);
 
       if (element.attr("class") === "up") {
@@ -919,16 +923,14 @@ class HeatMap {
       chart.extTriangles.select(".up").attr("opacity", chart.scrolposition === 0 ? 0 : 1);
       chart.extTriangles.select(".down").attr("opacity", chart.scrolposition === chart.scrolMax ? 0 : 1);
 
-      chart.rects.attr(
-        "transform",
-        d =>
-          `translate(${a.day(MyDate.weekName()[d.dayOfWeek])}, ${chart.vertical(
-            chart.verticalFunction(chart.domain, d),
-          )})`,
-      );
+      chart.rects.attr("transform", function(d) {
+        return `translate(${a.day(
+          MyDate.weekName()[d.dayOfWeek],
+        )}, ${chart.vertical(chart.verticalFunction(chart.domain, d))})`;
+      });
 
       if (!chartConfig.axis.vertical.all) {
-        chart.verticalAxis.selectAll(".tick").attr("transform", d => {
+        chart.verticalAxis.selectAll(".tick").attr("transform", function(d) {
           const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
 
           if (temp > location2 || temp < -2 * chart.vertical.bandwidth()) {
@@ -950,7 +952,7 @@ class HeatMap {
           .call(d3.axisLeft(chart.vertical))
           .attr("font-size", a.font_size)
           .selectAll(".tick")
-          .attr("opacity", d => {
+          .attr("opacity", function(d) {
             const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
 
             if (temp > location || temp < 0) {
@@ -959,11 +961,11 @@ class HeatMap {
 
             return 1;
           })
-          .attr("transform", d => {
+          .attr("transform", function(d) {
             const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
 
             if (temp > location2 || temp < -2 * chart.vertical.bandwidth()) {
-              return `translate(${-2 * a.ay.bandwidth()}, ${chart.vertical(chart.verticalFunction(chart.domain, d)) +
+              return `translate(${-2 * a.day.bandwidth()}, ${chart.vertical(chart.verticalFunction(chart.domain, d)) +
                 chart.vertical.bandwidth() / 2})`;
             }
 
@@ -980,14 +982,12 @@ class HeatMap {
       chart.rects
         .transition()
         .duration(500)
-        .attr(
-          "transform",
-          (d, i) =>
-            `translate(${a.day(MyDate.weekName()[d.dayOfWeek])}, ${chart.vertical(
-              chart.verticalFunction(chart.domain, d),
-            )}`,
-        )
-        .attr("opacity", d => {
+        .attr("transform", function(d, i) {
+          return `translate(${a.day(
+            MyDate.weekName()[d.dayOfWeek],
+          )}, ${chart.vertical(chart.verticalFunction(chart.domain, d))})`;
+        })
+        .attr("opacity", function(d) {
           const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
 
           if (temp > location || temp < 0) {
@@ -1000,16 +1000,16 @@ class HeatMap {
       chart.rects
         .transition()
         .delay(550)
-        .attr("transform", d => {
+        .attr("transform", function(d) {
           const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
 
           if (temp > location2 || temp < -2 * chart.vertical.bandwidth()) {
             return `translate(${-3 * a.day.bandwidth()}, ${chart.vertical(chart.verticalFunction(chart.domain, d))})`;
           }
 
-          return `translate(${a.day(MyDate.weekName()[d.dayOfWeek])}, ${chart.vertical(
-            chart.verticalFunction(chart.domain, d),
-          )})`;
+          return `translate(${a.day(
+            MyDate.weekName()[d.dayOfWeek],
+          )}, ${chart.vertical(chart.verticalFunction(chart.domain, d))})`;
         });
 
       return true;
@@ -1328,7 +1328,7 @@ class HeatMap {
         const end = a.calendar.data[a.calendar.data.length - 1];
         const domain = [new MyDate(start.year, start.month, start.day - start.dayOfWeek)];
 
-        while (MyDate.greatThan(domain[domain.length - 1], end) === -1) {
+        while (MyDate.greatThan(domain[domain.length - 1], end) <= 0) {
           domain.push(MyDate.sum(domain[domain.length - 1], { day: 7 }));
         }
 
@@ -1432,7 +1432,7 @@ class HeatMap {
 $(function() {
   const dataUrl = $(".heatmap").data("url");
 
-  heatmapData(dataUrl, "", "");
+  heatmapData(dataUrl, $("#from").val(), $("#until").val());
 });
 
 function heatmapData(url, dataIni, dataEnd) {
