@@ -35,8 +35,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% block breadcrumbs %}
     {{ block.super }}
 
-    {% trans "Dashboard" as bread %}
+    {% trans "Analytics" as bread %}
+    {% trans "Professor" as bread2 %}
     {% breadcrumb bread 'dashboards:view_teacher' subject.slug %}
+    {% breadcrumb bread2 'dashboards:view_teacher' subject.slug %}
 {% endblock %}
 
 {% block content %}
@@ -45,7 +47,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             <div class="row">
                 <div class="col-md-12 category-header">
                     <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
-                        <span>{{subject.name}} / {% trans 'Dashboard' %}</span>
+                        <span>{{subject.name}} / {% trans 'Analytics / Professor' %}</span>
                     </h4>
 
                     <div class="col-md-5 pull-right category-card-items">

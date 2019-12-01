@@ -558,6 +558,27 @@ def get_days_in_period(data_ini, data_end):
         if (data_ini <= day <= data_end):
             days_set.add(day)
 
+    months_btw = data_end.month - data_ini.month
+    year_btw = data_ini.year
+
+    if months_btw < 0:
+        months_btw = months_btw * (-1)
+
+    month_b = data_ini.month
+
+    for i in range(0, months_btw):
+        month_b = data_ini.month + i
+
+        if month_b > 12:
+            month_b = 1
+            year_btw = year_btw + 1
+
+        dates_btw = c.itermonthdates(year_btw, month_b)
+
+        for day in dates_btw:
+            if (data_ini <= day <= data_end):
+                days_set.add(day)
+
     dates_end = c.itermonthdates(data_end.year, data_end.month)
 
     for day in dates_end:
@@ -577,7 +598,7 @@ def monthly_users_activity(subject, data_ini, data_end):
 
     searchs = []
     days = []
-    
+
     for day in period:
         searchs.append(count_daily_access(subject.id, list(students), day))
         days.append(day)
@@ -588,12 +609,14 @@ def monthly_users_activity(subject, data_ini, data_end):
         accessess = [x.to_dict()['hits'] for x in res]
 
         users = set()
-        
+        dates_set = set()
+
         for access in accessess:
             for hits in access['hits']:
                 log = hits['_source']
 
                 accessDate = parse_datetime(log['datetime'])
+                dates_set.add(accessDate.date())
 
                 utuple = (str(accessDate.day) + '-' + str(accessDate.month) + '-' + str(accessDate.year), log['user_id'])
 
@@ -601,6 +624,12 @@ def monthly_users_activity(subject, data_ini, data_end):
                     users.add(utuple)
                     
                     data.append({'year': accessDate.year, 'month': accessDate.month - 1, 'day': accessDate.day, 'hour': accessDate.hour, 'user_id': log['user_id'], 'value': 1, 'count': 1})
+
+        for day in period:
+            if not day in dates_set:
+                dates_set.add(day)
+
+                data.append({'year': day.year, 'month': day.month - 1, 'day': day.day, 'hour': 0, 'user_id': 0, 'value': 0, 'count': 0})
 
         data = sorted(data, key = lambda x: (x['month'], x['day']))
 
