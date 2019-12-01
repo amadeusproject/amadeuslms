@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-01 20:46+0000\n"
+"POT-Creation-Date: 2019-12-01 23:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -284,16 +284,25 @@ msgid "Most active users"
 msgstr "Usuários mais ativos"
 
 #: dashboards/templates/dashboards/subjects.html:37
-#: dashboards/templates/dashboards/subjects.html:61 dashboards/views.py:243
-#: dashboards/views.py:367
+#: dashboards/templates/dashboards/teacher/index.html:38
+#: dashboards/views.py:243 dashboards/views.py:367
 msgid "Analytics"
 msgstr "Analytics"
 
-#: dashboards/templates/dashboards/subjects.html:74
+#: dashboards/templates/dashboards/subjects.html:38
+#: dashboards/templates/dashboards/teacher/_users_bubble.html:47
+msgid "Student"
+msgstr "Aluno"
+
+#: dashboards/templates/dashboards/subjects.html:51
+msgid "Analytics / Student"
+msgstr "Analytics / Estudante"
+
+#: dashboards/templates/dashboards/subjects.html:76
 msgid "In the last 7 days..."
 msgstr "Nos últimos 7 dias..."
 
-#: dashboards/templates/dashboards/subjects.html:89
+#: dashboards/templates/dashboards/subjects.html:91
 msgid "Your Essential Tasks"
 msgstr "Suas Tarefas Essenciais"
 
@@ -331,7 +340,6 @@ msgstr "Tag"
 #: dashboards/templates/dashboards/subjects_cloudy.html:58
 #: dashboards/templates/dashboards/teacher/_cloud_tags.html:54
 #: dashboards/templates/dashboards/teacher/_resources_table.html:34
-#: dashboards/templates/dashboards/teacher/_users_bubble.html:51
 msgid "Accessess"
 msgstr "Acessos"
 
@@ -539,8 +547,8 @@ msgid "Days with more students"
 msgstr "Dias com mais estudantes"
 
 #: dashboards/templates/dashboards/teacher/_heatmap.html:20
-msgid "Compares the access number by month and week day"
-msgstr "Compara o número de acessos por dia do mês e dia da semana."
+msgid "Compares the number of distinct students in each day"
+msgstr "Compara o número de estudantes distintos em cada dia"
 
 #: dashboards/templates/dashboards/teacher/_heatmap.html:26
 msgid "Distinct students"
@@ -560,37 +568,40 @@ msgstr "Estudantes que mais interagem"
 
 #: dashboards/templates/dashboards/teacher/_users_bubble.html:20
 msgid ""
-"Compares the access number realized by the students subscribed in the subject"
+"Compares the interactions number realized by the students subscribed in the "
+"subject"
 msgstr ""
-"Compara o número de acessos realizados pelos alunos matriculados na "
+"Compara o número de interações realizadas pelos estudantes matriculados na "
 "disciplina."
 
 #: dashboards/templates/dashboards/teacher/_users_bubble.html:36
 msgid "Student interactions"
 msgstr "Interações do estudante"
 
-#: dashboards/templates/dashboards/teacher/_users_bubble.html:47
-msgid "Student"
-msgstr "Aluno"
+#: dashboards/templates/dashboards/teacher/_users_bubble.html:51
+msgid "Interactions"
+msgstr "Interações"
 
-#: dashboards/templates/dashboards/teacher/index.html:38
-#: dashboards/templates/dashboards/teacher/index.html:48
-msgid "Dashboard"
-msgstr "Dashboard"
+#: dashboards/templates/dashboards/teacher/index.html:39
+msgid "Professor"
+msgstr "Professor"
 
-#: dashboards/templates/dashboards/teacher/index.html:67
+#: dashboards/templates/dashboards/teacher/index.html:50
+msgid "Analytics / Professor"
+msgstr "Analytics / Professor"
+
+#: dashboards/templates/dashboards/teacher/index.html:69
 msgid "Select the required period"
 msgstr "Selecione o período desejado"
 
-#: dashboards/templates/dashboards/teacher/index.html:70
+#: dashboards/templates/dashboards/teacher/index.html:72
 msgid "From"
 msgstr "De"
 
-#: dashboards/templates/dashboards/teacher/index.html:79
+#: dashboards/templates/dashboards/teacher/index.html:81
 msgid "Until"
 msgstr "Até"
 
 #: dashboards/templatetags/analytics_tag.py:31
 msgid "Other indicator"
 msgstr "Outro indicador"
-
