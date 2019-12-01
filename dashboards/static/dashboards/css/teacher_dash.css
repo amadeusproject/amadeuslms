@@ -1,3 +1,9 @@
+.period-title span{
+  color: #BDBDBD;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  margin: 0px 0px 5px
+}
 .bubble_users .header {
   display: flex;
   justify-content: space-between;
@@ -59,16 +65,30 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 7px;
+  padding: 3.5px 0px;
   border-bottom: 2px solid #666;
+}
+.nopadding {
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .cloudy-title .select-cloud {
   align-items: right;
 }
-
+.cloudy-header {
+  padding: 0px 0px;
+  margin: 0px 0px;
+  height: 100%;
+  display: block;
+}
+.cloudy-title-bar {
+  padding: 0px 0px;
+  height: 100% ;
+}
 .cloudy-title {
   display: flex;
+  margin: 0;
   justify-content: space-between;
   align-items: left;
   border-bottom: 2px solid #666;
@@ -77,6 +97,7 @@
 .cloudy-legend {
   display: flex;
   justify-content: flex-start;
+  margin: 0;
   border-bottom: 2px solid #bbb;
 }
 
@@ -89,7 +110,7 @@
 }
 .text-cloudy-legend {
   height: 20px;
-  margin-bottom: 2px;
+  margin: 2px 0px;
   padding-right:  5px;
 }
 .cloudy-header-2 {
@@ -143,6 +164,10 @@
   margin-bottom: 5px;
 }
 
+
+.heatmap .header .identifier{
+  padding: 3.5px 0px;
+}
 .heatmap .info {
   border-bottom: 2px solid #999;
   margin-bottom: 10px;
@@ -150,6 +175,7 @@
   justify-content: left;
   align-items: center;
   padding-bottom: 5px;
+  
 }
 
 .heatmap .info .info_icon {

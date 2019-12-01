@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-29 03:49+0000\n"
+"POT-Creation-Date: 2019-12-01 01:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -125,75 +125,75 @@ msgid "Sat"
 msgstr "Sab"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
-#: dashboards/templates/dashboards/subjects_gantt.html:111
-#: dashboards/views.py:89 dashboards/views.py:142
+#: dashboards/templates/dashboards/subjects_gantt.html:111 dashboards/views
+#: copy.py:90 copy.py:143 dashboards/views.py:89 dashboards/views.py:142
 msgid "January"
 msgstr "Janeiro"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
-#: dashboards/templates/dashboards/subjects_gantt.html:111
-#: dashboards/views.py:89 dashboards/views.py:142
+#: dashboards/templates/dashboards/subjects_gantt.html:111 dashboards/views
+#: copy.py:90 copy.py:143 dashboards/views.py:89 dashboards/views.py:142
 msgid "February"
 msgstr "Fevereiro"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
-#: dashboards/templates/dashboards/subjects_gantt.html:111
-#: dashboards/views.py:89 dashboards/views.py:142
+#: dashboards/templates/dashboards/subjects_gantt.html:111 dashboards/views
+#: copy.py:90 copy.py:143 dashboards/views.py:89 dashboards/views.py:142
 msgid "March"
 msgstr "Março"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
-#: dashboards/templates/dashboards/subjects_gantt.html:111
-#: dashboards/views.py:89 dashboards/views.py:142
+#: dashboards/templates/dashboards/subjects_gantt.html:111 dashboards/views
+#: copy.py:90 copy.py:143 dashboards/views.py:89 dashboards/views.py:142
 msgid "April"
 msgstr "Abril"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
 #: dashboards/templates/dashboards/d3_translate.html:29
-#: dashboards/templates/dashboards/subjects_gantt.html:112
-#: dashboards/views.py:89 dashboards/views.py:142
+#: dashboards/templates/dashboards/subjects_gantt.html:112 dashboards/views
+#: copy.py:90 copy.py:143 dashboards/views.py:89 dashboards/views.py:142
 msgid "May"
 msgstr "Maio"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
-#: dashboards/templates/dashboards/subjects_gantt.html:112
-#: dashboards/views.py:89 dashboards/views.py:142
+#: dashboards/templates/dashboards/subjects_gantt.html:112 dashboards/views
+#: copy.py:90 copy.py:143 dashboards/views.py:89 dashboards/views.py:142
 msgid "June"
 msgstr "Junho"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
-#: dashboards/templates/dashboards/subjects_gantt.html:112
-#: dashboards/views.py:89 dashboards/views.py:142
+#: dashboards/templates/dashboards/subjects_gantt.html:112 dashboards/views
+#: copy.py:90 copy.py:143 dashboards/views.py:89 dashboards/views.py:142
 msgid "July"
 msgstr "Julho"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
-#: dashboards/templates/dashboards/subjects_gantt.html:112
-#: dashboards/views.py:90 dashboards/views.py:143
+#: dashboards/templates/dashboards/subjects_gantt.html:112 dashboards/views
+#: copy.py:91 copy.py:144 dashboards/views.py:90 dashboards/views.py:143
 msgid "August"
 msgstr "Agosto"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
-#: dashboards/templates/dashboards/subjects_gantt.html:113
-#: dashboards/views.py:90 dashboards/views.py:143
+#: dashboards/templates/dashboards/subjects_gantt.html:113 dashboards/views
+#: copy.py:91 copy.py:144 dashboards/views.py:90 dashboards/views.py:143
 msgid "September"
 msgstr "Setembro"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
-#: dashboards/templates/dashboards/subjects_gantt.html:113
-#: dashboards/views.py:90 dashboards/views.py:143
+#: dashboards/templates/dashboards/subjects_gantt.html:113 dashboards/views
+#: copy.py:91 copy.py:144 dashboards/views.py:90 dashboards/views.py:143
 msgid "October"
 msgstr "Outubro"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
-#: dashboards/templates/dashboards/subjects_gantt.html:113
-#: dashboards/views.py:90 dashboards/views.py:143
+#: dashboards/templates/dashboards/subjects_gantt.html:113 dashboards/views
+#: copy.py:91 copy.py:144 dashboards/views.py:90 dashboards/views.py:143
 msgid "November"
 msgstr "Novembro"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
-#: dashboards/templates/dashboards/subjects_gantt.html:113
-#: dashboards/views.py:90 dashboards/views.py:143
+#: dashboards/templates/dashboards/subjects_gantt.html:113 dashboards/views
+#: copy.py:91 copy.py:144 dashboards/views.py:90 dashboards/views.py:143
 msgid "December"
 msgstr "Dezembro"
 
@@ -284,8 +284,8 @@ msgid "Most active users"
 msgstr "Usuários mais ativos"
 
 #: dashboards/templates/dashboards/subjects.html:37
-#: dashboards/templates/dashboards/subjects.html:61 dashboards/views.py:243
-#: dashboards/views.py:367
+#: dashboards/templates/dashboards/subjects.html:61 dashboards/views
+#: copy.py:244 copy.py:364 dashboards/views.py:243 dashboards/views.py:367
 msgid "Analytics"
 msgstr "Analytics"
 
@@ -298,11 +298,13 @@ msgid "Your Essential Tasks"
 msgstr "Suas Tarefas Essenciais"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:23
-#: dashboards/templates/dashboards/teacher/_cloud_tags.html:24
+#: dashboards/templates/dashboards/teacher/_cloud_tags copy 2.html:24
+#: copy.html:25 dashboards/templates/dashboards/teacher/_cloud_tags.html:24
 msgid "Most Popular Tags"
 msgstr "Tags mais populares"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:28
+#: dashboards/templates/dashboards/teacher/_cloud_tags copy.html:30
 msgid ""
 "Compare your number of hits with the number of hits in each class tag in "
 "this subject"
@@ -311,26 +313,30 @@ msgstr ""
 "nesse assunto"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:32
-#: dashboards/templates/dashboards/teacher/_users_bubble.html:24
+#: dashboards/templates/dashboards/teacher/_cloud_tags copy 2.html:32
+#: copy.html:34 dashboards/templates/dashboards/teacher/_users_bubble.html:24
 msgid "Cloudy"
 msgstr "Nuvem"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:43
-#: dashboards/templates/dashboards/teacher/_cloud_tags.html:40
+#: dashboards/templates/dashboards/teacher/_cloud_tags copy.html:45
 msgid "Class accesses"
 msgstr "Acessos da classe"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:45
+#: dashboards/templates/dashboards/teacher/_cloud_tags copy.html:47
 msgid "Your accesses"
 msgstr "Seus acessos"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:53
-#: dashboards/templates/dashboards/teacher/_cloud_tags.html:49
+#: dashboards/templates/dashboards/teacher/_cloud_tags copy 2.html:46
+#: copy.html:55 dashboards/templates/dashboards/teacher/_cloud_tags.html:49
 msgid "Tag"
 msgstr "Tag"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:58
-#: dashboards/templates/dashboards/teacher/_cloud_tags.html:54
+#: dashboards/templates/dashboards/teacher/_cloud_tags copy 2.html:51
+#: copy.html:60 dashboards/templates/dashboards/teacher/_cloud_tags.html:54
 #: dashboards/templates/dashboards/teacher/_resources_table.html:34
 #: dashboards/templates/dashboards/teacher/_users_bubble.html:51
 msgid "Accessess"
@@ -338,10 +344,12 @@ msgstr "Acessos"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:60
 #: dashboards/templates/dashboards/subjects_other_indicators.html:68
+#: dashboards/templates/dashboards/teacher/_cloud_tags copy.html:62
 msgid "Yours"
 msgstr "Seu"
 
 #: dashboards/templates/dashboards/subjects_cloudy.html:61
+#: dashboards/templates/dashboards/teacher/_cloud_tags copy.html:63
 msgid "Class"
 msgstr "Turma"
 
@@ -523,15 +531,18 @@ msgstr "Tarefas realizadas pontualmente"
 msgid "most used tags"
 msgstr "tags mais usadas"
 
+#: dashboards/templates/dashboards/teacher/_cloud_tags copy 2.html:29
 #: dashboards/templates/dashboards/teacher/_cloud_tags.html:25
 msgid "Compare access number in each class tag in this subject"
-msgstr ""
-"Compare seu número de acessos com o número de acessos em cada tag da classe "
-"nesse assunto"
+msgstr "Compara o número de acessos em cada Tag da classe nesta disciplina."
 
 #: dashboards/templates/dashboards/teacher/_cloud_tags.html:28
 msgid "Cloud"
 msgstr "Nuvem"
+
+#: dashboards/templates/dashboards/teacher/_cloud_tags.html:40
+msgid "Tagged resource accesses"
+msgstr "Acessos a recursos com a tag"
 
 #: dashboards/templates/dashboards/teacher/_heatmap.html:19
 msgid "Daily access"
@@ -577,11 +588,15 @@ msgstr "Aluno"
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: dashboards/templates/dashboards/teacher/index.html:63
+#: dashboards/templates/dashboards/teacher/index.html:62
+msgid "Select the required period"
+msgstr "Selecione o período desejado."
+
+#: dashboards/templates/dashboards/teacher/index.html:65
 msgid "From"
 msgstr "De"
 
-#: dashboards/templates/dashboards/teacher/index.html:72
+#: dashboards/templates/dashboards/teacher/index.html:74
 msgid "Until"
 msgstr "Até"
 
