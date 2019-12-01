@@ -433,6 +433,8 @@ function cloud(url, dataIn, dataEnd) {
     };
 
     cloudWord = new CloudWord(dataconfig);
+
+    $("#panel_loading_mask").hide();
   });
 }
 

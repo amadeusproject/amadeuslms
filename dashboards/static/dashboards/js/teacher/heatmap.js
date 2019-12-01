@@ -1195,13 +1195,21 @@ class HeatMap {
         };
       }
 
-      for (let i = 0; i < a.data.length; i++) {
-        a.hour.totalData[a.data[i].dayOfWeek].value += a.data[i].value;
+      const users_set = new Set();
 
-        if (a.chartConfig.hour.model === 4) {
-          this.hour.data[a.data[i].dayOfWeek * 4 + parseInt(a.data[i].hour / 6)].value += a.data[i].value;
-        } else {
-          this.hour.data[a.data[i].dayOfWeek * 24 + a.data[i].hour].value += a.data[i].value;
+      for (let i = 0; i < a.data.length; i++) {
+        const obj = `${a.data[i].dayOfWeek.toString()}-${a.data[i].user_id.toString()}`;
+
+        if (!users_set.has(obj)) {
+          users_set.add(obj);
+
+          a.hour.totalData[a.data[i].dayOfWeek].value += a.data[i].value;
+
+          if (a.chartConfig.hour.model === 4) {
+            this.hour.data[a.data[i].dayOfWeek * 4 + parseInt(a.data[i].hour / 6)].value += a.data[i].value;
+          } else {
+            this.hour.data[a.data[i].dayOfWeek * 24 + a.data[i].hour].value += a.data[i].value;
+          }
         }
       }
     }
@@ -1455,7 +1463,7 @@ function heatmapData(url, dataIni, dataEnd) {
         height: 500,
       },
       tooltip: {
-        text: "Valor: <value>\r\n Dia: <this>",
+        text: "<value> estudantes distintos\r\n Dia: <this>",
       },
     };
 
