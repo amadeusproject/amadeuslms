@@ -35,30 +35,20 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     {{ block.super }}
 
     {% trans "Analytics" as bread %}
+    {% trans "Student" as bread2 %}
     {% breadcrumb bread 'dashboards:view_subject' subject.slug %}
+    {% breadcrumb bread2 'dashboards:view_subject' subject.slug %}
 {% endblock %}
 
 {% block content %}
     {% subject_permissions request.user subject as has_subject_permissions %}
-
-    {% if has_subject_permissions %}
-        <form id="student_graph" action="{% url 'dashboards:view_subject' subject.slug %}" method="POST">
-            {% csrf_token %}
-            
-            <select name="selected_student" class="form-control" onchange="$('#student_graph').submit();">
-                {% for stu in sub_students %}
-                    <option value="{{ stu.email }}" {% if stu.email == student %} selected {% endif %}>{{ stu }}</option>
-                {% endfor %}
-            </select>
-        </form>
-    {% endif %}
 
     <div class="panel panel-info subject-panel" id="subject_{{subject.slug}}">
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-12 category-header">
                     <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
-                        <span>{{subject.name}} / {% trans 'Analytics' %}</span>
+                        <span>{{subject.name}} / {% trans 'Analytics / Student' %}</span>
                     </h4>
 
                     <div class="col-md-5 pull-right category-card-items">
@@ -67,6 +57,18 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             </div>
         </div>
         <div id="{{subject.slug}}" class="panel-collapse panel-body in collapse analytics-ungeneral">
+            {% if has_subject_permissions %}
+                <form id="student_graph" action="{% url 'dashboards:view_subject' subject.slug %}" method="POST">
+                    {% csrf_token %}
+                    
+                    <select name="selected_student" class="form-control" onchange="$('#student_graph').submit();">
+                        {% for stu in sub_students %}
+                            <option value="{{ stu.email }}" {% if stu.email == student %} selected {% endif %}>{{ stu }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            {% endif %}
+
             <!-- Dashboard -->
             <div class="row">
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 graph-container">
