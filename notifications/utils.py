@@ -45,7 +45,7 @@ def notificate():
 				device.send_message(data = {"body": notifications, "type": "pendency"})
 
 def set_notifications():
-	pendencies = Pendencies.objects.filter(Q(begin_date__date__lte = timezone.now()) & Q(resource__visible = True) & (Q(end_date__date__gte = timezone.now()) | (Q(limit_date__isnull = False) & Q(limit_date__date__gte = timezone.now()))))
+	pendencies = Pendencies.objects.filter(Q(begin_date__date__lte = timezone.now()) & Q(resource__visible = True) & (Q(end_date__date__gte = timezone.now()) | (Q(limit_date__isnull = False) & Q(limit_date__date__gte = timezone.now())) | Q(limit_date__isnull = True)))
 
 	for pendency in pendencies:
 		users = get_resource_users(pendency.resource)
