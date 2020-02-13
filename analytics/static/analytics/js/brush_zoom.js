@@ -706,8 +706,9 @@ class Gantt {
     ];
 
     function widthRect(data, i) {
-      return (a.x(data.date.end) - a.x(data.date.start)) *
-          (rects[i].scale && a.percent ? data.percent : 1);
+      return (
+          (a.x(data.date.end) - a.x(data.date.start)) *
+          (rects[i].scale && a.percent ? data.percent : 1));
     }
     function transformRect(data, i) {
       return 'translate(' + (a.x(data.date.start)) + ',' + a.y(data.position) +
@@ -731,9 +732,10 @@ class Gantt {
         .duration(transition / 10)
         .text(function(d, i) {
           return abreviate(
-              `${d.action} ${d.name}`, (a.x(d.date.end) - a.x(d.date.start)),
-              15)
+              `${d.action} ${d.name}`,
+              Math.max(widthRect(d, 0), widthRect(d, 1)), 15)
         })
+        .style('font-weight', 'bold');
     abrev_end();
     this.svg.selectAll('.now-line')
         .transition()
@@ -1235,6 +1237,14 @@ function abreviate(word, width, fontSize) {
     if (fit(text)) {
       return text;
     }
+
+    text = `${word.slice(0, width - 3)}...`;
+
+    if (fit(text)) {
+      return text;
+    }
+
+    return '';
   }
 
   return word;
