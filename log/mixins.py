@@ -61,7 +61,7 @@ class LogMixin(object):
 					if pendency.exists():
 						pendency = pendency.get()
 
-						if pendency.begin_date <= timezone.now() and (timezone.now() <= pendency.end_date or (pendency.limit_date and timezone.now() <= pendency.limit_date)):
+						if pendency.begin_date <= timezone.now() and (timezone.now() <= pendency.end_date or (pendency.limit_date and timezone.now() <= pendency.limit_date) or (not pendency.limit_date and timezone.now() > pendency.end_date)):
 							if actor in pendency.resource.students.all() or (pendency.resource.all_students and actor in pendency.resource.topic.subject.students.all()):
 								if not PendencyDone.objects.filter(pendency = pendency, student = actor).exists():
 									pendencyDone = PendencyDone()
@@ -71,7 +71,7 @@ class LogMixin(object):
 
 									if pendency.begin_date <= timezone.now() <= pendency.end_date:
 										pendencyDone.late = False
-									elif pendency.limit_date and pendency.end_date < timezone.now() <= pendency.limit_date:
+									elif (pendency.limit_date and pendency.end_date < timezone.now() <= pendency.limit_date) or (not pendency.limit_date and pendency.end_date < timezone.now()):
 										pendencyDone.late = True
 
 									pendencyDone.save()
