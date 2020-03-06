@@ -56,6 +56,8 @@ class Subject(models.Model):
     category = models.ForeignKey(Category, related_name="subject_category", null=True)
 
     max_upload_size = models.IntegerField(_("Maximum upload size"), default=1024, null=True)
+
+    display_avatar = models.BooleanField(_("Display avatar to students?"), default=False)
     
     class Meta:
         verbose_name = "Subject"

@@ -1,6 +1,8 @@
 import calendar
+import os
 from datetime import date, datetime, timedelta
 from django.utils import formats, timezone
+from django.conf import settings
 from django.utils.dateparse import parse_datetime
 from django.core.urlresolvers import reverse
 from django.utils.formats import get_format
@@ -19,6 +21,9 @@ from django.db.models import Q as Cond, Max, Count
 from django.db.models.functions import TruncDate
 
 from collections import OrderedDict
+
+from gtts import gTTS
+from mutagen.mp3 import MP3
 
 import operator, math
 
@@ -634,3 +639,44 @@ def monthly_users_activity(subject, data_ini, data_end):
         data = sorted(data, key = lambda x: (x['month'], x['day']))
 
     return data
+
+def get_avatar_audios(subject, user):
+    audios = []
+    audio_url = os.path.join(settings.MEDIA_URL, 'avatar_audio')
+    audiodir = os.path.join(settings.MEDIA_ROOT, 'avatar_audio')
+
+    if not os.path.isdir(audiodir):
+        os.makedirs(audiodir)
+
+    tts = gTTS(text = "Olá, %s!"%(str(user)), lang = 'pt-br')
+    tts.save(os.path.join(audiodir, 'welcome.mp3'))
+
+    track = MP3(os.path.join(audiodir, 'welcome.mp3'))
+
+    audios.append({ 'file': os.path.join(audio_url, 'welcome.mp3'), 'duration': track.info.length, 'text': "Olá, <b>%s</b>!"%(str(user))})
+
+    logs = Log.objects.filter(datetime__date__gte = subject.init_date, component = 'subject', action = 'view', resource = 'analytics', user_id = user.id, context__contains = {'subject_id': subject.id})
+
+    if not logs.exists():
+        tts = gTTS(text = "Seja bem-vindo ao painel de estudante", lang = 'pt-br')
+        tts.save(os.path.join(audiodir, 'intro.mp3'))
+
+        track = MP3(os.path.join(audiodir, 'intro.mp3'))
+
+        audios.append({ 'file': os.path.join(audio_url, 'intro.mp3'), 'duration': track.info.length, 'text': "Seja bem-vindo ao painel de estudante"})
+        
+        tts = gTTS(text = "O painel serve para te manter atento em relação às atividades e recursos da disciplina", lang = 'pt-br')
+        tts.save(os.path.join(audiodir, 'definition.mp3'))
+
+        track = MP3(os.path.join(audiodir, 'definition.mp3'))
+
+        audios.append({ 'file': os.path.join(audio_url, 'definition.mp3'), 'duration': track.info.length, 'text': "O painel serve para te manter atento em relação às atividades e recursos da disciplina"})
+        
+        tts = gTTS(text = "Acesse-o regularmente", lang = 'pt-br')
+        tts.save(os.path.join(audiodir, 'warning.mp3'))
+
+        track = MP3(os.path.join(audiodir, 'warning.mp3'))
+
+        audios.append({ 'file': os.path.join(audio_url, 'warning.mp3'), 'duration': track.info.length, 'text': "Acesse-o regularmente"})
+
+    return audios

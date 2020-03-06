@@ -52,7 +52,7 @@ class CreateSubjectForm(forms.ModelForm):
         model = Subject
 
         fields = ('name', 'description_brief', 'description', 'subscribe_begin', 'subscribe_end', 'init_date', 'end_date',
-         'visible', 'professor', 'students', )
+         'visible', 'professor', 'students', 'display_avatar' )
 
 
         widgets = {
@@ -159,7 +159,7 @@ class UpdateSubjectForm(forms.ModelForm):
         model = Subject
 
         fields = ('name', 'description_brief', 'description', 'subscribe_begin', 'subscribe_end', 'init_date', 'end_date',
-         'visible', 'professor', 'students',  )
+         'visible', 'professor', 'students', 'display_avatar' )
 
 
         widgets = {

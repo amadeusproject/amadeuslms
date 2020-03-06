@@ -19,6 +19,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     {% for file in style_files %}
         <link rel="stylesheet" type="text/css" href="{% static file %}">
     {% endfor %}
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboards/css/avatar.css' %}">
 {% endblock style %}
 
 {% block javascript %}
@@ -29,6 +30,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     {% for file in javascript_files %}
         <script type="text/javascript" src="{% static file %}"></script>
     {% endfor %}
+    <script src="{% static 'dashboards/js/avatar.js' %}"></script>
 {% endblock javascript %}
 
 {% block breadcrumbs %}
@@ -40,8 +42,49 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     {% breadcrumb bread2 'dashboards:view_subject' subject.slug %}
 {% endblock %}
 
+{% block sidebar %}
+    {{ block.super }}
+    <div class="avatarBox" style="display: none">
+        <div class="ballon" style="display: none">
+            <hgroup class="speech-bubble">
+                <p>Teste</p>
+            </hgroup>
+        </div>
+        <div class="upperBody">
+            <div class="hat"></div>
+            <div class="head">
+                <div class="face">
+                    <div class="topface">
+                        <div class="eye">
+                            <div class="iris">
+                                <div class="pupile"></div>
+                            </div>
+                        </div>
+                        <div class="eye">
+                            <div class="iris">
+                                <div class="pupile"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="mouth"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="axis"></div>
+        <div class="foot"></div>
+    </div>
+{% endblock %}
+
 {% block content %}
     {% subject_permissions request.user subject as has_subject_permissions %}
+
+    {% if avatar_audios|length > 0 %}
+        <div class="activate_avatar hidden-xs hidden-sm">
+            <button id="avatar" class="btn btn-success btn-raised">Ativar avatar</button>
+        </div>
+    {% endif %}
 
     <div class="panel panel-info subject-panel" id="subject_{{subject.slug}}">
         <div class="panel-heading">
@@ -116,5 +159,16 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% block addtional_scripts %}
     <script type="text/javascript">
         sessionSecurity.confirmFormDiscard = undefined;
+
+
+        let audios = {{ avatar_audios|safe }};
+
+        if (audios.length > 0) {
+            $("#avatar").click(function () {
+                $(".avatarBox").show();
+                setAudios(audios);
+                $("#avatar").parent().hide();
+            });
+        }
     </script>
 {% endblock %}

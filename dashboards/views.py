@@ -35,14 +35,13 @@ from categories.models import Category
 
 from subjects.models import Subject, Tag
 
-from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators, studentsAccess, parse_date, accessResourceCount, getAccessedTagsPeriod, getTagAccessessPeriod, monthly_users_activity
+from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators, studentsAccess, parse_date, accessResourceCount, getAccessedTagsPeriod, getTagAccessessPeriod, monthly_users_activity, get_avatar_audios
 
 from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
 from log.models import Log
 
 from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions, has_resource_permissions
-
 
 import json
 
@@ -249,6 +248,8 @@ class SubjectView(LogMixin, generic.TemplateView):
         self.log_context['subject_name'] = subject.name
         self.log_context['subject_slug'] = subject.slug
         
+        context["avatar_audios"] = []
+
         if has_subject_permissions(self.request.user, subject):
             student = self.request.POST.get('selected_student', None)
 
@@ -276,6 +277,9 @@ class SubjectView(LogMixin, generic.TemplateView):
             context["tags_cloud"] = reverse('dashboards:cloudy_data', args = (subject.slug, self.request.user.email,), kwargs = {})
             context["graph_data"] = json.dumps(get_pend_graph(self.request.user, subject))
             context["metrics_url"] = reverse('dashboards:other_metrics', args = (subject.slug, self.request.user.email,), kwargs = {})
+
+            if subject.display_avatar:
+                context["avatar_audios"] = get_avatar_audios(subject, self.request.user)
 
         context["subject"] = subject
         context["qtd_students"] = subject.students.count()
@@ -336,7 +340,6 @@ def cloudy_data_period(request, subject, email=None):
 
    
 ###### Subjects Teacher Dashboard #######
-
 class SubjectTeacher(LogMixin, generic.TemplateView):
     template_name = "dashboards/teacher/index.html"
     
