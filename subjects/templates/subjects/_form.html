@@ -60,14 +60,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 			{% render_field field class='form-control' data-role="tagsinput" %}
 		{% else %}
 			<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
-				{% if field.auto_id != 'id_visible' %}
+				{% if field.auto_id != 'id_visible' and field.auto_id != 'id_display_avatar' %}
 							{% if field.field.required %}
 						<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
 							{% else %}
 							<label for="{{ field.auto_id }}">{{ field.label }}</label>
 							{% endif %}
 				{% endif %}
-				{% if field.auto_id == 'id_visible' %}
+				{% if field.auto_id == 'id_visible' or field.auto_id == 'id_display_avatar' %}
 					<div class="checkbox">
 						<label for="{{ field.auto_id }}">
 	      					{% render_field field %} {{field.label}}
