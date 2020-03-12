@@ -141,6 +141,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         </div>
     </div>
 
+    
+
     <!--Responsibilities-->
     <script type="text/javascript">
         window.addEventListener('resize', function () {
@@ -162,12 +164,20 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 
         let audios = {{ avatar_audios|safe }};
+        let cloud_audios = {{ avatar_cloud|safe }};
 
         if (audios.length > 0) {
             $("#avatar").click(function () {
                 $(".avatarBox").show();
                 setAudios(audios);
                 $("#avatar").parent().hide();
+
+                $("#cloudyInfo").removeAttr('data-toggle').removeAttr('data-original-title').css("cursor", "pointer");
+                $("#cloudyInfo").on("click", function () {
+                    if (audios.length > 0) {
+                        playAvatarCloud(cloud_audios);
+                    }
+                });
             });
         }
     </script>
