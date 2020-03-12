@@ -649,11 +649,11 @@ def get_avatar_audios(subject, user):
         os.makedirs(audiodir)
 
     tts = gTTS(text = "Olá, %s!"%(str(user)), lang = 'pt-br')
-    tts.save(os.path.join(audiodir, 'welcome.mp3'))
+    tts.save(os.path.join(audiodir, 'welcome_%s.mp3'%(str(user))))
 
-    track = MP3(os.path.join(audiodir, 'welcome.mp3'))
+    track = MP3(os.path.join(audiodir, 'welcome_%s.mp3'%(str(user))))
 
-    audios.append({ 'file': os.path.join(audio_url, 'welcome.mp3'), 'duration': track.info.length, 'text': "Olá, <b>%s</b>!"%(str(user))})
+    audios.append({ 'file': os.path.join(audio_url, 'welcome_%s.mp3'%(str(user))), 'duration': track.info.length, 'text': "Olá, <b>%s</b>!"%(str(user))})
 
     logs = Log.objects.filter(datetime__date__gte = subject.init_date, component = 'subject', action = 'view', resource = 'analytics', user_id = user.id, context__contains = {'subject_id': subject.id})
 
@@ -678,5 +678,129 @@ def get_avatar_audios(subject, user):
         track = MP3(os.path.join(audiodir, 'warning.mp3'))
 
         audios.append({ 'file': os.path.join(audio_url, 'warning.mp3'), 'duration': track.info.length, 'text': "Acesse-o regularmente"})
+
+    return audios
+
+
+
+def avatar_cloud(subject, user):
+    audios = []
+    audio_url = os.path.join(settings.MEDIA_URL, 'avatar_audio')
+    audiodir = os.path.join(settings.MEDIA_ROOT, 'avatar_audio')
+
+    if not os.path.isdir(audiodir):
+        os.makedirs(audiodir)
+    
+    logs = Log.objects.filter(datetime__date__gte = subject.init_date, component = 'resources', action = 'view', user_id = user.id, context__contains = {'subject_id': subject.id})
+
+    if not logs.exists():
+        tts = gTTS(text = "Esta é a nuvem de tags", lang = 'pt-br')
+        tts.save(os.path.join(audiodir, 'cloud1.mp3'))
+
+        track = MP3(os.path.join(audiodir, 'cloud1.mp3'))
+
+        audios.append({ 'file': os.path.join(audio_url, 'cloud1.mp3'), 'duration': track.info.length, 'text': "Esta é a <b>nuvem de tags</b>"})
+        
+        tts = gTTS(text = "Através dela é possível identificar os recursos mais populares da disciplina", lang = 'pt-br')
+        tts.save(os.path.join(audiodir, 'cloud2.mp3'))
+
+        track = MP3(os.path.join(audiodir, 'cloud2.mp3'))
+
+        audios.append({ 'file': os.path.join(audio_url, 'cloud2.mp3'), 'duration': track.info.length, 'text': "Através dela é possível identificar os recursos mais populares da disciplina"})
+        
+        tts = gTTS(text = "Quanto maior a palavra, mais a turma acessou", lang = 'pt-br')
+        tts.save(os.path.join(audiodir, 'cloud3.mp3'))
+
+        track = MP3(os.path.join(audiodir, 'cloud3.mp3'))
+
+        audios.append({ 'file': os.path.join(audio_url, 'cloud3.mp3'), 'duration': track.info.length, 'text': "Quanto <b>maior</b> a palavra, <b>mais</b> a turma acessou"})
+        
+        tts = gTTS(text = "Quanto mais clara, mais vezes você acessou em relação à turma", lang = 'pt-br')
+        tts.save(os.path.join(audiodir, 'cloud4.mp3'))
+
+        track = MP3(os.path.join(audiodir, 'cloud4.mp3'))
+
+        audios.append({ 'file': os.path.join(audio_url, 'cloud4.mp3'), 'duration': track.info.length, 'text': "Quanto <b>mais clara</b>, <b>mais vezes</b> você acessou em relação à turma"})
+        
+        subject_url = reverse('subjects:view', args = (subject.slug,), kwargs = {})
+
+        tts = gTTS(text = "Saiba mais em: %s"%(subject_url), lang = 'pt-br')
+        tts.save(os.path.join(audiodir, 'cloud5_%s.mp3'%(subject.id)))
+
+        track = MP3(os.path.join(audiodir, 'cloud5_%s.mp3'%(subject.id)))
+
+        audios.append({ 'file': os.path.join(audio_url, 'cloud5_%s.mp3'%(subject.id)), 'duration': track.info.length, 'text': "Saiba mais em: <a href='%s' target='_blank'>%s</a>"%(subject_url,subject_url)})
+
+        return audios
+
+    tags = Tag.objects.filter(resource_tags__topic__subject = subject).distinct().all() 
+
+    data = []
+    searchs = []
+    for tag in tags:
+        if not tag.name == '':
+            resources = Resource.objects.filter(tags__id = tag.id, topic__subject = subject)
+
+            if resources.count() > 0:
+                searchs.append(count_logs(resources))
+                searchs.append(count_logs(resources, user.id))
+                tag.access = 1
+            else:
+                tag.access = 0
+
+    res = multi_search(searchs)
+
+    counter = 0
+    
+    for tag in tags:
+        if not tag.name == '':
+            item = {}
+            item["tag_name"] = tag.name
+            item["details_url"] = reverse('dashboards:tag_accessess', args = (tag.id, subject.slug,user.email), kwargs = {})
+            
+
+            if tag.access == 1:
+                item["qtd_access"] = res[counter].to_dict()['hits']['total']['value']
+                item["qtd_my_access"] = res[counter + 1].to_dict()['hits']['total']['value']
+                
+                counter = counter + 2
+            else:
+                item["qtd_access"] = 0
+                item["qtd_my_access"] = 0
+            data.append(item)
+
+    data = sorted(data, key = lambda x: x['qtd_access'], reverse = True)
+    data = data[0:math.floor(30 / 1000 * 775)]
+
+    most_accessed = data[0]
+
+    if most_accessed['qtd_my_access'] <= 0:
+        tts = gTTS(text = "Estes recursos estão em alta, dá uma conferida", lang = 'pt-br')
+        tts.save(os.path.join(audiodir, 'most_accessed.mp3'))
+
+        track = MP3(os.path.join(audiodir, 'most_accessed.mp3'))
+
+        audios.append({ 'file': os.path.join(audio_url, 'most_accessed.mp3'), 'duration': track.info.length, 'text': "Estes recursos estão em alta, dá uma conferida", 'resource_link': most_accessed['details_url'], 'tagName': most_accessed['tag_name']})
+
+        return audios
+
+    less_accessed = data[len(data) - 1]
+
+    if less_accessed['qtd_my_access'] <= 0:
+        tts = gTTS(text = "Talvez você tenha deixado de ver algo importante", lang = 'pt-br')
+        tts.save(os.path.join(audiodir, 'less_accessed.mp3'))
+
+        track = MP3(os.path.join(audiodir, 'less_accessed.mp3'))
+
+        audios.append({ 'file': os.path.join(audio_url, 'less_accessed.mp3'), 'duration': track.info.length, 'text': "Talvez você tenha deixado de ver algo importante", 'resource_link': less_accessed['details_url'], 'tagName': less_accessed['tag_name']})
+
+        return audios
+
+    tts = gTTS(text = "Parabéns! Continue acessando regularmente o ambiente da disciplina", lang = 'pt-br')
+    tts.save(os.path.join(audiodir, 'congratulations.mp3'))
+
+    track = MP3(os.path.join(audiodir, 'congratulations.mp3'))
+
+    audios.append({ 'file': os.path.join(audio_url, 'congratulations.mp3'), 'duration': track.info.length, 'text': "Parabéns! Continue acessando regularmente o ambiente da disciplina"})
 
     return audios
