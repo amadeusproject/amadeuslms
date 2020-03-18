@@ -117,7 +117,7 @@ def count_diff_days(subject, userid):
 def count_access_resources(subject, userid):
     s = Search().extra(size=0)
 
-    s = s.query('bool', must=[Q("range", datetime={'gte': 'now-147h', 'lte': 'now-3h'}), Q("match", component="resources"), Q('match', **{'context__subject_id': subject}), Q('match', user_id=userid)])
+    s = s.query('bool', must=[Q("range", datetime={'time_zone': '-03:00', 'gte': 'now-6d', 'lte': 'now'}), Q("match", component="resources"), Q('match', **{'context__subject_id': subject}), Q('match', user_id=userid)])
     
     return s
 

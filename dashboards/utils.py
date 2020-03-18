@@ -236,7 +236,7 @@ def getTagAccessessPeriod(subject, tag, user,data_ini,data_end):
 
 
 def getOtherIndicators(subject, user):
-    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(hours = 7*24+3), datetime__date__lt = timezone.now() - timedelta(hours = 3))
+    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(hours = 7*24+3), datetime__date__lte = timezone.now() - timedelta(hours = 3))
 
     data = []
     searchs = []
@@ -351,7 +351,6 @@ def getOtherIndicators(subject, user):
 
     if searchs:
         res = multi_search(searchs)
-       
         
         accessess = [x.to_dict()['hits']['total']['value'] for x in res]
 
@@ -393,30 +392,38 @@ def getOtherIndicators(subject, user):
     s = [student.id for student in students]
     accessess=[]
 
-    accessess.append(resources_access.filter(user_id__in = s).values('resource').distinct().count())
+    students_sets = {key: set() for key in s}
+
+    for entry in resources_access.filter(user_id__in = s).all():
+        students_sets[entry.user_id].add(entry.context['%s_id'%(entry.resource)])
+
+    students_accessess = [len(students_sets[x]) for x in students_sets]
+
+    students_accessess.sort()
     
     item = {}
     
-    if accessess:
-        my_access = resources_access.filter(user_id = user.id).values('resource').distinct().count()
+    if students_accessess:
+        my_access = set()
 
-        accessess = list(dict.fromkeys(accessess))
+        for entry in resources_access.filter(user_id = user.id).all():
+            my_access.add(entry.context['%s_id'%(entry.resource)])
 
-        qtd_results = len(accessess)
+        qtd_results = len(students_accessess)
 
         if qtd_results > 5:
-            item['percentil_1'] = accessess[math.floor(qtd_results * 0.25)]
-            item['percentil_2'] = accessess[math.floor(qtd_results * 0.5)]
-            item['percentil_3'] = accessess[math.floor(qtd_results * 0.75)]
-            item['percentil_4'] = accessess[math.floor(qtd_results * 0.9)]
+            item['percentil_1'] = students_accessess[math.floor(qtd_results * 0.25)]
+            item['percentil_2'] = students_accessess[math.floor(qtd_results * 0.5)]
+            item['percentil_3'] = students_accessess[math.floor(qtd_results * 0.75)]
+            item['percentil_4'] = students_accessess[math.floor(qtd_results * 0.9)]
         else:
-            item['percentil_1'] = accessess[-5] if len(accessess) == 5 else 0
-            item['percentil_2'] = accessess[-4] if len(accessess) > 3 else 0
-            item['percentil_3'] = accessess[-3] if len(accessess) > 2 else 0
-            item['percentil_4'] = accessess[-2] if len(accessess) > 1 else 0 
+            item['percentil_1'] = students_accessess[-5] if len(students_accessess) == 5 else 0
+            item['percentil_2'] = students_accessess[-4] if len(students_accessess) > 3 else 0
+            item['percentil_3'] = students_accessess[-3] if len(students_accessess) > 2 else 0
+            item['percentil_4'] = students_accessess[-2] if len(students_accessess) > 1 else 0 
 
-        item['max_access'] = accessess[-1]
-        item['my_access'] = my_access
+        item['max_access'] = students_accessess[-1]
+        item['my_access'] = len(my_access)
     else:
         item['percentil_1'] = 0
         item['percentil_2'] = 0
@@ -447,7 +454,6 @@ def getOtherIndicators(subject, user):
             accessess = list(dict.fromkeys(accessess))
             accessess.sort()
          
-
             qtd_results = len(accessess)
 
             if qtd_results > 5:
