@@ -687,8 +687,6 @@ def get_avatar_audios(subject, user):
 
     return audios
 
-
-
 def avatar_cloud(subject, user):
     audios = []
     audio_url = os.path.join(settings.MEDIA_URL, 'avatar_audio')
