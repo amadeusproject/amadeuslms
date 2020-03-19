@@ -166,15 +166,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         let cloud_audios = {{ avatar_cloud|safe }};
 
         if (audios.length > 0) {
-            let avatar = new Avatar($("#avatar"), audios, cloud_audios);
+            let avatar = new Avatar({introAudios: audios, cloudAudios: cloud_audios});
 
             $("#avatar").click(function () {
                 avatar.Init();
-
-                $("#cloudyInfo").removeAttr('data-toggle').removeAttr('data-original-title').css("cursor", "pointer");
-                $("#cloudyInfo").on("click", function () {
-                    avatar.playCloud();
-                });
             });
         }
     </script>
