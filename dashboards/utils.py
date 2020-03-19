@@ -393,7 +393,9 @@ def getOtherIndicators(subject, user):
     students_sets = {key: set() for key in s}
 
     for entry in resources_access.filter(user_id__in = s).all():
-        students_sets[entry.user_id].add(entry.context['%s_id'%(entry.resource)])
+        resource_name = "goals" if entry.resource == "my_goals" else entry.resource
+
+        students_sets[entry.user_id].add(entry.context['%s_id'%(resource_name)])
 
     students_accessess = [len(students_sets[x]) for x in students_sets]
 
@@ -405,7 +407,9 @@ def getOtherIndicators(subject, user):
         my_access = set()
 
         for entry in resources_access.filter(user_id = user.id).all():
-            my_access.add(entry.context['%s_id'%(entry.resource)])
+            resource_name = "goals" if entry.resource == "my_goals" else entry.resource
+
+            my_access.add(entry.context['%s_id'%(resource_name)])
 
         qtd_results = len(students_accessess)
 
