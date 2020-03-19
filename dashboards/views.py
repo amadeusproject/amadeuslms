@@ -35,7 +35,7 @@ from categories.models import Category
 
 from subjects.models import Subject, Tag
 
-from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators, studentsAccess, parse_date, accessResourceCount, getAccessedTagsPeriod, getTagAccessessPeriod, monthly_users_activity, get_avatar_audios, avatar_cloud
+from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators, studentsAccess, parse_date, accessResourceCount, getAccessedTagsPeriod, getTagAccessessPeriod, monthly_users_activity, get_avatar_audios, avatar_cloud, avatar_indicators
 
 from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
@@ -250,6 +250,7 @@ class SubjectView(LogMixin, generic.TemplateView):
         
         context["avatar_audios"] = []
         context["avatar_cloud"] = []
+        context["avatar_indicators"] = []
 
         if has_subject_permissions(self.request.user, subject):
             student = self.request.POST.get('selected_student', None)
@@ -282,6 +283,7 @@ class SubjectView(LogMixin, generic.TemplateView):
             if subject.display_avatar:
                 context["avatar_audios"] = get_avatar_audios(subject, self.request.user)
                 context["avatar_cloud"] = avatar_cloud(subject, self.request.user)
+                context["avatar_indicators"] = avatar_indicators(subject, self.request.user)
 
         context["subject"] = subject
         context["qtd_students"] = subject.students.count()
@@ -307,9 +309,6 @@ def tag_accessess_period(request, tag, subject, email, data_ini, data_end):
     tag = Tag.objects.get(id = tag)
     user = User.objects.get(email = email)
     return JsonResponse(getTagAccessessPeriod(sub, tag, user, data_ini,data_end), safe = False)
-    
-    
-  
 
 def other_metrics(request, subject, email):
     sub = Subject.objects.get(slug = subject)
