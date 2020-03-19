@@ -687,8 +687,6 @@ def get_avatar_audios(subject, user):
 
     return audios
 
-
-
 def avatar_cloud(subject, user):
     audios = []
     audio_url = os.path.join(settings.MEDIA_URL, 'avatar_audio')
@@ -697,7 +695,7 @@ def avatar_cloud(subject, user):
     if not os.path.isdir(audiodir):
         os.makedirs(audiodir)
     
-    logs = Log.objects.filter(datetime__date__gte = subject.init_date, component = 'resources', action = 'view', user_id = user.id, context__contains = {'subject_id': subject.id})
+    logs = Log.objects.filter(datetime__date__gte = subject.init_date, component = 'subject', action = 'view', resource = 'analytics', user_id = user.id, context__contains = {'subject_id': subject.id})
 
     if not logs.exists():
         tts = gTTS(text = "Esta é a nuvem de tags", lang = 'pt-br')
