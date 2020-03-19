@@ -35,7 +35,7 @@ class Avatar {
   playCloud() {
     if (!this.playing) {
       $("#tagCloudy").css("box-shadow", "0 0 0 999px rgba(0, 0, 0, 0.5)");
-      $(".avatarBox").css("z-index", "9");
+      $(".avatarBox").css("z-index", "9999");
       $("#otherIndicators svg").css("filter", "brightness(0.5)");
       $(".graph-container svg").css("filter", "brightness(0.5)");
 
