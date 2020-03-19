@@ -162,22 +162,15 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     <script type="text/javascript">
         sessionSecurity.confirmFormDiscard = undefined;
 
-
         let audios = {{ avatar_audios|safe }};
         let cloud_audios = {{ avatar_cloud|safe }};
+        let indicators_audios = {{ avatar_indicators|safe }};
 
         if (audios.length > 0) {
-            $("#avatar").click(function () {
-                $(".avatarBox").show();
-                setAudios(audios);
-                $("#avatar").parent().hide();
+            let avatar = new Avatar({introAudios: audios, cloudAudios: cloud_audios, indAudios: indicators_audios});
 
-                $("#cloudyInfo").removeAttr('data-toggle').removeAttr('data-original-title').css("cursor", "pointer");
-                $("#cloudyInfo").on("click", function () {
-                    if (audios.length > 0) {
-                        playAvatarCloud(cloud_audios);
-                    }
-                });
+            $("#avatar").click(function () {
+                avatar.Init();
             });
         }
     </script>
