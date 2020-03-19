@@ -1,10 +1,20 @@
 class Avatar {
-  constructor({ trigger = $("#avatar"), cloudTrigger = $("#cloudyInfo"), introAudios = [], cloudAudios = [] } = {}) {
+  constructor({
+    trigger = $("#avatar"),
+    cloudTrigger = $("#cloudyInfo"),
+    indTrigger = $("#indicatorsInfo"),
+    introAudios = [],
+    cloudAudios = [],
+    indAudios = [],
+  } = {}) {
     this.$trigger = trigger;
     this.$cloudTrigger = cloudTrigger;
+    this.$indTrigger = indTrigger;
 
     this.intro = introAudios;
     this.cloud = cloudAudios;
+    this.indicators = indAudios;
+
     this.playing = false;
   }
 
@@ -26,6 +36,19 @@ class Avatar {
         avatar.playCloud();
       });
     }
+
+    if (this.indicators.length > 0) {
+      this.$indTrigger
+        .removeAttr("data-toggle")
+        .removeAttr("data-original-title")
+        .css("cursor", "pointer");
+
+      let avatar = this;
+
+      this.$indTrigger.on("click", function() {
+        avatar.playIndicators();
+      });
+    }
   }
 
   playIntro() {
@@ -37,14 +60,31 @@ class Avatar {
       $("#tagCloudy").css("box-shadow", "0 0 0 999px rgba(0, 0, 0, 0.5)");
       $(".avatarBox").css("z-index", "9999");
       $("#otherIndicators svg").css("filter", "brightness(0.5)");
-      $(".graph-container svg").css("filter", "brightness(0.5)");
+      $("#gantt svg").css("filter", "brightness(0.5)");
 
       let totalTime = this.setAudios(this.cloud);
 
       setTimeout(function() {
         $("#tagCloudy").css("box-shadow", "none");
         $("#otherIndicators svg").css("filter", "brightness(1)");
-        $(".graph-container svg").css("filter", "brightness(1)");
+        $("#gantt svg").css("filter", "brightness(1)");
+      }, totalTime);
+    }
+  }
+
+  playIndicators() {
+    if (!this.playing) {
+      $("#otherIndicators").css("box-shadow", "0 0 0 999px rgba(0, 0, 0, 0.5)");
+      $(".avatarBox").css("z-index", "9999");
+      $("#tagCloudy svg").css("filter", "brightness(0.5)");
+      $("#gantt svg").css("filter", "brightness(0.5)");
+
+      let totalTime = this.setAudios(this.indicators);
+
+      setTimeout(function() {
+        $("#otherIndicators").css("box-shadow", "none");
+        $("#tagCloudy svg").css("filter", "brightness(1)");
+        $("#gantt svg").css("filter", "brightness(1)");
       }, totalTime);
     }
   }
@@ -69,7 +109,7 @@ class Avatar {
 
         $(".ballon").show();
 
-        // audio.play();
+        audio.play();
       }, totalTime);
 
       totalTime += file.duration * 1000;

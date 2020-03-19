@@ -164,9 +164,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
         let audios = {{ avatar_audios|safe }};
         let cloud_audios = {{ avatar_cloud|safe }};
+        let indicators_audios = {{ avatar_indicators|safe }};
 
         if (audios.length > 0) {
-            let avatar = new Avatar({introAudios: audios, cloudAudios: cloud_audios});
+            let avatar = new Avatar({introAudios: audios, cloudAudios: cloud_audios, indAudios: indicators_audios});
 
             $("#avatar").click(function () {
                 avatar.Init();
