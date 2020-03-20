@@ -236,7 +236,7 @@ def getTagAccessessPeriod(subject, tag, user,data_ini,data_end):
 
 
 def getOtherIndicators(subject, user):
-    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(hours = 6*24+3), datetime__date__lte = timezone.now() - timedelta(hours = 3))
+    logs = Log.objects.filter(datetime__date__gte = timezone.now() - timedelta(days = 6), datetime__date__lte = timezone.now())
 
     data = []
     searchs = []
@@ -438,7 +438,7 @@ def getOtherIndicators(subject, user):
         
     #Fifth indicator
     
-    pend = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, begin_date__date__lt=timezone.now() - timedelta(hours = 3), end_date__date__gte = timezone.now() - timedelta(hours = 7*24+3))
+    pend = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, begin_date__date__lt=timezone.now(), end_date__date__gte = timezone.now() - timedelta(days = 6))
     accessess = []
     
     item = {}
@@ -906,7 +906,7 @@ def avatar_indicators(subject, user):
 
         return audios
 
-    pend = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, begin_date__date__lt=timezone.now() - timedelta(hours = 3), end_date__date__gte = timezone.now() - timedelta(hours = 7*24+3))
+    pend = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, begin_date__date__lt=timezone.now(), end_date__date__gte = timezone.now() - timedelta(days = 6))
     accessess = []
     
     if pend.count() > 0:
