@@ -62,9 +62,21 @@
   display: flex;
   align-items: inherit;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
 }
 .eye:not(:last-of-type) {
   margin-right: 0.5rem;
+}
+.eyelid {
+  width: 2.3rem;
+  height: 0%;
+  background: #000000;
+  border-top-left-radius: 60%;
+  border-top-right-radius: 60%;
+  position: absolute;
+  top: 0%;
+  animation: blink 2s infinite;
 }
 .iris {
   width: 1.9rem;
@@ -153,4 +165,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    height: 0%;
+  }
+
+  50% {
+    height: 100%;
+  }
+}
+
+@-webkit-keyframes blink {
+  0%,
+  100% {
+    height: 0%;
+  }
+
+  50% {
+    height: 100%;
+  }
 }
