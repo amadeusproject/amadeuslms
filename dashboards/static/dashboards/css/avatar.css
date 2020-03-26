@@ -142,3 +142,15 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.controls {
+  display: flex;
+}
+.controls span {
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

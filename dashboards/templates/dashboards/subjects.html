@@ -44,7 +44,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% block sidebar %}
     {{ block.super }}
-    <div class="avatarBox" style="display: none">
+    <div class="avatarBox">
         <div class="ballon" style="display: none">
             <hgroup class="speech-bubble">
                 <p>Teste</p>
@@ -74,17 +74,37 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         </div>
         <div class="axis"></div>
         <div class="foot"></div>
+        <div class="controls">
+            <span id="previous">
+                <i class="fa fa-step-backward"></i>
+            </span>
+            <span id="pause">
+                <i class="fa fa-pause"></i>
+            </span>
+            <span id="play">
+                <i class="fa fa-play"></i>
+            </span>
+            <span id="stop">
+                <i class="fa fa-stop"></i>
+            </span>
+            <span id="replay">
+                <i class="fa fa-refresh"></i>
+            </span>
+            <span id="next">
+                <i class="fa fa-step-forward"></i>
+            </span>
+            <span id="audio">
+                <i class="fa fa-volume-off"></i>
+            </span>
+            <span id="audioOff">
+                <i class="fa fa-volume-up"></i>
+            </span>
+        </div>
     </div>
 {% endblock %}
 
 {% block content %}
     {% subject_permissions request.user subject as has_subject_permissions %}
-
-    {% if avatar_audios|length > 0 %}
-        <div class="activate_avatar hidden-xs hidden-sm">
-            <button id="avatar" class="btn btn-success btn-raised">Ativar avatar</button>
-        </div>
-    {% endif %}
 
     <div class="panel panel-info subject-panel" id="subject_{{subject.slug}}">
         <div class="panel-heading">
@@ -151,9 +171,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 cloudy_responsibilities();
                 indicators_responsibilities();
             });
-            /*setTimeout(function() { 
-                
-             }, 100);*/
         });
     </script>
 {% endblock %}
@@ -169,9 +186,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         if (audios.length > 0) {
             let avatar = new Avatar({introAudios: audios, cloudAudios: cloud_audios, indAudios: indicators_audios});
 
-            $("#avatar").click(function () {
-                avatar.Init();
-            });
+            avatar.Init();
         }
     </script>
 {% endblock %}
