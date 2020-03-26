@@ -138,6 +138,7 @@ class Avatar {
     window.clearInterval(avatar.textTimeout);
 
     $('.ballon').hide();
+    $('.mouth').removeClass('mouthSpeak');
 
     avatar.duration = 0;
     avatar.counter = 0;
@@ -159,6 +160,7 @@ class Avatar {
     let avatar = this;
 
     window.clearInterval(avatar.textTimeout);
+    $('.mouth').removeClass('mouthSpeak');
 
     if (avatar.hasAudio) {
       avatar.audio.pause();
@@ -206,6 +208,7 @@ class Avatar {
     }
 
     $('.ballon').show();
+    $('.mouth').addClass('mouthSpeak');
 
     if (avatar.hasAudio) {
       avatar.audio.play();
@@ -259,6 +262,7 @@ class Avatar {
     avatar.counter -= 1;
 
     $('.ballon').hide();
+    $('.mouth').removeClass('mouthSpeak');
 
     avatar.$nextBtn.show();
     avatar.$replayBtn.hide();
@@ -286,6 +290,7 @@ class Avatar {
     avatar.counter += 1;
 
     $('.ballon').hide();
+    $('.mouth').removeClass('mouthSpeak');
 
     avatar.$previousBtn.show();
     avatar.$replayBtn.hide();
