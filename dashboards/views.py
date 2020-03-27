@@ -275,6 +275,11 @@ class SubjectView(LogMixin, generic.TemplateView):
                 context["graph_data"] = json.dumps(get_pend_graph(student, subject))
                 context["tags_cloud"] = reverse('dashboards:cloudy_data', args = (subject.slug, student.email,), kwargs = {})
                 context["metrics_url"] = reverse('dashboards:other_metrics', args = (subject.slug, student.email,), kwargs = {})
+
+            if subject.display_avatar:
+                context["avatar_audios"] = get_avatar_audios(subject, student)
+                context["avatar_cloud"] = avatar_cloud(subject, student)
+                context["avatar_indicators"] = avatar_indicators(subject, student)
         else:
             context["tags_cloud"] = reverse('dashboards:cloudy_data', args = (subject.slug, self.request.user.email,), kwargs = {})
             context["graph_data"] = json.dumps(get_pend_graph(self.request.user, subject))
