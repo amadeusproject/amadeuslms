@@ -275,7 +275,10 @@ class Avatar {
 
       let file = avatar.activePlayslist[avatar.counter];
 
-      avatar.audio.src = file.file;
+      if (avatar.hasAudio) {
+        avatar.audio.src = file.file;
+      }
+
       avatar.showText(file);
     } else {
       avatar.playing = false;
@@ -303,7 +306,10 @@ class Avatar {
 
       let file = avatar.activePlayslist[avatar.counter];
 
-      avatar.audio.src = file.file;
+      if (avatar.hasAudio) {
+        avatar.audio.src = file.file;
+      }
+
       avatar.showText(file);
     } else {
       avatar.$nextBtn.hide();
