@@ -1,7 +1,7 @@
 .avatarBox {
   width: 11rem;
   height: 20rem;
-  background-color: transparent;
+  background-color: #eeeeee;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -168,6 +168,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#avatar_mask {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0%;
+  left: 0%;
+  background-color: #000000;
+  opacity: 0.3;
+  display: none;
+  z-index: 9;
 }
 
 @keyframes blink {
