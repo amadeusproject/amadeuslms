@@ -106,6 +106,10 @@ class Avatar {
     avatar.$noAudioBtn.on('click', function() {
       avatar.unsetAudio();
     });
+
+    $('#avatar_mask').on('click', function() {
+      avatar.stop();
+    });
   }
 
   play(files) {
@@ -275,7 +279,10 @@ class Avatar {
 
       let file = avatar.activePlayslist[avatar.counter];
 
-      avatar.audio.src = file.file;
+      if (avatar.hasAudio) {
+        avatar.audio.src = file.file;
+      }
+
       avatar.showText(file);
     } else {
       avatar.playing = false;
@@ -303,7 +310,10 @@ class Avatar {
 
       let file = avatar.activePlayslist[avatar.counter];
 
-      avatar.audio.src = file.file;
+      if (avatar.hasAudio) {
+        avatar.audio.src = file.file;
+      }
+
       avatar.showText(file);
     } else {
       avatar.$nextBtn.hide();
@@ -322,31 +332,27 @@ class Avatar {
   }
 
   playCloud() {
-    $('#tagCloudy').css('box-shadow', '0 0 0 999px rgba(0, 0, 0, 0.5)');
+    $('#avatar_mask').show();
+    $('#tagCloudy').css('z-index', '10').css('background', '#FFFFFF');
     $('.avatarBox').css('z-index', '9999');
-    $('#otherIndicators svg').css('filter', 'brightness(0.5)');
-    $('#gantt svg').css('filter', 'brightness(0.5)');
 
     this.play(this.cloud);
     this.lastPlayed = 'cloud';
   }
 
   playIndicators() {
-    $('#otherIndicators').css('box-shadow', '0 0 0 999px rgba(0, 0, 0, 0.5)');
+    $('#avatar_mask').show();
+    $('#otherIndicators').css('z-index', '10').css('background', '#FFFFFF');
     $('.avatarBox').css('z-index', '9999');
-    $('#tagCloudy svg').css('filter', 'brightness(0.5)');
-    $('#gantt svg').css('filter', 'brightness(0.5)');
 
     this.play(this.indicators);
     this.lastPlayed = 'indicators';
   }
 
   clearMask() {
-    $('#tagCloudy').css('box-shadow', 'none');
-    $('#otherIndicators svg').css('filter', 'brightness(1)');
-    $('#otherIndicators').css('box-shadow', 'none');
-    $('#tagCloudy svg').css('filter', 'brightness(1)');
-    $('#gantt svg').css('filter', 'brightness(1)');
+    $('#avatar_mask').hide();
+    $('#tagCloudy').css('background', 'transparent');
+    $('#otherIndicators').css('background', 'transparent');
   }
 
   showResourcesTable(link, tagName) {
