@@ -303,7 +303,7 @@ def getOtherIndicators(subject, user):
     
     if searchs:
         res = multi_search(searchs)
-       
+
         accessess = [len(x.to_dict()['aggregations']['dt']['buckets']) if 'aggregations' in x.to_dict() else 0 for x in res]
 
         my_access = accessess[-1]
@@ -455,7 +455,7 @@ def getOtherIndicators(subject, user):
 
             accessess = list(dict.fromkeys(accessess))
             accessess.sort()
-         
+
             qtd_results = len(accessess)
 
             if qtd_results > 5:
@@ -923,7 +923,7 @@ def avatar_indicators(subject, user):
         accessess.sort()
         
         qtd_results = len(accessess)
-         
+
         if qtd_results > 5:
             percentil = accessess[math.floor(qtd_results * 0.9)]
         else:
@@ -933,6 +933,25 @@ def avatar_indicators(subject, user):
         percentil = 0
 
     if my_access < percentil or my_access <= 0:
+        searchs = []
+        searchs.append(count_diff_days(subject.id, user.id))
+
+        if searchs:
+            res = multi_search(searchs)
+
+            accessess = [len(x.to_dict()['aggregations']['dt']['buckets']) if 'aggregations' in x.to_dict() else 0 for x in res]
+
+            access_week = accessess[-1]
+        else:
+            access_week = 0
+
+        tts = gTTS(text = "Você acessou %s vezes o ambiente, em %s dias diferentes"%(str(my_access), str(access_week)), lang = 'pt-br')
+        tts.save(os.path.join(audiodir, 'indicators6.mp3'))
+
+        track = MP3(os.path.join(audiodir, 'indicators6.mp3'))
+
+        audios.append({ 'file': os.path.join(audio_url, 'indicators6.mp3'), 'duration': track.info.length, 'text': "Você acessou <b>%s</b> vezes o ambiente, em <b>%s</b> dias diferentes"%(str(my_access), str(access_week))})
+
         if not os.path.exists(os.path.join(audiodir, 'indicators4.mp3')):
             tts = gTTS(text = "Você deve acessar o ambiente da disciplina constantemente", lang = 'pt-br')
             tts.save(os.path.join(audiodir, 'indicators4.mp3'))
@@ -942,20 +961,72 @@ def avatar_indicators(subject, user):
         audios.append({ 'file': os.path.join(audio_url, 'indicators4.mp3'), 'duration': track.info.length, 'text': "Você deve acessar o ambiente da disciplina constantemente"})
         
         if not os.path.exists(os.path.join(audiodir, 'indicators5.mp3')):
-            tts = gTTS(text = "Organize sua rotina para que isso aconteça", lang = 'pt-br')
+            tts = gTTS(text = "Planeje sua rotina para que isso aconteça", lang = 'pt-br')
             tts.save(os.path.join(audiodir, 'indicators5.mp3'))
 
         track = MP3(os.path.join(audiodir, 'indicators5.mp3'))
 
-        audios.append({ 'file': os.path.join(audio_url, 'indicators5.mp3'), 'duration': track.info.length, 'text': "<b>Organize sua rotina</b> para que isso aconteça"})
+        audios.append({ 'file': os.path.join(audio_url, 'indicators5.mp3'), 'duration': track.info.length, 'text': "<b>Planeje sua rotina</b> para que isso aconteça"})
         
-        if not os.path.exists(os.path.join(audiodir, 'indicators6.mp3')):
-            tts = gTTS(text = "Estabeleça objetivos e faça planejamentos", lang = 'pt-br')
-            tts.save(os.path.join(audiodir, 'indicators6.mp3'))
+        return audios
 
-        track = MP3(os.path.join(audiodir, 'indicators6.mp3'))
+    searchs = []
 
-        audios.append({ 'file': os.path.join(audio_url, 'indicators6.mp3'), 'duration': track.info.length, 'text': "Estabeleça <b>objetivos</b> e faça <b>planejamentos</b>"})
+    for student in students:
+        if student.id != user.id:
+            searchs.append(count_access_resources(subject.id, student.id))
+    
+    searchs.append(count_access_resources(subject.id, user.id))
+    
+    item = {}
+
+    if searchs:
+        res = multi_search(searchs)
+
+        accessess = [x.to_dict()['hits']['total']['value'] for x in res]
+
+        my_access = accessess[-1]
+
+        accessess = list(dict.fromkeys(accessess))
+        
+        accessess.sort()
+
+        qtd_results = len(accessess)
+    
+        if qtd_results > 5:
+            percentil = accessess[math.floor(qtd_results * 0.9)]
+        else:
+            percentil = accessess[-2] if len(accessess) > 1 else 0 
+    else:
+        my_access = 0
+        percentil = 0
+
+    if my_access < percentil or my_access <= 0:
+        resources_access = logs.filter(component = 'resources', action='view', context__contains = {'subject_id': subject.id})
+
+        my_access = set()
+
+        for entry in resources_access.filter(user_id = user.id).all():
+            resource_name = "goals" if entry.resource == "my_goals" else entry.resource
+
+            my_access.add(entry.context['%s_id'%(resource_name)])
+
+        distinct_access = len(my_access)
+
+        tts = gTTS(text = "Você acessou recursos da disciplina %s vezes, sendo %s recursos distintos"%(str(len(my_access)), str(distinct_access)), lang = 'pt-br')
+        tts.save(os.path.join(audiodir, 'indicators11.mp3'))
+
+        track = MP3(os.path.join(audiodir, 'indicators11.mp3'))
+
+        audios.append({ 'file': os.path.join(audio_url, 'indicators11.mp3'), 'duration': track.info.length, 'text': "Você acessou recursos da disciplina <b>%s</b> vezes, sendo <b>%s</b> recursos distintos"%(str(len(my_access)), str(distinct_access))})
+
+        if not os.path.exists(os.path.join(audiodir, 'indicators12.mp3')):
+            tts = gTTS(text = "Não pule ou deixe de acessar recursos", lang = 'pt-br')
+            tts.save(os.path.join(audiodir, 'indicators12.mp3'))
+
+        track = MP3(os.path.join(audiodir, 'indicators12.mp3'))
+
+        audios.append({ 'file': os.path.join(audio_url, 'indicators12.mp3'), 'duration': track.info.length, 'text': "Não pule ou deixe de acessar recursos"})
 
         return audios
 
@@ -974,7 +1045,7 @@ def avatar_indicators(subject, user):
 
             accessess = list(dict.fromkeys(accessess))
             accessess.sort()
-         
+
             qtd_results = len(accessess)
 
             if qtd_results > 5:
@@ -989,37 +1060,28 @@ def avatar_indicators(subject, user):
         percentil = 0
 
     if my_access < percentil or my_access <= 0:
-        if not os.path.exists(os.path.join(audiodir, 'indicators7.mp3')):
-            tts = gTTS(text = "As tarefas são fundamentais para complementar e consolidar a aprendizagem", lang = 'pt-br')
-            tts.save(os.path.join(audiodir, 'indicators7.mp3'))
+        tts = gTTS(text = "Você realizou apenas %s das %s atividades"%(my_access, pend.count()), lang = 'pt-br')
+        tts.save(os.path.join(audiodir, 'indicators7.mp3'))
 
         track = MP3(os.path.join(audiodir, 'indicators7.mp3'))
 
-        audios.append({ 'file': os.path.join(audio_url, 'indicators7.mp3'), 'duration': track.info.length, 'text': "As tarefas são fundamentais para complementar e consolidar a aprendizagem"})
+        audios.append({ 'file': os.path.join(audio_url, 'indicators7.mp3'), 'duration': track.info.length, 'text': "Você realizou apenas <b>%s</b> das <b>%s</b> atividades"%(my_access, pend.count())})
         
         if not os.path.exists(os.path.join(audiodir, 'indicators8.mp3')):
-            tts = gTTS(text = "Este é o momento para se permitir errar e aprender com ele", lang = 'pt-br')
+            tts = gTTS(text = "As tarefas são fundamentais para complementar e consolidar a aprendizagem", lang = 'pt-br')
             tts.save(os.path.join(audiodir, 'indicators8.mp3'))
 
         track = MP3(os.path.join(audiodir, 'indicators8.mp3'))
 
-        audios.append({ 'file': os.path.join(audio_url, 'indicators8.mp3'), 'duration': track.info.length, 'text': "Este é o momento para se permitir errar e aprender com ele"})
+        audios.append({ 'file': os.path.join(audio_url, 'indicators8.mp3'), 'duration': track.info.length, 'text': "As tarefas são fundamentais para complementar e consolidar a aprendizagem"})
         
         if not os.path.exists(os.path.join(audiodir, 'indicators9.mp3')):
-            tts = gTTS(text = "Esta é uma oportunidade de auto-aprendizagem, reflexão, expressão e crescimento pessoal", lang = 'pt-br')
+            tts = gTTS(text = "Organize-se e mantenha o foco", lang = 'pt-br')
             tts.save(os.path.join(audiodir, 'indicators9.mp3'))
 
         track = MP3(os.path.join(audiodir, 'indicators9.mp3'))
 
-        audios.append({ 'file': os.path.join(audio_url, 'indicators9.mp3'), 'duration': track.info.length, 'text': "Esta é uma oportunidade de <b>auto-aprendizagem, reflexão, expressão e crescimento pessoal</b>"})
-
-        if not os.path.exists(os.path.join(audiodir, 'indicators10.mp3')):
-            tts = gTTS(text = "Organize-se e mantenha o foco", lang = 'pt-br')
-            tts.save(os.path.join(audiodir, 'indicators10.mp3'))
-
-        track = MP3(os.path.join(audiodir, 'indicators10.mp3'))
-
-        audios.append({ 'file': os.path.join(audio_url, 'indicators10.mp3'), 'duration': track.info.length, 'text': "<b>Organize-se</b> e <b>mantenha o foco</b>"})
+        audios.append({ 'file': os.path.join(audio_url, 'indicators9.mp3'), 'duration': track.info.length, 'text': "<b>Organize-se</b> e <b>mantenha o foco</b>"})
 
         return audios
 
