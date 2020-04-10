@@ -1,6 +1,7 @@
 .avatarContainer {
   position: fixed;
-  bottom: 0%;
+  bottom: 10%;
+  z-index: 10;
 }
 .avatarBox {
   width: 11rem;
