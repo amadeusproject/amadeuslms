@@ -24,6 +24,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
           data-toggle="tooltip"
           title="{% trans 'Shows indicators comparing your situation to the class' %}"
         ></i>
+        <i id="indicatorsTips" class="fa fa-lightbulb-o" style="display: none" title="Dicas"></i>
       </div>
       <div>
         {% trans 'Bars' %}
@@ -106,86 +107,93 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 </div>
 <script>
   var indicators;
+  $(function () {
+    $.get("{{ metrics_url }}", function(jsonData) {
+      let data = jsonData['indicators'];
 
-  $.get("{{ metrics_url }}", function(data) {
-    $("#indicators-table table tbody tr").each(function(index) {
-      $(this)
-        .find(".yours_ind")
-        .html(data[index].my_access);
-      $(this)
-        .find(".best_ind")
-        .html(data[index].max_access);
+      if (avatar !== null) {
+        avatar.setIndicatorsAudios(jsonData['info'], jsonData['tips']);
+      }
+
+      $("#indicators-table table tbody tr").each(function(index) {
+        $(this)
+          .find(".yours_ind")
+          .html(data[index].my_access);
+        $(this)
+          .find(".best_ind")
+          .html(data[index].max_access);
+      });
+
+      d3.select("#indicators_loading_ball")
+        .style("display", "none")
+        .remove();
+
+      var indicators_container = d3.select("#indicators-accordion").style("display", "inherit");
+
+      indicators_container
+        .transition()
+        .delay(0)
+        .duration(400)
+        .style("opacity", 1);
+
+      indicators = d3.selectAll(".indicator-panel").data(data);
+
+      indicators
+        .selectAll(".rect-other-indicator")
+        .data(function(d, i) {
+          return [d];
+        })
+        .attr("width", function(d, i) {
+          d.my_access = isNaN(d.my_access) ? 0 : d.my_access;
+          d.max_access = isNaN(d.max_access) ? 0 : d.max_access;
+          d.percentil_1 = isNaN(d.percentil_1) ? 0 : d.percentil_1;
+          d.percentil_2 = isNaN(d.percentil_2) ? 0 : d.percentil_2;
+          d.percentil_3 = isNaN(d.percentil_3) ? 0 : d.percentil_3;
+          d.percentil_4 = isNaN(d.percentil_4) ? 0 : d.percentil_4;
+
+          d.percent = 0;
+
+          if (d.my_access == 0) {
+            return "0%";
+          }
+
+          let barsize = 0;
+
+          if (d.my_access <= d.percentil_1) {
+            barsize = (d.my_access * 100) / (d.percentil_1 > 0 ? d.percentil_1 : 1);
+
+            d.percent = barsize * 0.2;
+          } else if (d.my_access <= d.percentil_2) {
+            barsize = (d.my_access * 100) / (d.percentil_2 > 0 ? d.percentil_2 : 1);
+
+            d.percent = barsize * 0.2 + 20;
+          } else if (d.my_access <= d.percentil_3) {
+            barsize = (d.my_access * 100) / (d.percentil_3 > 0 ? d.percentil_3 : 1);
+
+            d.percent = barsize * 0.2 + 40;
+          } else if (d.my_access < d.percentil_4) {
+            barsize = (d.my_access * 100) / (d.percentil_4 > 0 ? d.percentil_4 : 1);
+
+            d.percent = barsize * 0.2 + 60;
+          } else {
+            barsize = (d.my_access * 100) / (d.max_access > 0 ? d.max_access : 1);
+
+            d.percent = barsize * 0.2 + 80;
+          }
+
+          return `${d.percent}%`;
+        });
+
+      indicators
+        .select(".golden-star")
+        .transition()
+        .delay(300)
+        .duration(500)
+        .attr("opacity", function(d, i) {
+          if (d.my_access >= d.percentil_4 && d.my_access > 0) return 1;
+          else return 0;
+        });
     });
-
-    d3.select("#indicators_loading_ball")
-      .style("display", "none")
-      .remove();
-
-    var indicators_container = d3.select("#indicators-accordion").style("display", "inherit");
-
-    indicators_container
-      .transition()
-      .delay(0)
-      .duration(400)
-      .style("opacity", 1);
-
-    indicators = d3.selectAll(".indicator-panel").data(data);
-
-    indicators
-      .selectAll(".rect-other-indicator")
-      .data(function(d, i) {
-        return [d];
-      })
-      .attr("width", function(d, i) {
-        d.my_access = isNaN(d.my_access) ? 0 : d.my_access;
-        d.max_access = isNaN(d.max_access) ? 0 : d.max_access;
-        d.percentil_1 = isNaN(d.percentil_1) ? 0 : d.percentil_1;
-        d.percentil_2 = isNaN(d.percentil_2) ? 0 : d.percentil_2;
-        d.percentil_3 = isNaN(d.percentil_3) ? 0 : d.percentil_3;
-        d.percentil_4 = isNaN(d.percentil_4) ? 0 : d.percentil_4;
-
-        d.percent = 0;
-
-        if (d.my_access == 0) {
-          return "0%";
-        }
-
-        let barsize = 0;
-
-        if (d.my_access <= d.percentil_1) {
-          barsize = (d.my_access * 100) / (d.percentil_1 > 0 ? d.percentil_1 : 1);
-
-          d.percent = barsize * 0.2;
-        } else if (d.my_access <= d.percentil_2) {
-          barsize = (d.my_access * 100) / (d.percentil_2 > 0 ? d.percentil_2 : 1);
-
-          d.percent = barsize * 0.2 + 20;
-        } else if (d.my_access <= d.percentil_3) {
-          barsize = (d.my_access * 100) / (d.percentil_3 > 0 ? d.percentil_3 : 1);
-
-          d.percent = barsize * 0.2 + 40;
-        } else if (d.my_access < d.percentil_4) {
-          barsize = (d.my_access * 100) / (d.percentil_4 > 0 ? d.percentil_4 : 1);
-
-          d.percent = barsize * 0.2 + 60;
-        } else {
-          barsize = (d.my_access * 100) / (d.max_access > 0 ? d.max_access : 1);
-
-          d.percent = barsize * 0.2 + 80;
-        }
-
-        return `${d.percent}%`;
-      });
-
-    indicators
-      .select(".golden-star")
-      .transition()
-      .delay(300)
-      .duration(500)
-      .attr("opacity", function(d, i) {
-        if (d.my_access >= d.percentil_4 && d.my_access > 0) return 1;
-        else return 0;
-      });
   });
 
   function indicators_responsibilities() {

@@ -35,7 +35,7 @@ from categories.models import Category
 
 from subjects.models import Subject, Tag
 
-from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators, studentsAccess, parse_date, accessResourceCount, getAccessedTagsPeriod, getTagAccessessPeriod, monthly_users_activity, get_avatar_audios, avatar_cloud, avatar_indicators
+from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators, studentsAccess, parse_date, accessResourceCount, getAccessedTagsPeriod, getTagAccessessPeriod, monthly_users_activity
 
 from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
@@ -44,6 +44,8 @@ from log.models import Log
 from amadeus.permissions import has_category_permissions, has_subject_permissions, has_subject_view_permissions, has_resource_permissions
 
 import json
+
+from .avatar import generalInfo, cloudInfo, cloudTips, indicatorsInfo, indicatorsTips, ganntInfo, ganntTips
 
 class GeneralView(LogMixin, generic.TemplateView):
     template_name = "dashboards/general.html"
@@ -267,29 +269,30 @@ class SubjectView(LogMixin, generic.TemplateView):
 
             if not student is None:
                 student = User.objects.get(email = student)
-                context["graph_data"] = json.dumps(get_pend_graph(student, subject))
+                context["graph_data"] = get_pend_graph(student, subject)
                 context["tags_cloud"] = reverse('dashboards:cloudy_data', args = (subject.slug, student.email,), kwargs = {})
                 context["metrics_url"] = reverse('dashboards:other_metrics', args = (subject.slug, student.email,), kwargs = {})
             else:
                 student = User.objects.get(email = context['student'])
-                context["graph_data"] = json.dumps(get_pend_graph(student, subject))
+                context["graph_data"] = get_pend_graph(student, subject)
                 context["tags_cloud"] = reverse('dashboards:cloudy_data', args = (subject.slug, student.email,), kwargs = {})
                 context["metrics_url"] = reverse('dashboards:other_metrics', args = (subject.slug, student.email,), kwargs = {})
 
             if subject.display_avatar:
-                context["avatar_audios"] = get_avatar_audios(subject, student)
-                context["avatar_cloud"] = avatar_cloud(subject, student)
-                context["avatar_indicators"] = avatar_indicators(subject, student)
+                context["avatar_audios"] = generalInfo(subject, student)
+                context["avatar_ganntInfo"] = ganntInfo()
+                context["avatar_ganntTips"] = ganntTips(context["graph_data"])
         else:
             context["tags_cloud"] = reverse('dashboards:cloudy_data', args = (subject.slug, self.request.user.email,), kwargs = {})
-            context["graph_data"] = json.dumps(get_pend_graph(self.request.user, subject))
+            context["graph_data"] = get_pend_graph(self.request.user, subject)
             context["metrics_url"] = reverse('dashboards:other_metrics', args = (subject.slug, self.request.user.email,), kwargs = {})
 
             if subject.display_avatar:
-                context["avatar_audios"] = get_avatar_audios(subject, self.request.user)
-                context["avatar_cloud"] = avatar_cloud(subject, self.request.user)
-                context["avatar_indicators"] = avatar_indicators(subject, self.request.user)
+                context["avatar_audios"] = generalInfo(subject, self.request.user)
+                context["avatar_ganntInfo"] = ganntInfo()
+                context["avatar_ganntTips"] = ganntTips(context["graph_data"])
 
+        context["graph_data"] = json.dumps(context["graph_data"], default=str)
         context["subject"] = subject
         context["qtd_students"] = subject.students.count()
         context['javascript_files'] = []
@@ -319,14 +322,21 @@ def other_metrics(request, subject, email):
     sub = Subject.objects.get(slug = subject)
     user = User.objects.get(email = email)
 
-    return JsonResponse(getOtherIndicators(sub, user), safe = False)
+    indicatorsData = getOtherIndicators(sub, user)
+    infoAudios = indicatorsInfo()
+    tipAudios = indicatorsTips(sub, indicatorsData)
+
+    return JsonResponse({'indicators': indicatorsData, 'info': infoAudios, 'tips': tipAudios}, safe = False)
 
 def cloudy_data(request, subject, email=None):
-    
     sub = Subject.objects.get(slug = subject)
-    
     user = User.objects.get(email = email)
-    return JsonResponse(getAccessedTags(sub, user), safe = False)
+
+    cloudData = getAccessedTags(sub, user)
+    infoAudios = cloudInfo(cloudData)
+    tipAudios = cloudTips(cloudData)
+
+    return JsonResponse({'cloud': cloudData, 'info': infoAudios, 'tips': tipAudios}, safe = False)
 
 def cloudy_data_period(request, subject, email=None):
     data_end = request.GET.get('data_end', '')
