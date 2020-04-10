@@ -401,7 +401,7 @@ class Avatar {
   playCloud(tips = false) {
     $('#avatar_mask').show();
     $('#tagCloudy').css('z-index', '10').css('background', '#FFFFFF');
-    $('.avatarBox').css('z-index', '9999');
+    $('.avatarContainer').css('z-index', '9999');
 
     this.play(tips ? this.cloudTips : this.cloud);
     this.lastPlayed = tips ? 'cloudTips' : 'cloud';
@@ -410,7 +410,7 @@ class Avatar {
   playIndicators(tips = false) {
     $('#avatar_mask').show();
     $('#otherIndicators').css('z-index', '10').css('background', '#FFFFFF');
-    $('.avatarBox').css('z-index', '9999');
+    $('.avatarContainer').css('z-index', '9999');
 
     this.play(tips ? this.indTips : this.indicators);
     this.lastPlayed = tips ? 'indTips' : 'indicators';
@@ -419,7 +419,7 @@ class Avatar {
   playGannt(tips = false) {
     $('#avatar_mask').show();
     $('#gantt').css('z-index', '10').css('background', '#FFFFFF');
-    $('.avatarBox').css('z-index', '9999');
+    $('.avatarContainer').css('z-index', '9999');
 
     this.play(tips ? this.ganntTips : this.gannt);
     this.lastPlayed = tips ? 'ganntTips' : 'gannt';
@@ -427,9 +427,9 @@ class Avatar {
 
   clearMask() {
     $('#avatar_mask').hide();
-    $('#tagCloudy').css('background', 'transparent');
-    $('#otherIndicators').css('background', 'transparent');
-    $('#gannt').css('background', 'transparent');
+    $('#tagCloudy').css('background', 'transparent').css('z-index', '1');
+    $('#otherIndicators').css('background', 'transparent').css('z-index', '1');
+    $('#gantt').css('background', 'transparent').css('z-index', '1');
   }
 
   showResourcesTable(link, tagName) {

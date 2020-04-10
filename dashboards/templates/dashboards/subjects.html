@@ -44,63 +44,65 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% block sidebar %}
     {{ block.super }}
-    <div class="avatarBox">
-        <div class="ballon" style="display: none">
-            <hgroup class="speech-bubble">
-                <p>Teste</p>
-            </hgroup>
-        </div>
-        <div class="upperBody">
-            <div class="hat"></div>
-            <div class="head">
-                <div class="face">
-                    <div class="topface">
-                        <div class="eye">
-                            <div class="eyelid"></div>
-                            <div class="iris">
-                                <div class="pupile"></div>
+    <div class="avatarContainer">
+        <div class="avatarBox">
+            <div class="ballon" style="display: none">
+                <hgroup class="speech-bubble">
+                    <p>Teste</p>
+                </hgroup>
+            </div>
+            <div class="upperBody">
+                <div class="hat"></div>
+                <div class="head">
+                    <div class="face">
+                        <div class="topface">
+                            <div class="eye">
+                                <div class="eyelid"></div>
+                                <div class="iris">
+                                    <div class="pupile"></div>
+                                </div>
+                            </div>
+                            <div class="eye">
+                                <div class="eyelid"></div>
+                                <div class="iris">
+                                    <div class="pupile"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="eye">
-                            <div class="eyelid"></div>
-                            <div class="iris">
-                                <div class="pupile"></div>
-                            </div>
+                        <div>
+                            <div class="mouth"></div>
                         </div>
-                    </div>
-                    <div>
-                        <div class="mouth"></div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="axis"></div>
-        <div class="foot"></div>
-        <div class="controls">
-            <span id="previous">
-                <i class="fa fa-step-backward"></i>
-            </span>
-            <span id="pause">
-                <i class="fa fa-pause"></i>
-            </span>
-            <span id="play">
-                <i class="fa fa-play"></i>
-            </span>
-            <span id="stop">
-                <i class="fa fa-stop"></i>
-            </span>
-            <span id="replay">
-                <i class="fa fa-refresh"></i>
-            </span>
-            <span id="next">
-                <i class="fa fa-step-forward"></i>
-            </span>
-            <span id="audio">
-                <i class="fa fa-volume-off"></i>
-            </span>
-            <span id="audioOff">
-                <i class="fa fa-volume-up"></i>
-            </span>
+            <div class="axis"></div>
+            <div class="foot"></div>
+            <div class="controls">
+                <span id="previous">
+                    <i class="fa fa-step-backward"></i>
+                </span>
+                <span id="pause">
+                    <i class="fa fa-pause"></i>
+                </span>
+                <span id="play">
+                    <i class="fa fa-play"></i>
+                </span>
+                <span id="stop">
+                    <i class="fa fa-stop"></i>
+                </span>
+                <span id="replay">
+                    <i class="fa fa-refresh"></i>
+                </span>
+                <span id="next">
+                    <i class="fa fa-step-forward"></i>
+                </span>
+                <span id="audio">
+                    <i class="fa fa-volume-off"></i>
+                </span>
+                <span id="audioOff">
+                    <i class="fa fa-volume-up"></i>
+                </span>
+            </div>
         </div>
     </div>
 {% endblock %}
