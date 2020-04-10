@@ -1,7 +1,7 @@
 .avatarBox {
   width: 11rem;
-  height: 20rem;
-  background-color: #eeeeee;
+  height: 11rem;
+  background-color: rgba(238, 238, 238, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
