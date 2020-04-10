@@ -3,17 +3,24 @@ class Avatar {
     trigger = $('#avatar'),
     cloudTrigger = $('#cloudyInfo'),
     indTrigger = $('#indicatorsInfo'),
+    ganntTrigger = $('#ganntInfo'),
     introAudios = [],
-    cloudAudios = [],
-    indAudios = [],
+    ganntAudios = [],
+    ganntTipAudios = [],
   } = {}) {
     this.$trigger = trigger;
+    this.$ganntTrigger = ganntTrigger;
     this.$cloudTrigger = cloudTrigger;
     this.$indTrigger = indTrigger;
 
     this.intro = introAudios;
-    this.cloud = cloudAudios;
-    this.indicators = indAudios;
+    this.cloud = [];
+    this.indicators = [];
+    this.gannt = ganntAudios;
+
+    this.cloudTips = null;
+    this.indTips = null;
+    this.ganntTips = ganntTipAudios;
 
     this.playing = false;
     this.textTimeout = null;
@@ -45,28 +52,24 @@ class Avatar {
 
     this.playIntro();
 
-    if (this.cloud.length > 0) {
-      this.$cloudTrigger.removeAttr('data-toggle')
+    if (this.gannt.length > 0) {
+      this.$ganntTrigger.removeAttr('data-toggle')
           .removeAttr('data-original-title')
           .css('cursor', 'pointer');
 
       let avatar = this;
 
-      this.$cloudTrigger.on('click', function() {
-        avatar.playCloud();
+      this.$ganntTrigger.on('click', function() {
+        avatar.playGannt();
       });
     }
 
-    if (this.indicators.length > 0) {
-      this.$indTrigger.removeAttr('data-toggle')
-          .removeAttr('data-original-title')
-          .css('cursor', 'pointer');
-
-      let avatar = this;
-
-      this.$indTrigger.on('click', function() {
-        avatar.playIndicators();
+    if (this.ganntTips.length > 0) {
+      $('#ganntTips').on('click', function() {
+        avatar.playGannt(true);
       });
+
+      $('#ganntTips').css('cursor', 'pointer').show();
     }
 
     this.InitBtns();
@@ -110,6 +113,58 @@ class Avatar {
     $('#avatar_mask').on('click', function() {
       avatar.stop();
     });
+  }
+
+  setCloudAudios(info, tips) {
+    let avatar = this;
+
+    avatar.cloudTips = tips;
+
+    if (avatar.cloudTips.length > 0) {
+      $('#cloudyTips').on('click', function() {
+        avatar.playCloud(true);
+      });
+
+      $('#cloudyTips').css('cursor', 'pointer').show();
+    }
+
+    avatar.cloud = info;
+
+    if (avatar.cloud.length > 0) {
+      avatar.$cloudTrigger.removeAttr('data-toggle')
+          .removeAttr('data-original-title')
+          .css('cursor', 'pointer');
+
+      avatar.$cloudTrigger.on('click', function() {
+        avatar.playCloud();
+      });
+    }
+  }
+
+  setIndicatorsAudios(info, tips) {
+    let avatar = this;
+
+    avatar.indTips = tips;
+
+    if (avatar.indTips.length > 0) {
+      $('#indicatorsTips').on('click', function() {
+        avatar.playIndicators(true);
+      });
+
+      $('#indicatorsTips').css('cursor', 'pointer').show();
+    }
+
+    avatar.indicators = info;
+
+    if (avatar.indicators.length > 0) {
+      avatar.$indTrigger.removeAttr('data-toggle')
+          .removeAttr('data-original-title')
+          .css('cursor', 'pointer');
+
+      avatar.$indTrigger.on('click', function() {
+        avatar.playIndicators();
+      });
+    }
   }
 
   play(files) {
@@ -189,8 +244,20 @@ class Avatar {
       case 'cloud':
         this.playCloud();
         break;
+      case 'cloudTips':
+        this.playCloud(true);
+        break;
       case 'indicators':
         this.playIndicators();
+        break;
+      case 'indTips':
+        this.playIndicators(true);
+        break;
+      case 'gannt':
+        this.playGannt();
+        break;
+      case 'ganntTips':
+        this.playGannt(true);
         break;
     }
 
@@ -331,28 +398,38 @@ class Avatar {
     this.lastPlayed = 'intro';
   }
 
-  playCloud() {
+  playCloud(tips = false) {
     $('#avatar_mask').show();
     $('#tagCloudy').css('z-index', '10').css('background', '#FFFFFF');
     $('.avatarBox').css('z-index', '9999');
 
-    this.play(this.cloud);
-    this.lastPlayed = 'cloud';
+    this.play(tips ? this.cloudTips : this.cloud);
+    this.lastPlayed = tips ? 'cloudTips' : 'cloud';
   }
 
-  playIndicators() {
+  playIndicators(tips = false) {
     $('#avatar_mask').show();
     $('#otherIndicators').css('z-index', '10').css('background', '#FFFFFF');
     $('.avatarBox').css('z-index', '9999');
 
-    this.play(this.indicators);
-    this.lastPlayed = 'indicators';
+    this.play(tips ? this.indTips : this.indicators);
+    this.lastPlayed = tips ? 'indTips' : 'indicators';
+  }
+
+  playGannt(tips = false) {
+    $('#avatar_mask').show();
+    $('#gantt').css('z-index', '10').css('background', '#FFFFFF');
+    $('.avatarBox').css('z-index', '9999');
+
+    this.play(tips ? this.ganntTips : this.gannt);
+    this.lastPlayed = tips ? 'ganntTips' : 'gannt';
   }
 
   clearMask() {
     $('#avatar_mask').hide();
     $('#tagCloudy').css('background', 'transparent');
     $('#otherIndicators').css('background', 'transparent');
+    $('#gannt').css('background', 'transparent');
   }
 
   showResourcesTable(link, tagName) {

@@ -182,11 +182,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         sessionSecurity.confirmFormDiscard = undefined;
 
         let audios = {{ avatar_audios|safe }};
-        let cloud_audios = {{ avatar_cloud|safe }};
-        let indicators_audios = {{ avatar_indicators|safe }};
+        let ganntInfo = {{ avatar_ganntInfo|safe }};
+        let ganntTips = {{ avatar_ganntTips|safe }};
+        let avatar = null;
 
         if (audios.length > 0) {
-            let avatar = new Avatar({introAudios: audios, cloudAudios: cloud_audios, indAudios: indicators_audios});
+            avatar = new Avatar({introAudios: audios, ganntAudios: ganntInfo, ganntTipAudios: ganntTips});
 
             avatar.Init();
         }
