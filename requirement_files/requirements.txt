@@ -1,7 +1,7 @@
 asgi-redis==1.0.0
 asgiref==1.0.0
 asn1crypto==0.24.0
-attrs==19.1.0
+attrs==19.2.0
 autobahn==19.9.3
 Automat==0.7.0
 certifi==2019.6.16
@@ -51,7 +51,7 @@ idna==2.8
 incremental==17.5.0
 itypes==1.1.0
 jdcal==1.4.1
-Jinja2==2.8
+Jinja2==2.10.1
 lxml==3.7.3
 MarkupSafe==0.23
 msgpack-python==0.4.8
