@@ -15,7 +15,7 @@ from django import forms
 from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 
-from resubmit.widgets import ResubmitFileWidget
+from file_resubmit.widgets import ResubmitFileWidget
 
 from subjects.models import Tag
 

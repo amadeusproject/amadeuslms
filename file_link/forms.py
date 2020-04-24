@@ -14,7 +14,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
-from resubmit.widgets import ResubmitFileWidget
+from file_resubmit.widgets import ResubmitFileWidget
 
 from subjects.models import Tag
 from subjects.forms import ParticipantsMultipleChoiceField

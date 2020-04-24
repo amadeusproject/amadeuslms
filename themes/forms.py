@@ -13,7 +13,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 # coding=utf-8
 from django import forms
 
-from resubmit.widgets import ResubmitFileWidget
+from file_resubmit.widgets import ResubmitFileWidget
 
 from .models import Themes
 

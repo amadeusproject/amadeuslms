@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'django_crontab',
     'django_cron',
     'channels',
-    'resubmit', # Utilizado para salvar arquivos na cache, para caso o formulario não seja preenchido corretamente o usuário não precise fazer o upload outra vez dos arquivos
+    'file_resubmit', # Utilizado para salvar arquivos na cache, para caso o formulario não seja preenchido corretamente o usuário não precise fazer o upload outra vez dos arquivos
     'fcm_django',
 
     'amadeus',
@@ -139,7 +139,7 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     },
-    "resubmit": {
+    "file_resubmit": {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         "LOCATION": os.path.join(BASE_DIR, 'data/cache/resubmit'),
     },
