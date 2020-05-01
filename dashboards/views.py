@@ -251,8 +251,8 @@ class SubjectView(LogMixin, generic.TemplateView):
         self.log_context['subject_slug'] = subject.slug
         
         context["avatar_audios"] = []
-        context["avatar_cloud"] = []
-        context["avatar_indicators"] = []
+        context["avatar_ganntInfo"] = []
+        context["avatar_ganntTips"] = []
 
         if has_subject_permissions(self.request.user, subject):
             student = self.request.POST.get('selected_student', None)
@@ -286,7 +286,7 @@ class SubjectView(LogMixin, generic.TemplateView):
             context["tags_cloud"] = reverse('dashboards:cloudy_data', args = (subject.slug, self.request.user.email,), kwargs = {})
             context["graph_data"] = get_pend_graph(self.request.user, subject)
             context["metrics_url"] = reverse('dashboards:other_metrics', args = (subject.slug, self.request.user.email,), kwargs = {})
-
+        
             if subject.display_avatar:
                 context["avatar_audios"] = generalInfo(subject, self.request.user)
                 context["avatar_ganntInfo"] = ganntInfo()

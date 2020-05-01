@@ -45,7 +45,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% block sidebar %}
     {{ block.super }}
     <div class="avatarContainer">
-        <div class="avatarBox">
+        <div class="avatarBox" style="display: none">
             <div class="ballon" style="display: none">
                 <hgroup class="speech-bubble">
                     <p>Teste</p>
@@ -189,6 +189,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         let avatar = null;
 
         if (audios.length > 0) {
+            $(".avatarBox").show();
+            
             avatar = new Avatar({introAudios: audios, ganntAudios: ganntInfo, ganntTipAudios: ganntTips});
 
             avatar.Init();
