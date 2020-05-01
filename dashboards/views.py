@@ -251,8 +251,8 @@ class SubjectView(LogMixin, generic.TemplateView):
         self.log_context['subject_slug'] = subject.slug
         
         context["avatar_audios"] = []
-        context["avatar_cloud"] = []
-        context["avatar_indicators"] = []
+        context["avatar_ganntInfo"] = []
+        context["avatar_ganntTips"] = []
 
         if has_subject_permissions(self.request.user, subject):
             student = self.request.POST.get('selected_student', None)
