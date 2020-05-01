@@ -1,6 +1,7 @@
 import os, math
 from datetime import timedelta
 from django.conf import settings
+from django.db.models import Q as Cond, Max, Count
 from django.utils import timezone
 from gtts import gTTS
 from mutagen.mp3 import MP3
@@ -34,15 +35,15 @@ def generalInfo(subject, user):
     audios.append(genAudioFile(tts, ttr, filename))
 
     logs = Log.objects.filter(datetime__date__gte = subject.init_date, component = 'subject', action = 'view', resource = 'analytics', user_id = user.id, context__contains = {'subject_id': subject.id})
-
+   
     if not logs.exists():
         tts = "Seja bem-vindo ao painel de estudante"
         ttr = "Seja bem-vindo ao painel de estudante"
         filename = 'intro.mp3'
         audios.append(genAudioFile(tts, ttr, filename))
 
-        tts = "O painel serve para te manter atento em relação às atividades e recursos da disciplina"
-        ttr = "O painel serve para te manter atento em relação às atividades e recursos da disciplina"
+        tts = "O painel de analytics serve para te manter atento em relação às atividades e recursos da disciplina"
+        ttr = "O painel de analytics serve para te manter atento em relação às atividades e recursos da disciplina"
         filename = 'definition.mp3'
         audios.append(genAudioFile(tts, ttr, filename))
 
@@ -50,7 +51,17 @@ def generalInfo(subject, user):
         ttr = "Acesse-o regularmente"
         filename = 'warning.mp3'
         audios.append(genAudioFile(tts, ttr, filename))
-
+    else: 
+        off_days = (timezone.now() - logs.last().datetime).days
+        if off_days > 0:
+            if off_days > 1:
+                tts = "Seu último acesso foi há %s dias"%(str(off_days))
+                ttr = "Seu último acesso foi há <b>%s dias</b>"%(str(off_days))
+            else:
+                tts = "Seu último acesso foi ontem"
+                ttr = "Seu último acesso foi <b>ontem</b>"
+            filename = 'days_off.mp3'
+            audios.append(genAudioFile(tts, ttr, filename))
     return audios
 
 def cloudInfo(tagData):
@@ -64,13 +75,13 @@ def cloudInfo(tagData):
     filename = "cloud1.mp3"
     audios.append(genAudioFile(tts, ttr, filename))
     
-    tts = "Através dela é possível identificar os recursos mais populares da disciplina"
-    ttr = "Através dela é possível identificar os recursos mais populares da disciplina"
+    tts = "Através dela é possível identificar as tags mais populares da disciplina"
+    ttr = "Através dela é possível identificar as <b>tags<b> mais populares da disciplina"
     filename = "cloud2.mp3"
     audios.append(genAudioFile(tts, ttr, filename))
     
-    tts = "Quanto maior a palavra, mais a turma acessou"
-    ttr = "Quanto <b>maior</b> a palavra, <b>mais</b> a turma acessou"
+    tts = "Quanto maior a palavra, mais a classe acessou"
+    ttr = "Quanto <b>maior</b> a palavra, <b>mais</b> a classe acessou"
     filename = 'cloud3.mp3'
     audios.append(genAudioFile(tts, ttr, filename))
     
@@ -81,21 +92,21 @@ def cloudInfo(tagData):
 
     most_accessed = data[0]
 
-    tts = "Note que a tag %s tem mais acesso da turma"%(most_accessed["tag_name"])
-    ttr = "Note que a tag <b>%s</b> tem mais acesso da turma"%(most_accessed["tag_name"])
+    tts = "Note que a tag %s tem mais acesso da classe"%(most_accessed["tag_name"])
+    ttr = "Note que a tag <b>%s</b> tem mais acesso da classe"%(most_accessed["tag_name"])
     filename = 'cloud5.mp3'
     audios.append(genAudioFile(tts, ttr, filename))
 
     data_my = sorted(data, key = lambda x: x['qtd_my_access'], reverse = True)
     most_accessed = data_my[0]
 
-    tts = "e a tag %s foi mais vista por você"%(most_accessed["tag_name"])
-    ttr = "e a tag <b>%s</b> foi mais vista por você"%(most_accessed["tag_name"])
+    tts = "e a tag %s foi mais acessada por você"%(most_accessed["tag_name"])
+    ttr = "e a tag <b>%s</b> foi mais acessada por você"%(most_accessed["tag_name"])
     filename = 'cloud6.mp3'
     audios.append(genAudioFile(tts, ttr, filename))
 
-    tts = "Para ver seus recursos basta clicar em uma delas"
-    ttr = "Para ver seus recursos basta clicar em uma delas"
+    tts = "Para ver os recursos de uma tag basta clicar nela"
+    ttr = "Para ver os recursos de uma tag basta clicar nela"
     filename = 'cloud7.mp3'
     audios.append(genAudioFile(tts, ttr, filename))
 
@@ -110,16 +121,16 @@ def cloudTips(tagData):
     most_accessed = data[0]
 
     if most_accessed['qtd_my_access'] <= 0:
-        tts = "É muito importante que você acesse os recursos das tags em alta"
-        ttr = "É muito importante que você acesse os recursos das tags em alta"
+        tts = "Há tags em alta que estão sendo vistas por toda a turma"
+        ttr = "Há tags em alta que estão sendo vistas por toda a turma"
         filename = 'most_accessed.mp3'
         audios.append(genAudioFile(tts, ttr, filename))
 
-        tts = "Há tags que estão sendo vistas por toda a turma, por exemplo, %s. Dá uma conferida!"%(most_accessed["tag_name"])
-        ttr = "Há tags que estão sendo vistas por toda a turma, por exemplo, <b>%s<b>. Dá uma conferida!"%(most_accessed["tag_name"])
+        tts = "É importante que você também acesse recursos dessas tags, por exemplo, %s."%(most_accessed["tag_name"])
+        ttr = "É importante que você também acesse recursos dessas tags, por exemplo, <b>%s</b>."%(most_accessed["tag_name"])
         filename = 'most_accessed2.mp3'
         audios.append(genAudioFile(tts, ttr, filename))
-
+        
         return audios
 
     not_accessed = [d for d in data if d['qtd_my_access'] == 0]
@@ -175,8 +186,8 @@ def indicatorsInfo():
     filename = 'indicators2.mp3'
     audios.append(genAudioFile(tts, ttr, filename))
 
-    tts = "Acesse constantemente o ambiente da disciplina"
-    ttr = "Acesse constantemente o ambiente da disciplina"
+    tts = "Acesse constantemente o ambiente da disciplina para melhorar seus indicadores"
+    ttr = "Acesse constantemente o ambiente da disciplina para melhorar seus indicadores"
     filename = 'indicators3.mp3'
     audios.append(genAudioFile(tts, ttr, filename))
 
@@ -192,7 +203,7 @@ def indicatorsTips(subject, indicatorsData):
     tasksRealized = indicatorsData[4]
 
     pendCount = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, begin_date__date__lt=timezone.now(), end_date__date__gte = timezone.now() - timedelta(days = 6)).count()
-
+    top=True
     if subjectAccess["my_access"] < subjectAccess["percentil_4"] or subjectAccess["my_access"] <= 0:
         if subjectAccess["my_access"] == 0:
             tts = "Você não acessou nenhuma vez o ambiente durante a semana"
@@ -211,17 +222,18 @@ def indicatorsTips(subject, indicatorsData):
         filename = 'indicators6.mp3'
         audios.append(genAudioFile(tts, ttr, filename))
 
-        tts = "Você deve acessar o ambiente da disciplina constantemente"
-        ttr = "Você deve acessar o ambiente da disciplina constantemente"
+        tts = "Acesse o ambiente da disciplina constantemente"
+        ttr = "Acesse o ambiente da disciplina constantemente"
         filename = 'indicators4.mp3'
         audios.append(genAudioFile(tts, ttr, filename))
         
-        tts = "Planeje sua rotina para que isso aconteça"
-        ttr = "<b>Planeje sua rotina</b> para que isso aconteça"
+        tts = "Planeje sua rotina"
+        ttr = "<b>Planeje sua rotina</b>"
         filename = 'indicators5.mp3'
         audios.append(genAudioFile(tts, ttr, filename))
         
         return audios
+        
 
     if resourcesAccess["my_access"] < resourcesAccess["percentil_4"] or resourcesAccess["my_access"] <= 0:
         if resourcesAccess["my_access"] == 0:
@@ -245,16 +257,18 @@ def indicatorsTips(subject, indicatorsData):
         ttr = "Não pule ou deixe de acessar os recursos"
         filename = 'indicators12.mp3'
         audios.append(genAudioFile(tts, ttr, filename))
-
-        return audios
+        
+        
+        # return audios
+        top = False
 
     if tasksRealized["my_access"] < tasksRealized["percentil_4"] or tasksRealized["my_access"] <= 0:
         if tasksRealized["my_access"] == 0:
-            tts = "Você não realizou nenhuma das atividades"
-            ttr = "Você não realizou <b>nenhuma</b> das atividades"
+            tts = "Você não realizou nenhuma das tarefas pontualmente"
+            ttr = "Você não realizou <b>nenhuma</b> das tarefas pontualmente"
         else:
-            tts = "Você realizou apenas %s das %s atividades"%(str(tasksRealized["my_access"]), str(pendCount))
-            ttr = "Você realizou apenas <b>%s</b> das %s atividades"%(str(tasksRealized["my_access"]), str(pendCount))
+            tts = "Você realizou pontualmente apenas %s das %s tarefas"%(str(tasksRealized["my_access"]), str(pendCount))
+            ttr = "Você realizou pontualmente apenas <b>%s</b> das %s tarefas"%(str(tasksRealized["my_access"]), str(pendCount))
 
         filename = 'indicators7.mp3'
         audios.append(genAudioFile(tts, ttr, filename))
@@ -266,15 +280,17 @@ def indicatorsTips(subject, indicatorsData):
 
         tts = "Organize-se e mantenha o foco"
         ttr = "<b>Organize-se</b> e <b>mantenha o foco</b>"
-        filename = 'indicators8.mp3'
+        filename = 'indicators9.mp3'
         audios.append(genAudioFile(tts, ttr, filename))
 
-        return audios
-
-    tts = "Parabéns! Continue acessando regularmente o ambiente da disciplina"
-    ttr = "Parabéns! Continue acessando regularmente o ambiente da disciplina"
-    filename = 'indicators8.mp3'
-    audios.append(genAudioFile(tts, ttr, filename))
+        
+        # return audios
+        top = False
+    if top is True:
+        tts = "Parabéns! Continue acessando regularmente o ambiente da disciplina"
+        ttr = "Parabéns! Continue acessando regularmente o ambiente da disciplina"
+        filename = 'indicators8.mp3'
+        audios.append(genAudioFile(tts, ttr, filename))
 
     return audios
 
@@ -286,13 +302,13 @@ def ganntInfo():
     filename = 'gannt1.mp3'
     audios.append(genAudioFile(tts, ttr, filename))
 
-    tts = "Através dele é possível acompanhar e avaliar os prazos de atividades da disciplina"
-    ttr = "Através dele é possível acompanhar e avaliar os prazos de atividades da disciplina"
+    tts = "Através dele é possível acompanhar e avaliar os prazos de tarefas da disciplina"
+    ttr = "Através dele é possível acompanhar e avaliar os prazos de tarefas da disciplina"
     filename = 'gannt2.mp3'
     audios.append(genAudioFile(tts, ttr, filename))
 
-    tts = "Também podemos observar o percentual da turma que já realizou a atividade"
-    ttr = "Também podemos observar o percentual da turma que já realizou a atividade"
+    tts = "Também podemos observar o percentual da turma que já realizou a tarefa"
+    ttr = "Também podemos observar o percentual da turma que já realizou a tarefa"
     filename = 'gannt3.mp3'
     audios.append(genAudioFile(tts, ttr, filename))
 
@@ -312,7 +328,7 @@ def ganntTips(ganntData):
     finishedTasks = sorted(finishedTasks, key = lambda x: x['date']['delayDate'], reverse = True)
 
     lostTasks = [t for t in finishedTasks if t['done'] == False]
-
+    top = True
     if len(lostTasks) > 0:
         if len(lostTasks) == 1:
             tts = "Cuidado! Você deixou de realizar %s tarefa das %s tarefas finalizadas até o momento, como '%s'"%(str(len(lostTasks)), str(len(finishedTasks)), lostTasks[0]['action'] + ' ' + lostTasks[0]['name'])
@@ -324,7 +340,8 @@ def ganntTips(ganntData):
         filename = 'gannt5.mp3'
         audios.append(genAudioFile(tts, ttr, filename))
 
-        return audios
+        # return audios
+        top = False
 
     initializedTasks = [t for t in ganntData if t['date']['startDate'] <= today and t['date']['endDate'] > today]
     initializedTasks = sorted(initializedTasks, key = lambda x: x['date']['endDate'])
@@ -337,7 +354,8 @@ def ganntTips(ganntData):
         filename = 'gannt6.mp3'
         audios.append(genAudioFile(tts, ttr, filename))
 
-        return audios
+        # return audios
+        top = False
 
     nextTasks = [t for t in ganntData if t['date']['startDate'] > today]
     nextTasks = sorted(nextTasks, key = lambda x: x['date']['startDate'])
@@ -353,11 +371,12 @@ def ganntTips(ganntData):
         filename = 'gannt8.mp3'
         audios.append(genAudioFile(tts, ttr, filename))
 
-        return audios
-
-    tts = "Parabéns, continue acessando regularmente o ambiente da disciplina"
-    ttr = "Parabéns, continue acessando regularmente o ambiente da disciplina"
-    filename = 'gannt9.mp3'
-    audios.append(genAudioFile(tts, ttr, filename))
+        # return audios
+        top = False
+    if top is True:
+        tts = "Parabéns, continue acessando regularmente o ambiente da disciplina"
+        ttr = "Parabéns, continue acessando regularmente o ambiente da disciplina"
+        filename = 'gannt9.mp3'
+        audios.append(genAudioFile(tts, ttr, filename))
 
     return audios
