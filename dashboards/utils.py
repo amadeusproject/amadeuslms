@@ -132,8 +132,6 @@ def getAccessedTagsPeriod(subject, user, data_ini='',data_end=''):
         data_ini='now-30d'
     if(data_end== ""):
         data_end='now'
-    print(data_ini)
-    print(data_end)
     data = []
     searchs = []
     for tag in tags:
