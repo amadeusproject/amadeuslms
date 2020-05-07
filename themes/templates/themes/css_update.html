@@ -41,7 +41,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 							<br clear="all" />
 
 							{% for radio in field %}
-                    			{% if radio.choice_value == 'contrast' %}
+                    			{% if radio.data.value == 'contrast' %}
 
                     			{% else %}
 								    <label for="{{ radio.id_for_label }}" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
@@ -51,12 +51,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 								        	</span>
 								        </div>
 								        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-								        	{% with 'img/themes/'|add:radio.choice_value|add:'.jpg' as img_presentation %}
+								        	{% with 'img/themes/'|add:radio.data.value|add:'.jpg' as img_presentation %}
 								        		<img class="radio theme_img" src="{% static img_presentation %}" />
 								        	{% endwith %}
 								        </div>
 								        <div class="col-md-2 col-md-2 col-sm-2 col-xs-12">
-								        	{% with 'docs/themes/'|add:radio.choice_value|add:'_docs.pdf' as doc_presentation %}
+								        	{% with 'docs/themes/'|add:radio.data.value|add:'_docs.pdf' as doc_presentation %}
 								        		<a class="radio" href="{% static doc_presentation %}" target="blank">{% trans 'Documentation' %}</a>
 								        	{% endwith %}
 								        </div>

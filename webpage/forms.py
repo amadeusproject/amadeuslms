@@ -20,7 +20,7 @@ from subjects.forms import ParticipantsMultipleChoiceField
 
 from .models import Webpage
 
-from resubmit.widgets import ResubmitFileWidget
+from file_resubmit.widgets import ResubmitFileWidget
 
 class WebpageForm(forms.ModelForm):
     subject = None

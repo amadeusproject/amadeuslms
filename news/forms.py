@@ -14,7 +14,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from .models import News
-from resubmit.widgets import ResubmitFileWidget
+from file_resubmit.widgets import ResubmitFileWidget
 from os.path import join
 from PIL import Image
 import os

@@ -19,7 +19,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from os.path import join
-from resubmit.widgets import ResubmitFileWidget
+from file_resubmit.widgets import ResubmitFileWidget
 from PIL import Image
 import os
 from amadeus import settings
