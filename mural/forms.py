@@ -16,7 +16,7 @@ from django.utils.translation import ugettext_lazy as _, pgettext_lazy
 from django.utils.html import strip_tags
 from django.db.models import Q
 
-from resubmit.widgets import ResubmitFileWidget
+from file_resubmit.widgets import ResubmitFileWidget
 
 from topics.models import Resource
 

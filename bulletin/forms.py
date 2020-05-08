@@ -20,7 +20,7 @@ from subjects.models import Tag
 
 from .models import Bulletin
 
-from resubmit.widgets import ResubmitFileWidget
+from file_resubmit.widgets import ResubmitFileWidget
 
 from pendencies.forms import PendenciesLimitedForm
 from pendencies.models import Pendencies

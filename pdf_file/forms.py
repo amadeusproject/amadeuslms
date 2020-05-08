@@ -16,7 +16,7 @@ from django.utils.html import strip_tags
 
 from subjects.models import Tag
 from subjects.forms import ParticipantsMultipleChoiceField
-from resubmit.widgets import ResubmitFileWidget
+from file_resubmit.widgets import ResubmitFileWidget
 
 from .models import PDFFile
 
