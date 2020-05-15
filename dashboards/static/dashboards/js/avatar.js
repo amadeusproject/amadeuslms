@@ -199,6 +199,10 @@ class Avatar {
     $('.ballon').hide();
     $('.mouth').removeClass('mouthSpeak');
 
+    let $ballon = $('.ballon').find('p');
+
+    avatar.removeTagEffect($ballon);
+
     avatar.duration = 0;
     avatar.counter = 0;
     avatar.playing = false;
@@ -272,11 +276,15 @@ class Avatar {
 
     let $ballon = $('.ballon').find('p');
 
+    avatar.removeTagEffect($ballon);
+
     $($ballon).html(file.text);
 
     if (file.resource_link !== null && file.resource_link !== undefined) {
       avatar.showResourcesTable(file.resource_link, file.tagName);
     }
+
+    avatar.addTagEffect($ballon);
 
     $('.ballon').show();
     $('.mouth').addClass('mouthSpeak');
@@ -353,6 +361,10 @@ class Avatar {
       avatar.showText(file);
     } else {
       avatar.playing = false;
+
+      let $ballon = $('.ballon').find('p');
+
+      avatar.removeTagEffect($ballon);
     }
   }
 
@@ -386,6 +398,10 @@ class Avatar {
       avatar.$nextBtn.hide();
       avatar.playing = false;
       avatar.clearMask()
+
+      let $ballon = $('.ballon').find('p');
+
+      avatar.removeTagEffect($ballon);
 
       avatar.$replayBtn.show();
       avatar.$stopBtn.hide();
@@ -430,6 +446,28 @@ class Avatar {
     $('#tagCloudy').css('background', 'transparent').css('z-index', '1');
     $('#otherIndicators').css('background', 'transparent').css('z-index', '1');
     $('#gantt').css('background', 'transparent').css('z-index', '1');
+  }
+
+  addTagEffect($ballon) {
+    let tags = $('#cloudy').find('svg').find('.vis').find('text');
+    $($ballon).find('.shineTag').each(function(index, item) {
+      tags.each(function(i, tag) {
+        if ($(tag).text() == $(item).text()) {
+          $(tag).addClass('shiningTag');
+        }
+      })
+    });
+  }
+
+  removeTagEffect($ballon) {
+    let tags = $('#cloudy').find('svg').find('.vis').find('text');
+    $($ballon).find('.shineTag').each(function(index, item) {
+      tags.each(function(i, tag) {
+        if ($(tag).text() == $(item).text()) {
+          $(tag).removeClass('shiningTag');
+        }
+      })
+    });
   }
 
   showResourcesTable(link, tagName) {

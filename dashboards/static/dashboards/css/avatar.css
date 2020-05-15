@@ -187,6 +187,10 @@
   z-index: 9;
 }
 
+.shiningTag {
+  fill: #de1212;
+}
+
 @keyframes blink {
   0%,
   100% {
