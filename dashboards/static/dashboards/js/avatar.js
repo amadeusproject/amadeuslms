@@ -286,6 +286,12 @@ class Avatar {
 
     avatar.addTagEffect($ballon);
 
+    if (file.emotion === 'sad') {
+      $('.upperBody').addClass('sadReaction');
+    } else {
+      $('.upperBody').removeClass('sadReaction');
+    }
+
     $('.ballon').show();
     $('.mouth').addClass('mouthSpeak');
 

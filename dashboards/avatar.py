@@ -12,7 +12,7 @@ from pendencies.models import Pendencies
 audio_url = os.path.join(settings.MEDIA_URL, 'avatar_audio')
 audiodir = os.path.join(settings.MEDIA_ROOT, 'avatar_audio')
 
-def genAudioFile(speech, subtitle, filename):
+def genAudioFile(speech, subtitle, filename, emotion = ""):
     if not os.path.isdir(audiodir):
         os.makedirs(audiodir)
 
@@ -24,7 +24,7 @@ def genAudioFile(speech, subtitle, filename):
 
     track = MP3(filepath)
 
-    return {'file': fileurl, 'duration': track.info.length, 'text': subtitle}
+    return {'file': fileurl, 'duration': track.info.length, 'text': subtitle, 'emotion': emotion}
 
 def generalInfo(subject, user):
     audios = []
@@ -61,7 +61,7 @@ def generalInfo(subject, user):
                 tts = "Seu último acesso foi ontem"
                 ttr = "Seu último acesso foi <b>ontem</b>"
             filename = 'days_off.mp3'
-            audios.append(genAudioFile(tts, ttr, filename))
+            audios.append(genAudioFile(tts, ttr, filename, "sad"))
     return audios
 
 def cloudInfo(tagData):
