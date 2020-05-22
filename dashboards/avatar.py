@@ -12,7 +12,7 @@ from pendencies.models import Pendencies
 audio_url = os.path.join(settings.MEDIA_URL, 'avatar_audio')
 audiodir = os.path.join(settings.MEDIA_ROOT, 'avatar_audio')
 
-def genAudioFile(speech, subtitle, filename):
+def genAudioFile(speech, subtitle, filename, emotion = ""):
     if not os.path.isdir(audiodir):
         os.makedirs(audiodir)
 
@@ -24,7 +24,7 @@ def genAudioFile(speech, subtitle, filename):
 
     track = MP3(filepath)
 
-    return {'file': fileurl, 'duration': track.info.length, 'text': subtitle}
+    return {'file': fileurl, 'duration': track.info.length, 'text': subtitle, 'emotion': emotion}
 
 def generalInfo(subject, user):
     audios = []
@@ -61,7 +61,7 @@ def generalInfo(subject, user):
                 tts = "Seu último acesso foi ontem"
                 ttr = "Seu último acesso foi <b>ontem</b>"
             filename = 'days_off.mp3'
-            audios.append(genAudioFile(tts, ttr, filename))
+            audios.append(genAudioFile(tts, ttr, filename, "sad"))
     return audios
 
 def cloudInfo(tagData):
@@ -120,14 +120,14 @@ def cloudTips(tagData):
 
     most_accessed = data[0]
 
-    if most_accessed['qtd_my_access'] <= 0:
+    if most_accessed['qtd_my_access'] > 0:
         tts = "Há tags em alta que estão sendo vistas por toda a turma"
         ttr = "Há tags em alta que estão sendo vistas por toda a turma"
         filename = 'most_accessed.mp3'
         audios.append(genAudioFile(tts, ttr, filename))
 
         tts = "É importante que você também acesse recursos dessas tags, por exemplo, %s."%(most_accessed["tag_name"])
-        ttr = "É importante que você também acesse recursos dessas tags, por exemplo, <b>%s</b>."%(most_accessed["tag_name"])
+        ttr = "É importante que você também acesse recursos dessas tags, por exemplo, <b class='shineTag'>%s</b>."%(most_accessed["tag_name"])
         filename = 'most_accessed2.mp3'
         audios.append(genAudioFile(tts, ttr, filename))
         
@@ -143,19 +143,19 @@ def cloudTips(tagData):
 
         if len(not_accessed) == 1:
             tts = "Você deixou de ver recursos de tags importantes, por exemplo, %s"%(not_accessed[0]['tag_name'])
-            ttr = "Você deixou de ver recursos de tags importantes, por exemplo, <b>%s</b>"%(not_accessed[0]['tag_name'])
+            ttr = "Você deixou de ver recursos de tags importantes, por exemplo, <b class='shineTag'>%s</b>"%(not_accessed[0]['tag_name'])
             filename = 'less_accessed2.mp3'
             audios.append(genAudioFile(tts, ttr, filename))
 
         elif len(not_accessed) == 2:
             tts = "Você deixou de ver recursos de tags importantes, por exemplo, %s e %s"%(not_accessed[0]['tag_name'], not_accessed[1]['tag_name'])
-            ttr = "Você deixou de ver recursos de tags importantes, por exemplo, <b>%s</b> e <b>%s</b>"%(not_accessed[0]['tag_name'], not_accessed[1]['tag_name'])
+            ttr = "Você deixou de ver recursos de tags importantes, por exemplo, <b class='shineTag'>%s</b> e <b class='shineTag'>%s</b>"%(not_accessed[0]['tag_name'], not_accessed[1]['tag_name'])
             filename = 'less_accessed2.mp3'
             audios.append(genAudioFile(tts, ttr, filename))
 
         elif len(not_accessed) >= 3:
             tts = "Você deixou de ver recursos de tags importantes, por exemplo, %s, %s e %s"%(not_accessed[0]['tag_name'], not_accessed[1]['tag_name'], not_accessed[2]['tag_name'])
-            ttr = "Você deixou de ver recursos de tags importantes, por exemplo, <b>%s</b>, <b>%s</b> e <b>%s</b>"%(not_accessed[0]['tag_name'], not_accessed[1]['tag_name'], not_accessed[2]['tag_name'])
+            ttr = "Você deixou de ver recursos de tags importantes, por exemplo, <b class='shineTag'>%s</b>, <b class='shineTag'>%s</b> e <b class='shineTag'>%s</b>"%(not_accessed[0]['tag_name'], not_accessed[1]['tag_name'], not_accessed[2]['tag_name'])
             filename = 'less_accessed2.mp3'
             audios.append(genAudioFile(tts, ttr, filename))
 
