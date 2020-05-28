@@ -99,6 +99,9 @@
   margin-top: 0.1rem;
   margin-left: 0.9rem;
 }
+.face > div.tears {
+  display: none;
+}
 .mouth {
   width: 2em;
   height: 1.5rem;
@@ -288,6 +291,195 @@
   background-color: transparent;
 }
 .sadReaction .mouthSpeak {
+  animation: none;
+}
+
+.surpriseReaction .face > div.topface {
+  height: 100%;
+  position: relative;
+}
+
+.surpriseReaction .eye {
+  width: 2rem;
+  height: 1.8rem;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-left: 0px;
+  background-color: aqua;
+  border: 3px solid #000000;
+  display: flex;
+  align-items: inherit;
+  justify-content: center;
+  position: static;
+  overflow: hidden;
+}
+
+.surpriseReaction .eye:before {
+  content: "";
+  width: 2.7rem;
+  height: 1.6rem;
+  border-top: 3px solid #000;
+  border-top-left-radius: 45%;
+  border-top-right-radius: 45%;
+  position: absolute;
+  top: 10%;
+}
+
+.surpriseReaction .eye:after {
+  content: "";
+  width: 2.7rem;
+  height: 1.6rem;
+  border-bottom: 3px solid #000;
+  border-bottom-left-radius: 45%;
+  border-bottom-right-radius: 45%;
+  position: absolute;
+  bottom: 10%;
+}
+
+.surpriseReaction .eye:not(:last-of-type) {
+  margin-right: 1.2rem;
+}
+
+.surpriseReaction .eyelid {
+  animation: none;
+}
+
+.surpriseReaction .iris {
+  width: 1.9rem;
+  height: 1.5rem;
+  background-color: aqua;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border: 0px solid #000000;
+}
+.surpriseReaction .pupile {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #000000;
+  border-radius: 50%;
+  margin-top: 0.4rem;
+  margin-left: 0.9rem;
+}
+
+.surpriseReaction .mouth {
+  display: none;
+}
+
+.surpriseReaction .mouthSpeak {
+  animation: none;
+}
+
+.cryReaction .face {
+  position: relative;
+}
+
+.cryReaction .face > div.topface {
+  position: relative;
+  height: 60%;
+}
+
+.cryReaction .eye {
+  width: 2.3rem;
+  height: 1.8rem;
+  border-top-left-radius: 60%;
+  border-top-right-radius: 60%;
+  background-color: darkblue;
+  border: 2px solid #000000;
+  display: flex;
+  align-items: inherit;
+  justify-content: center;
+  position: static;
+  overflow: hidden;
+}
+
+.cryReaction .eye-left:after {
+  content: "";
+  height: 0.6em;
+  border-top: 4px solid #000;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  transform: rotate(-10deg);
+  width: 2.3rem;
+  position: absolute;
+  bottom: -1%;
+  background: lightgreen;
+  z-index: 2;
+}
+
+.cryReaction .face > div.tears {
+  position: absolute;
+  top: 70%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 3;
+}
+.cryReaction .face > div.tears div.tear {
+  width: 1rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: dodgerblue;
+  position: relative;
+}
+
+.cryReaction .face > div.tears div.tear-left {
+  margin-left: 1rem;
+}
+
+.cryReaction .face > div.tears div.tear-right {
+  margin-right: 1rem;
+}
+
+.cryReaction .face > div.tears div.tear:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 0.5rem solid transparent;
+  border-right: 0.5rem solid transparent;
+  border-bottom: 1.3rem solid dodgerblue;
+  top: -0.7rem;
+  left: 0rem;
+  right: 0;
+  margin: auto;
+  z-index: 1;
+}
+
+.cryReaction .eye-right:after {
+  content: "";
+  height: 0.6em;
+  border-top: 4px solid #000;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  transform: rotate(10deg);
+  width: 2.3rem;
+  position: absolute;
+  bottom: -1%;
+  background: lightgreen;
+  z-index: 2;
+}
+
+.cryReaction .eyelid {
+  animation: none;
+}
+
+.cryReaction .mouth {
+  width: 1.3em;
+  height: 0.7rem;
+  border: 2px solid #000000;
+  border-top-left-radius: 12em;
+  border-top-right-radius: 12em;
+  border-bottom-color: transparent;
+  background-color: transparent;
+  border-bottom: none;
+  margin-top: -1rem;
+}
+
+.cryReaction .mouthSpeak {
   animation: none;
 }
 
