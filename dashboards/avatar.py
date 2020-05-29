@@ -61,7 +61,7 @@ def generalInfo(subject, user):
                 tts = "Seu último acesso foi ontem"
                 ttr = "Seu último acesso foi <b>ontem</b>"
             filename = 'days_off.mp3'
-            audios.append(genAudioFile(tts, ttr, filename, "sad"))
+            audios.append(genAudioFile(tts, ttr, filename, "crying"))
     return audios
 
 def cloudInfo(tagData):
@@ -124,7 +124,7 @@ def cloudTips(tagData):
         tts = "Há tags em alta que estão sendo vistas por toda a turma"
         ttr = "Há tags em alta que estão sendo vistas por toda a turma"
         filename = 'most_accessed.mp3'
-        audios.append(genAudioFile(tts, ttr, filename))
+        audios.append(genAudioFile(tts, ttr, filename, 'surprise'))
 
         tts = "É importante que você também acesse recursos dessas tags, por exemplo, %s."%(most_accessed["tag_name"])
         ttr = "É importante que você também acesse recursos dessas tags, por exemplo, <b class='shineTag'>%s</b>."%(most_accessed["tag_name"])

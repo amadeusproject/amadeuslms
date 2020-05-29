@@ -288,8 +288,20 @@ class Avatar {
 
     if (file.emotion === 'sad') {
       $('.upperBody').addClass('sadReaction');
-    } else {
+      $('.upperBody').removeClass('surpriseReaction');
+      $('.upperBody').removeClass('cryReaction');
+    } else if (file.emotion === 'surprise') {
       $('.upperBody').removeClass('sadReaction');
+      $('.upperBody').addClass('surpriseReaction');
+      $('.upperBody').removeClass('cryReaction');
+    } else if (file.emotion === 'crying') {
+      $('.upperBody').removeClass('sadReaction');
+      $('.upperBody').removeClass('surpriseReaction');
+      $('.upperBody').addClass('cryReaction');
+    } else {
+      $('.upperBody').removeClass('cryReaction');
+      $('.upperBody').removeClass('sadReaction');
+      $('.upperBody').removeClass('surpriseReaction');
     }
 
     $('.ballon').show();
