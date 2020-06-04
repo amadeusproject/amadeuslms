@@ -342,8 +342,18 @@
   margin-right: 1.2rem;
 }
 
+.surpriseReaction .eyelid-holder {
+  position: absolute;
+  width: 2rem;
+  height: 1.8rem;
+  overflow: hidden;
+  border-radius: 60%;
+}
+
 .surpriseReaction .eyelid {
-  animation: none;
+  animation: blink 2s infinite;
+  border-radius: 60%;
+  top: 10%;
 }
 
 .surpriseReaction .iris {
@@ -427,10 +437,14 @@
 
 .cryReaction .face > div.tears div.tear-left {
   margin-left: 1rem;
+  opacity: 0;
+  animation: 1s cry infinite;
 }
 
 .cryReaction .face > div.tears div.tear-right {
   margin-right: 1rem;
+  opacity: 0;
+  animation: 1s cry 0.5s infinite;
 }
 
 .cryReaction .face > div.tears div.tear:after {
@@ -463,8 +477,17 @@
   z-index: 2;
 }
 
+.cryReaction .eyelid-holder {
+  position: absolute;
+  overflow: hidden;
+  width: 2.3rem;
+  height: 2rem;
+  border-top-left-radius: 60%;
+  border-top-right-radius: 60%;
+}
+
 .cryReaction .eyelid {
-  animation: none;
+  top: 15%;
 }
 
 .cryReaction .mouth {
@@ -515,6 +538,20 @@
   }
 }
 
+@keyframes cry {
+  0% {
+    opacity: 1;
+    transform: translate(0%, 0%);
+  }
+
+  50% {
+    transform: translate(0%, 50%);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @-webkit-keyframes blink {
   0%,
   100% {
@@ -544,5 +581,19 @@
   }
   50% {
     height: 1%;
+  }
+}
+
+@-webkit-keyframes cry {
+  0% {
+    opacity: 1;
+    transform: translate(0%, 0%);
+  }
+
+  50% {
+    transform: translate(0%, 50%);
+  }
+  100% {
+    opacity: 0;
   }
 }
