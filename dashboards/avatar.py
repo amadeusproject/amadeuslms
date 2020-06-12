@@ -145,19 +145,19 @@ def cloudTips(tagData):
             tts = "Você deixou de ver recursos de tags importantes, por exemplo, %s"%(not_accessed[0]['tag_name'])
             ttr = "Você deixou de ver recursos de tags importantes, por exemplo, <b class='shineTag'>%s</b>"%(not_accessed[0]['tag_name'])
             filename = 'less_accessed2.mp3'
-            audios.append(genAudioFile(tts, ttr, filename))
+            audios.append(genAudioFile(tts, ttr, filename, 'sad'))
 
         elif len(not_accessed) == 2:
             tts = "Você deixou de ver recursos de tags importantes, por exemplo, %s e %s"%(not_accessed[0]['tag_name'], not_accessed[1]['tag_name'])
             ttr = "Você deixou de ver recursos de tags importantes, por exemplo, <b class='shineTag'>%s</b> e <b class='shineTag'>%s</b>"%(not_accessed[0]['tag_name'], not_accessed[1]['tag_name'])
             filename = 'less_accessed2.mp3'
-            audios.append(genAudioFile(tts, ttr, filename))
+            audios.append(genAudioFile(tts, ttr, filename, 'sad'))
 
         elif len(not_accessed) >= 3:
             tts = "Você deixou de ver recursos de tags importantes, por exemplo, %s, %s e %s"%(not_accessed[0]['tag_name'], not_accessed[1]['tag_name'], not_accessed[2]['tag_name'])
             ttr = "Você deixou de ver recursos de tags importantes, por exemplo, <b class='shineTag'>%s</b>, <b class='shineTag'>%s</b> e <b class='shineTag'>%s</b>"%(not_accessed[0]['tag_name'], not_accessed[1]['tag_name'], not_accessed[2]['tag_name'])
             filename = 'less_accessed2.mp3'
-            audios.append(genAudioFile(tts, ttr, filename))
+            audios.append(genAudioFile(tts, ttr, filename, 'sad'))
 
         return audios
 
@@ -205,22 +205,27 @@ def indicatorsTips(subject, indicatorsData):
     pendCount = Pendencies.objects.filter(resource__topic__subject = subject.id, resource__visible = True, begin_date__date__lt=timezone.now(), end_date__date__gte = timezone.now() - timedelta(days = 6)).count()
     top=True
     if subjectAccess["my_access"] < subjectAccess["percentil_4"] or subjectAccess["my_access"] <= 0:
+        filename = 'indicators6.mp3'
         if subjectAccess["my_access"] == 0:
             tts = "Você não acessou nenhuma vez o ambiente durante a semana"
             ttr = "Você não acessou <b>nenhuma</b> vez o ambiente durante a semana"
+            audios.append(genAudioFile(tts, ttr, filename, 'crying'))
         elif subjectAccess["my_access"] == 1:
             if subjectAccessDays["my_access"] == 1:
                 tts = "Você acessou %s vez o ambiente, em %s dia diferente"%(str(subjectAccess["my_access"]), str(subjectAccessDays["my_access"]))
                 ttr = "Você acessou <b>%s</b> vez o ambiente, em <b>%s</b> dia diferente"%(str(subjectAccess["my_access"]), str(subjectAccessDays["my_access"]))
+                audios.append(genAudioFile(tts, ttr, filename))
             else:
                 tts = "Você acessou %s vez o ambiente, em %s dias diferentes"%(str(subjectAccess["my_access"]), str(subjectAccessDays["my_access"]))
                 ttr = "Você acessou <b>%s</b> vez o ambiente, em <b>%s</b> dias diferentes"%(str(subjectAccess["my_access"]), str(subjectAccessDays["my_access"]))
+                audios.append(genAudioFile(tts, ttr, filename))
         else:
             tts = "Você acessou %s vezes o ambiente, em %s dias diferentes"%(str(subjectAccess["my_access"]), str(subjectAccessDays["my_access"]))
             ttr = "Você acessou <b>%s</b> vezes o ambiente, em <b>%s</b> dias diferentes"%(str(subjectAccess["my_access"]), str(subjectAccessDays["my_access"]))
+            audios.append(genAudioFile(tts, ttr, filename))
 
-        filename = 'indicators6.mp3'
-        audios.append(genAudioFile(tts, ttr, filename))
+        
+        
 
         tts = "Acesse o ambiente da disciplina constantemente"
         ttr = "Acesse o ambiente da disciplina constantemente"
@@ -236,42 +241,49 @@ def indicatorsTips(subject, indicatorsData):
         
 
     if resourcesAccess["my_access"] < resourcesAccess["percentil_4"] or resourcesAccess["my_access"] <= 0:
+        filename = 'indicators11.mp3'
+        
         if resourcesAccess["my_access"] == 0:
             tts = "Você não acessou nenhuma vez os recursos da disciplina"
             ttr = "Você não acessou <b>nenhuma</b> vez os recursos da disciplina"
+            audios.append(genAudioFile(tts, ttr, filename, 'crying'))
         elif resourcesAccess["my_access"] == 1:
             if resourcesDistinctAccess["my_access"] == 1:
                 tts = "Você acessou %s vez os recursos da disciplina, sendo %s recurso diferente"%(str(resourcesAccess["my_access"]), str(resourcesDistinctAccess["my_access"]))
                 ttr = "Você acessou <b>%s</b> vez os recursos da disciplina, sendo <b>%s</b> recurso diferente"%(str(resourcesAccess["my_access"]), str(resourcesDistinctAccess["my_access"]))
+                audios.append(genAudioFile(tts, ttr, filename, 'crying'))
             else:
                 tts = "Você acessou %s vez os recursos da disciplina, sendo %s recursos diferentes"%(str(resourcesAccess["my_access"]), str(resourcesDistinctAccess["my_access"]))
                 ttr = "Você acessou <b>%s</b> vez os recursos da disciplina, sendo <b>%s</b> recursos diferentes"%(str(resourcesAccess["my_access"]), str(resourcesDistinctAccess["my_access"]))
+                audios.append(genAudioFile(tts, ttr, filename, 'crying'))
         else:
             tts = "Você acessou %s vezes os recursos da disciplina, sendo %s recursos distintos"%(str(resourcesAccess["my_access"]), str(resourcesDistinctAccess["my_access"]))
             ttr = "Você acessou <b>%s</b> vezes os recursos da disciplina, sendo <b>%s</b> recursos distintos"%(str(resourcesAccess["my_access"]), str(resourcesDistinctAccess["my_access"]))
-
-        filename = 'indicators11.mp3'
-        audios.append(genAudioFile(tts, ttr, filename))
+            audios.append(genAudioFile(tts, ttr, filename))
+        
 
         tts = "Não pule ou deixe de acessar os recursos"
         ttr = "Não pule ou deixe de acessar os recursos"
         filename = 'indicators12.mp3'
-        audios.append(genAudioFile(tts, ttr, filename))
+        audios.append(genAudioFile(tts, ttr, filename, 'sad'))
         
         
         # return audios
         top = False
 
     if tasksRealized["my_access"] < tasksRealized["percentil_4"] or tasksRealized["my_access"] <= 0:
+        filename = 'indicators7.mp3'
         if tasksRealized["my_access"] == 0:
             tts = "Você não realizou nenhuma das tarefas pontualmente"
             ttr = "Você não realizou <b>nenhuma</b> das tarefas pontualmente"
+            audios.append(genAudioFile(tts, ttr, filename, 'sad'))
         else:
             tts = "Você realizou pontualmente apenas %s das %s tarefas"%(str(tasksRealized["my_access"]), str(pendCount))
             ttr = "Você realizou pontualmente apenas <b>%s</b> das %s tarefas"%(str(tasksRealized["my_access"]), str(pendCount))
+            audios.append(genAudioFile(tts, ttr, filename))
 
-        filename = 'indicators7.mp3'
-        audios.append(genAudioFile(tts, ttr, filename))
+        
+        
 
         tts = "As tarefas são fundamentais para complementar e consolidar a aprendizagem"
         ttr = "As tarefas são fundamentais para complementar e consolidar a aprendizagem"
@@ -330,15 +342,18 @@ def ganntTips(ganntData):
     lostTasks = [t for t in finishedTasks if t['done'] == False]
     top = True
     if len(lostTasks) > 0:
+        filename = 'gannt5.mp3'
         if len(lostTasks) == 1:
             tts = "Cuidado! Você deixou de realizar %s tarefa das %s tarefas finalizadas até o momento, como '%s'"%(str(len(lostTasks)), str(len(finishedTasks)), lostTasks[0]['action'] + ' ' + lostTasks[0]['name'])
             ttr = "Cuidado! Você deixou de realizar <b>%s</b> tarefa das <b>%s</b> tarefas finalizadas até o momento, como '<b>%s</b>'"%(str(len(lostTasks)), str(len(finishedTasks)), lostTasks[0]['action'] + ' ' + lostTasks[0]['name'])
+            audios.append(genAudioFile(tts, ttr, filename, 'sad'))
         else:
             tts = "Cuidado! Você deixou de realizar %s tarefas das %s tarefas finalizadas até o momento, como '%s'"%(str(len(lostTasks)), str(len(finishedTasks)), lostTasks[0]['action'] + ' ' + lostTasks[0]['name'])
             ttr = "Cuidado! Você deixou de realizar <b>%s</b> tarefas das <b>%s</b> tarefas finalizadas até o momento, como '<b>%s</b>'"%(str(len(lostTasks)), str(len(finishedTasks)), lostTasks[0]['action'] + ' ' + lostTasks[0]['name'])
+            audios.append(genAudioFile(tts, ttr, filename, 'crying'))
 
-        filename = 'gannt5.mp3'
-        audios.append(genAudioFile(tts, ttr, filename))
+        
+        
 
         # return audios
         top = False
@@ -352,7 +367,7 @@ def ganntTips(ganntData):
         tts = "Se liga! Algumas atividades estão próximas do fim, por exemplo, %s"%(unstartedTasks[0]["action"] + " " + unstartedTasks[0]["name"])
         ttr = "Se liga! Algumas atividades estão próximas do fim, por exemplo, <b>%s</b>"%(unstartedTasks[0]["action"] + " " + unstartedTasks[0]["name"])            
         filename = 'gannt6.mp3'
-        audios.append(genAudioFile(tts, ttr, filename))
+        audios.append(genAudioFile(tts, ttr, filename, 'surprise'))
 
         # return audios
         top = False
@@ -364,7 +379,7 @@ def ganntTips(ganntData):
         tts = "Fique ligado! Nos próximos dias novas tarefas irão iniciar, como, '%s'"%(nextTasks[0]["action"] + " " + nextTasks[0]["name"])
         ttr = "Fique ligado! Nos próximos dias novas tarefas irão iniciar, como, '<b>%s</b>'"%(nextTasks[0]["action"] + " " + nextTasks[0]["name"])
         filename = 'gannt7.mp3'
-        audios.append(genAudioFile(tts, ttr, filename))
+        audios.append(genAudioFile(tts, ttr, filename,'suprise'))
 
         tts = "Organize-se e prepare-se para elas"
         ttr = "<b>Organize-se</b> e <b>prepare-se</b> para elas"
