@@ -242,6 +242,7 @@ def indicatorsTips(subject, indicatorsData):
 
     if resourcesAccess["my_access"] < resourcesAccess["percentil_4"] or resourcesAccess["my_access"] <= 0:
         filename = 'indicators11.mp3'
+        
         if resourcesAccess["my_access"] == 0:
             tts = "Você não acessou nenhuma vez os recursos da disciplina"
             ttr = "Você não acessou <b>nenhuma</b> vez os recursos da disciplina"
