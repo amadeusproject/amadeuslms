@@ -90,6 +90,7 @@ INSTALLED_APPS = [
     'banco_questoes',
     'questionary',
     'elastic',
+    'environment_creation'
 ]
 
 MIDDLEWARE_CLASSES = [
