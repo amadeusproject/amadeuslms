@@ -19,10 +19,21 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% block breadcrumbs %}
 	{{ block.super }}
 	{% trans 'Settings: Environment Creation' as bread %} 
-	{% breadcrumb bread 'log:settings' %} 
+	{% breadcrumb bread 'excel:import' %} 
 {% endblock %} 
 
 {% block content %}
+	{% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <div class="card">
 		<div class="card-content">
 			<div class="card-body">
@@ -51,8 +62,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 								<div class="filedrag">
 									{% trans 'Click or drop the file here' %}<br />
-										
-									<small>{% trans 'The photo could not exceed 2MB.' %}</small>
 								</div>
 							{% endif %}
 						</div>
@@ -67,6 +76,47 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         </div>
     </div>
 
+	{% if usersErrors %}
+		<div class="alert alert-warning alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<h5><b>{% trans 'You have some invalid data in the Users sheet that causes some entries not to be imported' %}:</b></h5>
+			<ul>
+				{% for msg in usersErrors %}
+					<li><p>- {{ msg }}</p></li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+
+	{% if categoriesErrors %}
+		<div class="alert alert-warning alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<h5><b>{% trans 'You have some invalid data in the Courses sheet that causes some entries not to be imported' %}:</b></h5>
+			<ul>
+				{% for msg in categoriesErrors %}
+					<li><p>- {{ msg }}</p></li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+
+	{% if subjectsErrors %}
+		<div class="alert alert-warning alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<h5><b>{% trans 'You have some invalid data in the Subjects sheet that causes some entries not to be imported' %}:</b></h5>
+			<ul>
+				{% for msg in subjectsErrors %}
+					<li><p>- {{ msg }}</p></li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
 
 <script type="text/javascript">
 // check if browser supports drag n drop
