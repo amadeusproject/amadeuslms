@@ -50,6 +50,7 @@ urlpatterns = [
     url(r'^bulletin/', include('bulletin.urls', namespace='bulletin')),
     url(r'^questions_database/', include('banco_questoes.urls', namespace='questions_database')),
     url(r'^elastic/', include('elastic.urls', namespace='elastic')),
+    url(r'^excel/', include('environment_creation.urls', namespace='excel')),
     url(r'^api-docs/', include_docs_urls(title = 'REST Api Documentation')),
     #API
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),

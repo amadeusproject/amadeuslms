@@ -1,0 +1,121 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-25 01:10+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: environment_creation/templates/environment_creation/upload.html:21
+msgid "Settings: Environment Creation"
+msgstr "Configurações: Criação de Ambiente"
+
+#: environment_creation/templates/environment_creation/upload.html:55
+msgid "Choose your file..."
+msgstr "Escolha seu arquivo..."
+
+#: environment_creation/templates/environment_creation/upload.html:64
+msgid "Click or drop the file here"
+msgstr "Clique ou solte o arquivo aqui"
+
+#: environment_creation/templates/environment_creation/upload.html:71
+msgid "Save"
+msgstr "Salvar"
+
+#: environment_creation/templates/environment_creation/upload.html:84
+msgid ""
+"You have some invalid data in the Users sheet that causes some entries not "
+"to be imported"
+msgstr "Você possui algumas informações inválidas na planilha de Usuários o que fez com que algumas entradas não tenham sido importadas."
+
+#: environment_creation/templates/environment_creation/upload.html:98
+msgid ""
+"You have some invalid data in the Courses sheet that causes some entries not "
+"to be imported"
+msgstr "Você possui algumas informações inválidas na planilha de Cursos o que fez com que algumas entradas não tenham sido importadas."
+
+#: environment_creation/templates/environment_creation/upload.html:112
+msgid ""
+"You have some invalid data in the Subjects sheet that causes some entries "
+"not to be imported"
+msgstr "Você possui algumas informações inválidas na planilha de Assuntos o que fez com que algumas entradas não tenham sido importadas."
+
+#: environment_creation/views.py:71
+msgid "Environment imported successfully!"
+msgstr "Ambiente importado com sucesso!"
+
+#: environment_creation/views.py:83
+msgid "Bulk Creation"
+msgstr "Criação em massa"
+
+#: environment_creation/views.py:131
+#, python-format
+msgid "Line %s has username or lastname without values"
+msgstr "A linha %s possui os campos nome ou sobrenome sem valores"
+
+#: environment_creation/views.py:138
+#, python-format
+msgid "Line %s has no valid email"
+msgstr "A linha %s não possui um email válido"
+
+#: environment_creation/views.py:189 environment_creation/views.py:344
+#, python-format
+msgid "Line %s has no value for name"
+msgstr "A linha %s não possui valor para o campo nome"
+
+#: environment_creation/views.py:203
+#, python-format
+msgid "Line %s doesn't have a valid subscription init date"
+msgstr "A linha %s não possui uma data de início de inscrição válida"
+
+#: environment_creation/views.py:207
+#, python-format
+msgid "Line %s has the subscription init date before today's date"
+msgstr "A linha %s possui uma data de início de inscrição anterior à data atual"
+
+#: environment_creation/views.py:215
+#, python-format
+msgid "Line %s doesn't have a valid subscription end date"
+msgstr "A linha %s não possui uma data de encerramento de inscrição válida"
+
+#: environment_creation/views.py:219
+#, python-format
+msgid "Line %s has the subscription end date before subscription init date"
+msgstr "A linha %s possui uma data de encerramento de inscrição anterior à data de início de inscrição"
+
+#: environment_creation/views.py:226
+#, python-format
+msgid "Line %s doesn't have a valid init date"
+msgstr "A linha %s não possui uma data de início válida"
+
+#: environment_creation/views.py:229
+#, python-format
+msgid "Line %s has the init date before or equal subscription end date"
+msgstr "A linha %s possui uma data de início anterior ou igual à data de encerramento de inscrição"
+
+#: environment_creation/views.py:236
+#, python-format
+msgid "Line %s doesn't have a valid end date"
+msgstr "A linha %s não possui uma data de encerramento válida"
+
+#: environment_creation/views.py:239
+#, python-format
+msgid "Line %s has the end date before the init date"
+msgstr "A linha %s possui uma data de encerramento anterior à data de início"
+
+#: environment_creation/views.py:338
+#, python-format
+msgid "Line %s has no valid value for course"
+msgstr "A linha %s não possui um valor válido para o campo curso"
