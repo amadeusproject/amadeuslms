@@ -25,53 +25,69 @@ class ParticipantsMultipleChoiceField(forms.ModelMultipleChoiceField):
 
         return label
 
+
 class CreateSubjectForm(forms.ModelForm):
     category_id = None
 
-    students = ParticipantsMultipleChoiceField(queryset = User.objects.all(), required = False)
-    professor = ParticipantsMultipleChoiceField(queryset = User.objects.all(), required = False)
+    students = ParticipantsMultipleChoiceField(
+        queryset=User.objects.all(), required=False
+    )
+    professor = ParticipantsMultipleChoiceField(
+        queryset=User.objects.all(), required=False
+    )
 
     def __init__(self, *args, **kwargs):
         super(CreateSubjectForm, self).__init__(*args, **kwargs)
 
-        if kwargs['initial']:
-            if kwargs['initial']['category']:
-                categories = kwargs['initial']['category']
+        if kwargs["initial"]:
+            if kwargs["initial"]["category"]:
+                categories = kwargs["initial"]["category"]
 
                 if categories.count() > 0:
                     self.category_id = categories[0].id
 
-
-        if not kwargs['instance'] is None:
-            self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
+        if not kwargs["instance"] is None:
+            self.initial["tags"] = ", ".join(
+                self.instance.tags.all().values_list("name", flat=True)
+            )
 
     # TODO: Define form fields here
-    tags = forms.CharField(label = _('Tags'), required = False)
+    tags = forms.CharField(label=_("Tags"), required=False)
 
     class Meta:
         model = Subject
 
-        fields = ('name', 'description_brief', 'description', 'subscribe_begin', 'subscribe_end', 'init_date', 'end_date',
-         'visible', 'professor', 'students', 'display_avatar' )
-
+        fields = (
+            "name",
+            "description_brief",
+            "description",
+            "subscribe_begin",
+            "subscribe_end",
+            "init_date",
+            "end_date",
+            "visible",
+            "professor",
+            "students",
+            "display_avatar",
+        )
 
         widgets = {
-            'description_brief': forms.Textarea,
-            'description': forms.Textarea,
-            'professor': forms.SelectMultiple,
-            'students': forms.SelectMultiple,
+            "description_brief": forms.Textarea,
+            "description": forms.Textarea,
+            "professor": forms.SelectMultiple,
+            "students": forms.SelectMultiple,
         }
 
     def save(self, commit=True):
-        super(CreateSubjectForm, self).save(commit = True)
+        super(CreateSubjectForm, self).save(commit=True)
 
         self.instance.save()
 
         previous_tags = self.instance.tags.all()
 
-        tags = self.cleaned_data['tags'].split(",")
+        tags = self.cleaned_data["tags"].split(",")
 
-        #Excluding unwanted tags
+        # Excluding unwanted tags
         for prev in previous_tags:
             if not prev.name in tags:
                 self.instance.tags.remove(prev)
@@ -79,12 +95,12 @@ class CreateSubjectForm(forms.ModelForm):
         for tag in tags:
             tag = tag.strip()
 
-            exist = Tag.objects.filter(name = tag).exists()
+            exist = Tag.objects.filter(name=tag).exists()
 
             if exist:
-                new_tag = Tag.objects.get(name = tag)
+                new_tag = Tag.objects.get(name=tag)
             else:
-                new_tag = Tag.objects.create(name = tag)
+                new_tag = Tag.objects.create(name=tag)
 
             if not new_tag in self.instance.tags.all():
                 self.instance.tags.add(new_tag)
@@ -92,93 +108,117 @@ class CreateSubjectForm(forms.ModelForm):
         return self.instance
 
     def clean_name(self):
-        name = self.cleaned_data.get('name')
-        
+        name = self.cleaned_data.get("name")
+
         if self.instance.id:
-            same_name = Subject.objects.filter(name__unaccent__iexact = name, category = self.category_id).exclude(id = self.instance.id)
+            same_name = Subject.objects.filter(
+                name__unaccent__iexact=name, category=self.category_id
+            ).exclude(id=self.instance.id)
         else:
-            same_name = Subject.objects.filter(name__unaccent__iexact = name, category = self.category_id)
-        
+            same_name = Subject.objects.filter(
+                name__unaccent__iexact=name, category=self.category_id
+            )
+
         if same_name.count() > 0:
-            self._errors['name'] = [_('There is another subject with this name, try another one.')]
+            self._errors["name"] = [
+                _("There is another subject with this name, try another one.")
+            ]
             return ValueError
-        
+
         return name
 
     def clean_subscribe_begin(self):
-        subscribe_begin = self.cleaned_data['subscribe_begin']
+        subscribe_begin = self.cleaned_data["subscribe_begin"]
 
         if subscribe_begin < datetime.datetime.today().date():
-            self._errors['subscribe_begin'] = [_('This date must be today or after')]
+            self._errors["subscribe_begin"] = [_("This date must be today or after")]
             return ValueError
 
         return subscribe_begin
 
     def clean_subscribe_end(self):
-        subscribe_end = self.cleaned_data['subscribe_end']
-        subscribe_begin =  self.cleaned_data['subscribe_begin']
+        subscribe_end = self.cleaned_data["subscribe_end"]
+        subscribe_begin = self.cleaned_data["subscribe_begin"]
 
         if subscribe_begin is ValueError or subscribe_end < subscribe_begin:
-            self._errors['subscribe_end'] = [_('This date must be equal subscribe begin or after')]
+            self._errors["subscribe_end"] = [
+                _("This date must be equal subscribe begin or after")
+            ]
             return ValueError
         return subscribe_end
 
     def clean_init_date(self):
-        init_date = self.cleaned_data['init_date']
-        subscribe_end = self.cleaned_data['subscribe_end']
-
+        init_date = self.cleaned_data["init_date"]
+        subscribe_end = self.cleaned_data["subscribe_end"]
 
         if subscribe_end is ValueError or init_date <= subscribe_end:
-            self._errors['init_date'] = [_('This date must be after subscribe end')]
+            self._errors["init_date"] = [_("This date must be after subscribe end")]
             return ValueError
         return init_date
 
     def clean_end_date(self):
-        end_date = self.cleaned_data['end_date']
-        init_date = self.cleaned_data['init_date']
+        end_date = self.cleaned_data["end_date"]
+        init_date = self.cleaned_data["init_date"]
 
         if init_date is ValueError or end_date < init_date:
-            self._errors['end_date'] = [_('This date must be equal init date or after')]
+            self._errors["end_date"] = [_("This date must be equal init date or after")]
             return ValueError
         return end_date
 
+
 class UpdateSubjectForm(forms.ModelForm):
-    students = ParticipantsMultipleChoiceField(queryset = User.objects.all(), required = False)
-    professor = ParticipantsMultipleChoiceField(queryset = User.objects.all(), required = False)
+    students = ParticipantsMultipleChoiceField(
+        queryset=User.objects.all(), required=False
+    )
+    professor = ParticipantsMultipleChoiceField(
+        queryset=User.objects.all(), required=False
+    )
 
     def __init__(self, *args, **kwargs):
         super(UpdateSubjectForm, self).__init__(*args, **kwargs)
 
-        if not kwargs['instance'] is None:
-            self.initial['tags'] = ", ".join(self.instance.tags.all().values_list("name", flat = True))
+        if not kwargs["instance"] is None:
+            self.initial["tags"] = ", ".join(
+                self.instance.tags.all().values_list("name", flat=True)
+            )
 
     # TODO: Define form fields here
-    tags = forms.CharField(label = _('Tags'), required = False)
+    tags = forms.CharField(label=_("Tags"), required=False)
 
     class Meta:
         model = Subject
 
-        fields = ('name', 'description_brief', 'description', 'subscribe_begin', 'subscribe_end', 'init_date', 'end_date',
-         'visible', 'professor', 'students', 'display_avatar' )
-
+        fields = (
+            "name",
+            "description_brief",
+            "description",
+            "subscribe_begin",
+            "subscribe_end",
+            "init_date",
+            "end_date",
+            "visible",
+            "professor",
+            "students",
+            "display_avatar",
+        )
 
         widgets = {
-            'description_brief': forms.Textarea,
-            'description': forms.Textarea,
-            'professor': forms.SelectMultiple,
-            'students': forms.SelectMultiple,
+            "description_brief": forms.Textarea,
+            "description": forms.Textarea,
+            "professor": forms.SelectMultiple,
+            "students": forms.SelectMultiple,
         }
 
     def save(self, commit=True):
-        super(UpdateSubjectForm, self).save(commit = True)
+        super(UpdateSubjectForm, self).save(commit=True)
 
         self.instance.save()
 
         previous_tags = self.instance.tags.all()
 
-        tags = self.cleaned_data['tags'].split(",")
+        tags = self.cleaned_data["tags"].split(",")
 
-        #Excluding unwanted tags
+        # Excluding unwanted tags
         for prev in previous_tags:
             if not prev.name in tags:
                 self.instance.tags.remove(prev)
@@ -186,12 +226,12 @@ class UpdateSubjectForm(forms.ModelForm):
         for tag in tags:
             tag = tag.strip()
 
-            exist = Tag.objects.filter(name = tag).exists()
+            exist = Tag.objects.filter(name=tag).exists()
 
             if exist:
-                new_tag = Tag.objects.get(name = tag)
+                new_tag = Tag.objects.get(name=tag)
             else:
-                new_tag = Tag.objects.create(name = tag)
+                new_tag = Tag.objects.create(name=tag)
 
             if not new_tag in self.instance.tags.all():
                 self.instance.tags.add(new_tag)
@@ -199,16 +239,22 @@ class UpdateSubjectForm(forms.ModelForm):
         return self.instance
 
     def clean_name(self):
-        name = self.cleaned_data.get('name')
+        name = self.cleaned_data.get("name")
         categoria = self.instance.category
-        
+
         if self.instance.id:
-            same_name = Subject.objects.filter(name__unaccent__iexact = name , category = categoria).exclude(id = self.instance.id)
+            same_name = Subject.objects.filter(
+                name__unaccent__iexact=name, category=categoria
+            ).exclude(id=self.instance.id)
         else:
-            same_name = Subject.objects.filter(name__unaccent__iexact = name, category = categoria)
-        
+            same_name = Subject.objects.filter(
+                name__unaccent__iexact=name, category=categoria
+            )
+
         if same_name.count() > 0:
-            self._errors['name'] = [_('There is another subject with this name, try another one.')]
+            self._errors["name"] = [
+                _("There is another subject with this name, try another one.")
+            ]
 
         return name
 
@@ -222,30 +268,31 @@ class UpdateSubjectForm(forms.ModelForm):
     #     return subscribe_begin
 
     def clean_subscribe_end(self):
-        subscribe_end = self.cleaned_data['subscribe_end']
-        subscribe_begin =  self.cleaned_data['subscribe_begin']
+        subscribe_end = self.cleaned_data["subscribe_end"]
+        subscribe_begin = self.cleaned_data["subscribe_begin"]
 
         if subscribe_begin is ValueError or subscribe_end < subscribe_begin:
-            self._errors['subscribe_end'] = [_('This date must be equal subscribe begin or after')]
+            self._errors["subscribe_end"] = [
+                _("This date must be equal subscribe begin or after")
+            ]
             return ValueError
         return subscribe_end
 
     def clean_init_date(self):
-        init_date = self.cleaned_data['init_date']
-        subscribe_end = self.cleaned_data['subscribe_end']
-
+        init_date = self.cleaned_data["init_date"]
+        subscribe_end = self.cleaned_data["subscribe_end"]
 
         if subscribe_end is ValueError or init_date <= subscribe_end:
-            self._errors['init_date'] = [_('This date must be after subscribe end')]
+            self._errors["init_date"] = [_("This date must be after subscribe end")]
             return ValueError
         return init_date
 
     def clean_end_date(self):
-        end_date = self.cleaned_data['end_date']
-        init_date = self.cleaned_data['init_date']
+        end_date = self.cleaned_data["end_date"]
+        init_date = self.cleaned_data["init_date"]
 
         if init_date is ValueError or end_date < init_date:
-            self._errors['end_date'] = [_('This date must be equal init date or after')]
+            self._errors["end_date"] = [_("This date must be equal init date or after")]
             return ValueError
         return end_date
 
@@ -253,4 +300,5 @@ class UpdateSubjectForm(forms.ModelForm):
 class CreateTagForm(forms.ModelForm):
     class Meta:
         model = Tag
-        fields = ('name',)
+        fields = ("name",)
+

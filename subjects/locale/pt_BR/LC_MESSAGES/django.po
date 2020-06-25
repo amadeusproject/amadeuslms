@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-01 23:30+0000\n"
+"POT-Creation-Date: 2020-06-25 01:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: subjects/forms.py:49 subjects/forms.py:156
+#: subjects/forms.py:55 subjects/forms.py:186
 msgid "Tags"
 msgstr "Tags"
 
-#: subjects/forms.py:103 subjects/forms.py:211
+#: subjects/forms.py:124 subjects/forms.py:256
 msgid "There is another subject with this name, try another one."
 msgstr "Já existe um assunto com esse nome, tente outro."
 
-#: subjects/forms.py:112
+#: subjects/forms.py:134
 msgid "This date must be today or after"
 msgstr "Essa data deve ser hoje ou depois disso"
 
-#: subjects/forms.py:122 subjects/forms.py:229
+#: subjects/forms.py:145 subjects/forms.py:276
 msgid "This date must be equal subscribe begin or after"
 msgstr "Essa data deve ser igual ou depois de começarem as incrições"
 
-#: subjects/forms.py:132 subjects/forms.py:239
+#: subjects/forms.py:155 subjects/forms.py:286
 msgid "This date must be after subscribe end"
 msgstr "Essa data deve ser depois do fim das inscrições"
 
-#: subjects/forms.py:141 subjects/forms.py:248
+#: subjects/forms.py:164 subjects/forms.py:295
 msgid "This date must be equal init date or after"
 msgstr "Essa data deve ser igual ou depois da data de início"
 
@@ -95,6 +95,10 @@ msgstr "Estudantes"
 #: subjects/models.py:58
 msgid "Maximum upload size"
 msgstr "Tamanho máximo de upload"
+
+#: subjects/models.py:60
+msgid "Display avatar to students?"
+msgstr ""
 
 #: subjects/templates/subjects/_form.html:33
 msgid "Attribute students to subject"
