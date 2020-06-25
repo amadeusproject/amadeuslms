@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-25 01:10+0000\n"
+"POT-Creation-Date: 2020-06-25 21:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,12 +26,12 @@ msgstr "Português"
 msgid "English"
 msgstr "Inglês"
 
-#: amadeus/templates/base.html:138 amadeus/templates/base.html:315
+#: amadeus/templates/base.html:138 amadeus/templates/base.html:317
 msgid "Search for subjects and resources"
 msgstr "Buscar por assuntos ou recursos"
 
 #: amadeus/templates/base.html:150 amadeus/templates/base.html:153
-#: amadeus/templates/base.html:273
+#: amadeus/templates/base.html:275
 msgid "Language Selector"
 msgstr "Seletor de Línguas"
 
@@ -95,31 +95,31 @@ msgstr "Temas"
 msgid "Web Conference"
 msgstr "Web conferência"
 
-#: amadeus/templates/base.html:219
+#: amadeus/templates/base.html:219 amadeus/templates/base.html:269
 msgid "Elastic Search"
 msgstr "ElasticSearch"
 
-#: amadeus/templates/base.html:220
-msgid "Import Environment"
-msgstr "Importar Ambiente"
+#: amadeus/templates/base.html:220 amadeus/templates/base.html:270
+msgid "Bulk Creation"
+msgstr "Cadastros em lote"
 
-#: amadeus/templates/base.html:365 amadeus/templates/base.html:423
+#: amadeus/templates/base.html:367 amadeus/templates/base.html:425
 msgid "Subjects"
 msgstr "Assuntos"
 
-#: amadeus/templates/base.html:370 amadeus/templates/base.html:429
+#: amadeus/templates/base.html:372 amadeus/templates/base.html:431
 msgid "Mural"
 msgstr "Mural"
 
-#: amadeus/templates/base.html:376 amadeus/templates/base.html:436
+#: amadeus/templates/base.html:378 amadeus/templates/base.html:438
 msgid "Messages"
 msgstr "Mensagens"
 
-#: amadeus/templates/base.html:382 amadeus/templates/base.html:444
+#: amadeus/templates/base.html:384 amadeus/templates/base.html:446
 msgid "Pendencies"
 msgstr "Pendências"
 
-#: amadeus/templates/base.html:390 amadeus/templates/base.html:453
+#: amadeus/templates/base.html:392 amadeus/templates/base.html:455
 msgid "Analytics"
 msgstr "Analytics"
 
@@ -141,5 +141,3 @@ msgstr "Por favor vá até a seguinte página e escolha uma nova senha:"
 msgid "The %(site_name)s team"
 msgstr "Time %(site_name)s"
 
-#~ msgid "Timeline"
-#~ msgstr "Timeline"
