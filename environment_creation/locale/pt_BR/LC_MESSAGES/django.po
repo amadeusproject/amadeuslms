@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-25 01:10+0000\n"
+"POT-Creation-Date: 2020-06-25 21:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,38 +19,52 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: environment_creation/templates/environment_creation/upload.html:21
-msgid "Settings: Environment Creation"
-msgstr "Configurações: Criação de Ambiente"
+msgid "Settings: Bulk Creation"
+msgstr "Configurações: Cadastros em lote"
 
-#: environment_creation/templates/environment_creation/upload.html:55
+#: environment_creation/templates/environment_creation/upload.html:46
+msgid "Click here"
+msgstr "Clique aqui"
+
+#: environment_creation/templates/environment_creation/upload.html:46
+msgid "to download a template file for the bulk creation"
+msgstr "para fazer o download do modelo do arquivo para cadastro em lote"
+
+#: environment_creation/templates/environment_creation/upload.html:51
 msgid "Choose your file..."
 msgstr "Escolha seu arquivo..."
 
-#: environment_creation/templates/environment_creation/upload.html:64
+#: environment_creation/templates/environment_creation/upload.html:60
 msgid "Click or drop the file here"
 msgstr "Clique ou solte o arquivo aqui"
 
-#: environment_creation/templates/environment_creation/upload.html:71
+#: environment_creation/templates/environment_creation/upload.html:67
 msgid "Save"
 msgstr "Salvar"
 
-#: environment_creation/templates/environment_creation/upload.html:84
+#: environment_creation/templates/environment_creation/upload.html:80
 msgid ""
 "You have some invalid data in the Users sheet that causes some entries not "
 "to be imported"
-msgstr "Você possui algumas informações inválidas na planilha de Usuários o que fez com que algumas entradas não tenham sido importadas."
+msgstr ""
+"Você possui algumas informações inválidas na planilha de Usuários o que fez "
+"com que algumas entradas não tenham sido importadas."
 
-#: environment_creation/templates/environment_creation/upload.html:98
+#: environment_creation/templates/environment_creation/upload.html:94
 msgid ""
 "You have some invalid data in the Courses sheet that causes some entries not "
 "to be imported"
-msgstr "Você possui algumas informações inválidas na planilha de Cursos o que fez com que algumas entradas não tenham sido importadas."
+msgstr ""
+"Você possui algumas informações inválidas na planilha de Cursos o que fez "
+"com que algumas entradas não tenham sido importadas."
 
-#: environment_creation/templates/environment_creation/upload.html:112
+#: environment_creation/templates/environment_creation/upload.html:108
 msgid ""
 "You have some invalid data in the Subjects sheet that causes some entries "
 "not to be imported"
-msgstr "Você possui algumas informações inválidas na planilha de Assuntos o que fez com que algumas entradas não tenham sido importadas."
+msgstr ""
+"Você possui algumas informações inválidas na planilha de Assuntos o que fez "
+"com que algumas entradas não tenham sido importadas."
 
 #: environment_creation/views.py:71
 msgid "Environment imported successfully!"
@@ -83,7 +97,8 @@ msgstr "A linha %s não possui uma data de início de inscrição válida"
 #: environment_creation/views.py:207
 #, python-format
 msgid "Line %s has the subscription init date before today's date"
-msgstr "A linha %s possui uma data de início de inscrição anterior à data atual"
+msgstr ""
+"A linha %s possui uma data de início de inscrição anterior à data atual"
 
 #: environment_creation/views.py:215
 #, python-format
@@ -93,7 +108,9 @@ msgstr "A linha %s não possui uma data de encerramento de inscrição válida"
 #: environment_creation/views.py:219
 #, python-format
 msgid "Line %s has the subscription end date before subscription init date"
-msgstr "A linha %s possui uma data de encerramento de inscrição anterior à data de início de inscrição"
+msgstr ""
+"A linha %s possui uma data de encerramento de inscrição anterior à data de "
+"início de inscrição"
 
 #: environment_creation/views.py:226
 #, python-format
@@ -103,7 +120,9 @@ msgstr "A linha %s não possui uma data de início válida"
 #: environment_creation/views.py:229
 #, python-format
 msgid "Line %s has the init date before or equal subscription end date"
-msgstr "A linha %s possui uma data de início anterior ou igual à data de encerramento de inscrição"
+msgstr ""
+"A linha %s possui uma data de início anterior ou igual à data de "
+"encerramento de inscrição"
 
 #: environment_creation/views.py:236
 #, python-format
@@ -119,3 +138,4 @@ msgstr "A linha %s possui uma data de encerramento anterior à data de início"
 #, python-format
 msgid "Line %s has no valid value for course"
 msgstr "A linha %s não possui um valor válido para o campo curso"
+

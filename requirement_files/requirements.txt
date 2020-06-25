@@ -99,3 +99,8 @@ click==7.0
 gTTS==2.1.1
 soupsieve==2.0
 mutagen==1.44.0
+
+lml==0.0.9
+pyexcel-io==0.5.20
+pyexcel-xls==0.5.8
+pyexcel-xlsx==0.5.8

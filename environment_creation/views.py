@@ -45,8 +45,8 @@ class ParseExcel(
             data = xlsx_get(excel_file, column_limit=15)
 
         users = data["Usuarios"]
-        categories = data["Cursos"]
-        subjects = data["Disciplinas"]
+        categories = data["Categorias"]
+        subjects = data["Assuntos"]
 
         usersList = []
         usersErrors = []
