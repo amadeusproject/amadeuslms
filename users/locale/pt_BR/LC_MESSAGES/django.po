@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-03 01:33+0000\n"
+"POT-Creation-Date: 2020-07-03 01:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -274,6 +274,14 @@ msgstr "Cadastrar"
 #: users/templates/users/login.html:155
 msgid "Forgot your password?"
 msgstr "Esqueceu sua senha?"
+
+#: users/templates/users/login.html:191
+msgid "Developed with the"
+msgstr "Desenvolvido com o"
+
+#: users/templates/users/login.html:191
+msgid "proudly, a Brazilian Public Software"
+msgstr "orgulhosamente, um Software Público Brasileiro."
 
 #: users/templates/users/modal_crop.html:22
 msgid "Image selection"
