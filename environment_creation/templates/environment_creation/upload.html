@@ -114,6 +114,20 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 		</div>
 	{% endif %}
 
+	{% if groupsErrors %}
+		<div class="alert alert-warning alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<h5><b>{% trans 'You have some invalid data in the Groups sheet that causes some entries not to be imported' %}:</b></h5>
+			<ul>
+				{% for msg in groupsErrors %}
+					<li><p>- {{ msg }}</p></li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+
 <script type="text/javascript">
 // check if browser supports drag n drop
 // call initialization file

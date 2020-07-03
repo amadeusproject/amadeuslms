@@ -19,39 +19,49 @@ from subjects.forms import ParticipantsMultipleChoiceField
 
 from .models import StudentsGroup
 
+
 class StudentsGroupForm(forms.ModelForm):
-	subject = None
-	participants = ParticipantsMultipleChoiceField(queryset = None, required = False)
+    subject = None
+    participants = ParticipantsMultipleChoiceField(queryset=None, required=False)
 
-	def __init__(self, *args, **kwargs):
-		super(StudentsGroupForm, self).__init__(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super(StudentsGroupForm, self).__init__(*args, **kwargs)
 
-		self.subject = kwargs['initial'].get('subject', None)
-		
-		if self.instance.id:
-			self.subject = self.instance.subject
+        self.subject = kwargs["initial"].get("subject", None)
 
-		self.fields['participants'].queryset = self.subject.students.all()
+        if self.instance.id:
+            self.subject = self.instance.subject
 
-	def clean_name(self):
-		name = self.cleaned_data.get('name', '')
-		
-		if self.instance.id:
-			same_name = self.subject.group_subject.filter(name__unaccent__iexact = name).exclude(id = self.instance.id).count()
-		else:
-			same_name = self.subject.group_subject.filter(name__unaccent__iexact = name).count()
-		
-		if same_name > 0:
-			self._errors['name'] = [_('This subject already has a group with this name')]
+        self.fields["participants"].queryset = self.subject.students.all()
 
-			return ValueError
+    def clean_name(self):
+        name = self.cleaned_data.get("name", "")
 
-		return name
+        if self.instance.id:
+            same_name = (
+                self.subject.group_subject.filter(name__unaccent__iexact=name)
+                .exclude(id=self.instance.id)
+                .count()
+            )
+        else:
+            same_name = self.subject.group_subject.filter(
+                name__unaccent__iexact=name
+            ).count()
 
-	class Meta:
-		model = StudentsGroup
-		fields = ['name', 'description', 'participants']
-		widgets = {
-			'description': forms.Textarea,
-			'participants': forms.SelectMultiple,
-		}
+        if same_name > 0:
+            self._errors["name"] = [
+                _("This subject already has a group with this name")
+            ]
+
+            return ValueError
+
+        return name
+
+    class Meta:
+        model = StudentsGroup
+        fields = ["name", "description", "participants"]
+        widgets = {
+            "description": forms.Textarea,
+            "participants": forms.SelectMultiple,
+        }
+

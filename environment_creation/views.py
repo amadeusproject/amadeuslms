@@ -16,6 +16,7 @@ from braces import views as braces_mixins
 from users.models import User
 from categories.models import Category
 from subjects.models import Subject, Tag
+from students_group.models import StudentsGroup
 
 from .forms import ExcelImport
 
@@ -47,6 +48,7 @@ class ParseExcel(
         users = data["Usuarios"]
         categories = data["Categorias"]
         subjects = data["Assuntos"]
+        groups = data["Grupos"]
 
         usersList = []
         usersErrors = []
@@ -56,6 +58,9 @@ class ParseExcel(
 
         subjectsList = []
         subjectsErrors = []
+
+        groupsList = []
+        groupsErrors = []
 
         if len(users) > 1:
             usersList, usersErrors = importUsers(users)
@@ -68,12 +73,16 @@ class ParseExcel(
                 subjects, usersList, categoriesList
             )
 
+        if len(groups) > 1:
+            groupsList, groupsErrors = importGroups(groups, subjectsList, usersList)
+
         messages.success(self.request, _("Environment imported successfully!"))
 
         context = self.get_context_data(**kwargs)
         context["usersErrors"] = usersErrors
         context["categoriesErrors"] = categoriesErrors
         context["subjectsErrors"] = subjectsErrors
+        context["groupsErrors"] = groupsErrors
 
         return self.render_to_response(context)
 
@@ -326,8 +335,6 @@ def importSubjects(subjectsSheet, usersList, categoriesList):
                             students = str(subject[11]).split(";")
                             tags = subject[13].split(";")
 
-                            print(profs)
-
                             addProfessors(subjectDB, profs, usersList)
                             addStudents(subjectDB, students, usersList)
                             addTags(subjectDB, tags)
@@ -348,3 +355,63 @@ def importSubjects(subjectsSheet, usersList, categoriesList):
                     subjectsList.append(None)
 
     return subjectsList, errorsList
+
+
+def addParticipants(group, students, usersList):
+    if len(students) > 0:
+        for student in students:
+            if len(usersList) >= int(float(student)):
+                user = usersList[int(float(student)) - 1]
+                if not user is None and not user in group.participants.all():
+                    group.participants.add(user)
+
+
+def importGroups(groupsSheet, subjectsList, usersList):
+    groupsList = []
+    errorsList = []
+
+    for group in groupsSheet:
+        if len(group) > 0:
+            if group[0] != "#":
+                if len(group) < 5:
+                    i = len(group)
+
+                    while i < 14:
+                        group.append("")
+
+                        i += 1
+
+                if group[1].strip() != "":
+                    if (
+                        len(subjectsList) >= int(group[3])
+                        and not subjectsList[int(group[3]) - 1] is None
+                    ):
+                        groupDB = StudentsGroup.objects.filter(
+                            name__unaccent__iexact=group[1],
+                            subject=subjectsList[int(group[3]) - 1],
+                        )
+
+                        if not groupDB.exists():
+                            groupDB = StudentsGroup.objects.create(
+                                name=group[1],
+                                description=group[2],
+                                subject=subjectsList[int(group[3]) - 1],
+                            )
+                        else:
+                            groupDB = groupDB.get()
+
+                        participants = str(group[4]).split(";")
+
+                        addParticipants(groupDB, participants, usersList)
+
+                        groupsList.append(groupDB)
+                    else:
+                        errorsList.append(
+                            _("Line %s has no valid value for subject") % (group[0])
+                        )
+                        groupsList.append(None)
+                else:
+                    errorsList.append(_("Line %s has no value for name") % (group[0]))
+                    groupsList.append(None)
+
+    return groupsList, errorsList
