@@ -357,12 +357,16 @@ def importSubjects(subjectsSheet, usersList, categoriesList):
     return subjectsList, errorsList
 
 
-def addParticipants(group, students, usersList):
+def addParticipants(group, subject, students, usersList):
     if len(students) > 0:
         for student in students:
             if len(usersList) >= int(float(student)):
                 user = usersList[int(float(student)) - 1]
-                if not user is None and not user in group.participants.all():
+                if (
+                    not user is None
+                    and user in subject.students.all()
+                    and not user in group.participants.all()
+                ):
                     group.participants.add(user)
 
 
@@ -402,7 +406,9 @@ def importGroups(groupsSheet, subjectsList, usersList):
 
                         participants = str(group[4]).split(";")
 
-                        addParticipants(groupDB, participants, usersList)
+                        addParticipants(
+                            groupDB, groupDB.subject, participants, usersList
+                        )
 
                         groupsList.append(groupDB)
                     else:
