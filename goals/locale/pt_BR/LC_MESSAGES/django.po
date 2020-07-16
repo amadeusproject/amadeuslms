@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-03 01:33+0000\n"
+"POT-Creation-Date: 2020-07-16 13:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -76,7 +76,7 @@ msgstr "Data limite para submissão"
 
 #: goals/models.py:27 goals/models.py:52 goals/models.py:60
 #: goals/templates/goals/_form_submit.html:33
-#: goals/templates/goals/view.html:98
+#: goals/templates/goals/view.html:108
 msgid "Goal"
 msgstr "Meta"
 
@@ -148,7 +148,7 @@ msgstr "Especificação de Metas"
 
 #: goals/templates/goals/_form.html:121
 #: goals/templates/goals/_form_submit.html:34
-#: goals/templates/goals/view.html:99
+#: goals/templates/goals/view.html:109
 msgid "Minimum percentage desired"
 msgstr "Porcentagem mínima desejada"
 
@@ -175,7 +175,7 @@ msgstr "Salvar"
 
 #: goals/templates/goals/_form.html:418
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: goals/templates/goals/_form.html:429
 msgid "Add new goal"
@@ -239,7 +239,8 @@ msgid "Action don't realized"
 msgstr "Ação não realizada"
 
 #: goals/templates/goals/relatorios.html:218
-#: goals/templates/goals/relatorios.html:240 goals/views.py:91
+#: goals/templates/goals/relatorios.html:240 goals/templates/goals/view.html:70
+#: goals/views.py:91
 msgid "Reports"
 msgstr "Relatórios"
 
@@ -360,7 +361,7 @@ msgstr "Enviar"
 
 #: goals/templates/goals/submit.html:78
 #: goals/templates/goals/update_submit.html:69
-#: goals/templates/goals/view.html:91
+#: goals/templates/goals/view.html:101
 #: goals/templates/goals/window_submit.html:52
 msgid "Limit submission date"
 msgstr "Data limite de submissão"
@@ -378,11 +379,23 @@ msgstr "Atualizar Minhas Metas"
 msgid "My Goals"
 msgstr "Minhas Metas"
 
-#: goals/templates/goals/view.html:100
+#: goals/templates/goals/view.html:69
+msgid "Edit"
+msgstr "Editar"
+
+#: goals/templates/goals/view.html:71
+msgid "Remove"
+msgstr "Remover"
+
+#: goals/templates/goals/view.html:74
+msgid "Resource Mural"
+msgstr "Mural do recurso"
+
+#: goals/templates/goals/view.html:110
 msgid "Goal stabilished"
 msgstr "Meta estabelecida"
 
-#: goals/templates/goals/view.html:110
+#: goals/templates/goals/view.html:120
 msgid "Update Goals"
 msgstr "Atualizar Metas"
 

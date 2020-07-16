@@ -45,10 +45,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 	{% subject_permissions request.user questionary.topic.subject as has_subject_permissions %}
 
     {% if questionary.visible %}
-		<div class="panel panel-info topic-panel">
+		<div id="resource-panel" class="panel panel-info topic-panel">
         	<div class="panel-heading">
 	{% elif has_resource_permissions %}
-		<div class="panel panel-info topic-panel-invisible">
+		<div id="resource-panel" class="panel panel-info topic-panel-invisible">
         	<div class="panel-heading panel-invisible">
     {% endif %}
 				<div class="row">
@@ -58,7 +58,17 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 						</h4>
 
 						<div class="col-md-5 pull-right category-card-items">
-							<a href="{% url 'mural:resource_view' questionary.slug %}" class="pull-right action_icon">
+							{% if has_subject_permissions %}
+								<a href="" id="moreResources" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+								</a>
+								<ul class="dropdown-menu pull-right" aria-labelledby="moreResources">
+									<li><a href="{% url questionary.update_link topic.slug questionary.slug %}" class="edit"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+									<li><a href="{% url 'questionary:get_chart' questionary.slug %}" class="edit"><i class="fa fa-line-chart fa-fw" aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
+									<li><a href="javascript:delete_resource('{% url questionary.delete_link questionary.slug %}')" class="delete"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remove' %}</a></li>
+								</ul>
+							{% endif %}
+							<a href="{% url 'mural:resource_view' questionary.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Resource Mural' %}">
 								<i class="fa fa-list" aria-hidden="true"></i>
 								{% resource_mural_number questionary request.user %}
 							</a>
@@ -159,6 +169,18 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 				</div>
 			</div>
 		</div>
+
+	<script type="text/javascript">
+        function delete_resource(url) {
+            $('.modal').remove();
+
+            $.get(url, function (modal) {
+                $("#resource-panel").after(modal);
+
+                $('.modal').modal('show');
+            });
+        }
+    <script>
 {% endblock %}
 
 
