@@ -1,396 +1,416 @@
-/* 
+/*
 Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
- 
-Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
- 
-O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
- 
-Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
- 
-Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou
+simplesmente Amadeus LMS
+
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo
+dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do
+Software Livre (FSF); na versão 2 da Licença.
+
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
+GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou
+APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
+"LICENSE", junto com este programa, se não, escreva para a Fundação do Software
+Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 */
 
 var new_posts = [];
 var new_comments = {};
 
-$(function () {
-    $(".post-field").click(function () {
-        var url = $(this).find('h4').data('url');
+$(function() {
+  $('.post-field').click(function() {
+    var url = $(this).find('h4').data('url');
 
-        $.ajax({
-            url: url,
-            success: function (data) {
-                $('#post-modal-form').html(data);
+    $.ajax({
+      url: url,
+      success: function(data) {
+        $('#post-modal-form').html(data);
 
-                setPostFormSubmit();
+        setPostFormSubmit();
 
-                $('#post-modal-form').modal('show');
-            }
-        });
+        $('#post-modal-form').modal('show');
+      }
     });
+  });
 
-    $(".comment-section:visible").each(function () {
-        var height = $(this)[0].scrollHeight;
+  $('.comment-section:visible').each(function() {
+    var height = $(this)[0].scrollHeight;
 
-        $(this).animate({scrollTop: height}, 0);
-    });
-    
-    postHeightLimits();
-    setUserDataPopover();
+    $(this).animate({scrollTop: height}, 0);
+  });
 
+  postHeightLimits();
+  setUserDataPopover();
 });
 
 function setUserDataPopover() {
-    $('[data-toggle="popover"]').popover({
+  $('[data-toggle="popover"]')
+      .popover({
         html: true,
-        placement: function () {
-            return window.innerWidth <= 768 ? 'bottom' : 'right';
+        placement: function() {
+          return window.innerWidth <= 768 ? 'bottom' : 'right';
         },
-        content: function () {
-            return $(this).parent().find(".popover").html();
+        content: function() {
+          return $(this).parent().find('.popover').html();
         }
-    }).on('show.bs.popover', function (e) {
-        $('[data-toggle="popover"]').not(e.target).popover('hide');
-    }).on('shown.bs.popover', function (e) {
-        if($(this).is(e.target)){
-            var popover = $(".popover.fade.in"),
-                buttons = popover.parent().find('a'),
-                close = popover.parent().find('.close:visible');
+      })
+      .on('show.bs.popover',
+          function(e) {
+            $('[data-toggle="popover"]').not(e.target).popover('hide');
+          })
+      .on('shown.bs.popover', function(e) {
+        if ($(this).is(e.target)) {
+          var popover = $('.popover.fade.in'),
+              buttons = popover.parent().find('a'),
+              close = popover.parent().find('.close:visible');
 
-            popover.animate({
+          popover.animate(
+              {
                 'max-width': '330px',
-            }, 0);
+              },
+              0);
 
-            popover.find('.popover-content').animate({
-                padding: '9px 5px',
-            }, 0);
+          popover.find('.popover-content')
+              .animate(
+                  {
+                    padding: '9px 5px',
+                  },
+                  0);
 
-            popover.find('h4').animate({
+          popover.find('h4').animate(
+              {
                 'font-size': '16px',
-            }, 0);
+              },
+              0);
 
-            close.on("click", function () {
-                popover.popover('hide');
-            }); 
+          close.on('click', function() {
+            popover.popover('hide');
+          });
 
-            buttons.on("click", function () {
-                popover.popover('hide');
-            })
+          buttons.on('click', function() {
+            popover.popover('hide');
+          })
         }
-    });
+      });
 }
 
 function postHeightLimits() {
-    $('.post-body').each(function () {
-        if ($(this).outerHeight() > 500) {
-            var post = $(this),
-                btn = post.parent().find('.see-complete');
+  $('.post-body').each(function() {
+    if ($(this).outerHeight() > 500) {
+      var post = $(this), btn = post.parent().find('.see-complete');
 
-            post.attr('style', 'overflow:hidden;max-height:500px');
+      post.attr('style', 'overflow:hidden;max-height:500px');
 
-            btn.attr('style', 'display:block');
+      btn.attr('style', 'display:block');
 
-            btn.click(function () {
-                seeComplete($(this), post);
-            });
-        }
-    });
+      btn.click(function() {
+        seeComplete($(this), post);
+      });
+    }
+  });
 }
 
 function seeComplete(btn, post) {
-    post.attr('style', '');
+  post.attr('style', '');
 
-    btn.attr('style', 'display:none');
+  btn.attr('style', 'display:none');
 }
 
-function setPostFormSubmit(post = "") {
-    var frm = $('#post-form');
+function setPostFormSubmit(post = '') {
+  var frm = $('#post-form');
 
-    frm.submit(function (e) {
-        var btn = frm.parent().parent().parent().find("button[form='post-form']");
+  frm.submit(function(e) {
+    var btn = frm.parent().parent().parent().find('button[form=\'post-form\']');
 
-        btn.prop('disable', true);
-        btn.prop('disabled', true);
+    $('.modal_mural_loading').show();
 
-        var formData = new FormData($(this)[0]);
+    btn.prop('disable', true);
+    btn.prop('disabled', true);
 
-        $.ajax({
-            type: frm.attr('method'),
-            url: frm.attr('action'),
-            data: formData,
-            dataType: "json",
-            async: false,
-            success: function (data) {
-                if (post != "") {
-                    var old = $("#post-" + post);
+    var formData = new FormData($(this)[0]);
 
-                    old.before(data.view);
+    $.ajax({
+      type: frm.attr('method'),
+      url: frm.attr('action'),
+      data: formData,
+      dataType: 'json',
+      async: true,
+      success: function(data) {
+        if (post != '') {
+          var old = $('#post-' + post);
 
-                    old.remove();
-                } else {
-                    $('.posts:visible').prepend(data.view);
+          old.before(data.view);
 
-                    new_posts.push(data.new_id);
+          old.remove();
+        } else {
+          $('.posts:visible').prepend(data.view);
 
-                    $('.no-subjects:visible').attr('style', 'display:none');
-                }
+          new_posts.push(data.new_id);
 
-                setUserDataPopover();
-                setTimeout(function () { postHeightLimits() }, 100);
+          $('.no-subjects:visible').attr('style', 'display:none');
+        }
 
-                $('#post-modal-form').modal('hide');
+        setUserDataPopover();
+        setTimeout(function() {
+          postHeightLimits()
+        }, 100);
 
-                alertify.success(data.message);
-            },
-            error: function(data) {
-                $("#post-modal-form").html(data.responseText);
-                setPostFormSubmit(post);
-            },
-            cache: false,
-            contentType: false,
-            processData: false
-        });
+        $('.modal_mural_loading').hide();
+        $('#post-modal-form').modal('hide');
 
-        return false;
+        alertify.success(data.message);
+      },
+      error: function(data) {
+        $('.modal_mural_loading').hide();
+        $('#post-modal-form').html(data.responseText);
+        setPostFormSubmit(post);
+      },
+      cache: false,
+      contentType: false,
+      processData: false
     });
+
+    return false;
+  });
 }
 
 function favorite(btn) {
-    var action = btn.data('action'),
-        url = btn.data('url');
+  var action = btn.data('action'), url = btn.data('url');
 
-    $.ajax({
-        url: url,
-        data: {'action': action},
-        dataType: 'json',
-        success: function (response) {
-            if (action == 'favorite') {
-                btn.switchClass("btn_fav", "btn_unfav", 250, "easeInOutQuad");
-                btn.data('action', 'unfavorite');
-            } else {
-                btn.switchClass("btn_unfav", "btn_fav", 250, "easeInOutQuad");
-                btn.data('action', 'favorite');
-            }
+  $.ajax({
+    url: url,
+    data: {'action': action},
+    dataType: 'json',
+    success: function(response) {
+      if (action == 'favorite') {
+        btn.switchClass('btn_fav', 'btn_unfav', 250, 'easeInOutQuad');
+        btn.data('action', 'unfavorite');
+      } else {
+        btn.switchClass('btn_unfav', 'btn_fav', 250, 'easeInOutQuad');
+        btn.data('action', 'favorite');
+      }
 
-            btn.attr('data-original-title', response.label);
-        }
-    });
+      btn.attr('data-original-title', response.label);
+    }
+  });
 }
 
 function editPost(btn) {
-    var url = btn.data('url');
-    var post = btn.data('post');
+  var url = btn.data('url');
+  var post = btn.data('post');
 
-    $.ajax({
-        url: url,
-        success: function (data) {
-            $('#post-modal-form').html(data);
+  $.ajax({
+    url: url,
+    success: function(data) {
+      $('#post-modal-form').html(data);
 
-            setPostFormSubmit(post);
+      setPostFormSubmit(post);
 
-            $('#post-modal-form').modal('show');
-        }
-    });
+      $('#post-modal-form').modal('show');
+    }
+  });
 }
 
 function deletePost(btn) {
-    var url = btn.data('url');
-    var post = btn.data('post');
+  var url = btn.data('url');
+  var post = btn.data('post');
 
-    $.ajax({
-        url: url,
-        success: function (data) {
-            $('#post-modal-form').html(data);
+  $.ajax({
+    url: url,
+    success: function(data) {
+      $('#post-modal-form').html(data);
 
-            setPostDeleteSubmit(post);
+      setPostDeleteSubmit(post);
 
-            $('#post-modal-form').modal('show');
-        }
-    });
+      $('#post-modal-form').modal('show');
+    }
+  });
 }
 
-function setPostDeleteSubmit (post) {
-    var frm = $("#delete_form");
+function setPostDeleteSubmit(post) {
+  var frm = $('#delete_form');
 
-    frm.submit(function () {
-        $.ajax({
-            type: frm.attr('method'),
-            url: frm.attr('action'),
-            data: frm.serialize(),
-            success: function (response) {
-                $("#post-" + post).remove();
+  frm.submit(function() {
+    $.ajax({
+      type: frm.attr('method'),
+      url: frm.attr('action'),
+      data: frm.serialize(),
+      success: function(response) {
+        $('#post-' + post).remove();
 
-                $('#post-modal-form').modal('hide');
+        $('#post-modal-form').modal('hide');
 
-                alertify.success(response.msg);
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-
-        return false;
+        alertify.success(response.msg);
+      },
+      error: function(data) {
+        console.log(data);
+      }
     });
+
+    return false;
+  });
 }
 
 function comment(field) {
-    var url = field.find('h4').data('url'),
-        post = field.find('h4').data('post');
+  var url = field.find('h4').data('url'), post = field.find('h4').data('post');
 
-    $.ajax({
-        url: url,
-        success: function (data) {
-            $('#post-modal-form').html(data);
+  $.ajax({
+    url: url,
+    success: function(data) {
+      $('#post-modal-form').html(data);
 
-            setCommentFormSubmit(post);
+      setCommentFormSubmit(post);
 
-            $('#post-modal-form').modal('show');
-        }
-    });
+      $('#post-modal-form').modal('show');
+    }
+  });
 }
 
 function editComment(btn) {
-    var url = btn.data('url'),
-        post = btn.data('post'),
-        comment = btn.data('id');
+  var url = btn.data('url'), post = btn.data('post'), comment = btn.data('id');
 
-    $.ajax({
-        url: url,
-        success: function (data) {
-            $('#post-modal-form').html(data);
+  $.ajax({
+    url: url,
+    success: function(data) {
+      $('#post-modal-form').html(data);
 
-            setCommentFormSubmit(post, comment);
+      setCommentFormSubmit(post, comment);
 
-            $('#post-modal-form').modal('show');
-        }
-    });
+      $('#post-modal-form').modal('show');
+    }
+  });
 }
 
-function setCommentFormSubmit(post, comment = "") {
-    var frm = $('#comment-form');
+function setCommentFormSubmit(post, comment = '') {
+  var frm = $('#comment-form');
 
-    frm.submit(function () {
-        var btn = frm.parent().parent().parent().find("button[form='comment-form']")
+  frm.submit(function() {
+    var btn =
+        frm.parent().parent().parent().find('button[form=\'comment-form\']')
 
-        btn.prop('disable', true);
-        btn.prop('disabled', true);
+    $('.modal_mural_loading').show();
 
-        var formData = new FormData($(this)[0]);
+    btn.prop('disable', true);
+    btn.prop('disabled', true);
 
-        $.ajax({
-            type: frm.attr('method'),
-            url: frm.attr('action'),
-            data: formData,
-            dataType: "json",
-            async: false,
-            success: function (data) {
-                if (comment != "") {
-                    var old = $("#comment-" + comment);
+    var formData = new FormData($(this)[0]);
 
-                    old.before(data.view);
+    $.ajax({
+      type: frm.attr('method'),
+      url: frm.attr('action'),
+      data: formData,
+      dataType: 'json',
+      async: true,
+      success: function(data) {
+        if (comment != '') {
+          var old = $('#comment-' + comment);
 
-                    old.remove();
-                } else {
-                    $("#post-" + post).find(".comment-section").append(data.view);
+          old.before(data.view);
 
-                    if (typeof(new_comments[post]) == 'undefined') {
-                        new_comments[post] = [];
-                    }
+          old.remove();
+        } else {
+          $('#post-' + post).find('.comment-section').append(data.view);
 
-                    new_comments[post].push(data.new_id);
-                }
+          if (typeof (new_comments[post]) == 'undefined') {
+            new_comments[post] = [];
+          }
 
-                $('#post-modal-form').modal('hide');
+          new_comments[post].push(data.new_id);
+        }
 
-                alertify.success(data.message);
-            },
-            error: function(data) {
-                $("#post-modal-form").html(data.responseText);
-                setCommentFormSubmit(post, comment);
-            },
-            cache: false,
-            contentType: false,
-            processData: false
-        });
+        $('.modal_mural_loading').hide();
+        $('#post-modal-form').modal('hide');
 
-        return false;
+        alertify.success(data.message);
+      },
+      error: function(data) {
+        $('.modal_mural_loading').hide();
+        $('#post-modal-form').html(data.responseText);
+        setCommentFormSubmit(post, comment);
+      },
+      cache: false,
+      contentType: false,
+      processData: false
     });
+
+    return false;
+  });
 }
 
 function deleteComment(btn) {
-    var url = btn.data('url');
-    var comment = btn.data('id');
+  var url = btn.data('url');
+  var comment = btn.data('id');
 
-    console.log(comment);
+  console.log(comment);
 
-    $.ajax({
-        url: url,
-        success: function (data) {
-            $('#post-modal-form').html(data);
+  $.ajax({
+    url: url,
+    success: function(data) {
+      $('#post-modal-form').html(data);
 
-            setCommentDeleteSubmit(comment);
+      setCommentDeleteSubmit(comment);
 
-            $('#post-modal-form').modal('show');
-        }
-    });
-}
-
-function setCommentDeleteSubmit (comment) {
-    var frm = $("#delete_form");
-
-    frm.submit(function () {
-        $.ajax({
-            type: frm.attr('method'),
-            url: frm.attr('action'),
-            data: frm.serialize(),
-            success: function (response) {
-
-                $("#comment-" + comment).remove();
-
-                $('#post-modal-form').modal('hide');
-
-                alertify.success(response.msg);
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-
-        return false;
-    });
-}
-
-function loadComments (btn) {
-    var url = btn.data('url'),
-        post = btn.data('post'),
-        page = btn.parent().data('page'),
-        loading = btn.parent().find('.loading');
-
-    page = parseInt(page);
-    page = page + 1;
-
-    loading.show();
-    btn.hide();
-
-    var showing;
-
-    if (typeof(new_comments[post]) == 'undefined') {
-        showing = "";
-    } else {
-        showing = new_comments[post].join(',');
+      $('#post-modal-form').modal('show');
     }
+  });
+}
 
+function setCommentDeleteSubmit(comment) {
+  var frm = $('#delete_form');
+
+  frm.submit(function() {
     $.ajax({
-        url: url,
-        data: {'page': page, 'showing': showing},
-        dataType: 'json',
-        success: function (response) {
-            loading.hide();
-            btn.show();
+      type: frm.attr('method'),
+      url: frm.attr('action'),
+      data: frm.serialize(),
+      success: function(response) {
+        $('#comment-' + comment).remove();
 
-            btn.after(response.loaded);
+        $('#post-modal-form').modal('hide');
 
-            setUserDataPopover();
-        }
+        alertify.success(response.msg);
+      },
+      error: function(data) {
+        console.log(data);
+      }
     });
+
+    return false;
+  });
+}
+
+function loadComments(btn) {
+  var url = btn.data('url'), post = btn.data('post'),
+      page = btn.parent().data('page'), loading = btn.parent().find('.loading');
+
+  page = parseInt(page);
+  page = page + 1;
+
+  loading.show();
+  btn.hide();
+
+  var showing;
+
+  if (typeof (new_comments[post]) == 'undefined') {
+    showing = '';
+  } else {
+    showing = new_comments[post].join(',');
+  }
+
+  $.ajax({
+    url: url,
+    data: {'page': page, 'showing': showing},
+    dataType: 'json',
+    success: function(response) {
+      loading.hide();
+      btn.show();
+
+      btn.after(response.loaded);
+
+      setUserDataPopover();
+    }
+  });
 }

@@ -46,6 +46,7 @@ socket.onmessage =
     changeUserStatus(content);
   }
 }
+
     // Call onopen directly if socket is already open
     if (socket.readyState == WebSocket.OPEN) socket.onopen();
 
@@ -65,6 +66,8 @@ function muralNotificationPost(content) {
         section.find('.no-subjects').hide();
       }
     } else {
+      console.log(content);
+      console.log(content.container);
       $(content.container).prepend(content.complete);
 
       $('.no-subjects').attr('style', 'display:none');
