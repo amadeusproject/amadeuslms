@@ -278,6 +278,14 @@ msgstr "Cadastrar"
 msgid "Forgot your password?"
 msgstr "Esqueceu sua senha?"
 
+#: users/templates/users/login.html:191
+msgid "Developed with the"
+msgstr "Desenvolvido com o"
+
+#: users/templates/users/login.html:191
+msgid "proudly, a Brazilian Public Software"
+msgstr "orgulhosamente, um Software Público Brasileiro."
+
 #: users/templates/users/modal_crop.html:22
 msgid "Image selection"
 msgstr "Seleção de Imagem"

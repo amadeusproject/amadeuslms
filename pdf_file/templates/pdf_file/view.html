@@ -37,7 +37,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% block content %}
     {% resource_permissions request.user pdf_file as has_resource_permissions %}
-    {% subject_permissions request.user questionary.topic.subject as has_subject_permissions %}
+    {% subject_permissions request.user pdf_file.topic.subject as has_subject_permissions %}
 
     {% if pdf_file.visible %}
         <div id="resource-panel" class="panel panel-info topic-panel">
