@@ -37,12 +37,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% block content %}
     {% resource_permissions request.user pdf_file as has_resource_permissions %}
+    {% subject_permissions request.user questionary.topic.subject as has_subject_permissions %}
 
     {% if pdf_file.visible %}
-        <div class="panel panel-info topic-panel">
+        <div id="resource-panel" class="panel panel-info topic-panel">
             <div class="panel-heading">
     {% elif has_resource_permissions %}
-        <div class="panel panel-info topic-panel-invisible">
+        <div id="resource-panel" class="panel panel-info topic-panel-invisible">
             <div class="panel-heading panel-invisible">
     {% endif %}
     		<div class="row">
@@ -52,7 +53,17 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     </h4>
 
                     <div class="col-md-5 pull-right category-card-items">
-                        <a href="{% url 'mural:resource_view' pdf_file.slug %}" class="pull-right action_icon">
+                        {% if has_subject_permissions %}
+                            <a href="" id="moreResources" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </a>
+                            <ul class="dropdown-menu pull-right" aria-labelledby="moreResources">
+                                <li><a href="{% url pdf_file.update_link pdf_file.topic.slug pdf_file.slug %}" class="edit"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+                                <li><a href="{% url 'pdf_files:get_chart' pdf_file.slug %}" class="edit"><i class="fa fa-line-chart fa-fw" aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
+                                <li><a href="javascript:delete_resource('{% url pdf_file.delete_link pdf_file.slug %}')" class="delete"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remove' %}</a></li>
+                            </ul>
+                        {% endif %}
+                        <a href="{% url 'mural:resource_view' pdf_file.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Resource Mural' %}">
                             <i class="fa fa-list" aria-hidden="true"></i>
                             {% resource_mural_number pdf_file request.user %}
                         </a>
@@ -65,4 +76,16 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             {# <p>{% trans "PDF could not be displayed" %}</p> #}
         </object>
     </div>
+
+    <script type="text/javascript">
+        function delete_resource(url) {
+            $('.modal').remove();
+
+            $.get(url, function (modal) {
+                $("#resource-panel").after(modal);
+
+                $('.modal').modal('show');
+            });
+        }
+    <script>
 {% endblock content %}

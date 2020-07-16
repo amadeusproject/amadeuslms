@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-03 01:33+0000\n"
+"POT-Creation-Date: 2020-07-16 13:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -167,6 +167,7 @@ msgstr "Ação não realizada"
 
 #: bulletin/templates/bulletin/relatorios.html:164
 #: bulletin/templates/bulletin/relatorios.html:186
+#: bulletin/templates/bulletin/view.html:69
 msgid "Reports"
 msgstr "Relatórios"
 
@@ -200,13 +201,13 @@ msgid "The picture could not exceed 5MB."
 msgstr "A imagem não pode exceder 5MB."
 
 #: bulletin/templates/bulletin/send_message.html:73
-#: bulletin/templates/bulletin/view.html:234
+#: bulletin/templates/bulletin/view.html:244
 #: bulletin/templates/bulletin/window_view.html:251
 msgid "Close"
 msgstr "Fechar"
 
 #: bulletin/templates/bulletin/send_message.html:74
-#: bulletin/templates/bulletin/view.html:235
+#: bulletin/templates/bulletin/view.html:245
 #: bulletin/templates/bulletin/window_view.html:252
 msgid "Send"
 msgstr "Enviar"
@@ -215,61 +216,73 @@ msgstr "Enviar"
 msgid "Edit: "
 msgstr "Editar: "
 
-#: bulletin/templates/bulletin/view.html:89
+#: bulletin/templates/bulletin/view.html:68
+msgid "Edit"
+msgstr "Editar"
+
+#: bulletin/templates/bulletin/view.html:70
+msgid "Remove"
+msgstr "Remover"
+
+#: bulletin/templates/bulletin/view.html:73
+msgid "Resource Mural"
+msgstr "Mural do recurso"
+
+#: bulletin/templates/bulletin/view.html:99
 #: bulletin/templates/bulletin/window_view.html:109
 msgid "Check your goals"
 msgstr "Confira suas metas"
 
-#: bulletin/templates/bulletin/view.html:94
+#: bulletin/templates/bulletin/view.html:104
 #: bulletin/templates/bulletin/window_view.html:113
 msgid "Goals Reached"
 msgstr "Metas Atingidas"
 
-#: bulletin/templates/bulletin/view.html:99
+#: bulletin/templates/bulletin/view.html:109
 #: bulletin/templates/bulletin/window_view.html:118
 msgid "Goals Details"
 msgstr "Detalhamento das metas"
 
-#: bulletin/templates/bulletin/view.html:105
+#: bulletin/templates/bulletin/view.html:115
 #: bulletin/templates/bulletin/window_view.html:123
 msgid "Description"
 msgstr "Descrição"
 
-#: bulletin/templates/bulletin/view.html:106
+#: bulletin/templates/bulletin/view.html:116
 #: bulletin/templates/bulletin/window_view.html:124
 msgid "Professor's recomendation"
 msgstr "Recomendação do(a) professor(a)"
 
-#: bulletin/templates/bulletin/view.html:107
+#: bulletin/templates/bulletin/view.html:117
 #: bulletin/templates/bulletin/window_view.html:125
 msgid "Class average"
 msgstr "Média da turma"
 
-#: bulletin/templates/bulletin/view.html:108
+#: bulletin/templates/bulletin/view.html:118
 #: bulletin/templates/bulletin/window_view.html:126
 msgid "Your goal"
 msgstr "Sua meta"
 
-#: bulletin/templates/bulletin/view.html:109
-#: bulletin/templates/bulletin/view.html:158
-#: bulletin/templates/bulletin/view.html:527
-#: bulletin/templates/bulletin/view.html:555
-#: bulletin/templates/bulletin/view.html:587
-#: bulletin/templates/bulletin/view.html:642
-#: bulletin/templates/bulletin/view.html:670
-#: bulletin/templates/bulletin/view.html:701
-#: bulletin/templates/bulletin/view.html:755
-#: bulletin/templates/bulletin/view.html:782
-#: bulletin/templates/bulletin/view.html:813
-#: bulletin/templates/bulletin/view.html:868
-#: bulletin/templates/bulletin/view.html:895
-#: bulletin/templates/bulletin/view.html:927
-#: bulletin/templates/bulletin/view.html:984
-#: bulletin/templates/bulletin/view.html:1011
-#: bulletin/templates/bulletin/view.html:1043
-#: bulletin/templates/bulletin/view.html:1099
-#: bulletin/templates/bulletin/view.html:1126
-#: bulletin/templates/bulletin/view.html:1157
+#: bulletin/templates/bulletin/view.html:119
+#: bulletin/templates/bulletin/view.html:168
+#: bulletin/templates/bulletin/view.html:547
+#: bulletin/templates/bulletin/view.html:575
+#: bulletin/templates/bulletin/view.html:607
+#: bulletin/templates/bulletin/view.html:662
+#: bulletin/templates/bulletin/view.html:690
+#: bulletin/templates/bulletin/view.html:721
+#: bulletin/templates/bulletin/view.html:775
+#: bulletin/templates/bulletin/view.html:802
+#: bulletin/templates/bulletin/view.html:833
+#: bulletin/templates/bulletin/view.html:888
+#: bulletin/templates/bulletin/view.html:915
+#: bulletin/templates/bulletin/view.html:947
+#: bulletin/templates/bulletin/view.html:1004
+#: bulletin/templates/bulletin/view.html:1031
+#: bulletin/templates/bulletin/view.html:1063
+#: bulletin/templates/bulletin/view.html:1119
+#: bulletin/templates/bulletin/view.html:1146
+#: bulletin/templates/bulletin/view.html:1177
 #: bulletin/templates/bulletin/window_view.html:127
 #: bulletin/templates/bulletin/window_view.html:177
 #: bulletin/templates/bulletin/window_view.html:550
@@ -293,7 +306,7 @@ msgstr "Sua meta"
 msgid "Your result"
 msgstr "Seu resultado"
 
-#: bulletin/templates/bulletin/view.html:125
+#: bulletin/templates/bulletin/view.html:135
 #: bulletin/templates/bulletin/window_view.html:143
 msgid ""
 "<b>Goal reached!</b><br /><br /> Atention! Your result were lower than the "
@@ -302,7 +315,7 @@ msgstr ""
 "<b>Meta atingida!</b><br /><br /> Atenção! Seu resultado foi inferior ao "
 "recomendado pelo professor."
 
-#: bulletin/templates/bulletin/view.html:130
+#: bulletin/templates/bulletin/view.html:140
 #: bulletin/templates/bulletin/window_view.html:148
 msgid ""
 "<b>Goal reached!</b><br /><br /> Atention! Your result were lower than your "
@@ -311,12 +324,12 @@ msgstr ""
 "<b>Meta atingida!</b><br /><br /> Atenção! Seu resultado foi inferior à sua "
 "meta inicial."
 
-#: bulletin/templates/bulletin/view.html:135
+#: bulletin/templates/bulletin/view.html:145
 #: bulletin/templates/bulletin/window_view.html:153
 msgid "<b>Goal reached!</b>"
 msgstr "<b>Meta atingida!</b>"
 
-#: bulletin/templates/bulletin/view.html:140
+#: bulletin/templates/bulletin/view.html:150
 #: bulletin/templates/bulletin/window_view.html:158
 msgid ""
 "<b>Goal not reached!</b><br /><br /> Result lower than your goal and the "
@@ -325,33 +338,33 @@ msgstr ""
 "<b>Meta não atingida!</b><br /><br /> Resultado inferior à sua meta e ao "
 "recomendado pelo professor."
 
-#: bulletin/templates/bulletin/view.html:152
+#: bulletin/templates/bulletin/view.html:162
 #: bulletin/templates/bulletin/window_view.html:171
 msgid "Relevant indicators to your performance"
 msgstr "Indicadores relevantes para seu desempenho"
 
-#: bulletin/templates/bulletin/view.html:161
+#: bulletin/templates/bulletin/view.html:171
 #: bulletin/templates/bulletin/window_view.html:180
 msgid "Level above the approved median"
 msgstr "Nível acima da mediana dos aprovados"
 
-#: bulletin/templates/bulletin/view.html:164
+#: bulletin/templates/bulletin/view.html:174
 #: bulletin/templates/bulletin/window_view.html:183
 msgid "Level below the approved median"
 msgstr "Nível abaixo da mediana dos aprovados"
 
-#: bulletin/templates/bulletin/view.html:182
+#: bulletin/templates/bulletin/view.html:192
 #: bulletin/templates/bulletin/window_view.html:198
 msgid "Indicators description"
 msgstr "Descrição dos indicadores"
 
-#: bulletin/templates/bulletin/view.html:190
-#: bulletin/templates/bulletin/view.html:449
-#: bulletin/templates/bulletin/view.html:450
-#: bulletin/templates/bulletin/view.html:451
-#: bulletin/templates/bulletin/view.html:452
-#: bulletin/templates/bulletin/view.html:453
-#: bulletin/templates/bulletin/view.html:454
+#: bulletin/templates/bulletin/view.html:200
+#: bulletin/templates/bulletin/view.html:469
+#: bulletin/templates/bulletin/view.html:470
+#: bulletin/templates/bulletin/view.html:471
+#: bulletin/templates/bulletin/view.html:472
+#: bulletin/templates/bulletin/view.html:473
+#: bulletin/templates/bulletin/view.html:474
 #: bulletin/templates/bulletin/window_view.html:208
 #: bulletin/templates/bulletin/window_view.html:474
 #: bulletin/templates/bulletin/window_view.html:475
@@ -362,44 +375,44 @@ msgstr "Descrição dos indicadores"
 msgid "Indicator"
 msgstr "Indicador"
 
-#: bulletin/templates/bulletin/view.html:212
+#: bulletin/templates/bulletin/view.html:222
 #: bulletin/templates/bulletin/window_view.html:231
 msgid "There are obstructions to your activities?"
 msgstr "Existem impedimentos para as suas atividades?"
 
-#: bulletin/templates/bulletin/view.html:214
+#: bulletin/templates/bulletin/view.html:224
 #: bulletin/templates/bulletin/window_view.html:232
 msgid "Click here"
 msgstr "Clique aqui"
 
-#: bulletin/templates/bulletin/view.html:214
+#: bulletin/templates/bulletin/view.html:224
 #: bulletin/templates/bulletin/window_view.html:232
 msgid "to communicate the difficulties that may decrease your performance."
 msgstr "para informar as dificuldades que podem prejudicar seu desempenho."
 
-#: bulletin/templates/bulletin/view.html:230
+#: bulletin/templates/bulletin/view.html:240
 #: bulletin/templates/bulletin/window_view.html:247
 msgid "Type here the dificulties that may harm your performance"
 msgstr "Escreva aqui as dificuldades que podem diminuir sua performance"
 
-#: bulletin/templates/bulletin/view.html:528
-#: bulletin/templates/bulletin/view.html:556
-#: bulletin/templates/bulletin/view.html:588
-#: bulletin/templates/bulletin/view.html:643
-#: bulletin/templates/bulletin/view.html:671
-#: bulletin/templates/bulletin/view.html:702
-#: bulletin/templates/bulletin/view.html:756
-#: bulletin/templates/bulletin/view.html:783
-#: bulletin/templates/bulletin/view.html:814
-#: bulletin/templates/bulletin/view.html:869
-#: bulletin/templates/bulletin/view.html:896
-#: bulletin/templates/bulletin/view.html:928
-#: bulletin/templates/bulletin/view.html:985
-#: bulletin/templates/bulletin/view.html:1012
-#: bulletin/templates/bulletin/view.html:1044
-#: bulletin/templates/bulletin/view.html:1100
-#: bulletin/templates/bulletin/view.html:1127
-#: bulletin/templates/bulletin/view.html:1158
+#: bulletin/templates/bulletin/view.html:548
+#: bulletin/templates/bulletin/view.html:576
+#: bulletin/templates/bulletin/view.html:608
+#: bulletin/templates/bulletin/view.html:663
+#: bulletin/templates/bulletin/view.html:691
+#: bulletin/templates/bulletin/view.html:722
+#: bulletin/templates/bulletin/view.html:776
+#: bulletin/templates/bulletin/view.html:803
+#: bulletin/templates/bulletin/view.html:834
+#: bulletin/templates/bulletin/view.html:889
+#: bulletin/templates/bulletin/view.html:916
+#: bulletin/templates/bulletin/view.html:948
+#: bulletin/templates/bulletin/view.html:1005
+#: bulletin/templates/bulletin/view.html:1032
+#: bulletin/templates/bulletin/view.html:1064
+#: bulletin/templates/bulletin/view.html:1120
+#: bulletin/templates/bulletin/view.html:1147
+#: bulletin/templates/bulletin/view.html:1178
 #: bulletin/templates/bulletin/window_view.html:551
 #: bulletin/templates/bulletin/window_view.html:579
 #: bulletin/templates/bulletin/window_view.html:611
@@ -421,24 +434,24 @@ msgstr "Escreva aqui as dificuldades que podem diminuir sua performance"
 msgid "Max"
 msgstr "Máximo"
 
-#: bulletin/templates/bulletin/view.html:529
-#: bulletin/templates/bulletin/view.html:557
-#: bulletin/templates/bulletin/view.html:589
-#: bulletin/templates/bulletin/view.html:644
-#: bulletin/templates/bulletin/view.html:672
-#: bulletin/templates/bulletin/view.html:703
-#: bulletin/templates/bulletin/view.html:757
-#: bulletin/templates/bulletin/view.html:784
-#: bulletin/templates/bulletin/view.html:815
-#: bulletin/templates/bulletin/view.html:870
-#: bulletin/templates/bulletin/view.html:897
-#: bulletin/templates/bulletin/view.html:929
-#: bulletin/templates/bulletin/view.html:986
-#: bulletin/templates/bulletin/view.html:1013
-#: bulletin/templates/bulletin/view.html:1045
-#: bulletin/templates/bulletin/view.html:1101
-#: bulletin/templates/bulletin/view.html:1128
-#: bulletin/templates/bulletin/view.html:1159
+#: bulletin/templates/bulletin/view.html:549
+#: bulletin/templates/bulletin/view.html:577
+#: bulletin/templates/bulletin/view.html:609
+#: bulletin/templates/bulletin/view.html:664
+#: bulletin/templates/bulletin/view.html:692
+#: bulletin/templates/bulletin/view.html:723
+#: bulletin/templates/bulletin/view.html:777
+#: bulletin/templates/bulletin/view.html:804
+#: bulletin/templates/bulletin/view.html:835
+#: bulletin/templates/bulletin/view.html:890
+#: bulletin/templates/bulletin/view.html:917
+#: bulletin/templates/bulletin/view.html:949
+#: bulletin/templates/bulletin/view.html:1006
+#: bulletin/templates/bulletin/view.html:1033
+#: bulletin/templates/bulletin/view.html:1065
+#: bulletin/templates/bulletin/view.html:1121
+#: bulletin/templates/bulletin/view.html:1148
+#: bulletin/templates/bulletin/view.html:1179
 #: bulletin/templates/bulletin/window_view.html:552
 #: bulletin/templates/bulletin/window_view.html:580
 #: bulletin/templates/bulletin/window_view.html:612

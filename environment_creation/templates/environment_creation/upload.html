@@ -43,7 +43,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     {% for field in form %}
 						<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput col-lg-12 col-md-12 col-sm-12">
 							{% if field.auto_id == 'id_excelFile' %}
-								<a href="https://docs.google.com/spreadsheets/d/1Z_fhoErioWwSJF-tMNyg4vsTIFQfbuf5iV6YPwi3uX8/edit?usp=sharing"><b>{% trans "Click here" %}</b></a> {% trans "to download a template file for the bulk creation" %}
+								<a href="https://docs.google.com/spreadsheets/d/1Z_fhoErioWwSJF-tMNyg4vsTIFQfbuf5iV6YPwi3uX8/edit?usp=sharing" target="_blank"><b>{% trans "Click here" %}</b></a> {% trans "to download a template file for the bulk creation" %}
 
 								{% render_field field class='file-selector' %}
 									

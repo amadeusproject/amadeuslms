@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-03 01:33+0000\n"
+"POT-Creation-Date: 2020-07-16 13:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,7 +45,7 @@ msgstr ""
 
 #: webconference/forms.py:90 webconference/forms.py:100
 msgid "This input should be filled with a date equal or after today's date."
-msgstr ""
+msgstr "Esse campo deve ser preenchido com uma data igual ou posterior à data de hoje."
 
 #: webconference/forms.py:93 webconference/forms.py:103
 #, python-format
@@ -70,13 +70,13 @@ msgid "The domain of the jitsi server, e.g. meet.jit.si"
 msgstr "O dominio do servidor do jitsi, ex: meet.jit.si"
 
 #: webconference/models.py:21
-#: webconference/templates/webconference/view.html:69
+#: webconference/templates/webconference/view.html:80
 #: webconference/templates/webconference/window_view.html:44
 msgid "Start date/hour"
 msgstr "Data/hora de inicio"
 
 #: webconference/models.py:22
-#: webconference/templates/webconference/view.html:72
+#: webconference/templates/webconference/view.html:83
 #: webconference/templates/webconference/window_view.html:47
 msgid "End date/hour"
 msgstr "Data/hora de termino"
@@ -119,7 +119,7 @@ msgstr "Período desejado"
 
 #: webconference/templates/webconference/_form.html:291
 msgid "Students"
-msgstr ""
+msgstr "Estudantes"
 
 #: webconference/templates/webconference/_form.html:321
 msgid "Attribute students to Web Conference"
@@ -136,7 +136,7 @@ msgstr "Salvar"
 
 #: webconference/templates/webconference/_form.html:414
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: webconference/templates/webconference/_form.html:421
 msgid "Add new notification"
@@ -183,6 +183,7 @@ msgstr "Ação não realizada"
 
 #: webconference/templates/webconference/relatorios.html:242
 #: webconference/templates/webconference/relatorios.html:264
+#: webconference/templates/webconference/view.html:63
 msgid "Reports"
 msgstr "Relatórios"
 
@@ -228,7 +229,19 @@ msgstr "Enviar"
 msgid "Edit: "
 msgstr "Editar: "
 
-#: webconference/templates/webconference/view.html:80
+#: webconference/templates/webconference/view.html:62
+msgid "Edit"
+msgstr "Editar"
+
+#: webconference/templates/webconference/view.html:64
+msgid "Remove"
+msgstr "Remover"
+
+#: webconference/templates/webconference/view.html:67
+msgid "Resource Mural"
+msgstr "Mural do recurso"
+
+#: webconference/templates/webconference/view.html:91
 #: webconference/templates/webconference/window_view.html:55
 #: webconference/views.py:284 webconference/views.py:297
 #: webconference/views.py:318 webconference/views.py:419
