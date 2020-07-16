@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-03 01:46+0000\n"
+"POT-Creation-Date: 2020-07-16 13:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,23 +18,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: pdf_file/forms.py:40
+#: pdf_file/forms.py:43
 msgid "Tags"
 msgstr "Tags"
 
-#: pdf_file/forms.py:45
+#: pdf_file/forms.py:58
 msgid "File name"
 msgstr "Nome do arquivo"
 
-#: pdf_file/forms.py:66
+#: pdf_file/forms.py:90
 msgid "This subject already has a pdf file with this name"
 msgstr "Este assunto já possui um arquivo PDF com este nome"
 
-#: pdf_file/forms.py:78 pdf_file/templates/pdf_file/_form.html:87
+#: pdf_file/forms.py:104 pdf_file/templates/pdf_file/_form.html:87
 msgid "The file is too large. It should have less than 10MB."
 msgstr "O arquivo é muito grande. Deve ser menor do que 10MB"
 
-#: pdf_file/forms.py:83
+#: pdf_file/forms.py:110
 msgid "This field is required."
 msgstr "Este campo é requerido."
 
@@ -86,15 +86,15 @@ msgstr "Período desejado"
 
 #: pdf_file/templates/pdf_file/_form.html:251
 msgid "Students"
-msgstr ""
+msgstr "Estudantes"
 
 #: pdf_file/templates/pdf_file/_form.html:281
-msgid "Attribute students to file link"
-msgstr ""
+msgid "Attribute students to pdf file"
+msgstr "Atribua estudantes ao Arquivo PDF"
 
 #: pdf_file/templates/pdf_file/_form.html:301
-msgid "Attribute groups to file link"
-msgstr ""
+msgid "Attribute groups to pdf file"
+msgstr "Atribua grupos ao Arquivo PDF"
 
 #: pdf_file/templates/pdf_file/_form.html:370
 msgid "Save"
@@ -102,7 +102,7 @@ msgstr "Salvar"
 
 #: pdf_file/templates/pdf_file/_form.html:374
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: pdf_file/templates/pdf_file/create.html:32
 msgid "Create PDF file"
@@ -136,6 +136,7 @@ msgstr "Ação não realizada"
 
 #: pdf_file/templates/pdf_file/relatorios.html:164
 #: pdf_file/templates/pdf_file/relatorios.html:186
+#: pdf_file/templates/pdf_file/view.html:62
 msgid "Reports"
 msgstr "Relatórios"
 
@@ -179,6 +180,18 @@ msgstr "Enviar"
 #: pdf_file/templates/pdf_file/update.html:32
 msgid "Edit: "
 msgstr "Editar: "
+
+#: pdf_file/templates/pdf_file/view.html:61
+msgid "Edit"
+msgstr "Editar"
+
+#: pdf_file/templates/pdf_file/view.html:63
+msgid "Remove"
+msgstr "Remover"
+
+#: pdf_file/templates/pdf_file/view.html:66
+msgid "Resource Mural"
+msgstr "Mural do recurso"
 
 #: pdf_file/views.py:141 pdf_file/views.py:154 pdf_file/views.py:266
 #: pdf_file/views.py:268 pdf_file/views.py:284 pdf_file/views.py:286

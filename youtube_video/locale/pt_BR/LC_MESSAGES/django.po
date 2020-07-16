@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-03 01:46+0000\n"
+"POT-Creation-Date: 2020-07-16 13:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,35 +18,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: youtube_video/forms.py:50
+#: youtube_video/forms.py:52
 msgid "Tags"
 msgstr "Tags"
 
-#: youtube_video/forms.py:56
+#: youtube_video/forms.py:67
 msgid "Video title"
 msgstr "Título do Vídeo"
 
-#: youtube_video/forms.py:76
+#: youtube_video/forms.py:94
 msgid "This subject already has a resource with this name"
 msgstr "Esse assunto já possui um recurso com esse nome"
 
-#: youtube_video/forms.py:87
+#: youtube_video/forms.py:109
 msgid "Invalid URL. It should be an YouTube link."
 msgstr "URL inválida. Ela deve ser uma URL de um vídeo do YouTube."
 
-#: youtube_video/models.py:20
+#: youtube_video/models.py:21
 msgid "URL"
 msgstr "URL"
 
-#: youtube_video/models.py:23
+#: youtube_video/models.py:24
 msgid "YTVideo"
 msgstr "Vídeo do YouTube"
 
-#: youtube_video/models.py:24
+#: youtube_video/models.py:25
 msgid "YTVideos"
 msgstr "Vídeos do YouTube"
 
-#: youtube_video/models.py:42
+#: youtube_video/models.py:45
 msgid "Are you sure you want delete the YouTube Video"
 msgstr "Você tem certeza que deseja deletar o Vídeo do YouTube"
 
@@ -68,7 +68,7 @@ msgstr "Período desejado"
 
 #: youtube_video/templates/youtube/_form.html:224
 msgid "Students"
-msgstr ""
+msgstr "Estudantes"
 
 #: youtube_video/templates/youtube/_form.html:254
 msgid "Attribute students to YouTube Video"
@@ -84,7 +84,7 @@ msgstr "Salvar"
 
 #: youtube_video/templates/youtube/_form.html:347
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: youtube_video/templates/youtube/_form.html:354
 msgid "Add new notification"
@@ -126,6 +126,7 @@ msgstr "Ação não realizada"
 
 #: youtube_video/templates/youtube/relatorios.html:242
 #: youtube_video/templates/youtube/relatorios.html:264
+#: youtube_video/templates/youtube/view.html:63
 msgid "Reports"
 msgstr "Relatórios"
 
@@ -170,6 +171,18 @@ msgstr "Enviar"
 #: youtube_video/templates/youtube/update.html:33
 msgid "Edit: "
 msgstr "Editar: "
+
+#: youtube_video/templates/youtube/view.html:62
+msgid "Edit"
+msgstr "Editar"
+
+#: youtube_video/templates/youtube/view.html:64
+msgid "Remove"
+msgstr "Remover"
+
+#: youtube_video/templates/youtube/view.html:67
+msgid "Resource Mural"
+msgstr "Mural do recurso"
 
 #: youtube_video/views.py:74
 #, python-format

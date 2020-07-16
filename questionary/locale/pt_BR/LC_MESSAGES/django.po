@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-03 01:46+0000\n"
+"POT-Creation-Date: 2020-07-16 13:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,7 +111,7 @@ msgstr "Número de questões"
 msgid "User"
 msgstr "Usuário"
 
-#: questionary/models.py:66 questionary/templates/questionary/view.html:101
+#: questionary/models.py:66 questionary/templates/questionary/view.html:111
 #: questionary/templates/questionary/window_view.html:89
 msgid "Last update"
 msgstr "Última atualização"
@@ -120,7 +120,7 @@ msgstr "Última atualização"
 msgid "User Questionary"
 msgstr "Questionário do usuário"
 
-#: questionary/models.py:70 questionary/templates/questionary/view.html:118
+#: questionary/models.py:70 questionary/templates/questionary/view.html:128
 #: questionary/templates/questionary/window_view.html:106
 msgid "Question"
 msgstr "Questão"
@@ -228,6 +228,7 @@ msgstr "Ação não realizada"
 
 #: questionary/templates/questionary/relatorios.html:203
 #: questionary/templates/questionary/relatorios.html:225
+#: questionary/templates/questionary/view.html:67
 msgid "Reports"
 msgstr "Relatórios"
 
@@ -272,44 +273,56 @@ msgstr "Enviar"
 msgid "Edit: "
 msgstr "Editar: "
 
-#: questionary/templates/questionary/view.html:88
+#: questionary/templates/questionary/view.html:66
+msgid "Edit"
+msgstr "Editar"
+
+#: questionary/templates/questionary/view.html:68
+msgid "Remove"
+msgstr "Remover"
+
+#: questionary/templates/questionary/view.html:71
+msgid "Resource Mural"
+msgstr "Mural do recurso"
+
+#: questionary/templates/questionary/view.html:98
 #: questionary/templates/questionary/window_view.html:76
 msgid "Init date"
 msgstr "Início"
 
-#: questionary/templates/questionary/view.html:89
+#: questionary/templates/questionary/view.html:99
 #: questionary/templates/questionary/window_view.html:77
 msgid "End date"
 msgstr "Final"
 
-#: questionary/templates/questionary/view.html:98
+#: questionary/templates/questionary/view.html:108
 #: questionary/templates/questionary/window_view.html:86
 msgid "Initialized in"
 msgstr "Iniciado em"
 
-#: questionary/templates/questionary/view.html:106
+#: questionary/templates/questionary/view.html:116
 #: questionary/templates/questionary/window_view.html:94
 msgid "Questions answered"
 msgstr "Questões respondidas"
 
-#: questionary/templates/questionary/view.html:106
-#: questionary/templates/questionary/view.html:110
+#: questionary/templates/questionary/view.html:116
+#: questionary/templates/questionary/view.html:120
 #: questionary/templates/questionary/window_view.html:94
 #: questionary/templates/questionary/window_view.html:98
 msgid "of"
 msgstr "de"
 
-#: questionary/templates/questionary/view.html:110
+#: questionary/templates/questionary/view.html:120
 #: questionary/templates/questionary/window_view.html:98
 msgid "Corrected questions"
 msgstr "Questões corretas"
 
-#: questionary/templates/questionary/view.html:157
+#: questionary/templates/questionary/view.html:167
 #: questionary/templates/questionary/window_view.html:145
 msgid "The student did not start the questionary yet."
 msgstr "O estudante ainda não iniciou o questionário."
 
-#: questionary/templates/questionary/view.html:186
+#: questionary/templates/questionary/view.html:208
 #: questionary/templates/questionary/window_view.html:167
 msgid "Something went wrong. Please try again later"
 msgstr "Algo deu errado. Por favor, tente novamente mais tarde."

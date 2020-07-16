@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-03 01:46+0000\n"
+"POT-Creation-Date: 2020-07-16 13:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,73 +18,74 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: users/forms.py:40 users/forms.py:45 users/forms.py:308
+#: users/forms.py:41 users/forms.py:46 users/forms.py:372
 msgid "You must insert an email address"
 msgstr "Você deve inserir um endereço de email"
 
-#: users/forms.py:55 users/templates/users/_form.html:106
-#: users/templates/users/register.html:123
-msgid "The image is too large. It should have less than 2MB."
+#: users/forms.py:57 users/templates/users/_form.html:106
+#, fuzzy
+#| msgid "The image is too large. It should have less than 2MB."
+msgid "The image is too large. It should have less than 5MB."
 msgstr "A imagem é muito grande. Ela deve conter menos de 2MB."
 
-#: users/forms.py:68
+#: users/forms.py:71
 msgid "You must define a password."
 msgstr "Você deve definir uma senha."
 
-#: users/forms.py:83
+#: users/forms.py:87
 msgid "The confirmation password is incorrect."
 msgstr "A confirmação de senha está incorreta."
 
-#: users/forms.py:90 users/forms.py:204 users/templates/users/login.html:68
+#: users/forms.py:97 users/forms.py:240 users/templates/users/login.html:68
 msgid "Password"
 msgstr "Senha"
 
-#: users/forms.py:90
+#: users/forms.py:99
 msgid "Password *"
 msgstr "Senha *"
 
-#: users/forms.py:91 users/forms.py:205 users/forms.py:265 users/forms.py:321
+#: users/forms.py:103 users/forms.py:245 users/forms.py:323 users/forms.py:391
 msgid "Confirm Password"
 msgstr "Confirmação de Senha"
 
-#: users/forms.py:91
+#: users/forms.py:105
 msgid "Confirm Password *"
 msgstr "Confirmação de Senha *"
 
-#: users/forms.py:138
+#: users/forms.py:164
 msgid "Email *"
 msgstr "Email *"
 
-#: users/forms.py:139
+#: users/forms.py:165
 msgid "Name *"
 msgstr "Nome *"
 
-#: users/forms.py:140
+#: users/forms.py:166
 msgid "Last Name *"
 msgstr "Sobrenome *"
 
-#: users/forms.py:141 users/models.py:43
+#: users/forms.py:167 users/models.py:43
 msgid "Social Name"
 msgstr "Nome Social"
 
-#: users/forms.py:264 users/forms.py:320
+#: users/forms.py:318 users/forms.py:386
 msgid "New Password"
 msgstr "Nova Senha"
 
-#: users/forms.py:271
+#: users/forms.py:333
 msgid "The value inputed does not match with your actual password."
 msgstr "O valor inserido não corresponde à sua senha atual."
 
-#: users/forms.py:292
+#: users/forms.py:354
 msgid "Actual Password"
 msgstr "Senha Atual"
 
-#: users/forms.py:299 users/templates/users/list.html:68
+#: users/forms.py:360 users/forms.py:362 users/templates/users/list.html:68
 #: users/templates/users/login.html:63 users/templates/users/search.html:59
 msgid "Email"
 msgstr "Email"
 
-#: users/forms.py:313
+#: users/forms.py:377
 msgid "You must insert a valid email address"
 msgstr "Você deve inserir um endereço de email válido"
 
@@ -183,8 +184,10 @@ msgstr "Escolha sua foto..."
 msgid "Click or drop the file here"
 msgstr ""
 
-#: users/templates/users/_form.html:46 users/templates/users/register.html:93
-msgid "The photo could not exceed 2MB."
+#: users/templates/users/_form.html:46
+#, fuzzy
+#| msgid "The photo could not exceed 2MB."
+msgid "The photo could not exceed 5MB."
 msgstr "A imagem não pode exceder o tamanho de 2MB."
 
 #: users/templates/users/_form.html:115
@@ -318,6 +321,14 @@ msgstr "Estudante em"
 #: users/templates/users/register.html:56
 msgid "User Register"
 msgstr "Cadastro de Usuário"
+
+#: users/templates/users/register.html:93
+msgid "The photo could not exceed 2MB."
+msgstr "A imagem não pode exceder o tamanho de 2MB."
+
+#: users/templates/users/register.html:123
+msgid "The image is too large. It should have less than 2MB."
+msgstr "A imagem é muito grande. Ela deve conter menos de 2MB."
 
 #: users/templates/users/register.html:135
 msgid "Register"

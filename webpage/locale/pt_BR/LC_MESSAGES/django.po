@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-03 01:46+0000\n"
+"POT-Creation-Date: 2020-07-16 13:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,7 +80,7 @@ msgstr "Período desejado"
 
 #: webpage/templates/webpages/_form.html:218
 msgid "Students"
-msgstr ""
+msgstr "Estudantes"
 
 #: webpage/templates/webpages/_form.html:248
 msgid "Attribute students to webpage"
@@ -96,7 +96,7 @@ msgstr "Salvar"
 
 #: webpage/templates/webpages/_form.html:341
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: webpage/templates/webpages/create.html:32 webpage/views.py:246
 msgid "Create Webpage"
@@ -130,6 +130,7 @@ msgstr "Ação não realizada"
 
 #: webpage/templates/webpages/relatorios.html:164
 #: webpage/templates/webpages/relatorios.html:186
+#: webpage/templates/webpages/view.html:63
 msgid "Reports"
 msgstr "Relatórios"
 
@@ -173,6 +174,18 @@ msgstr "Enviar"
 #: webpage/templates/webpages/update.html:32
 msgid "Edit: "
 msgstr "Editar: "
+
+#: webpage/templates/webpages/view.html:62
+msgid "Edit"
+msgstr "Editar"
+
+#: webpage/templates/webpages/view.html:64
+msgid "Remove"
+msgstr "Remover"
+
+#: webpage/templates/webpages/view.html:67
+msgid "Resource Mural"
+msgstr "Mural do recurso"
 
 #: webpage/views.py:174 webpage/views.py:187 webpage/views.py:304
 #: webpage/views.py:306 webpage/views.py:322 webpage/views.py:324
