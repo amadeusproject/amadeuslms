@@ -99,7 +99,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                         <a href="#" class="dropdown-toggle hidden-sm hidden-xs" data-toggle="dropdown" data-close-others="true">
                                             <span >[{{LANGUAGE_CODE}}]  </span>
                                         </a>
-                                        <a data-url="{% url 'themes:contrast' %}" id="contrast_button" style="margin-left:10px;"><i class="glyphicon glyphicon-adjust hidden-sm hidden-xs"></i></a>
+                                        <a data-url="{% url 'themes:contrast' %}" class="contrast_button" style="margin-left:10px;cursor: pointer;"><i class="glyphicon glyphicon-adjust hidden-sm hidden-xs"></i></a>
                                         <ul class="dropdown-menu">
                                             {% get_available_languages as LANGUAGES %}
                                             {% get_language_info_list for LANGUAGES as languages %}
@@ -129,7 +129,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                           <span>[{{LANGUAGE_CODE}}]  </span>
 
                                         </a>
-                                        <a href="{% url 'themes:contrast'%}" style="margin-left:10px;"><i class="glyphicon glyphicon-adjust hidden-sm hidden-xs"></i></a>
+                                        <a data-url="{% url 'themes:contrast'%}" class="contrast_button" style="margin-left:10px;cursor: pointer;"><i class="glyphicon glyphicon-adjust hidden-sm hidden-xs"></i></a>
                                         <ul class="dropdown-menu">
                                             {% get_available_languages as LANGUAGES %}
                                             {% get_language_info_list for LANGUAGES as languages %}
@@ -182,7 +182,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                 {% endfor %}
                             </ul>
                         </div>
-                        <a data-url="{% url 'themes:contrast' %}" id="contrast_button_mobile" style="margin-left:10px;"><i class="glyphicon glyphicon-adjust"></i></a>
+                        <a data-url="{% url 'themes:contrast' %}" class="contrast_button" style="margin-left:10px;cursor: pointer;"><i class="glyphicon glyphicon-adjust"></i></a>
                     </div>
                 </div>
             </div>
@@ -195,7 +195,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     </div>
 
 <script type="text/javascript">
-    $("#contrast_button" ).click(function() {
+    $(".contrast_button" ).click(function() {
       if (Cookies.get('contrast_check')) {
         Cookies.remove('contrast_check')
         //location.reload()
@@ -204,21 +204,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         Cookies.set('contrast_check','contrast')
         //location.reload()
       }
-        window.location = $("#contrast_button").data("url");
-    });
-</script>
-
-<script type="text/javascript">
-    $("#contrast_button_mobile" ).click(function() {
-      if (Cookies.get('contrast_check')) {
-        Cookies.remove('contrast_check')
-        //location.reload()
-      }
-      else {
-        Cookies.set('contrast_check','contrast')
-        //location.reload()
-      }
-        window.location = $("#contrast_button_mobile").data("url");
+        window.location = $(".contrast_button").data("url");
     });
 </script>
 
