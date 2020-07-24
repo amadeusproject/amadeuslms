@@ -96,18 +96,18 @@ def getToken(request):
 
                         auth = (oauth.client_id, oauth.client_secret)
 
-                        response = requests.post(
+                        """response = requests.post(
                             request.build_absolute_uri(
                                 reverse("oauth2_provider:token")
                             ),
                             data=data,
                             auth=auth,
-                        )
+                        )"""
 
-                        """uri = request.build_absolute_uri(
+                        uri = request.build_absolute_uri(
                             reverse("oauth2_provider:token")
                         ).replace("http", "https")
-                        response = requests.post(uri, data=data, auth=auth)"""
+                        response = requests.post(uri, data=data, auth=auth)
 
                         json_r = json.loads(response.content.decode("utf-8"))
 
