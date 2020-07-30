@@ -84,7 +84,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     {% csrf_token %}
 
                     <div class="form-group is-fileinput">
-                    	<input type="file" id="zip_file" name="zip_file" class="form-control" accept=".zip" data-mimetypes="['application/zip', 'application/octet-stream']" required />
+                    	<input type="file" id="zip_file" name="zip_file" class="form-control" accept=".zip" data-mimetypes="['application/zip', 'application/octet-stream', 'application/x-zip-compressed']" required />
 
 	                    <div class="input-group common-file-input">
 					      	<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}" required>
