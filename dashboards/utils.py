@@ -118,7 +118,8 @@ def getAccessedTags(subject, user):
             else:
                 tag.access = 0
 
-    res = multi_search(searchs)
+    if len(searchs) > 0:
+        res = multi_search(searchs)
 
     counter = 0
 
@@ -170,7 +171,8 @@ def getAccessedTagsPeriod(subject, user, data_ini="", data_end=""):
             else:
                 tag.access = 0
 
-    res = multi_search(searchs)
+    if len(searchs) > 0:
+        res = multi_search(searchs)
 
     counter = 0
 
