@@ -12,7 +12,7 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 -->
 
-{% load static i18n django_bootstrap_breadcrumbs %}
+{% load static i18n django_bootstrap_breadcrumbs permissions_tags %}
 {% get_current_language as LANGUAGE_CODE %}
 
 <html>
@@ -363,6 +363,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
             <div id="sidebar-menu-div" class="col-md-1 col-lg-1 hidden-xs hidden-sm">
                 {% block sidebar %}
+                    {% analytics_permissions request.user as has_analytics_permissions %}
                     <ul id="sidebar-menu">
                         <li class="item {{ subjects_menu_active }}" id="subjects-link" data-toggle="tooltip" data-placement="right" title="{% trans "Subjects" %}">
                             <a href="{% url 'subjects:index' %}">
@@ -389,9 +390,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                 {% endif %}
                             </a>
                         </li>
-                        <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Analytics" %}">
-                            <a href=""><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
-                        </li>
+                        {% if has_analytics_permissions %}
+                            <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Analytics" %}">
+                                <a href=""><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
+                            </li>
+                        {% endif %}
                     </ul>
                 {% endblock %}
             </div>
@@ -416,6 +419,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     {% endblock %}
 
     {% block bottommenu %}
+        {% analytics_permissions request.user as has_analytics_permissions %}
         <div class="clearfix visible-xs visible-sm"></div>
         <div class="bottom-menu visible-xs visible-sm">
             <div class="row">
@@ -451,10 +455,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                 {% endif %}
                             </a>
                         </li>
-
-                        <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Analytics" %}">
-                            <a href=""><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
-                        </li>
+                        {% if has_analytics_permissions %}
+                            <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Analytics" %}">
+                                <a href=""><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
