@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-16 13:59+0000\n"
+"POT-Creation-Date: 2020-08-04 05:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,8 +32,8 @@ msgstr "Pedir ajuda"
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
-#: mural/forms.py:50 mural/forms.py:135 mural/templates/mural/_form.html:115
-#: mural/templates/mural/_form_comment.html:80
+#: mural/forms.py:50 mural/forms.py:135 mural/templates/mural/_form.html:118
+#: mural/templates/mural/_form_comment.html:83
 msgid "The image is too large. It should have less than 5MB."
 msgstr "A imagem é muito grande. Ela deve possuir 5MB ou menos."
 
@@ -41,8 +41,8 @@ msgstr "A imagem é muito grande. Ela deve possuir 5MB ou menos."
 msgid "Choose an especific resource"
 msgstr "Escolha um recurso específico"
 
-#: mural/models.py:31 mural/templates/mural/_form.html:116
-#: mural/templates/mural/_form_comment.html:81
+#: mural/models.py:31 mural/templates/mural/_form.html:119
+#: mural/templates/mural/_form_comment.html:84
 msgid "File not supported."
 msgstr "Arquivo não suportado."
 
@@ -99,7 +99,7 @@ msgid "Resource"
 msgstr "Recurso"
 
 #: mural/models.py:126 mural/models.py:148
-#: mural/templates/mural/_form_comment.html:88
+#: mural/templates/mural/_form_comment.html:91
 msgid "Comment"
 msgstr "Comentar"
 
@@ -111,40 +111,40 @@ msgstr "Visualizado"
 msgid "Date/Time Viewed"
 msgstr ""
 
-#: mural/templates/mural/_form.html:88
-#: mural/templates/mural/_form_comment.html:54
+#: mural/templates/mural/_form.html:91
+#: mural/templates/mural/_form_comment.html:57
 msgid "Click or drop the picture here"
 msgstr "Clique ou solte a imagem aqui"
 
-#: mural/templates/mural/_form.html:90
-#: mural/templates/mural/_form_comment.html:56
+#: mural/templates/mural/_form.html:93
+#: mural/templates/mural/_form_comment.html:59
 msgid "The picture could not exceed 5MB."
 msgstr "A imagem não pode exceder 5MB."
 
-#: mural/templates/mural/_form.html:123
+#: mural/templates/mural/_form.html:126
 msgctxt "button"
 msgid "Post"
 msgstr "Postar"
 
-#: mural/templates/mural/_form.html:124
-#: mural/templates/mural/_form_comment.html:89
-#: mural/templates/mural/_form_comment.html:107
+#: mural/templates/mural/_form.html:127
+#: mural/templates/mural/_form_comment.html:92
+#: mural/templates/mural/_form_comment.html:110
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: mural/templates/mural/_form_comment.html:45
+#: mural/templates/mural/_form_comment.html:48
 msgid "Choose your photo..."
 msgstr "Escolha sua foto..."
 
-#: mural/templates/mural/_form_comment.html:100
+#: mural/templates/mural/_form_comment.html:103
 msgid "Insert here the name of the user you wish to mark in this comment"
 msgstr "Insira aqui o nome do usuário que você quer marcar nesse comentário"
 
-#: mural/templates/mural/_form_comment.html:106
+#: mural/templates/mural/_form_comment.html:109
 msgid "Mark"
 msgstr "Marcar"
 
-#: mural/templates/mural/_form_comment.html:122
+#: mural/templates/mural/_form_comment.html:125
 msgid "Mark User"
 msgstr "Marcar Usuário"
 
@@ -311,7 +311,7 @@ msgstr "Grupos"
 #: mural/templates/mural/resource_view.html:24
 #: mural/templates/mural/resource_view.html:41
 #: mural/templates/mural/subject_view.html:21
-#: mural/templates/mural/subject_view.html:39 mural/views.py:115
+#: mural/templates/mural/subject_view.html:39 mural/views.py:212
 msgid "Mural"
 msgstr "Mural"
 
@@ -323,11 +323,11 @@ msgstr ""
 msgid "(Edited)"
 msgstr "(Editado)"
 
-#: mural/templatetags/mural_filters.py:47 mural/views.py:1266
+#: mural/templatetags/mural_filters.py:47 mural/views.py:1892
 msgid "Unfavorite"
 msgstr "Desfavoritar"
 
-#: mural/templatetags/mural_filters.py:49 mural/views.py:1270
+#: mural/templatetags/mural_filters.py:49 mural/views.py:1896
 msgid "Favorite"
 msgstr "Favoritar"
 
@@ -347,63 +347,63 @@ msgstr ""
 msgid "Offline"
 msgstr ""
 
-#: mural/views.py:163
+#: mural/views.py:261
 #, python-format
 msgid "%s has made a post in General"
 msgstr "%s postou em Geral"
 
-#: mural/views.py:275 mural/views.py:542 mural/views.py:872
+#: mural/views.py:401 mural/views.py:830 mural/views.py:1314
 msgid "Are you sure you want to delete this post?"
 msgstr "Você tem certeza que deseja deletar essa postagem?"
 
-#: mural/views.py:383
+#: mural/views.py:635
 msgid "Mural - Per Category"
 msgstr "Mural - Por Categoria"
 
-#: mural/views.py:423 mural/views.py:723 mural/views.py:1184
+#: mural/views.py:676 mural/views.py:1122 mural/views.py:1783
 #, python-format
 msgid "%s has made a post in %s"
 msgstr "%s postou em %s"
 
-#: mural/views.py:666
+#: mural/views.py:1056
 msgid "Mural - Per Subject"
 msgstr "Mural - Por Assunto"
 
-#: mural/views.py:974 mural/views.py:1122
+#: mural/views.py:1444 mural/views.py:1712
 #, python-format
 msgid "%s - Mural"
 msgstr "%s - Mural"
 
-#: mural/views.py:1247
+#: mural/views.py:1871
 msgid "Your post was published successfully!"
 msgstr "Sua postagem foi publicada com sucesso!"
 
-#: mural/views.py:1249
+#: mural/views.py:1873
 msgid "Your post was edited successfully!"
 msgstr "Sua postagem foi editada com sucesso!"
 
-#: mural/views.py:1256
+#: mural/views.py:1881
 msgid "Post deleted successfully!"
 msgstr "Postagem deletada com sucesso!"
 
-#: mural/views.py:1319
+#: mural/views.py:1960
 #, python-format
 msgid "%s has commented in a post"
 msgstr "%s comentou em um postagem"
 
-#: mural/views.py:1486
+#: mural/views.py:2171
 msgid "Are you sure you want to delete this comment?"
 msgstr "Você tem certeza que deseja deletar esse comentário?"
 
-#: mural/views.py:1553
+#: mural/views.py:2263
 msgid "Your comment was published successfully!"
 msgstr "Seu comentário foi publicado com sucesso!"
 
-#: mural/views.py:1555
+#: mural/views.py:2265
 msgid "Your comment was edited successfully!"
 msgstr "Seu comentário foi editado com sucesso!"
 
-#: mural/views.py:1562
+#: mural/views.py:2273
 msgid "Comment deleted successfully!"
 msgstr "Comentário deletado com sucesso!"
 

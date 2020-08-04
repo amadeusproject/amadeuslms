@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-16 13:59+0000\n"
+"POT-Creation-Date: 2020-08-04 05:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,13 +75,13 @@ msgstr "Preto"
 msgid "Theme"
 msgstr "Tema"
 
-#: themes/models.py:37 themes/views.py:35
+#: themes/models.py:37 themes/views.py:40
 msgid "Themes"
 msgstr "Temas"
 
 #: themes/templates/themes/basic_update.html:28
 #: themes/templates/themes/css_update.html:28
-#: themes/templates/themes/index.html:29 themes/views.py:62
+#: themes/templates/themes/index.html:29 themes/views.py:72
 msgid "Basic Elements"
 msgstr "Elementos Básicos"
 
@@ -108,7 +108,7 @@ msgstr "Salvar"
 
 #: themes/templates/themes/basic_update.html:120
 #: themes/templates/themes/css_update.html:29
-#: themes/templates/themes/index.html:30 themes/views.py:90
+#: themes/templates/themes/index.html:30 themes/views.py:104
 msgid "CSS Selector"
 msgstr "Seletor CSS"
 
@@ -120,6 +120,6 @@ msgstr "Documentação"
 msgid "Settings: Themes"
 msgstr "Configurações: Temas"
 
-#: themes/views.py:55 themes/views.py:83
+#: themes/views.py:65 themes/views.py:97
 msgid "Theme settings updated successfully!"
 msgstr "Configurações de tema atualizadas com sucesso!"

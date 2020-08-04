@@ -13,8 +13,19 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 from django import template
 
 from amadeus import permissions
+from users.models import User
 
 register = template.Library()
+
+
+@register.assignment_tag
+def has_support():
+    return "true" if User.objects.filter(is_support=True).exists() else "false"
+
+
+@register.assignment_tag
+def show_support_button(user):
+    return not user.is_support
 
 
 @register.assignment_tag

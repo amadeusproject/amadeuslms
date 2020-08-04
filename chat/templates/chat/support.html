@@ -1,0 +1,47 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+{% load widget_tweaks %}
+
+<div id="chat-support" class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+            <h4 class="pull-left" data-breadcrumb="{% trans 'Talk with support' %}">
+                <b>{% trans "How can we help you?" %}</b>
+            </h4>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="{% trans 'Close' %}"><span aria-hidden="true">&times;</span></button>
+      	</div>
+		<div class="modal-body">
+            <form id="support-form" method="post" action="{% url 'chat:support' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-group{% if form.has_error %} has-error {% endif %}">
+                    {% trans "Type here your question or need. Within 48 hours our support team will be in touch with you" as pholder %}
+                    {% render_field form.text class='form-control text_simple_wysiwyg' placeholder=pholder %}
+
+                    <div id="support-error" class="alert alert-danger" role="alert" style="display: none">
+                        <ul>
+                            <li>{% trans "This field is required" %}</li>
+                        </ul>
+                    </div>
+				</div>
+            </form>
+        </div>
+        <div class="modal-footer">
+			<div class="col-md-12">
+				<button type="submit" id="button" form="support-form" class="btn btn-success btn-raised post-button pull-left">{% trans "Send" %}</button>
+				<button type="button" class="btn btn-raised btn-default pull-right" data-dismiss="modal">{% trans "Cancel" %}</button>
+			</div>
+		</div>
+    </div>
+</div>
