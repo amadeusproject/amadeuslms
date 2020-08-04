@@ -84,14 +84,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
   .mobile-menu,
   .mobile-menu li {
     display: inline-block;
-    float: left;
   }
 
   .mobile-menu .item {
     padding-top: 3px;
     text-align: center;
     height: 100px;
-    width: 20%;
+    width: 15%;
     font-size: 35px;
   }
 
