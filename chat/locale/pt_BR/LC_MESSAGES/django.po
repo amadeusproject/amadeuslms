@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-16 13:59+0000\n"
+"POT-Creation-Date: 2020-08-04 05:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,11 +90,12 @@ msgstr "A imagem não pode exceder 5MB."
 msgid "Save"
 msgstr "Salvar"
 
-#: chat/templates/chat/_form.html:71
+#: chat/templates/chat/_form.html:71 chat/templates/chat/support.html:43
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: chat/templates/chat/_profile.html:20 chat/templates/chat/talk.html:30
+#: chat/templates/chat/_profile.html:20 chat/templates/chat/support.html:22
+#: chat/templates/chat/talk.html:30
 msgid "Close"
 msgstr "Fechar"
 
@@ -127,6 +128,10 @@ msgstr "Descrição"
 msgid "Not Informed"
 msgstr "Não informado"
 
+#: chat/templates/chat/_view.html:24 chat/templates/chat/talk.html:27
+msgid "Support"
+msgstr "Suporte"
+
 #: chat/templates/chat/_view.html:25
 msgid "Last message in"
 msgstr "Última mensagem em"
@@ -144,7 +149,7 @@ msgstr "Ver Perfil"
 #: chat/templates/chat/subject_view.html:21
 #: chat/templates/chat/subject_view.html:39
 #: chat/templates/chat/subject_view_participants.html:21
-#: chat/templates/chat/subject_view_participants.html:43 chat/views.py:79
+#: chat/templates/chat/subject_view_participants.html:43 chat/views.py:94
 msgid "Messages"
 msgstr "Mensagens"
 
@@ -200,12 +205,38 @@ msgstr "Grupos"
 #: chat/templates/chat/subject_view.html:53
 #: chat/templates/chat/subject_view_participants.html:57
 msgid "Backup"
-msgstr ""
+msgstr "Backup"
 
 #: chat/templates/chat/subject_view.html:54
 #: chat/templates/chat/subject_view_participants.html:58
 msgid "Remove"
 msgstr "Remover"
+
+#: chat/templates/chat/support.html:19
+msgid "Talk with support"
+msgstr "Conversa com suporte"
+
+#: chat/templates/chat/support.html:20
+msgid "How can we help you?"
+msgstr "Como podemos ajudá-lo?"
+
+#: chat/templates/chat/support.html:29
+msgid ""
+"Type here your question or need. Within 48 hours our support team will be in "
+"touch with you"
+msgstr ""
+"Escreva aqui a sua dúvida ou necessidade. Em até 48 horas, a nossa equipe de "
+"suporte entrará em contato com você."
+
+#: chat/templates/chat/support.html:34
+#, fuzzy
+#| msgid "This field is required."
+msgid "This field is required"
+msgstr "Esse campo é obrigatório."
+
+#: chat/templates/chat/support.html:42
+msgid "Send"
+msgstr "Enviar"
 
 #: chat/templates/chat/talk.html:25
 msgid "Talk with "
@@ -247,36 +278,46 @@ msgstr "Inativo"
 msgid "Offline"
 msgstr "Offline"
 
-#: chat/templatetags/chat_tags.py:78 chat/views.py:442
+#: chat/templatetags/chat_tags.py:78 chat/views.py:610
 msgid "Unfavorite"
 msgstr "Desfavoritar"
 
-#: chat/templatetags/chat_tags.py:80 chat/views.py:446
+#: chat/templatetags/chat_tags.py:80 chat/views.py:614
 msgid "Favorite"
 msgstr "Favoritar"
 
-#: chat/views.py:118
+#: chat/views.py:150
 msgid "Messages - Participants"
 msgstr "Mensagems - Participantes"
 
-#: chat/views.py:173
+#: chat/views.py:230
 #, python-format
 msgid "%s - Participants"
 msgstr "%s - Participantes"
 
-#: chat/views.py:228
+#: chat/views.py:317
 #, python-format
 msgid "%s - Messages"
 msgstr "%s - Mensagens"
 
-#: chat/views.py:370
+#: chat/views.py:492
 msgid "[Photo]"
 msgstr "[Foto]"
 
-#: chat/views.py:382
+#: chat/views.py:506 chat/views.py:743
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
+
+#: chat/views.py:721
+msgid "## Support request"
+msgstr "## Solicitação de suporte"
+
+#: chat/views.py:768
+msgid ""
+"Your message was sent to our team of support e sould be responded within 48 "
+"hours."
+msgstr "Sua mensagem foi enviada para a nossa equipe de suporte e deverá ser respondida em até 48 horas."
 
 #~ msgid "Only my messages"
 #~ msgstr "Apenas minhas mensagens"

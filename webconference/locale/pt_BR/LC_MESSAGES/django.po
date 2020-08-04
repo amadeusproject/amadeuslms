@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-16 13:59+0000\n"
+"POT-Creation-Date: 2020-08-04 05:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,7 +45,9 @@ msgstr ""
 
 #: webconference/forms.py:90 webconference/forms.py:100
 msgid "This input should be filled with a date equal or after today's date."
-msgstr "Esse campo deve ser preenchido com uma data igual ou posterior à data de hoje."
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou posterior à data de "
+"hoje."
 
 #: webconference/forms.py:93 webconference/forms.py:103
 #, python-format

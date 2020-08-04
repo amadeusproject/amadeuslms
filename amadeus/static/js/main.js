@@ -1,90 +1,150 @@
-/* 
+/*
 Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
- 
-Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
- 
-O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
- 
-Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
- 
-Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou
+simplesmente Amadeus LMS
+
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo
+dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do
+Software Livre (FSF); na versão 2 da Licença.
+
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
+GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou
+APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
+"LICENSE", junto com este programa, se não, escreva para a Fundação do Software
+Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 */
 
-$(function () {
-	var locale = $("body").data('lang');
+$(function() {
+  var locale = $('body').data('lang');
 
-	if (!$("#sidebar-menu-div").children().length > 0) {
-		//$("#sidebar-menu-div").remove();
-		$("#page_content").switchClass('col-md-11', 'col-md-12', 0);
-		$("#page_content").switchClass('col-lg-11', 'col-lg-12', 0);
-	}
-	
-	$('.datetime-picker').datetimepicker({
-		locale: locale
-	});
+  if (!$('#sidebar-menu-div').children().length > 0) {
+    //$("#sidebar-menu-div").remove();
+    $('#page_content').switchClass('col-md-11', 'col-md-12', 0);
+    $('#page_content').switchClass('col-lg-11', 'col-lg-12', 0);
+  }
 
-	$('.date-picker').datetimepicker({
-		locale: locale,
-		format: 'L'
-	});
+  $('.datetime-picker').datetimepicker({locale: locale});
 
-	$('.text_wysiwyg').summernote({
-	    height: 200,
-	    lang: new_lang,
-	    disableDragAndDrop: true,
-	});
+  $('.date-picker').datetimepicker({locale: locale, format: 'L'});
 
-	$('[data-toggle="tooltip"]').tooltip({
-		trigger: 'hover'
-	});
+  $('.text_wysiwyg').summernote({
+    height: 200,
+    lang: new_lang,
+    disableDragAndDrop: true,
+  });
 
-	$('.navbar-header, .search-responsive-collapse .search_mask').click(function (e) {
-		if ($(e.target).parent().is($(".mobile_search")) || $(e.target).is($("#mobile_search_btn"))) {
-			return;
-		}
+  $('[data-toggle="tooltip"]').tooltip({trigger: 'hover'});
 
-		if ($('.search-responsive-collapse').hasClass('in')) {
-			$("input#mobile_search_btn").click();
-			$('.search-responsive-collapse').collapse('hide');
-		}
-	});
+  $('.navbar-header, .search-responsive-collapse .search_mask')
+      .click(function(e) {
+        if ($(e.target).parent().is($('.mobile_search')) ||
+            $(e.target).is($('#mobile_search_btn'))) {
+          return;
+        }
 
-	$('ul.breadcrumb').before('<input id="mobile_breadcrumb_btn" type="checkbox" />');
-	$('ul.breadcrumb').after('<div class="bread_mask"></div>');
-	$('ul.breadcrumb').wrap('<label for="mobile_breadcrumb_btn" class="bread_label"></label>')
+        if ($('.search-responsive-collapse').hasClass('in')) {
+          $('input#mobile_search_btn').click();
+          $('.search-responsive-collapse').collapse('hide');
+        }
+      });
 
-	$('.navbar-header, .bread_mask').click(function (e) {
-		if ($('.bread_mask').is(':visible')) {
-			$("input#mobile_breadcrumb_btn").click();
-		}
-	});
+  $('ul.breadcrumb')
+      .before('<input id="mobile_breadcrumb_btn" type="checkbox" />');
+  $('ul.breadcrumb').after('<div class="bread_mask"></div>');
+  $('ul.breadcrumb')
+      .wrap('<label for="mobile_breadcrumb_btn" class="bread_label"></label>')
 
-	$('ul.breadcrumb li').click(function (e) {
-		if ($(this).find('a').length > 0) {
-			e.preventDefault();
+  $('.navbar-header, .bread_mask').click(function(e) {
+    if ($('.bread_mask').is(':visible')) {
+      $('input#mobile_breadcrumb_btn').click();
+    }
+  });
 
-			window.location = $(this).find('a').attr('href');
-		}
-		//$(this).find('a').click();
-	});
+  $('ul.breadcrumb li').click(function(e) {
+    if ($(this).find('a').length > 0) {
+      e.preventDefault();
 
-	$('.menu_mask').click(function () {
-		$("input#mobile_menu_btn").click();
-	});
+      window.location = $(this).find('a').attr('href');
+    }
+    //$(this).find('a').click();
+  });
 
-	//Dropdown menu collapse
-	$('.dropdown-accordion').on('click', 'a[data-toggle="collapse"]', function (event) {
+  $('.menu_mask').click(function() {
+    $('input#mobile_menu_btn').click();
+  });
+
+  // Dropdown menu collapse
+  $('.dropdown-accordion')
+      .on('click', 'a[data-toggle="collapse"]', function(event) {
         event.preventDefault();
         event.stopPropagation();
         $($(this).data('parent')).find('.panel-collapse.in').collapse('hide');
         $($(this).attr('href')).collapse('show');
-    });
+      });
 });
 
-var change_language = {
-	post: function(url, language){
-		$.post(url, language ,function(data){
-				window.location.href= window.location.href;
-		});
-	}
+var change_language =
+    {
+      post: function(url, language) {
+        $.post(url, language, function(data) {
+          window.location.href = window.location.href;
+        });
+      }
+    }
+
+function TalkSupport(has_support, error_msg, url) {
+  if (has_support) {
+    $.ajax({
+      url: url,
+      success: function(data) {
+        $('#support-modal-form').html(data);
+
+        SetSupportSubmit();
+
+        $('#support-modal-form').modal('show');
+      }
+    });
+  } else {
+    alertify.error(error_msg);
+  }
+}
+
+function
+SetSupportSubmit() {
+  var frm = $('#support-form');
+
+  frm.submit(function(e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    if ($('#id_text').val() == '') {
+      $('#support-error').show();
+    } else {
+      $('#support-error').hide();
+
+
+      $('#id_text').val('<p>' + $('#id_text').val() + '</p>');
+
+      var formData = new FormData($(this)[0]);
+
+      $.ajax({
+        type: frm.attr('method'),
+        url: frm.attr('action'),
+        data: formData,
+        dataType: 'json',
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+          $('#support-modal-form').modal('hide');
+
+          alertify.success(data.message);
+        }
+      });
+    }
+  });
 }

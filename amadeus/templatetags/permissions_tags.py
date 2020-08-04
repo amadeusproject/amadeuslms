@@ -13,21 +13,42 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 from django import template
 
 from amadeus import permissions
+from users.models import User
 
 register = template.Library()
 
+
+@register.assignment_tag
+def has_support():
+    return "true" if User.objects.filter(is_support=True).exists() else "false"
+
+
+@register.assignment_tag
+def show_support_button(user):
+    return not user.is_support
+
+
+@register.assignment_tag
+def analytics_permissions(user):
+    return permissions.has_analytics_permissions(user)
+
+
 @register.assignment_tag
 def category_permissions(user, category):
-	return permissions.has_category_permissions(user, category)
+    return permissions.has_category_permissions(user, category)
+
 
 @register.assignment_tag
 def subject_permissions(user, subject):
-	return permissions.has_subject_permissions(user, subject)
+    return permissions.has_subject_permissions(user, subject)
+
 
 @register.assignment_tag
 def subject_view_permissions(user, subject):
-	return permissions.has_subject_view_permissions(user, subject)
+    return permissions.has_subject_view_permissions(user, subject)
+
 
 @register.assignment_tag
 def resource_permissions(user, resource):
-	return permissions.has_resource_permissions(user, resource)
+    return permissions.has_resource_permissions(user, resource)
+
