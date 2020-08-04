@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-04 05:02+0000\n"
+"POT-Creation-Date: 2020-08-04 18:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -152,7 +152,7 @@ msgstr "Ninguém pode ver meu endereço de email"
 
 #: users/models.py:82
 msgid "Support"
-msgstr ""
+msgstr "Suporte"
 
 #: users/models.py:83
 msgid "Administrator"
@@ -184,13 +184,13 @@ msgstr "Escolha sua foto..."
 
 #: users/templates/users/_form.html:44 users/templates/users/register.html:92
 msgid "Click or drop the file here"
-msgstr ""
+msgstr "Clique ou solte um arquivo aqui"
 
 #: users/templates/users/_form.html:46
 msgid "The photo could not exceed 5MB."
 msgstr "A imagem não pode exceder o tamanho de 5MB."
 
-#: users/templates/users/_form.html:115 users/templates/users/support.html:77
+#: users/templates/users/_form.html:115 users/templates/users/support.html:78
 msgid "Save"
 msgstr "Salvar"
 
@@ -206,7 +206,7 @@ msgstr "Tem certeza que deseja deletar o usuário"
 #: users/templates/users/delete.html:30
 #: users/templates/users/delete_account.html:30
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #: users/templates/users/delete.html:31
 #: users/templates/users/delete_account.html:31
@@ -325,6 +325,10 @@ msgstr "A imagem é muito grande. Ela deve conter menos de 2MB."
 #: users/templates/users/register.html:135
 msgid "Register"
 msgstr "Cadastrar"
+
+#: users/templates/users/support.html:28
+msgid "Designate Support User"
+msgstr "Designar usuário de suporte"
 
 #: users/templatetags/profile_verifies.py:28
 msgid "Is not a coordinator"

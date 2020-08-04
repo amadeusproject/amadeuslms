@@ -470,7 +470,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                         {% endif %}
                         {% if show_support %}
                             <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Support" %}">
-                                <a href="javascript:TalkSupport({{ has_support }}, '{% trans "The responsible for the support has not being assigned yet." %}', '{% url 'chat:support' %}')"><i class="fa fa-question-circle" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
+                                <a href="javascript:TalkSupport({% has_support %}, '{% trans "The responsible for the support has not being assigned yet." %}', '{% url 'chat:support' %}')"><i class="fa fa-question-circle" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
                             </li>
                         {% endif %}
                     </ul>

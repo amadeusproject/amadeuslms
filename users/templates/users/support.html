@@ -25,7 +25,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% block breadcrumbs %}
   	{{ block.super }}
-    {% breadcrumb 'Designate Support User' 'users:support_select' %}
+	{% trans 'Designate Support User' as bread %}
+    {% breadcrumb bread 'users:support_select' %}
 {% endblock %}
 
 {% block content %}
@@ -47,29 +48,33 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 					{% csrf_token %} 
 					
 					{% for field in form %}
-						<div class="form-group{% if form.has_error %} has-error {% endif %}">
-							<label for="{{ field.auto_id }}">
-								{{ field.label }}
-								<span>*</span>
-							</label>
-							
-							{% render_field field class='form-control' %}
-
-							<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
-
-							{% if field.errors %}
-								<div class="alert alert-danger alert-dismissible" role="alert">
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group{% if form.has_error %} has-error {% endif %}">
+									<label for="{{ field.auto_id }}">
+										{{ field.label }}
+										<span>*</span>
+									</label>
 									
-									<ul>
-										{% for error in field.errors %}
-											<li>{{ error }}</li>
-										{% endfor %}
-									</ul>
+									{% render_field field class='form-control' %}
+
+									<span id="helpBlock" class="help-block">{{ field.help_text }}</span>
+
+									{% if field.errors %}
+										<div class="alert alert-danger alert-dismissible" role="alert">
+											<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											
+											<ul>
+												{% for error in field.errors %}
+													<li>{{ error }}</li>
+												{% endfor %}
+											</ul>
+										</div>
+									{% endif %}
 								</div>
-							{% endif %}
+							</div>
 						</div>
 					{% endfor %}
 					<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
