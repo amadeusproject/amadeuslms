@@ -67,9 +67,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         <br clear="all" />
     {% endif %}
 
-    {% autoescape off %}
-        {{ questionary.presentation }}
-    {% endautoescape %}
+    {{ questionary.presentation|safe }}
 
     <br clear="all" />
 
@@ -105,9 +103,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     <div class="question">
                         <h4><b>{% trans 'Question' %} {{ question.order }}</b></h4>
 
-                        {% autoescape off %}
-                            {{ question.question.enunciado }}
-                        {% endautoescape %}
+                        {{ question.question.enunciado|safe }}
 
                         {% if question.question.question_img %}
                             <img src="{{ question.question.question_img.url }}" class="img-responsive center-block" />
