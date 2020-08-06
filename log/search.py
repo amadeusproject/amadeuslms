@@ -95,7 +95,7 @@ def count_logs(resources, userid=0):
             ],
         )
 
-    return s
+    return s[0:10000]
 
 
 def count_logs_period(resources, data_ini, data_end, userid=0):
@@ -141,7 +141,7 @@ def count_logs_period(resources, data_ini, data_end, userid=0):
             ],
         )
 
-    return s
+    return s[0:10000]
 
 
 def resource_accessess(resource, userid=0):
@@ -187,7 +187,7 @@ def resource_accessess(resource, userid=0):
             ],
         )
 
-    return s
+    return s[0:10000]
 
 
 def resource_accessess_period(resource, dataIni, dataEnd, userid=0):
@@ -232,7 +232,7 @@ def resource_accessess_period(resource, dataIni, dataEnd, userid=0):
             ],
         )
 
-    return s
+    return s[0:10000]
 
 
 def user_last_interaction(userid):
@@ -240,7 +240,7 @@ def user_last_interaction(userid):
 
     s = s.query("match", user_id=userid).sort("-datetime")
 
-    return s
+    return s[0:10000]
 
 
 def count_access_subject(subject, userid):
@@ -269,7 +269,7 @@ def count_access_subject(subject, userid):
         ],
     )
 
-    return s
+    return s[0:10000]
 
 
 def count_diff_days(subject, userid):
@@ -288,7 +288,7 @@ def count_diff_days(subject, userid):
 
     s.aggs.bucket("dt", "date_histogram", field="datetime", interval="day")
 
-    return s
+    return s[0:10000]
 
 
 def count_access_resources(subject, userid):
@@ -304,7 +304,7 @@ def count_access_resources(subject, userid):
         ],
     )
 
-    return s
+    return s[0:10000]
 
 
 def count_access_subject_period(subject, userid, data_ini, data_end):
@@ -336,7 +336,7 @@ def count_access_subject_period(subject, userid, data_ini, data_end):
         ],
     )
 
-    return s
+    return s[0:10000]
 
 
 def count_daily_access(subject, students, day):
@@ -365,7 +365,7 @@ def count_daily_access(subject, students, day):
         ],
     )
 
-    return s
+    return s[0:10000]
 
 
 def multi_search(searchs):
