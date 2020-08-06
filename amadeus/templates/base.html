@@ -260,6 +260,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                         {% trans 'Settings' %}
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{% url 'users:support_select' %}">{% trans 'Designate Support' %}</a></li>
                                         <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
                                         <li><a href="{% url 'categories:index' %}">{% trans 'Manage Categories' %}</a></li>
                                         <li><a href="{% url 'news:manage_news' %}">{% trans 'Manage News' %}</a></li>

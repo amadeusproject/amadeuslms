@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-04 18:06+0000\n"
+"POT-Creation-Date: 2020-08-06 00:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,12 +26,12 @@ msgstr "Português"
 msgid "English"
 msgstr "Inglês"
 
-#: amadeus/templates/base.html:138 amadeus/templates/base.html:318
+#: amadeus/templates/base.html:138 amadeus/templates/base.html:319
 msgid "Search for subjects and resources"
 msgstr "Buscar por assuntos ou recursos"
 
 #: amadeus/templates/base.html:150 amadeus/templates/base.html:153
-#: amadeus/templates/base.html:276
+#: amadeus/templates/base.html:277
 msgid "Language Selector"
 msgstr "Seletor de Línguas"
 
@@ -63,19 +63,19 @@ msgstr "configurações"
 msgid "Settings"
 msgstr "Configurações"
 
-#: amadeus/templates/base.html:199
+#: amadeus/templates/base.html:199 amadeus/templates/base.html:263
 msgid "Designate Support"
 msgstr "Designar suporte"
 
-#: amadeus/templates/base.html:200 amadeus/templates/base.html:263
+#: amadeus/templates/base.html:200 amadeus/templates/base.html:264
 msgid "Manage Users"
 msgstr "Gerenciar Usuários"
 
-#: amadeus/templates/base.html:201 amadeus/templates/base.html:264
+#: amadeus/templates/base.html:201 amadeus/templates/base.html:265
 msgid "Manage Categories"
 msgstr "Gerenciar Categorias"
 
-#: amadeus/templates/base.html:202 amadeus/templates/base.html:265
+#: amadeus/templates/base.html:202 amadeus/templates/base.html:266
 msgid "Manage News"
 msgstr "Gerenciar Notícias"
 
@@ -83,55 +83,55 @@ msgstr "Gerenciar Notícias"
 msgid "System"
 msgstr "Sistema"
 
-#: amadeus/templates/base.html:216 amadeus/templates/base.html:266
+#: amadeus/templates/base.html:216 amadeus/templates/base.html:267
 msgid "Mail Sender"
 msgstr "Remetente de Email"
 
-#: amadeus/templates/base.html:217 amadeus/templates/base.html:267
+#: amadeus/templates/base.html:217 amadeus/templates/base.html:268
 msgid "Security"
 msgstr "Segurança"
 
-#: amadeus/templates/base.html:218 amadeus/templates/base.html:268
+#: amadeus/templates/base.html:218 amadeus/templates/base.html:269
 msgid "Theme"
 msgstr "Temas"
 
-#: amadeus/templates/base.html:219 amadeus/templates/base.html:269
+#: amadeus/templates/base.html:219 amadeus/templates/base.html:270
 msgid "Web Conference"
 msgstr "Web conferência"
 
-#: amadeus/templates/base.html:220 amadeus/templates/base.html:270
+#: amadeus/templates/base.html:220 amadeus/templates/base.html:271
 msgid "Elastic Search"
 msgstr "ElasticSearch"
 
-#: amadeus/templates/base.html:221 amadeus/templates/base.html:271
+#: amadeus/templates/base.html:221 amadeus/templates/base.html:272
 msgid "Bulk Creation"
 msgstr "Cadastros em lote"
 
-#: amadeus/templates/base.html:370 amadeus/templates/base.html:437
+#: amadeus/templates/base.html:371 amadeus/templates/base.html:438
 msgid "Subjects"
 msgstr "Assuntos"
 
-#: amadeus/templates/base.html:375 amadeus/templates/base.html:443
+#: amadeus/templates/base.html:376 amadeus/templates/base.html:444
 msgid "Mural"
 msgstr "Mural"
 
-#: amadeus/templates/base.html:381 amadeus/templates/base.html:450
+#: amadeus/templates/base.html:382 amadeus/templates/base.html:451
 msgid "Messages"
 msgstr "Mensagens"
 
-#: amadeus/templates/base.html:387 amadeus/templates/base.html:458
+#: amadeus/templates/base.html:388 amadeus/templates/base.html:459
 msgid "Pendencies"
 msgstr "Pendências"
 
-#: amadeus/templates/base.html:396 amadeus/templates/base.html:467
+#: amadeus/templates/base.html:397 amadeus/templates/base.html:468
 msgid "Analytics"
 msgstr "Analytics"
 
-#: amadeus/templates/base.html:401 amadeus/templates/base.html:472
+#: amadeus/templates/base.html:402 amadeus/templates/base.html:473
 msgid "Support"
 msgstr "Suporte"
 
-#: amadeus/templates/base.html:402 amadeus/templates/base.html:473
+#: amadeus/templates/base.html:403 amadeus/templates/base.html:474
 msgid "The responsible for the support has not being assigned yet."
 msgstr "Ainda não foi designado o responsável pelo suporte."
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-04 18:06+0000\n"
+"POT-Creation-Date: 2020-08-06 00:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,6 +87,10 @@ msgstr "Email"
 msgid "You must insert a valid email address"
 msgstr "Você deve inserir um endereço de email válido"
 
+#: users/forms.py:403 users/models.py:82
+msgid "Support"
+msgstr "Suporte"
+
 #: users/models.py:37 users/templates/users/_form.html:107
 #: users/templates/users/register.html:124
 msgid "File not supported."
@@ -150,10 +154,6 @@ msgstr "Apenas meus colegas de disciplina podem ver meu endereço de email"
 msgid "Nobody can see my address"
 msgstr "Ninguém pode ver meu endereço de email"
 
-#: users/models.py:82
-msgid "Support"
-msgstr "Suporte"
-
 #: users/models.py:83
 msgid "Administrator"
 msgstr "Administrador"
@@ -190,7 +190,7 @@ msgstr "Clique ou solte um arquivo aqui"
 msgid "The photo could not exceed 5MB."
 msgstr "A imagem não pode exceder o tamanho de 5MB."
 
-#: users/templates/users/_form.html:115 users/templates/users/support.html:78
+#: users/templates/users/_form.html:115 users/templates/users/support.html:82
 msgid "Save"
 msgstr "Salvar"
 
@@ -277,6 +277,14 @@ msgstr "Cadastrar"
 #: users/templates/users/login.html:155
 msgid "Forgot your password?"
 msgstr "Esqueceu sua senha?"
+
+#: users/templates/users/login.html:191
+msgid "Developed with the"
+msgstr "Desenvolvido com o"
+
+#: users/templates/users/login.html:191
+msgid "proudly, a Brazilian Public Software"
+msgstr "orgulhosamente, um Software Público Brasileiro."
 
 #: users/templates/users/modal_crop.html:22
 msgid "Image selection"
@@ -459,9 +467,3 @@ msgstr "Sistema em manutenção. Tente novamente mais tarde"
 #: users/views.py:697
 msgid "E-mail or password are incorrect."
 msgstr "Email ou senha incorretos."
-
-#~ msgid "Developed with the"
-#~ msgstr "Desenvolvido com o"
-
-#~ msgid "proudly, a Brazilian Public Software"
-#~ msgstr "orgulhosamente, um Software Público Brasileiro."
