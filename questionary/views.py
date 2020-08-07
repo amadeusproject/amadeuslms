@@ -328,29 +328,12 @@ class QuestionaryCreateView(LoginRequiredMixin, LogMixin, generic.CreateView):
         slug = self.kwargs.get("slug", "")
         topic = get_object_or_404(Topic, slug=slug)
 
-        pendencies_form = InlinePendenciesFormset(
-            initial=[
-                {
-                    "subject": topic.subject.id,
-                    "actions": [
-                        ("", "-------"),
-                        ("start", _("Start")),
-                        ("view", _("Visualize")),
-                        ("finish", _("Finish")),
-                    ],
-                }
-            ]
-        )
         specifications_form = InlineSpecificationFormset(
             initial=[{"subject": topic.subject}]
         )
 
         return self.render_to_response(
-            self.get_context_data(
-                form=form,
-                pendencies_form=pendencies_form,
-                specifications_form=specifications_form,
-            )
+            self.get_context_data(form=form, specifications_form=specifications_form,)
         )
 
     def post(self, request, *args, **kwargs):
@@ -362,53 +345,24 @@ class QuestionaryCreateView(LoginRequiredMixin, LogMixin, generic.CreateView):
         slug = self.kwargs.get("slug", "")
         topic = get_object_or_404(Topic, slug=slug)
 
-        pendencies_form = InlinePendenciesFormset(
-            self.request.POST,
-            initial=[
-                {
-                    "subject": topic.subject.id,
-                    "actions": [
-                        ("", "-------"),
-                        ("view", _("Visualize")),
-                        ("finish", _("Finish")),
-                    ],
-                }
-            ],
-        )
         specifications_form = InlineSpecificationFormset(
             self.request.POST, initial=[{"subject": topic.subject}]
         )
 
-        if (
-            form.is_valid()
-            and pendencies_form.is_valid()
-            and specifications_form.is_valid()
-        ):
-            return self.form_valid(form, pendencies_form, specifications_form)
+        if form.is_valid() and specifications_form.is_valid():
+            return self.form_valid(form, specifications_form)
         else:
-            return self.form_invalid(form, pendencies_form, specifications_form)
+            return self.form_invalid(form, specifications_form)
 
-    def form_invalid(self, form, pendencies_form, specifications_form):
+    def form_invalid(self, form, specifications_form):
         slug = self.kwargs.get("slug", "")
         topic = get_object_or_404(Topic, slug=slug)
 
-        for p_form in pendencies_form.forms:
-            p_form.fields["action"].choices = [
-                ("", "-------"),
-                ("start", _("Start")),
-                ("view", _("Visualize")),
-                ("finish", _("Finish")),
-            ]
-
         return self.render_to_response(
-            self.get_context_data(
-                form=form,
-                pendencies_form=pendencies_form,
-                specifications_form=specifications_form,
-            )
+            self.get_context_data(form=form, specifications_form=specifications_form,)
         )
 
-    def form_valid(self, form, pendencies_form, specifications_form):
+    def form_valid(self, form, specifications_form):
         self.object = form.save(commit=False)
 
         slug = self.kwargs.get("slug", "")
@@ -422,14 +376,14 @@ class QuestionaryCreateView(LoginRequiredMixin, LogMixin, generic.CreateView):
 
         self.object.save()
 
-        pendencies_form.instance = self.object
-        pendencies_form.save(commit=False)
+        pendency = Pendencies()
+        pendency.action = "finish"
+        pendency.begin_date = self.object.data_ini
+        pendency.end_date = self.object.data_end
+        pendency.limit_date = self.object.data_end
+        pendency.resource = self.object
 
-        for pform in pendencies_form.forms:
-            pend_form = pform.save(commit=False)
-
-            if not pend_form.action == "":
-                pend_form.save()
+        pendency.save()
 
         specifications_form.instance = self.object
         specifications_form.save(commit=False)
@@ -545,30 +499,12 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         slug = self.kwargs.get("topic_slug", "")
         topic = get_object_or_404(Topic, slug=slug)
 
-        pendencies_form = InlinePendenciesFormset(
-            instance=self.object,
-            initial=[
-                {
-                    "subject": topic.subject.id,
-                    "actions": [
-                        ("", "-------"),
-                        ("start", _("Start")),
-                        ("view", _("Visualize")),
-                        ("finish", _("Finish")),
-                    ],
-                }
-            ],
-        )
         specifications_form = InlineSpecificationFormset(
             instance=self.object, initial=[{"subject": topic.subject}]
         )
 
         return self.render_to_response(
-            self.get_context_data(
-                form=form,
-                pendencies_form=pendencies_form,
-                specifications_form=specifications_form,
-            )
+            self.get_context_data(form=form, specifications_form=specifications_form,)
         )
 
     def post(self, request, *args, **kwargs):
@@ -580,53 +516,23 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         slug = self.kwargs.get("topic_slug", "")
         topic = get_object_or_404(Topic, slug=slug)
 
-        pendencies_form = InlinePendenciesFormset(
-            self.request.POST,
-            instance=self.object,
-            initial=[
-                {
-                    "subject": topic.subject.id,
-                    "actions": [
-                        ("", "-------"),
-                        ("start", _("Start")),
-                        ("view", _("Visualize")),
-                        ("finish", _("Finish")),
-                    ],
-                }
-            ],
-        )
         specifications_form = InlineSpecificationFormset(
             self.request.POST,
             instance=self.object,
             initial=[{"subject": topic.subject}],
         )
 
-        if (
-            form.is_valid()
-            and pendencies_form.is_valid()
-            and specifications_form.is_valid()
-        ):
-            return self.form_valid(form, pendencies_form, specifications_form)
+        if form.is_valid() and specifications_form.is_valid():
+            return self.form_valid(form, specifications_form)
         else:
-            return self.form_invalid(form, pendencies_form, specifications_form)
+            return self.form_invalid(form, specifications_form)
 
-    def form_invalid(self, form, pendencies_form, specifications_form):
-        for p_form in pendencies_form.forms:
-            p_form.fields["action"].choices = [
-                ("", "-------"),
-                ("view", _("Visualize")),
-                ("finish", _("Finish")),
-            ]
-
+    def form_invalid(self, form, specifications_form):
         return self.render_to_response(
-            self.get_context_data(
-                form=form,
-                pendencies_form=pendencies_form,
-                specifications_form=specifications_form,
-            )
+            self.get_context_data(form=form, specifications_form=specifications_form,)
         )
 
-    def form_valid(self, form, pendencies_form, specifications_form):
+    def form_valid(self, form, specifications_form):
         self.object = form.save(commit=False)
 
         if not self.object.topic.visible and not self.object.topic.repository:
@@ -634,14 +540,23 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
         self.object.save()
 
-        pendencies_form.instance = self.object
-        pendencies_form.save(commit=False)
+        pendency = Pendencies.objects.filter(resource=self.object).first()
 
-        for form in pendencies_form.forms:
-            pend_form = form.save(commit=False)
+        if not pendency is None:
+            pendency.begin_date = self.object.data_ini
+            pendency.end_date = self.object.data_end
+            pendency.limit_date = self.object.data_end
+        else:
+            pendency = Pendencies()
+            pendency.action = "finish"
+            pendency.begin_date = self.object.data_ini
+            pendency.end_date = self.object.data_end
+            pendency.limit_date = self.object.data_end
+            pendency.resource = self.object
 
-            if not pend_form.action == "":
-                pend_form.save()
+        print(pendency)
+
+        pendency.save()
 
         specifications_form.instance = self.object
         specifications_form.save(commit=False)
