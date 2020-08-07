@@ -328,7 +328,7 @@ msgid "Something went wrong. Please try again later"
 msgstr "Algo deu errado. Por favor, tente novamente mais tarde."
 
 #: questionary/views.py:203
-#, fuzzy, python-format
+#, python-format
 msgid "The questionary \"%s\" from topic \"%s\" can only be answered after %s"
 msgstr "O questionário %s do tópico %s só pode ser respondido a partir de %s"
 

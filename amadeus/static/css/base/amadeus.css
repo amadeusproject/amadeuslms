@@ -1742,3 +1742,12 @@ h5.one span {
   align-items: center;
   justify-content: center;
 }
+
+.question .radio span {
+  position: relative;
+}
+
+.question .radio span.circle,
+.question .radio span.check {
+  position: absolute;
+}

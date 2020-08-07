@@ -109,8 +109,8 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
 
                     with connection.cursor() as cursor:
                         cursor.execute(
-                            "SELECT DISTINCT question_id FROM banco_questoes_question_categories AS a WHERE %s <@ (SELECT array_agg(tag_id) FROM public.banco_questoes_question_categories AS c WHERE c.question_id = a.question_id) AND NOT a.question_id = any(%s)",
-                            [cats, q_ids],
+                            "SELECT DISTINCT question_id FROM banco_questoes_question_categories AS a JOIN banco_questoes_question AS b ON a.question_id = b.id WHERE %s <@ (SELECT array_agg(tag_id) FROM public.banco_questoes_question_categories AS c WHERE c.question_id = a.question_id) AND NOT a.question_id = any(%s) AND b.subject_id = %s",
+                            [cats, q_ids, questionary.subject.id],
                         )
                         rows = cursor.fetchall()
 
