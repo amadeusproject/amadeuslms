@@ -554,8 +554,6 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
             pendency.limit_date = self.object.data_end
             pendency.resource = self.object
 
-        print(pendency)
-
         pendency.save()
 
         specifications_form.instance = self.object
