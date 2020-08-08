@@ -340,7 +340,6 @@ msgid "The questionary %s of the topic %s was removed successfully!"
 msgstr "O questionário %s do tópico %s foi removido com sucesso!"
 
 #: questionary/views.py:866
-#, fuzzy
 msgid "Questionary Reports"
 msgstr "Relatórios do Questionário"
 
@@ -386,7 +385,6 @@ msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
 #: questionary/views.py:1130
-#, fuzzy
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
