@@ -206,7 +206,8 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
                             str(questionary.topic),
                             (
                                 formats.date_format(
-                                    questionary.data_ini, "SHORT_DATETIME_FORMAT"
+                                    timezone.localtime(questionary.data_ini),
+                                    "SHORT_DATETIME_FORMAT",
                                 )
                             ),
                         )
