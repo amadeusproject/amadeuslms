@@ -351,9 +351,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 			$(".end_date").prop('checked', true);
 		}
 
-		{% if not pendencies_form.is_valid and pendencies_form.is_bound %}
-			$("#notifications").collapse('toggle');
-		{% endif %}
 	});
 </script>
 <script type="text/javascript" src="{% static 'js/resources.js' %}"></script>
