@@ -107,9 +107,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 			<div class="panel-heading">
     			<div class="row">
         			<div class="col-md-12">
-            			<a data-parent="#professors_accordion" data-toggle="collapse" href="#notifications">
+            			<a data-parent="#professors_accordion" data-toggle="collapse" href="#notifications" aria-expanded="true">
             				<h4 class="panel-title">
-                    			<button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label>{% trans 'Pendencies Notifications' %}</label>
+                    			<button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-down fa-2x" aria-hidden="true"></i></button><label>{% trans 'Pendencies Notifications' %}</label>
             				</h4>
             			</a>
             		</div>
@@ -117,7 +117,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             </div>
 
 
-            <div id="notifications" class="panel-collapse collapse">
+            <div id="notifications" class="panel-collapse collapse in">
             	
         		<div class="notifies">
         			<div style="text-align:left">
@@ -126,16 +126,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             			{% render_field pendencies_form.subject class='pend_subj' %}
 	            		
 	            		<div class="form-group{% if pendencies_form.has_error %} has-error {% endif %} row">
-	            			<label for="{{ pendencies_form.action.auto_id }}" class="pull-left action_label contol-label">
+	            			<label for="{{ pendencies_form.action.auto_id }}" class="pull-left action_label contol-label" style="display: none">
 	            				{% trans 'Action not performed by the user' %}: 
 	        				</label>
-	        				<div class="col-md-3">
+	        				<div class="col-md-3" style="display: none">
 	        					{% render_field pendencies_form.action class='form-control' %}
 	        				</div>
-
-	        				<br clear="all" />
-
-	        				<span id="helpBlock" class="help-block">{{ pendencies_form.action.help_text }}</span>
 		
 							{% if pendencies_form.action.errors %}
 								<div class="alert alert-danger alert-dismissible" role="alert">
