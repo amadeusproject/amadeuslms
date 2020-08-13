@@ -35,7 +35,7 @@ from categories.models import Category
 
 from subjects.models import Subject, Tag
 
-from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators, studentsAccess, parse_date, accessResourceCount, getAccessedTagsPeriod, getTagAccessessPeriod, monthly_users_activity
+from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators, studentsAccess, parse_date, accessResourceCount, getAccessedTagsPeriod, getTagAccessessPeriod, monthly_users_activity, my_categories,  general_monthly_users_activity, generalStudentsAccess, general_logs
 
 from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
@@ -46,6 +46,13 @@ from amadeus.permissions import has_category_permissions, has_subject_permission
 import json
 
 from .avatar import generalInfo, cloudInfo, cloudTips, indicatorsInfo, indicatorsTips, ganntInfo, ganntTips
+
+import numpy as np 
+from plotly.io import templates
+from plotly.offline import plot
+import plotly.express as px
+import plotly.graph_objs as go
+from django.template.loader import get_template
 
 class GeneralView(LogMixin, generic.TemplateView):
     template_name = "dashboards/general.html"
@@ -400,6 +407,71 @@ class SubjectTeacher(LogMixin, generic.TemplateView):
 
         return context
 
+#### General Manager Dashboard  -  Begin  ####
+class GeneralManager(LogMixin, generic.TemplateView):
+    template_name = "dashboards/manager/index.html"
+    
+    log_component = "Manager Dashboard"
+    log_action = "view"
+    log_resource = "Manager Dashboard"
+    log_context = {}
+    
+    def dispatch(self, request, *args, **kwargs):
+       
+        if not request.user.is_staff:
+            return redirect('dashboards:view_categories')
+        return super(GeneralManager, self).dispatch(request, *args, **kwargs)
+
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        # categorias=my_categories(self.request.user)
+        context["title"] = _("Analytics")
+        context["data_ini"] = datetime.now() - timedelta(days = 30)
+        context["data_end"] = datetime.now()
+        # context["categories"] = categorias
+        # context["subjects"] = subjects_by_categories(categorias)
+        
+        self.createLog(actor = self.request.user)
+        context['months'] = self.get_last_twelve_months()
+        context['child_template'] = "dashboards/general_body.html"
+        context['javascript_files'] = ["analytics/js/d3.v5.min.js",
+                                        "analytics/js/d3.v3.min.js",
+                                        "analytics/js/JSUtil.js",
+                                        "analytics/js/ToolTip.js",
+                                        "analytics/js/d3-collection.v1.min.js",
+                                        "analytics/js/d3-dispatch.v1.min.js",
+                                        "analytics/js/d3-force.v1.min.js",
+                                        "analytics/js/d3-timer.v1.min.js",
+                                        "analytics/js/BubbleChart.js",
+                                        "analytics/js/cloud.min.js",
+                                        "analytics/js/charts.js",
+                                        "dashboards/js/behavior.js"]
+        context['style_files'] = ['dashboards/css/general.css']
+        return context
+
+    def get_last_twelve_months(self):
+        today = date.today()
+        months = []
+        month_mappings = { 1: _('January'), 2: _('February'), 3: _('March'), 4: _('April'), 5: _('May'), 6: _('June'), 7: _('July')
+            , 8: _('August'), 9: _('September'), 10: _('October'), 11: _('November'), 12:  _('December')}
+        date_used = today #the date used for solving the inital month problem
+        offset = 0 #offset is the amount of weeks I had to shift so I could change the month if 4 weeks weren't enough
+        for i in range(12):
+
+            operation_date = today - timedelta(weeks= (4*i + offset))
+            while date_used.month == operation_date.month:
+                offset += 2
+                operation_date = today - timedelta(weeks= (4*i + offset))
+
+            months.append(month_mappings[date_used.month] + '/' + str(date_used.year))
+            date_used = operation_date
+        return months
+
+        
+####    General Manager Dashboard  -  End  ####
+
+
 def resources_accesses_general(request, slug):
     subject = get_object_or_404(Subject, slug = slug)
 
@@ -450,3 +522,119 @@ def heatmap_graph(request, slug):
     data = monthly_users_activity(subject, data_ini, data_end)
 
     return JsonResponse(data, safe = False)
+
+def general_heatmap_graph(request):
+    # subjects = request.GET.get('subjects', '')
+    
+    categories = my_categories(request.user)
+    subjects = Subject.objects.filter(category__in = categories).order_by('slug').distinct()
+    subs = []
+    for subject in subjects:
+        sub = get_object_or_404(Subject, slug = subject.slug)
+        subs.append(sub)
+    data_ini = request.GET.get('data_ini', '')
+    data_end = request.GET.get('data_end', '')
+
+    if not data_ini == '':
+        data_ini = parse_date(data_ini)
+    else:
+        data_ini = date.today() - timedelta(days = 30)
+    
+    if not data_end == '':
+        data_end = parse_date(data_end)
+    else:
+        data_end = date.today()
+
+    data = general_monthly_users_activity(subs, data_ini, data_end)
+
+    return JsonResponse(data, safe = False)
+
+def most_active_users_general(request):
+    categories = my_categories(request.user)
+    subjects = Subject.objects.filter(category__in = categories).order_by('slug').distinct()
+    
+    data = []
+    data_ini = request.GET.get('data_ini', '')
+    data_end = request.GET.get('data_end', '')
+    if not data_ini == '':
+        data_ini = parse_date(data_ini)
+    
+    if not data_end == '':
+        data_end = parse_date(data_end)
+
+    for sub in subjects:
+        sub=get_object_or_404(Subject, slug = sub.slug)
+        students = generalStudentsAccess(sub, data_ini, data_end)
+        
+        for s in students:
+            data.append(s)
+    
+    return JsonResponse(data, safe = False)
+
+def general_logs_chart(request):
+    
+    data_ini = request.GET.get('data_ini', '')
+    data_end = request.GET.get('data_end', '')
+
+    if not data_ini == '':
+        data_ini = parse_date(data_ini)
+    else:
+        data_ini = date.today() - timedelta(days = 30)
+    
+    if not data_end == '':
+        data_end = parse_date(data_end)
+    else:
+        data_end = date.today()
+    
+    data = general_logs(request.user, data_ini, data_end)
+    axis_x = []
+    axis_y = []
+    
+    for a in data:
+        axis_x.append(a['x'])
+    a_x = sorted([datetime.strptime(dt, '%d/%m/%Y') for dt in axis_x])
+    # to_datetime(axis_x, format='%d/%m/%Y').sort()
+
+    my_dict = {i:a_x.count(i) for i in a_x}
+    axis_x = list(my_dict.keys())
+    axis_y = list(my_dict.values())
+    
+    
+    fig = px.line( x= axis_x,
+    y= axis_y,
+    # x=axis_x,
+    # y=axis_y,
+    # x= np.arange(1,31),
+    # y = [51, 47, 1, 17, 98, 57, 23, 33, 63, 25, 32, 13, 58, 45, 89, 79, 92, 29, 28, 15, 71, 85, 20, 30, 54, 96, 90, 88, 64, 65],
+    labels = {
+        "x": "Data",
+        "y": "Acessos"
+    },
+    
+    line_shape = 'spline',
+    render_mode = 'svg',
+    color_discrete_sequence = ["#99D5CF"],
+    template = "simple_white"
+    )
+    fig.update_xaxes(title_text=''),
+    fig.update_yaxes(title_text=''),
+    fig.update_layout(
+        margin=dict(l=0, r=0, t=25, b=0),
+        height = 300,
+        
+    )
+
+    soma = 0
+    for i in axis_y:
+        soma = soma + i
+
+    plt_div = plot(fig, output_type='div')
+    
+
+    return JsonResponse({
+        'div': plt_div,
+        'min': min(axis_y),
+        'max': max(axis_y),
+        'total': soma,
+    }, safe= False)
+

@@ -1,0 +1,86 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+{% load static i18n %}
+
+<div class="row">
+    <div class="col-md-12 bubble_users" data-url="{% url 'dashboards:general_bubble_chart' %}">
+    <div class="header">
+            <div class="identifier">
+                <b>
+                    {% trans 'Users that interacts the most' %}
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="{% trans 'Compares the interactions number realized by the users subscribed in the subject' %}"></i>
+                </b>
+            </div>
+            <div class="selector">
+                <span>{% trans 'Cloudy' %}</span>
+                <label class="switch">
+                    <input id="ganttPercent" type="checkbox" name="percentOn" checked onclick="view_toggle($(this))" />
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+        <div class="info">
+            <div class="info_icon">
+                <i class="fa fa-smile-o"></i>
+                <i class="fa fa-arrows-v"></i>
+            </div>
+            <p class="text-cloudy-legend">{% trans 'Users interactions' %}</p>
+        </div>
+        <form method="post" id="form-radio-bubble_users" name="form-bubble">
+            <div class="radio-bubble_users">    
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1">
+                    <label class="form-check-label" for="inlineRadioBubble1">Estudantes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2">
+                    <label class="form-check-label" for="inlineRadioBubble2">Professores</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="0" checked>
+                    <label class="form-check-label" for="inlineRadioBubble3">Geral</label>
+                </div>
+                
+            </div>
+        </form>
+        <div class="users_cloud">
+            
+        </div>
+        <div class="users_table">
+
+            <div id="table-container" class="table-responsive">
+                <table id="students_table" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th class="sort" scope="col" data-sort="name">
+                                {% trans 'Users' %}
+                                <i class="fa fa-sort"></i>
+                            </th>
+                            <th class="sort" scope="col" data-sort="access">
+                                {% trans 'Interactions' %}
+                                <i class="fa fa-sort"></i>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <nav aria-label="Table Navigation">
+                <ul id="students_pag" class="pagination"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{% static 'dashboards/js/manager/bubble.js' %}"></script>

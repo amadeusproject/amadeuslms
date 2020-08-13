@@ -243,7 +243,7 @@ def user_last_interaction(userid):
     return s[0:10000]
 
 
-def count_access_subject(subject, userid):
+def count_access_subject(subject, userid= 0):
     s = Search().extra(size=0)
 
     s = s.query(
@@ -377,3 +377,12 @@ def multi_search(searchs):
     response = ms.execute()
 
     return response
+
+def count_daily_general_logs_access(day):
+    s = Search()
+
+    s = s.query('bool', must=[Q("range", datetime={'time_zone': '-03:00', 'gte': day, 'lte': day}), \
+       \
+        ])
+
+    return s
