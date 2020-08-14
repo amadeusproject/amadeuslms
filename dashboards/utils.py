@@ -1056,6 +1056,56 @@ def general_logs(user, data_ini, data_end):
     
     return data
 
+def active_users_qty(request_user,data_ini, data_end):
+    logs = list()
+    cont=0
+    categories = my_categories(request_user)
+    subjects = Subject.objects.filter(category__in = categories).filter(visible = True).order_by('slug').distinct()
+    total_students = 0
+    total_teachers = 0
+    ac_students = 0
+    ac_teachers= 0
+    all_students = []
+    all_teachers = []
+    for sub in subjects:
+        sub=get_object_or_404(Subject, slug = sub.slug)
+        students = sub.students.all().values_list("id", flat=True)
+        professores = sub.professor.all().values_list("id", flat=True)
+        
+        for student in students:
+            if student not in all_students:
+                all_students.append(user_last_interaction_in_period(student, data_ini, data_end))
+                total_students +=1
+
+        for professor in professores:
+            if professor not in all_teachers:
+                all_teachers.append(user_last_interaction_in_period(professor, data_ini, data_end))
+                total_teachers +=1
+
+    res = multi_search(all_students)
+    for i, student in enumerate(all_students):
+        entry = res[i]
+        if entry:
+            ac_students+=1
+    
+    
+
+    res = multi_search(all_teachers)
+    for i, professor in enumerate(all_teachers):
+        entry = res[i]
+        if entry:
+            ac_teachers+=1
+
+    data = {
+        'total_students': total_students,
+        'active_students': ac_students,
+        'total_teachers':total_teachers,
+        'active_teachers': ac_teachers,
+    }
+    return data
+
+
+
 
 
 

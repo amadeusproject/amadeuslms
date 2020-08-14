@@ -35,7 +35,7 @@ from categories.models import Category
 
 from subjects.models import Subject, Tag
 
-from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators, studentsAccess, parse_date, accessResourceCount, getAccessedTagsPeriod, getTagAccessessPeriod, monthly_users_activity, my_categories,  general_monthly_users_activity, generalStudentsAccess, general_logs
+from .utils import get_pend_graph, getAccessedTags, getTagAccessess, getOtherIndicators, studentsAccess, parse_date, accessResourceCount, getAccessedTagsPeriod, getTagAccessessPeriod, monthly_users_activity, my_categories,  general_monthly_users_activity, generalStudentsAccess, general_logs, active_users_qty
 
 from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
@@ -638,3 +638,24 @@ def general_logs_chart(request):
         'total': soma,
     }, safe= False)
 
+def get_general_active_users(request):
+    print("entrou na view")
+    data = {}
+    data_ini = request.GET.get('data_ini', '')
+    data_end = request.GET.get('data_end', '')
+    total_students = 0
+    total_teachers = 0
+    ac_students = 0
+    ac_teachers= 0
+    if not data_ini == '':
+        data_ini = parse_date(data_ini)
+    
+    if not data_end == '':
+        data_end = parse_date(data_end)
+
+    
+    data = active_users_qty(request.user, data_ini, data_end)
+    
+    print(data)
+    print("acima")
+    return JsonResponse(data, safe = False)

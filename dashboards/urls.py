@@ -34,6 +34,6 @@ urlpatterns = [
 	url(r'^heatmap_chart/(?P<slug>[\w_-]+)/$', views.heatmap_graph, name='heatmap_chart'),
 	url(r'^general_heatmap_chart/$', views.general_heatmap_graph, name='general_heatmap_chart'),
 	url(r'^general_logs_chart/$', views.general_logs_chart, name='general_logs_chart'),
-	
+	url(r'^general_bar_chart/$', views.get_general_active_users, name='general_bar_chart'),	
 	url(r'^cloudydata/([\w_-]+)/([\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.cloudy_data, name='cloudy_data')
 ]
