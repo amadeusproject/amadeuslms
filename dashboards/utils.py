@@ -1056,6 +1056,110 @@ def general_logs(user, data_ini, data_end):
     
     return data
 
+def active_users_qty(request_user,data_ini, data_end):
+    logs = list()
+    cont=0
+    categories = my_categories(request_user)
+    subjects = Subject.objects.filter(category__in = categories).order_by('slug').distinct()
+    
+    total_students = 0
+    total_teachers = 0
+    ac_students = 0
+    ac_teachers= 0
+    id_students = []
+    id_teachers = []
+    all_students = []
+    all_teachers = []
+    
+    for sub in subjects:
+        sub=get_object_or_404(Subject, slug = sub.slug)
+        students = sub.students.all().values_list("id", flat=True)
+        professores = sub.professor.all().values_list("id", flat=True)
+        
+        for student in students:
+            if student not in id_students:
+                all_students.append(user_last_interaction_in_period(student, data_ini, data_end))
+                id_students.append(student)
+                total_students +=1
+
+        for professor in professores:
+            if professor not in id_teachers:
+                all_teachers.append(user_last_interaction_in_period(professor, data_ini, data_end))
+                id_teachers.append(professor)
+                total_teachers +=1
+                print(professor)
+
+    res = multi_search(all_students)
+    for i, student in enumerate(all_students):
+        entry = res[i]
+        if entry:
+            ac_students+=1
+    
+    
+
+    res = multi_search(all_teachers)
+    for i, professor in enumerate(all_teachers):
+        entry = res[i]
+        if entry:
+            ac_teachers+=1
+
+    data = {
+        'total_students': total_students,
+        'active_students': ac_students,
+        'total_teachers':total_teachers,
+        'active_teachers': ac_teachers,
+    }
+    return data
 
 
+def functiontable(categories, dataIni, dataEnd):
+    data = {}
+    categories_data = []
+    subjects_data = []
+    resources_data = []
+    for category in categories:
+        res = []
+        cont=0
+        subjects = Subject.objects.filter(category = category).filter(visible = True).order_by('slug').distinct()
+        searchs = list()
+        accessess =[ ]
+        for subject in subjects:
+            searchs.append(
+                count_general_access_subject_period(subject.id, dataIni, dataEnd)
+        )
+        if searchs:
+            res = multi_search(searchs)
 
+            accessess = [x.to_dict()["hits"]["total"]["value"] for x in res]
+
+            for i, access in enumerate(accessess):
+                item = {}
+                obj = subjects[i]
+                cont+=access
+                subjects_data.append({
+                    'name': obj.name,
+                    'access': access,
+                    'category': category.name,
+                    'link': reverse(
+                        "subjects:view",
+                        args=(),
+                        kwargs={"slug": obj.slug}
+                    ),
+                })
+        categories_data.append({
+            'cat_name': category.name,
+            'access': cont,
+            'link': reverse(
+                        "subjects:cat_view",
+                        args=(),
+                        kwargs={"slug": category.slug}
+                    ),
+        })
+    data = {
+       'categories': categories_data,
+       'subjects': subjects_data,
+    }
+    return data
+
+    
+    
