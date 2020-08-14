@@ -16,13 +16,32 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-    url(r'^create/(?P<slug>[\w_-]+)/$', views.QuestionaryCreateView.as_view(), name='create'),
-    url(r'^update/(?P<topic_slug>[\w_-]+)/(?P<slug>[\w_-]+)/$', views.UpdateView.as_view(), name='update'),
-    url(r'^delete/(?P<slug>[\w_-]+)/$', views.DeleteView.as_view(), name = 'delete'),
-    url(r'^view/(?P<slug>[\w_-]+)/$', views.InsideView.as_view(), name = 'view'),
-    url(r'^window_view/(?P<slug>[\w_-]+)/(?P<window>[\w_-]+)/$', views.InsideView.as_view(), name = 'window_view'),
-    url(r'^chart/(?P<slug>[\w_-]+)/$', views.StatisticsView.as_view(), name = 'get_chart'),
-    url(r'^send-message/(?P<slug>[\w_-]+)/$', views.SendMessage.as_view(), name = 'send_message'),
-    url(r'^count_questions/$', views.countQuestions, name='countQ'),
-    url(r'^answer/$', views.answer, name='answer'),
+    url(
+        r"^create/(?P<slug>[\w_-]+)/$",
+        views.QuestionaryCreateView.as_view(),
+        name="create",
+    ),
+    url(
+        r"^update/(?P<topic_slug>[\w_-]+)/(?P<slug>[\w_-]+)/$",
+        views.UpdateView.as_view(),
+        name="update",
+    ),
+    url(r"^delete/(?P<slug>[\w_-]+)/$", views.DeleteView.as_view(), name="delete"),
+    url(r"^view/(?P<slug>[\w_-]+)/$", views.InsideView.as_view(), name="view"),
+    url(
+        r"^window_view/(?P<slug>[\w_-]+)/(?P<window>[\w_-]+)/$",
+        views.InsideView.as_view(),
+        name="window_view",
+    ),
+    url(
+        r"^chart/(?P<slug>[\w_-]+)/$", views.StatisticsView.as_view(), name="get_chart"
+    ),
+    url(
+        r"^send-message/(?P<slug>[\w_-]+)/$",
+        views.SendMessage.as_view(),
+        name="send_message",
+    ),
+    url(r"^results/(?P<slug>[\w_-]+)/$", views.class_results, name="results"),
+    url(r"^count_questions/$", views.countQuestions, name="countQ"),
+    url(r"^answer/$", views.answer, name="answer"),
 ]

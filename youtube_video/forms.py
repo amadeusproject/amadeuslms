@@ -141,13 +141,14 @@ class YTVideoForm(forms.ModelForm):
 
         return self.instance
 
+
 InlinePendenciesFormset = inlineformset_factory(
     YTVideo,
     Pendencies,
     form=PendenciesForm,
     extra=1,
-    max_num=3,
+    max_num=1,
     validate_max=True,
-    can_delete=True,
+    can_delete=False,
 )
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-07 18:38+0000\n"
+"POT-Creation-Date: 2020-08-14 04:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,31 +74,31 @@ msgstr "Notificação de Pendências"
 msgid "Action not performed by the user"
 msgstr "Ação não realizada pelo usuário"
 
-#: webpage/templates/webpages/_form.html:152
+#: webpage/templates/webpages/_form.html:148
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: webpage/templates/webpages/_form.html:218
+#: webpage/templates/webpages/_form.html:214
 msgid "Students"
 msgstr "Estudantes"
 
-#: webpage/templates/webpages/_form.html:248
+#: webpage/templates/webpages/_form.html:244
 msgid "Attribute students to webpage"
 msgstr "Atribuir estudantes à Página Web"
 
-#: webpage/templates/webpages/_form.html:268
+#: webpage/templates/webpages/_form.html:264
 msgid "Attribute groups to webpage"
 msgstr "Atribuir grupos de estudo à Página Web"
 
-#: webpage/templates/webpages/_form.html:337
+#: webpage/templates/webpages/_form.html:333
 msgid "Save"
 msgstr "Salvar"
 
-#: webpage/templates/webpages/_form.html:341
+#: webpage/templates/webpages/_form.html:337
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: webpage/templates/webpages/create.html:32 webpage/views.py:246
+#: webpage/templates/webpages/create.html:32 webpage/views.py:278
 msgid "Create Webpage"
 msgstr "Criar Página Web"
 
@@ -187,12 +187,12 @@ msgstr "Remover"
 msgid "Resource Mural"
 msgstr "Mural do recurso"
 
-#: webpage/views.py:174 webpage/views.py:187 webpage/views.py:304
-#: webpage/views.py:306 webpage/views.py:322 webpage/views.py:324
+#: webpage/views.py:189 webpage/views.py:209 webpage/views.py:355
+#: webpage/views.py:362 webpage/views.py:387 webpage/views.py:395
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: webpage/views.py:257
+#: webpage/views.py:292
 #, python-format
 msgid ""
 "The Webpage \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -201,68 +201,68 @@ msgstr ""
 "A Página Web \"%s\" foi adicionado ao tópico \"%s\" do ambiente virtual \"%s"
 "\" com sucesso!"
 
-#: webpage/views.py:368
+#: webpage/views.py:449
 msgid "Update Webpage"
 msgstr "Atualizar Página Web"
 
-#: webpage/views.py:380
+#: webpage/views.py:465
 #, python-format
 msgid "The Webpage \"%s\" was updated successfully!"
 msgstr "A Página Web \"%s\" foi atualizada com sucesso!"
 
-#: webpage/views.py:416
+#: webpage/views.py:510
 #, python-format
 msgid ""
 "The webpage \"%s\" was removed successfully from virtual environment \"%s\"!"
 msgstr ""
 "A Página Web \"%s\" foi removida do ambiente virtual \"%s\" com sucesso!"
 
-#: webpage/views.py:475
+#: webpage/views.py:585
 msgid "Webpage Reports"
 msgstr "Relatórios da Webpage"
 
-#: webpage/views.py:494
+#: webpage/views.py:619
 msgid "Realized"
 msgstr "Realizado"
 
-#: webpage/views.py:494
+#: webpage/views.py:620
 msgid "Unrealized"
 msgstr "Não Realizado"
 
-#: webpage/views.py:494
+#: webpage/views.py:621
 msgid "Historic"
 msgstr "Histórico"
 
-#: webpage/views.py:509 webpage/views.py:517
+#: webpage/views.py:663 webpage/views.py:673
 msgid "View"
 msgstr "Visualizar"
 
-#: webpage/views.py:518
+#: webpage/views.py:674
 msgid "Webpage"
 msgstr "Nome da Página Web"
 
-#: webpage/views.py:523
+#: webpage/views.py:679
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: webpage/views.py:524
+#: webpage/views.py:680
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: webpage/views.py:573
+#: webpage/views.py:735
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: webpage/views.py:585
+#: webpage/views.py:751
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: webpage/views.py:594
+#: webpage/views.py:767
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: webpage/views.py:596
+#: webpage/views.py:769
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
 

@@ -72,11 +72,11 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
             if questionary.all_students:
                 self.students = User.objects.filter(
                     subject_student=questionary.topic.subject
-                ).order_by("social_name", "username")
+                ).order_by("username", "last_name")
             else:
                 self.students = User.objects.filter(
                     resource_students=questionary
-                ).order_by("social_name", "username")
+                ).order_by("username", "last_name")
 
             self.userquest = UserQuest.objects.filter(
                 student=self.students.first(), questionary=questionary
@@ -1139,3 +1139,54 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
             Questionary, slug=self.kwargs.get("slug", "")
         )
         return context
+
+
+def class_results(request, slug):
+    questionary = get_object_or_404(Questionary, slug=slug)
+    number_questions = 0
+
+    data = []
+
+    for spec in questionary.spec_questionary.all():
+        number_questions = int(number_questions) + int(spec.n_questions)
+
+    if questionary.all_students:
+        students = User.objects.filter(
+            subject_student=questionary.topic.subject
+        ).order_by("username", "last_name")
+    else:
+        students = User.objects.filter(resource_students=questionary).order_by(
+            "username", "last_name"
+        )
+
+    for student in students:
+        line = {}
+
+        line["student"] = student.fullname
+
+        exam = UserQuest.objects.filter(student=student, questionary=questionary)
+        questions = UserAnswer.objects.filter(user_quest=exam)
+
+        answered = questions.filter(answer__isnull=False).count()
+        correct = questions.filter(is_correct=True).count()
+
+        if correct > 0:
+            percentage = (correct / number_questions) * 100
+        else:
+            percentage = 0
+
+        if answered <= 0:
+            line["total_questions"] = "-"
+            line["total_answered"] = "-"
+            line["total_correct"] = "-"
+        else:
+            line["total_questions"] = number_questions
+            line["total_answered"] = answered
+            line["total_correct"] = correct
+
+        line["percentage"] = percentage
+
+        data.append(line)
+
+    html = render_to_string("questionary/_results.html", {"data": data})
+    return JsonResponse({"result": html})
