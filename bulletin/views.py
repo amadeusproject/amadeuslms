@@ -541,7 +541,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
             self.request.POST,
             initial={
                 "subject": topic.subject.id,
-                "actions": [("", "-------"), ("view", _("Visualize"))],
+                "actions": [("view", _("Visualize"))],
             },
         )
 
@@ -854,14 +854,14 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
                 instance=pend_form[0],
                 initial={
                     "subject": topic.subject.id,
-                    "actions": [("", "-------"), ("view", _("Visualize"))],
+                    "actions": [("view", _("Visualize"))],
                 },
             )
         else:
             pendencies_form = PendenciesForm(
                 initial={
                     "subject": topic.subject.id,
-                    "actions": [("", "-------"), ("view", _("Visualize"))],
+                    "actions": [("view", _("Visualize"))],
                 }
             )
 
@@ -886,7 +886,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
                 instance=pend_form[0],
                 initial={
                     "subject": topic.subject.id,
-                    "actions": [("", "-------"), ("view", _("Visualize"))],
+                    "actions": [("view", _("Visualize"))],
                 },
             )
         else:
@@ -894,7 +894,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
                 self.request.POST,
                 initial={
                     "subject": topic.subject.id,
-                    "actions": [("", "-------"), ("view", _("Visualize"))],
+                    "actions": [("view", _("Visualize"))],
                 },
             )
 
