@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-07 18:38+0000\n"
+"POT-Creation-Date: 2020-08-14 04:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -170,11 +170,11 @@ msgstr "Usuário"
 msgid "Users"
 msgstr "Usuários"
 
-#: users/models.py:116
+#: users/models.py:119
 msgid "Yes"
 msgstr "Sim"
 
-#: users/models.py:117
+#: users/models.py:120
 msgid "Is not an admin"
 msgstr "Não é administrador"
 

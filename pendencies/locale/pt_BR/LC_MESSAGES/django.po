@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-07 18:38+0000\n"
+"POT-Creation-Date: 2020-08-14 04:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -88,72 +88,76 @@ msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou anterior à data final "
 "do assunto.(\"%s\")"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:23
 msgid "Action"
 msgstr "Ação"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:26
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:27
 msgid "Create"
 msgstr "Criar"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:28
 msgid "Answer"
 msgstr "Responder"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:29
 msgid "Access"
 msgstr "Acessar"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:30
 msgid "Participate"
 msgstr "Participar"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:31
 msgid "Finish"
 msgstr "Finalizar"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:32
 msgid "Submit"
 msgstr "Enviar"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:33
 msgid "Start"
 msgstr ""
 
-#: pendencies/models.py:22
+#: pendencies/models.py:34
+msgid "Watch"
+msgstr ""
+
+#: pendencies/models.py:38
 msgid "Begin Date"
 msgstr "Data Inicial"
 
-#: pendencies/models.py:23
+#: pendencies/models.py:39
 msgid "End Date"
 msgstr "Data Final"
 
-#: pendencies/models.py:24
+#: pendencies/models.py:40
 msgid "Limit Date"
 msgstr "Data Limite"
 
-#: pendencies/models.py:25
+#: pendencies/models.py:43
 msgid "Resource"
 msgstr "Recurso"
 
-#: pendencies/models.py:28
+#: pendencies/models.py:51
 msgid "Pendency"
 msgstr ""
 
-#: pendencies/models.py:29
+#: pendencies/models.py:54
 msgid "Student"
 msgstr ""
 
-#: pendencies/models.py:30
+#: pendencies/models.py:56
 #, fuzzy
 #| msgid "End Date"
 msgid "Done Date"
 msgstr "Data Final"
 
-#: pendencies/models.py:31
+#: pendencies/models.py:57
 msgid "Done late"
 msgstr ""
