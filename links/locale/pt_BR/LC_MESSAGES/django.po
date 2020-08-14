@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-07 18:38+0000\n"
+"POT-Creation-Date: 2020-08-14 04:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,27 +62,27 @@ msgstr "Notificações de pendências"
 msgid "Action not performed by the user"
 msgstr "Ação não realizada pelo usuário"
 
-#: links/templates/links/_form.html:156
+#: links/templates/links/_form.html:152
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: links/templates/links/_form.html:222
+#: links/templates/links/_form.html:218
 msgid "Students"
 msgstr ""
 
-#: links/templates/links/_form.html:252
+#: links/templates/links/_form.html:248
 msgid "Attribute students to file link"
 msgstr "Atribuir estudantes para o link de arquivo"
 
-#: links/templates/links/_form.html:272
+#: links/templates/links/_form.html:268
 msgid "Attribute groups to file link"
 msgstr "Atribuir grupos para o link de arquivo"
 
-#: links/templates/links/_form.html:320
+#: links/templates/links/_form.html:316
 msgid "Save"
 msgstr "Salvar"
 
-#: links/templates/links/_form.html:324
+#: links/templates/links/_form.html:320
 msgid "Cancel"
 msgstr ""
 
@@ -167,16 +167,16 @@ msgstr "Enviar"
 msgid "Edit: "
 msgstr "Editar: "
 
-#: links/views.py:80 links/views.py:93 links/views.py:277 links/views.py:279
-#: links/views.py:295 links/views.py:297
+#: links/views.py:81 links/views.py:101 links/views.py:333 links/views.py:340
+#: links/views.py:365 links/views.py:373
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: links/views.py:155
+#: links/views.py:173
 msgid "Create Webiste Link"
 msgstr "Criar Link de Website"
 
-#: links/views.py:166
+#: links/views.py:187
 #, python-format
 msgid ""
 "The  Link \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -185,7 +185,7 @@ msgstr ""
 "O link \"%s\" foi adicionado com sucesso ao Topico \"%s\"  do ambiente "
 "virtual \"%s\" "
 
-#: links/views.py:194
+#: links/views.py:228
 #, python-format
 msgid ""
 "The Website Link \"%s\" was removed successfully from virtual environment "
@@ -193,60 +193,60 @@ msgid ""
 msgstr ""
 "O Link do site \"%s\" foi removido com sucesso do ambiente virtual \"%s\"  "
 
-#: links/views.py:343
+#: links/views.py:429
 msgid "Update Website Link"
 msgstr "Atualizar Link do website"
 
-#: links/views.py:355
+#: links/views.py:443
 #, python-format
 msgid "The Website Link \"%s\" was updated successfully!"
 msgstr "O link do website  \"%s\" foi atualizado com sucesso! "
 
-#: links/views.py:399
+#: links/views.py:495
 msgid "Links Reports"
 msgstr "Relatórios de links"
 
-#: links/views.py:418
+#: links/views.py:529
 msgid "Realized"
 msgstr "Realizada"
 
-#: links/views.py:418
+#: links/views.py:530
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: links/views.py:418
+#: links/views.py:531
 msgid "Historic"
 msgstr "Histórico"
 
-#: links/views.py:433 links/views.py:441
+#: links/views.py:573 links/views.py:583
 msgid "View"
 msgstr "Visualizar"
 
-#: links/views.py:442
+#: links/views.py:584
 msgid "Links"
 msgstr "Links"
 
-#: links/views.py:447
+#: links/views.py:589
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: links/views.py:448
+#: links/views.py:590
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: links/views.py:495
+#: links/views.py:645
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: links/views.py:507
+#: links/views.py:661
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: links/views.py:516
+#: links/views.py:677
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: links/views.py:518
+#: links/views.py:679
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"

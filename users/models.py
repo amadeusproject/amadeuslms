@@ -95,6 +95,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.social_name or (self.username + " " + self.last_name)
 
+    def fullname(self):
+        return self.username + " " + self.last_name
+
     def get_short_name(self):
         return str(self)
 

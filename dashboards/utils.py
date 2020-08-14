@@ -7,10 +7,21 @@ from django.utils.dateparse import parse_datetime
 from django.core.urlresolvers import reverse
 from django.utils.formats import get_format
 
-from subjects.models import Tag
-from topics.models import Resource
+from subjects.models import Tag, Subject
+from topics.models import Topic, Resource
 from log.models import Log
+from bulletin.models import Bulletin
+from file_link.models import FileLink
+from goals.models import Goals
+from links.models import Link
+from mural.models import SubjectPost
+from pdf_file.models import PDFFile
+from questionary.models import Questionary
+from goals.models import Goals
+from webpage.models import Webpage
+from webconference.models import Webconference
 
+from youtube_video.models import YTVideo
 from notifications.models import Notification
 
 from pendencies.models import Pendencies, PendencyDone
@@ -28,6 +39,11 @@ from mutagen.mp3 import MP3
 import operator, math
 
 from log.search import *
+
+from categories.models import Category
+from amadeus.permissions import has_category_permissions
+
+from django.shortcuts import get_object_or_404
 
 
 def done_percent(pendency):
@@ -742,3 +758,304 @@ def monthly_users_activity(subject, data_ini, data_end):
         data = sorted(data, key=lambda x: (x["month"], x["day"]))
 
     return data
+
+def general_monthly_users_activity(subjects, data_ini, data_end):
+    period = get_days_in_period(data_ini, data_end)
+    data = list()
+    data2 = list()
+    for subject in subjects:
+        students = subject.students.all().values_list("id", flat=True)
+        professores = subject.professor.all().values_list("id", flat=True)
+        
+
+        searchs = []
+        searchs2 = []
+        days = []
+
+        for day in period:
+            searchs.append(count_daily_access(subject.id, list(students), day))
+            searchs2.append(count_daily_access(subject.id, list(professores), day))
+            days.append(day)
+        
+
+        if searchs or searchs2:
+            res = multi_search(searchs)
+            res2 =  multi_search(searchs2)
+            
+            accessess = [x.to_dict()["hits"] for x in res]
+            accessess2 = [x.to_dict()["hits"] for x in res2]
+
+            users = set()
+            dates_set = set()
+
+            for access in accessess:
+                for hits in access["hits"]:
+                    log = hits["_source"]
+
+                    accessDate = parse_datetime(log["datetime"])
+                    dates_set.add(accessDate.date())
+
+                    utuple = (
+                        str(accessDate.day)
+                        + "-"
+                        + str(accessDate.month)
+                        + "-"
+                        + str(accessDate.year),
+                        log["user_id"],
+                    )
+
+                    if not utuple in users:
+                        users.add(utuple)
+
+                        data.append(
+                            {
+                                "year": accessDate.year,
+                                "month": accessDate.month - 1,
+                                "day": accessDate.day,
+                                "hour": accessDate.hour,
+                                "user_id": log["user_id"],
+                                "value": 1,
+                                "count": 1,
+                                "teacher":0,
+
+                            }
+                        )
+
+            
+            for day in period:
+                if not day in dates_set:
+                    dates_set.add(day)
+
+                    data.append(
+                        {
+                            "year": day.year,
+                            "month": day.month - 1,
+                            "day": day.day,
+                            "hour": 0,
+                            "user_id": 0,
+                            "value": 0,
+                            "count": 0,
+                            "teacher":0,
+                        }
+                    )
+
+            users = set()
+            dates_set = set()
+
+
+            for access in accessess2:
+                for hits in access["hits"]:
+                    log = hits["_source"]
+
+                    accessDate = parse_datetime(log["datetime"])
+                    dates_set.add(accessDate.date())
+
+                    utuple = (
+                        str(accessDate.day)
+                        + "-"
+                        + str(accessDate.month)
+                        + "-"
+                        + str(accessDate.year),
+                        log["user_id"],
+                    )
+
+                    if not utuple in users:
+                        users.add(utuple)
+
+                        data2.append(
+                            {
+                                "year": accessDate.year,
+                                "month": accessDate.month - 1,
+                                "day": accessDate.day,
+                                "hour": accessDate.hour,
+                                "user_id": log["user_id"],
+                                "value": 1,
+                                "count": 1,
+                                "teacher":1,
+                            }
+                        )
+
+            
+            for day in period:
+                if not day in dates_set:
+                    dates_set.add(day)
+
+                    data2.append(
+                        {
+                            "year": day.year,
+                            "month": day.month - 1,
+                            "day": day.day,
+                            "hour": 0,
+                            "user_id": 0,
+                            "value": 0,
+                            "count": 0,
+                            "teacher":1,
+                        }
+                    )
+            
+        data.extend(data2)
+        data = sorted(data, key=lambda x: (x["month"], x["day"]))
+
+    return data
+
+def my_categories(user):
+    my_categories = []
+    categories = Category.objects.filter() 
+    for category in categories:
+        if has_category_permissions(user,category) or has:
+            my_categories.append(category)
+    
+    return my_categories
+
+def generalStudentsAccess(subject, dataIni, dataEnd):
+    students = subject.students.all()
+    professores = subject.professor.all()
+    if dataIni == "":
+        dataIni = "now-30d"
+
+    if dataEnd == "":
+        dataEnd = "now"
+
+    data = []
+    searchs = []
+    data2 = []
+    searchs2 = []
+
+    for student in students:
+        searchs.append(
+            count_access_subject_period(subject.id, student.id, dataIni, dataEnd)
+        )
+    for professor in professores:
+        searchs2.append(
+            count_access_subject_period(subject.id, professor.id, dataIni, dataEnd)
+        )
+
+    if searchs and searchs2:
+        res = multi_search(searchs)
+        res2 = multi_search(searchs2)
+
+        accessess = [x.to_dict()["hits"]["total"]["value"] for x in res]
+        accessess2 = [x.to_dict()["hits"]["total"]["value"] for x in res2]
+
+
+        for i, access in enumerate(accessess):
+            item = {}
+
+            obj = students[i]
+            item["teacher"] = 0
+            item["count"] = access
+            item["image"] = obj.image_url
+            item["user"] = str(obj)
+            item["user_id"] = obj.id
+            item["link"] = reverse(
+                "dashboards:view_subject_student",
+                args=(),
+                kwargs={"slug": subject.slug, "email": obj.email},
+            )
+
+            data.append(item)
+
+        for i, access in enumerate(accessess2):
+            item = {}
+
+            obj = professores[i]
+            item["teacher"] = 1
+            item["count"] = access
+            item["image"] = obj.image_url
+            item["user"] = str(obj)
+            item["user_id"] = obj.id
+            item["link"] = reverse(
+                "dashboards:view_subject_student",
+                args=(),
+                kwargs={"slug": subject.slug, "email": obj.email},
+            )
+
+            data.append(item)
+
+
+        data.sort(key=lambda x: x["count"], reverse=True)
+
+    return data
+
+def general_logs(user, data_ini, data_end):
+    period = get_days_in_period(data_ini, data_end)
+    logs_data = list()
+    logs = Log.objects.filter(
+        datetime__date__gte=data_ini,
+        datetime__date__lte=data_end,
+    )
+    subjects = []
+    categories = my_categories(user)
+    subs = Subject.objects.filter(category__in = categories).filter(visible = True).order_by('slug').distinct()
+    for sub in subs:
+        subjects.append(sub)
+    for subject in subjects:
+        logs_data.append(logs.filter(
+            context__contains={"subject_id": subject.id},
+        ))
+    
+    data = list()
+    searchs = []
+    days = []
+
+    for day in period:
+        searchs.append(count_daily_general_logs_access(day))
+        days.append(day)
+
+    if searchs:
+        res = multi_search(searchs)
+
+        accessess = [x.to_dict()["hits"] for x in res]
+        users = set()
+        dates_set = set()
+
+        for access in accessess:
+            for hits in access["hits"]:
+                log = hits["_source"]
+                time = parse_datetime(log["datetime"]).strftime('%d/%m/%Y')
+                data.append({'x': time, 'y':1})
+                # dates_set.add(accessDate.date())
+                # utuple = (
+                #     str(x.day)
+                #     + "-"
+                #     + str(x.month)
+                #     + "-"
+                #     + str(x.year),
+                #     log["user_id"],
+                # )
+
+                # if not utuple in users:
+                #     users.add(utuple)
+                    # data.append(
+                    #     {
+                    #         "year": accessDate.year,
+                    #         "month": accessDate.month - 1,
+                    #         "day": accessDate.day,
+                    #         "user_id": log["user_id"],
+                    #         "value": 1,
+                    #         "count": 1,
+                    #     }
+                    # )
+
+        # for day in period:
+        #     if not day in dates_set:
+        #         dates_set.add(day)
+
+                # data.append(
+                #     {
+                #         "year": day.year,
+                #         "month": day.month - 1,
+                #         "day": day.day,
+                #         "user_id": 0,
+                #         "value": 0,
+                #         "count": 0,
+                #     }
+                # )
+
+        # data = sorted(data, key=lambda x: (x["x"]))
+    
+    return data
+
+
+
+

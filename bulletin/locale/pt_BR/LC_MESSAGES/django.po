@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-07 18:38+0000\n"
+"POT-Creation-Date: 2020-08-14 04:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,7 +72,7 @@ msgstr "Metas"
 msgid "Relevant Indicators"
 msgstr "Indicadores Relevantes"
 
-#: bulletin/models.py:37 bulletin/views.py:948
+#: bulletin/models.py:37 bulletin/views.py:1186
 msgid "Bulletin"
 msgstr "Boletim"
 
@@ -123,19 +123,19 @@ msgstr "Notificação de pendências"
 msgid "Action not performed by the user"
 msgstr "Ação não realizada pelo usuário"
 
-#: bulletin/templates/bulletin/_form.html:260
+#: bulletin/templates/bulletin/_form.html:256
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: bulletin/templates/bulletin/_form.html:371
+#: bulletin/templates/bulletin/_form.html:367
 msgid "Save"
 msgstr "Salvar"
 
-#: bulletin/templates/bulletin/_form.html:375
+#: bulletin/templates/bulletin/_form.html:371
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: bulletin/templates/bulletin/create.html:33 bulletin/views.py:516
+#: bulletin/templates/bulletin/create.html:33 bulletin/views.py:614
 msgid "Create Bulletin"
 msgstr "Criar boletim"
 
@@ -473,35 +473,35 @@ msgstr "Máximo"
 msgid "Median"
 msgstr "Mediana"
 
-#: bulletin/utils.py:59 bulletin/views.py:1035
+#: bulletin/utils.py:59 bulletin/views.py:1286
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: bulletin/views.py:99
+#: bulletin/views.py:101
 #, python-format
 msgid "#Difficulty(ies) found in %s"
 msgstr "#Dificuldade(s) encontrada(s) em %s"
 
-#: bulletin/views.py:125 bulletin/views.py:293
+#: bulletin/views.py:138 bulletin/views.py:337
 msgid "Difficulties sent to the subject professor(s)"
 msgstr "Dificuldades enviadas para o(s) professor(es) do assunto"
 
-#: bulletin/views.py:129 bulletin/views.py:296
+#: bulletin/views.py:144 bulletin/views.py:342
 msgid "You should inform some difficulty"
 msgstr "Você deve informar alguma dificuldade"
 
-#: bulletin/views.py:267
+#: bulletin/views.py:300
 #, python-format
 msgid "#Dificulty(ies) found in %s"
 msgstr "#Dificuldade(s) encontrada(s) em %s"
 
-#: bulletin/views.py:413
+#: bulletin/views.py:478
 #, python-format
 msgid "The topic %s has no goals, so you can't create a Bulletin."
 msgstr "O tópico %s não possui metas, então você não pode criar um Boletim."
 
-#: bulletin/views.py:420
+#: bulletin/views.py:493
 #, python-format
 msgid ""
 "The deadline to submit the goals of the topic %s has not yet closed, so you "
@@ -510,17 +510,17 @@ msgstr ""
 "O prazo para submeter as metas do tópico %s ainda não foi fechado, então "
 "você não pode criar um Boletim."
 
-#: bulletin/views.py:425
+#: bulletin/views.py:503
 #, python-format
 msgid "The topic %s already has a Bulletin, so you can't create another."
 msgstr "O tópico %s já possui um Boletim, então você não pode criar outro."
 
-#: bulletin/views.py:443 bulletin/views.py:456 bulletin/views.py:726
-#: bulletin/views.py:728 bulletin/views.py:744 bulletin/views.py:746
+#: bulletin/views.py:524 bulletin/views.py:544 bulletin/views.py:857
+#: bulletin/views.py:864 bulletin/views.py:889 bulletin/views.py:897
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: bulletin/views.py:537
+#: bulletin/views.py:638
 #, python-format
 msgid ""
 "The Bulletin \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -529,57 +529,57 @@ msgstr ""
 "O Boletim \"%s\" foi adicionado ao Tópio \"%s\" do ambiente virtual \"%s\" "
 "com sucesso!"
 
-#: bulletin/views.py:790
+#: bulletin/views.py:951
 msgid "Update Bulletin"
 msgstr "Atualizar boletim"
 
-#: bulletin/views.py:810
+#: bulletin/views.py:977
 #, python-format
 msgid "The Bulletin \"%s\" was updated successfully!"
 msgstr "O Boletim \"%s\" foi atualizado com sucesso!"
 
-#: bulletin/views.py:846
+#: bulletin/views.py:1022
 #, python-format
 msgid ""
 "The bulletin \"%s\" was removed successfully from virtual environment \"%s\"!"
 msgstr "O boletim \"%s\" foi removido com sucesso do ambiente virtual \"%s\"! "
 
-#: bulletin/views.py:905
+#: bulletin/views.py:1097
 msgid "Bulletin Reports"
 msgstr "Relatórios do Boletim"
 
-#: bulletin/views.py:924
+#: bulletin/views.py:1131
 msgid "Realized"
 msgstr "Realizada"
 
-#: bulletin/views.py:924
+#: bulletin/views.py:1132
 msgid "Unrealized"
 msgstr "Não realizada"
 
-#: bulletin/views.py:924
+#: bulletin/views.py:1133
 msgid "Historic"
 msgstr "Histórico"
 
-#: bulletin/views.py:939 bulletin/views.py:947
+#: bulletin/views.py:1175 bulletin/views.py:1185
 msgid "View"
 msgstr "Visualizar"
 
-#: bulletin/views.py:953
+#: bulletin/views.py:1191
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: bulletin/views.py:954
+#: bulletin/views.py:1192
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: bulletin/views.py:1023
+#: bulletin/views.py:1270
 msgid "[Photo]"
 msgstr "[Foto]"
 
-#: bulletin/views.py:1044
+#: bulletin/views.py:1302
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: bulletin/views.py:1046
+#: bulletin/views.py:1304
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"

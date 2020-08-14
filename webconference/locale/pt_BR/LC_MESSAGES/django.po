@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-07 18:38+0000\n"
+"POT-Creation-Date: 2020-08-14 04:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -108,52 +108,32 @@ msgid "Common resources settings"
 msgstr "Configurações de recursos comuns"
 
 #: webconference/templates/webconference/_form.html:151
-msgid "Pendencies Notifications"
-msgstr "Notificações Pendentes"
-
-#: webconference/templates/webconference/_form.html:172
-msgid "Action not performed by the user"
-msgstr "Ação não executada pelo usuário"
-
-#: webconference/templates/webconference/_form.html:198
-msgid "Wished period"
-msgstr "Período desejado"
-
-#: webconference/templates/webconference/_form.html:291
 msgid "Students"
 msgstr "Estudantes"
 
-#: webconference/templates/webconference/_form.html:321
+#: webconference/templates/webconference/_form.html:181
 msgid "Attribute students to Web Conference"
 msgstr "Atribuir alunos à web conferência"
 
-#: webconference/templates/webconference/_form.html:341
+#: webconference/templates/webconference/_form.html:201
 msgid "Attribute groups to Web Conference"
 msgstr "Atribuir grupos à web conferência"
 
-#: webconference/templates/webconference/_form.html:410
+#: webconference/templates/webconference/_form.html:270
 #: webconference/templates/webconference/config.html:54
 msgid "Save"
 msgstr "Salvar"
 
-#: webconference/templates/webconference/_form.html:414
+#: webconference/templates/webconference/_form.html:274
 msgid "Cancel"
 msgstr "Cancelar"
-
-#: webconference/templates/webconference/_form.html:421
-msgid "Add new notification"
-msgstr "Notificações Pendentes"
-
-#: webconference/templates/webconference/_form.html:422
-msgid "Remove this"
-msgstr "Remover isto"
 
 #: webconference/templates/webconference/config.html:21
 msgid "Settings: Conference"
 msgstr "Configurações: Web Conferência"
 
 #: webconference/templates/webconference/create.html:33
-#: webconference/views.py:364
+#: webconference/views.py:399
 msgid "Create Web Conference"
 msgstr "Criar Web Conferência"
 
@@ -245,25 +225,16 @@ msgstr "Mural do recurso"
 
 #: webconference/templates/webconference/view.html:91
 #: webconference/templates/webconference/window_view.html:55
-#: webconference/views.py:284 webconference/views.py:297
-#: webconference/views.py:318 webconference/views.py:419
-#: webconference/views.py:432 webconference/views.py:441
-#: webconference/views.py:645
+#: webconference/views.py:774
 msgid "Participate"
 msgstr "Participar"
 
-#: webconference/views.py:72 webconference/views.py:127
+#: webconference/views.py:79 webconference/views.py:141
 #, python-format
 msgid "%s - Web Conference"
 msgstr "%s - Web Conferência"
 
-#: webconference/views.py:284 webconference/views.py:297
-#: webconference/views.py:318 webconference/views.py:419
-#: webconference/views.py:432 webconference/views.py:441
-msgid "Visualize"
-msgstr "Visualizar"
-
-#: webconference/views.py:375
+#: webconference/views.py:413
 #, python-format
 msgid ""
 "The Web conference \"%s\" was added to the Topic \"%s\" of the virtual "
@@ -272,16 +243,16 @@ msgstr ""
 "A web conferência '%s' foi adicionada ao tópico '%s' do ambiente virtual "
 "'%s' com sucesso!"
 
-#: webconference/views.py:482
+#: webconference/views.py:540
 msgid "Update Web Conference"
 msgstr "Atualizar a web conferência"
 
-#: webconference/views.py:494
+#: webconference/views.py:556
 #, python-format
 msgid "The Web conference \"%s\" was updated successfully!"
 msgstr "A web conferência '%s' foi atualizada com sucesso!"
 
-#: webconference/views.py:530
+#: webconference/views.py:603
 #, python-format
 msgid ""
 "The web conference \"%s\" was removed successfully from virtual environment "
@@ -289,63 +260,81 @@ msgid ""
 msgstr ""
 "A web conferência '%s' foi removida com sucesso do ambiente virtual '%s'!"
 
-#: webconference/views.py:564
+#: webconference/views.py:653
 msgid "Conference settings updated successfully!"
 msgstr "Configurações de segurança atualizadas com sucesso!"
 
-#: webconference/views.py:571
+#: webconference/views.py:660
 msgid "Web Conference Settings"
 msgstr "Configurações da Web Conferência"
 
-#: webconference/views.py:614
+#: webconference/views.py:709
 msgid "Youtube Video Reports"
 msgstr "Relatórios do Video do Youtube"
 
-#: webconference/views.py:633
+#: webconference/views.py:744
 msgid "Realized"
 msgstr "Realizada"
 
-#: webconference/views.py:633
+#: webconference/views.py:745
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: webconference/views.py:633
+#: webconference/views.py:746
 msgid "Historic"
 msgstr "Histórico"
 
-#: webconference/views.py:645
+#: webconference/views.py:772
 msgid "View"
 msgstr "Visualizar"
 
-#: webconference/views.py:645
+#: webconference/views.py:773
 msgid "Enter"
 msgstr "Entrar"
 
-#: webconference/views.py:671
+#: webconference/views.py:866
 msgid "Webconference"
 msgstr "Web Conferência"
 
-#: webconference/views.py:684
+#: webconference/views.py:885
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: webconference/views.py:685
+#: webconference/views.py:886
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: webconference/views.py:732
+#: webconference/views.py:941
 msgid "[Photo]"
 msgstr "[Foto]"
 
-#: webconference/views.py:744
+#: webconference/views.py:957
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: webconference/views.py:753
+#: webconference/views.py:973
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: webconference/views.py:755
+#: webconference/views.py:975
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
+
+#~ msgid "Pendencies Notifications"
+#~ msgstr "Notificações Pendentes"
+
+#~ msgid "Action not performed by the user"
+#~ msgstr "Ação não executada pelo usuário"
+
+#~ msgid "Wished period"
+#~ msgstr "Período desejado"
+
+#~ msgid "Add new notification"
+#~ msgstr "Notificações Pendentes"
+
+#~ msgid "Remove this"
+#~ msgstr "Remover isto"
+
+#~ msgid "Visualize"
+#~ msgstr "Visualizar"

@@ -1,0 +1,103 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart',"table"]});
+    google.charts.setOnLoadCallback(drawTable);
+
+    let arrayData = [
+        [
+            {label: "{% trans 'Student' %}", id: 'student'},
+            {label: "{% trans 'Total questions' %}", id: 'questions'},
+            {label: "{% trans 'Total answered' %}", id: 'answered'},
+            {label: "{% trans 'Total correct' %}", id: 'correct'},
+            {label: "{% trans '% Correct' %}", id: 'percentage'},
+        ]
+    ];
+
+    {% for json_data in data %}
+        arrayData.push([
+            "{{json_data.student}}", 
+            "{{json_data.total_questions}}", 
+            "{{json_data.total_answered}}",
+            "{{json_data.total_correct}}",
+            "{{json_data.percentage}} %"
+        ]);
+    {% endfor %}
+
+    function drawTable() {
+        let sortAscending = {0:false,1:false,2:false,3:false,4:false};
+        let tableData = google.visualization.arrayToDataTable(arrayData);
+
+        let options = {
+            sort: "event",
+            allowHtml: true,
+            cssClassNames : {
+                tableRow: 'text-center',
+                tableCell: 'text-center',
+                headerCell: 'text-center'
+            },
+            showRowNumber: true,
+            width: '100%',
+            height: '100%',
+        }
+
+        function ordenar(properties){
+            let columnIndex = properties['column'];
+            
+            if (columnIndex >= 0) {
+                options["sortColumn"] = columnIndex;
+                options["sortAscending"] = sortAscending[columnIndex];
+                tableData.sort({column:columnIndex,desc:sortAscending[columnIndex]});
+                sortAscending = {0:false,1:false,2:false,3:false,4:false};
+                sortAscending[columnIndex] = !sortAscending[columnIndex];
+                
+                table.draw(tableData, options);
+            }
+        }
+
+        let table = new google.visualization.Table(document.getElementById('table_div'));
+        google.visualization.events.addListener(table, 'sort', function(e) {ordenar(e)});
+        table.draw(tableData, options);
+    }
+</script>
+
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="text-center">
+            <ul class="list-inline nav-justified">
+                <li>
+                    <ul id="view-table" class="list-inline text-right">
+                        <li><h3 id="title-table"></h3></li>
+                    </ul>
+                </li>
+                <!--<li>
+                    <ul class="list-inline text-right">
+                        <li><p>{% trans "Filter: " %}</p></li>
+                        <li><input id="search-input" class="form-control" type="text" name="search" value=""></li>
+                    </ul>
+                </li>-->
+            </ul>
+        </div>
+        <form id="google-chart-checkbox" action="" method="get">
+            <div id="table_div"></div>
+        </form>
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center">
+            <ul class="pagination">
+
+            </ul>
+        </div>
+    </div>
+</div>

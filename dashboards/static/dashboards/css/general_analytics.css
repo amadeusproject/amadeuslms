@@ -1,0 +1,310 @@
+.core-subjects-options li {
+  float: left;
+  padding: 10px;
+  padding-bottom: 8px;
+  margin-right: 0.3em;
+  border-bottom: 5px;
+  border-bottom-style: solid;
+}
+#core-subjects-options-div-2 {
+  width: 100%;
+  margin: 0;
+  padding: 0 10px;
+  height: 50px;
+}
+
+.report-menu-choice {
+  margin: 0;
+}
+
+.period-title {
+  margin: 0px 0px 5px;
+  border-top: 2px solid #bbb;
+  border-bottom: 2px solid #bbb;
+}
+
+.logsgraph .header {
+  border-bottom: 2px solid #666;
+  margin-bottom: 7px;
+}
+
+.logsgraph .header .identifier {
+  padding: 3.5px 0px;
+}
+.logsgraph .info {
+  border-bottom: 2px solid #999;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-bottom: 8px;
+}
+
+.logsgraph .info .info_icon {
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: 0.4em;
+}
+
+.logsgraph .info p {
+  margin-bottom: 0px;
+  margin-left: 0px;
+}
+
+.usersgraph .header {
+  border-bottom: 2px solid #666;
+  margin-bottom: 7px;
+}
+
+.usersgraph .header .identifier {
+  padding: 3.5px 0px;
+}
+.usersgraph .info {
+  border-bottom: 2px solid #999;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-bottom: 8px;
+}
+
+.usersgraph .info .info_icon {
+  width: 1.0em;
+  height: 1.0em;
+  margin-right: 0.4em;
+}
+
+.usersgraph .info p {
+  margin-bottom: 0px;
+  margin-left: 0px;
+}
+
+.text-usersgraph-legend {
+  height: 20px;
+  
+  margin-right: 0.8em;
+}
+.recordedlogs .header {
+  border-bottom: 2px solid #666;
+  margin-bottom: 7px;
+}
+
+.recordedlogs .header .identifier {
+  padding: 3.5px 0px;
+}
+
+.recordedlogs .info {
+  border-bottom: 2px solid #999;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-bottom: 7px;
+}
+.text-recordedlogs-legend {
+  height: 20px;
+  margin-left: 0;
+  margin-bottom: 2px;
+}
+.container {
+  margin-top: 1.2em;
+}
+
+.heatmap_chart {
+  margin-top: 0;
+}
+
+.radio-heatmap {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
+}
+
+.radio-heatmap label {
+  margin-right: 0.8em;
+}
+
+.radio-bubble_users {
+  margin-top: 0.8em;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
+}
+
+.radio-bubble_users label {
+  margin-right: 0.8em;
+}
+.users_chart {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  
+}
+
+.users_chart .col-md-6, .users_chart .col-md-8,.users_chart .col-md-12  {
+  padding: 0;
+
+}
+.active-users {
+  display: table-row;
+  
+}
+.inactive-users {
+  display: table-row;
+  padding-bottom: 2em;
+}
+
+div#teacher-active, div#students-active{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 6em;
+  width: 7em;
+  background-color: #99D5CF;
+  margin: 0;
+  padding: 0;
+}
+
+p#number-teacher-active, p#number-students-active{
+  color: white;
+  position: relative;
+  padding: 0;
+  font-size: 3em;
+  font-weight: 500;
+  margin: 0;
+}
+.students-active {
+  margin-left: 1em;
+}
+
+div#teacher-percent-1, div#students-percent-1{
+  display: flex;
+  position: relative;
+  justify-content: end;
+  align-items: flex-end;
+  text-align: center;
+  height: 6em;
+  width: 4.5em;
+  background-color: #52B5AB;
+  margin: 0;
+  padding: 0;
+}
+
+div#teacher-percent-2, div#students-percent-2{
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 4em;
+  width: 4.5em;
+  background-color: #459788;
+  margin: 0;
+  padding: 0;
+}
+p#teacher-percent-value, p#students-percent-value{
+  color: white;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+}
+
+div#teacher-active, div#students-active{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 6em;
+  width: 7em;
+  background-color: #99D5CF;
+  margin: 0;
+  padding: 0;
+}
+
+p#number-teacher-active, p#number-students-active{
+  color: white;
+  position: relative;
+  padding: 0;
+  font-size: 3em;
+  font-weight: 500;
+  margin: 0;
+}
+.students-active {
+  margin-left: 0.5em;
+}
+
+.students-inactive {
+  margin-left: 0.5em;
+}
+
+div#teacher-percent-2{
+  height: 4.5em;
+}
+div#students-percent-2{
+  height: 3.5em;
+}
+
+
+/* inactive  */
+div#teacher-inactive, div#students-inactive{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 6em;
+  width: 7em;
+  background-color: #D5999E;
+  margin: 0;
+  padding: 0;
+}
+
+p#number-teacher-inactive, p#number-students-inactive{
+  color: white;
+  position: relative;
+  padding: 0;
+  font-size: 3em;
+  font-weight: 500;
+  margin: 0;
+}
+
+div#percent-teacher-inactive-1, div#percent-students-inactive-1{
+  display: flex;
+  position: relative;
+  justify-content: end;
+  align-items: flex-end;
+  text-align: center;
+  height: 6em;
+  width: 4.5em;
+  background-color:#B54B54;
+  margin: 0;
+  padding: 0;
+}
+
+div#percent-teacher-inactive-2, div#percent-students-inactive-2{
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 4em;
+  width: 4.5em;
+  background-color: #972717;
+  margin: 0;
+  padding: 0;
+}
+div#percent-teacher-inactive-2{
+  height: 1.6em;
+}
+div#percent-students-inactive-2{
+  height: 2.4em;
+}
+p#percent-teacher-value, p#percent-students-value{
+  color: white;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+}

@@ -26,6 +26,7 @@ from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax, log_decorator
 
 from topics.models import Topic
+from pendencies.forms import PendenciesForm
 
 from .forms import YTVideoForm, InlinePendenciesFormset
 from .models import YTVideo
@@ -188,17 +189,8 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         slug = self.kwargs.get("slug", "")
         topic = get_object_or_404(Topic, slug=slug)
 
-        pendencies_form = InlinePendenciesFormset(
-            initial=[
-                {
-                    "subject": topic.subject.id,
-                    "actions": [
-                        ("", "-------"),
-                        ("view", _("Visualize")),
-                        ("finish", _("Finish")),
-                    ],
-                }
-            ]
+        pendencies_form = PendenciesForm(
+            initial={"subject": topic.subject.id, "actions": [("watch", _("Watch"))],}
         )
 
         return self.render_to_response(
@@ -214,18 +206,9 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         slug = self.kwargs.get("slug", "")
         topic = get_object_or_404(Topic, slug=slug)
 
-        pendencies_form = InlinePendenciesFormset(
+        pendencies_form = PendenciesForm(
             self.request.POST,
-            initial=[
-                {
-                    "subject": topic.subject.id,
-                    "actions": [
-                        ("", "-------"),
-                        ("view", _("Visualize")),
-                        ("finish", _("Finish")),
-                    ],
-                }
-            ],
+            initial={"subject": topic.subject.id, "actions": [("watch", _("Watch"))],},
         )
 
         if form.is_valid() and pendencies_form.is_valid():
@@ -244,13 +227,6 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         return initial
 
     def form_invalid(self, form, pendencies_form):
-        for p_form in pendencies_form.forms:
-            p_form.fields["action"].choices = [
-                ("", "-------"),
-                ("view", _("Visualize")),
-                ("finish", _("Finish")),
-            ]
-
         return self.render_to_response(
             self.get_context_data(form=form, pendencies_form=pendencies_form)
         )
@@ -269,14 +245,11 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         self.object.save()
 
-        pendencies_form.instance = self.object
-        pendencies_form.save(commit=False)
+        pend_form = pendencies_form.save(commit=False)
+        pend_form.resource = self.object
 
-        for pform in pendencies_form.forms:
-            pend_form = pform.save(commit=False)
-
-            if not pend_form.action == "":
-                pend_form.save()
+        if not pend_form.action == "":
+            pend_form.save()
 
         self.log_context["category_id"] = self.object.topic.subject.category.id
         self.log_context["category_name"] = self.object.topic.subject.category.name
@@ -375,19 +348,23 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         slug = self.kwargs.get("topic_slug", "")
         topic = get_object_or_404(Topic, slug=slug)
 
-        pendencies_form = InlinePendenciesFormset(
-            instance=self.object,
-            initial=[
-                {
+        pend_form = self.object.pendencies_resource.all()
+
+        if len(pend_form) > 0:
+            pendencies_form = PendenciesForm(
+                instance=pend_form[0],
+                initial={
                     "subject": topic.subject.id,
-                    "actions": [
-                        ("", "-------"),
-                        ("view", _("Visualize")),
-                        ("finish", _("Finish")),
-                    ],
+                    "actions": [("watch", _("Watch"))],
+                },
+            )
+        else:
+            pendencies_form = PendenciesForm(
+                initial={
+                    "subject": topic.subject.id,
+                    "actions": [("watch", _("Watch"))],
                 }
-            ],
-        )
+            )
 
         return self.render_to_response(
             self.get_context_data(form=form, pendencies_form=pendencies_form)
@@ -402,20 +379,25 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
         slug = self.kwargs.get("topic_slug", "")
         topic = get_object_or_404(Topic, slug=slug)
 
-        pendencies_form = InlinePendenciesFormset(
-            self.request.POST,
-            instance=self.object,
-            initial=[
-                {
+        pend_form = self.object.pendencies_resource.all()
+
+        if len(pend_form) > 0:
+            pendencies_form = PendenciesForm(
+                self.request.POST,
+                instance=pend_form[0],
+                initial={
                     "subject": topic.subject.id,
-                    "actions": [
-                        ("", "-------"),
-                        ("view", _("Visualize")),
-                        ("finish", _("Finish")),
-                    ],
-                }
-            ],
-        )
+                    "actions": [("watch", _("Watch"))],
+                },
+            )
+        else:
+            pendencies_form = PendenciesForm(
+                self.request.POST,
+                initial={
+                    "subject": topic.subject.id,
+                    "actions": [("watch", _("Watch"))],
+                },
+            )
 
         if form.is_valid() and pendencies_form.is_valid():
             return self.form_valid(form, pendencies_form)
@@ -423,13 +405,6 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
             return self.form_invalid(form, pendencies_form)
 
     def form_invalid(self, form, pendencies_form):
-        for p_form in pendencies_form.forms:
-            p_form.fields["action"].choices = [
-                ("", "-------"),
-                ("view", _("Visualize")),
-                ("finish", _("Finish")),
-            ]
-
         return self.render_to_response(
             self.get_context_data(form=form, pendencies_form=pendencies_form)
         )
@@ -442,14 +417,11 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
         self.object.save()
 
-        pendencies_form.instance = self.object
-        pendencies_form.save(commit=False)
+        pend_form = pendencies_form.save(commit=False)
+        pend_form.resource = self.object
 
-        for form in pendencies_form.forms:
-            pend_form = form.save(commit=False)
-
-            if not pend_form.action == "":
-                pend_form.save()
+        if not pend_form.action == "":
+            pend_form.save()
 
         self.log_context["category_id"] = self.object.topic.subject.category.id
         self.log_context["category_name"] = self.object.topic.subject.category.name
