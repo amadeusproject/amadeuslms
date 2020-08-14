@@ -386,3 +386,59 @@ def count_daily_general_logs_access(day):
         ])
 
     return s
+
+
+def user_last_interaction_in_period(userid, data_ini, data_end):
+    s = Search().extra(size=1)
+
+    s = s.query("bool",
+        must=[
+            Q("range", datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end}),
+            Q("match", user_id=userid),
+            Q(
+                "bool",
+                should=[
+                    Q(
+                        "bool",
+                        must=[
+                            Q("match", component="subject"),
+                            Q("match", resource="subject"),
+                        ],
+                    ),
+                ],
+            ),
+            Q("bool", should=[Q("match", action="access"), 
+            Q("match", action="view")])
+        ])
+
+    return s[0:10000]
+
+def count_general_access_subject_period(subject, data_ini, data_end):
+    s = Search().extra(size=0)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q(
+                "bool",
+                should=[
+                    Q(
+                        "bool",
+                        must=[
+                            Q("match", component="subject"),
+                            Q("match", resource="subject"),
+                        ],
+                    ),
+                    Q("match", component="resources"),
+                ],
+            ),
+            Q("match", **{"context__subject_id": subject}),
+            Q("bool", should=[Q("match", action="access"), Q("match", action="view")]),
+        ],
+    )
+
+    return s[0:10000]

@@ -196,7 +196,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
             return redirect(reverse_lazy("subjects:home"))
 
         if not has_subject_permissions(self.request.user, questionary.topic.subject):
-            if timezone.now() < questionary.data_ini:
+            if timezone.now() < timezone.localtime(questionary.data_ini):
                 messages.error(
                     self.request,
                     _(

@@ -189,7 +189,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 } else { 
                     $(".data-error").css("display", "none");
                    
-                   
+                    const usersgraphUrl = $(".usersgraph").data("url");
+    
+                    loadBarChartData(usersgraphUrl, $("#from").val(), $("#until").val());
                     const dataRecourseUrl = $(".recordedlogs").data("url");
                     loadDataResources(dataRecourseUrl, $("#from").val(), $("#until").val());
                     

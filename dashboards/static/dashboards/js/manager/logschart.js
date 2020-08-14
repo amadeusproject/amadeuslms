@@ -9,7 +9,7 @@ function loadLogsGraph(url, dataIni, dataEnd) {
 
 $(function() {
     const logsGraphUrl = $(".logsgraph").data("url");
-    loadLogsGraph(logsGraphUrl, $("#from").val(), $("#until").val())
+    loadLogsGraph(logsGraphUrl, $("#from").val(), $("#until").val());
     
    
     
