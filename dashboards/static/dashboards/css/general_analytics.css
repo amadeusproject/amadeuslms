@@ -308,3 +308,21 @@ p#percent-teacher-value, p#percent-students-value{
   margin: 0;
   font-weight: 500;
 }
+.panel-body{
+  margin-top: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+#accordion_legend > th {
+  font-size: 0.8em;
+}
+
+.category_access_table{
+  font-size: 0.9em;
+}
+
+.subject_access_table{
+  font-size: 0.9em;
+  margin: 0;
+}

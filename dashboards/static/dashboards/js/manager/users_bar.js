@@ -37,10 +37,10 @@ function drawBarChart(data){
         `${data["active_teachers"]}`
     );
     $("#teacher-percent-value").html(
-        active_teachers_percent_value
+        `${active_teachers_percent_value}%`
     );
     $("#students-percent-value").html(
-        active_students_percent_value
+        `${active_students_percent_value}%`
     );
     $("#number-students-inactive").html(
         inactive_students
@@ -49,10 +49,10 @@ function drawBarChart(data){
         inactive_teachers
     );
     $("#percent-teacher-value").html(
-        inactive_teachers_percent_value
+        `${inactive_teachers_percent_value}%`
     );
     $("#percent-students-value").html(
-        inactive_students_percent_value
+        `${inactive_students_percent_value}%`
     );
     
     $("#students-percent-2").css(
@@ -72,27 +72,27 @@ function drawBarChart(data){
 
     if(active_students_percent_value < 15){
         $("#students-percent-value").html(
-            `<p>${active_students_percent_value}</p>`
+            `<p>${active_students_percent_value}%</p>`
         );
   
     }
     
     if(active_teachers_percent_value < 15){
         $("#teacher-percent-value").html(
-            `<p>${active_teachers_percent_value}</p>`
+            `<p>${active_teachers_percent_value}%</p>`
         );
     }
 
     if(inactive_students_percent_value < 15){
         $("#percent-students-inactive-2").html(
-            `<p>${active_students_percent_value}</p>`
+            `<p>${active_students_percent_value}%</p>`
         );
   
     }
     
     if(inactive_teachers_percent_value < 15){
         $("#percent-teacher-inactive-2").html(
-            `<p>${inactive_teachers_percent_value}</p>`
+            `<p>${inactive_teachers_percent_value}%</p>`
         );
     }
 
