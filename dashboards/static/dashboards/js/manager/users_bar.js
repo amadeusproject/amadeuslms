@@ -23,8 +23,7 @@ function drawBarChart(data){
     let inactive_students =data["total_students"]-data["active_students"]
     let inactive_teachers_percent_value = (inactive_teachers/data["total_teachers"]*100).toFixed(0)
     let inactive_students_percent_value = (inactive_students/data["total_students"]*100).toFixed(0)
-    inactive_students_percent_value = 24
-    inactive_teachers_percent_value=20
+    
     $("#legend_teacher").html(
         `Professores (${data["total_teachers"]})`
     );
