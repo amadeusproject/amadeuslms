@@ -23,7 +23,8 @@ function drawBarChart(data){
     let inactive_students =data["total_students"]-data["active_students"]
     let inactive_teachers_percent_value = (inactive_teachers/data["total_teachers"]*100).toFixed(0)
     let inactive_students_percent_value = (inactive_students/data["total_students"]*100).toFixed(0)
-    
+    inactive_students_percent_value = 24
+    inactive_teachers_percent_value=20
     $("#legend_teacher").html(
         `Professores (${data["total_teachers"]})`
     );
@@ -65,35 +66,39 @@ function drawBarChart(data){
     
     $("#percent-teacher-inactive-2").css(
         "height", `${6*inactive_teachers_percent_value/100}em`
-    );
+    ).css("margin-bottom", "15");
     $("#percent-students-inactive-2").css(
         "height", `${6*inactive_students_percent_value/100}em`
     );
 
-    if(active_students_percent_value < 15){
+    if(active_students_percent_value < 25){
         $("#students-percent-value").html(
-            `<p>${active_students_percent_value}%</p>`
+            `<p style="margin-bottom:1.5em;">${active_students_percent_value}%</p>`
         );
+        
   
     }
     
-    if(active_teachers_percent_value < 15){
+    if(active_teachers_percent_value < 25){
         $("#teacher-percent-value").html(
-            `<p>${active_teachers_percent_value}%</p>`
+            `<p style="margin-bottom:1.5em;">${active_teachers_percent_value}%</p>`
         );
+        
     }
 
-    if(inactive_students_percent_value < 15){
+    if(inactive_students_percent_value < 25){
         $("#percent-students-inactive-2").html(
-            `<p>${active_students_percent_value}%</p>`
+            `<p style="margin-bottom:1.5em;">${active_students_percent_value}%</p>`
         );
+        
   
     }
     
-    if(inactive_teachers_percent_value < 15){
+    if(inactive_teachers_percent_value < 25){
         $("#percent-teacher-inactive-2").html(
-            `<p>${inactive_teachers_percent_value}%</p>`
+            `<p style=margin-bottom:1.5em;">${inactive_teachers_percent_value}%</p>`
         );
+        
     }
 
 

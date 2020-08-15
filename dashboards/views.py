@@ -528,10 +528,7 @@ def general_heatmap_graph(request):
     
     categories = my_categories(request.user)
     subjects = Subject.objects.filter(category__in = categories).order_by('slug').distinct()
-    subs = []
-    for subject in subjects:
-        sub = get_object_or_404(Subject, slug = subject.slug)
-        subs.append(sub)
+    
     data_ini = request.GET.get('data_ini', '')
     data_end = request.GET.get('data_end', '')
 
@@ -545,7 +542,7 @@ def general_heatmap_graph(request):
     else:
         data_end = date.today()
 
-    data = general_monthly_users_activity(subs, data_ini, data_end)
+    data = general_monthly_users_activity(subjects, data_ini, data_end)
 
     return JsonResponse(data, safe = False)
 
@@ -639,7 +636,7 @@ def general_logs_chart(request):
     }, safe= False)
 
 def get_general_active_users(request):
-    print("entrou na view")
+    
     data = {}
     data_ini = request.GET.get('data_ini', '')
     data_end = request.GET.get('data_end', '')
@@ -656,7 +653,7 @@ def get_general_active_users(request):
     
     data = active_users_qty(request.user, data_ini, data_end)
     
-    print(data)
+    
     
     return JsonResponse(data, safe = False)
 

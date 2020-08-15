@@ -308,6 +308,18 @@ p#percent-teacher-value, p#percent-students-value{
   margin: 0;
   font-weight: 500;
 }
+#percent-teacher-value  p, #percent-students-value  p{
+  color: white;
+  font-weight: 500;
+  
+  padding: 0;
+}
+#percent-teacher-inactive-2  p, #percent-students-inactive-2  p{
+  color: white;
+  font-weight: 500;
+  
+  padding-right: 0;
+}
 .panel-body{
   margin-top: 0;
   padding-top: 0;
@@ -326,3 +338,5 @@ p#percent-teacher-value, p#percent-students-value{
   font-size: 0.9em;
   margin: 0;
 }
+
+
