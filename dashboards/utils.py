@@ -1195,13 +1195,7 @@ def functiontable(categories, dataIni, dataEnd):
                 })
                 
 
-    for r in resources_data:
-        print(r["name"])
-
-
-
-
-
+   
     data = {
        'categories': categories_data,
        'subjects': subjects_data,

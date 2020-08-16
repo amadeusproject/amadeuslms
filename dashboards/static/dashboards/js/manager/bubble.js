@@ -530,7 +530,7 @@ function makeTable(dataset, nrows) {
       if (sort === "name") {
         dataset.sort((a, b) => a.user.localeCompare(b.user));
 
-        makeTable(reducedData, nrows);
+        makeTable(dataset, nrows);
       } else {
         dataset.sort((a, b) => (a.count > b.count ? 1 : a.count < b.count ? -1 : 0));
 
