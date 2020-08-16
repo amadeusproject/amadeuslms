@@ -750,7 +750,9 @@ def general_logs_chart(request):
    
     
     axis_y = [lista[x] for x in a_x]
-    
+    config = dict({
+    'displaylogo': False
+    }) 
     fig = px.line( 
         x=a_x,
         y=axis_y,
@@ -760,7 +762,8 @@ def general_logs_chart(request):
         render_mode="svg",
         color_discrete_sequence=["#99D5CF"],
         template="simple_white",
-    )
+        
+        )
     fig.update_xaxes(title_text=""),
     fig.update_yaxes(title_text=""),
     fig.update_layout(
@@ -771,7 +774,7 @@ def general_logs_chart(request):
     for i in axis_y:
         soma = soma + i
 
-    plt_div = plot(fig, output_type="div")
+    plt_div = plot(fig, config= config,output_type="div" )
 
     return JsonResponse(
         {"div": plt_div, "min": min(axis_y), "max": max(axis_y), "total": soma,},

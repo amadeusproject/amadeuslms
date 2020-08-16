@@ -46,6 +46,7 @@ from amadeus.permissions import has_category_permissions
 from django.shortcuts import get_object_or_404
 from users.models import User
 
+
 def done_percent(pendency):
     users = get_resource_users(pendency.resource)
     usersDone = PendencyDone.objects.filter(
@@ -770,6 +771,9 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
     for subject in subjects:
         students = subject.students.all().values_list("id", flat=True)
         professores = subject.professor.all().values_list("id", flat=True)
+        category = subject.category
+        coordinators = category.coordinators.all().values_list("id", flat=True)
+        admins = User.objects.filter(is_staff=True).values_list("id", flat=True)
         students_list.extend(students)
         teacher_list.extend(professores)
         subject_list.append(subject)
@@ -780,6 +784,8 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
     for day in period:
         searchs.append(count_general_daily_access(list(subjects), list(students), day))
         searchs.append(count_general_daily_access(list(subjects), list(professores), day))
+        searchs.append(count_general_daily_access(list(subjects), list(coordinators), day))
+        searchs.append(count_general_daily_access(list(subjects), list(admins), day))
         # searchs2.append(count_daily_access(subject.id, list(professores), day))
         days.append(day)
     
@@ -793,7 +799,7 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
 
         users = set()
         dates_set = set()
-        
+        cont=0
         for i,access in enumerate(accessess):
             for hits in access["hits"]:
                 log = hits["_source"]
@@ -812,7 +818,7 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
 
                 if not utuple in users:
                     users.add(utuple)
-                    if i%2==0:
+                    if cont==0:
                         data.append(
                             {
                                 "year": accessDate.year,
@@ -826,7 +832,7 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
 
                             }
                         )
-                    else:
+                    elif cont==1:
                         data.append(
                             {
                                 "year": accessDate.year,
@@ -840,11 +846,45 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
 
                             }
                         )
-        
+                        
+                    elif cont==2:
+                        data.append(
+                            {
+                                "year": accessDate.year,
+                                "month": accessDate.month - 1,
+                                "day": accessDate.day,
+                                "hour": accessDate.hour,
+                                "user_id": log["user_id"],
+                                "value": 1,
+                                "count": 1,
+                                "teacher":2,
+
+                            }
+                        )
+                    else:
+                        data.append(
+                            {
+                                "year": accessDate.year,
+                                "month": accessDate.month - 1,
+                                "day": accessDate.day,
+                                "hour": accessDate.hour,
+                                "user_id": log["user_id"],
+                                "value": 1,
+                                "count": 1,
+                                "teacher":2,
+
+                            }
+                        )
+            if cont == 3:
+                cont=0
+            else:
+                
+                cont+=1
+        cont=0
         for day in period:
             if not day in dates_set:
                 dates_set.add(day)
-                if i%2==0:  
+                if cont==0:  
                     data.append(
                         {
                             "year": day.year,
@@ -857,7 +897,7 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
                             "teacher":0,
                         }
                     )
-                else:
+                elif cont==1:
                         data.append(
                         {
                             "year": day.year,
@@ -870,6 +910,37 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
                             "teacher":1,
                         }
                     )
+                elif cont==2:
+                        data.append(
+                        {
+                            "year": day.year,
+                            "month": day.month - 1,
+                            "day": day.day,
+                            "hour": 0,
+                            "user_id": 0,
+                            "value": 0,
+                            "count": 0,
+                            "teacher":2,
+                        }
+                    )
+                else:
+                        data.append(
+                        {
+                            "year": day.year,
+                            "month": day.month - 1,
+                            "day": day.day,
+                            "hour": 0,
+                            "user_id": 0,
+                            "value": 0,
+                            "count": 0,
+                            "teacher":2,
+                        }
+                    )
+            if cont == 3:
+                cont=0
+            else:
+                print("opa")
+                cont+=1
     #     users = set()
     #     dates_set = set()
 
@@ -940,8 +1011,10 @@ def my_categories(user):
 
 def generalStudentsAccess(subject, dataIni, dataEnd):
     students = subject.students.all()
+    category = subject.category
     professores = subject.professor.all()
-    
+    coordinators = category.coordinators.all()
+    admins = User.objects.filter(is_staff=True)
     if dataIni == "":
         dataIni = "now-30d"
 
@@ -951,16 +1024,29 @@ def generalStudentsAccess(subject, dataIni, dataEnd):
     data = []
     searchs = []
     cont = 0
+    cont2=0
     for student in students:
         cont+=1
         searchs.append(
             count_access_subject_period(subject.id, student.id, dataIni, dataEnd)
         )
+    cont2=cont
     for professor in professores:
+        cont2+=1
         searchs.append(
             count_access_subject_period(subject.id, professor.id, dataIni, dataEnd)
         )
-
+    cont3 = cont2
+    for coordenador in coordinators:
+        cont3+=1
+        searchs.append(
+            count_access_subject_period(subject.id, coordenador.id, dataIni, dataEnd)
+        )
+    
+    for admin in admins:
+        searchs.append(
+            count_access_subject_period(subject.id, admin.id, dataIni, dataEnd)
+        )
     if searchs:
         res = multi_search(searchs)
         
@@ -971,9 +1057,15 @@ def generalStudentsAccess(subject, dataIni, dataEnd):
             if i < cont:
                 obj = students[i]
                 item["teacher"] = 0
+            elif i < cont2:
+                    obj = professores[i-cont]
+                    item["teacher"] = 1
+            elif i < cont3: 
+                obj = coordinators[i-cont2]
+                item["teacher"] = 2
             else:
-                obj = professores[i-cont]
-                item["teacher"] = 1
+                obj = admins[i-cont3]
+                item["teacher"] = 2
             item["count"] = access
             item["image"] = obj.image_url
             item["user"] = str(obj)

@@ -513,7 +513,7 @@ function makeResourceTable(data, nrows) {
     }
   });
   $("#panel_loading_mask3").hide();
-  
+
 }
 
 function loadDataResources(url, dataIni, dataEnd) {
