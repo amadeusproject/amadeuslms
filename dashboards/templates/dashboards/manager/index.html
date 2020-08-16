@@ -46,31 +46,28 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 
 {% block content %}
-    <section id="core-subjects-options-div">
-        <nav>
-            <ul class="core-subjects-options report-menu-choice">
-                 
-                    <li class="active">
+    <div id="core-subjects-options-div">
+        
+            <ul class="core-subjects-options mural-tabs">
+                    <a href="#">
+                    <li data-mural="general" class="active">
                         {% trans "General" %}
                     </li>
-                   <li>
+                    </a>
+                   <li data-mural="general"> 
                         {% trans "By Category" %}
-                    <li>
+                    <li data-mural="general" >
                         {% trans "By Subject" %}
                     </li>
               
             </ul>
-        </nav>
-    </section>
+        
+    </div>
 
     <div class="panel panel-info subject-panel" id="subject_{{subject.slug}}">
 
         <div class="panel-heading">
-            <div id="panel_loading_mask">
-                <div class="loading">
-                    {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
-                </div>
-            </div>
+            
             <div class="row">
                 <div class="col-md-12 category-header">
                     <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
@@ -85,20 +82,17 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         
         
         <div id="{{subject.slug}}" class="panel-collapse panel-body in collapse analytics-ungeneral">
-            <div id="panel_loading_mask">
-                {% comment %} <div class="loading">
-                    {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
-                </div> {% endcomment %}
-            </div>
+            
             <div class="row">
                 <div class="core-subjects-options-div">
                         <ul class="core-subjects-options mural-tabs">
-                            
+                            <a href="">
                                 <li class="active">
                                     {% trans "Highlights" %}
                                 </li>
-                            <li>
-                                    {% trans "Log" %}
+                            </a>
+                                <li>
+                                        {% trans "Log" %}
                                 </li>
                         </ul>
                     </div>
@@ -142,10 +136,20 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     <div class="col-md-12 nopadding">
                         <div class="row ">
                             <div class="col-md-4 ">
+                                <div id="panel_loading_mask1">
+                                    <div class="loading">
+                                        {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
+                                    </div>
+                                </div>
                                 <!-- Users graph -->
                                 {% include "dashboards/manager/_users_graph.html" %}
                             </div>
                             <div class="col-md-8">
+                                <div id="panel_loading_mask2">
+                                    <div class="loading">
+                                        {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
+                                    </div>
+                                </div>
                                 <!-- logs graph -->
                                 {% include "dashboards/manager/_logs_graph.html" %}
                                 
@@ -156,14 +160,29 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 </div>
                 <div class="row">
                     <div class="col-md-4">
+                        <div id="panel_loading_mask3">
+                            <div class="loading">
+                                {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
+                            </div>
+                        </div>
                         <!-- Tabela de recursos -->
                         {% include "dashboards/manager/_logs_table.html" %}
                     </div>
                     <div class="col-md-4">
+                        <div id="panel_loading_mask4">
+                            <div class="loading">
+                                {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
+                            </div>
+                        </div>
                         <!-- Users cloud -->
                         {% include "dashboards/manager/_users_bubble.html" %}
                     </div>
                     <div class="col-md-4">
+                        <div id="panel_loading_mask5">
+                            <div class="loading">
+                                {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
+                            </div>
+                        </div>
                         <!-- Heatmap -->
                         {% include "dashboards/manager/_heatmap.html" %}
                     </div>
@@ -178,12 +197,19 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
  {% block addtional_scripts %} 
  
     <script type="text/javascript">
-        $("#panel_loading_mask").show();
+        $("#panel_loading_mask1").show();
+        $("#panel_loading_mask2").show();
+        $("#panel_loading_mask3").show();
+        $("#panel_loading_mask4").show();
+        $("#panel_loading_mask5").show();
+        
+        
+
         sessionSecurity.confirmFormDiscard = undefined;
 
         $(function () {
             $(".date-picker").on('dp.change', () => {
-               $("#panel_loading_mask").show();
+                
 
                 const dataIni = $("#from").val()
                 const dataEnd = $("#until").val()
@@ -196,6 +222,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 if (data_in > data_end) {
                     $(".data-error").css("display", "block");
                 } else { 
+                    $("#panel_loading_mask1").show();
+                    $("#panel_loading_mask2").show();
+                    $("#panel_loading_mask3").show();
+                    $("#panel_loading_mask4").show();
+                    $("#panel_loading_mask5").show();
                     $(".data-error").css("display", "none");
                    
                     const usersgraphUrl = $(".usersgraph").data("url");

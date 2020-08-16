@@ -1426,7 +1426,7 @@ class HeatMap {
     d3.addEvents(a.hour.rects, a.chartConfig.interactions);
     d3.addEvents(a.hour.totalRects, a.chartConfig.interactions);
     
-    
+    $("#panel_loading_mask5").hide();
     return this;
   }
 }

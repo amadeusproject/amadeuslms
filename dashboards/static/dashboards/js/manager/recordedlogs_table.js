@@ -512,6 +512,7 @@ function makeResourceTable(data, nrows) {
       }
     }
   });
+  $("#panel_loading_mask3").hide();
   
 }
 

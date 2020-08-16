@@ -102,5 +102,6 @@ function drawBarChart(data){
         
     }
 
-
+    $("#panel_loading_mask1").hide();
+    $("#panel_loading_mask2").hide();
 }
