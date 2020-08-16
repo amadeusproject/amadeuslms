@@ -1,6 +1,6 @@
 $(function() {
-  const dataRecourseUrl = $(".recordedlogs").data("url");
-  loadDataResources(dataRecourseUrl, $("#from").val(), $("#until").val());
+  const dataResourceUrl = $(".recordedlogs").data("url");
+  loadDataResources(dataResourceUrl, $("#from").val(), $("#until").val());
 });
 
 function makeCategoryTable(data, nrows) {
@@ -196,7 +196,7 @@ function makeSubjectsTable(data, nrows) {
     
     $tbody.append(line);
   });
-
+  
   $pagination.append("<li class='page-item previous'>&lt;</li>");
 
   [...Array(pages_subjects_table).keys()].forEach(i => {
@@ -219,7 +219,7 @@ function makeSubjectsTable(data, nrows) {
     $("#subjects_pag .page-item-number").removeClass("active");
     $(e.target).addClass("active");
 
-    $("#subjects_pag .resource_access").each((i, el) => {
+    $("#subjects_table .subject_access_table").each((i, el) => {
       if (i >= init && i < end) {
         $(el).show();
       } else {
@@ -255,7 +255,7 @@ function makeSubjectsTable(data, nrows) {
     $("#subjects_pag .page-item-number").removeClass("active");
     $(`#subjects_pag .page-item-number[data-page=${page}]`).addClass("active");
 
-    $("#subjects_table .subject_access").each((i, el) => {
+    $("#subjects_table .subject_access_table").each((i, el) => {
       if (i >= init && i < end) {
         $(el).show();
       } else {
@@ -285,7 +285,7 @@ function makeSubjectsTable(data, nrows) {
     $("#subjects_pag .page-item-number").removeClass("active");
     $(`#subjects_pag .page-item-number[data-page=${page}]`).addClass("active");
 
-    $("#subjects_table .rsubject_access").each((i, el) => {
+    $("#subjects_table .subject_access").each((i, el) => {
       if (i >= init && i < end) {
         $(el).show();
       } else {
@@ -342,7 +342,7 @@ function makeSubjectsTable(data, nrows) {
     }
   });
 }
-function makeRecouresTable(data, nrows) {
+function makeResourceTable(data, nrows) {
   const $table = $("#resources_table");
   const $pagination = $("#resources_pag");
 
@@ -360,7 +360,7 @@ function makeRecouresTable(data, nrows) {
     let line = `<tr id='resources_access_${index}' class='resource_access' ${display}>`;
 
     
-    line = `${line}<td><a href='${item.link}'>${item.name}</a></td>`;
+    line = `${line}<td><a>${item.name}</a></td>`;
     line = `${line}<td>${item.access}</td>`;
     line = `${line}</tr>`;
     
@@ -465,7 +465,7 @@ function makeRecouresTable(data, nrows) {
   });
   $("#resources_table th.sort").off("click");
   $("#resources_table th.sort").on("click", el => {
-    alert(el)
+    
     el.preventDefault();
     el.stopPropagation();
 
@@ -486,11 +486,11 @@ function makeRecouresTable(data, nrows) {
       if (sort === "name") {
         data.sort((a, b) => a.name.localeCompare(b.name)).reverse();
         
-        makeRecouresTable(data, 10);
+        makeResourceTable(data, 10);
       } else {
         data.sort((a, b) => (a.access > b.access ? 1 : a.access < b.access ? -1 : 0)).reverse();
-        alert("oi2");
-        makeRecouresTable(data, 10);
+        
+        makeResourceTable(data, 10);
       }
     } else {
       $("#resources_table th.sort i")
@@ -503,15 +503,16 @@ function makeRecouresTable(data, nrows) {
 
       if (sort === "name") {
         data.sort((a, b) => a.name.localeCompare(b.name));
-        alert("oi");
-        makeRecouresTable(data, 10);
+        
+        makeResourceTable(data, 10);
       } else {
         data.sort((a, b) => (a.access > b.access ? 1 : a.access < b.access ? -1 : 0));
-        alert(sort);
-        makeRecouresTable(data, 10);
+        
+        makeResourceTable(data, 10);
       }
     }
   });
+  
 }
 
 function loadDataResources(url, dataIni, dataEnd) {
@@ -552,7 +553,7 @@ function loadDataResources(url, dataIni, dataEnd) {
     console.log(reducedData);
     makeCategoryTable(dataset.categories, 10);
     makeSubjectsTable(dataset.subjects, 10);
-    makeRecouresTable(reducedData, 10);
+    makeResourceTable(reducedData, 10);
 
   });
   

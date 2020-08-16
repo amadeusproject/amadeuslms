@@ -993,17 +993,16 @@ def general_logs(user, data_ini, data_end):
     period = get_days_in_period(data_ini, data_end)
     logs_data = list()
     logs = Log.objects.filter(
-        datetime__date__gte=data_ini,
-        datetime__date__lte=data_end,
+
     )
-    subjects = []
-    categories = my_categories(user)
-    subs = Subject.objects.filter(category__in = categories).order_by('slug').distinct()
+    # subjects = []
+    # categories = my_categories(user)
+    # subs = Subject.objects.filter(category__in = categories)
     
-    for subject in subs:
-        logs_data.append(logs.filter(
-            context__contains={"subject_id": subject.id},
-        ))
+    # for subject in subs:
+    #     logs_data.append(logs.filter(
+    #         context__contains={"subject_id": subject.id},
+    #     ))
     
     data = list()
     searchs = []

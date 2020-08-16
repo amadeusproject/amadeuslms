@@ -374,7 +374,7 @@ $(function() {
 function makeTable(dataset, nrows) {
   const $table = $("#students_table");
   const $pagination = $("#students_pag");
-  
+  $pagination.html("");
   
   const $tbody = $table.find("tbody");
 
@@ -649,11 +649,11 @@ function bubbleData(url, dataIni, dataEnd, option=0) {
 function view_toggle($selector) {
   if (!$selector.is(":checked")) {
     $(".users_cloud").hide();
-    $(".bubble_users .info").show();
+    $(".bubble_users .info_icon").hide();
     $(".users_table").show();
   } else {
     $(".users_table").hide();
-    $(".bubble_users .info").show();
+    $(".bubble_users .info_icon").show();
     $(".users_cloud").show();
   }
 }

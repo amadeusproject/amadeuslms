@@ -53,7 +53,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     <li class="active">
                         {% trans "General" %}
                     </li>
-                   <a href="{% url 'dashboards:view_categories' %}"><li>
+                   <a href=""><li>
                         {% trans "By Category" %}
                     </li></a> 
                     <li>
@@ -65,7 +65,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     </section>
 
     <div class="panel panel-info subject-panel" id="subject_{{subject.slug}}">
+
         <div class="panel-heading">
+            <div id="panel_loading_mask">
+                <div class="loading">
+                    {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-12 category-header">
                     <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
@@ -77,19 +83,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 </div>
             </div>
         </div>
-        <section id="core-subjects-options-div-2">
-        <nav>
-            <ul class="core-subjects-options report-menu-choice">
-                 
-                    <li class="active">
-                        {% trans "Highlights" %}
-                    </li>
-                   <a href="{% url 'dashboards:view_categories' %}"><li>
-                        {% trans "Log" %}
-                    </li></a> 
-            </ul>
-        </nav>
-        </section>
+        
+        
         <div id="{{subject.slug}}" class="panel-collapse panel-body in collapse analytics-ungeneral">
             <div id="panel_loading_mask">
                 {% comment %} <div class="loading">
@@ -97,7 +92,20 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 </div> {% endcomment %}
             </div>
             <div class="row">
+                <div class="core-subjects-options-div">
+                        <ul class="core-subjects-options mural-tabs">
+                            
+                                <li class="active">
+                                    {% trans "Highlights" %}
+                                </li>
+                            <li>
+                                    {% trans "Log" %}
+                                </li>
+                        </ul>
+                    </div>
                 <div class="col-md-12">
+                    
+                    
                     <form id="period" class="form-inline" action="" method="POST">
                         {% csrf_token %}
                         <div class="period-title">
@@ -125,6 +133,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                             Data/Período inválido. Por favor, selecione uma data inicial igual ou anterior à data do final.
                         </div>
                     </form>
+                    
                     </div>
                 </div>
             </div>
@@ -170,11 +179,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
  {% block addtional_scripts %} 
  
     <script type="text/javascript">
+        $("#panel_loading_mask").show();
         sessionSecurity.confirmFormDiscard = undefined;
 
         $(function () {
             $(".date-picker").on('dp.change', () => {
-               
+               $("#panel_loading_mask").show();
 
                 const dataIni = $("#from").val()
                 const dataEnd = $("#until").val()
@@ -192,6 +202,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     const usersgraphUrl = $(".usersgraph").data("url");
     
                     loadBarChartData(usersgraphUrl, $("#from").val(), $("#until").val());
+                    
+                    const logsGraphUrl = $(".logsgraph").data("url");
+                    $(".logs_chart").html();
+                    loadLogsGraph(logsGraphUrl, $("#from").val(), $("#until").val());
+                    
                     const dataRecourseUrl = $(".recordedlogs").data("url");
                     loadDataResources(dataRecourseUrl, $("#from").val(), $("#until").val());
                     

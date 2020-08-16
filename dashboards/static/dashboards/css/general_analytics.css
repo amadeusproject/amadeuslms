@@ -1,20 +1,21 @@
-.core-subjects-options li {
-  float: left;
-  padding: 10px;
-  padding-bottom: 8px;
-  margin-right: 0.3em;
-  border-bottom: 5px;
-  border-bottom-style: solid;
-}
-#core-subjects-options-div-2 {
+#panel_loading_mask {
+  position: absolute;
   width: 100%;
-  margin: 0;
-  padding: 0 10px;
-  height: 50px;
+  height: 100%;
+  opacity: 0.9;
+  background: #f5f5f5;
+  display: none;
+  z-index: 9;
+  margin-top: -15px;
+  margin-left: -15px;
 }
+#panel_loading_mask .loading {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-.report-menu-choice {
-  margin: 0;
 }
 
 .period-title {
@@ -338,5 +339,22 @@ p#percent-teacher-value, p#percent-students-value{
   font-size: 0.9em;
   margin: 0;
 }
+.core-subjects-options-div {
+  width: 100%;
+  margin-bottom: 10px;
+  height: 50px;
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
 
 
+.core-subjects-options li {
+  float: left;
+  padding: 10px;
+  padding-bottom: 8px;
+  margin: 1px;
+  border-bottom: 5px;
+  border-bottom-style: solid;
+}
