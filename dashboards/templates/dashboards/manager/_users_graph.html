@@ -12,12 +12,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% load static i18n %}
 
 <div class="row">
+    
      <div class="col-md-12 usersgraph" data-url="{% url 'dashboards:general_bar_chart' %}"> 
         <div class="header">
             <div class="identifier">
                 <b>
                     {% trans 'Users' %}
-                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="{% trans 'Compares the number of distinct students in each day' %}"></i>
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="{% trans 'Compares the number of active and inactive users in the selected period' %}"></i>
                 </b>
             </div>
         </div>
@@ -26,7 +27,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         </div>
         <div class="users_chart">
             <div class="container">
+                
                 <div class="row">
+                
                     <div class="active-users">
                         <div class="col-md-12">
                             <div class="col-md-6 teacher-active">

@@ -1,20 +1,30 @@
-.core-subjects-options li {
-  float: left;
-  padding: 10px;
-  padding-bottom: 8px;
-  margin-right: 0.3em;
-  border-bottom: 5px;
-  border-bottom-style: solid;
-}
-#core-subjects-options-div-2 {
+#panel_loading_mask1,
+#panel_loading_mask2,
+#panel_loading_mask3,
+#panel_loading_mask4,
+#panel_loading_mask5 
+{
+  position: absolute;
   width: 100%;
-  margin: 0;
-  padding: 0 10px;
-  height: 50px;
+  height: 27em;
+  opacity: 0.9;
+  background: #f5f5f5;
+  display: none;
+  z-index: 9;
+  margin-top: -15px;
+  margin-left: -15px;
 }
-
-.report-menu-choice {
-  margin: 0;
+#panel_loading_mask1 .loading,
+#panel_loading_mask2 .loading,
+#panel_loading_mask3 .loading,
+#panel_loading_mask4 .loading,
+#panel_loading_mask5 .loading
+{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .period-title {
@@ -174,6 +184,7 @@ p#number-teacher-active, p#number-students-active{
   font-size: 3em;
   font-weight: 500;
   margin: 0;
+  
 }
 .students-active {
   margin-left: 1em;
@@ -308,6 +319,18 @@ p#percent-teacher-value, p#percent-students-value{
   margin: 0;
   font-weight: 500;
 }
+#percent-teacher-value  p, #percent-students-value  p{
+  color: white;
+  font-weight: 500;
+  
+  padding: 0;
+}
+#percent-teacher-inactive-2  p, #percent-students-inactive-2  p{
+  color: white;
+  font-weight: 500;
+  
+  padding-right: 0;
+}
 .panel-body{
   margin-top: 0;
   padding-top: 0;
@@ -325,4 +348,23 @@ p#percent-teacher-value, p#percent-students-value{
 .subject_access_table{
   font-size: 0.9em;
   margin: 0;
+}
+.core-subjects-options-div {
+  width: 100%;
+  margin-bottom: 10px;
+  height: 50px;
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+
+.core-subjects-options li {
+  float: left;
+  padding: 10px;
+  padding-bottom: 8px;
+  margin: 1px;
+  border-bottom: 5px;
+  border-bottom-style: solid;
 }

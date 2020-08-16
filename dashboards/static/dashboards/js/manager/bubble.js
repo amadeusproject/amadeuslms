@@ -1,4 +1,4 @@
-
+let dataset_bubble;
 let BubbleChartCounter = 0;
 
 class BubbleChart {
@@ -374,34 +374,21 @@ $(function() {
 function makeTable(dataset, nrows) {
   const $table = $("#students_table");
   const $pagination = $("#students_pag");
-  
+  $pagination.html("");
   
   const $tbody = $table.find("tbody");
 
   $tbody.html("");
-  $pagination.html("");
-  var reducedData = dataset
-    .reduce(function(sum,current) {
-        var found = false
-        sum.forEach(function(row,i) {
-            if (row.user_id === current.user_id) {
-                sum[i].count += current.value
-                found = true;
-            }
-        })
-        if (found === false) sum.push(current)
-        return sum
-    }, [])
-
-  const pages = Math.ceil(reducedData.length / nrows);
-  reducedData.forEach((item, index) => {
+  
+  const pages = Math.ceil(dataset.length / nrows);
+  dataset.forEach((item, index) => {
     const display = index >= nrows ? 'style="display: none"' : "";
 
     let line = `<tr id='user_${index}' class='user_access' ${display}>`;
 
     line = `${line}<td>${index + 1}</td>`;
     line = `${line}<td><a href='${item.link}'>${item.user}</a></td>`;
-    line = `${line}<td>${item.count}</td>`;
+    line = `${line}<td>${item.value}</td>`;
     line = `${line}</tr>`;
 
     $tbody.append(line);
@@ -523,13 +510,13 @@ function makeTable(dataset, nrows) {
       $icon.removeClass("fa-sort").addClass("fa-sort-down");
 
       if (sort === "name") {
-        reducedData.sort((a, b) => a.user.localeCompare(b.user)).reverse();
+        dataset.sort((a, b) => a.user.localeCompare(b.user)).reverse();
 
-        makeTable(reducedData, nrows);
+        makeTable(dataset, nrows);
       } else {
-        reducedData.sort((a, b) => (a.count > b.count ? 1 : a.count < b.count ? -1 : 0)).reverse();
+        dataset.sort((a, b) => (a.count > b.count ? 1 : a.count < b.count ? -1 : 0)).reverse();
 
-        makeTable(reducedData, nrows);
+        makeTable(dataset, nrows);
       }
     } else {
       $("#students_table th.sort i")
@@ -541,16 +528,19 @@ function makeTable(dataset, nrows) {
       $icon.removeClass("fa-sort").addClass("fa-sort-up");
 
       if (sort === "name") {
-        reducedData.sort((a, b) => a.user.localeCompare(b.user));
+        dataset.sort((a, b) => a.user.localeCompare(b.user));
 
-        makeTable(reducedData, nrows);
+        makeTable(dataset, nrows);
       } else {
-        reducedData.sort((a, b) => (a.count > b.count ? 1 : a.count < b.count ? -1 : 0));
+        dataset.sort((a, b) => (a.count > b.count ? 1 : a.count < b.count ? -1 : 0));
 
-        makeTable(reducedData, nrows);
+        makeTable(dataset, nrows);
       }
     }
   });
+  
+  $("#panel_loading_mask4").hide();
+  
 }
 function createChart(dataset){
   
@@ -588,29 +578,73 @@ function bubbleData(url, dataIni, dataEnd, option=0) {
       return d;
     });
     
+    dataset_bubble = dataset
     dataset = dataset.sort((d1, d2) => {
       
       return d1.value < d2.value ? 1 : d1.value > d2.value ? -1 : 0;
     });
+    
     
     if(option==2){
       dataset = dataset.filter( d => d.teacher == 1);
       
     }
       
-    if(option==1)
+    if(option==1){
       dataset = dataset.filter( d => d.teacher == 0);
-    
-    createChart(dataset);
+    }
 
-    makeTable(dataset, 10);
+    let reducedData = dataset
+    .reduce((sum,current) => {
+        var found = false
+        sum.forEach(function(row,i) {
+            if (row.user_id === current.user_id) {
+                sum[i].value += current.value
+                found = true;
+            }
+        })
+        if (found === false) sum.push(current)
+        return sum
+    }, []);
+    createChart([...reducedData]);
+
+    makeTable([...reducedData], 10);
 
     document.getElementsByName("inlineRadioOptions").forEach(function(e) {   
       e.addEventListener("click", function() {
-        const dataUrl = $(".bubble_users").data("url");
-        bubbleData(dataUrl, $("#from").val(), $("#until").val(), e.value);
+        // const dataUrl = $(".bubble_users").data("url");
+        // bubbleData(dataUrl, $("#from").val(), $("#until").val(), e.value);
+        $(".bubble_users .users_cloud").html("");
+        const $table = $("#students_table");
+        const $pagination = $("#students_pag");
+        
+        
+        const $tbody = $table.find("tbody");
+
+        $tbody.html("");
+        $pagination.html("");
+        
+        if(e.value==2){
+          reducedData_teacher = reducedData.filter( d => d.teacher == 1);
+          createChart([...reducedData_teacher]);
+
+          makeTable([...reducedData_teacher], 10);
           
-      });
+        }
+        else if(e.value==1){
+          reducedData_student = reducedData.filter( d => d.teacher == 0);
+          createChart([...reducedData_student]);
+
+          makeTable([...reducedData_student], 10);
+          
+        }
+        else {
+        
+        createChart([...reducedData]);
+
+        makeTable([...reducedData], 10);  
+      }
+             });
     });
   });
 }
@@ -618,11 +652,11 @@ function bubbleData(url, dataIni, dataEnd, option=0) {
 function view_toggle($selector) {
   if (!$selector.is(":checked")) {
     $(".users_cloud").hide();
-    $(".bubble_users .info").show();
+    $(".bubble_users .info_icon").hide();
     $(".users_table").show();
   } else {
     $(".users_table").hide();
-    $(".bubble_users .info").show();
+    $(".bubble_users .info_icon").show();
     $(".users_cloud").show();
   }
 }
