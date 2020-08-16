@@ -11,7 +11,8 @@
  */
 
 let calendarCount = 0;
-
+let heatmap;
+let chartConfig;
 class HeatMap {
   constructor(chartConfig) {
     if (chartConfig.data === undefined || chartConfig.data.length === 0) {
@@ -1434,13 +1435,7 @@ $(function() {
 
   heatmapData(dataUrl, $("#from").val(), $("#until").val());
   
-  document.getElementsByName("radio-heatmap").forEach(function(e) {   
-    e.addEventListener("click", function() {
-      const dataUrl =  $(".heatmap").data("url");
-      $(".heatmap .heatmap_chart").html("");
-      heatmapData(dataUrl, $("#from").val(), $("#until").val(), e.value);
-    });
-  });
+  
 });
 
 function heatmapData(url, dataIni, dataEnd, option=0) {
@@ -1467,7 +1462,7 @@ function heatmapData(url, dataIni, dataEnd, option=0) {
       };
     }
 
-    const chartConfig = {
+    chartConfig = {
       parent: ".heatmap_chart",
       data: dataset,
       dataConfig: dataConfig,
@@ -1480,8 +1475,109 @@ function heatmapData(url, dataIni, dataEnd, option=0) {
       },
     };
 
-    const heatmap = new HeatMap(chartConfig);
+    heatmap = new HeatMap(chartConfig);
+    document.getElementsByName("radio-heatmap").forEach(function(e) {   
+      e.addEventListener("click", function() {
+        
+        $(".heatmap .heatmap_chart").html("");
+        if(e.value==5){
+          data = dataset.filter( d => d.teacher == 1);
+          if (data.length > 0) {
+            dataConfig = {
+              init: {
+                year: data[0].year,
+                month: data[0].month,
+                day: data[0].day,
+              },
+              end: {
+                year: data[data.length - 1].year,
+                month: data[data.length - 1].month,
+                day: data[data.length - 1].day,
+              },
+            };
+          }
+      
+           chartConfig = {
+            parent: ".heatmap_chart",
+            data: data,
+            dataConfig: dataConfig,
+            dimensions: {
+              width: 360,
+              height: 500,
+            },
+            tooltip: {
+              text: "<value> usuários distintos\r\n Dia: <this>",
+            },
+          };
+      
+           heatmap = new HeatMap(chartConfig);
+        }
+        else if(e.value==4){
+            data = dataset.filter( d => d.teacher == 0);
 
+          if (data.length > 0) {
+            dataConfig = {
+              init: {
+                year: data[0].year,
+                month: data[0].month,
+                day: data[0].day,
+              },
+              end: {
+                year: data[data.length - 1].year,
+                month: data[data.length - 1].month,
+                day: data[data.length - 1].day,
+              },
+            };
+          }
+      
+            chartConfig = {
+            parent: ".heatmap_chart",
+            data: data,
+            dataConfig: dataConfig,
+            dimensions: {
+              width: 360,
+              height: 500,
+            },
+            tooltip: {
+              text: "<value> usuários distintos\r\n Dia: <this>",
+            },
+          };
+      
+           heatmap = new HeatMap(chartConfig);
+        }
+        else{
+          if (dataset.length > 0) {
+            dataConfig = {
+              init: {
+                year: dataset[0].year,
+                month: dataset[0].month,
+                day: dataset[0].day,
+              },
+              end: {
+                year: dataset[dataset.length - 1].year,
+                month: dataset[dataset.length - 1].month,
+                day: dataset[dataset.length - 1].day,
+              },
+            };
+          }
+      
+          chartConfig = {
+            parent: ".heatmap_chart",
+            data: dataset,
+            dataConfig: dataConfig,
+            dimensions: {
+              width: 360,
+              height: 500,
+            },
+            tooltip: {
+              text: "<value> usuários distintos\r\n Dia: <this>",
+            },
+          };
+      
+          heatmap = new HeatMap(chartConfig);
+        }
+      });
+    });
     
   });
 }

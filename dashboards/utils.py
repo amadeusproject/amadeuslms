@@ -844,20 +844,32 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
         for day in period:
             if not day in dates_set:
                 dates_set.add(day)
-                
-                data.append(
-                    {
-                        "year": day.year,
-                        "month": day.month - 1,
-                        "day": day.day,
-                        "hour": 0,
-                        "user_id": 0,
-                        "value": 0,
-                        "count": 0,
-                        "teacher":0,
-                    }
-                )
-
+                if i%2==0:  
+                    data.append(
+                        {
+                            "year": day.year,
+                            "month": day.month - 1,
+                            "day": day.day,
+                            "hour": 0,
+                            "user_id": 0,
+                            "value": 0,
+                            "count": 0,
+                            "teacher":0,
+                        }
+                    )
+                else:
+                        data.append(
+                        {
+                            "year": day.year,
+                            "month": day.month - 1,
+                            "day": day.day,
+                            "hour": 0,
+                            "user_id": 0,
+                            "value": 0,
+                            "count": 0,
+                            "teacher":1,
+                        }
+                    )
     #     users = set()
     #     dates_set = set()
 
