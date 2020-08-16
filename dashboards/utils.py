@@ -766,7 +766,7 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
     subject_list= list()
     data = list()
     data2 = list()
-    print("chegou");
+    
     for subject in subjects:
         students = subject.students.all().values_list("id", flat=True)
         professores = subject.professor.all().values_list("id", flat=True)
@@ -1015,54 +1015,17 @@ def general_logs(user, data_ini, data_end):
     if searchs:
         res = multi_search(searchs)
 
-        accessess = [x.to_dict()["hits"] for x in res]
+        accessess = [x.to_dict()["hits"]["total"]["value"] for x in res]
         users = set()
         dates_set = set()
+        accessess = list(dict.fromkeys(accessess))
+        period = list(dict.fromkeys(period))
 
-        for access in accessess:
-            for hits in access["hits"]:
-                log = hits["_source"]
-                time = parse_datetime(log["datetime"]).strftime('%d/%m/%Y')
-                data.append({'x': time, 'y':1})
-                # dates_set.add(accessDate.date())
-                # utuple = (
-                #     str(x.day)
-                #     + "-"
-                #     + str(x.month)
-                #     + "-"
-                #     + str(x.year),
-                #     log["user_id"],
-                # )
-
-                # if not utuple in users:
-                #     users.add(utuple)
-                    # data.append(
-                    #     {
-                    #         "year": accessDate.year,
-                    #         "month": accessDate.month - 1,
-                    #         "day": accessDate.day,
-                    #         "user_id": log["user_id"],
-                    #         "value": 1,
-                    #         "count": 1,
-                    #     }
-                    # )
-
-        # for day in period:
-        #     if not day in dates_set:
-        #         dates_set.add(day)
-
-                # data.append(
-                #     {
-                #         "year": day.year,
-                #         "month": day.month - 1,
-                #         "day": day.day,
-                #         "user_id": 0,
-                #         "value": 0,
-                #         "count": 0,
-                #     }
-                # )
-
-        # data = sorted(data, key=lambda x: (x["x"]))
+        for i, access in enumerate(accessess):
+                time = period[i].strftime('%d/%m/%Y')
+                data.append({'x': time, 'y':access})
+        
+        
     
     return data
 

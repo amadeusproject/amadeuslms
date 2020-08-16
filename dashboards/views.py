@@ -736,25 +736,25 @@ def general_logs_chart(request):
         data_end = date.today()
 
     data = general_logs(request.user, data_ini, data_end)
-    axis_x = []
-    axis_y = []
-
+    
+    axis_x =[]
+    axis_y =[]
+    
     for a in data:
-        axis_x.append(a["x"])
-    a_x = sorted([datetime.strptime(dt, "%d/%m/%Y") for dt in axis_x])
-    # to_datetime(axis_x, format='%d/%m/%Y').sort()
-
-    my_dict = {i: a_x.count(i) for i in a_x}
-    axis_x = list(my_dict.keys())
-    axis_y = list(my_dict.values())
-
-    fig = px.line(
-        x=axis_x,
+        day = datetime.strptime(a["x"], "%d/%m/%Y")
+        axis_x.append(day)
+        axis_y.append(a["y"])
+    a_x = sorted([dt for dt in axis_x])
+    
+    lista =  dict(zip(axis_x, axis_y))
+   
+    
+    axis_y = [lista[x] for x in a_x]
+    
+    fig = px.line( 
+        x=a_x,
         y=axis_y,
-        # x=axis_x,
-        # y=axis_y,
-        # x= np.arange(1,31),
-        # y = [51, 47, 1, 17, 98, 57, 23, 33, 63, 25, 32, 13, 58, 45, 89, 79, 92, 29, 28, 15, 71, 85, 20, 30, 54, 96, 90, 88, 64, 65],
+        
         labels={"x": "Data", "y": "Acessos"},
         line_shape="spline",
         render_mode="svg",

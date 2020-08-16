@@ -538,6 +538,8 @@ function makeTable(dataset, nrows) {
       }
     }
   });
+  $( ".modebar-group").last().remove();
+  $("#panel_loading_mask").hide();
 }
 function createChart(dataset){
   
