@@ -1147,6 +1147,19 @@ def functiontable(categories, dataIni, dataEnd):
     searchs1.append(
             count_general_resource_logs_period(subs, dataIni, dataEnd)
     )
+    names_resources = {
+        'pdffile': 'Arquivo PDF',
+        'pdf_file': 'Arquivo PDF',
+        'bulletin': 'Boletim do Tópico',
+        'ytvideo': 'Vídeo do YouTube',
+        'filelink': 'Link para arquivo',
+        'link': 'Link para Site',
+        'goals': 'Metas do Tópico',
+        'webpage': 'Página Web',
+        'questionary': 'Questionário',
+        'webconference': 'Web conferência',
+        'my_goals': 'Metas do Tópico',
+    }
     if searchs1:
         res1= multi_search(searchs1)
         accessess1 = [x.to_dict()["hits"] for x in res1]
@@ -1157,7 +1170,7 @@ def functiontable(categories, dataIni, dataEnd):
                 item = {}
                 
                 resources_data.append({
-                        'name': log["resource"],
+                        'name': names_resources[log["resource"]],
                         'access': 1,
                         'link': log,
                 })

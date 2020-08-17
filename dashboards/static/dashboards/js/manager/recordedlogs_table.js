@@ -18,7 +18,7 @@ function makeCategoryTable(data, nrows) {
     
     const display = index >= nrows ? 'style="display: none"' : "";
 
-    let line = `<tr id='category_access_${index}' class='.category_access_table' ${display}>`;
+    let line = `<tr id='category_access_${index}' class='category_access_table' ${display}>`;
 
     line = `${line}<td><a href='${item.link}'>${item.cat_name}</a></td>`;
     line = `${line}<td>${item.access}</td>`;
@@ -187,7 +187,7 @@ function makeSubjectsTable(data, nrows) {
     
     const display = index >= nrows ? 'style="display: none"' : "";
 
-    let line = `<tr id='subject_access_${index}' class='.subject_access_table' ${display}>`;
+    let line = `<tr id='subject_access_${index}' class='subject_access_table' ${display}>`;
 
     
     line = `${line}<td><a href='${item.link}'>${item.name}</a></td>`;

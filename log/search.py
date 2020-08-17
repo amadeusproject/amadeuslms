@@ -493,6 +493,7 @@ def count_general_resource_logs_period(subjects, data_ini, data_end):
                 datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
             ),
             Q("bool", should=conds),
+            Q("match", component="resources"),
         ],
     )
 
