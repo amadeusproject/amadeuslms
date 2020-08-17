@@ -360,7 +360,7 @@ function makeResourceTable(data, nrows) {
     let line = `<tr id='resources_access_${index}' class='resource_access' ${display}>`;
 
     
-    line = `${line}<td><a>${item.name}</a></td>`;
+    line = `${line}<td>${item.name}</td>`;
     line = `${line}<td>${item.access}</td>`;
     line = `${line}</tr>`;
     
