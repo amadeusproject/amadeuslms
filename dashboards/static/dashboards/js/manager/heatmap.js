@@ -291,7 +291,7 @@ class HeatMap {
           .attr("dx", "0.2em");
       }
     }
-
+    
     this.toolTipConstruct();
 
     return this;

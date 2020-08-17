@@ -691,7 +691,7 @@ def general_heatmap_graph(request):
         data_end = date.today()
 
     data = general_monthly_users_activity(subjects, data_ini, data_end)
-
+    
     return JsonResponse(data, safe=False)
 
 
