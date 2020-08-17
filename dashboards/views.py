@@ -753,23 +753,34 @@ def general_logs_chart(request):
     config = dict({
     'displaylogo': False
     }) 
-    fig = px.line( 
+    
+    fig = px.bar( 
         x=a_x,
         y=axis_y,
         
-        labels={"x": "Data", "y": "Acessos"},
-        line_shape="spline",
-        render_mode="svg",
+        labels={"x": "Data", "y": "acessos"},
+        text=axis_y,
+        # nbins = len(axis_x)*2,
+        # barmode = "relative",
         color_discrete_sequence=["#99D5CF"],
         template="simple_white",
-        
-        )
-    fig.update_xaxes(title_text=""),
-    fig.update_yaxes(title_text=""),
-    fig.update_layout(
-        margin=dict(l=0, r=0, t=25, b=0), height=300,
-    )
+        # hover_name=axis_x,
+        # hover_data=[a_x,a_y],
 
+        )
+    fig.update_xaxes(title_text="")
+    fig.update_yaxes(title_text="")
+    # fig.update_layout(hovermode="x-" )
+    fig.update_traces(hovertemplate='Data: %{x} <br><b>Acessos: %{y}</b>')
+    fig.update_layout(
+      
+        margin=dict(l=0, r=0, t=25, b=0), height=300,
+        # hovermode="x",
+        uniformtext_minsize=8, uniformtext_mode='hide'
+    )
+   
+    fig.update_layout()
+    
     soma = 0
     for i in axis_y:
         soma = soma + i

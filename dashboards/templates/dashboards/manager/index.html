@@ -223,10 +223,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 if (data_in > data_end) {
                     $(".data-error").css("display", "block");
                 } else { 
-                    jQuery('#accordion').accordion({
-                        active: false,
-                        
-                    });
                     $('input[name=inlineRadioOptions][value=0]').prop("checked",true);
                     $('input[name=radio-heatmap][value=3]').prop("checked",true);
                     $("#panel_loading_mask1").show();
