@@ -12,11 +12,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 
 from django.contrib import admin
-
+from django.contrib.admin import DateFieldListFilter
 from .models import Log
 
 class LogAdmin(admin.ModelAdmin):
 	list_display = ['datetime', 'user', 'user_email', 'component', 'action', 'resource', 'context']
 	search_fields = ['user', 'component', 'action', 'resource']
+	list_filter = (	('datetime', DateFieldListFilter),)
 
 admin.site.register(Log, LogAdmin)
