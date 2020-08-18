@@ -145,6 +145,67 @@
 .radio-bubble_users label {
   margin-right: 0.8em;
 }
+
+.bubble_users .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #666;
+}
+
+.bubble_users .header .selector span {
+  padding-right: 10px;
+}
+
+.bubble_users .info {
+  border-bottom: 2px solid #999;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding: 7px 0px;
+}
+
+.bubble_users .info p {
+  margin-bottom: 0px;
+  margin-left: 5px;
+}
+
+.bubble_users .users_cloud {
+  width: 100%;
+  min-height: 300px;
+}
+
+.bubble_users .users_table {
+  display: none;
+}
+
+.bubble_users .users_table th:not(:first-of-type) {
+  cursor: pointer;
+}
+.bubble_users .users_table th:nth-child(2) {
+  width: 60%;
+}
+.bubble_users .users_table th:last-of-type {
+  min-width: 85px;
+}
+
+.bubble_users .users_table .page-item {
+  border: 1px solid #ccc;
+  padding: 3px 7px;
+  cursor: pointer;
+}
+.bubble_users .users_table .page-item:hover {
+  color: #fff;
+  background: #009688;
+  border-color: #009688;
+}
+.bubble_users .users_table .page-item.active {
+  background: #009688;
+  color: #fff;
+  border-color: #009688;
+}
+
+
 .users_chart {
   justify-content: center;
   align-items: center;
@@ -367,4 +428,50 @@ p#percent-teacher-value, p#percent-students-value{
   margin: 1px;
   border-bottom: 5px;
   border-bottom-style: solid;
+}
+
+
+.heatmap .header {
+  border-bottom: 2px solid #666;
+  margin-bottom: 7px;
+}
+
+.heatmap .header .identifier {
+  padding: 3.5px 0px;
+}
+.heatmap .info {
+  border-bottom: 2px solid #999;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-bottom: 7px;
+}
+
+.heatmap .info .info_icon {
+  width: 40px;
+  height: 20px;
+}
+
+.heatmap .info p {
+  margin-bottom: 0px;
+  margin-left: 5px;
+}
+
+
+.page-item {
+  border: 1px solid #ccc;
+  padding: 3px 7px;
+  cursor: pointer;
+}
+.page-item:hover {
+  color: #fff;
+  background: #009688;
+  border-color: #009688;
+}
+
+.page-item.active {
+  background: #009688;
+  color: #fff;
+  border-color: #009688;
 }
