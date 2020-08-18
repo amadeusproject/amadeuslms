@@ -1176,19 +1176,41 @@ def general_logs(user, data_ini, data_end):
     for day in period:
         searchs.append(count_daily_general_logs_access(day))
         days.append(day)
+        print(day)
+    print(len(period))
+    print(period)
+    # if searchs:
+    #     res = multi_search(searchs)
 
+    #     accessess = [x.to_dict()["hits"]["total"]["value"] for x in res]
+    #     users = set()
+    #     dates_set = set()
+    #     accessess = list(dict.fromkeys(accessess))
+    #     period = list(dict.fromkeys(period))
+    #     print(len(accessess))
+    #     print(len(period))
+    #     for i, access in enumerate(accessess):
+    #         time = period[i].strftime('%d/%m/%Y')
+    #         print(time)
+    #         data.append({'x': time, 'y':access})
+    #         print(data[i])
     if searchs:
         res = multi_search(searchs)
 
-        accessess = [x.to_dict()["hits"]["total"]["value"] for x in res]
+        accessess = [x.to_dict()["hits"] for x in res]
         users = set()
         dates_set = set()
-        accessess = list(dict.fromkeys(accessess))
+        print(len(accessess))
+        print(len(period))
         period = list(dict.fromkeys(period))
-
+        print(len(accessess))
+        print(len(period))
         for i, access in enumerate(accessess):
             time = period[i].strftime('%d/%m/%Y')
-            data.append({'x': time, 'y':access})
+            print(time)
+            data.append({'x': time, 'y':access["total"]["value"]})
+            print(data[i])
+        
         
         
     
