@@ -48,7 +48,8 @@ from .utils import (
     monthly_users_activity,
     my_categories,
     general_monthly_users_activity,
-    generalStudentsAccess,
+    generalUsersAccess,
+    generalAdminsAccess,
     general_logs,
     active_users_qty,
     functiontable,
@@ -709,14 +710,13 @@ def most_active_users_general(request):
 
     if not data_end == "":
         data_end = parse_date(data_end)
+    
+        
+    usersAccessess = generalUsersAccess(subjects, data_ini, data_end)
 
-    for sub in subjects:
-        sub = get_object_or_404(Subject, slug=sub.slug)
-        students = generalStudentsAccess(sub, data_ini, data_end)
-
-        for s in students:
-            data.append(s)
-
+    for s in usersAccessess:
+        data.append(s)
+    
     return JsonResponse(data, safe=False)
 
 

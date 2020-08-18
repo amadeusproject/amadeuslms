@@ -577,7 +577,19 @@ function bubbleData(url, dataIni, dataEnd, option=0) {
       
       return d;
     });
-    
+    let reducedData = dataset
+    .reduce((sum,current) => {
+        var found = false
+        sum.forEach(function(row,i) {
+            if (row.user_id === current.user_id) {
+                sum[i].value += current.value
+                found = true;
+            }
+        })
+        if (found === false) sum.push(current)
+        return sum
+    }, []);
+
     dataset_bubble = dataset
     dataset = dataset.sort((d1, d2) => {
       
@@ -593,19 +605,8 @@ function bubbleData(url, dataIni, dataEnd, option=0) {
     if(option==1){
       dataset = dataset.filter( d => d.teacher == 0);
     }
-
-    let reducedData = dataset
-    .reduce((sum,current) => {
-        var found = false
-        sum.forEach(function(row,i) {
-            if (row.user_id === current.user_id) {
-                sum[i].value += current.value
-                found = true;
-            }
-        })
-        if (found === false) sum.push(current)
-        return sum
-    }, []);
+    
+    
     createChart([...reducedData]);
 
     makeTable([...reducedData], 10);
