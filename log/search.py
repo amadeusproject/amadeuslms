@@ -468,23 +468,9 @@ def count_general_daily_access(subjects, students, day):
         "bool",
         must=[
             Q("range", datetime={"time_zone": "-03:00", "gte": day, "lte": day}),
-            
-            Q(
-                "bool",
-                should=[
-                    Q(
-                        "bool",
-                        must=[
-                            Q("match", component="subject"),
-                            Q("match", resource="subject"),
-                        ],
-                    ),
-                    Q("match", component="resources"),
-                ],
-            ),
             Q("bool", should=conds),
             Q("terms", user_id=students),
-            Q("bool", should=[Q("match", action="access"), Q("match", action="view")]),
+            
         ],
     )
 
@@ -507,6 +493,7 @@ def count_general_resource_logs_period(subjects, data_ini, data_end):
                 datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
             ),
             Q("bool", should=conds),
+            Q("match", component="resources"),
         ],
     )
 

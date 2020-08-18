@@ -195,7 +195,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% endblock %}
 
  {% block addtional_scripts %} 
- 
+    <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
+    {% comment %} <script type="text/javascript" src="{% static 'dashboards/js/manager/script.js' %}"></script> {% endcomment %}
     <script type="text/javascript">
         $("#panel_loading_mask1").show();
         $("#panel_loading_mask2").show();
@@ -222,6 +223,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 if (data_in > data_end) {
                     $(".data-error").css("display", "block");
                 } else { 
+                    $('input[name=inlineRadioOptions][value=0]').prop("checked",true);
+                    $('input[name=radio-heatmap][value=3]').prop("checked",true);
                     $("#panel_loading_mask1").show();
                     $("#panel_loading_mask2").show();
                     $("#panel_loading_mask3").show();

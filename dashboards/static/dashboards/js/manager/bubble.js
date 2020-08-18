@@ -514,7 +514,7 @@ function makeTable(dataset, nrows) {
 
         makeTable(dataset, nrows);
       } else {
-        dataset.sort((a, b) => (a.count > b.count ? 1 : a.count < b.count ? -1 : 0)).reverse();
+        dataset.sort((a, b) => (a.value > b.value ? 1 : a.value < b.value ? -1 : 0)).reverse();
 
         makeTable(dataset, nrows);
       }
@@ -532,7 +532,7 @@ function makeTable(dataset, nrows) {
 
         makeTable(dataset, nrows);
       } else {
-        dataset.sort((a, b) => (a.count > b.count ? 1 : a.count < b.count ? -1 : 0));
+        dataset.sort((a, b) => (a.value > b.value ? 1 : a.value < b.value ? -1 : 0));
 
         makeTable(dataset, nrows);
       }
