@@ -383,20 +383,7 @@ def user_last_interaction_in_period(userid, data_ini, data_end):
         must=[
             Q("range", datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end}),
             Q("match", user_id=userid),
-            Q(
-                "bool",
-                should=[
-                    Q(
-                        "bool",
-                        must=[
-                            Q("match", component="subject"),
-                            Q("match", resource="subject"),
-                        ],
-                    ),
-                ],
-            ),
-            Q("bool", should=[Q("match", action="access"), 
-            Q("match", action="view")])
+            
         ])
 
     return s[0:10000]

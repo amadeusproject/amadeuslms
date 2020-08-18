@@ -1067,7 +1067,8 @@ def generalUsersAccess(subjects, dataIni, dataEnd,):
     coordinators_list = []
     admins = admins = User.objects.filter(is_staff=True).distinct()
     if dataIni == "":
-        dataIni = "now-30d"
+        # dataIni = "now-30d"
+        dataIni = "now-7d"
 
     if dataEnd == "":
         dataEnd = "now"
@@ -1129,7 +1130,7 @@ def generalUsersAccess(subjects, dataIni, dataEnd,):
                     obj = coordinators_list[i-cont2]
                     item["teacher"] = 2
                 elif j == 0:
-                    print(admins[i-cont3])
+                    
                     obj = admins[i-cont3]
                     item["teacher"] = 2
                 item["count"] = access
@@ -1176,9 +1177,7 @@ def general_logs(user, data_ini, data_end):
     for day in period:
         searchs.append(count_daily_general_logs_access(day))
         days.append(day)
-        print(day)
-    print(len(period))
-    print(period)
+  
     # if searchs:
     #     res = multi_search(searchs)
 
@@ -1200,16 +1199,13 @@ def general_logs(user, data_ini, data_end):
         accessess = [x.to_dict()["hits"] for x in res]
         users = set()
         dates_set = set()
-        print(len(accessess))
-        print(len(period))
+        
         period = list(dict.fromkeys(period))
-        print(len(accessess))
-        print(len(period))
+        
         for i, access in enumerate(accessess):
             time = period[i].strftime('%d/%m/%Y')
-            print(time)
             data.append({'x': time, 'y':access["total"]["value"]})
-            print(data[i])
+            
         
         
         
@@ -1262,6 +1258,8 @@ def active_users_qty(request_user,data_ini, data_end):
         entry = res[i]
         if entry:
             ac_teachers+=1
+        
+
 
     data = {
         'total_students': total_students,
