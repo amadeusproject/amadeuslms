@@ -1428,7 +1428,8 @@ def general_logs(user, data_ini, data_end):
     days = []
 
     for day in period:
-        searchs.append(count_daily_general_logs_access(day))
+        searchs.append(count_daily_general_logs_access1(day))
+        searchs.append(count_daily_general_logs_access2(day))
         days.append(day)
   
     # if searchs:
@@ -1454,10 +1455,17 @@ def general_logs(user, data_ini, data_end):
         dates_set = set()
         
         period = list(dict.fromkeys(period))
-        
+        sum = 0
+        a=0
         for i, access in enumerate(accessess):
-            time = period[i].strftime('%d/%m/%Y')
-            data.append({'x': time, 'y':access["total"]["value"]})
+            
+            sum+=access["total"]["value"]
+            if i%2==0:
+                
+                time = period[a].strftime('%d/%m/%Y')
+                data.append({'x': time, 'y':sum})
+                sum = 0
+                a+=1
             
         
         
