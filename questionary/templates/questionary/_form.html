@@ -402,6 +402,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 });
 
 				row.find('.n_questions').on('focus', function () {
+					var subject = $("#id_control_subject").val();
 					var $sel   = $(this),
 						values = $sel.parent().parent().find('.spec_categories').val();
 					
@@ -411,7 +412,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 						$.ajax({
 							method: 'GET',
 							url: "{% url 'questionary:countQ' %}",
-							data: {'values': values.join(',')},
+							data: {'values': values.join(','), 'subject_id': subject},
 							success: function (response) {
 								if (response.total > 0) {
 									for (var i = 1; i <= response.total; ++i) {
