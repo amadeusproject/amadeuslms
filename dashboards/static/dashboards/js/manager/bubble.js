@@ -654,9 +654,9 @@ function view_toggle($selector) {
   if (!$selector.is(":checked")) {
     $(".users_cloud").hide();
     $(".bubble_users .info_icon").hide();
-    $(".users_table").show();
+    $("#users_table_bubble").show();
   } else {
-    $(".users_table").hide();
+    $("#users_table_bubble").hide();
     $(".bubble_users .info_icon").show();
     $(".users_cloud").show();
   }
