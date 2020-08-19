@@ -577,9 +577,21 @@ function bubbleData(url, dataIni, dataEnd, option=0) {
       
       return d;
     });
-    
+    let reducedData = dataset
+    .reduce((sum,current) => {
+        var found = false
+        sum.forEach(function(row,i) {
+            if (row.user_id === current.user_id) {
+                sum[i].value += current.value
+                found = true;
+            }
+        })
+        if (found === false) sum.push(current)
+        return sum
+    }, []);
+
     dataset_bubble = dataset
-    dataset = dataset.sort((d1, d2) => {
+    dataset = reducedData.sort((d1, d2) => {
       
       return d1.value < d2.value ? 1 : d1.value > d2.value ? -1 : 0;
     });
@@ -593,22 +605,11 @@ function bubbleData(url, dataIni, dataEnd, option=0) {
     if(option==1){
       dataset = dataset.filter( d => d.teacher == 0);
     }
+    
+    
+    createChart([...dataset]);
 
-    let reducedData = dataset
-    .reduce((sum,current) => {
-        var found = false
-        sum.forEach(function(row,i) {
-            if (row.user_id === current.user_id) {
-                sum[i].value += current.value
-                found = true;
-            }
-        })
-        if (found === false) sum.push(current)
-        return sum
-    }, []);
-    createChart([...reducedData]);
-
-    makeTable([...reducedData], 10);
+    makeTable([...dataset], 10);
 
     document.getElementsByName("inlineRadioOptions").forEach(function(e) {   
       e.addEventListener("click", function() {
@@ -625,14 +626,14 @@ function bubbleData(url, dataIni, dataEnd, option=0) {
         $pagination.html("");
         
         if(e.value==2){
-          reducedData_teacher = reducedData.filter( d => d.teacher == 1);
+          reducedData_teacher = dataset.filter( d => d.teacher == 1);
           createChart([...reducedData_teacher]);
 
           makeTable([...reducedData_teacher], 10);
           
         }
         else if(e.value==1){
-          reducedData_student = reducedData.filter( d => d.teacher == 0);
+          reducedData_student = dataset.filter( d => d.teacher == 0);
           createChart([...reducedData_student]);
 
           makeTable([...reducedData_student], 10);
@@ -640,9 +641,9 @@ function bubbleData(url, dataIni, dataEnd, option=0) {
         }
         else {
         
-        createChart([...reducedData]);
+        createChart([...dataset]);
 
-        makeTable([...reducedData], 10);  
+        makeTable([...dataset], 10);  
       }
              });
     });

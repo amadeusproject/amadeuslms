@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-14 04:17+0000\n"
+"POT-Creation-Date: 2020-08-19 04:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -181,27 +181,32 @@ msgstr "Adicionar especificação"
 msgid "Remove this specification"
 msgstr "Remover essa especificação"
 
-#: questionary/templates/questionary/_results.html:21
+#: questionary/templates/questionary/_results.html:34
 msgid "Student"
 msgstr "Estudantes"
 
-#: questionary/templates/questionary/_results.html:22
+#: questionary/templates/questionary/_results.html:35
 msgid "Total questions"
 msgstr "Total de questões"
 
-#: questionary/templates/questionary/_results.html:23
+#: questionary/templates/questionary/_results.html:36
 msgid "Total answered"
 msgstr "Questões respondidas"
 
-#: questionary/templates/questionary/_results.html:24
+#: questionary/templates/questionary/_results.html:37
 msgid "Total correct"
 msgstr "Questões Corretas"
 
-#: questionary/templates/questionary/_results.html:25
+#: questionary/templates/questionary/_results.html:38
+#, python-format
 msgid "%% Correct"
 msgstr "%% Acerto"
 
-#: questionary/templates/questionary/_results.html:88
+#: questionary/templates/questionary/_results.html:82
+msgid "results(s)"
+msgstr "Registro(s)"
+
+#: questionary/templates/questionary/_results.html:97
 #: questionary/templates/questionary/relatorios.html:274
 msgid "Filter: "
 msgstr "Filtro: "

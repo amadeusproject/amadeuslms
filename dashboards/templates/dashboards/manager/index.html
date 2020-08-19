@@ -20,17 +20,20 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
    
     <link rel="stylesheet" type="text/css" href="{% static 'analytics/css/brush_zoom.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'dashboards/css/general_analytics.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'dashboards/css/teacher_dash.css' %}" />
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datetimepicker.css' %}">
+    
 {% endblock %}
 
 {% block javascript %}
      {% include "dashboards/d3_translate.html" %}
+     <script type="text/javascript" src="{% static 'amadeus/js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'analytics/js/d3.v5.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'analytics/js/ToolTip.js' %}"></script>
     <script type="text/javascript" src="{% static 'analytics/js/d3.v3.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'analytics/js/JSUtil.js' %}"></script>
     <script type="text/javascript" src="{% static 'analytics/js/brush_zoom.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    
     
     
     

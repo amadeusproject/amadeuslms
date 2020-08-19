@@ -1751,3 +1751,54 @@ h5.one span {
 .question .radio span.check {
   position: absolute;
 }
+
+/* DataTable pagination */
+#table_div .google-visualization-table-div-page.gradient {
+  display: flex;
+  justify-content: center;
+}
+#table_div .google-visualization-table-div-page.gradient :nth-child(1) {
+  order: 1;
+}
+#table_div .google-visualization-table-div-page.gradient :nth-child(2) {
+  order: 3;
+}
+#table_div .google-visualization-table-div-page.gradient :nth-child(3) {
+  order: 2;
+}
+#table_div .google-visualization-table-page-number {
+  padding: 5px 10px;
+  line-height: 1.02857143;
+  color: #337ab7;
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  font-size: 12px;
+}
+#table_div .google-visualization-table-page-number:hover {
+  color: #23527c;
+  background-color: #eee;
+  border-color: #ddd;
+}
+#table_div .google-visualization-table-page-number.current {
+  background-color: #009688;
+  border-color: #009688;
+  color: #ffffff;
+  font-size: 12px;
+}
+#table_div .google-visualization-table-div-page .goog-custom-button {
+  padding: 5px 10px;
+  line-height: 1.02857143;
+  color: #337ab7;
+  text-decoration: none;
+  background: #fff;
+  border: 1px solid #ddd;
+  font-size: 12px;
+}
+#table_div .google-visualization-table-div-page .goog-custom-button-outer-box,
+#table_div .google-visualization-table-div-page .goog-custom-button-inner-box {
+  border: none;
+}
+#table_div .google-visualization-table-div-page [role="button"] .goog-custom-button-inner-box {
+  padding: 0px;
+}

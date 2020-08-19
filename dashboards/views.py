@@ -48,7 +48,8 @@ from .utils import (
     monthly_users_activity,
     my_categories,
     general_monthly_users_activity,
-    generalStudentsAccess,
+    generalUsersAccess,
+    generalAdminsAccess,
     general_logs,
     active_users_qty,
     functiontable,
@@ -558,7 +559,8 @@ class GeneralManager(LogMixin, generic.TemplateView):
         context["title"] = _("Analytics")
         context["dashboard_menu_active"] = "subjects_menu_active"
 
-        context["data_ini"] = datetime.now() - timedelta(days=30)
+        # context["data_ini"] = datetime.now() - timedelta(days=30)
+        context["data_ini"] = datetime.now() - timedelta(days=7)
         context["data_end"] = datetime.now()
         # context["categories"] = categorias
         # context["subjects"] = subjects_by_categories(categorias)
@@ -683,7 +685,8 @@ def general_heatmap_graph(request):
     if not data_ini == "":
         data_ini = parse_date(data_ini)
     else:
-        data_ini = date.today() - timedelta(days=30)
+        # data_ini = date.today() - timedelta(days=30)
+        data_ini = date.today() - timedelta(days=7)
 
     if not data_end == "":
         data_end = parse_date(data_end)
@@ -709,14 +712,13 @@ def most_active_users_general(request):
 
     if not data_end == "":
         data_end = parse_date(data_end)
+    
+        
+    usersAccessess = generalUsersAccess(subjects, data_ini, data_end)
 
-    for sub in subjects:
-        sub = get_object_or_404(Subject, slug=sub.slug)
-        students = generalStudentsAccess(sub, data_ini, data_end)
-
-        for s in students:
-            data.append(s)
-
+    for s in usersAccessess:
+        data.append(s)
+    
     return JsonResponse(data, safe=False)
 
 
@@ -728,7 +730,8 @@ def general_logs_chart(request):
     if not data_ini == "":
         data_ini = parse_date(data_ini)
     else:
-        data_ini = date.today() - timedelta(days=30)
+        # data_ini = date.today() - timedelta(days=30)
+        data_ini = date.today() - timedelta(days=7)
 
     if not data_end == "":
         data_end = parse_date(data_end)
@@ -804,9 +807,14 @@ def get_general_active_users(request):
     ac_teachers = 0
     if not data_ini == "":
         data_ini = parse_date(data_ini)
+    else:
+       data_ini = date.today() - timedelta(days=7)
 
     if not data_end == "":
         data_end = parse_date(data_end)
+    else:
+        data_end = date.today()
+
 
     data = active_users_qty(request.user, data_ini, data_end)
     
@@ -823,7 +831,8 @@ def get_general_accordion_data(request,):
     if not data_ini == "":
         data_ini = parse_date(data_ini)
     else:
-        data_ini = date.today() - timedelta(days=30)
+        # data_ini = date.today() - timedelta(days=30)
+        data_ini = date.today() - timedelta(days=7)
 
     if not data_end == "":
         data_end = parse_date(data_end)
