@@ -828,18 +828,18 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
 
                     if log["user_id"] in students_list:
                         if log["user_id"] not in teacher_list:
-                        data.append(
-                            {
-                                "year": accessDate.year,
-                                "month": accessDate.month - 1,
-                                "day": accessDate.day,
-                                "hour": accessDate.hour,
-                                "user_id": log["user_id"],
-                                "value": 1,
-                                "count": 1,
-                                "teacher": 0,
-                            }
-                        )
+                            data.append(
+                                {
+                                    "year": accessDate.year,
+                                    "month": accessDate.month - 1,
+                                    "day": accessDate.day,
+                                    "hour": accessDate.hour,
+                                    "user_id": log["user_id"],
+                                    "value": 1,
+                                    "count": 1,
+                                    "teacher": 0,
+                                }
+                            )
                     if log["user_id"] in teacher_list:
                         data.append(
                             {
