@@ -1330,6 +1330,9 @@ def generalUsersAccess(
         cont = 0
         cont2 = 0
         users = []
+
+        userAccess = []
+
         for student in students:
             if student.id not in students_ids:
                 students_ids.append(student.id)
@@ -1338,6 +1341,7 @@ def generalUsersAccess(
                     # count_access_subject_period(subject.id, student.id, dataIni, dataEnd)
                     count_general_access_period(student.id, dataIni, dataEnd)
                 )
+                userAccess.append(user_last_interaction(student.id))
         cont2 = cont
         for professor in teachers_list:
             if professor.id not in teachers_id:
@@ -1347,6 +1351,7 @@ def generalUsersAccess(
                     # count_access_subject_period(subject.id, professor.id, dataIni, dataEnd)
                     count_general_access_period(professor.id, dataIni, dataEnd)
                 )
+                userAccess.append(user_last_interaction(professor.id))
         cont3 = cont2
         for coordenador in coordinators_list:
             if coordenador.id not in coordinators_id:
@@ -1356,14 +1361,21 @@ def generalUsersAccess(
                         # count_access_subject_period(subject.id, coordenador.id, dataIni, dataEnd)
                         count_general_access_period(coordenador.id, dataIni, dataEnd)
                     )
+                    userAccess.append(user_last_interaction(coordenador.id))
         if j == 0:
             for admin in admins:
                 searchs.append(
                     # count_access_subject_period(subject.id, admin.id, dataIni, dataEnd)
                     count_general_access_period(admin.id, dataIni, dataEnd)
                 )
+                userAccess.append(user_last_interaction(admin.id))
         if searchs:
             res = multi_search(searchs)
+
+            userAccessRes = None
+
+            if userAccess:
+                userAccessRes = multi_search(userAccess)
 
             accessess = [x.to_dict()["hits"]["total"]["value"] for x in res]
             for i, access in enumerate(accessess):
@@ -1391,7 +1403,7 @@ def generalUsersAccess(
                 item["link_chat"] = reverse(
                     "chat:talk", args=(), kwargs={"email": obj.email},
                 )
-                item["status"], item["status_text"] = userStatus(obj)
+                item["status"], item["status_text"] = userStatus(obj, userAccessRes)
 
                 data.append(item)
         data.sort(key=lambda x: x["count"], reverse=True)
@@ -1399,21 +1411,33 @@ def generalUsersAccess(
     return data
 
 
-def userStatus(user):
+def userStatus(user, lastInteractions):
     expire_time = settings.SESSION_SECURITY_EXPIRE_AFTER
-    lastAction = Log.objects.filter(user_id=user.id)
 
     status = "inactive"
     status_text = _("Offline")
 
-    if lastAction.exists():
-        lastAction = lastAction.latest("datetime")
+    if not lastInteractions is None:
+        lastEntry = next(
+            (
+                item
+                for item in lastInteractions
+                if len(item.hits) > 0 and item.hits[0].user_id == user.id
+            ),
+            None,
+        )
 
-        timeDelta = timezone.localtime(timezone.now()) - lastAction.datetime
+        if not lastEntry is None:
+            timeDelta = datetime.now() - datetime.strptime(
+                lastEntry.hits[0].datetime[:-6], "%Y-%m-%dT%H:%M:%S.%f"
+            )
 
-        if lastAction.action != "logout" and timeDelta.total_seconds() < expire_time:
-            status = "active"
-            status_text = _("Online")
+            if (
+                lastEntry.hits[0].action != "logout"
+                and timeDelta.total_seconds() < expire_time
+            ):
+                status = "active"
+                status_text = _("Online")
 
     return status, status_text
 
