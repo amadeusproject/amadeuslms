@@ -827,6 +827,7 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
                     users.add(utuple)
 
                     if log["user_id"] in students_list:
+                        if log["user_id"] not in teacher_list:
                         data.append(
                             {
                                 "year": accessDate.year,
@@ -853,7 +854,7 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
                             }
                         )
 
-                    if log["user_id"] in coordinators_list:
+                    elif log["user_id"] in coordinators_list:
                         data.append(
                             {
                                 "year": accessDate.year,
@@ -866,7 +867,7 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
                                 "teacher": 2,
                             }
                         )
-                    if log["user_id"] in admins:
+                    elif log["user_id"] in admins:
                         data.append(
                             {
                                 "year": accessDate.year,
