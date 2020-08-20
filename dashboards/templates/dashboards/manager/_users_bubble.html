@@ -13,7 +13,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 <div class="row">
     <div class="col-md-12 bubble_users" data-url="{% url 'dashboards:general_bubble_chart' %}">
-    <div class="header">
+        <div class="header">
             <div class="identifier">
                 <b>
                     {% trans 'Users that interacts the most' %}
@@ -27,7 +27,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     <span class="slider round"></span>
                 </label>
             </div>
-    </div>
+        </div>
         <div class="info">
             <div class="info_icon">
                 <i class="fa fa-smile-o"></i>
@@ -55,7 +55,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         <div class="users_cloud">
             
         </div>
-        <div class="users_table">
+        <div class="users_table" id="users_table_bubble">
 
             <div id="table-container" class="table-responsive">
                 <table id="students_table" class="table table-hover">
@@ -80,7 +80,48 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 <ul id="students_pag" class="pagination"></ul>
             </nav>
         </div>
+
+        <div id="popovers">
+            <div class="popover">
+                <div class="popover-content participant">
+                    <button type="button" class="close" aria-label="{% trans 'Close' %}">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <br clear="all" />
+
+                    <div class="col-md-3 col-sm-3 col-xs-3 user-img">
+                        <img id="user_img" src="" class="img-responsive" />
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-xs-9 user-info">
+                        <h4>
+                            <a class="status" data-toggle="tooltip" title=""></a>
+                            <span id="username"></span>
+                        </h4>
+                    </div>
+                </div>
+                <div class="popover-footer">
+                    <a id="profileLink"
+                    onclick="getModalInfo($(this), '0', 'general'); return false;"
+                    class="btn btn-default btn-raised pull-left btn-popover-mobile"
+                    >
+                        {% trans 'See Profile' %}
+                    </a>
+                    <a id="chatLink"
+                    onclick="getModalInfo($(this), '0', 'general'); return false;"
+                    class="btn btn-success btn-raised pull-right btn-popover-mobile"
+                    >
+                        {% trans 'Send Message' %}
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
+<div class="modal fade" id="chat-modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+<div class="modal fade" id="chat-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+<script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
 <script type="text/javascript" src="{% static 'dashboards/js/manager/bubble.js' %}"></script>

@@ -375,6 +375,22 @@ def count_daily_general_logs_access(day):
 
     return s
 
+def count_daily_general_logs_access1(day):
+    s = Search()
+
+    s = s.query('bool', must=[Q("range", datetime={'time_zone': '-03:00', 'gte': day, 'lte': day+timedelta(hours=15)}), \
+       \
+        ])
+
+    return s
+def count_daily_general_logs_access2(day):
+    s = Search()
+
+    s = s.query('bool', must=[Q("range", datetime={'time_zone': '-03:00', 'gte': day+timedelta(hours=15), 'lte': day+timedelta(hours=24)}), \
+       \
+        ])
+
+    return s
 
 def user_last_interaction_in_period(userid, data_ini, data_end):
     s = Search().extra(size=1)
