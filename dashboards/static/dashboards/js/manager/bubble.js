@@ -582,7 +582,7 @@ function bubbleData(url, dataIni, dataEnd, option=0) {
         var found = false
         sum.forEach(function(row,i) {
             if (row.user_id === current.user_id) {
-                sum[i].value += current.value
+                // sum[i].value += current.value
                 found = true;
             }
         })

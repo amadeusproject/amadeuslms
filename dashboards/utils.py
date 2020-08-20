@@ -1313,6 +1313,7 @@ def generalUsersAccess(subjects, dataIni, dataEnd,):
     teachers_id = list()
     coordinators_id = list()
     admins = admins = User.objects.filter(is_staff=True).distinct()
+    admins_id = []
     if dataIni == "":
         # dataIni = "now-30d"
         dataIni = "now-7d"
@@ -1336,15 +1337,22 @@ def generalUsersAccess(subjects, dataIni, dataEnd,):
         users = []
         for student in students:
             if student.id not in students_ids:
-                students_ids.append(student.id)
-                cont+=1
-                searchs.append(
-                    # count_access_subject_period(subject.id, student.id, dataIni, dataEnd)
-                    count_general_access_period(student.id, dataIni, dataEnd)
-                )
+                if student.id not in teachers_id:
+                    students_ids.append(student.id)
+                    cont+=1
+                    searchs.append(
+                        # count_access_subject_period(subject.id, student.id, dataIni, dataEnd)
+                        count_general_access_period(student.id, dataIni, dataEnd)
+                    )
         cont2=cont
         for professor in teachers_list:
             if professor.id not in teachers_id:
+                for i, student in enumerate(students_ids):
+                    if student == professor:
+                        del students_ids[i]
+                        del searchs[i]
+                        cont-=1
+                        cont2=-1
                 teachers_id.append(professor.id)
                 cont2+=1
                 searchs.append(
@@ -1355,11 +1363,12 @@ def generalUsersAccess(subjects, dataIni, dataEnd,):
         for coordenador in coordinators_list:
             if coordenador.id not in coordinators_id:
                 if coordenador.id not in teachers_id:
-                    cont3+=1
-                    searchs.append(
-                        # count_access_subject_period(subject.id, coordenador.id, dataIni, dataEnd)
-                        count_general_access_period(coordenador.id, dataIni, dataEnd)
-                    )
+                    if coordenador.id not in admins_id:
+                        cont3+=1
+                        searchs.append(
+                            # count_access_subject_period(subject.id, coordenador.id, dataIni, dataEnd)
+                            count_general_access_period(coordenador.id, dataIni, dataEnd)
+                        )
         if j == 0:
             for admin in admins:
                 searchs.append(
@@ -1383,9 +1392,9 @@ def generalUsersAccess(subjects, dataIni, dataEnd,):
                     obj = coordinators_list[i-cont2]
                     item["teacher"] = 2
                 elif j == 0:
-                    
                     obj = admins[i-cont3]
                     item["teacher"] = 2
+                    admins_id.append(obj.id)
                 item["count"] = access
                 item["image"] = obj.image_url
                 item["user"] = str(obj)
