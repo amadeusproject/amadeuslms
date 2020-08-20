@@ -6,6 +6,7 @@ from django.conf import settings
 from django.utils.dateparse import parse_datetime
 from django.core.urlresolvers import reverse
 from django.utils.formats import get_format
+from django.utils.translation import ugettext_lazy as _
 
 from subjects.models import Tag, Subject
 from topics.models import Topic, Resource
@@ -1390,11 +1391,31 @@ def generalUsersAccess(
                 item["link_chat"] = reverse(
                     "chat:talk", args=(), kwargs={"email": obj.email},
                 )
+                item["status"], item["status_text"] = userStatus(obj)
 
                 data.append(item)
         data.sort(key=lambda x: x["count"], reverse=True)
 
     return data
+
+
+def userStatus(user):
+    expire_time = settings.SESSION_SECURITY_EXPIRE_AFTER
+    lastAction = Log.objects.filter(user_id=user.id)
+
+    status = "inactive"
+    status_text = _("Offline")
+
+    if lastAction.exists():
+        lastAction = lastAction.latest("datetime")
+
+        timeDelta = timezone.localtime(timezone.now()) - lastAction.datetime
+
+        if lastAction.action != "logout" and timeDelta.total_seconds() < expire_time:
+            status = "active"
+            status_text = _("Online")
+
+    return status, status_text
 
 
 def general_logs(user, data_ini, data_end):
