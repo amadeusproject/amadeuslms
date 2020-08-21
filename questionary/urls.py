@@ -42,6 +42,7 @@ urlpatterns = [
         name="send_message",
     ),
     url(r"^results/(?P<slug>[\w_-]+)/$", views.class_results, name="results"),
+    url(r"^download/(?P<slug>[\w_-]+)/$", views.results_sheet, name="results_sheet"),
     url(r"^count_questions/$", views.countQuestions, name="countQ"),
     url(r"^answer/$", views.answer, name="answer"),
 ]

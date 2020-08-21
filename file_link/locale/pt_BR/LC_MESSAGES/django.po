@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-19 04:08+0000\n"
+"POT-Creation-Date: 2020-08-21 03:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,7 +116,7 @@ msgstr "Salvar"
 msgid "Cancel"
 msgstr ""
 
-#: file_link/templates/file_links/create.html:32 file_link/views.py:232
+#: file_link/templates/file_links/create.html:32 file_link/views.py:235
 msgid "Create File Link"
 msgstr "Criar Link para Arquivo"
 
@@ -192,12 +192,12 @@ msgstr "Enviar"
 msgid "Edit: "
 msgstr "Editar: "
 
-#: file_link/views.py:142 file_link/views.py:162 file_link/views.py:300
-#: file_link/views.py:307 file_link/views.py:332 file_link/views.py:340
+#: file_link/views.py:142 file_link/views.py:162 file_link/views.py:303
+#: file_link/views.py:310 file_link/views.py:335 file_link/views.py:343
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: file_link/views.py:247
+#: file_link/views.py:250
 #, python-format
 msgid ""
 "The File Link \"%s\" was added to the Topic \"%s\" of the virtual "
@@ -206,16 +206,16 @@ msgstr ""
 "O Link para Arquivo \"%s\" foi adicionado ao tópico \"%s\" do ambiente "
 "virtual \"%s\" com sucesso!"
 
-#: file_link/views.py:394
+#: file_link/views.py:400
 msgid "Update File Link"
 msgstr "Atualizar Link para Arquivo"
 
-#: file_link/views.py:411
+#: file_link/views.py:417
 #, python-format
 msgid "The File Link \"%s\" was updated successfully!"
 msgstr "O Link para Arquivo \"%s\" foi atualizado com sucesso!"
 
-#: file_link/views.py:445
+#: file_link/views.py:451
 #, python-format
 msgid ""
 "The File Link \"%s\" was removed successfully from virtual environment \"%s"
@@ -224,52 +224,52 @@ msgstr ""
 "O Link para Arquivo \"%s\" foi removido do ambiente virtual \"%s\" com "
 "sucesso!"
 
-#: file_link/views.py:520
+#: file_link/views.py:526
 msgid "File Link Reports"
 msgstr "Relatŕios de Link para Arquivo"
 
-#: file_link/views.py:554
+#: file_link/views.py:560
 msgid "Realized"
 msgstr "Realizada"
 
-#: file_link/views.py:555
+#: file_link/views.py:561
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: file_link/views.py:556
+#: file_link/views.py:562
 msgid "Historic"
 msgstr "Histórico"
 
-#: file_link/views.py:598 file_link/views.py:608
+#: file_link/views.py:604 file_link/views.py:614
 msgid "View"
 msgstr "Visualizar"
 
-#: file_link/views.py:609
+#: file_link/views.py:615
 msgid "File link"
 msgstr "Link para Arquivo"
 
-#: file_link/views.py:614
+#: file_link/views.py:620
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: file_link/views.py:615
+#: file_link/views.py:621
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: file_link/views.py:670
+#: file_link/views.py:676
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: file_link/views.py:686
+#: file_link/views.py:692
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: file_link/views.py:702
+#: file_link/views.py:708
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: file_link/views.py:704
+#: file_link/views.py:710
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
 

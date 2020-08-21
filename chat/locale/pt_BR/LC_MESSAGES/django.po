@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-19 04:08+0000\n"
+"POT-Creation-Date: 2020-08-21 03:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -266,23 +266,19 @@ msgstr "Você possui novas mensagens..."
 msgid "Type a new message"
 msgstr "Digite uma nova mensagem"
 
-#: chat/templatetags/chat_tags.py:47
+#: chat/templatetags/chat_tags.py:49
 msgid "Online"
 msgstr "Online"
-
-#: chat/templatetags/chat_tags.py:49
-msgid "Away"
-msgstr "Inativo"
 
 #: chat/templatetags/chat_tags.py:51
 msgid "Offline"
 msgstr "Offline"
 
-#: chat/templatetags/chat_tags.py:78 chat/views.py:610
+#: chat/templatetags/chat_tags.py:84 chat/views.py:610
 msgid "Unfavorite"
 msgstr "Desfavoritar"
 
-#: chat/templatetags/chat_tags.py:80 chat/views.py:614
+#: chat/templatetags/chat_tags.py:86 chat/views.py:614
 msgid "Favorite"
 msgstr "Favoritar"
 
@@ -320,6 +316,9 @@ msgid ""
 msgstr ""
 "Sua mensagem foi enviada para a nossa equipe de suporte e deverá ser "
 "respondida em até 48 horas."
+
+#~ msgid "Away"
+#~ msgstr "Inativo"
 
 #~ msgid "Only my messages"
 #~ msgstr "Apenas minhas mensagens"

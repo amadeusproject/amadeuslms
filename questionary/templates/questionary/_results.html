@@ -88,7 +88,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         <div class="text-center">
             <ul class="list-inline nav-justified">
                 <li>
-                    <ul id="view-table" class="list-inline text-right">
+                    <ul class="list-inline text-left">
+                        <a href="{% url 'questionary:results_sheet' questionary.slug %}"><i class="fa fa-download"></i>{% trans 'Download .xls file' %}</a>
+                    </ul>
+                </li>
+                <li>
+                    <ul id="view-table" class="list-inline text-left">
                         <li><h3 id="title-table"></h3></li>
                     </ul>
                 </li>

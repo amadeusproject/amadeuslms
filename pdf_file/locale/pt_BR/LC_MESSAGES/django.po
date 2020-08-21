@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-19 04:08+0000\n"
+"POT-Creation-Date: 2020-08-21 03:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -193,16 +193,16 @@ msgstr "Remover"
 msgid "Resource Mural"
 msgstr "Mural do recurso"
 
-#: pdf_file/views.py:152 pdf_file/views.py:172 pdf_file/views.py:314
-#: pdf_file/views.py:321 pdf_file/views.py:346 pdf_file/views.py:354
+#: pdf_file/views.py:152 pdf_file/views.py:172 pdf_file/views.py:317
+#: pdf_file/views.py:324 pdf_file/views.py:349 pdf_file/views.py:357
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: pdf_file/views.py:242
+#: pdf_file/views.py:245
 msgid "Create PDF File"
 msgstr "Criar o arquivo PDF"
 
-#: pdf_file/views.py:257
+#: pdf_file/views.py:260
 #, python-format
 msgid ""
 "The PDF File \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -211,68 +211,68 @@ msgstr ""
 "O arquivo PDF \"%s\"  foi adicionado ao topico \"%s\" do ambiente virtual "
 "\"%s\" com sucesso!"
 
-#: pdf_file/views.py:408
+#: pdf_file/views.py:414
 msgid "Update PDF File"
 msgstr "Atualize arquivo PDF"
 
-#: pdf_file/views.py:425
+#: pdf_file/views.py:431
 #, python-format
 msgid "The PDF File \"%s\" was updated successfully!"
 msgstr "O arquivo PDF \"%s\"  foi atualizado com sucesso!"
 
-#: pdf_file/views.py:459
+#: pdf_file/views.py:465
 #, python-format
 msgid ""
 "The PDF File \"%s\" was removed successfully from virtual environment \"%s\"!"
 msgstr ""
 "O arquivo PDF \"%s\"  foi removido com sucesso do ambiente virtual \"%s\" "
 
-#: pdf_file/views.py:534
+#: pdf_file/views.py:540
 msgid "PDF File Reports"
 msgstr "Relatórios do arquivo de PDF"
 
-#: pdf_file/views.py:569
+#: pdf_file/views.py:575
 msgid "Realized"
 msgstr "Realizada"
 
-#: pdf_file/views.py:570
+#: pdf_file/views.py:576
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: pdf_file/views.py:571
+#: pdf_file/views.py:577
 msgid "Historic"
 msgstr "Histórico"
 
-#: pdf_file/views.py:613 pdf_file/views.py:623
+#: pdf_file/views.py:619 pdf_file/views.py:629
 msgid "View"
 msgstr "Visualizar"
 
-#: pdf_file/views.py:624
+#: pdf_file/views.py:630
 msgid "PDF File"
 msgstr "Criar o arquivo PDF"
 
-#: pdf_file/views.py:629
+#: pdf_file/views.py:635
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: pdf_file/views.py:630
+#: pdf_file/views.py:636
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: pdf_file/views.py:685
+#: pdf_file/views.py:691
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: pdf_file/views.py:701
+#: pdf_file/views.py:707
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: pdf_file/views.py:717
+#: pdf_file/views.py:723
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: pdf_file/views.py:719
+#: pdf_file/views.py:725
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
 

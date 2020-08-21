@@ -55,3 +55,5 @@ data/
 links/static/images/
 uploads/
 
+questionary/sheets/xls/*
+!questionary/sheets/xls/.keep
