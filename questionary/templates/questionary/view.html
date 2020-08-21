@@ -21,6 +21,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% block javascript%}
 	{{ block.super }}
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 {% endblock%}
 
 {% block breadcrumbs %}
@@ -78,95 +79,104 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 			</div>
 			<div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
 				{% if has_subject_permissions %}
-					<form id="student_quest" action="" method="POST">
-						{% csrf_token %}
-						<select name="selected_student" onchange="$('#student_quest').submit();">
-							{% for stu in sub_students %}
-								<option value="{{ stu.email }}" {% if stu.email == student %}selected{% endif %}>{{ stu }}</option>
-							{% endfor %}
-						</select>
-					</form>
-					<br clear="all" />
+					<div id="core-subjects-options-div">
+						<ul class="core-subjects-options mural-tabs">
+							<a onclick="ShowTab($(this), '.single_student')" style="cursor: pointer"><li class="active">{% trans "Individual Result" %}</li></a>
+							<a onclick="ShowTab($(this), '.all_students')" data-url="{% url 'questionary:results' questionary.slug %}" style="cursor: pointer"><li>{% trans "Class Results" %}</li></a>
+						</ul>
+					</div>
 				{% endif %}
 
-				{% autoescape off %}
-					{{ questionary.presentation }}
-				{% endautoescape %}
-
-				<br clear="all" />
-
-				<span><b>{% trans "Init date" %}:</b> {{ questionary.data_ini|date:'SHORT_DATETIME_FORMAT' }}</span>
-                <span style="margin-left: 10px;"><b>{% trans "End date" %}:</b> {{ questionary.data_end|date:'SHORT_DATETIME_FORMAT' }}</span>
-
-				<hr class="goal_divider" />
-
-				<div class="questionary">
-					{% if userquest  %}
-						<div class="header_info">
-							<div class="row">
-								<div class="col-md-6">
-									{% trans 'Initialized in' %}: {{ userquest.data_ini|date:'SHORT_DATETIME_FORMAT' }}
-								</div>
-								<div class="col-md-6">
-									{% trans 'Last update' %}: <span class="last_update">{{ userquest.last_update|date:'SHORT_DATETIME_FORMAT' }}</span>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-6">
-									{% trans 'Questions answered' %}: <span class="q_answered">{{ useranswered }}</span> {% trans 'of' %} {{ userquestions|length }}
-								</div>
-								{% if questionary.data_end|view_results:has_subject_permissions %}
-									<div class="col-md-6">
-										{% trans 'Corrected questions' %}: {{ usercorrect }} {% trans 'of' %} {{ userquestions|length }}
-									</div>
-								{% endif %}
-							</div>
-						</div>
-						<div class="questions">
-							{% for question in userquestions %}
-								<div class="question">
-									<h4><b>{% trans 'Question' %} {{ question.order }}</b></h4>
-
-									{% autoescape off %}
-										{{ question.question.enunciado }}
-									{% endautoescape %}
-
-									{% if question.question.question_img %}
-										<img src="{{ question.question.question_img.url }}" class="img-responsive center-block" />
-									{% endif %}
-									
-									<div class="alternatives" data-question="{{ question.id }}">
-										{% with question.question.alt_question.all|shuffle as alternatives %}
-											{% for alt in alternatives %}
-												<div>
-													<div style="width: 20px; display: inline-block">
-														{% if questionary.data_end|view_results:has_subject_permissions %}
-															<i class="fa {{ alt|veredict:question.answer }}"></i>
-														{% endif %}
-													</div>
-													<div class="radio" style="display: inline-block">
-														<label>
-															<input type="radio" name="q{{ question.order }}" value="{{ alt.id }}" {{ alt.id|is_answer:question.answer }} {{ questionary.data_end|disabled:has_subject_permissions }}>
-															{{ alt.content|safe }}
-
-															{% if alt.alt_img %}
-																<img src="{{ alt.alt_img.url }}" class="img-responsive center-block" />
-															{% endif %}
-														</label>
-													</div>
-												</div>
-											{% endfor %}
-										{% endwith %}
-									</div>
-
-									<hr />
-								</div>
-							{% endfor %}
-						</div>
-					{% else %}
-						<p class="text-center"><i class="fa fa-question-circle"></i> {% trans "The student did not start the questionary yet." %}</p>
+				<div class="result_tab single_student">
+					{% if has_subject_permissions %}
+						<form id="student_quest" action="" method="POST">
+							{% csrf_token %}
+							<select name="selected_student" onchange="$('#student_quest').submit();">
+								{% for stu in sub_students %}
+									<option value="{{ stu.email }}" {% if stu.email == student %}selected.fullname{% endif %}>{{ stu.fullname }}</option>
+								{% endfor %}
+							</select>
+						</form>
+						<br clear="all" />
 					{% endif %}
+
+					{{ questionary.presentation|safe }}
+
+					<br clear="all" />
+
+					<span><b>{% trans "Init date" %}:</b> {{ questionary.data_ini|date:'SHORT_DATETIME_FORMAT' }}</span>
+					<span style="margin-left: 10px;"><b>{% trans "End date" %}:</b> {{ questionary.data_end|date:'SHORT_DATETIME_FORMAT' }}</span>
+
+					<hr class="goal_divider" />
+
+					<div class="questionary">
+						{% if userquest  %}
+							<div class="header_info">
+								<div class="row">
+									<div class="col-md-6">
+										{% trans 'Initialized in' %}: {{ userquest.data_ini|date:'SHORT_DATETIME_FORMAT' }}
+									</div>
+									<div class="col-md-6">
+										{% trans 'Last update' %}: <span class="last_update">{{ userquest.last_update|date:'SHORT_DATETIME_FORMAT' }}</span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										{% trans 'Questions answered' %}: <span class="q_answered">{{ useranswered }}</span> {% trans 'of' %} {{ userquestions|length }}
+									</div>
+									{% if questionary.data_end|view_results:has_subject_permissions %}
+										<div class="col-md-6">
+											{% trans 'Corrected questions' %}: {{ usercorrect }} {% trans 'of' %} {{ userquestions|length }}
+										</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="questions">
+								{% for question in userquestions %}
+									<div class="question">
+										<h4><b>{% trans 'Question' %} {{ question.order }}</b></h4>
+
+										{{ question.question.enunciado|safe }}
+
+										{% if question.question.question_img %}
+											<img src="{{ question.question.question_img.url }}" class="img-responsive center-block" />
+										{% endif %}
+										
+										<div class="alternatives" data-question="{{ question.id }}">
+											{% with question.question.alt_question.all|shuffle as alternatives %}
+												{% for alt in alternatives %}
+													<div>
+														<div style="width: 20px; display: inline-block">
+															{% if questionary.data_end|view_results:has_subject_permissions %}
+																<i class="fa {{ alt|veredict:question.answer }}"></i>
+															{% endif %}
+														</div>
+														<div class="radio" style="display: inline-block">
+															<label>
+																<input type="radio" name="q{{ question.order }}" value="{{ alt.id }}" {{ alt.id|is_answer:question.answer }} {{ questionary.data_end|disabled:has_subject_permissions }}>
+																{{ alt.content|safe }}
+
+																{% if alt.alt_img %}
+																	<img src="{{ alt.alt_img.url }}" class="img-responsive center-block" />
+																{% endif %}
+															</label>
+														</div>
+													</div>
+												{% endfor %}
+											{% endwith %}
+										</div>
+
+										<hr />
+									</div>
+								{% endfor %}
+							</div>
+						{% else %}
+							<p class="text-center"><i class="fa fa-question-circle"></i> {% trans "The student did not start the questionary yet." %}</p>
+						{% endif %}
+					</div>
 				</div>
+
+				<div class="result_tab all_students" style="display:none"></div>
 			</div>
 		</div>
 
@@ -180,6 +190,31 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 $('.modal').modal('show');
             });
         }
+
+		function ShowTab($btn, target) {
+			$btn.parent().find('li').removeClass('active');
+			$('.result_tab').hide();
+
+			let url = $btn.data('url');
+
+			if (typeof(url) !== 'undefined') {
+				if ($(target).html() === '') {
+					$.ajax({
+						method: 'GET',
+						url: url,
+						success: function(response) {
+							$(target).html(response.result)
+						},
+						error: function (data) {
+							alertify.alert('{% trans "Something went wrong. Please try again later" %}');
+						}
+					})
+				}
+			}
+			
+			$btn.find('li').addClass('active');
+			$(target).show();
+		}
     </script>
 {% endblock %}
 

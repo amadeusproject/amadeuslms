@@ -1150,7 +1150,13 @@ class GanttCard {
   }
 }
 function percentString(number) {
-  return '' + Math.round(number * 100) + '%';
+  let percent = Math.round(number * 100);
+
+  if (isNaN(percent)) {
+    percent = 0;
+  }
+
+  return '' + percent + '%';
 }
 
 Date.prototype.toStringFormat = function() {

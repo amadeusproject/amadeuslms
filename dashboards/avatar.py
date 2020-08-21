@@ -107,27 +107,32 @@ def cloudInfo(tagData):
     filename = "cloud4.mp3"
     audios.append(genAudioFile(tts, ttr, filename))
 
-    most_accessed = data[0]
+    if data:
+        most_accessed = data[0]
 
-    tts = "Note que a tag %s tem mais acesso da classe" % (most_accessed["tag_name"])
-    ttr = "Note que a tag <b>%s</b> tem mais acesso da classe" % (
-        most_accessed["tag_name"]
-    )
-    filename = "cloud5.mp3"
-    audios.append(genAudioFile(tts, ttr, filename))
+        tts = "Note que a tag %s tem mais acesso da classe" % (
+            most_accessed["tag_name"]
+        )
+        ttr = "Note que a tag <b>%s</b> tem mais acesso da classe" % (
+            most_accessed["tag_name"]
+        )
+        filename = "cloud5.mp3"
+        audios.append(genAudioFile(tts, ttr, filename))
 
-    data_my = sorted(data, key=lambda x: x["qtd_my_access"], reverse=True)
-    most_accessed = data_my[0]
+        data_my = sorted(data, key=lambda x: x["qtd_my_access"], reverse=True)
+        most_accessed = data_my[0]
 
-    tts = "e a tag %s foi mais acessada por você" % (most_accessed["tag_name"])
-    ttr = "e a tag <b>%s</b> foi mais acessada por você" % (most_accessed["tag_name"])
-    filename = "cloud6.mp3"
-    audios.append(genAudioFile(tts, ttr, filename))
+        tts = "e a tag %s foi mais acessada por você" % (most_accessed["tag_name"])
+        ttr = "e a tag <b>%s</b> foi mais acessada por você" % (
+            most_accessed["tag_name"]
+        )
+        filename = "cloud6.mp3"
+        audios.append(genAudioFile(tts, ttr, filename))
 
-    tts = "Para ver os recursos de uma tag basta clicar nela"
-    ttr = "Para ver os recursos de uma tag basta clicar nela"
-    filename = "cloud7.mp3"
-    audios.append(genAudioFile(tts, ttr, filename))
+        tts = "Para ver os recursos de uma tag basta clicar nela"
+        ttr = "Para ver os recursos de uma tag basta clicar nela"
+        filename = "cloud7.mp3"
+        audios.append(genAudioFile(tts, ttr, filename))
 
     return audios
 
@@ -138,89 +143,91 @@ def cloudTips(tagData):
     data = sorted(tagData, key=lambda x: x["qtd_access"], reverse=True)
     data = data[0 : math.floor(30 / 1000 * 775)]
 
-    most_accessed = data[0]
+    if data:
+        most_accessed = data[0]
 
-    if most_accessed["qtd_my_access"] > 0:
-        tts = "Há tags em alta que estão sendo vistas por toda a turma"
-        ttr = "Há tags em alta que estão sendo vistas por toda a turma"
-        filename = "most_accessed.mp3"
-        audios.append(genAudioFile(tts, ttr, filename, "surprise"))
+        if most_accessed["qtd_my_access"] > 0:
+            tts = "Há tags em alta que estão sendo vistas por toda a turma"
+            ttr = "Há tags em alta que estão sendo vistas por toda a turma"
+            filename = "most_accessed.mp3"
+            audios.append(genAudioFile(tts, ttr, filename, "surprise"))
 
-        tts = (
-            "É importante que você também acesse recursos dessas tags, por exemplo, %s."
-            % (most_accessed["tag_name"])
-        )
-        ttr = (
-            "É importante que você também acesse recursos dessas tags, por exemplo, <b class='shineTag'>%s</b>."
-            % (most_accessed["tag_name"])
-        )
-        filename = "most_accessed2.mp3"
+            tts = (
+                "É importante que você também acesse recursos dessas tags, por exemplo, %s."
+                % (most_accessed["tag_name"])
+            )
+            ttr = (
+                "É importante que você também acesse recursos dessas tags, por exemplo, <b class='shineTag'>%s</b>."
+                % (most_accessed["tag_name"])
+            )
+            filename = "most_accessed2.mp3"
+            audios.append(genAudioFile(tts, ttr, filename))
+
+            return audios
+
+        not_accessed = [d for d in data if d["qtd_my_access"] == 0]
+
+        if len(not_accessed) > 0:
+            tts = "Não pule ou esqueça de acessar todos os recursos disponíveis"
+            ttr = "Não pule ou esqueça de acessar todos os recursos disponíveis"
+            filename = "less_accessed.mp3"
+            audios.append(genAudioFile(tts, ttr, filename))
+
+            if len(not_accessed) == 1:
+                tts = (
+                    "Você deixou de ver recursos de tags importantes, por exemplo, %s"
+                    % (not_accessed[0]["tag_name"])
+                )
+                ttr = (
+                    "Você deixou de ver recursos de tags importantes, por exemplo, <b class='shineTag'>%s</b>"
+                    % (not_accessed[0]["tag_name"])
+                )
+                filename = "less_accessed2.mp3"
+                audios.append(genAudioFile(tts, ttr, filename, "sad"))
+
+            elif len(not_accessed) == 2:
+                tts = (
+                    "Você deixou de ver recursos de tags importantes, por exemplo, %s e %s"
+                    % (not_accessed[0]["tag_name"], not_accessed[1]["tag_name"])
+                )
+                ttr = (
+                    "Você deixou de ver recursos de tags importantes, por exemplo, <b class='shineTag'>%s</b> e <b class='shineTag'>%s</b>"
+                    % (not_accessed[0]["tag_name"], not_accessed[1]["tag_name"])
+                )
+                filename = "less_accessed2.mp3"
+                audios.append(genAudioFile(tts, ttr, filename, "sad"))
+
+            elif len(not_accessed) >= 3:
+                tts = (
+                    "Você deixou de ver recursos de tags importantes, por exemplo, %s, %s e %s"
+                    % (
+                        not_accessed[0]["tag_name"],
+                        not_accessed[1]["tag_name"],
+                        not_accessed[2]["tag_name"],
+                    )
+                )
+                ttr = (
+                    "Você deixou de ver recursos de tags importantes, por exemplo, <b class='shineTag'>%s</b>, <b class='shineTag'>%s</b> e <b class='shineTag'>%s</b>"
+                    % (
+                        not_accessed[0]["tag_name"],
+                        not_accessed[1]["tag_name"],
+                        not_accessed[2]["tag_name"],
+                    )
+                )
+                filename = "less_accessed2.mp3"
+                audios.append(genAudioFile(tts, ttr, filename, "sad"))
+
+            return audios
+
+        tts = "Parabéns! Continue acessando regularmente o ambiente da disciplina"
+        ttr = "Parabéns! Continue acessando regularmente o ambiente da disciplina"
+        filename = "congratulations.mp3"
         audios.append(genAudioFile(tts, ttr, filename))
 
-        return audios
-
-    not_accessed = [d for d in data if d["qtd_my_access"] == 0]
-
-    if len(not_accessed) > 0:
-        tts = "Não pule ou esqueça de acessar todos os recursos disponíveis"
-        ttr = "Não pule ou esqueça de acessar todos os recursos disponíveis"
-        filename = "less_accessed.mp3"
+        tts = "Você pode revisar e fazer exercícios, bons estudos!"
+        ttr = "Você pode revisar e fazer exercícios, bons estudos!"
+        filename = "congratulations2.mp3"
         audios.append(genAudioFile(tts, ttr, filename))
-
-        if len(not_accessed) == 1:
-            tts = "Você deixou de ver recursos de tags importantes, por exemplo, %s" % (
-                not_accessed[0]["tag_name"]
-            )
-            ttr = (
-                "Você deixou de ver recursos de tags importantes, por exemplo, <b class='shineTag'>%s</b>"
-                % (not_accessed[0]["tag_name"])
-            )
-            filename = "less_accessed2.mp3"
-            audios.append(genAudioFile(tts, ttr, filename, "sad"))
-
-        elif len(not_accessed) == 2:
-            tts = (
-                "Você deixou de ver recursos de tags importantes, por exemplo, %s e %s"
-                % (not_accessed[0]["tag_name"], not_accessed[1]["tag_name"])
-            )
-            ttr = (
-                "Você deixou de ver recursos de tags importantes, por exemplo, <b class='shineTag'>%s</b> e <b class='shineTag'>%s</b>"
-                % (not_accessed[0]["tag_name"], not_accessed[1]["tag_name"])
-            )
-            filename = "less_accessed2.mp3"
-            audios.append(genAudioFile(tts, ttr, filename, "sad"))
-
-        elif len(not_accessed) >= 3:
-            tts = (
-                "Você deixou de ver recursos de tags importantes, por exemplo, %s, %s e %s"
-                % (
-                    not_accessed[0]["tag_name"],
-                    not_accessed[1]["tag_name"],
-                    not_accessed[2]["tag_name"],
-                )
-            )
-            ttr = (
-                "Você deixou de ver recursos de tags importantes, por exemplo, <b class='shineTag'>%s</b>, <b class='shineTag'>%s</b> e <b class='shineTag'>%s</b>"
-                % (
-                    not_accessed[0]["tag_name"],
-                    not_accessed[1]["tag_name"],
-                    not_accessed[2]["tag_name"],
-                )
-            )
-            filename = "less_accessed2.mp3"
-            audios.append(genAudioFile(tts, ttr, filename, "sad"))
-
-        return audios
-
-    tts = "Parabéns! Continue acessando regularmente o ambiente da disciplina"
-    ttr = "Parabéns! Continue acessando regularmente o ambiente da disciplina"
-    filename = "congratulations.mp3"
-    audios.append(genAudioFile(tts, ttr, filename))
-
-    tts = "Você pode revisar e fazer exercícios, bons estudos!"
-    ttr = "Você pode revisar e fazer exercícios, bons estudos!"
-    filename = "congratulations2.mp3"
-    audios.append(genAudioFile(tts, ttr, filename))
 
     return audios
 

@@ -24,7 +24,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 				</span>
 				<h4 class="pull-left" data-breadcrumb="{% trans 'Talk with ' %}{{ participant }}">
 					<a class="user_{{ participant.id }}_status status {{ status }}" title="{{ status|status_text }}"></a> 
-					<b>{{ participant }}</b>
+					<b>{% if participant.is_support %}[{% trans "Support" %}]{% endif %} {{ participant }}</b>
 				</h4>
 			</div>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="{% trans 'Close' %}"><span aria-hidden="true">&times;</span></button>

@@ -1,0 +1,166 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+{% load static i18n %}
+
+<div class="row">
+    <div class="col-md-12 recordedlogs" data-url="{% url 'dashboards:recordedlogs' %}">
+        <div class="header">
+                <div class="identifier">
+                <b>{% trans 'More recorded logs' %}</b>
+                <i
+                class="fa fa-info-circle"
+                aria-hidden="true"
+                data-toggle="tooltip"
+                title="{% trans 'Compares the number of logs by categories, subjects or resources' %}"
+                ></i>
+            </div>
+        </div>
+        <div class="info">
+            <p class="text-recordedlogs-legend">{% trans 'Element x Number of recorded logs' %} </p>
+        </div>
+
+        <div class="cards-content">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-info category-panel">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-12 category-header">
+                                <h4 class="panel-title panel-title-categories">
+                                    <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#collapse1">
+                                        <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {% trans 'Categories' %}
+                                    </a>
+                                    
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="collapse1" class="panel-collapse collapse category-panel">
+                        <div class="panel-body">
+                            <div class="users_table">
+                                <div id="table-container" class="table-responsive">
+                                    <table id="categories_table" class="table table-hover">
+                                        <thead>
+                                            <tr id="accordion_legend">
+                                                <th class="sort" scope="col" data-sort="name">
+                                                    {% trans 'Category' %}
+                                                    <i class="fa fa-sort"></i>
+                                                </th>
+                                                <th class="sort" scope="col" data-sort="access">
+                                                    {% trans 'Recorded Logs' %}
+                                                    <i class="fa fa-sort"></i>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Table Navigation">
+                                    <ul id="categories_pag" class="pagination"></ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info subject-panel">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-12 category-header">
+                                <h4 class="panel-title panel-title-subjects">
+                                    <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#collapse2">
+                                        <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {% trans 'Subjects' %}
+                                    </a>
+                                    
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="collapse2" class="panel-collapse collapse subject-panel">
+                        <div class="panel-body">
+                            <div class="users_table">
+                                <div id="table-container" class="table-responsive">
+                                    <table id="subjects_table" class="table table-hover">
+                                        <thead>
+                                            <tr id="accordion_legend">
+                                                <th class="sort" scope="col" data-sort="name">
+                                                    {% trans 'Subject' %}
+                                                    <i class="fa fa-sort"></i>
+                                                </th>
+                                                <th class="sort" scope="col" data-sort="access">
+                                                    {% trans 'Recorded Logs' %}
+                                                    <i class="fa fa-sort"></i>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Table Navigation">
+                                    <ul id="subjects_pag" class="pagination"></ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                        
+                </div>
+                <div class="panel panel-info topic-panel">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-12 category-header">
+                                <h4 class="panel-title panel-title-resources">
+                                    <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#collapse3">
+                                        <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {% trans 'Resources' %}
+                                    </a>
+                                    
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="collapse3" class="panel-collapse collapse topic-panel">
+                        <div class="panel-body">
+                            <div class="users_table">
+                                <div id="table-container" class="table-responsive">
+                                    <table id="resources_table" class="table table-hover">
+                                        <thead>
+                                            <tr id="accordion_legend">
+                                                <th class="sort" scope="col" data-sort="name">
+                                                    {% trans 'Resource' %}
+                                                    <i class="fa fa-sort"></i>
+                                                </th>
+                                                <th class="sort" scope="col" data-sort="access">
+                                                    {% trans 'Recorded Logs' %}
+                                                    <i class="fa fa-sort"></i>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Table Navigation">
+                                    <ul id="resources_pag" class="pagination"></ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                        
+                </div>
+                
+                
+           </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{% static 'dashboards/js/manager/recordedlogs_table.js' %}"></script>

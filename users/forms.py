@@ -397,3 +397,9 @@ class SetPasswordForm(Validation):
         model = User
         fields = []
 
+
+class SelectSupport(forms.Form):
+    support = forms.ModelChoiceField(
+        queryset=User.objects.all(), label=_("Support"), required=True
+    )
+

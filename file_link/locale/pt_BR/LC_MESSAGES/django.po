@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-16 13:59+0000\n"
+"POT-Creation-Date: 2020-08-21 03:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,31 +92,31 @@ msgstr "Notificações de Pendências"
 msgid "Action not performed by the user"
 msgstr "Ação não realizada pelo usuário"
 
-#: file_link/templates/file_links/_form.html:183
+#: file_link/templates/file_links/_form.html:179
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: file_link/templates/file_links/_form.html:249
+#: file_link/templates/file_links/_form.html:245
 msgid "Students"
 msgstr ""
 
-#: file_link/templates/file_links/_form.html:279
+#: file_link/templates/file_links/_form.html:275
 msgid "Attribute students to file link"
 msgstr "Atribuir estudantes ao Link para Arquivo"
 
-#: file_link/templates/file_links/_form.html:299
+#: file_link/templates/file_links/_form.html:295
 msgid "Attribute groups to file link"
 msgstr "Atribuir grupos de estudo ao Link para Arquivo"
 
-#: file_link/templates/file_links/_form.html:345
+#: file_link/templates/file_links/_form.html:341
 msgid "Save"
 msgstr "Salvar"
 
-#: file_link/templates/file_links/_form.html:349
+#: file_link/templates/file_links/_form.html:345
 msgid "Cancel"
 msgstr ""
 
-#: file_link/templates/file_links/create.html:32 file_link/views.py:206
+#: file_link/templates/file_links/create.html:32 file_link/views.py:235
 msgid "Create File Link"
 msgstr "Criar Link para Arquivo"
 
@@ -192,12 +192,12 @@ msgstr "Enviar"
 msgid "Edit: "
 msgstr "Editar: "
 
-#: file_link/views.py:133 file_link/views.py:146 file_link/views.py:257
-#: file_link/views.py:259 file_link/views.py:275 file_link/views.py:277
+#: file_link/views.py:142 file_link/views.py:162 file_link/views.py:303
+#: file_link/views.py:310 file_link/views.py:335 file_link/views.py:343
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: file_link/views.py:218
+#: file_link/views.py:250
 #, python-format
 msgid ""
 "The File Link \"%s\" was added to the Topic \"%s\" of the virtual "
@@ -206,16 +206,16 @@ msgstr ""
 "O Link para Arquivo \"%s\" foi adicionado ao tópico \"%s\" do ambiente "
 "virtual \"%s\" com sucesso!"
 
-#: file_link/views.py:321
+#: file_link/views.py:400
 msgid "Update File Link"
 msgstr "Atualizar Link para Arquivo"
 
-#: file_link/views.py:334
+#: file_link/views.py:417
 #, python-format
 msgid "The File Link \"%s\" was updated successfully!"
 msgstr "O Link para Arquivo \"%s\" foi atualizado com sucesso!"
 
-#: file_link/views.py:361
+#: file_link/views.py:451
 #, python-format
 msgid ""
 "The File Link \"%s\" was removed successfully from virtual environment \"%s"
@@ -224,52 +224,52 @@ msgstr ""
 "O Link para Arquivo \"%s\" foi removido do ambiente virtual \"%s\" com "
 "sucesso!"
 
-#: file_link/views.py:420
+#: file_link/views.py:526
 msgid "File Link Reports"
 msgstr "Relatŕios de Link para Arquivo"
 
-#: file_link/views.py:439
+#: file_link/views.py:560
 msgid "Realized"
 msgstr "Realizada"
 
-#: file_link/views.py:439
+#: file_link/views.py:561
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: file_link/views.py:439
+#: file_link/views.py:562
 msgid "Historic"
 msgstr "Histórico"
 
-#: file_link/views.py:454 file_link/views.py:462
+#: file_link/views.py:604 file_link/views.py:614
 msgid "View"
 msgstr "Visualizar"
 
-#: file_link/views.py:463
+#: file_link/views.py:615
 msgid "File link"
 msgstr "Link para Arquivo"
 
-#: file_link/views.py:468
+#: file_link/views.py:620
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: file_link/views.py:469
+#: file_link/views.py:621
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: file_link/views.py:516
+#: file_link/views.py:676
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: file_link/views.py:528
+#: file_link/views.py:692
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: file_link/views.py:537
+#: file_link/views.py:708
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: file_link/views.py:539
+#: file_link/views.py:710
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
 

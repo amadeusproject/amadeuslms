@@ -1,0 +1,114 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+{% load static i18n %}
+
+<div class="row">
+    
+     <div class="col-md-12 usersgraph" data-url="{% url 'dashboards:general_bar_chart' %}"> 
+        <div class="header">
+            <div class="identifier">
+                <b>
+                    {% trans 'Users' %}
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="{% trans 'Compares the number of active and inactive users in the selected period' %}"></i>
+                </b>
+            </div>
+        </div>
+        <div class="info">
+            <div class="info_icon" style="background-color: #459788; "></div><p class="text-usersgraph-legend">{% trans 'Active users' %}</p><div class="info_icon" style="background-color: #972717; "></div><p class="text-cloudy-legend">{% trans 'Inactive users' %}</p>
+        </div>
+        <div class="users_chart">
+            <div class="container">
+                
+                <div class="row">
+                
+                    <div class="active-users">
+                        <div class="col-md-12">
+                            <div class="col-md-6 teacher-active">
+                                <div class="legend-chart" id="legend_teacher">
+                                    Professores
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-8" id="teacher-active">
+                                        <p id="number-teacher-active">0</p>
+                                    </div>
+                                    <div class="col-md-4" id="teacher-percent-1">
+                                        <div class="col-md-12" id="teacher-percent-2">
+                                            <p id="teacher-percent-value">0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="legend-chart" id="legend_students">
+                                    Estudantes 
+                                </div>
+                                <div class="col-md-12 students-active">
+                                    <div class="col-md-8" id="students-active">
+                                        <p id="number-students-active">0</p>
+                                    </div>
+                                    <div class="col-md-4" id="students-percent-1">
+                                        <div class="col-md-12" id="students-percent-2">
+                                            <p id="students-percent-value">0</p>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                </div> 
+            </div>
+            
+            {% comment %} Divisão aqui  {% endcomment %}
+            <div class="container">
+                <div class="row">
+                    <div class="inactive-users">
+                        <div class="col-md-12">
+                            <div class="col-md-6 teacher-inactive">
+                                <div class="col-md-12">
+                                    <div class="col-md-8" id="teacher-inactive">
+                                        <p id="number-teacher-inactive">0</p>
+                                    </div>
+                                    <div class="col-md-4" id="percent-teacher-inactive-1">
+                                        <div class="col-md-12" id="percent-teacher-inactive-2">
+                                            <p id="percent-teacher-value">0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12 students-inactive">
+                                    <div class="col-md-8" id="students-inactive">
+                                        <p id="number-students-inactive">0</p>
+                                    </div>
+                                    <div class="col-md-4" id="percent-students-inactive-1">
+                                        <div class="col-md-12" id="percent-students-inactive-2">
+                                            <p id="percent-students-value">0</p>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                </div> 
+            </div>
+            
+            {% comment %}   Colors: #99D5CF #52B5AB #459788 verdes
+                            Colors: #D5999E #B54B54 #972717 vermelhos
+            {% endcomment %}
+        </div>
+        <div><p><a>Download xml file</a> </p></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{% static 'dashboards/js/manager/users_bar.js' %}"></script>

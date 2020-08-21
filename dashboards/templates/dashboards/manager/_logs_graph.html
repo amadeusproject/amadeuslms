@@ -1,0 +1,35 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+{% load static i18n %}
+
+<div class="row">
+     <div class="col-md-12 logsgraph" data-url="{% url 'dashboards:general_logs_chart' %}"> 
+        <div class="header">
+            <div class="identifier">
+                <b>
+                    {% trans 'Recorded logs in the system' %}
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="{% trans 'Represents a series with the set of number of logs in the selected period.' %}"></i>
+                </b>
+            </div>
+        </div>
+        <div class="info">
+            <p class='text-cloudy-legend'> </p>       
+        </div>
+        
+        <div class="logs_chart">
+            
+        </div>
+        
+    </div>
+</div>
+
+<script type="text/javascript" src="{% static 'dashboards/js/manager/logschart.js' %}"></script>

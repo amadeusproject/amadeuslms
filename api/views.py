@@ -360,8 +360,7 @@ class ParticipantsViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
 
             participants = (
                 User.objects.filter(
-                    Q(is_staff=True)
-                    | Q(subject_student__slug=subject_slug)
+                    Q(subject_student__slug=subject_slug)
                     | Q(professors__slug=subject_slug)
                     | Q(coordinators__subject_category__slug=subject_slug)
                 )

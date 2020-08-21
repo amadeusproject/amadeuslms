@@ -21,7 +21,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         <img src="{{ talking_to.image_url }}" class="img-responsive" />
     </div>
     <div class="col-md-6 col-sm-6 col-xs-10 user-info">
-        <h4 class='talking-header'><a class="user_{{ talking_to.id }}_status status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ talking_to }} (<span class="chat_notify_list">{{ chat|notifies:request.user }}</span>)</h4>
+        <h4 class='talking-header'><a class="user_{{ talking_to.id }}_status status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {% if talking_to.is_support %}[{% trans "Support" %}]{% endif %} {{ talking_to }} (<span class="chat_notify_list">{{ chat|notifies:request.user }}</span>)</h4>
         <p class="talk-last_msg">{% trans 'Last message in' %} {{ chat|last_message }}</p>
     </div>
     <div class="col-md-4 col-sm-4 col-xs-12 buttons pull-right text-center">

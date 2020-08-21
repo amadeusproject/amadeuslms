@@ -1,0 +1,48 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+{% load static i18n %}
+
+<div class="row">
+     <div class="col-md-12 heatmap" data-url="{% url 'dashboards:general_heatmap_chart' %}">
+     <div class="header">
+            <div class="identifier">
+                <b>
+                    {% trans 'Days with more users' %}
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="{% trans 'Compares the number of distinct users in each day' %}"></i>
+                </b>
+            </div>
+    </div>
+        <div class="info">
+            <div class="info_icon" style="background-image: linear-gradient(to right, #8EC99A, #162318); "></div>
+            <p class="text-cloudy-legend">{% trans 'Distinct users' %}</p>
+        </div>
+        <div class="radio-heatmap">    
+                <div class="form-check form-check-inline1">
+                    <input class="form-check-input" type="radio" name="radio-heatmap" id="studentsHeatMap" value="4">
+                    <label class="form-check-label" >Estudantes</label>
+                </div>
+                <div class="form-check form-check-inline2">
+                    <input class="form-check-input" type="radio" name="radio-heatmap" id="teachersHeatMap" value="5">
+                    <label class="form-check-label" >Professores</label>
+                </div>
+                <div class="form-check form-check-inline3">
+                    <input class="form-check-input" type="radio" name="radio-heatmap" id="generalHeatMap" value="3" checked>
+                    <label class="form-check-label" >Geral</label>
+                </div>
+        </div>
+        <div class="heatmap_chart">
+         
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{% static 'dashboards/js/manager/heatmap.js' %}"></script>

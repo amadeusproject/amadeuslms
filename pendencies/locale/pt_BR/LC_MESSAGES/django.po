@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-16 13:59+0000\n"
+"POT-Creation-Date: 2020-08-21 03:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: pendencies/forms.py:61 pendencies/forms.py:64 pendencies/forms.py:67
-#: pendencies/forms.py:142 pendencies/forms.py:145 pendencies/forms.py:148
-#: pendencies/forms.py:151
+#: pendencies/forms.py:62 pendencies/forms.py:65 pendencies/forms.py:69
+#: pendencies/forms.py:72 pendencies/forms.py:75 pendencies/forms.py:201
+#: pendencies/forms.py:208 pendencies/forms.py:211 pendencies/forms.py:214
+#: pendencies/forms.py:217
 msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
-#: pendencies/forms.py:72 pendencies/forms.py:156
+#: pendencies/forms.py:83 pendencies/forms.py:225
 msgid "This input should be filled with a date equal or before the End Date."
 msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou anterior à Data Final."
 
-#: pendencies/forms.py:73 pendencies/forms.py:157 pendencies/forms.py:163
+#: pendencies/forms.py:89 pendencies/forms.py:231 pendencies/forms.py:247
 msgid "This input should be filled with a date equal or after the Begin Date."
 msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou posterior à Data "
 "Inicial."
 
-#: pendencies/forms.py:80 pendencies/forms.py:90 pendencies/forms.py:176
-#: pendencies/forms.py:186 pendencies/forms.py:196
+#: pendencies/forms.py:104 pendencies/forms.py:134 pendencies/forms.py:278
+#: pendencies/forms.py:308 pendencies/forms.py:338
 msgid "This input should be filled with a date equal or after today's date."
 msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou posterior à data atual."
 
-#: pendencies/forms.py:83 pendencies/forms.py:93 pendencies/forms.py:179
-#: pendencies/forms.py:189 pendencies/forms.py:199
+#: pendencies/forms.py:112 pendencies/forms.py:142 pendencies/forms.py:286
+#: pendencies/forms.py:316 pendencies/forms.py:346
 #, python-format
 msgid ""
 "This input should be filled with a date equal or after the subject begin "
@@ -51,8 +52,8 @@ msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou posterior à data "
 "inicial do assunto.(\"%s\")"
 
-#: pendencies/forms.py:86 pendencies/forms.py:96 pendencies/forms.py:182
-#: pendencies/forms.py:192 pendencies/forms.py:202
+#: pendencies/forms.py:121 pendencies/forms.py:151 pendencies/forms.py:295
+#: pendencies/forms.py:325 pendencies/forms.py:355
 #, python-format
 msgid ""
 "This input should be filled with a date equal or before the subject end date."
@@ -61,18 +62,24 @@ msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou anterior à data final "
 "do assunto.(\"%s\")"
 
-#: pendencies/forms.py:162 pendencies/forms.py:168
+#: pendencies/forms.py:204
+#, fuzzy
+#| msgid "This field is required."
+msgid "this field is required."
+msgstr "Esse campo é obrigatório."
+
+#: pendencies/forms.py:241 pendencies/forms.py:257
 msgid "This input should be filled with a date equal or before the Limit Date."
 msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou anterior à Data Final."
 
-#: pendencies/forms.py:169
+#: pendencies/forms.py:263
 msgid "This input should be filled with a date equal or after the End Date."
 msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou posterior à Data "
 "Inicial."
 
-#: pendencies/forms.py:210 pendencies/forms.py:214 pendencies/forms.py:218
+#: pendencies/forms.py:373 pendencies/forms.py:383 pendencies/forms.py:393
 #, python-format
 msgid ""
 "This input should be filled with a date equal or before the goals submission "
@@ -81,72 +88,76 @@ msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou anterior à data final "
 "do assunto.(\"%s\")"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:23
 msgid "Action"
 msgstr "Ação"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:26
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:27
 msgid "Create"
 msgstr "Criar"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:28
 msgid "Answer"
 msgstr "Responder"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:29
 msgid "Access"
 msgstr "Acessar"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:30
 msgid "Participate"
 msgstr "Participar"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:31
 msgid "Finish"
 msgstr "Finalizar"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:32
 msgid "Submit"
 msgstr "Enviar"
 
-#: pendencies/models.py:21
+#: pendencies/models.py:33
 msgid "Start"
 msgstr ""
 
-#: pendencies/models.py:22
+#: pendencies/models.py:34
+msgid "Watch"
+msgstr ""
+
+#: pendencies/models.py:38
 msgid "Begin Date"
 msgstr "Data Inicial"
 
-#: pendencies/models.py:23
+#: pendencies/models.py:39
 msgid "End Date"
 msgstr "Data Final"
 
-#: pendencies/models.py:24
+#: pendencies/models.py:40
 msgid "Limit Date"
 msgstr "Data Limite"
 
-#: pendencies/models.py:25
+#: pendencies/models.py:43
 msgid "Resource"
 msgstr "Recurso"
 
-#: pendencies/models.py:28
+#: pendencies/models.py:51
 msgid "Pendency"
 msgstr ""
 
-#: pendencies/models.py:29
+#: pendencies/models.py:54
 msgid "Student"
 msgstr ""
 
-#: pendencies/models.py:30
+#: pendencies/models.py:56
 #, fuzzy
 #| msgid "End Date"
 msgid "Done Date"
 msgstr "Data Final"
 
-#: pendencies/models.py:31
+#: pendencies/models.py:57
 msgid "Done late"
 msgstr ""

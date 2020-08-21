@@ -1,0 +1,270 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% extends 'base.html' %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs %}
+
+
+{% block style %}
+   
+    <link rel="stylesheet" type="text/css" href="{% static 'analytics/css/brush_zoom.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboards/css/general_analytics.css' %}" />
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datetimepicker.css' %}">
+    
+{% endblock %}
+
+{% block javascript %}
+     {% include "dashboards/d3_translate.html" %}
+    
+    <script type="text/javascript" src="{% static 'analytics/js/d3.v5.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'analytics/js/ToolTip.js' %}"></script>
+    <script type="text/javascript" src="{% static 'analytics/js/d3.v3.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'analytics/js/JSUtil.js' %}"></script>
+    <script type="text/javascript" src="{% static 'analytics/js/brush_zoom.js' %}"></script>
+    
+    
+    
+    
+{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    
+    {% trans 'General Analytics' as analytics %}
+
+    {% breadcrumb analytics 'dashboard:view_manager_dashboard' %}
+{% endblock %}
+
+
+{% block content %}
+    <div id="core-subjects-options-div">
+        
+            <ul class="core-subjects-options mural-tabs">
+                    <a href="#">
+                    <li data-mural="general" class="active">
+                        {% trans "General" %}
+                    </li>
+                    </a>
+                   <li data-mural="general"> 
+                        {% trans "By Category" %}
+                    <li data-mural="general" >
+                        {% trans "By Subject" %}
+                    </li>
+              
+            </ul>
+        
+    </div>
+
+    <div class="panel panel-info subject-panel" id="subject_{{subject.slug}}">
+
+        <div class="panel-heading">
+            
+            <div class="row">
+                <div class="col-md-12 category-header">
+                    <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
+                        <span> {% trans 'General Analytics' %}</span>
+                    </h4>
+
+                    <div class="col-md-5 pull-right category-card-items">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div id="{{subject.slug}}" class="panel-collapse panel-body in collapse analytics-ungeneral">
+            
+            <div class="row">
+                <div class="core-subjects-options-div">
+                        <ul class="core-subjects-options mural-tabs">
+                            <a href="">
+                                <li class="active">
+                                    {% trans "Highlights" %}
+                                </li>
+                            </a>
+                                <li>
+                                        {% trans "Log" %}
+                                </li>
+                        </ul>
+                    </div>
+                <div class="col-md-12">
+                    
+                    
+                    <form id="period" class="form-inline" action="" method="POST">
+                        {% csrf_token %}
+                        <div class="period-title">
+                            <span> {% trans 'Select the required period' %}:</span>
+                        
+                        <div class="form-group">
+                            <label for="from">{% trans 'From' %}:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control date-picker" id="from" name="from" value="{{ data_ini|date:'SHORT_DATE_FORMAT' }}" />
+                                <div class="input-group-addon" onclick="$('#from').focus()">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="until">{% trans 'Until' %}:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control date-picker" id="until" name="until" value="{{ data_end|date:'SHORT_DATE_FORMAT' }}" />
+                                <div class="input-group-addon" onclick="$('#until').focus()">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alert alert-danger data-error" style="display: none;" role="alert">
+                            Data/Período inválido. Por favor, selecione uma data inicial igual ou anterior à data do final.
+                        </div>
+                    </form>
+                    
+                    </div>
+                </div>
+            </div>
+            
+            <div class="container" style="max-width: 100%">
+                <div class="row nopadding">
+                    <div class="col-md-12 nopadding">
+                        <div class="row ">
+                            <div class="col-md-4 ">
+                                <div id="panel_loading_mask1">
+                                    <div class="loading">
+                                        {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
+                                    </div>
+                                </div>
+                                <!-- Users graph -->
+                                {% include "dashboards/manager/_users_graph.html" %}
+                            </div>
+                            <div class="col-md-8">
+                                <div id="panel_loading_mask2">
+                                    <div class="loading">
+                                        {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
+                                    </div>
+                                </div>
+                                <!-- logs graph -->
+                                {% include "dashboards/manager/_logs_graph.html" %}
+                                
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div id="panel_loading_mask3">
+                            <div class="loading">
+                                {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
+                            </div>
+                        </div>
+                        <!-- Tabela de recursos -->
+                        {% include "dashboards/manager/_logs_table.html" %}
+                    </div>
+                    <div class="col-md-4">
+                        <div id="panel_loading_mask4">
+                            <div class="loading">
+                                {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
+                            </div>
+                        </div>
+                        <!-- Users cloud -->
+                        {% include "dashboards/manager/_users_bubble.html" %}
+                    </div>
+                    <div class="col-md-4">
+                        <div id="panel_loading_mask5">
+                            <div class="loading">
+                                {% include 'dashboards/loading_ball.html' with tittle="modal_cloudy_loading_ball" %}
+                            </div>
+                        </div>
+                        <!-- Heatmap -->
+                        {% include "dashboards/manager/_heatmap.html" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+{% endblock %}
+
+ {% block addtional_scripts %} 
+    <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
+    {% comment %} <script type="text/javascript" src="{% static 'dashboards/js/manager/script.js' %}"></script> {% endcomment %}
+    <script type="text/javascript">
+        $("#panel_loading_mask1").show();
+        $("#panel_loading_mask2").show();
+        $("#panel_loading_mask3").show();
+        $("#panel_loading_mask4").show();
+        $("#panel_loading_mask5").show();
+        
+        
+
+        sessionSecurity.confirmFormDiscard = undefined;
+
+        $(function () {
+            $(".date-picker").on('dp.change', () => {
+                
+
+                const dataIni = $("#from").val()
+                const dataEnd = $("#until").val()
+                
+                const d1 = dataIni.split("/");
+                const data_in = new Date(d1[2], d1[1], d1[0]-1);
+                const d2 = dataEnd.split("/");
+                const data_end = new Date(d2[2], d2[1], d2[0]-1);
+            
+                if (data_in > data_end) {
+                    $(".data-error").css("display", "block");
+                } else { 
+                    $('input[name=inlineRadioOptions][value=0]').prop("checked",true);
+                    $('input[name=radio-heatmap][value=3]').prop("checked",true);
+                    $("#panel_loading_mask1").show();
+                    $("#panel_loading_mask2").show();
+                    $("#panel_loading_mask3").show();
+                    $("#panel_loading_mask4").show();
+                    $("#panel_loading_mask5").show();
+                    $(".data-error").css("display", "none");
+                   
+                    const usersgraphUrl = $(".usersgraph").data("url");
+    
+                    loadBarChartData(usersgraphUrl, $("#from").val(), $("#until").val());
+                    
+                    const logsGraphUrl = $(".logsgraph").data("url");
+                    $(".logs_chart").html();
+                    loadLogsGraph(logsGraphUrl, $("#from").val(), $("#until").val());
+                    
+                    const dataRecourseUrl = $(".recordedlogs").data("url");
+                    loadDataResources(dataRecourseUrl, $("#from").val(), $("#until").val());
+                    
+                    const bubbleUrl = $(".bubble_users").data("url");
+                    const heatmapUrl = $(".heatmap").data("url");
+
+                    $(".bubble_users .users_cloud").html("");
+                    document.getElementsByName("inlineRadioOptions").forEach(function(e) {
+                        if(e.checked)
+                            bubbleData(bubbleUrl, dataIni, dataEnd, e.value);
+                    
+                    });
+                    $(".heatmap .heatmap_chart").html("");
+                    document.getElementsByName("radio-heatmap").forEach(function(e) {   
+                       if(e.checked)
+                            heatmapData(heatmapUrl, $("#from").val(), $("#until").val(), e.value);
+                        });
+                    
+                }
+            });
+        });
+    </script>
+
+
+{% endblock %}

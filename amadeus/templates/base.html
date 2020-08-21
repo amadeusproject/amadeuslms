@@ -12,7 +12,7 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 -->
 
-{% load static i18n django_bootstrap_breadcrumbs %}
+{% load static i18n django_bootstrap_breadcrumbs permissions_tags %}
 {% get_current_language as LANGUAGE_CODE %}
 
 <html>
@@ -196,6 +196,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                 <span class="visible-xs-inline">{% trans 'Settings' %}</span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
+                                <li><a href="{% url 'users:support_select' %}">{% trans 'Designate Support' %}</a></li>
                                 <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
                                 <li><a href="{% url 'categories:index' %}">{% trans 'Manage Categories' %}</a></li>
 								<li><a href="{% url 'news:manage_news' %}">{% trans 'Manage News' %}</a></li>
@@ -259,6 +260,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                         {% trans 'Settings' %}
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{% url 'users:support_select' %}">{% trans 'Designate Support' %}</a></li>
                                         <li><a href="{% url 'users:manage' %}">{% trans 'Manage Users' %}</a></li>
                                         <li><a href="{% url 'categories:index' %}">{% trans 'Manage Categories' %}</a></li>
                                         <li><a href="{% url 'news:manage_news' %}">{% trans 'Manage News' %}</a></li>
@@ -363,6 +365,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
             <div id="sidebar-menu-div" class="col-md-1 col-lg-1 hidden-xs hidden-sm">
                 {% block sidebar %}
+                    {% analytics_permissions request.user as has_analytics_permissions %}
+                    {% show_support_button request.user as show_support %}
                     <ul id="sidebar-menu">
                         <li class="item {{ subjects_menu_active }}" id="subjects-link" data-toggle="tooltip" data-placement="right" title="{% trans "Subjects" %}">
                             <a href="{% url 'subjects:index' %}">
@@ -389,9 +393,16 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                 {% endif %}
                             </a>
                         </li>
-                        <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Analytics" %}">
-                            <a href=""><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
-                        </li>
+                        {% if has_analytics_permissions %}
+                            <li class="item {{ dashboard_menu_active }}" data-toggle="tooltip" data-placement="right" title="{% trans "Analytics" %}">
+                                <a href="{% url 'dashboards:view_manager_dashboard' %}"><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
+                            </li>
+                        {% endif %}
+                        {% if show_support %}
+                            <li class="item" data-toggle="tooltip" data-placement="right" title="{% trans "Support" %}">
+                                <a href="javascript:TalkSupport({% has_support %}, '{% trans "The responsible for the support has not being assigned yet." %}', '{% url 'chat:support' %}')"><i class="fa fa-question-circle" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
+                            </li>
+                        {% endif %}
                     </ul>
                 {% endblock %}
             </div>
@@ -416,6 +427,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     {% endblock %}
 
     {% block bottommenu %}
+        {% analytics_permissions request.user as has_analytics_permissions %}
+        {% show_support_button request.user as show_support %}
         <div class="clearfix visible-xs visible-sm"></div>
         <div class="bottom-menu visible-xs visible-sm">
             <div class="row">
@@ -451,14 +464,22 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                 {% endif %}
                             </a>
                         </li>
-
-                        <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Analytics" %}">
-                            <a href=""><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
-                        </li>
+                        {% if has_analytics_permissions %}
+                            <li class="item {{ dashboard_menu_active }}" data-toggle="tooltip" data-placement="top" title="{% trans "Analytics" %}">
+                                <a href="{% url 'dashboards:view_manager_dashboard' %}"><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
+                            </li>
+                        {% endif %}
+                        {% if show_support %}
+                            <li class="item" data-toggle="tooltip" data-placement="top" title="{% trans "Support" %}">
+                                <a href="javascript:TalkSupport({% has_support %}, '{% trans "The responsible for the support has not being assigned yet." %}', '{% url 'chat:support' %}')"><i class="fa fa-question-circle" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="support-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
     {% endblock %}
 
     {% include 'session_security/all.html' %}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-16 13:59+0000\n"
+"POT-Creation-Date: 2020-08-21 03:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,27 +80,27 @@ msgstr "Notificações pendentes"
 msgid "Action not performed by the user"
 msgstr "Ação não permitida pelo usuário"
 
-#: pdf_file/templates/pdf_file/_form.html:185
+#: pdf_file/templates/pdf_file/_form.html:181
 msgid "Wished period"
 msgstr "Período desejado"
 
-#: pdf_file/templates/pdf_file/_form.html:251
+#: pdf_file/templates/pdf_file/_form.html:247
 msgid "Students"
 msgstr "Estudantes"
 
-#: pdf_file/templates/pdf_file/_form.html:281
+#: pdf_file/templates/pdf_file/_form.html:277
 msgid "Attribute students to pdf file"
 msgstr "Atribua estudantes ao Arquivo PDF"
 
-#: pdf_file/templates/pdf_file/_form.html:301
+#: pdf_file/templates/pdf_file/_form.html:297
 msgid "Attribute groups to pdf file"
 msgstr "Atribua grupos ao Arquivo PDF"
 
-#: pdf_file/templates/pdf_file/_form.html:370
+#: pdf_file/templates/pdf_file/_form.html:366
 msgid "Save"
 msgstr "Salvar"
 
-#: pdf_file/templates/pdf_file/_form.html:374
+#: pdf_file/templates/pdf_file/_form.html:370
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -193,16 +193,16 @@ msgstr "Remover"
 msgid "Resource Mural"
 msgstr "Mural do recurso"
 
-#: pdf_file/views.py:141 pdf_file/views.py:154 pdf_file/views.py:266
-#: pdf_file/views.py:268 pdf_file/views.py:284 pdf_file/views.py:286
+#: pdf_file/views.py:152 pdf_file/views.py:172 pdf_file/views.py:317
+#: pdf_file/views.py:324 pdf_file/views.py:349 pdf_file/views.py:357
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: pdf_file/views.py:214
+#: pdf_file/views.py:245
 msgid "Create PDF File"
 msgstr "Criar o arquivo PDF"
 
-#: pdf_file/views.py:226
+#: pdf_file/views.py:260
 #, python-format
 msgid ""
 "The PDF File \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -211,68 +211,68 @@ msgstr ""
 "O arquivo PDF \"%s\"  foi adicionado ao topico \"%s\" do ambiente virtual "
 "\"%s\" com sucesso!"
 
-#: pdf_file/views.py:330
+#: pdf_file/views.py:414
 msgid "Update PDF File"
 msgstr "Atualize arquivo PDF"
 
-#: pdf_file/views.py:343
+#: pdf_file/views.py:431
 #, python-format
 msgid "The PDF File \"%s\" was updated successfully!"
 msgstr "O arquivo PDF \"%s\"  foi atualizado com sucesso!"
 
-#: pdf_file/views.py:370
+#: pdf_file/views.py:465
 #, python-format
 msgid ""
 "The PDF File \"%s\" was removed successfully from virtual environment \"%s\"!"
 msgstr ""
 "O arquivo PDF \"%s\"  foi removido com sucesso do ambiente virtual \"%s\" "
 
-#: pdf_file/views.py:428
+#: pdf_file/views.py:540
 msgid "PDF File Reports"
 msgstr "Relatórios do arquivo de PDF"
 
-#: pdf_file/views.py:448
+#: pdf_file/views.py:575
 msgid "Realized"
 msgstr "Realizada"
 
-#: pdf_file/views.py:448
+#: pdf_file/views.py:576
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: pdf_file/views.py:448
+#: pdf_file/views.py:577
 msgid "Historic"
 msgstr "Histórico"
 
-#: pdf_file/views.py:464 pdf_file/views.py:472
+#: pdf_file/views.py:619 pdf_file/views.py:629
 msgid "View"
 msgstr "Visualizar"
 
-#: pdf_file/views.py:473
+#: pdf_file/views.py:630
 msgid "PDF File"
 msgstr "Criar o arquivo PDF"
 
-#: pdf_file/views.py:478
+#: pdf_file/views.py:635
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: pdf_file/views.py:479
+#: pdf_file/views.py:636
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: pdf_file/views.py:526
+#: pdf_file/views.py:691
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: pdf_file/views.py:538
+#: pdf_file/views.py:707
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: pdf_file/views.py:547
+#: pdf_file/views.py:723
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: pdf_file/views.py:549
+#: pdf_file/views.py:725
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
 
