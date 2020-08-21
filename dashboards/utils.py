@@ -1061,7 +1061,7 @@ def generalUsersAccess(
         for professor in teachers_list:
             if professor.id not in teachers_id:
                 for i, student in enumerate(students_ids):
-                    if student == professor:
+                    if student == professor.id:
                         del students_ids[i]
                         del searchs[i]
                         cont-=1
@@ -1103,16 +1103,28 @@ def generalUsersAccess(
                 item = {}
                 if i < cont:
                     obj = students[i]
-                    item["teacher"] = 0
+                    if obj.id in teachers_id:
+                        teachers_id.append(obj.id)
+                        item["teacher"] = 1
+                    else: 
+                        item["teacher"] = 0
                 elif i < cont2:
                     obj = teachers_list[i - cont]
                     item["teacher"] = 1
                 elif i < cont3:
                     obj = coordinators_list[i - cont2]
-                    item["teacher"] = 2
+                    if obj.id in teachers_id:
+                        teachers_id.append(obj.id)
+                        item["teacher"] = 1
+                    else: 
+                        item["teacher"] = 2
                 elif j == 0:
                     obj = admins[i-cont3]
-                    item["teacher"] = 2
+                    if obj.id in teachers_id:
+                        teachers_id.append(obj.id)
+                        item["teacher"] = 1
+                    else: 
+                        item["teacher"] = 2
                     admins_id.append(obj.id)
                 item["count"] = access
                 item["image"] = obj.image_url
@@ -1181,6 +1193,8 @@ def general_logs(user, data_ini, data_end):
     days = []
 
     for day in period:
+        # day = day.strftime('%d/%m/%Y %H:%M')
+        # print(day)
         searchs.append(count_daily_general_logs_access1(day))
         searchs.append(count_daily_general_logs_access2(day))
         days.append(day)

@@ -3,7 +3,7 @@ function loadLogsGraph(url, dataIni, dataEnd) {
     $(".logsgraph > .info").html("");
     $(".logs_chart").html(dataset["div"]);
     $(".logsgraph .info").append(`<p class='text-cloudy-legend' style="margin-right:25%"> Mínimo diário: ${dataset['min']} </p>     <p class='text-cloudy-legend' style="margin-right:25%">Máximo diário: ${dataset["max"]}</p>            <p class='text-cloudy-legend'>Total: ${dataset["total"]}</p>`);
-    console.log(dataset);
+    
 }
     
  );

@@ -517,8 +517,15 @@ def count_general_resource_logs_period(subjects, data_ini, data_end):
                 "range",
                 datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
             ),
-            Q("bool", should=conds),
+            Q(
+                "bool",
+                should=conds
+            ),
             Q("match", component="resources"),
+            Q(
+                "bool",
+                should=[Q("match", action="access"),Q("match", action="create"),Q("match", action="view_statistics"), Q("match", action="view"),Q("match", action="update"),Q("match", action="delete"),Q("match", action="finish"),Q("match", action="watch"),],
+            ),
         ],
     )
 
