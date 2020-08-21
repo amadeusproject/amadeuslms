@@ -202,6 +202,9 @@ class PDFFileCreateView(LoginRequiredMixin, LogMixin, generic.CreateView):
         self.object.topic = topic
         self.object.order = topic.resource_topic.count() + 1
 
+        if self.object.students.count() <= 0:
+            self.object.all_students = True
+
         if not self.object.topic.visible and not self.object.topic.repository:
             self.object.visible = False
 
@@ -367,6 +370,9 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
     def form_valid(self, form, pendencies_form):
         self.object = form.save(commit=False)
+
+        if self.object.students.count() <= 0:
+            self.object.all_students = True
 
         if not self.object.topic.visible and not self.object.topic.repository:
             self.object.visible = False

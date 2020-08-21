@@ -765,293 +765,6 @@ def monthly_users_activity(subject, data_ini, data_end):
     return data
 
 
-# def general_monthly_users_activity(subjects, data_ini, data_end):
-#     period = get_days_in_period(data_ini, data_end)
-#     students_list = list()
-#     teacher_list = list()
-#     coordinators_list = list()
-#     subject_list= list()
-#     data = list()
-#     data2 = list()
-#     searchs =[]
-#     days=[]
-#     admins = User.objects.filter(is_staff=True).values_list("id", flat=True).order_by('id').distinct()
-#     for subject in subjects:
-#         students = subject.students.all().values_list("id", flat=True)
-#         professores = subject.professor.all().values_list("id", flat=True)
-#         category = subject.category
-#         coordinators = category.coordinators.all().values_list("id", flat=True)
-#         coordinators_list.extend(coordinators)
-#         students_list.extend(students)
-#         teacher_list.extend(professores)
-#         subject_list.append(subject)
-
-
-#     for day in period:
-#         searchs.append(count_general_daily_access(list(subject_list), list(students_list), day))
-#         searchs.append(count_general_daily_access(list(subject_list), list(teacher_list), day))
-#         searchs.append(count_general_daily_access(list(subject_list), list(coordinators_list), day))
-#         searchs.append(count_general_daily_access(list(subject_list), list(admins), day))
-
-#         days.append(day)
-
-
-#     if searchs:
-#         res = multi_search(searchs)
-
-
-#         accessess = [x.to_dict()["hits"] for x in res]
-
-
-#         users = set()
-#         dates_set = set()
-#         cont=0
-#         cont2=0
-#         for i,access in enumerate(accessess):
-#             for hits in access["hits"]:
-#                 log = hits["_source"]
-
-#                 accessDate = parse_datetime(log["datetime"])
-#                 dates_set.add(accessDate.date())
-
-#                 utuple = (
-#                     str(accessDate.day)
-#                     + "-"
-#                     + str(accessDate.month)
-#                     + "-"
-#                     + str(accessDate.year),
-#                     log["user_id"],
-#                 )
-#                 if not utuple in users:
-#                     users.add(utuple)
-
-#                     if cont==0:
-#                         data.append(
-#                             {
-#                                 "year": accessDate.year,
-#                                 "month": accessDate.month - 1,
-#                                 "day": accessDate.day,
-#                                 "hour": accessDate.hour,
-#                                 "user_id": log["user_id"],
-#                                 "value": 1,
-#                                 "count": 1,
-#                                 "teacher":0,
-
-#                             }
-#                         )
-#                     elif cont==1:
-#                         data.append(
-#                             {
-#                                 "year": accessDate.year,
-#                                 "month": accessDate.month - 1,
-#                                 "day": accessDate.day,
-#                                 "hour": accessDate.hour,
-#                                 "user_id": log["user_id"],
-#                                 "value": 1,
-#                                 "count": 1,
-#                                 "teacher":1,
-
-#                             }
-#                         )
-
-#                     elif cont==2:
-#                         data.append(
-#                             {
-#                                 "year": accessDate.year,
-#                                 "month": accessDate.month - 1,
-#                                 "day": accessDate.day,
-#                                 "hour": accessDate.hour,
-#                                 "user_id": log["user_id"],
-#                                 "value": 1,
-#                                 "count": 1,
-#                                 "teacher":2,
-
-#                             }
-#                         )
-#                     else:
-#                         data.append(
-#                             {
-#                                 "year": accessDate.year,
-#                                 "month": accessDate.month - 1,
-#                                 "day": accessDate.day,
-#                                 "hour": accessDate.hour,
-#                                 "user_id": log["user_id"],
-#                                 "value": 1,
-#                                 "count": 1,
-#                                 "teacher":2,
-
-#                             }
-#                         )
-#             if cont == 3:
-#                 cont=0
-#             else:
-#                 cont+=1
-#             cont2+=1
-
-#         for day in period:
-#             if not day in dates_set:
-#                 dates_set.add(day)
-#                 data.append(
-#                     {
-#                         "year": day.year,
-#                         "month": day.month - 1,
-#                         "day": day.day,
-#                         "hour": 0,
-#                         "user_id": 0,
-#                         "value": 0,
-#                         "count": 0,
-#                         "teacher":0,
-#                     }
-#                 )
-
-
-#         data = sorted(data, key=lambda x: (x["month"], x["day"]))
-
-#     return data
-
-# def general_monthly_users_activity(subjects, data_ini, data_end):
-#     period = get_days_in_period(data_ini, data_end)
-#     students_list = list()
-#     teacher_list = list()
-#     coordinators_list = list()
-#     subject_list= list()
-#     data = list()
-#     data2 = list()
-#     searchs =[]
-#     days=[]
-#     admins = User.objects.filter(is_staff=True).values_list("id", flat=True).order_by('id').distinct()
-#     for subject in subjects:
-#         students = subject.students.all().values_list("id", flat=True)
-#         professores = subject.professor.all().values_list("id", flat=True)
-#         category = subject.category
-#         coordinators = category.coordinators.all().values_list("id", flat=True)
-#         coordinators_list.extend(coordinators)
-#         students_list.extend(students)
-#         teacher_list.extend(professores)
-
-
-#     for day in period:
-#         searchs.append(count_general_daily_access( list(students_list), day))
-#         searchs.append(count_general_daily_access( list(teacher_list), day))
-#         searchs.append(count_general_daily_access( list(coordinators_list), day))
-#         searchs.append(count_general_daily_access( list(admins), day))
-
-#         days.append(day)
-
-
-#     if searchs:
-#         res = multi_search(searchs)
-
-
-#         accessess = [x.to_dict()["hits"] for x in res]
-
-
-#         users = set()
-#         dates_set = set()
-#         cont=0
-#         cont2=0
-#         for i,access in enumerate(accessess):
-#             for hits in access["hits"]:
-#                 log = hits["_source"]
-
-#                 accessDate = parse_datetime(log["datetime"])
-#                 dates_set.add(accessDate.date())
-
-#                 utuple = (
-#                     str(accessDate.day)
-#                     + "-"
-#                     + str(accessDate.month)
-#                     + "-"
-#                     + str(accessDate.year),
-#                     log["user_id"],
-#                 )
-#                 if not utuple in users:
-#                     users.add(utuple)
-
-#                     if i==0:
-#                         data.append(
-#                             {
-#                                 "year": accessDate.year,
-#                                 "month": accessDate.month - 1,
-#                                 "day": accessDate.day,
-#                                 "hour": accessDate.hour,
-#                                 "user_id": log["user_id"],
-#                                 "value": 1,
-#                                 "count": 1,
-#                                 "teacher":0,
-
-#                             }
-#                         )
-#                     elif cont==1:
-#                         data.append(
-#                             {
-#                                 "year": accessDate.year,
-#                                 "month": accessDate.month - 1,
-#                                 "day": accessDate.day,
-#                                 "hour": accessDate.hour,
-#                                 "user_id": log["user_id"],
-#                                 "value": 1,
-#                                 "count": 1,
-#                                 "teacher":1,
-
-#                             }
-#                         )
-
-#                     elif cont==2:
-#                         data.append(
-#                             {
-#                                 "year": accessDate.year,
-#                                 "month": accessDate.month - 1,
-#                                 "day": accessDate.day,
-#                                 "hour": accessDate.hour,
-#                                 "user_id": log["user_id"],
-#                                 "value": 1,
-#                                 "count": 1,
-#                                 "teacher":2,
-
-#                             }
-#                         )
-#                     else:
-#                         data.append(
-#                             {
-#                                 "year": accessDate.year,
-#                                 "month": accessDate.month - 1,
-#                                 "day": accessDate.day,
-#                                 "hour": accessDate.hour,
-#                                 "user_id": log["user_id"],
-#                                 "value": 1,
-#                                 "count": 1,
-#                                 "teacher":2,
-
-#                             }
-#                         )
-#             if cont == 3:
-#                 cont=0
-#             else:
-#                 cont+=1
-#             cont2+=1
-
-#         for day in period:
-#             if not day in dates_set:
-#                 dates_set.add(day)
-#                 data.append(
-#                     {
-#                         "year": day.year,
-#                         "month": day.month - 1,
-#                         "day": day.day,
-#                         "hour": 0,
-#                         "user_id": 0,
-#                         "value": 0,
-#                         "count": 0,
-#                         "teacher":0,
-#                     }
-#                 )
-
-
-#         data = sorted(data, key=lambda x: (x["month"], x["day"]))
-
-#     return data
-
 
 def general_monthly_users_activity(subjects, data_ini, data_end):
     period = get_days_in_period(data_ini, data_end)
@@ -1114,19 +827,20 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
                     users.add(utuple)
 
                     if log["user_id"] in students_list:
-                        data.append(
-                            {
-                                "year": accessDate.year,
-                                "month": accessDate.month - 1,
-                                "day": accessDate.day,
-                                "hour": accessDate.hour,
-                                "user_id": log["user_id"],
-                                "value": 1,
-                                "count": 1,
-                                "teacher": 0,
-                            }
-                        )
-                    elif log["user_id"] in teacher_list:
+                        if log["user_id"] not in teacher_list:
+                            data.append(
+                                {
+                                    "year": accessDate.year,
+                                    "month": accessDate.month - 1,
+                                    "day": accessDate.day,
+                                    "hour": accessDate.hour,
+                                    "user_id": log["user_id"],
+                                    "value": 1,
+                                    "count": 1,
+                                    "teacher": 0,
+                                }
+                            )
+                    if log["user_id"] in teacher_list:
                         data.append(
                             {
                                 "year": accessDate.year,
@@ -1312,6 +1026,7 @@ def generalUsersAccess(
     teachers_id = list()
     coordinators_id = list()
     admins = admins = User.objects.filter(is_staff=True).distinct()
+    admins_id = []
     if dataIni == "":
         # dataIni = "now-30d"
         dataIni = "now-7d"
@@ -1330,40 +1045,58 @@ def generalUsersAccess(
         cont = 0
         cont2 = 0
         users = []
+
+        userAccess = []
+
         for student in students:
             if student.id not in students_ids:
-                students_ids.append(student.id)
-                cont += 1
-                searchs.append(
-                    # count_access_subject_period(subject.id, student.id, dataIni, dataEnd)
-                    count_general_access_period(student.id, dataIni, dataEnd)
-                )
-        cont2 = cont
+                if student.id not in teachers_id:
+                    students_ids.append(student.id)
+                    cont+=1
+                    searchs.append(
+                        # count_access_subject_period(subject.id, student.id, dataIni, dataEnd)
+                        count_general_access_period(student.id, dataIni, dataEnd)
+                    )
+        cont2=cont
         for professor in teachers_list:
             if professor.id not in teachers_id:
+                for i, student in enumerate(students_ids):
+                    if student == professor:
+                        del students_ids[i]
+                        del searchs[i]
+                        cont-=1
+                        cont2=-1
                 teachers_id.append(professor.id)
                 cont2 += 1
                 searchs.append(
                     # count_access_subject_period(subject.id, professor.id, dataIni, dataEnd)
                     count_general_access_period(professor.id, dataIni, dataEnd)
                 )
+                userAccess.append(user_last_interaction(professor.id))
         cont3 = cont2
         for coordenador in coordinators_list:
             if coordenador.id not in coordinators_id:
                 if coordenador.id not in teachers_id:
-                    cont3 += 1
-                    searchs.append(
-                        # count_access_subject_period(subject.id, coordenador.id, dataIni, dataEnd)
-                        count_general_access_period(coordenador.id, dataIni, dataEnd)
-                    )
+                    if coordenador.id not in admins_id:
+                        cont3+=1
+                        searchs.append(
+                            # count_access_subject_period(subject.id, coordenador.id, dataIni, dataEnd)
+                            count_general_access_period(coordenador.id, dataIni, dataEnd)
+                        )
         if j == 0:
             for admin in admins:
                 searchs.append(
                     # count_access_subject_period(subject.id, admin.id, dataIni, dataEnd)
                     count_general_access_period(admin.id, dataIni, dataEnd)
                 )
+                userAccess.append(user_last_interaction(admin.id))
         if searchs:
             res = multi_search(searchs)
+
+            userAccessRes = None
+
+            if userAccess:
+                userAccessRes = multi_search(userAccess)
 
             accessess = [x.to_dict()["hits"]["total"]["value"] for x in res]
             for i, access in enumerate(accessess):
@@ -1378,9 +1111,9 @@ def generalUsersAccess(
                     obj = coordinators_list[i - cont2]
                     item["teacher"] = 2
                 elif j == 0:
-
-                    obj = admins[i - cont3]
+                    obj = admins[i-cont3]
                     item["teacher"] = 2
+                    admins_id.append(obj.id)
                 item["count"] = access
                 item["image"] = obj.image_url
                 item["user"] = str(obj)
@@ -1391,7 +1124,7 @@ def generalUsersAccess(
                 item["link_chat"] = reverse(
                     "chat:talk", args=(), kwargs={"email": obj.email},
                 )
-                item["status"], item["status_text"] = userStatus(obj)
+                item["status"], item["status_text"] = userStatus(obj, userAccessRes)
 
                 data.append(item)
         data.sort(key=lambda x: x["count"], reverse=True)
@@ -1399,21 +1132,33 @@ def generalUsersAccess(
     return data
 
 
-def userStatus(user):
+def userStatus(user, lastInteractions):
     expire_time = settings.SESSION_SECURITY_EXPIRE_AFTER
-    lastAction = Log.objects.filter(user_id=user.id)
 
     status = "inactive"
     status_text = _("Offline")
 
-    if lastAction.exists():
-        lastAction = lastAction.latest("datetime")
+    if not lastInteractions is None:
+        lastEntry = next(
+            (
+                item
+                for item in lastInteractions
+                if len(item.hits) > 0 and item.hits[0].user_id == user.id
+            ),
+            None,
+        )
 
-        timeDelta = timezone.localtime(timezone.now()) - lastAction.datetime
+        if not lastEntry is None:
+            timeDelta = datetime.now() - datetime.strptime(
+                lastEntry.hits[0].datetime[:-6], "%Y-%m-%dT%H:%M:%S.%f"
+            )
 
-        if lastAction.action != "logout" and timeDelta.total_seconds() < expire_time:
-            status = "active"
-            status_text = _("Online")
+            if (
+                lastEntry.hits[0].action != "logout"
+                and timeDelta.total_seconds() < expire_time
+            ):
+                status = "active"
+                status_text = _("Online")
 
     return status, status_text
 

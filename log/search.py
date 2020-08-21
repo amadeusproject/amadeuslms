@@ -240,10 +240,10 @@ def user_last_interaction(userid):
 
     s = s.query("match", user_id=userid).sort("-datetime")
 
-    return s[0:10000]
+    return s
 
 
-def count_access_subject(subject, userid= 0):
+def count_access_subject(subject, userid=0):
     s = Search().extra(size=0)
 
     s = s.query(
@@ -317,10 +317,8 @@ def count_access_subject_period(subject, userid, data_ini, data_end):
                 "range",
                 datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
             ),
-            
             Q("match", **{"context__subject_id": subject}),
             Q("match", user_id=userid),
-            
         ],
     )
 
@@ -366,43 +364,74 @@ def multi_search(searchs):
 
     return response
 
+
 def count_daily_general_logs_access(day):
     s = Search()
 
-    s = s.query('bool', must=[Q("range", datetime={'time_zone': '-03:00', 'gte': day, 'lte': day}), \
-       \
-        ])
+    s = s.query(
+        "bool",
+        must=[Q("range", datetime={"time_zone": "-03:00", "gte": day, "lte": day}),],
+    )
 
     return s
+
 
 def count_daily_general_logs_access1(day):
     s = Search()
 
-    s = s.query('bool', must=[Q("range", datetime={'time_zone': '-03:00', 'gte': day, 'lte': day+timedelta(hours=15)}), \
-       \
-        ])
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={
+                    "time_zone": "-03:00",
+                    "gte": day,
+                    "lte": day + timedelta(hours=15),
+                },
+            ),
+        ],
+    )
 
     return s
+
+
 def count_daily_general_logs_access2(day):
     s = Search()
 
-    s = s.query('bool', must=[Q("range", datetime={'time_zone': '-03:00', 'gte': day+timedelta(hours=15), 'lte': day+timedelta(hours=24)}), \
-       \
-        ])
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={
+                    "time_zone": "-03:00",
+                    "gte": day + timedelta(hours=15),
+                    "lte": day + timedelta(hours=24),
+                },
+            ),
+        ],
+    )
 
     return s
+
 
 def user_last_interaction_in_period(userid, data_ini, data_end):
     s = Search().extra(size=1)
 
-    s = s.query("bool",
+    s = s.query(
+        "bool",
         must=[
-            Q("range", datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end}),
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
             Q("match", user_id=userid),
-            
-        ])
+        ],
+    )
 
     return s[0:10000]
+
 
 def count_general_access_subject_period(subject, data_ini, data_end):
     s = Search().extra(size=0)
@@ -434,6 +463,7 @@ def count_general_access_subject_period(subject, data_ini, data_end):
 
     return s[0:10000]
 
+
 def count_general_logs_period(resources, data_ini, data_end):
     s = Search().extra(size=0)
 
@@ -441,7 +471,6 @@ def count_general_logs_period(resources, data_ini, data_end):
 
     for res in resources:
         conds.append(Q("match", **{"context__resource_ptr_id": res.id}))
-
 
     s = s.query(
         "bool",
@@ -451,10 +480,7 @@ def count_general_logs_period(resources, data_ini, data_end):
                 datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
             ),
             Q("match", component="resources"),
-            Q(
-                "bool",
-                should=[Q("match", action="access"), Q("match", action="view")],
-            ),
+            Q("bool", should=[Q("match", action="access"), Q("match", action="view")],),
             Q("bool", should=conds),
         ],
     )
@@ -464,17 +490,17 @@ def count_general_logs_period(resources, data_ini, data_end):
 
 def count_general_daily_access(students, day):
     s = Search()
-    
+
     s = s.query(
         "bool",
         must=[
             Q("range", datetime={"time_zone": "-03:00", "gte": day, "lte": day}),
             Q("terms", user_id=students),
-            
         ],
     )
 
     return s[0:10000]
+
 
 def count_general_resource_logs_period(subjects, data_ini, data_end):
     s = Search().extra(size=0)
@@ -483,7 +509,6 @@ def count_general_resource_logs_period(subjects, data_ini, data_end):
 
     for sub in subjects:
         conds.append(Q("match", **{"context__subject_id": sub.id}))
-
 
     s = s.query(
         "bool",
@@ -498,6 +523,7 @@ def count_general_resource_logs_period(subjects, data_ini, data_end):
     )
 
     return s[0:10000]
+
 
 def count_general_access_period(userid, data_ini, data_end):
     s = Search().extra(size=0)
@@ -509,11 +535,9 @@ def count_general_access_period(userid, data_ini, data_end):
                 "range",
                 datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
             ),
-            
-           
             Q("match", user_id=userid),
-            
         ],
     )
 
     return s[0:10000]
+

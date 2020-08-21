@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-19 04:08+0000\n"
+"POT-Creation-Date: 2020-08-21 03:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,7 +133,7 @@ msgid "Settings: Conference"
 msgstr "Configurações: Web Conferência"
 
 #: webconference/templates/webconference/create.html:33
-#: webconference/views.py:399
+#: webconference/views.py:402
 msgid "Create Web Conference"
 msgstr "Criar Web Conferência"
 
@@ -225,7 +225,7 @@ msgstr "Mural do recurso"
 
 #: webconference/templates/webconference/view.html:91
 #: webconference/templates/webconference/window_view.html:55
-#: webconference/views.py:774
+#: webconference/views.py:780
 msgid "Participate"
 msgstr "Participar"
 
@@ -234,7 +234,7 @@ msgstr "Participar"
 msgid "%s - Web Conference"
 msgstr "%s - Web Conferência"
 
-#: webconference/views.py:413
+#: webconference/views.py:416
 #, python-format
 msgid ""
 "The Web conference \"%s\" was added to the Topic \"%s\" of the virtual "
@@ -243,16 +243,16 @@ msgstr ""
 "A web conferência '%s' foi adicionada ao tópico '%s' do ambiente virtual "
 "'%s' com sucesso!"
 
-#: webconference/views.py:540
+#: webconference/views.py:546
 msgid "Update Web Conference"
 msgstr "Atualizar a web conferência"
 
-#: webconference/views.py:556
+#: webconference/views.py:562
 #, python-format
 msgid "The Web conference \"%s\" was updated successfully!"
 msgstr "A web conferência '%s' foi atualizada com sucesso!"
 
-#: webconference/views.py:603
+#: webconference/views.py:609
 #, python-format
 msgid ""
 "The web conference \"%s\" was removed successfully from virtual environment "
@@ -260,64 +260,64 @@ msgid ""
 msgstr ""
 "A web conferência '%s' foi removida com sucesso do ambiente virtual '%s'!"
 
-#: webconference/views.py:653
+#: webconference/views.py:659
 msgid "Conference settings updated successfully!"
 msgstr "Configurações de segurança atualizadas com sucesso!"
 
-#: webconference/views.py:660
+#: webconference/views.py:666
 msgid "Web Conference Settings"
 msgstr "Configurações da Web Conferência"
 
-#: webconference/views.py:709
+#: webconference/views.py:715
 msgid "Youtube Video Reports"
 msgstr "Relatórios do Video do Youtube"
 
-#: webconference/views.py:744
+#: webconference/views.py:750
 msgid "Realized"
 msgstr "Realizada"
 
-#: webconference/views.py:745
+#: webconference/views.py:751
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: webconference/views.py:746
+#: webconference/views.py:752
 msgid "Historic"
 msgstr "Histórico"
 
-#: webconference/views.py:772
+#: webconference/views.py:778
 msgid "View"
 msgstr "Visualizar"
 
-#: webconference/views.py:773
+#: webconference/views.py:779
 msgid "Enter"
 msgstr "Entrar"
 
-#: webconference/views.py:866
+#: webconference/views.py:872
 msgid "Webconference"
 msgstr "Web Conferência"
 
-#: webconference/views.py:885
+#: webconference/views.py:891
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: webconference/views.py:886
+#: webconference/views.py:892
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: webconference/views.py:941
+#: webconference/views.py:947
 msgid "[Photo]"
 msgstr "[Foto]"
 
-#: webconference/views.py:957
+#: webconference/views.py:963
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: webconference/views.py:973
+#: webconference/views.py:979
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: webconference/views.py:975
+#: webconference/views.py:981
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
 
