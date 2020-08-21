@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-19 04:08+0000\n"
+"POT-Creation-Date: 2020-08-21 03:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -363,6 +363,20 @@ msgstr "Usuários"
 msgid "Interactions"
 msgstr "Interações"
 
+#: dashboards/templates/dashboards/manager/_users_bubble.html:87
+#, fuzzy
+#| msgid "Closed on: "
+msgid "Close"
+msgstr "Encerrado em: "
+
+#: dashboards/templates/dashboards/manager/_users_bubble.html:108
+msgid "See Profile"
+msgstr ""
+
+#: dashboards/templates/dashboards/manager/_users_bubble.html:114
+msgid "Send Message"
+msgstr ""
+
 #: dashboards/templates/dashboards/manager/_users_graph.html:21
 msgid "Compares the number of active and inactive users in the selected period"
 msgstr "Compara o número de usuários ativos e inativos no periodo selecionado"
@@ -697,6 +711,14 @@ msgstr "Professor"
 msgid "Other indicator"
 msgstr "Outro indicador"
 
+#: dashboards/utils.py:1139
+msgid "Offline"
+msgstr ""
+
+#: dashboards/utils.py:1161
+msgid "Online"
+msgstr ""
+
 #~ msgid ""
 #~ "Compares the interactions number realized by the users subscribed in the "
 #~ "subject"
@@ -718,6 +740,3 @@ msgstr "Outro indicador"
 
 #~ msgid "End: "
 #~ msgstr "Fim: "
-
-#~ msgid "Closed on: "
-#~ msgstr "Encerrado em: "

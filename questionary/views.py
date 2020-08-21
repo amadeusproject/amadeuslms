@@ -14,6 +14,11 @@ import random
 import time
 import textwrap
 import json
+import os
+import xlwt
+import xlrd
+
+from django.conf import settings
 
 from datetime import datetime, timedelta
 from django.db.models import Q
@@ -25,7 +30,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.db import connection
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import formats, timezone
 from django.utils.translation import ugettext_lazy as _
@@ -1194,5 +1199,94 @@ def class_results(request, slug):
 
         data.append(line)
 
-    html = render_to_string("questionary/_results.html", {"data": data})
+    html = render_to_string(
+        "questionary/_results.html", {"data": data, "questionary": questionary}
+    )
     return JsonResponse({"result": html})
+
+
+def results_sheet(request, slug):
+    questionary = get_object_or_404(Questionary, slug=slug)
+    number_questions = 0
+
+    data = []
+
+    for spec in questionary.spec_questionary.all():
+        number_questions = int(number_questions) + int(spec.n_questions)
+
+    if questionary.all_students:
+        students = User.objects.filter(
+            subject_student=questionary.topic.subject
+        ).order_by("username", "last_name")
+    else:
+        students = User.objects.filter(resource_students=questionary).order_by(
+            "username", "last_name"
+        )
+
+    workbook = xlwt.Workbook()
+    worksheet = workbook.add_sheet(u"Resultados do Questionário")
+    worksheet.write(0, 0, u"Estudante")
+    worksheet.write(0, 1, u"Total de Questões")
+    worksheet.write(0, 2, u"Questões Respondidas")
+    worksheet.write(0, 3, u"Questões Corretas")
+    worksheet.write(0, 4, u"% Acerto")
+
+    line = 1
+
+    for student in students:
+        worksheet.write(line, 0, student.fullname())
+
+        exam = UserQuest.objects.filter(student=student, questionary=questionary)
+        questions = UserAnswer.objects.filter(user_quest=exam)
+
+        answered = questions.filter(answer__isnull=False).count()
+        correct = questions.filter(is_correct=True).count()
+
+        if correct > 0:
+            percentage = (correct / number_questions) * 100
+        else:
+            percentage = 0
+
+        if answered <= 0:
+            worksheet.write(line, 1, "-")
+            worksheet.write(line, 2, "-")
+            worksheet.write(line, 3, "-")
+        else:
+            worksheet.write(line, 1, number_questions)
+            worksheet.write(line, 2, answered)
+            worksheet.write(line, 3, correct)
+
+        worksheet.write(line, 4, str(percentage) + "%")
+
+        line = line + 1
+
+    path1 = os.path.join(settings.BASE_DIR, "questionary")
+    path2 = os.path.join(path1, "sheets")
+    path3 = os.path.join(path2, "xls")
+
+    filename = str(questionary.slug) + ".xls"
+    folder_path = os.path.join(path3, filename)
+
+    # check if the folder already exists
+    if not os.path.isdir(path3):
+        os.makedirs(path3)
+
+    workbook.save(folder_path)
+
+    filepath = os.path.join(
+        "questionary", os.path.join("sheets", os.path.join("xls", filename))
+    )
+
+    if not os.path.exists(filepath):
+        raise Http404()
+
+    response = HttpResponse(open(filepath, "rb").read())
+    response["Content-Type"] = "application/force-download"
+    response["Pragma"] = "public"
+    response["Expires"] = "0"
+    response["Cache-Control"] = "must-revalidate, post-check=0, pre-check=0"
+    response["Content-Disposition"] = "attachment; filename=%s" % (filename)
+    response["Content-Transfer-Encoding"] = "binary"
+    response["Content-Length"] = str(os.path.getsize(filepath))
+
+    return response
