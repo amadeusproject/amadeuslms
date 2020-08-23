@@ -548,3 +548,19 @@ def count_general_access_period(user, data_ini, data_end):
 
     return s[0:10000]
 
+def count_mural_comments(user, data_ini, data_end):
+    s = Search().extra(size=0)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", user_id=user),
+            Q("match", action="create_comment"),
+        ],
+    )
+
+    return s[0:10000]
