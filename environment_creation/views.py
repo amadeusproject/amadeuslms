@@ -155,7 +155,9 @@ def addCoordinators(category, coords, usersList):
         for coord in coords:
             if len(usersList) >= int(float(coord)):
                 user = usersList[int(float(coord)) - 1]
-                if not user is None and user not in category.coordinators.all():
+                if not user is None and user.email not in category.coordinators.all().values_list(
+                    "email", flat=True
+                ):
                     category.coordinators.add(user)
 
 
@@ -256,7 +258,9 @@ def addProfessors(subject, profs, usersList):
         for prof in profs:
             if len(usersList) >= int(float(prof)):
                 user = usersList[int(float(prof)) - 1]
-                if not user is None and not user in subject.professor.all():
+                if not user is None and not user.email in subject.professor.all().values_list(
+                    "email", flat=True
+                ):
                     subject.professor.add(user)
 
 
@@ -265,7 +269,9 @@ def addStudents(subject, students, usersList):
         for student in students:
             if len(usersList) >= int(float(student)):
                 user = usersList[int(float(student)) - 1]
-                if not user is None and not user in subject.students.all():
+                if not user is None and not user.email in subject.students.all().values_list(
+                    "email", flat=True
+                ):
                     subject.students.add(user)
 
 

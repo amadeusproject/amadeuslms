@@ -36,6 +36,7 @@ import time
 
 from topics.models import Topic, Resource
 from users.models import User
+from security.models import Security
 
 
 class IndexView(LoginRequiredMixin, views.StaffuserRequiredMixin, ListView):
@@ -175,16 +176,20 @@ class DeleteCategory(LoginRequiredMixin, LogMixin, DeleteView):
 
     def dispatch(self, request, *args, **kwargs):
         pk = request.user.pk
+        security = Security.objects.get(id=1)
 
         if not request.user.is_staff:
-            category = Category.objects.filter(
-                Q(coordinators__pk=pk) & Q(slug=kwargs["slug"])
-            )
-            if category.count() == 0:
-                if request.META.get("HTTP_REFERER"):
-                    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
-                else:
-                    return redirect("subjects:index")
+            if not security.deny_category_edition:
+                category = Category.objects.filter(
+                    Q(coordinators__pk=pk) & Q(slug=kwargs["slug"])
+                )
+                if category.count() == 0:
+                    if request.META.get("HTTP_REFERER"):
+                        return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+                    else:
+                        return redirect(reverse_lazy("subjects:index"))
+            else:
+                return redirect(reverse_lazy("subjects:index"))
         if request.method.lower() in self.http_method_names:
             handler = getattr(
                 self, request.method.lower(), self.http_method_not_allowed
@@ -241,6 +246,16 @@ class UpdateCategory(LogMixin, UpdateView):
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = "next"
+
+    def dispatch(self, request, *args, **kwargs):
+        pk = request.user.pk
+        security = Security.objects.get(id=1)
+
+        if not request.user.is_staff:
+            if security.deny_category_edition:
+                return redirect(reverse_lazy("subjects:index"))
+
+        return super(UpdateCategory, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         self.log_context["category_id"] = self.object.id
