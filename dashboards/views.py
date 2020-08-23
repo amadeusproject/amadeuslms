@@ -49,7 +49,6 @@ from .utils import (
     my_categories,
     general_monthly_users_activity,
     generalUsersAccess,
-    generalAdminsAccess,
     general_logs,
     active_users_qty,
     functiontable,
