@@ -856,7 +856,7 @@ def get_xls_users_data(request):
     else:
         data_end = date.today()
     
-    response = xml_users(request.user,data_ini, data_end )
+    response = xml_users(request.user,data_ini, data_end)
     
     return response
     

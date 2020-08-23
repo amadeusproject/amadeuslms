@@ -1452,7 +1452,7 @@ def xml_users(request_user, data_ini, data_end):
     path2 = os.path.join(path1, "sheets")
     path3 = os.path.join(path2, "xls")
 
-    filename = 'usersanalytics' + ".xls"
+    filename = str(request_user) + ".xls"
     folder_path = os.path.join(path3, filename)
     
         # check if the folder already exists
@@ -1462,16 +1462,16 @@ def xml_users(request_user, data_ini, data_end):
     workbook.save(folder_path)
 
     filepath = os.path.join(
-        "analytics", os.path.join("sheets", os.path.join("xls", filename))
+        "dashboards", os.path.join("sheets", os.path.join("xls", filename))
     )
-
+    print(filepath)
     if not os.path.exists(filepath):
         raise Http404()
 
     response = HttpResponse(open(filepath, "rb").read())
     response["Content-Type"] = "application/force-download"
     response["Pragma"] = "public"
-    response["Expires"] = "1"
+    response["Expires"] = "0"
     response["Cache-Control"] = "must-revalidate, post-check=0, pre-check=0"
     response["Content-Disposition"] = "attachment; filename=%s" % (filename)
     response["Content-Transfer-Encoding"] = "binary"
