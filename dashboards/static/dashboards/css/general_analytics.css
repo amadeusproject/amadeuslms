@@ -217,6 +217,12 @@
   padding: 0;
 
 }
+
+.legend-chart{
+  display: table-caption;
+  margin-bottom: 0.7em;
+}
+
 .active-users {
   display: table;
   
@@ -475,13 +481,22 @@ p#percent-teacher-value, p#percent-students-value{
   border-color: #009688;
 }
 
+#XlsDownload{
+  margin-top: 1em;
+}
 
-@media ( max-width: 900px ) {
+
+p>p {
+  margin: 0;
+  padding: 0;
+}
+@media ( max-width: 990px ) {
   .users_chart {
     display: grid;
     justify-content: center;
     align-items: center;
     text-align: center;
+    text-align: -webkit-center;
   }
   .teacher-active,.teacher-inactive, .students-active-table, .students-inactive-table{
     display: inline-table;
@@ -491,5 +506,11 @@ p#percent-teacher-value, p#percent-students-value{
   }
   .legend-chart{
     display: table-caption;
+  }
+  .users_cloud, .heatmap_chart{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 }
