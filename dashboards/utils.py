@@ -31,7 +31,7 @@ from notifications.utils import get_resource_users
 
 from django.db.models import Q as Cond, Max, Count
 from django.db.models.functions import TruncDate
-
+from django.http import HttpResponse
 from collections import OrderedDict
 
 from gtts import gTTS
@@ -46,7 +46,7 @@ from amadeus.permissions import has_category_permissions
 
 from django.shortcuts import get_object_or_404
 from users.models import User
-
+import xlwt
 
 def done_percent(pendency):
     users = get_resource_users(pendency.resource)
@@ -1302,8 +1302,143 @@ def functiontable(categories, dataIni, dataEnd):
     }
     return data
 
+def xml_users(request_user, data_ini, data_end):
+    categories = my_categories(request_user)
+    subjects = (
+        Subject.objects.filter(category__in=categories).order_by("slug").distinct()
+    )
+
+    total_students = 0
+    total_teachers = 0
+    ac_students = []
+    ac_teachers = []
+    inac_students = []
+    inac_teachers = []
+    id_students = []
+    id_teachers = []
+    all_students = []
+    all_teachers = []
+
+    workbook = xlwt.Workbook()
+    worksheet = workbook.add_sheet(u"Estudantes Ativos")
+    worksheet.write(0, 0, u"Estudante")
+    worksheet.write(0, 1, u"Disciplinas")
+    line = 1
+
+    for sub in subjects:
+        sub = get_object_or_404(Subject, slug=sub.slug)
+        students = sub.students.all()
+        
+        for student in students:
+            all_students.append(
+                user_last_interaction_in_period(student.id, data_ini, data_end)
+            )
+            id_students.append(student)
+            total_students += 1
+
+        res = multi_search(all_students)
+        
+
+        for i, student in enumerate(id_students):
+            entry = res[i]
+            if entry:
+                ac_students.append(student),
+                ac_students.append(sub)
+            else:
+                inac_students.append(student)
+                inac_students.append(sub)
+    i = 0        
+    while i < len(ac_students):
+        worksheet.write(line, 0, ac_students[i].fullname())
+        worksheet.write(line, 1, ac_students[i+1].name)
+        i+=2
+        line+=1
+    worksheet = workbook.add_sheet(u"Estudantes Inativos")
+    worksheet.write(0, 0, u"Estudante")
+    worksheet.write(0, 1, u"Disciplinas")
+    line = 1
+    i = 0        
+    while i < len(inac_students):
+        worksheet.write(line, 0, inac_students[i].fullname())
+        worksheet.write(line, 1, inac_students[i+1].name)
+        i+=2
+        line+=1
+       
+    
+    worksheet = workbook.add_sheet(u"Professores Ativos")
+    worksheet.write(0, 0, u"Professor")
+    worksheet.write(0, 1, u"Disciplinas")
+    line = 1
+
+    for sub in subjects:
+        sub = get_object_or_404(Subject, slug=sub.slug)
+        professores = sub.professor.all()
+        for professor in professores:
+                all_teachers.append(
+                    user_last_interaction_in_period(professor.id, data_ini, data_end)
+                )
+                id_teachers.append(professor)
+                total_teachers += 1
+
+        res = multi_search(all_teachers)
+        
+        for i, teacher in enumerate(id_teachers):
+            entry = res[i]
+            if entry:
+                ac_teachers.append(teacher)
+                ac_teachers.append(sub)
+            else:
+                inac_teachers.append(teacher)
+                inac_teachers.append(sub)
+
+    i = 0        
+    while i < len(ac_teachers):
+        worksheet.write(line, 0, ac_teachers[i].fullname())
+        worksheet.write(line, 1, ac_teachers[i+1].name)
+        i+=2
+        line+=1
+    worksheet = workbook.add_sheet(u"Professores Inativos")
+    worksheet.write(0, 0, u"Estudante")
+    worksheet.write(0, 1, u"Disciplinas")
+    line = 1
+    i = 0        
+    while i < len(inac_teachers):
+        worksheet.write(line, 0, inac_teachers[i].fullname())
+        worksheet.write(line, 1, inac_teachers[i+1].name)
+        i+=2
+        line+=1
+    
+    path1 = os.path.join(settings.BASE_DIR, "dashboards")
+    path2 = os.path.join(path1, "sheets")
+    path3 = os.path.join(path2, "xls")
+
+    filename = 'usersanalytics' + ".xls"
+    folder_path = os.path.join(path3, filename)
+    
+        # check if the folder already exists
+    if not os.path.isdir(path3):
+        os.makedirs(path3)
+
+    workbook.save(folder_path)
+
+    filepath = os.path.join(
+        "analytics", os.path.join("sheets", os.path.join("xls", filename))
+    )
+
+    if not os.path.exists(filepath):
+        raise Http404()
+
+    response = HttpResponse(open(filepath, "rb").read())
+    response["Content-Type"] = "application/force-download"
+    response["Pragma"] = "public"
+    response["Expires"] = "0"
+    response["Cache-Control"] = "must-revalidate, post-check=0, pre-check=0"
+    response["Content-Disposition"] = "attachment; filename=%s" % (filename)
+    response["Content-Transfer-Encoding"] = "binary"
+    response["Content-Length"] = str(os.path.getsize(filepath))
 
 
+    return response
 
 def date_to_datetime(
     dt: date,

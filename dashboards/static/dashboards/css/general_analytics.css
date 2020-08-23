@@ -483,6 +483,10 @@ p#percent-teacher-value, p#percent-students-value{
 
 #XlsDownload{
   margin-top: 1em;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  text-align: -webkit-center;
 }
 
 
@@ -507,10 +511,17 @@ p>p {
   .legend-chart{
     display: table-caption;
   }
-  .users_cloud, .heatmap_chart{
+  .users_cloud{
     display: inline-flex;
     justify-content: center;
     align-items: center;
     text-align: center;
   }
+  .heatmap_chart{
+    display: block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
 }
