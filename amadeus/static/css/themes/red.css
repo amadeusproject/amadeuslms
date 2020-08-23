@@ -34,7 +34,7 @@ body .container-fluid .well-inverse {
 }
 
 .access-subject {
-  background-color: #FF8E01 !important;
+  background-color: #f4891f !important;
   color: #FFFFFF;
 }
 
@@ -137,7 +137,7 @@ body .container-fluid .well-inverse {
 .btn-group-raised .input-group-btn .btn.btn-success,
 .btn.btn-fab.btn-success, .btn.btn-raised.btn-success,
 .input-group-btn .btn.btn-fab.btn-success, .input-group-btn .btn.btn-raised.btn-success {
-  background-color: #FF8E01;
+  background-color: #f4891f;
 }
 
 .btn-group-raised .btn:not(.btn-link).active.btn-success,
@@ -156,7 +156,7 @@ body .container-fluid .well-inverse {
 .input-group-btn .btn.btn-raised:not(.btn-link):active.btn-success,
 .input-group-btn .btn.btn-raised:not(.btn-link):focus.btn-success,
 .input-group-btn .btn.btn-raised:not(.btn-link):hover.btn-success {
-  background-color: #FF8E01;
+  background-color: #f4891f;
   opacity: 0.8;
 }
 
@@ -641,7 +641,7 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 a.add-row {
   -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  background-color: #FF8E01;
+  background-color: #f4891f;
   color: rgba(255, 255, 255, 0.84);
 }
 
