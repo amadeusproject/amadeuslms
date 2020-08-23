@@ -13,10 +13,26 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-class Security(models.Model):
-	allow_register = models.BooleanField(_("Don't allow users to self-register"), default = False)
-	maintence = models.BooleanField(_("Put system in maintenance mode"), default = False)
 
-	class Meta:
-		verbose_name = _('Security configuration')
-		verbose_name_plural = _('Security configurations')
+class Security(models.Model):
+    allow_register = models.BooleanField(
+        _("Don't allow users to self-register"), default=False
+    )
+    maintence = models.BooleanField(_("Put system in maintenance mode"), default=False)
+    deny_category_edition = models.BooleanField(
+        _("Don't allow coordinators to edit, remove or replicate categories"),
+        default=True,
+    )
+    deny_subject_edition = models.BooleanField(
+        _("Don't allow professors to edit, remove or replicate subejcts"), default=True
+    )
+    deny_email_change = models.BooleanField(
+        _("Don't allow users to edit access email"), default=True
+    )
+    deny_socialname_change = models.BooleanField(
+        _("Don't allow users to edit social name"), default=True
+    )
+
+    class Meta:
+        verbose_name = _("Security configuration")
+        verbose_name_plural = _("Security configurations")

@@ -39,8 +39,18 @@ def category_permissions(user, category):
 
 
 @register.assignment_tag
+def category_manage_permissions(user, category):
+    return permissions.has_category_manage_permissiosn(user, category)
+
+
+@register.assignment_tag
 def subject_permissions(user, subject):
     return permissions.has_subject_permissions(user, subject)
+
+
+@register.assignment_tag
+def subject_manage_permissions(user, subject):
+    return permissions.has_subject_manage_permissions(user, subject)
 
 
 @register.assignment_tag

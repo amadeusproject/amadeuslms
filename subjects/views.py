@@ -99,6 +99,7 @@ from amadeus.permissions import (
     has_subject_permissions,
     has_subject_view_permissions,
     has_resource_permissions,
+    has_subject_manage_permissions,
 )
 
 from log.search import user_last_interaction, multi_search
@@ -489,7 +490,7 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
     def dispatch(self, request, *args, **kwargs):
         self.subject = get_object_or_404(Subject, slug=kwargs.get("slug", ""))
 
-        if not has_subject_permissions(request.user, self.subject):
+        if not has_subject_manage_permissions(request.user, self.subject):
             return redirect(reverse_lazy("subjects:home"))
 
         return super(SubjectUpdateView, self).dispatch(request, *args, **kwargs)
@@ -579,7 +580,7 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
     def dispatch(self, request, *args, **kwargs):
         subject = get_object_or_404(Subject, slug=kwargs.get("slug", ""))
 
-        if not has_subject_permissions(request.user, subject):
+        if not has_subject_manage_permissions(request.user, subject):
             return redirect(reverse_lazy("subjects:home"))
 
         return super(SubjectDeleteView, self).dispatch(request, *args, **kwargs)

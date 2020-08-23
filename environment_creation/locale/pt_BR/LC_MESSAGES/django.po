@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-21 03:44+0000\n"
+"POT-Creation-Date: 2020-08-23 17:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,63 +93,63 @@ msgstr "A linha %s possui os campos nome ou sobrenome sem valores"
 msgid "Line %s has no valid email"
 msgstr "A linha %s não possui um email válido"
 
-#: environment_creation/views.py:198 environment_creation/views.py:351
-#: environment_creation/views.py:420
+#: environment_creation/views.py:200 environment_creation/views.py:357
+#: environment_creation/views.py:426
 #, python-format
 msgid "Line %s has no value for name"
 msgstr "A linha %s não possui valor para o campo nome"
 
-#: environment_creation/views.py:212
+#: environment_creation/views.py:214
 #, python-format
 msgid "Line %s doesn't have a valid subscription init date"
 msgstr "A linha %s não possui uma data de início de inscrição válida"
 
-#: environment_creation/views.py:216
+#: environment_creation/views.py:218
 #, python-format
 msgid "Line %s has the subscription init date before today's date"
 msgstr ""
 "A linha %s possui uma data de início de inscrição anterior à data atual"
 
-#: environment_creation/views.py:224
+#: environment_creation/views.py:226
 #, python-format
 msgid "Line %s doesn't have a valid subscription end date"
 msgstr "A linha %s não possui uma data de encerramento de inscrição válida"
 
-#: environment_creation/views.py:228
+#: environment_creation/views.py:230
 #, python-format
 msgid "Line %s has the subscription end date before subscription init date"
 msgstr ""
 "A linha %s possui uma data de encerramento de inscrição anterior à data de "
 "início de inscrição"
 
-#: environment_creation/views.py:235
+#: environment_creation/views.py:237
 #, python-format
 msgid "Line %s doesn't have a valid init date"
 msgstr "A linha %s não possui uma data de início válida"
 
-#: environment_creation/views.py:238
+#: environment_creation/views.py:240
 #, python-format
 msgid "Line %s has the init date before or equal subscription end date"
 msgstr ""
 "A linha %s possui uma data de início anterior ou igual à data de "
 "encerramento de inscrição"
 
-#: environment_creation/views.py:245
+#: environment_creation/views.py:247
 #, python-format
 msgid "Line %s doesn't have a valid end date"
 msgstr "A linha %s não possui uma data de encerramento válida"
 
-#: environment_creation/views.py:248
+#: environment_creation/views.py:250
 #, python-format
 msgid "Line %s has the end date before the init date"
 msgstr "A linha %s possui uma data de encerramento anterior à data de início"
 
-#: environment_creation/views.py:345
+#: environment_creation/views.py:351
 #, python-format
 msgid "Line %s has no valid value for course"
 msgstr "A linha %s não possui um valor válido para o campo curso"
 
-#: environment_creation/views.py:416
+#: environment_creation/views.py:422
 #, fuzzy, python-format
 msgid "Line %s has no valid value for subject"
 msgstr "A linha %s não possui um valor válido para o campo assunto"

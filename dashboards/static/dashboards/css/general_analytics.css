@@ -207,8 +207,8 @@
 
 
 .users_chart {
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: left;
   text-align: center;
   
 }
@@ -217,17 +217,22 @@
   padding: 0;
 
 }
-.active-users {
-  display: table-row;
-  
-}
-.inactive-users {
-  display: table-row;
-  padding-bottom: 2em;
+
+.legend-chart{
+  display: table-caption;
+  margin-bottom: 0.7em;
 }
 
-div#teacher-active, div#students-active{
-  display: flex;
+.active-users {
+  display: table;
+  
+}
+
+.inactive-users {
+  display: table;
+}
+#teacher-active, #students-active{
+  display: table-cell;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -247,26 +252,28 @@ p#number-teacher-active, p#number-students-active{
   margin: 0;
   
 }
-.students-active {
-  margin-left: 1em;
+.teacher-active, .teacher-inactive,.students-active, .students-inactive {
+  display: inline-table;
+  padding-left: 0;
 }
 
 div#teacher-percent-1, div#students-percent-1{
-  display: flex;
+  display: inline-grid;
   position: relative;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: flex-end;
-  text-align: center;
+  text-align: end;
   height: 6em;
   width: 4.5em;
   background-color: #52B5AB;
   margin: 0;
   padding: 0;
+  vertical-align: bottom;
 }
 
 div#teacher-percent-2, div#students-percent-2{
   display: flex;
-  position: absolute;
+  position: relative;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -284,7 +291,7 @@ p#teacher-percent-value, p#students-percent-value{
   font-weight: 500;
 }
 
-div#teacher-active, div#students-active{
+/* div#teacher-active, div#students-active{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -294,7 +301,7 @@ div#teacher-active, div#students-active{
   background-color: #99D5CF;
   margin: 0;
   padding: 0;
-}
+}  */
 
 p#number-teacher-active, p#number-students-active{
   color: white;
@@ -304,12 +311,10 @@ p#number-teacher-active, p#number-students-active{
   font-weight: 500;
   margin: 0;
 }
-.students-active {
-  margin-left: 0.5em;
-}
 
-.students-inactive {
-  margin-left: 0.5em;
+
+#students-inactive-table{
+  padding: 0;
 }
 
 div#teacher-percent-2{
@@ -322,7 +327,7 @@ div#students-percent-2{
 
 /* inactive  */
 div#teacher-inactive, div#students-inactive{
-  display: flex;
+  display: table-cell;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -474,4 +479,49 @@ p#percent-teacher-value, p#percent-students-value{
   background: #009688;
   color: #fff;
   border-color: #009688;
+}
+
+#XlsDownload{
+  margin-top: 1em;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  text-align: -webkit-center;
+}
+
+
+p>p {
+  margin: 0;
+  padding: 0;
+}
+@media ( max-width: 990px ) {
+  .users_chart {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-align: -webkit-center;
+  }
+  .teacher-active,.teacher-inactive, .students-active-table, .students-inactive-table{
+    display: inline-table;
+  }
+  #teacher-active-table, #students-active-table, #teacher-inactive-table, #students-inactive-table{
+    display: inline-flex;
+  }
+  .legend-chart{
+    display: table-caption;
+  }
+  .users_cloud{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .heatmap_chart{
+    display: block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
 }

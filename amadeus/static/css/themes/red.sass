@@ -1,13 +1,13 @@
 /* 
-    Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
-    
-    Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
-    
-    O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
-    
-    Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
-    
-    Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.*/
+ Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+ Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+ O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.*/
 
 /* === Variables === */
 
@@ -29,33 +29,35 @@ $disabled-white: #E0E0E0
 $primary-disabled: #BDBDBD
 $secodnary-disabled: #E6E7E8
 
-$primary-category: #424242
+$primary-category: #333333
 $secondary-category: #656565
 
-$primary-subject: #616161
+$primary-subject: #424242
 $secondary-subject: #777777
 
-$primary-topic: #757575
+$primary-topic: #616161
 $secondary-topic: #919191
 
-$btn-success: #03A9F4
-$btn-success-effect: #0277BD
+$btn-success: #FF8E01
+$btn-success-effect: #FF8E01
+
+$link-color: #333333
 
 /* === End Variables === */
 
 a, a:focus, a:hover
-    color: $primary-color
+    color: $link-color
 
-body .container .jumbotron-inverse, 
-body .container .well-inverse, 
-body .container-fluid .jumbotron-inverse, 
+body .container .jumbotron-inverse,
+body .container .well-inverse,
+body .container-fluid .jumbotron-inverse,
 body .container-fluid .well-inverse
     background-color: $secondary-white
 
-.radio input[type=radio]:checked~.check, label.radio-inline input[type=radio]:checked~.check 
+.radio input[type=radio]:checked~.check, label.radio-inline input[type=radio]:checked~.check
     background-color: $primary-color
 
-.radio input[type=radio]:checked~.circle, label.radio-inline input[type=radio]:checked~.circle 
+.radio input[type=radio]:checked~.circle, label.radio-inline input[type=radio]:checked~.circle
     border-color: $primary-color
 
 .my-subjects-title
@@ -64,31 +66,31 @@ body .container-fluid .well-inverse
 .notify_badge
     background-color: $primary-badge !important
 
-.access-subject 
+.access-subject
     background-color: $btn-success !important
     color: $secondary-white
 
-.outside-title 
-    color: $secondary-title
+.outside-title
+    color: $link-color
 
-.category-course-link 
+.category-course-link
     color: $secondary-white !important
 
-.footer 
+.footer
     color: $secondary-white
     background: $primary-title
 
-.bootstrap-datetimepicker-widget 
+.bootstrap-datetimepicker-widget
     background-color: $secondary-white !important
 
-.popover 
+.popover
     background: $secondary-white
     color: #333
 
-.btn:not(.btn-raised):not(.btn-link):focus, 
-.btn:not(.btn-raised):not(.btn-link):hover, 
-.input-group-btn .btn:not(.btn-raised):not(.btn-link):focus, 
-.input-group-btn .btn:not(.btn-raised):not(.btn-link):hover 
+.btn:not(.btn-raised):not(.btn-link):focus,
+.btn:not(.btn-raised):not(.btn-link):hover,
+.input-group-btn .btn:not(.btn-raised):not(.btn-link):focus,
+.input-group-btn .btn:not(.btn-raised):not(.btn-link):hover
     background-color: initial
 
 #analytics-panel
@@ -97,21 +99,21 @@ body .container-fluid .well-inverse
 #search-results-title
     color: #BDBDBD
 
-.profile_function 
+.profile_function
     border-bottom: 1px solid #D2D2D2
 
-.page_selector h4 
+.page_selector h4
     border-bottom: 1px solid #e5e5e5
 
-.subscribe-subject 
+.subscribe-subject
     background-color: #33cc33 !important
     color: white
 
-.filedrag 
+.filedrag
     color: #555
     border: 2px dashed #555
 
-.no-subjects 
+.no-subjects
     color: #999999
 
 .resource-link
@@ -125,9 +127,9 @@ body .container-fluid .well-inverse
     border-color: $primary-color !important
 
 .login_subcommands a, .login_subcommands a:hover
-    color: $secondary-title
+    color: $link-color
 
-.carousel-caption 
+.carousel-caption
     background: $primary-white
 
 /* === Forms === */
@@ -144,159 +146,155 @@ body .container-fluid .well-inverse
 
 /* === End Forms === */
 
-
 /* === Buttons === */
 
-.btn-group-raised .btn.btn-success, 
-.btn-group-raised .input-group-btn .btn.btn-success, 
-.btn.btn-fab.btn-success, .btn.btn-raised.btn-success, 
+.btn-group-raised .btn.btn-success,
+.btn-group-raised .input-group-btn .btn.btn-success,
+.btn.btn-fab.btn-success, .btn.btn-raised.btn-success,
 .input-group-btn .btn.btn-fab.btn-success, .input-group-btn .btn.btn-raised.btn-success
-    background-color: $btn-success 
+    background-color: $btn-success
 
-.btn-group-raised .btn:not(.btn-link).active.btn-success, 
-.btn-group-raised .btn:not(.btn-link):active.btn-success, 
-.btn-group-raised .btn:not(.btn-link):focus.btn-success, 
-.btn-group-raised .btn:not(.btn-link):hover.btn-success, 
-.btn-group-raised .input-group-btn .btn:not(.btn-link).active.btn-success, 
-.btn-group-raised .input-group-btn .btn:not(.btn-link):active.btn-success, 
-.btn-group-raised .input-group-btn .btn:not(.btn-link):focus.btn-success, 
-.btn-group-raised .input-group-btn .btn:not(.btn-link):hover.btn-success, 
-.btn.btn-raised:not(.btn-link).active.btn-success, 
-.btn.btn-raised:not(.btn-link):active.btn-success, 
-.btn.btn-raised:not(.btn-link):focus.btn-success, 
-.btn.btn-raised:not(.btn-link):hover.btn-success, 
-.input-group-btn .btn.btn-raised:not(.btn-link).active.btn-success, 
-.input-group-btn .btn.btn-raised:not(.btn-link):active.btn-success, 
-.input-group-btn .btn.btn-raised:not(.btn-link):focus.btn-success, 
+.btn-group-raised .btn:not(.btn-link).active.btn-success,
+.btn-group-raised .btn:not(.btn-link):active.btn-success,
+.btn-group-raised .btn:not(.btn-link):focus.btn-success,
+.btn-group-raised .btn:not(.btn-link):hover.btn-success,
+.btn-group-raised .input-group-btn .btn:not(.btn-link).active.btn-success,
+.btn-group-raised .input-group-btn .btn:not(.btn-link):active.btn-success,
+.btn-group-raised .input-group-btn .btn:not(.btn-link):focus.btn-success,
+.btn-group-raised .input-group-btn .btn:not(.btn-link):hover.btn-success,
+.btn.btn-raised:not(.btn-link).active.btn-success,
+.btn.btn-raised:not(.btn-link):active.btn-success,
+.btn.btn-raised:not(.btn-link):focus.btn-success,
+.btn.btn-raised:not(.btn-link):hover.btn-success,
+.input-group-btn .btn.btn-raised:not(.btn-link).active.btn-success,
+.input-group-btn .btn.btn-raised:not(.btn-link):active.btn-success,
+.input-group-btn .btn.btn-raised:not(.btn-link):focus.btn-success,
 .input-group-btn .btn.btn-raised:not(.btn-link):hover.btn-success
     background-color: $btn-success-effect
+    opacity: .8
 
 /* === End Buttons === */
 
-
 /* === Modal === */
 
-.modal-header 
-    border-bottom: 1px solid $secodnary-disabled !important 
+.modal-header
+    border-bottom: 1px solid $secodnary-disabled !important
 
-.modal-footer 
+.modal-footer
     border-top: 1px solid $secodnary-disabled !important
 
 /* === End Modal === */
 
-
 /* === Pagination Controls === */
 
-.pagination > .active > a, 
-.pagination > .active > span, 
-.pagination > .active > a:hover, 
-.pagination > .active > span:hover, 
-.pagination > .active > a:focus, 
-.pagination > .active > span:focus 
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus
     background-color: $primary-color
     border-color: $primary-color
     color: $secondary-white
 
-.holder a.jp-disabled, a.jp-disabled:hover 
+.holder a.jp-disabled, a.jp-disabled:hover
     background: none !important
     color: #bbb !important
 
-.holder a.jp-current, a.jp-current:hover 
+.holder a.jp-current, a.jp-current:hover
     background: none
 
-.holder a, .holder span 
+.holder a, .holder span
     border: 1px solid #ddd
     color: #337ab7
 
-.holder a:hover 
+.holder a:hover
     color: #23527c
     background-color: #eee
     border-color: #ddd
 
-.holder a.jp-current, a.jp-current:hover 
+.holder a.jp-current, a.jp-current:hover
     background-color: $primary-color
     border-color: $primary-color
     color: $secondary-white
 
 /* === End Pagination Controls === */
 
-
 /* === Language Selector */
 
-.language-selector .dropdown-menu > .active > a 
+.language-selector .dropdown-menu > .active > a
     background: $primary-menu-bg
     color: $primary-color
 
-.language-selector .dropdown-menu > .active > a:hover 
+.language-selector .dropdown-menu > .active > a:hover
     color: $primary-color
 
 /* === End Language Selector */
-
 
 /* === Topbar === */
 
 #btn-search
     color: $secondary-white
 
-#btn-search:hover 
+#btn-search:hover
     background: $secondary-color
 
-.navbar, .navbar.navbar-default 
+.navbar, .navbar.navbar-default
     background-color: $primary-color
     color: rgba(255,255,255,.84)
 
-.top-search 
+.top-search
     color: $primary-white
 
 .navbar-header
     background-color: $primary-color
 
-.navbar-brand:hover 
+.navbar-brand:hover
     background: $secondary-color !important
 
-.navbar .project_name 
+.navbar .project_name
     color: $secondary-white
 
-.navbar-nav li.open 
+.navbar-nav li.open
     background: $secondary-color
 
-.navbar-nav li > a:hover 
+.navbar-nav li > a:hover
     background: $secondary-color !important
 
-.navbar-nav li.settings_menu_active 
+.navbar-nav li.settings_menu_active
     background: $secondary-color
 
 .navbar .dropdown-menu .active > a, .navbar.navbar-default .dropdown-menu .active > a
-    background-color: $secondary-color  
+    background-color: $secondary-color
 
-.dropdown-menu 
+.dropdown-menu
     background: $primary-white
 
-.dropdown-menu li > a 
+.dropdown-menu li > a
     background: $primary-white
     color: $primary-menu-color
 
-.dropdown-menu li > a:hover 
+.dropdown-menu li > a:hover
     background: $primary-menu-bg !important
     color: $secondary-white !important
 
-#system_accordion > .panel > .panel-heading 
+#system_accordion > .panel > .panel-heading
     background: $primary-white
 
-#system_accordion > .panel > .panel-heading:hover 
+#system_accordion > .panel > .panel-heading:hover
     background: $primary-menu-bg
     color: $secondary-white
 
-#system_accordion > .panel > .panel-heading > a > .panel-title 
+#system_accordion > .panel > .panel-heading > a > .panel-title
     color: $primary-menu-color
 
-#system_accordion > .panel > .panel-heading > a > .panel-title:hover 
+#system_accordion > .panel > .panel-heading > a > .panel-title:hover
     color: $secondary-white
 
-#system_accordion > .panel > .panel-heading > a:hover 
+#system_accordion > .panel > .panel-heading > a:hover
     color: $secondary-white
 
-#system_menu 
+#system_menu
     background: $primary-white
 
 /* --- Minor Screens --- */
@@ -314,23 +312,22 @@ body .container-fluid .well-inverse
 
 /* === End Topbar === */
 
-
 /* === Mobile Menu === */
-.navbar-menu-btn 
+.navbar-menu-btn
     color: $secondary-white
 
 .mobile_menu_navbar
     background: #EDEDEE
     color: #000000
 
-input#mobile_menu_btn:checked + .navbar-menu-btn 
+input#mobile_menu_btn:checked + .navbar-menu-btn
     color: #000
 
-.mobile_menu_navbar .navbar-nav>.open>a, 
-.mobile_menu_navbar .navbar-nav>.open>a:focus, 
+.mobile_menu_navbar .navbar-nav>.open>a,
+.mobile_menu_navbar .navbar-nav>.open>a:focus,
 .mobile_menu_navbar .navbar-nav>.open>a:hover,
 .mobile_menu_navbar .navbar-nav>.open>a:active,
-.mobile_menu_navbar .navbar-nav>li>a:focus, 
+.mobile_menu_navbar .navbar-nav>li>a:focus,
 .mobile_menu_navbar .navbar-nav>li>a:hover
     color: $secondary-white
 
@@ -338,17 +335,16 @@ input#mobile_menu_btn:checked + .navbar-menu-btn
     background: #000000
 /* === End Mobile Menu === */
 
-
 /* === Sidebar === */
 
-#sidebar-menu .item 
+#sidebar-menu .item
     background-color: $primary-color
     color: $secondary-white
 
 #sidebar-menu .item a
     color: $secondary-white
 
-#sidebar-menu > .subjects_menu_active 
+#sidebar-menu > .subjects_menu_active
     background-color: $secondary-color
 
 #sidebar-menu > .item:hover
@@ -359,14 +355,14 @@ input#mobile_menu_btn:checked + .navbar-menu-btn
 .bottom-menu
     background: $primary-color
 
-.mobile-menu .item 
+.mobile-menu .item
     color: $secondary-white
     background: $primary-color
 
-.mobile-menu .item a 
+.mobile-menu .item a
     color: $secondary-white
 
-.mobile-menu > .subjects_menu_active 
+.mobile-menu > .subjects_menu_active
     background-color: $secondary-color
 
 .mobile-menu > .item:hover
@@ -376,80 +372,76 @@ input#mobile_menu_btn:checked + .navbar-menu-btn
 
 /* === End Sidebar === */
 
-
 /* === Breadcrumbs === */
 
-.breadcrumb > li > span.divider 
-    color: $primary-color
+.breadcrumb > li > span.divider
+    color: $link-color
 
 .breadcrumb > li > a
-    color: $primary-color
+    color: $link-color
 
-.breadcrumb > li 
+.breadcrumb > li
     color: #BDBDBD
 
-.breadcrumb > li + li:last-child::before 
+.breadcrumb > li + li:last-child::before
     color: #BDBDBD
 
 .bread_mask
     background: #000000
 /* === End Breadcrumbs === */
 
-
 /* === Panel === */
 
-.category-header i 
+.category-header i
     color: $secondary-white
 
-.category-header .dropdown-menu i 
+.category-header .dropdown-menu i
     color: inherit !important
 
-.panel-title a:hover 
+.panel-title a:hover
     color: $secondary-white
 
 .panel-invisible
     background-color: $primary-disabled !important
     color: $primary-white !important
 
-.panel-invisible .category-header .category-card-items i 
+.panel-invisible .category-header .category-card-items i
     color: $disabled-white
 
-.panel-invisible .category-header .category-card-items i:hover 
+.panel-invisible .category-header .category-card-items i:hover
     color: $secondary-white
 
 /* === End Panel === */
 
-
 /* === Category Panel === */
 
-.category-panel > .panel-heading 
+.category-panel > .panel-heading
     background-color: $primary-category !important
 
-.category-panel .category-header .category-card-items i 
+.category-panel .category-header .category-card-items i
     color: $secondary-category
 
-.category-panel .category-header .category-card-items i:hover 
+.category-panel .category-header .category-card-items i:hover
     color: $secondary-white
 
-.category-panel-content 
+.category-panel-content
     background: $primary-white
 
-.category-header > h4.panel-title span 
+.category-header > h4.panel-title span
     color: $secondary-white
 
 /* === End Category Panel === */
 
-
 /* === Subject Panel === */
 
-.subject-panel > .panel-heading 
+.subject-panel > .panel-heading
     background-color: $primary-subject !important
 
-.subject-panel .category-header .category-card-items i 
+.subject-panel .category-header .category-card-items i
     color: $secondary-subject
 
 .subject-panel .category-header .category-card-items i:hover,
-.subject-panel-invisible .category-header .category-card-items i:hover 
+.subject-panel-invisible .category-header .category-card-items i:hover
     color: $secondary-white
 
 /* --- Invisible --- */
@@ -461,26 +453,25 @@ input#mobile_menu_btn:checked + .navbar-menu-btn
 
 /* === End Subject Panel === */
 
-
 /* === Topic Panel === */
 
-.topic-panel > .panel-heading 
+.topic-panel > .panel-heading
     background-color: $primary-topic !important
 
-.topic-panel .category-header .category-card-items i, 
-.topic-panel-invisible .category-header .category-card-items i 
+.topic-panel .category-header .category-card-items i,
+.topic-panel-invisible .category-header .category-card-items i
     color: $secondary-topic
 
-.topic-panel .category-header .category-card-items i:hover, 
-.topic-panel-invisible .category-header .category-card-items i:hover 
+.topic-panel .category-header .category-card-items i:hover,
+.topic-panel-invisible .category-header .category-card-items i:hover
     color: $secondary-white
 
-.topic-panel > .category-panel-content, .topic-panel-invisible > .category-panel-content 
+.topic-panel > .category-panel-content, .topic-panel-invisible > .category-panel-content
     background: $secondary-white
 
 /* --- Invisible --- */
 
-.topic-panel-invisible > .panel-heading 
+.topic-panel-invisible > .panel-heading
     background-color: $primary-disabled !important
     color: $primary-white
 
@@ -491,65 +482,62 @@ input#mobile_menu_btn:checked + .navbar-menu-btn
 
 /* === End Topic Panel === */
 
-
 /* === Group Panel === */
 
-.group-panel > .panel-heading 
+.group-panel > .panel-heading
     background-color: $secondary-white !important
 
-.group-panel .panel-title, .group-panel .category-header i, .group-panel .category-course-link  
+.group-panel .panel-title, .group-panel .category-header i, .group-panel .category-course-link
     color: #000000 !important
 
-.group-panel-body 
+.group-panel-body
     background: $secondary-white !important
     border-top: 1px solid #CCCCCC
 
 /* === End Group Panel === */
 
-
 /* === Resources List === */
 
-.resource_list > .list-group-item 
+.resource_list > .list-group-item
     background-color: #fff
     border: 1px solid #ddd
 
-.resource_list > .disabled 
+.resource_list > .disabled
     background-color: #eee
 
-.resource_list > .disabled:hover 
-    background-color: #eee !important   
+.resource_list > .disabled:hover
+    background-color: #eee !important
 
-.resource_list > .disabled a.resource_link 
+.resource_list > .disabled a.resource_link
     color: $primary-disabled
 
-.resource_list > .list-group-item:hover 
+.resource_list > .list-group-item:hover
     background: $primary-white
 
-.resource_list > .list-group-item:last-child 
+.resource_list > .list-group-item:last-child
     border-bottom: 1px solid #ddd !important
 
-.resource_list .category-card-items i 
+.resource_list .category-card-items i
     color: #e5e5e5
 
-.resource_list .category-card-items i:hover 
+.resource_list .category-card-items i:hover
     color: #7f7f7f
 
-.resource_list .category-card-items .dropdown-menu i 
+.resource_list .category-card-items .dropdown-menu i
     color: #333
 
-.resource_list a 
+.resource_list a
     color: inherit
 
 .resource_list .category-card-items .dropdown-menu a:hover,
 .resource_list .category-card-items .dropdown-menu a:hover i
     color: $secondary-white !important
 
-.resource_list .btn-group button:active, 
-.resource_list .btn-group button:focus, .resource_list .btn-group button:hover 
+.resource_list .btn-group button:active,
+.resource_list .btn-group button:focus, .resource_list .btn-group button:hover
     background-color: initial !important
 
 /* === End Resources List === */
-
 
 /* === Participants === */
 
@@ -571,32 +559,29 @@ input#mobile_menu_btn:checked + .navbar-menu-btn
 
 /* === End Participants === */
 
-
 /* === Accordions === */
 
-#coordinators_accordion .panel-heading, #professors_accordion .panel-heading 
+#coordinators_accordion .panel-heading, #professors_accordion .panel-heading
     background: $secondary-white
 
 /* === End Accordions === */
 
-
 /* === Tabs === */
 
-.core-subjects-options  li 
+.core-subjects-options  li
     background-color: $secondary-white
     border-bottom-color: #D2D2D2
     color: #A0A0A0
 
-.core-subjects-options  li.active 
+.core-subjects-options  li.active
     color: inherit
     border-bottom-color: $secondary-color
 
 /* === End Tabs === */
 
-
 /* === Notifies === */
 
-.notifies, .goalitems 
+.notifies, .goalitems
     border: 1px solid #EEEEEE
 
 .notifies a.delete-row, .goalitems a.delete-row
@@ -605,18 +590,17 @@ input#mobile_menu_btn:checked + .navbar-menu-btn
     background-color: #EEE
     color: rgba(0,0,0,.87)
 
-a.add-row 
+a.add-row
     -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12)
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12)    
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12)
     background-color: $btn-success
     color: rgba(255,255,255,.84)
 
 /* === End Notifies === */
 
-
 /* === Goals === */
 
-.goalitems .slider, .goal_item .slider  
+.goalitems .slider, .goal_item .slider
     background-color: initial
 
 .goal_divider
@@ -624,10 +608,9 @@ a.add-row
 
 /* === End Goals === */
 
-
 /* === Bulletin === */
 
-.bulletin-warning h4 
+.bulletin-warning h4
     color: #555555
 
 .bulletin-warning p
@@ -637,7 +620,6 @@ a.add-row
     color: #4caf50
 
 /* === End Bulletin === */
-
 
 /* === Backup === */
 
@@ -650,109 +632,106 @@ a.add-row
 
 /* === End Backup === */
 
-
 /* === Pendencies === */
 
-.pendencies-content 
+.pendencies-content
     background: $primary-white
 
-.pendency 
+.pendency
     border-color: #CCCCCC
 
-.pendency .breadcrumb 
+.pendency .breadcrumb
     background-color: $secondary-white
 
-.pendency .meta 
+.pendency .meta
     color: #FF0000
 
 .alert-low
-    background-color: #dfbd31 
+    background-color: #dfbd31
 
 .alert-medium
     background-color: #FF9000
 
-.alert-low, .alert-medium, .alert-danger 
+.alert-low, .alert-medium, .alert-danger
     color: $secondary-white !important
     text-shadow: 0px 0px 1px #000000
 
-.no_button:hover, .no_button:focus, .no_button:active 
+.no_button:hover, .no_button:focus, .no_button:active
     background-color: initial !important
 
 /* === End Pendencies === */
 
-
 /* === Mural === */
 
-.mural .post_make 
+.mural .post_make
     background: $secondary-white
 
-.mural .post_make .post-field div 
+.mural .post_make .post-field div
     border-color: #CCCCCC
 
-.mural .post_make .post-field h4 
+.mural .post_make .post-field h4
     color: #CCCCCC
 
-.post_action i, .post .post-user .user-action i, .comment .comment-user .user-action i 
+.post_action i, .post .post-user .user-action i, .comment .comment-user .user-action i
     color: #1d8fe0
 
-.post .post-user, .comment .comment-user, .marked_user, .post_resource 
+.post .post-user, .comment .comment-user, .marked_user, .post_resource
     color: $primary-title
 
-.post .post-user .user-action 
+.post .post-user .user-action
     color: #BBBBBB
 
-.post .time 
+.post .time
     color: #ABABAB
 
-.post .post-comment 
+.post .post-comment
     border-top-color: #888888
     background: #e5e5e5
 
-.post .post-comment .comment-field div 
+.post .post-comment .comment-field div
     border-color: #888888
     background: $secondary-white
 
-.comment-section 
+.comment-section
     background: $primary-white
     border-top-color: #AAAAAA
 
-.comment .comment-user .user-action 
+.comment .comment-user .user-action
     color: #999999
 
-.comment-time 
+.comment-time
     color: #9A9A9A
 
-.btn_unfav 
+.btn_unfav
     color: #FF0000 !important
 
-.btn_fav 
+.btn_fav
     color: #BBBBBB !important
 
-.post-filter, .talk-filter 
+.post-filter, .talk-filter
     background: $primary-white
 
 .post-filter h4, .talk-filter h4
     color: $primary-title
 
-.post-filter, .talk-filter 
-    label 
+.post-filter, .talk-filter
+    label
         color: #333333
 
-.post-filter, .talk-filter 
-    i 
+.post-filter, .talk-filter
+    i
         color: #FF0000
 
-.suggestions 
+.suggestions
     background: $secondary-white
 
 .subject-related-panel
-    background: $primary-white !important 
+    background: $primary-white !important
 
 .mural-ungeneral
     background: #EEE
 
 /* === End Mural === */
-
 
 /* === Chat === */
 
@@ -815,22 +794,22 @@ a.add-row
     &:hover
         color: #999
 
-.alternative-panel.panel-info 
+.alternative-panel.panel-info
     box-shadow: none
 
-    > .panel-heading 
+    > .panel-heading
         background-color: #FFF
         color: #AAA
-        
+
         h4
             &:after
                 background-color: #CCC
 
-            a 
+            a
                 &:hover, &:focus, &:active
                     color: #AAA
 
-                i 
+                i
                     color: #AAA
 
     .panel-body
@@ -850,12 +829,35 @@ a.add-row
     .wrong_answer
         color: red
 
-@media(max-width: 768px) 
-    .navbar .navbar-nav .dropdown .dropdown-menu li > a 
+@media(max-width: 768px)
+    .navbar .navbar-nav .dropdown .dropdown-menu li > a
         color: #333333 !important
-    
-    .navbar .navbar-nav .dropdown .dropdown-menu li > a:hover 
+
+    .navbar .navbar-nav .dropdown .dropdown-menu li > a:hover
         color: $primary-color !important
 
     .mobile_menu_navbar .navbar-nav .dropdown .dropdown-menu li > a:hover
         color: $secondary-white !important
+
+/* === Pagination === */
+.page-item.active, .page-item:hover
+    background: $primary-color
+    border-color: $primary-color
+
+.pagination > li > a, .pagination > li > span, .pagination > li > a:hover
+    color: $link-color
+
+#table_div .google-visualization-table-page-number.current
+    background: $primary-color
+    border-color: $primary-color
+
+#table_div .google-visualization-table-page-number, #table_div .google-visualization-table-page-number:hover, #table_div .google-visualization-table-div-page .goog-custom-button
+    color: $link-color
+
+/* === Checkboxes === */
+.checkbox input[type=checkbox]:checked+.checkbox-material .check, label.checkbox-inline input[type=checkbox]:checked+.checkbox-material .check
+    color: $primary-color
+    border-color: $primary-color
+
+.checkbox input[type=checkbox]:checked+.checkbox-material .check:before, label.checkbox-inline input[type=checkbox]:checked+.checkbox-material .check:before
+    color: $primary-color

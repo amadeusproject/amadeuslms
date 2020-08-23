@@ -15,8 +15,16 @@ from django import forms
 
 from .models import Security
 
+
 class SecurityForm(forms.ModelForm):
-	
-	class Meta:
-		model = Security
-		fields = ['allow_register', 'maintence']		
+    class Meta:
+        model = Security
+        fields = [
+            "allow_register",
+            "maintence",
+            "deny_category_edition",
+            "deny_subject_edition",
+            "deny_email_change",
+            "deny_socialname_change",
+        ]
+

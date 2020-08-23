@@ -31,32 +31,32 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 <div class="row">
                 
                     <div class="active-users">
-                        <div class="col-md-12">
-                            <div class="col-md-6 teacher-active">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col col-sm-6 teacher-active">
                                 <div class="legend-chart" id="legend_teacher">
                                     Professores
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="col-md-8" id="teacher-active">
+                                <div class="col-md-12 col-sm-12" id="teacher-active-table">
+                                    <div class="col-md-8 col-sm-8" id="teacher-active">
                                         <p id="number-teacher-active">0</p>
                                     </div>
-                                    <div class="col-md-4" id="teacher-percent-1">
-                                        <div class="col-md-12" id="teacher-percent-2">
+                                    <div class="col-md-4 col-sm-4" id="teacher-percent-1">
+                                        <div class="col-md-12 col-sm-12" id="teacher-percent-2">
                                             <p id="teacher-percent-value">0</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col col-sm-6 students-active">
                                 <div class="legend-chart" id="legend_students">
                                     Estudantes 
                                 </div>
-                                <div class="col-md-12 students-active">
-                                    <div class="col-md-8" id="students-active">
+                                <div class="col-md-12 col-sm-12" id="students-active-table">
+                                    <div class="col-md-8 col-sm-8" id="students-active">
                                         <p id="number-students-active">0</p>
                                     </div>
-                                    <div class="col-md-4" id="students-percent-1">
-                                        <div class="col-md-12" id="students-percent-2">
+                                    <div class="col-md-4 col-sm-4" id="students-percent-1">
+                                        <div class="col-md-12 col-sm-12" id="students-percent-2">
                                             <p id="students-percent-value">0</p>
                                             
                                         </div>
@@ -71,27 +71,28 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             {% comment %} Divisão aqui  {% endcomment %}
             <div class="container">
                 <div class="row">
+
                     <div class="inactive-users">
-                        <div class="col-md-12">
-                            <div class="col-md-6 teacher-inactive">
-                                <div class="col-md-12">
-                                    <div class="col-md-8" id="teacher-inactive">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col col-sm-6 teacher-inactive">
+                                <div class="col-md-12 col-sm-12" id="teacher-inactive-table">
+                                    <div class="col-md-8 col-sm-8" id="teacher-inactive">
                                         <p id="number-teacher-inactive">0</p>
                                     </div>
-                                    <div class="col-md-4" id="percent-teacher-inactive-1">
-                                        <div class="col-md-12" id="percent-teacher-inactive-2">
+                                    <div class="col-md-4 col-sm-4" id="percent-teacher-inactive-1">
+                                        <div class="col-md-12 col-sm-12" id="percent-teacher-inactive-2">
                                             <p id="percent-teacher-value">0</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="col-md-12 students-inactive">
-                                    <div class="col-md-8" id="students-inactive">
+                            <div class="col col-sm-6 students-inactive">
+                                <div class="col-md-12 col-sm-12" id="students-inactive-table">
+                                    <div class="col-md-8 col-sm-8" id="students-inactive">
                                         <p id="number-students-inactive">0</p>
                                     </div>
-                                    <div class="col-md-4" id="percent-students-inactive-1">
-                                        <div class="col-md-12" id="percent-students-inactive-2">
+                                    <div class="col-md-4 col-sm-4" id="percent-students-inactive-1">
+                                        <div class="col-md-12 col-sm-12" id="percent-students-inactive-2">
                                             <p id="percent-students-value">0</p>
                                             
                                         </div>
@@ -107,7 +108,19 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                             Colors: #D5999E #B54B54 #972717 vermelhos
             {% endcomment %}
         </div>
-        <div><p><a>Download xml file</a> </p></div>
+        <div id="XlsDownload">
+            <button type="button" class="btn btn-outline-success">
+                <p>
+                    <a href="{% url 'dashboards:xlsusers' %}" style="text-decoration:none">
+                        <i class="fa fa-download" aria-hidden="true"></i>
+                    
+                        Download de Arquivo .xls
+                    </a>
+                </p>
+            </button>
+            
+            
+        </div>
     </div>
 </div>
 
