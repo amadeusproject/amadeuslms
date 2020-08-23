@@ -45,7 +45,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                 <li><a href="{% url 'questions_database:index' subject.slug %}"><i class="fa fa-question-circle fa-fw" aria-hidden="true"></i>{% trans 'Questions Database' %}</a></li>
                                 <li><a href="{% url 'subjects:backup' subject.slug %}"><i class="fa fa-database fa-fw" aria-hidden="true"></i>{% trans 'Backup' %}</a></li>
                                 <li><a href="{% url 'subjects:restore' subject.slug %}"><i class="fa fa-recycle fa-fw" aria-hidden="true"></i>{% trans 'Restore' %}</a></li>
-                                <li><a href="{% url 'subjects:reports:create_interaction' %}?subject_id={{subject.id}}"><i class="fa fa-bolt fa-fw" aria-hidden="true"></i>{% trans 'Interaction Data' %}</a></li>
+                                <!--<li><a href="{% url 'subjects:reports:create_interaction' %}?subject_id={{subject.id}}"><i class="fa fa-bolt fa-fw" aria-hidden="true"></i>{% trans 'Interaction Data' %}</a></li>-->
                                 <li><a href="javascript:delete_subject.get('{% url 'subjects:delete' subject.slug %}?view=index','#subject','#modal_subject')"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>&nbsp;{% trans 'Remove' %}</a></li>
                             </ul>
                         {% endif %}
