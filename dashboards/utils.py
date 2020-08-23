@@ -1005,11 +1005,10 @@ def generalUsersAccess(
 
             if userAccess:
                 userAccessRes = multi_search(userAccess)
-            print(len(teachers))
-            print(len(students))
+          
             
             accessess = [x.to_dict()["hits"]["total"]["value"] for x in res]
-            print(len(accessess))
+   
             for i, access in enumerate(accessess):
                 item = {}
                 if i < cont:
@@ -1105,9 +1104,9 @@ def general_logs(user, data_ini, data_end):
 
     for day in period:
         # day = day.strftime('%d/%m/%Y %H:%M')
-        # print(day)
-        searchs.append(count_daily_general_logs_access1(day))
-        searchs.append(count_daily_general_logs_access2(day))
+        datetime = date_to_datetime(day)
+        searchs.append(count_daily_general_logs_access1(datetime))
+        searchs.append(count_daily_general_logs_access2(datetime))
         days.append(day)
 
     # if searchs:
@@ -1306,3 +1305,10 @@ def functiontable(categories, dataIni, dataEnd):
 
 
 
+def date_to_datetime(
+    dt: date,
+    hour= 0,
+    minute= 0, 
+    second= 0) -> datetime:
+
+    return datetime(dt.year, dt.month, dt.day, hour, minute, second)
