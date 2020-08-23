@@ -1324,6 +1324,72 @@ def xml_users(request_user, data_ini, data_end):
     all_teachers = []
 
     workbook = xlwt.Workbook()
+    worksheet = workbook.add_sheet(u"Professores Ativos")
+    worksheet.write(0, 0, u"Professor")
+    worksheet.write(0, 1, u"N° de Assuntos")
+    worksheet.write(0, 2, u"Nº de Assuntos com registros")
+    worksheet.write(0, 3, u"Nº de Assuntos sem registros")
+    worksheet.write(0, 4, u"Nome de Assuntos com registros")
+    worksheet.write(0, 5, u"Nome de Assuntos sem registros")
+    line = 1
+
+    for sub in subjects:
+        sub = get_object_or_404(Subject, slug=sub.slug)
+        professores = sub.professor.all()
+        for professor in professores:
+                all_teachers.append(
+                    user_last_interaction_in_period(professor.id, data_ini, data_end)
+                )
+                id_teachers.append(professor)
+                total_teachers += 1
+    
+        res = multi_search(all_teachers)
+        
+
+        for i, teacher in enumerate(id_teachers):
+            entry = res[i]
+
+            if entry:
+                if teacher not in a_teachers:
+                    a_teachers.append(teacher)
+                    ac_teachers[teacher.id]=[sub]
+                else:
+                    if sub not in ac_teachers[teacher.id]:
+                        ac_teachers[teacher.id].append(sub)
+            else:
+                if teacher not in i_teachers:
+                    i_teachers.append(teacher)
+                    inac_teachers[teacher.id]=[sub]
+                else:
+                    if sub not in inac_teachers[teacher.id]:
+                        inac_teachers[teacher.id].append(sub)
+    i = 0        
+    while i < len(a_teachers):
+        subs_names= ''
+        worksheet.write(line, 0, a_teachers[i].fullname())
+        for a in ac_teachers[a_teachers[i].id]:
+            subs_names += str(a) + ', ' 
+        if a_teachers[i] in inac_teachers.keys():
+            total = len(ac_teachers[a_teachers[i].id])+len(inac_teachers[a_teachers[i].id])
+            ac = len(ac_teachers[a_teachers[i].id])
+            inac = len(inac_teachers[a_teachers[i].id])
+        else:
+            ac=total = len(ac_teachers[a_teachers[i].id])
+
+            inac = 0
+        worksheet.write(line, 1, total)
+        worksheet.write(line, 2, ac)
+        worksheet.write(line, 3, inac)
+        worksheet.write(line, 4, subs_names)
+        if inac == 0:
+            worksheet.write(line, 5, '')
+        else:
+            subs_names  = ''
+            for a in inac_teachers[a_teachers[i].id]:
+                subs_names += str(a) + ', ' 
+            worksheet.write(line, 5, subs_names)
+        i+=1
+        line+=1
     worksheet = workbook.add_sheet(u"Estudantes Ativos")
     worksheet.write(0, 0, u"Estudante")
     worksheet.write(0, 1, u"N° de Assuntos")
