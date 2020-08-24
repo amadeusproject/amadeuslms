@@ -195,7 +195,9 @@ class ProfileForm(Validation):
         )
 
         self.fields["social_name"] = (
-            forms.CharField(widget=forms.TextInput(attrs={"readonly": "readonly"}))
+            forms.CharField(
+                widget=forms.TextInput(attrs={"readonly": "readonly"}), required=False
+            )
             if self.deny_socialname
             else forms.CharField(widget=forms.TextInput)
         )
