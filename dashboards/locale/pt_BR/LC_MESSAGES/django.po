@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-21 03:44+0000\n"
+"POT-Creation-Date: 2020-08-23 17:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,74 +127,74 @@ msgstr "Sab"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
 #: dashboards/templates/dashboards/subjects_gantt.html:112
-#: dashboards/views.py:132 dashboards/views.py:203 dashboards/views.py:592
+#: dashboards/views.py:133 dashboards/views.py:204 dashboards/views.py:593
 msgid "January"
 msgstr "Janeiro"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
 #: dashboards/templates/dashboards/subjects_gantt.html:112
-#: dashboards/views.py:133 dashboards/views.py:204 dashboards/views.py:593
+#: dashboards/views.py:134 dashboards/views.py:205 dashboards/views.py:594
 msgid "February"
 msgstr "Fevereiro"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
 #: dashboards/templates/dashboards/subjects_gantt.html:112
-#: dashboards/views.py:134 dashboards/views.py:205 dashboards/views.py:594
+#: dashboards/views.py:135 dashboards/views.py:206 dashboards/views.py:595
 msgid "March"
 msgstr "Março"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
 #: dashboards/templates/dashboards/subjects_gantt.html:112
-#: dashboards/views.py:135 dashboards/views.py:206 dashboards/views.py:595
+#: dashboards/views.py:136 dashboards/views.py:207 dashboards/views.py:596
 msgid "April"
 msgstr "Abril"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
 #: dashboards/templates/dashboards/d3_translate.html:29
 #: dashboards/templates/dashboards/subjects_gantt.html:113
-#: dashboards/views.py:136 dashboards/views.py:207 dashboards/views.py:596
+#: dashboards/views.py:137 dashboards/views.py:208 dashboards/views.py:597
 msgid "May"
 msgstr "Maio"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
 #: dashboards/templates/dashboards/subjects_gantt.html:113
-#: dashboards/views.py:137 dashboards/views.py:208 dashboards/views.py:597
+#: dashboards/views.py:138 dashboards/views.py:209 dashboards/views.py:598
 msgid "June"
 msgstr "Junho"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
 #: dashboards/templates/dashboards/subjects_gantt.html:113
-#: dashboards/views.py:138 dashboards/views.py:209 dashboards/views.py:598
+#: dashboards/views.py:139 dashboards/views.py:210 dashboards/views.py:599
 msgid "July"
 msgstr "Julho"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
 #: dashboards/templates/dashboards/subjects_gantt.html:113
-#: dashboards/views.py:139 dashboards/views.py:210 dashboards/views.py:599
+#: dashboards/views.py:140 dashboards/views.py:211 dashboards/views.py:600
 msgid "August"
 msgstr "Agosto"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
 #: dashboards/templates/dashboards/subjects_gantt.html:114
-#: dashboards/views.py:140 dashboards/views.py:211 dashboards/views.py:600
+#: dashboards/views.py:141 dashboards/views.py:212 dashboards/views.py:601
 msgid "September"
 msgstr "Setembro"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
 #: dashboards/templates/dashboards/subjects_gantt.html:114
-#: dashboards/views.py:141 dashboards/views.py:212 dashboards/views.py:601
+#: dashboards/views.py:142 dashboards/views.py:213 dashboards/views.py:602
 msgid "October"
 msgstr "Outubro"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
 #: dashboards/templates/dashboards/subjects_gantt.html:114
-#: dashboards/views.py:142 dashboards/views.py:213 dashboards/views.py:602
+#: dashboards/views.py:143 dashboards/views.py:214 dashboards/views.py:603
 msgid "November"
 msgstr "Novembro"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
 #: dashboards/templates/dashboards/subjects_gantt.html:114
-#: dashboards/views.py:143 dashboards/views.py:214 dashboards/views.py:603
+#: dashboards/views.py:144 dashboards/views.py:215 dashboards/views.py:604
 msgid "December"
 msgstr "Dezembro"
 
@@ -443,7 +443,7 @@ msgstr "Usuários mais ativos"
 
 #: dashboards/templates/dashboards/subjects.html:39
 #: dashboards/templates/dashboards/teacher/index.html:38
-#: dashboards/views.py:322 dashboards/views.py:517 dashboards/views.py:559
+#: dashboards/views.py:323 dashboards/views.py:518 dashboards/views.py:560
 msgid "Analytics"
 msgstr "Analytics"
 
@@ -711,11 +711,11 @@ msgstr "Professor"
 msgid "Other indicator"
 msgstr "Outro indicador"
 
-#: dashboards/utils.py:1139
+#: dashboards/utils.py:1061
 msgid "Offline"
 msgstr ""
 
-#: dashboards/utils.py:1161
+#: dashboards/utils.py:1083
 msgid "Online"
 msgstr ""
 

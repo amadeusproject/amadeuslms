@@ -12,7 +12,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% extends 'categories/home.html' %}
 
-{% load static i18n pagination %}
+{% load static i18n pagination permissions_tags %}
 {% load django_bootstrap_breadcrumbs subject_counter category_counters %}
 
 {% block javascript%}
@@ -61,6 +61,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 {% for category in categories  %}
                     {% if category.visible %}
+                        {% category_manage_permissions request.user category as has_category_manage_permissions %}
+
                         <div class="panel panel-info category-panel">
                             <div class="panel-heading">
                                 <div class="row">
@@ -78,14 +80,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                         </h4>
 
                                         <div class="col-md-5 pull-right category-card-items">
-                                            {% if request.user.is_staff or user in category.coordinators.all %}
+                                            {% if has_category_manage_permissions %}
                                                 <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                 </a>
                                                 <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
-                                                    {% if request.user.is_staff %}
-                                                        <li><a href="{% url 'categories:replicate' category.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i> {% trans 'Replicate' %}</a></li>
-                                                    {% endif %}
+                                                    <li><a href="{% url 'categories:replicate' category.slug %}"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i> {% trans 'Replicate' %}</a></li>
                                                     <li><a href="{% url 'categories:update' category.slug %}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> {% trans 'Edit' %}</a></li>
                                                     <li>
                                                     <a href="javascript:delete_course.get('{% url 'categories:delete' category.slug %}?view=index','#category','#modal_course')" aria-hidden="true"><i class="fa fa-trash fa-fw" aria-hidden="true"></i> {% trans 'Remove' %}</a></li>

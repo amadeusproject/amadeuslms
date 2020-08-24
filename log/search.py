@@ -517,15 +517,22 @@ def count_general_resource_logs_period(subjects, data_ini, data_end):
                 "range",
                 datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
             ),
-            Q("bool", should=conds),
+            Q(
+                "bool",
+                should=conds
+            ),
             Q("match", component="resources"),
+            Q(
+                "bool",
+                should=[Q("match", action="access"),Q("match", action="create"),Q("match", action="view_statistics"), Q("match", action="view"),Q("match", action="update"),Q("match", action="delete"),Q("match", action="finish"),Q("match", action="watch"),],
+            ),
         ],
     )
 
     return s[0:10000]
 
 
-def count_general_access_period(userid, data_ini, data_end):
+def count_general_access_period(user, data_ini, data_end):
     s = Search().extra(size=0)
 
     s = s.query(
@@ -535,9 +542,25 @@ def count_general_access_period(userid, data_ini, data_end):
                 "range",
                 datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
             ),
-            Q("match", user_id=userid),
+            Q("match", user_id=user),
         ],
     )
 
     return s[0:10000]
 
+def count_mural_comments(user, data_ini, data_end):
+    s = Search().extra(size=0)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", user_id=user),
+            Q("match", action="create_comment"),
+        ],
+    )
+
+    return s[0:10000]

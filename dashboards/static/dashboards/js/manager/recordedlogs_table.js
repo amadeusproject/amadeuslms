@@ -551,7 +551,6 @@ function loadDataResources(url, dataIni, dataEnd) {
       return d1.value < d2.access ? 1 : d1.access > d2.access ? -1 : 0;
     });
 
-    console.log(reducedData);
     makeCategoryTable(dataset.categories, 10);
     makeSubjectsTable(dataset.subjects, 10);
     makeResourceTable(reducedData, 10);

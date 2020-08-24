@@ -171,11 +171,36 @@ class RegisterUserForm(Validation):
 
 class ProfileForm(Validation):
     is_edit = True
+    deny_email = True
+    deny_socialname = True
     # Cropping image
     x = forms.FloatField(widget=forms.HiddenInput(), required=False)
     y = forms.FloatField(widget=forms.HiddenInput(), required=False)
     width = forms.FloatField(widget=forms.HiddenInput(), required=False)
     height = forms.FloatField(widget=forms.HiddenInput(), required=False)
+
+    def __init__(self, *args, **kwargs):
+        change_socialname = kwargs.pop("change_socialname", True)
+        change_email = kwargs.pop("change_email", True)
+
+        super(ProfileForm, self).__init__(*args, **kwargs)
+
+        self.deny_email = change_email
+        self.deny_socialname = change_socialname
+
+        self.fields["email"] = (
+            forms.CharField(widget=forms.EmailInput(attrs={"readonly": "readonly"}))
+            if self.deny_email
+            else forms.CharField(widget=forms.EmailInput)
+        )
+
+        self.fields["social_name"] = (
+            forms.CharField(
+                widget=forms.TextInput(attrs={"readonly": "readonly"}), required=False
+            )
+            if self.deny_socialname
+            else forms.CharField(widget=forms.TextInput)
+        )
 
     def save(self, commit=True):
         super(ProfileForm, self).save(commit=False)
@@ -218,7 +243,6 @@ class ProfileForm(Validation):
             "image",
         ]
         widgets = {
-            "email": forms.EmailInput,
             "description": forms.Textarea,
             "username": forms.TextInput(attrs={"readonly": "readonly"}),
             "last_name": forms.TextInput(attrs={"readonly": "readonly"}),

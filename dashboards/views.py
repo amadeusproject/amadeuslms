@@ -49,10 +49,10 @@ from .utils import (
     my_categories,
     general_monthly_users_activity,
     generalUsersAccess,
-    generalAdminsAccess,
     general_logs,
     active_users_qty,
     functiontable,
+    xml_users,
 )
 
 from log.mixins import LogMixin
@@ -85,6 +85,7 @@ import plotly.express as px
 import plotly.graph_objs as go
 from django.template.loader import get_template
 
+import xlwt
 
 class GeneralView(LogMixin, generic.TemplateView):
     template_name = "dashboards/general.html"
@@ -842,3 +843,20 @@ def get_general_accordion_data(request,):
     data = functiontable(categorias, data_ini, data_end)
     return JsonResponse(data, safe=False)
 
+def get_xls_users_data(request):
+    data_ini = request.GET.get("data_ini", "")
+    data_end = request.GET.get("data_end", "")
+    if not data_ini == "":
+        data_ini = parse_date(data_ini)
+    else:
+        # data_ini = date.today() - timedelta(days=30)
+        data_ini = date.today() - timedelta(days=7)
+    if not data_end == "":
+        data_end = parse_date(data_end)
+    else:
+        data_end = date.today()
+    
+    response = xml_users(request.user,data_ini, data_end)
+    
+    return response
+    

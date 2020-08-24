@@ -410,6 +410,19 @@ class Profile(LoginRequiredMixin, generic.DetailView):
     context_object_name = "acc"
     template_name = "users/profile.html"
 
+    def get_form_kwargs(self):
+        kwargs = super(UpdateView, self).get_form_kwargs()
+        security = Security.objects.get(id=1)
+
+        kwargs.update(
+            {
+                "change_socialname": security.deny_socialname_change,
+                "change_email": security.deny_email_change,
+            }
+        )
+
+        return kwargs
+
     def get_object(self):
         user = get_object_or_404(User, email=self.request.user.email)
 
