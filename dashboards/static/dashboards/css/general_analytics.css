@@ -494,6 +494,42 @@ p>p {
   margin: 0;
   padding: 0;
 }
+
+@media ( max-width: 1160px ) {
+  #teacher-active, #students-active, div#teacher-inactive, div#students-inactive{
+    width: 6em;   
+  }
+  p#number-teacher-active, p#number-students-active{
+    font-size: 2.5em;
+    margin-top: 0.5em;
+    
+  }
+  div#teacher-percent-1, div#students-percent-1{
+    width: 4em;   
+  }
+  div#teacher-percent-2, div#students-percent-2{
+    width: 4em;   
+
+  }
+  div#teacher-inactive, div#students-inactive{
+    width: 6em; 
+  }
+  p#number-teacher-inactive, p#number-students-inactive{
+    font-size: 2.5em;
+    margin-top: 0.5em;
+  }
+
+  div#percent-teacher-inactive-1, div#percent-students-inactive-1{
+    width: 4em;  
+  }
+
+  div#percent-teacher-inactive-2, div#percent-students-inactive-2{
+    width: 4em;  
+
+  }
+}
+
+
 @media ( max-width: 990px ) {
   .users_chart {
     display: grid;
@@ -524,4 +560,106 @@ p>p {
     text-align: center;
   }
 
+}
+
+
+@media ( max-width: 450px ) {
+  #teacher-active, #students-active, div#teacher-inactive, div#students-inactive{
+    width: 5.5em;   
+  }
+  p#number-teacher-active, p#number-students-active{
+    font-size: 2.5em;
+    margin-top: 0.7em;
+  }
+  div#teacher-percent-1, div#students-percent-1{
+    width: 3.5em;   
+  }
+  div#teacher-percent-2, div#students-percent-2{
+    width: 3.5em;   
+
+  }
+  div#teacher-inactive, div#students-inactive{
+    width: 5.5em; 
+  }
+  p#number-teacher-inactive, p#number-students-inactive{
+    font-size: 2em;
+    margin-top: 0.7em;
+  }
+  div#percent-teacher-inactive-1, div#percent-students-inactive-1{
+    width: 3.5em;  
+
+  }
+
+  div#percent-teacher-inactive-2, div#percent-students-inactive-2{
+    width: 3.5em;  
+
+  }
+}
+
+@media ( max-width: 365px ) {
+  #teacher-active, #students-active, div#teacher-inactive, div#students-inactive{
+    width: 5em;   
+  }
+  p#number-teacher-active, p#number-students-active{
+    font-size: 2em;
+    margin-top: 0.7em;
+  }
+  div#teacher-percent-1, div#students-percent-1{
+    width: 3em;   
+  }
+  div#teacher-percent-2, div#students-percent-2{
+    width: 3em;   
+
+  }
+  div#teacher-inactive, div#students-inactive{
+    width: 5em; 
+  }
+  p#number-teacher-inactive, p#number-students-inactive{
+    font-size: 2em;
+    margin-top: 0.7em;
+  }
+
+  div#percent-teacher-inactive-1, div#percent-students-inactive-1{
+    width: 3em;  
+
+  }
+
+  div#percent-teacher-inactive-2, div#percent-students-inactive-2{
+    width: 3em;  
+
+  }
+}
+
+@media ( max-width: 337px ) {
+  #teacher-active, #students-active, div#teacher-inactive, div#students-inactive{
+    width: 4.5em;   
+  }
+  p#number-teacher-active, p#number-students-active{
+    font-size: 1.5em;
+    margin-top: 0.7em;
+  }
+  div#teacher-percent-1, div#students-percent-1{
+    width: 2.8em;   
+  }
+  div#teacher-percent-2, div#students-percent-2{
+    width: 2.8em;   
+
+  }
+  div#teacher-inactive, div#students-inactive{
+    width: 4.5em; 
+  }
+  p#number-teacher-inactive, p#number-students-inactive{
+    font-size: 1.5em;
+    margin-top: 0.7em;
+  }
+
+  div#percent-teacher-inactive-1, div#percent-students-inactive-1{
+    width: 2.8em;  
+
+  }
+
+  div#percent-teacher-inactive-2, div#percent-students-inactive-2{
+    width: 2.8em;  
+
+  }
 }
