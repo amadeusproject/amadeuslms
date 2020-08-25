@@ -564,3 +564,47 @@ def count_mural_comments(user, data_ini, data_end):
     )
 
     return s[0:10000]
+
+def count_chat_messages(user, data_ini, data_end):
+    s = Search().extra(size=0)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", user_id=user),
+            Q(
+                "bool",
+                should=[
+                    Q("match", action="send"),
+                    Q("match", action="create_post"),
+                ],
+            ),
+            Q("match", component="chat"),
+        ],
+    )
+
+    return s[0:10000]
+
+def count_resources(user, data_ini, data_end):
+    s = Search().extra(size=0)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", user_id=user),
+            Q("match", action="create"),
+            Q("match", component="resources"),
+        ],
+    )
+
+    return s[0:10000]
+
+
