@@ -518,6 +518,7 @@ function makeResourceTable(data, nrows) {
 
 function loadDataResources(url, dataIni, dataEnd) {
   $.get(url, { data_ini: dataIni, data_end: dataEnd }, dataset => {
+    
     dataset.categories = dataset.categories.map(d => {
       d.value = d.access;
       

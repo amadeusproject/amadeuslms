@@ -524,7 +524,7 @@ def count_general_resource_logs_period(subjects, data_ini, data_end):
             Q("match", component="resources"),
             Q(
                 "bool",
-                should=[Q("match", action="access"),Q("match", action="create"),Q("match", action="view_statistics"), Q("match", action="view"),Q("match", action="update"),Q("match", action="delete"),Q("match", action="finish"),Q("match", action="watch"),],
+                should=[Q("match", resource="bulletin"),Q("match", resource="pdffile"),Q("match", resource="pdf_file"), Q("match", resource="ytvideo"),Q("match", resource="filelink"),Q("match", resource="link"),Q("match", resource="goals"),Q("match", resource="webpage"),Q("match", resource="questionary"),Q("match", resource="webconference"),Q("match", resource="my_goals")],
             ),
         ],
     )
