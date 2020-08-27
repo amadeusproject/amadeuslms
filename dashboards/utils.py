@@ -48,6 +48,7 @@ from django.shortcuts import get_object_or_404
 from users.models import User
 import xlwt
 
+
 def done_percent(pendency):
     users = get_resource_users(pendency.resource)
     usersDone = PendencyDone.objects.filter(
@@ -765,7 +766,6 @@ def monthly_users_activity(subject, data_ini, data_end):
     return data
 
 
-
 def general_monthly_users_activity(subjects, data_ini, data_end):
     period = get_days_in_period(data_ini, data_end)
     students_list = list()
@@ -944,45 +944,40 @@ def generalUsersAccess(
         dataEnd = "now"
     data = []
     for j, subject in enumerate(subjects):
-        
-        
+
         students_list = subject.students.all()
         category_list = subject.category
         teachers_list = subject.professor.all()
-        
+
         coordinators_list = subject.category.coordinators.all()
 
         for professor in teachers_list:
             if professor.id not in teachers_id:
                 teachers_id.append(professor.id)
                 teachers.append(professor)
-                
+
         for student in students_list:
             if student.id not in students_ids:
                 if student.id not in teachers_id:
                     students_ids.append(student.id)
-                    students.append(student)    
-                    
+                    students.append(student)
+
         for coordenador in coordinators_list:
             if coordenador.id not in coordinators_id:
                 if coordenador.id not in teachers_id:
                     if coordenador.id not in admins_id:
                         coordinators.append(coordenador)
                         coordinators_id.append(coordenador.id)
-                        
-                        
 
     searchs = []
     cont = len(teachers)
-    
+
     users = []
 
     userAccess = []
     for professor in teachers:
-        
-        searchs.append(
-            count_general_access_period(professor.id, dataIni, dataEnd)
-        )
+
+        searchs.append(count_general_access_period(professor.id, dataIni, dataEnd))
         userAccess.append(user_last_interaction(professor.id))
     students_no_teachers = []
     for student in students:
@@ -994,8 +989,8 @@ def generalUsersAccess(
             )
             userAccess.append(user_last_interaction(student.id))
     cont2 = len(students_no_teachers)
-    cont3 =  cont2 + cont
-    only_admins =[]
+    cont3 = cont2 + cont
+    only_admins = []
     for admin in admins:
         if admin.id not in teachers_id:
             if admin.id not in students_ids:
@@ -1025,8 +1020,7 @@ def generalUsersAccess(
 
         if userAccess:
             userAccessRes = multi_search(userAccess)
-        
-        
+
         accessess = [x.to_dict()["hits"]["total"]["value"] for x in res]
 
         for i, access in enumerate(accessess):
@@ -1035,10 +1029,10 @@ def generalUsersAccess(
                 obj = teachers[i]
                 item["teacher"] = 1
             elif i < cont3:
-                obj = students[i-cont]
+                obj = students[i - cont]
                 item["teacher"] = 0
             elif i < cont4:
-                obj = admins[i-cont3]
+                obj = admins[i - cont3]
                 item["teacher"] = 2
             else:
                 obj = coordinators_list[i - cont4]
@@ -1059,6 +1053,7 @@ def generalUsersAccess(
         data.sort(key=lambda x: x["count"], reverse=True)
 
     return data
+
 
 def userStatus(user, lastInteractions):
     expire_time = settings.SESSION_SECURITY_EXPIRE_AFTER
@@ -1209,7 +1204,7 @@ def active_users_qty(request_user, data_ini, data_end):
         "total_teachers": total_teachers,
         "active_teachers": ac_teachers,
     }
-    
+
     return data
 
 
@@ -1308,10 +1303,12 @@ def functiontable(categories, dataIni, dataEnd):
         "categories": categories_data,
         "subjects": subjects_data,
         "resources": resources_data,
-        "resources_logs":all_logs, 
+        "resources_logs": all_logs,
     }
     return data
 
+
+"""
 def xml_users(request_user, data_ini, data_end):
     categories = my_categories(request_user)
     subjects = (
@@ -1354,10 +1351,9 @@ def xml_users(request_user, data_ini, data_end):
     # worksheet.write(0, 7, u"N° de mensagens diretas enviadas")
     # worksheet.write(0, 8, u"N° de recursos criados no período")
     # worksheet.write(0, 9, u"N° de registros no período")
-    worksheet.write(0,1, u"Nome dos Assuntos em que é professor")
+    worksheet.write(0, 1, u"Nome dos Assuntos em que é professor")
     line = 1
     for sub in subjects:
-        sub = get_object_or_404(Subject, slug=sub.slug)
         professores = sub.professor.all()
         for professor in professores:
             all_teachers.append(
@@ -1382,18 +1378,18 @@ def xml_users(request_user, data_ini, data_end):
             if entry:
                 if teacher not in a_teachers:
                     a_teachers.append(teacher)
-                    ac_teachers[teacher.id]=[sub]
+                    ac_teachers[teacher.id] = [sub]
                     # if teacher.id not in mural_teachers.keys():
-                        # mural_teachers[teacher.id]= comments[i]['total']['value']
-                        # chat_teachers[teacher.id] = messages[i]['total']['value']
-                        # resources_students[teacher.id] = recursos[i]['total']['value']
+                    # mural_teachers[teacher.id]= comments[i]['total']['value']
+                    # chat_teachers[teacher.id] = messages[i]['total']['value']
+                    # resources_students[teacher.id] = recursos[i]['total']['value']
                 else:
                     if sub not in ac_teachers[teacher.id]:
                         ac_teachers[teacher.id].append(sub)
             else:
                 if teacher not in i_teachers:
                     i_teachers.append(teacher)
-                    inac_teachers[teacher.id]=[sub]
+                    inac_teachers[teacher.id] = [sub]
                     # if teacher.id not in mural_teachers.keys():
                     #     mural_teachers[teacher.id]=comments[i]['total']['value']
                     #     chat_teachers[teacher.id] =messages[i]['total']['value']
@@ -1401,12 +1397,12 @@ def xml_users(request_user, data_ini, data_end):
                 else:
                     if sub not in inac_teachers[teacher.id]:
                         inac_teachers[teacher.id].append(sub)
-    i = 0        
+    i = 0
     while i < len(a_teachers):
-        subs_names= ''
+        subs_names = ""
         worksheet.write(line, 0, a_teachers[i].fullname())
         for a in ac_teachers[a_teachers[i].id]:
-            subs_names += str(a) + ', ' 
+            subs_names += str(a) + ", "
         # if a_teachers[i] in inac_teachers.keys():
         #     total = len(ac_teachers[a_teachers[i].id])+len(inac_teachers[a_teachers[i].id][0])
         #     ac = len(ac_teachers[a_teachers[i].id])
@@ -1425,29 +1421,28 @@ def xml_users(request_user, data_ini, data_end):
         # else:
         #     subs_names  = ''
         #     for a in inac_teachers[a_teachers[i].id]:
-        #         subs_names += str(a) + ', ' 
+        #         subs_names += str(a) + ', '
         #     worksheet.write(line, 5, subs_names)
         # worksheet.write(line, 6, mural_teachers[a_teachers[i].id])
         # worksheet.write(line, 7, chat_teachers[a_teachers[i].id])
         # worksheet.write(line, 8, resources_students[a_teachers[i].id])
-        
-        i+=1
-        line+=1
+
+        i += 1
+        line += 1
     worksheet = workbook.add_sheet(u"Professores Inativos")
     worksheet.write(0, 0, u"Estudante")
     worksheet.write(0, 1, u"Nome dos Assuntos em que é professor")
     line = 1
-    i = 0        
+    i = 0
     while i < len(i_teachers):
-        subs_names= ''
+        subs_names = ""
         worksheet.write(line, 0, i_teachers[i].fullname())
         for a in inac_teachers[i_teachers[i].id]:
-            subs_names += str(a) + ', ' 
+            subs_names += str(a) + ", "
         worksheet.write(line, 1, subs_names)
-        i+=1
-        line+=1
-    
-    
+        i += 1
+        line += 1
+
     worksheet = workbook.add_sheet(u"Estudantes Ativos")
     worksheet.write(0, 0, u"Estudante")
     # worksheet.write(0, 1, u"N° de Assuntos")
@@ -1463,46 +1458,44 @@ def xml_users(request_user, data_ini, data_end):
     line = 1
 
     for sub in subjects:
-        sub = get_object_or_404(Subject, slug=sub.slug)
         students = sub.students.all()
-        
+
         for student in students:
             all_students.append(
                 user_last_interaction_in_period(student.id, data_ini, data_end)
             )
-            
+
             id_students.append(student)
             total_students += 1
 
-
         res = multi_search(all_students)
-        
+
         for i, student in enumerate(id_students):
             entry = res[i]
 
             if entry:
                 if student not in a_students:
                     a_students.append(student)
-                    ac_students[student.id]=[sub]
-                    
+                    ac_students[student.id] = [sub]
+
                 else:
                     if sub not in ac_students[student.id]:
                         ac_students[student.id].append(sub)
-                        
+
             else:
                 if student not in i_students:
                     i_students.append(student)
-                    inac_students[student.id]=[sub]
+                    inac_students[student.id] = [sub]
                 else:
                     if sub not in inac_students[student.id]:
                         inac_students[student.id].append(sub)
-    i = 0    
-        
+    i = 0
+
     while i < len(a_students):
-        subs_names= ''
+        subs_names = ""
         worksheet.write(line, 0, a_students[i].fullname())
         for a in ac_students[a_students[i].id]:
-            subs_names += str(a) + ', ' 
+            subs_names += str(a) + ", "
         # if a_students[i] in inac_students.keys():
         #     total = len(ac_students[a_students[i].id])+len(inac_students[a_students[i].id])
         #     ac = len(ac_students[a_students[i].id])
@@ -1520,25 +1513,24 @@ def xml_users(request_user, data_ini, data_end):
         # else:
         #     subs_names = ''
         #     for a in inac_students[a_students[i].id]:
-        #         subs_names += str(a) + ', ' 
+        #         subs_names += str(a) + ', '
         #     worksheet.write(line, 5, subs_names)
-        i+=1
-        line+=1
+        i += 1
+        line += 1
     worksheet = workbook.add_sheet(u"Estudantes Inativos")
     worksheet.write(0, 0, u"Estudante")
     worksheet.write(0, 1, u"Nome dos Assuntos")
     line = 1
-    i = 0        
+    i = 0
     while i < len(i_students):
-        subs_names= ''
+        subs_names = ""
         worksheet.write(line, 0, i_students[i].fullname())
         for a in inac_students[i_students[i].id]:
-            subs_names += str(a) + ', ' 
+            subs_names += str(a) + ", "
         worksheet.write(line, 1, subs_names)
-        i+=1
-        line+=1
-       
-    
+        i += 1
+        line += 1
+
     # worksheet = workbook.add_sheet(u"Professores Ativos")
     # worksheet.write(0, 0, u"Professor")
     # worksheet.write(0, 1, u"Disciplinas")
@@ -1555,7 +1547,7 @@ def xml_users(request_user, data_ini, data_end):
     #             total_teachers += 1
 
     #     res = multi_search(all_teachers)
-        
+
     #     for i, teacher in enumerate(id_teachers):
     #         entry = res[i]
     #         if entry:
@@ -1565,7 +1557,7 @@ def xml_users(request_user, data_ini, data_end):
     #             inac_teachers.append(teacher)
     #             inac_teachers.append(sub)
 
-    # i = 0        
+    # i = 0
     # while i < len(ac_teachers):
     #     worksheet.write(line, 0, ac_teachers[i].fullname())
     #     worksheet.write(line, 1, ac_teachers[i+1].name)
@@ -1575,21 +1567,21 @@ def xml_users(request_user, data_ini, data_end):
     # worksheet.write(0, 0, u"Estudante")
     # worksheet.write(0, 1, u"Disciplinas")
     # line = 1
-    # i = 0        
+    # i = 0
     # while i < len(inac_teachers):
     #     worksheet.write(line, 0, inac_teachers[i].fullname())
     #     worksheet.write(line, 1, inac_teachers[i+1].name)
     #     i+=2
     #     line+=1
-    
+
     path1 = os.path.join(settings.BASE_DIR, "dashboards")
     path2 = os.path.join(path1, "sheets")
     path3 = os.path.join(path2, "xls")
 
     filename = str(request_user) + ".xls"
     folder_path = os.path.join(path3, filename)
-    
-        # check if the folder already exists
+
+    # check if the folder already exists
     if not os.path.isdir(path3):
         os.makedirs(path3)
 
@@ -1598,7 +1590,7 @@ def xml_users(request_user, data_ini, data_end):
     filepath = os.path.join(
         "dashboards", os.path.join("sheets", os.path.join("xls", filename))
     )
-    
+
     if not os.path.exists(filepath):
         raise Http404()
 
@@ -1611,13 +1603,151 @@ def xml_users(request_user, data_ini, data_end):
     response["Content-Transfer-Encoding"] = "binary"
     response["Content-Length"] = str(os.path.getsize(filepath))
 
-
     return response
+"""
 
-def date_to_datetime(
-    dt: date,
-    hour= 0,
-    minute= 0, 
-    second= 0) -> datetime:
+
+def date_to_datetime(dt: date, hour=0, minute=0, second=0) -> datetime:
 
     return datetime(dt.year, dt.month, dt.day, hour, minute, second)
+
+
+def xml_users(request_user, data_ini, data_end):
+    categories = my_categories(request_user)
+    subjects = (
+        Subject.objects.filter(category__in=categories).order_by("slug").distinct()
+    )
+
+    teachersList = []
+    studentsList = []
+
+    teachersLastInteractionQuery = []
+    studentsLastInteractionQuery = []
+
+    for subject in subjects:
+        for professor in subject.professor.all():
+            if not professor in teachersList:
+                teachersLastInteractionQuery.append(
+                    user_last_interaction_in_period(professor.id, data_ini, data_end)
+                )
+                teachersList.append(professor)
+
+        for student in subject.students.all():
+            if not student in studentsList:
+                studentsLastInteractionQuery.append(
+                    user_last_interaction_in_period(student.id, data_ini, data_end)
+                )
+                studentsList.append(student)
+
+    workbook = xlwt.Workbook()
+    activeTeachersWorksheet = workbook.add_sheet(u"Professores Ativos")
+    activeTeachersWorksheet.write(0, 0, u"Professor")
+    activeTeachersWorksheet.write(0, 1, u"Nome dos assuntos em que é professor")
+
+    inactiveTeachersWorksheet = workbook.add_sheet(u"Professores Inativos")
+    inactiveTeachersWorksheet.write(0, 0, u"Professor")
+    inactiveTeachersWorksheet.write(0, 1, u"Nome dos assuntos em que é professor")
+
+    if teachersLastInteractionQuery:
+        res = multi_search(teachersLastInteractionQuery)
+
+        activesLine = 1
+        inactivesLine = 1
+
+        for i, teacher in enumerate(teachersList):
+            if i < len(res):
+                entry = res[i]
+
+                if entry:
+                    activeTeachersWorksheet.write(activesLine, 0, teacher.fullname())
+                    activeTeachersWorksheet.write(
+                        activesLine,
+                        1,
+                        ", ".join(str(sub.name) for sub in teacher.professors.all()),
+                    )
+
+                    activesLine += 1
+                else:
+                    inactiveTeachersWorksheet.write(
+                        inactivesLine, 0, teacher.fullname()
+                    )
+                    inactiveTeachersWorksheet.write(
+                        inactivesLine,
+                        1,
+                        ", ".join(str(sub.name) for sub in teacher.professors.all()),
+                    )
+
+                    inactivesLine += 1
+
+    activeStudentsWorksheet = workbook.add_sheet(u"Estudantes Ativos")
+    activeStudentsWorksheet.write(0, 0, u"Estudante")
+    activeStudentsWorksheet.write(0, 1, u"Nome dos assuntos em que é estudante")
+
+    inactiveStudentsWorksheet = workbook.add_sheet(u"Estudantes Inativos")
+    inactiveStudentsWorksheet.write(0, 0, u"Estudante")
+    inactiveStudentsWorksheet.write(0, 1, u"Nome dos assuntos em que é estudante")
+
+    if studentsLastInteractionQuery:
+        res = multi_search(studentsLastInteractionQuery)
+
+        activesLine = 1
+        inactivesLine = 1
+
+        for i, student in enumerate(studentsList):
+            if i < len(res):
+                entry = res[i]
+
+                if entry:
+                    activeStudentsWorksheet.write(activesLine, 0, student.fullname())
+                    activeStudentsWorksheet.write(
+                        activesLine,
+                        1,
+                        ", ".join(
+                            str(sub.name) for sub in student.subject_student.all()
+                        ),
+                    )
+
+                    activesLine += 1
+                else:
+                    inactiveStudentsWorksheet.write(
+                        inactivesLine, 0, student.fullname()
+                    )
+                    inactiveStudentsWorksheet.write(
+                        inactivesLine,
+                        1,
+                        ", ".join(
+                            str(sub.name) for sub in student.subject_student.all()
+                        ),
+                    )
+
+                    inactivesLine += 1
+
+    path1 = os.path.join(settings.BASE_DIR, "dashboards")
+    path2 = os.path.join(path1, "sheets")
+    path3 = os.path.join(path2, "xls")
+
+    filename = request_user.fullname().replace(" ", "_") + ".xls"
+    folder_path = os.path.join(path3, filename)
+
+    if not os.path.isdir(path3):
+        os.makedirs(path3)
+
+    workbook.save(folder_path)
+
+    filepath = os.path.join(
+        "dashboards", os.path.join("sheets", os.path.join("xls", filename))
+    )
+
+    if not os.path.exists(filepath):
+        raise Http404()
+
+    response = HttpResponse(open(filepath, "rb").read())
+    response["Content-Type"] = "application/force-download"
+    response["Pragma"] = "public"
+    response["Expires"] = "0"
+    response["Cache-Control"] = "must-revalidate, post-check=0, pre-check=0"
+    response["Content-Disposition"] = "attachment; filename=%s" % (filename)
+    response["Content-Transfer-Encoding"] = "binary"
+    response["Content-Length"] = str(os.path.getsize(filepath))
+
+    return response
