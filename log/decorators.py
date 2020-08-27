@@ -140,7 +140,7 @@ def log_decorator_ajax(log_component="", log_action="", log_resource=""):
 
                     log.save()
 
-                    response = view_function(request, *args, **kwargs)
+                    # response = view_function(request, *args, **kwargs)
 
                     log_context = {}
 
@@ -166,7 +166,7 @@ def log_decorator_ajax(log_component="", log_action="", log_resource=""):
 
                     log.save()
 
-                    response = view_function(request, *args, **kwargs)
+            response = view_function(request, *args, **kwargs)
 
             return response
 
