@@ -49,6 +49,7 @@ from users.models import User
 import xlwt
 from itertools import islice
 
+
 def done_percent(pendency):
     users = get_resource_users(pendency.resource)
     usersDone = PendencyDone.objects.filter(
