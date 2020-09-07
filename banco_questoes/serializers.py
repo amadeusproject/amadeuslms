@@ -26,12 +26,11 @@ from subjects.models import Tag, Subject
 
 from .models import Question, Alternative
 
-
 class AlternativeSerializer(serializers.ModelSerializer):
-    alt_img = serializers.CharField(required=False, allow_blank=True, max_length=255)
+    alt_img = serializers.CharField(required = False, allow_blank = True, max_length = 255)
 
     def validate(self, data):
-        files = self.context.get("files", None)
+        files = self.context.get('files', None)
 
         if files:
             if data["alt_img"] in files.namelist():
@@ -42,21 +41,10 @@ class AlternativeSerializer(serializers.ModelSerializer):
 
                     path = files.extract(data["alt_img"], dst_path)
 
-                    new_name = os.path.join(
-                        "questions",
-                        os.path.join(
-                            "alternatives",
-                            "alternative_"
-                            + str(time.time())
-                            + os.path.splitext(data["question_img"])[1],
-                        ),
-                    )
+                    new_name = os.path.join("questions", os.path.join("alternatives", "alternative_" + str(time.time()) + os.path.splitext(data["question_img"])[1]))
 
-                    os.rename(
-                        os.path.join(dst_path, path),
-                        os.path.join(settings.MEDIA_ROOT, new_name),
-                    )
-
+                    os.rename(os.path.join(dst_path, path), os.path.join(settings.MEDIA_ROOT, new_name))
+                    
                     data["alt_img"] = new_name
                 else:
                     path = files.extract(data["alt_img"], settings.MEDIA_ROOT)
@@ -69,15 +57,12 @@ class AlternativeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Alternative
-        exclude = ("question",)
-
+        exclude = ('question',)
 
 class QuestionDatabaseSerializer(serializers.ModelSerializer):
-    categories = TagSerializer(many=True)
-    alt_question = AlternativeSerializer("get_files", many=True)
-    question_img = serializers.CharField(
-        required=False, allow_blank=True, max_length=255
-    )
+    categories = TagSerializer(many = True)
+    alt_question = AlternativeSerializer('get_files', many = True)
+    question_img = serializers.CharField(required = False, allow_blank = True, max_length = 255)
 
     def get_subject(self, obj):
         subject = self.context.get("subject", None)
@@ -90,7 +75,7 @@ class QuestionDatabaseSerializer(serializers.ModelSerializer):
         return files
 
     def validate(self, data):
-        files = self.context.get("files", None)
+        files = self.context.get('files', None)
 
         if files:
             if data["question_img"] in files.namelist():
@@ -101,18 +86,10 @@ class QuestionDatabaseSerializer(serializers.ModelSerializer):
 
                     path = files.extract(data["question_img"], dst_path)
 
-                    new_name = os.path.join(
-                        "questions",
-                        "question_"
-                        + str(time.time())
-                        + os.path.splitext(data["question_img"])[1],
-                    )
+                    new_name = os.path.join("questions","question_" + str(time.time()) + os.path.splitext(data["question_img"])[1])
 
-                    os.rename(
-                        os.path.join(dst_path, path),
-                        os.path.join(settings.MEDIA_ROOT, new_name),
-                    )
-
+                    os.rename(os.path.join(dst_path, path), os.path.join(settings.MEDIA_ROOT, new_name))
+                    
                     data["question_img"] = new_name
                 else:
                     path = files.extract(data["question_img"], settings.MEDIA_ROOT)
@@ -125,60 +102,36 @@ class QuestionDatabaseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        exclude = ("subject",)
+        exclude = ('subject', )
 
     def create(self, data):
         question_data = data
 
-        subject = self.context.get("subject", None)
-
         alternatives = question_data["alt_question"]
         del question_data["alt_question"]
 
-        question = None
+        question = Question()
+        question.enunciado = question_data["enunciado"]
+        question.question_img = question_data["question_img"]
+        question.subject = self.context.get("subject", None)
 
-        checkExistance = Question.objects.filter(
-            enunciado=question_data["enunciado"], subject__id=subject.id
-        )
+        question.save()
 
-        shouldSkip = True
+        tags = data["categories"]
 
-        if checkExistance.exists():
-            questionExisted = checkExistance.first()
-
-            for alt in alternatives:
-                shouldSkip = (
-                    shouldSkip
-                    and Alternative.objects.filter(
-                        question__id=questionExisted.id, content=alt["content"]
-                    ).exists()
-                )
-        else:
-            shouldSkip = False
-
-        if not shouldSkip:
-            question = Question()
-            question.enunciado = question_data["enunciado"]
-            question.question_img = question_data["question_img"]
-            question.subject = self.context.get("subject", None)
-
-            question.save()
-
-            tags = data["categories"]
-
-            for tag in tags:
-                if not tag["name"] == "":
-                    if tag["id"] == "":
-                        if Tag.objects.filter(name=tag["name"]).exists():
-                            tag = get_object_or_404(Tag, name=tag["name"])
-                        else:
-                            tag = Tag.objects.create(name=tag["name"])
+        for tag in tags:
+            if not tag["name"] == "":
+                if tag["id"] == "":
+                    if Tag.objects.filter(name = tag["name"]).exists():
+                        tag = get_object_or_404(Tag, name = tag["name"])
                     else:
-                        tag = get_object_or_404(Tag, id=tag["id"])
+                        tag = Tag.objects.create(name = tag["name"])
+                else:
+                    tag = get_object_or_404(Tag, id = tag["id"])
 
-                    question.categories.add(tag)
+                question.categories.add(tag)
 
-            for alt in alternatives:
-                Alternative.objects.create(question=question, **alt)
+        for alt in alternatives:
+            Alternative.objects.create(question = question, **alt)
 
         return question

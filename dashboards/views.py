@@ -844,18 +844,17 @@ def get_general_accordion_data(request,):
     return JsonResponse(data, safe=False)
 
 def get_xls_users_data(request):
-    # data_ini = request.GET.get("data_ini", "")
-    # data_end = request.GET.get("data_end", "")
-    # if not data_ini == "":
-    #     data_ini = parse_date(data_ini)
-    # else:
-    data_ini = date.today() - timedelta(days=7)
+    data_ini = request.GET.get("data_ini", "")
+    data_end = request.GET.get("data_end", "")
+    if not data_ini == "":
+        data_ini = parse_date(data_ini)
+    else:
+        data_ini = date.today() - timedelta(days=7)
         # data_ini = date.today() - timedelta(days=7)
-    # if not data_end == "":
-    #     data_end = parse_date(data_end)
-    # else:
-    data_end = date.today()
-    
+    if not data_end == "":
+        data_end = parse_date(data_end)
+    else:
+        data_end = date.today()
     response = xml_users(request.user,data_ini, data_end)
     
     return response
