@@ -88,12 +88,24 @@ $('#id_students').multiSelect({
   afterSelect: function() {
     this.qs1.cache();
     this.qs2.cache();
+
+    $('#id_all_students').prop('checked', false);
   },
   afterDeselect: function() {
     this.qs1.cache();
     this.qs2.cache();
+
+    if ($('#id_students :selected').length === 0) {
+      $('#id_all_students').prop('checked', true);
+    }
   }
 });  // Used to create multi-select css style
+
+$('#id_all_students').on('click', function() {
+  if ($(this).prop('checked')) {
+    $('#id_students').multiSelect('deselect_all');
+  }
+});
 
 $('.collapse').on('show.bs.collapse', function(e) {
   if ($(this).is(e.target)) {
