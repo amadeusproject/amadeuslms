@@ -57,3 +57,6 @@ uploads/
 
 questionary/sheets/xls/*
 !questionary/sheets/xls/.keep
+
+dashboards/sheets/xls/*
+!dashboards/sheets/xls/.keep
