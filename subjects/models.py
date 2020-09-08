@@ -11,6 +11,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 """
 
 from django.db import models
+from django.contrib.postgres.fields import JSONField
 from django.db.models import Q
 
 from autoslug.fields import AutoSlugField
@@ -75,3 +76,45 @@ class Subject(models.Model):
             ).distinct()
 
         return data
+
+class Log_Consultas(models.Model):
+	component = models.TextField(_('Component (Module / App)'), blank=True,
+    null=True)
+	context = JSONField(_('Context'), blank=True,
+    null=True)
+	action = models.TextField(_('Action'), blank=True,
+    null=True)
+	resource = models.TextField(_('Resource'), blank=True,
+    null=True)
+	user = models.CharField(_('Actor'), max_length = 100)
+	user_id = models.IntegerField(_('Actor id'))
+	user_email = models.EmailField(_('Actor Mail'), blank=True,
+    null=True)
+	datetime = models.DateTimeField(_("Date and Time of action"), blank=True,
+    null=True)
+	is_admin = models.BooleanField(_("Admin"), default=False)
+	is_teacher = models.BooleanField(_("Teacher"), default=False)
+	teacher_subjects = models.ManyToManyField(Subject, verbose_name="List of subjects", related_name='List_of_subjects')
+	is_student = models.BooleanField(_("Student"), default=False)
+	student_subjects = models.ManyToManyField(Subject, verbose_name="List of subjects you are a student in", related_name='List_of_subjects_you_are_a_student_in')
+	is_coordinator = models.BooleanField(_("Coordinator"), default=False)
+	subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name="Subject", blank=True,
+    null=True)
+    
+
+	class Meta:
+		verbose_name = _('Log for query')
+		verbose_name_plural = _('Logs for queries')
+
+	def __str__(self):
+		return str(self.user) + ' / ' + self.component
+	
+	# def indexing(self):
+	# 	if self.context == '':
+	# 		self.context = {}
+		
+	# 	obj = LogIndex(meta={'id': self.id}, id=self.id, component=self.component, action=self.action, resource=self.resource, user=self.user, user_id=self.user_id, datetime=self.datetime, context=self.context)
+
+	# 	obj.save()
+
+	# 	return obj.to_dict(include_meta=True)

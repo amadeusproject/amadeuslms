@@ -3,7 +3,6 @@ $(function() {
     
     loadBarChartData(usersgraphUrl, $("#from").val(), $("#until").val());
     
-   
     
 });
 
