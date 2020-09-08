@@ -87,7 +87,11 @@ from django.template.loader import get_template
 
 import xlwt
 
+
 class GeneralView(LogMixin, generic.TemplateView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
     template_name = "dashboards/general.html"
 
     log_component = "General_Dashboard"
@@ -158,6 +162,9 @@ class GeneralView(LogMixin, generic.TemplateView):
 
 
 class CategoryView(LogMixin, generic.TemplateView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
     template_name = "dashboards/category.html"
 
     log_component = "Category_Dashboard"
@@ -236,6 +243,9 @@ class CategoryView(LogMixin, generic.TemplateView):
 
 
 class LogView(LogMixin, generic.TemplateView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
     template_name = "dashboards/general.html"
 
     log_component = "admin_log"
@@ -292,6 +302,9 @@ def parse_log_queryset_to_JSON(logs):
 
 
 class SubjectView(LogMixin, generic.TemplateView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
     template_name = "dashboards/subjects.html"
 
     log_component = "subject"
@@ -488,6 +501,9 @@ def cloudy_data_period(request, subject, email=None):
 
 ###### Subjects Teacher Dashboard #######
 class SubjectTeacher(LogMixin, generic.TemplateView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
     template_name = "dashboards/teacher/index.html"
 
     log_component = "subject"
@@ -541,6 +557,9 @@ class SubjectTeacher(LogMixin, generic.TemplateView):
 
 #### General Manager Dashboard  -  Begin  ####
 class GeneralManager(LogMixin, generic.TemplateView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
     template_name = "dashboards/manager/index.html"
 
     log_component = "Manager Dashboard"
@@ -678,10 +697,12 @@ def general_heatmap_graph(request):
     # subjects = request.GET.get('subjects', '')
 
     categories = my_categories(request.user)
-    subjects = Subject.objects.filter(category__in = categories).order_by('slug').distinct()
-    
-    data_ini = request.GET.get('data_ini', '')
-    data_end = request.GET.get('data_end', '')
+    subjects = (
+        Subject.objects.filter(category__in=categories).order_by("slug").distinct()
+    )
+
+    data_ini = request.GET.get("data_ini", "")
+    data_end = request.GET.get("data_end", "")
 
     if not data_ini == "":
         data_ini = parse_date(data_ini)
@@ -695,7 +716,7 @@ def general_heatmap_graph(request):
         data_end = date.today()
 
     data = general_monthly_users_activity(subjects, data_ini, data_end)
-    
+
     return JsonResponse(data, safe=False)
 
 
@@ -713,13 +734,12 @@ def most_active_users_general(request):
 
     if not data_end == "":
         data_end = parse_date(data_end)
-    
-        
+
     usersAccessess = generalUsersAccess(subjects, data_ini, data_end)
 
     for s in usersAccessess:
         data.append(s)
-    
+
     return JsonResponse(data, safe=False)
 
 
@@ -740,28 +760,24 @@ def general_logs_chart(request):
         data_end = date.today()
 
     data = general_logs(request.user, data_ini, data_end)
-    
-    axis_x =[]
-    axis_y =[]
-    
+
+    axis_x = []
+    axis_y = []
+
     for a in data:
         day = datetime.strptime(a["x"], "%d/%m/%Y")
         axis_x.append(day)
         axis_y.append(a["y"])
     a_x = sorted([dt for dt in axis_x])
-    
-    lista =  dict(zip(axis_x, axis_y))
-   
-    
+
+    lista = dict(zip(axis_x, axis_y))
+
     axis_y = [lista[x] for x in a_x]
-    config = dict({
-    'displaylogo': False
-    }) 
-    
-    fig = px.bar( 
+    config = dict({"displaylogo": False})
+
+    fig = px.bar(
         x=a_x,
         y=axis_y,
-        
         labels={"x": "Data", "y": "acessos"},
         text=axis_y,
         # nbins = len(axis_x)*2,
@@ -770,26 +786,26 @@ def general_logs_chart(request):
         template="simple_white",
         # hover_name=axis_x,
         # hover_data=[a_x,a_y],
-
-        )
+    )
     fig.update_xaxes(title_text="")
     fig.update_yaxes(title_text="")
     # fig.update_layout(hovermode="x-" )
-    fig.update_traces(hovertemplate='Data: %{x} <br><b>Acessos: %{y}</b>')
+    fig.update_traces(hovertemplate="Data: %{x} <br><b>Acessos: %{y}</b>")
     fig.update_layout(
-      
-        margin=dict(l=0, r=0, t=25, b=0), height=300,
+        margin=dict(l=0, r=0, t=25, b=0),
+        height=300,
         # hovermode="x",
-        uniformtext_minsize=8, uniformtext_mode='hide'
+        uniformtext_minsize=8,
+        uniformtext_mode="hide",
     )
-   
+
     fig.update_layout()
-    
+
     soma = 0
     for i in axis_y:
         soma = soma + i
 
-    plt_div = plot(fig, config= config,output_type="div" )
+    plt_div = plot(fig, config=config, output_type="div")
 
     return JsonResponse(
         {"div": plt_div, "min": min(axis_y), "max": max(axis_y), "total": soma,},
@@ -798,7 +814,7 @@ def general_logs_chart(request):
 
 
 def get_general_active_users(request):
-    
+
     data = {}
     data_ini = request.GET.get("data_ini", "")
     data_end = request.GET.get("data_end", "")
@@ -809,19 +825,17 @@ def get_general_active_users(request):
     if not data_ini == "":
         data_ini = parse_date(data_ini)
     else:
-       data_ini = date.today() - timedelta(days=7)
+        data_ini = date.today() - timedelta(days=7)
 
     if not data_end == "":
         data_end = parse_date(data_end)
     else:
         data_end = date.today()
 
-
     data = active_users_qty(request.user, data_ini, data_end)
-    
-    
-    
-    return JsonResponse(data, safe = False)
+
+    return JsonResponse(data, safe=False)
+
 
 def get_general_accordion_data(request,):
     categorias = my_categories(request.user)
@@ -843,6 +857,7 @@ def get_general_accordion_data(request,):
     data = functiontable(categorias, data_ini, data_end)
     return JsonResponse(data, safe=False)
 
+
 def get_xls_users_data(request):
     data_ini = request.GET.get("data_ini", "")
     data_end = request.GET.get("data_end", "")
@@ -855,7 +870,7 @@ def get_xls_users_data(request):
         data_end = parse_date(data_end)
     else:
         data_end = date.today()
-    response = xml_users(request.user,data_ini, data_end)
-    
+    response = xml_users(request.user, data_ini, data_end)
+
     return response
-    
+
