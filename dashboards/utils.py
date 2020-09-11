@@ -1199,103 +1199,112 @@ def active_users_qty(request_user, data_ini, data_end):
     return data
 
 
-def functiontable(categories, dataIni, dataEnd):
+def functiontable(dataIni, dataEnd):
     data = {}
     categories_data = []
     subjects_data = []
     resources_data = []
-    subs = list()
-    searchs1 = list()
-    searchs2 = list()
-    searchs3 = list()
-    searchs4 = list()
-    searchs5 = list()
-    searchs6 = list()
-    searchs7 = list()
-    searchs8 = list()
+
+    searchs = []
+
+    usersList = (
+        User.objects.filter(
+            Cond(subject_student__isnull=False)
+            | Cond(professors__isnull=False)
+            | Cond(coordinators__isnull=False)
+        )
+        .distinct()
+        .values_list("id", flat=True)
+    )
+
+    usersList = list(usersList)
+
+    categories = Category.objects.filter(visible=True).order_by("slug")
+    subjects = Subject.objects.filter(
+        visible=True, category__id__in=categories.values_list("id", flat=True)
+    ).order_by("slug")
+    resources = Resource.objects.filter(
+        visible=True, topic__subject__id__in=subjects.values_list("id", flat=True)
+    ).order_by("slug")
+
     for category in categories:
-        res = []
-        cont = 0
-        subjects = (
-            Subject.objects.filter(category=category)
-            .filter(visible=True)
-            .order_by("slug")
-            .distinct()
+        searchs.append(
+            count_categories_logs_period(category, usersList, dataIni, dataEnd)
         )
-        searchs = list()
-        accessess = []
-        for subject in subjects:
-            searchs.append(
-                count_general_access_subject_period(subject.id, dataIni, dataEnd)
+
+    for subject in subjects:
+        searchs.append(count_subject_logs_period(subject, usersList, dataIni, dataEnd))
+
+    for resource in resources:
+        searchs.append(
+            count_resources_logs_period(resource, usersList, dataIni, dataEnd)
+        )
+
+    if searchs:
+        res = multi_search(searchs)
+
+        accessess = [x.to_dict()["hits"] for x in res]
+
+        lastIndex = 0
+
+        for i, category in enumerate(categories):
+            total = accessess[lastIndex + i]["total"]["value"]
+
+            categories_data.append(
+                {
+                    "cat_name": category.name,
+                    "access": total,
+                    "link": reverse(
+                        "subjects:cat_view", args=(), kwargs={"slug": category.slug}
+                    ),
+                }
             )
-        subs.append(subject)
-        if searchs:
-            res = multi_search(searchs)
 
-            accessess = [x.to_dict()["hits"]["total"]["value"] for x in res]
+            lastIndex = i
 
-            for i, access in enumerate(accessess):
-                item = {}
-                obj = subjects[i]
-                cont += access
-                subjects_data.append(
-                    {
-                        "name": obj.name,
-                        "access": access,
-                        "category": category.name,
-                        "link": reverse(
-                            "subjects:view", args=(), kwargs={"slug": obj.slug}
-                        ),
-                    }
-                )
-        categories_data.append(
-            {
-                "cat_name": category.name,
-                "access": cont,
-                "link": reverse(
-                    "subjects:cat_view", args=(), kwargs={"slug": category.slug}
-                ),
-            }
-        )
-    searchs1.append(count_general_resource_logs_period(subs, dataIni, dataEnd))
-    names_resources = {
-        "pdffile": "Arquivo PDF",
-        "pdf_file": "Arquivo PDF",
-        "bulletin": "Boletim do Tópico",
-        "ytvideo": "Vídeo do YouTube",
-        "filelink": "Link para arquivo",
-        "link": "Link para Site",
-        "goals": "Metas do Tópico",
-        "webpage": "Página Web",
-        "questionary": "Questionário",
-        "webconference": "Web conferência",
-        "my_goals": "Metas do Tópico",
-    }
-    all_logs = []
-    if searchs1:
-        res1 = multi_search(searchs1)
-        accessess1 = [x.to_dict()["hits"] for x in res1]
-        list_resources = list()
-        for i, access in enumerate(accessess1):
-            for hits in access["hits"]:
-                log = hits["_source"]
-                item = {}
-                if log["resource"] in names_resources.keys():
-                    resources_data.append(
-                        {
-                            "name": names_resources[log["resource"]],
-                            "access": 1,
-                            "link": log,
-                        }
-                    )
-                all_logs.append(hits)
+        if lastIndex > 0:
+            lastIndex += 1
+
+        subjectsLastIndex = lastIndex
+
+        for i, subject in enumerate(subjects):
+            total = accessess[lastIndex + i]["total"]["value"]
+
+            subjects_data.append(
+                {
+                    "name": subject.name,
+                    "access": total,
+                    "category": subject.category.name,
+                    "link": reverse(
+                        "subjects:view", args=(), kwargs={"slug": subject.slug}
+                    ),
+                }
+            )
+
+            subjectsLastIndex = i + lastIndex
+
+        if subjectsLastIndex > 0:
+            lastIndex = subjectsLastIndex + 1
+        else:
+            lastIndex = subjectsLastIndex
+
+        for i, resource in enumerate(resources):
+            total = accessess[lastIndex + i]["total"]["value"]
+
+            resources_data.append(
+                {
+                    "name": resource.name,
+                    "access": total,
+                    "link": resource.access_link(),
+                }
+            )
 
     data = {
         "categories": categories_data,
         "subjects": subjects_data,
         "resources": resources_data,
-        "resources_logs": all_logs,
     }
+
     return data
 
 

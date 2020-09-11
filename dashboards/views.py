@@ -766,14 +766,9 @@ def general_logs_chart(request):
 
 
 def get_general_active_users(request):
-
-    data = {}
     data_ini = request.GET.get("data_ini", "")
     data_end = request.GET.get("data_end", "")
-    total_students = 0
-    total_teachers = 0
-    ac_students = 0
-    ac_teachers = 0
+
     if not data_ini == "":
         data_ini = parse_date(data_ini)
     else:
@@ -790,15 +785,12 @@ def get_general_active_users(request):
 
 
 def get_general_accordion_data(request,):
-    categorias = my_categories(request.user)
-    data = []
     data_ini = request.GET.get("data_ini", "")
     data_end = request.GET.get("data_end", "")
 
     if not data_ini == "":
         data_ini = parse_date(data_ini)
     else:
-        # data_ini = date.today() - timedelta(days=30)
         data_ini = date.today() - timedelta(days=7)
 
     if not data_end == "":
@@ -806,7 +798,8 @@ def get_general_accordion_data(request,):
     else:
         data_end = date.today()
 
-    data = functiontable(categorias, data_ini, data_end)
+    data = functiontable(data_ini, data_end)
+
     return JsonResponse(data, safe=False)
 
 

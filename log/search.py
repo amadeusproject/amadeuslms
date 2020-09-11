@@ -461,7 +461,7 @@ def count_general_access_subject_period(subject, data_ini, data_end):
         ],
     )
 
-    return s[0:10000]
+    return s
 
 
 def count_general_logs_period(resources, data_ini, data_end):
@@ -624,6 +624,60 @@ def count_logs_in_day(usersList, day):
         "bool",
         must=[
             Q("range", datetime={"time_zone": "-03:00", "gte": day, "lte": day},),
+            Q("terms", user_id=usersList),
+        ],
+    )
+
+    return s
+
+
+def count_categories_logs_period(category, usersList, data_ini, data_end):
+    s = Search().extra(size=0)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", **{"context__category_id": category.id}),
+            Q("terms", user_id=usersList),
+        ],
+    )
+
+    return s
+
+
+def count_subject_logs_period(subject, usersList, data_ini, data_end):
+    s = Search().extra(size=0)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", **{"context__subject_id": subject.id}),
+            Q("terms", user_id=usersList),
+        ],
+    )
+
+    return s
+
+
+def count_resources_logs_period(resource, usersList, data_ini, data_end):
+    s = Search().extra(size=0)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", **{"context__" + resource._my_subclass + "_id": resource.id}),
             Q("terms", user_id=usersList),
         ],
     )

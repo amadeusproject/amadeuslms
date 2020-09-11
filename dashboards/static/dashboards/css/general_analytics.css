@@ -504,6 +504,10 @@ p > p {
   fill: #99d5cf;
 }
 
+#resources_pag li.page-item {
+  padding: 3px 5px;
+}
+
 @media (max-width: 1160px) {
   #teacher-active,
   #students-active,
