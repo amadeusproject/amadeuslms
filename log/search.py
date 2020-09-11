@@ -695,10 +695,25 @@ def count_user_interactions(userid, data_ini, data_end):
                 "range",
                 datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
             ),
-            # Q("terms", component.keyword=[]),
             Q("match", user_id=userid),
         ],
     )
+
+    """Q(
+                "terms",
+                **{
+                    "component.keyword": [
+                        "category",
+                        "subejct",
+                        "topic",
+                        "resources",
+                        "chat",
+                        "mural",
+                        "pendencies",
+                        "mobile",
+                    ]
+                }
+            ),"""
 
     return s
 
