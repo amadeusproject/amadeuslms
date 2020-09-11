@@ -1089,43 +1089,34 @@ def userStatus(user, lastInteractions):
 
 def general_logs(user, data_ini, data_end):
     period = get_days_in_period(data_ini, data_end)
-    logs_data = list()
-    logs = Log.objects.filter()
-    # subjects = []
-    # categories = my_categories(user)
-    # subs = Subject.objects.filter(category__in = categories)
 
-    # for subject in subs:
-    #     logs_data.append(logs.filter(
-    #         context__contains={"subject_id": subject.id},
-    #     ))
+    usersList = (
+        User.objects.filter(
+            Cond(subject_student__isnull=False)
+            | Cond(professors__isnull=False)
+            | Cond(coordinators__isnull=False)
+        )
+        .distinct()
+        .values_list("id", flat=True)
+    )
+
+    period = sorted(period)
+
+    usersList = list(usersList)
 
     data = list()
     searchs = []
     days = []
 
     for day in period:
-        # day = day.strftime('%d/%m/%Y %H:%M')
         datetime = date_to_datetime(day)
-        searchs.append(count_daily_general_logs_access1(datetime))
-        searchs.append(count_daily_general_logs_access2(datetime))
+        searchs.append(count_logs_in_day(usersList, str(datetime).split()[0]))
         days.append(day)
 
-    # if searchs:
-    #     res = multi_search(searchs)
+    minimun = math.inf
+    maximun = 0
+    total = 0
 
-    #     accessess = [x.to_dict()["hits"]["total"]["value"] for x in res]
-    #     users = set()
-    #     dates_set = set()
-    #     accessess = list(dict.fromkeys(accessess))
-    #     period = list(dict.fromkeys(period))
-    #     print(len(accessess))
-    #     print(len(period))
-    #     for i, access in enumerate(accessess):
-    #         time = period[i].strftime('%d/%m/%Y')
-    #         print(time)
-    #         data.append({'x': time, 'y':access})
-    #         print(data[i])
     if searchs:
         res = multi_search(searchs)
 
@@ -1134,19 +1125,18 @@ def general_logs(user, data_ini, data_end):
         dates_set = set()
 
         period = list(dict.fromkeys(period))
-        sum = 0
-        a = 0
+
         for i, access in enumerate(accessess):
+            value = access["total"]["value"]
+            time = period[i].strftime("%d/%m/%Y")
+            data.append({"x": time, "y": value})
 
-            sum += access["total"]["value"]
-            if i % 2 == 0:
+            minimun = min(minimun, value)
+            maximun = max(maximun, value)
 
-                time = period[a].strftime("%d/%m/%Y")
-                data.append({"x": time, "y": sum})
-                sum = 0
-                a += 1
+            total += value
 
-    return data
+    return data, minimun, maximun, total
 
 
 def active_users_qty(request_user, data_ini, data_end):

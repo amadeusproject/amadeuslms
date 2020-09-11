@@ -751,7 +751,6 @@ def general_logs_chart(request):
     if not data_ini == "":
         data_ini = parse_date(data_ini)
     else:
-        # data_ini = date.today() - timedelta(days=30)
         data_ini = date.today() - timedelta(days=7)
 
     if not data_end == "":
@@ -759,57 +758,10 @@ def general_logs_chart(request):
     else:
         data_end = date.today()
 
-    data = general_logs(request.user, data_ini, data_end)
-
-    axis_x = []
-    axis_y = []
-
-    for a in data:
-        day = datetime.strptime(a["x"], "%d/%m/%Y")
-        axis_x.append(day)
-        axis_y.append(a["y"])
-    a_x = sorted([dt for dt in axis_x])
-
-    lista = dict(zip(axis_x, axis_y))
-
-    axis_y = [lista[x] for x in a_x]
-    config = dict({"displaylogo": False})
-
-    fig = px.bar(
-        x=a_x,
-        y=axis_y,
-        labels={"x": "Data", "y": "acessos"},
-        text=axis_y,
-        # nbins = len(axis_x)*2,
-        # barmode = "relative",
-        color_discrete_sequence=["#99D5CF"],
-        template="simple_white",
-        # hover_name=axis_x,
-        # hover_data=[a_x,a_y],
-    )
-    fig.update_xaxes(title_text="")
-    fig.update_yaxes(title_text="")
-    # fig.update_layout(hovermode="x-" )
-    fig.update_traces(hovertemplate="Data: %{x} <br><b>Acessos: %{y}</b>")
-    fig.update_layout(
-        margin=dict(l=0, r=0, t=25, b=0),
-        height=300,
-        # hovermode="x",
-        uniformtext_minsize=8,
-        uniformtext_mode="hide",
-    )
-
-    fig.update_layout()
-
-    soma = 0
-    for i in axis_y:
-        soma = soma + i
-
-    plt_div = plot(fig, config=config, output_type="div")
+    data, minimun, maximun, total = general_logs(request.user, data_ini, data_end)
 
     return JsonResponse(
-        {"div": plt_div, "min": min(axis_y), "max": max(axis_y), "total": soma,},
-        safe=False,
+        {"data": data, "min": minimun, "max": maximun, "total": total,}, safe=False,
     )
 
 
